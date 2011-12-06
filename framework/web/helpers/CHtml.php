@@ -55,6 +55,26 @@ class CHtml
 	public static $count=0;
 
 	/**
+	 * Sets the default style for attaching jQuery event handlers.
+	 * 
+	 * If set to true (default), live/delegated style is used. Event handlers 
+	 * are attached to the document body and can process events from descendant 
+	 * elements that are added to the document at a later time.
+	 * 
+	 * If set to false, direct style is used. Event handlers are attached directly 
+	 * to the DOM element, that must already exist on the page. Elements injected 
+	 * into the page at a later time will not be processed.
+	 * 
+	 * You can override this setting for a particular element by setting the htmlOptions live attribute
+	 * (see {@link clientChange}).
+	 * 
+	 * For more information about attaching jQuery event handler see {@link http://api.jquery.com/on/}
+	 * @since 1.1.9
+	 * @see clientChange
+	 */
+	public static $liveEvents = true;
+
+	/**
 	 * Encodes special characters into HTML entities.
 	 * The {@link CApplication::charset application charset} will be used for encoding.
 	 * @param string $text data to be encoded
@@ -1890,7 +1910,7 @@ EOD;
 	 * javascript would not cause the default behavior of the event. This option has been available since version 1.0.2.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
-	 * <li>live: boolean, whether the event handler should be bound in "live" (a jquery event concept). Defaults to true. This option has been available since version 1.1.6.</li>
+	 * <li>live: boolean, whether the event handler should be attached with live/delegate or direct style. If not set, {@link liveEvents} will be used. This option has been available since version 1.1.6.</li>
 	 * </ul>
 	 * This parameter has been available since version 1.1.1.
 	 */
@@ -1905,7 +1925,7 @@ EOD;
 			unset($htmlOptions['live']);
 		}
 		else
-			$live=true;
+			$live = self::$liveEvents;
 
 		if(isset($htmlOptions['return']) && $htmlOptions['return'])
 			$return='return true';
@@ -1958,9 +1978,9 @@ EOD;
 		}
 
 		if($live)
-			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('body').undelegate('#$id','$event').delegate('#$id','$event',function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#' . $id, "$('body').on('$event','#$id',function(){{$handler}});");
 		else
-			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').unbind('$event').bind('$event', function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#' . $id, "$('#$id').on('$event', function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
 
