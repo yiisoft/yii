@@ -9,7 +9,7 @@
  */
 
 /**
- * CMemCache implements a cache application component based on {@link http://www.danga.com/memcached/ memcached}.
+ * CMemCache implements a cache application component based on {@link http://memcached.org/ memcached}.
  *
  * CMemCache can be configured with a list of memcache servers by settings
  * its {@link setServers servers} property. By default, CMemCache assumes
