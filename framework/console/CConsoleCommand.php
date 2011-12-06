@@ -451,4 +451,37 @@ abstract class CConsoleCommand extends CComponent
 		}
 		return $name.'s';
 	}
+
+	/**
+	 * Reads input via the readline PHP extension if that's available, or fgets() if readline is not installed.
+	 *
+	 * @param string $message to echo out before waiting for user input
+	 * @return mixed line read as a string, or false if input has been closed
+	 */
+	public function prompt($message)
+	{
+		if(extension_loaded('readline'))
+		{
+			$input = readline($message.' ');
+			readline_add_history($input);
+			return $input;
+		}
+		else
+		{
+			echo $message.' ';
+			return trim(fgets(STDIN));
+		}
+	}
+
+	/**
+	 * Asks user to confirm by typing y or n.
+	 *
+	 * @param string $message to echo out before waiting for user input
+	 * @return bool if user confirmed
+	 */
+	public function confirm($message)
+	{
+		echo $message.' [yes|no] ';
+		return !strncasecmp(trim(fgets(STDIN)),'y',1);
+	}
 }
