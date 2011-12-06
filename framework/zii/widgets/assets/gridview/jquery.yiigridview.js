@@ -121,7 +121,7 @@
 		 * @return string the key value
 		 */
 		getKey: function(row) {
-			return this.children('.keys span:eq('+row+')').text()
+			return this.children('.keys').children('span').eq(row).text();
 		},
 
 		/**
@@ -140,7 +140,7 @@
 		 */
 		getRow: function(row) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.'+sClass).children('tbody').children('tr:eq('+row+')').children();
+			return this.children('.'+sClass).children('tbody').children('tr').eq(row).children();
 		},
 
 		/**
@@ -161,13 +161,13 @@
 		 */
 		update: function(options) {
 			if(options && options.error !== undefined) {
-				var customError=options.error;
+				var customError = options.error;
 				delete options.error;
 			}
 
 			return this.each(function(){
 				var $grid = $(this),
-					id=$grid.attr('id'),
+					id = $grid.attr('id'),
 					settings = gridSettings[id];
 				$grid.addClass(settings.loadingClass);
 
@@ -195,13 +195,13 @@
 							if( ret !== undefined && !ret)
 								return;
 						}
-						var err='';
+						var err = '';
 						switch(textStatus) {
 							case 'timeout':
-								err='The request timed out!';
+								err = 'The request timed out!';
 								break;
 							case 'parsererror':
-								err='Parser error!';
+								err = 'Parser error!';
 								break;
 							case 'error':
 								if(XHR.status && !/^\s*$/.test(XHR.status))
@@ -257,7 +257,7 @@
 		 * @return object the jQuery object
 		 */
 		selectCheckedRows: function() {
-			var settings = gridSettings[this.attr('id')];
+			var settings = gridSettings[this.attr('id')],
 				table = this.children('.'+settings.tableClass);
 
 			table.children('tbody').find('input.select-on-check').filter(':checked').each(function(){
