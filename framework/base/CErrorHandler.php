@@ -98,7 +98,7 @@ class CErrorHandler extends CApplicationComponent
 
 		if($this->discardOutput)
 		{
-			while (ob_get_length())
+			while (ob_get_level())
 				@ob_end_clean();
 		}
 

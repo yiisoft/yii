@@ -56,8 +56,7 @@ EOD;
 			$this->_rootPath=$path=$dir;
 		else
 			$this->_rootPath=$path=$dir.DIRECTORY_SEPARATOR.basename($path);
-		echo "Create a Web application under '$path'? [Yes|No] ";
-		if(!strncasecmp(trim(fgets(STDIN)),'y',1))
+		if($this->confirm("Create a Web application under '$path'?"))
 		{
 			$sourceDir=realpath(dirname(__FILE__).'/../views/webapp');
 			if($sourceDir===false)

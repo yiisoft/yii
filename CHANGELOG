@@ -12,10 +12,12 @@ Version 1.1.9 work in progress
 - Bug #2636: CConsoleCommand::init() wasn't called in yiic shell mode (Sam Dark)
 - Bug #2773: Fixed possible CUrlManager::createUrl parameters conflict when using custom URL rule classes (Sam Dark)
 - Bug #2581: Fixed CJuiTabs - not replacing id slug in header tool tips (sebas)
+- Bug #2643: Output buffer wasn't properly cleaned on displaying error screen (Sam Dark)
 - Bug #2822: Fixed warning when "Host:" isn't present or is empty in HTTP request headers (Sam Dark)
 - Bug #2853: Fixed sending of the button name in CActiveForm with enableAjaxValidation enabled (mdomba)
 - Bug #2861: Removed the nested container css class in the skeleton application views (Qiang)
 - Bug #2932: CAuthItem::getType() returns string while using CDbAuthManager (Sam Dark)
+- Bug #2999: CSort::getDirections, error when array is passed via $_GET (Sam Dark)
 - Chg: Upgraded JQuery UI to 1.8.16 (Sam Dark)
 - Chg: Upgraded jQuery to 1.7.1 (Sam Dark,mdomba)
 - Chg: Upgraded CMaskedTextField jQuery plugin (Masked Input) to 1.3, added minified version (Sam Dark)
@@ -36,7 +38,9 @@ Version 1.1.9 work in progress
 - Enh #2808: Added ability to override core classes using YiiBase::classMap (Sam Dark)
 - Enh #2811: Fully automated CLDR data update, updated data to 2.0.1. Added getLanguageID, getScriptID, getTerritoryID, getRegionID, getLocaleDisplayName, getLanguage, getScript, getTerritory methods to CLocale (kshaw, Sam Dark)
 - Enh #2823: Added autocomplete for Gii "Table Name" field (Sam Dark)
+- Enh #2872: Added CConsoleCommand::prompt() that asks for input and CConsoleCommand::confirm() that asks for confirmation (Sam Dark)
 - Enh #2929: Added forceDownload to xSendFile options to choose between attachment and inline disposition. (mdomba)
+- Enh #2981: Added CHtml::liveEvents to set the default global style for attaching jQuery event handlers. (mdomba, Sam Dark, Ekstazi)
 - Enh: Documented component accessors with @property for significantly better IDE autocomplete (Sam Dark, Detonator, Athari)
 - Enh: Added CWebUser->loginRequiredAjaxResponse - value to be returned for ajax calls in case the user session has expired (mdomba)
 - Enh: CFileCache::get() does now suppress a possible PHP error which might occur on concurrent requests (Y!!)
@@ -44,6 +48,7 @@ Version 1.1.9 work in progress
 - Enh: removed the check for ajax call in CErrorHandler::handleException() (mdomba)
 - Enh: CAssetManager now generates different hash for files/directories with different mtime (Sam Dark)
 - Enh: Yii error screen will now display proper message like error/warning/notice (mdomba)
+- Enh: CHtml::clientchange() now uses the new jQuery on() method for event binding (mdomba)
 
 Version 1.1.8 June 26, 2011
 ---------------------------

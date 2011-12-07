@@ -344,12 +344,11 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	protected function confirm($message)
+	public function confirm($message)
 	{
 		if(!$this->interactive)
 			return true;
-		echo $message.' [yes|no] ';
-		return !strncasecmp(trim(fgets(STDIN)),'y',1);
+		return parent::confirm($message);
 	}
 
 	protected function migrateUp($class)

@@ -331,7 +331,7 @@ class CSort extends CComponent
 		if($this->_directions===null)
 		{
 			$this->_directions=array();
-			if(isset($_GET[$this->sortVar]))
+			if(isset($_GET[$this->sortVar]) && is_string($_GET[$this->sortVar]))
 			{
 				$attributes=explode($this->separators[0],$_GET[$this->sortVar]);
 				foreach($attributes as $attribute)

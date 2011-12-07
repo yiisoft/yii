@@ -316,9 +316,8 @@ EOD;
 			foreach($this->_classes as $tableName=>$className)
 				$entries[]=++$count.". $className ($tableName)";
 			echo "The following model classes (tables) match your criteria:\n";
-			echo implode("\n",$entries);
-			echo "\n\nDo you want to generate the above classes? [Yes|No] ";
-			if(strncasecmp(trim(fgets(STDIN)),'y',1))
+			echo implode("\n",$entries)."\n\n";
+			if(!$this->confirm("Do you want to generate the above classes?"))
 				return;
 		}
 
