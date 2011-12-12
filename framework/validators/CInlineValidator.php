@@ -72,7 +72,10 @@ class CInlineValidator extends CValidator
 	 */
 	public function clientValidateAttribute($object,$attribute)
 	{
-		$method=$this->clientValidate;
-		return $object->$method();
+		if($this->clientValidate!==null)
+		{
+			$method=$this->clientValidate;
+			return $object->$method();
+		}
 	}
 }
