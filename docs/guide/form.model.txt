@@ -108,8 +108,8 @@ following signature:
 ~~~
 [php]
 /**
- * @param string the name of the attribute to be validated
- * @param array options specified in the validation rule
+ * @param string $attribute the name of the attribute to be validated
+ * @param array $params options specified in the validation rule
  */
 public function ValidatorName($attribute,$params) { ... }
 ~~~
