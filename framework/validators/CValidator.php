@@ -153,6 +153,11 @@ abstract class CValidator extends CComponent
 			$validator=new CInlineValidator;
 			$validator->attributes=$attributes;
 			$validator->method=$name;
+			if(isset($params['clientValidate']))
+			{
+				$validator->clientValidate=$params['clientValidate'];
+				unset($params['clientValidate']);
+			}
 			$validator->params=$params;
 			if(isset($params['skipOnError']))
 				$validator->skipOnError=$params['skipOnError'];

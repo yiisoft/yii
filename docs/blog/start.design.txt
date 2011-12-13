@@ -13,9 +13,9 @@ Based on the analysis of the requirements, we decide to use the following databa
 		 * 3, meaning the post is outdated and is not visible in the post list (still accessible individually, though).
 	 - `tags`: optional, a list of comma-separated words categorizing the post.
  * `tbl_comment` stores the post comment information. Each comment is associated with a post and mainly consists of the following columns:
-	 - `name`: required, the author name;
+	 - `author`: required, the author name;
 	 - `email`: required, the author email;
-	 - `website`: optional, the author website URL;
+	 - `url`: optional, the author website URL;
 	 - `content`: required, the comment content in plain text format.
 	 - `status`: required, status of the comment, which indicates whether the comment is approved (value 2) or not (value 1).
  * `tbl_tag` stores post tag frequency information that is needed to implement the tag cloud feature. The table mainly contains the following columns:
