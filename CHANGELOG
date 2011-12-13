@@ -16,6 +16,7 @@ Version 1.1.9 work in progress
 - Bug #2822: Fixed warning when "Host:" isn't present or is empty in HTTP request headers (Sam Dark)
 - Bug #2853: Fixed sending of the button name in CActiveForm with enableAjaxValidation enabled (mdomba)
 - Bug #2861: Removed the nested container css class in the skeleton application views (Qiang)
+- Bug #2915: Fixed client validation in CCompareValidator to compare numbers instead of strings (mdomba)
 - Bug #2932: CAuthItem::getType() returns string while using CDbAuthManager (Sam Dark)
 - Bug #2999: CSort::getDirections, error when array is passed via $_GET (Sam Dark)
 - Chg: Upgraded JQuery UI to 1.8.16 (Sam Dark)
