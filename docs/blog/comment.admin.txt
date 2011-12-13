@@ -34,7 +34,35 @@ public function actionApprove()
 
 In the above, when the `approve` action is invoked via a POST request, we call the `approve()` method defined in the `Comment` model to change the status. We then redirect the user browser to the page displaying the post that this comment belongs to.
 
-We also modify the `actionIndex()` method of `Comment` to show all comments. We would like to see comments pending approved to show up first.
+Of course, we also need to create the `approve()` method in the `Comment` model. It is as follows,
+
+~~~
+[php]
+public function approve()
+{
+	$this->status=Comment::STATUS_APPROVED;
+	$this->update(array('status'));
+}
+~~~
+
+Here we are simply setting the status property of the comment to `approved` as defined by the status constants in the `Comment` class:
+
+~~~
+[php]
+class Comment extends CActiveRecord
+{
+	...
+	
+	const STATUS_PENDING=1;
+	const STATUS_APPROVED=2;
+	
+	..
+}
+~~~
+
+and then calling the `update()` method to save this newly set property to the database.
+	
+We also modify the `actionIndex()` method of `CommentController` to show all comments. We would like to see comments pending approval show up first.
 
 ~~~
 [php]
@@ -53,7 +81,7 @@ public function actionIndex()
 }
 ~~~
 
-Notice that in the above code, because both `tbl_post` and `tbl_comment` have columns `status` and `create_time`, we need to disambiguate the corresponding column reference by prefixing them with table alias names. As described in [the guide](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names), the alias for the primary table in a relational query is always `t`. Therefore, we are prefixing `t` to the `status` and `create_time` columns in the above code.
+Notice that in the above code, because both `tbl_post` and `tbl_comment` have columns `status` and `create_time`, we need to disambiguate the corresponding column reference by prefixing them with table alias names. As described in [the guide](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names), the alias for the primary table in a relational query is always `t`. Therefore, we are prefixing `t` to the `status` and `create_time` columns in the above code to indicate we want these values taken from the primary table, `tbl_comment`.
 
 Like the post index view, the `index` view for `CommentController` uses [CListView] to display the comment list which in turn uses the partial view `/wwwroot/blog/protected/views/comment/_view.php` to display the detail of each individual comment. We will not go into details here. Interested readers may refer to the corresponding file in the blog demo `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
 
