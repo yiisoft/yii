@@ -83,8 +83,7 @@
 			$.each(settings.attributes, function(i, attribute) {
 				if (attribute.validateOnChange) {
 					$('#'+attribute.inputID, $form).change(function(){
-						var inputType = $('#'+attribute.inputID).attr('type');
-						validate(attribute, inputType=='checkbox' || inputType=='radio');
+						validate(attribute, this.type=='checkbox' || this.type=='radio');
 					}).blur(function(){
 						if(attribute.status!=2 && attribute.status!=3)
 							validate(attribute, !attribute.status);
@@ -92,7 +91,7 @@
 				}
 				if (attribute.validateOnType) {
 					$('#'+attribute.inputID, $form).keyup(function(){
-						if (attribute.value != $('#'+attribute.inputID, $form).val())
+						if (attribute.value != $(this).val())
 							validate(attribute, false);
 					});
 				}
@@ -156,10 +155,11 @@
 						var $error = $('#'+attribute.errorID, $form);
 						var $container = $.fn.yiiactiveform.getInputContainer(attribute, $form);
 
-						$container
-							.removeClass(attribute.validatingCssClass)
-							.removeClass(attribute.errorCssClass)
-							.removeClass(attribute.successCssClass);
+						$container.removeClass(
+							attribute.validatingCssClass + ' ' +
+							attribute.errorCssClass + ' ' +
+							attribute.successCssClass
+						);
 
 						$error.html('').hide();
 
@@ -216,9 +216,11 @@
 		var hasError = messages!=null && $.isArray(messages[attribute.id]) && messages[attribute.id].length>0;
 		var $error = $('#'+attribute.errorID, form);
 		var $container = $.fn.yiiactiveform.getInputContainer(attribute, form);
-		$container.removeClass(attribute.validatingCssClass)
-			.removeClass(attribute.errorCssClass)
-			.removeClass(attribute.successCssClass);
+		$container.removeClass(
+			attribute.validatingCssClass + ' ' + 
+			attribute.errorCssClass + ' ' + 
+			attribute.successCssClass
+		);
 
 		if(hasError) {
 			$error.html(messages[attribute.id][0]);

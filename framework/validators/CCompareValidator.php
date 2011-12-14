@@ -174,22 +174,22 @@ class CCompareValidator extends CValidator
 			case '>':
 				if($message===null)
 					$message=Yii::t('yii','{attribute} must be greater than "{compareValue}".');
-				$condition='value<='.$compareValue;
+				$condition='parseFloat(value)<=parseFloat('.$compareValue.')';
 				break;
 			case '>=':
 				if($message===null)
 					$message=Yii::t('yii','{attribute} must be greater than or equal to "{compareValue}".');
-				$condition='value<'.$compareValue;
+				$condition='parseFloat(value)<parseFloat('.$compareValue.')';
 				break;
 			case '<':
 				if($message===null)
 					$message=Yii::t('yii','{attribute} must be less than "{compareValue}".');
-				$condition='value>='.$compareValue;
+				$condition='parseFloat(value)>=parseFloat('.$compareValue.')';
 				break;
 			case '<=':
 				if($message===null)
 					$message=Yii::t('yii','{attribute} must be less than or equal to "{compareValue}".');
-				$condition='value>'.$compareValue;
+				$condition='parseFloat(value)>parseFloat('.$compareValue.')';
 				break;
 			default:
 				throw new CException(Yii::t('yii','Invalid operator "{operator}".',array('{operator}'=>$this->operator)));
