@@ -98,8 +98,11 @@ class CErrorHandler extends CApplicationComponent
 
 		if($this->discardOutput)
 		{
-			while (ob_get_level())
+			// the following manual level counting is to deal with zlib.output_compression set to On
+			for($level=ob_get_level();$level>0;--$level)
+			{
 				@ob_end_clean();
+			}
 		}
 
 		if($event instanceof CExceptionEvent)
