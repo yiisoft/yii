@@ -16,9 +16,9 @@
 	 */
 	$.fn.yiiactiveform = function(options) {
 		return this.each(function() {
-			var settings = $.extend({}, $.fn.yiiactiveform.defaults, options || {});
-			var $form = $(this);
-			var id = $form.attr('id');
+			var settings = $.extend({}, $.fn.yiiactiveform.defaults, options || {}),
+				$form = $(this);
+
 			if(settings.validationUrl == undefined)
 				settings.validationUrl = $form.attr('action');
 			$.each(settings.attributes, function(i,attribute){
@@ -82,8 +82,8 @@
 
 			$.each(settings.attributes, function(i, attribute) {
 				if (attribute.validateOnChange) {
-					$('#'+attribute.inputID, $form).change(function(){
-						validate(attribute, this.type=='checkbox' || this.type=='radio');
+					$('#'+attribute.inputID, $form).change(function(e){
+						validate(attribute, e.target.type=='checkbox' || e.target.type=='radio');
 					}).blur(function(){
 						if(attribute.status!=2 && attribute.status!=3)
 							validate(attribute, !attribute.status);
@@ -152,8 +152,8 @@
 				setTimeout(function(){
 					$.each(settings.attributes, function(i, attribute){
 						attribute.status = 0;
-						var $error = $('#'+attribute.errorID, $form);
-						var $container = $.fn.yiiactiveform.getInputContainer(attribute, $form);
+						var $error = $('#'+attribute.errorID, $form),
+							$container = $.fn.yiiactiveform.getInputContainer(attribute, $form);
 
 						$container.removeClass(
 							attribute.validatingCssClass + ' ' +
@@ -213,9 +213,10 @@
 	 */
 	$.fn.yiiactiveform.updateInput = function(attribute, messages, form) {
 		attribute.status = 1;
-		var hasError = messages!=null && $.isArray(messages[attribute.id]) && messages[attribute.id].length>0;
-		var $error = $('#'+attribute.errorID, form);
-		var $container = $.fn.yiiactiveform.getInputContainer(attribute, form);
+		var hasError = messages!=null && $.isArray(messages[attribute.id]) && messages[attribute.id].length>0,
+			$error = $('#'+attribute.errorID, form),
+			$container = $.fn.yiiactiveform.getInputContainer(attribute, form);
+
 		$container.removeClass(
 			attribute.validatingCssClass + ' ' + 
 			attribute.errorCssClass + ' ' + 
@@ -243,10 +244,10 @@
 	 * @param messages array the json data obtained from the ajax validation request
 	 */
 	$.fn.yiiactiveform.updateSummary = function(form, messages) {
-		var settings = $(form).data('settings');
+		var settings = $(form).data('settings'),
+			content = '';
 		if (settings.summaryID == undefined)
 			return;
-		var content = '';
 		$.each(settings.attributes, function(i, attribute){
 			if(messages && $.isArray(messages[attribute.id])) {
 				$.each(messages[attribute.id],function(j,message){
@@ -266,11 +267,10 @@
 	 * @param errorCallback function the function to be invoked if the ajax request fails
 	 */
 	$.fn.yiiactiveform.validate = function(form, successCallback, errorCallback) {
-		var $form = $(form);
-		var settings = $form.data('settings');
-
-		var messages = {};
-		var needAjaxValidation = false;
+		var $form = $(form),
+			settings = $form.data('settings'),
+			needAjaxValidation = false,
+			messages = {};
 		$.each(settings.attributes, function(){
 			var msg = [];
 			if (this.clientValidation != undefined && (settings.submitting || this.status == 2 || this.status == 3)) {
@@ -297,8 +297,8 @@
 			return;
 		}
 
-		var $button = $form.data('submitObject');
-		var extData = '&'+settings.ajaxVar+'='+$form.attr('id');
+		var $button = $form.data('submitObject'),
+			extData = '&'+settings.ajaxVar+'='+$form.attr('id');
 		if($button && $button.length)
 			extData += '&'+$button.attr('name')+'='+$button.attr('value');
 

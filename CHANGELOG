@@ -6,6 +6,7 @@ Version 1.1.9 work in progress
 ------------------------------
 - Bug: Removed unnecessary COciCommandBuilder::createInsertCommand quotes (Sam Dark)
 - Bug: CHttpRequest.sendFile() gives incorrect content length when output_handler is enabled through code or non output_handler directive (Sam Dark)
+- Bug #1968: Fixed inconsistence in CActiveForm error highlighting when checkBoxList or radioButtonList are used (mdomba)
 - Bug #2603: Fixed the bug that CDbHttpSession::regenerateID call when session isn't started results in SQL error (Sam Dark)
 - Bug #2623: Fixed the bug that by setting multiple classes in CGridView itemsCssClass prevents rows being selected (mdomba)
 - Bug #2635: MigrateCommand migration execution time is now measured correctly (Sam Dark)
