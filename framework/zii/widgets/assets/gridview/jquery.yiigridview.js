@@ -8,10 +8,32 @@
  * @version $Id$
  */
 
-(function($) {
-	var gridSettings = {};
+(function ($) {
+	var selectCheckedRows, methods,
+		gridSettings = [];
 
-	var methods = {
+	/**
+	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
+	 * 2. Check if "check all" need to be checked/unchecked
+	 * @return object the jQuery object
+	 */
+	selectCheckedRows = function (gridId) {
+		var settings = gridSettings[gridId],
+			table = $('#' + gridId).children('.' + settings.tableClass);
+
+		table.children('tbody').find('input.select-on-check').filter(':checked').each(function () {
+			$(this).closest('tr').addClass('selected');
+		});
+
+		table.children('thead').find('th input').filter('[type="checkbox"]').each(function () {
+			var name = this.name.substring(0, this.name.length - 4) + '[]', //.. remove '_all' and add '[]''
+				$checks = $("input[name='" + name + "']", table);
+			this.checked = $checks.length > 0 && $checks.length === $checks.filter(':checked').length;
+		});
+		return this;
+	};
+
+	methods = {
 		/**
 		 * yiiGridView set function.
 		 * @param options map settings for the grid view. Available options are as follows:
@@ -27,8 +49,8 @@
 		 * - selectionChanged: function, the function to be called after the row selection is changed
 		 * @return object the jQuery object
 		 */
-		init: function(options) {
-			var settings = $.extend( {
+		init: function (options) {
+			var settings = $.extend({
 					ajaxUpdate: [],
 					ajaxVar: 'ajax',
 					pagerClass: 'pager',
@@ -37,81 +59,88 @@
 					tableClass: 'items',
 					selectableRows: 1
 					// updateSelector: '#id .pager a, '#id .grid thead th a',
-					// beforeAjaxUpdate: function(id) {},
-					// afterAjaxUpdate: function(id, data) {},
-					// selectionChanged: function(id) {},
+					// beforeAjaxUpdate: function (id) {},
+					// afterAjaxUpdate: function (id, data) {},
+					// selectionChanged: function (id) {},
 					// url: 'ajax request URL'
 				}, options || {});
 
-			return this.each(function(){
+			return this.each(function () {
 				var $grid = $(this),
-					id = $grid.attr('id');
+					id = $grid.attr('id'),
+					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
 
-				settings.tableClass=settings.tableClass.replace(/\s+/g,'.');
-				if(settings.updateSelector === undefined)
-					settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.tableClass+' thead th a';
+				settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
+				if (settings.updateSelector === undefined) {
+					settings.updateSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a, #' + id + ' .' + settings.tableClass + ' thead th a';
+				}
 
 				gridSettings[id] = settings;
 
-				if(settings.ajaxUpdate.length > 0) {
-					$(document).on('click', settings.updateSelector, function(){
-						$('#'+id).yiiGridView('update', {url: $(this).attr('href')});
+				if (settings.ajaxUpdate.length > 0) {
+					$(document).on('click', settings.updateSelector, function () {
+						$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
 						return false;
 					});
 				}
 
-				var inputSelector = '#'+id+' .'+settings.filterClass+' input, '+'#'+id+' .'+settings.filterClass+' select';
-				$(document).on('change', inputSelector, function(){
+				$(document).on('change', inputSelector, function () {
 					var data = $(inputSelector).serialize();
-					if(settings.pageVar !== undefined)
+					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
-					$('#'+id).yiiGridView('update', {data: data});
+					}
+					$('#' + id).yiiGridView('update', {data: data});
 				});
 
-				if(settings.selectableRows > 0) {
-					$grid.yiiGridView('selectCheckedRows');
-					$(document).on('click','#'+id+' .'+settings.tableClass+' > tbody > tr',function(e){
-						var $target = $(e.target);
-						if($target.closest('td').hasClass('button-column') ||
-							(e.target.type === 'checkbox' && !$target.hasClass('select-on-check')))
+				if (settings.selectableRows > 0) {
+					selectCheckedRows(this.id);
+					$(document).on('click', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
+						var $currentGrid, $row, isRowSelected, $checks,
+							$target = $(e.target);
+
+						if ($target.closest('td').hasClass('button-column') || (e.target.type === 'checkbox' && !$target.hasClass('select-on-check'))) {
 							return;
+						}
 
-						var $currentGrid = $('#'+id),
-							$row = $(this),
-							isRowSelected = $row.toggleClass('selected').hasClass('selected'),
-							$checks = $('input.select-on-check',$currentGrid);
+						$row = $(this);
+						$currentGrid = $('#' + id);
+						$checks = $('input.select-on-check', $currentGrid);
+						isRowSelected = $row.toggleClass('selected').hasClass('selected');
 
-						if(settings.selectableRows === 1) {
+						if (settings.selectableRows === 1) {
 							$row.siblings().removeClass('selected');
-							$checks.prop('checked',false);
+							$checks.prop('checked', false);
 						}
 						$('input.select-on-check', $row).prop('checked', isRowSelected);
-						$("input.select-on-check-all",$currentGrid).prop('checked', $checks.length === $checks.filter(':checked').length);
+						$("input.select-on-check-all", $currentGrid).prop('checked', $checks.length === $checks.filter(':checked').length);
 
-						if(settings.selectionChanged !== undefined)
+						if (settings.selectionChanged !== undefined) {
 							settings.selectionChanged(id);
+						}
 					});
-					if(settings.selectableRows > 1) {
-						$(document).on('click','#'+id+' .select-on-check-all',function(){
-							var $currentGrid = $('#'+id),
-								$checks = $('input.select-on-check',$currentGrid),
-								$checksAll = $('input.select-on-check-all',$currentGrid),
-								$rows = $currentGrid.children('.'+settings.tableClass).children('tbody').children();
-							if(this.checked){
+					if (settings.selectableRows > 1) {
+						$(document).on('click', '#' + id + ' .select-on-check-all', function () {
+							var $currentGrid = $('#' + id),
+								$checks = $('input.select-on-check', $currentGrid),
+								$checksAll = $('input.select-on-check-all', $currentGrid),
+								$rows = $currentGrid.children('.' + settings.tableClass).children('tbody').children();
+							if (this.checked) {
 								$rows.addClass('selected');
-								$checks.prop('checked',true);
-								$checksAll.prop('checked',true);
+								$checks.prop('checked', true);
+								$checksAll.prop('checked', true);
 							} else {
 								$rows.removeClass('selected');
-								$checks.prop('checked',false);
-								$checksAll.prop('checked',false);
+								$checks.prop('checked', false);
+								$checksAll.prop('checked', false);
 							}
-							if(settings.selectionChanged !== undefined)
+							if (settings.selectionChanged !== undefined) {
 								settings.selectionChanged(id);
+							}
 						});
 					}
-				} else
-					$(document).on('click','#'+id+' .select-on-check',false);
+				} else {
+					$(document).on('click', '#' + id + ' .select-on-check', false);
+				}
 			});
 		},
 
@@ -120,7 +149,7 @@
 		 * @param row integer the row number (zero-based index)
 		 * @return string the key value
 		 */
-		getKey: function(row) {
+		getKey: function (row) {
 			return this.children('.keys').children('span').eq(row).text();
 		},
 
@@ -128,7 +157,7 @@
 		 * Returns the URL that generates the grid view content.
 		 * @return string the URL that generates the grid view content.
 		 */
-		getUrl: function() {
+		getUrl: function () {
 			var sUrl = gridSettings[this.attr('id')].url;
 			return sUrl || this.children('.keys').attr('title');
 		},
@@ -138,9 +167,9 @@
 		 * @param row integer the row number (zero-based index)
 		 * @return jQuery the jQuery collection of the cells in the specified row.
 		 */
-		getRow: function(row) {
+		getRow: function (row) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.'+sClass).children('tbody').children('tr').eq(row).children();
+			return this.children('.' + sClass).children('tbody').children('tr').eq(row).children();
 		},
 
 		/**
@@ -148,9 +177,9 @@
 		 * @param column integer the column number (zero-based index)
 		 * @return jQuery the jQuery collection of the cells in the specified column.
 		 */
-		getColumn: function(column) {
+		getColumn: function (column) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.'+sClass).children('tbody').children('tr').children('td:nth-child('+(column+1)+')');
+			return this.children('.' + sClass).children('tbody').children('tr').children('td:nth-child(' + (column + 1) + ')');
 		},
 
 		/**
@@ -159,14 +188,16 @@
 		 * the URL to be requested is the one that generates the current content of the grid view.
 		 * @return object the jQuery object
 		 */
-		update: function(options) {
-			if(options && options.error !== undefined) {
-				var customError = options.error;
+		update: function (options) {
+			var customError;
+			if (options && options.error !== undefined) {
+				customError = options.error;
 				delete options.error;
 			}
 
-			return this.each(function(){
-				var $grid = $(this),
+			return this.each(function () {
+				var $form,
+					$grid = $(this),
 					id = $grid.attr('id'),
 					settings = gridSettings[id];
 				$grid.addClass(settings.loadingClass);
@@ -174,76 +205,84 @@
 				options = $.extend({
 					type: 'GET',
 					url: $grid.yiiGridView('getUrl'),
-					success: function(data,status) {
-						var $data = $('<div>'+data+'</div>');
-						$grid.removeClass(settings.loadingClass)
-						$.each(settings.ajaxUpdate, function(i,v) {
-							var updateId = '#'+v;
-							$(updateId).replaceWith($(updateId,$data));
-						});
-						if(settings.afterAjaxUpdate !== undefined)
-							settings.afterAjaxUpdate(id, data);
-						if(settings.selectableRows > 0)
-							$('#'+id).yiiGridView('selectCheckedRows');
-					},
-					error: function(XHR, textStatus, errorThrown) {
+					success: function (data) {
+						var $data = $('<div>' + data + '</div>');
 						$grid.removeClass(settings.loadingClass);
-						if(XHR.readyState == 0 || XHR.status == 0)
-							return;
-						if(customError !== undefined) {
-							var ret = customError(XHR);
-							if( ret !== undefined && !ret)
-								return;
+						$.each(settings.ajaxUpdate, function (i, el) {
+							var updateId = '#' + el;
+							$(updateId).replaceWith($(updateId, $data));
+						});
+						if (settings.afterAjaxUpdate !== undefined) {
+							settings.afterAjaxUpdate(id, data);
 						}
-						var err = '';
-						switch(textStatus) {
-							case 'timeout':
-								err = 'The request timed out!';
-								break;
-							case 'parsererror':
-								err = 'Parser error!';
-								break;
-							case 'error':
-								if(XHR.status && !/^\s*$/.test(XHR.status))
-									err = 'Error ' + XHR.status;
-								else
-									err = 'Error';
-								if(XHR.responseText && !/^\s*$/.test(XHR.responseText))
-									err = err + ': ' + XHR.responseText;
-								break;
+						if (settings.selectableRows > 0) {
+							selectCheckedRows(id);
+						}
+					},
+					error: function (XHR, textStatus, errorThrown) {
+						var ret, err;
+						$grid.removeClass(settings.loadingClass);
+						if (XHR.readyState === 0 || XHR.status === 0) {
+							return;
+						}
+						if (customError !== undefined) {
+							ret = customError(XHR);
+							if (ret !== undefined && !ret) {
+								return;
+							}
+						}
+						switch (textStatus) {
+						case 'timeout':
+							err = 'The request timed out!';
+							break;
+						case 'parsererror':
+							err = 'Parser error!';
+							break;
+						case 'error':
+							if (XHR.status && !/^\s*$/.test(XHR.status)) {
+								err = 'Error ' + XHR.status;
+							} else {
+								err = 'Error';
+							}
+							if (XHR.responseText && !/^\s*$/.test(XHR.responseText)) {
+								err = err + ': ' + XHR.responseText;
+							}
+							break;
 						}
 
-						if(settings.ajaxUpdateError !== undefined)
-							settings.ajaxUpdateError(XHR, textStatus, errorThrown,err);
-						else if(err)
+						if (settings.ajaxUpdateError !== undefined) {
+							settings.ajaxUpdateError(XHR, textStatus, errorThrown, err);
+						} else if (err) {
 							alert(err);
+						}
 					}
 				}, options || {});
-				if(options.data !== undefined && options.type === 'GET') {
+				if (options.data !== undefined && options.type === 'GET') {
 					options.url = $.param.querystring(options.url, options.data);
 					options.data = {};
 				}
 
-				if(settings.ajaxUpdate !== false) {
-					options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
-					if(settings.beforeAjaxUpdate !== undefined)
+				if (settings.ajaxUpdate !== false) {
+					options.url = $.param.querystring(options.url, settings.ajaxVar + '=' + id);
+					if (settings.beforeAjaxUpdate !== undefined) {
 						settings.beforeAjaxUpdate(id, options);
-					$.ajax(options);
-				}
-				else {  // non-ajax mode
-					if(options.type === 'GET') {
-						window.location.href = options.url;
 					}
-					else {  // POST mode
-						var $form = $('<form action="'+options.url+'" method="post"></form>').appendTo('body');
-						if(options.data === undefined)
+					$.ajax(options);
+				} else {  // non-ajax mode
+					if (options.type === 'GET') {
+						window.location.href = options.url;
+					} else {  // POST mode
+						$form = $('<form action="' + options.url + '" method="post"></form>').appendTo('body');
+						if (options.data === undefined) {
 							options.data = {};
+						}
 
-						if(options.data.returnUrl === undefined)
+						if (options.data.returnUrl === undefined) {
 							options.data.returnUrl = window.location.href;
+						}
 
-						$.each(options.data, function(name,value) {
-							$form.append($('<input type="hidden" name="t" value="" />').attr('name',name).val(value));
+						$.each(options.data, function (name, value) {
+							$form.append($('<input type="hidden" name="t" value="" />').attr('name', name).val(value));
 						});
 						$form.submit();
 					}
@@ -252,37 +291,17 @@
 		},
 
 		/**
-		 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
-		 * 2. Check if "check all" need to be checked/unchecked (all checkboxes)
-		 * @return object the jQuery object
-		 */
-		selectCheckedRows: function() {
-			var settings = gridSettings[this.attr('id')],
-				table = this.children('.'+settings.tableClass);
-
-			table.children('tbody').find('input.select-on-check').filter(':checked').each(function(){
-				$(this).closest('tr').addClass('selected');
-			});
-
-			table.children('thead').find('th input').filter('[type="checkbox"]').each(function(){
-				var name = this.name.substring(0, this.name.length-4)+'[]', //.. remove '_all' and add '[]''
-					$checks = $("input[name='"+name+"']",table);
-				this.checked = $checks.length > 0 && $checks.length === $checks.filter(':checked').length;
-			});
-			return this;
-		},
-
-		/**
 		 * Returns the key values of the currently selected rows.
 		 * @return array the key values of the currently selected rows.
 		 */
-		getSelection: function() {
+		getSelection: function () {
 			var settings = gridSettings[this.attr('id')],
 				keys = this.find('.keys span'),
 				selection = [];
-			this.children('.'+settings.tableClass).children('tbody').children().each(function(i){
-				if($(this).hasClass('selected'))
+			this.children('.' + settings.tableClass).children('tbody').children().each(function (i) {
+				if ($(this).hasClass('selected')) {
 					selection.push(keys.eq(i).text());
+				}
 			});
 			return selection;
 		},
@@ -292,15 +311,17 @@
 		 * @param column_id string the ID of the column
 		 * @return array the key values of the currently checked rows.
 		 */
-		getChecked: function(column_id) {
+		getChecked: function (column_id) {
 			var settings = gridSettings[this.attr('id')],
 				keys = this.find('.keys span'),
 				checked = [];
-			if(column_id.substring(column_id.length-2) !== '[]')
+			if (column_id.substring(column_id.length - 2) !== '[]') {
 				column_id = column_id + '[]';
-			this.children('.'+settings.tableClass).children('tbody').children('tr').children('td').children('input[name="'+column_id+'"]').each(function(i){
-				if(this.checked)
+			}
+			this.children('.' + settings.tableClass).children('tbody').children('tr').children('td').children('input[name="' + column_id + '"]').each(function (i) {
+				if (this.checked) {
 					checked.push(keys.eq(i).text());
+				}
 			});
 			return checked;
 		}
@@ -315,7 +336,7 @@
 			$.error('Method ' + method + ' does not exist on jQuery.yiiGridView');
 			return false;
 		}
-	}
+	};
 
 /******************************************************************************
  *** DEPRECATED METHODS
@@ -328,8 +349,8 @@
 	 * @param row integer the row number (zero-based index)
 	 * @return string the key value
 	 */
-	$.fn.yiiGridView.getKey = function(id, row) {
-		return $('#'+id).yiiGridView('getKey', row);
+	$.fn.yiiGridView.getKey = function (id, row) {
+		return $('#' + id).yiiGridView('getKey', row);
 	};
 
 	/**
@@ -337,8 +358,8 @@
 	 * @param id string the ID of the grid view container
 	 * @return string the URL that generates the grid view content.
 	 */
-	$.fn.yiiGridView.getUrl = function(id) {
-		return $('#'+id).yiiGridView('getUrl');
+	$.fn.yiiGridView.getUrl = function (id) {
+		return $('#' + id).yiiGridView('getUrl');
 	};
 
 	/**
@@ -347,8 +368,8 @@
 	 * @param row integer the row number (zero-based index)
 	 * @return jQuery the jQuery collection of the cells in the specified row.
 	 */
-	$.fn.yiiGridView.getRow = function(id, row) {
-		return $('#'+id).yiiGridView('getRow', row);
+	$.fn.yiiGridView.getRow = function (id, row) {
+		return $('#' + id).yiiGridView('getRow', row);
 	};
 
 	/**
@@ -357,8 +378,8 @@
 	 * @param column integer the column number (zero-based index)
 	 * @return jQuery the jQuery collection of the cells in the specified column.
 	 */
-	$.fn.yiiGridView.getColumn = function(id, column) {
-		return $('#'+id).yiiGridView('getColumn', column);
+	$.fn.yiiGridView.getColumn = function (id, column) {
+		return $('#' + id).yiiGridView('getColumn', column);
 	};
 
 	/**
@@ -367,17 +388,8 @@
 	 * @param options map the AJAX request options (see jQuery.ajax API manual). By default,
 	 * the URL to be requested is the one that generates the current content of the grid view.
 	 */
-	$.fn.yiiGridView.update = function(id, options) {
-		$('#'+id).yiiGridView('update', options);
-	};
-
-	/**
-	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
-	 * 2. Check if "check all" need to be checked/unchecked (all checkboxes)
-	 * @param id string the ID of the grid view container
-	 */
-	$.fn.yiiGridView.selectCheckedRows = function(id) {
-		$('#'+id).yiiGridView('selectCheckedRows');
+	$.fn.yiiGridView.update = function (id, options) {
+		$('#' + id).yiiGridView('update', options);
 	};
 
 	/**
@@ -385,8 +397,8 @@
 	 * @param id string the ID of the grid view container
 	 * @return array the key values of the currently selected rows.
 	 */
-	$.fn.yiiGridView.getSelection = function(id) {
-		return $('#'+id).yiiGridView('getSelection');
+	$.fn.yiiGridView.getSelection = function (id) {
+		return $('#' + id).yiiGridView('getSelection');
 	};
 
 	/**
@@ -395,7 +407,7 @@
 	 * @param column_id string the ID of the column
 	 * @return array the key values of the currently checked rows.
 	 */
-	$.fn.yiiGridView.getChecked = function(id,column_id) {
-		return $('#'+id).yiiGridView('getChecked', column_id);
+	$.fn.yiiGridView.getChecked = function (id, column_id) {
+		return $('#' + id).yiiGridView('getChecked', column_id);
 	};
 })(jQuery);
