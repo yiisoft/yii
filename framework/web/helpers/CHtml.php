@@ -918,7 +918,7 @@ EOD;
 			$cs->registerScript($id,$js);
 		}
 
-		return implode($separator,$items);
+		return self::tag('span',array('id'=>$baseID),implode($separator,$items));
 	}
 
 	/**
@@ -963,7 +963,7 @@ EOD;
 			$label=self::label($label,$htmlOptions['id'],$labelOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
-		return implode($separator,$items);
+		return self::tag('span',array('id'=>$baseID),implode($separator,$items));
 	}
 
 	/**

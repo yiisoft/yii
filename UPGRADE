@@ -27,6 +27,20 @@ Upgrading from v1.1.8
 - In CErrorHandler::handleException() the checking for ajax call has been removed
 as it was preventing to customize the display of the exception during an ajax call.
 
+- Previously in case of validation error the CSS "error" class was not added to the row container at all when 
+checkBoxList or radioButtonList where used. This is fixed now and proper "error" CSS class is added to the row
+container but in case of validation error, all labels from the list are shown in red because of the CSS rule.
+
+To fix this and display only the attribute label in red:
+
+in <projectdir>/css/form.css the line:
+
+     div.form div.error label
+
+should be changed to 
+
+     div.form div.error label:first-child
+
 - If you've used "through" ActiveRecord option in your relation definitions it's good to update code as shown below.
 Old style of defining this option still works but is now deprecated.
 
