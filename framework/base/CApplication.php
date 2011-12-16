@@ -699,7 +699,10 @@ abstract class CApplication extends CModule
 		// php <5.2 doesn't support string conversion auto-magically
 		$message=$exception->__toString();
 		if(isset($_SERVER['REQUEST_URI']))
-			$message.=' REQUEST_URI='.$_SERVER['REQUEST_URI'];
+			$message.="\nREQUEST_URI=".$_SERVER['REQUEST_URI'];
+		if(isset($_SERVER['HTTP_REFERER']))
+			$message.="\nHTTP_REFERER=".$_SERVER['HTTP_REFERER'];
+		$message.="\n---";
 		Yii::log($message,CLogger::LEVEL_ERROR,$category);
 
 		try

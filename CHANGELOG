@@ -44,6 +44,7 @@ Version 1.1.9 work in progress
 - Enh #2890: Added CInlineValidator::clientValidate to set custom client validation (mdomba)
 - Enh #2929: Added forceDownload to xSendFile options to choose between attachment and inline disposition. (mdomba)
 - Enh #2981: Added CHtml::liveEvents to set the default global style for attaching jQuery event handlers. (mdomba, Sam Dark, Ekstazi)
+- Enh #3020: Added HTTP_REFERER information to the exception log (mdomba)
 - Enh: Documented component accessors with @property for significantly better IDE autocomplete (Sam Dark, Detonator, Athari)
 - Enh: Added CWebUser->loginRequiredAjaxResponse - value to be returned for ajax calls in case the user session has expired (mdomba)
 - Enh: CFileCache::get() does now suppress a possible PHP error which might occur on concurrent requests (Y!!)
