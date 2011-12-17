@@ -11,6 +11,14 @@
 /**
  * CUniqueValidator validates that the attribute value is unique in the corresponding database table.
  *
+ * When using the {@link message} property to define a custom error message, the message
+ * may contain additional placeholders that will be replaced with the actual content. In addition
+ * to the "{attribute}" placeholder, recognized by all validators (see {@link CValidator}),
+ * CUniqueValidator allows for the following placeholders to be specified:
+ * <ul>
+ * <li>{value}: replaced with current value of the attribute.</li>
+ * </ul>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators

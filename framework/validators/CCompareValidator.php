@@ -23,6 +23,14 @@
  * Starting from version 1.0.8, CCompareValidator supports different comparison operators.
  * Previously, it only compares to see if two values are equal or not.
  *
+ * When using the {@link message} property to define a custom error message, the message
+ * may contain additional placeholders that will be replaced with the actual content. In addition
+ * to the "{attribute}" placeholder, recognized by all validators (see {@link CValidator}),
+ * CCompareValidator allows for the following placeholders to be specified:
+ * <ul>
+ * <li>{compareValue}: replaced with the constant value being compared with {@link compareValue}.</li>
+ * </ul>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators
