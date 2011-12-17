@@ -38,6 +38,22 @@
  *
  * You can use {@link CFileValidator} to validate the file attribute.
  *
+ * In addition to the {@link message} property for setting a custom error message, 
+ * CFileValidator has a few custom error messages you can set that correspond to different
+ * validation scenarios. When the file is too large, you may use the {@link tooLarge} property
+ * to define a custom error message. Similarly for {@link tooSmall}, {@link wrongType} and 
+ * {@link tooMany}. The messages may contain additional placeholders that will be replaced 
+ * with the actual content. In addition to the "{attribute}" placeholder, recognized by all 
+ * validators (see {@link CValidator}), CFileValidator allows for the following placeholders 
+ * to be specified:
+ * <ul>
+ * <li>{file}: replaced with the name of the file.</li>
+ * <li>{limit}: when using {@link tooLarge}, replaced with {@link maxSize}; 
+ * when using {@link tooSmall}, replaced with {@link maxSize}; and when using {@link tooMany} 
+ * replaced with {@link maxFiles}.</li>
+ * <li>{extensions}: when using {@link wrongType}, it will be replaced with the allowed extensions.</li>
+ * </ul>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators

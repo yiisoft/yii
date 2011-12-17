@@ -29,6 +29,14 @@
  * Starting from version 1.1.7, we have a dedicated date validator {@link CDateValidator}.
  * Please consider using this validator to validate a date-typed value.
  *
+ * When using the {@link message} property to define a custom error message, the message
+ * may contain additional placeholders that will be replaced with the actual content. In addition
+ * to the "{attribute}" placeholder, recognized by all validators (see {@link CValidator}),
+ * CTypeValidator allows for the following placeholders to be specified:
+ * <ul>
+ * <li>{type}: replaced with data type the attribute should be {@link type}.</li>
+ * </ul>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators
