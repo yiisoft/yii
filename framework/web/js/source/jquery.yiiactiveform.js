@@ -23,7 +23,7 @@
 			return o.val();
 		} else {
 			var c = [];
-			o.children(':checked').each(function () {
+			o.find(':checked').each(function () {
 				c.push(this.value);
 			});
 			return c.join(',');
