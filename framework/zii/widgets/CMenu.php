@@ -260,7 +260,14 @@ class CMenu extends CWidget
 			{
 				$items[$i]['items']=$this->normalizeItems($item['items'],$route,$hasActiveChild);
 				if(empty($items[$i]['items']) && $this->hideEmptyItems)
+				{
 					unset($items[$i]['items']);
+					if(!isset($item['url']))
+					{
+						unset($items[$i]);
+						continue;
+					}
+				}
 			}
 			if(!isset($item['active']))
 			{
