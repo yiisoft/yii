@@ -12,11 +12,14 @@
 ;(function ($) {
 	/*
 	 * returns the value of the CActiveForm input field
-	 * performs additional check to get proper values for checkBoxList / radioButtonList fields
+	 * performs additional checks to get proper values for checkbox / radiobutton / checkBoxList / radioButtonList
 	 * @param o object the jQuery object of the input element
 	 */
 	var getAFValue = function (o) {
-		if (o.attr('type') !== undefined) {
+		var type = o.attr('type');
+		if (type === 'checkbox' || type === 'radio') {
+			return o.filter(':checked').val();
+		} else if (type !== undefined) {
 			return o.val();
 		} else {
 			var c = [];
