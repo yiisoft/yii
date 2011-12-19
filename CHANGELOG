@@ -43,6 +43,7 @@ Version 1.1.9 work in progress
 - Enh #2808: Added ability to override core classes using YiiBase::classMap (Sam Dark)
 - Enh #2811: Fully automated CLDR data update, updated data to 2.0.1. Added getLanguageID, getScriptID, getTerritoryID, getRegionID, getLocaleDisplayName, getLanguage, getScript, getTerritory methods to CLocale (kshaw, Sam Dark)
 - Enh #2823: Added autocomplete for Gii "Table Name" field (Sam Dark)
+- Enh #2855: CWebUser::login() returns the login status (mdomba)
 - Enh #2872: Added CConsoleCommand::prompt() that asks for input and CConsoleCommand::confirm() that asks for confirmation (Sam Dark)
 - Enh #2890: Added CInlineValidator::clientValidate to set custom client validation (mdomba)
 - Enh #2929: Added forceDownload to xSendFile options to choose between attachment and inline disposition. (mdomba)

@@ -222,6 +222,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param integer $duration number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
 	 * If greater than 0, cookie-based login will be used. In this case, {@link allowAutoLogin}
 	 * must be set true, otherwise an exception will be thrown.
+	 * @return boolean whether the user is logged in
 	 */
 	public function login($identity,$duration=0)
 	{
@@ -242,6 +243,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 			$this->afterLogin(false);
 		}
+		return !$this->getIsGuest();
 	}
 
 	/**
