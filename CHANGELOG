@@ -22,7 +22,7 @@ Version 1.1.9 work in progress
 - Bug #2932: CAuthItem::getType() returns string while using CDbAuthManager (Sam Dark)
 - Bug #2999: CSort::getDirections, error when array is passed via $_GET (Sam Dark)
 - Bug #3018: Fixed CACtiveForm ajax validation when checkBox or radioButton are used (mdomba)
-- Bug #3029: Fixed the bug that empty items was not hidden when CMenu::hideEmptyItems is true (mdomba)
+- Bug #3029: Fixed the bug that empty items were not hidden when CMenu::hideEmptyItems is true (mdomba)
 - Chg: Upgraded JQuery UI to 1.8.16 (Sam Dark)
 - Chg: Upgraded jQuery to 1.7.1 (Sam Dark,mdomba)
 - Chg: Upgraded CMaskedTextField jQuery plugin (Masked Input) to 1.3, added minified version (Sam Dark)
