@@ -113,10 +113,10 @@ We also need to modify `/wwwroot/blog/protected/views/post/view.php` furthermore
 In the above code, we display the flash message if it is available. If not, we display the comment input form by rendering the partial view `/wwwroot/blog/protected/views/comment/_form.php`.
 
 
-Client-side Validation
+Ajax-based Validation
 ----------------------
 
-In order to support client-side validation of the comment form, we need to make some minor changes to both the comment form view `/wwwroot/blog/protected/views/comment/_form.php` and the `newComment()` method.
+In order to improve user experience, we can use Ajax-based form field validation so that the user is provided with validation feedback as they fill out the form, before having to submit the entire form to the server. To support Ajax-based validation on the comment form, we need to make some minor changes to both the comment form view `/wwwroot/blog/protected/views/comment/_form.php` and the `newComment()` method.
 
 In the `_form.php` file, we mainly need to set [CActiveForm::enableAjaxValidation] to be true when we create the [CActiveForm] widget:
 
