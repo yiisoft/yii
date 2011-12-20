@@ -99,7 +99,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 			else
 			{
 				if(($this->recursiveLevel<0 || $level<$this->recursiveLevel) && $this->validateDirectory($path))
-					$timestamps=array_merge($this->generateTimestamps($path,$level+1));
+					$timestamps=array_merge($timestamps, $this->generateTimestamps($path,$level+1));
 			}
 		}
 		closedir($dir);
