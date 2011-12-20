@@ -457,6 +457,8 @@ abstract class CConsoleCommand extends CComponent
 	 *
 	 * @param string $message to echo out before waiting for user input
 	 * @return mixed line read as a string, or false if input has been closed
+	 *
+	 * @since 1.1.9
 	 */
 	public function prompt($message)
 	{
@@ -478,6 +480,8 @@ abstract class CConsoleCommand extends CComponent
 	 *
 	 * @param string $message to echo out before waiting for user input
 	 * @return bool if user confirmed
+	 *
+	 * @since 1.1.9
 	 */
 	public function confirm($message)
 	{
