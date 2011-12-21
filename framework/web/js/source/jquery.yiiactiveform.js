@@ -17,16 +17,17 @@
 	 */
 	var getAFValue = function (o) {
 		var type = o.attr('type');
-		if (type === 'checkbox' || type === 'radio') {
-			return o.filter(':checked').val();
-		} else if (type !== undefined) {
-			return o.val();
-		} else {
+		if(o[0].tagName.toLowerCase()=='span') {
 			var c = [];
 			o.find(':checked').each(function () {
 				c.push(this.value);
 			});
 			return c.join(',');
+		}
+		if (type === 'checkbox' || type === 'radio') {
+			return o.filter(':checked').val();
+		} else {
+			return o.val();
 		}
 	};
 
