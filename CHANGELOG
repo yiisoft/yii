@@ -15,6 +15,7 @@ Version 1.1.9 work in progress
 - Bug #2773: Fixed possible CUrlManager::createUrl parameters conflict when using custom URL rule classes (Sam Dark)
 - Bug #2581: Fixed CJuiTabs - not replacing id slug in header tool tips (sebas)
 - Bug #2643: Output buffer wasn't properly cleaned on displaying error screen (Sam Dark)
+- Bug #2733: Fixed CDbCriteria parameter names collision on unserialize (mcheale, Sam Dark)
 - Bug #2786: Fixed inheritance in CLDR months parsing (mcheale, Sam Dark)
 - Bug #2822: Fixed warning when "Host:" isn't present or is empty in HTTP request headers (Sam Dark)
 - Bug #2853: Fixed sending of the button name in CActiveForm with enableAjaxValidation enabled (mdomba)
