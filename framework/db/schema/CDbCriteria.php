@@ -156,6 +156,24 @@ class CDbCriteria extends CComponent
 	}
 
 	/**
+	 * Remaps criteria parameters on unserialize to prevent name collisions.
+	 * @since 1.1.9
+	 */
+	public function __wakeup()
+	{
+		$map=array();
+		$params=array();
+		foreach($this->params as $name=>$value)
+		{
+			$newName=self::PARAM_PREFIX.self::$paramCount++;
+			$map[$name]=$newName;
+			$params[$newName]=$value;
+		}
+		$this->condition=strtr($this->condition,$map);
+		$this->params=$params;
+	}
+
+	/**
 	 * Appends a condition to the existing {@link condition}.
 	 * The new condition and the existing condition will be concatenated via the specified operator
 	 * which defaults to 'AND'.
