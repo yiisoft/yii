@@ -59,7 +59,18 @@ return array (
   array (
     'wide' => 
     array (
+      1 => 'Qunxa Garablu',
+      2 => 'Kudo',
+      3 => 'Ciggilta Kudo',
+      4 => 'Agda Baxis',
+      5 => 'Caxah Alsa',
+      6 => 'Qasa Dirri',
+      7 => 'Qado Dirri',
       8 => 'Leqeeni',
+      9 => 'Waysu',
+      10 => 'Diteli',
+      11 => 'Ximoli',
+      12 => 'Kaxxa Garablu',
     ),
     'abbreviated' => 
     array (
