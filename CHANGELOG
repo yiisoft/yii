@@ -42,6 +42,7 @@ Version 1.1.9 work in progress
 - Enh #2637: Related table alias set dynamically in relational query is now available in the scopes of related model (creocoder, Sam Dark)
 - Enh #2646, #2706: Added ability to join on a specific keys (creocoder, Sam Dark)
 - Enh #2654: Enhanced CUrlManager::addRules() by allowing new rules to be inserted in front of the existing rules (Qiang)
+- Enh #2715: CMap::mergeArray now can accept multiple arrays to be merged (firejdl, Sam Dark)
 - Enh #2717: Extracted MigrateCommand::createMigrationHistoryTable method from MigrateCommand::getMigrationHistory (Sam Dark)
 - Enh #2751: Added removeOld parameter to yiic message command that allows not to add obsolete lines to translation file generated (luislobo, Sam Dark)
 - Enh #2795: Added Yii::t() to YiiBase::powered() (Sam Dark)
