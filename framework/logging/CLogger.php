@@ -75,6 +75,11 @@ class CLogger extends CComponent
 	 * @since 1.0.6
 	 */
 	private $_timings;
+	/**
+	* @var boolean if we are processing the log or still accepting new log messages
+	* @since 1.1.9
+	*/
+	private $_processing = false;
 
 	/**
 	 * Logs a message.
@@ -88,8 +93,12 @@ class CLogger extends CComponent
 	{
 		$this->_logs[]=array($message,$level,$category,microtime(true));
 		$this->_logCount++;
-		if($this->autoFlush>0 && $this->_logCount>=$this->autoFlush)
+		if($this->autoFlush>0 && $this->_logCount>=$this->autoFlush && !$this->_processing)
+		{
+			$this->_processing=true;
 			$this->flush($this->autoDump);
+			$this->_processing=false;
+		}
 	}
 
 	/**
