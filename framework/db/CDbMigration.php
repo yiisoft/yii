@@ -1,6 +1,6 @@
 <?php
 /**
- * CMysqlSchema class file.
+ * CDbMigration class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
