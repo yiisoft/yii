@@ -619,10 +619,10 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
-	 * 
+	 *
 	 * <b>Note:</b>
 	 * Meta tags with same attributes will be rendered more then once if called with different values.
-	 * 
+	 *
 	 * <b>Example:</b>
 	 * <pre>
 	 *    $cs->registerMetaTag('example', 'description', null, array('lang' => 'en'));
@@ -745,5 +745,19 @@ class CClientScript extends CApplicationComponent
 	{
 		if(($controller=Yii::app()->getController())!==null)
 			$controller->recordCachingAction($context,$method,$params);
+	}
+
+	/**
+	 * Adds a package to packages list.
+	 *
+	 * @param string $name the name of the script package.
+	 * @param array $definition the definition array of the script package,
+	 * @see CClientScript::packages.
+	 *
+	 * @since 1.1.9
+	 */
+	public function addPackage($name,$definition)
+	{
+		$this->packages[$name]=$definition;
 	}
 }
