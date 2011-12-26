@@ -41,6 +41,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Executes just before class object is destroyed. Ensures that DB
 	 * schema is refreshed after making changes.
+	 * @since 1.1.9
 	 */
 	public function __destruct()
 	{
