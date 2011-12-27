@@ -66,11 +66,13 @@ abstract class CDbSchema extends CComponent
 	/**
 	 * Obtains the metadata for the named table.
 	 * @param string $name table name
+	 * @param boolean $refresh if we need to refresh schema cache for a table.
+	 * Parameter available since 1.1.9
 	 * @return CDbTableSchema table metadata. Null if the named table does not exist.
 	 */
-	public function getTable($name)
+	public function getTable($name,$refresh=false)
 	{
-		if(isset($this->_tables[$name]))
+		if($refresh===false && isset($this->_tables[$name]))
 			return $this->_tables[$name];
 		else
 		{
@@ -89,7 +91,8 @@ abstract class CDbSchema extends CComponent
 			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
 			{
 				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
-				if(($table=$cache->get($key))===false)
+				$table=$cache->get($key);
+				if($refresh===true || $table===false)
 				{
 					$table=$this->loadTable($realName);
 					if($table!==null)
@@ -172,19 +175,6 @@ abstract class CDbSchema extends CComponent
 		$this->_tables=array();
 		$this->_tableNames=array();
 		$this->_builder=null;
-	}
-
-	/**
-	 * Refreshes the schema for all tables.
-	 * This method resets all table metadata and command builder
-	 * so that they can be recreated to reflect the change of schema.
-	 *
-	 * @since 1.1.9
-	 */
-	public function refreshAll()
-	{
-		$this->getTables();
-		$this->refresh();
 	}
 
 	/**

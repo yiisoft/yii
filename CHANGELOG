@@ -57,7 +57,7 @@ Version 1.1.9 work in progress
 - Enh #2929: Added forceDownload to xSendFile options to choose between attachment and inline disposition. (mdomba)
 - Enh #2981: Added CHtml::liveEvents to set the default global style for attaching jQuery event handlers. (mdomba, Sam Dark, Ekstazi)
 - Enh #3020: Added HTTP_REFERER information to the exception log (mdomba)
-- Enh #3024: DB schema cache is now refreshed after applying migration (Sam Dark)
+- Enh #3024: Added CDbMigration::refreshTableSchema() that refreshes specified table schema cache (Sam Dark)
 - Enh: Documented component accessors with @property for significantly better IDE autocomplete (Sam Dark, Detonator, Athari)
 - Enh: Added CWebUser->loginRequiredAjaxResponse - value to be returned for ajax calls in case the user session has expired (mdomba)
 - Enh: CFileCache::get() does now suppress a possible PHP error which might occur on concurrent requests (Y!!)
@@ -66,7 +66,6 @@ Version 1.1.9 work in progress
 - Enh: CAssetManager now generates different hash for files/directories with different mtime (Sam Dark)
 - Enh: Yii error screen will now display proper message like error/warning/notice (mdomba)
 - Enh: CHtml::clientchange() now uses the new jQuery on() method for event binding (mdomba)
-- Enh: Added CDbSchema::refreshAll() (Sam Dark)
 
 Version 1.1.8 June 26, 2011
 ---------------------------
