@@ -66,6 +66,7 @@ Version 1.1.9 work in progress
 - Enh: CAssetManager now generates different hash for files/directories with different mtime (Sam Dark)
 - Enh: Yii error screen will now display proper message like error/warning/notice (mdomba)
 - Enh: CHtml::clientchange() now uses the new jQuery on() method for event binding (mdomba)
+- Enh: Added CDbSchema::refreshAll() (Sam Dark)
 
 Version 1.1.8 June 26, 2011
 ---------------------------
