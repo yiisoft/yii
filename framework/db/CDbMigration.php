@@ -386,4 +386,17 @@ abstract class CDbMigration extends CComponent
 		$this->getDbConnection()->createCommand()->dropIndex($name, $table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
+
+	/**
+	 * Refreshed schema cache for a table
+	 * @param string $table name of the table to refresh
+	 * @since 1.1.9
+	 */
+	public function refreshTableSchema($table)
+	{
+		echo "    > refresh table $table schema cache ...";
+		$time=microtime(true);
+		$this->getDbConnection()->getSchema()->getTable($table,true);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
 }
