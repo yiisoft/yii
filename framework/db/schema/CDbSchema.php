@@ -175,6 +175,19 @@ abstract class CDbSchema extends CComponent
 	}
 
 	/**
+	 * Refreshes the schema for all tables.
+	 * This method resets all table metadata and command builder
+	 * so that they can be recreated to reflect the change of schema.
+	 *
+	 * @since 1.1.9
+	 */
+	public function refreshAll()
+	{
+		$this->getTables();
+		$this->refresh();
+	}
+
+	/**
 	 * Quotes a table name for use in a query.
 	 * If the table name contains schema prefix, the prefix will also be properly quoted.
 	 * @param string $name table name

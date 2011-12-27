@@ -39,16 +39,6 @@ abstract class CDbMigration extends CComponent
 	private $_db;
 
 	/**
-	 * Executes just before class object is destroyed. Ensures that DB
-	 * schema is refreshed after making changes.
-	 * @since 1.1.9
-	 */
-	public function __destruct()
-	{
-		$this->getDbConnection()->getSchema()->refresh();
-	}
-
-	/**
 	 * This method contains the logic to be executed when applying this migration.
 	 * Child classes may implement this method to provide actual migration logic.
 	 * @return boolean

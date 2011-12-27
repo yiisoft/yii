@@ -103,6 +103,7 @@ class MigrateCommand extends CConsoleCommand
 					return;
 				}
 			}
+			$this->getDbConnection()->getSchema()->refreshAll();
 			echo "\nMigrated up successfully.\n";
 		}
 	}
@@ -136,6 +137,7 @@ class MigrateCommand extends CConsoleCommand
 					return;
 				}
 			}
+			$this->getDbConnection()->getSchema()->refreshAll();
 			echo "\nMigrated down successfully.\n";
 		}
 	}
@@ -177,6 +179,7 @@ class MigrateCommand extends CConsoleCommand
 					return;
 				}
 			}
+			$this->getDbConnection()->getSchema()->refreshAll();
 			echo "\nMigration redone successfully.\n";
 		}
 	}
@@ -214,7 +217,10 @@ class MigrateCommand extends CConsoleCommand
 				if($i===0)
 					echo "Already at '$originalVersion'. Nothing needs to be done.\n";
 				else
+				{
 					$this->actionDown(array($i));
+					$this->getDbConnection()->getSchema()->refreshAll();
+				}
 				return;
 			}
 		}
@@ -408,6 +414,9 @@ class MigrateCommand extends CConsoleCommand
 		return $migration;
 	}
 
+	/**
+	 * @var CDbConnection
+	 */
 	private $_db;
 	protected function getDbConnection()
 	{
