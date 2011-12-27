@@ -27,6 +27,7 @@ Version 1.1.9 work in progress
 - Bug #3029: Fixed the bug that empty items were not hidden when CMenu::hideEmptyItems is true (mdomba)
 - Bug #3033: Fixed proper array merging in CDirectoryCacheDependency->generateTimestamps (mdomba)
 - Bug #3041: Fixed possible infinite loop while processing logs (Yiivgeny, Sam Dark)
+- Bug #3042: Fixed the bug that CHttpSession::setCookieMode wasn't setting session.use_only_cookies when 'none' value was used (Sam Dark)
 - Chg: Upgraded JQuery UI to 1.8.16 (Sam Dark)
 - Chg: Upgraded jQuery to 1.7.1 (Sam Dark,mdomba)
 - Chg: Upgraded CMaskedTextField jQuery plugin (Masked Input) to 1.3, added minified version (Sam Dark)
