@@ -265,7 +265,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function setCookieMode($value)
 	{
 		if($value==='none')
+		{
 			ini_set('session.use_cookies','0');
+			ini_set('session.use_only_cookies','0');
+		}
 		else if($value==='allow')
 		{
 			ini_set('session.use_cookies','1');
