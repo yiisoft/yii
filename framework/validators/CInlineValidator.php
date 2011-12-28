@@ -52,12 +52,12 @@ class CInlineValidator extends CValidator
 	 * <li>attribute: a data structure keeping all client-side options for the attribute</li>
 	 * </ul>
 	 * <b>Example</b>:
-	 * 
-	 * If {@link clientValidate} is set to "clientValidate123", clientValidate123() is the name of 
+	 *
+	 * If {@link clientValidate} is set to "clientValidate123", clientValidate123() is the name of
 	 * the method that returns the client validation code and can look like:
 	 * <pre>
 	 * <?php
-	 *   public function clientValidate123()
+	 *   public function clientValidate123($attribute)
 	 *   {
 	 *      $js = "if(value != '123') { messages.push('Value should be 123'); }";
 	 *      return $js;
@@ -75,7 +75,7 @@ class CInlineValidator extends CValidator
 		if($this->clientValidate!==null)
 		{
 			$method=$this->clientValidate;
-			return $object->$method();
+			return $object->$method($attribute);
 		}
 	}
 }
