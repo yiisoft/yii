@@ -408,6 +408,9 @@ class MigrateCommand extends CConsoleCommand
 		return $migration;
 	}
 
+	/**
+	 * @var CDbConnection
+	 */
 	private $_db;
 	protected function getDbConnection()
 	{

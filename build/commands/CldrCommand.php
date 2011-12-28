@@ -302,7 +302,8 @@ EOD;
 				foreach($monthType->xpath('month') as $month)
 					$names[(string)$month['type']]=(string)$month;
 				if($names!==array())
-					$data['monthNames'][(string)$monthType['type']]=$names;
+					foreach($names as $type=>$name)
+						$data['monthNames'][(string)$monthType['type']][$type]=$name;
 			}
 		}
 
@@ -318,7 +319,8 @@ EOD;
 				foreach($monthType->xpath('month') as $month)
 					$names[(string)$month['type']]=(string)$month;
 				if($names!==array())
-					$data['monthNamesSA'][(string)$monthType['type']]=$names;
+					foreach($names as $type=>$name)
+						$data['monthNamesSA'][(string)$monthType['type']][$type]=$name;
 			}
 		}
 	}
