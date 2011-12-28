@@ -50,7 +50,6 @@ class CFilterWidget extends CWidget implements IFilter
 
 	/**
 	 * @return boolean whether this widget is used as a filter.
-	 * @since 1.0.4
 	 */
 	public function getIsFilter()
 	{

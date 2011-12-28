@@ -85,7 +85,7 @@ class CController extends CBaseController
 	 * @var mixed the name of the layout to be applied to this controller's views.
 	 * Defaults to null, meaning the {@link CWebApplication::layout application layout}
 	 * is used. If it is false, no layout will be applied.
-	 * Since version 1.0.3, the {@link CWebModule::layout module layout} will be used
+	 * The {@link CWebModule::layout module layout} will be used
 	 * if the controller belongs to a module and this layout property is null.
 	 */
 	public $layout;
@@ -106,8 +106,7 @@ class CController extends CBaseController
 
 	/**
 	 * @param string $id id of this controller
-	 * @param CWebModule $module the module that this controller belongs to. This parameter
-	 * has been available since version 1.0.3.
+	 * @param CWebModule $module the module that this controller belongs to.
 	 */
 	public function __construct($id,$module=null)
 	{
@@ -120,7 +119,6 @@ class CController extends CBaseController
 	 * Initializes the controller.
 	 * This method is called by the application before the controller starts to execute.
 	 * You may override this method to perform the needed initialization for the controller.
-	 * @since 1.0.1
 	 */
 	public function init()
 	{
@@ -178,7 +176,7 @@ class CController extends CBaseController
 	 * Note, in order to inherit actions defined in the parent class, a child class needs to
 	 * merge the parent actions with child actions using functions like array_merge().
 	 *
-	 * Since version 1.0.1, you may import actions from an action provider
+	 * You may import actions from an action provider
 	 * (such as a widget, see {@link CWidget::actions}), like the following:
 	 * <pre>
 	 * return array(
@@ -232,7 +230,6 @@ class CController extends CBaseController
 	 *
 	 * For more details about behaviors, see {@link CComponent}.
 	 * @return array the behavior configurations (behavior name=>behavior configuration)
-	 * @since 1.0.6
 	 */
 	public function behaviors()
 	{
@@ -374,7 +371,6 @@ class CController extends CBaseController
 	 * This method is internally used. Do not call this method directly.
 	 * @param string $output output to be processed
 	 * @return string the processed output
-	 * @since 1.0.4
 	 */
 	public function processDynamicOutput($output)
 	{
@@ -436,7 +432,6 @@ class CController extends CBaseController
 	 * @param string $requestActionID the originally requested action ID
 	 * @param array $config the action configuration that should be applied on top of the configuration specified in the map
 	 * @return CAction the action instance, null if the action does not exist.
-	 * @since 1.0.1
 	 */
 	protected function createActionFromMap($actionMap,$actionID,$requestActionID,$config=array())
 	{
@@ -516,7 +511,6 @@ class CController extends CBaseController
 
 	/**
 	 * @return string the controller ID that is prefixed with the module ID (if any).
-	 * @since 1.0.3
 	 */
 	public function getUniqueId()
 	{
@@ -538,7 +532,6 @@ class CController extends CBaseController
 	/**
 	 * @return CWebModule the module that this controller belongs to. It returns null
 	 * if the controller does not belong to any module
-	 * @since 1.0.3
 	 */
 	public function getModule()
 	{
@@ -549,7 +542,7 @@ class CController extends CBaseController
 	 * Returns the directory containing view files for this controller.
 	 * The default implementation returns 'protected/views/ControllerID'.
 	 * Child classes may override this method to use customized view path.
-	 * If the controller belongs to a module (since version 1.0.3), the default view path
+	 * If the controller belongs to a module, the default view path
 	 * is the {@link CWebModule::getViewPath module view path} appended with the controller ID.
 	 * @return string the directory containing the view files for this controller. Defaults to 'protected/views/ControllerID'.
 	 */
@@ -691,7 +684,6 @@ class CController extends CBaseController
 	 * @param string $moduleViewPath the directory that is used to search for an absolute view name under the current module.
 	 * If this is not set, the application base view path will be used.
 	 * @return mixed the view file path. False if the view file does not exist.
-	 * @since 1.0.3
 	 */
 	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath=null)
 	{
@@ -957,11 +949,11 @@ class CController extends CBaseController
 	 * @param string $route the URL route. This should be in the format of 'ControllerID/ActionID'.
 	 * If the ControllerID is not present, the current controller ID will be prefixed to the route.
 	 * If the route is empty, it is assumed to be the current action.
-	 * Since version 1.0.3, if the controller belongs to a module, the {@link CWebModule::getId module ID}
+	 * If the controller belongs to a module, the {@link CWebModule::getId module ID}
 	 * will be prefixed to the route. (If you do not want the module ID prefix, the route should start with a slash '/'.)
 	 * @param array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded.
 	 * If the name is '#', the corresponding value will be treated as an anchor
-	 * and will be appended at the end of the URL. This anchor feature has been available since version 1.0.1.
+	 * and will be appended at the end of the URL.
 	 * @param string $ampersand the token separating name-value pairs in the URL.
 	 * @return string the constructed URL
 	 */
@@ -1027,7 +1019,7 @@ class CController extends CBaseController
 	 * are GET parameters in name-value pairs.
 	 * @param boolean $terminate whether to terminate the current application after calling this method
 	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
-	 * for details about HTTP status code. This parameter has been available since version 1.0.4.
+	 * for details about HTTP status code.
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
 	{
@@ -1046,8 +1038,7 @@ class CController extends CBaseController
 	 * @param boolean $terminate whether to terminate the current application after calling this method
 	 * @param string $anchor the anchor that should be appended to the redirection URL.
 	 * Defaults to empty. Make sure the anchor starts with '#' if you want to specify it.
-	 * The parameter has been available since version 1.0.7.
-	 **/
+	 */
 	public function refresh($terminate=true,$anchor='')
 	{
 		$this->redirect(Yii::app()->getRequest()->getUrl().$anchor,$terminate);
@@ -1088,7 +1079,6 @@ class CController extends CBaseController
 	 * @return boolean whether the caching stack is empty. If not empty, it means currently there are
 	 * some output cache in effect. Note, the return result of this method may change when it is
 	 * called in different output regions, depending on the partition of output caches.
-	 * @since 1.0.5
 	 */
 	public function isCachingStackEmpty()
 	{

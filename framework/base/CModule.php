@@ -35,7 +35,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base
- * @since 1.0.4
  */
 abstract class CModule extends CComponent
 {
@@ -240,7 +239,6 @@ abstract class CModule extends CComponent
 	 *    'backend'=>dirname(__FILE__).'/../backend',  // a directory
 	 * )
 	 * </pre>
-	 * @since 1.0.5
 	 */
 	public function setAliases($mappings)
 	{
@@ -371,8 +369,7 @@ abstract class CModule extends CComponent
 	/**
 	 * Retrieves the named application component.
 	 * @param string $id application component ID (case-sensitive)
-	 * @param boolean $createIfNull whether to create the component if it doesn't exist yet. This parameter
-	 * has been available since version 1.0.6.
+	 * @param boolean $createIfNull whether to create the component if it doesn't exist yet.
 	 * @return IApplicationComponent the application component instance, null if the application component is disabled or does not exist.
 	 * @see hasComponent
 	 */

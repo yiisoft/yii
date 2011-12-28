@@ -23,7 +23,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.caching
- * @since 1.0.6
  */
 class CFileCache extends CCache
 {

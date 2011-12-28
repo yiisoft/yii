@@ -48,7 +48,7 @@
  * See {@link http://www.php.net/manual/en/function.memcache-addserver.php}
  * for more details.
  *
- * Since version 1.0.6, CMemCache can also be used with {@link http://pecl.php.net/package/memcached memcached}.
+ * CMemCache can also be used with {@link http://pecl.php.net/package/memcached memcached}.
  * To do so, set {@link useMemcached} to be true.
  *
  * @property mixed $memCache The memcache instance (or memcached if {@link useMemcached} is true) used by this component.
@@ -66,7 +66,6 @@ class CMemCache extends CCache
 	 * If true {@link http://pecl.php.net/package/memcached memcached} will be used.
 	 * If false {@link http://pecl.php.net/package/memcache memcache}. will be used.
 	 * Defaults to false.
-	 * @since 1.0.6
 	 */
 	public $useMemcached=false;
 	/**
@@ -148,7 +147,6 @@ class CMemCache extends CCache
 	 * Retrieves multiple values from cache with the specified keys.
 	 * @param array $keys a list of keys identifying the cached values
 	 * @return array a list of cached values indexed by the keys
-	 * @since 1.0.8
 	 */
 	protected function getValues($keys)
 	{

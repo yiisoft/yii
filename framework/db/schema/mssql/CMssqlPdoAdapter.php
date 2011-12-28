@@ -14,7 +14,6 @@
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @version $Id$
  * @package system.db.schema.mssql
- * @since 1.0.4
  */
 class CMssqlPdoAdapter extends PDO
 {

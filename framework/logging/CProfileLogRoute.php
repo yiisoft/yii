@@ -34,7 +34,6 @@ class CProfileLogRoute extends CWebLogRoute
 	 * If false, the results will be aggregated by categories.
 	 * Defaults to true. Note that this property only affects the summary report
 	 * that is enabled when {@link report} is 'summary'.
-	 * @since 1.0.6
 	 */
 	public $groupByToken=true;
 	/**

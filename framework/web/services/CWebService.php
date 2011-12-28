@@ -51,7 +51,6 @@ class CWebService extends CComponent
 	 * @var string the ID of the cache application component that is used to cache the generated WSDL.
 	 * Defaults to 'cache' which refers to the primary cache application component.
 	 * Set this property to false if you want to disable caching WSDL.
-	 * @since 1.0.10
 	 */
 	public $cacheID='cache';
 	/**
@@ -252,7 +251,6 @@ class CWebService extends CComponent
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.services
- * @since 1.0.5
  */
 class CSoapObjectWrapper
 {

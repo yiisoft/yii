@@ -139,7 +139,6 @@ class CDbConnection extends CApplicationComponent
 	 * @var string the ID of the cache application component that is used to cache the table metadata.
 	 * Defaults to 'cache' which refers to the primary cache application component.
 	 * Set this property to false if you want to disable caching table metadata.
-	 * @since 1.0.10
 	 */
 	public $schemaCacheID='cache';
 	/**
@@ -209,14 +208,12 @@ class CDbConnection extends CApplicationComponent
 	 * so that parameter values bound to SQL statements are logged for debugging purpose.
 	 * You should be aware that logging parameter values could be expensive and have significant
 	 * impact on the performance of your application.
-	 * @since 1.0.5
 	 */
 	public $enableParamLogging=false;
 	/**
 	 * @var boolean whether to enable profiling the SQL statements being executed.
 	 * Defaults to false. This should be mainly enabled and used during development
 	 * to find out the bottleneck of SQL executions.
-	 * @since 1.0.6
 	 */
 	public $enableProfiling=false;
 	/**
@@ -411,7 +408,6 @@ class CDbConnection extends CApplicationComponent
 	 * When some functionalities are missing in the pdo driver, we may use
 	 * an adapter class to provides them.
 	 * @return PDO the pdo instance
-	 * @since 1.0.4
 	 */
 	protected function createPdoInstance()
 	{
@@ -521,7 +517,6 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Returns the SQL command builder for the current DB connection.
 	 * @return CDbCommandBuilder the command builder
-	 * @since 1.0.4
 	 */
 	public function getCommandBuilder()
 	{
@@ -799,7 +794,6 @@ class CDbConnection extends CApplicationComponent
 	 * In order to use this method, {@link enableProfiling} has to be set true.
 	 * @return array the first element indicates the number of SQL statements executed,
 	 * and the second element the total time spent in SQL execution.
-	 * @since 1.0.6
 	 */
 	public function getStats()
 	{

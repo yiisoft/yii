@@ -101,14 +101,13 @@ class COutputCache extends CFilterWidget
 	 * @var string a PHP expression whose result is used in the cache key calculation.
 	 * By setting this property, the output cache will use different cached data
 	 * for each different expression result.
-	 * Starting from version 1.0.11, the expression can also be a valid PHP callback,
+	 * The expression can also be a valid PHP callback,
 	 * including class method name (array(ClassName/Object, MethodName)),
 	 * or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:
 	 * <pre>
 	 * function foo($cache) { ... }
 	 * </pre>
 	 * where $cache refers to the output cache component.
-	 * @since 1.0.4
 	 */
 	public $varyByExpression;
 	/**

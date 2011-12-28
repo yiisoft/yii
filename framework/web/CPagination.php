@@ -83,7 +83,6 @@ class CPagination extends CComponent
 	/**
 	 * @var array of parameters (name=>value) that should be used instead of GET when generating pagination URLs.
 	 * Defaults to null, meaning using the currently available GET parameters.
-	 * @since 1.0.9
 	 */
 	public $params;
 	/**
@@ -105,7 +104,6 @@ class CPagination extends CComponent
 	/**
 	 * Constructor.
 	 * @param integer $itemCount total number of items.
-	 * @since 1.0.1
 	 */
 	public function __construct($itemCount=0)
 	{
@@ -213,7 +211,6 @@ class CPagination extends CComponent
 	/**
 	 * Applies LIMIT and OFFSET to the specified query criteria.
 	 * @param CDbCriteria $criteria the query criteria that should be applied with the limit
-	 * @since 1.0.1
 	 */
 	public function applyLimit($criteria)
 	{

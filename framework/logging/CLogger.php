@@ -72,7 +72,6 @@ class CLogger extends CComponent
 	private $_categories;
 	/**
 	 * @var array the profiling results (category, token => time in seconds)
-	 * @since 1.0.6
 	 */
 	private $_timings;
 	/**
@@ -224,7 +223,6 @@ class CLogger extends CComponent
 	 * @param boolean $refresh whether to refresh the internal timing calculations. If false,
 	 * only the first time calling this method will the timings be calculated internally.
 	 * @return array the profiling results.
-	 * @since 1.0.6
 	 */
 	public function getProfilingResults($token=null,$category=null,$refresh=false)
 	{

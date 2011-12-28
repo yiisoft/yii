@@ -361,7 +361,6 @@ class CWebApplication extends CApplication
 	 * Parses a path info into an action ID and GET variables.
 	 * @param string $pathInfo path info
 	 * @return string action ID
-	 * @since 1.0.3
 	 */
 	protected function parseActionParams($pathInfo)
 	{
@@ -386,7 +385,6 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param CController $value the currently active controller
-	 * @since 1.0.6
 	 */
 	public function setController($value)
 	{
@@ -489,7 +487,6 @@ class CWebApplication extends CApplication
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
 	 * @return boolean whether the action should be executed.
-	 * @since 1.0.4
 	 */
 	public function beforeControllerAction($controller,$action)
 	{
@@ -503,7 +500,6 @@ class CWebApplication extends CApplication
 	 * after all controller actions.
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
-	 * @since 1.0.4
 	 */
 	public function afterControllerAction($controller,$action)
 	{
@@ -513,7 +509,6 @@ class CWebApplication extends CApplication
 	 * Do not call this method. This method is used internally to search for a module by its ID.
 	 * @param string $id module ID
 	 * @return CWebModule the module that has the specified ID. Null if no module is found.
-	 * @since 1.0.3
 	 */
 	public function findModule($id)
 	{

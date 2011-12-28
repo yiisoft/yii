@@ -284,7 +284,6 @@ abstract class CBaseController extends CComponent
 	 * If the controller belongs to a module, the default layout refers to the module's
 	 * {@link CWebModule::layout default layout}.
 	 * @param array $data the variables (name=>value) to be extracted and made available in the decorative view.
-	 * This parameter has been available since version 1.0.4
 	 * @see endContent
 	 * @see CContentDecorator
 	 */

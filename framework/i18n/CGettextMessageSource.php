@@ -41,7 +41,6 @@ class CGettextMessageSource extends CMessageSource
 	 * @var string the ID of the cache application component that is used to cache the messages.
 	 * Defaults to 'cache' which refers to the primary cache application component.
 	 * Set this property to false if you want to disable caching the messages.
-	 * @since 1.0.10
 	 */
 	public $cacheID='cache';
 	/**

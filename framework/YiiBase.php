@@ -121,7 +121,6 @@ class YiiBase
 	 * @param mixed $config application configuration. This parameter will be passed as the parameter
 	 * to the constructor of the application class.
 	 * @return mixed the application instance
-	 * @since 1.0.10
 	 */
 	public static function createApplication($class,$config=null)
 	{
@@ -175,8 +174,6 @@ class YiiBase
 	 *
 	 * Any additional parameters passed to this method will be
 	 * passed to the constructor of the object being created.
-	 *
-	 * NOTE: the array-typed configuration has been supported since version 1.0.1.
 	 *
 	 * @param mixed $config the configuration. It can be either a string or an array.
 	 * @return mixed the created object
@@ -546,7 +543,7 @@ class YiiBase
 
 	/**
 	 * Translates a message to the specified language.
-	 * Starting from version 1.0.2, this method supports choice format (see {@link CChoiceFormat}),
+	 * This method supports choice format (see {@link CChoiceFormat}),
 	 * i.e., the message returned will be chosen from a few candidates according to the given
 	 * number value. This feature is mainly used to solve plural format issue in case
 	 * a message has different plural forms in some languages.
@@ -555,7 +552,7 @@ class YiiBase
 	 * more interpretation about message category.
 	 * @param string $message the original message
 	 * @param array $params parameters to be applied to the message using <code>strtr</code>.
-	 * Starting from version 1.0.2, the first parameter can be a number without key.
+	 * The first parameter can be a number without key.
 	 * And in this case, the method will call {@link CChoiceFormat::format} to choose
 	 * an appropriate message translation.
 	 * Starting from version 1.1.6 you can pass parameter for {@link CChoiceFormat::format}
@@ -564,7 +561,6 @@ class YiiBase
 	 * Defaults to null, meaning using 'coreMessages' for messages belonging to
 	 * the 'yii' category and using 'messages' for the rest messages.
 	 * @param string $language the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
-	 * This parameter has been available since version 1.0.3.
 	 * @return string the translated message
 	 * @see CMessageSource
 	 */
@@ -612,7 +608,6 @@ class YiiBase
 	 * any other existing autoloaders.
 	 * @param callback $callback a valid PHP callback (function name or array($className,$methodName)).
 	 * @param boolean $append whether to append the new autoloader after the default Yii autoloader.
-	 * @since 1.0.10
 	 */
 	public static function registerAutoloader($callback, $append=false)
 	{

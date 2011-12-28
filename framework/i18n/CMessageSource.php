@@ -76,7 +76,6 @@ abstract class CMessageSource extends CApplicationComponent
 	 * @param string $category the message category
 	 * @param string $message the message to be translated
 	 * @param string $language the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
-	 * This parameter has been available since version 1.0.3.
 	 * @return string the translated message (or the original message if translation is not needed)
 	 */
 	public function translate($category,$message,$language=null)

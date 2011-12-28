@@ -36,7 +36,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns the list of attribute names of the model.
 	 * @return array list of attribute names.
-	 * @since 1.0.1
 	 */
 	abstract public function attributeNames();
 
@@ -107,7 +106,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 *
 	 * For more details about behaviors, see {@link CComponent}.
 	 * @return array the behavior configurations (behavior name=>behavior configuration)
-	 * @since 1.0.2
 	 */
 	public function behaviors()
 	{
@@ -206,7 +204,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * This event is raised after the model instance is created by new operator.
 	 * @param CEvent $event the event parameter
-	 * @since 1.0.2
 	 */
 	public function onAfterConstruct($event)
 	{
@@ -216,7 +213,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * This event is raised before the validation is performed.
 	 * @param CModelEvent $event the event parameter
-	 * @since 1.0.2
 	 */
 	public function onBeforeValidate($event)
 	{
@@ -226,7 +222,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * This event is raised after the validation is performed.
 	 * @param CEvent $event the event parameter
-	 * @since 1.0.2
 	 */
 	public function onAfterValidate($event)
 	{
@@ -257,7 +252,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @param string $attribute the name of the attribute whose validators should be returned.
 	 * If this is null, the validators for ALL attributes in the model will be returned.
 	 * @return array the validators applicable to the current {@link scenario}.
-	 * @since 1.0.1
 	 */
 	public function getValidators($attribute=null)
 	{
@@ -302,7 +296,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * {@link CRequiredValidator} validation rule in the current {@link scenario}.
 	 * @param string $attribute attribute name
 	 * @return boolean whether the attribute is required
-	 * @since 1.0.2
 	 */
 	public function isAttributeRequired($attribute)
 	{
@@ -372,7 +365,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Returns the first error of the specified attribute.
 	 * @param string $attribute attribute name.
 	 * @return string the error message. Null is returned if no error.
-	 * @since 1.0.2
 	 */
 	public function getError($attribute)
 	{
@@ -395,7 +387,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * The array values should be error messages. If an attribute has multiple errors,
 	 * these errors must be given in terms of an array.
 	 * You may use the result of {@link getErrors} as the value for this parameter.
-	 * @since 1.0.5
 	 */
 	public function addErrors($errors)
 	{
@@ -525,7 +516,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * attributes as unsafe and not allowed to be massively assigned.
 	 *
 	 * @return string the scenario that this model is in.
-	 * @since 1.0.4
 	 */
 	public function getScenario()
 	{
@@ -536,7 +526,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Sets the scenario for the model.
 	 * @param string $value the scenario that this model is in.
 	 * @see getScenario
-	 * @since 1.0.4
 	 */
 	public function setScenario($value)
 	{
@@ -547,7 +536,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Returns the attribute names that are safe to be massively assigned.
 	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
 	 * @return array safe attribute names
-	 * @since 1.0.2
 	 */
 	public function getSafeAttributeNames()
 	{
@@ -588,7 +576,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * This method is required by the interface ArrayAccess.
 	 * @param mixed $offset the offset to check on
 	 * @return boolean
-	 * @since 1.0.2
 	 */
 	public function offsetExists($offset)
 	{
@@ -600,7 +587,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * This method is required by the interface ArrayAccess.
 	 * @param integer $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
-	 * @since 1.0.2
 	 */
 	public function offsetGet($offset)
 	{
@@ -612,7 +598,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * This method is required by the interface ArrayAccess.
 	 * @param integer $offset the offset to set element
 	 * @param mixed $item the element value
-	 * @since 1.0.2
 	 */
 	public function offsetSet($offset,$item)
 	{
@@ -623,7 +608,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Unsets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
 	 * @param mixed $offset the offset to unset element
-	 * @since 1.0.2
 	 */
 	public function offsetUnset($offset)
 	{

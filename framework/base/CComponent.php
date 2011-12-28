@@ -66,7 +66,7 @@
  *
  * Both property names and event names are case-insensitive.
  *
- * Starting from version 1.0.2, CComponent supports behaviors. A behavior is an
+ * CComponent supports behaviors. A behavior is an
  * instance of {@link IBehavior} which is attached to a component. The methods of
  * the behavior can be invoked as if they belong to the component. Multiple behaviors
  * can be attached to the same component.
@@ -101,7 +101,7 @@ class CComponent
 	 * $handlers=$component->eventName;
 	 * </pre>
 	 * @param string $name the property name or event name
-	 * @return mixed the property value, event handlers attached to the event, or the named behavior (since version 1.0.2)
+	 * @return mixed the property value, event handlers attached to the event, or the named behavior
 	 * @throws CException if the property or event is not defined
 	 * @see __set
 	 */
@@ -181,7 +181,6 @@ class CComponent
 	 * to allow using isset() to detect if a component property is set or not.
 	 * @param string $name the property name or the event name
 	 * @return boolean
-	 * @since 1.0.1
 	 */
 	public function __isset($name)
 	{
@@ -213,7 +212,6 @@ class CComponent
 	 * @param string $name the property name or the event name
 	 * @throws CException if the property is read only.
 	 * @return mixed
-	 * @since 1.0.1
 	 */
 	public function __unset($name)
 	{
@@ -252,7 +250,6 @@ class CComponent
 	 * @param string $name the method name
 	 * @param array $parameters method parameters
 	 * @return mixed the method return value
-	 * @since 1.0.2
 	 */
 	public function __call($name,$parameters)
 	{
@@ -275,7 +272,6 @@ class CComponent
 	 * The name 'asa' stands for 'as a'.
 	 * @param string $behavior the behavior name
 	 * @return IBehavior the behavior object, or null if the behavior does not exist
-	 * @since 1.0.2
 	 */
 	public function asa($behavior)
 	{
@@ -295,7 +291,6 @@ class CComponent
 	 * )
 	 * </pre>
 	 * @param array $behaviors list of behaviors to be attached to the component
-	 * @since 1.0.2
 	 */
 	public function attachBehaviors($behaviors)
 	{
@@ -305,7 +300,6 @@ class CComponent
 
 	/**
 	 * Detaches all behaviors from the component.
-	 * @since 1.0.2
 	 */
 	public function detachBehaviors()
 	{
@@ -326,7 +320,6 @@ class CComponent
 	 * @param mixed $behavior the behavior configuration. This is passed as the first
 	 * parameter to {@link YiiBase::createComponent} to create the behavior object.
 	 * @return IBehavior the behavior object
-	 * @since 1.0.2
 	 */
 	public function attachBehavior($name,$behavior)
 	{
@@ -342,7 +335,6 @@ class CComponent
 	 * The behavior's {@link IBehavior::detach} method will be invoked.
 	 * @param string $name the behavior's name. It uniquely identifies the behavior.
 	 * @return IBehavior the detached behavior. Null if the behavior does not exist.
-	 * @since 1.0.2
 	 */
 	public function detachBehavior($name)
 	{
@@ -357,7 +349,6 @@ class CComponent
 
 	/**
 	 * Enables all behaviors attached to this component.
-	 * @since 1.0.2
 	 */
 	public function enableBehaviors()
 	{
@@ -370,7 +361,6 @@ class CComponent
 
 	/**
 	 * Disables all behaviors attached to this component.
-	 * @since 1.0.2
 	 */
 	public function disableBehaviors()
 	{
@@ -386,7 +376,6 @@ class CComponent
 	 * A behavior is only effective when it is enabled.
 	 * A behavior is enabled when first attached.
 	 * @param string $name the behavior's name. It uniquely identifies the behavior.
-	 * @since 1.0.2
 	 */
 	public function enableBehavior($name)
 	{
@@ -398,7 +387,6 @@ class CComponent
 	 * Disables an attached behavior.
 	 * A behavior is only effective when it is enabled.
 	 * @param string $name the behavior's name. It uniquely identifies the behavior.
-	 * @since 1.0.2
 	 */
 	public function disableBehavior($name)
 	{

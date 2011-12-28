@@ -42,7 +42,6 @@ class CContentDecorator extends COutputProcessor
 	public $view;
 	/**
 	 * @var array the variables (name=>value) to be extracted and made available in the decorative view.
-	 * @since 1.0.4
 	 */
 	public $data=array();
 

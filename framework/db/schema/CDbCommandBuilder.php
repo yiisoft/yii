@@ -410,7 +410,6 @@ class CDbCommandBuilder extends CComponent
 	 * @param string $sql SQL query string without HAVING
 	 * @param string $having HAVING
 	 * @return string SQL with HAVING
-	 * @since 1.0.1
 	 */
 	public function applyHaving($sql,$having)
 	{
@@ -590,8 +589,7 @@ class CDbCommandBuilder extends CComponent
 	 * @param array $columns list of column names for potential search condition.
 	 * @param mixed $keywords search keywords. This can be either a string with space-separated keywords or an array of keywords.
 	 * @param string $prefix optional column prefix (with dot at the end). If null, the table name will be used as the prefix.
-	 * @param boolean $caseSensitive whether the search is case-sensitive. Defaults to true. This parameter
-	 * has been available since version 1.0.4.
+	 * @param boolean $caseSensitive whether the search is case-sensitive. Defaults to true.
 	 * @return string SQL search condition matching on a set of columns. An empty string is returned
 	 * if either the column array or the keywords are empty.
 	 */
@@ -632,7 +630,6 @@ class CDbCommandBuilder extends CComponent
 	 * @param array $values list of key values to be selected within
 	 * @param string $prefix column prefix (ended with dot). If null, it will be the table name
 	 * @return string the expression for selection
-	 * @since 1.0.4
 	 */
 	public function createInCondition($table,$columnName,$values,$prefix=null)
 	{
@@ -710,7 +707,6 @@ class CDbCommandBuilder extends CComponent
 	 * @param array $values list of primary key values to be selected within
 	 * @param string $prefix column prefix (ended with dot)
 	 * @return string the expression for selection
-	 * @since 1.0.4
 	 */
 	protected function createCompositeInCondition($table,$values,$prefix)
 	{
@@ -729,7 +725,6 @@ class CDbCommandBuilder extends CComponent
 	 * @param mixed $table table schema ({@link CDbTableSchema}) or table name (string).
 	 * If this refers to a valid table name, this parameter will be returned with the corresponding table schema.
 	 * @throws CDbException if the table name is not valid
-	 * @since 1.0.4
 	 */
 	protected function ensureTable(&$table)
 	{

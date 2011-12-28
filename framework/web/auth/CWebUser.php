@@ -84,7 +84,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @var array the property values (in name-value pairs) used to initialize the identity cookie.
 	 * Any property of {@link CHttpCookie} may be initialized.
 	 * This property is effective only when {@link allowAutoLogin} is true.
-	 * @since 1.0.5
 	 */
 	public $identityCookie;
 	/**
@@ -133,7 +132,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * This method is overriden so that persistent states can be accessed like properties.
 	 * @param string $name property name
 	 * @return mixed property value
-	 * @since 1.0.3
 	 */
 	public function __get($name)
 	{
@@ -148,7 +146,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * This method is overriden so that persistent states can be set like properties.
 	 * @param string $name property name
 	 * @param mixed $value property value
-	 * @since 1.0.3
 	 */
 	public function __set($name,$value)
 	{
@@ -163,7 +160,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * This method is overriden so that persistent states can also be checked for null value.
 	 * @param string $name property name
 	 * @return boolean
-	 * @since 1.0.3
 	 */
 	public function __isset($name)
 	{
@@ -178,7 +174,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * This method is overriden so that persistent states can also be unset.
 	 * @param string $name property name
 	 * @throws CException if the property is read only.
-	 * @since 1.0.3
 	 */
 	public function __unset($name)
 	{
@@ -252,8 +247,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * If the parameter is true, the whole session will be destroyed as well.
 	 * @param boolean $destroySession whether to destroy the whole session. Defaults to true. If false,
 	 * then {@link clearStates} will be called, which removes only the data stored via {@link setState}.
-	 * This parameter has been available since version 1.0.7. Before 1.0.7, the behavior
-	 * is to destroy the whole session.
 	 */
 	public function logout($destroySession=true)
 	{
@@ -514,7 +507,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * Creates a cookie to store identity information.
 	 * @param string $name the cookie name
 	 * @return CHttpCookie the cookie used to store identity information
-	 * @since 1.0.5
 	 */
 	protected function createIdentityCookie($name)
 	{
@@ -540,7 +532,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * @param string $value a prefix for the name of the session variables storing user session data.
-	 * @since 1.0.9
 	 */
 	public function setStateKeyPrefix($value)
 	{
@@ -595,7 +586,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * Returns a value indicating whether there is a state of the specified name.
 	 * @param string $key state name
 	 * @return boolean whether there is a state of the specified name.
-	 * @since 1.0.3
 	 */
 	public function hasState($key)
 	{
@@ -653,7 +643,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param string $key key identifying the flash message
 	 * @param mixed $defaultValue value to be returned if the flash message is not available.
 	 * @param boolean $delete whether to delete this flash message after accessing it.
-	 * Defaults to true. This parameter has been available since version 1.0.2.
+	 * Defaults to true.
 	 * @return mixed the message message
 	 */
 	public function getFlash($key,$defaultValue=null,$delete=true)
@@ -788,7 +778,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param array $params name-value pairs that would be passed to business rules associated
 	 * with the tasks and roles assigned to the user.
 	 * @param boolean $allowCaching whether to allow caching the result of access check.
-	 * This parameter has been available since version 1.0.5. When this parameter
+	 * When this parameter
 	 * is true (default), if the access check of an operation was performed before,
 	 * its result will be directly returned when calling this method to check the same operation.
 	 * If this parameter is false, this method will always call {@link CAuthManager::checkAccess}

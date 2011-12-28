@@ -33,7 +33,6 @@ class CDbCriteria extends CComponent
 	/**
 	 * @var boolean whether to select distinct rows of data only. If this is set true,
 	 * the SELECT clause would be changed to SELECT DISTINCT.
-	 * @since 1.0.9
 	 */
 	public $distinct=false;
 	/**
@@ -71,7 +70,6 @@ class CDbCriteria extends CComponent
 	/**
 	 * @var string the condition to be applied with GROUP-BY clause.
 	 * For example, <code>'SUM(revenue)<50000'</code>.
-	 * @since 1.0.1
 	 */
 	public $having='';
 	/**
@@ -184,7 +182,6 @@ class CDbCriteria extends CComponent
 	 * @param mixed $condition the new condition. It can be either a string or an array of strings.
 	 * @param string $operator the operator to join different conditions. Defaults to 'AND'.
 	 * @return CDbCriteria the criteria object itself
-	 * @since 1.0.9
 	 */
 	public function addCondition($condition,$operator='AND')
 	{
@@ -218,7 +215,6 @@ class CDbCriteria extends CComponent
 	 * Defaults to 'AND'.
 	 * @param string $like the LIKE operator. Defaults to 'LIKE'. You may also set this to be 'NOT LIKE'.
 	 * @return CDbCriteria the criteria object itself
-	 * @since 1.0.10
 	 */
 	public function addSearchCondition($column,$keyword,$escape=true,$operator='AND',$like='LIKE')
 	{
@@ -242,7 +238,6 @@ class CDbCriteria extends CComponent
 	 * @param string $operator the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
 	 * @return CDbCriteria the criteria object itself
-	 * @since 1.0.10
 	 */
 	public function addInCondition($column,$values,$operator='AND')
 	{
@@ -317,7 +312,6 @@ class CDbCriteria extends CComponent
 	 * @param string $operator the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
 	 * @return CDbCriteria the criteria object itself
-	 * @since 1.0.10
 	 */
 	public function addColumnCondition($columns,$columnOperator='AND',$operator='AND')
 	{
@@ -459,9 +453,7 @@ class CDbCriteria extends CComponent
 	 * two options cannot be merged (e.g. LIMIT, OFFSET).
 	 * @param mixed $criteria the criteria to be merged with. Either an array or CDbCriteria.
 	 * @param boolean $useAnd whether to use 'AND' to merge condition and having options.
-	 * If false, 'OR' will be used instead. Defaults to 'AND'. This parameter has been
-	 * available since version 1.0.6.
-	 * @since 1.0.5
+	 * If false, 'OR' will be used instead. Defaults to 'AND'.
 	 */
 	public function mergeWith($criteria,$useAnd=true)
 	{
@@ -604,7 +596,6 @@ class CDbCriteria extends CComponent
 
 	/**
 	 * @return array the array representation of the criteria
-	 * @since 1.0.6
 	 */
 	public function toArray()
 	{

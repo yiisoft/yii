@@ -30,7 +30,6 @@ abstract class CApplicationComponent extends CComponent implements IApplicationC
 	 * @var array the behaviors that should be attached to this component.
 	 * The behaviors will be attached to the component when {@link init} is called.
 	 * Please refer to {@link CModel::behaviors} on how to specify the value of this property.
-	 * @since 1.0.2
 	 */
 	public $behaviors=array();
 

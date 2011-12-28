@@ -213,7 +213,6 @@ class CLocale extends CComponent
 	 * @param string $width month name width. It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param boolean $standAlone whether the month names should be returned in stand-alone format
 	 * @return array month names indexed by month values (1-12)
-	 * @since 1.0.9
 	 */
 	public function getMonthNames($width='wide',$standAlone=false)
 	{
@@ -242,7 +241,6 @@ class CLocale extends CComponent
 	 * @param string $width weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param boolean $standAlone whether the week day name should be returned in stand-alone format
 	 * @return array the weekday names indexed by weekday values (0-6, 0 means Sunday, 1 Monday, etc.)
-	 * @since 1.0.9
 	 */
 	public function getWeekDayNames($width='wide',$standAlone=false)
 	{

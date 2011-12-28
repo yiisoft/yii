@@ -54,7 +54,6 @@ class CClientScript extends CApplicationComponent
 	 *
 	 * This property is mainly used to optimize the generated HTML pages
 	 * by merging different scripts files into fewer and optimized script files.
-	 * @since 1.0.3
 	 */
 	public $scriptMap=array();
 	/**
@@ -117,17 +116,14 @@ class CClientScript extends CApplicationComponent
 	public $corePackages;
 	/**
 	 * @var array the registered CSS files (CSS URL=>media type).
-	 * @since 1.0.4
 	 */
 	protected $cssFiles=array();
 	/**
 	 * @var array the registered JavaScript files (position, key => URL)
-	 * @since 1.0.4
 	 */
 	protected $scriptFiles=array();
 	/**
 	 * @var array the registered JavaScript code blocks (position, key => code)
-	 * @since 1.0.5
 	 */
 	protected $scripts=array();
 	/**
@@ -246,7 +242,6 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Uses {@link scriptMap} to re-map the registered scripts.
-	 * @since 1.0.3
 	 */
 	protected function remapScripts()
 	{
@@ -295,7 +290,6 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Renders the specified core javascript library.
-	 * @since 1.0.3
 	 */
 	public function renderCoreScripts()
 	{
@@ -633,7 +627,6 @@ class CClientScript extends CApplicationComponent
 	 * @param string $httpEquiv http-equiv attribute of the meta tag. If null, the attribute will not be generated
 	 * @param array $options other options in name-value pairs (e.g. 'scheme', 'lang')
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
-	 * @since 1.0.1
 	 */
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
 	{
@@ -657,7 +650,6 @@ class CClientScript extends CApplicationComponent
 	 * @param string $media media attribute of the link tag. If null, the attribute will not be generated.
 	 * @param array $options other options in name-value pairs
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
-	 * @since 1.0.1
 	 */
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
 	{
@@ -739,7 +731,6 @@ class CClientScript extends CApplicationComponent
 	 * @param string $method the method name
 	 * @param array $params parameters passed to the method
 	 * @see COutputCache
-	 * @since 1.0.5
 	 */
 	protected function recordCachingAction($context,$method,$params)
 	{

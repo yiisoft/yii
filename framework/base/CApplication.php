@@ -325,7 +325,6 @@ abstract class CApplication extends CModule
 	 * This is a simple wrapper of PHP function date_default_timezone_get().
 	 * @return string the time zone used by this application.
 	 * @see http://php.net/manual/en/function.date-default-timezone-get.php
-	 * @since 1.0.9
 	 */
 	public function getTimeZone()
 	{
@@ -337,7 +336,6 @@ abstract class CApplication extends CModule
 	 * This is a simple wrapper of PHP function date_default_timezone_set().
 	 * @param string $value the time zone used by this application.
 	 * @see http://php.net/manual/en/function.date-default-timezone-set.php
-	 * @since 1.0.9
 	 */
 	public function setTimeZone($value)
 	{
@@ -547,7 +545,6 @@ abstract class CApplication extends CModule
 	 * Returns the relative URL for the application.
 	 * This is a shortcut method to {@link CHttpRequest::getBaseUrl()}.
 	 * @param boolean $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
-	 * This parameter has been available since 1.0.2.
 	 * @return string the relative URL for the application
 	 * @see CHttpRequest::getBaseUrl()
 	 */
