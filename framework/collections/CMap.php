@@ -273,7 +273,8 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * For integer-keyed elements, the elements from the latter array will
 	 * be appended to the former array.
 	 * @param array $a array to be merged to
-	 * @param array $b,... one or more arrays to be merged from
+	 * @param array $b array to be merged from. You can specifiy additional
+	 * arrays via third argument, fourth argument etc.
 	 * @return array the merged array (the original arrays are not changed.)
 	 * @see mergeWith
 	 */

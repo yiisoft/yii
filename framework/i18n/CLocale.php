@@ -403,9 +403,11 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param string $id Unicode language identifier from IETF BCP 47. For example, the code "en_US" represents U.S. English and "en_GB" represents British English.
-	 * @param string $category
-	 * @return string the local display name for the language. Null if the language code does not exist.
+	 * Gets a localized name from i18n data file (one of framework/i18n/data/ files).
+	 *
+	 * @param string $id array key from an array named by $category.
+	 * @param string $category data category. One of 'languages', 'scripts' or 'territories'.
+	 * @return string the localized name for the id specified. Null if data does not exist.
 	 * @since 1.1.9
 	 */
 	public function getLocaleDisplayName($id=null, $category='languages')
