@@ -151,7 +151,6 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $name the GET parameter name
 	 * @param mixed $defaultValue the default parameter value if the GET parameter does not exist.
 	 * @return mixed the GET parameter value
-	 * @since 1.0.4
 	 * @see getQuery
 	 * @see getPost
 	 */
@@ -166,7 +165,6 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $name the GET parameter name
 	 * @param mixed $defaultValue the default parameter value if the GET parameter does not exist.
 	 * @return mixed the GET parameter value
-	 * @since 1.0.4
 	 * @see getPost
 	 * @see getParam
 	 */
@@ -181,7 +179,6 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $name the POST parameter name
 	 * @param mixed $defaultValue the default parameter value if the POST parameter does not exist.
 	 * @return mixed the POST parameter value
-	 * @since 1.0.4
 	 * @see getParam
 	 * @see getQuery
 	 */
@@ -309,7 +306,6 @@ class CHttpRequest extends CApplicationComponent
 	 * This is similar to {@link getScriptUrl scriptUrl} except that
 	 * it does not have the script file name, and the ending slashes are stripped off.
 	 * @param boolean $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
-	 * This parameter has been available since 1.0.2.
 	 * @return string the relative URL for the application
 	 * @see setScriptUrl
 	 */
@@ -444,7 +440,6 @@ class CHttpRequest extends CApplicationComponent
 	 * The implementation of this method referenced Zend_Controller_Request_Http in Zend Framework.
 	 * @return string the request URI portion for the currently requested URL.
 	 * @throws CException if the request URI cannot be determined due to improper server configuration
-	 * @since 1.0.1
 	 */
 	public function getRequestUri()
 	{
@@ -711,7 +706,7 @@ class CHttpRequest extends CApplicationComponent
 	 * the application will be inserted at the beginning.
 	 * @param boolean $terminate whether to terminate the current application
 	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
-	 * for details about HTTP status code. This parameter has been available since version 1.0.4.
+	 * for details about HTTP status code.
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
 	{
@@ -913,7 +908,6 @@ class CHttpRequest extends CApplicationComponent
 	 * from a cookie and from a POST field. If they are different, a CSRF attack is detected.
 	 * @param CEvent $event event parameter
 	 * @throws CHttpException if the validation fails
-	 * @since 1.0.4
 	 */
 	public function validateCsrfToken($event)
 	{

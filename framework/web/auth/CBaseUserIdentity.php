@@ -124,7 +124,6 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	/**
 	 * Removes the specified state.
 	 * @param string $name the name of the state
-	 * @since 1.0.8
 	 */
 	public function clearState($name)
 	{

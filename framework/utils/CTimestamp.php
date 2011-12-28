@@ -198,7 +198,6 @@ class CTimestamp
 	 * @param integer $s second
 	 * @param boolean $hs24 whether the hours should be 0 through 23 (default) or 1 through 12.
 	 * @return boolean true if valid date, semantic check only.
-	 * @since 1.0.5
 	 */
 	public static function isValidTime($h,$m,$s,$hs24=true)
 	{

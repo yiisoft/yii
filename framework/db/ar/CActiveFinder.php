@@ -24,13 +24,11 @@ class CActiveFinder extends CComponent
 	/**
 	 * @var boolean join all tables all at once. Defaults to false.
 	 * This property is internally used.
-	 * @since 1.0.2
 	 */
 	public $joinAll=false;
 	/**
 	 * @var boolean whether the base model has limit or offset.
 	 * This property is internally used.
-	 * @since 1.0.2
 	 */
 	public $baseLimited=false;
 
@@ -357,7 +355,6 @@ class CJoinElement
 	public $children=array();
 	/**
 	 * @var array list of stat elements
-	 * @since 1.0.4
 	 */
 	public $stats=array();
 	/**
@@ -737,7 +734,6 @@ class CJoinElement
 	 * Count the number of primary records returned by the join statement.
 	 * @param CDbCriteria $criteria the query criteria
 	 * @return string number of primary records. Note: type is string to keep max. precision.
-	 * @since 1.0.3
 	 */
 	public function count($criteria=null)
 	{
@@ -769,7 +765,6 @@ class CJoinElement
 	/**
 	 * Calls {@link CActiveRecord::beforeFind}.
 	 * @param boolean $isChild whether is called for a child
-	 * @since 1.0.11
 	 */
 	public function beforeFind($isChild=true)
 	{
@@ -782,7 +777,6 @@ class CJoinElement
 
 	/**
 	 * Calls {@link CActiveRecord::afterFind} of all the records.
-	 * @since 1.0.3
 	 */
 	public function afterFind()
 	{
@@ -1222,7 +1216,6 @@ class CJoinQuery
 	public $selects=array();
 	/**
 	 * @var boolean whether to select distinct result set
-	 * @since 1.0.9
 	 */
 	public $distinct=false;
 	/**
@@ -1372,7 +1365,6 @@ class CJoinQuery
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db.ar
- * @since 1.0.4
  */
 class CStatElement
 {

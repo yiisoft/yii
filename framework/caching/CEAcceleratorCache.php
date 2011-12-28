@@ -21,7 +21,6 @@
  * @author Steffen Dietz <steffo.dietz[at]googlemail[dot]com>
  * @version $Id$
  * @package system.caching
- * @since 1.0.4
  */
 class CEAcceleratorCache extends CCache
 {

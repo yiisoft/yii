@@ -98,7 +98,6 @@ class CMultiFileUpload extends CInputWidget
 
 	/**
 	 * Registers the needed CSS and JavaScript.
-	 * @since 1.0.1
 	 */
 	public function registerClientScript()
 	{

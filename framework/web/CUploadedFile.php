@@ -176,7 +176,6 @@ class CUploadedFile extends CComponent
 	 * This is PHP magic method that returns string representation of an object.
 	 * The implementation here returns the uploaded file's name.
 	 * @return string the string representation of the object
-	 * @since 1.0.2
 	 */
 	public function __toString()
 	{

@@ -21,7 +21,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.logging
- * @since 1.0.6
  */
 class CLogFilter extends CComponent
 {

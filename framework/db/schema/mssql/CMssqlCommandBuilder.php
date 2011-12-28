@@ -18,7 +18,6 @@
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version $Id$
  * @package system.db.schema.mssql
- * @since 1.0.4
  */
 class CMssqlCommandBuilder extends CDbCommandBuilder
 {
@@ -322,7 +321,6 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * @param array $values list of primary key values to be selected within
 	 * @param string $prefix column prefix (ended with dot)
 	 * @return string the expression for selection
-	 * @since 1.0.4
 	 */
 	protected function createCompositeInCondition($table,$values,$prefix)
 	{

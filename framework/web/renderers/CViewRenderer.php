@@ -44,7 +44,6 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 	public $filePermission=0755;
 	/**
 	 * @var string the extension name of the view file. Defaults to '.php'.
-	 * @since 1.0.9
 	 */
 	public $fileExtension='.php';
 

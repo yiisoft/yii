@@ -56,7 +56,6 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	 * it with a biz rule which checks if the current user is authenticated.
 	 * And then declare 'authenticated' in this property so that it can be applied to
 	 * every authenticated user.
-	 * @since 1.0.3
 	 */
 	public $defaultRoles=array();
 

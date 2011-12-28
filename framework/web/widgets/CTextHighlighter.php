@@ -105,7 +105,6 @@ class CTextHighlighter extends COutputProcessor
 
 	/**
 	 * Registers the needed CSS and JavaScript.
-	 * @since 1.0.1
 	 */
 	public function registerClientScript()
 	{
@@ -116,7 +115,6 @@ class CTextHighlighter extends COutputProcessor
 	/**
 	 * Registers the needed CSS file.
 	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
-	 * @since 1.0.2
 	 */
 	public static function registerCssFile($url=null)
 	{

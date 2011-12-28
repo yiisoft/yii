@@ -23,7 +23,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators
- * @since 1.0.10
  */
 class CBooleanValidator extends CValidator
 {

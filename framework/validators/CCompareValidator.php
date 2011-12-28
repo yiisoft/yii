@@ -20,7 +20,7 @@
  *
  * The comparison can be either {@link strict} or not.
  *
- * Starting from version 1.0.8, CCompareValidator supports different comparison operators.
+ * CCompareValidator supports different comparison operators.
  * Previously, it only compares to see if two values are equal or not.
  *
  * When using the {@link message} property to define a custom error message, the message
@@ -69,7 +69,6 @@ class CCompareValidator extends CValidator
 	 * <li>'<': validates to see if the value being validated is less than the value being compared with.</li>
 	 * <li>'<=': validates to see if the value being validated is less than or equal to the value being compared with.</li>
 	 * </ul>
-	 * @since 1.0.8
 	 */
 	public $operator='=';
 

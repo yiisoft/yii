@@ -82,7 +82,6 @@ class CSqliteSchema extends CDbSchema
 	 * Returns all table names in the database.
 	 * @param string $schema the schema of the tables. This is not used for sqlite database.
 	 * @return array all table names in the database.
-	 * @since 1.0.2
 	 */
 	protected function findTableNames($schema='')
 	{
