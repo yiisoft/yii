@@ -199,7 +199,7 @@ class CComponent
 			foreach($this->_m as $object)
 			{
 				if($object->getEnabled() && (property_exists($object,$name) || $object->canGetProperty($name)))
-					return true;
+					return $object->$name!==null;
 			}
 		}
 		return false;

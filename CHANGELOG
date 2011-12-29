@@ -34,6 +34,7 @@ Version 1.1.9 work in progress
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
 - Chg #2647: Fixed inconvenient way of defining through relation (creocoder, Sam Dark)
 - Chg #2951: Removed CConfiguration::createObject, CController::paginate and CHtml::getActiveId deprecated since 1.0.x (Sam Dark)
+- Chg #3054: CComponent::__isset properly checks for null values (mdomba)
 - Enh #2029: Added scope support to Model::relations() (creocoder, Sam Dark)
 - Enh #2129: Added Monospace font as a fallback for source code on the exception view page (mdomba)
 - Enh #2231: Added CMenu::itemCssClass for the possibility to assign one CSS class to all menu items (mdomba)
