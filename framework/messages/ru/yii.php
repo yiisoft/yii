@@ -19,9 +19,7 @@
  * @version $Id: $
  */
 return array (
-  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Не удалось присвоить небезопасный атрибут "{attribute}" класса "{class}".',
-  'Failed to start session.' => 'Не удалось запустить сессию.',
-  '{class} and its behaviors do not have a method or closure named "{name}".' => 'В классе {class} и его поведениях не найден метод или замыкание с именем "{name}".',
+  'Powered by {yii}.' => 'Создано на {yii}.',
   '"{path}" is not a valid directory.' => 'Путь "{path}" не является правильной директорией.',
   '&lt; Previous' => '&lt; Предыдущая',
   '&lt;&lt; First' => '&lt;&lt; Первая',
@@ -104,6 +102,8 @@ return array (
   'Event "{class}.{event}" is not defined.' => 'Событие "{class}.{event}" не определено.',
   'Extension path "{path}" does not exist.' => 'Путь расширения "{path}" не существует.',
   'Failed to initialize the mcrypt module.' => 'Не удалось инициализировать модуль mcrypt.',
+  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Не удалось присвоить небезопасный атрибут "{attribute}" класса "{class}".',
+  'Failed to start session.' => 'Не удалось запустить сессию.',
   'Failed to write the uploaded file "{file}" to disk.' => 'Не удалось записать загруженный файл "{file}" на диск.',
   'File upload was stopped by extension.' => 'Загрузка файла прервана расширением.',
   'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => 'Фильтр "{filter}" неверный. Контроллер "{class}" не содержит метода "filter{filter}".',
@@ -212,7 +212,6 @@ return array (
   'Yii application can only be created once.' => 'Приложение Yii может быть создано только один раз.',
   'You are not authorized to perform this action.' => 'У вас недостаточно прав для выполнения указанного действия.',
   'Your request is invalid.' => 'Некорректный запрос.',
-  'Your request is not valid.' => 'Обнаружена ошибка в вашем запросе.',
   '{attribute} "{value}" has already been taken.' => '{attribute} "{value}" уже занят.',
   '{attribute} "{value}" is invalid.' => '{attribute} "{value}" неверно.',
   '{attribute} cannot accept more than {limit} files.' => '{attribute} не может принять более {limit} файлов.',
@@ -243,6 +242,7 @@ return array (
   '{className} does not support flushValues() functionality.' => '{className} не поддерживает flushValues().',
   '{className} does not support get() functionality.' => 'Класс {className} не поддерживает функционал get().',
   '{className} does not support set() functionality.' => 'Класс {className} не поддерживает функционал set().',
+  '{class} and its behaviors do not have a method or closure named "{name}".' => 'В классе {class} и его поведениях не найден метод или замыкание с именем "{name}".',
   '{class} does not have relation "{name}".' => '{class} не содержит отношения "{name}".',
   '{class} does not support fetching all table names.' => '{class} не поддерживает выборку имён всех таблиц.',
   '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} содержит неверное правило проверки. Правило должно иметь имя и включать элементы для проверки.',
