@@ -132,6 +132,12 @@ class CMenu extends CWidget
 	 * @since 1.1.4
 	 */
 	public $lastItemCssClass;
+	/**
+	 * @var string the CSS class that will be assigned to every item.
+	 * Defaults to null, meaning no such CSS class will be assigned.
+	 * @since 1.1.9
+	 */
+	public $itemCssClass;
 
 	/**
 	 * Initializes the menu widget.
@@ -183,10 +189,12 @@ class CMenu extends CWidget
 			$class=array();
 			if($item['active'] && $this->activeCssClass!='')
 				$class[]=$this->activeCssClass;
-			if($count===1 && $this->firstItemCssClass!='')
+			if($count===1 && $this->firstItemCssClass!==null)
 				$class[]=$this->firstItemCssClass;
-			if($count===$n && $this->lastItemCssClass!='')
+			if($count===$n && $this->lastItemCssClass!==null)
 				$class[]=$this->lastItemCssClass;
+			if($this->itemCssClass!==null)
+				$class[]=$this->itemCssClass;
 			if($class!==array())
 			{
 				if(empty($options['class']))
