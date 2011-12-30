@@ -9,7 +9,7 @@
  * @since 1.1.1
  */
 
-;(function ($) {
+(function ($) {
 	/*
 	 * returns the value of the CActiveForm input field
 	 * performs additional checks to get proper values for checkbox / radiobutton / checkBoxList / radioButtonList
@@ -56,15 +56,15 @@
 					afterValidateAttribute : settings.afterValidateAttribute,
 					validatingCssClass : settings.validatingCssClass
 				});
-				this.value = getAFValue($('#' + this.inputID, $form));
+				this.value = getAFValue($form.find('#' + this.inputID));
 			});
-			$(this).data('settings', settings);
+			$form.data('settings', settings);
 
 			settings.submitting = false;  // whether it is waiting for ajax submission result
 			var validate = function (attribute) {
 				var changed = false;
 				$.each(settings.attributes, function () {
-					if (this.value !== getAFValue($('#' + this.inputID, $form))) {
+					if (this.value !== getAFValue($form.find('#' + this.inputID))) {
 						this.status = 2;
 						changed = true;
 					}
@@ -104,7 +104,7 @@
 
 			$.each(settings.attributes, function () {
 				if (this.validateOnChange) {
-					$('#' + this.inputID, $form).change(function () {
+					$form.find('#' + this.inputID).change(function () {
 						validate(this);
 					}).blur(function () {
 						if (this.status !== 2 && this.status !== 3) {
@@ -113,7 +113,7 @@
 					});
 				}
 				if (this.validateOnType) {
-					$('#' + this.inputID, $form).keyup(function () {
+					$form.find('#' + this.inputID).keyup(function () {
 						if (this.value !== getAFValue($(this))) {
 							validate(this);
 						}
@@ -178,7 +178,7 @@
 				setTimeout(function () {
 					$.each(settings.attributes, function () {
 						this.status = 0;
-						var $error = $('#' + this.errorID, $form),
+						var $error = $form.find('#' + this.errorID),
 							$container = $.fn.yiiactiveform.getInputContainer(this, $form);
 
 						$container.removeClass(
@@ -192,19 +192,18 @@
 						/*
 						 * without the setTimeout() we would get here the current entered value before the reset instead of the reseted value
 						 */
-						this.value = getAFValue($('#' + this.inputID, $form));
+						this.value = getAFValue($form.find('#' + this.inputID));
 					});
 					/*
 					 * If the form is submited (non ajax) with errors, labels and input gets the class 'error'
 					 */
-					$('label, input', $form).each(function () {
+					$form.find('label, input').each(function () {
 						$(this).removeClass('error');
 					});
-					$('#' + settings.summaryID + ' ul').html('');
-					$('#' + settings.summaryID).hide();
+					$('#' + settings.summaryID).hide().find('ul').html('');
 					//.. set to initial focus on reset
 					if (settings.focus !== undefined && !window.location.hash) {
-						$(settings.focus).focus();
+						$form.find(settings.focus).focus();
 					}
 				}, 1);
 			});
@@ -213,7 +212,7 @@
 			 * set to initial focus
 			 */
 			if (settings.focus !== undefined && !window.location.hash) {
-				$(settings.focus).focus();
+				$form.find(settings.focus).focus();
 			}
 		});
 	};
@@ -226,9 +225,9 @@
 	 */
 	$.fn.yiiactiveform.getInputContainer = function (attribute, form) {
 		if (attribute.inputContainer === undefined) {
-			return $('#' + attribute.inputID, form).closest('div');
+			return form.find('#' + attribute.inputID).closest('div');
 		} else {
-			return $(attribute.inputContainer).filter(':has("#' + attribute.inputID + '")');
+			return form.find(attribute.inputContainer).filter(':has("#' + attribute.inputID + '")');
 		}
 	};
 
@@ -242,7 +241,7 @@
 	$.fn.yiiactiveform.updateInput = function (attribute, messages, form) {
 		attribute.status = 1;
 		var hasError = messages !== null && $.isArray(messages[attribute.id]) && messages[attribute.id].length > 0,
-			$error = $('#' + attribute.errorID, form),
+			$error = form.find('#' + attribute.errorID),
 			$container = $.fn.yiiactiveform.getInputContainer(attribute, form);
 
 		$container.removeClass(
@@ -262,7 +261,7 @@
 			$error.toggle(hasError);
 		}
 
-		attribute.value = getAFValue($('#' + attribute.inputID, form));
+		attribute.value = getAFValue(form.find('#' + attribute.inputID));
 		return hasError;
 	};
 
@@ -284,8 +283,7 @@
 				});
 			}
 		});
-		$('#' + settings.summaryID + ' ul').html(content);
-		$('#' + settings.summaryID).toggle(content !== '');
+		$('#' + settings.summaryID).toggle(content !== '').find('ul').html(content);
 	};
 
 	/**
@@ -304,7 +302,7 @@
 			var value, 
 				msg = [];
 			if (this.clientValidation !== undefined && (settings.submitting || this.status === 2 || this.status === 3)) {
-				value = getAFValue($('#' + this.inputID, $form));
+				value = getAFValue($form.find('#' + this.inputID));
 				this.clientValidation(value, msg, this);
 				if (msg.length) {
 					messages[this.id] = msg;
