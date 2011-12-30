@@ -1,4 +1,4 @@
-	Relational Active Record
+Relational Active Record
 ========================
 
 We have already seen how to use Active Record (AR) to select data from a
@@ -106,7 +106,7 @@ class User extends CActiveRecord
 In this case, we should concatenate the names of the foreign key columns
 and separate them with commas or an array such as array('key1','key2').
 In case you need to specify custom PK->FK association you can define it as
-array('fk'=>'pk'). For composite keys it will be array('fk_c1'=>'pk_с1','fk_c2'=>'pk_c2').
+array('fk'=>'pk'). For composite keys it will be array('fk_c1'=>'pk_c1','fk_c2'=>'pk_c2').
 For `MANY_MANY` relationship type,
 the associative table name must also be specified in the foreign key. For
 example, the `categories` relationship in `Post` is specified with the
@@ -605,8 +605,8 @@ When using `through`, relation definition should look like the following:
 
 In the above `array('key1'=>'key2')`:
 
-  - `key1` is a key defined in `throughRelationName`.
-  - `key2` is a key defined in `ClassName`.
+  - `key1` is a key defined in relation specified in `through` (`posts` is this case).
+  - `key2` is a key defined in a model relation points to (`Comment` in this case).
 
 `through` can be used with both `HAS_ONE` and `HAS_MANY` relations.
 
