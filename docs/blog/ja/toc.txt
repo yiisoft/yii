@@ -18,7 +18,7 @@
 
 * コメントの管理
     - [Commentモデルのカスタマイズ](comment.model)
-    - [コメントの作成と修正](comment.create)
+    - [コメントの作成と表示](comment.create)
     - [コメントの管理](comment.admin)
 
 * ポートレット

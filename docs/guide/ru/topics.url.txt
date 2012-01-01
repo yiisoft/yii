@@ -328,7 +328,7 @@ RewriteRule . index.php
 выражениями, а не с базой данных.
 
 В данном случае можно реализовать новый класс правила URL, унаследовав [CBaseUrlRule],
-и использовать его в одном или нескольких правлах. Для приведённого выше примера
+и использовать его в одном или нескольких правилах. Для приведённого выше примера
 с продажей автомобилей подойдут следующие правила URL:
 
 ~~~
@@ -389,8 +389,8 @@ class CarUrlRule extends CBaseUrlRule
 Свой класс правила URL должен реализовать два абстрактных метода, объявленных в
 [CBaseUrlRule]:
 
-* [CBaseUrlRule::createUrl()|createUrl()]
-* [CBaseUrlRule::parseUrl()|parseUrl()]
+* [createUrl()|CBaseUrlRule::createUrl()]
+* [parseUrl()|CBaseUrlRule::parseUrl()]
 
 Кроме показанного выше типичного использования, свой класс URL может пригодиться
 и в других ситуациях. Например, можно реализовать класс правила, который будет
@@ -400,4 +400,4 @@ class CarUrlRule extends CBaseUrlRule
 Стоит отметить, что в этом случае правило с этим специальным классом должно
 указываться последним в списке.
 
-<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 3329 2011-06-28 08:31:35Z mdomba $</div>

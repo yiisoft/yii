@@ -1,0 +1,78 @@
+Konfiguracja Apache-a oraz Nginx-a
+===================================
+
+Apache
+------
+
+Yii jest gotowe do pracy z domyślną konfiguracją serwera Apache. Pliki .htaccess w folderach frameworku oraz aplikacji ograniczają dostęp do odpowiednich zasobów. W celu ukrycia pliku rozruchowego (zazwyczaj index.php) w adresie URL, możesz dodać następujące instrukcje mod_rewrite do pliku .htaccess w głównym katalogu lub konfiguracji wirtualnego hosta:
+
+~~~
+RewriteEngine on
+
+# jeśli katalog lub plik istnieją, użyj ich 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# w przecwinym przypadku przekaż do index.php
+RewriteRule . index.php
+~~~
+
+
+Nginx
+-----
+
+Możesz używać Yii z [Nginx-em](http://wiki.nginx.org/) i PHP z [FPM SAPI](http://php.net/install.fpm).
+Poniżej znajduje się przykładowa konfiguracja hosta. Definiuje ona plik rozruchowy i pozwala yii przechwytywać żądania prowadzące do nieistniejących plików, co pozwala nam posiadać ładnie wyglądające URLe.
+
+~~~
+server {
+    set $host_path "/www/mysite";
+    access_log  /www/mysite/log/access.log  main;
+
+    server_name  mysite;
+    root   $host_path/htdocs;
+    set $yii_bootstrap "index.php";
+
+    charset utf-8;
+
+    location / {
+        index  index.html $yii_bootstrap;
+        try_files $uri $uri/ $yii_bootstrap?$args;
+    }
+
+    location ~ ^/(protected|framework|nbproject|themes/\w+/views) {
+        deny  all;
+    }
+
+    #unikaj przetwarzania przez Yii wywołań do nieistniejących statycznych plików 
+    location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+        try_files $uri =404;
+    }
+
+    # przekaż skrypty PHP do serwera FastCGI nasłuchującego 127.0.0.1:9000
+    #
+    location ~ \.php {
+        fastcgi_split_path_info  ^(.+\.php)(.*)$;
+
+        #let yii catch the calls to unexising PHP files
+        set $fsn /$yii_bootstrap;
+        if (-f $document_root$fastcgi_script_name){
+            set $fsn $fastcgi_script_name;
+        }
+
+        fastcgi_pass   127.0.0.1:9000;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fsn;
+
+        #PATH_INFO and PATH_TRANSLATED can be omitted, but RFC 3875 specifies them for CGI
+        fastcgi_param  PATH_INFO        $fastcgi_path_info;
+        fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
+    }
+
+    location ~ /\.ht {
+        deny  all;
+    }
+}
+~~~
+Używając tej konfiguracji możesz ustawić cgi.fix_pathinfo=0 w pliku php.ini w celu uniknięcia wielu niepotrzebnych wywołań systemowych stat().
+
+<div class="revision">$Id: quickstart.apache-nginx-config.txt 3512 2011-12-27 16:50:03Z haertl.mike $</div>

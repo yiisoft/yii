@@ -19,8 +19,8 @@ Jika Anda tidak menginginkan Yii menangani error dan exception, Anda dapat mende
 constant `YII_ENABLE_ERROR_HANDLER` dan `YII_ENABLE_EXCEPTION_HANDLER` menjadi
 false dalam [skrip entri](/doc/guide/basics.entry).
 
-Standarnya, [errorHandler|CApplication::errorHandler] (atau
-[exceptionHandler|CApplication::exceptionHandler]) akan memunculkan event
+Secara default, [handlerError|CApplication::handleError] (atau
+[handleException|CApplication::handleException]) akan memunculkan event
 [onError|CApplication::onError] (atau event
 [onException|CApplication::onException]). Jika error (atau exception)
 tidak ditangani oleh pengendali event manapun, ia akan memanggil bantuan dari
@@ -37,12 +37,13 @@ Anda menggunakan sintaks berikut untuk memunculkan exception bila diperlukan:
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii mendefinisikan dua kelas exception: [CException] dan [CHttpException]. Kelas
-pertma adalah kelas exception generik, sementara kelas kedua mewakili exception
-yang harus ditampilkan kepada pengguna akhir. Kelas kedua juga membawa properti
-[statusCode|CHttpException::statusCode] yang mewakili kode status HTTP.
-Kelas exception menentukan bagaimana ia harus ditampilkan,
-kita akan menjelaskannya nanti.
+Yii mendefinisikan tiga kelas exception: [CException], [CDbException] dan 
+[CHttpException]. [CException] adalah kelas exception generik. [CDbException] 
+mewakiliki exception yang diakibatkan oleh operasi berhubungan dengan DB.
+[CHttpException] merupakan exception yang harus ditampilkan kepada pengguna akhir
+dan membawa  sebuah properti [statusCode|CHttpException::statusCode] mewakili status kode HTTP 
+Kelas exception menentukan bagaimana ia harus ditampilkan, 
+seperti yang akan dijelaskan nanti.
 
 > Tip: Memunculkan exception [CHttpException] adalah cara mudah pelaporan
 error yang disebabkan oleh error pengguna mengoperasikan. Sebagai contoh, jika pengguna menyediakan
@@ -156,4 +157,4 @@ akan menjadi `exception.ExceptionClassName` (untuk [CHttpException]
 kategori). Selanjutnya Anda dapat mengeksploitasi fitur [pencatatan](/doc/guide/topics.logging)
 untuk memonitor error yang terjadi selama eksekusi aplikasi.
 
-<div class="revision">$Id: topics.error.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3374 2011-08-05 23:01:19Z alexander.makarow $</div>

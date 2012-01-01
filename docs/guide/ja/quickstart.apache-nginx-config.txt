@@ -1,0 +1,80 @@
+Apache と Nginx の構成
+===================================
+
+Apache
+------
+
+Yii は、既定の構成の Apache ウェブサーバーで動作させることが出来ます。
+Yii の フレームワークのフォルダとアプリケーションのフォルダにある .htaccess ファイルが、保護されるべきリソースへのアクセスを制限します。
+URL からブートストラップファイル（通常は index.php）を隠すために、ドキュメントルートの .htaccess ファイルか、バーチャルホスト構成ファイルに、mod_rewrite の指示を追加することが出来ます。
+
+~~~
+RewriteEngine on
+
+# ディレクトリまたはファイルが存在する場合は、直接それを使う
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# それ以外は index.php に回送する
+RewriteRule . index.php
+~~~
+
+
+Nginx
+-----
+
+Yii は、[Nginx](http://wiki.nginx.org/) と PHP + [FPM SAPI](http://php.net/install.fpm) の組合せでも動作します。
+以下はホスト構成のサンプルです。ブートストラップファイルを定義し、存在しないファイルに対するすべてのリクエストを yii が捕捉するようにして、見栄えの良い URL を利用できるようにしています。
+
+~~~
+server {
+    set $host_path "/www/mysite";
+    access_log  /www/mysite/log/access.log  main;
+
+    server_name  mysite;
+    root   $host_path/htdocs;
+    set $yii_bootstrap "index.php";
+
+    charset utf-8;
+
+    location / {
+        index  index.html $yii_bootstrap;
+        try_files $uri $uri/ $yii_bootstrap?$args;
+    }
+
+    location ~ ^/(protected|framework|nbproject|themes/\w+/views) {
+        deny  all;
+    }
+
+    #存在しない静的ファイルの呼出しの yii による処理を避ける
+    location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+        try_files $uri =404;
+    }
+
+    # 127.0.0.1:9000 をリスンしている FastCGI サーバーに PHP スクリプトを渡す
+    #
+    location ~ \.php {
+        fastcgi_split_path_info  ^(.+\.php)(.*)$;
+
+        #let yii catch the calls to unexising PHP files
+        set $fsn /$yii_bootstrap;
+        if (-f $document_root$fastcgi_script_name){
+            set $fsn $fastcgi_script_name;
+        }
+
+        fastcgi_pass   127.0.0.1:9000;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fsn;
+
+        #PATH_INFO と PATH_TRANSLATED は省略可能だが、RFC 3875 では CGI に必要とされている
+        fastcgi_param  PATH_INFO        $fastcgi_path_info;
+        fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
+    }
+
+    location ~ /\.ht {
+        deny  all;
+    }
+}
+~~~
+この構成を使うと、php.ini で cgi.fix_pathinfo=0 を設定して、不要なシステム関数 stat() の呼出しの多くを回避することが出来ます。
+
+<div class="revision">$Id: quickstart.apache-nginx-config.txt 3512 2011-12-27 16:50:03Z haertl.mike $</div>

@@ -198,14 +198,14 @@ class PostController extends CController
 ~~~
 
 Zauważ, że dodaliśmy dwa parametry do metody akcji `actionCreate`.
-Nazwa tych parametrów musi taka sama jak parametry, których oczekujemy w zmiennej `$_GET`.
+Nazwa tych parametrów musi być taka sama jak parametry, których oczekujemy w zmiennej `$_GET`.
 Parametr języka `$language` przyjmie domyślną wartość `en` w przypadku, gdy żądanie nie zawiera 
-takiego parametru. Poniewać kategoria `$category` nie posiada wartości domyślnej
+takiego parametru. Ponieważ kategoria `$category` nie posiada wartości domyślnej
 jeśli żądanie nie zawiera parametru `category`, automatycznie zostanie wyrzucony 
 błąd [CHttpException] (o kodzie 404).
 
 Poczynając od wersji 1.1.5, Yii wspiera również wykrywanie typu tablicowego dla parametrów akcji.
-Odbywa się przy użyciu podpowiadania typów PHP o następującej składni:
+Odbywa się to przy użyciu podpowiadania typów PHP o następującej składni:
 
 ~~~
 [php]

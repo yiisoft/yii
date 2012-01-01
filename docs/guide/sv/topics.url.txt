@@ -418,8 +418,8 @@ class CarUrlRule extends CBaseUrlRule
 Den anpassade URL-klassen måste implementera de två abstrakta metoderna 
 deklarerade i [CBaseUrlRule]:
 
-* [CBaseUrlRule::createUrl()|createUrl()]
-* [CBaseUrlRule::parseUrl()|parseUrl()]
+* [createUrl()|CBaseUrlRule::createUrl()]
+* [parseUrl()|CBaseUrlRule::parseUrl()]
 
 Utöver ovanstående typiska användningssätt kan anpassade URL-regelklasser även 
 implementeras för många andra ändamål. Till exempel kan vi skriva en regelklass 
@@ -429,4 +429,4 @@ i utvecklingsfasen. Vi kan även skriva en regelklass som presenterar en speciel
 det aktuella anropet. Märk att i sådant fall måste regeln för denna specialklass 
 deklareras som sista regel.
 
-<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 3329 2011-06-28 08:31:35Z mdomba $</div>

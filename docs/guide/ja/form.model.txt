@@ -114,8 +114,8 @@ array('AttributeList', 'Validator', 'on'=>'ScenarioList', ... 追加のオプシ
 ~~~
 [php]
 /**
- * @param string 検証される属性の名前
- * @param array バリデーションルールで指定されたオプション
+ * @param string $attribute 検証される属性の名前
+ * @param array $params バリデーションルールで指定されたオプション
  */
 public function ValidatorName($attribute,$params) { ... }
 ~~~
@@ -355,4 +355,4 @@ public function rules()
 で見るように、モデルの中でラベルを定義すると、より早くフォームを作成でき、
 またより強力なフォームを作成することが出来るようになります。
 
-<div class="revision">$Id: form.model.txt 3160 2011-04-03 01:08:23Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3482 2011-12-13 09:41:36Z mdomba $</div>

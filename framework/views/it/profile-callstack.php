@@ -6,8 +6,8 @@
 		</th>
 	</tr>
 	<tr style="background-color: #ccc;">
-	    <th>Procedure</th>
-		<th>Time (s)</th>
+	    <th>Procedura</th>
+		<th>Tempo (s)</th>
 	</tr>
 <?php
 foreach($data as $index=>$entry)

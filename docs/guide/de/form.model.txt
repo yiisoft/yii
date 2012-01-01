@@ -116,8 +116,8 @@ aufweisen:
 ~~~
 [php]
 /**
- * @param string der Name des Attributs, das geprüft werden soll
- * @param array Optionen der Prüfregel 
+ * @param string $attribute der Name des Attributs, das geprüft werden soll
+ * @param array $params die für diese Prüfregel angegebenen Optionen
  */
 public function ValidatorName($attribute,$params) { ... }
 ~~~
@@ -377,4 +377,4 @@ können die Labels angepasst werden. Wie wir in den nächsten Abschnitten sehen
 werden, ermöglicht die Labeldefinition innerhalb des Models, die 
 zugehörigen Formulare schnell und effektiv zu erzeugen.
 
-<div class="revision">$Id: form.model.txt 3160 2011-04-03 01:08:23Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3482 2011-12-13 09:41:36Z mdomba $</div>

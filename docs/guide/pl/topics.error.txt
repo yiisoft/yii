@@ -35,9 +35,10 @@ Można użyć następującej składni aby zgłosić wyjątek, gdy nastąpi taka 
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii definiuje dwie klasy wyjątków: [CException] oraz [CHttpException]. Pierwsza  
-jest ogólną klasą wyjątków, druga zaś reprezentuje wyjątek, które powinien być 
-wyświetlony użytkownikowi końcowemu. Druga klasa posiada również właściwość 
+Yii definiuje trzy klasy wyjątków: [CException], [CDbException] oraz [CHttpException]. 
+[CException] jest ogólną klasą wyjątków. [CDbException] reprezentuje wyjątek powodowany
+przez pewne operacje związane z bazą danych. [CHttpException] reprezentuje wyjątek, który powinien być 
+wyświetlony użytkownikowi końcowemu. Przenosi on również właściwość 
 [statusCode|CHttpException::statusCode] reprezentującą kod statusu w HTTP. 
 Klasa wyjątku określa jak powinien być on wyświetlony, co wyjaśnimy w dalszej części.
 
@@ -145,4 +146,4 @@ kategorią będzie `exception.ExceptionClassName` (dla [CHttpException] jego
 Można więc wykorzystać tą funkcjonalność [logowania](/doc/guide/topics.logging)
 do monitorowania błędów powstałych podczas działania aplikacji.
 
-<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3374 2011-08-05 23:01:19Z alexander.makarow $</div>

@@ -625,9 +625,9 @@ $posts=Post::model()->published()->recently(3)->findAll();
 Jika kita tidak melengkapi parameter 3 di atas, secara standar kita akan mengambil 5 tulisan terbaru yang diterbitkan.
 
 
-### Standar  Scope
+### Default  Scope
 
-Kelas model dapat memiliki standar scope yang akan diterapkan untuk semua query (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak query atas konten situs, kita dapat mendefinisikan standar scope guna memecahkan masalah ini. Untuk melakukannya, kita meng-override metode [CActiveRecord::defaultScope] seperti berikut,
+Kelas model dapat memiliki default scope yang akan diterapkan untuk semua query (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak query atas konten situs, kita dapat mendefinisikan default scope guna memecahkan masalah ini. Untuk melakukannya, kita meng-override metode [CActiveRecord::defaultScope] seperti berikut,
 
 ~~~
 [php]
@@ -649,8 +649,7 @@ Sekarang, jika metode di bawah ini dipanggil, Yii akan secara otomatis menggunak
 $contents=Content::model()->findAll();
 ~~~
 
-Catatan bahwa standar scope hanya berlaku pada query `SELECT`. Scope diabaikan untuk query `INSERT`, `UPDATE` dan `DELETE`.
+> Catatan|Note: Default scope dan named scope hanya berlaku pada query `SELECT`. Mereka akan mengabaikan query `INSERT`, `UPDATE`, dan `DELETE`.
+> Juga, ketika mendeklarasikan scope (baik default maupun named), kelas AR tidak dapat digunakan untuk membuat query DB di dalam method yang mendeklarasikan scope.
 
-Juga perlu dicatat, bahwa mendeklarasikan sebuah scope, tidak ada query DB dibuat pada kelas AR bersangkutan.
-
-<div class="revision">$Id: database.ar.txt 3283 2011-06-16 13:18:13Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 3318 2011-06-24 21:40:34Z qiang.xue $</div>

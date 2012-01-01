@@ -9,6 +9,8 @@ Yiiを使ってブログシステムを作る
 このチュートリアルの読者は、前もってYiiについて知っている必要はありません。
 しかし、オブジェクト指向プログラミング(OOP)と、データベースについての基礎知識があれば、このチュートリアルを理解するよい助けになるでしょう。
 
+> Note|注意: このチュートリアルは、完全にステップ・バイ・ステップなガイドにはなっていません。エラーを修正したり、APIを調べたり、ガイドを読んだりしながら進めることになるでしょう。
+
 このチュートリアルは、[the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/)のもとでリリースされます。 
 
-<div class="revision">$Id: start.overview.txt 1677 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: start.overview.txt 3463 2011-11-25 19:22:38Z alexander.makarow $</div>

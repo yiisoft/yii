@@ -103,11 +103,13 @@ class User extends CActiveRecord
 
 > Info: Ett referensattribut kan vara sammansatt och bestå av två eller flera 
 kolumner. I det fallet skall namnen på kolumner som ingår i referensattributet 
-skrivas efter varandra, separerade av kommatecken. För samband av typen 
+skrivas efter varandra, separerade av kommatecken alternativt som en vektor 
+så som array('key1','key2'). I fallet att anpassade PK->FK associationer behöver 
+specificeras kan formatet array('fk'=>'pk') användas. För sammansatta nycklar 
+blir det array('fk_c1'=>'pk_c1','fk_c2'=>'pk_c2'). För samband av typen 
 `MANY_MANY` måste namnet på den assisterande tabellen också specificeras i 
 referensattributet. Till exempel, sambandet  `categories` i `Post` är 
 specificerat med referensattributet `tbl_post_category(post_id, category_id)`.
-
 Deklarationen av samband i en AR-klass lägger underförstått till en property i 
 klassen för varje samband. När en relationell fråga har utförts kommer den 
 motsvarande propertyn att innehålla den relaterade AR-instansen(-erna). Till 
@@ -214,7 +216,7 @@ $posts=Post::model()->findAll(array(
 		'author.posts',
 		'categories',
 	)
-);
+));
 ~~~
 
 
@@ -303,6 +305,10 @@ relationella frågan. De sammanfattas nedan.
    i den array som lagrar relaterade objekt. Om detta alternativ inte sätts 
    kommer en relaterad objektarray att använda ett nollbaserat heltalsindex. 
    Detta alternativ kan endast sättas för sambandstyperna `HAS_MANY` och `MANY_MANY`. 
+
+   - `scopes`: omfång som skall tillämpas. Ett enstaka omfång kan anges som `'scopes'=>'scopeName'`, 
+   för flerfaldiga omfång används formatet `'scopes'=>array('scopeName1','scopeName2')`. 
+   Detta alternativ blev tillgängligt i version 1.1.9.
 
 
 Dessutom är följande alternativ tillgängliga för vissa samband när lazy loading används:
@@ -435,11 +441,12 @@ SQL-satser. Å andra sidan, vid användning av en enstaka SQL-sats, kommer det a
 och bearbeta den större mängden redundant data.
 
 Av detta skäl, tillhandahåller Yii frågealternativet `together` så att vi kan välja mellan de två tillvägagångssätten.
-Som standard använder sig Yii av det första tillvägagångssättet, dvs, att skapa en enda stor SQL-sats för att
-utföra eager loading. Genom att sätta alternativet `together` till false i sambandsdeklarationen sker join mellan  
+Som standard använder sig Yii av eager loading, dvs, att skapa en enda SQL-sats, utom när `LIMIT` är åsatt 
+den primära modellen. Genom att sätta alternativet `together` till true i sambandsdeklarationen kan en enstaka 
+SQL-sats tvingas fram, även när `LIMIT` används. Om alternativet `together` sätts till false sker join mellan  
 vissa tabeller i separata SQL-satser. Till exempel, för att använda det andra tillvägagångssättet i samband med  
-en fråga om de senaste postningarna med tillhörande kommentarer, kan vi deklarera sambandet `comments` i `Post`-klassen 
-på följande sätt,
+en fråga om de senaste postningarna med tillhörande kommentarer, kan vi deklarera sambandet `comments` i 
+`Post`-klassen på följande sätt,
 
 ~~~
 [php]
@@ -610,8 +617,8 @@ class User extends CActiveRecord
 }
 ~~~
 
-> Note|Märk: Namngivna omfång som appliceras på relaterade modeller måste specificeras 
-> i CActiveRecord::scopes. Detta medför att de inte kan parametriseras.
+> Note|Märk: Före 1.1.7 gällde att namngivna omfång som appliceras på relaterade modeller måste 
+> specificeras i CActiveRecord::scopes. Detta medför att de inte kan parametriseras.
 
 Sedan version 1.1.7 är det möjligt att lämna med parametrar för relationella namngivna omfång.
 Till exempel, ett omfång med namnet `rated` i modellen `Post` som accepterar minsta önskade 
@@ -638,15 +645,16 @@ Vid användning av `through` skall sambandsdefinitionen se ut som följer:
 
 ~~~
 [php]
-'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'throughRelationName', ...additional options)
+'comments'=>array(self::HAS_MANY,'Comment',array('key1'=>'key2'),'through'=>'posts'),
 ~~~
 
-I ovanstående är värdet av `foreign_key` namnet på ett referensattribut som är:
+I ovanstående `array('key1'=>'key2')`:
 
-  - Definierat i tabellen specificerad genom `throughRelationName`.
-  - Pekar mot en tabell som innehåller data för modellen `ClassName`.
+  - `key1` är en nyckel definierad i sambandet som specificeras i `through` (i detta fall `posts`).
+  - `key2` är en nyckel definierad i modellen detta samband (comments) refererar till (i detta fall `Comment`).
 
 `through` kan användas med `HAS_ONE`- och `HAS_MANY`-samband.
+
 
 ### HAS_MANY through
 
@@ -668,8 +676,8 @@ class Group extends CActiveRecord
    {
        return array(
            'roles'=>array(self::HAS_MANY,'Role','group_id'),
-           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
-           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+           'users'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment',array('id'=>'user_id'),'through'=>'users'),
        );
    }
 }
@@ -713,7 +721,7 @@ class User extends CActiveRecord
    {
        return array(
            'profile'=>array(self::HAS_ONE,'Profile','user_id'),
-           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+           'address'=>array(self::HAS_ONE,'Address',array('id'=>'profile_id'),'through'=>'profile'),
        );
    }
 }
@@ -749,7 +757,7 @@ class User extends CActiveRecord
    {
        return array(
            'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
-           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorships','joinType'=>'INNER JOIN'),
        );
    }
 }
@@ -764,4 +772,4 @@ $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
 
-<div class="revision">$Id: database.arr.txt 3127 2011-03-26 12:21:47Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 3523 2011-12-30 20:32:29Z alexander.makarow $</div>

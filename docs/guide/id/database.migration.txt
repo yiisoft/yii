@@ -19,6 +19,8 @@ Berikut ini, kita akan menjelaskan cara penggunaan tool ini.
 
 > Note| Catatan: Lebih baik menggunakan yiic dari aplikasi (yakni `cd path/ke/protected`)
 > ketika menjalankan command `migrate` daripada dari direktori `framework`.
+> Pastikan Anda memiliki direktori `protected\migrations` dan writable(memiliki hak akses untuk tulis). Cek juga 
+> koneksi database di `protected/config/console.php`
 
 Pembutan Migrasi
 -------------------
@@ -308,4 +310,4 @@ return array(
 Sekarang jika kita jalankan perintah `migrate`, konfigurasi di atas akan berefek tanpa kita harus menulis perintah opsi setiap saat lagi.
 
 
-<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>
+<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>

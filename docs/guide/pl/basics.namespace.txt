@@ -44,14 +44,14 @@ Na przykład, jeśli chcemy dołączyć definicję klasy [CController], możemy 
 Yii::import('system.web.CController');
 ~~~
 
-Metoda [import|YiiBase::import] różni się od `include` oraz `require` w tym, że jest 
+Metoda [import|YiiBase::import] różni się od `include` oraz `require` tym, że jest 
 bardziej wydajna. Definicja klasy, która została importowana, nie jest ładowana 
-dopóki, nie zostanie użyta po raz pierwszy (zaimplementowano przy użyciu mechanizmu 
+dopóki nie zostanie użyta po raz pierwszy (zaimplementowano przy użyciu mechanizmu 
 autoładowania PHP). Importowanie wielokrotnie tej samej 
 przestrzeni nazw jest także dużo szybsze niż `include_once` czy też `require_once`.
 
 > Tip|Wskazówka: Kiedy odnosimy się do klasy zdefiniowanej we frameworku Yii, nie musimy
-> importować jej lub dołączać. Wszystkie klasy Yii są preimportowane.
+> jej importować lub dołączać. Wszystkie klasy Yii są preimportowane.
 
 ###Używanie map klas
 

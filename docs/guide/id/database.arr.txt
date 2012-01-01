@@ -102,13 +102,15 @@ class User extends CActiveRecord
 }
 ~~~
 
-> Info: Foreign key bisa berupa composite, terdiri dari dua atau lebih kolom.
-Dalam hal ini, kita harus menggabungkan nama-nama kolom kunci dan
-memisahkannya dengan koma. Untuk jenis hubungan `MANY_MANY`,
+> Info: Foreign key bisa saja berupa composite, yang artinya terdiri dari dua atau lebih kolom.
+Untuk hal ini, kita harus menggabungkan nama-nama kolom kunci dan
+memisahkannya dengan koma, atau dengan bentuk array seperti array('key1','key2').
+Apabila Anda perlu menspesifikasikan asosiasi PK->FK sendiri, Anda bisa menulis 
+array('fk'=>'pk').Untuk composite maka bentuknya akan berupa array('fk_c1'=>'pk_c1','fk_c2'=>'pk_c2').
+Untuk jenis hubungan `MANY_MANY`,
 nama tabel asosiatif juga harus ditetapkan dalam foreign key. Contohnya,
 hubungan `categories` dalam `Post` ditetapkan dengan foreign key
 `tbl_post_category(post_id, category_id)`.
-
 Deklarasi hubungan dalam kelas AR secara implisit menambahkan properti
 ke kelas untuk setiap hubungan. Setelah query relasional dilakukan,
 properti terkait akan diisi dengan instance dari AR yang dihubungkan.
@@ -205,7 +207,7 @@ $criteria->with=array(
 $posts=Post::model()->findAll($criteria);
 ~~~
 
-or
+atau
 
 ~~~
 [php]
@@ -215,7 +217,7 @@ $posts=Post::model()->findAll(array(
 		'author.posts',
 		'categories',
 	)
-);
+));
 ~~~
 
 
@@ -303,6 +305,10 @@ array yang menyimpan obyek terkait. Tanpa menyetel opsi ini,
 array obyek terkait akan menggunakan indeks integer berbasis-nol.
 Opsi ini hanya bisa disetel untuk relasi `HAS_MANY` dan `MANY_MANY`.
 
+   - `scopes`: nama scope yang ingin diaplikasikan. Jika ingin satu scope dapat
+digunakan seperti `'scopes'=>'scopeName'`. Dan jika lebih dari satu scope maka dapat
+digunakan seperti `'scopes'=>array('scopeName1','scopeName2')`. Opsi ini sudah ada
+mulai dari versi 1.1.9.
 
 Sebagai tambahan, opsi berikut tersedia untuk relasi tertentu
 selama lazy loading:
@@ -422,10 +428,11 @@ mungkin lebih efisien karena mengurangi overhead pada DBMS untuk parsing dan exe
 menggunakan statement SQL tunggal, kemungkinan akan menghasilkan data redundansi sehingga perlu waktu lebih lama untuk baca dan memprosesnya.
 
 Oleh karena itu, Yii menyediakan opsi query `together` sehingga kita dapat memilih di antara dua pendekatan ini jika diperlukan.
-Secara default, Yii akan mengadopsi pendekatan pertama, yakni menghasilkan statement SQL tunggal untuk melakukan eager loading.
-Kita dapat mengeset opsi `together` menjadi false di dalam deklarasi relasi sehingga beberapa tabel
-di-join pada statement SQL yang terpisah. Sebagai contoh, supaya dapat menggunakan pendekatan kedua untuk melakukan
-query pada post terbaru beserta komentar-komentarnya, kita dapat mendeklarasi hubungan `comments` dalam kelas `Post` sebagai berikut :
+Secara default, Yii menggunakan eager loading, seperti men-generate sebuah statement SQL tunggal, kecuali terdapat `LIMIT` di dalam model utama.
+Kita dapat mengeset opsi `together` di dalam deklarasi relasi menjadi true untuk memaksakan statement SQL walaupun `LIMIT` digunakan.
+Mengeset menjadi false, akan menyebabkan beberapa tabel akan di-join di statement SQL terpisah. Misalnya, untuk menggunakan statement SQL terpisah
+untuk mengquery post terbaru dengan komentar-komentarnya, kita dapat mendeklarasikan relasi `comments` 
+di dalam kelas `Post` sebagai berikut
 
 ~~~
 [php]
@@ -443,7 +450,6 @@ Kita juga dapat mengeset opsi ini secara dinamis ketika melakukan eager loading:
 [php]
 $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
 ~~~
-
 
 
 Query Statistik
@@ -567,7 +573,7 @@ class User extends CActiveRecord
 }
 ~~~
 
-> Note|Catatan: Named scope diaplikasikan ke model yang berelasi harus ditentukan di CActiveRecord::scopes.
+> Note|Catatan: Sebelum versi 1.1.7, named scope diaplikasikan ke model yang berelasi harus ditentukan di CActiveRecord::scopes.
 > Oleh karenanya, tidak dapat diberi parameter.
 
 Mulai dari versi 1.1.7, Yii memungkinkan passing parameter untuk relational named scopes.
@@ -594,14 +600,16 @@ Ketika menggunakan `through`, definisi relasi harus dilihat seperti berikut:
 
 ~~~
 [php]
-'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'throughRelationName', ...additional options)
+'comments'=>array(self::HAS_MANY,'Comment',array('key1'=>'key2'),'through'=>'posts'),
 ~~~
 
 Di atas, nilai `foreign_key` adalah nama sebuah key yang:
-  - Didefinisikan di tabel yang ditetapkan di dalam `throughRelationName`.
-  - Menunjuk ke sebuah tabel yang menyimpan data untuk model `ClassName`.
+
+  - `key1` merupakan key yang didefinisikan di `throughRelationName`.
+  - `key2` merupakan key yang didefinisikan di `ClassName`.
 
 `through` dapat digunakan oleh relasi `HAS_ONE` dan `HAS_MANY`.
+
 
 ### HAS_MANY through
 
@@ -622,8 +630,8 @@ class Group extends CActiveRecord
    {
        return array(
            'roles'=>array(self::HAS_MANY,'Role','group_id'),
-           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
-           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+           'users'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment',array('id'=>'user_id'),'through'=>'users'),
        );
    }
 }
@@ -667,7 +675,7 @@ class User extends CActiveRecord
    {
        return array(
            'profile'=>array(self::HAS_ONE,'Profile','user_id'),
-           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+           'address'=>array(self::HAS_ONE,'Address',array('id'=>'profile_id'),'through'=>'profile'),
        );
    }
 }
@@ -703,7 +711,7 @@ class User extends CActiveRecord
    {
        return array(
            'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
-           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorships','joinType'=>'INNER JOIN'),
        );
    }
 }
@@ -718,4 +726,4 @@ $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
 
-<div class="revision">$Id: database.arr.txt 3127 2011-03-26 12:21:47Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 3416 2011-10-13 18:18:13Z alexander.makarow $</div>

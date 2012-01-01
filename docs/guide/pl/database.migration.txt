@@ -15,10 +15,12 @@ Poniższe kroki pokazują sposób używania migracji bazy danych w trakcie rozwo
 
 Yii wspiera migrację bazy danych poprzez narzędzie linii poleceń `yiic migrate`. Pozwala ono na tworzenie nowych, aplikowanie/odwracanie/poprawianie migracji oraz wyświetlanie historii oraz nowych migracji.
 
-W dalszej części opiszemy w jaki sposób używać to narzędzie.
+W dalszej części opiszemy w jaki sposób używać tego narzędzia.
 
 > Note|Uwaga: Zaleca się używanie narzędzia yiic właściwego dla danej aplikacji (np. `cd ścieżka/do/protected`)
 > podczas pracy z komendą `migrate` zamiast tego, który znajduje się w katalogu `framework`.
+> Upewnij się, że posiadasz folder `protected\migrations` z prawami zapisu. Sprawdź również, czy
+> skonfigurowałeś połączenie z bazą danych w pliku `protected/config/console.php`.
 
 Tworzenie migracji
 -------------------
@@ -108,7 +110,7 @@ Migracje transakcyjne
 
 W trakcie wykonywania skomplikowanych migracji baz danych, zazwyczaj chcemy być pewni, że każda migracja powiedzie się lub nie w całości tak aby baza danych zachowała swoją spójność i integralność. Aby uzyskać ten efekt możemy wykorzystać transakcje baz danych.
 
-Możemy wprost rozpocząć transakcję bazodanowa i ująć resztę kodu związanego z bazą w ramach tej transakcji w następujący sposób:
+Możemy wprost rozpocząć transakcję bazodanową i ująć resztę kodu związanego z bazą w ramach tej transakcji w następujący sposób:
 
 ~~~
 [php]
@@ -134,7 +136,7 @@ class m101129_185401_create_news_table extends CDbMigration
 		}
 	}
 
-	// ...podobny kod dlam metody down()
+	// ...podobny kod dla metody down()
 }
 ~~~
 
@@ -195,7 +197,7 @@ Możemy również zmigrować bazę danych do określonej wersji za pomocą nast�
 yiic migrate to 101129_185401
 ~~~
 
-Oznacza to, że korzystamy z części nazwy migracji zawierającej informację o stemplu czasowym w celu określenia wersji, do której chcemy zmigrować bazę danych. Jeśli pomiędzy ostatnio zastosowaną migracją a określoną przez nas występują inne, wszystkie te migracje zostaną zaaplikowane. Jeśli dana migracja zostałą zaaplikowana wcześniej, wtedy wszystkie migracje występujące po niej zostaną odwrócone (zostanie to opisane w dalszej części).
+Oznacza to, że korzystamy z części nazwy migracji zawierającej informację o stemplu czasowym w celu określenia wersji, do której chcemy zmigrować bazę danych. Jeśli pomiędzy ostatnio zastosowaną migracją a określoną przez nas występują inne, wszystkie te migracje zostaną zaaplikowane. Jeśli dana migracja została zaaplikowana wcześniej, wtedy wszystkie migracje występujące po niej zostaną odwrócone (zostanie to opisane w dalszej części).
 
 
 Odwracanie migracji
@@ -209,7 +211,7 @@ yiic migrate down [step]
 
 gdzie opcjonalny parametr `step` określa jak wiele migracji zostanie odwróconych. Domyślnie przyjmuje wartość 1 co oznacza odwracanie ostatnio zaaplikowanej migracji.
 
-Tak jak wspominaliśmy wcześniej nie wszystkie migracje można odwracać. Próbując odwrócać nieodwracalną migrację otrzymamy wyjątek i a proces odwracania zostaie przerwany. 
+Tak jak wspominaliśmy wcześniej nie wszystkie migracje można odwracać. Próbując odwrócać nieodwracalną migrację otrzymamy wyjątek i proces odwracania zostanie przerwany. 
 
 
 Poprawianie migracji
@@ -260,9 +262,9 @@ Istnieje kilka sposobów aby dostosować polecenia migracji.
 
 Polecenia migracji dostarczane są wraz z czterema opcjami, które mogą być określone w linii poleceń:
 
-* `interactive`: boolean, określa kiedy wykonywać migrację w trybie interaktywnym. Domyślnie true, co oznacza, iż użytkownik jest monitowany o wynikach migracji podczas jej wykonywania. Jeżeli ustawisz tę wartość na false migracja powinna się przebiegać w tle.
+* `interactive`: boolean, określa kiedy wykonywać migrację w trybie interaktywnym. Domyślnie true, co oznacza, iż użytkownik jest monitowany o wynikach migracji podczas jej wykonywania. Jeżeli ustawisz tę wartość na false migracja powinna przebiegać w tle.
 
-* `migrationPath`: łańcuch znaków, określający katalog przechowujący wszystkie plik klas migracji. Należy go zdefiniować używając aliasu ścieżki do istniejącego katalogu. Jeśli opcja ta nie została określona, będzie ona używać podkatalogu `migrations` znajdującego się w katalogu bazowym aplikacji. 
+* `migrationPath`: łańcuch znaków, określający katalog przechowujący wszystkie pliki klas migracji. Należy go zdefiniować używając aliasu ścieżki do istniejącego katalogu. Jeśli opcja ta nie została określona, będzie ona używać podkatalogu `migrations` znajdującego się w katalogu bazowym aplikacji. 
 
 * `migrationTable`: łańcuch znaków, określający nazwę tabeli bazy danych przechowywującej informacje o historii migracji. Domyślna wartość to `tbl_migration`. Struktura tej tabeli jest następująca `version varchar(255) primary key, apply_time integer`.
 
@@ -285,7 +287,7 @@ yiic migrate up --migrationPath=ext.forum.migrations
 
 ### Globalne konfigurowanie poleceń
 
-Podczas gdy opcje linii poleceń pozwalają nam konfigurować polecenia w locie, czasami możemy chcieć skonfigurować polecenia raz na zawsze. Na przykład, możemy chcieć używać innej tabeli do przechowywania historii migracji, czy też możemy chcież używać zmienionego szablonu migracyjnego. Możemy to zrobić poprzez zmodyfikowanie pliku konfiguracyjnego aplikacji konsolowej w następująco:
+Podczas gdy opcje linii poleceń pozwalają nam konfigurować polecenia w locie, czasami możemy chcieć skonfigurować polecenia raz na zawsze. Na przykład, możemy chcieć używać innej tabeli do przechowywania historii migracji, czy też możemy chcież używać zmienionego szablonu migracyjnego. Możemy to zrobić poprzez zmodyfikowanie pliku konfiguracyjnego aplikacji konsolowej następująco:
 
 ~~~
 [php]
@@ -308,4 +310,4 @@ return array(
 Jeśli teraz uruchomimy polecenie `migrate` powyższa konfiguracja będzie obowiązywać bez konieczności wprowadzania za każdym razem opcji poprzez linię poleceń.
 
 
-<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>
+<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>

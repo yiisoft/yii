@@ -183,7 +183,7 @@ class Post extends CActiveRecord
 
 複合型のデータをクライアントから受け取るためには、
 WSDL型からPHPクラスへの対応を宣言する必要があります。
-これは[CWebServiceAction]の[classMap|CWebServiceAction::classMap]プロパティをを設定することで
+これは[CWebServiceAction]の[classMap|CWebServiceAction::classMap]プロパティを設定することで
 実現されます。
 
 ~~~

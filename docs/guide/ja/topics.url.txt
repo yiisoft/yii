@@ -31,7 +31,7 @@ $url=$this->createUrl($route,$params);
 
 GET クエリの書式は `パラメータ名=値` の一組をアンパサンド(&)で繋げたリストになっていて、
  `r` のパラメータはリクエストされた [route](/doc/guide/basics.controller#route) を示しています。このURLの書式は
-いくつか単号構成文字以外の文字を含んでいる為、あまりユーザフレンドリーとは
+いくつか単語構成文字以外の文字を含んでいる為、あまりユーザフレンドリーとは
 言えないでしょう。
 
 上記の URL は、いわゆる `path` 形式を使って、もっとすっきりして分り易いものにすることも出来ます。
@@ -182,7 +182,7 @@ sample post'))` をコールした場合、3番目のルールが適用される
 されないので `/index.php/post/read` が作成されます。
 
 
-要点をまとめますと、[createUrl|CController::createUrl] でURLを
+要点をまとめると、[createUrl|CController::createUrl] でURLを
 作成する時、メソッドに渡される route パラメータと GET パラメータによって、どの URL 規則が適用されるかが決定されます。
 すなわち、規則に関連付けられたパラメータがすべて [createUrl|CController::createUrl] に渡された GET パラメータの中にあって、さらに規則の route も route パラメータと一致している場合に、その規則が URL の生成に使用されます。
 
@@ -376,12 +376,12 @@ class CarUrlRule extends CBaseUrlRule
 
 カスタム URL 規則クラスは、[CBaseUrlRule] で宣言されている二つの抽象メソッドを実装しなければなりません。
 
-* [CBaseUrlRule::createUrl()|createUrl()]
-* [CBaseUrlRule::parseUrl()|parseUrl()]
+* [createUrl()|CBaseUrlRule::createUrl()]
+* [parseUrl()|CBaseUrlRule::parseUrl()]
 
 上記の典型的な使用方法の他にも、カスタム URL 規則クラスを別のさまざまな目的のために実装することが可能です。
 例えば、URL の解析と生成のリクエストをログに記録するための規則クラスを書くことが出来ます。これは開発段階において有益かもしれません。
 また、他の全ての URL 規則が現在のリクエストを解決できなかった場合に、特別な 404 エラーページを表示するための規則クラスを書くことも可能です。
 この場合、この特別なクラスの規則を最後の規則として宣言しなければならないことに注意して下さい。
 
-<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 3329 2011-06-28 08:31:35Z mdomba $</div>

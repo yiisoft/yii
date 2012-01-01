@@ -22,7 +22,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 <h1>Errore <?php echo $data['code']; ?></h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
-Questo errore &egrave; avvenuto quando il server Web stava elaborando la tua richiesta.
+Questo errore &egrave; avvenuto mentre il server Web stava elaborando la tua richiesta.
 </p>
 <p>
 Se pensi che &egrave; un errore del server, contatta cortesemente <?php echo $data['admin']; ?>.

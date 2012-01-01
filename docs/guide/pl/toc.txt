@@ -4,6 +4,7 @@
 	- [Migracja z wersji 1.0 do 1.1](upgrade)
     - [Czym jest Yii](quickstart.what-is-yii)
     - [Instalacja](quickstart.installation)
+	- [Konfiguracja Apache-a oraz Nginx-a](quickstart.apache-nginx-config)	
     - [Pierwsza aplikacja w Yii](quickstart.first-app)
 
 * Podstawy
@@ -70,4 +71,4 @@
     - [Zwiększanie wydajności](topics.performance)
     - [Generowanie kodu przy użyciu narzędzia linii poleceń (zarzucone)](quickstart.first-app-yiic)	
 
-<div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>
+<div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>

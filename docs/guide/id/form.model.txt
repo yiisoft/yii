@@ -108,8 +108,8 @@ berikut:
 ~~~
 [php]
 /**
- * @param string nama atribut yang akan divalidasi
- * @param array opsi yang ditetapkan dalam aturan validasi
+ * @param string $attribute nama atribut yang akan divalidasi
+ * @param array $params opsi yang ditentukan di dalam peraturan validasi
  */
 public function ValidatorName($attribute,$params) { ... }
 ~~~
@@ -378,4 +378,4 @@ Ini dapat dikustomisasi dengan meng-override metode
 subbagian berikutnya, menetapkan label dalam model memungkinkan kita untuk membuat
 form lebih cepat dan powerful.
 
-<div class="revision">$Id: form.model.txt 3160 2011-04-03 01:08:23Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3482 2011-12-13 09:41:36Z mdomba $</div>

@@ -19,9 +19,7 @@
  * @version $Id$
  */
 return array (
-  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Ungesichertes Attribut "{attribute}" konnte nicht gesetzt werden.',
-  'Failed to start session.' => 'Session konnte nicht gestartet werden.',
-  '{class} and its behaviors do not have a method or closure named "{name}".' => 'Weder {class} noch zugehörige Behavior haben einen Scope "{name}".',
+  'Powered by {yii}.' => 'Powered by {yii}.',
   '"{path}" is not a valid directory.' => '"{path}" ist kein gültiges Verzeichnis.',
   '&lt; Previous' => '&lt; Vorherige',
   '&lt;&lt; First' => '&lt;&lt; Erste',
@@ -104,6 +102,8 @@ return array (
   'Event "{class}.{event}" is not defined.' => 'Ereignis "{class}.{event} ist nicht definiert.',
   'Extension path "{path}" does not exist.' => 'Erweiterungs-Pfad "{path}" existiert nicht.',
   'Failed to initialize the mcrypt module.' => 'Initialisierung des mcrypt-Moduls ist fehlgeschlagen.',
+  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Ungesichertes Attribut "{attribute}" konnte nicht gesetzt werden.',
+  'Failed to start session.' => 'Session konnte nicht gestartet werden.',
   'Failed to write the uploaded file "{file}" to disk.' => 'Hochgeladene Datei "{file}" konnte nicht auf die Festplatte gespeichert werden.',
   'File upload was stopped by extension.' => 'Datei-Upload wurde von einer Erweiterung angehalten.',
   'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => 'Filter "{filter}" ist ungültig. Controller "{class}" hat keine Filter-Methode "filter{filter}".',
@@ -212,7 +212,6 @@ return array (
   'Yii application can only be created once.' => 'Eine Yii Applikation kann nur einmal erzeugt werden.',
   'You are not authorized to perform this action.' => 'Sie sind nicht berechtigt, diese Aktion auszuführen.',
   'Your request is invalid.' => 'Ihre Anfrage ist ungültig.',
-  'Your request is not valid.' => 'Ihre Anfrage ist ungültig.',
   '{attribute} "{value}" has already been taken.' => '{attribute} "{value}" ist bereits vergeben.',
   '{attribute} "{value}" is invalid.' => '{attribute} "{value}" ist ungültig.',
   '{attribute} cannot accept more than {limit} files.' => '{attribute} akzeptiert nicht mehr als {limit} Dateien.',
@@ -243,6 +242,7 @@ return array (
   '{className} does not support flushValues() functionality.' => '{className} unterstützt die flushValues()-Funktion nicht.',
   '{className} does not support get() functionality.' => '{className} unterstützt die Funktionalität get() nicht.',
   '{className} does not support set() functionality.' => '{className} unterstützt die Funktionalität set() nicht.',
+  '{class} and its behaviors do not have a method or closure named "{name}".' => 'Weder {class} noch zugehörige Behavior haben einen Scope "{name}".',
   '{class} does not have relation "{name}".' => '{class} hat keine Relation "{name}".',
   '{class} does not support fetching all table names.' => '{class} unterstützt das Beziehen aller Tabellennamen nicht.',
   '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} hat eine ungültige Validierungs-Regel. Die Regel muss die zu validierenden Attribute und den Validatornamen enthalten.',

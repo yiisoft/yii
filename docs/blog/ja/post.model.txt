@@ -56,23 +56,34 @@ public function normalizeTags($attribute,$params)
 }
 ~~~
 
-ここで、`array2string`と`string2array`は新しいメソッドで、`Tag`モデルクラス内で定義されます。
-より詳細にはファイル`/wwwroot/yii/demos/blog/protected/models/Tag.php`を参照してください。
+ここで、`array2string`と`string2array`は新しいメソッドで、`Tag`モデルクラスで定義します。
+
+~~~
+[php]
+public static function string2array($tags)
+{
+	return preg_split('/\s*,\s*/',trim($tags),-1,PREG_SPLIT_NO_EMPTY);
+}
+
+public static function array2string($tags)
+{
+	return implode(', ',$tags);
+}
+~~~
 
 `rules()`メソッドで宣言されたルールはひとつひとつ、モデルインスタンスの
 [validate()|CModel::validate]メソッドまたは[save()|CActiveRecord::save]メソッドをコールする際に実行されます。
 
-> Note|注: It is very important to remember that attributes appearing in `rules()` must be those to be entered by end users. Other attributes, such as `id` and `create_time` in the `Post` model, which are set by our code or database, should not be in `rules()`. For more details, please refer to [Securing Attribute Assignments](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
+> Note|注: 覚えて欲しい重要なことがあります。`rules()`にはエンドユーザーが入力する属性だけを書いてください。`Post`モデルの`id`や`create_time`といったプログラムやデータベースによって設定される属性は、`rules()`に入れるべきではありません。詳しくは、[属性への代入をセキュアにする](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments)を参照のこと。
 
-After making these changes, we can visit the post creation page again to verify that the new validation rules are taking effect.
+以上の変更をしたら、postの作成ページを再び開いて、新しいバリデーションルールが機能しているか検証することができます。
 
+`relations()`メソッドのカスタマイズ
+-----------------------------------
 
-Customizing `relations()` Method
---------------------------------
+最後に`relations()`メソッドをカスタマイズして、postに関連するオブジェクトを指定します。`relations()`で関連オブジェクトを宣言することによって[リレーショナルアクティブレコード (RAR)](http://www.yiiframework.com/doc/guide/database.arr)のパワフルな機能を引き出し、執筆者やコメント一覧などの、postに関連するオブジェクトの情報にアクセスできるようになります。複雑なSQL JOIN構文を書く必要はありません。
 
-Lastly we customize the `relations()` method to specify the related objects of a post. By declaring these related objects in `relations()`, we can exploit the powerful [Relational ActiveRecord (RAR)](http://www.yiiframework.com/doc/guide/database.arr) feature to access the related object information of a post, such as its author and comments, without the need to write complex SQL JOIN statements.
-
-We customize the `relations()` method as follows:
+`relations()`メソッドを次のように書き換えます。
 
 ~~~
 [php]
@@ -89,7 +100,7 @@ public function relations()
 }
 ~~~
 
-We also introduce in the `Comment` model class two constants that are used in the above method:
+上記メソッドで使用する2つの定数を、`Comment`モデルに加えます。
 
 ~~~
 [php]
@@ -101,14 +112,13 @@ class Comment extends CActiveRecord
 }
 ~~~
 
-The relations declared in `relations()` state that
+`relations()`で宣言したリレーションは次のような意味です。
 
- * A post belongs to an author whose class is `User` and the relationship is established based on the `author_id` attribute value of the post;
- * A post has many comments whose class is `Comment` and the relationship is established based on the `post_id` attribute value of the comments. These comments should be sorted according to their creation time and the comments must be approved.
- * The `commentCount` relation is a bit special as it returns back an aggregation result which is about how many comments the post has.
+ * 1つのpostが、1つの執筆者（author）に所属する。執筆者のクラスは`User`で、postの`author_id`属性で結び付けられる。
+ * 1つのpostが、多数のコメントを持つ。コメントのクラスは`Comment`で、コメントの`post_id`属性で結び付けられる。コメントは作成日時順にソートされ、承認済み(APPROVED)のコメントだけで構成される。
+ * `commentCount`は、集計結果を返す少し特殊なリレーションで、postが持つコメント数を表す。
 
-
-With the above relation declaration, we can easily access the author and comments of a post like the following:
+上記のリレーションを宣言することで、以下のように簡単にpostの執筆者やコメントにアクセスできます。
 
 ~~~
 [php]
@@ -120,15 +130,14 @@ foreach($comments as $comment)
 	echo $comment->content;
 ~~~
 
-For more details about how to declare and use relations, please refer to [the Guide](http://www.yiiframework.com/doc/guide/database.arr).
+リレーションの宣言と使い方の詳細については、[ガイド](http://www.yiiframework.com/doc/guide/database.arr)をご覧ください。
 
-
-Adding `url` Property
+`url`プロパティの追加
 ---------------------
 
-A post is a content that is associated with a unique URL for viewing it. Instead of calling [CWebApplication::createUrl] everywhere in our code to get this URL, we may add a `url` property in the `Post` model so that the same piece of URL creation code can be reused. Later when we describe how beautify URLs, we will see adding this property will bring us great convenience.
+postには、内容を閲覧するためのユニークなURLが結び付いています。このURLを取得するために、コードのいたるところで[CWebApplication::createUrl] を書くのではなく、`Post`モデルに`url`属性を追加することで、URLを生成する1つのコードを使い回せます。後でURLを美しくする方法を説明するときに、このプロパティの追加が非常に便利なことが分かります。
 
-To add the `url` property, we modify the `Post` class by adding a getter method like the following:
+`url`プロパティを追加するために、以下のように`Post`クラスを修正してgetterメソッドを追加します。
 
 ~~~
 [php]
@@ -144,17 +153,17 @@ class Post extends CActiveRecord
 }
 ~~~
 
-Note that in addition to the post ID, we also add the post title as a GET parameter in the URL. This is mainly for search engine optimization (SEO) purpose, as we will describe in [Beautifying URLs](/doc/blog/final.url).
+URLのGETパラメータとして、postのIDのほかにタイトルも追加しています。これはSEO（検索エンジン最適化）が主な目的です。後ほど[Beautifying URLs](/doc/blog/final.url)で説明します。
 
-Because [CComponent] is the ultimate ancestor class of `Post`, adding the getter method `getUrl()` enables us to use the expression like `$post->url`. When we access `$post->url`, the getter method will be executed and its result is returned as the expression value. For more details about such component features, please refer to [the guide](/doc/guide/basics.component).
+`Post`の最も祖先のクラスは[CComponent]なので、`getUrl()`というgetterメソッドを追加することで、`$post->url`という書き方ができるようになります。`$post->url`にアクセスすると、getterメソッドが実行され、その結果が式の値として返されます。このようなコンポーネントの機能の詳細については[ガイド](/doc/guide/basics.component)を参照のこと。
 
+ステータスをテキストで表現する
+------------------------------
 
-Representing Status in Text
----------------------------
+postのステータスはinteger型でデータベースに保存されるので、エンドユーザーに分かりやすく表示するために、テキスト形式での表現を提供する必要があります。大きなシステムでは、このような要求はよくあることです。
 
-Because the status of a post is stored as an integer in the database, we need to provide a textual representation so that it is more intuitive when being displayed to end users. In a large system, the similar requirement is very common.
+一般的な解決策として、ここでは`tbl_lookup`テーブルを使います。このテーブルにinteger値とテキスト表現の対応表を持たせ、このテキスト表現を他のデータオブジェクトから利用します。`Lookup`モデルクラスを以下のように修正し、テーブル内のテキストデータに容易にアクセスできるようにします。
 
-As a generic solution, we use the `tbl_lookup` table to store the mapping between integer values and textual representations that are needed by other data objects. We modify the `Lookup` model class as follows to more easily access the textual data in the table,
 
 ~~~
 [php]
@@ -190,11 +199,11 @@ class Lookup extends CActiveRecord
 }
 ~~~
 
-Our new code mainly provides two static methods: `Lookup::items()` and `Lookup::item()`. The former returns a list of strings belonging to the specified data type, while the latter returns a particular string for the given data type and data value.
+新しいコードは主に2つの静的メソッド、`Lookup::items()`と`Lookup::item()`を提供します。前者は、指定したデータタイプに属する文字列のリストを返します。後者は、データのタイプと値を指定することで、特定の文字列を返します。
 
-Our blog database is pre-populated with two lookup types: `PostStatus` and `CommentStatus`. The former refers to the possible post statuses, while the latter the comment statuses.
+ブログのデータベースに、Lookup用のタイプとして`PostStatus`と`CommentStatus`を事前に追加しておきます。前者は可能な投稿ステータスを示し、後者はコメントステータスを示します。
 
-In order to make our code easier to read, we also declare a set of constants to represent the status integer values. We should use these constants through our code when referring to the corresponding status values.
+コードを読みやすくするために、一連のステータスを表すinteger値の定数を宣言します。コード中で各ステータス値を参照するときはこの定数を使うようにします。
 
 ~~~
 [php]
@@ -207,7 +216,6 @@ class Post extends CActiveRecord
 }
 ~~~
 
-Therefore, we can call `Lookup::items('PostStatus')` to get the list of possible post statuses (text strings indexed by the corresponding integer values), and call `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)` to get the string representation of the published status.
+これによって、`Lookup::items('PostStatus')`を呼ぶと、投稿のステータスとして取りうる値のリスト（integer値をインデックスとした、各値に対応するテキスト表現の一覧）を取得できます。また、`Lookup::item('PostStatus', Post::STATUS_PUBLISHED)`を呼ぶと、公開済みというステータスのテキスト表現を取得できます。
 
-
-<div class="revision">$Id: post.model.txt 2922 2011-01-29 19:51:56Z alexander.makarow $</div>
+<div class="revision">$Id: post.model.txt 3366 2011-08-03 21:24:26Z alexander.makarow $</div>

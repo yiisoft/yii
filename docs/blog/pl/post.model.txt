@@ -45,7 +45,20 @@ public function normalizeTags($attribute,$params)
 }
 ~~~
 
-gdzie metody `array2string` oraz `string2array` są nowymi metodami zdefiniowanymi w klasie modelu `Tag`. Aby zobaczyć więcej szczegółów zajrzyj do pliku `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
+gdzie metody `array2string` oraz `string2array` są nowymi metodami, które musimy zdefiniować w klasie modelu `Tag`:
+
+~~~
+[php]
+public static function string2array($tags)
+{
+	return preg_split('/\s*,\s*/',trim($tags),-1,PREG_SPLIT_NO_EMPTY);
+}
+
+public static function array2string($tags)
+{
+	return implode(', ',$tags);
+}
+~~~
 
 Reguły zadeklarowane w metodzie `rules()` są wywoływane jedna po drugiej podczas wywoływania metody [validate()|CModel::validate] lub [save()|CActiveRecord::save] dla instancji modelu.
 
@@ -197,4 +210,4 @@ class Post extends CActiveRecord
 Dlatego też możemy wywołać metodę `Lookup::items('PostStatus')` aby uzyskać listę możliwych statusów wiadomości (łańcuchy tekstowe indeksowane przez odpowiadające im wartości całkowite) jak również wywoływać metodę `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)` aby otrzymać łańcuch reprezentujący status "opublikowany".
 
 
-<div class="revision">$Id: post.model.txt 2922 2011-01-29 19:51:56Z alexander.makarow $</div>
+<div class="revision">$Id: post.model.txt 3366 2011-08-03 21:24:26Z alexander.makarow $</div>
