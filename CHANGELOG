@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.10 work in progress
+-------------------------------
+
+
 Version 1.1.9 January 1, 2012
 -----------------------------
 - Bug: Removed unnecessary COciCommandBuilder::createInsertCommand quotes (Sam Dark)
