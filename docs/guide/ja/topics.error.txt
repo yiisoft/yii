@@ -40,13 +40,13 @@ Yiiでの例外は、PHPでの例外と同様です。以下の文法を例外�
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yiiは二つの例外クラスを定義しています。[CException] と [CHttpException] 
-です。[CHttpException] はエンドユーザーへ例外情報を表示するための例外
-になっていて、[CException] はそうでない場合の
-(エラーを表示せずに処理する場合などの)為の代替案です。また、
-[CHttpException] はHTTPステータスコードを提供する 
-[statusCode|CHttpException::statusCode] プロパティを持っています。
-例外クラスは次章で述べるように、例外を表示するかどうかを決定します。
+Yiiは三つの例外クラスを定義しています。[CException] 、[CDbException]、そして
+[CHttpException] です。[CException] は包括的な例外クラスです。[CDbException] は
+データベースに関係する何らかの操作によって引き起こされた例外を表します。
+[CHttpException] はエンドユーザーに表示されるべき例外を表すもので、
+HTTP ステータスコードを表す [statusCode|CHttpException::statusCode] プロパティを
+持っています。例外をどのように表示すべきかは、以下で説明するように、例外のクラスによって、
+決ります。
 
 > Tip|ヒント: [CHttpException]における例外の発生はユーザの入力ミスを
 報告するのにシンプルな方法です。例えば、もしユーザーが不正なpost IDのURLを
@@ -158,4 +158,4 @@ public function actionError()
 このようにアプリケーションの実行の間に起きるエラーをモニターする為の
 [logging](/doc/guide/topics.logging)機能を利用することが出来ます。
 
-<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3374 2011-08-05 23:01:19Z alexander.makarow $</div>

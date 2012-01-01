@@ -1,12 +1,11 @@
 ﻿ActiveRecord
 ============
 
-Obwohl man mit Yii-DAO praktisch jede datenbankbezogene Aufgabe erledigen kann,
-würde man wahrscheinlich 90% der Zeit damit verbringen, SQL-Anweisungen für
-die üblichen CRUD-Operationen (also das Lesen, Schreiben, Aktualisieren und
-Löschen) zu schreiben. Auch die Wartung des Codes wird erschwert, wenn dieser
-mit vielen SQL Anweisungen durchmischt ist. Zur Lösung dieser Probleme kann
-man ActiveRecords verwenden.
+Man kann so gut wie alle Datenbankaufgaben mit Yii-DAO lösen. In 90% der Fälle
+führt man aber immer wieder die gleichen Anweisungen  zum Lesen, Schreiben,
+Aktualisieren und Löschen von Datensätzen (CRUD) aus. Außerdem erschwert
+es die Codewartung, wenn zu viele SQL-Anweisungen darin vorkommen.
+Als Alternative bieten sich daher oft ActiveRecords an.
 
 ActiveRecords (oder kurz AR) sind eine verbreitete Technik zur sog. objektrelationalen
 Abbildung (engl.: object-relational mapping,ORM). Jede AR-Klasse steht für

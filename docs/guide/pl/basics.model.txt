@@ -2,7 +2,7 @@ Model
 =====
 
 Model jest instancją klasy [CModel] lub klasą pochodną [CModel]. Modeli używamy do 
-przechowywania danych oraz odpowiadającym im reguł biznesowych.
+przechowywania danych oraz odpowiadających im reguł biznesowych.
 
 Model reprezentuje pojedynczy obiekt danych. Może to być wiersz z tabeli bazy 
 danych lub formularz html zawierający pola wejściowe. Każde pole obiektu danych 

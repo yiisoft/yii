@@ -155,7 +155,7 @@ tillhörande en specifik utvidgningsklass (t.ex. en widget, en modul) hanteras o
 specialiserat. Mer specifikt, om ett meddelande tillhör en utvidgning vars klassnamn är `Xyz`, 
 kan meddelandekategorin specifieras på formatet `Xyz.categoryName`. Motsvarande meddelandefil antas 
 vara `BasePath/messages/LanguageID/categoryName.php`, där `BasePath` refererar till katalogen som 
-innehåller utvidgningens klassfil . När Yii::t()` används för att översätta meddelanden från en 
+innehåller utvidgningens klassfil . När `Yii::t()` används för att översätta meddelanden från en 
 utvidgning, kommer formatet då att bli:
 
 ~~~

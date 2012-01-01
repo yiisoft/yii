@@ -22,7 +22,7 @@ Alternatywnym sposobem dostosowywania go do własnych potrzeb jest rozszerzenie
 klasy [CWebApplication].
 
 Konfigurację stanowi tablica par klucz-wartość. Każdy klucz reprezentuje nazwę właściwości
-instancji aplikacji a każda wartość z party reprezentuj odpowiadającą tej właściwości wartość początkową. 
+instancji aplikacji a każda odpowiadająca jej wartość reprezentuje odpowiadającą tej właściwości wartość początkową. 
 Na przykład, następująca tablica konfiguracyjna, ustawia właściwości [name|CApplication::name] oraz
 [defaultController|CWebApplication::defaultController] aplikacji.
 
@@ -67,7 +67,7 @@ nazwany `protected`, który znajduje się w katalogu zawierającym skrypt wejśc
 Można go dostosować do własnych potrzeb poprzez ustawienie właściwości  
 [basePath|CWebApplication::basePath] w [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration).
 
-Dostęp do zawartości w katalog głównym aplikacji powinien być chroniony, tak by 
+Dostęp do zawartości w katalogu głównym aplikacji powinien być chroniony, tak by 
 żaden użytkownik webowy nie miał do niego dostępu. Dla [serwera HTTP Apache](http://httpd.apache.org/)
 można to uczynić prosto poprzez umieszczenie pliku `.htaccess` w katalogu głównym. 
 Zawartość pliku `.htaccess` powinna być następująca:
@@ -80,7 +80,7 @@ Komponenty aplikacji
 ---------------------
 
 Funkcjonalności oferowane przez obiekt aplikacji mogą zostać łatwo dostosowane 
-oraz wzbogacone poprzeż użycie jego elastycznej komponentowej architektury. Obiekt 
+oraz wzbogacone poprzez użycie jego elastycznej komponentowej architektury. Obiekt 
 zarządza zestawem komponentów aplikacji, każdy z nich implementuje określoną funkcjonalność.
 Na przykład, obiekt przetwarza wstępnie żądanie użytkownika przy pomocy komponentów
 [CUrlManager] oraz [CHttpRequest].
@@ -197,7 +197,7 @@ Podczas przetwarzania żądania użytkownika aplikacja podlega następującemu c
 
    1. Utworzenie klasy autoloader oraz klasy zarządzania błędami;
 
-   2. Zarejestronwanie rdzennych komponentów aplikacji;
+   2. Zarejestrowanie rdzennych komponentów aplikacji;
 
    3. Wczytanie konfiguracji aplikacji;
 

@@ -150,7 +150,7 @@ Dieser Code bildet die JavaScript-Dateien auf die URL `/js/all.js` ab. Wenn
 eine dieser Dateien von einer Komponente eingebunden werden muss, bindet Yii
 (einmal) die URL, statt der einzelnen Scriptdateine ein.
 
-Zweitens müssen wir ein Hilsprogramm verwenden, um die JavaScript-Dateien zu
+Zweitens müssen wir ein Hilfsprogramm verwenden, um die JavaScript-Dateien zu
 einer einzelnen Datei zusammenzufassen (und vielleicht auch zu komprimieren)
 und unter `js/all.js` zu speichern.
 

@@ -21,7 +21,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
 Zapytanie nie może być zrozumiane przez serwer ze względu na niepoprawną składnię.
-Prosze nie powtarzaj żądanie bez uprzedniej modyfikacji.
+Proszę nie powtarzaj żądania bez uprzedniej modyfikacji.
 </p>
 <p>
 Jeśli myślisz, że jest to błąd serwera proszę skontaktuj się z <?php echo $data['admin']; ?>.

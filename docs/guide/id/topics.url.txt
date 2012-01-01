@@ -415,8 +415,8 @@ class CarUrlRule extends CBaseUrlRule
 
 Kelas URL buatan sendiri ini harus mengimplementasi dua method abstrak yang dideklarasikan di dalam [CBaseUrlRule]:
 
-* [CBaseUrlRule::createUrl()|createUrl()]
-* [CBaseUrlRule::parseUrl()|parseUrl()]
+* [createUrl()|CBaseUrlRule::createUrl()]
+* [parseUrl()|CBaseUrlRule::parseUrl()]
 
 Selain penggunaan di atas, kelas aturan URL custom juga dapat diimplementasikan
 tujuan lainnya. Misalnya, kita dapat menulis sebuah kelas aturan yang melakukan pencatatan 
@@ -425,5 +425,4 @@ menulis kelas aturan untuk menampilkan halaman error 404 khusus apabila aturan U
 Harap dicatat, khusus kasus ini, aturan dari kelas spesial ini harus 
 dideklarasikan sebagai aturan terakhir.
 
-<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>
-
+<div class="revision">$Id: topics.url.txt 3329 2011-06-28 08:31:35Z mdomba $</div>

@@ -22,8 +22,8 @@ tak samo, jak że przeprowadziliśmy analizę projektową dla aplikacji.
    4. Tworzenie klasy [kontrolera](/doc/guide/basics.controller) dla każdego typu 
    żądania użytkownika. Jak sklasyfikować żądania użytkownika w zależności od wymagań?
    Uogólniając, jeśli model klasy musi być udostępniony użytkownikowi, powinien 
-   powinien posiadać odpowiadającą mu klasę kontrolera. Narzędzie `Gii` pomoże 
-   również zautomatyzować ten krok.
+   posiadać odpowiadającą mu klasę kontrolera. Narzędzie `Gii` pomoże również zautomatyzować
+   ten krok.
 
    5. Implementowanie [akcji](/doc/guide/basics.controller#action) oraz odpowiadających 
    im [widoków](/doc/guide/basics.view). To jest miejsce gdzie prawdziwa praca
@@ -36,7 +36,7 @@ tak samo, jak że przeprowadziliśmy analizę projektową dla aplikacji.
    jest wymagane.
 
    8. Tworzenie tłumaczeń komunikatów jeśli [internacjonalizacja](/doc/guide/topics.i18n) 
-   jest wymagane.
+   jest wymagana.
 
    9. Rozpoznawanie danych oraz widoków, które mogą być buforowane oraz stosowanie odpowiednich 
    technik [buforowania](/doc/guide/caching.overview).

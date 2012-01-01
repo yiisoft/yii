@@ -4,6 +4,7 @@
 	- [1.0 から 1.1 へのアップグレード](upgrade)
     - [Yiiとは何でしょうか](quickstart.what-is-yii)
     - [インストール](quickstart.installation)
+    - [Apache と Nginx の構成](quickstart.apache-nginx-config)
     - [初めてのYiiアプリケーションの作成](quickstart.first-app)
 
 * 基本
@@ -70,4 +71,4 @@
     - [パフォーマンスチューニング](topics.performance)
     - [コマンドラインツールを使用するコード生成(非推奨)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 2700 2009-09-13 19:21:34Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>

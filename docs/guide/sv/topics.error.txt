@@ -38,12 +38,13 @@ erfordras:
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii definierar två exception-klasser: [CException] och [CHttpException]. Den 
-förra är en generell exception-klass, medan den senare representerar en 
-exception skall presenteras för slutanvändare. Den senare bär också med sig en 
-[statusCode|CHttpException::statusCode]-property representerande en HTTP-
-statuskod. En exceptions klass avgör hur den skall presenteras, som härnäst 
-förklaras.
+Yii definierar tre exception-klasser: [CException], [CDbException] 
+och [CHttpException]. [CException] är en generell exception-klass. 
+[CDbException] representerar en exception som orsakas av databasrelaterade 
+operationer. [CHttpException] representerar en exception som skall presenteras 
+för slutanvändare. Den bär också med sig en [statusCode|CHttpException::statusCode]-property 
+representerande en HTTP-statuskod. En exceptions klasstyp avgör hur den skall presenteras, 
+vilket förklaras nedan.
 
 > Tip|Tips: Att signalera en [CHttpException] är ett enkelt sätt att rapportera 
 > handhavandefel av användare. Till exempel, om användaren levererar ett ogiltigt 
@@ -157,4 +158,4 @@ kategori). Man kan därför dra fördel av finessen
 [loggning](/doc/guide/topics.logging) till att monitorera fel som inträffat när 
 applikationen kördes.
 
-<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3374 2011-08-05 23:01:19Z alexander.makarow $</div>

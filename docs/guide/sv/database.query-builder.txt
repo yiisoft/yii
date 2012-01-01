@@ -283,7 +283,7 @@ Nedan följer några exempel:
 // ORDER BY `name`, `id` DESC
 order('name, id desc')
 // ORDER BY `tbl_profile`.`name`, `id` DESC
-order(array('tbl_profile.name', 'id desc')
+order(array('tbl_profile.name', 'id desc'))
 ~~~
 
 
@@ -907,4 +907,4 @@ Nedan följer ett exempel på hur man tar bort ett index:
 dropIndex('idx_username', 'tbl_user')
 ~~~
 
-<div class="revision">$Id: database.query-builder.txt 3304 2011-06-23 14:53:50Z qiang.xue $</div>
+<div class="revision">$Id: database.query-builder.txt 3408 2011-09-28 20:50:28Z alexander.makarow $</div>

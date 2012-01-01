@@ -63,7 +63,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}
@@ -71,7 +71,22 @@ protected function newComment($post)
 }
 ~~~
 
-W powyższym kodzie, wołamy metodę `newComment()` zanim wygenerujemy widok `view`. W metodzie `newComment()` generujemy instancję komentarza `Comment` i sprawdzamy czy formularz komentarza został przesłany. Jeśli tak, spróbujemy dodać komentarz do wiadomości poprzez wywołanie `$post->addComment($comment)`. Jeżeli się to uda, odświeżymy stronę ze szczegółami wiadomości. W przypadku gdy komentarz wymaga zatwierdzenia, pokażemy wiadomość typu flash aby to zakomunikować. Wiadomość typu flash jest zazwyczaj wiadomością potwierdzającą coś, wyświetlaną użytkownikowi końcowemu. Jeśli użytkownik kliknie na przycisku odświeżenia w swojej przeglądarce wiadomość ta zniknie.
+Następnie modyfikujemy klasę modelu Post` dodając następującą metodę `addComment()`:
+
+~~~
+[php]
+public function addComment($comment)
+{
+	if(Yii::app()->params['commentNeedApproval'])
+		$comment->status=Comment::STATUS_PENDING;
+	else
+		$comment->status=Comment::STATUS_APPROVED;
+	$comment->post_id=$this->id;
+	return $comment->save();
+}
+~~~
+
+W powyższym kodzie, wołamy metodę `newComment()` zanim wygenerujemy widok `view`. W metodzie `newComment()` generujemy instancję komentarza `Comment` i sprawdzamy czy formularz komentarza został przesłany. Jeśli tak, spróbujemy dodać komentarz do wiadomości poprzez wywołanie `$post->addComment($comment)`. Jeżeli się to uda, odświeżymy stronę ze szczegółami wiadomości, która będzie wyświetlać nam nowo utworzony komentarz chyba, że będzie wymagane jego potwierdzenie. W przypadku kiedy komentarz wymaga najpierw zatwierdzenia zanim zostanie wyświetlony, wyświetlimy wiadomość flash w celu zakomunikowania użytkownikowi, że komentarz zostanie wyświetlony po jego zatwierdzeniu. Wiadomość typu flash jest zazwyczaj wiadomością potwierdzającą coś, wyświetlaną użytkownikowi końcowemu. Jeśli użytkownik kliknie na przycisku odświeżenia w swojej przeglądarce wiadomość ta zniknie.
 
 Musimy ponadto zmodyfikować również `/wwwroot/blog/protected/views/post/view.php`:
 
@@ -98,10 +113,10 @@ Musimy ponadto zmodyfikować również `/wwwroot/blog/protected/views/post/view.
 W powyższym kodzie wyświetlamy wiadomość typu flash jeśli jest dostępna. W przeciwnym przypadku, wyświetlamy formularz komentarza poprzez wygenerowanie widoku częściowego `/wwwroot/blog/protected/views/comment/_form.php`.
 
 
-Sprawdzanie poprawności danych po stronie klienta
+Sprawdzanie poprawności danych oparte na AJAX
 ----------------------
 
-W celu wspierania sprawdzania poprawności po stronie klienta w formularzu komentarza, potrzebujemy dokonać niewielkich zmian zarówno w widoku formularza `/wwwroot/blog/protected/views/comment/_form.php` jak i w metodzie `newComment()`.
+W celu poprawy wygody użytkownika, możemy użyć sprawdzania poprawności danych w polach formularza opartego na AJAX-ie, zapewniającego użytkownikowi informację zwrotną o poprawności pól w trakcie wypełniania formularza, przed przekazaniem całego formularza do serwera. Aby wspierać sprawdzanie poprawności oparte na AJAX-ie w formularzu komentarza, potrzebujemy dokonać niewielkich zmian zarówno w widoku formularza `/wwwroot/blog/protected/views/comment/_form.php` jak i w metodzie `newComment()`.
 
 W pliku `_form.php` musimy przede wszystkim ustawić [CActiveForm::enableAjaxValidation] jako wartość true, kiedy tworzymy widżet [CActiveForm]:
 
@@ -139,7 +154,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}
@@ -147,4 +162,4 @@ protected function newComment($post)
 }
 ~~~
 
-<div class="revision">$Id: comment.create.txt 2772 2010-12-24 16:24:12Z alexander.makarow $</div>
+<div class="revision">$Id: comment.create.txt 3495 2011-12-19 03:37:41Z jefftulsa $</div>

@@ -38,7 +38,35 @@ public function actionApprove()
 переадресовываем браузер пользователя к странице, отображающей запись, к которой
 относится этот комментарий.
 
-Мы также изменяем метод `actionIndex()` контроллера `Comment`, чтобы показать
+Естественно, потребуется создать и сам метод `approve` в модели `Comment`:
+
+~~~
+[php]
+public function approve()
+{
+	$this->status=Comment::STATUS_APPROVED;
+	$this->update(array('status'));
+}
+~~~
+
+Здесь мы просто выставляем свойство `status` комментария в `approved` согласно значению соответсвующей константы класса `Comment`:
+
+~~~
+[php]
+class Comment extends CActiveRecord
+{
+	...
+
+	const STATUS_PENDING=1;
+	const STATUS_APPROVED=2;
+
+	..
+}
+~~~
+
+Затем мы вызываем метод `update()` для того, чтобы сохранить выставленное свойство в БД.
+
+Мы также изменяем метод `actionIndex()` контроллера `CommentController`, чтобы показать
 все комментарии и вывести ожидающие одобрения первыми.
 
 ~~~
@@ -58,8 +86,10 @@ public function actionIndex()
 }
 ~~~
 
-Стоит отметить, что в коде выше необходимо разрешить конфликт имён столбцов
-так как и в `tbl_post` и в `tbl_comment` есть столбцы `status` и `create_time`.
+Стоит отметить, что в коде выше необходимо разрешить конфликт имён столбцов указав, что нам необходимы значения из
+основной таблицы `tbl_comment`. Сам конфликт возникает так как и в `tbl_post` и в `tbl_comment` есть столбцы
+`status` и `create_time`.
+
 Сделать это можно путём использования псевдонимов таблиц.
 Как описано [в руководстве](/doc/guide/ru/database.arr#disambiguating-column-names),
 псевдоним главной таблицы реляционного запроса всегда равен `t`. Поэтому, мы
@@ -72,4 +102,4 @@ public function actionIndex()
 Заинтересованные читатели могут изучить соответствующий файл демонстрационного
 приложения: `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
 
-<div class="revision">$Id: comment.admin.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>
+<div class="revision">$Id: comment.admin.txt 3480 2011-12-13 03:12:21Z jefftulsa $</div>

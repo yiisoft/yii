@@ -7,7 +7,7 @@ Oczywiście, Yii wciąż można dostosowywać prawie w każdym aspekcie za pomoc
 jeśli występuje taka potrzeba.
 
 Poniżej opiszemy konwencje, które zalecamy używać podczas programowania w Yii.
-Dla wygody, zakładamy, że `WebRoot` jest katalogiem, w którym zainstalowane są aplikacje Yii.
+Dla wygody zakładamy, że `WebRoot` jest katalogiem, w którym zainstalowane są aplikacje Yii.
 
 Adresy URL
 ---

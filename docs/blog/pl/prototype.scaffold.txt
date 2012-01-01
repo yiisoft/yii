@@ -48,7 +48,7 @@ Najpierw musimy utworzyć klasę [modelu](http://www.yiiframework.com/doc/guide/
 
 Kliknij na linku `Model Generator` aby rozpocząć używanie narzędzia generowania modelu.
 
-Na stronie `Model Generator` wprowadź `tbl_user` (nazwa tabeli z użytkownikami) w polu `Table Name`, a następnie naciśnij przycisk podglądu `Preview`. Ukaże nam się tabelka z podglądem. Możemy kliknąć w link znajdujący się w tej tabelce aby podejrzeć kod, który zostanie wygenerowany. Jeśli wszystko jest w porządku, możemy nacisnąć przycisk generowania `Generate` w celu wygenerowania kodu i zapisania go w pliku.
+Na stronie `Model Generator` wprowadź `tbl_user` (nazwa tabeli z użytkownikami) w polu `Table Name`, prefiks `tbl_` w polu `Table Prefix` a następnie naciśnij przycisk podglądu `Preview`. Ukaże nam się tabelka z podglądem. Możemy kliknąć w link znajdujący się w tej tabelce aby podejrzeć kod, który zostanie wygenerowany. Jeśli wszystko jest w porządku, możemy nacisnąć przycisk generowania `Generate` w celu wygenerowania kodu i zapisania go w pliku.
 
 > Info|Info: Ponieważ generator kodu potrzebuje zapisać wygenerowany kod do plików, wymaga się aby proces sieciowy posiadał pozwolenie na tworzenie i modyfikowanie odpowiednich plików. Upraszczając, możemy nadać procesowi sieciowemu uprawnienie do zapisywania całego katalogu `/wwwroot/blog`. Zauważ, że jest to potrzebne jedynie na maszynie deweloperskiej podczas używania `Gii`.
 
@@ -114,4 +114,4 @@ W celu lepszego zrozumienia jak powyższe pliki są używane, pokażemy przepły
  5. Metoda `actionIndex()` wyświetla widok `index` wypełniony danymi wiadomości.
 
 
-<div class="revision">$Id: prototype.scaffold.txt 2258 2010-07-12 14:13:50Z alexander.makarow $</div>
+<div class="revision">$Id: prototype.scaffold.txt 3332 2011-06-28 20:07:38Z alexander.makarow $</div>

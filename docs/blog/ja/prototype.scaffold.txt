@@ -50,7 +50,7 @@ http://www.example.com/blog/index.php?r=gii
 
 モデル生成ツールを使用するためには、`モデルジェネレータ`リンクをクリックしてください。
 
-`モデルジェネレータ`ページでは、`Table Name`フィールドに`tbl_user` (ユーザテーブル名)と入力し、`プレビュー`ボタンを押します。
+`モデルジェネレータ`ページでは、`Table Name`フィールドに`tbl_user` (ユーザテーブル名)、`Table Prefix`フィールドに`tbl_`と入力し、`プレビュー`ボタンを押します。
 プレビューテーブルが表れます。テーブルのリンクをクリックすることで、生成されるコードをプレビューすることができます。
 もし、全てがOKであれば、`生成`ボタンを押すことによりコードを生成し、ファイルに保存することができます。
 
@@ -120,4 +120,4 @@ http://www.example.com/blog/index.php?r=comment
  4. `actionIndex()` メソッドはデータベースに問い合わせを行い、最近の記事リストを取り出します。
  5. `actionIndex()` メソッドは、記事データを `index` ビューで描画します。
 
-<div class="revision">$Id: prototype.scaffold.txt 2258 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: prototype.scaffold.txt 3332 2011-06-28 20:07:38Z alexander.makarow $</div>

@@ -109,8 +109,8 @@ ovanstående exempel. Valideringsmetoden måste ha följande signatur:
 ~~~
 [php]
 /**
- * @param string the name of the attribute to be validated
- * @param array options specified in the validation rule
+ * @param string $attribute namn på attribut som skall valideras
+ * @param array $params alternativ som specificerats i valideringsregeln
  */
 public function ValidatorName($attribute,$params) { ... }
 ~~~
@@ -382,4 +382,4 @@ ledtext. Detta kan anpassas genom att åsidosätta metoden
 avsnitt, tillåter specificering av ledtexter i modellen, oss att skapa formulär 
 snabbare och mer kraftfullt.
 
-<div class="revision">$Id: form.model.txt 3160 2011-04-03 01:08:23Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3482 2011-12-13 09:41:36Z mdomba $</div>

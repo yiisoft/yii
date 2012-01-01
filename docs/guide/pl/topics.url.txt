@@ -409,8 +409,8 @@ class CarUrlRule extends CBaseUrlRule
 
 Własna klasa URL musi implementować dwie abstrakcyjne metody zadeklarowane w klasie [CBaseUrlRule]:
 
-* [CBaseUrlRule::createUrl()|createUrl()]
-* [CBaseUrlRule::parseUrl()|parseUrl()]
+* [createUrl()|CBaseUrlRule::createUrl()]
+* [parseUrl()|CBaseUrlRule::parseUrl()]
 
 Poza powyższym, typowym użyciem, własne klasy reguł URL mogą być implementowane z innych powodów.
 Na przykład, chcemy napisać klasę reguł logującą parsowanie URL i tworzenie żądania.
@@ -419,4 +419,4 @@ do wyświetlania specjalnej strony błędu 404 w przypadku gdy wszystkie pozosta
 nie będą potrafiły rozszyfrować aktualnego żądania. Zauwać, że w takim przypadku, reguła
 z tą specjalną klasą musi zostać zadeklarowana jako ostatnia.
 
-<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 3329 2011-06-28 08:31:35Z mdomba $</div>

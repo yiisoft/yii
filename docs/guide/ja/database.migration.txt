@@ -22,7 +22,10 @@ Yii はデータベースマイグレーションを `yiic migrate` コマンド
 
 以下、このツールの使い方を説明します。
 
-> Note|注意: `migrate` コマンドを使うときには、`framework` ディレクトリで作業するのでなく、アプリケーション固有のディレクトリに入って(例えば `cd path/to/protected`) yiic を使う方が良いでしょう。
+> Note|注意: `migrate` コマンドを使うときには、`framework` ディレクトリで作業するのでなく、
+> アプリケーション固有のディレクトリに入って(例えば `cd path/to/protected`) yiic を使う方が良いでしょう。
+> `protected\migrations` ディレクトリが存在しており、書き込み可能であることを確かめてください。
+> また、`protected/config/console.php` においてデータベース接続を構成したかどうかもチェックしてください。
 
 
 マイグレーションを作成する
@@ -334,4 +337,4 @@ return array(
 
 これで、毎回コマンドラインオプションを入力しなくても、`migrate` コマンドを実行すれば、上記の設定が有効になります。
 
-<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>
+<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>

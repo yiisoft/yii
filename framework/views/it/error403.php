@@ -20,7 +20,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 <h1>Non autorizzato</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
-Tu non possiede le giuste credenziali per accedere a questa pagine.
+Tu non possiedi le giuste credenziali per accedere a questa pagina.
 </p>
 <p>
 Se pensi che &egrave; un errore del server, contatta cortesemente  <?php echo $data['admin']; ?>.

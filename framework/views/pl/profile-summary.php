@@ -11,7 +11,7 @@
 	    <th>Procedura</th>
 		<th>Ilość</th>
 		<th>Razem (s)</th>
-		<th>średnia. (s)</th>
+		<th>Średnia. (s)</th>
 		<th>Min. (s)</th>
 		<th>Max. (s)</th>
 	</tr>

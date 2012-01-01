@@ -28,8 +28,11 @@ zurückgenommen oder wiederholt werden. Man kann auch die Historie aller
 Migrationen oder neue Migrationen anzeigen lassen.
 
 >Note|Hinweis: Es wird empfohlen, den `migrate`-Befehl mit der yiic-Version 
->im Applikationspfad (z.B. `cd pfad/zu/protected`) statt der im
->Framework-Verzeichnis auszuführen.
+>im Applikationspfad (z.B. `cd pfad/zu/protected`) statt derjenigen im
+>Framework-Verzeichnis auszuführen. Stellen Sie sicher, dass das
+>`protected/migrations`-Verzeichnis existiert und beschreibbar ist. Prüfen Sie
+>außerdem, ob Sie eine Datenbankverbindung in `protected/config/console.php`
+>angegeben haben.
 
 Migrationen erstellen
 ---------------------
@@ -399,4 +402,4 @@ return array(
 Ruft man nun den `migrate`-Befehl auf, werden obige Optionen immer angewendet,
 ohne sie explizit mit angeben zu müssen.
 
-<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>
+<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>

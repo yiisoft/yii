@@ -41,11 +41,12 @@ folgender Syntax ausgelöst:
 throw new ExceptionClass('ExceptionMeldung');
 ~~~
 
-Yii definiert zwei Exceptionklassen: [CException] und [CHttpException].
-Erstere ist eine allgemeine Exceptionklasse, während letztere eine Exception
-darstellt, die dem Endanwender angezeigt werden soll. Sie hat auch
+Yii definiert drei Exceptionklassen: [CException], [CDbException] und [CHttpException].
+[CException] ist die allgemeine Exceptionklasse. [CDbException] steht für
+Exceptions die bei Datenbankoperationen ausgelöst werden. [CHttpException]
+ist eine Exception, die dem Besucher angezeigt werden soll. Sie hat
 eine [statusCode|CHttpException::statusCode]-Eigenschaft, die für den
-HTTP-Statuscode steht. Wie im folgenden gezeigt, bestimmt die Klasse 
+HTTP-Statuscode steht. Wie im folgenden gezeigt, bestimmt die Klasse
 einer Exception darüber, wie diese angezeigt werden soll.
 
 > Tip|Tipp: Durch das Auslösen einer [CHttpException]-Exception kann man sehr
@@ -164,4 +165,4 @@ einer nicht-abgefangenen Exception, lautet die Kategorie
 somit die Verfahren zur [Protokollierung](/doc/guide/topics.logging) benutzen,
 um Ausführungsfehler einer Anwendung zu überwachen.
 
-<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3374 2011-08-05 23:01:19Z alexander.makarow $</div>
