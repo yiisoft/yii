@@ -3,6 +3,9 @@ New Features
 
 This page summarizes the main new features introduced in each Yii release.
 
+Version 1.1.9
+-------------
+
 Version 1.1.8
 -------------
  * [Added support for using custom URL rule classes](/doc/guide/topics.url#using-custom-url-rule-classes)
