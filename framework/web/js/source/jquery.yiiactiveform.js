@@ -16,7 +16,9 @@
 	 * @param o object the jQuery object of the input element
 	 */
 	var getAFValue = function (o) {
-		var type = o.attr('type');
+		var type;
+		if(!o.length)
+			return undefined;
 		if(o[0].tagName.toLowerCase()=='span') {
 			var c = [];
 			o.find(':checked').each(function () {
@@ -24,6 +26,7 @@
 			});
 			return c.join(',');
 		}
+		type = o.attr('type');
 		if (type === 'checkbox' || type === 'radio') {
 			return o.filter(':checked').val();
 		} else {
@@ -102,20 +105,20 @@
 				}, attribute.validationDelay);
 			};
 
-			$.each(settings.attributes, function () {
+			$.each(settings.attributes, function (i,attribute) {
 				if (this.validateOnChange) {
 					$form.find('#' + this.inputID).change(function () {
-						validate(this);
+						validate(attribute);
 					}).blur(function () {
-						if (this.status !== 2 && this.status !== 3) {
-							validate(this);
+						if (attribute.status !== 2 && attribute.status !== 3) {
+							validate(attribute);
 						}
 					});
 				}
 				if (this.validateOnType) {
 					$form.find('#' + this.inputID).keyup(function () {
-						if (this.value !== getAFValue($(this))) {
-							validate(this);
+						if (attribute.value !== getAFValue($(attribute))) {
+							validate(attribute);
 						}
 					});
 				}
@@ -240,28 +243,33 @@
 	 */
 	$.fn.yiiactiveform.updateInput = function (attribute, messages, form) {
 		attribute.status = 1;
-		var hasError = messages !== null && $.isArray(messages[attribute.id]) && messages[attribute.id].length > 0,
-			$error = form.find('#' + attribute.errorID),
+		var $error, $container,
+			hasError = false,
+			$el = form.find('#' + attribute.inputID);
+		if($el.length) {
+			hasError = messages !== null && $.isArray(messages[attribute.id]) && messages[attribute.id].length > 0;
+			$error = form.find('#' + attribute.errorID);
 			$container = $.fn.yiiactiveform.getInputContainer(attribute, form);
 
-		$container.removeClass(
-			attribute.validatingCssClass + ' ' + 
-			attribute.errorCssClass + ' ' + 
-			attribute.successCssClass
-		);
+			$container.removeClass(
+				attribute.validatingCssClass + ' ' + 
+				attribute.errorCssClass + ' ' + 
+				attribute.successCssClass
+			);
 
-		if (hasError) {
-			$error.html(messages[attribute.id][0]);
-			$container.addClass(attribute.errorCssClass);
-		}
-		else if (attribute.enableAjaxValidation || attribute.clientValidation) {
-			$container.addClass(attribute.successCssClass);
-		}
-		if (!attribute.hideErrorMessage) {
-			$error.toggle(hasError);
-		}
+			if (hasError) {
+				$error.html(messages[attribute.id][0]);
+				$container.addClass(attribute.errorCssClass);
+			}
+			else if (attribute.enableAjaxValidation || attribute.clientValidation) {
+				$container.addClass(attribute.successCssClass);
+			}
+			if (!attribute.hideErrorMessage) {
+				$error.toggle(hasError);
+			}
 
-		attribute.value = getAFValue(form.find('#' + attribute.inputID));
+			attribute.value = getAFValue($el);
+		}
 		return hasError;
 	};
 

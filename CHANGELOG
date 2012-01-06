@@ -4,7 +4,8 @@
 
 Version 1.1.10 work in progress
 -------------------------------
-
+- Bug: #3070: Fixed the CACtiveForm JS error if there is no field rendered (mdomba)
+- Bug: #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
 
 Version 1.1.9 January 1, 2012
 -----------------------------
