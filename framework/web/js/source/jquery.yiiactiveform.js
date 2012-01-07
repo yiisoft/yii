@@ -119,7 +119,7 @@
 				}
 				if (this.validateOnType) {
 					$form.find('#' + this.inputID).keyup(function () {
-						if (attribute.value !== getAFValue($(attribute))) {
+						if (attribute.value !== getAFValue($(this))) {
 							validate(attribute, false);
 						}
 					});
