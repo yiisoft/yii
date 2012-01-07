@@ -64,15 +64,17 @@
 			$form.data('settings', settings);
 
 			settings.submitting = false;  // whether it is waiting for ajax submission result
-			var validate = function (attribute) {
-				var changed = false;
+			var validate = function (attribute, forceValidate) {
+				if (forceValidate) {
+					attribute.status = 2;
+				}
 				$.each(settings.attributes, function () {
 					if (this.value !== getAFValue($form.find('#' + this.inputID))) {
 						this.status = 2;
-						changed = true;
+						forceValidate = true;
 					}
 				});
-				if (!changed) {
+				if (!forceValidate) {
 					return;
 				}
 
@@ -108,17 +110,17 @@
 			$.each(settings.attributes, function (i,attribute) {
 				if (this.validateOnChange) {
 					$form.find('#' + this.inputID).change(function () {
-						validate(attribute);
+						validate(attribute, false);
 					}).blur(function () {
 						if (attribute.status !== 2 && attribute.status !== 3) {
-							validate(attribute);
+							validate(attribute, !attribute.status);
 						}
 					});
 				}
 				if (this.validateOnType) {
 					$form.find('#' + this.inputID).keyup(function () {
 						if (attribute.value !== getAFValue($(attribute))) {
-							validate(attribute);
+							validate(attribute, false);
 						}
 					});
 				}
