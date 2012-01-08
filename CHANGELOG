@@ -7,6 +7,7 @@ Version 1.1.10 work in progress
 - Bug: Fixed the bug introduced in 1.1.9 CActiveForm required field was not validated if left empty (mdomba)
 - Bug: #3070: Fixed the CACtiveForm JS error if there is no field rendered (mdomba)
 - Bug: #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
+- Enh: #3063: Gii, when generating models, tableNames will be checked against reserved PHP keywords when '*' is used (mdomba)
 
 Version 1.1.9 January 1, 2012
 -----------------------------
