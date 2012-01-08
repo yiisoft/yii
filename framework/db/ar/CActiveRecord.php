@@ -463,7 +463,7 @@ abstract class CActiveRecord extends CModel
 	 * Note, for composite foreign keys, they can be either listed together, separated by commas or specified as an array
 	 * in format of array('key1','key2'). In case you need to specify custom PK->FK association you can define it as
 	 * array('fk'=>'pk'). For composite keys it will be array('fk_c1'=>'pk_с1','fk_c2'=>'pk_c2').
-	 * and for foreign keys used in MANY_MANY relation, the joining table must be declared as well
+	 * For foreign keys used in MANY_MANY relation, the joining table must be declared as well
 	 * (e.g. 'join_table(fk1, fk2)').
 	 *
 	 * Additional options may be specified as name-value pairs in the rest array elements:
