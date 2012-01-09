@@ -286,13 +286,15 @@
 		if (settings.summaryID === undefined) {
 			return;
 		}
-		$.each(settings.attributes, function () {
-			if (messages && $.isArray(messages[this.id])) {
-				$.each(messages[this.id], function (j, message) {
-					content = content + '<li>' + message + '</li>';
-				});
-			}
-		});
+		if (messages) {
+			$.each(settings.attributes, function () {
+				if ($.isArray(messages[this.id])) {
+					$.each(messages[this.id], function (j, message) {
+						content = content + '<li>' + message + '</li>';
+					});
+				}
+			});
+		}
 		$('#' + settings.summaryID).toggle(content !== '').find('ul').html(content);
 	};
 
