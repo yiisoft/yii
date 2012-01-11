@@ -1,10 +1,16 @@
+<?php
+	function e($text)
+	{
+		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
+	}
+?>
 <!DOCTYPE html PUBLIC
 	"-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title><?php echo CHtml::encode($data['type'])?></title>
+<title><?php echo e($data['type'])?></title>
 
 <style type="text/css">
 /*<![CDATA[*/
@@ -90,9 +96,9 @@ pre span.error-ln {
 .code pre {
 	background-color: #ffe;
 	margin: 0.5em 0;
-    padding: 0.5em;
-    line-height: 125%;
-    border: 1px solid #eee;
+	padding: 0.5em;
+	line-height: 125%;
+	border: 1px solid #eee;
 }
 
 .source .file {
@@ -161,11 +167,11 @@ pre span.error-ln {
 	<h1><?php echo $data['type']?></h1>
 
 	<p class="message">
-		<?php echo nl2br(CHtml::encode($data['message']))?>
+		<?php echo nl2br(e($data['message']))?>
 	</p>
 
 	<div class="source">
-		<p class="file"><?php echo CHtml::encode($data['file'])."({$data['line']})"?></p>
+		<p class="file"><?php echo e($data['file'])."({$data['line']})"?></p>
 		<?php echo $this->renderSourceCode($data['file'],$data['line'],$this->maxSourceLines); ?>
 	</div>
 
@@ -195,13 +201,13 @@ pre span.error-ln {
 					<?php endif; ?>
 					<?php
 						echo '&nbsp;';
-						echo CHtml::encode($trace['file'])."(".$trace['line'].")";
+						echo e($trace['file'])."(".$trace['line'].")";
 						echo ': ';
 						if(!empty($trace['class']))
 							echo "<strong>{$trace['class']}</strong>{$trace['type']}";
 						echo "<strong>{$trace['function']}</strong>(";
 						if(!empty($trace['args']))
-							echo CHtml::encode($this->argumentsToString($trace['args']));
+							echo e($this->argumentsToString($trace['args']));
 						echo ')';
 					?>
 				</div>
