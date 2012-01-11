@@ -59,7 +59,7 @@ http://www.example.com/blog/index.php?r=gii
 что будет показано далее в данном руководстве.
 
 Запускаем `Model Generator`. На странице вводим `tbl_user` (имя таблицы,
-хранящей пользователей) в поле `Table Name` и нажимаем кнопку `Preview`.
+хранящей пользователей) в поле `Table Name`, `tbl_` в поле `Table Prefix` и нажимаем кнопку `Preview`.
 Будет показана таблица, ссылки в которой позволят просмотреть код, который мы
 собираемся сгенерировать. Если всё в порядке, можно нажимать `Generate`. При этом
 код будет сохранён в файл.
@@ -160,4 +160,4 @@ http://www.example.com/blog/index.php?r=comment
  5. Метод `actionIndex()` генерирует представление `index` с данными записей.
 
 
-<div class="revision">$Id: prototype.scaffold.txt 2258 2010-07-12 14:13:50Z alexander.makarow $</div>
+<div class="revision">$Id: prototype.scaffold.txt 3332 2011-06-28 20:07:38Z alexander.makarow $</div>

@@ -73,7 +73,6 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	 * to avoid XSS attacks.
 	 * @param string $content the markdown content
 	 * @return string the purified HTML content
-	 * @since 1.0.1
 	 */
 	public function safeTransform($content)
 	{

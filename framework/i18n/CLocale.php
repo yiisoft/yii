@@ -213,7 +213,6 @@ class CLocale extends CComponent
 	 * @param string $width month name width. It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param boolean $standAlone whether the month names should be returned in stand-alone format
 	 * @return array month names indexed by month values (1-12)
-	 * @since 1.0.9
 	 */
 	public function getMonthNames($width='wide',$standAlone=false)
 	{
@@ -242,7 +241,6 @@ class CLocale extends CComponent
 	 * @param string $width weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param boolean $standAlone whether the week day name should be returned in stand-alone format
 	 * @return array the weekday names indexed by weekday values (0-6, 0 means Sunday, 1 Monday, etc.)
-	 * @since 1.0.9
 	 */
 	public function getWeekDayNames($width='wide',$standAlone=false)
 	{
@@ -405,9 +403,11 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param string $id Unicode language identifier from IETF BCP 47. For example, the code "en_US" represents U.S. English and "en_GB" represents British English.
-	 * @param string $category
-	 * @return string the local display name for the language. Null if the language code does not exist.
+	 * Gets a localized name from i18n data file (one of framework/i18n/data/ files).
+	 *
+	 * @param string $id array key from an array named by $category.
+	 * @param string $category data category. One of 'languages', 'scripts' or 'territories'.
+	 * @return string the localized name for the id specified. Null if data does not exist.
 	 * @since 1.1.9
 	 */
 	public function getLocaleDisplayName($id=null, $category='languages')

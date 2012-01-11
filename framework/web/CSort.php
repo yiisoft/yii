@@ -45,7 +45,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web
- * @since 1.0.1
  */
 class CSort extends CComponent
 {
@@ -178,7 +177,6 @@ class CSort extends CComponent
 	/**
 	 * @var array the additional GET parameters (name=>value) that should be used when generating sort URLs.
 	 * Defaults to null, meaning using the currently available GET parameters.
-	 * @since 1.0.9
 	 */
 	public $params;
 

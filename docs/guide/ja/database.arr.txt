@@ -87,7 +87,9 @@ class User extends CActiveRecord
 ~~~
 
 > Info|情報: 外部キーは2個以上の列で構成される複合キーでもかまいません。
-この場合は、外部キーの列の名前をカンマで区切って結合したものを名前として使わなければなりません。
+この場合は、外部キーの列の名前をカンマで区切って結合した文字列か、または array('key1','key2') のような配列を使わなければなりません。
+標準的でない PK->FK 結合を指定する必要があるときは、array('fk'=>'pk') として定義することが出来ます。
+複合キーの場合は、array('fk_c1'=>'pk_c1','fk_c2'=>'pk_c2') となります。
 `MANY_MANY`のリレーションにおいては、外部キーとして、関連付けテーブル名も指定されなければなりません。
 例えば、`Post`における`categories`リレーションは、`tbl_post_category(post_id, category_id)` という外部キーにより指定されます。
 
@@ -186,7 +188,7 @@ $posts=Post::model()->findAll(array(
 		'author.posts',
 		'categories',
 	)
-);
+));
 ~~~
 
 関連するモデルを取得しないリレーショナルクエリを実行する
@@ -262,6 +264,10 @@ $users=User::model()->with(array(
    - `index`: 関連するオブジェクトを格納する配列のキーとして使われる値を持っている列の名前です。
 このオプションを設定しない場合は、関連するオブジェクトの配列は 0 から始まる整数のインデックスを持ちます。
 このオプションは、`HAS_MANY` および `MANY_MANY` のリレーションに対してのみ設定出来ます。
+
+   - `scopes`: 適用するスコープです。単一のスコープの場合は `'scopes'=>'scopeName'` のように、
+複数のスコープの場合は `'scopes'=>array('scopeName1','scopeName2')` のように指定する事が出来ます。
+このオプションは、バージョン 1.1.9 以降で利用可能です。
 
 さらに、以下のオプションは、レイジーローディングの間、特定のリレーションのために利用できます：
 
@@ -361,11 +367,12 @@ $posts=$user->posts(array('condition'=>'status=1'));
 
 では、どちらのアプローチがより効率的なのでしょうか。絶対的な答えはありません。
 単一の長大な SQL 文を実行する方が効率的なこともあります。何故なら、SQL 文の解釈と実行をするのに、DBMS におけるオーバーヘッドを少なく出来るからです。
-その反対に、単一の SQL 文を使うと、冗長なデータが増えて、その結果、データの読み出しと処理に時間がかかるようになります。
+その一方、単一の SQL 文を使うと、冗長なデータが増えて、その結果、データの読み出しと処理に時間がかかるようになります。
 
 こういう理由から、Yii は必要に応じて二つのアプローチを選択できるように、`togeter` というクエリオプションを提供しています。
-デフォルトでは、Yii は第一のアプローチを採用します。すなわち、単一の SQL 文を生成してイーガーローディングを実行します。
-リレーションの宣言において `togeter` オプションを false に設定すれば、いくつかのテーブルを別の SQL 文の中で結合するように設定することが出来ます。
+デフォルトでは、主たるモデルに対して `LIMIT` が適用されない限り、単一の SQL 文を生成して、イーガーローディングを実行します。
+リレーションの宣言において `together` オプションを true に設定すれば、`LIMIT` が使用される場合であっても、単一の SQL 文を生成するように強制することが可能です。
+そして、`together` オプションを false に設定すれば、いくつかのテーブルを別の SQL 文の中で結合するように設定することが出来ます。
 例えば、最近の投稿記事とそれに対するコメントを取得するのに、第二のアプローチを採用したい場合は、次のように `Post` クラスの `comments` リレーションを宣言します。
 
 ~~~
@@ -528,7 +535,7 @@ class User extends CActiveRecord
 }
 ~~~
 
-> Note|注意: 関連したモデルに適用される Named Scope は、[CActiveRecord::scopes] で定義しなければなりません。結果的に、それらをパラメータ化することはできません。
+> Note|注意: 1.1.7 より前では、関連したモデルに適用される Named Scope は、[CActiveRecord::scopes] で定義しなければなりません。結果的に、それらをパラメータ化することはできません。
 
 バージョン 1.1.7 以降、リレーショナルクエリの Named Scope にパラメータを渡すことが可能になりました。
 例えば、`Post` に `rated` という名前のスコープがあって、レーティングの下限を受け付ける場合、`User` から次のようにして使うことが出来ます。
@@ -553,13 +560,13 @@ through を使うリレーショナルクエリ
 
 ~~~
 [php]
-'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'throughRelationName', ... 追加のオプション)
+'comments'=>array(self::HAS_MANY,'Comment',array('key1'=>'key2'),'through'=>'posts'),
 ~~~
 
-上記で `foreign_key` の値は次のようなキーの名前です。
+上記の `array('key1'=>'key2')` において、
 
-  - `throughRelationName` に指定されたテーブルに定義されているキーで、
-  - `ClassName` モデルのためのデータを保持するテーブルを指し示しているキー。
+  - `key1` は `throughRelationName` で定義されているキーであり、
+  - `key2` は `ClassName` で定義されているキーです。
 
 `through` は `HAS_ONE` と `HAS_MANY` の両方のリレーションで使用出来ます。
 
@@ -580,8 +587,8 @@ class Group extends CActiveRecord
    {
        return array(
            'roles'=>array(self::HAS_MANY,'Role','group_id'),
-           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
-           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+           'users'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment',array('id'=>'user_id'),'through'=>'users'),
        );
    }
 }
@@ -624,7 +631,7 @@ class User extends CActiveRecord
    {
        return array(
            'profile'=>array(self::HAS_ONE,'Profile','user_id'),
-           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+           'address'=>array(self::HAS_ONE,'Address',array('id'=>'profile_id'),'through'=>'profile'),
        );
    }
 }
@@ -659,7 +666,7 @@ class User extends CActiveRecord
    {
        return array(
            'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
-           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorships','joinType'=>'INNER JOIN'),
        );
    }
 }
@@ -674,4 +681,4 @@ $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
 
-<div class="revision">$Id: database.arr.txt 3127 2011-03-26 12:21:47Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 3416 2011-10-13 18:18:13Z alexander.makarow $</div>

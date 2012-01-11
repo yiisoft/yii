@@ -57,6 +57,11 @@ caching fragmen konten untuk satu jam:
 Jika kita tidak menyetel durasi, standarnya adalah 60, berarti konten
 di-cache akan disegarkan setelah 60 detik.
 
+Semenjak versi 1.1.8, jika durasi di set menjadi 0, maka segala
+konten yang ter-cache akan dihapus dari cache. Jika nilai durasi dalam bentuk negatif,
+cache akan di-disable, namun konten yang di-cache tetap ada di dalam cache.
+Sebelum versi 1.1.8, jika durasi bernilai 0 atau negatif, cache akan di-disable.
+
 ### Ketergantungan
 
 Seperti halnya [caching data](/doc/guide/caching.data), fragmen konten yang
@@ -160,4 +165,4 @@ Akan tetapi, tidak dapat dilakukan sebaliknya. Jika cache yang luar berisi
 data yang benar, maka akan selalu menyediakan duplikat yang di-cache, meskipun konten
 cache yang dalam sudah kadaluarsa.
 
-<div class="revision">$Id: caching.fragment.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id: caching.fragment.txt 3315 2011-06-24 15:18:11Z qiang.xue $</div>

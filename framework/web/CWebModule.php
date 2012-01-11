@@ -29,7 +29,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web
- * @since 1.0.3
  */
 class CWebModule extends CModule
 {
@@ -174,7 +173,6 @@ class CWebModule extends CModule
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
 	 * @return boolean whether the action should be executed.
-	 * @since 1.0.4
 	 */
 	public function beforeControllerAction($controller,$action)
 	{
@@ -189,7 +187,6 @@ class CWebModule extends CModule
 	 * are executed. If you override this method, make sure you call the parent implementation at the end.
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
-	 * @since 1.0.4
 	 */
 	public function afterControllerAction($controller,$action)
 	{

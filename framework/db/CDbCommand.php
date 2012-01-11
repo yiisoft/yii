@@ -239,7 +239,7 @@ class CDbCommand extends CComponent
 	 * @param integer $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
 	 * @param integer $length length of the data type
 	 * @param mixed $driverOptions the driver-specific options (this is available since version 1.1.6)
-	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
+	 * @return CDbCommand the current command being executed
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindParam.php
 	 */
 	public function bindParam($name, &$value, $dataType=null, $length=null, $driverOptions=null)
@@ -265,7 +265,7 @@ class CDbCommand extends CComponent
 	 * placeholders, this will be the 1-indexed position of the parameter.
 	 * @param mixed $value The value to bind to the parameter
 	 * @param integer $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
-	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
+	 * @return CDbCommand the current command being executed
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindValue.php
 	 */
 	public function bindValue($name, $value, $dataType=null)
@@ -309,7 +309,6 @@ class CDbCommand extends CComponent
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
-	 * This parameter has been available since version 1.0.10.
 	 * @return integer number of rows affected by the execution.
 	 * @throws CException execution failed
 	 */
@@ -365,7 +364,6 @@ class CDbCommand extends CComponent
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
-	 * This parameter has been available since version 1.0.10.
 	 * @return CDbDataReader the reader object for fetching the query result
 	 * @throws CException execution failed
 	 */
@@ -383,7 +381,6 @@ class CDbCommand extends CComponent
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
-	 * This parameter has been available since version 1.0.10.
 	 * @return array all rows of the query result. Each array element is an array representing a row.
 	 * An empty array is returned if the query results in nothing.
 	 * @throws CException execution failed
@@ -403,7 +400,6 @@ class CDbCommand extends CComponent
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
-	 * This parameter has been available since version 1.0.10.
 	 * @return mixed the first row (in terms of an array) of the query result, false if no result.
 	 * @throws CException execution failed
 	 */
@@ -421,7 +417,6 @@ class CDbCommand extends CComponent
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
-	 * This parameter has been available since version 1.0.10.
 	 * @return mixed the value of the first column in the first row of the query result. False is returned if there is no value.
 	 * @throws CException execution failed
 	 */
@@ -443,7 +438,6 @@ class CDbCommand extends CComponent
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
-	 * This parameter has been available since version 1.0.10.
 	 * @return array the first column of the query result. Empty array if no result.
 	 * @throws CException execution failed
 	 */
@@ -460,7 +454,6 @@ class CDbCommand extends CComponent
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
-	 * This parameter has been available since version 1.0.10.
 	 * @return mixed the method execution result
 	 */
 	private function queryInternal($method,$mode,$params=array())

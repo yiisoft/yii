@@ -14,6 +14,7 @@ Yii 权威指南
 * moho
 * nowgoo
 * qiang
+* rainyjune
 * riverlet（[Yii 中国开发者网站](http://www.yiikuangjia.com)）
 * sharehua 
 * thaiki

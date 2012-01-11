@@ -26,13 +26,11 @@ class CEmailValidator extends CValidator
 	/**
 	 * @var string the regular expression used to validate email addresses with the name part.
 	 * This property is used only when {@link allowName} is true.
-	 * @since 1.0.5
 	 * @see allowName
 	 */
 	public $fullPattern='/^[^@]*<[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$/';
 	/**
 	 * @var boolean whether to allow name in the email address (e.g. "Qiang Xue <qiang.xue@gmail.com>"). Defaults to false.
-	 * @since 1.0.5
 	 * @see fullPattern
 	 */
 	public $allowName=false;
@@ -45,7 +43,6 @@ class CEmailValidator extends CValidator
 	/**
 	 * @var boolean whether to check port 25 for the email address.
 	 * Defaults to false.
-	 * @since 1.0.4
 	 */
 	public $checkPort=false;
 	/**

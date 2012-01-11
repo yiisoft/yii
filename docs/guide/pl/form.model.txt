@@ -110,8 +110,8 @@ w przykładzie powyżej. Metoda walidatora musi posiadać następującą składn
 ~~~
 [php]
 /**
- * @param string nazwa atrybutu sprawdzanego
- * @param array opcje określone w regule walidacji
+ * @param string $attribute nazwa atrybutu sprawdzanego
+ * @param array $params opcje określone w regule walidacji
  */
 public function ValidatorName($attribute,$params) { ... }
 ~~~
@@ -304,7 +304,7 @@ poprawności może być również automatycznie wyzwolone, podczas wywołania me
 Scenariusz możemy ustawić za pomocą właściwości [scenario|CModel::scenario] 
 i w ten sposób wskazać, który zestaw reguł sprawdzania poprawności powinien zostać zastosowany.
 
-Sprawdzanie poprawności jest wykonywane na postawie scenariusza. Właściwość [scenario|CModel::scenario]
+Sprawdzanie poprawności jest wykonywane na podstawie scenariusza. Właściwość [scenario|CModel::scenario]
 określa, który scenariusz modelu jest wykorzystywany oraz który zestaw reguł sprawdzania
 poprawności powinien zostać użyty. Na przykład, w scenariuszu logowania `login` chcemy sprawdzić
 jedynie nazwę użytkownika `username` oraz hasło `password` dla modelu użytkownika. Natomiast
@@ -314,12 +314,12 @@ poprawności w scenariuszu rejestracji `register`:
 
 ~~~
 [php]
-// tworzenie modelu użytkownika User w scenariuszu rejestracji. Równożnaczne z:
+// tworzenie modelu użytkownika User w scenariuszu rejestracji. Równoznaczne z:
 // $model=new User;
 // $model->scenario='register';
 $model=new User('register');
 
-// wypełnianie model wartościami wejściowymi
+// wypełnianie modelu wartościami wejściowymi
 $model->attributes=$_POST['User'];
 
 // wykonanie sprawdzania poprawności
@@ -371,4 +371,4 @@ potrzeb poprzez nadpisanie metody [attributeLabels()|CModel::attributeLabels].
 Jak zobaczymy w następnych punktach, zdefiniowanie etykiet w modelu umożliwia nam tworzenie 
 formularzy szybciej i lepiej.
 
-<div class="revision">$Id: form.model.txt 3160 2011-04-03 01:08:23Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3482 2011-12-13 09:41:36Z mdomba $</div>

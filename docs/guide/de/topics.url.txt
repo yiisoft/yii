@@ -433,8 +433,8 @@ class CarUrlRule extends CBaseUrlRule
 Die angepasste URL-Klasse muss zwei abstrakte Methoden implementieren, die
 in [CBaseUrlRule] vorgegeben wurden:
 
-* [CBaseUrlRule::createUrl()|createUrl()]
-* [CBaseUrlRule::parseUrl()|parseUrl()]
+* [createUrl()|CBaseUrlRule::createUrl()]
+* [parseUrl()|CBaseUrlRule::parseUrl()]
 
 Neben diesem typischen Anwendungsbeispiel eignen sich angepasste URL-Regel Klassen
 noch für viele andere Zwecke. Eine solche Klasse könnte zum Beispiel den
@@ -443,4 +443,4 @@ Entwicklungsphase sehr nützlich sein. Oder man könnte eine spezielle
 404-Fehlerseite anzeigen, falls alle anderen URL-Regeln nicht zutreffen. Diese
 Regel müsste dann als letzte Regel definiert werden.
 
-<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 3329 2011-06-28 08:31:35Z mdomba $</div>

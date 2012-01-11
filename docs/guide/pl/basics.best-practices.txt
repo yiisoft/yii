@@ -36,7 +36,7 @@ Ogólnie rzecz biorąc, modele nie powinny zawierać logiki, która bezpośredni
 
 * nie powinien używać zmiennych `$_GET`, `$_POST`, lub innych tym podobnym zmiennych, które są powiązane z żądaniem użytkownika. Zapamiętaj, że model może zostać użyty przez zupełnie inną podaplikację (np. testy jednostkowe, WEB API), które to mogą nie używać tych zmiennych w celu reprezentacji żądania użytkownika. Zmienne te, odnoszące się do żądania użytkownika końcowego powinny być obsługiwane przez kontroler.
 
-* powinien unikać osadzania kodu HTML lub też kod prezentacji. Ponieważ ten ostatni rożni się w zależności od zapotrzebowań użytkownika końcowego. Lepiej w tym celu używać widoki. 
+* powinien unikać osadzania kodu HTML lub też kodu prezentacji. Ponieważ ten ostatni rożni się w zależności od zapotrzebowań użytkownika końcowego. Lepiej w tym celu używać widoków. 
 
 
 Widok
@@ -78,7 +78,7 @@ Kontroler
 * powinny unikać osadzania jakiegokolwiek HTML-u oraz wszystkich pozostałych znaczników służących prezentacji. Lepiej przechowywać je w widokach.
 
 
-W dobrze zaprojektowanej aplikacji MVC, kontrolery są często bardzo małe, zawierają prawdopodobnie jedynie kilkadziesiąt linijek kodu zaś modele są bardzo duże, gdyż zawierają dużo kodu odpowiedzialnego za reprezentację i manipulację danymi. Dzieje się tak ponieważ struktura i logika biznesowa reprezetnowana przez modele jest bardzo typowa dla konkretnej aplikacji i musi być bardzo dostosowana aby sprostać wymaganiom stawianym przez aplikację; ponieważ logika kontrolera często naśladuje podobne wzorce pomiędzy aplikacjami może zostać uproszczona poprzez używanie frameworku czy też klas bazowych.
+W dobrze zaprojektowanej aplikacji MVC, kontrolery są często bardzo małe, zawierają prawdopodobnie jedynie kilkadziesiąt linijek kodu zaś modele są bardzo duże, gdyż zawierają dużo kodu odpowiedzialnego za reprezentację i manipulację danymi. Dzieje się tak ponieważ struktura i logika biznesowa reprezentowana przez modele jest bardzo typowa dla konkretnej aplikacji i musi być bardzo dostosowana aby sprostać wymaganiom stawianym przez aplikację; ponieważ logika kontrolera często naśladuje podobne wzorce pomiędzy aplikacjami może zostać uproszczona poprzez używanie frameworku czy też klas bazowych.
 
 
 <div class="revision">$Id: basics.best-practices.txt 2795 2010-12-31 00:22:33Z alexander.makarow $</div>

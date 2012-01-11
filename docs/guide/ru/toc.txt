@@ -4,6 +4,7 @@
 	- [Обновление с версии 1.0 до версии 1.1](upgrade)
 	- [Что такое Yii](quickstart.what-is-yii)
 	- [Установка](quickstart.installation)
+	- [Конфигурации Apache и Nginx](quickstart.apache-nginx-config)
 	- [Создание первого приложения](quickstart.first-app)
 
 * Основы
@@ -70,4 +71,4 @@
 	- [Улучшение производительности](topics.performance)
 	- [Генерация кода при помощи консоли (устаревшее)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>
+<div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>

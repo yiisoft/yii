@@ -50,4 +50,4 @@ terkait dengan aksi ini. Aksi dijalankan jika diijinkan oleh filter.
    11. Aksi mengakhiri pembuatan view dan menampilkan hasil akhir kepada pengguna.
 
 
-<div class="revision">$Id: basics.mvc.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>
+<div class="revision">$Id: basics.mvc.txt 3321 2011-06-26 12:54:22Z mdomba $</div>

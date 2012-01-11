@@ -1,0 +1,60 @@
+コメントの管理
+==============
+
+コメントの管理には、コメントの更新・削除・承認があります。これらの操作は`CommentController`クラスのアクションとして実装します。
+
+
+コメントの更新と削除
+--------------------
+
+`yiic`で生成したコードの、コメント更新・削除の部分はほとんど変更せずに使います。
+
+
+コメントの承認
+--------------
+
+コメントが新しく作成されたとき、コメントは承認待ちの状態になります。ゲストユーザーに見えるようにするためには承認が必要です。コメントの承認は、基本的にコメントのステータス・カラムを変更するだけです。
+
+`CommentController`の`actionApprove()`メソッドを以下のように作成します。
+
+~~~
+[php]
+public function actionApprove()
+{
+	if(Yii::app()->request->isPostRequest)
+	{
+		$comment=$this->loadModel();
+		$comment->approve();
+		$this->redirect(array('index'));
+	}
+	else
+		throw new CHttpException(400,'Invalid request...');
+}
+~~~
+
+上記コードでは、POSTリクエスト経由で`approve`アクションが呼ばれたときに、`Comment`モデルで定義した`approve()`メソッドを呼んでステータスを変更します。それから、このコメントが属する記事を表示するページに、ブラウザをリダイレクトします。
+
+また、すべてのコメントを表示するために`Comment`の`actionIndex()`メソッドを修正します。承認待ちのコメントを先頭に表示するようにします。
+
+~~~
+[php]
+public function actionIndex()
+{
+	$dataProvider=new CActiveDataProvider('Comment', array(
+		'criteria'=>array(
+			'with'=>'post',
+			'order'=>'t.status, t.create_time DESC',
+		),
+	));
+
+	$this->render('index',array(
+		'dataProvider'=>$dataProvider,
+	));
+}
+~~~
+
+上記コードでは、`tbl_post`と`tbl_comment`の両方に`status`と`create_time`というカラムがあるので、曖昧さを無くすためにテーブルのエイリアス名を接頭辞として付ける必要があります。[ガイド](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names)に記述されているように、リレーショナルなクエリーでは、プライマリテーブルのエイリアスは常に`t`です。そのため上記コードでは、`status`カラムと`create_time`カラムに接頭辞`t`を付けています。
+
+記事のindexビューのように、`CommentController`の`index`ビューでも[CListView]を使ってコメント一覧を表示します。部分的ビューとして`/wwwroot/blog/protected/views/comment/_view.php`を使って、個々のコメントの詳細を表示します。ここでは詳細には立ち入りません。興味のある方はblogデモの対応するファイル`/wwwroot/yii/demos/blog/protected/views/comment/_view.php`を参照してください。
+
+<div class="revision">$Id: comment.admin.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

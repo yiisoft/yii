@@ -14,7 +14,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.helpers
- * @since 1.0.3
  */
 class CGoogleApi
 {

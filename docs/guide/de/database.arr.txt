@@ -101,8 +101,12 @@ class User extends CActiveRecord
 
 > Info|Info: Es gibt auch zusammengesetzte Fremdschlüssel, die zwei oder
 > mehr Spalten verwenden. In diesem Fall müssen alle Spaltennamen des
-> Fremdschlüssels hintereinander mit Komma getrennt angegeben
-> werden. Außerdem benötigt die MANY_MANY-Beziehung zusätzlich den Namen der
+> Fremdschlüssels hintereinander mit Komma getrennt oder als Array der
+> Form `array('key1','key2')` angegeben werden. Falls man eigene Zuordnungen
+> von Primär- nach Fremdschlüssel angeben möchte, kann man dies als
+> `array('fk'=>'pk')` tun. Für zusammengesetzte Schlüssel sieht das Array
+> entsprechend so aus: `array('fk_c1'=>'pk_с1','fk_c2'=>'pk_c2')`.
+> Außerdem benötigt die MANY_MANY-Beziehung zusätzlich den Namen der
 > Verknüpfungstabelle. Er wird zusammen mit dem Fremdschlüssel wie in diesem
 > Beispiel für die `categories`-Beziehung in `Post` angegeben:
 > `tbl_post_category(post_id, category_id)`.
@@ -212,7 +216,7 @@ $posts=Post::model()->findAll(array(
 		'author.posts',
 		'categories',
 	)
-);
+));
 ~~~
 
 Relationale Abfragen ohne verknüpfte Models zu beziehen
@@ -299,6 +303,10 @@ relationalen Objekten verwendet werden soll. Wird diese Option nicht gesetzt,
 wird ein 0-basierter ganzzahliger Index verwendet.
 Diese Option kann nur für `HAS_MANY`- und `MANY_MANY`-Beziehungen gesetzt
 werden.
+
+   - `scopes`: Die anzuwendenden Scopes. Einzelne Scopes können in der Form
+`'scopes'=>'scopeName'`, mehrere über `'scopes'=>array('scopeName1','scopeName2')`
+angegeben werden. Diese Option steht seit Version 1.1.9 zur Verfügung.
 
 Zusätzlich sind beim `lazy loading` folgende Optionen für bestimmte Beziehungen 
 verfügbar:
@@ -425,12 +433,15 @@ Andererseits führt ein großer SQL-Ausdruck zu mehr redundanten Daten und
 benötigt daher mehr Zeit diese zu übertragen und zu verarbeiten.
 
 Um je nach Bedarf zwischen beiden Varianten wählen zu können, bietet Yii die
-`together`-Option. Standardmäßig verfolgt Yii den ersten Ansatz, verwendet
-also einen einzelnen SQL-Ausdruck bei `eager loading`. Setzt man `together`
-bei der Definition einer Beziehungen auf `false`, werden die entsprechenden Tabellendaten 
-mit separaten Abfragen eingeholt. Will man also den zweiten Ansatz verwenden,
-um die letzten Blogbeiträge mit ihren Kommentaren einzulesen, kann man die
-Beziehung `comments` in `Post` so definieren:
+`together`-Option. Standardmäßig verwendet Yii `eager loading`, generiert also
+einen einzelnen SQL-Ausdruck. Es sei denn, das Haupt-Model wurde per `LIMIT`
+begrenzt. Wird die `together`-Option bei der Definition einer Beziehung
+auf `true` gesetzt, wird ein einzelner SQL-Ausdruck erzwungen, selbst wenn
+`LIMIT` angewendet wurde. Setzt man dieses Flag auf `false`, werden einige
+Tabellen über gesonderte SQL-Abfragen eingelesen. Will man also zum Beispiel
+gesonderte SQL-Abfragen verwenden um jeweils die letzten Blogbeiträge sowie
+deren Kommentaren einzulesen, kann man die Beziehung `comments` in `Post`
+so definieren:
 
 ~~~
 [php]
@@ -607,8 +618,8 @@ class User extends CActiveRecord
 }
 ~~~
 
-> Note|Hinweis: Bei relationalen Abfragen können nur Scopes
-verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Man kann
+> Note|Hinweis: Vor Version 1.1.7 konnten bei relationalen Abfragen können nur Scopes
+verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Man konnte
 daher keine parametrisierten Scopes verwenden.
 
 Seit Version 1.1.17 kann man auch bei verknüpften Objekten Scopes mit
@@ -636,13 +647,13 @@ Verwendet man `through`, sollte eine Beziehung wie folgt definiert sein:
 
 ~~~
 [php]
-'name'=>array('beziehungsTyp', 'KlassenName', 'fremdSchluessel', 'through'=>'beziehungsName', ...weitere Optionen)
+'comments'=>array(self::HAS_MANY, 'Comment', array('key1'=>'key2'), 'through'=>'posts')
 ~~~
 
-Hierbei ist `fremdSchluessel` der Name eines Schlüssels, der
+Hierbei ist
 
- - in einer Tabelle `beziehungsName` definiert ist
- - auf eine Tabelle mit Daten für `KlassenName` verweist
+ - `key1` in der Tabelle `posts` enthalten
+ - `key2` in der Klasse `Comment` definiert
 
 `through` kann mit `HAS_ONE` und `HAS_MANY` verwendet werden.
 
@@ -666,8 +677,8 @@ class Group extends CActiveRecord
    {
        return array(
            'roles'=>array(self::HAS_MANY,'Role','group_id'),
-           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
-           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+           'users'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment',array('id'=>'user_id'),'through'=>'users'),
        );
    }
 }
@@ -710,7 +721,7 @@ class User extends CActiveRecord
    {
        return array(
            'profile'=>array(self::HAS_ONE,'Profile','user_id'),
-           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+           'address'=>array(self::HAS_ONE,'Address',array('id'=>'profile_id'),'through'=>'profile'),
        );
    }
 }
@@ -744,7 +755,7 @@ class User extends CActiveRecord
    {
        return array(
            'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
-           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorships','joinType'=>'INNER JOIN'),
        );
    }
 }
@@ -759,4 +770,4 @@ $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
 
-<div class="revision">$Id: database.arr.txt 3127 2011-03-26 12:21:47Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 3416 2011-10-13 18:18:13Z alexander.makarow $</div>

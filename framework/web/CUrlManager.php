@@ -56,8 +56,8 @@
  *   and vice versa applies when constructing such a URL.</li>
  * </ul>
  *
- * Starting from version 1.0.5, the route part may contain references to named parameters defined
- * in the pattern part. This allows a rule to be applied to different routes based on matching criteria.
+ * The route part may contain references to named parameters defined in the pattern part.
+ * This allows a rule to be applied to different routes based on matching criteria.
  * For example,
  * <pre>
  * array(
@@ -75,8 +75,8 @@
  * And given the route 'post/list' and GET parameter 'page' being 2, we should get a URL
  * '/index.php/posts/page/2'.
  *
- * Starting from version 1.0.11, it is also possible to include hostname into the rules
- * for parsing and creating URLs. One may extract part of the hostname to be a GET parameter.
+ * It is also possible to include hostname into the rules for parsing and creating URLs.
+ * One may extract part of the hostname to be a GET parameter.
  * For example, the URL <code>http://admin.example.com/en/profile</code> may be parsed into GET parameters
  * <code>user=admin</code> and <code>lang=en</code>. On the other hand, rules with hostname may also be used to
  * create URLs with parameterized hostnames.
@@ -146,7 +146,6 @@ class CUrlManager extends CApplicationComponent
 	 * This property is only effective when {@link urlFormat} is 'path' and is mainly used when
 	 * creating URLs. When it is true, GET parameters will be appended to the path info and
 	 * separate from each other using slashes. If this is false, GET parameters will be in query part.
-	 * @since 1.0.3
 	 */
 	public $appendParams=true;
 	/**
@@ -160,7 +159,6 @@ class CUrlManager extends CApplicationComponent
 	 * controller mapping ({@link CWebApplication::controllerMap}) and action mapping
 	 * ({@link CController::actions}). Also, the directory names for organizing controllers should
 	 * be in lower case.
-	 * @since 1.0.1
 	 */
 	public $caseSensitive=true;
 	/**
@@ -176,7 +174,6 @@ class CUrlManager extends CApplicationComponent
 	 * @var string the ID of the cache application component that is used to cache the parsed URL rules.
 	 * Defaults to 'cache' which refers to the primary cache application component.
 	 * Set this property to false if you want to disable caching URL rules.
-	 * @since 1.0.3
 	 */
 	public $cacheID='cache';
 	/**
@@ -185,7 +182,6 @@ class CUrlManager extends CApplicationComponent
 	 * If it is set true, then an incoming URL must match one of the {@link rules URL rules}.
 	 * Otherwise, it will be treated as an invalid request and trigger a 404 HTTP exception.
 	 * Defaults to false.
-	 * @since 1.0.6
 	 */
 	public $useStrictParsing=false;
 	/**
@@ -277,7 +273,7 @@ class CUrlManager extends CApplicationComponent
 	 * @param string $route the controller and the action (e.g. article/read)
 	 * @param array $params list of GET parameters (name=>value). Both the name and value will be URL-encoded.
 	 * If the name is '#', the corresponding value will be treated as an anchor
-	 * and will be appended at the end of the URL. This anchor feature has been available since version 1.0.1.
+	 * and will be appended at the end of the URL.
 	 * @param string $ampersand the token separating name-value pairs in the URL. Defaults to '&'.
 	 * @return string the constructed URL
 	 */
@@ -388,7 +384,6 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Parses a path info into URL segments and saves them to $_GET and $_REQUEST.
 	 * @param string $pathInfo path info
-	 * @since 1.0.3
 	 */
 	public function parsePathInfo($pathInfo)
 	{
@@ -427,7 +422,6 @@ class CUrlManager extends CApplicationComponent
 	 * @param string $ampersand the separator between name-value pairs
 	 * @param string $key this is used internally.
 	 * @return string the created path info
-	 * @since 1.0.3
 	 */
 	public function createPathInfo($params,$equal,$ampersand, $key=null)
 	{
@@ -572,20 +566,17 @@ class CUrlRule extends CBaseUrlRule
 	 * @var string the URL suffix used for this rule.
 	 * For example, ".html" can be used so that the URL looks like pointing to a static HTML page.
 	 * Defaults to null, meaning using the value of {@link CUrlManager::urlSuffix}.
-	 * @since 1.0.6
 	 */
 	public $urlSuffix;
 	/**
 	 * @var boolean whether the rule is case sensitive. Defaults to null, meaning
 	 * using the value of {@link CUrlManager::caseSensitive}.
-	 * @since 1.0.1
 	 */
 	public $caseSensitive;
 	/**
 	 * @var array the default GET parameters (name=>value) that this rule provides.
 	 * When this rule is used to parse the incoming request, the values declared in this property
 	 * will be injected into $_GET.
-	 * @since 1.0.8
 	 */
 	public $defaultParams=array();
 	/**
@@ -618,12 +609,10 @@ class CUrlRule extends CBaseUrlRule
 	public $route;
 	/**
 	 * @var array the mapping from route param name to token name (e.g. _r1=><1>)
-	 * @since 1.0.5
 	 */
 	public $references=array();
 	/**
 	 * @var string the pattern used to match route
-	 * @since 1.0.5
 	 */
 	public $routePattern;
 	/**
@@ -644,7 +633,6 @@ class CUrlRule extends CBaseUrlRule
 	public $append;
 	/**
 	 * @var boolean whether host info should be considered for this rule
-	 * @since 1.0.11
 	 */
 	public $hasHostInfo;
 

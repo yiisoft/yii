@@ -73,7 +73,6 @@ class CCaptchaAction extends CAction
 	public $foreColor = 0x2040A0;
 	/**
 	 * @var boolean whether to use transparent background. Defaults to false.
-	 * @since 1.0.10
 	 */
 	public $transparent = false;
 	/**

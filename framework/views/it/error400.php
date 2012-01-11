@@ -20,7 +20,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 <h1>Richiesta Errata</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
-La richiesta non è stata gestita dal server a causa di una sintassi non corretta.
+La richiesta non &egrave; stata gestita dal server a causa di una sintassi non corretta.
 Cortesemente non ripetere la richiesta senza modifiche.
 </p>
 <p>

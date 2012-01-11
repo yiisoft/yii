@@ -102,7 +102,6 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @return array list of cached values corresponding to the specified keys. The array
 	 * is returned in terms of (key,value) pairs.
 	 * If a value is not cached or expired, the corresponding array value will be false.
-	 * @since 1.0.8
 	 */
 	public function mget($ids)
 	{
@@ -212,7 +211,6 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * be overridden to exploit that feature.
 	 * @param array $keys a list of keys identifying the cached values
 	 * @return array a list of cached values indexed by the keys
-	 * @since 1.0.8
 	 */
 	protected function getValues($keys)
 	{

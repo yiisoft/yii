@@ -94,7 +94,6 @@ class CDbCache extends CCache
 	/**
 	 * @return integer the probability (parts per million) that garbage collection (GC) should be performed
 	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
-	 * @since 1.0.9
 	 */
 	public function getGCProbability()
 	{
@@ -105,7 +104,6 @@ class CDbCache extends CCache
 	 * @param integer $value the probability (parts per million) that garbage collection (GC) should be performed
 	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
 	 * This number should be between 0 and 1000000. A value 0 meaning no GC will be performed at all.
-	 * @since 1.0.9
 	 */
 	public function setGCProbability($value)
 	{
@@ -202,7 +200,6 @@ EOD;
 	 * Retrieves multiple values from cache with the specified keys.
 	 * @param array $keys a list of keys identifying the cached values
 	 * @return array a list of cached values indexed by the keys
-	 * @since 1.0.8
 	 */
 	protected function getValues($keys)
 	{
@@ -297,7 +294,6 @@ EOD;
 
 	/**
 	 * Removes the expired data values.
-	 * @since 1.0.11
 	 */
 	protected function gc()
 	{

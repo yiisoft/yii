@@ -71,7 +71,7 @@ public function onClicked($event)
 }
 ~~~
 
-gdzie `$event` jest instancją klasy [CEvent] lub jej klasy potomnych reprezentujących 
+gdzie `$event` jest instancją klasy [CEvent] lub jej klas potomnych reprezentujących 
 parametry zdarzenia.
 
 Możemy, przypiąć metodę do tego zdarzenia w następujący sposób:
@@ -96,7 +96,7 @@ function methodName($event)
 ~~~
 
 gdzie `$event` jest parametrem opisującym zdarzenie (pochodzi z `raiseEvent()`).
-Parametr `$event` jest instancją klasy [CEvent] lub jej klasy pochodnych. 
+Parametr `$event` jest instancją klasy [CEvent] lub jej klas pochodnych. 
 Musi ona posiadać co najmniej informację o tym kto wywołuje zdarzenie.
 
 Uchwytem zdarzenia może być również anonimowa funkcja co jest wspierane przez PHP w wersji 5.3 lub wyższej. Na przykład:

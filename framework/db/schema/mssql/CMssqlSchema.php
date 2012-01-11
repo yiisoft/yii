@@ -16,7 +16,6 @@
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @version $Id$
  * @package system.db.schema.mssql
- * @since 1.0.4
  */
 class CMssqlSchema extends CDbSchema
 {
@@ -341,7 +340,6 @@ EOD;
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @param boolean $includeViews whether to include views in the result. Defaults to true.
 	 * @return array all table names in the database.
-	 * @since 1.0.4
 	 */
 	protected function findTableNames($schema='',$includeViews=true)
 	{

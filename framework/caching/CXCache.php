@@ -18,7 +18,6 @@
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version $Id$
  * @package system.caching
- * @since 1.0.1
  */
 class CXCache extends CCache
 {

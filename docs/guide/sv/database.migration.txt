@@ -28,6 +28,8 @@ I det följande kommer vi att visa hur detta verktyg används.
 
 > Note|Märk: Det är bättre att använda applikationens instans av yiic (t.ex. `cd path/to/protected`)
 > vid arbete med `migrate`-kommandot, i stället för den i `framework`-katalogen.
+> Kontrollera att katalogen `protected\migrations` existerar och är möjlig att skriva till, 
+> samt att en databasanslutning är konfigurerad i `protected/config/console.php`.
 
 Skapa migreringar
 -----------------
@@ -371,4 +373,4 @@ Om vi nu kör `migrate`-kommandot, kommer ovanstående konfigureringar att gäll
 mata in kommandoradsalternativ varje gång.
 
 
-<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>
+<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>

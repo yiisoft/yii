@@ -338,20 +338,20 @@ A seguir, nós primeiro introduzimos os conceitos principais usados neste esquem
 Após, descrevemos como definir dados de autorização. Por fim, mostramos como
 fazer uso dos dados de autorização para realizar a verificação de acesso.
 
-### Overview
+### Visão Geral
 
-A fundamental concept in Yii's RBAC is *authorization item*. An
-authorization item is a permission to do something (e.g. creating new blog
-posts, managing users). According to its granularity and targeted audience,
-authorization items can be classified as *operations*,
-*tasks* and *roles*. A role consists of tasks, a task
-consists of operations, and an operation is a permission that is atomic.
-For example, we can have a system with `administrator` role which consists
-of `post management` task and `user management` task. The `user management`
-task may consist of `create user`, `update user` and `delete user`
-operations. For more flexibility, Yii also allows a role to consist of
-other roles or operations, a task to consist of other tasks, and an
-operation to consist of other operations.
+Um conceito fundamental do RBAC no Yii é o *item de autorização*. Um
+item de autorização é uma permissão de fazer algo (ex: criar novas postagens
+num blog, gerenciar usuários, etc). De acordo com sua granulidade e audiência,
+itens de autorização podem ser classificados como *operações*, *tarefas* e 
+*papéis*. Um papel consiste de tarefas, uma tarefa consiste de operações e
+uma operação é uma permissão que é atômica.
+Por exemplo, podemos ter um sistema com um papel `administrador` que consista
+das tarefas `gerenciar postagens` e `gerenciar usuários`. A tarefa `gerenciar usuários`
+pode consistir das operações `criar usuário`, `atualizar usuário` e `excluir usuário`.
+Para maior flexibilidade o Yii também permite que um papel seja constituído de
+outros papéis e/ou operações, uma tarefa seja constituída de outras tarefas e uma
+operação seja constituída de outras operações.
 
 An authorization item is uniquely identified by its name.
 

@@ -32,7 +32,6 @@ class CRequiredValidator extends CValidator
 	 * If this is set as a value that is not null, the validator will validate that
 	 * the attribute has a value that is the same as this property value.
 	 * Defaults to null.
-	 * @since 1.0.10
 	 */
 	public $requiredValue;
 	/**
@@ -40,7 +39,6 @@ class CRequiredValidator extends CValidator
 	 * When this is true, the attribute value and type must both match those of {@link requiredValue}.
 	 * Defaults to false, meaning only the value needs to be matched.
 	 * This property is only used when {@link requiredValue} is not null.
-	 * @since 1.0.10
 	 */
 	public $strict=false;
 	/**

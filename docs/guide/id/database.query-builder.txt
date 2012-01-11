@@ -235,7 +235,7 @@ Berikut merupakan beberapa contohnya:
 // ORDER BY `name`, `id` DESC
 order('name, id desc')
 // ORDER BY `tbl_profile`.`name`, `id` DESC
-order(array('tbl_profile.name', 'id desc')
+order(array('tbl_profile.name', 'id desc'))
 ~~~
 
 
@@ -521,8 +521,9 @@ Berikut tipe data abstrak yang didukung oleh query builder.
 * `timestamp`: tipe timestamp, akan diubah menjadi `timestamp` pada MySQL;
 * `time`: tipe waktu, akan diubah menjadi `time` pada MySQL;
 * `date`: tipe tanggal, akan diubah menjadi `date` pada MySQL;
-* `binary`: tipe data biner, akan diubah menjadi `blob` pada MySQL
-* `boolean`: tipe boolean, akan diubah menjadi `tinyint(1)` pada MySQL
+* `binary`: tipe data biner, akan diubah menjadi `blob` pada MySQL;
+* `boolean`: tipe boolean, akan diubah menjadi `tinyint(1)` pada MySQL;
+* `money`: tipe mata uang, akan diubah menjadi `decimal(19,4)` pada MySQL. Tipe ini sudah ada semenjak versi 1.1.8.
 
 
 ###createTable()
@@ -757,4 +758,4 @@ Below is an example showing how to drop an index:
 dropIndex('idx_username', 'tbl_user')
 ~~~
 
-<div class="revision">$Id: database.query-builder.txt 3224 2011-05-17 23:05:24Z alexander.makarow $</div>
+<div class="revision">$Id: database.query-builder.txt 3408 2011-09-28 20:50:28Z alexander.makarow $</div>

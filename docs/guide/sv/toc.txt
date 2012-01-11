@@ -4,6 +4,7 @@
 	- [Upgradera från 1.0 till 1.1 (eng)](upgrade)
     - [Vad är Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
+    - [Apache- och Nginx-konfigurationer](quickstart.apache-nginx-config)
     - [Skapa en första Yii-applikation](quickstart.first-app)
 
 * Grunder
@@ -70,4 +71,4 @@
     - [Prestandaoptimering](topics.performance)
     - [Kodgenerering med kommandoradsverktyg (under utfasning)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>
+<div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>

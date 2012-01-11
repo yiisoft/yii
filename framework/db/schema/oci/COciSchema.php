@@ -16,7 +16,6 @@
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
  * @version $Id$
  * @package system.db.schema.oci
- * @since 1.0.5
  */
 class COciSchema extends CDbSchema
 {

@@ -4,7 +4,7 @@
 Yii のテストフレームワークは [PHPUnit](http://www.phpunit.de/) の上に構築されていますので、[PHPUnit documentation](http://www.phpunit.de/manual/current/en/index.html) を通読して、まずは、ユニットテストの書き方に関する基本的な理解を得ることをお奨めします。
 以下に、Yii におけるユニットテストの書き方に関する基本的な原則を要約します。
 
- * ユニットテストは [CTestCase] または [CDbTestCase] を継承した `XyzTest` というクラスの形で書かれます。ここで `Xyz` はテストされるクラスを表します。例えば、`Post` クラスをテストするためには、対応するユニットテストの名前を `PstTest` とする、というのが規約です。基本クラスの [CTestCase] は汎用のユニットテストのためのものであり、一方、 [CDbTestCase] は [アクティブレコード](/doc/guide/database.ar) モデルをテストするのに適しています。二つのクラスは、共に、`PHPUnit_Framework_TestCase` を親クラスとして持っており、このクラスから継承した全てのメソッドを使用することが出来ます。
+ * ユニットテストは [CTestCase] または [CDbTestCase] を継承した `XyzTest` というクラスの形で書かれます。ここで `Xyz` はテストされるクラスを表します。例えば、`Post` クラスをテストするためには、対応するユニットテストの名前を `PostTest` とする、というのが規約です。基本クラスの [CTestCase] は汎用のユニットテストのためのものであり、一方、 [CDbTestCase] は [アクティブレコード](/doc/guide/database.ar) モデルをテストするのに適しています。二つのクラスは、共に、`PHPUnit_Framework_TestCase` を親クラスとして持っており、このクラスから継承した全てのメソッドを使用することが出来ます。
  
  * ユニットテストのクラスは `XyzTest.php` と名付けられた PHP ファイルに保存されます。規約によって、ユニットテストのファイルはディレクトリ `protected/tests/unit` の下に保存します。
 

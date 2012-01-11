@@ -9,9 +9,9 @@
 	</tr>
 	<tr style="background-color: #ccc;">
 	    <th>Procedura</th>
-		<th>Count</th>
+		<th>Cont.</th>
 		<th>Totale (s)</th>
-		<th>Avg. (s)</th>
+		<th>Med. (s)</th>
 		<th>Min. (s)</th>
 		<th>Max. (s)</th>
 	</tr>

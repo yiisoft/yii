@@ -292,7 +292,7 @@ function order($columns)
 // ORDER BY `name`, `id` DESC
 order('name, id desc')
 // ORDER BY `tbl_profile`.`name`, `id` DESC
-order(array('tbl_profile.name', 'id desc')
+order(array('tbl_profile.name', 'id desc'))
 ~~~
 
 
@@ -425,7 +425,7 @@ union('select * from tbl_profile')
 
 ### Выполнение запросов
 
-После вызова методов для построения запроса, приведённых ниже, для выполнения
+После вызова методов для построения запроса, приведённых выше, для выполнения
 запроса можно использовать методы DAO, как описано в разделе
 «[Объекты доступа к данным (DAO)](/doc/guide/database.dao)». К примеру, мы можем
 вызвать [CDbCommand::queryRow()] для получения строки или [CDbCommand::queryAll()]
@@ -507,7 +507,7 @@ $posts = $command->select('*')->from('tbl_posts')->queryAll();
 Построение запросов для изменения данных
 ----------------------------------------
 
-К запросам для изменения данных отностятся SQL запросы для вставки, обновления и
+К запросам для изменения данных относятся SQL запросы для вставки, обновления и
 удаления данных из базы. В построителе запросов есть соответствующие методы
 `insert`, `update` и `delete`. В отличие от запросов получения данных, описанных
 выше, данные методы строят полный SQL-запрос и тут же выполняют его.
@@ -924,4 +924,4 @@ function dropIndex($name, $table)
 dropIndex('idx_username', 'tbl_user')
 ~~~
 
-<div class="revision">$Id: database.query-builder.txt 3304 2011-06-23 14:53:50Z qiang.xue $</div>
+<div class="revision">$Id: database.query-builder.txt 3408 2011-09-28 20:50:28Z alexander.makarow $</div>

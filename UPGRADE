@@ -1,5 +1,5 @@
 
-         Upgrading Instructions for Yii Framework v1.1.9
+         Upgrading Instructions for Yii Framework v1.1.10
          ===============================================
 
 !!!IMPORTANT!!!
@@ -19,6 +19,10 @@ General upgrade intructions
   issues to Yii issue tracker.
 
 
+Upgrading from v1.1.9
+---------------------
+
+
 Upgrading from v1.1.8
 ---------------------
 - CConfiguration::createObject, CController::paginate and CHtml::getActiveId deprecated since 1.0.x were removed. Use
@@ -27,7 +31,7 @@ Upgrading from v1.1.8
 - In CErrorHandler::handleException() the checking for ajax call has been removed
 as it was preventing to customize the display of the exception during an ajax call.
 
-- Previously in case of validation error the CSS "error" class was not added to the row container at all when 
+- Previously in case of validation error the CSS "error" class was not added to the row container at all when
 checkBoxList or radioButtonList where used. This is fixed now and proper "error" CSS class is added to the row
 container but in case of validation error, all labels from the list are shown in red because of the CSS rule.
 
@@ -37,7 +41,7 @@ in <projectdir>/css/form.css the line:
 
      div.form div.error label
 
-should be changed to 
+should be changed to
 
      div.form div.error label:first-child
 

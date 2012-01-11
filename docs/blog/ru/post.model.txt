@@ -60,8 +60,21 @@ public function normalizeTags($attribute,$params)
 }
 ~~~
 
-где `array2string` и `string2array` — новые методы, определённые в классе
-модели `Tag` в файле `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
+где `array2string` и `string2array` - новые методы, которые мы должны
+определить в классе модели `Tag`:
+
+~~~
+[php]
+public static function string2array($tags)
+{
+	return preg_split('/\s*,\s*/',trim($tags),-1,PREG_SPLIT_NO_EMPTY);
+}
+
+public static function array2string($tags)
+{
+	return implode(', ',$tags);
+}
+~~~
 
 Правила, описанные в методе `rules()`, вызываются по очереди при вызове методов модели
 [validate()|CModel::validate] или [save()|CActiveRecord::save].
@@ -181,7 +194,7 @@ class Post extends CActiveRecord
 текстовое представление для отображения пользователям. Для больших систем такое
 требование является довольно типичным.
 
-Для хранения связей между целыми числами и их текстовыми представлением, необходимым
+Для хранения связей между целыми числами и их текстовым представлением, необходимым
 другим объектам данных, мы используем таблицу `tbl_lookup`. Для более удобного
 получения текстовых данных изменим модель `Lookup` следующим образом:
 
@@ -246,4 +259,4 @@ class Post extends CActiveRecord
 `Lookup::items('PostStatus')`. А для получения конкретной строки — кодом
 `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)`.
 
-<div class="revision">$Id: post.model.txt 2922 2011-01-29 19:51:56Z alexander.makarow $</div>
+<div class="revision">$Id: post.model.txt 3366 2011-08-03 21:24:26Z alexander.makarow $</div>

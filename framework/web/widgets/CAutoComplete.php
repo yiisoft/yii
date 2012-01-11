@@ -27,7 +27,6 @@ class CAutoComplete extends CInputWidget
 	/**
 	 * @var boolean whether to show the autocomplete using a text area. Defaults to false,
 	 * meaning a text field is used.
-	 * @since 1.0.4
 	 */
 	public $textArea=false;
 	/**
@@ -226,7 +225,6 @@ class CAutoComplete extends CInputWidget
 
 	/**
 	 * Registers the needed CSS and JavaScript.
-	 * @since 1.0.1
 	 */
 	public function registerClientScript()
 	{
@@ -253,7 +251,6 @@ class CAutoComplete extends CInputWidget
 	/**
 	 * Registers the needed CSS file.
 	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
-	 * @since 1.0.2
 	 */
 	public static function registerCssFile($url=null)
 	{

@@ -1,9 +1,10 @@
 * Der schnelle Einstieg
     - [Übersicht](index)
     - [Neue Features](changes)
-	- [Upgrade von 1.0 auf 1.1](upgrade)
+    - [Upgrade von 1.0 auf 1.1](upgrade)
     - [Was ist Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
+    - [Apache- und Nginx-Konfigurationen](quickstart.apache-nginx-config)
     - [Erstellen der ersten Yii-Anwendung](quickstart.first-app)
 
 * Grundlagen
@@ -50,13 +51,13 @@
     - [Verwenden von Fremdbibliotheken](extension.integration)
 
 * Tests
-	- [Übersicht](test.overview)
-	- [Definieren von Fixtures](test.fixture)
-	- [Unittests](test.unit)
-	- [Funktionstests](test.functional)
+    - [Übersicht](test.overview)
+    - [Definieren von Fixtures](test.fixture)
+    - [Unittests](test.unit)
+    - [Funktionstests](test.functional)
 
 * Spezialthemen
-	- [Automatisierte Codegenerierung](topics.gii)
+    - [Automatisierte Codegenerierung](topics.gii)
     - [URL-Management](topics.url)
     - [Authentifizierung und Autorisierung](topics.auth)
     - [Themes und Skins](topics.theming)
@@ -70,4 +71,4 @@
     - [Performance-Optimierung](topics.performance)
     - [Codegenerierung an der Kommandozeile (veraltet)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>
+<div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>

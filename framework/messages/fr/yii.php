@@ -231,7 +231,7 @@ return array (
   '{attribute} must be either {true} or {false}.' => '{attribute} doit être soit {true} soit {false}.',
   '{attribute} must be greater than "{compareValue}".' => '{attribute} doit être supérieur à « {compareValue} ».',
   '{attribute} must be greater than or equal to "{compareValue}".' => '{attribute} doit être supérieur ou égal à « {compareValue} ».',
-  '{attribute} must be less than "{compareValue}".' => '{attribute} doit être supérieur à « {compareValue} ».',
+  '{attribute} must be less than "{compareValue}".' => '{attribute} doit être inférieur à « {compareValue} ».',
   '{attribute} must be less than or equal to "{compareValue}".' => '{attribute} doit être inférieur ou égal à « {compareValue} ».',
   '{attribute} must be repeated exactly.' => '{attribute} doit être répété à l\'identique.',
   '{attribute} must be {type}.' => '{attribute} doit être {type}.',

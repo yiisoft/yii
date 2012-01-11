@@ -68,7 +68,7 @@ return array(
    - [Microsoft SQL Server 2000 或更高版本](http://www.microsoft.com/sqlserver/)
    - [Oracle](http://www.oracle.com)
 
-> Note|注意:  1.0.4 版开始支持  Microsoft SQL Server；1.0.5 版开始支持 Oracle。
+> Note|注意:  1.0.4 版开始支持  Microsoft SQL Server；从1.0.5 版开始支持 Oracle。
 
 如果你想使用一个不是 `db` 的应用组件，或者如果你想使用 AR 处理多个数据库，你应该覆盖
 [CActiveRecord::getDbConnection()]。 [CActiveRecord] 类是所有 AR 类的基类。
@@ -191,7 +191,7 @@ $post=new Post;
 echo $post->title;  // 这儿将显示: please enter a title
 ~~~
 
-从版本 1.0.2 起，记录在保存（插入或更新）到数据库之前，其属性可以赋值为 [CDbExpression] 类型。
+记录在保存（插入或更新）到数据库之前，其属性可以赋值为 [CDbExpression] 类型。
 例如，为保存一个由 MySQL 的 `NOW()` 函数返回的时间戳，我们可以使用如下代码：
 ~~~
 [php]
@@ -206,7 +206,8 @@ $post->save();
 我们经常会想知道 AR 在背后到底执行了什么 SQL 语句。这可以通过开启 Yii 的
 [日志功能](/doc/guide/topics.logging) 实现。例如，我们在应用配置中开启了
 [CWebLogRoute] ，我们将会在每个网页的最后看到执行过的 SQL 语句。
- 从 1.0.5 版本起，我们可以在应用配置中设置 [CDbConnection::enableParamLogging] 为 true 
+
+我们可以在应用配置中设置 [CDbConnection::enableParamLogging] 为 true 
 ，这样绑定在 SQL 语句中的参数值也会被记录。
 
 
@@ -523,14 +524,6 @@ $posts=Post::model()->published()->recently()->findAll();
 包括传递给 `find` 方法调用的那一个。
 最终结果就像给一个查询添加了一系列过滤器。
 
-从版本 1.0.6 开始，命名范围也可用于 `update` 和 `delete` 方法。
-例如，如下代码将删除所有最近发布的帖子：
-
-~~~
-[php]
-Post::model()->published()->recently()->delete();
-~~~
-
 > Note|注意: 命名范围只能用于类级别方法。也就是说，此方法必须使用 `ClassName::model()` 调用。
 
 
@@ -562,12 +555,12 @@ $posts=Post::model()->published()->recently(3)->findAll();
 上面的代码中，如果我们没有提供参数 3，我们将默认获取 5 条最近发布的帖子。
 
 
-### 默认的命名范围
+### 默认范围
 
-模型类可以有一个默认命名范围，它将应用于所有
+模型类可以有一个默认范围，它将应用于所有
 (包括相关的那些) 关于此模型的查询。例如，一个支持多种语言的网站可能只想显示当前用户所指定的语言的内容。
 因为可能会有很多关于此网站内容的查询，
-我们可以定义一个默认的命名范围以解决此问题。
+我们可以定义一个默认范围以解决此问题。
 为实现此目的，我们覆盖 [CActiveRecord::defaultScope] 方法如下：
 
 ~~~
@@ -592,4 +585,8 @@ $contents=Content::model()->findAll();
 
 注意，默认的命名范围只会应用于 `SELECT` 查询。`INSERT`, `UPDATE` 和 `DELETE` 查询将被忽略。
 
-<div class="revision">$Id: database.ar.txt 1681 2010-01-08 03:04:35Z qiang.xue , translated by riverlet$</div>
+<div class="revision">
+Author: qiang.xue <br />
+Translators: riverlet, dongbeta <br />
+ID: $Id$
+<div>

@@ -59,7 +59,6 @@ interface ICache
 	 * @return array list of cached values corresponding to the specified keys. The array
 	 * is returned in terms of (key,value) pairs.
 	 * If a value is not cached or expired, the corresponding array value will be false.
-	 * @since 1.0.8
 	 */
 	public function mget($ids);
 	/**
@@ -417,7 +416,7 @@ interface IAuthManager
 	/**
 	 * Returns the children of the specified item.
 	 * @param mixed $itemName the parent item name. This can be either a string or an array.
-	 * The latter represents a list of item names (available since version 1.0.5).
+	 * The latter represents a list of item names.
 	 * @return array all child items of the parent
 	 */
 	public function getItemChildren($itemName);
@@ -506,7 +505,6 @@ interface IAuthManager
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base
- * @since 1.0.2
  */
 interface IBehavior
 {

@@ -1,0 +1,71 @@
+Commentモデルのカスタマイズ
+===========================
+
+`Comment`モデルでは、主に`rules()`メソッドと`attributeLabels()`メソッドをカスタマイズします。`attributeLabels()`メソッドは属性の名前と属性のラベルの対応表を返します。`relations()`は`yiic`ツールで生成したコードで十分なので手を入れる必要はありません。
+
+`rules()`メソッドのカスタマイズ
+-------------------------------
+
+最初に、`yiic`ツールで生成したバリデーションルールをカスタマイズします。コメント用のルールは以下の通りです。
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('content, author, email', 'required'),
+		array('author, email, url', 'length', 'max'=>128),
+		array('email','email'),
+		array('url','url'),
+	);
+}
+~~~
+
+上記の指定内容は次のような意味です。`author`、`email`、`content`属性は必須、`author`、`email`、`url`は最大128字、`email`属性は有効なメールアドレスであること、`url`属性は有効なURLであること。
+
+`attributeLabels()`メソッドのカスタマイズ
+-----------------------------------------
+
+次に`attributeLabels()`メソッドをカスタマイズして、モデルの各属性を表示する際のラベルを宣言します。このメソッドは、名前-ラベルの組で構成される配列を返します。[CHtml::activeLabel()]を呼ぶと属性のラベルを表示できます。
+
+~~~
+[php]
+public function attributeLabels()
+{
+	return array(
+		'id' => 'Id',
+		'content' => 'Comment',
+		'status' => 'Status',
+		'create_time' => 'Create Time',
+		'author' => 'Name',
+		'email' => 'Email',
+		'url' => 'Website',
+		'post_id' => 'Post',
+	);
+}
+~~~
+
+> Tip: `attributeLabels()`で属性のラベルを宣言していない場合、アルゴリズムに従って適切なラベルが生成されます。例えば、`create_time`や`createTime`という属性には、`Create Time`というラベルが生成されます。
+
+保存プロセスのカスタマイズ
+--------------------------
+
+コメントの作成時刻を記録したいので、`Post`モデルと同様に、`Comment`の`beforeSave()`メソッドをオーバーライドします。
+
+~~~
+[php]
+protected function beforeSave()
+{
+	if(parent::beforeSave())
+	{
+		if($this->isNewRecord)
+			$this->create_time=time();
+		return true;
+	}
+	else
+		return false;
+}
+~~~
+
+
+<div class="revision">$Id: comment.model.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>

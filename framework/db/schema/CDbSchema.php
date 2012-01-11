@@ -116,7 +116,6 @@ abstract class CDbSchema extends CComponent
 	 * @return array the metadata for all tables in the database.
 	 * Each array element is an instance of {@link CDbTableSchema} (or its child class).
 	 * The array keys are table names.
-	 * @since 1.0.2
 	 */
 	public function getTables($schema='')
 	{
@@ -134,7 +133,6 @@ abstract class CDbSchema extends CComponent
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
-	 * @since 1.0.2
 	 */
 	public function getTableNames($schema='')
 	{
@@ -304,7 +302,6 @@ abstract class CDbSchema extends CComponent
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
-	 * @since 1.0.2
 	 */
 	protected function findTableNames($schema='')
 	{

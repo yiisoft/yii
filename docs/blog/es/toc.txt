@@ -6,22 +6,22 @@
 
 * Prototipo Inicial
     - [Configurando la Base de Datos](prototype.database)
-    - ["Andamiaje" (Scaffolding)](prototype.scaffold)
+    - [Andamiaje (Scaffolding)](prototype.scaffold)
     - [Autenticación de Usuario](prototype.auth)
     - [Resumen](prototype.summary)
 
 * Administración de Posts 
     - [Personalizando el Modelo Post](post.model)
     - [Crear y Actualizar Posts](post.create)
-    - [Mostrando Posts](post.display)
+    - [Mostrar Posts](post.display)
     - [Administración de Posts](post.admin)
 
 * Administración de Comentarios
-	- [Personalizando el Modelo Comment](comment.model)
+	- [Personalizando el Modelo de Comentarios](comment.model)
     - [Crear y Actualizar Comentarios](comment.create)
     - [Administración de Comentarios](comment.admin)
 
-* "Portlets"
+* Portlets
 	- [Estableciendo Arquitectura de "Portlets"](portlet.base)
 	- [Creación de Portlet Menú de Usuarios](portlet.menu)
 	- [Creación de Portlet de Inicio de Sesión](portlet.login)
@@ -32,5 +32,7 @@
 	- [Embellecimiento de URLs](final.url)
 	- [Registro de Errores](final.logging)
     - [Personalización de Vista de Errores](final.error)
-    - [Configuración Final y Despliegue](final.deployment)
+    - [Configuración Final y Puesta en Producción](final.deployment)
     - [Mejoras Futuras](final.future)
+
+<div class="revision">$Id: toc.txt 1734 2010-01-21 18:41:17Z qiang.xue $</div>

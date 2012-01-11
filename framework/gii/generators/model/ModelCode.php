@@ -109,6 +109,7 @@ class ModelCode extends CCodeModel
 
 	public function validateTableName($attribute,$params)
 	{
+		$invalidTables=array();
 		$invalidColumns=array();
 
 		if($this->tableName[strlen($this->tableName)-1]==='*')
@@ -124,6 +125,8 @@ class ModelCode extends CCodeModel
 			{
 				if($this->tablePrefix=='' || strpos($table->name,$this->tablePrefix)===0)
 				{
+					if(in_array(strtolower($table->name),self::$keywords))
+						$invalidTables[]=$table->name;
 					if(($invalidColumn=$this->checkColumns($table))!==null)
 						$invalidColumns[]=$invalidColumn;
 				}
@@ -140,8 +143,10 @@ class ModelCode extends CCodeModel
 					$invalidColumns[]=$invalidColumn;
 		}
 
+		if($invalidTables!=array())
+			$this->addError('tableName', 'Model class cannot take a reserved PHP keyword! Table name: '.implode(', ', $invalidTables).".");
 		if($invalidColumns!=array())
-			$this->addError('tableName',"Column names that does not follow PHP variable naming convention: ".implode(', ', $invalidColumns)."."	);
+			$this->addError('tableName', 'Column names that does not follow PHP variable naming convention: '.implode(', ', $invalidColumns).".");
 	}
 
 	/*

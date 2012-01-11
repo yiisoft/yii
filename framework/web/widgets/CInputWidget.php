@@ -28,8 +28,8 @@ abstract class CInputWidget extends CWidget
 	 */
 	public $model;
 	/**
-	 * @var string the attribute associated with this widget. Starting from version 1.0.9,
-	 * the name can contain square brackets (e.g. 'name[1]') which is used to collect tabular data input.
+	 * @var string the attribute associated with this widget.
+	 * The name can contain square brackets (e.g. 'name[1]') which is used to collect tabular data input.
 	 */
 	public $attribute;
 	/**

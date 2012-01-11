@@ -25,7 +25,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators
- * @since 1.0.4
  */
 class CExistValidator extends CValidator
 {
@@ -48,7 +47,6 @@ class CExistValidator extends CValidator
 	 * @var array additional query criteria. This will be combined with the condition
 	 * that checks if the attribute value exists in the corresponding table column.
 	 * This array will be used to instantiate a {@link CDbCriteria} object.
-	 * @since 1.0.8
 	 */
 	public $criteria=array();
 	/**

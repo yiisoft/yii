@@ -225,7 +225,6 @@ abstract class CValidator extends CComponent
 	 * </ul>
 	 * @param string $scenario scenario name
 	 * @return boolean whether the validator applies to the specified scenario.
-	 * @since 1.0.2
 	 */
 	public function applyTo($scenario)
 	{
@@ -253,7 +252,6 @@ abstract class CValidator extends CComponent
 	 * @param mixed $value the value to be checked
 	 * @param boolean $trim whether to perform trimming before checking if the string is empty. Defaults to false.
 	 * @return boolean whether the value is empty
-	 * @since 1.0.9
 	 */
 	protected function isEmpty($value,$trim=false)
 	{

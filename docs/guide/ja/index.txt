@@ -12,6 +12,7 @@ All Rights Reserved.
  iwasaki &lt;<iwasaki@cresc.com>&gt;,
  wjx &lt;<webjax@webjax.org>&gt;,
  shuwatto &lt;<shuwatto@gmail.com>&gt;,
- softark &lt;<softark@gmail.com>&gt;
+ softark &lt;<softark@gmail.com>&gt;,
+ morita &lt;<morita21@gmail.com>&gt;
 
 <div class="revision">$Id: index.txt 1679 2009-01-01 04:14:09Z qiang.xue $</div>
