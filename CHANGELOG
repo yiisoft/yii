@@ -9,6 +9,7 @@ Version 1.1.10 work in progress
 - Bug: #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
 - Bug: #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
 - Enh: #3063: Gii, when generating models, tableNames will be checked against reserved PHP keywords when '*' is used (mdomba)
+- Chg: Upgraded JQuery UI to 1.8.17 (mdomba)
 
 Version 1.1.9 January 1, 2012
 -----------------------------
