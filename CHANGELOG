@@ -4,10 +4,11 @@
 
 Version 1.1.10 work in progress
 -------------------------------
-- Bug: Fixed the bug introduced in 1.1.9 CActiveForm required field was not validated if left empty (mdomba)
-- Bug: #3070: Fixed the CACtiveForm JS error if there is no field rendered (mdomba)
-- Bug: #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
-- Bug: #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
+- Bug Fixed the bug introduced in 1.1.9 CActiveForm required field was not validated if left empty (mdomba)
+- Bug #3070: Fixed the CACtiveForm JS error if there is no field rendered (mdomba)
+- Bug #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
+- Bug #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
+- Bug #3103: Fixed the bug that CActiveForm->error() was not overloading htmlOptions (mdomba)
 - Enh: #3063: Gii, when generating models, tableNames will be checked against reserved PHP keywords when '*' is used (mdomba)
 - Chg: Upgraded JQuery UI to 1.8.17 (mdomba)
 

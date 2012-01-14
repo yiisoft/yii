@@ -16,11 +16,12 @@
 	 * @param o object the jQuery object of the input element
 	 */
 	var getAFValue = function (o) {
-		var type;
-		if(!o.length)
+		var type,
+			c = [];
+		if (!o.length) {
 			return undefined;
-		if(o[0].tagName.toLowerCase()=='span') {
-			var c = [];
+		}
+		if (o[0].tagName.toLowerCase() === 'span') {
 			o.find(':checked').each(function () {
 				c.push(this.value);
 			});
@@ -46,20 +47,20 @@
 			if (settings.validationUrl === undefined) {
 				settings.validationUrl = $form.attr('action');
 			}
-			$.each(settings.attributes, function () {
-				$.extend(this, {
-					validationDelay : settings.validationDelay,
-					validateOnChange : settings.validateOnChange,
-					validateOnType : settings.validateOnType,
-					hideErrorMessage : settings.hideErrorMessage,
-					inputContainer : settings.inputContainer,
-					errorCssClass : settings.errorCssClass,
-					successCssClass : settings.successCssClass,
-					beforeValidateAttribute : settings.beforeValidateAttribute,
-					afterValidateAttribute : settings.afterValidateAttribute,
-					validatingCssClass : settings.validatingCssClass
-				});
+			$.each(settings.attributes, function (i) {
 				this.value = getAFValue($form.find('#' + this.inputID));
+				settings.attributes[i] = $.extend({}, {
+					validationDelay: settings.validationDelay,
+					validateOnChange: settings.validateOnChange,
+					validateOnType: settings.validateOnType,
+					hideErrorMessage: settings.hideErrorMessage,
+					inputContainer: settings.inputContainer,
+					errorCssClass: settings.errorCssClass,
+					successCssClass: settings.successCssClass,
+					beforeValidateAttribute: settings.beforeValidateAttribute,
+					afterValidateAttribute: settings.afterValidateAttribute,
+					validatingCssClass: settings.validatingCssClass
+				}, this);
 			});
 			$form.data('settings', settings);
 
@@ -107,7 +108,7 @@
 				}, attribute.validationDelay);
 			};
 
-			$.each(settings.attributes, function (i,attribute) {
+			$.each(settings.attributes, function (i, attribute) {
 				if (this.validateOnChange) {
 					$form.find('#' + this.inputID).change(function () {
 						validate(attribute, false);
@@ -161,8 +162,7 @@
 							}
 							settings.submitting = false;
 						});
-					}
-					else {
+					} else {
 						settings.submitting = false;
 					}
 					return false;
@@ -248,7 +248,7 @@
 		var $error, $container,
 			hasError = false,
 			$el = form.find('#' + attribute.inputID);
-		if($el.length) {
+		if ($el.length) {
 			hasError = messages !== null && $.isArray(messages[attribute.id]) && messages[attribute.id].length > 0;
 			$error = form.find('#' + attribute.errorID);
 			$container = $.fn.yiiactiveform.getInputContainer(attribute, form);
@@ -262,8 +262,7 @@
 			if (hasError) {
 				$error.html(messages[attribute.id][0]);
 				$container.addClass(attribute.errorCssClass);
-			}
-			else if (attribute.enableAjaxValidation || attribute.clientValidation) {
+			} else if (attribute.enableAjaxValidation || attribute.clientValidation) {
 				$container.addClass(attribute.successCssClass);
 			}
 			if (!attribute.hideErrorMessage) {
@@ -311,7 +310,7 @@
 			needAjaxValidation = false,
 			messages = {};
 		$.each(settings.attributes, function () {
-			var value, 
+			var value,
 				msg = [];
 			if (this.clientValidation !== undefined && (settings.submitting || this.status === 2 || this.status === 3)) {
 				value = getAFValue($form.find('#' + this.inputID));
@@ -331,8 +330,7 @@
 				setTimeout(function () {
 					successCallback(messages);
 				}, 200);
-			}
-			else {
+			} else {
 				successCallback(messages);
 			}
 			return;
@@ -357,8 +355,7 @@
 						}
 					});
 					successCallback($.extend({}, messages, data));
-				}
-				else {
+				} else {
 					successCallback(messages);
 				}
 			},
