@@ -5,6 +5,7 @@
 Version 1.1.10 work in progress
 -------------------------------
 - Bug Fixed the bug introduced in 1.1.9 CActiveForm required field was not validated if left empty (mdomba)
+- Bug #1799: Better fix for bug #1799 old fix was breaking CJuiDatePicker tabular input (mdomba)
 - Bug #3070: Fixed the CACtiveForm JS error if there is no field rendered (mdomba)
 - Bug #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
 - Bug #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
