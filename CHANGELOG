@@ -11,6 +11,7 @@ Version 1.1.10 work in progress
 - Bug #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
 - Bug #3103: Fixed the bug that CActiveForm->error() was not overloading htmlOptions (mdomba)
 - Enh: #3063: Gii, when generating models, tableNames will be checked against reserved PHP keywords when '*' is used (mdomba)
+- Enh: #3112: Fixed the exception error display on ajax calls when YII_DEBUG is true (mdomba)
 - Chg: Upgraded JQuery UI to 1.8.17 (mdomba)
 
 Version 1.1.9 January 1, 2012
