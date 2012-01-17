@@ -50,7 +50,7 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
 class CHtmlPurifier extends COutputProcessor
 {
 	/**
-	 * @var mixed the options to be passed to {@link http://htmlpurifier.org HTML Purifier}.
+	 * @var mixed the options to be passed to HTML Purifier instance.
 	 * This can be a HTMLPurifier_Config object,  an array of directives (Namespace.Directive => Value)
 	 * or the filename of an ini file.
 	 * @see http://htmlpurifier.org/live/configdoc/plain.html
@@ -59,7 +59,7 @@ class CHtmlPurifier extends COutputProcessor
 
 	/**
 	 * Processes the captured output.
-     * This method purifies the output using {@link http://htmlpurifier.org HTML Purifier}.
+	* This method purifies the output using {@link http://htmlpurifier.org HTML Purifier}.
 	 * @param string $output the captured output to be processed
 	 */
 	public function processOutput($output)
