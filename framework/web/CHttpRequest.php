@@ -383,7 +383,7 @@ class CHttpRequest extends CApplicationComponent
 			if(($pos=strpos($pathInfo,'?'))!==false)
 			   $pathInfo=substr($pathInfo,0,$pos);
 
-			$pathInfo=$this->urldecode($pathInfo);
+			$pathInfo=$this->decodePathInfo($pathInfo);
 
 			$scriptUrl=$this->getScriptUrl();
 			$baseUrl=$this->getBaseUrl();
@@ -402,15 +402,16 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Improved variant of urldecode.
-	 * Properly decodes both UTF-8 and ISO-8859-1 encoded URIs.
-	 *
-	 * @param string $str encoded string
-	 * @return string decoded string
+	 * Decodes the path info.
+	 * This method is an improved variant of the native urldecode() function and used in {@link getPathInfo getPathInfo()} to
+	 * decode the path part of the request URI. You may override this method to change the way the path info is being decoded.
+	 * @param string $pathInfo encoded path info
+	 * @return string decoded path info
+	 * @since 1.1.10
 	 */
-	private function urldecode($str)
+	protected function decodePathInfo($pathInfo)
 	{
-		$str = urldecode($str);
+		$pathInfo = urldecode($pathInfo);
 
 		// is it UTF-8?
 		// http://w3.org/International/questions/qa-forms-utf-8.html
@@ -423,13 +424,13 @@ class CHttpRequest extends CApplicationComponent
 		 | \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
 		 | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
 		 | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
-		)*$%xs', $str))
+		)*$%xs', $pathInfo))
 		{
-			return $str;
+			return $pathInfo;
 		}
 		else
 		{
-			return utf8_encode($str);
+			return utf8_encode($pathInfo);
 		}
 	}
 
