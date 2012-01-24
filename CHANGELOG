@@ -15,7 +15,7 @@ Version 1.1.10 work in progress
 - Enh #3097: Added CHttpRequest::decodePathInfo() (Y!!)
 - Enh #3101: The methods of CSecurityManager do now work correctly for the case that mbstring.func_overload is in effect (Y!!)
 - Enh #3112: Fixed the exception error display on ajax calls when YII_DEBUG is true (mdomba)
-- Enh #3121: Gii, added more rules for proper pluralization to CCodeModel->pluralize() (mdomba)
+- Enh #3121: Added more rules for proper pluralization to the pluralize() method in CCodeModel and CConsoleCommand (mdomba)
 - Enh: Added CActiveForm::validateTabular() to simplify ajax validation for tabular input (mdomba)
 - Chg: Upgraded JQuery UI to 1.8.17 (mdomba)
 - Chg: Upgraded HTMLPurifier to v4.4.0 (Sam Dark)
