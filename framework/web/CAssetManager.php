@@ -175,11 +175,21 @@ class CAssetManager extends CApplicationComponent
 	 * @return string an absolute URL to the published asset
 	 * @throws CException if the asset to be published does not exist.
 	 */
-	public function publish($path,$hashByName=false,$level=-1,$forceCopy=false)
+ 	public function publish($path,$hashByName=false,$level=-1,$forceCopy=false)
 	{
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
-		else if(($src=realpath($path))!==false)
+    
+    $isPhar = strncmp('phar://',$path,7) === 0;
+    $src = $isPhar ? $path : realpath($path);
+    
+    if($isPhar && $this->linkAssets)
+    {
+      throw new CException(Yii::t('yii','The asset "{asset}" cannot be published using symlink, because the file resides in a phar.',
+        array('{asset}'=>$path)));
+    }
+    
+    if($src!==false || $isPhar)
 		{
 			if(is_file($src))
 			{
@@ -236,6 +246,7 @@ class CAssetManager extends CApplicationComponent
 				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
 			}
 		}
+    
 		throw new CException(Yii::t('yii','The asset "{asset}" to be published does not exist.',
 			array('{asset}'=>$path)));
 	}
