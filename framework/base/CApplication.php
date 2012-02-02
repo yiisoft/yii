@@ -924,8 +924,15 @@ abstract class CApplication extends CModule
 	{
 		if(YII_ENABLE_EXCEPTION_HANDLER)
 			set_exception_handler(array($this,'handleException'));
-		if(YII_ENABLE_ERROR_HANDLER)
+		if(YII_ENABLE_ERROR_HANDLER) {
 			set_error_handler(array($this,'handleError'),error_reporting());
+            $app = $this;
+            register_shutdown_function(function()use($app){
+                if ($e = error_get_last()) {
+                    call_user_func_array(array($app, 'handleError'), $e);
+                }
+            });
+        }
 	}
 
 	/**
