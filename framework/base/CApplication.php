@@ -928,8 +928,18 @@ abstract class CApplication extends CModule
 			set_error_handler(array($this,'handleError'),error_reporting());
             $app = $this;
             register_shutdown_function(function()use($app){
-                if ($e = error_get_last()) {
-                    call_user_func_array(array($app, 'handleError'), $e);
+                if (($e = error_get_last())) {
+                    /**
+                     * Catch fatal errors that are otherwise not caught
+                     */
+                    switch ($e['type']) {
+                        case E_ERROR:
+                        case E_CORE_ERROR:
+                        case E_COMPILE_ERROR:
+                        case E_PARSE:
+                            call_user_func_array(array($app, 'handleError'), $e);
+                            break;
+                    }
                 }
             });
         }
