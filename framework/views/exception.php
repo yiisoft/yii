@@ -195,7 +195,7 @@ pre span.error-ln {
 					<?php endif; ?>
 					<?php
 						echo '&nbsp;';
-						echo htmlspecialchars($data['file'],ENT_QUOTES,Yii::app()->charset)."(".$trace['line'].")";
+						echo htmlspecialchars($trace['file'],ENT_QUOTES,Yii::app()->charset)."(".$trace['line'].")";
 						echo ': ';
 						if(!empty($trace['class']))
 							echo "<strong>{$trace['class']}</strong>{$trace['type']}";
