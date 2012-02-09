@@ -811,29 +811,26 @@ class CHttpRequest extends CApplicationComponent
 	 * <b>Example</b>:
 	 * <pre>
 	 * <?php
-	 *   Yii::app()->request->xSendFile('/home/user/Pictures/picture1.jpg',array(
-	 *	  'saveName'=>'image1.jpg',
-	 *	  'mimeType'=>'image/jpeg',
-	 *	  'terminate'=>false,
-	 *   ));
+	 *    Yii::app()->request->xSendFile('/home/user/Pictures/picture1.jpg',array(
+	 *        'saveName'=>'image1.jpg',
+	 *        'mimeType'=>'image/jpeg',
+	 *        'terminate'=>false,
+	 *    ));
 	 * ?>
 	 * </pre>
 	 * @param string $filePath file name with full path
 	 * @param array $options additional options:
 	 * <ul>
 	 * <li>saveName: file name shown to the user, if not set real file name will be used</li>
-	 * <li>mimeType: mime type of the file, if not set it will be guessed automatically based on the file name.</li>
+	 * <li>mimeType: mime type of the file, if not set it will be guessed automatically based on the file name, if set to null no content-type header will be sent.</li>
 	 * <li>xHeader: appropriate x-sendfile header, defaults to "X-Sendfile"</li>
 	 * <li>terminate: whether to terminate the current application after calling this method, defaults to true</li>
-	 * <li>forceDownload: specifies whether the file will be downloaded or shown inline. Defaults to true. (Since version 1.1.9.)</li>
+	 * <li>forceDownload: specifies whether the file will be downloaded or shown inline, defaults to true. (Since version 1.1.9.)</li>
+	 * <li>addHeaders: an array of additional http headers in header-value pairs</li>
 	 * </ul>
-	 * @return boolean false if file not found, true otherwise.
 	 */
 	public function xSendFile($filePath, $options=array())
 	{
-		if(!is_file($filePath))
-			return false;
-
 		if(!isset($options['forceDownload']) || $options['forceDownload'])
 			$disposition='attachment';
 		else
@@ -851,14 +848,18 @@ class CHttpRequest extends CApplicationComponent
 		if(!isset($options['xHeader']))
 			$options['xHeader']='X-Sendfile';
 
-		header('Content-type: '.$options['mimeType']);
+		if($options['mimeType'] !== null)
+			header('Content-type: '.$options['mimeType']);
 		header('Content-Disposition: '.$disposition.'; filename="'.$options['saveName'].'"');
+		if(isset($options['addHeaders']))
+		{
+			foreach($options['addHeaders'] as $header=>$value)
+				header($header.': '.$value);
+		}
 		header(trim($options['xHeader']).': '.$filePath);
 
 		if(!isset($options['terminate']) || $options['terminate'])
 			Yii::app()->end();
-
-		return true;
 	}
 
 	/**
