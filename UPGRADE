@@ -21,7 +21,9 @@ General upgrade intructions
 
 Upgrading from v1.1.9
 ---------------------
-
+- Previously xSendFile() was returning false if the file was not found.
+This has been removed to allow relative file paths. If you are relying on this check,
+you will need to do it manually before calling xSendFile().
 
 Upgrading from v1.1.8
 ---------------------
