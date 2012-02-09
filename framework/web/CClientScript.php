@@ -744,11 +744,13 @@ class CClientScript extends CApplicationComponent
 	 * @param string $name the name of the script package.
 	 * @param array $definition the definition array of the script package,
 	 * @see CClientScript::packages.
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.10).
 	 *
 	 * @since 1.1.9
 	 */
 	public function addPackage($name,$definition)
 	{
 		$this->packages[$name]=$definition;
+		return $this;
 	}
 }
