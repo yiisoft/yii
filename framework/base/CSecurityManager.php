@@ -299,15 +299,29 @@ class CSecurityManager extends CApplicationComponent
 			$key=pack($pack, $func($key));
 		if($this->strlen($key) < 64)
 			$key=str_pad($key, 64, chr(0));
-	    $key=$this->substr($key,0,64);
+		$key=$this->substr($key,0,64);
 		return $func((str_repeat(chr(0x5C), 64) ^ $key) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ $key) . $data)));
 	}
 
+	/**
+	 * Returns the length of the given string.
+	 * If available uses the multibyte string function mb_strlen.
+	 * @param string $string the string being measured for length
+	 * @return int the length of the string
+	 */
 	private function strlen($string)
 	{
 		return $this->_mbstring ? mb_strlen($string,'8bit') : strlen($string);
 	}
-	
+
+	/**
+	 * Returns the portion of string specified by the start and length parameters.
+	 * If available uses the multibyte string function mb_substr
+	 * @param string $string the input string. Must be one character or longer.
+	 * @param int $start the starting position
+	 * @param int $length the desired portion length
+	 * @return string the extracted part of string, or FALSE on failure or an empty string.
+	 */
 	private function substr($string,$start,$length)
 	{
 		return $this->_mbstring ? mb_substr($string,$start,$length,'8bit') : substr($string,$start,$length);
