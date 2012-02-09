@@ -11,6 +11,7 @@ Version 1.1.10 work in progress
 - Bug #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
 - Bug #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
 - Bug #3103: Fixed the bug that CActiveForm->error() was not overloading htmlOptions (mdomba)
+- Bug #3166: Fixed the bug that CDbColumnSchema typecasted to NULL even for NOT NULL columns (Sam Dark)
 - Enh #3063: Gii, when generating models, tableNames will be checked against reserved PHP keywords when '*' is used (mdomba)
 - Enh #3097: Added CHttpRequest::decodePathInfo() (Y!!)
 - Enh #3101: The methods of CSecurityManager do now work correctly for the case that mbstring.func_overload is in effect (Y!!)
