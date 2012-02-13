@@ -172,7 +172,7 @@ return array (
   'The asset "{asset}" to be published does not exist.' => 'O recurso "{asset}", a ser publicado, não existe.',
   'The command path "{path}" is not a valid directory.' => 'O caminho "{path}" do "command" não é um diretório válido.',
   'The controller path "{path}" is not a valid directory.' => 'O endereço "{path}" do controle não é um diretório válido.',
-  'The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.' => 'O upload do arquivo "{file}" falhou. Somente são aceitos os arquivos com as extenções: {extensions}.',
+  'The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.' => 'O upload do arquivo "{file}" falhou. Somente são aceitos os arquivos com as extensões: {extensions}.',
   'The file "{file}" is too large. Its size cannot exceed {limit} bytes.' => 'O arquivo "{file}" é muito grande. Seu tamanho não pode exceder {limit} bytes.',
   'The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.' => 'O arquivo "{file}" é muito pequeno. Seu tamanho não pode ser menor que {limit} bytes.',
   'The file "{file}" was only partially uploaded.' => 'O upload do arquivo "{file}" foi realizado parcialmente.',

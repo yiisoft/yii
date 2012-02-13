@@ -120,7 +120,7 @@ Detta låter sig göras eftersom [CApplicationComponent] definierar propertyn
 behaviorkonfigurationer kommer komponenten, när den initialiseras, 
 att koppla alla motsvarande behavior.
 
-För klasserna [CController], [CFormModel] och [CActiveModel], vilka vanligtvis 
+För klasserna [CController], [CFormModel] och [CActiveRecord], vilka vanligtvis 
 behöver utökas, sker koppling av behavior genom att deras respektive metod 
 `behaviors()` åsidosätts och omdefinieras.  I samband med initialiseringen 
 kommer klasserna att automatiskt bindas till varje behavior som deklarerats i 

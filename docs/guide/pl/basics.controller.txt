@@ -251,7 +251,7 @@ wywołany przed wywołaniem żądanej akcji aby upewnić się, że użytkownik j
 filtr wydajności może zostać użyty do mierzenia czasu wykonania akcji.
 
 Akcja może posiadać wiele filtrów. Filtry są wykonywane w kolejności pojawiania
-się na liście folderów. Filtr może zabronić wywołania akcji oraz pozostałych niewykonanych filtrów.
+się na liście filtrów. Filtr może zabronić wywołania akcji oraz pozostałych niewykonanych filtrów.
 
 Filtr może zostać zdefiniowany jako metoda kontrolera klasy. Nazwa metody musi rozpoczynać 
 się słowem `filter`. Na przykład, metoda `filterAccessControl` definiuje 

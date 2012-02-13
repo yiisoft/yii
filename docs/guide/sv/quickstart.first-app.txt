@@ -57,7 +57,7 @@ Följande diagram visar applikationens katalogstruktur. Se
 ~~~
 testdrive/
    index.php                 webbapplikationens startskript
-   index-test.php            startskript ör funktionell testning
+   index-test.php            startskript för funktionell testning
    assets/                   innehåller publicerade resursfiler
    css/                      innehåller CSS-filer
    images/                   innehåller bildfiler
