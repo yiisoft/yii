@@ -3,6 +3,9 @@
 
 На этой странице кратко излагаются новые возможности, внесённые в каждом релизе Yii.
 
+Версия 1.1.9
+-------------
+
 Версия 1.1.8
 -------------
  * [Добавлена возможность использовать свой класс правила URL](/doc/guide/topics.url#using-custom-url-rule-classes)
@@ -11,9 +14,9 @@
 ------------
  * [Добавлена поддержка URL в стиле REST](/doc/guide/topics.url#user-friendly-urls)
  * [Добавлена поддержка кэширования запросов](/doc/guide/caching.data#query-caching)
- * [Теперь возможно передать параметры именованной группе условий отношения](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * [Теперь возможно передать параметры именованной группе условий связи](/doc/guide/database.arr#relational-query-with-named-scopes)
  * [Добавлена возможность выполнения реляционных запросов без получения данных из связанных моделей](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
- * [В AR добавлена поддержка отношений HAS_MANY through и HAS_ONE through](/doc/guide/database.arr#relational-query-with-through)
+ * [В AR добавлена поддержка связей HAS_MANY through и HAS_ONE through](/doc/guide/database.arr#relational-query-with-through)
  * [В миграции добавлена поддержка транзакций](/doc/guide/database.migration#transactional-migrations)
  * [Теперь возможно использовать привязку параметров с отдельными классами действий](/doc/guide/basics.controller#action-parameter-binding)
  * [Добавлена поддержка валидации на клиенте без AJAX с использованием [CActiveForm]]
@@ -75,7 +78,7 @@
  * Изменён алгоритм жадной загрузки по умолчанию для зависимых запросов AR так,
    что все таблицы объединяются в одном SQL запросе.
 
- * Изменён псевдоним таблицы по умолчанию на имя отношений AR.
+ * Изменён псевдоним таблицы по умолчанию на имя связи AR.
 
  * [Добавлена поддержка использования префикса таблиц](/doc/guide/database.dao#using-table-prefix).
 
@@ -83,4 +86,4 @@
 
  * Псевдоним для главной таблицы в AR запросе теперь всегда равен 't'.
 
-<div class="revision">$Id: changes.txt 3235 2011-05-24 18:54:01Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 3526 2012-01-01 03:18:43Z qiang.xue $</div>

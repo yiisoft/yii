@@ -2,20 +2,31 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.10 work in progress
+Version 1.1.11 work in progress
 -------------------------------
+
+
+Version 1.1.10 February 12, 2012
+--------------------------------
 - Bug Fixed the bug introduced in 1.1.9 CActiveForm required field was not validated if left empty (mdomba)
 - Bug #1799: Better fix for bug #1799 old fix was breaking CJuiDatePicker tabular input (mdomba)
 - Bug #2284: Fixed the CActiveForm clientvalidation for tabular input (mdomba)
-- Bug #3070: Fixed the CACtiveForm JS error if there is no field rendered (mdomba)
+- Bug #3062: Fixed the bug that using yiilite.php and CLocale will cause exception (Qiang)
+- Bug #3070: Fixed the CActiveForm JS error if there is no field rendered (mdomba)
 - Bug #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
 - Bug #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
 - Bug #3103: Fixed the bug that CActiveForm->error() was not overloading htmlOptions (mdomba)
+- Bug #3107: Fixed the wrong encoding issue of Italian messages (Qiang)
+- Bug #3108: Fixed the bug introduced in CActiveFinder::applyLazyCondition (Qiang)
+- Bug #3166: Fixed the bug that CDbColumnSchema typecasted to NULL even for NOT NULL columns (Sam Dark)
 - Enh #3063: Gii, when generating models, tableNames will be checked against reserved PHP keywords when '*' is used (mdomba)
 - Enh #3097: Added CHttpRequest::decodePathInfo() (Y!!)
 - Enh #3101: The methods of CSecurityManager do now work correctly for the case that mbstring.func_overload is in effect (Y!!)
 - Enh #3112: Fixed the exception error display on ajax calls when YII_DEBUG is true (mdomba)
 - Enh #3121: Added more rules for proper pluralization to the pluralize() method in CCodeModel and CConsoleCommand (mdomba)
+- Enh #3153: CClientScript::addPackage() now returns CClientScript instance to support method chaining (Sam Dark)
+- Enh #3154: Removed file existance check to allow relative path and added additional headers option to xSendFile() (mdomba)
+- Enh #3169: Added CSort::SORT_ASC and CSort::SORT_DESC (Sam Dark)
 - Enh: Added CActiveForm::validateTabular() to simplify ajax validation for tabular input (mdomba)
 - Chg: HTML-encoded input values for exist and unique validators (Qiang)
 - Chg: Upgraded JQuery UI to 1.8.17 (mdomba)

@@ -184,8 +184,7 @@ class CFormatter extends CApplicationComponent
 	 * Formats the value as a boolean.
 	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
-	 * @see trueText
-	 * @see falseText
+	 * @see booleanFormat
 	 */
 	public function formatBoolean($value)
 	{

@@ -80,7 +80,7 @@ public function actionDelete()
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();
 
-		if(!isset($_POST['ajax']))
+		if(!isset($_GET['ajax']))
 			$this->redirect(array('index'));
 	}
 	else

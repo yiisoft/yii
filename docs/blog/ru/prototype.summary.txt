@@ -20,7 +20,7 @@
 
 В общем случае сначала вносятся изменения в [модель](/doc/guide/ru/basics.model):
 добавляются соответствующие [правила валидации](/doc/guide/ru/form.model#declaring-validation-rules) и
-определяются [отношения](/doc/guide/ru/database.arr#declaring-relationship).
+определяются [связи](/doc/guide/ru/database.arr#declaring-relationship).
 Затем изменяется код [действия контроллера](/doc/guide/ru/basics.controller) и
 [представления](/doc/guide/ru/basics.view) для каждой отдельной операции CRUD.
 
