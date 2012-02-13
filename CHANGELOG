@@ -12,6 +12,7 @@ Version 1.1.10 February 12, 2012
 - Bug #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
 - Bug #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
 - Bug #3103: Fixed the bug that CActiveForm->error() was not overloading htmlOptions (mdomba)
+- Bug #3107: Fixed the wrong encoding issue of Italian messages (Qiang)
 - Bug #3108: Fixed the bug introduced in CActiveFinder::applyLazyCondition (Qiang)
 - Bug #3166: Fixed the bug that CDbColumnSchema typecasted to NULL even for NOT NULL columns (Sam Dark)
 - Enh #3063: Gii, when generating models, tableNames will be checked against reserved PHP keywords when '*' is used (mdomba)
