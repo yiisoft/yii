@@ -1089,6 +1089,8 @@ class CJoinElement
 	{
 		$schema=$this->_builder->getSchema();
 		$joins=array();
+		if(is_string($fks))
+			$fks=preg_split('/\s*,\s*/',$fks,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($fks as $i=>$fk)
 		{
 			if(!is_int($i))
