@@ -565,8 +565,8 @@ through を使うリレーショナルクエリ
 
 上記の `array('key1'=>'key2')` において、
 
-  - `key1` は `throughRelationName` で定義されているキーであり、
-  - `key2` は `ClassName` で定義されているキーです。
+  - `key1` は `through` で指定されているリレーション(この場合は`posts`)で定義されているキーであり、
+  - `key2` は リレーションが指し示すモデル(この場合は`Comment`)で定義されているキーです。
 
 `through` は `HAS_ONE` と `HAS_MANY` の両方のリレーションで使用出来ます。
 
@@ -681,4 +681,4 @@ $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
 
-<div class="revision">$Id: database.arr.txt 3416 2011-10-13 18:18:13Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 3523 2011-12-30 20:32:29Z alexander.makarow $</div>

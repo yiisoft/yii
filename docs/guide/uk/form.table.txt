@@ -36,7 +36,7 @@ public function actionBatchUpdate()
 <div class="form">
 <?php echo CHtml::beginForm(); ?>
 <table>
-<tr><th>Ім'я</th><th>Вартість</th><th>Кількість</th><th>Опис</th></tr>
+<tr><th>Імʼя</th><th>Вартість</th><th>Кількість</th><th>Опис</th></tr>
 <?php foreach($items as $i=>$item): ?>
 <tr>
 <td><?php echo CHtml::activeTextField($item,"[$i]name"); ?></td>
