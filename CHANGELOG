@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.11 work in progress
+-------------------------------
+
+
 Version 1.1.10 February 12, 2012
 --------------------------------
 - Bug Fixed the bug introduced in 1.1.9 CActiveForm required field was not validated if left empty (mdomba)
