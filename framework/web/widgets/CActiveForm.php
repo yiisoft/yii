@@ -559,6 +559,93 @@ class CActiveForm extends CWidget
 	{
 		return CHtml::activeLabelEx($model,$attribute,$htmlOptions);
 	}
+	
+	/**
+	 * Renders a url field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeUrlField}.
+	 * Please check {@link CHtml::activeUrlField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 */
+	public function urlField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeUrlField($model,$attribute,$htmlOptions);
+	}
+	
+	/**
+	 * Renders an email field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeEmailField}.
+	 * Please check {@link CHtml::activeEmailField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 */
+	public function emailField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeEmailField($model,$attribute,$htmlOptions);
+	}
+	
+	/**
+	 * Renders an number field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeNumberField}.
+	 * Please check {@link CHtml::activeNumberField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 */
+	public function numberField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeNumberField($model,$attribute,$htmlOptions);
+	}
+	
+	/**
+	 * Renders an number field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeRangeField}.
+	 * Please check {@link CHtml::activeRangeField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 */
+	public function rangeField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeRangeField($model,$attribute,$htmlOptions);
+	}
+
+	/**
+	 * Renders an number field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeDateField}.
+	 * Please check {@link CHtml::activeDateField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 */
+	public function dateField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeDateField($model,$attribute,$htmlOptions);
+	}
+
+
+	/**
+	 * Renders a text field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeTextField}.
+	 * Please check {@link CHtml::activeTextField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 */
 
 	/**
 	 * Renders a text field for a model attribute.
