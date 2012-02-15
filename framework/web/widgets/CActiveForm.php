@@ -635,18 +635,6 @@ class CActiveForm extends CWidget
 		return CHtml::activeDateField($model,$attribute,$htmlOptions);
 	}
 
-
-	/**
-	 * Renders a text field for a model attribute.
-	 * This method is a wrapper of {@link CHtml::activeTextField}.
-	 * Please check {@link CHtml::activeTextField} for detailed information
-	 * about the parameters for this method.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes.
-	 * @return string the generated input field
-	 */
-
 	/**
 	 * Renders a text field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeTextField}.
