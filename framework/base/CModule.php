@@ -269,23 +269,17 @@ abstract class CModule extends CComponent
 	 */
 	public function getModule($id)
 	{
-		if(isset($this->_modules[$id]) || array_key_exists($id,$this->_modules))
-			return $this->_modules[$id];
-		else if(isset($this->_moduleConfig[$id]))
+		if(($pos=strpos($id,'/'))!==false)
 		{
-			$config=$this->_moduleConfig[$id];
-			if(!isset($config['enabled']) || $config['enabled'])
-			{
-				Yii::trace("Loading \"$id\" module",'system.base.CModule');
-				$class=$config['class'];
-				unset($config['class'], $config['enabled']);
-				if($this===Yii::app())
-					$module=Yii::createComponent($class,$id,null,$config);
-				else
-					$module=Yii::createComponent($class,$this->getId().'/'.$id,$this,$config);
-				return $this->_modules[$id]=$module;
-			}
+			$rootId=substr($id,0,$pos);
+			$module=$this->getChildModule($rootId);
+			if($module instanceof CModule)
+				return $module->getModule(substr($id,$pos+1));
+			else
+				return $module;
 		}
+		else
+			return $this->getChildModule($id);
 	}
 
 	/**
@@ -491,6 +485,35 @@ abstract class CModule extends CComponent
 	{
 		foreach($this->preload as $id)
 			$this->getComponent($id);
+	}
+
+	/**
+	 * Retrieves the named immediate child application module.
+	 * The module has to be declared in {@link modules}. A new instance will be created
+	 * when calling this method with the given ID for the first time.
+	 * @param string $id application module ID (case-sensitive)
+	 * @return CModule the module instance, null if the module is disabled or does not exist
+	 * as  an immediate child.
+	 */
+	protected function getChildModule($id)
+	{
+		if(isset($this->_modules[$id]) || array_key_exists($id,$this->_modules))
+			return $this->_modules[$id];
+		else if(isset($this->_moduleConfig[$id]))
+		{
+			$config=$this->_moduleConfig[$id];
+			if(!isset($config['enabled']) || $config['enabled'])
+			{
+				Yii::trace("Loading \"$id\" module",'system.base.CModule');
+				$class=$config['class'];
+				unset($config['class'], $config['enabled']);
+				if($this===Yii::app())
+					$module=Yii::createComponent($class,$id,null,$config);
+				else
+					$module=Yii::createComponent($class,$this->getId().'/'.$id,$this,$config);
+				return $this->_modules[$id]=$module;
+			}
+		}
 	}
 
 	/**
