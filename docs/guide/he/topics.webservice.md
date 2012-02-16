@@ -1,0 +1,173 @@
+﻿שירותים חיצוניים
+===========
+
+[שרותים חיצוניים](http://en.wikipedia.org/wiki/Web_service) הינם מערכת אשר נועדה לתמוך את הקשר בין שני מחשבים על גבי רשת. במונחים של אפליקצית ווב, זה בדרך כלל מתייחס API שניתן לגשת אליו דרך הרשת ולבצע את פעולותיו על השרת החיצוני המבקש את השירות.
+לדוגמא, אפליקצית צד לקוח של [Flex](http://www.adobe.com/products/flex/) יכול להריץ פונקציה הנמצאת בצד השרת של האפליקציה וכתובה ב PHP. השירותים החיצוניים מסתמכים על [SOAP](http://en.wikipedia.org/wiki/SOAP) כשכבת היסוד של הפרוטוקול המקשר.
+
+Yii מספקת את [CWebService] ו [CWebServiceAction] בכדי לפשט את תהליך העבודה ליישום שירותים אלו באפליקצית ווב. ה API מקובצים למחלקות, הנקראות *ספקי שירותים*. Yii מחולל אוטומטית לכל מחלקה מפרט [WSDL](http://www.w3.org/TR/wsdl) המתאר אילו פקודות API קיימות ואיך ניתן להריצן על ידי הלקוח. ברגע שפקודת API מורצת על ידי לקוח, Yii תאתחל את ספק השירות המתאים ותקרא ל API הרצוי בכדי למלא את הבקשה.
+
+» Note|הערה: א מסתמך על התוסף של PHP בשם [SOAP](http://www.php.net/manual/en/ref.soap.php). יש לוודא שהוא מותקן ומופעל לפני השימוש בדוגמאות בחלק זה.
+
+הגדרת ספק שירות
+-------------------------
+
+כפי שציינו למעלה, ספק שירות הינו מחלקה אשר מגדירה מתודות שניתן לגשת אליהם מרחוק. Yii מסתמך על [תיעוד הערות](http://java.sun.com/j2se/javadoc/writingdoccomments/) ו  [התבוננות מחלקה](http://php.net/manual/en/book.reflection.php) בכדי לזהות אילו מתודות ניתן לגשת אליהם מרחוק אילו פרמטרים הם מקבלים והערך שהם מחזירים.
+
+נתחיל עם שירות אגרות חוב. שירות זה מאפשר ללקוח לבקש את המחיר עבור אגרת החוב מסויימת. אנו מגדירים את ספק השירות בצורה הבאה. שימו לב שאנו מגדירים את מחלקת הספק `StockController` על ידי הרחבה של המחלקה [CController]. זה לא חובה. אנו נסביר למה אנו עושים זאת בהמשך.
+
+~~~
+[php]
+class StockController extends CController
+{
+    /**
+     * @param string the symbol of the stock
+     * @return float the stock price
+     * @soap
+     */
+    public function getPrice($symbol)
+    {
+        $prices=array('IBM'=»100, 'GOOGLE'=»350);
+        return isset($prices[$symbol])?$prices[$symbol]:0;
+        // החזרת הערך עבור אגרת החוב המנוקבת
+    }
+}
+~~~
+
+בקוד למעלה, אנו מגדירים את המתודה `getPrice` להיות שירות API על ידי סימון המתודה עם התג `soap@` בתוך הערות התיעוד של המתודה. אנו מסתמכים על הערות התיעוד של המתודה בכדי לציין את סוג הנתון שהפרמטר הראשון במתודה מקבל ואת סוג הנתון המוחזר על ידי מתודה זו. ניתן להגדיר מתודות API נוספות על ידי הגדרתם בצורה דומה.
+
+הגדרת פעולת ספק שירות
+----------------------------
+
+לאחר הגדרת ספק השירות, אנו צריכים לאפשר גישה ללקוחות הרוצים להשתמש בה. במיוחד, אנו רוצים ליצור פעולה בקונטרולר כדי לחשוף את השירות. ניתן לבצע זאת בצורה פשוטה על ידי הגדרת פעולה [CWebServiceAction] בתוך מחלקת קונטרולר. עבור הדוגמא שלנו, אנו פשוט נוסיף אותו למחלקה `StockController`.
+
+
+~~~
+[php]
+class StockController extends CController
+{
+    public function actions()
+    {
+        return array(
+            'quote'=»array(
+                'class'=»'CWebServiceAction',
+            ),
+        );
+    }
+
+    /**
+     * @param string the symbol of the stock
+     * @return float the stock price
+     * @soap
+     */
+    public function getPrice($symbol)
+    {
+       // החזרת הערך עבור אגרת החוב המנוקבת
+    }
+}
+~~~
+
+זה כל מה שאנו צריכים לעשות בכדי ליצור שירות חיצוני! במידה וניגש לפעולה שיצרנו על ידי גישה לקישור `http://hostname/path/to/index.php?r=stock/quote`, אנו נראה הרבה תוכן XML שהוא בעצם ה WSDL לשירות החיצוני שהרגע הגדרנו.
+
+» Tip|הערה: כברירת מחדל, [CWebServiceAction] מניח שהקונטרולר הנוכחי הוא מספק השירות. זו הסיבה לזה שהגדרנו את המתודה `getPrice` בתוך המחלקה `StockController`.
+
+שימוש בשירות חיצוני
+---------------------
+
+בכדי להשלים את הדוגמא, אנו ניצור 'לקוח' שיצרוך את השירות החיצוני שיצרנו כרגע. הלקוח שצורך את השירות גם הוא כתוב ב PHP, אבל זה יכול להיות כתוב בשפות אחרות, כמו, `Java`, `C#`, `Flex`, ואחרים.
+
+~~~
+[php]
+$client=new SoapClient('http://hostname/path/to/index.php?r=stock/quote');
+echo $client-»getPrice('GOOGLE');
+~~~
+
+הרצת הסקריפט למעלה במסוף או בדפדפן, ואנו נראה `350` שזהו המחיר עבור `GOOGLE`.
+
+סוגי נתונים
+----------
+
+בעת הגדרת מתודות מחלקה ומאפיינים שניתן לגשת אליהם מרחוק, אנו צריכים להגדיר את סוגי הנתונים עבור הנתונים המגיעים והיוצאים. סוגי הנתונים הפרימיטיבים הבאים ניתנים לשימוש:
+
+   - str/string: ממופה אל `xsd:string`;
+   - int/integer: ממופה אל `xsd:int`;
+   - float/double: ממופה אל `xsd:float`;
+   - bool/boolean: ממופה אל `xsd:boolean`;
+   - date: ממופה אל `xsd:date`;
+   - time: ממופה אל `xsd:time`;
+   - datetime: ממופה אל `xsd:dateTime`;
+   - array: ממופה אל `xsd:string`;
+   - object: ממופה אל `xsd:struct`;
+   - mixed: ממופה אל `xsd:anyType`.
+
+במידה וסוג הנתון לא נמצא ברשימה של הסוגים הפרימיטיבים, הוא נחשב כסוג מורכב המכיל מאפיינים. סוג מורכב מיוצג במונחים של מחלקה, והמאפיינים שלו הם המשתנים במחלקה המסומנים בעזרת `soap@` בתוך הערות התיעוד של המאפיין.
+
+כמו כן אנו יכולים להשתמש במערך כסוג הנתון על ידי צירוף של `[]` לסוף סוג הנתון הפרימיטיבי או המורכב. בצורה זו אנו מגדירים מערך של הסוג המיוחס.
+
+למטה מוצגת דוגמא להגדרת ה API עבור `getPosts` המחזיר מערך של אובייקטים של המחלקה `Post`.
+
+~~~
+[php]
+class PostController extends CController
+{
+    /**
+     * @return Post[] a list of posts
+     * @soap
+     */
+    public function getPosts()
+    {
+        return Post::model()-»findAll();
+    }
+}
+
+class Post extends CActiveRecord
+{
+    /**
+     * @var integer post ID
+     * @soap
+     */
+    public $id;
+    /**
+     * @var string post title
+     * @soap
+     */
+    public $title;
+
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
+}
+~~~
+
+מיפוי מחלקות
+-------------
+
+בכדי לקבל את הפרמטרים של הסוגים המורכבים מהלקוח, אפליקציה צריכה להגדיר את המיפוי בין סוגי ה WSDL לבין מחלקות ה PHP המקבילים.
+זה נעשה על ידי הגדרת המאפיין [classMap|CWebServiceAction::classMap] של המחלקה [CWebServiceAction].
+
+~~~
+[php]
+class PostController extends CController
+{
+    public function actions()
+    {
+        return array(
+            'service'=»array(
+                'class'=»'CWebServiceAction',
+                'classMap'=»array(
+                    'Post'=»'Post',  // או פשוט `Post`
+                ),
+            ),
+        );
+    }
+    ......
+}
+~~~
+
+
+יירוט הרצת מתודות מרחוק
+-------------------------------------
+
+על ידי יישום הממשק [IWebServiceProvider], ספק שירות יכול ליירט הרצת מתודות מרחוק. במתודה [IWebServiceProvider::beforeWebMethod], הספק יכול לקבל את האובייקט הנוכחי של [CWebService] ולקבל את שם המתודה המבוקשת כרגע דרך [CWebService::methodName]. היא יכולה להחזיר false אם המתודה לא צריכה לרוץ מכל סיבה שהיא (לדוגמא גישה לא מורשית).
+
+«div class="revision"»$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $«/div»

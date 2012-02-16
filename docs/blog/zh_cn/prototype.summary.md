@@ -1,0 +1,21 @@
+总结
+=======
+
+我们已经完成了阶段1。来总结一下目前为止我们所完成的工作：
+
+ 1. 我们确定了完整的需求；
+ 2. 我们安装了Yii框架；
+ 3. 我们创建了一个程序骨架；
+ 4. 我们设计并创建了博客数据库；
+ 5. 我们修改了应用配置，添加了数据库连接；
+ 6. 我们为日志和评论生成了实现CRUD操作的代码；
+ 7. 我们修改了验证方法以实现通过 `tbl_user` 表验证身份；
+
+对一个新项目来说，大部分时间将花在对程序骨架的第1至4步操作上。
+
+虽然 `gii` 工具生成的代码可以对数据库实现完整的 CRUD 操作，但它在实际应用中常需要做一些修改。鉴于此，在下面的两个阶段中，我们的工作就是自定义生成的日志及评论的 CRUD 代码，使他们达到我们一开始的需求。
+
+总体来说，我们首先要修改 [模型](http://www.yiiframework.com/doc/guide/basics.model) 类，添加适当的 [验证](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules) 规则并声明 [相关的对象](http://www.yiiframework.com/doc/guide/database.arr#declaring-relationship)。然后我们要为每个CRUD操作修改其 [控制器动作](http://www.yiiframework.com/doc/guide/basics.controller) 和 [视图](http://www.yiiframework.com/doc/guide/basics.view) 代码。
+
+
+<div class="revision">$Id: prototype.summary.txt 2333 2010-08-24 21:11:55Z mdomba $</div>

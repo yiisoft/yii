@@ -1,0 +1,109 @@
+日志管理
+==============
+
+日志管理主要是在一个管理视图中列出日志，我们可以查看所有状态的日志，更新或删除它们。它们分别通过 `admin` 操作和 `delete` 操作实现。`yiic` 生成的代码并不需要太多修改。下面我们主要解释这两个操作是怎样实现的。
+
+
+在表格视图中列出日志
+-----------------------------
+
+`admin` 操作在一个表格视图中列出了所有状态的日志。此视图支持排序和分页。下面就是 `PostController` 中的 `actionAdmin()` 方法：
+
+~~~
+[php]
+public function actionAdmin()
+{
+	$model=new Post('search');
+	if(isset($_GET['Post']))
+		$model->attributes=$_GET['Post'];
+	$this->render('admin',array(
+		'model'=>$model,
+	));
+}
+~~~
+
+上面的代码由 `yiic` 工具生成，且未作任何修改。它首先创建了一个 `search` [场景（scenario）](/doc/guide/form.model) 下的 `Post` 模型。我们将使用此模型收集用户指定的搜索条件。然后我们把用户可能会提供的数据赋值给模型。 最后，我们以此模型显示 `admin` 视图。
+
+下面就是 `admin` 视图的代码：
+
+~~~
+[php]
+<?php
+$this->breadcrumbs=array(
+	'Manage Posts',
+);
+?>
+<h1>Manage Posts</h1>
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+	'columns'=>array(
+		array(
+			'name'=>'title',
+			'type'=>'raw',
+			'value'=>'CHtml::link(CHtml::encode($data->title), $data->url)'
+		),
+		array(
+			'name'=>'status',
+			'value'=>'Lookup::item("PostStatus",$data->status)',
+			'filter'=>Lookup::items('PostStatus'),
+		),
+		array(
+			'name'=>'create_time',
+			'type'=>'datetime',
+			'filter'=>false,
+		),
+		array(
+			'class'=>'CButtonColumn',
+		),
+	),
+)); ?>
+~~~
+
+我们使用 [CGridView] 来显示这些日志。它允许我们在单页显示过多时可以分页并可以按某一列排序。我们的修改主要针对每一列的显示。例如，针对 `title` 列，我们指定它应该显示为一个超级链接，指向日志的详情页面。表达式`$data->url` 返回我们之前在 `Post` 类中定义的 `url` 属性值。
+
+> Tip|提示: 当显示文本时，我们要调用 [CHtml::encode()] 对其中的HTML编码。这可以防止 [跨站脚本攻击(cross-site scripting attack)](http://www.yiiframework.com/doc/guide/topics.security).
+
+
+日志删除
+--------------
+
+在 `admin` 数据表格中，每行有一个删除按钮。点击此按钮将会删除相应的日志。在程序内部，这会触发如下实现的 `delete` 动作。
+
+~~~
+[php]
+public function actionDelete()
+{
+	if(Yii::app()->request->isPostRequest)
+	{
+		// we only allow deletion via POST request
+		$this->loadModel()->delete();
+
+		if(!isset($_POST['ajax']))
+			$this->redirect(array('index'));
+	}
+	else
+		throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+}
+~~~
+
+上面的代码就是 `yiic` 生成的代码，未经任何修改。我们想在此对判断 `$_POST['ajax']` 稍作解释。[CGridView] 小物件有一个非常好的特性：它的排序、分页和删除操作默认是通过AJAX实现的。这就意味着在执行上述操作时，整个页面不会重新加载。然而，它也可以在非AJAX模式下运行（通过设置它的 `ajaxUpdate` 属性为 false 或在客户端禁用JavaScript）。`delete` 动作区分两个场景是必要的：如果删除请求通过AJAX提交，我们就不应该重定向用户的浏览器，反之则应该重定向。
+
+删除日志应该同时导致日志的所有评论被删除。额外的，我们应更新相关的删除日志后的 `tbl_tag` 表。 这两个任务都可以通过在 `Post` 模型类中写一个如下的 `afterDelete` 方法实现。
+
+~~~
+[php]
+protected function afterDelete()
+{
+	parent::afterDelete();
+	Comment::model()->deleteAll('post_id='.$this->id);
+	Tag::model()->updateFrequency($this->tags, '');
+}
+~~~
+
+上面的代码很直观：它首先删除了所有 `post_id` 和所删除的日志ID相同的那些评论。然后它针对所删日志中的 `tags` 更新了 `tbl_tag` 表。
+
+> Tip|提示: 由于 SQLite 并不真正支持外键约束，我们需要显式地删除属于所删日志的所有评论。在一个支持此约束的DBMS （例如 MySQL， PostgreSQL）中，可以设置好外键约束，这样如果删除了一篇日志，DBMS就可以自动删除其评论。这样的话，我们就不需要在我们的代码中显式执行删除了。
+
+<div class="revision">$Id: post.admin.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

@@ -1,0 +1,57 @@
+今后的增强
+===================
+
+使用主题
+-------------
+
+不需要写任何代码，我们的博客应用已经是 [可更换主题(themeable)](http://www.yiiframework.com/doc/guide/topics.theming) 的了。要使用主题，我们主要是需要通过编写个性化的视图文件开发主题。例如，要使用一个名为  `classic` 的使用不同布局的主题，我们需要创建一个布局视图文件 `/wwwroot/blog/themes/classic/views/layouts/main.php`。我们还需要修改应用配置以显示我们选择的 `classic` 主题。
+
+~~~
+[php]
+return array(
+	......
+	'theme'=>'classic',
+	......
+);
+~~~
+
+
+国际化
+--------------------
+
+我们也可以把我们的博客应用国际化，这样它就可以通过多种语言显示。这主要包括两方面的工作。
+
+第一，我们创建不同语言的视图文件。例如，针对 `PostController` 的 `index` 页面，我们创建了视图文件 `/wwwroot/blog/protected/views/post/zh_cn/index.php`。当应用的语言被配置为简体中文（语言代码是 `zh_cn`）时，Yii 将自动使用此视图文件。
+
+第二，我们可以为代码生成的信息创建信息翻译。信息翻译应保存在目录 `/wwwroot/blog/protected/messages` 中，我们也需要在使用文本字符串的地方调用 `Yii::t()` 方法把这些字符串括起来。
+
+关于国际化的更多详情，请参考 [指南](http://www.yiiframework.com/doc/guide/topics.i18n)。
+
+
+通过缓存提高性能
+--------------------------------
+
+虽然 Yii 框架 [非常高效](http://www.yiiframework.com/performance/), 但 Yii 写的某个应用未必高效。在我们的博客应用中有基础可以提高性能的地方。例如，标签云 portlet 可能是性能瓶颈之一，因为它使用了较复杂的数据库查询和PHP逻辑。
+
+我们可以使用 Yii 提供的成熟的 [缓存功能](http://www.yiiframework.com/doc/guide/caching.overview) 提高性能。Yii 中最有用的组件之一就是 [COutputCache], 它会缓存页面显示中的片段，这样生成此片段的代码就不需要在每次收到请求时执行。例如，在布局文件 `/wwwroot/blog/protected/views/layouts/column2.php` 中，我们可以将标签云 portlet 嵌入到 [COutputCache] 中:
+
+~~~
+[php]
+<?php if($this->beginCache('tagCloud', array('duration'=>3600))) { ?>
+
+	<?php $this->widget('TagCloud', array(
+		'maxTags'=>Yii::app()->params['tagCloudCount'],
+	)); ?>
+
+<?php $this->endCache(); } ?>
+~~~
+
+通过以上代码，标签云的显示将由缓存实现，而不需要在每次收到请求时实时生成。缓存内容将在 3600 秒的缓存期内有效。
+
+
+添加新功能
+-------------------
+
+我们的博客应用现在只有非常基本的功能。要成为一个完整的博客系统，还需要添加更多的功能。例如，日历 portlet，邮件提醒，日志分类，存档日志 portlet 等等。我们把这些功能的实现留给感兴趣的读者。
+
+<div class="revision">$Id: final.future.txt 2017 2010-04-05 17:12:13Z alexander.makarow $</div>

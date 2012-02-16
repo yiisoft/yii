@@ -1,0 +1,200 @@
+自定义日志模型
+======================
+
+由 `yiic` 工具生成的 `Post` 日志模型类主要需要做如下两处修改：
+
+ - `rules()` 方法：指定对模型属性的验证规则；
+ - `relations()` 方法：指定关联的对象；
+
+> Info|信息: [模型](http://www.yiiframework.com/doc/guide/basics.model) 包含了一系列属性，每个属性关联到数据表中相应的列。属性可以在类成员变量中显式定义，也可以隐式定义，不需要事先声明。
+
+
+自定义 `rules()` 方法
+----------------------------
+
+我们先来指定验证规则，它可以确保用户输入的信息在保存到数据库之前是正确的。例如， `Post` 的 `status` 属性应该是 1, 2 或 3 中的任一数字。 `yiic` 工具其实也为每个模型生成了验证规则，但是这些规则是基于数据表的列信息的，可能并不是非常恰当。
+
+基于需求分析，我们把 `rules()` 做如下修改：
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('title, content, status', 'required'),
+		array('title', 'length', 'max'=>128),
+		array('status', 'in', 'range'=>array(1,2,3)),
+		array('tags', 'match', 'pattern'=>'/^[\w\s,]+$/',
+			'message'=>'Tags can only contain word characters.'),
+		array('tags', 'normalizeTags'),
+
+		array('title, status', 'safe', 'on'=>'search'),
+	);
+}
+~~~
+
+在上面的代码中，我们指定了 `title`, `content` 和 `status` 属性是必填项；`title` 的长度不能超过 128；`status` 属性值应该是 1 (草稿), 2 (已发布) 或 3 (已存档)；`tags` 属性应只允许使用单词字母和逗号。另外，我们使用 `normalizeTags` 来规范化用户输入的Tag，使Tag是唯一的且整齐地通过逗号分隔。最后的规则会被搜索功能用到，这个我们后面再讲。
+
+像 `required`, `length`, `in` 和 `match` 这几个验证器（validator）是Yii提供的内置验证器。`normalizeTags` 验证器是一个基于方法的验证器，我们需要在 `Post` 类中定义它。关于如何设置验证规则的更多信息，请参考 [指南](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules)。
+
+~~~
+[php]
+public function normalizeTags($attribute,$params)
+{
+	$this->tags=Tag::array2string(array_unique(Tag::string2array($this->tags)));
+}
+~~~
+
+其中的 `array2string` 和 `string2array` 是在 `Tag` 模型类中定义的新方法。详情请参考 `/wwwroot/yii/demos/blog/protected/models/Tag.php` 文件。
+
+`rules()` 方法中定义的规则会在模型实例调用其 [validate()|CModel::validate] 或 [save()|CActiveRecord::save] 方法时逐一执行。
+
+> Note|注意: 请务必记住 `rules()` 中出现的属性必须是那些通过用户输入的属性。其他的属性，如 `Post` 模型中的 `id` 和 `create_time` ，是通过我们的代码或数据库设定的，不应该出现在 `rules()` 中。详情请参考 [属性的安全赋值（Securing Attribute Assignments）](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
+
+作出这些修改之后，我们可以再次访问日志创建页检查新的验证规则是否已生效。
+
+
+自定义 `relations()` 方法
+--------------------------------
+
+最后我们来自定义 `relations()` 方法，以指定与日志相关的对象。通过在 `relations()` 中声明这些相关对象，我们就可以利用强大的 [Relational ActiveRecord (RAR)](http://www.yiiframework.com/doc/guide/database.arr) 功能来访问日志的相关对象，例如它的作者和评论。不需要自己写复杂的 SQL JOIN 语句。
+
+我们自定义 `relations()` 方法如下：
+
+~~~
+[php]
+public function relations()
+{
+	return array(
+		'author' => array(self::BELONGS_TO, 'User', 'author_id'),
+		'comments' => array(self::HAS_MANY, 'Comment', 'post_id',
+			'condition'=>'comments.status='.Comment::STATUS_APPROVED,
+			'order'=>'comments.create_time DESC'),
+		'commentCount' => array(self::STAT, 'Comment', 'post_id',
+			'condition'=>'status='.Comment::STATUS_APPROVED),
+	);
+}
+~~~
+
+我们还在 `Comment` 模型类中定义了两个在上面的方法中用到的常量。
+
+~~~
+[php]
+class Comment extends CActiveRecord
+{
+	const STATUS_PENDING=1;
+	const STATUS_APPROVED=2;
+	......
+}
+~~~
+
+`relations()` 中声明的关系表明：
+
+ * 一篇日志属于一个作者，它的类是 `User` ，它们的关系建立在日志的 `author_id` 属性值之上；
+ * 一篇日志有多个评论，它们的类是 `Comment` ，它们的关系建立在评论的 `post_id` 属性值之上。这些评论应该按它们的创建时间排列，且评论必须已通过审核；
+ * `commentCount` 关系有一点特别，它返回一个关于日志有多少条评论的一个聚合结果。
+
+
+通过以上的关系声明，我们现在可以按下面的方式很容易的访问日志的作者和评论信息。
+
+~~~
+[php]
+$author=$post->author;
+echo $author->username;
+
+$comments=$post->comments;
+foreach($comments as $comment)
+	echo $comment->content;
+~~~
+
+关于如何声明和使用关系的更多详情，请参考 [指南](http://www.yiiframework.com/doc/guide/database.arr).
+
+
+添加 `url` 属性
+---------------------
+
+日志是一份可以通过一个唯一的URL访问的内容。我们可以在 `Post` 模型中添加一个 `url` 属性，这样同样的创建URL的代码就可以被复用，而不是在代码中到处调用 [CWebApplication::createUrl] 。 稍后讲解怎样美化 URL 的时候，我们将看到添加这个属性给我们带来了超拽的便利。
+
+要添加 `url` 属性，我们可以按如下方式给 `Post` 类添加一个 getter 方法：
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function getUrl()
+	{
+		return Yii::app()->createUrl('post/view', array(
+			'id'=>$this->id,
+			'title'=>$this->title,
+		));
+	}
+}
+~~~
+
+注意我们除了使用日志的ID之外，还添加了日志的标题作为URL中的一个 GET 参数。这主要是为了搜索引擎优化 (SEO) 的目的，在 [美化 URL](/doc/blog/final.url) 中将会讲述。
+
+由于 [CComponent] 是 `Post` 的最顶级父类，添加 `getUrl()` 这个 getter 方法使我们可以使用类似 `$post->url` 这样的表达式。当我们访问 `$post->url` 时，getter 方法将会被执行，它的返回结果会成为此表达式的值。关于这种组件的更多详情，请参考 [指南](/doc/guide/basics.component)。
+
+
+以文本方式显示状态
+---------------------------
+
+由于日志的状态在数据库中是以一个整型数字存储的，我们需要提供一个文本话的表现形式，这样在它显示给最终用户时会更加直观。在一个大的系统中，类似的需求是很常见的。
+
+作为一个总体的解决方案，我们使用 `tbl_lookup` 表存储数字值和被用于其他数据对象的文本值的映射。为了更简单的访问表中的文本数据，我们按如下方式修改 `Lookup` 模型类：
+
+~~~
+[php]
+class Lookup extends CActiveRecord
+{
+	private static $_items=array();
+
+	public static function items($type)
+	{
+		if(!isset(self::$_items[$type]))
+			self::loadItems($type);
+		return self::$_items[$type];
+	}
+
+	public static function item($type,$code)
+	{
+		if(!isset(self::$_items[$type]))
+			self::loadItems($type);
+		return isset(self::$_items[$type][$code]) ? self::$_items[$type][$code] : false;
+	}
+
+	private static function loadItems($type)
+	{
+		self::$_items[$type]=array();
+		$models=self::model()->findAll(array(
+			'condition'=>'type=:type',
+			'params'=>array(':type'=>$type),
+			'order'=>'position',
+		));
+		foreach($models as $model)
+			self::$_items[$type][$model->code]=$model->name;
+	}
+}
+~~~
+
+我们的新代码主要提供了两个静态方法： `Lookup::items()` 和 `Lookup::item()`。前者返回一个属于指定的数据类型的字符串列表，后者按指定的数据类型和数据值返回一个具体的字符串。
+
+我们的博客数据库已经预置了两个查询类别： `PostStatus` 和 `CommentStatus`。前者代表可用的日志状态，后者代表评论状态。
+
+为了使我们的代码更加易读，我们还定义了一系列常量，用于表示整数型状态值。我们应该在涉及到相应的状态值时在代码中使用这些常量。
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	const STATUS_DRAFT=1;
+	const STATUS_PUBLISHED=2;
+	const STATUS_ARCHIVED=3;
+	......
+}
+~~~
+
+这样，我们可以通过调用 `Lookup::items('PostStatus')` 来获取可用的日志状态列表（按相应的整数值索引的文本字符串），通过调用 `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)` 来获取发布状态的文本表现形式。
+
+
+<div class="revision">$Id: post.model.txt 2119 2010-05-10 01:27:29Z qiang.xue $</div>
