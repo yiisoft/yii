@@ -1,0 +1,70 @@
+﻿* התחלה
+    - [סקירה](index)
+    - [שינויים ואפשרויות חדשות](changes)
+    - [עדכון המערכת מגרסא 1.0 לגרסא 1.1](upgrade)
+    - [מה זה Yii](quickstart.what-is-yii)
+    - [התקנה](quickstart.installation)
+    - [יצירת אפליקציה בפעם הראשונה](quickstart.first-app)
+
+* יסודות המערכת
+    - [מודל-תצוגה-קונטרולר (MVC)](basics.mvc)
+    - [אתחול המערכת](basics.entry)
+    - [אפליקציות](basics.application)
+    - [קונטרולר](basics.controller)
+    - [מודל](basics.model)
+    - [תצוגה](basics.view)
+    - [רכיב](basics.component)
+    - [מודול](basics.module)
+    - [נתיבי קבצים ומרחבי שמות](basics.namespace)
+    - [מוסכמות לאופן כתיבת הקוד](basics.convention)
+    - [רצף עבודת התכנות](basics.workflow)
+
+* עבודה עם טפסים
+    - [סקירה](form.overview)
+    - [יצירת מודל](form.model)
+    - [יצירת פעולה](form.action)
+    - [יצירת טופס](form.view)
+    - [איסוף קלט טבלאי](form.table)
+- [שימוש במערכת יצירת הטפסים](form.builder)
+
+* עבודה עם מסדי נתונים
+    - [סקירה](database.overview)
+    - [שימוש ב DAO](database.dao)
+    - [שימוש ב AR](database.ar)
+    - [שימוש ב ARR](database.arr)
+
+* ניהול מטמון
+    - [סקירה](caching.overview)
+    - [מטמון נתונים](caching.data)
+    - [מטמון בחלקים](caching.fragment)
+    - [מטמון עמודים](caching.page)
+    - [תוכן דינאמי](caching.dynamic)
+
+* הרחבת Yii
+    - [סקירה](extension.overview)
+    - [שימוש בתוספות](extension.use)
+    - [יצירת תוספות](extension.create)
+    - [שימוש בספריות צד שלישי](extension.integration)
+
+* הרצת בדיקות
+    - [סקירה](test.overview)
+    - [נתונים התחלתיים](test.fixture)
+    - [בדיקות יחידה](test.unit)
+    - [בדיקות פונקציונליות](test.functional)
+
+* נושאים מיוחדים
+    - [יצירת קוד אוטומטי](topics.gii)
+    - [ניהול קישורים](topics.url)
+    - [אימות משתמשים וניהול גישות](topics.auth)
+    - [ניהול תבניות ועיצוב](topics.theming)
+    - [תיעוד פעולות](topics.logging)
+    - [ניהול וטיפול בשגיאות](topics.error)
+    - [שרותים חיצוניים](topics.webservice)
+    - [ניהול ותמיכה בשפות](topics.i18n)
+    - [תחביר תצוגה נוסף](topics.prado)
+    - [אפלקציות מסוף ובקרה](topics.console)
+    - [אבטחה](topics.security)
+    - [שיפור ביצועי המערכת](topics.performance)
+    - [יצירת קןד בעזרת כלי שורת הפקודות (לא נתמך)](quickstart.first-app-yiic)
+
+«div class="revision"»$Id: toc.txt 2098 2009-12-18 19:39:18Z qiang.xue $«/div»

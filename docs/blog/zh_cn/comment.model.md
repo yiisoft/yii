@@ -1,0 +1,74 @@
+自定义评论模型
+=========================
+
+对 `Comment` 模型，我们主要需要自定义 `rules()` 和 `attributeLabels()` 方法。 `attributeLabels()` 方法返回一个属性名字和属性标签的映射。由于 `yiic` 生成的 `relations()` 代码已经很不错了，我们现在就不需要改动这个玩意了。
+
+
+自定义 `rules()` 方法
+----------------------------
+
+我们首先自定义 `yiic` 工具生成的验证规则。用于评论的验证规则如下:
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('content, author, email', 'required'),
+		array('author, email, url', 'length', 'max'=>128),
+		array('email','email'),
+		array('url','url'),
+	);
+}
+~~~
+
+如上所示，我们制定了 `author`, `email` 和 `content` 属性是必填项； `author`, `email` 和 `url` 的长度不能超过 128； `email` 属性必须是一个有效的 Email 地址； `url` 属性必须是一个有效的 URL；
+
+
+自定义 `attributeLabels()` 方法
+--------------------------------------
+
+然后我们自定义 `attributeLabels()` 方法以声明每个模型属性显示时的标签（label）文本。此方法在当我们调用 [CHtml::activeLabel()] 显示一个属性标签时返回一个包含了名字-标签对的数组。
+
+~~~
+[php]
+public function attributeLabels()
+{
+	return array(
+		'id' => 'Id',
+		'content' => 'Comment',
+		'status' => 'Status',
+		'create_time' => 'Create Time',
+		'author' => 'Name',
+		'email' => 'Email',
+		'url' => 'Website',
+		'post_id' => 'Post',
+	);
+}
+~~~
+
+> Tip|提示: 如果属性的标签没有在 `attributeLabels()` 中定义，则会使用一种算法自动生成一个标签名。例如，将会为属性 `create_time` 或 `createTime` 生成标签 `Create Time`。
+
+
+自定义存储的流程
+--------------------------
+
+由于我们想要记录评论创建的时间，和我们在 `Post` 模型中的做法一样，我们覆盖 `Comment` 的 `beforeSave()`方法如下：
+
+~~~
+[php]
+protected function beforeSave()
+{
+	if(parent::beforeSave())
+	{
+		if($this->isNewRecord)
+			$this->create_time=time();
+		return true;
+	}
+	else
+		return false;
+}
+~~~
+
+
+<div class="revision">$Id: comment.model.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>
