@@ -4,7 +4,7 @@
 
 Version 1.1.11 work in progress
 -------------------------------
-
+- Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
