@@ -29,7 +29,7 @@ class CInlineAction extends CAction
 	public function run()
 	{
 		$method='action'.$this->getId();
-		$this->getController()->$method();
+		return $this->getController()->$method();
 	}
 
 	/**

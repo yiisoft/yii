@@ -772,6 +772,7 @@ class YiiBase
 		'CFormModel' => '/web/CFormModel.php',
 		'CHttpCookie' => '/web/CHttpCookie.php',
 		'CHttpRequest' => '/web/CHttpRequest.php',
+		'CHttpResponse' => '/web/CHttpResponse.php',
 		'CHttpSession' => '/web/CHttpSession.php',
 		'CHttpSessionIterator' => '/web/CHttpSessionIterator.php',
 		'COutputEvent' => '/web/COutputEvent.php',

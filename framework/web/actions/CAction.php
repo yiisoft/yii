@@ -63,7 +63,7 @@ abstract class CAction extends CComponent implements IAction
 	 * Runs the action with the supplied request parameters.
 	 * This method is internally called by {@link CController::runAction()}.
 	 * @param array $params the request parameters (name=>value)
-	 * @return boolean whether the request parameters are valid
+	 * @return CHttpResponse|null|boolean either false if the parameters are invalid, an instance of CHttpResponse, or null
 	 * @since 1.1.7
 	 */
 	public function runWithParams($params)
@@ -104,7 +104,10 @@ abstract class CAction extends CComponent implements IAction
 			else
 				return false;
 		}
-		$method->invokeArgs($object,$ps);
+		$response = $method->invokeArgs($object,$ps);
+		if ($response instanceof CHttpResponse) {
+			return $response;
+		}
 		return true;
 	}
 }

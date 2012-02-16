@@ -1,6 +1,7 @@
 <?php
 
 Yii::import('system.web.CController');
+Yii::import('system.web.CHttpResponse');
 Yii::import('system.web.filters.CFilter');
 Yii::import('system.web.actions.CAction');
 
@@ -73,6 +74,12 @@ class TestController extends CController
 		$this->b=$b;
 		$this->c=$c;
 		$this->d=$d;
+	}
+
+	public function actionTestResponse() {
+		$response = new CHttpResponse();
+		$response->setData("hello world");
+		return $response;
 	}
 }
 
@@ -151,6 +158,16 @@ class CControllerTest extends CTestCase
 
 		$this->setExpectedException('CException');
 		$c->run('unknown');
+	}
+
+	public function testRunActionWithResponse()
+	{
+		$app=new TestApplication;
+		$c=new TestController('test');
+		ob_start();
+		$c->run('testResponse');
+		$data = ob_get_clean();
+		$this->assertEquals("hello world",$data);
 	}
 
 	public function testActionParams()
