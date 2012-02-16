@@ -24,6 +24,11 @@
  * <li>dropdownlist: a drop-down list generated using {@link CHtml::activeDropDownList}</li>
  * <li>checkboxlist: a list of check boxes generated using {@link CHtml::activeCheckBoxList}</li>
  * <li>radiolist: a list of radio buttons generated using {@link CHtml::activeRadioButtonList}</li>
+ * <li>url: an HTML5 url input generated using {@link CHtml::activeUrlField}</li>
+ * <li>email: an HTML5 email input generated using {@link CHtml::activeEmailField}</li>
+ * <li>number: an HTML5 number input generated using {@link CHtml::activeNumberField}</li>
+ * <li>range: an HTML5 range input generated using {@link CHtml::activeRangeField}</li>
+ * <li>date: an HTML5 date input generated using {@link CHtml::activeDateField}</li>
  * </ul>
  * The {@link type} property can also be a class name or a path alias to the class. In this case,
  * the input is generated using a widget of the specified class. Note, the widget must
