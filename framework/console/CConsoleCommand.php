@@ -152,7 +152,16 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	protected function beforeAction($action,$params)
 	{
-		return true;
+		if($this->hasEventHandler('onBeforeAction'))
+		{
+			$event = new CConsoleCommandEvent($this, $params, $action);
+			$this->onBeforeAction($event);
+			return $event->isContinue;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -163,6 +172,8 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	protected function afterAction($action,$params)
 	{
+		if($this->hasEventHandler('onAfterAction'))
+			$this->onAfterAction(new CConsoleCommandEvent($this, $params, $action));
 	}
 
 	/**
@@ -498,5 +509,25 @@ abstract class CConsoleCommand extends CComponent
 	{
 		echo $message.' [yes|no] ';
 		return !strncasecmp(trim(fgets(STDIN)),'y',1);
+	}
+
+	/**
+	 * This event is raised before an action is to be executed.
+	 * @param CConsoleCommandEvent $event the event parameter
+	 * @since 1.1.11
+	 */
+	public function onBeforeAction($event)
+	{
+		$this->raiseEvent('onBeforeAction', $event);
+	}
+
+	/**
+	 * This event is raised after an action finishes execution.
+	 * @param CConsoleCommandEvent $event the event parameter
+	 * @since 1.1.11
+	 */
+	public function onAfterAction($event)
+	{
+		$this->raiseEvent('onAfterAction',$event);
 	}
 }
