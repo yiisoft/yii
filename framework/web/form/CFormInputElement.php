@@ -60,6 +60,11 @@ class CFormInputElement extends CFormElement
 		'dropdownlist'=>'activeDropDownList',
 		'checkboxlist'=>'activeCheckBoxList',
 		'radiolist'=>'activeRadioButtonList',
+		'url'=>'activeUrlField',
+		'email'=>'activeEmailField',
+		'number'=>'activeNumberField',
+		'range'=>'activeRangeField',
+		'date'=>'activeDateField'
 	);
 
 	/**
