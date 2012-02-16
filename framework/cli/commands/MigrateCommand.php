@@ -56,6 +56,17 @@ class MigrateCommand extends CConsoleCommand
 	 * Set this to false when performing migration in a cron job or background process.
 	 */
 	public $interactive=true;
+	
+	/**
+    * @var string the modulename for the application migrations.
+    * It is defaulted to 'app'
+    */
+    public $applicationModuleName = 'app';
+    
+    /**
+    * @var array  disabled modules
+    */
+    public $disabledModules = array();
 
 	public function beforeAction($action,$params)
 	{
@@ -65,7 +76,7 @@ class MigrateCommand extends CConsoleCommand
 		$this->migrationPath=$path;
 
 		$yiiVersion=Yii::getVersion();
-		echo "\nYii Migration Tool v1.0 (based on Yii v{$yiiVersion})\n\n";
+		echo "\nYii Migration Tool v1.1 (based on Yii v{$yiiVersion})\n\n";
 
 		return true;
 	}
@@ -118,19 +129,18 @@ class MigrateCommand extends CConsoleCommand
 			echo "No migration has been done before.\n";
 			return;
 		}
-		$migrations=array_keys($migrations);
 
 		$n=count($migrations);
 		echo "Total $n ".($n===1 ? 'migration':'migrations')." to be reverted:\n";
 		foreach($migrations as $migration)
-			echo "    $migration\n";
+			echo "    {$migration['module']}.{$migration['version']}\n";
 		echo "\n";
 
 		if($this->confirm('Revert the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
 			{
-				if($this->migrateDown($migration)===false)
+				if($this->migrateDown("{$migration['module']}.{$migration['version']}")===false)
 				{
 					echo "\nMigration failed. All later migrations are canceled.\n";
 					return;
@@ -151,19 +161,18 @@ class MigrateCommand extends CConsoleCommand
 			echo "No migration has been done before.\n";
 			return;
 		}
-		$migrations=array_keys($migrations);
 
 		$n=count($migrations);
 		echo "Total $n ".($n===1 ? 'migration':'migrations')." to be redone:\n";
 		foreach($migrations as $migration)
-			echo "    $migration\n";
+			echo "    {$migration['module']}.{$migration['version']}\n";
 		echo "\n";
 
 		if($this->confirm('Redo the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
 			{
-				if($this->migrateDown($migration)===false)
+				if($this->migrateDown("{$migration['module']}.{$migration['version']}")===false)
 				{
 					echo "\nMigration failed. All later migrations are canceled.\n";
 					return;
@@ -171,7 +180,7 @@ class MigrateCommand extends CConsoleCommand
 			}
 			foreach(array_reverse($migrations) as $migration)
 			{
-				if($this->migrateUp($migration)===false)
+				if($this->migrateUp("{$migration['module']}.{$migration['version']}")===false)
 				{
 					echo "\nMigration failed. All later migrations are canceled.\n";
 					return;
@@ -296,8 +305,8 @@ class MigrateCommand extends CConsoleCommand
 				echo "Showing the last $n applied ".($n===1 ? 'migration' : 'migrations').":\n";
 			else
 				echo "Total $n ".($n===1 ? 'migration has' : 'migrations have')." been applied before:\n";
-			foreach($migrations as $version=>$time)
-				echo "    (".date('Y-m-d H:i:s',$time).') '.$version."\n";
+			foreach($migrations as $migration)
+				echo "    (".date('Y-m-d H:i:s',$migration['apply_time']).') '.$migration['version']."\n";
 		}
 	}
 
@@ -322,27 +331,37 @@ class MigrateCommand extends CConsoleCommand
 				echo "    ".$migration."\n";
 		}
 	}
+	
+	/**
+	* @param string $module optional name of the module. @since v1.1, Yii version 1.1.11
+	*/
+	public function actionCreate($args, $module = null)
+    {
+            if(isset($args[0]))
+                    $name=$args[0];
+            else
+                    $this->usageError('Please provide the name of the new migration.');
+            
+            
+            if(!preg_match('/^\w+$/',$name))
+                    die("Error: The name of the migration must contain letters, digits and/or underscore characters only.\n");
 
-	public function actionCreate($args)
-	{
-		if(isset($args[0]))
-			$name=$args[0];
-		else
-			$this->usageError('Please provide the name of the new migration.');
-
-		if(!preg_match('/^\w+$/',$name))
-			die("Error: The name of the migration must contain letters, digits and/or underscore characters only.\n");
-
-		$name='m'.gmdate('ymd_His').'_'.$name;
-		$content=strtr($this->getTemplate(), array('{ClassName}'=>$name));
-		$file=$this->migrationPath.DIRECTORY_SEPARATOR.$name.'.php';
-
-		if($this->confirm("Create new migration '$file'?"))
-		{
-			file_put_contents($file, $content);
-			echo "New migration created successfully.\n";
-		}
-	}
+            $name='m'.gmdate('ymd_His').'_'.$name;
+            $content=strtr($this->getTemplate(), array('{ClassName}'=>$name));
+            if(!is_null($module)){
+                $directory = Yii::getPathOfAlias('application.modules.'.$module.'.migrations');
+                if(!is_dir($directory) || !is_readable($directory))
+                    die("Error: Migration directory doesn't exist: $directory.\n");
+                $file=$directory.DIRECTORY_SEPARATOR.$name.'.php';
+            }else{
+                $file=$this->migrationPath.DIRECTORY_SEPARATOR.$name.'.php';
+            }
+            if($this->confirm("Create new migration '$file'?"))
+            {
+                    file_put_contents($file, $content);
+                    echo "New migration created successfully.\n";
+            }
+    }
 
 	public function confirm($message)
 	{
@@ -352,61 +371,63 @@ class MigrateCommand extends CConsoleCommand
 	}
 
 	protected function migrateUp($class)
-	{
-		if($class===self::BASE_MIGRATION)
-			return;
-
-		echo "*** applying $class\n";
-		$start=microtime(true);
-		$migration=$this->instantiateMigration($class);
-		if($migration->up()!==false)
-		{
-			$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
-				'version'=>$class,
-				'apply_time'=>time(),
-			));
-			$time=microtime(true)-$start;
-			echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
-		}
-		else
-		{
-			$time=microtime(true)-$start;
-			echo "*** failed to apply $class (time: ".sprintf("%.3f",$time)."s)\n\n";
-			return false;
-		}
-	}
+    {
+            if($class===self::BASE_MIGRATION)
+                    return;
+            
+            echo "*** applying $class\n";
+            $splitted = explode('.',$class);
+            $start=microtime(true);
+            $migration=$this->instantiateMigration($class);
+            $time=microtime(true)-$start;
+            if($migration->up()!==false)
+            {
+                    $this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
+                            'version'=>$splitted[1],
+                            'module'=>$splitted[0],
+                            'apply_time'=>time(),
+                    ));
+                    echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+            }
+            else
+            {
+                    echo "*** failed to apply $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+                    return false;
+            }
+    }
 
 	protected function migrateDown($class)
-	{
-		if($class===self::BASE_MIGRATION)
-			return;
+    {
+            if($class===self::BASE_MIGRATION)
+                    return;
 
-		echo "*** reverting $class\n";
-		$start=microtime(true);
-		$migration=$this->instantiateMigration($class);
-		if($migration->down()!==false)
-		{
-			$db=$this->getDbConnection();
-			$db->createCommand()->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=>$class));
-			$time=microtime(true)-$start;
-			echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
-		}
-		else
-		{
-			$time=microtime(true)-$start;
-			echo "*** failed to revert $class (time: ".sprintf("%.3f",$time)."s)\n\n";
-			return false;
-		}
-	}
+            echo "*** reverting $class\n";
+            $start=microtime(true);
+            $migration=$this->instantiateMigration($class);
+            $time=microtime(true)-$start;
+            if($migration->down()!==false)
+            {
+                    $splitted = explode('.',$class);
+                    $db=$this->getDbConnection();
+                    $db->createCommand()->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=> end($splitted) ));
+                    echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+            }
+            else
+            {
+                    echo "*** failed to revert $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+                    return false;
+            }
+    }
 
 	protected function instantiateMigration($class)
-	{
-		$file=$this->migrationPath.DIRECTORY_SEPARATOR.$class.'.php';
-		require_once($file);
-		$migration=new $class;
-		$migration->setDbConnection($this->getDbConnection());
-		return $migration;
-	}
+    {
+            $file= $this->getMigrationPath($class);
+            require_once($file);
+            $s = explode('.',$class);
+            $migration=new $s[1];
+            $migration->setDbConnection($this->getDbConnection());
+            return $migration;
+    }
 
 	/**
 	 * @var CDbConnection
@@ -425,54 +446,97 @@ class MigrateCommand extends CConsoleCommand
 	protected function getMigrationHistory($limit)
 	{
 		$db=$this->getDbConnection();
-		if($db->schema->getTable($this->migrationTable)===null)
+		if(($table = $db->schema->getTable($this->migrationTable)) === null)
 		{
 			$this->createMigrationHistoryTable();
+		}else{
+			//checks for v.1 migration table and add column for module if needed
+			if(!in_array('module', array_keys($table->columns))){
+				$db->createCommand()->addColumn($this->migrationTable, 'module', 'string NOT NULL');
+				$db->createCommand()->update($this->migrationTable, array('module' => $this->applicationModuleName));
+			}
 		}
-		return CHtml::listData($db->createCommand()
-			->select('version, apply_time')
-			->from($this->migrationTable)
-			->order('version DESC')
-			->limit($limit)
-			->queryAll(), 'version', 'apply_time');
+		$migrations = array();
+        foreach($db->createCommand()
+                ->select('*')
+                ->from($this->migrationTable)
+                ->order('version DESC')
+                ->limit($limit)
+                ->queryAll() as $m){
+            $migrations[] = $m;
+        }
+        return $migrations;
 	}
 
 	protected function createMigrationHistoryTable()
 	{
 		$db=$this->getDbConnection();
 		echo 'Creating migration history table "'.$this->migrationTable.'"...';
-		$db->createCommand()->createTable($this->migrationTable,array(
-			'version'=>'string NOT NULL PRIMARY KEY',
-			'apply_time'=>'integer',
-		));
-		$db->createCommand()->insert($this->migrationTable,array(
-			'version'=>self::BASE_MIGRATION,
-			'apply_time'=>time(),
-		));
+		$db->createCommand()->createTable($this->migrationTable, array(
+		                            'version' => 'string NOT NULL PRIMARY KEY',
+		                            'module' => 'string NOT NULL',
+		                            'apply_time' => 'integer',
+		                    ));
+        $db->createCommand()->insert($this->migrationTable, array(
+                'version'=>self::BASE_MIGRATION,
+                'module' => $this->applicationModuleName,
+                'apply_time'=>time(),
+        ));
 		echo "done.\n";
 	}
-
-	protected function getNewMigrations()
-	{
-		$applied=array();
-		foreach($this->getMigrationHistory(-1) as $version=>$time)
-			$applied[substr($version,1,13)]=true;
-
-		$migrations=array();
-		$handle=opendir($this->migrationPath);
-		while(($file=readdir($handle))!==false)
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$this->migrationPath.DIRECTORY_SEPARATOR.$file;
-			if(preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/',$file,$matches) && is_file($path) && !isset($applied[$matches[2]]))
-				$migrations[]=$matches[1];
-		}
-		closedir($handle);
-		sort($migrations);
-		return $migrations;
-	}
-
+	/**
+	* @since v1.1, Yii 1.1.11
+	*/
+	protected function getMigrationPath($class)
+    {
+        $splitted = explode('.',$class);
+        if($splitted[0] == $this->applicationModuleName){
+            return $this->migrationPath.DIRECTORY_SEPARATOR.$splitted[1].'.php';
+        }else{
+            $path = Yii::app()->modulePath.DIRECTORY_SEPARATOR.$splitted[0].DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.$splitted[1].'.php';
+            return $path;
+        }
+    }
+	
+    protected function getNewMigrations()
+    {
+            $applied=array();
+            foreach($this->getMigrationHistory(-1) as $migration){
+                    $applied[$migration['version'].'.php']=true;
+            }
+            $migrations=array();
+            $handle=opendir($this->migrationPath);
+            while(($file=readdir($handle))!==false)
+            {
+                    if($file==='.' || $file==='..')
+                            continue;
+                    $path=$this->migrationPath.DIRECTORY_SEPARATOR.$file;
+                    if(preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/',$file,$matches) && is_file($path) && !isset($applied[$file])){
+                            $migrations[]= $this->applicationModuleName.'.'.$matches[1];
+                    }
+            }
+            closedir($handle);
+            sort($migrations);
+            
+            foreach(Yii::app()->modules as $module){
+                    preg_match('/^(.*)\./',$module['class'],$match);                    
+                    $module_name = end($match);
+                    $directory = Yii::getPathOfAlias('application.modules.'.end($match).'.migrations');
+                    if(!is_dir($directory) || !is_readable($directory))continue;
+                    $handle=opendir($directory);
+                    while(($file=readdir($handle))!==false)
+                    {
+                            if($file==='.' || $file==='..')
+                                    continue;
+                            $path=$directory.DIRECTORY_SEPARATOR.$file;
+                            if(preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/',$file,$matches) && is_file($path) && !isset($applied[$file])){
+                                    $migrations[]= $module_name.'.'.$matches[1];
+                            }
+                    }
+                    closedir($handle);
+            }
+            return $migrations;
+    }
 	public function getHelp()
 	{
 		return <<<EOD
