@@ -221,7 +221,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getPut($name,$defaultValue=null)
 	{
-		if($this->getIsPutViaPostReqeust())
+		if($this->getIsPutViaPostReqest())
 			return $this->getPost($name, $defaultValue);
 
 		if($this->_putParams===null)
@@ -551,7 +551,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsPutRequest()
 	{
-		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT')) || $this->getIsPutViaPostReqeust();
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT')) || $this->getIsPutViaPostReqest();
 	}
 
 	/**
@@ -559,7 +559,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @return boolean whether this is a PUT request tunneled through POST.
 	 * @since 1.1.11
 	 */	
-	protected function getIsPutViaPostReqeust()
+	protected function getIsPutViaPostReqest()
 	{
 		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'PUT');
 	}
