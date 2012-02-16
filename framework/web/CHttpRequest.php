@@ -191,6 +191,8 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns the named DELETE parameter value.
 	 * If the DELETE parameter does not exist or if the current request is not a DELETE request,
 	 * the second parameter to this method will be returned.
+	 * If the DELETE request was tunneled through POST via _method parameter, the POST parameter
+	 * will be returned instead (available since version 1.1.11).
 	 * @param string $name the DELETE parameter name
 	 * @param mixed $defaultValue the default parameter value if the DELETE parameter does not exist.
 	 * @return mixed the DELETE parameter value
@@ -198,6 +200,9 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getDelete($name,$defaultValue=null)
 	{
+		if($this->getIsDeleteViaPostReqeust())
+			return $this->getPost($name, $defaultValue);
+
 		if($this->_deleteParams===null)
 			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
 		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
@@ -207,6 +212,8 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns the named PUT parameter value.
 	 * If the PUT parameter does not exist or if the current request is not a PUT request,
 	 * the second parameter to this method will be returned.
+	 * If the PUT request was tunneled through POST via _method parameter, the POST parameter
+	 * will be returned instead (available since version 1.1.11).
 	 * @param string $name the PUT parameter name
 	 * @param mixed $defaultValue the default parameter value if the PUT parameter does not exist.
 	 * @return mixed the PUT parameter value
@@ -214,6 +221,9 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getPut($name,$defaultValue=null)
 	{
+		if($this->getIsPutViaPostReqeust())
+			return $this->getPost($name, $defaultValue);
+
 		if($this->_putParams===null)
 			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
 		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
@@ -492,10 +502,16 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the request type, such as GET, POST, HEAD, PUT, DELETE.
+	 * Request type can be manually set in POST requests with a parameter named _method. Useful 
+	 * for RESTful request from older browsers which do not support PUT or DELETE 
+	 * natively (available since version 1.1.11).
 	 * @return string request type, such as GET, POST, HEAD, PUT, DELETE.
 	 */
 	public function getRequestType()
 	{
+		if(isset($_POST['_method']))
+			return strtoupper($_POST['_method']);
+
 		return strtoupper(isset($_SERVER['REQUEST_METHOD'])?$_SERVER['REQUEST_METHOD']:'GET');
 	}
 
@@ -515,7 +531,17 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsDeleteRequest()
 	{
-		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'DELETE');
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'DELETE')) || $this->getIsDeleteViaPostReqeust();
+	}
+
+	/**
+	 * Returns whether this is a DELETE request which was tunneled through POST.
+	 * @return boolean whether this is a DELETE request tunneled through POST.
+	 * @since 1.1.11
+	 */
+	protected function getIsDeleteViaPostReqeust()
+	{
+		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'DELETE');
 	}
 
 	/**
@@ -525,8 +551,19 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsPutRequest()
 	{
-		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT');
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT')) || $this->getIsPutViaPostReqeust();
 	}
+
+	/**
+	 * Returns whether this is a PUT request which was tunneled through POST.
+	 * @return boolean whether this is a PUT request tunneled through POST.
+	 * @since 1.1.11
+	 */	
+	protected function getIsPutViaPostReqeust()
+	{
+		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'PUT');
+	}
+
 
 	/**
 	 * Returns whether this is an AJAX (XMLHttpRequest) request.
