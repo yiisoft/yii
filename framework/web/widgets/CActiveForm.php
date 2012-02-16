@@ -569,6 +569,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
+	 * @since 1.1.11
 	 */
 	public function urlField($model,$attribute,$htmlOptions=array())
 	{
@@ -584,6 +585,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
+	 * @since 1.1.11
 	 */
 	public function emailField($model,$attribute,$htmlOptions=array())
 	{
@@ -599,6 +601,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
+	 * @since 1.1.11
 	 */
 	public function numberField($model,$attribute,$htmlOptions=array())
 	{
@@ -614,6 +617,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
+	 * @since 1.1.11
 	 */
 	public function rangeField($model,$attribute,$htmlOptions=array())
 	{
@@ -629,6 +633,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
+	 * @since 1.1.11
 	 */
 	public function dateField($model,$attribute,$htmlOptions=array())
 	{

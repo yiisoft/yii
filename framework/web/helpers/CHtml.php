@@ -1216,6 +1216,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
+	 * @since 1.1.11
 	 */
 	public static function activeUrlField($model,$attribute,$htmlOptions=array())
 	{
@@ -1235,6 +1236,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
+	 * @since 1.1.11
 	 */
 	public static function activeEmailField($model,$attribute,$htmlOptions=array())
 	{
@@ -1254,6 +1256,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
+	 * @since 1.1.11
 	 */
 	public static function activeNumberField($model,$attribute,$htmlOptions=array())
 	{
@@ -1273,6 +1276,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
+	 * @since 1.1.11
 	 */
 	public static function activeRangeField($model,$attribute,$htmlOptions=array())
 	{
@@ -1292,6 +1296,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
+	 * @since 1.1.11
 	 */
 	public static function activeDateField($model,$attribute,$htmlOptions=array())
 	{
