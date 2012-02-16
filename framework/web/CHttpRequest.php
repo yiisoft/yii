@@ -200,7 +200,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getDelete($name,$defaultValue=null)
 	{
-		if($this->getIsDeleteViaPostReqeust())
+		if($this->getIsDeleteViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
 		if($this->_deleteParams===null)
@@ -531,7 +531,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsDeleteRequest()
 	{
-		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'DELETE')) || $this->getIsDeleteViaPostReqeust();
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'DELETE')) || $this->getIsDeleteViaPostRequest();
 	}
 
 	/**
@@ -539,7 +539,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @return boolean whether this is a DELETE request tunneled through POST.
 	 * @since 1.1.11
 	 */
-	protected function getIsDeleteViaPostReqeust()
+	protected function getIsDeleteViaPostRequest()
 	{
 		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'DELETE');
 	}
