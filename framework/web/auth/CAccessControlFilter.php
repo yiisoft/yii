@@ -295,10 +295,13 @@ class CAccessRule extends CComponent
 	{
 		if(empty($this->roles))
 			return true;
-		foreach($this->roles as $role)
+		foreach($this->roles as $key => $role)
 		{
-			if($user->checkAccess($role))
+			if(is_numeric($key) && $user->checkAccess($role))
 				return true;
+			elseif($user->checkAccess($key,$role))
+				return true;
+			
 		}
 		return false;
 	}
