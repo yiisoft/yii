@@ -88,12 +88,14 @@ class CBreadcrumbs extends CWidget
 	 * @var string String, specifies how each active item is rendered. Defaults to
 	 * "<a href="{url}">{label}</a>", where "{label}" will be replaced by the corresponding item
 	 * label while "{url}" will be replaced by the URL of the item.
+	 * @since 1.1.11
 	 */
 	public $activeTemplate='<a href="{url}">{label}</a>';
 	/**
 	 * @var string String, specifies how each inactive item is rendered. Defaults to
 	 * "<span>{label}</span>", where "{label}" will be replaced by the corresponding item label
 	 * while "{url}" will be replaced by the URL of the item.
+	 * @since 1.1.11
 	 */
 	public $inactiveTemplate='<span>{label}</span>';
 	/**
