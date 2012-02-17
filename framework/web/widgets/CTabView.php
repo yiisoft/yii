@@ -97,6 +97,7 @@ class CTabView extends CWidget
 	 * <li>url: a URL that the user browser will be redirected to when clicking on this tab.</li>
 	 * <li>data: array (name=>value), this will be passed to the view when 'view' is specified.
 	 * This option is available since version 1.1.1.</li>
+	 * <li>visible: whether this tab is visible. Defaults to true.</li>
 	 * </ul>
 	 * <pre>
 	 * array(
@@ -120,7 +121,11 @@ class CTabView extends CWidget
 	{
 		if(empty($this->tabs))
 			return;
-
+			
+		foreach($this->tabs as $id=>$tab)
+			if(isset($tab['visible']) && $tab['visible']==false)
+				unset($this->tabs[$id]);
+				
 		if($this->activeTab===null || !isset($this->tabs[$this->activeTab]))
 		{
 			reset($this->tabs);
