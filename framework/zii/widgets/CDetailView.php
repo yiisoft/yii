@@ -225,7 +225,7 @@ class CDetailView extends CWidget
 	}
 
 	/**
-	 * This function is used by run() to render item row
+	 * This method is used by run() to render item row
 	 *
 	 * @param array $rowAttributes config attributes for this row from {@link attributes}
 	 * @param string $templateData data that will be inserted into {@link itemTemplate}
