@@ -131,12 +131,19 @@ class CDbHttpSession extends CHttpSession
 	 */
 	protected function createSessionTable($db,$tableName)
 	{
+		$driver=$db->getDriverName();
+		if($driver==='mysql')
+			$blob='LONGBLOB';
+		else if($driver==='pgsql')
+			$blob='BYTEA';
+		else
+			$blob='BLOB';
 		$sql="
 CREATE TABLE $tableName
 (
 	id CHAR(32) PRIMARY KEY,
 	expire INTEGER,
-	data TEXT
+	data $blob
 )";
 		$db->createCommand($sql)->execute();
 	}
