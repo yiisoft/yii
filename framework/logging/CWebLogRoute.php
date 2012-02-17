@@ -32,7 +32,15 @@ class CWebLogRoute extends CLogRoute
 	 * For example if the ajax call expects a json type result any output from the logger will cause ajax call to fail.
 	 */
 	public $ignoreAjaxInFireBug=true;
-	
+
+	/**
+	 * @var boolean whether the log should be ignored in FireBug for Flash/Flex calls. Defaults to true.
+	 * This option should be used carefully, because an Flash/Flex call returns all output as a result data.
+	 * For example if the Flash/Flex call expects an XML type result any output from the logger will cause Flash/Flex call to fail.
+	 * @since 1.1.11
+	 */
+	public $ignoreFlashInFireBug=true;
+
 	/**
 	 * Displays the log messages.
 	 * @param array $logs list of log messages
@@ -51,10 +59,12 @@ class CWebLogRoute extends CLogRoute
 	{
 		$app=Yii::app();
 		$isAjax=$app->getRequest()->getIsAjaxRequest();
+		$isFlash=$app->getRequest()->getIsFlashRequest();
 
 		if($this->showInFireBug)
 		{
-			if($isAjax && $this->ignoreAjaxInFireBug)
+			// do not output anything for ajax and/or flash requests if needed
+			if($isAjax && $this->ignoreAjaxInFireBug || $isFlash && $this->ignoreFlashInFireBug)
 				return;
 			$view.='-firebug';
 		}
