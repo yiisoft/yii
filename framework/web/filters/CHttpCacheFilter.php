@@ -32,6 +32,10 @@ class CHttpCacheFilter extends CFilter
 	
 	public function preFilter($filterChain)
 	{
+		// Only cache GET and HEAD requests
+		if(!in_array(Yii::app()->getRequest()->getRequestType(), array('GET', 'HEAD')))
+			return true;
+		
 		if($this->lastModified || $this->lastModifiedExpression)
 		{
 			if($this->lastModifiedExpression)
