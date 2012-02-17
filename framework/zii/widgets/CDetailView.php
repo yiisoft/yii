@@ -229,6 +229,7 @@ class CDetailView extends CWidget
 	 *
 	 * @param array  $attribute model attribute properties
 	 * @param string $tr data that will be inserted into {@link itemTemplate}
+	 * @since 1.1.11
 	 */
 	protected function renderItemRow($attribute, $tr)
 	{
