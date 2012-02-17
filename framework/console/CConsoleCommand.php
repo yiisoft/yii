@@ -156,7 +156,7 @@ abstract class CConsoleCommand extends CComponent
 		{
 			$event = new CConsoleCommandEvent($this, $params, $action);
 			$this->onBeforeAction($event);
-			return $event->isContinue;
+			return $event->continue;
 		}
 		else
 		{

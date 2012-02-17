@@ -29,7 +29,7 @@ class CConsoleCommandEvent extends CEvent
 	 * If true, the normal execution cycles will continue, including performing the action and calling
 	 * {@link CConsoleCommand::afterAction}.
 	 */
-	public $isContinue = true;
+	public $continue = true;
 
 	/**
 	 * Constructor.
@@ -37,7 +37,7 @@ class CConsoleCommandEvent extends CEvent
 	 * @param string $params the parameters to be passed to the action method.
 	 * @param string $action the action name
 	 */
-	public function __construct($sender, $params, $action){
+	public function __construct($sender=null, $params=null, $action=null){
 		parent::__construct($sender, $params);
 		$this->action = $action;
 	}
