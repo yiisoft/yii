@@ -96,6 +96,7 @@ class CDetailView extends CWidget
 	public $nullDisplay;
 	/**
 	 * @var string the name of the tag for rendering the detail view. Defaults to 'table'.
+	 * If set to null, no tag will be rendered.
 	 * @see itemTemplate
 	 */
 	public $tagName='table';
@@ -166,7 +167,8 @@ class CDetailView extends CWidget
 	public function run()
 	{
 		$formatter=$this->getFormatter();
-		echo CHtml::openTag($this->tagName,$this->htmlOptions);
+		if ($this->tagName!==null)
+			echo CHtml::openTag($this->tagName,$this->htmlOptions);
 
 		$i=0;
 		$n=is_array($this->itemCssClass) ? count($this->itemCssClass) : 0;
@@ -213,13 +215,24 @@ class CDetailView extends CWidget
 
 			$tr['{value}']=$value===null ? $this->nullDisplay : $formatter->format($value,$attribute['type']);
 
-			echo strtr(isset($attribute['template']) ? $attribute['template'] : $this->itemTemplate,$tr);
-			
+			$this->renderItemRow($attribute, $tr);
+
 			$i++;
-															
 		}
 
-		echo CHtml::closeTag($this->tagName);
+		if ($this->tagName!==null)
+			echo CHtml::closeTag($this->tagName);
+	}
+
+	/**
+	 * This function is used by run() to render item row
+	 *
+	 * @param array  $attribute model attribute properties
+	 * @param string $tr data that will be inserted into {@link itemTemplate}
+	 */
+	protected function renderItemRow($attribute, $tr)
+	{
+		echo strtr(isset($attribute['template']) ? $attribute['template'] : $this->itemTemplate,$tr);
 	}
 
 	/**
