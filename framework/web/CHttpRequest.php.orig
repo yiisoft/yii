@@ -97,7 +97,6 @@ class CHttpRequest extends CApplicationComponent
 	private $_csrfToken;
 	private $_deleteParams;
 	private $_putParams;
-	private $_restParams;
 
 	/**
 	 * Initializes the application component.
@@ -238,29 +237,12 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	protected function getRestParams()
 	{
-		if ($this->_restParams === null) {
-			$result=array();
-			if(function_exists('mb_parse_str'))
-				mb_parse_str(file_get_contents('php://input'), $result);
-			else
-				parse_str(file_get_contents('php://input'), $result);
-			$this->_restParams = $result;
-		}
-		return $this->_restParams;
-	}
-
-	protected function getDeleteParams()
-	{
-		if($this->_deleteParams===null)
-			$this->_putParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
-		return $this->_deleteParams;
-	}
-
-	protected function getPutParams()
-	{
-		if($this->_putParams===null)
-			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
-		return $this->_putParams;
+		$result=array();
+		if(function_exists('mb_parse_str'))
+			mb_parse_str(file_get_contents('php://input'), $result);
+		else
+			parse_str(file_get_contents('php://input'), $result);
+		return $result;
 	}
 
 	/**
