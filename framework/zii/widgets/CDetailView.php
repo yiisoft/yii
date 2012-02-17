@@ -227,13 +227,13 @@ class CDetailView extends CWidget
 	/**
 	 * This function is used by run() to render item row
 	 *
-	 * @param array  $attribute model attribute properties
-	 * @param string $tr data that will be inserted into {@link itemTemplate}
+	 * @param array $rowAttributes config attributes for this row from {@link attributes}
+	 * @param string $templateData data that will be inserted into {@link itemTemplate}
 	 * @since 1.1.11
 	 */
-	protected function renderItemRow($attribute, $tr)
+	protected function renderItemRow($rowAttributes,$templateData)
 	{
-		echo strtr(isset($attribute['template']) ? $attribute['template'] : $this->itemTemplate,$tr);
+		echo strtr(isset($rowAttributes['template']) ? $rowAttributes['template'] : $this->itemTemplate,$templateData);
 	}
 
 	/**
