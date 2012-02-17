@@ -246,4 +246,41 @@ class CWidget extends CBaseController
 			throw new CException(Yii::t('yii','{widget} cannot find the view "{view}".',
 				array('{widget}'=>get_class($this), '{view}'=>$view)));
 	}
+
+	/**
+	 * Creates a relative URL for the specified controller and action.
+	 * @param string $route the URL route. This should be in the format of 'ControllerID/ActionID'.
+	 * If the ControllerID is not present, the currently active controller ID will be prefixed to the route.
+	 * If the route is empty, it is assumed to be the currently active action.
+	 * If the controller belongs to a module, the {@link CWebModule::getId module ID}
+	 * will be prefixed to the route. (If you do not want the module ID prefix, the route should start with a slash '/'.)
+	 * @param array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded.
+	 * If the name is '#', the corresponding value will be treated as an anchor
+	 * and will be appended at the end of the URL.
+	 * @param string $ampersand the token separating name-value pairs in the URL.
+	 * @return string the constructed URL
+	 * @since 1.1.11
+	 * @see CController::createUrl()
+	 */
+	public function createUrl($route,$params=array(),$ampersand='&')
+	{
+		return Yii::app()->controller->createUrl($route,$params,$ampersand);
+	}
+
+	/**
+	 * Creates an absolute URL for the specified controller and action.
+	 * @param string $route the URL route. This should be in the format of 'ControllerID/ActionID'.
+	 * If the ControllerPath is not present, the currently active controller ID will be prefixed to the route.
+	 * If the route is empty, it is assumed to be the currently active action.
+	 * @param array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded.
+	 * @param string $schema schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
+	 * @param string $ampersand the token separating name-value pairs in the URL.
+	 * @return string the constructed URL
+	 * @since 1.1.11
+	 * @see CController::createUrl()
+	 */
+	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
+	{
+		return Yii::app()->controller->createAbsoluteUrl($route,$params,$schema,$ampersand);
+	}
 }
