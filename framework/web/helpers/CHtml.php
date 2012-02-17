@@ -843,6 +843,11 @@ class CHtml
 	 * the checkbox list.</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
+	 * <li>key: string, specifies the name of key attribute of the selection object(s).
+	 * This is used when the selection is represented in terms of objects. In this case,
+	 * the property named by the key option of the objects will be treated as the actual selection value.
+	 * This option defaults to 'primaryKey', meaning using the 'primaryKey' property value of the objects in the selection.
+	 * This option has been available since version 1.1.11.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -864,6 +869,20 @@ class CHtml
 
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
 		unset($htmlOptions['labelOptions']);
+
+		$key=isset($htmlOptions['key']) ? $htmlOptions['key'] : 'primaryKey';
+		unset($htmlOptions['key']);
+
+		if(is_array($select))
+		{
+			foreach($select as $i=>$item)
+			{
+				if(is_object($item))
+					$select[$i]=$item->$key;
+			}
+		}
+		else if(is_object($select))
+			$select=$select->$key;
 
 		$items=array();
 		$baseID=self::getIdByName($name);
