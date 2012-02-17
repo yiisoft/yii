@@ -85,6 +85,18 @@ class CBreadcrumbs extends CWidget
 	 */
 	public $links=array();
 	/**
+	 * @var string String, specifies how each active item is rendered. Defaults to
+	 * "<a href="{url}">{label}</a>", where "{label}" will be replaced by the corresponding item
+	 * label while "{url}" will be replaced by the URL of the item.
+	 */
+	public $activeTemplate='<a href="{url}">{label}</a>';
+	/**
+	 * @var string String, specifies how each inactive item is rendered. Defaults to
+	 * "<span>{label}</span>", where "{label}" will be replaced by the corresponding item label
+	 * while "{url}" will be replaced by the URL of the item.
+	 */
+	public $inactiveTemplate='<span>{label}</span>';
+	/**
 	 * @var string the separator between links in the breadcrumbs. Defaults to ' &raquo; '.
 	 */
 	public $separator=' &raquo; ';
@@ -105,10 +117,18 @@ class CBreadcrumbs extends CWidget
 			$links[]=$this->homeLink;
 		foreach($this->links as $label=>$url)
 		{
+			$link='';
 			if(is_string($label) || is_array($url))
-				$links[]=CHtml::link($this->encodeLabel ? CHtml::encode($label) : $label, $url);
+			{
+				$link=str_replace('{url}', CHtml::normalizeUrl($url), $this->activeTemplate);
+				$link=str_replace('{label}', $this->encodeLabel ? CHtml::encode($label) : $label, $link);
+			}
 			else
-				$links[]='<span>'.($this->encodeLabel ? CHtml::encode($url) : $url).'</span>';
+			{
+				$link=str_replace('{url}', CHtml::normalizeUrl($url), $this->inactiveTemplate);
+				$link=str_replace('{label}', $this->encodeLabel ? CHtml::encode($url) : $url, $link);
+			}
+			$links[]=$link;
 		}
 		echo implode($this->separator,$links);
 		echo CHtml::closeTag($this->tagName);
