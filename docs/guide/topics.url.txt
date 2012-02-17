@@ -137,7 +137,7 @@ meaning using the value of [CUrlManager::caseSensitive].
 
    - [defaultParams|CUrlRule::defaultParams]: the default GET parameters (name=>value) that this rule provides.
 When this rule is used to parse the incoming request, the values declared in this property
-will be injected into $_GET.
+will be injected into `$_GET`.
 
    - [matchValue|CUrlRule::matchValue]: whether the GET parameter values should match the corresponding
 sub-patterns in the rule when creating a URL. Defaults to null,
