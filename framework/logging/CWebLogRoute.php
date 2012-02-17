@@ -68,7 +68,7 @@ class CWebLogRoute extends CLogRoute
 				return;
 			$view.='-firebug';
 		}
-		else if(!($app instanceof CWebApplication) || $isAjax)
+		else if(!($app instanceof CWebApplication) || $isAjax || $isFlash)
 			return;
 
 		$viewFile=YII_PATH.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.$view.'.php';

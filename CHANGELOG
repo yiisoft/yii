@@ -6,6 +6,7 @@ Version 1.1.11 work in progress
 -------------------------------
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
+- Enh: Proper handling of Flash/Flex request when using CWebLogRoute with FireBug output. (resurtm)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
