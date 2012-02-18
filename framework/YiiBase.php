@@ -678,6 +678,7 @@ class YiiBase
 		'CConsoleCommand' => '/console/CConsoleCommand.php',
 		'CConsoleCommandRunner' => '/console/CConsoleCommandRunner.php',
 		'CConsoleCommandEvent' => '/console/CConsoleCommandEvent.php',
+		'CConsoleCommandBehavior' => '/console/CConsoleCommandBehavior.php',
 		'CHelpCommand' => '/console/CHelpCommand.php',
 		'CDbCommand' => '/db/CDbCommand.php',
 		'CDbConnection' => '/db/CDbConnection.php',
