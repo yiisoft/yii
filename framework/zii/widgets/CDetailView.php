@@ -215,7 +215,7 @@ class CDetailView extends CWidget
 
 			$tr['{value}']=$value===null ? $this->nullDisplay : $formatter->format($value,$attribute['type']);
 
-			$this->renderItemRow($attribute, $tr);
+			$this->renderItem($attribute, $tr);
 
 			$i++;
 		}
@@ -227,13 +227,13 @@ class CDetailView extends CWidget
 	/**
 	 * This method is used by run() to render item row
 	 *
-	 * @param array $rowAttributes config attributes for this row from {@link attributes}
+	 * @param array $options config options for this item/attribute from {@link attributes}
 	 * @param string $templateData data that will be inserted into {@link itemTemplate}
 	 * @since 1.1.11
 	 */
-	protected function renderItemRow($rowAttributes,$templateData)
+	protected function renderItem($options,$templateData)
 	{
-		echo strtr(isset($rowAttributes['template']) ? $rowAttributes['template'] : $this->itemTemplate,$templateData);
+		echo strtr(isset($options['template']) ? $options['template'] : $this->itemTemplate,$templateData);
 	}
 
 	/**
