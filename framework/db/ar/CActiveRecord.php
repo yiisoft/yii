@@ -212,8 +212,10 @@ abstract class CActiveRecord extends CModel
 		{
 			if(empty($parameters))
 				return $this->getRelated($name,false);
-			else
+			else if(count($parameters) == 1)
 				return $this->getRelated($name,false,$parameters[0]);
+            		else 
+                		return $this->getRelated($name,false,$parameters[0],$parameters[1]);
 		}
 
 		$scopes=$this->scopes();
@@ -236,10 +238,12 @@ abstract class CActiveRecord extends CModel
 	 * @param string $name the relation name (see {@link relations})
 	 * @param boolean $refresh whether to reload the related objects from database. Defaults to false.
 	 * @param array $params additional parameters that customize the query conditions as specified in the relation declaration.
+     * @param array $options additional query options to be merged with the relation
+     * 
 	 * @return mixed the related object(s).
 	 * @throws CDbException if the relation is not specified in {@link relations}.
 	 */
-	public function getRelated($name,$refresh=false,$params=array())
+	public function getRelated($name,$refresh=false,$params=array(),$options = null)
 	{
 		if(!$refresh && $params===array() && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
 			return $this->_related[$name];
@@ -265,7 +269,7 @@ abstract class CActiveRecord extends CModel
 			$r=$name;
 		unset($this->_related[$name]);
 
-		$finder=new CActiveFinder($this,$r);
+		$finder=new CActiveFinder($this,$r,$options);
 		$finder->lazyFind($this);
 
 		if(!isset($this->_related[$name]))
