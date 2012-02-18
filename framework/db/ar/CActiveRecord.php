@@ -214,8 +214,8 @@ abstract class CActiveRecord extends CModel
 				return $this->getRelated($name,false);
 			else if(count($parameters) == 1)
 				return $this->getRelated($name,false,$parameters[0]);
-            else 
-                return $this->getRelated($name,false,$parameters[0],$parameters[1]);
+            		else 
+                		return $this->getRelated($name,false,$parameters[0],$parameters[1]);
 		}
 
 		$scopes=$this->scopes();
