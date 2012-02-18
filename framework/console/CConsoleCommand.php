@@ -65,6 +65,7 @@ abstract class CConsoleCommand extends CComponent
 	{
 		$this->_name=$name;
 		$this->_runner=$runner;
+		$this->attachBehaviors($this->behaviors());
 	}
 
 	/**
@@ -75,6 +76,32 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	public function init()
 	{
+	}
+	
+	/**
+	 * Returns a list of behaviors that this command should behave as.
+	 * The return value should be an array of behavior configurations indexed by
+	 * behavior names. Each behavior configuration can be either a string specifying
+	 * the behavior class or an array of the following structure:
+	 * <pre>
+	 * 'behaviorName'=>array(
+	 *     'class'=>'path.to.BehaviorClass',
+	 *     'property1'=>'value1',
+	 *     'property2'=>'value2',
+	 * )
+	 * </pre>
+	 *
+	 * Note, the behavior classes must implement {@link IBehavior} or extend from
+	 * {@link CBehavior}. Behaviors declared in this method will be attached
+	 * to the controller when it is instantiated.
+	 *
+	 * For more details about behaviors, see {@link CComponent}.
+	 * @return array the behavior configurations (behavior name=>behavior configuration)
+	 * @since 1.1.11
+	 */
+	public function behaviors()
+	{
+		return array();
 	}
 
 	/**
