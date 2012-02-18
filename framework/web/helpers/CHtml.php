@@ -843,6 +843,11 @@ class CHtml
 	 * the checkbox list.</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
+	 * <li>key: string, specifies the name of key attribute of the selection object(s).
+	 * This is used when the selection is represented in terms of objects. In this case,
+	 * the property named by the key option of the objects will be treated as the actual selection value.
+	 * This option defaults to 'primaryKey', meaning using the 'primaryKey' property value of the objects in the selection.
+	 * This option has been available since version 1.1.11.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -864,6 +869,7 @@ class CHtml
 
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
 		unset($htmlOptions['labelOptions']);
+
 
 		$items=array();
 		$baseID=self::getIdByName($name);
@@ -2141,8 +2147,59 @@ EOD;
 			}
 			return $value;
 		}
+		else if( //attribute is a relation
+			$model instanceof CActiveRecord && 
+			($attributes = explode('.',$attribute)) && 
+			array_key_exists($attributes[0],$model->relations())
+		) 
+		{
+			$relation = self::resolveRelation($model, $attribute);
+
+			if(is_array($relation['model'])){
+				$values = array();
+				foreach($relation['model'] as $item){
+					$values[] = $item->$relation['attribute'];
+				}
+				return $values;
+			}else
+				return $relation['model']->$relation['attribute'];
+		}
 		else
 			return $model->$attribute;
+	}
+
+	/*
+	 * Evaluates the relation (cascade) for the given model and returns an array with 
+	 * the related model and an attribute. The relation name can be given in a dot syntax. 
+	 * For example, if the relation is "author.firstName", this method will return 
+	 * array('model' => $model->author, 'attribute' => "firstName").
+	 * If the last part of a relation cascade is not a relation it is used as the attribute key, otherwise the returned attribtue will be 'primaryKey'.
+	 * If the relation cascade is broken in the middle (e.g. $model->comments->author where comments is a MANY_MANY or HAS_MANY relation) it returns
+	 * array('model' => null, 'attribute' => null).
+	 
+	 * @param CActiveRecord $model the model.
+	 * @param string $relation the relation name (use dot to concatenate multiple relation)
+	 * @return array with keys 'model' and 'attribute'
+	 */
+	public static function resolveRelation($model, $relation){
+		$attribute = 'primaryKey';
+		$relations = explode('.',$relation);
+
+		foreach($relations as $i => $name)
+		{
+ 			if($model instanceof CActiveRecord && $model->getActiveRelation($name))
+			{
+				$model=$model->$name;
+			}
+ 			else if($i == count($relations) -1)
+			{
+				$attribute=$name;
+			}
+			else
+				return array('model'=>null,'attribute'=>null);
+		}
+
+		return array('model'=>$model,'attribute'=>$attribute);
 	}
 
 	/**
