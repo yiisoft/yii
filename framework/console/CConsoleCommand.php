@@ -183,7 +183,7 @@ abstract class CConsoleCommand extends CComponent
 		{
 			$event = new CConsoleCommandEvent($this, $params, $action);
 			$this->onBeforeAction($event);
-			return $event->continue;
+			return !$event->stopCommand;
 		}
 		else
 		{
@@ -545,7 +545,7 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	public function onBeforeAction($event)
 	{
-		$this->raiseEvent('onBeforeAction', $event);
+		$this->raiseEvent('onBeforeAction',$event);
 	}
 
 	/**
