@@ -95,8 +95,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_cookies;
 	private $_preferredLanguage;
 	private $_csrfToken;
-	private $_deleteParams;
-	private $_putParams;
+	private $_restParams;
 
 	/**
 	 * Initializes the application component.
@@ -204,10 +203,14 @@ class CHttpRequest extends CApplicationComponent
 		if($this->getIsDeleteViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
-		if($this->_deleteParams===null)
-			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
-		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
-	}
+        if ($this->getIsDeleteRequest())
+        {
+            $this->getRestParams();
+            return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+        }
+        else
+            return $defaultValue;
+    }
 
 	/**
 	 * Returns the named PUT parameter value.
@@ -225,9 +228,13 @@ class CHttpRequest extends CApplicationComponent
 		if($this->getIsPutViaPostReqest())
 			return $this->getPost($name, $defaultValue);
 
-		if($this->_putParams===null)
-			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
-		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
+        if ($this->getIsPutRequest())
+        {
+            $this->getRestParams();
+            return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+        }
+        else
+            return $defaultValue;
 	}
 
 	/**
@@ -235,14 +242,27 @@ class CHttpRequest extends CApplicationComponent
 	 * @return array the request parameters
 	 * @since 1.1.7
 	 */
-	protected function getRestParams()
+	public function getRestParams()
 	{
-		$result=array();
-		if(function_exists('mb_parse_str'))
-			mb_parse_str(file_get_contents('php://input'), $result);
-		else
-			parse_str(file_get_contents('php://input'), $result);
-		return $result;
+		if ($this->_restParams === null) {
+			$result=array();
+			if(function_exists('mb_parse_str'))
+				mb_parse_str(file_get_contents('php://input'), $result);
+			else
+				parse_str(file_get_contents('php://input'), $result);
+			$this->_restParams = $result;
+		}
+		return $this->_restParams;
+	}
+
+	protected function getDeleteParams()
+	{
+		return $this->getIsDeleteRequest() ? $this->getRestParams() : array();
+	}
+
+	protected function getPutParams()
+	{
+		return $this->getIsPutRequest() ? $this->getRestParams() : array();
 	}
 
 	/**
