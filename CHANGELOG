@@ -9,6 +9,7 @@ Version 1.1.11 work in progress
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
 - Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug. (resurtm)
+- Enh #373 Let labels in CHtml optionally wrap input elements (mikehaertl)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
