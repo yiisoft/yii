@@ -54,6 +54,12 @@ class CHtml
 	public static $count=0;
 
 	/**
+	 * Wether to use <label><input /> Label</label> (true) or <label>Label</label><input /> (false)
+	 * for all radioButtonLists and checkBoxLists. Defaults to false.
+	 */
+	static public $labelWrapsInput=false;
+
+	/**
 	 * Sets the default style for attaching jQuery event handlers.
 	 * 
 	 * If set to true (default), live/delegated style is used. Event handlers 
@@ -518,8 +524,9 @@ class CHtml
 	/**
 	 * Generates a label tag.
 	 * @param string $label label text. Note, you should HTML-encode the text if needed.
-	 * @param string $for the ID of the HTML element that this label is associated with.
-	 * If this is false, the 'for' attribute for the label tag will not be rendered.
+	 * @param string $for the ID of the HTML element that this label is associated with or
+	 * the markup for the element if the wrapInput option is true.
+	 * If this is false or wrapInput is true, the 'for' attribute for the label tag will not be rendered.
 	 * @param array $htmlOptions additional HTML attributes.
 	 * The following HTML option is recognized:
 	 * <ul>
@@ -527,14 +534,21 @@ class CHtml
 	 * with CSS class 'required' (customizable with CHtml::$requiredCss),
 	 * and be decorated with {@link CHtml::beforeRequiredLabel} and
 	 * {@link CHtml::afterRequiredLabel}.</li>
+	 * <li>wrapInput: if this is set to true, the label wraps the input markup which
+	 * then must be supplied in $for. Since 1.1.11.</li>
+	 * <li>template: string, the template to use if wrapInput option is true. Defaults to
+	 * '{input} {label}'. Since 1.1.11.</li>
 	 * </ul>
 	 * @return string the generated label tag
 	 */
 	public static function label($label,$for,$htmlOptions=array())
 	{
+		$wrapInput=isset($htmlOptions['wrapInput']) ? $htmlOptions['wrapInput'] : false;
+		unset($htmlOptions['wrapInput']);
+
 		if($for===false)
 			unset($htmlOptions['for']);
-		else
+		elseif(!$wrapInput)
 			$htmlOptions['for']=$for;
 		if(isset($htmlOptions['required']))
 		{
@@ -548,8 +562,15 @@ class CHtml
 			}
 			unset($htmlOptions['required']);
 		}
+		if($wrapInput)
+		{
+			$template=isset($htmlOptions['template']) ? $htmlOptions['template'] : '{input} {label}';
+			unset($htmlOptions['template']);
+			$label=strtr($template,array('{input}'=>$for,'{label}'=>$label));
+		}
 		return self::tag('label',$htmlOptions,$label);
 	}
+
 
 	/**
 	 * Generates a text field input.
@@ -634,15 +655,19 @@ class CHtml
 	}
 
 	/**
-	 * Generates a radio button.
+	 * Generates a radio button and optionally a label.
 	 * @param string $name the input name
 	 * @param boolean $checked whether the radio button is checked
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the radio button is not checked. When set, a hidden field is rendered so that
-	 * when the radio button is not checked, we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is not set or set to NULL, the hidden field will not be rendered.
+	 * <ul>
+	 * <li>uncheckValue: mixed, value returned when the radio button is not checked. When set, a hidden field is
+	 * rendered so that when the radio button is not checked, we can still obtain the posted uncheck value.
+	 * If not set or set to NULL (default), the hidden field will not be rendered. Since 1.1.2</li>
+	 * <li>label: mixed, the label to render for this button. The label will wrap the input element.
+	 * If null (default), no label will be rendered. Since 1.1.11.</li>
+	 * <li>labelOptions: array, the htmlOptions for the label tag. See {@link CHtml::label}. Since 1.1.11.</li>
+	 * </ul>
 	 * @return string the generated radio button
 	 * @see clientChange
 	 * @see inputField
@@ -676,12 +701,22 @@ class CHtml
 		else
 			$hidden='';
 
-		// add a hidden field so that if the radio button is not selected, it still submits a value
-		return $hidden . self::inputField('radio',$name,$value,$htmlOptions);
+
+		if(isset($htmlOptions['label']))
+		{
+			$label=$htmlOptions['label'];
+			$labelOptions=isset($htmlOptions['labelOptions']) ? $htmlOptions['labelOptions'] : array();
+			unset($htmlOptions['label'],$htmlOptions['labelOptions']);
+			$labelOptions['wrapInput']=true;
+			$input=self::inputField('radio',$name,$value,$htmlOptions);
+			return $hidden.self::label($label,$input,$labelOptions);
+		}
+		else
+			return $hidden.self::inputField('radio',$name,$value,$htmlOptions);
 	}
 
 	/**
-	 * Generates a check box.
+	 * Generates a check box and optionally a label.
 	 * @param string $name the input name
 	 * @param boolean $checked whether the check box is checked
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
@@ -690,6 +725,14 @@ class CHtml
 	 * the value returned when the checkbox is not checked. When set, a hidden field is rendered so that
 	 * when the checkbox is not checked, we can still obtain the posted uncheck value.
 	 * If 'uncheckValue' is not set or set to NULL, the hidden field will not be rendered.
+	 * <ul>
+	 * <li>uncheckValue: mixed, value returned when the checkbox is not checked. When set, a hidden field is
+	 * rendered so that when the radio button is not checked, we can still obtain the posted uncheck value.
+	 * If not set or set to NULL (default), the hidden field will not be rendered. Since 1.1.2</li>
+	 * <li>label: mixed, the label to render for this checkbox. The label will wrap the input element.
+	 * If null (default), no label will be rendered. Since 1.1.11.</li>
+	 * <li>labelOptions: array, the htmlOptions for the label tag. See {@link CHtml::label}. Since 1.1.11.</li>
+	 * </ul>
 	 * @return string the generated check box
 	 * @see clientChange
 	 * @see inputField
@@ -723,8 +766,17 @@ class CHtml
 		else
 			$hidden='';
 
-		// add a hidden field so that if the checkbox  is not selected, it still submits a value
-		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
+		if(isset($htmlOptions['label']))
+		{
+			$label=$htmlOptions['label'];
+			$labelOptions=isset($htmlOptions['labelOptions']) ? $htmlOptions['labelOptions'] : array();
+			unset($htmlOptions['label'],$htmlOptions['labelOptions']);
+			$labelOptions['wrapInput']=true;
+			$input=self::inputField('checkbox',$name,$value,$htmlOptions);
+			return $hidden.self::label($label,$input,$labelOptions);
+		}
+		else
+			return $hidden.self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 
 	/**
@@ -843,6 +895,8 @@ class CHtml
 	 * the checkbox list.</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
+	 * <li>wrapInput: bool, wether label should wrap input. Defaults to {@link CHtml::labelWrapsInput}.
+	 * Since 1.1.11.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -850,20 +904,25 @@ class CHtml
 	{
 		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
 		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
-		unset($htmlOptions['template'],$htmlOptions['separator']);
-
-		if(substr($name,-2)!=='[]')
-			$name.='[]';
-
+		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
+		$wrapInput=isset($htmlOptions['wrapInput']) ? $htmlOptions['wrapInput'] : self::$labelWrapsInput;
 		if(isset($htmlOptions['checkAll']))
 		{
 			$checkAllLabel=$htmlOptions['checkAll'];
 			$checkAllLast=isset($htmlOptions['checkAllLast']) && $htmlOptions['checkAllLast'];
 		}
+		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['labelOptions'],$htmlOptions['wrapInput']);
 		unset($htmlOptions['checkAll'],$htmlOptions['checkAllLast']);
 
-		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
-		unset($htmlOptions['labelOptions']);
+		if(substr($name,-2)!=='[]')
+			$name.='[]';
+
+		if($wrapInput)
+		{
+			$labelOptions['template']=$template;
+			$labelOptions['wrapInput']=true;
+			$htmlOptions['labelOptions']=$labelOptions;
+		}
 
 		$items=array();
 		$baseID=self::getIdByName($name);
@@ -876,18 +935,34 @@ class CHtml
 			$checkAll=$checkAll && $checked;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
-			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
-			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			if($wrapInput)
+			{
+				$htmlOptions['label']=$label;
+				$items[]=self::checkBox($name,$checked,$htmlOptions);
+			}
+			else
+			{
+				$option=self::checkBox($name,$checked,$htmlOptions);
+				$label=self::label($label,$htmlOptions['id'],$labelOptions);
+				$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			}
 		}
 
 		if(isset($checkAllLabel))
 		{
 			$htmlOptions['value']=1;
 			$htmlOptions['id']=$id=$baseID.'_all';
-			$option=self::checkBox($id,$checkAll,$htmlOptions);
-			$label=self::label($checkAllLabel,$id,$labelOptions);
-			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			if($wrapInput)
+			{
+				$htmlOptions['label']=$label;
+				$item=self::checkBox($name,$checked,$htmlOptions);
+			}
+			else
+			{
+				$option=self::checkBox($id,$checkAll,$htmlOptions);
+				$label=self::label($checkAllLabel,$id,$labelOptions);
+				$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			}
 			if($checkAllLast)
 				$items[]=$item;
 			else
@@ -926,6 +1001,8 @@ EOD;
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
+	 * <li>wrapInput: bool, wether label should wrap input. Defaults to {@link CHtml::labelWrapsInput}. 
+	 * Since 1.1.11.</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
 	 * </ul>
@@ -935,10 +1012,16 @@ EOD;
 	{
 		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
 		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
-		unset($htmlOptions['template'],$htmlOptions['separator']);
-
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
-		unset($htmlOptions['labelOptions']);
+		$wrapInput=isset($htmlOptions['wrapInput']) ? $htmlOptions['wrapInput'] : self::$labelWrapsInput;
+		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['labelOptions'],$htmlOptions['wrapInput']);
+
+		if($wrapInput)
+		{
+			$labelOptions['template']=$template;
+			$labelOptions['wrapInput']=true;
+			$htmlOptions['labelOptions']=$labelOptions;
+		}
 
 		$items=array();
 		$baseID=self::getIdByName($name);
@@ -948,9 +1031,17 @@ EOD;
 			$checked=!strcmp($value,$select);
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
-			$option=self::radioButton($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
-			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			if($wrapInput)
+			{
+				$htmlOptions['label']=$label;
+				$items[]=self::radioButton($name,$checked,$htmlOptions);
+			}
+			else
+			{
+				$option=self::radioButton($name,$checked,$htmlOptions);
+				$label=self::label($label,$htmlOptions['id'],$labelOptions);
+				$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			}
 		}
 		return self::tag('span',array('id'=>$baseID),implode($separator,$items));
 	}
@@ -1139,12 +1230,22 @@ EOD;
 	 * <li>label: this specifies the label to be displayed. If this is not set,
 	 * {@link CModel::getAttributeLabel} will be called to get the label for display.
 	 * If the label is specified as false, no label will be rendered.</li>
+	 * <li>wrapInput: if this is set to true, the label wraps the input markup which
+	 * then must be supplied in 'input' option. Since 1.1.11.</li>
+	 * <li>template: string, the template to use if wrapInput option is true. Defaults to
+	 * '{input} {label}'. Since 1.1.11.</li>
+	 * <li>input: string, the markup for the input if wrapInput is true. Since 1.1.11.</li>
 	 * </ul>
 	 * @return string the generated label tag
 	 */
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
-		if(isset($htmlOptions['for']))
+		if(isset($htmlOptions['wrapInput']))
+		{
+			$for=isset($htmlOptions['input']) ? $htmlOptions['input']: '';
+			unset($htmlOptions['input']);
+		}
+		elseif(isset($htmlOptions['for']))
 		{
 			$for=$htmlOptions['for'];
 			unset($htmlOptions['for']);
@@ -1382,18 +1483,21 @@ EOD;
 	}
 
 	/**
-	 * Generates a radio button for a model attribute.
+	 * Generates a radio button for a model attribute and optionally a label.
 	 * If the attribute has input error, the input field's CSS class will
 	 * be appended with {@link errorCss}.
 	 * @param CModel $model the data model
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * A special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the radio button is not checked. By default, this value is '0'.
-	 * Internally, a hidden field is rendered so that when the radio button is not checked,
-	 * we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
+	 * <ul>
+	 * <li>uncheckValue: mixed, value returned when the radio button is not checked. When set, a hidden field is
+	 * rendered so that when the radio button is not checked, we can still obtain the posted uncheck value.
+	 * If not set or set to NULL, the hidden field will not be rendered. Default value is '0'.Since 1.1.2</li>
+	 * <li>label: mixed, the label to render for this button. The label will wrap the input element.
+	 * If null (default), no label will be rendered. If true, the label is read from the model. Since 1.1.11.</li>
+	 * <li>labelOptions: array, the htmlOptions for the label tag. See {@link CHtml::label}. Since 1.1.11.</li>
+	 * </ul>
 	 * @return string the generated radio button
 	 * @see clientChange
 	 * @see activeInputField
@@ -1418,12 +1522,22 @@ EOD;
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 
-		// add a hidden field so that if the radio button is not selected, it still submits a value
-		return $hidden . self::activeInputField('radio',$model,$attribute,$htmlOptions);
+		if(isset($htmlOptions['label']))
+		{
+			$labelOptions=isset($htmlOptions['labelOptions']) ? $htmlOptions['labelOptions'] : array();
+			$labelOptions['wrapInput']=true;
+			if($htmlOptions['label']!==true)
+				$labelOptions['label']=$htmlOptions['label'];
+			unset($htmlOptions['label'],$htmlOptions['labelOptions']);
+			$labelOptions['input']=self::activeInputField('radio',$model,$attribute,$htmlOptions);
+			return $hidden.self::activeLabel($model,$attribute,$labelOptions);
+		}
+		else
+			return $hidden . self::activeInputField('radio',$model,$attribute,$htmlOptions);
 	}
 
 	/**
-	 * Generates a check box for a model attribute.
+	 * Generates a check box for a model attribute and optionally a label.
 	 * The attribute is assumed to take either true or false value.
 	 * If the attribute has input error, the input field's CSS class will
 	 * be appended with {@link errorCss}.
@@ -1431,11 +1545,14 @@ EOD;
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * A special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the checkbox is not checked. By default, this value is '0'.
-	 * Internally, a hidden field is rendered so that when the checkbox is not checked,
-	 * we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
+	 * <ul>
+	 * <li>uncheckValue: mixed, value returned when the checkbox is not checked. When set, a hidden field is
+	 * rendered so that when the checkbox is not checked, we can still obtain the posted uncheck value.
+	 * If not set or set to NULL, the hidden field will not be rendered. Default value is '0'.Since 1.1.2</li>
+	 * <li>label: mixed, the label to render for this button. The label will wrap the input element.
+	 * If null (default), no label will be rendered. If true, the label is read from the model. Since 1.1.11.</li>
+	 * <li>labelOptions: array, the htmlOptions for the label tag. See {@link CHtml::label}. Since 1.1.11.</li>
+	 * </ul>
 	 * @return string the generated check box
 	 * @see clientChange
 	 * @see activeInputField
@@ -1460,7 +1577,18 @@ EOD;
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 
-		return $hidden . self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
+		if(isset($htmlOptions['label']))
+		{
+			$labelOptions=isset($htmlOptions['labelOptions']) ? $htmlOptions['labelOptions'] : array();
+			$labelOptions['wrapInput']=true;
+			if($htmlOptions['label']!==true)
+				$labelOptions['label']=$htmlOptions['label'];
+			unset($htmlOptions['label'],$htmlOptions['labelOptions']);
+			$labelOptions['input']=self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
+			return $hidden.self::activeLabel($model,$attribute,$labelOptions);
+		}
+		else
+			return $hidden . self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -1582,11 +1710,12 @@ EOD;
 	 * or is false, the 'check all' checkbox will be displayed at the beginning of
 	 * the checkbox list.</li>
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.</li>
+	 * <li>uncheckValue: mixed, value returned when no checkbox is checked. When set, a hidden field is
+	 * rendered so that when no checkbox is checked, we can still obtain the posted uncheck value.
+	 * If not set or set to NULL, the hidden field will not be rendered. Default value is ''.Since 1.1.7</li>
+	 * <li>wrapInput: bool, wether label should wrap input. Defaults to {@link CHtml::labelWrapsInput}. 
+	 * Since 1.1.11.</li>
 	 * </ul>
-	 * Since 1.1.7, a special option named 'uncheckValue' is available. It can be used to set the value
-	 * that will be returned when the checkbox is not checked. By default, this value is ''.
-	 * Internally, a hidden field is rendered so when the checkbox is not checked, we can still
-	 * obtain the value. If 'uncheckValue' is set to NULL, there will be no hidden field rendered.
 	 * @return string the generated check box list
 	 * @see checkBoxList
 	 */
@@ -1598,6 +1727,9 @@ EOD;
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
+
+		if(!isset($htmlOptions['wrapInput']))
+			$htmlOptions['wrapInput']=self::$labelWrapsInput;
 
 		if(array_key_exists('uncheckValue',$htmlOptions))
 		{
@@ -1630,11 +1762,12 @@ EOD;
 	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.</li>
+	 * <li>uncheckValue: mixed, value returned when no button is checked. When set, a hidden field is
+	 * rendered so that when the no button is checked, we can still obtain the posted uncheck value.
+	 * If not set or set to NULL, the hidden field will not be rendered. Default value is ''.Since 1.1.7</li>
+	 * <li>wrapInput: bool, wether label should wrap input. Defaults to {@link CHtml::labelWrapsInput}. 
+	 * Since 1.1.11.</li>
 	 * </ul>
-	 * Since version 1.1.7, a special option named 'uncheckValue' is available that can be used to specify the value
-	 * returned when the radio button is not checked. By default, this value is ''. Internally, a hidden field is
-	 * rendered so that when the radio button is not checked, we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
 	 * @return string the generated radio button list
 	 * @see radioButtonList
 	 */
@@ -1646,6 +1779,9 @@ EOD;
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
+
+		if(!isset($htmlOptions['wrapInput']))
+			$htmlOptions['wrapInput']=self::$labelWrapsInput;
 
 		if(array_key_exists('uncheckValue',$htmlOptions))
 		{
@@ -1660,6 +1796,7 @@ EOD;
 
 		return $hidden . self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
+
 
 	/**
 	 * Displays a summary of validation errors for one or several models.
