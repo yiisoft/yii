@@ -20,7 +20,7 @@
  */
 return array (
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'L\'ajout d\'une clef étrangère sur une table existante n\'est pas supporté par SQLite.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'L\'alias « {alias} » est invalide. Vérifiez qu\'il pointe vers un fichier PHP existant.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'L\'alias « {alias} » est invalide. Vérifiez qu\'il pointe vers un fichier PHP existant.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'L\'alias « {alias} » est invalide. Vérifiez qu\'il pointe vers un dossier existant.',
   'Altering a DB column is not supported by SQLite.' => 'Modifier une colonne n\'est pas supporté par SQLite.',
   'Application Log' => 'Log applicatif',

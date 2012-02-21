@@ -31,7 +31,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active Record-klassen "{class}" innehåller en ogiltig deklaration av relationen "{relation}". Den måste specificera relationstyp (kardinalitet), den relaterade Active Record-klassen samt referensattributet (fk).',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active Record-klassen "{class}" försöker välja en ogiltig kolumn "{column}". Observera att kolumnen måste existera i tabellen eller vara ett uttryck med alias.',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'SQLite stöder inte tillägg av referensattributrestriktion i existerande tabell',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Alias "{alias}" är ogiltigt. Kontrollera att det leder till en existerande PHP-fil.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Alias "{alias}" är ogiltigt. Kontrollera att det leder till en existerande PHP-fil.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Ogiltigt alias "{alias}". Kontrollera att det refererar till en befintlig katalog eller fil',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'Alias "{alias}" är ogiltigt. Kontrollera att det leder till en katalog.',
   'Altering a DB column is not supported by SQLite.' => 'SQLite stöder inte ändring av kolumn',

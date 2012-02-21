@@ -31,7 +31,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active record "{class}" bevat een relatie "{relation}" met ongeldige instellingen. Het relatietype, de verwante active record class en de foreign key moeten opgegeven zijn.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record "{class}" probeert de ongeldige kolom "{column}" te selecteren. De kolom moet deel uitmaken van de tabel of een uitdrukking met alias zijn.',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'Een foreign key toevoegen aan een bestaande table wordt niet ondersteund door SQLite.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Alias "{alias}" is ongeldig. Zorg ervoor dat er naar een bestaand PHP bestand verwezen wordt.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Alias "{alias}" is ongeldig. Zorg ervoor dat er naar een bestaand PHP bestand verwezen wordt.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Alias "{alias}" is ongeldig. Zorg ervoor dat er naar een bestaande map of bestand verwezen wordt.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'Alias "{alias}" is ongeldig. Zorg ervoor dat er naar een bestaande map verwezen wordt.',
   'Altering a DB column is not supported by SQLite.' => 'Een DB kolom aanpassen wordt niet ondersteund door SQLite.',

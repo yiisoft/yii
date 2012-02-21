@@ -16,7 +16,7 @@
  * @version $Id: $
  */
 return array (
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Alias "{alias}" je neplatný. Ubezpečte se, že obsahuje cestu k platnému PHP souboru.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Alias "{alias}" je neplatný. Ubezpečte se, že obsahuje cestu k platnému PHP souboru.',
   'GD and FreeType PHP extensions are required.' => 'Požadované jsou PHP rozšírení GD a FreeType.',
   'The "range" property must be specified with a list of values.' => 'Vlastnost "range" musí mít specifikovaný seznam hodnot.',
   'The pattern for day of the week must be "E", "EE", "EEE", "EEEE", "EEEEE", "e", "ee", "eee", "eeee", "eeeee", "c", "cccc" or "ccccc".' => 'Formát pro den v týdnu musí být "E", "EE", "EEE", "EEEE", "EEEEE", "e", "ee", "eee", "eeee", "eeeee", "c", "cccc" or "ccccc".',
