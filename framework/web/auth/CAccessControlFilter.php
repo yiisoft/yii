@@ -34,6 +34,8 @@
  *   'users'=>array('thomas', 'kevin'),
  *   // optional, list of roles (case sensitive!) that this rule applies to.
  *   'roles'=>array('admin', 'editor'),
+ *   // you can also add parameters to roles to match bizRules
+ *   'roles'=>array('updateTopic'=>array('topic'=>$topic))
  *   // optional, list of IP address/patterns that this rule applies to
  *   // e.g. 127.0.0.1, 127.0.0.*
  *   'ips'=>array('127.0.0.1'),
