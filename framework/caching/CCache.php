@@ -35,7 +35,9 @@
  * <li>{@link setValue}</li>
  * <li>{@link addValue}</li>
  * <li>{@link deleteValue}</li>
- * <li>{@link flush} (optional)</li>
+ * <li>{@link flushValues} (optional)</li>
+ * <li>{@link serializeValue} (optional)</li>
+ * <li>{@link unserializeValue} (optional)</li>
  * </ul>
  *
  * CCache also implements ArrayAccess so that it can be used like an array.
@@ -48,9 +50,33 @@
 abstract class CCache extends CApplicationComponent implements ICache, ArrayAccess
 {
 	/**
-	 * @var string a string prefixed to every cache key so that it is unique. Defaults to {@link CApplication::getId() application ID}.
+	 * @var string a string prefixed to every cache key so that it is unique. Defaults to null which means
+	 * to use the {@link CApplication::getId() application ID}. If different applications need to access the same
+	 * pool of cached data, the same prefix should be set for each of the applications explicitly.
 	 */
 	public $keyPrefix;
+
+	/**
+	 * @var boolean whether to md5-hash the cache key for normalization purposes. Defaults to true. Setting this property to false makes sure the cache
+	 * key will not be tampered when calling the relevant methods {@link get()}, {@link set()}, {@link add()} and {@link delete()}. This is useful if a Yii
+	 * application as well as an external application need to access the same cache pool (also see description of {@link keyPrefix} regarding this use case).
+	 * However, without normalization you should make sure the affected cache backend does support the structure (charset, length, etc.) of all the provided
+	 * cache keys, otherwise there might be unexpected behavior.
+	 * @since 1.1.11
+	 **/
+	public $hashKey=true;
+	
+	/**
+	 * @var boolean whether to automatically serialize/unserialize the cache values. Defaults to true. Setting this property to false makes sure the cache
+	 * value will not be tampered when calling the methods {@link set()} and {@link add()}. This is useful in case you want to store data which simply
+	 * does not require serialization (e.g. integers, strings or raw binary data). Thus there might be a small increase in performance and a smaller overall
+	 * cache size. Take in mind that you will be unable to store PHP structures like arrays or objects, you would have to serialize and unserialize them manually.
+	 * Another negative side effect is that providing a dependency via {@link set()} or {@link add()} will have no effect since dependencies rely on serialization.
+	 * Since all the relevant core application components rely on dependency support, you should be very careful disabling this feature. Usually you want to
+	 * configure a dedicated cache component for the sole purpose of storing raw unserialized data, the main cache component should always support serialization.
+	 * @since 1.1.11
+	 **/
+	public $autoSerialize=true;
 
 	/**
 	 * Initializes the application component.
@@ -69,7 +95,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	protected function generateUniqueKey($key)
 	{
-		return md5($this->keyPrefix.$key);
+		return $this->hashKey ? md5($this->keyPrefix.$key) : $this->keyPrefix.$key;
 	}
 
 	/**
@@ -81,13 +107,11 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	{
 		if(($value=$this->getValue($this->generateUniqueKey($id)))!==false)
 		{
-			$data=unserialize($value);
-			if(!is_array($data))
-				return false;
-			if(!($data[1] instanceof ICacheDependency) || !$data[1]->getHasChanged())
+			$data=$this->autoSerialize ? $this->unserializeValue($value) : $value;
+			if(!$this->autoSerialize || (is_array($data) && (!($data[1] instanceof ICacheDependency) || !$data[1]->getHasChanged())))
 			{
 				Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
-				return $data[0];
+				return $this->autoSerialize ? $data[0] : $data;
 			}
 		}
 		return false;
@@ -117,11 +141,11 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 		{
 			if(!isset($values[$uniqueID]))
 				continue;
-			$data=unserialize($values[$uniqueID]);
-			if(is_array($data) && (!($data[1] instanceof ICacheDependency) || !$data[1]->getHasChanged()))
+			$data=$this->autoSerialize ? $this->unserializeValue($values[$uniqueID]) : $values[$uniqueID];
+			if(!$this->autoSerialize || (is_array($data) && (!($data[1] instanceof ICacheDependency) || !$data[1]->getHasChanged())))
 			{
 				Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
-				$results[$id]=$data[0];
+				$results[$id]=$this->autoSerialize ? $data[0] : $data;
 			}
 		}
 		return $results;
@@ -141,10 +165,10 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	public function set($id,$value,$expire=0,$dependency=null)
 	{
 		Yii::trace('Saving "'.$id.'" to cache','system.caching.'.get_class($this));
-		if($dependency!==null)
+		if($dependency!==null && $this->autoSerialize)
 			$dependency->evaluateDependency();
-		$data=array($value,$dependency);
-		return $this->setValue($this->generateUniqueKey($id),serialize($data),$expire);
+		$data=$this->autoSerialize ? $this->serializeValue(array($value,$dependency)) : $value;
+		return $this->setValue($this->generateUniqueKey($id),$data,$expire);
 	}
 
 	/**
@@ -159,10 +183,10 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	public function add($id,$value,$expire=0,$dependency=null)
 	{
 		Yii::trace('Adding "'.$id.'" to cache','system.caching.'.get_class($this));
-		if($dependency!==null)
+		if($dependency!==null && $this->autoSerialize)
 			$dependency->evaluateDependency();
-		$data=array($value,$dependency);
-		return $this->addValue($this->generateUniqueKey($id),serialize($data),$expire);
+		$data=$this->autoSerialize ? $this->serializeValue(array($value,$dependency)) : $value;
+		return $this->addValue($this->generateUniqueKey($id),$data,$expire);
 	}
 
 	/**
@@ -282,6 +306,34 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	{
 		throw new CException(Yii::t('yii','{className} does not support flushValues() functionality.',
 			array('{className}'=>get_class($this))));
+	}
+
+	/**
+	 * Serializes the value before it will be stored in the actual cache backend.
+	 * This method will be called if {@link autoSerialize} is set to true. Child classes may override this method to change
+	 * the way the value is being serialized. The default implementation simply makes use of the PHP serialize() function.
+	 * Make sure to override {@link unserializeValue()} as well if you want to change the serialization process.
+	 * @param mixed $value the unserialized representation of the value
+	 * @return string the serialized representation of the value
+	 * @since 1.1.11
+	 **/
+	protected function serializeValue($value)
+	{
+		return serialize($value);
+	}
+	
+	/**
+	 * Unserializes the value after it was retrieved from the actual cache backend.
+	 * This method will be called if {@link autoSerialize} is set to true. Child classes may override this method to change
+	 * the way the value is being unserialized.  The default implementation simply makes use of the PHP unserialize() function.
+	 * Make sure to override {@link serializeValue()} as well if you want to change the serialization process.
+	 * @param string $value the serialized representation of the value
+	 * @return mixed the unserialized representation of the value
+	 * @since 1.1.11
+	 **/
+	protected function unserializeValue($value)
+	{
+		return unserialize($value);
 	}
 
 	/**
