@@ -18,13 +18,40 @@
  */
 class CLinkPager extends CBasePager
 {
-	const CSS_FIRST_PAGE='first';
-	const CSS_LAST_PAGE='last';
-	const CSS_PREVIOUS_PAGE='previous';
-	const CSS_NEXT_PAGE='next';
-	const CSS_INTERNAL_PAGE='page';
-	const CSS_HIDDEN_PAGE='hidden';
-	const CSS_SELECTED_PAGE='selected';
+	/**
+	 * @var string the CSS class for the first page button. Defaults to 'first'.
+	 */
+	public $firstPageCss='first';
+
+	/**
+	 * @var string the CSS class for the last page button. Defaults to 'last'.
+	 */
+	public $lastPageCss='last';
+
+	/**
+	 * @var string the CSS class for the previous page button. Defaults to 'previous'.
+	 */
+	public $previousPageCss='previous';
+
+	/**
+	 * @var string the CSS class for the next page button. Defaults to 'next'.
+	 */
+	public $nextPageCss='next';
+
+	/**
+	 * @var string the CSS class for the internal page buttons. Defaults to 'page'.
+	 */
+	public $internalPageCss='page';
+
+	/**
+	 * @var string the CSS class for the hidden page buttons. Defaults to 'hidden'.
+	 */
+	public $hiddenPageCss='hidden';
+
+	/**
+	 * @var string the CSS class for the selected page buttons. Defaults to 'selected'.
+	 */
+	public $selectedPageCss='selected';
 
 	/**
 	 * @var integer maximum number of page buttons that can be displayed. Defaults to 10.
@@ -117,24 +144,24 @@ class CLinkPager extends CBasePager
 		$buttons=array();
 
 		// first page
-		$buttons[]=$this->createPageButton($this->firstPageLabel,0,self::CSS_FIRST_PAGE,$currentPage<=0,false);
+		$buttons[]=$this->createPageButton($this->firstPageLabel,0,$this->firstPageCss,$currentPage<=0,false);
 
 		// prev page
 		if(($page=$currentPage-1)<0)
 			$page=0;
-		$buttons[]=$this->createPageButton($this->prevPageLabel,$page,self::CSS_PREVIOUS_PAGE,$currentPage<=0,false);
+		$buttons[]=$this->createPageButton($this->prevPageLabel,$page,$this->previousPageCss,$currentPage<=0,false);
 
 		// internal pages
 		for($i=$beginPage;$i<=$endPage;++$i)
-			$buttons[]=$this->createPageButton($i+1,$i,self::CSS_INTERNAL_PAGE,false,$i==$currentPage);
+			$buttons[]=$this->createPageButton($i+1,$i,$this->internalPageCss,false,$i==$currentPage);
 
 		// next page
 		if(($page=$currentPage+1)>=$pageCount-1)
 			$page=$pageCount-1;
-		$buttons[]=$this->createPageButton($this->nextPageLabel,$page,self::CSS_NEXT_PAGE,$currentPage>=$pageCount-1,false);
+		$buttons[]=$this->createPageButton($this->nextPageLabel,$page,$this->nextPageCss,$currentPage>=$pageCount-1,false);
 
 		// last page
-		$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,self::CSS_LAST_PAGE,$currentPage>=$pageCount-1,false);
+		$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$this->lastPageCss,$currentPage>=$pageCount-1,false);
 
 		return $buttons;
 	}
@@ -152,7 +179,7 @@ class CLinkPager extends CBasePager
 	protected function createPageButton($label,$page,$class,$hidden,$selected)
 	{
 		if($hidden || $selected)
-			$class.=' '.($hidden ? self::CSS_HIDDEN_PAGE : self::CSS_SELECTED_PAGE);
+			$class.=' '.($hidden ? $this->hiddenPageCss : $this->selectedPageCss);
 		return '<li class="'.$class.'">'.CHtml::link($label,$this->createPageUrl($page)).'</li>';
 	}
 
