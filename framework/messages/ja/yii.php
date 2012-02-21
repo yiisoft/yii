@@ -22,7 +22,7 @@ return array (
   'Action class {class} must implement the "run" method.' => 'アクションクラス{class}は"run"メソッドを実装する必要があります。',
   'Active record class "{class}" does not have a scope named "{scope}".' => 'アクティブレコードクラス{class}は"{scope}"というスコープを持ちません。',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'SQLiteでは既存のテーブルにフォーリンキー制約を与えられません。',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => '"{alias}"は不正です。phpファイルが存在するか確認してください。',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => '"{alias}"は不正です。phpファイルが存在するか確認してください。',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => '"{alias}"は不正です。ディレクトリが存在するか確認してください。',
   'Altering a DB column is not supported by SQLite.' => 'SQLiteではデータベースのカラムを変更することはできません。',
   'Application Log' => 'アプリケーションログ',

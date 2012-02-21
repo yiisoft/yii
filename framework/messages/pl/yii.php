@@ -28,7 +28,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Konfiguracja rekordu aktywnego "{class}" jest niewłaściwa dla relacji" {relation}". Musi ona definiować typ relacji, referującą do niej klasę rekordu aktywnego i klucz obcy.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record "{class}" próbuje wybrać nieodpowiednią kolumnę "{column}". Pamiętaj, że kolumna musi istnieć w tabeli lub musi być wyrażona aliasem.',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'Dodawanie ograniczenia klucza obcego do istniejącej tabeli nie jest wspierane przez SQLite.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Nieprawidłowy alias "{alias}". Upewnij się, że wskazuje on na istniejący plik PHP.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Nieprawidłowy alias "{alias}". Upewnij się, że wskazuje on na istniejący plik PHP.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Nieprawidłowy alias "{alias}". Upewnij się, że wskazuje na istniejący katalog lub plik.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'Nieprawidłowy "{alias}". Upewnij się, że wskazuje on na istniejący katalog.',
   'Altering a DB column is not supported by SQLite.' => 'Zmienianie kolumny bazy danych nie jest wspierane przez SQLite.',

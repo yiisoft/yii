@@ -17,7 +17,7 @@
  * @version $Id: $
  */
 return array (
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => '"{alias}" மாற்றுப்பெயர் சரியானது இல்லை. சரியான PHP கோப்புக்கு சுட்டிக்காட்டப்பட்டிருக்கிறதா என்று பார்க்கவும்.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => '"{alias}" மாற்றுப்பெயர் சரியானது இல்லை. சரியான PHP கோப்புக்கு சுட்டிக்காட்டப்பட்டிருக்கிறதா என்று பார்க்கவும்.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => '"{alias}" மாற்றுப்பெயர் சரியானது இல்லை. சரியான கோர்வைக்கு சுட்டிக்காட்டப்பட்டிருக்கிறதா என்று பார்க்கவும்.',
   'Application Log' => 'பயன்பாட்டின் தடங்கள்',
   'CDbConnection failed to open the DB connection.' => 'CDbConnection ஆல் தகவல்தளத்தை திறக்க இயலவில்லை.',
