@@ -4,7 +4,7 @@
 Version 1.1.11 work in progress
 -------------------------------
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST b
-- Enh #342: Added support for parameters in CAccessControlFilter (claudejanz)
+- Enh #342: Added ability to pass parameters to access rules in CAccessControlFilter (claudejanz)
 
 
 Version 1.1.10 February 12, 2012
