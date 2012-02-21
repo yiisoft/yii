@@ -31,7 +31,7 @@ $this->breadcrumbs=array(
 		<?php echo $form->passwordField($model,'password'); ?>
 		<?php echo $form->error($model,'password'); ?>
 		<p class="hint">
-			Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
+			Hint: You may login with <code>demo/demo</code> or <code>admin/admin</code>.
 		</p>
 	</div>
 
