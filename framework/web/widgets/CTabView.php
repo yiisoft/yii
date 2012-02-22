@@ -97,7 +97,8 @@ class CTabView extends CWidget
 	 * <li>url: a URL that the user browser will be redirected to when clicking on this tab.</li>
 	 * <li>data: array (name=>value), this will be passed to the view when 'view' is specified.
 	 * This option is available since version 1.1.1.</li>
-	 * <li>visible: whether this tab is visible. Defaults to true.</li>
+	 * <li>visible: whether this tab is visible. Defaults to true.
+	 * this option is available since version 1.1.11.</li>
 	 * </ul>
 	 * <pre>
 	 * array(
