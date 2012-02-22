@@ -18,40 +18,55 @@
  */
 class CLinkPager extends CBasePager
 {
+	const CSS_FIRST_PAGE='first';
+	const CSS_LAST_PAGE='last';
+	const CSS_PREVIOUS_PAGE='previous';
+	const CSS_NEXT_PAGE='next';
+	const CSS_INTERNAL_PAGE='page';
+	const CSS_HIDDEN_PAGE='hidden';
+	const CSS_SELECTED_PAGE='selected';
+
 	/**
 	 * @var string the CSS class for the first page button. Defaults to 'first'.
+	 * @since 1.1.11
 	 */
-	public $firstPageCss='first';
+	public $firstPageCss=self::CSS_FIRST_PAGE;
 
 	/**
 	 * @var string the CSS class for the last page button. Defaults to 'last'.
+	 * @since 1.1.11
 	 */
-	public $lastPageCss='last';
+	public $lastPageCss=self::CSS_LAST_PAGE;
 
 	/**
 	 * @var string the CSS class for the previous page button. Defaults to 'previous'.
+	 * @since 1.1.11
 	 */
-	public $previousPageCss='previous';
+	public $previousPageCss=self::CSS_PREVIOUS_PAGE;
 
 	/**
 	 * @var string the CSS class for the next page button. Defaults to 'next'.
+	 * @since 1.1.11
 	 */
-	public $nextPageCss='next';
+	public $nextPageCss=self::CSS_NEXT_PAGE;
 
 	/**
 	 * @var string the CSS class for the internal page buttons. Defaults to 'page'.
+	 * @since 1.1.11
 	 */
-	public $internalPageCss='page';
+	public $internalPageCss=self::CSS_INTERNAL_PAGE;
 
 	/**
 	 * @var string the CSS class for the hidden page buttons. Defaults to 'hidden'.
+	 * @since 1.1.11
 	 */
-	public $hiddenPageCss='hidden';
+	public $hiddenPageCss=self::CSS_HIDDEN_PAGE;
 
 	/**
 	 * @var string the CSS class for the selected page buttons. Defaults to 'selected'.
+	 * @since 1.1.11
 	 */
-	public $selectedPageCss='selected';
+	public $selectedPageCss=self::CSS_SELECTED_PAGE;
 
 	/**
 	 * @var integer maximum number of page buttons that can be displayed. Defaults to 10.
@@ -171,7 +186,7 @@ class CLinkPager extends CBasePager
 	 * You may override this method to customize the page buttons.
 	 * @param string $label the text label for the button
 	 * @param integer $page the page number
-	 * @param string $class the CSS class for the page button. This could be 'page', 'first', 'last', 'next' or 'previous'.
+	 * @param string $class the CSS class for the page button.
 	 * @param boolean $hidden whether this page button is visible
 	 * @param boolean $selected whether this page button is selected
 	 * @return string the generated button
