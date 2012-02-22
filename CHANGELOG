@@ -8,6 +8,7 @@ Version 1.1.11 work in progress
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
 - Enh #369: Added $hashKey and $autoSerialize properties as well as serializeValue() and unserializeValue() methods to CCache (kidol)
+- Enh #237: The tabs of CTabView now support the property 'visible' (DaSourcerer)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
 - Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug (resurtm)
 - Enh: Added CBreadcrumbs::$activeLinkTemplate and CBreadcrumbs::$inactiveLinkTemplate properties which allows to change each item's template (resurtm)
