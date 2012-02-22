@@ -119,13 +119,13 @@ class CTabView extends CWidget
 	 */
 	public function run()
 	{
-		if(empty($this->tabs))
-			return;
-			
 		foreach($this->tabs as $id=>$tab)
 			if(isset($tab['visible']) && $tab['visible']==false)
 				unset($this->tabs[$id]);
 				
+		if(empty($this->tabs))
+			return;
+			
 		if($this->activeTab===null || !isset($this->tabs[$this->activeTab]))
 		{
 			reset($this->tabs);
