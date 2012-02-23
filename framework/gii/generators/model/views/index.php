@@ -4,7 +4,7 @@ Yii::app()->clientScript->registerScript('gii.model',"
 $('#{$class}_modelClass').change(function(){
 	$(this).data('changed',$(this).val()!='');
 });
-$('#{$class}_tableName').bind('keyup change', function(){
+$('#{$class}_tableName').bind('keyup change focus blur autocompleteselect', function(){
 	var model=$('#{$class}_modelClass');
 	var tableName=$(this).val();
 	if(tableName.substring(tableName.length-1)!='*') {
@@ -30,6 +30,10 @@ $('#{$class}_tableName').bind('keyup change', function(){
 	}
 });
 $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#{$class}_tableName').val().length-1)!='*');
+
+$('ul.ui-autocomplete li.ui-menu-item a').live('click', function() {
+	$('#{$class}_tableName').focus();
+});
 ");
 ?>
 <h1>Model Generator</h1>
