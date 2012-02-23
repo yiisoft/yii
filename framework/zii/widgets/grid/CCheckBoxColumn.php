@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2012 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -16,6 +16,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * CCheckBoxColumn supports no selection (read-only), single selection and multiple selection.
  * The mode is determined according to {@link selectableRows}. When in multiple selection mode, the header cell will display
  * an additional checkbox, clicking on which will check or uncheck all of the checkboxes in the data cells.
+ * This additional checkbox in the header cell can be made hidden by {@link $headerCheckBoxVisible} default true (visible).
  *
  * Additionally selecting a checkbox can select a grid view row (depending on {@link CGridView::selectableRows} value) if
  * {@link selectableRows} is null (default).
@@ -83,6 +84,11 @@ class CCheckBoxColumn extends CGridColumn
 	 * @since 1.1.6
 	 */
 	public $selectableRows=null;
+        /**
+         * @var boolean whether the CheckBox in header ccolumn is visible. Defaults to true.
+         * @since 1.1.11
+         */
+        public $headerCheckBoxVisible=true;
 
 	/**
 	 * Initializes the column.
@@ -149,10 +155,10 @@ EOD;
 	 * or in case {@link selectableRows} is null when {@link CGridView::selectableRows} is greater than 1.
 	 */
 	protected function renderHeaderCellContent()
-	{
-		if($this->selectableRows===null && $this->grid->selectableRows>1)
+	{                
+		if($this->headerCheckBoxVisible!==false && $this->selectableRows===null && $this->grid->selectableRows>1)
 			echo CHtml::checkBox($this->id.'_all',false,array('class'=>'select-on-check-all'));
-		else if($this->selectableRows>1)
+		else if($this->headerCheckBoxVisible!==false && $this->selectableRows>1)
 			echo CHtml::checkBox($this->id.'_all',false);
 		else
 			parent::renderHeaderCellContent();
