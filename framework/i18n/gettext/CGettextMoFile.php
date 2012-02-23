@@ -113,9 +113,13 @@ class CGettextMoFile extends CGettextFile
 		for($i=0;$i<$count;++$i)
 		{
 			$id=$this->readString($fr,$sourceLengths[$i],$sourceOffsets[$i]);
-			if(($pos=strpos($id,chr(4)))!==false && substr($id,0,$pos)===$context)
+			$pos = strpos($id,chr(4));
+			
+			if(($context && $pos!==false && substr($id,0,$pos)===$context) || (!$context && $pos===false))
 			{
-				$id=substr($id,$pos+1);
+				if($pos !== false)
+					$id=substr($id,$pos+1);
+				
 				$message=$this->readString($fr,$targetLengths[$i],$targetOffsets[$i]);
 				$messages[$id]=$message;
 			}
