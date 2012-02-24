@@ -2,7 +2,6 @@
 Yii::import('system.caching.dependencies.CChainedCacheDependency');
 Yii::import('system.caching.dependencies.CReusableCacheDependency');
 Yii::import('system.caching.dependencies.CFileCacheDependency');
-Yii::import('system.caching.dependencies.CDirectoryCacheDependency');
 
 class CReusableCacheDependencyTest extends CTestCase
 {

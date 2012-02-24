@@ -1,5 +1,14 @@
 <?php
 /**
+ * CReusableCacheDependency class file.
+ *
+ * @author Charles Pick <charles.pick@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2012 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
  * CReusableCacheDependency represents a reusable list of cache dependencies.
  * Dependencies in this chain will only be evaluated once per request, apart from
  * this it is identical to {@link CChainedCacheDependency}
