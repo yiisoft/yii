@@ -184,6 +184,12 @@ TEX;
 			$href = str_replace('#', '-', $href);
 			return sprintf('\hyperref[%s]{%s}', $this->escape($href), $this->escape($matches[2]));
 		}
+		else if (strpos($matches[1], '/doc/blog/')===0)
+		{
+			$href = str_replace('/doc/blog/','',$matches[1]);
+			$href = str_replace('#', '-', $href);
+			return sprintf('\hyperref[%s]{%s}', $this->escape($href), $this->escape($matches[2]));
+		}
 	}
 
 	function make_sections($matches)

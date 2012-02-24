@@ -18,7 +18,7 @@
 
 return array (
   'Active record class "{class}" does not have a scope named "{scope}".' => '',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => '',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => '',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => '',
   'Application Log' => '',
   'Base path "{path}" is not a valid directory.' => '',

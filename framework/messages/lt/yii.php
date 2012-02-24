@@ -27,7 +27,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active record klasės „{class}“ ryšys „{relation}“ sukonfigūruotas neteisingai. Jis turi nurodyti ryšio tipą, siejamą active record klasę ir išorinį raktą.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record klasė „{class}“ neranda lauko „{column}“. Laukas turi egzistuoti lentelėje arba gali būti išraiška alternatyviuoju vardu.',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'Egzistuojančios lentelės papildymas išorinio rakto ribojimu SQLite nepalaikomas.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Negaliojantis alternatyvusis vardas „{alias}“. Pasitikslinkite, ar jis nurodo egzistuojantį PHP failą.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Negaliojantis alternatyvusis vardas „{alias}“. Pasitikslinkite, ar jis nurodo egzistuojantį PHP failą.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Negaliojantis alternatyvusis vardas „{alias}“. Pasitikslinkite, ar jis nurodo egzistuojantį katalogą ar failą.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'Negaliojantis alternatyvusis vardas „{alias}“. Pasitikslinkite, ar jis nurodo egzistuojantį katalogą.',
   'Altering a DB column is not supported by SQLite.' => 'DB lauko keitimai SQLite nepalaikomi.',
