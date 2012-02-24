@@ -4,6 +4,7 @@
 
 Version 1.1.11 work in progress
 -------------------------------
+- Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
