@@ -17,7 +17,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2012 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
+ * @version $Id: $
  * @since 1.0
  */
 
@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.10';
+		return '1.1.11-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -126,7 +126,7 @@ class YiiBase
 					if(is_file($classFile))
 						require($classFile);
 					else
-						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file.',array('{alias}'=>$alias)));
+						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias)));
 					self::$_imports[$alias]=$alias;
 				}
 				else
@@ -156,7 +156,7 @@ class YiiBase
 					if(is_file($path.'.php'))
 						require($path.'.php');
 					else
-						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file.',array('{alias}'=>$alias)));
+						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias)));
 					self::$_imports[$alias]=$className;
 				}
 				else
@@ -375,6 +375,7 @@ class YiiBase
 		'CExpressionDependency' => '/caching/dependencies/CExpressionDependency.php',
 		'CFileCacheDependency' => '/caching/dependencies/CFileCacheDependency.php',
 		'CGlobalStateCacheDependency' => '/caching/dependencies/CGlobalStateCacheDependency.php',
+		'CReusableCacheDependency' => '/caching/dependencies/CReusableCacheDependency.php',
 		'CAttributeCollection' => '/collections/CAttributeCollection.php',
 		'CConfiguration' => '/collections/CConfiguration.php',
 		'CList' => '/collections/CList.php',
@@ -389,6 +390,8 @@ class YiiBase
 		'CTypedMap' => '/collections/CTypedMap.php',
 		'CConsoleApplication' => '/console/CConsoleApplication.php',
 		'CConsoleCommand' => '/console/CConsoleCommand.php',
+		'CConsoleCommandBehavior' => '/console/CConsoleCommandBehavior.php',
+		'CConsoleCommandEvent' => '/console/CConsoleCommandEvent.php',
 		'CConsoleCommandRunner' => '/console/CConsoleCommandRunner.php',
 		'CHelpCommand' => '/console/CHelpCommand.php',
 		'CDbCommand' => '/db/CDbCommand.php',
@@ -2218,12 +2221,16 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function getDelete($name,$defaultValue=null)
 	{
+		if($this->getIsDeleteViaPostRequest())
+			return $this->getPost($name, $defaultValue);
 		if($this->_deleteParams===null)
 			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
 		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
 	}
 	public function getPut($name,$defaultValue=null)
 	{
+		if($this->getIsPutViaPostReqest())
+			return $this->getPost($name, $defaultValue);
 		if($this->_putParams===null)
 			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
 		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
@@ -2396,6 +2403,8 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function getRequestType()
 	{
+		if(isset($_POST['_method']))
+			return strtoupper($_POST['_method']);
 		return strtoupper(isset($_SERVER['REQUEST_METHOD'])?$_SERVER['REQUEST_METHOD']:'GET');
 	}
 	public function getIsPostRequest()
@@ -2404,15 +2413,27 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function getIsDeleteRequest()
 	{
-		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'DELETE');
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'DELETE')) || $this->getIsDeleteViaPostRequest();
+	}
+	protected function getIsDeleteViaPostRequest()
+	{
+		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'DELETE');
 	}
 	public function getIsPutRequest()
 	{
-		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT');
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT')) || $this->getIsPutViaPostReqest();
+	}
+	protected function getIsPutViaPostReqest()
+	{
+		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'PUT');
 	}
 	public function getIsAjaxRequest()
 	{
 		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest';
+	}
+	public function getIsFlashRequest()
+	{
+		return isset($_SERVER['HTTP_USER_AGENT']) && (stripos($_SERVER['HTTP_USER_AGENT'],'Shockwave')!==false || stripos($_SERVER['HTTP_USER_AGENT'],'Flash')!==false);
 	}
 	public function getServerName()
 	{
@@ -4908,6 +4929,36 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('text',$model,$attribute,$htmlOptions);
 	}
+	public static function activeUrlField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('url',$model,$attribute,$htmlOptions);
+	}
+	public static function activeEmailField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('email',$model,$attribute,$htmlOptions);
+	}
+	public static function activeNumberField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('number',$model,$attribute,$htmlOptions);
+	}
+	public static function activeRangeField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('range',$model,$attribute,$htmlOptions);
+	}
+	public static function activeDateField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('date',$model,$attribute,$htmlOptions);
+	}	
 	public static function activeHiddenField($model,$attribute,$htmlOptions=array())
 	{
 		self::resolveNameID($model,$attribute,$htmlOptions);
