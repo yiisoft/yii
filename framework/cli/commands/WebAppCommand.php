@@ -65,6 +65,9 @@ EOD;
 			$list['index.php']['callback']=array($this,'generateIndex');
 			$list['index-test.php']['callback']=array($this,'generateIndex');
 			$list['protected/tests/bootstrap.php']['callback']=array($this,'generateTestBoostrap');
+			$list['protected/tests/WebTestCase.php']['callback']=array($this,'generateWebTestCase');
+			$list['protected/config/main.php']['callback']=array($this,'generateConfig');
+			$list['protected/config/console.php']['callback']=array($this,'generateConfig');
 			$list['protected/yiic.php']['callback']=array($this,'generateYiic');
 			$this->copyFiles($list);
 			@chmod($path.'/assets',0777);
@@ -92,6 +95,18 @@ EOD;
 		$yii=$this->getRelativePath($yii,$this->_rootPath.DIRECTORY_SEPARATOR.'protected'.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'bootstrap.php');
 		$yii=str_replace('\\','\\\\',$yii);
 		return preg_replace('/\$yiit\s*=(.*?);/',"\$yiit=$yii;",$content);
+	}
+
+	public function generateWebTestCase($source,$params)
+	{
+		$content=file_get_contents($source);
+		return preg_replace('/localhost\/testdrive/',"localhost/".basename($this->_rootPath),$content);
+	}
+
+	public function generateConfig($source,$params)
+	{
+		$content=file_get_contents($source);
+		return preg_replace('/dbname=testdrive/',"dbname=".basename($this->_rootPath),$content);
 	}
 
 	public function generateYiic($source,$params)
