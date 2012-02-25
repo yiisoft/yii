@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2012 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -16,6 +16,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * CCheckBoxColumn supports no selection (read-only), single selection and multiple selection.
  * The mode is determined according to {@link selectableRows}. When in multiple selection mode, the header cell will display
  * an additional checkbox, clicking on which will check or uncheck all of the checkboxes in the data cells.
+ * The header cell can be customized by {@link headerTemplate}.
  *
  * Additionally selecting a checkbox can select a grid view row (depending on {@link CGridView::selectableRows} value) if
  * {@link selectableRows} is null (default).
@@ -61,6 +62,10 @@ class CCheckBoxColumn extends CGridColumn
 	 */
 	public $headerHtmlOptions=array('class'=>'checkbox-column');
 	/**
+	 * @var array the HTML options for the header cell checkbox tag.
+	 */
+	public $headerItemHtmlOptions=array();
+	/**
 	 * @var array the HTML options for the footer cell tag.
 	 */
 	public $footerHtmlOptions=array('class'=>'checkbox-column');
@@ -83,6 +88,15 @@ class CCheckBoxColumn extends CGridColumn
 	 * @since 1.1.6
 	 */
 	public $selectableRows=null;
+	 /**
+	 * @var string the template used to render the header cell. Defaults to a checkbox when {@link selectableRows} is greater than 1
+	 * or in case {@link selectableRows} is null when {@link CGridView::selectableRows} is greater than 1.
+	 *
+	 * The token recognized: "{item}". It will be replaced with the checkbox.
+	 *
+	 * @see selectableRows
+	 */
+	public $headerTemplate='{item}';
 
 	/**
 	 * Initializes the column.
@@ -121,9 +135,9 @@ class CCheckBoxColumn extends CGridColumn
 			//.. only one can be checked, uncheck all other
 			$cbcode="$(\"input:not(#\"+this.id+\")[name='$name']\").prop('checked',false);";
 		}
-		else
+		elseif(!empty($this->headerTemplate) && strpos($this->headerTemplate,'{item}')!==false)
 		{
-			//.. process check/uncheck all
+			//.. process check/uncheck all only when there is an item requested
 			$cball=<<<CBALL
 $('#{$this->id}_all').live('click',function() {
 	var checked=this.checked;
@@ -135,12 +149,16 @@ CBALL;
 		}
 
 		$js=$cball;
-		$js.=<<<EOD
+		if($cbcode)
+		{
+			
+			$js.=<<<EOD
 $("input[name='$name']").live('click', function() {
 	$cbcode
 });
 EOD;
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id,$js);
+			Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id,$js);
+		}
 	}
 
 	/**
@@ -150,12 +168,18 @@ EOD;
 	 */
 	protected function renderHeaderCellContent()
 	{
+		if(empty($this->headerTemplate)) return '';
 		if($this->selectableRows===null && $this->grid->selectableRows>1)
-			echo CHtml::checkBox($this->id.'_all',false,array('class'=>'select-on-check-all'));
+                {
+                    $this->headerItemHtmlOptions['class']=trim('select-on-check-all'.' '.$this->headerItemHtmlOptions['class']);
+			$tr['{item}']=CHtml::checkBox($this->id.'_all',false,$this->headerItemHtmlOptions);
+                }
 		else if($this->selectableRows>1)
-			echo CHtml::checkBox($this->id.'_all',false);
+			$tr['{item}']=CHtml::checkBox($this->id.'_all',false,$this->headerItemHtmlOptions);
 		else
-			parent::renderHeaderCellContent();
+			$tr['{item}']=parent::renderHeaderCellContent();
+		
+		echo strtr($this->headerTemplate,$tr);
 	}
 
 	/**
