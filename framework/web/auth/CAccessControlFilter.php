@@ -44,7 +44,11 @@
  *   // optional, the customized error message to be displayed
  *   // This option is available since version 1.1.1.
  *   'message'=>'Access Denied.',
- * )
+ *   // optional, the denied method callback name, that will be called once the
+ *	 // access is denied, instead of showing the customized error message
+ *   // This option is available since version 1.1.11.
+ *   'deniedCallback'=>'redirectToDeniedMethod',
+  * )
  * </pre>
  *
  * @property array $rules List of access rules.
@@ -87,7 +91,7 @@ class CAccessControlFilter extends CFilter
 				$r->allow=$rule[0]==='allow';
 				foreach(array_slice($rule,1) as $name=>$value)
 				{
-					if($name==='expression' || $name==='roles' || $name==='message')
+					if($name==='expression' || $name==='roles' || $name==='message' || $name==='deniedCallback')
 						$r->$name=$value;
 					else
 						$r->$name=array_map('strtolower',$value);
@@ -117,7 +121,10 @@ class CAccessControlFilter extends CFilter
 				break;
 			else if($allow<0) // denied
 			{
-				$this->accessDenied($user,$this->resolveErrorMessage($rule));
+				if(isset($rule->deniedCallback))
+					call_user_func(array(get_class($filterChain->controller),$rule->deniedCallback));
+				else
+					$this->accessDenied($user,$this->resolveErrorMessage($rule));
 				return false;
 			}
 		}
@@ -222,6 +229,12 @@ class CAccessRule extends CComponent
 	 * @since 1.1.1
 	 */
 	public $message;
+	/**
+	 * @var string the denied method callback name, that will be called once the
+	 * access is denied, instead of showing the customized error message
+	 * @since 1.1.11
+	 */
+	public $deniedCallback;
 
 
 	/**
