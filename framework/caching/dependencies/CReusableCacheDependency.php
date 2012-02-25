@@ -17,7 +17,8 @@
  * @package system.caching.dependencies
  * @since 1.1.11
  */
-class CReusableCacheDependency extends CChainedCacheDependency {
+class CReusableCacheDependency extends CChainedCacheDependency
+{
 	private static $_data = array();
 	private $_hash;
 	/**
