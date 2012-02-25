@@ -4,6 +4,7 @@
 
 Version 1.1.11 work in progress
 -------------------------------
+- Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
 - Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
