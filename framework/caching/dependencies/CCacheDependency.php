@@ -41,6 +41,7 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	 * @since 1.1.11
 	 */
 	protected static $_cachedData=array();
+
 	private $_hash;
 	private $_data;
 
