@@ -29,15 +29,18 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	/**
 	 * @var boolean Whether this dependency is reusable or not.
 	 * If set to true, dependent data for this cache dependency will only be generated once per request.
+	 * You can then use the same cache dependency for multiple separate cache calls on the same page
+	 * without the overhead of re-evaluating the dependency each time.
 	 * Defaults to false;
 	 * @since 1.1.11
 	 */
-	public $reusable = false;
+	public $reusable=false;
+
 	/**
 	 * @var array cached data for reusable dependencies.
 	 * @since 1.1.11
 	 */
-	protected static $_cachedData = array();
+	protected static $_cachedData=array();
 	private $_hash;
 	private $_data;
 
@@ -49,7 +52,7 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	{
 		if ($this->reusable)
 		{
-			$hash = $this->getHash();
+			$hash=$this->getHash();
 			if (!isset(self::$_cachedData[$hash]['dependentData']))
 				self::$_cachedData[$hash]['dependentData']=$this->generateDependentData();
 			$this->_data=self::$_cachedData[$hash]['dependentData'];
@@ -65,7 +68,7 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	{
 		if ($this->reusable)
 		{
-			$hash = $this->getHash();
+			$hash=$this->getHash();
 			if (!isset(self::$_cachedData[$hash]['hasChanged']))
 			{
 				if (!isset(self::$_cachedData[$hash]['dependentData']))
@@ -100,11 +103,10 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	 * Generates a unique hash that identifies this cache dependency.
 	 * @return string the hash for this cache dependency
 	 */
-	public function getHash() {
+	protected function getHash()
+	{
 		if($this->_hash===null)
-		{
 			$this->_hash=sha1(serialize($this));
-		}
 		return $this->_hash;
 	}
 }
