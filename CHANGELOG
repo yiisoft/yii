@@ -4,15 +4,19 @@
 
 Version 1.1.11 work in progress
 -------------------------------
-- Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
 - Enh #286: Added wildcard token to CDateTimeParser (cebe)
+- Enh #191: Added ability to customize HTML classes of CLinkPager via its public properties (mashingan)
+- Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
+- Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
+- Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
 - Enh #369: Added $hashKey and $autoSerialize properties as well as serializeValue() and unserializeValue() methods to CCache (kidol)
 - Enh #237: The tabs of CTabView now support the property 'visible' (DaSourcerer)
-- Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
+- Enh #356: Improved extendability of CDetailView by adding method renderItem() (cebe)
 - Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug (resurtm)
 - Enh: Added CBreadcrumbs::$activeLinkTemplate and CBreadcrumbs::$inactiveLinkTemplate properties which allows to change each item's template (resurtm)
+- Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
@@ -1216,7 +1220,7 @@ Version 1.0.2 February 1, 2009
 
 Version 1.0.1 January 4, 2009
 -----------------------------
-- Bug #41: missing function CHttpRequest:: getCsrfTokenFromCookie() (Qiang)
+- Bug #41: missing function CHttpRequest::getCsrfTokenFromCookie() (Qiang)
 - Bug #42: Wrong links in crud generated admin view (Qiang)
 - Bug #45: Many-to-many relation does not work when both foreign tables are the same (Qiang)
 - Bug #47: Wrong url parsing when CUrlManager is set in path format (Qiang)
