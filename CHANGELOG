@@ -4,6 +4,7 @@
 
 Version 1.1.11 work in progress
 -------------------------------
+- Enh #286: Added wildcard token to CDateTimeParser (cebe)
 - Enh #191: Added ability to customize HTML classes of CLinkPager via its public properties (mashingan)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
@@ -1219,7 +1220,7 @@ Version 1.0.2 February 1, 2009
 
 Version 1.0.1 January 4, 2009
 -----------------------------
-- Bug #41: missing function CHttpRequest:: getCsrfTokenFromCookie() (Qiang)
+- Bug #41: missing function CHttpRequest::getCsrfTokenFromCookie() (Qiang)
 - Bug #42: Wrong links in crud generated admin view (Qiang)
 - Bug #45: Many-to-many relation does not work when both foreign tables are the same (Qiang)
 - Bug #47: Wrong url parsing when CUrlManager is set in path format (Qiang)
