@@ -166,7 +166,12 @@ EOD;
 			foreach($translated as $message=>$translation)
 			{
 				if(!isset($merged[$message]) && !isset($todo[$message]) && !$removeOld)
-					$todo[$message]='@@'.$translation.'@@';
+				{
+					if(substr($translation,0,2)==='@@' && substr($translation,-2)==='@@')
+						$todo[$message]=$translation;
+					else
+						$todo[$message]='@@'.$translation.'@@';
+				}
 			}
 			$merged=array_merge($todo,$merged);
 			if($overwrite === false)
