@@ -31,7 +31,9 @@ class CComponentTest extends CTestCase
 	{
 		$this->assertTrue($this->component->hasProperty('Text'), "Component hasn't property Text");
 		$this->assertTrue($this->component->hasProperty('text'), "Component hasn't property text");
-		$this->assertFalse($this->component->hasProperty('Caption'), "Component as property Caption");
+		$this->assertTrue($this->component->hasProperty('Object'), "Component hasn't property Object");
+		$this->assertTrue($this->component->hasProperty('object'), "Component hasn't property object");
+		$this->assertFalse($this->component->hasProperty('Caption'), "Component has property Caption");
 	}
 
 	public function testCanGetProperty()
@@ -46,23 +48,40 @@ class CComponentTest extends CTestCase
 		$this->assertTrue($this->component->canSetProperty('Text'));
 		$this->assertTrue($this->component->canSetProperty('text'));
 		$this->assertFalse($this->component->canSetProperty('Caption'));
+		$this->assertFalse($this->component->canSetProperty('Object'));
+		$this->assertFalse($this->component->canSetProperty('object'));
 	}
 
 	public function testGetProperty()
 	{
-		$this->assertTrue('default'===$this->component->Text);
-		$this->setExpectedException('CException');
-		$value2=$this->component->Caption;
+		$this->assertEquals('default', $this->component->Text);
+		$this->assertEquals('default', $this->component->text);
+		$this->assertInstanceOf('NewComponent', $this->component->Object);
+		$this->assertInstanceOf('NewComponent', $this->component->object);
+	}
+
+	/**
+	 * @expectedException CException
+	 * @expectedExceptionMessage Property "NewComponent.caption" is not defined.
+	 */
+	public function testGetException()
+	{
+		$this->component->caption;
 	}
 
 	public function testSetProperty()
 	{
-		$value='new value';
-		$this->component->Text=$value;
-		$text=$this->component->Text;
-		$this->assertTrue($value===$this->component->Text);
-		$this->setExpectedException('CException');
-		$this->component->NewMember=$value;
+		$this->component->text = 'new value';
+		$this->assertEquals('new value', $this->component->text);
+	}
+
+	/**
+	 * @expectedException CException
+	 * @expectedExceptionMessage Property "NewComponent.newMember" is not defined.
+	 */
+	public function testSetException()
+	{
+		$this->component->newMember = 'new value';
 	}
 
 	public function testIsset()
