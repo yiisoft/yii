@@ -149,7 +149,7 @@ class CComponentTest extends CTestCase
 		$this->assertSame($list->getCount(),1);
 
 		try {
-			$list = $this->component->getEventHandlers('YourEvent');
+			$this->component->getEventHandlers('YourEvent');
 		} catch (Exception $e) {
 			$this->assertInstanceOf('CException', $e);
 			$this->assertSame('Event "NewComponent.YourEvent" is not defined.', $e->getMessage());
