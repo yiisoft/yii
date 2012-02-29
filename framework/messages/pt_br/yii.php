@@ -77,7 +77,7 @@ return array (
   'CDbCommand failed to prepare the SQL statement: {error}' => 'CDbCommand falhou ao preparar o comando SQL: {error}',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection não suporta leitura de schema para o {driver} do banco de dados.',
   'CDbConnection failed to open the DB connection.' => 'CDbConnection não conseguiu abrir uma conexão de banco de dados.',
-  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection falhou ao abrir uma conecção com o banco de dados: {error}',
+  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection falhou ao abrir uma conexão com o banco de dados: {error}',
   'CDbConnection.connectionString cannot be empty.' => 'CDbConnection.connectionString não pode estar vazio.',
   'CDbDataReader cannot rewind. It is a forward-only reader.' => 'CDbDataReader não pode voltar. É um leitor com sentido único para o próximo valor.',
   'CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'CDbHttpSession.connectionID "{id}" é inválido. Por favor, tenha certeza que o valor refere-se ao ID de um componente CDbConnection da aplicação.',
