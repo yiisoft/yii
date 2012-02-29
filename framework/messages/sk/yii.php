@@ -28,7 +28,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active record "{class}" má neplatnú konfiguráciu pre reláciu "{relation}". Konfigurácia musí špecifikovať typ relácie, Active record objekt a foreign key.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record "{class}" sa pokúsila nájsť neplatný stĺpec "{column}". Pozor - hľadaný stĺpec musí existovať v databáze, alebo musí byť výrazom s aliasom.',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'Pridanie foreign key do existujúcej tabuľky nie je v prípade databázy SQLite možné.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Alias "{alias}" je neplatný. Ubezpečte sa, že obsahuje cestu ku platnému PHP súboru.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Alias "{alias}" je neplatný. Ubezpečte sa, že obsahuje cestu ku platnému PHP súboru.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Alias "{alias}" je neplatný. Ubezpečte sa, že ukazuje ku existujúcemu adresáru alebo súboru.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'Alias "{alias}" je neplatný. Ubezpečte sa, že ukazuje ku existujúcemu adresáru.',
   'Altering a DB column is not supported by SQLite.' => 'Zmena databázového stĺpca nie je v prípade SQLite podporovaná.',

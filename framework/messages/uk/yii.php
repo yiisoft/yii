@@ -28,7 +28,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Відношення "{relation}" класу Active record "{class}" налаштовано не вірно. Ви повинні вказати тип відношення, зв\'язаний клас active record та зовнішній ключ.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'ActiveRecord "{class}" намагається вибрати неприпустимий стовпець "{column}". Примітка: стовпець повинен існувати у таблиці або бути виразом із псевдонімом.',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'Додавання зовнішнього ключа до існуючої таблиці не підтримується SQLite.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Псевдонім "{alias}" невірний. Переконайтесь, що він вказує на існуючий PHP файл.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Псевдонім "{alias}" невірний. Переконайтесь, що він вказує на існуючий PHP файл.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Псевдонім "{alias}". Переконайтесь, що він вказує на існуючу директорію або файл.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'Псевдонім "{alias}". Переконайтесь, що він вказує на існуючу директорію.',
   'Altering a DB column is not supported by SQLite.' => 'Зміна поля БД не підтримується SQLite.',
