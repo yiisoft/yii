@@ -159,13 +159,14 @@ class CComponentTest extends CTestCase
 	public function testAttachEventHandler()
 	{
 		$this->component->attachEventHandler('OnMyEvent','foo');
-		$this->assertTrue($this->component->getEventHandlers('OnMyEvent')->getCount()===1);
+		$this->assertInstanceOf('CList', $this->component->getEventHandlers('onMyEvent'));
+		$this->assertSame(1, $this->component->getEventHandlers('onMyEvent')->getCount());
 
 		try {
-			$this->component->attachEventHandler('YourEvent', 'foo');
+			$this->component->attachEventHandler('onYourEvent', 'foo');
 		} catch (Exception $e) {
 			$this->assertInstanceOf('CException', $e);
-			$this->assertSame('Event "NewComponent.YourEvent" is not defined.', $e->getMessage());
+			$this->assertSame('Event "NewComponent.onYourEvent" is not defined.', $e->getMessage());
 		}
 	}
 
