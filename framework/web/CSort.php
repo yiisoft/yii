@@ -168,6 +168,7 @@ class CSort extends CComponent
 	 *     'price'=>CSort::SORT_DESC,
 	 * )
 	 * </pre>
+	 * The `SORT_DESC` is available since 1.1.10. In earlier Yii versions you should use `true` or `false`.
 	 *
 	 * Please note when using array to specify the default order, the corresponding attributes
 	 * will be put into {@link directions} and thus affect how the sort links are rendered
