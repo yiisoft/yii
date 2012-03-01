@@ -103,4 +103,24 @@ class CAttributeCollectionTest extends CTestCase
 		$collection->Property = 'value';
 		$this->assertEquals(true, $collection->hasProperty('Property'));
 	}
+
+  public function testMergeWithCaseSensitive()
+  {
+    $collection = new CAttributeCollection();
+    $item = array('Test'=>'Uppercase');
+    $collection->mergeWith($item);
+    $this->assertEquals('Uppercase', $collection->itemAt('test'));
+  }
+
+  public function testMergeWithCaseInSensitive()
+  {
+    $collection = new CAttributeCollection();
+    $collection->caseSensitive = true;
+    $collection->add('k1','item');
+
+    $item = array('K1'=>'ITEM');
+    $collection->mergeWith($item);
+    $this->assertEquals('item', $collection->itemAt('k1'));
+    $this->assertEquals('ITEM', $collection->itemAt('K1'));
+  }
 }
