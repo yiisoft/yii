@@ -4,9 +4,17 @@
 
 Version 1.1.11 work in progress
 -------------------------------
+- Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
+- Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
+- Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
+- Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
-- Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug. (resurtm)
+- Enh #369: Added $hashKey and $autoSerialize properties as well as serializeValue() and unserializeValue() methods to CCache (kidol)
+- Enh #237: The tabs of CTabView now support the property 'visible' (DaSourcerer)
+- Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
+- Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug (resurtm)
+- Enh: Added CBreadcrumbs::$activeLinkTemplate and CBreadcrumbs::$inactiveLinkTemplate properties which allows to change each item's template (resurtm)
 
 Version 1.1.10 February 12, 2012
 --------------------------------

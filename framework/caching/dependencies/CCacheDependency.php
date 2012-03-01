@@ -26,6 +26,23 @@
  */
 class CCacheDependency extends CComponent implements ICacheDependency
 {
+	/**
+	 * @var boolean Whether this dependency is reusable or not.
+	 * If set to true, dependent data for this cache dependency will only be generated once per request.
+	 * You can then use the same cache dependency for multiple separate cache calls on the same page
+	 * without the overhead of re-evaluating the dependency each time.
+	 * Defaults to false;
+	 * @since 1.1.11
+	 */
+	public $reusable=false;
+
+	/**
+	 * @var array cached data for reusable dependencies.
+	 * @since 1.1.11
+	 */
+	protected static $_cachedData=array();
+
+	private $_hash;
 	private $_data;
 
 	/**
@@ -34,7 +51,15 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	 */
 	public function evaluateDependency()
 	{
-		$this->_data=$this->generateDependentData();
+		if ($this->reusable)
+		{
+			$hash=$this->getHash();
+			if (!isset(self::$_cachedData[$hash]['dependentData']))
+				self::$_cachedData[$hash]['dependentData']=$this->generateDependentData();
+			$this->_data=self::$_cachedData[$hash]['dependentData'];
+		}
+		else
+			$this->_data=$this->generateDependentData();
 	}
 
 	/**
@@ -42,7 +67,19 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	 */
 	public function getHasChanged()
 	{
-		return $this->generateDependentData()!=$this->_data;
+		if ($this->reusable)
+		{
+			$hash=$this->getHash();
+			if (!isset(self::$_cachedData[$hash]['hasChanged']))
+			{
+				if (!isset(self::$_cachedData[$hash]['dependentData']))
+					self::$_cachedData[$hash]['dependentData']=$this->generateDependentData();
+				self::$_cachedData[$hash]['hasChanged']=self::$_cachedData[$hash]['dependentData']!=$this->_data;
+			}
+			return self::$_cachedData[$hash]['hasChanged'];
+		}
+		else
+			return $this->generateDependentData()!=$this->_data;
 	}
 
 	/**
@@ -62,5 +99,15 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	protected function generateDependentData()
 	{
 		return null;
+	}
+	/**
+	 * Generates a unique hash that identifies this cache dependency.
+	 * @return string the hash for this cache dependency
+	 */
+	protected function getHash()
+	{
+		if($this->_hash===null)
+			$this->_hash=sha1(serialize($this));
+		return $this->_hash;
 	}
 }

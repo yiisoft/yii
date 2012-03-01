@@ -23,7 +23,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active record "{class}" isimli sınıfında "{relation}" ilişkilendiremesi için geçersiz bir yapılandırmaya sahip. Yapılandırma kapsamında ilişkilendirme tipi, ilgili active record sınıfı ve yabancı anahtarın belirtilmiş olması gerekmektedir.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record "{class}" isimli sınıfı, "{column}" isimli geçersiz bir sütuna erişmeye çalışıyor. Not: Bu sütunun tabloda tanımlı olması veya aliaslarda tanımlı bir ifade olması gerekmetedir.',
   'Active record class "{class}" does not have a scope named "{scope}".' => 'Active record "{class}" isimli sınıfı "{scope}" isimli bir kapsam tanımına sahip değil.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => '"{alias}" geçersiz bir alias. Varolan bir php dosyasına işaret ettiğine emin olun.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => '"{alias}" geçersiz bir alias. Varolan bir php dosyasına işaret ettiğine emin olun.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => '"{alias}" geçersiz bir alias. Varolan bir dosya veya dizine işaret ettiğine emin olun.',
   'Application Log' => 'Uygulama Kütüğü',
   'Application base path "{path}" is not a valid directory.' => 'Uygulama tabanı dizini (base path) "{path}" geçersiz.',
