@@ -2,12 +2,12 @@
 
 class UserTest extends CDbTestCase
 {
-	public $fixtures=array(
-		'users'=>'User',
-	);
+    public $fixtures=array(
+        'users'=>'User',
+    );
 
-	public function testCreate()
-	{
+    public function testCreate()
+    {
 
-	}
+    }
 }

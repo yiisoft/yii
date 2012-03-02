@@ -19,35 +19,35 @@
  */
 class CConsoleCommandBehavior extends CBehavior
 {
-	/**
-	 * Declares events and the corresponding event handler methods.
-	 * The default implementation returns 'onAfterConstruct', 'onBeforeValidate' and 'onAfterValidate' events and handlers.
-	 * If you override this method, make sure you merge the parent result to the return value.
-	 * @return array events (array keys) and the corresponding event handler methods (array values).
-	 * @see CBehavior::events
-	 */
-	public function events()
-	{
-		return array(
-		    'onBeforeAction' => 'beforeAction',
-		    'onAfterAction' => 'afterAction'
-		);
-	}
-	/**
-	 * Responds to {@link CConsoleCommand::onBeforeAction} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
-	 * @param CConsoleCommandEvent $event event parameter
-	 */
-	protected function beforeAction($event)
-	{
-	}
+    /**
+     * Declares events and the corresponding event handler methods.
+     * The default implementation returns 'onAfterConstruct', 'onBeforeValidate' and 'onAfterValidate' events and handlers.
+     * If you override this method, make sure you merge the parent result to the return value.
+     * @return array events (array keys) and the corresponding event handler methods (array values).
+     * @see CBehavior::events
+     */
+    public function events()
+    {
+        return array(
+            'onBeforeAction' => 'beforeAction',
+            'onAfterAction' => 'afterAction'
+        );
+    }
+    /**
+     * Responds to {@link CConsoleCommand::onBeforeAction} event.
+     * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+     * @param CConsoleCommandEvent $event event parameter
+     */
+    protected function beforeAction($event)
+    {
+    }
 
-	/**
-	 * Responds to {@link CConsoleCommand::onAfterAction} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
-	 * @param CConsoleCommandEvent $event event parameter
-	 */
-	protected function afterAction($event)
-	{
-	}
+    /**
+     * Responds to {@link CConsoleCommand::onAfterAction} event.
+     * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+     * @param CConsoleCommandEvent $event event parameter
+     */
+    protected function afterAction($event)
+    {
+    }
 }

@@ -5,11 +5,11 @@
  */
 class SiteController extends CController
 {
-	/**
-	 * Index action is the default action in a controller.
-	 */
-	public function actionIndex()
-	{
-		echo 'Hello World';
-	}
+    /**
+     * Index action is the default action in a controller.
+     */
+    public function actionIndex()
+    {
+        echo 'Hello World';
+    }
 }

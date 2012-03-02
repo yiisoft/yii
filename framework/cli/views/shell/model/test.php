@@ -10,12 +10,12 @@
 
 class <?php echo $className; ?>Test extends CDbTestCase
 {
-	public $fixtures=array(
-		'<?php echo $fixtureName; ?>'=>'<?php echo $className; ?>',
-	);
+    public $fixtures=array(
+        '<?php echo $fixtureName; ?>'=>'<?php echo $className; ?>',
+    );
 
-	public function testCreate()
-	{
+    public function testCreate()
+    {
 
-	}
+    }
 }

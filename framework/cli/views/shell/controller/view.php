@@ -5,18 +5,18 @@ $label=ucwords(trim(strtolower(str_replace(array('-','_','.'),' ',preg_replace('
 
 if($action==='index')
 {
-	echo "\$this->breadcrumbs=array(
-	'$label',
+    echo "\$this->breadcrumbs=array(
+    '$label',
 );";
 }
 else
 {
-	$route=$controller.'/index';
-	$route[0]=strtolower($route[0]);
-	$action=ucfirst($action);
-	echo "\$this->breadcrumbs=array(
-	'$label'=>array('$route'),
-	'$action',
+    $route=$controller.'/index';
+    $route[0]=strtolower($route[0]);
+    $action=ucfirst($action);
+    echo "\$this->breadcrumbs=array(
+    '$label'=>array('$route'),
+    '$action',
 );";
 }
 ?>

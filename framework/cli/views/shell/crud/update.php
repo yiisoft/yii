@@ -12,17 +12,17 @@ echo "<?php\n";
 $nameColumn=$this->guessNameColumn($columns);
 $label=$this->class2name($modelClass,true);
 echo "\$this->breadcrumbs=array(
-	'$label'=>array('index'),
-	\$model->{$nameColumn}=>array('view','id'=>\$model->{$ID}),
-	'Update',
+    '$label'=>array('index'),
+    \$model->{$nameColumn}=>array('view','id'=>\$model->{$ID}),
+    'Update',
 );\n";
 ?>
 
 $this->menu=array(
-	array('label'=>'List <?php echo $modelClass; ?>', 'url'=>array('index')),
-	array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
-	array('label'=>'View <?php echo $modelClass; ?>', 'url'=>array('view', 'id'=>$model-><?php echo $ID; ?>)),
-	array('label'=>'Manage <?php echo $modelClass; ?>', 'url'=>array('admin')),
+    array('label'=>'List <?php echo $modelClass; ?>', 'url'=>array('index')),
+    array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
+    array('label'=>'View <?php echo $modelClass; ?>', 'url'=>array('view', 'id'=>$model-><?php echo $ID; ?>)),
+    array('label'=>'Manage <?php echo $modelClass; ?>', 'url'=>array('admin')),
 );
 ?>
 

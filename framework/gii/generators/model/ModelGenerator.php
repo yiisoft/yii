@@ -2,5 +2,5 @@
 
 class ModelGenerator extends CCodeGenerator
 {
-	public $codeModel='gii.generators.model.ModelCode';
+    public $codeModel='gii.generators.model.ModelCode';
 }

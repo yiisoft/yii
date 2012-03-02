@@ -21,13 +21,13 @@ Hint: You may login with <tt>demo/demo</tt>.
 <?php if(extension_loaded('gd')): ?>
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'verifyCode'); ?>
-	<div>
-	<?php $this->widget('CCaptcha'); ?>
-	<br/>
-	<?php echo CHtml::activeTextField($user,'verifyCode'); ?>
-	</div>
-	<p class="hint">Please enter the letters as they are shown in the image above.
-	<br/>Letters are not case-sensitive.</p>
+    <div>
+    <?php $this->widget('CCaptcha'); ?>
+    <br/>
+    <?php echo CHtml::activeTextField($user,'verifyCode'); ?>
+    </div>
+    <p class="hint">Please enter the letters as they are shown in the image above.
+    <br/>Letters are not case-sensitive.</p>
 </div>
 <?php endif; ?>
 

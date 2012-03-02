@@ -12,63 +12,63 @@
  */
 
 return array(
-	'jquery'=>array(
-		'js'=>array(YII_DEBUG ? 'jquery.js' : 'jquery.min.js'),
-	),
-	'yii'=>array(
-		'js'=>array('jquery.yii.js'),
-		'depends'=>array('jquery'),
-	),
-	'yiitab'=>array(
-		'js'=>array('jquery.yiitab.js'),
-		'depends'=>array('jquery'),
-	),
-	'yiiactiveform'=>array(
-		'js'=>array('jquery.yiiactiveform.js'),
-		'depends'=>array('jquery'),
-	),
-	'jquery.ui'=>array(
-		'js'=>array('jui/js/jquery-ui.min.js'),
-		'depends'=>array('jquery'),
-	),
-	'bgiframe'=>array(
-		'js'=>array('jquery.bgiframe.js'),
-		'depends'=>array('jquery'),
-	),
-	'ajaxqueue'=>array(
-		'js'=>array('jquery.ajaxqueue.js'),
-		'depends'=>array('jquery'),
-	),
-	'autocomplete'=>array(
-		'js'=>array('jquery.autocomplete.js'),
-		'depends'=>array('jquery', 'bgiframe', 'ajaxqueue'),
-	),
-	'maskedinput'=>array(
-		'js'=>array(YII_DEBUG ? 'jquery.maskedinput.js' : 'jquery.maskedinput.min.js'),
-		'depends'=>array('jquery'),
-	),
-	'cookie'=>array(
-		'js'=>array('jquery.cookie.js'),
-		'depends'=>array('jquery'),
-	),
-	'treeview'=>array(
-		'js'=>array('jquery.treeview.js', 'jquery.treeview.edit.js', 'jquery.treeview.async.js'),
-		'depends'=>array('jquery', 'cookie'),
-	),
-	'multifile'=>array(
-		'js'=>array('jquery.multifile.js'),
-		'depends'=>array('jquery'),
-	),
-	'rating'=>array(
-		'js'=>array('jquery.rating.js'),
-		'depends'=>array('jquery', 'metadata'),
-	),
-	'metadata'=>array(
-		'js'=>array('jquery.metadata.js'),
-		'depends'=>array('jquery'),
-	),
-	'bbq'=>array(
-		'js'=>array('jquery.ba-bbq.js'),
-		'depends'=>array('jquery'),
-	),
+    'jquery'=>array(
+        'js'=>array(YII_DEBUG ? 'jquery.js' : 'jquery.min.js'),
+    ),
+    'yii'=>array(
+        'js'=>array('jquery.yii.js'),
+        'depends'=>array('jquery'),
+    ),
+    'yiitab'=>array(
+        'js'=>array('jquery.yiitab.js'),
+        'depends'=>array('jquery'),
+    ),
+    'yiiactiveform'=>array(
+        'js'=>array('jquery.yiiactiveform.js'),
+        'depends'=>array('jquery'),
+    ),
+    'jquery.ui'=>array(
+        'js'=>array('jui/js/jquery-ui.min.js'),
+        'depends'=>array('jquery'),
+    ),
+    'bgiframe'=>array(
+        'js'=>array('jquery.bgiframe.js'),
+        'depends'=>array('jquery'),
+    ),
+    'ajaxqueue'=>array(
+        'js'=>array('jquery.ajaxqueue.js'),
+        'depends'=>array('jquery'),
+    ),
+    'autocomplete'=>array(
+        'js'=>array('jquery.autocomplete.js'),
+        'depends'=>array('jquery', 'bgiframe', 'ajaxqueue'),
+    ),
+    'maskedinput'=>array(
+        'js'=>array(YII_DEBUG ? 'jquery.maskedinput.js' : 'jquery.maskedinput.min.js'),
+        'depends'=>array('jquery'),
+    ),
+    'cookie'=>array(
+        'js'=>array('jquery.cookie.js'),
+        'depends'=>array('jquery'),
+    ),
+    'treeview'=>array(
+        'js'=>array('jquery.treeview.js', 'jquery.treeview.edit.js', 'jquery.treeview.async.js'),
+        'depends'=>array('jquery', 'cookie'),
+    ),
+    'multifile'=>array(
+        'js'=>array('jquery.multifile.js'),
+        'depends'=>array('jquery'),
+    ),
+    'rating'=>array(
+        'js'=>array('jquery.rating.js'),
+        'depends'=>array('jquery', 'metadata'),
+    ),
+    'metadata'=>array(
+        'js'=>array('jquery.metadata.js'),
+        'depends'=>array('jquery'),
+    ),
+    'bbq'=>array(
+        'js'=>array('jquery.ba-bbq.js'),
+        'depends'=>array('jquery'),
+    ),
 );

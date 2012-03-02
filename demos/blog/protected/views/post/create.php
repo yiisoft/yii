@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Create Post',
+    'Create Post',
 );
 ?>
 <h1>Create Post</h1>

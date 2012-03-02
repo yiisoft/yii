@@ -2,9 +2,9 @@
 
 <table class="summaryTable docIndex">
 <colgroup>
-	<col class="col-package" />
-	<col class="col-class" />
-	<col class="col-description" />
+    <col class="col-package" />
+    <col class="col-class" />
+    <col class="col-description" />
 </colgroup>
 <tr>
   <th>Package</th><th>Class</th><th>Description</th>

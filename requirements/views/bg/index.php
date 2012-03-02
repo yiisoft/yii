@@ -46,18 +46,18 @@ Congratulations! Your server configuration satisfies all requirements by Yii.
 <tr><th>Име</th><th>Резултат</th><th>Поискано от</th><th>Бележка</th></tr>
 <?php foreach($requirements as $requirement): ?>
 <tr>
-	<td>
-	<?php echo $requirement[0]; ?>
-	</td>
-	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? 'Passed' : ($requirement[1] ? 'Failed' : 'Warning'); ?>
-	</td>
-	<td>
-	<?php echo $requirement[3]; ?>
-	</td>
-	<td>
-	<?php echo $requirement[4]; ?>
-	</td>
+    <td>
+    <?php echo $requirement[0]; ?>
+    </td>
+    <td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
+    <?php echo $requirement[2] ? 'Passed' : ($requirement[1] ? 'Failed' : 'Warning'); ?>
+    </td>
+    <td>
+    <?php echo $requirement[3]; ?>
+    </td>
+    <td>
+    <?php echo $requirement[4]; ?>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>

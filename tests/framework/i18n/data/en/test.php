@@ -1,4 +1,4 @@
 <?php
 return array(
-	'cucumber|cucumbers' => 'cucumber|cucumbers',
+    'cucumber|cucumbers' => 'cucumber|cucumbers',
 );

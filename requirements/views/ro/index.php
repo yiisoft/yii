@@ -43,18 +43,18 @@ Din pacate, configuratia serverului dvs nu indeplineste cerintele Yii.
 <tr><th>Nume</th><th>Rezultat</th><th>Cerut de</th><th>Precizari</th></tr>
 <?php foreach($requirements as $requirement): ?>
 <tr>
-	<td>
-	<?php echo $requirement[0]; ?>
-	</td>
-	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? 'Passed' : 'Failed'; ?>
-	</td>
-	<td>
-	<?php echo $requirement[3]; ?>
-	</td>
-	<td>
-	<?php echo $requirement[4]; ?>
-	</td>
+    <td>
+    <?php echo $requirement[0]; ?>
+    </td>
+    <td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
+    <?php echo $requirement[2] ? 'Passed' : 'Failed'; ?>
+    </td>
+    <td>
+    <?php echo $requirement[3]; ?>
+    </td>
+    <td>
+    <?php echo $requirement[4]; ?>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>

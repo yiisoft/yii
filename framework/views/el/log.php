@@ -1,16 +1,16 @@
 <!-- start log messages -->
 <table class="yiiLog" width="100%" cellpadding="2" style="border-spacing:1px;font:11px Verdana, Arial, Helvetica, sans-serif;background:#EEEEEE;color:#666666;">
-	<tr>
-		<th style="background:black;color:white;" colspan="5">
-			Ημερολόγιο εφαρμογής
-		</th>
-	</tr>
-	<tr style="background-color: #ccc;">
-	    <th style="width:120px">Χρονική ετικέτα</th>
-		<th>Επίπεδο</th>
-		<th>Κατηγορία</th>
-		<th>Μήνυμα</th>
-	</tr>
+    <tr>
+        <th style="background:black;color:white;" colspan="5">
+            Ημερολόγιο εφαρμογής
+        </th>
+    </tr>
+    <tr style="background-color: #ccc;">
+        <th style="width:120px">Χρονική ετικέτα</th>
+        <th>Επίπεδο</th>
+        <th>Κατηγορία</th>
+        <th>Μήνυμα</th>
+    </tr>
 <?php
 $colors=array(
   CLogger::LEVEL_PROFILE=>'#DFFFE0',

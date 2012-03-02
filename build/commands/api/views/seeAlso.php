@@ -3,7 +3,7 @@
 <h4>See Also</h4>
 <ul>
 <?php foreach($object->see as $url): ?>
-	<li><?php echo $url; ?></li>
+    <li><?php echo $url; ?></li>
 <?php endforeach; ?>
 </ul>
 </div>

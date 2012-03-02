@@ -20,9 +20,9 @@
  */
 class MessageCommand extends CConsoleCommand
 {
-	public function getHelp()
-	{
-		return <<<EOD
+    public function getHelp()
+    {
+        return <<<EOD
 USAGE
   yiic message <config-file>
 
@@ -61,128 +61,128 @@ PARAMETERS
      instead of being enclosed between a pair of '@@' marks.
 
 EOD;
-	}
+    }
 
-	/**
-	 * Execute the action.
-	 * @param array command line parameters specific for this command
-	 */
-	public function run($args)
-	{
-		if(!isset($args[0]))
-			$this->usageError('the configuration file is not specified.');
-		if(!is_file($args[0]))
-			$this->usageError("the configuration file {$args[0]} does not exist.");
+    /**
+     * Execute the action.
+     * @param array command line parameters specific for this command
+     */
+    public function run($args)
+    {
+        if(!isset($args[0]))
+            $this->usageError('the configuration file is not specified.');
+        if(!is_file($args[0]))
+            $this->usageError("the configuration file {$args[0]} does not exist.");
 
-		$config=require_once($args[0]);
-		$translator='Yii::t';
-		extract($config);
+        $config=require_once($args[0]);
+        $translator='Yii::t';
+        extract($config);
 
-		if(!isset($sourcePath,$messagePath,$languages))
-			$this->usageError('The configuration file must specify "sourcePath", "messagePath" and "languages".');
-		if(!is_dir($sourcePath))
-			$this->usageError("The source path $sourcePath is not a valid directory.");
-		if(!is_dir($messagePath))
-			$this->usageError("The message path $messagePath is not a valid directory.");
-		if(empty($languages))
-			$this->usageError("Languages cannot be empty.");
+        if(!isset($sourcePath,$messagePath,$languages))
+            $this->usageError('The configuration file must specify "sourcePath", "messagePath" and "languages".');
+        if(!is_dir($sourcePath))
+            $this->usageError("The source path $sourcePath is not a valid directory.");
+        if(!is_dir($messagePath))
+            $this->usageError("The message path $messagePath is not a valid directory.");
+        if(empty($languages))
+            $this->usageError("Languages cannot be empty.");
 
-		if(!isset($overwrite))
-			$overwrite = false;
+        if(!isset($overwrite))
+            $overwrite = false;
 
-		if(!isset($removeOld))
-			$removeOld = false;
-		
-		$options=array();
-		if(isset($fileTypes))
-			$options['fileTypes']=$fileTypes;
-		if(isset($exclude))
-			$options['exclude']=$exclude;
-		$files=CFileHelper::findFiles(realpath($sourcePath),$options);
+        if(!isset($removeOld))
+            $removeOld = false;
+        
+        $options=array();
+        if(isset($fileTypes))
+            $options['fileTypes']=$fileTypes;
+        if(isset($exclude))
+            $options['exclude']=$exclude;
+        $files=CFileHelper::findFiles(realpath($sourcePath),$options);
 
-		$messages=array();
-		foreach($files as $file)
-			$messages=array_merge_recursive($messages,$this->extractMessages($file,$translator));
+        $messages=array();
+        foreach($files as $file)
+            $messages=array_merge_recursive($messages,$this->extractMessages($file,$translator));
 
-		foreach($languages as $language)
-		{
-			$dir=$messagePath.DIRECTORY_SEPARATOR.$language;
-			if(!is_dir($dir))
-				@mkdir($dir);
-			foreach($messages as $category=>$msgs)
-			{
-				$msgs=array_values(array_unique($msgs));
-				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld);
-			}
-		}
-	}
+        foreach($languages as $language)
+        {
+            $dir=$messagePath.DIRECTORY_SEPARATOR.$language;
+            if(!is_dir($dir))
+                @mkdir($dir);
+            foreach($messages as $category=>$msgs)
+            {
+                $msgs=array_values(array_unique($msgs));
+                $this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld);
+            }
+        }
+    }
 
-	protected function extractMessages($fileName,$translator)
-	{
-		echo "Extracting messages from $fileName...\n";
-		$subject=file_get_contents($fileName);
-		$n=preg_match_all('/\b'.$translator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
-		$messages=array();
-		for($i=0;$i<$n;++$i)
-		{
-			if(($pos=strpos($matches[$i][1],'.'))!==false)
-				$category=substr($matches[$i][1],$pos+1,-1);
-			else
-				$category=substr($matches[$i][1],1,-1);
-			$message=$matches[$i][2];
-			$messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
-		}
-		return $messages;
-	}
+    protected function extractMessages($fileName,$translator)
+    {
+        echo "Extracting messages from $fileName...\n";
+        $subject=file_get_contents($fileName);
+        $n=preg_match_all('/\b'.$translator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
+        $messages=array();
+        for($i=0;$i<$n;++$i)
+        {
+            if(($pos=strpos($matches[$i][1],'.'))!==false)
+                $category=substr($matches[$i][1],$pos+1,-1);
+            else
+                $category=substr($matches[$i][1],1,-1);
+            $message=$matches[$i][2];
+            $messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
+        }
+        return $messages;
+    }
 
-	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld)
-	{
-		echo "Saving messages to $fileName...";
-		if(is_file($fileName))
-		{
-			$translated=require($fileName);
-			sort($messages);
-			ksort($translated);
-			if(array_keys($translated)==$messages)
-			{
-				echo "nothing new...skipped.\n";
-				return;
-			}
-			$merged=array();
-			$untranslated=array();
-			foreach($messages as $message)
-			{
-				if(!empty($translated[$message]))
-					$merged[$message]=$translated[$message];
-				else
-					$untranslated[]=$message;
-			}
-			ksort($merged);
-			sort($untranslated);
-			$todo=array();
-			foreach($untranslated as $message)
-				$todo[$message]='';
-			ksort($translated);
-			foreach($translated as $message=>$translation)
-			{
-				if(!isset($merged[$message]) && !isset($todo[$message]) && !$removeOld)
-					$todo[$message]='@@'.$translation.'@@';
-			}
-			$merged=array_merge($todo,$merged);
-			if($overwrite === false)
-				$fileName.='.merged';
-			echo "translation merged.\n";
-		}
-		else
-		{
-			$merged=array();
-			foreach($messages as $message)
-				$merged[$message]='';
-			ksort($merged);
-			echo "saved.\n";
-		}
-		$array=str_replace("\r",'',var_export($merged,true));
-		$content=<<<EOD
+    protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld)
+    {
+        echo "Saving messages to $fileName...";
+        if(is_file($fileName))
+        {
+            $translated=require($fileName);
+            sort($messages);
+            ksort($translated);
+            if(array_keys($translated)==$messages)
+            {
+                echo "nothing new...skipped.\n";
+                return;
+            }
+            $merged=array();
+            $untranslated=array();
+            foreach($messages as $message)
+            {
+                if(!empty($translated[$message]))
+                    $merged[$message]=$translated[$message];
+                else
+                    $untranslated[]=$message;
+            }
+            ksort($merged);
+            sort($untranslated);
+            $todo=array();
+            foreach($untranslated as $message)
+                $todo[$message]='';
+            ksort($translated);
+            foreach($translated as $message=>$translation)
+            {
+                if(!isset($merged[$message]) && !isset($todo[$message]) && !$removeOld)
+                    $todo[$message]='@@'.$translation.'@@';
+            }
+            $merged=array_merge($todo,$merged);
+            if($overwrite === false)
+                $fileName.='.merged';
+            echo "translation merged.\n";
+        }
+        else
+        {
+            $merged=array();
+            foreach($messages as $message)
+                $merged[$message]='';
+            ksort($merged);
+            echo "saved.\n";
+        }
+        $array=str_replace("\r",'',var_export($merged,true));
+        $content=<<<EOD
 <?php
 /**
  * Message translations.
@@ -206,6 +206,6 @@ EOD;
 return $array;
 
 EOD;
-		file_put_contents($fileName, $content);
-	}
+        file_put_contents($fileName, $content);
+    }
 }

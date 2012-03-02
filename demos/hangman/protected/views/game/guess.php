@@ -10,8 +10,8 @@
 <?php
 for($i=ord('A');$i<=ord('Z');++$i)
 {
-	if(!$this->isGuessed(chr($i)))
-		echo "\n".CHtml::linkButton(chr($i),array('submit'=>array('guess','g'=>chr($i))));
+    if(!$this->isGuessed(chr($i)))
+        echo "\n".CHtml::linkButton(chr($i),array('submit'=>array('guess','g'=>chr($i))));
 }
 ?>
 </p>

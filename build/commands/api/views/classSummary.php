@@ -1,7 +1,7 @@
 <table class="summaryTable docClass">
 <colgroup>
-	<col class="col-name" />
-	<col class="col-value" />
+    <col class="col-name" />
+    <col class="col-value" />
 </colgroup>
 <tr>
   <th>Package</th>

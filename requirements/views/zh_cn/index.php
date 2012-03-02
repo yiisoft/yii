@@ -37,18 +37,18 @@
 <tr><th>项目名称</th><th>结果</th><th>使用者</th><th>备注</th></tr>
 <?php foreach($requirements as $requirement): ?>
 <tr>
-	<td>
-	<?php echo $requirement[0]; ?>
-	</td>
-	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? '通过' : '未通过'; ?>
-	</td>
-	<td>
-	<?php echo $requirement[3]; ?>
-	</td>
-	<td>
-	<?php echo $requirement[4]; ?>
-	</td>
+    <td>
+    <?php echo $requirement[0]; ?>
+    </td>
+    <td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
+    <?php echo $requirement[2] ? '通过' : '未通过'; ?>
+    </td>
+    <td>
+    <?php echo $requirement[3]; ?>
+    </td>
+    <td>
+    <?php echo $requirement[4]; ?>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>

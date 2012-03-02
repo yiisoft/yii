@@ -11,26 +11,26 @@
 echo "<?php\n";
 $label=$this->class2name($modelClass,true);
 echo "\$this->breadcrumbs=array(
-	'$label'=>array('index'),
-	'Manage',
+    '$label'=>array('index'),
+    'Manage',
 );\n";
 ?>
 
 $this->menu=array(
-	array('label'=>'List <?php echo $modelClass; ?>', 'url'=>array('index')),
-	array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
+    array('label'=>'List <?php echo $modelClass; ?>', 'url'=>array('index')),
+    array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
+    $('.search-form').toggle();
+    return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('<?php echo $this->class2id($modelClass); ?>-grid', {
-		data: $(this).serialize()
-	});
-	return false;
+    $.fn.yiiGridView.update('<?php echo $this->class2id($modelClass); ?>-grid', {
+        data: $(this).serialize()
+    });
+    return false;
 });
 ");
 ?>
@@ -46,28 +46,28 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 
 <div class="search-form" style="display:none">
 <?php echo "<?php \$this->renderPartial('_search',array(
-	'model'=>\$model,
+    'model'=>\$model,
 )); ?>\n"; ?>
 </div><!-- search-form -->
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'<?php echo $this->class2id($modelClass); ?>-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
+    'id'=>'<?php echo $this->class2id($modelClass); ?>-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
 <?php
 $count=0;
 foreach($columns as $column)
 {
-	if(++$count==7)
-		echo "\t\t/*\n";
-	echo "\t\t'".$column->name."',\n";
+    if(++$count==7)
+        echo "\t\t/*\n";
+    echo "\t\t'".$column->name."',\n";
 }
 if($count>=7)
-	echo "\t\t*/\n";
+    echo "\t\t*/\n";
 ?>
-		array(
-			'class'=>'CButtonColumn',
-		),
-	),
+        array(
+            'class'=>'CButtonColumn',
+        ),
+    ),
 )); ?>

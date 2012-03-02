@@ -26,41 +26,41 @@
  */
 class CCacheDependency extends CComponent implements ICacheDependency
 {
-	private $_data;
+    private $_data;
 
-	/**
-	 * Evaluates the dependency by generating and saving the data related with dependency.
-	 * This method is invoked by cache before writing data into it.
-	 */
-	public function evaluateDependency()
-	{
-		$this->_data=$this->generateDependentData();
-	}
+    /**
+     * Evaluates the dependency by generating and saving the data related with dependency.
+     * This method is invoked by cache before writing data into it.
+     */
+    public function evaluateDependency()
+    {
+        $this->_data=$this->generateDependentData();
+    }
 
-	/**
-	 * @return boolean whether the dependency has changed.
-	 */
-	public function getHasChanged()
-	{
-		return $this->generateDependentData()!=$this->_data;
-	}
+    /**
+     * @return boolean whether the dependency has changed.
+     */
+    public function getHasChanged()
+    {
+        return $this->generateDependentData()!=$this->_data;
+    }
 
-	/**
-	 * @return mixed the data used to determine if dependency has been changed.
-	 * This data is available after {@link evaluateDependency} is called.
-	 */
-	public function getDependentData()
-	{
-		return $this->_data;
-	}
+    /**
+     * @return mixed the data used to determine if dependency has been changed.
+     * This data is available after {@link evaluateDependency} is called.
+     */
+    public function getDependentData()
+    {
+        return $this->_data;
+    }
 
-	/**
-	 * Generates the data needed to determine if dependency has been changed.
-	 * Derived classes should override this method to generate actual dependent data.
-	 * @return mixed the data needed to determine if dependency has been changed.
-	 */
-	protected function generateDependentData()
-	{
-		return null;
-	}
+    /**
+     * Generates the data needed to determine if dependency has been changed.
+     * Derived classes should override this method to generate actual dependent data.
+     * @return mixed the data needed to determine if dependency has been changed.
+     */
+    protected function generateDependentData()
+    {
+        return null;
+    }
 }

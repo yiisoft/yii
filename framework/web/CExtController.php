@@ -25,30 +25,30 @@
  */
 class CExtController extends CController
 {
-	private $_viewPath;
+    private $_viewPath;
 
-	/**
-	 * Returns the directory containing view files for this controller.
-	 * This method overrides the parent implementation by specifying the view path
-	 * to be the "views" subdirectory under the directory containing the controller
-	 * class file.
-	 * @return string the directory containing the view files for this controller.
-	 */
-	public function getViewPath()
-	{
-		if($this->_viewPath===null)
-		{
-			$class=new ReflectionClass(get_class($this));
-			$this->_viewPath=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'views';
-		}
-		return $this->_viewPath;
-	}
+    /**
+     * Returns the directory containing view files for this controller.
+     * This method overrides the parent implementation by specifying the view path
+     * to be the "views" subdirectory under the directory containing the controller
+     * class file.
+     * @return string the directory containing the view files for this controller.
+     */
+    public function getViewPath()
+    {
+        if($this->_viewPath===null)
+        {
+            $class=new ReflectionClass(get_class($this));
+            $this->_viewPath=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'views';
+        }
+        return $this->_viewPath;
+    }
 
-	/**
-	 * @param string $value the directory containing the view files for this controller.
-	 */
-	public function setViewPath($value)
-	{
-		$this->_viewPath=$value;
-	}
+    /**
+     * @param string $value the directory containing the view files for this controller.
+     */
+    public function setViewPath($value)
+    {
+        $this->_viewPath=$value;
+    }
 }

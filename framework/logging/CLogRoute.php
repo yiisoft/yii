@@ -31,83 +31,83 @@
  */
 abstract class CLogRoute extends CComponent
 {
-	/**
-	 * @var boolean whether to enable this log route. Defaults to true.
-	 */
-	public $enabled=true;
-	/**
-	 * @var string list of levels separated by comma or space. Defaults to empty, meaning all levels.
-	 */
-	public $levels='';
-	/**
-	 * @var string list of categories separated by comma or space. Defaults to empty, meaning all categories.
-	 */
-	public $categories='';
-	/**
-	 * @var mixed the additional filter (eg {@link CLogFilter}) that can be applied to the log messages.
-	 * The value of this property will be passed to {@link Yii::createComponent} to create
-	 * a log filter object. As a result, this can be either a string representing the
-	 * filter class name or an array representing the filter configuration.
-	 * In general, the log filter class should be {@link CLogFilter} or a child class of it.
-	 * Defaults to null, meaning no filter will be used.
-	 */
-	public $filter;
-	/**
-	 * @var array the logs that are collected so far by this log route.
-	 * @since 1.1.0
-	 */
-	public $logs;
+    /**
+     * @var boolean whether to enable this log route. Defaults to true.
+     */
+    public $enabled=true;
+    /**
+     * @var string list of levels separated by comma or space. Defaults to empty, meaning all levels.
+     */
+    public $levels='';
+    /**
+     * @var string list of categories separated by comma or space. Defaults to empty, meaning all categories.
+     */
+    public $categories='';
+    /**
+     * @var mixed the additional filter (eg {@link CLogFilter}) that can be applied to the log messages.
+     * The value of this property will be passed to {@link Yii::createComponent} to create
+     * a log filter object. As a result, this can be either a string representing the
+     * filter class name or an array representing the filter configuration.
+     * In general, the log filter class should be {@link CLogFilter} or a child class of it.
+     * Defaults to null, meaning no filter will be used.
+     */
+    public $filter;
+    /**
+     * @var array the logs that are collected so far by this log route.
+     * @since 1.1.0
+     */
+    public $logs;
 
 
-	/**
-	 * Initializes the route.
-	 * This method is invoked after the route is created by the route manager.
-	 */
-	public function init()
-	{
-	}
+    /**
+     * Initializes the route.
+     * This method is invoked after the route is created by the route manager.
+     */
+    public function init()
+    {
+    }
 
-	/**
-	 * Formats a log message given different fields.
-	 * @param string $message message content
-	 * @param integer $level message level
-	 * @param string $category message category
-	 * @param integer $time timestamp
-	 * @return string formatted message
-	 */
-	protected function formatLogMessage($message,$level,$category,$time)
-	{
-		return @date('Y/m/d H:i:s',$time)." [$level] [$category] $message\n";
-	}
+    /**
+     * Formats a log message given different fields.
+     * @param string $message message content
+     * @param integer $level message level
+     * @param string $category message category
+     * @param integer $time timestamp
+     * @return string formatted message
+     */
+    protected function formatLogMessage($message,$level,$category,$time)
+    {
+        return @date('Y/m/d H:i:s',$time)." [$level] [$category] $message\n";
+    }
 
-	/**
-	 * Retrieves filtered log messages from logger for further processing.
-	 * @param CLogger $logger logger instance
-	 * @param boolean $processLogs whether to process the logs after they are collected from the logger
-	 */
-	public function collectLogs($logger, $processLogs=false)
-	{
-		$logs=$logger->getLogs($this->levels,$this->categories);
-		$this->logs=empty($this->logs) ? $logs : array_merge($this->logs,$logs);
-		if($processLogs && !empty($this->logs))
-		{
-			if($this->filter!==null)
-				Yii::createComponent($this->filter)->filter($this->logs);
-			$this->processLogs($this->logs);
-			$this->logs=array();
-		}
-	}
+    /**
+     * Retrieves filtered log messages from logger for further processing.
+     * @param CLogger $logger logger instance
+     * @param boolean $processLogs whether to process the logs after they are collected from the logger
+     */
+    public function collectLogs($logger, $processLogs=false)
+    {
+        $logs=$logger->getLogs($this->levels,$this->categories);
+        $this->logs=empty($this->logs) ? $logs : array_merge($this->logs,$logs);
+        if($processLogs && !empty($this->logs))
+        {
+            if($this->filter!==null)
+                Yii::createComponent($this->filter)->filter($this->logs);
+            $this->processLogs($this->logs);
+            $this->logs=array();
+        }
+    }
 
-	/**
-	 * Processes log messages and sends them to specific destination.
-	 * Derived child classes must implement this method.
-	 * @param array $logs list of messages.  Each array elements represents one message
-	 * with the following structure:
-	 * array(
-	 *   [0] => message (string)
-	 *   [1] => level (string)
-	 *   [2] => category (string)
-	 *   [3] => timestamp (float, obtained by microtime(true));
-	 */
-	abstract protected function processLogs($logs);
+    /**
+     * Processes log messages and sends them to specific destination.
+     * Derived child classes must implement this method.
+     * @param array $logs list of messages.  Each array elements represents one message
+     * with the following structure:
+     * array(
+     *   [0] => message (string)
+     *   [1] => level (string)
+     *   [2] => category (string)
+     *   [3] => timestamp (float, obtained by microtime(true));
+     */
+    abstract protected function processLogs($logs);
 }

@@ -18,17 +18,17 @@
  */
 class ModuleCommand extends CConsoleCommand
 {
-	/**
-	 * @var string the directory that contains templates for the module command.
-	 * Defaults to null, meaning using 'framework/cli/views/shell/module'.
-	 * If you set this path and some views are missing in the directory,
-	 * the default views will be used.
-	 */
-	public $templatePath;
+    /**
+     * @var string the directory that contains templates for the module command.
+     * Defaults to null, meaning using 'framework/cli/views/shell/module'.
+     * If you set this path and some views are missing in the directory,
+     * the default views will be used.
+     */
+    public $templatePath;
 
-	public function getHelp()
-	{
-		return <<<EOD
+    public function getHelp()
+    {
+        return <<<EOD
 USAGE
   module <module-ID>
 
@@ -39,39 +39,39 @@ PARAMETERS
  * module-ID: required, module ID. It is case-sensitive.
 
 EOD;
-	}
+    }
 
-	/**
-	 * Execute the action.
-	 * @param array command line parameters specific for this command
-	 */
-	public function run($args)
-	{
-		if(!isset($args[0]))
-		{
-			echo "Error: module ID is required.\n";
-			echo $this->getHelp();
-			return;
-		}
+    /**
+     * Execute the action.
+     * @param array command line parameters specific for this command
+     */
+    public function run($args)
+    {
+        if(!isset($args[0]))
+        {
+            echo "Error: module ID is required.\n";
+            echo $this->getHelp();
+            return;
+        }
 
-		$moduleID=$args[0];
-		$moduleClass=ucfirst($moduleID).'Module';
-		$modulePath=Yii::app()->getModulePath().DIRECTORY_SEPARATOR.$moduleID;
+        $moduleID=$args[0];
+        $moduleClass=ucfirst($moduleID).'Module';
+        $modulePath=Yii::app()->getModulePath().DIRECTORY_SEPARATOR.$moduleID;
 
-		$sourceDir=$this->templatePath===null?YII_PATH.'/cli/views/shell/module':$this->templatePath;
-		$list=$this->buildFileList($sourceDir,$modulePath);
-		$list['module.php']['target']=$modulePath.DIRECTORY_SEPARATOR.$moduleClass.'.php';
-		$list['module.php']['callback']=array($this,'generateModuleClass');
-		$list['module.php']['params']=array(
-			'moduleClass'=>$moduleClass,
-			'moduleID'=>$moduleID,
-		);
-		$list[$moduleClass.'.php']=$list['module.php'];
-		unset($list['module.php']);
+        $sourceDir=$this->templatePath===null?YII_PATH.'/cli/views/shell/module':$this->templatePath;
+        $list=$this->buildFileList($sourceDir,$modulePath);
+        $list['module.php']['target']=$modulePath.DIRECTORY_SEPARATOR.$moduleClass.'.php';
+        $list['module.php']['callback']=array($this,'generateModuleClass');
+        $list['module.php']['params']=array(
+            'moduleClass'=>$moduleClass,
+            'moduleID'=>$moduleID,
+        );
+        $list[$moduleClass.'.php']=$list['module.php'];
+        unset($list['module.php']);
 
-		$this->copyFiles($list);
+        $this->copyFiles($list);
 
-		echo <<<EOD
+        echo <<<EOD
 
 Module '{$moduleID}' has been created under the following folder:
     $modulePath
@@ -83,10 +83,10 @@ Note, the module needs to be installed first by adding '{$moduleID}'
 to the 'modules' property in the application configuration.
 
 EOD;
-	}
+    }
 
-	public function generateModuleClass($source,$params)
-	{
-		return $this->renderFile($source,$params,true);
-	}
+    public function generateModuleClass($source,$params)
+    {
+        return $this->renderFile($source,$params,true);
+    }
 }

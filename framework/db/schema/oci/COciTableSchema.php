@@ -17,9 +17,9 @@
  */
 class COciTableSchema extends CDbTableSchema
 {
-	/**
-	 * @var string name of the schema (database) that this table belongs to.
-	 * Defaults to null, meaning no schema (or the current database).
-	 */
-	public $schemaName;
+    /**
+     * @var string name of the schema (database) that this table belongs to.
+     * Defaults to null, meaning no schema (or the current database).
+     */
+    public $schemaName;
 }
