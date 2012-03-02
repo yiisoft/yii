@@ -40,18 +40,18 @@ Malheureusement, votre configuration ne satisfait pas les exigences de Yii.
 <tr><th>Nom</th><th>Resultat</th><th>Requis Par</th><th>Info</th></tr>
 <?php foreach($requirements as $requirement): ?>
 <tr>
-	<td>
-	<?php echo $requirement[0]; ?>
-	</td>
-	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? 'Ok' : 'Echec'; ?>
-	</td>
-	<td>
-	<?php echo $requirement[3]; ?>
-	</td>
-	<td>
-	<?php echo $requirement[4]; ?>
-	</td>
+    <td>
+    <?php echo $requirement[0]; ?>
+    </td>
+    <td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
+    <?php echo $requirement[2] ? 'Ok' : 'Echec'; ?>
+    </td>
+    <td>
+    <?php echo $requirement[3]; ?>
+    </td>
+    <td>
+    <?php echo $requirement[4]; ?>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>

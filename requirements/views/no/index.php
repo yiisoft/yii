@@ -42,18 +42,18 @@ Desverre tilfredstiller ikke konfigurasjonen av serveren minimumskravene til Yii
 <tr><th>Navn</th><th>Resultat</th><th>Kreves av</th><th>Notat</th></tr>
 <?php foreach($requirements as $requirement): ?>
 <tr>
-	<td>
-	<?php echo $requirement[0]; ?>
-	</td>
-	<td class="<?php echo $requirement[2] ? 'ok' : ($requirement[1] ? 'feil' : 'advarsel'); ?>">
-	<?php echo $requirement[2] ? 'Ok' : 'Feil'; ?>
-	</td>
-	<td>
-	<?php echo $requirement[3]; ?>
-	</td>
-	<td>
-	<?php echo $requirement[4]; ?>
-	</td>
+    <td>
+    <?php echo $requirement[0]; ?>
+    </td>
+    <td class="<?php echo $requirement[2] ? 'ok' : ($requirement[1] ? 'feil' : 'advarsel'); ?>">
+    <?php echo $requirement[2] ? 'Ok' : 'Feil'; ?>
+    </td>
+    <td>
+    <?php echo $requirement[3]; ?>
+    </td>
+    <td>
+    <?php echo $requirement[4]; ?>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>

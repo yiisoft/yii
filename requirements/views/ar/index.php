@@ -39,18 +39,18 @@
 <tr><th>الاسم</th><th>النتيجة</th><th>مطلوب من قبل</th><th>ملاحظات</th></tr>
 <?php foreach($requirements as $requirement): ?>
 <tr>
-	<td>
-	<?php echo $requirement[0]; ?>
-	</td>
-	<td class="<?php echo $requirement[2] ? 'نجح' : ($requirement[1] ? 'فشل' : 'تنبيه'); ?>">
-	<?php echo $requirement[2] ? 'نجح' : ($requirement[1] ? 'فشل' : 'تنبيه'); ?>
-	</td>
-	<td>
-	<?php echo $requirement[3]; ?>
-	</td>
-	<td>
-	<?php echo $requirement[4]; ?>
-	</td>
+    <td>
+    <?php echo $requirement[0]; ?>
+    </td>
+    <td class="<?php echo $requirement[2] ? 'نجح' : ($requirement[1] ? 'فشل' : 'تنبيه'); ?>">
+    <?php echo $requirement[2] ? 'نجح' : ($requirement[1] ? 'فشل' : 'تنبيه'); ?>
+    </td>
+    <td>
+    <?php echo $requirement[3]; ?>
+    </td>
+    <td>
+    <?php echo $requirement[4]; ?>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>

@@ -28,21 +28,21 @@ All Rights Reserved.<br/>
 <script type="text/javascript">
 /*<![CDATA[*/
 $("a.toggle").toggle(function(){
-	$(this).text($(this).text().replace(/Hide/,'Show'));
-	$(this).parents(".summary").find(".inherited").hide();
+    $(this).text($(this).text().replace(/Hide/,'Show'));
+    $(this).parents(".summary").find(".inherited").hide();
 },function(){
-	$(this).text($(this).text().replace(/Show/,'Hide'));
-	$(this).parents(".summary").find(".inherited").show();
+    $(this).text($(this).text().replace(/Show/,'Hide'));
+    $(this).parents(".summary").find(".inherited").show();
 });
 $(".sourceCode a.show").toggle(function(){
-	$(this).text($(this).text().replace(/show/,'hide'));
-	$(this).parents(".sourceCode").find("div.code").show();
+    $(this).text($(this).text().replace(/show/,'hide'));
+    $(this).parents(".sourceCode").find("div.code").show();
 },function(){
-	$(this).text($(this).text().replace(/hide/,'show'));
-	$(this).parents(".sourceCode").find("div.code").hide();
+    $(this).text($(this).text().replace(/hide/,'show'));
+    $(this).parents(".sourceCode").find("div.code").hide();
 });
 $("a.sourceLink").click(function(){
-	$(this).attr('target','_blank');
+    $(this).attr('target','_blank');
 });
 /*]]>*/
 </script>

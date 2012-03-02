@@ -290,7 +290,7 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
         parent::finalize();
         $output = parent::getOutput();
         if(empty($output))
-        	return;
+            return;
 
         $html_output = '';
 
@@ -320,8 +320,8 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
 
             $span = $this->_getStyling($the_class);
             $decorated_output = $this->_decorate($content, $key);
-			//print "<pre> token = ".var_export($token, true)." -- span = " . htmlentities($span). "-- deco = ".$decorated_output."</pre>\n";
-			$html_output .= sprintf($span, $decorated_output);
+            //print "<pre> token = ".var_export($token, true)." -- span = " . htmlentities($span). "-- deco = ".$decorated_output."</pre>\n";
+            $html_output .= sprintf($span, $decorated_output);
         }
 
         // format lists

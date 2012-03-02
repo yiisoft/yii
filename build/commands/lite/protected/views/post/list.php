@@ -10,7 +10,7 @@
     <th><?php echo $this->generateColumnHeader('title'); ?></th>
     <th><?php echo $this->generateColumnHeader('create_time'); ?></th>
     <th><?php echo $this->generateColumnHeader('author_id'); ?></th>
-	<th>Actions</th>
+    <th>Actions</th>
   </tr>
 <?php foreach($postList as $n=>$post): ?>
   <tr class="<?php echo $n%2?'even':'odd';?>">
@@ -21,7 +21,7 @@
     <td>
       <?php echo CHtml::link('Update',array('update','id'=>$post->id)); ?>
       <?php echo CHtml::linkButton('Delete',array('submit'=>array('delete','id'=>$post->id),'confirm'=>'Are you sure?')); ?>
-	</td>
+    </td>
   </tr>
 <?php endforeach; ?>
 </table>

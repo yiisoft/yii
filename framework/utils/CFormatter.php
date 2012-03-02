@@ -48,200 +48,200 @@
  */
 class CFormatter extends CApplicationComponent
 {
-	private $_htmlPurifier;
+    private $_htmlPurifier;
 
-	/**
-	 * @var string the format string to be used to format a date using PHP date() function. Defaults to 'Y/m/d'.
-	 */
-	public $dateFormat='Y/m/d';
-	/**
-	 * @var string the format string to be used to format a time using PHP date() function. Defaults to 'h:i:s A'.
-	 */
-	public $timeFormat='h:i:s A';
-	/**
-	 * @var string the format string to be used to format a date and time using PHP date() function. Defaults to 'Y/m/d h:i:s A'.
-	 */
-	public $datetimeFormat='Y/m/d h:i:s A';
-	/**
-	 * @var array the format used to format a number with PHP number_format() function.
-	 * Three elements may be specified: "decimals", "decimalSeparator" and "thousandSeparator". They
-	 * correspond to the number of digits after the decimal point, the character displayed as the decimal point,
-	 * and the thousands separator character.
-	 */
-	public $numberFormat=array('decimals'=>null, 'decimalSeparator'=>null, 'thousandSeparator'=>null);
-	/**
-	 * @var array the text to be displayed when formatting a boolean value. The first element corresponds
-	 * to the text display for false, the second element for true. Defaults to <code>array('No', 'Yes')</code>.
-	 */
-	public $booleanFormat=array('No','Yes');
+    /**
+     * @var string the format string to be used to format a date using PHP date() function. Defaults to 'Y/m/d'.
+     */
+    public $dateFormat='Y/m/d';
+    /**
+     * @var string the format string to be used to format a time using PHP date() function. Defaults to 'h:i:s A'.
+     */
+    public $timeFormat='h:i:s A';
+    /**
+     * @var string the format string to be used to format a date and time using PHP date() function. Defaults to 'Y/m/d h:i:s A'.
+     */
+    public $datetimeFormat='Y/m/d h:i:s A';
+    /**
+     * @var array the format used to format a number with PHP number_format() function.
+     * Three elements may be specified: "decimals", "decimalSeparator" and "thousandSeparator". They
+     * correspond to the number of digits after the decimal point, the character displayed as the decimal point,
+     * and the thousands separator character.
+     */
+    public $numberFormat=array('decimals'=>null, 'decimalSeparator'=>null, 'thousandSeparator'=>null);
+    /**
+     * @var array the text to be displayed when formatting a boolean value. The first element corresponds
+     * to the text display for false, the second element for true. Defaults to <code>array('No', 'Yes')</code>.
+     */
+    public $booleanFormat=array('No','Yes');
 
-	/**
-	 * Calls the format method when its shortcut is invoked.
-	 * This is a PHP magic method that we override to implement the shortcut format methods.
-	 * @param string $name the method name
-	 * @param array $parameters method parameters
-	 * @return mixed the method return value
-	 */
-	public function __call($name,$parameters)
-	{
-		if(method_exists($this,'format'.$name))
-			return call_user_func_array(array($this,'format'.$name),$parameters);
-		else
-			return parent::__call($name,$parameters);
-	}
+    /**
+     * Calls the format method when its shortcut is invoked.
+     * This is a PHP magic method that we override to implement the shortcut format methods.
+     * @param string $name the method name
+     * @param array $parameters method parameters
+     * @return mixed the method return value
+     */
+    public function __call($name,$parameters)
+    {
+        if(method_exists($this,'format'.$name))
+            return call_user_func_array(array($this,'format'.$name),$parameters);
+        else
+            return parent::__call($name,$parameters);
+    }
 
-	/**
-	 * Formats a value based on the given type.
-	 * @param mixed $value the value to be formatted
-	 * @param string $type the data type. This must correspond to a format method available in CFormatter.
-	 * For example, we can use 'text' here because there is method named {@link formatText}.
-	 * @return string the formatted data
-	 */
-	public function format($value,$type)
-	{
-		$method='format'.$type;
-		if(method_exists($this,$method))
-			return $this->$method($value);
-		else
-			throw new CException(Yii::t('yii','Unknown type "{type}".',array('{type}'=>$type)));
-	}
+    /**
+     * Formats a value based on the given type.
+     * @param mixed $value the value to be formatted
+     * @param string $type the data type. This must correspond to a format method available in CFormatter.
+     * For example, we can use 'text' here because there is method named {@link formatText}.
+     * @return string the formatted data
+     */
+    public function format($value,$type)
+    {
+        $method='format'.$type;
+        if(method_exists($this,$method))
+            return $this->$method($value);
+        else
+            throw new CException(Yii::t('yii','Unknown type "{type}".',array('{type}'=>$type)));
+    }
 
-	/**
-	 * Formats the value as is without any formatting.
-	 * This method simply returns back the parameter without any format.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 */
-	public function formatRaw($value)
-	{
-		return $value;
-	}
+    /**
+     * Formats the value as is without any formatting.
+     * This method simply returns back the parameter without any format.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     */
+    public function formatRaw($value)
+    {
+        return $value;
+    }
 
-	/**
-	 * Formats the value as a HTML-encoded plain text.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 */
-	public function formatText($value)
-	{
-		return CHtml::encode($value);
-	}
+    /**
+     * Formats the value as a HTML-encoded plain text.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     */
+    public function formatText($value)
+    {
+        return CHtml::encode($value);
+    }
 
-	/**
-	 * Formats the value as a HTML-encoded plain text and converts newlines with HTML br tags.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 */
-	public function formatNtext($value)
-	{
-		return nl2br(CHtml::encode($value));
-	}
+    /**
+     * Formats the value as a HTML-encoded plain text and converts newlines with HTML br tags.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     */
+    public function formatNtext($value)
+    {
+        return nl2br(CHtml::encode($value));
+    }
 
-	/**
-	 * Formats the value as HTML text without any encoding.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 */
-	public function formatHtml($value)
-	{
-		return $this->getHtmlPurifier()->purify($value);
-	}
+    /**
+     * Formats the value as HTML text without any encoding.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     */
+    public function formatHtml($value)
+    {
+        return $this->getHtmlPurifier()->purify($value);
+    }
 
-	/**
-	 * Formats the value as a date.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 * @see dateFormat
-	 */
-	public function formatDate($value)
-	{
-		return date($this->dateFormat,$value);
-	}
+    /**
+     * Formats the value as a date.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     * @see dateFormat
+     */
+    public function formatDate($value)
+    {
+        return date($this->dateFormat,$value);
+    }
 
-	/**
-	 * Formats the value as a time.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 * @see timeFormat
-	 */
-	public function formatTime($value)
-	{
-		return date($this->timeFormat,$value);
-	}
+    /**
+     * Formats the value as a time.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     * @see timeFormat
+     */
+    public function formatTime($value)
+    {
+        return date($this->timeFormat,$value);
+    }
 
-	/**
-	 * Formats the value as a date and time.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 * @see datetimeFormat
-	 */
-	public function formatDatetime($value)
-	{
-		return date($this->datetimeFormat,$value);
-	}
+    /**
+     * Formats the value as a date and time.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     * @see datetimeFormat
+     */
+    public function formatDatetime($value)
+    {
+        return date($this->datetimeFormat,$value);
+    }
 
-	/**
-	 * Formats the value as a boolean.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 * @see booleanFormat
-	 */
-	public function formatBoolean($value)
-	{
-		return $value ? $this->booleanFormat[1] : $this->booleanFormat[0];
-	}
+    /**
+     * Formats the value as a boolean.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     * @see booleanFormat
+     */
+    public function formatBoolean($value)
+    {
+        return $value ? $this->booleanFormat[1] : $this->booleanFormat[0];
+    }
 
-	/**
-	 * Formats the value as a mailto link.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 */
-	public function formatEmail($value)
-	{
-		return CHtml::mailto($value);
-	}
+    /**
+     * Formats the value as a mailto link.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     */
+    public function formatEmail($value)
+    {
+        return CHtml::mailto($value);
+    }
 
-	/**
-	 * Formats the value as an image tag.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 */
-	public function formatImage($value)
-	{
-		return CHtml::image($value);
-	}
+    /**
+     * Formats the value as an image tag.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     */
+    public function formatImage($value)
+    {
+        return CHtml::image($value);
+    }
 
-	/**
-	 * Formats the value as a hyperlink.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 */
-	public function formatUrl($value)
-	{
-		$url=$value;
-		if(strpos($url,'http://')!==0 && strpos($url,'https://')!==0)
-			$url='http://'.$url;
-		return CHtml::link(CHtml::encode($value),$url);
-	}
+    /**
+     * Formats the value as a hyperlink.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     */
+    public function formatUrl($value)
+    {
+        $url=$value;
+        if(strpos($url,'http://')!==0 && strpos($url,'https://')!==0)
+            $url='http://'.$url;
+        return CHtml::link(CHtml::encode($value),$url);
+    }
 
-	/**
-	 * Formats the value as a number using PHP number_format() function.
-	 * @param mixed $value the value to be formatted
-	 * @return string the formatted result
-	 * @see numberFormat
-	 */
-	public function formatNumber($value)
-	{
-		return number_format($value,$this->numberFormat['decimals'],$this->numberFormat['decimalSeparator'],$this->numberFormat['thousandSeparator']);
-	}
+    /**
+     * Formats the value as a number using PHP number_format() function.
+     * @param mixed $value the value to be formatted
+     * @return string the formatted result
+     * @see numberFormat
+     */
+    public function formatNumber($value)
+    {
+        return number_format($value,$this->numberFormat['decimals'],$this->numberFormat['decimalSeparator'],$this->numberFormat['thousandSeparator']);
+    }
 
-	/**
-	 * @return CHtmlPurifier the HTML purifier instance
-	 */
-	public function getHtmlPurifier()
-	{
-		if($this->_htmlPurifier===null)
-			$this->_htmlPurifier=new CHtmlPurifier;
-		return $this->_htmlPurifier;
-	}
+    /**
+     * @return CHtmlPurifier the HTML purifier instance
+     */
+    public function getHtmlPurifier()
+    {
+        if($this->_htmlPurifier===null)
+            $this->_htmlPurifier=new CHtmlPurifier;
+        return $this->_htmlPurifier;
+    }
 }

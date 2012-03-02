@@ -42,37 +42,37 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  */
 class CJuiResizable extends CJuiWidget
 {
-	/**
-	 * @var string the name of the Resizable element. Defaults to 'div'.
-	 */
-	public $tagName='div';
+    /**
+     * @var string the name of the Resizable element. Defaults to 'div'.
+     */
+    public $tagName='div';
 
-	/**
-	 * Renders the open tag of the resizable element.
-	 * This method also registers the necessary javascript code.
-	 */
-	public function init()
-	{
-		parent::init();
-		$id=$this->getId();
-		if (isset($this->htmlOptions['id']))
-			$id = $this->htmlOptions['id'];
-		else
-			$this->htmlOptions['id']=$id;
-		
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
-		
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').resizable($options);");
+    /**
+     * Renders the open tag of the resizable element.
+     * This method also registers the necessary javascript code.
+     */
+    public function init()
+    {
+        parent::init();
+        $id=$this->getId();
+        if (isset($this->htmlOptions['id']))
+            $id = $this->htmlOptions['id'];
+        else
+            $this->htmlOptions['id']=$id;
+        
+        $options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+        
+        Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').resizable($options);");
 
-		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
-	}
+        echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
+    }
 
-	/**
-	 * Renders the close tag of the resizable element.
-	 */
-	public function run(){
-		echo CHtml::closeTag($this->tagName);
-	}
+    /**
+     * Renders the close tag of the resizable element.
+     */
+    public function run(){
+        echo CHtml::closeTag($this->tagName);
+    }
 
 }
 

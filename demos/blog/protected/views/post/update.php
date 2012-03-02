@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
-	$model->title=>$model->url,
-	'Update',
+    $model->title=>$model->url,
+    'Update',
 );
 ?>
 

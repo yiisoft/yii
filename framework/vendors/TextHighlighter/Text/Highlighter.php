@@ -199,16 +199,16 @@ class Text_Highlighter
         $lang = strtoupper($lang);
         $langFile = dirname(__FILE__)."/Highlighter/$lang.php";
         if (is_file($langFile))
-        	include_once $langFile;
+            include_once $langFile;
         else
-        	return false;
+            return false;
 
         $classname = 'Text_Highlighter_' . $lang;
 
         if (!class_exists($classname))
-        	return false;
+            return false;
 
-		return new $classname($options);
+        return new $classname($options);
     }
 
     // }}}

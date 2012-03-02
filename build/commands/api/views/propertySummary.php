@@ -7,10 +7,10 @@
 
 <table class="summaryTable">
 <colgroup>
-	<col class="col-property" />
-	<col class="col-type" />
-	<col class="col-description" />
-	<col class="col-defined" />
+    <col class="col-property" />
+    <col class="col-type" />
+    <col class="col-description" />
+    <col class="col-defined" />
 </colgroup>
 <tr>
   <th>Property</th><th>Type</th><th>Description</th><th>Defined By</th>

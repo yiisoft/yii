@@ -20,104 +20,104 @@
  */
 class CCaptchaValidator extends CValidator
 {
-	/**
-	 * @var boolean whether the comparison is case sensitive. Defaults to false.
-	 */
-	public $caseSensitive=false;
-	/**
-	 * @var string ID of the action that renders the CAPTCHA image. Defaults to 'captcha',
-	 * meaning the 'captcha' action declared in the current controller.
-	 * This can also be a route consisting of controller ID and action ID.
-	 */
-	public $captchaAction='captcha';
-	/**
-	 * @var boolean whether the attribute value can be null or empty.
-	 * Defaults to false, meaning the attribute is invalid if it is empty.
-	 */
-	public $allowEmpty=false;
+    /**
+     * @var boolean whether the comparison is case sensitive. Defaults to false.
+     */
+    public $caseSensitive=false;
+    /**
+     * @var string ID of the action that renders the CAPTCHA image. Defaults to 'captcha',
+     * meaning the 'captcha' action declared in the current controller.
+     * This can also be a route consisting of controller ID and action ID.
+     */
+    public $captchaAction='captcha';
+    /**
+     * @var boolean whether the attribute value can be null or empty.
+     * Defaults to false, meaning the attribute is invalid if it is empty.
+     */
+    public $allowEmpty=false;
 
-	/**
-	 * Validates the attribute of the object.
-	 * If there is any error, the error message is added to the object.
-	 * @param CModel $object the object being validated
-	 * @param string $attribute the attribute being validated
-	 */
-	protected function validateAttribute($object,$attribute)
-	{
-		$value=$object->$attribute;
-		if($this->allowEmpty && $this->isEmpty($value))
-			return;
-		$captcha=$this->getCaptchaAction();
-		if(!$captcha->validate($value,$this->caseSensitive))
-		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','The verification code is incorrect.');
-			$this->addError($object,$attribute,$message);
-		}
-	}
+    /**
+     * Validates the attribute of the object.
+     * If there is any error, the error message is added to the object.
+     * @param CModel $object the object being validated
+     * @param string $attribute the attribute being validated
+     */
+    protected function validateAttribute($object,$attribute)
+    {
+        $value=$object->$attribute;
+        if($this->allowEmpty && $this->isEmpty($value))
+            return;
+        $captcha=$this->getCaptchaAction();
+        if(!$captcha->validate($value,$this->caseSensitive))
+        {
+            $message=$this->message!==null?$this->message:Yii::t('yii','The verification code is incorrect.');
+            $this->addError($object,$attribute,$message);
+        }
+    }
 
-	/**
-	 * Returns the CAPTCHA action object.
-	 * @return CCaptchaAction the action object
-	 * @since 1.1.7
-	 */
-	protected function getCaptchaAction()
-	{
-		if(($captcha=Yii::app()->getController()->createAction($this->captchaAction))===null)
-		{
-			if(strpos($this->captchaAction,'/')!==false) // contains controller or module
-			{
-				if(($ca=Yii::app()->createController($this->captchaAction))!==null)
-				{
-					list($controller,$actionID)=$ca;
-					$captcha=$controller->createAction($actionID);
-				}
-			}
-			if($captcha===null)
-				throw new CException(Yii::t('yii','CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.',
-						array('{id}'=>$this->captchaAction)));
-		}
-		return $captcha;
-	}
+    /**
+     * Returns the CAPTCHA action object.
+     * @return CCaptchaAction the action object
+     * @since 1.1.7
+     */
+    protected function getCaptchaAction()
+    {
+        if(($captcha=Yii::app()->getController()->createAction($this->captchaAction))===null)
+        {
+            if(strpos($this->captchaAction,'/')!==false) // contains controller or module
+            {
+                if(($ca=Yii::app()->createController($this->captchaAction))!==null)
+                {
+                    list($controller,$actionID)=$ca;
+                    $captcha=$controller->createAction($actionID);
+                }
+            }
+            if($captcha===null)
+                throw new CException(Yii::t('yii','CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.',
+                        array('{id}'=>$this->captchaAction)));
+        }
+        return $captcha;
+    }
 
-	/**
-	 * Returns the JavaScript needed for performing client-side validation.
-	 * @param CModel $object the data object being validated
-	 * @param string $attribute the name of the attribute to be validated.
-	 * @return string the client-side validation script.
-	 * @see CActiveForm::enableClientValidation
-	 * @since 1.1.7
-	 */
-	public function clientValidateAttribute($object,$attribute)
-	{
-		$captcha=$this->getCaptchaAction();
-		$message=$this->message!==null ? $this->message : Yii::t('yii','The verification code is incorrect.');
-		$message=strtr($message, array(
-			'{attribute}'=>$object->getAttributeLabel($attribute),
-		));
-		$code=$captcha->getVerifyCode(false);
-		$hash=$captcha->generateValidationHash($this->caseSensitive ? $code : strtolower($code));
-		$js="
+    /**
+     * Returns the JavaScript needed for performing client-side validation.
+     * @param CModel $object the data object being validated
+     * @param string $attribute the name of the attribute to be validated.
+     * @return string the client-side validation script.
+     * @see CActiveForm::enableClientValidation
+     * @since 1.1.7
+     */
+    public function clientValidateAttribute($object,$attribute)
+    {
+        $captcha=$this->getCaptchaAction();
+        $message=$this->message!==null ? $this->message : Yii::t('yii','The verification code is incorrect.');
+        $message=strtr($message, array(
+            '{attribute}'=>$object->getAttributeLabel($attribute),
+        ));
+        $code=$captcha->getVerifyCode(false);
+        $hash=$captcha->generateValidationHash($this->caseSensitive ? $code : strtolower($code));
+        $js="
 var hash = $('body').data('{$this->captchaAction}.hash');
 if (hash == null)
-	hash = $hash;
+    hash = $hash;
 else
-	hash = hash[".($this->caseSensitive ? 0 : 1)."];
+    hash = hash[".($this->caseSensitive ? 0 : 1)."];
 for(var i=value.length-1, h=0; i >= 0; --i) h+=value.".($this->caseSensitive ? '' : 'toLowerCase().')."charCodeAt(i);
 if(h != hash) {
-	messages.push(".CJSON::encode($message).");
+    messages.push(".CJSON::encode($message).");
 }
 ";
 
-		if($this->allowEmpty)
-		{
-			$js="
+        if($this->allowEmpty)
+        {
+            $js="
 if($.trim(value)!='') {
-	$js
+    $js
 }
 ";
-		}
+        }
 
-		return $js;
-	}
+        return $js;
+    }
 }
 

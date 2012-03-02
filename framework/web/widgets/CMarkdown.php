@@ -31,88 +31,88 @@
  */
 class CMarkdown extends COutputProcessor
 {
-	/**
-	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
-	 * using the default CSS file included together with the widget.
-	 * If false, no CSS file will be used. Otherwise, the specified CSS file
-	 * will be included when using this widget.
-	 */
-	public $cssFile;
-	/**
-	 * @var boolean whether to use {@link CHtmlPurifier} to purify the generated HTML code. Defaults to false.
-	 */
-	public $purifyOutput=false;
+    /**
+     * @var mixed the CSS file used for the widget. Defaults to null, meaning
+     * using the default CSS file included together with the widget.
+     * If false, no CSS file will be used. Otherwise, the specified CSS file
+     * will be included when using this widget.
+     */
+    public $cssFile;
+    /**
+     * @var boolean whether to use {@link CHtmlPurifier} to purify the generated HTML code. Defaults to false.
+     */
+    public $purifyOutput=false;
 
-	private $_parser;
+    private $_parser;
 
-	/**
-	 * Processes the captured output.
+    /**
+     * Processes the captured output.
      * This method converts the content in markdown syntax to HTML code.
      * If {@link purifyOutput} is true, the HTML code will also be purified.
-	 * @param string $output the captured output to be processed
-	 * @see convert
-	 */
-	public function processOutput($output)
-	{
-		$output=$this->transform($output);
-		if($this->purifyOutput)
-		{
-			$purifier=new CHtmlPurifier;
-			$output=$purifier->purify($output);
-		}
-		parent::processOutput($output);
-	}
+     * @param string $output the captured output to be processed
+     * @see convert
+     */
+    public function processOutput($output)
+    {
+        $output=$this->transform($output);
+        if($this->purifyOutput)
+        {
+            $purifier=new CHtmlPurifier;
+            $output=$purifier->purify($output);
+        }
+        parent::processOutput($output);
+    }
 
-	/**
-	 * Converts the content in markdown syntax to HTML code.
-	 * This method uses {@link CMarkdownParser} to do the conversion.
-	 * @param string $output the content to be converted
-	 * @return string the converted content
-	 */
-	public function transform($output)
-	{
-		$this->registerClientScript();
-		return $this->getMarkdownParser()->transform($output);
-	}
+    /**
+     * Converts the content in markdown syntax to HTML code.
+     * This method uses {@link CMarkdownParser} to do the conversion.
+     * @param string $output the content to be converted
+     * @return string the converted content
+     */
+    public function transform($output)
+    {
+        $this->registerClientScript();
+        return $this->getMarkdownParser()->transform($output);
+    }
 
-	/**
-	 * Registers the needed CSS and JavaScript.
-	 */
-	public function registerClientScript()
-	{
-		if($this->cssFile!==false)
-			self::registerCssFile($this->cssFile);
-	}
+    /**
+     * Registers the needed CSS and JavaScript.
+     */
+    public function registerClientScript()
+    {
+        if($this->cssFile!==false)
+            self::registerCssFile($this->cssFile);
+    }
 
-	/**
-	 * Registers the needed CSS file.
-	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
-	 */
-	public static function registerCssFile($url=null)
-	{
-		CTextHighlighter::registerCssFile($url);
-	}
+    /**
+     * Registers the needed CSS file.
+     * @param string $url the CSS URL. If null, a default CSS URL will be used.
+     */
+    public static function registerCssFile($url=null)
+    {
+        CTextHighlighter::registerCssFile($url);
+    }
 
-	/**
-	 * Returns the markdown parser instance.
-	 * This method calls {@link createMarkdownParser} to create the parser instance.
-	 * Call this method multipe times will only return the same instance.
-	 * @return CMarkdownParser the parser instance
-	 */
-	public function getMarkdownParser()
-	{
-		if($this->_parser===null)
-			$this->_parser=$this->createMarkdownParser();
-		return $this->_parser;
-	}
+    /**
+     * Returns the markdown parser instance.
+     * This method calls {@link createMarkdownParser} to create the parser instance.
+     * Call this method multipe times will only return the same instance.
+     * @return CMarkdownParser the parser instance
+     */
+    public function getMarkdownParser()
+    {
+        if($this->_parser===null)
+            $this->_parser=$this->createMarkdownParser();
+        return $this->_parser;
+    }
 
-	/**
-	 * Creates a markdown parser.
-	 * By default, this method creates a {@link CMarkdownParser} instance.
-	 * @return CMarkdownParser the markdown parser.
-	 */
-	protected function createMarkdownParser()
-	{
-		return new CMarkdownParser;
-	}
+    /**
+     * Creates a markdown parser.
+     * By default, this method creates a {@link CMarkdownParser} instance.
+     * @return CMarkdownParser the markdown parser.
+     */
+    protected function createMarkdownParser()
+    {
+        return new CMarkdownParser;
+    }
 }

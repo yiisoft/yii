@@ -40,18 +40,18 @@
 <tr><th>Όνομα</th><th>Αποτέλεσμα</th><th>Απαιτούμενο από</th><th>Σημειώσεις</th></tr>
 <?php foreach($requirements as $requirement): ?>
 <tr>
-	<td>
-	<?php echo $requirement[0]; ?>
-	</td>
-	<td class="<?php echo $requirement[2] ? 'πέρασε' : ($requirement[1] ? 'απέτυχε' : 'προειδοποίηση'); ?>">
-	<?php echo $requirement[2] ? 'Πέρασε' : ($requirement[1] ? 'Απέτυχε' : 'Προειδοποίηση'); ?>
-	</td>
-	<td>
-	<?php echo $requirement[3]; ?>
-	</td>
-	<td>
-	<?php echo $requirement[4]; ?>
-	</td>
+    <td>
+    <?php echo $requirement[0]; ?>
+    </td>
+    <td class="<?php echo $requirement[2] ? 'πέρασε' : ($requirement[1] ? 'απέτυχε' : 'προειδοποίηση'); ?>">
+    <?php echo $requirement[2] ? 'Πέρασε' : ($requirement[1] ? 'Απέτυχε' : 'Προειδοποίηση'); ?>
+    </td>
+    <td>
+    <?php echo $requirement[3]; ?>
+    </td>
+    <td>
+    <?php echo $requirement[4]; ?>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>

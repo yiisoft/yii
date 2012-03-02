@@ -7,9 +7,9 @@
 
 <table class="summaryTable">
 <colgroup>
-	<col class="col-method" />
-	<col class="col-description" />
-	<col class="col-defined" />
+    <col class="col-method" />
+    <col class="col-description" />
+    <col class="col-defined" />
 </colgroup>
 <tr>
   <th>Method</th><th>Description</th><th>Defined By</th>

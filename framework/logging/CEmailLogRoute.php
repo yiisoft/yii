@@ -27,125 +27,125 @@
  */
 class CEmailLogRoute extends CLogRoute
 {
-	/**
-	 * @var array list of destination email addresses.
-	 */
-	private $_email=array();
-	/**
-	 * @var string email subject
-	 */
-	private $_subject;
-	/**
-	 * @var string email sent from address
-	 */
-	private $_from;
-	/**
-	 * @var array list of additional headers to use when sending an email.
-	 */
-	private $_headers=array();
+    /**
+     * @var array list of destination email addresses.
+     */
+    private $_email=array();
+    /**
+     * @var string email subject
+     */
+    private $_subject;
+    /**
+     * @var string email sent from address
+     */
+    private $_from;
+    /**
+     * @var array list of additional headers to use when sending an email.
+     */
+    private $_headers=array();
 
-	/**
-	 * Sends log messages to specified email addresses.
-	 * @param array $logs list of log messages
-	 */
-	protected function processLogs($logs)
-	{
-		$message='';
-		foreach($logs as $log)
-			$message.=$this->formatLogMessage($log[0],$log[1],$log[2],$log[3]);
-		$message=wordwrap($message,70);
-		$subject=$this->getSubject();
-		if($subject===null)
-			$subject=Yii::t('yii','Application Log');
-		foreach($this->getEmails() as $email)
-			$this->sendEmail($email,$subject,$message);
-	}
+    /**
+     * Sends log messages to specified email addresses.
+     * @param array $logs list of log messages
+     */
+    protected function processLogs($logs)
+    {
+        $message='';
+        foreach($logs as $log)
+            $message.=$this->formatLogMessage($log[0],$log[1],$log[2],$log[3]);
+        $message=wordwrap($message,70);
+        $subject=$this->getSubject();
+        if($subject===null)
+            $subject=Yii::t('yii','Application Log');
+        foreach($this->getEmails() as $email)
+            $this->sendEmail($email,$subject,$message);
+    }
 
-	/**
-	 * Sends an email.
-	 * @param string $email single email address
-	 * @param string $subject email subject
-	 * @param string $message email content
-	 */
-	protected function sendEmail($email,$subject,$message)
-	{
-		$headers=$this->getHeaders();
-		if(($from=$this->getSentFrom())!==null)
-			$headers[]="From: {$from}";
-		mail($email,$subject,$message,implode("\r\n",$headers));
-	}
+    /**
+     * Sends an email.
+     * @param string $email single email address
+     * @param string $subject email subject
+     * @param string $message email content
+     */
+    protected function sendEmail($email,$subject,$message)
+    {
+        $headers=$this->getHeaders();
+        if(($from=$this->getSentFrom())!==null)
+            $headers[]="From: {$from}";
+        mail($email,$subject,$message,implode("\r\n",$headers));
+    }
 
-	/**
-	 * @return array list of destination email addresses
-	 */
-	public function getEmails()
-	{
-		return $this->_email;
-	}
+    /**
+     * @return array list of destination email addresses
+     */
+    public function getEmails()
+    {
+        return $this->_email;
+    }
 
-	/**
-	 * @param mixed $value list of destination email addresses. If the value is
-	 * a string, it is assumed to be comma-separated email addresses.
-	 */
-	public function setEmails($value)
-	{
-		if(is_array($value))
-			$this->_email=$value;
-		else
-			$this->_email=preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
-	}
+    /**
+     * @param mixed $value list of destination email addresses. If the value is
+     * a string, it is assumed to be comma-separated email addresses.
+     */
+    public function setEmails($value)
+    {
+        if(is_array($value))
+            $this->_email=$value;
+        else
+            $this->_email=preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
+    }
 
-	/**
-	 * @return string email subject. Defaults to CEmailLogRoute::DEFAULT_SUBJECT
-	 */
-	public function getSubject()
-	{
-		return $this->_subject;
-	}
+    /**
+     * @return string email subject. Defaults to CEmailLogRoute::DEFAULT_SUBJECT
+     */
+    public function getSubject()
+    {
+        return $this->_subject;
+    }
 
-	/**
-	 * @param string $value email subject.
-	 */
-	public function setSubject($value)
-	{
-		$this->_subject=$value;
-	}
+    /**
+     * @param string $value email subject.
+     */
+    public function setSubject($value)
+    {
+        $this->_subject=$value;
+    }
 
-	/**
-	 * @return string send from address of the email
-	 */
-	public function getSentFrom()
-	{
-		return $this->_from;
-	}
+    /**
+     * @return string send from address of the email
+     */
+    public function getSentFrom()
+    {
+        return $this->_from;
+    }
 
-	/**
-	 * @param string $value send from address of the email
-	 */
-	public function setSentFrom($value)
-	{
-		$this->_from=$value;
-	}
+    /**
+     * @param string $value send from address of the email
+     */
+    public function setSentFrom($value)
+    {
+        $this->_from=$value;
+    }
 
-	/**
-	 * @return array additional headers to use when sending an email.
-	 * @since 1.1.4
-	 */
-	public function getHeaders()
-	{
-		return $this->_headers;
-	}
+    /**
+     * @return array additional headers to use when sending an email.
+     * @since 1.1.4
+     */
+    public function getHeaders()
+    {
+        return $this->_headers;
+    }
 
-	/**
-	 * @param mixed $value list of additional headers to use when sending an email.
-	 * If the value is a string, it is assumed to be line break separated headers.
-	 * @since 1.1.4
-	 */
-	public function setHeaders($value)
-	{
-		if (is_array($value))
-			$this->_headers=$value;
-		else
-			$this->_headers=preg_split('/\r\n|\n/',$value,-1,PREG_SPLIT_NO_EMPTY);
-	}
+    /**
+     * @param mixed $value list of additional headers to use when sending an email.
+     * If the value is a string, it is assumed to be line break separated headers.
+     * @since 1.1.4
+     */
+    public function setHeaders($value)
+    {
+        if (is_array($value))
+            $this->_headers=$value;
+        else
+            $this->_headers=preg_split('/\r\n|\n/',$value,-1,PREG_SPLIT_NO_EMPTY);
+    }
 }

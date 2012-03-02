@@ -41,102 +41,102 @@
  */
 class CMultiFileUpload extends CInputWidget
 {
-	/**
-	 * @var string the file types that are allowed (eg "gif|jpg").
-	 * Note, the server side still needs to check if the uploaded files have allowed types.
-	 */
-	public $accept;
-	/**
-	 * @var integer the maximum number of files that can be uploaded. If -1, it means no limits. Defaults to -1.
-	 */
-	public $max=-1;
-	/**
-	 * @var string the label for the remove button. Defaults to "Remove".
-	 */
-	public $remove;
-	/**
-	 * @var string message that is displayed when a file type is not allowed.
-	 */
-	public $denied;
-	/**
-	 * @var string message that is displayed when a file is selected.
-	 */
-	public $selected;
-	/**
-	 * @var string message that is displayed when a file appears twice.
-	 */
-	public $duplicate;
-	/**
-	 * @var string the message template for displaying the uploaded file name
-	 * @since 1.1.3
-	 */
-	public $file;
-	/**
-	 * @var array additional options that can be passed to the constructor of the multifile js object.
-	 * @since 1.1.7
-	 */
-	public $options=array();
+    /**
+     * @var string the file types that are allowed (eg "gif|jpg").
+     * Note, the server side still needs to check if the uploaded files have allowed types.
+     */
+    public $accept;
+    /**
+     * @var integer the maximum number of files that can be uploaded. If -1, it means no limits. Defaults to -1.
+     */
+    public $max=-1;
+    /**
+     * @var string the label for the remove button. Defaults to "Remove".
+     */
+    public $remove;
+    /**
+     * @var string message that is displayed when a file type is not allowed.
+     */
+    public $denied;
+    /**
+     * @var string message that is displayed when a file is selected.
+     */
+    public $selected;
+    /**
+     * @var string message that is displayed when a file appears twice.
+     */
+    public $duplicate;
+    /**
+     * @var string the message template for displaying the uploaded file name
+     * @since 1.1.3
+     */
+    public $file;
+    /**
+     * @var array additional options that can be passed to the constructor of the multifile js object.
+     * @since 1.1.7
+     */
+    public $options=array();
 
 
-	/**
-	 * Runs the widget.
-	 * This method registers all needed client scripts and renders
-	 * the multiple file uploader.
-	 */
-	public function run()
-	{
-		list($name,$id)=$this->resolveNameID();
-		if(substr($name,-2)!=='[]')
-			$name.='[]';
-		if(isset($this->htmlOptions['id']))
-			$id=$this->htmlOptions['id'];
-		else
-			$this->htmlOptions['id']=$id;
-		$this->registerClientScript();
-		echo CHtml::fileField($name,'',$this->htmlOptions);
-	}
+    /**
+     * Runs the widget.
+     * This method registers all needed client scripts and renders
+     * the multiple file uploader.
+     */
+    public function run()
+    {
+        list($name,$id)=$this->resolveNameID();
+        if(substr($name,-2)!=='[]')
+            $name.='[]';
+        if(isset($this->htmlOptions['id']))
+            $id=$this->htmlOptions['id'];
+        else
+            $this->htmlOptions['id']=$id;
+        $this->registerClientScript();
+        echo CHtml::fileField($name,'',$this->htmlOptions);
+    }
 
-	/**
-	 * Registers the needed CSS and JavaScript.
-	 */
-	public function registerClientScript()
-	{
-		$id=$this->htmlOptions['id'];
+    /**
+     * Registers the needed CSS and JavaScript.
+     */
+    public function registerClientScript()
+    {
+        $id=$this->htmlOptions['id'];
 
-		$options=$this->getClientOptions();
-		$options=$options===array()? '' : CJavaScript::encode($options);
+        $options=$this->getClientOptions();
+        $options=$options===array()? '' : CJavaScript::encode($options);
 
-		$cs=Yii::app()->getClientScript();
-		$cs->registerCoreScript('multifile');
-		$cs->registerScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
-	}
+        $cs=Yii::app()->getClientScript();
+        $cs->registerCoreScript('multifile');
+        $cs->registerScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
+    }
 
-	/**
-	 * @return array the javascript options
-	 */
-	protected function getClientOptions()
-	{
-		$options=$this->options;
-		foreach(array('onFileRemove','afterFileRemove','onFileAppend','afterFileAppend','onFileSelect','afterFileSelect') as $event)
-		{
-			if(isset($options[$event]) && strpos($options[$event],'js:')!==0)
-				$options[$event]='js:'.$options[$event];
-		}
+    /**
+     * @return array the javascript options
+     */
+    protected function getClientOptions()
+    {
+        $options=$this->options;
+        foreach(array('onFileRemove','afterFileRemove','onFileAppend','afterFileAppend','onFileSelect','afterFileSelect') as $event)
+        {
+            if(isset($options[$event]) && strpos($options[$event],'js:')!==0)
+                $options[$event]='js:'.$options[$event];
+        }
 
-		if($this->accept!==null)
-			$options['accept']=$this->accept;
-		if($this->max>0)
-			$options['max']=$this->max;
+        if($this->accept!==null)
+            $options['accept']=$this->accept;
+        if($this->max>0)
+            $options['max']=$this->max;
 
-		$messages=array();
-		foreach(array('remove','denied','selected','duplicate','file') as $messageName)
-		{
-			if($this->$messageName!==null)
-				$messages[$messageName]=$this->$messageName;
-		}
-		if($messages!==array())
-			$options['STRING']=$messages;
+        $messages=array();
+        foreach(array('remove','denied','selected','duplicate','file') as $messageName)
+        {
+            if($this->$messageName!==null)
+                $messages[$messageName]=$this->$messageName;
+        }
+        if($messages!==array())
+            $options['STRING']=$messages;
 
-		return $options;
-	}
+        return $options;
+    }
 }

@@ -7,16 +7,16 @@ require_once dirname(__FILE__) . '/NewFormModel.php';
 
 class CBehaviorTest extends CTestCase {
 
-	public function testAttachBehavior() {
-		$component=new NewComponent;
-		$component->attachBehavior('a',new NewBehavior);
-		$this->assertFalse($component->behaviorCalled);
-		$this->assertFalse(method_exists($component,'test'));
-		$this->assertEquals(2,$component->test());
-		$this->assertTrue($component->behaviorCalled);
-		$this->setExpectedException('CException');
-		$component->test2();
-	}
+    public function testAttachBehavior() {
+        $component=new NewComponent;
+        $component->attachBehavior('a',new NewBehavior);
+        $this->assertFalse($component->behaviorCalled);
+        $this->assertFalse(method_exists($component,'test'));
+        $this->assertEquals(2,$component->test());
+        $this->assertTrue($component->behaviorCalled);
+        $this->setExpectedException('CException');
+        $component->test2();
+    }
 
     public function testDisableBehaviors(){
         $component=new NewComponent;

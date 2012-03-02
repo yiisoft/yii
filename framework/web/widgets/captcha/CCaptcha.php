@@ -34,138 +34,138 @@
  */
 class CCaptcha extends CWidget
 {
-	/**
-	 * @var string the ID of the action that should provide CAPTCHA image. Defaults to 'captcha',
-	 * meaning the 'captcha' action of the current controller. This property may also
-	 * be in the format of 'ControllerID/ActionID'. Underneath, this property is used
-	 * by {@link CController::createUrl} to create the URL that would serve the CAPTCHA image.
-	 * The action has to be of {@link CCaptchaAction}.
-	 */
-	public $captchaAction='captcha';
-	/**
-	 * @var boolean whether to display a button next to the CAPTCHA image. Clicking on the button
-	 * will cause the CAPTCHA image to be changed to a new one. Defaults to true.
-	 */
-	public $showRefreshButton=true;
-	/**
-	 * @var boolean whether to allow clicking on the CAPTCHA image to refresh the CAPTCHA letters.
-	 * Defaults to false. Hint: you may want to set {@link showRefreshButton} to false if you set
-	 * this property to be true because they serve for the same purpose.
-	 * To enhance accessibility, you may set {@link imageOptions} to provide hints to end-users that
-	 * the image is clickable.
-	 */
-	public $clickableImage=false;
-	/**
-	 * @var string the label for the refresh button. Defaults to 'Get a new code'.
-	 */
-	public $buttonLabel;
-	/**
-	 * @var string the type of the refresh button. This should be either 'link' or 'button'.
-	 * The former refers to hyperlink button while the latter a normal push button.
-	 * Defaults to 'link'.
-	 */
-	public $buttonType='link';
-	/**
-	 * @var array HTML attributes to be applied to the rendered image element.
-	 */
-	public $imageOptions=array();
-	/**
-	 * @var array HTML attributes to be applied to the rendered refresh button element.
-	 */
-	public $buttonOptions=array();
+    /**
+     * @var string the ID of the action that should provide CAPTCHA image. Defaults to 'captcha',
+     * meaning the 'captcha' action of the current controller. This property may also
+     * be in the format of 'ControllerID/ActionID'. Underneath, this property is used
+     * by {@link CController::createUrl} to create the URL that would serve the CAPTCHA image.
+     * The action has to be of {@link CCaptchaAction}.
+     */
+    public $captchaAction='captcha';
+    /**
+     * @var boolean whether to display a button next to the CAPTCHA image. Clicking on the button
+     * will cause the CAPTCHA image to be changed to a new one. Defaults to true.
+     */
+    public $showRefreshButton=true;
+    /**
+     * @var boolean whether to allow clicking on the CAPTCHA image to refresh the CAPTCHA letters.
+     * Defaults to false. Hint: you may want to set {@link showRefreshButton} to false if you set
+     * this property to be true because they serve for the same purpose.
+     * To enhance accessibility, you may set {@link imageOptions} to provide hints to end-users that
+     * the image is clickable.
+     */
+    public $clickableImage=false;
+    /**
+     * @var string the label for the refresh button. Defaults to 'Get a new code'.
+     */
+    public $buttonLabel;
+    /**
+     * @var string the type of the refresh button. This should be either 'link' or 'button'.
+     * The former refers to hyperlink button while the latter a normal push button.
+     * Defaults to 'link'.
+     */
+    public $buttonType='link';
+    /**
+     * @var array HTML attributes to be applied to the rendered image element.
+     */
+    public $imageOptions=array();
+    /**
+     * @var array HTML attributes to be applied to the rendered refresh button element.
+     */
+    public $buttonOptions=array();
 
 
-	/**
-	 * Renders the widget.
-	 */
-	public function run()
-	{
-	    if(self::checkRequirements())
-	    {
-			$this->renderImage();
-			$this->registerClientScript();
-	    }
-		else
-			throw new CException(Yii::t('yii','GD and FreeType PHP extensions are required.'));
-	}
+    /**
+     * Renders the widget.
+     */
+    public function run()
+    {
+        if(self::checkRequirements())
+        {
+            $this->renderImage();
+            $this->registerClientScript();
+        }
+        else
+            throw new CException(Yii::t('yii','GD and FreeType PHP extensions are required.'));
+    }
 
-	/**
-	 * Renders the CAPTCHA image.
-	 */
-	protected function renderImage()
-	{
-		if(!isset($this->imageOptions['id']))
-			$this->imageOptions['id']=$this->getId();
+    /**
+     * Renders the CAPTCHA image.
+     */
+    protected function renderImage()
+    {
+        if(!isset($this->imageOptions['id']))
+            $this->imageOptions['id']=$this->getId();
 
-		$url=$this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
-		$alt=isset($this->imageOptions['alt'])?$this->imageOptions['alt']:'';
-		echo CHtml::image($url,$alt,$this->imageOptions);
-	}
+        $url=$this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
+        $alt=isset($this->imageOptions['alt'])?$this->imageOptions['alt']:'';
+        echo CHtml::image($url,$alt,$this->imageOptions);
+    }
 
-	/**
-	 * Registers the needed client scripts.
-	 */
-	public function registerClientScript()
-	{
-		$cs=Yii::app()->clientScript;
-		$id=$this->imageOptions['id'];
-		$url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
+    /**
+     * Registers the needed client scripts.
+     */
+    public function registerClientScript()
+    {
+        $cs=Yii::app()->clientScript;
+        $id=$this->imageOptions['id'];
+        $url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
 
-		$js="";
-		if($this->showRefreshButton)
-		{
-			$cs->registerScript('Yii.CCaptcha#'.$id,'dummy');
-			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
-			$options=$this->buttonOptions;
-			if(isset($options['id']))
-				$buttonID=$options['id'];
-			else
-				$buttonID=$options['id']=$id.'_button';
-			if($this->buttonType==='button')
-				$html=CHtml::button($label, $options);
-			else
-				$html=CHtml::link($label, $url, $options);
-			$js="jQuery('#$id').after(".CJSON::encode($html).");";
-			$selector="#$buttonID";
-		}
+        $js="";
+        if($this->showRefreshButton)
+        {
+            $cs->registerScript('Yii.CCaptcha#'.$id,'dummy');
+            $label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
+            $options=$this->buttonOptions;
+            if(isset($options['id']))
+                $buttonID=$options['id'];
+            else
+                $buttonID=$options['id']=$id.'_button';
+            if($this->buttonType==='button')
+                $html=CHtml::button($label, $options);
+            else
+                $html=CHtml::link($label, $url, $options);
+            $js="jQuery('#$id').after(".CJSON::encode($html).");";
+            $selector="#$buttonID";
+        }
 
-		if($this->clickableImage)
-			$selector=isset($selector) ? "$selector, #$id" : "#$id";
+        if($this->clickableImage)
+            $selector=isset($selector) ? "$selector, #$id" : "#$id";
 
-		if(!isset($selector))
-			return;
+        if(!isset($selector))
+            return;
 
-		$js.="
+        $js.="
 jQuery('$selector').live('click',function(){
-	jQuery.ajax({
-		url: ".CJSON::encode($url).",
-		dataType: 'json',
-		cache: false,
-		success: function(data) {
-			jQuery('#$id').attr('src', data['url']);
-			jQuery('body').data('{$this->captchaAction}.hash', [data['hash1'], data['hash2']]);
-		}
-	});
-	return false;
+    jQuery.ajax({
+        url: ".CJSON::encode($url).",
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+            jQuery('#$id').attr('src', data['url']);
+            jQuery('body').data('{$this->captchaAction}.hash', [data['hash1'], data['hash2']]);
+        }
+    });
+    return false;
 });
 ";
-		$cs->registerScript('Yii.CCaptcha#'.$id,$js);
-	}
+        $cs->registerScript('Yii.CCaptcha#'.$id,$js);
+    }
 
-	/**
-	 * Checks if GD with FreeType support is loaded.
-	 * @return boolean true if GD with FreeType support is loaded, otherwise false
-	 * @since 1.1.5
-	 */
-	public static function checkRequirements()
-	{
-		if (extension_loaded('gd'))
-		{
-			$gdinfo=gd_info();
-			if( $gdinfo['FreeType Support'])
-				return true;
-		}
-		return false;
-	}
+    /**
+     * Checks if GD with FreeType support is loaded.
+     * @return boolean true if GD with FreeType support is loaded, otherwise false
+     * @since 1.1.5
+     */
+    public static function checkRequirements()
+    {
+        if (extension_loaded('gd'))
+        {
+            $gdinfo=gd_info();
+            if( $gdinfo['FreeType Support'])
+                return true;
+        }
+        return false;
+    }
 }
 

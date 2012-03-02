@@ -23,32 +23,32 @@
  */
 class CGlobalStateCacheDependency extends CCacheDependency
 {
-	/**
-	 * @var string the name of the global state whose value is to check
-	 * if the dependency has changed.
-	 * @see CApplication::setGlobalState
-	 */
-	public $stateName;
+    /**
+     * @var string the name of the global state whose value is to check
+     * if the dependency has changed.
+     * @see CApplication::setGlobalState
+     */
+    public $stateName;
 
-	/**
-	 * Constructor.
-	 * @param string $name the name of the global state
-	 */
-	public function __construct($name=null)
-	{
-		$this->stateName=$name;
-	}
+    /**
+     * Constructor.
+     * @param string $name the name of the global state
+     */
+    public function __construct($name=null)
+    {
+        $this->stateName=$name;
+    }
 
-	/**
-	 * Generates the data needed to determine if dependency has been changed.
-	 * This method returns the value of the global state.
-	 * @return mixed the data needed to determine if dependency has been changed.
-	 */
-	protected function generateDependentData()
-	{
-		if($this->stateName!==null)
-			return Yii::app()->getGlobalState($this->stateName);
-		else
-			throw new CException(Yii::t('yii','CGlobalStateCacheDependency.stateName cannot be empty.'));
-	}
+    /**
+     * Generates the data needed to determine if dependency has been changed.
+     * This method returns the value of the global state.
+     * @return mixed the data needed to determine if dependency has been changed.
+     */
+    protected function generateDependentData()
+    {
+        if($this->stateName!==null)
+            return Yii::app()->getGlobalState($this->stateName);
+        else
+            throw new CException(Yii::t('yii','CGlobalStateCacheDependency.stateName cannot be empty.'));
+    }
 }

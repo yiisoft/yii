@@ -8,6 +8,6 @@ $db=new PDO('sqlite:'.$dbFile);
 $sqls=file_get_contents($sqlFile);
 foreach(explode(';',$sqls) as $sql)
 {
-	if(trim($sql)!=='')
-		$db->exec($sql);
+    if(trim($sql)!=='')
+        $db->exec($sql);
 }

@@ -19,17 +19,17 @@
  */
 class FormCommand extends CConsoleCommand
 {
-	/**
-	 * @var string the directory that contains templates for the form command.
-	 * Defaults to null, meaning using 'framework/cli/views/shell/form'.
-	 * If you set this path and some views are missing in the directory,
-	 * the default views will be used.
-	 */
-	public $templatePath;
+    /**
+     * @var string the directory that contains templates for the form command.
+     * Defaults to null, meaning using 'framework/cli/views/shell/form'.
+     * If you set this path and some views are missing in the directory,
+     * the default views will be used.
+     */
+    public $templatePath;
 
-	public function getHelp()
-	{
-		return <<<EOD
+    public function getHelp()
+    {
+        return <<<EOD
 USAGE
   form <model-class> <view-name> [scenario]
 
@@ -56,68 +56,68 @@ EXAMPLES
         form ContactForm application.views.site.contact
 
 EOD;
-	}
+    }
 
-	/**
-	 * Execute the action.
-	 * @param array command line parameters specific for this command
-	 */
-	public function run($args)
-	{
-		if(!isset($args[0],$args[1]))
-		{
-			echo "Error: both model class and view name are required.\n";
-			echo $this->getHelp();
-			return;
-		}
-		$scenario=isset($args[2]) ? $args[2] : '';
-		$modelClass=Yii::import($args[0],true);
-		$model=new $modelClass($scenario);
-		$attributes=$model->getSafeAttributeNames();
+    /**
+     * Execute the action.
+     * @param array command line parameters specific for this command
+     */
+    public function run($args)
+    {
+        if(!isset($args[0],$args[1]))
+        {
+            echo "Error: both model class and view name are required.\n";
+            echo $this->getHelp();
+            return;
+        }
+        $scenario=isset($args[2]) ? $args[2] : '';
+        $modelClass=Yii::import($args[0],true);
+        $model=new $modelClass($scenario);
+        $attributes=$model->getSafeAttributeNames();
 
-		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/form':$this->templatePath;
-		$viewPath=Yii::getPathOfAlias($args[1]);
-		$viewName=basename($viewPath);
-		$viewPath.='.php';
-		$params=array(
-			'modelClass'=>$modelClass,
-			'viewName'=>$viewName,
-			'attributes'=>$attributes,
-		);
-		$list=array(
-			basename($viewPath)=>array(
-				'source'=>$templatePath.'/form.php',
-				'target'=>$viewPath,
-				'callback'=>array($this,'generateForm'),
-				'params'=>$params,
-			),
-		);
+        $templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/form':$this->templatePath;
+        $viewPath=Yii::getPathOfAlias($args[1]);
+        $viewName=basename($viewPath);
+        $viewPath.='.php';
+        $params=array(
+            'modelClass'=>$modelClass,
+            'viewName'=>$viewName,
+            'attributes'=>$attributes,
+        );
+        $list=array(
+            basename($viewPath)=>array(
+                'source'=>$templatePath.'/form.php',
+                'target'=>$viewPath,
+                'callback'=>array($this,'generateForm'),
+                'params'=>$params,
+            ),
+        );
 
-		$this->copyFiles($list);
+        $this->copyFiles($list);
 
-		$actionFile=$templatePath.'/action.php';
-		if(!is_file($actionFile))  // fall back to default ones
-			$actionFile=YII_PATH.'/cli/views/shell/form/action.php';
+        $actionFile=$templatePath.'/action.php';
+        if(!is_file($actionFile))  // fall back to default ones
+            $actionFile=YII_PATH.'/cli/views/shell/form/action.php';
 
-		echo "The following form view has been successfully created:\n";
-		echo "\t$viewPath\n\n";
-		echo "You may use the following code in your controller action:\n\n";
-		echo $this->renderFile($actionFile,$params,true);
-		echo "\n";
-	}
+        echo "The following form view has been successfully created:\n";
+        echo "\t$viewPath\n\n";
+        echo "You may use the following code in your controller action:\n\n";
+        echo $this->renderFile($actionFile,$params,true);
+        echo "\n";
+    }
 
-	public function generateForm($source,$params)
-	{
-		if(!is_file($source))  // fall back to default ones
-			$source=YII_PATH.'/cli/views/shell/form/'.basename($source);
+    public function generateForm($source,$params)
+    {
+        if(!is_file($source))  // fall back to default ones
+            $source=YII_PATH.'/cli/views/shell/form/'.basename($source);
 
-		return $this->renderFile($source,$params,true);
-	}
+        return $this->renderFile($source,$params,true);
+    }
 
-	public function class2id($className)
-	{
-		if(strrpos($className,'Form')===strlen($className)-4)
-			$className=substr($className,0,strlen($className)-4);
-		return trim(strtolower(str_replace('_','-',preg_replace('/(?<![A-Z])[A-Z]/', '-\0', $className))),'-');
-	}
+    public function class2id($className)
+    {
+        if(strrpos($className,'Form')===strlen($className)-4)
+            $className=substr($className,0,strlen($className)-4);
+        return trim(strtolower(str_replace('_','-',preg_replace('/(?<![A-Z])[A-Z]/', '-\0', $className))),'-');
+    }
 }

@@ -18,16 +18,16 @@
  */
 class CSqliteColumnSchema extends CDbColumnSchema
 {
-	/**
-	 * Extracts the default value for the column.
-	 * The value is typecasted to correct PHP type.
-	 * @param mixed $defaultValue the default value obtained from metadata
-	 */
-	protected function extractDefault($defaultValue)
-	{
-		if($this->type==='string') // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
-			$this->defaultValue=trim($defaultValue,"'\"");
-		else
-			$this->defaultValue=$this->typecast(strcasecmp($defaultValue,'null') ? $defaultValue : null);
-	}
+    /**
+     * Extracts the default value for the column.
+     * The value is typecasted to correct PHP type.
+     * @param mixed $defaultValue the default value obtained from metadata
+     */
+    protected function extractDefault($defaultValue)
+    {
+        if($this->type==='string') // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
+            $this->defaultValue=trim($defaultValue,"'\"");
+        else
+            $this->defaultValue=$this->typecast(strcasecmp($defaultValue,'null') ? $defaultValue : null);
+    }
 }

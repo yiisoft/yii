@@ -15,11 +15,11 @@
 <div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
 <div id="mainmenu">
 <?php $this->widget('application.components.MainMenu',array(
-	'items'=>array(
-		array('label'=>'Home', 'url'=>array('site/index')),
-		array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::app()->user->isGuest),
-		array('label'=>'Logout', 'url'=>array('site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-	),
+    'items'=>array(
+        array('label'=>'Home', 'url'=>array('site/index')),
+        array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::app()->user->isGuest),
+        array('label'=>'Logout', 'url'=>array('site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+    ),
 )); ?>
 </div><!-- mainmenu -->
 </div><!-- header -->

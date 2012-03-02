@@ -1,6 +1,6 @@
 <?php echo "<?php\n"; ?>
 $this->breadcrumbs=array(
-	$this->module->id,
+    $this->module->id,
 );
 ?>
 <h1><?php echo "<?php"; ?> echo $this->uniqueId . '/' . $this->action->id; ?></h1>

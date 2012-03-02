@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
-	'Comments'=>array('index'),
-	'Update Comment #'.$model->id,
+    'Comments'=>array('index'),
+    'Update Comment #'.$model->id,
 );
 ?>
 

@@ -42,36 +42,36 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  */
 class CJuiDroppable extends CJuiWidget
 {
-	/**
-	 * @var string the HTML tag name of the Droppable element. Defaults to 'div'.
-	 */
-	public $tagName='div';
+    /**
+     * @var string the HTML tag name of the Droppable element. Defaults to 'div'.
+     */
+    public $tagName='div';
 
-	/**
-	 * Renders the open tag of the droppable element.
-	 * This method also registers the necessary javascript code.
-	 */
-	public function init()
-	{
-		parent::init();
-		$id=$this->getId();
-		if (isset($this->htmlOptions['id']))
-			$id = $this->htmlOptions['id'];
-		else
-			$this->htmlOptions['id']=$id;
+    /**
+     * Renders the open tag of the droppable element.
+     * This method also registers the necessary javascript code.
+     */
+    public function init()
+    {
+        parent::init();
+        $id=$this->getId();
+        if (isset($this->htmlOptions['id']))
+            $id = $this->htmlOptions['id'];
+        else
+            $this->htmlOptions['id']=$id;
 
-		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
-		
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').droppable($options);");
-	}
+        echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
+        
+        $options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+        Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').droppable($options);");
+    }
 
-	/**
-	 * Renders the close tag of the droppable element.
-	 */
-	public function run(){
-		echo CHtml::closeTag($this->tagName);
-	}
+    /**
+     * Renders the close tag of the droppable element.
+     */
+    public function run(){
+        echo CHtml::closeTag($this->tagName);
+    }
 
 }
 

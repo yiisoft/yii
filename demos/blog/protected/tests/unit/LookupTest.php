@@ -2,12 +2,12 @@
 
 class LookupTest extends CDbTestCase
 {
-	public $fixtures=array(
-		'lookups'=>'Lookup',
-	);
+    public $fixtures=array(
+        'lookups'=>'Lookup',
+    );
 
-	public function testCreate()
-	{
+    public function testCreate()
+    {
 
-	}
+    }
 }

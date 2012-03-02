@@ -50,216 +50,216 @@
  */
 class CFormInputElement extends CFormElement
 {
-	/**
-	 * @var array Core input types (alias=>CHtml method name)
-	 */
-	public static $coreTypes=array(
-		'text'=>'activeTextField',
-		'hidden'=>'activeHiddenField',
-		'password'=>'activePasswordField',
-		'textarea'=>'activeTextArea',
-		'file'=>'activeFileField',
-		'radio'=>'activeRadioButton',
-		'checkbox'=>'activeCheckBox',
-		'listbox'=>'activeListBox',
-		'dropdownlist'=>'activeDropDownList',
-		'checkboxlist'=>'activeCheckBoxList',
-		'radiolist'=>'activeRadioButtonList',
-		'url'=>'activeUrlField',
-		'email'=>'activeEmailField',
-		'number'=>'activeNumberField',
-		'range'=>'activeRangeField',
-		'date'=>'activeDateField'
-	);
+    /**
+     * @var array Core input types (alias=>CHtml method name)
+     */
+    public static $coreTypes=array(
+        'text'=>'activeTextField',
+        'hidden'=>'activeHiddenField',
+        'password'=>'activePasswordField',
+        'textarea'=>'activeTextArea',
+        'file'=>'activeFileField',
+        'radio'=>'activeRadioButton',
+        'checkbox'=>'activeCheckBox',
+        'listbox'=>'activeListBox',
+        'dropdownlist'=>'activeDropDownList',
+        'checkboxlist'=>'activeCheckBoxList',
+        'radiolist'=>'activeRadioButtonList',
+        'url'=>'activeUrlField',
+        'email'=>'activeEmailField',
+        'number'=>'activeNumberField',
+        'range'=>'activeRangeField',
+        'date'=>'activeDateField'
+    );
 
-	/**
-	 * @var string the type of this input. This can be a widget class name, a path alias of a widget class name,
-	 * or a input type alias (text, hidden, password, textarea, file, radio, checkbox, listbox, dropdownlist, checkboxlist, or radiolist).
-	 * If a widget class, it must extend from {@link CInputWidget} or (@link CJuiInputWidget).
-	 */
-	public $type;
-	/**
-	 * @var string name of this input
-	 */
-	public $name;
-	/**
-	 * @var string hint text of this input
-	 */
-	public $hint;
-	/**
-	 * @var array the options for this input when it is a list box, drop-down list, check box list, or radio button list.
-	 * Please see {@link CHtml::listData} for details of generating this property value.
-	 */
-	public $items=array();
-	/**
-	 * @var array the options used when rendering the error part. This property will be passed
-	 * to the {@link CActiveForm::error} method call as its $htmlOptions parameter.
-	 * @see CActiveForm::error
-	 * @since 1.1.1
-	 */
-	public $errorOptions=array();
-	/**
-	 * @var boolean whether to allow AJAX-based validation for this input. Note that in order to use
-	 * AJAX-based validation, {@link CForm::activeForm} must be configured with 'enableAjaxValidation'=>true.
-	 * This property allows turning on or off  AJAX-based validation for individual input fields.
-	 * Defaults to true.
-	 * @since 1.1.7
-	 */
-	public $enableAjaxValidation=true;
-	/**
-	 * @var boolean whether to allow client-side validation for this input. Note that in order to use
-	 * client-side validation, {@link CForm::activeForm} must be configured with 'enableClientValidation'=>true.
-	 * This property allows turning on or off  client-side validation for individual input fields.
-	 * Defaults to true.
-	 * @since 1.1.7
-	 */
-	public $enableClientValidation=true;
-	/**
-	 * @var string the layout used to render label, input, hint and error. They correspond to the placeholders
-	 * "{label}", "{input}", "{hint}" and "{error}".
-	 */
-	public $layout="{label}\n{input}\n{hint}\n{error}";
+    /**
+     * @var string the type of this input. This can be a widget class name, a path alias of a widget class name,
+     * or a input type alias (text, hidden, password, textarea, file, radio, checkbox, listbox, dropdownlist, checkboxlist, or radiolist).
+     * If a widget class, it must extend from {@link CInputWidget} or (@link CJuiInputWidget).
+     */
+    public $type;
+    /**
+     * @var string name of this input
+     */
+    public $name;
+    /**
+     * @var string hint text of this input
+     */
+    public $hint;
+    /**
+     * @var array the options for this input when it is a list box, drop-down list, check box list, or radio button list.
+     * Please see {@link CHtml::listData} for details of generating this property value.
+     */
+    public $items=array();
+    /**
+     * @var array the options used when rendering the error part. This property will be passed
+     * to the {@link CActiveForm::error} method call as its $htmlOptions parameter.
+     * @see CActiveForm::error
+     * @since 1.1.1
+     */
+    public $errorOptions=array();
+    /**
+     * @var boolean whether to allow AJAX-based validation for this input. Note that in order to use
+     * AJAX-based validation, {@link CForm::activeForm} must be configured with 'enableAjaxValidation'=>true.
+     * This property allows turning on or off  AJAX-based validation for individual input fields.
+     * Defaults to true.
+     * @since 1.1.7
+     */
+    public $enableAjaxValidation=true;
+    /**
+     * @var boolean whether to allow client-side validation for this input. Note that in order to use
+     * client-side validation, {@link CForm::activeForm} must be configured with 'enableClientValidation'=>true.
+     * This property allows turning on or off  client-side validation for individual input fields.
+     * Defaults to true.
+     * @since 1.1.7
+     */
+    public $enableClientValidation=true;
+    /**
+     * @var string the layout used to render label, input, hint and error. They correspond to the placeholders
+     * "{label}", "{input}", "{hint}" and "{error}".
+     */
+    public $layout="{label}\n{input}\n{hint}\n{error}";
 
-	private $_label;
-	private $_required;
+    private $_label;
+    private $_required;
 
-	/**
-	 * Gets the value indicating whether this input is required.
-	 * If this property is not set explicitly, it will be determined by calling
-	 * {@link CModel::isAttributeRequired} for the associated model and attribute of this input.
-	 * @return boolean whether this input is required.
-	 */
-	public function getRequired()
-	{
-		if($this->_required!==null)
-			return $this->_required;
-		else
-			return $this->getParent()->getModel()->isAttributeRequired($this->name);
-	}
+    /**
+     * Gets the value indicating whether this input is required.
+     * If this property is not set explicitly, it will be determined by calling
+     * {@link CModel::isAttributeRequired} for the associated model and attribute of this input.
+     * @return boolean whether this input is required.
+     */
+    public function getRequired()
+    {
+        if($this->_required!==null)
+            return $this->_required;
+        else
+            return $this->getParent()->getModel()->isAttributeRequired($this->name);
+    }
 
-	/**
-	 * @param boolean $value whether this input is required.
-	 */
-	public function setRequired($value)
-	{
-		$this->_required=$value;
-	}
+    /**
+     * @param boolean $value whether this input is required.
+     */
+    public function setRequired($value)
+    {
+        $this->_required=$value;
+    }
 
-	/**
-	 * @return string the label for this input. If the label is not manually set,
-	 * this method will call {@link CModel::getAttributeLabel} to determine the label.
-	 */
-	public function getLabel()
-	{
-		if($this->_label!==null)
-			return $this->_label;
-		else
-			return $this->getParent()->getModel()->getAttributeLabel($this->name);
-	}
+    /**
+     * @return string the label for this input. If the label is not manually set,
+     * this method will call {@link CModel::getAttributeLabel} to determine the label.
+     */
+    public function getLabel()
+    {
+        if($this->_label!==null)
+            return $this->_label;
+        else
+            return $this->getParent()->getModel()->getAttributeLabel($this->name);
+    }
 
-	/**
-	 * @param string $value the label for this input
-	 */
-	public function setLabel($value)
-	{
-		$this->_label=$value;
-	}
+    /**
+     * @param string $value the label for this input
+     */
+    public function setLabel($value)
+    {
+        $this->_label=$value;
+    }
 
-	/**
-	 * Renders everything for this input.
-	 * The default implementation simply returns the result of {@link renderLabel}, {@link renderInput},
-	 * {@link renderHint}. When {@link CForm::showErrorSummary} is false, {@link renderError} is also called
-	 * to show error messages after individual input fields.
-	 * @return string the complete rendering result for this input, including label, input field, hint, and error.
-	 */
-	public function render()
-	{
-		if($this->type==='hidden')
-			return $this->renderInput();
-		$output=array(
-			'{label}'=>$this->renderLabel(),
-			'{input}'=>$this->renderInput(),
-			'{hint}'=>$this->renderHint(),
-			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
-		);
-		return strtr($this->layout,$output);
-	}
+    /**
+     * Renders everything for this input.
+     * The default implementation simply returns the result of {@link renderLabel}, {@link renderInput},
+     * {@link renderHint}. When {@link CForm::showErrorSummary} is false, {@link renderError} is also called
+     * to show error messages after individual input fields.
+     * @return string the complete rendering result for this input, including label, input field, hint, and error.
+     */
+    public function render()
+    {
+        if($this->type==='hidden')
+            return $this->renderInput();
+        $output=array(
+            '{label}'=>$this->renderLabel(),
+            '{input}'=>$this->renderInput(),
+            '{hint}'=>$this->renderHint(),
+            '{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
+        );
+        return strtr($this->layout,$output);
+    }
 
-	/**
-	 * Renders the label for this input.
-	 * The default implementation returns the result of {@link CHtml activeLabelEx}.
-	 * @return string the rendering result
-	 */
-	public function renderLabel()
-	{
-		$options = array(
-			'label'=>$this->getLabel(),
-			'required'=>$this->getRequired()
-		);
+    /**
+     * Renders the label for this input.
+     * The default implementation returns the result of {@link CHtml activeLabelEx}.
+     * @return string the rendering result
+     */
+    public function renderLabel()
+    {
+        $options = array(
+            'label'=>$this->getLabel(),
+            'required'=>$this->getRequired()
+        );
 
-		if(!empty($this->attributes['id']))
+        if(!empty($this->attributes['id']))
         {
             $options['for'] = $this->attributes['id'];
         }
 
-		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);
-	}
+        return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);
+    }
 
-	/**
-	 * Renders the input field.
-	 * The default implementation returns the result of the appropriate CHtml method or the widget.
-	 * @return string the rendering result
-	 */
-	public function renderInput()
-	{
-		if(isset(self::$coreTypes[$this->type]))
-		{
-			$method=self::$coreTypes[$this->type];
-			if(strpos($method,'List')!==false)
-				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->attributes);
-			else
-				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->attributes);
-		}
-		else
-		{
-			$attributes=$this->attributes;
-			$attributes['model']=$this->getParent()->getModel();
-			$attributes['attribute']=$this->name;
-			ob_start();
-			$this->getParent()->getOwner()->widget($this->type, $attributes);
-			return ob_get_clean();
-		}
-	}
+    /**
+     * Renders the input field.
+     * The default implementation returns the result of the appropriate CHtml method or the widget.
+     * @return string the rendering result
+     */
+    public function renderInput()
+    {
+        if(isset(self::$coreTypes[$this->type]))
+        {
+            $method=self::$coreTypes[$this->type];
+            if(strpos($method,'List')!==false)
+                return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->attributes);
+            else
+                return CHtml::$method($this->getParent()->getModel(), $this->name, $this->attributes);
+        }
+        else
+        {
+            $attributes=$this->attributes;
+            $attributes['model']=$this->getParent()->getModel();
+            $attributes['attribute']=$this->name;
+            ob_start();
+            $this->getParent()->getOwner()->widget($this->type, $attributes);
+            return ob_get_clean();
+        }
+    }
 
-	/**
-	 * Renders the error display of this input.
-	 * The default implementation returns the result of {@link CHtml::error}
-	 * @return string the rendering result
-	 */
-	public function renderError()
-	{
-		$parent=$this->getParent();
-		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
-	}
+    /**
+     * Renders the error display of this input.
+     * The default implementation returns the result of {@link CHtml::error}
+     * @return string the rendering result
+     */
+    public function renderError()
+    {
+        $parent=$this->getParent();
+        return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
+    }
 
-	/**
-	 * Renders the hint text for this input.
-	 * The default implementation returns the {@link hint} property enclosed in a paragraph HTML tag.
-	 * @return string the rendering result.
-	 */
-	public function renderHint()
-	{
-		return $this->hint===null ? '' : '<div class="hint">'.$this->hint.'</div>';
-	}
+    /**
+     * Renders the hint text for this input.
+     * The default implementation returns the {@link hint} property enclosed in a paragraph HTML tag.
+     * @return string the rendering result.
+     */
+    public function renderHint()
+    {
+        return $this->hint===null ? '' : '<div class="hint">'.$this->hint.'</div>';
+    }
 
-	/**
-	 * Evaluates the visibility of this element.
-	 * This method will check if the attribute associated with this input is safe for
-	 * the current model scenario.
-	 * @return boolean whether this element is visible.
-	 */
-	protected function evaluateVisible()
-	{
-		return $this->getParent()->getModel()->isAttributeSafe($this->name);
-	}
+    /**
+     * Evaluates the visibility of this element.
+     * This method will check if the attribute associated with this input is safe for
+     * the current model scenario.
+     * @return boolean whether this element is visible.
+     */
+    protected function evaluateVisible()
+    {
+        return $this->getParent()->getModel()->isAttributeSafe($this->name);
+    }
 }

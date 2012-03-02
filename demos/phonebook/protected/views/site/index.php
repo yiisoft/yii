@@ -24,14 +24,14 @@ installed Adobe Flash Player version 9 or above.
 <div>
 <?php if(extension_loaded('soap')): ?>
 <?php $this->widget('CFlexWidget',array(
-	'baseUrl'=>Yii::app()->baseUrl.'/flex/bin',
-	'name'=>'phonebook',
-	'width'=>'800',
-	'height'=>'300',
-	'align'=>'left',
-	'flashVars'=>array(
-		'wsdl'=>$this->createUrl('phonebook'),
-	))); ?>
+    'baseUrl'=>Yii::app()->baseUrl.'/flex/bin',
+    'name'=>'phonebook',
+    'width'=>'800',
+    'height'=>'300',
+    'align'=>'left',
+    'flashVars'=>array(
+        'wsdl'=>$this->createUrl('phonebook'),
+    ))); ?>
 <?php else: ?>
 Sorry, the PHP SOAP extension is not enabled on your Web server.
 <?php endif; ?>
