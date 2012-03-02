@@ -18,6 +18,7 @@ Version 1.1.11 work in progress
 - Enh: Added CBreadcrumbs::$activeLinkTemplate and CBreadcrumbs::$inactiveLinkTemplate properties which allows to change each item's template (resurtm)
 - Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
 - Bug #417: CAttributeCollections::mergeWith() does not take into account the caseSensitive (dmtrs)
+- Bug #433: Fixed the bug that Gii model name input autocomplete was not working sometimes (mdomba)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
