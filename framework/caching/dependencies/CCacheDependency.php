@@ -34,13 +34,13 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	 * Defaults to false;
 	 * @since 1.1.11
 	 */
-	public $reusable=false;
+	public $reuseDependentData=false;
 
 	/**
 	 * @var array cached data for reusable dependencies.
 	 * @since 1.1.11
 	 */
-	protected static $_cachedData=array();
+	private static $_reusableData=array();
 
 	private $_hash;
 	private $_data;
@@ -51,12 +51,12 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	 */
 	public function evaluateDependency()
 	{
-		if ($this->reusable)
+		if ($this->reuseDependentData)
 		{
 			$hash=$this->getHash();
-			if (!isset(self::$_cachedData[$hash]['dependentData']))
-				self::$_cachedData[$hash]['dependentData']=$this->generateDependentData();
-			$this->_data=self::$_cachedData[$hash]['dependentData'];
+			if (!isset(self::$_reusableData[$hash]['dependentData']))
+				self::$_reusableData[$hash]['dependentData']=$this->generateDependentData();
+			$this->_data=self::$_reusableData[$hash]['dependentData'];
 		}
 		else
 			$this->_data=$this->generateDependentData();
@@ -67,16 +67,16 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	 */
 	public function getHasChanged()
 	{
-		if ($this->reusable)
+		if ($this->reuseDependentData)
 		{
 			$hash=$this->getHash();
-			if (!isset(self::$_cachedData[$hash]['hasChanged']))
+			if (!isset(self::$_reusableData[$hash]['hasChanged']))
 			{
-				if (!isset(self::$_cachedData[$hash]['dependentData']))
-					self::$_cachedData[$hash]['dependentData']=$this->generateDependentData();
-				self::$_cachedData[$hash]['hasChanged']=self::$_cachedData[$hash]['dependentData']!=$this->_data;
+				if (!isset(self::$_reusableData[$hash]['dependentData']))
+					self::$_reusableData[$hash]['dependentData']=$this->generateDependentData();
+				self::$_reusableData[$hash]['hasChanged']=self::$_reusableData[$hash]['dependentData']!=$this->_data;
 			}
-			return self::$_cachedData[$hash]['hasChanged'];
+			return self::$_reusableData[$hash]['hasChanged'];
 		}
 		else
 			return $this->generateDependentData()!=$this->_data;
@@ -104,7 +104,7 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	 * Generates a unique hash that identifies this cache dependency.
 	 * @return string the hash for this cache dependency
 	 */
-	protected function getHash()
+	private function getHash()
 	{
 		if($this->_hash===null)
 			$this->_hash=sha1(serialize($this));
