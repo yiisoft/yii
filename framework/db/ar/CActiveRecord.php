@@ -872,6 +872,26 @@ abstract class CActiveRecord extends CModel
 		$this->raiseEvent('onAfterFind',$event);
 	}
 
+
+	/**
+	 * This method is invoked before validating a record (before saveing).
+	 * The default implementation raises the {@link onBeforeValidation} event.
+	 * You may override this method to do any preparation work for record validating.
+	 * Make sure you call the parent implementation so that the event is raised properly.
+	 * This one will allow decimal values with "," insted of "."
+	 * @return boolean whether the validateing is ok. 
+	 */
+	 protected function beforeValidate()
+	{
+		foreach($this->owner->getTableSchema()->columns as $name => $column)
+		{
+			if (preg_match('/^decimal\(\d+,(\d+)\)/',$column->dbType,$m) && ($value=$this->$name)!==null)
+			    $this->$name=str_replace(',','.',$this->$name);
+		}
+		return parent::beforeValidate();
+	}
+
+
 	/**
 	 * This method is invoked before saving a record (after validation, if any).
 	 * The default implementation raises the {@link onBeforeSave} event.
