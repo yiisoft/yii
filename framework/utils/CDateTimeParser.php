@@ -32,6 +32,7 @@
  * s       | Seconds in 0 to 59, no padding
  * ss      | Seconds in 00 to 59, zero leading
  * a       | AM or PM, case-insensitive (since version 1.1.5)
+ * ?       | matches any character (wildcard) (since version 1.1.11)
  * ----------------------------------------------------
  * </pre>
  * All other characters must appear in the date string at the corresponding positions.
@@ -175,7 +176,7 @@ class CDateTimeParser
 				default:
 				{
 					$tn=strlen($token);
-					if($i>=$n || substr($value,$i,$tn)!==$token)
+					if($i>=$n || ($token{0}!='?' && substr($value,$i,$tn)!==$token))
 						return false;
 					$i+=$tn;
 					break;
