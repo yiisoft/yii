@@ -96,7 +96,7 @@
 					settings.afterAjaxUpdate(id, data);
 				$('#'+id).removeClass(settings.loadingClass);
                                 
-                                // Check to see if History.js is enabled for our Browser
+				// Check to see if History.js is enabled for our Browser
 				if ( History.enabled ) {
 					// Ajaxify this link
 					var params = $.deparam.querystring(this.url);
