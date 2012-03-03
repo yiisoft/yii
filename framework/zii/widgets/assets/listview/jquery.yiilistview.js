@@ -9,6 +9,8 @@
  */
 
 ;(function($) {
+        var History = window.History;
+        
 	/**
 	 * yiiListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
@@ -93,6 +95,14 @@
 				if(settings.afterAjaxUpdate != undefined)
 					settings.afterAjaxUpdate(id, data);
 				$('#'+id).removeClass(settings.loadingClass);
+                                
+                                // Check to see if History.js is enabled for our Browser
+                                if ( History.enabled ) {
+                                    // Ajaxify this link
+                                    var params = $.deparam.querystring(this.url);
+                                    delete params[settings.ajaxVar];
+                                    History.pushState(null,null,$.param.querystring(this.url.substr(0, this.url.indexOf('?')), params));
+                                }        
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				$('#'+id).removeClass(settings.loadingClass);
