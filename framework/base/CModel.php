@@ -395,10 +395,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			if(is_array($error))
 			{
 				foreach($error as $e)
-					$this->_errors[$attribute][]=$e;
+					$this->addError($attribute, $e);
 			}
 			else
-				$this->_errors[$attribute][]=$error;
+				$this->addError($attribute, $error);
 		}
 	}
 
