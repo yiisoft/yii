@@ -9,7 +9,7 @@
  */
 
 ;(function($) {
-        var History = window.History;
+	var History = window.History;
         
 	/**
 	 * yiiListView set function.
@@ -97,11 +97,11 @@
 				$('#'+id).removeClass(settings.loadingClass);
                                 
                                 // Check to see if History.js is enabled for our Browser
-                                if ( History.enabled ) {
-                                    // Ajaxify this link
-                                    var params = $.deparam.querystring(this.url);
-                                    delete params[settings.ajaxVar];
-                                    History.pushState(null,null,$.param.querystring(this.url.substr(0, this.url.indexOf('?')), params));
+				if ( History.enabled ) {
+					// Ajaxify this link
+					var params = $.deparam.querystring(this.url);
+					delete params[settings.ajaxVar];
+					History.pushState(null,null,$.param.querystring(this.url.substr(0, this.url.indexOf('?')), params));
                                 }        
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
