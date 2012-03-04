@@ -10,7 +10,8 @@
 
 (function ($) {
 	var selectCheckedRows, methods,
-		gridSettings = [], History = window.History;
+		gridSettings = [], 
+		History = window.History;
                                 
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
