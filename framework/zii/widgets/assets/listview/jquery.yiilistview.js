@@ -35,22 +35,21 @@
 			if(settings.ajaxUpdate.length > 0) {
 				$(settings.updateSelector).die('click').live('click',function(){
 					// Check to see if History.js is enabled for our Browser
-					if ( History.enabled ) {
+					if (History.enabled) {
 						// Ajaxify this link
 						var url = $(this).attr('href');
 						var params = $.deparam.querystring(url);
 						delete params[settings.ajaxVar];
-						History.pushState(null,null,$.param.querystring(url.substr(0, url.indexOf('?')), params));
-					}
-					else {
+						History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+					} else {
 						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
 					}
 					return false;
 				});
 			}
 
-			if ( History.enabled ) {
-				History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
+			if (History.enabled) {
+				History.Adapter.bind(window, 'statechange', function(){ // Note: We are using statechange instead of popstate
 					var State = History.getState(); // Note: We are using History.getState() instead of event.state
 					$.fn.yiiListView.update(id, {url: State.url});
 				});
