@@ -101,7 +101,7 @@
 					// Ajaxify this link
 					var params = $.deparam.querystring(this.url);
 					delete params[settings.ajaxVar];
-					History.pushState(null,null,$.param.querystring(this.url.substr(0, this.url.indexOf('?')), params));
+					History.pushState(null, null, $.param.querystring(this.url.substr(0, this.url.indexOf('?')), params));
                                 }        
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
