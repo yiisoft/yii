@@ -10,10 +10,8 @@
 
 (function ($) {
 	var selectCheckedRows, methods,
-		gridSettings = [];
-                
-	var History = window.History;
-                
+		gridSettings = [], History = window.History;
+                                
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
 	 * 2. Check if "check all" need to be checked/unchecked
@@ -207,7 +205,7 @@
 				options = $.extend({
 					type: 'GET',
 					url: $grid.yiiGridView('getUrl'),
-					success: function (data, textStatus, XHR) {
+					success: function (data) {
 						var $data = $('<div>' + data + '</div>');
 						$grid.removeClass(settings.loadingClass);
 						$.each(settings.ajaxUpdate, function (i, el) {
