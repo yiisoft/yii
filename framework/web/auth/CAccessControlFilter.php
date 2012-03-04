@@ -45,7 +45,11 @@
  *   // This option is available since version 1.1.1.
  *   'message'=>'Access Denied.',
  *   // optional, the denied method callback name, that will be called once the
- *	 // access is denied, instead of showing the customized error message
+ *	 // access is denied, instead of showing the customized error message. It can also be
+ *   // a valid PHP callback, including class method name (array(ClassName/Object, MethodName)),
+ *	 // or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:
+ *	 // function foo($user, $rule) { ... }
+ *	 // where $user is the current application user object and $rule is this access rule.
  *   // This option is available since version 1.1.11.
  *   'deniedCallback'=>'redirectToDeniedMethod',
   * )
@@ -122,7 +126,7 @@ class CAccessControlFilter extends CFilter
 			else if($allow<0) // denied
 			{
 				if(isset($rule->deniedCallback))
-					call_user_func(array(get_class($filterChain->controller),$rule->deniedCallback));
+					call_user_func($rule->deniedCallback, $rule);
 				else
 					$this->accessDenied($user,$this->resolveErrorMessage($rule));
 				return false;
@@ -230,8 +234,17 @@ class CAccessRule extends CComponent
 	 */
 	public $message;
 	/**
-	 * @var string the denied method callback name, that will be called once the
-	 * access is denied, instead of showing the customized error message
+	 * @var mixed the denied method callback that will be called once the
+	 * access is denied. It replaces the behavior that shows an error message.
+	 * It can be a valid PHP callback including class method name (array(ClassName/Object, MethodName)),
+	 * or anonymous function (PHP 5.3.0+). For more information, on different options, check
+	 * @link http://www.php.net/manual/en/language.pseudo-types.php#language.types.callback
+	 * The function/method signature should be as follows:
+	 * <pre>
+	 * function foo($rule) { ... }
+	 * </pre>
+	 * where $rule is this access rule.
+	 *
 	 * @since 1.1.11
 	 */
 	public $deniedCallback;
