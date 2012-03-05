@@ -49,7 +49,7 @@
 				});
 			}
 
-			if (History.enabled) {
+			if (settings.ajaxUpdate !== false && History.enabled) {
 				$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 					var State = History.getState(); // Note: We are using History.getState() instead of event.state
 					$.fn.yiiListView.update(id, {url: State.url});

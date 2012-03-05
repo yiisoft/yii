@@ -100,7 +100,7 @@
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
 					}
-					if (History.enabled) {
+					if (settings.ajaxUpdate !== false && History.enabled) {
 						// Ajaxify this link
 						var url = $('#' + id).yiiGridView('getUrl'),
 							params = $.deparam.querystring($.param.querystring(url, data));
@@ -112,7 +112,7 @@
 					}
 				});
 
-				if (History.enabled) {
+				if (settings.ajaxUpdate !== false && History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 						var State = History.getState(); // Note: We are using History.getState() instead of event.state
 						$('#' + id).yiiGridView('update', {url: State.url});
