@@ -4,17 +4,26 @@
 
 Version 1.1.11 work in progress
 -------------------------------
-- Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
-- Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
+- Enh:#294: Added deniedCallback to CAccessControlFilter and CAccessRule to allow forwarding control to a method on denial (luislobo)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
-- Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
+- Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
+- Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
+- Bug #381: Fixed the bug that Gii model name input could get misspelled when autocomplete is used (mdomba)
+- Bug #417: CAttributeCollections::mergeWith() does not take into account the caseSensitive (dmtrs)
+- Bug #433: Fixed the bug that Gii model name input autocomplete was not working sometimes (mdomba)
+- Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
+- Enh #191: Added ability to customize HTML classes of CLinkPager via its public properties (mashingan)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
+- Enh #286: Added wildcard token to CDateTimeParser (cebe)
 - Enh #369: Added $hashKey and $autoSerialize properties as well as serializeValue() and unserializeValue() methods to CCache (kidol)
 - Enh #237: The tabs of CTabView now support the property 'visible' (DaSourcerer)
-- Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
+- Enh #356: Improved extendability of CDetailView by adding method renderItem() (cebe)
+- Enh #414: Added sort parameter to yiic message command that sorts messages by key when merging (ranvis)
 - Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug (resurtm)
 - Enh: Added CBreadcrumbs::$activeLinkTemplate and CBreadcrumbs::$inactiveLinkTemplate properties which allows to change each item's template (resurtm)
+- Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
+- Chg #440: Upgraded JQuery UI to 1.8.18 (samdark)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
@@ -1218,7 +1227,7 @@ Version 1.0.2 February 1, 2009
 
 Version 1.0.1 January 4, 2009
 -----------------------------
-- Bug #41: missing function CHttpRequest:: getCsrfTokenFromCookie() (Qiang)
+- Bug #41: missing function CHttpRequest::getCsrfTokenFromCookie() (Qiang)
 - Bug #42: Wrong links in crud generated admin view (Qiang)
 - Bug #45: Many-to-many relation does not work when both foreign tables are the same (Qiang)
 - Bug #47: Wrong url parsing when CUrlManager is set in path format (Qiang)

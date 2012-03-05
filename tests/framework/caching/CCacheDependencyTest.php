@@ -12,7 +12,7 @@ class CCacheDependencyTest extends CTestCase
 		fclose($fw);
 		clearstatcache();
 		$dependency = new MockFileCacheDependency($tempFile);
-		$dependency->reusable = true;
+		$dependency->reuseDependentData = true;
 		$dependency->evaluateDependency();
 		$this->assertEquals(1,MockFileCacheDependency::$generateDependentDataCalled);
 		// change file
@@ -23,7 +23,7 @@ class CCacheDependencyTest extends CTestCase
 		$this->assertFalse($dependency->getHasChanged());
 		$this->assertEquals(1,MockFileCacheDependency::$generateDependentDataCalled);
 		$dependency2 = new MockDirectoryCacheDependency(dirname($tempFile));
-		$dependency2->reusable = true;
+		$dependency2->reuseDependentData = true;
 		// change file
 		$fw=fopen($tempFile,"w");
 		fwrite($fw,"test again");
@@ -32,7 +32,7 @@ class CCacheDependencyTest extends CTestCase
 		$this->assertTrue($dependency2->getHasChanged());
 		$this->assertEquals(1,MockDirectoryCacheDependency::$generateDependentDataCalled);
 		$dependency3 = new MockDirectoryCacheDependency(dirname($tempFile));
-		$dependency3->reusable = true;
+		$dependency3->reuseDependentData = true;
 		$dependency3->evaluateDependency();
 		$this->assertTrue($dependency3->getHasChanged());
 		$this->assertEquals(1,MockDirectoryCacheDependency::$generateDependentDataCalled);

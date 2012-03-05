@@ -4,21 +4,32 @@ Yii::import('system.caching.dependencies.CDirectoryCacheDependency');
 
 class CDirectoryCacheDependencyTest extends CTestCase
 {
+	private $testDir1;
+	private $testDir2;
+
+	public function __construct()
+	{
+		parent::__construct();
+		Yii::app()->reset();
+		$this->testDir1 = Yii::app()->getRuntimePath().'/CDirectoryCacheDependencyTest_temp1';
+		@mkdir($this->testDir1);
+		$this->testDir2 = Yii::app()->getRuntimePath().'/CDirectoryCacheDependencyTest_temp2';
+	}
+
 	public function testDirectoryName()
 	{
-		$directory=realpath(dirname(__FILE__).'/temp');
+		$directory=realpath($this->testDir1);
 		$dependency=new CDirectoryCacheDependency($directory);
 		$this->assertEquals($dependency->directory,$directory);
 
 		$this->setExpectedException('CException');
-		$dependency=new CDirectoryCacheDependency(dirname(__FILE__).'/temp2');
+		$dependency=new CDirectoryCacheDependency($this->testDir2);
 		$dependency->evaluateDependency();
 	}
 
 	public function testRecursiveLevel()
 	{
-		$directory=realpath(dirname(__FILE__).'/temp');
-		$dependency=new CDirectoryCacheDependency(dirname(__FILE__).'/temp');
+		$dependency=new CDirectoryCacheDependency($this->testDir1);
 		$this->assertEquals($dependency->recursiveLevel,-1);
 		$dependency->recursiveLevel=5;
 		$this->assertEquals($dependency->recursiveLevel,5);
@@ -26,7 +37,7 @@ class CDirectoryCacheDependencyTest extends CTestCase
 
 	public function testHasChanged()
 	{
-		$tempFile=dirname(__FILE__).'/temp/foo.txt';
+		$tempFile=$this->testDir1.'/foo.txt';
 		@unlink($tempFile);
 		$fw=fopen($tempFile,"w");
 		fwrite($fw,"test");
@@ -57,5 +68,3 @@ class CDirectoryCacheDependencyTest extends CTestCase
 		@unlink($tempFile);
 	}
 }
-
-?>
