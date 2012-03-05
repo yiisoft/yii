@@ -1,9 +1,9 @@
-
                    Yii Framework Change Log
                    ========================
 
 Version 1.1.11 work in progress
 -------------------------------
+- Enh #451: Added support for array parameter in CUrlRule (intel352)
 - Enh:#294: Added deniedCallback to CAccessControlFilter and CAccessRule to allow forwarding control to a method on denial (luislobo)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
