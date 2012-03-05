@@ -10,7 +10,7 @@
 
 ;(function($) {
 	var History = window.History;
-        
+
 	/**
 	 * yiiListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
@@ -39,7 +39,7 @@
 						// Ajaxify this link
 						var url = $(this).attr('href'),
 							params = $.deparam.querystring(url);
-							
+
 						delete params[settings.ajaxVar];
 						History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
 					} else {
@@ -54,7 +54,7 @@
 					var State = History.getState(); // Note: We are using History.getState() instead of event.state
 					$.fn.yiiListView.update(id, {url: State.url});
 				});
-			}					
+			}
 		});
 	};
 

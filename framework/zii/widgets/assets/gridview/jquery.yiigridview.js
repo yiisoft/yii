@@ -10,9 +10,9 @@
 
 (function ($) {
 	var selectCheckedRows, methods,
-		gridSettings = [], 
+		gridSettings = [],
 		History = window.History;
-                                
+
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
 	 * 2. Check if "check all" need to be checked/unchecked
@@ -85,7 +85,7 @@
 							// Ajaxify this link
 							var url = $(this).attr('href'),
 								params = $.deparam.querystring(url);
-								
+
 							delete params[settings.ajaxVar];
 							History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
 						} else {
@@ -104,7 +104,7 @@
 						// Ajaxify this link
 						var url = $('#' + id).yiiGridView('getUrl'),
 							params = $.deparam.querystring($.param.querystring(url, data));
-						
+
 						delete params[settings.ajaxVar];
 						History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
 					} else {
@@ -117,7 +117,7 @@
 						var State = History.getState(); // Note: We are using History.getState() instead of event.state
 						$('#' + id).yiiGridView('update', {url: State.url});
 					});
-				}					
+				}
 
 				if (settings.selectableRows > 0) {
 					selectCheckedRows(this.id);
