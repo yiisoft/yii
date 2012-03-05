@@ -60,6 +60,10 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 			'source'=>array_keys(Yii::app()->db->schema->getTables()),
 			'options'=>array(
 				'minLength'=>'0',
+				'focus' => 'js:function(event,ui) {
+					$("#'.CHtml::activeId($model,'tableName').'").val(ui.item.label);
+					return false;
+				}'
 			),
 			'htmlOptions'=>array(
 				'id'=>'ModelCode_tableName',
