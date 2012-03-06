@@ -8,6 +8,7 @@
 Перекладачі
 -----------
 - Олександр Бордун, Borales ([yiiframework.com.ua](http://yiiframework.com.ua/))
+- Мирослав Демчунь ([chandler.org.ua](http://chandler.org.ua/))
 - Віталій Степаненко, vitaliy.step
 
 © 2008—2010, Yii Software LLC.

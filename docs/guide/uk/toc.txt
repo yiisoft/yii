@@ -68,7 +68,7 @@
 	- [Альтернативна мова шаблонів](topics.prado)
 	- [Консольні додатки](topics.console)
 	- [Безпека](topics.security)
-	- [Поліпшення продуктивності](topics.performance)
+	- [Покращення продуктивності](topics.performance)
 	- [Генерація коду за допомогою консолі (застаріле)](quickstart.first-app-yiic)
 
 <div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>
