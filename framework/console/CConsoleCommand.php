@@ -505,23 +505,34 @@ abstract class CConsoleCommand extends CComponent
 	 * Reads input via the readline PHP extension if that's available, or fgets() if readline is not installed.
 	 *
 	 * @param string $message to echo out before waiting for user input
+	 * @param string $default the default string to be returned when user does not write anything.
+	 * The default behaviour is not use default value.
 	 * @return mixed line read as a string, or false if input has been closed
 	 *
 	 * @since 1.1.9
 	 */
-	public function prompt($message)
+	public function prompt($message, $default = null)
 	{
+		if($default !== null)
+			$message .= " [$default] ";
+		else
+			$message .= ' ';
+		
 		if(extension_loaded('readline'))
 		{
-			$input = readline($message.' ');
+			$input = readline($message);
 			readline_add_history($input);
-			return $input;
 		}
 		else
 		{
-			echo $message.' ';
-			return trim(fgets(STDIN));
+			echo $message;
+			$input = trim(fgets(STDIN));
 		}
+		
+		if($input === false)
+			return false
+		else
+			return empty($input)? $default:$input;
 	}
 
 	/**
