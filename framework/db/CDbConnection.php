@@ -377,6 +377,11 @@ class CDbConnection extends CApplicationComponent
 			}
 			catch(PDOException $e)
 			{
+				Yii::app()->setComponents(array(
+					'coreMessages' => array(
+						'cachingDuration' => 0,
+					)
+				));
 				if(YII_DEBUG)
 				{
 					throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection: {error}',
