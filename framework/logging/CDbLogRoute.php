@@ -48,7 +48,7 @@ class CDbLogRoute extends CLogRoute
 	 * In PostgreSQL, it is <code>id SERIAL PRIMARY KEY</code>.
 	 * @see autoCreateLogTable
 	 */
-	public $logTableName='yiilog';
+	public $logTableName='YiiLog';
 	/**
 	 * @var boolean whether the log DB table should be automatically created if not exists. Defaults to true.
 	 * @see logTableName
@@ -90,8 +90,8 @@ class CDbLogRoute extends CLogRoute
 	{
 		$db->createCommand()->createTable($tableName, array(
 			'id'=>'pk',
-			'level'=>'string',
-			'category'=>'string',
+			'level'=>'varchar(128)',
+			'category'=>'varchar(128)',
 			'logtime'=>'integer',
 			'message'=>'text',
 		));

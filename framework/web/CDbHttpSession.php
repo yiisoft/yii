@@ -59,7 +59,7 @@ class CDbHttpSession extends CHttpSession
 	 * </pre>
 	 * @see autoCreateSessionTable
 	 */
-	public $sessionTableName='yiisession';
+	public $sessionTableName='YiiSession';
 	/**
 	 * @var boolean whether the session DB table should be automatically created if not exists. Defaults to true.
 	 * @see sessionTableName
