@@ -506,7 +506,7 @@ abstract class CConsoleCommand extends CComponent
 	 *
 	 * @param string $message to echo out before waiting for user input
 	 * @param string $default the default string to be returned when user does not write anything.
-	 * The default behaviour is not use default value.
+	 * Defaults to null.
 	 * @return mixed line read as a string, or false if input has been closed
 	 *
 	 * @since 1.1.9
