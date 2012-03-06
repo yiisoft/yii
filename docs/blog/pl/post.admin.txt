@@ -80,7 +80,7 @@ public function actionDelete()
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();
 
-		if(!isset($_POST['ajax']))
+		if(!isset($_GET['ajax']))
 			$this->redirect(array('index'));
 	}
 	else
@@ -106,4 +106,4 @@ Powyższy kod jest bardzo prosty. Najpierw usuwane są wszystkie komentarze, kt�
 
 > Tip|Wskazówka: Musimy jawnie usunąć wszystkie komentarze dla usuniętej wiadomości, ponieważ SQLite nie wspiera ograniczeń klucza obcego. W silnikach bazy danych, które wpierają ograniczanie (takich jak MySQL, PostgreSQL), ograniczenie klucza obcego może zostać tak zdefiniowane, że silnik bazy danych automatycznie usunie powiązane komentarze w momencie usuwania wiadomości. W takim przypadku nie będziemy potrzebowali w naszym kodzie jawnego usuwania.
 
-<div class="revision">$Id: post.admin.txt 2425 2010-09-05 01:30:14Z qiang.xue $</div>
+<div class="revision">$Id: post.admin.txt 3557 2012-02-09 15:26:05Z alexander.makarow $</div>

@@ -15,5 +15,6 @@ All Rights Reserved.
  softark &lt;<softark@gmail.com>&gt;,
  morita &lt;<morita21@gmail.com>&gt;,
  jamband &lt;<tmsongbooks215@gmail.com>&gt;
+ miata &lt;<desktopcorps@gmail.com>&gt;
 
 <div class="revision">$Id: index.txt 1679 2009-01-01 04:14:09Z qiang.xue $</div>
