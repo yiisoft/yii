@@ -11,6 +11,7 @@ Version 1.1.11 work in progress
 - Bug #381: Fixed the bug that Gii model name input could get misspelled when autocomplete is used (mdomba)
 - Bug #417: CAttributeCollections::mergeWith() does not take into account the caseSensitive (dmtrs)
 - Bug #433: Fixed the bug that Gii model name input autocomplete was not working sometimes (mdomba)
+- Bug #449: CDbHttpSession and CDbLogRoute now use query builder instead of DAO for proper quoting (redguy)
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
 - Enh #191: Added ability to customize HTML classes of CLinkPager via its public properties (mashingan)
@@ -25,7 +26,6 @@ Version 1.1.11 work in progress
 - Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
 - Enh: Added HTML5 history support on ajax requests on CGridView and CListView using History.js v1.7.2-r2 (https://github.com/balupton/history.js) from Benjamin Arthur Lupton (lightglitch)
 - Chg #440: Upgraded JQuery UI to 1.8.18 (samdark)
-- Bug #449: CDbHttpSession and CDbLogRoute quoting table name and using commands (redguy)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
