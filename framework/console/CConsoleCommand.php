@@ -506,7 +506,7 @@ abstract class CConsoleCommand extends CComponent
 	 *
 	 * @param string $message to echo out before waiting for user input
 	 * @param string $default the default string to be returned when user does not write anything.
-	 * Defaults to null. This parameter is available since version 1.1.11.
+	 * Defaults to null, means that default string is disabled. This parameter is available since version 1.1.11.
 	 * @return mixed line read as a string, or false if input has been closed
 	 *
 	 * @since 1.1.9
@@ -534,7 +534,7 @@ abstract class CConsoleCommand extends CComponent
 			return false;
 		else{
 			$input=trim($input);
-			return (empty($input) && $default!==null) ? $default : $input;
+			return ($input==='' && $default!==null) ? $default : $input;
 		}
 	}
 
