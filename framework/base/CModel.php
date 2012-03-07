@@ -613,4 +613,15 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		unset($this->$offset);
 	}
+	
+	/**
+	 * 
+	 * Returns the class name of the model for Forms
+	 * Override this to use a different name for Forms
+	 * @return string
+	 */
+	public function formName()
+	{
+		return get_class($this);
+	}
 }
