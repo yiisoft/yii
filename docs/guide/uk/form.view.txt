@@ -86,7 +86,7 @@
 	</div>
 
 	<div class="row submit">
-		<?php echo CHtml::submitButton('Войти'); ?>
+		<?php echo CHtml::submitButton('Увійти'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
