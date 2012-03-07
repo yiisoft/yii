@@ -379,8 +379,8 @@ class CDbConnection extends CApplicationComponent
 			{
 				if(YII_DEBUG)
 				{
-					throw new CDbException('CDbConnection failed to open the DB connection: {error}',
-						array('{error}'=>$e->getMessage()),(int)$e->getCode(),$e->errorInfo);
+					throw new CDbException('CDbConnection failed to open the DB connection: '.
+						$e->getMessage(),(int)$e->getCode(),$e->errorInfo);
 				}
 				else
 				{
