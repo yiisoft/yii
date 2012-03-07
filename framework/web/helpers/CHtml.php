@@ -1790,16 +1790,24 @@ EOD;
 	 * @return mixed the attribute value
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
-	{
+	{		
 		foreach(explode('.',$attribute) as $name)
-		{
-			if(is_object($model))
-				$model=$model->$name;
-			else if(is_array($model) && isset($model[$name]))
-				$model=$model[$name];
-			else
-				return $defaultValue;
-		}
+	        {
+	            if(is_object($model)){
+	                if(strstr($model->getTableSchema()->columns[$attribute]->dbType,'decimal'))
+	                     $model = str_replace('.',',',$model->$name);
+	                else $model=$model->$name;
+	                //$model=$model->$name;
+	            }
+	            else if(is_array($model) && isset($model[$name])){
+	                if(strstr($model->getTableSchema()->columns[$attribute]->dbType,'decimal'))
+	                     $model = str_replace('.',',',$model[$name]);
+	                else $model=$model[$name];
+	                //$model=$model[$name];
+	                 }
+	            else
+	                return $defaultValue;
+	        }
 		return $model;
 	}
 
@@ -2140,9 +2148,16 @@ EOD;
 					return null;
 			}
 			return $value;
-		}
-		else
-			return $model->$attribute;
+		}	
+	        else	 
+	            try {
+		            if(strstr($model->getTableSchema()->columns[$attribute]->dbType,'decimal'))
+		                 return str_replace('.',',',$model->$attribute);
+		            else return $model->$attribute;
+	            }
+	            catch ( Exception $e){ 
+	                return $model->$attribute;
+	            }
 	}
 
 	/**
