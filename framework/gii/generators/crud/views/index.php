@@ -1,5 +1,5 @@
 <?php
-$class=$model->modelName;
+$class=$model->getModelName();
 Yii::app()->clientScript->registerScript('gii.crud',"
 $('#{$class}_controller').change(function(){
 	$(this).data('changed',$(this).val()!='');

@@ -21,6 +21,7 @@
  * @property string $scenario The scenario that this model is in.
  * @property array $safeAttributeNames Safe attribute names.
  * @property CMapIterator $iterator An iterator for traversing the items in the list.
+ * @property string $modelName The alternative name of the model for forms.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -630,6 +631,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		 */
 		public function getModelName()
 		{
-			return $this->_modelName===null ? get_class($this) : $this->_modelName;
+			return $this->_modelName===null ? basename(get_class($this)) : $this->_modelName;
 		}
 }
