@@ -208,7 +208,7 @@ class PostController extends CController
 リモート呼び出しを横取りする (Intercepting Remote Method Invocation)
 -------------------------------------
 
-サービスプロバイダで [IWebServiceProvider] インターフェイスを実装することで、
+サービスプロバイダで [IWebServiceProvider] インタフェースを実装することで、
 リモートからのメソッド呼び出しを、実行前に横取りすることができます。
 [IWebServiceProvider::beforeWebMethod]内でプロバイダは [CWebService] のインスタンスをうけとり、
 [CWebService::methodName]によって、リクエストされたメソッド名を得ることができます。
