@@ -53,7 +53,7 @@ path](/doc/guide/basics.application#application-base-directory)
 
 > Note|注意: `views` ディレクトリは、
 セキュリティに関わるデータを含む事がありえる為、
-ウェブユーザーからのアクセスを防ぐ様に設定するべきです。
+ウェブユーザからのアクセスを防ぐ様に設定するべきです。
 
 ビューを表示する為に、[render|CController::render] か 
 [renderPartial|CController::renderPartial] をコールした際、
