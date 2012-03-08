@@ -432,7 +432,7 @@ class CActiveForm extends CWidget
 			'id'=>$id,
 			'inputID'=>$inputID,
 			'errorID'=>$htmlOptions['id'],
-			'model'=>get_class($model), //should this be $model->modelName?
+			'model'=>$model->modelName,
 			'name'=>$attribute,
 			'enableAjaxValidation'=>$enableAjaxValidation,
 		);
