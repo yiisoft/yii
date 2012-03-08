@@ -432,7 +432,7 @@ class CActiveForm extends CWidget
 			'id'=>$id,
 			'inputID'=>$inputID,
 			'errorID'=>$htmlOptions['id'],
-			'model'=>get_class($model),
+			'model'=>get_class($model), //should this be $model->modelName?
 			'name'=>$attribute,
 			'enableAjaxValidation'=>$enableAjaxValidation,
 		);
@@ -828,8 +828,8 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $model)
 		{
-			if($loadInput && isset($_POST[get_class($model)]))
-				$model->attributes=$_POST[get_class($model)];
+			if($loadInput && isset($_POST[$model->modelName]))
+				$model->attributes=$_POST[$model->modelName];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,$attribute)]=$errors;
@@ -856,8 +856,8 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $i=>$model)
 		{
-			if($loadInput && isset($_POST[get_class($model)][$i]))
-				$model->attributes=$_POST[get_class($model)][$i];
+			if($loadInput && isset($_POST[$model->modelName][$i]))
+				$model->attributes=$_POST[$model->modelName][$i];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,'['.$i.']'.$attribute)]=$errors;

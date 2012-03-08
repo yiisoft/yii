@@ -32,6 +32,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
 	private $_scenario='';  	// scenario
+	private $_modelName=false; // model name
 
 	/**
 	 * Returns the list of attribute names of the model.
@@ -615,13 +616,27 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 	
 	/**
-	 * 
-	 * Returns the class name of the model for Forms
-	 * Override this to use a different name for Forms
-	 * @return string
+	 * Sets the model's name
+	 * @param mixed $name the model's name or false to use it's class name.
 	 */
-	public function formName()
-	{
-		return get_class($this);
-	}
+		public function setModelName($name)
+		{
+			$this->_modelName = $name;
+		}
+		
+		/**
+		 * Gets the model's name
+		 * @return string the name of the model
+		 */
+		public function getModelName()
+		{
+			if($this->_modelName === false)
+			{
+				return get_class($this);
+			}
+			else
+			{
+				return $this->_modelName;
+			}
+		}
 }

@@ -2090,26 +2090,24 @@ EOD;
 	 */
 	public static function resolveName($model,&$attribute)
 	{
-		$model_name = $model->formName();
-
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
-				return $model_name.'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
+				return $model->modelName.'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
 			{
 				$sub=substr($attribute,0,$pos+1);
 				$attribute=substr($attribute,$pos+1);
-				return $model_name.$sub.'['.$attribute.']';
+				return $model->modelName.$sub.'['.$attribute.']';
 			}
 			if(preg_match('/\](\w+\[.*)$/',$attribute,$matches))
 			{
-				$name=$model_name.'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
+				$name=$model->modelName.'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
 				$attribute=$matches[1];
 				return $name;
 			}
 		}
-		return $model_name.'['.$attribute.']';
+		return $model->modelName.'['.$attribute.']';
 	}
 
 	/**
