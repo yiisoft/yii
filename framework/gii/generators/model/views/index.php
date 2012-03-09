@@ -1,5 +1,5 @@
 <?php
-$class=$model->getModelName();
+$class=$model->getFormName();
 Yii::app()->clientScript->registerScript('gii.model',"
 $('#{$class}_modelClass').change(function(){
 	$(this).data('changed',$(this).val()!='');
