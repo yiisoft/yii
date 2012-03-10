@@ -14,6 +14,7 @@ Version 1.1.11 work in progress
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
 - Enh #191: Added ability to customize HTML classes of CLinkPager via its public properties (mashingan)
+- Enh #206: Added ability to pass CDbCriteria object as AR relation parameter (samdark)
 - Enh #237: The tabs of CTabView now support the property 'visible' (DaSourcerer)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
 - Enh #267: CDbHttpSession is now able to store binary payload such as the output of the igbinary serializer (DaSourcerer, samdark)
