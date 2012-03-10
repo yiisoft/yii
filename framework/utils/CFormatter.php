@@ -49,19 +49,19 @@
 class CFormatter extends CApplicationComponent
 {
 	private $_htmlPurifier;
-
+    
 	/**
-	 * @var string the format string to be used to format a date using PHP date() function. Defaults to 'Y/m/d'.
+	 * @var string the format string to be used to format a date using CDateFormatter->format function. Defaults to 'y/MM/dd'.
 	 */
-	public $dateFormat='Y/m/d';
+	public $dateFormat='y/MM/dd';
 	/**
-	 * @var string the format string to be used to format a time using PHP date() function. Defaults to 'h:i:s A'.
+	 * @var string the format string to be used to format a time using CDateFormatter->format function. Defaults to 'hh:mm:ss a'.
 	 */
-	public $timeFormat='h:i:s A';
+	public $timeFormat='hh:mm:ss a';
 	/**
-	 * @var string the format string to be used to format a date and time using PHP date() function. Defaults to 'Y/m/d h:i:s A'.
+	 * @var string the format string to be used to format a date and time using CDateFormatter->format function. Defaults to 'y/MM/dd hh:mm:ss a'.
 	 */
-	public $datetimeFormat='Y/m/d h:i:s A';
+	public $datetimeFormat='y/MM/dd hh:mm:ss a';
 	/**
 	 * @var array the format used to format a number with PHP number_format() function.
 	 * Three elements may be specified: "decimals", "decimalSeparator" and "thousandSeparator". They
@@ -150,34 +150,40 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Formats the value as a date.
 	 * @param mixed $value the value to be formatted
+     * @param mixed $locale locale ID (string) or CLocale instance
 	 * @return string the formatted result
 	 * @see dateFormat
 	 */
-	public function formatDate($value)
+	public function formatDate($value, $locale = null)
 	{
-		return date($this->dateFormat,$value);
+        $dateFormatter = new CDateFormatter($locale !== null ? $locale : Yii::app()->getLocale());
+        return $dateFormatter->format($this->dateFormat, $value);
 	}
 
 	/**
 	 * Formats the value as a time.
 	 * @param mixed $value the value to be formatted
+     * @param mixed $locale locale ID (string) or CLocale instance
 	 * @return string the formatted result
 	 * @see timeFormat
 	 */
-	public function formatTime($value)
+	public function formatTime($value, $locale = null)
 	{
-		return date($this->timeFormat,$value);
+        $dateFormatter = new CDateFormatter($locale !== null ? $locale : Yii::app()->getLocale());
+        return $dateFormatter->format($this->timeFormat, $value);
 	}
 
 	/**
 	 * Formats the value as a date and time.
 	 * @param mixed $value the value to be formatted
+     * @param mixed $locale locale ID (string) or CLocale instance
 	 * @return string the formatted result
 	 * @see datetimeFormat
 	 */
-	public function formatDatetime($value)
+	public function formatDatetime($value, $locale = null)
 	{
-		return date($this->datetimeFormat,$value);
+        $dateFormatter = new CDateFormatter($locale !== null ? $locale : Yii::app()->getLocale());
+        return $dateFormatter->format($this->datetimeFormat, $value);
 	}
 
 	/**
