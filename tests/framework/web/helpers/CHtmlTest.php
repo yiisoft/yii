@@ -2,7 +2,7 @@
 
 class CHtmlTest extends CTestCase
 {
-    //<editor-fold defaultstate="collapsed" desc="HTML characters encode/decode tests">
+    /* HTML characters encode/decode tests */
     
     public static function providerEncodeArray()
     {
@@ -21,13 +21,10 @@ class CHtmlTest extends CTestCase
      */
     public function testEncodeArray($data, $assertion)
     {
-        var_dump( CHtml::encodeArray($data) );
         $this->assertEquals($assertion, CHtml::encodeArray($data));
     }
     
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Javascript generator tests">
+    /* Javascript generator tests */
 
     public static function providerAjax()
     {
@@ -53,10 +50,7 @@ class CHtmlTest extends CTestCase
         $this->assertEquals($assertion, CHtml::ajax($options));
     }
     
-    
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="DOM element generated from model attribute tests">
+    /* DOM element generated from model attribute tests */
     
     public static function providerActiveDOMElements()
     {
@@ -79,9 +73,7 @@ class CHtmlTest extends CTestCase
         $this->assertEquals($assertion, CHtml::activeCheckBox($model,$attribute,$htmlOptions));
     }
     
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Static DOM element generator tests">
+    /* Static DOM element generator tests */
     
     public static function providerBeginForm()
     {
@@ -133,10 +125,9 @@ class CHtmlTest extends CTestCase
         $this->assertEquals($assertion, CHtml::textArea($name, $value, $htmlOptions));
     }
     
-    //</editor-fold>
 }
 
-//<editor-fold defaultstate="collapsed" desc="Helper classes">
+/* Helper classes */
 
 class CHtmlTestModel extends CModel
 {
@@ -198,5 +189,3 @@ class CHtmlTestModel extends CModel
 	}
 
 }
-
-//</editor-fold>
