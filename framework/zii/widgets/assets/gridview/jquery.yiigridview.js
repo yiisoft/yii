@@ -79,7 +79,7 @@
 				if (settings.ajaxUpdate.length > 0) {
 					$(document).on('click', settings.updateSelector, function () {
 						// Check to see if History.js is enabled for our Browser
-						if (settings.persistState && window.History.enabled) {
+						if (settings.enableHistory && window.History.enabled) {
 							// Ajaxify this link
 							var url = $(this).attr('href'),
 								params = $.deparam.querystring(url);
@@ -98,7 +98,7 @@
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
 					}
-					if (settings.persistState && settings.ajaxUpdate !== false && window.History.enabled) {
+					if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
 						// Ajaxify this link
 						var url = $('#' + id).yiiGridView('getUrl'),
 							params = $.deparam.querystring($.param.querystring(url, data));
@@ -110,7 +110,7 @@
 					}
 				});
 
-				if (settings.persistState && settings.ajaxUpdate !== false && window.History.enabled) {
+				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
 						$('#' + id).yiiGridView('update', {url: State.url});

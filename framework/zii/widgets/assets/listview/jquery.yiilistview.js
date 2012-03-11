@@ -35,7 +35,7 @@
 			if(settings.ajaxUpdate.length > 0) {
 				$(settings.updateSelector).die('click').live('click',function(){
 					// Check to see if History.js is enabled for our Browser
-					if (settings.persistState && window.History.enabled) {
+					if (settings.enableHistory && window.History.enabled) {
 						// Ajaxify this link
 						var url = $(this).attr('href'),
 							params = $.deparam.querystring(url);
@@ -49,7 +49,7 @@
 				});
 			}
 
-			if (settings.persistState && settings.ajaxUpdate !== false && window.History.enabled) {
+			if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
 				$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 					var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
 					$.fn.yiiListView.update(id, {url: State.url});
