@@ -260,6 +260,12 @@ class CGridView extends CBaseListView
 	 */
 	public $hideHeader=false;
 
+    /**
+     * @var boolean whether to persist state of table across page revisits.  Note: this is only compatible with browsers that support HTML5.
+     * @since 1.1.11
+     */
+    public $persistState=false;
+    
 	/**
 	 * Initializes the grid view.
 	 * This method will initialize required property values and instantiate {@link columns} objects.
@@ -363,6 +369,7 @@ class CGridView extends CBaseListView
 			'filterClass'=>$this->filterCssClass,
 			'tableClass'=>$this->itemsCssClass,
 			'selectableRows'=>$this->selectableRows,
+            'persistState'=>$this->persistState
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
@@ -383,7 +390,8 @@ class CGridView extends CBaseListView
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
-		$cs->registerCoreScript('history');
+        if($this->persistState)
+            $cs->registerCoreScript('history');
 		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiigridview.js',CClientScript::POS_END);
 		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiGridView($options);");
 	}

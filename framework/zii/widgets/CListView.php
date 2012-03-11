@@ -161,6 +161,12 @@ class CListView extends CBaseListView
 	 * @since 1.1.4
 	 */
 	public $itemsTagName='div';
+    
+    /**
+     * @var boolean whether to persist state of table across page revisits.  Note: this is only compatible with browsers that support HTML5.
+     * @since 1.1.11
+     */
+    public $persistState=false;
 
 	/**
 	 * Initializes the list view.
@@ -203,6 +209,7 @@ class CListView extends CBaseListView
 			'pagerClass'=>$this->pagerCssClass,
 			'loadingClass'=>$this->loadingCssClass,
 			'sorterClass'=>$this->sorterCssClass,
+            'persistState'=>$this->persistState
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
@@ -217,7 +224,8 @@ class CListView extends CBaseListView
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
-		$cs->registerCoreScript('history');
+        if($this->persistState)
+            $cs->registerCoreScript('history');
 		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiilistview.js',CClientScript::POS_END);
 		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiListView($options);");
 	}

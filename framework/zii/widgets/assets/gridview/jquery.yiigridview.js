@@ -10,9 +10,7 @@
 
 (function ($) {
 	var selectCheckedRows, methods,
-		gridSettings = [],
-		History = window.History;
-
+		gridSettings = [];
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
 	 * 2. Check if "check all" need to be checked/unchecked
@@ -81,13 +79,13 @@
 				if (settings.ajaxUpdate.length > 0) {
 					$(document).on('click', settings.updateSelector, function () {
 						// Check to see if History.js is enabled for our Browser
-						if (History.enabled) {
+						if (settings.persistState && window.History.enabled) {
 							// Ajaxify this link
 							var url = $(this).attr('href'),
 								params = $.deparam.querystring(url);
 
 							delete params[settings.ajaxVar];
-							History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+							window.History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
 						} else {
 							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
 						}
@@ -100,7 +98,7 @@
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
 					}
-					if (settings.ajaxUpdate !== false && History.enabled) {
+					if (settings.persistState && settings.ajaxUpdate !== false && window.History.enabled) {
 						// Ajaxify this link
 						var url = $('#' + id).yiiGridView('getUrl'),
 							params = $.deparam.querystring($.param.querystring(url, data));
@@ -112,9 +110,9 @@
 					}
 				});
 
-				if (settings.ajaxUpdate !== false && History.enabled) {
+				if (settings.persistState && settings.ajaxUpdate !== false && window.History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
-						var State = History.getState(); // Note: We are using History.getState() instead of event.state
+						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
 						$('#' + id).yiiGridView('update', {url: State.url});
 					});
 				}
