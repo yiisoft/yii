@@ -133,9 +133,9 @@ Dostępne opcje zostały wyjaśnione poniżej:
    - [caseSensitive|CUrlRule::caseSensitive]: określa czy reguła uwzględnia wielkość liter. Domyślnie 
    posiada wartość null, co oznacza, że używana jest wartość [CUrlManager::caseSensitive].
 
-   - [defaultParams|CUrlRule::defaultParams]: domyślne parametry GET (nazwa=>wartość) które ustanawia 
+   - [defaultParams|CUrlRule::defaultParams]: domyślne parametry GET (`nazwa=>wartość`), które ustanawia 
    dana reguła. Kiedy dana reguła używana jest do parsowania przychodzącego żądania, wartości zadeklarowane
-   w tej właściwości zostaną wstrzyknięte do $_GET.
+   w tej właściwości zostaną wstrzyknięte do `$_GET`.
 
    - [matchValue|CUrlRule::matchValue]: określa czy wartości parametru GET powinny pasować do odpowiadających 
    im podwzorców w regule, kiedy tworzony jest URL. Domyślnie przyjmuje wartość null, oznaczającą używanie wartości
@@ -419,4 +419,4 @@ do wyświetlania specjalnej strony błędu 404 w przypadku gdy wszystkie pozosta
 nie będą potrafiły rozszyfrować aktualnego żądania. Zauwać, że w takim przypadku, reguła
 z tą specjalną klasą musi zostać zadeklarowana jako ostatnia.
 
-<div class="revision">$Id: topics.url.txt 3329 2011-06-28 08:31:35Z mdomba $</div>
+<div class="revision">$Id: topics.url.txt 3591 2012-02-17 21:44:32Z qiang.xue@gmail.com $</div>

@@ -16,7 +16,7 @@
 	- [Представление](basics.view)
 	- [Компонент](basics.component)
 	- [Модуль](basics.module)
-	- [Псевдоним пути и пространство имен](basics.namespace)
+	- [Псевдоним пути и пространство имён](basics.namespace)
 	- [Соглашения](basics.convention)
 	- [Процесс разработки](basics.workflow)
 	- [Лучшие практики MVC](basics.best-practices)
