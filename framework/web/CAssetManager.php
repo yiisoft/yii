@@ -299,6 +299,6 @@ class CAssetManager extends CApplicationComponent
 	 */
 	protected function hash($path)
 	{
-		return sprintf('%x',crc32($path.Yii::getVersion()));
+		return sprintf('%08x',crc32($path.Yii::getVersion()));
 	}
 }
