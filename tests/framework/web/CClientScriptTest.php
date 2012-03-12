@@ -93,10 +93,10 @@ class CClientScriptTest extends CTestCase
     /**
      * @dataProvider providerRegisterCss
      * 
-     * @param type $id
-     * @param type $css
-     * @param type $media
-     * @param type $assertion 
+     * @param string $id
+     * @param string $css
+     * @param string $media
+     * @param array $assertion 
      */
     public function testRegisterCss($id, $css, $media, $assertion)
     {
