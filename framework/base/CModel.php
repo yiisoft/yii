@@ -21,7 +21,7 @@
  * @property string $scenario The scenario that this model is in.
  * @property array $safeAttributeNames Safe attribute names.
  * @property CMapIterator $iterator An iterator for traversing the items in the list.
- * @property string $formName The alternative name of the model for forms.
+ * @property string $formName The name of the model for forms.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -33,7 +33,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
 	private $_scenario='';  	// scenario
-	private $_formName; // alternative model name to be used in forms
+	private $_formName; // model name to be used in forms
 
 	/**
 	 * Returns the list of attribute names of the model.
@@ -617,8 +617,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 	
 	/**
-	 * Sets alternative model name to be used in forms.
-	 * @param string $name alternative model name to be used in forms. Defaults to null which means model class name will be used.
+	 * Sets model name to be used in forms.
+	 * @param string $name model name to be used in forms. Defaults to null which means model class name will be used.
 	 */
 		public function setFormName($name)
 		{
@@ -626,8 +626,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		}
 		
 		/**
-		 * Get alternative model name that is used in forms. 
-		 * @return string the alternative model name
+		 * Get model name that is used in forms. 
+		 * @return string the model name
 		 */
 		public function getFormName()
 		{
