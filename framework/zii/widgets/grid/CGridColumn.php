@@ -30,7 +30,7 @@ abstract class CGridColumn extends CComponent
 {
 	/**
 	 * @var string the ID of this column. This value should be unique among all grid view columns.
-	 * If this is set, it will be assigned one automatically.
+	 * If this is not set, it will be assigned one automatically.
 	 */
 	public $id;
 	/**
