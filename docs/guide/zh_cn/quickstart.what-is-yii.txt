@@ -3,7 +3,9 @@ Yii 是什么
 
 Yii 是一个基于组件的高性能 PHP 框架，用于快速开发大型 Web 应用。它使Web开发中的
 可复用度最大化，可以显著提高你的Web应用开发速度。Yii 这个名字（读作`易（Yee）` 
-或 `[ji:]`）代表 *简单（easy）*, *高效（efficient）* 和 *可扩展（extensible）*.
+或 `[ji:]`）是"**Yes It Is!**"的缩写。这往往是对于一些经常被问到的问题的最准确的答案：
+
+Yii快不快？安全吗？专业吗？是否适用于我的下一个项目？**Yes, it is!**
 
 环境需求
 ------------
@@ -31,4 +33,4 @@ Yii 以其优异的性能，丰富的功能和清晰的文档胜出其他框架�
 它是作者丰富的 Web 应用开发经验和对大多数流行的 Web 编程框架与应用的研究与思考的成
 果。
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 2339 2012-02-27 08:38:53Z dongbeta@qq.com $</div>

@@ -167,7 +167,7 @@ return array (
   'The STAT relation "{name}" cannot have child relations.' => 'A relação STAT "{name}" não pode ter relações-filhas.',
   'The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.' => 'O padrão de URL "{pattern}" para a rota "{route}" não é uma expressão regular válida.',
   'The active record cannot be deleted because it is new.' => 'O active record não pode ser deletado porque ele é novo.',
-  'The active record cannot be inserted to database because it is not new.' => 'O active record não pode ser inserido no banco de dados porque ele é novo.',
+  'The active record cannot be inserted to database because it is not new.' => 'O active record não pode ser inserido no banco de dados porque ele não é novo.',
   'The active record cannot be updated because it is new.' => 'O active record não pode ser atualizado porque ele é novo.',
   'The asset "{asset}" to be published does not exist.' => 'O recurso "{asset}", a ser publicado, não existe.',
   'The command path "{path}" is not a valid directory.' => 'O caminho "{path}" do "command" não é um diretório válido.',

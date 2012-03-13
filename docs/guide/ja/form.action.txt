@@ -34,8 +34,8 @@ public function actionLogin()
 > Tip|ヒント: `login` アクションの中で、認証が必要となる前のページを
  `$Yii::app()->user->returnUrl` によって取得しています。
  `$Yii::app()->user` コンポーネントは、[CWebUser] 
-(或いはその派生)クラスで、ユーザーのセッション情報
-(例えばユーザー名、ステータス)を表します。詳細は 
+(或いはその派生)クラスで、ユーザのセッション情報
+(例えばユーザ名、ステータス)を表します。詳細は 
 [Authentication and Authorization](/doc/guide/topics.auth) 
 を参照して下さい。
 
@@ -46,7 +46,7 @@ public function actionLogin()
 $model->attributes=$_POST['LoginForm'];
 ~~~
 
-ここまでで述べたように、このコードは単純にユーザーの送信データを
+ここまでで述べたように、このコードは単純にユーザの送信データを
 モデルに入れています。`attribute` プロパティは [CModel] で定義されていて、
 名前-値 が対になった配列で、モデルの属性に結びついた値が割り当てられる事
 が想定されています。その為、もし、`$_POST['LoginForm']` 

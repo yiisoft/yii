@@ -367,7 +367,7 @@ class CDbConnection extends CApplicationComponent
 		if($this->_pdo===null)
 		{
 			if(empty($this->connectionString))
-				throw new CDbException(Yii::t('yii','CDbConnection.connectionString cannot be empty.'));
+				throw new CDbException('CDbConnection.connectionString cannot be empty.');
 			try
 			{
 				Yii::trace('Opening DB connection','system.db.CDbConnection');
@@ -379,13 +379,13 @@ class CDbConnection extends CApplicationComponent
 			{
 				if(YII_DEBUG)
 				{
-					throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection: {error}',
-						array('{error}'=>$e->getMessage())),(int)$e->getCode(),$e->errorInfo);
+					throw new CDbException('CDbConnection failed to open the DB connection: '.
+						$e->getMessage(),(int)$e->getCode(),$e->errorInfo);
 				}
 				else
 				{
 					Yii::log($e->getMessage(),CLogger::LEVEL_ERROR,'exception.CDbException');
-					throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection.'),(int)$e->getCode(),$e->errorInfo);
+					throw new CDbException('CDbConnection failed to open the DB connection.',(int)$e->getCode(),$e->errorInfo);
 				}
 			}
 		}
