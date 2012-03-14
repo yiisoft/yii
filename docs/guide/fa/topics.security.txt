@@ -1,0 +1,138 @@
+Security
+========
+
+Cross-site Scripting Prevention
+-------------------------------
+Cross-site scripting (also known as XSS) occurs when a web application
+gathers malicious data from a user. Often attackers will inject JavaScript,
+VBScript, ActiveX, HTML, or Flash into a vulnerable application to fool other
+application users and gather data from them. For example, a poorly design
+forum system may display user input in forum posts without any checking.
+An attacker can then inject a piece of malicious JavaScript code into a post
+so that when other users read this post, the JavaScript runs unexpectedly
+on their computers.
+
+One of the most important measures to prevent XSS attacks is to check user input
+before displaying them. One can do HTML-encoding with the user input to achieve
+this goal. However, in some situations, HTML-encoding may not be preferable
+because it disables all HTML tags.
+
+Yii incorporates the work of [HTMLPurifier](http://htmlpurifier.org/)
+and provides developers with a useful component called [CHtmlPurifier]
+that encapsulates [HTMLPurifier](http://htmlpurifier.org/). This component
+is capable of removing all malicious code with a thoroughly audited,
+secure yet permissive whitelist and making sure the filtered content is
+standard-compliant.
+
+The [CHtmlPurifier] component can be used as either a [widget](/doc/guide/basics.view#widget)
+or a [filter](/doc/guide/basics.controller#filter). When used as a widget,
+[CHtmlPurifier] will purify contents displayed in its body in a view. For example,
+
+~~~
+[php]
+<?php $this->beginWidget('CHtmlPurifier'); ?>
+...display user-entered content here...
+<?php $this->endWidget(); ?>
+~~~
+
+
+Cross-site Request Forgery Prevention
+-------------------------------------
+
+Cross-Site Request Forgery (CSRF) attacks occur when a
+malicious web site causes a user's web browser to perform
+an unwanted action on a trusted site. For example, a malicious
+web site has a page that contains an image tag whose `src` points
+to a banking site: `http://bank.example/withdraw?transfer=10000&to=someone`.
+If a user who has a login cookie for the banking site happens to
+visit this malicous page, the action of transferring 10000 dollars
+to someone will be executed. Contrary to cross-site,
+which exploits the trust a user has for a particular site,
+CSRF exploits the trust that a site has for a particular user.
+
+To prevent CSRF attacks, it is important to abide to the rule
+that `GET` requests should only be allowed to retrieve data rather
+than modify any data on the server. And for `POST` requests, they
+should include some random value which can be recognized by the server
+to ensure the form is submitted from and the result is sent back to
+the same origin.
+
+Yii implements a CSRF prevention scheme to help defeat `POST`-based attacks.
+It is based on storing a random value in a cookie and comparing this value
+with the value submitted via the `POST` request.
+
+By default, the CSRF prevention is disabled. To enable it, configure the
+[CHttpRequest] application component in the
+[application configuration](/doc/guide/basics.application#application-configuration)
+as follows,
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'request'=>array(
+			'enableCsrfValidation'=>true,
+		),
+	),
+);
+~~~
+
+And to display a form, call [CHtml::form] instead of writing the HTML form
+tag directly. The [CHtml::form] method will embed the necessary random
+value in a hidden field so that it can be submitted for CSRF validation.
+
+
+Cookie Attack Prevention
+------------------------
+Protecting cookies from being attacked is of extreme importance, as session
+IDs are commonly stored in cookies. If one gets hold of a session ID,
+he essentially owns all relevant session information.
+
+There are several countermeasures to prevent cookies from being attacked.
+
+* An application can use SSL to create a secure communication channel and
+  only pass the authentication cookie over an HTTPS connection. Attackers
+  are thus unable to decipher the contents in the transferred cookies.
+* Expire sessions appropriately, including all cookies and session tokens,
+  to reduce the likelihood of being attacked.
+* Prevent cross-site scripting which causes arbitrary code to run in a
+  user's browser and expose his cookies.
+* Validate cookie data and detect if they are altered.
+
+Yii implements a cookie validation scheme that prevents cookies from being
+modified. In particular, it does HMAC check for the cookie values if cookie
+validation is enabled.
+
+Cookie validation is disabled by default. To enable it, configure the
+[CHttpRequest] application component in the
+[application configuration](/doc/guide/basics.application#application-configuration)
+as follows,
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'request'=>array(
+			'enableCookieValidation'=>true,
+		),
+	),
+);
+~~~
+
+To make use of the cookie validation scheme provided by Yii, we also need to
+access cookies through the [cookies|CHttpRequest::cookies] collection, instead
+of directly through `$_COOKIES`:
+
+~~~
+[php]
+// retrieve the cookie with the specified name
+$cookie=Yii::app()->request->cookies[$name];
+$value=$cookie->value;
+......
+// send a cookie
+$cookie=new CHttpCookie($name,$value);
+Yii::app()->request->cookies[$name]=$cookie;
+~~~
+
+
+<div class="revision">$Id$</div>
