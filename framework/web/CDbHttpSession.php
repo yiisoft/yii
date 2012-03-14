@@ -127,29 +127,20 @@ class CDbHttpSession extends CHttpSession
 	 */
 	protected function createSessionTable($db,$tableName)
 	{
+		$driver=$db->getDriverName();
+		if($driver==='mysql')
+			$blob='LONGBLOB';
+		else if($driver==='pgsql')
+			$blob='BYTEA';
+		else
+			$blob='BLOB';
 		$db->createCommand()->createTable($tableName,array(
 			'id'=>'CHAR(32) PRIMARY KEY',
 			'expire'=>'integer',
-			'data'=>'text',
+			'data'=>$blob,
 		));
 	}
 	
-	/**
-	 * Logs exception
-	 * @param Exception $e exception object
-	 */
-	private function logException($e)
-	{
-		$category='exception.'.get_class($e);
-		$message=$e->__toString();
-		if(isset($_SERVER['REQUEST_URI']))
-			$message.="\nREQUEST_URI=".$_SERVER['REQUEST_URI'];
-		if(isset($_SERVER['HTTP_REFERER']))
-			$message.="\nHTTP_REFERER=".$_SERVER['HTTP_REFERER'];
-		$message.="\n---";
-		Yii::log($message,CLogger::LEVEL_ERROR,$category);
-	}
-
 	/**
 	 * @return CDbConnection the DB connection instance
 	 * @throws CException if {@link connectionID} does not point to a valid application component.
@@ -169,12 +160,7 @@ class CDbHttpSession extends CHttpSession
 		else
 		{
 			$dbFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'session-'.Yii::getVersion().'.db';
-			$this->_db=new CDbConnection('sqlite:'.$dbFile);
-			if(YII_DEBUG){
-				$this->_db->enableParamLogging=true;
-				$this->_db->enableProfiling=true;
-			}
-			return $this->_db;
+			return $this->_db=new CDbConnection('sqlite:'.$dbFile);
 		}
 	}
 
@@ -211,22 +197,12 @@ class CDbHttpSession extends CHttpSession
 	 */
 	public function readSession($id)
 	{
-		try
-		{
-			$data=$this->getDbConnection()->createCommand()
-				->select('data')
-				->from($this->sessionTableName)
-				->where('expire>:expire AND id=:id',array(':expire'=>time(),':id'=>$id))
-				->queryScalar();
-			return $data===false?'':$data;
-		}
-		catch(Exception $e)
-		{
-			if(YII_DEBUG)
-				echo $e->getMessage();
-			$this->logException($e);
-		}
-		return '';
+		$data=$this->getDbConnection()->createCommand()
+			->select('data')
+			->from($this->sessionTableName)
+			->where('expire>:expire AND id=:id',array(':expire'=>time(),':id'=>$id))
+			->queryScalar();
+		return $data===false?'':$data;
 	}
 
 	/**
@@ -271,17 +247,7 @@ class CDbHttpSession extends CHttpSession
 	 */
 	public function destroySession($id)
 	{
-		try
-		{
-			$this->getDbConnection()->createCommand()->delete($this->sessionTableName,'id=:id',array(':id'=>$id));
-		}
-		catch(Exception $e)
-		{
-			if(YII_DEBUG)
-				echo $e->getMessage();
-			$this->logException($e);
-			return false;
-		}
+		$this->getDbConnection()->createCommand()->delete($this->sessionTableName,'id=:id',array(':id'=>$id));
 		return true;
 	}
 
@@ -293,17 +259,7 @@ class CDbHttpSession extends CHttpSession
 	 */
 	public function gcSession($maxLifetime)
 	{
-		try
-		{
-			$this->getDbConnection()->createCommand()->delete($this->sessionTableName,'expire<:expire',array(':expire'=>time()));
-		}
-		catch(Exception $e)
-		{
-			if(YII_DEBUG)
-				echo $e->getMessage();
-			$this->logException($e);
-			return false;
-		}
+		$this->getDbConnection()->createCommand()->delete($this->sessionTableName,'expire<:expire',array(':expire'=>time()));
 		return true;
 	}
 }
