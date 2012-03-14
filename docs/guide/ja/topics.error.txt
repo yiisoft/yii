@@ -2,7 +2,7 @@
 ==============
 
 YiiはPHP5の例外メカニズムを元にした完全なエラーハンドリングを提供します。
-アプリケーションがユーザーのリクエストによって呼び出された時、
+アプリケーションがユーザのリクエストによって呼び出された時、
 アプリケーションは[handleError|CApplication::handleError]メソッドをPHP
 warningとnoticeを扱うために登録し、
 [handleException|CApplication::handleException]メソッドをPHP exeptions
@@ -43,13 +43,13 @@ throw new ExceptionClass('ExceptionMessage');
 Yiiは三つの例外クラスを定義しています。[CException] 、[CDbException]、そして
 [CHttpException] です。[CException] は包括的な例外クラスです。[CDbException] は
 データベースに関係する何らかの操作によって引き起こされた例外を表します。
-[CHttpException] はエンドユーザーに表示されるべき例外を表すもので、
+[CHttpException] はエンドユーザに表示されるべき例外を表すもので、
 HTTP ステータスコードを表す [statusCode|CHttpException::statusCode] プロパティを
 持っています。例外をどのように表示すべきかは、以下で説明するように、例外のクラスによって、
 決ります。
 
 > Tip|ヒント: [CHttpException]における例外の発生はユーザの入力ミスを
-報告するのにシンプルな方法です。例えば、もしユーザーが不正なpost IDのURLを
+報告するのにシンプルな方法です。例えば、もしユーザが不正なpost IDのURLを
 要求した場合、以下のように404error (page not found) をシンプルに表示する
 事が出来ます:
 ~~~
@@ -63,7 +63,7 @@ throw new CHttpException(404,'The specified post cannot be found.');
 
 エラーの処理が [CErrorHandler] アプリケーションコンポーネントまで
 流れてくると、エラーを表示する為に相応しい ビュー が選ばれます。
-もしエラーが[CHttpException]のように、エンドユーザーへ表示するタイプの
+もしエラーが[CHttpException]のように、エンドユーザへ表示するタイプの
 ものだった場合、`errorXXX` といった様な名前の ビュー が使用され、この
 `XXX` の部分はHTTPステータスコード(例えば400, 404, 500など)を表します。
 もしエラーが内部的なもので、開発者にのみ表示するべきものであった場合、

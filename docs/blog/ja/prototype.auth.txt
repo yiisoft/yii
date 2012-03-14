@@ -5,7 +5,7 @@
 
 スケルトンアプリケーションにはすでにユーザ認証機能が備わっています。 ユーザ名とパスワードのどちらもが `demo` 、もしくは `admin` で確認することができます。このセクションでは、認証を `tbl_user` テーブルに基づいて行うよう、対応するコードを修正します。
 
-ユーザ認証は [IUserIdentity] インターフェイスを実装するクラスで行われます。スケルトンアプリケーションでは、この目的のために `UserIdentity` クラスを使っています。このクラスファイルは、`/wwwroot/blog/protected/components/UserIdentity.php` に保存されています。
+ユーザ認証は [IUserIdentity] インタフェースを実装するクラスで行われます。スケルトンアプリケーションでは、この目的のために `UserIdentity` クラスを使っています。このクラスファイルは、`/wwwroot/blog/protected/components/UserIdentity.php` に保存されています。
 
 > Tip|ヒント: 規約により、クラスファイル名は対応するクラス名に接尾辞に拡張子 `.php` をつけたものになります。この規約に従って、[パスエイリアス](http://www.yiiframework.com/doc/guide/basics.namespace)を使ったクラス参照が可能です。 例えば、`UserIdentity` クラスを、`application.components.UserIdentity` というエイリアスで参照することができます。Yii の多くの API において、パスエイリアスを利用可能です。(例：[Yii::createComponent()|YiiBase::createComponent]）そして、パスエイリアスを使うことは、コードに絶対パスを埋め込む必要をなくします。絶対パスを記述することはしばしばアプリケーション配備の際のトラブルの元になります。
 
@@ -103,6 +103,6 @@ switch($identity->errorCode)
 
 > Info|情報: identity クラスと `user` アプリケーションコンポーネントはしばしば混同されます。前者は認証を行う方法のことであり、後者は現在のユーザに関する情報をあらわします。アプリケーションがもてる`user`コンポーネントはひとつだけですが、identityクラスは複数持つことができます。identityクラスはどのような認証方法がサポートされるかによります。いったん認証されると、identityインスタンスから`user`コンポーネントへ情報が渡され、アプリケーション全体から`user`を用いてアクセス可能になります。
 
-修正後の`UserIdentity`クラスを確認するため、ブラウザでURL`http://www.example.com/blog/index.php`にアクセスし、`tbl_user`テーブルのユーザ名とパスワードでログインしてみてください。[ブログデモ](http://www.yiiframework.com/demos/blog/)で提供されるデータベースを利用した場合、ユーザー名`demo`、パスワード`demo`でアクセスできるはずです。このブログシステムにはユーザ管理機能はありません。そのため、ユーザーはウェブインターフェースで、自身のアカウントを変更したり、新しいアカウントを作成出来ません。ユーザ管理機能はブログアプリケーションの将来の機能拡張として検討されるでしょう。
+修正後の`UserIdentity`クラスを確認するため、ブラウザでURL`http://www.example.com/blog/index.php`にアクセスし、`tbl_user`テーブルのユーザ名とパスワードでログインしてみてください。[ブログデモ](http://www.yiiframework.com/demos/blog/)で提供されるデータベースを利用した場合、ユーザ名`demo`、パスワード`demo`でアクセスできるはずです。このブログシステムにはユーザ管理機能はありません。そのため、ユーザはウェブインタフェースで、自身のアカウントを変更したり、新しいアカウントを作成出来ません。ユーザ管理機能はブログアプリケーションの将来の機能拡張として検討されるでしょう。
 
 <div class="revision">$Id: prototype.auth.txt 2333 2009-02-18 19:29:48Z qiang.xue $</div>

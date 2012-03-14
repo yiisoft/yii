@@ -155,7 +155,7 @@ public function behaviors()
 ------
 
 [アクション](/doc/guide/basics.controller#action) は、
-特定のユーザーリクエストに応答するために [コントローラ](/doc/guide/basics.controller) により使用されます。
+特定のユーザリクエストに応答するために [コントローラ](/doc/guide/basics.controller) により使用されます。
 アクションクラス `XyzClass` が `xyz` エクステンションに属している場合、
 コントローラクラスで、[CController::actions] メソッドを上書き（オーバーライド）すれば
 それを使用できます:
@@ -186,7 +186,7 @@ class TestController extends CController
 [フィルタ](/doc/guide/basics.controller#filter) もまた、
 [コントローラ](/doc/guide/basics.controller) により使用されます。
 それらは主に、[アクション](/doc/guide/basics.controller#action) により処理される
-ユーザーリクエストの前処理や後処理です。
+ユーザリクエストの前処理や後処理です。
 フィルタクラス `XyzClass` が `xyz` エクステンションに属している場合、
 コントローラクラスで、[CController::filters] メソッドを上書き（オーバーライド）すれば
 それを使用できます:
@@ -216,7 +216,7 @@ class TestController extends CController
 コントローラ
 ----------
 [コントローラ](/doc/guide/basics.controller) は、
-ユーザーが要求できるアクションのセットを提供します。
+ユーザが要求できるアクションのセットを提供します。
 コントローラエクステンションを使用するために、
 [アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 中の
 [CWebApplication::controllerMap] プロパティへの初期構成が必要です:
