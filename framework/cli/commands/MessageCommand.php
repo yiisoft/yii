@@ -59,6 +59,8 @@ PARAMETERS
    - overwrite: if message file must be overwritten with the merged messages.
    - removeOld: if message no longer needs translation it will be removed,
      instead of being enclosed between a pair of '@@' marks.
+   - ignoreOld: if message no longer needs translation it will be ignored,
+	     instead of being enclosed between a pair of '@@' marks.
    - sort: sort messages by key when merging, regardless of their translation
      state (new, obsolete, translated.)
 
@@ -94,6 +96,8 @@ EOD;
 
 		if(!isset($removeOld))
 			$removeOld = false;
+		if(!isset($ignoreOld))
+			$ignoreOld = false;
 
 		if(!isset($sort))
 			$sort = false;
@@ -117,7 +121,7 @@ EOD;
 			foreach($messages as $category=>$msgs)
 			{
 				$msgs=array_values(array_unique($msgs));
-				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld,$sort);
+				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld,$sort, $ignoreOld);
 			}
 		}
 	}
@@ -140,7 +144,7 @@ EOD;
 		return $messages;
 	}
 
-	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld,$sort)
+	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld,$sort,$ignoreOld)
 	{
 		echo "Saving messages to $fileName...";
 		if(is_file($fileName))
@@ -172,7 +176,7 @@ EOD;
 			{
 				if(!isset($merged[$message]) && !isset($todo[$message]) && !$removeOld)
 				{
-					if(substr($translation,0,2)==='@@' && substr($translation,-2)==='@@')
+					if($ignoreOld or (substr($translation,0,2)==='@@' && substr($translation,-2)==='@@'))
 						$todo[$message]=$translation;
 					else
 						$todo[$message]='@@'.$translation.'@@';
