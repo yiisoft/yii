@@ -6,24 +6,24 @@
 ?>
 <?php
 echo "<?php\n";
-$nameColumn=$this->guessNameColumn($this->tableSchema->columns);
 $label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
-	\$model->{$nameColumn},
+	".$this->generateNameValue().",
 );\n";
+$csrf=Yii::app()->request->enableCsrfValidation ? ",'csrf'=>true" : "";
 ?>
 
 $this->menu=array(
 	array('label'=>'List <?php echo $this->modelClass; ?>', 'url'=>array('index')),
 	array('label'=>'Create <?php echo $this->modelClass; ?>', 'url'=>array('create')),
-	array('label'=>'Update <?php echo $this->modelClass; ?>', 'url'=>array('update', 'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>)),
-	array('label'=>'Delete <?php echo $this->modelClass; ?>', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Update <?php echo $this->modelClass; ?>', 'url'=>array('update', 'id'=><?php echo $this->generatePrimaryKeyParam(); ?>)),
+	array('label'=>'Delete <?php echo $this->modelClass; ?>', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=><?php echo $this->generatePrimaryKeyParam(); ?>),'confirm'=>'Are you sure you want to delete this item?'<?php echo $csrf; ?>)),
 	array('label'=>'Manage <?php echo $this->modelClass; ?>', 'url'=>array('admin')),
 );
 ?>
 
-<h1>View <?php echo $this->modelClass." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
+<h1>View <?php echo $this->modelClass." #<?php echo ".$this->generatePrimaryKeyValue()."; ?>"; ?></h1>
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

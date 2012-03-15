@@ -7,12 +7,14 @@
 <div class="view">
 
 <?php
-echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$this->tableSchema->primaryKey}')); ?>:</b>\n";
-echo "\t<?php echo CHtml::link(CHtml::encode(\$data->{$this->tableSchema->primaryKey}), array('view', 'id'=>\$data->{$this->tableSchema->primaryKey})); ?>\n\t<br />\n\n";
+$firstPkColumn=(array)$this->tableSchema->primaryKey;
+$firstPkColumn=$firstPkColumn[0];
+echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('$firstPkColumn')); ?>:</b>\n";
+echo "\t<?php echo CHtml::link(CHtml::encode(\$data->$firstPkColumn), array('view', 'id'=>".$this->generatePrimaryKeyParam('$data').")); ?>\n\t<br />\n\n";
 $count=0;
 foreach($this->tableSchema->columns as $column)
 {
-	if($column->isPrimaryKey)
+	if($column->name===$firstPkColumn)
 		continue;
 	if(++$count==7)
 		echo "\t<?php /*\n";

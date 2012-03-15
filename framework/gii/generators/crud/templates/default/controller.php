@@ -53,9 +53,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	/**
 	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
+	 * @param <?php echo $this->generatePrimaryKeyPhpDoc(); ?> the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView(<?php echo $this->generatePrimaryKeyProto(); ?>)
 	{
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
@@ -77,7 +77,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				$this->redirect(array('view','id'=><?php echo $this->generatePrimaryKeyParam(); ?>));
 		}
 
 		$this->render('create',array(
@@ -88,9 +88,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
+	 * @param <?php echo $this->generatePrimaryKeyPhpDoc(); ?> the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate(<?php echo $this->generatePrimaryKeyProto(); ?>)
 	{
 		$model=$this->loadModel($id);
 
@@ -101,7 +101,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				$this->redirect(array('view','id'=><?php echo $this->generatePrimaryKeyParam(); ?>));
 		}
 
 		$this->render('update',array(
@@ -112,9 +112,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
+	 * @param <?php echo $this->generatePrimaryKeyPhpDoc(); ?> the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete(<?php echo $this->generatePrimaryKeyProto(); ?>)
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
@@ -158,13 +158,20 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer the ID of the model to be loaded
+	 * @param <?php echo $this->generatePrimaryKeyPhpDoc(); ?> the ID of the model to be loaded
 	 */
-	public function loadModel($id)
+	public function loadModel(<?php echo $this->generatePrimaryKeyProto(); ?>)
 	{
-		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
-		if($model===null)
+		try
+		{
+			$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
+			if($model===null)
+				throw new CHttpException(404,'The requested page does not exist.');
+		}
+		catch(CDbException $e)
+		{
 			throw new CHttpException(404,'The requested page does not exist.');
+		}
 		return $model;
 	}
 
