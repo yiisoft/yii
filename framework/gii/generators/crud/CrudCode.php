@@ -187,7 +187,7 @@ class CrudCode extends CCodeModel
 			return "$var->$primaryKey";
 		$keys=array();
 		foreach($primaryKey as $key)
-			$keys[]="'$key'=>$var->$key";
+			$keys[]="'$key'=>{$var}->{$key}";
 		return 'array('.implode(',',$keys).')';
 	}
 
