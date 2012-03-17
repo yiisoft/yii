@@ -11,6 +11,7 @@ Version 1.1.11 work in progress
 - Bug #417: CAttributeCollections::mergeWith() does not take into account the caseSensitive (dmtrs)
 - Bug #433: Fixed the bug that Gii model name input autocomplete was not working sometimes (mdomba)
 - Bug #454: Removed translation on CDbConnection exception as it was creating an endless loop if the application used CDbCache (mdomba)
+- Bug #517: Rule parameter sub-patterns are not checked correctly (ranvis)
 - Enh #136: Added ability to select database connection in Gii model generator (samdark)
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
