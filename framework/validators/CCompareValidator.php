@@ -29,6 +29,7 @@
  * CCompareValidator allows for the following placeholders to be specified:
  * <ul>
  * <li>{compareValue}: replaced with the constant value being compared with {@link compareValue}.</li>
+ * <li>{compareAttribute}: replaced with the name of the attribute
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -204,6 +205,7 @@ class CCompareValidator extends CValidator
 
 		$message=strtr($message,array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
+			'{compareAttribute}'=>$object->getAttributeLabel($compareAttribute),
 			'{compareValue}'=>$compareTo,
 		));
 
