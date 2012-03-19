@@ -31,7 +31,7 @@ return array (
   'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Атрибут повинен бути заданий у форматі "Ім\'я:Тип:Заголовок". "Тип" та "Заголовок" не обов\'язкові.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Стовпець повинен бути заданий у форматі "Name:Type:Label". "Тип" та "Заголовок" не обов\'язкові.',
   'The property "itemView" cannot be empty.' => 'Властивість "itemView" не може бути порожньою.',
-  'Total {count} result(s).' => 'Всього {count} результатів.',
+  'Total {count} result(s).' => 'Всього результатів: {count}.',
   'Update' => 'Редагувати',
   'View' => 'Переглянути',
   '{class} must specify "model" and "attribute" or "name" property values.' => 'Клас {class} повинен визначати значення властивостей "model" та "attribute", або значення "name".',
