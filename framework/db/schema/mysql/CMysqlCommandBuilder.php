@@ -14,6 +14,7 @@
  * @author DaSourcerer <webmaster@dasourcerer.net>
  * @version $Id$
  * @package system.db.schema.mysql
+ * @since 1.1.11
  */
 class CMysqlCommandBuilder extends CDbCommandBuilder
 {
