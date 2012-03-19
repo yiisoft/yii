@@ -165,8 +165,8 @@ class CListView extends CBaseListView
     /**
      * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
      * to persist state of list across page revisits.  Note, there are two limitations for this feature: 
-     * One, this feature is only compatible with browsers that support HTML5.  
-     * Two, expect unanticipated functionality (e.g. multiple ajax calls) if there is more than one grid/list with enableHistory turned on on a page. 
+     * - this feature is only compatible with browsers that support HTML5.  
+     * - expect unexpected functionality (e.g. multiple ajax calls) if there is more than one grid/list on a single page with enableHistory turned on.
      * @since 1.1.11
      */
     public $enableHistory=false;
