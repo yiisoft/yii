@@ -1,8 +1,25 @@
 <?php
+/**
+ * CMysqlCommandBuilder class file.
+ *
+ * @author DaSourcerer <webmaster@dasourcerer.net>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
+ * CMysqlCommandBuilder provides basic methods to create query commands for tables.
+ *
+ * @author DaSourcerer <webmaster@dasourcerer.net>
+ * @version $Id$
+ * @package system.db.schema.mysql
+ */
 class CMysqlCommandBuilder extends CDbCommandBuilder
 {
 	/**
 	 * Creates an UPDATE command.
+	 * Override parent implementation because mysql needs JOIN directive before SET
 	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param array $data list of columns to be updated (name=>value)
 	 * @param CDbCriteria $criteria the query criteria
@@ -53,9 +70,10 @@ class CMysqlCommandBuilder extends CDbCommandBuilder
 
 		return $command;
 	}
-	
+
 	/**
 	 * Creates an UPDATE command that increments/decrements certain columns.
+	 * Override parent implementation because mysql needs JOIN directive before SET
 	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param array $counters counters to be updated (counter increments/decrements indexed by column names.)
 	 * @param CDbCriteria $criteria the query criteria
@@ -93,4 +111,5 @@ class CMysqlCommandBuilder extends CDbCommandBuilder
 			throw new CDbException(Yii::t('yii','No counter columns are being updated for table "{table}".',
 				array('{table}'=>$table->name)));
 	}
+
 }

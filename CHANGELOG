@@ -4,6 +4,7 @@
 
 Version 1.1.11 work in progress
 -------------------------------
+- Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (DaSourcerer)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
 - Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
