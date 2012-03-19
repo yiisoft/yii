@@ -21,7 +21,7 @@ return array (
   'Are you sure you want to delete this item?' => 'Ви впевнені, що хочете видалити цей елемент?',
   'Delete' => 'Видалити',
   'Displaying {start}-{end} of {count} result(s).' => 'Елементи {start}—{end} і {count}.',
-  'Either "name" or "value" must be specified for CDataColumn.' => 'Для CDataColumn необхідно вказати "name" або "value".',
+  'Either "name" or "value" must be specified for CDataColumn.' => 'Для CDataColumn необхідно вказати або "name" або "value".',
   'No results found.' => 'Немає результатів.',
   'Not set' => 'Не заданий',
   'Please specify the "attributes" property.' => 'Визначте властивість "attributes".',
@@ -34,5 +34,5 @@ return array (
   'Total {count} result(s).' => 'Всього результатів: {count}.',
   'Update' => 'Редагувати',
   'View' => 'Переглянути',
-  '{class} must specify "model" and "attribute" or "name" property values.' => 'У класі {class} повинні бути задані значення властивостей "model" та "attribute", або значення "name".',
+  '{class} must specify "model" and "attribute" or "name" property values.' => 'Клас {class} повинен визначати значення властивостей "model" та "attribute", або значення "name".',
 );
