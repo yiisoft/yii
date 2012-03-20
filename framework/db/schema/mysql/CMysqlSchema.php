@@ -254,7 +254,17 @@ class CMysqlSchema extends CDbSchema
 			$name=$schema.'.'.$name;
 		return $names;
 	}
-
+	
+	/**
+	 * Creates a command builder for the database.
+	 * This method overrides parent implementation in order to create a MySQL specific command builder
+	 * @return CDbCommandBuilder command builder instance
+	 */
+	protected function createCommandBuilder()
+	{
+		return new CMysqlCommandBuilder($this);
+	}
+	
 	/**
 	 * Builds a SQL statement for renaming a column.
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
