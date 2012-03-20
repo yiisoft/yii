@@ -18,7 +18,7 @@ $url=$this->createUrl($route,$params);
 ~~~
 
 `$this` はコントローラのインスタンス;
-`$route` はリクエストの[route] (/doc/guide/basics.controller#route);
+`$route` はリクエストの[route](/doc/guide/basics.controller#route);
 そして `$param` は URL に付加される`GET`パラメータのリストです。
 
 デフォルトでは、[createUrl|CController::createUrl] によって作成される URL は
@@ -60,7 +60,7 @@ array(
 );
 ~~~
 
-[urlManager|CWebApplication::urlManager] コンポーネントのクラスを指定する必要はありません。[CWebApplication] の中で [CurlManager] であることがすでに宣言済みです。
+[urlManager|CWebApplication::urlManager] コンポーネントのクラスを指定する必要はありません。[CWebApplication] の中で [CUrlManager] であることがすでに宣言済みです。
 
 > Tip|ヒント: [createUrl|CController::createUrl]で作成された URL は相対 URL です。
 絶対 URL が必要な時は、`Yii::app()->request->hostInfo`をプリフィックスにするか、
@@ -265,7 +265,7 @@ URL をもっと綺麗にするために、さらにもう一つの方法があ�
 [urlManager|CWebApplication::urlManager] アプリケーションコンポーネントを構成するのと同時に、Web サーバの設定も必要になります。
 
 最初に Web サーバを構成して、エントリースクリプト無しの URL が、引き続きエントリースクリプトによって取り扱われるようにする必要があります。
-[Apache HTTP server] (http://httpd.apache.org/)の場合、URL リライティングエンジンを有効化し、
+[Apache HTTP server](http://httpd.apache.org/)の場合、URL リライティングエンジンを有効化し、
 幾つかのリライティングルールを指定することで実現出来ます。
 下記の内容を持つ `/wwwroot/blog/.htaccess` ファイルを作ります。
 同じ内容を Apache の設定ファイルで、`/wwwroot/blog` の `Directory` 要素の中に記述しても構いません。
