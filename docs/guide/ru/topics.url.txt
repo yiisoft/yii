@@ -125,8 +125,8 @@ array('route1', 'pattern'=>'pattern1', 'urlSuffix'=>'.xml', 'caseSensitive'=>fal
    - [caseSensitive|CUrlRule::caseSensitive]: учитывает ли правило регистр. По умолчанию параметр
      равен null, что означает использование значения [CUrlManager::caseSensitive].
 
-   - [defaultParams|CUrlRule::defaultParams]: GET-параметры по умолчанию (имя=>значение) для данного правила.
-     При срабатывании правила параметры будут добавлены в $_GET.
+   - [defaultParams|CUrlRule::defaultParams]: GET-параметры по умолчанию (`имя=>значение`) для данного правила.
+     При срабатывании правила параметры будут добавлены в `$_GET`.
 
    - [matchValue|CUrlRule::matchValue]: должны ли значения GET-параметров при создании URL совпадать
      с соответствующими подвыражениями в основном правиле. По умолчанию параметр равен null,
