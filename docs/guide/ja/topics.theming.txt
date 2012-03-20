@@ -25,8 +25,7 @@ Yiiでの各テーマは、ビューファイル、レイアウトファイル�
 
 テーマを有効にするには、ウェブアプリケーションのプロパティである、
 [theme|CWebApplication::theme] の名前を望むものにセットします。
-これは [application
-configuration](/doc/guide/basics.application#application-configuration) 
+これは [アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 
 の中か、コントローラアクションの処理の中のどちらでも行うことが可能です。
 
 > Note|注意: テーマの名前は大文字小文字を区別します。もしアクティブ
@@ -37,8 +36,7 @@ configuration](/doc/guide/basics.application#application-configuration)
 テーマを作成する
 ----------------
 
-テーマディレクトリの中身は [application base
-path](/doc/guide/basics.application#application-base-directory) 
+テーマディレクトリの中身は [アプリケーションベースディレクトリ](/doc/guide/basics.application#application-base-directory) 
 の中身と同様の方法で纏められなければなりません。例えば、
 全てのビューファイルは `views` の中に置かれ、レイアウトビューファイルは 
 `views/layouts` の中、システムビューファイルは `views/system` 

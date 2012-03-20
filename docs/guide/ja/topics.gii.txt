@@ -38,7 +38,7 @@ Gii は既存のアプリケーションの中で新しいコードファイル�
 
 さて、以上で、URL `http://hostname/path/to/index.php?r=gii` によって Gii にアクセスすることが出来ます。ここで `http://hostname/path/to/index.php` は既存の Yii アプリケーションにアクセスするための URL であると仮定しています。
 
-もし既存の Yii アプリケーションが `path` 形式の URL ([URL management](/doc/guide/topics.url) を参照)を使っているのであれば、URL `http://hostname/path/to/index.php/gii` によって Gii にアクセス出来ます。
+もし既存の Yii アプリケーションが `path` 形式の URL ([URLの取り扱い](/doc/guide/topics.url) を参照)を使っているのであれば、URL `http://hostname/path/to/index.php/gii` によって Gii にアクセス出来ます。
 場合によっては、既存の URL 規則の先頭に次の URL 規則を追加する必要があるかもしれません。
 
 ~~~
@@ -126,7 +126,7 @@ return array(
 
 次に、前のサブセクションで見たように、アプリケーション構成を修正して、[GiiModule::generatorPaths] に `application.gii` を追加します。
 
-ここでモデルのコードジェネレータのページを開いて下さい。`Code Template` フィールドをクリックすると、新しく作ったテンプレートディレクトリ `compact` を含んだドロップダウンリストが表示される筈です。ただし、このテンプレートを選んでコードを生成しようとすると、エラーが表示されます。これは、この新しい `compactp テンプレートセットには、まだ一つも実際のコードテンプレートファイルを入れていないからです。
+ここでモデルのコードジェネレータのページを開いて下さい。`Code Template` フィールドをクリックすると、新しく作ったテンプレートディレクトリ `compact` を含んだドロップダウンリストが表示される筈です。ただし、このテンプレートを選んでコードを生成しようとすると、エラーが表示されます。これは、この新しい `compact` テンプレートセットには、まだ一つも実際のコードテンプレートファイルを入れていないからです。
 
 ファイル `framework/gii/generators/model/templates/default/model.php` を `protected/gii/model/templates/compact` にコピーします。もう一度 `compact` テンプレートで生成を試みると、今度は成功します。ただし、生成されるコードは `default` テンプレートセットで生成されるものと違いはありません。
 

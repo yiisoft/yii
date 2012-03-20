@@ -32,11 +32,11 @@ public function actionLogin()
 次のサブセクションで内容を述べる `login` ビューを発行します。
 
 > Tip|ヒント: `login` アクションの中で、認証が必要となる前のページを
- `$Yii::app()->user->returnUrl` によって取得しています。
- `$Yii::app()->user` コンポーネントは、[CWebUser] 
+ `Yii::app()->user->returnUrl` によって取得しています。
+ `Yii::app()->user` コンポーネントは、[CWebUser] 
 (或いはその派生)クラスで、ユーザのセッション情報
 (例えばユーザ名、ステータス)を表します。詳細は 
-[Authentication and Authorization](/doc/guide/topics.auth) 
+[認証と権限付与](/doc/guide/topics.auth) 
 を参照して下さい。
 
 `login` アクションに現れる下記のPHPステートメントに特に注目しましょう:
