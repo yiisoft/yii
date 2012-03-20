@@ -52,7 +52,7 @@ DSN のフォーマットは、使用する PDO データベースドライバ�
 [CDbConnection] は [CApplicationComponent] から拡張されているため、
 [アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
 として使用できます。そうするには、
-[application configuration](/doc/guide/basics.application#application-configuration) 内で
+[アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 内で
 `db` (もしくは他の名前の)アプリケーションコンポーネントを下記のように設定します。
 
 ~~~
