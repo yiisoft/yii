@@ -31,7 +31,7 @@ return array (
   'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Атрибут должен быть указан в формате "Имя:Тип:Заголовок". "Тип" и "Заголовок" не обязательны.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Столбец должен быть указан в формате "Name:Type:Label". "Тип" и "Заголовок" не обязательны.',
   'The property "itemView" cannot be empty.' => 'Свойство "itemView" не может быть пустым.',
-  'Total 1 result.|Total {count} results.' => 'Всего результатов: {count}.',
+  'Total 1 result.|Total {count} results.' => 'Всего {count} результат.|Всего {count} результата.|{count} результатов.|{count} результата.',
   'Update' => 'Редактировать',
   'View' => 'Просмотреть',
   '{class} must specify "model" and "attribute" or "name" property values.' => 'В классе {class} должны быть заданы значения свойств "model" и "attribute", либо значение "name".',
