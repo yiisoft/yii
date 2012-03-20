@@ -331,7 +331,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * a {@link CFormStringElement} object (when 'type' is 'string'), a {@link CFormElement} object
 	 * (when 'type' is a string ending with 'Form'), or a {@link CFormInputElement} object in
 	 * all other cases.
-	 * @param array $elements the button configurations
+	 * @param array $elements the elements configurations
 	 */
 	public function setElements($elements)
 	{
