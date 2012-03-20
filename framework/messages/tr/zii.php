@@ -18,7 +18,7 @@
 return array (
   'Are you sure you want to delete this item?' => 'Bu öğeyi silmek istediğinizden emin misiniz?',
   'Delete' => 'Sil',
-  'Displaying {start}-{end} of {count} result(s).' => '{count} sonuçtan {start}-{end} arası gösteriliyor.',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => '{count} sonuçtan {start}-{end} arası gösteriliyor.',
   'Either "name" or "value" must be specified for CDataColumn.' => 'CDataColumn değeri için "name" veya "value" tanımlanmalıdır.',
   'Home' => 'Anasayfa',
   'No results found.' => 'Kayıt bulunamadı.',
@@ -31,7 +31,7 @@ return array (
   'The button type "{type}" is not supported.' => '"{type}" buton tipi desteklenmemektedir.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Sütun, "Type" ve "Label" \'ın opsiyonel olduğu durumda, "Name:Type:Label" formatında tanımlanmalıdır.',
   'The property "itemView" cannot be empty.' => '"itemView" değeri boş bırakılamaz.',
-  'Total {count} result(s).' => 'Toplam sonuç: {count}.',
+  'Total 1 result.|Total {count} results.' => 'Toplam sonuç: {count}.',
   'Update' => 'Güncelle',
   'View' => 'Görüntüle',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} için "model" ve "attribute" veya "name" değerleri tanımlanmalıdır.',
