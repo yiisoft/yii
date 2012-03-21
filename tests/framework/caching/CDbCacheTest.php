@@ -74,15 +74,15 @@ class CDbCacheTest extends CTestCase
 
 		$key1='multidata1';
 		$data1='abc';
-        $key2='multidata2';
+		$key2='multidata2';
 		$data2=34;
 
-        $this->assertEquals($cache->mget(array($key1,$key2)), array($key1=>false,$key2=>false));
+		$this->assertEquals($cache->mget(array($key1,$key2)), array($key1=>false,$key2=>false));
 		$cache->set($key1,$data1);
 		$cache->set($key2,$data2);
-        $this->assertEquals($cache->mget(array($key1,$key2)), array($key1=>$data1,$key2=>$data2));
+		$this->assertEquals($cache->mget(array($key1,$key2)), array($key1=>$data1,$key2=>$data2));
 		$app2=new TestApplication($this->_config1);
-        $this->assertEquals($app2->cache->mget(array($key1,$key2)), array($key1=>$data1,$key2=>$data2));
+		$this->assertEquals($app2->cache->mget(array($key1,$key2)), array($key1=>$data1,$key2=>$data2));
 	}
 
 	public function testArrayAccess()
