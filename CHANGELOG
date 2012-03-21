@@ -31,6 +31,7 @@ Version 1.1.11 work in progress
 - Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
 - Enh: Added HTML5 history support on ajax requests on CGridView and CListView using History.js v1.7.2-r2 (https://github.com/balupton/history.js) from Benjamin Arthur Lupton (lightglitch)
 - Chg #440: Upgraded JQuery UI to 1.8.18 (samdark)
+- Chg: Upgraded jQuery to 1.7.2 (samdark)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
