@@ -125,7 +125,7 @@ class CCheckBoxColumn extends CGridColumn
 		{
 			//.. process check/uncheck all
 			$cball=<<<CBALL
-$('#{$this->id}_all').live('click',function() {
+$(document).on('click','#{$this->id}_all',function() {
 	var checked=this.checked;
 	$("input[name='$name']").each(function() {this.checked=checked;});
 });
@@ -136,7 +136,7 @@ CBALL;
 
 		$js=$cball;
 		$js.=<<<EOD
-$("input[name='$name']").live('click', function() {
+$(document).on('click', "input[name='$name']", function() {
 	$cbcode
 });
 EOD;

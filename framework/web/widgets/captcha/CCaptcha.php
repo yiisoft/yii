@@ -136,7 +136,7 @@ class CCaptcha extends CWidget
 			return;
 
 		$js.="
-jQuery('$selector').live('click',function(){
+jQuery(document).on('click','$selector',function(){
 	jQuery.ajax({
 		url: ".CJSON::encode($url).",
 		dataType: 'json',
