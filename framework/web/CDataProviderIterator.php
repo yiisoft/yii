@@ -136,8 +136,7 @@ class CDataProviderIterator implements Iterator, Countable
 	 */
 	public function current()
 	{
-		$items = $this->getItems();
-		return $items[$this->getCurrentIndex()];
+		return $this->_items[$this->_currentIndex];
 	}
 
 	/**
@@ -148,9 +147,8 @@ class CDataProviderIterator implements Iterator, Countable
 	public function key()
 	{
 		$pagination = $this->dataProvider->getPagination();
-		$currentPage = $this->_currentPage;
 		$pageSize = $pagination->getPageSize();
-		return $currentPage * $pageSize + $this->getCurrentIndex();
+		return $this->_currentPage * $pageSize + $this->_currentIndex;
 	}
 
 	/**
@@ -186,7 +184,7 @@ class CDataProviderIterator implements Iterator, Countable
 	 */
 	public function valid()
 	{
-		return $this->key() < $this->getTotalItems();
+		return $this->key() < $this->_totalItems;
 	}
 
 	/**
@@ -196,6 +194,6 @@ class CDataProviderIterator implements Iterator, Countable
 	 */
 	public function count()
 	{
-		return $this->getTotalItems();
+		return $this->_totalItems;
 	}
 }
