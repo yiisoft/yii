@@ -45,25 +45,25 @@ class CDataProviderIterator implements Iterator, Countable
 	 * The current index
 	 * @var integer
 	 */
-	protected $_currentIndex = -1;
+	private $_currentIndex = -1;
 
 	/**
 	 * The current page in the pagination
 	 * @var integer
 	 */
-	protected $_currentPage = 0;
+	private $_currentPage = 0;
 
 	/**
 	 * The total number of items
 	 * @var integer
 	 */
-	protected $_totalItems = -1;
+	private $_totalItems = -1;
 
 	/**
 	 * The current set of items
 	 * @var array
 	 */
-	protected $_items;
+	private $_items;
 
 	/**
 	 * Constructor. Sets the data provider to iterator over
