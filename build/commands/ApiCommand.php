@@ -65,7 +65,6 @@ EOD;
 		$options=array(
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
-				'.svn',
 				'/yiilite.php',
 				'/yiit.php',
 				'/cli',
@@ -211,7 +210,7 @@ EOD;
 			file_put_contents($docPath.'/'.$name.'.html',$content);
 		}
 
-		CFileHelper::copyDirectory($this->themePath.'/assets',$docPath,array('exclude'=>array('.svn')));
+		CFileHelper::copyDirectory($this->themePath.'/assets',$docPath);
 
 		$content=$this->renderPartial('chmProject',null,true);
 		file_put_contents($docPath.'/manual.hhp',$content);
