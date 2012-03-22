@@ -32,7 +32,8 @@
  * @package system.web
  * @since 1.1.11
  */
-class CDataProviderIterator implements Iterator, Countable {
+class CDataProviderIterator implements Iterator, Countable
+{
 
 	/**
 	 * The data provider to iterate over
@@ -151,6 +152,7 @@ class CDataProviderIterator implements Iterator, Countable {
 		$pageSize = $pagination->getPageSize();
 		return $currentPage * $pageSize + $this->getCurrentIndex();
 	}
+
 	/**
 	 * Moves the pointer to the next item in the list.
 	 * This method is required by the Iterator interface
@@ -165,6 +167,7 @@ class CDataProviderIterator implements Iterator, Countable {
 			$this->loadPage();
 		}
 	}
+
 	/**
 	 * Rewinds the iterator to the start of the list.
 	 * This method is required by the Iterator interface
@@ -175,6 +178,7 @@ class CDataProviderIterator implements Iterator, Countable {
 		$this->_currentPage = 0;
 		$this->loadPage();
 	}
+
 	/**
 	 * Checks if the current position is valid or not.
 	 * This method is required by the Iterator interface
@@ -184,6 +188,7 @@ class CDataProviderIterator implements Iterator, Countable {
 	{
 		return $this->key() < $this->getTotalItems();
 	}
+	
 	/**
 	 * Gets the total number of items in the dataProvider
 	 * This method is required by the Countable interface
