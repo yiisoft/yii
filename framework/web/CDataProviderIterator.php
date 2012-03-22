@@ -188,7 +188,7 @@ class CDataProviderIterator implements Iterator, Countable
 	{
 		return $this->key() < $this->getTotalItems();
 	}
-	
+
 	/**
 	 * Gets the total number of items in the dataProvider
 	 * This method is required by the Countable interface
