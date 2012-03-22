@@ -17,7 +17,7 @@
  */
 class CGoogleApi
 {
-	public static $bootstrapUrl='http://www.google.com/jsapi';
+	public static $bootstrapUrl='//www.google.com/jsapi';
 
 	/**
 	 * Renders the jsapi script file.
