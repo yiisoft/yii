@@ -27,7 +27,7 @@ class ApiCommand extends CConsoleCommand
 	public $pageTitle;
 	public $themePath;
 	public $currentClass;
-	public $baseSourceUrl="http://code.google.com/p/yii/source/browse";
+	public $baseSourceUrl="https://github.com/yiisoft/yii/blob/master";
 	public $version;
 
 	public function getHelp()
@@ -105,11 +105,11 @@ EOD;
 		$this->version=Yii::getVersion();
 
 		/*
-		 * development version - link to trunk
+		 * development version - link to framework
 		 * release version link to tags
 		 */
 		if(substr($this->version,-3)=='dev')
-			$this->baseSourceUrl .= '/trunk/framework';
+			$this->baseSourceUrl .= '/framework';
 		else
 			$this->baseSourceUrl .= '/tags/'.$this->version.'/framework';
 
