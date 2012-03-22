@@ -17,6 +17,10 @@
  */
 class CGoogleApi
 {
+	/**
+	* @var string Protocol relative url to the Google API loader which allows easy access 
+	* to most of the Google AJAX APIs
+	*/
 	public static $bootstrapUrl='//www.google.com/jsapi';
 
 	/**
