@@ -8,9 +8,10 @@ return array(
 	'messagePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'messages',
 	'languages'=>array('zh_cn','zh_tw','de','el','es','sv','he','nl','pt','pt_br','ru','it','fr','ja','pl','hu','ro','id','vi','bg','lv','sk','uk'),
 	'fileTypes'=>array('php'),
-    'overwrite'=>true,
+	'overwrite'=>true,
 	'exclude'=>array(
 		'.svn',
+		'.gitignore',
 		'yiilite.php',
 		'yiit.php',
 		'/i18n/data',

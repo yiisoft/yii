@@ -55,7 +55,10 @@ EOD;
 		);
 
 		$files=CFileHelper::findFiles($templatePath,array(
-			'exclude'=>array('.svn'),
+			'exclude'=>array(
+				'.svn',
+				'.gitignore'
+			),
 		));
 
 		foreach($files as $file)

@@ -10,7 +10,7 @@ return array(
 	'fileTypes'=>array('php'),
 	'translator'=>'t',
 	'exclude'=>array(
-		'.svn',
+		'.gitignore',
 		'/messages',
 		'/views',
 	),
