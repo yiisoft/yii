@@ -9,7 +9,7 @@
  */
 
 /**
- * CGoogleApi provides helper methods to easily access {@link http://code.google.com/apis/ajax/ Google AJAX APIs}.
+ * CGoogleApi provides helper methods to easily access the {@link https://developers.google.com/loader/ Google Google API loader}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
