@@ -19,7 +19,7 @@
 return array (
   'Are you sure you want to delete this item?' => 'உறுதியாக இதை நீக்கிவிடவா?',
   'Delete' => 'நீக்கு',
-  'Displaying {start}-{end} of {count} result(s).' => '{count} முடிவுகளில் {start}-{end} முடிவுகளை காண்பிக்கிறது',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => '{count} முடிவுகளில் {start}-{end} முடிவுகளை காண்பிக்கிறது',
   'Either "name" or "value" must be specified for CDataColumn.' => 'CDataColumn இல் "name" அல்லது "value" கொடுத்திருக்க வேண்டும்.',
   'Home' => 'முகப்பு',
   'No results found.' => 'முடிவுகள் கிடைக்கவில்லை.',
@@ -32,7 +32,7 @@ return array (
   'The button type "{type}" is not supported.' => '"{type}" பொத்தான் வகை பயன்பாட்டிலில்லை.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'வரிசை மதிப்பு "Name:Type:Label" மாதிரி கொடுத்திருக்க வேண்டும், இதில் "Type" மற்றும் "Label" முக்கியமானவை அல்ல.',
   'The property "itemView" cannot be empty.' => '"itemView" மதிப்பு காலியாக இருக்கக்கூடாது.',
-  'Total {count} result(s).' => 'மொத்தம் {count} முடிவுகள்.',
+  'Total 1 result.|Total {count} results.' => 'மொத்தம் {count} முடிவுகள்.',
   'Update' => 'புதுப்பி',
   'View' => 'பார்வையிடு',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} உடற்கூறு "model" மற்றும் "attribute" அல்லது "name" மதிப்பைக் கொண்டிருக்க வேண்டும்.',

@@ -750,7 +750,7 @@ class CUrlRule extends CBaseUrlRule
 		{
 			foreach($this->params as $key=>$value)
 			{
-				if(!preg_match('/'.$value.'/'.$case,$params[$key]))
+				if(!preg_match('/\A'.$value.'\z/u'.$case,$params[$key]))
 					return false;
 			}
 		}

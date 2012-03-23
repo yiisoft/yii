@@ -13,11 +13,11 @@ PHPのwarningやnotice、キャッチされない例外が発生した場合は�
 
 > Tip|ヒント: エラーハンドラは、アプリケーションのコンストラクタでPHP
 ファンクションである
-[set_exception_handler](http://www.php.net/manual/jp/function.set-exception-handler.php)
+[set_exception_handler](http://php.net/manual/ja/function.set-exception-handler.php)
 と
-[set_error_handler](http://www.php.net/manual/jp/function.set-error-handler.php)
+[set_error_handler](http://php.net/manual/ja/function.set-error-handler.php)
 によって
-登録されます。もし不要な場合は、[entry script](/doc/guide/basics.entry)で
+登録されます。もし不要な場合は、[エントリスクリプト](/doc/guide/basics.entry)で
 `YII_ENABLE_ERROR_HANDLER`と`YII_ENABLE_EXCEPTION_HANDLER`の定数をfalse
 として定義する事で対応できます。
 
@@ -71,8 +71,7 @@ throw new CHttpException(404,'The specified post cannot be found.');
 起きている行番号をや完全なコールスタック(ファイルの階層情報など)が
 表示されます。
 
-> Info|情報: アプリケーションが[production
-mode](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエラーを
+> Info|情報: アプリケーションが[プロダクションモード](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエラーを
 含む全てのエラーは `errorXXX` という view を使用して表示されます。
 こうなっているのは、エラーのコールスタックが機密に関わる情報を含む可能性が
 ある為です。このモードでは、開発者はエラーの真の原因を究明する為に、
@@ -98,7 +97,7 @@ mode](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエ
 アクションを用いたエラーハンドリング
 -------------------------------
 
-Yiiではコントローラアクション[controller action](/doc/guide/basics.controller#action)を用いてエラー表示をすることが出来ます。
+Yiiでは[コントローラアクション](/doc/guide/basics.controller#action)を用いてエラー表示をすることが出来ます。
 これを行うために、アプリケーション構成ファイル中のエラーハンドラを以下のように構成します。
 
 ~~~
@@ -156,6 +155,6 @@ public function actionError()
 ([CHttpException]における[statusCode|CHttpException::statusCode] もまた
 カテゴリーに追加されるでしょう。) 
 このようにアプリケーションの実行の間に起きるエラーをモニターする為の
-[logging](/doc/guide/topics.logging)機能を利用することが出来ます。
+[ロギング](/doc/guide/topics.logging)機能を利用することが出来ます。
 
 <div class="revision">$Id: topics.error.txt 3374 2011-08-05 23:01:19Z alexander.makarow $</div>

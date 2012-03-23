@@ -10,7 +10,7 @@ Yiiには柔軟で拡張可能なログ機能が備わっています。
 ---------------
 
 メッセージは [Yii::log]か[Yii::trace]のどちらかを呼ぶことでログに記録可能です。
-この二つのメソッドの違いは、後者はアプリケーションが[debug mode](/doc/guide/basics.entry#debug-mode)
+この二つのメソッドの違いは、後者はアプリケーションが[デバッグモード](/doc/guide/basics.entry#debug-mode)
 で動いているときだけメッセージを記録するということです。
 
 ~~~
@@ -21,7 +21,7 @@ Yii::trace($message, $category);
 
 メッセージをログに記録するとき、カテゴリとレベルを指定する必要があります。
 カテゴリは`xxx.yyy.zzz`というフォーマットの文字列です。
-これは[path alias](/doc/guide/basics.namespace)と似ています。
+これは[パスエイリアス](/doc/guide/basics.namespace)と似ています。
 例えば、[CController]でメッセージがログに記録されるとすると、
  `system.web.CController`というカテゴリを使うことができるでしょう。
 メッセージレベルは以下の値のいずれかになります。
@@ -51,7 +51,7 @@ Yiiにおけるメッセージルーティングは、[CLogRouter]アプリケ�
 メッセージルーティングを使うには、[CLogRouter]アプリケーションコンポーネントをインストールし、
 プリロードする必要があります。
 また、コンポーネントの[routes|CLogRouter::routes]プロパティに必要なログルートを設定する必要があります。
-以下では[application configuration](/doc/guide/basics.application#application-configuration)の例を提示します。
+以下では[アプリケーション初期構成](/doc/guide/basics.application#application-configuration)の例を提示します。
 
 ~~~
 [php]
@@ -117,7 +117,7 @@ Yiiでは以下のログルートが利用可能です。
 このことは、ログルートの [CLogRoute::filter] プロパティに適切なログフィルターを指定する事で実現できます。
 
 フレームワークには便利な [CLogFilter] が内蔵されており、ほとんどの場合は、これを必要なログフィルターとして使うことが出来ます。
-デフォルトでは、{CLogFilter] は、しばしば有用なシステムコンテキスト情報を含んでいる `$_GET` や `$_SERVER` のような変数をログメッセージに追加します。
+デフォルトでは、[CLogFilter] は、しばしば有用なシステムコンテキスト情報を含んでいる `$_GET` や `$_SERVER` のような変数をログメッセージに追加します。
 また [CLogFilter] は、各ログメッセージの前にセッション ID やユーザ名などを付加するように構成することも可能です。これらの付加的な情報は、膨大なログメッセージをチェックする際に、グローバル検索を格段に容易にしてくれるでしょう。
 
 下記の構成は、コンテキスト情報のログへの記録を有効化する方法を示しています。
