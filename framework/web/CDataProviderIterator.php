@@ -174,7 +174,8 @@ class CDataProviderIterator implements Iterator, Countable
 	{
 		$pagination=$this->dataProvider->getPagination();
 		$this->_currentIndex++;
-		if($this->_currentIndex>=$pagination->getPageSize()){
+		if($this->_currentIndex>=$pagination->getPageSize())
+		{
 			$this->_currentPage++;
 			$this->_currentIndex=0;
 			$this->loadPage();
