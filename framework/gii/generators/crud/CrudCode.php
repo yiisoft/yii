@@ -66,8 +66,6 @@ class CrudCode extends CCodeModel
 			$table=CActiveRecord::model($class)->tableSchema;
 			if($table->primaryKey===null)
 				$this->addError('model',"Table '{$table->name}' does not have a primary key.");
-			else if(is_array($table->primaryKey))
-				$this->addError('model',"Table '{$table->name}' has a composite primary key which is not supported by crud generator.");
 			else
 			{
 				$this->_modelClass=$class;
@@ -168,6 +166,42 @@ class CrudCode extends CCodeModel
 		return $this->_table;
 	}
 
+	public function generatePrimaryKeyProto()
+	{
+		if(!is_array($this->tableSchema->primaryKey))
+			return "\$id";
+		return "array \$id";
+	}
+
+	public function generatePrimaryKeyPhpDoc()
+	{
+		if(!is_array($this->tableSchema->primaryKey))
+			return "integer \$id";
+		return "array \$id";
+	}
+
+	public function generatePrimaryKeyParam($var='$model')
+	{
+		$primaryKey=$this->tableSchema->primaryKey;
+		if(!is_array($primaryKey))
+			return "$var->$primaryKey";
+		$keys=array();
+		foreach($primaryKey as $key)
+			$keys[]="'$key'=>{$var}->{$key}";
+		return 'array('.implode(',',$keys).')';
+	}
+
+	public function generatePrimaryKeyValue()
+	{
+		$primaryKey=$this->tableSchema->primaryKey;
+		if(!is_array($primaryKey))
+			return "\$model->$primaryKey";
+		$keys=array();
+		foreach($primaryKey as $key)
+			$keys[]="\$model->$key";
+		return implode(".'-'.",$keys);
+	}
+
 	public function generateInputLabel($modelClass,$column)
 	{
 		return "CHtml::activeLabelEx(\$model,'{$column->name}')";
@@ -226,6 +260,14 @@ class CrudCode extends CCodeModel
 		}
 	}
 
+	public function generateNameValue()
+	{
+		$nameColumn=$this->guessNameColumn($this->tableSchema->columns);
+		if($nameColumn===null)
+			return $this->generatePrimaryKeyValue();
+		return "\$model->$nameColumn";
+	}
+
 	public function guessNameColumn($columns)
 	{
 		foreach($columns as $column)
@@ -238,11 +280,6 @@ class CrudCode extends CCodeModel
 			if(!strcasecmp($column->name,'title'))
 				return $column->name;
 		}
-		foreach($columns as $column)
-		{
-			if($column->isPrimaryKey)
-				return $column->name;
-		}
-		return 'id';
+		return null;
 	}
 }
