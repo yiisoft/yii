@@ -75,6 +75,12 @@ class CFormatter extends CApplicationComponent
 	 */
 	public $booleanFormat=array('No','Yes');
 
+	/** 
+	 * @var array the format used to format size (bytes). Two elements may be specified: "base" and "decimals".
+	 * They correspond to the base at which KiloByte is calculated (1000 or 1024) bytes per KiloByte and 
+	 * the number of digits after decimal point.
+	 */
+	public $sizeFormat=array('base'=>1024,'decimals'=>2);
 	/**
 	 * Calls the format method when its shortcut is invoked.
 	 * This is a PHP magic method that we override to implement the shortcut format methods.
@@ -244,4 +250,18 @@ class CFormatter extends CApplicationComponent
 			$this->_htmlPurifier=new CHtmlPurifier;
 		return $this->_htmlPurifier;
 	}
+	
+	/**
+	 * Formats the value as a size in human readable form.
+     * @params integer value to be formatted
+     * @return string the formatted result
+     */
+	public function formatSize($value)
+	{
+		$units=array('B','KB','MB','GB','TB');
+		$base = $this->sizeFormat['base']; 
+		for($i=0; $base<=$value; $i++) $value=$value/$base;
+		return round($value, $this->sizeFormat['decimals']).$units[$i];
+	}
+
 }
