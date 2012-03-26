@@ -120,7 +120,7 @@ EOD;
 
 		// collect XML files to be processed
 		$options=array(
-			'exclude'=>array('.svn'),
+			'exclude'=>array('.gitignore'),
 			'fileTypes'=>array('xml'),
 			'level'=>0,
 		);

@@ -65,6 +65,7 @@ EOD;
 		$options=array(
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
+				'.gitignore',
 				'/yiilite.php',
 				'/yiit.php',
 				'/cli',

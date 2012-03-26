@@ -44,7 +44,7 @@ EOD;
 		$options=array(
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
-				'.svn',
+				'.gitignore',
 				'/messages',
 				'/views',
 				'/cli',
