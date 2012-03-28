@@ -123,8 +123,7 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 データキャッシュの上に構築されており、クエリキャッシングはDBクエリの結果をキャッシュに格納し、
 将来同じクエリが要求された場合に、結果が直接キャッシュから得られるためDBクエリの実行時間が短縮される。
 
-> Info|注: ある種のDBMS、例えば[MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.htmlの
-ある種のDBMS (e.g. [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
+> Info|注: ある種のDBMS (例えば [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
 > はまた、DBサーバサイドでクエリキャッシュをサポートしています。
 >サーバサイドでのクエリキャッシングと比較すると、同じ機能を提供するものの、よりフレキシブルかつ
 >潜在的に効率的でしょう。 
@@ -146,14 +145,14 @@ $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
 $rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 ~~~
 
-上記文を実行する際に、Yiiは最初にキャッシュが、実行された正当なSQL文の結果を持っているかどうかをチェックします。
+上記の文を実行する際に、Yiiは最初にキャッシュが、実行された正当なSQL文の結果を持っているかどうかをチェックします。
 これには以下の3つの条件をチェックします。
 
-- キャッシュがSQL文によりインデクスされたエントリをもっているかどうか
+- キャッシュがSQL文によりインデックスされたエントリをもっているかどうか
 - キャッシュエントリが無効になっていないかどうか(最初にキャッシュに格納されてから1000秒以内)
 - 依存性が変更されていないか(`update_time`の最大値がクエリ結果が格納されてから同じかどうか)
 
-もし上記すべての条件が満足されていれば、キャッシュされた結果が直接キャッシュから返されます。
+もし上記すべての条件が満たされていれば、キャッシュされた結果が直接キャッシュから返されます。
 そうでなければ、SQL文はDBサーバへ送信され、対応する結果がキャッシュに格納され、同時に返されます。
 
 
@@ -204,7 +203,7 @@ $rows = Yii::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 ご存知のとおり、リレーショナルなアクティブレコードクエリを実行するときは、複数のSQLクエリが実行されます
-( [log messages](/doc/guide/topics.logging))。
+([ロギング](/doc/guide/topics.logging)で確認できます)。
 例えば、もし`Post`と`Comment`の関係が`HAS_MANY`の場合、以下のコードが実際には2つのDBクエリを実行します。
 
 - もし最初にpostsを20件を最大として選択します。
@@ -239,11 +238,11 @@ $posts = Post::model()->cache(1000, $dependency, 2)->with('comments')->findAll(a
 ### 制約
 
 リソースハンドルを返すようなクエリにはクエリキャッシュは働きません。
-例えばある種のDBMSにおいて`BLOB`カラムタイプを用いる場合クエリリザルトはカラムデータについて
+例えばある種のDBMSにおいて`BLOB`カラムタイプを用いる場合クエリの結果はカラムデータについて
 リソースハンドルを返します。
 
 ある種のキャッシュストレージはサイズに制約があります。memcacheはエントリサイズの最大値は1MBが制約です。
-そのため、クエリリザルトがこの制約を越える場合、キャッシュはされません。
+そのため、クエリの結果がこの制約を越える場合、キャッシュはされません。
 
 
 <div class="revision">$Id: caching.data.txt 3125 2008-11-06 19:43:44Z qiang.xue $</div>

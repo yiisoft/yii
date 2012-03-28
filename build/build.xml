@@ -53,7 +53,7 @@
 
   <!-- source files in the framework -->
   <fileset dir=".." id="framework">
-    <exclude name="**/.svn"/>
+    <exclude name="**/.gitignore"/>
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="framework/**/*"/>
@@ -67,7 +67,7 @@
 
   <!-- doc files -->
   <fileset dir="../docs" id="docs">
-    <exclude name="**/.svn"/>
+    <exclude name="**/.gitignore"/>
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="guide/**/*"/>
@@ -75,14 +75,14 @@
   </fileset>
 
   <fileset dir="../docs/guide" id="docs-guide">
-    <exclude name="**/.svn"/>
+    <exclude name="**/.gitignore"/>
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="**/*"/>
   </fileset>
 
   <fileset dir="../docs/blog" id="docs-blog">
-    <exclude name="**/.svn"/>
+    <exclude name="**/.gitignore"/>
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="**/*"/>

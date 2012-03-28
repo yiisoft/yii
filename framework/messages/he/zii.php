@@ -18,7 +18,7 @@
 return array (
   'Are you sure to delete this item?' => 'האם אתה בטוח שאתה רוצה למחוק את הרשומה הזאת?',
   'Delete' => 'מחק',
-  'Displaying {start}-{end} of {count} result(s).' => 'מציג {start}-{end} מתוך {count} תוצאות.',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'מציג {start}-{end} מתוך {count} תוצאות.',
   'No' => 'לא',
   'No results found.' => 'לא נמצאו רשומות.',
   'Not set' => 'לא הוגדר',
@@ -28,7 +28,7 @@ return array (
   'The "dataProvider" property cannot be empty.' => 'המאפיין "dataProvider" לא יכול להיות ריק.',
   'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'המאפיין צריך להיות מוגדר בפורמט "Name:Type:Label", כש "Type" ו "Label" הם אופציונלים.',
   'The property "itemView" cannot be empty.' => 'המאפיין "itemView" לא יכול להיות ריק.',
-  'Total {count} result(s).' => 'סך הכל {count} תוצאות',
+  'Total 1 result.|Total {count} results.' => 'סך הכל {count} תוצאות',
   'Unknown type "{type}".' => 'סוג לא ידוע "{type}".',
   'Update' => 'עדכן',
   'View' => 'צפה',

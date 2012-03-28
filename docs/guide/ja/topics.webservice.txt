@@ -1,7 +1,7 @@
 ウェブサービス
 ===========
 
-[ウェブサービスとは](http://en.wikipedia.org/wiki/Web_service)
+[ウェブサービス](http://ja.wikipedia.org/wiki/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9)とは
 ネットワーク越しに、マシン同士の相互運用性をサポートする仕組みのことです。
 ウェブアプリケーションにおいては、多くの場合インターネットを介して、
 リモートホストから呼び出して利用できるAPI群をウェブサービスと呼びます。
@@ -19,8 +19,7 @@ Yiiはそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl)�
 要求されたAPIを実行することで、リクエストを完了します。
 
 
-> 注意: [CWebService] は [PHP SOAP
-extension](http://www.php.net/manual/en/ref.soap.php) に依存します。
+> Note|注意: [CWebService] は [PHP SOAP extension](http://www.php.net/manual/ja/ref.soap.php) に依存します。
 このセクションの例を実行する前に拡張が有効になっていることを確認して下さい。
 
 サービスプロバイダの定義
@@ -28,9 +27,8 @@ extension](http://www.php.net/manual/en/ref.soap.php) に依存します。
 
 上で述べたように、サービスプロバイダとはリモートから呼び出し可能なメソッドを定義するクラスのことです。
 
-Yiiは[doc
-comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) と [class
-reflection](http://php.net/manual/en/book.reflection.php) に基づいて、
+Yiiは[doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) と [class
+reflection](http://php.net/manual/ja/book.reflection.php) に基づいて、
 どのメソッドがリモートから呼び出し可能であり、どのような引数をとり、そしてどのような返り値を返すのかを決定します。
 
 まず単純な株価情報サービスからはじめましょう。
@@ -196,7 +194,7 @@ class PostController extends CController
 			'service'=>array(
 				'class'=>'CWebServiceAction',
 				'classMap'=>array(
-					'Post'=>'Post',  // or simply 'Post'
+					'Post'=>'Post',  // あるいは単に'Post'
 				),
 			),
 		);

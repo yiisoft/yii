@@ -422,7 +422,7 @@ class ModelCode extends CCodeModel
 	{
 		if(is_array($component))
 		{
-			if($component['class']=='CDbConnection')
+			if(isset($component['class']) && $component['class']=='CDbConnection')
 				return true;
 			else
 				$component=Yii::app()->getComponent($name);
