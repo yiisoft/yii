@@ -50,6 +50,15 @@
  */
 class CFormInputElement extends CFormElement
 {
+
+	/**
+	 * @var array The element's wrapper HTML options. If empty, it will be resolved
+	 * as array('class'=>'row field_%NAME%')
+	 * @see render()
+	 * @access public
+	 */
+	public $rowAttributes = array();
+
 	/**
 	 * @var array Core input types (alias=>CHtml method name)
 	 */
@@ -174,15 +183,21 @@ class CFormInputElement extends CFormElement
 	 */
 	public function render()
 	{
-		if($this->type==='hidden')
-			return $this->renderInput();
-		$output=array(
-			'{label}'=>$this->renderLabel(),
-			'{input}'=>$this->renderInput(),
-			'{hint}'=>$this->renderHint(),
-			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
-		);
-		return strtr($this->layout,$output);
+		if($this->type === 'hidden') {
+			$output = $this->renderInput();
+			$rowAttributes['style'] = 'visibility: hidden';
+		} else {
+			$output=array(
+				'{label}'=>$this->renderLabel(),
+				'{input}'=>$this->renderInput(),
+				'{hint}'=>$this->renderHint(),
+				'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
+			);
+		}
+		$rowAttributes = (!empty($this->rowAttributes))
+			? $this->rowAttributes
+			: array('class'=>"row field_{$this->name}");
+		return CHtml::tag('div', $rowAttributes, strtr($this->layout, $output), true);
 	}
 
 	/**
@@ -198,9 +213,9 @@ class CFormInputElement extends CFormElement
 		);
 
 		if(!empty($this->attributes['id']))
-        {
-            $options['for'] = $this->attributes['id'];
-        }
+		{
+			$options['for'] = $this->attributes['id'];
+		}
 
 		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);
 	}
