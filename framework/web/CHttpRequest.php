@@ -1063,12 +1063,8 @@ class CCookieCollection extends CMap
 	*/
 	public function add($cookie,$cookieObject=null)
 	{
-	$name = $cookie instanceof CHttpCookie?$cookie->name:(string)$cookie;
-	$CHttpCookie = false;
-	if($cookieObject instanceof CHttpCookie)
-		$CHttpCookie = $cookieObject;
-	elseif($cookie instanceof CHttpCookie)
-		$CHttpCookie = $cookie;
+	$name=$cookie instanceof CHttpCookie?$cookie->name:(string)$cookie;
+	$CHttpCookie=$cookie instanceof CHttpCookie?$cookie:$cookieObject; 	
 	if(!($CHttpCookie instanceof CHttpCookie))
 	{
 		$this->remove($name);
