@@ -47,8 +47,8 @@
  * the following:
  * <pre>
  * 'elements'=>array(
- *     'username'=>array('type'=>'text', 'maxlength'=>80),
- *     'password'=>array('type'=>'password', 'maxlength'=>80),
+ *	 'username'=>array('type'=>'text', 'maxlength'=>80),
+ *	 'password'=>array('type'=>'password', 'maxlength'=>80),
  * )
  * </pre>
  * The above code specifies two input elements: 'username' and 'password'. Note the model
@@ -505,21 +505,9 @@ class CForm extends CFormElement implements ArrayAccess
 			else
 				$element=$e;
 		}
-		if($element->getVisible())
-		{
-			if($element instanceof CFormInputElement)
-			{
-				if($element->type==='hidden')
-					return "<div style=\"visibility:hidden\">\n".$element->render()."</div>\n";
-				else
-					return "<div class=\"row field_{$element->name}\">\n".$element->render()."</div>\n";
-			}
-			else if($element instanceof CFormButtonElement)
-				return $element->render()."\n";
-			else
-				return $element->render();
-		}
-		return '';
+		return ($element->getVisible())
+			? $element->render()."\n"
+			: '';
 	}
 
 	/**
