@@ -67,6 +67,7 @@ class CHttpCookie extends CComponent
 	* Configurator
 	* This method can be used to configure the CookieObject with an array
 	* @param array $options an array of configuration for this cookie
+	* @since 1.1.11
 	*/
 	public function configure($options=array())
 	{

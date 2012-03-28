@@ -28,6 +28,7 @@ Version 1.1.11 work in progress
 - Enh #356: Improved extendability of CDetailView by adding method renderItem() (cebe)
 - Enh #414: Added sort parameter to yiic message command that sorts messages by key when merging (ranvis)
 - Enh #455: Added support for default value in CConsoleCommand::prompt (eagleoneraptor)
+- Enh: Added third parameter to CHttpCookie to configure the cookie by array (suralc)
 - Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug (resurtm)
 - Enh: Added CBreadcrumbs::$activeLinkTemplate and CBreadcrumbs::$inactiveLinkTemplate properties which allows to change each item's template (resurtm)
 - Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
