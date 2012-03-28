@@ -54,10 +54,27 @@ class CHttpCookie extends CComponent
 	 * Constructor.
 	 * @param string $name name of this cookie
 	 * @param string $value value of this cookie
+	 * @param array $options array of configuration for this cookie 
+	 * used by {@link CHttpCookie::configure()}
 	 */
-	public function __construct($name,$value)
+	public function __construct($name,$value,$options=array())
 	{
 		$this->name=$name;
 		$this->value=$value;
+		$this->configure($options);
+	}
+	/**
+	* Configurator
+	* This method can be used to configure the CookieObject with an array
+	* @param array $options an array of configuration for this cookie
+	*/
+	public function configure($options=array())
+	{
+		foreach($options as $name=>$value)
+		{
+			if('name'==$name||'value'==$name)
+				continue;
+			$this->{$name}=$value;
+		}
 	}
 }
