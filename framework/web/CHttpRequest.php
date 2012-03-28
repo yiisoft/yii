@@ -1065,7 +1065,7 @@ class CCookieCollection extends CMap
 	{
 	$name=$cookie instanceof CHttpCookie?$cookie->name:(string)$cookie;
 	$CHttpCookie=$cookie instanceof CHttpCookie?$cookie:$cookieObject; 	
-	if(!($CHttpCookie instanceof CHttpCookie))
+	if($CHttpCookie instanceof CHttpCookie)
 	{
 		$this->remove($name);
 		parent::add($name,$CHttpCookie);
