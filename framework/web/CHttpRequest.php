@@ -1045,24 +1045,39 @@ class CCookieCollection extends CMap
 	}
 
 	/**
-	 * Adds a cookie with the specified name.
-	 * This overrides the parent implementation by performing additional
-	 * operations for each newly added CHttpCookie object.
-	 * @param mixed $name Cookie name.
-	 * @param CHttpCookie $cookie Cookie object.
-	 * @throws CException if the item to be inserted is not a CHttpCookie object.
-	 */
-	public function add($name,$cookie)
+	* Adds a cookie with the specified name.
+	* This overrides the parent implementation by performing additional
+	* operations for each newly added CHttpCookie object.
+	* If you want to set the name only once, you can call this method directly
+	* obmitting the second parameter:
+	* <pre>
+	* // ArrayAccess-Style
+	* Yii::app()->request->cookies['name']=new CHttpCookie('name',$value);
+	* // Call method direclty
+	* Yii::app()->request->cookies->add(new CHttpCookie('name', $value));
+	* </pre>
+	* @param mixed $cookie Cookie name or an instance of {@link CHttpCookie} with specified name attribute.
+	* @param CHttpCookie $cookieObject An instance of {@link HttpCookie}, only used if the first 
+	* parameter is not  an instance of {@link CHttpCookie}. Defaults to null.
+	* @throws CException if the item to be inserted is not a CHttpCookie object.
+	*/
+	public function add($cookie,$cookieObject=null)
 	{
-		if($cookie instanceof CHttpCookie)
-		{
-			$this->remove($name);
-			parent::add($name,$cookie);
-			if($this->_initialized)
-				$this->addCookie($cookie);
-		}
-		else
-			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
+	$name = $cookie instanceof CHttpCookie?$cookie->name:(string)$cookie;
+	$CHttpCookie = false;
+	if($cookieObject instanceof CHttpCookie)
+		$CHttpCookie = $cookieObject;
+	elseif($cookie instanceof CHttpCookie)
+		$CHttpCookie = $cookie;
+	if(!($CHttpCookie instanceof CHttpCookie))
+	{
+		$this->remove($name);
+		parent::add($name,$CHttpCookie);
+		if($this->_initialized)
+			$this->addCookie($CHttpCookie);
+	}
+	else
+		throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
 	}
 
 	/**
