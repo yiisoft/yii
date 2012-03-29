@@ -1045,22 +1045,22 @@ class CCookieCollection extends CMap
 	}
 
 	/**
-	* Adds a cookie with the specified name.
-	* This overrides the parent implementation by performing additional
-	* operations for each newly added CHttpCookie object.
-	* If you want to set the name only once, you can call this method directly
-	* obmitting the second parameter:
-	* <pre>
-	* // ArrayAccess-Style
-	* Yii::app()->request->cookies['name']=new CHttpCookie('name',$value);
-	* // Call method direclty
-	* Yii::app()->request->cookies->add(new CHttpCookie('name', $value));
-	* </pre>
-	* @param mixed $cookie Cookie name or an instance of {@link CHttpCookie} with specified name attribute.
-	* @param CHttpCookie $cookieObject An instance of {@link HttpCookie}, only used if the first 
-	* parameter is not  an instance of {@link CHttpCookie}. Defaults to null.
-	* @throws CException if the item to be inserted is not a CHttpCookie object.
-	*/
+	 * Adds a cookie with the specified name.
+	 * This overrides the parent implementation by performing additional
+	 * operations for each newly added CHttpCookie object.
+	 * If you want to set the name only once, you can call this method directly
+	 * obmitting the second parameter:
+	 * <pre>
+	 * // ArrayAccess-Style
+	 * Yii::app()->request->cookies['name']=new CHttpCookie('name',$value);
+	 * // Call method direclty
+	 * Yii::app()->request->cookies->add(new CHttpCookie('name', $value));
+	 * </pre>
+	 * @param mixed $cookie Cookie name or an instance of {@link CHttpCookie} with specified name attribute.
+	 * @param CHttpCookie $cookieObject An instance of {@link HttpCookie}, only used if the first 
+	 * parameter is not  an instance of {@link CHttpCookie}. Defaults to null.
+	 * @throws CException if the item to be inserted is not a CHttpCookie object.
+	 */
 	public function add($cookie,$cookieObject=null)
 	{
 		$name=$cookie instanceof CHttpCookie?$cookie->name:(string)$cookie;
