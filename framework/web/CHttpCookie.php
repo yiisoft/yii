@@ -73,7 +73,7 @@ class CHttpCookie extends CComponent
 	{
 		foreach($options as $name=>$value)
 		{
-			if('name'==$name||'value'==$name)
+			if($name==='name'||$name==='value')
 				continue;
 			$this->{$name}=$value;
 		}
