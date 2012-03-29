@@ -1064,13 +1064,13 @@ class CCookieCollection extends CMap
 	public function add($cookie,$cookieObject=null)
 	{
 		$name=$cookie instanceof CHttpCookie?$cookie->name:(string)$cookie;
-		$CHttpCookie=$cookie instanceof CHttpCookie?$cookie:$cookieObject; 	
-		if($CHttpCookie instanceof CHttpCookie)
+		$object=$cookie instanceof CHttpCookie?$cookie:$cookieObject; 	
+		if($object instanceof CHttpCookie)
 		{
 			$this->remove($name);
-			parent::add($name,$CHttpCookie);
+			parent::add($name,$object);
 			if($this->_initialized)
-				$this->addCookie($CHttpCookie);
+				$this->addCookie($object);
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
