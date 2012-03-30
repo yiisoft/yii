@@ -985,9 +985,12 @@ class CHttpRequest extends CApplicationComponent
  * You normally access it via {@link CHttpRequest::getCookies()}.
  *
  * Since CCookieCollection extends from {@link CMap}, it can be used
- * like an associative array as follows:
+ * like an associative array or as an object:
  * <pre>
+ * // as associative array
  * $cookies[$name]=new CHttpCookie($name,$value); // sends a cookie
+ * // as object without setting the name twice
+ * $cookies->add(new CHttpCookie($name,$value)); // sends a cookie
  * $value=$cookies[$name]->value; // reads a cookie value
  * unset($cookies[$name]);  // removes a cookie
  * </pre>
