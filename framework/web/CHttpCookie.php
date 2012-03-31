@@ -64,7 +64,6 @@ class CHttpCookie extends CComponent
 		$this->configure($options);
 	}
 	/**
-	 * Configurator
 	 * This method can be used to configure the CookieObject with an array
 	 * @param array $options the configuration array consisting of name-value pairs 
 	 * that are used to configure this cookie
@@ -76,7 +75,7 @@ class CHttpCookie extends CComponent
 		{
 			if($name==='name'||$name==='value')
 				continue;
-			$this->{$name}=$value;
+			$this->$name=$value;
 		}
 	}
 }
