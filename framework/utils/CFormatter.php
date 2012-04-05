@@ -253,15 +253,19 @@ class CFormatter extends CApplicationComponent
 	
 	/**
 	 * Formats the value as a size in human readable form.
-     * @params integer value to be formatted
-     * @return string the formatted result
-     */
-	public function formatSize($value)
+	 * @params integer value to be formatted
+	 * @return string the formatted result
+	 */
+	public function formatSize($value,$verbose = false)
 	{
 		$units=array('B','KB','MB','GB','TB');
+		$full_forms =  array('Bytes','KiloBytes','MegaBytes','GigaBytes','TeraBytes');
 		$base = $this->sizeFormat['base']; 
 		for($i=0; $base<=$value; $i++) $value=$value/$base;
-		return round($value, $this->sizeFormat['decimals']).$units[$i];
+		if($verbose==true) 	
+			return round($value, $this->sizeFormat['decimals']).$full_forms[$i];
+		else
+		 return round($value, $this->sizeFormat['decimals']).$units[$i];
 	}
 
 }
