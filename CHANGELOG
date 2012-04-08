@@ -4,7 +4,6 @@
 
 Version 1.1.11 work in progress
 -------------------------------
-- Bug #586: Fixed issue when CActiveRelation->mergeWith() overwrote "with" condition for related model if at least one scope applied "with" condition (Johnatan)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
 - Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
@@ -14,6 +13,7 @@ Version 1.1.11 work in progress
 - Bug #454: Removed translation on CDbConnection exception as it was creating an endless loop if the application used CDbCache (mdomba)
 - Bug #517: Rule parameter sub-patterns are not checked correctly (ranvis)
 - Bug #539: Fixed CUrlRule::createUrl() to treat sub-patterns as Unicode as parseUrl() does (ranvis)
+- Bug #586: Fixed issue when CActiveRelation->mergeWith() overwrote "with" condition for related model if at least one scope applied "with" condition (Johnatan)
 - Enh #136: Added ability to select database connection in Gii model generator (samdark)
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
