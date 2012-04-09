@@ -146,7 +146,7 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used by {@link getLogs}
 	 * @param array $value element to be filtered
-	 * @return array valid log, false if not.
+	 * @return bool true if valid log, false if not.
 	 */
 	private function filterByCategory($value)
 	{
@@ -154,35 +154,35 @@ class CLogger extends CComponent
 		{
 			$cat=strtolower($value[2]);
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				return $value;
+				return true;
 		}
 		return false;
 	}
 
-    /**
-     * Filter function used by {@link getProfilingResults}
-     * @param array $value element to be filtered
-     * @return array valid timing entry, false if not.
-     */
-    private function filterTimingByCategory($value)
-    {
-        foreach($this->_categories as $category)
-        {
-            $cat=strtolower($value[1]);
-            if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-                return $value;
-        }
-        return false;
-    }
+	/**
+	 * Filter function used by {@link getProfilingResults}
+	 * @param array $value element to be filtered
+	 * @return bool true if valid timing entry, false if not.
+	 */
+	private function filterTimingByCategory($value)
+	{
+		foreach($this->_categories as $category)
+		{
+			$cat=strtolower($value[1]);
+			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
+				return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Filter function used by {@link getLogs}
 	 * @param array $value element to be filtered
-	 * @return array valid log, false if not.
+	 * @return bool true if valid log, false if not.
 	 */
 	private function filterByLevel($value)
 	{
-		return in_array(strtolower($value[1]),$this->_levels)?$value:false;
+		return in_array(strtolower($value[1]),$this->_levels);
 	}
 
 	/**
@@ -227,11 +227,11 @@ class CLogger extends CComponent
 		if($token===null && $categories===null)
 			return $this->_timings;
 
-        $timings = $this->_timings;
-        if($categories!==null) {
-            $this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
-            $timings = array_filter($timings,array($this,'filterTimingByCategory'));
-        }
+		$timings = $this->_timings;
+		if($categories!==null) {
+			$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
+			$timings = array_filter($timings,array($this,'filterTimingByCategory'));
+		}
 
 		$results=array();
 		foreach($timings as $timing)
