@@ -40,7 +40,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * $this->widget('zii.widgets.jui.CJuiSliderInput', array(
  *     'model'=>$model,
  *     'attribute'=>'timeMin',
- *     'maxAttribute'=>'timeMax,
+ *     'maxAttribute'=>'timeMax',
  *     // additional javascript options for the slider plugin
  *     'options'=>array(
  *         'range'=>true,
