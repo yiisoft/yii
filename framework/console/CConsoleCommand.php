@@ -542,14 +542,17 @@ abstract class CConsoleCommand extends CComponent
 	 * Asks user to confirm by typing y or n.
 	 *
 	 * @param string $message to echo out before waiting for user input
+	 * @param bool $default this value is returned if no selection is made.
 	 * @return bool if user confirmed
 	 *
 	 * @since 1.1.9
 	 */
-	public function confirm($message)
+	public function confirm($message, $default = false)
 	{
-		echo $message.' [yes|no] ';
-		return !strncasecmp(trim(fgets(STDIN)),'y',1);
+		echo $message.' (yes|no) [' . ($default ? 'yes' : 'no') . ']:';
+
+		$input = trim(fgets(STDIN));
+		return empty($input) ? $default : !strncasecmp($input,'y',1);
 	}
 
 	/**
