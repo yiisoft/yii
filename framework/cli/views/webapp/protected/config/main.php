@@ -9,6 +9,9 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'My Web Application',
 
+	// use a case-sensitive filename check against class name after autoloading
+	'csAutoloadCheck' => true,
+
 	// preloading 'log' component
 	'preload'=>array('log'),
 

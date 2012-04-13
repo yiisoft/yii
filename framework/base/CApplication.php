@@ -101,6 +101,7 @@ abstract class CApplication extends CModule
 	private $_ended=false;
 	private $_language;
 	private $_homeUrl;
+	private $_csAutoloadCheck;
 
 	/**
 	 * Processes the request.
@@ -575,6 +576,22 @@ abstract class CApplication extends CModule
 	public function setHomeUrl($value)
 	{
 		$this->_homeUrl=$value;
+	}
+
+	/**
+	 * @return bool if the autoloader's CS filename check is enabled
+	 */
+	public function getCsAutoloadCheck()
+	{
+		return YII_DEBUG ? $this->_csAutoloadCheck : false;
+	}
+
+	/**
+	 * @param bool $value enables/disables the autoloader's CS filename check
+	 */
+	public function setCsAutoloadCheck($value)
+	{
+		$this->_csAutoloadCheck=$value;
 	}
 
 	/**
