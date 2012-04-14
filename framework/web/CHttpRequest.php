@@ -503,8 +503,8 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the request type, such as GET, POST, HEAD, PUT, DELETE.
-	 * Request type can be manually set in POST requests with a parameter named _method. Useful 
-	 * for RESTful request from older browsers which do not support PUT or DELETE 
+	 * Request type can be manually set in POST requests with a parameter named _method. Useful
+	 * for RESTful request from older browsers which do not support PUT or DELETE
 	 * natively (available since version 1.1.11).
 	 * @return string request type, such as GET, POST, HEAD, PUT, DELETE.
 	 */
@@ -559,7 +559,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns whether this is a PUT request which was tunneled through POST.
 	 * @return boolean whether this is a PUT request tunneled through POST.
 	 * @since 1.1.11
-	 */	
+	 */
 	protected function getIsPutViaPostReqest()
 	{
 		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'PUT');
@@ -626,7 +626,22 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getUserHostAddress()
 	{
-		return isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'127.0.0.1';
+        if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+        {
+          return $_SERVER['HTTP_CLIENT_IP'];
+        }
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+        {
+          return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        elseif (!empty($_SERVER['REMOTE_ADDR']))
+        {
+         return $_SERVER['REMOTE_ADDR'];
+        }
+        else
+        {
+          return '127.0.0.1';
+        }
 	}
 
 	/**
