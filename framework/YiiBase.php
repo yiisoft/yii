@@ -74,6 +74,7 @@ class YiiBase
 	private static $_includePaths;						// list of include paths
 	private static $_app;
 	private static $_logger;
+	private static $_csAutoloadCheck;
 
 
 
@@ -410,12 +411,26 @@ class YiiBase
 						if(is_file($classFile))
 						{
 							include($classFile);
+							if (YII_DEBUG
+								&& (self::$_csAutoloadCheck === true || (self::$_csAutoloadCheck = self::app()->getCsAutoloadCheck()) === true)
+								&& basename(realpath($className . '.php'))  !== $className . '.php'
+							) {
+								throw new CException("Class name does not match file name.");
+							}
 							break;
 						}
 					}
 				}
 				else
+				{
 					include($className.'.php');
+					if (YII_DEBUG
+						&& (self::$_csAutoloadCheck === true || (self::$_csAutoloadCheck = self::app()->getCsAutoloadCheck()) === true)
+						&& basename(realpath($className . '.php'))  !== $className . '.php'
+					) {
+						throw new CException("Class name does not match file name.");
+					}
+				}
 			}
 			else  // class name with namespace in PHP 5.3
 			{
