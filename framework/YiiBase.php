@@ -410,6 +410,11 @@ class YiiBase
 						if(is_file($classFile))
 						{
 							include($classFile);
+							if(YII_DEBUG && basename(realpath($classFile))!==$className.'.php')
+								throw new CException(Yii::t('yii','Class name "{class}" does not match class file "{file}".', array(
+									'{class}'=>$className,
+									'{file}'=>$classFile,
+								)));
 							break;
 						}
 					}
