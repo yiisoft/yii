@@ -43,7 +43,8 @@ the request [route](/doc/guide/basics.controller#route). This URL format
 is not very user-friendly because it requires several non-word characters.
 
 > Tip: In order to generate URL with a hashtag, for example
-  `/index.php?r=post/read&id=100#title`, you need to specify parameter named `#`.
+  `/index.php?r=post/read&id=100#title`, you need to specify parameter named `#`
+  using `$this->createUrl('post/read',array('id'=>100,'#'=>'title'))`.
 
 We could make the above URL look cleaner and more self-explanatory by
 using the so-called `path` format which eliminates the query string and
