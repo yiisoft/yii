@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5953',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -420,7 +420,6 @@ return array (
     '054' => 'მელანეზია',
     '057' => 'მირონეზია',
     '061' => 'პოლინეზია',
-    '062' => 'სამხრეთ-ცენტრალური აზია',
     142 => 'აზია',
     143 => 'ცენტრალური აზია',
     145 => 'დასავლეთი აზია',
@@ -428,7 +427,6 @@ return array (
     151 => 'აღმოსავლეთი ევროპა',
     154 => 'ჩრდილოეთი ევროპა',
     155 => 'დასავლეთი ევროპა',
-    172 => 'დამოუკიდებელ სახელმწიფოთა თანამეგობრობა',
     419 => 'ლათინური ამერიკა და კარიბი',
     'ad' => 'ანდორა',
     'ae' => 'არაბეთის გაერთიანებული ემირატები',

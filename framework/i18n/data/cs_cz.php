@@ -13,6 +13,7 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => ' ',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -238,7 +238,7 @@ return array (
   array (
     'full' => 'EEEE, d. MMMM y',
     'long' => 'd. MMMM y',
-    'medium' => 'd.M.yyyy',
+    'medium' => 'd. M. yyyy',
     'short' => 'dd.MM.yy',
   ),
   'timeFormats' => 
@@ -849,7 +849,6 @@ return array (
     '054' => 'Melanésie',
     '057' => 'Mikronésie oblast',
     '061' => 'Polynésie',
-    '062' => 'Jižní a střední Asie',
     142 => 'Asie',
     143 => 'Střední Asie',
     145 => 'Západní Asie',
@@ -857,10 +856,7 @@ return array (
     151 => 'Východní Evropa',
     154 => 'Severní Evropa',
     155 => 'Západní Evropa',
-    172 => 'Společenství nezávislých států',
-    200 => 'Československo',
     419 => 'Latinská Amerika',
-    830 => 'Normanské ostrovy',
     'ac' => 'Ostrov Ascension',
     'ad' => 'Andorra',
     'ae' => 'Spojené arabské emiráty',

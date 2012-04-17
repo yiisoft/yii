@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5968',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -23,16 +24,15 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
-  'decimalFormat' => '00B',
+  'decimalFormat' => '0000',
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '#,##0.00 ¤',
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -249,7 +249,7 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'prije podne',
+  'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
   'languages' => 
@@ -919,7 +919,6 @@ return array (
     '054' => 'Melanezija',
     '057' => 'Mikronezki oblast',
     '061' => 'Polinezija',
-    '062' => 'Južno-centralna Azija',
     142 => 'Azija',
     143 => 'Srednja Azija',
     145 => 'Zapadna Azija',
@@ -927,9 +926,7 @@ return array (
     151 => 'Istočna Europa',
     154 => 'Sjeverna Europa',
     155 => 'Zapadna Europa',
-    172 => 'Zajednica nezavisnih država',
     419 => 'Latinska Amerika',
-    830 => 'Kanalski otoci',
     'ac' => 'Otok Ascension',
     'ad' => 'Andora',
     'ae' => 'Ujedinjeni Arapski Emirati',
