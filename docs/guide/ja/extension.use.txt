@@ -141,7 +141,6 @@ public function behaviors()
     'property2'=>'value2')); ?>
 
 // 本文（body content）を含められるウィジェット
-// widget that can contain body content
 <?php $this->beginWidget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
@@ -172,7 +171,7 @@ class TestController extends CController
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
-			// other actions
+			// 他のアクション
 		);
 	}
 }

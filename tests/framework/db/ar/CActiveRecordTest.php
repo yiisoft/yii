@@ -1342,4 +1342,21 @@ class CActiveRecordTest extends CTestCase
     		)
 		));
 	}
+
+	/**
+	 * @see github issue 206
+	 * Unable to pass CDbCriteria to relation while array works fine.
+	 */
+	public function testIssue206()
+	{
+		$user = User::model()->findByPk(2);
+		$result1 = $user->posts(array('condition' => 'id IN (2,3)'));
+
+		$criteria = new CDbCriteria();
+		$criteria->addInCondition('id', array(2,3));
+		$user = User::model()->findByPk(2);
+		$result2 = $user->posts($criteria);
+
+		$this->assertEquals($result1, $result2);
+	}
 }

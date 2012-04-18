@@ -2,6 +2,7 @@
 
 class ModelCode extends CCodeModel
 {
+	public $connectionId='db';
 	public $tablePrefix;
 	public $tableName;
 	public $modelClass;
@@ -19,14 +20,14 @@ class ModelCode extends CCodeModel
 	{
 		return array_merge(parent::rules(), array(
 			array('tablePrefix, baseClass, tableName, modelClass, modelPath', 'filter', 'filter'=>'trim'),
-			array('tableName, modelPath, baseClass', 'required'),
+			array('connectionId, tableName, modelPath, baseClass', 'required'),
 			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending asterisk.'),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
 			array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
-			array('tablePrefix, modelPath, baseClass, buildRelations', 'sticky'),
+			array('connectionId, tablePrefix, modelPath, baseClass, buildRelations', 'sticky'),
 		));
 	}
 
@@ -39,6 +40,7 @@ class ModelCode extends CCodeModel
 			'modelClass'=>'Model Class',
 			'baseClass'=>'Base Class',
 			'buildRelations'=>'Build Relations',
+			'connectionId'=>'Database Connection',
 		));
 	}
 
@@ -51,9 +53,9 @@ class ModelCode extends CCodeModel
 
 	public function init()
 	{
-		if(Yii::app()->db===null)
-			throw new CHttpException(500,'An active "db" connection is required to run this generator.');
-		$this->tablePrefix=Yii::app()->db->tablePrefix;
+		if(Yii::app()->{$this->connectionId}===null)
+			throw new CHttpException(500,'An active "'.$this->connectionId.'" connection is required to run this generator.');
+		$this->tablePrefix=Yii::app()->{$this->connectionId}->tablePrefix;
 		parent::init();
 	}
 
@@ -71,7 +73,7 @@ class ModelCode extends CCodeModel
 		}
 		if($tableName[strlen($tableName)-1]==='*')
 		{
-			$tables=Yii::app()->db->schema->getTables($schema);
+			$tables=Yii::app()->{$this->connectionId}->schema->getTables($schema);
 			if($this->tablePrefix!='')
 			{
 				foreach($tables as $i=>$table)
@@ -99,6 +101,7 @@ class ModelCode extends CCodeModel
 				'labels'=>$this->generateLabels($table),
 				'rules'=>$this->generateRules($table),
 				'relations'=>isset($this->relations[$className]) ? $this->relations[$className] : array(),
+				'connectionId'=>$this->connectionId,
 			);
 			$this->files[]=new CCodeFile(
 				Yii::getPathOfAlias($this->modelPath).'/'.$className.'.php',
@@ -120,7 +123,7 @@ class ModelCode extends CCodeModel
 				$schema='';
 
 			$this->modelClass='';
-			$tables=Yii::app()->db->schema->getTables($schema);
+			$tables=Yii::app()->{$this->connectionId}->schema->getTables($schema);
 			foreach($tables as $table)
 			{
 				if($this->tablePrefix=='' || strpos($table->name,$this->tablePrefix)===0)
@@ -181,7 +184,7 @@ class ModelCode extends CCodeModel
 
 	public function getTableSchema($tableName)
 	{
-		return Yii::app()->db->getSchema()->getTable($tableName);
+		return Yii::app()->{$this->connectionId}->getSchema()->getTable($tableName);
 	}
 
 	public function generateLabels($table)
@@ -248,14 +251,14 @@ class ModelCode extends CCodeModel
 
 	protected function removePrefix($tableName,$addBrackets=true)
 	{
-		if($addBrackets && Yii::app()->db->tablePrefix=='')
+		if($addBrackets && Yii::app()->{$this->connectionId}->tablePrefix=='')
 			return $tableName;
-		$prefix=$this->tablePrefix!='' ? $this->tablePrefix : Yii::app()->db->tablePrefix;
+		$prefix=$this->tablePrefix!='' ? $this->tablePrefix : Yii::app()->{$this->connectionId}->tablePrefix;
 		if($prefix!='')
 		{
-			if($addBrackets && Yii::app()->db->tablePrefix!='')
+			if($addBrackets && Yii::app()->{$this->connectionId}->tablePrefix!='')
 			{
-				$prefix=Yii::app()->db->tablePrefix;
+				$prefix=Yii::app()->{$this->connectionId}->tablePrefix;
 				$lb='{{';
 				$rb='}}';
 			}
@@ -279,7 +282,7 @@ class ModelCode extends CCodeModel
 		if(!$this->buildRelations)
 			return array();
 		$relations=array();
-		foreach(Yii::app()->db->schema->getTables() as $table)
+		foreach(Yii::app()->{$this->connectionId}->schema->getTables() as $table)
 		{
 			if($this->tablePrefix!='' && strpos($table->name,$this->tablePrefix)!==0)
 				continue;
@@ -385,11 +388,46 @@ class ModelCode extends CCodeModel
 			$name.=ucfirst($names[$i]);
 
 		$rawName=$name;
-		$table=Yii::app()->db->schema->getTable($tableName);
+		$table=Yii::app()->{$this->connectionId}->schema->getTable($tableName);
 		$i=0;
 		while(isset($table->columns[$name]))
 			$name=$rawName.($i++);
 
 		return $name;
+	}
+
+	/**
+	 * @return array List of DB connections ready to be displayed in dropdown
+	 */
+	public function getConnectionList()
+	{
+		$list=array();
+		foreach(Yii::app()->getComponents(false) as $name=>$component)
+		{
+			if($this->isDbConnection($name,$component))
+			{
+				$connectionString = is_object($component) ? $component->connectionString : $component['connectionString'];
+				$list[$name]=$name.' ('.$connectionString.')';
+			}
+		}
+		return $list;
+	}
+
+	/**
+	 * @param string $name component name
+	 * @param mixed $component component config or component object
+	 * @return bool if component is DB connection
+	 */
+	private function isDbConnection($name,$component)
+	{
+		if(is_array($component))
+		{
+			if(isset($component['class']) && $component['class']=='CDbConnection')
+				return true;
+			else
+				$component=Yii::app()->getComponent($name);
+		}
+
+		return $component instanceof CDbConnection;
 	}
 }

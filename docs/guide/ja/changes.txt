@@ -17,14 +17,14 @@ Version 1.1.7
  * [リレーショナル named scope にパラメータを渡すことが可能になった](/doc/guide/database.arr#relational-query-with-named-scopes)
  * [関連するモデルを取得することなくリレーショナルクエリを実行する機能を追加](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
  * [HAS_MANY through と HAS_ONE through の AR リレーションに対するサポートを追加](/doc/guide/database.arr#relational-query-with-through)
- * [DB 移行変換機能においてトランザクションのサポートを追加](/doc/guide/database.migration#transactional-migrations)
+ * [データベースマイグレーション機能においてトランザクションのサポートを追加](/doc/guide/database.migration#transactional-migrations)
  * [クラスベースのアクションにおけるパラメータバインディングの使用に対するサポートを追加](/doc/guide/basics.controller#action-parameter-binding)
  * [CActiveForm]によるシームレスなクライアント側のデータ検証に対するサポートを追加
 
  Version 1.1.6
 -------------
  * [クエリビルダーを追加](/doc/guide/database.query-builder)
- * [データベース移行変換機能を追加](/doc/guide/database.migration)
+ * [データベースマイグレーション機能を追加](/doc/guide/database.migration)
  * [MVC のベストプラクティス](/doc/guide/basics.best-practices)
  * [コンソールコマンドで無名パラメータとグローバルオプションの使用に対するサポートを追加](/doc/guide/topics.console)
 
@@ -77,7 +77,7 @@ Version 1.1.0
 
  * 全てのテーブルが一つのSQL文でジョインできるように、デフォルトのリレーショナルアクティブレコードクエリを変更した。
 
- * デフォールトのテーブルエイリアスを、アクティブレコードのリレーション名をとるように変更
+ * デフォルトのテーブルエイリアスを、アクティブレコードのリレーション名をとるように変更
 
  * [テーブルプレフィクスを使用するためのサポートを追加](/doc/guide/database.dao#using-table-prefix).
 
