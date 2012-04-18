@@ -13,6 +13,7 @@ return array (
   'version' => '5695',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -849,7 +849,6 @@ return array (
     '054' => 'Melanezija',
     '057' => 'Micronezija',
     '061' => 'Polinezija',
-    '062' => 'Južno-centralna Azija',
     142 => 'Azija',
     143 => 'Centralna Azija',
     145 => 'Zapadna Azija',
@@ -857,9 +856,7 @@ return array (
     151 => 'Istočna Evropa',
     154 => 'Severna Evropa',
     155 => 'Zapadna Evropa',
-    172 => 'Komonvelt nezavisnih država',
     419 => 'Latinska Amerika',
-    830 => 'Kanalska ostrva',
     'ac' => 'Ostrvo Asension',
     'ad' => 'Andora',
     'ae' => 'Ujedinjeni Arapski Emirati',

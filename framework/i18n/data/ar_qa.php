@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5695',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#0.###;#0.###-',
   'scientificFormat' => '#E0',
@@ -853,7 +853,6 @@ return array (
     '054' => 'ميلانيزيا',
     '057' => 'الجزر الميكرونيزية',
     '061' => 'بولينيزيا',
-    '062' => 'جنوب وسط آسيا',
     142 => 'آسيا',
     143 => 'وسط آسيا',
     145 => 'غرب آسيا',
@@ -861,7 +860,6 @@ return array (
     151 => 'شرق أوروبا',
     154 => 'شمال أوروبا',
     155 => 'غرب أوروبا',
-    172 => 'كومنولث الدول المستقلة',
     419 => 'أمريكا اللاتينية',
     'ac' => 'جزيرة أسينشيون',
     'ad' => 'أندورا',
