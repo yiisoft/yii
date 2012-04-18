@@ -1059,21 +1059,21 @@ class CCookieCollection extends CMap
 	 * // Object style - note that cookie name is used only once here
 	 * Yii::app()->request->cookies->add(new CHttpCookie('name', $value));
 	 * </pre>
-	 * @param mixed $cookie Cookie name or an instance of {@link CHttpCookie}.
-	 * @param CHttpCookie $cookieObject An instance of {@link HttpCookie}, only used if the first 
+	 * @param mixed $name Cookie name or an instance of {@link CHttpCookie}.
+	 * @param CHttpCookie $cookie An instance of {@link HttpCookie}, only used if the first 
 	 * parameter is not  an instance of {@link CHttpCookie}. Defaults to null.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
-	public function add($cookie,$cookieObject=null)
+	public function add($name,$cookie=null)
 	{
-		$name=$cookie instanceof CHttpCookie?$cookie->name:(string)$cookie;
-		$object=$cookie instanceof CHttpCookie?$cookie:$cookieObject; 	
-		if($object instanceof CHttpCookie)
+		$cookieName=$name instanceof CHttpCookie?$name->name:(string)$name;
+		$cookieObject=$name instanceof CHttpCookie?$name:$cookie; 	
+		if($cookieObject instanceof CHttpCookie)
 		{
-			$this->remove($name);
-			parent::add($name,$object);
+			$this->remove($cookieName);
+			parent::add($cookieName,$cookieObject);
 			if($this->_initialized)
-				$this->addCookie($object);
+				$this->addCookie($cookieObject);
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
