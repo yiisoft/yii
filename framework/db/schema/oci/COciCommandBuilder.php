@@ -42,7 +42,7 @@ class COciCommandBuilder extends CDbCommandBuilder
 	 */
 	public function applyLimit($sql,$limit,$offset)
 	{
-		if (($limit < 0) and ($offset < 0)) return $sql;
+		if (($limit <= 1) and ($offset < 0)) return $sql;
 
 		$filters = array();
 		if($offset>0){
