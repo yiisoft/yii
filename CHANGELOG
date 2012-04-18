@@ -38,6 +38,7 @@ Version 1.1.11 work in progress
 - Enh: Added full-featured behaviors and events CConsoleCommand::onBeforeAction & CConsoleCommand::onAfterAction (Yiivgeny)
 - Enh: Added HTML5 history support on ajax requests on CGridView and CListView using History.js v1.7.2-r2 (https://github.com/balupton/history.js) from Benjamin Arthur Lupton (lightglitch)
 - Enh: Changed CldrCommand to use medium dateTimeFormat and updaed 18n data using newest(6546) CLDR (tanakahisateru)
+- Enh: Skipping OCI "limit" subquering when limit=1, for added performance (igorsantos07)
 - Chg #440: Upgraded JQuery UI to 1.8.18 (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
 
