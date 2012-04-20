@@ -220,7 +220,7 @@ class PostController extends CController
 
 Выше было описано, что фильтр [access
 control|CController::filterAccessControl] применяется ко всем действиям
-контроллера `PostController`. Правила доступа, используемые фильтром определяются
+контроллера `PostController`. Правила доступа, используемые фильтром, определяются
 переопределением метода [CController::accessRules] контроллера.
 
 ~~~
@@ -359,7 +359,7 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 
 Контроль доступа на основе ролей (RBAC) — простой, но мощный способ централизованного
 контроля доступа. Для сравнения данного метода с другими обратитесь к
-[статье в Википедии](http://en.wikipedia.org/wiki/Role-based_access_control).
+[статье в Википедии](http://ru.wikipedia.org/wiki/%D3%EF%F0%E0%E2%EB%E5%ED%E8%E5_%E4%EE%F1%F2%F3%EF%EE%EC_%ED%E0_%EE%F1%ED%EE%E2%E5_%F0%EE%EB%E5%E9).
 
 В Yii иерархический RBAC реализован через компонент [authManager|CWebApplication::authManager].
 Ниже мы сначала опишем основы данной схемы, затем то, как описывать данные,

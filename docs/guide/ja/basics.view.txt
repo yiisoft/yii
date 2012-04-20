@@ -108,12 +108,12 @@ class MyWidget extends CWidget
 {
 	public function init()
 	{
-		// this method is called by CController::beginWidget()
+		// CController::beginWidget() によってこのメソッドが呼ばれる
 	}
 
 	public function run()
 	{
-		// this method is called by CController::endWidget()
+		// CController::endWidget() によってこのメソッドが呼ばれる
 	}
 }
 ~~~

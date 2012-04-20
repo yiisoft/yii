@@ -120,7 +120,7 @@ EOD;
 
 		// collect XML files to be processed
 		$options=array(
-			'exclude'=>array('.svn'),
+			'exclude'=>array('.gitignore'),
 			'fileTypes'=>array('xml'),
 			'level'=>0,
 		);
@@ -435,7 +435,16 @@ EOD;
 		$types=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/dateTimeFormats/dateTimeFormatLength');
 		if(is_array($types) && isset($types[0]))
 		{
-			$pattern=$types[0]->xpath('dateTimeFormat/pattern');
+			$picked = $types[0];
+			foreach($types as $element) {
+				$attrs = $element->attributes();
+				if($attrs['type'] == 'medium')
+				{
+					$picked = $element;
+					break;
+				}
+			}
+			$pattern=$picked->xpath('dateTimeFormat/pattern');
 			$data['dateTimeFormat']=(string)$pattern[0];
 		}
 	}

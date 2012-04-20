@@ -13,6 +13,7 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => '¤¤¤',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -917,7 +917,6 @@ return array (
     '054' => 'Melanezija',
     '057' => 'Mikronezijos regionas',
     '061' => 'Polinezija',
-    '062' => 'Pietų vidurio Azija',
     142 => 'Azija',
     143 => 'Centrinė Azija',
     145 => 'Vakarų Azija',
@@ -925,8 +924,6 @@ return array (
     151 => 'Rytų Europa',
     154 => 'Šiaurės Europa',
     155 => 'Vakarų Europa',
-    172 => 'Nepriklausomų Valstybių Sandrauga',
-    200 => 'Čekoslovakija',
     419 => 'Lotynų Amerika',
     'ac' => 'Ascension sala',
     'ad' => 'Andora',

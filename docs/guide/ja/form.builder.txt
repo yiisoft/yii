@@ -45,7 +45,7 @@ public function actionLogin()
 ~~~
 
 上記のコードでは、`application.views.site.loginForm` (後で説明されます)というパスエイリアスで示される仕様を用いて[CForm]オブジェクトを作成します。
-この[CForm]オブジェクトは[モデルを作成する](/doc/guide/form.model)で示されるように、
+この[CForm]オブジェクトは[モデルの作成](/doc/guide/form.model)で示されるように、
 `LoginForm`モデルと関係しています。
 
 コードに示すように、もしフォームがサブミットされて全ての入力がエラーなく検証されれば、
