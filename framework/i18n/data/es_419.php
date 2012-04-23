@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5905',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -23,16 +24,15 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
-  'decimalFormat' => '#,##0.###',
+  'decimalFormat' => '0000',
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '¤#,##0.00',
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -171,7 +171,7 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE d \'de\' MMMM \'de\' y',
+    'full' => 'EEEE, d \'de\' MMMM \'de\' y',
     'long' => 'd \'de\' MMMM \'de\' y',
     'medium' => 'dd/MM/yyyy',
     'short' => 'dd/MM/yy',
@@ -844,7 +844,6 @@ return array (
     '054' => 'Melanesia',
     '057' => 'Micronesia [057]',
     '061' => 'Polinesia',
-    '062' => 'Asia centromeridional',
     142 => 'Asia',
     143 => 'Asia central',
     145 => 'Asia occidental',
@@ -852,7 +851,6 @@ return array (
     151 => 'Europa oriental',
     154 => 'Europa septentrional',
     155 => 'Europa occidental',
-    172 => 'Comunidad de Estados Independientes',
     419 => 'Latinoamérica',
     'ac' => 'Isla de la Ascensión',
     'ad' => 'Andorra',

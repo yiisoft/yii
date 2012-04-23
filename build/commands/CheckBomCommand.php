@@ -22,7 +22,7 @@ class CheckBomCommand extends CConsoleCommand
 
 		$checkFiles=CFileHelper::findFiles($path,array(
 			'exclude'=>array(
-				'.svn',
+				'.gitignore',
 			),
 		));
 

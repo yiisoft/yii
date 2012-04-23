@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5934',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => '￥',
     'EUR' => '€',
@@ -247,7 +247,7 @@ return array (
     'medium' => 'ah:mm:ss',
     'short' => 'ah:mm',
   ),
-  'dateTimeFormat' => '{1}{0}',
+  'dateTimeFormat' => '{1} {0}',
   'amName' => '上午',
   'pmName' => '下午',
   'orientation' => 'ltr',
@@ -901,7 +901,6 @@ return array (
     '054' => '美拉尼西亚',
     '057' => '密克罗尼西亚',
     '061' => '玻利尼西亚',
-    '062' => '中南亚',
     142 => '亚洲',
     143 => '中亚',
     145 => '西亚',
@@ -909,9 +908,7 @@ return array (
     151 => '东欧',
     154 => '北欧',
     155 => '西欧',
-    172 => '独联体',
     419 => '拉丁美洲',
-    830 => '海峡群岛',
     'ac' => '阿森松岛',
     'ad' => '安道尔',
     'ae' => '阿拉伯联合酋长国',
