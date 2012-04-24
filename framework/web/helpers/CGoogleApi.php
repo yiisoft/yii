@@ -18,7 +18,7 @@
 class CGoogleApi
 {
 	public static function getBootstrapUrl(){
-		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "off" ? 'https://' : 'http://') . 'www.google.com/jsapi';
+		return (Yii::app()->getRequest()->isSecureConnection ? 'https://' : 'http://') . 'www.google.com/jsapi';
 	}
 	
 	/**
