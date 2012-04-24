@@ -9,20 +9,18 @@
  */
 
 /**
- * CGoogleApi provides helper methods to easily access the {@link https://developers.google.com/loader/ Google API loader}.
+ * CGoogleApi provides helper methods to easily access {@link http://code.google.com/apis/ajax/ Google AJAX APIs}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CGoogleApi.php 3515 2011-12-28 12:29:24Z mdomba $
  * @package system.web.helpers
  */
 class CGoogleApi
 {
-	/**
-	* @var string Protocol relative url to the Google API loader which allows easy access 
-	* to most of the Google AJAX APIs
-	*/
-	public static $bootstrapUrl='//www.google.com/jsapi';
-
+	public static function getBootstrapUrl(){
+		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "off" ? 'https://' : 'http://') . 'www.google.com/jsapi';
+	}
+	
 	/**
 	 * Renders the jsapi script file.
 	 * @param string $apiKey the API key. Null if you do not have a key.
@@ -31,9 +29,9 @@ class CGoogleApi
 	public static function init($apiKey=null)
 	{
 		if($apiKey===null)
-			return CHtml::scriptFile(self::$bootstrapUrl);
+			return CHtml::scriptFile(self::getBootstrapUrl());
 		else
-			return CHtml::scriptFile(self::$bootstrapUrl.'?key='.$apiKey);
+			return CHtml::scriptFile(self::getBootstrapUrl().'?key='.$apiKey);
 	}
 
 	/**
@@ -66,7 +64,7 @@ class CGoogleApi
 	public static function register($name,$version='1',$options=array(),$apiKey=null)
 	{
 		$cs=Yii::app()->getClientScript();
-		$url=$apiKey===null?self::$bootstrapUrl:self::$bootstrapUrl.'?key='.$apiKey;
+		$url=$apiKey===null?self::getBootstrapUrl():self::getBootstrapUrl().'?key='.$apiKey;
 		$cs->registerScriptFile($url);
 
 		$js=self::load($name,$version,$options);
