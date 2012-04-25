@@ -13,6 +13,7 @@ return array (
   'version' => '5884',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -145,7 +145,7 @@ return array (
       0 => 'D',
       1 => 'L',
       2 => 'M',
-      3 => 'M',
+      3 => 'X',
       4 => 'J',
       5 => 'V',
       6 => 'S',
@@ -171,7 +171,7 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE d \'de\' MMMM \'de\' y',
+    'full' => 'EEEE, d \'de\' MMMM \'de\' y',
     'long' => 'd \'de\' MMMM \'de\' y',
     'medium' => 'dd/MM/yyyy',
     'short' => 'dd/MM/yy',
@@ -844,7 +844,6 @@ return array (
     '054' => 'Melanesia',
     '057' => 'Micronesia [057]',
     '061' => 'Polinesia',
-    '062' => 'Asia centromeridional',
     142 => 'Asia',
     143 => 'Asia central',
     145 => 'Asia occidental',
@@ -852,7 +851,6 @@ return array (
     151 => 'Europa oriental',
     154 => 'Europa septentrional',
     155 => 'Europa occidental',
-    172 => 'Comunidad de Estados Independientes',
     419 => 'Latinoamérica',
     'ac' => 'Isla de la Ascensión',
     'ad' => 'Andorra',

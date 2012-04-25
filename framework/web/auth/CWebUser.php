@@ -272,6 +272,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
+	 * Returns a value indicating whether the user is a guest (not authenticated).
 	 * @return boolean whether the current application user is a guest.
 	 */
 	public function getIsGuest()
@@ -280,6 +281,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
+	 * Returns a value that uniquely represents the user.
 	 * @return mixed the unique identifier for the user. If null, it means the user is a guest.
 	 */
 	public function getId()
