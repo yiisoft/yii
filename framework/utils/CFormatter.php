@@ -80,7 +80,13 @@ class CFormatter extends CApplicationComponent
 	 * They correspond to the base at which KiloByte is calculated (1000 or 1024) bytes per KiloByte and 
 	 * the number of digits after decimal point.
 	 */
-	public $sizeFormat=array('base'=>1024,'decimals'=>2);
+	public $sizeFormat=array(
+		'base'=>1024,
+		'decimals'=>2,
+		'units'=>array('B','KB','MB','GB','TB'),
+		'full_forms'=>array('Bytes','KiloBytes','MegaBytes','GigaBytes','TeraBytes')
+	);
+	
 	/**
 	 * Calls the format method when its shortcut is invoked.
 	 * This is a PHP magic method that we override to implement the shortcut format methods.
@@ -254,18 +260,15 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Formats the value as a size in human readable form.
 	 * @params integer value to be formatted
+	* @params boolean the result should contain fullforms or not
 	 * @return string the formatted result
 	 */
 	public function formatSize($value,$verbose = false)
 	{
-		$units=array('B','KB','MB','GB','TB');
-		$full_forms =  array('Bytes','KiloBytes','MegaBytes','GigaBytes','TeraBytes');
+		$units=($verbose == true)?$this->sizeFormat['full_forms']:$this->sizeFormat['units'];
 		$base = $this->sizeFormat['base']; 
 		for($i=0; $base<=$value; $i++) $value=$value/$base;
-		if($verbose==true) 	
-			return round($value, $this->sizeFormat['decimals']).$full_forms[$i];
-		else
-		 return round($value, $this->sizeFormat['decimals']).$units[$i];
+		return round($value, $this->sizeFormat['decimals']).Yii::t('units_for_size',$units);
 	}
 
 }
