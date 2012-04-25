@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5968',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -851,7 +851,6 @@ return array (
     '054' => 'Melanésia',
     '057' => 'Região da Micronésia',
     '061' => 'Polinésia',
-    '062' => 'Ásia Centro-Meridional',
     142 => 'Ásia',
     143 => 'Ásia Central',
     145 => 'Ásia Ocidental',
@@ -859,7 +858,6 @@ return array (
     151 => 'Europa Oriental',
     154 => 'Europa Setentrional',
     155 => 'Europa Ocidental',
-    172 => 'Comunidade dos Estados Independentes',
     419 => 'América Latina',
     'ac' => 'Ilha de Ascensão',
     'ad' => 'Andorra',
