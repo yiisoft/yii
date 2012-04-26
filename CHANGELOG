@@ -30,6 +30,7 @@ Version 1.1.11 work in progress
 - Enh #568: CHtml::getIdByName() will now convert spaces to underscore to get proper ID for HTML elements (mdomba)
 - Enh #599: Added case sensitivity check when autoloading classes (qiangxue)
 - Enh #601: added the method loginRequired() to the IWebUser interface (mdomba)
+- Enh #641: Added support for cache entry serialization through the igbinary serializer (DaSourcerer) 
 - Enh: Added default value to CConsoleCommand::confirm (musterknabe)
 - Enh: Added third parameter to CHttpCookie to configure the cookie by array (suralc)
 - Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug (resurtm)
