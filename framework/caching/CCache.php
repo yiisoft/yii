@@ -80,6 +80,8 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 
 	/**
 	 * @var boolean wether to make use of the {@link http://pecl.php.net/package/igbinary igbinary} serializer for cache entry serialization. Defaults to false.
+	 * <strong>NOTE:</strong> If this is set to true while the igbinary extension has not been loaded, cache serialization will silently fall back to PHP's default
+	 * serializer. Since the two serialization formats are incompatible, caches should be purged before switching this on to prevent errors.
 	 * @since 1.1.11
 	 */
 	public $useIgbinarySerializer=false;
