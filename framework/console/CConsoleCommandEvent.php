@@ -25,8 +25,8 @@ class CConsoleCommandEvent extends CEvent
 	public $action;
 	/**
 	 * @var boolean whether the action should be executed.
-	 * If this property is set false by the event handler, the console command action will quit after handling this event.
-	 * If true, the normal execution cycles will continue, including performing the action and calling
+	 * If this property is set true by the event handler, the console command action will quit after handling this event.
+	 * If false, which is the default, the normal execution cycles will continue, including performing the action and calling
 	 * {@link CConsoleCommand::afterAction}.
 	 */
 	public $stopCommand=false;

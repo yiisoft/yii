@@ -23,7 +23,7 @@
  *
  * The command classes reside in the directory {@link getCommandPath commandPath}.
  * The name of the class follows the pattern: &lt;command-name&gt;Command, and its
- * file name is the same the class name. For example, the 'ShellCommand' class defines
+ * file name is the same as the class name. For example, the 'ShellCommand' class defines
  * a 'shell' command and the class file name is 'ShellCommand.php'.
  *
  * To run the console application, enter the following on the command line:

@@ -77,7 +77,7 @@ abstract class CConsoleCommand extends CComponent
 	public function init()
 	{
 	}
-	
+
 	/**
 	 * Returns a list of behaviors that this command should behave as.
 	 * The return value should be an array of behavior configurations indexed by
@@ -181,7 +181,7 @@ abstract class CConsoleCommand extends CComponent
 	{
 		if($this->hasEventHandler('onBeforeAction'))
 		{
-			$event = new CConsoleCommandEvent($this, $params, $action);
+			$event = new CConsoleCommandEvent($this,$params,$action);
 			$this->onBeforeAction($event);
 			return !$event->stopCommand;
 		}
@@ -517,7 +517,7 @@ abstract class CConsoleCommand extends CComponent
 			$message.=" [$default] ";
 		else
 			$message.=' ';
-		
+
 		if(extension_loaded('readline'))
 		{
 			$input=readline($message);
@@ -529,7 +529,7 @@ abstract class CConsoleCommand extends CComponent
 			echo $message;
 			$input=fgets(STDIN);
 		}
-		
+
 		if($input===false)
 			return false;
 		else{
