@@ -266,8 +266,9 @@ class CFormatter extends CApplicationComponent
 	public function formatSize($value,$verbose = false)
 	{
 		$units=($verbose == true)?$this->sizeFormat['full_forms']:$this->sizeFormat['units'];
-		$base = $this->sizeFormat['base']; 
-		for($i=0; $base<=$value && $i<(sizeof($units)-1); $i++) $value=$value/$base;
+		$base = $this->sizeFormat['base'];
+		$total_units = sizeof($units);
+		for($i=0; $base<=$value && $i<($total_units-1); $i++) $value=$value/$base;
 		return round($value, $this->sizeFormat['decimals']).Yii::t('units_for_size',$units[$i]);
 	}
 
