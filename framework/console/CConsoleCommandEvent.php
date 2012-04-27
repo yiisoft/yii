@@ -42,6 +42,7 @@ class CConsoleCommandEvent extends CEvent
 	 * @param mixed $sender sender of the event
 	 * @param string $params the parameters to be passed to the action method.
 	 * @param string $action the action name
+	 * @param string $exitCode the application exit code
 	 */
 	public function __construct($sender=null,$params=null,$action=null,$exitCode=0){
 		parent::__construct($sender,$params);
