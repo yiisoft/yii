@@ -91,7 +91,7 @@ class CConsoleApplication extends CApplication
 	{
 		$exitCode=$this->_runner->run($_SERVER['argv']);
 		if(is_int($exitCode))
-			exit($exitCode);
+			$this->end($exitCode);
 	}
 
 	/**
