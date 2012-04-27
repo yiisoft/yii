@@ -21,6 +21,7 @@ General upgrade intructions
 
 Upgrading from v1.1.10
 ----------------------
+- API of protected method CConsoleCommand::afterAction() changed, if you are overiding this method make sure to update your code.
 
 Upgrading from v1.1.9
 ---------------------
