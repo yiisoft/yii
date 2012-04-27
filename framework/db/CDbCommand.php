@@ -456,7 +456,7 @@ class CDbCommand extends CComponent
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * @return mixed the method execution result
 	 */
-	private function queryInternal($method,$mode,$params=array())
+	protected function queryInternal($method,$mode,$params=array())
 	{
 		$params=array_merge($this->params,$params);
 
