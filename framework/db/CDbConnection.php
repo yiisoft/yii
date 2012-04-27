@@ -418,7 +418,7 @@ class CDbConnection extends CApplicationComponent
 			if($driver==='mssql' || $driver==='dblib' || $driver==='sqlsrv')
 				$pdoClass='CMssqlPdoAdapter';
 		}
-		return new $pdoClass($this->connectionString,$this->username,
+		return @new $pdoClass($this->connectionString,$this->username,
 									$this->password,$this->_attributes);
 	}
 
