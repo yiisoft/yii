@@ -84,7 +84,7 @@ class CConsoleApplication extends CApplication
 
 	/**
 	 * Processes the user request.
-	 * This method creates a console command runner to handle the particular user command.
+	 * This method uses a console command runner to handle the particular user command.
 	 * Since version 1.1.11 this method will exit application with an exit code if one is returned by the user command.
 	 */
 	public function processRequest()

@@ -31,7 +31,7 @@ class CConsoleCommandEvent extends CEvent
 	 */
 	public $stopCommand=false;
 	/**
-	 * @var int exit code of application.
+	 * @var integer exit code of application.
 	 * This property is available in {@link CConsoleCommand::onAfterAction} event and will be set to the exit code
 	 * returned by the console command action. You can set it to change application exit code.
 	 */
@@ -42,7 +42,7 @@ class CConsoleCommandEvent extends CEvent
 	 * @param mixed $sender sender of the event
 	 * @param string $params the parameters to be passed to the action method.
 	 * @param string $action the action name
-	 * @param string $exitCode the application exit code
+	 * @param integer $exitCode the application exit code
 	 */
 	public function __construct($sender=null,$params=null,$action=null,$exitCode=0){
 		parent::__construct($sender,$params);

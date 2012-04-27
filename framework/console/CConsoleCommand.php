@@ -112,8 +112,7 @@ abstract class CConsoleCommand extends CComponent
 	 * dispatch the command request to an appropriate action with the corresponding
 	 * option values
 	 * @param array $args command line parameters for this command.
-	 * @return int|null application exit code returned by the action
-	 * will return null when action has been aborted by {@link onBeforeAction} event
+	 * @return integer application exit code returned by the action, 0 if action does not return anything
 	 * (return value is available since version 1.1.11)
 	 */
 	public function run($args)
@@ -168,11 +167,13 @@ abstract class CConsoleCommand extends CComponent
 		if(!empty($options))
 			$this->usageError("Unknown options: ".implode(', ',array_keys($options)));
 
+		$exitCode=0;
 		if($this->beforeAction($action,$params))
 		{
 			$exitCode=$method->invokeArgs($this,$params);
-			return $this->afterAction($action,$params,$exitCode);
+			$exitCode=$this->afterAction($action,$params,is_int($exitCode)?$exitCode:0);
 		}
+		return $exitCode;
 	}
 
 	/**
@@ -201,10 +202,10 @@ abstract class CConsoleCommand extends CComponent
 	 * You may override this method to do some postprocessing for the action.
 	 * @param string $action the action name
 	 * @param array $params the parameters to be passed to the action method.
-	 * @param int|null $exitCode the application exit code returned by the action method.
-	 * @return int|null application exit code (return value is available since version 1.1.11)
+	 * @param integer $exitCode the application exit code returned by the action method.
+	 * @return integer application exit code (return value is available since version 1.1.11)
 	 */
-	protected function afterAction($action,$params,$exitCode=null)
+	protected function afterAction($action,$params,$exitCode=0)
 	{
 		$event=new CConsoleCommandEvent($this,$params,$action,$exitCode);
 		if($this->hasEventHandler('onAfterAction'))
