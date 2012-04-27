@@ -112,7 +112,7 @@ abstract class CConsoleCommand extends CComponent
 	 * dispatch the command request to an appropriate action with the corresponding
 	 * option values
 	 * @param array $args command line parameters for this command.
-	 * @return integer application exit code returned by the action, 0 if action does not return anything
+	 * @return integer application exit code, which is returned by the invoced action, 0 if the action did not return anything
 	 * (return value is available since version 1.1.11)
 	 */
 	public function run($args)

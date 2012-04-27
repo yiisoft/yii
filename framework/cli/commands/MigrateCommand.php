@@ -15,11 +15,11 @@
  * the yii-dbmigrations extension ((https://github.com/pieterclaerhout/yii-dbmigrations),
  * authored by Pieter Claerhout.
  *
- * Since version 1.1.11 this command will exit with the following exit status codes:
+ * Since version 1.1.11 this command will exit with the following exit codes:
  * <ul>
  * <li>0 on success</li>
  * <li>1 on general error</li>
- * <li>2 on failing migration.</li>
+ * <li>2 on failed migration.</li>
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -67,7 +67,8 @@ class MigrateCommand extends CConsoleCommand
 	public function beforeAction($action,$params)
 	{
 		$path=Yii::getPathOfAlias($this->migrationPath);
-		if($path===false || !is_dir($path)) {
+		if($path===false || !is_dir($path))
+		{
 			echo 'Error: The migration directory does not exist: '.$this->migrationPath."\n";
 			exit(1);
 		}
@@ -119,7 +120,8 @@ class MigrateCommand extends CConsoleCommand
 	public function actionDown($args)
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
-		if($step<1) {
+		if($step<1)
+		{
 			echo "Error: The step parameter must be greater than 0.\n";
 			return 1;
 		}
@@ -154,7 +156,8 @@ class MigrateCommand extends CConsoleCommand
 	public function actionRedo($args)
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
-		if($step<1) {
+		if($step<1)
+		{
 			echo "Error: The step parameter must be greater than 0.\n";
 			return 1;
 		}
@@ -204,7 +207,8 @@ class MigrateCommand extends CConsoleCommand
 		$originalVersion=$version;
 		if(preg_match('/^m?(\d{6}_\d{6})(_.*?)?$/',$version,$matches))
 			$version='m'.$matches[1];
-		else {
+		else
+		{
 			echo "Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n";
 			return 1;
 		}
@@ -223,10 +227,12 @@ class MigrateCommand extends CConsoleCommand
 		{
 			if(strpos($migration,$version.'_')===0)
 			{
-				if($i===0) {
+				if($i===0)
+				{
 					echo "Already at '$originalVersion'. Nothing needs to be done.\n";
 					return 0;
-				} else
+				}
+				else
 					return $this->actionDown(array($i));
 			}
 		}
