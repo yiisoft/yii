@@ -13,6 +13,7 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -23,16 +24,15 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
-  'decimalFormat' => '0',
+  'decimalFormat' => '0000',
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '¤#,##0.00',
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -174,8 +174,8 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'pagi',
-  'pmName' => 'malam',
+  'amName' => 'AM',
+  'pmName' => 'PM',
   'orientation' => 'ltr',
   'languages' => 
   array (

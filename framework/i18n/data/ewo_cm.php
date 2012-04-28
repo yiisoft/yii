@@ -13,6 +13,7 @@ return array (
   'version' => '5798',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => ' ',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -82,8 +82,8 @@ return array (
       8 => 'ngm',
       9 => 'nge',
       10 => 'nga',
-      11 => 'ngd',
-      12 => 'ngb',
+      11 => 'ngad',
+      12 => 'ngab',
     ),
   ),
   'monthNamesSA' => 

@@ -79,6 +79,14 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	public $autoSerialize=true;
 
 	/**
+	 * @var boolean wether to make use of the {@link http://pecl.php.net/package/igbinary igbinary} serializer for cache entry serialization. Defaults to false.
+	 * <strong>NOTE:</strong> If this is set to true while the igbinary extension has not been loaded, cache serialization will silently fall back to PHP's default
+	 * serializer. Since the two serialization formats are incompatible, caches should be purged before switching this on to prevent errors.
+	 * @since 1.1.11
+	 */
+	public $useIgbinarySerializer=false;
+	
+	/**
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by setting default cache key prefix.
 	 */
@@ -87,6 +95,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 		parent::init();
 		if($this->keyPrefix===null)
 			$this->keyPrefix=Yii::app()->getId();
+		$this->useIgbinarySerializer=$this->useIgbinarySerializer&&extension_loaded('igbinary');
 	}
 
 	/**
@@ -311,7 +320,8 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	/**
 	 * Serializes the value before it will be stored in the actual cache backend.
 	 * This method will be called if {@link autoSerialize} is set to true. Child classes may override this method to change
-	 * the way the value is being serialized. The default implementation simply makes use of the PHP serialize() function.
+	 * the way the value is being serialized. The default implementation simply makes use of the PHP serialize() function
+	 * unless {@link useIgbinarySerializer} is set to true and the igbinary extension is installed.
 	 * Make sure to override {@link unserializeValue()} as well if you want to change the serialization process.
 	 * @param mixed $value the unserialized representation of the value
 	 * @return string the serialized representation of the value
@@ -319,13 +329,16 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 **/
 	protected function serializeValue($value)
 	{
+		if($this->useIgbinarySerializer)
+			return igbinary_serialize($value);
 		return serialize($value);
 	}
 	
 	/**
 	 * Unserializes the value after it was retrieved from the actual cache backend.
 	 * This method will be called if {@link autoSerialize} is set to true. Child classes may override this method to change
-	 * the way the value is being unserialized.  The default implementation simply makes use of the PHP unserialize() function.
+	 * the way the value is being unserialized.  The default implementation simply makes use of the PHP unserialize() function
+	 * unless {@link useIgbinarySerializer} is set to true and the igbinary extension is installed.
 	 * Make sure to override {@link serializeValue()} as well if you want to change the serialization process.
 	 * @param string $value the serialized representation of the value
 	 * @return mixed the unserialized representation of the value
@@ -333,6 +346,8 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 **/
 	protected function unserializeValue($value)
 	{
+		if($this->useIgbinarySerializer)
+			return igbinary_unserialize($value);
 		return unserialize($value);
 	}
 
