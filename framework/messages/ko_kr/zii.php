@@ -23,7 +23,7 @@ return array (
   'The button type "{type}" is not supported.' => '버튼 타입 "{type}"은 지원하지 않습니다.',
   'Are you sure you want to delete this item?' => '이 항목을 삭제하겠습니까?',
   'Delete' => '삭제',
-  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => '{count}개의 결과 중에서 {start}부터 {end}까지 표시합니다.',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => '{count}개의 결과 중에서 {start}-{end}를 표시합니다.',
   'Either "name" or "value" must be specified for CDataColumn.' => 'CDataColumn의 "name" 또는 "value"는 반드시 정의되어야 합니다.',
   'No results found.' => '결과가 없습니다.',
   'Not set' => '지정되지 않았습니다.',
@@ -39,4 +39,3 @@ return array (
   'View' => '표시',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class}는 "model"와 "attribute" 또는 "name" 속성 값으로 지정해야 합니다.',
 );
-
