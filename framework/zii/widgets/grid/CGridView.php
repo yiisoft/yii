@@ -252,6 +252,19 @@ class CGridView extends CBaseListView
 	 * @since 1.1.1
 	 */
 	public $filter;
+        /**
+         * @var boolean if it's true AJAX requests will be send while typing in input filter.
+         * It works only if {@link CGridView::ajaxUpdate} is not empty.
+         * @since 1.1.11 
+         * @see filterDelay
+         */
+        public $filterOnType=false;
+        /**
+         * @var integer delay (miliseconds) which after it AJAX request will be send
+         * @since 1.1.11
+         * @see filterOnType
+         */
+        public $filterDelay=800;
 	/**
 	 * @var boolean whether to hide the header cells of the grid. When this is true, header cells
 	 * will not be rendered, which means the grid cannot be sorted anymore since the sort links are located
@@ -372,7 +385,9 @@ class CGridView extends CBaseListView
 			'filterClass'=>$this->filterCssClass,
 			'tableClass'=>$this->itemsCssClass,
 			'selectableRows'=>$this->selectableRows,
-            'enableHistory'=>$this->enableHistory
+            'enableHistory'=>$this->enableHistory,
+            'filterOnType'=>$this->filterOnType,
+            'filterDelay'=>$this->filterDelay,
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);

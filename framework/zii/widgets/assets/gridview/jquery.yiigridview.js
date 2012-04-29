@@ -46,6 +46,8 @@
 		 * - afterAjaxUpdate: function, the function to be called after ajax response is received
 		 * - ajaxUpdateError: function, the function to be called if an ajax error occurs
 		 * - selectionChanged: function, the function to be called after the row selection is changed
+                 * - filterOnType: boolean, whether do ajax request on typing in filter input
+                 * - filterDelay: integer, delay after which send ajax request
 		 * @return object the jQuery object
 		 */
 		init: function (options) {
@@ -56,7 +58,8 @@
 					loadingClass: 'loading',
 					filterClass: 'filters',
 					tableClass: 'items',
-					selectableRows: 1
+					selectableRows: 1,
+                                        filterOnType: false
 					// updateSelector: '#id .pager a, '#id .grid thead th a',
 					// beforeAjaxUpdate: function (id) {},
 					// afterAjaxUpdate: function (id, data) {},
@@ -94,21 +97,43 @@
 				}
 
 				$(document).on('change', inputSelector, function () {
-					var data = $(inputSelector).serialize();
-					if (settings.pageVar !== undefined) {
-						data += '&' + settings.pageVar + '=1';
-					}
-					if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
-						// Ajaxify this link
-						var url = $('#' + id).yiiGridView('getUrl'),
-							params = $.deparam.querystring($.param.querystring(url, data));
+                                        if(($(this).is('input') && settings.filterOnType == false) || $(this).is('select'))
+                                        {
+                                            var data = $(inputSelector).serialize();
+                                            if (settings.pageVar !== undefined) {
+                                                    data += '&' + settings.pageVar + '=1';
+                                            }
+                                            if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
+                                                    // Ajaxify this link
+                                                    var url = $('#' + id).yiiGridView('getUrl'),
+                                                            params = $.deparam.querystring($.param.querystring(url, data));
 
-						delete params[settings.ajaxVar];
-						History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
-					} else {
-						$('#' + id).yiiGridView('update', {data: data});
-					}
+                                                    delete params[settings.ajaxVar];
+                                                    History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+                                            } else {
+                                                    $('#' + id).yiiGridView('update', {data: data});
+                                            }
+                                        }
 				});
+                                
+                                if(settings.ajaxUpdate !== false && settings.filterOnType) {
+                                        $(document).on('keyup', inputSelector, function (e) {
+                                            var data = $(inputSelector).serialize();
+                                            if (settings.pageVar !== undefined) {
+                                                data += '&' + settings.pageVar + '=1';
+                                            }
+                                            if(e.type == 'keyup' && e.keyCode != 13 && e.keyCode != 9)
+                                            {
+                                                clearTimeout($grid.attr('to'));
+                                                to = setTimeout(function(){ $('#' + id).yiiGridView('update', {data: data}); }, settings.filterDelay);
+                                                $grid.attr('to', to);
+                                            }
+                                            else if(e.type == 'keyup' && e.keyCode == 13){
+                                                clearTimeout($grid.attr('to'));
+                                                $('#' + id).yiiGridView('update', {data: data});
+                                            }
+                                        });
+                                }
 
 				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
@@ -224,7 +249,8 @@
 				var $form,
 					$grid = $(this),
 					id = $grid.attr('id'),
-					settings = gridSettings[id];
+					settings = gridSettings[id],
+                                        focusElementName = $grid.find(':focus').attr('name');
 				$grid.addClass(settings.loadingClass);
 
 				options = $.extend({
@@ -243,6 +269,10 @@
 						if (settings.selectableRows > 0) {
 							selectCheckedRows(id);
 						}
+                                                //focus last focused input and set coursor to the end
+                                                if(focusElementName !== undefined) {
+                                                    $('input[name="'+focusElementName+'"]').focus();
+                                                }
 					},
 					error: function (XHR, textStatus, errorThrown) {
 						var ret, err;
@@ -435,4 +465,5 @@
 	$.fn.yiiGridView.getChecked = function (id, column_id) {
 		return $('#' + id).yiiGridView('getChecked', column_id);
 	};
+        
 })(jQuery);
