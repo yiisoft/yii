@@ -19,7 +19,7 @@
  * @version $Id: $
  */
 return array (
-  '"{path}" is not a valid directory.' => '"{path}"는 유효한 디렉토리가 아닙니다.',
+  '"{path}" is not a valid directory.' => '"{path}"는 올바른 디렉토리가 아닙니다.',
   '&lt; Previous' => '&lt; 이전',
   '&lt;&lt; First' => '&lt;&lt; 처음',
   'Action class {class} must implement the "run" method.' => '액션 클래스 {class}는 "run" 메쏘드를 반드시 구현해야합니다.',
