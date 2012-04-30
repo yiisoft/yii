@@ -69,6 +69,16 @@
 					id = $grid.attr('id'),
 					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
 
+				checkBindingExists = function(object, event, selector) {
+					events = $(object).data('events')[event];
+					for (e in events) {
+						if (events[e].selector == selector) {
+							return true
+						}
+					}
+					return false;
+				}
+
 				settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
 				if (settings.updateSelector === undefined) {
 					settings.updateSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a, #' + id + ' .' + settings.tableClass + ' thead th a';
@@ -77,6 +87,7 @@
 				gridSettings[id] = settings;
 
 				if (settings.ajaxUpdate.length > 0) {
+					if (checkBindingExists(document, 'click', settings.updateSelector)==false)
 					$(document).on('click', settings.updateSelector, function () {
 						// Check to see if History.js is enabled for our Browser
 						if (settings.enableHistory && window.History.enabled) {
@@ -92,7 +103,7 @@
 						return false;
 					});
 				}
-
+				if (checkBindingExists(document, 'change', inputSelector)==false)
 				$(document).on('change', inputSelector, function () {
 					var data = $(inputSelector).serialize();
 					if (settings.pageVar !== undefined) {
@@ -119,7 +130,9 @@
 
 				if (settings.selectableRows > 0) {
 					selectCheckedRows(this.id);
-					$(document).on('click', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
+					selector = '#' + id + ' .' + settings.tableClass + ' > tbody > tr';
+					if (checkBindingExists(document, 'click', selector)==false)
+					$(document).on('click', selector, function (e) {
 						var $currentGrid, $row, isRowSelected, $checks,
 							$target = $(e.target);
 
@@ -144,7 +157,9 @@
 						}
 					});
 					if (settings.selectableRows > 1) {
-						$(document).on('click', '#' + id + ' .select-on-check-all', function () {
+						selector = '#' + id + ' .select-on-check-all';
+						if (checkBindingExists(document, 'click', selector)==false)
+						$(document).on('click', selector, function () {
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
@@ -164,6 +179,7 @@
 						});
 					}
 				} else {
+					if (checkBindingExists(document, 'click', '#' + id + ' .select-on-check')==false)
 					$(document).on('click', '#' + id + ' .select-on-check', false);
 				}
 			});
