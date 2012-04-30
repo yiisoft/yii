@@ -69,16 +69,6 @@
 					id = $grid.attr('id'),
 					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
 
-				checkBindingExists = function(object, event, selector) {
-					events = $(object).data('events')[event];
-					for (e in events) {
-						if (events[e].selector == selector) {
-							return true
-						}
-					}
-					return false;
-				}
-
 				settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
 				if (settings.updateSelector === undefined) {
 					settings.updateSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a, #' + id + ' .' + settings.tableClass + ' thead th a';
@@ -87,8 +77,7 @@
 				gridSettings[id] = settings;
 
 				if (settings.ajaxUpdate.length > 0) {
-					if (checkBindingExists(document, 'click', settings.updateSelector)==false)
-					$(document).on('click', settings.updateSelector, function () {
+					$(document).on('click.yiiGridView', settings.updateSelector, function () {
 						// Check to see if History.js is enabled for our Browser
 						if (settings.enableHistory && window.History.enabled) {
 							// Ajaxify this link
@@ -103,8 +92,8 @@
 						return false;
 					});
 				}
-				if (checkBindingExists(document, 'change', inputSelector)==false)
-				$(document).on('change', inputSelector, function () {
+
+				$(document).on('change.yiiGridView', inputSelector, function () {
 					var data = $(inputSelector).serialize();
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
@@ -130,9 +119,7 @@
 
 				if (settings.selectableRows > 0) {
 					selectCheckedRows(this.id);
-					selector = '#' + id + ' .' + settings.tableClass + ' > tbody > tr';
-					if (checkBindingExists(document, 'click', selector)==false)
-					$(document).on('click', selector, function (e) {
+					$(document).on('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
 						var $currentGrid, $row, isRowSelected, $checks,
 							$target = $(e.target);
 
@@ -157,9 +144,7 @@
 						}
 					});
 					if (settings.selectableRows > 1) {
-						selector = '#' + id + ' .select-on-check-all';
-						if (checkBindingExists(document, 'click', selector)==false)
-						$(document).on('click', selector, function () {
+						$(document).on('click.yiiGridView', '#' + id + ' .select-on-check-all', function () {
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
@@ -179,8 +164,7 @@
 						});
 					}
 				} else {
-					if (checkBindingExists(document, 'click', '#' + id + ' .select-on-check')==false)
-					$(document).on('click', '#' + id + ' .select-on-check', false);
+					$(document).on('click.yiiGridView', '#' + id + ' .select-on-check', false);
 				}
 			});
 		},
