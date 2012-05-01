@@ -199,7 +199,7 @@ Exit Codes
 
 > Note: The possibility to return exit codes in console commands has been available since version 1.1.11.
 
-When running console commands automatically, via cronjob or using a continous integration server, it is
+When running console commands automatically, via cronjob or using a continuous integration server, it is
 always interesting if the command ran successfully or if there where errors.
 This can be done by checking the exit code a process returns on exit.
 

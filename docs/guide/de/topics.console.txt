@@ -204,7 +204,7 @@ Exit Codes
 
 > Note|Hinweis: Die Möglichkeit "Exit Codes" in Konsolenbefehlen zurückzugeben steht erst seit Version 1.1.11 zur Verfügung.
 
-Wenn Konsolenbefehle automatisch, zum Beispiel per Cronjob oder mit einem Continous Integration Server, ausgeführt werden,
+Wenn Konsolenbefehle automatisch, zum Beispiel per Cronjob oder mit einem Continuous Integration Server, ausgeführt werden,
 ist es immer interessant zu wissen, ob der Befehl erfolgreich ausgefürht wurde, oder ob Fehler aufgetreten sind.
 Dies kann unter anderem an den sog. "Exit Codes" erkannt werden, die eine Anwendung zurückgibt, wenn sie beendet wird.
 
