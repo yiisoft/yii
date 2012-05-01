@@ -46,6 +46,9 @@ class CConsoleCommandRunner extends CComponent
 	/**
 	 * Executes the requested command.
 	 * @param array $args list of user supplied parameters (including the entry script name and the command name).
+	 * @return integer|null application exit code returned by the command.
+	 * if null is returned, application will not exit explicitly. See also {@link CConsoleApplication::processRequest()}.
+	 * (return value is available since version 1.1.11)
 	 */
 	public function run($args)
 	{
@@ -62,7 +65,7 @@ class CConsoleCommandRunner extends CComponent
 		if(($command=$this->createCommand($name))===null)
 			$command=$this->createCommand('help');
 		$command->init();
-		$command->run($args);
+		return $command->run($args);
 	}
 
 	/**
