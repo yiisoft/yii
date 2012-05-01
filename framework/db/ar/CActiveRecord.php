@@ -2122,7 +2122,10 @@ class CActiveRelation extends CBaseActiveRelation
 		}
 
 		if(isset($criteria['with']))
-			$this->with=$criteria['with'];
+			if(isset($this->with))
+				$this->with=CMap::mergeArray((array)$this->with, (array)$criteria['with']);
+			else
+				$this->with=$criteria['with'];
 
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
