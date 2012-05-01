@@ -218,7 +218,7 @@ class CActiveFinder extends CComponent
 			$relation=clone $relation;
 			$model=CActiveRecord::model($relation->className);
 
-			$oldDbCriteria = $model->getDbCriteria(false);
+			$oldDbCriteria=$model->getDbCriteria(false);
 
 			if($relation instanceof CActiveRelation)
 			{
