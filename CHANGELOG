@@ -35,6 +35,7 @@ Version 1.1.11 work in progress
 - Enh #648: Added filterHtmlOptions property to the CGridColumn component (juban)
 - Enh #652: Added namespace to yiiGridView events, so they can be easily removed by .off() jQuery method (Bethrezen)
 - Enh: Added default value to CConsoleCommand::confirm (musterknabe)
+- Enh: Allowed returning integer values as application exit code in CConsoleCommand actions (cebe)
 - Enh: Added third parameter to CHttpCookie to configure the cookie by array (suralc)
 - Enh: Added getIsFlashRequest(), proper handling of Flash/Flex request when using CWebLogRoute with FireBug (resurtm)
 - Enh: Added CBreadcrumbs::$activeLinkTemplate and CBreadcrumbs::$inactiveLinkTemplate properties which allows to change each item's template (resurtm)
