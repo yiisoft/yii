@@ -28,6 +28,7 @@ Version 1.1.11 work in progress
 - Enh #414: Added sort parameter to yiic message command that sorts messages by key when merging (ranvis)
 - Enh #455: Added support for default value in CConsoleCommand::prompt (eagleoneraptor)
 - Enh #568: CHtml::getIdByName() will now convert spaces to underscore to get proper ID for HTML elements (mdomba)
+- Enh #578: Added extension checks to CMemCache (samdark)
 - Enh #599: Added case sensitivity check when autoloading classes (qiangxue)
 - Enh #601: added the method loginRequired() to the IWebUser interface (mdomba)
 - Enh #616: CVarDumper is now correctly highligts integer array keys (vernes, samdark)
