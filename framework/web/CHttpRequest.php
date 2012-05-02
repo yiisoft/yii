@@ -1061,13 +1061,21 @@ class CCookieCollection extends CMap
 	 * </pre>
 	 * @param mixed $name Cookie name or an instance of {@link CHttpCookie}.
 	 * @param CHttpCookie $cookie An instance of {@link HttpCookie}, only used if the first 
-	 * parameter is not  an instance of {@link CHttpCookie}. Defaults to null.
+	 * parameter is not an instance of {@link CHttpCookie}. Defaults to null.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
 	public function add($name,$cookie=null)
 	{
-		$cookieName=$name instanceof CHttpCookie?$name->name:(string)$name;
-		$cookieObject=$name instanceof CHttpCookie?$name:$cookie; 	
+		if($name instanceof CHttpCookie)
+		{
+			$cookieName=$name->name;
+			$cookieObject=$name;
+		}
+		else
+		{
+			$cookieName=(string)$name;
+			$cookieObject=$cookie;
+		}
 		if($cookieObject instanceof CHttpCookie)
 		{
 			$this->remove($cookieName);
