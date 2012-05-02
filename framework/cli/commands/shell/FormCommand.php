@@ -61,6 +61,7 @@ EOD;
 	/**
 	 * Execute the action.
 	 * @param array command line parameters specific for this command
+	 * @return integer|null non zero application exit code for help or null on success
 	 */
 	public function run($args)
 	{
@@ -68,7 +69,7 @@ EOD;
 		{
 			echo "Error: both model class and view name are required.\n";
 			echo $this->getHelp();
-			return;
+			return 1;
 		}
 		$scenario=isset($args[2]) ? $args[2] : '';
 		$modelClass=Yii::import($args[0],true);
