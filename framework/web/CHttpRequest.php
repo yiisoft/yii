@@ -989,9 +989,13 @@ class CHttpRequest extends CApplicationComponent
  * <pre>
  * $cookies[$name]=new CHttpCookie($name,$value); // sends a cookie
  * $value=$cookies[$name]->value; // reads a cookie value
- * unset($cookies[$name]);  // removes a cookie
+ * unset($cookies[$name]); // removes a cookie
  * </pre>
- *
+ * Additionally (since Yii 1.1.11) a cookie can be added as an object, 
+ * without setting the cookie name twice:
+ * <pre>
+ * $cookies->add(new CHttpCookie($name, $value)); // sends a cookie
+ * </pre>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web
@@ -1048,18 +1052,36 @@ class CCookieCollection extends CMap
 	 * Adds a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
 	 * operations for each newly added CHttpCookie object.
-	 * @param mixed $name Cookie name.
-	 * @param CHttpCookie $cookie Cookie object.
+	 * This method provides the following two options to add a cookie:
+	 * <pre>
+	 * // Array access style - note that cookie name should be used twice here
+	 * Yii::app()->request->cookies['name']=new CHttpCookie('name',$value);
+	 * // Object style - note that cookie name is used only once here
+	 * Yii::app()->request->cookies->add(new CHttpCookie('name', $value));
+	 * </pre>
+	 * @param mixed $name Cookie name or an instance of {@link CHttpCookie}.
+	 * @param CHttpCookie $cookie An instance of {@link HttpCookie}, only used if the first 
+	 * parameter is not an instance of {@link CHttpCookie}. Defaults to null.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
-	public function add($name,$cookie)
+	public function add($name,$cookie=null)
 	{
-		if($cookie instanceof CHttpCookie)
+		if($name instanceof CHttpCookie)
 		{
-			$this->remove($name);
-			parent::add($name,$cookie);
+			$cookieName=$name->name;
+			$cookieObject=$name;
+		}
+		else
+		{
+			$cookieName=(string)$name;
+			$cookieObject=$cookie;
+		}
+		if($cookieObject instanceof CHttpCookie)
+		{
+			$this->remove($cookieName);
+			parent::add($cookieName,$cookieObject);
 			if($this->_initialized)
-				$this->addCookie($cookie);
+				$this->addCookie($cookieObject);
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
