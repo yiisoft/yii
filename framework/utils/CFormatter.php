@@ -260,15 +260,16 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Formats the value as a size in human readable form.
 	 * @params integer value to be formatted
-	* @params boolean the result should contain fullforms or not
+	 * @params boolean true if the result should return full form size name (e.g. Bytes, KiloBytes, ...),
+	 * false for short size name (e.g. B, KB, ...). Defaults to false.
 	 * @return string the formatted result
 	 */
 	public function formatSize($value,$verbose = false)
 	{
 		$units=($verbose == true)?$this->sizeFormat['full_forms']:$this->sizeFormat['units'];
 		$base = $this->sizeFormat['base'];
-		$total_units = sizeof($units);
-		for($i=0; $base<=$value && $i<($total_units-1); $i++) $value=$value/$base;
+		$total_units = sizeof($units)-1;
+		for($i=0; $base<=$value && $i<$total_units; $i++) $value=$value/$base;
 		return round($value, $this->sizeFormat['decimals']).Yii::t('units_for_size',$units[$i]);
 	}
 
