@@ -225,7 +225,7 @@ EOD;
 		foreach($keys as $key)
 			$results[$key]=false;
 		foreach($rows as $row)
-			$results[$row['id']]=$results[$row['value']];
+			$results[$row['id']]=$row['value'];
 		return $results;
 	}
 
