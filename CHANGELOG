@@ -5,7 +5,7 @@ Version 1.1.11 work in progress
 -------------------------------
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
-- Bug #235: Fixed CHtml::listBox() to include an empty value via hidden field similar to CHtml::activeCheckBoxList()
+- Bug #235: Fixed CHtml::listBox() to include an empty value via hidden field similar to CHtml::activeCheckBoxList() (maximcherny)
 - Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
 - Bug #381: Fixed the bug that Gii model name input could get misspelled when autocomplete is used (mdomba)
 - Bug #417: CAttributeCollections::mergeWith() does not take into account the caseSensitive (dmtrs)
