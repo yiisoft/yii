@@ -299,6 +299,6 @@ class CAssetManager extends CApplicationComponent
 	 */
 	protected function hash($path)
 	{
-		return rtrim(strtr(base64_encode(hash('crc32b',$path.Yii::getVersion(),true)),'+/','-_'),'=');
+		return rtrim(strtr(base64_encode(pack('I',crc32($path.Yii::getVersion()))),'+/','-_'),'=');
 	}
 }
