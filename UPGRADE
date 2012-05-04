@@ -30,6 +30,8 @@ Upgrading from v1.1.10
   
       parent::afterAction($action,$params,$exitCode);
 
+- CDateFormat::format() now will return null if the parameter $time is null. Previously it would return 1/1/1970.
+
 Upgrading from v1.1.9
 ---------------------
 - Previously xSendFile() was returning false if the file was not found.
