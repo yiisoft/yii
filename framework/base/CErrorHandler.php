@@ -259,7 +259,10 @@ class CErrorHandler extends CApplicationComponent
 				'traces'=>$trace,
 			);
 			if(!headers_sent())
-				header("HTTP/1.0 500 PHP Error");
+				if(!YII_DEBUG)
+					header("HTTP/1.0 500 Internal Server Error");
+				else
+					header("HTTP/1.0 500 PHP Error");
 			if($this->isAjaxRequest())
 				$app->displayError($event->code,$event->message,$event->file,$event->line);
 			else if(YII_DEBUG)
