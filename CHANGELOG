@@ -14,6 +14,7 @@ Version 1.1.11 work in progress
 - Bug #539: Fixed CUrlRule::createUrl() to treat sub-patterns as Unicode as parseUrl() does (ranvis)
 - Bug #553: Criteria of related AR finders was affected after performing find with relational scopes (marcovtwout)
 - Bug #660: Fixed error when calling CDbCache::getValues (zilles)
+- Bug #681: fix detection of one-to-one relations (richardpeng)
 - Enh #120: Added ability to set cookies in an object based style without specifying the cookie-name twice (suralc)
 - Enh #136: Added ability to select database connection in Gii model generator (samdark)
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
