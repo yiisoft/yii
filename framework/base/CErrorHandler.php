@@ -177,7 +177,7 @@ class CErrorHandler extends CApplicationComponent
 			);
 
 			if(!headers_sent())
-				header("HTTP/1.0 {$data['code']} ".self::getHttpHeader($data['code'], get_class($exception)));
+				header("HTTP/1.0 {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
 
 			if($exception instanceof CHttpException || !YII_DEBUG)
 				$this->render('error',$data);
@@ -485,12 +485,12 @@ class CErrorHandler extends CApplicationComponent
 		return '<div class="code"><pre>'.$output.'</pre></div>';
 	}
 	/**
-	 * Return correct message for each know http error code
+	 * Return correct message for each known http error code
 	 * @param integer $httpCode error code to map
 	 * @param string $replacement error string if code is unknown
-	 * @return string the textual error code is returned or the replacement string if it does not exist
+	 * @return string the textual representation of the given error code or the replacement string if the error code is unknown
 	 */
-	protected static function getHttpHeader($httpCode, $replacement='')
+	protected function getHttpHeader($httpCode, $replacement='')
 	{
 		$httpCodes = array(
 			100 => 'Continue',
