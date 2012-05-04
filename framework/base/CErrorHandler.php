@@ -487,7 +487,7 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Return correct message for each known http error code
 	 * @param integer $httpCode error code to map
-	 * @param string $replacement error string if code is unknown
+	 * @param string $replacement replacement error string that is returned if code is unknown
 	 * @return string the textual representation of the given error code or the replacement string if the error code is unknown
 	 */
 	protected function getHttpHeader($httpCode, $replacement='')
