@@ -800,6 +800,10 @@ class CHtml
 	 * </pre>
 	 * </li>
 	 * </ul>
+	 * Since 1.1.11, a special option named 'emptyValue' is available. It can be used to set the value
+	 * that will be returned when nothing is selected. By default, this value is ''.
+	 * Internally, a hidden field is rendered so when nothing is selected, we can still
+	 * obtain the value. If 'emptyValue' is set to NULL, there will be no hidden field rendered.
 	 * @return string the generated list box
 	 * @see clientChange
 	 * @see inputField
@@ -814,7 +818,19 @@ class CHtml
 			if(substr($name,-2)!=='[]')
 				$name.='[]';
 		}
-		return self::dropDownList($name,$select,$data,$htmlOptions);
+		
+		if(array_key_exists('emptyValue',$htmlOptions))
+		{
+			$empty=$htmlOptions['emptyValue'];
+			unset($htmlOptions['emptyValue']);
+		}
+		else
+			$empty='';
+		
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		$hidden=$empty!==null ? self::hiddenField($name,$empty,$hiddenOptions) : '';
+		
+		return $hidden . self::dropDownList($name,$select,$data,$htmlOptions);
 	}
 
 	/**
