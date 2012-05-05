@@ -88,6 +88,6 @@ class CHttpCacheFilter extends CFilter
 	
 	private function generateEtag($seed)
 	{
-		return '"'.base64_encode(hash('ripemd160', serialize($seed), true)).'"';
+		return '"'.base64_encode(sha1(serialize($seed), true)).'"';
 	}
 }
