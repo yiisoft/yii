@@ -50,7 +50,7 @@ class CHttpCacheFilter extends CFilter
 					throw new CException("HttpCacheFilter.lastModified contained '{$this->lastModified}' which could not be understood by strottime()");
 			}
 			
-			if(key_exists('HTTP_IF_MODIFIED_SINCE', $_SERVER) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified)
+			if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified)
 			{
 				$this->send304();
 				return false;
@@ -65,7 +65,7 @@ class CHttpCacheFilter extends CFilter
 			else
 				$etag=$this->generateEtag($this->etagSeed);
 			
-			if(key_exists('HTTP_IF_NONE_MATCH', $_SERVER) && $_SERVER['HTTP_IF_NONE_MATCH']==$etag)
+			if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH']==$etag)
 			{
 				$this->send304();
 				return false;
