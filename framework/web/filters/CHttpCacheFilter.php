@@ -1,4 +1,22 @@
 <?php
+/**
+ * CHttpCacheFilter class file.
+ *
+ * @author Da:Sourcerer <webmaster@dasourcerer.net>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2012 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
+ * CHttpCacheFilter implements http caching. It works a lot like {@link COutputCache}
+ * as a filter, except that content caching is being done on the client side.
+ *
+ * @author Da:Sourcerer <webmaster@dasourcerer.net>
+ * @version $Id$
+ * @package system.web.filters
+ * @since 1.1.11
+ */
 class CHttpCacheFilter extends CFilter
 {
 	/**
@@ -36,46 +54,70 @@ class CHttpCacheFilter extends CFilter
 		if(!in_array(Yii::app()->getRequest()->getRequestType(), array('GET', 'HEAD')))
 			return true;
 		
-		if($this->lastModified || $this->lastModifiedExpression)
+		if($this->lastModifiedExpression)
 		{
-			if($this->lastModifiedExpression)
+			$value=$this->evaluateExpression($this->lastModifiedExpression);
+			if(($lastModified=strtotime($value))===false)
+				throw new CException(Yii::t('yii','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result could not be understood by strtotime()'));
+		}
+		else
+		{
+			if(($lastModified=strtotime($this->lastModified))===false)
+				throw new CException(Yii::t('yii','CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()'));
+		}
+		
+		if($this->etagSeedExpression)
+			$etag=$this->generateEtag($this->evaluateExpression($this->etagSeedExpression));
+		else
+			$etag=$this->generateEtag($this->etagSeed);
+
+		if($etag===null&&$lastModified===null)
+			return true;
+		
+		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&isset($_SERVER['HTTP_IF_NONE_MATCH']))
+		{
+			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
 			{
-				$value=$this->evaluateExpression($this->lastModifiedExpression);
-				if(($lastModified=strtotime($value))===false)
-					throw new CException("HttpCacheFilter.lastModifiedExpression evaluated to '{$value}' which could not be understood by strtotime()");
+				$this->send304();
+				return false;
 			}
-			else
+		}
+		else if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+		{
+			if($this->checkLastModified($lastModified))
 			{
-				if(($lastModified=strtotime($this->lastModified))===false)
-					throw new CException("HttpCacheFilter.lastModified contained '{$this->lastModified}' which could not be understood by strottime()");
+				$this->send304();
+				return false;
 			}
-			
-			if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified)
+		}
+		else if(isset($_SERVER['HTTP_IF_NONE_MATCH']))
+		{
+			if($this->checkEtag($etag))
 			{
 				$this->send304();
 				return false;
 			}
 			
+		}
+				
+		if($lastModified)
 			header('Last-Modified: '.date('r', $lastModified));
-		}
-		elseif($this->etagSeed || $this->etagSeedExpression)
-		{
-			if($this->etagSeedExpression)
-				$etag=$this->generateEtag($this->evaluateExpression($this->etagSeedExpression));
-			else
-				$etag=$this->generateEtag($this->etagSeed);
-			
-			if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH']==$etag)
-			{
-				$this->send304();
-				return false;
-			}
-			
+		
+		if($etag)
 			header('ETag: '.$etag);
-		}
 		
 		header('Cache-Control: ' . $this->cacheControl);
 		return true;
+	}
+	
+	private function checkEtag($etag)
+	{
+		return isset($_SERVER['HTTP_IF_NONE_MATCH'])&&$_SERVER['HTTP_IF_NONE_MATCH']==$etag;
+	}
+	
+	private function checkLastModified($lastModified)
+	{
+		return isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified;
 	}
 
 	/**
