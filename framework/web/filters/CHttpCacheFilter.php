@@ -86,6 +86,10 @@ class CHttpCacheFilter extends CFilter
 		header($_SERVER['SERVER_PROTOCOL'].' 304 Not modified');
 	}
 	
+	/**
+	 * Generates a quoted string out of the seed
+	 * @param mixed $seed Seed for the ETag
+	 */
 	private function generateEtag($seed)
 	{
 		return '"'.base64_encode(sha1(serialize($seed), true)).'"';
