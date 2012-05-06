@@ -62,7 +62,8 @@ class CJuiButton extends CJuiInputWidget
 	 */
 	public $htmlTag = 'div';
 	/**
-	 * @var string The url used when a buttonType "link" is selected.
+	 * @var mixed a URL or an action route that can be used to create a URL. Used when a buttonType "link" is selected.
+	 * See {@link normalizeUrl} for more details about how to specify this parameter.
 	 */
 	public $url = null;
 

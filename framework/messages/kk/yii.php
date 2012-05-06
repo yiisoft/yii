@@ -30,7 +30,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active record "{class}" класы "{relation}" қатысы үшін дұрыс бапталмаған. Ол қатысу түрі, байланыстағы active record класы мен сыртқы кілтті анықтау керек.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'ActiveRecord "{class}" қате "{column}" бағанын таңдағысы кеп тұр. Қосымша: баған кесте ішінде болуы тиіс, немесе алиасы бар өрнек болуы тиіс.',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'Бар болып тұрған кестеге сыртқы кілтті қосу SQLite қолдамайды.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => '"{alias}" алиасы қате. Ол бар болып тұрған PHP файлына сілтеп тұрғанына көз жеткізіңіз.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => '"{alias}" алиасы қате. Ол бар болып тұрған PHP файлына сілтеп тұрғанына көз жеткізіңіз.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => '"{alias}" алиасы қате. Ол бар болып тұрған бума не файлға сілтеп тұрғанына көз жеткізіңіз.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => '"{alias}" алиасы қате. Ол бар болып тұрған бумаға сілтеп тұрғанына көз жеткізіңіз.',
   'Altering a DB column is not supported by SQLite.' => 'ДҚ өрісін өзгертуді SQLite қолдамайды.',

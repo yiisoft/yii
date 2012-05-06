@@ -76,6 +76,7 @@ class CCodeGenerator extends CController
 	/**
 	 * The code preview action.
 	 * This action shows up the specified generated code.
+	 * @throws CHttpException if unable to find code generated.
 	 */
 	public function actionCode()
 	{
@@ -93,6 +94,7 @@ class CCodeGenerator extends CController
 	/**
 	 * The code diff action.
 	 * This action shows up the difference between the newly generated code and the corresponding existing code.
+	 * @throws CHttpException if unable to find code generated.
 	 */
 	public function actionDiff()
 	{

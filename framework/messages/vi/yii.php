@@ -37,7 +37,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Lớp active record "{class}" có một liên kết quan hệ không đúng: "{relation}". Nó phải được định nghĩa bởi loại quan hệ, lớp quan hệ và khoá ngoại.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record "{class}" đang cố gắn truy vấn đến một column không hợp lệ:"{column}". Chú ý, column phải tồn tại trong bảng hoặc phải là một alias expression.',
   'Active record class "{class}" does not have a scope named "{scope}".' => 'lớp active record "{class}" không có tên scope "{scope}".',
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Alias "{alias}" không có hiệu lực. Phải chắc chắn nó chỉ đến một tập tin PHP đã có.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Alias "{alias}" không có hiệu lực. Phải chắc chắn nó chỉ đến một tập tin PHP đã có.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Alias "{alias}" không hợp lệ . Hãy chắc rằng nó trỏ tới thư mục hoặc file có tồn tại.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'Alias "{alias}" không hợp lệ. Hãy chắc rằng nó trỏ tới thư mục có tồn tại.',
   'Application Log' => 'Log ứng dụng.',

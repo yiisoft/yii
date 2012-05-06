@@ -125,6 +125,10 @@ class GiiModule extends CWebModule
 				'stateKeyPrefix'=>'gii',
 				'loginUrl'=>Yii::app()->createUrl($this->getId().'/default/login'),
 			),
+			'widgetFactory' => array(
+				'class'=>'CWidgetFactory',
+				'widgets' => array()
+			)
 		), false);
 		$this->generatorPaths[]='gii.generators';
 		$this->controllerMap=$this->findGenerators();

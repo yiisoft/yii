@@ -44,6 +44,7 @@ EOD;
 	/**
 	 * Execute the action.
 	 * @param array command line parameters specific for this command
+	 * @return integer|null non zero application exit code for help or null on success
 	 */
 	public function run($args)
 	{
@@ -51,7 +52,7 @@ EOD;
 		{
 			echo "Error: module ID is required.\n";
 			echo $this->getHelp();
-			return;
+			return 1;
 		}
 
 		$moduleID=$args[0];

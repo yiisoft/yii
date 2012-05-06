@@ -13,6 +13,7 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -326,7 +326,6 @@ return array (
     '054' => 'Melanesia',
     '057' => 'Mikronesia guovllus',
     '061' => 'Polynesia',
-    '062' => 'mátta-gaska-Ásia',
     142 => 'Ásia',
     143 => 'gaska-Ásia',
     145 => 'oarji-Ásia',

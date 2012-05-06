@@ -15,10 +15,10 @@
  * [Додана підтримка URL у стилі REST](/doc/guide/topics.url#user-friendly-urls)
  * [Додана підтримка кешування запитів](/doc/guide/caching.data#query-caching)
  * [Тепер можливо передати параметри именованій групі умов відношення](/doc/guide/database.arr#relational-query-with-named-scopes)
- * [Додана можливість виконання реляційних запитів без отримання даних із зв'язаних моделей](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
+ * [Додана можливість виконання реляційних запитів без отримання даних із звʼязаних моделей](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
  * [У AR додана підтримка відношень HAS_MANY through та HAS_ONE through](/doc/guide/database.arr#relational-query-with-through)
  * [У міграції додана підтримка транзакцій](/doc/guide/database.migration#transactional-migrations)
- * [Тепер можливо використовувати прив'язку параметрів із окремими класами дій](/doc/guide/basics.controller#action-parameter-binding)
+ * [Тепер можливо використовувати привʼязку параметрів із окремими класами дій](/doc/guide/basics.controller#action-parameter-binding)
  * [Додана підтримка валідації на клієнті без AJAX з використанням [CActiveForm]](CActiveForm)
 
 Версія 1.1.6
@@ -38,7 +38,7 @@
 Версія 1.1.4
 ------------
 
- * [Додана підтримка автоматичної прив'язки параметрів дій контролера](/doc/guide/basics.controller#action-parameters)
+ * [Додана підтримка автоматичної привʼязки параметрів дій контролера](/doc/guide/basics.controller#action-parameters)
 
 Версія 1.1.3
 ------------
@@ -76,9 +76,9 @@
 	 - [Безпечне присвоєння значень атрибутам](/doc/guide/form.model#securing-attribute-assignments).
 
  * Змінений алгоритм жадного завантаження за замовчуванням для залежних запитів AR так,
-   що всі таблиці об'єднуються в одному SQL-запиті.
+   що всі таблиці обʼєднуються в одному SQL-запиті.
 
- * Змінений псевдонім таблиці за замовчуванням на ім'я відношень AR.
+ * Змінений псевдонім таблиці за замовчуванням на імʼя відношень AR.
 
  * [Додана підтримка використання префікса таблиць](/doc/guide/database.dao#using-table-prefix).
 

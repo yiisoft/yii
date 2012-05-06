@@ -31,7 +31,7 @@ class CPgsqlSchema extends CDbSchema
         'integer' => 'integer',
         'float' => 'double precision',
         'decimal' => 'numeric',
-        'datetime' => 'time',
+        'datetime' => 'timestamp',
         'timestamp' => 'timestamp',
         'time' => 'time',
         'date' => 'date',

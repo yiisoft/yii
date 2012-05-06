@@ -246,6 +246,7 @@ EOD;
 	/**
 	 * Execute the action.
 	 * @param array command line parameters specific for this command
+	 * @return integer|null non zero application exit code for help or null on success
 	 */
 	public function run($args)
 	{
@@ -253,7 +254,7 @@ EOD;
 		{
 			echo "Error: model class name is required.\n";
 			echo $this->getHelp();
-			return;
+			return 1;
 		}
 		$className=$args[0];
 
@@ -262,7 +263,7 @@ EOD;
 			echo "Error: an active 'db' connection is required.\n";
 			echo "If you already added 'db' component in application configuration,\n";
 			echo "please quit and re-enter the yiic shell.\n";
-			return;
+			return 1;
 		}
 
 		$db->active=true;
@@ -271,7 +272,7 @@ EOD;
 		if(!preg_match('/^[\w\.\-\*]*(.*?)$/',$className,$matches))
 		{
 			echo "Error: model class name is invalid.\n";
-			return;
+			return 1;
 		}
 
 		if(empty($matches[1]))  // without regular expression

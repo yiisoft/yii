@@ -11,7 +11,6 @@
 (function ($) {
 	var selectCheckedRows, methods,
 		gridSettings = [];
-
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
 	 * 2. Check if "check all" need to be checked/unchecked
@@ -78,23 +77,49 @@
 				gridSettings[id] = settings;
 
 				if (settings.ajaxUpdate.length > 0) {
-					$(document).on('click', settings.updateSelector, function () {
-						$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
+					$(document).on('click.yiiGridView', settings.updateSelector, function () {
+						// Check to see if History.js is enabled for our Browser
+						if (settings.enableHistory && window.History.enabled) {
+							// Ajaxify this link
+							var url = $(this).attr('href'),
+								params = $.deparam.querystring(url);
+
+							delete params[settings.ajaxVar];
+							window.History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+						} else {
+							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
+						}
 						return false;
 					});
 				}
 
-				$(document).on('change', inputSelector, function () {
+				$(document).on('change.yiiGridView', inputSelector, function () {
 					var data = $(inputSelector).serialize();
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
 					}
-					$('#' + id).yiiGridView('update', {data: data});
+					if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
+						// Ajaxify this link
+						var url = $('#' + id).yiiGridView('getUrl'),
+							params = $.deparam.querystring($.param.querystring(url, data));
+
+						delete params[settings.ajaxVar];
+						History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+					} else {
+						$('#' + id).yiiGridView('update', {data: data});
+					}
 				});
+
+				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
+					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
+						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
+						$('#' + id).yiiGridView('update', {url: State.url});
+					});
+				}
 
 				if (settings.selectableRows > 0) {
 					selectCheckedRows(this.id);
-					$(document).on('click', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
+					$(document).on('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
 						var $currentGrid, $row, isRowSelected, $checks,
 							$target = $(e.target);
 
@@ -119,7 +144,7 @@
 						}
 					});
 					if (settings.selectableRows > 1) {
-						$(document).on('click', '#' + id + ' .select-on-check-all', function () {
+						$(document).on('click.yiiGridView', '#' + id + ' .select-on-check-all', function () {
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
@@ -139,7 +164,7 @@
 						});
 					}
 				} else {
-					$(document).on('click', '#' + id + ' .select-on-check', false);
+					$(document).on('click.yiiGridView', '#' + id + ' .select-on-check', false);
 				}
 			});
 		},

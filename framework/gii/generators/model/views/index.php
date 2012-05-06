@@ -38,6 +38,14 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 
+	<div class="row sticky connection">
+		<?php echo $form->labelEx($model, 'connectionId')?>
+		<?php echo $form->dropDownList($model, 'connectionId', $model->getConnectionList(), array('width'=>65))?>
+		<div class="tooltip">
+		Please select which database connection should be used.
+		</div>
+		<?php echo $form->error($model,'connectionId'); ?>
+	</div>
 	<div class="row sticky">
 		<?php echo $form->labelEx($model,'tablePrefix'); ?>
 		<?php echo $form->textField($model,'tablePrefix', array('size'=>65)); ?>
@@ -57,9 +65,13 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 			'model'=>$model,
 			'attribute'=>'tableName',
 			'name'=>'tableName',
-			'source'=>array_keys(Yii::app()->db->schema->getTables()),
+			'source'=>array_keys(Yii::app()->{$model->connectionId}->schema->getTables()),
 			'options'=>array(
 				'minLength'=>'0',
+				'focus' => 'js:function(event,ui) {
+					$("#'.CHtml::activeId($model,'tableName').'").val(ui.item.label);
+					return false;
+				}'
 			),
 			'htmlOptions'=>array(
 				'id'=>'ModelCode_tableName',

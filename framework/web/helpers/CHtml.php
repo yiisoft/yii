@@ -55,18 +55,18 @@ class CHtml
 
 	/**
 	 * Sets the default style for attaching jQuery event handlers.
-	 * 
-	 * If set to true (default), live/delegated style is used. Event handlers 
-	 * are attached to the document body and can process events from descendant 
+	 *
+	 * If set to true (default), live/delegated style is used. Event handlers
+	 * are attached to the document body and can process events from descendant
 	 * elements that are added to the document at a later time.
-	 * 
-	 * If set to false, direct style is used. Event handlers are attached directly 
-	 * to the DOM element, that must already exist on the page. Elements injected 
+	 *
+	 * If set to false, direct style is used. Event handlers are attached directly
+	 * to the DOM element, that must already exist on the page. Elements injected
 	 * into the page at a later time will not be processed.
-	 * 
+	 *
 	 * You can override this setting for a particular element by setting the htmlOptions live attribute
 	 * (see {@link clientChange}).
-	 * 
+	 *
 	 * For more information about attaching jQuery event handler see {@link http://api.jquery.com/on/}
 	 * @since 1.1.9
 	 * @see clientChange
@@ -1204,7 +1204,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('text',$model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
 	 * Generates a url field input for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
@@ -1224,7 +1224,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('url',$model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
 	 * Generates an email field input for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
@@ -1244,7 +1244,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('email',$model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
 	 * Generates a number field input for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
@@ -1264,7 +1264,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('number',$model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
 	 * Generates a range field input for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
@@ -1284,7 +1284,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('range',$model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
 	 * Generates a date field input for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
@@ -1303,8 +1303,8 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('date',$model,$attribute,$htmlOptions);
-	}	
-	
+	}
+
 
 	/**
 	 * Generates a hidden input for a model attribute.
@@ -1810,7 +1810,7 @@ EOD;
 	 */
 	public static function getIdByName($name)
 	{
-		return str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+		return str_replace(array('[]', '][', '[', ']', ' '), array('', '_', '_', '', '_'), $name);
 	}
 
 	/**
@@ -2192,32 +2192,17 @@ EOD;
 		else
 			$raw=false;
 
-		if($raw)
+		foreach($htmlOptions as $name=>$value)
 		{
-			foreach($htmlOptions as $name=>$value)
+			if(isset($specialAttributes[$name]))
 			{
-				if(isset($specialAttributes[$name]))
-				{
-					if($value)
-						$html .= ' ' . $name . '="' . $name . '"';
-				}
-				else if($value!==null)
-					$html .= ' ' . $name . '="' . $value . '"';
+				if($value)
+					$html .= ' ' . $name . '="' . $name . '"';
 			}
+			else if($value!==null)
+				$html .= ' ' . $name . '="' . ($raw ? $value : self::encode($value)) . '"';
 		}
-		else
-		{
-			foreach($htmlOptions as $name=>$value)
-			{
-				if(isset($specialAttributes[$name]))
-				{
-					if($value)
-						$html .= ' ' . $name . '="' . $name . '"';
-				}
-				else if($value!==null)
-					$html .= ' ' . $name . '="' . self::encode($value) . '"';
-			}
-		}
+
 		return $html;
 	}
 }

@@ -14,7 +14,7 @@
 ------------
  * [Добавлена поддержка URL в стиле REST](/doc/guide/topics.url#user-friendly-urls)
  * [Добавлена поддержка кэширования запросов](/doc/guide/caching.data#query-caching)
- * [Теперь возможно передать параметры именованной группе условий связи](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * [Теперь возможно передавать параметры именованным группам условий связи](/doc/guide/database.arr#relational-query-with-named-scopes)
  * [Добавлена возможность выполнения реляционных запросов без получения данных из связанных моделей](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
  * [В AR добавлена поддержка связей HAS_MANY through и HAS_ONE through](/doc/guide/database.arr#relational-query-with-through)
  * [В миграции добавлена поддержка транзакций](/doc/guide/database.migration#transactional-migrations)
