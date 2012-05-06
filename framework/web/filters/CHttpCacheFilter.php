@@ -118,14 +118,24 @@ class CHttpCacheFilter extends CFilter
 		return true;
 	}
 	
+	/**
+	 * Check if the etag supplied by the client matches our generated one
+	 * @param string $etag
+	 * @return boolean true if the supplied etag matches $etag
+	 */
 	private function checkEtag($etag)
 	{
 		return isset($_SERVER['HTTP_IF_NONE_MATCH'])&&$_SERVER['HTTP_IF_NONE_MATCH']==$etag;
 	}
 	
+	/**
+	 * Check if the last modified date supplied by the client is still up to date
+	 * @param integer $lastModified
+	 * @return boolean true if the last modified date sent by the client is newer or equal to $lastModified
+	 */
 	private function checkLastModified($lastModified)
 	{
-		return isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified;
+		return isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified;
 	}
 
 	/**
