@@ -20,8 +20,9 @@
 class CHttpCacheFilter extends CFilter
 {
 	/**
-	 * Timestamp for the last modification date. Must be a string parsable by {@link http://php.net/strtotime strtotime()}.
-	 * @var string
+	 * Timestamp for the last modification date. Must be either a string parsable by 
+	 * {@link http://php.net/strtotime strtotime()} or an integer representing a unix timestamp.
+	 * @var string|integer
 	 */
 	public $lastModified;
 
@@ -54,22 +55,29 @@ class CHttpCacheFilter extends CFilter
 		if(!in_array(Yii::app()->getRequest()->getRequestType(), array('GET', 'HEAD')))
 			return true;
 		
+		$lastModified=null;
 		if($this->lastModifiedExpression)
 		{
 			$value=$this->evaluateExpression($this->lastModifiedExpression);
-			if(($lastModified=strtotime($value))===false)
-				throw new CException(Yii::t('yii','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result could not be understood by strtotime()'));
+			if(is_numeric($value)&&$value==(int)$value)
+				$lastModified=$value;
+			else if(($lastModified=strtotime($value))===false)
+				throw new CException(Yii::t('yii','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()',
+					array('{value}'=>$value)));
 		}
-		else
+		else if($this->lastModified)
 		{
-			if(($lastModified=strtotime($this->lastModified))===false)
+			if(is_numeric($this->lastModified)&&$this->lastModified==(int)$this->lastModified)
+				$lastModified=$this->lastModified;
+			else if(($lastModified=strtotime($this->lastModified))===false)
 				throw new CException(Yii::t('yii','CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()'));
 		}
-		
+
+		$etag=null;
 		if($this->etagSeedExpression)
 			$etag=$this->generateEtag($this->evaluateExpression($this->etagSeedExpression));
-		else
-			$etag=$this->generateEtag($this->etagSeed);
+		else if($this->etagSeed)
+			$etag=$this->generateEtag($this->etagSeed);			
 
 		if($etag===null&&$lastModified===null)
 			return true;
