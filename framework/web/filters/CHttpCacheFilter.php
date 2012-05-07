@@ -65,7 +65,7 @@ class CHttpCacheFilter extends CFilter
 		{
 			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
 			{
-				$this->send304Header(1.1);
+				$this->send304Header();
 				return false;
 			}
 		}
@@ -81,7 +81,7 @@ class CHttpCacheFilter extends CFilter
 		{
 			if($this->checkEtag($etag))
 			{
-				$this->send304Header(1.1);
+				$this->send304Header();
 				return false;
 			}
 			
@@ -163,15 +163,10 @@ class CHttpCacheFilter extends CFilter
 
 	/**
 	 * Sends the 304 HTTP status code to the client
-	 * @param float $httpVersion Fallback value for the http version (just in case 
-	 * it is not set in the $_SERVER superglobal)
 	 */
-	protected function send304Header($httpVersion=1.0)
+	protected function send304Header()
 	{
-		if(isset($_SERVER['SERVER_PROTOCOL']))
-			header($_SERVER['SERVER_PROTOCOL'].' 304 Not modified');
-		else
-			header(sprintf('HTTP/%.1f 304 Not Modified', $httpVersion));
+		header('HTTP/1.1 304 Not Modified');
 	}
 	
 	/**
