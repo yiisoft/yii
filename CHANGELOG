@@ -32,6 +32,7 @@ Version 1.1.11 work in progress
 - Enh #356: Improved extendability of CDetailView by adding method renderItem() (cebe)
 - Enh #414: Added sort parameter to yiic message command that sorts messages by key when merging (ranvis)
 - Enh #455: Added support for default value in CConsoleCommand::prompt (eagleoneraptor)
+- Enh #552: Added support for http-level caching via CHttpCacheFilter (DaSourcerer)
 - Enh #568: CHtml::getIdByName() will now convert spaces to underscore to get proper ID for HTML elements (mdomba)
 - Enh #578: Added extension checks to CMemCache (samdark)
 - Enh #599: Added case sensitivity check when autoloading classes (qiangxue)
