@@ -123,7 +123,7 @@ class CHttpCacheFilter extends CFilter
 	 * @param string $etag
 	 * @return boolean true if the supplied etag matches $etag
 	 */
-	private function checkEtag($etag)
+	protected function checkEtag($etag)
 	{
 		return isset($_SERVER['HTTP_IF_NONE_MATCH'])&&$_SERVER['HTTP_IF_NONE_MATCH']==$etag;
 	}
@@ -133,7 +133,7 @@ class CHttpCacheFilter extends CFilter
 	 * @param integer $lastModified
 	 * @return boolean true if the last modified date sent by the client is newer or equal to $lastModified
 	 */
-	private function checkLastModified($lastModified)
+	protected function checkLastModified($lastModified)
 	{
 		return isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified;
 	}
@@ -141,7 +141,7 @@ class CHttpCacheFilter extends CFilter
 	/**
 	 * Send the 304 HTTP status code to the client
 	 */
-	private function send304()
+	protected function send304()
 	{
 		header($_SERVER['SERVER_PROTOCOL'].' 304 Not modified');
 	}
@@ -150,7 +150,7 @@ class CHttpCacheFilter extends CFilter
 	 * Generates a quoted string out of the seed
 	 * @param mixed $seed Seed for the ETag
 	 */
-	private function generateEtag($seed)
+	protected function generateEtag($seed)
 	{
 		return '"'.base64_encode(sha1(serialize($seed), true)).'"';
 	}
