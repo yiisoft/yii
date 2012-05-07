@@ -55,38 +55,17 @@ class CHttpCacheFilter extends CFilter
 		if(!in_array(Yii::app()->getRequest()->getRequestType(), array('GET', 'HEAD')))
 			return true;
 		
-		$lastModified=null;
-		if($this->lastModifiedExpression)
-		{
-			$value=$this->evaluateExpression($this->lastModifiedExpression);
-			if(is_numeric($value)&&$value==(int)$value)
-				$lastModified=$value;
-			else if(($lastModified=strtotime($value))===false)
-				throw new CException(Yii::t('yii','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()',
-					array('{value}'=>$value)));
-		}
-		else if($this->lastModified)
-		{
-			if(is_numeric($this->lastModified)&&$this->lastModified==(int)$this->lastModified)
-				$lastModified=$this->lastModified;
-			else if(($lastModified=strtotime($this->lastModified))===false)
-				throw new CException(Yii::t('yii','CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()'));
-		}
-
-		$etag=null;
-		if($this->etagSeedExpression)
-			$etag=$this->generateEtag($this->evaluateExpression($this->etagSeedExpression));
-		else if($this->etagSeed)
-			$etag=$this->generateEtag($this->etagSeed);			
-
-		if($etag===null&&$lastModified===null)
+		$lastModified=$this->getLastModifiedValue();
+		$etag=$this->getEtagValue();
+		
+		if($etag===false&&$lastModified===false)
 			return true;
 		
 		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
 			{
-				$this->send304();
+				$this->send304Header(1.1);
 				return false;
 			}
 		}
@@ -94,7 +73,7 @@ class CHttpCacheFilter extends CFilter
 		{
 			if($this->checkLastModified($lastModified))
 			{
-				$this->send304();
+				$this->send304Header();
 				return false;
 			}
 		}
@@ -102,7 +81,7 @@ class CHttpCacheFilter extends CFilter
 		{
 			if($this->checkEtag($etag))
 			{
-				$this->send304();
+				$this->send304Header(1.1);
 				return false;
 			}
 			
@@ -119,6 +98,50 @@ class CHttpCacheFilter extends CFilter
 	}
 	
 	/**
+	 * Gets the last modified value from either {@link lastModifiedExpression} or {@lastModified}
+	 * and converts it into a unix timestamp if necessary
+	 * @throws CException
+	 * @return integer|boolean A unix timestamp or false if neither lastModified nor
+	 * lastModifiedExpression have been set
+	 */
+	protected function getLastModifiedValue()
+	{
+		if($this->lastModifiedExpression)
+		{
+			$value=$this->evaluateExpression($this->lastModifiedExpression);
+			if(is_numeric($value)&&$value==(int)$value)
+				return $value;
+			else if(($lastModified=strtotime($value))===false)
+				throw new CException(Yii::t('yii','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()',
+					array('{value}'=>$value)));
+			return $lastModified;
+		}
+		
+		if($this->lastModified)
+		{
+			if(is_numeric($this->lastModified)&&$this->lastModified==(int)$this->lastModified)
+				return $this->lastModified;
+			else if(($lastModified=strtotime($this->lastModified))===false)
+				throw new CException(Yii::t('yii','CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()'));
+			return $lastModified;
+		}
+		return false;
+	}
+	
+	/**
+	 *  Gets the ETag out of either {@link etagSeedExpression} or {@link etagSeed}
+	 *  @return string|boolean Either a quoted string serving as ETag or false if neither etagSeed nor etagSeedExpression have been set 
+	 */
+	protected function getEtagValue()
+	{
+		if($this->etagSeedExpression)
+			return $this->generateEtag($this->evaluateExpression($this->etagSeedExpression));
+		else if($this->etagSeed)
+			return $this->generateEtag($this->etagSeed);
+		return false;		
+	}
+	
+	/**
 	 * Check if the etag supplied by the client matches our generated one
 	 * @param string $etag
 	 * @return boolean true if the supplied etag matches $etag
@@ -129,7 +152,7 @@ class CHttpCacheFilter extends CFilter
 	}
 	
 	/**
-	 * Check if the last modified date supplied by the client is still up to date
+	 * Checks if the last modified date supplied by the client is still up to date
 	 * @param integer $lastModified
 	 * @return boolean true if the last modified date sent by the client is newer or equal to $lastModified
 	 */
@@ -139,11 +162,16 @@ class CHttpCacheFilter extends CFilter
 	}
 
 	/**
-	 * Send the 304 HTTP status code to the client
+	 * Sends the 304 HTTP status code to the client
+	 * @param float $httpVersion Fallback value for the http version (just in case 
+	 * it is not set in the $_SERVER superglobal)
 	 */
-	protected function send304()
+	protected function send304Header($httpVersion=1.0)
 	{
-		header($_SERVER['SERVER_PROTOCOL'].' 304 Not modified');
+		if(isset($_SERVER['SERVER_PROTOCOL']))
+			header($_SERVER['SERVER_PROTOCOL'].' 304 Not modified');
+		else
+			header(sprintf('HTTP/%.1f 304 Not Modified', $httpVersion));
 	}
 	
 	/**
