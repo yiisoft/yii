@@ -48,12 +48,11 @@ ends after the enclosed content (action) is evaluated.
 
 HTTP Caching
 ------------
-In addition to simply caching the output of an action, Yii introduces 
+In addition to simply caching the output of an action, Yii introduced 
 [CHttpCacheFilter] in version 1.1.11. This filter aids in setting the 
 aforementioned headers to notify a client that a page's content has not been 
-changed since the last time it got requested, so the server will not have to 
-re-transmit the content. [CHttpCacheFilter] can be set up similar to 
-[COutputCache]:
+changed since the last request, so the server will not have to re-transmit the
+content. [CHttpCacheFilter] can be set up similar to [COutputCache]:
 ~~~
 [php]
 public function filters()
@@ -67,7 +66,7 @@ public function filters()
 }
 ~~~
 The above code will set the `Last-Modified` header to the last date at which a 
-post got updated. For lazy evaluation,
+post was updated. For lazy evaluation,
 [CHttpCacheFilter::lastModifiedExpression] is available.
 
 > Tip: Both, [CHttpCacheFilter::lastModifiedExpression] and 
@@ -79,8 +78,8 @@ conversion is necessary.
 
 The "Entity Tag" (or `ETag` for short) header can be set in a similar fashion 
 through [CHttpCacheFilter::etagSeed] and [CHttpCacheFilter::etagSeedExpression] 
-respectively. Both will be serialized (so you can use either a single value or
-an entire array) and then be used to generate a quoted, base64-encoded SHA1
+, respectively. Both will be serialized (so you can use either a single value
+or an entire array) and are used to generate a quoted, base64-encoded SHA1
 hash serving as content for the `ETag` header. This differs from the way the
 [Apache Webserver](http://httpd.apache.org) and others are generating their
 ETags. However, this method is perfectly in line with the RFC and turned out to
@@ -96,18 +95,15 @@ Since entity tags are hashes, they allow more complex and/or more precise
 caching strategies than `Last-Modified` headers. For instance, an ETag can be
 invalidated if the site has switched to another theme.
 
-> Tip: Do not get too carried away. Expensive expressions for
-[CHttpCacheFilter::etagSeedExpression] might defeat the purpose of
-[CHttpCacheFilter] and introduce unnecessary overhead, since they need to be
-re-evaluated on every request.
-
-Try to find a simple expression that invalidates the cache if the page
-*content* has been modified. The visual representation should come in second.
+> Tip: Expensive expressions for [CHttpCacheFilter::etagSeedExpression] may
+defeat the purpose of [CHttpCacheFilter] and introduce unnecessary overhead,
+since they need to be re-evaluated on every request. Try to find a simple
+expression that invalidates the cache if the page *content* has been modified.
 
 ### SEO Implications
 Search engine bots tend to respect cache headers. Since some crawlers have a
-limit on how many pages per domain they process within a certain timespan,
-introducing caching headers might help indexing your site as they reduce the
+limit on how many pages per domain they process within a certain time span,
+introducing caching headers may help indexing your site as they reduce the
 number of pages that need to be processed.
 
 It seems that the `Last-Modified` header is favored by most search engines.
