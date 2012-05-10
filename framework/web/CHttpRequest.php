@@ -1091,16 +1091,23 @@ class CCookieCollection extends CMap
 	 * Removes a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
 	 * cleanup work when removing a CHttpCookie object.
+	 * Since version 1.1.11, the second parameter is available that can be used to specify
+	 * the options of the CHttpCookie being removed.
 	 * @param mixed $name Cookie name.
+	 * @param array $options Cookie configuration array consisting of name-value pairs. 
 	 * @return CHttpCookie The removed cookie object.
 	 */
-	public function remove($name)
+	public function remove($name,$options=array())
 	{
 		if(($cookie=parent::remove($name))!==null)
 		{
 			if($this->_initialized)
+			{
+				$cookie->configure($options);
 				$this->removeCookie($cookie);
+			}
 		}
+		
 		return $cookie;
 	}
 
