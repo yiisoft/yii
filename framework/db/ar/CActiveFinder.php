@@ -1323,7 +1323,7 @@ class CJoinQuery
 	/**
 	 * Creates the SQL statement.
 	 * @param CDbCommandBuilder $builder the command builder
-	 * @return string the SQL statement
+	 * @return CDbCommand DB command instance representing the SQL statement
 	 */
 	public function createCommand($builder)
 	{
