@@ -21,6 +21,16 @@ General upgrade intructions
 
 Upgrading from v1.1.10
 ----------------------
+- API of protected method CConsoleCommand::afterAction() changed, if you are overiding this method make sure to update your code.
+  method now has a 3rd parameter for application exit code, so you have to adjust the signature to fit
+  
+      protected function afterAction($action,$params,$exitCode=0)
+  
+  and the parent call to
+  
+      parent::afterAction($action,$params,$exitCode);
+
+- CDateFormat::format() now will return null if the parameter $time is null. Previously it would return 1/1/1970.
 
 Upgrading from v1.1.9
 ---------------------

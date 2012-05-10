@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5968',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -842,7 +842,6 @@ return array (
     '054' => 'Melanezija',
     '057' => 'mikronezijska regija',
     '061' => 'Polinezija',
-    '062' => 'Južna osrednja Azija',
     142 => 'Azija',
     143 => 'Osrednja Azija',
     145 => 'Zahodna Azija',
@@ -850,9 +849,7 @@ return array (
     151 => 'Vzhodna Evropa',
     154 => 'Severna Evropa',
     155 => 'Zahodna Evropa',
-    172 => 'Skupnost neodvisnih držav',
     419 => 'Latinska Amerika',
-    830 => 'Kanalski otoki',
     'ac' => 'Otok Ascension',
     'ad' => 'Andora',
     'ae' => 'Združeni arabski emirati',
