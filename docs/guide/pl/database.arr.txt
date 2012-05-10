@@ -103,7 +103,7 @@ W takim przypadku, powinniśmy złączyć nazwy kolumn dla kluczy obcych rozdzie
 lub przekazać je pod postacią tablicy, np. array('klucz1','klucz2').
 W przypadku gdy potrzebujesz zdefiniować niestandardowe przypisanie PK->FK, możesz
 zdefiniować ją jako tablicę array('fk'=>'pk'). 
-Dla kluczy złożonych będzie to tablica array('fk_c1'=>'pk_с1','fk_c2'=>'pk_c2').
+Dla kluczy złożonych będzie to tablica array('fk_c1'=>'pk_c1','fk_c2'=>'pk_c2').
 Dla relacji typu `MANY_MANY`, nazwa tablicy asocjacyjnej musi 
 również być określona w kluczu obcym. Na przykład, relacja kategorii `categories` w `tbl_post`
 jest określona przez klucz obcy `tbl_post_category(post_id, category_id)`.
@@ -611,8 +611,8 @@ W przypadku korzystania z `through`, definicja relacji powinna wyglądać w nast
 
 W powyższym przykładzie tablica array('key1'=>'key2')`:
 
-  - `key1` jest kluczem zdefiniowanym w `throughRelationName`.
-  - `key2` jest kluczem zdefiniowanym w `ClassName`.
+  - `key1` jest kluczem zdefiniowanym w relacji określonej w `through` (w powyższym przykładzie `posts`).
+  - `key2` jest kluczem zdefiniowanym w relacji do modelu (w powyższym przykładzie `Comment`).
 
 Pomost `through` można używać z relacjami typu `HAS_ONE` oraz `HAS_MANY`.
 
@@ -732,4 +732,4 @@ $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
 
-<div class="revision">$Id: database.arr.txt 3416 2011-10-13 18:18:13Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 3523 2011-12-30 20:32:29Z alexander.makarow $</div>

@@ -1,9 +1,28 @@
 <?php
+/**
+ * CHttpCacheFilter class file.
+ *
+ * @author Da:Sourcerer <webmaster@dasourcerer.net>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2012 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
+ * CHttpCacheFilter implements http caching. It works a lot like {@link COutputCache}
+ * as a filter, except that content caching is being done on the client side.
+ *
+ * @author Da:Sourcerer <webmaster@dasourcerer.net>
+ * @version $Id$
+ * @package system.web.filters
+ * @since 1.1.11
+ */
 class CHttpCacheFilter extends CFilter
 {
 	/**
-	 * Timestamp for the last modification date. Must be a string parsable by {@link http://php.net/strtotime strtotime()}.
-	 * @var string
+	 * Timestamp for the last modification date. Must be either a string parsable by 
+	 * {@link http://php.net/strtotime strtotime()} or an integer representing a unix timestamp.
+	 * @var string|integer
 	 */
 	public $lastModified;
 
@@ -36,58 +55,126 @@ class CHttpCacheFilter extends CFilter
 		if(!in_array(Yii::app()->getRequest()->getRequestType(), array('GET', 'HEAD')))
 			return true;
 		
-		if($this->lastModified || $this->lastModifiedExpression)
+		$lastModified=$this->getLastModifiedValue();
+		$etag=$this->getEtagValue();
+		
+		if($etag===false&&$lastModified===false)
+			return true;
+		
+		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
-			if($this->lastModifiedExpression)
+			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
 			{
-				$value=$this->evaluateExpression($this->lastModifiedExpression);
-				if(($lastModified=strtotime($value))===false)
-					throw new CException("HttpCacheFilter.lastModifiedExpression evaluated to '{$value}' which could not be understood by strtotime()");
+				$this->send304Header();
+				return false;
 			}
-			else
+		}
+		else if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+		{
+			if($this->checkLastModified($lastModified))
 			{
-				if(($lastModified=strtotime($this->lastModified))===false)
-					throw new CException("HttpCacheFilter.lastModified contained '{$this->lastModified}' which could not be understood by strottime()");
+				$this->send304Header();
+				return false;
 			}
-			
-			if(key_exists('HTTP_IF_MODIFIED_SINCE', $_SERVER) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified)
+		}
+		else if(isset($_SERVER['HTTP_IF_NONE_MATCH']))
+		{
+			if($this->checkEtag($etag))
 			{
-				$this->send304();
+				$this->send304Header();
 				return false;
 			}
 			
+		}
+				
+		if($lastModified)
 			header('Last-Modified: '.date('r', $lastModified));
-		}
-		elseif($this->etagSeed || $this->etagSeedExpression)
-		{
-			if($this->etagSeedExpression)
-				$etag=$this->generateEtag($this->evaluateExpression($this->etagSeedExpression));
-			else
-				$etag=$this->generateEtag($this->etagSeed);
-			
-			if(key_exists('HTTP_IF_NONE_MATCH', $_SERVER) && $_SERVER['HTTP_IF_NONE_MATCH']==$etag)
-			{
-				$this->send304();
-				return false;
-			}
-			
+		
+		if($etag)
 			header('ETag: '.$etag);
-		}
 		
 		header('Cache-Control: ' . $this->cacheControl);
 		return true;
 	}
-
+	
 	/**
-	 * Send the 304 HTTP status code to the client
+	 * Gets the last modified value from either {@link lastModifiedExpression} or {@lastModified}
+	 * and converts it into a unix timestamp if necessary
+	 * @throws CException
+	 * @return integer|boolean A unix timestamp or false if neither lastModified nor
+	 * lastModifiedExpression have been set
 	 */
-	private function send304()
+	protected function getLastModifiedValue()
 	{
-		header($_SERVER['SERVER_PROTOCOL'].' 304 Not modified');
+		if($this->lastModifiedExpression)
+		{
+			$value=$this->evaluateExpression($this->lastModifiedExpression);
+			if(is_numeric($value)&&$value==(int)$value)
+				return $value;
+			else if(($lastModified=strtotime($value))===false)
+				throw new CException(Yii::t('yii','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()',
+					array('{value}'=>$value)));
+			return $lastModified;
+		}
+		
+		if($this->lastModified)
+		{
+			if(is_numeric($this->lastModified)&&$this->lastModified==(int)$this->lastModified)
+				return $this->lastModified;
+			else if(($lastModified=strtotime($this->lastModified))===false)
+				throw new CException(Yii::t('yii','CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()'));
+			return $lastModified;
+		}
+		return false;
 	}
 	
-	private function generateEtag($seed)
+	/**
+	 *  Gets the ETag out of either {@link etagSeedExpression} or {@link etagSeed}
+	 *  @return string|boolean Either a quoted string serving as ETag or false if neither etagSeed nor etagSeedExpression have been set 
+	 */
+	protected function getEtagValue()
 	{
-		return '"'.base64_encode(hash('ripemd160', serialize($seed), true)).'"';
+		if($this->etagSeedExpression)
+			return $this->generateEtag($this->evaluateExpression($this->etagSeedExpression));
+		else if($this->etagSeed)
+			return $this->generateEtag($this->etagSeed);
+		return false;		
+	}
+	
+	/**
+	 * Check if the etag supplied by the client matches our generated one
+	 * @param string $etag
+	 * @return boolean true if the supplied etag matches $etag
+	 */
+	protected function checkEtag($etag)
+	{
+		return isset($_SERVER['HTTP_IF_NONE_MATCH'])&&$_SERVER['HTTP_IF_NONE_MATCH']==$etag;
+	}
+	
+	/**
+	 * Checks if the last modified date supplied by the client is still up to date
+	 * @param integer $lastModified
+	 * @return boolean true if the last modified date sent by the client is newer or equal to $lastModified
+	 */
+	protected function checkLastModified($lastModified)
+	{
+		return isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])>=$lastModified;
+	}
+
+	/**
+	 * Sends the 304 HTTP status code to the client
+	 */
+	protected function send304Header()
+	{
+		header('HTTP/1.1 304 Not Modified');
+	}
+	
+	/**
+	 * Generates a quoted string out of the seed
+	 * @param mixed $seed Seed for the ETag
+	 */
+	protected function generateEtag($seed)
+	{
+		return '"'.base64_encode(sha1(serialize($seed), true)).'"';
 	}
 }

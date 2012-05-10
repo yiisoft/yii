@@ -34,6 +34,8 @@
  * }
  * </pre>
  *
+ * Since version 1.1.11 the return value of action methods will be used as application exit code if it is an integer value.
+ *
  * @property string $name The command name.
  * @property CConsoleCommandRunner $commandRunner The command runner instance.
  * @property string $help The command description. Defaults to 'Usage: php entry-script.php command-name'.
@@ -65,6 +67,7 @@ abstract class CConsoleCommand extends CComponent
 	{
 		$this->_name=$name;
 		$this->_runner=$runner;
+		$this->attachBehaviors($this->behaviors());
 	}
 
 	/**
@@ -78,11 +81,39 @@ abstract class CConsoleCommand extends CComponent
 	}
 
 	/**
+	 * Returns a list of behaviors that this command should behave as.
+	 * The return value should be an array of behavior configurations indexed by
+	 * behavior names. Each behavior configuration can be either a string specifying
+	 * the behavior class or an array of the following structure:
+	 * <pre>
+	 * 'behaviorName'=>array(
+	 *     'class'=>'path.to.BehaviorClass',
+	 *     'property1'=>'value1',
+	 *     'property2'=>'value2',
+	 * )
+	 * </pre>
+	 *
+	 * Note, the behavior classes must implement {@link IBehavior} or extend from
+	 * {@link CBehavior}. Behaviors declared in this method will be attached
+	 * to the controller when it is instantiated.
+	 *
+	 * For more details about behaviors, see {@link CComponent}.
+	 * @return array the behavior configurations (behavior name=>behavior configuration)
+	 * @since 1.1.11
+	 */
+	public function behaviors()
+	{
+		return array();
+	}
+
+	/**
 	 * Executes the command.
 	 * The default implementation will parse the input parameters and
 	 * dispatch the command request to an appropriate action with the corresponding
 	 * option values
 	 * @param array $args command line parameters for this command.
+	 * @return integer application exit code, which is returned by the invoked action. 0 if the action did not return anything.
+	 * (return value is available since version 1.1.11)
 	 */
 	public function run($args)
 	{
@@ -136,11 +167,13 @@ abstract class CConsoleCommand extends CComponent
 		if(!empty($options))
 			$this->usageError("Unknown options: ".implode(', ',array_keys($options)));
 
+		$exitCode=0;
 		if($this->beforeAction($action,$params))
 		{
-			$method->invokeArgs($this,$params);
-			$this->afterAction($action,$params);
+			$exitCode=$method->invokeArgs($this,$params);
+			$exitCode=$this->afterAction($action,$params,is_int($exitCode)?$exitCode:0);
 		}
+		return $exitCode;
 	}
 
 	/**
@@ -152,7 +185,16 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	protected function beforeAction($action,$params)
 	{
-		return true;
+		if($this->hasEventHandler('onBeforeAction'))
+		{
+			$event = new CConsoleCommandEvent($this,$params,$action);
+			$this->onBeforeAction($event);
+			return !$event->stopCommand;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -160,9 +202,15 @@ abstract class CConsoleCommand extends CComponent
 	 * You may override this method to do some postprocessing for the action.
 	 * @param string $action the action name
 	 * @param array $params the parameters to be passed to the action method.
+	 * @param integer $exitCode the application exit code returned by the action method.
+	 * @return integer application exit code (return value is available since version 1.1.11)
 	 */
-	protected function afterAction($action,$params)
+	protected function afterAction($action,$params,$exitCode=0)
 	{
+		$event=new CConsoleCommandEvent($this,$params,$action,$exitCode);
+		if($this->hasEventHandler('onAfterAction'))
+			$this->onAfterAction($event);
+		return $event->exitCode;
 	}
 
 	/**
@@ -467,22 +515,36 @@ abstract class CConsoleCommand extends CComponent
 	 * Reads input via the readline PHP extension if that's available, or fgets() if readline is not installed.
 	 *
 	 * @param string $message to echo out before waiting for user input
+	 * @param string $default the default string to be returned when user does not write anything.
+	 * Defaults to null, means that default string is disabled. This parameter is available since version 1.1.11.
 	 * @return mixed line read as a string, or false if input has been closed
 	 *
 	 * @since 1.1.9
 	 */
-	public function prompt($message)
+	public function prompt($message,$default=null)
 	{
+		if($default!==null)
+			$message.=" [$default] ";
+		else
+			$message.=' ';
+
 		if(extension_loaded('readline'))
 		{
-			$input = readline($message.' ');
-			readline_add_history($input);
-			return $input;
+			$input=readline($message);
+			if($input!==false)
+				readline_add_history($input);
 		}
 		else
 		{
-			echo $message.' ';
-			return trim(fgets(STDIN));
+			echo $message;
+			$input=fgets(STDIN);
+		}
+
+		if($input===false)
+			return false;
+		else{
+			$input=trim($input);
+			return ($input==='' && $default!==null) ? $default : $input;
 		}
 	}
 
@@ -490,13 +552,36 @@ abstract class CConsoleCommand extends CComponent
 	 * Asks user to confirm by typing y or n.
 	 *
 	 * @param string $message to echo out before waiting for user input
+	 * @param bool $default this value is returned if no selection is made. This parameter has been available since version 1.1.11.
 	 * @return bool if user confirmed
 	 *
 	 * @since 1.1.9
 	 */
-	public function confirm($message)
+	public function confirm($message, $default = false)
 	{
-		echo $message.' [yes|no] ';
-		return !strncasecmp(trim(fgets(STDIN)),'y',1);
+		echo $message.' (yes|no) [' . ($default ? 'yes' : 'no') . ']:';
+
+		$input = trim(fgets(STDIN));
+		return empty($input) ? $default : !strncasecmp($input,'y',1);
+	}
+
+	/**
+	 * This event is raised before an action is to be executed.
+	 * @param CConsoleCommandEvent $event the event parameter
+	 * @since 1.1.11
+	 */
+	public function onBeforeAction($event)
+	{
+		$this->raiseEvent('onBeforeAction',$event);
+	}
+
+	/**
+	 * This event is raised after an action finishes execution.
+	 * @param CConsoleCommandEvent $event the event parameter
+	 * @since 1.1.11
+	 */
+	public function onAfterAction($event)
+	{
+		$this->raiseEvent('onAfterAction',$event);
 	}
 }

@@ -368,7 +368,7 @@ div.form.gii .row.sticky .value, span.sticky
 	background: lightyellow;
 }
 
-div.form.gii .row.template select
+div.form.gii .row.template select, .row.connection select
 {
 	width: 420px;
 }

@@ -71,4 +71,8 @@ return array(
 		'js'=>array('jquery.ba-bbq.js'),
 		'depends'=>array('jquery'),
 	),
+	'history'=>array(
+		'js'=>array('jquery.history.js'),
+		'depends'=>array('jquery'),
+	),
 );

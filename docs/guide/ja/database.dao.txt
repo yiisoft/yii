@@ -52,7 +52,7 @@ DSN のフォーマットは、使用する PDO データベースドライバ�
 [CDbConnection] は [CApplicationComponent] から拡張されているため、
 [アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
 として使用できます。そうするには、
-[application configuration](/doc/guide/basics.application#application-configuration) 内で
+[アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 内で
 `db` (もしくは他の名前の)アプリケーションコンポーネントを下記のように設定します。
 
 ~~~
@@ -72,7 +72,7 @@ array(
 )
 ~~~
 
-その後、[CDbConnection::autoConnect] 設定が flase になっていない限り、
+その後、[CDbConnection::autoConnect] 設定が false になっていない限り、
 すでに自動的にアクティブになっている `Yii::app()->db` を利用して
 DB 接続にアクセスできます。このアプローチを使うと、単一の DB 接続を、
 コード中の色々な場所で共有することができます。

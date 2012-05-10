@@ -18,7 +18,7 @@
 return array (
   'Are you sure you want to delete this item?' => 'Odstranit záznam?',
   'Delete' => 'Odstranit',
-  'Displaying {start}-{end} of {count} result(s).' => 'Zobrazených {start}-{end} z celkově {count} záznamů.',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Zobrazených {start}-{end} z celkově {count} záznamů.',
   'Either "name" or "value" must be specified for CDataColumn.' => 'Uveďte prosím  "name" nebo "value" pro CDataColumn.',
   'Home' => 'Domů',
   'No results found.' => 'Nenalezeny žádné záznamy.',
@@ -31,7 +31,7 @@ return array (
   'The button type "{type}" is not supported.' => 'Tlačítko typu "{type}" není podporované.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Sloupec musí být specifikovaný ve tvaru "Name:Type:Label", pričemž "Type" a "Label" jsou nepovinné.',
   'The property "itemView" cannot be empty.' => 'Vlastnost "itemView" nesmí být prázdná.',
-  'Total {count} result(s).' => 'Celkem nalezeno {count} záznamů',
+  'Total 1 result.|Total {count} results.' => 'Celkem nalezeno {count} záznamů',
   'Update' => 'Uložit změny',
   'View' => 'Náhled',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} musí mít specifikované vlastnosti pro "model" a "attribute" nebo "name".',

@@ -235,7 +235,7 @@ abstract class CActiveRecord extends CModel
 	 * or an empty array.
 	 * @param string $name the relation name (see {@link relations})
 	 * @param boolean $refresh whether to reload the related objects from database. Defaults to false.
-	 * @param array $params additional parameters that customize the query conditions as specified in the relation declaration.
+	 * @param mixed $params array or CDbCriteria object with additional parameters that customize the query conditions as specified in the relation declaration.
 	 * @return mixed the related object(s).
 	 * @throws CDbException if the relation is not specified in {@link relations}.
 	 */
@@ -259,6 +259,10 @@ abstract class CActiveRecord extends CModel
 			$exists=isset($this->_related[$name]) || array_key_exists($name,$this->_related);
 			if($exists)
 				$save=$this->_related[$name];
+
+			if($params instanceof CDbCriteria)
+				$params = $params->toArray();
+
 			$r=array($name=>$params);
 		}
 		else
@@ -1277,8 +1281,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function query($criteria,$all=false)
 	{
-        $this->beforeFind();
 		$this->applyScopes($criteria);
+		$this->beforeFind($criteria);
+
 		if(empty($criteria->with))
 		{
 			if(!$all)

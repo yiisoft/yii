@@ -18,7 +18,7 @@
 return array (
   'Are you sure you want to delete this item?' => 'Apakah anda yakin ingin menghapus item ini?',
   'Delete' => 'Hapus',
-  'Displaying {start}-{end} of {count} result(s).' => 'Menampilkan {start}-{end} dari {count} hasil',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Menampilkan {start}-{end} dari {count} hasil',
   'Either "name" or "value" must be specified for CDataColumn.' => 'Antara "name" atau "value" harus ditentukan untuk CDataColumn.',
   'Home' => 'Beranda',
   'No results found.' => 'Tidak ditemukan hasil.',
@@ -31,7 +31,7 @@ return array (
   'The button type "{type}" is not supported.' => 'Tombol jenis "{type}" tidak didukung.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Kolom harus ditentukan dalam format "Name:Type:Label", dengan "Type" dan "Label" bersifat opsional.',
   'The property "itemView" cannot be empty.' => 'Properti "itemView" tidak boleh kosong.',
-  'Total {count} result(s).' => 'Total {count} hasil',
+  'Total 1 result.|Total {count} results.' => 'Total {count} hasil',
   'Update' => 'Update',
   'View' => 'View',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} harus menentukan nilai properti "model" dan "attribute" atau "name"',

@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5886',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -249,7 +249,7 @@ return array (
     'medium' => 'H:mm:ss',
     'short' => 'H:mm',
   ),
-  'dateTimeFormat' => '{1}، ساعت {0}',
+  'dateTimeFormat' => '{1}،‏ {0}',
   'amName' => 'قبل‌ازظهر',
   'pmName' => 'بعدازظهر',
   'orientation' => 'rtl',
@@ -879,7 +879,6 @@ return array (
     '054' => 'ملانزی',
     '057' => 'ناحیهٔ میکرونزی',
     '061' => 'پلی‌نزی',
-    '062' => 'جنوب آسیا و آسیای میانه',
     142 => 'آسیا',
     143 => 'آسیای مرکزی',
     145 => 'غرب آسیا',
@@ -887,7 +886,6 @@ return array (
     151 => 'شرق اروپا',
     154 => 'شمال اروپا',
     155 => 'غرب اروپا',
-    172 => 'کشورهای مستقل مشترک‌المنافع',
     419 => 'امریکای لاتین',
     'ac' => 'جزایر آسنسیون',
     'ad' => 'اندورا',

@@ -22,14 +22,14 @@
  * Controller action:
  * <pre>
  * function actionIndex(){
- *     $criteria = new CDbCriteria();
+ *     $criteria=new CDbCriteria();
  *     $count=Article::model()->count($criteria);
  *     $pages=new CPagination($count);
  *
  *     // results per page
  *     $pages->pageSize=10;
  *     $pages->applyLimit($criteria);
- *     $models = Post::model()->findAll($criteria);
+ *     $models=Article::model()->findAll($criteria);
  *
  *     $this->render('index', array(
  *     'models' => $models,

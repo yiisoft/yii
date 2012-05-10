@@ -44,7 +44,15 @@
  *   // optional, the customized error message to be displayed
  *   // This option is available since version 1.1.1.
  *   'message'=>'Access Denied.',
- * )
+ *   // optional, the denied method callback name, that will be called once the
+ *	 // access is denied, instead of showing the customized error message. It can also be
+ *   // a valid PHP callback, including class method name (array(ClassName/Object, MethodName)),
+ *	 // or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:
+ *	 // function foo($user, $rule) { ... }
+ *	 // where $user is the current application user object and $rule is this access rule.
+ *   // This option is available since version 1.1.11.
+ *   'deniedCallback'=>'redirectToDeniedMethod',
+  * )
  * </pre>
  *
  * @property array $rules List of access rules.
@@ -87,7 +95,7 @@ class CAccessControlFilter extends CFilter
 				$r->allow=$rule[0]==='allow';
 				foreach(array_slice($rule,1) as $name=>$value)
 				{
-					if($name==='expression' || $name==='roles' || $name==='message')
+					if($name==='expression' || $name==='roles' || $name==='message' || $name==='deniedCallback')
 						$r->$name=$value;
 					else
 						$r->$name=array_map('strtolower',$value);
@@ -117,7 +125,10 @@ class CAccessControlFilter extends CFilter
 				break;
 			else if($allow<0) // denied
 			{
-				$this->accessDenied($user,$this->resolveErrorMessage($rule));
+				if(isset($rule->deniedCallback))
+					call_user_func($rule->deniedCallback, $rule);
+				else
+					$this->accessDenied($user,$this->resolveErrorMessage($rule));
 				return false;
 			}
 		}
@@ -222,6 +233,21 @@ class CAccessRule extends CComponent
 	 * @since 1.1.1
 	 */
 	public $message;
+	/**
+	 * @var mixed the denied method callback that will be called once the
+	 * access is denied. It replaces the behavior that shows an error message.
+	 * It can be a valid PHP callback including class method name (array(ClassName/Object, MethodName)),
+	 * or anonymous function (PHP 5.3.0+). For more information, on different options, check
+	 * @link http://www.php.net/manual/en/language.pseudo-types.php#language.types.callback
+	 * The function/method signature should be as follows:
+	 * <pre>
+	 * function foo($rule) { ... }
+	 * </pre>
+	 * where $rule is this access rule.
+	 *
+	 * @since 1.1.11
+	 */
+	public $deniedCallback;
 
 
 	/**
