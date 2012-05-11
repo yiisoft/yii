@@ -86,7 +86,7 @@ class CEmailValidator extends CValidator
 		if($valid && $this->checkMX && function_exists('checkdnsrr'))
 			$valid=checkdnsrr($domain,'MX');
 		if($valid && $this->checkPort && function_exists('fsockopen'))
-			$valid=fsockopen($domain,25)!==false;
+			$valid=$this->checkMxPorts($domain);
 		return $valid;
 	}
 
@@ -114,5 +114,27 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 	messages.push(".CJSON::encode($message).");
 }
 ";
+	}
+	
+	/**
+	 * Retrieves the list of MX records for $domain and checks if port 25
+	 * is opened on any of these.
+	 * @param string $domain
+	 * @return boolean
+	 */
+	protected function checkMxPorts($domain)
+	{
+		$records=dns_get_record($domain, DNS_MX);
+		if($records===false || empty($records))
+			return false;
+		foreach($records as $record)
+		{
+			$handle=fsockopen($record['target'],25);
+			if($handle===false)
+				continue;
+			fclose($handle);
+			return true;
+		}
+		return false;
 	}
 }
