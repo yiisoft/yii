@@ -97,6 +97,7 @@
 	 * @param id string the ID of the list view container
 	 * @param options map the AJAX request options (see jQuery.ajax API manual). By default,
 	 * the URL to be requested is the one that generates the current content of the list view.
+	 * @return the jqXHR object
 	 */
 	$.fn.yiiListView.update = function(id, options) {
 		var settings = $.fn.yiiListView.settings[id];
@@ -127,7 +128,7 @@
 
 		if(settings.beforeAjaxUpdate != undefined)
 			settings.beforeAjaxUpdate(id);
-		$.ajax(options);
+		return $.ajax(options);
 	};
 
 })(jQuery);
