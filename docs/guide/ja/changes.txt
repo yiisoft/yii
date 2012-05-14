@@ -3,6 +3,10 @@
 
 このページは、各々のYiiリリースにおいて導入された主な新機能をまとめています。
 
+Version 1.1.11
+--------------
+ * [http キャッシュのサポートを追加](/doc/guide/caching.page#http-caching)
+
 Version 1.1.9
 -------------
 
@@ -85,4 +89,4 @@ Version 1.1.0
 
  * AR クエリにおける主テーブルのエイリアスを 't' に固定
 
-<div class="revision">$Id: changes.txt 3526 2012-01-01 03:18:43Z qiang.xue $</div>
+<div class="revision">$Id$</div>
