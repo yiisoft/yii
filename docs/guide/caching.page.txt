@@ -106,8 +106,4 @@ limit on how many pages per domain they process within a certain time span,
 introducing caching headers may help indexing your site as they reduce the
 number of pages that need to be processed.
 
-It seems that the `Last-Modified` header is favored by most search engines.
-Most notably, [Google](http://www.google.com) uses the content of this header
-on its result page.
-
 <div class="revision">$Id$</div>
