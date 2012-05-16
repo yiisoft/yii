@@ -85,7 +85,7 @@ class CEmailValidator extends CValidator
 			$domain=rtrim(substr($value,strpos($value,'@')+1),'>');
 		if($valid && $this->checkMX && function_exists('checkdnsrr'))
 			$valid=checkdnsrr($domain,'MX');
-		if($valid && $this->checkPort && function_exists('fsockopen'))
+		if($valid && $this->checkPort && function_exists('fsockopen') && function_exists('dns_get_record'))
 			$valid=$this->checkMxPorts($domain);
 		return $valid;
 	}
