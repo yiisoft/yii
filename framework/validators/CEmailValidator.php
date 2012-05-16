@@ -132,10 +132,11 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 		foreach($records as $record)
 		{
 			$handle=fsockopen($record['target'],25);
-			if($handle===false)
-				continue;
-			fclose($handle);
-			return true;
+			if($handle!==false)
+			{
+				fclose($handle);
+				return true;
+			}
 		}
 		return false;
 	}
