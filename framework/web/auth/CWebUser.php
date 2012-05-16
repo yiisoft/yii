@@ -331,7 +331,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getReturnUrl($defaultUrl=null)
 	{
-		return $this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getRequest()->getScriptUrl() : CHtml::normalizeUrl($defaultUrl));
+		return $this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getBaseUrl().'/' : CHtml::normalizeUrl($defaultUrl));
 	}
 
 	/**
