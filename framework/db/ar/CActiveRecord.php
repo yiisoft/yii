@@ -58,6 +58,7 @@ abstract class CActiveRecord extends CModel
 	private $_md;								// meta data
 	private $_new=false;						// whether this instance is new or not
 	private $_attributes=array();				// attribute name => attribute value
+	private $_dirtyAttributes=array();
 	private $_related=array();					// attribute name => related objects
 	private $_c;								// query criteria (used by finder only)
 	private $_pk;								// old primary key value
@@ -694,7 +695,11 @@ abstract class CActiveRecord extends CModel
 		if(property_exists($this,$name))
 			$this->$name=$value;
 		else if(isset($this->getMetaData()->columns[$name]))
-			$this->_attributes[$name]=$value;
+			if($this->getAttribute($name)!=$value)
+			{
+				$this->_attributes[$name]=$value;
+				$this->_dirtyAttributes[]=$name;
+			}
 		else
 			return false;
 		return true;
@@ -1062,7 +1067,9 @@ abstract class CActiveRecord extends CModel
 			Yii::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
 			if($this->_pk===null)
 				$this->_pk=$this->getPrimaryKey();
-			$this->updateByPk($this->getOldPrimaryKey(),$this->getAttributes($attributes));
+			if(empty($this->_dirtyAttributes))
+				return true;
+			$this->updateByPk($this->getOldPrimaryKey(),$this->getAttributes(array_intersect($this->_dirtyAttributes,($attributes===null)?array():$attributes)));
 			$this->_pk=$this->getPrimaryKey();
 			$this->afterSave();
 			return true;
