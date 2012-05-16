@@ -119,14 +119,16 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 	/**
 	 * Retrieves the list of MX records for $domain and checks if port 25
 	 * is opened on any of these.
-	 * @param string $domain
-	 * @return boolean
+	 * @since 1.1.11
+	 * @param string $domain domain to be checked
+	 * @return boolean true if a reachable MX server has been found
 	 */
 	protected function checkMxPorts($domain)
 	{
 		$records=dns_get_record($domain, DNS_MX);
 		if($records===false || empty($records))
 			return false;
+		usort($records,array($this,'mxSort'));
 		foreach($records as $record)
 		{
 			$handle=fsockopen($record['target'],25);
@@ -136,5 +138,20 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Determines if one MX record has higher priority as another
+	 * (i.e. 'pri' is lower). Used by {@link checkMxPorts}.
+	 * @since 1.1.11
+	 * @param mixed $a
+	 * @param mixed $b
+	 * @return boolean
+	 */
+	protected function mxSort($a, $b)
+	{
+		if($a['pri']==$b['pri'])
+			return 0;
+		return ($a['pri']<$b['pri'])?-1:1;
 	}
 }
