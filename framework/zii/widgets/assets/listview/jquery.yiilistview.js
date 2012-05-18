@@ -71,6 +71,8 @@
 	};
 
 	$.fn.yiiListView.settings = {};
+    
+	$.fn.yiiListView.ajaxRequest = {};
 
 	/**
 	 * Returns the key value for the specified row
@@ -97,9 +99,12 @@
 	 * @param id string the ID of the list view container
 	 * @param options map the AJAX request options (see jQuery.ajax API manual). By default,
 	 * the URL to be requested is the one that generates the current content of the list view.
-	 * @return the jqXHR object
 	 */
 	$.fn.yiiListView.update = function(id, options) {
+		if($.fn.yiiListView.ajaxRequest[id] && $.fn.yiiListView.ajaxRequest[id].abort) {
+			$.fn.yiiListView.ajaxRequest[id].abort(); 
+			$.fn.yiiListView.ajaxRequest[id] = null;
+		}
 		var settings = $.fn.yiiListView.settings[id];
 		$('#'+id).addClass(settings.loadingClass);
 		options = $.extend({
@@ -128,7 +133,7 @@
 
 		if(settings.beforeAjaxUpdate != undefined)
 			settings.beforeAjaxUpdate(id);
-		return $.ajax(options);
+		$.fn.yiiListView.ajaxRequest[id] = $.ajax(options);
 	};
 
 })(jQuery);
