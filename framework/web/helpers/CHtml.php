@@ -1743,22 +1743,36 @@ EOD;
 	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
 	 * encode it if needed.
 	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
+	 * Value field, text field and group field may be specified as PHP expression that is evaluated
+	 * for every model object and whose result is used as value, text and group respectively.
 	 * @param array $models a list of model objects. This parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
-	 * @param string $valueField the attribute name for list option values
-	 * @param string $textField the attribute name for list option texts
-	 * @param string $groupField the attribute name for list option group names. If empty, no group will be generated.
+	 * @param mixed $valueField the attribute name or PHP expression for list option values
+	 * @param mixed $textField the attribute name or PHP expression for list option texts
+	 * @param mixed $groupField the attribute name or PHP expression for list option group names. If empty,
+	 * no group will be generated.
 	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
 	 */
 	public static function listData($models,$valueField,$textField,$groupField='')
 	{
+		// helper component - we will use CComponent::evaluateExpression()
+		$component=new CComponent();
+
 		$listData=array();
 		if($groupField==='')
 		{
 			foreach($models as $model)
 			{
+				// retrieve value
 				$value=self::value($model,$valueField);
-				$text=self::value($model,$textField);
+
+				// evaluate or retrieve text
+				if(is_array($textField))
+					$text=$component->evaluateExpression($textField[0],array('data'=>$model));
+				else
+					$text=self::value($model,$textField);
+
+				// add list item
 				$listData[$value]=$text;
 			}
 		}
@@ -1766,12 +1780,26 @@ EOD;
 		{
 			foreach($models as $model)
 			{
-				$group=self::value($model,$groupField);
+				// evaluate or retrieve group
+				if(is_array($groupField))
+					$group=$component->evaluateExpression($groupField[0],array('data'=>$model));
+				else
+					$group=self::value($model,$groupField);
+
+				// retrieve value
 				$value=self::value($model,$valueField);
-				$text=self::value($model,$textField);
+
+				// evaluate or retrieve text
+				if(is_array($textField))
+					$text=$component->evaluateExpression($textField[0],array('data'=>$model));
+				else
+					$text=self::value($model,$textField);
+
+				// add list item
 				$listData[$group][$value]=$text;
 			}
 		}
+
 		return $listData;
 	}
 
