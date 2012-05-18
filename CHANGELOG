@@ -54,6 +54,7 @@ Version 1.1.11 work in progress
 - Enh: Added HTML5 history support on ajax requests on CGridView and CListView using History.js v1.7.2-r2 (https://github.com/balupton/history.js) from Benjamin Arthur Lupton (lightglitch)
 - Enh: Changed CldrCommand to use medium dateTimeFormat and updated 18n data using newest(6546) CLDR (tanakahisateru)
 - Enh: Added CErrorHandler::getHttpHeader() to send correct HTTP error codes (pgaultier)
+- Enh: CClientScript::$scriptFilePosition and CClientScript::$scriptPosition for controlling default $position values for registerScriptFile and registerScript (resurtm)
 - Chg #440: Upgraded JQuery UI to 1.8.20 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
