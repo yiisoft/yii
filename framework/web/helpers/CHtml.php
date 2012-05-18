@@ -1763,11 +1763,8 @@ EOD;
 		{
 			foreach($models as $model)
 			{
-				// evaluate or retrieve value
-				if(is_array($valueField))
-					$value=$component->evaluateExpression($valueField[0],array('data'=>$model));
-				else
-					$value=self::value($model,$valueField);
+				// retrieve value
+				$value=self::value($model,$valueField);
 
 				// evaluate or retrieve text
 				if(is_array($textField))
@@ -1789,11 +1786,8 @@ EOD;
 				else
 					$group=self::value($model,$groupField);
 
-				// evaluate or retrieve value
-				if(is_array($valueField))
-					$value=$component->evaluateExpression($valueField[0],array('data'=>$model));
-				else
-					$value=self::value($model,$valueField);
+				// retrieve value
+				$value=self::value($model,$valueField);
 
 				// evaluate or retrieve text
 				if(is_array($textField))
