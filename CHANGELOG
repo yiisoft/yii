@@ -18,6 +18,7 @@ Version 1.1.11 work in progress
 - Bug #681: Fixed detection of one-to-one relations in Gii (richardpeng)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug #697: Fixed WSDLGenerator now generating proper namespace for certain complexTypes (BBoom)
+- Enh #179: CLogger now supports filtering profile timings by multiple & wildcard categories (intel352)
 - Enh #120: Added ability to set cookies in an object based style without specifying the cookie-name twice (suralc)
 - Enh #136: Added ability to select database connection in Gii model generator (samdark)
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
