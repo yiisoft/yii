@@ -32,7 +32,7 @@ $.yii = {
 		$.each(params, function(name, value) {
 			var input = document.createElement("input");
 			input.setAttribute("type", "hidden");
-			input.setAttribute("name", name);
+			input.setAttribute("name", name == 'submit' ? 'submit-element' : name);
 			input.setAttribute("value", value);
 			f.appendChild(input);
 			inputs.push(input);
