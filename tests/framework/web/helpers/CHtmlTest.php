@@ -124,7 +124,71 @@ class CHtmlTest extends CTestCase
     {
         $this->assertEquals($assertion, CHtml::textArea($name, $value, $htmlOptions));
     }
-    
+
+	public function providerOpenTag()
+	{
+		return array(
+			array('div', array(), '<div>'),
+			array('h1', array('id'=>'title', 'class'=>'red bold'), '<h1 id="title" class="red bold">'),
+			array('ns:tag', array('attr1'=>'attr1value1 attr1value2'), '<ns:tag attr1="attr1value1 attr1value2">'),
+			array('option', array('checked'=>true, 'disabled'=>false, 'defer'=>true), '<option checked="checked" defer="defer">'),
+			array('another-tag', array('some-attr'=>'<>/\\<&', 'encode'=>true), '<another-tag some-attr="&lt;&gt;/\&lt;&amp;">'),
+			array('tag', array('attr-no-encode'=>'<&', 'encode'=>false), '<tag attr-no-encode="<&">'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerOpenTag
+	 *
+	 * @param string $tag
+	 * @param string $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testOpenTag($tag, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::openTag($tag, $htmlOptions));
+	}
+
+	public function providerCloseTag()
+	{
+		return array(
+			array('div', '</div>'),
+			array('h1', '</h1>'),
+			array('ns:tag', '</ns:tag>'),
+			array('minus-tag', '</minus-tag>'),
+		);
+	}
+
+    /**
+	 * @dataProvider providerCloseTag
+	 *
+	 * @param string $tag
+	 * @param string $assertion
+	 */
+	public function testCloseTag($tag, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::closeTag($tag));
+	}
+
+	public function providerCdata()
+	{
+		return array(
+			array('cdata-content', '<![CDATA[cdata-content]]>'),
+			array('123321', '<![CDATA[123321]]>'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerCdata
+	 *
+	 * @param string $data
+	 * @param string $assertion
+	 */
+	public function testCdata($data, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::cdata($data));
+	}
+
 }
 
 /* Helper classes */
