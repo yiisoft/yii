@@ -103,7 +103,10 @@ abstract class CValidator extends CComponent
 	 */
 	public $on;
 	/**
-	 * @var array
+	 * @var array list of scenarios that the validator should not be applied. In other words specified scenarios
+	 * will be ignored and never applied to this scenarios.
+	 * Each array value refers to a scenario name with the same name as its array key.
+	 * @since 1.1.11
 	 */
 	public $skipOn;
 	/**
