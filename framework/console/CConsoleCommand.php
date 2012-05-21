@@ -557,7 +557,7 @@ abstract class CConsoleCommand extends CComponent
 	 *
 	 * @since 1.1.9
 	 */
-	public function confirm($message, $default = false)
+	public function confirm($message,$default=false)
 	{
 		echo $message.' (yes|no) [' . ($default ? 'yes' : 'no') . ']:';
 
