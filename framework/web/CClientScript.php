@@ -166,14 +166,14 @@ class CClientScript extends CApplicationComponent
 	 * Defaults to CClientScript::POS_HEAD.
 	 * @since 1.1.11
 	 */
-	public $scriptFilePosition=self::POS_HEAD;
+	public $defaultScriptFilePosition=self::POS_HEAD;
 	/**
 	 * @var integer Where the scripts registered using {@link registerScript} will be inserted in the page.
 	 * This can be one of the CClientScript::POS_* constants.
 	 * Defaults to CClientScript::POS_READY.
 	 * @since 1.1.11
 	 */
-	public $scriptPosition=self::POS_READY;
+	public $defaultScriptPosition=self::POS_READY;
 
 	private $_baseUrl;
 
@@ -594,7 +594,7 @@ class CClientScript extends CApplicationComponent
 	public function registerScriptFile($url,$position=null)
 	{
 		if($position===null)
-			$position=$this->scriptFilePosition;
+			$position=$this->defaultScriptFilePosition;
 		$this->hasScripts=true;
 		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
@@ -619,7 +619,7 @@ class CClientScript extends CApplicationComponent
 	public function registerScript($id,$script,$position=null)
 	{
 		if($position===null)
-			$position=$this->scriptPosition;
+			$position=$this->defaultScriptPosition;
 		$this->hasScripts=true;
 		$this->scripts[$position][$id]=$script;
 		if($position===self::POS_READY || $position===self::POS_LOAD)
