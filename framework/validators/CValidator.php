@@ -103,6 +103,10 @@ abstract class CValidator extends CComponent
 	 */
 	public $on;
 	/**
+	 * @var array
+	 */
+	public $skipOn;
+	/**
 	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
 	 * Defaults to true.
 	 * @since 1.1.4
@@ -148,6 +152,16 @@ abstract class CValidator extends CComponent
 		else
 			$on=array();
 
+		if(isset($params['skipOn']))
+		{
+			if(is_array($params['skipOn']))
+				$skipOn=$params['skipOn'];
+			else
+				$skipOn=preg_split('/[\s,]+/',$params['skipOn'],-1,PREG_SPLIT_NO_EMPTY);
+		}
+		else
+			$skipOn=array();
+
 		if(method_exists($object,$name))
 		{
 			$validator=new CInlineValidator;
@@ -175,6 +189,7 @@ abstract class CValidator extends CComponent
 		}
 
 		$validator->on=empty($on) ? array() : array_combine($on,$on);
+		$validator->skipOn=empty($skipOn) ? array() : array_combine($skipOn,$skipOn);
 
 		return $validator;
 	}
@@ -228,6 +243,8 @@ abstract class CValidator extends CComponent
 	 */
 	public function applyTo($scenario)
 	{
+		if(isset($this->skipOn[$scenario]))
+			return false;
 		return empty($this->on) || isset($this->on[$scenario]);
 	}
 
