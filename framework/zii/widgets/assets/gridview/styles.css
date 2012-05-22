@@ -69,7 +69,7 @@
 	background: #BCE774;
 }
 
-.grid-view table.items tr:hover
+.grid-view table.items tbody tr:hover
 {
 	background: #ECFBD4;
 }
