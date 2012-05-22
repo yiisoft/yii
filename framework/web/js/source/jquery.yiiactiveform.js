@@ -308,6 +308,7 @@
 		var $form = $(form),
 			settings = $form.data('settings'),
 			needAjaxValidation = false,
+			attributesParam = '',
 			messages = {};
 		$.each(settings.attributes, function () {
 			var value,
@@ -321,6 +322,15 @@
 			}
 			if (this.enableAjaxValidation && !msg.length && (settings.submitting || this.status === 2 || this.status === 3)) {
 				needAjaxValidation = true;
+				if (this.status === 2 || this.status === 3) {
+					var pos1 = this.name.lastIndexOf('['), pos2 = this.name.lastIndexOf(']'), name = '';
+					if (pos2 == (this.name.length - 1))
+						name = this.name.substring(pos1 + 1, this.name.length);
+					else
+						name = this.name.substring(pos2 + 1);
+					attributesParam += '&' + encodeURIComponent(settings.attributesVar + '[' + this.model + '][]');
+					attributesParam += '=' + encodeURIComponent(name);
+				}
 			}
 		});
 
@@ -338,6 +348,7 @@
 
 		var $button = $form.data('submitObject'),
 			extData = '&' + settings.ajaxVar + '=' + $form.attr('id');
+		extData += attributesParam;
 		if ($button && $button.length) {
 			extData += '&' + $button.attr('name') + '=' + $button.attr('value');
 		}
@@ -379,6 +390,7 @@
 
 	$.fn.yiiactiveform.defaults = {
 		ajaxVar: 'ajax',
+		attributesVar: 'attributes',
 		validationUrl: undefined,
 		validationDelay: 200,
 		validateOnSubmit : false,
