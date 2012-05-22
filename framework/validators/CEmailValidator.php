@@ -42,7 +42,8 @@ class CEmailValidator extends CValidator
 	public $checkMX=false;
 	/**
 	 * @var boolean whether to check port 25 for the email address.
-	 * Defaults to false.
+	 * Defaults to false. To enable it, ensure that the PHP functions 'dns_get_record' and
+	 * 'fsockopen' are available in your PHP installation.
 	 */
 	public $checkPort=false;
 	/**
