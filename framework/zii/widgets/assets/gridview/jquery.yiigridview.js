@@ -123,7 +123,7 @@
 						var $currentGrid, $row, isRowSelected, $checks,
 							$target = $(e.target);
 
-						if ($target.closest('td').hasClass('button-column') || (e.target.type === 'checkbox' && !$target.hasClass('select-on-check'))) {
+						if ($target.closest('td').is('.empty,.button-column') || (e.target.type === 'checkbox' && !$target.hasClass('select-on-check'))) {
 							return;
 						}
 
