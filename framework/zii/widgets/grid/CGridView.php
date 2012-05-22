@@ -503,7 +503,7 @@ class CGridView extends CBaseListView
 		}
 		else
 		{
-			echo '<tr><td colspan="'.count($this->columns).'">';
+			echo '<tr><td colspan="'.count($this->columns).'" class="empty">';
 			$this->renderEmptyText();
 			echo "</td></tr>\n";
 		}
