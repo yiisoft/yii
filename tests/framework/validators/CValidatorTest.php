@@ -14,7 +14,7 @@ class CValidatorTest extends CTestCase
     {
 		// scenario1
 		// fields should be validated: title, firstName, lastName, nickName, patronymic, nickName, login
-        $scenario1TestModel=new ScenariosTestModel('scenario1');
+		$scenario1TestModel=new ScenariosTestModel('scenario1');
 		$scenario1TestModel->validate();
 
 		$errors=$scenario1TestModel->getErrors();
