@@ -131,7 +131,12 @@
  * {
  *     if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
  *     {
- *         echo CActiveForm::validate($model);
+ *         $class=get_class($model);
+ *         if (isset($_POST['attributes']) && is_array($_POST['attributes'][$class]))
+ *             $attributes=$_POST['attributes'][$class];
+ *         else
+ *             $attributes=null;
+ *         echo CActiveForm::validate($model, $attributes);
  *         Yii::app()->end();
  *     }
  * }
@@ -179,6 +184,11 @@ class CActiveForm extends CWidget
 	 * together with the other form data to the server. The parameter value is the form ID.
 	 * The server side can then detect who triggers the AJAX validation and react accordingly.
 	 * Defaults to 'ajax'.</li>
+	 * <li>attributesVar: string, the name of the parameter indicating the verification fields of the AJAX request.
+	 * When the ajax validation trigger on changing one of attributes, a parameter named as this property will be sent
+	 * together with the other form data to the server. The parameter value is an array of field names.
+	 * The server side can then detect which fields trigger the AJAX validation and react accordingly.
+	 * Defaults to 'attributes'.</li>
 	 * <li>validationUrl: string, the URL that performs the AJAX validations.
 	 * If not set, it will take the value of {@link action}.</li>
 	 * <li>validationDelay: integer, the number of milliseconds that an AJAX validation should be
@@ -463,6 +473,7 @@ class CActiveForm extends CWidget
 		if($enableClientValidation)
 		{
 			$validators=isset($htmlOptions['clientValidation']) ? array($htmlOptions['clientValidation']) : array();
+			$numberValidators=0;
 
 			$attributeName = $attribute;
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1) // e.g. [a]name
@@ -472,12 +483,15 @@ class CActiveForm extends CWidget
 
 			foreach($model->getValidators($attributeName) as $validator)
 			{
+				$numberValidators++;
 				if($validator->enableClientValidation)
 				{
 					if(($js=$validator->clientValidateAttribute($model,$attributeName))!='')
 						$validators[]=$js;
 				}
 			}
+			if($numberValidators===count($validators))
+				$option['enableAjaxValidation']=false;
 			if($validators!==array())
 				$option['clientValidation']="js:function(value, messages, attribute) {\n".implode("\n",$validators)."\n}";
 		}
