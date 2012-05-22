@@ -103,12 +103,11 @@ abstract class CValidator extends CComponent
 	 */
 	public $on;
 	/**
-	 * @var array list of scenarios that the validator should not be applied. In other words specified scenarios
-	 * will be ignored and never applied to this scenarios.
+	 * @var array list of scenarios that the validator should not be applied.
 	 * Each array value refers to a scenario name with the same name as its array key.
 	 * @since 1.1.11
 	 */
-	public $skipOn;
+	public $off;
 	/**
 	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
 	 * Defaults to true.
@@ -155,15 +154,15 @@ abstract class CValidator extends CComponent
 		else
 			$on=array();
 
-		if(isset($params['skipOn']))
+		if(isset($params['off']))
 		{
-			if(is_array($params['skipOn']))
-				$skipOn=$params['skipOn'];
+			if(is_array($params['off']))
+				$off=$params['off'];
 			else
-				$skipOn=preg_split('/[\s,]+/',$params['skipOn'],-1,PREG_SPLIT_NO_EMPTY);
+				$off=preg_split('/[\s,]+/',$params['off'],-1,PREG_SPLIT_NO_EMPTY);
 		}
 		else
-			$skipOn=array();
+			$off=array();
 
 		if(method_exists($object,$name))
 		{
@@ -192,7 +191,7 @@ abstract class CValidator extends CComponent
 		}
 
 		$validator->on=empty($on) ? array() : array_combine($on,$on);
-		$validator->skipOn=empty($skipOn) ? array() : array_combine($skipOn,$skipOn);
+		$validator->off=empty($off) ? array() : array_combine($off,$off);
 
 		return $validator;
 	}
@@ -246,7 +245,7 @@ abstract class CValidator extends CComponent
 	 */
 	public function applyTo($scenario)
 	{
-		if(isset($this->skipOn[$scenario]))
+		if(isset($this->off[$scenario]))
 			return false;
 		return empty($this->on) || isset($this->on[$scenario]);
 	}
