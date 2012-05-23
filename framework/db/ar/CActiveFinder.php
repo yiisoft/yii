@@ -777,7 +777,7 @@ class CJoinElement
 			$this->model->beforeFindInternal($joinQuery);
 
 		foreach($this->children as $child) {
-			$child->beforeFind(true);
+			$child->beforeFind(true, $joinQuery);
     }
 	}
 
