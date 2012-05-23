@@ -36,4 +36,10 @@ class CModelEvent extends CEvent
 	 * @since 1.1.5
 	 */
 	public $criteria;
+  /**
+   * @var CJoinQuery the join query criteria.
+   * This property could be null.
+   * @since 1.1.11
+   */
+  public $joinCriteria;
 }

@@ -951,6 +951,8 @@ abstract class CActiveRecord extends CModel
 	 * Starting from version 1.1.5, this method may be called with a hidden {@link CDbCriteria}
 	 * parameter which represents the current query criteria as passed to a find method of AR.
 	 *
+   * Starting from version 1.1.11, this method may be called with a hidden {@link CJoinQuery}
+   * parameter.
 	 */
 	protected function beforeFind()
 	{
@@ -958,7 +960,9 @@ abstract class CActiveRecord extends CModel
 		{
 			$event=new CModelEvent($this);
 			// for backward compatibility
-			$event->criteria=func_num_args()>0 ? func_get_arg(0) : null;
+			$criteria=func_num_args()>0 ? func_get_arg(0) : null;
+      if ($criteria instanceof CDbCriteria) $event->criteria = $criteria;
+      else if ($criteria instanceof CJoinQuery) $event->joinCriteria = $criteria;
 			$this->onBeforeFind($event);
 		}
 	}
@@ -981,7 +985,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function beforeFindInternal()
 	{
-		$this->beforeFind();
+		$this->beforeFind(func_num_args()>0 ? func_get_arg(0) : null);
 	}
 
 	/**

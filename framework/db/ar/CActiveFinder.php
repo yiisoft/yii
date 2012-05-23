@@ -523,8 +523,8 @@ class CJoinElement
 			$query->offset=$child->relation->offset;
 		}
 
-		$child->beforeFind();
 		$child->applyLazyCondition($query,$baseRecord);
+    $child->beforeFind(true, $query);
 
 		$this->_joined=true;
 		$child->_joined=true;
@@ -771,13 +771,14 @@ class CJoinElement
 	 * Calls {@link CActiveRecord::beforeFind}.
 	 * @param boolean $isChild whether is called for a child
 	 */
-	public function beforeFind($isChild=true)
+	public function beforeFind($isChild=true, $joinQuery=null)
 	{
 		if($isChild)
-			$this->model->beforeFindInternal();
+			$this->model->beforeFindInternal($joinQuery);
 
-		foreach($this->children as $child)
+		foreach($this->children as $child) {
 			$child->beforeFind(true);
+    }
 	}
 
 	/**
