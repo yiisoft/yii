@@ -114,8 +114,8 @@ class CConsoleApplication extends CApplication
 	 */
 	public function displayError($code,$message,$file,$line)
 	{
-		echo "PHP Error[$code]: $message\n";
-		echo "    in file $file at line $line\n";
+		$log = "PHP Error[$code]: $message\n";
+		$log .= "    in file $file at line $line\n";
 		$trace=debug_backtrace();
 		// skip the first 4 stacks as they do not tell the error position
 		if(count($trace)>4)
@@ -128,11 +128,13 @@ class CConsoleApplication extends CApplication
 				$t['line']=0;
 			if(!isset($t['function']))
 				$t['function']='unknown';
-			echo "#$i {$t['file']}({$t['line']}): ";
+			$log .= "#$i {$t['file']}({$t['line']}): ";
 			if(isset($t['object']) && is_object($t['object']))
-				echo get_class($t['object']).'->';
-			echo "{$t['function']}()\n";
+				$log .= get_class($t['object']).'->';
+			$log .= "{$t['function']}()\n";
 		}
+		echo $log,"\n";
+		ini_get('log_errors') && error_log($log);
 	}
 
 	/**
@@ -143,7 +145,8 @@ class CConsoleApplication extends CApplication
 	 */
 	public function displayException($exception)
 	{
-		echo $exception;
+		echo $exception,"\n\n";
+		ini_get('log_errors') && error_log($exception);
 	}
 
 	/**
