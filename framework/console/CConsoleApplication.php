@@ -133,8 +133,8 @@ class CConsoleApplication extends CApplication
 				$log .= get_class($t['object']).'->';
 			$log .= "{$t['function']}()\n";
 		}
-		echo $log,"\n";
 		ini_get('log_errors') && error_log($log);
+		echo "\n",$log;
 	}
 
 	/**
@@ -145,8 +145,8 @@ class CConsoleApplication extends CApplication
 	 */
 	public function displayException($exception)
 	{
-		echo $exception,"\n\n";
 		ini_get('log_errors') && error_log($exception);
+		echo "\n",$exception;
 	}
 
 	/**
