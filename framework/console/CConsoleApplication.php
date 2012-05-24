@@ -107,6 +107,7 @@ class CConsoleApplication extends CApplication
 	 * Displays the captured PHP error.
 	 * This method displays the error in console mode when there is
 	 * no active error handler.
+	 * If {@link http://www.php.net/manual/en/errorfunc.configuration.php#ini.log-errors log_errors} is enabled the error will be additionally sent to the PHP error system logger (see {@link http://www.php.net/manual/en/errorfunc.configuration.php#ini.error-log error_log}).
 	 * @param integer $code error code
 	 * @param string $message error message
 	 * @param string $file error file
@@ -114,8 +115,8 @@ class CConsoleApplication extends CApplication
 	 */
 	public function displayError($code,$message,$file,$line)
 	{
-		echo "PHP Error[$code]: $message\n";
-		echo "    in file $file at line $line\n";
+		$log = "PHP Error[$code]: $message\n";
+		$log .= "    in file $file at line $line\n";
 		$trace=debug_backtrace();
 		// skip the first 4 stacks as they do not tell the error position
 		if(count($trace)>4)
@@ -128,22 +129,26 @@ class CConsoleApplication extends CApplication
 				$t['line']=0;
 			if(!isset($t['function']))
 				$t['function']='unknown';
-			echo "#$i {$t['file']}({$t['line']}): ";
+			$log .= "#$i {$t['file']}({$t['line']}): ";
 			if(isset($t['object']) && is_object($t['object']))
-				echo get_class($t['object']).'->';
-			echo "{$t['function']}()\n";
+				$log .= get_class($t['object']).'->';
+			$log .= "{$t['function']}()\n";
 		}
+		ini_get('log_errors') && error_log($log);
+		echo "\n",$log;
 	}
 
 	/**
 	 * Displays the uncaught PHP exception.
 	 * This method displays the exception in console mode when there is
 	 * no active error handler.
+	 * If {@link http://www.php.net/manual/en/errorfunc.configuration.php#ini.log-errors log_errors} is enabled the exception will be additionally sent to the PHP error system logger (see {@link http://www.php.net/manual/en/errorfunc.configuration.php#ini.error-log error_log}).
 	 * @param Exception $exception the uncaught exception
 	 */
 	public function displayException($exception)
 	{
-		echo $exception;
+		ini_get('log_errors') && error_log($exception);
+		echo "\n",$exception;
 	}
 
 	/**
