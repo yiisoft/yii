@@ -107,6 +107,7 @@ class CConsoleApplication extends CApplication
 	 * Displays the captured PHP error.
 	 * This method displays the error in console mode when there is
 	 * no active error handler.
+	 * If {@link http://www.php.net/manual/en/errorfunc.configuration.php#ini.log-errors log_errors} is enabled the error will be additionally sent to the PHP error system logger (see {@link http://www.php.net/manual/en/errorfunc.configuration.php#ini.error-log error_log}).
 	 * @param integer $code error code
 	 * @param string $message error message
 	 * @param string $file error file
@@ -141,6 +142,7 @@ class CConsoleApplication extends CApplication
 	 * Displays the uncaught PHP exception.
 	 * This method displays the exception in console mode when there is
 	 * no active error handler.
+	 * If {@link http://www.php.net/manual/en/errorfunc.configuration.php#ini.log-errors log_errors} is enabled the exception will be additionally sent to the PHP error system logger (see {@link http://www.php.net/manual/en/errorfunc.configuration.php#ini.error-log error_log}).
 	 * @param Exception $exception the uncaught exception
 	 */
 	public function displayException($exception)
