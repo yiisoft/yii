@@ -189,6 +189,36 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::cdata($data));
 	}
 
+	public function providerMetaTag()
+	{
+		return array(
+			array('simple-meta-tag', null, null, array(),
+				'<meta content="simple-meta-tag" />'),
+			array('test-name-attr', 'random-name', null, array(),
+				'<meta name="random-name" content="test-name-attr" />'),
+			array('text/html; charset=UTF-8', null, 'Content-Type', array(),
+				'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'),
+			array('test-attrs', null, null, array('xhtml-invalid-attr'=>'attr-value'),
+				'<meta xhtml-invalid-attr="attr-value" content="test-attrs" />'),
+			array('complex-test', 'testing-name', 'Content-Type', array('attr1'=>'value2'),
+				'<meta attr1="value2" name="testing-name" http-equiv="Content-Type" content="complex-test" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerMetaTag
+	 *
+	 * @param string $content
+	 * @param string $name
+	 * @param string $httpEquiv
+	 * @param array $options
+	 * @param string $assertion
+	 */
+	public function testMetaTag($content, $name, $httpEquiv, $options, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::metaTag($content, $name, $httpEquiv, $options));
+	}
+
 }
 
 /* Helper classes */
