@@ -336,6 +336,46 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals('</form>', CHtml::endForm());
 	}
 
+	public function testActiveId()
+	{
+		$testModel=new CHtmlTestModel();
+		$this->assertEquals('CHtmlTestModel_attr1', CHtml::activeId($testModel, 'attr1'));
+		$this->assertEquals('CHtmlTestModel_attr2', CHtml::activeId($testModel, 'attr2'));
+		$this->assertEquals('CHtmlTestModel_attr3', CHtml::activeId($testModel, 'attr3'));
+		$this->assertEquals('CHtmlTestModel_attr4', CHtml::activeId($testModel, 'attr4'));
+	}
+
+	public function testActiveName()
+	{
+		$testModel=new CHtmlTestModel();
+		$this->assertEquals('CHtmlTestModel[attr1]', CHtml::activeName($testModel, 'attr1'));
+		$this->assertEquals('CHtmlTestModel[attr2]', CHtml::activeName($testModel, 'attr2'));
+		$this->assertEquals('CHtmlTestModel[attr3]', CHtml::activeName($testModel, 'attr3'));
+		$this->assertEquals('CHtmlTestModel[attr4]', CHtml::activeName($testModel, 'attr4'));
+	}
+
+	public function providerGetIdByName()
+	{
+		return array(
+			array('ContactForm[name]', 'ContactForm_name'),
+			array('Order[name][first]', 'Order_name_first'),
+			array('Order[name][last]', 'Order_name_last'),
+			array('Recipe[photo][]', 'Recipe_photo'),
+			array('Request title', 'Request_title'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerGetIdByName
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testGetIdByName($text, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::getIdByName($text));
+	}
+
 }
 
 /* Helper classes */
