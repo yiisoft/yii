@@ -92,7 +92,9 @@ class CUniqueValidator extends CValidator
 
 		$columnName=$column->rawName;
 		$criteria=new CDbCriteria(array(
-			'condition'=>$this->caseSensitive ? "$columnName=:value" : "LOWER($columnName)=LOWER(:value)",
+			// Modified by klimov.paul@gmail.com
+			// Allow to use table alias in column check criteria:
+			'condition'=>$this->caseSensitive ? $finder->getTableAlias(true).".{$columnName}=:value" : "LOWER(".$finder->getTableAlias(true).".{$columnName})=LOWER(:value)",
 			'params'=>array(':value'=>$value),
 		));
 		if($this->criteria!==array())
