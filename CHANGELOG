@@ -21,7 +21,7 @@ Version 1.1.11 work in progress
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug: Added missing return statement to CAuthItem->revoke() (mdomba)
 - Bug #697: Fixed WSDLGenerator now generating proper namespace for certain complexTypes (BBoom)
-- Bug: CHtml::resolveValue() ignoring of attribute elements accessor at the begining of the $attribute argument now works properly (resurtm)
+- Bug: CHtml::resolveValue() ignoring of array elements accessor at the beginning of the $attribute argument now works properly (resurtm)
 - Enh #120: Added ability to set cookies in an object based style without specifying the cookie-name twice (suralc)
 - Enh #136: Added ability to select database connection in Gii model generator (samdark)
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
