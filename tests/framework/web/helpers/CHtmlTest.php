@@ -376,6 +376,26 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::getIdByName($text));
 	}
 
+	public function testResolveValue()
+	{
+		$testModel=new CHtmlTestFormModel();
+
+		$this->assertEquals('stringAttrValue', CHtml::resolveValue($testModel, 'stringAttr'));
+		$this->assertEquals('v1', CHtml::resolveValue($testModel, 'arrayAttr[k1]'));
+		$this->assertEquals('v2', CHtml::resolveValue($testModel, 'arrayAttr[k2]'));
+		$this->assertEquals($testModel->arrayAttr['k3'], CHtml::resolveValue($testModel, 'arrayAttr[k3]'));
+		$this->assertEquals('v4', CHtml::resolveValue($testModel, 'arrayAttr[k3][k4]'));
+		$this->assertEquals('v5', CHtml::resolveValue($testModel, 'arrayAttr[k3][k5]'));
+		$this->assertEquals('v6', CHtml::resolveValue($testModel, 'arrayAttr[k6]'));
+
+		$this->assertEquals(null, CHtml::resolveValue($testModel, 'arrayAttr[k7]'));
+		$this->assertEquals(null, CHtml::resolveValue($testModel, 'arrayAttr[k7][k8]'));
+
+		$this->assertEquals($testModel->arrayAttr, CHtml::resolveValue($testModel, '[ignored-part]arrayAttr'));
+		// currenly fails because of bug in CHtml::resolveValue
+		//$this->assertEquals('v1', CHtml::resolveValue($testModel, '[ignored-part]arrayAttr[k1]'));
+	}
+
 }
 
 /* Helper classes */
@@ -403,7 +423,7 @@ class CHtmlTestModel extends CModel
      * @property mixed $attr4
      */
     public $attr4;
-    
+
     public function __constructor(array $properties)
     {
         foreach($properties as $property=>$value)
@@ -439,4 +459,24 @@ class CHtmlTestModel extends CModel
 			return self::$_names[$className];
 	}
 
+}
+
+class CHtmlTestFormModel extends CFormModel
+{
+	public $stringAttr;
+	public $arrayAttr;
+
+	public function afterConstruct()
+	{
+		$this->stringAttr='stringAttrValue';
+		$this->arrayAttr=array(
+			'k1'=>'v1',
+			'k2'=>'v2',
+			'k3'=>array(
+				'k4'=>'v4',
+				'k5'=>'v5',
+			),
+			'k6'=>'v6',
+		);
+	}
 }
