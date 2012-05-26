@@ -785,14 +785,18 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * its result will be directly returned when calling this method to check the same operation.
 	 * If this parameter is false, this method will always call {@link CAuthManager::checkAccess}
 	 * to obtain the up-to-date access result. Note that this caching is effective
-	 * only within the same request.
+	 * only within the same request and only works when <code>$params=array()</code>.
 	 * @return boolean whether the operations can be performed by this user.
 	 */
 	public function checkAccess($operation,$params=array(),$allowCaching=true)
 	{
 		if($allowCaching && $params===array() && isset($this->_access[$operation]))
 			return $this->_access[$operation];
-		else
-			return $this->_access[$operation]=Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
+
+		$access=Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
+		if($allowCaching && $params===array())
+			$this->_access[$operation]=$access;
+
+		return $access;
 	}
 }
