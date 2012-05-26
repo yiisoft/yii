@@ -101,6 +101,7 @@ class CHtmlTest extends CTestCase
         /* TODO - Steven Wexler - 3/5/11 - Mock out static methods in this function when CHtml leverages late static method binding
          * because PHPUnit.  This is only possible Yii supports only >= PHP 5.3   - */
         $this->assertEquals($assertion, CHtml::beginForm($action, $method, $htmlOptions));
+		$this->assertEquals($assertion, CHtml::form($action, $method, $htmlOptions));
     }
     
     public static function providerTextArea()
@@ -217,6 +218,122 @@ class CHtmlTest extends CTestCase
 	public function testMetaTag($content, $name, $httpEquiv, $options, $assertion)
 	{
 		$this->assertEquals($assertion, CHtml::metaTag($content, $name, $httpEquiv, $options));
+	}
+
+	public function providerLinkTag()
+	{
+		return array(
+			array(null, null, null, null, array(), '<link />'),
+			array('stylesheet', null, null, null, array(), '<link rel="stylesheet" />'),
+			array(null, 'text/css', null, null, array(), '<link type="text/css" />'),
+			array(null, null, '/css/style.css', null, array(), '<link href="/css/style.css" />'),
+			array(null, null, null, 'screen', array(), '<link media="screen" />'),
+			array(null, null, null, null, array('attr'=>'value'), '<link attr="value" />'),
+			array('stylesheet', 'text/css', '/css/style.css', 'screen', array('attr'=>'value'),
+				'<link attr="value" rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerLinkTag
+	 *
+	 * @param string $relation
+	 * @param string $type
+	 * @param string $href
+	 * @param string $media
+	 * @param array $options
+	 * @param string $assertion
+	 */
+	public function testLinkTag($relation, $type, $href, $media, $options, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::linkTag($relation, $type, $href, $media, $options));
+	}
+
+	public function providerCss()
+	{
+		return array(
+			array('h1{font-size:20px;line-height:26px;}', '',
+				"<style type=\"text/css\">\n/*<![CDATA[*/\nh1{font-size:20px;line-height:26px;}\n/*]]>*/\n</style>"),
+			array('h2{font-size:16px;line-height:22px;}', 'screen',
+				"<style type=\"text/css\" media=\"screen\">\n/*<![CDATA[*/\nh2{font-size:16px;line-height:22px;}\n/*]]>*/\n</style>"),
+		);
+	}
+
+	/**
+	 * @dataProvider providerCss
+	 *
+	 * @param string $text
+	 * @param string $media
+	 * @param string $assertion
+	 */
+	public function testCss($text, $media, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::css($text, $media));
+	}
+
+	public function providerCssFile()
+	{
+		return array(
+			array('/css/style.css?a=1&b=2', '', '<link rel="stylesheet" type="text/css" href="/css/style.css?a=1&amp;b=2" />'),
+			array('/css/style.css?c=3&d=4', 'screen', '<link rel="stylesheet" type="text/css" href="/css/style.css?c=3&amp;d=4" media="screen" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerCssFile
+	 *
+	 * @param string $url
+	 * @param string $media
+	 * @param string $assertion
+	 */
+	public function testCssFile($url, $media, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::cssFile($url, $media));
+	}
+
+	public function providerScript()
+	{
+		return array(
+			array('var a = 10;', "<script type=\"text/javascript\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"),
+			array("\t(function() { var x = 100; })();\n\tvar y = 200;",
+				"<script type=\"text/javascript\">\n/*<![CDATA[*/\n\t(function() { var x = 100; })();\n\tvar y = 200;\n/*]]>*/\n</script>"),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScript
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testScript($text, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::script($text));
+	}
+
+	public function providerScriptFile()
+	{
+		return array(
+			array('/js/main.js?a=2&b=4', '<script type="text/javascript" src="/js/main.js?a=2&amp;b=4"></script>'),
+			array('http://company.com/get-user-by-name?name=Василий&lang=ru',
+				'<script type="text/javascript" src="http://company.com/get-user-by-name?name=Василий&amp;lang=ru"></script>'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScriptFile
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testScriptFile($text, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::scriptFile($text));
+	}
+
+	public function testEndForm()
+	{
+		$this->assertEquals('</form>', CHtml::endForm());
 	}
 
 }
