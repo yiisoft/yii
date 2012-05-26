@@ -133,20 +133,20 @@ class CLogger extends CComponent
 		if(empty($levels) && empty($categories))
 			return $this->_logs;
 		else if(empty($levels))
-			return array_values(array_filter(array_filter($this->_logs,array($this,'filterByCategory'))));
+			return array_values(array_filter($this->_logs,array($this,'filterByCategory')));
 		else if(empty($categories))
-			return array_values(array_filter(array_filter($this->_logs,array($this,'filterByLevel'))));
+			return array_values(array_filter($this->_logs,array($this,'filterByLevel')));
 		else
 		{
-			$ret=array_values(array_filter(array_filter($this->_logs,array($this,'filterByLevel'))));
-			return array_values(array_filter(array_filter($ret,array($this,'filterByCategory'))));
+			$ret=array_filter($this->_logs,array($this,'filterByLevel'));
+			return array_values(array_filter($ret,array($this,'filterByCategory')));
 		}
 	}
 
 	/**
 	 * Filter function used by {@link getLogs}
 	 * @param array $value element to be filtered
-	 * @return array valid log, false if not.
+	 * @return bool true if valid log, false if not.
 	 */
 	private function filterByCategory($value)
 	{
@@ -154,7 +154,23 @@ class CLogger extends CComponent
 		{
 			$cat=strtolower($value[2]);
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				return $value;
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Filter function used by {@link getProfilingResults}
+	 * @param array $value element to be filtered
+	 * @return bool true if valid timing entry, false if not.
+	 */
+	private function filterTimingByCategory($value)
+	{
+		foreach($this->_categories as $category)
+		{
+			$cat=strtolower($value[1]);
+			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
+				return true;
 		}
 		return false;
 	}
@@ -162,11 +178,11 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used by {@link getLogs}
 	 * @param array $value element to be filtered
-	 * @return array valid log, false if not.
+	 * @return bool true if valid log, false if not.
 	 */
 	private function filterByLevel($value)
 	{
-		return in_array(strtolower($value[1]),$this->_levels)?$value:false;
+		return in_array(strtolower($value[1]),$this->_levels);
 	}
 
 	/**
@@ -219,21 +235,28 @@ class CLogger extends CComponent
 	 * being array($token,$category,$time).
 	 * If a filter is specified, the results would be an array of timings.
 	 * @param string $token token filter. Defaults to null, meaning not filtered by token.
-	 * @param string $category category filter. Defaults to null, meaning not filtered by category.
+	 * @param string $categories category filter. Defaults to null, meaning not filtered by category.
 	 * @param boolean $refresh whether to refresh the internal timing calculations. If false,
 	 * only the first time calling this method will the timings be calculated internally.
 	 * @return array the profiling results.
 	 */
-	public function getProfilingResults($token=null,$category=null,$refresh=false)
+	public function getProfilingResults($token=null,$categories=null,$refresh=false)
 	{
 		if($this->_timings===null || $refresh)
 			$this->calculateTimings();
-		if($token===null && $category===null)
+		if($token===null && $categories===null)
 			return $this->_timings;
+
+		$timings = $this->_timings;
+		if($categories!==null) {
+			$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
+			$timings = array_filter($timings,array($this,'filterTimingByCategory'));
+		}
+
 		$results=array();
-		foreach($this->_timings as $timing)
+		foreach($timings as $timing)
 		{
-			if(($category===null || $timing[1]===$category) && ($token===null || $timing[0]===$token))
+			if($token===null || $timing[0]===$token)
 				$results[]=$timing[2];
 		}
 		return $results;
