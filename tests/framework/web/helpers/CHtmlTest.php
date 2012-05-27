@@ -499,6 +499,99 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, $output);
 	}
 
+	public static function providerStatefulForm()
+	{
+		// we should keep in mind that CHtml::statefulForm() calls CHtml::beginForm() internally
+		// so we can make expected assertion value more readable by using CHtml::beginForm() because
+		// we are testing stateful feature of the CHtml::statefulForm(), not <form> tag generation
+		// same true for CHtml::pageStateField - it is already tested in another method
+		return array(
+			array(
+				array('site/index'),
+				'post',
+				array(),
+				CHtml::form(array('site/index'), 'post', array())."\n".'<div style="display:none">'.CHtml::pageStateField('').'</div>'
+			),
+			array(
+				'/some-static/url',
+				'get',
+				array('test-attr'=>'test-value'),
+				CHtml::form('/some-static/url', 'get', array('test-attr'=>'test-value'))."\n".'<div style="display:none">'.CHtml::pageStateField('').'</div>'
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerStatefulForm
+	 *
+	 * @param string $action
+	 * @param string $method
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testStatefulForm($action, $method, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::statefulForm($action, $method, $htmlOptions));
+	}
+
+	public static function providerMailto()
+	{
+		return array(
+			array(
+				'Drop me a line! ;-)',
+				'admin@example.com',
+				array('class'=>'mail-to-admin'),
+				'<a class="mail-to-admin" href="mailto:admin@example.com">Drop me a line! ;-)</a>',
+			),
+			array(
+				'Contact me',
+				'foo@bar.baz',
+				array(),
+				'<a href="mailto:foo@bar.baz">Contact me</a>',
+			),
+			array(
+				'boss@acme.com',
+				'',
+				array(),
+				'<a href="mailto:boss@acme.com">boss@acme.com</a>',
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerMailto
+	 *
+	 * @param string $text
+	 * @param string $email
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testMailto($text, $email, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::mailto($text, $email, $htmlOptions));
+	}
+
+	public static function providerImage()
+	{
+		return array(
+			array('/images/logo.png', 'YiiSoft, LLC', array(), '<img src="/images/logo.png" alt="YiiSoft, LLC" />'),
+			array('/img/test.jpg', '', array('class'=>'test-img'), '<img class="test-img" src="/img/test.jpg" alt="" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerImage
+	 *
+	 * @param $src
+	 * @param $alt
+	 * @param $htmlOptions
+	 * @param $assertion
+	 */
+	public function testImage($src, $alt, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::image($src, $alt, $htmlOptions));
+	}
+
 }
 
 /* Helper classes */
