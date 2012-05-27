@@ -368,11 +368,11 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function confirm($message)
+	public function confirm($message,$default=false)
 	{
 		if(!$this->interactive)
 			return true;
-		return parent::confirm($message);
+		return parent::confirm($message,$default);
 	}
 
 	protected function migrateUp($class)
