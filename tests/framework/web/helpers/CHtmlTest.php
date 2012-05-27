@@ -2,6 +2,18 @@
 
 class CHtmlTest extends CTestCase
 {
+	public function setUp()
+	{
+		// clean up any possible garbage in global clientScript app component
+		Yii::app()->clientScript->reset();
+	}
+
+	public function tearDown()
+	{
+		// do not keep any garbage in global clientScript app component
+		Yii::app()->clientScript->reset();
+	}
+
     /* HTML characters encode/decode tests */
     
     public static function providerEncodeArray()
@@ -101,6 +113,7 @@ class CHtmlTest extends CTestCase
         /* TODO - Steven Wexler - 3/5/11 - Mock out static methods in this function when CHtml leverages late static method binding
          * because PHPUnit.  This is only possible Yii supports only >= PHP 5.3   - */
         $this->assertEquals($assertion, CHtml::beginForm($action, $method, $htmlOptions));
+		$this->assertEquals($assertion, CHtml::form($action, $method, $htmlOptions));
     }
     
     public static function providerTextArea()
@@ -124,7 +137,461 @@ class CHtmlTest extends CTestCase
     {
         $this->assertEquals($assertion, CHtml::textArea($name, $value, $htmlOptions));
     }
-    
+
+	public function providerOpenTag()
+	{
+		return array(
+			array('div', array(), '<div>'),
+			array('h1', array('id'=>'title', 'class'=>'red bold'), '<h1 id="title" class="red bold">'),
+			array('ns:tag', array('attr1'=>'attr1value1 attr1value2'), '<ns:tag attr1="attr1value1 attr1value2">'),
+			array('option', array('checked'=>true, 'disabled'=>false, 'defer'=>true), '<option checked="checked" defer="defer">'),
+			array('another-tag', array('some-attr'=>'<>/\\<&', 'encode'=>true), '<another-tag some-attr="&lt;&gt;/\&lt;&amp;">'),
+			array('tag', array('attr-no-encode'=>'<&', 'encode'=>false), '<tag attr-no-encode="<&">'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerOpenTag
+	 *
+	 * @param string $tag
+	 * @param string $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testOpenTag($tag, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::openTag($tag, $htmlOptions));
+	}
+
+	public static function providerCloseTag()
+	{
+		return array(
+			array('div', '</div>'),
+			array('h1', '</h1>'),
+			array('ns:tag', '</ns:tag>'),
+			array('minus-tag', '</minus-tag>'),
+		);
+	}
+
+    /**
+	 * @dataProvider providerCloseTag
+	 *
+	 * @param string $tag
+	 * @param string $assertion
+	 */
+	public function testCloseTag($tag, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::closeTag($tag));
+	}
+
+	public static function providerCdata()
+	{
+		return array(
+			array('cdata-content', '<![CDATA[cdata-content]]>'),
+			array('123321', '<![CDATA[123321]]>'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerCdata
+	 *
+	 * @param string $data
+	 * @param string $assertion
+	 */
+	public function testCdata($data, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::cdata($data));
+	}
+
+	public function providerMetaTag()
+	{
+		return array(
+			array('simple-meta-tag', null, null, array(),
+				'<meta content="simple-meta-tag" />'),
+			array('test-name-attr', 'random-name', null, array(),
+				'<meta name="random-name" content="test-name-attr" />'),
+			array('text/html; charset=UTF-8', null, 'Content-Type', array(),
+				'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'),
+			array('test-attrs', null, null, array('xhtml-invalid-attr'=>'attr-value'),
+				'<meta xhtml-invalid-attr="attr-value" content="test-attrs" />'),
+			array('complex-test', 'testing-name', 'Content-Type', array('attr1'=>'value2'),
+				'<meta attr1="value2" name="testing-name" http-equiv="Content-Type" content="complex-test" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerMetaTag
+	 *
+	 * @param string $content
+	 * @param string $name
+	 * @param string $httpEquiv
+	 * @param array $options
+	 * @param string $assertion
+	 */
+	public function testMetaTag($content, $name, $httpEquiv, $options, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::metaTag($content, $name, $httpEquiv, $options));
+	}
+
+	public function providerLinkTag()
+	{
+		return array(
+			array(null, null, null, null, array(), '<link />'),
+			array('stylesheet', null, null, null, array(), '<link rel="stylesheet" />'),
+			array(null, 'text/css', null, null, array(), '<link type="text/css" />'),
+			array(null, null, '/css/style.css', null, array(), '<link href="/css/style.css" />'),
+			array(null, null, null, 'screen', array(), '<link media="screen" />'),
+			array(null, null, null, null, array('attr'=>'value'), '<link attr="value" />'),
+			array('stylesheet', 'text/css', '/css/style.css', 'screen', array('attr'=>'value'),
+				'<link attr="value" rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerLinkTag
+	 *
+	 * @param string $relation
+	 * @param string $type
+	 * @param string $href
+	 * @param string $media
+	 * @param array $options
+	 * @param string $assertion
+	 */
+	public function testLinkTag($relation, $type, $href, $media, $options, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::linkTag($relation, $type, $href, $media, $options));
+	}
+
+	public static function providerCss()
+	{
+		return array(
+			array('h1{font-size:20px;line-height:26px;}', '',
+				"<style type=\"text/css\">\n/*<![CDATA[*/\nh1{font-size:20px;line-height:26px;}\n/*]]>*/\n</style>"),
+			array('h2{font-size:16px;line-height:22px;}', 'screen',
+				"<style type=\"text/css\" media=\"screen\">\n/*<![CDATA[*/\nh2{font-size:16px;line-height:22px;}\n/*]]>*/\n</style>"),
+		);
+	}
+
+	/**
+	 * @dataProvider providerCss
+	 *
+	 * @param string $text
+	 * @param string $media
+	 * @param string $assertion
+	 */
+	public function testCss($text, $media, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::css($text, $media));
+	}
+
+	public static function providerCssFile()
+	{
+		return array(
+			array('/css/style.css?a=1&b=2', '', '<link rel="stylesheet" type="text/css" href="/css/style.css?a=1&amp;b=2" />'),
+			array('/css/style.css?c=3&d=4', 'screen', '<link rel="stylesheet" type="text/css" href="/css/style.css?c=3&amp;d=4" media="screen" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerCssFile
+	 *
+	 * @param string $url
+	 * @param string $media
+	 * @param string $assertion
+	 */
+	public function testCssFile($url, $media, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::cssFile($url, $media));
+	}
+
+	public static function providerScript()
+	{
+		return array(
+			array('var a = 10;', "<script type=\"text/javascript\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"),
+			array("\t(function() { var x = 100; })();\n\tvar y = 200;",
+				"<script type=\"text/javascript\">\n/*<![CDATA[*/\n\t(function() { var x = 100; })();\n\tvar y = 200;\n/*]]>*/\n</script>"),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScript
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testScript($text, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::script($text));
+	}
+
+	public static function providerScriptFile()
+	{
+		return array(
+			array('/js/main.js?a=2&b=4', '<script type="text/javascript" src="/js/main.js?a=2&amp;b=4"></script>'),
+			array('http://company.com/get-user-by-name?name=Василий&lang=ru',
+				'<script type="text/javascript" src="http://company.com/get-user-by-name?name=Василий&amp;lang=ru"></script>'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScriptFile
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testScriptFile($text, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::scriptFile($text));
+	}
+
+	public function testEndForm()
+	{
+		$this->assertEquals('</form>', CHtml::endForm());
+	}
+
+	public function testActiveId()
+	{
+		$testModel=new CHtmlTestModel();
+		$this->assertEquals('CHtmlTestModel_attr1', CHtml::activeId($testModel, 'attr1'));
+		$this->assertEquals('CHtmlTestModel_attr2', CHtml::activeId($testModel, 'attr2'));
+		$this->assertEquals('CHtmlTestModel_attr3', CHtml::activeId($testModel, 'attr3'));
+		$this->assertEquals('CHtmlTestModel_attr4', CHtml::activeId($testModel, 'attr4'));
+	}
+
+	public function testActiveName()
+	{
+		$testModel=new CHtmlTestModel();
+		$this->assertEquals('CHtmlTestModel[attr1]', CHtml::activeName($testModel, 'attr1'));
+		$this->assertEquals('CHtmlTestModel[attr2]', CHtml::activeName($testModel, 'attr2'));
+		$this->assertEquals('CHtmlTestModel[attr3]', CHtml::activeName($testModel, 'attr3'));
+		$this->assertEquals('CHtmlTestModel[attr4]', CHtml::activeName($testModel, 'attr4'));
+	}
+
+	public static function providerGetIdByName()
+	{
+		return array(
+			array('ContactForm[name]', 'ContactForm_name'),
+			array('Order[name][first]', 'Order_name_first'),
+			array('Order[name][last]', 'Order_name_last'),
+			array('Recipe[photo][]', 'Recipe_photo'),
+			array('Request title', 'Request_title'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerGetIdByName
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testGetIdByName($text, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::getIdByName($text));
+	}
+
+	public function testResolveValue()
+	{
+		$testModel=new CHtmlTestFormModel();
+
+		$this->assertEquals('stringAttrValue', CHtml::resolveValue($testModel, 'stringAttr'));
+		$this->assertEquals('v1', CHtml::resolveValue($testModel, 'arrayAttr[k1]'));
+		$this->assertEquals('v2', CHtml::resolveValue($testModel, 'arrayAttr[k2]'));
+		$this->assertEquals($testModel->arrayAttr['k3'], CHtml::resolveValue($testModel, 'arrayAttr[k3]'));
+		$this->assertEquals('v4', CHtml::resolveValue($testModel, 'arrayAttr[k3][k4]'));
+		$this->assertEquals('v5', CHtml::resolveValue($testModel, 'arrayAttr[k3][k5]'));
+		$this->assertEquals('v6', CHtml::resolveValue($testModel, 'arrayAttr[k6]'));
+
+		$this->assertEquals(null, CHtml::resolveValue($testModel, 'arrayAttr[k7]'));
+		$this->assertEquals(null, CHtml::resolveValue($testModel, 'arrayAttr[k7][k8]'));
+
+		$this->assertEquals($testModel->arrayAttr, CHtml::resolveValue($testModel, '[ignored-part]arrayAttr'));
+		$this->assertEquals('v1', CHtml::resolveValue($testModel, '[ignored-part]arrayAttr[k1]'));
+		$this->assertEquals('v4', CHtml::resolveValue($testModel, '[ignore-this]arrayAttr[k3][k4]'));
+	}
+
+	public static function providerPageStateField()
+	{
+		return array(
+			array('testing-value', '<input type="hidden" name="'.CController::STATE_INPUT_NAME.'" value="testing-value" />'),
+			array('another-testing&value', '<input type="hidden" name="'.CController::STATE_INPUT_NAME.'" value="another-testing&value" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerPageStateField
+	 *
+	 * @param string $value
+	 * @param string $assertion
+	 */
+	public function testPageStateField($value, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::pageStateField($value));
+	}
+
+	public static function providerEncodeDecode()
+	{
+		return array(
+			array(
+				'<h1 class="header" attr=\'value\'>Text header</h1>',
+				'&lt;h1 class=&quot;header&quot; attr=&#039;value&#039;&gt;Text header&lt;/h1&gt;',
+			),
+			array(
+				'<p>testing & text</p>',
+				'&lt;p&gt;testing &amp; text&lt;/p&gt;',
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerEncodeDecode
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testEncode($text, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::encode($text));
+	}
+
+	/**
+	 * @dataProvider providerEncodeDecode
+	 *
+	 * @param string $assertion
+	 * @param string $text
+	 */
+	public function testDecode($assertion, $text)
+	{
+		$this->assertEquals($assertion, CHtml::decode($text));
+	}
+
+	public static function providerRefresh()
+	{
+		return array(
+			array(
+				10,
+				'http://yiiframework.com/',
+				'<meta http-equiv="refresh" content="10;http://yiiframework.com/" />'."\n",
+			),
+			array(
+				15,
+				array('site/index'),
+				'<meta http-equiv="refresh" content="15;/bootstrap.php?r=site/index" />'."\n",
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerRefresh
+	 *
+	 * @param $seconds
+	 * @param $url
+	 * @param $assertion
+	 */
+	public function testRefresh($seconds, $url, $assertion)
+	{
+		// this adds element to the CClientScript::$metaTags
+		CHtml::refresh($seconds, $url);
+
+		// now render html head with registered meta tags
+		$output='';
+		Yii::app()->clientScript->renderHead($output);
+
+		// and test it now
+		$this->assertEquals($assertion, $output);
+	}
+
+	public static function providerStatefulForm()
+	{
+		// we should keep in mind that CHtml::statefulForm() calls CHtml::beginForm() internally
+		// so we can make expected assertion value more readable by using CHtml::beginForm() because
+		// we are testing stateful feature of the CHtml::statefulForm(), not <form> tag generation
+		// same true for CHtml::pageStateField - it is already tested in another method
+		return array(
+			array(
+				array('site/index'),
+				'post',
+				array(),
+				CHtml::form(array('site/index'), 'post', array())."\n".'<div style="display:none">'.CHtml::pageStateField('').'</div>'
+			),
+			array(
+				'/some-static/url',
+				'get',
+				array('test-attr'=>'test-value'),
+				CHtml::form('/some-static/url', 'get', array('test-attr'=>'test-value'))."\n".'<div style="display:none">'.CHtml::pageStateField('').'</div>'
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerStatefulForm
+	 *
+	 * @param string $action
+	 * @param string $method
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testStatefulForm($action, $method, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::statefulForm($action, $method, $htmlOptions));
+	}
+
+	public static function providerMailto()
+	{
+		return array(
+			array(
+				'Drop me a line! ;-)',
+				'admin@example.com',
+				array('class'=>'mail-to-admin'),
+				'<a class="mail-to-admin" href="mailto:admin@example.com">Drop me a line! ;-)</a>',
+			),
+			array(
+				'Contact me',
+				'foo@bar.baz',
+				array(),
+				'<a href="mailto:foo@bar.baz">Contact me</a>',
+			),
+			array(
+				'boss@acme.com',
+				'',
+				array(),
+				'<a href="mailto:boss@acme.com">boss@acme.com</a>',
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerMailto
+	 *
+	 * @param string $text
+	 * @param string $email
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testMailto($text, $email, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::mailto($text, $email, $htmlOptions));
+	}
+
+	public static function providerImage()
+	{
+		return array(
+			array('/images/logo.png', 'YiiSoft, LLC', array(), '<img src="/images/logo.png" alt="YiiSoft, LLC" />'),
+			array('/img/test.jpg', '', array('class'=>'test-img'), '<img class="test-img" src="/img/test.jpg" alt="" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerImage
+	 *
+	 * @param $src
+	 * @param $alt
+	 * @param $htmlOptions
+	 * @param $assertion
+	 */
+	public function testImage($src, $alt, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::image($src, $alt, $htmlOptions));
+	}
+
 }
 
 /* Helper classes */
@@ -152,7 +619,7 @@ class CHtmlTestModel extends CModel
      * @property mixed $attr4
      */
     public $attr4;
-    
+
     public function __constructor(array $properties)
     {
         foreach($properties as $property=>$value)
@@ -188,4 +655,24 @@ class CHtmlTestModel extends CModel
 			return self::$_names[$className];
 	}
 
+}
+
+class CHtmlTestFormModel extends CFormModel
+{
+	public $stringAttr;
+	public $arrayAttr;
+
+	public function afterConstruct()
+	{
+		$this->stringAttr='stringAttrValue';
+		$this->arrayAttr=array(
+			'k1'=>'v1',
+			'k2'=>'v2',
+			'k3'=>array(
+				'k4'=>'v4',
+				'k5'=>'v5',
+			),
+			'k6'=>'v6',
+		);
+	}
 }
