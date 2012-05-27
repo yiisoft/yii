@@ -396,6 +396,100 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals('v4', CHtml::resolveValue($testModel, '[ignore-this]arrayAttr[k3][k4]'));
 	}
 
+	public function providerPageStateField()
+	{
+		return array(
+			array('testing-value', '<input type="hidden" name="'.CController::STATE_INPUT_NAME.'" value="testing-value" />'),
+			array('another-testing&value', '<input type="hidden" name="'.CController::STATE_INPUT_NAME.'" value="another-testing&value" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerPageStateField
+	 *
+	 * @param string $value
+	 * @param string $assertion
+	 */
+	public function testPageStateField($value, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::pageStateField($value));
+	}
+
+	public function providerEncodeDecode()
+	{
+		return array(
+			array(
+				'<h1 class="header" attr=\'value\'>Text header</h1>',
+				'&lt;h1 class=&quot;header&quot; attr=&#039;value&#039;&gt;Text header&lt;/h1&gt;',
+			),
+			array(
+				'<p>testing & text</p>',
+				'&lt;p&gt;testing &amp; text&lt;/p&gt;',
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerEncodeDecode
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testEncode($text, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::encode($text));
+	}
+
+	/**
+	 * @dataProvider providerEncodeDecode
+	 *
+	 * @param string $assertion
+	 * @param string $text
+	 */
+	public function testDecode($assertion, $text)
+	{
+		$this->assertEquals($assertion, CHtml::decode($text));
+	}
+
+	public function providerRefresh()
+	{
+		return array(
+			array(
+				10,
+				'http://yiiframework.com/',
+				'<meta http-equiv="refresh" content="10;http://yiiframework.com/" />'."\n",
+			),
+			array(
+				15,
+				array('site/index'),
+				// assertion contains two lines because CClientScript::$registerMetaTag does not
+				// rewrites already added refresh meta tag (accumulates)
+				'<meta http-equiv="refresh" content="10;http://yiiframework.com/" />'."\n".
+				'<meta http-equiv="refresh" content="15;/bootstrap.php?r=site/index" />'."\n",
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerRefresh
+	 *
+	 * @param $seconds
+	 * @param $url
+	 * @param $assertion
+	 */
+	public function testRefresh($seconds, $url, $assertion)
+	{
+		// this adds element to the CClientScript::$metaTags
+		CHtml::refresh($seconds, $url);
+
+		// now render html head with registered meta tags
+		$output='';
+		Yii::app()->clientScript->renderHead($output);
+
+		// and test it now
+		$this->assertEquals($assertion, $output);
+	}
+
 }
 
 /* Helper classes */
