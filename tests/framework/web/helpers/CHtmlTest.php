@@ -2,6 +2,18 @@
 
 class CHtmlTest extends CTestCase
 {
+	public function setUp()
+	{
+		// clean up any possible garbage in global clientScript app component
+		Yii::app()->clientScript->reset();
+	}
+
+	public function tearDown()
+	{
+		// do not keep any garbage in global clientScript app component
+		Yii::app()->clientScript->reset();
+	}
+
     /* HTML characters encode/decode tests */
     
     public static function providerEncodeArray()
@@ -150,7 +162,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::openTag($tag, $htmlOptions));
 	}
 
-	public function providerCloseTag()
+	public static function providerCloseTag()
 	{
 		return array(
 			array('div', '</div>'),
@@ -171,7 +183,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::closeTag($tag));
 	}
 
-	public function providerCdata()
+	public static function providerCdata()
 	{
 		return array(
 			array('cdata-content', '<![CDATA[cdata-content]]>'),
@@ -249,7 +261,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::linkTag($relation, $type, $href, $media, $options));
 	}
 
-	public function providerCss()
+	public static function providerCss()
 	{
 		return array(
 			array('h1{font-size:20px;line-height:26px;}', '',
@@ -271,7 +283,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::css($text, $media));
 	}
 
-	public function providerCssFile()
+	public static function providerCssFile()
 	{
 		return array(
 			array('/css/style.css?a=1&b=2', '', '<link rel="stylesheet" type="text/css" href="/css/style.css?a=1&amp;b=2" />'),
@@ -291,7 +303,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::cssFile($url, $media));
 	}
 
-	public function providerScript()
+	public static function providerScript()
 	{
 		return array(
 			array('var a = 10;', "<script type=\"text/javascript\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"),
@@ -311,7 +323,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::script($text));
 	}
 
-	public function providerScriptFile()
+	public static function providerScriptFile()
 	{
 		return array(
 			array('/js/main.js?a=2&b=4', '<script type="text/javascript" src="/js/main.js?a=2&amp;b=4"></script>'),
@@ -354,7 +366,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals('CHtmlTestModel[attr4]', CHtml::activeName($testModel, 'attr4'));
 	}
 
-	public function providerGetIdByName()
+	public static function providerGetIdByName()
 	{
 		return array(
 			array('ContactForm[name]', 'ContactForm_name'),
@@ -396,7 +408,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals('v4', CHtml::resolveValue($testModel, '[ignore-this]arrayAttr[k3][k4]'));
 	}
 
-	public function providerPageStateField()
+	public static function providerPageStateField()
 	{
 		return array(
 			array('testing-value', '<input type="hidden" name="'.CController::STATE_INPUT_NAME.'" value="testing-value" />'),
@@ -415,7 +427,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::pageStateField($value));
 	}
 
-	public function providerEncodeDecode()
+	public static function providerEncodeDecode()
 	{
 		return array(
 			array(
@@ -451,7 +463,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::decode($text));
 	}
 
-	public function providerRefresh()
+	public static function providerRefresh()
 	{
 		return array(
 			array(
@@ -462,9 +474,6 @@ class CHtmlTest extends CTestCase
 			array(
 				15,
 				array('site/index'),
-				// assertion contains two lines because CClientScript::$registerMetaTag does not
-				// rewrites already added refresh meta tag (accumulates)
-				'<meta http-equiv="refresh" content="10;http://yiiframework.com/" />'."\n".
 				'<meta http-equiv="refresh" content="15;/bootstrap.php?r=site/index" />'."\n",
 			),
 		);
