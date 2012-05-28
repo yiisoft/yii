@@ -75,7 +75,7 @@ class CExistValidator extends CValidator
 			throw new CException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
 				array('{column}'=>$attributeName,'{table}'=>$table->name)));
 
-		$criteria=array('condition'=>$column->rawName.'=:vp','params'=>array(':vp'=>$value));
+		$criteria=array('condition'=>$finder->getTableAlias(true).'.'.$column->rawName.'=:vp','params'=>array(':vp'=>$value));
 		if($this->criteria!==array())
 		{
 			$criteria=new CDbCriteria($criteria);
