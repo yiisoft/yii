@@ -49,8 +49,6 @@ class CFileCache extends CCache
 	/**
 	 * Initializes this application component.
 	 * This method is required by the {@link IApplicationComponent} interface.
-	 * It checks the availability of memcache.
-	 * @throws CException if APC cache extension is not loaded or is disabled.
 	 */
 	public function init()
 	{
