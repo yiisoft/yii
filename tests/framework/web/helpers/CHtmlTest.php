@@ -582,14 +582,104 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerImage
 	 *
-	 * @param $src
-	 * @param $alt
-	 * @param $htmlOptions
-	 * @param $assertion
+	 * @param string $src
+	 * @param string $alt
+	 * @param array $htmlOptions
+	 * @param string $assertion
 	 */
 	public function testImage($src, $alt, $htmlOptions, $assertion)
 	{
 		$this->assertEquals($assertion, CHtml::image($src, $alt, $htmlOptions));
+	}
+
+	public function providerActiveLabel()
+	{
+		return array(
+			array(false, 'userName', array(), '<label for="CHtmlTestActiveModel_userName">User Name</label>'),
+			array(false, 'userName', array('for'=>'someTestingInput'), '<label for="someTestingInput">User Name</label>'),
+			array(false, 'userName', array('label'=>'Custom Label'), '<label for="CHtmlTestActiveModel_userName">Custom Label</label>'),
+			array(false, 'userName', array('label'=>false), ''),
+			array(true, 'userName', array(), '<label class="error" for="CHtmlTestActiveModel_userName">User Name</label>'),
+			array(true, 'userName', array('for'=>'someTestingInput'), '<label class="error" for="someTestingInput">User Name</label>'),
+			array(true, 'firstName', array('label'=>'Custom Label'), '<label for="CHtmlTestActiveModel_firstName">Custom Label</label>'),
+			array(true, 'userName', array('label'=>false), ''),
+		);
+	}
+
+	/**
+	 * @dataProvider providerActiveLabel
+	 *
+	 * @param boolean $validate
+	 * @param string $attribute
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testActiveLabel($validate, $attribute, $htmlOptions, $assertion)
+	{
+		$model=new CHtmlTestActiveModel();
+		if($validate)
+			$model->validate();
+		$this->assertEquals($assertion, CHtml::activeLabel($model, $attribute, $htmlOptions));
+	}
+
+	public function providerActiveLabelEx()
+	{
+		return array(
+			array(false, 'firstName', array(), '<label for="CHtmlTestActiveModel_firstName">First Name</label>'),
+			array(false, 'firstName', array('for'=>'someTestingInput'), '<label for="someTestingInput">First Name</label>'),
+			array(false, 'userName', array('label'=>'Custom Label'), '<label for="CHtmlTestActiveModel_userName" class="required">Custom Label <span class="required">*</span></label>'),
+			array(false, 'userName', array('label'=>false), ''),
+			array(true, 'userName', array(), '<label class="error required" for="CHtmlTestActiveModel_userName">User Name <span class="required">*</span></label>'),
+			array(true, 'userName', array('for'=>'someTestingInput'), '<label class="error required" for="someTestingInput">User Name <span class="required">*</span></label>'),
+			array(true, 'firstName', array('label'=>'Custom Label'), '<label for="CHtmlTestActiveModel_firstName">Custom Label</label>'),
+			array(true, 'firstName', array('label'=>false), ''),
+		);
+	}
+
+	/**
+	 * @dataProvider providerActiveLabelEx
+	 *
+	 * @param boolean $addErrors
+	 * @param string $attribute
+	 * @param array $htmlOptions
+	 * @param string $validate
+	 */
+	public function testActiveLabelEx($validate, $attribute, $htmlOptions, $assertion)
+	{
+		$model=new CHtmlTestActiveModel();
+		if($validate)
+			$model->validate();
+		$this->assertEquals($assertion, CHtml::activeLabelEx($model, $attribute, $htmlOptions));
+	}
+
+	public function providerActiveTextField()
+	{
+		return array(
+			array(false, 'userName', array('class'=>'user-name-field'),
+				'<input class="user-name-field" name="CHtmlTestActiveModel[userName]" id="CHtmlTestActiveModel_userName" type="text" />'),
+			array(true, 'userName', array('class'=>'user-name-field'),
+				'<input class="user-name-field error" name="CHtmlTestActiveModel[userName]" id="CHtmlTestActiveModel_userName" type="text" />'),
+			array(false, 'firstName', array('class'=>'first-name-field'),
+				'<input class="first-name-field" name="CHtmlTestActiveModel[firstName]" id="CHtmlTestActiveModel_firstName" type="text" />'),
+			array(true, 'firstName', array('class'=>'first-name-field'),
+				'<input class="first-name-field" name="CHtmlTestActiveModel[firstName]" id="CHtmlTestActiveModel_firstName" type="text" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerActiveTextField
+	 *
+	 * @param boolean $validate
+	 * @param string $attribute
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testActiveTextField($validate, $attribute, $htmlOptions, $assertion)
+	{
+		$model=new CHtmlTestActiveModel();
+		if($validate)
+			$model->validate();
+		$this->assertEquals($assertion, CHtml::activeTextField($model, $attribute, $htmlOptions));
 	}
 
 }
@@ -673,6 +763,20 @@ class CHtmlTestFormModel extends CFormModel
 				'k5'=>'v5',
 			),
 			'k6'=>'v6',
+		);
+	}
+}
+
+class CHtmlTestActiveModel extends CFormModel
+{
+	public $userName;
+	public $firstName;
+
+	public function rules()
+	{
+		return array(
+			array('userName', 'required'),
+			array('firstName', 'safe'),
 		);
 	}
 }
