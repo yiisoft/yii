@@ -103,6 +103,9 @@ class CActiveRecordTest extends CTestCase
 		$post=Post::model()->findByPk(array());
 		$this->assertNull($post);
 
+		$post=Post::model()->findByPk(null);
+		$this->assertNull($post);
+
 		$post=Post::model()->findByPk(6);
 		$this->assertNull($post);
 
@@ -234,6 +237,13 @@ class CActiveRecordTest extends CTestCase
 		$post2->title='new post';
 		$post2->save();
 		$this->assertEquals('post 1',$post->title);
+		$this->assertTrue($post->refresh());
+		$this->assertEquals('new post',$post->title);
+
+		$post = new Post();
+		$this->assertFalse($post->refresh());
+		// @todo is this what we want?
+		$post->id = 1;
 		$this->assertTrue($post->refresh());
 		$this->assertEquals('new post',$post->title);
 	}

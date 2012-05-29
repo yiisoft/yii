@@ -1178,7 +1178,7 @@ abstract class CActiveRecord extends CModel
 	public function refresh()
 	{
 		Yii::trace(get_class($this).'.refresh()','system.db.ar.CActiveRecord');
-		if(!$this->getIsNewRecord() && ($record=$this->findByPk($this->getPrimaryKey()))!==null)
+		if(($record=$this->findByPk($this->getPrimaryKey()))!==null)
 		{
 			$this->_attributes=array();
 			$this->_related=array();
