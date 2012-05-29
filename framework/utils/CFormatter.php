@@ -75,18 +75,16 @@ class CFormatter extends CApplicationComponent
 	 */
 	public $booleanFormat=array('No','Yes');
 
-	/** 
+	/**
 	 * @var array the format used to format size (bytes). Two elements may be specified: "base" and "decimals".
-	 * They correspond to the base at which KiloByte is calculated (1000 or 1024) bytes per KiloByte and 
+	 * They correspond to the base at which KiloByte is calculated (1000 or 1024) bytes per KiloByte and
 	 * the number of digits after decimal point.
 	 */
 	public $sizeFormat=array(
 		'base'=>1024,
 		'decimals'=>2,
-		'units'=>array('B','KB','MB','GB','TB'),
-		'full_forms'=>array('Bytes','KiloBytes','MegaBytes','GigaBytes','TeraBytes')
 	);
-	
+
 	/**
 	 * Calls the format method when its shortcut is invoked.
 	 * This is a PHP magic method that we override to implement the shortcut format methods.
@@ -256,21 +254,34 @@ class CFormatter extends CApplicationComponent
 			$this->_htmlPurifier=new CHtmlPurifier;
 		return $this->_htmlPurifier;
 	}
-	
+
 	/**
-	 * Formats the value as a size in human readable form.
-	 * @params integer value to be formatted
-	 * @params boolean true if the result should return full form size name (e.g. Bytes, KiloBytes, ...),
-	 * false for short size name (e.g. B, KB, ...). Defaults to false.
+	 * Formats the value in bytes as a size in human readable form.
+	 * @param integer $value value in bytes to be formatted
+	 * @param boolean $verbose if full names should be used (e.g. Bytes, KiloBytes, ...).
+	 * Defaults to false meaning that short names will be used (e.g. B, KB, ...).
 	 * @return string the formatted result
 	 */
-	public function formatSize($value,$verbose = false)
+	public function formatSize($value,$verbose=false)
 	{
-		$units=($verbose == true)?$this->sizeFormat['full_forms']:$this->sizeFormat['units'];
-		$base = $this->sizeFormat['base'];
-		$total_units = sizeof($units)-1;
-		for($i=0; $base<=$value && $i<$total_units; $i++) $value=$value/$base;
-		return round($value, $this->sizeFormat['decimals']).Yii::t('size_units',$units[$i]);
-	}
+		$base=$this->sizeFormat['base'];
+		for($i=0; $base<=$value && $i<5; $i++)
+			$value=$value/$base;
 
+		$value=round($value, $this->sizeFormat['decimals']);
+
+		switch($i)
+		{
+			case 0:
+				return $verbose ? Yii::t('size_units', '{n} Bytes', $value) : Yii::t('size_units', '{n} B', $value);
+			case 1:
+				return $verbose ? Yii::t('size_units', '{n} KiloBytes', $value) : Yii::t('size_units', '{n} KB', $value);
+			case 2:
+				return $verbose ? Yii::t('size_units', '{n} MegaBytes', $value) : Yii::t('size_units', '{n} MB', $value);
+			case 3:
+				return $verbose ? Yii::t('size_units', '{n} GigaBytes', $value) : Yii::t('size_units', '{n} GB', $value);
+			default:
+				return $verbose ? Yii::t('size_units', '{n} TeraBytes', $value) : Yii::t('size_units', '{n} TB', $value);
+		}
+	}
 }
