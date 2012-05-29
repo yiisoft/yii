@@ -270,7 +270,7 @@ class CFormatter extends CApplicationComponent
 		$base = $this->sizeFormat['base'];
 		$total_units = sizeof($units)-1;
 		for($i=0; $base<=$value && $i<$total_units; $i++) $value=$value/$base;
-		return round($value, $this->sizeFormat['decimals']).Yii::t('units_for_size',$units[$i]);
+		return round($value, $this->sizeFormat['decimals']).Yii::t('size_units',$units[$i]);
 	}
 
 }
