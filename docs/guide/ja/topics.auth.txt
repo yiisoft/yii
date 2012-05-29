@@ -530,12 +530,12 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 これらのロール割り当てを明示的に指定し、保存すると、大変なメンテナンストラブルをもたらします。
 この問題を解決するために、*デフォルトロールを*活用することができます。
 
-デフォルトロールは、認証済みのユーザとゲストユーザを含むすべてのユーザに、黙示的に割り当てられるロールです。
+デフォルトロールは、すべてのユーザに黙示的に割り当てられるロールです。
 明示的にユーザに割り当てる必要はありません。
- [CWebUser::checkAccess]が呼び出されると、デフォルトロールはまるでユーザに割り当てられているかのようにまずチェックされます。
+ [CWebUser::checkAccess]が呼び出されると、デフォルトロールがそのユーザに割り当てられているものとして、最初にチェックされます。
 
 デフォルトロールは[CAuthManager::defaultRoles] プロパティで宣言されなければなりません。
-例えば、以下の設定では`authenticated`と`guest`という二つのロールをデフォルトロールとして宣言しています。
+例えば、以下の設定では`authenticated`と`admin`という二つのロールをデフォルトロールとして宣言しています。
 
 ~~~
 [php]
@@ -543,24 +543,24 @@ return array(
 	'components'=>array(
 		'authManager'=>array(
 			'class'=>'CDbAuthManager',
-			'defaultRoles'=>array('authenticated', 'guest'),
+			'defaultRoles'=>array('authenticated', 'admin'),
 		),
 	),
 );
 ~~~
 
 デフォルトロールはすべてのユーザに割り当てられるため、
-たいていビジネスルールでロールが本当にユーザに適用されるかどうか決定する必要があります。
-例えば、以下のコードでは`authenticated`と`guest`という二つのロールを定義し、
-それぞれを認証済みユーザとゲストユーザに割り当てています。
+たいていは、ビジネスルールでロールが本当にユーザに適用されるかどうか決定する必要があります。
+例えば、以下のコードでは`authenticated`と`admin`という二つのロールを定義して、事実上、
+それぞれを認証済みユーザと`admin`というユーザ名を持つユーザに割り当てています。
 
 ~~~
 [php]
 $bizRule='return !Yii::app()->user->isGuest;';
 $auth->createRole('authenticated', 'authenticated user', $bizRule);
 
-$bizRule='return Yii::app()->user->isGuest;';
-$auth->createRole('guest', 'guest user', $bizRule);
+$bizRule='return Yii::app()->user->name === "admin";';
+$auth->createRole('admin', 'admin user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id$</div>
