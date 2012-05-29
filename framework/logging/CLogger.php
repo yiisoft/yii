@@ -250,7 +250,7 @@ class CLogger extends CComponent
 		$timings = $this->_timings;
 		if($categories!==null) {
 			$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
-			$timings = array_filter($timings,array($this,'filterTimingByCategory'));
+			$timings=array_filter($timings,array($this,'filterTimingByCategory'));
 		}
 
 		$results=array();
