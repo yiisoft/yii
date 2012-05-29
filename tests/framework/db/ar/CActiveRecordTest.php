@@ -242,7 +242,6 @@ class CActiveRecordTest extends CTestCase
 
 		$post = new Post();
 		$this->assertFalse($post->refresh());
-		// @todo is this what we want?
 		$post->id = 1;
 		$this->assertTrue($post->refresh());
 		$this->assertEquals('new post',$post->title);
