@@ -249,7 +249,7 @@ class CAuthItem extends CComponent
 	 */
 	public function revoke($userId)
 	{
-		$this->_auth->revoke($this->_name,$userId);
+		return $this->_auth->revoke($this->_name,$userId);
 	}
 
 	/**

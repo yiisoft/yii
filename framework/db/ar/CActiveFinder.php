@@ -217,6 +217,9 @@ class CActiveFinder extends CComponent
 
 			$relation=clone $relation;
 			$model=CActiveRecord::model($relation->className);
+
+			$oldDbCriteria=$model->getDbCriteria(false);
+
 			if($relation instanceof CActiveRelation)
 			{
 				$oldAlias=$model->getTableAlias(false,false);
@@ -271,6 +274,8 @@ class CActiveFinder extends CComponent
 					$relation->mergeWith($model->getDbCriteria(),true);
 				}
 			}
+
+			$model->setDbCriteria($oldDbCriteria);
 
 			// dynamic options
 			if($options!==null)
@@ -1318,7 +1323,7 @@ class CJoinQuery
 	/**
 	 * Creates the SQL statement.
 	 * @param CDbCommandBuilder $builder the command builder
-	 * @return string the SQL statement
+	 * @return CDbCommand DB command instance representing the SQL statement
 	 */
 	public function createCommand($builder)
 	{

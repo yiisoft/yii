@@ -77,7 +77,7 @@
 				gridSettings[id] = settings;
 
 				if (settings.ajaxUpdate.length > 0) {
-					$(document).on('click', settings.updateSelector, function () {
+					$(document).on('click.yiiGridView', settings.updateSelector, function () {
 						// Check to see if History.js is enabled for our Browser
 						if (settings.enableHistory && window.History.enabled) {
 							// Ajaxify this link
@@ -93,7 +93,7 @@
 					});
 				}
 
-				$(document).on('change', inputSelector, function () {
+				$(document).on('change.yiiGridView', inputSelector, function () {
 					var data = $(inputSelector).serialize();
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
@@ -119,11 +119,11 @@
 
 				if (settings.selectableRows > 0) {
 					selectCheckedRows(this.id);
-					$(document).on('click', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
+					$(document).on('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
 						var $currentGrid, $row, isRowSelected, $checks,
 							$target = $(e.target);
 
-						if ($target.closest('td').hasClass('button-column') || (e.target.type === 'checkbox' && !$target.hasClass('select-on-check'))) {
+						if ($target.closest('td').is('.empty,.button-column') || (e.target.type === 'checkbox' && !$target.hasClass('select-on-check'))) {
 							return;
 						}
 
@@ -144,7 +144,7 @@
 						}
 					});
 					if (settings.selectableRows > 1) {
-						$(document).on('click', '#' + id + ' .select-on-check-all', function () {
+						$(document).on('click.yiiGridView', '#' + id + ' .select-on-check-all', function () {
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
@@ -164,7 +164,7 @@
 						});
 					}
 				} else {
-					$(document).on('click', '#' + id + ' .select-on-check', false);
+					$(document).on('click.yiiGridView', '#' + id + ' .select-on-check', false);
 				}
 			});
 		},

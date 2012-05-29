@@ -15,6 +15,13 @@
  * the yii-dbmigrations extension ((https://github.com/pieterclaerhout/yii-dbmigrations),
  * authored by Pieter Claerhout.
  *
+ * Since version 1.1.11 this command will exit with the following exit codes:
+ * <ul>
+ * <li>0 on success</li>
+ * <li>1 on general error</li>
+ * <li>2 on failed migration.</li>
+ * </ul>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.cli.commands
@@ -61,13 +68,16 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$path=Yii::getPathOfAlias($this->migrationPath);
 		if($path===false || !is_dir($path))
-			die('Error: The migration directory does not exist: '.$this->migrationPath."\n");
+		{
+			echo 'Error: The migration directory does not exist: '.$this->migrationPath."\n";
+			exit(1);
+		}
 		$this->migrationPath=$path;
 
 		$yiiVersion=Yii::getVersion();
 		echo "\nYii Migration Tool v1.0 (based on Yii v{$yiiVersion})\n\n";
 
-		return true;
+		return parent::beforeAction($action,$params);
 	}
 
 	public function actionUp($args)
@@ -75,7 +85,7 @@ class MigrateCommand extends CConsoleCommand
 		if(($migrations=$this->getNewMigrations())===array())
 		{
 			echo "No new migration found. Your system is up-to-date.\n";
-			return;
+			return 0;
 		}
 
 		$total=count($migrations);
@@ -100,7 +110,7 @@ class MigrateCommand extends CConsoleCommand
 				if($this->migrateUp($migration)===false)
 				{
 					echo "\nMigration failed. All later migrations are canceled.\n";
-					return;
+					return 2;
 				}
 			}
 			echo "\nMigrated up successfully.\n";
@@ -111,12 +121,15 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
 		if($step<1)
-			die("Error: The step parameter must be greater than 0.\n");
+		{
+			echo "Error: The step parameter must be greater than 0.\n";
+			return 1;
+		}
 
 		if(($migrations=$this->getMigrationHistory($step))===array())
 		{
 			echo "No migration has been done before.\n";
-			return;
+			return 0;
 		}
 		$migrations=array_keys($migrations);
 
@@ -133,7 +146,7 @@ class MigrateCommand extends CConsoleCommand
 				if($this->migrateDown($migration)===false)
 				{
 					echo "\nMigration failed. All later migrations are canceled.\n";
-					return;
+					return 2;
 				}
 			}
 			echo "\nMigrated down successfully.\n";
@@ -144,12 +157,15 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
 		if($step<1)
-			die("Error: The step parameter must be greater than 0.\n");
+		{
+			echo "Error: The step parameter must be greater than 0.\n";
+			return 1;
+		}
 
 		if(($migrations=$this->getMigrationHistory($step))===array())
 		{
 			echo "No migration has been done before.\n";
-			return;
+			return 0;
 		}
 		$migrations=array_keys($migrations);
 
@@ -166,7 +182,7 @@ class MigrateCommand extends CConsoleCommand
 				if($this->migrateDown($migration)===false)
 				{
 					echo "\nMigration failed. All later migrations are canceled.\n";
-					return;
+					return 2;
 				}
 			}
 			foreach(array_reverse($migrations) as $migration)
@@ -174,7 +190,7 @@ class MigrateCommand extends CConsoleCommand
 				if($this->migrateUp($migration)===false)
 				{
 					echo "\nMigration failed. All later migrations are canceled.\n";
-					return;
+					return 2;
 				}
 			}
 			echo "\nMigration redone successfully.\n";
@@ -192,17 +208,17 @@ class MigrateCommand extends CConsoleCommand
 		if(preg_match('/^m?(\d{6}_\d{6})(_.*?)?$/',$version,$matches))
 			$version='m'.$matches[1];
 		else
-			die("Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n");
+		{
+			echo "Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n";
+			return 1;
+		}
 
 		// try migrate up
 		$migrations=$this->getNewMigrations();
 		foreach($migrations as $i=>$migration)
 		{
 			if(strpos($migration,$version.'_')===0)
-			{
-				$this->actionUp(array($i+1));
-				return;
-			}
+				return $this->actionUp(array($i+1));
 		}
 
 		// try migrate down
@@ -212,14 +228,17 @@ class MigrateCommand extends CConsoleCommand
 			if(strpos($migration,$version.'_')===0)
 			{
 				if($i===0)
+				{
 					echo "Already at '$originalVersion'. Nothing needs to be done.\n";
+					return 0;
+				}
 				else
-					$this->actionDown(array($i));
-				return;
+					return $this->actionDown(array($i));
 			}
 		}
 
-		die("Error: Unable to find the version '$originalVersion'.\n");
+		echo "Error: Unable to find the version '$originalVersion'.\n";
+		return 1;
 	}
 
 	public function actionMark($args)
@@ -231,8 +250,10 @@ class MigrateCommand extends CConsoleCommand
 		$originalVersion=$version;
 		if(preg_match('/^m?(\d{6}_\d{6})(_.*?)?$/',$version,$matches))
 			$version='m'.$matches[1];
-		else
-			die("Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n");
+		else {
+			echo "Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n";
+			return 1;
+		}
 
 		$db=$this->getDbConnection();
 
@@ -254,7 +275,7 @@ class MigrateCommand extends CConsoleCommand
 					}
 					echo "The migration history is set at $originalVersion.\nNo actual migration was performed.\n";
 				}
-				return;
+				return 0;
 			}
 		}
 
@@ -276,11 +297,12 @@ class MigrateCommand extends CConsoleCommand
 						echo "The migration history is set at $originalVersion.\nNo actual migration was performed.\n";
 					}
 				}
-				return;
+				return 0;
 			}
 		}
 
-		die("Error: Unable to find the version '$originalVersion'.\n");
+		echo "Error: Unable to find the version '$originalVersion'.\n";
+		return 1;
 	}
 
 	public function actionHistory($args)
@@ -330,8 +352,10 @@ class MigrateCommand extends CConsoleCommand
 		else
 			$this->usageError('Please provide the name of the new migration.');
 
-		if(!preg_match('/^\w+$/',$name))
-			die("Error: The name of the migration must contain letters, digits and/or underscore characters only.\n");
+		if(!preg_match('/^\w+$/',$name)) {
+			echo "Error: The name of the migration must contain letters, digits and/or underscore characters only.\n";
+			return 1;
+		}
 
 		$name='m'.gmdate('ymd_His').'_'.$name;
 		$content=strtr($this->getTemplate(), array('{ClassName}'=>$name));
@@ -344,11 +368,11 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function confirm($message)
+	public function confirm($message,$default=false)
 	{
 		if(!$this->interactive)
 			return true;
-		return parent::confirm($message);
+		return parent::confirm($message,$default);
 	}
 
 	protected function migrateUp($class)
@@ -418,8 +442,9 @@ class MigrateCommand extends CConsoleCommand
 			return $this->_db;
 		else if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 			return $this->_db;
-		else
-			die("Error: CMigrationCommand.connectionID '{$this->connectionID}' is invalid. Please make sure it refers to the ID of a CDbConnection application component.\n");
+
+		echo "Error: CMigrationCommand.connectionID '{$this->connectionID}' is invalid. Please make sure it refers to the ID of a CDbConnection application component.\n";
+		exit(1);
 	}
 
 	protected function getMigrationHistory($limit)

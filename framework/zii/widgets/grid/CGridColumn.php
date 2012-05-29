@@ -61,6 +61,10 @@ abstract class CGridColumn extends CComponent
 	 */
 	public $htmlOptions=array();
 	/**
+	 * @var array the HTML options for the filter cell tag.
+	 */
+	public $filterHtmlOptions=array();
+	/**
 	 * @var array the HTML options for the header cell tag.
 	 */
 	public $headerHtmlOptions=array();
@@ -102,7 +106,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	public function renderFilterCell()
 	{
-		echo "<td>";
+		echo CHtml::openTag('td',$this->filterHtmlOptions);
 		$this->renderFilterCellContent();
 		echo "</td>";
 	}
