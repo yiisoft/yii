@@ -75,6 +75,18 @@ class CFormatter extends CApplicationComponent
 	 */
 	public $booleanFormat=array('No','Yes');
 
+	/** 
+	 * @var array the format used to format size (bytes). Two elements may be specified: "base" and "decimals".
+	 * They correspond to the base at which KiloByte is calculated (1000 or 1024) bytes per KiloByte and 
+	 * the number of digits after decimal point.
+	 */
+	public $sizeFormat=array(
+		'base'=>1024,
+		'decimals'=>2,
+		'units'=>array('B','KB','MB','GB','TB'),
+		'full_forms'=>array('Bytes','KiloBytes','MegaBytes','GigaBytes','TeraBytes')
+	);
+	
 	/**
 	 * Calls the format method when its shortcut is invoked.
 	 * This is a PHP magic method that we override to implement the shortcut format methods.
@@ -244,4 +256,21 @@ class CFormatter extends CApplicationComponent
 			$this->_htmlPurifier=new CHtmlPurifier;
 		return $this->_htmlPurifier;
 	}
+	
+	/**
+	 * Formats the value as a size in human readable form.
+	 * @params integer value to be formatted
+	 * @params boolean true if the result should return full form size name (e.g. Bytes, KiloBytes, ...),
+	 * false for short size name (e.g. B, KB, ...). Defaults to false.
+	 * @return string the formatted result
+	 */
+	public function formatSize($value,$verbose = false)
+	{
+		$units=($verbose == true)?$this->sizeFormat['full_forms']:$this->sizeFormat['units'];
+		$base = $this->sizeFormat['base'];
+		$total_units = sizeof($units)-1;
+		for($i=0; $base<=$value && $i<$total_units; $i++) $value=$value/$base;
+		return round($value, $this->sizeFormat['decimals']).Yii::t('size_units',$units[$i]);
+	}
+
 }
