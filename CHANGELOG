@@ -66,7 +66,7 @@ Version 1.1.11 work in progress
 - Chg #440: Upgraded JQuery UI to 1.8.20 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
-- Enh: Updated CHtml::radioButtonList() and CHtml::checkBoxList() enclosing tag can be deactivated to maintain bw compatibility (pgaultier)
+- Enh: added possibility to set the container for CHtml::radioButtonList and CHtml::checkBoxList() (pgaultier)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
