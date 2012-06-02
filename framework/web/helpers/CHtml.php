@@ -843,7 +843,7 @@ class CHtml
 	 * the checkbox list.</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
-	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to span.
+	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to 'span'.
 	 * If the value is an empty string, no enclosing tag will be generated</li>
 	 * </ul>
 	 * @return string the generated check box list
@@ -934,7 +934,7 @@ EOD;
 	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
-	 * <li>container: string, specifies the radio buttons enclosing tag. Defaults to span.
+	 * <li>container: string, specifies the radio buttons enclosing tag. Defaults to 'span'.
 	 * If the value is an empty string, no enclosing tag will be generated</li>
 	 * </ul>
 	 * @return string the generated radio button list
