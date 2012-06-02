@@ -117,7 +117,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * If that happens during an ajax call, the complete HTML login page is returned as the result of that ajax call. That could be
 	 * a problem if the ajax call expects the result to be a json array or a predefined string, as the login page is ignored in that case.
 	 * To solve this, set this property to the desired return value.
-	 * 
+	 *
 	 * If this property is set, this value will be returned as the result of the ajax call in case that the user session has expired.
 	 * @since 1.1.9
 	 * @see loginRequired
@@ -779,6 +779,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param string $operation the name of the operation that need access check.
 	 * @param array $params name-value pairs that would be passed to business rules associated
 	 * with the tasks and roles assigned to the user.
+	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of
+	 * {@link getId()} when {@link CDbAuthManager} or {@link CPhpAuthManager} is used.
 	 * @param boolean $allowCaching whether to allow caching the result of access check.
 	 * When this parameter
 	 * is true (default), if the access check of an operation was performed before,
