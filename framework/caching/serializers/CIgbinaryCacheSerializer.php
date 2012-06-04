@@ -21,12 +21,10 @@
 class CIgbinaryCacheSerializer extends CCacheSerializer
 {
 	/**
-	 * Initializes this component.
 	 * @throws CException if the igbinary extension is not loaded or enabled.
 	 */
-	public function init()
+	public function __construct()
 	{
-		parent::init();
 		if(!extension_loaded('igbinary'))
 			throw new CException(Yii::t('yii','CIgbinaryCacheSerializer requires PHP igbinary extension to be loaded.'));
 	}
