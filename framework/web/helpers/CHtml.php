@@ -2066,11 +2066,16 @@ EOD;
 				$handler="return $confirm;";
 		}
 
-		if($live)
-			$cs->registerScript('Yii.CHtml.#' . $id, "$('body').on('$event','#$id',function(){{$handler}});");
+		if(isset($htmlOptions['selector']))
+			$selector=$htmlOptions['selector'];
 		else
-			$cs->registerScript('Yii.CHtml.#' . $id, "$('#$id').on('$event', function(){{$handler}});");
-		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
+			$selector="#$id";
+
+		if($live)
+			$cs->registerScript('Yii.CHtml.#' . $selector, "$('body').on('$event','$selector',function(event){{$handler}});");
+		else
+			$cs->registerScript('Yii.CHtml.#' . $selector, "$('$selector').on('$event', function(event){{$handler}});");
+		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf'],$htmlOptions['selector']);
 	}
 
 	/**
