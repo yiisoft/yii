@@ -171,7 +171,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > insert into $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->insert($table, $columns);
+		$this->getDbConnection()->createCommand()->insert(Yii::app()->db->tablePrefix.$table, $columns);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -188,7 +188,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > update $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->update($table, $columns, $conditions, $params);
+		$this->getDbConnection()->createCommand()->update(Yii::app()->db->tablePrefix.$table, $columns, $conditions, $params);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -203,7 +203,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > delete from $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->delete($table, $conditions, $params);
+		$this->getDbConnection()->createCommand()->delete(Yii::app()->db->tablePrefix.$table, $conditions, $params);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -226,7 +226,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > create table $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->createTable($table, $columns, $options);
+		$this->getDbConnection()->createCommand()->createTable(Yii::app()->db->tablePrefix.$table, $columns, $options);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -239,7 +239,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > rename table $table to $newName ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->renameTable($table, $newName);
+		$this->getDbConnection()->createCommand()->renameTable(Yii::app()->db->tablePrefix.$table, Yii::app()->db->prefix.$newName);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -251,7 +251,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > drop table $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->dropTable($table);
+		$this->getDbConnection()->createCommand()->dropTable(Yii::app()->db->tablePrefix.$table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -263,7 +263,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > truncate table $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->truncateTable($table);
+		$this->getDbConnection()->createCommand()->truncateTable(Yii::app()->db->tablePrefix.$table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -279,7 +279,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > add column $column $type to table $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->addColumn($table, $column, $type);
+		$this->getDbConnection()->createCommand()->addColumn(Yii::app()->db->tablePrefix.$table, $column, $type);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -292,7 +292,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > drop column $column from table $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->dropColumn($table, $column);
+		$this->getDbConnection()->createCommand()->dropColumn(Yii::app()->db->tablePrefix.$table, $column);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -306,7 +306,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > rename column $name in table $table to $newName ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->renameColumn($table, $name, $newName);
+		$this->getDbConnection()->createCommand()->renameColumn(Yii::app()->db->tablePrefix.$table, $name, $newName);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -322,7 +322,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > alter column $column in table $table to $type ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->alterColumn($table, $column, $type);
+		$this->getDbConnection()->createCommand()->alterColumn(Yii::app()->db->tablePrefix.$table, $column, $type);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -341,7 +341,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > add foreign key $name: $table ($columns) references $refTable ($refColumns) ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete, $update);
+		$this->getDbConnection()->createCommand()->addForeignKey($name, Yii::app()->db->tablePrefix.$table, $columns, $refTable, $refColumns, $delete, $update);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -354,7 +354,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > drop foreign key $name from table $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->dropForeignKey($name, $table);
+		$this->getDbConnection()->createCommand()->dropForeignKey($name, Yii::app()->db->tablePrefix.$table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -370,7 +370,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > create".($unique ? ' unique':'')." index $name on $table ($column) ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->createIndex($name, $table, $column, $unique);
+		$this->getDbConnection()->createCommand()->createIndex($name, Yii::app()->db->tablePrefix.$table, $column, $unique);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -383,7 +383,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > drop index $name ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->dropIndex($name, $table);
+		$this->getDbConnection()->createCommand()->dropIndex($name, Yii::app()->db->tablePrefix.$table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -396,7 +396,7 @@ abstract class CDbMigration extends CComponent
 	{
 		echo "    > refresh table $table schema cache ...";
 		$time=microtime(true);
-		$this->getDbConnection()->getSchema()->getTable($table,true);
+		$this->getDbConnection()->getSchema()->getTable(Yii::app()->db->tablePrefix.$table,true);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 }
