@@ -1947,13 +1947,20 @@ class CBaseActiveRelation extends CComponent
 	{
 		if($criteria instanceof CDbCriteria)
 			$criteria=$criteria->toArray();
-                
-                if(isset($criteria['count_select']) && $this->count_select!==$criteria['count_select']){
-                    _l("MERGE WITH ".$criteria['count_select']);
-                    $this->count_select[] = $criteria['count_select'];
-//                    $this->count_select = array_unique($this->count_select);
-                    
-                }
+                               
+		if(isset($criteria['count_select']) && $this->count_select!==$criteria['count_select'])
+		{
+			if($this->count_select==='*')
+				$this->count_select=$criteria['count_select'];
+			else if($criteria['count_select']!=='*')
+			{
+				$count_select1=is_string($this->count_select)?preg_split('/\s*,\s*/',trim($this->count_select),-1,PREG_SPLIT_NO_EMPTY):$this->count_select;
+				$count_select2=is_string($criteria['count_select'])?preg_split('/\s*,\s*/',trim($criteria['count_select']),-1,PREG_SPLIT_NO_EMPTY):$criteria['count_select'];
+				$this->count_select=array_merge($count_select1,array_diff($count_select2,$count_select1));
+			}
+                    _l("BASEARRELATION MERGE WITH");                    
+                    _l($this->count_select);                          
+		}
                 
 		if(isset($criteria['select']) && $this->select!==$criteria['select'])
 		{

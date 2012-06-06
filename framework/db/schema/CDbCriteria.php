@@ -38,7 +38,8 @@ class CDbCriteria extends CComponent
 	 * or an array of column names. Defaults to '*', meaning all columns.
 	 */
 	public $select='*';
-	public $count_select=null;
+//	public $count_select=null;
+	public $count_select='*';
 	/**
 	 * @var boolean whether to select distinct rows of data only. If this is set true,
 	 * the SELECT clause would be changed to SELECT DISTINCT.
@@ -470,12 +471,27 @@ class CDbCriteria extends CComponent
 		if(is_array($criteria))
 			$criteria=new self($criteria);
                 
-                if($this->count_select!==$criteria->count_select){
-                    $this->count_select[]=$criteria->count_select;
-                    _l("MERGE CRITERIA");                    
-                    _l($this->count_select);                    
+//                if($this->count_select!==$criteria->count_select){
+//                    $this->count_select[]=$criteria->count_select;
+//                    _l("MERGE CRITERIA");                    
+//                    _l($this->count_select);                    
+//                    
+//                }
+                
+		if($this->count_select!==$criteria->count_select)
+		{
                     
-                }
+			if($this->count_select==='*')
+				$this->count_select=$criteria->count_select;
+			else if($criteria->count_select!=='*')
+			{
+				$count_select1=is_string($this->count_select)?preg_split('/\s*,\s*/',trim($this->count_select),-1,PREG_SPLIT_NO_EMPTY):$this->count_select;
+				$count_select2=is_string($criteria->count_select)?preg_split('/\s*,\s*/',trim($criteria->count_select),-1,PREG_SPLIT_NO_EMPTY):$criteria->count_select;
+				$this->count_select=array_merge($count_select1,array_diff($count_select2,$count_select1));
+			}
+                        _l("MERGE CRITERIA");                    
+                    _l($this->count_select);                    
+		}
                 
 		if($this->select!==$criteria->select)
 		{
