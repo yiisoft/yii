@@ -747,10 +747,20 @@ class CJoinElement
 		$this->_finder->baseLimited=false;
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
-                _l("-- COUNTER --");
-                _l($criteria->toArray());
-                _l("-- COUNT SELECTS --");
-                _l($query->count_selects);
+//                _l("-- COUNTER CRITERIA --");
+//                _l($criteria->toArray());
+//                _l("-- TREE COUNT SELECTS --");
+//                _l($query->count_selects);
+                if(count($query->count_selects))
+                {
+                        $query->selects=$query->count_selects;
+                        $query->orders=array();
+                        $query->limit=$query->offset=-1;
+                        $command=$query->createCommand($this->_builder);
+                        _l($command->text);
+                        $command->text='SELECT COUNT(*) FROM ('.$command->text.') sq';
+                        return $command->queryScalar();
+                }
                 
 		$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
 		if($select!=='*' && !strncasecmp($select,'count',5))
@@ -1277,8 +1287,13 @@ class CJoinQuery
 		if($criteria!==null)
 		{
 			_l("CJOIN CRITERIA");
+//                        $this->count_selects[]=$criteria->count_select;
+                        if($criteria->count_select!=='*')
+                        {
+                        $this->count_selects[]=$joinElement->getColumnSelect($criteria->count_select);
+                        }
                         _l($criteria);
-                        $this->count_selects[]=$criteria->count_select;
+                        _l($this->count_selects);
                         $this->selects[]=$joinElement->getColumnSelect($criteria->select);
 			$this->joins[]=$joinElement->getTableNameWithAlias();
 			$this->joins[]=$criteria->join;
