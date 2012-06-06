@@ -747,17 +747,13 @@ class CJoinElement
 		$this->_finder->baseLimited=false;
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
-//                _l("-- COUNTER CRITERIA --");
-//                _l($criteria->toArray());
-//                _l("-- TREE COUNT SELECTS --");
-//                _l($query->count_selects);
+//              use count_selects if provided in the criteria or AR relation  
                 if(count($query->count_selects))
                 {
                         $query->selects=$query->count_selects;
                         $query->orders=array();
                         $query->limit=$query->offset=-1;
                         $command=$query->createCommand($this->_builder);
-//                        _l($command);
                         $command->text='SELECT COUNT(*) FROM ('.$command->text.') sq';
                         $this->_builder->bindValues($command,$criteria->params);
                         return $command->queryScalar();
