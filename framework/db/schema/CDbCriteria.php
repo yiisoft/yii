@@ -471,13 +471,6 @@ class CDbCriteria extends CComponent
 		if(is_array($criteria))
 			$criteria=new self($criteria);
                 
-//                if($this->count_select!==$criteria->count_select){
-//                    $this->count_select[]=$criteria->count_select;
-//                    _l("MERGE CRITERIA");                    
-//                    _l($this->count_select);                    
-//                    
-//                }
-                
 		if($this->count_select!==$criteria->count_select)
 		{
                     
@@ -489,8 +482,7 @@ class CDbCriteria extends CComponent
 				$count_select2=is_string($criteria->count_select)?preg_split('/\s*,\s*/',trim($criteria->count_select),-1,PREG_SPLIT_NO_EMPTY):$criteria->count_select;
 				$this->count_select=array_merge($count_select1,array_diff($count_select2,$count_select1));
 			}
-                        _l("MERGE CRITERIA");                    
-                    _l($this->count_select);                    
+             
 		}
                 
 		if($this->select!==$criteria->select)
