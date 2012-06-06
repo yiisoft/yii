@@ -757,8 +757,9 @@ class CJoinElement
                         $query->orders=array();
                         $query->limit=$query->offset=-1;
                         $command=$query->createCommand($this->_builder);
-                        _l($command->text);
+//                        _l($command);
                         $command->text='SELECT COUNT(*) FROM ('.$command->text.') sq';
+                        $this->_builder->bindValues($command,$criteria->params);
                         return $command->queryScalar();
                 }
                 
@@ -1286,14 +1287,11 @@ class CJoinQuery
 	{
 		if($criteria!==null)
 		{
-			_l("CJOIN CRITERIA");
-//                        $this->count_selects[]=$criteria->count_select;
                         if($criteria->count_select!=='*')
                         {
-                        $this->count_selects[]=$joinElement->getColumnSelect($criteria->count_select);
+                            $this->count_selects[]=$joinElement->getColumnSelect($criteria->count_select);
                         }
-                        _l($criteria);
-                        _l($this->count_selects);
+
                         $this->selects[]=$joinElement->getColumnSelect($criteria->select);
 			$this->joins[]=$joinElement->getTableNameWithAlias();
 			$this->joins[]=$criteria->join;
@@ -1309,7 +1307,6 @@ class CJoinQuery
 		}
 		else
 		{       
-                    _l("CJOIN QUERY:  NO CRITERIA");
 			$this->selects[]=$joinElement->getPrimaryKeySelect();
 			$this->joins[]=$joinElement->getTableNameWithAlias();
 			$this->conditions[]=$joinElement->getPrimaryKeyRange();
@@ -1329,8 +1326,6 @@ class CJoinQuery
 			$this->selects[]=$element->getColumnSelect($element->relation->select);
 		if(!empty($element->relation->count_select))
                 {
-		_l("CJOIN ELEMENT");	
-		_l($element->relation->count_select);	
                     $this->count_selects[]=$element->relation->count_select;
                 }
 		$this->conditions[]=$element->relation->condition;
