@@ -3,7 +3,7 @@
 
 Version 1.1.11 work in progress
 -------------------------------
-- Bug #82 : implemented a count_select attribute in CdbCriteria and CBaseActiveRelation for peoper counting in CActiveFinder when HAVING SQL clauses are present
+- Bug #82 : implemented a count_select attribute in CdbCriteria and CBaseActiveRelation for proper counting in CActiveFinder when HAVING SQL clauses are present
 - Bug #114: CUniqueValidator and CExistValidator now respect table alias while creating db query condition (klimov-paul)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Bug #164: CEmailValidator.checkPort now checks the port 25 of listed MX servers (DaSourcerer)
