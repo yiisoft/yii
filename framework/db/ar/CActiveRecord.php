@@ -1889,6 +1889,11 @@ class CBaseActiveRelation extends CComponent
 	 * In that case, you should prefix the column names with 'relationName.'.
 	 */
 	public $select='*';
+        /**
+	 * @var mixed list of column names (an array, or a string of names separated by commas) to be selected when CActiveFinder performs a count() query.
+	 * Do not quote or prefix the column names unless they are used in an expression.
+	 * In that case, you should prefix the column names with 'relationName.'.
+	 */
 	public $count_select=null;
 	/**
 	 * @var string WHERE clause. For {@link CActiveRelation} descendant classes, column names

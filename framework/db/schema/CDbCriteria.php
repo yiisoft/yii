@@ -38,7 +38,11 @@ class CDbCriteria extends CComponent
 	 * or an array of column names. Defaults to '*', meaning all columns.
 	 */
 	public $select='*';
-//	public $count_select=null;
+        /**
+	 * @var mixed the columns being selected when counting records. This refers to the SELECT clause in an SQL
+	 * statement. The property can be either a string (column names separated by commas)
+	 * or an array of column names. Defaults to '*', meaning all columns.
+	 */
 	public $count_select='*';
 	/**
 	 * @var boolean whether to select distinct rows of data only. If this is set true,

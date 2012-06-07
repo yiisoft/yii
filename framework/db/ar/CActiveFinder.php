@@ -1302,7 +1302,7 @@ class CJoinQuery
 				$this->distinct=true;
 		}
 		else
-		{       
+		{
 			$this->selects[]=$joinElement->getPrimaryKeySelect();
 			$this->joins[]=$joinElement->getTableNameWithAlias();
 			$this->conditions[]=$joinElement->getPrimaryKeyRange();
