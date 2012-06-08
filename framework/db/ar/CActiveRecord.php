@@ -1894,7 +1894,7 @@ class CBaseActiveRelation extends CComponent
 	 * Do not quote or prefix the column names unless they are used in an expression.
 	 * In that case, you should prefix the column names with 'relationName.'.
 	 */
-	public $count_select=null;
+	public $countQuerySelect=null;
 	/**
 	 * @var string WHERE clause. For {@link CActiveRelation} descendant classes, column names
 	 * referenced in the condition should be disambiguated with prefix 'relationName.'.
@@ -1953,15 +1953,15 @@ class CBaseActiveRelation extends CComponent
 		if($criteria instanceof CDbCriteria)
 			$criteria=$criteria->toArray();
                                
-		if(isset($criteria['count_select']) && $this->count_select!==$criteria['count_select'])
+		if(isset($criteria['countQuerySelect']) && $this->countQuerySelect!==$criteria['countQuerySelect'])
 		{
-			if($this->count_select==='*')
-				$this->count_select=$criteria['count_select'];
-			else if($criteria['count_select']!=='*')
+			if($this->countQuerySelect==='*')
+				$this->countQuerySelect=$criteria['countQuerySelect'];
+			else if($criteria['countQuerySelect']!=='*')
 			{
-				$count_select1=is_string($this->count_select)?preg_split('/\s*,\s*/',trim($this->count_select),-1,PREG_SPLIT_NO_EMPTY):$this->count_select;
-				$count_select2=is_string($criteria['count_select'])?preg_split('/\s*,\s*/',trim($criteria['count_select']),-1,PREG_SPLIT_NO_EMPTY):$criteria['count_select'];
-				$this->count_select=array_merge($count_select1,array_diff($count_select2,$count_select1));
+				$countQuerySelect1=is_string($this->countQuerySelect)?preg_split('/\s*,\s*/',trim($this->countQuerySelect),-1,PREG_SPLIT_NO_EMPTY):$this->countQuerySelect;
+				$countQuerySelect2=is_string($criteria['countQuerySelect'])?preg_split('/\s*,\s*/',trim($criteria['countQuerySelect']),-1,PREG_SPLIT_NO_EMPTY):$criteria['countQuerySelect'];
+				$this->countQuerySelect=array_merge($countQuerySelect1,array_diff($countQuerySelect2,$countQuerySelect1));
 			}
                         
 		}

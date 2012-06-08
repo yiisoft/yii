@@ -747,10 +747,10 @@ class CJoinElement
 		$this->_finder->baseLimited=false;
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
-                // use count_selects if provided in the criteria or AR relation  
-                if(count($query->count_selects))
+                // use countQuerySelects if provided in the criteria or AR relation  
+                if(count($query->countQuerySelects))
                 {
-                        $query->selects=$query->count_selects;
+                        $query->selects=$query->countQuerySelects;
                         $query->orders=array();
                         $query->limit=$query->offset=-1;
                         $command=$query->createCommand($this->_builder);
@@ -1232,7 +1232,7 @@ class CJoinQuery
 	 * @var array list of column selections
 	 */
 	public $selects=array();
-	public $count_selects=array();
+	public $countQuerySelects=array();
 	/**
 	 * @var boolean whether to select distinct result set
 	 */
@@ -1283,9 +1283,9 @@ class CJoinQuery
 	{
 		if($criteria!==null)
 		{
-                        if($criteria->count_select!=='*')
+                        if($criteria->countQuerySelect!=='*')
                         {
-                            $this->count_selects[]=$joinElement->getColumnSelect($criteria->count_select);
+                            $this->countQuerySelects[]=$joinElement->getColumnSelect($criteria->countQuerySelect);
                         }
 
                         $this->selects[]=$joinElement->getColumnSelect($criteria->select);
@@ -1320,9 +1320,9 @@ class CJoinQuery
 			$this->join($element->slave);
 		if(!empty($element->relation->select))
 			$this->selects[]=$element->getColumnSelect($element->relation->select);
-		if(!empty($element->relation->count_select))
+		if(!empty($element->relation->countQuerySelect))
                 {
-                    $this->count_selects[]=$element->relation->count_select;
+                    $this->countQuerySelects[]=$element->relation->countQuerySelect;
                 }
 		$this->conditions[]=$element->relation->condition;
 		$this->orders[]=$element->relation->order;
