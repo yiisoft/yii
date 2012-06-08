@@ -747,7 +747,7 @@ class CJoinElement
 		$this->_finder->baseLimited=false;
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
-//              use count_selects if provided in the criteria or AR relation  
+                // use count_selects if provided in the criteria or AR relation  
                 if(count($query->count_selects))
                 {
                         $query->selects=$query->count_selects;
