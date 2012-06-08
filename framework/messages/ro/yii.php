@@ -82,7 +82,7 @@ return array (
   'Error: Table "{table}" has a composite primary key which is not supported by crud command.' => 'Eroare: Tabela "{table}" are o cheie primară compusă care nu este suportată de comanda crud.',
   'Event "{class}.{event}" is attached with an invalid handler "{handler}".' => 'Evenimentul "{class}.{event}" este atașat unui handler nevalid "{handler}".',
   'Event "{class}.{event}" is not defined.' => 'Evenimentul "{class}.{event}" nu este definit.',
-  'Failed to write the uploaded file "{file}" to disk.' => 'a eșuat scrierea pe disc a fișierului uploadat "{file}".',
+  'Failed to write the uploaded file "{file}" to disk.' => 'A eșuat scrierea pe disc a fișierului uploadat "{file}".',
   'File upload was stopped by extension.' => 'Uploadul fișierului a fost intrerupt de către extensie.',
   'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => 'Filtrul "{filter}" nu este valid. Controllerul "{class}" nu are metoda filtru "filter{filter}".',
   'Get a new code' => 'Generează un alt cod',
