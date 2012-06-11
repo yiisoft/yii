@@ -27,6 +27,12 @@ class CActiveFinder extends CComponent
 	 */
 	public $joinAll=false;
 	/**
+	 * @param boolean whether result of find query should be array of attributes or record
+	 * This property is internally used.
+	 * @since 1.1.11
+	 */
+	public $asArray=false;
+	/**
 	 * @var boolean whether the base model has limit or offset.
 	 * This property is internally used.
 	 */
@@ -78,7 +84,7 @@ class CActiveFinder extends CComponent
 				$index=$criteria->index;
 				$array=array();
 				foreach($result as $object)
-					$array[$object->$index]=$object;
+					$array[$object[$index]]=$object; // CModel implements ArrayAccess
 				$result=$array;
 			}
 		}
@@ -99,6 +105,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findBySql($sql,$params=array())
 	{
+		$this->asArray=false; // @todo think about implementing asArray here
 		Yii::trace(get_class($this->_joinTree->model).'.findBySql() eagerly','system.db.ar.CActiveRecord');
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
@@ -121,6 +128,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
+		$this->asArray=false; // @todo think about implementing asArray here
 		Yii::trace(get_class($this->_joinTree->model).'.findAllBySql() eagerly','system.db.ar.CActiveRecord');
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
@@ -352,6 +360,7 @@ class CJoinElement
 	public $model;
 	/**
 	 * @var array list of active records found by the queries. They are indexed by primary key values.
+	 * since version 1.1.11 these can be arrays of attributes
 	 */
 	public $records=array();
 	/**
@@ -499,7 +508,7 @@ class CJoinElement
 			case 1:
 				$child=reset($this->children);
 			break;
-			default: // bridge(s) inside
+			default: // bridge(s) for through-relation inside
 				$child=end($this->children);
 			break;
 		}
@@ -537,6 +546,7 @@ class CJoinElement
 
 		if(empty($child->records))
 			return;
+		// @todo implement asArray here
 		if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
 			$baseRecord->addRelatedRecord($child->relation->name,reset($child->records),false);
 		else // has_many and many_many
@@ -785,8 +795,12 @@ class CJoinElement
 	 */
 	public function afterFind()
 	{
-		foreach($this->records as $record)
-			$record->afterFindInternal();
+		if(!$this->_finder->asArray)
+		{
+			foreach($this->records as $record)
+				$record->afterFindInternal();
+		}
+
 		foreach($this->children as $child)
 			$child->afterFind();
 
@@ -828,7 +842,8 @@ class CJoinElement
 	 * Populates the active records with the query data.
 	 * @param CJoinQuery $query the query executed
 	 * @param array $row a row of data
-	 * @return CActiveRecord the populated record
+	 * @return CActiveRecord|array the populated record.
+	 * since version 1.1.11 this can be an array of attributes when {@link CActiveFinder::$asArray} is true.
 	 */
 	private function populateRecord($query,$row)
 	{
@@ -865,11 +880,19 @@ class CJoinElement
 				if(isset($aliases[$alias]))
 					$attributes[$aliases[$alias]]=$value;
 			}
-			$record=$this->model->populateRecord($attributes,false);
-			foreach($this->children as $child)
+			if($this->_finder->asArray)
 			{
-				if(!empty($child->relation->select))
-					$record->addRelatedRecord($child->relation->name,null,$child->relation instanceof CHasManyRelation);
+				$record=$attributes;
+				foreach($this->children as $child)
+					if(!empty($child->relation->select))
+						$record[$child->relation->name] = ($child->relation instanceof CHasManyRelation) ? array() : null;
+			}
+			else
+			{
+				$record=$this->model->populateRecord($attributes,false);
+				foreach($this->children as $child)
+					if(!empty($child->relation->select))
+						$record->addRelatedRecord($child->relation->name,null,$child->relation instanceof CHasManyRelation);
 			}
 			$this->records[$pk]=$record;
 		}
@@ -881,21 +904,41 @@ class CJoinElement
 				continue;
 			$childRecord=$child->populateRecord($query,$row);
 			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
-				$record->addRelatedRecord($child->relation->name,$childRecord,false);
+			{
+				if($this->_finder->asArray)
+					$record[$child->relation->name] = $childRecord;
+				else
+					$record->addRelatedRecord($child->relation->name,$childRecord,false);
+			}
 			else // has_many and many_many
 			{
 				// need to double check to avoid adding duplicated related objects
 				if($childRecord instanceof CActiveRecord)
 					$fpk=serialize($childRecord->getPrimaryKey());
+				elseif($this->_finder->asArray)
+				{
+					// determine the primary key value from array
+					// @todo get primary key!
+					$fpk=0;
+				}
 				else
 					$fpk=0;
 				if(!isset($this->_related[$pk][$child->relation->name][$fpk]))
 				{
-					if($childRecord instanceof CActiveRecord && $child->relation->index!==null)
-						$index=$childRecord->{$child->relation->index};
+					if($child->relation->index!==null)
+						$index=$childRecord[$child->relation->index]; // CModel implements ArrayAccess
 					else
 						$index=true;
-					$record->addRelatedRecord($child->relation->name,$childRecord,$index);
+
+					if($this->_finder->asArray)
+					{
+						if($index===true)
+							$record[$child->relation->name][]=$childRecord;
+						else
+							$record[$child->relation->name][$index]=$childRecord;
+					}
+					else
+						$record->addRelatedRecord($child->relation->name,$childRecord,$index);
 					$this->_related[$pk][$child->relation->name][$fpk]=true;
 				}
 			}
@@ -1510,12 +1553,10 @@ class CStatElement
 			}
 		}
 
-		// populate the results into existing records
-		foreach($records as $pk=>$record)
-			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
+		$this->populateResults($stats);
 	}
 
-	/*
+	/**
 	 * @param string $joinTableName jointablename
 	 * @param string $keys keys
 	 */
@@ -1646,7 +1687,25 @@ class CStatElement
 				$stats[$row['c0']]=$row['s'];
 		}
 
-		foreach($records as $pk=>$record)
-			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$this->relation->defaultValue,false);
+		$this->populateResults($stats);
+	}
+
+	/**
+	 * populate the results into existing records
+	 *
+	 * @param array $stats stats results indexed by pk
+	 * @since 1.1.11
+	 */
+	private function populateResults($stats)
+	{
+		$relation = $this->relation;
+		foreach($this->_parent->records as $pk=>$record)
+		{
+			if($this->_finder->asArray)
+				$this->_parent->records[$pk][$relation->name]=isset($stats[$pk])?$stats[$pk]:$relation->defaultValue;
+			else
+				$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
+		}
+
 	}
 }
