@@ -106,7 +106,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this->_joinTree->model).'.findBySql() eagerly','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this->_joinTree->model).'.findBySql() eagerly'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
 			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
@@ -128,7 +128,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this->_joinTree->model).'.findAllBySql() eagerly','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this->_joinTree->model).'.findAllBySql() eagerly'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
 			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
@@ -790,7 +790,6 @@ class CJoinElement
 
 	/**
 	 * Calls {@link CActiveRecord::afterFind} of all the records.
-	 *
 	 * Since version 1.1.11 afterFind method is not called when
 	 * {@link CActiveFinder::$asArray} is true as there are no records in this case.
 	 */

@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2012 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -62,6 +62,7 @@ abstract class CActiveRecord extends CModel
 	private $_c;								// query criteria (used by finder only)
 	private $_pk;								// old primary key value
 	private $_alias='t';						// the table alias being used for query
+	private $_asArray=false;					// a "scope" for find and relations to return attribute array instead of records
 
 
 	/**
@@ -241,7 +242,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getRelated($name,$refresh=false,$params=array())
 	{
-		if(!$refresh && $params===array() && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
+		if(!$refresh && $params===array() && !$this->_asArray && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
 			return $this->_related[$name];
 
 		$md=$this->getMetaData();
@@ -249,17 +250,19 @@ abstract class CActiveRecord extends CModel
 			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
 				array('{class}'=>get_class($this), '{name}'=>$name)));
 
-		Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
+		Yii::trace('lazy loading '.get_class($this).'.'.$name.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$relation=$md->relations[$name];
 		if($this->getIsNewRecord() && !$refresh && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 			return $relation instanceof CHasOneRelation ? null : array();
 
-		if($params!==array()) // dynamic query
+		if($params!==array() || $this->_asArray) // save existing
 		{
 			$exists=isset($this->_related[$name]) || array_key_exists($name,$this->_related);
 			if($exists)
 				$save=$this->_related[$name];
-
+		}
+		if($params!==array()) // dynamic query
+		{
 			if($params instanceof CDbCriteria)
 				$params = $params->toArray();
 
@@ -270,6 +273,7 @@ abstract class CActiveRecord extends CModel
 		unset($this->_related[$name]);
 
 		$finder=new CActiveFinder($this,$r);
+		$finder->asArray=$this->_asArray;
 		$finder->lazyFind($this);
 
 		if(!isset($this->_related[$name]))
@@ -282,8 +286,9 @@ abstract class CActiveRecord extends CModel
 				$this->_related[$name]=null;
 		}
 
-		if($params!==array())
+		if($params!==array() || $this->_asArray)
 		{
+			$this->_asArray=false;
 			$results=$this->_related[$name];
 			if($exists)
 				$this->_related[$name]=$save;
@@ -354,6 +359,7 @@ abstract class CActiveRecord extends CModel
 	public function resetScope()
 	{
 		$this->_c=new CDbCriteria();
+		$this->_asArray=false;
 		return $this;
 	}
 
@@ -869,6 +875,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This event is raised after the record is instantiated by a find method.
+	 * Please note, that it will not be raised when find was done with {@link asArray()} as
+	 * there are no records in that case.
 	 * @param CEvent $event the event parameter
 	 */
 	public function onAfterFind($event)
@@ -1289,11 +1297,34 @@ abstract class CActiveRecord extends CModel
 			if(!$all)
 				$criteria->limit=1;
 			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
-			return $all ? $this->populateRecords($command->queryAll(), true, $criteria->index) : $this->populateRecord($command->queryRow());
+
+			if($this->_asArray && $all)
+			{
+				$this->_asArray=false;
+				if($criteria->index!==null)
+				{
+					$records=array();
+					foreach($command->queryAll() as $attributes)
+						$records[$attributes[$criteria->index]]=$record;
+					return $records;
+				}
+				else
+					return $command->queryAll();
+			}
+			elseif($this->_asArray && !$all)
+			{
+				$this->_asArray=false;
+				if(($row=$command->queryRow())!==false)
+					return $row;
+			}
+			else
+				return $all ? $this->populateRecords($command->queryAll(), true, $criteria->index) : $this->populateRecord($command->queryRow());
 		}
 		else
 		{
 			$finder=new CActiveFinder($this,$criteria->with);
+			$finder->asArray=$this->_asArray;
+			$this->_asArray=false;
 			return $finder->query($criteria,$all);
 		}
 	}
@@ -1392,7 +1423,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function find($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.find()','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.find()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria);
 	}
@@ -1406,7 +1437,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAll($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findAll()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria,true);
 	}
@@ -1421,7 +1452,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByPk($pk,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findByPk()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria);
@@ -1437,7 +1468,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findAllByPk()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria,true);
@@ -1454,7 +1485,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findByAttributes()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria);
@@ -1471,7 +1502,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findAllByAttributes()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria,true);
@@ -1485,18 +1516,27 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this).'.findBySql()','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findBySql()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
 			$this->_c=null;
 			$finder=new CActiveFinder($this,$criteria->with);
+			$finder->asArray=$this->_asArray;
+			$this->_asArray=false;
 			return $finder->findBySql($sql,$params);
 		}
 		else
 		{
 			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
-			return $this->populateRecord($command->queryRow());
+			if($this->_asArray)
+			{
+				$this->_asArray=false;
+				if(($row=$command->queryRow())!==false)
+					return $row;
+			}
+			else
+				return $this->populateRecord($command->queryRow());
 		}
 	}
 
@@ -1508,18 +1548,40 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllBySql()','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findAllBySql()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
 			$this->_c=null;
 			$finder=new CActiveFinder($this,$criteria->with);
+			$finder->asArray=$this->_asArray;
+			$this->_asArray=false;
 			return $finder->findAllBySql($sql,$params);
 		}
 		else
 		{
+			$this->_c=null;
+			$index=($criteria!==null)?$criteria->index:null;
 			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
-			return $this->populateRecords($command->queryAll());
+			if($this->_asArray)
+			{
+				$this->_asArray=false;
+				if($index!==null)
+				{
+					$records=array();
+					foreach($command->queryAll() as $attributes)
+						$records[$attributes[$index]]=$record;
+					return $records;
+				}
+				else
+					return $command->queryAll();
+
+
+				$this->_asArray=false;
+				return $command->queryAll();
+			}
+			else
+				return $this->populateRecords($command->queryAll(),true,$index);
 		}
 	}
 
@@ -1663,6 +1725,32 @@ abstract class CActiveRecord extends CModel
 	public function together()
 	{
 		$this->getDbCriteria()->together=true;
+		return $this;
+	}
+
+	/**
+	 * Makes find methods and relations return array of attributes instead of active record objects.
+	 * This can be usefull when active record is used to build a complex query but the result does
+	 * not need the magic of active record and performance will increase by not instantiating all record classes.
+	 * Usage example for find methods:
+	 * <pre>
+	 * $post=Post::model()->asArray()->findByPk(1);
+	 * $posts=Post::model()->asArray()->findAll();
+	 * </pre>
+	 * This also works for relations (asuming <code>author</code> and <code>categories</code> are relations):
+	 * <pre>
+	 * $author=$post->asArray()->author;
+	 * $categories=$post->asArray()->categories;
+	 * </pre>
+	 * The first examples will return an array of attributes each.
+	 * The second examples will return a list of attribute arrays each.
+	 * @param boolean $array whether find result should be array of attributes instead of active record objects
+	 * @return CActiveRecord the active record instance itself.
+	 * @since 1.1.11
+	 */
+	public function asArray($asArray=true)
+	{
+		$this->_asArray=$asArray;
 		return $this;
 	}
 
