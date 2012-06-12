@@ -105,7 +105,6 @@ class CActiveFinder extends CComponent
 	 */
 	public function findBySql($sql,$params=array())
 	{
-		$this->asArray=false; // @todo think about implementing asArray here
 		Yii::trace(get_class($this->_joinTree->model).'.findBySql() eagerly','system.db.ar.CActiveRecord');
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
@@ -128,7 +127,6 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
-		$this->asArray=false; // @todo think about implementing asArray here
 		Yii::trace(get_class($this->_joinTree->model).'.findAllBySql() eagerly','system.db.ar.CActiveRecord');
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
@@ -546,7 +544,6 @@ class CJoinElement
 
 		if(empty($child->records))
 			return;
-		// @todo implement asArray here
 		if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
 			$baseRecord->addRelatedRecord($child->relation->name,reset($child->records),false);
 		else // has_many and many_many
@@ -884,15 +881,19 @@ class CJoinElement
 			{
 				$record=$attributes;
 				foreach($this->children as $child)
+				{
 					if(!empty($child->relation->select))
 						$record[$child->relation->name] = ($child->relation instanceof CHasManyRelation) ? array() : null;
+				}
 			}
 			else
 			{
 				$record=$this->model->populateRecord($attributes,false);
 				foreach($this->children as $child)
+				{
 					if(!empty($child->relation->select))
 						$record->addRelatedRecord($child->relation->name,null,$child->relation instanceof CHasManyRelation);
+				}
 			}
 			$this->records[$pk]=$record;
 		}
