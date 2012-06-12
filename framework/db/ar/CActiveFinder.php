@@ -1,10 +1,10 @@
 <?php
 /**
- * CActiveRecord class file.
+ * CActiveFinder class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2012 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -27,7 +27,8 @@ class CActiveFinder extends CComponent
 	 */
 	public $joinAll=false;
 	/**
-	 * @param boolean whether result of find query should be array of attributes or record
+	 * @param boolean whether result of find query should be array of attributes
+	 * instead of active records.
 	 * This property is internally used.
 	 * @since 1.1.11
 	 */
@@ -789,6 +790,9 @@ class CJoinElement
 
 	/**
 	 * Calls {@link CActiveRecord::afterFind} of all the records.
+	 *
+	 * Since version 1.1.11 afterFind method is not called when
+	 * {@link CActiveFinder::$asArray} is true as there are no records in this case.
 	 */
 	public function afterFind()
 	{
@@ -840,7 +844,7 @@ class CJoinElement
 	 * @param CJoinQuery $query the query executed
 	 * @param array $row a row of data
 	 * @return CActiveRecord|array the populated record.
-	 * since version 1.1.11 this can be an array of attributes when {@link CActiveFinder::$asArray} is true.
+	 * since version 1.1.11 this will be an array of attributes when {@link CActiveFinder::$asArray} is true.
 	 */
 	private function populateRecord($query,$row)
 	{
