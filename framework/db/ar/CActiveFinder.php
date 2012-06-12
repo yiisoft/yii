@@ -914,16 +914,23 @@ class CJoinElement
 			else // has_many and many_many
 			{
 				// need to double check to avoid adding duplicated related objects
+				$fpk=0;
 				if($childRecord instanceof CActiveRecord)
 					$fpk=serialize($childRecord->getPrimaryKey());
 				elseif($this->_finder->asArray)
 				{
 					// determine the primary key value from array
-					// @todo get primary key!
-					$fpk=0;
+					$table=$child->model->getTableSchema();
+					if(is_string($table->primaryKey))
+						$fpk=$childRecord[$table->primaryKey];
+					else if(is_array($table->primaryKey))
+					{
+						$fpk=array();
+						foreach($table->primaryKey as $name)
+							$fpk[$name]=$childRecord[$name];
+						$fpk=serialize($fpk);
+					}
 				}
-				else
-					$fpk=0;
 				if(!isset($this->_related[$pk][$child->relation->name][$fpk]))
 				{
 					if($child->relation->index!==null)
