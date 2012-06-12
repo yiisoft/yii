@@ -887,7 +887,7 @@ class CJoinElement
 				foreach($this->children as $child)
 				{
 					if(!empty($child->relation->select))
-						$record[$child->relation->name] = ($child->relation instanceof CHasManyRelation) ? array() : null;
+						$record[$child->relation->name]=($child->relation instanceof CHasManyRelation)?array():null;
 				}
 			}
 			else
@@ -911,7 +911,7 @@ class CJoinElement
 			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
 			{
 				if($this->_finder->asArray)
-					$record[$child->relation->name] = $childRecord;
+					$record[$child->relation->name]=$childRecord;
 				else
 					$record->addRelatedRecord($child->relation->name,$childRecord,false);
 			}
@@ -1710,7 +1710,7 @@ class CStatElement
 	 */
 	private function populateResults($stats)
 	{
-		$relation = $this->relation;
+		$relation=$this->relation;
 		foreach($this->_parent->records as $pk=>$record)
 		{
 			if($this->_finder->asArray)
