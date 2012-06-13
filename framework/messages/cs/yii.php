@@ -230,7 +230,7 @@ return array (
   '{class} does not have a method named "{name}".' => '{class} nemá implementovanou metodu "{name}".',
   '{class} does not have relation "{name}".' => '{class} nezná relaci "{name}".',
   '{class} does not support fetching all table names.' => '{class} nepodporuje načtení názvů všech tabulek.',
-  '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} nemá správně definované validační pravidlo. Pravidlo musí špecifikovať atribút, ktorý sa má validovať ako aj meno validátora.',
+  '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} nemá správně definované validační pravidlo. Pravidlo musí určit atributy, které se mají validovat, jakož i název validátora.',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} musí definovať hodnotu pro vlastnosti "model" a "attribute" nebo "name".',
   '{class}.allowAutoLogin must be set true in order to use cookie-based authentication.' => '{class}.allowAutoLogin musí být nastavená na "true" pro zapnutí podpory autentifikace přes cookies.',
   '{class}::authenticate() must be implemented.' => 'Je nutné implementovat metodu {class}::authenticate().',
