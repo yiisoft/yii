@@ -22,6 +22,7 @@ Version 1.1.11 work in progress
 - Bug #660: Fixed error when calling CDbCache::getValues (zilles)
 - Bug #697: Fixed WSDLGenerator now generating proper namespace for certain complexTypes (BBoom)
 - Bug #749: CActiveRecord::refresh() did not work in afterSave() for new records, will now always refresh, when db entry exists (cebe)
+- Bug #769: Fixed the bug that $.fn.yiiGridView.getSelection was not working always if a custom CGridView::template was used (mdomba)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug: Added missing return statement to CAuthItem->revoke() (mdomba)
 - Bug: CHtml::resolveValue() ignoring of array elements accessor at the beginning of the $attribute argument now works properly (resurtm)
