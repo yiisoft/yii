@@ -51,7 +51,7 @@ return array (
   'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection se nemohl připojit na databázi: {error}',
   'CDbConnection is inactive and cannot perform any DB operations.' => 'CDbConnection je neaktivní a nemůže vykonávat žádné databázové operace.',
   'CDbConnection.connectionString cannot be empty.' => 'CDbConnection.connectionString nemůže být prázdný.',
-  'CDbDataReader cannot rewind. It is a forward-only reader.' => 'CDbDataReader nemůže číst předchozí záznamy. Je možné číst pouze nasledujíce záznamy.',
+  'CDbDataReader cannot rewind. It is a forward-only reader.' => 'CDbDataReader nemůže číst předchozí záznamy. Je možné číst pouze následující záznamy.',
   'CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'CDbHttpSession.connectionID "{id}" je neplatné. Ujistěte se, že odkazuje na ID aplikační komponenty CDbConnection.',
   'CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.' => 'CDbLogRoute.connectionID "{id}" neukazuje na platnou aplikační komponentu CDbConnection.',
   'CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.' => 'CDbMessageSource.connectionID je neplatné. Ujistěte se, že "{id}" odkazuje na platnou databázovou komponentu.',
