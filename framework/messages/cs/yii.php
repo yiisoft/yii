@@ -101,7 +101,7 @@ return array (
   'Failed to set unsafe attribute "{attribute}".' => 'Nepodařilo se nastavit neošetřený atribut "{attribute}".',
   'Failed to write the uploaded file "{file}" to disk.' => 'Nepodařilo se zapsat nahraný soubor "{file}" na disk.',
   'File upload was stopped by extension.' => 'Nahrávání souboru bylo přerušené rozšířením.',
-  'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => 'Filter "{filter}" je neplatný. Kontroler "{class}" neobsahuje filtrovací metodu "filter{filter}".',
+  'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => 'Filtr "{filter}" je neplatný. Kontroler "{class}" neobsahuje filtrovací metodu "filter{filter}".',
   'Get a new code' => 'Nový kód',
   'Go to page: ' => 'Přejít na stránku: ',
   'Invalid MO file revision: {revision}.' => 'Neplatná revíze MO souboru: {revision}.',
