@@ -70,7 +70,7 @@ return array (
   'CHttpRequest is unable to determine the path info of the request.' => 'CHttpRequest nedokázal identifikovat informace o cestě k souboru požadavku.',
   'CHttpRequest is unable to determine the request URI.' => 'CHttpRequest nedokázal identifikovat požadované URI.',
   'CHttpSession.cookieMode can only be "none", "allow" or "only".' => 'CHttpSession.cookieMode může nabývat pouze hodnoty "none", "allow" nebo "only".',
-  'CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.' => 'CHttpSession.gcProbability "{value}" je neplatná. Zadajte prosím integer mezi 0 až 100.',
+  'CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.' => 'CHttpSession.gcProbability "{value}" je neplatná. Zadejte prosím integer mezi 0 až 100.',
   'CHttpSession.savePath "{path}" is not a valid directory.' => 'CHttpSession.savePath "{path}" není platný adresář.',
   'CMemCache server configuration must be an array.' => 'Konfigurace CMemCache musí být pole.',
   'CMemCache server configuration must have "host" value.' => 'Konfigurace CMemCache musí obsahovat hodnotu pro "host".',
