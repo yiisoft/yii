@@ -134,7 +134,7 @@ return array (
   'The STAT relation "{name}" cannot have child relations.' => 'STAT relace "{name}" nesmí mít žádné potomkové relace.',
   'The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.' => 'URL výraz "{pattern}" pro cestu "{route}" není platný regulární výraz.',
   'The active record cannot be deleted because it is new.' => 'Aktívní záznam nemůže být odstraněný, protože je nový.',
-  'The active record cannot be inserted to database because it is not new.' => 'Aktívní záznam nemůže být vložený do databáze protože není nový.',
+  'The active record cannot be inserted to database because it is not new.' => 'Aktívní záznam nemůže být vložený do databáze, protože není nový.',
   'The active record cannot be updated because it is new.' => 'Aktívní záznam nemůže být aktualizovaný, protože je nový.',
   'The asset "{asset}" to be published does not exist.' => 'Položka "{asset}" určená na publikování neexistuje.',
   'The command path "{path}" is not a valid directory.' => 'Příkazový rádek "{path}" neobsahuje cestu k platnému adresáři.',
