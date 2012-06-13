@@ -104,7 +104,7 @@ return array (
   'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => 'Filtr "{filter}" je neplatný. Kontroler "{class}" neobsahuje filtrovací metodu "filter{filter}".',
   'Get a new code' => 'Nový kód',
   'Go to page: ' => 'Přejít na stránku: ',
-  'Invalid MO file revision: {revision}.' => 'Neplatná revíze MO souboru: {revision}.',
+  'Invalid MO file revision: {revision}.' => 'Neplatná revize MO souboru: {revision}.',
   'Invalid MO file: {file} (magic: {magic}).' => 'Neplatný MO soubor: {file} (magic: {magic}).',
   'Invalid enumerable value "{value}". Please make sure it is among ({enum}).' => 'Neplatná spočítatelná hodnota "{value}". Ujistěte se, že hodnota je z výběru ({enum}).',
   'Invalid operator "{operator}".' => 'Neplatný operátor "{operator}".',
