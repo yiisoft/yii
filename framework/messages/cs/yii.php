@@ -48,7 +48,7 @@ return array (
   'CDbCommand failed to prepare the SQL statement: {error}' => 'CDbCommand nemohl připravit SQL příkaz: {error}',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection nepodporuje načtení schématu pro databázový ovladač {driver}.',
   'CDbConnection failed to open the DB connection.' => 'CDbConnection se nemohl připojit na databázi.',
-  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection se nemohol připojit na databázi: {error}',
+  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection se nemohl připojit na databázi: {error}',
   'CDbConnection is inactive and cannot perform any DB operations.' => 'CDbConnection je neaktívní a nemůže vykonávat žádné databázové operace.',
   'CDbConnection.connectionString cannot be empty.' => 'CDbConnection.connectionString nemůže být prázdný.',
   'CDbDataReader cannot rewind. It is a forward-only reader.' => 'CDbDataReader nemůže číst předchozí záznamy. Je možné číst pouze nasledujíce záznamy.',
