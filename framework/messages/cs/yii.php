@@ -139,7 +139,7 @@ return array (
   'The asset "{asset}" to be published does not exist.' => 'Položka "{asset}" určená na publikování neexistuje.',
   'The command path "{path}" is not a valid directory.' => 'Příkazový rádek "{path}" neobsahuje cestu k platnému adresáři.',
   'The controller path "{path}" is not a valid directory.' => 'Cesta kontroleru "{path}" neobsahuje cestu k platnému adresáři.',
-  'The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.' => 'Soubor "{file}" nemůže být nahraný. Povolené jsou pouze soubory s nasledujícími příponami: {extensions}.',
+  'The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.' => 'Soubor "{file}" nemůže být nahraný. Povolené jsou pouze soubory s následujícími příponami: {extensions}.',
   'The file "{file}" is too large. Its size cannot exceed {limit} bytes.' => 'Soubor "{file}" je příliš velký. Jeho velikost nesmí být větší než {limit} bajtů.',
   'The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.' => 'Soubor "{file}" je příliš malý. Jeho velikost nesmí být menší než {limit} bajtů.',
   'The file "{file}" was only partially uploaded.' => 'Soubor "{file}" byl nahraný pouze částečně.',
