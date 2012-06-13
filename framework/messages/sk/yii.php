@@ -245,7 +245,7 @@ return array (
   '{class} and its behaviors do not have a method or closure named "{name}".' => '{class} ani súvisiace objekty nemajú definovanú metódu ani closure s názvom "{name}".',
   '{class} does not have relation "{name}".' => '{class} nepozná reláciu "{name}".',
   '{class} does not support fetching all table names.' => '{class} nepodporuje načítanie názvov všetkých tabuliek.',
-  '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} má nesprávne definované validačné pravidlo. Pravidlo musí špecifikovať atribút, ktorý sa má validovať ako aj meno validátora.',
+  '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} má nesprávne definované validačné pravidlo. Pravidlo musí špecifikovať atribúty, ktoré sa majú validovať ako aj meno validátora.',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} musí definovať hodnotu pre vlastnosti "model" a "attribute" alebo "name".',
   '{class}.allowAutoLogin must be set true in order to use cookie-based authentication.' => '{class}.allowAutoLogin musí byť nastavená na "true" pre zapnutie podpory autentifikácie cez cookies.',
   '{class}::authenticate() must be implemented.' => 'Je potrebné implementovať metódu {class}::authenticate().',
