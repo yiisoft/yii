@@ -118,7 +118,7 @@ return array (
   'No columns are being updated for table "{table}".' => 'V tabulce "{table}" nebudou aktualizovaná žádná pole.',
   'No counter columns are being updated for table "{table}".' => 'V tabulce "{table}" nebudou aktualizovaná žádná pole pro počítadla.',
   'Object configuration must be an array containing a "class" element.' => 'Konfigurace objektu musí být pole obsahující element "class".',
-  'Please fix the following input errors:' => 'Opravte prosím nasledující chyby ve vstupních údajích:',
+  'Please fix the following input errors:' => 'Opravte prosím následující chyby ve vstupních údajích:',
   'Property "{class}.{property}" is not defined.' => 'Vlastnost "{class}.{property}" není definovaná.',
   'Property "{class}.{property}" is read only.' => 'Vlastnost "{class}.{property}" je určená jen na čtení.',
   'Queue data must be an array or an object implementing Traversable.' => 'Řazená data (queue data) musí být pole nebo objekt implementující Traversable.',
