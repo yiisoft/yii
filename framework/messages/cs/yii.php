@@ -94,7 +94,7 @@ return array (
   'Either "{parent}" or "{child}" does not exist.' => '"{parent}" nebo "{child}" neexistují.',
   'Error: Table "{table}" does not have a primary key.' => 'Chyba: Tabulka "{table}" neobsahuje primární klíč.',
   'Error: Table "{table}" has a composite primary key which is not supported by crud command.' => 'Chyba: Tabulka "{table}" obsahuje složený primární klíč, který ale není podporovaný CRUD příkazem.',
-  'Event "{class}.{event}" is attached with an invalid handler "{handler}".' => 'Událost "{class}.{event}" je připojená neplatným obsluhovačem udalostí "{handler}".',
+  'Event "{class}.{event}" is attached with an invalid handler "{handler}".' => 'Událost "{class}.{event}" je připojená neplatným obsluhovačem událostí "{handler}".',
   'Event "{class}.{event}" is not defined.' => 'Událost "{class}.{event}" není definovaná.',
   'Extension path "{path}" does not exist.' => 'Cesta pro rozšíření "{path}" neexistuje.',
   'Failed to initialize the mcrypt module.' => 'Nepodařilo se iniciovat mcrypt modul.',
