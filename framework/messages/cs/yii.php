@@ -77,7 +77,7 @@ return array (
   'CMultiFileUpload.name is required.' => 'CMultiFileUpload.name je povinný údaj.',
   'CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.' => 'CProfileLogRoute zjistil nesprávně uspořádané bloky kódu "{token}". Ujistěte se, že volání Yii::beginProfile() a Yii::endProfile() jsou vložené správně.',
   'CProfileLogRoute.report "{report}" is invalid. Valid values include "summary" and "callstack".' => 'CProfileLogRoute.report "{report}" je nesprávný. Správné hodnoty mohou být "summary" a "callstack".',
-  'CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.' => 'CSecurityManager vyžaduje prítomnost PHP rozšíření MCrypt pro účely využití šifrujícich funkcí.',
+  'CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.' => 'CSecurityManager vyžaduje přítomnost PHP rozšíření MCrypt pro účely využití šifrujících funkcí.',
   'CSecurityManager.encryptionKey cannot be empty.' => 'CSecurityManager.encryptionKey nemůže být prázdný.',
   'CSecurityManager.validationKey cannot be empty.' => 'CSecurityManager.validationKey nemůže být prázdný.',
   'CTypedList<{type}> can only hold objects of {type} class.' => 'CTypedList<{type}> může obsahovat pouze objekty třídy {type}.',
