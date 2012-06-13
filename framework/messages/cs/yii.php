@@ -131,7 +131,7 @@ return array (
   'The "filter" property must be specified with a valid callback.' => 'Vlastnost "filter" musí být specifikovaná s platnou zpětnou funkcí.',
   'The "pattern" property must be specified with a valid regular expression.' => 'Vlastnost "pattern" musí být specifikovaná s platným regulárním výrazem.',
   'The CSRF token could not be verified.' => 'CSFR token nemohl být ověřený.',
-  'The STAT relation "{name}" cannot have child relations.' => 'STAT relace "{name}" nesmí mít žádné potomkové relace.',
+  'The STAT relation "{name}" cannot have child relations.' => 'STAT relace "{name}" nesmí mít žádné zděděné relace.',
   'The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.' => 'URL výraz "{pattern}" pro cestu "{route}" není platný regulární výraz.',
   'The active record cannot be deleted because it is new.' => 'Aktívní záznam nemůže být odstraněný, protože je nový.',
   'The active record cannot be inserted to database because it is not new.' => 'Aktívní záznam nemůže být vložený do databáze, protože není nový.',
