@@ -56,7 +56,7 @@ return array (
   'CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.' => 'CDbLogRoute.connectionID "{id}" neukazuje na platnou aplikační komponentu CDbConnection.',
   'CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.' => 'CDbMessageSource.connectionID je neplatné. Ujistěte se, že "{id}" odkazuje na platnou databázovou komponentu.',
   'CDbTestFixture.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'CDbTestFixture.connectionID "{id}" je neplatné. Ujistěte se, že odkazuje na platné ID databázové komponenty aplikáce.',
-  'CDbTransaction is inactive and cannot perform commit or roll back operations.' => 'CDbTransaction není aktívní a nemůže vykonávat operace commit ani rollback.',
+  'CDbTransaction is inactive and cannot perform commit or roll back operations.' => 'CDbTransaction není aktivní a nemůže vykonávat operace commit ani rollback.',
   'CDirectoryCacheDependency.directory cannot be empty.' => 'CDirectoryCacheDependency.directory nemůže být prázdné.',
   'CEAcceleratorCache requires PHP eAccelerator extension to be loaded, enabled or compiled with the "--with-eaccelerator-shared-memory" option.' => 'CEAcceleratorCache vyžaduje přítomnost PHP rozšíření eAccelerator, nebo mít zapnutou podporu s nastavením "--with-eaccelerator-shared-memory".',
   'CFileCacheDependency.fileName cannot be empty.' => 'CFileCacheDependency.fileName nemůže být prázdne.',
