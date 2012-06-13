@@ -122,7 +122,7 @@ return array (
   'Property "{class}.{property}" is not defined.' => 'Vlastnost "{class}.{property}" není definovaná.',
   'Property "{class}.{property}" is read only.' => 'Vlastnost "{class}.{property}" je určená jen na čtení.',
   'Queue data must be an array or an object implementing Traversable.' => 'Řazená data (queue data) musí být pole nebo objekt implementující Traversable.',
-  'Relation "{name}" is not defined in active record class "{class}".' => 'Relace "{name}" není definovaná v objektu aktívního záznamu "{class}".',
+  'Relation "{name}" is not defined in active record class "{class}".' => 'Relace "{name}" není definovaná v objektu aktivního záznamu "{class}".',
   'Resetting PK sequence is not supported.' => 'Nastavení PK (primárního klíče) není podporované.',
   'Setting integrity check is not supported.' => 'Ověření integrity není podporované.',
   'Stack data must be an array or an object implementing Traversable.' => 'Data v zásobníku musí být pole nebo objekt implementující Traversable.',
