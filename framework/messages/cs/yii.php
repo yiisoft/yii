@@ -40,7 +40,7 @@ return array (
   'CApcCache requires PHP apc extension to be loaded.' => 'CApcCache vyžaduje přítomnost knihovny APC.',
   'CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.' => 'CAssetManager.basePath "{path}" je neplatná. Ujistěte se, že ukazuje na existující adresář a má práva zápisu pro webový server.',
   'CCacheHttpSession.cacheID is invalid. Please make sure "{id}" refers to a valid cache application component.' => 'CCacheHttpSession.cacheID je neplatné. Ujistěte se, že "{id}" odkazuje na platnou cache komponentu aplikace.',
-  'CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.' => 'CCaptchaValidator.action "{id}" má nesprávně nastavenou akci. Nebylo možné nájít uvedenou akci v současném kontroleru.',
+  'CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.' => 'CCaptchaValidator.action "{id}" má nesprávně nastavenou akci. Nebylo možné najít uvedenou akci v současném kontroleru.',
   'CDbAuthManager.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'CDbAuthManager.connectionID "{id}" je neplatné. Ujistěte se, že odkazuje na ID aplikační komponenty CDbConnection.',
   'CDbCache.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'CDbCache.connectionID "{id}" je neplatné. Ujistěte se, že odkazuje na ID aplikační komponentu CDbConnection.',
   'CDbCacheDependency.sql cannot be empty.' => 'CDbCacheDependency.sql nemůže být prázdný.',
