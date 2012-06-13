@@ -29,7 +29,7 @@ return array (
   '&lt;&lt; First' => '&lt;&lt; První',
   'Active Record requires a "db" CDbConnection application component.' => 'Active Record vyžaduje komponentu aplikace "db" CDbConnection.',
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active record "{class}" má neplatnou konfiguraci pro relaci "{relation}". Konfigurace musí specifikovat typ relace, Active record objekt a foreign key.',
-  'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record "{class}" se pokusila najít neplatný sloupec "{column}". Pozor - hledaný sloupec musí existovať v databázi, nebo musí být výrazem s aliasem.',
+  'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record "{class}" se pokusila najít neplatný sloupec "{column}". Pozor - hledaný sloupec musí existovat v databázi, nebo musí být výrazem s aliasem.',
   'Active record class "{class}" does not have a scope named "{scope}".' => 'Active record objekt "{class}" nemá přiřazený jmenný prostor "{scope}".',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Alias "{alias}" je neplatný. Ujistěte se, že ukazuje na existující adresář nebo soubor.',
   'Application Log' => 'Aplikační log',
