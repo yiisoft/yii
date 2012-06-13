@@ -114,7 +114,7 @@ return array (
   'Login Required' => 'Musíte se přihlásit.',
   'Map data must be an array or an object implementing Traversable.' => 'Mapa musí obsahovat pole nebo objekt implementující Traversable.',
   'Missing the temporary folder to store the uploaded file "{file}".' => 'Dočasný adresář pro uložení nahrávaného souboru "{file}" nebyl nalezen.',
-  'Next &gt;' => 'Nasledující &gt;',
+  'Next &gt;' => 'Následující &gt;',
   'No columns are being updated for table "{table}".' => 'V tabulce "{table}" nebudou aktualizovaná žádná pole.',
   'No counter columns are being updated for table "{table}".' => 'V tabulce "{table}" nebudou aktualizovaná žádná pole pro počítadla.',
   'Object configuration must be an array containing a "class" element.' => 'Konfigurace objektu musí být pole obsahující element "class".',
