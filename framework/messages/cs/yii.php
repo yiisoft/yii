@@ -164,7 +164,7 @@ return array (
   'The pattern for seconds must be "s" or "ss".' => 'Formát pro sekundy musí být "s" nebo "ss".',
   'The pattern for time zone must be "z" or "v".' => 'Formát pro časovou zónu musí být "z" nebo "v".',
   'The pattern for week in month must be "W".' => 'Formát pro týden v měsíci musí být "W".',
-  'The pattern for week in year must be "w".' => 'Formát pre týden v roce musí být "w".',
+  'The pattern for week in year must be "w".' => 'Formát pro týden v roce musí být "w".',
   'The queue is empty.' => 'Zásobník je prázdný.',
   'The relation "{relation}" in active record class "{class}" is not specified correctly. The join table "{joinTable}" given in the foreign key cannot be found in the database.' => 'Relace "{relation}" v aktivním záznamu "{class}" není specifikovaná korektně. Propojená tabulka "{joinTable}" uvedená ve foreign key nebyla nalezena v databázi.',
   'The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.' => 'Relace "{relation}" v aktivním záznamu "{class}" není specifikovaná korektně: Propojená tabulka "{joinTable}" uvedená ve foreign key nebyla nalezena v databázi.',
