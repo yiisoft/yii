@@ -190,7 +190,7 @@ return array (
   'Unable to lock file "{file}" for writing.' => 'Nepodařilo se uzamknout soubor "{file}" pro zápis.',
   'Unable to read file "{file}".' => 'Nepodařilo se načíst soubor "{file}".',
   'Unable to replay the action "{object}.{method}". The method does not exist.' => 'Nepodařilo se zopakovat akci "{object}.{method}". Metoda neexistuje.',
-  'Unable to resolve the request "{route}".' => 'Nepodařilo se spracovat požadavek "{route}".',
+  'Unable to resolve the request "{route}".' => 'Nepodařilo se zpracovat požadavek "{route}".',
   'Unable to write file "{file}".' => 'Nepodařilo se zapsat do souboru "{file}".',
   'Unknown authorization item "{name}".' => 'Neznámá autorizační položka "{name}".',
   'Unknown type "{type}".' => 'Neznámý typ "{type}".',
