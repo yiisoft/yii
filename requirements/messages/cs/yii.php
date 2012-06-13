@@ -21,9 +21,9 @@ return array (
   '$_SERVER variable' => '$_SERVER proměnná',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] musí ukazovat na startovací skript.',
   'APC extension' => 'APC rozšíření',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Všetky <a href="http://www.yiiframework.com/doc/api/#system.db">objekty vzťahujúce sa k databáze</a>',
+  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Všechny <a href="http://www.yiiframework.com/doc/api/#system.db">objekty týkající se databází</a>',
   'DOM extension' => 'DOM rozšíření',
-  'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] alebo $_SERVER["QUERY_STRING"] musia existovať.',
+  'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] či $_SERVER["QUERY_STRING"] musí existovat.',
   'GD extension' => 'GD rozšíření',
   'Mcrypt extension' => 'Mcrypt rozšíření',
   'Memcache extension' => 'Memcache rozšíření',
@@ -40,5 +40,5 @@ return array (
   'This is required if you are using MySQL database.' => 'Nutné v případě použití databáze mySQL.',
   'This is required if you are using PostgreSQL database.' => 'Nutné v případě použití databáze PostgreSQL.',
   'This is required if you are using SQLite database.' => 'Nutné v případě použití databáze SQLite.',
-  'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Nepodarilo sa zistiť informácie o URL linke. Ubezúpečte sa, že $_SERVER["PATH_INFO"] (alebo $_SERVER["PHP_SELF"] a $_SERVER["SCRIPT_NAME"]) obsahuje správne hodnoty.',
+  'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Nepodařilo se určit URL adresu. Ujistěte se, že $_SERVER["PATH_INFO"] (či $_SERVER["PHP_SELF"] a $_SERVER["SCRIPT_NAME"]) obsahují správné hodnoty.',
 );
