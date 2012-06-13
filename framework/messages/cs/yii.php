@@ -90,7 +90,7 @@ return array (
   'Cannot add "{child}" as a child of "{parent}". A loop has been detected.' => 'Není možné přidat "{child}" jako potomka "{parent}". Byl identifikovaný nekonečný cyklus.',
   'Cannot add "{name}" as a child of itself.' => 'Není možné přidat "{name}" jako potomka sebe sama.',
   'Cannot add an item of type "{child}" to an item of type "{parent}".' => 'Není možné přidat položku typu "{child}" k položce typu "{parent}".',
-  'Column name must be either a string or an array.' => 'Název sloupce musí být retězec nebo pole.',
+  'Column name must be either a string or an array.' => 'Název sloupce musí být řetězec nebo pole.',
   'Either "{parent}" or "{child}" does not exist.' => '"{parent}" nebo "{child}" neexistují.',
   'Error: Table "{table}" does not have a primary key.' => 'Chyba: Tabulka "{table}" neobsahuje primární klíč.',
   'Error: Table "{table}" has a composite primary key which is not supported by crud command.' => 'Chyba: Tabulka "{table}" obsahuje složený primární klíč, který ale není podporovaný CRUD příkazem.',
