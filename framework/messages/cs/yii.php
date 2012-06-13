@@ -35,7 +35,7 @@ return array (
   'Application Log' => 'Aplikační log',
   'Application base path "{path}" is not a valid directory.' => 'Hlavní cesta k adresáři aplikace "{path}" je neplatná.',
   'Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.' => 'Runtime cesta k aplikaci "{path}" je neplatná. Ujistěte se, že ukazuje na existující adresář a má práva zápisu pro webový server.',
-  'Authorization item "{item}" has already been assigned to user "{user}".' => 'Autorizační záznam "{item}" je už přiřazený užívateli "{user}".',
+  'Authorization item "{item}" has already been assigned to user "{user}".' => 'Autorizační záznam "{item}" je už přiřazený uživateli "{user}".',
   'Base path "{path}" is not a valid directory.' => 'Cesta k hlavnímu adresáři "{path}" je neplatná.',
   'CApcCache requires PHP apc extension to be loaded.' => 'CApcCache vyžaduje přítomnost knihovny APC.',
   'CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.' => 'CAssetManager.basePath "{path}" je neplatná. Ujistěte se, že ukazuje na existující adresář a má práva zápisu pro webový server.',
