@@ -235,7 +235,7 @@ return array (
   '{class}.allowAutoLogin must be set true in order to use cookie-based authentication.' => '{class}.allowAutoLogin musí být nastavená na "true" pro zapnutí podpory autentifikace přes cookies.',
   '{class}::authenticate() must be implemented.' => 'Je nutné implementovat metodu {class}::authenticate().',
   '{controller} cannot find the requested view "{view}".' => '{controller} nenalezl požadovanou šablonu "{view}".',
-  '{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.' => '{controller} obsahuje nesprávně umístněné Widget tagy v šabloně "{view}". Blok pro {widget} nemá korektně ukončený blok zavolaním metody endWidget().',
+  '{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.' => '{controller} obsahuje nesprávně umístěné Widget tagy v šabloně "{view}". Blok pro {widget} nemá korektně ukončený blok volaní metody endWidget().',
   '{controller} has an extra endWidget({id}) call in its view.' => '{controller} má navíc volanou metodu endWidget({id}) v šabloně.',
   '{widget} cannot find the view "{view}".' => '{widget} nenalezl šablonu "{view}".',
 );
