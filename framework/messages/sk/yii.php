@@ -19,7 +19,10 @@
  * @version $Id: $
  */
 return array (
-  'Powered by {yii}.' => 'Powered by {yii}.',
+  'CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()' => 'CHttpCacheFilter.lastModified obsahuje hodnotu, ktorá nie je použiteľná vo funkcii strtotime()',
+  'CMemCache requires PHP {extension} extension to be loaded.' => 'CMemCache vyžaduje nahraté rozšírenie PHP {extension}.',
+  'Class name "{class}" does not match class file "{file}".' => 'Názov objektu "{class}" nesúhlasí s názvom súboru "{file}".',
+  'Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()' => 'Neplatný výraz v CHttpCacheFilter.lastModifiedExpression: vyhodnotený výraz nie je použiteľný vo funkcii strtotime()',
   '"{path}" is not a valid directory.' => '"{path}" nie je platný adresár.',
   '&lt; Previous' => '&lt; Predchádzajúca',
   '&lt;&lt; First' => '&lt;&lt; Prvá',
@@ -50,9 +53,6 @@ return array (
   'CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.' => 'CDbCommand::execute() chyba: {error}. Vykonaný SQL výraz bol: {sql}.',
   'CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.' => 'CDbCommand::{method} chyba: {error}. Vykonaný SQL výraz bol: {sql}.',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection nepodporuje načítanie schémy pre databázový driver {driver}.',
-  'CDbConnection failed to open the DB connection.' => 'CDbConnection nemohol vytvoriť pripojenie na databázu.',
-  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection nemohol vytvoriť pripojenie na databázu: {error}',
-  'CDbConnection.connectionString cannot be empty.' => 'CDbConnection.connectionString nemôže byť prázdny.',
   'CDbDataReader cannot rewind. It is a forward-only reader.' => 'CDbDataReader nemôže načítať predošlé záznamy. Je možné čítať len nasledujúce záznamy.',
   'CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'CDbHttpSession.connectionID "{id}" je neplatné. Ubezpečte sa, že odkazuje na ID aplikačného komponentu CDbConnection.',
   'CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.' => 'CDbLogRoute.connectionID "{id}" neukazuje na platný aplikačný komponent CDbConnection.',
@@ -125,6 +125,7 @@ return array (
   'No counter columns are being updated for table "{table}".' => 'V tabuľke "{table}" nebudú aktualizované žiadne polia pre počítadla.',
   'Object configuration must be an array containing a "class" element.' => 'Konfigurácia objektu musí byť pole obsahujúce element "class".',
   'Please fix the following input errors:' => 'Opravte prosím nasledujúce chyby vo vstupných údajoch:',
+  'Powered by {yii}.' => 'Powered by {yii}.',
   'Property "{class}.{property}" is not defined.' => 'Vlastnosť "{class}.{property}" nie je definovaná.',
   'Property "{class}.{property}" is read only.' => 'Vlastnosť "{class}.{property}" je určená len na čítanie.',
   'Property CMaskedTextField.mask cannot be empty.' => 'Vlastnosť CMaskedTextField.mask nesmie byť prázdna.',
