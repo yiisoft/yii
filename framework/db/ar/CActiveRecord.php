@@ -32,6 +32,7 @@
  * @property mixed $oldPrimaryKey The old primary key value. An array (column name=>column value) is returned if the primary key is composite.
  * If primary key is not defined, null will be returned.
  * @property string $tableAlias The default table alias.
+ * @property boolean $asArray The current state of find methods results. True if array of attributes, false if active record objects.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -1752,6 +1753,16 @@ abstract class CActiveRecord extends CModel
 	{
 		$this->_asArray=$asArray;
 		return $this;
+	}
+
+	/**
+	 * Returns the current state of find methods results.
+	 * @return boolean True if array of attributes, false if active record objects.
+	 * @see asArray
+	 */
+	public function getAsArray()
+	{
+		return $this->_asArray;
 	}
 
 	/**
