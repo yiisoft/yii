@@ -1305,7 +1305,7 @@ abstract class CActiveRecord extends CModel
 				{
 					$records=array();
 					foreach($command->queryAll() as $attributes)
-						$records[$attributes[$criteria->index]]=$record;
+						$records[$attributes[$criteria->index]]=$attributes;
 					return $records;
 				}
 				else
