@@ -747,7 +747,11 @@ class CJoinElement
 		$this->_finder->baseLimited=false;
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
-
+                _l("-- COUNTER --");
+                _l($criteria->toArray());
+                _l("-- COUNT SELECTS --");
+                _l($query->count_selects);
+                
 		$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
 		if($select!=='*' && !strncasecmp($select,'count',5))
 			$query->selects=array($select);
@@ -1221,6 +1225,7 @@ class CJoinQuery
 	 * @var array list of column selections
 	 */
 	public $selects=array();
+	public $count_selects=array();
 	/**
 	 * @var boolean whether to select distinct result set
 	 */
@@ -1271,7 +1276,10 @@ class CJoinQuery
 	{
 		if($criteria!==null)
 		{
-			$this->selects[]=$joinElement->getColumnSelect($criteria->select);
+			_l("CJOIN CRITERIA");
+                        _l($criteria);
+                        $this->count_selects[]=$criteria->count_select;
+                        $this->selects[]=$joinElement->getColumnSelect($criteria->select);
 			$this->joins[]=$joinElement->getTableNameWithAlias();
 			$this->joins[]=$criteria->join;
 			$this->conditions[]=$criteria->condition;
@@ -1285,7 +1293,8 @@ class CJoinQuery
 				$this->distinct=true;
 		}
 		else
-		{
+		{       
+                    _l("CJOIN QUERY:  NO CRITERIA");
 			$this->selects[]=$joinElement->getPrimaryKeySelect();
 			$this->joins[]=$joinElement->getTableNameWithAlias();
 			$this->conditions[]=$joinElement->getPrimaryKeyRange();
@@ -1303,6 +1312,12 @@ class CJoinQuery
 			$this->join($element->slave);
 		if(!empty($element->relation->select))
 			$this->selects[]=$element->getColumnSelect($element->relation->select);
+		if(!empty($element->relation->count_select))
+                {
+		_l("CJOIN ELEMENT");	
+		_l($element->relation->count_select);	
+                    $this->count_selects[]=$element->relation->count_select;
+                }
 		$this->conditions[]=$element->relation->condition;
 		$this->orders[]=$element->relation->order;
 		$this->joins[]=$element->getJoinCondition();

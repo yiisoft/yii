@@ -38,6 +38,7 @@ class CDbCriteria extends CComponent
 	 * or an array of column names. Defaults to '*', meaning all columns.
 	 */
 	public $select='*';
+	public $count_select=null;
 	/**
 	 * @var boolean whether to select distinct rows of data only. If this is set true,
 	 * the SELECT clause would be changed to SELECT DISTINCT.
@@ -468,6 +469,14 @@ class CDbCriteria extends CComponent
 		$and=$useAnd ? 'AND' : 'OR';
 		if(is_array($criteria))
 			$criteria=new self($criteria);
+                
+                if($this->count_select!==$criteria->count_select){
+                    $this->count_select[]=$criteria->count_select;
+                    _l("MERGE CRITERIA");                    
+                    _l($this->count_select);                    
+                    
+                }
+                
 		if($this->select!==$criteria->select)
 		{
 			if($this->select==='*')
@@ -479,7 +488,7 @@ class CDbCriteria extends CComponent
 				$this->select=array_merge($select1,array_diff($select2,$select1));
 			}
 		}
-
+                
 		if($this->condition!==$criteria->condition)
 		{
 			if($this->condition==='')
@@ -608,7 +617,7 @@ class CDbCriteria extends CComponent
 	public function toArray()
 	{
 		$result=array();
-		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together') as $name)
+		foreach(array('select','count_select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together') as $name)
 			$result[$name]=$this->$name;
 		return $result;
 	}
