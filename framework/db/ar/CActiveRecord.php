@@ -1424,7 +1424,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function find($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.find()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.find()'.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria);
 	}
@@ -1438,7 +1438,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAll($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAll()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findAll()'.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria,true);
 	}
@@ -1453,7 +1453,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByPk($pk,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findByPk()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findByPk()'.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria);
@@ -1469,7 +1469,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllByPk()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findAllByPk()'.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria,true);
@@ -1486,7 +1486,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findByAttributes()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findByAttributes()'.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria);
@@ -1503,7 +1503,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllByAttributes()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findAllByAttributes()'.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria,true);
@@ -1517,7 +1517,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this).'.findBySql()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findBySql()'.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
@@ -1549,7 +1549,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllBySql()'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this).'.findAllBySql()'.($this->_asArray?' as array':''),'system.db.ar.CActiveRecord');
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
