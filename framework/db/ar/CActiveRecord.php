@@ -1576,10 +1576,6 @@ abstract class CActiveRecord extends CModel
 				}
 				else
 					return $command->queryAll();
-
-
-				$this->_asArray=false;
-				return $command->queryAll();
 			}
 			else
 				return $this->populateRecords($command->queryAll(),true,$index);

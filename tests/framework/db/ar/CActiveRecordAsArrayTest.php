@@ -13,6 +13,7 @@ require_once(dirname(__FILE__).'/../data/models.php');
  * Currently uncovered:
  * - stat relations
  * - composite pk
+ * - through relations
  */
 class CActiveRecordAsArrayTest extends CTestCase
 {
@@ -264,7 +265,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 	{
 		$post=Post::model()->findByPk($id, $condition, $params);
 		$this->assertEquals($id,$post->id);
-		$posta=Post::model()->asArray()->findByPk(2, $condition, $params);
+		$posta=Post::model()->asArray()->findByPk($id, $condition, $params);
 
 		$this->assertArrayMatchesRecord($posta, $post);
 
@@ -277,9 +278,9 @@ class CActiveRecordAsArrayTest extends CTestCase
 	 */
 	public function testFindAllByPk($condition, $params)
 	{
-		$posts=Post::model()->findAllByPk(2, $condition, $params);
-		$postsa=Post::model()->asArray()->findAllByPk(2, $condition, $params);
-		$this->assertEquals(1,count($posts));
+		$posts=Post::model()->findAllByPk(4, $condition, $params);
+		$this->assertGreaterThan(0,count($posts));
+		$postsa=Post::model()->asArray()->findAllByPk(4, $condition, $params);
 
 		$this->assertAllArraysMatchRecords($posts, $postsa);
 
@@ -287,7 +288,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 
 		$posts=Post::model()->findAllByPk(array(4,3,2), $condition, $params);
 		$postsa=Post::model()->asArray()->findAllByPk(array(4,3,2), $condition, $params);
-		$this->assertGreaterThanOrEqual(2,count($posts));
+		$this->assertGreaterThanOrEqual(1,count($posts));
 
 		$this->assertAllArraysMatchRecords($posts, $postsa);
 
@@ -332,6 +333,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 		if (is_array($condition) || $condition instanceof CDbCriteria)
 			Post::model()->getDbCriteria()->mergeWith($condition);
 
+		$this->assertFalse(Post::model()->getAsArray());
 		$post=Post::model()->findBySql('select * from posts where id=:id',array(':id'=>$id));
 
 		if (is_array($condition) || $condition instanceof CDbCriteria)
