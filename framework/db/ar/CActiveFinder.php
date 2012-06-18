@@ -80,17 +80,26 @@ class CActiveFinder extends CComponent
 		if($all)
 		{
 			$result = array_values($this->_joinTree->records);
-			if ($criteria->index!==null)
+			if($criteria->index!==null)
 			{
 				$index=$criteria->index;
 				$array=array();
 				foreach($result as $object)
-					$array[$object->$index]=$object;
+					$array[$object->$index]=$this->asArray?$object->toArray():$object;
 				$result=$array;
+			}
+			elseif($this->asArray)
+			{
+				foreach($result as $key=>$object)
+					$result[$key]=$object->toArray();
 			}
 		}
 		else if(count($this->_joinTree->records))
-			$result = reset($this->_joinTree->records);
+		{
+			$result=reset($this->_joinTree->records);
+			if($this->asArray)
+				$result=$result->toArray();
+		}
 		else
 			$result = null;
 
@@ -561,7 +570,10 @@ class CJoinElement
 		if(empty($child->records))
 			return;
 		if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
-			$baseRecord->addRelatedRecord($child->relation->name,reset($child->records),false);
+		{
+			$record=reset($child->records);
+			$baseRecord->addRelatedRecord($child->relation->name,$this->_finder->asArray?$record->toArray():$record,false);
+		}
 		else // has_many and many_many
 		{
 			foreach($child->records as $record)
@@ -570,7 +582,7 @@ class CJoinElement
 					$index=$record->{$child->relation->index};
 				else
 					$index=true;
-				$baseRecord->addRelatedRecord($child->relation->name,$record,$index);
+				$baseRecord->addRelatedRecord($child->relation->name,$this->_finder->asArray?$record->toArray():$record,$index);
 			}
 		}
 	}
@@ -917,13 +929,14 @@ class CJoinElement
 			else // has_many and many_many
 			{
 				// need to double check to avoid adding duplicated related objects
-				if($childRecord instanceof CActiveRecord || $childRecord instanceof CActiveRecordArray)
+				$isActiveRecord=($childRecord instanceof CActiveRecord || $childRecord instanceof CActiveRecordArray);
+				if($isActiveRecord)
 					$fpk=serialize($childRecord->getPrimaryKey());
 				else
 					$fpk=0;
 				if(!isset($this->_related[$pk][$child->relation->name][$fpk]))
 				{
-					if($childRecord instanceof CActiveRecord && $child->relation->index!==null)
+					if($isActiveRecord && $child->relation->index!==null)
 						$index=$childRecord->{$child->relation->index};
 					else
 						$index=true;
@@ -1786,11 +1799,11 @@ class CActiveRecordArray
 			if (is_array($data))
 			{
 				$array[$name]=array();
-				foreach($data as $index => $record)
+				foreach($data as $index=>$record)
 					$array[$name][$index]=$record->toArray();
 			}
 			else
-				$array[$name]=$data;
+				$array[$name]=($data instanceof CActiveRecordArray)?$data->toArray():$data;
 		}
 		return $array;
 	}

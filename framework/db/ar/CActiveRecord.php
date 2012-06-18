@@ -138,7 +138,7 @@ abstract class CActiveRecord extends CModel
 			return $this->_attributes[$name];
 		else if(isset($this->getMetaData()->columns[$name]))
 			return null;
-		else if(isset($this->_related[$name]))
+		else if(isset($this->_related[$name]) && !$this->_asArray)
 			return $this->_related[$name];
 		else if(isset($this->getMetaData()->relations[$name]))
 			return $this->getRelated($name);
@@ -265,7 +265,7 @@ abstract class CActiveRecord extends CModel
 		if($params!==array()) // dynamic query
 		{
 			if($params instanceof CDbCriteria)
-				$params = $params->toArray();
+				$params=$params->toArray();
 
 			$r=array($name=>$params);
 		}
@@ -722,7 +722,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if(!isset($this->_related[$name]))
 				$this->_related[$name]=array();
-			if($record instanceof CActiveRecord)
+			if($record instanceof CActiveRecord || is_array($record))
 			{
 				if($index===true)
 					$this->_related[$name][]=$record;

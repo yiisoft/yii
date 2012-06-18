@@ -58,14 +58,14 @@ class CActiveRecordAsArrayTest extends CTestCase
 	 */
 	protected function assertArrayMatchesRecord($array, $record, $scope='record')
 	{
-		$this->assertTrue(is_array($array), 'result of asArray query has to be an array ('.$scope.'). Found '.gettype($array).' instead.');
-		$this->assertTrue($record instanceof CActiveRecord, 'record has to be instanceof CActiveRecord ('.$scope.'). Found '.gettype($array).' instead.');
+		$this->assertTrue(is_array($array), 'result of asArray query has to be an array ('.$scope.'). Found '.gettype($array).(is_object($array)?'('.get_class($array).')':'').' instead.');
+		$this->assertTrue($record instanceof CActiveRecord, 'record has to be instanceof CActiveRecord ('.$scope.'). Found '.gettype($record).(is_object($record)?'('.get_class($record).')':'').' instead.');
 
 		// attributes
 		foreach($record->attributes as $attribute => $value)
 		{
 			$this->assertArrayHasKey($attribute, $array, 'attribute "'.$attribute.'" is not present in array ('.$scope.').');
-			$this->assertEquals($value, $array[$attribute], 'array value does not match record attribute ('.$scope.').');
+			$this->assertEquals($value, $array[$attribute], 'array value of attribute "'.$attribute.'" does not match record value ('.$scope.').');
 		}
 
 		// relations
@@ -201,7 +201,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 
 		$data = array(
 			array('', array()), // default arguments to find()
-			array('id>3', array()),
+			array('id>2', array()),
 		);
 		foreach($limits as $limit)
 		{
@@ -210,6 +210,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 				$c = new CDbCriteria($limit);
 				$c->mergeWith($with);
 				$data[] = array($c, array());
+				//$data[serialize($c->toArray())] = array($c, array());
 			}
 		}
 		return $data;
@@ -250,6 +251,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 	public function testFindAll($condition, $params)
 	{
 		$posts=Post::model()->findAll($condition, $params);
+		$this->assertGreaterThan(0,count($posts));
 		$postsa=Post::model()->asArray()->findAll($condition, $params);
 
 		$this->assertAllArraysMatchRecords($posts, $postsa);
@@ -278,6 +280,9 @@ class CActiveRecordAsArrayTest extends CTestCase
 	 */
 	public function testFindAllByPk($condition, $params)
 	{
+		if ($condition instanceof CDbCriteria && $condition->offset>=0)
+			$condition->offset=0;
+
 		$posts=Post::model()->findAllByPk(4, $condition, $params);
 		$this->assertGreaterThan(0,count($posts));
 		$postsa=Post::model()->asArray()->findAllByPk(4, $condition, $params);
@@ -288,7 +293,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 
 		$posts=Post::model()->findAllByPk(array(4,3,2), $condition, $params);
 		$postsa=Post::model()->asArray()->findAllByPk(array(4,3,2), $condition, $params);
-		$this->assertGreaterThanOrEqual(1,count($posts));
+		$this->assertGreaterThan(0,count($posts));
 
 		$this->assertAllArraysMatchRecords($posts, $postsa);
 
@@ -317,6 +322,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 	public function testFindAllByAttributes($condition, $params)
 	{
 		$posts=Post::model()->findAllByAttributes(array('author_id'=>2), $condition, $params);
+		$this->assertGreaterThan(0,count($posts));
 		$postsa=Post::model()->asArray()->findAllByAttributes(array('author_id'=>2), $condition, $params);
 
 		$this->assertAllArraysMatchRecords($posts, $postsa);
@@ -400,6 +406,7 @@ class CActiveRecordAsArrayTest extends CTestCase
 			$post1->asArray()->categories
 		);
 		$this->assertFalse($post1->getAsArray());
+		$this->assertGreaterThan(0,count($post1->categories));
 
 		$this->assertAllArraysMatchRecords(
 			$post1->categories(array('with'=>'posts')),
