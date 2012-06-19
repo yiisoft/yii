@@ -243,7 +243,7 @@ class CListView extends CBaseListView
 		if(($n=count($data))>0)
 		{
 			$owner=$this->getOwner();
-			$viewFile = $owner->getViewFile($this->itemView);
+			$viewFile=$owner->getViewFile($this->itemView);
 			$j=0;
 			foreach($data as $i=>$item)
 			{
