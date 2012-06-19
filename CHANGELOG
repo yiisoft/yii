@@ -4,6 +4,7 @@
 Version 1.1.11 work in progress
 -------------------------------
 - Enh: added zii romanian(ro) translation; edited core messages to include proper romanian characters with diacritic marks (tudorilisoi)
+- Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
 - Bug #114: CUniqueValidator and CExistValidator now respect table alias while creating db query condition (klimov-paul)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Bug #164: CEmailValidator.checkPort now checks the port 25 of listed MX servers (DaSourcerer)
@@ -23,11 +24,9 @@ Version 1.1.11 work in progress
 - Bug #697: Fixed WSDLGenerator now generating proper namespace for certain complexTypes (BBoom)
 - Bug #749: CActiveRecord::refresh() did not work in afterSave() for new records, will now always refresh, when db entry exists (cebe)
 - Bug #769: Fixed the bug that $.fn.yiiGridView.getSelection was not working always if a custom CGridView::template was used (mdomba)
-- Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug: Added missing return statement to CAuthItem->revoke() (mdomba)
 - Bug: CHtml::resolveValue() ignoring of array elements accessor at the beginning of the $attribute argument now works properly (resurtm)
-- Enh #581: Added formatSize method in CFormatter to format file sizes into units of different order - KB, MB, etc (brilyuhns, samdark)
 - Enh #120: Added ability to set cookies in an object based style without specifying the cookie-name twice (suralc)
 - Enh #136: Added ability to select database connection in Gii model generator (samdark)
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
@@ -48,6 +47,7 @@ Version 1.1.11 work in progress
 - Enh #552: Added support for http-level caching via CHttpCacheFilter (DaSourcerer)
 - Enh #568: CHtml::getIdByName() will now convert spaces to underscore to get proper ID for HTML elements (mdomba)
 - Enh #578: Added extension checks to CMemCache (samdark)
+- Enh #581: Added formatSize method in CFormatter to format file sizes into units of different order - KB, MB, etc (brilyuhns, samdark)
 - Enh #599: Added case sensitivity check when autoloading classes (qiangxue)
 - Enh #601: added the method loginRequired() to the IWebUser interface (mdomba)
 - Enh #616: CVarDumper is now correctly highligting integer array keys (vernes, samdark)
