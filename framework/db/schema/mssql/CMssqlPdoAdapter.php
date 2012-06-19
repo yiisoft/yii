@@ -26,9 +26,7 @@ class CMssqlPdoAdapter extends PDO
 	 */
 	public function lastInsertId ($sequence=NULL)
 	{
-		$value=$this->query('SELECT SCOPE_IDENTITY()')->fetchColumn();
-		$value=preg_replace('/[,.]0+$/', '', $value); // issue 2312
-		return strtr($value,array(','=>'','.'=>''));
+        return $this->query('SELECT CAST(COALESCE(SCOPE_IDENTITY(), @@IDENTITY) AS bigint)')->fetchColumn();
 	}
 
 	/**
