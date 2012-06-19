@@ -247,7 +247,7 @@ class CListView extends CBaseListView
 			$j=0;
 			foreach($data as $i=>$item)
 			{
-                $data=$this->viewData;
+				$data=$this->viewData;
 				$data['index']=$i;
 				$data['data']=$item;
 				$data['widget']=$this;
