@@ -79,4 +79,13 @@ class CHttpCookie extends CComponent
 			$this->$name=$value;
 		}
 	}
+	/**
+	 * Magic method to use the cookie object as a string without having to call value property first. 
+	 * @return string The value of the cookie. If the value property is null an empty string will be returned.
+	 * @since 1.1.11
+	 */
+	public function __toString()
+	{
+		return !is_null($this->value)?(string)$this->value:'';
+	}
 }
