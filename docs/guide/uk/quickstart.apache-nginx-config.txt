@@ -43,7 +43,7 @@ server {
 
     location / {
         index  index.html $yii_bootstrap;
-        try_files $uri $uri/ $yii_bootstrap?$args;
+        try_files $uri $uri/ /$yii_bootstrap?$args;
     }
 
     location ~ ^/(protected|framework|themes/\w+/views) {

@@ -243,7 +243,7 @@ class CListView extends CBaseListView
 		if(($n=count($data))>0)
 		{
 			$owner=$this->getOwner();
-			$render=$owner instanceof CController ? 'renderPartial' : 'render';
+			$viewFile=$owner->getViewFile($this->itemView);
 			$j=0;
 			foreach($data as $i=>$item)
 			{
@@ -251,7 +251,7 @@ class CListView extends CBaseListView
 				$data['index']=$i;
 				$data['data']=$item;
 				$data['widget']=$this;
-				$owner->$render($this->itemView,$data);
+				$owner->renderFile($viewFile,$data);
 				if($j++ < $n-1)
 					echo $this->separator;
 			}
