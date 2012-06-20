@@ -59,6 +59,7 @@ Version 1.1.11 work in progress
 - Enh #675: CDateFormat::format() now returns null if the parameter $time is null (mdomba)
 - Enh #690: Added sender name and proper headers for UTF8 encoding when sending e-mail in SiteController->actionContact() (mdomba)
 - Enh #766: Added 'userId' to $params in CDbAuthManager::checkAccess() and CPhpAuthManager::checkAccess() (cebe)
+- Enh #846: Added addPrimaryKey() / dropPrimaryKey() commands to CDbMigration (ridget)
 - Enh: Added default value to CConsoleCommand::confirm (musterknabe)
 - Enh: Allowed returning integer values as application exit code in CConsoleCommand actions (cebe)
 - Enh: Added third parameter to CHttpCookie to configure the cookie by array (suralc)
