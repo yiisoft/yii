@@ -139,7 +139,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	public function push($item)
 	{
 		++$this->_c;
-		array_push($this->_d,$item);
+		$this->_d[]=$item;
 	}
 
 	/**
