@@ -560,4 +560,41 @@ abstract class CDbSchema extends CComponent
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name).' ON '.$this->quoteTableName($table);
 	}
+
+	/**
+	 * Builds a SQL statement for adding a primary key constraint to an existing table.
+	 * The method will properly quote the table and column names.
+	 * @param string $name the name of the primary key constraint.
+	 * @param string $table the table that the primary key constraint will be added to.
+	 * @param string $columns the name of the column to that the constraint will be added on.
+	 * @return string the SQL statement for adding a primary key constraint to an existing table.
+	 * @since 1.1.6
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $i=>$col)
+			$columns[$i]=$this->quoteColumnName($col);
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' ADD CONSTRAINT '
+			. $this->quoteColumnName($name) . '  PRIMARY KEY ('
+			. implode(', ', $columns). ' )';
+	}
+
+
+	/**
+	 * Builds a SQL statement for dropping a foreign key constraint.
+	 * @param string $name the name of the foreign key constraint to be dropped. The name will be properly quoted by the method.
+	 * @param string $table the table whose foreign is to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping a foreign key constraint.
+	 * @since 1.1.6
+	 */
+	public function dropForeignKey($name, $table)
+	{
+		return 'ALTER TABLE '.$this->quoteTableName($table)
+			.' DROP CONSTRAINT '.$this->quoteColumnName($name);
+	}
+
+
+
+
 }

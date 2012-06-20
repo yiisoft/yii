@@ -3,6 +3,7 @@
 
 Version 1.1.11 work in progress
 -------------------------------
+- Enh #846: Added addPrimaryKey() / dropPrimaryKey() command to CDbMigration, supports composite primary keys (ridget)
 - Enh: added zii romanian(ro) translation; edited core messages to include proper romanian characters with diacritic marks (tudorilisoi)
 - Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
 - Bug #114: CUniqueValidator and CExistValidator now respect table alias while creating db query condition (klimov-paul)
