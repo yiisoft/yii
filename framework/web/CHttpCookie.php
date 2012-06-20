@@ -90,6 +90,6 @@ class CHttpCookie extends CComponent
 	 */
 	public function __toString()
 	{
-		return !is_null($this->value)?(string)$this->value:'';
+		return (string)$this->value;
 	}
 }
