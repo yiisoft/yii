@@ -498,7 +498,9 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsSecureConnection()
 	{
-		return isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'],'on');
+		return isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'],'on')
+		/* The following may be necessary for servers behind an SSL terminating load balancer */
+                        || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && !strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'],'https'));
 	}
 
 	/**
@@ -575,13 +577,20 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+
 	 * Returns whether this is an Adobe Flash or Adobe Flex request.
+
 	 * @return boolean whether this is an Adobe Flash or Adobe Flex request.
 	 * @since 1.1.11
+
 	 */
+
 	public function getIsFlashRequest()
+
 	{
+
 		return isset($_SERVER['HTTP_USER_AGENT']) && (stripos($_SERVER['HTTP_USER_AGENT'],'Shockwave')!==false || stripos($_SERVER['HTTP_USER_AGENT'],'Flash')!==false);
+
 	}
 
 	/**
