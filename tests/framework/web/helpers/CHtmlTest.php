@@ -682,6 +682,29 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::activeTextField($model, $attribute, $htmlOptions));
 	}
 
+	public function providerActiveUrlField()
+	{
+		return array(
+
+		);
+	}
+
+	/**
+	 * @provider providerActiveUrlField
+	 *
+	 * @param $validate
+	 * @param $attribute
+	 * @param $htmlOptions
+	 * @param $assertion
+	 */
+	public function testActiveUrlField($validate, $attribute, $htmlOptions, $assertion)
+	{
+		$model=new CHtmlTestActiveModel();
+		if($validate)
+			$model->validate();
+		$this->assertEquals($assertion, CHtml::activeUrlField($model, $attribute, $htmlOptions));
+	}
+
 }
 
 /* Helper classes */
