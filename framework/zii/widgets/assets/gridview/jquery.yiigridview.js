@@ -323,7 +323,7 @@
 			var settings = gridSettings[this.attr('id')],
 				keys = this.find('.keys span'),
 				selection = [];
-			this.children('.' + settings.tableClass).children('tbody').children().each(function (i) {
+			this.find('.' + settings.tableClass).children('tbody').children().each(function (i) {
 				if ($(this).hasClass('selected')) {
 					selection.push(keys.eq(i).text());
 				}

@@ -593,4 +593,9 @@ $bizRule='return Yii::app()->user->name === "admin";';
 $auth->createRole('admin', 'admin user', $bizRule);
 ~~~
 
+> Info: Since version 1.1.11 the `$params` array passed to a business rule has a key named
+> `userId` whose value is the id of the user the business rule is checked for.
+> You would need this if you call [CDbAuthManager::checkAccess()] or [CPhpAuthManager::checkAccess()] in places
+> where `Yii::app()->user` is not available or not the user you are checking access for.
+
 <div class="revision">$Id$</div>
