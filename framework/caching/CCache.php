@@ -55,7 +55,6 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * pool of cached data, the same prefix should be set for each of the applications explicitly.
 	 */
 	public $keyPrefix;
-
 	/**
 	 * @var boolean whether to md5-hash the cache key for normalization purposes. Defaults to true. Setting this property to false makes sure the cache
 	 * key will not be tampered when calling the relevant methods {@link get()}, {@link set()}, {@link add()} and {@link delete()}. This is useful if a Yii
@@ -65,27 +64,17 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @since 1.1.11
 	 **/
 	public $hashKey=true;
-	
 	/**
-	 * @var boolean whether to automatically serialize/unserialize the cache values. Defaults to true. Setting this property to false makes sure the cache
-	 * value will not be tampered when calling the methods {@link set()} and {@link add()}. This is useful in case you want to store data which simply
-	 * does not require serialization (e.g. integers, strings or raw binary data). Thus there might be a small increase in performance and a smaller overall
-	 * cache size. Take in mind that you will be unable to store PHP structures like arrays or objects, you would have to serialize and unserialize them manually.
-	 * Another negative side effect is that providing a dependency via {@link set()} or {@link add()} will have no effect since dependencies rely on serialization.
-	 * Since all the relevant core application components rely on dependency support, you should be very careful disabling this feature. Usually you want to
-	 * configure a dedicated cache component for the sole purpose of storing raw unserialized data, the main cache component should always support serialization.
-	 * @since 1.1.11
-	 **/
-	public $autoSerialize=true;
-
-	/**
-	 * @var boolean wether to make use of the {@link http://pecl.php.net/package/igbinary igbinary} serializer for cache entry serialization. Defaults to false.
-	 * <strong>NOTE:</strong> If this is set to true while the igbinary extension has not been loaded, cache serialization will silently fall back to PHP's default
-	 * serializer. Since the two serialization formats are incompatible, caches should be purged before switching this on to prevent errors.
-	 * @since 1.1.11
+	 * @var array|boolean the functions used to serialize and unserialize cached data. Defaults to null, meaning
+	 * using the default PHP `serialize()` and `unserialize()` functions. If you want to use some more efficient
+	 * serializer (e.g. {@link http://pecl.php.net/package/igbinary igbinary}), you may configure this property with
+	 * a two-element array. The first element specifies the serialization function, and the second the deserialization
+	 * function. If this property is set false, data will be directly sent to and retrieved from the underlying
+	 * cache component without any serialization or deserialization. You should not turn off serialization if
+	 * you are using {@link CCacheDependency cache dependency}, because it relies on data serialization.
 	 */
-	public $useIgbinarySerializer=false;
-	
+	public $serializer;
+
 	/**
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by setting default cache key prefix.
@@ -95,12 +84,11 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 		parent::init();
 		if($this->keyPrefix===null)
 			$this->keyPrefix=Yii::app()->getId();
-		$this->useIgbinarySerializer=$this->useIgbinarySerializer&&extension_loaded('igbinary');
 	}
 
 	/**
 	 * @param string $key a key identifying a value to be cached
-	 * @return sring a key generated from the provided key which ensures the uniqueness across applications
+	 * @return string a key generated from the provided key which ensures the uniqueness across applications
 	 */
 	protected function generateUniqueKey($key)
 	{
@@ -114,23 +102,27 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function get($id)
 	{
-		if(($value=$this->getValue($this->generateUniqueKey($id)))!==false)
+		$value = $this->getValue($this->generateUniqueKey($id));
+		if($value===false || $this->serializer===false)
+			return $value;
+		if($this->serializer===null)
+			$value=unserialize($value);
+		else
+			$value=call_user_func($this->serializer[1], $value);
+		if(is_array($value) && (!$value[1] instanceof ICacheDependency || !$value[1]->getHasChanged()))
 		{
-			$data=$this->autoSerialize ? $this->unserializeValue($value) : $value;
-			if(!$this->autoSerialize || (is_array($data) && (!($data[1] instanceof ICacheDependency) || !$data[1]->getHasChanged())))
-			{
-				Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
-				return $this->autoSerialize ? $data[0] : $data;
-			}
+			Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
+			return $value[0];
 		}
-		return false;
+		else
+			return false;
 	}
 
 	/**
 	 * Retrieves multiple values from cache with the specified keys.
 	 * Some caches (such as memcache, apc) allow retrieving multiple cached values at one time,
 	 * which may improve the performance since it reduces the communication cost.
-	 * In case a cache doesn't support this feature natively, it will be simulated by this method.
+	 * In case a cache does not support this feature natively, it will be simulated by this method.
 	 * @param array $ids list of keys identifying the cached values
 	 * @return array list of cached values corresponding to the specified keys. The array
 	 * is returned in terms of (key,value) pairs.
@@ -138,23 +130,31 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function mget($ids)
 	{
-		$uniqueIDs=array();
-		$results=array();
-		foreach($ids as $id)
+		$uids = array();
+		foreach ($ids as $id)
+			$uids[$id] = $this->generateUniqueKey($id);
+
+		$values = $this->getValues($uids);
+		$results = array();
+		if($this->serializer === false)
 		{
-			$uniqueIDs[$id]=$this->generateUniqueKey($id);
-			$results[$id]=false;
+			foreach ($uids as $id => $uid)
+				$results[$id] = isset($values[$uid]) ? $values[$uid] : false;
 		}
-		$values=$this->getValues($uniqueIDs);
-		foreach($uniqueIDs as $id=>$uniqueID)
+		else
 		{
-			if(!isset($values[$uniqueID]))
-				continue;
-			$data=$this->autoSerialize ? $this->unserializeValue($values[$uniqueID]) : $values[$uniqueID];
-			if(!$this->autoSerialize || (is_array($data) && (!($data[1] instanceof ICacheDependency) || !$data[1]->getHasChanged())))
+			foreach($uids as $id => $uid)
 			{
-				Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
-				$results[$id]=$this->autoSerialize ? $data[0] : $data;
+				$results[$id] = false;
+				if(isset($values[$uid]))
+				{
+					$value = $this->serializer === null ? unserialize($values[$uid]) : call_user_func($this->serializer[1], $values[$uid]);
+					if(is_array($value) && (!$value[1] instanceof ICacheDependency || !$value[1]->getHasChanged()))
+					{
+						Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
+						$results[$id] = $value[0];
+					}
+				}
 			}
 		}
 		return $results;
@@ -174,10 +174,16 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	public function set($id,$value,$expire=0,$dependency=null)
 	{
 		Yii::trace('Saving "'.$id.'" to cache','system.caching.'.get_class($this));
-		if($dependency!==null && $this->autoSerialize)
+
+		if ($dependency !== null && $this->serializer !== false)
 			$dependency->evaluateDependency();
-		$data=$this->autoSerialize ? $this->serializeValue(array($value,$dependency)) : $value;
-		return $this->setValue($this->generateUniqueKey($id),$data,$expire);
+
+		if ($this->serializer === null)
+			$value = serialize(array($value,$dependency));
+		elseif ($this->serializer !== false)
+			$value = call_user_func($this->serializer[0], array($value,$dependency));
+
+		return $this->setValue($this->generateUniqueKey($id), $value, $expire);
 	}
 
 	/**
@@ -192,10 +198,16 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	public function add($id,$value,$expire=0,$dependency=null)
 	{
 		Yii::trace('Adding "'.$id.'" to cache','system.caching.'.get_class($this));
-		if($dependency!==null && $this->autoSerialize)
+
+		if ($dependency !== null && $this->serializer !== false)
 			$dependency->evaluateDependency();
-		$data=$this->autoSerialize ? $this->serializeValue(array($value,$dependency)) : $value;
-		return $this->addValue($this->generateUniqueKey($id),$data,$expire);
+
+		if ($this->serializer === null)
+			$value = serialize(array($value,$dependency));
+		elseif ($this->serializer !== false)
+			$value = call_user_func($this->serializer[0], array($value,$dependency));
+
+		return $this->addValue($this->generateUniqueKey($id), $value, $expire);
 	}
 
 	/**
@@ -315,40 +327,6 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	{
 		throw new CException(Yii::t('yii','{className} does not support flushValues() functionality.',
 			array('{className}'=>get_class($this))));
-	}
-
-	/**
-	 * Serializes the value before it will be stored in the actual cache backend.
-	 * This method will be called if {@link autoSerialize} is set to true. Child classes may override this method to change
-	 * the way the value is being serialized. The default implementation simply makes use of the PHP serialize() function
-	 * unless {@link useIgbinarySerializer} is set to true and the igbinary extension is installed.
-	 * Make sure to override {@link unserializeValue()} as well if you want to change the serialization process.
-	 * @param mixed $value the unserialized representation of the value
-	 * @return string the serialized representation of the value
-	 * @since 1.1.11
-	 **/
-	protected function serializeValue($value)
-	{
-		if($this->useIgbinarySerializer)
-			return igbinary_serialize($value);
-		return serialize($value);
-	}
-	
-	/**
-	 * Unserializes the value after it was retrieved from the actual cache backend.
-	 * This method will be called if {@link autoSerialize} is set to true. Child classes may override this method to change
-	 * the way the value is being unserialized.  The default implementation simply makes use of the PHP unserialize() function
-	 * unless {@link useIgbinarySerializer} is set to true and the igbinary extension is installed.
-	 * Make sure to override {@link serializeValue()} as well if you want to change the serialization process.
-	 * @param string $value the serialized representation of the value
-	 * @return mixed the unserialized representation of the value
-	 * @since 1.1.11
-	 **/
-	protected function unserializeValue($value)
-	{
-		if($this->useIgbinarySerializer)
-			return igbinary_unserialize($value);
-		return unserialize($value);
 	}
 
 	/**
