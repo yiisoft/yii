@@ -685,17 +685,24 @@ class CHtmlTest extends CTestCase
 	public function providerActiveUrlField()
 	{
 		return array(
-
+			array(false, 'userName', array('class'=>'test-class-attr'),
+				'<input class="test-class-attr" name="CHtmlTestActiveModel[userName]" id="CHtmlTestActiveModel_userName" type="url" />'),
+			array(true, 'userName', array('another-attr'=>'another-attr-value', 'id'=>'changed-id'),
+				'<input another-attr="another-attr-value" id="changed-id" name="CHtmlTestActiveModel[userName]" type="url" class="error" />'),
+			array(false, 'firstName', array(),
+				'<input name="CHtmlTestActiveModel[firstName]" id="CHtmlTestActiveModel_firstName" type="url" />'),
+			array(true, 'firstName', array('disabled'=>true, 'name'=>'changed-name'),
+				'<input disabled="disabled" name="changed-name" id="changed-name" type="url" />'),
 		);
 	}
 
 	/**
-	 * @provider providerActiveUrlField
+	 * @dataProvider providerActiveUrlField
 	 *
-	 * @param $validate
-	 * @param $attribute
-	 * @param $htmlOptions
-	 * @param $assertion
+	 * @param boolean $validate
+	 * @param string $attribute
+	 * @param array $htmlOptions
+	 * @param string $assertion
 	 */
 	public function testActiveUrlField($validate, $attribute, $htmlOptions, $assertion)
 	{
