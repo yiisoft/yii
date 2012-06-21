@@ -215,7 +215,7 @@ class CSort extends CComponent
 	 */
 	public function applyOrder($criteria)
 	{
-		$order=$this->getOrderBy();
+		$order=$this->getOrderBy($criteria);
 		if(!empty($order))
 		{
 			if(!empty($criteria->order))
@@ -229,7 +229,7 @@ class CSort extends CComponent
 	 * This can be put in the ORDER BY clause of a SQL statement.
 	 * @since 1.1.0
 	 */
-	public function getOrderBy()
+	public function getOrderBy($criteria=null)
 	{
 		$directions=$this->getDirections();
 		if(empty($directions))
@@ -237,7 +237,13 @@ class CSort extends CComponent
 		else
 		{
 			if($this->modelClass!==null)
-				$schema=CActiveRecord::model($this->modelClass)->getDbConnection()->getSchema();
+				if($criteria===null)
+					$schema=CActiveRecord::model($this->modelClass)->getDbConnection()->getSchema();
+				else {
+					$model=CActiveRecord::model($this->modelClass);
+					$model->setDbCriteria($criteria);
+                                        $schema=$model->getDbConnection()->getSchema();
+                                }
 			$orders=array();
 			foreach($directions as $attribute=>$descending)
 			{
