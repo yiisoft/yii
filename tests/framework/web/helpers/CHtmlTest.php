@@ -6,6 +6,9 @@ class CHtmlTest extends CTestCase
 	{
 		// clean up any possible garbage in global clientScript app component
 		Yii::app()->clientScript->reset();
+
+		// reset CHtml ID counter
+		CHtml::$count=0;
 	}
 
 	public function tearDown()
@@ -710,6 +713,142 @@ class CHtmlTest extends CTestCase
 		if($validate)
 			$model->validate();
 		$this->assertEquals($assertion, CHtml::activeUrlField($model, $attribute, $htmlOptions));
+	}
+
+	public function providerButton()
+	{
+		return array(
+			array('button1', array('name'=>null, 'class'=>'class1'), '<input class="class1" type="button" value="button1" />'),
+			array('button2', array('name'=>'custom-name', 'class'=>'class2'), '<input name="custom-name" class="class2" type="button" value="button2" />'),
+			array('button3', array('type'=>'submit'), '<input type="submit" name="yt0" value="button3" />'),
+			array('button4', array('value'=>'button-value'), '<input value="button-value" name="yt0" type="button" />'),
+			array('button5', array(), '<input name="yt0" type="button" value="button5" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerButton
+	 *
+	 * @param string $label
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testButton($label, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::button($label, $htmlOptions));
+	}
+
+	public function providerHtmlButton()
+	{
+		return array(
+			array('button1', array('name'=>null, 'class'=>'class1'), '<button name="yt0" class="class1" type="button">button1</button>'),
+			array('button2', array('name'=>'custom-name', 'class'=>'class2'), '<button name="custom-name" class="class2" type="button">button2</button>'),
+			array('button3', array('type'=>'submit'), '<button type="submit" name="yt0">button3</button>'),
+			array('button4', array('value'=>'button-value'), '<button value="button-value" name="yt0" type="button">button4</button>'),
+			array('button5', array(), '<button name="yt0" type="button">button5</button>'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerHtmlButton
+	 *
+	 * @param string $label
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testHtmlButton($label, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::htmlButton($label, $htmlOptions));
+	}
+
+	public function providerSubmitButton()
+	{
+		return array(
+			array('submit', array(), '<input type="submit" name="yt0" value="submit" />'),
+			array('submit1', array('type'=>'button'), '<input type="submit" name="yt0" value="submit1" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerSubmitButton
+	 *
+	 * @param string $label
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testSubmitButton($label, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::submitButton($label, $htmlOptions));
+	}
+
+	public function providerResetButton()
+	{
+		return array(
+			array('reset', array(), '<input type="reset" name="yt0" value="reset" />'),
+			array('reset1', array('type'=>'button'), '<input type="reset" name="yt0" value="reset1" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerResetButton
+	 *
+	 * @param string $label
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testResetButton($label, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::resetButton($label, $htmlOptions));
+	}
+
+	public function providerImageButton()
+	{
+		return array(
+			array('/images/test-image.png', array('src'=>'ignored-src'), '<input src="/images/test-image.png" type="image" name="yt0" value="submit" />'),
+			array('/images/test-image.jpg', array('type'=>'button'), '<input type="image" src="/images/test-image.jpg" name="yt0" value="submit" />'),
+			array('/images/test-image.gif', array('value'=>'image'), '<input value="image" src="/images/test-image.gif" type="image" name="yt0" />'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerImageButton
+	 *
+	 * @param string $src
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testImageButton($label, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::imageButton($label, $htmlOptions));
+	}
+
+	public function providerLinkButton()
+	{
+		return array(
+			array('submit', array(), '<a href="#" id="yt0">submit</a>',
+				"$('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
+			array('link-button', array(), '<a href="#" id="yt0">link-button</a>',
+				"$('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
+			array('link-button', array('href'=>'http://yiiframework.com/'), '<a href="#" id="yt0">link-button</a>',
+				"$('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'http://yiiframework.com/',{});return false;});"),
+		);
+	}
+
+	/**
+	 * @dataProvider providerLinkButton
+	 *
+	 * @param string $label
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 * @param string $clientScriptOutput
+	 */
+	public function testLinkButton($label, $htmlOptions, $assertion, $clientScriptOutput)
+	{
+		$this->assertEquals($assertion, CHtml::linkButton($label, $htmlOptions));
+
+		$output='';
+		Yii::app()->getClientScript()->renderBodyEnd($output);
+		$this->assertTrue(mb_strpos($output, $clientScriptOutput)!==false);
 	}
 
 }
