@@ -242,8 +242,8 @@ class CSort extends CComponent
 				else {
 					$model=CActiveRecord::model($this->modelClass);
 					$model->setDbCriteria($criteria);
-                                        $schema=$model->getDbConnection()->getSchema();
-                                }
+					$schema=$model->getDbConnection()->getSchema();
+				}
 			$orders=array();
 			foreach($directions as $attribute=>$descending)
 			{
