@@ -1716,14 +1716,6 @@ class CActiveRecordArray
 	private $_related=array();
 
 	/**
-	 * @return array|string|null the primary key of this active record
-	 */
-	public function getPrimaryKey()
-	{
-		return $this->_pk;
-	}
-
-	/**
 	 * PHP getter magic method.
 	 * This method is overridden so that AR attributes can be accessed like properties.
 	 * @param string $name property name
@@ -1737,6 +1729,35 @@ class CActiveRecordArray
 
 		throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
 			array('{class}'=>get_class($this), '{property}'=>$name)));
+	}
+
+	/**
+	 * Constructor.
+	 * @param array $attributes attributes of the new active record instance
+	 * @param CActiveRecord $model
+	 */
+	public function __construct($attributes, $model)
+	{
+		$this->attributes=$attributes;
+		$table=$model->getMetaData()->tableSchema;
+		if(is_string($table->primaryKey))
+			$this->_pk=$this->{$table->primaryKey};
+		else if(is_array($table->primaryKey))
+		{
+			$this->_pk=array();
+			foreach($table->primaryKey as $name)
+				$this->_pk[$name]=$this->$name;
+		}
+		else
+			$this->_pk=null;
+	}
+
+	/**
+	 * @return array|string|null the primary key of this active record
+	 */
+	public function getPrimaryKey()
+	{
+		return $this->_pk;
 	}
 
 	/**
@@ -1764,27 +1785,6 @@ class CActiveRecordArray
 		}
 		else if(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
-	}
-
-	/**
-	 * Constructor.
-	 * @param array $attributes attributes of the new active record instance
-	 * @param CActiveRecord $model
-	 */
-	public function __construct($attributes, $model)
-	{
-		$this->attributes=$attributes;
-		$table=$model->getMetaData()->tableSchema;
-		if(is_string($table->primaryKey))
-			$this->_pk=$this->{$table->primaryKey};
-		else if(is_array($table->primaryKey))
-		{
-			$this->_pk=array();
-			foreach($table->primaryKey as $name)
-				$this->_pk[$name]=$this->$name;
-		}
-		else
-			$this->_pk=null;
 	}
 
 	/**
