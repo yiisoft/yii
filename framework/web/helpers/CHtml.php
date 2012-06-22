@@ -1366,6 +1366,21 @@ EOD;
 	{
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
+
+		if(!isset($htmlOptions['maxlength']))
+		{
+			foreach($model->getValidators($attribute) as $validator)
+			{
+				if($validator instanceof CStringValidator && $validator->max!==null)
+				{
+					$htmlOptions['maxlength']=$validator->max;
+					break;
+				}
+			}
+		}
+		else if($htmlOptions['maxlength']===false)
+			unset($htmlOptions['maxlength']);
+
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$text=self::resolveValue($model,$attribute);
