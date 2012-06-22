@@ -11,7 +11,6 @@ require_once(dirname(__FILE__).'/../data/models.php');
  * It is not checked if the result is the correct one expected related to the query criteria.
  *
  * Currently uncovered:
- * - stat relations
  * - composite pk
  */
 class CActiveRecordAsArrayTest extends CTestCase
@@ -83,6 +82,8 @@ class CActiveRecordAsArrayTest extends CTestCase
 						$this->assertArrayMatchesRecord($array[$relationName], $record->$relationName, $scope.'=>relation "'.$relationName.'"');
 					}
 				}
+				elseif ($relation[0] == CActiveRecord::STAT)
+					$this->assertEquals($array[$relationName], $record->$relationName, 'value of stat relation has to be the same on record and array result. ('.$scope.'=>relation "'.$relationName.'")');
 				else
 					$this->assertAllArraysMatchRecords($record->$relationName, $array[$relationName], $scope.'=>relation "'.$relationName.'"');
 			}
@@ -167,11 +168,10 @@ class CActiveRecordAsArrayTest extends CTestCase
 		$ids = array(1, 2, 3);
 		$params = array(
 			array('', array()), // default arguments to find()
-			array(array('with'=>array('categories')), array()),
-			array(array('with'=>array('author','categories')), array()),
+			array(array('with'=>array('author','categories','commentCount')), array()), // commentCount is a stat relation
 			array(array('with'=>array('author'=>array('with'=>'groups'),'categories')), array()), // groups is a through relation
-			array(array('with'=>array('author','categories'), 'together'=>true), array()),
-			array(array('with'=>array('author'=>array('with'=>'groups'),'categories'), 'together'=>true), array()),
+			array(array('with'=>array('author','categories','commentCount'), 'together'=>true), array()),
+			array(array('with'=>array('author'=>array('with'=>'groups'),'categories'=>array('with'=>'postCount')), 'together'=>true), array()),// postCount is a many many stat relation
 		);
 		$data = array();
 		foreach($ids as $id) {
@@ -195,11 +195,11 @@ class CActiveRecordAsArrayTest extends CTestCase
 		/** @var CDbCriteria[] $withs */
 		$withs = array(
 			array(),
-			array('with'=>array('author','categories')),
+			array('with'=>array('author','categories','commentCount')),  // commentCount is a stat relation
 			array('with'=>array('author'=>array('with'=>'groups'),'categories')), // groups is a through relation
-			array('with'=>array('author','categories'), 'together'=>true),
+			array('with'=>array('author','categories','commentCount'), 'together'=>true),
 			array('with'=>array('author'=>array('with'=>'groups'),'categories'), 'together'=>true),
-			array('with'=>array('author','categories'=>array('index'=>'id', 'with'=>'posts'))),
+			array('with'=>array('author','categories'=>array('index'=>'id', 'with'=>'postCount'))),// postCount is a many many stat relation
 		);
 
 		$data = array(
