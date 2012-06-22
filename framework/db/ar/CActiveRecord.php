@@ -351,7 +351,7 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Resets all scopes and criterias applied including default scope.
-	 *
+	 * This will also reset {@link asArray()} to false.
 	 * @return CActiveRecord
 	 * @since 1.1.2
 	 */
@@ -1739,6 +1739,8 @@ abstract class CActiveRecord extends CModel
 	 * </pre>
 	 * The first examples will return an array of attributes each.
 	 * The second examples will return a list of attribute arrays each.
+	 * When {@link CDbCriteria::with} is set on the query criteria, the resulting array will contain these
+	 * relations with the relation name as array key.
 	 * @param boolean $array whether find result should be array of attributes instead of active record objects
 	 * @return CActiveRecord the active record instance itself.
 	 * @since 1.1.11
