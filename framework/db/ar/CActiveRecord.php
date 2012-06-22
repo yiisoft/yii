@@ -1527,6 +1527,7 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 		{
+			$this->_c=null;
 			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
 			if($this->_asArray)
 			{
