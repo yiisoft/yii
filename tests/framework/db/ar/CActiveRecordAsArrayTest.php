@@ -13,7 +13,6 @@ require_once(dirname(__FILE__).'/../data/models.php');
  * Currently uncovered:
  * - stat relations
  * - composite pk
- * - through relations
  */
 class CActiveRecordAsArrayTest extends CTestCase
 {
@@ -170,7 +169,9 @@ class CActiveRecordAsArrayTest extends CTestCase
 			array('', array()), // default arguments to find()
 			array(array('with'=>array('categories')), array()),
 			array(array('with'=>array('author','categories')), array()),
+			array(array('with'=>array('author'=>array('with'=>'groups'),'categories')), array()), // groups is a through relation
 			array(array('with'=>array('author','categories'), 'together'=>true), array()),
+			array(array('with'=>array('author'=>array('with'=>'groups'),'categories'), 'together'=>true), array()),
 		);
 		$data = array();
 		foreach($ids as $id) {
@@ -195,7 +196,9 @@ class CActiveRecordAsArrayTest extends CTestCase
 		$withs = array(
 			array(),
 			array('with'=>array('author','categories')),
+			array('with'=>array('author'=>array('with'=>'groups'),'categories')), // groups is a through relation
 			array('with'=>array('author','categories'), 'together'=>true),
+			array('with'=>array('author'=>array('with'=>'groups'),'categories'), 'together'=>true),
 			array('with'=>array('author','categories'=>array('index'=>'id', 'with'=>'posts'))),
 		);
 
@@ -393,8 +396,20 @@ class CActiveRecordAsArrayTest extends CTestCase
 		$this->assertFalse($post->getAsArray());
 
 		$this->assertArrayMatchesRecord(
+			$post->asArray()->author(array('with'=>'groups')), // groups is a through relation
+			$post->author(array('with'=>'groups'))
+		);
+		$this->assertFalse($post->getAsArray());
+
+		$this->assertArrayMatchesRecord(
 			$post->asArray()->author(array('with'=>'posts', 'together'=>true)),
 			$post->author(array('with'=>'posts', 'together'=>true))
+		);
+		$this->assertFalse($post->getAsArray());
+
+		$this->assertArrayMatchesRecord(
+			$post->asArray()->author(array('with'=>'groups', 'together'=>true)), // groups is a through relation
+			$post->author(array('with'=>'groups', 'together'=>true))
 		);
 		$this->assertFalse($post->getAsArray());
 
