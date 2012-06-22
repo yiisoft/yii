@@ -1756,7 +1756,7 @@ EOD;
 	 * encode it if needed.
 	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
 	 * You can also pass anonymous function as second argument which calculates text field value (PHP 5.3+ only).
-	 * Your anonymous function should receive one argument - current <option> tag generating model.
+	 * Your anonymous function should receive one argument, which is the model, the current <option> tag is generated from.
 	 * @param array $models a list of model objects. This parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
 	 * @param string $valueField the attribute name for list option values
