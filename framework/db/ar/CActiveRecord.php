@@ -63,7 +63,7 @@ abstract class CActiveRecord extends CModel
 	private $_c;								// query criteria (used by finder only)
 	private $_pk;								// old primary key value
 	private $_alias='t';						// the table alias being used for query
-	private $_asArray=false;					// a "scope" for find and relations to return attribute array instead of records
+	private $_asArray=false;					// a "scope" for find-methods and relations to return attribute array instead of records
 
 
 	/**
@@ -243,7 +243,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getRelated($name,$refresh=false,$params=array())
 	{
-		if(!$refresh && $params===array() && !$this->_asArray && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
+		$exists=isset($this->_related[$name]) || array_key_exists($name,$this->_related);
+		if($exists && !$refresh && $params===array() && !$this->_asArray)
 			return $this->_related[$name];
 
 		$md=$this->getMetaData();
@@ -256,12 +257,9 @@ abstract class CActiveRecord extends CModel
 		if($this->getIsNewRecord() && !$refresh && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 			return $relation instanceof CHasOneRelation ? null : array();
 
-		if($params!==array() || $this->_asArray) // save existing
-		{
-			$exists=isset($this->_related[$name]) || array_key_exists($name,$this->_related);
-			if($exists)
-				$save=$this->_related[$name];
-		}
+		if($exists && ($params!==array() || $this->_asArray)) // save existing
+			$save=$this->_related[$name];
+
 		if($params!==array()) // dynamic query
 		{
 			if($params instanceof CDbCriteria)
