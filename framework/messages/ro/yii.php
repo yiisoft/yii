@@ -178,7 +178,7 @@ return array (
   'You are not authorized to perform this action.' => 'Nu sunteți autorizat să executați această acțiune.',
   'Your request is not valid.' => 'Cererea nu este validă.',
   '{attribute} "{value}" has already been taken.' => '{attribute} "{value}" este deja folosit.',
-  '{attribute} cannot be blank.' => '{attribute} nu poate fi gol.',
+  '{attribute} cannot be blank.' => '{attribute} trebuie completat(ă).',
   '{attribute} is invalid.' => '{attribute} nu este valid.',
   '{attribute} is not a valid URL.' => '{attribute} nu este un URL valid.',
   '{attribute} is not a valid email address.' => '{attribute} nu este o adresă de email validă.',
