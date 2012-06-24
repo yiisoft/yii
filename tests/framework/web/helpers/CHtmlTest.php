@@ -18,7 +18,7 @@ class CHtmlTest extends CTestCase
 	}
 
     /* HTML characters encode/decode tests */
-    
+
     public static function providerEncodeArray()
     {
         return array(
@@ -27,18 +27,18 @@ class CHtmlTest extends CTestCase
                 array( array(array('lessThanExpression'=>'4 < 9'), 'greaterThanExpression'=>'4 > 9'), array(array('lessThanExpression'=>'4 &lt; 9'), 'greaterThanExpression'=>'4 &gt; 9') )
             );
     }
-    
+
     /**
      * @dataProvider providerEncodeArray
-     * 
+     *
      * @param type $data
-     * @param type $assertion 
+     * @param type $assertion
      */
     public function testEncodeArray($data, $assertion)
     {
         $this->assertEquals($assertion, CHtml::encodeArray($data));
     }
-    
+
     /* Javascript generator tests */
 
     public static function providerAjax()
@@ -53,20 +53,20 @@ class CHtmlTest extends CTestCase
                 array(array("replace" =>"#my-div"), "jQuery.ajax({'url':location.href,'cache':false,'success':function(html){jQuery(\"#my-div\").replaceWith(html)}});")
             );
     }
-    
+
     /**
      * @dataProvider providerAjax
-     * 
+     *
      * @param type $options
-     * @param type $assertion 
+     * @param type $assertion
      */
     public function testAjax($options, $assertion)
     {
         $this->assertEquals($assertion, CHtml::ajax($options));
     }
-    
+
     /* DOM element generated from model attribute tests */
-    
+
     public static function providerActiveDOMElements()
     {
         return array(
@@ -74,7 +74,7 @@ class CHtmlTest extends CTestCase
                 array(new CHtmlTestModel(array('attr1'=>false)), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />')
             );
     }
-    
+
     /**
      * @dataProvider providerActiveDOMElements
      *
@@ -87,22 +87,22 @@ class CHtmlTest extends CTestCase
     {
         $this->assertEquals($assertion, CHtml::activeCheckBox($model,$attribute,$htmlOptions));
     }
-    
+
     /* Static DOM element generator tests */
-    
+
     public static function providerBeginForm()
     {
         return array(
                 array("index", "get", array(), '<form action="index" method="get">'),
                 array("index", "post", array(), '<form action="index" method="post">'),
-                array("index?myFirstParam=3&mySecondParam=true", "get", array(), 
-"<form action=\"index?myFirstParam=3&amp;mySecondParam=true\" method=\"get\">
-<div style=\"display:none\"><input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />
-<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" /></div>"),
-                
+                array("index?myFirstParam=3&mySecondParam=true", "get", array(),
+"<form action=\"index?myFirstParam=3&amp;mySecondParam=true\" method=\"get\">\n".
+"<div style=\"display:none\"><input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
+"<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" /></div>"),
+
             );
     }
-    
+
     /**
      * @dataProvider providerBeginForm
      *
@@ -118,7 +118,7 @@ class CHtmlTest extends CTestCase
         $this->assertEquals($assertion, CHtml::beginForm($action, $method, $htmlOptions));
 		$this->assertEquals($assertion, CHtml::form($action, $method, $htmlOptions));
     }
-    
+
     public static function providerTextArea()
     {
         return array(
@@ -127,7 +127,7 @@ class CHtmlTest extends CTestCase
                 array("textareaone", '', array("id"=>false), "<textarea name=\"textareaone\"></textarea>"),
             );
     }
-    
+
     /**
      * @dataProvider providerTextArea
      *
@@ -858,22 +858,22 @@ class CHtmlTest extends CTestCase
 class CHtmlTestModel extends CModel
 {
     private static $_names=array();
-    
+
     /**
      * @property mixed $attr1
      */
     public $attr1;
-    
+
     /**
      * @property mixed $attr2
      */
     public $attr2;
-    
+
     /**
      * @property mixed $attr3
      */
     public $attr3;
-    
+
     /**
      * @property mixed $attr4
      */
@@ -890,7 +890,7 @@ class CHtmlTestModel extends CModel
             $this->{$property} = $value;
         }
     }
-    
+
     /**
 	 * Returns the list of attribute names.
 	 * @return array list of attribute names. Defaults to all public properties of the class.
