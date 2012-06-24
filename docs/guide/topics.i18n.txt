@@ -53,6 +53,9 @@ language refers to the language (locale) that the application source files
 are written in. Internationalization occurs only when the two languages are
 different.
 
+> Tip: It's better to leave English as a source language since it will be easier
+  to find people translating from English to any other language.
+
 One can configure [target language|CApplication::language] in the
 [application configuration](/doc/guide/basics.application#application-configuration), or
 change it dynamically before any internationalization occurs.
