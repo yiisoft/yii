@@ -391,6 +391,37 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::getIdByName($text));
 	}
 
+	public function testResolveName()
+	{
+		$testModel=new CHtmlTestFormModel();
+
+		$attrName='stringAttr';
+		$this->assertEquals('CHtmlTestFormModel[stringAttr]', CHtml::resolveName($testModel, $attrName));
+		$this->assertEquals('stringAttr', $attrName);
+
+		$attrName='arrayAttr[k1]';
+		$this->assertEquals('CHtmlTestFormModel[arrayAttr][k1]', CHtml::resolveName($testModel, $attrName));
+		$this->assertEquals('arrayAttr[k1]', $attrName);
+
+		$attrName='arrayAttr[k3][k5]';
+		$this->assertEquals('CHtmlTestFormModel[arrayAttr][k3][k5]', CHtml::resolveName($testModel, $attrName));
+		$this->assertEquals('arrayAttr[k3][k5]', $attrName);
+
+		$attrName='[k3][k4]arrayAttr';
+		$this->assertEquals('CHtmlTestFormModel[k3][k4][arrayAttr]', CHtml::resolveName($testModel, $attrName));
+		$this->assertEquals('arrayAttr', $attrName);
+
+		$attrName='[k3]arrayAttr[k4]';
+		$this->assertEquals('CHtmlTestFormModel[k3][arrayAttr][k4]', CHtml::resolveName($testModel, $attrName));
+		$this->assertEquals('arrayAttr[k4]', $attrName);
+
+		// next two asserts gives 100% code coverage of the CHtml::resolveName() method
+		// otherwise penultimate line (last closing curly bracket) of the CHtml::resolveName() will not be unit tested
+		$attrName='[k3';
+		$this->assertEquals('CHtmlTestFormModel[[k3]', CHtml::resolveName($testModel, $attrName));
+		$this->assertEquals('[k3', $attrName);
+	}
+
 	public function testResolveValue()
 	{
 		$testModel=new CHtmlTestFormModel();
