@@ -315,11 +315,13 @@ abstract class CModule extends CComponent
 	 * The parameter should be an array of module configurations. Each array element represents a single module,
 	 * which can be either a string representing the module ID or an ID-configuration pair representing
 	 * a module with the specified ID and the initial property values.
+	 * The module ID can contain dots to specify a subfolder.
 	 *
 	 * For example, the following array declares two modules:
 	 * <pre>
 	 * array(
 	 *     'admin',                // a single module ID
+	 *     'admin.editor'          // a single module ID within a subfolder
 	 *     'payment'=>array(       // ID-configuration pair
 	 *         'server'=>'paymentserver.com',
 	 *     ),
@@ -345,7 +347,12 @@ abstract class CModule extends CComponent
 			}
 			if(!isset($module['class']))
 			{
-				Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
+				$parts = explode('.', $id);
+				$id = array_pop($exploded);
+				$path = implode(DIRECTORY_SEPARATOR, $parts);
+				if ($path) $path .= DIRECTORY_SEPARATOR;
+
+				Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$path.$id);
 				$module['class']=$id.'.'.ucfirst($id).'Module';
 			}
 
