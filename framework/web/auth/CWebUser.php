@@ -331,8 +331,11 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getReturnUrl($defaultUrl=null)
 	{
-		return $this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getRequest()->getScriptUrl() : CHtml::normalizeUrl($defaultUrl));
-	}
+                $stateReturnUrl=$this->getState('__returnUrl');
+		$returnUrl=$this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getRequest()->getScriptUrl() : CHtml::normalizeUrl($defaultUrl));
+                if($stateReturnUrl!==null) $this->setState('__returnUrl', $stateReturnUrl, $stateReturnUrl);
+                return $returnUrl;
+        }
 
 	/**
 	 * @param string $value the URL that the user should be redirected to after login.
