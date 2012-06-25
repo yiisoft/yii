@@ -563,15 +563,10 @@ class CJoinElement
 		$parent=$this->_parent;
 		if($this->relation instanceof CManyManyRelation)
 		{
-			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
-				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
-					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
-
-			if(($joinTable=$schema->getTable($matches[1]))===null)
+			if(($joinTable=$schema->getTable($this->relation->getJunctionTableName()))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
 					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
-			$fks=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
-
+			$fks=$this->relation->getJunctionForeignKeys();
 
 			$joinAlias=$schema->quoteTableName($this->relation->name.'_'.$this->tableAlias);
 			$parentCondition=array();
@@ -1046,15 +1041,11 @@ class CJoinElement
 		$parent=$this->_parent;
 		if($this->relation instanceof CManyManyRelation)
 		{
-			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
-				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
-					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
-
 			$schema=$this->_builder->getSchema();
-			if(($joinTable=$schema->getTable($matches[1]))===null)
+			if(($joinTable=$schema->getTable($this->relation->getJunctionTableName()))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
 					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
-			$fks=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+			$fks=$this->relation->getJunctionForeignKeys();
 
 			return $this->joinManyMany($joinTable,$fks,$parent);
 		}
