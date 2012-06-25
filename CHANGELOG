@@ -7,6 +7,7 @@ Version 1.1.11 work in progress
 - Bug #114: CUniqueValidator and CExistValidator now respect table alias while creating db query condition (klimov-paul)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
 - Bug #164: CEmailValidator.checkPort now checks the port 25 of listed MX servers (DaSourcerer)
+- Bug #178: webapp creation with relative paths like ../ was not working correctly (cebe)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
 - Bug #238: Fixed the problem that empty row could be selected in CGridView when there was no data (mdomba)
 - Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
