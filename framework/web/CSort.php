@@ -227,6 +227,7 @@ class CSort extends CComponent
 	/**
 	 * @return string the order-by columns represented by this sort object.
 	 * This can be put in the ORDER BY clause of a SQL statement.
+	 * @param CDbCriteria $criteria the query criteria
 	 * @since 1.1.0
 	 */
 	public function getOrderBy($criteria=null)
