@@ -63,6 +63,8 @@ class {$this->_arModelName} extends CActiveRecord
     {
         return array(
             array('name','exist','on'=>'simple'),
+            array('name','exist','caseSensitive'=>true,'on'=>'case_sensitive'),
+            array('name','exist','caseSensitive'=>false,'on'=>'not_case_sensitive'),
             array('name','exist','criteria'=>array('alias'=>'test_alias'),'on'=>'criteria'),
         );
     }
@@ -88,6 +90,29 @@ EOD;
         $anotherModel = new $modelClassName('simple');
         $anotherModel->name = $name;
         $this->assertTrue($anotherModel->validate(),'Duplicate entry of existing value considered as invalid!');
+    }
+
+    /**
+     * @depends testValidate
+     */
+    public function testValidateCaseSensitive()
+    {
+        $modelClassName = $this->_arModelName;
+        $name = 'test_name';
+
+        $initModel = new $modelClassName();
+        $initModel->name = $name;
+        $initModel->save(false);
+
+        $caseSensitiveModel = new $modelClassName('case_sensitive');
+        $caseSensitiveModel->name = $name;
+        $this->assertTrue($caseSensitiveModel->validate(),'Validation breaks in case sensitive mode!');
+        $caseSensitiveModel->name = strtoupper($name);
+        $this->assertFalse($caseSensitiveModel->validate(),'Same value in other case considered as valid!');
+
+        $caseInsensitiveModel = new $modelClassName('not_case_sensitive');
+        $caseInsensitiveModel->name = strtoupper($name);
+        $this->assertTrue($caseInsensitiveModel->validate(),'Same value in other case considered as invalid!');
     }
 
     /**

@@ -95,7 +95,7 @@ EOD;
     /**
      * @depends testValidate
      */
-    public function testValidateCaseSesative()
+    public function testValidateCaseSensitive()
     {
         $modelClassName = $this->_arModelName;
         $name = 'test_name';
