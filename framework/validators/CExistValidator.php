@@ -29,6 +29,11 @@
 class CExistValidator extends CValidator
 {
 	/**
+	 * @var boolean whether the comparison is case sensitive. Defaults to true.
+	 * Note, by setting it to false, you are assuming the attribute type is string.
+	 */
+	public $caseSensitive=true;
+    /**
 	 * @var string the ActiveRecord class name that should be used to
 	 * look for the attribute value being validated. Defaults to null,
 	 * meaning using the ActiveRecord class of the attribute being validated.
@@ -82,7 +87,7 @@ class CExistValidator extends CValidator
 			$criteria->mergeWith($this->criteria);
         $tableAlias = empty($criteria->alias) ? $finder->getTableAlias(true) : $criteria->alias;
         $valueParamName = CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++;
-        $criteria->addCondition("{$tableAlias}.{$columnName}={$valueParamName}");
+        $criteria->addCondition($this->caseSensitive ? "{$tableAlias}.{$columnName}={$valueParamName}" : "LOWER({$tableAlias}.{$columnName})=LOWER({$valueParamName})");
         $criteria->params[$valueParamName] = $value;
 
 		if(!$finder->exists($criteria))
