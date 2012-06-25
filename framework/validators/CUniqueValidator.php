@@ -52,8 +52,9 @@ class CUniqueValidator extends CValidator
 	 */
 	public $attributeName;
 	/**
-	 * @var array additional query criteria. This will be combined with the condition
-	 * that checks if the attribute value exists in the corresponding table column.
+	 * @var mixed additional query criteria. Either an array or CDbCriteria.
+     * This will be combined with the condition that checks if the attribute
+     * value exists in the corresponding table column.
 	 * This array will be used to instantiate a {@link CDbCriteria} object.
 	 */
 	public $criteria=array();
