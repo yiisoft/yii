@@ -675,4 +675,9 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
+> Info|Info: Seit Version 1.1.11 enthält das Array `$params`, welches einer Geschäftsregel übergeben wird, einen Eintrag
+> `userId`, dessen Wert die ID des Benutzers ist, für den die Geschäftsregel geprüft wird.
+> Dies wird in Situationen benötigt, in denen [CDbAuthManager::checkAccess()] bzw. [CPhpAuthManager::checkAccess()] aufgerufen wird
+> und `Yii::app()->user` nicht verfügbar, oder nicht der Benutzer ist, für den der Berechtigung geprüft wird.
+
 <div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

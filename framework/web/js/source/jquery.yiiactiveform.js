@@ -157,6 +157,7 @@
 									} else {  // no submit button in the form
 										$form.submit();
 									}
+									validated = false;
 									return;
 								}
 							}
