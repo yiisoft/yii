@@ -33,7 +33,7 @@ class CExistValidator extends CValidator
 	 * Note, by setting it to false, you are assuming the attribute type is string.
 	 */
 	public $caseSensitive=true;
-    /**
+	/**
 	 * @var string the ActiveRecord class name that should be used to
 	 * look for the attribute value being validated. Defaults to null,
 	 * meaning using the ActiveRecord class of the attribute being validated.
@@ -50,8 +50,8 @@ class CExistValidator extends CValidator
 	public $attributeName;
 	/**
 	 * @var mixed additional query criteria. Either an array or CDbCriteria.
-     * This will be combined with the condition that checks if the attribute
-     * value exists in the corresponding table column.
+	 * This will be combined with the condition that checks if the attribute
+	 * value exists in the corresponding table column.
 	 * This array will be used to instantiate a {@link CDbCriteria} object.
 	 */
 	public $criteria=array();
@@ -82,13 +82,13 @@ class CExistValidator extends CValidator
 				array('{column}'=>$attributeName,'{table}'=>$table->name)));
 
 		$columnName=$column->rawName;
-        $criteria=new CDbCriteria();
-        if($this->criteria!==array())
+		$criteria=new CDbCriteria();
+		if($this->criteria!==array())
 			$criteria->mergeWith($this->criteria);
-        $tableAlias = empty($criteria->alias) ? $finder->getTableAlias(true) : $criteria->alias;
-        $valueParamName = CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++;
-        $criteria->addCondition($this->caseSensitive ? "{$tableAlias}.{$columnName}={$valueParamName}" : "LOWER({$tableAlias}.{$columnName})=LOWER({$valueParamName})");
-        $criteria->params[$valueParamName] = $value;
+		$tableAlias = empty($criteria->alias) ? $finder->getTableAlias(true) : $criteria->alias;
+		$valueParamName = CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++;
+		$criteria->addCondition($this->caseSensitive ? "{$tableAlias}.{$columnName}={$valueParamName}" : "LOWER({$tableAlias}.{$columnName})=LOWER({$valueParamName})");
+		$criteria->params[$valueParamName] = $value;
 
 		if(!$finder->exists($criteria))
 		{
