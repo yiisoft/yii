@@ -6,6 +6,7 @@ Version 1.1.11 work in progress
 - Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
 - Bug #114: CUniqueValidator and CExistValidator now respect table alias while creating db query condition (klimov-paul)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
+- Bug #161: CCookieCollection::remove() now accepts an array of cookie options as a second argument to facilitate correct cookie removal (maximcherny)
 - Bug #164: CEmailValidator.checkPort now checks the port 25 of listed MX servers (DaSourcerer)
 - Bug #178: webapp creation with relative paths like ../ was not working correctly (cebe)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
