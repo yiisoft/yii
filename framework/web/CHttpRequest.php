@@ -1092,9 +1092,17 @@ class CCookieCollection extends CMap
 	 * This overrides the parent implementation by performing additional
 	 * cleanup work when removing a CHttpCookie object.
 	 * Since version 1.1.11, the second parameter is available that can be used to specify
-	 * the options of the CHttpCookie being removed.
+	 * the options of the CHttpCookie being removed. For example, this may be useful when dealing
+	 * with ".domain.tld" where multiple subdomains are expected to be able to manage cookies:
+	 * 
+	 * <pre>
+	 * $options=array('domain'=>'.domain.tld');
+	 * Yii::app()->request->cookies['foo']=new CHttpCookie('cookie','value',$options);
+	 * Yii::app()->request->cookies->remove('cookie',$options);
+	 * </pre>
+	 * 
 	 * @param mixed $name Cookie name.
-	 * @param array $options Cookie configuration array consisting of name-value pairs. 
+	 * @param array $options Cookie configuration array consisting of name-value pairs, available since 1.1.11. 
 	 * @return CHttpCookie The removed cookie object.
 	 */
 	public function remove($name,$options=array())
@@ -1133,8 +1141,8 @@ class CCookieCollection extends CMap
 	protected function removeCookie($cookie)
 	{
 		if(version_compare(PHP_VERSION,'5.2.0','>='))
-			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
+			setcookie($cookie->name,'',0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
-			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure);
+			setcookie($cookie->name,'',0,$cookie->path,$cookie->domain,$cookie->secure);
 	}
 }
