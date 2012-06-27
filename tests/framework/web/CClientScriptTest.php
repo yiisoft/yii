@@ -175,6 +175,20 @@ class CClientScriptTest extends CTestCase
 		$this->assertAttributeEquals($expectedMetaTagsUnique, 'metaTagsUnique', $returnedClientScript);
 	}
 
+	/**
+	 * @depends testRegisterMetaTagUnique
+	 */
+	public function testRenderMetaTagUnique() {
+		$metaTagName = 'testMetaTagName';
+		$metaTagContent = 'testContent';
+		$this->_clientScript->registerMetaTagUnique($metaTagContent,$metaTagName);
+		$output = '<head></head>';
+		$this->_clientScript->render($output);
+
+		$expectedMetaTagHtml = CHtml::metaTag($metaTagContent, $metaTagName);
+		$this->assertContains($expectedMetaTagHtml, $output, 'Unable to render registered unique meta tag!');
+	}
+
 	/* Test Script Renderers */
 	
 }
