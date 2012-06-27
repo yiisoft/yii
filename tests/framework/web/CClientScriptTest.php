@@ -148,6 +148,33 @@ class CClientScriptTest extends CTestCase
 		$this->assertAttributeEquals($assertion, 'metaTags', $returnedClientScript);
 	}
 
+	public function testRegisterMetaTagUnique()
+	{
+		$metaTagName = 'testMetaTagName';
+		$metaTagContent = 'testContent';
+		$returnedClientScript = $this->_clientScript->registerMetaTagUnique($metaTagContent,$metaTagName);
+		$expectedMetaTagsUnique = array(
+			serialize(array('name'=>$metaTagName)) => array('name'=>$metaTagName,'content'=>$metaTagContent)
+		);
+		$this->assertAttributeEquals($expectedMetaTagsUnique, 'metaTagsUnique', $returnedClientScript);
+
+		$metaTagContentOverridden = 'testContentOverridden';
+		$returnedClientScript = $this->_clientScript->registerMetaTagUnique($metaTagContentOverridden,$metaTagName);
+		$expectedMetaTagsUnique = array(
+			serialize(array('name'=>$metaTagName)) => array('name'=>$metaTagName,'content'=>$metaTagContentOverridden)
+		);
+		$this->assertAttributeEquals($expectedMetaTagsUnique, 'metaTagsUnique', $returnedClientScript);
+
+		$metaTagOptions = array(
+			'testOptionName'=>'testOptionValue'
+		);
+		$metaTagOptionsContent = 'testContentOptions';
+		$returnedClientScript = $this->_clientScript->registerMetaTagUnique($metaTagOptionsContent,$metaTagName,null,$metaTagOptions);
+		$fullMetaTagOptions = array_merge(array('name'=>$metaTagName),$metaTagOptions);
+		$expectedMetaTagsUnique[serialize($fullMetaTagOptions)] = array_merge($fullMetaTagOptions,array('content'=>$metaTagOptionsContent));
+		$this->assertAttributeEquals($expectedMetaTagsUnique, 'metaTagsUnique', $returnedClientScript);
+	}
+
 	/* Test Script Renderers */
 	
 }
