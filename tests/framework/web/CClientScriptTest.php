@@ -115,7 +115,7 @@ class CClientScriptTest extends CTestCase
 			'content'=>'testMetaTagContent',
 		);
 		$assertion = array(
-			serialize($metaTagData)=>$metaTagData
+			$metaTagData
 		);
 		$data[] = array($metaTagData['content'],$metaTagData['name'],$metaTagData['http-equiv'],array(),$assertion);
 
@@ -126,7 +126,7 @@ class CClientScriptTest extends CTestCase
 			'content'=>'testMetaTagHttpEquivContent',
 		);
 		$assertion = array(
-			serialize($metaTagData)=>$metaTagData
+			$metaTagData
 		);
 		$data[] = array($metaTagData['content'],$metaTagData['name'],$metaTagData['http-equiv'],array(),$assertion);
 
