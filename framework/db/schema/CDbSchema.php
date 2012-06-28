@@ -29,7 +29,7 @@ abstract class CDbSchema extends CComponent
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array();
+	public $columnTypes=array();
 
 	private $_tableNames=array();
 	private $_tables=array();
