@@ -78,7 +78,7 @@ class CLogger extends CComponent
 	* @var boolean if we are processing the log or still accepting new log messages
 	* @since 1.1.9
 	*/
-	private $_processing = false;
+	private $_processing=false;
 
 	/**
 	 * Logs a message.
