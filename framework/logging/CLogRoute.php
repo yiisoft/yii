@@ -48,7 +48,7 @@ abstract class CLogRoute extends CComponent
 	 * The value of this property will be passed to {@link Yii::createComponent} to create
 	 * a log filter object. As a result, this can be either a string representing the
 	 * filter class name or an array representing the filter configuration.
-	 * In general, the log filter class should be {@link CLogFilter} or a child class of it.
+	 * In general, the log filter class should implement {@link ILogFilter} interface.
 	 * Defaults to null, meaning no filter will be used.
 	 */
 	public $filter;
@@ -102,7 +102,7 @@ abstract class CLogRoute extends CComponent
 	/**
 	 * Processes log messages and sends them to specific destination.
 	 * Derived child classes must implement this method.
-	 * @param array $logs list of messages.  Each array elements represents one message
+	 * @param array $logs list of messages. Each array element represents one message
 	 * with the following structure:
 	 * array(
 	 *   [0] => message (string)
