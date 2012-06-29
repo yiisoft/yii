@@ -621,7 +621,7 @@ interface IDataProvider
  * ILogFilter is the interface that must be implemented by log filters.
  *
  * A log filter preprocesses the logged messages before they are handled by a log route.
- * Classes that implement ILogFilter will be attached to {@link CLogRoute::$filter}.
+ * You can attach classes that implement ILogFilter to {@link CLogRoute::$filter}.
  *
  * @version $Id$
  * @package system.logging
