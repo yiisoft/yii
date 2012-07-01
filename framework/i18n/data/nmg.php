@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6546',
+  'version' => '6610',
   'numberSymbols' => 
   array (
     'alias' => '',
@@ -205,6 +205,7 @@ return array (
     'my' => 'Kiɛl birmania',
     'ne' => 'Kiɛl nepal',
     'nl' => 'Kiɛl bóllandais',
+    'nmg' => 'Kwasio',
     'pa' => 'Kiɛl pɛndjabi',
     'pl' => 'Kiɛl pɔlɔŋe',
     'pt' => 'Kiɛl bó pɔ̄rtugɛ̂',

@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6546',
+  'version' => '6610',
   'numberSymbols' => 
   array (
     'alias' => '',
@@ -250,6 +250,7 @@ return array (
     'kn' => 'Kannada',
     'ko' => 'Korrejaanesch',
     'ks' => 'Kschamieresch',
+    'ksh' => 'Kölsch',
     'ku' => 'Kurdesch',
     'ky' => 'Kirjiisesch',
     'la' => 'Lateijnesch',
