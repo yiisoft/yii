@@ -56,6 +56,7 @@ Version 1.1.11 work in progress
 - Enh #568: CHtml::getIdByName() will now convert spaces to underscore to get proper ID for HTML elements (mdomba)
 - Enh #578: Added extension checks to CMemCache (samdark)
 - Enh #581: Added formatSize method in CFormatter to format file sizes into units of different order - KB, MB, etc (brilyuhns, samdark)
+- Enh #584: Refactored WebAppCommand to be more customizable, added more PHPDoc (samdark)
 - Enh #599: Added case sensitivity check when autoloading classes (qiangxue)
 - Enh #601: added the method loginRequired() to the IWebUser interface (mdomba)
 - Enh #616: CVarDumper is now correctly highligting integer array keys (vernes, samdark)
