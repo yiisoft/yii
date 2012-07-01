@@ -29,7 +29,7 @@ Version 1.1.11 work in progress
 - Bug #773: CGridView filters now filter on enter key in Internet Explorer (BBoom)
 - Bug #842: Active Records insert fails in MSSQL if a column has a default value of (NULL) (c-schmitz)
 - Bug #852: Fixed the problem that CActiveForm was not revalidating fields if ajax submit was used (mdomba)
-- Bug #859: Fixed CSort::applyOrder() and CSort::getOrderBy() to use custom table aliases (troch)
+- Bug #859: Fixed CSort::applyOrder() and CSort::getOrderBy() to use custom table aliases (troch, samdark)
 - Bug #865: CLogRoute called processLogs() even if log array was empty and caused empty emails and log files (cebe)
 - Bug #879: Fixed a possible PHP error caused by CWebUser::restoreFromCookie() in combination with CHttpRequest.enableCookieValidation (kidol)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
