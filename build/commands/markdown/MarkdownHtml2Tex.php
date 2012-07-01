@@ -19,31 +19,31 @@ class Text_Highlighter_Renderer_Latex extends Text_Highlighter_Renderer_Array
 		'~'  => '\~{}',
 	);
 
-    function finalize()
-    {
-        // get parent's output
-        parent::finalize();
-        $output = parent::getOutput();
+	function finalize()
+	{
+		// get parent's output
+		parent::finalize();
+		$output = parent::getOutput();
 		$tex_output = '';
-        foreach ($output AS $token)
+		foreach ($output AS $token)
 		{
-            if ($this->_enumerated)
+			if ($this->_enumerated)
 			{
-                $class = $token[0];
-                $content = $token[1];
-            }
+				$class = $token[0];
+				$content = $token[1];
+			}
 			else
 			{
-                $key = key($token);
-                $class = $key;
-                $content = $token[$key];
-            }
-            $iswhitespace = ctype_space($content);
-            if (!$iswhitespace)
-                $tex_output .= sprintf('\textcolor{%s}{%s}', $class, $this->escape($content));
+				$key = key($token);
+				$class = $key;
+				$content = $token[$key];
+			}
+			$iswhitespace = ctype_space($content);
+			if (!$iswhitespace)
+				$tex_output .= sprintf('\textcolor{%s}{%s}', $class, $this->escape($content));
 			else
-                $tex_output .= $content;
-        }
+				$tex_output .= $content;
+		}
 		$this->_output = "\begin{alltt}\n" . $tex_output . "\end{alltt}";
 	}
 
