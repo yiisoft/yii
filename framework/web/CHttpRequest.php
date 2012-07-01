@@ -503,8 +503,8 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the request type, such as GET, POST, HEAD, PUT, DELETE.
-	 * Request type can be manually set in POST requests with a parameter named _method. Useful 
-	 * for RESTful request from older browsers which do not support PUT or DELETE 
+	 * Request type can be manually set in POST requests with a parameter named _method. Useful
+	 * for RESTful request from older browsers which do not support PUT or DELETE
 	 * natively (available since version 1.1.11).
 	 * @return string request type, such as GET, POST, HEAD, PUT, DELETE.
 	 */
@@ -559,8 +559,8 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns whether this is a PUT request which was tunneled through POST.
 	 * @return boolean whether this is a PUT request tunneled through POST.
 	 * @since 1.1.11
-	 */	
-	protected function getIsPutViaPostReqest()
+	 */
+	protected function getIsPutViaPostRequest()
 	{
 		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'PUT');
 	}
@@ -991,7 +991,7 @@ class CHttpRequest extends CApplicationComponent
  * $value=$cookies[$name]->value; // reads a cookie value
  * unset($cookies[$name]); // removes a cookie
  * </pre>
- * Additionally (since Yii 1.1.11) a cookie can be added as an object, 
+ * Additionally (since Yii 1.1.11) a cookie can be added as an object,
  * without setting the cookie name twice:
  * <pre>
  * $cookies->add(new CHttpCookie($name, $value)); // sends a cookie
@@ -1060,7 +1060,7 @@ class CCookieCollection extends CMap
 	 * Yii::app()->request->cookies->add(new CHttpCookie('name', $value));
 	 * </pre>
 	 * @param mixed $name Cookie name or an instance of {@link CHttpCookie}.
-	 * @param CHttpCookie $cookie An instance of {@link HttpCookie}, only used if the first 
+	 * @param CHttpCookie $cookie An instance of {@link HttpCookie}, only used if the first
 	 * parameter is not an instance of {@link CHttpCookie}. Defaults to null.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
@@ -1094,15 +1094,15 @@ class CCookieCollection extends CMap
 	 * Since version 1.1.11, the second parameter is available that can be used to specify
 	 * the options of the CHttpCookie being removed. For example, this may be useful when dealing
 	 * with ".domain.tld" where multiple subdomains are expected to be able to manage cookies:
-	 * 
+	 *
 	 * <pre>
 	 * $options=array('domain'=>'.domain.tld');
 	 * Yii::app()->request->cookies['foo']=new CHttpCookie('cookie','value',$options);
 	 * Yii::app()->request->cookies->remove('cookie',$options);
 	 * </pre>
-	 * 
+	 *
 	 * @param mixed $name Cookie name.
-	 * @param array $options Cookie configuration array consisting of name-value pairs, available since 1.1.11. 
+	 * @param array $options Cookie configuration array consisting of name-value pairs, available since 1.1.11.
 	 * @return CHttpCookie The removed cookie object.
 	 */
 	public function remove($name,$options=array())
@@ -1115,7 +1115,7 @@ class CCookieCollection extends CMap
 				$this->removeCookie($cookie);
 			}
 		}
-		
+
 		return $cookie;
 	}
 
