@@ -339,11 +339,8 @@ class CWebApplication extends CApplication
 			$className=ucfirst($id).'Controller';
 			$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 
-			$moduleName=get_class($owner);
-			if($owner instanceof CWebModule && strpos($moduleName,'\\')!==false)
-			{
-				$className=substr($moduleName,0,strrpos($moduleName,'\\')).str_replace($owner->getBasePath(),'',$owner->getControllerPath()).'\\'.$className;
-			}
+			if($owner->controllerNamespace!==null)
+				$className=$owner->controllerNamespace.'\\'.$className;
 
 			if(is_file($classFile))
 			{

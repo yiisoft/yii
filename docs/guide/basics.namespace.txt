@@ -143,7 +143,7 @@ Namespaced Controllers
 
 By default Yii uses controllers from the global namespace. These classes are
 located under `protected/controllers`. To change this beahavior you can configure
-`controllerMap` property of your application. The best way to do it is to use
+`controllerMap` property of your application. The best way to do it is to use the
 configuration file (`protected/config/main.php`):
 
 ~~~
@@ -160,7 +160,7 @@ return array(
 	),
 ~~~
 
-When user will try to load any of controllers defined in `controllerMap` Yii,
+When user will try to load any of controllers defined in `controllerMap`,
 instead of usual controller loading, Yii will try to load a class specified.
 In case of `test` Yii will load namespaced class
 `\mynamespace\controllers\TestController` located at
@@ -217,6 +217,9 @@ namespace mynamespace\modules\testmodule;
 // should be referenced explicitly using "\":
 class TestmoduleModule extends \CWebModule
 {
+	// setting non-global controllers namespace (also can be done via config)
+	public $controllerNamespace = '\mynamespace\modules\testmodule\controllers';
+
 	// usual module code
 }
 ~~~
