@@ -217,12 +217,12 @@ class CWsdlGenerator extends CComponent
 	{
 		$xml="<?xml version=\"1.0\" encoding=\"$encoding\"?>
 <definitions name=\"{$this->serviceName}\" targetNamespace=\"{$this->namespace}\"
-     xmlns=\"http://schemas.xmlsoap.org/wsdl/\"
-     xmlns:tns=\"{$this->namespace}\"
-     xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"
-     xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
+	 xmlns=\"http://schemas.xmlsoap.org/wsdl/\"
+	 xmlns:tns=\"{$this->namespace}\"
+	 xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"
+	 xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
 	 xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\"
-     xmlns:soap-enc=\"http://schemas.xmlsoap.org/soap/encoding/\"></definitions>";
+	 xmlns:soap-enc=\"http://schemas.xmlsoap.org/soap/encoding/\"></definitions>";
 
 		$dom=new DOMDocument();
 		$dom->loadXml($xml);

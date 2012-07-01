@@ -32,10 +32,10 @@ EOD;
 		$code=<<<EOD
 <?php
 return array(
-    'modules'=>array(
-        '{$this->moduleID}',
-    ),
-    ......
+	'modules'=>array(
+		'{$this->moduleID}',
+	),
+	......
 );
 EOD;
 

@@ -22,21 +22,21 @@ class CSqliteSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
-        'string' => 'varchar(255)',
-        'text' => 'text',
-        'integer' => 'integer',
-        'float' => 'float',
-        'decimal' => 'decimal',
-        'datetime' => 'datetime',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'blob',
-        'boolean' => 'tinyint(1)',
+	public $columnTypes=array(
+		'pk' => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
+		'string' => 'varchar(255)',
+		'text' => 'text',
+		'integer' => 'integer',
+		'float' => 'float',
+		'decimal' => 'decimal',
+		'datetime' => 'datetime',
+		'timestamp' => 'timestamp',
+		'time' => 'time',
+		'date' => 'date',
+		'binary' => 'blob',
+		'boolean' => 'tinyint(1)',
 		'money' => 'decimal(19,4)',
-    );
+	);
 
 	/**
 	 * Resets the sequence value of a table's primary key.

@@ -13,8 +13,8 @@ class UserIdentity extends CUserIdentity
 			throw new CException('Please configure the "password" property of the "gii" module.');
 		else if($password===false || $password===$this->password)
 			$this->errorCode=self::ERROR_NONE;
-        else
-            $this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
+		else
+			$this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
 		return !$this->errorCode;
 	}
 }
