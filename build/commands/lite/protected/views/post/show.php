@@ -9,32 +9,20 @@
 </div>
 
 <table class="dataGrid">
-<tr>
-	<th class="label"><?php echo CHtml::encode($post->getAttributeLabel('title')); ?>
-</th>
-    <td><?php echo CHtml::encode($post->title); ?>
-</td>
-    </div>
-</tr>
-<tr>
-	<th class="label"><?php echo CHtml::encode($post->getAttributeLabel('create_time')); ?>
-</th>
-    <td><?php echo CHtml::encode($post->create_time); ?>
-</td>
-    </div>
-</tr>
-<tr>
-	<th class="label"><?php echo CHtml::encode($post->getAttributeLabel('author_id')); ?>
-</th>
-    <td><?php echo CHtml::encode($post->author_id); ?>
-</td>
-    </div>
-</tr>
-<tr>
-	<th class="label"><?php echo CHtml::encode($post->getAttributeLabel('content')); ?>
-</th>
-    <td><?php echo CHtml::encode($post->content); ?>
-</td>
-    </div>
-</tr>
+	<tr>
+		<th class="label"><?php echo CHtml::encode($post->getAttributeLabel('title')); ?></th>
+		<td><?php echo CHtml::encode($post->title); ?></td>
+	</tr>
+	<tr>
+		<th class="label"><?php echo CHtml::encode($post->getAttributeLabel('create_time')); ?></th>
+		<td><?php echo CHtml::encode($post->create_time); ?></td>
+	</tr>
+	<tr>
+		<th class="label"><?php echo CHtml::encode($post->getAttributeLabel('author_id')); ?></th>
+		<td><?php echo CHtml::encode($post->author_id); ?></td>
+	</tr>
+	<tr>
+		<th class="label"><?php echo CHtml::encode($post->getAttributeLabel('content')); ?></th>
+		<td><?php echo CHtml::encode($post->content); ?></td>
+	</tr>
 </table>

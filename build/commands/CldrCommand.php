@@ -199,6 +199,7 @@ EOD;
 		$this->addPluralRules($data, $locale);
 
 		$data=str_replace("\r",'',var_export($data,true));
+		$data=preg_replace('/(?:^ {2})|\G {2}/m',"\t",$data); // convert two spaces to the one tab
 		$locale=substr(basename($path),0,-4);
 		$content=<<<EOD
 /**
