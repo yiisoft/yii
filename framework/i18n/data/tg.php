@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5806',
+  'version' => '6610',
   'numberSymbols' => 
   array (
     'alias' => '',
@@ -229,6 +229,7 @@ return array (
     'ro' => 'Руминӣ',
     'ru' => 'Русӣ',
     'sv' => 'Шведӣ',
+    'tg' => 'Тоҷикӣ',
     'ug' => 'Ӯйғурӣ',
     'uk' => 'Украинӣ',
     'ur' => 'Урду',

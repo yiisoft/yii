@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6549',
+  'version' => '6706',
   'numberSymbols' => 
   array (
     'alias' => '',
