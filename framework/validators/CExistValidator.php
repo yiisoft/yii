@@ -29,6 +29,11 @@
 class CExistValidator extends CValidator
 {
 	/**
+	 * @var boolean whether the comparison is case sensitive. Defaults to true.
+	 * Note, by setting it to false, you are assuming the attribute type is string.
+	 */
+	public $caseSensitive=true;
+	/**
 	 * @var string the ActiveRecord class name that should be used to
 	 * look for the attribute value being validated. Defaults to null,
 	 * meaning using the ActiveRecord class of the attribute being validated.
@@ -44,8 +49,9 @@ class CExistValidator extends CValidator
 	 */
 	public $attributeName;
 	/**
-	 * @var array additional query criteria. This will be combined with the condition
-	 * that checks if the attribute value exists in the corresponding table column.
+	 * @var mixed additional query criteria. Either an array or CDbCriteria.
+	 * This will be combined with the condition that checks if the attribute
+	 * value exists in the corresponding table column.
 	 * This array will be used to instantiate a {@link CDbCriteria} object.
 	 */
 	public $criteria=array();
@@ -75,12 +81,14 @@ class CExistValidator extends CValidator
 			throw new CException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
 				array('{column}'=>$attributeName,'{table}'=>$table->name)));
 
-		$criteria=array('condition'=>$finder->getTableAlias(true).'.'.$column->rawName.'=:vp','params'=>array(':vp'=>$value));
+		$columnName=$column->rawName;
+		$criteria=new CDbCriteria();
 		if($this->criteria!==array())
-		{
-			$criteria=new CDbCriteria($criteria);
 			$criteria->mergeWith($this->criteria);
-		}
+		$tableAlias = empty($criteria->alias) ? $finder->getTableAlias(true) : $criteria->alias;
+		$valueParamName = CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++;
+		$criteria->addCondition($this->caseSensitive ? "{$tableAlias}.{$columnName}={$valueParamName}" : "LOWER({$tableAlias}.{$columnName})=LOWER({$valueParamName})");
+		$criteria->params[$valueParamName] = $value;
 
 		if(!$finder->exists($criteria))
 		{
