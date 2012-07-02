@@ -3,6 +3,7 @@
 
 Version 1.1.11 work in progress
 -------------------------------
+- Enh: Fixed romanian translation to use the better-supported cedilla characters (tudorilisoi)
 - Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
 - Bug #114: CUniqueValidator and CExistValidator now respect table alias while creating db query condition (klimov-paul)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
