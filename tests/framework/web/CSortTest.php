@@ -53,32 +53,32 @@ class CSortTest extends CTestCase {
 
 class TestPost extends CActiveRecord {
 	public static function model($className=__CLASS__) {
-        return parent::model($className);
-    }
+		return parent::model($className);
+	}
 
 	public function tableName() {
-        return 'post';
-    }
+		return 'post';
+	}
 
 	public function relations() {
-        return array(
-           'comments'=>array(self::HAS_MANY, 'TestComment', 'post_id'),
-        );
-    }
+		return array(
+		   'comments'=>array(self::HAS_MANY, 'TestComment', 'post_id'),
+		);
+	}
 }
 
 class TestComment extends CActiveRecord {
 	public static function model($className=__CLASS__) {
-        return parent::model($className);
-    }
+		return parent::model($className);
+	}
 
 	public function tableName() {
-        return 'comment';
-    }
+		return 'comment';
+	}
 
 	public function relations() {
-        return array(
-           'post'=>array(self::BELONGS_TO, 'TestPost', 'post_id'),
-        );
-    }
+		return array(
+		   'post'=>array(self::BELONGS_TO, 'TestPost', 'post_id'),
+		);
+	}
 }

@@ -1022,7 +1022,7 @@ class CActiveRecordTest extends CTestCase
 
 	public function testJoinWithoutSelect()
 	{
-        // 1:1 test
+		// 1:1 test
 		$groups=Group::model()->findAll(array(
 			'with'=>array(
 				'description'=>array(
@@ -1345,10 +1345,10 @@ class CActiveRecordTest extends CTestCase
 	{
 		User::model()->nonEmptyPosts()->findAll(array(
 			'with'=>array(
-        		'posts'=>array(
-            		'joinType'=>'INNER JOIN',
-        		),
-    		)
+				'posts'=>array(
+					'joinType'=>'INNER JOIN',
+				),
+			)
 		));
 	}
 

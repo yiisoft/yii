@@ -79,9 +79,9 @@ class YiiTTest extends CTestCase
 		// en
 		Yii::app()->setLanguage('en');
 
-        $this->assertEquals('cucumber', Yii::t('test', 'cucumber|cucumbers', 1));
-        $this->assertEquals('cucumbers', Yii::t('test', 'cucumber|cucumbers', 2));
-        $this->assertEquals('cucumbers', Yii::t('test', 'cucumber|cucumbers', 0));
+		$this->assertEquals('cucumber', Yii::t('test', 'cucumber|cucumbers', 1));
+		$this->assertEquals('cucumbers', Yii::t('test', 'cucumber|cucumbers', 2));
+		$this->assertEquals('cucumbers', Yii::t('test', 'cucumber|cucumbers', 0));
 
 		// short forms
 		Yii::app()->setLanguage('ru');
@@ -151,8 +151,8 @@ class YiiTTest extends CTestCase
 		Yii::app()->setLanguage('es');
 
 		$this->assertEquals('cucumbez', Yii::t('test', 'cucumbez|cucumberz', 1));
-        $this->assertEquals('cucumberz', Yii::t('test', 'cucumbez|cucumberz', 2));
-        $this->assertEquals('cucumberz', Yii::t('test', 'cucumbez|cucumberz', 0));
+		$this->assertEquals('cucumberz', Yii::t('test', 'cucumbez|cucumberz', 2));
+		$this->assertEquals('cucumberz', Yii::t('test', 'cucumbez|cucumberz', 0));
 	}
 
 	function testPluralPlaceholdersSameLanguage(){
