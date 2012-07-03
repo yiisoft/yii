@@ -274,7 +274,9 @@ abstract class CDbMigration extends CComponent
 	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
-	 * @param mixed $afterColumn Parameter available since 1.1.11.
+	 * @param mixed $afterColumn the name of the existing column after which new column should be added. Default value
+	 * is null, meaning that column will be appended to the end of the column list. Passing false value will lead new column
+	 * to be inserted to the first position. Available since 1.1.11.
 	 */
 	public function addColumn($table, $column, $type, $afterColumn=null)
 	{
@@ -328,9 +330,11 @@ abstract class CDbMigration extends CComponent
 	}
 
 	/**
-	 * @param string $table
-	 * @param string $column
-	 * @param mixed $afterColumn
+	 * Builds and executes SQL statement for moving a column.
+	 * @param string $table the table whose column is to be moved. The table name will be properly quoted by the method.
+	 * @param string $column the name of the column to be moved. The name will be properly quoted by the method.
+	 * @param mixed $afterColumn the name of the existing column after which the specified column should be moved.
+	 * Default value is false, meaning that the column will be moved to the first position.
 	 * @since 1.1.11
 	 */
 	public function moveColumn($table, $column, $afterColumn=false)
