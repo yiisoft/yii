@@ -613,17 +613,19 @@ truncateTable('tbl_user')
 
 ~~~
 [php]
-function addColumn($table, $column, $type)
+function addColumn($table, $column, $type, $afterColumn=null)
 ~~~
 
-The [addColumn()|CDbCommand::addColumn] method builds and executes a SQL statement for adding a new table column. The `$table` parameter specifies the name of the table that the new column will be added to. The `$column` parameter specifies the name of the new column. And `$type` specifies the definition of the new column. Column definition can contain abstract data type, as described in the subsection of "createTable". The query builder will quote the table name as well as the column name properly.
+The [addColumn()|CDbCommand::addColumn] method builds and executes a SQL statement for adding a new table column. The `$table` parameter specifies the name of the table that the new column will be added to. The `$column` parameter specifies the name of the new column. The `$type` parameter specifies the definition of the new column. Column definition can contain abstract data type, as described in the subsection of "createTable". And `$afterColumn` specifies the existing column name after which the new column will be added. Default value is `null`, meaning that the new column will be added to the end as latest column. The query builder will quote the table name as well as the column names properly.
 
-Below is an example showing how to add a table column:
+Below is an examples showing how to add a table columns:
 
 ~~~
 [php]
 // ALTER TABLE `tbl_user` ADD `email` varchar(255) NOT NULL
 addColumn('tbl_user', 'email', 'string NOT NULL')
+// ALTER TABLE `tbl_post` ADD `title` varchar(255) NOT NULL AFTER `slug`
+addColumn('tbl_post', 'title', 'string NOT NULL', 'slug')
 ~~~
 
 

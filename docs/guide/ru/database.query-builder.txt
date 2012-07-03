@@ -740,22 +740,27 @@ truncateTable('tbl_user')
 
 ~~~
 [php]
-function addColumn($table, $column, $type)
+function addColumn($table, $column, $type, $afterColumn=null)
 ~~~
 
 Метод [addColumn()|CDbCommand::addColumn] строит и выполняет SQL запрос для
 добавления нового поля таблицы. Параметр `$table` задаёт имя таблицы, к которой
 будет добавлено новое поле. Параметр `$column` — имя нового поля. `$type`
 задаёт тип поля. Определение поля может содержать абстрактный тип данных,
-как уже было описано в подразделе «createTable». Построитель запроса
-экранирует имя таблицы и имя поля.
+как уже было описано в подразделе «createTable». Последний параметр `$afterColumn` задаёт
+имя уже существующего поля, после которого будет добавлено данное новое поле.
+Значение по умолчанию у этого параметра равно `null`, означающее, что
+новое поле будет добавлено в конец всех полей последним. Построитель запроса
+экранирует имя таблицы и имена полей.
 
-Пример добавления поля:
+Примеры добавления полей:
 
 ~~~
 [php]
 // ALTER TABLE `tbl_user` ADD `email` varchar(255) NOT NULL
 addColumn('tbl_user', 'email', 'string NOT NULL')
+// ALTER TABLE `tbl_post` ADD `title` varchar(255) NOT NULL AFTER `slug`
+addColumn('tbl_post', 'title', 'string NOT NULL', 'slug')
 ~~~
 
 
