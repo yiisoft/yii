@@ -1296,12 +1296,13 @@ class CDbCommand extends CComponent
 	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @param mixed $afterColumn Parameter available since 1.1.11.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
-	public function addColumn($table, $column, $type)
+	public function addColumn($table, $column, $type, $afterColumn=null)
 	{
-		return $this->setText($this->getConnection()->getSchema()->addColumn($table, $column, $type))->execute();
+		return $this->setText($this->getConnection()->getSchema()->addColumn($table, $column, $type, $afterColumn))->execute();
 	}
 
 	/**
@@ -1342,6 +1343,17 @@ class CDbCommand extends CComponent
 	public function alterColumn($table, $column, $type)
 	{
 		return $this->setText($this->getConnection()->getSchema()->alterColumn($table, $column, $type))->execute();
+	}
+
+	/**
+	 * @param string $table
+	 * @param string $column
+	 * @param mixed $afterColumn
+	 * @since 1.1.11
+	 */
+	public function moveColumn($table, $column, $afterColumn=false)
+	{
+		return $this->setText($this->getConnection()->getSchema()->moveColumn($table, $column, $afterColumn))->execute();
 	}
 
 	/**

@@ -274,12 +274,13 @@ abstract class CDbMigration extends CComponent
 	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @param mixed $afterColumn Parameter available since 1.1.11.
 	 */
-	public function addColumn($table, $column, $type)
+	public function addColumn($table, $column, $type, $afterColumn=null)
 	{
 		echo "    > add column $column $type to table $table ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->addColumn($table, $column, $type);
+		$this->getDbConnection()->createCommand()->addColumn($table, $column, $type, $afterColumn);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -323,6 +324,20 @@ abstract class CDbMigration extends CComponent
 		echo "    > alter column $column in table $table to $type ...";
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->alterColumn($table, $column, $type);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
+	 * @param string $table
+	 * @param string $column
+	 * @param mixed $afterColumn
+	 * @since 1.1.11
+	 */
+	public function moveColumn($table, $column, $afterColumn=false)
+	{
+		echo "    > move column $column in table $table ".($afterColumn===false ? "first" : "after column $afterColumn")." ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->moveColumn($table, $column, $afterColumn);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 

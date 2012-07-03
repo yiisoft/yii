@@ -421,14 +421,16 @@ abstract class CDbSchema extends CComponent
 	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @param mixed $afterColumn Parameter available since 1.1.11.
 	 * @return string the SQL statement for adding a new column.
 	 * @since 1.1.6
 	 */
-	public function addColumn($table, $column, $type)
+	public function addColumn($table, $column, $type, $afterColumn=null)
 	{
 		return 'ALTER TABLE ' . $this->quoteTableName($table)
 			. ' ADD ' . $this->quoteColumnName($column) . ' '
-			. $this->getColumnType($type);
+			. $this->getColumnType($type)
+			. ($afterColumn === null ? '' : ($afterColumn === false ? ' FIRST' : ' AFTER ' . $this->quoteColumnName($afterColumn)));
 	}
 
 	/**
@@ -475,6 +477,20 @@ abstract class CDbSchema extends CComponent
 			. $this->quoteColumnName($column) . ' '
 			. $this->quoteColumnName($column) . ' '
 			. $this->getColumnType($type);
+	}
+
+	/**
+	 * @param string $table
+	 * @param string $column
+	 * @param mixed $afterColumn
+	 * @since 1.1.11
+	 */
+	public function moveColumn($table, $column, $afterColumn=false)
+	{
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' MODIFY '
+			. $this->quoteColumnName($column) . ' '
+			. $this->getTable($table)->getColumn($column)->dbType
+			. ($afterColumn === false ? ' FIRST' : ' AFTER ' . $this->quoteColumnName($afterColumn));
 	}
 
 	/**
