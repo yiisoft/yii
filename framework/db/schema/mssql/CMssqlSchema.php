@@ -25,20 +25,20 @@ class CMssqlSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'int IDENTITY PRIMARY KEY',
-        'string' => 'varchar(255)',
-        'text' => 'text',
-        'integer' => 'int',
-        'float' => 'float',
-        'decimal' => 'decimal',
-        'datetime' => 'datetime',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'binary',
-        'boolean' => 'bit',
-    );
+	public $columnTypes=array(
+		'pk' => 'int IDENTITY PRIMARY KEY',
+		'string' => 'varchar(255)',
+		'text' => 'text',
+		'integer' => 'int',
+		'float' => 'float',
+		'decimal' => 'decimal',
+		'datetime' => 'datetime',
+		'timestamp' => 'timestamp',
+		'time' => 'time',
+		'date' => 'date',
+		'binary' => 'binary',
+		'boolean' => 'bit',
+	);
 
 	/**
 	 * Quotes a table name for use in a query.
