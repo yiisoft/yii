@@ -498,6 +498,7 @@ Besides normal data retrieval and manipulation queries, the query builder also o
 * [addColumn()|CDbCommand::addColumn]: adds a table column
 * [renameColumn()|CDbCommand::renameColumn]: renames a table column
 * [alterColumn()|CDbCommand::alterColumn]: alters a table column
+* [moveColumn()|CDbCommand::moveColumn]: moves a table column
 * [dropColumn()|CDbCommand::dropColumn]: drops a table column
 * [createIndex()|CDbCommand::createIndex]: creates an index
 * [dropIndex()|CDbCommand::dropIndex]: drops an index
@@ -616,7 +617,7 @@ truncateTable('tbl_user')
 function addColumn($table, $column, $type, $afterColumn=null)
 ~~~
 
-The [addColumn()|CDbCommand::addColumn] method builds and executes a SQL statement for adding a new table column. The `$table` parameter specifies the name of the table that the new column will be added to. The `$column` parameter specifies the name of the new column. The `$type` parameter specifies the definition of the new column. Column definition can contain abstract data type, as described in the subsection of "createTable". And `$afterColumn` specifies the existing column name after which the new column will be added. Default value is `null`, meaning that the new column will be added to the end as latest column. `$afterColumn` parameter is available since 1.1.11. The query builder will quote the table name as well as the column names properly.
+The [addColumn()|CDbCommand::addColumn] method builds and executes a SQL statement for adding a new table column. The `$table` parameter specifies the name of the table that the new column will be added to. The `$column` parameter specifies the name of the new column. The `$type` parameter specifies the definition of the new column. Column definition can contain abstract data type, as described in the subsection of "createTable". And `$afterColumn` specifies the existing column name after which the new column will be added. Default value is `null`, meaning that the new column will be added to the end as latest column. Note that `$afterColumn` parameter is available since 1.1.11. The query builder will quote the table name as well as the column names properly.
 
 Below is an examples showing how to add a table columns:
 
@@ -683,6 +684,22 @@ alterColumn('tbl_user', 'username', 'string NOT NULL')
 ~~~
 
 
+###moveColumn()
+
+~~~
+[php]
+moveColumn($table, $column, $afterColumn=false)
+~~~
+
+The [moveColumn()|CDbCommand::moveColumn] method builds and executes a SQL statement for moving a table column. The `$table` parameter specifies the name of the table whose column is to be moved. The `$column` parameter specifies the name of the column to be moved. And `$afterColumn` specifies the existing column name after which the specified column will be added. Default value is `false`, meaning that the new column will be added as the first column. The query builder will quote the table name as well as the column names properly. Note that this method is available since 1.1.11.
+
+Below is an example showing how to move a table column:
+
+~~~
+[php]
+// ALTER TABLE `tbl_user` MODIFY `username` varchar(255) NOT NULL AFTER `login`
+moveColumn('tbl_user', 'username', 'login')
+~~~
 
 
 ###addForeignKey()
