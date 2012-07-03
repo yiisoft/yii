@@ -9,6 +9,7 @@ branches:
   only:
     - travis-ci
 
-before_script: cd tests
+before_script:
+  - cd --verbose --coverage-html reports tests
 
 script: phpunit framework
