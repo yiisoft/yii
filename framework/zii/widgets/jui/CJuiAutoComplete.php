@@ -52,9 +52,9 @@ class CJuiAutoComplete extends CJuiInputWidget
 	 * @var mixed the entries that the autocomplete should choose from. This can be
 	 * <ul>
 	 * <li>an Array with local data</li>
-     * <li>a String, specifying a URL that returns JSON data as the entries.</li>
-     * <li>a javascript callback. Please make sure you prefix the callback name with "js:" in this case.</li>
-     * </ul>
+	 * <li>a String, specifying a URL that returns JSON data as the entries.</li>
+	 * <li>a javascript callback. Please make sure you prefix the callback name with "js:" in this case.</li>
+	 * </ul>
 	 */
 	public $source = array();
 	/**

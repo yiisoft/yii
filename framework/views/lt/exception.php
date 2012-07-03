@@ -90,9 +90,9 @@ pre span.error-ln {
 .code pre {
 	background-color: #ffe;
 	margin: 0.5em 0;
-    padding: 0.5em;
-    line-height: 125%;
-    border: 1px solid #eee;
+	padding: 0.5em;
+	line-height: 125%;
+	border: 1px solid #eee;
 }
 
 .source .file {

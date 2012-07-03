@@ -90,7 +90,7 @@ class CWebModule extends CModule
 
 	/**
 	 * @return string the directory that contains the controller classes. Defaults to 'moduleDir/controllers' where
-     * moduleDir is the directory containing the module class.
+	 * moduleDir is the directory containing the module class.
 	 */
 	public function getControllerPath()
 	{
