@@ -13,12 +13,12 @@ class CMemCacheTest extends CTestCase
 		'id'=>'testApp',
 		'components'=>array(
 			'cache'=>array(
-	            'class'=>'CMemCache',
-	            'servers'=>array(
-	                array('host'=>MEMCACHE_TEST_HOST, 'port'=>MEMCACHE_TEST_PORT, 'weight'=>100),
-	    		),
-            ),
-        ),
+				'class'=>'CMemCache',
+				'servers'=>array(
+					array('host'=>MEMCACHE_TEST_HOST, 'port'=>MEMCACHE_TEST_PORT, 'weight'=>100),
+				),
+			),
+		),
 
 	);
 

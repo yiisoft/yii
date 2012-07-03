@@ -18,34 +18,34 @@ class CBehaviorTest extends CTestCase {
 		$component->test2();
 	}
 
-    public function testDisableBehaviors(){
-        $component=new NewComponent;
-        $component->attachBehavior('a',new NewBehavior);
-        $component->disableBehaviors();
-        $this->setExpectedException('CException');
-        // test should not be called since behavior is disabled
-        echo $component->test();
-    }
+	public function testDisableBehaviors(){
+		$component=new NewComponent;
+		$component->attachBehavior('a',new NewBehavior);
+		$component->disableBehaviors();
+		$this->setExpectedException('CException');
+		// test should not be called since behavior is disabled
+		echo $component->test();
+	}
 
-    /**
-     * Since disableBehaviors() was called, validate() should not call beforeValidate() from behavior.
-     * @return void
-     */
-    public function testDisableBehaviorsAndModels(){
-        $model = new NewFormModel();
-        $model->disableBehaviors();
-        $model->validate();
-    }
+	/**
+	 * Since disableBehaviors() was called, validate() should not call beforeValidate() from behavior.
+	 * @return void
+	 */
+	public function testDisableBehaviorsAndModels(){
+		$model = new NewFormModel();
+		$model->disableBehaviors();
+		$model->validate();
+	}
 
-    /**
-     * enableBehaviors() should work after disableBehaviors().
-     * @return void
-     */
-    public function testDisableAndEnableBehaviorsAndModels(){
-        $this->setExpectedException('NewBeforeValidateBehaviorException');
-        $model = new NewFormModel();
-        $model->disableBehaviors();
-        $model->enableBehaviors();
-        $model->validate();
-    }
+	/**
+	 * enableBehaviors() should work after disableBehaviors().
+	 * @return void
+	 */
+	public function testDisableAndEnableBehaviorsAndModels(){
+		$this->setExpectedException('NewBeforeValidateBehaviorException');
+		$model = new NewFormModel();
+		$model->disableBehaviors();
+		$model->enableBehaviors();
+		$model->validate();
+	}
 }
