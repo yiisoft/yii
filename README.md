@@ -3,6 +3,7 @@ Yii Web Programming Framework
 
 Thank you for choosing Yii - a high-performance component-based PHP framework.
 
+[![Build Status](https://secure.travis-ci.org/resurtm/yii.png?branch=travis-ci)](http://travis-ci.org/resurtm/yii)
 
 INSTALLATION
 ------------
