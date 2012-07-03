@@ -102,7 +102,7 @@ class CErrorHandler extends CApplicationComponent
 			{
 				@ob_end_clean();
 			}
-			header("Content-Encoding: None", true);
+			header("Content-Encoding: ", true);
 		}
 
 		if($event instanceof CExceptionEvent)
