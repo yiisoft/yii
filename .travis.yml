@@ -1,8 +1,14 @@
 language: php
+
 php:
   - 5.2
   - 5.3
   - 5.4
+
 branches:
   only:
     - travis-ci
+
+before_script: cd tests
+
+script: phpunit framework
