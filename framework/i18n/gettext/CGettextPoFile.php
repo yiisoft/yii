@@ -30,18 +30,18 @@ class CGettextPoFile extends CGettextFile
 			. '\s+msgid\s+"(.*?(?<!\\\\))"'
 			. '\s+msgstr\s+"(.*?(?<!\\\\))"/';
 		$content=file_get_contents($file);
-        $n=preg_match_all($pattern,$content,$matches);
-        $messages=array();
-        for($i=0;$i<$n;++$i)
-        {
-        	if($matches[2][$i]===$context)
-        	{
-	        	$id=$this->decode($matches[3][$i]);
-	        	$message=$this->decode($matches[4][$i]);
-	        	$messages[$id]=$message;
-	        }
-        }
-        return $messages;
+		$n=preg_match_all($pattern,$content,$matches);
+		$messages=array();
+		for($i=0;$i<$n;++$i)
+		{
+			if($matches[2][$i]===$context)
+			{
+				$id=$this->decode($matches[3][$i]);
+				$message=$this->decode($matches[4][$i]);
+				$messages[$id]=$message;
+			}
+		}
+		return $messages;
 	}
 
 	/**

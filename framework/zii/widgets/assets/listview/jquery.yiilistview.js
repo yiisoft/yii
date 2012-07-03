@@ -9,7 +9,7 @@
  */
 
 ;(function($) {
-    
+
 	/**
 	 * yiiListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
@@ -24,9 +24,9 @@
 	$.fn.yiiListView = function(options) {
 		return this.each(function(){
 			var settings = $.extend({}, $.fn.yiiListView.defaults, options || {}),
-                $this = $(this),
-                id = $this.attr('id');
-                
+				$this = $(this),
+				id = $this.attr('id');
+
 			if(settings.updateSelector == undefined) {
 				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.sorterClass.replace(/\s+/g,'.')+' a';
 			}

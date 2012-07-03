@@ -2306,7 +2306,7 @@ class CActiveRecordMetaData
 	 * @throws CDbException
 	 * @param string $name $name Name of the relation.
 	 * @param array $config $config Relation parameters.
-     * @return void
+	 * @return void
 	 * @since 1.1.2
 	 */
 	public function addRelation($name,$config)

@@ -336,18 +336,18 @@ abstract class CDbSchema extends CComponent
 	 * @return string physical column type.
 	 * @since 1.1.6
 	 */
-    public function getColumnType($type)
-    {
-    	if(isset($this->columnTypes[$type]))
-    		return $this->columnTypes[$type];
-    	else if(($pos=strpos($type,' '))!==false)
-    	{
-    		$t=substr($type,0,$pos);
-    		return (isset($this->columnTypes[$t]) ? $this->columnTypes[$t] : $t).substr($type,$pos);
-    	}
-    	else
-    		return $type;
-    }
+	public function getColumnType($type)
+	{
+		if(isset($this->columnTypes[$type]))
+			return $this->columnTypes[$type];
+		else if(($pos=strpos($type,' '))!==false)
+		{
+			$t=substr($type,0,$pos);
+			return (isset($this->columnTypes[$t]) ? $this->columnTypes[$t] : $t).substr($type,$pos);
+		}
+		else
+			return $type;
+	}
 
 	/**
 	 * Builds a SQL statement for creating a new DB table.
