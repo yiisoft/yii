@@ -600,6 +600,7 @@ $command->delete('tbl_user', 'id=:id', array(':id'=>1));
 * [addColumn()|CDbCommand::addColumn]: добавление нового поля в таблицу;
 * [renameColumn()|CDbCommand::renameColumn]: переименование поля таблицы;
 * [alterColumn()|CDbCommand::alterColumn]: изменение поля таблицы;
+* [moveColumn()|CDbCommand::moveColumn]: перемещение поля таблицы;
 * [dropColumn()|CDbCommand::dropColumn]: удаление поля таблицы;
 * [createIndex()|CDbCommand::createIndex]: создание индекса;
 * [dropIndex()|CDbCommand::dropIndex]: удаление индекса.
@@ -740,22 +741,28 @@ truncateTable('tbl_user')
 
 ~~~
 [php]
-function addColumn($table, $column, $type)
+function addColumn($table, $column, $type, $afterColumn=null)
 ~~~
 
 Метод [addColumn()|CDbCommand::addColumn] строит и выполняет SQL запрос для
 добавления нового поля таблицы. Параметр `$table` задаёт имя таблицы, к которой
 будет добавлено новое поле. Параметр `$column` — имя нового поля. `$type`
 задаёт тип поля. Определение поля может содержать абстрактный тип данных,
-как уже было описано в подразделе «createTable». Построитель запроса
-экранирует имя таблицы и имя поля.
+как уже было описано в подразделе «createTable». Последний параметр `$afterColumn` задаёт
+имя уже существующего поля, после которого будет добавлено данное новое поле.
+Значение по умолчанию у этого параметра равно `null`, означающее, что
+новое поле будет добавлено в конец всех полей последним. Если передать значение `false`,
+то новое поле будет добавлено первым в списке полей таблицы. Параметр `$afterColumn` доступен
+начиная с версии 1.1.11. Построитель запроса экранирует имя таблицы и имена полей.
 
-Пример добавления поля:
+Примеры добавления полей:
 
 ~~~
 [php]
 // ALTER TABLE `tbl_user` ADD `email` varchar(255) NOT NULL
 addColumn('tbl_user', 'email', 'string NOT NULL')
+// ALTER TABLE `tbl_post` ADD `title` varchar(255) NOT NULL AFTER `slug`
+addColumn('tbl_post', 'title', 'string NOT NULL', 'slug')
 ~~~
 
 
@@ -824,6 +831,28 @@ alterColumn('tbl_user', 'username', 'string NOT NULL')
 ~~~
 
 
+###moveColumn()
+
+~~~
+[php]
+moveColumn($table, $column, $afterColumn=false)
+~~~
+
+Метод [moveColumn()|CDbCommand::moveColumn] строит и выполняет SQL запрос для
+перемешения поля таблицы. Параметр `$table` задаёт имя таблицы, поле которой
+будет перемешено. Параметр `$column` определяет имя перемещаемого поля.
+Последний параметр `$afterColumn` задаёт имя уже существующего поля, после
+которого будет размещено указанное поле. Значение по умолчанию у этого
+параметра равно `false`, означающее, что указанное поле будет перым.
+Построитель запросов экранирует имя таблицы и имя поля.
+
+Пример перемещения поля таблицы:
+
+~~~
+[php]
+// ALTER TABLE `tbl_user` MODIFY `username` varchar(255) NOT NULL AFTER `login`
+moveColumn('tbl_user', 'username', 'login')
+~~~
 
 
 ###addForeignKey()
