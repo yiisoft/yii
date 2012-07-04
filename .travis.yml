@@ -12,4 +12,4 @@ before_script:
   - printf "yes\n" | pecl install memcache
   - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
-script: phpunit --verbose --coverage-html reports framework
+script: phpunit --verbose --coverage-text framework
