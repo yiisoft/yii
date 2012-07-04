@@ -11,7 +11,7 @@ branches:
 
 before_script:
   - cd tests
-  - mysql -u root -e 'CREATE SCHEMA `yii`; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
+  - mysql -u root -e 'CREATE SCHEMA `yii` CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
   - mysql -u root -D yii < framework/db/data/mysql.sql
 
 script: phpunit --verbose --coverage-html reports framework
