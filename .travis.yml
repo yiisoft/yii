@@ -7,7 +7,7 @@ php:
 
 before_script:
   - cd tests
-  - mysql -e 'CREATE SCHEMA `yii`; GRANT ALL ON `yii`.* TO "test@localhost" IDENTIFIED BY "test"; FLUSH PRIVILIGES;'
-  - mysql -D yii < framework/db/data/mysql.sql
+  - mysql -u root -e 'CREATE SCHEMA `yii`; GRANT ALL ON `yii`.* TO "test@localhost" IDENTIFIED BY "test"; FLUSH PRIVILIGES;'
+  - mysql -u root -D yii < framework/db/data/mysql.sql
 
 script: phpunit --verbose --coverage-html reports framework
