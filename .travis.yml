@@ -5,6 +5,10 @@ php:
   - 5.3
   - 5.4
 
+branches:
+  only:
+    - fix-travis-ci-failing
+
 before_script:
   - cd tests
   - mysql -u root -e 'CREATE SCHEMA `yii`; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
