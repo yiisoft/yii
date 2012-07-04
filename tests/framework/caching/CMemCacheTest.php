@@ -119,7 +119,7 @@ class CMemCacheTest extends CTestCase
 		$app->reset();
 		$cache=$app->cache;
 		$data=array('abc'=>1,2=>'def');
-		$key='data3_'.rand(0,9);
+		$key='data3_'.rand(111,999);
 		$cache->set($key,$data,2);
 		$this->assertTrue($cache->get($key)===$data);
 		sleep(4);
