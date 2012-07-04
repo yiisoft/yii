@@ -9,6 +9,9 @@ class CHtmlTest extends CTestCase
 
 		// reset CHtml ID counter
 		CHtml::$count=0;
+
+		Yii::app()->request->baseUrl=null; // reset so that it can be determined based on scriptUrl
+		Yii::app()->request->scriptUrl='/bootstrap.php';
 	}
 
 	public function tearDown()
