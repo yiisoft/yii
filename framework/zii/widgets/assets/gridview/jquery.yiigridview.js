@@ -93,7 +93,10 @@
 					});
 				}
 
-				$(document).on('change.yiiGridView', inputSelector, function () {
+				$(document).on('change.yiiGridView keydown.yiiGridView', inputSelector, function (event) {
+					if (event.type == 'keydown' && event.keyCode != 13) {
+						return; // only react to enter key, not to other keys
+					}
 					var data = $(inputSelector).serialize();
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
