@@ -1,0 +1,20 @@
+language: php
+
+php:
+  - 5.2
+  - 5.3
+  - 5.4
+
+before_script:
+  - cd tests
+  - mysql -u root -e 'CREATE SCHEMA `yii` CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
+  - mysql -u root -D yii < framework/db/data/mysql.sql
+  - psql -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN;" -U postgres
+  - psql -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres
+  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
+  - psql -d yii -f framework/db/data/postgres.sql -U test
+  - psql -d yii -f framework/web/auth/schema.sql -U test
+  - echo "yes" | pecl install memcache
+  - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+
+script: phpunit --verbose --coverage-text framework

@@ -32,6 +32,7 @@ Version 1.1.11 work in progress
 - Bug #859: Fixed CSort::applyOrder() and CSort::getOrderBy() to use custom table aliases (troch, samdark)
 - Bug #865: CLogRoute called processLogs() even if log array was empty and caused empty emails and log files (cebe)
 - Bug #879: Fixed a possible PHP error caused by CWebUser::restoreFromCookie() in combination with CHttpRequest.enableCookieValidation (kidol)
+- Bug #901: Fixed possible encoding problem on exception (mdomba, samdark)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug: Added missing return statement to CAuthItem->revoke() (mdomba)
 - Bug: CHtml::resolveValue() ignoring of array elements accessor at the beginning of the $attribute argument now works properly (resurtm)
@@ -87,6 +88,7 @@ Version 1.1.11 work in progress
 - Chg #440: Upgraded JQuery UI to 1.8.20 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
+- Chg: More unit tests added for CHtml (resurtm)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
