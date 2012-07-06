@@ -86,7 +86,7 @@ class CAssetManager extends CApplicationComponent
 	 * has higher priority than $forceCopy parameter in {@link publish} method.
 	 * @since 1.1.11
 	 */
-	public $forceCopy=false;
+	public $forcePublicationCopy=false;
 	/**
 	 * @var string base web accessible path for storing private files
 	 */
@@ -233,7 +233,7 @@ class CAssetManager extends CApplicationComponent
 					if(!is_dir($dstDir))
 						symlink($src,$dstDir);
 				}
-				else if(!is_dir($dstDir) || $this->forceCopy || $forceCopy)
+				else if(!is_dir($dstDir) || $this->forcePublicationCopy || $forceCopy)
 				{
 					CFileHelper::copyDirectory($src,$dstDir,array(
 						'exclude'=>$this->excludeFiles,
