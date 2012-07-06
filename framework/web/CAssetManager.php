@@ -83,7 +83,9 @@ class CAssetManager extends CApplicationComponent
 	 * to force the original assets always copied by changing only one value without searching needed {@link publish}
 	 * method calls across the application codebase. Also it is useful in operating systems which does not fully
 	 * support symbolic links (therefore it is not possible to use {@link $linkAssets}) or we don't want to use them.
-	 * Note that this property has higher priority than $forceCopy parameter in {@link publish} method.
+	 * This property sets the default value of the $forceCopy parameter in {@link publish} method. Default value
+	 * of this property is false meaning that the assets will be published only in case they don't exist in webroot
+	 * assets directory.
 	 * @since 1.1.11
 	 */
 	public $forceCopy=false;
@@ -177,11 +179,13 @@ class CAssetManager extends CApplicationComponent
 	 * Level -1 means publishing all subdirectories and files;
 	 * Level 0 means publishing only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
-	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already published before.
-	 * This parameter is set true mainly during development stage when the original
-	 * assets are being constantly changed. The consequence is that the performance
-	 * is degraded, which is not a concern during development, however.
-	 * This parameter has been available since version 1.1.2.
+	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already
+	 * published before. This parameter is set true mainly during development stage when the original
+	 * assets are being constantly changed. The consequence is that the performance is degraded,
+	 * which is not a concern during development, however. Default value of this parameter is null meaning
+	 * that it's default value is controlled by {@link $forceCopy} class property.
+	 * This parameter has been available since version 1.1.2. Default value of this parameter has been
+	 * changed since 1.1.11.
 	 * @return string an absolute URL to the published asset
 	 * @throws CException if the asset to be published does not exist.
 	 */
