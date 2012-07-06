@@ -82,8 +82,9 @@ class CAssetManager extends CApplicationComponent
 	 * This property is set true mainly during development stage when the original assets are being constantly
 	 * changed. The consequence is that the performance is degraded, which is not a concern during development,
 	 * however.
-	 * This is useful in operating systems which does not fully support symbolic links. Note that this property
-	 * has higher priority than $forceCopy parameter in {@link publish} method.
+	 * This is useful in operating systems which does not fully support symbolic links (therefore we cannot use
+	 * {@link $linkAssets} for the application development). Note that this property has higher priority
+	 * than $forceCopy parameter in {@link publish} method.
 	 * @since 1.1.11
 	 */
 	public $forcePublicationCopy=false;
