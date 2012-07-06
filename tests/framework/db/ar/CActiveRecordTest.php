@@ -711,6 +711,36 @@ class CActiveRecordTest extends CTestCase
 
 		$users=User::model()->with('postCount','posts.commentCount')->findAll();
 		$this->assertEquals(4,count($users));
+
+		// CStatRelation with scopes, HAS_MANY case
+		$users=User::model()->findAll();
+		// user1
+		$this->assertEquals(0,$users[0]->recentPostCount1);
+		$this->assertEquals(0,$users[0]->recentPostCount2);
+		// user2
+		$this->assertEquals(2,$users[1]->recentPostCount1);
+		$this->assertEquals(2,$users[1]->recentPostCount2);
+		// user3
+		$this->assertEquals(1,$users[2]->recentPostCount1);
+		$this->assertEquals(1,$users[2]->recentPostCount2);
+		// user4
+		$this->assertEquals(0,$users[3]->recentPostCount1);
+		$this->assertEquals(0,$users[3]->recentPostCount2);
+
+		// CStatRelation with scopes, MANY_MANY case
+		$categories=Category::model()->findAll();
+		// category1
+		$this->assertEquals(2,$categories[0]->recentPostCount1);
+		$this->assertEquals(2,$categories[0]->recentPostCount2);
+		// category2
+		$this->assertEquals(0,$categories[1]->recentPostCount1);
+		$this->assertEquals(0,$categories[1]->recentPostCount2);
+		// category3
+		$this->assertEquals(0,$categories[2]->recentPostCount1);
+		$this->assertEquals(0,$categories[2]->recentPostCount2);
+		// category4
+		$this->assertEquals(1,$categories[3]->recentPostCount1);
+		$this->assertEquals(1,$categories[3]->recentPostCount2);
 	}
 
 	public function testLazyLoadingWithConditions()
