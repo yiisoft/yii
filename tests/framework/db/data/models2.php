@@ -23,6 +23,10 @@ class User2 extends CActiveRecord
 		return array(
 			'posts'=>array(self::HAS_MANY,'Post2','author_id'),
 			'friends'=>array(self::MANY_MANY,'User2','test.user_friends(id,friend)'),
+
+			// CStatRelation with scopes, HAS_MANY case
+			'scopedPostCount1'=>array(self::STAT,'Post2','author_id','scopes'=>'createTimeScope'),
+			'scopedPostCount2'=>array(self::STAT,'Post2','author_id','scopes'=>array('createTimeScope')),
 		);
 	}
 
@@ -45,7 +49,9 @@ class Post2 extends CActiveRecord
 			'author'=>array(self::BELONGS_TO,'User2','author_id'),
 			'firstComment'=>array(self::HAS_ONE,'Comment2','post_id','order'=>'"firstComment".content'),
 			'comments'=>array(self::HAS_MANY,'Comment2','post_id','order'=>'comments.content DESC'),
+			'commentCount'=>array(self::STAT,'Comment2','post_id'),
 			'categories'=>array(self::MANY_MANY,'Category2','test.post_category(post_id,category_id)','order'=>'categories.id DESC'),
+			'categoryCount'=>array(self::STAT,'Category2','test.post_category(post_id,category_id)'),
 		);
 	}
 
@@ -59,6 +65,22 @@ class Post2 extends CActiveRecord
 	public function tableName()
 	{
 		return 'test.posts';
+	}
+
+	public function scopes()
+	{
+		return array(
+			// CStatRelation with scopes, HAS_MANY case
+			'createTimeScope'=>array(
+				'condition'=>"{$this->getTableAlias()}.create_time>=:create_time",
+				'params'=>array(':create_time'=>'2004-10-19 10:25:56'),
+			),
+			// CStatRelation with scopes, MANY_MANY case
+			'createTimeScope2'=>array(
+				'condition'=>"{$this->getTableAlias()}.create_time<=:create_time",
+				'params'=>array(':create_time'=>'2004-10-19 10:25:56'),
+			),
+		);
 	}
 }
 
@@ -126,6 +148,10 @@ class Category2 extends CActiveRecord
 			'parent'=>array(self::BELONGS_TO,'Category2','parent_id'),
 			'children'=>array(self::HAS_MANY,'Category2','parent_id'),
 			'nodes'=>array(self::HAS_MANY,'Category2','parent_id','with'=>array('parent','children')),
+
+			// CStatRelation with scopes, MANY_MANY case
+			'scopedPostCount1'=>array(self::STAT,'Post2','test.post_category(post_id,category_id)','scopes'=>'createTimeScope2'),
+			'scopedPostCount2'=>array(self::STAT,'Post2','test.post_category(post_id,category_id)','scopes'=>array('createTimeScope2')),
 		);
 	}
 }
