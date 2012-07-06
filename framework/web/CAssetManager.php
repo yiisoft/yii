@@ -78,6 +78,16 @@ class CAssetManager extends CApplicationComponent
 	 */
 	public $newDirMode=0777;
 	/**
+	 * @var boolean whether we should copy the asset files and directories even if they already published before.
+	 * This property is set true mainly during development stage when the original assets are being constantly
+	 * changed. The consequence is that the performance is degraded, which is not a concern during development,
+	 * however.
+	 * This is useful in operating systems which does not fully supports symbolic links. Note that this property
+	 * has higher priority than $forceCopy parameter in {@link publish} method.
+	 * @since 1.1.11
+	 */
+	public $forceCopy=false;
+	/**
 	 * @var string base web accessible path for storing private files
 	 */
 	private $_basePath;
@@ -223,7 +233,7 @@ class CAssetManager extends CApplicationComponent
 					if(!is_dir($dstDir))
 						symlink($src,$dstDir);
 				}
-				else if(!is_dir($dstDir) || $forceCopy)
+				else if(!is_dir($dstDir) || $this->forceCopy || $forceCopy)
 				{
 					CFileHelper::copyDirectory($src,$dstDir,array(
 						'exclude'=>$this->excludeFiles,
