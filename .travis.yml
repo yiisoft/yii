@@ -14,7 +14,7 @@ before_script:
   - psql -q -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
   - psql -q -d yii -f framework/db/data/postgres.sql -U test
   - psql -q -d yii -f framework/web/auth/schema.sql -U test
-  - echo "yes" | pecl install memcache
+  - echo 'y' | pecl install memcache > ~/memcache.log || ( echo "=== MEMCACHE BUILD FAILED ==="; cat ~/memcache.log )
   - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
 script: phpunit --colors --coverage-text framework
