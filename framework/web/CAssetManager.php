@@ -185,8 +185,10 @@ class CAssetManager extends CApplicationComponent
 	 * @return string an absolute URL to the published asset
 	 * @throws CException if the asset to be published does not exist.
 	 */
-	public function publish($path,$hashByName=false,$level=-1,$forceCopy=false)
+	public function publish($path,$hashByName=false,$level=-1,$forceCopy=null)
 	{
+		if($forceCopy===null)
+			$forceCopy=$this->forceCopy;
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
 		else if(($src=realpath($path))!==false)
@@ -233,7 +235,7 @@ class CAssetManager extends CApplicationComponent
 					if(!is_dir($dstDir))
 						symlink($src,$dstDir);
 				}
-				else if(!is_dir($dstDir) || $this->forceCopy || $forceCopy)
+				else if(!is_dir($dstDir) || $forceCopy)
 				{
 					CFileHelper::copyDirectory($src,$dstDir,array(
 						'exclude'=>$this->excludeFiles,
