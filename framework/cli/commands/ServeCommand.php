@@ -47,12 +47,12 @@ EOD;
 	/**
 	 * Execute the action.
 	 * @param array $args command line parameters specific for this command
+	 * @throws CException
 	 */
 	public function run($args)
 	{
 		// minimal PHP version is 5.4.0
-		list($major,$minor)=explode('.',PHP_VERSION);
-		if($major<5 || $major==5 && $minor<4)
+		if(version_compare(PHP_VERSION,'5.4.0')<0)
 			throw new CException('The minimal PHP version for ServeCommand is 5.4.');
 
 		// extract arguments
@@ -63,9 +63,11 @@ EOD;
 		if(strpos($address,':')===false)
 			$address.=':8000';
 
+		// additional information in CLI
 		echo "Serving at:  {$address}\n";
 		echo "Web root is: {$webroot}\n";
 
+		// now start built-in PHP web server
 		exec(PHP_BINARY." -S {$address} -t {$webroot}");
 	}
 }
