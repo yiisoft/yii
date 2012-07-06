@@ -13,7 +13,7 @@ class CExistValidatorTest extends CTestCase
 	/**
 	 * @var string test {@link CActiveRecord} model.
 	 */
-	private $_arModelName = 'TestArModel';
+	private $_arModelName = 'TestExistModel';
 
 	protected function setUp()
 	{
