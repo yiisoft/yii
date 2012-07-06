@@ -183,9 +183,8 @@ class CAssetManager extends CApplicationComponent
 	 * published before. This parameter is set true mainly during development stage when the original
 	 * assets are being constantly changed. The consequence is that the performance is degraded,
 	 * which is not a concern during development, however. Default value of this parameter is null meaning
-	 * that it's default value is controlled by {@link $forceCopy} class property.
-	 * This parameter has been available since version 1.1.2. Default value of this parameter has been
-	 * changed since 1.1.11.
+	 * that it's value is controlled by {@link $forceCopy} class property. This parameter has been available
+	 * since version 1.1.2. Default value has been changed since 1.1.11.
 	 * @return string an absolute URL to the published asset
 	 * @throws CException if the asset to be published does not exist.
 	 */
