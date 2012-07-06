@@ -86,6 +86,7 @@ Version 1.1.11 work in progress
 - Enh: CHttpCookie now implements __toString (suralc)
 - Enh: added possibility to set the container for CHtml::radioButtonList and CHtml::checkBoxList() (pgaultier)
 - Enh: added zii romanian(ro) translation; edited core messages to include proper romanian characters with diacritic marks (tudorilisoi)
+- Enh: ServeCommand, shortcut for starting serving application to the incoming HTTP requests with PHP 5.4 built-in web server (resurtm)
 - Chg #440: Upgraded JQuery UI to 1.8.20 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
