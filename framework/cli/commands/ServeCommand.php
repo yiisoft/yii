@@ -29,7 +29,7 @@ USAGE
 
 DESCRIPTION
   This command starts serving the Yii web application for incoming
-  HTTP requests encapsulating PHP built-in server running.
+  HTTP requests using PHP built-in server.
 
   PHP built-in server command: $ php -S localhost:8000 -t /home/user/dir
   This command:                $ protected/yiic serve
