@@ -78,6 +78,7 @@
 
 				if (settings.ajaxUpdate.length > 0) {
 					$(document).on('click.yiiGridView', settings.updateSelector, function () {
+						return false;
 						// Check to see if History.js is enabled for our Browser
 						if (settings.enableHistory && window.History.enabled) {
 							// Ajaxify this link
