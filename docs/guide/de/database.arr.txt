@@ -537,7 +537,7 @@ werden sollen. Sie müssen als Array aus Name-Wert-Paare angegeben werden.
    - `having`: Die `HAVING`-Anweisung. Standarmäßig leer.
 
    - `scopes`: Die anzuwendenden Scopes. Einzelne Scopes können in der Form
-`'scopes'=>'scopeName'`, mehrere über `'scopes'=>array('scopeName1','scopeName2')`
+`'scopes'=>'scopeName'`, mehrere mit `'scopes'=>array('scopeName1','scopeName2')`
 angegeben werden. Diese Option steht seit Version 1.1.11 zur Verfügung.
 
 Relationale Abfragen mit Scopes
