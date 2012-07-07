@@ -1,4 +1,4 @@
-Cachen von Seiten
+﻿Cachen von Seiten
 =================
 
 Beim Cachen von Seiten wird der Inhalt einer ganzen Seite gecacht. Dies kann
@@ -52,7 +52,7 @@ HTTP Caching
 ------------
 Zusätzlich zum Cachen der Rückgabe einer Action ist es seit Yii 1.1.11 möglich,
 [CHttpCacheFilter] zu verwenden. Dieser Filter vereinfacht das Setzen der Header,
-welche nötig sind, um einem Client mitzuteilen, das der Inhalt einer Seite nicht modifiziert wurde.
+welche nötig sind um einem Client mitzuteilen das der Inhalt einer Seite nicht modifiziert wurde.
 Auf diese Weise muss der Server den Inhalt der Seite nicht erneut übertragen.
 Die Konfiguration von [CHttpCacheFilter] ist der von [COutputCache] ähnlich:
 ~~~
