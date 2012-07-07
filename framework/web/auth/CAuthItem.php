@@ -63,7 +63,8 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Checks to see if the specified item is within the hierarchy starting from this item.
-	 * This method is internally used by {@link IAuthManager::checkAccess}.
+	 * This method is expected to be internally used by the actual implementations
+	 * of the {@link IAuthManager::checkAccess}.
 	 * @param string $itemName the name of the item to be checked
 	 * @param array $params the parameters to be passed to business rule evaluation
 	 * @return boolean whether the specified item is within the hierarchy starting from this item.
