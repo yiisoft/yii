@@ -141,20 +141,21 @@ class CArrayDataProvider extends CDataProvider
 		call_user_func_array('array_multisort', $args);
 	}
 
-    /**
-     * Get field for sorting, using dot like delimiter in query.
-     * @param $data mixed array or CActiveRecord object
-     * @param $name string, describing order field in $data
-     * @return mixed sorting_field
-     */
-    protected function getSortingField($data, $name)
-    {
-        $fields_array = explode('.',$name);
-        foreach ($fields_array as $field) {
-            $data = is_object($data) ? $data->$field : $data[$field];
-        }
-        return $data;
-    }
+	/**
+	 * Get field for sorting, using dot like delimiter in query.
+	 * @param $data mixed array or CActiveRecord object
+	 * @param $name string, describing order field in $data
+	 * @return mixed sorting_field
+	 */
+	protected function getSortingField($data, $name)
+	{
+		$fields_array = explode('.', $name);
+		foreach ($fields_array as $field)
+		{
+			$data = is_object($data) ? $data->$field : $data[$field];
+		}
+		return $data;
+	}
 
 	/**
 	 * Converts the "ORDER BY" clause into an array representing the sorting directions.
