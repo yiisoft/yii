@@ -1,6 +1,6 @@
 <?php
 
-class CFileValidatorTestCase extends CTestCase
+class CFileValidatorTest extends CTestCase
 {
 	public function providerSizeToBytes()
 	{
