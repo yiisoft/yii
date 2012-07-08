@@ -149,8 +149,8 @@ class CArrayDataProvider extends CDataProvider
 	 */
 	protected function getSortingField($data, $name)
 	{
-		$fields_array = explode('.', $name);
-		foreach ($fields_array as $field)
+		$fieldsArray = preg_split('/\.+/',$name,-1,PREG_SPLIT_NO_EMPTY);
+		foreach ($fieldsArray as $field)
 		{
 			$data = is_object($data) ? $data->$field : $data[$field];
 		}
