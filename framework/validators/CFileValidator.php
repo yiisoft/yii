@@ -246,11 +246,11 @@ class CFileValidator extends CValidator
 	public function sizeToBytes($sizeStr)
 	{
 		// get the latest character
-		switch (substr($sizeStr, -1))
+		switch (strtolower(substr($sizeStr, -1)))
 		{
-			case 'M': case 'm': return (int)$sizeStr * 1048576; // 1024 * 1024
-			case 'K': case 'k': return (int)$sizeStr * 1024; // 1024
-			case 'G': case 'g': return (int)$sizeStr * 1073741824; // 1024 * 1024 * 1024
+			case 'm': return (int)$sizeStr * 1048576; // 1024 * 1024
+			case 'k': return (int)$sizeStr * 1024; // 1024
+			case 'g': return (int)$sizeStr * 1073741824; // 1024 * 1024 * 1024
 			default: return (int)$sizeStr; // do nothing
 		}
 	}
