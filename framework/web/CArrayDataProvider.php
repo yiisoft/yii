@@ -127,8 +127,9 @@ class CArrayDataProvider extends CDataProvider
 		foreach($directions as $name=>$descending)
 		{
 			$column=array();
+			$fields_array=preg_split('/\.+/',$name,-1,PREG_SPLIT_NO_EMPTY);
 			foreach($this->rawData as $index=>$data)
-				$column[$index]=$this->getSortingField($data, $name);
+				$column[$index]=$this->getSortingFieldValue($data, $fields_array);
 			$args[]=&$column;
 			$dummy[]=&$column;
 			unset($column);
@@ -143,14 +144,13 @@ class CArrayDataProvider extends CDataProvider
 
 	/**
 	 * Get field for sorting, using dot like delimiter in query.
-	 * @param $data mixed array or CActiveRecord object
-	 * @param $name string, describing order field in $data
-	 * @return mixed sorting_field
+	 * @param mixed $data array or object
+	 * @param array $fields sorting fields in $data
+	 * @return mixed $data sorting field value
 	 */
-	protected function getSortingField($data, $name)
+	protected function getSortingFieldValue($data, $fields)
 	{
-		$fieldsArray = preg_split('/\.+/',$name,-1,PREG_SPLIT_NO_EMPTY);
-		foreach ($fieldsArray as $field)
+		foreach ($fields as $field)
 		{
 			$data = is_object($data) ? $data->$field : $data[$field];
 		}
