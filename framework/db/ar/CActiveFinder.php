@@ -563,9 +563,10 @@ class CJoinElement
 		$parent=$this->_parent;
 		if($this->relation instanceof CManyManyRelation)
 		{
-			if(($joinTable=$schema->getTable($this->relation->getJunctionTableName()))===null)
+			$joinTableName=$this->relation->getJunctionTableName();
+			if(($joinTable=$schema->getTable($joinTableName))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
-					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$joinTableName)));
 			$fks=$this->relation->getJunctionForeignKeys();
 
 			$joinAlias=$schema->quoteTableName($this->relation->name.'_'.$this->tableAlias);
@@ -1042,9 +1043,10 @@ class CJoinElement
 		if($this->relation instanceof CManyManyRelation)
 		{
 			$schema=$this->_builder->getSchema();
-			if(($joinTable=$schema->getTable($this->relation->getJunctionTableName()))===null)
+			$joinTableName=$this->relation->getJunctionTableName();
+			if(($joinTable=$schema->getTable($joinTableName))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
-					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$joinTableName)));
 			$fks=$this->relation->getJunctionForeignKeys();
 
 			return $this->joinManyMany($joinTable,$fks,$parent);
