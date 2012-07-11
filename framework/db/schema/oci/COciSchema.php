@@ -355,29 +355,22 @@ EOD;
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
 	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
-	 * @since 1.1
+	 * @since 1.1.11
 	 */
-	public function resetSequence($table,$value=null)
+	public function resetSequence($table,$value=1)
 	{
 		if($table->sequenceName!==null)
 		{
-			$this->getDbConnection()->createCommand("DROP SEQUENCE ".$table->name."_SEQ")->execute();
+			$this->getDbConnection()->createCommand("DROP SEQUENCE ".$table->sequenceName)->execute();
 
 			$createSequenceSql = <<< SQL
-create sequence {$table->name}_SEQ 
-start with 1 
+create sequence {$table->sequenceName}
+start with $value 
 increment by 1 
 nomaxvalue
 nocache
 SQL;
 			$this->getDbConnection()->createCommand($createSequenceSql)->execute();
-
-
-
 		}
 	}
-	
-	
-	
-	
 }
