@@ -233,19 +233,25 @@ class CFileValidator extends CValidator
 	}
 
 	/**
-	 * Converts php.ini style size to bytes
+	 * Converts php.ini style size to bytes. Examples of size strings are: 150, 1g, 500k, 5M (size suffix
+	 * is case insensitive). If you pass here the number with a fractional part, then everything after
+	 * the decimal point will be ignored (php.ini values common behavior). For example 1.5G value would be
+	 * treated as 1G and 1073741824 number will be returned as a result. This method is public
+	 * (was private before) since 1.1.11.
 	 *
-	 * @param string $sizeStr $sizeStr
-	 * @return int
+	 * @param string $sizeStr the size string to convert.
+	 * @return int the byte count in the given size string.
+	 * @since 1.1.11
 	 */
-	private function sizeToBytes($sizeStr)
+	public function sizeToBytes($sizeStr)
 	{
-		switch (substr($sizeStr, -1))
+		// get the latest character
+		switch (strtolower(substr($sizeStr, -1)))
 		{
-			case 'M': case 'm': return (int)$sizeStr * 1048576;
-			case 'K': case 'k': return (int)$sizeStr * 1024;
-			case 'G': case 'g': return (int)$sizeStr * 1073741824;
-			default: return (int)$sizeStr;
+			case 'm': return (int)$sizeStr * 1048576; // 1024 * 1024
+			case 'k': return (int)$sizeStr * 1024; // 1024
+			case 'g': return (int)$sizeStr * 1073741824; // 1024 * 1024 * 1024
+			default: return (int)$sizeStr; // do nothing
 		}
 	}
 }

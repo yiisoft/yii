@@ -222,7 +222,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getPut($name,$defaultValue=null)
 	{
-		if($this->getIsPutViaPostReqest())
+		if($this->getIsPutViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
 		if($this->_putParams===null)
@@ -552,7 +552,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsPutRequest()
 	{
-		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT')) || $this->getIsPutViaPostReqest();
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT')) || $this->getIsPutViaPostRequest();
 	}
 
 	/**

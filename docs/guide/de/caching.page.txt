@@ -1,4 +1,4 @@
-Cachen von Seiten
+﻿Cachen von Seiten
 =================
 
 Beim Cachen von Seiten wird der Inhalt einer ganzen Seite gecacht. Dies kann
@@ -48,4 +48,60 @@ eines Filters: Ein Widget (Filter) beginnt, bevor der eingebettete Inhalt
 (Action) ausgewertet wird und endet, nachdem dieser Inhalt (Action)
 ausgewertet wurde.
 
-<div class="revision">$Id: caching.page.txt 1014 2009-05-10 12:25:55Z qiang.xue $</div>
+HTTP Caching
+------------
+Zusätzlich zum Cachen der Rückgabe einer Action ist es seit Yii 1.1.11 möglich,
+[CHttpCacheFilter] zu verwenden. Dieser Filter vereinfacht das Setzen der Header,
+welche nötig sind um einem Client mitzuteilen das der Inhalt einer Seite nicht modifiziert wurde.
+Auf diese Weise muss der Server den Inhalt der Seite nicht erneut übertragen.
+Die Konfiguration von [CHttpCacheFilter] ist der von [COutputCache] ähnlich:
+~~~
+[php]
+public function filters()
+{
+    return array(
+        array(
+            'CHttpCacheFilter + index',
+            'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
+        ),
+    );
+}
+~~~
+Der obige Filter wird den `Last-Modified`-Header auf das Datum der letzten Änderung am Beitrag(Post) setzen.
+For lazy evaluation,[CHttpCacheFilter::lastModifiedExpression] is available.
+
+
+> Tip|Tipp: Sowohl [CHttpCacheFilter::lastModifiedExpression] als auch 
+[CHttpCacheFilter::lastModified] können entweder einen UNIX-Timestamp oder einen String mit einem für Menschen
+lesbaren Datum verwenden, solange dieser mithilfe von [strtotime()](http://php.net/manual/function.strtotime.php) 
+geparst werden kann. Es ist keine weitere Umwandlung nötig.
+
+Der "Entity Tag" (kurz: `ETag`) Header kann auf ähnliche Weise mit Hilfe von 
+[CHttpCacheFilter::etagSeed] und [CHttpCacheFilter::etagSeedExpression] gesetzt werden. 
+Sie werden serialisiert (so ist es möglich, entweder einen einzelnen oder ein gesamtes Array zu nutzen) 
+und benutzt um den Base64 codierten, sha1 gehashten und mit Anführungszeichen
+versehenen Wert des `ETag`-Headers zu erstellen. Diese Methode unterscheidet sich 
+vom [Apache Webserver](http://httpd.apache.org) ist jedoch vollständig konform zu den 
+dazugehörigen RFC und hat sich als für besser geeignet in einem Framework gezeigt.
+
+
+> Note|Zu beachten: Um [RFC 2616, section 13.3.4](http://tools.ietf.org/html/rfc2616#section-13.3.4)
+zu folgen, sendet [CHttpCacheFilter] sowohl den `ETag` *als auch* den `Last-Modified`-Header,
+falls beide erstellt werden können. Beide werden zur Cachevalidierung genutzt, wenn sie vom Client gesendet werden.
+
+Da "Entity Tags" gehasht werden erlauben sie komplexere und/oder präzisere Möglichkeiten 
+als der `Last-Modified`-Header. Zum Beispiel kann ein ETag geändert werden, falls das Theme der Seite
+gewechselt wird.
+
+> Tip|Tipp: Aufwendige Bedingungen für [CHttpCacheFilter::etagSeedExpression] können den 
+Nutzen von [CHttpCacheFilter] untergraben und einen unnötigen Mehraufwand verursachen, da sie bei 
+jeder Anfrage erneut verarbeitet werden müssen.
+Es sollte eine einfache Bedingung gefunden werden, die den Cache, 
+falls der *Inhalt* der Seite geändert wurde, invalidiert.
+
+### Auswirkungen auf die Suchmaschinenoptimierung (SEO)
+Die meisten Suchmaschinen neigen dazu Cacheheader zu beachten. Da einige Crawler ein Limit haben, 
+wie viele Seiten pro Domain sie in einer bestimmten Zeitspanne
+verarbeiten, kann das Benutzen von Cacheheadern das Indizieren der Seite verbessern, 
+da die Anzahl der zu verarbeiteten Seiten reduziert wird.
+<div class="revision">$Id$</div>

@@ -32,6 +32,8 @@ Version 1.1.11 work in progress
 - Bug #859: Fixed CSort::applyOrder() and CSort::getOrderBy() to use custom table aliases (troch, samdark)
 - Bug #865: CLogRoute called processLogs() even if log array was empty and caused empty emails and log files (cebe)
 - Bug #879: Fixed a possible PHP error caused by CWebUser::restoreFromCookie() in combination with CHttpRequest.enableCookieValidation (kidol)
+- Bug #901: Fixed possible encoding problem on exception (mdomba, samdark)
+- Bug #803: Arbitary non-sorting links in CDataColumn's header were not working proper way (resurtm)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug: Added missing return statement to CAuthItem->revoke() (mdomba)
 - Bug: CHtml::resolveValue() ignoring of array elements accessor at the beginning of the $attribute argument now works properly (resurtm)
@@ -70,6 +72,7 @@ Version 1.1.11 work in progress
 - Enh #766: Added 'userId' to $params in CDbAuthManager::checkAccess() and CPhpAuthManager::checkAccess() (cebe)
 - Enh #666: Added property $off to CValidator, a list of scenarios that the validator should not be applied to (resurtm)
 - Enh #839: CListView::renderItems now resolves view file only once (nizsheanez)
+- Enh #938: CFileValidator::sizeToBytes() is now public and available for using in the whole application (resurtm)
 - Enh: Fixed romanian translation to use the better-supported cedilla characters (tudorilisoi)
 - Enh: Added default value to CConsoleCommand::confirm (musterknabe)
 - Enh: Allowed returning integer values as application exit code in CConsoleCommand actions (cebe)
@@ -82,11 +85,14 @@ Version 1.1.11 work in progress
 - Enh: Added CErrorHandler::getHttpHeader() to send correct HTTP error codes (pgaultier)
 - Enh: CGridView, only rows in tbody should have hover effect (mdomba)
 - Enh: CHttpCookie now implements __toString (suralc)
-- Enh: added possibility to set the container for CHtml::radioButtonList and CHtml::checkBoxList() (pgaultier)
-- Enh: added zii romanian(ro) translation; edited core messages to include proper romanian characters with diacritic marks (tudorilisoi)
+- Enh: Added possibility to set the container for CHtml::radioButtonList and CHtml::checkBoxList() (pgaultier)
+- Enh: Added zii romanian(ro) translation; edited core messages to include proper romanian characters with diacritic marks (tudorilisoi)
+- Enh: Added ILogFilter interface as an alternative to using CLogFilter as base class for implementing log filters (cebe)
+- Enh: CAssetManager, added $forceCopy property which globally forces publication of asset files and directories (resurtm)
 - Chg #440: Upgraded JQuery UI to 1.8.20 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
+- Chg: More unit tests added for CHtml (resurtm)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
