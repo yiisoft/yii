@@ -644,3 +644,61 @@ interface ILogFilter
 	public function filter(&$logs);
 }
 
+/**
+ * IModelErrorReport is the interface that is implemented by CModel to provide error report methods.
+ *
+ *   When you create a new class that needs the error handling cappabilities of CModel 
+ * into it then implementing this interface ensure the same mechanism that CModel uses is used 
+ * too in your own class. 
+ *   If you have a class who detects a validation error (a validator component maybe ?)
+ * then unsing this interface you could copy the detected errors to CModel in a clear and well 
+ * known way. as an example:
+ *   foreach($this->getFields() as $f)           
+ *      if($f->validate() == false)				<- in this example all detected errors will be
+ *          $this->addErrors($f->getErrors());  <- passed to a CModel instance using this interface
+ *
+ * @author Christian Salazar <christiansalazarh@gmail.com>
+ * @version $Id$
+ * @package system.base
+ * @since 1.1.11
+ */
+interface IModelErrorReport
+{
+	/**
+	 * Returns a value indicating whether there is any validation error.
+	 * @param string $attribute attribute name. Use null to check all attributes.
+	 * @return boolean whether there is any error.
+	 */
+	public function hasErrors($attribute=null);
+	/**
+	 * Returns the errors for all attribute or a single attribute.
+	 * @param string $attribute attribute name. Use null to retrieve errors for all attributes.
+	 * @return array errors for all attributes or the specified attribute. Empty array is returned if no error.
+	 */
+	public function getErrors($attribute=null);
+	/**
+	 * Returns the first error of the specified attribute.
+	 * @param string $attribute attribute name.
+	 * @return string the error message. Null is returned if no error.
+	 */
+	public function getError($attribute);
+	/**
+	 * Adds a new error to the specified attribute.
+	 * @param string $attribute attribute name
+	 * @param string $error new error message
+	 */
+	public function addError($attribute,$error);
+	/**
+	 * Adds a list of errors.
+	 * @param array $errors a list of errors. The array keys must be attribute names.
+	 * The array values should be error messages. If an attribute has multiple errors,
+	 * these errors must be given in terms of an array.
+	 * You may use the result of {@link getErrors} as the value for this parameter.
+	 */
+	public function addErrors($errors);
+	/**
+	 * Removes errors for all attributes or a single attribute.
+	 * @param string $attribute attribute name. Use null to remove errors for all attribute.
+	 */
+	public function clearErrors($attribute=null);
+}
