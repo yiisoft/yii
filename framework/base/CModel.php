@@ -27,7 +27,7 @@
  * @package system.base
  * @since 1.0
  */
-abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
+abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess, IModelErrorReport
 {
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
