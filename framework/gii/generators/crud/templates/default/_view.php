@@ -4,6 +4,8 @@
  * - $this: the CrudCode object
  */
 ?>
+<?php echo "<?php /* @var \$this {$this->getControllerClass()} */ ?>\n"; ?>
+<?php echo "<?php /* @var \$data {$this->getModelClass()} */ ?>\n\n"; ?>
 <div class="view">
 
 <?php

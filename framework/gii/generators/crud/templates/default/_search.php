@@ -4,8 +4,11 @@
  * - $this: the CrudCode object
  */
 ?>
+<?php echo "<?php /* @var \$this {$this->getControllerClass()} */ ?>\n"; ?>
+<?php echo "<?php /* @var \$model {$this->getModelClass()} */ ?>\n\n"; ?>
 <div class="wide form">
 
+<?php echo "<?php /* @var \$form CActiveForm */ ?>\n"; ?>
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
 	'action'=>Yii::app()->createUrl(\$this->route),
 	'method'=>'get',

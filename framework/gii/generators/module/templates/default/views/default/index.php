@@ -1,4 +1,6 @@
-<?php echo "<?php\n"; ?>
+<?php echo "<?php /* @var \$this DefaultController */\n\n"; ?>
+<?php
+echo "<?php\n"; ?>
 $this->breadcrumbs=array(
 	$this->module->id,
 );
