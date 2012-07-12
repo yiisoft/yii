@@ -31,7 +31,7 @@ PARAMETERS
   * title: optional, custom report title
 
 EXAMPLES
-  * build translations report --sourcePath="../docs/guide" --translationPath="../docs/guide/ru" --title="Russian gudie translation report" > report_guide_ru.html
+  * build translations report --sourcePath="../docs/guide" --translationPath="../docs/guide/ru" --title="Russian guide translation report" > report_guide_ru.html
   * build translations report --sourcePath="../docs/blog" --translationPath="../docs/blog/ru" --title="Russian blog translation report" > report_blog_ru.html
   * build translations report --sourcePath="../framework/views" --translationPath="../framework/views/ru" --title="Russian framework views translation report" > report_views_ru.html
 
@@ -44,7 +44,7 @@ EOD;
 	}
 
 	/**
-	 * Generates summart report for given translation and original directories
+	 * Generates summary report for given translation and original directories
 	 *
 	 * @param string $sourcePath the directory where the original documentation files are
 	 * @param string $translationPath the directory where the translated documentation files are
