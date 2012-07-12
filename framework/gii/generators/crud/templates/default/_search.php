@@ -5,9 +5,11 @@
  */
 ?>
 <?php echo "<?php\n"; ?>
-/* @var $this <?php echo $this->getControllerClass(); ?> */
-/* @var $model <?php echo $this->getModelClass(); ?> */
-/* @var $form CActiveForm */
+/**
+ * @var $this <?php echo $this->getControllerClass()."\n"; ?>
+ * @var $model <?php echo $this->getModelClass()."\n"; ?>
+ * @var $form CActiveForm
+ */
 ?>
 
 <div class="wide form">

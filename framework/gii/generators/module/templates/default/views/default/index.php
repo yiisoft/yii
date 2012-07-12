@@ -1,9 +1,8 @@
 <?php echo "<?php\n"; ?>
-/* @var $this DefaultController */
-?>
+/**
+ * @var $this DefaultController
+ */
 
-<?php
-echo "<?php\n"; ?>
 $this->breadcrumbs=array(
 	$this->module->id,
 );

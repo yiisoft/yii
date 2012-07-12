@@ -5,8 +5,10 @@
  */
 ?>
 <?php echo "<?php\n"; ?>
-/* @var $this <?php echo $this->getControllerClass(); ?> */
-/* @var $model <?php echo $this->getModelClass(); ?> */
+/**
+ * @var $this <?php echo $this->getControllerClass()."\n"; ?>
+ * @var $model <?php echo $this->getModelClass()."\n"; ?>
+ */
 ?>
 
 <div class="view">

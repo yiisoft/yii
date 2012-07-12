@@ -5,12 +5,12 @@
  */
 ?>
 <?php echo "<?php\n"; ?>
-/* @var $this <?php echo $this->getControllerClass(); ?> */
-/* @var $dataProvider CActiveDataProvider */
-?>
+/**
+ * @var $this <?php echo $this->getControllerClass()."\n"; ?>
+ * @var $dataProvider CActiveDataProvider
+ */
 
 <?php
-echo "<?php\n";
 $label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label',

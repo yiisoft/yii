@@ -6,9 +6,11 @@
  */
 ?>
 <?php echo "<?php\n"; ?>
-/* @var $this <?php echo $this->getModelClass(); ?>Controller */
-/* @var $model <?php echo $this->getModelClass(); ?> */
-/* @var $form CActiveForm */
+/**
+ * @var $this <?php echo $this->getModelClass(); ?>Controller
+ * @var $model <?php echo $this->getModelClass()."\n"; ?>
+ * @var $form CActiveForm
+ */
 ?>
 
 <div class="form">
