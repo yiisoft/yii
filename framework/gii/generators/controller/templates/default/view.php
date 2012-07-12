@@ -10,10 +10,8 @@
 /**
  * @var $this <?php echo $this->getControllerClass()."\n"; ?>
  */
-?>
 
 <?php
-echo "<?php\n";
 $label=ucwords(trim(strtolower(str_replace(array('-','_','.'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', basename($this->getControllerID()))))));
 if($action==='index')
 {
