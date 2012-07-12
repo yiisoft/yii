@@ -4,8 +4,11 @@
  * - $this: the CrudCode object
  */
 ?>
-<?php echo "<?php /* @var \$this {$this->getControllerClass()} */ ?>\n"; ?>
-<?php echo "<?php /* @var \$dataProvider CActiveDataProvider */ ?>\n\n"; ?>
+<?php echo "<?php\n"; ?>
+/* @var $this <?php echo $this->getControllerClass(); ?> */
+/* @var $dataProvider CActiveDataProvider */
+?>
+
 <?php
 echo "<?php\n";
 $label=$this->pluralize($this->class2name($this->modelClass));

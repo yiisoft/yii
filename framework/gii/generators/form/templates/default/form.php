@@ -5,11 +5,14 @@
  * - $this: the FormCode object
  */
 ?>
-<?php echo "<?php /* @var \$this {$this->getModelClass()}Controller */\n"; ?>
-<?php echo "<?php /* @var \$model {$this->getModelClass()} */\n\n"; ?>
+<?php echo "<?php\n"; ?>
+/* @var $this <?php echo $this->getModelClass(); ?>Controller */
+/* @var $model <?php echo $this->getModelClass(); ?> */
+/* @var $form CActiveForm */
+?>
+
 <div class="form">
 
-<?php echo "<?php /* @var \$form CActiveForm */ ?>\n"; ?>
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
 	'id'=>'".$this->class2id($this->modelClass).'-'.basename($this->viewName)."-form',
 	'enableAjaxValidation'=>false,

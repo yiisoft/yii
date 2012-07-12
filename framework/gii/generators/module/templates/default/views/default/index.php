@@ -1,4 +1,7 @@
-<?php echo "<?php /* @var \$this DefaultController */\n\n"; ?>
+<?php echo "<?php\n"; ?>
+/* @var $this DefaultController */
+?>
+
 <?php
 echo "<?php\n"; ?>
 $this->breadcrumbs=array(
