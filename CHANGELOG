@@ -93,6 +93,7 @@ Version 1.1.11 work in progress
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
 - Chg: More unit tests added for CHtml (resurtm)
+- New: Added TranslationsCommand build command aimed to help translation teams (samdark)
 
 Version 1.1.10 February 12, 2012
 --------------------------------
