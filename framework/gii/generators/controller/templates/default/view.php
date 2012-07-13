@@ -7,9 +7,7 @@
  */
 ?>
 <?php echo "<?php\n"; ?>
-/**
- * @var $this <?php echo $this->getControllerClass()."\n"; ?>
- */
+/* @var $this <?php echo $this->getControllerClass(); ?> */
 
 <?php
 $label=ucwords(trim(strtolower(str_replace(array('-','_','.'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', basename($this->getControllerID()))))));

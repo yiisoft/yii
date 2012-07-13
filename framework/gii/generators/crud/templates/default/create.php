@@ -5,10 +5,8 @@
  */
 ?>
 <?php echo "<?php\n"; ?>
-/**
- * @var $this <?php echo $this->getControllerClass()."\n"; ?>
- * @var $model <?php echo $this->getModelClass()."\n"; ?>
- */
+/* @var $this <?php echo $this->getControllerClass(); ?> */
+/* @var $model <?php echo $this->getModelClass(); ?> */
 
 <?php
 $label=$this->pluralize($this->class2name($this->modelClass));
