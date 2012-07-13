@@ -78,8 +78,8 @@
 
 				if (settings.ajaxUpdate.length > 0) {
 					$(document).on('click.yiiGridView', settings.updateSelector, function () {
-						// We're dealing with arbitary non-sorting link
-						if (!$(this).hasClass('sort-link'))
+						// We're dealing with arbitary non-sorting non-updating link
+						if ($(this).hasClass('standard-link'))
 							return true;
 						// Check to see if History.js is enabled for our Browser
 						if (settings.enableHistory && window.History.enabled) {
