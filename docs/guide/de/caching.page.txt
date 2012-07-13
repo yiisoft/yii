@@ -68,7 +68,8 @@ public function filters()
 }
 ~~~
 Der obige Filter wird den `Last-Modified`-Header auf das Datum der letzten Änderung am Beitrag(Post) setzen.
-For lazy evaluation,[CHttpCacheFilter::lastModifiedExpression] is available.
+Alternativ kann [CHttpCacheFilter::lastModifiedExpression] benutzt werden, 
+um den `Last-Modified`-Header durch einen PHP-Ausdruck zu setzen. 
 
 
 > Tip|Tipp: Sowohl [CHttpCacheFilter::lastModifiedExpression] als auch 
@@ -78,7 +79,7 @@ geparst werden kann. Es ist keine weitere Umwandlung nötig.
 
 Der "Entity Tag" (kurz: `ETag`) Header kann auf ähnliche Weise mit Hilfe von 
 [CHttpCacheFilter::etagSeed] und [CHttpCacheFilter::etagSeedExpression] gesetzt werden. 
-Sie werden serialisiert (so ist es möglich, entweder einen einzelnen oder ein gesamtes Array zu nutzen) 
+Sie werden serialisiert (so ist es möglich, entweder einen einzelnen String oder ein gesamtes Array zu nutzen) 
 und benutzt um den Base64 codierten, sha1 gehashten und mit Anführungszeichen
 versehenen Wert des `ETag`-Headers zu erstellen. Diese Methode unterscheidet sich 
 vom [Apache Webserver](http://httpd.apache.org) ist jedoch vollständig konform zu den 
