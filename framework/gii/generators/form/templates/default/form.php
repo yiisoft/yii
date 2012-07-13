@@ -5,6 +5,12 @@
  * - $this: the FormCode object
  */
 ?>
+<?php echo "<?php\n"; ?>
+/* @var $this <?php echo $this->getModelClass(); ?>Controller */
+/* @var $model <?php echo $this->getModelClass(); ?> */
+/* @var $form CActiveForm */
+?>
+
 <div class="form">
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
