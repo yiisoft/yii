@@ -359,12 +359,13 @@ EOD;
 	 */
 	public function resetSequence($table,$value=1)
 	{
+		$seq = $table->name."_SEQ";
 		if($table->sequenceName!==null)
 		{
-			$this->getDbConnection()->createCommand("DROP SEQUENCE ".$table->sequenceName)->execute();
+			$this->getDbConnection()->createCommand("DROP SEQUENCE ".$seq)->execute();
 
 			$createSequenceSql = <<< SQL
-create sequence {$table->sequenceName}
+create sequence $seq
 start with $value 
 increment by 1 
 nomaxvalue
