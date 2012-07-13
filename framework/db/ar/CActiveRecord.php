@@ -1889,6 +1889,7 @@ class CBaseActiveRelation extends CComponent
 	 * In that case, you should prefix the column names with 'relationName.'.
 	 */
 	public $select='*';
+	public $count_select=null;
 	/**
 	 * @var string WHERE clause. For {@link CActiveRelation} descendant classes, column names
 	 * referenced in the condition should be disambiguated with prefix 'relationName.'.
@@ -1946,6 +1947,14 @@ class CBaseActiveRelation extends CComponent
 	{
 		if($criteria instanceof CDbCriteria)
 			$criteria=$criteria->toArray();
+                
+                if(isset($criteria['count_select']) && $this->count_select!==$criteria['count_select']){
+                    _l("MERGE WITH ".$criteria['count_select']);
+                    $this->count_select[] = $criteria['count_select'];
+//                    $this->count_select = array_unique($this->count_select);
+                    
+                }
+                
 		if(isset($criteria['select']) && $this->select!==$criteria['select'])
 		{
 			if($this->select==='*')
