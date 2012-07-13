@@ -34,7 +34,6 @@ Version 1.1.11 work in progress
 - Bug #879: Fixed a possible PHP error caused by CWebUser::restoreFromCookie() in combination with CHttpRequest.enableCookieValidation (kidol)
 - Bug #901: Fixed possible encoding problem on exception (mdomba, samdark)
 - Bug #803: Arbitary non-sorting links in CDataColumn's header were not working proper way (resurtm)
-- Bug #964: Fixed regression introduced in the fix of the bug #803, page changing is not updating elements through AJAX (resurtm)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug: Added missing return statement to CAuthItem->revoke() (mdomba)
 - Bug: CHtml::resolveValue() ignoring of array elements accessor at the beginning of the $attribute argument now works properly (resurtm)
