@@ -90,6 +90,7 @@ Version 1.1.11 work in progress
 - Enh: Added zii romanian(ro) translation; edited core messages to include proper romanian characters with diacritic marks (tudorilisoi)
 - Enh: Added ILogFilter interface as an alternative to using CLogFilter as base class for implementing log filters (cebe)
 - Enh: CAssetManager, added $forceCopy property which globally forces publication of asset files and directories (resurtm)
+- Enh: Gii default templates: added additional metadata (PHPDoc) of the variables passed into views for better IDE autocompletion (resurtm)
 - Chg #440: Upgraded JQuery UI to 1.8.20 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
