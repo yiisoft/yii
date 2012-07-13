@@ -46,6 +46,7 @@ Version 1.1.11 work in progress
 - Enh #206: Added ability to pass CDbCriteria object as AR relation parameter (samdark)
 - Enh #220: The URL pointing to the Google API in CGoogleApi is now protocol relative (suralc)
 - Enh #237: The tabs of CTabView now support the property 'visible' (DaSourcerer)
+- Enh #255: Sort CArrayDataProvider when elements is CActiveDataProvider or other object (rusmaxim)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
 - Enh #267: CDbHttpSession is now able to store binary payload such as the output of the igbinary serializer (DaSourcerer, samdark)
 - Enh #286: Added wildcard token to CDateTimeParser (cebe)
