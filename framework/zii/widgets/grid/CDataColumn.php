@@ -20,6 +20,19 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * Note that the {@link name} should always be set if the column needs to be sortable. The {@link name}
  * value will be used by {@link CSort} to render a clickable link in the header cell to trigger the sorting.
  *
+ * If you're going to use arbitary non-sorting non-updating link in the {@link header} of the CDataColumn
+ * you should add additional class named 'standard-link' for such HTML link element. This behavior introduced
+ * since 1.1.11. Example of such configuration:
+ * <pre>
+ * // ...
+ * array(
+ *     'class'=>'CDataColumn',
+ *     'header'=>CHtml::link('Yii Framework','http://yiiframework.com/',array('class'=>'standard-link')),
+ *     'name'=>'title',
+ * )
+ * // ...
+ * </pre>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package zii.widgets.grid
@@ -115,7 +128,7 @@ class CDataColumn extends CGridColumn
 	protected function renderHeaderCellContent()
 	{
 		if($this->grid->enableSorting && $this->sortable && $this->name!==null)
-			echo $this->grid->dataProvider->getSort()->link($this->name,$this->header,array('class'=>'sort-link'));
+			echo $this->grid->dataProvider->getSort()->link($this->name,$this->header);
 		else if($this->name!==null && $this->header===null)
 		{
 			if($this->grid->dataProvider instanceof CActiveDataProvider)
