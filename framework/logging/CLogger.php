@@ -14,7 +14,7 @@
  * CLogger implements the methods to retrieve the messages with
  * various filter conditions, including log levels and log categories.
  *
- * @property array $logs List of messages. Each array elements represents one message
+ * @property array $logs List of messages. Each array element represents one message
  * with the following structure:
  * array(
  *   [0] => message (string)
@@ -78,7 +78,7 @@ class CLogger extends CComponent
 	* @var boolean if we are processing the log or still accepting new log messages
 	* @since 1.1.9
 	*/
-	private $_processing = false;
+	private $_processing=false;
 
 	/**
 	 * Logs a message.
@@ -118,7 +118,7 @@ class CLogger extends CComponent
 	 *
 	 * @param string $levels level filter
 	 * @param string $categories category filter
-	 * @return array list of messages. Each array elements represents one message
+	 * @return array list of messages. Each array element represents one message
 	 * with the following structure:
 	 * array(
 	 *   [0] => message (string)

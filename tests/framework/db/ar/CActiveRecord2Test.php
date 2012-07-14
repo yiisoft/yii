@@ -498,8 +498,8 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals(2,count($category->nodes));
 		$this->assertTrue($category->nodes[0]->parent instanceof Category2);
 		$this->assertTrue($category->nodes[1]->parent instanceof Category2);
-		$this->assertEquals(0,count($category->nodes[0]->children));
-		$this->assertEquals(2,count($category->nodes[1]->children));
+		$this->assertEquals(2,count($category->nodes[0]->children)); // row in test.categories with id 5 (has 2 descendants)
+		$this->assertEquals(0,count($category->nodes[1]->children)); // row in test.categories with id 4 (has 0 descendants)
 	}
 
 	public function testEagerRecursiveRelation()

@@ -169,6 +169,8 @@ postのステータスはinteger型でデータベースに保存されるので
 [php]
 class Lookup extends CActiveRecord
 {
+......
+
 	private static $_items=array();
 
 	public static function items($type)
@@ -218,4 +220,4 @@ class Post extends CActiveRecord
 
 これによって、`Lookup::items('PostStatus')`を呼ぶと、投稿のステータスとして取りうる値のリスト（integer値をインデックスとした、各値に対応するテキスト表現の一覧）を取得できます。また、`Lookup::item('PostStatus', Post::STATUS_PUBLISHED)`を呼ぶと、公開済みというステータスのテキスト表現を取得できます。
 
-<div class="revision">$Id: post.model.txt 3366 2011-08-03 21:24:26Z alexander.makarow $</div>
+<div class="revision">$Id$</div>
