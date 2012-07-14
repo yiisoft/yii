@@ -31,6 +31,7 @@ class CLinkColumn extends CGridColumn
 	 * @see sortable
 	 */
 	public $name;
+
 	/**
 	 * @var boolean whether the column is sortable. If so, the header cell will contain a link that may trigger the sorting.
 	 * Defaults to true. Note that if {@link name} is not set, or if {@link name} is not allowed by {@link CSort},
@@ -45,6 +46,7 @@ class CLinkColumn extends CGridColumn
 	 * @see labelExpression
 	 */
 	public $label='Link';
+
 	/**
 	 * @var string a PHP expression that will be evaluated for every data cell and whose result will be rendered
 	 * as the label of the hyperlink of the data cells. In this expression, the variable
@@ -52,15 +54,18 @@ class CLinkColumn extends CGridColumn
 	 * and <code>$this</code> the column object.
 	 */
 	public $labelExpression;
+
 	/**
 	 * @var string the URL to the image. If this is set, an image link will be rendered.
 	 */
 	public $imageUrl;
+
 	/**
 	 * @var string the URL of the hyperlinks in the data cells.
 	 * This property is ignored if {@link urlExpression} is set.
 	 * @see urlExpression
 	 */
+
 	public $url='javascript:void(0)';
 	/**
 	 * @var string a PHP expression that will be evaluated for every data cell and whose result will be rendered
@@ -68,22 +73,27 @@ class CLinkColumn extends CGridColumn
 	 * <code>$row</code> the row number (zero-based); <code>$data</code> the data model for the row;
 	 * and <code>$this</code> the column object.
 	 */
+
 	public $urlExpression;
 	/**
 	 * @var array the HTML options for the data cell tags.
 	 */
+
 	public $htmlOptions=array('class'=>'link-column');
 	/**
 	 * @var array the HTML options for the header cell tag.
 	 */
+
 	public $headerHtmlOptions=array('class'=>'link-column');
 	/**
 	 * @var array the HTML options for the footer cell tag.
 	 */
+
 	public $footerHtmlOptions=array('class'=>'link-column');
 	/**
 	 * @var array the HTML options for the hyperlinks
 	 */
+
 	public $linkHtmlOptions=array();
 	/**
 	 * @var mixed the HTML code representing a filter input (eg a text field, a dropdown list)
