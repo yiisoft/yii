@@ -74,6 +74,7 @@ Version 1.1.11 work in progress
 - Enh #666: Added property $off to CValidator, a list of scenarios that the validator should not be applied to (resurtm)
 - Enh #839: CListView::renderItems now resolves view file only once (nizsheanez)
 - Enh #938: CFileValidator::sizeToBytes() is now public and available for using in the whole application (resurtm)
+- Enh #967: Commands from YII_CONSOLE_COMMANDS environment variable are now always added to yiic console application (schmunk)
 - Enh: Fixed romanian translation to use the better-supported cedilla characters (tudorilisoi)
 - Enh: Added default value to CConsoleCommand::confirm (musterknabe)
 - Enh: Allowed returning integer values as application exit code in CConsoleCommand actions (cebe)
