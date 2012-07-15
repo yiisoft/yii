@@ -7,9 +7,6 @@ Version 1.1.11
 --------------
  * [http キャッシュのサポートを追加](/doc/guide/caching.page#http-caching)
 
-Version 1.1.9
--------------
-
 Version 1.1.8
 -------------
  * [カスタムURLルールクラスのサポートを追加](/doc/guide/topics.url#using-custom-url-rule-classes)

@@ -8,12 +8,6 @@ Version 1.1.11
  * [Added http caching support](/doc/guide/caching.page#http-caching)
  * [Added console application exit codes](/doc/guide/topics.console#exit-codes)
 
-Version 1.1.10
---------------
-
-Version 1.1.9
--------------
-
 Version 1.1.8
 -------------
  * [Added support for using custom URL rule classes](/doc/guide/topics.url#using-custom-url-rule-classes)
