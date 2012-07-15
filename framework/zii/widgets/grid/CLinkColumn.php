@@ -9,6 +9,7 @@
  */
 
 Yii::import('zii.widgets.grid.CGridColumn');
+Yii::import('zii.widgets.grid.CDataColumn');
 
 /**
  * CLinkColumn represents a grid view column that renders a hyperlink in each of its data cells.
@@ -22,11 +23,11 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * @package zii.widgets.grid
  * @since 1.1
  */
-class CLinkColumn extends CGridColumn
+class CLinkColumn extends CDataColumn
 {
 	/**
 	 * @var string the label to the hyperlinks in the data cells. Note that the label will not
-	 * be HTML-encoded when rendering. This property is ignored if {@link labelExpression} is set.
+	 * be HTML-encoded when rendering. This property is ignored if {@link labelExpression} or {@link name} is set.
 	 * @see labelExpression
 	 */
 	public $label='Link';
@@ -85,6 +86,8 @@ class CLinkColumn extends CGridColumn
 			$url=$this->url;
 		if($this->labelExpression!==null)
 			$label=$this->evaluateExpression($this->labelExpression,array('data'=>$data,'row'=>$row));
+		else if($this->name!==null)
+			$label=CHtml::value($data,$this->name);
 		else
 			$label=$this->label;
 		$options=$this->linkHtmlOptions;
