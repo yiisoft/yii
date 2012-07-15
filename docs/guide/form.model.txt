@@ -90,15 +90,27 @@ Each rule returned by `rules()` must be of the following format:
 
 ~~~
 [php]
-array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...additional options)
+array('AttributeList', 'Validator', 'on'=>'ScenarioList',
+    'off'=>'ScenarioList', ...additional options)
 ~~~
 
 where `AttributeList` is a string of comma-separated attribute names which
 need to be validated according to the rule; `Validator` specifies what kind of
 validation should be performed; the `on` parameter is optional which specifies
-a list of scenarios where the rule should be applied; and additional options
-are name-value pairs which are used to initialize the corresponding validator's
-property values.
+a list of scenarios where the rule should be applied; the `off` parameter is
+optional which specifies a list of scenarios where the rule should not be
+applied; parameter `off` has the advantage over `on` and acts like scenario
+blacklist; and additional options are name-value pairs which are used
+to initialize the corresponding validator's property values.
+
+A list of scenarios (`on` and `off` parameters) could be specified in
+two different formats which does the same:
+
+~~~
+[php]
+'on'=>array('update', 'create'),
+'on'=>'update, create',
+~~~
 
 There are three ways to specify `Validator` in a validation rule. First,
 `Validator` can be the name of a method in the model class, like
