@@ -6,6 +6,10 @@ This page summarizes the main new features introduced in each Yii release.
 Version 1.1.11
 --------------
  * [Added http caching support](/doc/guide/caching.page#http-caching)
+ * [Added console application exit codes](/doc/guide/topics.console#exit-codes)
+
+Version 1.1.10
+--------------
 
 Version 1.1.9
 -------------
