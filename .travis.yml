@@ -14,4 +14,4 @@ before_script:
   - echo 'y' | pecl install memcache > ~/memcache.log || ( echo "=== MEMCACHE BUILD FAILED ==="; cat ~/memcache.log )
   - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
-script: phpunit --colors --coverage-text framework
+script: phpunit --colors --coverage-text --exclude-group mssql framework
