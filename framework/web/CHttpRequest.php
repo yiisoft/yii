@@ -878,7 +878,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function xSendFile($filePath, $options=array())
 	{
-		if(!isset($options['forceDownload']) || $options['forceDownload'])
+		if(!isset($options['forceDownload']) || $options['forceDownload'] == 'attachment')
 			$disposition='attachment';
 		else
 			$disposition='inline';
