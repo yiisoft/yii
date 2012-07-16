@@ -32,7 +32,7 @@ Version 1.1.11 work in progress
 - Bug #859: Fixed CSort::applyOrder() and CSort::getOrderBy() to use custom table aliases (troch, samdark)
 - Bug #865: CLogRoute called processLogs() even if log array was empty and caused empty emails and log files (cebe)
 - Bug #879: Fixed a possible PHP error caused by CWebUser::restoreFromCookie() in combination with CHttpRequest.enableCookieValidation (kidol)
-- Bug #901: Fixed possible encoding problem on exception (mdomba, samdark)
+- Bug #901: Fixed possible encoding problem on exception (mdomba, samdark, cebe)
 - Bug #803: Arbitary non-sorting links in CDataColumn's header were not working proper way (resurtm)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug: Added missing return statement to CAuthItem->revoke() (mdomba)
