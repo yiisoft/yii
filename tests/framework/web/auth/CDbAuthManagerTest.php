@@ -32,9 +32,6 @@ class CDbAuthManagerTest extends AuthManagerTestBase
 		$this->db->active=false;
 
 		$this->auth=new CDbAuthManager;
-		$this->auth->assignmentTable = 'authassignment';
-		$this->auth->itemChildTable = 'authitemchild';
-		$this->auth->itemTable = 'authitem';
 		$this->auth->db=$this->db;
 		$this->auth->init();
 		$this->prepareData();
