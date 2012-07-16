@@ -97,6 +97,12 @@ class CErrorHandler extends CApplicationComponent
 
 		if($this->discardOutput)
 		{
+			$gzHandler=false;
+			foreach(ob_list_handlers() as $h)
+			{
+				if(strpos($h,'gzhandler')!==false)
+					$gzHandler=true;
+			}
 			// the following manual level counting is to deal with zlib.output_compression set to On
 			// for an output buffer created by zlib.output_compression set to On ob_end_clean will fail
 			for($level=ob_get_level();$level>0;--$level)
@@ -105,7 +111,7 @@ class CErrorHandler extends CApplicationComponent
 					ob_clean();
 			}
 			// reset headers in case there was an ob_start("ob_gzhandler") before
-			if(!headers_sent() && ob_list_handlers()===array())
+			if($gzHandler && !headers_sent() && ob_list_handlers()===array())
 			{
 				if(function_exists('header_remove')) // php >= 5.3
 				{
