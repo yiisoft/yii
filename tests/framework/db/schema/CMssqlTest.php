@@ -285,7 +285,7 @@ EOD;
 		}
 		catch (Exception $e)
 		{
-			$transaction->rollBack();
+			$transaction->rollback();
 		}
 		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'working transaction%'")))->queryScalar();
 		$this->assertEquals(2, $n);
@@ -301,7 +301,7 @@ EOD;
 		}
 		catch (Exception $e)
 		{
-			$transaction->rollBack();
+			$transaction->rollback();
 		}
 		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'failed transaction%'")))->queryScalar();
 		$this->assertEquals(0, $n);

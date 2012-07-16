@@ -175,7 +175,7 @@ try
 }
 catch(Exception $e) // an exception is raised if a query fails
 {
-	$transaction->rollBack();
+	$transaction->rollback();
 }
 ~~~
 
