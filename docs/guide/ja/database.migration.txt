@@ -144,7 +144,7 @@ class m101129_185401_create_news_table extends CDbMigration
 		catch(Exception $e)
 		{
 			echo "Exception: ".$e->getMessage()."\n";
-			$transaction->rollBack();
+			$transaction->rollback();
 			return false;
 		}
 	}
@@ -337,4 +337,4 @@ return array(
 
 これで、毎回コマンドラインオプションを入力しなくても、`migrate` コマンドを実行すれば、上記の設定が有効になります。
 
-<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>
+<div class="revision">$Id$</div>
