@@ -601,6 +601,8 @@ $users=User::model()->findAll(array(
 
 class Post extends CActiveRecord
 {
+        ......
+
 	public function rated($rating)
 	{
 		$this->getDbCriteria()->mergeWith(array(
@@ -609,6 +611,8 @@ class Post extends CActiveRecord
 		));
 		return $this;
 	}
+
+        ......
 }
 ~~~
 
