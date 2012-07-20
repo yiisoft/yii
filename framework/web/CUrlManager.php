@@ -743,8 +743,12 @@ class CUrlRule extends CBaseUrlRule
 		}
 
 		foreach($this->params as $key=>$value)
+		{
 			if(!isset($params[$key]))
 				return false;
+			if(is_array($params[$key]))
+				return false;
+		}
 
 		if($manager->matchValue && $this->matchValue===null || $this->matchValue)
 		{

@@ -18,6 +18,7 @@ class CUrlManagerTest extends CTestCase
 			'<c:(post|comment)>s/*'=>'<c>/list',
 			'http://<user:\w+>.example.com/<lang:\w+>/profile'=>'user/profile',
 			'currency/<c:\p{Sc}>'=>'currency/info',
+			'edit/<model>/<a:(update|delete)>/<id>' => 'crud/<a>',
 		);
 		$entries=array(
 			array(
@@ -120,6 +121,21 @@ class CUrlManagerTest extends CTestCase
 				'route'=>'currency/info',
 				'params'=>array('c'=>'＄'),
 			),
+			array(
+				'pathInfo'=>'edit/user/update/123',
+				'route'=>'crud/update',
+				'params'=>array('model'=>'user','id'=>123),
+			),
+			array(
+				'pathInfo'=>'crud/update/model/company/id%5Ba%5D/123/id%5Bb%5D/abc',
+				'route'=>'crud/update/model/company/id%5Ba%5D/123/id%5Bb%5D/abc',
+				'params'=>array(),
+			),
+			array(
+				'pathInfo'=>'crud/update/model/company/id%5Ba%5D/123/id%5Bb%5D/abc',
+				'route'=>'crud/update/model/company/id%5Ba%5D/123/id%5Bb%5D/abc',
+				'params'=>array(),
+			),
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
@@ -168,6 +184,7 @@ class CUrlManagerTest extends CTestCase
 			'<c:(post|comment)>s/*'=>'<c>/list',
 			'http://<user:\w+>.example.com/<lang:\w+>/profile'=>'user/profile',
 			'currency/<c:\p{Sc}>'=>'currency/info',
+			'edit/<model>/<a:(update|delete)>/<id>' => 'crud/<a>',
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
@@ -299,6 +316,28 @@ class CUrlManagerTest extends CTestCase
 				'route'=>'currency/info',
 				'params'=>array(
 					'c'=>'＄',
+				),
+			),
+			array(
+				'scriptUrl'=>'/index.php',
+				'url'=>'/index.php/edit/user/update/123',
+				'url2'=>'/edit/user/update/123',
+				'url3'=>'/edit/user/update/123.html',
+				'route'=>'crud/update',
+				'params'=>array(
+					'model'=>'user',
+					'id'=>123,
+				),
+			),
+			array(
+				'scriptUrl'=>'/index.php',
+				'url'=>'/index.php/crud/update/model/company/id%5Ba%5D/123/id%5Bb%5D/abc',
+				'url2'=>'/crud/update/model/company/id%5Ba%5D/123/id%5Bb%5D/abc',
+				'url3'=>'/crud/update/model/company/id%5Ba%5D/123/id%5Bb%5D/abc.html',
+				'route'=>'crud/update',
+				'params'=>array(
+					'model'=>'company',
+					'id'=>array('a'=>'123','b'=>'abc'),
 				),
 			),
 		);
