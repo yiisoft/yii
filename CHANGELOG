@@ -87,6 +87,7 @@ Version 1.1.11 work in progress
 - Enh: Added CErrorHandler::getHttpHeader() to send correct HTTP error codes (pgaultier)
 - Enh: CGridView, only rows in tbody should have hover effect (mdomba)
 - Enh: CHttpCookie now implements __toString (suralc)
+- Enh: Ability to set namespace for module controllers using CWebModule::controllerNamespace, documentation about using namespaced controllers and modules (samdark)
 - Enh: Added possibility to set the container for CHtml::radioButtonList and CHtml::checkBoxList() (pgaultier)
 - Enh: Added zii romanian(ro) translation; edited core messages to include proper romanian characters with diacritic marks (tudorilisoi)
 - Enh: Added ILogFilter interface as an alternative to using CLogFilter as base class for implementing log filters (cebe)
