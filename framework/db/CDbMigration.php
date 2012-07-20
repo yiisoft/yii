@@ -50,7 +50,7 @@ abstract class CDbMigration extends CComponent
 		{
 			if($this->safeUp()===false)
 			{
-				$transaction->rollBack();
+				$transaction->rollback();
 				return false;
 			}
 			$transaction->commit();
@@ -59,7 +59,7 @@ abstract class CDbMigration extends CComponent
 		{
 			echo "Exception: ".$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
 			echo $e->getTraceAsString()."\n";
-			$transaction->rollBack();
+			$transaction->rollback();
 			return false;
 		}
 	}
@@ -77,7 +77,7 @@ abstract class CDbMigration extends CComponent
 		{
 			if($this->safeDown()===false)
 			{
-				$transaction->rollBack();
+				$transaction->rollback();
 				return false;
 			}
 			$transaction->commit();
@@ -86,7 +86,7 @@ abstract class CDbMigration extends CComponent
 		{
 			echo "Exception: ".$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
 			echo $e->getTraceAsString()."\n";
-			$transaction->rollBack();
+			$transaction->rollback();
 			return false;
 		}
 	}
