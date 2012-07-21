@@ -33,9 +33,9 @@ reflection](http://php.net/manual/ja/book.reflection.php) に基づいて、
 
 まず単純な株価情報サービスからはじめましょう。
 このサービスではクライアントが株価情報を要求できます。
-サービスプロバイダを以下のほうに定義します。
+サービスプロバイダを以下のように定義します。
 プロバイダクラスの`StockController`を、 [CController]のサブクラスとして定義していることに注意してください。
-これは必須ではありませんが、後ほどなぜこうするのか理由を説明します。
+ただし、このことは必須ではありません。
 
 ~~~
 [php]
@@ -213,4 +213,4 @@ class PostController extends CController
 何らかの理由でリモートからのメソッド呼び出しを許可したくない場合は、false を返すことで実行を中断できます。
 (例：認証が必要なアクセス)
 
-<div class="revision">$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>
+<div class="revision">$Id$</div>

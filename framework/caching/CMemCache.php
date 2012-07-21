@@ -114,7 +114,8 @@ class CMemCache extends CCache
 		{
 			$extension=$this->useMemcached ? 'memcached' : 'memcache';
 			if(!extension_loaded($extension))
-				throw new CException(Yii::t('yii',"CMemCache requires PHP $extension extension to be loaded."));
+				throw new CException(Yii::t('yii',"CMemCache requires PHP {extension} extension to be loaded.",
+                    array('{extension}'=>$extension)));
 			return $this->_cache=$this->useMemcached ? new Memcached : new Memcache;
 		}
 	}
@@ -170,11 +171,6 @@ class CMemCache extends CCache
 	 */
 	protected function setValue($key,$value,$expire)
 	{
-		if($expire>0)
-			$expire+=time();
-		else
-			$expire=0;
-
 		return $this->useMemcached ? $this->_cache->set($key,$value,$expire) : $this->_cache->set($key,$value,0,$expire);
 	}
 
@@ -189,11 +185,6 @@ class CMemCache extends CCache
 	 */
 	protected function addValue($key,$value,$expire)
 	{
-		if($expire>0)
-			$expire+=time();
-		else
-			$expire=0;
-
 		return $this->useMemcached ? $this->_cache->add($key,$value,$expire) : $this->_cache->add($key,$value,0,$expire);
 	}
 

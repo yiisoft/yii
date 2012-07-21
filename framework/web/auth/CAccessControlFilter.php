@@ -34,6 +34,8 @@
  *   'users'=>array('thomas', 'kevin'),
  *   // optional, list of roles (case sensitive!) that this rule applies to.
  *   'roles'=>array('admin', 'editor'),
+ *   // since version 1.1.11 you can pass parameters for RBAC bizRules
+ *   'roles'=>array('updateTopic'=>array('topic'=>$topic))
  *   // optional, list of IP address/patterns that this rule applies to
  *   // e.g. 127.0.0.1, 127.0.0.*
  *   'ips'=>array('127.0.0.1'),
@@ -321,10 +323,18 @@ class CAccessRule extends CComponent
 	{
 		if(empty($this->roles))
 			return true;
-		foreach($this->roles as $role)
+		foreach($this->roles as $key=>$role)
 		{
-			if($user->checkAccess($role))
-				return true;
+			if(is_numeric($key))
+			{
+				if($user->checkAccess($role))
+					return true;
+			}
+			else
+			{
+				if($user->checkAccess($key,$role))
+					return true;
+			}
 		}
 		return false;
 	}
