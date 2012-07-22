@@ -75,7 +75,7 @@ class CFileValidator extends CValidator
 	 */
 	public $types;
 	/**
-	 * @var mixed a list of file MIME-types that are allowed to be uploaded.
+	 * @var mixed a list of MIME-types of the file that are allowed to be uploaded.
 	 * This can be either an array or a string consisting of MIME-types separated
 	 * by space or comma (e.g. "image/gif, image/jpeg"). MIME-types are
 	 * case-insensitive. Defaults to null, meaning all MIME-types are allowed.
@@ -217,7 +217,7 @@ class CFileValidator extends CValidator
 				$mimeTypes=$this->mimeTypes;
 			if(!in_array(strtolower($file->getType()),$mimeTypes))
 			{
-				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files with these MIME-types are allowed: {mimeTypes}.');
+				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.');
 				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
 			}
 		}
