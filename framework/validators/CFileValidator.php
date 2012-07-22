@@ -112,7 +112,7 @@ class CFileValidator extends CValidator
 	 */
 	public $wrongType;
 	/**
-	 * @var string the error message used when the uploaded file has an MIME-type
+	 * @var string the error message used when the uploaded file has a MIME-type
 	 * that is not listed among {@link mimeTypes}.
 	 * @since 1.1.11
 	 */
