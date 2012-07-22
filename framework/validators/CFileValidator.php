@@ -75,6 +75,14 @@ class CFileValidator extends CValidator
 	 */
 	public $types;
 	/**
+	 * @var mixed a list of file MIME-types that are allowed to be uploaded.
+	 * This can be either an array or a string consisting of MIME-types separated
+	 * by space or comma (e.g. "image/gif, image/jpeg"). MIME-types are
+	 * case-insensitive. Defaults to null, meaning all MIME-types are allowed.
+	 * @since 1.1.11
+	 */
+	public $mimeTypes;
+	/**
 	 * @var integer the minimum number of bytes required for the uploaded file.
 	 * Defaults to null, meaning no limit.
 	 * @see tooSmall
@@ -100,9 +108,15 @@ class CFileValidator extends CValidator
 	public $tooSmall;
 	/**
 	 * @var string the error message used when the uploaded file has an extension name
-	 * that is not listed among {@link extensions}.
+	 * that is not listed among {@link types}.
 	 */
 	public $wrongType;
+	/**
+	 * @var string the error message used when the uploaded file has an MIME-type
+	 * that is not listed among {@link mimeTypes}.
+	 * @since 1.1.11
+	 */
+	public $wrongMimeType;
 	/**
 	 * @var integer the maximum file count the given attribute can hold.
 	 * It defaults to 1, meaning single file upload. By defining a higher number,
@@ -192,6 +206,19 @@ class CFileValidator extends CValidator
 			{
 				$message=$this->wrongType!==null?$this->wrongType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.');
 				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{extensions}'=>implode(', ',$types)));
+			}
+		}
+
+		if($this->mimeTypes!==null)
+		{
+			if(is_string($this->mimeTypes))
+				$mimeTypes=preg_split('/[\s,]+/',strtolower($this->mimeTypes),-1,PREG_SPLIT_NO_EMPTY);
+			else
+				$mimeTypes=$this->mimeTypes;
+			if(!in_array(strtolower($file->getType()),$mimeTypes))
+			{
+				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files with these MIME-types are allowed: {mimeTypes}.');
+				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
 			}
 		}
 	}
