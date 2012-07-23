@@ -171,7 +171,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	 */
 	public function getHighlightConfig($options)
 	{
-		$config['use_language'] = true;
+		$config = array('use_language'=>true);
 		if( $this->getInlineOption('showLineNumbers', $options, false) )
 			$config['numbers'] = HL_NUMBERS_LI;
 		$config['tabsize'] = $this->getInlineOption('tabSize', $options, 4);
