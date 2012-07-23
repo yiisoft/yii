@@ -25,12 +25,12 @@ class CDateTimeParserTest extends CTestCase
 			date('d M, Y, H:i', CDateTimeParser::parse('21 Sep, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
 		);
 		$this->assertEquals(
-			'05 Mar, 1991, 01:09',
-			date('d M, Y, H:i', CDateTimeParser::parse('05 Mar, 1991, 01:09', 'dd MMM, yyyy, HH:mm'))
+			'05, 1991, 01:09, Mar',
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, Mar', 'dd, yyyy, HH:mm, MMM'))
 		);
 		$this->assertEquals(
-			'01 Dec, 1971, 23:59',
-			date('d M, Y, H:i', CDateTimeParser::parse('01 Dec, 1971, 23:59', 'dd MMM, yyyy, HH:mm'))
+			'Dec 01, 1971, 23:59',
+			date('M d, Y, H:i', CDateTimeParser::parse('Dec 01, 1971, 23:59', 'MMM dd, yyyy, HH:mm'))
 		);
 	}
 }
