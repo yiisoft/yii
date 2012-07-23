@@ -17,4 +17,20 @@ class CDateTimeParserTest extends CTestCase
 			date('Y-m-d H:i:s', CDateTimeParser::parse('2011-01-10 23:43:04.973', 'yyyy?MM?dd?hh?mm?ss????'))
 		);
 	}
+
+	function testShortMonthTitle()
+	{
+		$this->assertEquals(
+			'21 Sep, 2011, 13:37',
+			date('d M, Y, H:i', CDateTimeParser::parse('21 Sep, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'05 Mar, 1991, 01:09',
+			date('d M, Y, H:i', CDateTimeParser::parse('05 Mar, 1991, 01:09', 'dd MMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'01 Dec, 1971, 23:59',
+			date('d M, Y, H:i', CDateTimeParser::parse('01 Dec, 1971, 23:59', 'dd MMM, yyyy, HH:mm'))
+		);
+	}
 }
