@@ -2022,6 +2022,16 @@ class CStatRelation extends CBaseActiveRelation
 	 * receive a statistical query result. Defaults to 0.
 	 */
 	public $defaultValue=0;
+	/**
+	 * @var mixed scopes to apply
+	 * Can be set to the one of the following:
+	 * <ul>
+	 * <li>Single scope: 'scopes'=>'scopeName'.</li>
+	 * <li>Multiple scopes: 'scopes'=>array('scopeName1','scopeName2').</li>
+	 * </ul>
+	 * @since 1.1.11
+	 */
+	public $scopes;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.

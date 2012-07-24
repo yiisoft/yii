@@ -593,4 +593,46 @@ class CActiveRecord2Test extends CTestCase
 		Post2::model()->with('author','firstComment','comments','categories')->findAllBySql('SELECT * FROM test.posts WHERE id=100');
 		$this->assertTrue($posts===array());
 	}
+
+	public function testRelationalStat()
+	{
+		// CStatRelation
+		$posts=Post2::model()->findAll();
+		$this->assertEquals(3,$posts[0]->commentCount);
+		$this->assertEquals(3,$posts[0]->categoryCount);
+		$this->assertEquals(2,$posts[1]->commentCount);
+		$this->assertEquals(2,$posts[1]->categoryCount);
+		$this->assertEquals(4,$posts[2]->commentCount);
+		$this->assertEquals(1,$posts[2]->categoryCount);
+		$this->assertEquals(0,$posts[3]->commentCount);
+		$this->assertEquals(0,$posts[3]->categoryCount);
+		$this->assertEquals(1,$posts[4]->commentCount);
+		$this->assertEquals(0,$posts[4]->categoryCount);
+
+		// CStatRelation with scopes, HAS_MANY case
+		$users=User2::model()->findAll();
+		$this->assertEquals(0,$users[0]->scopedPostCount1);
+		$this->assertEquals(0,$users[0]->scopedPostCount2);
+		$this->assertEquals(2,$users[1]->scopedPostCount1);
+		$this->assertEquals(2,$users[1]->scopedPostCount2);
+		$this->assertEquals(1,$users[2]->scopedPostCount1);
+		$this->assertEquals(1,$users[2]->scopedPostCount2);
+
+		// CStatRelation with scopes, MANY_MANY case
+		$categories=Category2::model()->findAll();
+		$this->assertEquals(3,$categories[0]->scopedPostCount1);
+		$this->assertEquals(3,$categories[0]->scopedPostCount2);
+		$this->assertEquals(1,$categories[1]->scopedPostCount1);
+		$this->assertEquals(1,$categories[1]->scopedPostCount2);
+		$this->assertEquals(1,$categories[2]->scopedPostCount1);
+		$this->assertEquals(1,$categories[2]->scopedPostCount2);
+		$this->assertEquals(1,$categories[3]->scopedPostCount1);
+		$this->assertEquals(1,$categories[3]->scopedPostCount2);
+		$this->assertEquals(0,$categories[4]->scopedPostCount1);
+		$this->assertEquals(0,$categories[4]->scopedPostCount2);
+		$this->assertEquals(0,$categories[5]->scopedPostCount1);
+		$this->assertEquals(0,$categories[5]->scopedPostCount2);
+		$this->assertEquals(0,$categories[6]->scopedPostCount1);
+		$this->assertEquals(0,$categories[6]->scopedPostCount2);
+	}
 }

@@ -57,10 +57,10 @@ CREATE TABLE test.posts
 );
 
 INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 1',TIMESTAMP '2004-10-19 10:23:54',1,'content 1');
-INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 2',TIMESTAMP '2004-10-19 10:23:54',2,'content 2');
-INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 3',TIMESTAMP '2004-10-19 10:23:54',2,'content 3');
-INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 4',TIMESTAMP '2004-10-19 10:23:54',2,'content 4');
-INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 5',TIMESTAMP '2004-10-19 10:23:54',3,'content 5');
+INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 2',TIMESTAMP '2004-10-19 10:24:55',2,'content 2');
+INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 3',TIMESTAMP '2004-10-19 10:25:56',2,'content 3');
+INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 4',TIMESTAMP '2004-10-19 10:26:57',2,'content 4');
+INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 5',TIMESTAMP '2004-10-19 10:27:58',3,'content 5');
 
 CREATE TABLE test.comments
 (

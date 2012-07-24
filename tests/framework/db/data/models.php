@@ -31,6 +31,9 @@ class User extends CActiveRecord
 			'postsOrderDescFormat1'=>array(self::HAS_MANY,'Post','author_id','scopes'=>'orderDesc'),
 			'postsOrderDescFormat2'=>array(self::HAS_MANY,'Post','author_id','scopes'=>array('orderDesc')),
 			'postCount'=>array(self::STAT,'Post','author_id'),
+
+			'recentPostCount1'=>array(self::STAT,'Post','author_id','scopes'=>'recentScope'), // CStatRelation with scopes, HAS_MANY case
+			'recentPostCount2'=>array(self::STAT,'Post','author_id','scopes'=>array('recentScope')), // CStatRelation with scopes, HAS_MANY case
 		);
 	}
 
@@ -153,6 +156,12 @@ class Post extends CActiveRecord
 			'post3'=>array('condition'=>'id=3'),
 			'postX'=>array('condition'=>'id=:id1 OR id=:id2', 'params'=>array(':id1'=>2, ':id2'=>3)),
 			'orderDesc'=>array('order'=>'posts.id DESC','alias'=>'posts'),
+
+			// CStatRelation with scopes, HAS_MANY case
+			'recentScope'=>array('condition'=>"$this->tableAlias.create_time>=:create_time", 'params'=>array(':create_time'=>100002)),
+
+			// CStatRelation with scopes, MANY_MANY case
+			'recentScope2'=>array('condition'=>"$this->tableAlias.create_time>=:create_time", 'params'=>array(':create_time'=>100001)),
 		);
 	}
 
@@ -332,6 +341,9 @@ class Category extends CActiveRecord
 			'children'=>array(self::HAS_MANY,'Category','parent_id'),
 			'nodes'=>array(self::HAS_MANY,'Category','parent_id','with'=>array('parent','children')),
 			'postCount'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)'),
+
+			'recentPostCount1'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)','scopes'=>'recentScope2'), // CStatRelation with scopes, MANY_MANY case
+			'recentPostCount2'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)','scopes'=>array('recentScope2')), // CStatRelation with scopes, MANY_MANY case
 		);
 	}
 }
