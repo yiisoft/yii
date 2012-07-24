@@ -1,8 +1,8 @@
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Журнал програми");
+	console.group("Журнал додатку");
 <?php
 foreach($data as $index=>$log)
 {
