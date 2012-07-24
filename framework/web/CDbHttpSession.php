@@ -22,10 +22,11 @@
  * (
  *     id CHAR(32) PRIMARY KEY,
  *     expire INTEGER,
- *     data TEXT
+ *     data BLOB
  * )
  * </pre>
- *
+ * Where 'BLOB' refers to the BLOB-type of your preffered database.
+ * 
  * CDbHttpSession relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
  *
  * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
@@ -55,7 +56,7 @@ class CDbHttpSession extends CHttpSession
 	 * Note, if {@link autoCreateSessionTable} is false and you want to create the DB table manually by yourself,
 	 * you need to make sure the DB table is of the following structure:
 	 * <pre>
-	 * (id CHAR(32) PRIMARY KEY, expire INTEGER, data TEXT)
+	 * (id CHAR(32) PRIMARY KEY, expire INTEGER, data BLOB)
 	 * </pre>
 	 * @see autoCreateSessionTable
 	 */
