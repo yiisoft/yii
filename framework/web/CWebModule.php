@@ -45,6 +45,12 @@ class CWebModule extends CModule
 	 */
 	public $layout;
 	/**
+	 * @var string Namespace that should be used when loading controllers.
+	 * Default is to use global namespace.
+	 * @since 1.1.11
+	 */
+	public $controllerNamespace;
+	/**
 	 * @var array mapping from controller ID to controller configurations.
 	 * Pleaser refer to {@link CWebApplication::controllerMap} for more details.
 	 */
