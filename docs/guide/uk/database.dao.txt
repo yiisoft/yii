@@ -139,7 +139,7 @@ try
 }
 catch(Exception $e) // у разі помилки при виконанні запиту викидається виключення
 {
-	$transaction->rollBack();
+	$transaction->rollback();
 }
 ~~~
 
