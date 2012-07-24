@@ -160,6 +160,20 @@ class CClientScript extends CApplicationComponent
 	 * @since 1.1.3
 	 */
 	public $coreScriptPosition=self::POS_HEAD;
+	/**
+	 * @var integer Where the scripts registered using {@link registerScriptFile} will be inserted in the page.
+	 * This can be one of the CClientScript::POS_* constants.
+	 * Defaults to CClientScript::POS_HEAD.
+	 * @since 1.1.11
+	 */
+	public $defaultScriptFilePosition=self::POS_HEAD;
+	/**
+	 * @var integer Where the scripts registered using {@link registerScript} will be inserted in the page.
+	 * This can be one of the CClientScript::POS_* constants.
+	 * Defaults to CClientScript::POS_READY.
+	 * @since 1.1.11
+	 */
+	public $defaultScriptPosition=self::POS_READY;
 
 	private $_baseUrl;
 
@@ -577,8 +591,10 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScriptFile($url,$position=self::POS_HEAD)
+	public function registerScriptFile($url,$position=null)
 	{
+		if($position===null)
+			$position=$this->defaultScriptFilePosition;
 		$this->hasScripts=true;
 		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
@@ -600,8 +616,10 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScript($id,$script,$position=self::POS_READY)
+	public function registerScript($id,$script,$position=null)
 	{
+		if($position===null)
+			$position=$this->defaultScriptPosition;
 		$this->hasScripts=true;
 		$this->scripts[$position][$id]=$script;
 		if($position===self::POS_READY || $position===self::POS_LOAD)
