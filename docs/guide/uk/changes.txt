@@ -7,9 +7,6 @@
 -------------
  * [Додана підтримка кешування на рівні HTTP](/doc/guide/caching.page#http-caching)
 
-Версія 1.1.9
-------------
-
 Версія 1.1.8
 ------------
  * [Додана можливість використовувати свій клас правила URL](/doc/guide/topics.url#using-custom-url-rule-classes)

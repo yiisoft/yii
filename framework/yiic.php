@@ -23,11 +23,12 @@ if(isset($config))
 {
 	$app=Yii::createConsoleApplication($config);
 	$app->commandRunner->addCommands(YII_PATH.'/cli/commands');
-	$env=@getenv('YII_CONSOLE_COMMANDS');
-	if(!empty($env))
-		$app->commandRunner->addCommands($env);
 }
 else
 	$app=Yii::createConsoleApplication(array('basePath'=>dirname(__FILE__).'/cli'));
+
+$env=@getenv('YII_CONSOLE_COMMANDS');
+if(!empty($env))
+	$app->commandRunner->addCommands($env);
 
 $app->run();
