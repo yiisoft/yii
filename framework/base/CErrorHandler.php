@@ -97,12 +97,33 @@ class CErrorHandler extends CApplicationComponent
 
 		if($this->discardOutput)
 		{
+			$gzHandler=false;
+			foreach(ob_list_handlers() as $h)
+			{
+				if(strpos($h,'gzhandler')!==false)
+					$gzHandler=true;
+			}
 			// the following manual level counting is to deal with zlib.output_compression set to On
+			// for an output buffer created by zlib.output_compression set to On ob_end_clean will fail
 			for($level=ob_get_level();$level>0;--$level)
 			{
-				@ob_end_clean();
+				if(!@ob_end_clean())
+					ob_clean();
 			}
-			header("Content-Encoding: ", true);
+			// reset headers in case there was an ob_start("ob_gzhandler") before
+			if($gzHandler && !headers_sent() && ob_list_handlers()===array())
+			{
+				if(function_exists('header_remove')) // php >= 5.3
+				{
+					header_remove('Vary');
+					header_remove('Content-Encoding');
+				}
+				else
+				{
+					header('Vary:');
+					header('Content-Encoding:');
+				}
+			}
 		}
 
 		if($event instanceof CExceptionEvent)

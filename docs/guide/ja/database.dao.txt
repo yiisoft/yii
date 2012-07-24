@@ -165,7 +165,7 @@ try
 }
 catch(Exception $e) // クエリの実行に失敗した場合、例外が発生します
 {
-	$transaction->rollBack();
+	$transaction->rollback();
 }
 ~~~
 
@@ -248,4 +248,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id$</div>

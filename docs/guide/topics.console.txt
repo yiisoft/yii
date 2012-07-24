@@ -219,6 +219,8 @@ if (/* error */) {
 return 0; // exit successfully
 ~~~
 
+When there is no return value, application will exit with code 0.
+
 
 Customizing Console Applications
 --------------------------------
