@@ -205,6 +205,7 @@ return array (
     'my' => 'Kiɛl birmania',
     'ne' => 'Kiɛl nepal',
     'nl' => 'Kiɛl bóllandais',
+    'nmg' => 'Kwasio',
     'pa' => 'Kiɛl pɛndjabi',
     'pl' => 'Kiɛl pɔlɔŋe',
     'pt' => 'Kiɛl bó pɔ̄rtugɛ̂',

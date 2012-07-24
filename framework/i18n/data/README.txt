@@ -1,5 +1,5 @@
 
-                CLDR v1.6 (July 2, 2008)
+                CLDR v21.0.2 (June 6, 2012)
 
 This directory contains the CLDR data files in form of PHP scripts.
 They are obtained by extracting the CLDR data (http://www.unicode.org/cldr/)
