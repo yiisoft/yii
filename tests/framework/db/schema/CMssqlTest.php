@@ -3,7 +3,9 @@
 Yii::import('system.db.CDbConnection');
 Yii::import('system.db.schema.mysql.CMssqlSchema');
 
-
+/**
+ * @group mssql
+ */
 class CMssqlTest extends CTestCase
 {
 	const DB_HOST='YII'; // This is the alias to mssql server. Defined in freetds.conf for linux, or in Client Network Utility on windows
@@ -285,7 +287,7 @@ EOD;
 		}
 		catch (Exception $e)
 		{
-			$transaction->rollBack();
+			$transaction->rollback();
 		}
 		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'working transaction%'")))->queryScalar();
 		$this->assertEquals(2, $n);
@@ -301,7 +303,7 @@ EOD;
 		}
 		catch (Exception $e)
 		{
-			$transaction->rollBack();
+			$transaction->rollback();
 		}
 		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'failed transaction%'")))->queryScalar();
 		$this->assertEquals(0, $n);

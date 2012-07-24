@@ -8,6 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
+Yii::import('system.test.CTestCase');
 require_once('PHPUnit/Extensions/SeleniumTestCase.php');
 
 /**

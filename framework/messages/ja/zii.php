@@ -19,12 +19,11 @@
  * @version $Id: $
  */
 return array (
-  'Home' => 'ホーム',
-  'The button type "{type}" is not supported.' => 'ボタンタイプ"{type}"はサポートされていません。',
   'Are you sure you want to delete this item?' => 'この項目を削除してもよろしいですか?',
   'Delete' => '削除',
   'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => '{count}個の結果を{start}から{end}まで表示します。',
   'Either "name" or "value" must be specified for CDataColumn.' => 'CDataColumnの"name"または"value"を指定しなければなりません。',
+  'Home' => 'ホーム',
   'No results found.' => '結果が得られませんでした。',
   'Not set' => 'セットされていません',
   'Please specify the "attributes" property.' => '"attributes"プロパティを指定してください。',
@@ -32,6 +31,7 @@ return array (
   'Sort by: ' => 'ソート:',
   'The "dataProvider" property cannot be empty.' => '"dataProvider"プロパティは空ではいけません。',
   'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'アトリビュートは"Name:Type:Label"という形式で指定しなければいけません。"Type"と"Label"は省略可能です。',
+  'The button type "{type}" is not supported.' => 'ボタンタイプ"{type}"はサポートされていません。',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'カラムは"Name:Type:Label"という形式で指定しなければいけません。"Type"と"Label"は省略可能です。',
   'The property "itemView" cannot be empty.' => '"itemView"プロパティは空ではいけません。',
   'Total 1 result.|Total {count} results.' => '合計{count}個',
