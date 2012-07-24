@@ -86,6 +86,7 @@ Version 1.1.11 work in progress
 - Enh: Changed CldrCommand to use medium dateTimeFormat and updated 18n data using newest(6546) CLDR (tanakahisateru)
 - Enh: Added CErrorHandler::getHttpHeader() to send correct HTTP error codes (pgaultier)
 - Enh: CGridView, only rows in tbody should have hover effect (mdomba)
+- Enh: CClientScript::$defaultScriptFilePosition and CClientScript::$defaultScriptPosition for controlling default $position argument for registerScriptFile and registerScript (resurtm)
 - Enh: CHttpCookie now implements __toString (suralc)
 - Enh: Ability to set namespace for module controllers using CWebModule::controllerNamespace, documentation about using namespaced controllers and modules (samdark)
 - Enh: Added possibility to set the container for CHtml::radioButtonList and CHtml::checkBoxList() (pgaultier)
