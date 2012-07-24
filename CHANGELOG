@@ -50,6 +50,7 @@ Version 1.1.11 work in progress
 - Enh #255: Sort CArrayDataProvider when elements is CActiveDataProvider or other object (rusmaxim)
 - Enh #266: Add support for HTML5 url, email, number, range and date fields to CHtml (gregmolnar)
 - Enh #267: CDbHttpSession is now able to store binary payload such as the output of the igbinary serializer (DaSourcerer, samdark)
+- Enh #282: Added CCheckBoxColumn::headerTemplate to allow custom headers (mdomba)
 - Enh #286: Added wildcard token to CDateTimeParser (cebe)
 - Enh #294: Added deniedCallback to CAccessControlFilter and CAccessRule to allow forwarding control to a method on denial (luislobo)
 - Enh #342: Added ability to pass parameters for RBAC bizRules from CAccessControlFilter configuration (claudejanz, samdark)
