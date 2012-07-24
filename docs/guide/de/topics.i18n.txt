@@ -56,6 +56,9 @@ Anwendung geschrieben wurde, während die Quellsprache die Sprache (Locale)
 ist, in der die Quelltexte der Anwendung vorliegen. Internationalisierung
 kommt nur dann zur Anwendung, wenn diese beiden Sprachen sich unterscheiden.
 
+> Tip: Es ist sinnvoll Englisch als Quellsprache zu verwenden, da es einfacher ist,
+  Übersetzer zu finden, die von Englisch in eine andere Sprache übersetzen.
+
 Die [Zielsprache|CApplication::language] kann in der
 [Anwendungskonfiguration](/doc/guide/basics.application#application-configuration)
 definiert oder dynamisch angepasst werden, bevor die Internationalisierung

@@ -57,7 +57,7 @@
  * }
  * catch(Exception $e)
  * {
- *    $transaction->rollBack();
+ *    $transaction->rollback();
  * }
  * </pre>
  *
