@@ -16,6 +16,7 @@ Version 1.1.11 work in progress
 - Bug #392: There was no way to get and modify criteria in CActiveRecord::beforeFind (samdark)
 - Bug #417: CAttributeCollections::mergeWith() does not take into account the caseSensitive (dmtrs)
 - Bug #433: Fixed the bug that Gii model name input autocomplete was not working sometimes (mdomba)
+- Bug #449: CDbHttpSession and CDbLogRoute now use query builder instead of DAO for proper quoting (mdomba, redguy)
 - Bug #454: Removed translation on CDbConnection exception as it was creating an endless loop if the application used CDbCache (mdomba)
 - Bug #517: Rule parameter sub-patterns are not checked correctly (ranvis)
 - Bug #539: Fixed CUrlRule::createUrl() to treat sub-patterns as Unicode as parseUrl() does (ranvis)
