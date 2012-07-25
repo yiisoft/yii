@@ -48,14 +48,18 @@ class CJavaScript
 	 * For highly complex data structures use {@link jsonEncode} and {@link jsonDecode}
 	 * to serialize and unserialize.
 	 *
+	 * If you are encoding user input, make sure $safe is set to true.
+	 *
 	 * @param mixed $value PHP variable to be encoded
+	 * @param boolean $safe If true, 'js:' will not be allowed.
+	 * Default is false. This parameter is available since 1.1.11.
 	 * @return string the encoded string
 	 */
-	public static function encode($value)
+	public static function encode($value,$safe=false)
 	{
 		if(is_string($value))
 		{
-			if(strpos($value,'js:')===0)
+			if(strpos($value,'js:')===0 && $safe===false)
 				return substr($value,3);
 			else
 				return "'".self::quote($value)."'";
