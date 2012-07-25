@@ -55,10 +55,7 @@ class CJavaScript
 	{
 		if(is_string($value))
 		{
-			if(strpos($value,'js:')===0)
-				return substr($value,3);
-			else
-				return "'".self::quote($value)."'";
+			return "'".self::quote($value)."'";
 		}
 		else if($value===null)
 			return 'null';
@@ -75,6 +72,8 @@ class CJavaScript
 			else
 				return rtrim(sprintf('%.16F',$value),'0');  // locale-independent representation
 		}
+		else if($value instanceof CJavaScriptExpression)
+			return (string)$value;
 		else if(is_object($value))
 			return self::encode(get_object_vars($value));
 		else if(is_array($value))

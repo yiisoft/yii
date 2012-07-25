@@ -101,6 +101,7 @@ Version 1.1.11 work in progress
 - Enh: Gii default templates: added additional metadata (PHPDoc) of the variables passed into views for better IDE autocompletion (resurtm)
 - Chg #440: Upgraded JQuery UI to 1.8.22 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
+- Chg #551: JavaScript code that does not need escaping should be declared explicitly using CJavaScriptFunction instead of using "js:". "js:" approach will not work anymore (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
 - Chg: More unit tests added for CHtml (resurtm)
 - Chg: Upgraded bundled markdown parser to v1.2.5 (DaSourcerer)
