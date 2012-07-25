@@ -45,6 +45,7 @@ Version 1.1.11 work in progress
 - Enh #179: CLogger now supports filtering profile timings by multiple & wildcard categories (intel352)
 - Enh #191: Added ability to customize HTML classes of CLinkPager via its public properties (mashingan)
 - Enh #206: Added ability to pass CDbCriteria object as AR relation parameter (samdark)
+- Enh #215: Added tokens to CGridView::updateSelectors to allow adding custom selectors instead replacing only (mdomba)
 - Enh #220: The URL pointing to the Google API in CGoogleApi is now protocol relative (suralc)
 - Enh #237: The tabs of CTabView now support the property 'visible' (DaSourcerer)
 - Enh #255: Sort CArrayDataProvider when elements is CActiveDataProvider or other object (rusmaxim)
