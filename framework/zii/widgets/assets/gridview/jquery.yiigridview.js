@@ -64,15 +64,18 @@
 					// url: 'ajax request URL'
 				}, options || {});
 
+			settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
+
 			return this.each(function () {
 				var $grid = $(this),
 					id = $grid.attr('id'),
+					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
+					sortSelector = '#' + id + ' .' + settings.tableClass + ' thead th a.sort-link',
 					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
 
-				settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
-				if (settings.updateSelector === undefined) {
-					settings.updateSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a, #' + id + ' .' + settings.tableClass + ' thead th a.sort-link';
-				}
+				settings.updateSelector = settings.updateSelector
+								.replace('{page}', pagerSelector)
+								.replace('{sort}', sortSelector);
 
 				gridSettings[id] = settings;
 
