@@ -40,6 +40,7 @@ Version 1.1.11 work in progress
 - Bug: CHtml::resolveValue() ignoring of array elements accessor at the beginning of the $attribute argument now works properly (resurtm)
 - Enh #120: Added ability to set cookies in an object based style without specifying the cookie-name twice (suralc)
 - Enh #136: Added ability to select database connection in Gii model generator (samdark)
+- Enh #157: Added ability to use models with objects implementing ArrayAccess as properties in CHtml::resolveValue (samdark)
 - Enh #165: Allow CCacheDependency to be reusable across multiple cache calls (phpnode)
 - Enh #171: Added support for PUT and DELETE request tunneled through POST via parameter named _method in POST body (musterknabe)
 - Enh #179: CLogger now supports filtering profile timings by multiple & wildcard categories (intel352)
