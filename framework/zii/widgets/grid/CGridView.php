@@ -147,7 +147,7 @@ class CGridView extends CBaseListView
 	 * </pre>
 	 * @since 1.1.7
 	 */
-	public $updateSelector='{pager}, {sort}';
+	public $updateSelector='{page}, {sort}';
 	/**
 	 * @var string a javascript function that will be invoked if an AJAX update error occurs.
 	 *
