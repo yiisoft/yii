@@ -259,16 +259,14 @@ class CGridView extends CBaseListView
 	 * @since 1.1.1
 	 */
 	public $hideHeader=false;
-
-    /**
-     * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
-     * to persist state of grid across page revisits.  Note, there are two limitations for this feature: 
-     * - this feature is only compatible with browsers that support HTML5.  
-     * - expect unexpected functionality (e.g. multiple ajax calls) if there is more than one grid/list on a single page with enableHistory turned on.
-     * @since 1.1.11
-     */
-    public $enableHistory=false;
-    
+	/**
+	 * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
+	 * to persist state of grid across page revisits.  Note, there are two limitations for this feature: 
+	 * - this feature is only compatible with browsers that support HTML5.  
+	 * - expect unexpected functionality (e.g. multiple ajax calls) if there is more than one grid/list on a single page with enableHistory turned on.
+	 * @since 1.1.11
+	 */
+	public $enableHistory=false;
 	/**
 	 * Initializes the grid view.
 	 * This method will initialize required property values and instantiate {@link columns} objects.
@@ -372,7 +370,7 @@ class CGridView extends CBaseListView
 			'filterClass'=>$this->filterCssClass,
 			'tableClass'=>$this->itemsCssClass,
 			'selectableRows'=>$this->selectableRows,
-            'enableHistory'=>$this->enableHistory
+			'enableHistory'=>$this->enableHistory
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
@@ -393,8 +391,8 @@ class CGridView extends CBaseListView
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
-        if($this->enableHistory)
-            $cs->registerCoreScript('history');
+		if($this->enableHistory)
+			$cs->registerCoreScript('history');
 		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiigridview.js',CClientScript::POS_END);
 		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiGridView($options);");
 	}
