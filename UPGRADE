@@ -43,7 +43,7 @@ Upgrading from v1.1.10
 - CDateFormat::format() now will return null if the parameter $time is null. Previously it would return 1/1/1970.
 
 - JavaScript code that does not need escaping should be declared explicitly using
-  CJavaScriptFunction instead of using "js:". "js:" approach will not work anymore
+  CJavaScriptExpression instead of using "js:". "js:" approach will not work anymore
   for security reasons.
 
 Upgrading from v1.1.9
