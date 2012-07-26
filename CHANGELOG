@@ -28,6 +28,7 @@ Version 1.1.11 work in progress
 - Bug #769: Fixed the bug that $.fn.yiiGridView.getSelection was not working always if a custom CGridView::template was used (mdomba)
 - Bug #772: CHttpRequest::getIsSecureConnection() was failing on some conditions (bulletbee, samdark)
 - Bug #773: CGridView filters now filter on enter key in Internet Explorer (BBoom)
+- Bug #827: Fixed the problem that CJuiSliderInput was rendering a name attribute for div element (mdomba)
 - Bug #842: Active Records insert fails in MSSQL if a column has a default value of (NULL) (c-schmitz)
 - Bug #852: Fixed the problem that CActiveForm was not revalidating fields if ajax submit was used (mdomba)
 - Bug #859: Fixed CSort::applyOrder() and CSort::getOrderBy() to use custom table aliases (troch, samdark)
@@ -100,6 +101,7 @@ Version 1.1.11 work in progress
 - Enh: CAssetManager, added $forceCopy property which globally forces publication of asset files and directories (resurtm)
 - Enh: WebAppCommand has ability to generate fresh application with git or hg specific files (resurtm)
 - Enh: Gii default templates: added additional metadata (PHPDoc) of the variables passed into views for better IDE autocompletion (resurtm)
+- Enh: WebAppCommand generated application: added additional metadata (PHPDoc) of the variables passed into views for better IDE autocompletion (resurtm)
 - Chg #440: Upgraded JQuery UI to 1.8.22 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
@@ -286,6 +288,7 @@ Version 1.1.8 June 26, 2011
 - Chg #2482: CWebService will not display source file name and error line number in production mode (Qiang)
 - Chg #2496: Setting CDbConnection::$emulatePrepare to be false will now explicitly set PDO::ATTR_EMULATE_PREPARES to be false (Qiang)
 - Chg: Changed CHtml::clientChange event binding to support custom event types and avoid conflicts when using AJAX (Sam Dark)
+- Chg: Changed all js live() calls with on() as live() is deprecated (mdomba)
 
 Version 1.1.7 March 27, 2011
 ----------------------------
