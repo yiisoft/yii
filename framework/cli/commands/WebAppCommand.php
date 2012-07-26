@@ -52,7 +52,7 @@ EOD;
 		if(isset($args[1]))
 		{
 			if($args[1]!='git' && $args[1]!='hg')
-				$this->usageError('unsupported VCS specified. Currently only git and hg supported.');
+				$this->usageError('Unsupported VCS specified. Currently only git and hg supported.');
 			$vcs=$args[1];
 		}
 		if(!isset($args[0]))
