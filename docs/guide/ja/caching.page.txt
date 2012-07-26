@@ -67,7 +67,7 @@ public function filters()
 }
 ~~~
 上記のコードは、`Last-Modified` ヘッダを投稿記事が更新された日時に設定します。
-また、遅延評価のためには、[CHttpCacheFilter::lastModifiedExpression] を利用することが出来ます。
+また、[CHttpCacheFilter::lastModifiedExpression] を利用して、php の式を使って `Last-Modified` ヘッダを設定することも出来ます。
 
 > Tip|ヒント: [CHttpCacheFilter::lastModifiedExpression] と [CHttpCacheFilter::lastModified]
 は、両方とも、Unix タイムスタンプを表わす整数か、任意の形式の日付文字列を受け入れることが
@@ -99,8 +99,8 @@ ETag によってキャッシュを無効化することが出来ます。
 
 ### SEO に対する影響
 検索エンジンのボットはキャッシュヘッダを尊重する傾向があります。クローラの中には、
-一定期間内に処理するドメインごとのページ数に制限を持っているものもあります。
-このため、キャッシュヘッダを導入して、処理の必要があるページ数を減らしてやると、
-サイトのインデックスを作成する処理を助けることが出来るかも知れません。
+一定期間内に処理するドメインごとのページ数に制限を持っているものもあるため、
+キャッシュヘッダを導入して、処理の必要があるページ数を減らしてやると、サイトのインデックスの
+作成を促進できるかも知れません。
 
 <div class="revision">$Id$</div>
