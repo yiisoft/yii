@@ -25,7 +25,7 @@ class WebAppCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic webapp <app-path> <vcs>
+  yiic webapp <app-path> [<vcs>]
 
 DESCRIPTION
   This command generates an Yii Web Application at the specified location.
@@ -34,7 +34,10 @@ PARAMETERS
  * app-path: required, the directory where the new application will be created.
    If the directory does not exist, it will be created. After the application
    is created, please make sure the directory can be accessed by Web users.
- * vcs: optional, git or hg supported
+ * vcs: optional, version control system you're going to use in the new project.
+   Application generator will create all needed files to the specified VCS
+   (such as .gitignore, .gitkeep, etc.). Possible values: git, hg. Do not
+   use this argument if you're going to create VCS files yourself.
 
 EOD;
 	}
