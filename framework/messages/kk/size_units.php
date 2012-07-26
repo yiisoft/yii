@@ -18,15 +18,17 @@
  *
  * @version $Id: $
  */
-return array (
-  '{n} B' => 'Б',
-  '{n} Bytes' => 'Байт',
-  '{n} GB' => 'ГБ',
-  '{n} GigaBytes' => 'Гигабайт',
-  '{n} KB' => 'КБ',
-  '{n} KiloBytes' => 'Килобайт',
-  '{n} MB' => 'МБ',
-  '{n} MegaBytes' => 'Мегабайт',
-  '{n} TB' => 'ТБ',
-  '{n} TeraBytes' => 'Терабайт',
+
+// contrary to the russian language, in kazakh numerals are not declined
+return array(
+	'{n} B' => '{n} Б',
+	'{n} Bytes' => '{n} байт',
+	'{n} GB' => '{n} ГБ',
+	'{n} GigaBytes' => '{n} гигабайт',
+	'{n} KB' => '{n} КБ',
+	'{n} KiloBytes' => '{n} килобайт',
+	'{n} MB' => '{n} МБ',
+	'{n} MegaBytes' => '{n} мегабайт',
+	'{n} TB' => '{n} ТБ',
+	'{n} TeraBytes' => '{n} терабайт',
 );
