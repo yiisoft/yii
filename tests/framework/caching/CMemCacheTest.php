@@ -127,6 +127,20 @@ class CMemCacheTest extends CTestCase
 		$this->assertFalse($app2->cache->get($key));
 	}
 
+	public function testExpire2()
+	{
+		$app=new TestApplication($this->_config);
+		$app->reset();
+		$cache=$app->cache;
+		$data=array('xyz'=>3,4=>'mnp');
+		$key='data3_2';
+		$cache->set($key,$data,5);
+		$this->assertTrue($cache->get($key)===$data);
+		sleep(2);
+		$app2=new TestApplication($this->_config);
+		$this->assertEquals($data,$app2->cache->get($key));
+	}
+
 	public function testDelete()
 	{
 		$app=new TestApplication($this->_config);

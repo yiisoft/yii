@@ -93,9 +93,9 @@ Yii::import('system.web.*');
 --------
 
 名前空間は、クラス名の論理的なグループを参照する事によって、たとえクラス名が同じでも、
-他の名前空間のものとは別に識別する為のものです。
+他の名前空間のものとは別のものとして識別する為のものです。
 名前空間とパスエイリアスを混同しないで下さい。
-パスエイリアスはファイルやディレクトリの名前をつける便利な手法ではありません。それは
+パスエイリアスはファイルやディレクトリに名前をつける便利な手法に過ぎません。それは
 名前空間とは無関係です。
 
 > Tip|ヒント: PHP 5.3.0よりも以前のバージョンでは名前空間のサポートが
@@ -114,12 +114,143 @@ Yii::import('system.web.*');
 例えば、`application\components\GoogleMap`クラスは`application\components`名前空間で宣言されます。
 名前空間化クラスはPHP5.3.0かそれ以上が必要です。
 
-1.1.5版からは名前空間化クラスを明示的に宣言することなしに使用可能になりました。
+バージョン 1.1.5 からは名前空間化クラスを明示的に宣言することなしに使用可能になりました。
 例えば、`application\components\GoogleMap`の新しいインスタンスを作成する場合に対応するクラスファイルを
-明示的にインクルードしなくても良くなりました。これはYiiの自動クラスロード機構を拡張するものです。
+明示的にインクルードしなくても良くなりました。これはYiiの自動クラスロード機構の拡張によって可能になりました。
 
-名前空間化クラスを自動ロードするためには、名前空間はパスエイリアスと似たような名前付けをされている必要があります。
+名前空間化クラスを自動ロードするためには、名前空間はパスエイリアスと同じ方法で名前付けをされている必要があります。
 例えば`application\components\GoogleMap`は`application.components.GoogleMap`としてエイリアスされるファイルに格納される必要があります。
 
+従って、例えば、`/var/www/common/mynamespace/` に存在するクラスに対して `\mynamespace` で始まるカスタム名前空間を
+使用するためにすべきことは、次のようにパスエイリアスを設定する事だけです。
 
-<div class="revision">$Id: basics.namespace.txt 3086 2008-11-06 19:43:44Z qiang.xue $</div>
+~~~
+[php]
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+~~~
+
+
+名前空間化コントローラ
+----------------------
+
+デフォルトでは、Yii はグローバル名前空間にあるコントローラを使用します。これらのクラスは
+`protected/controllers` に配置されています。この挙動を変更するためには、アプリケーションの
+`controllerMap` プロパティを設定して下さい。設定を変更する最善の方法は、構成ファイル
+(`protected/config/main.php`) を使用することです。
+
+~~~
+[php]
+// "mynamespace" 名前空間を追加
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+
+return array(
+	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+	'name'=>'My Web Application',
+
+	'controllerMap' => array(
+		'test' => '\mynamespace\controllers\TestController',
+	),
+~~~
+
+ユーザーが `controllerMap` に定義されているコントローラのどれかをロードしようとすると
+Yii はコントローラをロードする通常の方法をバイパスして、指定されたクラスをロードします。
+すなわち、`test` コントローラの場合、Yii は `/var/www/common/mynamespace/controllers/TestController.php` に
+配置されている名前空間化クラス `\mynamespace\controllers\TestController` をロードします。
+
+コントローラのコードは正しく名前空間化されていなければならないことに気を付けて下さい。
+
+~~~
+[php]
+// 名前空間を定義:
+namespace mynamespace\controllers;
+
+// クラスは名前空間の下にあるので、グローバル名前空間は
+// "\" を使って明示的に参照されなければならない:
+class TestController extends \CController
+{
+	public function actionIndex()
+	{
+		echo 'これは \mynamespace\controllers の TestController です';
+	}
+}
+~~~
+
+名前空間化モジュール
+------------------
+
+時として、モジュール全体を名前空間化することは有益な事です。例えば、
+`testmodule` というモジュールを `\mynamespace\modules\testmodule` という
+名前空間の下に置いて、`/var/www/common/mynamespace/modules/testmodule` を
+指すようにしたい場合、最初に、以下のようなファイル構造を作成する必要があります。
+
+~~~
+/var/www/common/mynamespace/modules
+  testmodule
+    controllers
+      DefaultController.php
+    views
+      default
+        index.php
+    TestmoduleModule.php
+~~~
+
+`index.php` ビューは、通常のモジュールにあるものと同じものです。`TestmoduleModule.php` と
+`DefaultController.php` は名前空間化されます。
+
+`TestmoduleModule.php`:
+
+~~~
+[php]
+// 名前空間を定義:
+namespace mynamespace\modules\testmodule;
+
+// クラスは名前空間の下にあるので、グローバル名前空間は
+// "\" を使って明示的に参照されなければならない:
+class TestmoduleModule extends \CWebModule
+{
+	// 非グローバルなコントローラの名前空間を設定 (構成ファイルを使って設定してもよい)
+	public $controllerNamespace = '\mynamespace\modules\testmodule\controllers';
+
+	// 以下、通常のモジュールのコード
+}
+~~~
+
+`DefaultController.php`:
+
+~~~
+[php]
+<?php
+// 名前空間を定義:
+namespace mynamespace\modules\testmodule\controllers;
+
+// クラスは名前空間の下にあるので、グローバル名前空間は
+// "\" を使って明示的に参照されなければならない:
+class DefaultController extends \Controller
+{
+	public function actionIndex()
+	{
+		$this->render('index');
+	}
+}
+~~~
+
+これで、残っている作業は、このモジュールをアプリケーションに追加することだけです。
+最善の方法は、アプリケーション構成ファイル (`protected/config/main.php`) でモジュールの追加を指定することです。
+
+~~~
+[php]
+// "mynamespace" 名前空間を追加
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+
+return array(
+	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+	'name'=>'My Web Application',
+
+	'modules'=>array(
+		'testmodule' => array(
+			'class' => '\mynamespace\modules\testmodule\TestModuleModule',
+		),
+	),
+~~~
+
+<div class="revision">$Id$</div>

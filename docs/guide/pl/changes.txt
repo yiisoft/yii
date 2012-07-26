@@ -3,9 +3,6 @@ Nowe funkcjonalności
 
 Na tej stronie znajdziesz podsumowanie najważniejszych funkcji dodawanych w kolejnych wydaniach Yii.
 
-Wersja 1.1.9
--------------
-
 Wersja 1.1.8
 -------------
  * [Dodano wsparcie dla używania własnych klas reguł URL](/doc/guide/topics.url#using-custom-url-rule-classes)
