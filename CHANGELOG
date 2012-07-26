@@ -28,6 +28,7 @@ Version 1.1.11 work in progress
 - Bug #769: Fixed the bug that $.fn.yiiGridView.getSelection was not working always if a custom CGridView::template was used (mdomba)
 - Bug #772: CHttpRequest::getIsSecureConnection() was failing on some conditions (bulletbee, samdark)
 - Bug #773: CGridView filters now filter on enter key in Internet Explorer (BBoom)
+- Bug #827: Fixed the problem that CJuiSliderInput was rendering a name attribute for div element (mdomba)
 - Bug #842: Active Records insert fails in MSSQL if a column has a default value of (NULL) (c-schmitz)
 - Bug #852: Fixed the problem that CActiveForm was not revalidating fields if ajax submit was used (mdomba)
 - Bug #859: Fixed CSort::applyOrder() and CSort::getOrderBy() to use custom table aliases (troch, samdark)
