@@ -60,7 +60,7 @@ Version 1.1.11 work in progress
 - Enh #369: Added $hashKey to CCache (kidol)
 - Enh #414: Added sort parameter to yiic message command that sorts messages by key when merging (ranvis)
 - Enh #455: Added support for default value in CConsoleCommand::prompt (eagleoneraptor)
-- Enh #551: Added $safe parameter to CJavaScript::encode. If set to true, 'js:' will not be allowed (samdark)
+- Enh #551: Added $safe parameter to CJavaScript::encode. If set to true, 'js:' will not be allowed. If you need to pass JavaScript, wrap your code with CJavaScriptExpression instead (samdark)
 - Enh #552: Added support for http-level caching via CHttpCacheFilter (DaSourcerer)
 - Enh #568: CHtml::getIdByName() will now convert spaces to underscore to get proper ID for HTML elements (mdomba)
 - Enh #578: Added extension checks to CMemCache (samdark)

@@ -36,8 +36,8 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * the {@link http://jqueryui.com/demos/sortable/ JUI Sortable} documentation
  * for possible options (name-value pairs).
  *
- * If you are using javascript code anywhere in the code, please add "js:" at the
- * start of the js code definition and Yii will use this string as js code.
+ * If you are using JavaScript expressions anywhere in the code, please wrap it
+ * with {@link CJavaScriptExpression} and Yii will use it as code.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @version $Id$

@@ -51,7 +51,8 @@ class CJavaScript
 	 * If you are encoding user input, make sure $safe is set to true.
 	 *
 	 * @param mixed $value PHP variable to be encoded
-	 * @param boolean $safe If true, 'js:' will not be allowed.
+	 * @param boolean $safe If true, 'js:' will not be allowed while
+	 * {@link CJavaScriptExpression} will allow you to pass JavaScript expressions.
 	 * Default is false. This parameter is available since 1.1.11.
 	 * @return string the encoded string
 	 */
@@ -79,6 +80,8 @@ class CJavaScript
 			else
 				return rtrim(sprintf('%.16F',$value),'0');  // locale-independent representation
 		}
+		else if($value instanceof CJavaScriptExpression)
+			return (string)$value;
 		else if(is_object($value))
 			return self::encode(get_object_vars($value));
 		else if(is_array($value))
