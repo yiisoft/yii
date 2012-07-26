@@ -48,7 +48,8 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *         'max'=>24,
  *     ),
  * ));
- *
+ *</pre>
+ * 
  * If you need to use the slider event, please change the event value for 'stop' or 'change'.
  *
  * By configuring the {@link options} property, you may specify the options
