@@ -270,7 +270,7 @@ EOD;
 			{
 				$function=CJavaScript::encode($button['click']);
 				$class=preg_replace('/\s+/','.',$button['options']['class']);
-				$js[]="jQuery('#{$this->grid->id} a.{$class}').live('click',$function);";
+				$js[]="$(document).on('click','#{$this->grid->id} a.{$class}',$function);";
 			}
 		}
 
