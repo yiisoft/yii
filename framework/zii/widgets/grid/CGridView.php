@@ -136,9 +136,9 @@ class CGridView extends CBaseListView
 	 * These tokens are recognized: {page} and {sort}. They will be replaced with the pagination and sorting links selectors.
 	 * Defaults to '{page}, {sort}', that means that the pagination links and the sorting links will trigger AJAX updates.
 	 * Tokens are available from 1.1.11
-	 * 
+	 *
 	 * Note: if this value is empty an exception will be thrown.
-	 * 
+	 *
 	 * Example (adding a custom selector to the default ones):
 	 * <pre>
 	 *  ...
@@ -272,8 +272,8 @@ class CGridView extends CBaseListView
 	public $hideHeader=false;
 	/**
 	 * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
-	 * to persist state of grid across page revisits.  Note, there are two limitations for this feature: 
-	 * - this feature is only compatible with browsers that support HTML5.  
+	 * to persist state of grid across page revisits.  Note, there are two limitations for this feature:
+	 * - this feature is only compatible with browsers that support HTML5.
 	 * - expect unexpected functionality (e.g. multiple ajax calls) if there is more than one grid/list on a single page with enableHistory turned on.
 	 * @since 1.1.11
 	 */
@@ -391,14 +391,14 @@ class CGridView extends CBaseListView
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->enablePagination)
 			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
-		if($this->beforeAjaxUpdate!==null)
-			$options['beforeAjaxUpdate']=(strpos($this->beforeAjaxUpdate,'js:')!==0 ? 'js:' : '').$this->beforeAjaxUpdate;
-		if($this->afterAjaxUpdate!==null)
-			$options['afterAjaxUpdate']=(strpos($this->afterAjaxUpdate,'js:')!==0 ? 'js:' : '').$this->afterAjaxUpdate;
-		if($this->ajaxUpdateError!==null)
-			$options['ajaxUpdateError']=(strpos($this->ajaxUpdateError,'js:')!==0 ? 'js:' : '').$this->ajaxUpdateError;
-		if($this->selectionChanged!==null)
-			$options['selectionChanged']=(strpos($this->selectionChanged,'js:')!==0 ? 'js:' : '').$this->selectionChanged;
+		if($this->beforeAjaxUpdate instanceof CJavaScriptExpression)
+			$options['beforeAjaxUpdate']=$this->beforeAjaxUpdate;
+		if($this->afterAjaxUpdate instanceof CJavaScriptExpression)
+			$options['afterAjaxUpdate']=$this->afterAjaxUpdate;
+		if($this->ajaxUpdateError instanceof CJavaScriptExpression)
+			$options['ajaxUpdateError']=$this->ajaxUpdateError;
+		if($this->selectionChanged instanceof CJavaScriptExpression)
+			$options['selectionChanged']=$this->selectionChanged;
 
 		$options=CJavaScript::encode($options);
 		$cs=Yii::app()->getClientScript();

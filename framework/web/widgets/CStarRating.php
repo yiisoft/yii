@@ -193,23 +193,17 @@ class CStarRating extends CInputWidget
 			$options['readOnly']=true;
 		if($this->focus!==null)
 		{
-			if(strncmp($this->focus,'js:',3))
-				$options['focus']='js:'.$this->focus;
-			else
+			if($this->focus instanceof CJavaScriptExpression)
 				$options['focus']=$this->focus;
 		}
 		if($this->blur!==null)
 		{
-			if(strncmp($this->blur,'js:',3))
-				$options['blur']='js:'.$this->blur;
-			else
+			if($this->blur instanceof CJavaScriptExpression)
 				$options['blur']=$this->blur;
 		}
 		if($this->callback!==null)
 		{
-			if(strncmp($this->callback,'js:',3))
-				$options['callback']='js:'.$this->callback;
-			else
+			if($this->callback instanceof CJavaScriptExpression)
 				$options['callback']=$this->callback;
 		}
 		return $options;
