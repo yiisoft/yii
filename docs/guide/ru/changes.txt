@@ -20,7 +20,7 @@
 
 Версия 1.1.6
 ------------
- * [Добавлен построитель запросов](/doc/guide/database.query-builder)
+ * [Добавлен конструктор запросов](/doc/guide/database.query-builder)
  * [Добавлены миграции](/doc/guide/database.migration)
  * [Лучшие практики MVC](/doc/guide/basics.best-practices)
  * [Консольным командам добавлена поддержка анонимных параметров и глобальных опций](/doc/guide/topics.console)

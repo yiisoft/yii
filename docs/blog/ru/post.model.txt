@@ -202,6 +202,8 @@ class Post extends CActiveRecord
 [php]
 class Lookup extends CActiveRecord
 {
+	…
+
 	private static $_items=array();
 
 	public static function items($type)

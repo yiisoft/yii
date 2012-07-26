@@ -123,5 +123,136 @@ Yii::import('system.web.*');
 названий у тому ж стилі, що і псевдоніми шляхів. Наприклад, клас `application\components\GoogleMap`
 повинен зберігатися у файлі, якому відповідає псевдонім `application.components.GoogleMap`.
 
+Таким чином, для використання користувальницьких просторів імен, 
+що починаються, наприклад із `\mynamespace`, де класи розташовані у `/var/www/common/mynamespace/`,
+єдине, що ви повинні зробити це визначити шлях псевдоніму, як наприклад:
+
+~~~
+[php]
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+~~~
+
+Простір імен контролерів
+------------------------
+
+За замовчуванням Yii використовує контролери із глобального простору імен. 
+Ці класи знаходяться у `protected/controllers`. 
+Щоб змінити цю поведінку можна налаштувати властивість `controllerMap` вашого додатку. 
+Найкращиий спосіб це зробити - це використання файлу конфігурації (`protected/config/main.php`):
+
+~~~
+[php]
+// додаємо простір імен "mynamespace"
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+
+return array(
+	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+	'name'=>'My Web Application',
+
+	'controllerMap' => array(
+		'test' => '\mynamespace\controllers\TestController',
+	),
+~~~
+
+Коли користувач намагається завантажити будь-який із контролерів, визначених у `controllerMap`,
+Yii завантажує вказані класи, минаючи звичайний метод завантаження контролера.
+У випадку із `test`, Yii буде завантажувати класс із простору імен
+`\mynamespace\controllers\TestController` розташованного у
+`/var/www/common/mynamespace/controllers/TestController.php`.
+
+Зверніть увагу, що код контролера повинен бути належним чином призначений до простору імен:
+
+~~~
+[php]
+// визначаємо простір імен:
+namespace mynamespace\controllers;
+
+// відколи клас тепер знаходиться у просторі імен, звертання до глобального простору імен
+// повинно відбуватися явно із використанням "\":
+class TestController extends \CController
+{
+	public function actionIndex()
+	{
+		echo 'Це TestController із \mynamespace\controllers';
+	}
+}
+~~~
+
+Простір імен модулів
+--------------------
+
+Іноді корисно визначити простір імен для цілого модуля. Наприклад, якщо ви хочете помістити `testmodule` у простір імен `\mynamespace\modules\testmodule`, який вказує на
+`/var/www/common/mynamespace/modules/testmodule`, вам потрібно спочатку створити наступну файлову структуру:
+
+~~~
+/var/www/common/mynamespace/modules
+  testmodule
+    controllers
+      DefaultController.php
+    views
+      default
+        index.php
+    TestmoduleModule.php
+~~~
+
+Представлення `index.php` таке саме, як і у звичайного модуля.
+`TestmoduleModule.php` та `DefaultController.php` знаходяться у просторі імен.
+
+`TestmoduleModule.php`:
+
+~~~
+[php]
+// визначаємо простір імен:
+namespace mynamespace\modules\testmodule;
+
+// відколи клас тепер знаходиться у просторі імен, звертання до глобального простору імен
+// повинно відбуватися явно із використанням "\":
+class TestmoduleModule extends \CWebModule
+{
+	// налаштування неглобального простору імен контролерів (також можна зробити за допомогою конфігурації)
+	public $controllerNamespace = '\mynamespace\modules\testmodule\controllers';
+
+	// звичайний код модуля
+}
+~~~
+
+`DefaultController.php`:
+
+~~~
+[php]
+<?php
+// визначаємо простір імен:
+namespace mynamespace\modules\testmodule\controllers;
+
+// відколи клас тепер знаходиться у просторі імен, звертання до глобального простору імен
+// повинно відбуватися явно із використанням "\":
+class DefaultController extends \Controller
+{
+	public function actionIndex()
+	{
+		$this->render('index');
+	}
+}
+~~~
+
+Тепер залишилося тільки додати наш модуль до додатку. 
+Найкращий спосіб зробити це, щоб вказати його у файлі конфігурації додатку (`protected/config/main.php`):
+
+~~~
+[php]
+// додаємо простір імен "mynamespace"
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+
+return array(
+	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+	'name'=>'My Web Application',
+
+	'modules'=>array(
+		'testmodule' => array(
+			'class' => '\mynamespace\modules\testmodule\TestModuleModule',
+		),
+	),
+~~~
+
 
 <div class="revision">$Id: basics.namespace.txt 3086 2011-03-15 00:04:53Z qiang.xue $</div>
