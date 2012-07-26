@@ -287,6 +287,7 @@ Version 1.1.8 June 26, 2011
 - Chg #2482: CWebService will not display source file name and error line number in production mode (Qiang)
 - Chg #2496: Setting CDbConnection::$emulatePrepare to be false will now explicitly set PDO::ATTR_EMULATE_PREPARES to be false (Qiang)
 - Chg: Changed CHtml::clientChange event binding to support custom event types and avoid conflicts when using AJAX (Sam Dark)
+- Chg: Changed all js live() calls with on() as live() is deprecated (mdomba)
 
 Version 1.1.7 March 27, 2011
 ----------------------------
