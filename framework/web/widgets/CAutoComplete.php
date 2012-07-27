@@ -183,7 +183,7 @@ class CAutoComplete extends CInputWidget
 	 * @var array additional options that can be passed to the constructor of the autocomplete js object.
 	 * This allows you to override existing functions of the autocomplete js class (e.g. the parse() function)
 	 *
-	 * If you want to provide JavaScript native code, you have to prefix the string with js: otherwise it will
+	 * If you want to provide JavaScript native code, you have to wrap the string with {@link CJavaScriptExpression} otherwise it will
 	 * be enclosed by quotes.
 	 */
 	public $options=array();
@@ -282,8 +282,8 @@ class CAutoComplete extends CInputWidget
 		}
 		foreach($functions as $func)
 		{
-			if(is_string($this->$func) && strncmp($this->$func,'js:',3))
-				$options[$func]='js:'.$this->$func;
+			if(!($func instanceof CJavaScriptExpression) && is_string($this->$func) && strncmp($this->$func,'js:',3))
+				$options[$func]=new CJavaScriptExpression($this->$func);
 		}
 
 		return $options;
