@@ -128,7 +128,7 @@
 			});
 
 			if (settings.validateOnSubmit) {
-				$form.find(':submit').live('mouseup keyup', function () {
+				$(document).on('mouseup keyup', $form.find(':submit'), function () {
 					$form.data('submitObject', $(this));
 				});
 				var validated = false;
@@ -173,7 +173,7 @@
 			/*
 			 * In case of reseting the form we need to reset error messages
 			 * NOTE1: $form.reset - does not exist
-			 * NOTE2: $form.live('reset', ...) does not work
+			 * NOTE2: $(document).on('reset', $form, ...) does not work
 			 */
 			$form.bind('reset', function () {
 				/*
