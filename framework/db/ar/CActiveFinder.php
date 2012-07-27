@@ -1,10 +1,10 @@
 <?php
 /**
- * CActiveRecord class file.
+ * CActiveFinder class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2012 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -26,6 +26,13 @@ class CActiveFinder extends CComponent
 	 * This property is internally used.
 	 */
 	public $joinAll=false;
+	/**
+	 * @var boolean whether result of find query should be array of attributes
+	 * instead of active records.
+	 * This property is internally used.
+	 * @since 1.1.11
+	 */
+	public $asArray=false;
 	/**
 	 * @var boolean whether the base model has limit or offset.
 	 * This property is internally used.
@@ -73,17 +80,26 @@ class CActiveFinder extends CComponent
 		if($all)
 		{
 			$result = array_values($this->_joinTree->records);
-			if ($criteria->index!==null)
+			if($criteria->index!==null)
 			{
 				$index=$criteria->index;
 				$array=array();
 				foreach($result as $object)
-					$array[$object->$index]=$object;
+					$array[$object->$index]=$this->asArray?$object->toArray():$object;
 				$result=$array;
+			}
+			elseif($this->asArray)
+			{
+				foreach($result as $key=>$object)
+					$result[$key]=$object->toArray();
 			}
 		}
 		else if(count($this->_joinTree->records))
-			$result = reset($this->_joinTree->records);
+		{
+			$result=reset($this->_joinTree->records);
+			if($this->asArray)
+				$result=$result->toArray();
+		}
 		else
 			$result = null;
 
@@ -99,15 +115,18 @@ class CActiveFinder extends CComponent
 	 */
 	public function findBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this->_joinTree->model).'.findBySql() eagerly','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this->_joinTree->model).'.findBySql() eagerly'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
-			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
+			if($this->asArray)
+				$baseRecord=new CActiveRecordArray($row,$this->_joinTree->model);
+			else
+				$baseRecord=$this->_joinTree->model->populateRecord($row,false);
 			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecord);
 			$this->_joinTree->afterFind();
 			$this->destroyJoinTree();
-			return $baseRecord;
+			return $this->asArray?$baseRecord->toArray():$baseRecord;
 		}
 		else
 			$this->destroyJoinTree();
@@ -121,14 +140,26 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this->_joinTree->model).'.findAllBySql() eagerly','system.db.ar.CActiveRecord');
+		Yii::trace(get_class($this->_joinTree->model).'.findAllBySql() eagerly'.($this->asArray?' as array':''),'system.db.ar.CActiveRecord');
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
-			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
+			if($this->asArray)
+			{
+				$baseRecords=array();
+				foreach($rows as $row)
+					$baseRecords[]=new CActiveRecordArray($row,$this->_joinTree->model);
+			}
+			else
+				$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
 			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecords);
 			$this->_joinTree->afterFind();
 			$this->destroyJoinTree();
+			if($this->asArray)
+			{
+				foreach($baseRecords as $index=>$record)
+					$baseRecords[$index]=$record->toArray();
+			}
 			return $baseRecords;
 		}
 		else
@@ -352,6 +383,7 @@ class CJoinElement
 	public $model;
 	/**
 	 * @var array list of active records found by the queries. They are indexed by primary key values.
+	 * since version 1.1.11 these will be instances of CActiveRecordArray when {@link CActiveFinder::$asArray} is true.
 	 */
 	public $records=array();
 	/**
@@ -499,7 +531,7 @@ class CJoinElement
 			case 1:
 				$child=reset($this->children);
 			break;
-			default: // bridge(s) inside
+			default: // bridge(s) for through-relation inside
 				$child=end($this->children);
 			break;
 		}
@@ -538,7 +570,10 @@ class CJoinElement
 		if(empty($child->records))
 			return;
 		if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
-			$baseRecord->addRelatedRecord($child->relation->name,reset($child->records),false);
+		{
+			$record=reset($child->records);
+			$baseRecord->addRelatedRecord($child->relation->name,$this->_finder->asArray?$record->toArray():$record,false);
+		}
 		else // has_many and many_many
 		{
 			foreach($child->records as $record)
@@ -547,7 +582,7 @@ class CJoinElement
 					$index=$record->{$child->relation->index};
 				else
 					$index=true;
-				$baseRecord->addRelatedRecord($child->relation->name,$record,$index);
+				$baseRecord->addRelatedRecord($child->relation->name,$this->_finder->asArray?$record->toArray():$record,$index);
 			}
 		}
 	}
@@ -782,13 +817,18 @@ class CJoinElement
 
 	/**
 	 * Calls {@link CActiveRecord::afterFind} of all the records.
+	 * Since version 1.1.11 afterFind method is not called when
+	 * {@link CActiveFinder::$asArray} is true as there are no records in this case.
 	 */
 	public function afterFind()
 	{
-		foreach($this->records as $record)
-			$record->afterFindInternal();
-		foreach($this->children as $child)
-			$child->afterFind();
+		if(!$this->_finder->asArray)
+		{
+			foreach($this->records as $record)
+				$record->afterFindInternal();
+			foreach($this->children as $child)
+				$child->afterFind();
+		}
 
 		$this->children = null;
 	}
@@ -828,7 +868,8 @@ class CJoinElement
 	 * Populates the active records with the query data.
 	 * @param CJoinQuery $query the query executed
 	 * @param array $row a row of data
-	 * @return CActiveRecord the populated record
+	 * @return CActiveRecord|CActiveRecordArray the populated record.
+	 * since version 1.1.11 this will be an instance of {@link CActiveRecordArray} when {@link CActiveFinder::$asArray} is true.
 	 */
 	private function populateRecord($query,$row)
 	{
@@ -865,7 +906,10 @@ class CJoinElement
 				if(isset($aliases[$alias]))
 					$attributes[$aliases[$alias]]=$value;
 			}
-			$record=$this->model->populateRecord($attributes,false);
+			if($this->_finder->asArray)
+				$record=new CActiveRecordArray($attributes,$this->model);
+			else
+				$record=$this->model->populateRecord($attributes,false);
 			foreach($this->children as $child)
 			{
 				if(!empty($child->relation->select))
@@ -885,13 +929,14 @@ class CJoinElement
 			else // has_many and many_many
 			{
 				// need to double check to avoid adding duplicated related objects
-				if($childRecord instanceof CActiveRecord)
+				$isActiveRecord=($childRecord instanceof CActiveRecord || $childRecord instanceof CActiveRecordArray);
+				if($isActiveRecord)
 					$fpk=serialize($childRecord->getPrimaryKey());
 				else
 					$fpk=0;
 				if(!isset($this->_related[$pk][$child->relation->name][$fpk]))
 				{
-					if($childRecord instanceof CActiveRecord && $child->relation->index!==null)
+					if($isActiveRecord && $child->relation->index!==null)
 						$index=$childRecord->{$child->relation->index};
 					else
 						$index=true;
@@ -1515,7 +1560,7 @@ class CStatElement
 			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
 	}
 
-	/*
+	/**
 	 * @param string $joinTableName jointablename
 	 * @param string $keys keys
 	 */
@@ -1647,6 +1692,119 @@ class CStatElement
 		}
 
 		foreach($records as $pk=>$record)
-			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$this->relation->defaultValue,false);
+			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
+	}
+}
+
+/**
+ * CActiveRecordArray is a very lightweight version of active record used internally by {@link CActiveFinder}
+ * to provide asArray functionality.
+ *
+ * @author Carsten Brandt <mail@cebe.cc>
+ * @version $Id$
+ * @package system.db.ar
+ * @since 1.1.11
+ */
+class CActiveRecordArray
+{
+	/**
+	 * @var array attributes of the active record
+	 */
+	public $attributes;
+
+	private $_pk;
+	private $_related=array();
+
+	/**
+	 * PHP getter magic method.
+	 * This method is overridden so that AR attributes can be accessed like properties.
+	 * @param string $name property name
+	 * @return mixed property value
+	 * @throws CException if the property is not defined
+	 */
+	public function __get($name)
+	{
+		if(isset($this->attributes[$name]))
+			return $this->attributes[$name];
+
+		throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
+			array('{class}'=>get_class($this), '{property}'=>$name)));
+	}
+
+	/**
+	 * Constructor.
+	 * @param array $attributes attributes of the new active record instance
+	 * @param CActiveRecord $model
+	 */
+	public function __construct($attributes, $model)
+	{
+		$this->attributes=$attributes;
+		$table=$model->getMetaData()->tableSchema;
+		if(is_string($table->primaryKey))
+			$this->_pk=$this->{$table->primaryKey};
+		else if(is_array($table->primaryKey))
+		{
+			$this->_pk=array();
+			foreach($table->primaryKey as $name)
+				$this->_pk[$name]=$this->$name;
+		}
+		else
+			$this->_pk=null;
+	}
+
+	/**
+	 * @return array|string|null the primary key of this active record
+	 */
+	public function getPrimaryKey()
+	{
+		return $this->_pk;
+	}
+
+	/**
+	 * Do not call this method. This method is used internally by {@link CActiveFinder} to populate
+	 * related objects. This method adds a related object to this record.
+	 * @param string $name attribute name
+	 * @param mixed $record the related record
+	 * @param mixed $index the index value in the related object collection.
+	 * If true, it means using zero-based integer index.
+	 * If false, it means a HAS_ONE or BELONGS_TO object and no index is needed.
+	 */
+	public function addRelatedRecord($name,$record,$index)
+	{
+		if($index!==false)
+		{
+			if(!isset($this->_related[$name]))
+				$this->_related[$name]=array();
+			if($record instanceof CActiveRecordArray)
+			{
+				if($index===true)
+					$this->_related[$name][]=$record;
+				else
+					$this->_related[$name][$index]=$record;
+			}
+		}
+		else if(!isset($this->_related[$name]))
+			$this->_related[$name]=$record;
+	}
+
+	/**
+	 * Turns this instance to an array which will hold attributes and relations
+	 * @return array the array representation of this active record
+	 */
+	public function toArray()
+	{
+		$array = $this->attributes;
+		foreach($this->_related as $name=>$data)
+		{
+			if (is_array($data))
+			{
+				$array[$name]=array();
+				foreach($data as $index=>$record)
+					$array[$name][$index]=$record->toArray();
+			}
+			else
+				$array[$name]=($data instanceof CActiveRecordArray)?$data->toArray():$data;
+		}
+		return $array;
 	}
 }
