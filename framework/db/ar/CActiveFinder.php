@@ -218,6 +218,8 @@ class CActiveFinder extends CComponent
 			$relation=clone $relation;
 			$model=CActiveRecord::model($relation->className);
 
+			$oldDbCriteria=$model->getDbCriteria(false);
+
 			if($relation instanceof CActiveRelation)
 			{
 				$oldAlias=$model->getTableAlias(false,false);
@@ -229,16 +231,51 @@ class CActiveFinder extends CComponent
 					$model->setTableAlias($relation->alias);
 			}
 
+			if(($scope=$model->defaultScope())!==array())
+				$relation->mergeWith($scope,true);
+
 			if(!empty($relation->scopes))
 				$scopes=array_merge($scopes,(array)$relation->scopes); // no need for complex merging
 
 			if(!empty($options['scopes']))
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
-			$criteria=$model->getDbCriteria();
-			$criteria->scopes=$scopes;
-			$model->applyScopes($criteria);
-			$relation->mergeWith($criteria,true);
+			if($scopes!==array())
+			{
+				$scs=$model->scopes();
+				foreach($scopes as $k=>$v)
+				{
+					if(is_integer($k))
+					{
+						if(is_string($v))
+						{
+							if(isset($scs[$v]))
+							{
+								$relation->mergeWith($scs[$v],true);
+								continue;
+							}
+							$scope=$v;
+							$params=array();
+						}
+						else if(is_array($v))
+						{
+							$scope=key($v);
+							$params=current($v);
+						}
+					}
+					else if(is_string($k))
+					{
+						$scope=$k;
+						$params=$v;
+					}
+
+					$model->resetScope();
+					call_user_func_array(array($model,$scope),(array)$params);
+					$relation->mergeWith($model->getDbCriteria(),true);
+				}
+			}
+
+			$model->setDbCriteria($oldDbCriteria);
 
 			// dynamic options
 			if($options!==null)
