@@ -10,8 +10,7 @@
 
 /**
  * CJavaScriptExpression represents a JavaScript expression that does not need escaping.
- * It can be passed to {@link CJavaScript::encode()} and the code will stay as is
- * no matter if $safe set to true or not.
+ * It can be passed to {@link CJavaScript::encode()} and the code will stay as is.
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
  * @package system.web.helpers

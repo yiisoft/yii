@@ -51,8 +51,9 @@ class CJavaScript
 	 * If you are encoding user input, make sure $safe is set to true.
 	 *
 	 * @param mixed $value PHP variable to be encoded
-	 * @param boolean $safe If true, 'js:' will not be allowed while
-	 * {@link CJavaScriptExpression} will allow you to pass JavaScript expressions.
+	 * @param boolean $safe If true, 'js:' will not be allowed. In case of
+	 * wrapping code with {@link CJavaScriptExpression} JavaScript expression
+	 * will stay as is no matter what value this parameter is set to.
 	 * Default is false. This parameter is available since 1.1.11.
 	 * @return string the encoded string
 	 */
