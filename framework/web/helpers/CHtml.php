@@ -1038,28 +1038,28 @@ EOD;
 	{
 		Yii::app()->getClientScript()->registerCoreScript('jquery');
 		if(!isset($options['url']))
-			$options['url']='js:location.href';
+			$options['url']=new CJavaScriptExpression('location.href');
 		else
 			$options['url']=self::normalizeUrl($options['url']);
 		if(!isset($options['cache']))
 			$options['cache']=false;
 		if(!isset($options['data']) && isset($options['type']))
-			$options['data']='js:jQuery(this).parents("form").serialize()';
+			$options['data']=new CJavaScriptExpression('jQuery(this).parents("form").serialize()');
 		foreach(array('beforeSend','complete','error','success') as $name)
 		{
-			if(isset($options[$name]) && strpos($options[$name],'js:')!==0)
-				$options[$name]='js:'.$options[$name];
+			if(isset($options[$name]) && (!($options[$name] instanceof CJavaScriptExpression) || strpos($options[$name],'js:')!==0))
+				$options[$name]=new CJavaScriptExpression($options[$name]);
 		}
 		if(isset($options['update']))
 		{
 			if(!isset($options['success']))
-				$options['success']='js:function(html){jQuery("'.$options['update'].'").html(html)}';
+				$options['success']=new CJavaScriptExpression('function(html){jQuery("'.$options['update'].'").html(html)}');
 			unset($options['update']);
 		}
 		if(isset($options['replace']))
 		{
 			if(!isset($options['success']))
-				$options['success']='js:function(html){jQuery("'.$options['replace'].'").replaceWith(html)}';
+				$options['success']=new CJavaScriptExpression('function(html){jQuery("'.$options['replace'].'").replaceWith(html)}');
 			unset($options['replace']);
 		}
 		return 'jQuery.ajax('.CJavaScript::encode($options).');';
