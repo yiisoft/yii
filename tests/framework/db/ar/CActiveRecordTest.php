@@ -1368,4 +1368,10 @@ class CActiveRecordTest extends CTestCase
 
 		$this->assertEquals($result1, $result2);
 	}
+
+	public function testBeforeFind()
+	{
+		$posts=PostWithBeforeFind::model()->findAll();
+		$this->assertEquals(count($posts),1);
+	}
 }
