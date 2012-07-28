@@ -103,6 +103,18 @@ testdrive/
             login.php        the view for 'login' action
 ~~~
 
+Described above application generator also supports creation of files needed
+by Git and Mercurial version control systems. The following command would
+create necessary `.gitignore` (e.g. content of the `assets` and `runtime` shouldn't
+be tracked) and `.gitkeep` (forces tracking of empty but important directories)
+files:
+
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive git
+~~~
+
+Another supported VCS is Mercurial: pass the `hg` value as third parameter.
+
 Connecting to Database
 ----------------------
 
