@@ -7,6 +7,8 @@ Version 1.1.11
 --------------
  * [http キャッシュのサポートを追加](/doc/guide/ja/caching.page#http-caching)
  * [コンソールアプリケーションに終了コードを追加](/doc/guide/ja/topics.console#exit-codes)
+ * [モデルのバリデーションルールの除外を追加](/doc/guide/ja/form.model.txt#declaring-validation-rules)
+ * [git と hg のサポートを追加](/doc/guide/ja/quickstart.first-app#creating-your-first-yii-application)
 
 Version 1.1.8
 -------------
