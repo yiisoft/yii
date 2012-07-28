@@ -7,6 +7,7 @@ Version 1.1.11
 --------------
  * [Added http caching support](/doc/guide/caching.page#http-caching)
  * [Added console application exit codes](/doc/guide/topics.console#exit-codes)
+ * [Added model validation rules blacklisting](/doc/guide/form.model.txt#declaring-validation-rules)
 
 Version 1.1.8
 -------------
