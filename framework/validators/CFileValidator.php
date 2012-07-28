@@ -220,12 +220,7 @@ class CFileValidator extends CValidator
 			else
 				$mimeTypes=$this->mimeTypes;
 			$mimeType=CFileHelper::getMimeType($file->getTempName(),null,false);
-			if($mimeType===null)
-			{
-				$message=Yii::t('yii','The file "{file}" cannot be uploaded. MIME-type could not be determined.');
-				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
-			}
-			else if(!in_array(strtolower($mimeType),$mimeTypes))
+			if(!in_array(strtolower($mimeType),$mimeTypes))
 			{
 				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.');
 				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
