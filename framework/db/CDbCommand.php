@@ -541,7 +541,7 @@ class CDbCommand extends CComponent
 	 */
 	public function buildQuery($query)
 	{
-		$sql=!empty($query['distinct']) && $query['distinct'] ? 'SELECT DISTINCT' : 'SELECT';
+		$sql=!empty($query['distinct']) ? 'SELECT DISTINCT' : 'SELECT';
 		$sql.=' '.(!empty($query['select']) ? $query['select'] : '*');
 
 		if(!empty($query['from']))
