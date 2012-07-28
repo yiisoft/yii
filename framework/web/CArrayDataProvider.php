@@ -159,7 +159,7 @@ class CArrayDataProvider extends CDataProvider
 	{
 		foreach ($fields as $field)
 			$data = is_object($data) ? $data->$field : $data[$field];
-		return $this->caseSensitiveSort ? $data : mb_strtolower($data);
+		return $this->caseSensitiveSort ? $data : mb_strtolower($data, Yii::app()->charset);
 	}
 
 	/**
