@@ -79,6 +79,7 @@ class CFileValidator extends CValidator
 	 * This can be either an array or a string consisting of MIME-types separated
 	 * by space or comma (e.g. "image/gif, image/jpeg"). MIME-types are
 	 * case-insensitive. Defaults to null, meaning all MIME-types are allowed.
+	 * In order to use this property fileinfo PECL extension should be installed.
 	 * @since 1.1.11
 	 */
 	public $mimeTypes;
@@ -113,7 +114,8 @@ class CFileValidator extends CValidator
 	public $wrongType;
 	/**
 	 * @var string the error message used when the uploaded file has a MIME-type
-	 * that is not listed among {@link mimeTypes}.
+	 * that is not listed among {@link mimeTypes}. In order to use this property
+	 * fileinfo PECL extension should be installed.
 	 * @since 1.1.11
 	 */
 	public $wrongMimeType;
@@ -211,11 +213,19 @@ class CFileValidator extends CValidator
 
 		if($this->mimeTypes!==null)
 		{
+			if(!extension_loaded('fileinfo'))
+				throw new CException(Yii::t('yii','In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.'));
 			if(is_string($this->mimeTypes))
 				$mimeTypes=preg_split('/[\s,]+/',strtolower($this->mimeTypes),-1,PREG_SPLIT_NO_EMPTY);
 			else
 				$mimeTypes=$this->mimeTypes;
-			if(!in_array(strtolower(CFileHelper::getMimeType($file->getTempName())),$mimeTypes))
+			$mimeType=CFileHelper::getMimeType($file->getTempName(),null,false);
+			if($mimeType===null)
+			{
+				$message=Yii::t('yii','The file "{file}" cannot be uploaded. MIME-type could not be determined.');
+				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
+			}
+			else if(!in_array(strtolower($mimeType),$mimeTypes))
 			{
 				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.');
 				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
