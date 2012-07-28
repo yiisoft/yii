@@ -947,18 +947,12 @@ abstract class CActiveRecord extends CModel
 	 * The default implementation raises the {@link onBeforeFind} event.
 	 * If you override this method, make sure you call the parent implementation
 	 * so that the event is raised properly.
-	 *
-	 * Starting from version 1.1.5, this method may be called with a hidden {@link CDbCriteria}
-	 * parameter which represents the current query criteria as passed to a find method of AR.
-	 *
 	 */
 	protected function beforeFind()
 	{
 		if($this->hasEventHandler('onBeforeFind'))
 		{
 			$event=new CModelEvent($this);
-			// for backward compatibility
-			$event->criteria=func_num_args()>0 ? func_get_arg(0) : null;
 			$this->onBeforeFind($event);
 		}
 	}
@@ -1281,8 +1275,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function query($criteria,$all=false)
 	{
+		$this->beforeFind();
 		$this->applyScopes($criteria);
-		$this->beforeFind($criteria);
 
 		if(empty($criteria->with))
 		{
