@@ -541,27 +541,27 @@ class CDbCommand extends CComponent
 	 */
 	public function buildQuery($query)
 	{
-		$sql=isset($query['distinct']) && $query['distinct'] ? 'SELECT DISTINCT' : 'SELECT';
-		$sql.=' '.(isset($query['select']) ? $query['select'] : '*');
+		$sql=!empty($query['distinct']) && $query['distinct'] ? 'SELECT DISTINCT' : 'SELECT';
+		$sql.=' '.(!empty($query['select']) ? $query['select'] : '*');
 
-		if(isset($query['from']))
+		if(!empty($query['from']))
 			$sql.="\nFROM ".$query['from'];
 		else
 			throw new CDbException(Yii::t('yii','The DB query must contain the "from" portion.'));
 
-		if(isset($query['join']))
+		if(!empty($query['join']))
 			$sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);
 
-		if(isset($query['where']))
+		if(!empty($query['where']))
 			$sql.="\nWHERE ".$query['where'];
 
-		if(isset($query['group']))
+		if(!empty($query['group']))
 			$sql.="\nGROUP BY ".$query['group'];
 
-		if(isset($query['having']))
+		if(!empty($query['having']))
 			$sql.="\nHAVING ".$query['having'];
 
-		if(isset($query['order']))
+		if(!empty($query['order']))
 			$sql.="\nORDER BY ".$query['order'];
 
 		$limit=isset($query['limit']) ? (int)$query['limit'] : -1;
@@ -569,7 +569,7 @@ class CDbCommand extends CComponent
 		if($limit>=0 || $offset>0)
 			$sql=$this->_connection->getCommandBuilder()->applyLimit($sql,$limit,$offset);
 
-		if(isset($query['union']))
+		if(!empty($query['union']))
 			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
 
 		return $sql;

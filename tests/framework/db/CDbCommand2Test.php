@@ -398,6 +398,6 @@ class CDbCommand2Test extends CTestCase
 						 ->where($conditions, $params)
 						 ->order('id ASC')
 						 ->getText();
-		$this->assertEquals("SELECT *\nFROM 'tbl' \nORDER BY \"id\" ASC", $query);
+		$this->assertEquals("SELECT *\nFROM 'tbl'\nORDER BY \"id\" ASC", $query);
 	}
 }
