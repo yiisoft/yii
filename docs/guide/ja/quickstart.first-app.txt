@@ -47,7 +47,7 @@ http://hostname/testdrive/index.php
 
 
 以下はアプリケーションのディレクトリ構造を示します。詳細な説明は
-[取り決め(Conventions)](/doc/guide/basics.convention#directory)を見てください。
+[取り決め(Conventions)](/doc/guide/ja/basics.convention#directory)を見てください。
 
 ~~~
 testdrive/
@@ -95,6 +95,18 @@ testdrive/
             index.php        'index'アクションのためのビュー
             login.php        'login'アクションのためのビュー
 ~~~
+
+上述されたアプリケーションジェネレータは、Git バージョン管理システムが必要とする
+ファイルの生成もサポートしています。次のコマンドを実行すると、必要な `.gitignore`
+(例えば `assets` と `runtime` のコンテンツはバージョン管理すべきではありません)
+および `.gitkeep` (初期状態が空っぽではあるけれども重要なディレクトリを強制的にバージョン管理下に置きます) を生成します。
+
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive git
+~~~
+
+サポートされているもう一つの VCS は Mercurial です。Mercurial を使用している場合は、
+三番目のパラメータとして `hg` を渡して下さい。この機能はバージョン 1.1.11 以降で使用可能になりました。
 
 データベースへの接続
 ----------------------
@@ -227,4 +239,4 @@ http://hostname/testdrive/index.php?r=user/admin
 ![Create new user page](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>
+<div class="revision">$Id$</div>
