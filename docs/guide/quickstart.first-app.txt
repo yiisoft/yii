@@ -112,7 +112,8 @@ and `.gitkeep` (forces tracking of empty but important directories) files:
 % YiiRoot/framework/yiic webapp WebRoot/testdrive git
 ~~~
 
-Another supported VCS is Mercurial: pass the `hg` value as third parameter.
+Another supported VCS is Mercurial: pass the `hg` value as third parameter in
+case you're using this VCS. This ability is available since version 1.1.11.
 
 Connecting to Database
 ----------------------
