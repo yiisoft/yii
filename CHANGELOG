@@ -83,6 +83,7 @@ Version 1.1.11 work in progress
 - Enh #938: CFileValidator::sizeToBytes() is now public and available for using in the whole application (resurtm)
 - Enh #943: CDateTimeParser is now able to parse short textual representation of month, e.g. Jan, Jun, Aug (resurtm)
 - Enh #967: Commands from YII_CONSOLE_COMMANDS environment variable are now always added to yiic console application (schmunk)
+- Enh: CFileValidator could validate uploaded file by its MIME-type, added $mimeTypes and $wrongMimeType properties (resurtm)
 - Enh: Fixed romanian translation to use the better-supported cedilla characters (tudorilisoi)
 - Enh: Added default value to CConsoleCommand::confirm (musterknabe)
 - Enh: Allowed returning integer values as application exit code in CConsoleCommand actions (cebe)
