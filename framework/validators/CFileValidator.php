@@ -219,8 +219,8 @@ class CFileValidator extends CValidator
 				$mimeTypes=preg_split('/[\s,]+/',strtolower($this->mimeTypes),-1,PREG_SPLIT_NO_EMPTY);
 			else
 				$mimeTypes=$this->mimeTypes;
-			$mimeType=CFileHelper::getMimeType($file->getTempName(),null,false);
-			if(!in_array(strtolower($mimeType),$mimeTypes))
+			$mimeType=strtolower(CFileHelper::getMimeType($file->getTempName(),null,false));
+			if(!in_array($mimeType,$mimeTypes))
 			{
 				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.');
 				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
