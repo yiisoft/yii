@@ -104,10 +104,9 @@ testdrive/
 ~~~
 
 Described above application generator also supports creation of files needed
-by Git and Mercurial version control systems. The following command would
-create necessary `.gitignore` (e.g. content of the `assets` and `runtime` shouldn't
-be tracked) and `.gitkeep` (forces tracking of empty but important directories)
-files:
+by Git version control system. The following command would create necessary
+`.gitignore` (e.g. content of the `assets` and `runtime` shouldn't be tracked)
+and `.gitkeep` (forces tracking of empty but important directories) files:
 
 ~~~
 % YiiRoot/framework/yiic webapp WebRoot/testdrive git
