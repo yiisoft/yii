@@ -17,7 +17,7 @@
   <taskdef name="yii-pear" classname="YiiPearTask" classpath="tasks"/>
   -->
 
-  <!-- init yii.version, yii.revision and yii.winbuild -->
+  <!-- init yii.version, yii.winbuild -->
   <yii-init-build />
 
   <!-- these are required external commands -->
@@ -25,8 +25,8 @@
   <property name="hhc" value="hhc" /> <!-- compile phpdoc into CHM -->
   <property name="pdflatex" value="pdflatex" />  <!-- generates PDF from LaTex -->
 
-  <property name="pkgname" value="${phing.project.name}-${yii.version}.r${yii.revision}"/>
-  <property name="docname" value="${phing.project.name}-docs-${yii.version}.r${yii.revision}"/>
+  <property name="pkgname" value="${phing.project.name}-${yii.version}"/>
+  <property name="docname" value="${phing.project.name}-docs-${yii.version}"/>
   <property name="pearname" value="${phing.project.name}-${yii.release}.tgz" />
 
   <!-- directory definitions -->
@@ -205,7 +205,6 @@ Please update yiisite/common/data/versions.php file with the following code:
 
     '1.1'=>array(
         'version'=>'${yii.version}',
-        'revision'=>${yii.revision},
         'date'=>'${yii.date}',
         'latest'=>true,
     ),
