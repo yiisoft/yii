@@ -582,7 +582,7 @@ class CComponent
 	 *
 	 * Valid PHP callback can be class method name in the form of
 	 * array(ClassName/Object, MethodName), or anonymous function (only available in PHP 5.3.0 or above),
-     * or global function name.
+	 * or global function name.
 	 *
 	 * If a PHP callback is used, the corresponding function/method signature should be
 	 * <pre>
@@ -611,7 +611,8 @@ class CComponent
 		{
 			extract($_data_);
 			return eval('return '.$_expression_.';');
-		}
+		}else
+			throw new CException('Invalid callback passed');
 	}
 }
 
