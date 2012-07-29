@@ -78,7 +78,7 @@ Version 1.1.11 work in progress
 - Enh #675: CDateFormat::format() now returns null if the parameter $time is null (mdomba)
 - Enh #690: Added sender name and proper headers for UTF8 encoding when sending e-mail in SiteController->actionContact() (mdomba)
 - Enh #766: Added 'userId' to $params in CDbAuthManager::checkAccess() and CPhpAuthManager::checkAccess() (cebe)
-- Enh #666: Added property $off to CValidator, a list of scenarios that the validator should not be applied to (resurtm)
+- Enh #666: Added property $except to CValidator, a list of scenarios that the validator should not be applied to (resurtm)
 - Enh #839: CListView::renderItems now resolves view file only once (nizsheanez)
 - Enh #938: CFileValidator::sizeToBytes() is now public and available for using in the whole application (resurtm)
 - Enh #943: CDateTimeParser is now able to parse short textual representation of month, e.g. Jan, Jun, Aug (resurtm)
