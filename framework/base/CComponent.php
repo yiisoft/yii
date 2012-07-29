@@ -581,8 +581,7 @@ class CComponent
 	 * Evaluates a PHP expression or callback under the context of this component.
 	 *
 	 * Valid PHP callback can be class method name in the form of
-	 * array(ClassName/Object, MethodName), or anonymous function (only available in PHP 5.3.0 or above),
-	 * or global function name.
+	 * array(ClassName/Object, MethodName), or anonymous function (only available in PHP 5.3.0 or above).
 	 *
 	 * If a PHP callback is used, the corresponding function/method signature should be
 	 * <pre>
@@ -602,17 +601,16 @@ class CComponent
 	 */
 	public function evaluateExpression($_expression_,$_data_=array())
 	{
-		if(is_callable($_expression_))
+		if(is_string($_expression_) && !function_exists($_expression_))
+		{
+			extract($_data_);
+			return eval('return '.$_expression_.';');
+		}
+		else
 		{
 			$_data_[]=$this;
 			return call_user_func_array($_expression_, $_data_);
 		}
-		else if(is_string($_expression_))
-		{
-			extract($_data_);
-			return eval('return '.$_expression_.';');
-		}else
-			throw new CException('Invalid callback passed');
 	}
 }
 
