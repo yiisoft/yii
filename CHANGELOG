@@ -105,6 +105,7 @@ Version 1.1.11 work in progress
 - Enh: WebAppCommand has ability to generate fresh application with git or hg specific files (resurtm)
 - Enh: Gii default templates: added additional metadata (PHPDoc) of the variables passed into views for better IDE autocompletion (resurtm)
 - Enh: WebAppCommand generated application: added additional metadata (PHPDoc) of the variables passed into views for better IDE autocompletion (resurtm)
+- Chg #384: CWebUser::changeIdentity() will now delete old unused session data file (Qiang)
 - Chg #440: Upgraded JQuery UI to 1.8.22 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)
