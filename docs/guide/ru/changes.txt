@@ -7,7 +7,7 @@
 -------------
 
  * [Добавлена поддержка HTTP-кеширования](/doc/guide/caching.page#http-caching)
- * [Добавлена поддердка кодов возврата в колнсольных приложениях](/doc/guide/topics.console#exit-codes)
+ * [Добавлена поддержка кодов возврата в консольных приложениях](/doc/guide/topics.console#exit-codes)
  * [Добавлена возможность исключения отдельных правил валидации](/doc/guide/form.model#declaring-validation-rules)
  * [Добавлена поддержка генерации файлов для git и hg](/doc/guide/quickstart.first-app#creating-your-first-yii-application)
 
