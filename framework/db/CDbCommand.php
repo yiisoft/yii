@@ -327,7 +327,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
-				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
 
 			$this->prepare();
 			if($params===array())
@@ -337,14 +337,14 @@ class CDbCommand extends CComponent
 			$n=$this->_statement->rowCount();
 
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
 
 			return $n;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
             $message = $e->getMessage();
 			Yii::log(Yii::t('yii','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
