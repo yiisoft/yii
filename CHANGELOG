@@ -1,8 +1,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.11 work in progress
--------------------------------
+Version 1.1.11 July 29, 2012
+----------------------------
 - Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
 - Bug #114: CUniqueValidator and CExistValidator now respect table alias while creating db query condition (klimov-paul)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
