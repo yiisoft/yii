@@ -602,12 +602,12 @@ class CComponent
 	 */
 	public function evaluateExpression($_expression_,$_data_=array())
 	{
-        if(is_callable($_expression_))
-        {
-            $_data_[]=$this;
-            return call_user_func_array($_expression_, $_data_);
-        }
-		elseif(is_string($_expression_))
+		if(is_callable($_expression_))
+		{
+			$_data_[]=$this;
+			return call_user_func_array($_expression_, $_data_);
+		}
+		else if(is_string($_expression_))
 		{
 			extract($_data_);
 			return eval('return '.$_expression_.';');
