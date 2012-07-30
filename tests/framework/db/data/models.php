@@ -729,3 +729,22 @@ class CommentWithWrappers extends CActiveRecord
 		self::$_counters=array();
 	}
 }
+
+class PostWithBeforeFind extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'posts';
+	}
+
+	protected function beforeFind()
+	{
+		$criteria=$this->getDbCriteria();
+		$criteria->limit=1;
+	}
+}

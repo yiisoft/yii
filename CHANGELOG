@@ -1,11 +1,16 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.11 work in progress
+Version 1.1.12 work in progress
 -------------------------------
+
+
+Version 1.1.11 July 29, 2012
+----------------------------
 - Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
 - Bug #114: CUniqueValidator and CExistValidator now respect table alias while creating db query condition (klimov-paul)
 - Bug #145: CGettextMoFile now can parse strings with no context (eagleoneraptor)
+- Bug #148: Fixed the bug in the blog demo that was not deleting right comment when not on the first page (mdomba)
 - Bug #161: CCookieCollection::remove() now accepts an array of cookie options as a second argument to facilitate correct cookie removal (maximcherny)
 - Bug #164: CEmailValidator.checkPort now checks the port 25 of listed MX servers (DaSourcerer)
 - Bug #178: webapp creation with relative paths like ../ was not working correctly (cebe)
@@ -13,7 +18,6 @@ Version 1.1.11 work in progress
 - Bug #238: Fixed the problem that empty row could be selected in CGridView when there was no data (mdomba)
 - Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
 - Bug #381: Fixed the bug that Gii model name input could get misspelled when autocomplete is used (mdomba)
-- Bug #392: There was no way to get and modify criteria in CActiveRecord::beforeFind (samdark)
 - Bug #417: CAttributeCollections::mergeWith() does not take into account the caseSensitive (dmtrs)
 - Bug #433: Fixed the bug that Gii model name input autocomplete was not working sometimes (mdomba)
 - Bug #449: CDbHttpSession and CDbLogRoute now use query builder instead of DAO for proper quoting (mdomba, redguy)
@@ -28,6 +32,7 @@ Version 1.1.11 work in progress
 - Bug #769: Fixed the bug that $.fn.yiiGridView.getSelection was not working always if a custom CGridView::template was used (mdomba)
 - Bug #772: CHttpRequest::getIsSecureConnection() was failing on some conditions (bulletbee, samdark)
 - Bug #773: CGridView filters now filter on enter key in Internet Explorer (BBoom)
+- Bug #803: Arbitary non-sorting links in CDataColumn's header were not working proper way (resurtm)
 - Bug #827: Fixed the problem that CJuiSliderInput was rendering a name attribute for div element (mdomba)
 - Bug #842: Active Records insert fails in MSSQL if a column has a default value of (NULL) (c-schmitz)
 - Bug #852: Fixed the problem that CActiveForm was not revalidating fields if ajax submit was used (mdomba)
@@ -35,7 +40,8 @@ Version 1.1.11 work in progress
 - Bug #865: CLogRoute called processLogs() even if log array was empty and caused empty emails and log files (cebe)
 - Bug #879: Fixed a possible PHP error caused by CWebUser::restoreFromCookie() in combination with CHttpRequest.enableCookieValidation (kidol)
 - Bug #901: Fixed possible encoding problem on exception (mdomba, samdark, cebe)
-- Bug #803: Arbitary non-sorting links in CDataColumn's header were not working proper way (resurtm)
+- Bug #1000: Added params to profiling token in CDbCommand::execute() to be consitent with CDbCommand::queryInternal() (cebe)
+- Bug #1045: Building a query with empty array as parameter will not result in a broken sql-string anymore(suralc)
 - Bug: Fixed CMenu::isItemActive() to work properly when there is a hash in the item's url (SlKelevro)
 - Bug: Added missing return statement to CAuthItem->revoke() (mdomba)
 - Bug: CHtml::resolveValue() ignoring of array elements accessor at the beginning of the $attribute argument now works properly (resurtm)
@@ -61,6 +67,7 @@ Version 1.1.11 work in progress
 - Enh #369: Added $hashKey to CCache (kidol)
 - Enh #414: Added sort parameter to yiic message command that sorts messages by key when merging (ranvis)
 - Enh #455: Added support for default value in CConsoleCommand::prompt (eagleoneraptor)
+- Enh #551: Added $safe parameter to CJavaScript::encode. If set to true, 'js:' will not be allowed. If you need to pass JavaScript, wrap your code with CJavaScriptExpression instead (samdark)
 - Enh #552: Added support for http-level caching via CHttpCacheFilter (DaSourcerer)
 - Enh #568: CHtml::getIdByName() will now convert spaces to underscore to get proper ID for HTML elements (mdomba)
 - Enh #578: Added extension checks to CMemCache (samdark)
@@ -76,11 +83,12 @@ Version 1.1.11 work in progress
 - Enh #675: CDateFormat::format() now returns null if the parameter $time is null (mdomba)
 - Enh #690: Added sender name and proper headers for UTF8 encoding when sending e-mail in SiteController->actionContact() (mdomba)
 - Enh #766: Added 'userId' to $params in CDbAuthManager::checkAccess() and CPhpAuthManager::checkAccess() (cebe)
-- Enh #666: Added property $off to CValidator, a list of scenarios that the validator should not be applied to (resurtm)
+- Enh #666: Added property $except to CValidator, a list of scenarios that the validator should not be applied to (resurtm)
 - Enh #839: CListView::renderItems now resolves view file only once (nizsheanez)
 - Enh #938: CFileValidator::sizeToBytes() is now public and available for using in the whole application (resurtm)
 - Enh #943: CDateTimeParser is now able to parse short textual representation of month, e.g. Jan, Jun, Aug (resurtm)
 - Enh #967: Commands from YII_CONSOLE_COMMANDS environment variable are now always added to yiic console application (schmunk)
+- Enh: CFileValidator could validate uploaded file by its MIME-type, added $mimeTypes and $wrongMimeType properties (resurtm)
 - Enh: Fixed romanian translation to use the better-supported cedilla characters (tudorilisoi)
 - Enh: Added default value to CConsoleCommand::confirm (musterknabe)
 - Enh: Allowed returning integer values as application exit code in CConsoleCommand actions (cebe)
@@ -102,6 +110,8 @@ Version 1.1.11 work in progress
 - Enh: WebAppCommand has ability to generate fresh application with git or hg specific files (resurtm)
 - Enh: Gii default templates: added additional metadata (PHPDoc) of the variables passed into views for better IDE autocompletion (resurtm)
 - Enh: WebAppCommand generated application: added additional metadata (PHPDoc) of the variables passed into views for better IDE autocompletion (resurtm)
+- Enh #1053: CComponent::evaluateExpression will allow using global functions as callbacks (Ekstazi)
+- Chg #384: CWebUser::changeIdentity() will now delete old unused session data file (Qiang)
 - Chg #440: Upgraded JQuery UI to 1.8.22 (samdark)
 - Chg #497: Added log component and preloaded it in default console application config in order to properly log errors (samdark)
 - Chg: Upgraded jQuery to 1.7.2 (samdark)

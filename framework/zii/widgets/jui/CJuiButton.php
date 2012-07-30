@@ -22,7 +22,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * 		'name'=>'submit',
  * 		'caption'=>'Save',
  * 		'options'=>array(
- *         'onclick'=>'js:function(){alert("Yes");}',
+ *         'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
  *     ),
  * ));
  * </pre>
@@ -34,7 +34,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *			'name'=>'button',
  * 			'caption'=>'Save',
  *			'value'=>'asd',
- *			'onclick'=>'js:function(){alert("Save button clicked"); this.blur(); return false;}',
+ *			'onclick'=>new CJavaScriptExpression('function(){alert("Save button clicked"); this.blur(); return false;}'),
  * 		)
  * );
  * </pre>
@@ -171,8 +171,8 @@ class CJuiButton extends CJuiInputWidget
 			$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 			if (isset($this->onclick))
 			{
-				if(strpos($this->onclick,'js:')!==0)
-				$this->onclick='js:'.$this->onclick;
+				if(!($this->onclick instanceof CJavaScriptExpression) && strpos($this->onclick,'js:')!==0)
+					$this->onclick=new CJavaScriptExpression($this->onclick);
 				$click = CJavaScript::encode($this->onclick);
 				$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').button($options).click($click);");
 			}

@@ -125,15 +125,15 @@ class CJuiSliderInput extends CJuiInputWidget
 			if($this->value!==null)
 				$this->options['value']=$this->value;
 		}
-		
+
 
 		$idHidden = $this->htmlOptions['id'];
 		$this->htmlOptions['id']=$idHidden.'_slider';
 		echo CHtml::tag($this->tagName,$this->htmlOptions,'');
 
 		$this->options[$this->event]= $isRange ?
-			"js:function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}_end').val(v[1]); }":
-			'js:function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }';
+			new CJavaScriptExpression("function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}_end').val(v[1]); }"):
+			new CJavaScriptExpression('function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }');
 
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 
