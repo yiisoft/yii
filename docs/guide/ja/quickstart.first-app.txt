@@ -47,7 +47,7 @@ http://hostname/testdrive/index.php
 
 
 以下はアプリケーションのディレクトリ構造を示します。詳細な説明は
-[取り決め(Conventions)](/doc/guide/ja/basics.convention#directory)を見てください。
+[取り決め(Conventions)](/doc/guide/basics.convention#directory)を見てください。
 
 ~~~
 testdrive/
