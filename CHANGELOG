@@ -1,6 +1,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.12 work in progress
+-------------------------------
+
+
 Version 1.1.11 July 29, 2012
 ----------------------------
 - Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
