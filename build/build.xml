@@ -205,7 +205,7 @@ Please update yiisite/common/data/versions.php file with the following code:
 
     '1.1'=>array(
         'version'=>'${yii.version}',
-        'revision'=>${yii.revision},
+        'revision'=>'${yii.revision}',
         'date'=>'${yii.date}',
         'latest'=>true,
     ),

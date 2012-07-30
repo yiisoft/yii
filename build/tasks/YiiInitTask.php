@@ -70,7 +70,7 @@ class YiiInitTask extends PropertyTask
 	 */
 	private function getYiiRevision()
 	{
-		$gitFile=dirname(__FILE__).'/../../.git/FETCH_HEAD';
+		$gitFile=dirname(__FILE__).'/../../.git/HEAD';
 		if(is_file($gitFile))
 		{
 			$contents=file_get_contents($gitFile);
