@@ -346,14 +346,19 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Resets all scopes and criterias applied including default scope.
+	 * Resets all scopes and criterias applied.
 	 *
+	 * @param boolean $resetDefault including default scope. This parameter available since 1.1.12
 	 * @return CActiveRecord
 	 * @since 1.1.2
 	 */
-	public function resetScope()
+	public function resetScope($resetDefault=true)
 	{
-		$this->_c=new CDbCriteria();
+		if($resetDefault)
+			$this->_c=new CDbCriteria();
+		else
+			$this->_c=null;
+
 		return $this;
 	}
 
@@ -1338,7 +1343,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
-			$this->_c=null;
+			$this->resetScope(false);
 		}
 	}
 
@@ -1483,7 +1488,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
-			$this->_c=null;
+			$this->resetScope(false);
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findBySql($sql,$params);
 		}
@@ -1506,7 +1511,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
-			$this->_c=null;
+			$this->resetScope(false);
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findAllBySql($sql,$params);
 		}
