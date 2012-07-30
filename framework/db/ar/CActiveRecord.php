@@ -2227,14 +2227,15 @@ class CManyManyRelation extends CHasManyRelation
 	/**
 	 * @var string name of the junction table for the many-to-many relation.
 	 */
-	protected $_junctionTableName=null;
+	private $_junctionTableName=null;
 	/**
 	 * @var array list of foreign keys of the junction table for the many-to-many relation.
 	 */
-	protected $_junctionForeignKeys=null;
+	private $_junctionForeignKeys=null;
 
 	/**
 	 * @return string junction table name.
+	 * @since 1.1.12
 	 */
 	public function getJunctionTableName()
 	{
@@ -2245,6 +2246,7 @@ class CManyManyRelation extends CHasManyRelation
 
 	/**
 	 * @return array list of junction table foreign keys.
+	 * @since 1.1.12
 	 */
 	public function getJunctionForeignKeys()
 	{
@@ -2257,16 +2259,14 @@ class CManyManyRelation extends CHasManyRelation
 	 * Initializes values of {@link junctionTableName} and {@link junctionForeignKeys} parsing
 	 * {@link foreignKey} value.
 	 * @throws CDbException if {@link foreignKey} has been specified in wrong format.
-	 * @return boolean success.
 	 */
-	protected function initJunctionData()
+	private function initJunctionData()
 	{
 		if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
 			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
 				array('{class}'=>$this->className,'{relation}'=>$this->name)));
 		$this->_junctionTableName=$matches[1];
-		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);;
-		return true;
+		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
 	}
 }
 
