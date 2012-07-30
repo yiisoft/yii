@@ -19,7 +19,7 @@ URL をきれいにする
 これは主として URL を SEO フレンドリーにするためのものです。検索エンジンは、インデックス作成時に
 URL に含まれている単語も参照することがあると言われています。
 
-私たちの目的を達するためには、[アプリケーション設定](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) を下記のように修正します。
+私たちの目的を達するためには、[アプリケーション設定](http://www.yiiframework.com/doc/guide/ja/basics.application#application-configuration) を下記のように修正します。
 
 ~~~
 [php]
@@ -39,10 +39,10 @@ return array(
 );
 ~~~
 
-上記において、[urlManager](http://www.yiiframework.com/doc/guide/topics.url) コンポーネントの構成を変更し、`urlFormat` プロパティを `path` に設定し、一連の `rules` を追加しています。
+上記において、[urlManager](http://www.yiiframework.com/doc/guide/ja/topics.url) コンポーネントの構成を変更し、`urlFormat` プロパティを `path` に設定し、一連の `rules` を追加しています。
 
-`urlManager` はこの規則を使用して、 私たちが希望する形式の URL を解釈し、かつ、生成します。例えば、第二の規則は、`/index.php/posts/yii` という URL が要求されたときには、`urlManager` はその要求を `post/index` という[ルート(route)](http://www.yiiframework.com/doc/guide/basics.controller#route) に送出し、`yii` という値を持つ `tag` という名前の GET 引数を生成する責任を負うことを述べています。また一方では、`post/index` というルートと `tag` という引数で URL を生成する場合にも、`urlManager` コンポーネントはこの規則を使用して、私たちが希望する `/index.php/posts/yii` という URL を生成するでしょう。このような訳ですから、私たちは `urlManager` は双方向の URL マネージャであると言います。
+`urlManager` はこの規則を使用して、 私たちが希望する形式の URL を解釈し、かつ、生成します。例えば、第二の規則は、`/index.php/posts/yii` という URL が要求されたときには、`urlManager` はその要求を `post/index` という[ルート(route)](http://www.yiiframework.com/doc/guide/ja/basics.controller#route) に送出し、`yii` という値を持つ `tag` という名前の GET 引数を生成する責任を負うことを述べています。また一方では、`post/index` というルートと `tag` という引数で URL を生成する場合にも、`urlManager` コンポーネントはこの規則を使用して、私たちが希望する `/index.php/posts/yii` という URL を生成するでしょう。このような訳ですから、私たちは `urlManager` は双方向の URL マネージャであると言います。
 
-`urlManager` コンポーネントは、URL から `index.php` を見えなくしたり、`.html` のような拡張子を URL に追加したりして、URL の見栄えを更に良くすることが出来ます。これらの機能は、アプリケーション構成の中で `urlManager` のさまざまなプロパティを構成することで、簡単に手に入れることが出来ます。詳細については、[ガイド](http://www.yiiframework.com/doc/guide/topics.url) を参照して下さい。
+`urlManager` コンポーネントは、URL から `index.php` を見えなくしたり、`.html` のような拡張子を URL に追加したりして、URL の見栄えを更に良くすることが出来ます。これらの機能は、アプリケーション構成の中で `urlManager` のさまざまなプロパティを構成することで、簡単に手に入れることが出来ます。詳細については、[ガイド](http://www.yiiframework.com/doc/guide/ja/topics.url) を参照して下さい。
 
 <div class="revision">$Id$</div>
