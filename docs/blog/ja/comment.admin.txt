@@ -53,7 +53,7 @@ public function actionIndex()
 }
 ~~~
 
-上記コードでは、`tbl_post`と`tbl_comment`の両方に`status`と`create_time`というカラムがあるので、曖昧さを無くすためにテーブルのエイリアス名を接頭辞として付ける必要があります。[ガイド](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names)に記述されているように、リレーショナルなクエリーでは、プライマリテーブルのエイリアスは常に`t`です。そのため上記コードでは、`status`カラムと`create_time`カラムに接頭辞`t`を付けています。
+上記コードでは、`tbl_post`と`tbl_comment`の両方に`status`と`create_time`というカラムがあるので、曖昧さを無くすためにテーブルのエイリアス名を接頭辞として付ける必要があります。[ガイド](http://www.yiiframework.com/doc/guide/ja/database.arr#disambiguating-column-names)に記述されているように、リレーショナルなクエリーでは、プライマリテーブルのエイリアスは常に`t`です。そのため上記コードでは、`status`カラムと`create_time`カラムに接頭辞`t`を付けています。
 
 記事のindexビューのように、`CommentController`の`index`ビューでも[CListView]を使ってコメント一覧を表示します。部分的ビューとして`/wwwroot/blog/protected/views/comment/_view.php`を使って、個々のコメントの詳細を表示します。ここでは詳細には立ち入りません。興味のある方はblogデモの対応するファイル`/wwwroot/yii/demos/blog/protected/views/comment/_view.php`を参照してください。
 

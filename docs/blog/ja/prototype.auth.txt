@@ -1,13 +1,13 @@
 ユーザ認証
 ===================
 
-このブログアプリケーションでは、システムオーナとゲストユーザの区別が必要です。 したがって、[ユーザ認証](http://www.yiiframework.com/doc/guide/topics.auth)機能を実装する必要があります。
+このブログアプリケーションでは、システムオーナとゲストユーザの区別が必要です。 したがって、[ユーザ認証](http://www.yiiframework.com/doc/guide/ja/topics.auth)機能を実装する必要があります。
 
 スケルトンアプリケーションにはすでにユーザ認証機能が備わっています。 ユーザ名とパスワードのどちらもが `demo` 、もしくは `admin` で確認することができます。このセクションでは、認証を `tbl_user` テーブルに基づいて行うよう、対応するコードを修正します。
 
 ユーザ認証は [IUserIdentity] インタフェースを実装するクラスで行われます。スケルトンアプリケーションでは、この目的のために `UserIdentity` クラスを使っています。このクラスファイルは、`/wwwroot/blog/protected/components/UserIdentity.php` に保存されています。
 
-> Tip|ヒント: 規約により、クラスファイル名は対応するクラス名に接尾辞に拡張子 `.php` をつけたものになります。この規約に従って、[パスエイリアス](http://www.yiiframework.com/doc/guide/basics.namespace)を使ったクラス参照が可能です。 例えば、`UserIdentity` クラスを、`application.components.UserIdentity` というエイリアスで参照することができます。Yii の多くの API において、パスエイリアスを利用可能です。(例：[Yii::createComponent()|YiiBase::createComponent]）そして、パスエイリアスを使うことは、コードに絶対パスを埋め込む必要をなくします。絶対パスを記述することはしばしばアプリケーション配備の際のトラブルの元になります。
+> Tip|ヒント: 規約により、クラスファイル名は対応するクラス名に接尾辞に拡張子 `.php` をつけたものになります。この規約に従って、[パスエイリアス](http://www.yiiframework.com/doc/guide/ja/basics.namespace)を使ったクラス参照が可能です。 例えば、`UserIdentity` クラスを、`application.components.UserIdentity` というエイリアスで参照することができます。Yii の多くの API において、パスエイリアスを利用可能です。(例：[Yii::createComponent()|YiiBase::createComponent]）そして、パスエイリアスを使うことは、コードに絶対パスを埋め込む必要をなくします。絶対パスを記述することはしばしばアプリケーション配備の際のトラブルの元になります。
 
 `UserIdentity` クラスを以下のように修正します。
 
@@ -42,7 +42,7 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-`authenticate()` メソッドにおいて、 `User` クラスを用いて `tbl_user` テーブルの行を参照しています。`tbl_user` テーブルの `username` 列は特定のユーザ名（大文字小文字の区別なし）と同一です。`User` クラスは前のセクションで `gii` ツールによって作られたものであることを思い出してください。`User` クラスは [CActiveRecord] を継承しているため、 [ActiveRecord 機能](http://www.yiiframework.com/doc/guide/database.ar)を、オブジェクト指向(OOP)にのっとったやり方で `tbl_user` テーブルにアクセスすることができます。
+`authenticate()` メソッドにおいて、 `User` クラスを用いて `tbl_user` テーブルの行を参照しています。`tbl_user` テーブルの `username` 列は特定のユーザ名（大文字小文字の区別なし）と同一です。`User` クラスは前のセクションで `gii` ツールによって作られたものであることを思い出してください。`User` クラスは [CActiveRecord] を継承しているため、 [ActiveRecord 機能](http://www.yiiframework.com/doc/guide/ja/database.ar)を、オブジェクト指向(OOP)にのっとったやり方で `tbl_user` テーブルにアクセスすることができます。
 
 ユーザが正当なパスワードを入力したかどうかをチェックするため、`User`クラスの`validatePassword`メソッドが起動されます。
 `/wwwroot/blog/protected/models/User.php`を以下の様に修正します。

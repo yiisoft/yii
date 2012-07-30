@@ -20,8 +20,8 @@
 データベースとの接続を確立する
 --------------------------------
 
-作ったスケルトンアプリケーションでブログデータベースを使うには、`/wwwroot/blog/protected/config/main.php` に保存されている PHP スクリプトで[アプリケーション初期構成](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) を変更する必要があります。
-このスクリプトはキーと値のペアで構成された連想配列を返します。 これらの値は[アプリケーションインスタンス](http://www.yiiframework.com/doc/guide/basics.application)を初期化するために使われます。
+作ったスケルトンアプリケーションでブログデータベースを使うには、`/wwwroot/blog/protected/config/main.php` に保存されている PHP スクリプトで[アプリケーション初期構成](http://www.yiiframework.com/doc/guide/ja/basics.application#application-configuration) を変更する必要があります。
+このスクリプトはキーと値のペアで構成された連想配列を返します。 これらの値は[アプリケーションインスタンス](http://www.yiiframework.com/doc/guide/ja/basics.application)を初期化するために使われます。
 
 `db`コンポーネントを以下のように構成します。
 
@@ -40,13 +40,13 @@ return array(
 );
 ~~~
 
-上記の設定は、`db` [アプリケーションコンポーネント](http://www.yiiframework.com/doc/guide/basics.application#application-component)の`connectionString` プロパティが `sqlite:/wwwroot/blog/protected/data/blog.db` に初期化されることを示します。
+上記の設定は、`db` [アプリケーションコンポーネント](http://www.yiiframework.com/doc/guide/ja/basics.application#application-component)の`connectionString` プロパティが `sqlite:/wwwroot/blog/protected/data/blog.db` に初期化されることを示します。
 
 この設定の場合、コードのどこからでも、`Yii::app()->db` を通じて DB コネクションオブジェクトにアクセスすることができます。
 `Yii::app()` は、エントリスクリプトで作成されたアプリケーションインスタンスを返すことに注意して下さい。
 DB コネクションのメソッドやプロパティに興味があれば、[クラスリファレンス|CDbConnection]を参照して下さい。
 しかし、多くの場合このDBコネクションを直接利用することはありません。
-そのかわりにいわゆる [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar) を利用してデータベースにアクセスします。 
+そのかわりにいわゆる [ActiveRecord](http://www.yiiframework.com/doc/guide/ja/database.ar) を利用してデータベースにアクセスします。 
 
 構成ファイルで設定した`tablePrefix`プロパティについて、もう少し説明したいと思います。
 これはデータベーステーブル名のプレフィクスとして`tbl_`を使用することを`db`コネクションオブジェクトに伝えます。
