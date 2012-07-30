@@ -1,1 +1,1 @@
-phpunit --verbose framework/db/ar/CActiveRecordTest
+phpunit --verbose framework
