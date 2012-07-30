@@ -49,7 +49,7 @@ Create a Web application under '/wwwroot/blog'? [Yes|No]y
 ###エントリスクリプト
 
 We have an [entry script]() filewhich has the following content:
-[エントリスクリプト](http://www.yiiframework.com/doc/guide/basics.entry)は `/wwwroot/blog/index.php` で、以下のような内容です:
+[エントリスクリプト](http://www.yiiframework.com/doc/guide/ja/basics.entry)は `/wwwroot/blog/index.php` で、以下のような内容です:
 
 ~~~
 [php]
@@ -65,12 +65,12 @@ Yii::createWebApplication($config)->run();
 ~~~
 
 このエントリスクリプトは、ウェブユーザが直接アクセスできる唯一のファイルです。
-まず Yii ブートストラップファイルの `yii.php` が読み込まれ、指定した設定で [アプリケーション](http://www.yiiframework.com/doc/guide/basics.application) インスタンスが作成されたのち、実行されます。 
+まず Yii ブートストラップファイルの `yii.php` が読み込まれ、指定した設定で [アプリケーション](http://www.yiiframework.com/doc/guide/ja/basics.application) インスタンスが作成されたのち、実行されます。 
 
 
 ###ベースアプリケーションディレクトリ
 
-`/wwwroot/blog/protected` が[アプリケーションベースディレクトリ](http://www.yiiframework.com/doc/guide/basics.application#application-base-directory)です。
+`/wwwroot/blog/protected` が[アプリケーションベースディレクトリ](http://www.yiiframework.com/doc/guide/ja/basics.application#application-base-directory)です。
 これから作成するコードとデータのほとんどがこのディレクトリ以下に配置されます。
 このディレクトリはウェブユーザのアクセスから保護されなければなりません。
 [Apache httpd Web server](http://httpd.apache.org/) を使っているなら、以下のような `.htaccess` ファイルを置くことでこれを達成できます:
@@ -88,11 +88,11 @@ deny from all
 Yiiがどのように動くか、理解するのを助けるために、ユーザがコンタクトページにアクセスした際に、スケルトンアプリケーションでの主なワークフローを解説します:
 
  0. ユーザがURL `http://www.example.com/blog/index.php?r=site/contact`を要求します。
- 1. [エントリスクリプト](http://www.yiiframework.com/doc/guide/basics.entry)がウェブサーバにより実行され、リクエストを処理します。
- 2. [アプリケーション](http://www.yiiframework.com/doc/guide/basics.application) インスタンスが作成され、アプリケーション初期構成ファイル `/wwwroot/blog/protected/config/main.php` で指定された初期プロパティ値が設定されます。
- 3. アプリケーションは[コントローラ](http://www.yiiframework.com/doc/guide/basics.controller)と[コントローラアクション](http://www.yiiframework.com/doc/guide/basics.controller#action)にリクエストを解決します。コンタクトページへのリクエストは、`site` とコントローラと `contact` アクションに解決されます (`/wwwroot/blog/protected/controllers/SiteController.php`中の`actionContact`メソッド)。
+ 1. [エントリスクリプト](http://www.yiiframework.com/doc/guide/ja/basics.entry)がウェブサーバにより実行され、リクエストを処理します。
+ 2. [アプリケーション](http://www.yiiframework.com/doc/guide/ja/basics.application) インスタンスが作成され、アプリケーション初期構成ファイル `/wwwroot/blog/protected/config/main.php` で指定された初期プロパティ値が設定されます。
+ 3. アプリケーションは[コントローラ](http://www.yiiframework.com/doc/guide/ja/basics.controller)と[コントローラアクション](http://www.yiiframework.com/doc/guide/ja/basics.controller#action)にリクエストを解決します。コンタクトページへのリクエストは、`site` とコントローラと `contact` アクションに解決されます (`/wwwroot/blog/protected/controllers/SiteController.php`中の`actionContact`メソッド)。
  4. アプリケーションは `SiteController` インスタンスとして、`site` コントローラを作成し、実行します。
  5. `SiteController` インスタンスは自身の `actionContact()` メソッドを呼ぶことで、 `contact` アクションを実行します。
- 6. `actionContact` メソッドは `contact` という名前の[ビュー](http://www.yiiframework.com/doc/guide/basics.view)をレンダリングし、ウェブユーザに提示します。内部的には、ビューファイル `/wwwroot/blog/protected/views/site/contact.php` を読み込み、[レイアウト](http://www.yiiframework.com/doc/guide/basics.view#layout)ファイル `/wwwroot/blog/protected/views/layouts/column1.php` にその結果を埋め込むことで、達成されます。
+ 6. `actionContact` メソッドは `contact` という名前の[ビュー](http://www.yiiframework.com/doc/guide/ja/basics.view)をレンダリングし、ウェブユーザに提示します。内部的には、ビューファイル `/wwwroot/blog/protected/views/site/contact.php` を読み込み、[レイアウト](http://www.yiiframework.com/doc/guide/ja/basics.view#layout)ファイル `/wwwroot/blog/protected/views/layouts/column1.php` にその結果を埋め込むことで、達成されます。
 
 <div class="revision">$Id: start.testdrive.txt 1734 2009-02-16 05:20:17Z qiang.xue $</div>
