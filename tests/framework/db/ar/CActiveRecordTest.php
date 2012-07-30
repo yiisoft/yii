@@ -1374,4 +1374,30 @@ class CActiveRecordTest extends CTestCase
 		$posts=PostWithBeforeFind::model()->findAll();
 		$this->assertEquals(count($posts),1);
 	}
+
+	/**
+	 * Self referencing many to many relationship in a data provider uses cached criteria with outdated table alias since 1.1.11.
+	 * @see github issue 1070
+	 * @link https://github.com/yiisoft/yii/issues/1070
+	**/
+	public function testIssue1070()
+	{
+		$dp = new CActiveDataProvider( 'UserWithDefaultScope' );
+		foreach ( $dp->getData() as $item )
+		{
+			$result = false;
+			try
+			{
+				$item->links[0]->from_user;
+				$result = true;
+			}
+			catch ( CDbException $e )
+			{
+				$result = false;
+			}
+			
+			$this->assertTrue( $result );
+			break;
+		}
+	}
 }
