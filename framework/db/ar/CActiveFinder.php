@@ -235,6 +235,7 @@ class CActiveFinder extends CComponent
 			if(!empty($options['scopes']))
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
+			$model->resetScope(false);
 			$criteria=$model->getDbCriteria();
 			$criteria->scopes=$scopes;
 			$model->applyScopes($criteria);
