@@ -241,7 +241,7 @@ class CSort extends CComponent
 			{
 				$model=CActiveRecord::model($this->modelClass);
 				if($criteria!==null)
-					$model->setDbCriteria($criteria);
+					$model->getDbCriteria()->mergeWith($criteria);
 				$schema=$model->getDbConnection()->getSchema();
 			}
 			$orders=array();
