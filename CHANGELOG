@@ -3,7 +3,8 @@
 
 Version 1.1.12 work in progress
 -------------------------------
--Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
+- Bug #1077: Fixed the problem with alias in CSort (creocoder)
+- Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
 
 
 Version 1.1.11 July 29, 2012
