@@ -5,6 +5,7 @@ Version 1.1.12 work in progress
 -------------------------------
 - Bug #1077: Fixed the problem with alias in CSort (creocoder)
 - Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
+- Bug #1095: Added missing retry_interval parameter of addServer function call in CMemCache (Lisio)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 
 
