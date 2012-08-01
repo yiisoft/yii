@@ -5,7 +5,7 @@ Version 1.1.12 work in progress
 -------------------------------
 - Bug #1077: Fixed the problem with alias in CSort (creocoder)
 - Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
-
+- Bug: CFileValidator now always sets field value to null when allowEmpty is true and no file was uploaded (samdark)
 
 Version 1.1.11 July 29, 2012
 ----------------------------
