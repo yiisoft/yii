@@ -5,6 +5,7 @@ Version 1.1.12 work in progress
 -------------------------------
 - Bug #1077: Fixed the problem with alias in CSort (creocoder)
 - Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
+- Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 
 
 Version 1.1.11 July 29, 2012
@@ -78,7 +79,6 @@ Version 1.1.11 July 29, 2012
 - Enh #599: Added case sensitivity check when autoloading classes (qiangxue)
 - Enh #601: added the method loginRequired() to the IWebUser interface (mdomba)
 - Enh #616: CVarDumper is now correctly highligting integer array keys (vernes, samdark)
-- Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 - Enh #641: Added support for customizing serialization methods for cache components (DaSourcerer, Qiang)
 - Enh #648: Added filterHtmlOptions property to the CGridColumn component (juban)
 - Enh #652: Added namespace to yiiGridView events, so they can be easily removed by .off() jQuery method (Bethrezen)
