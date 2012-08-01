@@ -48,7 +48,7 @@ public function filters()
 ~~~
 
 Вищенаведений код встановлює останню дату як значення заголовку `Last-Modified`, коли повідомлення було оновлено.
-[CHttpCacheFilter::lastModifiedExpression] доступний для *лінивих* виразів.
+Ви також можете використовувати [CHttpCacheFilter::lastModifiedExpression] для встановлення заголовку `Last-Modified`, використовуючи вираз php.
 
 > Tip|Підказка: Обидва, [CHttpCacheFilter::lastModifiedExpression] та 
 [CHttpCacheFilter::lastModified] можуть бути цілим числом, яке представляє Unix timestamp, або довільним рядком, 

@@ -6,7 +6,7 @@ Postモデルのカスタマイズ
  - `rules()`メソッド: モデルアトリビュートに対する検証規則を規定
  - `relations()`メソッド: リレーショナルオブジェクトを規定
 
-> Info|情報: [モデル](http://www.yiiframework.com/doc/guide/basics.model)
+> Info|情報: [モデル](http://www.yiiframework.com/doc/guide/ja/basics.model)
 はアトリビュートのリストから構成され、それぞれに対応するデータベーステーブルのコラムを持ちます。
 アトリビュートは明示的にクラスメンバ変数として宣言される場合もあり、宣言無しで宣言されることもあります。
 
@@ -46,7 +46,7 @@ public function rules()
 
 `required`、`length`、`in`、`match`のような検証ルールは全てYiiが提供する備え付けのものです。
 `normalizeTags`バリデータはメソッドで構成されるバリデータで、`Post`クラスにおいて定義される必要があります。
-より詳細な、どのようにバリデータを定義するかの情報は、[ガイド](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules)を参照してください。
+より詳細な、どのようにバリデータを定義するかの情報は、[ガイド](http://www.yiiframework.com/doc/guide/ja/form.model#declaring-validation-rules)を参照してください。
 
 ~~~
 [php]
@@ -74,14 +74,14 @@ public static function array2string($tags)
 `rules()`メソッドで宣言されたルールはひとつひとつ、モデルインスタンスの
 [validate()|CModel::validate]メソッドまたは[save()|CActiveRecord::save]メソッドをコールする際に実行されます。
 
-> Note|注: 覚えて欲しい重要なことがあります。`rules()`にはエンドユーザが入力する属性だけを書いてください。`Post`モデルの`id`や`create_time`といったプログラムやデータベースによって設定される属性は、`rules()`に入れるべきではありません。詳しくは、[属性への代入をセキュアにする](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments)を参照のこと。
+> Note|注: 覚えて欲しい重要なことがあります。`rules()`にはエンドユーザが入力する属性だけを書いてください。`Post`モデルの`id`や`create_time`といったプログラムやデータベースによって設定される属性は、`rules()`に入れるべきではありません。詳しくは、[属性への代入をセキュアにする](http://www.yiiframework.com/doc/guide/ja/form.model#securing-attribute-assignments)を参照のこと。
 
 以上の変更をしたら、postの作成ページを再び開いて、新しいバリデーションルールが機能しているか検証することができます。
 
 `relations()`メソッドのカスタマイズ
 -----------------------------------
 
-最後に`relations()`メソッドをカスタマイズして、postに関連するオブジェクトを指定します。`relations()`で関連オブジェクトを宣言することによって[リレーショナルアクティブレコード (RAR)](http://www.yiiframework.com/doc/guide/database.arr)のパワフルな機能を引き出し、執筆者やコメント一覧などの、postに関連するオブジェクトの情報にアクセスできるようになります。複雑なSQL JOIN構文を書く必要はありません。
+最後に`relations()`メソッドをカスタマイズして、postに関連するオブジェクトを指定します。`relations()`で関連オブジェクトを宣言することによって[リレーショナルアクティブレコード (RAR)](http://www.yiiframework.com/doc/guide/ja/database.arr)のパワフルな機能を引き出し、執筆者やコメント一覧などの、postに関連するオブジェクトの情報にアクセスできるようになります。複雑なSQL JOIN構文を書く必要はありません。
 
 `relations()`メソッドを次のように書き換えます。
 
@@ -130,7 +130,7 @@ foreach($comments as $comment)
 	echo $comment->content;
 ~~~
 
-リレーションの宣言と使い方の詳細については、[ガイド](http://www.yiiframework.com/doc/guide/database.arr)をご覧ください。
+リレーションの宣言と使い方の詳細については、[ガイド](http://www.yiiframework.com/doc/guide/ja/database.arr)をご覧ください。
 
 `url`プロパティの追加
 ---------------------
@@ -155,7 +155,7 @@ class Post extends CActiveRecord
 
 URLのGETパラメータとして、postのIDのほかにタイトルも追加しています。これはSEO（検索エンジン最適化）が主な目的です。後ほど[Beautifying URLs](/doc/blog/final.url)で説明します。
 
-`Post`の最も祖先のクラスは[CComponent]なので、`getUrl()`というgetterメソッドを追加することで、`$post->url`という書き方ができるようになります。`$post->url`にアクセスすると、getterメソッドが実行され、その結果が式の値として返されます。このようなコンポーネントの機能の詳細については[ガイド](/doc/guide/basics.component)を参照のこと。
+`Post`の最も祖先のクラスは[CComponent]なので、`getUrl()`というgetterメソッドを追加することで、`$post->url`という書き方ができるようになります。`$post->url`にアクセスすると、getterメソッドが実行され、その結果が式の値として返されます。このようなコンポーネントの機能の詳細については[ガイド](/doc/guide/ja/basics.component)を参照のこと。
 
 ステータスをテキストで表現する
 ------------------------------
@@ -169,6 +169,8 @@ postのステータスはinteger型でデータベースに保存されるので
 [php]
 class Lookup extends CActiveRecord
 {
+......
+
 	private static $_items=array();
 
 	public static function items($type)
@@ -218,4 +220,4 @@ class Post extends CActiveRecord
 
 これによって、`Lookup::items('PostStatus')`を呼ぶと、投稿のステータスとして取りうる値のリスト（integer値をインデックスとした、各値に対応するテキスト表現の一覧）を取得できます。また、`Lookup::item('PostStatus', Post::STATUS_PUBLISHED)`を呼ぶと、公開済みというステータスのテキスト表現を取得できます。
 
-<div class="revision">$Id: post.model.txt 3366 2011-08-03 21:24:26Z alexander.makarow $</div>
+<div class="revision">$Id$</div>

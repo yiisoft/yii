@@ -7,7 +7,7 @@
 アクセス制御のカスタマイズ
 --------------------------
 
-最初にやりたいのは、[access control](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter)のカスタマイズです。`gii`で生成したコードは私達の要求に合いません。
+最初にやりたいのは、[access control](http://www.yiiframework.com/doc/guide/ja/topics.auth#access-control-filter)のカスタマイズです。`gii`で生成したコードは私達の要求に合いません。
 
 `/wwwroot/blog/protected/controllers/PostController.php`ファイルを開いて、`accessRules()`メソッドを以下のように修正します。
 

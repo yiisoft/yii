@@ -128,12 +128,13 @@
 			});
 
 			if (settings.validateOnSubmit) {
-				$form.find(':submit').live('mouseup keyup', function () {
+				$form.on('mouseup keyup', ':submit', function () {
 					$form.data('submitObject', $(this));
 				});
 				var validated = false;
 				$form.submit(function () {
 					if (validated) {
+						validated = false;
 						return true;
 					}
 					if (settings.timer !== undefined) {
@@ -157,7 +158,6 @@
 									} else {  // no submit button in the form
 										$form.submit();
 									}
-									validated = false;
 									return;
 								}
 							}
@@ -173,7 +173,7 @@
 			/*
 			 * In case of reseting the form we need to reset error messages
 			 * NOTE1: $form.reset - does not exist
-			 * NOTE2: $form.live('reset', ...) does not work
+			 * NOTE2: $form.on('reset', ...) does not work
 			 */
 			$form.bind('reset', function () {
 				/*

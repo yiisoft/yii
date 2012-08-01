@@ -4,7 +4,7 @@
 作成、読み出し、更新、そして削除 (CRUD) はアプリケーションにおけるデータオブジェクトに対する4つの基本操作です。
 ウェブアプリケーション開発において、CRUDオペレーションを実装するタスクは共通であるため、Yiiは*Gii*という名前でコード生成ツールを提供し、それはこのプロセス(*スキャフォールディング*としても知られる)を自動化できます。
 
-> Note|注: Giiは1.1.2版から利用可能です。それまではこの目的には[yiicシェルツール](http://www.yiiframework.com/doc/guide/quickstart.first-app-yiic)を使用する必要があります。
+> Note|注: Giiは1.1.2版から利用可能です。それまではこの目的には[yiicシェルツール](http://www.yiiframework.com/doc/guide/ja/quickstart.first-app-yiic)を使用する必要があります。
 
 以降では、ブログアプリケーションの記事やコメントのCRUDオペレーションをこのツールにより実装する方法を紹介します。
 
@@ -46,7 +46,7 @@ http://www.example.com/blog/index.php?r=gii
 モデルの作成
 ---------------
 
-最初にそれぞれのデータベーステーブルの[モデル](http://www.yiiframework.com/doc/guide/basics.model)クラスを作成する必要があります。このチュートリアルの後半に表れるように、モデルクラスによって直観的なオブジェクト指向のやり方でデータベースにアクセスすることができます。
+最初にそれぞれのデータベーステーブルの[モデル](http://www.yiiframework.com/doc/guide/ja/basics.model)クラスを作成する必要があります。このチュートリアルの後半に表れるように、モデルクラスによって直観的なオブジェクト指向のやり方でデータベースにアクセスすることができます。
 
 モデル生成ツールを使用するためには、`モデルジェネレータ`リンクをクリックしてください。
 
@@ -82,7 +82,7 @@ CRUDオペレーションの実装
 `Comment`モデルについても同じステップを繰り返します。
 
 CRUDジェネレータによって生成されたファイルを見てみましょう。全てのファイルは`/wwwroot/blog/protected`以下に生成されます。
-便宜上それらのファイルを[コントローラ](http://www.yiiframework.com/doc/guide/basics.controller)ファイルと[ビュー](http://www.yiiframework.com/doc/guide/basics.view)ファイルに分類します。
+便宜上それらのファイルを[コントローラ](http://www.yiiframework.com/doc/guide/ja/basics.controller)ファイルと[ビュー](http://www.yiiframework.com/doc/guide/ja/basics.view)ファイルに分類します。
 
  - コントローラファイル:
 	 * `controllers/PostController.php`ファイルは`PostController`クラスを含みます。このコントローラは記事のCRUD操作を受け持ちます。
@@ -114,7 +114,7 @@ http://www.example.com/blog/index.php?r=comment
 上記ファイルがどう使われるかをよりよく理解するために、ブログアプリケーションで記事の一覧が表示される場合のワークフローを示します。
 
  0. ユーザがURL `http://www.example.com/blog/index.php?r=post`を要求します。
- 1. ウェブサーバにより [エントリスクリプト](http://www.yiiframework.com/doc/guide/basics.entry) が実行され、[アプリケーション](http://www.yiiframework.com/doc/guide/basics.application)インスタンスが作成・初期化された後、リクエストを処理します。
+ 1. ウェブサーバにより [エントリスクリプト](http://www.yiiframework.com/doc/guide/ja/basics.entry) が実行され、[アプリケーション](http://www.yiiframework.com/doc/guide/ja/basics.application)インスタンスが作成・初期化された後、リクエストを処理します。
  2. アプリケーションは `PostController` のインスタンスを作成し、実行します。
  3. `PostController` インスタンスは要求された `index` アクションを、`actionIndex()` メソッドを呼ぶことで実行します。もしユーザがアクションを明示的にURL中で示さなければ、`index`がデフォールトのアクションとなります。
  4. `actionIndex()` メソッドはデータベースに問い合わせを行い、最近の記事リストを取り出します。
