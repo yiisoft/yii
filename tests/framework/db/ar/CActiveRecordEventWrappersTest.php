@@ -20,13 +20,80 @@ class CActiveRecordEventWrappersTest extends CTestCase
 		CActiveRecord::$db=$this->_connection;
 
 		UserWithWrappers::clearCounters();
+		UserWithWrappers::setBeforeFindCriteria(null);
 		PostWithWrappers::clearCounters();
+		PostWithWrappers::setBeforeFindCriteria(null);
 		CommentWithWrappers::clearCounters();
 	}
 
 	public function tearDown()
 	{
 		$this->_connection->active=false;
+	}
+
+	/**
+	 * provides different db critieras to test beforeFind criteria modification
+	 * @return array (db critiera, expected records, column assertations)
+	 */
+	public function userCriteriaProvider()
+	{
+		return array(
+			array(new CDbCriteria(array('limit'=>1)), 1, array()),
+			array(new CDbCriteria(array('select'=>"'MisterX' AS username")), 4, array('username'=>'MisterX')),
+			array(new CDbCriteria(array('with'=>'posts')), 4, array()),
+		);
+	}
+
+	/**
+	 * provides different db critieras to test beforeFind criteria modification
+	 * @return array (db critiera, expected records, column assertations)
+	 */
+	public function postCriteriaProvider()
+	{
+		return array(
+			array('', 3, array()),
+			array(new CDbCriteria(array('select'=>"'changedTitle' AS title")), 3, array('title'=>'changedTitle')),
+			array(new CDbCriteria(array('condition'=>"title='post 2'")), 1, array()),
+			array(new CDbCriteria(array('with'=>'comments')), 3, array()),
+		);
+	}
+
+	/**
+	 * provides different db critieras to test beforeFind criteria modification
+	 * @return array (db critiera, expected records, column assertations)
+	 */
+	public function postCriteriaProviderLazy()
+	{
+		return array_merge($this->postCriteriaProvider(), array(
+			array(new CDbCriteria(array('limit'=>1)), 1, array()),
+		));
+	}
+
+	/**
+	 * Check whether criteria given by dataprovider has been applied
+	 *
+	 * @param array $records
+	 * @param CDbCriteria $criteria
+	 * @param integer $count
+	 * @param array $assertations
+	 */
+	public function assertCriteriaApplied($records, $criteria, $count, $assertations)
+	{
+		$this->assertEquals($count, count($records));
+		foreach($assertations as $attribute => $value) {
+			foreach($records as $record) {
+				$this->assertEquals($value, $record->{$attribute});
+			}
+		}
+		if (!empty($criteria))
+		{
+			$with = (array)$criteria->with;
+			foreach($with as $relation) {
+				foreach($records as $record) {
+					$this->assertTrue($record->hasRelated($relation), 'relation should have been loaded due to with in criteria');
+				}
+			}
+		}
 	}
 
 	public function testBeforeFind()
@@ -48,6 +115,39 @@ class CActiveRecordEventWrappersTest extends CTestCase
 		UserWithWrappers::model()->findAllBySql('SELECT * FROM users');
 		$this->assertEquals(UserWithWrappers::getCounter('beforeFind'),1);
 	}
+
+	/**
+	 * @dataProvider userCriteriaProvider
+	 */
+	public function testBeforeFindCriteriaModification($criteria, $count, $assertations)
+	{
+		UserWithWrappers::setBeforeFindCriteria($criteria);
+
+		$user = UserWithWrappers::model()->find();
+		$this->assertCriteriaApplied(array($user), $criteria, 1, $assertations);
+
+		$user = UserWithWrappers::model()->findByAttributes(array('username'=>'user1'));
+		$this->assertCriteriaApplied(array($user), $criteria, 1, $assertations);
+
+		$user = UserWithWrappers::model()->findByPk(1);
+		$this->assertCriteriaApplied(array($user), $criteria, 1, $assertations);
+
+		$user = UserWithWrappers::model()->findBySql('SELECT * FROM users');
+		$this->assertCriteriaApplied(array($user), $criteria, 1, array());
+
+		$users = UserWithWrappers::model()->findAll();
+		$this->assertCriteriaApplied($users, $criteria, $count, $assertations);
+
+		$users = UserWithWrappers::model()->findAllByAttributes(array('username'=>array('user1','user2','user3','user4')));
+		$this->assertCriteriaApplied($users, $criteria, $count, $assertations);
+
+		$users = UserWithWrappers::model()->findAllByPk(array(1,2,3,4));
+		$this->assertCriteriaApplied($users, $criteria, $count, $assertations);
+
+		$users = UserWithWrappers::model()->findAllBySql('SELECT * FROM users');
+		$this->assertCriteriaApplied($users, $criteria, 4, array());
+	}
+
 
 	public function testBeforeFindRelationalEager()
 	{
@@ -85,18 +185,85 @@ class CActiveRecordEventWrappersTest extends CTestCase
 		$this->assertEquals(CommentWithWrappers::getCounter('beforeFind'),1);
 	}
 
+	/**
+	 * @dataProvider postCriteriaProvider
+	 */
+	public function testBeforeFindRelationalEagerCriteriaModification($criteria, $count, $assertations)
+	{
+		PostWithWrappers::setBeforeFindCriteria($criteria);
+
+		$user = UserWithWrappers::model()->with('posts.comments')->find('t.id=2');
+		$this->assertTrue($user->hasRelated('posts'));
+		$this->assertCriteriaApplied($user->posts, $criteria, $count, $assertations);
+
+		$user = UserWithWrappers::model()->with('posts.comments')->findByAttributes(array('username'=>'user2'));
+		$this->assertTrue($user->hasRelated('posts'));
+		$this->assertCriteriaApplied($user->posts, $criteria, $count, $assertations);
+
+		$user = UserWithWrappers::model()->with('posts.comments')->findByPk(2);
+		$this->assertTrue($user->hasRelated('posts'));
+		$this->assertCriteriaApplied($user->posts, $criteria, $count, $assertations);
+
+		$user = UserWithWrappers::model()->with('posts.comments')->findBySql('SELECT * FROM users WHERE id=2');
+		$this->assertTrue($user->hasRelated('posts'));
+		$this->assertCriteriaApplied($user->posts, $criteria, $count, $assertations);
+
+		$users = UserWithWrappers::model()->with('posts.comments')->findAll('t.id=2');
+		$user = reset($users);
+		$this->assertTrue($user->hasRelated('posts'));
+		$this->assertCriteriaApplied($user->posts, $criteria, $count, $assertations);
+
+		$users = UserWithWrappers::model()->with('posts.comments')->findAllByAttributes(array('username'=>'user2'));
+		$user = reset($users);
+		$this->assertTrue($user->hasRelated('posts'));
+		$this->assertCriteriaApplied($user->posts, $criteria, $count, $assertations);
+
+		$users = UserWithWrappers::model()->with('posts.comments')->findAllByPk(2);
+		$user = reset($users);
+		$this->assertTrue($user->hasRelated('posts'));
+		$this->assertCriteriaApplied($user->posts, $criteria, $count, $assertations);
+
+		$users = UserWithWrappers::model()->with('posts.comments')->findAllBySql('SELECT * FROM users WHERE id=2');
+		$user = reset($users);
+		$this->assertTrue($user->hasRelated('posts'));
+		$this->assertCriteriaApplied($user->posts, $criteria, $count, $assertations);
+	}
+
+
 	public function testBeforeFindRelationalLazy()
 	{
 		$user=UserWithWrappers::model()->find();
-		$user->posts;
 		$this->assertEquals(UserWithWrappers::getCounter('beforeFind'),1);
+		$user->posts;
+		$this->assertEquals(UserWithWrappers::getCounter('beforeFind'),0);
 		$this->assertEquals(PostWithWrappers::getCounter('beforeFind'),1);
 		$user=UserWithWrappers::model()->find();
-		$user->posts(array('with'=>'comments'));
 		$this->assertEquals(UserWithWrappers::getCounter('beforeFind'),1);
+		$user->posts(array('with'=>'comments'));
+		$this->assertEquals(UserWithWrappers::getCounter('beforeFind'),0);
 		$this->assertEquals(PostWithWrappers::getCounter('beforeFind'),1);
 		$this->assertEquals(CommentWithWrappers::getCounter('beforeFind'),1);
 	}
+
+	/**
+	 * @dataProvider postCriteriaProviderLazy
+	 */
+	public function testBeforeFindRelationalLazyCriteriaModification($criteria, $count, $assertations)
+	{
+		PostWithWrappers::setBeforeFindCriteria($criteria);
+
+		$user=UserWithWrappers::model()->findByPk(2);
+		$posts = $user->posts;
+		$this->assertCriteriaApplied($posts, $criteria, $count, $assertations);
+
+		$user=UserWithWrappers::model()->findByPk(2);
+		$posts = $user->posts(array('with'=>'comments'));
+		$this->assertCriteriaApplied($posts, $criteria, $count, $assertations);
+		foreach($posts as $post) {
+			$this->assertTrue($post->hasRelated('comments'));
+		}
+	}
+
 
 	public function testAfterFind()
 	{
