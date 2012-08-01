@@ -994,8 +994,9 @@ class CHttpRequest extends CApplicationComponent
  * Additionally (since Yii 1.1.11) a cookie can be added as an object,
  * without setting the cookie name twice:
  * <pre>
- * $cookies->add(new CHttpCookie($name, $value)); // sends a cookie
+ * $cookies->add(new CHttpCookie($name, $value),false); // sends a cookie
  * </pre>
+ * Be sure to set the second parameter, as PHP required als parameters to be set.
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web
@@ -1057,14 +1058,14 @@ class CCookieCollection extends CMap
 	 * // Array access style - note that cookie name should be used twice here
 	 * Yii::app()->request->cookies['name']=new CHttpCookie('name',$value);
 	 * // Object style - note that cookie name is used only once here
-	 * Yii::app()->request->cookies->add(new CHttpCookie('name', $value));
+	 * Yii::app()->request->cookies->add(new CHttpCookie('name', $value),false);
 	 * </pre>
 	 * @param mixed $name Cookie name or an instance of {@link CHttpCookie}.
-	 * @param CHttpCookie $cookie An instance of {@link HttpCookie}, only used if the first
-	 * parameter is not an instance of {@link CHttpCookie}. Defaults to null.
+	 * @param mixed $cookie An instance of {@link HttpCookie}, only used if the first
+	 * parameter is not an instance of {@link CHttpCookie}.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
-	public function add($name,$cookie=null)
+	public function add($name,$cookie)
 	{
 		if($name instanceof CHttpCookie)
 		{
