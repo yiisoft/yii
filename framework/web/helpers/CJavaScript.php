@@ -82,7 +82,7 @@ class CJavaScript
 				return rtrim(sprintf('%.16F',$value),'0');  // locale-independent representation
 		}
 		else if($value instanceof CJavaScriptExpression)
-			return (string)$value;
+			return $value->__toString();
 		else if(is_object($value))
 			return self::encode(get_object_vars($value));
 		else if(is_array($value))
