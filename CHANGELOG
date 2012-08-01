@@ -3,8 +3,9 @@
 
 Version 1.1.12 work in progress
 -------------------------------
-- Bug #1077: Fixed the problem with alias in CSort (creocoder)
 - Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
+- Bug #1077: Fixed the problem with alias in CSort (creocoder)
+- Bug #1087: Fixed E_STRICT error introduced in 1.1.11 in CCookieCollection::add(). Read UPGRADE document concerning this change (suralc)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 
 

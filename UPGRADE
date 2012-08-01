@@ -18,6 +18,12 @@ General upgrade intructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
+Upgrading from v1.1.11
+----------------------
+- Changes in the signature of CCookieCollection::add() caused E_STRICT errors on php prior to 5.3.
+  To fix these issue, the signature was reverted. New functionality is still aviable by passing any value
+  to the second parameter of CCookieCollection::add(CHttpCookie,null). If you haven't used this way to attach a 
+  cookie without specifying the name twice, nothing changes.
 
 Upgrading from v1.1.10
 ----------------------
