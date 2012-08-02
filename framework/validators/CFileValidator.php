@@ -130,6 +130,12 @@ class CFileValidator extends CValidator
 	 * limit.
 	 */
 	public $tooMany;
+	/**
+	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
+	 * For this validator it defaults to false.
+	 * @since 1.1.12
+	 */
+	public $safe=false;
 
 	/**
 	 * Set the attribute and then validates using {@link validateFile}.
@@ -244,7 +250,6 @@ class CFileValidator extends CValidator
 	 */
 	protected function emptyAttribute($object, $attribute)
 	{
-		unset($object->{$attribute});
 		if(!$this->allowEmpty)
 		{
 			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} cannot be blank.');
