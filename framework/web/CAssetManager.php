@@ -90,6 +90,15 @@ class CAssetManager extends CApplicationComponent
 	 */
 	public $forceCopy=false;
 	/**
+	 * @var array|IAssetPathGenerator used for generating path that is relative to basePath.
+	 * Can be array specification that will be instantiated on request. 'class' key is required and must specify valid class
+	 * implementing IAssetPathGenerator interface. All other params will be set directly to object.
+	 */
+	public $pathGenerator=array(
+		'class'=>'CHashedAssetPathGenerator',
+		'hashByName'=>false,
+	);
+	/**
 	 * @var string base web accessible path for storing private files
 	 */
 	private $_basePath;
@@ -152,6 +161,27 @@ class CAssetManager extends CApplicationComponent
 	}
 
 	/**
+	 * @throws CException
+	 * @return IAssetPathGenerator
+	 */
+	protected function getPathGenerator()
+	{
+		if (is_array($this->pathGenerator))
+		{
+			$spec = $this->pathGenerator;
+			if (!isset($spec['class'])) throw CException("Path generator specification requires 'class' key");
+			$pathGenerator = new $spec['class'];
+			unset($spec['class']);
+			foreach ($spec as $name => $value)
+			{
+				$pathGenerator->$name = $value;
+			}
+			$this->pathGenerator = $pathGenerator;
+		}
+		return $this->pathGenerator;
+	}
+
+	/**
 	 * Publishes a file or a directory.
 	 * This method will copy the specified asset to a web accessible directory
 	 * and return the URL for accessing the published asset.
@@ -190,15 +220,57 @@ class CAssetManager extends CApplicationComponent
 	 */
 	public function publish($path,$hashByName=false,$level=-1,$forceCopy=null)
 	{
+		$hashedGenerator = new CHashedAssetPathGenerator();
+		$hashedGenerator->hashByName = $hashByName;
+		$this->publishWithPathGenerator($path, $level, $forceCopy, $hashedGenerator);
+	}
+
+	/**
+	 * Publishes a file or a directory.
+	 * This method will copy the specified asset to a web accessible directory
+	 * and return the URL for accessing the published asset.
+	 * <ul>
+	 * <li>If the asset is a file, its file modification time will be checked
+	 * to avoid unnecessary file copying;</li>
+	 * <li>If the asset is a directory, all files and subdirectories under it will
+	 * be published recursively. Note, in case $forceCopy is false the method only checks the
+	 * existence of the target directory to avoid repetitive copying.</li>
+	 * </ul>
+	 *
+	 * Note: On rare scenario, a race condition can develop that will lead to a
+	 * one-time-manifestation of a non-critical problem in the creation of the directory
+	 * that holds the published assets. This problem can be avoided altogether by 'requesting'
+	 * in advance all the resources that are supposed to trigger a 'publish()' call, and doing
+	 * that in the application deployment phase, before system goes live. See more in the following
+	 * discussion: http://code.google.com/p/yii/issues/detail?id=2579
+	 *
+	 * @param string $path the asset (file or directory) to be published
+	 * @param integer $level level of recursive copying when the asset is a directory.
+	 * Level -1 means publishing all subdirectories and files;
+	 * Level 0 means publishing only the files DIRECTLY under the directory;
+	 * level N means copying those directories that are within N levels.
+	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already
+	 * published before. This parameter is set true mainly during development stage when the original
+	 * assets are being constantly changed. The consequence is that the performance is degraded,
+	 * which is not a concern during development, however. Default value of this parameter is null meaning
+	 * that it's value is controlled by {
+	 * @throws CException
+	 * @link $forceCopy} class property. This parameter has been available
+	 * since version 1.1.2. Default value has been changed since 1.1.11.
+	 * @param IAssetPathGenerator $pathGenerator you can override current path generator
+	 * @return string an absolute URL to the published asset
+	 */
+	public function publishWithPathGenerator($path,$level=-1,$forceCopy=null,IAssetPathGenerator $pathGenerator=null)
+	{
 		if($forceCopy===null)
 			$forceCopy=$this->forceCopy;
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
 		else if(($src=realpath($path))!==false)
 		{
+			$dir=is_null($pathGenerator) ? $this->getPathGenerator()->generatePath($src) : $pathGenerator->generatePath($src);
 			if(is_file($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : dirname($src).filemtime($src));
 				$fileName=basename($src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
@@ -209,8 +281,7 @@ class CAssetManager extends CApplicationComponent
 					{
 						if(!is_dir($dstDir))
 						{
-							mkdir($dstDir);
-							@chmod($dstDir, $this->newDirMode);
+							mkdir($dstDir, $this->newDirMode, true);
 						}
 						symlink($src,$dstFile);
 					}
@@ -219,8 +290,7 @@ class CAssetManager extends CApplicationComponent
 				{
 					if(!is_dir($dstDir))
 					{
-						mkdir($dstDir);
-						@chmod($dstDir, $this->newDirMode);
+						mkdir($dstDir, $this->newDirMode, true);
 					}
 					copy($src,$dstFile);
 					@chmod($dstFile, $this->newFileMode);
@@ -230,7 +300,6 @@ class CAssetManager extends CApplicationComponent
 			}
 			else if(is_dir($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : $src.filemtime($src));
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 
 				if($this->linkAssets)
@@ -240,6 +309,7 @@ class CAssetManager extends CApplicationComponent
 				}
 				else if(!is_dir($dstDir) || $forceCopy)
 				{
+					mkdir($dstDir, $this->newDirMode, true);
 					CFileHelper::copyDirectory($src,$dstDir,array(
 						'exclude'=>$this->excludeFiles,
 						'level'=>$level,
@@ -270,11 +340,11 @@ class CAssetManager extends CApplicationComponent
 	{
 		if(($path=realpath($path))!==false)
 		{
-			$base=$this->getBasePath().DIRECTORY_SEPARATOR;
-			if(is_file($path))
-				return $base . $this->hash($hashByName ? basename($path) : dirname($path).filemtime($path)) . DIRECTORY_SEPARATOR . basename($path);
-			else
-				return $base . $this->hash($hashByName ? basename($path) : $path.filemtime($path));
+			$publishedPath = $this->getBasePath() . DIRECTORY_SEPARATOR
+			                 . $this->getPathGenerator()->generatePath($path);
+			if (is_file($path)) $publishedPath .= DIRECTORY_SEPARATOR . basename($path);
+
+			return $publishedPath;
 		}
 		else
 			return false;
@@ -297,10 +367,10 @@ class CAssetManager extends CApplicationComponent
 			return $this->_published[$path];
 		if(($path=realpath($path))!==false)
 		{
-			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path).filemtime($path)).'/'.basename($path);
-			else
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path.filemtime($path));
+			$publishedUrl = $this->getBaseUrl() . '/' . $this->getPathGenerator()->generatePath($path);
+			if (is_file($path)) $publishedUrl .= '/' . basename($path);
+
+			return $publishedUrl;
 		}
 		else
 			return false;
@@ -317,3 +387,4 @@ class CAssetManager extends CApplicationComponent
 		return sprintf('%x',crc32($path.Yii::getVersion()));
 	}
 }
+

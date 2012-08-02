@@ -644,3 +644,12 @@ interface ILogFilter
 	public function filter(&$logs);
 }
 
+interface IAssetPathGenerator
+{
+	/**
+	 * @abstract
+	 * @param $assetPath
+	 * @return string
+	 */
+	public function generatePath($assetPath);
+}
