@@ -35,7 +35,7 @@ class CModelEvent extends CEvent
 	 * You can access criteria in {@link CActiveRecord::beforeFind} via <code>$this->getDbCriteria()</code>
 	 * and in a behavior via <code>$this->owner->getDbCriteria()</code>.
 	 * @since 1.1.5
-	 * @deprecated
+	 * @deprecated since 1.1.7
 	 */
 	public $criteria;
 }
