@@ -30,10 +30,12 @@ class CModelEvent extends CEvent
 	 */
 	public $isValid=true;
 	/**
-	 * @var CDbCriteria the query criteria that is passed as a parameter to a find method of {@link CActiveRecord}.
-	 * Note that this property is only used by {@link CActiveRecord::onBeforeFind} event.
-	 * This property could be null.
+	 * @var CDbCriteria this property has been introduced in version 1.1.5 to hold the query criterita on {@link CActiveRecord::onBeforeFind} event.
+	 * Since version 1.1.7 it is not used anymore and will allways be null.
+	 * You can access criteria in {@link CActiveRecord::beforeFind} via <code>$this->getDbCriteria()</code>
+	 * and in a behavior via <code>$this->owner->getDbCriteria()</code>.
 	 * @since 1.1.5
+	 * @deprecated
 	 */
 	public $criteria;
 }
