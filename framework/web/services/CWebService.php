@@ -146,7 +146,7 @@ class CWebService extends CComponent
 			if(($wsdl=$cache->get($key))!==false)
 				return $wsdl;
 		}
-		$generator=new CWsdlGenerator;
+		$generator=new $this->generatorClass();
 		$wsdl=$generator->generateWsdl($providerClass,$this->serviceUrl,$this->encoding);
 		if(isset($key))
 			$cache->set($key,$wsdl,$this->wsdlCacheDuration);
