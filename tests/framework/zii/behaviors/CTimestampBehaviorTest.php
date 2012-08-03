@@ -49,8 +49,9 @@ class CTimestampBehaviorTest extends CTestCase
 		$model2->title='testing-row-2';
 		$model2->created_at=123123;
 		$this->assertEquals(123123,$model2->created_at);
+		$saveTime=time();
 		$model2->save();
-		$this->assertEquals(time(),$model2->created_at);
+		$this->assertEquals($saveTime,$model2->created_at);
 
 		// behavior does not changes created_at after inserting
 		$model3=new CTimestampBehaviorTestActiveRecord;
