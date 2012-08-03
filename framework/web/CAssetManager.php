@@ -8,7 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-
+Yii::import('system.web.CHashedAssetPathGenerator');
 /**
  * CAssetManager is a Web application component that manages private files (called assets) and makes them accessible by Web clients.
  *
@@ -94,7 +94,7 @@ class CAssetManager extends CApplicationComponent
 	 * Can be array specification that will be instantiated on request. 'class' key is required and must specify valid class
 	 * implementing IAssetPathGenerator interface. All other params will be set directly to object.
 	 */
-	public $pathGenerator=array(
+	private  $_pathGenerator=array(
 		'class'=>'CHashedAssetPathGenerator',
 		'hashByName'=>false,
 	);
@@ -161,24 +161,40 @@ class CAssetManager extends CApplicationComponent
 	}
 
 	/**
+	 * @param IAssetPathGenerator|array $pathGenerator
 	 * @throws CException
+	 */
+	public function setPathGenerator($pathGenerator)
+	{
+		if (is_array($pathGenerator) && !isset($spec['class']))
+		{
+			throw new CException(Yii::t('yii', "Path generator specification requires 'class' key."));
+		}
+		elseif (!$pathGenerator instanceof IAssetPathGenerator)
+		{
+			throw new CException(Yii::t('yii','Path generator must be instance of IAssetPathGenerator.'));
+		}
+
+		$this->_pathGenerator = $pathGenerator;
+	}
+
+	/**
 	 * @return IAssetPathGenerator
 	 */
-	protected function getPathGenerator()
+	public function getPathGenerator()
 	{
-		if (is_array($this->pathGenerator))
+		if (is_array($this->_pathGenerator))
 		{
-			$spec = $this->pathGenerator;
-			if (!isset($spec['class'])) throw CException("Path generator specification requires 'class' key");
+			$spec = $this->_pathGenerator;
 			$pathGenerator = new $spec['class'];
 			unset($spec['class']);
 			foreach ($spec as $name => $value)
 			{
 				$pathGenerator->$name = $value;
 			}
-			$this->pathGenerator = $pathGenerator;
+			$this->_pathGenerator = $pathGenerator;
 		}
-		return $this->pathGenerator;
+		return $this->_pathGenerator;
 	}
 
 	/**
@@ -222,7 +238,7 @@ class CAssetManager extends CApplicationComponent
 	{
 		$hashedGenerator = new CHashedAssetPathGenerator();
 		$hashedGenerator->hashByName = $hashByName;
-		$this->publishWithPathGenerator($path, $level, $forceCopy, $hashedGenerator);
+		return $this->publishWithPathGenerator($path, $level, $forceCopy, $hashedGenerator);
 	}
 
 	/**
@@ -262,6 +278,7 @@ class CAssetManager extends CApplicationComponent
 	 */
 	public function publishWithPathGenerator($path,$level=-1,$forceCopy=null,IAssetPathGenerator $pathGenerator=null)
 	{
+		$oldumask = umask(0);
 		if($forceCopy===null)
 			$forceCopy=$this->forceCopy;
 		if(isset($this->_published[$path]))
@@ -296,6 +313,7 @@ class CAssetManager extends CApplicationComponent
 					@chmod($dstFile, $this->newFileMode);
 				}
 
+				umask($oldumask);
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
 			}
 			else if(is_dir($src))
@@ -317,7 +335,7 @@ class CAssetManager extends CApplicationComponent
 						'newFileMode'=>$this->newFileMode,
 					));
 				}
-
+				umask($oldumask);
 				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
 			}
 		}
@@ -341,7 +359,7 @@ class CAssetManager extends CApplicationComponent
 		if(($path=realpath($path))!==false)
 		{
 			$publishedPath = $this->getBasePath() . DIRECTORY_SEPARATOR
-			                 . $this->getPathGenerator()->generatePath($path);
+			                 . $this->hashPathGeneratorCompatibility($path, $hashByName);
 			if (is_file($path)) $publishedPath .= DIRECTORY_SEPARATOR . basename($path);
 
 			return $publishedPath;
@@ -367,7 +385,7 @@ class CAssetManager extends CApplicationComponent
 			return $this->_published[$path];
 		if(($path=realpath($path))!==false)
 		{
-			$publishedUrl = $this->getBaseUrl() . '/' . $this->getPathGenerator()->generatePath($path);
+			$publishedUrl = $this->getBaseUrl() . '/' . $this->hashPathGeneratorCompatibility($path, $hashByName);
 			if (is_file($path)) $publishedUrl .= '/' . basename($path);
 
 			return $publishedUrl;
@@ -376,15 +394,20 @@ class CAssetManager extends CApplicationComponent
 			return false;
 	}
 
-	/**
-	 * Generate a CRC32 hash for the directory path. Collisions are higher
-	 * than MD5 but generates a much smaller hash string.
-	 * @param string $path string to be hashed.
-	 * @return string hashed string.
-	 */
-	protected function hash($path)
+	private function hashPathGeneratorCompatibility($path, $hashByName)
 	{
-		return sprintf('%x',crc32($path.Yii::getVersion()));
+		$generator = $this->getPathGenerator($path);
+
+		if ($generator instanceof CHashedAssetPathGenerator)
+		{
+			/** @var $generator CHashedAssetPathGenerator */
+			$oldVal = $generator->hashByName;
+			$generator->hashByName = $hashByName;
+			$path = $generator->generatePath($path);
+			$generator->hashByName = $oldVal;
+			return $path;
+		}
+		return $this->getPathGenerator()->generatePath($path);
 	}
 }
 
