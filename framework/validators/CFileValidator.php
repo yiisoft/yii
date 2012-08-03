@@ -281,7 +281,7 @@ class CFileValidator extends CValidator
 	 * (was private before) since 1.1.11.
 	 *
 	 * @param string $sizeStr the size string to convert.
-	 * @return int the byte count in the given size string.
+	 * @return integer the byte count in the given size string.
 	 * @since 1.1.11
 	 */
 	public function sizeToBytes($sizeStr)
