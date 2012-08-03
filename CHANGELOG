@@ -6,7 +6,6 @@ Version 1.1.12 work in progress
 - Bug #1076: CJavaScript::encode() was not compatible with PHP 5.1 (samdark)
 - Bug #1077: Fixed the problem with alias in CSort (creocoder)
 - Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
-- Bug #1085: CTimestampBehavior tests sometimes failed due to mistake of time measurement (resurtm)
 - Bug #1087: Reverted changes to CCookieCollection::add() introduced in 1.1.11 as they were triggering E_STRICT on some old PHP-versions(suralc)
 - Bug #1094: CGridView with enabled history used to clear page title in case sorting or paging performed (Opera and Firefox only) (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
