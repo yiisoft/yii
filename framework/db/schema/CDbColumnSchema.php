@@ -67,6 +67,12 @@ class CDbColumnSchema extends CComponent
 	 * @since 1.1.7
 	 */
 	public $autoIncrement=false;
+	/**
+	 * @var string comment of this column. Default value is empty string which means that comment was
+	 * not set to the column.
+	 * @since 1.1.12
+	 */
+	public $comment='';
 
 
 	/**
