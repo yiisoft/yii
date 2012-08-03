@@ -406,7 +406,7 @@ class ModelCode extends CCodeModel
 		{
 			if($this->isDbConnection($name,$component))
 			{
-				$connectionString = is_object($component) ? $component->connectionString : $component['connectionString'];
+				$connectionString = is_object($component) ? $component->connectionString : Yii::app()->getComponent($name)->connectionString;
 				$list[$name]=$name.' ('.$connectionString.')';
 			}
 		}
@@ -422,10 +422,17 @@ class ModelCode extends CCodeModel
 	{
 		if(is_array($component))
 		{
-			if(isset($component['class']) && $component['class']=='CDbConnection')
-				return true;
+			if(isset($component['class']))
+			{
+				if($component['class']==='CDbConnection')
+					return true;
+
+				$r = new ReflectionClass($component['class']);
+				if($r->isSubclassOf('CDbConnection'))
+					return true;
+			}
 			else
-				$component=Yii::app()->getComponent($name);
+				return false;
 		}
 
 		return $component instanceof CDbConnection;
