@@ -406,7 +406,15 @@ class ModelCode extends CCodeModel
 		{
 			if($this->isDbConnection($name,$component))
 			{
-				$connectionString = is_object($component) ? $component->connectionString : Yii::app()->getComponent($name)->connectionString;
+				if(is_object($component))
+					$connectionString = $component->connectionString;
+				else
+				{
+					if(isset($component['connectionString']))
+						$connectionString = $component['connectionString'];
+					else
+						Yii::app()->getComponent($name)->connectionString;
+				}
 				$list[$name]=$name.' ('.$connectionString.')';
 			}
 		}
