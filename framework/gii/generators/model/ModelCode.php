@@ -416,7 +416,7 @@ class ModelCode extends CCodeModel
 	/**
 	 * @param string $name component name
 	 * @param mixed $component component config or component object
-	 * @return bool if component is DB connection
+	 * @return boolean whether component is DB connection
 	 */
 	private function isDbConnection($name,$component)
 	{

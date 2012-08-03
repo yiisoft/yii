@@ -21,7 +21,7 @@ class CJavaScriptExpression
 	public $code;
 
 	/**
-	 * @param $code
+	 * @param string $code
 	 */
 	public function __construct($code)
 	{
