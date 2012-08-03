@@ -193,7 +193,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * @param string $sql sql query
 	 * @param integer $limit $limit > 0
 	 * @param integer $offset $offset > 0
-	 * @return sql modified sql query applied with limit and offset.
+	 * @return string modified sql query applied with limit and offset.
 	 *
 	 * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
 	 */
