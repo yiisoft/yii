@@ -82,7 +82,7 @@ class CWebService extends CComponent
 	 * @var string the name of the class for WSDL generation by a given service class. This property may be useful
 	 * in purpose of enhancing features of the standard {@link CWsdlGenerator} class. For example, some developers may
 	 * need support of the <code>xsd:xsd:base64Binary</code> elements. Default value is 'CWsdlGenerator'.
-	 * @since 1.1.11
+	 * @since 1.1.12
 	 */
 	public $generatorClass='CWsdlGenerator';
 
