@@ -11,7 +11,7 @@ The application object is instantiated as a singleton by the [entry script](/doc
 The application singleton can be accessed at any place via [Yii::app()|YiiBase::app].
 
 
-Application Configuration
+پیکره بندی برنامه
 -------------------------
 
 By default, the application object is an instance of [CWebApplication]. To customize
