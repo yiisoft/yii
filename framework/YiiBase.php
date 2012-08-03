@@ -82,7 +82,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.11-dev';
+		return '1.1.12-dev';
 	}
 
 	/**
@@ -682,9 +682,9 @@ class YiiBase
 		'CTypedMap' => '/collections/CTypedMap.php',
 		'CConsoleApplication' => '/console/CConsoleApplication.php',
 		'CConsoleCommand' => '/console/CConsoleCommand.php',
-		'CConsoleCommandRunner' => '/console/CConsoleCommandRunner.php',
-		'CConsoleCommandEvent' => '/console/CConsoleCommandEvent.php',
 		'CConsoleCommandBehavior' => '/console/CConsoleCommandBehavior.php',
+		'CConsoleCommandEvent' => '/console/CConsoleCommandEvent.php',
+		'CConsoleCommandRunner' => '/console/CConsoleCommandRunner.php',
 		'CHelpCommand' => '/console/CHelpCommand.php',
 		'CDbCommand' => '/db/CDbCommand.php',
 		'CDbConnection' => '/db/CDbConnection.php',
@@ -819,6 +819,7 @@ class YiiBase
 		'CHtml' => '/web/helpers/CHtml.php',
 		'CJSON' => '/web/helpers/CJSON.php',
 		'CJavaScript' => '/web/helpers/CJavaScript.php',
+		'CJavaScriptExpression' => '/web/helpers/CJavaScriptExpression.php',
 		'CPradoViewRenderer' => '/web/renderers/CPradoViewRenderer.php',
 		'CViewRenderer' => '/web/renderers/CViewRenderer.php',
 		'CWebService' => '/web/services/CWebService.php',

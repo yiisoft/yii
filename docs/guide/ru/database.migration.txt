@@ -166,7 +166,7 @@ class m101129_185401_create_news_table extends CDbMigration
 		catch(Exception $e)
 		{
 			echo "Exception: ".$e->getMessage()."\n";
-			$transaction->rollBack();
+			$transaction->rollback();
 			return false;
 		}
 	}

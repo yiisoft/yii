@@ -64,15 +64,18 @@
 					// url: 'ajax request URL'
 				}, options || {});
 
+			settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
+
 			return this.each(function () {
 				var $grid = $(this),
 					id = $grid.attr('id'),
+					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
+					sortSelector = '#' + id + ' .' + settings.tableClass + ' thead th a.sort-link',
 					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
 
-				settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
-				if (settings.updateSelector === undefined) {
-					settings.updateSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a, #' + id + ' .' + settings.tableClass + ' thead th a';
-				}
+				settings.updateSelector = settings.updateSelector
+								.replace('{page}', pagerSelector)
+								.replace('{sort}', sortSelector);
 
 				gridSettings[id] = settings;
 
@@ -85,7 +88,7 @@
 								params = $.deparam.querystring(url);
 
 							delete params[settings.ajaxVar];
-							window.History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+							window.History.pushState(null, document.title, $.param.querystring(url.substr(0, url.indexOf('?')), params));
 						} else {
 							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
 						}
@@ -93,7 +96,10 @@
 					});
 				}
 
-				$(document).on('change.yiiGridView', inputSelector, function () {
+				$(document).on('change.yiiGridView keydown.yiiGridView', inputSelector, function (event) {
+					if (event.type == 'keydown' && event.keyCode != 13) {
+						return; // only react to enter key, not to other keys
+					}
 					var data = $(inputSelector).serialize();
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
@@ -104,7 +110,7 @@
 							params = $.deparam.querystring($.param.querystring(url, data));
 
 						delete params[settings.ajaxVar];
-						History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+						window.History.pushState(null, document.title, $.param.querystring(url.substr(0, url.indexOf('?')), params));
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}
@@ -323,7 +329,7 @@
 			var settings = gridSettings[this.attr('id')],
 				keys = this.find('.keys span'),
 				selection = [];
-			this.children('.' + settings.tableClass).children('tbody').children().each(function (i) {
+			this.find('.' + settings.tableClass).children('tbody').children().each(function (i) {
 				if ($(this).hasClass('selected')) {
 					selection.push(keys.eq(i).text());
 				}

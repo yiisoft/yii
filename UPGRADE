@@ -1,6 +1,6 @@
 
-         Upgrading Instructions for Yii Framework v1.1.11
-         ===============================================
+         Upgrading Instructions for Yii Framework v1.1.12
+         ================================================
 
 !!!IMPORTANT!!!
 
@@ -18,29 +18,50 @@ General upgrade intructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
+Upgrading from v1.1.11
+----------------------
+- Changes in CCookieCollection::add() (introduced in 1.1.11) were reverted as they were triggering E_STRICT on some old PHP-versions
+  If your application relies on these newly added changes. You should change your code from
+  
+		$cookies->add(new CHttpCookie($name, $value));		
+  to
+		$cookies[$name] = new CHttpCookie($name, $value);
 
 Upgrading from v1.1.10
 ----------------------
 - API of public method CConsoleCommand::confirm() changed. If you are overriding this method make sure to update your code.
   The method now has a 2nd parameter for the default value which will be used if no selection is made, so you have to
   adjust the signature to fit
-  
+
       public function confirm($message,$default=false)
-  
+
   and the parent call to
-  
+
       parent::confirm($message,$default);
 
 - API of protected method CConsoleCommand::afterAction() changed, if you are overriding this method make sure to update your code.
   method now has a 3rd parameter for application exit code, so you have to adjust the signature to fit
-  
+
       protected function afterAction($action,$params,$exitCode=0)
-  
+
   and the parent call to
-  
+
       parent::afterAction($action,$params,$exitCode);
 
 - CDateFormat::format() now will return null if the parameter $time is null. Previously it would return 1/1/1970.
+
+- If you are using CJavaScript::encode in your application with parameter coming
+  from user input, set second argument to true:
+
+      CJavaScript::encode($userInput, true);
+
+  It will disable prefixing parameters with "js:". If you need to pass JavaScript
+  expression it's now preferrable to wrap these with CJavaScriptExpression:
+
+      CJavaScript::encode(new CJavaScriptExpression('alert("Yii!");'), true);
+
+  Note that second "safe" parameter doesn't affect CJavaScriptExpression in any way.
+
 
 Upgrading from v1.1.9
 ---------------------

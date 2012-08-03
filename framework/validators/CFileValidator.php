@@ -75,6 +75,15 @@ class CFileValidator extends CValidator
 	 */
 	public $types;
 	/**
+	 * @var mixed a list of MIME-types of the file that are allowed to be uploaded.
+	 * This can be either an array or a string consisting of MIME-types separated
+	 * by space or comma (e.g. "image/gif, image/jpeg"). MIME-types are
+	 * case-insensitive. Defaults to null, meaning all MIME-types are allowed.
+	 * In order to use this property fileinfo PECL extension should be installed.
+	 * @since 1.1.11
+	 */
+	public $mimeTypes;
+	/**
 	 * @var integer the minimum number of bytes required for the uploaded file.
 	 * Defaults to null, meaning no limit.
 	 * @see tooSmall
@@ -100,9 +109,16 @@ class CFileValidator extends CValidator
 	public $tooSmall;
 	/**
 	 * @var string the error message used when the uploaded file has an extension name
-	 * that is not listed among {@link extensions}.
+	 * that is not listed among {@link types}.
 	 */
 	public $wrongType;
+	/**
+	 * @var string the error message used when the uploaded file has a MIME-type
+	 * that is not listed among {@link mimeTypes}. In order to use this property
+	 * fileinfo PECL extension should be installed.
+	 * @since 1.1.11
+	 */
+	public $wrongMimeType;
 	/**
 	 * @var integer the maximum file count the given attribute can hold.
 	 * It defaults to 1, meaning single file upload. By defining a higher number,
@@ -194,6 +210,31 @@ class CFileValidator extends CValidator
 				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{extensions}'=>implode(', ',$types)));
 			}
 		}
+
+		if($this->mimeTypes!==null)
+		{
+			if(function_exists('finfo_open'))
+			{
+				$mimeType=false;
+				if($info=finfo_open(defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME))
+					$mimeType=finfo_file($info,$file->getTempName());
+			}
+			else if(function_exists('mime_content_type'))
+				$mimeType=mime_content_type($file->getTempName());
+			else
+				throw new CException(Yii::t('yii','In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.'));
+
+			if(is_string($this->mimeTypes))
+				$mimeTypes=preg_split('/[\s,]+/',strtolower($this->mimeTypes),-1,PREG_SPLIT_NO_EMPTY);
+			else
+				$mimeTypes=$this->mimeTypes;
+
+			if($mimeType===false || !in_array(strtolower($mimeType),$mimeTypes))
+			{
+				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.');
+				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
+			}
+		}
 	}
 
 	/**
@@ -233,19 +274,25 @@ class CFileValidator extends CValidator
 	}
 
 	/**
-	 * Converts php.ini style size to bytes
+	 * Converts php.ini style size to bytes. Examples of size strings are: 150, 1g, 500k, 5M (size suffix
+	 * is case insensitive). If you pass here the number with a fractional part, then everything after
+	 * the decimal point will be ignored (php.ini values common behavior). For example 1.5G value would be
+	 * treated as 1G and 1073741824 number will be returned as a result. This method is public
+	 * (was private before) since 1.1.11.
 	 *
-	 * @param string $sizeStr $sizeStr
-	 * @return int
+	 * @param string $sizeStr the size string to convert.
+	 * @return int the byte count in the given size string.
+	 * @since 1.1.11
 	 */
-	private function sizeToBytes($sizeStr)
+	public function sizeToBytes($sizeStr)
 	{
-		switch (substr($sizeStr, -1))
+		// get the latest character
+		switch (strtolower(substr($sizeStr, -1)))
 		{
-			case 'M': case 'm': return (int)$sizeStr * 1048576;
-			case 'K': case 'k': return (int)$sizeStr * 1024;
-			case 'G': case 'g': return (int)$sizeStr * 1073741824;
-			default: return (int)$sizeStr;
+			case 'm': return (int)$sizeStr * 1048576; // 1024 * 1024
+			case 'k': return (int)$sizeStr * 1024; // 1024
+			case 'g': return (int)$sizeStr * 1073741824; // 1024 * 1024 * 1024
+			default: return (int)$sizeStr; // do nothing
 		}
 	}
 }
