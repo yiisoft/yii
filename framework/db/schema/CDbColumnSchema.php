@@ -74,7 +74,6 @@ class CDbColumnSchema extends CComponent
 	 */
 	public $comment='';
 
-
 	/**
 	 * Initializes the column with its DB type and default value.
 	 * This sets up the column's PHP type, size, precision, scale as well as default value.
