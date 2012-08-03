@@ -435,7 +435,7 @@ class ModelCode extends CCodeModel
 				if($component['class']==='CDbConnection')
 					return true;
 
-				$r = new ReflectionClass($component['class']);
+				$r=new ReflectionClass($component['class']);
 				if($r->isSubclassOf('CDbConnection'))
 					return true;
 			}
