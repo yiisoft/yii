@@ -11,6 +11,7 @@ Version 1.1.12 work in progress
 - Bug #1087: Reverted changes to CCookieCollection::add() introduced in 1.1.11 as they were triggering E_STRICT on some old PHP-versions(suralc)
 - Bug #1094: CGridView with enabled history used to clear page title in case sorting or paging performed (Opera and Firefox only) (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
+- Enh #1099: Improved the way Gii Model generator checks for connection strings (mdomba)
 
 Version 1.1.11 July 29, 2012
 ----------------------------
