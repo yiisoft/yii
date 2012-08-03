@@ -15,7 +15,7 @@
  *
  * CWebService makes use of {@link CWsdlGenerator} and can generate the WSDL
  * on-the-fly without requiring you to write complex WSDL. However WSDL generator
- * class could be customized through {@link generatorClass} property.
+ * could be customized through {@link generatorConfig} property.
  *
  * To generate the WSDL based on doc comment blocks in the service provider class,
  * call {@link generateWsdl} or {@link renderWsdl}. To process the web service
@@ -79,12 +79,14 @@ class CWebService extends CComponent
 	 */
 	public $persistence;
 	/**
-	 * @var string the name of the class for WSDL generation by a given service class. This property may be useful
-	 * in purpose of enhancing features of the standard {@link CWsdlGenerator} class. For example, some developers may
-	 * need support of the <code>xsd:xsd:base64Binary</code> elements. Default value is 'CWsdlGenerator'.
+	 * @var string|array WSDL generator configuration. This property may be useful in purpose of enhancing features
+	 * of the standard {@link CWsdlGenerator} class by extending it. For example, some developers may need support
+	 * of the <code>xsd:xsd:base64Binary</code> elements. Another use case is to change initial values
+	 * at instantiation of the default {@link CWsdlGenerator}. String value would be treated as the class name
+	 * (more details available in {@link Yii::createComponent}). Default value is 'CWsdlGenerator'.
 	 * @since 1.1.12
 	 */
-	public $generatorClass='CWsdlGenerator';
+	public $generatorConfig='CWsdlGenerator';
 
 	private $_method;
 
@@ -146,7 +148,7 @@ class CWebService extends CComponent
 			if(($wsdl=$cache->get($key))!==false)
 				return $wsdl;
 		}
-		$generator=new $this->generatorClass();
+		$generator=Yii::createComponent($this->generatorConfig);
 		$wsdl=$generator->generateWsdl($providerClass,$this->serviceUrl,$this->encoding);
 		if(isset($key))
 			$cache->set($key,$wsdl,$this->wsdlCacheDuration);
