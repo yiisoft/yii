@@ -166,11 +166,11 @@ class CAssetManager extends CApplicationComponent
 	 */
 	public function setPathGenerator($pathGenerator)
 	{
-		if (is_array($pathGenerator) && !isset($spec['class']))
+		if (is_array($pathGenerator) && !isset($pathGenerator['class']))
 		{
 			throw new CException(Yii::t('yii', "Path generator specification requires 'class' key."));
 		}
-		elseif (!$pathGenerator instanceof IAssetPathGenerator)
+		elseif (!is_array($pathGenerator) && !$pathGenerator instanceof IAssetPathGenerator)
 		{
 			throw new CException(Yii::t('yii','Path generator must be instance of IAssetPathGenerator.'));
 		}
