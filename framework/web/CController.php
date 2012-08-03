@@ -1017,7 +1017,7 @@ class CController extends CBaseController
 	 * @param mixed $url the URL to be redirected to. If the parameter is an array,
 	 * the first element must be a route to a controller action and the rest
 	 * are GET parameters in name-value pairs.
-	 * @param boolean $terminate whether to terminate the current application after calling this method
+	 * @param boolean $terminate whether to terminate the current application after calling this method. Defaults to true.
 	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
 	 */
