@@ -8,6 +8,7 @@ Version 1.1.12 work in progress
 - Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
 - Bug #1087: Reverted changes to CCookieCollection::add() introduced in 1.1.11 as they were triggering E_STRICT on some old PHP-versions(suralc)
 - Bug #1094: CGridView with enabled history used to clear page title in case sorting or paging performed (Opera and Firefox only) (resurtm)
+- Enh #243: CWebService is now able to deal with the customized WSDL generator classes, was hardcoded to the CWsdlGenerator before, added CWebService::$generatorClass property (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 
 Version 1.1.11 July 29, 2012

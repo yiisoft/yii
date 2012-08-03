@@ -14,7 +14,8 @@
  * PHP SOAP extension is required.
  *
  * CWebService makes use of {@link CWsdlGenerator} and can generate the WSDL
- * on-the-fly without requiring you to write complex WSDL.
+ * on-the-fly without requiring you to write complex WSDL. However WSDL generator
+ * class could be customized through {@link generatorClass} property.
  *
  * To generate the WSDL based on doc comment blocks in the service provider class,
  * call {@link generateWsdl} or {@link renderWsdl}. To process the web service
@@ -77,6 +78,13 @@ class CWebService extends CComponent
 	 * @see http://www.php.net/manual/en/function.soap-soapserver-setpersistence.php
 	 */
 	public $persistence;
+	/**
+	 * @var string the name of the class for WSDL generation by a given service class. This property may be useful
+	 * in purpose of enhancing features of the standard {@link CWsdlGenerator} class. For example, some developers may
+	 * need support of the <code>xsd:xsd:base64Binary</code> elements. Default value is 'CWsdlGenerator'.
+	 * @since 1.1.11
+	 */
+	public $generatorClass='CWsdlGenerator';
 
 	private $_method;
 
