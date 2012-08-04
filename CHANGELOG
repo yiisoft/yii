@@ -12,7 +12,7 @@ Version 1.1.12 work in progress
 - Bug #1088: Fixed usage of proper CACtiveForm id property when it's supplied with htmlOptions (mdomba)
 - Bug #1094: CGridView with enabled history used to clear page title in case sorting or paging performed (Opera and Firefox only) (resurtm)
 - Enh #243: CWebService is now able to deal with the customized WSDL generator classes, was hardcoded to the CWsdlGenerator before, added CWebService::$generatorConfig property (resurtm)
-- Enh #556: Added CDbColumnSchema::$comment which stores comment for the table column, comment retrieving is working for MySQL and PgSQL (resurtm)
+- Enh #556: Added CDbColumnSchema::$comment which stores comment for the table column, comment retrieving is working for MySQL, PgSQL and Oracle (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 
 Version 1.1.11 July 29, 2012
