@@ -196,9 +196,9 @@ class CAssetManager extends CApplicationComponent
 			return $this->_published[$path];
 		else if(($src=realpath($path))!==false)
 		{
+            $dir=$this->hash($src,$hashByName);
 			if(is_file($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : dirname($src).filemtime($src));
 				$fileName=basename($src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
@@ -209,7 +209,7 @@ class CAssetManager extends CApplicationComponent
 					{
 						if(!is_dir($dstDir))
 						{
-							mkdir($dstDir);
+							mkdir($dstDir, 0777, true);
 							@chmod($dstDir, $this->newDirMode);
 						}
 						symlink($src,$dstFile);
@@ -219,7 +219,7 @@ class CAssetManager extends CApplicationComponent
 				{
 					if(!is_dir($dstDir))
 					{
-						mkdir($dstDir);
+						mkdir($dstDir, 0777, true);
 						@chmod($dstDir, $this->newDirMode);
 					}
 					copy($src,$dstFile);
@@ -230,7 +230,6 @@ class CAssetManager extends CApplicationComponent
 			}
 			else if(is_dir($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : $src.filemtime($src));
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 
 				if($this->linkAssets)
@@ -270,11 +269,8 @@ class CAssetManager extends CApplicationComponent
 	{
 		if(($path=realpath($path))!==false)
 		{
-			$base=$this->getBasePath().DIRECTORY_SEPARATOR;
-			if(is_file($path))
-				return $base . $this->hash($hashByName ? basename($path) : dirname($path).filemtime($path)) . DIRECTORY_SEPARATOR . basename($path);
-			else
-				return $base . $this->hash($hashByName ? basename($path) : $path.filemtime($path));
+			$base=$this->getBasePath().DIRECTORY_SEPARATOR.$this->hash($path, $hashByName);
+			return is_file($path) ? $base . DIRECTORY_SEPARATOR . basename($path) : $base ;
 		}
 		else
 			return false;
@@ -297,10 +293,8 @@ class CAssetManager extends CApplicationComponent
 			return $this->_published[$path];
 		if(($path=realpath($path))!==false)
 		{
-			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path).filemtime($path)).'/'.basename($path);
-			else
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path.filemtime($path));
+			$base=$this->getBaseUrl().'/'.$this->hash($path, $hashByName);
+			return is_file($path) ? $base.'/'.basename($path) : $base;
 		}
 		else
 			return false;
@@ -310,10 +304,16 @@ class CAssetManager extends CApplicationComponent
 	 * Generate a CRC32 hash for the directory path. Collisions are higher
 	 * than MD5 but generates a much smaller hash string.
 	 * @param string $path string to be hashed.
+	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
 	 * @return string hashed string.
 	 */
-	protected function hash($path)
+	protected function hash($path, $hashByName=false)
 	{
-		return sprintf('%x',crc32($path.Yii::getVersion()));
+		if (is_file($path))
+			$pathForHashing = $hashByName ? basename($path) : dirname($path).filemtime($path);
+		else
+			$pathForHashing = $hashByName ? basename($path) : $path.filemtime($path);
+
+		return sprintf('%x',crc32($pathForHashing.Yii::getVersion()));
 	}
 }
