@@ -196,7 +196,7 @@ class CAssetManager extends CApplicationComponent
 			return $this->_published[$path];
 		else if(($src=realpath($path))!==false)
 		{
-			$dir=$this->hash($src,$hashByName);
+			$dir=$this->generatePath($src,$hashByName);
 			$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 			if(is_file($src))
 			{
@@ -257,7 +257,7 @@ class CAssetManager extends CApplicationComponent
 	{
 		if(($path=realpath($path))!==false)
 		{
-			$base=$this->getBasePath().DIRECTORY_SEPARATOR.$this->hash($path, $hashByName);
+			$base=$this->getBasePath().DIRECTORY_SEPARATOR.$this->generatePath($path, $hashByName);
 			return is_file($path) ? $base . DIRECTORY_SEPARATOR . basename($path) : $base ;
 		}
 		else
@@ -281,7 +281,7 @@ class CAssetManager extends CApplicationComponent
 			return $this->_published[$path];
 		if(($path=realpath($path))!==false)
 		{
-			$base=$this->getBaseUrl().'/'.$this->hash($path, $hashByName);
+			$base=$this->getBaseUrl().'/'.$this->generatePath($path, $hashByName);
 			return is_file($path) ? $base.'/'.basename($path) : $base;
 		}
 		else
@@ -292,16 +292,26 @@ class CAssetManager extends CApplicationComponent
 	 * Generate a CRC32 hash for the directory path. Collisions are higher
 	 * than MD5 but generates a much smaller hash string.
 	 * @param string $path string to be hashed.
-	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
 	 * @return string hashed string.
 	 */
-	protected function hash($path, $hashByName=false)
+	protected function hash($path)
 	{
-		if (is_file($path))
-			$pathForHashing = $hashByName ? basename($path) : dirname($path).filemtime($path);
-		else
-			$pathForHashing = $hashByName ? basename($path) : $path.filemtime($path);
+		return sprintf('%x',crc32($path.Yii::getVersion()));
+	}
 
-		return sprintf('%x',crc32($pathForHashing.Yii::getVersion()));
+	/**
+	 * Generates path segments relative to basePath.
+	 * @param string $file for which public path will be created.
+	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
+	 * @return string path segments without basePath.
+	 */
+	protected function generatePath($file, $hashByName=false)
+	{
+		if (is_file($file))
+			$pathForHashing = $hashByName ? basename($file) : dirname($file).filemtime($file);
+		else
+			$pathForHashing = $hashByName ? basename($file) : $file.filemtime($file);
+
+		return $this->hash($pathForHashing);
 	}
 }
