@@ -102,7 +102,7 @@ duration オプションを設定しない場合、この値はデフォルト�
 
    - [varyByRoute|COutputCache::varyByRoute]: このオプションを true
 に設定することで、キャッシュされたコンテンツは
-[ルート（道筋）](/doc/guide/basics.controller#ルート（道筋）) によって
+[ルート (経路)](/doc/guide/basics.controller#sec-2) によって
 変化させられます。したがって、要求されたコントローラとアクションの
 それぞれの組み合わせにより、個別にキャッシュされます。
 

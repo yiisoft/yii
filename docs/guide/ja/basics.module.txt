@@ -85,11 +85,11 @@ $postPerPage=Yii::app()->controller->module->postPerPage;
 // $postPerPage=$this->module->postPerPage;
 ~~~
 
-モジュールのコントローラアクションは [ルート (道筋)](/doc/guide/basics.controller#sec-2) `moduleID/controllerID/actionID` を使用してアクセスできます。
-たとえば、上記の `forum` モジュールが `PostController` という名前のコントローラを持っていれば、このコントローラの `create` アクションを参照するために、[ルート (道筋)](/doc/guide/basics.controller#sec-2) `forum/post/create` を使用できます。
+モジュールのコントローラアクションは [ルート (経路)](/doc/guide/basics.controller#sec-2) `moduleID/controllerID/actionID` を使用してアクセスできます。
+たとえば、上記の `forum` モジュールが `PostController` という名前のコントローラを持っていれば、このコントローラの `create` アクションを参照するために、[ルート (経路)](/doc/guide/basics.controller#sec-2) `forum/post/create` を使用できます。
 このルートに対応する URL は `http://www.example.com/index.php?r=forum/post/create` になります。
 
-> Tip|ヒント: コントローラが `controllers` のサブディレクトリにある場合でも、上記の [ルート (道筋)](/doc/guide/basics.controller#sec-2) の形式を引き続いて使用できます。
+> Tip|ヒント: コントローラが `controllers` のサブディレクトリにある場合でも、上記の [ルート (経路)](/doc/guide/basics.controller#sec-2) の形式を引き続いて使用できます。
 たとえば、`PostController` が `forum/controllers/admin` 下にある場合、`forum/admin/post/create` を使用して `create` アクションを参照できます。
 
 ネストしたモジュール

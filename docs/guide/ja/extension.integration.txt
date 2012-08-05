@@ -15,9 +15,7 @@ Yii は、より一層 Yii の機能性を拡張するために、
 [Zend_Search_Lucene](http://www.zendframework.com/manual/ja/zend.search.lucene.html)
 コンポーネントを使用する方法を解説します。
 
-まず、`protected` を
-[アプリケーションベースディレクトリ](/doc/guide/basics.application#application-base-directory)
-と仮定し、Zend framework リリースファイルを `protected/vendors` ディレクトリ以下に展開します。
+まず、`protected` を [アプリケーションベースディレクトリ](/doc/guide/basics.application#sec-3) と仮定し、Zend framework リリースファイルを `protected/vendors` ディレクトリ以下に展開します。
 `protected/vendors/Zend/Search/Lucene.php` ファイルがある事を確認してください。
 
 次に、コントローラクラスファイルの最初に、下記の行を追加します:

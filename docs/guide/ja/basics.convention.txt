@@ -17,7 +17,7 @@ URL
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
-GET 変数 `r` は [route](/doc/guide/basics.controller#sec-2) を参照し、
+GET 変数 `r` は [ルート (経路)](/doc/guide/basics.controller#sec-2) を参照し、
 Yii によってコントローラとアクションに解決されます。
 もし `ActionID` が省略された場合は、コントローラはデフォルトアクション ([CController::defaultAction] で定義されたもの)を使用します。
 そして、もし `ControllerID` も省略された場合 (または `r` の変数が無い場合) は、
@@ -80,7 +80,7 @@ Yii は変数名、関数名、クラス名に、キャメルケースを使用�
 Yii は様々な目的で使用される各種のディレクトリについて、一連のデフォルト名を仮定しています。
 それぞれのディレクトリ名は、必要ならばカスタマイズする事が可能です。
 
-   - `WebRoot/protected`: このディレクトリは [アプリケーションベースディレクトリ](/doc/guide/basics.application#application-base-directory) で、全てのセキュリティセンシティブな PHP スクリプトとデータファイルを保有しています。
+   - `WebRoot/protected`: このディレクトリは [アプリケーションベースディレクトリ](/doc/guide/basics.application#sec-3) で、全てのセキュリティセンシティブな PHP スクリプトとデータファイルを保有しています。
 Yii はデフォルトでこのパスに結びついた `application` というエイリアスを持っています。
 このディレクトリとその下にある全てのものは、ウェブユーザからのアクセスに対して守られていなければなりません。
 このディレクトリは [CWebApplication::basePath] によってカスタマイズ可能です。

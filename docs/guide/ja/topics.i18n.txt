@@ -14,7 +14,7 @@ Yii は I18N のサポートをいくつかの面から提供します。
    - ロケール（地域・言語）に依存する日時フォーマットの提供
    - ロケール（地域・言語）に依存する数値フォーマットの提供
 
-以下のサブセクションで上記について詳しく説明します。
+以下の節で上記について詳しく説明します。
 
 ロケールと言語
 -------------------
@@ -54,7 +54,7 @@ Yii アプリケーションのために、[ソース言語|CApplication::source
 翻訳者を探すより、英語から他の言語への翻訳者を探す方が容易だろうと思われるからです。
 
 [ターゲット言語|CApplication::language] は、
-[アプリケーション初期構成](/doc/guide/basics.application#application-configuration) か、
+[アプリケーション初期構成](/doc/guide/basics.application#sec-2) か、
 それを国際化が起こる前に動的に変更することで、設定を行えます。
 
 > Tip|ヒント: ユーザ（ブラウザの設定で定められている）により優先された言語により、
@@ -128,7 +128,7 @@ Gettext](http://www.gnu.org/software/gettext/) ファイルとして保存され
 保存されます。詳細は、API ドキュメンテーション [CDbMessageSource] を参照してください。
 
 メッセージソースは、
-[アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
+[アプリケーションコンポーネント](/doc/guide/basics.application#sec-4)
 として読み込まれます。
 Yii は、[messages|CApplication::messages] という名前のアプリケーションコンポーネントが
 ユーザアプリケーションで使用されるメッセージを格納するとあらかじめ宣言します。

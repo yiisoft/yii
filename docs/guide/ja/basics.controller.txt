@@ -29,7 +29,7 @@ class SiteController extends CController
 ~~~
 
 
-ルート (道筋)
+ルート (経路)
 -----
 
 コントローラとアクションは ID により識別されます。
@@ -38,7 +38,7 @@ class SiteController extends CController
 また、アクション ID はアクションメソッド名からプレフィックス `action` を除いたものです。
 たとえば、コントローラクラスに `actionEdit` という名前のメソッドがあれば、アクション ID は `edit` になります。
 
-ユーザはルート (道筋) により、特定のコントローラとアクションをリクエストします。
+ユーザはルート (経路) により、特定のコントローラとアクションをリクエストします。
 ルートはスラッシュによりコントローラ ID とアクション ID を連結することで形成されます。
 たとえば、ルート `post/edit` は `PostController` の `edit` アクションを参照します。
 そして、デフォルトでは `http://hostname/index.php?r=post/edit` という URL が post コントローラと edit アクションをリクエストするものになります。
