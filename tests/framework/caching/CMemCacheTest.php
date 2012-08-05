@@ -113,20 +113,6 @@ class CMemCacheTest extends CTestCase
 		$this->assertFalse($cache[$key]);
 	}
 
-	public function testExpire()
-	{
-		$app=new TestApplication($this->_config);
-		$app->reset();
-		$cache=$app->cache;
-		$data=array('abc'=>1,2=>'def');
-		$key='data3';
-		$cache->set($key,$data,2);
-		$this->assertTrue($cache->get($key)===$data);
-		sleep(4);
-		$app2=new TestApplication($this->_config);
-		$this->assertFalse($app2->cache->get($key));
-	}
-
 	public function testExpire2()
 	{
 		$app=new TestApplication($this->_config);
@@ -151,5 +137,29 @@ class CMemCacheTest extends CTestCase
 		$cache->set($key,$data);
 		$cache->delete($key);
 		$this->assertFalse($cache->get($key));
+	}
+
+	public function testBigExpireValues()
+	{
+		$app=new TestApplication($this->_config);
+		$cache=$app->cache;
+
+		$cache->set('key_1','value_1',60*60*24*30-10);
+		$cache->set('key_2','value_2',60*60*24*30-2);
+		$cache->set('key_3','value_3',60*60*24*30-1);
+		$cache->set('key_4','value_4',60*60*24*30);
+		$cache->set('key_5','value_5',60*60*24*30+1);
+		$cache->set('key_6','value_6',60*60*24*30+2);
+		$cache->set('key_7','value_7',60*60*24*30+10);
+
+		sleep(4);
+
+		$this->assertEquals('value_1',$cache->get('key_1'));
+		$this->assertEquals('value_2',$cache->get('key_2'));
+		$this->assertEquals('value_3',$cache->get('key_3'));
+		$this->assertEquals('value_4',$cache->get('key_4'));
+		$this->assertEquals('value_5',$cache->get('key_5'));
+		$this->assertEquals('value_6',$cache->get('key_6'));
+		$this->assertEquals('value_7',$cache->get('key_7'));
 	}
 }

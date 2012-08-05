@@ -39,7 +39,7 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-上記では、`yiic shell` コマンドを使って、スケルトンアプリケーションに対して関与しています。
+上記では、`yiic shell` コマンドを使って、スケルトンアプリケーションに対する修正を実行しています。
 プロンプトに対して二つのサブコマンドを実行します。一つは `model User tbl_user`、もう一つは `crud User` です。
 前者は `tbl_user` テーブルに対して `User` という名前のモデルクラスを生成します。
 一方で後者は、`User` モデルを分析して、対応する CRUD 操作を実装するコードを生成します。
@@ -88,4 +88,4 @@ http://hostname/testdrive/index.php?r=user/admin
 ![Create new user page](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id$</div>

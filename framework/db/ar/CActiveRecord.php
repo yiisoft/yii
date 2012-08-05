@@ -346,14 +346,19 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Resets all scopes and criterias applied including default scope.
+	 * Resets all scopes and criterias applied.
 	 *
+	 * @param boolean $resetDefault including default scope. This parameter available since 1.1.12
 	 * @return CActiveRecord
 	 * @since 1.1.2
 	 */
-	public function resetScope()
+	public function resetScope($resetDefault=true)
 	{
-		$this->_c=new CDbCriteria();
+		if($resetDefault)
+			$this->_c=new CDbCriteria();
+		else
+			$this->_c=null;
+
 		return $this;
 	}
 
@@ -1338,7 +1343,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
-			$this->_c=null;
+			$this->resetScope(false);
 		}
 	}
 
@@ -1483,7 +1488,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
-			$this->_c=null;
+			$this->resetScope(false);
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findBySql($sql,$params);
 		}
@@ -1506,7 +1511,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
-			$this->_c=null;
+			$this->resetScope(false);
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findAllBySql($sql,$params);
 		}
@@ -2218,6 +2223,50 @@ class CHasManyRelation extends CActiveRelation
  */
 class CManyManyRelation extends CHasManyRelation
 {
+	/**
+	 * @var string name of the junction table for the many-to-many relation.
+	 */
+	private $_junctionTableName=null;
+	/**
+	 * @var array list of foreign keys of the junction table for the many-to-many relation.
+	 */
+	private $_junctionForeignKeys=null;
+
+	/**
+	 * @return string junction table name.
+	 * @since 1.1.12
+	 */
+	public function getJunctionTableName()
+	{
+		if ($this->_junctionTableName===null)
+			$this->initJunctionData();
+		return $this->_junctionTableName;
+	}
+
+	/**
+	 * @return array list of junction table foreign keys.
+	 * @since 1.1.12
+	 */
+	public function getJunctionForeignKeys()
+	{
+		if ($this->_junctionForeignKeys===null)
+			$this->initJunctionData();
+		return $this->_junctionForeignKeys;
+	}
+
+	/**
+	 * Initializes values of {@link junctionTableName} and {@link junctionForeignKeys} parsing
+	 * {@link foreignKey} value.
+	 * @throws CDbException if {@link foreignKey} has been specified in wrong format.
+	 */
+	private function initJunctionData()
+	{
+		if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
+			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+				array('{class}'=>$this->className,'{relation}'=>$this->name)));
+		$this->_junctionTableName=$matches[1];
+		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+	}
 }
 
 

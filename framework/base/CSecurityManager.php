@@ -307,7 +307,7 @@ class CSecurityManager extends CApplicationComponent
 	 * Returns the length of the given string.
 	 * If available uses the multibyte string function mb_strlen.
 	 * @param string $string the string being measured for length
-	 * @return int the length of the string
+	 * @return integer the length of the string
 	 */
 	private function strlen($string)
 	{
@@ -318,8 +318,8 @@ class CSecurityManager extends CApplicationComponent
 	 * Returns the portion of string specified by the start and length parameters.
 	 * If available uses the multibyte string function mb_substr
 	 * @param string $string the input string. Must be one character or longer.
-	 * @param int $start the starting position
-	 * @param int $length the desired portion length
+	 * @param integer $start the starting position
+	 * @param integer $length the desired portion length
 	 * @return string the extracted part of string, or FALSE on failure or an empty string.
 	 */
 	private function substr($string,$start,$length)

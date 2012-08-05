@@ -35,8 +35,9 @@ class CTimestampBehaviorTest extends CTestCase
 		));
 		$model1->title='testing-row-1';
 		$this->assertEquals(0,$model1->created_at);
+		$saveTime=time();
 		$model1->save();
-		$this->assertEquals(time(),$model1->created_at);
+		$this->assertEquals($saveTime,$model1->created_at);
 
 		// behavior changes created_at after inserting
 		$model2=new CTimestampBehaviorTestActiveRecord;
@@ -49,8 +50,9 @@ class CTimestampBehaviorTest extends CTestCase
 		$model2->title='testing-row-2';
 		$model2->created_at=123123;
 		$this->assertEquals(123123,$model2->created_at);
+		$saveTime=time();
 		$model2->save();
-		$this->assertEquals(time(),$model2->created_at);
+		$this->assertEquals($saveTime,$model2->created_at);
 
 		// behavior does not changes created_at after inserting
 		$model3=new CTimestampBehaviorTestActiveRecord;
@@ -78,8 +80,9 @@ class CTimestampBehaviorTest extends CTestCase
 			'setUpdateOnCreate'=>false,
 		));
 		$this->assertEquals(1340529410,$model1->updated_at);
+		$saveTime=time();
 		$model1->save();
-		$this->assertEquals(time(),$model1->updated_at);
+		$this->assertEquals($saveTime,$model1->updated_at);
 
 		// behavior changes updated_at after updating
 		$model2=CTimestampBehaviorTestActiveRecord::model()->findByPk(2);
@@ -90,8 +93,9 @@ class CTimestampBehaviorTest extends CTestCase
 			'setUpdateOnCreate'=>true,
 		));
 		$this->assertEquals(1340529305,$model2->updated_at);
+		$saveTime=time();
 		$model2->save();
-		$this->assertEquals(time(),$model2->updated_at);
+		$this->assertEquals($saveTime,$model2->updated_at);
 
 		// behavior does not changes updated_at after updating
 		$model3=CTimestampBehaviorTestActiveRecord::model()->findByPk(3);
@@ -130,8 +134,9 @@ class CTimestampBehaviorTest extends CTestCase
 		$model5->title='testing-row-3';
 		$model5->updated_at=123123123;
 		$this->assertEquals(123123123,$model5->updated_at);
+		$saveTime=time();
 		$model5->save();
-		$this->assertEquals(time(),$model5->updated_at);
+		$this->assertEquals($saveTime,$model5->updated_at);
 	}
 }
 

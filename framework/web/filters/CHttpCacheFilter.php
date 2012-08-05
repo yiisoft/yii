@@ -98,7 +98,7 @@ class CHttpCacheFilter extends CFilter
 	}
 	
 	/**
-	 * Gets the last modified value from either {@link lastModifiedExpression} or {@lastModified}
+	 * Gets the last modified value from either {@link lastModifiedExpression} or {@link lastModified}
 	 * and converts it into a unix timestamp if necessary
 	 * @throws CException
 	 * @return integer|boolean A unix timestamp or false if neither lastModified nor
