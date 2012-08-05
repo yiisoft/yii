@@ -20,8 +20,8 @@ $post->content='post body content';
 $post->save();
 ~~~
 以下に、CRUDオペレーションを実行するために、ARを準備して使う方法を解説します。
-次のセクションでデータベースリレーションに対処するためにARを使う方法を示します。
-単純化するため、このセクションでは例として以下のデータベーステーブルを使います。
+次の章でデータベースリレーションに対処するためにARを使う方法を示します。
+単純化するため、この章では例として以下のデータベーステーブルを使います。
 もしMySQLをお使いの場合には以下のSQLにおいて、`AUTOINCREMENT`を`AUTO_INCREMENT`に修正することに注意してください。
 
 ~~~
@@ -117,9 +117,8 @@ class Post extends CActiveRecord
 もし異なる場合は[tableName()|CActiveRecord::tableName]メソッドをオーバライドしてください。
 [model()|CActiveRecord::model］メソッドはあらゆるARクラス(簡単に説明します)のためにそのように宣言されます。
 
-> Info|情報: [テーブルプレフィクス機能](/doc/guide/database.dao#using-table-prefix)を使うためには
-> ARクラスのための[tableName()|CActiveRecord::tableName]メソッドは以下のようにオーバライドする必要
-> があります。
+> Info|情報: [テーブルプレフィクス機能](/doc/guide/database.dao#sec-8) を使うためには、
+> AR クラスの [tableName()|CActiveRecord::tableName] メソッドを以下のようにオーバーライドする必要があります。
 > ~~~
 > [php]
 > public function tableName()
@@ -129,8 +128,8 @@ class Post extends CActiveRecord
 > ~~~
 > フルに定義されたテーブル名を返す代わりに、プレフィックスを除いたテーブル名を使い、二重波括弧で囲んで返します。
 
-テーブルの行のカラム値は、対応するARクラスインスタンスのプロパティとしてアクセスされます。
-例えば、以下のコードは、`タイトル`カラム(アトリビュート)をセットします:
+テーブルの行のカラム値は、対応する AR クラスインスタンスのプロパティとしてアクセスされます。
+例えば、以下のコードは、`title` カラム (属性) をセットします:
 
 ~~~
 [php]
@@ -138,15 +137,15 @@ $post=new Post;
 $post->title='a sample post';
 ~~~
 
-`Post`クラスでは決して明示的に`title`プロパティを宣言していませんが、それでも上記のコードでそれにアクセスすることができます。
-これは、`title`が`tbl_post`テーブルのカラムであり、CActiveRecordがそれをPHPのマジックメソッドである`__get()`の助けを借りて、プロパティとしてアクセスできるようにします。
+`Post` クラスでは決して明示的に `title` プロパティを宣言していませんが、それでも上記のコードでそれにアクセスすることができます。
+これは、`title` が `tbl_post` テーブルのカラムであり、CActiveRecord がそれを PHP のマジックメソッドである `__get()` の助けを借りて、プロパティとしてアクセスできるようにします。
 同様な方法で存在しないカラムにアクセスしようとすると、例外が発生します。
 
 > Info|情報: このガイドでは、すべてのテーブル名やカラム名には小文字を使用します。
-これは、DBMSによってケースの扱いが異るからです。例えば、PostgreSQLではデフォルトではカラム名はケースセンシティブです。カラム名が大文字小文字を含んでいる場合には、クエリ条件の中でカラム名を記述するときにはクオートしなければなりません。
+これは、DBMS によってケースの扱いが異るからです。例えば、PostgreSQL ではデフォルトではカラム名はケースセンシティブです。カラム名が大文字小文字を含んでいる場合には、クエリ条件の中でカラム名を記述するときにはクオートしなければなりません。
 小文字のみを用いることでこのような問題を回避することができます。
 
-ARはテーブルのプライマリキーに依存しています。もしテーブルがプライマリキーを持たない場合、対応するクラスにおいて、どのカラムがプライマリキーなのか、`primaryKey()`メソッドを以下のようにオーバライドすることが必要です。
+ARはテーブルのプライマリキーに依存しています。もしテーブルがプライマリキーを持たない場合、対応するクラスにおいて、どのカラムがプライマリキーなのか、`primaryKey()` メソッドを以下のようにオーバライドすることが必要です。
 
 ~~~
 [php]
@@ -339,7 +338,7 @@ Post::model()->updateCounters($counters,$condition,$params);
 
 上記において、`$attributes`はカラム名によってインデックスされたカラムの値の配列です。
 $counters`はカラム名によってインデックスされた増加値の配列です。
-そして`$condition`と`$params`は以前のサブセクションで示されたものです。
+そして`$condition`と`$params`は以前の節で示されたものです。
 
 レコードの削除
 ---------------
@@ -373,8 +372,7 @@ Post::model()->deleteByPk($pk,$condition,$params);
 
 ARは[save()|CActiveRecord::save]が呼ばれた場合に自動的にデータ検証を行います。
 検証はARクラスの[rules()|CModel::rules]メソッド中で指定されるルールに基いて行われます。
-もっと詳しい検証ルールの設定法に関しては[バリデーションルールの宣言](/doc/guide/form.model#declaring-validation-rules)
-の章を参照してください。
+もっと詳しい検証ルールの設定法に関しては [検証ルールの宣言](/doc/guide/form.model#sec-3) の章を参照してください。
 以下はレコードの格納をする場合の典型的なワークフローです。
 
 ~~~
@@ -400,8 +398,8 @@ $post->save();
 ~~~
 
 もしたくさんのカラムがある場合には、この割当ては非常に長いリストとなってしまいます。
-これは[attributes|CActiveRecord::attributes]を利用することで以下に示すように軽減することができます。
-より詳細は[アトリビュート割り当ての安全化](/doc/guide/form.model#securing-attribute-assignments)章と[アクションの生成](/doc/guide/form.action)章に見ることができます。
+これは [attributes|CActiveRecord::attributes] を利用することで以下に示すように軽減することができます。
+より詳細は [属性への代入を安全にする](/doc/guide/form.model#sec-4) の節と [アクションの生成](/doc/guide/form.action) の節に見ることができます。
 
 ~~~
 [php]
@@ -441,11 +439,11 @@ $post->save();
    - [afterFind|CActiveRecord::afterFind]: これはクエリの結果によりARインスタンスが作成された後に実行されます。
 
 
-ARを用いたトランザクション
+AR を用いたトランザクション
 -------------------------
 
-どのARインスタンスにも[dbConnection|CActiveRecord::dbConnection]という名の[CDbConnection]クラスのインスタンスであるプロパティがあります。
-それを用いると以下のコードのように、YiiのDAOにより提供される[トランザクション](/doc/guide/database.dao#using-transactions)機能を使うことができます。
+どの AR インスタンスにも [dbConnection|CActiveRecord::dbConnection] という名の [CDbConnection] クラスのインスタンスであるプロパティがあります。
+それを用いると以下のコードのように、Yii の DAO により提供される [トランザクション](/doc/guide/database.dao#sec-5) 機能を使うことができます。
 
 ~~~
 [php]

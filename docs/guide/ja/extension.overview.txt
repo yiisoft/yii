@@ -8,12 +8,12 @@ Yiiを拡張することは開発の最中に普通に行われます。
 
 エクステンションは通常単一の目的で使用されます。Yiiの用語では、以下の種類に分類されます。
 
- * [アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
- * [ビヘイビア](/doc/guide/basics.component#component-behavior)
- * [ウィジェット](/doc/guide/basics.view#widget)
+ * [アプリケーションコンポーネント](/doc/guide/basics.application#sec-4)
+ * [ビヘイビア](/doc/guide/basics.component#sec-3)
+ * [ウィジェット](/doc/guide/basics.view#sec-3)
  * [コントローラ](/doc/guide/basics.controller)
- * [アクション](/doc/guide/basics.controller#action)
- * [フィルタ](/doc/guide/basics.controller#filter)
+ * [アクション](/doc/guide/basics.controller#sec-4)
+ * [フィルタ](/doc/guide/basics.controller#sec-5)
  * [コンソールコマンド](/doc/guide/topics.console)
  * バリデータ: これは[CValidator]クラスを拡張したコンポーネントクラスです。
  * ヘルパ: これは静的なメソッドのみを持つクラスです。クラス名を名前空間として用いる場合はグローバル関数のようにみえます。
