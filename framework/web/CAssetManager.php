@@ -197,45 +197,33 @@ class CAssetManager extends CApplicationComponent
 		else if(($src=realpath($path))!==false)
 		{
 			$dir=$this->hash($src,$hashByName);
+			$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 			if(is_file($src))
 			{
 				$fileName=basename($src);
-				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
 
-				$oldumask = umask(0); // umask affects mkdir $mode
-				if($this->linkAssets)
+				if(!is_dir($dstDir))
 				{
-					if(!is_file($dstFile))
-					{
-						if(!is_dir($dstDir))
-						{
-							mkdir($dstDir, $this->newDirMode, true);
-						}
-						symlink($src,$dstFile);
-					}
+					$oldumask = umask(0); // umask affects mkdir $mode
+					mkdir($dstDir, $this->newDirMode, true);
+					umask($oldumask);
 				}
+
+				if($this->linkAssets && !is_file($dstFile)) symlink($src,$dstFile);
 				else if(@filemtime($dstFile)<@filemtime($src))
 				{
-					if(!is_dir($dstDir))
-					{
-						mkdir($dstDir, $this->newDirMode, true);
-					}
 					copy($src,$dstFile);
 					@chmod($dstFile, $this->newFileMode);
 				}
-				umask($oldumask);
 
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
 			}
 			else if(is_dir($src))
 			{
-				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
-
-				if($this->linkAssets)
+				if($this->linkAssets && !is_dir($dstDir))
 				{
-					if(!is_dir($dstDir))
-						symlink($src,$dstDir);
+					symlink($src,$dstDir);
 				}
 				else if(!is_dir($dstDir) || $forceCopy)
 				{
