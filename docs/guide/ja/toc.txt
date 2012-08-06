@@ -26,7 +26,7 @@
     - [モデルの作成](form.model)
     - [アクションの作成](form.action)
     - [フォームの作成](form.view)
-    - [HTML テーブル式入力の収集](form.table)
+    - [表形式入力の収集](form.table)
     - [フォームビルダを使う](form.builder)
 
 * データベースを使う

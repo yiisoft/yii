@@ -13,7 +13,7 @@ Yii のテストフレームワークは [PHPUnit](http://www.phpunit.de/) の�
  * テストメソッドは通常、一続きのアサーション文 (`assertTrue` や `assertEquals`) を含みます。これらのアサーション文がターゲットクラスの振る舞いの妥当性を検証するチェックポイントとして働きます。
 
 以下においては、主として、 [アクティブレコード](/doc/guide/database.ar) モデルクラスのためのユニットテストを書く方法を説明します。
-テストのクラスは [CDbTestCase] を継承したものにします。というのは、 [CDbTestCase] は前のセクションで紹介した、データベースフィクスチャのサポートを提供するからです。
+テストのクラスは [CDbTestCase] を継承したものにします。というのは、 [CDbTestCase] は前の章で紹介した、データベースフィクスチャのサポートを提供するからです。
 
 [ブログデモ](http://www.yiiframework.com/demos/blog/) の中の `Comment` モデルクラスをテストしたいと仮定しましょう。最初に `CommentTest` という名前のクラスを作成して、 `protected/tests/unit/CommentTest.php` として保存します。
 

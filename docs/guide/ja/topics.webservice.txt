@@ -20,7 +20,7 @@ Yiiはそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl)�
 
 
 > Note|注意: [CWebService] は [PHP SOAP extension](http://www.php.net/manual/ja/ref.soap.php) に依存します。
-このセクションの例を実行する前に拡張が有効になっていることを確認して下さい。
+この章の例を実行する前に拡張が有効になっていることを確認して下さい。
 
 サービスプロバイダの定義
 -------------------------
