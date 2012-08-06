@@ -304,6 +304,7 @@ class CAssetManager extends CApplicationComponent
 	 * @param string $file for which public path will be created.
 	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
 	 * @return string path segments without basePath.
+	 * @since 1.1.13
 	 */
 	protected function generatePath($file, $hashByName=false)
 	{
