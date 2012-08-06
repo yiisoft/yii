@@ -756,14 +756,28 @@ class CHttpRequest extends CApplicationComponent
 	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
 	 */
-	public function redirect($url,$terminate=true,$statusCode=302)
-	{
-		if(strpos($url,'/')===0)
-			$url=$this->getHostInfo().$url;
-		header('Location: '.$url, true, $statusCode);
-		if($terminate)
-			Yii::app()->end();
-	}
+	public function redirect($url,$terminate=true,$statusCode=302) 
+    { 
+        if(strpos($url,'/')===0) 
+            $url=$this->getHostInfo().$url; 
+        
+        if($terminate) 
+            Yii::app()->end($statusCode,false); 
+        
+        /**
+        * Some extensions might insert content at the end of the app cycle,
+        * therefore, we need to check if the headers were sent or not.
+        * If the headers are sent already, we fallback on the javascript solution to redirect to the new url.
+        * Also, with javascript, we empty the document body so that any possible visible content won't be shown.
+        **/
+        if(!headers_sent())
+            header('Location: '.$url, true, $statusCode); 
+        else
+            echo '<script>document.body.innerHTML="";window.location.href="'.$url.'";</script>';
+        
+        if($terminate)
+            exit;
+    }
 
 	/**
 	 * Returns the user preferred language.
