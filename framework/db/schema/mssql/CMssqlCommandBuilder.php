@@ -305,7 +305,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * If not, order it by pk.
 	 * @param CMssqlTableSchema $table table schema
 	 * @param CDbCriteria $criteria criteria
-	 * @return CDbCrireria the modified criteria
+	 * @return CDbCriteria the modified criteria
 	 */
 	protected function checkCriteria($table, $criteria)
 	{
