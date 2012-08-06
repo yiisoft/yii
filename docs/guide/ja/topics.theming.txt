@@ -25,7 +25,7 @@ Yiiでの各テーマは、ビューファイル、レイアウトファイル�
 
 テーマを有効にするには、ウェブアプリケーションのプロパティである、
 [theme|CWebApplication::theme] の名前を望むものにセットします。
-これは [アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 
+これは [アプリケーション初期構成](/doc/guide/basics.application#sec-2) 
 の中か、コントローラアクションの処理の中のどちらでも行うことが可能です。
 
 > Note|注意: テーマの名前は大文字小文字を区別します。もしアクティブ
@@ -36,22 +36,15 @@ Yiiでの各テーマは、ビューファイル、レイアウトファイル�
 テーマを作成する
 ----------------
 
-テーマディレクトリの中身は [アプリケーションベースディレクトリ](/doc/guide/basics.application#application-base-directory) 
-の中身と同様の方法で纏められなければなりません。例えば、
-全てのビューファイルは `views` の中に置かれ、レイアウトビューファイルは 
-`views/layouts` の中、システムビューファイルは `views/system` 
-の中でなければいけません。例えば、`PostController`の`create`ビューを`classic`テーマの中のビューで置き換えたい場合には、新しいファイルは、`WebRoot/themes/classic/views/post/create.php`に置きます。
+テーマディレクトリの中身は [アプリケーションベースディレクトリ](/doc/guide/basics.application#sec-3) の中身と同様の方法で纏められなければなりません。
+例えば、全てのビューファイルは `views` の中に置かれ、レイアウトビューファイルは `views/layouts` の中、システムビューファイルは `views/system` の中でなければいけません。
+例えば、`PostController` の `create` ビューを `classic` テーマの中のビューで置き換えたい場合には、新しいファイルは、`WebRoot/themes/classic/views/post/create.php` に置きます。
 
-[モジュール](/doc/guide/basics.module)の中のコントローラに対応するビューは、
-対応するテーマのビューもやはり`views`ディレクトリに置きます。
-例えば、前記の`PostController`が`フォーラム`と呼ばれるモジュールの中にあるならば、
-`WebRoot/themes/classic/views/forum/post/create.php`
-として`create`ビューファイルを配置する必要があります。
-もし、`forum`モジュールが他の`support`モジュールの中にある場合は、ビューファイルは`WebRoot/themes/classic/views/support/forum/post/create.php`となります。
+[モジュール](/doc/guide/basics.module) の中のコントローラに対応するビューは、対応するテーマのビューもやはり `views` ディレクトリに置きます。
+例えば、前記の `PostController` が `forum` と呼ばれるモジュールの中にあるならば、`WebRoot/themes/classic/views/forum/post/create.php` として `create` ビューファイルを配置する必要があります。
+もし、`forum` モジュールが他の `support` モジュールの中にある場合は、ビューファイルは `WebRoot/themes/classic/views/support/forum/post/create.php` となります。
 
-> Note|注意: `views` ディレクトリは、
-セキュリティに関わるデータを含む事がありえる為、
-ウェブユーザからのアクセスを防ぐ様に設定するべきです。
+> Note|注意: `views` ディレクトリは、セキュリティに関わるデータを含む事がありえる為、ウェブユーザからのアクセスを防ぐ様に設定するべきです。
 
 ビューを表示する為に、[render|CController::render] か 
 [renderPartial|CController::renderPartial] をコールした際、
@@ -104,7 +97,7 @@ WebRoot/
 					index.php
 ~~~
 
-アプリケーション構成ファイルで以下のように構成します。
+アプリケーション初期構成ファイルで以下のように構成します。
 
 ~~~
 [php]
@@ -205,7 +198,7 @@ $this->widget('CLinkPager', array(
 スキン
 ------
 
-テーマを使用するとビューの外観を即座に変更できる一方で、スキンを使用するとビューで使用される [widgets](/doc/guide/basics.view#widget) の外観を体系的にカスタマイズすることが出来ます。
+テーマを使用するとビューの外観を即座に変更できる一方で、スキンを使用するとビューで使用される [widgets](/doc/guide/basics.view#sec-3) の外観を体系的にカスタマイズすることが出来ます。
 
 スキンは、ウィジェットのプロパティ初期化に使用できる name-value のペアの配列です。
 スキンはウィジェットクラスに属するもので、ウィジェットクラスは名前で区別される複数のスキンを持つことが出来ます。

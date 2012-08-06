@@ -37,7 +37,7 @@ Version 1.1.5
 
  * [コンソールコマンドアクションとパラメータバインディングに対するサポートを追加](/doc/guide/topics.console)
  * [ネームスペースを持つクラスのオートローディングに対するサポートを追加](/doc/guide/basics.namespace)
- * [ウィジェットのビューに対するテーマ適用のサポートを追加](/doc/guide/topics.theming#theming-widget-views)
+ * [ウィジェットのビューに対するテーマ適用のサポートを追加](/doc/guide/topics.theming#sec-4)
 
 Version 1.1.4
 -------------

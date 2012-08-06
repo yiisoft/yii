@@ -26,8 +26,8 @@ Yiiは[HTMLPurifier](http://htmlpurifier.org/) の働きに賛同し、
 許可されたホワイトリストの使用や、コンテンツのフィルタリングの確認
 といった標準に準拠しているのでとても安全です。
 
-[CHtmlPurifier] コンポーネントは、[ウィジェット](/doc/guide/basics.view#widget)
-としても[フィルタ](/doc/guide/basics.controller#filter)としても使用可能です。
+[CHtmlPurifier] コンポーネントは、[ウィジェット](/doc/guide/basics.view#sec-3)
+としても[フィルタ](/doc/guide/basics.controller#sec-5)としても使用可能です。
 ウィジェットとして使用した場合、[CHtmlPurifier] は
 ビューのボディーに表示されたコンテンツから不純物を取り除くでしょう。
 例えば、
@@ -68,7 +68,7 @@ Yiiは、`POST` によるCSRF攻撃を防ぐスキーマを実装しています
 送信された値と比較する事で成り立っています。
 
 初期状態では、CSRFに対する防御は無効になっています。有効にするには 
-[アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 
+[アプリケーション初期構成](/doc/guide/basics.application#sec-2) 
 の中で[CHttpRequest] コンポーネントを下記の様に設定して下さい。
 
 ~~~
@@ -111,7 +111,7 @@ Yiiはクッキーバリデーションスキーマを実装し、クッキー�
 クッキーの値に対してHMACチェック行います。
 
 クッキーバリデーションは初期状態では無効になっています。有効にするには、
-[アプリケーション初期構成](/doc/guide/basics.application#application-configuration)
+[アプリケーション初期構成](/doc/guide/basics.application#sec-2)
 の中の [CHttpRequest] アプリケーションコンポーネントを下記の様に設定します。
 
 ~~~
