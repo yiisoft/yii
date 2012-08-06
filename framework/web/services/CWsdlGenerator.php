@@ -149,6 +149,7 @@ class CWsdlGenerator extends CComponent
 		$comment=$method->getDocComment();
 		if(strpos($comment,'@soap')===false)
 			return;
+		$comment=strtr($comment,array("\r\n"=>"\n","\r"=>"\n")); // make line endings consistent: win -> unix, mac -> unix
 
 		$methodName=$method->getName();
 		$comment=preg_replace('/^\s*\**(\s*?$|\s*)/m','',$comment);

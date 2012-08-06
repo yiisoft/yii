@@ -5,7 +5,7 @@
 
   1. Yii's [extension repository](http://www.yiiframework.com/extensions/) より、
      エクステンションをダウンロードします。
-  2. エクステンションを [アプリケーションベースディレクトリ](/doc/guide/basics.application#application-base-directory)
+  2. エクステンションを [アプリケーションベースディレクトリ](/doc/guide/basics.application#sec-3)
      のサブディレクトリである `extensions/xyz` 以下に解凍します。
      `xyz` にはエクステンション名が入ります。
   3. インポート、初期構成を行い、エクステンションを使用します。
@@ -41,8 +41,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
 アプリケーションコンポーネント
 ---------------------
 
-[アプリケーションコンポーネント](/doc/guide/basics.application#application-component) を使用するために、
-最初に [アプリケーション初期構成](/doc/guide/basics.application#application-configuration) へ、
+[アプリケーションコンポーネント](/doc/guide/basics.application#sec-4) を使用するために、
+最初に [アプリケーション初期構成](/doc/guide/basics.application#sec-2) へ、
 `components` プロパティを以下のように追加する必要があります:
 
 ~~~
@@ -67,7 +67,7 @@ return array(
 ビヘイビア
 ----------
 
-[ビヘイビア](/doc/guide/basics.component#component-behavior) はすべての種類のコンポーネントの中で使用することが出来ます。
+[ビヘイビア](/doc/guide/basics.component#sec-4) はすべての種類のコンポーネントの中で使用することが出来ます。
 ビヘイビアの使用方法は二つのステップから成ります。最初のステップで、ビヘイビアが対象のコンポーネントにアタッチされます。
 第二のステップで、対象のコンポーネントを通じてビヘイビアのメソッドが呼ばれます。
 例えば
@@ -81,8 +81,8 @@ $component->test();
 ~~~
 
 しばしば、ビヘイビアは`attachBehavior`メソッドを使うのでなく、構成的な方法によってコンポーネントにアタッチされます。
-例えば、[アプリケーションコンポーネント](/doc/guide/basics.application#application-component)にビヘイビアをアタッチするために、
-次のような, [アプリケーション構成](/doc/guide/basics.application#application-configuration)を使うことが出来ます。:
+例えば、[アプリケーションコンポーネント](/doc/guide/basics.application#sec-4)にビヘイビアをアタッチするために、
+次のような, [アプリケーション構成](/doc/guide/basics.application#sec-2)を使うことが出来ます。:
 
 ~~~
 [php]
@@ -128,7 +128,7 @@ public function behaviors()
 ウィジェット
 ------
 
-[ウィジェット](/doc/guide/basics.view#widget) は主に
+[ウィジェット](/doc/guide/basics.view#sec-3) は主に
 [ビュー](/doc/guide/basics.view) 中で使用されます。
 ウィジットクラス `XyzClass` が 'xyz' エクステンションに属している場合、
 ビュー中で下記のように使用できます。
@@ -153,7 +153,7 @@ public function behaviors()
 アクション
 ------
 
-[アクション](/doc/guide/basics.controller#action) は、
+[アクション](/doc/guide/basics.controller#sec-4) は、
 特定のユーザリクエストに応答するために [コントローラ](/doc/guide/basics.controller) により使用されます。
 アクションクラス `XyzClass` が `xyz` エクステンションに属している場合、
 コントローラクラスで、[CController::actions] メソッドを上書き（オーバーライド）すれば
@@ -177,14 +177,13 @@ class TestController extends CController
 }
 ~~~
 
-その後、 [ルート（道筋）](/doc/guide/basics.controller#route) `test/xyz`
-を用いて、アクションにアクセスできます。
+その後、 [ルート (経路)](/doc/guide/basics.controller#sec-2) `test/xyz` を用いて、アクションにアクセスできます。
 
 フィルタ
 ------
-[フィルタ](/doc/guide/basics.controller#filter) もまた、
+[フィルタ](/doc/guide/basics.controller#sec-5) もまた、
 [コントローラ](/doc/guide/basics.controller) により使用されます。
-それらは主に、[アクション](/doc/guide/basics.controller#action) により処理される
+それらは主に、[アクション](/doc/guide/basics.controller#sec-4) により処理される
 ユーザリクエストの前処理や後処理です。
 フィルタクラス `XyzClass` が `xyz` エクステンションに属している場合、
 コントローラクラスで、[CController::filters] メソッドを上書き（オーバーライド）すれば
@@ -217,7 +216,7 @@ class TestController extends CController
 [コントローラ](/doc/guide/basics.controller) は、
 ユーザが要求できるアクションのセットを提供します。
 コントローラエクステンションを使用するために、
-[アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 中の
+[アプリケーション初期構成](/doc/guide/basics.application#sec-2) 中の
 [CWebApplication::controllerMap] プロパティへの初期構成が必要です:
 
 ~~~
@@ -234,8 +233,7 @@ return array(
 );
 ~~~
 
-その後、[ルート（道筋）](/doc/guide/basics.controller#route) `xyz/a` を
-用いてコントローラのアクション `a` にアクセスできます。
+その後、[ルート (経路)](/doc/guide/basics.controller#sec-2) `xyz/a` を用いてコントローラのアクション `a` にアクセスできます。
 
 バリデータ
 ---------
@@ -297,8 +295,7 @@ return array(
 
 モジュール
 ------
-モジュールの使用方法については、[モジュール](/doc/guide/basics.module#using-module)
-に関するセクションを参照してください。
+モジュールの使用方法については、[モジュール](/doc/guide/basics.module#sec-3) に関する章を参照してください。
 
 
 一般的なコンポーネント

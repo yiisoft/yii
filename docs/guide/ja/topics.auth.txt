@@ -76,7 +76,7 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-次のセクションでログインとログアウトを扱うときに、この identity クラスが user  の login メソッドに引き渡されることを見ます。[CBaseUserIdentity::setState] を呼んで保存されるすべての情報が [CWebUser] に渡され、[CWebUser] がそれをセッションなどの持続的ストレージに保存します。
+次の章でログインとログアウトを扱うときに、この identity クラスが user  の login メソッドに引き渡されることを見ます。[CBaseUserIdentity::setState] を呼んで保存されるすべての情報が [CWebUser] に渡され、[CWebUser] がそれをセッションなどの持続的ストレージに保存します。
 するとこの情報は [CWebUser] のプロパティのようにアクセスすることが出来るようになります。
 上記の例では、ユーザの `title` 情報を `$this->setState('title', $record->title);` によって保存しましたが、ログインのプロセスを完了した後は、現在のユーザの `title` 情報を `Yii::app()->user->title` を使うだけで取得することが出来ます。
 
@@ -169,11 +169,11 @@ Yii はこの情報のクッキーがクライアント側で改竄されるの�
 これは["accessControl"|CController::filterAccessControl]という名前のフィルタとして提供されています。
 
 > ヒント: アクセスコントロールフィルタは単純なケースでは十分に役に立ちます。
-より複雑なアクセスコントロールには、次のサブセクションで紹介するロールベースアクセス(RBAC)が使えるでしょう。
+より複雑なアクセスコントロールには、次の節で紹介するロールベースアクセス(RBAC)が使えるでしょう。
 
 コントローラのアクションへのアクセスを制御するために、[CController::filters]をオーバーライドして、
 アクセスコントロールフィルタをインストールします。
-(フィルタインストールの詳細については[Filter](/doc/guide/basics.controller#filter)を参照してください)
+(フィルタインストールの詳細については[Filter](/doc/guide/basics.controller#sec-5)を参照してください)
 
 ~~~
 [php]
@@ -248,7 +248,6 @@ class PostController extends CController
 > こうする理由は、すべてのルールに一致しない場合は、アクションが実行されるからです。
 
 アクセスルールは以下のコンテクストパラメータと一致する可能性があります。
-An access rule can match the following context parameters:
 
    - [actions|CAccessRule::actions]: どのアクションにルールが適用されるか決める。
 アクションIDの配列。比較は大文字小文字を区別しない。
@@ -266,7 +265,7 @@ An access rule can match the following context parameters:
 	   - `@`: 認証済みのユーザ
 
    - [roles|CAccessRule::roles]: どのロールにルールが適用されるか決める。
-これは次のサブセクションで説明する[ロールベースアクセスコントロール](/doc/guide/topics.auth#role-based-access-control)機能を利用する。
+これは次の節で説明する[ロールベースアクセスコントロール](/doc/guide/topics.auth#sec-7) 機能を利用する。
 具体的には、ロールに対して[CWebUser::checkAccess]がtrueを返したときにルールが適用される。
 注意：ロールは主に`allow`にたいして使うべきです。その定義から言ってロールとは何かをする許可のことだからです。さらに、ここでは `ロール(roles)` という用語を使っていますが、その値は実際には、ロール(role)、タスク(task)、オペレーション(operation)のうちの、どの権限アイテムでも構いません。
 
@@ -284,16 +283,15 @@ An access rule can match the following context parameters:
 
 権限付与が失敗すると、すなわちユーザがアクションの実行を許可されないと、以下の二つのシナリオのうちどちらかが発生します。
 
-   - ユーザがログインしておらず、ユーザコンポーネントの [loginUrl|CWebUser::loginUrl]プロパティがログインページのURLに設定されていると、
+   - ユーザがログインしておらず、ユーザコンポーネントの [loginUrl|CWebUser::loginUrl] プロパティがログインページのURLに設定されていると、
 ブラウザはそのページにリダイレクトされる。
 [loginUrl|CWebUser::loginUrl] はデフォルトでは `site/login` ページを指していることに注意。
 
-   - それ以外の場合はHTTP例外がエラーコード403で表示される。
+   - それ以外の場合は HTTP 例外がエラーコード 403 で表示される。
 
-[loginUrl|CWebUser::loginUrl]を設定する際に、相対URLか絶対URLのどちらかを指定できます。
-あるいはまた、[CWebApplication::createUrl]によってURLを生成する文字列も利用可能です。
-配列の最初の要素はログインコントローラアクションへの[route](/doc/guide/basics.controller#route)であり、
-残りはGETパラメータとして渡されるキーと値のペアです。
+[loginUrl|CWebUser::loginUrl] を設定する際に、相対 URL か絶対 URL のどちらかを指定できます。
+あるいはまた、[CWebApplication::createUrl] によって URL を生成する文字列も利用可能です。
+配列の最初の要素はログインコントローラアクションへの [ルート (経路)](/doc/guide/basics.controller#sec-2) であり、残りは GET パラメータとして渡されるキーと値のペアです。
 例えば、
 
 ~~~
@@ -311,8 +309,8 @@ array(
 
 ブラウザがログインページリダイレクトされ、ログインが成功したら、
 権限付与を必要とした元のページに戻りたいでしょう。
-どうしたら元のページのURLがわかるでしょうか？
-ユーザコンポーネントの[returnUrl|CWebUser::returnUrl]プロパティからこの情報を得ることができます。
+どうしたら元のページの URL がわかるでしょうか？
+ユーザコンポーネントの [returnUrl|CWebUser::returnUrl] プロパティからこの情報を得ることができます。
 したがって、リダイレクトを以下のようにして実行できます。
 
 ~~~
@@ -323,35 +321,32 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 ロールベースアクセスコントロール
 -------------------------
 
-ロールベースアクセスコントロール(RBAC)はシンプルで強力な集中的アクセスコントロールを提供します。
-RBACと他の伝統的なアクセスコントロールスキーマとの比較については[Wiki
-article](http://en.wikipedia.org/wiki/Role-based_access_control)を参照してください。
+ロールベースアクセスコントロール (RBAC) はシンプルで強力な集中的アクセスコントロールを提供します。
+RBAC と他の伝統的なアクセスコントロールスキーマとの比較については [Wiki の記事](http://en.wikipedia.org/wiki/Role-based_access_control) を参照してください。
 
-Yiiは[authManager|CWebApplication::authManager]アプリケーションコンポーネントで、階層的RBACスキームを実装しています。
+Yii は [authManager|CWebApplication::authManager] アプリケーションコンポーネントで、階層的 RBAC スキームを実装しています。
 以下でこのスキームで使われる主な概念を紹介します。
 次に権限付与データをどう定義するかを説明します。
 最後に権限付与データをアクセスチェックに利用するやり方を説明します。
 
 ### 概要
 
-YiiのRBACの基本概念は、*権限付与アイテム*です。
+Yii の RBAC の基本概念は、*権限付与アイテム* です。
 権限付与アイテムとは何かをする許可のことです。(例：新しいブログ記事を作る、ユーザを管理する)
-粒度と対象者によって、権限付与アイテムは*オペレーション*、*タスク*、*ロール*に分類されます。
+粒度と対象者によって、権限付与アイテムは *オペレーション*、*タスク*、*ロール* に分類されます。
 ロールは複数のタスクからなり、タスクは複数のオペレーションからなります。
 そして、オペレーションが一番小さな許可単位です。
-例えば、`administrator`ロールが`post management`タスクと`user management`タスクを含むようなシステムを作ることができます。
-`user management`タスクは`create user`、`update user`、`delete user`などのオペレーションから構成されるでしょう。
-更なる柔軟性のために、Yiidではロールに他のロールを含めたり、タスクに他のタスクを含めたりできます。
+例えば、`administrator` ロールが `post management` タスクと `user management` タスクを含むようなシステムを作ることができます。
+`user management` タスクは `create user`、`update user`、`delete user` などのオペレーションから構成されるでしょう。
+更なる柔軟性のために、Yii ではロールに他のロールを含めたり、タスクに他のタスクを含めたりできます。
 さらにオペレーションも他のオペレーションを含むことができます。
 
 権限付与アイテムは名前によって一意に識別されます。
 
-権限付与アイテムは*ビジネスルール*に関連付けられることがあります。
-ビジネスルールとは、小さなPHPコードで、アクセスチェックの際に実行されます。
-ビジネスルールの実行結果がtrueを返したときだけ、
-ユーザは権限付与アイテムが表す実行許可を持っていると考えられます。
-例えば、`updatePost`というオペレーションを作るときに、記事作成者本人だけに更新許可を与えるために、
-ユーザのIDが記事作成者のIDと同じであるかどうか確認するビジネスルールを付け加えたいことがあるでしょう。
+権限付与アイテムは *ビジネスルール* に関連付けられることがあります。
+ビジネスルールは、アクセスチェックの祭に実行される PHP コード断片です。
+ビジネスルールの実行結果が true を返したときだけ、ユーザは権限付与アイテムが表す実行許可を持っていると考えられます。
+例えば、`updatePost` というオペレーションを作るときに、記事作成者本人だけに更新許可を与えるために、ユーザの ID が記事作成者の ID と同じであるかどうか確認するビジネスルールを付け加えたいことがあるでしょう。
 
 
 権限付与アイテムを使うことで、*権限付与階層*を構築することができます。

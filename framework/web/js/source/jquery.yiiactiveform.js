@@ -227,7 +227,7 @@
 	 * Returns the container element of the specified attribute.
 	 * @param attribute object the configuration for a particular attribute.
 	 * @param form the form jQuery object
-	 * @return jquery the jquery representation of the container
+	 * @return jQuery the jQuery representation of the container
 	 */
 	$.fn.yiiactiveform.getInputContainer = function (attribute, form) {
 		if (attribute.inputContainer === undefined) {

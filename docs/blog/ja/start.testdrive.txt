@@ -69,7 +69,7 @@ Yii::createWebApplication($config)->run();
 
 ###ベースアプリケーションディレクトリ
 
-次に、`/wwwroot/blog/protected` という [アプリケーションベースディレクトリ](http://www.yiiframework.com/doc/guide/ja/basics.application#application-base-directory) があります。
+次に、`/wwwroot/blog/protected` という [アプリケーションベースディレクトリ](http://www.yiiframework.com/doc/guide/ja/basics.application#sec-3) があります。
 これから作成するコードとデータのほとんどがこのディレクトリ以下に配置されます。
 このディレクトリはウェブユーザのアクセスから保護されなければなりません。
 [Apache httpd ウェブサーバ](http://httpd.apache.org/) を使っているなら、以下のような `.htaccess` ファイルをこのディレクトリに置きます:
@@ -89,9 +89,9 @@ Yii がどのように動くかを理解しやすいように、ユーザがコ�
  0. ユーザが URL `http://www.example.com/blog/index.php?r=site/contact` をリクエストします。
  1. リクエストを処理するために、[エントリスクリプト](http://www.yiiframework.com/doc/guide/ja/basics.entry) がウェブサーバにより実行されます。
  2. [アプリケーション](http://www.yiiframework.com/doc/guide/ja/basics.application) インスタンスが作成され、アプリケーション初期構成ファイル `/wwwroot/blog/protected/config/main.php` で指定された初期プロパティ値が設定されます。
- 3. アプリケーションは [コントローラ](http://www.yiiframework.com/doc/guide/ja/basics.controller) と [コントローラアクション](http://www.yiiframework.com/doc/guide/ja/basics.controller#action) にリクエストを解決します。コンタクトページへのリクエストは、`site` コントローラと `contact` アクションに解決されます (`/wwwroot/blog/protected/controllers/SiteController.php` 中の `actionContact` メソッド)。
+ 3. アプリケーションは [コントローラ](http://www.yiiframework.com/doc/guide/ja/basics.controller) と [コントローラアクション](http://www.yiiframework.com/doc/guide/ja/basics.controller#sec-4) にリクエストを解決します。コンタクトページへのリクエストは、`site` コントローラと `contact` アクションに解決されます (`/wwwroot/blog/protected/controllers/SiteController.php` 中の `actionContact` メソッド)。
  4. アプリケーションは `site` コントローラを `SiteController` のインスタンスとして作成し、実行します。
  5. `SiteController` インスタンスは自身の `actionContact()` メソッドを呼ぶことで `contact` アクションを実行します。
- 6. `actionContact` メソッドは `contact` という名前の [ビュー](http://www.yiiframework.com/doc/guide/ja/basics.view) をレンダリングし、ウェブユーザに提示します。内部的には、ビューファイル `/wwwroot/blog/protected/views/site/contact.php` を読み込み、[レイアウト](http://www.yiiframework.com/doc/guide/ja/basics.view#layout) ファイル `/wwwroot/blog/protected/views/layouts/column1.php` にその結果を埋め込むことで、レンダリングが達成されます。
+ 6. `actionContact` メソッドは `contact` という名前の [ビュー](http://www.yiiframework.com/doc/guide/ja/basics.view) をレンダリングし、ウェブユーザに提示します。内部的には、ビューファイル `/wwwroot/blog/protected/views/site/contact.php` を読み込み、[レイアウト](http://www.yiiframework.com/doc/guide/ja/basics.view#sec-2) ファイル `/wwwroot/blog/protected/views/layouts/column1.php` にその結果を埋め込むことで、レンダリングが達成されます。
 
 <div class="revision">$Id$</div>
