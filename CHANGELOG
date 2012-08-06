@@ -8,7 +8,7 @@ Version 1.1.12 work in progress
 - Bug #1077: Fixed the problem with alias in CSort (creocoder)
 - Bug #1072: Fixed the problem with getTableAlias() in defaultScope() (creocoder)
 - Bug #1066: CMemCache: expiration time higher than 60*60*24*30 (31536000) seconds led the value to expire right away after saving (resurtm)
-- Bug #1083: CFileValidator is now unsafe by default. This will prevent setting attribute when allowEmpty is true and no file was uploaded (samdark)
+- Bug #1083: CFileValidator is now unsafe by default. This will prevent setting attribute when no file was uploaded (samdark)
 - Bug #1087: Reverted changes to CCookieCollection::add() introduced in 1.1.11 as they were triggering E_STRICT on some old PHP-versions (suralc)
 - Bug #1088: Fixed usage of proper CActiveForm id property when it's supplied with htmlOptions (mdomba)
 - Bug #1094: CGridView with enabled history used to clear page title in case sorting or paging performed (Opera and Firefox only) (resurtm)
