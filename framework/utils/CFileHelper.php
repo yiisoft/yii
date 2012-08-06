@@ -111,11 +111,12 @@ class CFileHelper
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
-			mkdir($dst);
-		if(isset($options['newDirMode']))
-			@chmod($dst,$options['newDirMode']);
-		else
-			@chmod($dst,0777);
+		{
+			$oldumask=umask(0);
+			mkdir($dst, isset($options['newDirMode']) ? $options['newDirMode'] : 0777, true);
+			umask($oldumask);
+		}
+
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
 		{
