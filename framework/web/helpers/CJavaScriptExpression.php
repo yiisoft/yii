@@ -18,10 +18,13 @@
  */
 class CJavaScriptExpression
 {
+	/**
+	 * @var string the javascript expression wrapped by this object
+	 */
 	public $code;
 
 	/**
-	 * @param $code
+	 * @param string $code a javascript expression that is to be wrapped by this object
 	 */
 	public function __construct($code)
 	{
@@ -30,7 +33,7 @@ class CJavaScriptExpression
 
 	/**
 	 * String magic method
-	 * @return string the DB expression
+	 * @return string the javascript expression wrapped by this object
 	 */
 	public function __toString()
 	{

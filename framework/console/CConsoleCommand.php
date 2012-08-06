@@ -557,8 +557,8 @@ abstract class CConsoleCommand extends CComponent
 	 * Asks user to confirm by typing y or n.
 	 *
 	 * @param string $message to echo out before waiting for user input
-	 * @param bool $default this value is returned if no selection is made. This parameter has been available since version 1.1.11.
-	 * @return bool if user confirmed
+	 * @param boolean $default this value is returned if no selection is made. This parameter has been available since version 1.1.11.
+	 * @return boolean whether user confirmed
 	 *
 	 * @since 1.1.9
 	 */

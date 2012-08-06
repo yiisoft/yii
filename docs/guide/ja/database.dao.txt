@@ -49,11 +49,8 @@ DSN のフォーマットは、使用する PDO データベースドライバ�
    - SQL Server: `mssql:host=localhost;dbname=testdb`
    - Oracle: `oci:dbname=//localhost:1521/testdb`
 
-[CDbConnection] は [CApplicationComponent] から拡張されているため、
-[アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
-として使用できます。そうするには、
-[アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 内で
-`db` (もしくは他の名前の)アプリケーションコンポーネントを下記のように設定します。
+[CDbConnection] は [CApplicationComponent] から拡張されているため、[アプリケーションコンポーネント](/doc/guide/basics.application#sec-4) として使用できます。
+そうするには、[アプリケーション初期構成](/doc/guide/basics.application#sec-2) 内で `db` (もしくは他の名前の) アプリケーションコンポーネントを下記のように設定します。
 
 ~~~
 [php]

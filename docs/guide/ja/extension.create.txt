@@ -16,17 +16,15 @@
 BSD、MIT、その他のようなライセンスを考慮したほうが良いでしょう。GPLではありません。
 なぜならGPLはその派生コードに同様にオープンソースであることを要求するためです。
 
-以下に、[概要](/doc/guide/extension.overview)で解説される分類により、新しいエクステンションを作成する方法を解説します。
+以下に、[概要](/doc/guide/extension.overview) で解説される分類により、新しいエクステンションを作成する方法を解説します。
 主に自身のプロジェクトで使われるコンポーネントを作成するときも、これらの説明があてはまります。
 
 アプリケーションコンポーネント
 ---------------------
 
-[アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
-は[IApplicationComponent]インタフェースを実装するかまたは[CApplicationComponent]を継承しなければなりません。
-実装する必要があるメインのメソッドは[IApplicationComponent::init]であり、そこでコンポーネントの何らかの初期化処理を行います。
-このメソッドは、コンポーネントが生成され、[アプリケーション構成](/doc/guide/basics.application#application-configuration)
-で規定されるプロパティの初期値が適用された後に呼び出されます。
+[アプリケーションコンポーネント](/doc/guide/basics.application#sec-4) は [IApplicationComponent] インタフェースを実装するかまたは [CApplicationComponent] を継承しなければなりません。
+実装する必要があるメインのメソッドは [IApplicationComponent::init] であり、そこでコンポーネントの何らかの初期化処理を行います。
+このメソッドは、コンポーネントが生成され、[アプリケーション初期構成](/doc/guide/basics.application#sec-2) で規定されるプロパティの初期値が適用された後に呼び出されます。
 
 デフォルトでは、アプリケーションコンポーネントは、リクエスト処理中に最初にアクセスされるときに生成され、初期化されます。
 もしアプリケーションインスタンスが生成された直後にアプリケーションコンポーネントが生成される必要があるならば、
@@ -69,7 +67,7 @@ class TimestampBehavior extends CActiveRecordBehavior
 ウィジェット
 ------
 
-[ウィジェット](/doc/guide/basics.view#widget)は[CWidget]またはその子クラスを継承すべきものです。
+[ウィジェット](/doc/guide/basics.view#sec-3) は [CWidget] またはその子クラスを継承すべきものです。
 
 新しいウィジェットを作成する最も簡単な方法は、既存のウィジェットを継承し、
 そのメソッドをオーバライドするか、またはそのデフォルトプロパティ値を変更することです。
@@ -130,13 +128,13 @@ class MyWidget extends CWidget
 アクション
 ------
 
-[アクション](/doc/guide/basics.controller#action)は[CAction]またはその子クラスから継承されるべきです。
-アクションとして主に実装されるべきメソッドは[IAction::run]です。
+[アクション](/doc/guide/basics.controller#sec-4) は [CAction] またはその子クラスから継承されるべきです。
+アクションとして主に実装されるべきメソッドは [IAction::run] です。
 
 フィルタ
 ------
-[フィルタ](/doc/guide/basics.controller#filter)は[CFilter]またはその子クラスから継承されるべきです。
-フィルタとして主に実装されるべきメソッドは[CFilter::preFilter]と[CFilter::postFilter]です。
+[フィルタ](/doc/guide/basics.controller#sec-5) は [CFilter] またはその子クラスから継承されるべきです。
+フィルタとして主に実装されるべきメソッドは [CFilter::preFilter] と [CFilter::postFilter] です。
 前者はアクションが実行される前に呼び出され、後者はアクションの実行後に呼び出されます。
 
 ~~~
@@ -156,20 +154,20 @@ class MyFilter extends CFilter
 }
 ~~~
 
-`$filterChain`パラメータは[CFilterChain]タイプで、現在フィルタされているアクションの情報を含みます。
+`$filterChain` パラメータは [CFilterChain] タイプで、現在フィルタされているアクションの情報を含みます。
 
 
 コントローラ
 ----------
-エクステンションとして配布される[コントローラ](/doc/guide/basics.controller)は
- [CController]の継承ではなく[CExtController]を継承するべきです。
-主な理由は、[CController]はビューファイルが`application.views.ControllerID`の下に存在するのに対し、[CExtController]はビューファイルが、コントローラクラスファイルを含むディレクトリのサブディレクトリである`views`ディレクトリに存在すると仮定するからです。
+エクステンションとして配布される[コントローラ](/doc/guide/basics.controller) は
+ [CController] の継承ではなく [CExtController] を継承するべきです。
+主な理由は、[CController] はビューファイルが `application.views.ControllerID` の下に存在するのに対し、[CExtController] はビューファイルが、コントローラクラスファイルを含むディレクトリのサブディレクトリである `views` ディレクトリに存在すると仮定するからです。
 したがって、そのビューファイルがコントローラクラスファイルと共に存在するため、コントローラを再配布することはより簡単です。
 
 
 バリデータ
 ---------
-バリデータは[CValidator]を継承し、[CValidator::validateAttribute]メソッドを実装するべきです。
+バリデータは [CValidator] を継承し、[CValidator::validateAttribute] メソッドを実装するべきです。
 
 ~~~
 [php]
@@ -186,9 +184,8 @@ class MyValidator extends CValidator
 
 コンソールコマンド
 ---------------
-[コンソールコマンド](/doc/guide/topics.console)は[CConsoleCommand]を継承し、
-[CConsoleCommand::run]メソッドを実装するべきです。
-オプションとして、[CConsoleCommand::getHelp]をオーバライドして、コマンドの素敵なヘルプ情報を表示することも可能です。
+[コンソールコマンド](/doc/guide/topics.console) は [CConsoleCommand] を継承し、[CConsoleCommand::run] メソッドを実装するべきです。
+オプションとして、[CConsoleCommand::getHelp] をオーバライドして、コマンドの素敵なヘルプ情報を表示することも可能です。
 
 ~~~
 [php]
@@ -208,10 +205,10 @@ class MyCommand extends CConsoleCommand
 
 モジュール
 ------
-モジュールの作成する方法については[モジュール](/doc/guide/basics.module#creating-module)に関する章を参照してください。
+モジュールの作成する方法については [モジュール](/doc/guide/basics.module#sec-2) に関する章を参照してください。
 
 モジュール開発の一般的なガイドラインは、モジュールは自己充足的であるべきだ、ということです。
-モジュールによって使用されるリソースファイル(例えばCSS, JavaScript, 画像)はモジュールと共に配布されるべきです。
+モジュールによって使用されるリソースファイル (例えばCSS, JavaScript, 画像) はモジュールと共に配布されるべきです。
 そしてモジュールはそれらのファイルをウェブアクセス可能なように公開しなければなりません。
 
 汎用コンポーネント
@@ -219,4 +216,4 @@ class MyCommand extends CConsoleCommand
 汎用コンポーネントのエクステンションの開発はクラスを書くことに似ています。
 ここでも、コンポーネントは、他の開発者によって容易に使用されるように、自己充足的なものでなければなりません。
 
-<div class="revision">$Id: extension.create.txt 1423 2009-09-28 01:54:38Z qiang.xue $</div>
+<div class="revision">$Id$</div>

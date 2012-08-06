@@ -1,7 +1,7 @@
 機能テスト
 ==================
 
-このセクションを読む前に、まずは [Seleniumのドキュメント](http://seleniumhq.org/docs/) ([日本語版はこちら](http://oss.infoscience.co.jp/seleniumhq/docs/))
+この章を読む前に、まずは [Seleniumのドキュメント](http://seleniumhq.org/docs/) ([日本語版はこちら](http://oss.infoscience.co.jp/seleniumhq/docs/))
 および [PHPUnitのドキュメント](http://www.phpunit.de/manual/current/ja/index.html) を読むことをお奨めします。以下に Yii において機能テストを書くときの基本的な原則を要約します。
 
  * ユニットテストと同じように、機能テストは [CWebTestCase] クラスを継承した `XyzTest` というクラスの形で書かれます。ここで `Xyz` はテストされるクラスを表します。`PHPUnit_Extensions_SeleniumTestCase` が [CWebTestCase] の親クラスであるため、この親クラスから継承したすべてのメソッドを使うことが出来ます。

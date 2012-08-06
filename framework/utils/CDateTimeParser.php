@@ -257,7 +257,7 @@ class CDateTimeParser
 		return $tokens;
 	}
 
-	/*
+	/**
 	 * @param string $value the date string to be parsed
 	 * @param integer $offset starting offset
 	 * @param integer $minLength minimum length
@@ -274,7 +274,7 @@ class CDateTimeParser
 		return false;
 	}
 
-	/*
+	/**
 	 * @param string $value the date string to be parsed
 	 * @param integer $offset starting offset
 	 */
