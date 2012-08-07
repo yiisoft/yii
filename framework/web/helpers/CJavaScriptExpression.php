@@ -30,7 +30,7 @@ class CJavaScriptExpression
 	public function __construct($code)
 	{
 		if(!is_string($code))
-			throw new CException('Value passed to CJavaScriptExpression should be string.');
+			throw new CException('Value passed to CJavaScriptExpression should a be string.');
 		$this->code=$code;
 	}
 
