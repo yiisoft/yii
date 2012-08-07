@@ -749,6 +749,7 @@ class YiiBase
 		'CBooleanValidator' => '/validators/CBooleanValidator.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
+                'CCompareDateTimeValidator' => '/validators/CCompareDateTimeValidator.php',
 		'CDateValidator' => '/validators/CDateValidator.php',
 		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
