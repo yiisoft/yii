@@ -101,13 +101,12 @@ class CMaskedTextField extends CInputWidget
 		$options=array();
 		if($this->placeholder!==null)
 			$options['placeholder']=$this->placeholder;
-		if(is_string($this->completed))
-		{
-			if(!($this->completed instanceof CJavaScriptExpression) && strncmp($this->completed,'js:',3))
-				$options['completed']=new CJavaScriptExpression($this->completed);
-			else
-				$options['completed']=$this->completed;
-		}
+
+		if($this->completed instanceof CJavaScriptExpression || (is_string($this->completed) && strpos($this->completed,'js:')!==0))
+			$options['completed']=$this->completed;
+		else
+			$options['completed']=new CJavaScriptExpression($this->completed);
+
 		return $options;
 	}
 }
