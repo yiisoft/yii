@@ -126,17 +126,17 @@ public function behaviors()
 
 ~~~
 [php]
-// 本文（body content）を必要としないウィジェット
+// 本文 (body content) を必要としないウィジェット
 <?php $this->widget('ext.xyz.XyzClass', array(
 	'property1'=>'value1',
 	'property2'=>'value2')); ?>
 
-// 本文（body content）を含められるウィジェット
+// 本文 (body content) を含められるウィジェット
 <?php $this->beginWidget('ext.xyz.XyzClass', array(
 	'property1'=>'value1',
 	'property2'=>'value2')); ?>
 
-...ウィジェットの本文（body content）...
+...ウィジェットの本文 (body content) ...
 
 <?php $this->endWidget(); ?>
 ~~~
