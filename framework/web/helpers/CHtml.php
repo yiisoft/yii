@@ -1048,7 +1048,7 @@ EOD;
 		foreach(array('beforeSend','complete','error','success') as $name)
 		{
 			if(isset($options[$name]) && !($options[$name] instanceof CJavaScriptExpression))
-				$options[$name]=new CJavaScriptExpression($options[$name], true);
+				$options[$name]=new CJavaScriptExpression($options[$name]);
 		}
 		if(isset($options['update']))
 		{

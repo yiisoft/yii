@@ -107,7 +107,7 @@ class CMaskedTextField extends CInputWidget
 			if($this->completed instanceof CJavaScriptExpression)
 				$options['completed']=$this->completed;
 			else
-				$options['completed']=new CJavaScriptExpression($this->completed, true);
+				$options['completed']=new CJavaScriptExpression($this->completed);
 		}
 
 		return $options;

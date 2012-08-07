@@ -400,7 +400,7 @@ class CGridView extends CBaseListView
 				if($this->$event instanceof CJavaScriptExpression)
 					$options[$event]=$this->$event;
 				else
-					$options[$event]=new CJavaScriptExpression($this->$event, true);
+					$options[$event]=new CJavaScriptExpression($this->$event);
 			}
 		}
 

@@ -120,7 +120,7 @@ class CMultiFileUpload extends CInputWidget
 		foreach(array('onFileRemove','afterFileRemove','onFileAppend','afterFileAppend','onFileSelect','afterFileSelect') as $event)
 		{
 			if(isset($options[$event]) && !($options[$event] instanceof CJavaScriptExpression))
-				$options[$event]=new CJavaScriptExpression($options[$event], true);
+				$options[$event]=new CJavaScriptExpression($options[$event]);
 		}
 
 		if($this->accept!==null)

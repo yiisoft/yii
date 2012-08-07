@@ -286,7 +286,7 @@ class CAutoComplete extends CInputWidget
 				if($this->$func instanceof CJavaScriptExpression)
 					$options[$func]=$this->$func;
 				else
-					$options[$func]=new CJavaScriptExpression($this->$func, true);
+					$options[$func]=new CJavaScriptExpression($this->$func);
 			}
 		}
 
