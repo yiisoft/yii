@@ -25,17 +25,13 @@ class CJavaScriptExpression
 
 	/**
 	 * @param string $code a javascript expression that is to be wrapped by this object
-	 * @param boolean $keepBC if true removes "js:" from $code if it starts with it. Defaults to false.
-	 * This parameter is used to keep BC (backward compatibility) with previous versions, when 
-	 * javascript expressions where prefixed with "js:". This functionality was deprecated in 1.1.11. 
-	 * in favor of this class for better security.
 	 * @throws CException if argument is not a string
 	 */
-	public function __construct($code, $keepBC=false)
+	public function __construct($code)
 	{
 		if(!is_string($code))
 			throw new CException('Value passed to CJavaScriptExpression should be a string.');
-		if($keepBC && strpos($code, 'js:')===0)
+		if(strpos($code, 'js:')===0)
 			$code=substr($code,3);
 		$this->code=$code;
 	}
