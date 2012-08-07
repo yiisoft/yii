@@ -396,46 +396,30 @@ class CGridView extends CBaseListView
 		if($this->beforeAjaxUpdate!==null)
 		{
 			if((!$this->beforeAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->beforeAjaxUpdate,'js:')!==0)
-			{
 				$options['beforeAjaxUpdate']=new CJavaScriptExpression($this->beforeAjaxUpdate);
-			}
 			else
-			{
 				$options['beforeAjaxUpdate']=$this->beforeAjaxUpdate;
-			}
 		}
 		if($this->afterAjaxUpdate!==null)
 		{
 			if((!$this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate,'js:')!==0)
-			{
 				$options['afterAjaxUpdate']=new CJavaScriptExpression($this->afterAjaxUpdate);
-			}
 			else
-			{
 				$options['afterAjaxUpdate']=$this->afterAjaxUpdate;
-			}
 		}
 		if($this->ajaxUpdateError!==null)
 		{
 			if((!$this->ajaxUpdateError instanceof CJavaScriptExpression) && strpos($this->ajaxUpdateError,'js:')!==0)
-			{
 				$options['ajaxUpdateError']=new CJavaScriptExpression($this->ajaxUpdateError);
-			}
 			else
-			{
 				$options['ajaxUpdateError']=$this->ajaxUpdateError;
-			}
 		}
 		if($this->selectionChanged!==null)
 		{
 			if((!$this->ajaxUpdateError instanceof CJavaScriptExpression) && strpos($this->selectionChanged,'js:')!==0)
-			{
 				$options['selectionChanged']=new CJavaScriptExpression($this->selectionChanged);
-			}
 			else
-			{
 				$options['selectionChanged']=$this->selectionChanged;
-			}
 		}
 
 		$options=CJavaScript::encode($options);

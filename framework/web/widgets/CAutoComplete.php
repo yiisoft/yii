@@ -282,7 +282,7 @@ class CAutoComplete extends CInputWidget
 		}
 		foreach($functions as $func)
 		{
-			if(!($this->$func instanceof CJavaScriptExpression) && is_string($this->$func) && strncmp($this->$func,'js:',3))
+			if(!($this->$func instanceof CJavaScriptExpression) && is_string($this->$func) && strpos($this->$func,'js:')!==0)
 				$options[$func]=new CJavaScriptExpression($this->$func);
 		}
 
