@@ -32,8 +32,7 @@ return array(
 );
 ~~~
 
-デフォルトでは、[CPradoViewRenderer]はビューファイルをコンパイルした結果を
-[runtime](/doc/guide/basics.convention#directory)ディレクトリ以下に保存します。
+デフォルトでは、[CPradoViewRenderer]はビューファイルをコンパイルした結果を [runtime](/doc/guide/basics.convention#sec-5) ディレクトリ以下に保存します。
 ビューテンプレートが変更された場合のみ、コンパイルされたファイルが再生成されるので、
 [CPradoViewRenderer]を使ってもパフォーマンスの低下はほんの少しです。
 
@@ -66,7 +65,7 @@ return array(
 
 ### コンポーネントタグ
 
-コンポーネントタグは[widget](/doc/guide/basics.view#widget)をビューに挿入する際に利用されます。
+コンポーネントタグは[widget](/doc/guide/basics.view#sec-3)をビューに挿入する際に利用されます。
 以下のような文法で利用します。
 
 ~~~

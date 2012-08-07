@@ -9,9 +9,9 @@
 彼らからデータを収集する為に、JavaScript、VBScript、ActiveX、HTML、
 或いはFlashを攻撃されやすいアプリケーションの中へ注入します。例えば、
 貧弱にデザインされたフォーラムのシステムは、ユーザのフォーラムへの
-投稿の入力を全くチェックする事なく表示するでしょう。この時、
-攻撃者は悪意のあるJavaScriptのコードのかけらを投稿へ注入し、
-他のユーザ達がこの投稿を読んだ時、JavaScriptは彼らのコンピュータ
+記事の入力を全くチェックする事なく表示するでしょう。この時、
+攻撃者は悪意のあるJavaScriptのコードのかけらを記事へ注入し、
+他のユーザ達がこの記事を読んだ時、JavaScriptは彼らのコンピュータ
 の中で突然動き出すのです。
 
 XSS攻撃に他する防御の、もっとも重要な手段の一つは、ユーザからの入力
@@ -26,8 +26,8 @@ Yiiは[HTMLPurifier](http://htmlpurifier.org/) の働きに賛同し、
 許可されたホワイトリストの使用や、コンテンツのフィルタリングの確認
 といった標準に準拠しているのでとても安全です。
 
-[CHtmlPurifier] コンポーネントは、[ウィジェット](/doc/guide/basics.view#widget)
-としても[フィルタ](/doc/guide/basics.controller#filter)としても使用可能です。
+[CHtmlPurifier] コンポーネントは、[ウィジェット](/doc/guide/basics.view#sec-3)
+としても[フィルタ](/doc/guide/basics.controller#sec-5)としても使用可能です。
 ウィジェットとして使用した場合、[CHtmlPurifier] は
 ビューのボディーに表示されたコンテンツから不純物を取り除くでしょう。
 例えば、
@@ -68,7 +68,7 @@ Yiiは、`POST` によるCSRF攻撃を防ぐスキーマを実装しています
 送信された値と比較する事で成り立っています。
 
 初期状態では、CSRFに対する防御は無効になっています。有効にするには 
-[アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 
+[アプリケーション初期構成](/doc/guide/basics.application#sec-2) 
 の中で[CHttpRequest] コンポーネントを下記の様に設定して下さい。
 
 ~~~
@@ -111,7 +111,7 @@ Yiiはクッキーバリデーションスキーマを実装し、クッキー�
 クッキーの値に対してHMACチェック行います。
 
 クッキーバリデーションは初期状態では無効になっています。有効にするには、
-[アプリケーション初期構成](/doc/guide/basics.application#application-configuration)
+[アプリケーション初期構成](/doc/guide/basics.application#sec-2)
 の中の [CHttpRequest] アプリケーションコンポーネントを下記の様に設定します。
 
 ~~~

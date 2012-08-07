@@ -729,3 +729,72 @@ class CommentWithWrappers extends CActiveRecord
 		self::$_counters=array();
 	}
 }
+
+class PostWithBeforeFind extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'posts';
+	}
+
+	protected function beforeFind()
+	{
+		$criteria=$this->getDbCriteria();
+		$criteria->limit=1;
+	}
+}
+
+class UserWithDefaultScope extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'UserWithDefaultScope';
+	}
+
+	public function defaultScope()
+	{
+		$alias=$this->getTableAlias(false,false);
+
+		return array(
+			'condition'=>"{$alias}.deleted IS NULL",
+		);
+	}
+
+	public function relations()
+	{
+		return array(
+			'links'=>array(self::HAS_MANY,'UserWithDefaultScopeLink','from_id'),
+		);
+	}
+}
+
+class UserWithDefaultScopeLink extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'UserWithDefaultScopeLink';
+	}
+
+	public function relations()
+	{
+		return array(
+			'from_user'=>array(self::BELONGS_TO,'UserWithDefaultScope','from_id'),
+			'to_user'=>array(self::BELONGS_TO,'UserWithDefaultScope','to_id'),
+		);
+	}
+}

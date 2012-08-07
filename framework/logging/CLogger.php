@@ -146,7 +146,7 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used by {@link getLogs}
 	 * @param array $value element to be filtered
-	 * @return bool true if valid log, false if not.
+	 * @return boolean true if valid log, false if not.
 	 */
 	private function filterByCategory($value)
 	{
@@ -162,7 +162,7 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used by {@link getProfilingResults}
 	 * @param array $value element to be filtered
-	 * @return bool true if valid timing entry, false if not.
+	 * @return boolean true if valid timing entry, false if not.
 	 */
 	private function filterTimingByCategory($value)
 	{
@@ -178,7 +178,7 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used by {@link getLogs}
 	 * @param array $value element to be filtered
-	 * @return bool true if valid log, false if not.
+	 * @return boolean true if valid log, false if not.
 	 */
 	private function filterByLevel($value)
 	{

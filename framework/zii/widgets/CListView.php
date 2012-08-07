@@ -161,11 +161,11 @@ class CListView extends CBaseListView
 	 * @since 1.1.4
 	 */
 	public $itemsTagName='div';
-    
+
     /**
      * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
-     * to persist state of list across page revisits.  Note, there are two limitations for this feature: 
-     * - this feature is only compatible with browsers that support HTML5.  
+     * to persist state of list across page revisits.  Note, there are two limitations for this feature:
+     * - this feature is only compatible with browsers that support HTML5.
      * - expect unexpected functionality (e.g. multiple ajax calls) if there is more than one grid/list on a single page with enableHistory turned on.
      * @since 1.1.11
      */
@@ -219,9 +219,28 @@ class CListView extends CBaseListView
 		if($this->updateSelector!==null)
 			$options['updateSelector']=$this->updateSelector;
 		if($this->beforeAjaxUpdate!==null)
-			$options['beforeAjaxUpdate']=(strpos($this->beforeAjaxUpdate,'js:')!==0 ? 'js:' : '').$this->beforeAjaxUpdate;
+		{
+
+			if(!($this->beforeAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->beforeAjaxUpdate,'js:')!==0)
+			{
+				$options['beforeAjaxUpdate']=new CJavaScriptExpression($this->beforeAjaxUpdate);
+			}
+			else
+			{
+				$options['beforeAjaxUpdate']=$this->beforeAjaxUpdate;
+			}
+		}
 		if($this->afterAjaxUpdate!==null)
-			$options['afterAjaxUpdate']=(strpos($this->afterAjaxUpdate,'js:')!==0 ? 'js:' : '').$this->afterAjaxUpdate;
+		{
+			if(!($this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate,'js:')!==0)
+			{
+				$options['afterAjaxUpdate']=new CJavaScriptExpression($this->afterAjaxUpdate);
+			}
+			else
+			{
+				$options['afterAjaxUpdate']=$this->afterAjaxUpdate;
+			}
+		}
 
 		$options=CJavaScript::encode($options);
 		$cs=Yii::app()->getClientScript();

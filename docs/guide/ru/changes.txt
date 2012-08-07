@@ -3,6 +3,14 @@
 
 На этой странице кратко излагаются новые возможности, внесённые в каждом релизе Yii.
 
+Версия 1.1.11
+-------------
+
+ * [Добавлена поддержка HTTP-кеширования](/doc/guide/caching.page#http-caching)
+ * [Добавлена поддержка кодов возврата в консольных приложениях](/doc/guide/topics.console#exit-codes)
+ * [Добавлена возможность исключения отдельных правил валидации](/doc/guide/form.model#declaring-validation-rules)
+ * [Добавлена поддержка генерации файлов для git и hg](/doc/guide/quickstart.first-app#creating-your-first-yii-application)
+
 Версия 1.1.8
 -------------
  * [Добавлена возможность использовать свой класс правила URL](/doc/guide/topics.url#using-custom-url-rule-classes)

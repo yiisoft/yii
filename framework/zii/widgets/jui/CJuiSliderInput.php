@@ -48,6 +48,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *         'max'=>24,
  *     ),
  * ));
+ * </pre>
  *
  * If you need to use the slider event, please change the event value for 'stop' or 'change'.
  *
@@ -124,20 +125,15 @@ class CJuiSliderInput extends CJuiInputWidget
 			if($this->value!==null)
 				$this->options['value']=$this->value;
 		}
-		
+
 
 		$idHidden = $this->htmlOptions['id'];
-		$nameHidden = $name;
-
 		$this->htmlOptions['id']=$idHidden.'_slider';
-		$this->htmlOptions['name']=$nameHidden.'_slider';
-
-		echo CHtml::openTag($this->tagName,$this->htmlOptions);
-		echo CHtml::closeTag($this->tagName);
+		echo CHtml::tag($this->tagName,$this->htmlOptions,'');
 
 		$this->options[$this->event]= $isRange ?
-			"js:function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}_end').val(v[1]); }":
-			'js:function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }';
+			new CJavaScriptExpression("function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}_end').val(v[1]); }"):
+			new CJavaScriptExpression('function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }');
 
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 

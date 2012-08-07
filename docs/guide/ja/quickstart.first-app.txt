@@ -1,12 +1,11 @@
-初めてのYiiアプリケーションの作成
+初めての Yii アプリケーションの作成
 ==============================
 
-Yiiで最初の経験を積んでもらうために、この章では最初のYiiアプリケーションの作成法を説明します。
-新しい Yii アプリケーションを作成するために `yiic` (コマンドラインツール)を使用し、
+Yii で最初の経験を積んでもらうために、この章では初めての Yii アプリケーションの作成方法を説明します。
+新しい Yii アプリケーションを作成するために `yiic` (コマンドラインツール) を使用し、
 いくつかのタスクについてコード生成を自動化するために `Gii` (強力なウェブベースのコードジェネレータ)
 を使用します。便宜上、`YiiRoot` は Yii をインストールしたディレクトリと仮定し、`WebRoot`
-はウェブサーバのドキュメントルートします。
-
+はウェブサーバのドキュメントルートであるとします。
 
 コマンドラインから `yiic` を次のように実行します。
 
@@ -14,25 +13,26 @@ Yiiで最初の経験を積んでもらうために、この章では最初のYi
 % YiiRoot/framework/yiic webapp WebRoot/testdrive
 ~~~
 
-> Note|注意: `yiic`をMac OSやLinuxやUnix上で動かす場合には、`yiic`ファイルを実行可にします。
->または、以下のようにツールを動作させます。
+> Note|注意: `yiic` を Mac OS, Linux, Unix で動かす場合には、`yiic` ファイルのパーミッションを
+> 変更して、実行可能にする必要があるかもしれません。
+> あるいは、別の方法として、以下のようにしてツールを起動しても良いでしょう。
 > ~~~
 > % cd WebRoot
 > % php YiiRoot/framework/yiic.php webapp testdrive
 > ~~~
 
-これを実行すると`WebRoot/testdrive`の下に骨格のYiiアプリケーションが作成されます。
-このアプリケーションはほとんどのYiiアプリケーションに必要とされるディレクトリ構造を持ちます。
+これを実行すると `WebRoot/testdrive` の下にスケルトンの Yii アプリケーションが作成されます。
+このアプリケーションは、ほとんどの Yii アプリケーションで必要になるディレクトリ構造を持っています。
 
 
-コードを一行も書かなくても、ウェブブラウザで以下のURLをアクセスすることで、最初のYiiアプリケーションをテストすることができます。
+コードを一行も書かなくても、ウェブブラウザで以下のURLをアクセスすることで、初めての Yii アプリケーションをテストすることができます。
 ~~~
 http://hostname/testdrive/index.php
 ~~~
 
 これで見るように、このアプリケーションは、ホームページ、「について(about)」ページ、コンタクトページ、
-ログインぺージの4ページからなります。コンタクトページはユーザがウェブマスターに問い合わせを
-入力して送信するためのフォームを表示します。ログインページはユーザが特権内容にアクセスする前に
+ログインぺージの4ページからなります。コンタクトページは、ユーザがウェブマスターに問い合わせを
+入力して送信するためのフォームを表示します。ログインページは、ユーザが許可が必要な内容にアクセスする前に
 認証を受けるために使用されます。詳しい情報は以下の画面情報を見てください。
 
 ![ホームページ](first-app1.png)
@@ -47,29 +47,29 @@ http://hostname/testdrive/index.php
 
 
 以下はアプリケーションのディレクトリ構造を示します。詳細な説明は
-[取り決め(Conventions)](/doc/guide/basics.convention#directory)を見てください。
+[規約](/doc/guide/basics.convention#sec-5) を見てください。
 
 ~~~
 testdrive/
    index.php                 ウェブアプリケーションのエントリスクリプト
    index-test.php            機能テストのためのエントリスクリプト
    assets/                   発行されたリソースファイルを含む
-   css/                      CSSファイルを含む
+   css/                      CSS ファイルを含む
    images/                   イメージファイルを含む
    themes/                   アプリケーションテーマを含む
    protected/                保護されたアプリケーションファイルを含む
-      yiic                   Unix/Linux用 yiic コマンドラインスクリプト
+      yiic                   Unix/Linux 用 yiic コマンドラインスクリプト
       yiic.bat               ウインドウズ用 yiic コマンドラインスクリプト
       yiic.php               yiic コマンドライン PHP スクリプト
-      commands/              カスタム化した'yiic'コマンドを含む
-         shell/              カスタム化した'yiic shell'コマンドを含む
+      commands/              カスタム化した 'yiic' コマンドを含む
+         shell/              カスタム化した 'yiic shell' コマンドを含む
       components/            再利用可能なユーザコンポーネントを含む
          Controller.php      全てのコントローラクラスの基本クラス
          UserIdentity.php    認証のための 'UserIdentity' クラス
-      config/                構成ファイルを含む
-         console.php         コンソールアプリケーション構成ファイル
-         main.php            ウェブアプリケーション構成ファイル
-         test.php            機能テストのための構成ファイル
+      config/                アプリケーション初期構成ファイルを含む
+         console.php         コンソールアプリケーション初期構成ファイル
+         main.php            ウェブアプリケーション初期構成ファイル
+         test.php            機能テストのための初期構成ファイル
       controllers/           コントローラクラスファイルを含む
          SiteController.php  デフォルトコントローラクラスファイル
       data/                  サンプルデータベースを含む
@@ -79,29 +79,41 @@ testdrive/
       extensions/            サードパーティ拡張を含む
       messages/              翻訳されたメッセージを含む
       models/                モデルクラスファイルを含む
-         LoginForm.php       'login'アクションのためのフォームモデル
-         ContactForm.php     'contact'アクションのためのフォームモデル
+         LoginForm.php       'login' アクションのためのフォームモデル
+         ContactForm.php     'contact' アクションのためのフォームモデル
       runtime/               一時的に生成されたファイルを含む
       views/                 コントローラビューとレイアウトを含む
          layouts/            レイアウトビューファイルを含む
             main.php         全てのページで共有される基本レイアウト
             column1.php      単一カラムを使うページ用のレイアウト
             column2.php      2カラムを使うページ用のレイアウト
-         site/               'site'コントローラのためのビューを含む
-            pages/           "静的"なページを含む
-               about.php     "について(about)"ページのビュー
-            contact.php      'contact'アクションのためのビュー
-            error.php        'error'アクションの為のビュー (外部エラーを表示)
-            index.php        'index'アクションのためのビュー
-            login.php        'login'アクションのためのビュー
+         site/               'site' コントローラのためのビューを含む
+            pages/           "静的" なページを含む
+               about.php     "について(about)" ページのビュー
+            contact.php      'contact' アクションのためのビュー
+            error.php        'error' アクションの為のビュー (外部エラーを表示)
+            index.php        'index' アクションのためのビュー
+            login.php        'login' アクションのためのビュー
 ~~~
+
+上述されたアプリケーションジェネレータは、Git バージョン管理システムが必要とする
+ファイルの生成もサポートしています。次のコマンドを実行すると、必要な `.gitignore`
+(例えば `assets` と `runtime` のコンテンツはバージョン管理すべきではありません)
+および `.gitkeep` (初期状態が空っぽではあるけれども重要なディレクトリを強制的にバージョン管理下に置きます) を生成します。
+
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive git
+~~~
+
+サポートされているもう一つの VCS は Mercurial です。Mercurial を使用している場合は、
+三番目のパラメータとして `hg` を渡して下さい。この機能はバージョン 1.1.11 以降で使用可能になりました。
 
 データベースへの接続
 ----------------------
 
 ほとんどのウェブアプリケーションの裏側にはデータベースがあります。この最初のウェブアプリケーションも例外ではありません。
 データベースを利用するには、まずアプリケーションにどのようにデータベースに接続するかを指示しなければなりません。
-これはアプリケーション構成ファイル`WebRoot/testdrive/protected/config/main.php`を以下のように修正することで行います。
+これはアプリケーション初期構成ファイル `WebRoot/testdrive/protected/config/main.php` を以下のように修正することで行います。
 
 ~~~
 [php]
@@ -118,8 +130,8 @@ return array(
 ~~~
 
 上記のコードは Yii に対して、アプリケーションは必要に応じて SQLite データベース `WebRoot/testdrive/protected/data/testdrive.db`
-に接続すべきことを指示しています。この SQLite データベースは、作成したばかりの骨組みアプリケーションに既に含まれていることに留意して下さい。
-このデータベースには、下記のような `tbl_user` という名前のテーブルが一つだけ含まれています。
+に接続すべきことを指示しています。この SQLite データベースは、作成したばかりのスケルトンアプリケーションに既に含まれていることに留意して下さい。
+このデータベースには、一つだけ、下記のような `tbl_user` という名前のテーブルが含まれています。
 
 
 ~~~
@@ -135,23 +147,22 @@ CREATE TABLE tbl_user (
 代りに MySQL のデータベースを試したい場合は、付属している MySQL のスキーマファイル `WebRoot/testdrive/protected/data/schema.mysql.sql`
 を使ってデータベースを作成することが出来ます。
 
-> Note|注意: Yiiのデータベース機能を使うためにはPHP PDO拡張とドライバ固有のPDO拡張を有効にする必要があります。
-このtest-driveアプリケーションでは`php_pdo`と`php_pdo_sqlite`拡張がオンになっている必要があります。
+> Note|注意: Yii のデータベース機能を使うためには PHP PDO 拡張とドライバ固有の PDO 拡張を有効にする必要があります。
+この test-drive アプリケーションでは `php_pdo` と `php_pdo_sqlite` 拡張が有効になっている必要があります。
 
 
-CRUD操作の実装
+CRUD 操作の実装
 ----------------------------
 
 これからが面白い部分です。
-CRUD操作(作成、読み出し、修正、削除)を今作成したばかりの `tbl_user` テーブルに対して実装します。
-これは実際のアプリケーションでも共通に必要となる機能です。実際にコードを書く苦労をする代りに、
-`Gii` -- 強力なウェブベースのコードジェネレータを使用します。
+CRUD 操作 (Create 作成、Read 読み出し、Update 修正、Delete 削除) を今作成したばかりの `tbl_user` テーブルに対して実装します。
+これは実際のアプリケーションでも共通に必要となる機能です。実際にコードを書く苦労をする代りに、強力なウェブベースのコードジェネレータを使用します -- すなわち `Gii` を使います。
 
-> Info|情報: Gii はバージョン 1.1.2 以降で使用出来ます。それより前のバージョンでは、同じ目的を達するために、既に述べた `yiic` ツールを使うことが出来ました。詳細については、[yiic シェルで CRUD 操作を実装する](/doc/guide/quickstart.first-app-yiic) を参照して下さい。.
+> Info|情報: Gii はバージョン 1.1.2 以降で使用出来ます。それより前のバージョンでは、同じ目的を達するために、既に述べた `yiic` ツールを使うことが出来ました。詳細については、[コマンドラインツールを使用するコード生成](/doc/guide/quickstart.first-app-yiic) を参照して下さい。.
 
 ### Gii を構成する
 
-Gii を使うためには、最初に `WebRoot/testdrive/protected/config/main.php` を次のように編集する必要があります。これは [アプリケーション構成](/doc/guide/basics.application#application-configuration) ファイルとして知られるファイルです。
+Gii を使うためには、最初に `WebRoot/testdrive/protected/config/main.php` を次のように編集する必要があります。これは [アプリケーション初期構成](/doc/guide/basics.application#sec-2) ファイルとして知られるファイルです。
 
 ~~~
 [php]
@@ -171,7 +182,7 @@ return array(
 );
 ~~~
 
-次に、ブラウザで URL `http://hostname/testdrive/index.php?r=gii` にアクセスします。パスワードを求められますので、上記のアプリケーション構成に記述したばかりのパスワードを入力して下さい。
+次に、ブラウザで URL `http://hostname/testdrive/index.php?r=gii` にアクセスします。パスワードを求められますので、上記のアプリケーション初期構成に記述したばかりのパスワードを入力して下さい。
 
 ### User モデルを生成する
 
@@ -227,4 +238,4 @@ http://hostname/testdrive/index.php?r=user/admin
 ![Create new user page](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>
+<div class="revision">$Id$</div>

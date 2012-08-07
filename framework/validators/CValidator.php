@@ -107,7 +107,7 @@ abstract class CValidator extends CComponent
 	 * Each array value refers to a scenario name with the same name as its array key.
 	 * @since 1.1.11
 	 */
-	public $off;
+	public $except;
 	/**
 	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
 	 * Defaults to true.
@@ -154,15 +154,15 @@ abstract class CValidator extends CComponent
 		else
 			$on=array();
 
-		if(isset($params['off']))
+		if(isset($params['except']))
 		{
-			if(is_array($params['off']))
-				$off=$params['off'];
+			if(is_array($params['except']))
+				$except=$params['except'];
 			else
-				$off=preg_split('/[\s,]+/',$params['off'],-1,PREG_SPLIT_NO_EMPTY);
+				$except=preg_split('/[\s,]+/',$params['except'],-1,PREG_SPLIT_NO_EMPTY);
 		}
 		else
-			$off=array();
+			$except=array();
 
 		if(method_exists($object,$name))
 		{
@@ -191,7 +191,7 @@ abstract class CValidator extends CComponent
 		}
 
 		$validator->on=empty($on) ? array() : array_combine($on,$on);
-		$validator->off=empty($off) ? array() : array_combine($off,$off);
+		$validator->except=empty($except) ? array() : array_combine($except,$except);
 
 		return $validator;
 	}
@@ -245,7 +245,7 @@ abstract class CValidator extends CComponent
 	 */
 	public function applyTo($scenario)
 	{
-		if(isset($this->off[$scenario]))
+		if(isset($this->except[$scenario]))
 			return false;
 		return empty($this->on) || isset($this->on[$scenario]);
 	}

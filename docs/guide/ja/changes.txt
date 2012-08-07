@@ -1,56 +1,58 @@
-新機能
+新しい機能
 ============
 
-このページは、各々のYiiリリースにおいて導入された主な新機能をまとめています。
+このページは、各々の Yii リリースにおいて導入された主な新機能をまとめています。
 
 Version 1.1.11
 --------------
- * [http キャッシュのサポートを追加](/doc/guide/ja/caching.page#http-caching)
- * [コンソールアプリケーションに終了コードを追加](/doc/guide/ja/topics.console#exit-codes)
+ * [http キャッシュのサポートを追加](/doc/guide/caching.page#sec-3)
+ * [コンソールアプリケーションに終了コードを追加](/doc/guide/topics.console#sec-5)
+ * [モデルのバリデーションルールの除外を追加](/doc/guide/form.model#sec-3)
+ * [git と hg のサポートを追加](/doc/guide/quickstart.first-app#sec-1)
 
 Version 1.1.8
 -------------
- * [カスタムURLルールクラスのサポートを追加](/doc/guide/ja/topics.url#using-custom-url-rule-classes)
+ * [カスタム URL ルールクラスのサポートを追加](/doc/guide/topics.url#sec-9)
 
 Version 1.1.7
 -------------
- * [RESTful URL に対するサポートを追加](/doc/guide/ja/topics.url#user-friendly-urls)
- * [クエリキャッシングに対するサポートを追加](/doc/guide/ja/caching.data#query-caching)
- * [リレーショナル named scope にパラメータを渡すことが可能になった](/doc/guide/ja/database.arr#relational-query-with-named-scopes)
- * [関連するモデルを取得することなくリレーショナルクエリを実行する機能を追加](/doc/guide/ja/database.arr#performing-relational-query-without-getting-related-models)
- * [HAS_MANY through と HAS_ONE through の AR リレーションに対するサポートを追加](/doc/guide/ja/database.arr#relational-query-with-through)
- * [データベースマイグレーション機能においてトランザクションのサポートを追加](/doc/guide/ja/database.migration#transactional-migrations)
- * [クラスベースのアクションにおけるパラメータバインディングの使用に対するサポートを追加](/doc/guide/ja/basics.controller#action-parameter-binding)
- * [CActiveForm]によるシームレスなクライアント側のデータ検証に対するサポートを追加
+ * [RESTful URL に対するサポートを追加](/doc/guide/topics.url#sec-3)
+ * [クエリキャッシングに対するサポートを追加](/doc/guide/caching.data#sec-3)
+ * [リレーショナル named scope にパラメータを渡すことが可能になった](/doc/guide/database.arr#sec-10)
+ * [関連するモデルを取得することなくリレーショナルクエリを実行する機能を追加](/doc/guide/database.arr#sec-4)
+ * [HAS_MANY through と HAS_ONE through の AR リレーションに対するサポートを追加](/doc/guide/database.arr#sec-11)
+ * [データベースマイグレーション機能においてトランザクションのサポートを追加](/doc/guide/database.migration#sec-3)
+ * [クラスベースのアクションにおけるパラメータバインディングの使用に対するサポートを追加](/doc/guide/basics.controller#sec-6)
+ * [CActiveForm] によるシームレスなクライアント側のデータ検証に対するサポートを追加
 
  Version 1.1.6
 -------------
- * [クエリビルダーを追加](/doc/guide/ja/database.query-builder)
- * [データベースマイグレーション機能を追加](/doc/guide/ja/database.migration)
- * [MVC のベストプラクティス](/doc/guide/ja/basics.best-practices)
- * [コンソールコマンドで無名パラメータとグローバルオプションの使用に対するサポートを追加](/doc/guide/ja/topics.console)
+ * [クエリビルダーを追加](/doc/guide/database.query-builder)
+ * [データベースマイグレーション機能を追加](/doc/guide/database.migration)
+ * [MVC のベストプラクティス](/doc/guide/basics.best-practices)
+ * [コンソールコマンドで無名パラメータとグローバルオプションの使用に対するサポートを追加](/doc/guide/topics.console)
 
 Version 1.1.5
 -------------
 
- * [コンソールコマンドアクションとパラメータバインディングに対するサポートを追加](/doc/guide/ja/topics.console)
- * [ネームスペースを持つクラスのオートローディングに対するサポートを追加](/doc/guide/ja/basics.namespace)
- * [ウィジェットのビューに対するテーマ適用のサポートを追加](/doc/guide/ja/topics.theming#theming-widget-views)
+ * [コンソールコマンドアクションとパラメータバインディングに対するサポートを追加](/doc/guide/topics.console)
+ * [ネームスペースを持つクラスのオートローディングに対するサポートを追加](/doc/guide/basics.namespace)
+ * [ウィジェットのビューに対するテーマ適用のサポートを追加](/doc/guide/topics.theming#sec-4)
 
 Version 1.1.4
 -------------
 
- * [自動的なアクションのパラメータバインディングに対するサポートを追加](/doc/guide/ja/basics.controller#action-parameter-binding)
+ * [自動的なアクションのパラメータバインディングに対するサポートを追加](/doc/guide/basics.controller#sec-6)
 
 Version 1.1.3
 -------------
 
- * [アプリケーション構成でウィジェットのデフォルト値を構成する機能の追加](/doc/guide/ja/topics.theming#customizing-widgets-globally)
+ * [アプリケーション初期構成でウィジェットのデフォルト値を構成する機能の追加](/doc/guide/topics.theming#sec-5)
 
 Version 1.1.2
 -------------
 
- * [Gii と呼ばれるウェブベースのコード生成ツールを追加](/doc/guide/ja/topics.gii)
+ * [Gii と呼ばれるウェブベースのコード生成ツールを追加](/doc/guide/topics.gii)
 
 Version 1.1.1
 -------------
@@ -63,25 +65,25 @@ Version 1.1.1
  crud コマンドで生成される admin ページは検索とフィルターリングの機能を持つようになった。
  フォームの表示に CActiveForm を使った。
 
- * [グローバルな yiic コマンドを定義することを可能にした](/doc/guide/ja/topics.console)
+ * [グローバルな yiic コマンドを定義することを可能にした](/doc/guide/topics.console)
 
 Version 1.1.0
 -------------
 
- * [ユニットテストと機能テストに対するサポートの追加](/doc/guide/ja/test.overview)
+ * [ユニットテストと機能テストに対するサポートの追加](/doc/guide/test.overview)
 
- * [ウィジェットスキンを使用するためのサポートの追加](/doc/guide/ja/topics.theming#skin)
+ * [ウィジェットスキンを使用するためのサポートの追加](/doc/guide/topics.theming#sec-6)
 
- * [拡張性のあるフォームビルダの追加](/doc/guide/ja/form.builder)
+ * [拡張性のあるフォームビルダの追加](/doc/guide/form.builder)
 
  * 安全なモデルアトリビュートを宣言する方法の改善。以下を参照してください。
- [安全なアトリビュート割り当て](/doc/guide/ja/form.model#securing-attribute-assignments).
+ [安全なアトリビュート割り当て](/doc/guide/form.model#sec-4).
 
  * 全てのテーブルが一つのSQL文でジョインできるように、デフォルトのリレーショナルアクティブレコードクエリを変更した。
 
  * デフォルトのテーブルエイリアスを、アクティブレコードのリレーション名をとるように変更
 
- * [テーブルプレフィクスを使用するためのサポートを追加](/doc/guide/ja/database.dao#using-table-prefix).
+ * [テーブルプレフィクスを使用するためのサポートを追加](/doc/guide/database.dao#sec-8).
 
  * [Ziiライブラリ](http://code.google.com/p/zii/)として知られる新しいエクステンションを追加
 

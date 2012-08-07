@@ -6,6 +6,9 @@
 Версія 1.1.11
 -------------
  * [Додана підтримка кешування на рівні HTTP](/doc/guide/caching.page#http-caching)
+ * [Додано код виходу для консольних додатків](/doc/guide/topics.console#exit-codes)
+ * [Додано внесення правил валідації моделі до чорних списків](/doc/guide/form.model#declaring-validation-rules)
+ * [Додана підтримка git та hg](/doc/guide/quickstart.first-app#creating-your-first-yii-application)
 
 Версія 1.1.8
 ------------

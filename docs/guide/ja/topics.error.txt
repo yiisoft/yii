@@ -71,7 +71,7 @@ throw new CHttpException(404,'The specified post cannot be found.');
 起きている行番号をや完全なコールスタック(ファイルの階層情報など)が
 表示されます。
 
-> Info|情報: アプリケーションが[プロダクションモード](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエラーを
+> Info|情報: アプリケーションが [実運用モード](/doc/guide/basics.entry#sec-2) で実行された時、内部的なエラーを
 含む全てのエラーは `errorXXX` という view を使用して表示されます。
 こうなっているのは、エラーのコールスタックが機密に関わる情報を含む可能性が
 ある為です。このモードでは、開発者はエラーの真の原因を究明する為に、
@@ -97,7 +97,7 @@ throw new CHttpException(404,'The specified post cannot be found.');
 アクションを用いたエラーハンドリング
 -------------------------------
 
-Yiiでは[コントローラアクション](/doc/guide/basics.controller#action)を用いてエラー表示をすることが出来ます。
+Yiiでは[コントローラアクション](/doc/guide/basics.controller#sec-4)を用いてエラー表示をすることが出来ます。
 これを行うために、アプリケーション構成ファイル中のエラーハンドラを以下のように構成します。
 
 ~~~
