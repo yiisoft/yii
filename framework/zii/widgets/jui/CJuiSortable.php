@@ -24,7 +24,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *         'id2'=>'Item 2',
  *         'id3'=>'Item 3',
  *     ),
- *     // additional javascript options for the accordion plugin
+ *     // additional javascript options for the JUI Sortable plugin
  *     'options'=>array(
  *         'delay'=>'300',
  *     ),
