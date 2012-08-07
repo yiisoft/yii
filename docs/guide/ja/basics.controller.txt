@@ -45,7 +45,7 @@ class SiteController extends CController
 
 >Note|注意: デフォルトでは、ルートは大文字と小文字を区別します。
 >アプリケーション初期構成で [CUrlManager::caseSensitive] を false に設定することで、大文字と小文字を区別しないようすることも可能です。
->大文字と小文字を区別しないモード（case-insensitive mode）の場合は、
+>大文字と小文字を区別しないモード (case-insensitive mode) の場合は、
 >コントローラクラスファイルを含むディレクトリ名が小文字であること、さらに、
 >[controller map|CWebApplication::controllerMap] と
 >[action map|CController::actions] の両方でキーが小文字であることという規約を必ず守って下さい。

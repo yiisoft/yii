@@ -21,7 +21,7 @@ SQLite による要求として、ディレクトリとデータベースファ�
 --------------------------------
 
 作ったスケルトンアプリケーションでブログデータベースを使うには、`/wwwroot/blog/protected/config/main.php` という PHP スクリプトに保存されている [アプリケーション初期構成](http://www.yiiframework.com/doc/guide/ja/basics.application#sec-2) を変更する必要があります。
-このスクリプトは名前と値のペアで構成された連想配列を返します。これらの値は [アプリケーションインスタンス](http://www.yiiframework.com/doc/guide/ja/basics.application) の書き込み可能なプロパティを初期化するために使われます。
+このスクリプトは "名前-値" のペアで構成された連想配列を返します。これらの値は [アプリケーションインスタンス](http://www.yiiframework.com/doc/guide/ja/basics.application) の書き込み可能なプロパティを初期化するために使われます。
 
 `db` コンポーネントを以下のように構成します。
 
