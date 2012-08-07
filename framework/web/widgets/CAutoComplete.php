@@ -270,7 +270,6 @@ class CAutoComplete extends CInputWidget
 			'matchCase', 'matchContains', 'mustMatch', 'selectFirst',
 			'extraParams', 'multiple', 'multipleSeparator', 'width',
 			'autoFill', 'max', 'scroll', 'scrollHeight', 'inputClass',
-			'formatItem', 'formatMatch', 'formatResult', 'highlight',
 			'resultsClass', 'loadingClass');
 		static $functions=array('formatItem', 'formatMatch', 'formatResult', 'highlight');
 
@@ -282,8 +281,13 @@ class CAutoComplete extends CInputWidget
 		}
 		foreach($functions as $func)
 		{
-			if(!($this->$func instanceof CJavaScriptExpression) && is_string($this->$func) && strpos($this->$func,'js:')!==0)
-				$options[$func]=new CJavaScriptExpression($this->$func);
+			if($this->$func!==null)
+			{
+				if($this->$func instanceof CJavaScriptExpression || is_string($this->$func) && strpos($this->$func,'js:')===0)
+					$options[$func]=$this->$func;
+				else
+					$options[$func]=new CJavaScriptExpression($this->$func);
+			}
 		}
 
 		return $options;

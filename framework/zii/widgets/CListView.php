@@ -218,20 +218,15 @@ class CListView extends CBaseListView
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->updateSelector!==null)
 			$options['updateSelector']=$this->updateSelector;
-		if($this->beforeAjaxUpdate!==null)
+		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate') as $event)
 		{
-
-			if(!($this->beforeAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->beforeAjaxUpdate,'js:')!==0)
-				$options['beforeAjaxUpdate']=new CJavaScriptExpression($this->beforeAjaxUpdate);
-			else
-				$options['beforeAjaxUpdate']=$this->beforeAjaxUpdate;
-		}
-		if($this->afterAjaxUpdate!==null)
-		{
-			if(!($this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate,'js:')!==0)
-				$options['afterAjaxUpdate']=new CJavaScriptExpression($this->afterAjaxUpdate);
-			else
-				$options['afterAjaxUpdate']=$this->afterAjaxUpdate;
+			if($this->$event!==null)
+			{
+				if($this->$event instanceof CJavaScriptExpression || is_string($this->$event) && strpos($this->$event,'js:')===0)
+					$options[$event]=$this->$event;
+				else
+					$options[$event]=new CJavaScriptExpression($this->$event);
+			}
 		}
 
 		$options=CJavaScript::encode($options);
