@@ -67,7 +67,8 @@
 			settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
 
 			return this.each(function () {
-				var $grid = $(this),
+				var eventType,
+					$grid = $(this),
 					id = $grid.attr('id'),
 					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
 					sortSelector = '#' + id + ' .' + settings.tableClass + ' thead th a.sort-link',
@@ -97,8 +98,18 @@
 				}
 
 				$(document).on('change.yiiGridView keydown.yiiGridView', inputSelector, function (event) {
-					if (event.type == 'keydown' && event.keyCode != 13) {
-						return; // only react to enter key, not to other keys
+					if (event.type === 'keydown') {
+						if( event.keyCode !== 13) {
+							return; // only react to enter key
+						} else {
+							eventType = 'keydown';
+						}
+					} else {
+						// prevent processing for both keydown and change events
+						if (eventType === 'keydown') {
+							eventType = '';
+							return;
+						}
 					}
 					var data = $(inputSelector).serialize();
 					if (settings.pageVar !== undefined) {
