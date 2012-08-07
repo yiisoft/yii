@@ -58,7 +58,7 @@
 
 * その他のトピック
     - [自動的なコード生成](topics.gii)
-    - [URL の取り扱い](topics.url)
+    - [URL の管理](topics.url)
     - [認証と権限付与](topics.auth)
     - [テーマ](topics.theming)
     - [ロギング](topics.logging)
