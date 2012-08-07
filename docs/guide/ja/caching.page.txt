@@ -67,7 +67,7 @@ public function filters()
 これは [Apache ウェブサーバ](http://httpd.apache.org) や他のサーバが ETag を生成する方法とは異なります。
 しかし、この手法は完璧に RFC にのっとっていますし、フレームワークでの使用にはより適したものであることが分っています。
 
-> 注意: [RFC 2616, section 13.3.4](http://tools.ietf.org/html/rfc2616#section-13.3.4) を遵守するために、[CHttpCacheFilter] は、両方とも生成出来る場合には、`ETag` *および* `Last-Modified` の両方のヘッダを送出します。
+> 注意: [RFC 2616, section 13.3.4](http://tools.ietf.org/html/rfc2616#section-13.3.4) を遵守するために、[CHttpCacheFilter] は、両方とも生成出来る場合には、`ETag` **および** `Last-Modified` の両方のヘッダを送出します。
 結果として、クライアントに送られたとき、両方がキャッシュ評価に使用されます。
 
 "Entity Tag" はハッシュであるため、`Last-Modified` ヘッダよりも、複雑あるいは精密なキャッシュ制御を可能にします。
@@ -75,7 +75,7 @@ public function filters()
 
 > Tip|ヒント: [CHttpCacheFilter::etagSeedExpression] に負荷の高い式を指定すると、[CHttpCacheFilter] の本来の目的を損なって、不必要なオーバーヘッドを導入することになる場合があります。
 なぜなら、[CHttpCacheFilter::etagSeedExpression] は、リクエストごとに再評価されるからです。
-ページの *内容* が変更されたときにキャッシュを無効化するための単純な式を指定するようにして下さい。
+ページの **内容** が変更されたときにキャッシュを無効化するための単純な式を指定するようにして下さい。
 
 ### SEO に対する影響
 検索エンジンのボットはキャッシュヘッダを尊重する傾向があります。
