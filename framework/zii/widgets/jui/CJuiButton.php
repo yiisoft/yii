@@ -168,8 +168,8 @@ class CJuiButton extends CJuiInputWidget
 			$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 			if($this->onclick!==null)
 			{
-				if(!($this->onclick instanceof CJavaScriptExpression) && strpos($this->onclick,'js:')!==0)
-					$this->onclick=new CJavaScriptExpression($this->onclick);
+				if(!($this->onclick instanceof CJavaScriptExpression))
+					$this->onclick=new CJavaScriptExpression($this->onclick, true);
 				$click = CJavaScript::encode($this->onclick);
 				$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').button($options).click($click);");
 			}
