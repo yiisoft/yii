@@ -19,20 +19,20 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * To use this widget as a submit button, you may insert the following code in a view:
  * <pre>
  * $this->widget('zii.widgets.jui.CJuiButton', array(
- * 	'name'=>'submit',
- * 	'caption'=>'Save',
- * 	'options'=>array(
- * 	'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
+ *     'name'=>'submit',
+ *     'caption'=>'Save',
+ *     'options'=>array(
+ *     'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
  * ));
  * </pre>
  *
  * To use this widget as a button, you may insert the following code in a view:
  * <pre>
  * $this->widget('zii.widgets.jui.CJuiButton', array(
- * 	'name'=>'button',
- * 	'caption'=>'Save',
- * 	'value'=>'asd',
- * 	'onclick'=>new CJavaScriptExpression('function(){alert("Save button clicked"); this.blur(); return false;}'),
+ *     'name'=>'button',
+ *     'caption'=>'Save',
+ *     'value'=>'asd',
+ *     'onclick'=>new CJavaScriptExpression('function(){alert("Save button clicked"); this.blur(); return false;}'),
  * ));
  * </pre>
  *
