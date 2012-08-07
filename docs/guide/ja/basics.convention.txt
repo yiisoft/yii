@@ -24,7 +24,7 @@ Yii によってコントローラとアクションに解決されます。
 アプリケーションは ([CWebApplication::defaultController]で定義された) デフォルトのコントローラを使用します。
 
 [CUrlManager] の助けによって、`http://hostname/ControllerID/ActionID.html` の様な、より SEO フレンドリーな URL を作成・認識することが可能です。
-この機能については、[URL の取扱い](/doc/guide/topics.url) において詳細にわたって説明しています。
+この機能については、[URL の管理](/doc/guide/topics.url) において詳細にわたって説明しています。
 
 コード
 ----

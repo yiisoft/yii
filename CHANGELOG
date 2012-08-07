@@ -12,6 +12,7 @@ Version 1.1.12 work in progress
 - Bug #1087: Reverted changes to CCookieCollection::add() introduced in 1.1.11 as they were triggering E_STRICT on some old PHP-versions (suralc)
 - Bug #1088: Fixed usage of proper CActiveForm id property when it's supplied with htmlOptions (mdomba)
 - Bug #1094: CGridView with enabled history used to clear page title in case sorting or paging performed (Opera and Firefox only) (resurtm)
+- Bug #1109: Fixed "js:" encoding BC-break in CHtml::ajax() and related methods introduced in 1.1.11 (samdark)
 - Bug #1120: Fixed duplicate events processing in CGridView when ENTER was pressed for filtering (mdomba)
 - Enh #243: CWebService is now able to deal with the customized WSDL generator classes, was hardcoded to the CWsdlGenerator before, added CWebService::$generatorConfig property (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
