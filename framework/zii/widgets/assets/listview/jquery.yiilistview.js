@@ -123,12 +123,12 @@
 			options.url = $.param.querystring(options.url, options.data);
 			options.data = {};
 		}
-		options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
 
 		if(settings.beforeAjaxUpdate != undefined)
 			settings.beforeAjaxUpdate(id);
                     
                 if (settings.ajaxUpdate.length > 0) {
+                    options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
                     $.ajax(options);
                 } else { // non-ajax mode
                     if (options.type === 'GET') {
