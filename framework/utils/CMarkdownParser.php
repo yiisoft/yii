@@ -179,7 +179,13 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	}
 
 	/**
-	 * @deprecated Deprecated due to mistake in the method name. Use {@link getHighlightConfig} instead of this.
+	 * Generates the config for the highlighter.
+	 * 
+	 * NOTE: This method is deprecated due to a mistake in the method name. 
+	 * Use {@link getHighlightConfig} instead of this.
+	 * 
+	 * @param string $options user-entered options
+	 * @return array the highlighter config
 	 */
 	public function getHiglightConfig($options)
 	{
