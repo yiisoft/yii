@@ -146,8 +146,8 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 	 * Determines if one MX record has higher priority as another
 	 * (i.e. 'pri' is lower). Used by {@link checkMxPorts}.
 	 * @since 1.1.11
-	 * @param mixed $a
-	 * @param mixed $b
+	 * @param mixed $a first item for comparison
+	 * @param mixed $b second item for comparison
 	 * @return boolean
 	 */
 	protected function mxSort($a, $b)
