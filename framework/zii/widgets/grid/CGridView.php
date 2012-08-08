@@ -393,48 +393,14 @@ class CGridView extends CBaseListView
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->enablePagination)
 			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
-		if($this->beforeAjaxUpdate!==null)
+		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError', 'selectionChanged') as $event)
 		{
-			if((!$this->beforeAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->beforeAjaxUpdate,'js:')!==0)
+			if($this->$event!==null)
 			{
-				$options['beforeAjaxUpdate']=new CJavaScriptExpression($this->beforeAjaxUpdate);
-			}
-			else
-			{
-				$options['beforeAjaxUpdate']=$this->beforeAjaxUpdate;
-			}
-		}
-		if($this->afterAjaxUpdate!==null)
-		{
-			if((!$this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate,'js:')!==0)
-			{
-				$options['afterAjaxUpdate']=new CJavaScriptExpression($this->afterAjaxUpdate);
-			}
-			else
-			{
-				$options['afterAjaxUpdate']=$this->afterAjaxUpdate;
-			}
-		}
-		if($this->ajaxUpdateError!==null)
-		{
-			if((!$this->ajaxUpdateError instanceof CJavaScriptExpression) && strpos($this->ajaxUpdateError,'js:')!==0)
-			{
-				$options['ajaxUpdateError']=new CJavaScriptExpression($this->ajaxUpdateError);
-			}
-			else
-			{
-				$options['ajaxUpdateError']=$this->ajaxUpdateError;
-			}
-		}
-		if($this->selectionChanged!==null)
-		{
-			if((!$this->ajaxUpdateError instanceof CJavaScriptExpression) && strpos($this->selectionChanged,'js:')!==0)
-			{
-				$options['selectionChanged']=new CJavaScriptExpression($this->selectionChanged);
-			}
-			else
-			{
-				$options['selectionChanged']=$this->selectionChanged;
+				if($this->$event instanceof CJavaScriptExpression)
+					$options[$event]=$this->$event;
+				else
+					$options[$event]=new CJavaScriptExpression($this->$event);
 			}
 		}
 

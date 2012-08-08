@@ -1,11 +1,11 @@
-Yiiの公式ガイド
+Yii 公式ガイド
 ===========================
 
-このチュートリアルは[Yiiドキュメンテーションの条件](http://www.yiiframework.com/doc/terms/)の下でリリースされます。
+このチュートリアルは [Yii ドキュメンテーション規約](http://www.yiiframework.com/doc/terms/) の下でリリースされます。
 
 All Rights Reserved.
 
-2008-2010 &copy; Yii Software LLC.
+2008-2012 &copy; Yii Software LLC.
 
 翻訳:
  mocapapa &lt;<mocapapa@g.pugpug.org>&gt;,
@@ -17,4 +17,4 @@ All Rights Reserved.
  jamband &lt;<tmsongbooks215@gmail.com>&gt;
  miata &lt;<desktopcorps@gmail.com>&gt;
 
-<div class="revision">$Id: index.txt 1679 2009-01-01 04:14:09Z qiang.xue $</div>
+<div class="revision">$Id$</div>

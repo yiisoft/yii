@@ -3,8 +3,7 @@ body
 	margin: 0;
 	padding: 0;
 	color: #555;
-	font: normal 10pt Arial,Helvetica,sans-serif;
-	font: Verdana,"DejaVu Sans","Bitstream Vera Sans",Geneva,sans-serif;
+	font: normal 10pt Arial,Helvetica,Verdana,"DejaVu Sans","Bitstream Vera Sans",Geneva,sans-serif;
 	background: #EFEFEF;
 }
 
