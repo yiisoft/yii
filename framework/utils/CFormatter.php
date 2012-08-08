@@ -165,7 +165,9 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatDate($value)
 	{
-		return date($this->dateFormat,$value);
+		$value = is_numeric($value) ? $value : strtotime($value);
+
+		return date($this->dateFormat, $value);
 	}
 
 	/**
@@ -176,7 +178,9 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatTime($value)
 	{
-		return date($this->timeFormat,$value);
+		$value = is_numeric($value) ? $value : strtotime($value);
+
+		return date($this->timeFormat, $value);
 	}
 
 	/**
@@ -187,7 +191,8 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatDatetime($value)
 	{
-		return date($this->datetimeFormat,$value);
+		$value = is_numeric($value) ? $value : strtotime($value);
+		return date($this->datetimeFormat, $value);
 	}
 
 	/**
