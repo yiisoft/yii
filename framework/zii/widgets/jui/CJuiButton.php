@@ -19,24 +19,21 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * To use this widget as a submit button, you may insert the following code in a view:
  * <pre>
  * $this->widget('zii.widgets.jui.CJuiButton', array(
- * 		'name'=>'submit',
- * 		'caption'=>'Save',
- * 		'options'=>array(
- *         'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
- *     ),
+ *     'name'=>'submit',
+ *     'caption'=>'Save',
+ *     'options'=>array(
+ *     'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
  * ));
  * </pre>
  *
  * To use this widget as a button, you may insert the following code in a view:
  * <pre>
- * $this->widget('zii.widgets.jui.CJuiButton',
- *		array(
- *			'name'=>'button',
- * 			'caption'=>'Save',
- *			'value'=>'asd',
- *			'onclick'=>new CJavaScriptExpression('function(){alert("Save button clicked"); this.blur(); return false;}'),
- * 		)
- * );
+ * $this->widget('zii.widgets.jui.CJuiButton', array(
+ *     'name'=>'button',
+ *     'caption'=>'Save',
+ *     'value'=>'asd',
+ *     'onclick'=>new CJavaScriptExpression('function(){alert("Save button clicked"); this.blur(); return false;}'),
+ * ));
  * </pre>
  *
  * By configuring the {@link options} property, you may specify the options
@@ -169,9 +166,9 @@ class CJuiButton extends CJuiInputWidget
 			}
 
 			$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
-			if (isset($this->onclick))
+			if($this->onclick!==null)
 			{
-				if(!($this->onclick instanceof CJavaScriptExpression) && strpos($this->onclick,'js:')!==0)
+				if(!($this->onclick instanceof CJavaScriptExpression))
 					$this->onclick=new CJavaScriptExpression($this->onclick);
 				$click = CJavaScript::encode($this->onclick);
 				$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').button($options).click($click);");
