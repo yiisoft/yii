@@ -91,7 +91,7 @@ testdrive/
             pages/           "静的" なページを含む
                about.php     "について(about)" ページのビュー
             contact.php      'contact' アクションのためのビュー
-            error.php        'error' アクションの為のビュー (外部エラーを表示)
+            error.php        'error' アクションのためのビュー (外部エラーを表示)
             index.php        'index' アクションのためのビュー
             login.php        'login' アクションのためのビュー
 ~~~

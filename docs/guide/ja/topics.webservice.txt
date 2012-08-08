@@ -1,22 +1,15 @@
 ウェブサービス
 ===========
 
-[ウェブサービス](http://ja.wikipedia.org/wiki/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9)とは
-ネットワーク越しに、マシン同士の相互運用性をサポートする仕組みのことです。
-ウェブアプリケーションにおいては、多くの場合インターネットを介して、
-リモートホストから呼び出して利用できるAPI群をウェブサービスと呼びます。
+[ウェブサービス](http://ja.wikipedia.org/wiki/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9) とはネットワーク越しに、マシン同士の相互運用性をサポートする仕組みのことです。
+ウェブアプリケーションの文脈においては、多くの場合、インターネットを介してアクセスできる API 群で、リクエストされたサービスをホストするリモートシステム上で実行されるものを、ウェブサービスと呼んでいます。
+たとえば、[Flex](http://www.adobe.com/products/flex/) ベースのクライアントは、サーバで動いている PHP のウェブアプリケーションに実装された関数を呼び出すことが出来ます。
+ウェブサービスはコミュニケーションプロトコルスタックの基礎部分を [SOAP](http://en.wikipedia.org/wiki/SOAP) に依存しています。
 
-たとえば、[Flex](http://www.adobe.com/products/flex/)-basedクライアントはサーバで動いている、PHPのウェブアプリケーションに実装された関数を呼び出すことがあります。
-ウェブサービスはコミュニケーションプロトコルスタックの基礎部分を[SOAP](http://en.wikipedia.org/wiki/SOAP) に依存しています。
-
-Yiiは[CWebService] と [CWebServiceAction]を提供することで、
-ウェブアプリケーションでウェブサービスを提供する作業を簡単にします。
-APIは*サービスプロバイダ*と呼ばれるクラス群にまとめられます。
-Yiiはそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl)スペックファイルを生成し、
-どのAPIが利用可能で、どのように呼び出すことができるのかを記述します。
-
-クライアントによってAPIが呼び出されると、Yiiが対応するサービスプロバイダをインスタンス化し、
-要求されたAPIを実行することで、リクエストを完了します。
+Yii は [CWebService] と [CWebServiceAction] を提供することで、ウェブアプリケーションでウェブサービスを提供する作業を簡単にします。
+API は **サービスプロバイダ** と呼ばれるクラス群にまとめられます。
+Yii はそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl) スペックファイルを生成し、どの API が利用可能で、どのように呼び出すことができるのかを記述します。
+クライアントによって API が呼び出されると、Yii が対応するサービスプロバイダをインスタンス化し、要求された API を実行してリクエストに応えます。
 
 
 > Note|注意: [CWebService] は [PHP SOAP extension](http://www.php.net/manual/ja/ref.soap.php) に依存します。
@@ -26,15 +19,12 @@ Yiiはそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl)�
 -------------------------
 
 上で述べたように、サービスプロバイダとはリモートから呼び出し可能なメソッドを定義するクラスのことです。
-
-Yiiは[doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) と [class
-reflection](http://php.net/manual/ja/book.reflection.php) に基づいて、
-どのメソッドがリモートから呼び出し可能であり、どのような引数をとり、そしてどのような返り値を返すのかを決定します。
+Yii は [doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) と [class reflection](http://php.net/manual/ja/book.reflection.php) に基づいて、どのメソッドがリモートから呼び出し可能であり、どのような引数をとり、そしてどのような返り値を返すのかを決定します。
 
 まず単純な株価情報サービスからはじめましょう。
 このサービスではクライアントが株価情報を要求できます。
 サービスプロバイダを以下のように定義します。
-プロバイダクラスの`StockController`を、 [CController]のサブクラスとして定義していることに注意してください。
+プロバイダのクラス `StockController` を [CController] のサブクラスとして定義していることに注意してください。
 ただし、このことは必須ではありません。
 
 ~~~
@@ -50,23 +40,22 @@ class StockController extends CController
 	{
 		$prices=array('IBM'=>100, 'GOOGLE'=>350);
 		return isset($prices[$symbol])?$prices[$symbol]:0;
-	    //... $symbol の株価を返す
+		 $symbol の株価を返す
 	}
 }
 ~~~
 
-上記の例では、`getPrice`というメソッドを宣言し、コメントに`@soap`タグをつけることで、
-ウェブサービスAPIにしています。
-コメントによって引数のデータタイプと返り値も決まります。
-追加のAPIも同じ方法で宣言できます。
+上記の例では、コメント (doc comment) に `@soap` タグをつけることによって、`getPrice` というメソッドがウェブサービス API であることを宣言しています。
+引数と返値のデータタイプの定義も、コメント (doc comment) に依存します。
+API を追加したい場合は、同じ方法で宣言して下さい。
 
 ウェブサービスアクションを定義する
 ----------------------------
 
 サービスプロバイダを定義したので、クライアントから呼び出し可能にする必要があります。
-今回の例では、コントローラのアクションをサービスとして公開したいと思います。
-これはコントローラで、[CWebServiceAction]アクションを宣言することで容易に実現可能です。
-サンプルコードでは`StockController`に追加します。
+具体的には、サービスを公開するためのコントローラアクションを作成したいと思います。
+これはコントローラクラスで、[CWebServiceAction] アクションを宣言することで容易に実現可能です。
+サンプルコードでは `StockController` にそれを追加します。
 
 ~~~
 [php]
@@ -88,23 +77,22 @@ class StockController extends CController
 	 */
 	public function getPrice($symbol)
 	{
-	    //...$symbol の株価を返す
+		//...$symbol の株価を返す
 	}
 }
 ~~~
 
 これがウェブサービスを作るのに必要なことすべてです！
-URL `http://hostname/path/to/index.php?r=stock/quote` にアクセスすれば、
-今定義したウェブサービスのWSDLを表すXMLが表示されます。
+URL `http://hostname/path/to/index.php?r=stock/quote` にアクセスすれば、今定義したウェブサービスの WSDL を表す大量の XML が表示されます。
 
-> ヒント: デフォルトでは、 [CWebServiceAction] はそのメソッドを含むコントローラを
-サービスプロバイダとみなします。これが`getPrice`メソッドを`StockController`クラスに定義した理由です。
+> ヒント: デフォルトでは、[CWebServiceAction] は現在のコントローラをサービスプロバイダとみなします。
+これが `getPrice` メソッドを `StockController` クラスに定義した理由です。
 
 ウェブサービスを利用する
 ---------------------
 
 この例を完成させるために、できたばかりのウェブサービスを利用するクライアントを作ってみましょう。
-例のクライアントはPHPで書かれていますが、`Java`, `C#`, `Flex`などのその他の言語で書くこともできます。
+例示したクライアントは PHP で書かれていますが、`Java`, `C#`, `Flex` など、その他の言語で書くこともできます。
 
 ~~~
 [php]
@@ -112,35 +100,32 @@ $client=new SoapClient('http://hostname/path/to/index.php?r=stock/quote');
 echo $client->getPrice('GOOGLE');
 ~~~
 
-このスクリプトをブラウザか、コンソールで実行します。
-結果として、`GOOGLE`の株価`350`が表示されます。
+このスクリプトをブラウザか、コンソールで実行すると、`GOOGLE` の株価として `350` が表示される筈です。
 
 データ型
 ----------
 
-リモートから呼び出し可能なクラスメソッドとプロパティを定義する際に、
-入出力パラメータのデータ型を決める必要があります。
-以下のような基本データ型が利用可能です。
+リモートから呼び出し可能なクラスメソッドとプロパティを定義する際に、入出力パラメータのデータ型を決める必要があります。
+以下の基本データ型が利用可能です。
 
-   - str/string: `xsd:string`に対応します;
-   - int/integer: `xsd:int`に対応します;
-   - float/double: `xsd:float`に対応します;
-   - bool/boolean: `xsd:boolean`に対応します;
-   - date: `xsd:date`に対応します;
-   - time: `xsd:time`に対応します;
-   - datetime: `xsd:dateTime`に対応します;
-   - array: `xsd:string`に対応します;
-   - object: `xsd:struct`に対応します;
-   - mixed: `xsd:anyType`に対応します.
+   - str/string: `xsd:string` に対応します;
+   - int/integer: `xsd:int` に対応します;
+   - float/double: `xsd:float` に対応します;
+   - bool/boolean: `xsd:boolean` に対応します;
+   - date: `xsd:date` に対応します;
+   - time: `xsd:time` に対応します;
+   - datetime: `xsd:dateTime` に対応します;
+   - array: `xsd:string` に対応します;
+   - object: `xsd:struct` に対応します;
+   - mixed: `xsd:anyType` に対応します.
 
-上記の基本型に当てはまらない場合は、複数の属性からなる複合型とみなされます。
-複合型はクラスで表されます。各属性はクラスのパブリックプロパティのうち、
-コメントで`@soap`マークがついたものになります。
+上記の基本型に当てはまらない場合は、複数のプロパティからなる複合型とみなされます。
+複合型はクラスの形式で表され、コメント (doc comment) で `@soap` のマークが付けられたパブリックなメンバ変数が、プロパティになります。
 
-また、基本型や複合型の末尾に `[]` をつけることで配列を使うこともできます。
-これは特定の型の配列を示します。
+また、基本型や複合型の末尾に `[]` をつけることで配列型を使うこともできます。
+`[]` が指定された型の配列を定義します。
 
-以下は`Post`オブジェクトの配列を返す`getPosts`ウェブAPIの例です。
+以下は `Post` オブジェクトの配列を返す `getPosts` ウェブ API の例です。
 
 ~~~
 [php]
@@ -179,10 +164,8 @@ class Post extends CActiveRecord
 クラスの対応付け
 -------------
 
-複合型のデータをクライアントから受け取るためには、
-WSDL型からPHPクラスへの対応を宣言する必要があります。
-これは[CWebServiceAction]の[classMap|CWebServiceAction::classMap]プロパティを設定することで
-実現されます。
+複合型のデータをクライアントから受け取るためには、WSDL 型から PHP クラスへの対応を宣言する必要があります。
+これは [CWebServiceAction] の [classMap|CWebServiceAction::classMap] プロパティを設定することで実現されます。
 
 ~~~
 [php]
@@ -203,14 +186,11 @@ class PostController extends CController
 }
 ~~~
 
-リモート呼び出しを横取りする (Intercepting Remote Method Invocation)
+リモート呼び出しを阻止する
 -------------------------------------
 
-サービスプロバイダで [IWebServiceProvider] インタフェースを実装することで、
-リモートからのメソッド呼び出しを、実行前に横取りすることができます。
-[IWebServiceProvider::beforeWebMethod]内でプロバイダは [CWebService] のインスタンスをうけとり、
-[CWebService::methodName]によって、リクエストされたメソッド名を得ることができます。
-何らかの理由でリモートからのメソッド呼び出しを許可したくない場合は、false を返すことで実行を中断できます。
-(例：認証が必要なアクセス)
+サービスプロバイダで [IWebServiceProvider] インタフェースを実装することで、リモートからのメソッド呼び出しを阻止することができます。
+[IWebServiceProvider::beforeWebMethod] 内でプロバイダは [CWebService] のインスタンスをうけとり、[CWebService::methodName] によって、リクエストされたメソッド名を得ることができます。
+何らかの理由 (例: 権限のないアクセスなど) でリモートからのメソッド呼び出しを許可したくない場合は、false を返すことで呼び出しを阻止できます。
 
 <div class="revision">$Id$</div>

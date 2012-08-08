@@ -45,7 +45,7 @@ class SiteController extends CController
 
 >Note|注意: デフォルトでは、ルートは大文字と小文字を区別します。
 >アプリケーション初期構成で [CUrlManager::caseSensitive] を false に設定することで、大文字と小文字を区別しないようすることも可能です。
->大文字と小文字を区別しないモード（case-insensitive mode）の場合は、
+>大文字と小文字を区別しないモード (case-insensitive mode) の場合は、
 >コントローラクラスファイルを含むディレクトリ名が小文字であること、さらに、
 >[controller map|CWebApplication::controllerMap] と
 >[action map|CController::actions] の両方でキーが小文字であることという規約を必ず守って下さい。
@@ -143,7 +143,7 @@ protected/
 これは、コントローラアクションメソッドにおいて名前付きパラメータを定義し、その値が自動的に $_GET から代入されるものです。
 
 これがどのように動作するかを説明するために、`PostController` コントローラの `create` アクションを記述することを考えてみましょう。
-このアクションは2つのパラメータを必要とします。
+このアクションは二つのパラメータを必要とします。
 
 * `category`: カテゴリ ID を意味する整数で、この元で新規ポストが作成されます。
 * `language`: 新規ポストが書かれる言語コードを意味する文字列です。
@@ -186,7 +186,7 @@ class PostController extends CController
 }
 ~~~
 
-2つのパラメータをアクションメソッド `actionCreate` に追加したことに注意してください。
+二つのパラメータをアクションメソッド `actionCreate` に追加したことに注意してください。
 パラメータの名前は `$_GET` から得られるパラメータと全く同じにする必要があります。
 `$language` パラメータは、リクエストがそういうパラメータを含んでいない場合は、デフォルト値 `en` を取ります。
 一方 `$category` はデフォルト値が無いため、もしリクエストが `category` パラメータを含んでいない場合は、
@@ -297,7 +297,7 @@ class PostController extends CController
 }
 ~~~
 
-上記のコードは `postOnly` と `PerformanceFilter` という、2つのフィルタを指定しています。
+上記のコードは `postOnly` と `PerformanceFilter` という、二つのフィルタを指定しています。
 `postOnly` フィルタは、メソッドベースのフィルタです (対応するフィルタメソッドは、既に [CController] に定義されています) 。
 そして、`PerformanceFilter` フィルタはオブジェクトベースです。
 `application.filters.PerformanceFilter` というパスは、フィルタークラスファイル `protected/filters/PerformanceFilter` へのパスのエイリアスです。
