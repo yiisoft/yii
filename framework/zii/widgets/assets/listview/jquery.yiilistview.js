@@ -98,25 +98,26 @@
 	 * the URL to be requested is the one that generates the current content of the list view.
 	 */
 	$.fn.yiiListView.update = function(id, options) {
-		var settings = $.fn.yiiListView.settings[id];
+		var $form, settings = $.fn.yiiListView.settings[id];
+                
 		$('#'+id).addClass(settings.loadingClass);
-		options = $.extend({
-			type: 'GET',
-			url: $.fn.yiiListView.getUrl(id),
-			success: function(data,status) {
-				$.each(settings.ajaxUpdate, function(i,v) {
-					var id='#'+v;
-					$(id).replaceWith($(id,'<div>'+data+'</div>'));
-				});
-				if(settings.afterAjaxUpdate != undefined)
-					settings.afterAjaxUpdate(id, data);
-				$('#'+id).removeClass(settings.loadingClass);
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				$('#'+id).removeClass(settings.loadingClass);
-				alert(XMLHttpRequest.responseText);
-			}
-		}, options || {});
+                    options = $.extend({
+                            type: 'GET',
+                            url: $.fn.yiiListView.getUrl(id),
+                            success: function(data,status) {
+                                    $.each(settings.ajaxUpdate, function(i,v) {
+                                            var id='#'+v;
+                                            $(id).replaceWith($(id,'<div>'+data+'</div>'));
+                                    });
+                                    if(settings.afterAjaxUpdate != undefined)
+                                            settings.afterAjaxUpdate(id, data);
+                                    $('#'+id).removeClass(settings.loadingClass);
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                    $('#'+id).removeClass(settings.loadingClass);
+                                    alert(XMLHttpRequest.responseText);
+                            }
+                    }, options || {});
 
 		if(options.data!=undefined && options.type=='GET') {
 			options.url = $.param.querystring(options.url, options.data);
@@ -126,7 +127,29 @@
 
 		if(settings.beforeAjaxUpdate != undefined)
 			settings.beforeAjaxUpdate(id);
-		$.ajax(options);
+                    
+                if (settings.ajaxUpdate.length > 0) {
+                    $.ajax(options);
+                } else { // non-ajax mode
+                    if (options.type === 'GET') {
+                            window.location.href = options.url;
+                    } else {  // POST mode
+                            $form = $('<form action="' + options.url + '" method="post"></form>').appendTo('body');
+                            if (options.data === undefined) {
+                                    options.data = {};
+                            }
+
+                            if (options.data.returnUrl === undefined) {
+                                    options.data.returnUrl = window.location.href;
+                            }
+
+                            $.each(options.data, function (name, value) {
+                                    $form.append($('<input type="hidden" name="t" value="" />').attr('name', name).val(value));
+                            });
+                            $form.submit();
+                    }
+                }
+		
 	};
 
 })(jQuery);
