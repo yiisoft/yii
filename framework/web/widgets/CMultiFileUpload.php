@@ -119,7 +119,7 @@ class CMultiFileUpload extends CInputWidget
 		$options=$this->options;
 		foreach(array('onFileRemove','afterFileRemove','onFileAppend','afterFileAppend','onFileSelect','afterFileSelect') as $event)
 		{
-			if(isset($options[$event]) && !($options[$event] instanceof CJavaScriptExpression) && strpos($options[$event],'js:')!==0)
+			if(isset($options[$event]) && !($options[$event] instanceof CJavaScriptExpression))
 				$options[$event]=new CJavaScriptExpression($options[$event]);
 		}
 

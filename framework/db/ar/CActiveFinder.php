@@ -167,8 +167,9 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->lazyFind($baseRecord);
 		if(!empty($this->_joinTree->children))
 		{
-			$child=reset($this->_joinTree->children);
-			$child->afterFind();
+			foreach($this->_joinTree->children as $child) {
+			  $child->afterFind();
+      }
 		}
 		$this->destroyJoinTree();
 	}
