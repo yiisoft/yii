@@ -145,7 +145,7 @@ return array (
   'No counter columns are being updated for table "{table}".' => 'هیچ counter columns در حال آپدیت برای جدول counter columns نمی باشد',
   'Object configuration must be an array containing a "class" element.' => 'پیکربندی abject باید آرایه ای شامل "class" باشد',
   '"{path}" is not a valid directory.' => '"{path}" دایرکتوری معتبر نیست',
-  'Please fix the following input errors:' => ':لطفا خطاهای ورودی زیر را تصحیح کنید',
+  'Please fix the following input errors:' => 'لطفا خطاهای ورودی زیر را تصحیح کنید :',
   'Property "{class}.{property}" is not defined.' => 'ویژگیهای "{class}.{property}" تعریف نشده است',
   'Property "{class}.{property}" is read only.' => 'ویژگیهای "{class}.{property}" فقط قابل خواندن است',
   'Queue data must be an array or an object implementing Traversable.' => 'Les données de la queue doivent être un tableau ou un objet qui implémente Traversable.',
