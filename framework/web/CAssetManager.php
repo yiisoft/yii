@@ -205,16 +205,15 @@ class CAssetManager extends CApplicationComponent
 
 				if(!is_dir($dstDir))
 				{
-					$oldumask = umask(0); // umask affects mkdir $mode
 					mkdir($dstDir, $this->newDirMode, true);
-					umask($oldumask);
+					chmod($dstDir, $this->newDirMode);
 				}
 
 				if($this->linkAssets && !is_file($dstFile)) symlink($src,$dstFile);
 				else if(@filemtime($dstFile)<@filemtime($src))
 				{
 					copy($src,$dstFile);
-					@chmod($dstFile, $this->newFileMode);
+					chmod($dstFile, $this->newFileMode);
 				}
 
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
