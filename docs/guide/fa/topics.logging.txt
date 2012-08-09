@@ -1,0 +1,217 @@
+Logging
+=======
+
+Yii provides a flexible and extensible logging feature. Messages logged
+can be classified according to log levels and message categories. Using
+level and category filters, selected messages can be further routed to
+different destinations, such as files, emails, browser windows, etc.
+
+Message Logging
+---------------
+
+Messages can be logged by calling either [Yii::log] or [Yii::trace]. The
+difference between these two methods is that the latter logs a message only
+when the application is in [debug mode](/doc/guide/basics.entry#debug-mode).
+
+~~~
+[php]
+Yii::log($message, $level, $category);
+Yii::trace($message, $category);
+~~~
+
+When logging a message, we need to specify its category and level.
+Category is a string in the format of `xxx.yyy.zzz` which resembles to the
+[path alias](/doc/guide/basics.namespace). For example, if a message is
+logged in [CController], we may use the category `system.web.CController`.
+Message level should be one of the following values:
+
+   - `trace`: this is the level used by [Yii::trace]. It is for tracing
+the execution flow of the application during development.
+
+   - `info`: this is for logging general information.
+
+   - `profile`: this is for performance profile which is to be described
+shortly.
+
+   - `warning`: this is for warning messages.
+
+   - `error`: this is for fatal error messages.
+
+Message Routing
+---------------
+
+Messages logged using [Yii::log] or [Yii::trace] are kept in memory. We
+usually need to display them in browser windows, or save them in some
+persistent storage such as files, emails. This is called *message
+routing*, i.e., sending messages to different destinations.
+
+In Yii, message routing is managed by a [CLogRouter] application
+component. It manages a set of the so-called *log routes*. Each log
+route represents a single log destination. Messages sent along a log route
+can be filtered according to their levels and categories.
+
+To use message routing, we need to install and preload a [CLogRouter]
+application component. We also need to configure its
+[routes|CLogRouter::routes] property with the log routes that we want. The
+following shows an example of the needed [application
+configuration](/doc/guide/basics.application#application-configuration):
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'trace, info',
+					'categories'=>'system.*',
+				),
+				array(
+					'class'=>'CEmailLogRoute',
+					'levels'=>'error, warning',
+					'emails'=>'admin@example.com',
+				),
+			),
+		),
+	),
+)
+~~~
+
+In the above example, we have two log routes. The first route is
+[CFileLogRoute] which saves messages in a file under the application
+runtime directory. Only messages whose level is `trace` or `info` and whose
+category starts with `system.` are saved. The second route is
+[CEmailLogRoute] which sends messages to the specified email addresses.
+Only messages whose level is `error` or `warning` are sent.
+
+The following log routes are available in Yii:
+
+   - [CDbLogRoute]: saves messages in a database table.
+   - [CEmailLogRoute]: sends messages to specified email addresses.
+   - [CFileLogRoute]: saves messages in a file under the application runtime directory.
+   - [CWebLogRoute]: displays messages at the end of the current Web page.
+   - [CProfileLogRoute]: displays profiling messages at the end of the current Web page.
+
+> Info: Message routing occurs at the end of the current request cycle
+when the [onEndRequest|CApplication::onEndRequest] event is raised. To explicitly
+terminate the processing of the current request, call [CApplication::end()] instead
+of `die()` or `exit()`, because [CApplication::end()] will raise the
+[onEndRequest|CApplication::onEndRequest] event so that the messages can
+be properly logged.
+
+Message Filtering
+-----------------
+
+As we mentioned, messages can be filtered according to their levels and
+categories before they are sent long a log route. This is done by setting
+the [levels|CLogRoute::levels] and [categories|CLogRoute::categories]
+properties of the corresponding log route. Multiple levels or categories
+should be concatenated by commas.
+
+Because message categories are in the format of `xxx.yyy.zzz`, we may
+treat them as a category hierarchy. In particular, we say `xxx` is the
+parent of `xxx.yyy` which is the parent of `xxx.yyy.zzz`. We can then use
+`xxx.*` to represent category `xxx` and all its child and grandchild
+categories.
+
+Logging Context Information
+---------------------------
+
+We can log additional context information, such as PHP predefined variables (e.g. `$_GET`, `$_SERVER`), session ID, user name, etc.
+This is accomplished by specifying the [CLogRoute::filter] property of a log route to be
+a suitable log filter.
+
+The framework comes with the convenient [CLogFilter] that may be used as the needed log
+filter in most cases. By default, [CLogFilter] will log a message with variables like
+`$_GET`, `$_SERVER` which often contains valuable system context information.
+[CLogFilter] can also be configured to prefix each logged message with session ID, username, etc.,
+which may greatly simplifying the global search when we are checking the numerous logged messages.
+
+The following configuration shows how to enable logging context information. Note that each
+log route may have its own log filter. And by default, a log route does not have a log filter.
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'error',
+					'filter'=>'CLogFilter',
+				),
+				...other log routes...
+			),
+		),
+	),
+)
+~~~
+
+
+Yii supports logging call stack information in the messages that are
+logged by calling `Yii::trace`. This feature is disabled by default because it lowers performance.
+To use this feature, simply define a constant named `YII_TRACE_LEVEL` at the beginning of the entry
+script (before including `yii.php`) to be an integer greater than 0. Yii will then append to
+every trace message with the file name and line number of the call stacks belonging to application
+code. The number `YII_TRACE_LEVEL` determines how many layers of each call stack should be recorded.
+This information is particularly useful during development stage as it can help us identify the
+places that trigger the trace messages.
+
+
+Performance Profiling
+---------------------
+
+Performance profiling is a special type of message logging. Performance
+profiling can be used to measure the time needed for the specified code
+blocks and find out what the performance bottleneck is.
+
+To use performance profiling, we need to identify which code blocks need
+to be profiled. We mark the beginning and the end of each code block by
+inserting the following methods:
+
+~~~
+[php]
+Yii::beginProfile('blockID');
+...code block being profiled...
+Yii::endProfile('blockID');
+~~~
+
+where `blockID` is an ID that uniquely identifies the code block.
+
+Note, code blocks need to be nested properly. That is, a code block cannot
+intersect with another. It must be either at a parallel level or be
+completely enclosed by the other code block.
+
+To show profiling result, we need to install a [CLogRouter] application
+component with a [CProfileLogRoute] log route. This is the same as we do
+with normal message routing. The [CProfileLogRoute] route will display the
+performance results at the end of the current page.
+
+
+Profiling SQL Executions
+------------------------
+
+Profiling is especially useful when working with database since SQL executions
+are often the main performance bottleneck of an application. While we can manually
+insert `beginProfile` and `endProfile` statements at appropriate places to measure
+the time spent in each SQL execution, Yii provides
+a more systematic approach to solve this problem.
+
+By setting [CDbConnection::enableProfiling] to be true in the application configuration,
+every SQL statement being executed will be profiled. The results can be readily displayed
+using the aforementioned [CProfileLogRoute], which can show us how much time is spent
+in executing what SQL statement. We can also call [CDbConnection::getStats()] to retrieve
+the total number SQL statements executed and their total execution time.
+
+
+<div class="revision">$Id$</div>

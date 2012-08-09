@@ -1,0 +1,46 @@
+What is Yii
+===========
+
+Yii is a high-performance, component-based PHP framework for developing
+large-scale Web applications rapidly. It enables maximum reusability in Web
+programming and can significantly accelerate your Web application development
+process. The name Yii (pronounced `Yee` or `[ji:]`) is an acroynym for
+"**Yes It Is!**". This is often the accurate, and most concise response to
+inquires from those new to Yii:
+
+
+Is it fast? ... Is it secure? ... Is it professional? ... Is it right for my
+next project? ... **Yes, it is!**
+
+
+Requirements
+------------
+
+To run a Yii-powered Web application, you need a Web server that supports
+PHP 5.1.0.
+
+For developers who want to use Yii, understanding object-oriented
+programming (OOP) is very helpful, because Yii is a pure OOP framework.
+
+What is Yii Best for?
+---------------------
+
+Yii is a generic Web programming framework that can be used for developing
+virtually any type of Web application.  Because it is light-weight and
+equipped with sophisticated caching mechanisms, it is especially suited
+to high-traffic applications, such as portals, forums, content
+management systems (CMS), e-commerce systems, etc.
+
+How does Yii Compare with Other Frameworks?
+------------------------------------------
+
+Like most PHP frameworks, Yii is an MVC framework.
+
+Yii excels other PHP frameworks at being efficient, feature-rich and
+clearly-documented. Yii is carefully designed from the ground up to be fit
+for serious Web application development. It is neither a byproduct of some
+project nor a conglomerate of third-party work. It is the result of the
+authors' rich experience with Web application development and their investigation
+of the most popular Web programming frameworks and applications.
+
+<div class="revision">$Id$</div>
