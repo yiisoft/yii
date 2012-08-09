@@ -56,7 +56,8 @@ class CFileHelper
 		$exclude=array();
 		$level=-1;
 		extract($options);
-		if(!is_dir($dst)) self::mkdir($dst, self::getModeFromOptions($options), true);
+		if(!is_dir($dst))
+			self::mkdir($dst, self::getModeFromOptions($options), true);
 
 		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
 	}
@@ -112,7 +113,8 @@ class CFileHelper
 	 */
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
-		if(!is_dir($dst)) self::mkdir($dst, self::getModeFromOptions($options), false);
+		if(!is_dir($dst))
+			self::mkdir($dst, self::getModeFromOptions($options), false);
 
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
@@ -127,7 +129,7 @@ class CFileHelper
 				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						@chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
+						chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
 				}
 				else if($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
@@ -263,15 +265,15 @@ class CFileHelper
 	 *
 	 * @static
 	 * @param string $dst path to be created
-	 * @param int $mode access bitmask
-	 * @param bool $recursive
-	 * @return bool result of mkdir
-	 * @see \mkdir
+	 * @param integer $mode access bitmask
+	 * @param boolean $recursive
+	 * @return boolean result of mkdir
+	 * @see mkdir
 	 */
 	private static function mkdir($dst, $mode, $recursive)
 	{
 		$res = mkdir($dst, $mode, $recursive);
-		@chmod($dst, $mode);
+		chmod($dst, $mode);
 		return $res;
 	}
 
@@ -279,7 +281,7 @@ class CFileHelper
 	 * Returns dir access mode from options, if set, or default value (0777).
 	 * @static
 	 * @param array $options
-	 * @return int
+	 * @return integer
 	 */
 	private static function getModeFromOptions(array $options)
 	{
