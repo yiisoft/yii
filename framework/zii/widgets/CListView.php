@@ -234,11 +234,11 @@ class CListView extends CBaseListView
 		{
 			if(!($this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate,'js:')!==0)
 			{
-				$options['beforeAjaxUpdate']=new CJavaScriptExpression($this->afterAjaxUpdate);
+				$options['afterAjaxUpdate']=new CJavaScriptExpression($this->afterAjaxUpdate);
 			}
 			else
 			{
-				$options['beforeAjaxUpdate']=$this->afterAjaxUpdate;
+				$options['afterAjaxUpdate']=$this->afterAjaxUpdate;
 			}
 		}
 
