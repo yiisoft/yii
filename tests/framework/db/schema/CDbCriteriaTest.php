@@ -565,4 +565,54 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria = new CDbCriteria();
 		$this->assertEquals($keys, array_keys($criteria->toArray()));
 	}
+
+	function testSerialize()
+	{
+		$criteria = new CDbCriteria();
+
+		$fieldName='testFieldName';
+		$paramName=':testParamName';
+		$paramValue='testParamValue';
+		$criteria->condition="{$fieldName} = {$paramName}";
+		$criteria->order="{$paramName}";
+		$criteria->group="{$paramName}";
+		$criteria->having="{$paramName}";
+		$criteria->select="{$paramName}";
+		$criteria->params[$paramName]=$paramValue;
+		
+		$serializedCriteria=serialize($criteria);
+		$unserializedCriteria=unserialize($serializedCriteria);
+
+		$this->assertEquals($criteria,$unserializedCriteria,'Criteria has wrong data after wakeup!');
+	}
+
+	/**
+	 * @depends testSerialize
+	 */
+	function testSerializeAutomaticallyGeneratedParams()
+	{
+		$criteria = new CDbCriteria();
+		$paramName=CDbCriteria::PARAM_PREFIX.rand(10000,20000); // mock up automatically generated name
+		$paramValue = 'testParamValue';
+		$criteria->condition="someField = {$paramName}";
+		$criteria->order="{$paramName}";
+		$criteria->group="{$paramName}";
+		$criteria->having="{$paramName}";
+		$criteria->select="{$paramName}";
+		$criteria->params[$paramName]=$paramValue;
+
+		$serializedCriteria=serialize($criteria);
+		$unserializedCriteria=unserialize($serializedCriteria);
+
+		$this->assertArrayNotHasKey($paramName,$unserializedCriteria->params,'Param name which match automatic generation has not been replaced!');
+		$this->assertContains($paramValue,$unserializedCriteria->params,'Automatically generated param value has been lost!');
+
+		$newParamName = array_search($paramValue,$unserializedCriteria->params,true);
+		$this->assertEquals(str_replace($paramName,$newParamName,$criteria->condition),$unserializedCriteria->condition,'Criteria condition has not been updated!');
+		$this->assertEquals(str_replace($paramName,$newParamName,$criteria->order),$unserializedCriteria->order,'Criteria order has not been updated!');
+		$this->assertEquals(str_replace($paramName,$newParamName,$criteria->group),$unserializedCriteria->group,'Criteria group has not been updated!');
+		$this->assertEquals(str_replace($paramName,$newParamName,$criteria->having),$unserializedCriteria->having,'Criteria having has not been updated!');
+		$this->assertEquals(str_replace($paramName,$newParamName,$criteria->select),$unserializedCriteria->select,'Criteria select has not been updated!');
+	}
+
 }
