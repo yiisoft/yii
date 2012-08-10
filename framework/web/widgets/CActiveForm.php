@@ -564,7 +564,7 @@ class CActiveForm extends CWidget
 	}
 
 	/**
-	 * Renders a url field for a model attribute.
+	 * Renders an url field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeUrlField}.
 	 * Please check {@link CHtml::activeUrlField} for detailed information
 	 * about the parameters for this method.
@@ -596,7 +596,7 @@ class CActiveForm extends CWidget
 	}
 
 	/**
-	 * Renders an number field for a model attribute.
+	 * Renders a number field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeNumberField}.
 	 * Please check {@link CHtml::activeNumberField} for detailed information
 	 * about the parameters for this method.
@@ -612,7 +612,7 @@ class CActiveForm extends CWidget
 	}
 
 	/**
-	 * Renders an number field for a model attribute.
+	 * Generates a range field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeRangeField}.
 	 * Please check {@link CHtml::activeRangeField} for detailed information
 	 * about the parameters for this method.
@@ -628,7 +628,7 @@ class CActiveForm extends CWidget
 	}
 
 	/**
-	 * Renders an number field for a model attribute.
+	 * Renders a date field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeDateField}.
 	 * Please check {@link CHtml::activeDateField} for detailed information
 	 * about the parameters for this method.

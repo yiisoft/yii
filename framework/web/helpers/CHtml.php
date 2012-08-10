@@ -1218,7 +1218,7 @@ EOD;
 	}
 
 	/**
-	 * Generates a url field input for a model attribute.
+	 * Generates an url field input for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
 	 * be appended with {@link errorCss}.
 	 * @param CModel $model the data model
