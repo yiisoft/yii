@@ -4,9 +4,7 @@
 実運用するウェブアプリケーションでは、しばしば、さまざまなイベントに対する洗練されたロギングが
 必要になります。私たちのブログアプリケーションでも、使用中に生じるエラーをログに記録したいと思います。エラーはプログラム上の失敗であったり、ユーザーによるシステムの不正使用であったりします。これらのエラーをロギングすることは、ブログアプリケーションを改善することに役立つでしょう。
 
-をA production Web application often needs sophisticated logging for various events. In our blog application, we would like to log the errors occurring when it is being used. Such errors could be programming mistakes or users' misuse of the system. Logging these errors will help us to improve the blog application.
-
-[アプリケーション構成](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) を下記のように変更することによって、エラーのロギングを有効にします。
+[アプリケーション初期構成](http://www.yiiframework.com/doc/guide/ja/basics.application#sec-2) を下記のように変更することによって、エラーのロギングを有効にします。
 
 ~~~
 [php]
@@ -30,9 +28,8 @@ return array(
 );
 ~~~
 
-上記の構成によって、エラーまたは警告が生じた場合に、詳細な情報が記録され、`/wwwroot/blog/protected/runtime` のディレクトリの下のファイルに保存されます。
+上記の構成によって、エラーまたは警告が生じた場合に、詳細な情報が記録され、`/wwwroot/blog/protected/runtime` ディレクトリ下のファイルに保存されます。
 
-`log` コンポーネントは、指定したリストのメールアドレスにログメッセージを送信したり、ログメッセージを JavaScript コンソールウィンドウに表示したりなど、さらに高度な機能を提供します。詳細については、 [ガイド](http://www.yiiframework.com/doc/guide/topics.logging) を参照して下さい。
-
+`log` コンポーネントは、指定したリストのメールアドレスにログメッセージを送信したり、ログメッセージを JavaScript コンソールウィンドウに表示したりなど、さらに高度な機能を提供します。詳細については、 [ガイド](http://www.yiiframework.com/doc/guide/ja/topics.logging) を参照して下さい。
 
 <div class="revision">$Id$</div>

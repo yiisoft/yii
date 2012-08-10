@@ -19,7 +19,10 @@
  * @version $Id: $
  */
 return array (
-  'Powered by {yii}.' => 'Создано на {yii}.',
+  'CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()' => 'CHttpCacheFilter.lastModified содержит знаение, которое не удалось разобрать при помощи strtotime()',
+  'CMemCache requires PHP {extension} extension to be loaded.' => 'CMemCache требуется загруженное расширение PHP {extension}.',
+  'Class name "{class}" does not match class file "{file}".' => 'Класс "{class}" не соответствует имени файла "{file}".',
+  'Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()' => 'Неверное выражение для CHttpCacheFilter.lastModifiedExpression. Результат выполнения "{value}" не может быть разобран strtotime()',
   '"{path}" is not a valid directory.' => 'Путь "{path}" не является правильной директорией.',
   '&lt; Previous' => '&lt; Предыдущая',
   '&lt;&lt; First' => '&lt;&lt; Первая',
@@ -50,9 +53,6 @@ return array (
   'CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.' => 'Не удалось выполнить CDbCommand::execute(): {error}. Выполнявшийся SQL-запрос: {sql}.',
   'CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.' => 'Не удалось выполнить CDbCommand::{method}(): {error}. Выполнявшийся SQL-запрос: {sql}.',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection не поддерживает чтения из базы данных {driver}.',
-  'CDbConnection failed to open the DB connection.' => 'CDbConnection не удалось установить соединение с БД.',
-  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection не удалось открыть соединение с базой данных: {error}',
-  'CDbConnection.connectionString cannot be empty.' => 'Параметр CDbConnection.connectionString должен быть заполнен.',
   'CDbDataReader cannot rewind. It is a forward-only reader.' => 'Компонент CDbDataReader не поддерживает обратное чтение. Этот компонент только для чтения в прямом направлении.',
   'CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'Идентификатор CDbHttpSession.connectionID "{id}" задан неверно. Удостоверьтесь, что он соответствует идентификатору компонента CDbConnection вашего приложения.',
   'CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.' => 'Идентификатор CDbLogRoute.connectionID "{id}" указывает на неверный компонент CDbConnection вашего приложения.',
@@ -125,6 +125,7 @@ return array (
   'No counter columns are being updated for table "{table}".' => 'Нет столбцов-счетчиков подлежащих обновлению в таблице "{table}".',
   'Object configuration must be an array containing a "class" element.' => 'Конфигурация объекта должна быть представлена массивом, содержащим элемент "class".',
   'Please fix the following input errors:' => 'Необходимо исправить следующие ошибки:',
+  'Powered by {yii}.' => 'Создано на {yii}.',
   'Property "{class}.{property}" is not defined.' => 'Не определено свойство "{class}.{property}".',
   'Property "{class}.{property}" is read only.' => 'Свойство "{class}.{property}" доступно только для чтения.',
   'Property CMaskedTextField.mask cannot be empty.' => 'CMaskedTextField.mask не может быть пустым.',

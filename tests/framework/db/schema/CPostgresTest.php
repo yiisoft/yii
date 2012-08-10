@@ -261,11 +261,4 @@ class CPostgresTest extends CTestCase
 		$max=$this->db->createCommand("SELECT MAX(id) FROM test.users")->queryScalar();
 		$this->assertEquals(11,$max);
 	}
-
-	public function testCheckIntegrity()
-	{
-		$this->db->schema->checkIntegrity(false,'test');
-		$this->db->createCommand("INSERT INTO test.profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1000)")->execute();
-		$this->db->schema->checkIntegrity(true,'test');
-	}
 }
