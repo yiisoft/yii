@@ -564,7 +564,7 @@ class CActiveForm extends CWidget
 	}
 
 	/**
-	 * Renders an url field for a model attribute.
+	 * Renders a url field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeUrlField}.
 	 * Please check {@link CHtml::activeUrlField} for detailed information
 	 * about the parameters for this method.
