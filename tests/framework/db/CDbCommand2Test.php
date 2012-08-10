@@ -159,6 +159,30 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals('"name" NOT LIKE \'%tester\' OR "name" NOT LIKE \'%tester2\'', $command->where);
 	}
 
+	public function testAddWhere()
+	{
+		$command=$this->_connection->createCommand();
+
+		// default
+		$this->assertEquals('', $command->where);
+		$this->assertEquals(array(), $command->params);
+
+		// string input
+		$command->addWhere('id=1 or id=:id2', array(':id2'=>2));
+		$this->assertEquals('id=1 or id=:id2', $command->where);
+		$this->assertEquals(array(':id2'=>2), $command->params);
+
+		// array input, and/or
+		$command->addWhere(array('and', 'id=1', 'id=2'));
+		$this->assertEquals('((id=1) AND (id=2)) AND (id=1 or id=:id2)', $command->where);
+		$command->addWhere(array('and', 'id=1', array('or', 'id=3', 'id=4'), 'id=2'), array(), 'or');
+		$this->assertEquals('((id=1) AND ((id=3) OR (id=4)) AND (id=2)) OR (((id=1) AND (id=2)) AND (id=1 or id=:id2))', $command->where);
+
+		// empty input
+		$command->addWhere(array());
+		$this->assertEquals('(((id=1) AND ((id=3) OR (id=4)) AND (id=2)) OR (((id=1) AND (id=2)) AND (id=1 or id=:id2)))', $command->where);
+	}
+
 	public function testJoin()
 	{
 		$command=$this->_connection->createCommand();

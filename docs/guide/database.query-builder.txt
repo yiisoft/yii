@@ -66,6 +66,7 @@ Data retrieval queries refer to SELECT SQL statements. The query builder provide
 * [selectDistinct()|CDbCommand::selectDistinct]: specifies the SELECT part of the query and turns on the DISTINCT flag
 * [from()|CDbCommand::from() ]: specifies the FROM part of the query
 * [where()|CDbCommand::where() ]: specifies the WHERE part of the query
+* [addWhere()|CDbCommand::addWhere() ]: appends condition to the WHERE part of the query
 * [join()|CDbCommand::join() ]: appends an inner join query fragment
 * [leftJoin()|CDbCommand::leftJoin]: appends a left outer join query fragment
 * [rightJoin()|CDbCommand::rightJoin]: appends a right outer join query fragment
@@ -216,6 +217,16 @@ $keyword=$_GET['q'];
 $keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
 $command->where(array('like', 'title', '%'.$keyword.'%'));
 ~~~
+
+
+### addWhere()
+
+~~~
+[php]
+function addWhere($conditions, $params=array(), $operator='and')
+~~~
+
+The [addWhere()|CDbCommand::addWhere() ] method appends given condition to the `WHERE` part of a query. Behavior of this method is almost the same as [where()|CDbCommand::where() ] except it appends condition not replaces it. Refer to the [where()|CDbCommand::where() ] documentation for more information on parameters of this method.
 
 
 ### order()
