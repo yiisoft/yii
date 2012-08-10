@@ -8,7 +8,7 @@ class CDbCriteriaTest extends CTestCase {
 	/**
 	 * @covers CDbCriteria::addCondition
 	 */
-	function testAddCondition() {
+	public function testAddCondition() {
 		//adding new condition to empty one
 		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
@@ -38,7 +38,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @depends testAddCondition
 	 * @covers CDbCriteria::addInCondition
 	 */
-	function testAddInCondition() {
+	public function testAddInCondition() {
 		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 
@@ -74,7 +74,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @depends testAddCondition
 	 * @covers CDbCriteria::addNotInCondition
 	 */
-	function testAddNotInCondition() {
+	public function testAddNotInCondition() {
 		// NOT IN with empty array should not change anything
 		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
@@ -111,7 +111,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @depends testAddCondition
 	 * @covers CDbCriteria::addSearchCondition
 	 */
-	function testAddSearchCondition() {
+	public function testAddSearchCondition() {
 		// string escaping
 		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
@@ -132,7 +132,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @depends testAddCondition
 	 * @covers CDbCriteria::addColumnCondition
 	 */
-	function testAddColumnCondition() {
+	public function testAddColumnCondition() {
 		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 		$criteria->addColumnCondition(array('A' => 1, 'B' => null, 'C' => '2'));
@@ -146,7 +146,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @depends testAddCondition
 	 * @covers CDbCriteria::compare
 	 */
-	function testCompare(){
+	public function testCompare(){
 		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '');
@@ -222,7 +222,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @depends testCompare
 	 * @covers CDbCriteria::mergeWith
 	 */
-	function testMergeWith() {
+	public function testMergeWith() {
 		// merging select
 
 		// * should be replaced
@@ -509,7 +509,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @depends testCompare
 	 * @covers CDbCriteria::mergeWith
 	 */
-	function testMergeWithPositionalPlaceholders(){
+	public function testMergeWithPositionalPlaceholders(){
 		CDbCriteria::$paramCount=0;
 		$criteria1 = new CDbCriteria();
 		$criteria1->condition = 'A=? AND B=?';
@@ -550,7 +550,7 @@ class CDbCriteriaTest extends CTestCase {
 	/**
 	 * @covers CDbCriteria::addBetweenCondition
 	 */
-	function testAddBetweenCondition(){
+	public function testAddBetweenCondition(){
 		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 
@@ -560,13 +560,13 @@ class CDbCriteriaTest extends CTestCase {
 		$this->assertEquals(2, $criteria->params[':ycp1']);
 	}
 
-	function testToArray(){
+	public function testToArray(){
 		$keys = array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together');
 		$criteria = new CDbCriteria();
 		$this->assertEquals($keys, array_keys($criteria->toArray()));
 	}
 
-	function testSerialize()
+	public function testSerialize()
 	{
 		$criteria = new CDbCriteria();
 
@@ -589,7 +589,7 @@ class CDbCriteriaTest extends CTestCase {
 	/**
 	 * @depends testSerialize
 	 */
-	function testSerializeAutomaticallyGeneratedParams()
+	public function testSerializeAutomaticallyGeneratedParams()
 	{
 		$criteria = new CDbCriteria();
 		$paramName=CDbCriteria::PARAM_PREFIX.rand(10000,20000); // mock up automatically generated name
