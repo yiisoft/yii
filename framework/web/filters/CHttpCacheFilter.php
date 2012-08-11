@@ -41,7 +41,8 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $etagSeedExpression;
 	/**
-	 * Http cache control headers
+	 * Http cache control headers. Set this to an empty string in order to keep this
+	 * header from being sent entirely.
 	 * @var string
 	 */
 	public $cacheControl = 'max-age=3600, public';
