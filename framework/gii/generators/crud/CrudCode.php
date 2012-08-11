@@ -8,13 +8,14 @@ class CrudCode extends CCodeModel
 
 	private $_modelClass;
 	private $_table;
+	private $validModelClasses = array();
 
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
 			array('model, controller', 'filter', 'filter'=>'trim'),
-			array('model, controller, baseControllerClass', 'required'),
-			array('model', 'match', 'pattern'=>'/^\w+[\w+\\.]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
+			array('model, baseControllerClass', 'required'),
+			array('model', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters and dots, and an optional ending asterisk.'),
 			array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
 			array('baseControllerClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
 			array('baseControllerClass', 'validateReservedWord', 'skipOnError'=>true),
@@ -56,22 +57,52 @@ class CrudCode extends CCodeModel
 	{
 		if($this->hasErrors('model'))
 			return;
-		$class=@Yii::import($this->model,true);
-		if(!is_string($class) || !$this->classExists($class))
-			$this->addError('model', "Class '{$this->model}' does not exist or has syntax error.");
-		else if(!is_subclass_of($class,'CActiveRecord'))
-			$this->addError('model', "'{$this->model}' must extend from CActiveRecord.");
-		else
+		// ====  NEW FEATURE ==== If user wanna generate crud for all tables
+		if($this->model==='*')
 		{
-			$table=CActiveRecord::model($class)->tableSchema;
-			if($table->primaryKey===null)
-				$this->addError('model',"Table '{$table->name}' does not have a primary key.");
-			else if(is_array($table->primaryKey))
-				$this->addError('model',"Table '{$table->name}' has a composite primary key which is not supported by crud generator.");
+			$tables=Yii::app()->db->schema->getTables();
+			
+			foreach($tables as $table)
+			{
+				$className='';
+				foreach(explode('_',$table->name) as $name)
+				{
+					if($name!=='')
+						$className.=ucfirst(strtolower($name));
+				}
+				
+				$class=@Yii::import($className,true);
+				if(!is_string($class) || !$this->classExists($class))
+					$this->addError('model', "Class '$className' does not exist or has syntax error.");					
+				else if(!is_subclass_of($class,'CActiveRecord'))
+					$this->addError('model', "'$className' must extend from CActiveRecord.");					
+				else
+				{
+					$tableAux=CActiveRecord::model($class)->tableSchema;
+					if($tableAux->primaryKey===null)
+						$this->addError('model',"Table '{$tableAux->name}' does not have a primary key.");
+					else
+						$this->validModelClasses[] = array('class' => $class, 'table' => $tableAux);					
+				}
+			}			
+		}
+		else{
+			
+			$class=@Yii::import($this->model,true);
+			if(!is_string($class) || !$this->classExists($class))
+				$this->addError('model', "Class '{$this->model}' does not exist or has syntax error.");
+			else if(!is_subclass_of($class,'CActiveRecord'))
+				$this->addError('model', "'{$this->model}' must extend from CActiveRecord.");
 			else
 			{
-				$this->_modelClass=$class;
-				$this->_table=$table;
+				$table=CActiveRecord::model($class)->tableSchema;
+				if($table->primaryKey===null)
+					$this->addError('model',"Table '{$table->name}' does not have a primary key.");
+				else
+				{
+					$this->_modelClass=$class;
+					$this->_table=$table;
+				}
 			}
 		}
 	}
@@ -81,21 +112,53 @@ class CrudCode extends CCodeModel
 		$this->files=array();
 		$templatePath=$this->templatePath;
 		$controllerTemplateFile=$templatePath.DIRECTORY_SEPARATOR.'controller.php';
-
-		$this->files[]=new CCodeFile(
-			$this->controllerFile,
-			$this->render($controllerTemplateFile)
-		);
-
 		$files=scandir($templatePath);
-		foreach($files as $file)
-		{
-			if(is_file($templatePath.'/'.$file) && CFileHelper::getExtension($file)==='php' && $file!=='controller.php')
+
+		// ====  NEW FEATURE ==== If user wanna generate crud for all tables
+		if($this->model==='*')
+		{						
+			foreach($this->validModelClasses as $validModelClass)
 			{
+				$this->controller = $validModelClass['class'];
+				$this->_modelClass = $validModelClass['class'];
+				$this->_table = $validModelClass['table'];
+				
 				$this->files[]=new CCodeFile(
-					$this->viewPath.DIRECTORY_SEPARATOR.$file,
-					$this->render($templatePath.'/'.$file)
+					$this->controllerFile,
+					$this->render($controllerTemplateFile)
 				);
+				
+				foreach($files as $file)
+				{
+					if(is_file($templatePath.'/'.$file) && CFileHelper::getExtension($file)==='php' && $file!=='controller.php')
+					{
+						$this->files[]=new CCodeFile(
+							$this->viewPath.DIRECTORY_SEPARATOR.$file,
+							$this->render($templatePath.'/'.$file)
+						);
+					}
+				}
+				$this->_modelClass = '';
+				$this->_table = '';
+				$this->controller = '';
+			}
+		}
+		else
+		{
+			$this->files[]=new CCodeFile(
+				$this->controllerFile,
+				$this->render($controllerTemplateFile)
+			);
+	
+			foreach($files as $file)
+			{
+				if(is_file($templatePath.'/'.$file) && CFileHelper::getExtension($file)==='php' && $file!=='controller.php')
+				{
+					$this->files[]=new CCodeFile(
+						$this->viewPath.DIRECTORY_SEPARATOR.$file,
+						$this->render($templatePath.'/'.$file)
+					);
+				}
 			}
 		}
 	}

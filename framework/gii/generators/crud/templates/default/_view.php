@@ -12,8 +12,23 @@
 <div class="view">
 
 <?php
-echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$this->tableSchema->primaryKey}')); ?>:</b>\n";
-echo "\t<?php echo CHtml::link(CHtml::encode(\$data->{$this->tableSchema->primaryKey}), array('view', 'id'=>\$data->{$this->tableSchema->primaryKey})); ?>\n\t<br />\n\n";
+if(is_string($this->tableSchema->primaryKey)){
+	echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$this->tableSchema->primaryKey}')); ?>:</b>\n";
+	echo "\t<?php echo CHtml::link(CHtml::encode(\$data->{$this->tableSchema->primaryKey}), array('view', 'id'=>\$data->{$this->tableSchema->primaryKey})); ?>\n\t<br />\n\n";
+}
+else if(is_array($this->tableSchema->primaryKey)){
+	//for composite primary keys, id is separated by the "|" character
+	$strPrimaryKeys = $strHtmlFields = '';
+	
+	foreach($this->tableSchema->primaryKey as $name){
+		$strHtmlFields .= "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$name}')); ?>:</b>\n";
+		$strHtmlFields .= "\t<?php echo CHtml::link(CHtml::encode(\$data->{$name}), array('view', 'id'=>idStringToReplaceLink)); ?>\n\t<br />\n\n";
+		$strPrimaryKeys .= "\$data->{$name}.'|'.";
+	}
+	$strPrimaryKeys = substr($strPrimaryKeys, 0, -5);
+	echo str_replace('idStringToReplaceLink', $strPrimaryKeys, $strHtmlFields);
+}
+
 $count=0;
 foreach($this->tableSchema->columns as $column)
 {

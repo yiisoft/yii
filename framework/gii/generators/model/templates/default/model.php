@@ -50,7 +50,12 @@
 <?php endforeach; ?>
 <?php endif; ?>
  */
-class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
+// The commented "extends <?php echo $this->baseClass;?>" is necesary if you don't want to work with GeneralModel component,
+// by default, this line is commented for use GeneralModel class who extends from CActiveRecord
+// and delivers general methods who make easy view, update and insert data in database tables with composite primary keys.
+// The GeneralModel class also makes easy to implement drop down lists for parameter tables
+// class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
+class <?php echo $modelClass; ?> extends GeneralModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

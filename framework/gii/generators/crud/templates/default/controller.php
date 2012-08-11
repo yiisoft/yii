@@ -4,6 +4,24 @@
  * The following variables are available in this template:
  * - $this: the CrudCode object
  */
+if (is_array($this->tableSchema->primaryKey)){
+	//for composite primary keys, id is separated by the "|" character
+	$i=0; $strFields = $strModel = '';
+	foreach($this->tableSchema->primaryKey as $nameField){
+		$strFields .= '\''.$nameField.'\' => $arrayId['.$i.'], ';
+		$strModel .= '$model->'.$nameField.'.\'|\'.';
+		$i++;
+	}
+	if ($strFields){
+		$strPkIds = '$arrayId = explode(\'|\',$id);'."\n\t\t";
+		$strFields = substr($strFields, 0, -2);
+		$strPkIds .= '$id = array('.$strFields.');'."\n";
+		$strModel = substr($strModel, 0, -5);
+	}
+}else{
+	$strPkIds = "\n";
+	$strModel = '$model->'.$this->tableSchema->primaryKey;
+}
 ?>
 <?php echo "<?php\n"; ?>
 
@@ -78,7 +96,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				$this->redirect(array('view','id'=><?php echo $strModel; ?>));
 		}
 
 		$this->render('create',array(
@@ -102,7 +120,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				$this->redirect(array('view','id'=><?php echo $strModel; ?>));
 		}
 
 		$this->render('update',array(
@@ -157,6 +175,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	 */
 	public function loadModel($id)
 	{
+		<?php echo $strPkIds; ?>
 		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
