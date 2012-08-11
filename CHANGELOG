@@ -16,7 +16,7 @@ Version 1.1.12 work in progress
 - Bug #1120: Fixed duplicate events processing in CGridView when ENTER was pressed for filtering (mdomba)
 - Enh #243: CWebService is now able to deal with the customized WSDL generator classes, was hardcoded to the CWsdlGenerator before, added CWebService::$generatorConfig property (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
-- Enh #1183: Added CDbCommand::addWhere() which appends condition to the WHERE part of the query, in contrary of CDbCommand::where() which replaces it (resurtm)
+- Enh #1183: CDbCommand: added andWhere()/orWhere() which appends condition to the WHERE part of the query, in contrary of CDbCommand::where() which replaces it (resurtm)
 - Chg #1099: Changed connectionId dropdown to sticky text field in Gii model generator (mdomba)
 
 Version 1.1.11 July 29, 2012
