@@ -41,7 +41,8 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $etagSeedExpression;
 	/**
-	 * Http cache control headers
+	 * Http cache control headers. Set this to an empty string in order to keep this
+	 * header from being sent entirely.
 	 * @var string
 	 */
 	public $cacheControl = 'max-age=3600, public';
@@ -68,6 +69,7 @@ class CHttpCacheFilter extends CFilter
 			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
 			{
 				$this->send304Header();
+				$this->sendCacheControlHeader();
 				return false;
 			}
 		}
@@ -76,6 +78,7 @@ class CHttpCacheFilter extends CFilter
 			if($this->checkLastModified($lastModified))
 			{
 				$this->send304Header();
+				$this->sendCacheControlHeader();
 				return false;
 			}
 		}
@@ -84,6 +87,7 @@ class CHttpCacheFilter extends CFilter
 			if($this->checkEtag($etag))
 			{
 				$this->send304Header();
+				$this->sendCacheControlHeader();
 				return false;
 			}
 			
@@ -95,7 +99,7 @@ class CHttpCacheFilter extends CFilter
 		if($etag)
 			header('ETag: '.$etag);
 
-		header('Cache-Control: ' . $this->cacheControl);
+		$this->sendCacheControlHeader();
 		return true;
 	}
 
@@ -169,6 +173,16 @@ class CHttpCacheFilter extends CFilter
 	protected function send304Header()
 	{
 		header('HTTP/1.1 304 Not Modified');
+	}
+	
+	/**
+	 * Sends the cache control header to the client
+	 * @see cacheControl
+	 * @since 1.1.12
+	 */
+	protected function sendCacheControlHeader()
+	{
+		header('Cache-Control: '.$this->cacheControl, true);
 	}
 
 	/**
