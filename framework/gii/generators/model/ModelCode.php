@@ -359,7 +359,7 @@ class ModelCode extends CCodeModel
 		foreach(explode('_',$tableName) as $name)
 		{
 			if($name!=='')
-				$className.=ucfirst($name);
+				$className.=ucfirst(strtolower($name));
 		}
 		return $className;
 	}
