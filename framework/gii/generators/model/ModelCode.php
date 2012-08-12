@@ -212,17 +212,34 @@ class ModelCode extends CCodeModel
 		$numerical=array();
 		$length=array();
 		$safe=array();
+		$float=array(); //support for float type for create rule with regular expression for length control
 		foreach($table->columns as $column)
 		{
-			if($column->autoIncrement)
+			//If column is autoIncrement or ( if is integer, float or double primary key and is not a ForeignKey ) 
+			if($column->autoIncrement || ($column->isPrimaryKey && preg_match('/(integer|float|double)/',$column->type) && !$column->isForeignKey))
 				continue;
 			$r=!$column->allowNull && $column->defaultValue===null;
 			if($r)
 				$required[]=$column->name;
-			if($column->type==='integer')
+			if($column->type==='integer'){
 				$integers[]=$column->name;
-			else if($column->type==='double')
+				//support for length control in form input for integer type
+				if ($column->precision>0)
+					$length[$column->precision][]=$column->name;
+			}
+			else if($column->type==='double'){
 				$numerical[]=$column->name;
+				//support for length control in form input for double type
+				if ($column->precision>0){
+					if ($column->scale>0){
+						$precisionLength=$column->precision+1;
+						$float[$column->precision-$column->scale.'-'.$column->scale][]=$column->name;
+					}else{
+						$precisionLength=$column->precision;
+					}
+					$length[$precisionLength][]=$column->name;
+				}
+			}
 			else if($column->type==='string' && $column->size>0)
 				$length[$column->size][]=$column->name;
 			else if(!$column->isPrimaryKey && !$r)
@@ -239,6 +256,15 @@ class ModelCode extends CCodeModel
 			foreach($length as $len=>$cols)
 				$rules[]="array('".implode(', ',$cols)."', 'length', 'max'=>$len)";
 		}
+		if ($float!==array())
+		{
+			//support for length control in form input for double type with regular expression
+			foreach($float as $len=>$cols){
+				$aux = explode('-',$len);
+				$rules[]="array('".implode(', ',$cols)."', 'match', 'pattern'=>'/^\d{1,$aux[0]}(\.\d{1,$aux[1]})?$/')";
+			}
+		}
+		
 		if($safe!==array())
 			$rules[]="array('".implode(', ',$safe)."', 'safe')";
 
@@ -359,8 +385,9 @@ class ModelCode extends CCodeModel
 		$className='';
 		foreach(explode('_',$tableName) as $name)
 		{
+			// Database objects in Oracle and Postgresql are always in uppercase, for that reason content of variable $name is set to lowercase first
 			if($name!=='')
-				$className.=ucfirst($name);
+				$className.=ucfirst(strtolower($name));
 		}
 		return $className;
 	}

@@ -24,10 +24,11 @@
 <?php
 foreach($this->tableSchema->columns as $column)
 {
-	if($column->autoIncrement)
+	//If column is autoIncrement or ( if is integer, float or double primary key and is not a ForeignKey ) 
+	if($column->autoIncrement || ($column->isPrimaryKey && preg_match('/(integer|float|double)/',$column->type) && !$column->isForeignKey))
 		continue;
 ?>
-	<div class="row">
+	<div class="row"<?php if ($column->isPrimaryKey) echo " <?php if (!\$model->isNewRecord) echo \"style='display: none;'\"; ?>"; ?>>
 		<?php echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; ?>
 		<?php echo "<?php echo ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; ?>
 		<?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>

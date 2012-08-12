@@ -24,7 +24,7 @@ $('#{$class}_tableName').bind('keyup change', function(){
 		var modelClass='';
 		$.each(tableName.split('_'), function() {
 			if(this.length>0)
-				modelClass+=this.substring(0,1).toUpperCase()+this.substring(1);
+				modelClass+=this.substring(0,1).toUpperCase()+this.substring(1).toLowerCase();
 		});
 		model.val(modelClass);
 	}
