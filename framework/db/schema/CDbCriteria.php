@@ -171,11 +171,30 @@ class CDbCriteria extends CComponent
 		$params=array();
 		foreach($this->params as $name=>$value)
 		{
-			$newName=self::PARAM_PREFIX.self::$paramCount++;
-			$map[$name]=$newName;
+			if(strpos($name,self::PARAM_PREFIX)===0)
+			{
+				$newName=self::PARAM_PREFIX.self::$paramCount++;
+				$map[$name]=$newName;
+			}
+			else
+			{
+				$newName=$name;
+			}
 			$params[$newName]=$value;
 		}
-		$this->condition=strtr($this->condition,$map);
+		if (!empty($map))
+		{
+			$sqlContentFieldNames = array(
+				'select',
+				'condition',
+				'order',
+				'group',
+				'join',
+				'having',
+			);
+			foreach($sqlContentFieldNames as $fieldName)
+				$this->$fieldName=strtr($this->$fieldName,$map);
+		}
 		$this->params=$params;
 	}
 
