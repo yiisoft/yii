@@ -174,13 +174,13 @@ class CDbCommand2Test extends CTestCase
 
 		// array input, and/or
 		$command->andWhere(array('and', 'id=1', 'id=2'));
-		$this->assertEquals('((id=1) AND (id=2)) AND (id=1 or id=:id2)', $command->where);
+		$this->assertEquals('(id=1 or id=:id2) AND ((id=1) AND (id=2))', $command->where);
 		$command->andWhere(array('and', 'id=1', array('or', 'id=3', 'id=4'), 'id=2'), array());
-		$this->assertEquals('((id=1) AND ((id=3) OR (id=4)) AND (id=2)) AND (((id=1) AND (id=2)) AND (id=1 or id=:id2))', $command->where);
+		$this->assertEquals('((id=1 or id=:id2) AND ((id=1) AND (id=2))) AND ((id=1) AND ((id=3) OR (id=4)) AND (id=2))', $command->where);
 
 		// empty input
 		$command->andWhere(array());
-		$this->assertEquals('(((id=1) AND ((id=3) OR (id=4)) AND (id=2)) AND (((id=1) AND (id=2)) AND (id=1 or id=:id2)))', $command->where);
+		$this->assertEquals('(((id=1 or id=:id2) AND ((id=1) AND (id=2))) AND ((id=1) AND ((id=3) OR (id=4)) AND (id=2)))', $command->where);
 	}
 
 	public function testOrWhere()
@@ -198,13 +198,13 @@ class CDbCommand2Test extends CTestCase
 
 		// array input, and/or
 		$command->orWhere(array('and', 'id=1', 'id=2'));
-		$this->assertEquals('((id=1) AND (id=2)) OR (id=1 or id=:id2)', $command->where);
+		$this->assertEquals('(id=1 or id=:id2) OR ((id=1) AND (id=2))', $command->where);
 		$command->orWhere(array('and', 'id=1', array('or', 'id=3', 'id=4'), 'id=2'), array());
-		$this->assertEquals('((id=1) AND ((id=3) OR (id=4)) AND (id=2)) OR (((id=1) AND (id=2)) OR (id=1 or id=:id2))', $command->where);
+		$this->assertEquals('((id=1 or id=:id2) OR ((id=1) AND (id=2))) OR ((id=1) AND ((id=3) OR (id=4)) AND (id=2))', $command->where);
 
 		// empty input
 		$command->orWhere(array());
-		$this->assertEquals('(((id=1) AND ((id=3) OR (id=4)) AND (id=2)) OR (((id=1) AND (id=2)) OR (id=1 or id=:id2)))', $command->where);
+		$this->assertEquals('(((id=1 or id=:id2) OR ((id=1) AND (id=2))) OR ((id=1) AND ((id=3) OR (id=4)) AND (id=2)))', $command->where);
 	}
 
 	public function testJoin()
