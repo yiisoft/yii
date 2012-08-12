@@ -780,12 +780,12 @@ class CDbCommand extends CComponent
 	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
 	 * @param array $params the parameters (name=>value) to be bound to the query.
 	 * @return CDbCommand the command object itself.
-	 * @since 1.1.12
+	 * @since 1.1.13
 	 */
 	public function andWhere($conditions, $params=array())
 	{
 		if(isset($this->_query['where']))
-			$this->_query['where']=$this->processConditions(array('AND', $conditions, $this->_query['where']));
+			$this->_query['where']=$this->processConditions(array('AND', $this->_query['where'], $conditions));
 		else
 			$this->_query['where']=$this->processConditions($conditions);
 
@@ -804,12 +804,12 @@ class CDbCommand extends CComponent
 	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
 	 * @param array $params the parameters (name=>value) to be bound to the query.
 	 * @return CDbCommand the command object itself.
-	 * @since 1.1.12
+	 * @since 1.1.13
 	 */
 	public function orWhere($conditions, $params=array())
 	{
 		if(isset($this->_query['where']))
-			$this->_query['where']=$this->processConditions(array('OR', $conditions, $this->_query['where']));
+			$this->_query['where']=$this->processConditions(array('OR', $this->_query['where'], $conditions));
 		else
 			$this->_query['where']=$this->processConditions($conditions);
 
