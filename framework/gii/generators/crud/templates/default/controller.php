@@ -4,21 +4,26 @@
  * The following variables are available in this template:
  * - $this: the CrudCode object
  */
-if (is_array($this->tableSchema->primaryKey)){
+if (is_array($this->tableSchema->primaryKey))
+{
 	/* for composite primary keys, id is separated by the "|" character */
 	$i=0; $strFields = $strModel = '';
-	foreach($this->tableSchema->primaryKey as $nameField){
+	foreach($this->tableSchema->primaryKey as $nameField)
+	{
 		$strFields .= '\''.$nameField.'\' => $arrayId['.$i.'], ';
 		$strModel .= '$model->'.$nameField.'.\'|\'.';
 		$i++;
 	}
-	if ($strFields){
+	if ($strFields)
+	{
 		$strPkIds = '$arrayId = explode(\'|\',$id);'."\n\t\t";
 		$strFields = substr($strFields, 0, -2);
 		$strPkIds .= '$id = array('.$strFields.');'."\n";
 		$strModel = substr($strModel, 0, -5);
 	}
-}else{
+}
+else
+{
 	$strPkIds = "\n";
 	$strModel = '$model->'.$this->tableSchema->primaryKey;
 }

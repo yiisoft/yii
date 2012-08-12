@@ -3,18 +3,18 @@
  * The following variables are available in this template:
  * - $this: the CrudCode object
  */
-if (is_array($this->tableSchema->primaryKey)){
+if (is_array($this->tableSchema->primaryKey))
+{
 	/* for composite primary keys, id is separated by the "|" character */
 	$strFields = '';
-	foreach($this->tableSchema->primaryKey as $nameField){
+	foreach($this->tableSchema->primaryKey as $nameField)
 		$strFields .= '$model->'.$nameField.'.\'|\'.';
-	}
-	if ($strFields){
+	
+	if ($strFields)
 		$strFields = substr($strFields, 0, -5);
-	}
-}else{
-	$strFields = '$model->'.$this->tableSchema->primaryKey;
 }
+else
+	$strFields = '$model->'.$this->tableSchema->primaryKey;
 ?>
 <?php echo "<?php\n"; ?>
 /* @var $this <?php echo $this->getControllerClass(); ?> */
