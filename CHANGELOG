@@ -17,6 +17,7 @@ Version 1.1.12 work in progress
 - Enh #243: CWebService is now able to deal with the customized WSDL generator classes, was hardcoded to the CWsdlGenerator before, added CWebService::$generatorConfig property (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 - Chg #1099: Changed connectionId dropdown to sticky text field in Gii model generator (mdomba)
+- Chg #1167: Reverted back the change to CComponent::evaluateExpression() about global function support (Qiang)
 
 Version 1.1.11 July 29, 2012
 ----------------------------
