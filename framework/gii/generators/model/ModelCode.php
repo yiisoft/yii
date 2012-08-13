@@ -19,9 +19,10 @@ class ModelCode extends CCodeModel
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('tablePrefix, baseClass, tableName, modelClass, modelPath', 'filter', 'filter'=>'trim'),
+			array('tablePrefix, baseClass, tableName, modelClass, modelPath, connectionId', 'filter', 'filter'=>'trim'),
 			array('connectionId, tableName, modelPath, baseClass', 'required'),
 			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending asterisk.'),
+			array('connectionId', 'validateConnectionId', 'skipOnError'=>true),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
 			array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
@@ -54,7 +55,7 @@ class ModelCode extends CCodeModel
 	public function init()
 	{
 		if(Yii::app()->{$this->connectionId}===null)
-			throw new CHttpException(500,'An active "'.$this->connectionId.'" connection is required to run this generator.');
+			throw new CHttpException(500,'A valid database connection is required to run this generator.');
 		$this->tablePrefix=Yii::app()->{$this->connectionId}->tablePrefix;
 		parent::init();
 	}
@@ -396,38 +397,11 @@ class ModelCode extends CCodeModel
 		return $name;
 	}
 
-	/**
-	 * @return array List of DB connections ready to be displayed in dropdown
-	 */
-	public function getConnectionList()
+	public function validateConnectionId($attribute, $params)
 	{
-		$list=array();
-		foreach(Yii::app()->getComponents(false) as $name=>$component)
+		if(Yii::app()->hasComponent($this->connectionId)===false || !(Yii::app()->getComponent($this->connectionId) instanceof CDbConnection))
 		{
-			if($this->isDbConnection($name,$component))
-			{
-				$connectionString = is_object($component) ? $component->connectionString : $component['connectionString'];
-				$list[$name]=$name.' ('.$connectionString.')';
-			}
+			$this->addError('connectionId','A valid database connection is required to run this generator.');
 		}
-		return $list;
-	}
-
-	/**
-	 * @param string $name component name
-	 * @param mixed $component component config or component object
-	 * @return boolean whether component is DB connection
-	 */
-	private function isDbConnection($name,$component)
-	{
-		if(is_array($component))
-		{
-			if(isset($component['class']) && $component['class']=='CDbConnection')
-				return true;
-			else
-				$component=Yii::app()->getComponent($name);
-		}
-
-		return $component instanceof CDbConnection;
 	}
 }

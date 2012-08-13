@@ -38,11 +38,11 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 
-	<div class="row sticky connection">
+	<div class="row sticky">
 		<?php echo $form->labelEx($model, 'connectionId')?>
-		<?php echo $form->dropDownList($model, 'connectionId', $model->getConnectionList(), array('width'=>65))?>
+		<?php echo $form->textField($model, 'connectionId', array('size'=>65))?>
 		<div class="tooltip">
-		Please select which database connection should be used.
+		The database component that should be used.
 		</div>
 		<?php echo $form->error($model,'connectionId'); ?>
 	</div>
@@ -65,10 +65,20 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 			'model'=>$model,
 			'attribute'=>'tableName',
 			'name'=>'tableName',
-			'source'=>array_keys(Yii::app()->{$model->connectionId}->schema->getTables()),
+			'source'=>new CJavaScriptExpression('function(request,response){
+				var db=$("#'.CHtml::activeId($model,'connectionId').'").val();
+				$.ajax({
+					url: "'.Yii::app()->getUrlManager()->createUrl('gii/model/getTableNames').'",
+					dataType: "json",
+					data: {db: db,q: request.term},
+					success: function(data){
+						response(data);
+					}
+				});
+			}'),
 			'options'=>array(
 				'minLength'=>'0',
-				'focus' => new CJavaScriptExpression('function(event,ui) {
+				'focus'=>new CJavaScriptExpression('function(event,ui) {
 					$("#'.CHtml::activeId($model,'tableName').'").val(ui.item.label);
 					return false;
 				}')
