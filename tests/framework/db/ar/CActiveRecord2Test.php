@@ -310,9 +310,9 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals(1,$type->int_col2);
 		$this->assertEquals('something',$type->char_col2);
 		$this->assertEquals(1.23,$type->real_col);
-		$this->assertEquals(null,$type->numeric_col);
-		$this->assertEquals(null,$type->time);
-		$this->assertEquals(null,$type->bool_col);
+		$this->assertNull($type->numeric_col);
+		$this->assertNull($type->time);
+		$this->assertNull($type->bool_col);
 		$this->assertTrue($type->bool_col2);
 	}
 

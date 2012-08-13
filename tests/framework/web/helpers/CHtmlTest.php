@@ -437,8 +437,8 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals('v5', CHtml::resolveValue($testModel, 'arrayAttr[k3][k5]'));
 		$this->assertEquals('v6', CHtml::resolveValue($testModel, 'arrayAttr[k6]'));
 
-		$this->assertEquals(null, CHtml::resolveValue($testModel, 'arrayAttr[k7]'));
-		$this->assertEquals(null, CHtml::resolveValue($testModel, 'arrayAttr[k7][k8]'));
+		$this->assertNull(CHtml::resolveValue($testModel, 'arrayAttr[k7]'));
+		$this->assertNull(CHtml::resolveValue($testModel, 'arrayAttr[k7][k8]'));
 
 		$this->assertEquals($testModel->arrayAttr, CHtml::resolveValue($testModel, '[ignored-part]arrayAttr'));
 		$this->assertEquals('v1', CHtml::resolveValue($testModel, '[ignored-part]arrayAttr[k1]'));
