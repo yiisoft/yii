@@ -64,6 +64,9 @@ class CHttpCacheFilter extends CFilter
 		if($etag===false&&$lastModified===false)
 			return true;
 
+		if($etag)
+			header('ETag: '.$etag);
+
 		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
@@ -95,9 +98,6 @@ class CHttpCacheFilter extends CFilter
 				
 		if($lastModified)
 			header('Last-Modified: '.date('r', $lastModified));
-
-		if($etag)
-			header('ETag: '.$etag);
 
 		$this->sendCacheControlHeader();
 		return true;
