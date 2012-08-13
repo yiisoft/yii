@@ -59,7 +59,7 @@ class CDbCommand2Test extends CTestCase
 		$command=$this->_connection->createCommand();
 
 		// default value
-		$this->assertEquals(false, $command->distinct);
+		$this->assertFalse($command->distinct);
 
 		// select distinct
 		$command->selectDistinct('id, username');
@@ -68,7 +68,7 @@ class CDbCommand2Test extends CTestCase
 
 		// getter and setter
 		$command->distinct=false;
-		$this->assertEquals(false, $command->distinct);
+		$this->assertFalse($command->distinct);
 		$command->distinct=true;
 		$this->assertTrue($command->distinct);
 	}

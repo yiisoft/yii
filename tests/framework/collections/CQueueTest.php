@@ -45,7 +45,7 @@ class CQueueTest extends CTestCase
 	{
 		$queue = new CQueue(array(1, 2, 3));
 		$this->assertTrue($queue->contains(2));
-		$this->assertEquals(false, $queue->contains(4));
+		$this->assertFalse($queue->contains(4));
 	}
 
 	public function testPeek()

@@ -45,7 +45,7 @@ class CStackTest extends CTestCase
 	{
 		$stack = new CStack(array(1, 2, 3));
 		$this->assertTrue($stack->contains(2));
-		$this->assertEquals(false, $stack->contains(4));
+		$this->assertFalse($stack->contains(4));
 	}
 
 	public function testPeek()
