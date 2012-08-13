@@ -1368,4 +1368,30 @@ class CActiveRecordTest extends CTestCase
 
 		$this->assertEquals($result1, $result2);
 	}
+
+	public function testBeforeFind()
+	{
+		$posts=PostWithBeforeFind::model()->findAll();
+		$this->assertEquals(count($posts),1);
+	}
+
+	public function testIssue1070()
+	{
+		$dataProvider=new CActiveDataProvider('UserWithDefaultScope');
+
+		foreach($dataProvider->getData() as $item)
+		{
+			try
+			{
+				$item->links[0]->from_user;
+				$result=true;
+			}
+			catch ( CDbException $e )
+			{
+				$result=false;
+			}
+
+			$this->assertTrue($result);
+		}
+	}
 }

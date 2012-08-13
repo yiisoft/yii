@@ -4,9 +4,9 @@ Apache と Nginx の構成
 Apache
 ------
 
-Yii は、既定の構成の Apache ウェブサーバーで動作させることが出来ます。
+Yii は、既定の構成の Apache ウェブサーバで動作させることが出来ます。
 Yii の フレームワークのフォルダとアプリケーションのフォルダにある .htaccess ファイルが、保護されるべきリソースへのアクセスを制限します。
-URL からブートストラップファイル（通常は index.php）を隠すために、ドキュメントルートの .htaccess ファイルか、バーチャルホスト構成ファイルに、mod_rewrite の指示を追加することが出来ます。
+URL からブートストラップファイル (通常は index.php) を隠すために、ドキュメントルートの .htaccess ファイルか、バーチャルホスト構成ファイルに、mod_rewrite の指示を追加することが出来ます。
 
 ~~~
 RewriteEngine on
@@ -50,7 +50,7 @@ server {
         try_files $uri =404;
     }
 
-    # 127.0.0.1:9000 をリスンしている FastCGI サーバーに PHP スクリプトを渡す
+    # 127.0.0.1:9000 をリスンしている FastCGI サーバに PHP スクリプトを渡す
     #
     location ~ \.php {
         fastcgi_split_path_info  ^(.+\.php)(.*)$;

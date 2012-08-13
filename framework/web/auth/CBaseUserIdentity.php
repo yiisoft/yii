@@ -93,7 +93,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	/**
 	 * Returns a value indicating whether the identity is authenticated.
 	 * This method is required by {@link IUserIdentity}.
-	 * @return whether the authentication is successful.
+	 * @return boolean whether the authentication is successful.
 	 */
 	public function getIsAuthenticated()
 	{

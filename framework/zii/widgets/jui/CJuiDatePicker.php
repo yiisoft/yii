@@ -103,7 +103,7 @@ class CJuiDatePicker extends CJuiInputWidget
 			}
 
 			if (!isset($this->options['onSelect']))
-				$this->options['onSelect']="js:function( selectedDate ) { jQuery('#{$id}').val(selectedDate);}";
+				$this->options['onSelect']=new CJavaScriptExpression("function( selectedDate ) { jQuery('#{$id}').val(selectedDate);}");
 
 			$id = $this->htmlOptions['id'] = $id.'_container';
 			$this->htmlOptions['name'] = $name.'_container';

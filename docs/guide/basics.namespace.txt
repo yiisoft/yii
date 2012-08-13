@@ -128,5 +128,138 @@ In order to be able to autoload a namespaced class, the namespace must be named 
 a way similar to naming a path alias. For example, the class `application\components\GoogleMap`
 must be stored in a file that can be aliased as `application.components.GoogleMap`.
 
+So to use custom namespace starting with, for example, `\mynamespace` where
+classes are located at `/var/www/common/mynamespace/`, the only thing you
+should do is to define a path alias like the following:
+
+~~~
+[php]
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+~~~
+
+
+Namespaced Controllers
+----------------------
+
+By default Yii uses controllers from the global namespace. These classes are
+located under `protected/controllers`. To change this behavior you can configure
+`controllerMap` property of your application. The best way to do it is to use the
+configuration file (`protected/config/main.php`):
+
+~~~
+[php]
+// adding "mynamespace" namespace
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+
+return array(
+	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+	'name'=>'My Web Application',
+
+	'controllerMap' => array(
+		'test' => '\mynamespace\controllers\TestController',
+	),
+~~~
+
+When user tries to load any of the controllers defined in `controllerMap`,
+Yii loads the specified classes, bypassing the normal controller loading method.
+In case of `test` Yii will load the namespaced class
+`\mynamespace\controllers\TestController` located at
+`/var/www/common/mynamespace/controllers/TestController.php`.
+
+Note that controller code should be properly namespaced:
+
+~~~
+[php]
+// define namespace:
+namespace mynamespace\controllers;
+
+// since class is now under namespace, global namespace
+// should be referenced explicitly using "\":
+class TestController extends \CController
+{
+	public function actionIndex()
+	{
+		echo 'This is TestController from \mynamespace\controllers';
+	}
+}
+~~~
+
+Namespaced Modules
+------------------
+
+Sometimes it's useful to namespace the whole module. For example, if you
+want to put `testmodule` under `\mynamespace\modules\testmodule` pointing to
+`/var/www/common/mynamespace/modules/testmodule` you should first create the following
+file structure:
+
+~~~
+/var/www/common/mynamespace/modules
+  testmodule
+    controllers
+      DefaultController.php
+    views
+      default
+        index.php
+    TestmoduleModule.php
+~~~
+
+`index.php` view is the same as in regular module. `TestmoduleModule.php` and
+`DefaultController.php` are namespaced.
+
+`TestmoduleModule.php`:
+
+~~~
+[php]
+// define namespace:
+namespace mynamespace\modules\testmodule;
+
+// since class is now under namespace, global namespace
+// should be referenced explicitly using "\":
+class TestmoduleModule extends \CWebModule
+{
+	// setting non-global controllers namespace (also can be done via config)
+	public $controllerNamespace = '\mynamespace\modules\testmodule\controllers';
+
+	// usual module code
+}
+~~~
+
+`DefaultController.php`:
+
+~~~
+[php]
+<?php
+// define namespace:
+namespace mynamespace\modules\testmodule\controllers;
+
+// since class is now under namespace, global namespace
+// should be referenced explicitly using "\":
+class DefaultController extends \Controller
+{
+	public function actionIndex()
+	{
+		$this->render('index');
+	}
+}
+~~~
+
+Now the only thing left is to add our module to the application. The best way
+to do it is to specify it in the application config file (`protected/config/main.php`):
+
+~~~
+[php]
+// adding "mynamespace" namespace
+Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+
+return array(
+	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+	'name'=>'My Web Application',
+
+	'modules'=>array(
+		'testmodule' => array(
+			'class' => '\mynamespace\modules\testmodule\TestModuleModule',
+		),
+	),
+~~~
 
 <div class="revision">$Id$</div>

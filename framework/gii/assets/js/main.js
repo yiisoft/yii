@@ -25,14 +25,14 @@ $(document).ready(function() {
 		$(this).before('<div class="value">'+value+'</div>').hide();
 	});
 
-	$('.form.gii .row.sticky .value').live('click', function(){
+	$(document).on('click', '.form.gii .row.sticky .value', function(){
 		$(this).hide();
 		$(this).next().show().get(0).focus();
 	});
 
 
 	$('.form.gii .row input, .form.gii .row textarea, .form.gii .row select, .with-tooltip').not('.no-tooltip, .no-tooltip *').tooltip({
-	    position: "center right",
+		position: "center right",
 		offset: [-2, 10]
 	});
 
@@ -72,7 +72,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('#fancybox-inner .close-code').live('click', function(){
+	$(document).on('click', '#fancybox-inner .close-code', function(){
 		$.fancybox.close();
 		return false;
 	});

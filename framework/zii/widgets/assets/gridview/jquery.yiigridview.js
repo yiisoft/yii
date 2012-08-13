@@ -64,15 +64,19 @@
 					// url: 'ajax request URL'
 				}, options || {});
 
+			settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
+
 			return this.each(function () {
-				var $grid = $(this),
+				var eventType,
+					$grid = $(this),
 					id = $grid.attr('id'),
+					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
+					sortSelector = '#' + id + ' .' + settings.tableClass + ' thead th a.sort-link',
 					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
 
-				settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
-				if (settings.updateSelector === undefined) {
-					settings.updateSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a, #' + id + ' .' + settings.tableClass + ' thead th a.sort-link';
-				}
+				settings.updateSelector = settings.updateSelector
+								.replace('{page}', pagerSelector)
+								.replace('{sort}', sortSelector);
 
 				gridSettings[id] = settings;
 
@@ -85,7 +89,7 @@
 								params = $.deparam.querystring(url);
 
 							delete params[settings.ajaxVar];
-							window.History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+							window.History.pushState(null, document.title, $.param.querystring(url.substr(0, url.indexOf('?')), params));
 						} else {
 							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
 						}
@@ -94,8 +98,18 @@
 				}
 
 				$(document).on('change.yiiGridView keydown.yiiGridView', inputSelector, function (event) {
-					if (event.type == 'keydown' && event.keyCode != 13) {
-						return; // only react to enter key, not to other keys
+					if (event.type === 'keydown') {
+						if( event.keyCode !== 13) {
+							return; // only react to enter key
+						} else {
+							eventType = 'keydown';
+						}
+					} else {
+						// prevent processing for both keydown and change events
+						if (eventType === 'keydown') {
+							eventType = '';
+							return;
+						}
 					}
 					var data = $(inputSelector).serialize();
 					if (settings.pageVar !== undefined) {
@@ -107,7 +121,7 @@
 							params = $.deparam.querystring($.param.querystring(url, data));
 
 						delete params[settings.ajaxVar];
-						History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+						window.History.pushState(null, document.title, $.param.querystring(url.substr(0, url.indexOf('?')), params));
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}
