@@ -313,7 +313,7 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals(null,$type->numeric_col);
 		$this->assertEquals(null,$type->time);
 		$this->assertEquals(null,$type->bool_col);
-		$this->assertEquals(true,$type->bool_col2);
+		$this->assertTrue($type->bool_col2);
 	}
 
 	public function testPublicAttribute()

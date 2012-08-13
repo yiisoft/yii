@@ -63,14 +63,14 @@ class CDbCommand2Test extends CTestCase
 
 		// select distinct
 		$command->selectDistinct('id, username');
-		$this->assertEquals(true, $command->distinct);
+		$this->assertTrue($command->distinct);
 		$this->assertEquals('"id", "username"', $command->select);
 
 		// getter and setter
 		$command->distinct=false;
 		$this->assertEquals(false, $command->distinct);
 		$command->distinct=true;
-		$this->assertEquals(true, $command->distinct);
+		$this->assertTrue($command->distinct);
 	}
 
 	public function testFrom()

@@ -44,7 +44,7 @@ class CQueueTest extends CTestCase
 	public function testContains()
 	{
 		$queue = new CQueue(array(1, 2, 3));
-		$this->assertEquals(true, $queue->contains(2));
+		$this->assertTrue($queue->contains(2));
 		$this->assertEquals(false, $queue->contains(4));
 	}
 
