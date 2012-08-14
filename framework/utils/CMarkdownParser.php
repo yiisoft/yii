@@ -160,7 +160,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 		$lang = current(preg_split('/\s+/', substr(substr($options,1), 0,-1),2));
 		$highlighter = Text_Highlighter::factory($lang);
 		if($highlighter)
-			$highlighter->setRenderer(new Text_Highlighter_Renderer_Html($this->getHiglightConfig($options)));
+			$highlighter->setRenderer(new Text_Highlighter_Renderer_Html($this->getHighlightConfig($options)));
 		return $highlighter;
 	}
 
@@ -169,13 +169,27 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	 * @param string $options user-entered options
 	 * @return array the highlighter config
 	 */
-	public function getHiglightConfig($options)
+	public function getHighlightConfig($options)
 	{
-		$config['use_language'] = true;
+		$config = array('use_language'=>true);
 		if( $this->getInlineOption('showLineNumbers', $options, false) )
 			$config['numbers'] = HL_NUMBERS_LI;
 		$config['tabsize'] = $this->getInlineOption('tabSize', $options, 4);
 		return $config;
+	}
+
+	/**
+	 * Generates the config for the highlighter.
+	 * 
+	 * NOTE: This method is deprecated due to a mistake in the method name. 
+	 * Use {@link getHighlightConfig} instead of this.
+	 * 
+	 * @param string $options user-entered options
+	 * @return array the highlighter config
+	 */
+	public function getHiglightConfig($options)
+	{
+		return $this->getHighlightConfig($options);
 	}
 
 	/**

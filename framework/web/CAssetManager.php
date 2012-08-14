@@ -180,7 +180,8 @@ class CAssetManager extends CApplicationComponent
 	 * Level 0 means publishing only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
 	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already
-	 * published before. This parameter is set true mainly during development stage when the original
+	 * published before. In case of publishing a directory old files will not be removed.
+	 * This parameter is set true mainly during development stage when the original
 	 * assets are being constantly changed. The consequence is that the performance is degraded,
 	 * which is not a concern during development, however. Default value of this parameter is null meaning
 	 * that it's value is controlled by {@link $forceCopy} class property. This parameter has been available

@@ -215,7 +215,7 @@ class CActiveForm extends CWidget
 	 * the jquery representation of the form object. If the return value of this function is NOT true, the validation
 	 * will be cancelled.
 	 *
-	 * Note that because this option refers to a js function, you should prefix the value with 'js:' to prevent it
+	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpressoin} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * <li>afterValidate: function, the function that will be invoked after performing ajax-based validation
 	 * triggered by form submission action (available only when validateOnSubmit is set true).
@@ -224,7 +224,7 @@ class CActiveForm extends CWidget
 	 * is a boolean value indicating whether there is any validation error. If the return value of this function is NOT true,
 	 * the normal form submission will be cancelled.
 	 *
-	 * Note that because this option refers to a js function, you should prefix the value with 'js:' to prevent it
+	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpressoin} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * <li>beforeValidateAttribute: function, the function that will be invoked before performing ajax-based validation
 	 * triggered by a single attribute input change. The expected function signature should be
@@ -232,7 +232,7 @@ class CActiveForm extends CWidget
 	 * and 'attribute' refers to the js options for the triggering attribute (see {@link error}).
 	 * If the return value of this function is NOT true, the validation will be cancelled.
 	 *
-	 * Note that because this option refers to a js function, you should prefix the value with 'js:' to prevent it
+	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpressoin} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * <li>afterValidateAttribute: function, the function that will be invoked after performing ajax-based validation
 	 * triggered by a single attribute input change. The expected function signature should be
@@ -241,7 +241,7 @@ class CActiveForm extends CWidget
 	 * 'data' is the JSON response from the server-side validation; 'hasError' is a boolean value indicating whether
 	 * there is any validation error.
 	 *
-	 * Note that because this option refers to a js function, you should prefix the value with 'js:' to prevent it
+	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpressoin} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * </ul>
 	 *
@@ -319,6 +319,9 @@ class CActiveForm extends CWidget
 	{
 		if(!isset($this->htmlOptions['id']))
 			$this->htmlOptions['id']=$this->id;
+		else
+			$this->id=$this->htmlOptions['id'];
+
 		if($this->stateful)
 			echo CHtml::statefulForm($this->action, $this->method, $this->htmlOptions);
 		else
@@ -479,7 +482,7 @@ class CActiveForm extends CWidget
 				}
 			}
 			if($validators!==array())
-				$option['clientValidation']="js:function(value, messages, attribute) {\n".implode("\n",$validators)."\n}";
+				$option['clientValidation']=new CJavaScriptExpression("function(value, messages, attribute) {\n".implode("\n",$validators)."\n}");
 		}
 
 		$html=CHtml::error($model,$attribute,$htmlOptions);
@@ -559,7 +562,7 @@ class CActiveForm extends CWidget
 	{
 		return CHtml::activeLabelEx($model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
 	 * Renders a url field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeUrlField}.
@@ -575,7 +578,7 @@ class CActiveForm extends CWidget
 	{
 		return CHtml::activeUrlField($model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
 	 * Renders an email field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeEmailField}.
@@ -591,9 +594,9 @@ class CActiveForm extends CWidget
 	{
 		return CHtml::activeEmailField($model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
-	 * Renders an number field for a model attribute.
+	 * Renders a number field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeNumberField}.
 	 * Please check {@link CHtml::activeNumberField} for detailed information
 	 * about the parameters for this method.
@@ -607,9 +610,9 @@ class CActiveForm extends CWidget
 	{
 		return CHtml::activeNumberField($model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
-	 * Renders an number field for a model attribute.
+	 * Generates a range field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeRangeField}.
 	 * Please check {@link CHtml::activeRangeField} for detailed information
 	 * about the parameters for this method.
@@ -625,7 +628,7 @@ class CActiveForm extends CWidget
 	}
 
 	/**
-	 * Renders an number field for a model attribute.
+	 * Renders a date field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeDateField}.
 	 * Please check {@link CHtml::activeDateField} for detailed information
 	 * about the parameters for this method.
