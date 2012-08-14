@@ -205,13 +205,13 @@ Exit Codes
 > Note|Hinweis: Die Möglichkeit "Exit Codes" in Konsolenbefehlen zurückzugeben steht erst seit Version 1.1.11 zur Verfügung.
 
 Wenn Konsolenbefehle automatisch, zum Beispiel per Cronjob oder mit einem Continuous Integration Server, ausgeführt werden,
-ist es immer interessant zu wissen, ob der Befehl erfolgreich ausgefürht wurde, oder ob Fehler aufgetreten sind.
-Dies kann unter anderem an den sog. "Exit Codes" erkannt werden, die eine Anwendung zurückgibt, wenn sie beendet wird.
+ist es immer interessant zu wissen, ob der Befehl erfolgreich ausgeführt wurde, oder ob Fehler aufgetreten sind.
+Dies kann unter anderem am sogenannten "Exit Code" erkannt werden, den eine Anwendung zurückgibt, wenn sie beendet wird.
 
-Diese "Exit Codes" sind Integer Werte zwischen 0 und 254 (zumindest im Fall von [PHP](http://www.php.net/manual/de/function.exit.php)),
+Dieser "Exit Code" ist ein Integer Wert zwischen 0 und 254 (zumindest im Fall von [PHP](http://www.php.net/manual/de/function.exit.php)),
 wobei 0 zurückgegeben wird, wenn der Befehl erfolgreich war und alle anderen Werte einen Fehler anzeigen.
 
-Ein Konsolenbefehl kann mit einem exit code beendet werden, indem man in einer action-Methode oder
+Ein Konsolenbefehl kann mit einem "Exit Code" beendet werden, indem man in einer action-Methode oder
 in der `run()`-Methode einen Integer-Wert zurück gibt.
 Ein Beispiel:
 
@@ -223,6 +223,8 @@ if (/* Fehler */) {
 // ... Aufgabe erledigen ...
 return 0; // mit Status "erfolgreich" beenden
 ~~~
+
+Wird nichts zurückgegeben, wird der Befehl mit code 0 beendet.
 
 
 Anpassen von Konsolenanwendungen

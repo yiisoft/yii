@@ -56,15 +56,15 @@ class CHtml
 	/**
 	 * Sets the default style for attaching jQuery event handlers.
 	 *
-	 * If set to true (default), live/delegated style is used. Event handlers
-	 * are attached to the document body and can process events from descendant
-	 * elements that are added to the document at a later time.
+	 * If set to true (default), event handlers are delegated.
+	 * Event handlers are attached to the document body and can process events
+	 * from descendant elements that are added to the document at a later time.
 	 *
-	 * If set to false, direct style is used. Event handlers are attached directly
-	 * to the DOM element, that must already exist on the page. Elements injected
-	 * into the page at a later time will not be processed.
+	 * If set to false, event handlers are directly bound.
+	 * Event handlers are attached directly to the DOM element, that must already exist
+	 * on the page. Elements injected into the page at a later time will not be processed.
 	 *
-	 * You can override this setting for a particular element by setting the htmlOptions live attribute
+	 * You can override this setting for a particular element by setting the htmlOptions delegate attribute
 	 * (see {@link clientChange}).
 	 *
 	 * For more information about attaching jQuery event handler see {@link http://api.jquery.com/on/}
@@ -1038,28 +1038,28 @@ EOD;
 	{
 		Yii::app()->getClientScript()->registerCoreScript('jquery');
 		if(!isset($options['url']))
-			$options['url']='js:location.href';
+			$options['url']=new CJavaScriptExpression('location.href');
 		else
 			$options['url']=self::normalizeUrl($options['url']);
 		if(!isset($options['cache']))
 			$options['cache']=false;
 		if(!isset($options['data']) && isset($options['type']))
-			$options['data']='js:jQuery(this).parents("form").serialize()';
+			$options['data']=new CJavaScriptExpression('jQuery(this).parents("form").serialize()');
 		foreach(array('beforeSend','complete','error','success') as $name)
 		{
-			if(isset($options[$name]) && strpos($options[$name],'js:')!==0)
-				$options[$name]='js:'.$options[$name];
+			if(isset($options[$name]) && !($options[$name] instanceof CJavaScriptExpression))
+				$options[$name]=new CJavaScriptExpression($options[$name]);
 		}
 		if(isset($options['update']))
 		{
 			if(!isset($options['success']))
-				$options['success']='js:function(html){jQuery("'.$options['update'].'").html(html)}';
+				$options['success']=new CJavaScriptExpression('function(html){jQuery("'.$options['update'].'").html(html)}');
 			unset($options['update']);
 		}
 		if(isset($options['replace']))
 		{
 			if(!isset($options['success']))
-				$options['success']='js:function(html){jQuery("'.$options['replace'].'").replaceWith(html)}';
+				$options['success']=new CJavaScriptExpression('function(html){jQuery("'.$options['replace'].'").replaceWith(html)}');
 			unset($options['replace']);
 		}
 		return 'jQuery.ajax('.CJavaScript::encode($options).');';
@@ -1999,7 +1999,8 @@ EOD;
 	 * javascript would not cause the default behavior of the event.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
-	 * <li>live: boolean, whether the event handler should be attached with live/delegate or direct style. If not set, {@link liveEvents} will be used. This option has been available since version 1.1.6.</li>
+	 * <li>live: boolean, whether the event handler should be delegated or directly bound.
+	 * If not set, {@link liveEvents} will be used. This option has been available since version 1.1.11.</li>
 	 * </ul>
 	 * This parameter has been available since version 1.1.1.
 	 */
@@ -2137,8 +2138,8 @@ EOD;
 		{
 			if($pos===0) // [a]name[b][c], should ignore [a]
 			{
-				if(preg_match('/\](.*)/',$attribute,$matches))
-					$attribute=$matches[1];
+				if(preg_match('/\](\w+(\[.+)?)/',$attribute,$matches))
+					$attribute=$matches[1]; // we get: name[b][c]
 				if(($pos=strpos($attribute,'['))===false)
 					return $model->$attribute;
 			}
@@ -2146,7 +2147,7 @@ EOD;
 			$value=$model->$name;
 			foreach(explode('][',rtrim(substr($attribute,$pos+1),']')) as $id)
 			{
-				if(is_array($value) && isset($value[$id]))
+				if((is_array($value) || $value instanceof ArrayAccess) && isset($value[$id]))
 					$value=$value[$id];
 				else
 					return null;

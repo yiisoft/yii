@@ -3,9 +3,6 @@
 
 此页面总结了每次 Yii 发布所引入的新功能。
 
-版本 1.1.9
--------------
-
 版本 1.1.8
 -------------
  * [添加对自定义URL规则类的支持](doc/guide/topics.url#using-custom-url-rule-classes)

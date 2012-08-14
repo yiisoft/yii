@@ -59,18 +59,18 @@ class CDbCommand2Test extends CTestCase
 		$command=$this->_connection->createCommand();
 
 		// default value
-		$this->assertEquals(false, $command->distinct);
+		$this->assertFalse($command->distinct);
 
 		// select distinct
 		$command->selectDistinct('id, username');
-		$this->assertEquals(true, $command->distinct);
+		$this->assertTrue($command->distinct);
 		$this->assertEquals('"id", "username"', $command->select);
 
 		// getter and setter
 		$command->distinct=false;
-		$this->assertEquals(false, $command->distinct);
+		$this->assertFalse($command->distinct);
 		$command->distinct=true;
-		$this->assertEquals(true, $command->distinct);
+		$this->assertTrue($command->distinct);
 	}
 
 	public function testFrom()
@@ -384,5 +384,20 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals(1,count($rows));
 		$this->assertEquals('user2',$rows[0]['username']);
 		$this->assertEquals('pass2',$rows[0]['password']);
+	}
+	/**
+	 * Belongs to #1045
+	 */
+	public function testEmptyArray()
+	{
+		$command=$this->_connection->createCommand();
+		$conditions='';
+		$params=array();
+		$query = $command->select('*')
+						 ->from('tbl')
+						 ->where($conditions, $params)
+						 ->order('id ASC')
+						 ->getText();
+		$this->assertEquals("SELECT *\nFROM 'tbl'\nORDER BY \"id\" ASC", $query);
 	}
 }

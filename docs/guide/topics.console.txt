@@ -200,7 +200,7 @@ Exit Codes
 > Note: The possibility to return exit codes in console commands has been available since version 1.1.11.
 
 When running console commands automatically, via cronjob or using a continuous integration server, it is
-always interesting if the command ran successfully or if there where errors.
+always interesting if the command ran successfully or if there were errors.
 This can be done by checking the exit code a process returns on exit.
 
 These codes are integer values between 0 and 254 (this is the range in [php world](http://www.php.net/manual/en/function.exit.php)),
@@ -218,6 +218,8 @@ if (/* error */) {
 // ... do something ...
 return 0; // exit successfully
 ~~~
+
+When there is no return value, application will exit with code 0.
 
 
 Customizing Console Applications

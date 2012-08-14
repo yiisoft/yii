@@ -21,6 +21,7 @@
  * dd      | Day of month 01 to 31, zero leading
  * M       | Month digit 1 to 12, no padding
  * MM      | Month digit 01 to 12, zero leading
+ * MMM     | Short textual representation of month, three letters (since version 1.1.11)
  * yy      | 2 year digit, e.g., 96, 05
  * yyyy    | 4 year digit, e.g., 2005
  * h       | Hour in 0 to 23, no padding
@@ -85,6 +86,13 @@ class CDateTimeParser
 					if(($year=self::parseInteger($value,$i,1,2))===false)
 						return false;
 					$i+=strlen($year);
+					break;
+				}
+				case 'MMM':
+				{
+					if(($month=self::parseShortMonth($value,$i))===false)
+						return false;
+					$i+=3;
 					break;
 				}
 				case 'MM':
@@ -249,7 +257,7 @@ class CDateTimeParser
 		return $tokens;
 	}
 
-	/*
+	/**
 	 * @param string $value the date string to be parsed
 	 * @param integer $offset starting offset
 	 * @param integer $minLength minimum length
@@ -266,7 +274,7 @@ class CDateTimeParser
 		return false;
 	}
 
-	/*
+	/**
 	 * @param string $value the date string to be parsed
 	 * @param integer $offset starting offset
 	 */
@@ -274,5 +282,17 @@ class CDateTimeParser
 	{
 		$v=strtolower(substr($value,$offset,2));
 		return $v==='am' || $v==='pm' ? $v : false;
+	}
+
+	/**
+	 * @param string $value the date string to be parsed
+	 * @param integer $offset starting offset
+	 * @since 1.1.11
+	 */
+	protected static function parseShortMonth($value, $offset)
+	{
+		static $titles=array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec');
+		$v=array_search(strtolower(substr($value,$offset,3)), $titles);
+		return $v===false ? false : $v+1;
 	}
 }
