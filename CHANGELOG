@@ -18,6 +18,7 @@ Version 1.1.12 work in progress
 - Bug #1207: Fixed an issue in CHtml::resolveValue() which occurs when handling tabular data input (Qiang)
 - Enh #243: CWebService is now able to deal with the customized WSDL generator classes, was hardcoded to the CWsdlGenerator before, added CWebService::$generatorConfig property (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
+- Enh #1163: CGridview does not create empty class attributes anymore (cebe)
 - Chg #1099: Changed connectionId dropdown to sticky text field in Gii model generator (mdomba)
 - Chg #1167: Reverted back the change to CComponent::evaluateExpression() about global function support (Qiang)
 
