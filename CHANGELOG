@@ -15,6 +15,7 @@ Version 1.1.12 work in progress
 - Bug #1109: Fixed "js:" encoding BC-break in CHtml::ajax() and related methods introduced in 1.1.11 (samdark)
 - Bug #1120: Fixed duplicate events processing in CGridView when ENTER was pressed for filtering (mdomba)
 - Bug #1192: CHttpCacheFilter failed to comply with RFC 2616, section 10.3.5 (DaSourcerer)
+- Bug #1207: Fixed an issue in CHtml::resolveValue() which occurs when handling tabular data input (Qiang)
 - Enh #243: CWebService is now able to deal with the customized WSDL generator classes, was hardcoded to the CWsdlGenerator before, added CWebService::$generatorConfig property (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 - Chg #1099: Changed connectionId dropdown to sticky text field in Gii model generator (mdomba)
