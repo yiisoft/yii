@@ -67,6 +67,7 @@ class CDbAuthManager extends CAuthManager
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
+	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of <code>$userId</code>.
 	 * @return boolean whether the operations can be performed by the user.
 	 */
 	public function checkAccess($itemName,$userId,$params=array())
@@ -83,6 +84,7 @@ class CDbAuthManager extends CAuthManager
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
+	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of <code>$userId</code>.
 	 * @param array $assignments the assignments to the specified user
 	 * @return boolean whether the operations can be performed by the user.
 	 * @since 1.1.3
@@ -92,6 +94,8 @@ class CDbAuthManager extends CAuthManager
 		if(($item=$this->getAuthItem($itemName))===null)
 			return false;
 		Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CDbAuthManager');
+		if(!isset($params['userId']))
+		    $params['userId'] = $userId;
 		if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
 		{
 			if(in_array($itemName,$this->defaultRoles))

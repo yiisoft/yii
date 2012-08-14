@@ -1,3 +1,20 @@
+<?php
+$deleteJS = <<<DEL
+$('.container').on('click','.time a.delete',function() {
+	var th=$(this),
+		container=th.closest('div.comment'),
+		id=container.attr('id').slice(1);
+	if(confirm('Are you sure you want to delete comment #'+id+'?')) {
+		$.ajax({
+			url:th.attr('href'),
+			type:'POST'
+		}).done(function(){container.slideUp()});
+	}
+	return false;
+});
+DEL;
+Yii::app()->getClientScript()->registerScript('delete', $deleteJS);
+?>
 <div class="comment" id="c<?php echo $data->id; ?>">
 
 	<?php echo CHtml::link("#{$data->id}", $data->url, array(
@@ -18,10 +35,7 @@
 			)); ?> |
 		<?php endif; ?>
 		<?php echo CHtml::link('Update',array('comment/update','id'=>$data->id)); ?> |
-		<?php echo CHtml::linkButton('Delete', array(
-			'submit'=>array('comment/delete','id'=>$data->id),
-			'confirm'=>"Are you sure to delete comment #{$data->id}?",
-		)); ?> |
+		<?php echo CHtml::link('Delete',array('comment/delete','id'=>$data->id),array('class'=>'delete')); ?> |
 		<?php echo date('F j, Y \a\t h:i a',$data->create_time); ?>
 	</div>
 

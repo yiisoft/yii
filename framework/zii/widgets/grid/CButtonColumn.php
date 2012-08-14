@@ -175,8 +175,8 @@ class CButtonColumn extends CGridColumn
 			{
 				if(!isset($button['options']['class']))
 					$this->buttons[$id]['options']['class']=$id;
-				if(strpos($button['click'],'js:')!==0)
-					$this->buttons[$id]['click']='js:'.$button['click'];
+				if(!($button['click'] instanceof CJavaScriptExpression))
+					$this->buttons[$id]['click']=new CJavaScriptExpression($button['click']);
 			}
 		}
 
@@ -270,7 +270,7 @@ EOD;
 			{
 				$function=CJavaScript::encode($button['click']);
 				$class=preg_replace('/\s+/','.',$button['options']['class']);
-				$js[]="jQuery('#{$this->grid->id} a.{$class}').live('click',$function);";
+				$js[]="$(document).on('click','#{$this->grid->id} a.{$class}',$function);";
 			}
 		}
 

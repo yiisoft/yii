@@ -103,7 +103,7 @@ class CModelTest extends CTestCase
 
 		$attributes = $model->getAttributes(array('attr1', 'non_existing'));
 		$this->assertEquals(1, $attributes['attr1']);
-		$this->assertEquals(null, $attributes['non_existing']);
+		$this->assertNull($attributes['non_existing']);
 	}
 
 	function testUnsetAttributes(){
@@ -112,12 +112,12 @@ class CModelTest extends CTestCase
 		$model->attr2 = 2;
 
 		$model->unsetAttributes(array('attr1'));
-		$this->assertEquals(null, $model->attr1);
+		$this->assertNull($model->attr1);
 		$this->assertEquals(2, $model->attr2);
 
 		$model->unsetAttributes();
-		$this->assertEquals(null, $model->attr1);
-		$this->assertEquals(null, $model->attr2);
+		$this->assertNull($model->attr1);
+		$this->assertNull($model->attr2);
 	}
 
 	public function testGeneratingAttributeLabel()

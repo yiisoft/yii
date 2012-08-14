@@ -14,7 +14,8 @@
  * PHP SOAP extension is required.
  *
  * CWebService makes use of {@link CWsdlGenerator} and can generate the WSDL
- * on-the-fly without requiring you to write complex WSDL.
+ * on-the-fly without requiring you to write complex WSDL. However WSDL generator
+ * could be customized through {@link generatorConfig} property.
  *
  * To generate the WSDL based on doc comment blocks in the service provider class,
  * call {@link generateWsdl} or {@link renderWsdl}. To process the web service
@@ -77,6 +78,15 @@ class CWebService extends CComponent
 	 * @see http://www.php.net/manual/en/function.soap-soapserver-setpersistence.php
 	 */
 	public $persistence;
+	/**
+	 * @var string|array WSDL generator configuration. This property may be useful in purpose of enhancing features
+	 * of the standard {@link CWsdlGenerator} class by extending it. For example, some developers may need support
+	 * of the <code>xsd:xsd:base64Binary</code> elements. Another use case is to change initial values
+	 * at instantiation of the default {@link CWsdlGenerator}. The value of this property will be passed
+	 * to {@link Yii::createComponent} to create the generator object. Default value is 'CWsdlGenerator'.
+	 * @since 1.1.12
+	 */
+	public $generatorConfig='CWsdlGenerator';
 
 	private $_method;
 
@@ -138,7 +148,7 @@ class CWebService extends CComponent
 			if(($wsdl=$cache->get($key))!==false)
 				return $wsdl;
 		}
-		$generator=new CWsdlGenerator;
+		$generator=Yii::createComponent($this->generatorConfig);
 		$wsdl=$generator->generateWsdl($providerClass,$this->serviceUrl,$this->encoding);
 		if(isset($key))
 			$cache->set($key,$wsdl,$this->wsdlCacheDuration);

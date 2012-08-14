@@ -312,7 +312,7 @@ class CDbCriteriaTest extends CTestCase {
 		$this->assertEquals(20, $criteria1->limit);
 		$this->assertEquals(6, $criteria1->offset);
 		$this->assertEquals('alias2', $criteria1->alias);
-		$this->assertEquals(false, $criteria1->distinct);
+		$this->assertFalse($criteria1->distinct);
 
 
 		// empty order, group, join, having are being replaced

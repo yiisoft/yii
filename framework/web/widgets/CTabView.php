@@ -34,17 +34,19 @@
  *
  * For example, the {@link tabs} property can be configured as follows,
  * <pre>
- * array(
- *     'tab1'=>array(
- *           'title'=>'tab 1 title',
- *           'view'=>'view1',
- *           'data'=>array('model'=>$model),
+ * $this->widget('CTabView', array(
+ *     'tabs'=>array(
+ *         'tab1'=>array(
+ *             'title'=>'tab 1 title',
+ *             'view'=>'view1',
+ *             'data'=>array('model'=>$model),
+ *         ),
+ *         'tab2'=>array(
+ *             'title'=>'tab 2 title',
+ *             'url'=>'http://www.yiiframework.com/',
+ *         ),
  *     ),
- *     'tab2'=>array(
- *           'title'=>'tab 2 title',
- *           'url'=>'http://www.yiiframework.com/',
- *     ),
- * )
+ * ))?>
  * </pre>
  *
  * By default, the first tab will be activated. To activate a different tab
@@ -123,10 +125,10 @@ class CTabView extends CWidget
 		foreach($this->tabs as $id=>$tab)
 			if(isset($tab['visible']) && $tab['visible']==false)
 				unset($this->tabs[$id]);
-				
+
 		if(empty($this->tabs))
 			return;
-			
+
 		if($this->activeTab===null || !isset($this->tabs[$this->activeTab]))
 		{
 			reset($this->tabs);

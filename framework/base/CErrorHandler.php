@@ -97,10 +97,32 @@ class CErrorHandler extends CApplicationComponent
 
 		if($this->discardOutput)
 		{
+			$gzHandler=false;
+			foreach(ob_list_handlers() as $h)
+			{
+				if(strpos($h,'gzhandler')!==false)
+					$gzHandler=true;
+			}
 			// the following manual level counting is to deal with zlib.output_compression set to On
+			// for an output buffer created by zlib.output_compression set to On ob_end_clean will fail
 			for($level=ob_get_level();$level>0;--$level)
 			{
-				@ob_end_clean();
+				if(!@ob_end_clean())
+					ob_clean();
+			}
+			// reset headers in case there was an ob_start("ob_gzhandler") before
+			if($gzHandler && !headers_sent() && ob_list_handlers()===array())
+			{
+				if(function_exists('header_remove')) // php >= 5.3
+				{
+					header_remove('Vary');
+					header_remove('Content-Encoding');
+				}
+				else
+				{
+					header('Vary:');
+					header('Content-Encoding:');
+				}
 			}
 		}
 
@@ -177,7 +199,7 @@ class CErrorHandler extends CApplicationComponent
 			);
 
 			if(!headers_sent())
-				header("HTTP/1.0 {$data['code']} ".get_class($exception));
+				header("HTTP/1.0 {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
 
 			if($exception instanceof CHttpException || !YII_DEBUG)
 				$this->render('error',$data);
@@ -259,7 +281,7 @@ class CErrorHandler extends CApplicationComponent
 				'traces'=>$trace,
 			);
 			if(!headers_sent())
-				header("HTTP/1.0 500 PHP Error");
+				header("HTTP/1.0 500 Internal Server Error");
 			if($this->isAjaxRequest())
 				$app->displayError($event->code,$event->message,$event->file,$event->line);
 			else if(YII_DEBUG)
@@ -483,5 +505,75 @@ class CErrorHandler extends CApplicationComponent
 				$output.='<span class="error">'.$code.'</span>';
 		}
 		return '<div class="code"><pre>'.$output.'</pre></div>';
+	}
+	/**
+	 * Return correct message for each known http error code
+	 * @param integer $httpCode error code to map
+	 * @param string $replacement replacement error string that is returned if code is unknown
+	 * @return string the textual representation of the given error code or the replacement string if the error code is unknown
+	 */
+	protected function getHttpHeader($httpCode, $replacement='')
+	{
+		$httpCodes = array(
+			100 => 'Continue',
+			101 => 'Switching Protocols',
+			102 => 'Processing',
+			118 => 'Connection timed out',
+			200 => 'OK',
+			201 => 'Created',
+			202 => 'Accepted',
+			203 => 'Non-Authoritative',
+			204 => 'No Content',
+			205 => 'Reset Content',
+			206 => 'Partial Content',
+			207 => 'Multi-Status',
+			210 => 'Content Different',
+			300 => 'Multiple Choices',
+			301 => 'Moved Permanently',
+			302 => 'Found',
+			303 => 'See Other',
+			304 => 'Not Modified',
+			305 => 'Use Proxy',
+			307 => 'Temporary Redirect',
+			310 => 'Too many Redirect',
+			400 => 'Bad Request',
+			401 => 'Unauthorized',
+			402 => 'Payment Required',
+			403 => 'Forbidden',
+			404 => 'Not Found',
+			405 => 'Method Not Allowed',
+			406 => 'Not Acceptable',
+			407 => 'Proxy Authentication Required',
+			408 => 'Request Time-out',
+			409 => 'Conflict',
+			410 => 'Gone',
+			411 => 'Length Required',
+			412 => 'Precondition Failed',
+			413 => 'Request Entity Too Large',
+			414 => 'Request-URI Too Long',
+			415 => 'Unsupported Media Type',
+			416 => 'Requested range unsatisfiable',
+			417 => 'Expectation failed',
+			418 => 'I’m a teapot',
+			422 => 'Unprocessable entity',
+			423 => 'Locked',
+			424 => 'Method failure',
+			425 => 'Unordered Collection',
+			426 => 'Upgrade Required',
+			449 => 'Retry With',
+			450 => 'Blocked by Windows Parental Controls',
+			500 => 'Internal Server Error',
+			501 => 'Not Implemented',
+			502 => 'Bad Gateway ou Proxy Error',
+			503 => 'Service Unavailable',
+			504 => 'Gateway Time-out',
+			505 => 'HTTP Version not supported',
+			507 => 'Insufficient storage',
+			509 => 'Bandwidth Limit Exceeded',
+		);
+		if(isset($httpCodes[$httpCode]))
+			return $httpCodes[$httpCode];
+		else
+			return $replacement;
 	}
 }

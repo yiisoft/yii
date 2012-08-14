@@ -48,7 +48,10 @@ abstract class CBaseListView extends CWidget
 	 */
 	public $enablePagination=true;
 	/**
-	 * @var array the configuration for the pager. Defaults to <code>array('class'=>'CLinkPager')</code>.
+	 * @var array|string the configuration for the pager. Defaults to <code>array('class'=>'CLinkPager')</code>.
+	 * String value will be treated as the class name of the pager (<code>'ClassName'</code> value is similar
+	 * to the <code>array('class'=>'ClassName')</code> value). See {@link CBasePager} and {@link CLinkPager}
+	 * for more details about pager configuration array values.
 	 * @see enablePagination
 	 */
 	public $pager=array('class'=>'CLinkPager');
