@@ -346,14 +346,19 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Resets all scopes and criterias applied including default scope.
+	 * Resets all scopes and criterias applied.
 	 *
+	 * @param boolean $resetDefault including default scope. This parameter available since 1.1.12
 	 * @return CActiveRecord
 	 * @since 1.1.2
 	 */
-	public function resetScope()
+	public function resetScope($resetDefault=true)
 	{
-		$this->_c=new CDbCriteria();
+		if($resetDefault)
+			$this->_c=new CDbCriteria();
+		else
+			$this->_c=null;
+
 		return $this;
 	}
 
@@ -457,13 +462,13 @@ abstract class CActiveRecord extends CModel
 	 *
 	 * Each kind of related objects is defined in this method as an array with the following elements:
 	 * <pre>
-	 * 'varName'=>array('relationType', 'className', 'foreign_key', ...additional options)
+	 * 'varName'=>array('relationType', 'className', 'foreignKey', ...additional options)
 	 * </pre>
 	 * where 'varName' refers to the name of the variable/property that the related object(s) can
 	 * be accessed through; 'relationType' refers to the type of the relation, which can be one of the
 	 * following four constants: self::BELONGS_TO, self::HAS_ONE, self::HAS_MANY and self::MANY_MANY;
 	 * 'className' refers to the name of the active record class that the related object(s) is of;
-	 * and 'foreign_key' states the foreign key that relates the two kinds of active record.
+	 * and 'foreignKey' states the foreign key that relates the two kinds of active record.
 	 * Note, for composite foreign keys, they can be either listed together, separated by commas or specified as an array
 	 * in format of array('key1','key2'). In case you need to specify custom PK->FK association you can define it as
 	 * array('fk'=>'pk'). For composite keys it will be array('fk_c1'=>'pk_с1','fk_c2'=>'pk_c2').
@@ -947,18 +952,12 @@ abstract class CActiveRecord extends CModel
 	 * The default implementation raises the {@link onBeforeFind} event.
 	 * If you override this method, make sure you call the parent implementation
 	 * so that the event is raised properly.
-	 *
-	 * Starting from version 1.1.5, this method may be called with a hidden {@link CDbCriteria}
-	 * parameter which represents the current query criteria as passed to a find method of AR.
-	 *
 	 */
 	protected function beforeFind()
 	{
 		if($this->hasEventHandler('onBeforeFind'))
 		{
 			$event=new CModelEvent($this);
-			// for backward compatibility
-			$event->criteria=func_num_args()>0 ? func_get_arg(0) : null;
 			$this->onBeforeFind($event);
 		}
 	}
@@ -1281,8 +1280,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function query($criteria,$all=false)
 	{
+		$this->beforeFind();
 		$this->applyScopes($criteria);
-		$this->beforeFind($criteria);
 
 		if(empty($criteria->with))
 		{
@@ -1344,7 +1343,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
-			$this->_c=null;
+			$this->resetScope(false);
 		}
 	}
 
@@ -1489,7 +1488,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
-			$this->_c=null;
+			$this->resetScope(false);
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findBySql($sql,$params);
 		}
@@ -1512,7 +1511,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
-			$this->_c=null;
+			$this->resetScope(false);
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findAllBySql($sql,$params);
 		}
@@ -2224,6 +2223,50 @@ class CHasManyRelation extends CActiveRelation
  */
 class CManyManyRelation extends CHasManyRelation
 {
+	/**
+	 * @var string name of the junction table for the many-to-many relation.
+	 */
+	private $_junctionTableName=null;
+	/**
+	 * @var array list of foreign keys of the junction table for the many-to-many relation.
+	 */
+	private $_junctionForeignKeys=null;
+
+	/**
+	 * @return string junction table name.
+	 * @since 1.1.12
+	 */
+	public function getJunctionTableName()
+	{
+		if ($this->_junctionTableName===null)
+			$this->initJunctionData();
+		return $this->_junctionTableName;
+	}
+
+	/**
+	 * @return array list of junction table foreign keys.
+	 * @since 1.1.12
+	 */
+	public function getJunctionForeignKeys()
+	{
+		if ($this->_junctionForeignKeys===null)
+			$this->initJunctionData();
+		return $this->_junctionForeignKeys;
+	}
+
+	/**
+	 * Initializes values of {@link junctionTableName} and {@link junctionForeignKeys} parsing
+	 * {@link foreignKey} value.
+	 * @throws CDbException if {@link foreignKey} has been specified in wrong format.
+	 */
+	private function initJunctionData()
+	{
+		if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
+			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+				array('{class}'=>$this->className,'{relation}'=>$this->name)));
+		$this->_junctionTableName=$matches[1];
+		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+	}
 }
 
 

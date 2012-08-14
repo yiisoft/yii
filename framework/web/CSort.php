@@ -238,12 +238,7 @@ class CSort extends CComponent
 		else
 		{
 			if($this->modelClass!==null)
-			{
-				$model=CActiveRecord::model($this->modelClass);
-				if($criteria!==null)
-					$model->setDbCriteria($criteria);
-				$schema=$model->getDbConnection()->getSchema();
-			}
+				$schema=CActiveRecord::model($this->modelClass)->getDbConnection()->getSchema();
 			$orders=array();
 			foreach($directions as $attribute=>$descending)
 			{
@@ -263,7 +258,7 @@ class CSort extends CComponent
 						if(($pos=strpos($attribute,'.'))!==false)
 							$attribute=$schema->quoteTableName(substr($attribute,0,$pos)).'.'.$schema->quoteColumnName(substr($attribute,$pos+1));
 						else
-							$attribute=CActiveRecord::model($this->modelClass)->getTableAlias(true).'.'.$schema->quoteColumnName($attribute);
+							$attribute=($criteria===null || $criteria->alias===null ? CActiveRecord::model($this->modelClass)->getTableAlias(true) : $criteria->alias).'.'.$schema->quoteColumnName($attribute);
 					}
 					$orders[]=$descending?$attribute.' DESC':$attribute;
 				}
