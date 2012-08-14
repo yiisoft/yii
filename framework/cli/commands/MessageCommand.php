@@ -126,17 +126,20 @@ EOD;
 	{
 		echo "Extracting messages from $fileName...\n";
 		$subject=file_get_contents($fileName);
-		$n=preg_match_all('/\b'.$translator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
-		$messages=array();
-		for($i=0;$i<$n;++$i)
-		{
-			if(($pos=strpos($matches[$i][1],'.'))!==false)
-				$category=substr($matches[$i][1],$pos+1,-1);
-			else
-				$category=substr($matches[$i][1],1,-1);
-			$message=$matches[$i][2];
-			$messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
-		}
+		if (!is_array($translator)) $translator = array($translator);
+        $messages=array();
+        foreach ($translator as $curTranslator) {
+            $n=preg_match_all('/\b'.$curTranslator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
+            for($i=0;$i<$n;++$i)
+            {
+                if(($pos=strpos($matches[$i][1],'.'))!==false)
+                    $category=substr($matches[$i][1],$pos+1,-1);
+                else
+                    $category=substr($matches[$i][1],1,-1);
+                $message=$matches[$i][2];
+                $messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
+            }
+        }
 		return $messages;
 	}
 
