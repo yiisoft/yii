@@ -1,5 +1,4 @@
 <?php
-Yii::import('system.web.CHttpCookie');
 
 class CHttpCookieTest extends CTestCase
 {
