@@ -66,6 +66,21 @@ class CJuiDatePicker extends CJuiInputWidget
 	public $flat = false;
 
 	/**
+	* @var string if specified refer to a declared javascript function name invoked whenever onSelect fires,
+		
+		function declaration:
+			function(dateSelected) { ... }
+		
+		as an example:
+			onSelect=>'myJsFunctionName' , 
+		or inline:		
+			onSelect=>'js:function(dateSelected){ ...do something... }' 			
+		
+		- Enh #1238: CJuiDatePicker::onSelect event handler. (christiansalazar)
+	*/
+	public $onSelect = '';
+	
+	/**
 	 * Run this widget.
 	 * This method registers necessary javascript and renders the needed HTML code.
 	 */
@@ -87,6 +102,9 @@ class CJuiDatePicker extends CJuiInputWidget
 				echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
 			else
 				echo CHtml::textField($name,$this->value,$this->htmlOptions);
+			
+			if (!isset($this->options['onSelect']) && ($this->onSelect != ''))
+				$this->options['onSelect']=	new CJavaScriptExpression($this->onSelect);
 		}
 		else
 		{
@@ -102,8 +120,36 @@ class CJuiDatePicker extends CJuiInputWidget
 				$this->options['defaultDate'] = $this->value;
 			}
 
-			if (!isset($this->options['onSelect']))
-				$this->options['onSelect']=new CJavaScriptExpression("function( selectedDate ) { jQuery('#{$id}').val(selectedDate);}");
+			if (!isset($this->options['onSelect'])){
+				$hiddenFieldUpdater = "jQuery('#{$id}').val(selectedDate)";
+				if($this->onSelect != ''){
+					// yes it has a user defined js function, two cases here: 
+					// inline or referenced_by_name js function.
+					if((strpos($this->onSelect,"js:") === 0) || (strpos($this->onSelect,"function(") === 0)){
+						$onSelect = ltrim($this->onSelect,"js:");
+						//inline
+						$jsExpr = 
+							"function(selDate){ jQuery('#{$id}').val($(this).val());"
+							."( {$onSelect} )(selDate) }";
+						// please uncomment this line to see how this function is built
+						//echo "[$jsExpr]"; 
+						$this->options['onSelect']=new CJavaScriptExpression($jsExpr);
+					}
+					else{
+						//reference by name
+						$userDef = $this->onSelect."(selectedDate);";
+						$this->options['onSelect']=new CJavaScriptExpression(
+							"function( selectedDate ) { {$hiddenFieldUpdater};{$userDef} }"
+						);
+					}
+				}else{
+					// no user defined function (onSelect is blank)
+					$this->options['onSelect']=new CJavaScriptExpression(
+						"function( selectedDate ) { {$hiddenFieldUpdater};  }"
+					);
+				}
+			}
+					
 
 			$id = $this->htmlOptions['id'] = $id.'_container';
 			$this->htmlOptions['name'] = $name.'_container';
