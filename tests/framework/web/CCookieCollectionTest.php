@@ -7,7 +7,7 @@ class CCookieCollectionTest extends CTestCase
 {
 	protected $request;
 	protected $cookies;
-	private $_testCookies = array(
+	protected $testCookies = array(
 		'testCookieOne' => 'testValue',
 		'someEmptyCookie' => '',
 		'IntegerValue' => 1242,
@@ -17,11 +17,17 @@ class CCookieCollectionTest extends CTestCase
 			'expire' => 12422,
 		),
 	);
+	protected $cookieBefore;
 	public function setUp()
 	{
+		$this->cookieBefore = $_COOKIE;
 		$_COOKIE['testGlobal'] = 'value';
 		$this->request = new TestHttpRequest;
 		$this->cookies = $this->request->cookies;
+	}
+	public function tearDown()
+	{
+		$_COOKIE = $this->cookieBefore;
 	}
 	/**
 	 * @covers CCookieCollection::getCookies
@@ -61,7 +67,7 @@ class CCookieCollectionTest extends CTestCase
 	public function testRemove()
 	{
 		// add some cookies to have something to base the tests (remove)
-		foreach($this->_testCookies as $name=>$options)
+		foreach($this->testCookies as $name=>$options)
 		{
 			if(is_array($options))
 			{
@@ -79,7 +85,7 @@ class CCookieCollectionTest extends CTestCase
 		$this->assertTrue($this->cookies->contains('someEmptyCookie'),'A default cookie is missing! Check the testcase!');
 		$this->assertTrue($this->cookies->contains('cookieWithOptions'),'A default cookie is missing! Check the testcase!');
 		// Real tests below:
-		foreach($this->_testCookies as $name=>$options)
+		foreach($this->testCookies as $name=>$options)
 		{
 			if(is_array($options))
 			{
