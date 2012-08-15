@@ -1859,6 +1859,40 @@ abstract class CActiveRecord extends CModel
 	{
 		return $this->__isset($offset);
 	}
+	
+	/**
+     	 * Finds record within range on specified field
+     	 *
+     	 * @param mixed $range range to be search for field seperated by comma or array
+     	 * @param string $field name of the field. default `id`
+     	 * @return CActiveRecord 
+     	 */
+	public function in($range, $field = 'id') {
+        	if (is_array($range)) {
+	            foreach ($range as &$each) {
+	                $each = "'" . addcslashes(trim($each, "`' "), "'") . "'";
+	            }
+	            $range = implode(",", $range);
+	        }
+	        $range = trim($range, ",");
+	        $this->getDbCriteria()->mergeWith(array('condition' => "$field IN ($range)"));
+	        return $this;
+	}
+	/**
+     	 * Set limit for record
+     	 *
+     	 * @param integer $length Record limit to be fetch
+     	 * @param integer $offset Offset to start fetching record from
+     	 * @return CActiveRecord 
+     	 */
+    	public function limit($length, $offset = 0) {
+        	$options = array('limit');
+        	if ($offset > 0) {
+            		$options['offset'] = $offset;
+        	}
+        	$this->getDbCriteria()->mergeWith(array('limit' => $length, 'offset' => $offset));
+        	return $this;
+    	}
 }
 
 
