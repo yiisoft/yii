@@ -7,27 +7,27 @@ class CCookieCollectionTest extends CTestCase
 {
 	protected $request;
 	protected $cookies;
-	protected $testCookies = array(
-		'testCookieOne' => 'testValue',
-		'someEmptyCookie' => '',
-		'IntegerValue' => 1242,
-		'cookieWithOptions' => array(
-			'value' => 'options',
-			'httpOnly' => true,
-			'expire' => 12422,
+	protected $testCookies=array(
+		'testCookieOne'=>'testValue',
+		'someEmptyCookie'=>'',
+		'IntegerValue'=>1242,
+		'cookieWithOptions'=>array(
+			'value'=>'options',
+			'httpOnly'=>true,
+			'expire'=>12422,
 		),
 	);
 	protected $cookieBefore;
 	public function setUp()
 	{
-		$this->cookieBefore = $_COOKIE;
-		$_COOKIE['testGlobal'] = 'value';
-		$this->request = new TestHttpRequest;
-		$this->cookies = $this->request->cookies;
+		$this->cookieBefore=$_COOKIE;
+		$_COOKIE['testGlobal']='value';
+		$this->request=new TestHttpRequest;
+		$this->cookies=$this->request->cookies;
 	}
 	public function tearDown()
 	{
-		$_COOKIE = $this->cookieBefore;
+		$_COOKIE=$this->cookieBefore;
 	}
 	/**
 	 * @covers CCookieCollection::getCookies
@@ -47,9 +47,9 @@ class CCookieCollectionTest extends CTestCase
 	{
 		$this->cookies['simple_name']=new CHttpCookie('simple_name', 'simple_value');
 		$this->assertTrue($this->cookies['simple_name'] instanceof CHttpCookie);
-		$this->assertEquals('simple_value', $this->cookies['simple_name']->value);
+		$this->assertEquals('simple_value',$this->cookies['simple_name']->value);
 		// test if reference is not destroyed
-		$cookie=new CHttpCookie('referenceTest', 'someValue');
+		$cookie=new CHttpCookie('referenceTest','someValue');
 		$this->cookies[$cookie->name]=$cookie;
 		$this->assertTrue($this->cookies[$cookie->name] instanceof CHttpCookie);
 		$this->assertEquals('someValue',$this->cookies[$cookie->name]->value);
