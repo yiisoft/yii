@@ -74,7 +74,7 @@ class CJuiDatePicker extends CJuiInputWidget
 		as an example:
 			onSelect=>'myJsFunctionName' , 
 		or inline:		
-			onSelect=>'js:function(dateSelected){ ...do something... }' 			
+			onSelect=>'function(dateSelected){ ...do something... }' 			
 		
 		- Enh #1238: CJuiDatePicker::onSelect event handler. (christiansalazar)
 	*/
@@ -125,7 +125,10 @@ class CJuiDatePicker extends CJuiInputWidget
 				if($this->onSelect != ''){
 					// yes it has a user defined js function, two cases here: 
 					// inline or referenced_by_name js function.
-					if((strpos($this->onSelect,"js:") === 0) || (strpos($this->onSelect,"function(") === 0)){
+					//
+					if((strpos($this->onSelect,"js:") === 0) 	
+						|| (strpos($this->onSelect,"function(") === 0)){
+						// "js:" is deprecated, but if user use it then it will be ignored.
 						$onSelect = ltrim($this->onSelect,"js:");
 						//inline
 						$jsExpr = 
