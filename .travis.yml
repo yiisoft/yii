@@ -12,6 +12,6 @@ before_script:
   - psql -q -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres
   - psql -q -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
   - echo 'y' | pecl install memcache > ~/memcache.log || ( echo "=== MEMCACHE BUILD FAILED ==="; cat ~/memcache.log )
-  - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  - if [ $TRAVIS_PHP_VERSION \< 5.4 ]; then echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`; fi
 
 script: phpunit --colors --coverage-text --exclude-group mssql framework
