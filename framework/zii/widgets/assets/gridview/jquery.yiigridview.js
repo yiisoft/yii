@@ -360,7 +360,7 @@
 			if (column_id.substring(column_id.length - 2) !== '[]') {
 				column_id = column_id + '[]';
 			}
-			this.children('.' + settings.tableClass).children('tbody').children('tr').children('td').children('input[name="' + column_id + '"]').each(function (i) {
+			this.find('.' + settings.tableClass).children('tbody').children('tr').children('td').children('input[name="' + column_id + '"]').each(function (i) {
 				if (this.checked) {
 					checked.push(keys.eq(i).text());
 				}
