@@ -102,13 +102,35 @@ class CJuiDatePicker extends CJuiInputWidget
 				$this->options['defaultDate'] = $this->value;
 			}
 
-			if (!isset($this->options['onSelect']))
-				$this->options['onSelect']=new CJavaScriptExpression("function( selectedDate ) { jQuery('#{$id}').val(selectedDate);}");
+			if (!isset($this->options['altField'])){
+				// using altField to maintain updated the hiddenField
+				// http://jqueryui.com/demos/datepicker/#option-altField
+				//
+				// @bluyell. christiansalazar.
+				$this->options['altField']='#'.$id;
+			}
 
 			$id = $this->htmlOptions['id'] = $id.'_container';
 			$this->htmlOptions['name'] = $name.'_container';
 
 			echo CHtml::tag('div', $this->htmlOptions, '');
+		}
+		
+		if (isset($this->options['onSelect'])){
+			// this is a filter for user defined onSelect value, it allows a user defined function 
+			// in two forms:
+			//
+			//	if a user supplies:
+			//		'onSelect'=>'function(dateselected,inst){ ... }'
+			//	or it supplies:
+			//		'onSelect'=>new CJavaScriptExpression('function(dateselected,inst){ ... }')
+			//
+			// the target is to pass a function (not a string) to the onSelect event.
+			// if you pass a simple string, then you must prepend it with a deprecated 'js:'.
+			//
+			// @bluyell. christiansalazar.
+			if(!($this->options['onSelect'] instanceOf CJavaScriptExpression))
+				$this->options['onSelect'] = new CJavaScriptExpression($this->options['onSelect']);
 		}
 
 		$options=CJavaScript::encode($this->options);
