@@ -17,6 +17,7 @@ Version 1.1.12 work in progress
 - Bug #1192: CHttpCacheFilter failed to comply with RFC 2616, section 10.3.5 (DaSourcerer)
 - Bug #1207: Fixed an issue in CHtml::resolveValue() which occurs when handling tabular data input (Qiang)
 - Bug #1225: Fixed the bug that $.fn.yiiGridView.getChecked was not working always if a custom CGridView::template was used (mdomba)
+- Bug #1243: Fixed the bug that when using CUrlManager::addRules with $append=false rules were added in reverse order (samdark)
 - Enh #243: CWebService is now able to deal with the customized WSDL generator classes, was hardcoded to the CWsdlGenerator before, added CWebService::$generatorConfig property (resurtm)
 - Enh #636: CManyManyRelation now parses foreign key for the junction table data internally, and provide public interface to access it (klimov-paul)
 - Enh #1163: CGridview does not create empty class attributes anymore (cebe)
