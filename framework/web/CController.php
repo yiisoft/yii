@@ -43,7 +43,7 @@
  * </pre>
  * The above example declares three filters: accessControl, ajaxOnly, COutputCache. The first two
  * are method-based filters (defined in CController), which refer to filtering methods in the controller class;
- * while the last refers to a object-based filter whose class is 'system.web.widgets.COutputCache' and
+ * while the last refers to an object-based filter whose class is 'system.web.widgets.COutputCache' and
  * the 'duration' property is initialized as 300 (s).
  *
  * For method-based filters, a method named 'filterXYZ($filterChain)' in the controller class

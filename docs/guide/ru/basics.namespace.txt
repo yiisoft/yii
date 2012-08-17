@@ -156,7 +156,7 @@ return array(
 
 Когда пользователь пытается загрузить любой из контроллеров, для которого есть
 запись в `controllerMap`, Yii сразу же подгружает указанный в ней класс. В
-случае `test` Yii будет подгужать класс `\mynamespace\controllers\TestController`,
+случае `test` Yii будет подгружать класс `\mynamespace\controllers\TestController`,
 располагающийся в `/var/www/common/mynamespace/controllers/TestController.php`.
 
 Стоит отметить, что код контроллера должен быть в пространстве имён:
@@ -177,8 +177,8 @@ class TestController extends \CController
 }
 ~~~
 
-Модули в пространтвах имён
--------------------------
+Модули в пространствах имён
+---------------------------
 
 Иногда удобно использовать пространство имён для целого модуля. К примерму,
 если вам необходимо использовать пространство имён `\mynamespace\modules\testmodule`,

@@ -55,7 +55,7 @@ class ModelCode extends CCodeModel
 	public function init()
 	{
 		if(Yii::app()->{$this->connectionId}===null)
-			throw new CHttpException(500,'An active database connection is required to run this generator.');
+			throw new CHttpException(500,'A valid database connection is required to run this generator.');
 		$this->tablePrefix=Yii::app()->{$this->connectionId}->tablePrefix;
 		parent::init();
 	}
@@ -401,7 +401,7 @@ class ModelCode extends CCodeModel
 	{
 		if(Yii::app()->hasComponent($this->connectionId)===false || !(Yii::app()->getComponent($this->connectionId) instanceof CDbConnection))
 		{
-			$this->addError('connectionId','An active database connection is required to run this generator.');
+			$this->addError('connectionId','A valid database connection is required to run this generator.');
 		}
 	}
 }
