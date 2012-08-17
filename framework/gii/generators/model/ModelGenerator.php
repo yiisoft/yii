@@ -7,7 +7,6 @@ class ModelGenerator extends CCodeGenerator
 	/**
 	 * Provides autocomplete table names
 	 * @param string $db the database connection component id
-	 * @param string $q the user entered term for filtering tablenames
 	 * @return string the json array of tablenames that contains the entered term $q
 	 */
 	public function actionGetTableNames($db)
