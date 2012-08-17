@@ -113,6 +113,9 @@ class ModelCode extends CCodeModel
 
 	public function validateTableName($attribute,$params)
 	{
+		if($this->hasErrors())
+			return;
+
 		$invalidTables=array();
 		$invalidColumns=array();
 
