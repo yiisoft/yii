@@ -65,17 +65,7 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 			'model'=>$model,
 			'attribute'=>'tableName',
 			'name'=>'tableName',
-			'source'=>new CJavaScriptExpression('function(request,response){
-				var db=$("#'.CHtml::activeId($model,'connectionId').'").val();
-				$.ajax({
-					url: "'.Yii::app()->getUrlManager()->createUrl('gii/model/getTableNames').'",
-					dataType: "json",
-					data: {db: db,q: request.term},
-					success: function(data){
-						response(data);
-					}
-				});
-			}'),
+			'source'=>Yii::app()->hasComponent($model->connectionId) ? array_keys(Yii::app()->{$model->connectionId}->schema->getTables()) : array(),
 			'options'=>array(
 				'minLength'=>'0',
 				'focus'=>new CJavaScriptExpression('function(event,ui) {
