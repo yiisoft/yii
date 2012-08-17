@@ -111,8 +111,8 @@ class CJuiDatePicker extends CJuiInputWidget
 			echo CHtml::tag('div', $this->htmlOptions, '');
 		}
 		
-		if (isset($this->options['onSelect']))
-			if(!($this->options['onSelect'] instanceOf CJavaScriptExpression))
+		if(isset($this->options['onSelect']) &&	(trim($this->options['onSelect']) != '') &&
+			!($this->options['onSelect'] instanceof CJavaScriptExpression))
 				$this->options['onSelect'] = new CJavaScriptExpression($this->options['onSelect']);
 
 		$options=CJavaScript::encode($this->options);
