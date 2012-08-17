@@ -1,6 +1,17 @@
 <?php
 $class=get_class($model);
 Yii::app()->clientScript->registerScript('gii.model',"
+$('#{$class}_connectionId').change(function(){
+	var tableName=$('#{$class}_tableName');
+	tableName.autocomplete('option', 'source', []);
+	$.ajax({
+		url: '".Yii::app()->getUrlManager()->createUrl('gii/model/getTableNames')."',
+		data: {db: this.value},
+		dataType: 'json'
+	}).done(function(data){
+		tableName.autocomplete('option', 'source', data);
+	});
+});
 $('#{$class}_modelClass').change(function(){
 	$(this).data('changed',$(this).val()!='');
 });
