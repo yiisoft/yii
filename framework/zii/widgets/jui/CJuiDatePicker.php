@@ -111,9 +111,10 @@ class CJuiDatePicker extends CJuiInputWidget
 			echo CHtml::tag('div', $this->htmlOptions, '');
 		}
 		
-		if(isset($this->options['onSelect']) &&
-			!($this->options['onSelect'] instanceof CJavaScriptExpression))
-				$this->options['onSelect'] = new CJavaScriptExpression($this->options['onSelect']);
+		foreach(array('onSelect','onClose','onChangeMonthYear','beforeShowDay','beforeShow') as $name)
+			if(isset($this->options[$name]) &&
+				!($this->options[$name] instanceof CJavaScriptExpression))
+					$this->options[$name] = new CJavaScriptExpression($this->options[$name]);
 
 		$options=CJavaScript::encode($this->options);
 		$js = "jQuery('#{$id}').datepicker($options);";
