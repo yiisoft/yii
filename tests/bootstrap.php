@@ -1,8 +1,8 @@
 <?php
 
-define('YII_ENABLE_EXCEPTION_HANDLER',false);
-define('YII_ENABLE_ERROR_HANDLER',false);
-define('YII_DEBUG',true);
+defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER',false);
+defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER',false);
+defined('YII_DEBUG') or define('YII_DEBUG',true);
 $_SERVER['SCRIPT_NAME']='/'.basename(__FILE__);
 $_SERVER['SCRIPT_FILENAME']=__FILE__;
 
