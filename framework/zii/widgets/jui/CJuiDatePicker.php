@@ -102,8 +102,7 @@ class CJuiDatePicker extends CJuiInputWidget
 				$this->options['defaultDate'] = $this->value;
 			}
 
-			if (!isset($this->options['altField']))
-				$this->options['altField']='#'.$id;
+			if (!isset($this->options['altField']))	$this->options['altField']='#'.$id;
 
 			$id = $this->htmlOptions['id'] = $id.'_container';
 			$this->htmlOptions['name'] = $name.'_container';
