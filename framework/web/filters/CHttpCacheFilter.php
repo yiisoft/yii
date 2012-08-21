@@ -36,7 +36,7 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $etagSeed;
 	/**
-	 * Expression for the ETag seed. If set, this takes precedence over {@link etag}. 
+	 * Expression for the ETag seed. If set, this takes precedence over {@link etagSeed}. 
 	 * @var string|callback
 	 */
 	public $etagSeedExpression;
