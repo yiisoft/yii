@@ -7,7 +7,7 @@ Gerenciamento de comentários inclui atualização, exclusão e aprovação. Est
 Atualização e Exclusão de Comentários
 -------------------------------------
 
-O código gerado pelo `yiic` para atualização e exclusão de comentários permanece praticamente inalterado.
+O código gerado pelo `Gii` para atualização e exclusão de comentários permanece praticamente inalterado.
 
 
 Aprovação de Comentários
