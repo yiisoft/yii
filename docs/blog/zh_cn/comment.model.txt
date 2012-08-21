@@ -1,7 +1,7 @@
 自定义评论模型
 =========================
 
-对 `Comment` 模型，我们主要需要自定义 `rules()` 和 `attributeLabels()` 方法。 `attributeLabels()` 方法返回一个属性名字和属性标签的映射。由于 `yiic` 生成的 `relations()` 代码已经很不错了，我们现在就不需要改动这个玩意了。
+对 `Comment` 模型，我们主要需要自定义 `rules()` 和 `attributeLabels()` 方法。 `attributeLabels()` 方法返回一个属性名字和属性标签的映射。由于 `Gii` 生成的 `relations()` 代码已经很不错了，我们现在就不需要改动这个玩意了。
 
 
 自定义 `rules()` 方法

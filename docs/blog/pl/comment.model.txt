@@ -1,7 +1,7 @@
 Dostosowywanie modelu komentarza
 =========================
 
-Dla modelu komentarza `Comment` musimy głównie dostosować metody `rules()` oraz `attributeLabels()`. Metoda `attributeLabels()` zwraca mapowanie pomiędzy nazwą atrybutu a etykietą atrybutu. Nie potrzebujemy dotykać metody `relations()` ze względu na to, że kod wygenerowany przez narzędzie `yiic` jest wystarczająco dobry.
+Dla modelu komentarza `Comment` musimy głównie dostosować metody `rules()` oraz `attributeLabels()`. Metoda `attributeLabels()` zwraca mapowanie pomiędzy nazwą atrybutu a etykietą atrybutu. Nie potrzebujemy dotykać metody `relations()` ze względu na to, że kod wygenerowany przez narzędzie `Gii` jest wystarczająco dobry.
 
 
 Dostosowywanie metody `rules()`
