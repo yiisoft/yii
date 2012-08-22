@@ -7,7 +7,7 @@ Manajemen comment termasuk melakukan update, delete dan meng-approve suatu comme
 Mengupdate dan Menghapus Comment
 ------------------------------
 
-Kode yang digenerate oleh `yiic` untuk mengupdate dan menghapus comment tidak mengalami perubahan.
+Kode yang digenerate oleh `Gii` untuk mengupdate dan menghapus comment tidak mengalami perubahan.
 
 
 Menyetujui Comment

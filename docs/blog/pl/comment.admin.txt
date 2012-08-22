@@ -7,7 +7,7 @@ Administrowanie komentarzami zawiera aktualizowanie, usuwanie oraz zatwierdzanie
 Aktualizowanie i usuwanie komentarzy
 ------------------------------
 
-Kod wygenerowany przez narzędzie `yiic` do aktualizowania oraz usuwania komentarzy pozostaje w większej części niezmieniony.
+Kod wygenerowany przez narzędzie `Gii` do aktualizowania oraz usuwania komentarzy pozostaje w większej części niezmieniony.
 
 
 Zatwierdzanie komentarzy
