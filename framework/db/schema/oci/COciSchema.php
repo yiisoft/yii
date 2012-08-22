@@ -164,31 +164,31 @@ class COciSchema extends CDbSchema
 		$tableName=$table->name;
 
 		$sql=<<<EOD
-SELECT a.column_name, a.data_type ||
-    case
-        when data_precision is not null
-            then '(' || a.data_precision ||
-                    case when a.data_scale > 0 then ',' || a.data_scale else '' end
-                || ')'
-        when data_type = 'DATE' then ''
-        when data_type = 'NUMBER' then ''
-        else '(' || to_char(a.data_length) || ')'
-    end as data_type,
-    a.nullable, a.data_default,
-    (   SELECT D.constraint_type
-        FROM ALL_CONS_COLUMNS C
-        inner join ALL_constraints D on D.OWNER = C.OWNER and D.constraint_name = C.constraint_name
-        WHERE C.OWNER = B.OWNER
-           and C.table_name = B.object_name
-           and C.column_name = A.column_name
-           and D.constraint_type = 'P') as Key
-FROM ALL_TAB_COLUMNS A
-inner join ALL_OBJECTS B ON b.owner = a.owner and ltrim(B.OBJECT_NAME) = ltrim(A.TABLE_NAME)
-WHERE
-    a.owner = '{$schemaName}'
-	and (b.object_type = 'TABLE' or b.object_type = 'VIEW')
-	and b.object_name = '{$tableName}'
-ORDER by a.column_id
+select 
+    tc.column_name, 
+    tc.data_type||
+      case
+        when data_precision is not null then 
+          '('||tc.data_precision||case when tc.data_scale>0 then ','||tc.data_scale else '' end||')'
+        when data_type='DATE' then 
+          ''
+        when data_type='NUMBER' then 
+          ''
+        else
+          '('||To_Char(tc.data_length)||')'
+      end as data_type,
+    tc.nullable, 
+    tc.data_default,
+    Nvl2(cc.position, 'P', null) as key
+  from all_tab_columns tc
+  inner join all_objects      ao on ao.owner=tc.owner and ao.object_name=tc.table_name
+  left  join all_constraints  cs on cs.owner=ao.owner and cs.table_name=ao.object_name and cs.constraint_type='P'
+  left  join all_cons_columns cc on cc.owner=cs.owner and cc.table_name=cs.table_name and cc.constraint_name=cs.constraint_name and cc.column_name=tc.column_name
+  where
+    ao.owner='{$schemaName}' and 
+    ao.object_type in ('TABLE', 'VIEW') and 
+    ao.object_name='{$tableName}'
+  order by tc.column_id
 EOD;
 
 		$command=$this->getDbConnection()->createCommand($sql);
