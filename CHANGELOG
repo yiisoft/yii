@@ -4,6 +4,7 @@
 Version 1.1.13 work in progress
 -------------------------------
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
+- Bug #126: Fixed CWebUser::getReturnUrl(), allowing to determine default URL correctly, if CUrlManager::showScriptName is set to false (klimov-paul)
 
 Version 1.1.12 August 19, 2012
 ------------------------------
