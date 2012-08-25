@@ -437,8 +437,8 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals('v5', CHtml::resolveValue($testModel, 'arrayAttr[k3][k5]'));
 		$this->assertEquals('v6', CHtml::resolveValue($testModel, 'arrayAttr[k6]'));
 
-		$this->assertEquals(null, CHtml::resolveValue($testModel, 'arrayAttr[k7]'));
-		$this->assertEquals(null, CHtml::resolveValue($testModel, 'arrayAttr[k7][k8]'));
+		$this->assertNull(CHtml::resolveValue($testModel, 'arrayAttr[k7]'));
+		$this->assertNull(CHtml::resolveValue($testModel, 'arrayAttr[k7][k8]'));
 
 		$this->assertEquals($testModel->arrayAttr, CHtml::resolveValue($testModel, '[ignored-part]arrayAttr'));
 		$this->assertEquals('v1', CHtml::resolveValue($testModel, '[ignored-part]arrayAttr[k1]'));
@@ -885,6 +885,23 @@ class CHtmlTest extends CTestCase
 		$this->assertTrue(mb_strpos($output, $clientScriptOutput)!==false);
 	}
 
+	public function testAjaxCallbacks()
+	{
+		$out=CHtml::ajax(array(
+			'success'=>'js:function() { /* callback */ }',
+		));
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+
+		$out=CHtml::ajax(array(
+			'success'=>'function() { /* callback */ }',
+		));
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+
+		$out=CHtml::ajax(array(
+			'success'=>new CJavaScriptExpression('function() { /* callback */ }'),
+		));
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+	}
 }
 
 /* Helper classes */
