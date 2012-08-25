@@ -187,14 +187,8 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 	 */
 	private function encodeIDN($value)
 	{
-		if(function_exists('idn_to_ascii'))
-			$value=idn_to_ascii($value);
-		else
-		{
-			require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
-			$idnaConvert=new idna_convert();
-			$value=$idnaConvert->encode($value);
-		}
-		return $value;
+		require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
+		$idnaConvert=new idna_convert();
+		return $idnaConvert->encode($value);
 	}
 }
