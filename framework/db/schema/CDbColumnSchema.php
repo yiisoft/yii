@@ -68,9 +68,9 @@ class CDbColumnSchema extends CComponent
 	 */
 	public $autoIncrement=false;
 	/**
-	 * @var string comment of this column. Default value is empty string which means that comment was
-	 * not set to the column. Null value means that RDBMS does not supports column comments at all (SQLite)
-	 * or comment retrieval for the active RDBMS is not yet supported by the framework.
+	 * @var string comment of this column. Default value is empty string which means that no comment
+	 * has been set for the column. Null value means that RDBMS does not support column comments
+	 * at all (SQLite) or comment retrieval for the active RDBMS is not yet supported by the framework.
 	 * @since 1.1.13
 	 */
 	public $comment='';

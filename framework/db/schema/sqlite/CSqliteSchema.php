@@ -184,7 +184,7 @@ class CSqliteSchema extends CDbSchema
 		$c->allowNull=!$column['notnull'];
 		$c->isPrimaryKey=$column['pk']!=0;
 		$c->isForeignKey=false;
-		$c->comment=null; // SQLite does not supports column comments at all
+		$c->comment=null; // SQLite does not support column comments at all
 
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
