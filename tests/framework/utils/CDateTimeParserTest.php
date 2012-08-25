@@ -2,6 +2,26 @@
 
 class CDateTimeParserTest extends CTestCase
 {
+	public function testAllPatterns()
+	{
+		$this->assertEquals(
+			'02 Aug, 2010, 05:09:07',
+			date('d M, Y, H:i:s', CDateTimeParser::parse('XX, 2.8.10, 5:9:7 AM', '??, d.M.yy, h:m:s a'))
+		);
+		$this->assertEquals(
+			'02 Aug, 2010, 05:09:07',
+			date('d M, Y, H:i:s', CDateTimeParser::parse('02/08/2010, yyy, 05:9:7', 'dd/MM/yyyy, ???, hh:m:s'))
+		);
+		$this->assertEquals(
+			'02 Aug, 2010, 05:09:07',
+			date('d M, Y, H:i:s', CDateTimeParser::parse('2\AUG\2010, 5:09:07 Am, ZzZ', 'd\MMM\yyyy, H:mm:ss a, ???'))
+		);
+		$this->assertEquals(
+			'02 Aug, 2010, 05:09:07',
+			date('d M, Y, H:i:s', CDateTimeParser::parse('02_augUST|10, W, 05-09-07', 'dd_MMMM|yy, ?, HH-mm-ss'))
+		);
+	}
+
 	public function testParseDefaults()
 	{
 		$this->assertEquals(

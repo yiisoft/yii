@@ -118,7 +118,7 @@ class CDateTimeParser
 				{
 					if(($month=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=mb_strlen($month);
+					$i+=strlen($month);
 					break;
 				}
 				case 'dd':
@@ -279,8 +279,8 @@ class CDateTimeParser
 	{
 		for($len=$maxLength;$len>=$minLength;--$len)
 		{
-			$v=substr($value,$offset,$len);
-			if(ctype_digit($v) && strlen($v)>=$minLength)
+			$v=mb_substr($value,$offset,$len);
+			if(ctype_digit($v) && mb_strlen($v)>=$minLength)
 				return $v;
 		}
 		return false;
@@ -292,7 +292,7 @@ class CDateTimeParser
 	 */
 	protected static function parseAmPm($value, $offset)
 	{
-		$v=strtolower(substr($value,$offset,2));
+		$v=strtolower(mb_substr($value,$offset,2));
 		return $v==='am' || $v==='pm' ? $v : false;
 	}
 
