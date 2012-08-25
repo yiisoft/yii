@@ -534,12 +534,14 @@ class CGridView extends CBaseListView
 		if($this->rowCssClassExpression!==null)
 		{
 			$data=$this->dataProvider->data[$row];
-			echo '<tr class="'.$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data)).'">';
+			$class=$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data));
 		}
 		else if(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
-			echo '<tr class="'.$this->rowCssClass[$row%$n].'">';
+			$class=$this->rowCssClass[$row%$n];
 		else
-			echo '<tr>';
+			$class='';
+
+		echo empty($class) ? '<tr>' : '<tr class="'.$class.'">';
 		foreach($this->columns as $column)
 			$column->renderDataCell($row);
 		echo "</tr>\n";

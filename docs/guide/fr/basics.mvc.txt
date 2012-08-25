@@ -1,0 +1,55 @@
+Modèle-Vue-Contrôleur (MVC)
+===========================
+
+Yii implémente le modèle modèle-vue-contrôleur (MVC) de conception, qui est
+largement adoptée dans la programmation Web. MVC a pour but de séparer la logique
+métier des considérations d'interface utilisateur, de sorte que les développeurs peuvent plus
+facilement changer chaque partie sans affecter l'autre. Dans MVC, le modèle représente
+l'information (les données) et les règles de gestion, la vue contient des éléments
+de l'interface utilisateur tels que les entrées sous forme de texte, et le contrôleur gère
+la communication entre le modèle et la vue.
+
+D'ailleurs la mise en oeuvre MVC, Yii introduit également une première commande,
+appelée `Application`, qui encapsule le contexte d'exécution pour le traitement
+d'une requête. Application recueille des informations sur une requête de l'utilisateur,
+puis il envoie à un contrôleur approprié pour une manipulation ultérieure.
+
+Le schéma suivant montre la structure statique d'une application Yii:
+
+![Structure statique d'application Yii](structure.png)
+
+
+Un flux de travail typique
+--------------------------
+
+Le schéma suivant montre un flux de travail typique d'une application Yii quand
+il traite une demande de l'utilisateur :
+
+![Déroulement typique d'une application Yii](flow.png)
+
+   1. Un utilisateur envoie une requête au lien `http://www.example.com/index.php?r=post/show&id=1`
+et le serveur Web traite la requête en exécutant le script bootstrap `index.php`.
+   2. Le script d'amorçage crée une [Application](/doc/guide/basics.application)
+exemple et l'exécute.
+   3. L'application obtient des informations détaillées sur demande de l'utilisateur à partir
+un [composant d'application](/doc/guide/basics.application#application-component)
+nommé `request`.
+   4. L'application détermine la demande [controller](/doc/guide/basics.controller)
+et [action](/doc/guide/basics.controller#action) avec à l'aide
+d'un composant d'application nommé `urlManager`. Pour cet exemple, le contrôleur
+est `post`, qui se réfère à la classe `PostController`, et l'action est `show`,
+dont réelle signification est déterminée par le contrôleur.
+   5. L'application crée une instance du contrôleur demandé
+en outre à traiter la demande de l'utilisateur. Le contrôleur détermine que l'action
+`show` fait référence à une méthode nommée `actionShow` dans la classe contrôleur. il a ensuite
+crée et exécute des filtres (par exemple l'accès de contrôle, analyse comparative) associé
+avec cette action. L'action est exécutée si elle est autorisée par les filtres.
+   6. L'action se lit un `Post` [model](/doc/guide/basics.model) dont l'ID est `1` à partir de la base de données.
+   7. L'action rend un [view](/doc/guide/basics.view) nommé `show` avec le modèle `Post`.
+   8. Le point de vue lit et affiche les attributs du modèle `Post`.
+   9. La vue exécute une [widgets](/doc/guide/basics.view#widget).
+   10. Le résultat rendu de la vue est intégré dans un [layout](/doc/guide/basics.view#layout).
+   11. L'action complète la vue de rendu et affiche le résultat à l'utilisateur.
+
+
+<div class="revision">$Id$</div>
