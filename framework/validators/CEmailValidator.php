@@ -51,6 +51,10 @@ class CEmailValidator extends CValidator
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
+	/**
+	 * @var boolean
+	 */
+	public $validateIDN=false;
 
 	/**
 	 * Validates the attribute of the object.
@@ -80,6 +84,8 @@ class CEmailValidator extends CValidator
 	 */
 	public function validateValue($value)
 	{
+		if($this->validateIDN)
+			$value=$this->encodeIDN($value);
 		// make sure string length is limited to avoid DOS attacks
 		$valid=is_string($value) && strlen($value)<=254 && (preg_match($this->pattern,$value) || $this->allowName && preg_match($this->fullPattern,$value));
 		if($valid)
@@ -101,6 +107,18 @@ class CEmailValidator extends CValidator
 	 */
 	public function clientValidateAttribute($object,$attribute)
 	{
+		if($this->validateIDN)
+		{
+			Yii::app()->getClientScript()->registerCoreScript('punycode');
+			$validateIDN='
+var info = value.match(/^(.[^@]+)@(.+)$/);
+if (info)
+	value = info[1] + "@" + punycode.toASCII(info[2]);
+';
+		}
+		else
+			$validateIDN='';
+
 		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} is not a valid email address.');
 		$message=strtr($message, array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
@@ -111,6 +129,7 @@ class CEmailValidator extends CValidator
 			$condition.=" && !value.match({$this->fullPattern})";
 
 		return "
+$validateIDN
 if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 	messages.push(".CJSON::encode($message).");
 }
@@ -155,5 +174,31 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 		if($a['pri']==$b['pri'])
 			return 0;
 		return ($a['pri']<$b['pri'])?-1:1;
+	}
+
+	protected function encodeIDN($value)
+	{
+		if(function_exists('idn_to_ascii'))
+			$value=idn_to_ascii($value);
+		else
+		{
+			require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
+			$idnaConvert=new idna_convert();
+			$value=$idnaConvert->encode($value);
+		}
+		return $value;
+	}
+
+	protected function decodeIDN($value)
+	{
+		if(function_exists('idn_to_utf8'))
+			$value=idn_to_utf8($value);
+		else
+		{
+			require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
+			$idnaConvert=new idna_convert();
+			$value=$idnaConvert->decode($value);
+		}
+		return $value;
 	}
 }
