@@ -90,7 +90,7 @@ class CMysql2Test extends CTestCase
 	public function testRenameColumn()
 	{
 		$sql=$this->db->schema->renameColumn('users', 'username', 'name');
-		$expect='ALTER TABLE `users` CHANGE `username` `name` varchar(128) NOT NULL';
+		$expect="ALTER TABLE `users` CHANGE `username` `name` varchar(128) NOT NULL COMMENT 'Name of the user'";
 		$this->assertEquals($expect, $sql);
 	}
 
