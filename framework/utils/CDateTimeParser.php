@@ -44,6 +44,8 @@
  * $timestamp=CDateTimeParser::parse('21/10/2008','dd/MM/yyyy');
  * </pre>
  *
+ * Locale specific patterns such as MMM and MMMM uses {@link CLocale} for retrieving needed information.
+ *
  * To format a timestamp to a date string, please use {@link CDateFormatter}.
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
@@ -86,7 +88,7 @@ class CDateTimeParser
 				{
 					if(($year=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=mb_strlen($year);
+					$i+=strlen($year);
 					break;
 				}
 				case 'MMMM':
@@ -130,7 +132,7 @@ class CDateTimeParser
 				{
 					if(($day=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=mb_strlen($day);
+					$i+=strlen($day);
 					break;
 				}
 				case 'h':
@@ -138,7 +140,7 @@ class CDateTimeParser
 				{
 					if(($hour=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=mb_strlen($hour);
+					$i+=strlen($hour);
 					break;
 				}
 				case 'hh':
@@ -153,7 +155,7 @@ class CDateTimeParser
 				{
 					if(($minute=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=mb_strlen($minute);
+					$i+=strlen($minute);
 					break;
 				}
 				case 'mm':
@@ -167,7 +169,7 @@ class CDateTimeParser
 				{
 					if(($second=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=mb_strlen($second);
+					$i+=strlen($second);
 					break;
 				}
 				case 'ss':
@@ -193,7 +195,7 @@ class CDateTimeParser
 				}
 				default:
 				{
-					$tn=mb_strlen($token);
+					$tn=strlen($token);
 					if($i>=$n || ($token{0}!='?' && mb_substr($value,$i,$tn)!==$token))
 						return false;
 					$i+=$tn;
@@ -211,7 +213,7 @@ class CDateTimeParser
 		if(!isset($day))
 			$day=isset($defaults['day']) ? $defaults['day'] : date('j');
 
-		if(mb_strlen($year)===2)
+		if(strlen($year)===2)
 		{
 			if($year>=70)
 				$year+=1900;
@@ -251,19 +253,19 @@ class CDateTimeParser
 	 */
 	private static function tokenize($pattern)
 	{
-		if(!($n=mb_strlen($pattern)))
+		if(!($n=strlen($pattern)))
 			return array();
 		$tokens=array();
 		for($c0=$pattern[0],$start=0,$i=1;$i<$n;++$i)
 		{
 			if(($c=$pattern[$i])!==$c0)
 			{
-				$tokens[]=mb_substr($pattern,$start,$i-$start);
+				$tokens[]=substr($pattern,$start,$i-$start);
 				$c0=$c;
 				$start=$i;
 			}
 		}
-		$tokens[]=mb_substr($pattern,$start,$n-$start);
+		$tokens[]=substr($pattern,$start,$n-$start);
 		return $tokens;
 	}
 
@@ -277,8 +279,8 @@ class CDateTimeParser
 	{
 		for($len=$maxLength;$len>=$minLength;--$len)
 		{
-			$v=mb_substr($value,$offset,$len);
-			if(ctype_digit($v) && mb_strlen($v)>=$minLength)
+			$v=substr($value,$offset,$len);
+			if(ctype_digit($v) && strlen($v)>=$minLength)
 				return $v;
 		}
 		return false;
@@ -290,7 +292,7 @@ class CDateTimeParser
 	 */
 	protected static function parseAmPm($value, $offset)
 	{
-		$v=mb_strtolower(mb_substr($value,$offset,2));
+		$v=strtolower(substr($value,$offset,2));
 		return $v==='am' || $v==='pm' ? $v : false;
 	}
 
