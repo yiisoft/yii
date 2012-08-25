@@ -21,7 +21,8 @@
  * dd      | Day of month 01 to 31, zero leading
  * M       | Month digit 1 to 12, no padding
  * MM      | Month digit 01 to 12, zero leading
- * MMM     | Short textual representation of month, three letters (since version 1.1.11)
+ * MMM     | Short textual representation of month (available since 1.1.11; locale aware since 1.1.13)
+ * MMMM    | Textual representation of month (available since 1.1.13; locale aware)
  * yy      | 2 year digit, e.g., 96, 05
  * yyyy    | 4 year digit, e.g., 2005
  * h       | Hour in 0 to 23, no padding
@@ -69,7 +70,7 @@ class CDateTimeParser
 	{
 		$tokens=self::tokenize($pattern);
 		$i=0;
-		$n=strlen($value);
+		$n=mb_strlen($value);
 		foreach($tokens as $token)
 		{
 			switch($token)
@@ -85,14 +86,23 @@ class CDateTimeParser
 				{
 					if(($year=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($year);
+					$i+=mb_strlen($year);
+					break;
+				}
+				case 'MMMM':
+				{
+					$monthName='';
+					if(($month=self::parseMonth($value,$i,'wide',$monthName))===false)
+						return false;
+					$i+=mb_strlen($monthName);
 					break;
 				}
 				case 'MMM':
 				{
-					if(($month=self::parseShortMonth($value,$i))===false)
+					$monthName='';
+					if(($month=self::parseMonth($value,$i,'abbreviated',$monthName))===false)
 						return false;
-					$i+=3;
+					$i+=mb_strlen($monthName);
 					break;
 				}
 				case 'MM':
@@ -106,7 +116,7 @@ class CDateTimeParser
 				{
 					if(($month=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($month);
+					$i+=mb_strlen($month);
 					break;
 				}
 				case 'dd':
@@ -120,7 +130,7 @@ class CDateTimeParser
 				{
 					if(($day=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($day);
+					$i+=mb_strlen($day);
 					break;
 				}
 				case 'h':
@@ -128,7 +138,7 @@ class CDateTimeParser
 				{
 					if(($hour=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($hour);
+					$i+=mb_strlen($hour);
 					break;
 				}
 				case 'hh':
@@ -143,7 +153,7 @@ class CDateTimeParser
 				{
 					if(($minute=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($minute);
+					$i+=mb_strlen($minute);
 					break;
 				}
 				case 'mm':
@@ -157,7 +167,7 @@ class CDateTimeParser
 				{
 					if(($second=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($second);
+					$i+=mb_strlen($second);
 					break;
 				}
 				case 'ss':
@@ -183,8 +193,8 @@ class CDateTimeParser
 				}
 				default:
 				{
-					$tn=strlen($token);
-					if($i>=$n || ($token{0}!='?' && substr($value,$i,$tn)!==$token))
+					$tn=mb_strlen($token);
+					if($i>=$n || ($token{0}!='?' && mb_substr($value,$i,$tn)!==$token))
 						return false;
 					$i+=$tn;
 					break;
@@ -201,7 +211,7 @@ class CDateTimeParser
 		if(!isset($day))
 			$day=isset($defaults['day']) ? $defaults['day'] : date('j');
 
-		if(strlen($year)===2)
+		if(mb_strlen($year)===2)
 		{
 			if($year>=70)
 				$year+=1900;
@@ -241,19 +251,19 @@ class CDateTimeParser
 	 */
 	private static function tokenize($pattern)
 	{
-		if(!($n=strlen($pattern)))
+		if(!($n=mb_strlen($pattern)))
 			return array();
 		$tokens=array();
 		for($c0=$pattern[0],$start=0,$i=1;$i<$n;++$i)
 		{
 			if(($c=$pattern[$i])!==$c0)
 			{
-				$tokens[]=substr($pattern,$start,$i-$start);
+				$tokens[]=mb_substr($pattern,$start,$i-$start);
 				$c0=$c;
 				$start=$i;
 			}
 		}
-		$tokens[]=substr($pattern,$start,$n-$start);
+		$tokens[]=mb_substr($pattern,$start,$n-$start);
 		return $tokens;
 	}
 
@@ -267,8 +277,8 @@ class CDateTimeParser
 	{
 		for($len=$maxLength;$len>=$minLength;--$len)
 		{
-			$v=substr($value,$offset,$len);
-			if(ctype_digit($v) && strlen($v)>=$minLength)
+			$v=mb_substr($value,$offset,$len);
+			if(ctype_digit($v) && mb_strlen($v)>=$minLength)
 				return $v;
 		}
 		return false;
@@ -280,19 +290,43 @@ class CDateTimeParser
 	 */
 	protected static function parseAmPm($value, $offset)
 	{
-		$v=strtolower(substr($value,$offset,2));
+		$v=mb_strtolower(mb_substr($value,$offset,2));
 		return $v==='am' || $v==='pm' ? $v : false;
 	}
 
 	/**
-	 * @param string $value the date string to be parsed
-	 * @param integer $offset starting offset
-	 * @since 1.1.11
+	 * @param string $value the date string to be parsed.
+	 * @param integer $offset starting offset.
+	 * @param string $width month name width. It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param string $monthName extracted month name. Passed by reference.
+	 * @since 1.1.13
 	 */
-	protected static function parseShortMonth($value, $offset)
+	protected static function parseMonth($value, $offset, $width, &$monthName)
 	{
-		static $titles=array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec');
-		$v=array_search(strtolower(substr($value,$offset,3)), $titles);
-		return $v===false ? false : $v+1;
+		$valueLength=mb_strlen($value);
+		for($len=1; ; $len++)
+		{
+			$monthName=mb_substr($value, $offset, $len);
+			if(!preg_match('/^\p{L}+$/u', $monthName)) // unicode aware replacement for ctype_alpha($monthName)
+			{
+				$monthName=mb_substr($monthName, 0, -1);
+				break;
+			}
+			if($offset+$len==$valueLength)
+				break;
+		}
+		$monthName=mb_strtolower($monthName);
+
+		$monthNames=Yii::app()->getLocale()->getMonthNames($width, false);
+		foreach($monthNames as $k=>$v)
+			$monthNames[$k]=trim(mb_strtolower($v), '.');
+
+		$monthNamesStandAlone=Yii::app()->getLocale()->getMonthNames($width, true);
+		foreach($monthNamesStandAlone as $k=>$v)
+			$monthNamesStandAlone[$k]=trim(mb_strtolower($v), '.');
+
+		if(($v=array_search($monthName, $monthNames))===false && ($v=array_search($monthName, $monthNamesStandAlone))===false)
+			return false;
+		return $v;
 	}
 }

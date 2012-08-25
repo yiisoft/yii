@@ -1,7 +1,8 @@
 <?php
+
 class CDateTimeParserTest extends CTestCase
 {
-	function testParseDefaults()
+	public function testParseDefaults()
 	{
 		$this->assertEquals(
 			'31-12-2011 23:59:59',
@@ -18,19 +19,149 @@ class CDateTimeParserTest extends CTestCase
 		);
 	}
 
-	function testShortMonthTitle()
+	public function testShortMonthTitle()
 	{
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
-			date('d M, Y, H:i', CDateTimeParser::parse('21 Sep, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
+			date('d M, Y, H:i', CDateTimeParser::parse('21 SEP, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
 		);
 		$this->assertEquals(
 			'05, 1991, 01:09, Mar',
-			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, Mar', 'dd, yyyy, HH:mm, MMM'))
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, mar', 'dd, yyyy, HH:mm, MMM'))
 		);
 		$this->assertEquals(
 			'Dec 01, 1971, 23:59',
 			date('M d, Y, H:i', CDateTimeParser::parse('Dec 01, 1971, 23:59', 'MMM dd, yyyy, HH:mm'))
 		);
+	}
+
+	public function testMonthTitle()
+	{
+		$this->assertEquals(
+			'21 Sep, 2011, 13:37',
+			date('d M, Y, H:i', CDateTimeParser::parse('21 September, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'05, 1991, 01:09, Mar',
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, march', 'dd, yyyy, HH:mm, MMMM'))
+		);
+		$this->assertEquals(
+			'Dec 01, 1971, 23:59',
+			date('M d, Y, H:i', CDateTimeParser::parse('DECEMBER 01, 1971, 23:59', 'MMMM dd, yyyy, HH:mm'))
+		);
+	}
+
+	public function testLocaleShortMonthTitle()
+	{
+		mb_internal_encoding('UTF-8');
+		mb_regex_encoding('UTF-8');
+
+		// remember active application language and locale
+		$oldLanguage=Yii::app()->getLanguage();
+
+		// ru_RU.UTF-8
+		Yii::app()->setLanguage('ru_RU');
+		$this->assertEquals(
+			'21 Sep, 2011, 13:37',
+			date('d M, Y, H:i', CDateTimeParser::parse('21 СЕНТ, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'05, 1991, 01:09, Mar',
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, март', 'dd, yyyy, HH:mm, MMM'))
+		);
+		$this->assertEquals(
+			'Dec 01, 1971, 23:59',
+			date('M d, Y, H:i', CDateTimeParser::parse('Дек 01, 1971, 23:59', 'MMM dd, yyyy, HH:mm'))
+		);
+
+		// de_DE.UTF-8
+		Yii::app()->setLanguage('de_DE');
+		$this->assertEquals(
+			'21 Sep, 2011, 13:37',
+			date('d M, Y, H:i', CDateTimeParser::parse('21 sep, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'05, 1991, 01:09, Mar',
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, mär', 'dd, yyyy, HH:mm, MMM'))
+		);
+		$this->assertEquals(
+			'Dec 01, 1971, 23:59',
+			date('M d, Y, H:i', CDateTimeParser::parse('Dez 01, 1971, 23:59', 'MMM dd, yyyy, HH:mm'))
+		);
+
+		// zh_CN.UTF-8
+		Yii::app()->setLanguage('zh_CN');
+		$this->assertEquals(
+			'21 Sep, 2011, 13:37',
+			date('d M, Y, H:i', CDateTimeParser::parse('21 九月, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'05, 1991, 01:09, Mar',
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, 三月', 'dd, yyyy, HH:mm, MMM'))
+		);
+		$this->assertEquals(
+			'Dec 01, 1971, 23:59',
+			date('M d, Y, H:i', CDateTimeParser::parse('十二月 01, 1971, 23:59', 'MMM dd, yyyy, HH:mm'))
+		);
+
+		// reestablish old active language and locale
+		Yii::app()->setLanguage($oldLanguage);
+	}
+
+	public function testLocaleMonthTitle()
+	{
+		mb_internal_encoding('UTF-8');
+		mb_regex_encoding('UTF-8');
+
+		// remember active application language and locale
+		$oldLanguage=Yii::app()->getLanguage();
+
+		// ru_RU.UTF-8
+		Yii::app()->setLanguage('ru_RU');
+		$this->assertEquals(
+			'21 Sep, 2011, 13:37',
+			date('d M, Y, H:i', CDateTimeParser::parse('21 СЕНТЯБРЯ, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'05, 1991, 01:09, Mar',
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, март', 'dd, yyyy, HH:mm, MMMM'))
+		);
+		$this->assertEquals(
+			'Dec 01, 1971, 23:59',
+			date('M d, Y, H:i', CDateTimeParser::parse('Декабря 01, 1971, 23:59', 'MMMM dd, yyyy, HH:mm'))
+		);
+
+		// de_DE.UTF-8
+		Yii::app()->setLanguage('de_DE');
+		$this->assertEquals(
+			'21 Sep, 2011, 13:37',
+			date('d M, Y, H:i', CDateTimeParser::parse('21 SEPTEMBER, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'05, 1991, 01:09, Mar',
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, März', 'dd, yyyy, HH:mm, MMMM'))
+		);
+		$this->assertEquals(
+			'Dec 01, 1971, 23:59',
+			date('M d, Y, H:i', CDateTimeParser::parse('dezember 01, 1971, 23:59', 'MMMM dd, yyyy, HH:mm'))
+		);
+
+		// zh_CN.UTF-8
+		Yii::app()->setLanguage('zh_CN');
+		$this->assertEquals(
+			'21 Sep, 2011, 13:37',
+			date('d M, Y, H:i', CDateTimeParser::parse('21 九月, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
+		);
+		$this->assertEquals(
+			'05, 1991, 01:09, Mar',
+			date('d, Y, H:i, M', CDateTimeParser::parse('05, 1991, 01:09, 三月', 'dd, yyyy, HH:mm, MMMM'))
+		);
+		$this->assertEquals(
+			'Dec 01, 1971, 23:59',
+			date('M d, Y, H:i', CDateTimeParser::parse('十二月 01, 1971, 23:59', 'MMMM dd, yyyy, HH:mm'))
+		);
+
+		// reestablish old active language and locale
+		Yii::app()->setLanguage($oldLanguage);
 	}
 }

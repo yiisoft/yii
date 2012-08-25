@@ -3,6 +3,8 @@
 
 Version 1.1.13 work in progress
 -------------------------------
+- Enh #1084: CDateTimeParser: MMM pattern for parsing short month names is now locale aware (resurtm)
+- Enh #1282: CDateTimeParser: added MMMM pattern for parsing standard month names such as 'January', 'Décembre' or 'März' (resurtm)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 
 Version 1.1.12 August 19, 2012
