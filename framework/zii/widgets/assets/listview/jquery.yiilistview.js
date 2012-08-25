@@ -33,9 +33,7 @@
 
 			if(settings.ajaxUpdate.length > 0) {
 				$(document).on('click.yiiListView', settings.updateSelector,function(){
-					// Check to see if History.js is enabled for our Browser
-					if (settings.enableHistory && window.History.enabled) {
-						// Ajaxify this link
+					if(settings.enableHistory && window.History.enabled) {
 						var url = $(this).attr('href'),
 							params = $.deparam.querystring(url);
 
@@ -46,13 +44,13 @@
 					}
 					return false;
 				});
-			}
 
-			if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
-				$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
-					var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
-					$.fn.yiiListView.update(id, {url: State.url});
-				});
+				if(settings.enableHistory && window.History.enabled) {
+					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
+						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
+						$.fn.yiiListView.update(id, {url: State.url});
+					});
+				}
 			}
 		});
 	};
