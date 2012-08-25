@@ -261,4 +261,14 @@ class CPostgresTest extends CTestCase
 		$max=$this->db->createCommand("SELECT MAX(id) FROM test.users")->queryScalar();
 		$this->assertEquals(11,$max);
 	}
+
+	public function testColumnComments()
+	{
+		$usersColumns=$this->db->schema->getTable('test.users')->columns;
+
+		$this->assertEquals('',$usersColumns['id']->comment);
+		$this->assertEquals('Name of the user',$usersColumns['username']->comment);
+		$this->assertEquals('Hashed password',$usersColumns['password']->comment);
+		$this->assertEquals('',$usersColumns['email']->comment);
+	}
 }
