@@ -58,7 +58,7 @@
  * @property string $savePath The current session save path, defaults to '/tmp'.
  * @property array $cookieParams The session cookie parameters.
  * @property string $cookieMode How to use cookie to store session ID. Defaults to 'Allow'.
- * @property integer $gCProbability The probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
+ * @property float $gCProbability The probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
  * @property boolean $useTransparentSessionID Whether transparent sid support is enabled or not, defaults to false.
  * @property integer $timeout The number of seconds after which data will be seen as 'garbage' and cleaned up, defaults to 1440 seconds.
  * @property CHttpSessionIterator $iterator An iterator for traversing the session variables.
@@ -85,6 +85,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function init()
 	{
 		parent::init();
+
+		// default session gc probability is 1%: 1000/100000 = 0.01 = 1%
+		ini_set('session.gc_probability','1000');
+		ini_set('session.gc_divisor','100000');
+
 		if($this->autoStart)
 			$this->open();
 		register_shutdown_function(array($this,'close'));
@@ -284,27 +289,27 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return integer the probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
+	 * @return float the probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
 	 */
 	public function getGCProbability()
 	{
-		return (int)ini_get('session.gc_probability');
+		return (float)(ini_get('session.gc_probability'))/1000;
 	}
 
 	/**
-	 * @param integer $value the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
+	 * @param float $value the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
 	 * @throws CException if the value is beyond [0,100]
 	 */
 	public function setGCProbability($value)
 	{
-		$value=(int)$value;
-		if($value>=0 && $value<=100)
+		$value=(float)$value;
+		if($value>=0.001 && $value<=99.999)
 		{
-			ini_set('session.gc_probability',$value);
-			ini_set('session.gc_divisor','100');
+			ini_set('session.gc_probability',$value*1000);
+			ini_set('session.gc_divisor','100000');
 		}
 		else
-			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.',
+			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0.001 and 99.999.',
 				array('{value}'=>$value)));
 	}
 
