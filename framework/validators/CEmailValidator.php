@@ -52,7 +52,9 @@ class CEmailValidator extends CValidator
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var boolean
+	 * @var boolean whether validation process should care about IDN (internationalized domain names). Default
+	 * value is false which means that validation of emails containing IDN will always fail.
+	 * @since 1.1.13
 	 */
 	public $validateIDN=false;
 
@@ -110,6 +112,7 @@ class CEmailValidator extends CValidator
 		if($this->validateIDN)
 		{
 			Yii::app()->getClientScript()->registerCoreScript('punycode');
+			// punycode.js works only with the domains - so we have to extract it before punycoding
 			$validateIDN='
 var info = value.match(/^(.[^@]+)@(.+)$/);
 if (info)
@@ -176,7 +179,13 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 		return ($a['pri']<$b['pri'])?-1:1;
 	}
 
-	protected function encodeIDN($value)
+	/**
+	 * Converts given IDN to the punycode.
+	 * @param $value IDN to be converted.
+	 * @return string resulting punycode.
+	 * @since 1.1.13
+	 */
+	private function encodeIDN($value)
 	{
 		if(function_exists('idn_to_ascii'))
 			$value=idn_to_ascii($value);
@@ -185,19 +194,6 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 			require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
 			$idnaConvert=new idna_convert();
 			$value=$idnaConvert->encode($value);
-		}
-		return $value;
-	}
-
-	protected function decodeIDN($value)
-	{
-		if(function_exists('idn_to_utf8'))
-			$value=idn_to_utf8($value);
-		else
-		{
-			require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
-			$idnaConvert=new idna_convert();
-			$value=$idnaConvert->decode($value);
 		}
 		return $value;
 	}

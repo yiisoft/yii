@@ -43,7 +43,9 @@ class CUrlValidator extends CValidator
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var boolean
+	 * @var boolean whether validation process should care about IDN (internationalized domain names). Default
+	 * value is false which means that validation of URLs containing IDN will always fail.
+	 * @since 1.1.13
 	 */
 	public $validateIDN=false;
 
@@ -109,6 +111,7 @@ class CUrlValidator extends CValidator
 		if($this->validateIDN)
 		{
 			Yii::app()->getClientScript()->registerCoreScript('punycode');
+			// punycode.js works only with the domains - so we have to extract it before punycoding
 			$validateIDN='
 var info = value.match(/^(.+:\/\/|)(.[^/]+)/);
 if (info)
@@ -156,7 +159,13 @@ if($.trim(value)!='') {
 		return $js;
 	}
 
-	protected function encodeIDN($value)
+	/**
+	 * Converts given IDN to the punycode.
+	 * @param $value IDN to be converted.
+	 * @return string resulting punycode.
+	 * @since 1.1.13
+	 */
+	private function encodeIDN($value)
 	{
 		if(function_exists('idn_to_ascii'))
 			$value=idn_to_ascii($value);
@@ -169,7 +178,13 @@ if($.trim(value)!='') {
 		return $value;
 	}
 
-	protected function decodeIDN($value)
+	/**
+	 * Converts given punycode to the IDN.
+	 * @param $value punycode to be converted.
+	 * @return string resulting IDN.
+	 * @since 1.1.13
+	 */
+	private function decodeIDN($value)
 	{
 		if(function_exists('idn_to_utf8'))
 			$value=idn_to_utf8($value);

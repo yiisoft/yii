@@ -3,6 +3,8 @@
 
 Version 1.1.13 work in progress
 -------------------------------
+- Enh #1184: CEmailValidator now supports IDN (Internationalized Domain Names), added CEmailValidator::$validateIDN property (resurtm)
+- Enh #1286: CUrlValidator now supports IDN (Internationalized Domain Names), added CUrlValidator::$validateIDN property (resurtm)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 
 Version 1.1.12 August 19, 2012
