@@ -305,8 +305,7 @@ class CDateTimeParser
 	 */
 	protected static function parseMonth($value, $offset, $width, &$monthName)
 	{
-		$valueLength=mb_strlen($value);
-		for($len=1; ; $len++)
+		for($len=1; $offset+$len<=mb_strlen($value); $len++)
 		{
 			$monthName=mb_substr($value, $offset, $len);
 			if(!preg_match('/^\p{L}+$/u', $monthName)) // unicode aware replacement for ctype_alpha($monthName)
@@ -314,18 +313,16 @@ class CDateTimeParser
 				$monthName=mb_substr($monthName, 0, -1);
 				break;
 			}
-			if($offset+$len==$valueLength)
-				break;
 		}
 		$monthName=mb_strtolower($monthName);
 
 		$monthNames=Yii::app()->getLocale()->getMonthNames($width, false);
 		foreach($monthNames as $k=>$v)
-			$monthNames[$k]=trim(mb_strtolower($v), '.');
+			$monthNames[$k]=rtrim(mb_strtolower($v), '.');
 
 		$monthNamesStandAlone=Yii::app()->getLocale()->getMonthNames($width, true);
 		foreach($monthNamesStandAlone as $k=>$v)
-			$monthNamesStandAlone[$k]=trim(mb_strtolower($v), '.');
+			$monthNamesStandAlone[$k]=rtrim(mb_strtolower($v), '.');
 
 		if(($v=array_search($monthName, $monthNames))===false && ($v=array_search($monthName, $monthNamesStandAlone))===false)
 			return false;
