@@ -77,7 +77,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public $autoStart=true;
 
-
 	/**
 	 * Initializes the application component.
 	 * This method is required by IApplicationComponent and is invoked by application.
@@ -86,9 +85,9 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		parent::init();
 
-		// default session gc probability is 1%: 1000/100000 = 0.01 = 1%
-		ini_set('session.gc_probability','1000');
-		ini_set('session.gc_divisor','100000');
+		// default session gc probability is 1%: 21474837/2147483647 ≈ 0.01 ≈ 1%
+		ini_set('session.gc_probability',21474837);
+		ini_set('session.gc_divisor',2147483647);
 
 		if($this->autoStart)
 			$this->open();
@@ -293,7 +292,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public function getGCProbability()
 	{
-		return (float)(ini_get('session.gc_probability'))/1000;
+		return ini_get('session.gc_probability')/ini_get('session.gc_divisor')*100;
 	}
 
 	/**
@@ -302,14 +301,14 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public function setGCProbability($value)
 	{
-		$value=(float)$value;
-		if($value>=0.001 && $value<=99.999)
+		if($value>=0 && $value<=100)
 		{
-			ini_set('session.gc_probability',$value*1000);
-			ini_set('session.gc_divisor','100000');
+			// percent * 21474837 / 2147483647 ≈ percent * 0.01
+			ini_set('session.gc_probability',$value*21474837);
+			ini_set('session.gc_divisor',2147483647);
 		}
 		else
-			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0.001 and 99.999.',
+			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0 and 100.',
 				array('{value}'=>$value)));
 	}
 
