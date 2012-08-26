@@ -79,13 +79,13 @@ $requirements=array(
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','This is required if you are using PostgreSQL database.')),
 	array(
-		t('yii','PDO MSSQL extension'),
+		t('yii','PDO MSSQL extension (pdo_dblib)'),
 		false,
 		extension_loaded('pdo_dblib'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','This is required if you are using MSSQL database.')),
 	array(
-		t('yii','PDO MSSQL SQLSRV extension'),
+		t('yii','PDO MSSQL SQLSRV extension (pdo_sqlsrv)'),
 		false,
 		extension_loaded('pdo_sqlsrv'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
