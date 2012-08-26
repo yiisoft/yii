@@ -1,7 +1,7 @@
 <?php
 
 Yii::import('system.db.CDbConnection');
-Yii::import('system.db.schema.mysql.CMssqlSchema');
+Yii::import('system.db.schema.mssql.CMssqlSchema');
 
 /**
  * @group mssql
@@ -12,15 +12,22 @@ class CMssqlTest extends CTestCase
 	const DB_NAME='yii';
 	const DB_USER='test';
 	const DB_PASS='test';
-	const DB_DSN_PREFIX='dblib'; // mssql on Windows, dblib on linux
+	const DB_DSN_PREFIX='dblib'; // 'mssql' or 'sqlsrv' on MS Windows, 'dblib' on GNU/Linux
 
 	private $db;
 
 	public function setUp()
 	{
-		if(!extension_loaded('pdo') || !extension_loaded("pdo_dblib"))
+		if(self::DB_DSN_PREFIX=='sqlsrv' && (!extension_loaded('pdo') || !extension_loaded('sqlsrv') || !extension_loaded('pdo_sqlsrv')))
+			$this->markTestSkipped('PDO, SQLSRV and PDO_SQLSRV extensions are required.');
+		else if(self::DB_DSN_PREFIX!='sqlsrv' && (!extension_loaded('pdo') || !extension_loaded('pdo_dblib')))
 			$this->markTestSkipped('PDO and MSSQL extensions are required.');
-		$dsn=self::DB_DSN_PREFIX.':host='.self::DB_HOST.';dbname='.self::DB_NAME;
+
+		if(self::DB_DSN_PREFIX=='sqlsrv')
+			$dsn=self::DB_DSN_PREFIX.':Server='.self::DB_HOST.';Database='.self::DB_NAME.';MultipleActiveResultSets=false';
+		else
+			$dsn=self::DB_DSN_PREFIX.':host='.self::DB_HOST.';dbname='.self::DB_NAME;
+
 		$this->db=new CDbConnection($dsn,self::DB_USER,self::DB_PASS);;
 		try
 		{
@@ -29,7 +36,7 @@ class CMssqlTest extends CTestCase
 		catch(Exception $e)
 		{
 			$schemaFile=realpath(dirname(__FILE__).'/../data/mssql.sql');
-			$this->markTestSkipped("Please read $schemaFile for details on setting up the test environment for MySQL test case.");
+			$this->markTestSkipped("Please read $schemaFile for details on setting up the test environment for MSSQL test case.");
 		}
 
 		$tables=array('comments','post_category','posts','categories','profiles','users','items','orders','types');
@@ -78,7 +85,7 @@ EOD;
 		$this->assertEquals('[dbo].[posts]',$table->rawName);
 		$this->assertEquals('id',$table->primaryKey);
 		$this->assertEquals(array('author_id'=>array('users','id')),$table->foreignKeys);
-		$this->assertEquals('',$table->sequenceName);
+		$this->assertEquals('posts',$table->sequenceName);
 		$this->assertEquals(5,count($table->columns));
 
 		$this->assertTrue($table->getColumn('id') instanceof CDbColumnSchema);
@@ -145,7 +152,7 @@ EOD;
 			{
 				$type1=gettype($column->$name);
 				$type2=gettype($value[$i]);
-				$this->assertTrue($column->$name===$value[$i], "$tableName.{$column->name}.$name is {$column->$name} ($type1), different from the expected {$value[$i]} ($type2).");
+				$this->assertTrue($column->$name==$value[$i], "$tableName.{$column->name}.$name is {$column->$name} ($type1), different from the expected {$value[$i]} ($type2).");
 			}
 		}
 	}
@@ -158,7 +165,7 @@ EOD;
 		$table=$schema->getTable('posts');
 
 		$c=$builder->createInsertCommand($table,array('title'=>'test post','create_time'=>'2000-01-01','author_id'=>1,'content'=>'test content'));
-		$this->assertEquals('INSERT INTO [dbo].[posts] ([title], [create_time], [author_id], [content]) VALUES (:title, :create_time, :author_id, :content)',$c->text);
+		$this->assertEquals('INSERT INTO [dbo].[posts] ([title], [create_time], [author_id], [content]) VALUES (:yp0, :yp1, :yp2, :yp3)',$c->text);
 		$c->execute();
 		$this->assertEquals(6,$builder->getLastInsertId($table));
 		$this->assertEquals(6, $this->db->getLastInsertID());
@@ -192,7 +199,7 @@ EOD;
 			'order'=>'title',
 			'limit'=>2,
 			'offset'=>3)));
-		$this->assertEquals('SELECT * FROM (SELECT TOP 2 * FROM (SELECT TOP 5 id, title FROM [dbo].[posts] ORDER BY title) as [__inner top table__] ORDER BY title DESC) as [__outer top table__] ORDER BY title ASC',$c->text);
+		$this->assertEquals('SELECT * FROM (SELECT TOP 2 * FROM (SELECT TOP 5 id, title FROM [dbo].[posts] [t] ORDER BY title) as [__inner__] ORDER BY title DESC) as [__outer__] ORDER BY title ASC',$c->text);
 		$rows=$c->query()->readAll();
 		$this->assertEquals(2,count($rows));
 		$this->assertEquals('post 4',$rows[0]['title']);
@@ -222,7 +229,7 @@ EOD;
 			'select'=>'title',
 			'condition'=>'id=?',
 			'params'=>array(4))));
-		$this->assertEquals('SELECT title FROM [dbo].[posts] WHERE id=?',$c->text);
+		$this->assertEquals('SELECT title FROM [dbo].[posts] [t] WHERE id=?',$c->text);
 		$this->assertEquals('post 4',$c->queryScalar());
 
 		// another bind by position
@@ -262,11 +269,11 @@ EOD;
 		$this->assertEquals('[dbo].[orders].[key1]=1 AND [dbo].[orders].[key2]=2 AND (name=\'\')',$c->condition);
 
 		$c=$builder->createPkCriteria($table2,array(array('key1'=>1,'key2'=>2),array('key1'=>3,'key2'=>4)));
-		$this->assertEquals('([dbo].[orders].[key1], [dbo].[orders].[key2]) IN ((1, 2), (3, 4))',$c->condition);
+		$this->assertEquals('(([dbo].[orders].[key1]=1 AND [dbo].[orders].[key2]=2) OR ([dbo].[orders].[key1]=3 AND [dbo].[orders].[key2]=4))',$c->condition);
 
 		// createColumnCriteria
 		$c=$builder->createColumnCriteria($table,array('id'=>1,'author_id'=>2),'title=\'\'');
-		$this->assertEquals('[dbo].[posts].[id]=:id AND [dbo].[posts].[author_id]=:author_id AND (title=\'\')',$c->condition);
+		$this->assertEquals('[dbo].[posts].[id]=:yp0 AND [dbo].[posts].[author_id]=:yp1 AND (title=\'\')',$c->condition);
 
 		$c=$builder->createPkCriteria($table2,array());
 		$this->assertEquals('0=1',$c->condition);
