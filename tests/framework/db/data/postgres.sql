@@ -13,6 +13,9 @@ CREATE TABLE test.users
 	email VARCHAR(128) NOT NULL
 );
 
+COMMENT ON COLUMN test.users.username IS 'Name of the user';
+COMMENT ON COLUMN test.users.password IS 'Hashed password';
+
 INSERT INTO test.users (username, password, email) VALUES ('user1','pass1','email1');
 INSERT INTO test.users (username, password, email) VALUES ('user2','pass2','email2');
 INSERT INTO test.users (username, password, email) VALUES ('user3','pass3','email3');

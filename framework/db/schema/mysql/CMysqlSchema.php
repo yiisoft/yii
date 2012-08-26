@@ -154,7 +154,7 @@ class CMysqlSchema extends CDbSchema
 	 */
 	protected function findColumns($table)
 	{
-		$sql='SHOW COLUMNS FROM '.$table->rawName;
+		$sql='SHOW FULL COLUMNS FROM '.$table->rawName;
 		try
 		{
 			$columns=$this->getDbConnection()->createCommand($sql)->queryAll();
@@ -197,6 +197,7 @@ class CMysqlSchema extends CDbSchema
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
 		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
+		$c->comment=$column['Comment'];
 
 		return $c;
 	}
