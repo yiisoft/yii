@@ -53,9 +53,9 @@ PARAMETERS
      an exclusion of '.svn' will exclude all files and directories whose
      name is '.svn'. And an exclusion of '/a/b' will exclude file or
      directory 'sourcePath/a/b'.
-   - translator: the name of the function for translating messages.
-     Defaults to 'Yii::t'. This is used as a mark to find messages to be
-     translated.
+   - translator: array or string, the name of the function for translating
+     messages. Defaults to 'Yii::t'. This is used as a mark to find messages
+     to be translated.
    - overwrite: if message file must be overwritten with the merged messages.
    - removeOld: if message no longer needs translation it will be removed,
      instead of being enclosed between a pair of '@@' marks.
@@ -126,10 +126,13 @@ EOD;
 	{
 		echo "Extracting messages from $fileName...\n";
 		$subject=file_get_contents($fileName);
-		if (!is_array($translator)) $translator = array($translator);
         $messages=array();
-        foreach ($translator as $curTranslator) {
-            $n=preg_match_all('/\b'.$curTranslator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
+        if (!is_array($translator))
+            $translator=array($translator);
+
+        foreach ($translator as $currentTranslator) {
+            $n=preg_match_all('/\b'.$currentTranslator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
+
             for($i=0;$i<$n;++$i)
             {
                 if(($pos=strpos($matches[$i][1],'.'))!==false)
