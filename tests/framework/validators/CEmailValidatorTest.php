@@ -37,13 +37,13 @@ class CEmailValidatorTest extends CTestCase
 		);
 	}
 
-    /**
-     * @dataProvider providerIDNEmail
-     *
-     * @param string $email
+	/**
+	 * @dataProvider providerIDNEmail
+	 *
+	 * @param string $email
 	 * @param boolean $validateIDN
 	 * @param string $assertion
-     */
+	 */
 	public function testIDNUrl($email, $validateIDN, $assertion)
 	{
 		$emailValidator = new CEmailValidator();
