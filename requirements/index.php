@@ -79,6 +79,12 @@ $requirements=array(
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','This is required if you are using PostgreSQL database.')),
 	array(
+		t('yii','PDO Oracle extension'),
+		false,
+		extension_loaded('pdo_oci'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using Oracle database.')),
+	array(
 		t('yii','PDO MSSQL extension (pdo_dblib)'),
 		false,
 		extension_loaded('pdo_dblib'),

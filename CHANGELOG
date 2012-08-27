@@ -5,7 +5,7 @@ Version 1.1.13 work in progress
 -------------------------------
 - Enh #556: CDbColumnSchema::$comment property has been added. It stores comment for the table column, comment retrieving is working for MySQL, PgSQL and Oracle (resurtm)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
-- Enh: Requirements checker: added support of the MSSQL (pdo_dblib and pdo_sqlsrv extensions) (resurtm)
+- Enh: Requirements checker: added check for the Oracle database (pdo_oci extension) and for the MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 
 Version 1.1.12 August 19, 2012
 ------------------------------
