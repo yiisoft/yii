@@ -85,6 +85,24 @@ $requirements=array(
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','This is required if you are using Oracle database.')),
 	array(
+		t('yii','PDO MSSQL extension (pdo_mssql)'),
+		false,
+		extension_loaded('pdo_mssql'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using MSSQL database from MS Windows')),
+	array(
+		t('yii','PDO MSSQL extension (pdo_dblib)'),
+		false,
+		extension_loaded('pdo_dblib'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using MSSQL database from GNU/Linux or other UNIX.')),
+	array(
+		t('yii','PDO MSSQL extension (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)'),
+		false,
+		extension_loaded('pdo_sqlsrv'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using MSSQL database with the driver provided by Microsoft.')),
+	array(
 		t('yii','Memcache extension'),
 		false,
 		extension_loaded("memcache") || extension_loaded("memcached"),
