@@ -420,11 +420,19 @@ class YiiBase
 					}
 				}
 				else
-					include($className.'.php');
+				{
+					@include($className.'.php');
+					if(!(class_exists($className,false) || interface_exists($className,false)) && strpos($className,'_')!==false)
+					{
+						// Try namespaced version of class name
+						$namespacedClassName=str_replace('_',DIRECTORY_SEPARATOR,$className);
+						include($namespacedClassName.'.php');
+					}
+				}
 			}
 			else  // class name with namespace in PHP 5.3
 			{
-				$namespace=str_replace('\\','.',ltrim($className,'\\'));
+				$namespace=str_replace(array('\\','_'),'.',ltrim($className,'\\'));
 				if(($path=self::getPathOfAlias($namespace))!==false)
 					include($path.'.php');
 				else
