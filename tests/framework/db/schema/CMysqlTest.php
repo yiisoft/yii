@@ -179,16 +179,36 @@ class CMysqlTest extends CTestCase
 			'condition'=>'id=:id',
 			'params'=>array('id'=>5))));
 		$this->assertEquals('new post 5',$c->queryScalar());
-
+		
 		$c=$builder->createSqlCommand('SELECT title FROM posts WHERE id=:id',array(':id'=>3));
 		$this->assertEquals('post 3',$c->queryScalar());
 
-		$c=$builder->createUpdateCounterCommand($table,array('author_id'=>-2),new CDbCriteria(array('condition'=>'id=5')));
-		$this->assertEquals('UPDATE `posts` SET `author_id`=`author_id`-2 WHERE id=5',$c->text);
+		$c=$builder->createUpdateCounterCommand($table,array('author_id'=>-1),new CDbCriteria(array('condition'=>'id=5')));
+		$this->assertEquals('UPDATE `posts` SET `author_id`=`author_id`-1 WHERE id=5',$c->text);
 		$c->execute();
 		$c=$builder->createSqlCommand('SELECT author_id FROM posts WHERE id=5');
-		$this->assertEquals(1,$c->queryScalar());
+		$this->assertEquals(2,$c->queryScalar());
 
+		// test for updates with joins
+		$c=$builder->createUpdateCommand($table,array('title'=>'new post 1'),new CDbCriteria(array(
+				'condition'=>'u.`username`=:username',
+				'join'=>'JOIN `users` u ON `author_id`=u.`id`',
+				'params'=>array(':username'=>'user1'))));
+		$c->execute();
+		$c=$builder->createFindCommand($table,new CDbCriteria(array(
+				'select'=>'title',
+				'condition'=>'id=:id',
+				'params'=>array('id'=>1))));
+		$this->assertEquals('new post 1',$c->queryScalar());
+		
+		$c=$builder->createUpdateCounterCommand($table,array('author_id'=>-1),new CDbCriteria(array(
+				'condition'=>'u.`username`="user2"',
+				'join'=>'JOIN `users` u ON `author_id`=u.`id`')));
+		$this->assertEquals('UPDATE `posts` JOIN `users` u ON `author_id`=u.`id` SET `author_id`=`author_id`-1 WHERE u.`username`="user2"',$c->text);
+		$c->execute();
+		$c=$builder->createSqlCommand('SELECT author_id FROM posts WHERE id=2');
+		$this->assertEquals(1,$c->queryScalar());
+		
 		// test bind by position
 		$c=$builder->createFindCommand($table,new CDbCriteria(array(
 			'select'=>'title',
