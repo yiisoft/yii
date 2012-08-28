@@ -10,9 +10,10 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5968',
+  'version' => '6546',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => '.',
     'group' => '’',
     'list' => ';',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -841,7 +841,6 @@ return array (
     '054' => 'Melaneesie',
     '057' => 'Mikroneesischs Inselgebiet',
     '061' => 'Polineesie',
-    '062' => 'Süüd-Zentraalaasie',
     142 => 'Aasie',
     143 => 'Zentraalaasie',
     145 => 'Weschtaasie',
@@ -849,9 +848,7 @@ return array (
     151 => 'Oschteuroopa',
     154 => 'Nordeuroopa',
     155 => 'Weschteuroopa',
-    172 => 'Gmäinschaft vo Unabhängige Schtaate',
     419 => 'Latiinameerika',
-    830 => 'Kanaalinsle',
     'ac' => 'Ascension',
     'ad' => 'Andorra',
     'ae' => 'Veräinigti Arabischi Emiräät',

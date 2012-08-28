@@ -25,8 +25,8 @@
   <property name="hhc" value="hhc" /> <!-- compile phpdoc into CHM -->
   <property name="pdflatex" value="pdflatex" />  <!-- generates PDF from LaTex -->
 
-  <property name="pkgname" value="${phing.project.name}-${yii.version}.r${yii.revision}"/>
-  <property name="docname" value="${phing.project.name}-docs-${yii.version}.r${yii.revision}"/>
+  <property name="pkgname" value="${phing.project.name}-${yii.version}.${yii.revision}"/>
+  <property name="docname" value="${phing.project.name}-docs-${yii.version}.${yii.revision}"/>
   <property name="pearname" value="${phing.project.name}-${yii.release}.tgz" />
 
   <!-- directory definitions -->
@@ -53,7 +53,7 @@
 
   <!-- source files in the framework -->
   <fileset dir=".." id="framework">
-    <exclude name="**/.svn"/>
+    <exclude name="**/.gitignore"/>
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="framework/**/*"/>
@@ -67,7 +67,7 @@
 
   <!-- doc files -->
   <fileset dir="../docs" id="docs">
-    <exclude name="**/.svn"/>
+    <exclude name="**/.gitignore"/>
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="guide/**/*"/>
@@ -75,14 +75,14 @@
   </fileset>
 
   <fileset dir="../docs/guide" id="docs-guide">
-    <exclude name="**/.svn"/>
+    <exclude name="**/.gitignore"/>
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="**/*"/>
   </fileset>
 
   <fileset dir="../docs/blog" id="docs-blog">
-    <exclude name="**/.svn"/>
+    <exclude name="**/.gitignore"/>
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="**/*"/>
@@ -205,7 +205,7 @@ Please update yiisite/common/data/versions.php file with the following code:
 
     '1.1'=>array(
         'version'=>'${yii.version}',
-        'revision'=>${yii.revision},
+        'revision'=>'${yii.revision}',
         'date'=>'${yii.date}',
         'latest'=>true,
     ),

@@ -103,6 +103,9 @@ class CActiveRecordTest extends CTestCase
 		$post=Post::model()->findByPk(array());
 		$this->assertNull($post);
 
+		$post=Post::model()->findByPk(null);
+		$this->assertNull($post);
+
 		$post=Post::model()->findByPk(6);
 		$this->assertNull($post);
 
@@ -236,6 +239,12 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals('post 1',$post->title);
 		$this->assertTrue($post->refresh());
 		$this->assertEquals('new post',$post->title);
+
+		$post = new Post();
+		$this->assertFalse($post->refresh());
+		$post->id = 1;
+		$this->assertTrue($post->refresh());
+		$this->assertEquals('new post',$post->title);
 	}
 
 	public function testEquals()
@@ -292,8 +301,8 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(1.23,$type->float_col2);
 		$this->assertEquals(33.22,$type->numeric_col);
 		$this->assertEquals(123,$type->time);
-		$this->assertEquals(null,$type->bool_col);
-		$this->assertEquals(true,$type->bool_col2);
+		$this->assertNull($type->bool_col);
+		$this->assertTrue($type->bool_col2);
 	}
 
 	public function testPublicAttribute()
@@ -1358,5 +1367,31 @@ class CActiveRecordTest extends CTestCase
 		$result2 = $user->posts($criteria);
 
 		$this->assertEquals($result1, $result2);
+	}
+
+	public function testBeforeFind()
+	{
+		$posts=PostWithBeforeFind::model()->findAll();
+		$this->assertEquals(count($posts),1);
+	}
+
+	public function testIssue1070()
+	{
+		$dataProvider=new CActiveDataProvider('UserWithDefaultScope');
+
+		foreach($dataProvider->getData() as $item)
+		{
+			try
+			{
+				$item->links[0]->from_user;
+				$result=true;
+			}
+			catch ( CDbException $e )
+			{
+				$result=false;
+			}
+
+			$this->assertTrue($result);
+		}
 	}
 }

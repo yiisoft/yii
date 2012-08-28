@@ -297,7 +297,7 @@ function group($columns)
 // GROUP BY `name`, `id`
 group('name, id')
 // GROUP BY `tbl_profile`.`name`, `id`
-group(array('tbl_profile.name', 'id')
+group(array('tbl_profile.name', 'id'))
 ~~~
 
 

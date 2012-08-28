@@ -222,7 +222,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getPut($name,$defaultValue=null)
 	{
-		if($this->getIsPutViaPostReqest())
+		if($this->getIsPutViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
 		if($this->_putParams===null)
@@ -498,13 +498,13 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsSecureConnection()
 	{
-		return isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'],'on');
+		return !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'],'off');
 	}
 
 	/**
 	 * Returns the request type, such as GET, POST, HEAD, PUT, DELETE.
-	 * Request type can be manually set in POST requests with a parameter named _method. Useful 
-	 * for RESTful request from older browsers which do not support PUT or DELETE 
+	 * Request type can be manually set in POST requests with a parameter named _method. Useful
+	 * for RESTful request from older browsers which do not support PUT or DELETE
 	 * natively (available since version 1.1.11).
 	 * @return string request type, such as GET, POST, HEAD, PUT, DELETE.
 	 */
@@ -552,15 +552,15 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsPutRequest()
 	{
-		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT')) || $this->getIsPutViaPostReqest();
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT')) || $this->getIsPutViaPostRequest();
 	}
 
 	/**
 	 * Returns whether this is a PUT request which was tunneled through POST.
 	 * @return boolean whether this is a PUT request tunneled through POST.
 	 * @since 1.1.11
-	 */	
-	protected function getIsPutViaPostReqest()
+	 */
+	protected function getIsPutViaPostRequest()
 	{
 		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'PUT');
 	}
@@ -1069,16 +1069,31 @@ class CCookieCollection extends CMap
 	 * Removes a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
 	 * cleanup work when removing a CHttpCookie object.
+	 * Since version 1.1.11, the second parameter is available that can be used to specify
+	 * the options of the CHttpCookie being removed. For example, this may be useful when dealing
+	 * with ".domain.tld" where multiple subdomains are expected to be able to manage cookies:
+	 *
+	 * <pre>
+	 * $options=array('domain'=>'.domain.tld');
+	 * Yii::app()->request->cookies['foo']=new CHttpCookie('cookie','value',$options);
+	 * Yii::app()->request->cookies->remove('cookie',$options);
+	 * </pre>
+	 *
 	 * @param mixed $name Cookie name.
+	 * @param array $options Cookie configuration array consisting of name-value pairs, available since 1.1.11.
 	 * @return CHttpCookie The removed cookie object.
 	 */
-	public function remove($name)
+	public function remove($name,$options=array())
 	{
 		if(($cookie=parent::remove($name))!==null)
 		{
 			if($this->_initialized)
+			{
+				$cookie->configure($options);
 				$this->removeCookie($cookie);
+			}
 		}
+
 		return $cookie;
 	}
 
@@ -1104,8 +1119,8 @@ class CCookieCollection extends CMap
 	protected function removeCookie($cookie)
 	{
 		if(version_compare(PHP_VERSION,'5.2.0','>='))
-			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
+			setcookie($cookie->name,'',0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
-			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure);
+			setcookie($cookie->name,'',0,$cookie->path,$cookie->domain,$cookie->secure);
 	}
 }

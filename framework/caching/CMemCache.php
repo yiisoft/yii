@@ -103,14 +103,21 @@ class CMemCache extends CCache
 	}
 
 	/**
-	 * @return mixed the memcache instance (or memcached if {@link useMemcached} is true) used by this component.
+	 * @throws CException if extension isn't loaded
+	 * @return Memcache|Memcached the memcache instance (or memcached if {@link useMemcached} is true) used by this component.
 	 */
 	public function getMemCache()
 	{
 		if($this->_cache!==null)
 			return $this->_cache;
 		else
+		{
+			$extension=$this->useMemcached ? 'memcached' : 'memcache';
+			if(!extension_loaded($extension))
+				throw new CException(Yii::t('yii',"CMemCache requires PHP {extension} extension to be loaded.",
+                    array('{extension}'=>$extension)));
 			return $this->_cache=$this->useMemcached ? new Memcached : new Memcache;
+		}
 	}
 
 	/**

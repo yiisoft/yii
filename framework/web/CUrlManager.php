@@ -238,7 +238,7 @@ class CUrlManager extends CApplicationComponent
 	 * they will be inserted at the beginning.
 	 * @since 1.1.4
 	 */
-	public function addRules($rules, $append=true)
+	public function addRules($rules,$append=true)
 	{
 		if ($append)
 		{
@@ -247,6 +247,7 @@ class CUrlManager extends CApplicationComponent
 		}
 		else
 		{
+			$rules=array_reverse($rules);
 			foreach($rules as $pattern=>$route)
 				array_unshift($this->_rules, $this->createUrlRule($route,$pattern));
 		}
@@ -750,7 +751,7 @@ class CUrlRule extends CBaseUrlRule
 		{
 			foreach($this->params as $key=>$value)
 			{
-				if(!preg_match('/'.$value.'/'.$case,$params[$key]))
+				if(!preg_match('/\A'.$value.'\z/u'.$case,$params[$key]))
 					return false;
 			}
 		}

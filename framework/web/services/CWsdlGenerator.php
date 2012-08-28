@@ -93,6 +93,23 @@ class CWsdlGenerator extends CComponent
 	 */
 	public $serviceName;
 
+	protected static $typeMap=array(
+		'string'=>'xsd:string',
+		'str'=>'xsd:string',
+		'int'=>'xsd:int',
+		'integer'=>'xsd:integer',
+		'float'=>'xsd:float',
+		'double'=>'xsd:float',
+		'bool'=>'xsd:boolean',
+		'boolean'=>'xsd:boolean',
+		'date'=>'xsd:date',
+		'time'=>'xsd:time',
+		'datetime'=>'xsd:dateTime',
+		'array'=>'soap-enc:Array',
+		'object'=>'xsd:struct',
+		'mixed'=>'xsd:anyType',
+	);
+	
 	private $_operations;
 	private $_types;
 	private $_messages;
@@ -132,6 +149,7 @@ class CWsdlGenerator extends CComponent
 		$comment=$method->getDocComment();
 		if(strpos($comment,'@soap')===false)
 			return;
+		$comment=strtr($comment,array("\r\n"=>"\n","\r"=>"\n")); // make line endings consistent: win -> unix, mac -> unix
 
 		$methodName=$method->getName();
 		$comment=preg_replace('/^\s*\**(\s*?$|\s*)/m','',$comment);
@@ -163,36 +181,15 @@ class CWsdlGenerator extends CComponent
 	 */
 	private function processType($type)
 	{
-		static $typeMap=array(
-			'string'=>'xsd:string',
-			'str'=>'xsd:string',
-			'int'=>'xsd:int',
-			'integer'=>'xsd:integer',
-			'float'=>'xsd:float',
-			'double'=>'xsd:float',
-			'bool'=>'xsd:boolean',
-			'boolean'=>'xsd:boolean',
-			'date'=>'xsd:date',
-			'time'=>'xsd:time',
-			'datetime'=>'xsd:dateTime',
-			'array'=>'soap-enc:Array',
-			'object'=>'xsd:struct',
-			'mixed'=>'xsd:anyType',
-		);
-		if(isset($typeMap[$type]))
-			return $typeMap[$type];
+		if(isset(self::$typeMap[$type]))
+			return self::$typeMap[$type];
 		else if(isset($this->_types[$type]))
 			return is_array($this->_types[$type]) ? 'tns:'.$type : $this->_types[$type];
 		else if(($pos=strpos($type,'[]'))!==false) // if it is an array
 		{
 			$type=substr($type,0,$pos);
-			if(isset($typeMap[$type]))
-				$this->_types[$type.'[]']='xsd:'.$type.'Array';
-			else
-			{
-				$this->_types[$type.'[]']='tns:'.$type.'Array';
-				$this->processType($type);
-			}
+			$this->_types[$type.'[]']='tns:'.$type.'Array';
+			$this->processType($type);
 			return $this->_types[$type.'[]'];
 		}
 		else // class type
@@ -267,6 +264,12 @@ class CWsdlGenerator extends CComponent
 				$attribute=$dom->createElement('xsd:attribute');
 				$attribute->setAttribute('ref','soap-enc:arrayType');
 				$attribute->setAttribute('wsdl:arrayType',substr($xmlType,0,strlen($xmlType)-5).'[]');
+				
+				$arrayType = ($dppos=strpos($xmlType,':')) !==false ? substr($xmlType,$dppos + 1) : $xmlType; // strip namespace, if any
+				$arrayType = substr($arrayType,0,-5); // strip 'Array' from name
+				$arrayType = (isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]'; 
+				$attribute->setAttribute('wsdl:arrayType',$arrayType);
+				
 				$restriction->appendChild($attribute);
 				$complexContent->appendChild($restriction);
 				$complexType->appendChild($complexContent);

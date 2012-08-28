@@ -321,6 +321,16 @@ interface IWebUser
 	 * @return boolean whether the operations can be performed by this user.
 	 */
 	public function checkAccess($operation,$params=array());
+	/**
+	 * Redirects the user browser to the login page.
+	 * Before the redirection, the current URL (if it's not an AJAX url) will be
+	 * kept in {@link returnUrl} so that the user browser may be redirected back
+	 * to the current page after successful login. Make sure you set {@link loginUrl}
+	 * so that the user browser can be redirected to the specified login URL after
+	 * calling this method.
+	 * After calling this method, the current request processing will be terminated.
+	 */
+	public function loginRequired();
 }
 
 
@@ -489,7 +499,7 @@ interface IAuthManager
 	 * @param string $bizRule the business rule to be executed.
 	 * @param array $params additional parameters to be passed to the business rule when being executed.
 	 * @param mixed $data additional data that is associated with the corresponding authorization item or assignment
-	 * @return whether the execution returns a true value.
+	 * @return boolean whether the execution returns a true value.
 	 * If the business rule is empty, it will also return true.
 	 */
 	public function executeBizRule($bizRule,$params,$data);
@@ -605,3 +615,32 @@ interface IDataProvider
 	 */
 	public function getPagination();
 }
+
+
+/**
+ * ILogFilter is the interface that must be implemented by log filters.
+ *
+ * A log filter preprocesses the logged messages before they are handled by a log route.
+ * You can attach classes that implement ILogFilter to {@link CLogRoute::$filter}.
+ *
+ * @version $Id$
+ * @package system.logging
+ * @since 1.1.11
+ */
+interface ILogFilter
+{
+	/**
+	 * This method should be implemented to perform actual filtering of log messages
+	 * by working on the array given as the first parameter.
+	 * Implementation might reformat, remove or add information to logged messages.
+	 * @param array $logs list of messages. Each array element represents one message
+	 * with the following structure:
+	 * array(
+	 *   [0] => message (string)
+	 *   [1] => level (string)
+	 *   [2] => category (string)
+	 *   [3] => timestamp (float, obtained by microtime(true));
+	 */
+	public function filter(&$logs);
+}
+

@@ -41,8 +41,7 @@ Parameter und Rückgabewerte aussehen.
 Beginnen wir mit einem einfachen Dienst zur Abfrage von Börsenkursen. Mit
 diesem Dienst kann ein Client den Kurs einer bestimmten Aktie abfragen. Wir
 definieren den Dienstanbieter wie folgt. Beachten Sie, dass wir die
-Anbieterklasse von `CController` ableiten. Das ist nicht unbedingt nötigt. Wir
-erklären in Kürze, warum wir das machen.
+Anbieterklasse von [CController] ableiten, dies ist aber nicht unbedingt nötigt.
 
 ~~~
 [php]

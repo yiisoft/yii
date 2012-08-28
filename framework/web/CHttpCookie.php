@@ -54,10 +54,42 @@ class CHttpCookie extends CComponent
 	 * Constructor.
 	 * @param string $name name of this cookie
 	 * @param string $value value of this cookie
+	 * @param array $options the configuration array consisting of name-value pairs 
+	 * that are used to configure this cookie
 	 */
-	public function __construct($name,$value)
+	public function __construct($name,$value,$options=array())
 	{
 		$this->name=$name;
 		$this->value=$value;
+		$this->configure($options);
+	}
+	/**
+	 * This method can be used to configure the CookieObject with an array
+	 * Note: you cannot use this method to set the name and/or the value of the cookie
+	 * @param array $options the configuration array consisting of name-value pairs 
+	 * that are used to configure this cookie
+	 * @since 1.1.11
+	 */
+	public function configure($options=array())
+	{
+		foreach($options as $name=>$value)
+		{
+			if($name==='name'||$name==='value')
+				continue;
+			$this->$name=$value;
+		}
+	}
+	/**
+	 * Magic method to use the cookie object as a string without having to call value property first.
+	 * <code>
+	 * $value = (string)$cookies['name'];
+	 * </code>
+	 * Note, that you still have to check if the cookie exists.   	 
+	 * @return string The value of the cookie. If the value property is null an empty string will be returned.
+	 * @since 1.1.11
+	 */
+	public function __toString()
+	{
+		return (string)$this->value;
 	}
 }

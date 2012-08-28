@@ -81,7 +81,7 @@ class CThemeManager extends CApplicationComponent
 			$folder=@opendir($basePath);
 			while(($file=@readdir($folder))!==false)
 			{
-				if($file!=='.' && $file!=='..' && $file!=='.svn' && is_dir($basePath.DIRECTORY_SEPARATOR.$file))
+				if($file!=='.' && $file!=='..' && $file!=='.svn' && $file!=='.gitignore' && is_dir($basePath.DIRECTORY_SEPARATOR.$file))
 					$themes[]=$file;
 			}
 			closedir($folder);

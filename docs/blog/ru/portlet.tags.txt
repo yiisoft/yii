@@ -50,7 +50,7 @@ class TagCloud extends CPortlet
 --------------------------------
 
 Использовать портлет `TagCloud` очень просто. Мы изменяем файл макета
-`/wwwroot/blog/protected/views/layouts/column2.php` следующим образом,
+`/wwwroot/blog/protected/views/layouts/column2.php` следующим образом:
 
 ~~~
 [php]
