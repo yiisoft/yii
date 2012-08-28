@@ -960,21 +960,30 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function validateCsrfToken($event)
 	{
-		if($this->getIsPostRequest())
-		{
-			// only validate POST requests
-			$cookies=$this->getCookies();
-			if($cookies->contains($this->csrfTokenName) && isset($_POST[$this->csrfTokenName]))
-			{
-				$tokenFromCookie=$cookies->itemAt($this->csrfTokenName)->value;
-				$tokenFromPost=$_POST[$this->csrfTokenName];
-				$valid=$tokenFromCookie===$tokenFromPost;
-			}
-			else
-				$valid=false;
-			if(!$valid)
-				throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
-		}
+        if ($this->getIsPostRequest() ||
+            $this->getIsPutRequest() ||
+            $this->getIsDeleteRequest())
+        {
+            $cookies = $this->getCookies();
+
+            $method = $this->getRequestType();
+            if ($method === 'POST')
+                $userToken = $this->getPost($this->csrfTokenName);
+            elseif ($method === 'PUT')
+                $userToken = $this->getPut($this->csrfTokenName);
+            else
+                $userToken = $this->getDelete($this->csrfTokenName);
+
+            if (!empty($userToken) && $cookies->contains($this->csrfTokenName))
+            {
+                $cookieToken = $cookies->itemAt($this->csrfTokenName)->value;
+                $valid = $cookieToken === $userToken;
+            }
+            else
+                $valid = false;
+            if (!$valid)
+                throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
+        }
 	}
 }
 
