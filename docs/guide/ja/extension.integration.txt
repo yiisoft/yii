@@ -1,23 +1,14 @@
 サードパーティライブラリを使う
 =========================
 
-Yii は、より一層 Yii の機能性を拡張するために、
-容易にサードパーティライブラリを統合できるよう、入念に設計されています。
-プロジェクトでサードパーティライブラリを使用する場合、開発者は、
-たびたびクラスの名前付けやファイルのインクルードに関する問題に直面します。
-全ての Yii クラスは、`C` から始まるので、クラスの命名問題はそれほど起こらないでしょうし、
-また、Yii はクラスファイルのインクルードを行うために
-[SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php) を使用しているので、
-他のライブラリがクラスファイルをインクルードするために、同じオートローディング機能か PHP インクルードパスを使っている場合には、お互いにうまく動作することが出来ます。
+Yii は、より一層 Yii の機能性を拡張するために、容易にサードパーティライブラリを統合できるよう、入念に設計されています。
+プロジェクトでサードパーティライブラリを使用する場合、開発者は、たびたびクラスの名前付けやファイルのインクルードに関する問題に直面します。
+全ての Yii クラスは、`C` から始まるので、クラスの命名問題はそれほど起こらないでしょう。
+また、Yii はクラスファイルのインクルードを行うために [SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php) を使用しているので、他のライブラリがクラスファイルをインクルードするために、同じオートローディング機能か PHP インクルードパスを使っている場合には、お互いにうまく動作することが出来ます。
 
-以下では、例として、Yii アプリケーションで
-[Zend framework](http://www.zendframework.com) の、
-[Zend_Search_Lucene](http://www.zendframework.com/manual/ja/zend.search.lucene.html)
-コンポーネントを使用する方法を解説します。
+以下では、例として、Yii アプリケーションで [Zend framework](http://www.zendframework.com) の、[Zend_Search_Lucene](http://www.zendframework.com/manual/ja/zend.search.lucene.html) コンポーネントを使用する方法を解説します。
 
-まず、`protected` を
-[アプリケーションベースディレクトリ](/doc/guide/basics.application#application-base-directory)
-と仮定し、Zend framework リリースファイルを `protected/vendors` ディレクトリ以下に展開します。
+まず、`protected` を [アプリケーションベースディレクトリ](/doc/guide/basics.application#sec-3) と仮定し、Zend framework リリースファイルを `protected/vendors` ディレクトリ以下に展開します。
 `protected/vendors/Zend/Search/Lucene.php` ファイルがある事を確認してください。
 
 次に、コントローラクラスファイルの最初に、下記の行を追加します:
@@ -29,12 +20,10 @@ require_once('Zend/Search/Lucene.php');
 ~~~
 
 上記のコードで、クラスファイル `Lucene.php` をインクルードします。
-相対パスを使用するため、正しくファイルを見つけられるように PHP
-インクルードパスを変える必要があります。
+相対パスを使用するため、正しくファイルを見つけられるように PHP インクルードパスを変える必要があります。
 これは、`require_once` の前に、`Yii::import` をコールする事で行われます。
 
-一旦上記のセットアップが完了すれば、
-下記のように、コントローラアクション中で `Lucene` クラスを使用できます。
+一旦上記のセットアップが完了すれば、下記のように、コントローラアクション中で `Lucene` クラスを使用できます。
 
 ~~~
 [php]
@@ -45,12 +34,10 @@ $hits=$lucene->find(strtolower($keyword));
 名前空間を持つサードパーティライブラリを使う
 ------------------------------------
 
-[PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
-に準拠する名前空間を持ったライブラリ(例えば Zend Framework 2 や Symfony2) を使うためには、そのルートをパスエイリアスとして登録する必要があります。
+[PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) に準拠する名前空間を持ったライブラリ (例えば Zend Framework 2 や Symfony2) を使うためには、そのルートをパスエイリアスとして登録する必要があります。
 
 例として、[Imagine](https://github.com/avalanche123/Imagine) を使いましょう。
-`Imagine` ディレクトリを `protected/vendors` の下に置いたとすると、
-次のようにすれば `Imagin` を使うことが出来るようになります。
+`Imagine` ディレクトリを `protected/vendors` の下に置いたとすると、次のようにすれば `Imagin` を使うことが出来るようになります。
 
 ~~~
 [php]
@@ -61,14 +48,12 @@ Yii::setPathOfAlias('Imagine',Yii::getPathOfAlias('application.vendors.Imagine')
 // 等々
 ~~~
 
-上記のコードにおいて、エイリアスの名前の定義は、ライブラリで使用される名前空間の
-最初の部分と一致させなければなりません。
+上記のコードにおいて、エイリアスの名前の定義は、ライブラリで使用される名前空間の最初の部分と一致させなければなりません。
 
 Yii をサードパーティのシステムで使う
 ------------------------------
 
-また、Yii は、WordPress、Joomla などの既存のサードパーティシステムの開発や
-拡張をサポートするための自己充足的なライブラリとして使用することも出来ます。
+また、Yii は、WordPress, Joomla などの既存のサードパーティシステムの開発や拡張をサポートするための自己充足的なライブラリとして使用することも出来ます。
 そうするためには、次のコードをサードパーティシステムのブートストラップコードに含めます。
 
 ~~~
@@ -81,6 +66,7 @@ Yii::createWebApplication('path/to/config.php');
 
 これによって、サードパーティの拡張機能を開発するときに、Yii によって提供されるほとんどの機能を使用することが可能になります。
 例えば、`Yii::app()` を使ってアプリケーションインスタンスにアクセス出来ます。
-また、DAO やアクティブレコードといったデータベース機能を使うことも出来ます。さらに、モデルとバリデーションの機能も使うことが出来る、等々です。
+また、DAO やアクティブレコードといったデータベース機能を使うことも出来ます。
+さらに、モデルとバリデーションの機能も使うことが出来る、等々です。
 
-<div class="revision">$Id: extension.integration.txt 3431 2011-11-03 00:53:44Z alexander.makarow@gmail.com $</div>
+<div class="revision">$Id$</div>

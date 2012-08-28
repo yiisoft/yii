@@ -162,14 +162,14 @@ class CListView extends CBaseListView
 	 */
 	public $itemsTagName='div';
 
-    /**
-     * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
-     * to persist state of list across page revisits.  Note, there are two limitations for this feature:
-     * - this feature is only compatible with browsers that support HTML5.
-     * - expect unexpected functionality (e.g. multiple ajax calls) if there is more than one grid/list on a single page with enableHistory turned on.
-     * @since 1.1.11
-     */
-    public $enableHistory=false;
+	/**
+	 * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
+	 * to persist state of list across page revisits.  Note, there are two limitations for this feature:
+	 * - this feature is only compatible with browsers that support HTML5.
+	 * - expect unexpected functionality (e.g. multiple ajax calls) if there is more than one grid/list on a single page with enableHistory turned on.
+	 * @since 1.1.11
+	*/
+	public $enableHistory=false;
 
 	/**
 	 * Initializes the list view.
@@ -212,33 +212,20 @@ class CListView extends CBaseListView
 			'pagerClass'=>$this->pagerCssClass,
 			'loadingClass'=>$this->loadingCssClass,
 			'sorterClass'=>$this->sorterCssClass,
-            'enableHistory'=>$this->enableHistory
+			'enableHistory'=>$this->enableHistory
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->updateSelector!==null)
 			$options['updateSelector']=$this->updateSelector;
-		if($this->beforeAjaxUpdate!==null)
+		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate') as $event)
 		{
-
-			if(!($this->beforeAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->beforeAjaxUpdate,'js:')!==0)
+			if($this->$event!==null)
 			{
-				$options['beforeAjaxUpdate']=new CJavaScriptExpression($this->beforeAjaxUpdate);
-			}
-			else
-			{
-				$options['beforeAjaxUpdate']=$this->beforeAjaxUpdate;
-			}
-		}
-		if($this->afterAjaxUpdate!==null)
-		{
-			if(!($this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate,'js:')!==0)
-			{
-				$options['beforeAjaxUpdate']=new CJavaScriptExpression($this->afterAjaxUpdate);
-			}
-			else
-			{
-				$options['beforeAjaxUpdate']=$this->afterAjaxUpdate;
+				if($this->$event instanceof CJavaScriptExpression)
+					$options[$event]=$this->$event;
+				else
+					$options[$event]=new CJavaScriptExpression($this->$event);
 			}
 		}
 
@@ -246,8 +233,8 @@ class CListView extends CBaseListView
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
-        if($this->enableHistory)
-            $cs->registerCoreScript('history');
+		if($this->enableHistory)
+			$cs->registerCoreScript('history');
 		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiilistview.js',CClientScript::POS_END);
 		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiListView($options);");
 	}

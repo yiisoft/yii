@@ -175,7 +175,7 @@ class CButtonColumn extends CGridColumn
 			{
 				if(!isset($button['options']['class']))
 					$this->buttons[$id]['options']['class']=$id;
-				if(!($button['click'] instanceof CJavaScriptExpression) && strpos($button['click'],'js:')!==0)
+				if(!($button['click'] instanceof CJavaScriptExpression))
 					$this->buttons[$id]['click']=new CJavaScriptExpression($button['click']);
 			}
 		}

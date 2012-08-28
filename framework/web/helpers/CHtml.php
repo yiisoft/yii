@@ -56,11 +56,11 @@ class CHtml
 	/**
 	 * Sets the default style for attaching jQuery event handlers.
 	 *
-	 * If set to true (default), event handlers are delegated. 
-	 * Event handlers are attached to the document body and can process events 
+	 * If set to true (default), event handlers are delegated.
+	 * Event handlers are attached to the document body and can process events
 	 * from descendant elements that are added to the document at a later time.
 	 *
-	 * If set to false, event handlers are directly bound. 
+	 * If set to false, event handlers are directly bound.
 	 * Event handlers are attached directly to the DOM element, that must already exist
 	 * on the page. Elements injected into the page at a later time will not be processed.
 	 *
@@ -1047,7 +1047,7 @@ EOD;
 			$options['data']=new CJavaScriptExpression('jQuery(this).parents("form").serialize()');
 		foreach(array('beforeSend','complete','error','success') as $name)
 		{
-			if(isset($options[$name]) && (!($options[$name] instanceof CJavaScriptExpression) || strpos($options[$name],'js:')!==0))
+			if(isset($options[$name]) && !($options[$name] instanceof CJavaScriptExpression))
 				$options[$name]=new CJavaScriptExpression($options[$name]);
 		}
 		if(isset($options['update']))
@@ -2138,8 +2138,8 @@ EOD;
 		{
 			if($pos===0) // [a]name[b][c], should ignore [a]
 			{
-				if(preg_match('/\](.*)/',$attribute,$matches))
-					$attribute=$matches[1];
+				if(preg_match('/\](\w+(\[.+)?)/',$attribute,$matches))
+					$attribute=$matches[1]; // we get: name[b][c]
 				if(($pos=strpos($attribute,'['))===false)
 					return $model->$attribute;
 			}
