@@ -1494,6 +1494,7 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 		{
+			$this->resetScope(false);
 			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
 			return $this->populateRecord($command->queryRow());
 		}
@@ -1517,6 +1518,7 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 		{
+			$this->resetScope(false);
 			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
 			return $this->populateRecords($command->queryAll());
 		}
