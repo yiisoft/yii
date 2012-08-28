@@ -260,7 +260,7 @@ class CMysqlSchema extends CDbSchema
 	 * Creates a command builder for the database.
 	 * This method overrides parent implementation in order to create a MySQL specific command builder
 	 * @return CDbCommandBuilder command builder instance
-	 * @since 1.1.11
+	 * @since 1.1.13
 	 */
 	protected function createCommandBuilder()
 	{
