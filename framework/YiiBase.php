@@ -777,6 +777,7 @@ class YiiBase
 		'CController' => '/web/CController.php',
 		'CDataProvider' => '/web/CDataProvider.php',
 		'CDbHttpSession' => '/web/CDbHttpSession.php',
+        'CRedisHttpSession' => '/web/CRedisHttpSession.php',
 		'CExtController' => '/web/CExtController.php',
 		'CFormModel' => '/web/CFormModel.php',
 		'CHttpCookie' => '/web/CHttpCookie.php',
