@@ -8,18 +8,21 @@ Yii::import('system.db.schema.mssql.CMssqlSchema');
  */
 class CMssqlTest extends CTestCase
 {
-	const DB_HOST='YII'; // This is the alias to mssql server. Defined in freetds.conf for linux, or in Client Network Utility on windows
+	const DB_HOST='YII'; // This is the alias to MSSQL server. Defined in freetds.conf for GNU/Linux or in Client Network Utility on MS Windows.
 	const DB_NAME='yii';
 	const DB_USER='test';
 	const DB_PASS='test';
-	const DB_DSN_PREFIX='dblib'; // 'mssql' or 'sqlsrv' on MS Windows, 'dblib' on GNU/Linux
+	const DB_DSN_PREFIX='dblib'; // Set this to 'mssql' or 'sqlsrv' on MS Windows or 'dblib' on GNU/Linux.
 
+	/**
+	 * @var CDbConnection
+	 */
 	private $db;
 
 	public function setUp()
 	{
 		if(self::DB_DSN_PREFIX=='sqlsrv' && (!extension_loaded('pdo') || !extension_loaded('sqlsrv') || !extension_loaded('pdo_sqlsrv')))
-			$this->markTestSkipped('PDO, SQLSRV and PDO_SQLSRV extensions are required.');
+			$this->markTestSkipped('PDO and SQLSRV extensions are required.');
 		else if(self::DB_DSN_PREFIX!='sqlsrv' && (!extension_loaded('pdo') || !extension_loaded('pdo_dblib')))
 			$this->markTestSkipped('PDO and MSSQL extensions are required.');
 
@@ -28,7 +31,7 @@ class CMssqlTest extends CTestCase
 		else
 			$dsn=self::DB_DSN_PREFIX.':host='.self::DB_HOST.';dbname='.self::DB_NAME;
 
-		$this->db=new CDbConnection($dsn,self::DB_USER,self::DB_PASS);;
+		$this->db=new CDbConnection($dsn,self::DB_USER,self::DB_PASS);
 		try
 		{
 			$this->db->active=true;
@@ -55,7 +58,6 @@ EOD;
 			if(trim($sql)!=='')
 				$this->db->createCommand($sql)->execute();
 		}
-
 	}
 
 	public function tearDown()
@@ -113,8 +115,7 @@ EOD;
 
 	public function testColumn()
 	{
-		$values=array
-		(
+		$values=array(
 			'name'=>array('id', 'title', 'create_time', 'author_id', 'content'),
 			'rawName'=>array('[id]', '[title]', '[create_time]', '[author_id]', '[content]'),
 			'defaultValue'=>array(null, null, null, null, null),
@@ -127,8 +128,7 @@ EOD;
 			'isForeignKey'=>array(false,false,false,true,false),
 		);
 		$this->checkColumns('posts',$values);
-		$values=array
-		(
+		$values=array(
 			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2'),
 			'rawName'=>array('[int_col]', '[int_col2]', '[char_col]', '[char_col2]', '[char_col3]', '[float_col]', '[float_col2]', '[blob_col]', '[numeric_col]', '[time]', '[bool_col]', '[bool_col2]'),
 			'defaultValue'=>array(null, 1, null, "something", null, null, '1.23', null, '33.22', '2002-01-01 00:00:00', null, true),
@@ -203,7 +203,6 @@ EOD;
 		$rows=$c->query()->readAll();
 		$this->assertEquals(2,count($rows));
 		$this->assertEquals('post 4',$rows[0]['title']);
-
 
 		$c=$builder->createUpdateCommand($table,array('title'=>'new post 5'),new CDbCriteria(array(
 			'condition'=>'id=:id',
@@ -285,6 +284,7 @@ EOD;
 		$schema=$this->db->schema;
 		$builder=$schema->commandBuilder;
 		$table=$schema->getTable('posts');
+
 		// Working transaction
 		try
 		{
@@ -298,7 +298,6 @@ EOD;
 		}
 		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'working transaction%'")))->queryScalar();
 		$this->assertEquals(2, $n);
-
 
 		// Failing Transaction
 		$transaction=$this->db->beginTransaction();
@@ -314,6 +313,5 @@ EOD;
 		}
 		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'failed transaction%'")))->queryScalar();
 		$this->assertEquals(0, $n);
-
 	}
 }
