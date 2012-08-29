@@ -329,6 +329,7 @@ EOD;
 		else
 			$c->size=$c->precision=($column['CHARACTER_MAXIMUM_LENGTH']!== null)?(int)$column['CHARACTER_MAXIMUM_LENGTH']:null;
 		$c->autoIncrement=$column['IsIdentity']==1;
+		$c->comment=null; // comments retrieval for the MSSQL is not supported yet
 
 		$c->init($column['DATA_TYPE'],$column['COLUMN_DEFAULT']);
 		return $c;
