@@ -61,7 +61,7 @@ class CRedisHttpSession extends CHttpSession
 	public function init()
 	{
 		if (!extension_loaded('redis'))
-			throw new CException(Yii::t('yii','CRedisHttpSession requires PHP {extension} extension to be loaded.'));
+			throw new CException(Yii::t('yii','CRedisHttpSession requires PHP redis extension to be loaded.'));
 
 		ini_set('session.save_handler', 'redis');
 		ini_set('session.save_path', $this->getSavePath());
