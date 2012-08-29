@@ -3,6 +3,7 @@
 
 Version 1.1.13 work in progress
 -------------------------------
+- Bug #112: MSSQL: database abstraction layer now uses native transaction support of the SQLSRV driver (resurtm)
 - Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (cebe, DaSourcerer)
 - Enh #486: CHttpSession::$gCProbability and CDbHttpSession::$gCProbability are floats now. Minimal possible $gCProbability value has been changed to the ≈0.00000005% (1/2147483647), was integer 1% before, default value left unchanged (1%) (resurtm)
 - Enh #556: CDbColumnSchema::$comment property has been added. It stores comment for the table column, comment retrieving is working for MySQL, PgSQL and Oracle (resurtm)
