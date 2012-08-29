@@ -2,12 +2,6 @@
 
 class CRedisHttpSessionTest extends CTestCase
 {
-	public function tearDown()
-	{
-		$redis = new Redis();
-		$redis->connect('localhost');
-	}
-
 	public function testGetSavePath()
 	{
 		$redis = new CRedisHttpSession();
@@ -61,6 +55,8 @@ class CRedisHttpSessionTest extends CTestCase
 		$redis->connect('localhost');
 
 		$this->assertSame('foo|s:3:"bar";array|a:1:{s:3:"pew";i:55;}', $redis->get($key));
+
+		$redis->del($key);
 	}
 }
 
