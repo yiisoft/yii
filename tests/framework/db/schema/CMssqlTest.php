@@ -328,7 +328,7 @@ EOD;
 		$this->assertEquals(0, $n);
 	}
 
-	public function testComments()
+	public function testColumnComments()
 	{
 		$tables=$this->db->schema->tables;
 
