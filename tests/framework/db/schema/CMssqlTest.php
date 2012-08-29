@@ -27,7 +27,7 @@ class CMssqlTest extends CTestCase
 			$this->markTestSkipped('PDO and MSSQL extensions are required.');
 
 		if(self::DB_DSN_PREFIX=='sqlsrv')
-			$dsn=self::DB_DSN_PREFIX.':Server='.self::DB_HOST.';Database='.self::DB_NAME.';MultipleActiveResultSets=false';
+			$dsn=self::DB_DSN_PREFIX.':Server='.self::DB_HOST.';Database='.self::DB_NAME;
 		else
 			$dsn=self::DB_DSN_PREFIX.':host='.self::DB_HOST.';dbname='.self::DB_NAME;
 
