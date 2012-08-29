@@ -32,7 +32,6 @@ return array (
   'This is required if you are using MSSQL database with the driver provided by Microsoft.' => 'Требуется для работы с БД MSSQL при использовании драйвера от Microsoft.',
   'This is required if you are using Oracle database.' => 'Требуется для работы с БД Oracle.',
   'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Чтобы использовать memcached установите значение свойства <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> равным <code>true</code>.',
-  'GD extension' => '@@Расширение GD@@',
   '$_SERVER does not have {vars}.' => 'Переменная $_SERVER не содержит {vars}.',
   '$_SERVER variable' => 'Переменная $_SERVER.',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Переменная $_SERVER["SCRIPT_FILENAME"] должна соответствовать пути к файлу входного скрипта.',
