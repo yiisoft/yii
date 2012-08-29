@@ -250,41 +250,41 @@ GO
 -- 'users' table column comments
 EXEC sys.sp_addextendedproperty
 	@name=N'MS_Description', @value=N'Name of the user',
-	@level0type=N'SCHEMA',@level0name=N'dbo',
-	@level1type=N'TABLE',@level1name=N'users',
-	@level2type=N'COLUMN',@level2name=N'username'
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'users',
+	@level2type=N'COLUMN', @level2name=N'username'
 GO
 EXEC sys.sp_addextendedproperty
 	@name=N'MS_Description', @value=N'User''s password',
-	@level0type=N'SCHEMA',@level0name=N'dbo',
-	@level1type=N'TABLE',@level1name=N'users',
-	@level2type=N'COLUMN',@level2name=N'password'
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'users',
+	@level2type=N'COLUMN', @level2name=N'password'
 GO
 EXEC sys.sp_addextendedproperty
 	@name=N'MS_Description', @value=N'User''s email',
-	@level0type=N'SCHEMA',@level0name=N'dbo',
-	@level1type=N'TABLE',@level1name=N'users',
-	@level2type=N'COLUMN',@level2name=N'email'
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'users',
+	@level2type=N'COLUMN', @level2name=N'email'
 GO
 
 -- 'profiles' table column comments
 EXEC sys.sp_addextendedproperty
 	@name=N'MS_Description', @value=N'用户名。',
-	@level0type=N'SCHEMA',@level0name=N'dbo',
-	@level1type=N'TABLE',@level1name=N'profiles',
-	@level2type=N'COLUMN',@level2name=N'first_name'
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'profiles',
+	@level2type=N'COLUMN', @level2name=N'first_name'
 GO
 EXEC sys.sp_addextendedproperty
 	@name=N'MS_Description', @value=N'Тест Юникода',
-	@level0type=N'SCHEMA',@level0name=N'dbo',
-	@level1type=N'TABLE',@level1name=N'profiles',
-	@level2type=N'COLUMN',@level2name=N'id'
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'profiles',
+	@level2type=N'COLUMN', @level2name=N'id'
 GO
 EXEC sys.sp_addextendedproperty
 	@name=N'MS_Description', @value=N'User''s identifier',
-	@level0type=N'SCHEMA',@level0name=N'dbo',
-	@level1type=N'TABLE',@level1name=N'profiles',
-	@level2type=N'COLUMN',@level2name=N'user_id'
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'profiles',
+	@level2type=N'COLUMN', @level2name=N'user_id'
 GO
 
 -- --------------------------------
