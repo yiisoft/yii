@@ -32,6 +32,8 @@ class CMssqlTest extends CTestCase
 			$dsn=self::DB_DSN_PREFIX.':host='.self::DB_HOST.';dbname='.self::DB_NAME;
 
 		$this->db=new CDbConnection($dsn,self::DB_USER,self::DB_PASS);
+		if(self::DB_DSN_PREFIX=='sqlsrv')
+			$this->db->setAttribute(PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_SYSTEM);
 		try
 		{
 			$this->db->active=true;
@@ -52,7 +54,18 @@ EOD;
 			$this->db->createCommand($sql)->execute();
 		}
 
-		$sqls=file_get_contents(dirname(__FILE__).'/../data/mssql.sql');
+		$rawSqls=file_get_contents(dirname(__FILE__).'/../data/mssql.sql');
+
+		// remove comments from SQL
+		$sqls='';
+		foreach(array_filter(explode("\n", $rawSqls)) as $line)
+		{
+			if(substr($line,0,2)=='--')
+				continue;
+			$sqls.=$line."\n";
+		}
+
+		// run SQL
 		foreach(explode('GO',$sqls) as $sql)
 		{
 			if(trim($sql)!=='')
@@ -313,5 +326,21 @@ EOD;
 		}
 		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'failed transaction%'")))->queryScalar();
 		$this->assertEquals(0, $n);
+	}
+
+	public function testColumnComments()
+	{
+		$tables=$this->db->schema->tables;
+
+		$usersColumns=$tables['users']->columns;
+		$this->assertEquals('Name of the user', $usersColumns['username']->comment);
+		$this->assertEquals('User\'s password', $usersColumns['password']->comment);
+		$this->assertEquals('User\'s email', $usersColumns['email']->comment);
+
+		$usersColumns=$tables['profiles']->columns;
+		$this->assertEquals('用户名。', $usersColumns['first_name']->comment);
+		$this->assertEquals('Тест Юникода', $usersColumns['id']->comment);
+		$this->assertEquals('User\'s identifier', $usersColumns['user_id']->comment);
+		$this->assertEmpty($usersColumns['last_name']->comment);
 	}
 }
