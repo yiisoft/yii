@@ -24,7 +24,7 @@ user interface. It is usually identified by an ID consisting of a language
 ID and a region ID. For example, the ID `en_US` stands for the locale of
 English and United States. For consistency, all locale IDs in Yii are
 canonicalized to the format of `LanguageID` or `LanguageID_RegionID`
-in lower case (e.g., `en`, `en_us`).
+in lower case (e.g. `en`, `en_us`).
 
 Locale data is represented as a [CLocale] instance. It provides
 locale-dependent information, including currency symbols, number symbols,
@@ -180,7 +180,7 @@ different forms (such as in Chinese) or may use more complex plural form rules
 (such as in Russian). Choice format solves this problem in a simple yet effective way.
 
 To use choice format, a translated message must consist of a sequence of
-expression-message pairs separated within by `#` and without by `|`, as shown below:
+expression-message pairs separated by `|`, as shown below:
 
 ~~~
 [php]
