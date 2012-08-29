@@ -3,18 +3,16 @@
 /**
  * CRedisHttpSession class
  *
- * @author Mikhail Osher <miraagewow@gmail.com>
- * @link http://www.yiiframework.com/
+ * @author    Mikhail Osher <miraagewow@gmail.com>
+ * @link      http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2012 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license   http://www.yiiframework.com/license/
  */
 
 /**
  * CRedisHttpSession extends {@link CHttpSession} by using Redis as session data storage.
- *
  * CRedisHttpSession stores session data prefixed by {@link cachePrefix} on servers
  * passed as {@link servers} parameter.
- *
  * Server parameter keys:
  * <ul>
  * <li>host - required</li>
@@ -23,7 +21,6 @@
  * <li>weight - optional, used to balance multiple servers</li>
  * <li>timeout - optional, server specified timeout, overrides {@link timeout} parameter</li>
  * </ul>
- *
  * Here is just simple configuration:
  * <code>
  * 'components' => array(
@@ -36,70 +33,65 @@
  * )
  * </code>
  *
- * @author Mikhail Osher <miraagewow@gmail.com>
+ * @author  Mikhail Osher <miraagewow@gmail.com>
  * @package system.web
+ * @since 1.1.13
  */
 class CRedisHttpSession extends CHttpSession
 {
-    /**
-     * @var string Cache prefix key
-     */
-    public $prefix = 'YiiSession';
+	/**
+	 * @var string Cache prefix key
+	 */
+	public $prefix = 'YiiSession';
 
-    /**
-     * @var integer Connection timeout. Redis' default is 86400
-     */
-    public $timeout = 60;
+	/**
+	 * @var integer Connection timeout. Redis' default is 86400
+	 */
+	public $timeout = 60;
 
-    /**
-     * @var array Redis servers
-     */
-    public $servers = array();
+	/**
+	 * @var array Redis servers
+	 */
+	public $servers = array();
 
-    /**
-     * Initialize
-     * @see https://github.com/nicolasff/phpredis#session-handler-new
-     */
-    public function init()
-    {
-        ini_set('session.save_handler', 'redis');
-        ini_set('session.save_path', $this->getSavePath());
-        parent::init();
-    }
+	/**
+	 * Initialize
+	 * @see https://github.com/nicolasff/phpredis#session-handler-new
+	 */
+	public function init()
+	{
+		ini_set('session.save_handler', 'redis');
+		ini_set('session.save_path', $this->getSavePath());
+		parent::init();
+	}
 
-    /**
-     * Get save path
-     *
-     * @return string
-     */
-    public function getSavePath()
-    {
-        if (empty($this->servers) || !is_array($this->servers))
-            throw new CException(Yii::t('yii','CRedisHttpSession.servers must be not empty array'));
+	/**
+	 * @return string Save path for INI entry
+	 */
+	public function getSavePath()
+	{
+		if (empty($this->servers) || !is_array($this->servers))
+			throw new CException(Yii::t('yii', 'CRedisHttpSession.servers must be not empty array'));
 
-        $servers = array();
+		$servers = array();
 
-        foreach ($this->servers as $server)
-        {
-            empty($server['port']) && $server['port'] = 6379;
-            empty($server['prefix']) && $server['prefix'] = $this->prefix;
-            empty($server['timeout']) && $server['timeout'] = $this->timeout;
+		foreach ($this->servers as $server) {
+			empty($server['port']) && $server['port'] = 6379;
+			empty($server['prefix']) && $server['prefix'] = $this->prefix;
+			empty($server['timeout']) && $server['timeout'] = $this->timeout;
 
-            if (isset($server['weight'])) {
-                $weight = 'weight=' . $server['weight'];
-            } else {
-                $weight = '';
-            }
+			if (isset($server['weight']))
+				$weight = '&weight=' . $server['weight'];
+			else
+				$weight = '';
 
-            $dsn = 'tcp://' . $server['host'] . ':' . $server['port']
-                 . '?prefix=' . $server['prefix'] . '&timeout=' . $server['timeout']
-                 . $weight;
+			$dsn = 'tcp://' . $server['host'] . ':' . $server['port']
+				. '?prefix=' . $server['prefix'] . '&timeout=' . $server['timeout']
+				. $weight;
 
-            array_push($servers, $dsn);
-        }
+			array_push($servers, $dsn);
+		}
 
-        return join(', ', $servers);
-    }
+		return join(', ', $servers);
+	}
 }
-
-?>
