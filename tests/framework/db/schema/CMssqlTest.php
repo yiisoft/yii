@@ -8,11 +8,11 @@ Yii::import('system.db.schema.mssql.CMssqlSchema');
  */
 class CMssqlTest extends CTestCase
 {
-	const DB_HOST='localhost'; // This is the alias to MSSQL server. Defined in freetds.conf for GNU/Linux or in Client Network Utility on MS Windows.
-	const DB_NAME='test';
-	const DB_USER='sa';
-	const DB_PASS='123123';
-	const DB_DSN_PREFIX='sqlsrv'; // Set this to 'mssql' or 'sqlsrv' on MS Windows or 'dblib' on GNU/Linux.
+	const DB_HOST='YII'; // This is the alias to MSSQL server. Defined in freetds.conf for GNU/Linux or in Client Network Utility on MS Windows.
+	const DB_NAME='yii';
+	const DB_USER='test';
+	const DB_PASS='test';
+	const DB_DSN_PREFIX='dblib'; // Set this to 'mssql' or 'sqlsrv' on MS Windows or 'dblib' on GNU/Linux.
 
 	/**
 	 * @var CDbConnection
@@ -32,7 +32,8 @@ class CMssqlTest extends CTestCase
 			$dsn=self::DB_DSN_PREFIX.':host='.self::DB_HOST.';dbname='.self::DB_NAME;
 
 		$this->db=new CDbConnection($dsn,self::DB_USER,self::DB_PASS);
-		$this->db->setAttribute(PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_SYSTEM);
+		if(self::DB_DSN_PREFIX=='sqlsrv')
+			$this->db->setAttribute(PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_SYSTEM);
 		try
 		{
 			$this->db->active=true;
