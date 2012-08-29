@@ -707,6 +707,7 @@ class YiiBase
 		'CMssqlSchema' => '/db/schema/mssql/CMssqlSchema.php',
 		'CMssqlTableSchema' => '/db/schema/mssql/CMssqlTableSchema.php',
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
+		'CMysqlCommandBuilder' => '/db/schema/mysql/CMysqlCommandBuilder.php',
 		'CMysqlSchema' => '/db/schema/mysql/CMysqlSchema.php',
 		'CMysqlTableSchema' => '/db/schema/mysql/CMysqlTableSchema.php',
 		'COciColumnSchema' => '/db/schema/oci/COciColumnSchema.php',
