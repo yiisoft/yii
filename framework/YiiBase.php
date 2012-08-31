@@ -63,8 +63,8 @@ class YiiBase
 	public static $classMap=array();
 	/**
 	 * @var boolean whether to rely on PHP include path to autoload class files. Defaults to true.
-	 * You may set this to be false if your hosting environment doesn't allow changing PHP include path,
-	 * or if you want to append additional autoloaders to the default Yii autoloader.
+	 * You may set this to be false if your hosting environment doesn't allow changing the PHP
+	 * include path, or if you want to append additional autoloaders to the default Yii autoloader.
 	 * @since 1.1.8
 	 */
 	public static $enableIncludePath=true;
@@ -128,7 +128,7 @@ class YiiBase
 	}
 
 	/**
-	 * Returns the application singleton, null if the singleton has not been created yet.
+	 * Returns the application singleton or null if the singleton has not been created yet.
 	 * @return CApplication the application singleton, null if the singleton has not been created yet.
 	 */
 	public static function app()
@@ -169,7 +169,7 @@ class YiiBase
 	 * If the former, the string is treated as the object type which can
 	 * be either the class name or {@link YiiBase::getPathOfAlias class path alias}.
 	 * If the latter, the 'class' element is treated as the object type,
-	 * and the rest name-value pairs in the array are used to initialize
+	 * and the rest of the name-value pairs in the array are used to initialize
 	 * the corresponding object properties.
 	 *
 	 * Any additional parameters passed to this method will be
@@ -250,8 +250,8 @@ class YiiBase
 	 * <code>application\components\GoogleMap</code> is similar to importing <code>application.components.GoogleMap</code>.
 	 * The difference is that the former class is using qualified name, while the latter unqualified.
 	 *
-	 * Note, importing a class in namespace format requires that the namespace is corresponding to
-	 * a valid path alias if we replace the backslash characters with dot characters.
+	 * Note, importing a class in namespace format requires that the namespace corresponds to
+	 * a valid path alias once backslash characters are replaced with dot characters.
 	 * For example, the namespace <code>application\components</code> must correspond to a valid
 	 * path alias <code>application.components</code>.
 	 *
@@ -479,7 +479,7 @@ class YiiBase
 	}
 
 	/**
-	 * Marks the begin of a code block for profiling.
+	 * Marks the beginning of a code block for profiling.
 	 * This has to be matched with a call to {@link endProfile()} with the same token.
 	 * The begin- and end- calls must also be properly nested, e.g.,
 	 * <pre>
