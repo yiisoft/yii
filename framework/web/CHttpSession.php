@@ -86,8 +86,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		parent::init();
 
 		// default session gc probability is 1%: 21474837/2147483647 ≈ 0.01 ≈ 1%
-		ini_set('session.gc_probability',21474837);
-		ini_set('session.gc_divisor',2147483647);
+		ini_set('session.gc_probability',1);
+		ini_set('session.gc_divisor',100);
 
 		if($this->autoStart)
 			$this->open();
@@ -292,7 +292,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public function getGCProbability()
 	{
-		return ini_get('session.gc_probability')/ini_get('session.gc_divisor')*100;
+		return (float)(ini_get('session.gc_probability')/ini_get('session.gc_divisor')*100);
 	}
 
 	/**
@@ -304,7 +304,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		if($value>=0 && $value<=100)
 		{
 			// percent * 21474837 / 2147483647 ≈ percent * 0.01
-			ini_set('session.gc_probability',$value*21474837);
+			ini_set('session.gc_probability',floor($value*21474836.47));
 			ini_set('session.gc_divisor',2147483647);
 		}
 		else
