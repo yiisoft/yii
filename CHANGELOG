@@ -11,6 +11,7 @@ Version 1.1.13 work in progress
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
+- Chg: Added Oracle unit tests (resurtm)
 
 Version 1.1.12 August 19, 2012
 ------------------------------
