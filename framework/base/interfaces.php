@@ -125,7 +125,7 @@ interface ICacheDependency
 
 
 /**
- * IStatePersister is the interface that must be implemented by state persister calsses.
+ * IStatePersister is the interface that must be implemented by state persister classes.
  *
  * This interface must be implemented by all state persister classes (such as
  * {@link CStatePersister}.
@@ -499,7 +499,7 @@ interface IAuthManager
 	 * @param string $bizRule the business rule to be executed.
 	 * @param array $params additional parameters to be passed to the business rule when being executed.
 	 * @param mixed $data additional data that is associated with the corresponding authorization item or assignment
-	 * @return whether the execution returns a true value.
+	 * @return boolean whether the execution returns a true value.
 	 * If the business rule is empty, it will also return true.
 	 */
 	public function executeBizRule($bizRule,$params,$data);

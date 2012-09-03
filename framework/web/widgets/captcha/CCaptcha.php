@@ -80,11 +80,11 @@ class CCaptcha extends CWidget
 	 */
 	public function run()
 	{
-	    if(self::checkRequirements())
-	    {
+		if(self::checkRequirements())
+		{
 			$this->renderImage();
 			$this->registerClientScript();
-	    }
+		}
 		else
 			throw new CException(Yii::t('yii','GD and FreeType PHP extensions are required.'));
 	}
@@ -114,7 +114,8 @@ class CCaptcha extends CWidget
 		$js="";
 		if($this->showRefreshButton)
 		{
-			$cs->registerScript('Yii.CCaptcha#'.$id,'dummy');
+			// reserve a place in the registered script so that any enclosing button js code appears after the captcha js
+			$cs->registerScript('Yii.CCaptcha#'.$id,'// dummy');
 			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
 			$options=$this->buttonOptions;
 			if(isset($options['id']))
@@ -168,4 +169,3 @@ $(document).on('click', '$selector', function(){
 		return false;
 	}
 }
-

@@ -160,14 +160,15 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * In particular, <b>commas</b> should <b>NOT</b>
 	 * be used as part of the ordering expression or identifier. Commas must only be
 	 * used for separating the ordering clauses.
-	 *  </li>
-	 *  <li>
+	 *   </li>
+	 *   <li>
 	 * In the ORDER BY clause, the column name should NOT be be qualified
 	 * with a table name or view name. Alias the column names or use column index.
-	 * </li>
-	 * <li>
+	 *   </li>
+	 *   <li>
 	 * No clauses should follow the ORDER BY clause, e.g. no COMPUTE or FOR clauses.
-	 * </li>
+	 *   </li>
+	 * </ul>
 	 *
 	 * @param string $sql SQL query string.
 	 * @param integer $limit maximum number of rows, -1 to ignore limit.
@@ -193,7 +194,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * @param string $sql sql query
 	 * @param integer $limit $limit > 0
 	 * @param integer $offset $offset > 0
-	 * @return sql modified sql query applied with limit and offset.
+	 * @return string modified sql query applied with limit and offset.
 	 *
 	 * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
 	 */
@@ -304,7 +305,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * If not, order it by pk.
 	 * @param CMssqlTableSchema $table table schema
 	 * @param CDbCriteria $criteria criteria
-	 * @return CDbCrireria the modified criteria
+	 * @return CDbCriteria the modified criteria
 	 */
 	protected function checkCriteria($table, $criteria)
 	{
