@@ -6,6 +6,7 @@ Version 1.1.13 work in progress
 - Bug #93: Criteria modification in CActiveRecord::beforeFind() did not apply when record was loaded in relational context. See UPGRADE instructions for details on behavior change. (cebe)
 - Bug #112: MSSQL: database abstraction layer now uses native transaction support of the SQLSRV driver (resurtm)
 - Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (cebe, DaSourcerer)
+- Bug #962: Fixed handling of negative timestamps in CDateFormatter::format() (johnmendonca)
 - Enh #117: Added CPhpMessageSource::$extensionPaths to allow extensions, that do not have a base class to use as category prefix, to register message source (rcoelho, cebe)
 - Enh #486: CHttpSession::$gCProbability and CDbHttpSession::$gCProbability are floats now. Minimal possible $gCProbability value has been changed to the ≈0.00000005% (1/2147483647), was integer 1% before, default value left unchanged (1%) (resurtm)
 - Enh #556: CDbColumnSchema::$comment property has been added. It stores comment for the table column, comment retrieving is working for MySQL, PgSQL and Oracle (resurtm)
