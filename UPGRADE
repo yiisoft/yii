@@ -20,19 +20,20 @@ General upgrade instructions
 
 Upgrading from v1.1.12
 ----------------------
-- We fixed the calls to beforeFind() for consistency so that beforeFind() now always gets called for every relation
-  on eager loading even if the main query does not return a result. This has been the case for all find*()-methods
+- We fixed the calls to CActiveRecord::beforeFind() for consistency so that beforeFind() now always gets called for every relation
+  on eager loading even if the main query does not return a result. This has been the case for all CActiveRecord::find*()-methods
   already but now also applies for findBySql() and findAllBySql().
 
-- Criteria modification in beforeFind() did not apply to the query when model was loaded in a relational context.
-  Since version 1.1.13 changes to query criteria now als apply to the query when model is loaded in a relational context.
+- Criteria modification in CActiveRecord::beforeFind() did not apply to the query when model was loaded in a relational context.
+  Since version 1.1.13 changes to query criteria made in beforeFind() now also apply to the query when model is loaded in a relational context.
   The main problem here is that you can not use the `t`-alias for your table anymore, you have to change your code to
-  use the table alias currently in use. You can get that alias by calling `$this->getTableAlias(false, false);` in your active record class
+  use the table alias currently in use as this it different in relational context.
+  You can get that alias by calling `$this->getTableAlias(false, false);` in your active record class
   or `$this->owner->getTableAlias(false, false)` in behavior context.
 
   Example:
      $criteria->condition = 't.myfield = 1';
-  Need to change that to:
+  You need to change that to:
      $alias = $this->owner->getTableAlias(false, false);
      $criteria->condition = $alias.'.myfield = 1';
 
