@@ -62,7 +62,7 @@ class CPhpMessageSource extends CMessageSource
 	 */
 	public $basePath;
 	/**
-	 * @var array the messages path for extensions.
+	 * @var array the message paths for extensions that do not have a base class to use as category prefix.
 	 * The format of the array should be:
 	 * <pre>
 	 * array(
@@ -74,9 +74,9 @@ class CPhpMessageSource extends CMessageSource
 	 * When using Yii::t() to translate an extension message, the category name should be
 	 * set as 'ExtensionName.categoryName'.
 	 * Defaults to an empty array, meaning no extensions registered.
-	 * @since 1.1.11
+	 * @since 1.1.13
 	 */
-	public $extensionBasePaths=array();
+	public $extensionPaths=array();
 
 	private $_files=array();
 
@@ -111,8 +111,8 @@ class CPhpMessageSource extends CMessageSource
 				$extensionClass=substr($category,0,$pos);
 				$extensionCategory=substr($category,$pos+1);
 				// First check if there's an extension registered for this class.
-				if (isset($this->extensionBasePaths[$extensionClass]))
-					$this->_files[$category][$language]=Yii::getPathOfAlias($this->extensionBasePaths[$extensionClass]).DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$extensionCategory.'.php';
+				if(isset($this->extensionPaths[$extensionClass]))
+					$this->_files[$category][$language]=Yii::getPathOfAlias($this->extensionPaths[$extensionClass]).DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$extensionCategory.'.php';
 				else
 				{
 					// No extension registered, need to find it.
