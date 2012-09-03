@@ -1186,7 +1186,7 @@ class CDbCommand extends CComponent
 	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
-	 * Do not use column names as parameter names here. They are reserved for <code>$column</code> parameter.
+	 * Do not use column names as parameter names here. They are reserved for <code>$columns</code> parameter.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
