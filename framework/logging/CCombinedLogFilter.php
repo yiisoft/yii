@@ -1,6 +1,6 @@
 <?php
 /**
- * CCombinedLogFilter class file
+ * CChainedLogFilter class file
  *
  * @author Carsten Brandt <mail@cebe.cc>
  * @link http://www.yiiframework.com/
@@ -9,14 +9,13 @@
  */
 
 /**
- * CCombinedLogFilter allows you to attach multiple log filters to a log route (See {@link CLogRoute::$filter} for details).
+ * CChainedLogFilter allows you to attach multiple log filters to a log route (See {@link CLogRoute::$filter} for details).
  *
  * @author Carsten Brandt <mail@cebe.cc>
- * @version $Id$
  * @package system.logging
- * @since 1.1.11
+ * @since 1.1.13
  */
-class CCombinedLogFilter extends CComponent implements ILogFilter
+class CChainedLogFilter extends CComponent implements ILogFilter
 {
 	/**
 	 * @var array list of filters to apply to the logs.
@@ -27,7 +26,6 @@ class CCombinedLogFilter extends CComponent implements ILogFilter
 	 * Filters will be applied in the order they are defined.
 	 */
 	public $filters=array();
-
 
 	/**
 	 * Filters the given log messages by applying all filters configured by {@link filters}.
