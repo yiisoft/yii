@@ -41,20 +41,52 @@ class COciTest extends CTestCase
 			$this->markTestSkipped("Please read {$schemaFilePath} for details on setting up the test environment for OCI test case.");
 		}
 
-		$rawSqls=file_get_contents($schemaFilePath);
-		$sqls='';
+		$tables=array('comments', 'post_category', 'posts', 'categories', 'profiles', 'users', 'items', 'orders', 'types');
 
-		foreach(array_filter(explode("\n", $rawSqls)) as $line)
+		// delete existing sequences
+		foreach($tables as $table)
 		{
-			if(substr($line, 0, 2)=='--' && substr($line, 0, 13)!='--SEPARATOR--')
+			if($table==='post_category' || $table==='orders')
+				continue;
+			$sequence=$table.'_id_sequence';
+			$sql=<<<EOD
+DECLARE c INT;
+BEGIN
+	SELECT COUNT(*) INTO c FROM user_sequences WHERE sequence_name = '{$sequence}';
+	IF c = 1 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE "{$sequence}"'; END IF;
+END;
+EOD;
+			$this->db->createCommand($sql)->execute();
+		}
+
+		// delete existing tables
+		foreach($tables as $table)
+		{
+			$sql=<<<EOD
+DECLARE c INT;
+BEGIN
+	SELECT COUNT(*) INTO c FROM user_tables WHERE table_name = '{$table}';
+	IF c = 1 THEN EXECUTE IMMEDIATE 'DROP TABLE "{$table}"'; END IF;
+END;
+EOD;
+			$this->db->createCommand($sql)->execute();
+		}
+
+		$sqls='';
+		foreach(explode("\n", file_get_contents($schemaFilePath)) as $line)
+		{
+			if(substr($line, 0, 2)==='--')
 				continue;
 			$sqls.=$line."\n";
 		}
-
-		foreach(explode('--SEPARATOR--', $sqls) as $sql)
+		foreach(array_filter(explode("\n\n", $sqls)) as $sql)
 		{
 			if(trim($sql)!=='')
+			{
+				if(mb_substr($sql, -4)!=='END;')
+					$sql=rtrim($sql, ';');
 				$this->db->createCommand($sql)->execute();
+			}
 		}
 	}
 
