@@ -46,7 +46,7 @@ class COciTest extends CTestCase
 		// delete existing sequences
 		foreach($tables as $table)
 		{
-			if($table==='post_category' || $table==='orders')
+			if($table==='post_category' || $table==='orders' || $table==='types')
 				continue;
 			$sequence=$table.'_id_sequence';
 			$sql=<<<EOD

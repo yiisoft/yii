@@ -203,7 +203,20 @@ FOR EACH ROW BEGIN
 END;
 
 -- Create 'types' table.
-
+CREATE TABLE "types" (
+	"int_col" INT NOT NULL,
+	"int_col2" INTEGER DEFAULT 1,
+	"char_col" CHAR(100) NOT NULL,
+	"char_col2" VARCHAR2(100 CHAR) DEFAULT 'something',
+	"char_col3" CLOB,
+	"float_col" NUMBER(4, 3) NOT NULL,
+	"float_col2" BINARY_DOUBLE DEFAULT 1.23,
+	"blob_col" BLOB,
+	"numeric_col" NUMBER(5, 2) DEFAULT 33.22,
+	"time" TIMESTAMP DEFAULT TIMESTAMP '2002-01-01 00:00:00',
+	"bool_col" NUMBER(1, 0) NOT NULL,
+	"bool_col2" NUMBER(1, 0) DEFAULT 1
+) LOGGING NOCOMPRESS NOCACHE;
 
 -- Data for the 'users' table.
 INSERT INTO "users" ("username", "password", "email") VALUES ('user1', 'pass1', 'email1');
