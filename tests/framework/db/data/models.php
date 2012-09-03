@@ -552,6 +552,7 @@ class UserWithWrappers extends CActiveRecord
 		return array(
 			'posts'=>array(self::HAS_MANY,'PostWithWrappers','author_id'),
 			'postCount'=>array(self::STAT,'PostWithWrappers','author_id'),
+			'comments'=>array(self::HAS_MANY,'CommentWithWrappers',array('id'=>'post_id'),'through'=>'posts')
 		);
 	}
 

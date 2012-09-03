@@ -497,4 +497,22 @@ class CActiveRecordEventWrappersTest extends CTestCase
 		$this->assertEquals(PostWithWrappers::getCounter('afterFind'),0);
 		$this->assertEquals(CommentWithWrappers::getCounter('afterFind'),0);
 	}
+
+	/**
+	 * CActiveRecord::getRelated doesn't call afterFind() with `through` relation
+	 * https://github.com/yiisoft/yii/issues/591
+	 */
+	public function testIssue591()
+	{
+		UserWithWrappers::model()->with('comments')->findByPk(1);
+		$this->assertEquals(UserWithWrappers::getCounter('afterFind'),1);
+		$this->assertEquals(PostWithWrappers::getCounter('afterFind'),0);
+		$this->assertEquals(CommentWithWrappers::getCounter('afterFind'),3);
+
+		$user = UserWithWrappers::model()->findByPk(1);
+		$user->comments;
+		$this->assertEquals(UserWithWrappers::getCounter('afterFind'),1);
+		$this->assertEquals(PostWithWrappers::getCounter('afterFind'),0);
+		$this->assertEquals(CommentWithWrappers::getCounter('afterFind'),3);
+	}
 }
