@@ -49,7 +49,7 @@
  * @property string $acceptTypes User browser accept types, null if not present.
  * @property integer $port Port number for insecure requests.
  * @property integer $securePort Port number for secure requests.
- * @property CCookieCollection $cookies The cookie collection.
+ * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
  * @property string $preferredLanguage The user preferred language.
  * @property string $csrfToken The random token for CSRF validation.
  *
