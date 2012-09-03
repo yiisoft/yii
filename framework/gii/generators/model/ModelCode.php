@@ -227,7 +227,7 @@ class ModelCode extends CCodeModel
 			else if($column->type==='double')
 				$numerical[]=$column->name;
 			else if($column->type==='string' && $column->size>0)
-				$length[$column->scale === null ? $column->size : $column->size + 1][]=$column->name;
+				$length[$column->size][]=$column->name;
 			else if(!$column->isPrimaryKey && !$r)
 				$safe[]=$column->name;
 		}
