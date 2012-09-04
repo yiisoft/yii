@@ -260,6 +260,7 @@ EOD;
 		$this->assertEquals('new post 1',$c->queryScalar());
 		*/
 
+		// Oracle does not support UPDATE + JOIN, this should be rewriten.
 		/*
 		$c=$builder->createUpdateCounterCommand($table,array('author_id'=>-1),new CDbCriteria(array(
 				'condition'=>'u."username"="user2"',
@@ -363,5 +364,12 @@ EOD;
 		$this->assertEquals('Имя пользователя', $usersColumns['username']->comment);
 		$this->assertEquals('用户的密码', $usersColumns['password']->comment);
 		$this->assertEquals('דוא"ל של המשתמש', $usersColumns['email']->comment);
+
+		$postsColumns=$tables['posts']->columns;
+		$this->assertEmpty($postsColumns['id']->comment);
+		$this->assertEmpty($postsColumns['title']->comment);
+		$this->assertEmpty($postsColumns['create_time']->comment);
+		$this->assertEmpty($postsColumns['author_id']->comment);
+		$this->assertEmpty($postsColumns['content']->comment);
 	}
 }
