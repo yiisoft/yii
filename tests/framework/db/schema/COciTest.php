@@ -213,19 +213,21 @@ EOD;
 		$c=$builder->createCountCommand($table,new CDbCriteria);
 		$this->assertEquals(5,$c->queryScalar());
 
-		/*
 		$c=$builder->createFindCommand($table,new CDbCriteria(array(
-			'select'=>'id, title',
-			'condition'=>'id=:id',
-			'params'=>array('id'=>5),
-			'order'=>'title',
+			'select'=>'"id", "title"',
+			'condition'=>'"id"=:id',
+			'params'=>array(':id'=>5),
+			'order'=>'"title"',
 			'limit'=>2,
 			'offset'=>0)));
-		$this->assertEquals('SELECT "id", "title" FROM "posts" "t" WHERE id=:id ORDER BY title LIMIT 2',$c->text);
+		$this->assertEquals('WITH USER_SQL AS (SELECT "id", "title" FROM "posts" "t" WHERE "id"=:id ORDER BY "title"),
+	PAGINATION AS (SELECT USER_SQL.*, rownum as rowNumId FROM USER_SQL)
+SELECT *
+FROM PAGINATION
+ WHERE rownum <= 2', $c->text);
 		$rows=$c->query()->readAll();
 		$this->assertEquals(1,count($rows));
 		$this->assertEquals('post 5',$rows[0]['title']);
-		*/
 
 		$c=$builder->createUpdateCommand($table,array('title'=>'new post 5'),new CDbCriteria(array(
 			'condition'=>'"id"=:id',
