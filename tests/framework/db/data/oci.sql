@@ -213,10 +213,18 @@ CREATE TABLE "types" (
 	"float_col2" BINARY_DOUBLE DEFAULT 1.23,
 	"blob_col" BLOB,
 	"numeric_col" NUMBER(5, 2) DEFAULT 33.22,
-	"time" TIMESTAMP DEFAULT TIMESTAMP '2002-01-01 00:00:00',
+	"time" TIMESTAMP DEFAULT TO_TIMESTAMP('2010-01-01 00:00:00','YYYY-MM-DD HH24:MI:SS'),
 	"bool_col" NUMBER(1, 0) NOT NULL,
 	"bool_col2" NUMBER(1, 0) DEFAULT 1
 ) LOGGING NOCOMPRESS NOCACHE;
+
+ALTER TABLE "types" ADD CHECK ("int_col" IS NOT NULL);
+
+ALTER TABLE "types" ADD CHECK ("char_col" IS NOT NULL);
+
+ALTER TABLE "types" ADD CHECK ("float_col" IS NOT NULL);
+
+ALTER TABLE "types" ADD CHECK ("bool_col" IS NOT NULL);
 
 -- Data for the 'users' table.
 INSERT INTO "users" ("username", "password", "email") VALUES ('user1', 'pass1', 'email1');
