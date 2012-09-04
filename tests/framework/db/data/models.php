@@ -540,6 +540,8 @@ class UserWithWrappers extends CActiveRecord
 {
 	private static $_counters=array();
 
+	private static $_beforeFindCriteria;
+
 	public static function model($class=__CLASS__)
 	{
 		return parent::model($class);
@@ -550,6 +552,7 @@ class UserWithWrappers extends CActiveRecord
 		return array(
 			'posts'=>array(self::HAS_MANY,'PostWithWrappers','author_id'),
 			'postCount'=>array(self::STAT,'PostWithWrappers','author_id'),
+			'comments'=>array(self::HAS_MANY,'CommentWithWrappers',array('id'=>'post_id'),'through'=>'posts')
 		);
 	}
 
@@ -562,6 +565,10 @@ class UserWithWrappers extends CActiveRecord
 	{
 		parent::beforeFind();
 		$this->incrementCounter(__FUNCTION__);
+
+		if (self::$_beforeFindCriteria!==null) {
+			$this->getDbCriteria()->mergeWith(self::$_beforeFindCriteria);
+		}
 	}
 
 	protected function afterFind()
@@ -596,11 +603,18 @@ class UserWithWrappers extends CActiveRecord
 	{
 		self::$_counters=array();
 	}
+
+	public static function setBeforeFindCriteria($criteria)
+	{
+		self::$_beforeFindCriteria=(empty($criteria) ? null : $criteria);
+	}
 }
 
 class PostWithWrappers extends CActiveRecord
 {
 	private static $_counters=array();
+
+	private static $_beforeFindCriteria;
 
 	public static function model($class=__CLASS__)
 	{
@@ -632,6 +646,10 @@ class PostWithWrappers extends CActiveRecord
 	{
 		parent::beforeFind();
 		$this->incrementCounter(__FUNCTION__);
+
+		if (self::$_beforeFindCriteria!==null) {
+			$this->getDbCriteria()->mergeWith(self::$_beforeFindCriteria);
+		}
 	}
 
 	protected function afterFind()
@@ -665,6 +683,11 @@ class PostWithWrappers extends CActiveRecord
 	public static function clearCounters()
 	{
 		self::$_counters=array();
+	}
+
+	public static function setBeforeFindCriteria($criteria)
+	{
+		self::$_beforeFindCriteria=(empty($criteria) ? null : $criteria);
 	}
 }
 
@@ -727,25 +750,6 @@ class CommentWithWrappers extends CActiveRecord
 	public static function clearCounters()
 	{
 		self::$_counters=array();
-	}
-}
-
-class PostWithBeforeFind extends CActiveRecord
-{
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
-	public function tableName()
-	{
-		return 'posts';
-	}
-
-	protected function beforeFind()
-	{
-		$criteria=$this->getDbCriteria();
-		$criteria->limit=1;
 	}
 }
 

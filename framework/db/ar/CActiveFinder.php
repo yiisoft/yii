@@ -59,7 +59,6 @@ class CActiveFinder extends CComponent
 	public function query($criteria,$all=false)
 	{
 		$this->joinAll=$criteria->together===true;
-		$this->_joinTree->beforeFind(false);
 
 		if($criteria->alias!='')
 		{
@@ -103,7 +102,6 @@ class CActiveFinder extends CComponent
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
 			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
-			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecord);
 			$this->_joinTree->afterFind();
 			$this->destroyJoinTree();
@@ -125,7 +123,6 @@ class CActiveFinder extends CComponent
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
 			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
-			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecords);
 			$this->_joinTree->afterFind();
 			$this->destroyJoinTree();
@@ -167,9 +164,8 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->lazyFind($baseRecord);
 		if(!empty($this->_joinTree->children))
 		{
-			foreach($this->_joinTree->children as $child) {
-			  $child->afterFind();
-      }
+			foreach($this->_joinTree->children as $child)
+				$child->afterFind();
 		}
 		$this->destroyJoinTree();
 	}
@@ -237,6 +233,7 @@ class CActiveFinder extends CComponent
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
 			$model->resetScope(false);
+			$model->beforeFindInternal();
 			$criteria=$model->getDbCriteria();
 			$criteria->scopes=$scopes;
 			$model->applyScopes($criteria);
@@ -488,7 +485,6 @@ class CJoinElement
 			$query->offset=$child->relation->offset;
 		}
 
-		$child->beforeFind();
 		$child->applyLazyCondition($query,$baseRecord);
 
 		$this->_joined=true;
@@ -726,19 +722,6 @@ class CJoinElement
 		$query->limit=$query->offset=-1;
 		$command=$query->createCommand($this->_builder);
 		return $command->queryScalar();
-	}
-
-	/**
-	 * Calls {@link CActiveRecord::beforeFind}.
-	 * @param boolean $isChild whether is called for a child
-	 */
-	public function beforeFind($isChild=true)
-	{
-		if($isChild)
-			$this->model->beforeFindInternal();
-
-		foreach($this->children as $child)
-			$child->beforeFind(true);
 	}
 
 	/**
