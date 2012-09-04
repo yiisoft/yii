@@ -13,7 +13,7 @@ class COciTest extends CTestCase
 	const DB_PORT='1521';
 	const DB_SERVICE='xe';
 	const DB_USER='test';
-	const DB_PASS='123123';
+	const DB_PASS='test';
 
 	/**
 	 * @var CDbConnection
