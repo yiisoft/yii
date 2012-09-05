@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo 'y' | pecl install memcache > ~/memcache.log || ( echo "=== MEMCACHE BUILD FAILED ==="; cat ~/memcache.log )
 if [[ $TRAVIS_PHP_VERSION < 5.4 ]]; then

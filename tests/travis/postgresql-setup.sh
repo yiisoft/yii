@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
  
 psql -q -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN;" -U postgres
 psql -q -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres
