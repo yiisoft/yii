@@ -25,9 +25,14 @@ class CJavaScriptExpression
 
 	/**
 	 * @param string $code a javascript expression that is to be wrapped by this object
+	 * @throws CException if argument is not a string
 	 */
 	public function __construct($code)
 	{
+		if(!is_string($code))
+			throw new CException('Value passed to CJavaScriptExpression should be a string.');
+		if(strpos($code, 'js:')===0)
+			$code=substr($code,3);
 		$this->code=$code;
 	}
 

@@ -1048,10 +1048,7 @@ EOD;
 		foreach(array('beforeSend','complete','error','success') as $name)
 		{
 			if(isset($options[$name]) && !($options[$name] instanceof CJavaScriptExpression))
-			{
-				if(!is_string($options[$name]) || strpos($options[$name],'js:')!==0)
-					$options[$name]=new CJavaScriptExpression($options[$name]);
-			}
+				$options[$name]=new CJavaScriptExpression($options[$name]);
 		}
 		if(isset($options['update']))
 		{
@@ -2141,8 +2138,8 @@ EOD;
 		{
 			if($pos===0) // [a]name[b][c], should ignore [a]
 			{
-				if(preg_match('/\](.*)/',$attribute,$matches))
-					$attribute=$matches[1];
+				if(preg_match('/\](\w+(\[.+)?)/',$attribute,$matches))
+					$attribute=$matches[1]; // we get: name[b][c]
 				if(($pos=strpos($attribute,'['))===false)
 					return $model->$attribute;
 			}

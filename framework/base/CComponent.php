@@ -601,7 +601,7 @@ class CComponent
 	 */
 	public function evaluateExpression($_expression_,$_data_=array())
 	{
-		if(is_string($_expression_) && !function_exists($_expression_))
+		if(is_string($_expression_))
 		{
 			extract($_data_);
 			return eval('return '.$_expression_.';');
