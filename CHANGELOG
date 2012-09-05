@@ -4,6 +4,7 @@
 Version 1.1.13 work in progress
 -------------------------------
 - Bug #93: Criteria modification in CActiveRecord::beforeFind() did not apply when record was loaded in relational context. See UPGRADE instructions for details on behavior change. (cebe)
+- Bug #110: MSSQL: fixed empty $primaryKey value after saving CActiveRecord model (resurtm)
 - Bug #112: MSSQL: database abstraction layer now uses native transaction support of the SQLSRV driver (resurtm)
 - Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (cebe, DaSourcerer)
 - Bug #962: Fixed handling of negative timestamps in CDateFormatter::format() (johnmendonca)
