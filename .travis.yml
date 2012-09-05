@@ -9,9 +9,9 @@ services:
   - memcached
 
 before_script:
+  - ./tests/travis/mysql-setup.sh
+  - ./tests/travis/postgresql-setup.sh
+  - ./tests/travis/memcache-setup.sh
   - cd tests
-  - ./travis/mysql-setup.sh
-  - ./travis/postgresql-setup.sh
-  - ./travis/memcache-setup.sh
 
 script: phpunit --colors --coverage-text --exclude-group mssql framework
