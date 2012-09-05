@@ -3,6 +3,16 @@
 Yii::import('system.db.CDbConnection');
 Yii::import('system.db.schema.mssql.CMssqlSchema');
 
+require_once(dirname(__FILE__).'/../data/models2.php');
+
+class MssqlUser2 extends User2
+{
+	public function tableName()
+	{
+		return '[dbo].[users]';
+	}
+}
+
 /**
  * @group mssql
  */
@@ -71,6 +81,8 @@ EOD;
 			if(trim($sql)!=='')
 				$this->db->createCommand($sql)->execute();
 		}
+
+		CActiveRecord::$db=$this->db;
 	}
 
 	public function tearDown()
@@ -342,5 +354,26 @@ EOD;
 		$this->assertEquals('Тест Юникода', $usersColumns['id']->comment);
 		$this->assertEquals('User\'s identifier', $usersColumns['user_id']->comment);
 		$this->assertEmpty($usersColumns['last_name']->comment);
+	}
+
+	public function testARLastInsertId()
+	{
+		$user=new MssqlUser2();
+
+		$user->username='testingUser';
+		$user->password='testingPassword';
+		$user->email='testing@email.com';
+
+		$this->assertTrue($user->isNewRecord);
+		$this->assertNull($user->primaryKey);
+		$this->assertNull($user->id);
+		$this->assertEquals(3, $this->db->createCommand('SELECT MAX(id) FROM [dbo].[users]')->queryScalar());
+
+		$user->save();
+
+		$this->assertFalse($user->isNewRecord);
+		$this->assertEquals(4, $user->primaryKey);
+		$this->assertEquals(4, $user->id);
+		$this->assertEquals(4, $this->db->createCommand('SELECT MAX(id) FROM [dbo].[users]')->queryScalar());
 	}
 }
