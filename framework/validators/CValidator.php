@@ -35,6 +35,7 @@
  * <li>url: {@link CUrlValidator}</li>
  * <li>unique: {@link CUniqueValidator}</li>
  * <li>compare: {@link CCompareValidator}</li>
+ * <li>compareDateTime: {@link CCompareDateTimeValidator}</li>
  * <li>length: {@link CStringValidator}</li>
  * <li>in: {@link CRangeValidator}</li>
  * <li>numerical: {@link CNumberValidator}</li>
@@ -67,6 +68,7 @@ abstract class CValidator extends CComponent
 		'url'=>'CUrlValidator',
 		'unique'=>'CUniqueValidator',
 		'compare'=>'CCompareValidator',
+                'compareDateTime'=>'CCompareDateTimeValidator',
 		'length'=>'CStringValidator',
 		'in'=>'CRangeValidator',
 		'numerical'=>'CNumberValidator',

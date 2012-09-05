@@ -13,6 +13,7 @@ Version 1.1.13 work in progress
 - Enh #291: CFormatter::formatDate and formatDateTime now also accept strings in strtotime() format (francis_tm, cebe)
 - Enh #486: CHttpSession::$gCProbability and CDbHttpSession::$gCProbability are floats now. Minimal possible $gCProbability value has been changed to the ≈0.00000005% (1/2147483647), was integer 1% before, default value left unchanged (1%) (resurtm)
 - Enh #556: CDbColumnSchema::$comment property has been added. It stores comment for the table column, comment retrieving is working for MySQL, PgSQL and Oracle (resurtm)
+- Enh #948: New validator to compare date and time  (speedlog)
 - Enh #1289: Added support for column comments for MSSQL (CDbColumnSchema::$comment property) (resurtm)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
@@ -1400,3 +1401,4 @@ Version 1.0.1 January 4, 2009
 Version 1.0 December 3, 2008
 ----------------------------
 Initial release
+>>>>>>> fe85a11230427fe2af00414fa8cab2ea382a7a83
