@@ -138,7 +138,7 @@ return array (
   'Invalid MO file: {file} (magic: {magic}).' => 'Arquivo MO inválido: {file} (magic: {magic}).',
   'Invalid enumerable value "{value}". Please make sure it is among ({enum}).' => 'Valor enumerável "{value}" inválido. Por favor, verifique se ele está entre ({enum}).',
   'Invalid operator "{operator}".' => 'Operador inválido: "{opeator}".',
-  'Last &gt;&gt;' => 'Último Last &gt;&gt;',
+  'Last &gt;&gt;' => 'Último &gt;&gt;',
   'List data must be an array or an object implementing Traversable.' => 'Dados da lista devem ser um array ou objetos que implemente a interface Trasversable.',
   'List index "{index}" is out of bound.' => 'Índice "{index}" da lista está fora dos limites.',
   'Login Required' => 'Login requerido',
