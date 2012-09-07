@@ -15,10 +15,10 @@ Version 1.1.13 work in progress
 - Enh #486: CHttpSession::$gCProbability and CDbHttpSession::$gCProbability are floats now. Minimal possible $gCProbability value has been changed to the ≈0.00000005% (1/2147483647), was integer 1% before, default value left unchanged (1%) (resurtm)
 - Enh #556: CDbColumnSchema::$comment property has been added. It stores comment for the table column, comment retrieving is working for MySQL, PgSQL and Oracle (resurtm)
 - Enh #1289: Added support for column comments for MSSQL (CDbColumnSchema::$comment property) (resurtm)
+- Enh #1345 CButtonColumn's default buttons(view, update, delete) has visible option now (gregmolnar)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
-- Enh: #1345 CButtonColumn's default buttons(view, update, delete) has visible option now (gregmolnar)
 - Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
 
