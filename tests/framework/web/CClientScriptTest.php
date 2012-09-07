@@ -104,6 +104,70 @@ class CClientScriptTest extends CTestCase
 		$this->assertAttributeEquals($assertion, 'css', $returnedClientScript);
 	}
 
+	public function providerRegisterMetaTag()
+	{
+		$data = array();
+
+		// Simple:
+		$metaTagData = array(
+			'name'=>'testMetaTagName',
+			'http-equiv'=>false,
+			'content'=>'testMetaTagContent',
+		);
+		$assertion = array(
+			$metaTagData
+		);
+		$data[] = array($metaTagData['content'],$metaTagData['name'],$metaTagData['http-equiv'],array(),$assertion);
+
+		// Http Equiv:
+		$metaTagData = array(
+			'name'=>'testMetaTagHttpEquiv',
+			'http-equiv'=>true,
+			'content'=>'testMetaTagHttpEquivContent',
+		);
+		$assertion = array(
+			$metaTagData
+		);
+		$data[] = array($metaTagData['content'],$metaTagData['name'],$metaTagData['http-equiv'],array(),$assertion);
+
+		return $data;
+	}
+
+	/**
+	 * @dataProvider providerRegisterMetaTag
+	 *
+	 * @param string $content
+	 * @param string $name
+	 * @param boolean $httpEquiv
+	 * @param array $options
+	 * @param array $assertion
+	 */
+	public function testRegisterMetaTag($content,$name,$httpEquiv,$options,$assertion)
+	{
+		$returnedClientScript = $this->_clientScript->registerMetaTag($content,$name,$httpEquiv,$options);
+		$this->assertAttributeEquals($assertion, 'metaTags', $returnedClientScript);
+	}
+
+	/**
+	 * @depends testRegisterMetaTag
+	 */
+	public function testRegisterDuplicatingMetaTag() {
+		$content='Test meta tag content';
+		$name='test_meta_tag_name';
+		$this->_clientScript->registerMetaTag($content,$name);
+		$this->_clientScript->registerMetaTag($content,$name);
+
+		$metaTagData=array(
+			'name'=>$name,
+			'content'=>$content,
+		);
+		$assertion=array(
+			$metaTagData,
+			$metaTagData
+		);
+		$this->assertAttributeEquals($assertion, 'metaTags', $this->_clientScript);
+	}
+
 	/* Test Script Renderers */
 	
 }
