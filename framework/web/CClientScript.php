@@ -67,14 +67,14 @@ class CClientScript extends CApplicationComponent
 	 * <pre>
 	 * array(
 	 *   'package-name'=>array(
-     *     'basePath'=>'alias of the directory containing the script files',
-     *     'baseUrl'=>'base URL for the script files',
-     *     'js'=>array(list of js files relative to basePath/baseUrl),
-     *     'css'=>array(list of css files relative to basePath/baseUrl),
-     *     'depends'=>array(list of dependent packages),
-     *   ),
-     *   ......
-     * )
+	 *     'basePath'=>'alias of the directory containing the script files',
+	 *     'baseUrl'=>'base URL for the script files',
+	 *     'js'=>array(list of js files relative to basePath/baseUrl),
+	 *     'css'=>array(list of css files relative to basePath/baseUrl),
+	 *     'depends'=>array(list of dependent packages),
+	 *   ),
+	 *   ......
+	 * )
 	 * </pre>
 	 *
 	 * The JS and CSS files listed are relative to 'basePath'.
@@ -132,6 +132,13 @@ class CClientScript extends CApplicationComponent
 	 * @since 1.1.3
 	 */
 	protected $metaTags=array();
+	/**
+	 * @var array the registered unique head meta tags. Each array element represents an option array
+	 * that will be passed as the last parameter of {@link CHtml::metaTag}.
+	 * @see registerMetaTagUnique()
+	 * @since 1.1.11
+	 */
+	protected $metaTagsUnique=array();
 	/**
 	 * @var array the registered head link tags. Each array element represents an option array
 	 * that will be passed as the last parameter of {@link CHtml::linkTag}.
@@ -350,6 +357,8 @@ class CClientScript extends CApplicationComponent
 	public function renderHead(&$output)
 	{
 		$html='';
+		foreach($this->metaTagsUnique as $meta)
+			$html.=CHtml::metaTag($meta['content'],null,null,$meta)."\n";
 		foreach($this->metaTags as $meta)
 			$html.=CHtml::metaTag($meta['content'],null,null,$meta)."\n";
 		foreach($this->linkTags as $link)
@@ -654,7 +663,44 @@ class CClientScript extends CApplicationComponent
 		if($httpEquiv!==null)
 			$options['http-equiv']=$httpEquiv;
 		$options['content']=$content;
-		$this->metaTags[serialize($options)]=$options;
+		$this->metaTags[]=$options;
+		$params=func_get_args();
+		$this->recordCachingAction('clientScript','registerMetaTag',$params);
+		return $this;
+	}
+
+	/**
+	 * Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
+	 *
+	 * <b>Note:</b>
+	 * Unlike the {@link registerMetaTag()} this method allows replacement of the meta tag content.
+	 * This means: if you call this method with the same meta tag name and options but different content multiply times -
+	 * only one meta tag will be rendered with the last given content.
+	 *
+	 * <b>Example:</b>
+	 * <pre>
+	 *    $cs->registerMetaTag('example', 'description', null, array('lang' => 'en'));
+	 *    $cs->registerMetaTag('beispiel', 'description', null, array('lang' => 'de')); // register new meta tag
+	 *    $cs->registerMetaTag('overridden', 'description', null, array('lang' => 'en')); // overwrite meta tag
+	 * </pre>
+	 * @param string $content content attribute of the meta tag
+	 * @param string $name name attribute of the meta tag. If null, the attribute will not be generated
+	 * @param string $httpEquiv http-equiv attribute of the meta tag. If null, the attribute will not be generated
+	 * @param array $options other options in name-value pairs (e.g. 'scheme', 'lang')
+	 * @return CClientScript the CClientScript object itself.
+	 * @since 1.1.11
+	 */
+	public function registerMetaTagUnique($content,$name=null,$httpEquiv=null,$options=array())
+	{
+		$this->hasScripts=true;
+		if($name!==null)
+			$options['name']=$name;
+		if($httpEquiv!==null)
+			$options['http-equiv']=$httpEquiv;
+		ksort($options,SORT_STRING);
+		$metaTagKey = serialize($options);
+		$options['content']=$content;
+		$this->metaTagsUnique[$metaTagKey]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
 		return $this;
