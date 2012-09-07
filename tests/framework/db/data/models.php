@@ -784,6 +784,7 @@ class UserWithDefaultScope extends CActiveRecord
 
 		return array(
 			'condition'=>"{$alias}.deleted IS NULL",
+			'order'=>"{$alias}.name ASC",
 		);
 	}
 
