@@ -66,12 +66,12 @@ class CButtonColumn extends CGridColumn
 	 * @var array the HTML options for the view button tag.
 	 */
 	public $viewButtonOptions=array('class'=>'view');
-    /**
-     * @var string a PHP expression for determining whether the view button is visible
-     * @since 1.1.13
-     */ 
-    public $viewButtonVisible;
-
+	/**
+	 * @var string a PHP expression for determining whether the view button is visible
+	 * @since 1.1.13
+	 */
+	public $viewButtonVisible;
+	
 	/**
 	 * @var string the label for the update button. Defaults to "Update".
 	 * Note that the label will not be HTML-encoded when rendering.
@@ -93,11 +93,11 @@ class CButtonColumn extends CGridColumn
 	 * @var array the HTML options for the update button tag.
 	 */
 	public $updateButtonOptions=array('class'=>'update');
-    /**
-     * @var string a PHP expression for determining whether the update button is visible
-     * @since 1.1.13
-     */ 
-    public $updateButtonVisible;
+	/**
+	 * @var string a PHP expression for determining whether the update button is visible
+	 * @since 1.1.13
+	 */
+	public $updateButtonVisible;
 
 	/**
 	 * @var string the label for the delete button. Defaults to "Delete".
@@ -120,11 +120,11 @@ class CButtonColumn extends CGridColumn
 	 * @var array the HTML options for the view button tag.
 	 */
 	public $deleteButtonOptions=array('class'=>'delete');
-    /**
-     * @var string a PHP expression for determining whether the delete button is visible
-     * @since 1.1.13
-     */ 
-    public $deleteButtonVisible;
+	/**
+	 * @var string a PHP expression for determining whether the delete button is visible
+	 * @since 1.1.13
+	 */
+	public $deleteButtonVisible;
 	/**
 	 * @var string the confirmation message to be displayed when delete button is clicked.
 	 * By setting this property to be false, no confirmation message will be displayed.
