@@ -233,9 +233,9 @@ class CActiveFinder extends CComponent
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
 			$model->resetScope(false);
-			$model->beforeFindInternal();
 			$criteria=$model->getDbCriteria();
 			$criteria->scopes=$scopes;
+			$model->beforeFindInternal();
 			$model->applyScopes($criteria);
 			$relation->mergeWith($criteria,true);
 

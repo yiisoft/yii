@@ -56,6 +56,7 @@ class CActiveRecordEventWrappersTest extends CTestCase
 			array(new CDbCriteria(array('select'=>"'changedTitle' AS title")), 3, array('title'=>'changedTitle')),
 			array(new CDbCriteria(array('condition'=>"title='post 2'")), 1, array()),
 			array(new CDbCriteria(array('with'=>'comments')), 3, array()),
+			array(new CDbCriteria(array('scopes'=>'rename')), 3, array('title'=>'renamed post')),
 		);
 	}
 
@@ -353,6 +354,30 @@ class CActiveRecordEventWrappersTest extends CTestCase
 		$this->assertCriteriaApplied($posts, $criteria, $count, $assertations);
 		foreach($posts as $post) {
 			$this->assertTrue($post->hasRelated('comments'));
+		}
+	}
+
+	/**
+	 * tests if criteria modification in beforeFind() does not overide scopes defined by already applied criteria
+	 * @dataProvider postCriteriaProviderLazy
+	 */
+	public function testBeforeFindRelationalLazyCriteriaScopes($criteria, $count, $assertations)
+	{
+		PostWithWrappers::setBeforeFindCriteria($criteria);
+
+		$user=UserWithWrappers::model()->findByPk(2);
+		$posts = $user->postsWithScope;
+		$this->assertCriteriaApplied($posts, $criteria, $count, $assertations);
+		foreach($posts as $post) {
+			$this->assertEquals('replaced content', $post->content);
+		}
+
+		$user=UserWithWrappers::model()->findByPk(2);
+		$posts = $user->posts(array('with'=>'comments','scopes'=>array('replaceContent')));
+		$this->assertCriteriaApplied($posts, $criteria, $count, $assertations);
+		foreach($posts as $post) {
+			$this->assertTrue($post->hasRelated('comments'));
+			$this->assertEquals('replaced content', $post->content);
 		}
 	}
 
