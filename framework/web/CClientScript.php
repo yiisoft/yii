@@ -633,7 +633,7 @@ class CClientScript extends CApplicationComponent
 	 * Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
 	 *
 	 * <b>Note:</b>
-	 * Meta tags with same attributes will be rendered more then once if called with different values.
+	 * Each call of this method will cause a rendering of new meta tag, even if their attributes are equal.
 	 *
 	 * <b>Example:</b>
 	 * <pre>
