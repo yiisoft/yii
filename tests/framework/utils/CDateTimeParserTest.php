@@ -130,14 +130,13 @@ class CDateTimeParserTest extends CTestCase
 
 	public function testLocaleMonthTitle()
 	{
-		mb_internal_encoding('UTF-8');
-		mb_regex_encoding('UTF-8');
-
-		// remember active application language and locale
+		// remember active application language and charset
 		$oldLanguage=Yii::app()->getLanguage();
+		$oldCharset=Yii::app()->charset;
 
 		// ru_RU.UTF-8
 		Yii::app()->setLanguage('ru_RU');
+		Yii::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 СЕНТЯБРЯ, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
@@ -153,6 +152,7 @@ class CDateTimeParserTest extends CTestCase
 
 		// de_DE.UTF-8
 		Yii::app()->setLanguage('de_DE');
+		Yii::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 SEPTEMBER, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
@@ -168,6 +168,7 @@ class CDateTimeParserTest extends CTestCase
 
 		// zh_CN.UTF-8
 		Yii::app()->setLanguage('zh_CN');
+		Yii::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 九月, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
@@ -181,7 +182,37 @@ class CDateTimeParserTest extends CTestCase
 			date('M d, Y, H:i', CDateTimeParser::parse('十二月 01, 1971, 23:59', 'MMMM dd, yyyy, HH:mm'))
 		);
 
-		// reestablish old active language and locale
+		// reestablish old active language and charset
 		Yii::app()->setLanguage($oldLanguage);
+		Yii::app()->charset=$oldCharset;
+	}
+
+	public function testFailing()
+	{
+		// empty parsed string
+		$this->assertFalse(CDateTimeParser::parse('', 'dd MMMM, yyyy, HH:mm'));
+		$this->assertFalse(CDateTimeParser::parse(false, 'dd MMMM, yyyy, HH:mm'));
+		$this->assertFalse(CDateTimeParser::parse(null, 'dd MMMM, yyyy, HH:mm'));
+
+		// accidently mixed up arguments
+		$this->assertFalse(CDateTimeParser::parse('dd/MM/yyyy, ???, hh:m:s', '02/08/2010, yyy, 05:9:7'));
+		$this->assertFalse(CDateTimeParser::parse('yyyy-MM-dd', '2011-12-31', array('hour' => 23, 'minute' => 59, 'second' => 59)));
+
+		// inexistent defaults' keys are ignored at all
+		$this->assertEquals(1325268000, CDateTimeParser::parse('2011-12-31', 'yyyy-MM-dd', array('hours' => 23, 'minutes' => 59, 'seconds' => 59)));
+
+		// current locale is not ru_RU.UTF-8
+		$this->assertFalse(CDateTimeParser::parse('21 СЕНТЯБРЯ, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'));
+
+		// current locale is not zh_CN.UTF-8
+		$this->assertFalse(CDateTimeParser::parse('21 九月, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'));
+
+		// wrong first slash in the parsed string
+		$this->assertFalse(CDateTimeParser::parse('02\08/2010, yyy, 05:9:7', 'dd/MM/yyyy, ???, hh:m:s'));
+
+		// inexistent patterns
+		$this->assertFalse(CDateTimeParser::parse('05, 1991, 01:09, mar', 'dd, yyyy, HH:mm, MMMMM')); // illegal month pattern
+		$this->assertFalse(CDateTimeParser::parse('05, 1991, 01:09, mar', 'ddd, yyyy, HH:mm, MMM')); // illegal day pattern
+		$this->assertFalse(CDateTimeParser::parse('05, 1991, 01:09, mar', 'dd, yyyyy, HH:mm, MMM')); // illegal year pattern
 	}
 }
