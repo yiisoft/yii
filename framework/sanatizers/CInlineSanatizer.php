@@ -27,7 +27,7 @@ class CInlineSanatizer extends CSanatizer
 	 * @var array additional parameters that are passed to the sanatiazion method
 	 */
 	public $params;
-        
+		
 	/**
 	 * Sanatizes the attribute of the object.
 	 * If there is any error, the error message is added to the object.

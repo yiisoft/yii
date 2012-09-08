@@ -29,16 +29,16 @@
  */
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
-        /**
-         * Wether to sanatize the atributes of this instance before validation
-         * rules should be executed
-         * @var boolean
-         * @since 1.1.13
-         */
-        protected $sanatizeBeforeValidate=false;
+	/**
+	 * Wether to sanatize the atributes of this instance before validation
+	 * rules should be executed
+	 * @var boolean
+	 * @since 1.1.13
+	 */
+	protected $sanatizeBeforeValidate=false;
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
-        private $_sanatizers;           // sanatizers
+	private $_sanatizers;		// sanatizers
 	private $_scenario='';  	// scenario
 
 	/**
@@ -96,8 +96,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		return array();
 	}
-        
-        /**
+
+	/**
 	 * Returns the sanatizing rules for attributes.
 	 *
 	 * This method should be overridden to declare sanatizing rules.
@@ -211,9 +211,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function validate($attributes=null, $clearErrors=true)
 	{
-                if($this->sanatizeBeforeValidate)
-                        $this->sanatize($attributes, $clearErrors);
-                if($clearErrors)
+		if($this->sanatizeBeforeValidate)
+			$this->sanatize($attributes, $clearErrors);
+		if($clearErrors)
 			$this->clearErrors();
 		if($this->beforeValidate())
 		{
@@ -226,7 +226,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			return false;
 	}
 
-       /**
+	/**
 	 * Performs the Sanatization.
 	 *
 	 * This method executes the sanatization rules as declared in {@link sanatizationRules}.
@@ -244,7 +244,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @return boolean whether the sanatization is successful without any error.
 	 * @see beforeSanatize
 	 * @see afterSanatize
-         * @since 1.1.13
+	 * @since 1.1.13
 	 */
 	public function sanatize($attributes=null, $clearErrors=true)
 	{
@@ -260,7 +260,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		else
 			return false;
 	}
-        
+
 	/**
 	 * This method is invoked after a model instance is created by new operator.
 	 * The default implementation raises the {@link onAfterConstruct} event.
@@ -287,15 +287,15 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		$this->onBeforeValidate($event);
 		return $event->isValid;
 	}
-        
-       /**
+
+	/**
 	 * This method is invoked before sanatization starts.
 	 * The default implementation calls {@link onBeforeSanatize} to raise an event.
 	 * You may override this method to do preliminary checks before sanatization.
 	 * Make sure the parent implementation is invoked so that the event can be raised.
 	 * @return boolean whether sanatization should be executed. Defaults to true.
 	 * If false is returned, the sanatization will stop and the model is considered invalid.
-         * @since 1.1.13 
+	 * @since 1.1.13 
 	 */
 	protected function beforeSanatize()
 	{
@@ -315,12 +315,12 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		$this->onAfterValidate(new CEvent($this));
 	}
         
-       /**
+	/**
 	 * This method is invoked after sanatization ends.
 	 * The default implementation calls {@link onAfterSanatize} to raise an event.
 	 * You may override this method to do postprocessing after sanatization.
 	 * Make sure the parent implementation is invoked so that the event can be raised.
-         * @since 1.1.13
+	 * @since 1.1.13
 	 */
 	protected function afterSanatize()
 	{
@@ -345,10 +345,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		$this->raiseEvent('onBeforeValidate',$event);
 	}
 
-       /**
+	/**
 	 * This event is raised before the sanatization is performed.
 	 * @param CModelEvent $event the event parameter
-         * @since 1.1.13
+	 * @since 1.1.13
 	 */
 	public function onBeforeSanatize($event)
 	{
@@ -358,14 +358,14 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * This event is raised after the sanatization is performed.
 	 * @param CEvent $event the event parameter
-         * @since 1.1.13
+	 * @since 1.1.13
 	 */
 	public function onAfterSanatize($event)
 	{
 		$this->raiseEvent('onAfterSanatize',$event);
 	}
         
-       /**
+	/**
 	 * This event is raised after the validation is performed.
 	 * @param CEvent $event the event parameter
 	 */
@@ -435,8 +435,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		}
 		return $validators;
 	}
-        
-       /**
+    	
+	/**
 	 * Returns all the sanatizers declared in the model.
 	 * This method differs from {@link getSanatizers} in that the latter
 	 * would only return the sanatizers applicable to the current {@link scenario}.
@@ -460,7 +460,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @param string $attribute the name of the attribute whose sanatizers should be returned.
 	 * If this is null, the sanatizers for ALL attributes in the model will be returned.
 	 * @return array the sanatizers applicable to the current {@link scenario}.
-         * @since 1.1.13
+	 * @since 1.1.13
 	 */
 	public function getSanatizers($attribute=null)
 	{
@@ -484,7 +484,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Creates sanatizer objects based on the specification in {@link rules}.
 	 * This method is mainly used internally.
 	 * @return CList sanatizers built based on {@link rules()}.
-         * @since 1.1.13
+	 * @since 1.1.13
 	 */
 	public function createSanatizers()
 	{
@@ -499,7 +499,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		}
 		return $sanatizers;
 	}
-        
+
 	/**
 	 * Returns a value indicating whether the attribute is required.
 	 * This is determined by checking if the attribute is associated with a

@@ -39,8 +39,8 @@ abstract class CSanatizer extends CComponent
 	 * @var array list of built-in validators (name=>class)
 	 */
 	public static $builtInSanatizers=array(
-                'number'=>'CNumberSanatizer',
-                'trim'=>'CTrimSanatizer'
+				'number'=>'CNumberSanatizer',
+				'trim'=>'CTrimSanatizer'
 	);
 
 	/**
@@ -78,12 +78,12 @@ abstract class CSanatizer extends CComponent
 	 * Please refer to {@link CActiveForm::enableClientValidation} for more details about client-side validation.
 	 */
 	public $enableClientValidation=true;
-        
-        /**
-         * The model the sanatizer is called on.
-         * @var CModel 
-         */
-        private $_model;
+		
+	/**
+	 * The model the sanatizer is called on.
+	 * @var CModel 
+	 */
+	private $_model;
 
 	/**
 	 * Sanatizes a single attribute.
@@ -104,10 +104,9 @@ abstract class CSanatizer extends CComponent
 	 * @return CValidator the validator
 	 */
 	public static function createSanatizer($name,$object,$attributes,$params=array())
-	{            
+	{
 		if(is_string($attributes))
 			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
-
 		if(isset($params['on']))
 		{
 			if(is_array($params['on']))
@@ -117,7 +116,6 @@ abstract class CSanatizer extends CComponent
 		}
 		else
 			$on=array();
-
 		if(isset($params['except']))
 		{
 			if(is_array($params['except']))
@@ -127,7 +125,6 @@ abstract class CSanatizer extends CComponent
 		}
 		else
 			$except=array();
-
 		if(method_exists($object,$name))
 		{
 			$sanatizer=new CInlineSanatizer();
@@ -151,7 +148,7 @@ abstract class CSanatizer extends CComponent
 
 		$sanatizer->on=empty($on) ? array() : array_combine($on,$on);
 		$sanatizer->except=empty($except) ? array() : array_combine($except,$except);
-                $sanatizer->setModel($object);
+		$sanatizer->setModel($object);
 
 		return $sanatizer;
 	}
@@ -218,22 +215,26 @@ abstract class CSanatizer extends CComponent
 	{
 		return $value===null || $value===array() || $value==='' || $trim && is_scalar($value) && trim($value)==='';
 	}
-        /**
-         * 
-         * @param type $value
-         */
-        public function setModel($value)
-        {
-            if($this->_model===null)
-            {
-                if($value instanceof CModel)
-                    $this->_model=$value;
-                else
-                    throw new CException(Yii::t('yii', 'You may only use a model as sanatization target'));
-            }                
-        }
-        public function getModel()
-        {
-            return $this->_model;
-        }
+	/**
+	 * Sets the model this sanatizer is based on
+	 * @param CModel $value The model this sanatizer is based on.
+	 */
+	public function setModel($value)
+	{
+		if($this->_model===null)
+		{
+			if($value instanceof CModel)
+				$this->_model=$value;
+			else
+				throw new CException(Yii::t('yii', 'You may only use a model as sanatization target'));
+		}
+	}
+	/**
+	 * Returns the model used in this sanatizer
+	 * @return CModel the model used in this sanatizer
+	 */ 
+	public function getModel()
+	{
+		return $this->_model;
+	}
 }
