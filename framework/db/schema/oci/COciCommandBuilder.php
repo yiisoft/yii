@@ -62,11 +62,11 @@ class COciCommandBuilder extends CDbCommandBuilder
 
 
 		$sql = <<<EOD
-				WITH USER_SQL AS ({$sql}),
-				   PAGINATION AS (SELECT USER_SQL.*, rownum as rowNumId FROM USER_SQL)
-				SELECT *
-				FROM PAGINATION
-				{$filter}
+WITH USER_SQL AS ({$sql}),
+	PAGINATION AS (SELECT USER_SQL.*, rownum as rowNumId FROM USER_SQL)
+SELECT *
+FROM PAGINATION
+{$filter}
 EOD;
 
 		return $sql;

@@ -860,10 +860,15 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This event is raised before an AR finder performs a find call.
-	 * In this event, the {@link CModelEvent::criteria} property contains the query criteria
-	 * passed as parameters to those find methods. If you want to access
-	 * the query criteria specified in scopes, please use {@link getDbCriteria()}.
-	 * You can modify either criteria to customize them based on needs.
+	 * This can be either a call to CActiveRecords find methods or a find call
+	 * when model is loaded in relational context via lazy or eager loading.
+	 * If you want to access or modify the query criteria used for the
+	 * find call, you can use {@link getDbCriteria()} to customize it based on your needs.
+	 * When modifying criteria in beforeFind you have to make sure you are using the right
+	 * table alias which is different on normal find and relational call.
+	 * You can use {@link getTableAlias()} to get the alias used for the upcoming find call.
+	 * Please note that modification of criteria is fully supported as of version 1.1.13.
+	 * Earlier versions had some problems with relational context and applying changes correctly.
 	 * @param CModelEvent $event the event parameter
 	 * @see beforeFind
 	 */
@@ -948,10 +953,12 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * This method is invoked before an AR finder executes a find call.
 	 * The find calls include {@link find}, {@link findAll}, {@link findByPk},
-	 * {@link findAllByPk}, {@link findByAttributes} and {@link findAllByAttributes}.
+	 * {@link findAllByPk}, {@link findByAttributes}, {@link findAllByAttributes},
+	 * {@link findBySql} and {@link findAllBySql}.
 	 * The default implementation raises the {@link onBeforeFind} event.
 	 * If you override this method, make sure you call the parent implementation
 	 * so that the event is raised properly.
+	 * For details on modifying query criteria see {@link onBeforeFind} event.
 	 */
 	protected function beforeFind()
 	{

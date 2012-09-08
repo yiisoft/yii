@@ -1369,12 +1369,9 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals($result1, $result2);
 	}
 
-	public function testBeforeFind()
-	{
-		$posts=PostWithBeforeFind::model()->findAll();
-		$this->assertEquals(count($posts),1);
-	}
-
+	/**
+	 * https://github.com/yiisoft/yii/issues/1070
+	 */
 	public function testIssue1070()
 	{
 		$dataProvider=new CActiveDataProvider('UserWithDefaultScope');
@@ -1394,4 +1391,14 @@ class CActiveRecordTest extends CTestCase
 			$this->assertTrue($result);
 		}
 	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/507
+	 */
+	public function testIssue507()
+	{
+		$this->assertEquals(2, count(UserWithDefaultScope::model()->findAll()));
+
+	}
+
 }
