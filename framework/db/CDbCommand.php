@@ -782,10 +782,10 @@ class CDbCommand extends CComponent
 	 * @return CDbCommand the command object itself.
 	 * @since 1.1.13
 	 */
-	public function andWhere($conditions, $params=array())
+	public function andWhere($conditions,$params=array())
 	{
 		if(isset($this->_query['where']))
-			$this->_query['where']=$this->processConditions(array('AND', $this->_query['where'], $conditions));
+			$this->_query['where']=$this->processConditions(array('AND',$this->_query['where'],$conditions));
 		else
 			$this->_query['where']=$this->processConditions($conditions);
 
@@ -806,10 +806,10 @@ class CDbCommand extends CComponent
 	 * @return CDbCommand the command object itself.
 	 * @since 1.1.13
 	 */
-	public function orWhere($conditions, $params=array())
+	public function orWhere($conditions,$params=array())
 	{
 		if(isset($this->_query['where']))
-			$this->_query['where']=$this->processConditions(array('OR', $this->_query['where'], $conditions));
+			$this->_query['where']=$this->processConditions(array('OR',$this->_query['where'],$conditions));
 		else
 			$this->_query['where']=$this->processConditions($conditions);
 
