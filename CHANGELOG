@@ -9,6 +9,7 @@ Version 1.1.13 work in progress
 - Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (cebe, DaSourcerer)
 - Bug #126: Fixed CWebUser::getReturnUrl(), allowing to determine default URL correctly, if CUrlManager::showScriptName is set to false (klimov-paul)
 - Bug #810: Gii now adds a number to the end of relation name if same named relation already exists instead of not generating relation (n30kill, samdark)
+- Bug #837: Fixed method CDbCriteria::__wakeup(), allowing to keep custom names for params and update all string parts for automatic params (klimov-paul)
 - Bug #962: Fixed handling of negative timestamps in CDateFormatter::format() (johnmendonca)
 - Bug #1095: Added missing retry_interval parameter of addServer function call in CMemCache (Lisio)
 - Bug #1181: Fixed can read but not save binary data e.g. BYTEA on PostgreSQL (karmakaze)
