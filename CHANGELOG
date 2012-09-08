@@ -3,8 +3,24 @@
 
 Version 1.1.13 work in progress
 -------------------------------
+- Bug #93: Criteria modification in CActiveRecord::beforeFind() did not apply when record was loaded in relational context. See UPGRADE instructions for details on behavior change. (cebe)
+- Bug #110: MSSQL: fixed empty $primaryKey value after saving CActiveRecord model (resurtm)
+- Bug #112: MSSQL: database abstraction layer now uses native transaction support of the SQLSRV driver (resurtm)
+- Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (cebe, DaSourcerer)
+- Bug #962: Fixed handling of negative timestamps in CDateFormatter::format() (johnmendonca)
+- Bug #1249: CHttpRequest::sendFile() outputs malformed file content in some specific circumstances (andyhu)
+- Bug #1330: SQLite column default value was incorrect for column of type string and DEFAULT NULL (cebe)
+- Enh #117: Added CPhpMessageSource::$extensionPaths to allow extensions, that do not have a base class to use as category prefix, to register message source (rcoelho, cebe)
+- Enh #291: CFormatter::formatDate and formatDateTime now also accept strings in strtotime() format (francis_tm, cebe)
+- Enh #486: CHttpSession::$gCProbability and CDbHttpSession::$gCProbability are floats now. Minimal possible $gCProbability value has been changed to the ≈0.00000005% (1/2147483647), was integer 1% before, default value left unchanged (1%) (resurtm)
+- Enh #556: CDbColumnSchema::$comment property has been added. It stores comment for the table column, comment retrieving is working for MySQL, PgSQL and Oracle (resurtm)
 - Enh #1201: CMenu now supports HTML attributes for the links' wrap element specified in $linkLabelWrapper (resurtm)
+- Enh #1289: Added support for column comments for MSSQL (CDbColumnSchema::$comment property) (resurtm)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
+- Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
+- Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
+- Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
+- Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
 
 Version 1.1.12 August 19, 2012
 ------------------------------

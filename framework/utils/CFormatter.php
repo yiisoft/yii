@@ -165,7 +165,7 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatDate($value)
 	{
-		return date($this->dateFormat,$value);
+		return date($this->dateFormat,$this->normalizeDateValue($value));
 	}
 
 	/**
@@ -176,7 +176,7 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatTime($value)
 	{
-		return date($this->timeFormat,$value);
+		return date($this->timeFormat,$this->normalizeDateValue($value));
 	}
 
 	/**
@@ -187,7 +187,19 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatDatetime($value)
 	{
-		return date($this->datetimeFormat,$value);
+		return date($this->datetimeFormat,$this->normalizeDateValue($value));
+	}
+
+	private function normalizeDateValue($time)
+	{
+		if(is_string($time))
+		{
+			if(ctype_digit($time) || ($time{0}=='-' && ctype_digit(substr($time, 1))))
+				return (int)$time;
+			else
+				return strtotime($time);
+		}
+		return (int)$time;
 	}
 
 	/**
