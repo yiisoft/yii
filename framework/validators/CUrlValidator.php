@@ -113,7 +113,7 @@ class CUrlValidator extends CValidator
 			Yii::app()->getClientScript()->registerCoreScript('punycode');
 			// punycode.js works only with the domains - so we have to extract it before punycoding
 			$validateIDN='
-var info = value.match(/^(.+:\/\/|)(.[^/]+)/);
+var info = value.match(/^(.+:\/\/|)([^/]+)/);
 if (info)
 	value = info[1] + punycode.toASCII(info[2]);
 ';
