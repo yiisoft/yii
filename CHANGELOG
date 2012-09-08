@@ -14,12 +14,15 @@ Version 1.1.13 work in progress
 - Enh #291: CFormatter::formatDate and formatDateTime now also accept strings in strtotime() format (francis_tm, cebe)
 - Enh #486: CHttpSession::$gCProbability and CDbHttpSession::$gCProbability are floats now. Minimal possible $gCProbability value has been changed to the ≈0.00000005% (1/2147483647), was integer 1% before, default value left unchanged (1%) (resurtm)
 - Enh #556: CDbColumnSchema::$comment property has been added. It stores comment for the table column, comment retrieving is working for MySQL, PgSQL and Oracle (resurtm)
+- Enh #1184: CEmailValidator now supports IDN (Internationalized Domain Names), added CEmailValidator::$validateIDN property (resurtm)
+- Enh #1286: CUrlValidator now supports IDN (Internationalized Domain Names), added CUrlValidator::$validateIDN property (resurtm)
 - Enh #1289: Added support for column comments for MSSQL (CDbColumnSchema::$comment property) (resurtm)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
 - Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
+- Chg: Added punycode.js v1.1.1 (http://mths.be/punycode) and IDNA Converter v0.8.0 (http://phlymail.com/en/downloads/idna-convert.html) to the vendors (third party libraries and utilities) (resurtm)
 
 Version 1.1.12 August 19, 2012
 ------------------------------
