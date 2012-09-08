@@ -200,9 +200,6 @@ class CDateTimeParserTest extends CTestCase
 		$this->assertFalse(CDateTimeParser::parse('dd/MM/yyyy, ???, hh:m:s', '02/08/2010, yyy, 05:9:7'));
 		$this->assertFalse(CDateTimeParser::parse('yyyy-MM-dd', '2011-12-31', array('hour' => 23, 'minute' => 59, 'second' => 59)));
 
-		// inexistent defaults' keys are ignored at all
-		$this->assertEquals(1325268000, CDateTimeParser::parse('2011-12-31', 'yyyy-MM-dd', array('hours' => 23, 'minutes' => 59, 'seconds' => 59)));
-
 		// current locale is not ru_RU.UTF-8
 		$this->assertFalse(CDateTimeParser::parse('21 СЕНТЯБРЯ, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'));
 
