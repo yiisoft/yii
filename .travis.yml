@@ -14,4 +14,4 @@ before_script:
   - ./tests/travis/memcache-setup.sh
   - cd tests
 
-script: phpunit --colors --coverage-text --exclude-group mssql framework
+script: phpunit --colors --coverage-text --exclude-group mssql,oci framework
