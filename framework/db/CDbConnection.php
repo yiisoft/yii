@@ -589,6 +589,7 @@ class CDbConnection extends CApplicationComponent
 			'boolean'=>PDO::PARAM_BOOL,
 			'integer'=>PDO::PARAM_INT,
 			'string'=>PDO::PARAM_STR,
+			'resource'=>PDO::PARAM_LOB,
 			'NULL'=>PDO::PARAM_NULL,
 		);
 		return isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
