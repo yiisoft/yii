@@ -17,6 +17,7 @@ Version 1.1.13 work in progress
 - Enh #1201: CMenu now supports HTML attributes for the links' wrap element specified in $linkLabelWrapper (resurtm)
 - Enh #1184: CEmailValidator now supports IDN (Internationalized Domain Names), added CEmailValidator::$validateIDN property (resurtm)
 - Enh #1286: CUrlValidator now supports IDN (Internationalized Domain Names), added CUrlValidator::$validateIDN property (resurtm)
+- Enh #1183: CDbCommand: added andWhere()/orWhere() which appends condition to the WHERE part of the query, in contrary of CDbCommand::where() which replaces it (resurtm)
 - Enh #1289: Added support for column comments for MSSQL (CDbColumnSchema::$comment property) (resurtm)
 - Enh #1345: CButtonColumn's default buttons(view, update, delete) have visible option now (gregmolnar)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
