@@ -4,7 +4,7 @@ Internationalization
 Internationalization (I18N) refers to the process of designing a software
 application so that it can be adapted to various languages and regions
 without engineering changes. For Web applications, this is of particular
-importance because the potential users may be from worldwide.
+importance because the potential users may be worldwide.
 
 Yii provides support for I18N in several aspects.
 
@@ -31,7 +31,7 @@ locale-dependent information, including currency symbols, number symbols,
 currency formats, number formats, date and time formats, and date-related
 names. Since the language information is already implied in the locale ID,
 it is not provided by [CLocale]. For the same reason, we often
-interchangeably using the term locale and language.
+interchangeably use the term locale and language.
 
 Given a locale ID, one can get the corresponding [CLocale] instance by
 `CLocale::getInstance($localeID)` or `CApplication::getLocale($localeID)`.
@@ -61,7 +61,7 @@ One can configure [target language|CApplication::language] in the
 change it dynamically before any internationalization occurs.
 
 > Tip: Sometimes, we may want to set the target language as the language
-preferred by a user (specified in user's browser preference). To do so, we
+preferred by a user (specified in the user's browser preferences). To do so, we
 can retrieve the user preferred language ID using
 [CHttpRequest::preferredLanguage].
 
@@ -75,9 +75,9 @@ desired language.
 
 A translation request consists of the object to be translated, the source
 language that the object is in, and the target language that the object
-needs to be translated to. In Yii, the source language is default to the
+needs to be translated to. In Yii, the source language defaults to the
 [application source language|CApplication::sourceLanguage] while the target
-language is default to the [application language|CApplication::language].
+language defaults to the [application language|CApplication::language].
 If the source and target languages are the same, translation will not
 occur.
 
@@ -159,9 +159,10 @@ and merge them with existing translations if necessary. For more details of usin
 the `message` command, please run `yiic help message`.
 
 When using [CPhpMessageSource] to manage message source,
-messages for an extension class (e.g. a widget, a module) can be specially managed and used. In particular, if a message
-belongs to an extension whose class name is `Xyz`, then the message category can be specified
-in the format of `Xyz.categoryName`. The corresponding message file will be assumed to be
+messages for an extension class (e.g. a widget, a module) can be specially managed 
+and used. In particular, if a message belongs to an extension whose class name is `Xyz`, 
+then the message category can be specified in the format of `Xyz.categoryName`. 
+The corresponding message file will be assumed to be
 `BasePath/messages/LanguageID/categoryName.php`, where `BasePath` refers to
 the directory that contains the extension class file. And when using `Yii::t()` to
 translate an extension message, the following format should be used, instead:
@@ -172,11 +173,11 @@ Yii::t('Xyz.categoryName', 'message to be translated')
 ~~~
 
 Yii supports [choice format|CChoiceFormat], which is also known as plural forms. Choice format
-refers to choosing a translated according to a given number value. For example,
-in English the word 'book' may either take a singular form or a plural form
-depending on the number of books, while in other languages, the word may not have
-different form (such as Chinese) or may have more complex 	plural form rules
-(such as Russian). Choice format solves this problem in a simple yet effective way.
+refers to choosing a translation according to a given number value. For example,
+in English, the word 'book' may either take a singular form or a plural form
+depending on the number of books, while in other languages, the word may not use
+different forms (such as in Chinese) or may use more complex plural form rules
+(such as in Russian). Choice format solves this problem in a simple yet effective way.
 
 To use choice format, a translated message must consist of a sequence of
 expression-message pairs separated by `|`, as shown below:
@@ -220,7 +221,7 @@ As a shortcut notation, if an expression is a number, it will be treated as
 ### Plural forms format
 
 Since version 1.1.6 CLDR-based plural choice format can be used with a simpler
-syntax that. It is handy for languages with complex plural form rules.
+syntax. It is handy for languages with complex plural form rules.
 
 
 
@@ -258,7 +259,7 @@ Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
 array(5, '{username}' => 'samdark'));
 ~~~
 
-and even replace number parameter with something else:
+and even replace a number parameter with something else:
 
 ~~~
 [php]
@@ -272,7 +273,7 @@ Yii::t('test', '{n} cucumber|{n} cucumbers',
 array(5, '{n}' => convertNumber(5)));
 ~~~
 
-For Russian it will be:
+The number of plural expressions will vary by language. For example:
 ~~~
 [php]
 Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
@@ -281,14 +282,14 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
 Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
-with translated message
+when translated into Russian will have 4 instead of 2 message expressions:
 
 ~~~
 [php]
 '{n} cucumber|{n} cucumbers' => '{n} огурец|{n} огурца|{n} огурцов|{n} огурца',
 ~~~
 
-and will give you
+which will produce:
 
 ~~~
 62 огурца
@@ -298,7 +299,7 @@ and will give you
 ~~~
 
 
-> Info: to learn about how many values you should supply and in which
+> Info: to learn about how many expressions you should supply and in which
  order they should be, please refer to CLDR
  [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
 
@@ -321,14 +322,14 @@ translated version will be used for rendering; otherwise, the file
 `protected/views/ControllerID/edit.php` will be rendered instead.
 
 File translation may also be used for other purposes, for example,
-displaying a translated image or loading a locale-dependent data file.
+to display a translated image or load a locale-dependent data file.
 
 Date and Time Formatting
 ------------------------
 
 Date and time are often in different formats in different countries or
 regions. The task of date and time formatting is thus to generate a date or
-time string that fits for the specified locale. Yii provides
+time string that fits the specified locale. Yii provides
 [CDateFormatter] for this purpose.
 
 Each [CDateFormatter] instance is associated with a target locale. To get
@@ -340,7 +341,7 @@ The [CDateFormatter] class mainly provides two methods to format a UNIX
 timestamp.
 
    - [format|CDateFormatter::format]: this method formats the given UNIX
-timestamp into a string according to a customized pattern (e.g.
+timestamp into a string according to a customized date-time pattern (e.g.
 `$dateFormatter->format('yyyy-MM-dd',$timestamp)`).
 
    - [formatDateTime|CDateFormatter::formatDateTime]: this method formats
@@ -351,7 +352,7 @@ time).
 Number Formatting
 -----------------
 
-Like data and time, numbers may also be formatted differently in different
+Like data and time, numbers may also need to be formatted differently in different
 countries or regions. Number formatting includes decimal formatting,
 currency formatting and percentage formatting. Yii provides
 [CNumberFormatter] for these tasks.

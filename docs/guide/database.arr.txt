@@ -423,7 +423,7 @@ In this new approach, we need to execute two SQL statements. The benefit is that
 no redundancy in the query results.
 
 So which approach is more efficient? There is no absolute answer. Executing a single big SQL statement
-may be more efficient because it causes less overhead in DBMS for yparsing and executing
+may be more efficient because it causes less overhead in DBMS for parsing and executing
 the SQL statements. On the other hand, using the single SQL statement, we end up with more redundant data
 and thus need more time to read and process them.
 
@@ -598,6 +598,22 @@ $users=User::model()->findAll(array(
 		),
 	),
 ));
+
+class Post extends CActiveRecord
+{
+	......
+
+	public function rated($rating)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'condition'=>'rating=:rating',
+			'params'=>array(':rating'=>$rating),
+		));
+		return $this;
+	}
+
+	......
+}
 ~~~
 
 Relational Query with through

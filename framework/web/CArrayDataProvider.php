@@ -58,6 +58,13 @@ class CArrayDataProvider extends CDataProvider
 	 * The array elements must use zero-based integer keys.
 	 */
 	public $rawData=array();
+	/**
+	 * @var boolean controls how sorting works. True value means that case will be
+	 * taken into account. False value will lead to the case insensitive sort. Default
+	 * value is true.
+	 * @since 1.1.13
+	 */
+	public $caseSensitiveSort=true;
 
 	/**
 	 * Constructor.
@@ -151,10 +158,8 @@ class CArrayDataProvider extends CDataProvider
 	protected function getSortingFieldValue($data, $fields)
 	{
 		foreach ($fields as $field)
-		{
 			$data = is_object($data) ? $data->$field : $data[$field];
-		}
-		return $data;
+		return $this->caseSensitiveSort ? $data : mb_strtolower($data,Yii::app()->charset);
 	}
 
 	/**

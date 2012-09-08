@@ -95,7 +95,7 @@ class CMemCache extends CCache
 				if($this->useMemcached)
 					$cache->addServer($server->host,$server->port,$server->weight);
 				else
-					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->status);
+					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->retryInterval,$server->status);
 			}
 		}
 		else
