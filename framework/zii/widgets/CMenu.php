@@ -123,7 +123,7 @@ class CMenu extends CWidget
 	/**
 	 * @var array HTML attributes for the links' wrap element specified in
 	 * {@link linkLabelWrapper}.
-	 * @since 1.1.12
+	 * @since 1.1.13
 	 */
 	public $linkLabelWrapperHtmlOptions=array();
 	/**
@@ -242,10 +242,7 @@ class CMenu extends CWidget
 	{
 		if(isset($item['url']))
 		{
-			if($this->linkLabelWrapper===null)
-				$label=$item['label'];
-			else
-				$label=CHtml::tag($this->linkLabelWrapper, $this->linkLabelWrapperHtmlOptions, $item['label']);
+			$label=$this->linkLabelWrapper===null ? $item['label'] : CHtml::tag($this->linkLabelWrapper, $this->linkLabelWrapperHtmlOptions, $item['label']);
 			return CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
 		}
 		else
