@@ -29,8 +29,16 @@
  */
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
+        /**
+         * Wether to sanatize the atributes of this instance before validation
+         * rules should be executed
+         * @var boolean
+         * @since 1.1.13
+         */
+        protected $sanatizeBeforeValidate=false;
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
+        private $_sanatizers;           // sanatizers
 	private $_scenario='';  	// scenario
 
 	/**
@@ -85,6 +93,57 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @see scenario
 	 */
 	public function rules()
+	{
+		return array();
+	}
+        
+        /**
+	 * Returns the sanatizing rules for attributes.
+	 *
+	 * This method should be overridden to declare sanatizing rules.
+	 * Each rule is an array with the following structure:
+	 * <pre>
+	 * array('attribute list', 'sanatizer name', 'on'=>'scenario name', ...parameters...)
+	 * </pre>
+	 * where
+	 * <ul>
+	 * <li>attribute list: specifies the attributes (separated by commas) to be validated;</li>
+	 * <li>sanatizer name: specifies the validator to be used. It can be the name of a model class
+	 *   method, the name of a built-in validator, or a vsanatizer class (or its path alias).
+	 *   A sanatizing method must have the following signature:
+	 * <pre>
+	 * // $params refers to sanatizing parameters given in the rule
+	 * function sanatizerName($attribute,$params)
+	 * </pre>
+	 *   A built-in sanatizer refers to one of the validators declared in {@link CSanatizer::builtInSanatizers}.
+	 *   And a sanatizer class is a class extending {@link CSanatizer}.</li>
+	 * <li>on: this specifies the scenarios when the sanatizing rule should be performed.
+	 *   Separate different scenarios with commas. If this option is not set, the rule
+	 *   will be applied in any scenario that is not listed in "except". Please see {@link scenario} for more details about this option.</li>
+	 * <li>except: this specifies the scenarios when the sanatization rule should not be performed.
+	 *   Separate different scenarios with commas. Please see {@link scenario} for more details about this option.</li>
+	 * <li>additional parameters are used to initialize the corresponding sanatizors properties.
+	 *   Please refer to individal sanatizer class API for possible properties.</li>
+	 * </ul>
+	 *
+	 * The following are some examples:
+	 * <pre>
+	 * array(
+	 *     array('attribute', 'trim'),
+	 *     array('attribute', 'shorten', 'max'=>12),
+	 *     array('attribute', 'identical', 'as'=>'password2', 'on'=>'register'),
+	 *     array(attribute', 'authenticate', 'on'=>'login'),
+	 * );
+	 * </pre>
+	 *
+	 * Note, in order to inherit rules defined in the parent class, a child class needs to
+	 * merge the parent rules with child rules using functions like array_merge().
+	 *
+	 * @return array sanatization rules to be applied when {@link sanatizationRules()} is called.
+	 * @see scenario
+         * @since 1.1.13
+	 */
+	public function sanatizationRules()
 	{
 		return array();
 	}
@@ -152,7 +211,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function validate($attributes=null, $clearErrors=true)
 	{
-		if($clearErrors)
+                if($this->sanatizeBeforeValidate)
+                        $this->sanatize($attributes, $clearErrors);
+                if($clearErrors)
 			$this->clearErrors();
 		if($this->beforeValidate())
 		{
@@ -165,6 +226,41 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			return false;
 	}
 
+       /**
+	 * Performs the Sanatization.
+	 *
+	 * This method executes the sanatization rules as declared in {@link sanatizationRules}.
+	 * Only the rules applicable to the current {@link scenario} will be executed.
+	 * A rule is considered applicable to a scenario if its 'on' option is not set
+	 * or contains the scenario.
+	 *
+	 * Errors occured during the sanatization can be retrieved via {@link getErrors}.
+	 *
+	 * @param array $attributes list of attributes that should be sanatized. Defaults to null,
+	 * meaning any attribute listed in the applicable sanatization rules should be
+	 * validated. If this parameter is given as a list of attributes, only
+	 * the listed attributes will be sanatized.
+	 * @param boolean $clearErrors whether to call {@link clearErrors} before performing sanatization
+	 * @return boolean whether the sanatization is successful without any error.
+	 * @see beforeSanatize
+	 * @see afterSanatize
+         * @since 1.1.13
+	 */
+	public function sanatize($attributes=null, $clearErrors=true)
+	{
+		if($clearErrors)
+			$this->clearErrors();
+		if($this->beforeSanatize())
+		{
+			foreach($this->getSanatizers() as $sanatizer)
+				$sanatizer->sanatize($this,$attributes);
+			$this->afterSanatize();
+			return !$this->hasErrors();
+		}
+		else
+			return false;
+	}
+        
 	/**
 	 * This method is invoked after a model instance is created by new operator.
 	 * The default implementation raises the {@link onAfterConstruct} event.
@@ -191,6 +287,22 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		$this->onBeforeValidate($event);
 		return $event->isValid;
 	}
+        
+       /**
+	 * This method is invoked before sanatization starts.
+	 * The default implementation calls {@link onBeforeSanatize} to raise an event.
+	 * You may override this method to do preliminary checks before sanatization.
+	 * Make sure the parent implementation is invoked so that the event can be raised.
+	 * @return boolean whether sanatization should be executed. Defaults to true.
+	 * If false is returned, the sanatization will stop and the model is considered invalid.
+         * @since 1.1.13 
+	 */
+	protected function beforeSanatize()
+	{
+		$event=new CModelEvent($this);
+		$this->onBeforeSanatize($event);
+		return $event->isValid;
+	}
 
 	/**
 	 * This method is invoked after validation ends.
@@ -201,6 +313,18 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	protected function afterValidate()
 	{
 		$this->onAfterValidate(new CEvent($this));
+	}
+        
+       /**
+	 * This method is invoked after sanatization ends.
+	 * The default implementation calls {@link onAfterSanatize} to raise an event.
+	 * You may override this method to do postprocessing after sanatization.
+	 * Make sure the parent implementation is invoked so that the event can be raised.
+         * @since 1.1.13
+	 */
+	protected function afterSanatize()
+	{
+		$this->onAfterSanatize(new CEvent($this));
 	}
 
 	/**
@@ -221,7 +345,27 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		$this->raiseEvent('onBeforeValidate',$event);
 	}
 
+       /**
+	 * This event is raised before the sanatization is performed.
+	 * @param CModelEvent $event the event parameter
+         * @since 1.1.13
+	 */
+	public function onBeforeSanatize($event)
+	{
+		$this->raiseEvent('onBeforeSanatize',$event);
+	}
+        
 	/**
+	 * This event is raised after the sanatization is performed.
+	 * @param CEvent $event the event parameter
+         * @since 1.1.13
+	 */
+	public function onAfterSanatize($event)
+	{
+		$this->raiseEvent('onAfterSanatize',$event);
+	}
+        
+       /**
 	 * This event is raised after the validation is performed.
 	 * @param CEvent $event the event parameter
 	 */
@@ -291,7 +435,71 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		}
 		return $validators;
 	}
+        
+       /**
+	 * Returns all the sanatizers declared in the model.
+	 * This method differs from {@link getSanatizers} in that the latter
+	 * would only return the sanatizers applicable to the current {@link scenario}.
+	 * Also, since this method returns a {@link CList} object, you may
+	 * manipulate it by inserting or removing sanatizers (useful in behaviors).
+	 * For example, <code>$model->sanatizerList->add($newValidator)</code>.
+	 * The change made to the {@link CList} object will persist and reflect
+	 * in the result of the next call of {@link getValidators}.
+	 * @return CList all the validators declared in the model.
+	 * @since 1.1.13
+	 */
+	public function getSanatizerList()
+	{
+		if($this->_sanatizers===null)
+			$this->_sanatizers=$this->createSanatizers();
+		return $this->_sanatizers;
+	}
 
+	/**
+	 * Returns the sanatizers applicable to the current {@link scenario}.
+	 * @param string $attribute the name of the attribute whose sanatizers should be returned.
+	 * If this is null, the sanatizers for ALL attributes in the model will be returned.
+	 * @return array the sanatizers applicable to the current {@link scenario}.
+         * @since 1.1.13
+	 */
+	public function getSanatizers($attribute=null)
+	{
+		if($this->_sanatizers===null)
+			$this->_sanatizers=$this->createSanatizers();
+
+		$sanatizers=array();
+		$scenario=$this->getScenario();
+		foreach($this->_sanatizers as $sanatizer)
+		{
+			if($sanatizer->applyTo($scenario))
+			{
+				if($attribute===null || in_array($attribute,$sanatizer->attributes,true))
+					$sanatizers[]=$sanatizer;
+			}
+		}
+		return $sanatizers;
+	}
+
+	/**
+	 * Creates sanatizer objects based on the specification in {@link rules}.
+	 * This method is mainly used internally.
+	 * @return CList sanatizers built based on {@link rules()}.
+         * @since 1.1.13
+	 */
+	public function createSanatizers()
+	{
+		$sanatizers=new CList;
+		foreach($this->sanitizationRules() as $rule)
+		{
+			if(isset($rule[0],$rule[1]))  // attributes, sanatizer name
+				$sanatizers->add(CSanatizer::createSanatizer($rule[1],$this,$rule[0],array_slice($rule,2)));
+			else
+				throw new CException(Yii::t('yii','{class} has an invalid sanatization rule. The rule must specify attributes to be sanatized and the sanatizer name.',
+					array('{class}'=>get_class($this))));
+		}
+		return $sanatizers;
+	}
+        
 	/**
 	 * Returns a value indicating whether the attribute is required.
 	 * This is determined by checking if the attribute is associated with a
