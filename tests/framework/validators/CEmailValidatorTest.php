@@ -27,6 +27,11 @@ class CEmailValidatorTest extends CTestCase
 			array('☃-⌘@mañana.com', true, true),
 			array('test@google.com', true, true),
 			array('test@yiiframework.com', true, true),
+			array('bad-email', true, false),
+			array('without@tld', true, false),
+			array('without.at-mark.com', true, false),
+			array('检查域', true, false),
+
 			// IDN validation disabled
 			array('test@президент.рф', false, false),
 			array('test@bücher.de', false, false),
@@ -34,6 +39,10 @@ class CEmailValidatorTest extends CTestCase
 			array('☃-⌘@mañana.com', false, false),
 			array('test@google.com', false, true),
 			array('test@yiiframework.com', false, true),
+			array('bad-email', false, false),
+			array('without@tld', false, false),
+			array('without.at-mark.com', false, false),
+			array('检查域', false, false),
 		);
 	}
 

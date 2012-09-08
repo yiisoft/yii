@@ -22,6 +22,7 @@ Version 1.1.13 work in progress
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
 - Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
+- Chg: Added punycode.js v1.1.1 (http://mths.be/punycode) and IDNA Converter v0.8.0 (http://phlymail.com/en/downloads/idna-convert.html) to the vendors (third party libraries and utilities) (resurtm)
 
 Version 1.1.12 August 19, 2012
 ------------------------------
