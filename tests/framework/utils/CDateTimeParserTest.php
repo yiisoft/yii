@@ -73,14 +73,13 @@ class CDateTimeParserTest extends CTestCase
 
 	public function testLocaleShortMonthTitle()
 	{
-		mb_internal_encoding('UTF-8');
-		mb_regex_encoding('UTF-8');
-
-		// remember active application language and locale
+		// remember active application language and charset
 		$oldLanguage=Yii::app()->getLanguage();
+		$oldCharset=Yii::app()->charset;
 
 		// ru_RU.UTF-8
 		Yii::app()->setLanguage('ru_RU');
+		Yii::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 СЕНТ, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
@@ -96,6 +95,7 @@ class CDateTimeParserTest extends CTestCase
 
 		// de_DE.UTF-8
 		Yii::app()->setLanguage('de_DE');
+		Yii::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 sep, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
@@ -111,6 +111,7 @@ class CDateTimeParserTest extends CTestCase
 
 		// zh_CN.UTF-8
 		Yii::app()->setLanguage('zh_CN');
+		Yii::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 九月, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
@@ -124,8 +125,9 @@ class CDateTimeParserTest extends CTestCase
 			date('M d, Y, H:i', CDateTimeParser::parse('十二月 01, 1971, 23:59', 'MMM dd, yyyy, HH:mm'))
 		);
 
-		// reestablish old active language and locale
+		// reestablish old active language and charset
 		Yii::app()->setLanguage($oldLanguage);
+		Yii::app()->charset=$oldCharset;
 	}
 
 	public function testLocaleMonthTitle()
