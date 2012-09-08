@@ -8,6 +8,7 @@ Version 1.1.13 work in progress
 - Bug #112: MSSQL: database abstraction layer now uses native transaction support of the SQLSRV driver (resurtm)
 - Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (cebe, DaSourcerer)
 - Bug #126: Fixed CWebUser::getReturnUrl(), allowing to determine default URL correctly, if CUrlManager::showScriptName is set to false (klimov-paul)
+- Bug #810: Gii now adds a number to the end of relation name if same named relation already exists instead of not generating relation (n30kill, samdark)
 - Bug #962: Fixed handling of negative timestamps in CDateFormatter::format() (johnmendonca)
 - Bug #1181: Fixed can read but not save binary data e.g. BYTEA on PostgreSQL (karmakaze)
 - Bug #1249: CHttpRequest::sendFile() outputs malformed file content in some specific circumstances (andyhu)
