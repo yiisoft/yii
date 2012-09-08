@@ -561,7 +561,7 @@ class CDbCriteriaTest extends CTestCase {
 	}
 
 	function testToArray(){
-		$keys = array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together');
+		$keys = array('select', 'countQuerySelect', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together');
 		$criteria = new CDbCriteria();
 		$this->assertEquals($keys, array_keys($criteria->toArray()));
 	}

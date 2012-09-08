@@ -38,6 +38,12 @@ class CDbCriteria extends CComponent
 	 * or an array of column names. Defaults to '*', meaning all columns.
 	 */
 	public $select='*';
+        /**
+	 * @var mixed the columns being selected when counting records. This refers to the SELECT clause in an SQL
+	 * statement. The property can be either a string (column names separated by commas)
+	 * or an array of column names. Defaults to '*', meaning all columns.
+	 */
+	public $countQuerySelect='*';
 	/**
 	 * @var boolean whether to select distinct rows of data only. If this is set true,
 	 * the SELECT clause would be changed to SELECT DISTINCT.
@@ -468,6 +474,21 @@ class CDbCriteria extends CComponent
 		$and=$useAnd ? 'AND' : 'OR';
 		if(is_array($criteria))
 			$criteria=new self($criteria);
+                
+		if($this->countQuerySelect!==$criteria->countQuerySelect)
+		{
+                    
+			if($this->countQuerySelect==='*')
+				$this->countQuerySelect=$criteria->countQuerySelect;
+			else if($criteria->countQuerySelect!=='*')
+			{
+				$countQuerySelect1=is_string($this->countQuerySelect)?preg_split('/\s*,\s*/',trim($this->countQuerySelect),-1,PREG_SPLIT_NO_EMPTY):$this->countQuerySelect;
+				$countQuerySelect2=is_string($criteria->countQuerySelect)?preg_split('/\s*,\s*/',trim($criteria->countQuerySelect),-1,PREG_SPLIT_NO_EMPTY):$criteria->countQuerySelect;
+				$this->countQuerySelect=array_merge($countQuerySelect1,array_diff($countQuerySelect2,$countQuerySelect1));
+			}
+             
+		}
+                
 		if($this->select!==$criteria->select)
 		{
 			if($this->select==='*')
@@ -479,7 +500,7 @@ class CDbCriteria extends CComponent
 				$this->select=array_merge($select1,array_diff($select2,$select1));
 			}
 		}
-
+                
 		if($this->condition!==$criteria->condition)
 		{
 			if($this->condition==='')
@@ -608,7 +629,7 @@ class CDbCriteria extends CComponent
 	public function toArray()
 	{
 		$result=array();
-		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together') as $name)
+		foreach(array('select','countQuerySelect', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together') as $name)
 			$result[$name]=$this->$name;
 		return $result;
 	}

@@ -704,7 +704,18 @@ class CJoinElement
 		$this->_finder->baseLimited=false;
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
-
+                // use countQuerySelects if provided in the criteria or AR relation  
+                if(count($query->countQuerySelects))
+                {
+                        $query->selects=$query->countQuerySelects;
+                        $query->orders=array();
+                        $query->limit=$query->offset=-1;
+                        $command=$query->createCommand($this->_builder);
+                        $command->text='SELECT COUNT(*) FROM ('.$command->text.') sq';
+                        $this->_builder->bindValues($command,$criteria->params);
+                        return $command->queryScalar();
+                }
+                
 		$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
 		if($select!=='*' && !strncasecmp($select,'count',5))
 			$query->selects=array($select);
@@ -1162,6 +1173,7 @@ class CJoinQuery
 	 * @var array list of column selections
 	 */
 	public $selects=array();
+	public $countQuerySelects=array();
 	/**
 	 * @var boolean whether to select distinct result set
 	 */
@@ -1212,7 +1224,12 @@ class CJoinQuery
 	{
 		if($criteria!==null)
 		{
-			$this->selects[]=$joinElement->getColumnSelect($criteria->select);
+                        if($criteria->countQuerySelect!=='*')
+                        {
+                            $this->countQuerySelects[]=$joinElement->getColumnSelect($criteria->countQuerySelect);
+                        }
+
+                        $this->selects[]=$joinElement->getColumnSelect($criteria->select);
 			$this->joins[]=$joinElement->getTableNameWithAlias();
 			$this->joins[]=$criteria->join;
 			$this->conditions[]=$criteria->condition;
@@ -1244,6 +1261,10 @@ class CJoinQuery
 			$this->join($element->slave);
 		if(!empty($element->relation->select))
 			$this->selects[]=$element->getColumnSelect($element->relation->select);
+		if(!empty($element->relation->countQuerySelect))
+                {
+                    $this->countQuerySelects[]=$element->relation->countQuerySelect;
+                }
 		$this->conditions[]=$element->relation->condition;
 		$this->orders[]=$element->relation->order;
 		$this->joins[]=$element->getJoinCondition();
