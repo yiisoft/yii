@@ -598,6 +598,22 @@ $users=User::model()->findAll(array(
 		),
 	),
 ));
+
+class Post extends CActiveRecord
+{
+	......
+
+	public function rated($rating)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'condition'=>'rating=:rating',
+			'params'=>array(':rating'=>$rating),
+		));
+		return $this;
+	}
+
+	......
+}
 ~~~
 
 Relational Query with through
