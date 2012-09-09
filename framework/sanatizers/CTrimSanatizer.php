@@ -18,14 +18,10 @@
  * to use your own function instead of trim, ltrim or rtrim.
  * Any callable value passed to {@see CTrimSanatizer::$mode} has to have the following signature:
  * <pre>
- * string trim(string $value, string $attribute, string $charlist, CSanatizer $currentSanatizer)
+ * string trim(CModel $object, string $attribute)
  * </pre>
  * Your callback has to return the trimmed value;
  * You may access the attributes model using
- * <code>
- * // while $sanatizer is the fourth parameter of the callback
- * $sanatizer->getModel()->$attribute;
- * </code>
  * 
  * The value passed to {@see CTrimSanatizer::$charlist} will be used as second parameter
  * of phps native 'trim' and third parameter of your callback.
@@ -67,7 +63,7 @@ class CTrimSanatizer extends CSanatizer
 			$object->$attribute=$this->cut($this->trim($value,$this->mode,$this->charlist),$this->length);
 		elseif(is_callable($this->mode))
 		{
-			$trimmedValue=call_user_func_array($this->mode, array($value, $attribute, $this->charlist, $this));
+			$trimmedValue=call_user_func_array($this->mode, array($object, $attribute));
 			if($trimmedValue !== false)
 				$object->$attribute=$this->cut($trimmedValue,$this->length);
 			else

@@ -40,7 +40,7 @@ abstract class CSanatizer extends CComponent
 	 */
 	public static $builtInSanatizers=array(
 				'number'=>'CNumberSanatizer',
-				'trim'=>'CTrimSanatizer'
+				'trim'=>'CTrimSanatizer',
 	);
 
 	/**
@@ -116,6 +116,7 @@ abstract class CSanatizer extends CComponent
 		}
 		else
 			$on=array();
+
 		if(isset($params['except']))
 		{
 			if(is_array($params['except']))
@@ -125,6 +126,7 @@ abstract class CSanatizer extends CComponent
 		}
 		else
 			$except=array();
+
 		if(method_exists($object,$name))
 		{
 			$sanatizer=new CInlineSanatizer();
@@ -149,15 +151,15 @@ abstract class CSanatizer extends CComponent
 		$sanatizer->on=empty($on) ? array() : array_combine($on,$on);
 		$sanatizer->except=empty($except) ? array() : array_combine($except,$except);
 		$sanatizer->setModel($object);
-
+		
 		return $sanatizer;
 	}
 
 	/**
-	 * Validates the specified object.
-	 * @param CModel $object the data object being validated
-	 * @param array $attributes the list of attributes to be validated. Defaults to null,
-	 * meaning every attribute listed in {@link attributes} will be validated.
+	 * Sanatizes the specified object.
+	 * @param CModel $object the data object being sanatized
+	 * @param array $attributes the list of attributes to be sanatized. Defaults to null,
+	 * meaning every attribute listed in {@link attributes} will be sanatized.
 	 */
 	public function sanatize($object,$attributes=null)
 	{
@@ -173,14 +175,14 @@ abstract class CSanatizer extends CComponent
 	}
 
 	/**
-	 * Returns a value indicating whether the validator applies to the specified scenario.
-	 * A validator applies to a scenario as long as any of the following conditions is met:
+	 * Returns a value indicating whether the sanatizer applies to the specified scenario.
+	 * A sanatizer applies to a scenario as long as any of the following conditions is met:
 	 * <ul>
-	 * <li>the validator's "on" property is empty</li>
-	 * <li>the validator's "on" property contains the specified scenario</li>
+	 * <li>the sanatizer's "on" property is empty</li>
+	 * <li>the sanatizer's "on" property contains the specified scenario</li>
 	 * </ul>
 	 * @param string $scenario scenario name
-	 * @return boolean whether the validator applies to the specified scenario.
+	 * @return boolean whether the sanatizer applies to the specified scenario.
 	 */
 	public function applyTo($scenario)
 	{
@@ -192,8 +194,8 @@ abstract class CSanatizer extends CComponent
 	/**
 	 * Adds an error about the specified attribute to the active record.
 	 * This is a helper method that performs message selection and internationalization.
-	 * @param CModel $object the data object being validated
-	 * @param string $attribute the attribute being validated
+	 * @param CModel $object the data object being sanatized
+	 * @param string $attribute the attribute being sanatized
 	 * @param string $message the error message
 	 * @param array $params values for the placeholders in the error message
 	 */
@@ -226,7 +228,7 @@ abstract class CSanatizer extends CComponent
 			if($value instanceof CModel)
 				$this->_model=$value;
 			else
-				throw new CException(Yii::t('yii', 'You may only use a model as sanatization target'));
+				throw new CException(Yii::t('yii', 'You may only use a model as sanatization target.'));
 		}
 	}
 	/**

@@ -141,7 +141,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 *
 	 * @return array sanatization rules to be applied when {@link sanatizationRules()} is called.
 	 * @see scenario
-         * @since 1.1.13
+	 * @since 1.1.13
 	 */
 	public function sanatizationRules()
 	{
@@ -466,7 +466,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		if($this->_sanatizers===null)
 			$this->_sanatizers=$this->createSanatizers();
-
 		$sanatizers=array();
 		$scenario=$this->getScenario();
 		foreach($this->_sanatizers as $sanatizer)
@@ -481,9 +480,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
-	 * Creates sanatizer objects based on the specification in {@link rules}.
+	 * Creates sanatizer objects based on the specification in {@link sanatizationRules}.
 	 * This method is mainly used internally.
-	 * @return CList sanatizers built based on {@link rules()}.
+	 * @return CList sanatizers built based on {@link sanatizationRules()}.
 	 * @since 1.1.13
 	 */
 	public function createSanatizers()
@@ -494,7 +493,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			if(isset($rule[0],$rule[1]))  // attributes, sanatizer name
 				$sanatizers->add(CSanatizer::createSanatizer($rule[1],$this,$rule[0],array_slice($rule,2)));
 			else
-				throw new CException(Yii::t('yii','{class} has an invalid sanatization rule. The rule must specify attributes to be sanatized and the sanatizer name.',
+				throw new CException(Yii::t('yii','{class} has an invalid sanatization rule. The rule must specify attributes to be sanatized and the sanatizers name.',
 					array('{class}'=>get_class($this))));
 		}
 		return $sanatizers;

@@ -9,6 +9,7 @@ class CTrimSanatizerTest extends CTestCase
 		$model->bar = "\r\n this is bar\n";
 		$model->foobar = 'foobar';
 		$model->barfoo = 'barfoo';
+		$model->barfood = "\r\nbarfood\n";
 		return $model;
 	}
 	
@@ -20,7 +21,7 @@ class CTrimSanatizerTest extends CTestCase
 		$this->assertEquals("this is bar\n",$model->bar);
 		$this->assertEquals('succeeded', $model->foobar);
 		$this->assertEquals('succeeded2', $model->barfoo);
-		
+		$this->assertEquals("\r\nbarfood", $model->barfood);
 	}
 }
 
@@ -28,6 +29,7 @@ class SanatizeTrimTestModel extends CFormModel
 {
     public $foo;
     public $bar;
+	public $barfood;
     public $foobar;
     public $barfoo;
     
@@ -36,8 +38,9 @@ class SanatizeTrimTestModel extends CFormModel
         return array(
             array('foo', 'trim'),
             array('bar', 'trim', 'mode'=>'ltrim'),
-            array('barfoo', 'trim', array($this,'sanatizeBarFoo')),
-			array('foobar', 'sanatizeFooBar';
+			array('barfood', 'trim', 'mode'=>'rtrim'),
+			array('foobar', 'sanatizeFooBar'),
+			array('barfoo', 'sanatizeBarFoo'),
         );
     }
     
@@ -47,9 +50,9 @@ class SanatizeTrimTestModel extends CFormModel
         return true;
     }
 	
-	public static function sanatizeBarFoo($a, $b, $c, $d)
+	public function sanatizeBarFoo($attribute, $params)
 	{
-		$d->$b='succeeded2';
+		$this->$attribute='succeeded2';
 		return true;
 	}
 }
