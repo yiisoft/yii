@@ -36,7 +36,7 @@
 abstract class CSanatizer extends CComponent
 {
 	/**
-	 * @var array list of built-in validators (name=>class)
+	 * @var array list of built-in sanatizers (name=>class)
 	 */
 	public static $builtInSanatizers=array(
 				'number'=>'CNumberSanatizer',

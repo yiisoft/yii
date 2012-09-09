@@ -30,12 +30,11 @@
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
 	/**
-	 * Wether to sanatize the atributes of this instance before validation
+	 * @var boolean Wether to sanatize the attributes of this instance before validation
 	 * rules should be executed
-	 * @var boolean
 	 * @since 1.1.13
 	 */
-	protected $sanatizeBeforeValidate=false;
+	public $sanatizeBeforeValidate=false;
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
 	private $_sanatizers;		// sanatizers

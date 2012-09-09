@@ -48,6 +48,9 @@ class CTrimSanatizer extends CSanatizer
 	 * @var string|callable 
 	 */
 	public $mode='trim';
+	/**
+	 * @var int Maximum length of the trimmed string. Defaults to 'null' meaning infinite length.
+	 */
 	public $length;
 	private $_supportedModes=array('trim','ltrim','rtrim');
 	/**
