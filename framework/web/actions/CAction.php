@@ -23,7 +23,6 @@
  * @property string $id Id of this action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.actions
  * @since 1.0
  */

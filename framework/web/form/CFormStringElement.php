@@ -14,7 +14,6 @@
  * @property string $on Scenario names separated by commas. Defaults to null.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */

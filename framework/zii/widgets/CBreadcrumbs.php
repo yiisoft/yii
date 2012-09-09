@@ -40,7 +40,6 @@
  * Then, in each view script, one only needs to assign the "breadcrumbs" property as needed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets
  * @since 1.1
  */

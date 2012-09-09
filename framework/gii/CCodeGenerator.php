@@ -22,7 +22,6 @@
  * @property string $viewPath The view path of the generator.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.gii
  * @since 1.1.2
  */

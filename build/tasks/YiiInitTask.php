@@ -6,7 +6,6 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 require_once 'phing/Task.php';
@@ -23,7 +22,6 @@ require_once 'phing/tasks/system/PropertyTask.php';
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package build.tasks
  * @since 1.0
  */

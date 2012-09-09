@@ -25,7 +25,6 @@
  * accessing modification time of multiple files under the directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching.dependencies
  * @since 1.0
  */

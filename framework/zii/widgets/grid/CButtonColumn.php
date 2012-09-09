@@ -20,7 +20,6 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * and customize the display order of the buttons.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -71,7 +70,7 @@ class CButtonColumn extends CGridColumn
 	 * @since 1.1.13
 	 */
 	public $viewButtonVisible;
-	
+
 	/**
 	 * @var string the label for the update button. Defaults to "Update".
 	 * Note that the label will not be HTML-encoded when rendering.

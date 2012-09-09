@@ -23,7 +23,6 @@
  * @property CMapIterator $iterator An iterator for traversing the items in the list.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */

@@ -79,7 +79,6 @@
  * @property string $homeUrl The homepage URL.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */

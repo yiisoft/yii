@@ -35,7 +35,6 @@
  * @property CSort $sort The sorting object. If this is false, it means the sorting is disabled.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.1
  */

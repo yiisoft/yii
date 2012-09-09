@@ -44,7 +44,6 @@
  * this method will call {@link CModel::getAttributeLabel} to determine the label.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */

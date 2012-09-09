@@ -28,7 +28,6 @@
  * Note, the ending slashes are stripped off. Defaults to '/AppBaseUrl/assets'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */

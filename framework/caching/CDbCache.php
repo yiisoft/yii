@@ -27,7 +27,6 @@
  * @property CDbConnection $dbConnection The DB connection instance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */

@@ -12,7 +12,6 @@
  * CEmailValidator validates that the attribute value is a valid email address.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -138,7 +137,7 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 }
 ";
 	}
-	
+
 	/**
 	 * Retrieves the list of MX records for $domain and checks if port 25
 	 * is opened on any of these.
@@ -163,7 +162,7 @@ if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Determines if one MX record has higher priority as another
 	 * (i.e. 'pri' is lower). Used by {@link checkMxPorts}.

@@ -12,7 +12,6 @@
  * CSqliteColumnSchema class describes the column meta data of a SQLite table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema.sqlite
  * @since 1.0
  */

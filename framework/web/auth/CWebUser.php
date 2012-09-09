@@ -52,7 +52,6 @@
  * @property array $flashes Flash messages (key => message).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */

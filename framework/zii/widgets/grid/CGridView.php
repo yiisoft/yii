@@ -77,7 +77,6 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  * @property CFormatter $formatter The formatter instance. Defaults to the 'format' application component.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */

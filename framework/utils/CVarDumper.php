@@ -20,7 +20,6 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.utils
  * @since 1.0
  */
@@ -111,7 +110,7 @@ class CVarDumper
 							$key2=$key;
 						else
 							$key2="'".str_replace("'","\\'",$key)."'";
-							
+
 						self::$_output.="\n".$spaces."    $key2 => ";
 						self::$_output.=self::dumpInternal($var[$key],$level+1);
 					}

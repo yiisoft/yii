@@ -58,7 +58,6 @@
  * This can be either a string or an array representing multiple union parts.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.0
  */

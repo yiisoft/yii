@@ -14,7 +14,6 @@
  * @property string $defaultSchema Default schema.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id$
  * @package system.db.schema.oci
  */
 class COciSchema extends CDbSchema
