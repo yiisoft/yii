@@ -1,6 +1,6 @@
 <?php
 
-class CSanatizerTest extends CTestCase
+class CSanitizerTest extends CTestCase
 {
     /**
      * @var CModel
@@ -8,44 +8,44 @@ class CSanatizerTest extends CTestCase
     private $model;
     public function setUp()
     {
-        $this->model = new SanatizeTestModel();
+        $this->model = new SanitizeTestModel();
         $this->model->foo = "   Some String    ";
         $this->model->bar = "\nRemove Only Left Newline\n";
         $this->model->foobar = "some value";
     }
     /**
      * 
-     * @covers CModel::sanatize
+     * @covers CModel::sanitize
      */
-    public function testSanatize()
+    public function testSanitize()
     {
-        $this->model->sanatize();
+        $this->model->sanitize();
         $this->assertEquals("Some String", $this->model->foo);
         $this->assertEquals("Remove Only Left Newline\n", $this->model->bar);
         $this->assertEquals("succeeded", $this->model->foobar);
     }
 	
-	public function testScenarions()
+	public function testScenarios()
 	{
-		$model = new SanatizerScenariosTestModel();
+		$model = new SanitizerScenariosTestModel();
 		$testmodel = clone $model;
 		//scenario 1
 		$testmodel->setScenario('scenario1');
-		$testmodel->sanatize();
+		$testmodel->sanitize();
 		$this->assertEquals('title', $testmodel->title);
 		$this->assertEquals('firstName', $testmodel->firstName);
 		$this->assertEquals("\nbirthday", $testmodel->birthday);
 		$testmodel = clone $model;
 		// scenario 3
 		$testmodel->setScenario('scenario3');
-		$testmodel->sanatize();
+		$testmodel->sanitize();
 		$this->assertEquals("\nfirstName", $testmodel->firstName);
 		$this->assertEquals('nickName', $testmodel->nickName);
 		
 	}
 }
 
-class SanatizeTestModel extends CFormModel
+class SanitizeTestModel extends CFormModel
 {
     public $foo;
     public $bar;
@@ -68,7 +68,7 @@ class SanatizeTestModel extends CFormModel
     }
 }
 
-class SanatizerScenariosTestModel extends CFormModel
+class SanitizerScenariosTestModel extends CFormModel
 {
 	public $title = "\ntitle";
 	public $firstName = "\nfirstName";

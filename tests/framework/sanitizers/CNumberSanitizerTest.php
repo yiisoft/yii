@@ -1,10 +1,10 @@
 <?php
 
-class CNumberSanatizerTest extends CTestCase
+class CNumberSanitizerTest extends CTestCase
 {
     public function getTestModel()
 	{
-		$model = new SanatizeNumberTestModel;
+		$model = new SanitizeNumberTestModel;
 		$model->int = 45.4231;
 		$model->uint = -234.12;
 		$model->float = "456.33";
@@ -13,10 +13,10 @@ class CNumberSanatizerTest extends CTestCase
 		return $model;
 	}
 	
-	public function testSanatizeAttributes()
+	public function testSanitizeAttributes()
 	{
 		$model = $this->getTestModel();
-		$model->sanatize();
+		$model->sanitize();
 		$this->assertEquals(45, $model->int);
 		$this->assertTrue(is_int($model->int));
 		$this->assertEquals(234, $model->uint);
@@ -30,7 +30,7 @@ class CNumberSanatizerTest extends CTestCase
 	}
 }
 
-class SanatizeNumberTestModel extends CFormModel
+class SanitizeNumberTestModel extends CFormModel
 {
     public $int;
     public $uint;
@@ -50,16 +50,4 @@ class SanatizeNumberTestModel extends CFormModel
 			array('emptyValue', 'number', 'allowEmpty'=>false, 'emptyValue'=>45),
         );
     }
-    
-    public function sanatizeFooBar($attribute, $params)
-    {
-        $this->foobar = 'succeeded';
-        return true;
-    }
-	
-	public function sanatizeBarFoo($attribute, $params)
-	{
-		$this->$attribute='succeeded2';
-		return true;
-	}
 }

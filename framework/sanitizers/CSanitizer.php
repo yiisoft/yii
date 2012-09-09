@@ -1,6 +1,6 @@
 <?php
 /**
- * CSanatizer class file.
+ * CSanitizer class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
@@ -9,101 +9,90 @@
  */
 
 /**
- * CSanatizer is the base class for all validators.
+ * CSanitizer is the base class for all validators.
  *
- * Child classes must implement the {@link sanatizeAttribute} method.
+ * Child classes must implement the {@link sanitizeAttribute} method.
  *
- * The following properties are defined in CSanatizer:
+ * The following properties are defined in CSanitizer:
  * <ul>
- * <li>{@link attributes}: array, list of attributes to be sanatized;</li>
- * <li>{@link on}: string, in which scenario should the sanatizer be in effect.
- *   This is used to match the 'on' parameter supplied when calling {@link CModel::sanatize}.</li>
+ * <li>{@link attributes}: array, list of attributes to be sanitized;</li>
+ * <li>{@link on}: string, in which scenario should the sanitizer be in effect.
+ *   This is used to match the 'on' parameter supplied when calling {@link CModel::sanitize}.</li>
  * </ul>
  *
- * When using {@link createSanatizer} to create a sanatizer, the following aliases
- * are recognized as the corresponding built-in sanatizer classes:
+ * When using {@link createSanitizer} to create a sanitizer, the following aliases
+ * are recognized as the corresponding built-in sanitizer classes:
  * <ul>
- * <li>trim: {@link CTrimSanatizer}</li>
- * <li>trim: {@link CNumberSanatizer}</li>
+ * <li>trim: {@link CTrimSanitizer}</li>
+ * <li>number: {@link CNumberSanitizer}</li>
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Suralc <thesurwaveing@googlemail.com>
  * @version $Id$
- * @package system.sanatizers
+ * @package system.sanitizers
  * @since 1.1.13
  */
-abstract class CSanatizer extends CComponent
+abstract class CSanitizer extends CComponent
 {
 	/**
-	 * @var array list of built-in sanatizers (name=>class)
+	 * @var array list of built-in sanitizers (name=>class)
 	 */
-	public static $builtInSanatizers=array(
-				'number'=>'CNumberSanatizer',
-				'trim'=>'CTrimSanatizer',
+	public static $builtInSanitizers=array(
+				'number'=>'CNumberSanitizer',
+				'trim'=>'CTrimSanitizer',
 	);
 
 	/**
-	 * @var array list of attributes to be validated.
+	 * @var array list of attributes to be sanitized.
 	 */
 	public $attributes;
 	/**
-	 * @var string the user-defined error message. Different validators may define various
-	 * placeholders in the message that are to be replaced with actual values. All validators
-	 * recognize "{attribute}" placeholder, which will be replaced with the label of the attribute.
-	 */
-	public $message;
-	/**
-	 * @var boolean whether this validation rule should be skipped when there is already a validation
+	 * @var boolean whether this sanitizion rule should be skipped when there is already a sanitzing
 	 * error for the current attribute. Defaults to false.
 	 */
 	public $skipOnError=false;
 	/**
-	 * @var array list of scenarios that the validator should be applied.
+	 * @var array list of scenarios that the sanitizer should be applied.
 	 * Each array value refers to a scenario name with the same name as its array key.
 	 */
 	public $on;
 	/**
-	 * @var array list of scenarios that the validator should not be applied to.
+	 * @var array list of scenarios that the sanitizer should not be applied to.
 	 * Each array value refers to a scenario name with the same name as its array key.
 	 */
 	public $except;
 	/**
-	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
+	 * @var boolean whether attributes listed with this sanitizer should be considered safe for massive assignment.
 	 * Defaults to true.
 	 */
 	public $safe=true;
-	/**
-	 * @var boolean whether to perform client-side validation. Defaults to true.
-	 * Please refer to {@link CActiveForm::enableClientValidation} for more details about client-side validation.
-	 */
-	public $enableClientValidation=true;
 		
 	/**
-	 * The model the sanatizer is called on.
+	 * The model the sanitizer is called on.
 	 * @var CModel 
 	 */
 	private $_model;
 
 	/**
-	 * Sanatizes a single attribute.
+	 * Sanitizes a single attribute.
 	 * This method should be overridden by child classes.
-	 * @param CModel $object the data object being sanatized
-	 * @param string $attribute the name of the attribute to be validated.
+	 * @param CModel $object the data object being sanitized
+	 * @param string $attribute the name of the attribute to be sanitized.
 	 */
-	abstract protected function sanatizeAttribute($object,$attribute);
+	abstract protected function sanitizeAttribute($object,$attribute);
 
 
 	/**
-	 * Creates a sanatizer object.
-	 * @param string $name the name or class of the sanatizer
-	 * @param CModel $object the data object being validated that may contain the inline validation method
-	 * @param mixed $attributes list of attributes to be sanatized. This can be either an array of
+	 * Creates a santizer object.
+	 * @param string $name the name or class of the sanitizer
+	 * @param CModel $object the data object being sanitized that may contain the inline sanitization method
+	 * @param mixed $attributes list of attributes to be sanitized. This can be either an array of
 	 * the attribute names or a string of comma-separated attribute names.
-	 * @param array $params initial values to be applied to the sanatizers properties
+	 * @param array $params initial values to be applied to the sanitizers properties
 	 * @return CValidator the validator
 	 */
-	public static function createSanatizer($name,$object,$attributes,$params=array())
+	public static function createSanitizer($name,$object,$attributes,$params=array())
 	{
 		if(is_string($attributes))
 			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
@@ -129,39 +118,39 @@ abstract class CSanatizer extends CComponent
 
 		if(method_exists($object,$name))
 		{
-			$sanatizer=new CInlineSanatizer();
-			$sanatizer->attributes=$attributes;
-			$sanatizer->method=$name;
-			$sanatizer->params=$params;
+			$sanitizer=new CInlineSanitizer();
+			$sanitizer->attributes=$attributes;
+			$sanitizer->method=$name;
+			$sanitizer->params=$params;
 			if(isset($params['skipOnError']))
-				$sanatizer->skipOnError=$params['skipOnError'];
+				$sanitizer->skipOnError=$params['skipOnError'];
 		}
 		else
 		{
 			$params['attributes']=$attributes;
-			if(isset(self::$builtInSanatizers[$name]))
-				$className=Yii::import(self::$builtInSanatizers[$name],true);
+			if(isset(self::$builtInSanitizers[$name]))
+				$className=Yii::import(self::$builtInSanitizers[$name],true);
 			else
 				$className=Yii::import($name,true);
-			$sanatizer=new $className;
+			$sanitizer=new $className;
 			foreach($params as $name=>$value)
-				$sanatizer->$name=$value;
+				$sanitizer->$name=$value;
 		}
 
-		$sanatizer->on=empty($on) ? array() : array_combine($on,$on);
-		$sanatizer->except=empty($except) ? array() : array_combine($except,$except);
-		$sanatizer->setModel($object);
+		$sanitizer->on=empty($on)?array():array_combine($on,$on);
+		$sanitizer->except=empty($except)?array():array_combine($except,$except);
+		$sanitizer->setModel($object);
 		
-		return $sanatizer;
+		return $sanitizer;
 	}
 
 	/**
-	 * Sanatizes the specified object.
-	 * @param CModel $object the data object being sanatized
-	 * @param array $attributes the list of attributes to be sanatized. Defaults to null,
-	 * meaning every attribute listed in {@link attributes} will be sanatized.
+	 * Sanitizes the specified object.
+	 * @param CModel $object the data object being sanitized
+	 * @param array $attributes the list of attributes to be sanitized. Defaults to null,
+	 * meaning every attribute listed in {@link attributes} will be santized.
 	 */
-	public function sanatize($object,$attributes=null)
+	public function sanitize($object,$attributes=null)
 	{
 		if(is_array($attributes))
 			$attributes=array_intersect($this->attributes,$attributes);
@@ -170,7 +159,7 @@ abstract class CSanatizer extends CComponent
 		foreach($attributes as $attribute)
 		{
 			if(!$this->skipOnError || !$object->hasErrors($attribute))
-				$this->sanatizeAttribute($object,$attribute);
+				$this->sanitizeAttribute($object,$attribute);
 		}
 	}
 
@@ -228,7 +217,7 @@ abstract class CSanatizer extends CComponent
 			if($value instanceof CModel)
 				$this->_model=$value;
 			else
-				throw new CException(Yii::t('yii', 'You may only use a model as sanatization target.'));
+				throw new CException(Yii::t('yii', 'You may only use a model as sanitization target.'));
 		}
 	}
 	/**

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CTrimSanatizer class file.
+ * CTrimSanitizer class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
@@ -10,7 +10,7 @@
  */
 
 /**
- * This sanatizer is used to trim an attribute using a given characterlist.
+ * This sanitizer is used to trim an attribute using a given characterlist.
  * 
  * Sanatizes an attribute using the mode given in {@see CTrimSanatizer::$mode}.
  * By default trim, ltrim and rtrim are supported, but mode can be used to use
@@ -25,11 +25,12 @@
  * 
  * The value passed to {@see CTrimSanatizer::$charlist} will be used as second parameter
  * of phps native 'trim' and third parameter of your callback.
+ * 
  * @author Suralc <thesurwaveing@googlemail.com>
- * @package system.sanatizers
+ * @package system.sanitizers
  * @since 1.1.13
  */
-class CTrimSanatizer extends CSanatizer
+class CTrimSanitizer extends CSanitizer
 {
 	/**
 	 * @var string List of trimmable characters. 
@@ -59,7 +60,7 @@ class CTrimSanatizer extends CSanatizer
 	 * @param type $attribute
 	 * @return boolean
 	 */
-	protected function sanatizeAttribute($object, $attribute)
+	protected function sanitizeAttribute($object, $attribute)
 	{
 		$value=(string)$object->$attribute;
 		if(in_array(strtolower($this->mode),$this->_supportedModes))
@@ -75,10 +76,10 @@ class CTrimSanatizer extends CSanatizer
 	}
 	/**
 	 * 
-	 * @param type $value
-	 * @param type $mode
-	 * @param type $charlist
-	 * @return type
+	 * @param string $value
+	 * @param string $mode
+	 * @param string $charlist
+	 * @return string
 	 * @throws CException
 	 */
 	protected function trim($value, $mode='trim', $charlist=null)
@@ -119,6 +120,6 @@ class CTrimSanatizer extends CSanatizer
 		if($length===null)
 			return $value;
 		else
-			return substr ($value, 0, (int)$length);
+			return substr($value,0,(int)$length);
 	}
 }

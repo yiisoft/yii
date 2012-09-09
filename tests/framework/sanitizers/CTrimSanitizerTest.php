@@ -1,10 +1,10 @@
 <?php
 
-class CTrimSanatizerTest extends CTestCase
+class CTrimSanitizerTest extends CTestCase
 {
 	public function getTestModel()
 	{
-		$model = new SanatizeTrimTestModel;
+		$model = new SanitizeTrimTestModel;
 		$model->foo = "\nfoo\n";
 		$model->bar = "\r\n this is bar\n";
 		$model->foobar = 'foobar';
@@ -13,10 +13,10 @@ class CTrimSanatizerTest extends CTestCase
 		return $model;
 	}
 	
-	public function testSanatizeAttribute()
+	public function testSanitizeAttribute()
 	{
 		$model = $this->getTestModel();
-		$model->sanatize();
+		$model->sanitize();
 		$this->assertEquals('foo',$model->foo);
 		$this->assertEquals("this is bar\n",$model->bar);
 		$this->assertEquals('succeeded', $model->foobar);
@@ -25,7 +25,7 @@ class CTrimSanatizerTest extends CTestCase
 	}
 }
 
-class SanatizeTrimTestModel extends CFormModel
+class SanitizeTrimTestModel extends CFormModel
 {
     public $foo;
     public $bar;

@@ -9,7 +9,7 @@
  */
 
 /**
- * CNumberSanatizer sanatizes an attribute containing a number.
+ * CNumberSanitizer sanotizes an attribute containing a number.
  * 
  * CNumberSanatizer has a couple of custom settings:
  * <ul>
@@ -17,7 +17,7 @@
  * <li>{max}: when using {@link tooBig}, replaced with the upper limit of the number {@link max}.</li>
  * <li>{allowEmpty}: Wether to allow an empty attribute. If this is set to false, the empty attribute is replaced with $emptyValue {@link allowEmpty}.</li>
  * <li>{emptyValue}: If {@link allowEmpty} is set to false this value is used to fill an empty attribute {@link emptyValue}.</li>
- * <li>{to}: Target type of the sanatization. One of the following values: int, uint, float, ufloat {@link to}.</li>
+ * <li>{to}: Target type of the sanotization. One of the following values: int, uint, float, ufloat {@link to}.</li>
  * <li>{fallBackValue}: Value used if attribute cannot be transformed into a number {@link fallBackValue}.</li>
  * <li>{precision}: precision used while transforming a number to a float {@link max}.</li>
  * </ul>
@@ -25,10 +25,10 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Suralc <thesurwaveing@googlemail.com>
  * @version $Id$
- * @package system.sanatizers
+ * @package system.sanitizers
  * @since 1.1.13
  */
-class CNumberSanatizer extends CSanatizer
+class CNumberSanitizer extends CSanitizer
 {
 	/**
 	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
@@ -40,7 +40,8 @@ class CNumberSanatizer extends CSanatizer
 	 */
 	public $emptyValue=0;
 	/**
-	 * @var string String indicating the target of the sanatization. Possible values: int, uint, float, ufloat 
+	 * @var string String indicating the target of the sanitization. 
+	 * Possible values: int, uint, float, ufloat 
 	 */
 	public $to='uint';
 	/**
@@ -65,12 +66,12 @@ class CNumberSanatizer extends CSanatizer
 	public $numberPattern='/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/';
 
 	/**
-	 * Sanatizes the attribute of the object.
+	 * Sanitizes the attribute of the object.
 	 * If there is any error, the error message is added to the object.
 	 * @param CModel $object the object being sanatized
 	 * @param string $attribute the attribute being sanatized
 	 */
-	protected function sanatizeAttribute($object,$attribute)
+	protected function sanitizeAttribute($object,$attribute)
 	{
 		if($this->allowEmpty&&empty($object->$attribute))
 			return true;
@@ -109,7 +110,7 @@ class CNumberSanatizer extends CSanatizer
 		return true;
 	}
 	/**
-	 * Pads a value to the upper or lower limit pecified in this sanatizer
+	 * Pads a value to the upper or lower limit pecified in this sanitizer
 	 * @param string $value The value to be assigned
 	 */
 	protected function padToBoundaries($value)
