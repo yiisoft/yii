@@ -750,8 +750,8 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Redirects the browser to the specified URL.
-	 * @param string $url URL to be redirected to. If the URL is a relative one, the base URL of
-	 * the application will be inserted at the beginning.
+	 * @param string $url URL to be redirected to. Note that when URL is not
+	 * absolute (not starting with "/") it will be relative to current request URL.
 	 * @param boolean $terminate whether to terminate the current application
 	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
