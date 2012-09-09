@@ -2202,6 +2202,9 @@ EOD;
 	 */
 	protected static function addErrorCss(&$htmlOptions)
 	{
+		if(empty(self::$errorCss))
+			return;
+
 		if(isset($htmlOptions['class']))
 			$htmlOptions['class'].=' '.self::$errorCss;
 		else
