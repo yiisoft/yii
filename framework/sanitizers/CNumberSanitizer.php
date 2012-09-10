@@ -24,7 +24,6 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Suralc <thesurwaveing@googlemail.com>
- * @version $Id$
  * @package system.sanitizers
  * @since 1.1.13
  */

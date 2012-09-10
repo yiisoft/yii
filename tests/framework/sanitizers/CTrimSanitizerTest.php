@@ -22,6 +22,7 @@ class CTrimSanitizerTest extends CTestCase
 		$this->assertEquals('succeeded', $model->foobar);
 		$this->assertEquals('succeeded2', $model->barfoo);
 		$this->assertEquals("\r\nbarfood", $model->barfood);
+		$this->assertEquals('trimmed', $model->callback);
 	}
 }
 
@@ -32,6 +33,7 @@ class SanitizeTrimTestModel extends CFormModel
 	public $barfood;
     public $foobar;
     public $barfoo;
+	public $callback;
     
     public function sanitizationRules()
     {
@@ -41,9 +43,16 @@ class SanitizeTrimTestModel extends CFormModel
 			array('barfood', 'trim', 'mode'=>'rtrim'),
 			array('foobar', 'sanatizeFooBar'),
 			array('barfoo', 'sanatizeBarFoo'),
+			/*
+			 * Bad example. Should be another class or a closure in realworld. 
+			 */
+			array('callback', 'trim', 'mode'=>array($this, 'myTrim')),
         );
     }
-    
+    public function myTrim($model, $attribute, $sanitizer)
+	{
+		return 'trimmed';
+	}
     public function sanatizeFooBar($attribute, $params)
     {
         $this->foobar = 'succeeded';

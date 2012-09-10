@@ -9,7 +9,7 @@
  */
 
 /**
- * CSanitizer is the base class for all validators.
+ * CSanitizer is the base class for all sanitizors.
  *
  * Child classes must implement the {@link sanitizeAttribute} method.
  *
@@ -29,7 +29,6 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Suralc <thesurwaveing@googlemail.com>
- * @version $Id$
  * @package system.sanitizers
  * @since 1.1.13
  */
