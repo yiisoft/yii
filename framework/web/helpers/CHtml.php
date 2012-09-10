@@ -51,7 +51,6 @@ class CHtml
 	 * @var integer the counter for generating automatic input field names.
 	 */
 	public static $count=0;
-
 	/**
 	 * Sets the default style for attaching jQuery event handlers.
 	 *
@@ -71,6 +70,11 @@ class CHtml
 	 * @see clientChange
 	 */
 	public static $liveEvents = true;
+	/**
+	 * @var boolean whether to close single tags. Defaults to true. Can be setted to false for HTML5.
+	 * @since 1.1.13
+	 */
+	public static $closeSingleTags=true;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -138,7 +142,7 @@ class CHtml
 	{
 		$html='<' . $tag . self::renderAttributes($htmlOptions);
 		if($content===false)
-			return $closeTag ? $html.' />' : $html.'>';
+			return self::$closeSingleTags && $closeTag ? $html.' />' : $html.'>';
 		else
 			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
 	}
