@@ -32,7 +32,6 @@ Version 1.1.13 work in progress
 - Enh #1286: CUrlValidator now supports IDN (Internationalized Domain Names), added CUrlValidator::$validateIDN property (resurtm)
 - Enh #1289: Added support for column comments for MSSQL (CDbColumnSchema::$comment property) (resurtm)
 - Enh #1299: Added CSRF token validation for PUT and DELETE (miraage, samdark)
-- Enh #1345: CButtonColumn's default buttons(view, update, delete) have visible option now (gregmolnar)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
