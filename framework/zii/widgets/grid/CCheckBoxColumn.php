@@ -57,8 +57,9 @@ class CCheckBoxColumn extends CGridColumn
 	 * determine if checkbox for each data cell is disabled. In this expression, the variable
 	 * <code>$row</code> the row number (zero-based); <code>$data</code> the data model for the row;
 	 * and <code>$this</code> the column object.
+	 * @since 1.1.13
 	 */
-	public $disabled=null;
+	public $disabled;
 	/**
 	 * @var array the HTML options for the data cell tags.
 	 */
