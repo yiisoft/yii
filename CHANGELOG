@@ -1,6 +1,9 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.13 work in progress
+-------------------------------
+Enh #1134: CAssetManager filepath creation now can be extended thru generatePath(). Path creation is now recursive in publish().
 Version 1.1.11 work in progress
 -------------------------------
 - Bug #098: No correct identity value being returned when using Active Record and mssql (c-schmitz)
