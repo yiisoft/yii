@@ -40,10 +40,13 @@ Upgrading from v1.1.11
 ----------------------
 - Changes in CCookieCollection::add() (introduced in 1.1.11) were reverted as they were triggering E_STRICT on some old PHP-versions
   If your application relies on these newly added changes. You should change your code from
-  
-		$cookies->add(new CHttpCookie($name, $value));		
+
+		$cookies->add(new CHttpCookie($name, $value));
   to
 		$cookies[$name] = new CHttpCookie($name, $value);
+
+
+- CActiveRecord::resetScope() method signature changed. Updated your subclasses that override resetScope() if any.
 
 Upgrading from v1.1.10
 ----------------------

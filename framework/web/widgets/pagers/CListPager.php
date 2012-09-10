@@ -13,7 +13,6 @@
  * CListPager displays a dropdown list that contains options leading to different pages of target.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets.pagers
  * @since 1.0
  */

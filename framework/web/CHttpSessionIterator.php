@@ -14,7 +14,6 @@
  * It allows CHttpSession to return a new iterator for traversing the session variables.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */

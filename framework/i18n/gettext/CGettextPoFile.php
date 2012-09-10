@@ -12,7 +12,6 @@
  * CGettextPoFile represents a PO Gettext message file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n.gettext
  * @since 1.0
  */

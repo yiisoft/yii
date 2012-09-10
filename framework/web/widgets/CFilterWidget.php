@@ -23,7 +23,6 @@
  * @property boolean $isFilter Whether this widget is used as a filter.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */

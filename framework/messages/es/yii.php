@@ -13,7 +13,6 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id$
 */
 return array (
   'Active record class "{class}" does not have a scope named "{scope}".' => 'La clase de registro activo "{class}" no tiene un ámbito llamado "{scope}".',

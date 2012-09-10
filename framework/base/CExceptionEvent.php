@@ -12,7 +12,6 @@
  * CExceptionEvent represents the parameter for the {@link CApplication::onException onException} event.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */

@@ -15,7 +15,6 @@
  * or in FireBug console window (if {@link showInFireBug} is set true).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  * @since 1.0
  */

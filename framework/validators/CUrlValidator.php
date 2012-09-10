@@ -12,7 +12,6 @@
  * CUrlValidator validates that the attribute value is a valid http or https URL.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */

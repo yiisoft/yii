@@ -43,7 +43,6 @@
  * CSort::SORT_DESC for descending order.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  */
 class CSort extends CComponent

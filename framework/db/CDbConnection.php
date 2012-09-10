@@ -100,7 +100,6 @@
  * and the second element the total time spent in SQL execution.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.0
  */

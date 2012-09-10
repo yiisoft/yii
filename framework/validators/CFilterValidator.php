@@ -23,7 +23,6 @@
  * To specify the filter method, set {@link filter} property to be the function name.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */

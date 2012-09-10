@@ -17,7 +17,6 @@
  * non-caching mode to caching mode.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */

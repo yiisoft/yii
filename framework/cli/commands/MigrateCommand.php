@@ -23,7 +23,6 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.cli.commands
  * @since 1.1.6
  */

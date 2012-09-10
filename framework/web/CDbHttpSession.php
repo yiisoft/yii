@@ -26,7 +26,7 @@
  * )
  * </pre>
  * Where 'BLOB' refers to the BLOB-type of your preffered database.
- * 
+ *
  * CDbHttpSession relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
  *
  * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
@@ -39,7 +39,6 @@
  * @property boolean $useCustomStorage Whether to use custom storage.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */

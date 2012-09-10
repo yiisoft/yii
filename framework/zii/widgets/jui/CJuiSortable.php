@@ -40,7 +40,6 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * with {@link CJavaScriptExpression} and Yii will use it as code.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1
  */

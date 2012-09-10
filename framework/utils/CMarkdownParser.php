@@ -44,7 +44,6 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * @property string $defaultCssFile The default CSS file that is used to highlight code blocks.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.utils
  * @since 1.0
  */
@@ -180,10 +179,10 @@ class CMarkdownParser extends MarkdownExtra_Parser
 
 	/**
 	 * Generates the config for the highlighter.
-	 * 
-	 * NOTE: This method is deprecated due to a mistake in the method name. 
+	 *
+	 * NOTE: This method is deprecated due to a mistake in the method name.
 	 * Use {@link getHighlightConfig} instead of this.
-	 * 
+	 *
 	 * @param string $options user-entered options
 	 * @return array the highlighter config
 	 */
