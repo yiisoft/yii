@@ -271,7 +271,7 @@ CREATE TABLE UserWithDefaultScope
 
 INSERT INTO UserWithDefaultScope (id,deleted,`name`) VALUES (1,NULL,'Fred Bloggs');
 INSERT INTO UserWithDefaultScope (id,deleted,`name`) VALUES (2,NULL,'Joe Bloggs');
-INSERT INTO UserWithDefaultScope (id,deleted,`name`) VALUES (3,NULL,'Jane Bloggs');
+INSERT INTO UserWithDefaultScope (id,deleted,`name`) VALUES (3,1,'Jane Bloggs');
 
 CREATE TABLE UserWithDefaultScopeLink
 (

@@ -16,7 +16,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @version $Id$
  * @package system.db.schema.mssql
  */
 class CMssqlCommandBuilder extends CDbCommandBuilder

@@ -38,7 +38,6 @@
  * @property CDbConnection $dbConnection The DB connection used for the message source.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n
  * @since 1.0
  */

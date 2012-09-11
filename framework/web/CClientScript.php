@@ -14,7 +14,6 @@
  * @property string $coreScriptUrl The base URL of all core javascript files.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */

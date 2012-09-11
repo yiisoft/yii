@@ -26,7 +26,6 @@
  * @property array $profilingResults The profiling results.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  * @since 1.0
  */
@@ -234,7 +233,7 @@ class CLogger extends CComponent
 	 * If no filter is specified, the returned results would be an array with each element
 	 * being array($token,$category,$time).
 	 * If a filter is specified, the results would be an array of timings.
-	 * 
+	 *
 	 * Since 1.1.11, filtering results by category supports the same format used for filtering logs in
 	 * {@link getLogs}, and similarly supports filtering by multiple categories and wildcard.
 	 * @param string $token token filter. Defaults to null, meaning not filtered by token.

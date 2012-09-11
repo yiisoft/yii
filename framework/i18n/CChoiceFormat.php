@@ -30,7 +30,6 @@
  * will be returned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n
  */
 class CChoiceFormat

@@ -15,7 +15,6 @@ Yii::import('application.commands.api.ApiModel');
  * under the specified directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.build
  * @since 1.0
  */

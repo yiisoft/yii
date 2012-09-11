@@ -16,7 +16,6 @@
  * See {@link CCache} manual for common cache operations that are supported by CWinCache.
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
- * @version $Id$
  * @package system.caching
  * @since 1.1.2
  */
@@ -50,7 +49,7 @@ class CWinCache extends CCache {
 	/**
 	 * Retrieves multiple values from cache with the specified keys.
 	 * @param array $keys a list of keys identifying the cached values
-	 * @return array a list of cached values indexed by the keys	 
+	 * @return array a list of cached values indexed by the keys
 	 */
 	protected function getValues($keys)
 	{

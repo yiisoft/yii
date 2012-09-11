@@ -13,7 +13,6 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id$
  */
 return array (
   'PHP version' => 'PHP版本',

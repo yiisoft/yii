@@ -24,7 +24,6 @@
  * @property string $methodName The currently requested method name. Empty if no method is being requested.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.services
  * @since 1.0
  */
@@ -259,7 +258,6 @@ class CWebService extends CComponent
  * CSoapObjectWrapper is a wrapper class internally used when SoapServer::setObject() is not defined.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.services
  */
 class CSoapObjectWrapper

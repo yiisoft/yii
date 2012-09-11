@@ -25,7 +25,6 @@
  * {@link caseSensitive} property of the collection.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.collections
  * @since 1.0
  */

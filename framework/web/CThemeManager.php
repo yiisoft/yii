@@ -31,7 +31,6 @@
  * @property string $baseUrl The base URL for all themes. Defaults to "/WebRoot/themes".
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */

@@ -14,7 +14,6 @@
  * @property string $scriptName The entry script name.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.console
  * @since 1.0
  */

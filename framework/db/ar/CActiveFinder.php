@@ -15,7 +15,6 @@
  * {@link CActiveRecord}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -233,9 +232,9 @@ class CActiveFinder extends CComponent
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
 			$model->resetScope(false);
-			$model->beforeFindInternal();
 			$criteria=$model->getDbCriteria();
 			$criteria->scopes=$scopes;
+			$model->beforeFindInternal();
 			$model->applyScopes($criteria);
 			$relation->mergeWith($criteria,true);
 
@@ -286,7 +285,6 @@ class CActiveFinder extends CComponent
  * CJoinElement represents a tree node in the join tree created by {@link CActiveFinder}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -1152,7 +1150,6 @@ class CJoinElement
  * CJoinQuery represents a JOIN SQL statement.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -1311,7 +1308,6 @@ class CJoinQuery
  * CStatElement represents STAT join element for {@link CActiveFinder}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  */
 class CStatElement

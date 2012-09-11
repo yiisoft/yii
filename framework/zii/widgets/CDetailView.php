@@ -39,7 +39,6 @@
  * @property CFormatter $formatter The formatter instance. Defaults to the 'format' application component.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets
  * @since 1.1
  */
@@ -172,7 +171,7 @@ class CDetailView extends CWidget
 
 		$i=0;
 		$n=is_array($this->itemCssClass) ? count($this->itemCssClass) : 0;
-						
+
 		foreach($this->attributes as $attribute)
 		{
 			if(is_string($attribute))
@@ -186,7 +185,7 @@ class CDetailView extends CWidget
 				if(isset($matches[5]))
 					$attribute['label']=$matches[5];
 			}
-			
+
 			if(isset($attribute['visible']) && !$attribute['visible'])
 				continue;
 

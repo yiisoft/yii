@@ -1391,4 +1391,14 @@ class CActiveRecordTest extends CTestCase
 			$this->assertTrue($result);
 		}
 	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/507
+	 */
+	public function testIssue507()
+	{
+		$this->assertEquals(2, count(UserWithDefaultScope::model()->findAll()));
+
+	}
+
 }

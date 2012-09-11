@@ -17,7 +17,6 @@
  * (see {@link http://digitalbush.com/projects/masked-input-plugin}).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */

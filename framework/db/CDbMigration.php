@@ -30,7 +30,6 @@
  * @property CDbConnection $dbConnection The currently active database connection.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.1.6
  */

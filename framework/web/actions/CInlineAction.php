@@ -15,7 +15,6 @@
  * The method name is like 'actionXYZ' where 'XYZ' stands for the action name.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.actions
  * @since 1.0
  */

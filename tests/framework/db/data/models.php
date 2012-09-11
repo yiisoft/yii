@@ -551,6 +551,7 @@ class UserWithWrappers extends CActiveRecord
 	{
 		return array(
 			'posts'=>array(self::HAS_MANY,'PostWithWrappers','author_id'),
+			'postsWithScope'=>array(self::HAS_MANY,'PostWithWrappers','author_id','scopes'=>array('replaceContent')),
 			'postCount'=>array(self::STAT,'PostWithWrappers','author_id'),
 			'comments'=>array(self::HAS_MANY,'CommentWithWrappers',array('id'=>'post_id'),'through'=>'posts')
 		);
@@ -656,6 +657,18 @@ class PostWithWrappers extends CActiveRecord
 	{
 		parent::afterFind();
 		$this->incrementCounter(__FUNCTION__);
+	}
+
+	public function scopes()
+	{
+		return array(
+			'rename'=>array(
+				'select'=>"'renamed post' AS title",
+			),
+			'replaceContent' => array(
+				'select'=>"'replaced content' AS content",
+			),
+		);
 	}
 
 	protected function incrementCounter($wrapper)
@@ -771,6 +784,7 @@ class UserWithDefaultScope extends CActiveRecord
 
 		return array(
 			'condition'=>"{$alias}.deleted IS NULL",
+			'order'=>"{$alias}.name ASC",
 		);
 	}
 
