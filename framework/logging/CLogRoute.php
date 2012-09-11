@@ -25,7 +25,6 @@
  * satisfying both filter conditions will they be returned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  * @since 1.0
  */
@@ -49,6 +48,7 @@ abstract class CLogRoute extends CComponent
 	 * a log filter object. As a result, this can be either a string representing the
 	 * filter class name or an array representing the filter configuration.
 	 * In general, the log filter class should implement {@link ILogFilter} interface.
+	 * If you want to apply multiple filters you can use {@link CChainedLogFilter} to do so.
 	 * Defaults to null, meaning no filter will be used.
 	 */
 	public $filter;

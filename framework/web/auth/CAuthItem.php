@@ -25,7 +25,6 @@
  * @property array $children All child items of this item.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */

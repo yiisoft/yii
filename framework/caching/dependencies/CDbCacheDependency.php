@@ -17,7 +17,6 @@
  * component. It is this DB connection that is used to perform the query.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching.dependencies
  * @since 1.0
  */

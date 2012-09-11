@@ -17,7 +17,6 @@
  * last modification time remains unchanged.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching.dependencies
  * @since 1.0
  */

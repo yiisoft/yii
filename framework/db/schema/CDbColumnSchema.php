@@ -12,7 +12,6 @@
  * CDbColumnSchema class describes the column meta data of a database table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema
  * @since 1.0
  */
@@ -67,7 +66,13 @@ class CDbColumnSchema extends CComponent
 	 * @since 1.1.7
 	 */
 	public $autoIncrement=false;
-
+	/**
+	 * @var string comment of this column. Default value is empty string which means that no comment
+	 * has been set for the column. Null value means that RDBMS does not support column comments
+	 * at all (SQLite) or comment retrieval for the active RDBMS is not yet supported by the framework.
+	 * @since 1.1.13
+	 */
+	public $comment='';
 
 	/**
 	 * Initializes the column with its DB type and default value.

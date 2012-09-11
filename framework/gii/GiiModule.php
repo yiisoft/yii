@@ -65,7 +65,6 @@ Yii::import('system.gii.CCodeForm');
  * @property string $assetsUrl The base URL that contains all published asset files of gii.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.gii
  * @since 1.1.2
  */

@@ -15,7 +15,6 @@
  * {@link CActiveRecord}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -59,7 +58,6 @@ class CActiveFinder extends CComponent
 	public function query($criteria,$all=false)
 	{
 		$this->joinAll=$criteria->together===true;
-		$this->_joinTree->beforeFind(false);
 
 		if($criteria->alias!='')
 		{
@@ -103,7 +101,6 @@ class CActiveFinder extends CComponent
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
 			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
-			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecord);
 			$this->_joinTree->afterFind();
 			$this->destroyJoinTree();
@@ -125,7 +122,6 @@ class CActiveFinder extends CComponent
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
 			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
-			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecords);
 			$this->_joinTree->afterFind();
 			$this->destroyJoinTree();
@@ -167,9 +163,8 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->lazyFind($baseRecord);
 		if(!empty($this->_joinTree->children))
 		{
-			foreach($this->_joinTree->children as $child) {
-			  $child->afterFind();
-      }
+			foreach($this->_joinTree->children as $child)
+				$child->afterFind();
 		}
 		$this->destroyJoinTree();
 	}
@@ -239,6 +234,7 @@ class CActiveFinder extends CComponent
 			$model->resetScope(false);
 			$criteria=$model->getDbCriteria();
 			$criteria->scopes=$scopes;
+			$model->beforeFindInternal();
 			$model->applyScopes($criteria);
 			$relation->mergeWith($criteria,true);
 
@@ -289,7 +285,6 @@ class CActiveFinder extends CComponent
  * CJoinElement represents a tree node in the join tree created by {@link CActiveFinder}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -488,7 +483,6 @@ class CJoinElement
 			$query->offset=$child->relation->offset;
 		}
 
-		$child->beforeFind();
 		$child->applyLazyCondition($query,$baseRecord);
 
 		$this->_joined=true;
@@ -726,19 +720,6 @@ class CJoinElement
 		$query->limit=$query->offset=-1;
 		$command=$query->createCommand($this->_builder);
 		return $command->queryScalar();
-	}
-
-	/**
-	 * Calls {@link CActiveRecord::beforeFind}.
-	 * @param boolean $isChild whether is called for a child
-	 */
-	public function beforeFind($isChild=true)
-	{
-		if($isChild)
-			$this->model->beforeFindInternal();
-
-		foreach($this->children as $child)
-			$child->beforeFind(true);
 	}
 
 	/**
@@ -1169,7 +1150,6 @@ class CJoinElement
  * CJoinQuery represents a JOIN SQL statement.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -1328,7 +1308,6 @@ class CJoinQuery
  * CStatElement represents STAT join element for {@link CActiveFinder}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  */
 class CStatElement

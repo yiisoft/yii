@@ -25,7 +25,6 @@
  * @property string $viewPath The directory containing the view files for this widget.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */

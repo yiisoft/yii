@@ -13,7 +13,6 @@
  * You may invert the validation logic with help of the {@link not} property (available since 1.1.5).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */

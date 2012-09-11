@@ -22,7 +22,6 @@
  * one can set {@link params} to be <code>array(':value'=>$value)</code>.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema
  */
 class CDbExpression extends CComponent

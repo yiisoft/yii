@@ -5,7 +5,6 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  * @since 1.1.1
  */
 
@@ -255,8 +254,8 @@
 			$container = $.fn.yiiactiveform.getInputContainer(attribute, form);
 
 			$container.removeClass(
-				attribute.validatingCssClass + ' ' + 
-				attribute.errorCssClass + ' ' + 
+				attribute.validatingCssClass + ' ' +
+				attribute.errorCssClass + ' ' +
 				attribute.successCssClass
 			);
 

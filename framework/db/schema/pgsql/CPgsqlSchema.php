@@ -12,7 +12,6 @@
  * CPgsqlSchema is the class for retrieving metadata information from a PostgreSQL database.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema.pgsql
  * @since 1.0
  */
@@ -163,7 +162,8 @@ class CPgsqlSchema extends CDbSchema
 	protected function findColumns($table)
 	{
 		$sql=<<<EOD
-SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, d.adsrc, a.attnotnull, a.atthasdef
+SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, d.adsrc, a.attnotnull, a.atthasdef,
+	pg_catalog.col_description(a.attrelid, a.attnum) AS comment
 FROM pg_attribute a LEFT JOIN pg_attrdef d ON a.attrelid = d.adrelid AND a.attnum = d.adnum
 WHERE a.attnum > 0 AND NOT a.attisdropped
 	AND a.attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname=:table
@@ -207,6 +207,7 @@ EOD;
 		$c->allowNull=!$column['attnotnull'];
 		$c->isPrimaryKey=false;
 		$c->isForeignKey=false;
+		$c->comment=$column['comment']===null ? '' : $column['comment'];
 
 		$c->init($column['type'],$column['atthasdef'] ? $column['adsrc'] : null);
 

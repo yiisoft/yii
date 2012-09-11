@@ -6,7 +6,6 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 /**
@@ -22,7 +21,6 @@
  * Each PHP script file is named as the corresponding locale ID in lower case.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.build
  * @since 1.0
  */

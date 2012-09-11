@@ -16,7 +16,6 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id$
  */
 return array (
   'Powered by {yii}.' => 'Powered by {yii}.',

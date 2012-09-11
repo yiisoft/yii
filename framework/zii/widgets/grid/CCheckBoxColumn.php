@@ -26,7 +26,6 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * {@link value}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -87,7 +86,7 @@ class CCheckBoxColumn extends CGridColumn
 	/**
 	 * @var string the template to be used to control the layout of the header cell.
 	 * The token "{item}" is recognized and it will be replaced with a "check all" checkbox.
-	 * By default if in multiple checking mode, the header cell will display an additional checkbox, 
+	 * By default if in multiple checking mode, the header cell will display an additional checkbox,
 	 * clicking on which will check or uncheck all of the checkboxes in the data cells.
 	 * See {@link selectableRows} for more details.
 	 * @since 1.1.11

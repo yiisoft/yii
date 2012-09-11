@@ -12,7 +12,6 @@
  * CMysqlSchema is the class for retrieving metadata information from a MySQL database (version 4.1.x and 5.x).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema.mysql
  * @since 1.0
  */
@@ -154,7 +153,7 @@ class CMysqlSchema extends CDbSchema
 	 */
 	protected function findColumns($table)
 	{
-		$sql='SHOW COLUMNS FROM '.$table->rawName;
+		$sql='SHOW FULL COLUMNS FROM '.$table->rawName;
 		try
 		{
 			$columns=$this->getDbConnection()->createCommand($sql)->queryAll();
@@ -197,6 +196,7 @@ class CMysqlSchema extends CDbSchema
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
 		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
+		$c->comment=$column['Comment'];
 
 		return $c;
 	}
@@ -253,6 +253,17 @@ class CMysqlSchema extends CDbSchema
 		foreach($names as &$name)
 			$name=$schema.'.'.$name;
 		return $names;
+	}
+
+	/**
+	 * Creates a command builder for the database.
+	 * This method overrides parent implementation in order to create a MySQL specific command builder
+	 * @return CDbCommandBuilder command builder instance
+	 * @since 1.1.13
+	 */
+	protected function createCommandBuilder()
+	{
+		return new CMysqlCommandBuilder($this);
 	}
 
 	/**

@@ -13,7 +13,6 @@
  * CHtml is a static class that provides a collection of helper methods for creating HTML views.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.helpers
  * @since 1.0
  */
@@ -1755,10 +1754,19 @@ EOD;
 	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
 	 * encode it if needed.
 	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
+	 * You can also pass anonymous function as third argument which calculates text field value (PHP 5.3+ only).
+	 * Your anonymous function should receive one argument, which is the model, the current <option> tag is generated from.
+	 *
+	 * <pre>
+	 * CHtml::listData($posts,'id',function($post) {
+	 *     return CHtml::encode($post->title);
+	 * });
+	 * </pre>
+	 *
 	 * @param array $models a list of model objects. This parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
 	 * @param string $valueField the attribute name for list option values
-	 * @param string $textField the attribute name for list option texts
+	 * @param mixed $textField the attribute name or anonymous function (PHP 5.3+) for list option texts
 	 * @param string $groupField the attribute name for list option group names. If empty, no group will be generated.
 	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
 	 */
@@ -1767,21 +1775,50 @@ EOD;
 		$listData=array();
 		if($groupField==='')
 		{
-			foreach($models as $model)
+			if(class_exists('Closure',false) && $textField instanceof Closure)
 			{
-				$value=self::value($model,$valueField);
-				$text=self::value($model,$textField);
-				$listData[$value]=$text;
+				// $text value is calculated in anonymous function, without groups
+				foreach($models as $model)
+				{
+					$value=self::value($model,$valueField);
+					$text=call_user_func($textField,$model);
+					$listData[$value]=$text;
+				}
+			}
+			else
+			{
+				// $text value is from model attribute, without groups
+				foreach($models as $model)
+				{
+					$value=self::value($model,$valueField);
+					$text=self::value($model,$textField);
+					$listData[$value]=$text;
+				}
 			}
 		}
 		else
 		{
-			foreach($models as $model)
+			if(class_exists('Closure',false) && $textField instanceof Closure)
 			{
-				$group=self::value($model,$groupField);
-				$value=self::value($model,$valueField);
-				$text=self::value($model,$textField);
-				$listData[$group][$value]=$text;
+				// $text value is calculated in anonymous function, with groups
+				foreach($models as $model)
+				{
+					$group=self::value($model,$groupField);
+					$value=self::value($model,$valueField);
+					$text=call_user_func($textField,$model);
+					$listData[$group][$value]=$text;
+				}
+			}
+			else
+			{
+				// $text value is from model attribute, with groups
+				foreach($models as $model)
+				{
+					$group=self::value($model,$groupField);
+					$value=self::value($model,$valueField);
+					$text=self::value($model,$textField);
+					$listData[$group][$value]=$text;
+				}
 			}
 		}
 		return $listData;
@@ -2164,6 +2201,9 @@ EOD;
 	 */
 	protected static function addErrorCss(&$htmlOptions)
 	{
+		if(empty(self::$errorCss))
+			return;
+
 		if(isset($htmlOptions['class']))
 			$htmlOptions['class'].=' '.self::$errorCss;
 		else

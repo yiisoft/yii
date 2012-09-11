@@ -14,7 +14,6 @@
  * It allows CList to return a new iterator for traversing the items in the list.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.collections
  * @since 1.0
  */

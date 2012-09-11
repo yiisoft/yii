@@ -52,7 +52,6 @@
  * @property array $flashes Flash messages (key => message).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -331,7 +330,15 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getReturnUrl($defaultUrl=null)
 	{
-		return $this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getRequest()->getScriptUrl() : CHtml::normalizeUrl($defaultUrl));
+		if($defaultUrl===null)
+		{
+			$defaultReturnUrl=Yii::app()->getUrlManager()->showScriptName ? Yii::app()->getRequest()->getScriptUrl() : Yii::app()->getRequest()->getBaseUrl().'/';
+		}
+		else
+		{
+			$defaultReturnUrl=CHtml::normalizeUrl($defaultUrl);
+		}
+		return $this->getState('__returnUrl',$defaultReturnUrl);
 	}
 
 	/**

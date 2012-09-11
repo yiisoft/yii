@@ -34,7 +34,6 @@ Yii::import('system.test.CTestCase');
  * @property CDbFixtureManager $fixtureManager The database fixture manager.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.test
  * @since 1.1
  */

@@ -1,4 +1,3 @@
-
          Upgrading Instructions for Yii Framework v1.1.13
          ================================================
 
@@ -20,15 +19,34 @@ General upgrade instructions
 
 Upgrading from v1.1.12
 ----------------------
+- We fixed the calls to CActiveRecord::beforeFind() for consistency so that beforeFind() now always gets called for every relation
+  on eager loading even if the main query does not return a result. This has been the case for all CActiveRecord::find*()-methods
+  already but now also applies for findBySql() and findAllBySql().
+
+- Criteria modification in CActiveRecord::beforeFind() did not apply to the query when model was loaded in a relational context.
+  Since version 1.1.13 changes to query criteria made in beforeFind() now also apply to the query when model is loaded in a relational context.
+  The main problem here is that you can not use the `t`-alias for your table anymore, you have to change your code to
+  use the table alias currently in use as this it different in relational context.
+  You can get that alias by calling `$this->getTableAlias();` in your active record class
+  or `$this->owner->getTableAlias()` in behavior context.
+
+  Example:
+     $criteria->condition = 't.myfield = 1';
+  You need to change that to:
+     $alias = $this->owner->getTableAlias();
+     $criteria->condition = $alias.'.myfield = 1';
 
 Upgrading from v1.1.11
 ----------------------
 - Changes in CCookieCollection::add() (introduced in 1.1.11) were reverted as they were triggering E_STRICT on some old PHP-versions
   If your application relies on these newly added changes. You should change your code from
-  
-		$cookies->add(new CHttpCookie($name, $value));		
+
+		$cookies->add(new CHttpCookie($name, $value));
   to
 		$cookies[$name] = new CHttpCookie($name, $value);
+
+
+- CActiveRecord::resetScope() method signature changed. Updated your subclasses that override resetScope() if any.
 
 Upgrading from v1.1.10
 ----------------------
@@ -69,8 +87,8 @@ Upgrading from v1.1.10
 Upgrading from v1.1.9
 ---------------------
 - Previously xSendFile() was returning false if the file was not found.
-This has been removed to allow relative file paths. If you are relying on this check,
-you will need to do it manually before calling xSendFile().
+  This has been removed to allow relative file paths. If you are relying on this check,
+  you will need to do it manually before calling xSendFile().
 
 Upgrading from v1.1.8
 ---------------------
@@ -78,26 +96,26 @@ Upgrading from v1.1.8
   Yii::createComponent, new CPagination directly and CHtml::activeId respectively.
 
 - In CErrorHandler::handleException() the checking for ajax call has been removed
-as it was preventing to customize the display of the exception during an ajax call.
+  as it was preventing to customize the display of the exception during an ajax call.
 
 - Previously in case of validation error the CSS "error" class was not added to the row container at all when
-checkBoxList or radioButtonList where used. This is fixed now and proper "error" CSS class is added to the row
-container but in case of validation error, all labels from the list are shown in red because of the CSS rule.
+  checkBoxList or radioButtonList where used. This is fixed now and proper "error" CSS class is added to the row
+  container but in case of validation error, all labels from the list are shown in red because of the CSS rule.
 
-To fix this and display only the attribute label in red:
+  To fix this and display only the attribute label in red:
 
-in <projectdir>/css/form.css the line:
+  in <projectdir>/css/form.css the line:
 
      div.form div.error label
 
-should be changed to
+  should be changed to
 
      div.form div.error label:first-child
 
 - If you've used "through" ActiveRecord option in your relation definitions it's good to update code as shown below.
-Old style of defining this option still works but is now deprecated.
+  Old style of defining this option still works but is now deprecated.
 
-Change
+  Change
 
 ~~~
 class Group extends CActiveRecord
@@ -112,7 +130,7 @@ class Group extends CActiveRecord
 }
 ~~~
 
-to
+  to
 
 ~~~
 class Group extends CActiveRecord
@@ -131,12 +149,12 @@ class Group extends CActiveRecord
 Upgrading from v1.1.7
 ---------------------
 - CDbAuthManager will now quote columns and tables referenced in its SQL code.
-If your auth tables were created in a case-insensitive fashion (e.g. on PostgreSQL)
-while your DBMS is case-sensitive, this change may cause DB query errors.
-To fix this issue, you will have to rename the table names and columns, or re-create
-the auth tables by following the SQL code given in framework/web/auth/*.sql.
+  If your auth tables were created in a case-insensitive fashion (e.g. on PostgreSQL)
+  while your DBMS is case-sensitive, this change may cause DB query errors.
+  To fix this issue, you will have to rename the table names and columns, or re-create
+  the auth tables by following the SQL code given in framework/web/auth/*.sql.
 - jQuery was upgraded to 1.6.1. Check your client side code and if you have issues consider
-downgrading to 1.5.1 or 1.4.4.
+  downgrading to 1.5.1 or 1.4.4.
 
 
 Upgrading from v1.1.6
@@ -184,14 +202,14 @@ Upgrading from v1.1.3
 Upgrading from v1.1.2
 ---------------------
 - When using the skin feature, you now need to explicitly configure
-the 'enableSkin' property of 'widgetFactory' application component
-to be true. Also, if you have configured the 'widgets' property, you
-should rename it to be 'skinnableWidgets'. These changes are due to
-the introduction of the global widget customization feature.
-Please see the guide (the "Theming" section) for more details.
+  the 'enableSkin' property of 'widgetFactory' application component
+  to be true. Also, if you have configured the 'widgets' property, you
+  should rename it to be 'skinnableWidgets'. These changes are due to
+  the introduction of the global widget customization feature.
+  Please see the guide (the "Theming" section) for more details.
 
 - CAutoComplete is now deprecated and will be removed in Yii 1.2. Consider
-using CJuiAutoComplete.
+  using CJuiAutoComplete.
 
 - Now it's not possible to reuse CActiveFinder. So if you have code like this:
 
@@ -207,7 +225,7 @@ using CJuiAutoComplete.
   $posts2 = Post::model()->with('comments');
 
 - The 'condition' declared in the scopes of the related AR classes will now
-be put in the 'ON' clause of the JOIN statement when performing relational AR queries.
+  be put in the 'ON' clause of the JOIN statement when performing relational AR queries.
 
 
 Upgrading from v1.1.1
@@ -216,35 +234,35 @@ Upgrading from v1.1.1
 Upgrading from v1.1.0
 ---------------------
 - CHtml::beginForm() will automatically generate hidden fields to represent
-the parameters in the query string when the form uses GET method.
-To avoid submitting duplicated query parameters, you may use createUrl()
-to explicitly specify the action of the form. You may also need to remove
-the hidden fields that you previously render for the same purpose.
+  the parameters in the query string when the form uses GET method.
+  To avoid submitting duplicated query parameters, you may use createUrl()
+  to explicitly specify the action of the form. You may also need to remove
+  the hidden fields that you previously render for the same purpose.
 
 - The code generated by yiic tool is changed. If you are using yiic tool
-to generate new CRUD code on a previously generated skeleton, you are recommended
-to run "yiic webapp" again to re-generate the skeleton. Make sure you backup
-your work before you do this.
+  to generate new CRUD code on a previously generated skeleton, you are recommended
+  to run "yiic webapp" again to re-generate the skeleton. Make sure you backup
+  your work before you do this.
 
 - CMenu now renders the 'active' CSS class for the 'li' tag instead of the
-hyperlink tag. You should adjust your CSS code accordingly if you use CMenu
-in your application.
+  hyperlink tag. You should adjust your CSS code accordingly if you use CMenu
+  in your application.
 
 - CUrlManager::parsePathInfo() is changed to be non-static. If you override
-this method or your existing code calls this method directly (neither is common),
-you need to change your code accordingly.
+  this method or your existing code calls this method directly (neither is common),
+  you need to change your code accordingly.
 
 - CController::forward() will exit the application by default now. If you want
-to keep the old behavior, you may pass false as the second parameter.
+  to keep the old behavior, you may pass false as the second parameter.
 
 - The jQuery copy included in the framework has been upgraded to version 1.4.2.
-This may cause some incompatibility problems to your existing jQuery code or plugins.
-If you want to keep using version 1.3.2, you may do so by configuring
-CClientScript::scriptMap property.
+  This may cause some incompatibility problems to your existing jQuery code or plugins.
+  If you want to keep using version 1.3.2, you may do so by configuring
+  CClientScript::scriptMap property.
 
 - The default theme for JQuery UI widgets was changed from 'smoothness' to 'base'.
-If you are using 'smoothness', you will need to manually download this theme from
-jqueryui.com and configure the 'theme' property of the JQuery UI widgets accordingly.
+  If you are using 'smoothness', you will need to manually download this theme from
+  jqueryui.com and configure the 'theme' property of the JQuery UI widgets accordingly.
 
 
 Upgrading from v1.1rc
@@ -259,18 +277,18 @@ Upgrading from v1.1b
 Upgrading from v1.1a
 --------------------
 - CSort::attributes is changed. Now the array keys refer to attribute names
-and array values refer to virtual attribute definitions. Please read the
-API documentation for this property to learn more details. This change will
-affect your code only when you explicitly specify this property.
+  and array values refer to virtual attribute definitions. Please read the
+  API documentation for this property to learn more details. This change will
+  affect your code only when you explicitly specify this property.
 
 Upgrading from v1.0.x
 ---------------------
 - Application and module parameter names are changed to be case-sensitive.
-In 1.0.x, they are case-insensitive.
+  In 1.0.x, they are case-insensitive.
 
 - For tabular input, using Field[$i] is not valid anymore. Attribute names
-should look like [$i]Field in order to support array-typed fields
-(e.g. [$i]Field[$index]).
+  should look like [$i]Field in order to support array-typed fields
+  (e.g. [$i]Field[$index]).
 
 - Please read the Guide for further details on how to upgrade from v1.0.x to v1.1.
 
@@ -289,34 +307,34 @@ Upgrading from v1.0.9
 Upgrading from v1.0.8
 ---------------------
 - ActiveRecord lazy loading is changed for optimization purpose. Previously,
-when lazy loading occurs, the related table will be joined with the primary
-table. Now, the related table will be queried without joining the primary table.
-As a result, if you are using lazy loading and the corresponding relation
-declaration includes reference to the primary table, the query will fail.
-To fix this problem, please specify the lazy loading query options with the
-actual primary table column values.
+  when lazy loading occurs, the related table will be joined with the primary
+  table. Now, the related table will be queried without joining the primary table.
+  As a result, if you are using lazy loading and the corresponding relation
+  declaration includes reference to the primary table, the query will fail.
+  To fix this problem, please specify the lazy loading query options with the
+  actual primary table column values.
 
 Upgrading from v1.0.7
 ---------------------
 - A directory imported using Yii::import() will have precedence over
-any existing include paths. For example, if we import 'application.models.*',
-then the corresponding directory will be searched before any other
-existing include paths. This also means, a directory imported later will
-have precedence over directories imported earlier. Previously, this order
-was reversed. This change may affect you if you have several classes with
-the same name and they are imported via different directories. You will need
-to adjust the import order of these directories to make sure your existing
-applications are not broken due to this change.
+  any existing include paths. For example, if we import 'application.models.*',
+  then the corresponding directory will be searched before any other
+  existing include paths. This also means, a directory imported later will
+  have precedence over directories imported earlier. Previously, this order
+  was reversed. This change may affect you if you have several classes with
+  the same name and they are imported via different directories. You will need
+  to adjust the import order of these directories to make sure your existing
+  applications are not broken due to this change.
 
 
 Upgrading from v1.0.6
 ---------------------
 - Default named scope will no longer be applied to INSERT, UPDATE and
-DELETE queries. It is only applied to SELECT queries. You should be aware
-of this change if you override CActiveRecord::defaultScope() in your code.
+  DELETE queries. It is only applied to SELECT queries. You should be aware
+  of this change if you override CActiveRecord::defaultScope() in your code.
 
 - The signature of CWebUser::logout() is changed. If you override this method,
-you will need to modify your method declaration accordingly.
+  you will need to modify your method declaration accordingly.
 
 
 Upgrading from v1.0.5
@@ -326,10 +344,10 @@ Upgrading from v1.0.5
 Upgrading from v1.0.4
 ---------------------
 - CWebUser::checkAccess() takes an additional parameter to allow caching
-the access check results. If you override this method, you will need to
-modify your method declaration accordingly. Because the new parameter will
-enable caching the access check results by default, please double check
-your code containing this method call to make sure the behavior is as expected.
+  the access check results. If you override this method, you will need to
+  modify your method declaration accordingly. Because the new parameter will
+  enable caching the access check results by default, please double check
+  your code containing this method call to make sure the behavior is as expected.
 
 - CDateParser has been renamed to CDateTimeParser
 

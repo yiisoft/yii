@@ -27,7 +27,6 @@
  * to the PHP manual for more information.
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @version $Id$
  * @package system.utils
  * @since 1.0
  */

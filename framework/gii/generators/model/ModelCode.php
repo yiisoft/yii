@@ -308,6 +308,12 @@ class ModelCode extends CCodeModel
 				$relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$unprefixedTableName($pks[0], $pks[1])')";
 
 				$relationName=$this->generateRelationName($table1, $table0, true);
+
+				$i=1;
+				$rawName=$relationName;
+				while(isset($relations[$className1][$relationName]))
+					$relationName=$rawName.$i++;
+
 				$relations[$className1][$relationName]="array(self::MANY_MANY, '$className0', '$unprefixedTableName($pks[1], $pks[0])')";
 			}
 			else
