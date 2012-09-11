@@ -40,6 +40,7 @@ abstract class CLogRoute extends CComponent
 	public $levels='';
 	/**
 	 * @var string list of categories separated by comma or space. Defaults to empty, meaning all categories.
+	 * Allows negating categories, use ! before a category name to not include it.
 	 */
 	public $categories='';
 	/**

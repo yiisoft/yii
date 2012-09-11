@@ -149,13 +149,20 @@ class CLogger extends CComponent
 	 */
 	private function filterByCategory($value)
 	{
+		$cat=strtolower($value[2]);
+		$negateOnly=true;
 		foreach($this->_categories as $category)
 		{
-			$cat=strtolower($value[2]);
+			if (substr($category, 0,1) === '!')
+				$category = substr($category,1);
+			else
+				$negateOnly = false;
+			
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				return true;
+				return !$negateOnly;
+			
 		}
-		return false;
+		return $negateOnly;
 	}
 
 	/**
