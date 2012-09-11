@@ -96,7 +96,15 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 			array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
 		);
 	}
-
+	
+	/**
+	 * @return array sanitization rules for the <?php echo $modelClass; ?>-model
+	 */
+	public function sanitizationRules()
+	{
+		return array();
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */

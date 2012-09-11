@@ -183,3 +183,16 @@ class ComplexType2 extends CActiveRecord
 		return 'yii_types';
 	}
 }
+
+class ModelForSanatizeTest extends CActiveRecord
+{
+    	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}        
+
+        public function tableName()
+	{
+		return 'test.users';
+	}
+}
