@@ -225,7 +225,7 @@ Yii::t('test', '{n} cucumber|{n} cucumbers',
 array(5, '{n}' => convertNumber(5)));
 ~~~
 
-ロシア語の場合で見てみましょう。まず、元のメッセージが以下の通りであるとします。
+複数形の書式の数は、言語によって異なります。例えば、元のメッセージが以下の通りであるとします。
 ~~~
 [php]
 Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
@@ -234,14 +234,14 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
 Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
-そして、以下のような翻訳メッセージが提供されているとします。
+この複数形の書式は、ロシア語に翻訳されると、二つではなく四つの表示形式を持つようになります。
 
 ~~~
 [php]
 '{n} cucumber|{n} cucumbers' => '{n} огурец|{n} огурца|{n} огурцов|{n} огурца',
 ~~~
 
-すると、表示結果は以下のようになります。
+そして、表示結果は以下のようになります。
 
 ~~~
 62 огурца
@@ -251,7 +251,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 
-> Info|情報: どれだけの数の値を、どの順序で記述すべきかについては、CLDR [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html) を参照して下さい。
+> Info|情報: 何個の表示形式をどういう順序で記述すべきかについては、CLDR [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html) を参照して下さい。
 
 
 ### ファイル翻訳
@@ -274,7 +274,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 
 日付と時刻は、国や地域によって異なる書式がしばしば利用されます。
 日付と時刻フォーマットの目的は、ロケールに基づき、そのロケールに適した日付や時刻の文字列を生成することです。
-Yii は、この問題のために、[CDateFormatter] を提供します
+Yii は、この問題のために、[CDateFormatter] を提供します。
 
 各 [CDateFormatter] インスタンスは、ターゲットロケールと結びついています。
 アプリケーション全体のターゲットロケールに結びついたフォーマッタの取得は、アプリケーションの [dateFormatter|CApplication::dateFormatter] プロパティを使い、簡単にアクセスできます。
@@ -288,11 +288,11 @@ Yii は、この問題のために、[CDateFormatter] を提供します
 数値フォーマット
 -----------------
 
-日付と時刻のように、数値も国や地域によって異なる書式が利用されます。
-数値委フォーマットは、小数フォーマット、通貨フォーマット、パーセンテージフォーマットを含みます。
+日付と時刻のように、数値も国や地域によって異なる書式を使わなければならない場合があります。
+数値フォーマットは、小数フォーマット、通貨フォーマット、パーセンテージフォーマットを含みます。
 Yii は、これらのために [CNumberFormatter] を提供します。
 
-アプリケーション全体のターゲットロケールに結びついた数値フォーマッタの取得は、アプリケーションの [numberFormatter|CApplication::numberFormatter] プロパティを使い、アクセスできます。
+アプリケーション全体のターゲットロケールに結びついた数値フォーマッタは、アプリケーションの [numberFormatter|CApplication::numberFormatter] プロパティを使って、アクセスできます。
 
 下記メソッドが、integer、double 値のフォーマットのために、 [CNumberFormatter] によって提供されています。
 
