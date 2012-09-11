@@ -74,6 +74,8 @@ $command = Yii::app()->db->createCommand();
 * [selectDistinct()|CDbCommand::selectDistinct]: クエリの SELECT の部分を指定すると共に DISTINCT フラグを立てる
 * [from()|CDbCommand::from()]: クエリの FROM の部分を指定する
 * [where()|CDbCommand::where()]: クエリの WHERE の部分を指定する
+* [andWhere()|CDbCommand::andWhere() ]: クエリの WHERE の部分に `AND` 演算子で条件を追加する
+* [orWhere()|CDbCommand::orWhere() ]: クエリの WHERE の部分に `OR` 演算子で条件を追加する
 * [join()|CDbCommand::join()]: 内部結合のクエリ断片を追加する
 * [leftJoin()|CDbCommand::leftJoin]: 左外部結合のクエリ断片を追加する
 * [rightJoin()|CDbCommand::rightJoin]: 右外部結合のクエリ断片を追加する
@@ -249,6 +251,30 @@ $keyword=$_GET['q'];
 $keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
 $command->where(array('like', 'title', '%'.$keyword.'%'));
 ~~~
+
+
+### andWhere()
+
+~~~
+[php]
+function andWhere($conditions, $params=array())
+~~~
+
+[addWhere()|CDbCommand::addWhere() ] メソッドは与えられた条件をクエリの `WHERE` の部分に `AND` 演算子を使って追加します。
+このメソッドの動作は、条件を置き換えるのでなく追加するという点を除いて、[where()|CDbCommand::where() ] とほとんど同一です。
+このメソッドのパラメータに関する詳細な情報は、[where()|CDbCommand::where() ] のドキュメントを参照して下さい。
+
+
+### orWhere()
+
+~~~
+[php]
+function orWhere($conditions, $params=array())
+~~~
+
+[orWhere()|CDbCommand::orWhere() ] メソッドは与えられた条件をクエリの `WHERE` の部分に `OR` 演算子を使って追加します。
+このメソッドの動作は、条件を置き換えるのでなく追加するという点を除いて、[where()|CDbCommand::where() ] とほとんど同一です。
+このメソッドのパラメータに関する詳細な情報は、[where()|CDbCommand::where() ] のドキュメントを参照して下さい。
 
 
 ### order()
