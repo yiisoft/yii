@@ -1891,7 +1891,7 @@ class CActiveRecordMetaData
 	public $relations=array();
 	/**
 	 * @var array attribute default values
-	*/
+	 */
 	public $attributeDefaults=array();
 
 	private $_model;
