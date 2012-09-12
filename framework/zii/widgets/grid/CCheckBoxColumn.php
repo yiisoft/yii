@@ -56,7 +56,8 @@ class CCheckBoxColumn extends CGridColumn
 	 * @var string a PHP expression that will be evaluated for every data cell and whose result will
 	 * determine if checkbox for each data cell is disabled. In this expression, the variable
 	 * <code>$row</code> the row number (zero-based); <code>$data</code> the data model for the row;
-	 * and <code>$this</code> the column object.
+	 * and <code>$this</code> the column object. Note that expression result will
+	 * overwrite value set with <code>checkBoxHtmlOptions['disabled']</code>.
 	 * @since 1.1.13
 	 */
 	public $disabled;
@@ -211,10 +212,11 @@ EOD;
 		$checked = false;
 		if($this->checked!==null)
 			$checked=$this->evaluateExpression($this->checked,array('data'=>$data,'row'=>$row));
-		if($this->disabled!==null)
-			$this->checkBoxHtmlOptions['disabled']=$this->evaluateExpression($this->disabled,array('data'=>$data,'row'=>$row));
 
 		$options=$this->checkBoxHtmlOptions;
+		if($this->disabled!==null)
+			$options['disabled']=$this->evaluateExpression($this->disabled,array('data'=>$data,'row'=>$row));
+
 		$name=$options['name'];
 		unset($options['name']);
 		$options['value']=$value;
