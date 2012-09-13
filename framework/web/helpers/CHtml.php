@@ -872,8 +872,10 @@ class CHtml
 		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
 		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
 
-		if($hasGroups=($firstDataItem=reset($data))!==false && is_array($firstDataItem))
+		$hasGroups=false;
+		if(($firstDataItem=reset($data))!==false && is_array($firstDataItem))
 		{
+			$hasGroups=true;
 			$groupTemplate=isset($htmlOptions['groupTemplate'])?$htmlOptions['groupTemplate']:"{title}<br/>\n{items}";
 			$groupSeparator=isset($htmlOptions['groupSeparator'])?$htmlOptions['groupSeparator']:"<br/>\n";
 			$groupContainer=isset($htmlOptions['groupContainer'])?$htmlOptions['groupContainer']:'span';
@@ -1023,8 +1025,10 @@ EOD;
 		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
 		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
 
-		if($hasGroups=($firstDataItem=reset($data))!==false && is_array($firstDataItem))
+		$hasGroups=false;
+		if(($firstDataItem=reset($data))!==false && is_array($firstDataItem))
 		{
+			$hasGroups=true;
 			$groupTemplate=isset($htmlOptions['groupTemplate'])?$htmlOptions['groupTemplate']:"{title}<br/>\n{items}";
 			$groupSeparator=isset($htmlOptions['groupSeparator'])?$htmlOptions['groupSeparator']:"<br/>\n";
 			$groupContainer=isset($htmlOptions['groupContainer'])?$htmlOptions['groupContainer']:'span';
