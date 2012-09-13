@@ -1806,15 +1806,16 @@ EOD;
 	 * as a key of the array. For the example of "author.firstName", if would mean the array value
 	 * "$model['author']['firstName']".
 	 *
-	 * Anonymous function ('Closure' instance) could be also used for attribute calculation
-	 * since 1.1.13 ($attribute parameter; PHP 5.3+ only) as follows:
+	 * Anonymous function could also be used for attribute calculation since 1.1.13
+	 * ($attribute parameter; PHP 5.3+ only) as follows:
 	 * <pre>
 	 * $taskClosedSecondsAgo=CHtml::value($closedTask,function($model) {
 	 * 	return time()-$model->closed_at;
 	 * });
 	 * </pre>
-	 * E.g. this feature could be used together with the {@link listData}. Please refer to its
-	 * documentation for more details.
+	 * Your anonymous function should receive one argument, which is the model, the current
+	 * value is calculated from. This feature could be used together with the {@link listData}.
+	 * Please refer to its documentation for more details.
 	 *
 	 * @param mixed $model the model. This can be either an object or an array.
 	 * @param mixed $attribute the attribute name (use dot to concatenate multiple attributes)
