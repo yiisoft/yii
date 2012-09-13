@@ -826,6 +826,15 @@ class CHtml
 	 * for single selection or an array for multiple selections.
 	 * @param array $data value-label pairs used to generate the check box list.
 	 * Note, the values will be automatically HTML-encoded, while the labels will not.
+	 * Grouped data supported since 1.1.13. Grouping means that the data array
+	 * should be as follows:
+	 * <code>
+	 * array(
+	 * 	'group1'=>array('value1'=>'label1', 'value2'=>'label2'),
+	 * 	'group2'=>array('value3'=>'label3'),
+	 * 	// ... other groups
+	 * ),
+	 * </code>
 	 * @param array $htmlOptions addtional HTML options. The options will be applied to
 	 * each checkbox input. The following special options are recognized:
 	 * <ul>
@@ -854,6 +863,14 @@ class CHtml
 		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
 		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
 
+		if($hasGroups=($firstDataItem=reset($data))!==false && is_array($firstDataItem))
+		{
+			$groupTemplate=isset($htmlOptions['groupTemplate'])?$htmlOptions['groupTemplate']:"{title}<br/>\n{items}";
+			$groupSeparator=isset($htmlOptions['groupSeparator'])?$htmlOptions['groupSeparator']:"<br/>\n";
+			$groupContainer=isset($htmlOptions['groupContainer'])?$htmlOptions['groupContainer']:'span';
+			unset($htmlOptions['groupTemplate'],$htmlOptions['groupSeparator'],$htmlOptions['groupContainer']);
+		}
+
 		if(substr($name,-2)!=='[]')
 			$name.='[]';
 
@@ -872,15 +889,35 @@ class CHtml
 		$id=0;
 		$checkAll=true;
 
-		foreach($data as $value=>$label)
+		if($hasGroups)
 		{
-			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
-			$checkAll=$checkAll && $checked;
-			$htmlOptions['value']=$value;
-			$htmlOptions['id']=$baseID.'_'.$id++;
-			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
-			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			foreach($data as $groupTitle=>$groupItems)
+			{
+				$items[$groupTitle]=array();
+				foreach($groupItems as $value=>$label)
+				{
+					$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
+					$checkAll=$checkAll && $checked;
+					$htmlOptions['value']=$value;
+					$htmlOptions['id']=$baseID.'_'.$id++;
+					$option=self::checkBox($name,$checked,$htmlOptions);
+					$label=self::label($label,$htmlOptions['id'],$labelOptions);
+					$items[$groupTitle][]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+				}
+			}
+		}
+		else
+		{
+			foreach($data as $value=>$label)
+			{
+				$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
+				$checkAll=$checkAll && $checked;
+				$htmlOptions['value']=$value;
+				$htmlOptions['id']=$baseID.'_'.$id++;
+				$option=self::checkBox($name,$checked,$htmlOptions);
+				$label=self::label($label,$htmlOptions['id'],$labelOptions);
+				$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			}
 		}
 
 		if(isset($checkAllLabel))
@@ -909,10 +946,25 @@ EOD;
 			$cs->registerScript($id,$js);
 		}
 
-		if(empty($container))
-			return implode($separator,$items);
+		if($hasGroups)
+		{
+			$groups=array();
+			foreach($items as $groupName=>$groupItems)
+			{
+				// array value contains group elements
+				if(is_array($groupItems))
+				{
+					$groupData=strtr($groupTemplate,array('{title}'=>$groupName,'{items}'=>implode($separator,$groupItems)));
+					$groups[]=empty($groupContainer) ? $groupData : self::tag($groupContainer,array(),$groupData);
+				}
+				// non array value represents checkAll checkbox
+				else
+					$groups[]=$groupItems;
+			}
+			return empty($container) ? implode($groupSeparator,$groups) : self::tag($container,array('id'=>$baseID),implode($groupSeparator,$groups));
+		}
 		else
-			return self::tag($container,array('id'=>$baseID),implode($separator,$items));
+			return empty($container) ? implode($separator,$items) : self::tag($container,array('id'=>$baseID),implode($separator,$items));
 	}
 
 	/**
@@ -924,6 +976,14 @@ EOD;
 	 * @param string $select selection of the radio buttons.
 	 * @param array $data value-label pairs used to generate the radio button list.
 	 * Note, the values will be automatically HTML-encoded, while the labels will not.
+	 * Grouped data supported since 1.1.13. Grouping means that the data array
+	 * should be as follows:
+	 * <code>
+	 * array(
+	 * 	'group1'=>array('value1'=>'label1', 'value2'=>'label2'),
+	 * 	'group2'=>array('value3'=>'label3'),
+	 * 	// ... other groups
+	 * ),
 	 * @param array $htmlOptions addtional HTML options. The options will be applied to
 	 * each radio button input. The following special options are recognized:
 	 * <ul>
@@ -945,25 +1005,59 @@ EOD;
 		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
 		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
 
+		if($hasGroups=($firstDataItem=reset($data))!==false && is_array($firstDataItem))
+		{
+			$groupTemplate=isset($htmlOptions['groupTemplate'])?$htmlOptions['groupTemplate']:"{title}<br/>\n{items}";
+			$groupSeparator=isset($htmlOptions['groupSeparator'])?$htmlOptions['groupSeparator']:"<br/>\n";
+			$groupContainer=isset($htmlOptions['groupContainer'])?$htmlOptions['groupContainer']:'span';
+			unset($htmlOptions['groupTemplate'],$htmlOptions['groupSeparator'],$htmlOptions['groupContainer']);
+		}
+
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
 		unset($htmlOptions['labelOptions']);
 
 		$items=array();
 		$baseID=self::getIdByName($name);
 		$id=0;
-		foreach($data as $value=>$label)
+
+		if($hasGroups)
 		{
-			$checked=!strcmp($value,$select);
-			$htmlOptions['value']=$value;
-			$htmlOptions['id']=$baseID.'_'.$id++;
-			$option=self::radioButton($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
-			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			foreach($data as $groupTitle=>$groupItems)
+			{
+				$items[$groupTitle]=array();
+				foreach($groupItems as $value=>$label)
+				{
+					$checked=!strcmp($value,$select);
+					$htmlOptions['value']=$value;
+					$htmlOptions['id']=$baseID.'_'.$id++;
+					$option=self::radioButton($name,$checked,$htmlOptions);
+					$label=self::label($label,$htmlOptions['id'],$labelOptions);
+					$items[$groupTitle][]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+				}
+			}
+
+			$groups=array();
+			foreach($items as $groupName=>$groupItems)
+			{
+				$groupData=strtr($groupTemplate,array('{title}'=>$groupName,'{items}'=>implode($separator,$groupItems)));
+				$groups[]=empty($groupContainer) ? $groupData : self::tag($groupContainer,array(),$groupData);
+			}
+			return empty($container) ? implode($groupSeparator,$groups) : self::tag($container,array('id'=>$baseID),implode($groupSeparator,$groups));
 		}
-		if(empty($container))
-			return implode($separator,$items);
 		else
-			return self::tag($container,array('id'=>$baseID),implode($separator,$items));
+		{
+			foreach($data as $value=>$label)
+			{
+				$checked=!strcmp($value,$select);
+				$htmlOptions['value']=$value;
+				$htmlOptions['id']=$baseID.'_'.$id++;
+				$option=self::radioButton($name,$checked,$htmlOptions);
+				$label=self::label($label,$htmlOptions['id'],$labelOptions);
+				$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			}
+
+			return empty($container) ? implode($separator,$items) : self::tag($container,array('id'=>$baseID),implode($separator,$items));
+		}
 	}
 
 	/**
