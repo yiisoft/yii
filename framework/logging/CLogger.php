@@ -72,7 +72,7 @@ class CLogger extends CComponent
 	/**
 	 * @var array log categories for excluding from filtering (used when filtering)
 	 */
-	private $_exceptCategories;
+	private $_except;
 	/**
 	 * @var array the profiling results (category, token => time in seconds)
 	 */
@@ -139,16 +139,16 @@ class CLogger extends CComponent
 			$this->_categories=array_filter(array_map('strtolower',$categories));
 		
 		if (is_string($except))
-			$this->_exceptCategories=preg_split('/[\s,]+/',strtolower($except),-1,PREG_SPLIT_NO_EMPTY);
+			$this->_except=preg_split('/[\s,]+/',strtolower($except),-1,PREG_SPLIT_NO_EMPTY);
 		else
-			$this->_exceptCategories=array_filter(array_map('strtolower',$except));
+			$this->_except=array_filter(array_map('strtolower',$except));
 		
 		$ret=$this->_logs;
 	
 		if(!empty($levels))			
 			$ret=array_values(array_filter($ret,array($this,'filterByLevel')));
 		
-		if(!empty($this->_categories) || !empty($this->_exceptCategories))
+		if(!empty($this->_categories) || !empty($this->_except))
 			$ret=array_values(array_filter($ret,array($this,'filterByCategory')));
 		
 		return $ret;
@@ -188,7 +188,7 @@ class CLogger extends CComponent
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
 				$ret=true;			
 		}		
-		foreach($this->_exceptCategories as $category)
+		foreach($this->_except as $category)
 		{
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
 				$ret=false;

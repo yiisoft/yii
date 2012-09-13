@@ -39,13 +39,13 @@ abstract class CLogRoute extends CComponent
 	 */
 	public $levels='';
 	/**
-	 * @var array of categories or string list separated by comma or space. Defaults to empty, meaning all categories.
-	 * Allows negating categories, use ! before a category name to not include it.
+	 * @var mixed array of categories, or string list separated by comma or space. 
+	 * Defaults to empty, meaning all categories.
 	 */
 	public $categories=array();
 	/**
-	 * @var array of categories or string list separated by comma or space to EXCLUDE from logs. Defaults to empty, meaning all categories.
-	 * Allows negating categories, use ! before a category name to not include it.
+	 * @var mixed array of categories, or string list separated by comma or space, to EXCLUDE from logs. 
+	 * This will exclude any categories after $categories has been ran
 	 */
 	public $except=array();
 	/**
