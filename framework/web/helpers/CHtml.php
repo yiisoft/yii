@@ -1766,9 +1766,9 @@ EOD;
 	 *
 	 * @param array $models a list of model objects. This parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
-	 * @param string $valueField the attribute name for list option values
-	 * @param string $textField the attribute name for list option texts
-	 * @param string $groupField the attribute name for list option group names. If empty, no group will be generated.
+	 * @param mixed $valueField the attribute name for list option values
+	 * @param mixed $textField the attribute name for list option texts
+	 * @param mixed $groupField the attribute name for list option group names. If empty, no group will be generated.
 	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
 	 */
 	public static function listData($models,$valueField,$textField,$groupField='')
@@ -1805,10 +1805,22 @@ EOD;
 	 * The model can be either an object or an array. If the latter, the attribute is treated
 	 * as a key of the array. For the example of "author.firstName", if would mean the array value
 	 * "$model['author']['firstName']".
+	 *
+	 * Anonymous function ('Closure' instance) could be also used for attribute calculation
+	 * since 1.1.13 ($attribute parameter; PHP 5.3+ only) as follows:
+	 * <pre>
+	 * $taskClosedSecondsAgo=CHtml::value($closedTask,function($model) {
+	 * 	return time()-$model->closed_at;
+	 * });
+	 * </pre>
+	 * E.g. this feature could be used together with the {@link listData}. Please refer to its
+	 * documentation for more details.
+	 *
 	 * @param mixed $model the model. This can be either an object or an array.
 	 * @param mixed $attribute the attribute name (use dot to concatenate multiple attributes)
-	 * @param mixed $defaultValue the default value to return when the attribute does not exist
-	 * @return mixed the attribute value
+	 * or anonymous function (lambda, 'Closure' instance).
+	 * @param mixed $defaultValue the default value to return when the attribute does not exist.
+	 * @return mixed the attribute value.
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
