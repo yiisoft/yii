@@ -1825,7 +1825,7 @@ EOD;
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		static $closureExists; // keep in mind cost of the class_exists, because CHtml::value() used very often
+		static $closureExists; // keep in mind cost of the class_exists
 		if($closureExists===null)
 			$closureExists=class_exists('Closure',false);
 
