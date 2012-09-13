@@ -1754,9 +1754,9 @@ EOD;
 	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
 	 * encode it if needed.
 	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
-	 * You can also pass anonymous function as third argument which calculates text field value (PHP 5.3+ only)
-	 * since 1.1.13. Your anonymous function should receive one argument, which is the model, the current
-	 * &lt;option&gt; tag is generated from.
+	 * You can also pass anonymous functions as second, third and fourth arguments which calculates
+	 * text field value (PHP 5.3+ only) since 1.1.13. Your anonymous function should receive one argument,
+	 * which is the model, the current &lt;option&gt; tag is generated from.
 	 *
 	 * <pre>
 	 * CHtml::listData($posts,'id',function($post) {
@@ -1766,9 +1766,9 @@ EOD;
 	 *
 	 * @param array $models a list of model objects. This parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
-	 * @param mixed $valueField the attribute name for list option values
-	 * @param mixed $textField the attribute name for list option texts
-	 * @param mixed $groupField the attribute name for list option group names. If empty, no group will be generated.
+	 * @param mixed $valueField the attribute name or anonymous function (PHP 5.3+) for list option values
+	 * @param mixed $textField the attribute name or anonymous function (PHP 5.3+) for list option texts
+	 * @param mixed $groupField the attribute name or anonymous function (PHP 5.3+) for list option group names. If empty, no group will be generated.
 	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
 	 */
 	public static function listData($models,$valueField,$textField,$groupField='')
@@ -1818,7 +1818,7 @@ EOD;
 	 *
 	 * @param mixed $model the model. This can be either an object or an array.
 	 * @param mixed $attribute the attribute name (use dot to concatenate multiple attributes)
-	 * or anonymous function (lambda, 'Closure' instance).
+	 * or anonymous function (PHP 5.3+).
 	 * @param mixed $defaultValue the default value to return when the attribute does not exist.
 	 * @return mixed the attribute value.
 	 */
