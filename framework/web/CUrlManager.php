@@ -193,7 +193,7 @@ class CUrlManager extends CApplicationComponent
 	public $urlRuleClass='CUrlRule';
 
 	private $_urlFormat=self::GET_FORMAT;
-	private $_rules=array();
+	protected $_rules=array();
 	private $_baseUrl;
 
 
