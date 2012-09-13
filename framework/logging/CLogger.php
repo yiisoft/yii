@@ -180,7 +180,8 @@ class CLogger extends CComponent
 	 * @param integer index of the values array to be used for check
 	 * @return boolean true if valid timing entry, false if not.
 	 */
-	private function filterAllCategories($value, $index){
+	private function filterAllCategories($value, $index)
+	{
 		$cat=strtolower($value[$index]);
 		$ret=empty($this->_categories);
 		foreach($this->_categories as $category)
