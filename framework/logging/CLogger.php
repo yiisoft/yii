@@ -70,6 +70,10 @@ class CLogger extends CComponent
 	 */
 	private $_categories;
 	/**
+	 * @var array log categories for excluding from filtering (used when filtering)
+	 */
+	private $_exceptCategories;
+	/**
 	 * @var array the profiling results (category, token => time in seconds)
 	 */
 	private $_timings;
@@ -125,21 +129,29 @@ class CLogger extends CComponent
 	 *   [2] => category (string)
 	 *   [3] => timestamp (float, obtained by microtime(true));
 	 */
-	public function getLogs($levels='',$categories='')
+	public function getLogs($levels='',$categories=array(), $except=array())
 	{
 		$this->_levels=preg_split('/[\s,]+/',strtolower($levels),-1,PREG_SPLIT_NO_EMPTY);
-		$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
-		if(empty($levels) && empty($categories))
-			return $this->_logs;
-		else if(empty($levels))
-			return array_values(array_filter($this->_logs,array($this,'filterByCategory')));
-		else if(empty($categories))
-			return array_values(array_filter($this->_logs,array($this,'filterByLevel')));
+		
+		if (is_string($categories))
+			$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
 		else
-		{
-			$ret=array_filter($this->_logs,array($this,'filterByLevel'));
-			return array_values(array_filter($ret,array($this,'filterByCategory')));
-		}
+			$this->_categories=array_filter(array_map('strtolower',$categories));
+		
+		if (is_string($except))
+			$this->_exceptCategories=preg_split('/[\s,]+/',strtolower($except),-1,PREG_SPLIT_NO_EMPTY);
+		else
+			$this->_exceptCategories=array_filter(array_map('strtolower',$except));
+		
+		$ret=$this->_logs;
+	
+		if(!empty($levels))			
+			$ret=array_values(array_filter($ret,array($this,'filterByLevel')));
+		
+		if(!empty($this->_categories) || !empty($this->_exceptCategories))
+			$ret=array_values(array_filter($ret,array($this,'filterByCategory')));
+		
+		return $ret;
 	}
 
 	/**
@@ -149,19 +161,7 @@ class CLogger extends CComponent
 	 */
 	private function filterByCategory($value)
 	{
-		$cat=strtolower($value[2]);
-		$negateOnly=true;
-		foreach($this->_categories as $category)
-		{
-			if (substr($category, 0,1)=='!')
-				$category=substr($category,1);
-			else
-				$negateOnly=false;
-			
-			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				return !$negateOnly;			
-		}
-		return $negateOnly;
+		return $this->filterAllCategories($value, 2);
 	}
 
 	/**
@@ -171,19 +171,30 @@ class CLogger extends CComponent
 	 */
 	private function filterTimingByCategory($value)
 	{
-		$cat=strtolower($value[2]);
-		$negateOnly=true;
+		return $this->filterAllCategories($value, 1);
+	}
+	
+	/**
+	 * Filter function used to filter included and excluded categories
+	 * @param array $value element to be filtered
+	 * @param integer index of the values array to be used for check
+	 * @return boolean true if valid timing entry, false if not.
+	 */
+	private function filterAllCategories($value, $index){
+		$cat=strtolower($value[$index]);
+		$ret=empty($this->_categories);
 		foreach($this->_categories as $category)
-		{
-			if (substr($category, 0,1)=='!')
-				$category=substr($category,1);
-			else
-				$negateOnly=false;
-			
+		{	
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				return !$negateOnly;			
+				$ret=true;			
+		}		
+		foreach($this->_exceptCategories as $category)
+		{
+			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
+				$ret=false;
 		}
-		return $negateOnly;
+		
+		return $ret;
 	}
 
 	/**
