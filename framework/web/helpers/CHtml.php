@@ -852,7 +852,16 @@ class CHtml
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
 	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to 'span'.
-	 * If the value is an empty string, no enclosing tag will be generated</li>
+	 * If the value is an empty string, no enclosing tag will be generated.</li>
+	 * <li>groupTemplate: string, specifies how each group of the check boxes is rendered.
+	 * Defaults to "{title}<br/>\n{items}", where "{title}" will be replaced by the
+	 * group title tag (e.g. <span>title1</span>) while "{items}" be replaced by the
+	 * items tags of the group. This option is available since 1.1.13.</li>
+	 * <li>groupSeparator: string, specifies the string that separates the generated groups.
+	 * This option is available since 1.1.13.</li>
+	 * <li>groupContainer: string, specifies the groups enclosing tag. Defaults to 'span'.
+	 * If the value is an empty string, no enclosing tag will be generated. This option
+	 * is available since 1.1.13.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -994,7 +1003,16 @@ EOD;
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
 	 * <li>container: string, specifies the radio buttons enclosing tag. Defaults to 'span'.
-	 * If the value is an empty string, no enclosing tag will be generated</li>
+	 * If the value is an empty string, no enclosing tag will be generated.</li>
+	 * <li>groupTemplate: string, specifies how each group of the radio buttons is rendered.
+	 * Defaults to "{title}<br/>\n{items}", where "{title}" will be replaced by the
+	 * group title tag (e.g. <span>title1</span>) while "{items}" be replaced by the
+	 * items tags of the group. This option is available since 1.1.13.</li>
+	 * <li>groupSeparator: string, specifies the string that separates the generated groups.
+	 * This option is available since 1.1.13.</li>
+	 * <li>groupContainer: string, specifies the groups enclosing tag. Defaults to 'span'.
+	 * If the value is an empty string, no enclosing tag will be generated. This option
+	 * is available since 1.1.13.</li>
 	 * </ul>
 	 * @return string the generated radio button list
 	 */
