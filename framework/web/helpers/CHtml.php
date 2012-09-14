@@ -1825,13 +1825,7 @@ EOD;
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		static $closureExists; // keep in mind cost of the class_exists
-		if($closureExists===null)
-			$closureExists=class_exists('Closure',false);
-
-		if($closureExists && $attribute instanceof Closure)
-			return call_user_func($attribute,$model);
-		else
+		if(is_string($attribute))
 			foreach(explode('.',$attribute) as $name)
 			{
 				if(is_object($model))
@@ -1841,6 +1835,8 @@ EOD;
 				else
 					return $defaultValue;
 			}
+		else
+			return call_user_func($attribute,$model);
 
 		return $model;
 	}
