@@ -77,7 +77,9 @@ class CDetailView extends CWidget
 	 * If the below "value" element is specified, this will be ignored.</li>
 	 * <li>value: the value to be displayed. If this is not specified, the above "name" element will be used
 	 * to retrieve the corresponding attribute value for display. Note that this value will be formatted according
-	 * to the "type" option as described below.</li>
+	 * to the "type" option as described below. Callables and anonymous functions (PHP 5.3+ only) could be
+	 * used for calculating value since 1.1.13. Your callback should be able to receive single parameter, the data
+	 * object of the detail view.</li>
 	 * <li>type: the type of the attribute that determines how the attribute value would be formatted.
 	 * Please see above for possible values.
 	 * <li>cssClass: the CSS class to be used for this item. This option is available since version 1.1.3.</li>
@@ -206,7 +208,7 @@ class CDetailView extends CWidget
 			if(!isset($attribute['type']))
 				$attribute['type']='text';
 			if(isset($attribute['value']))
-				$value=$attribute['value'];
+				$value=is_string($attribute['value']) ? $attribute['value'] : call_user_func($attribute['value'],$this->data);
 			else if(isset($attribute['name']))
 				$value=CHtml::value($this->data,$attribute['name']);
 			else
