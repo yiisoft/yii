@@ -63,7 +63,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the pagination object.
-	 * @return CPagination the pagination object. If this is false, it means the pagination is disabled.
+	 * @return mixed the pagination object. If this is false, it means the pagination is disabled.
 	 */
 	public function getPagination()
 	{
@@ -83,19 +83,15 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 */
 	public function setPagination($value)
 	{
-		if(is_array($value))
-		{
-			$pagination=$this->getPagination();
-			foreach($value as $k=>$v)
-				$pagination->$k=$v;
-		}
-		else
-			$this->_pagination=$value;
+		if(is_array($value) && !isset($value['class']))
+			$value['class']='CPagination';
+
+		$this->_pagination=is_array($value) || is_string($value) ? Yii::createComponent($value) : $value;
 	}
 
 	/**
 	 * Returns the sort object.
-	 * @return CSort the sorting object. If this is false, it means the sorting is disabled.
+	 * @return mixed the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort()
 	{
@@ -115,14 +111,10 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 */
 	public function setSort($value)
 	{
-		if(is_array($value))
-		{
-			$sort=$this->getSort();
-			foreach($value as $k=>$v)
-				$sort->$k=$v;
-		}
-		else
-			$this->_sort=$value;
+		if(is_array($value) && !isset($value['class']))
+			$value['class']='CSort';
+
+		$this->_sort=is_array($value) || is_string($value) ? Yii::createComponent($value) : $value;
 	}
 
 	/**
