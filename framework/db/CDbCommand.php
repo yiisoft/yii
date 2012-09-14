@@ -479,10 +479,10 @@ class CDbCommand extends CComponent
 			$this->_connection->queryCachingCount--;
 			$cacheKey='yii:dbquery'.$this->_connection->connectionString.':'.$this->_connection->username;
 			$cacheKey.=':'.$this->getText().':'.serialize(array_merge($this->_paramLog,$params));
-			if(($result=$cache->get($cacheKey))!==false)
+			if($cache->contains($cacheKey))
 			{
 				Yii::trace('Query result found in cache','system.db.CDbCommand');
-				return $result;
+				return $cache->get($cacheKey);
 			}
 		}
 

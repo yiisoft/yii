@@ -101,13 +101,8 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function get($id)
 	{
-		$value = $this->getValue($this->generateUniqueKey($id));
-		if($value===false || $this->serializer===false)
-			return $value;
-		if($this->serializer===null)
-			$value=unserialize($value);
-		else
-			$value=call_user_func($this->serializer[1], $value);
+		$value = $this->_get($this->generateUniqueKey($id));
+		
 		if(is_array($value) && (!$value[1] instanceof ICacheDependency || !$value[1]->getHasChanged()))
 		{
 			Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
@@ -116,6 +111,61 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 		else
 			return false;
 	}
+	
+	/**
+	 * Checks if a value with a specified key exists in cache.
+	 * @param string $id a key identifying the cached value.
+	 * @return boolean whether the key exists in cache.
+	 */
+	public function contains($id)
+	{
+		$key = $this->generateUniqueKey($id);
+		if (!$this->keyExists($key))
+			return false;
+		
+		//check dependency
+		$value = $this->_get($key);
+		if(is_array($value) and $value[1] instanceof ICacheDependency and $value[1]->getHasChanged())
+			return false;
+		else
+			return true;
+	}
+	
+	/**
+	 * Fetches the specified key from cache.
+	 * Does not evaluate cache dependencies.
+	 * Used internally by get() and contains().
+	 * @param string $id a key identifying the cached value.
+	 * @return mixed cached value
+	 */
+	protected function _get($key)
+	{
+		$value = $this->getValue($key);
+		if($value===false || $this->serializer===false)
+			return $value;
+		if($this->serializer===null)
+			$value=unserialize($value);
+		else
+			$value=call_user_func($this->serializer[1], $value);
+		
+		return $value;
+	}
+	
+	/**
+	 * Checks if the specifed key exists in cache.
+	 * This method should be overridden by child classes to perform the check
+	 * in specific cache storage. This method does not evaluate cache dependencies,
+	 * it only checks if key exists and has not expired.
+	 * Default implementation is to check if cached value evaluates to false.
+	 * This leads to false negatives when storing boolean value of FALSE to cache.
+	 * @param string $key a unique key identifying the cached value
+	 * @return boolean whether the specified key exists in cache and has not expired.	
+	 */	
+	protected function keyExists($key)
+	{
+		return $this->getValue($key) !== false;
+	}
+
 
 	/**
 	 * Retrieves multiple values from cache with the specified keys.
@@ -336,7 +386,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function offsetExists($id)
 	{
-		return $this->get($id)!==false;
+		return $this->contains($id);
 	}
 
 	/**

@@ -45,7 +45,18 @@ class CWinCache extends CCache {
 	{
 		return wincache_ucache_get($key);
 	}
-
+	
+	/**
+	 * Checks if the specifed key exists in cache and has not expired.
+	 * This is the implementation of the method declared in the parent class.
+	 * @param string $key a unique key identifying the cached value.
+	 * @return boolean whether the specified key exists in cache and has not expired.
+	 */
+	protected function keyExists($key)
+	{
+		return wincache_ucache_exists($key);
+	}
+	
 	/**
 	 * Retrieves multiple values from cache with the specified keys.
 	 * @param array $keys a list of keys identifying the cached values

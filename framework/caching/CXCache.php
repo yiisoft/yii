@@ -46,6 +46,17 @@ class CXCache extends CCache
 	}
 
 	/**
+	 * Checks if the specifed key exists in cache and has not expired.
+	 * This is the implementation of the method declared in the parent class.
+	 * @param string $key a unique key identifying the cached value.
+	 * @return boolean whether the specified key exists in cache and has not expired.
+	 */
+	protected function keyExists($key)
+	{
+		return xcache_isset($key);
+	}
+	
+	/**
 	 * Stores a value identified by a key in cache.
 	 * This is the implementation of the method declared in the parent class.
 	 *
