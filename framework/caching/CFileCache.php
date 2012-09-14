@@ -109,6 +109,18 @@ class CFileCache extends CCache
 			@unlink($cacheFile);
 		return false;
 	}
+	
+	/**
+	 * Checks if the specifed key exists in cache and has not expired.
+	 * This is the implementation of the method declared in the parent class.
+	 * @param string $key a unique key identifying the cached value.
+	 * @return boolean whether the specified key exists in cache and has not expired.
+	 */
+	protected function keyExists($key)
+	{
+		$cacheFile=$this->getCacheFile($key);
+		return file_exists($cacheFile) and @filemtime($cacheFile) > time();
+	}
 
 	/**
 	 * Stores a value identified by a key in cache.

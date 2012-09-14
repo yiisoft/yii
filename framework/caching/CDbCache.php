@@ -194,6 +194,31 @@ EOD;
 		else
 			return $db->createCommand($sql)->queryScalar();
 	}
+	
+	/**
+	 * Checks if the specifed key exists in cache and has not expired.
+	 * This is the implementation of the method declared in the parent class.
+	 * @param string $key a unique key identifying the cached value.
+	 * @return boolean whether the specified key exists in cache and has not expired.
+	 */
+	protected function keyExists($key)
+	{
+		$time=time();
+		$sql="SELECT 1 FROM {$this->cacheTableName} WHERE id='$key' AND (expire=0 OR expire>$time)";
+		$db=$this->getDbConnection();
+		if($db->queryCachingDuration>0)
+		{
+			$duration=$db->queryCachingDuration;
+			$db->queryCachingDuration=0;
+			$result=$db->createCommand($sql)->queryRow();
+			
+			$db->queryCachingDuration=$duration;
+		}
+		else
+			$result = $db->createCommand($sql)->queryRow();
+		
+		return $result !== false;
+	}
 
 	/**
 	 * Retrieves multiple values from cache with the specified keys.

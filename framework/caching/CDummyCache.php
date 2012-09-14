@@ -47,7 +47,17 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	{
 		return false;
 	}
-
+	
+	/**
+	 * Checks if a value with a specified key exists in cache.
+	 * @param string $id a key identifying the cached value.
+	 * @return boolean whether the key exists in cache.
+	 */
+	public function contains($id)
+	{
+		return false;
+	}
+	
 	/**
 	 * Retrieves multiple values from cache with the specified keys.
 	 * Some caches (such as memcache, apc) allow retrieving multiple cached values at one time,

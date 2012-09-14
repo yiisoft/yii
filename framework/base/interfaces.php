@@ -93,6 +93,12 @@ interface ICache
 	 * @return boolean whether the flush operation was successful.
 	 */
 	public function flush();
+	/**
+	 * Checks if a value with a specified key exists in cache.
+	 * @param string $id a key identifying the cached value.
+	 * @return boolean whether the key exists in cache.
+	 */
+	public function contains($id);
 }
 
 /**
