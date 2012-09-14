@@ -1754,20 +1754,21 @@ EOD;
 	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
 	 * encode it if needed.
 	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
-	 * You can also pass anonymous function as third argument which calculates text field value (PHP 5.3+ only).
-	 * Your anonymous function should receive one argument, which is the model, the current <option> tag is generated from.
+	 * You can also pass anonymous functions as second, third and fourth arguments which calculates
+	 * text field value (PHP 5.3+ only) since 1.1.13. Your anonymous function should receive one argument,
+	 * which is the model, the current &lt;option&gt; tag is generated from.
 	 *
 	 * <pre>
 	 * CHtml::listData($posts,'id',function($post) {
-	 *     return CHtml::encode($post->title);
+	 * 	return CHtml::encode($post->title);
 	 * });
 	 * </pre>
 	 *
 	 * @param array $models a list of model objects. This parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
-	 * @param string $valueField the attribute name for list option values
+	 * @param mixed $valueField the attribute name or anonymous function (PHP 5.3+) for list option values
 	 * @param mixed $textField the attribute name or anonymous function (PHP 5.3+) for list option texts
-	 * @param string $groupField the attribute name for list option group names. If empty, no group will be generated.
+	 * @param mixed $groupField the attribute name or anonymous function (PHP 5.3+) for list option group names. If empty, no group will be generated.
 	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
 	 */
 	public static function listData($models,$valueField,$textField,$groupField='')
@@ -1775,50 +1776,21 @@ EOD;
 		$listData=array();
 		if($groupField==='')
 		{
-			if(class_exists('Closure',false) && $textField instanceof Closure)
+			foreach($models as $model)
 			{
-				// $text value is calculated in anonymous function, without groups
-				foreach($models as $model)
-				{
-					$value=self::value($model,$valueField);
-					$text=call_user_func($textField,$model);
-					$listData[$value]=$text;
-				}
-			}
-			else
-			{
-				// $text value is from model attribute, without groups
-				foreach($models as $model)
-				{
-					$value=self::value($model,$valueField);
-					$text=self::value($model,$textField);
-					$listData[$value]=$text;
-				}
+				$value=self::value($model,$valueField);
+				$text=self::value($model,$textField);
+				$listData[$value]=$text;
 			}
 		}
 		else
 		{
-			if(class_exists('Closure',false) && $textField instanceof Closure)
+			foreach($models as $model)
 			{
-				// $text value is calculated in anonymous function, with groups
-				foreach($models as $model)
-				{
-					$group=self::value($model,$groupField);
-					$value=self::value($model,$valueField);
-					$text=call_user_func($textField,$model);
-					$listData[$group][$value]=$text;
-				}
-			}
-			else
-			{
-				// $text value is from model attribute, with groups
-				foreach($models as $model)
-				{
-					$group=self::value($model,$groupField);
-					$value=self::value($model,$valueField);
-					$text=self::value($model,$textField);
-					$listData[$group][$value]=$text;
-				}
+				$group=self::value($model,$groupField);
+				$value=self::value($model,$valueField);
+				$text=self::value($model,$textField);
+				$listData[$group][$value]=$text;
 			}
 		}
 		return $listData;
@@ -1833,22 +1805,39 @@ EOD;
 	 * The model can be either an object or an array. If the latter, the attribute is treated
 	 * as a key of the array. For the example of "author.firstName", if would mean the array value
 	 * "$model['author']['firstName']".
+	 *
+	 * Anonymous function could also be used for attribute calculation since 1.1.13
+	 * ($attribute parameter; PHP 5.3+ only) as follows:
+	 * <pre>
+	 * $taskClosedSecondsAgo=CHtml::value($closedTask,function($model) {
+	 * 	return time()-$model->closed_at;
+	 * });
+	 * </pre>
+	 * Your anonymous function should receive one argument, which is the model, the current
+	 * value is calculated from. This feature could be used together with the {@link listData}.
+	 * Please refer to its documentation for more details.
+	 *
 	 * @param mixed $model the model. This can be either an object or an array.
-	 * @param string $attribute the attribute name (use dot to concatenate multiple attributes)
-	 * @param mixed $defaultValue the default value to return when the attribute does not exist
-	 * @return mixed the attribute value
+	 * @param mixed $attribute the attribute name (use dot to concatenate multiple attributes)
+	 * or anonymous function (PHP 5.3+).
+	 * @param mixed $defaultValue the default value to return when the attribute does not exist.
+	 * @return mixed the attribute value.
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		foreach(explode('.',$attribute) as $name)
-		{
-			if(is_object($model))
-				$model=$model->$name;
-			else if(is_array($model) && isset($model[$name]))
-				$model=$model[$name];
-			else
-				return $defaultValue;
-		}
+		if(is_string($attribute))
+			foreach(explode('.',$attribute) as $name)
+			{
+				if(is_object($model))
+					$model=$model->$name;
+				else if(is_array($model) && isset($model[$name]))
+					$model=$model[$name];
+				else
+					return $defaultValue;
+			}
+		else
+			return call_user_func($attribute,$model);
+
 		return $model;
 	}
 
