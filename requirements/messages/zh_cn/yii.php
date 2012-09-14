@@ -12,7 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
  */
 return array (
   'PHP version' => 'PHP版本',
