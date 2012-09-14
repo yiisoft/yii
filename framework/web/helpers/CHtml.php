@@ -859,9 +859,6 @@ class CHtml
 	 * items tags of the group. This option is available since 1.1.13.</li>
 	 * <li>groupSeparator: string, specifies the string that separates the generated groups.
 	 * This option is available since 1.1.13.</li>
-	 * <li>groupContainer: string, specifies the groups enclosing tag. Defaults to 'span'.
-	 * If the value is an empty string, no enclosing tag will be generated. This option
-	 * is available since 1.1.13.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -878,8 +875,7 @@ class CHtml
 			$hasGroups=true;
 			$groupTemplate=isset($htmlOptions['groupTemplate'])?$htmlOptions['groupTemplate']:"{title}<br/>\n{items}";
 			$groupSeparator=isset($htmlOptions['groupSeparator'])?$htmlOptions['groupSeparator']:"<br/>\n";
-			$groupContainer=isset($htmlOptions['groupContainer'])?$htmlOptions['groupContainer']:'span';
-			unset($htmlOptions['groupTemplate'],$htmlOptions['groupSeparator'],$htmlOptions['groupContainer']);
+			unset($htmlOptions['groupTemplate'],$htmlOptions['groupSeparator']);
 		}
 
 		if(substr($name,-2)!=='[]')
@@ -964,10 +960,7 @@ EOD;
 			{
 				// array value contains group elements
 				if(is_array($groupItems))
-				{
-					$groupData=strtr($groupTemplate,array('{title}'=>$groupName,'{items}'=>implode($separator,$groupItems)));
-					$groups[]=empty($groupContainer) ? $groupData : self::tag($groupContainer,array(),$groupData);
-				}
+					$groups[]=strtr($groupTemplate,array('{title}'=>$groupName,'{items}'=>implode($separator,$groupItems)));
 				// non array value represents checkAll checkbox
 				else
 					$groups[]=$groupItems;
@@ -1012,9 +1005,6 @@ EOD;
 	 * items tags of the group. This option is available since 1.1.13.</li>
 	 * <li>groupSeparator: string, specifies the string that separates the generated groups.
 	 * This option is available since 1.1.13.</li>
-	 * <li>groupContainer: string, specifies the groups enclosing tag. Defaults to 'span'.
-	 * If the value is an empty string, no enclosing tag will be generated. This option
-	 * is available since 1.1.13.</li>
 	 * </ul>
 	 * @return string the generated radio button list
 	 */
@@ -1031,8 +1021,7 @@ EOD;
 			$hasGroups=true;
 			$groupTemplate=isset($htmlOptions['groupTemplate'])?$htmlOptions['groupTemplate']:"{title}<br/>\n{items}";
 			$groupSeparator=isset($htmlOptions['groupSeparator'])?$htmlOptions['groupSeparator']:"<br/>\n";
-			$groupContainer=isset($htmlOptions['groupContainer'])?$htmlOptions['groupContainer']:'span';
-			unset($htmlOptions['groupTemplate'],$htmlOptions['groupSeparator'],$htmlOptions['groupContainer']);
+			unset($htmlOptions['groupTemplate'],$htmlOptions['groupSeparator']);
 		}
 
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
@@ -1060,10 +1049,8 @@ EOD;
 
 			$groups=array();
 			foreach($items as $groupName=>$groupItems)
-			{
-				$groupData=strtr($groupTemplate,array('{title}'=>$groupName,'{items}'=>implode($separator,$groupItems)));
-				$groups[]=empty($groupContainer) ? $groupData : self::tag($groupContainer,array(),$groupData);
-			}
+				$groups[]=strtr($groupTemplate,array('{title}'=>$groupName,'{items}'=>implode($separator,$groupItems)));
+
 			return empty($container) ? implode($groupSeparator,$groups) : self::tag($container,array('id'=>$baseID),implode($groupSeparator,$groups));
 		}
 		else
