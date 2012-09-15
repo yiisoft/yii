@@ -17,6 +17,7 @@ Version 1.1.13 work in progress
 - Bug #1330: SQLite column default value was incorrect for column of type string and DEFAULT NULL (cebe)
 - Bug #1351: CClientScript::registerMetaTag() now allows to register multiple meta tags with the same set of attributes (klimov-paul)
 - Bug #1364: Empty CHtml::$errorCss cause class attribute rendering errors (creocoder)
+- Bug #1347: CDbTestCase: table name in fixtures list enclosed into double curly brackets (e.g. 'tasks'=>':{{task}}') didn't worked properly (resurtm)
 - Enh #117: Added CPhpMessageSource::$extensionPaths to allow extensions, that do not have a base class to use as category prefix, to register message source (rcoelho, cebe)
 - Enh #291: CFormatter::formatDate and formatDateTime now also accept strings in strtotime() format (francis_tm, cebe)
 - Enh #486: CHttpSession::$gCProbability and CDbHttpSession::$gCProbability are floats now. Minimal possible $gCProbability value has been changed to the ≈0.00000005% (1/2147483647), was integer 1% before, default value left unchanged (1%) (resurtm)
