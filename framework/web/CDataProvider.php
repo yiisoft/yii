@@ -63,7 +63,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the pagination object.
-	 * @return CPagination the pagination object. If this is false, it means the pagination is disabled.
+	 * @return CPagination|false the pagination object. If this is false, it means the pagination is disabled.
 	 */
 	public function getPagination()
 	{
@@ -80,22 +80,26 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Sets the pagination for this data provider.
 	 * @param mixed $value the pagination to be used by this data provider. This could be a {@link CPagination} object
 	 * or an array used to configure the pagination object. If this is false, it means the pagination should be disabled.
+	 *
+	 * You can configre this property same way as a component:
+	 * <pre>
+	 * array(
+	 *     'class' => 'MyPagination',
+	 *     'pageSize' => 20,
+	 * ),
+	 * </pre>
 	 */
 	public function setPagination($value)
 	{
-		if(is_array($value))
-		{
-			$pagination=$this->getPagination();
-			foreach($value as $k=>$v)
-				$pagination->$k=$v;
-		}
-		else
-			$this->_pagination=$value;
+		if(is_array($value) && !isset($value['class']))
+			$value['class']='CPagination';
+
+		$this->_pagination=is_array($value) || is_string($value) ? Yii::createComponent($value) : $value;
 	}
 
 	/**
 	 * Returns the sort object.
-	 * @return CSort the sorting object. If this is false, it means the sorting is disabled.
+	 * @return CSort|false the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort()
 	{
@@ -112,17 +116,21 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Sets the sorting for this data provider.
 	 * @param mixed $value the sorting to be used by this data provider. This could be a {@link CSort} object
 	 * or an array used to configure the sorting object. If this is false, it means the sorting should be disabled.
+	 *
+	 * You can configre this property same way as a component:
+	 * <pre>
+	 * array(
+	 *     'class' => 'MySort',
+	 *     'attributes' => array('name', 'weight'),
+	 * ),
+	 * </pre>
 	 */
 	public function setSort($value)
 	{
-		if(is_array($value))
-		{
-			$sort=$this->getSort();
-			foreach($value as $k=>$v)
-				$sort->$k=$v;
-		}
-		else
-			$this->_sort=$value;
+		if(is_array($value) && !isset($value['class']))
+			$value['class']='CSort';
+
+		$this->_sort=is_array($value) || is_string($value) ? Yii::createComponent($value) : $value;
 	}
 
 	/**
