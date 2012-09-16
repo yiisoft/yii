@@ -151,6 +151,28 @@ class CDbCommandBuilder extends CComponent
 			$sql=$this->applyCondition($sql,$criteria->condition);
 		}
 
+		// Suppress binding of parameters belonging to the ORDER clause. Issue #1407.
+		if($criteria->order && $criteria->params)
+		{
+			$params1=array();
+			preg_match_all('/(:\w+)/',$sql,$params1);
+			$params2=array();
+			preg_match_all('/(:\w+)/',$this->applyOrder($sql,$criteria->order),$params2);
+			foreach(array_diff($params2[0],$params1[1]) as $param)
+				unset($criteria->params[$param]);
+		}
+
+		// Do the same for SELECT part.
+		if($criteria->select && $criteria->params)
+		{
+			$params1=array();
+			preg_match_all('/(:\w+)/',$sql,$params1);
+			$params2=array();
+			preg_match_all('/(:\w+)/',$sql.' '.(is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select),$params2);
+			foreach(array_diff($params2[0],$params1[1]) as $param)
+				unset($criteria->params[$param]);
+		}
+
 		$command=$this->_connection->createCommand($sql);
 		$this->bindValues($command,$criteria->params);
 		return $command;
