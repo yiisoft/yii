@@ -40,6 +40,7 @@ Version 1.1.13 work in progress
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
+- Enh: Allow CDataProvider to use custom pagination and sorter (creocoder)
 - Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
 - Chg: Added Oracle unit tests (resurtm)
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
