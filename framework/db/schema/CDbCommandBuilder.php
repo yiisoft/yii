@@ -158,7 +158,7 @@ class CDbCommandBuilder extends CComponent
 			preg_match_all('/(:\w+)/',$sql,$params1);
 			$params2=array();
 			preg_match_all('/(:\w+)/',$this->applyOrder($sql,$criteria->order),$params2);
-			foreach(array_diff($params2[0],$params1[1]) as $param)
+			foreach(array_diff($params2[0],$params1[0]) as $param)
 				unset($criteria->params[$param]);
 		}
 
@@ -169,7 +169,7 @@ class CDbCommandBuilder extends CComponent
 			preg_match_all('/(:\w+)/',$sql,$params1);
 			$params2=array();
 			preg_match_all('/(:\w+)/',$sql.' '.(is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select),$params2);
-			foreach(array_diff($params2[0],$params1[1]) as $param)
+			foreach(array_diff($params2[0],$params1[0]) as $param)
 				unset($criteria->params[$param]);
 		}
 
