@@ -63,7 +63,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the pagination object.
-	 * @return mixed the pagination object. If this is false, it means the pagination is disabled.
+	 * @return CPagination|false the pagination object. If this is false, it means the pagination is disabled.
 	 */
 	public function getPagination()
 	{
@@ -80,6 +80,14 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Sets the pagination for this data provider.
 	 * @param mixed $value the pagination to be used by this data provider. This could be a {@link CPagination} object
 	 * or an array used to configure the pagination object. If this is false, it means the pagination should be disabled.
+	 *
+	 * You can configre this property same way as a component:
+	 * <pre>
+	 * array(
+	 *     'class' => 'MyPagination',
+	 *     'pageSize' => 20,
+	 * ),
+	 * </pre>
 	 */
 	public function setPagination($value)
 	{
@@ -91,7 +99,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the sort object.
-	 * @return mixed the sorting object. If this is false, it means the sorting is disabled.
+	 * @return CPagination|false the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort()
 	{
@@ -108,6 +116,14 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Sets the sorting for this data provider.
 	 * @param mixed $value the sorting to be used by this data provider. This could be a {@link CSort} object
 	 * or an array used to configure the sorting object. If this is false, it means the sorting should be disabled.
+	 *
+	 * You can configre this property same way as a component:
+	 * <pre>
+	 * array(
+	 *     'class' => 'MySort',
+	 *     'attributes' => array('name', 'weight'),
+	 * ),
+	 * </pre>
 	 */
 	public function setSort($value)
 	{
