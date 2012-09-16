@@ -99,7 +99,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the sort object.
-	 * @return CPagination|false the sorting object. If this is false, it means the sorting is disabled.
+	 * @return CSort|false the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort()
 	{
