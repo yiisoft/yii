@@ -63,13 +63,14 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the pagination object.
+	 * @param string $className the pagination object class name.
 	 * @return CPagination|false the pagination object. If this is false, it means the pagination is disabled.
 	 */
-	public function getPagination()
+	public function getPagination($className='CPagination')
 	{
 		if($this->_pagination===null)
 		{
-			$this->_pagination=new CPagination;
+			$this->_pagination=new $className;
 			if(($id=$this->getId())!='')
 				$this->_pagination->pageVar=$id.'_page';
 		}
@@ -91,21 +92,26 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 */
 	public function setPagination($value)
 	{
-		if(is_array($value) && !isset($value['class']))
-			$value['class']='CPagination';
-
-		$this->_pagination=is_array($value) || is_string($value) ? Yii::createComponent($value) : $value;
+		if(is_array($value))
+		{
+			$pagination=isset($value['class']) ? $this->getPagination($value['class']) : $this->getPagination();
+			foreach($value as $k=>$v)
+				$pagination->$k=$v;
+		}
+		else
+			$this->_pagination=$value;
 	}
 
 	/**
 	 * Returns the sort object.
+	 * @param string $className the sorting object class name.
 	 * @return CSort|false the sorting object. If this is false, it means the sorting is disabled.
 	 */
-	public function getSort()
+	public function getSort($className='CSort')
 	{
 		if($this->_sort===null)
 		{
-			$this->_sort=new CSort;
+			$this->_sort=new $className;
 			if(($id=$this->getId())!='')
 				$this->_sort->sortVar=$id.'_sort';
 		}
@@ -127,10 +133,14 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 */
 	public function setSort($value)
 	{
-		if(is_array($value) && !isset($value['class']))
-			$value['class']='CSort';
-
-		$this->_sort=is_array($value) || is_string($value) ? Yii::createComponent($value) : $value;
+		if(is_array($value))
+		{
+			$sort=isset($value['class']) ? $this->getSort($value['class']) : $this->getSort();
+			foreach($value as $k=>$v)
+				$sort->$k=$v;
+		}
+		else
+			$this->_sort=$value;
 	}
 
 	/**
