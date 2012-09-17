@@ -85,7 +85,7 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 				}')
 			),
 			'htmlOptions'=>array(
-				'id'=>'ModelCode_tableName',
+				'id'=>CHtml::activeId($model,'tableName'),
 				'size'=>'65'
 			),
 		)); ?>
