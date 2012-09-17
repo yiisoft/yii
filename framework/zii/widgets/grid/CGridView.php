@@ -280,6 +280,13 @@ class CGridView extends CBaseListView
 	 */
 	public $enableHistory=false;
 	/**
+	 * @var mixed
+	 */
+	public $defaultColumn=array(
+		'class'=>'CDataColumn',
+	);
+
+	/**
 	 * Initializes the grid view.
 	 * This method will initialize required property values and instantiate {@link columns} objects.
 	 */
@@ -330,9 +337,14 @@ class CGridView extends CBaseListView
 				$column=$this->createDataColumn($column);
 			else
 			{
-				if(!isset($column['class']))
-					$column['class']='CDataColumn';
-				$column=Yii::createComponent($column, $this);
+				if(isset($column['class']))
+					$column=Yii::createComponent($column,$this);
+				else
+				{
+					$column=Yii::createComponent($this->defaultColumn,$this);
+					if(!$column instanceof CDataColumn)
+						throw new CException(Yii::t('zii','')); //TODO: exception message
+				}
 			}
 			if(!$column->visible)
 			{
@@ -357,7 +369,9 @@ class CGridView extends CBaseListView
 	{
 		if(!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/',$text,$matches))
 			throw new CException(Yii::t('zii','The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
-		$column=new CDataColumn($this);
+		$column=Yii::createComponent($this->defaultColumn,$this);
+		if(!$column instanceof CDataColumn)
+			throw new CException(Yii::t('zii','')); //TODO: exception message
 		$column->name=$matches[1];
 		if(isset($matches[3]) && $matches[3]!=='')
 			$column->type=$matches[3];
