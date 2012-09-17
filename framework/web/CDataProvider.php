@@ -63,7 +63,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the pagination object.
-	 * @param string $className the pagination object class name.
+	 * @param string $className the pagination object class name. Parameter is available since version 1.1.13.
 	 * @return CPagination|false the pagination object. If this is false, it means the pagination is disabled.
 	 */
 	public function getPagination($className='CPagination')
@@ -104,7 +104,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the sort object.
-	 * @param string $className the sorting object class name.
+	 * @param string $className the sorting object class name. Parameter is available since version 1.1.13.
 	 * @return CSort|false the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort($className='CSort')
