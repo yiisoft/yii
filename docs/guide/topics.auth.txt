@@ -43,7 +43,7 @@ session.
 
 In the following example, we use an identity class to demonstrate using a database approach to authentication. This is very typical of most Web applications. A user will enter their username and password into a login form, and then we validate these credentials, using [ActiveRecord](/doc/guide/database.ar), against a user table in the database . There are actually a few things being demonstrated in this single example:
 
-1. The implementation of the `authenticate()` to use the database to validate credentials.
+1. The implementation of the `authenticate()` method to use the database to validate credentials.
 2. Overriding the `CUserIdentity::getId()` method to return the `_id` property because the default implementation returns the username as the ID.
 3. Using the `setState()` ([CBaseUserIdentity::setState]) method to demonstrate storing other information that can easily be retrieved upon subsequent requests.
 
