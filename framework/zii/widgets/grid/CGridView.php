@@ -289,30 +289,6 @@ class CGridView extends CBaseListView
 	/**
 	 * @var mixed
 	 */
-	public $dataColumn=array(
-		'class'=>'CDataColumn',
-	);
-	/**
-	 * @var mixed
-	 */
-	public $linkColumn=array(
-		'class'=>'CLinkColumn',
-	);
-	/**
-	 * @var mixed
-	 */
-	public $checkBoxColumn=array(
-		'class'=>'CCheckBoxColumn',
-	);
-	/**
-	 * @var mixed
-	 */
-	public $buttonColumn=array(
-		'class'=>'CButtonColumn',
-	);
-	/**
-	 * @var mixed
-	 */
 	public $columnMap=array();
 
 	/**
@@ -348,12 +324,18 @@ class CGridView extends CBaseListView
 	 */
 	protected function initDefaultColumns()
 	{
-		foreach(array('data','link','checkBox','button') as $id)
+		//TODO: add support for 'ColumnClassName'=>array(...),
+		foreach(array(
+			'data'=>array('class'=>'CDataColumn'),
+			'link'=>array('class'=>'CLinkColumn'),
+			'checkBox'=>array('class'=>'CCheckBoxColumn'),
+			'button'=>array('class'=>'CButtonColumn'),
+		) as $id=>$config)
 		{
 			if(isset($this->columnMap[$id]))
-				$this->columnMap[$id]=array_merge($this->{$id.'Column'},$this->columnMap[$id]);
+				$this->columnMap[$id]=array_merge($config,$this->columnMap[$id]);
 			else
-				$this->columnMap[$id]=$this->{$id.'Column'};
+				$this->columnMap[$id]=$config;
 		}
 	}
 
