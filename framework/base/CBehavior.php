@@ -46,7 +46,10 @@ class CBehavior extends CComponent implements IBehavior
 	{
 		$this->_owner=$owner;
 		foreach($this->events() as $event=>$handler)
-			$owner->attachEventHandler($event,array($this,$handler));
+		{
+			if(method_exists($this,$handler))
+				$owner->attachEventHandler($event,array($this,$handler));
+		}
 	}
 
 	/**
