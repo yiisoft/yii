@@ -25,4 +25,4 @@ Active Record (AR) — це шаблон проектування, який ви
 Поля цього рядку відповідають властивостям AR-обʼєкту. Детальніше з AR-моделлю можна
 ознайомитись у розділі [Active Record](/doc/guide/database.ar).
 
-<div class="revision">$Id: basics.model.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>
+<div class="revision">$Id$</div>

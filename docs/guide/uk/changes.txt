@@ -27,7 +27,7 @@
 
 Версія 1.1.6
 ------------
- * [Доданий *будівник* запитів](/doc/guide/database.query-builder)
+ * [Додано конструктор запитів](/doc/guide/database.query-builder)
  * [Додані міграції](/doc/guide/database.migration)
  * [Кращі практики MVC](/doc/guide/basics.best-practices)
  * [Консольним командам додана підтримка анонімних параметрів та глобальних опцій](/doc/guide/topics.console)
@@ -90,4 +90,4 @@
 
  * Псевдонім для головної таблиці в AR запиті тепер назавжди рівен 't'.
 
-<div class="revision">$Id: changes.txt 3526 2012-01-01 03:18:43Z qiang.xue $</div>
+<div class="revision">$Id$</div>
