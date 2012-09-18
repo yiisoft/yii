@@ -118,13 +118,18 @@ class CConsoleCommandRunner extends CComponent
 	 */
 	public function createCommand($name)
 	{
+		$name=strtolower($name);
+
 		$command=null;
-		foreach($this->commands as $commandName=>$commandConfig)
-			if(strcasecmp($commandName,$name)===0)
-			{
-				$command=$commandConfig;
-				break;
-			}
+		if(isset($this->commands[$name]))
+			$command=$this->commands[$name];
+		else
+		{
+			$commands=array_change_key_case($this->commands);
+			if(isset($commands[$name]))
+				$command=$commands[$name];
+		}
+
 		if($command!==null)
 		{
 			if(is_string($command)) // class file path or alias
