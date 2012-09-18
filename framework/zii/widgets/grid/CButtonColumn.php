@@ -137,7 +137,7 @@ class CButtonColumn extends CGridColumn
 	 */
 	public $afterDelete;
 	/**
-	 * @var array the configuration for additional buttons. Each array element specifies a single button
+	 * @var array the configuration for buttons. Each array element specifies a single button
 	 * which has the following format:
 	 * <pre>
 	 * 'buttonID' => array(
@@ -153,7 +153,7 @@ class CButtonColumn extends CGridColumn
 	 * refers to the current row number (zero-based), and <code>$data</code> refers to the data model for
 	 * the row.
 	 *
-	 * Note that in order to display these additional buttons, the {@link template} property needs to
+	 * Note that in order to display non-default buttons, the {@link template} property needs to
 	 * be configured so that the corresponding button IDs appear as tokens in the template.
 	 */
 	public $buttons=array();
