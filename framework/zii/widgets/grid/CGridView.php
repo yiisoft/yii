@@ -101,8 +101,12 @@ class CGridView extends CBaseListView
 	 *
 	 * When a column is specified as an array, it will be used to create a grid column instance, where
 	 * the 'class' element specifies the column class name (defaults to {@link CDataColumn} if absent).
-	 * Currently, these official column classes are provided: {@link CDataColumn},
-	 * {@link CLinkColumn}, {@link CButtonColumn} and {@link CCheckBoxColumn}.
+	 * Currently, these official column classes are provided: {@link CDataColumn}, {@link CLinkColumn},
+	 * {@link CButtonColumn} and {@link CCheckBoxColumn}.
+	 *
+	 * Since 1.1.13 when a column specified as an array, it will be used to create a grid column instance,
+	 * where the 'column' element specifies column alias from {@link columnMap}. Currently, these official
+	 * column aliases are provided: 'data', 'link', 'button' and 'checkBox'.
 	 */
 	public $columns=array();
 	/**
