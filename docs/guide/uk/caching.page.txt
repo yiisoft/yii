@@ -82,4 +82,4 @@ public function filters()
 запровадження заголовків кешу може допомогти індексації сайту, 
 оскільки вони зменшують кількість сторінок, які повинні бути оброблені.
 
-<div class="revision">$Id: caching.page.txt 1014 2009-05-10 12:25:55Z qiang.xue $</div>
+<div class="revision">$Id$</div>

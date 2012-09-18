@@ -75,4 +75,4 @@ http://hostname/testdrive/index.php?r=user/admin
 
 ![Сторінка додавання нового користувача](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id$</div>
