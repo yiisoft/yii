@@ -55,4 +55,4 @@ $model->rememberMe=$_POST['LoginForm']['rememberMe'];
 
 Тепер нам залишилося тільки створити представлення `login`, яке буде містити HTML форму з необхідними полями.
 
-<div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>
+<div class="revision">$Id$</div>

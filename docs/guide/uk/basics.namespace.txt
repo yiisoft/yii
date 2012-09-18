@@ -255,4 +255,4 @@ return array(
 ~~~
 
 
-<div class="revision">$Id: basics.namespace.txt 3086 2011-03-15 00:04:53Z qiang.xue $</div>
+<div class="revision">$Id$</div>

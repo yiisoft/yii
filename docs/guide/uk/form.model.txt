@@ -357,4 +357,4 @@ public function rules()
 
 Далі ми побачимо, що можливість вказівки міток у моделі даних дозволяє швидко створювати складні форми.
 
-<div class="revision">$Id: form.model.txt 3482 2011-12-13 09:41:36Z mdomba $</div>
+<div class="revision">$Id$</div>

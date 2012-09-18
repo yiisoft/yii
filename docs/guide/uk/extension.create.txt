@@ -171,4 +171,4 @@ class MyCommand extends CConsoleCommand
 
 Розробка загального компонента аналогічна написання класу. Компонент, як і модуль, повинен бути самодостатнім і зручним для використання розробниками.
 
-<div class="revision">$Id: extension.create.txt 1423 2009-09-28 01:54:38Z qiang.xue $</div>
+<div class="revision">$Id$</div>
