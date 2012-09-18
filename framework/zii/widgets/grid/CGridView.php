@@ -64,7 +64,10 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  *             'value'=>'$data->author->username',
  *         ),
  *         array(            // display a column with "view", "update" and "delete" buttons
- *             'class'=>'CButtonColumn',
+ *             'class'=>'CButtonColumn', // column via class name
+ *         ),
+ *         array(            // display a column with "view", "update" and "delete" buttons
+ *             'column'=>'button', // column via class map
  *         ),
  *     ),
  * ));
