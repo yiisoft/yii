@@ -18,7 +18,7 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.db.ar
  */
-class CActiveRecordBehavior extends CModelBehavior
+abstract class CActiveRecordBehavior extends CModelBehavior
 {
 	/**
 	 * Declares events and the corresponding event handler methods.
@@ -36,5 +36,61 @@ class CActiveRecordBehavior extends CModelBehavior
 			'onBeforeFind'=>'beforeFind',
 			'onAfterFind'=>'afterFind',
 		));
+	}
+
+	/**
+	 * Responds to {@link CActiveRecord::onBeforeSave} event.
+	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * You may set {@link CModelEvent::isValid} to be false to quit the saving process.
+	 * @param CModelEvent $event event parameter
+	 */
+	public function beforeSave($event)
+	{
+	}
+
+	/**
+	 * Responds to {@link CActiveRecord::onAfterSave} event.
+	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * @param CModelEvent $event event parameter
+	 */
+	public function afterSave($event)
+	{
+	}
+
+	/**
+	 * Responds to {@link CActiveRecord::onBeforeDelete} event.
+	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * You may set {@link CModelEvent::isValid} to be false to quit the deletion process.
+	 * @param CEvent $event event parameter
+	 */
+	public function beforeDelete($event)
+	{
+	}
+
+	/**
+	 * Responds to {@link CActiveRecord::onAfterDelete} event.
+	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * @param CEvent $event event parameter
+	 */
+	public function afterDelete($event)
+	{
+	}
+
+	/**
+	 * Responds to {@link CActiveRecord::onBeforeFind} event.
+	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * @param CEvent $event event parameter
+	 */
+	public function beforeFind($event)
+	{
+	}
+
+	/**
+	 * Responds to {@link CActiveRecord::onAfterFind} event.
+	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * @param CEvent $event event parameter
+	 */
+	public function afterFind($event)
+	{
 	}
 }
