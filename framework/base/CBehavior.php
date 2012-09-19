@@ -17,7 +17,7 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base
  */
-abstract class CBehavior extends CComponent implements IBehavior
+class CBehavior extends CComponent implements IBehavior
 {
 	private $_enabled;
 	private $_owner;
@@ -45,10 +45,9 @@ abstract class CBehavior extends CComponent implements IBehavior
 	public function attach($owner)
 	{
 		$this->_owner=$owner;
-		$class=new ReflectionClass($this);
 		foreach($this->events() as $event=>$handler)
 		{
-			if(!$class->getMethod($handler)->getDeclaringClass()->isAbstract())
+			if(method_exists($this,$handler))
 				$owner->attachEventHandler($event,array($this,$handler));
 		}
 	}
