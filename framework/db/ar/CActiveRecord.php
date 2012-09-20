@@ -52,8 +52,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public static $db;
 	/**
-	 * @var boolean whether the attributes order should match the table schema.
-	 *
+	 * @var boolean whether the returned attributes order should match the table schema.
+	 * If false, the first attributes returned by {@link CActiveRecord::getAttributes()} will be columns which have default values.
 	 */
 	public $strictOrder=false;
 
