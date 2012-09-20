@@ -756,7 +756,6 @@ abstract class CActiveRecord extends CModel
 				$attributes[$name]=null;
 		}
 		if($this->strictOrder)
-			$_attributes=$this->_attributes;
 			foreach($this->_attributes as $name=>$column)
 			{
 				if(!isset($attributes[$name]))
