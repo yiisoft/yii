@@ -19,6 +19,7 @@
  */
 class CModelBehavior extends CBehavior
 {
+	private $_events_provider;
 	/**
 	 * Declares events and the corresponding event handler methods.
 	 * The default implementation returns 'onAfterConstruct', 'onBeforeValidate' and 'onAfterValidate' events and handlers.
@@ -39,7 +40,6 @@ class CModelBehavior extends CBehavior
 	 * Responds to {@link CModel::onAfterConstruct} event.
 	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
-	 * @detach
 	 */
 	public function afterConstruct($event)
 	{
@@ -50,7 +50,6 @@ class CModelBehavior extends CBehavior
 	 * Overrides this method if you want to handle the corresponding event of the {@link owner}.
 	 * You may set {@link CModelEvent::isValid} to be false to quit the validation process.
 	 * @param CModelEvent $event event parameter
-	 * @detach
 	 */
 	public function beforeValidate($event)
 	{
@@ -60,7 +59,6 @@ class CModelBehavior extends CBehavior
 	 * Responds to {@link CModel::onAfterValidate} event.
 	 * Overrides this method if you want to handle the corresponding event of the {@link owner}.
 	 * @param CEvent $event event parameter
-	 * @detach
 	 */
 	public function afterValidate($event)
 	{

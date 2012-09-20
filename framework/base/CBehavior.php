@@ -45,10 +45,11 @@ class CBehavior extends CComponent implements IBehavior
 	public function attach($owner)
 	{
 		$this->_owner=$owner;
+		$class=new ReflectionClass($this);
 		foreach($this->events() as $event=>$handler)
 		{
-			$method=new ReflectionMethod($this,$handler);
-			if(strpos($method->getDocComment(),'@detach')===false)
+			$method=$class->getMethod($handler);
+			if(!$method->getDeclaringClass()->hasProperty('_events_provider'))
 				$owner->attachEventHandler($event,array($this,$handler));
 		}
 	}
