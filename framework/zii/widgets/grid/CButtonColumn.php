@@ -149,9 +149,12 @@ class CButtonColumn extends CGridColumn
 	 *     'visible'=>'...',   // a PHP expression for determining whether the button is visible
 	 * )
 	 * </pre>
+	 *
 	 * In the PHP expression for the 'url' option and/or 'visible' option, the variable <code>$row</code>
 	 * refers to the current row number (zero-based), and <code>$data</code> refers to the data model for
 	 * the row.
+	 *
+	 * If the 'buttonID' is 'view', 'update' or 'delete' the options will be applied to the default buttons.
 	 *
 	 * Note that in order to display non-default buttons, the {@link template} property needs to
 	 * be configured so that the corresponding button IDs appear as tokens in the template.
