@@ -48,8 +48,7 @@ class CBehavior extends CComponent implements IBehavior
 		$class=new ReflectionClass($this);
 		foreach($this->events() as $event=>$handler)
 		{
-			$method=$class->getMethod($handler);
-			if(!$method->getDeclaringClass()->hasProperty('_events_provider'))
+			if(!$class->getMethod($handler)->getDeclaringClass()->hasProperty('_events_provider'))
 				$owner->attachEventHandler($event,array($this,$handler));
 		}
 	}
