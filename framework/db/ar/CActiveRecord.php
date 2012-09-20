@@ -742,13 +742,19 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getAttributes($names=true)
 	{
-		$attributes=$this->_attributes;
+		$attributes=array();
+		$_attributes=$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($names===true && !isset($attributes[$name]))
+			else if($names===true)
 				$attributes[$name]=null;
+		}
+		foreach($this->_attributes as $name=>$column)
+		{
+			if(!isset($attributes[$name]))
+				$attributes[$name]=$column;
 		}
 		if(is_array($names))
 		{
