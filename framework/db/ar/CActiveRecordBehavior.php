@@ -40,7 +40,8 @@ class CActiveRecordBehavior extends CModelBehavior
 
 	/**
 	 * Responds to {@link CActiveRecord::onBeforeSave} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding
+	 * event of the {@link CBehavior::owner owner}.
 	 * You may set {@link CModelEvent::isValid} to be false to quit the saving process.
 	 * @param CModelEvent $event event parameter
 	 */
@@ -50,7 +51,8 @@ class CActiveRecordBehavior extends CModelBehavior
 
 	/**
 	 * Responds to {@link CActiveRecord::onAfterSave} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CModelEvent $event event parameter
 	 */
 	protected function afterSave($event)
@@ -59,7 +61,8 @@ class CActiveRecordBehavior extends CModelBehavior
 
 	/**
 	 * Responds to {@link CActiveRecord::onBeforeDelete} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * You may set {@link CModelEvent::isValid} to be false to quit the deletion process.
 	 * @param CEvent $event event parameter
 	 */
@@ -69,7 +72,8 @@ class CActiveRecordBehavior extends CModelBehavior
 
 	/**
 	 * Responds to {@link CActiveRecord::onAfterDelete} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
 	protected function afterDelete($event)
@@ -78,7 +82,8 @@ class CActiveRecordBehavior extends CModelBehavior
 
 	/**
 	 * Responds to {@link CActiveRecord::onBeforeFind} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
 	protected function beforeFind($event)
@@ -87,7 +92,8 @@ class CActiveRecordBehavior extends CModelBehavior
 
 	/**
 	 * Responds to {@link CActiveRecord::onAfterFind} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
 	protected function afterFind($event)

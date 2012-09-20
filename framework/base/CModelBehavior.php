@@ -37,7 +37,8 @@ class CModelBehavior extends CBehavior
 
 	/**
 	 * Responds to {@link CModel::onAfterConstruct} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
 	protected function afterConstruct($event)
@@ -46,7 +47,8 @@ class CModelBehavior extends CBehavior
 
 	/**
 	 * Responds to {@link CModel::onBeforeValidate} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link owner}.
 	 * You may set {@link CModelEvent::isValid} to be false to quit the validation process.
 	 * @param CModelEvent $event event parameter
 	 */
@@ -56,7 +58,8 @@ class CModelBehavior extends CBehavior
 
 	/**
 	 * Responds to {@link CModel::onAfterValidate} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link owner}.
 	 * @param CEvent $event event parameter
 	 */
 	protected function afterValidate($event)
