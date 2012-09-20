@@ -38,8 +38,8 @@ class CBehavior extends CComponent implements IBehavior
 	/**
 	 * Attaches the behavior object to the component.
 	 * The default implementation will set the {@link owner} property
-	 * and attach public visibility event handlers as declared in {@link events}.
-	 * Make sure you call the parent implementation if you override this method.
+	 * and attach event handlers as declared in {@link events}.
+	 * Make sure you've declared handler as public and call the parent implementation if you override this method.
 	 * @param CComponent $owner the component that this behavior is to be attached to.
 	 */
 	public function attach($owner)
