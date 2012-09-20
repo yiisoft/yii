@@ -20,7 +20,6 @@
  */
 class CActiveRecordBehavior extends CModelBehavior
 {
-	private $_events_provider;
 	/**
 	 * Declares events and the corresponding event handler methods.
 	 * If you override this method, make sure you merge the parent result to the return value.
@@ -45,7 +44,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * You may set {@link CModelEvent::isValid} to be false to quit the saving process.
 	 * @param CModelEvent $event event parameter
 	 */
-	public function beforeSave($event)
+	protected function beforeSave($event)
 	{
 	}
 
@@ -54,7 +53,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CModelEvent $event event parameter
 	 */
-	public function afterSave($event)
+	protected function afterSave($event)
 	{
 	}
 
@@ -64,7 +63,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * You may set {@link CModelEvent::isValid} to be false to quit the deletion process.
 	 * @param CEvent $event event parameter
 	 */
-	public function beforeDelete($event)
+	protected function beforeDelete($event)
 	{
 	}
 
@@ -73,7 +72,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	public function afterDelete($event)
+	protected function afterDelete($event)
 	{
 	}
 
@@ -82,7 +81,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	public function beforeFind($event)
+	protected function beforeFind($event)
 	{
 	}
 
@@ -91,7 +90,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	public function afterFind($event)
+	protected function afterFind($event)
 	{
 	}
 }
