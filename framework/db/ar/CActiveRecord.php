@@ -51,6 +51,11 @@ abstract class CActiveRecord extends CModel
 	 * @see getDbConnection
 	 */
 	public static $db;
+	/**
+	 * @var boolean whether the attributes order should match the table schema.
+	 *
+	 */
+	public $strictOrder=false;
 
 	private static $_models=array();			// class name => model
 
@@ -742,20 +747,21 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getAttributes($names=true)
 	{
-		$attributes=array();
-		$_attributes=$this->_attributes;
+		$attributes=$this->strictOrder?array():$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($names===true)
+			else if($names===true && $this->strictOrder || !isset($attributes[$name]))
 				$attributes[$name]=null;
 		}
-		foreach($this->_attributes as $name=>$column)
-		{
-			if(!isset($attributes[$name]))
-				$attributes[$name]=$column;
-		}
+		if($this->strictOrder)
+			$_attributes=$this->_attributes;
+			foreach($this->_attributes as $name=>$column)
+			{
+				if(!isset($attributes[$name]))
+					$attributes[$name]=$column;
+			}
 		if(is_array($names))
 		{
 			$attrs=array();
