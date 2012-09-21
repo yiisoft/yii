@@ -39,7 +39,7 @@ Version 1.1.13 work in progress
 - Enh #1369: Added CCheckBoxColumn::disabled that accepts PHP expression or anonymous function determining if checkbox for the row should be disabled (sucotronic)
 - Enh #1386: Second parameter of the CHtml::value() is now able to accept anonymous function which calculates value to be used (Qiang, resurtm)
 - Enh #1396: Added 'text/csv' mime-type for the 'csv' file extension in utils/mimeTypes.php (effectively used by e.g. CHttpRequest::sendFile()) (rawtaz)
-- Enh #1447: CSqliteSchema: Added enabling/disabling integrity check for sqlite databases (gleb-sternharz)
+- Enh #1447: CSqliteSchema: Added enabling/disabling integrity check for sqlite (gleb-sternharz)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
