@@ -215,7 +215,7 @@ class CAssetManager extends CApplicationComponent
 						symlink($src,$dstFile);
 					}
 				}
-				else if(@filemtime($dstFile)<@filemtime($src))
+				else if(!file_exists($dstFile) || @filemtime($dstFile)<@filemtime($src))
 				{
 					if(!is_dir($dstDir))
 					{
