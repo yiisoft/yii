@@ -73,8 +73,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function checkIntegrity($check=true,$schema='')
 	{
-		// SQLite doesn't enforce integrity
-		return;
+		$this->getDbConnection()->createCommand('PRAGMA foreign_keys='.($check?1:0))->execute();
 	}
 
 	/**
