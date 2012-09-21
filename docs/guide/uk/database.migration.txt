@@ -294,4 +294,4 @@ return array(
 
 Тепер, при запуску команди `migrate`, зазначені вище налаштування будуть застосовані без введення яких-небудь додаткових параметрів.
 
-<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>
+<div class="revision">$Id$</div>

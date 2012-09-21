@@ -173,4 +173,4 @@ $component->test();
 Наприклад, поведінка має властивість із іменем `xyz` і привʼязана до компонента
 `$a`. Тоді ми можемо використовувати вираз `$a->xyz` для доступу до властивості.
 
-<div class="revision">$Id: basics.component.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id$</div>
