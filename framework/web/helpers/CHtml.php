@@ -1367,7 +1367,13 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
-		$text=self::resolveValue($model,$attribute);
+		if(isset($htmlOptions['value']))
+		{
+			$text=$htmlOptions['value'];
+			unset($htmlOptions['value']);
+		}
+		else
+			$text=self::resolveValue($model,$attribute);
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $text : self::encode($text));
 	}
 
