@@ -251,8 +251,13 @@ class CFileHelper
 		static $extensions, $customExtensions;
 		if($magicFile===null && $extensions===null)
 			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
-		else if($magicFile!==null && $customExtensions===null)
-			$customExtensions=require($magicFile);
+		else if($magicFile!==null)
+		{
+			if(is_array($magicFile))
+				$customExtensions=$magicFile;
+			else if($customExtensions===null)
+				$customExtensions=require($magicFile);
+		}
 		if(($ext=pathinfo($file, PATHINFO_EXTENSION))!=='')
 		{
 			$ext=strtolower($ext);
