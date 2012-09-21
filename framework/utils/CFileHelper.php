@@ -248,23 +248,18 @@ class CFileHelper
 	 */
 	public static function getMimeTypeByExtension($file,$magicFile=null)
 	{
-		static $extensions, $customExtensions;
+		static $extensions, $customExtensions=array();
 		if($magicFile===null && $extensions===null)
 			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
-		else if($magicFile!==null)
-		{
-			if(is_array($magicFile))
-				$customExtensions=$magicFile;
-			else if($customExtensions===null)
-				$customExtensions=require($magicFile);
-		}
+		else if($magicFile!==null && !isset($customExtensions[$magicFile]))
+			$customExtensions[$magicFile]=require($magicFile);
 		if(($ext=pathinfo($file, PATHINFO_EXTENSION))!=='')
 		{
 			$ext=strtolower($ext);
-			if(isset($extensions[$ext]))
+			if($magicFile===null && isset($extensions[$ext]))
 				return $extensions[$ext];
-			else if(isset($customExtensions[$ext]))
-				return $customExtensions[$ext];
+			else if($magicFile!==null && isset($customExtensions[$magicFile][$ext]))
+				return $customExtensions[$magicFile][$ext];
 		}
 		return null;
 	}
