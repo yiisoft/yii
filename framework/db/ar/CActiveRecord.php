@@ -1835,7 +1835,7 @@ abstract class CActiveRecord extends CModel
 					$records[$record->$index]=$record;
 			}
 		}
-		return $records;
+		return new CActiveRecordCollection($records);
 	}
 
 	/**
