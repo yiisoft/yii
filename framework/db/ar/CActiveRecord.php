@@ -154,7 +154,7 @@ abstract class CActiveRecord extends CModel
 		if($this->setAttribute($name,$value)===false)
 		{
 			if(isset($this->getMetaData()->relations[$name]))
-				$this->_related[$name]=$value;
+				$this->_related[$name]=is_array($value) ? new CActiveRecordCollection($value) : $value;
 			else
 				parent::__set($name,$value);
 		}
@@ -274,7 +274,7 @@ abstract class CActiveRecord extends CModel
 		if(!isset($this->_related[$name]))
 		{
 			if($relation instanceof CHasManyRelation)
-				$this->_related[$name]=array();
+				$this->_related[$name]=new CActiveRecordCollection;
 			else if($relation instanceof CStatRelation)
 				$this->_related[$name]=$relation->defaultValue;
 			else
@@ -718,7 +718,7 @@ abstract class CActiveRecord extends CModel
 		if($index!==false)
 		{
 			if(!isset($this->_related[$name]))
-				$this->_related[$name]=array();
+				$this->_related[$name]=new CActiveRecordCollection;
 			if($record instanceof CActiveRecord)
 			{
 				if($index===true)
