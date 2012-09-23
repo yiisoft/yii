@@ -40,7 +40,6 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @author Qiang XUe <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1
  */

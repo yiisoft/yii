@@ -38,7 +38,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n.gettext
  * @since 1.0
  */
@@ -114,12 +113,12 @@ class CGettextMoFile extends CGettextFile
 		{
 			$id=$this->readString($fr,$sourceLengths[$i],$sourceOffsets[$i]);
 			$pos = strpos($id,chr(4));
-			
+
 			if(($context && $pos!==false && substr($id,0,$pos)===$context) || (!$context && $pos===false))
 			{
 				if($pos !== false)
 					$id=substr($id,$pos+1);
-				
+
 				$message=$this->readString($fr,$targetLengths[$i],$targetOffsets[$i]);
 				$messages[$id]=$message;
 			}

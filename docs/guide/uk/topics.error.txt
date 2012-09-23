@@ -132,4 +132,4 @@ public function actionError()
 Для відслідковування помилок, що виникають у процесі виконання додатку, 
 можна використовувати функціонал [журналювання](/doc/guide/topics.logging).
 
-<div class="revision">$Id: topics.error.txt 3374 2011-08-05 23:01:19Z alexander.makarow $</div>
+<div class="revision">$Id$</div>

@@ -22,7 +22,6 @@
  * This is determined based on whether {@link footer} is set.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */

@@ -31,7 +31,6 @@
  * @property string $stickyFile The file path that stores the sticky attribute values.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.gii
  * @since 1.1.2
  */

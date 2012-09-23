@@ -15,7 +15,6 @@
  * @property string $type The code file extension (e.g. php, txt).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.gii
  * @since 1.1.2
  */

@@ -40,7 +40,6 @@
  * @property string $validation
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */

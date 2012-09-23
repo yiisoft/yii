@@ -52,7 +52,6 @@
  * @property string $layoutPath The root directory of layout files. Defaults to 'protected/views/layouts'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */

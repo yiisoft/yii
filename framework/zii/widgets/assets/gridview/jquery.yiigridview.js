@@ -5,7 +5,6 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 (function ($) {
@@ -89,7 +88,7 @@
 								params = $.deparam.querystring(url);
 
 							delete params[settings.ajaxVar];
-							window.History.pushState(null, document.title, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+							window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url.substr(0, url.indexOf('?')), params)));
 						} else {
 							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
 						}
@@ -121,7 +120,7 @@
 							params = $.deparam.querystring($.param.querystring(url, data));
 
 						delete params[settings.ajaxVar];
-						window.History.pushState(null, document.title, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url.substr(0, url.indexOf('?')), params)));
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}

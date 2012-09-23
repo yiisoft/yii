@@ -17,7 +17,6 @@ Yii::registerAutoloader('phpunit_autoload');
  * CTestCase is the base class for all test case classes.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.test
  * @since 1.1
  */

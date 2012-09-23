@@ -72,7 +72,6 @@
  * @property CFormElementCollection $buttons The form elements.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */

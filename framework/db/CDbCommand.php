@@ -58,7 +58,6 @@
  * This can be either a string or an array representing multiple union parts.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.0
  */
@@ -764,6 +763,55 @@ class CDbCommand extends CComponent
 	public function where($conditions, $params=array())
 	{
 		$this->_query['where']=$this->processConditions($conditions);
+
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
+	}
+
+	/**
+	 * Appends given condition to the existing WHERE part of the query with 'AND' operator.
+	 *
+	 * This method works almost the same way as {@link where} except the fact that it appends condition
+	 * with 'AND' operator, but not replaces it with the new one. For more information on parameters
+	 * of this method refer to the {@link where} documentation.
+	 *
+	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
+	 * @param array $params the parameters (name=>value) to be bound to the query.
+	 * @return CDbCommand the command object itself.
+	 * @since 1.1.13
+	 */
+	public function andWhere($conditions,$params=array())
+	{
+		if(isset($this->_query['where']))
+			$this->_query['where']=$this->processConditions(array('AND',$this->_query['where'],$conditions));
+		else
+			$this->_query['where']=$this->processConditions($conditions);
+
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
+	}
+
+	/**
+	 * Appends given condition to the existing WHERE part of the query with 'OR' operator.
+	 *
+	 * This method works almost the same way as {@link where} except the fact that it appends condition
+	 * with 'OR' operator, but not replaces it with the new one. For more information on parameters
+	 * of this method refer to the {@link where} documentation.
+	 *
+	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
+	 * @param array $params the parameters (name=>value) to be bound to the query.
+	 * @return CDbCommand the command object itself.
+	 * @since 1.1.13
+	 */
+	public function orWhere($conditions,$params=array())
+	{
+		if(isset($this->_query['where']))
+			$this->_query['where']=$this->processConditions(array('OR',$this->_query['where'],$conditions));
+		else
+			$this->_query['where']=$this->processConditions($conditions);
+
 		foreach($params as $name=>$value)
 			$this->params[$name]=$value;
 		return $this;
@@ -1186,6 +1234,7 @@ class CDbCommand extends CComponent
 	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
+	 * Do not use column names as parameter names here. They are reserved for <code>$columns</code> parameter.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */

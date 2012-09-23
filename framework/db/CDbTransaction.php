@@ -33,7 +33,6 @@
  * @property boolean $active Whether this transaction is active.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.0
  */

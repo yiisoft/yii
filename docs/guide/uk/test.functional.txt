@@ -64,4 +64,4 @@ class PostTest extends WebTestCase
 
 > Tip|Підказка: Перед запуском функціональних тестів запустіть сервер Selenium-RC. Зробити це можна командою `java -jar selenium-server.jar`, виконаної із директорії, в яку встановлено Selenium.
 
-<div class="revision">$Id: test.functional.txt 1662 2010-01-04 19:15:10Z qiang.xue $</div>
+<div class="revision">$Id$</div>

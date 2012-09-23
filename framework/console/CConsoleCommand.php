@@ -43,7 +43,6 @@
  * the help information for a single action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.console
  * @since 1.0
  */

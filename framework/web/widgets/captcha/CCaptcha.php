@@ -28,7 +28,6 @@
  * a verification code matching the code displayed in the CAPTCHA image.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets.captcha
  * @since 1.0
  */

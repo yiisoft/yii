@@ -12,7 +12,6 @@
  * CSqliteSchema is the class for retrieving metadata information from a SQLite (2/3) database.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema.sqlite
  * @since 1.0
  */
@@ -184,6 +183,8 @@ class CSqliteSchema extends CDbSchema
 		$c->allowNull=!$column['notnull'];
 		$c->isPrimaryKey=$column['pk']!=0;
 		$c->isForeignKey=false;
+		$c->comment=null; // SQLite does not support column comments at all
+
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
 	}

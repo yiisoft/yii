@@ -11,11 +11,27 @@
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
  *
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
+ *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
  * @version $Id: $
  */
 return array (
+  'Ctype extension' => 'Расширение Ctype',
+  'GD extension with<br />FreeType support' => 'Расширение GD<br />с поддержкой FreeType',
+  'GD installed<br />FreeType support not installed' => 'Расширение GD установлено<br />без поддержки FreeType',
+  'GD not installed' => 'Расширение GD не установлено',
+  'PDO MSSQL extension (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)' => 'Расширение PDO MSSQL (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)',
+  'PDO MSSQL extension (pdo_dblib)' => 'Расширение PDO MSSQL (pdo_dblib)',
+  'PDO MSSQL extension (pdo_mssql)' => 'Расширение PDO MSSQL (pdo_mssql)',
+  'PDO Oracle extension' => 'Расширение PDO Oracle',
+  'This is required if you are using MSSQL database from GNU/Linux or other UNIX.' => 'Требуется для работы с БД MSSQL при использовании из GNU/Linux или UNIX.',
+  'This is required if you are using MSSQL database from MS Windows' => 'Требуется для работы с БД MSSQL при использовании из MS Windows.',
+  'This is required if you are using MSSQL database with the driver provided by Microsoft.' => 'Требуется для работы с БД MSSQL при использовании драйвера от Microsoft.',
+  'This is required if you are using Oracle database.' => 'Требуется для работы с БД Oracle.',
+  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Чтобы использовать memcached установите значение свойства <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> равным <code>true</code>.',
   '$_SERVER does not have {vars}.' => 'Переменная $_SERVER не содержит {vars}.',
   '$_SERVER variable' => 'Переменная $_SERVER.',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Переменная $_SERVER["SCRIPT_FILENAME"] должна соответствовать пути к файлу входного скрипта.',
@@ -23,7 +39,6 @@ return array (
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Все <a href="http://www.yiiframework.com/doc/api/#system.db">DB-классы</a>',
   'DOM extension' => 'Расширение DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Должна существовать хотя бы одна из серверных переменных: $_SERVER["REQUEST_URI"] или $_SERVER["QUERY_STRING"].',
-  'GD extension' => 'Расширение GD',
   'Mcrypt extension' => 'Расширение Mcrypt',
   'Memcache extension' => 'Расширение Memcache',
   'PCRE extension' => 'Расширение PCRE',

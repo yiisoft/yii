@@ -25,7 +25,6 @@
  * to {@link CFormElement} objects.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */

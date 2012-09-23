@@ -24,7 +24,6 @@
  * CStarRating allows customization of its appearance. It also supports empty rating as well as read-only rating.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */
