@@ -12,6 +12,11 @@
  * CConsoleCommandRunner manages commands and executes the requested command.
  *
  * @property string $scriptName The entry script name.
+ * @property array $commandStack The current running commands stack. First array element contains the earliest executed
+ * command, while last contains the latest executed command. Elements has the same format as returned
+ * by {@link CConsoleCommandRunner::getCommand()}. Available since 1.1.13.
+ * @property array|null $command The current running command. First array element contains its arguments and second
+ * is command instance. Available since 1.1.13.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.console
@@ -39,8 +44,37 @@ class CConsoleCommandRunner extends CComponent
 	 * </pre>
 	 */
 	public $commands=array();
+	/**
+	 * Returns the current running commands stack. First array element contains the earliest executed command,
+	 * while last contains the latest executed command. Elements has the same format as returned by
+	 * {@link CConsoleCommandRunner::getCommand()}.
+	 * @return array the current running commands stack.
+	 * @since 1.1.13
+	 */
+	public function getCommandStack()
+	{
+		return $this->_commandStack;
+	}
+	/**
+	 * Returns the current running command. First array element contains command's arguments and second
+	 * is command instance. Following format is used:
+	 * <pre>
+	 * array(
+	 * 	'arguments' => array( ... command's arguments ... ),
+	 * 	'command' => ... CConsoleCommand instance ... ,
+	 * ),
+	 * </pre>
+	 * @return array|null the current running command.
+	 * @since 1.1.13
+	 */
+	public function getCommand()
+	{
+		if(!empty($this->_commandStack))
+			return end($this->_commandStack);
+	}
 
 	private $_scriptName;
+	private $_commandStack=array();
 
 	/**
 	 * Executes the requested command.
@@ -63,8 +97,11 @@ class CConsoleCommandRunner extends CComponent
 
 		if(($command=$this->createCommand($name))===null)
 			$command=$this->createCommand('help');
+		$this->_commandStack[]=array('arguments'=>$args, 'command'=>$command);
 		$command->init();
-		return $command->run($args);
+		$exitCode=$command->run($args);
+		array_pop($this->_commandStack);
+		return $exitCode;
 	}
 
 	/**
