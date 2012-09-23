@@ -2,16 +2,10 @@
 
 class CFileHelperTest extends CTestCase
 {
-	/**
-	 * @var string
-	 */
-	private $runtimePath;
-
 	public function setUp()
 	{
-		$this->runtimePath=dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.
-			'runtime'.DIRECTORY_SEPARATOR.'CFileHelperTest'.DIRECTORY_SEPARATOR;
-		if(!is_dir($this->runtimePath) && !(@mkdir($this->runtimePath)))
+		if(!is_dir(Yii::getPathOfAlias('application.runtime.CFileHelper')) &&
+			!(@mkdir(Yii::getPathOfAlias('application.runtime.CFileHelper'))))
 			$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 
 		// create temporary testing data files
@@ -20,7 +14,7 @@ class CFileHelperTest extends CTestCase
 			'mimeTypes2.php'=>"<?php return array('txt'=>'text/plain','txb'=>'another/mime2');",
 		);
 		foreach($filesData as $fileName=>$fileData)
-			if(!(@file_put_contents($this->runtimePath.$fileName,$fileData)))
+			if(!(@file_put_contents(Yii::getPathOfAlias('application.runtime.CFileHelper').$fileName,$fileData)))
 				$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 	}
 
@@ -28,15 +22,17 @@ class CFileHelperTest extends CTestCase
 	{
 		// clean up temporary testing data files
 		foreach(array('mimeTypes1.php','mimeTypes2.php') as $fileName)
-			if(is_file($this->runtimePath.$fileName))
-				@unlink($this->runtimePath.$fileName);
+			if(is_file(Yii::getPathOfAlias('application.runtime.CFileHelper').$fileName))
+				@unlink(Yii::getPathOfAlias('application.runtime.CFileHelper').$fileName);
 
-		if(is_dir($this->runtimePath))
-			@rmdir($this->runtimePath);
+		if(is_dir(Yii::getPathOfAlias('application.runtime.CFileHelper')))
+			@rmdir(Yii::getPathOfAlias('application.runtime.CFileHelper'));
 	}
 
 	public function testGetMimeTypeByExtension()
 	{
+		$runtimePath=Yii::getPathOfAlias('application.runtime.CFileHelper');
+
 		// run everything ten times in one test action to be sure that caching inside
 		// CFileHelper::getMimeTypeByExtension() is working the right way
 		for($i=0; $i<10; $i++)
@@ -45,13 +41,13 @@ class CFileHelperTest extends CTestCase
 			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txb'));
 			$this->assertEquals('text/plain',CFileHelper::getMimeTypeByExtension('test.txt'));
 
-			$this->assertEquals('application/json',CFileHelper::getMimeTypeByExtension('test.txa',$this->runtimePath.'mimeTypes1.php'));
-			$this->assertEquals('another/mime',CFileHelper::getMimeTypeByExtension('test.txb',$this->runtimePath.'mimeTypes1.php'));
-			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txt',$this->runtimePath.'mimeTypes1.php'));
+			$this->assertEquals('application/json',CFileHelper::getMimeTypeByExtension('test.txa',$runtimePath.'mimeTypes1.php'));
+			$this->assertEquals('another/mime',CFileHelper::getMimeTypeByExtension('test.txb',$runtimePath.'mimeTypes1.php'));
+			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txt',$runtimePath.'mimeTypes1.php'));
 
-			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txa',$this->runtimePath.'mimeTypes2.php'));
-			$this->assertEquals('another/mime2',CFileHelper::getMimeTypeByExtension('test.txb',$this->runtimePath.'mimeTypes2.php'));
-			$this->assertEquals('text/plain',CFileHelper::getMimeTypeByExtension('test.txt',$this->runtimePath.'mimeTypes2.php'));
+			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txa',$runtimePath.'mimeTypes2.php'));
+			$this->assertEquals('another/mime2',CFileHelper::getMimeTypeByExtension('test.txb',$runtimePath.'mimeTypes2.php'));
+			$this->assertEquals('text/plain',CFileHelper::getMimeTypeByExtension('test.txt',$runtimePath.'mimeTypes2.php'));
 		}
 	}
 }
