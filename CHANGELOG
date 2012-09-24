@@ -40,6 +40,7 @@ Version 1.1.13 work in progress
 - Enh #1386: Second parameter of the CHtml::value() is now able to accept anonymous function which calculates value to be used (Qiang, resurtm)
 - Enh #1396: Added 'text/csv' mime-type for the 'csv' file extension in utils/mimeTypes.php (effectively used by e.g. CHttpRequest::sendFile()) (rawtaz)
 - Enh #1426: Behaviors are now affecting memory consumption significantly less (slavcodev, creocoder, Qiang, samdark)
+- Enh #1443: Added CHttpRequest::getRawBody() that allows reading RAW HTTP request body multiple times (itamar82, resurtm, samdark)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)

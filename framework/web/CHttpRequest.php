@@ -238,10 +238,23 @@ class CHttpRequest extends CApplicationComponent
 	{
 		$result=array();
 		if(function_exists('mb_parse_str'))
-			mb_parse_str(file_get_contents('php://input'), $result);
+			mb_parse_str($this->getRawBody(), $result);
 		else
-			parse_str(file_get_contents('php://input'), $result);
+			parse_str($this->getRawBody(), $result);
 		return $result;
+	}
+
+	/**
+	 * Returns the raw HTTP request body.
+	 * @return string the request body
+	 * @since 1.1.13
+	 */
+	public function getRawBody()
+	{
+		static $rawBody;
+		if($rawBody===null)
+			$rawBody=file_get_contents('php://input');
+		return $rawBody;
 	}
 
 	/**
