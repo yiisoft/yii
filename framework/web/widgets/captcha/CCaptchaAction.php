@@ -275,6 +275,7 @@ class CCaptchaAction extends CAction
 			$box = imagettftext($image,$fontSize,$angle,$x,$y,$foreColor,$this->fontFile,$letter);
 			$x = $box[2] + $this->offset;
 		}
+
 		imagecolordeallocate($image,$foreColor);
 
 		header('Pragma: public');
