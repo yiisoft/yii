@@ -73,23 +73,24 @@ class CSqlDataProvider extends CDataProvider
 	 */
 	protected function fetchData()
 	{
-		$db=$this->db===null ? Yii::app()->db : $this->db;
-		$db->active=true;
-
 		if($this->sql instanceof CDbCommand)
-			$sql=$this->sql->getText();
+			$command=clone $this->sql;
 		else
-			$sql=$this->sql;
+		{
+			$db=$this->db===null ? Yii::app()->db : $this->db;
+			$db->active=true;
+			$command=$db->createCommand($this->sql);
+		}
 
 		if(($sort=$this->getSort())!==false)
 		{
 			$order=$sort->getOrderBy();
 			if(!empty($order))
 			{
-				if(preg_match('/\s+order\s+by\s+[\w\s,]+$/i',$sql))
-					$sql.=', '.$order;
+				if(preg_match('/\s+order\s+by\s+[\w\s,]+$/i',$command->text))
+					$command->text.=', '.$order;
 				else
-					$sql.=' ORDER BY '.$order;
+					$command->text.=' ORDER BY '.$order;
 			}
 		}
 
@@ -98,10 +99,9 @@ class CSqlDataProvider extends CDataProvider
 			$pagination->setItemCount($this->getTotalItemCount());
 			$limit=$pagination->getLimit();
 			$offset=$pagination->getOffset();
-			$sql=$db->getCommandBuilder()->applyLimit($sql,$limit,$offset);
+			$command->text=$db->getCommandBuilder()->applyLimit($command->text,$limit,$offset);
 		}
 
-		$command=$db->createCommand($sql);
 		foreach($this->params as $name=>$value)
 			$command->bindValue($name,$value);
 
