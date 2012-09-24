@@ -465,12 +465,24 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		if(!is_array($values))
 			return;
 		$attributes=array_flip($safeOnly ? $this->getSafeAttributeNames() : $this->attributeNames());
-		foreach($values as $name=>$value)
+
+		if(YII_DEBUG)
 		{
-			if(isset($attributes[$name]))
-				$this->$name=$value;
-			else if($safeOnly)
-				$this->onUnsafeAttribute($name,$value);
+			foreach($values as $name=>$value)
+			{
+				if(isset($attributes[$name]))
+					$this->$name=$values[$name];
+				else if($safeOnly)
+					$this->onUnsafeAttribute($name,$value);
+			}
+		}
+		else
+		{
+			foreach($attributes as $attribute)
+			{
+				if(isset($values[$attribute]))
+					$this->$attribute=$values[$attribute];
+			}
 		}
 	}
 
@@ -498,8 +510,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function onUnsafeAttribute($name,$value)
 	{
-		if(YII_DEBUG)
-			Yii::log(Yii::t('yii','Failed to set unsafe attribute "{attribute}" of "{class}".',array('{attribute}'=>$name, '{class}'=>get_class($this))),CLogger::LEVEL_WARNING);
+		Yii::log(Yii::t('yii','Failed to set unsafe attribute "{attribute}" of "{class}".',array('{attribute}'=>$name, '{class}'=>get_class($this))),CLogger::LEVEL_WARNING);
 	}
 
 	/**
