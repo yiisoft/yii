@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.' => 'Om de door CFileValidator aangeboden MIME-type validatie te gebruiken moet de fileinfo PECL extensie geïnstalleerd zijn',
