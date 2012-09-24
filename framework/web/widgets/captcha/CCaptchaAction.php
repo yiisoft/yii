@@ -294,15 +294,8 @@ class CCaptchaAction extends CAction
 	 */
 	protected function renderImageImagick($code)
 	{
-		$r=str_pad(dechex((int)($this->backColor%0x1000000/0x10000)),2,'0',STR_PAD_LEFT);
-		$g=str_pad(dechex((int)($this->backColor%0x10000/0x100)),2,'0',STR_PAD_LEFT);
-		$b=str_pad(dechex((int)($this->backColor%0x100)),2,'0',STR_PAD_LEFT);
-		$backColor=new ImagickPixel('#'.$r.$g.$b);
-
-		$r=str_pad(dechex((int)($this->foreColor%0x1000000/0x10000)),2,'0',STR_PAD_LEFT);
-		$g=str_pad(dechex((int)($this->foreColor%0x10000/0x100)),2,'0',STR_PAD_LEFT);
-		$b=str_pad(dechex((int)($this->foreColor%0x100)),2,'0',STR_PAD_LEFT);
-		$foreColor=new ImagickPixel('#'.$r.$g.$b);
+		$backColor=new ImagickPixel('#'.dechex($this->backColor));
+		$foreColor=new ImagickPixel('#'.dechex($this->foreColor));
 
 		$image=new Imagick();
 		$image->newImage($this->width,$this->height,$backColor);
