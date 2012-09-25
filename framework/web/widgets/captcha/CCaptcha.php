@@ -154,20 +154,21 @@ $(document).on('click', '$selector', function(){
 
 	/**
 	 * Checks if specified graphic extension support is loaded.
-	 * @param string extension name to be checked. Default value is 'gd'. Possible values are 'gd' and 'imagick'.
-	 * This parameter is available since 1.1.13.
+	 * @param string extension name to be checked. Possible values are 'gd', 'imagick' and null.
+	 * Default value is null meaning that both extensions will be checked. This parameter
+	 * is available since 1.1.13.
 	 * @return boolean true if GD with FreeType support is loaded, otherwise false
 	 * @since 1.1.5
 	 */
-	public static function checkRequirements($extension='gd')
+	public static function checkRequirements($extension=null)
 	{
-		if($extension=='gd' && extension_loaded('gd'))
+		if(($extension===null || $extension=='gd') && extension_loaded('gd'))
 		{
 			$gdinfo=gd_info();
 			if($gdinfo['FreeType Support'])
 				return true;
 		}
-		else if($extension=='imagick' && extension_loaded('imagick'))
+		else if(($extension===null || $extension=='imagick') && extension_loaded('imagick'))
 			return true;
 		return false;
 	}

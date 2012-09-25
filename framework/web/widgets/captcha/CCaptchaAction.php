@@ -104,8 +104,8 @@ class CCaptchaAction extends CAction
 	public $fixedVerifyCode;
 	/**
 	 * @var string the graphic extension that will be used to draw CAPTCHA image. Possible values
-	 * are 'gd', 'imagick' and null. Null value means that fallback mode will be used: GD is preferred
-	 * over ImageMagick. Default value is null.
+	 * are 'gd', 'imagick' and null. Null value means that fallback mode will be used: ImageMagick
+	 * is preferred over GD. Default value is null.
 	 * @since 1.1.13
 	 */
 	public $backend;
@@ -227,10 +227,10 @@ class CCaptchaAction extends CAction
 	 */
 	protected function renderImage($code)
 	{
-		if($this->backend===null && CCaptcha::checkRequirements('gd') || $this->backend==='gd')
-			$this->renderImageGD($code);
-		else if($this->backend===null && CCaptcha::checkRequirements('imagick') || $this->backend==='imagick')
+		if($this->backend===null && CCaptcha::checkRequirements('imagick') || $this->backend==='imagick')
 			$this->renderImageImagick($code);
+		else if($this->backend===null && CCaptcha::checkRequirements('gd') || $this->backend==='gd')
+			$this->renderImageGD($code);
 	}
 
 	/**
