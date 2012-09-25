@@ -189,12 +189,14 @@ class CLogger extends CComponent
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
 				$ret=true;			
 		}		
-		foreach($this->_except as $category)
+		if ($ret)
 		{
-			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				$ret=false;
+			foreach($this->_except as $category)
+			{			
+				if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
+					$ret=false;
+			}
 		}
-		
 		return $ret;
 	}
 
