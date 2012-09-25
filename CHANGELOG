@@ -47,6 +47,7 @@ Version 1.1.13 work in progress
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
 - Enh: Allow CDataProvider to use custom pagination and sorter (creocoder)
 - Enh: Value of the CHtml::activeTextArea() can now be set through $htmlOptions['value'] (resurtm)
+- Enh: Allow to customize CHtml::error() container tag (creocoder)
 - Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
 - Chg: Added Oracle unit tests (resurtm)
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
