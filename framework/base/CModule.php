@@ -463,7 +463,12 @@ abstract class CModule extends CComponent
 		{
 			if($component instanceof IApplicationComponent)
 				$this->setComponent($id,$component);
-			else if(isset($this->_componentConfig[$id]) && $merge)
+			elseif(isset($this->_components[$id]) && is_array($component))
+			{
+				foreach($component as $k=>$v)
+					$this->_components[$id]->$k=$v;
+			}
+			elseif(isset($this->_componentConfig[$id]) && $merge)
 				$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$component);
 			else
 				$this->_componentConfig[$id]=$component;
