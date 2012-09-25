@@ -133,6 +133,12 @@ $requirements=array(
 		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
 		$message),
 	array(
+		t('yii','ImageMagick extension'),
+		false,
+		extension_loaded('imagick'),
+		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
+		$message),
+	array(
 		t('yii','Ctype extension'),
 		false,
 		extension_loaded("ctype"),
