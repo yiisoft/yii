@@ -317,7 +317,7 @@ class CHtml
 				if(($pos=strpos($pair,'='))!==false)
 				{
 					if(($name=substr($pair,0,$pos))!==Yii::app()->getUrlManager()->routeVar)
-						$hiddens[]=self::hiddenField(urldecode(substr($pair,0,$pos)),urldecode(substr($pair,$pos+1)),array('id'=>false));
+						$hiddens[]=self::hiddenField(urldecode($name),urldecode(substr($pair,$pos+1)),array('id'=>false));
 				}
 				else
 					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
