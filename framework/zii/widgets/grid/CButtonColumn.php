@@ -106,7 +106,7 @@ class CButtonColumn extends CGridColumn
 	 */
 	public $deleteButtonUrl='Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))';
 	/**
-	 * @var array the HTML options for the view button tag.
+	 * @var array the HTML options for the delete button tag.
 	 */
 	public $deleteButtonOptions=array('class'=>'delete');
 	/**
