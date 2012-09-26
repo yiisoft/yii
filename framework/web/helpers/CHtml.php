@@ -1742,6 +1742,7 @@ EOD;
 	 * @return string the error display. Empty if no errors are found.
 	 * @see CModel::getErrors
 	 * @see errorMessageCss
+	 * @see $errorContainerTag
 	 */
 	public static function error($model,$attribute,$htmlOptions=array())
 	{
