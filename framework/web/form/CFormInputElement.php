@@ -126,16 +126,21 @@ class CFormInputElement extends CFormElement
 	 * Gets the value indicating whether this input is required.
 	 * If this property is not set explicitly, it will be determined by calling
 	 * {@link CModel::isAttributeRequired} for the associated model and attribute of this input.
+	 * @param $index mixed
 	 * @return boolean whether this input is required.
 	 */
-	public function getRequired() //TODO: check
+	public function getRequired($index=null)
 	{
 		if($this->_required!==null)
 			return $this->_required;
 		else
 		{
 			$model=$this->getParent()->getModel();
-			return $model[0]->isAttributeRequired($this->name);
+
+			if($index===null)
+				return $model->isAttributeRequired($this->name);
+			else
+				return $model[$index]->isAttributeRequired($this->name);
 		}
 	}
 
@@ -148,17 +153,22 @@ class CFormInputElement extends CFormElement
 	}
 
 	/**
+	 * @param $index mixed
 	 * @return string the label for this input. If the label is not manually set,
 	 * this method will call {@link CModel::getAttributeLabel} to determine the label.
 	 */
-	public function getLabel() //TODO: check
+	public function getLabel($index=null)
 	{
 		if($this->_label!==null)
 			return $this->_label;
 		else
 		{
 			$model=$this->getParent()->getModel();
-			return $model[0]->getAttributeLabel($this->name);
+
+			if($index===null)
+				return $model->getAttributeLabel($this->name);
+			else
+				return $model[$index]->getAttributeLabel($this->name);
 		}
 	}
 
@@ -175,31 +185,35 @@ class CFormInputElement extends CFormElement
 	 * The default implementation simply returns the result of {@link renderLabel}, {@link renderInput},
 	 * {@link renderHint}. When {@link CForm::showErrorSummary} is false, {@link renderError} is also called
 	 * to show error messages after individual input fields.
+	 * @param $index mixed
 	 * @return string the complete rendering result for this input, including label, input field, hint, and error.
 	 */
-	public function render()
+	public function render($index=null)
 	{
 		if($this->type==='hidden')
-			return $this->renderInput();
+			return $this->renderInput($index);
+
 		$output=array(
-			'{label}'=>$this->renderLabel(),
-			'{input}'=>$this->renderInput(),
+			'{label}'=>$this->renderLabel($index),
+			'{input}'=>$this->renderInput($index),
 			'{hint}'=>$this->renderHint(),
-			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
+			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError($index),
 		);
+
 		return strtr($this->layout,$output);
 	}
 
 	/**
 	 * Renders the label for this input.
 	 * The default implementation returns the result of {@link CHtml activeLabelEx}.
+	 * @param $index mixed
 	 * @return string the rendering result
 	 */
-	public function renderLabel() //TODO: check
+	public function renderLabel($index=null)
 	{
 		$options = array(
-			'label'=>$this->getLabel(),
-			'required'=>$this->getRequired()
+			'label'=>$this->getLabel($index),
+			'required'=>$this->getRequired($index)
 		);
 
 		if(!empty($this->attributes['id']))
@@ -208,35 +222,56 @@ class CFormInputElement extends CFormElement
         }
 
 		$model=$this->getParent()->getModel();
-		return CHtml::activeLabel($model[0], $this->name, $options);
+
+		if($index===null)
+			return CHtml::activeLabel($model, $this->name, $options);
+		else
+			return CHtml::activeLabel($model[$index], "[{$index}]{$this->name}", $options);
 	}
 
 	/**
 	 * Renders the input field.
 	 * The default implementation returns the result of the appropriate CHtml method or the widget.
+	 * @param $index mixed
 	 * @return string the rendering result
 	 */
-	public function renderInput() //TODO: check
+	public function renderInput($index=null) //TODO: check
 	{
+		$model=$this->getParent()->getModel();
+
 		if(isset(self::$coreTypes[$this->type]))
 		{
 			$method=self::$coreTypes[$this->type];
 			if(strpos($method,'List')!==false)
 			{
-				$model=$this->getParent()->getModel();
-				return CHtml::$method($model[0], $this->name, $this->items, $this->attributes);
+				if($index===null)
+					return CHtml::$method($model, $this->name, $this->items, $this->attributes);
+				else
+					return CHtml::$method($model[$index], "[{$index}]{$this->name}", $this->items, $this->attributes);
 			}
 			else
 			{
-				$model=$this->getParent()->getModel();
-				return CHtml::$method($model[0], $this->name, $this->attributes);
+				if($index===null)
+					return CHtml::$method($model, $this->name, $this->attributes);
+				else
+					return CHtml::$method($model[$index], "[{$index}]{$this->name}", $this->attributes);
 			}
 		}
 		else
 		{
 			$attributes=$this->attributes;
-			$attributes['model']=$this->getParent()->getModel();
-			$attributes['attribute']=$this->name;
+
+			if($index===null)
+			{
+				$attributes['model']=$model;
+				$attributes['attribute']=$this->name;
+			}
+			else
+			{
+				$attributes['model']=$model[$index];
+				$attributes['attribute']="[{$index}]{$this->name}";
+			}
+
 			ob_start();
 			$this->getParent()->getOwner()->widget($this->type, $attributes);
 			return ob_get_clean();
@@ -246,13 +281,18 @@ class CFormInputElement extends CFormElement
 	/**
 	 * Renders the error display of this input.
 	 * The default implementation returns the result of {@link CHtml::error}
+	 * @param $index mixed
 	 * @return string the rendering result
 	 */
-	public function renderError() //TODO: check
+	public function renderError($index=null)
 	{
 		$parent=$this->getParent();
 		$model=$parent->getModel();
-		return $parent->getActiveFormWidget()->error($model[0], $this->name, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
+
+		if($index===null)
+			return $parent->getActiveFormWidget()->error($model, $this->name, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
+		else
+			return $parent->getActiveFormWidget()->error($model[$index], "[{$index}]{$this->name}", $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
 	}
 
 	/**
@@ -269,11 +309,16 @@ class CFormInputElement extends CFormElement
 	 * Evaluates the visibility of this element.
 	 * This method will check if the attribute associated with this input is safe for
 	 * the current model scenario.
+	 * @params $index mixed
 	 * @return boolean whether this element is visible.
 	 */
-	protected function evaluateVisible() //TODO: check
+	protected function evaluateVisible($index=null)
 	{
 		$model=$this->getParent()->getModel();
-		return $model[0]->isAttributeSafe($this->name);
+
+		if($index===null)
+			return $model->isAttributeSafe($this->name);
+		else
+			return $model[$index]->isAttributeSafe($this->name);
 	}
 }
