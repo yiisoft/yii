@@ -119,22 +119,33 @@ class CConsoleCommandRunner extends CComponent
 	public function createCommand($name)
 	{
 		$name=strtolower($name);
+
+		$command=null;
 		if(isset($this->commands[$name]))
+			$command=$this->commands[$name];
+		else
 		{
-			if(is_string($this->commands[$name]))  // class file path or alias
+			$commands=array_change_key_case($this->commands);
+			if(isset($commands[$name]))
+				$command=$commands[$name];
+		}
+
+		if($command!==null)
+		{
+			if(is_string($command)) // class file path or alias
 			{
-				if(strpos($this->commands[$name],'/')!==false || strpos($this->commands[$name],'\\')!==false)
+				if(strpos($command,'/')!==false || strpos($command,'\\')!==false)
 				{
-					$className=substr(basename($this->commands[$name]),0,-4);
+					$className=substr(basename($command),0,-4);
 					if(!class_exists($className,false))
-						require_once($this->commands[$name]);
+						require_once($command);
 				}
 				else // an alias
-					$className=Yii::import($this->commands[$name]);
+					$className=Yii::import($command);
 				return new $className($name,$this);
 			}
 			else // an array configuration
-				return Yii::createComponent($this->commands[$name],$name,$this);
+				return Yii::createComponent($command,$name,$this);
 		}
 		else if($name==='help')
 			return new CHelpCommand('help',$this);

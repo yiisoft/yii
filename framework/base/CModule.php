@@ -470,7 +470,11 @@ abstract class CModule extends CComponent
 					if(isset($config['class']))
 					{
 						if(get_class($this->_components[$id])!==$config['class'])
-							$this->_components[$id]=Yii::createComponent($config);
+						{
+							unset($this->_components[$id]);
+							$this->_componentConfig[$id]=$config; //we should ignore merge here
+							continue;
+						}
 						else
 						{
 							$class=$config['class'];
@@ -487,6 +491,12 @@ abstract class CModule extends CComponent
 						foreach($config as $key=>$value)
 							$this->_components[$id]->$key=$value;
 					}
+				}
+				elseif(isset($this->_componentConfig[$id]['class'],$config['class'])
+					&& $this->_componentConfig[$id]['class']!==$config['class'])
+				{
+					$this->_componentConfig[$id]=$config; //we should ignore merge here
+					continue;
 				}
 
 				if(isset($this->_componentConfig[$id]) && $merge)
