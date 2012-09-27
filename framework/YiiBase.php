@@ -730,7 +730,7 @@ class YiiBase
 		'CGettextFile' => '/i18n/gettext/CGettextFile.php',
 		'CGettextMoFile' => '/i18n/gettext/CGettextMoFile.php',
 		'CGettextPoFile' => '/i18n/gettext/CGettextPoFile.php',
-		'CCombinedLogFilter' => '/logging/CCombinedLogFilter.php',
+		'CChainedLogFilter' => '/logging/CChainedLogFilter.php',
 		'CDbLogRoute' => '/logging/CDbLogRoute.php',
 		'CEmailLogRoute' => '/logging/CEmailLogRoute.php',
 		'CFileLogRoute' => '/logging/CFileLogRoute.php',

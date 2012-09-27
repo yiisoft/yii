@@ -22,6 +22,7 @@ Version 1.1.13 work in progress
 - Bug #1351: CClientScript::registerMetaTag() now allows to register multiple meta tags with the same set of attributes (klimov-paul)
 - Bug #1364: Empty CHtml::$errorCss cause class attribute rendering errors (creocoder)
 - Bug #1444: Fixed CGoogleApi::register call to registerScriptFile (mdomba)
+- Bug #1465: Fixed CHtml::beginForm() when CActiveForm with method GET and ajaxButton is used (mdomba)
 - Enh #117: Added CPhpMessageSource::$extensionPaths to allow extensions, that do not have a base class to use as category prefix, to register message source (rcoelho, cebe)
 - Enh #291: CFormatter::formatDate and formatDateTime now also accept strings in strtotime() format (francis_tm, cebe)
 - Enh #486: CHttpSession::$gCProbability and CDbHttpSession::$gCProbability are floats now. Minimal possible $gCProbability value has been changed to the ≈0.00000005% (1/2147483647), was integer 1% before, default value left unchanged (1%) (resurtm)
