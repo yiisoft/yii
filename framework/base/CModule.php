@@ -462,48 +462,48 @@ abstract class CModule extends CComponent
 		foreach($components as $id=>$config)
 		{
 			if($config instanceof IApplicationComponent)
-				$this->setComponent($id,$config);
-			else
 			{
-				if(isset($this->_components[$id]))
+				$this->setComponent($id,$config);
+				continue;
+			}
+			elseif(isset($this->_components[$id]))
+			{
+				if(isset($config['class']))
 				{
-					if(isset($config['class']))
+					if(get_class($this->_components[$id])!==$config['class'])
 					{
-						if(get_class($this->_components[$id])!==$config['class'])
-						{
-							unset($this->_components[$id]);
-							$this->_componentConfig[$id]=$config; //we should ignore merge here
-							continue;
-						}
-						else
-						{
-							$class=$config['class'];
-							unset($config['class']);
-
-							foreach($config as $key=>$value)
-								$this->_components[$id]->$key=$value;
-
-							$config['class']=$class;
-						}
+						unset($this->_components[$id]);
+						$this->_componentConfig[$id]=$config; //we should ignore merge here
+						continue;
 					}
 					else
 					{
+						$class=$config['class'];
+						unset($config['class']);
+
 						foreach($config as $key=>$value)
 							$this->_components[$id]->$key=$value;
+
+						$config['class']=$class;
 					}
 				}
-				elseif(isset($this->_componentConfig[$id]['class'],$config['class'])
-					&& $this->_componentConfig[$id]['class']!==$config['class'])
-				{
-					$this->_componentConfig[$id]=$config; //we should ignore merge here
-					continue;
-				}
-
-				if(isset($this->_componentConfig[$id]) && $merge)
-					$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$config);
 				else
-					$this->_componentConfig[$id]=$config;
+				{
+					foreach($config as $key=>$value)
+						$this->_components[$id]->$key=$value;
+				}
 			}
+			elseif(isset($this->_componentConfig[$id]['class'],$config['class'])
+				&& $this->_componentConfig[$id]['class']!==$config['class'])
+			{
+				$this->_componentConfig[$id]=$config; //we should ignore merge here
+				continue;
+			}
+
+			if(isset($this->_componentConfig[$id]) && $merge)
+				$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$config);
+			else
+				$this->_componentConfig[$id]=$config;
 		}
 	}
 
