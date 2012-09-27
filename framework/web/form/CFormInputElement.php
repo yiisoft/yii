@@ -128,12 +128,15 @@ class CFormInputElement extends CFormElement
 	 * {@link CModel::isAttributeRequired} for the associated model and attribute of this input.
 	 * @return boolean whether this input is required.
 	 */
-	public function getRequired()
+	public function getRequired() //TODO: check
 	{
 		if($this->_required!==null)
 			return $this->_required;
 		else
-			return $this->getParent()->getModel()->isAttributeRequired($this->name);
+		{
+			$model=$this->getParent()->getModel();
+			return $model[0]->isAttributeRequired($this->name);
+		}
 	}
 
 	/**
@@ -148,12 +151,15 @@ class CFormInputElement extends CFormElement
 	 * @return string the label for this input. If the label is not manually set,
 	 * this method will call {@link CModel::getAttributeLabel} to determine the label.
 	 */
-	public function getLabel()
+	public function getLabel() //TODO: check
 	{
 		if($this->_label!==null)
 			return $this->_label;
 		else
-			return $this->getParent()->getModel()->getAttributeLabel($this->name);
+		{
+			$model=$this->getParent()->getModel();
+			return $model[0]->getAttributeLabel($this->name);
+		}
 	}
 
 	/**
@@ -189,7 +195,7 @@ class CFormInputElement extends CFormElement
 	 * The default implementation returns the result of {@link CHtml activeLabelEx}.
 	 * @return string the rendering result
 	 */
-	public function renderLabel()
+	public function renderLabel() //TODO: check
 	{
 		$options = array(
 			'label'=>$this->getLabel(),
@@ -201,7 +207,8 @@ class CFormInputElement extends CFormElement
             $options['for'] = $this->attributes['id'];
         }
 
-		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);
+		$model=$this->getParent()->getModel();
+		return CHtml::activeLabel($model[0], $this->name, $options);
 	}
 
 	/**
@@ -209,15 +216,21 @@ class CFormInputElement extends CFormElement
 	 * The default implementation returns the result of the appropriate CHtml method or the widget.
 	 * @return string the rendering result
 	 */
-	public function renderInput()
+	public function renderInput() //TODO: check
 	{
 		if(isset(self::$coreTypes[$this->type]))
 		{
 			$method=self::$coreTypes[$this->type];
 			if(strpos($method,'List')!==false)
-				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->attributes);
+			{
+				$model=$this->getParent()->getModel();
+				return CHtml::$method($model[0], $this->name, $this->items, $this->attributes);
+			}
 			else
-				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->attributes);
+			{
+				$model=$this->getParent()->getModel();
+				return CHtml::$method($model[0], $this->name, $this->attributes);
+			}
 		}
 		else
 		{
@@ -235,10 +248,11 @@ class CFormInputElement extends CFormElement
 	 * The default implementation returns the result of {@link CHtml::error}
 	 * @return string the rendering result
 	 */
-	public function renderError()
+	public function renderError() //TODO: check
 	{
 		$parent=$this->getParent();
-		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
+		$model=$parent->getModel();
+		return $parent->getActiveFormWidget()->error($model[0], $this->name, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
 	}
 
 	/**
@@ -257,8 +271,9 @@ class CFormInputElement extends CFormElement
 	 * the current model scenario.
 	 * @return boolean whether this element is visible.
 	 */
-	protected function evaluateVisible()
+	protected function evaluateVisible() //TODO: check
 	{
-		return $this->getParent()->getModel()->isAttributeSafe($this->name);
+		$model=$this->getParent()->getModel();
+		return $model[0]->isAttributeSafe($this->name);
 	}
 }

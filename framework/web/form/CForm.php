@@ -296,7 +296,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * Returns all models that are associated with this form or its sub-forms.
 	 * @return array the models that are associated with this form or its sub-forms.
 	 */
-	public function getModels()
+	public function getModels() //TODO: fix it!
 	{
 		$models=array();
 		if($this->_model!==null)
@@ -469,11 +469,12 @@ class CForm extends CFormElement implements ArrayAccess
 	 * Renders the {@link elements} in this form.
 	 * @return string the rendering result
 	 */
-	public function renderElements()
+	public function renderElements() //TODO: fix it
 	{
 		$output='';
-		foreach($this->getElements() as $element)
-			$output.=$this->renderElement($element);
+		foreach(array_keys($this->getModel()) as $key)
+			foreach($this->getElements() as $element)
+				$output.=$this->renderElement($element,$key);
 		return $output;
 	}
 
@@ -495,7 +496,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * or a string representing the name of the form element.
 	 * @return string the rendering result
 	 */
-	public function renderElement($element)
+	public function renderElement($element,$key=null)
 	{
 		if(is_string($element))
 		{
