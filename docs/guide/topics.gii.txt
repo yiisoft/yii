@@ -127,9 +127,9 @@ It is time for us to do the real customization work. Open the file `protected/gi
 public function attributeLabels()
 {
 	return array(
-<?php foreach($labels as $name=>$label): ?>
-			<?php echo "'$name' => Yii::t('application', '$label'),\n"; ?>
-<?php endforeach; ?>
+		foreach($labels as $name=>$label):
+				echo "'$name' => Yii::t('application', '$label'),\n";
+	endforeach;
 	);
 }
 ~~~
