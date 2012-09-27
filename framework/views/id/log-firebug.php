@@ -2,7 +2,7 @@
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Log Aplikasi");
+	console.<?php echo $this->collapsedInFireBug?'groupCollapsed':'group'; ?>("Log Aplikasi");
 <?php
 foreach($data as $index=>$log)
 {
