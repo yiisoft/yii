@@ -61,7 +61,7 @@
  * <pre>
  * class Foo {
  *     / **
- *       * @var string name of foo
+ *       * @var string name of foo {nillable = 1, minOccurs=0, maxOccurs = 2}
  *       * @soap
  *       * /
  *     public $name;
@@ -74,6 +74,8 @@
  * </pre>
  * In the above, the 'members' property is an array of 'Member' objects. Since 'Member' is not
  * a primitive type, CWsdlGenerator will look further to find the definition of 'Member'.
+ * Optionally, extra attributes (nillable, minOccurs, maxOccurs) can be defined for each 
+ * property by enclosing definitions into curly brackets and separated by comma.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.services
@@ -201,8 +203,30 @@ class CWsdlGenerator extends CComponent
 				$comment=$property->getDocComment();
 				if($property->isPublic() && strpos($comment,'@soap')!==false)
 				{
-					if(preg_match('/@var\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/mi',$comment,$matches))
-						$this->_types[$type][$property->getName()]=array($this->processType($matches[1]),trim($matches[3]));  // name => type, doc
+					if(preg_match('/@var\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/mi',$comment,$matches)){
+
+						// support nillable, minOccurs, maxOccurs attributes
+						$nillable = $minOccurs = $maxOccurs = false;
+						if(preg_match('/{(.+)}/', $matches[3], $attr))
+						{
+							$matches[3] = str_replace($attr[0], '', $matches[3]);
+							if(preg_match_all('/((\w+)\s*=\s*(\w+))/mi', $attr[1], $attr))
+							{
+								foreach($attr[2] as $id => $prop)
+								{
+									if(0===strcasecmp($prop, 'nillable')){
+										$nillable = $attr[3][$id] ? 'true' : 'false';
+									}elseif(0===strcasecmp($prop, 'minOccurs')){
+										$minOccurs = intval($attr[3][$id]);
+									}elseif(0===strcasecmp($prop, 'maxOccurs')){
+										$maxOccurs = intval($attr[3][$id]);
+									}
+								}
+							}
+						}
+
+						$this->_types[$type][$property->getName()]=array($this->processType($matches[1]),trim($matches[3]),$nillable,$minOccurs,$maxOccurs); // name => type, doc, nillable, minOccurs, maxOccurs
+					}
 				}
 			}
 			return 'tns:'.$type;
@@ -282,6 +306,12 @@ class CWsdlGenerator extends CComponent
 					$element=$dom->createElement('xsd:element');
 					$element->setAttribute('name',$name);
 					$element->setAttribute('type',$type[0]);
+					if(false!==$type[2])
+						$element->setAttribute('nillable',$type[2]);
+					if(false!==$type[3])
+						$element->setAttribute('minOccurs',$type[3]);
+					if(false!==$type[4])
+						$element->setAttribute('maxOccurs',$type[4]);
 					$all->appendChild($element);
 				}
 				$complexType->appendChild($all);
