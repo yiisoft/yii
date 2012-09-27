@@ -83,10 +83,16 @@ class CModuleTest extends CTestCase {
 	public function testSetComponentsViaConfig() {
 		$this->mod = new NewModule('foo',$this->parent,array(
 			'components' => array(
-				'bar' => array('class' => 'NewApplicationComponent')
-			)
+				'bar' => array('class' => 'NewApplicationComponent'),
+			),
 		));
 		$this->assertEquals('hello world',$this->mod->bar->getText('hello world'));
+		$this->mod->setComponents(array(
+			'bar' => array('text' => 'foo'),
+		));
+		$this->assertEquals('foo',$this->mod->bar->getText());
+		$this->mod->setComponent('bar',null);
+		$this->assertEquals('foo',$this->mod->bar->getText());
 	}
 	public function testSetAliases() {
 		$this->mod->setAliases(array('modules' => $this->d));
