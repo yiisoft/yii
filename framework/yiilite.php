@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.13-dev';
+		return '1.1.12';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -417,10 +417,8 @@ class YiiBase
 		'CMssqlCommandBuilder' => '/db/schema/mssql/CMssqlCommandBuilder.php',
 		'CMssqlPdoAdapter' => '/db/schema/mssql/CMssqlPdoAdapter.php',
 		'CMssqlSchema' => '/db/schema/mssql/CMssqlSchema.php',
-		'CMssqlSqlsrvPdoAdapter' => '/db/schema/mssql/CMssqlSqlsrvPdoAdapter.php',
 		'CMssqlTableSchema' => '/db/schema/mssql/CMssqlTableSchema.php',
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
-		'CMysqlCommandBuilder' => '/db/schema/mysql/CMysqlCommandBuilder.php',
 		'CMysqlSchema' => '/db/schema/mysql/CMysqlSchema.php',
 		'CMysqlTableSchema' => '/db/schema/mysql/CMysqlTableSchema.php',
 		'COciColumnSchema' => '/db/schema/oci/COciColumnSchema.php',
@@ -444,7 +442,6 @@ class YiiBase
 		'CGettextFile' => '/i18n/gettext/CGettextFile.php',
 		'CGettextMoFile' => '/i18n/gettext/CGettextMoFile.php',
 		'CGettextPoFile' => '/i18n/gettext/CGettextPoFile.php',
-		'CChainedLogFilter' => '/logging/CChainedLogFilter.php',
 		'CDbLogRoute' => '/logging/CDbLogRoute.php',
 		'CEmailLogRoute' => '/logging/CEmailLogRoute.php',
 		'CFileLogRoute' => '/logging/CFileLogRoute.php',
@@ -2206,7 +2203,8 @@ class CHttpRequest extends CApplicationComponent
 	private $_cookies;
 	private $_preferredLanguage;
 	private $_csrfToken;
-	private $_restParams;
+	private $_deleteParams;
+	private $_putParams;
 	public function init()
 	{
 		parent::init();
@@ -2249,45 +2247,26 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if($this->getIsDeleteViaPostRequest())
 			return $this->getPost($name, $defaultValue);
-		if($this->getIsDeleteRequest())
-		{
-			$this->getRestParams();
-			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
-		}
-		else
-			return $defaultValue;
+		if($this->_deleteParams===null)
+			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
+		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
 	}
 	public function getPut($name,$defaultValue=null)
 	{
 		if($this->getIsPutViaPostRequest())
 			return $this->getPost($name, $defaultValue);
-		if($this->getIsPutRequest())
-		{
-			$this->getRestParams();
-			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
-		}
-		else
-			return $defaultValue;
+		if($this->_putParams===null)
+			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
+		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
 	}
 	protected function getRestParams()
 	{
-		if($this->_restParams===null)
-		{
-			$result=array();
-			if(function_exists('mb_parse_str'))
-				mb_parse_str($this->getRawBody(), $result);
-			else
-				parse_str($this->getRawBody(), $result);
-			$this->_restParams=$result;
-		}
-		return $this->_restParams;
-	}
-	public function getRawBody()
-	{
-		static $rawBody;
-		if($rawBody===null)
-			$rawBody=file_get_contents('php://input');
-		return $rawBody;
+		$result=array();
+		if(function_exists('mb_parse_str'))
+			mb_parse_str(file_get_contents('php://input'), $result);
+		else
+			parse_str(file_get_contents('php://input'), $result);
+		return $result;
 	}
 	public function getUrl()
 	{
@@ -2594,9 +2573,7 @@ class CHttpRequest extends CApplicationComponent
 		{
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
-			ob_start();
 			Yii::app()->end(0,false);
-			ob_end_clean();
 			echo $content;
 			exit(0);
 		}
@@ -2656,31 +2633,19 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function validateCsrfToken($event)
 	{
-		if ($this->getIsPostRequest() ||
-			$this->getIsPutRequest() ||
-			$this->getIsDeleteRequest())
+		if($this->getIsPostRequest())
 		{
+			// only validate POST requests
 			$cookies=$this->getCookies();
-			$method=$this->getRequestType();
-			switch($method)
+			if($cookies->contains($this->csrfTokenName) && isset($_POST[$this->csrfTokenName]))
 			{
-				case 'POST':
-					$userToken=$this->getPost($this->csrfTokenName);
-				break;
-				case 'PUT':
-					$userToken=$this->getPut($this->csrfTokenName);
-				break;
-				case 'DELETE':
-					$userToken=$this->getDelete($this->csrfTokenName);
-			}
-			if (!empty($userToken) && $cookies->contains($this->csrfTokenName))
-			{
-				$cookieToken=$cookies->itemAt($this->csrfTokenName)->value;
-				$valid=$cookieToken===$userToken;
+				$tokenFromCookie=$cookies->itemAt($this->csrfTokenName)->value;
+				$tokenFromPost=$_POST[$this->csrfTokenName];
+				$valid=$tokenFromCookie===$tokenFromPost;
 			}
 			else
-				$valid = false;
-			if (!$valid)
+				$valid=false;
+			if(!$valid)
 				throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
 		}
 	}
@@ -3969,15 +3934,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function getReturnUrl($defaultUrl=null)
 	{
-		if($defaultUrl===null)
-		{
-			$defaultReturnUrl=Yii::app()->getUrlManager()->showScriptName ? Yii::app()->getRequest()->getScriptUrl() : Yii::app()->getRequest()->getBaseUrl().'/';
-		}
-		else
-		{
-			$defaultReturnUrl=CHtml::normalizeUrl($defaultUrl);
-		}
-		return $this->getState('__returnUrl',$defaultReturnUrl);
+		return $this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getRequest()->getScriptUrl() : CHtml::normalizeUrl($defaultUrl));
 	}
 	public function setReturnUrl($value)
 	{
@@ -4234,9 +4191,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function init()
 	{
 		parent::init();
-		// default session gc probability is 1%
-		ini_set('session.gc_probability',1);
-		ini_set('session.gc_divisor',100);
 		if($this->autoStart)
 			$this->open();
 		register_shutdown_function(array($this,'close'));
@@ -4356,18 +4310,18 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 	public function getGCProbability()
 	{
-		return (float)(ini_get('session.gc_probability')/ini_get('session.gc_divisor')*100);
+		return (int)ini_get('session.gc_probability');
 	}
 	public function setGCProbability($value)
 	{
+		$value=(int)$value;
 		if($value>=0 && $value<=100)
 		{
-			// percent * 21474837 / 2147483647 ≈ percent * 0.01
-			ini_set('session.gc_probability',floor($value*21474836.47));
-			ini_set('session.gc_divisor',2147483647);
+			ini_set('session.gc_probability',$value);
+			ini_set('session.gc_divisor','100');
 		}
 		else
-			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0 and 100.',
+			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.',
 				array('{value}'=>$value)));
 	}
 	public function getUseTransparentSessionID()
@@ -4486,7 +4440,6 @@ class CHtml
 	public static $errorSummaryCss='errorSummary';
 	public static $errorMessageCss='errorMessage';
 	public static $errorCss='error';
-	public static $errorContainerTag='div';
 	public static $requiredCss='required';
 	public static $beforeRequiredLabel='';
 	public static $afterRequiredLabel=' <span class="required">*</span>';
@@ -4779,7 +4732,7 @@ class CHtml
 			$uncheck=null;
 		if($uncheck!==null)
 		{
-			// add a hidden field so that if the check box is not checked, it still submits a value
+			// add a hidden field so that if the radio button is not selected, it still submits a value
 			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
@@ -4788,7 +4741,7 @@ class CHtml
 		}
 		else
 			$hidden='';
-		// add a hidden field so that if the check box is not checked, it still submits a value
+		// add a hidden field so that if the checkbox  is not selected, it still submits a value
 		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 	public static function dropDownList($name,$select,$data,$htmlOptions=array())
@@ -5061,13 +5014,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
-		if(isset($htmlOptions['value']))
-		{
-			$text=$htmlOptions['value'];
-			unset($htmlOptions['value']);
-		}
-		else
-			$text=self::resolveValue($model,$attribute);
+		$text=self::resolveValue($model,$attribute);
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $text : self::encode($text));
 	}
 	public static function activeFileField($model,$attribute,$htmlOptions=array())
@@ -5221,7 +5168,7 @@ EOD;
 		{
 			if(!isset($htmlOptions['class']))
 				$htmlOptions['class']=self::$errorMessageCss;
-			return self::tag(self::$errorContainerTag,$htmlOptions,$error);
+			return self::tag('div',$htmlOptions,$error);
 		}
 		else
 			return '';
@@ -5252,18 +5199,15 @@ EOD;
 	}
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		if(is_string($attribute))
-			foreach(explode('.',$attribute) as $name)
-			{
-				if(is_object($model))
-					$model=$model->$name;
-				else if(is_array($model) && isset($model[$name]))
-					$model=$model[$name];
-				else
-					return $defaultValue;
-			}
-		else
-			return call_user_func($attribute,$model);
+		foreach(explode('.',$attribute) as $name)
+		{
+			if(is_object($model))
+				$model=$model->$name;
+			else if(is_array($model) && isset($model[$name]))
+				$model=$model[$name];
+			else
+				return $defaultValue;
+		}
 		return $model;
 	}
 	public static function getIdByName($name)
@@ -5482,8 +5426,6 @@ EOD;
 	}
 	protected static function addErrorCss(&$htmlOptions)
 	{
-		if(empty(self::$errorCss))
-			return;
 		if(isset($htmlOptions['class']))
 			$htmlOptions['class'].=' '.self::$errorCss;
 		else
@@ -6029,7 +5971,7 @@ class CClientScript extends CApplicationComponent
 		if($httpEquiv!==null)
 			$options['http-equiv']=$httpEquiv;
 		$options['content']=$content;
-		$this->metaTags[]=$options;
+		$this->metaTags[serialize($options)]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
 		return $this;
@@ -8002,10 +7944,8 @@ class CDbConnection extends CApplicationComponent
 		if(($pos=strpos($this->connectionString,':'))!==false)
 		{
 			$driver=strtolower(substr($this->connectionString,0,$pos));
-			if($driver==='mssql' || $driver==='dblib')
+			if($driver==='mssql' || $driver==='dblib' || $driver==='sqlsrv')
 				$pdoClass='CMssqlPdoAdapter';
-			else if($driver==='sqlsrv')
-				$pdoClass='CMssqlSqlsrvPdoAdapter';
 		}
 		return new $pdoClass($this->connectionString,$this->username,
 									$this->password,$this->_attributes);
@@ -8099,7 +8039,6 @@ class CDbConnection extends CApplicationComponent
 			'boolean'=>PDO::PARAM_BOOL,
 			'integer'=>PDO::PARAM_INT,
 			'string'=>PDO::PARAM_STR,
-			'resource'=>PDO::PARAM_LOB,
 			'NULL'=>PDO::PARAM_NULL,
 		);
 		return isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
@@ -8568,7 +8507,6 @@ class CSqliteSchema extends CDbSchema
 		$c->allowNull=!$column['notnull'];
 		$c->isPrimaryKey=$column['pk']!=0;
 		$c->isForeignKey=false;
-		$c->comment=null; // SQLite does not support column comments at all
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
 	}
@@ -8972,26 +8910,6 @@ class CDbCommand extends CComponent
 			$this->params[$name]=$value;
 		return $this;
 	}
-	public function andWhere($conditions,$params=array())
-	{
-		if(isset($this->_query['where']))
-			$this->_query['where']=$this->processConditions(array('AND',$this->_query['where'],$conditions));
-		else
-			$this->_query['where']=$this->processConditions($conditions);
-		foreach($params as $name=>$value)
-			$this->params[$name]=$value;
-		return $this;
-	}
-	public function orWhere($conditions,$params=array())
-	{
-		if(isset($this->_query['where']))
-			$this->_query['where']=$this->processConditions(array('OR',$this->_query['where'],$conditions));
-		else
-			$this->_query['where']=$this->processConditions($conditions);
-		foreach($params as $name=>$value)
-			$this->params[$name]=$value;
-		return $this;
-	}
 	public function getWhere()
 	{
 		return isset($this->_query['where']) ? $this->_query['where'] : '';
@@ -9343,7 +9261,6 @@ class CDbColumnSchema extends CComponent
 	public $isPrimaryKey;
 	public $isForeignKey;
 	public $autoIncrement=false;
-	public $comment='';
 	public function init($dbType, $defaultValue)
 	{
 		$this->dbType=$dbType;
@@ -9397,9 +9314,10 @@ class CSqliteColumnSchema extends CDbColumnSchema
 {
 	protected function extractDefault($defaultValue)
 	{
-		$this->defaultValue=$this->typecast(strcasecmp($defaultValue,'null') ? $defaultValue : null);
-		if($this->type==='string' && $this->defaultValue!==null) // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
-			$this->defaultValue=trim($this->defaultValue,"'\"");
+		if($this->type==='string') // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
+			$this->defaultValue=trim($defaultValue,"'\"");
+		else
+			$this->defaultValue=$this->typecast(strcasecmp($defaultValue,'null') ? $defaultValue : null);
 	}
 }
 abstract class CValidator extends CComponent
