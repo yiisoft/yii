@@ -272,4 +272,4 @@ class <?php echo $this->className; ?> extends CWidget
 
 На цьому реалізація генератора коду завершена. Звернутися до нього можна по URL `http://hostname/path/to/index.php?r=gii/widget`.
 
-<div class="revision">$Id: topics.gii.txt 3223 2011-05-17 23:02:50Z alexander.makarow $</div>
+<div class="revision">$Id$</div>

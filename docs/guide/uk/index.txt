@@ -13,4 +13,4 @@
 
 © 2008—2010, Yii Software LLC.
 
-<div class="revision">$Id: index.txt 1679 2010-01-07 21:03:36Z qiang.xue $</div>
+<div class="revision">$Id$</div>

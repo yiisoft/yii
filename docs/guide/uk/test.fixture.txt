@@ -57,4 +57,4 @@ return array(
 
 У наступних двох розділах ми опишемо, як використовувати фікстури, якими управляє компонент [CDbFixtureManager], в модульних і функціональних тестах.
 
-<div class="revision">$Id: test.fixture.txt 3039 2011-03-09 19:48:15Z qiang.xue $</div>
+<div class="revision">$Id$</div>

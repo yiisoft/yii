@@ -12,8 +12,7 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
-*/
+ */
 return array (
   'Active record class "{class}" does not have a scope named "{scope}".' => 'La clase de registro activo "{class}" no tiene un ámbito llamado "{scope}".',
   'Base path "{path}" is not a valid directory.' => 'La ruta base "{path}" no es un directorio válido',

@@ -203,4 +203,4 @@ class PostController extends CController
 Якщо метод з якихось причин (наприклад, відсутність прав на його виконання) не повинен бути викликаний,
 необхідно повернути false.
 
-<div class="revision">$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>
+<div class="revision">$Id$</div>

@@ -33,6 +33,11 @@ class CHtml
 	 */
 	public static $errorCss='error';
 	/**
+	 * @var string the tag name for the error container tag. Defaults to 'div'.
+	 * @since 1.1.13
+	 */
+	public static $errorContainerTag='div';
+	/**
 	 * @var string the CSS class for required labels. Defaults to 'required'.
 	 * @see label
 	 */
@@ -51,7 +56,6 @@ class CHtml
 	 * @var integer the counter for generating automatic input field names.
 	 */
 	public static $count=0;
-
 	/**
 	 * Sets the default style for attaching jQuery event handlers.
 	 *
@@ -315,7 +319,12 @@ class CHtml
 			foreach(explode('&',substr($url,$pos+1)) as $pair)
 			{
 				if(($pos=strpos($pair,'='))!==false)
-					$hiddens[]=self::hiddenField(urldecode(substr($pair,0,$pos)),urldecode(substr($pair,$pos+1)),array('id'=>false));
+				{
+					if(($name=substr($pair,0,$pos))!==Yii::app()->getUrlManager()->routeVar)
+						$hiddens[]=self::hiddenField(urldecode($name),urldecode(substr($pair,$pos+1)),array('id'=>false));
+				}
+				else
+					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
 			}
 		}
 		$request=Yii::app()->request;
@@ -712,7 +721,7 @@ class CHtml
 
 		if($uncheck!==null)
 		{
-			// add a hidden field so that if the radio button is not selected, it still submits a value
+			// add a hidden field so that if the check box is not checked, it still submits a value
 			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
@@ -722,7 +731,7 @@ class CHtml
 		else
 			$hidden='';
 
-		// add a hidden field so that if the checkbox  is not selected, it still submits a value
+		// add a hidden field so that if the check box is not checked, it still submits a value
 		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 
@@ -1367,7 +1376,13 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
-		$text=self::resolveValue($model,$attribute);
+		if(isset($htmlOptions['value']))
+		{
+			$text=$htmlOptions['value'];
+			unset($htmlOptions['value']);
+		}
+		else
+			$text=self::resolveValue($model,$attribute);
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $text : self::encode($text));
 	}
 
@@ -1728,10 +1743,11 @@ EOD;
 	 * Displays the first validation error for a model attribute.
 	 * @param CModel $model the data model
 	 * @param string $attribute the attribute name
-	 * @param array $htmlOptions additional HTML attributes to be rendered in the container div tag.
+	 * @param array $htmlOptions additional HTML attributes to be rendered in the container tag.
 	 * @return string the error display. Empty if no errors are found.
 	 * @see CModel::getErrors
 	 * @see errorMessageCss
+	 * @see $errorContainerTag
 	 */
 	public static function error($model,$attribute,$htmlOptions=array())
 	{
@@ -1741,7 +1757,7 @@ EOD;
 		{
 			if(!isset($htmlOptions['class']))
 				$htmlOptions['class']=self::$errorMessageCss;
-			return self::tag('div',$htmlOptions,$error);
+			return self::tag(self::$errorContainerTag,$htmlOptions,$error);
 		}
 		else
 			return '';
