@@ -271,7 +271,7 @@ class CDbCommandBuilder extends CComponent
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$sql=$this->applyOrder($sql,$criteria->order);
-		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
+		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset,!empty($criteria->join));
 
 		$command=$this->_connection->createCommand($sql);
 		$this->bindValues($command,array_merge($values,$criteria->params));
@@ -379,10 +379,16 @@ class CDbCommandBuilder extends CComponent
 	 * @param string $sql SQL query string without LIMIT and OFFSET.
 	 * @param integer $limit maximum number of rows, -1 to ignore limit.
 	 * @param integer $offset row offset, -1 to ignore offset.
+	 * @param boolean $sqlHasJoin whether provided SQL has the JOIN part. This parameter available since 1.1.13.
 	 * @return string SQL with LIMIT and OFFSET
 	 */
-	public function applyLimit($sql,$limit,$offset)
+	public function applyLimit($sql,$limit,$offset,$sqlHasJoin=false)
 	{
+		// LIMIT and OFFSET should be ignored when UPDATE query performed with applied JOIN part. This is illogical
+		// in any case. Please refer to the issue #957 for more details. Note that searching $sql for substring
+		// 'JOIN' is not a robust solution—assume situation where we're dealing with the table column called 'JOIN'.
+		if(strpos($sql,'UPDATE')===0 && $sqlHasJoin)
+			return $sql;
 		if($limit>=0)
 			$sql.=' LIMIT '.(int)$limit;
 		if($offset>0)
