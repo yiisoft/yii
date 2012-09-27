@@ -2,7 +2,7 @@
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("程序日志");
+	console.<?php echo $this->collapsedInFireBug?'groupCollapsed':'group'; ?>("程序日志");
 <?php
 foreach($data as $index=>$log)
 {

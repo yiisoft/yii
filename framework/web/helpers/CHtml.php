@@ -319,7 +319,12 @@ class CHtml
 			foreach(explode('&',substr($url,$pos+1)) as $pair)
 			{
 				if(($pos=strpos($pair,'='))!==false)
-					$hiddens[]=self::hiddenField(urldecode(substr($pair,0,$pos)),urldecode(substr($pair,$pos+1)),array('id'=>false));
+				{
+					if(($name=substr($pair,0,$pos))!==Yii::app()->getUrlManager()->routeVar)
+						$hiddens[]=self::hiddenField(urldecode($name),urldecode(substr($pair,$pos+1)),array('id'=>false));
+				}
+				else
+					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
 			}
 		}
 		$request=Yii::app()->request;
