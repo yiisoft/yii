@@ -1,7 +1,7 @@
 <script type="text/javascript">
 /*<![CDATA[*/
 if(typeof(console)=='object') {
-    console.group("Applicatie Logboek");
+    console.<?php echo $this->collapsedInFireBug?'groupCollapsed':'group'; ?>("Applicatie Logboek");
 <?php
 foreach($data as $index=>$log) {
     $time=date('H:i:s.',$log[3]).(int)(($log[3]-(int)$log[3])*1000);
