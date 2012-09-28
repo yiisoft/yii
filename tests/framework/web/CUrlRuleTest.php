@@ -1,5 +1,4 @@
 <?php
-
 Yii::import('system.web.CUrlManager');
 
 class CUrlRuleTest extends CTestCase
@@ -59,6 +58,22 @@ class CUrlRuleTest extends CTestCase
 							'name1'=>'value1',
 						),
 						'url'=>false,
+					),
+					array(
+						'route'=>'article/read',
+						'params'=>array(
+							'id'=>array(1,2,3),
+							'name1'=>'value1',
+						),
+						'url'=>'article/0=1&1=2&2=3?name1=value1',
+					),
+					array(
+						'route'=>'article/read',
+						'params'=>array(
+							'id'=>array(array(1,2),array(1,2),3),
+							'name1'=>'value1',
+						),
+						'url'=>'article/0:0=1&0:1=2&1:0=1&1:1=2&2=3?name1=value1',
 					),
 				),
 			),
