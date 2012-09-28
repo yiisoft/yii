@@ -2,15 +2,19 @@ Installation
 ============
 
 Manual installation
-------------
+-------------------
 
 Installation of Yii mainly involves the following two steps:
 
    1. Download Yii Framework from [yiiframework.com](http://www.yiiframework.com/).
    2. Unpack the Yii release file to a Web-accessible directory.
 
-Git installation (using [submodules](http://git-scm.com/book/en/Git-Tools-Submodules))
-------------
+Git installation ([submodules](http://git-scm.com/book/en/Git-Tools-Submodules) method)
+------------------------------------
+Using a Git submodule to install Yii has several advantages.  It allows you
+to easily update Yii framework for your project in the future. And it also
+allows you to more easily send back patches / bug fixes in the future.
+
    - Use the following commands at a command line (with Git installed):
 
    ~~~
