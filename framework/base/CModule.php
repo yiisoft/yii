@@ -466,7 +466,8 @@ abstract class CModule extends CComponent
 				$this->setComponent($id,$config);
 				continue;
 			}
-			elseif(isset($this->_components[$id]))
+
+			if(isset($this->_components[$id]))
 			{
 				if(isset($config['class']))
 				{
@@ -476,16 +477,14 @@ abstract class CModule extends CComponent
 						$this->_componentConfig[$id]=$config; //we should ignore merge here
 						continue;
 					}
-					else
-					{
-						$class=$config['class'];
-						unset($config['class']);
 
-						foreach($config as $key=>$value)
-							$this->_components[$id]->$key=$value;
+					$class=$config['class'];
+					unset($config['class']);
 
-						$config['class']=$class;
-					}
+					foreach($config as $key=>$value)
+						$this->_components[$id]->$key=$value;
+
+					$config['class']=$class;
 				}
 				else
 				{
