@@ -75,6 +75,14 @@ class CUrlRuleTest extends CTestCase
 						),
 						'url'=>'article/0:0=1&0:1=2&1:0=1&1:1=2&2=3?name1=value1',
 					),
+					array(
+						'route'=>'article/read',
+						'params'=>array(
+							'id'=>array('a'=>1,'b'=>2,'c'=>3),
+							'name1'=>'value1',
+						),
+						'url'=>'article/a=1&b=2&c=3?name1=value1',
+					),
 				),
 			),
 		);

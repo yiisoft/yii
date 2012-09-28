@@ -748,9 +748,8 @@ class CUrlRule extends CBaseUrlRule
 		{
 			foreach($this->params as $key=>$value)
 			{
-				if(!is_array($params[$key])) //TODO: fix it
-					if(!preg_match('/\A'.$value.'\z/u'.$case,$params[$key]))
-						return false;
+				if(!$this->matchValue('/\A'.$value.'\z/u'.$case,$params[$key]))
+					return false;
 			}
 		}
 
@@ -850,14 +849,25 @@ class CUrlRule extends CBaseUrlRule
 	{
 		$items=array();
 		foreach($array as $k=>$v)
-		{
-			$k=$key===null ? urlencode($k) : urlencode($key).':'.urlencode($k);
-			$items[]=is_array($v) ? $this->arrayEncode($v,$k) : $k.'='.urlencode($v);
-		}
+			$items[]=is_array($v) ? $this->arrayEncode($v,$k) : ($key===null ? urlencode($k) : urlencode($key).':'.urlencode($k)).'='.urlencode($v);
 		return implode('&',$items);
 	}
 
 	protected function arrayDecode() //TODO: implement
 	{
+	}
+
+	protected function matchValue($pattern,$subject)
+	{
+		if(!is_array($subject))
+			return (bool)preg_match($pattern,$subject);
+
+		foreach($subject as $s)
+		{
+			if(!$this->matchValue($pattern,$s))
+				return false;
+		}
+
+		return true;
 	}
 }
