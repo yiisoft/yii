@@ -89,6 +89,44 @@ category starts with `system.` are saved. The second route is
 [CEmailLogRoute] which sends messages to the specified email addresses.
 Only messages whose level is `error` or `warning` are sent.
 
+In a more advanced example (using a negating categories feature available in Yii 1.1.13+),
+we can prevent certain categories from appearing in our logs:
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'trace, info',
+					'categories'=>'!system.CModule, system.*',
+					// shows everything from system except CModule level logs
+				),
+				array(
+					'class'=>'CEmailLogRoute',
+					'levels'=>'error, warning',
+					'categories'=>'!system.CModule.*'
+					// Will show everything except any CModule logs
+					'emails'=>'admin@example.com',
+				),
+				array(
+					'class'=>'CWebLogRoute',
+					'categories'=>'!system.db.ar.*, system.db.*',
+					// shows all db level logs but nothing in the ar category
+				),
+			),
+		),
+	),
+)
+~~~
+>Note: Negates must precede matches in order to work properly.
+
 The following log routes are available in Yii:
 
    - [CDbLogRoute]: saves messages in a database table.
