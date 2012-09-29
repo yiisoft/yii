@@ -423,7 +423,7 @@ class CUrlManager extends CApplicationComponent
 	 * @param string $key this is used internally.
 	 * @return string the created path info
 	 */
-	public function createPathInfo($params,$equal,$ampersand, $key=null)
+	public function createPathInfo($params,$equal,$ampersand,$key=null)
 	{
 		$pairs = array();
 		foreach($params as $k => $v)
@@ -748,14 +748,14 @@ class CUrlRule extends CBaseUrlRule
 		{
 			foreach($this->params as $key=>$value)
 			{
-				if(!preg_match('/\A'.$value.'\z/u'.$case,$params[$key]))
+				if(!$this->matchValue('/\A'.$value.'\z/u'.$case,$params[$key]))
 					return false;
 			}
 		}
 
 		foreach($this->params as $key=>$value)
 		{
-			$tr["<$key>"]=urlencode($params[$key]);
+			$tr["<$key>"]=is_array($params[$key]) ? $this->arrayEncode($params[$key]) : urlencode($params[$key]);
 			unset($params[$key]);
 		}
 
@@ -843,5 +843,49 @@ class CUrlRule extends CBaseUrlRule
 		}
 		else
 			return false;
+	}
+
+	/**
+	 * @param array $array
+	 * @param null $key
+	 * @return string
+	 */
+	private function arrayEncode($array,$key=null)
+	{
+		$items=array();
+		foreach($array as $k=>$v)
+		{
+			$ek=$key===null ? '['.urlencode($k).']' : '['.urlencode($key).']['.urlencode($k).']';
+			$items[]=is_array($v) ? $this->arrayEncode($v,$k) : $ek.'='.urlencode($v);
+		}
+		return implode('&',$items);
+	}
+
+	/**
+	 * @param string $string
+	 * @return mixed
+	 */
+	private function arrayDecode($string) //TODO: implement
+	{
+		return; //TODO: return original string or array when decode success
+	}
+
+	/**
+	 * @param string $pattern
+	 * @param mixed $subject
+	 * @return bool
+	 */
+	private function matchValue($pattern,$subject)
+	{
+		if(!is_array($subject))
+			return (bool)preg_match($pattern,$subject);
+
+		foreach($subject as $s)
+		{
+			if(!$this->matchValue($pattern,$s))
+				return false;
+		}
+
+		return true;
 	}
 }
