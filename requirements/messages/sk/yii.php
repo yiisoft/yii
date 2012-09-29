@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'This is required by encrypt and decrypt methods.' => 'Nevyhnutné pre kryptovacie a dekryptovacie metódy.',

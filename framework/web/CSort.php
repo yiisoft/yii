@@ -257,7 +257,7 @@ class CSort extends CComponent
 						if(($pos=strpos($attribute,'.'))!==false)
 							$attribute=$schema->quoteTableName(substr($attribute,0,$pos)).'.'.$schema->quoteColumnName(substr($attribute,$pos+1));
 						else
-							$attribute=($criteria===null || $criteria->alias===null ? CActiveRecord::model($this->modelClass)->getTableAlias(true) : $criteria->alias).'.'.$schema->quoteColumnName($attribute);
+							$attribute=($criteria===null || $criteria->alias===null ? CActiveRecord::model($this->modelClass)->getTableAlias(true) : $schema->quoteTableName($criteria->alias)).'.'.$schema->quoteColumnName($attribute);
 					}
 					$orders[]=$descending?$attribute.' DESC':$attribute;
 				}

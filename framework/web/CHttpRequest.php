@@ -94,8 +94,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_cookies;
 	private $_preferredLanguage;
 	private $_csrfToken;
-	private $_deleteParams;
-	private $_putParams;
+	private $_restParams;
 
 	/**
 	 * Initializes the application component.
@@ -203,9 +202,13 @@ class CHttpRequest extends CApplicationComponent
 		if($this->getIsDeleteViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
-		if($this->_deleteParams===null)
-			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
-		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
+		if($this->getIsDeleteRequest())
+		{
+			$this->getRestParams();
+			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+		}
+		else
+			return $defaultValue;
 	}
 
 	/**
@@ -224,9 +227,13 @@ class CHttpRequest extends CApplicationComponent
 		if($this->getIsPutViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
-		if($this->_putParams===null)
-			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
-		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
+		if($this->getIsPutRequest())
+		{
+			$this->getRestParams();
+			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+		}
+		else
+			return $defaultValue;
 	}
 
 	/**
@@ -236,12 +243,30 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	protected function getRestParams()
 	{
-		$result=array();
-		if(function_exists('mb_parse_str'))
-			mb_parse_str(file_get_contents('php://input'), $result);
-		else
-			parse_str(file_get_contents('php://input'), $result);
-		return $result;
+		if($this->_restParams===null)
+		{
+			$result=array();
+			if(function_exists('mb_parse_str'))
+				mb_parse_str($this->getRawBody(), $result);
+			else
+				parse_str($this->getRawBody(), $result);
+			$this->_restParams=$result;
+		}
+
+		return $this->_restParams;
+	}
+
+	/**
+	 * Returns the raw HTTP request body.
+	 * @return string the request body
+	 * @since 1.1.13
+	 */
+	public function getRawBody()
+	{
+		static $rawBody;
+		if($rawBody===null)
+			$rawBody=file_get_contents('php://input');
+		return $rawBody;
 	}
 
 	/**

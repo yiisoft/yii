@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: yii.php 2164 2011-06-23 13:46:17Z yiifrmwrk@lourdas.name $
  */
 return array (
   'Ctype extension' => 'Επέκταση Ctype',

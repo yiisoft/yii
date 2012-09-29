@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()' => 'Το CHttpCacheFilter.lastModified περιείχε μια τιμή που δεν ήταν δυνατό να καταλάβει η strtotime()',
