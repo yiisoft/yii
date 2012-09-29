@@ -459,14 +459,50 @@ abstract class CModule extends CComponent
 	 */
 	public function setComponents($components,$merge=true)
 	{
-		foreach($components as $id=>$component)
+		foreach($components as $id=>$config)
 		{
-			if($component instanceof IApplicationComponent)
-				$this->setComponent($id,$component);
-			else if(isset($this->_componentConfig[$id]) && $merge)
-				$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$component);
+			if($config instanceof IApplicationComponent)
+			{
+				$this->setComponent($id,$config);
+				continue;
+			}
+
+			if(isset($this->_components[$id]))
+			{
+				if(isset($config['class']))
+				{
+					if(get_class($this->_components[$id])!==$config['class'])
+					{
+						unset($this->_components[$id]);
+						$this->_componentConfig[$id]=$config; //we should ignore merge here
+						continue;
+					}
+
+					$class=$config['class'];
+					unset($config['class']);
+
+					foreach($config as $key=>$value)
+						$this->_components[$id]->$key=$value;
+
+					$config['class']=$class;
+				}
+				else
+				{
+					foreach($config as $key=>$value)
+						$this->_components[$id]->$key=$value;
+				}
+			}
+			elseif(isset($this->_componentConfig[$id]['class'],$config['class'])
+				&& $this->_componentConfig[$id]['class']!==$config['class'])
+			{
+				$this->_componentConfig[$id]=$config; //we should ignore merge here
+				continue;
+			}
+
+			if(isset($this->_componentConfig[$id]) && $merge)
+				$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$config);
 			else
-				$this->_componentConfig[$id]=$component;
+				$this->_componentConfig[$id]=$config;
 		}
 	}
 
