@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/NewModule.php';
 require_once dirname(__FILE__) . '/NewApplicationComponent.php';
+require_once dirname(__FILE__) . '/AnotherNewApplicationComponent.php';
 
 class CModuleTest extends CTestCase {
 	protected $parent;
@@ -83,10 +84,37 @@ class CModuleTest extends CTestCase {
 	public function testSetComponentsViaConfig() {
 		$this->mod = new NewModule('foo',$this->parent,array(
 			'components' => array(
-				'bar' => array('class' => 'NewApplicationComponent')
-			)
+				'bar' => array('class' => 'NewApplicationComponent'),
+			),
 		));
 		$this->assertEquals('hello world',$this->mod->bar->getText('hello world'));
+		$this->mod->setComponents(array(
+			'bar' => array('text' => 'test'),
+		));
+		$this->assertEquals('test',$this->mod->bar->getText());
+		$this->mod->setComponent('bar',null);
+		$this->assertEquals('test',$this->mod->bar->getText());
+		$this->mod->setComponents(array(
+			'bar' => array('class' => 'NewApplicationComponent'),
+		));
+		$this->assertEquals('test',$this->mod->bar->getText());
+		$this->mod->setComponents(array(
+			'bar' => array('class' => 'AnotherNewApplicationComponent'),
+		));
+		$this->assertEquals('new',$this->mod->bar->getText());
+		$this->mod->setComponent('bar',null);
+		$this->assertEquals('new',$this->mod->bar->getText());
+		$this->mod->setComponent('bar',null);
+		$this->mod->setComponents(array(
+			'bar' => array(
+				'class' => 'NewApplicationComponent',
+				'text' => 'test',
+			),
+		));
+		$this->mod->setComponents(array(
+			'bar' => array('class' => 'AnotherNewApplicationComponent'),
+		));
+		$this->assertEquals('new',$this->mod->bar->getText());
 	}
 	public function testSetAliases() {
 		$this->mod->setAliases(array('modules' => $this->d));
