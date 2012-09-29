@@ -845,19 +845,37 @@ class CUrlRule extends CBaseUrlRule
 			return false;
 	}
 
-	protected function arrayEncode($array,$key=null)
+	/**
+	 * @param array $array
+	 * @param null $key
+	 * @return string
+	 */
+	private function arrayEncode($array,$key=null)
 	{
 		$items=array();
 		foreach($array as $k=>$v)
-			$items[]=is_array($v) ? $this->arrayEncode($v,$k) : ($key===null ? urlencode($k) : urlencode($key).':'.urlencode($k)).'='.urlencode($v);
+		{
+			$ek=$key===null ? '['.urlencode($k).']' : '['.urlencode($key).']['.urlencode($k).']';
+			$items[]=is_array($v) ? $this->arrayEncode($v,$k) : $ek.'='.urlencode($v);
+		}
 		return implode('&',$items);
 	}
 
-	protected function arrayDecode() //TODO: implement
+	/**
+	 * @param string $string
+	 * @return mixed
+	 */
+	private function arrayDecode($string) //TODO: implement
 	{
+		return; //TODO: return original string or array when decode success
 	}
 
-	protected function matchValue($pattern,$subject)
+	/**
+	 * @param string $pattern
+	 * @param mixed $subject
+	 * @return bool
+	 */
+	private function matchValue($pattern,$subject)
 	{
 		if(!is_array($subject))
 			return (bool)preg_match($pattern,$subject);

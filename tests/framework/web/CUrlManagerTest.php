@@ -119,11 +119,11 @@ class CUrlManagerTest extends CTestCase
 				'route'=>'currency/info',
 				'params'=>array('c'=>'＄'),
 			),
-			/*array(
-				'pathInfo'=>'article/0=1&1=2&2=3',
+			array( //TODO: test fail here
+				'pathInfo'=>'article/[0]=1&[1]=2&[2]=3',
 				'route'=>'article/read',
 				'params'=>array('id'=>array(1,2,3)),
-			),*/
+			),
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
