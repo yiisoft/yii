@@ -159,7 +159,7 @@ class CCompareValidator extends CValidator
 		else
 		{
 			$compareAttribute=$this->compareAttribute === null ? $attribute . '_repeat' : $this->compareAttribute;
-			$compareValue="\$('#" . (CHtml::activeId($object, $compareAttribute)) . "').val()";
+			$compareValue="jQuery('#" . (CHtml::activeId($object, $compareAttribute)) . "').val()";
 			$compareTo=$object->getAttributeLabel($compareAttribute);
 		}
 
@@ -207,7 +207,7 @@ class CCompareValidator extends CValidator
 		));
 
 		return "
-if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
+if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	messages.push(".CJSON::encode($message).");
 }
 ";

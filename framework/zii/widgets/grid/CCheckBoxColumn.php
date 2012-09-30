@@ -137,26 +137,26 @@ class CCheckBoxColumn extends CGridColumn
 		elseif($this->selectableRows==1)
 		{
 			//.. only one can be checked, uncheck all other
-			$cbcode="$(\"input:not(#\"+this.id+\")[name='$name']\").prop('checked',false);";
+			$cbcode="jQuery(\"input:not(#\"+this.id+\")[name='$name']\").prop('checked',false);";
 		}
 		elseif(strpos($this->headerTemplate,'{item}')!==false)
 		{
 			//.. process check/uncheck all
 			$cball=<<<CBALL
-$(document).on('click','#{$this->id}_all',function() {
+jQuery(document).on('click','#{$this->id}_all',function() {
 	var checked=this.checked;
-	$("input[name='$name']:enabled").each(function() {this.checked=checked;});
+	jQuery("input[name='$name']:enabled").each(function() {this.checked=checked;});
 });
 
 CBALL;
-			$cbcode="$('#{$this->id}_all').prop('checked', $(\"input[name='$name']\").length==$(\"input[name='$name']:checked\").length);";
+			$cbcode="jQuery('#{$this->id}_all').prop('checked', jQuery(\"input[name='$name']\").length==jQuery(\"input[name='$name']:checked\").length);";
 		}
 
 		if($cbcode!=='')
 		{
 			$js=$cball;
 			$js.=<<<EOD
-$(document).on('click', "input[name='$name']", function() {
+jQuery(document).on('click', "input[name='$name']", function() {
 	$cbcode
 });
 EOD;
