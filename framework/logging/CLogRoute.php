@@ -45,7 +45,8 @@ abstract class CLogRoute extends CComponent
 	public $categories=array();
 	/**
 	 * @var mixed array of categories, or string list separated by comma or space, to EXCLUDE from logs. 
-	 * This will exclude any categories after $categories has been ran
+	 * This will exclude any categories after $categories has been run.
+	 * @since 1.1.13
 	 */
 	public $except=array();
 	/**
