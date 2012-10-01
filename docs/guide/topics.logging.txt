@@ -99,7 +99,7 @@ we can prevent certain categories from appearing in our logs:
 			'class'=>'CFileLogRoute',
 			'levels'=>'trace, info',
 			'categories'=>'system.*',
-			'exclude'=>'!system.CModule', // shows everything from system except CModule level logs
+			'exclude'=>'system.CModule', // shows everything from system except CModule level logs
 		),
 		array(
 			'class'=>'CEmailLogRoute',
