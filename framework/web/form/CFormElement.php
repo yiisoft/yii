@@ -128,12 +128,13 @@ abstract class CFormElement extends CComponent
 	/**
 	 * Returns a value indicating whether this element is visible and should be rendered.
 	 * This method will call {@link evaluateVisible} to determine the visibility of this element.
+	 * @param $index mixed
 	 * @return boolean whether this element is visible and should be rendered.
 	 */
-	public function getVisible()
+	public function getVisible($index=null)
 	{
 		if($this->_visible===null)
-			$this->_visible=$this->evaluateVisible();
+			$this->_visible=$this->evaluateVisible($index);
 		return $this->_visible;
 	}
 
