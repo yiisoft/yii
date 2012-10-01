@@ -548,7 +548,7 @@ class CActiveForm extends CWidget
 	 */
 	public function label($model,$attribute,$htmlOptions=array(), $isShowCssError = true)
 	{
-		return CHtml::activeLabel($model,$attribute,$htmlOptions);
+		return CHtml::activeLabel($model,$attribute,$htmlOptions, $isShowCssError);
 	}
 
 	/**
