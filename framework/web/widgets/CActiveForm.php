@@ -561,9 +561,9 @@ class CActiveForm extends CWidget
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated label tag
 	 */
-	public function labelEx($model,$attribute,$htmlOptions=array())
+	public function labelEx($model,$attribute,$htmlOptions=array(), $isShowCssError = true)
 	{
-		return CHtml::activeLabelEx($model,$attribute,$htmlOptions);
+		return CHtml::activeLabelEx($model,$attribute,$htmlOptions, $isShowCssError);
 	}
 
 	/**
