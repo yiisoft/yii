@@ -236,6 +236,11 @@ class CActiveFinder extends CComponent
 			$criteria->scopes=$scopes;
 			$model->beforeFindInternal();
 			$model->applyScopes($criteria);
+
+			// select has a special meaning in stat relation, so we need to ignore select from scope or model criteria
+			if($relation instanceof CStatRelation)
+				$criteria->select='*';
+
 			$relation->mergeWith($criteria,true);
 
 			// dynamic options
