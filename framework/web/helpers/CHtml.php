@@ -1162,7 +1162,7 @@ EOD;
 	 * </ul>
 	 * @return string the generated label tag
 	 */
-	public static function activeLabel($model,$attribute,$htmlOptions=array())
+	public static function activeLabel($model,$attribute,$htmlOptions=array(), $isShowCssError = true)
 	{
 		if(isset($htmlOptions['for']))
 		{
@@ -1179,7 +1179,7 @@ EOD;
 		}
 		else
 			$label=$model->getAttributeLabel($attribute);
-		if($model->hasErrors($attribute))
+		if($model->hasErrors($attribute) && $isShowCssError===true)
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
 	}
@@ -1198,12 +1198,12 @@ EOD;
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated label tag
 	 */
-	public static function activeLabelEx($model,$attribute,$htmlOptions=array())
+	public static function activeLabelEx($model,$attribute,$htmlOptions=array(), $isShowCssError = true)
 	{
 		$realAttribute=$attribute;
 		self::resolveName($model,$attribute); // strip off square brackets if any
 		$htmlOptions['required']=$model->isAttributeRequired($attribute);
-		return self::activeLabel($model,$realAttribute,$htmlOptions);
+		return self::activeLabel($model,$realAttribute,$htmlOptions, $isShowCssError);
 	}
 
 	/**
