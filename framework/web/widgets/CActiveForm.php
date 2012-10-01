@@ -325,6 +325,10 @@ class CActiveForm extends CWidget
 			echo CHtml::statefulForm($this->action, $this->method, $this->htmlOptions);
 		else
 			echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
+
+		if(isset($this->htmlOptions['inputCssClass'])){
+			CHtml::$errorCss = $this->htmlOptions['inputCssClass'];
+		}
 	}
 
 	/**
