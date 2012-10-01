@@ -204,6 +204,21 @@ class CUploadedFile extends CComponent
 	}
 
 	/**
+	 * Saves the uploaded file and change the file name.
+	 * @param string $file the file path used to save the uploaded file
+	 * @param boolean $deleteTempFile whether to delete the temporary file after saving.
+	 * If true, you will not be able to save the uploaded file again in the current request.
+	 * @return boolean true whether the file is saved successfully
+	 */
+	public function save($file,$deleteTempFile=true)
+	{
+		if(!$this->saveAs($file,$deleteTempFile))
+			return false;
+		$this->_name=basename($file);
+		return true;
+	}
+
+	/**
 	 * @return string the original name of the file being uploaded
 	 */
 	public function getName()
