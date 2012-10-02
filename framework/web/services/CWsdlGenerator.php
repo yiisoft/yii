@@ -111,9 +111,9 @@ class CWsdlGenerator extends CComponent
 		'mixed'=>'xsd:anyType',
 	);
 
-	protected $_operations;
-	protected $_types;
-	protected $_messages;
+	protected $operations;
+	protected $types;
+	protected $messages;
 
 	/**
 	 * Generates the WSDL for the given class.
@@ -124,9 +124,9 @@ class CWsdlGenerator extends CComponent
 	 */
 	public function generateWsdl($className, $serviceUrl, $encoding='UTF-8')
 	{
-		$this->_operations=array();
-		$this->_types=array();
-		$this->_messages=array();
+		$this->operations=array();
+		$this->types=array();
+		$this->messages=array();
 		if($this->serviceName===null)
 			$this->serviceName=$className;
 		if($this->namespace===null)
@@ -162,19 +162,19 @@ class CWsdlGenerator extends CComponent
 		for($i=0;$i<$n;++$i)
 			$message[$params[$i]->getName()]=array($this->processType($matches[1][$i]), trim($matches[3][$i])); // name => type, doc
 
-		$this->_messages[$methodName.'Request']=$message;
+		$this->messages[$methodName.'Request']=$message;
 
 		if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
 			$return=array($this->processType($matches[1]),trim($matches[2])); // type, doc
 		else
 			$return=null;
-		$this->_messages[$methodName.'Response']=array('return'=>$return);
+		$this->messages[$methodName.'Response']=array('return'=>$return);
 
 		if(preg_match('/^\/\*+\s*([^@]*?)\n@/s',$comment,$matches))
 			$doc=trim($matches[1]);
 		else
 			$doc='';
-		$this->_operations[$methodName]=$doc;
+		$this->operations[$methodName]=$doc;
 	}
 
 	/*
@@ -184,19 +184,19 @@ class CWsdlGenerator extends CComponent
 	{
 		if(isset(self::$typeMap[$type]))
 			return self::$typeMap[$type];
-		else if(isset($this->_types[$type]))
-			return is_array($this->_types[$type]) ? 'tns:'.$type : $this->_types[$type];
+		else if(isset($this->types[$type]))
+			return is_array($this->types[$type]) ? 'tns:'.$type : $this->types[$type];
 		else if(($pos=strpos($type,'[]'))!==false) // if it is an array
 		{
 			$type=substr($type,0,$pos);
-			$this->_types[$type.'[]']='tns:'.$type.'Array';
+			$this->types[$type.'[]']='tns:'.$type.'Array';
 			$this->processType($type);
-			return $this->_types[$type.'[]'];
+			return $this->types[$type.'[]'];
 		}
 		else // class type
 		{
 			$type=Yii::import($type,true);
-			$this->_types[$type]=array();
+			$this->types[$type]=array();
 			$class=new ReflectionClass($type);
 			
 			foreach($class->getProperties() as $property)
@@ -224,7 +224,7 @@ class CWsdlGenerator extends CComponent
 								}
 							}
 						}
-						$this->_types[$type][$property->getName()]=array(
+						$this->types[$type][$property->getName()]=array(
 							$this->processType($matches[1]), // type
 							trim($matches[3]),				 // doc
 							$nillable,
@@ -270,12 +270,12 @@ class CWsdlGenerator extends CComponent
 	 */
 	protected function addTypes($dom)
 	{
-		if($this->_types===array())
+		if($this->types===array())
 			return;
 		$types=$dom->createElement('wsdl:types');
 		$schema=$dom->createElement('xsd:schema');
 		$schema->setAttribute('targetNamespace',$this->namespace);
-		foreach($this->_types as $phpType=>$xmlType)
+		foreach($this->types as $phpType=>$xmlType)
 		{
 			if(is_string($xmlType) && strrpos($xmlType,'Array')!==strlen($xmlType)-5)
 				continue;  // simple type
@@ -333,11 +333,11 @@ class CWsdlGenerator extends CComponent
 	 */
 	protected function addMessages($dom)
 	{
-		foreach($this->_messages as $name=>$message)
+		foreach($this->messages as $name=>$message)
 		{
 			$element=$dom->createElement('wsdl:message');
 			$element->setAttribute('name',$name);
-			foreach($this->_messages[$name] as $partName=>$part)
+			foreach($this->messages[$name] as $partName=>$part)
 			{
 				if(is_array($part))
 				{
@@ -359,7 +359,7 @@ class CWsdlGenerator extends CComponent
 		$portType=$dom->createElement('wsdl:portType');
 		$portType->setAttribute('name',$this->serviceName.'PortType');
 		$dom->documentElement->appendChild($portType);
-		foreach($this->_operations as $name=>$doc)
+		foreach($this->operations as $name=>$doc)
 			$portType->appendChild($this->createPortElement($dom,$name,$doc));
 	}
 
@@ -401,7 +401,7 @@ class CWsdlGenerator extends CComponent
 
 		$dom->documentElement->appendChild($binding);
 
-		foreach($this->_operations as $name=>$doc)
+		foreach($this->operations as $name=>$doc)
 			$binding->appendChild($this->createOperationElement($dom,$name));
 	}
 
