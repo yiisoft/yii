@@ -142,7 +142,7 @@ class CActiveFinder extends CComponent
 	public function count($criteria)
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.count() eagerly','system.db.ar.CActiveRecord');
-		$this->joinAll=$criteria->together!==true;
+		$this->joinAll=$criteria->together===true;
 
 		$alias=$criteria->alias===null ? 't' : $criteria->alias;
 		$this->_joinTree->tableAlias=$alias;
@@ -698,15 +698,20 @@ class CJoinElement
 	public function count($criteria=null)
 	{
 		$query=new CJoinQuery($this,$criteria);
-		// ensure only one big join statement is used
-		$this->_finder->baseLimited=false;
-		$this->_finder->joinAll=true;
+
+		$this->_finder->baseLimited=!$this->_finder->joinAll;
 		$this->buildQuery($query);
+		$this->_finder->baseLimited=false;
+
+		$distinct=false;
+		foreach($this->children as $child)
+			if($child->_joined && !($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation))
+				$distinct=true;
 
 		$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
 		if($select!=='*' && !strncasecmp($select,'count',5))
 			$query->selects=array($select);
-		else if(is_string($this->_table->primaryKey))
+		else if($distinct && is_string($this->_table->primaryKey))
 		{
 			$prefix=$this->getColumnPrefix();
 			$schema=$this->_builder->getSchema();
