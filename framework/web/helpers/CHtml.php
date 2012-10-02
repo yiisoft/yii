@@ -74,7 +74,17 @@ class CHtml
 	 * @since 1.1.9
 	 * @see clientChange
 	 */
-	public static $liveEvents = true;
+	public static $liveEvents=true;
+	/*
+	 * @var boolean whether to close single tags. Defaults to true. Can be setted to false for HTML5.
+	 * @since 1.1.13
+	 */
+	public static $closeSingleTags=true;
+	/*
+	 * @var boolean whether to render special attributes value. Defaults to true. Can be setted to false for HTML5.
+	 * @since 1.1.13
+	 */
+	public static $renderSpecialAttributesValue=true;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -142,7 +152,7 @@ class CHtml
 	{
 		$html='<' . $tag . self::renderAttributes($htmlOptions);
 		if($content===false)
-			return $closeTag ? $html.' />' : $html.'>';
+			return $closeTag && self::$closeSingleTags ? $html.' />' : $html.'>';
 		else
 			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
 	}
@@ -2255,7 +2265,11 @@ EOD;
 			if(isset($specialAttributes[$name]))
 			{
 				if($value)
-					$html .= ' ' . $name . '="' . $name . '"';
+				{
+					$html .= ' ' . $name;
+					if(self::$renderSpecialAttributesValue)
+						$html .= '="' . $name . '"';
+				}
 			}
 			else if($value!==null)
 				$html .= ' ' . $name . '="' . ($raw ? $value : self::encode($value)) . '"';
