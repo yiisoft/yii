@@ -272,6 +272,7 @@ class CFormatter extends CApplicationComponent
 	 * @param boolean $verbose if full names should be used (e.g. Bytes, KiloBytes, ...).
 	 * Defaults to false meaning that short names will be used (e.g. B, KB, ...).
 	 * @return string the formatted result
+	 * @since 1.1.11
 	 */
 	public function formatSize($value,$verbose=false)
 	{
