@@ -204,8 +204,8 @@ class CWsdlGenerator extends CComponent
 				$comment=$property->getDocComment();
 				if($property->isPublic() && strpos($comment,'@soap')!==false)
 				{
-					if(preg_match('/@var\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/mi',$comment,$matches)){
-
+					if(preg_match('/@var\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/mi',$comment,$matches))
+					{
 						// support nillable, minOccurs, maxOccurs attributes
 						$nillable = $minOccurs = $maxOccurs = false;
 						if(preg_match('/{(.+)}/', $matches[3], $attr))
@@ -215,13 +215,12 @@ class CWsdlGenerator extends CComponent
 							{
 								foreach($attr[2] as $id => $prop)
 								{
-									if(0===strcasecmp($prop, 'nillable')){
+									if(strcasecmp($prop, 'nillable')===0)
 										$nillable = $attr[3][$id] ? 'true' : 'false';
-									}elseif(0===strcasecmp($prop, 'minOccurs')){
+									else if(strcasecmp($prop, 'minOccurs')===0)
 										$minOccurs = intval($attr[3][$id]);
-									}elseif(0===strcasecmp($prop, 'maxOccurs')){
+									else if(strcasecmp($prop, 'maxOccurs')===0)
 										$maxOccurs = intval($attr[3][$id]);
-									}
 								}
 							}
 						}
