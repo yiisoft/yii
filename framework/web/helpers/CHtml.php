@@ -84,7 +84,7 @@ class CHtml
 	 * @var boolean whether to render special attributes value. Defaults to true. Can be setted to false for HTML5.
 	 * @since 1.1.13
 	 */
-	public static $renderSpecAttrVal=true;
+	public static $renderSpecialAttributesValue=true;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -2267,7 +2267,7 @@ EOD;
 				if($value)
 				{
 					$html .= ' ' . $name;
-					if(self::$renderSpecAttrVal)
+					if(self::$renderSpecialAttributesValue)
 						$html .= '="' . $name . '"';
 				}
 			}
