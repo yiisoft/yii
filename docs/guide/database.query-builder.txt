@@ -237,7 +237,7 @@ The [addWhere()|CDbCommand::addWhere() ] method appends given condition to the `
 function orWhere($conditions, $params=array())
 ~~~
 
-The [addWhere()|CDbCommand::addWhere() ] method appends given condition to the `WHERE` part of a query with `OR` operator. Behavior of this method is almost the same as [where()|CDbCommand::where() ] except it appends condition not replaces it. Refer to the [where()|CDbCommand::where() ] documentation for more information on parameters of this method.
+The [orWhere()|CDbCommand::orWhere() ] method appends given condition to the `WHERE` part of a query with `OR` operator. Behavior of this method is almost the same as [where()|CDbCommand::where() ] except it appends condition not replaces it. Refer to the [where()|CDbCommand::where() ] documentation for more information on parameters of this method.
 
 
 ### order()

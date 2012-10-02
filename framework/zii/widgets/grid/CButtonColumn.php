@@ -106,7 +106,7 @@ class CButtonColumn extends CGridColumn
 	 */
 	public $deleteButtonUrl='Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))';
 	/**
-	 * @var array the HTML options for the view button tag.
+	 * @var array the HTML options for the delete button tag.
 	 */
 	public $deleteButtonOptions=array('class'=>'delete');
 	/**
@@ -137,7 +137,7 @@ class CButtonColumn extends CGridColumn
 	 */
 	public $afterDelete;
 	/**
-	 * @var array the configuration for additional buttons. Each array element specifies a single button
+	 * @var array the configuration for buttons. Each array element specifies a single button
 	 * which has the following format:
 	 * <pre>
 	 * 'buttonID' => array(
@@ -149,11 +149,14 @@ class CButtonColumn extends CGridColumn
 	 *     'visible'=>'...',   // a PHP expression for determining whether the button is visible
 	 * )
 	 * </pre>
+	 *
 	 * In the PHP expression for the 'url' option and/or 'visible' option, the variable <code>$row</code>
 	 * refers to the current row number (zero-based), and <code>$data</code> refers to the data model for
 	 * the row.
 	 *
-	 * Note that in order to display these additional buttons, the {@link template} property needs to
+	 * If the 'buttonID' is 'view', 'update' or 'delete' the options will be applied to the default buttons.
+	 *
+	 * Note that in order to display non-default buttons, the {@link template} property needs to
 	 * be configured so that the corresponding button IDs appear as tokens in the template.
 	 */
 	public $buttons=array();

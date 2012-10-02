@@ -481,4 +481,4 @@ $auth->createRole('guest', 'гість', $bizRule);
 
 > Info|Інформація: Починаючи із версії 1.1.11 масив `$params`, який передається до бізнес правила, має ключ `userId`, значення цього ключа це id користувача, для якого ми перевіряємо бізнес правило. Вам було б це потрібно, якщо б ви викликали [CDbAuthManager::checkAccess()] або [CPhpAuthManager::checkAccess()] у місцях, де `Yii::app()->user` відсутній або перевіряєте доступ для іншого користувача.
 
-<div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id$</div>

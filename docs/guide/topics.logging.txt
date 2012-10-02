@@ -197,6 +197,29 @@ component with a [CProfileLogRoute] log route. This is the same as we do
 with normal message routing. The [CProfileLogRoute] route will display the
 performance results at the end of the current page.
 
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CProfileLogRoute',
+					'report'=>'summary',
+					// lists execution time of every marked code block
+					// report can also be set to callstack
+				),
+				...other log routes...
+			),
+		),
+	),
+)
+~~~
+
 
 Profiling SQL Executions
 ------------------------

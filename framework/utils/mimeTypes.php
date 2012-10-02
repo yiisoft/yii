@@ -34,6 +34,7 @@ return array(
 	'cpt'=>'application/mac-compactpro',
 	'csh'=>'application/x-csh',
 	'css'=>'text/css',
+	'csv'=>'text/csv',
 	'dcr'=>'application/x-director',
 	'dir'=>'application/x-director',
 	'dms'=>'application/octet-stream',

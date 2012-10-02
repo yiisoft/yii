@@ -233,4 +233,4 @@ return array(
 і [CConsoleApplication] і [CWebApplication] успадковують один і той же базовий клас.
 
 
-<div class="revision">$Id: topics.console.txt 2867 2011-01-15 10:22:03Z haertl.mike $</div>
+<div class="revision">$Id$</div>
