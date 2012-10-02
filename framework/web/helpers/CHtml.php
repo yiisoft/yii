@@ -75,12 +75,12 @@ class CHtml
 	 * @see clientChange
 	 */
 	public static $liveEvents=true;
-	/*
+	/**
 	 * @var boolean whether to close single tags. Defaults to true. Can be setted to false for HTML5.
 	 * @since 1.1.13
 	 */
 	public static $closeSingleTags=true;
-	/*
+	/**
 	 * @var boolean whether to render special attributes value. Defaults to true. Can be setted to false for HTML5.
 	 * @since 1.1.13
 	 */
