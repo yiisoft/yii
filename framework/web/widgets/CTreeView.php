@@ -222,12 +222,6 @@ class CTreeView extends CWidget
 					$html.=self::saveDataAsHtml($node['children']);
 					$html.="</ul>\n";
 				}
-                elseif(!empty($node['hasChildren']))
-				{
-					$html.="\n<ul>\n";
-					$html.='<span class="placeholder"></span>';
-					$html.="</ul>\n";
-				}
 				$html.=CHtml::closeTag('li')."\n";
 			}
 		}
