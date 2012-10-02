@@ -9,9 +9,6 @@
  */
 
 (function ($) {
-	//track first input element that has invalid input so we can focus on it
-	var firstErrorInput = null;
-
 	/*
 	 * returns the value of the CActiveForm input field
 	 * performs additional checks to get proper values for checkbox / radiobutton / checkBoxList / radioButtonList
@@ -100,12 +97,8 @@
 							$.each(settings.attributes, function () {
 								if (this.status === 2 || this.status === 3) {
 									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
-									if (hasError) {
-										firstErrorInput.focus();
-									}
 								}
 							});
-							firstErrorInput = null;
 							if (attribute.afterValidateAttribute !== undefined) {
 								attribute.afterValidateAttribute($form, attribute, data, hasError);
 							}
@@ -152,11 +145,7 @@
 							var hasError = false;
 							$.each(settings.attributes, function () {
 								hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
-								if (hasError) {
-									firstErrorInput.focus();
-								}
 							});
-							firstErrorInput = null;
 							$.fn.yiiactiveform.updateSummary($form, data);
 							if (settings.afterValidate === undefined || settings.afterValidate($form, data, hasError)) {
 								if (!hasError) {
@@ -273,11 +262,6 @@
 			if (hasError) {
 				$error.html(messages[attribute.id][0]);
 				$container.addClass(attribute.errorCssClass);
-
-				//find first input with error that needs focus
-				if ((firstErrorInput == null) || (firstErrorInput.offset > $el.offset)) {
-					firstErrorInput = $el;
-				}
 			} else if (attribute.enableAjaxValidation || attribute.clientValidation) {
 				$container.addClass(attribute.successCssClass);
 			}
