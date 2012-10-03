@@ -260,6 +260,7 @@
 			);
 
 			if (hasError) {
+				attribute.status = 2;
 				$error.html(messages[attribute.id][0]);
 				$container.addClass(attribute.errorCssClass);
 			} else if (attribute.enableAjaxValidation || attribute.clientValidation) {
