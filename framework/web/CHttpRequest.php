@@ -822,7 +822,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
 	{
-        ob_end_clean();
+		ob_end_clean();
 		if($mimeType===null)
 		{
 			if(($mimeType=CFileHelper::getMimeTypeByExtension($fileName))===null)
