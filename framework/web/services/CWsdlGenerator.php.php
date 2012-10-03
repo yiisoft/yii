@@ -74,8 +74,16 @@
  * </pre>
  * In the above, the 'members' property is an array of 'Member' objects. Since 'Member' is not
  * a primitive type, CWsdlGenerator will look further to find the definition of 'Member'.
+ * 
  * Optionally, extra attributes (nillable, minOccurs, maxOccurs) can be defined for each 
- * property by enclosing definitions into curly brackets and separated by comma.
+ * property by enclosing definitions into curly brackets and separated by comma like so: 
+ * 
+ * {[attribute1 = value1], [attribute2 = value2], ...}
+ * 
+ * where the attribute can be one of following:
+ *  nillable = [0|1|true|false]
+ *  minOccurs = n; where n>=0
+ *  maxOccurs = n; where n>=0
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.services
@@ -184,9 +192,9 @@ class CWsdlGenerator extends CComponent
 	{
 		if(isset(self::$typeMap[$type]))
 			return self::$typeMap[$type];
-		else if(isset($this->types[$type]))
+		elseif(isset($this->types[$type]))
 			return is_array($this->types[$type]) ? 'tns:'.$type : $this->types[$type];
-		else if(($pos=strpos($type,'[]'))!==false) // if it is an array
+		elseif(($pos=strpos($type,'[]'))!==false) // if it is an array
 		{
 			$type=substr($type,0,$pos);
 			$this->types[$type.'[]']='tns:'.$type.'Array';
@@ -217,9 +225,9 @@ class CWsdlGenerator extends CComponent
 								{
 									if(strcasecmp($prop, 'nillable')===0)
 										$nillable = $attr[3][$id] ? 'true' : 'false';
-									else if(strcasecmp($prop, 'minOccurs')===0)
+									elseif(strcasecmp($prop, 'minOccurs')===0)
 										$minOccurs = intval($attr[3][$id]);
-									else if(strcasecmp($prop, 'maxOccurs')===0)
+									elseif(strcasecmp($prop, 'maxOccurs')===0)
 										$maxOccurs = intval($attr[3][$id]);
 								}
 							}
@@ -302,7 +310,7 @@ class CWsdlGenerator extends CComponent
 				$complexContent->appendChild($restriction);
 				$complexType->appendChild($complexContent);
 			}
-			else if(is_array($xmlType))
+			elseif(is_array($xmlType))
 			{
 				$complexType->setAttribute('name',$phpType);
 				$all=$dom->createElement('xsd:all');
