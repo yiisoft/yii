@@ -175,7 +175,7 @@ class CDbFixtureManager extends CApplicationComponent
 			{
 				if(is_string($primaryKey) && !isset($row[$primaryKey]))
 					$row[$primaryKey]=$builder->getLastInsertID($table);
-				else if(is_array($primaryKey))
+				elseif(is_array($primaryKey))
 				{
 					foreach($primaryKey as $pk)
 					{

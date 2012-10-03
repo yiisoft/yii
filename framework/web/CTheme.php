@@ -132,7 +132,7 @@ class CTheme extends CComponent
 				$moduleViewPath.='/'.$module->getId();
 			}
 		}
-		else if($module!==null)
+		elseif($module!==null)
 			$moduleViewPath.='/'.$module->getId();
 
 		return $controller->resolveViewFile($layoutName,$moduleViewPath.'/layouts',$basePath,$moduleViewPath);

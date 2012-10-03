@@ -97,9 +97,9 @@ class CDbColumnSchema extends CComponent
 	{
 		if(stripos($dbType,'int')!==false && stripos($dbType,'unsigned int')===false)
 			$this->type='integer';
-		else if(stripos($dbType,'bool')!==false)
+		elseif(stripos($dbType,'bool')!==false)
 			$this->type='boolean';
-		else if(preg_match('/(real|floa|doub)/i',$dbType))
+		elseif(preg_match('/(real|floa|doub)/i',$dbType))
 			$this->type='double';
 		else
 			$this->type='string';

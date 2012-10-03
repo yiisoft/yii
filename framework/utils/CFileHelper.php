@@ -130,7 +130,7 @@ class CFileHelper
 					if(isset($options['newFileMode']))
 						@chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
 				}
-				else if($level)
+				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
 			}
 		}
@@ -167,7 +167,7 @@ class CFileHelper
 			{
 				if($isFile)
 					$list[]=$path;
-				else if($level)
+				elseif($level)
 					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
 			}
 		}
@@ -251,14 +251,14 @@ class CFileHelper
 		static $extensions, $customExtensions=array();
 		if($magicFile===null && $extensions===null)
 			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
-		else if($magicFile!==null && !isset($customExtensions[$magicFile]))
+		elseif($magicFile!==null && !isset($customExtensions[$magicFile]))
 			$customExtensions[$magicFile]=require($magicFile);
 		if(($ext=pathinfo($file, PATHINFO_EXTENSION))!=='')
 		{
 			$ext=strtolower($ext);
 			if($magicFile===null && isset($extensions[$ext]))
 				return $extensions[$ext];
-			else if($magicFile!==null && isset($customExtensions[$magicFile][$ext]))
+			elseif($magicFile!==null && isset($customExtensions[$magicFile][$ext]))
 				return $customExtensions[$magicFile][$ext];
 		}
 		return null;
