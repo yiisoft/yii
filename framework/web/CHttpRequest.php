@@ -822,7 +822,6 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
 	{
-		ob_end_clean();
 		if($mimeType===null)
 		{
 			if(($mimeType=CFileHelper::getMimeTypeByExtension($fileName))===null)
@@ -840,7 +839,9 @@ class CHttpRequest extends CApplicationComponent
 		{
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
+			ob_start();
 			Yii::app()->end(0,false);
+			ob_end_clean();
 			echo $content;
 			exit(0);
 		}
