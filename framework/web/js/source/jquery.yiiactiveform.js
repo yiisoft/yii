@@ -255,15 +255,23 @@
 
 			$container.removeClass(
 				attribute.validatingCssClass + ' ' +
-				attribute.errorCssClass + ' ' +
-				attribute.successCssClass
+					attribute.errorCssClass + ' ' +
+					attribute.successCssClass
+			);
+
+			$el.removeClass(
+				attribute.validatingCssClass + ' ' +
+					attribute.errorCssClass + ' ' +
+					attribute.successCssClass
 			);
 
 			if (hasError) {
 				$error.html(messages[attribute.id][0]);
 				$container.addClass(attribute.errorCssClass);
+				$el.addClass(attribute.errorCssClass);
 			} else if (attribute.enableAjaxValidation || attribute.clientValidation) {
 				$container.addClass(attribute.successCssClass);
+				$el.addClass(attribute.successCssClass);
 			}
 			if (!attribute.hideErrorMessage) {
 				$error.toggle(hasError);
