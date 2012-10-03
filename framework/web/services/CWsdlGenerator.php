@@ -215,20 +215,20 @@ class CWsdlGenerator extends CComponent
 					if(preg_match('/@var\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/mi',$comment,$matches))
 					{
 						// support nillable, minOccurs, maxOccurs attributes
-						$nillable = $minOccurs = $maxOccurs = false;
-						if(preg_match('/{(.+)}/', $matches[3], $attr))
+						$nillable=$minOccurs=$maxOccurs=false;
+						if(preg_match('/{(.+)}/',$matches[3],$attr))
 						{
-							$matches[3] = str_replace($attr[0], '', $matches[3]);
-							if(preg_match_all('/((\w+)\s*=\s*(\w+))/mi', $attr[1], $attr))
+							$matches[3]=str_replace($attr[0],'',$matches[3]);
+							if(preg_match_all('/((\w+)\s*=\s*(\w+))/mi',$attr[1],$attr))
 							{
-								foreach($attr[2] as $id => $prop)
+								foreach($attr[2] as $id=>$prop)
 								{
-									if(strcasecmp($prop, 'nillable')===0)
-										$nillable = $attr[3][$id] ? 'true' : 'false';
-									elseif(strcasecmp($prop, 'minOccurs')===0)
-										$minOccurs = intval($attr[3][$id]);
-									elseif(strcasecmp($prop, 'maxOccurs')===0)
-										$maxOccurs = intval($attr[3][$id]);
+									if(strcasecmp($prop,'nillable')===0)
+										$nillable=$attr[3][$id] ? 'true' : 'false';
+									elseif(strcasecmp($prop,'minOccurs')===0)
+										$minOccurs=(int)$attr[3][$id];
+									elseif(strcasecmp($prop,'maxOccurs')===0)
+										$maxOccurs=(int)$attr[3][$id];
 								}
 							}
 						}
