@@ -105,7 +105,7 @@ class CFileCache extends CCache
 		$cacheFile=$this->getCacheFile($key);
 		if(($time=@filemtime($cacheFile))>time())
 			return @file_get_contents($cacheFile);
-		else if($time>0)
+		elseif($time>0)
 			@unlink($cacheFile);
 		return false;
 	}
@@ -212,7 +212,7 @@ class CFileCache extends CCache
 			$fullPath=$path.DIRECTORY_SEPARATOR.$file;
 			if(is_dir($fullPath))
 				$this->gc($expiredOnly,$fullPath);
-			else if($expiredOnly && @filemtime($fullPath)<time() || !$expiredOnly)
+			elseif($expiredOnly && @filemtime($fullPath)<time() || !$expiredOnly)
 				@unlink($fullPath);
 		}
 		closedir($handle);
