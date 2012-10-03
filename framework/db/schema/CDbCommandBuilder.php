@@ -131,7 +131,7 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(is_string($criteria->select) && stripos($criteria->select,'count')===0)
 				$sql="SELECT ".$criteria->select;
-			else if($criteria->distinct)
+			elseif($criteria->distinct)
 			{
 				if(is_array($table->primaryKey))
 				{
@@ -251,7 +251,7 @@ class CDbCommandBuilder extends CComponent
 					foreach($value->params as $n=>$v)
 						$values[$n]=$v;
 				}
-				else if($bindByPosition)
+				elseif($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';
 					$values[]=$column->typecast($value);
@@ -459,7 +459,7 @@ class CDbCommandBuilder extends CComponent
 	{
 		if(is_array($condition))
 			$criteria=new CDbCriteria($condition);
-		else if($condition instanceof CDbCriteria)
+		elseif($condition instanceof CDbCriteria)
 			$criteria=clone $condition;
 		else
 		{
@@ -548,7 +548,7 @@ class CDbCommandBuilder extends CComponent
 			{
 				if(is_array($value))
 					$conditions[]=$this->createInCondition($table,$name,$value,$prefix);
-				else if($value!==null)
+				elseif($value!==null)
 				{
 					if($bindByPosition)
 					{
@@ -663,7 +663,7 @@ class CDbCommandBuilder extends CComponent
 			else
 				return $prefix.$column->rawName.' IN ('.implode(', ',$values).')';
 		}
-		else if(is_array($columnName)) // composite key: $values=array(array('pk1'=>'v1','pk2'=>'v2'),array(...))
+		elseif(is_array($columnName)) // composite key: $values=array(array('pk1'=>'v1','pk2'=>'v2'),array(...))
 		{
 			foreach($columnName as $name)
 			{

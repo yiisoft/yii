@@ -193,7 +193,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		Yii::app()->getSession()->open();
 		if($this->getIsGuest() && $this->allowAutoLogin)
 			$this->restoreFromCookie();
-		else if($this->autoRenewCookie && $this->allowAutoLogin)
+		elseif($this->autoRenewCookie && $this->allowAutoLogin)
 			$this->renewCookie();
 		if($this->autoUpdateFlash)
 			$this->updateFlash();

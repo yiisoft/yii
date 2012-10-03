@@ -75,7 +75,7 @@ class CFormElementCollection extends CMap
 					unset($value['type'],$value['name']);
 					$element=new CFormStringElement($value,$this->_form);
 				}
-				else if(!strcasecmp(substr($value['type'],-4),'form'))	// a form
+				elseif(!strcasecmp(substr($value['type'],-4),'form'))	// a form
 				{
 					$class=$value['type']==='form' ? get_class($this->_form) : Yii::import($value['type']);
 					$element=new $class($value,null,$this->_form);
@@ -87,7 +87,7 @@ class CFormElementCollection extends CMap
 				}
 			}
 		}
-		else if($value instanceof CFormElement)
+		elseif($value instanceof CFormElement)
 		{
 			if(property_exists($value,'name') && is_string($key))
 				$value->name=$key;

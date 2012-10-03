@@ -65,26 +65,26 @@ class CJavaScript
 			else
 				return "'".self::quote($value)."'";
 		}
-		else if($value===null)
+		elseif($value===null)
 			return 'null';
-		else if(is_bool($value))
+		elseif(is_bool($value))
 			return $value?'true':'false';
-		else if(is_integer($value))
+		elseif(is_integer($value))
 			return "$value";
-		else if(is_float($value))
+		elseif(is_float($value))
 		{
 			if($value===-INF)
 				return 'Number.NEGATIVE_INFINITY';
-			else if($value===INF)
+			elseif($value===INF)
 				return 'Number.POSITIVE_INFINITY';
 			else
 				return rtrim(sprintf('%.16F',$value),'0');  // locale-independent representation
 		}
-		else if($value instanceof CJavaScriptExpression)
+		elseif($value instanceof CJavaScriptExpression)
 			return $value->__toString();
-		else if(is_object($value))
+		elseif(is_object($value))
 			return self::encode(get_object_vars($value));
-		else if(is_array($value))
+		elseif(is_array($value))
 		{
 			$es=array();
 			if(($n=count($value))>0 && array_keys($value)!==range(0,$n-1))

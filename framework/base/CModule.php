@@ -270,7 +270,7 @@ abstract class CModule extends CComponent
 	{
 		if(isset($this->_modules[$id]) || array_key_exists($id,$this->_modules))
 			return $this->_modules[$id];
-		else if(isset($this->_moduleConfig[$id]))
+		elseif(isset($this->_moduleConfig[$id]))
 		{
 			$config=$this->_moduleConfig[$id];
 			if(!isset($config['enabled']) || $config['enabled'])
@@ -376,7 +376,7 @@ abstract class CModule extends CComponent
 	{
 		if(isset($this->_components[$id]))
 			return $this->_components[$id];
-		else if(isset($this->_componentConfig[$id]) && $createIfNull)
+		elseif(isset($this->_componentConfig[$id]) && $createIfNull)
 		{
 			$config=$this->_componentConfig[$id];
 			if(!isset($config['enabled']) || $config['enabled'])
