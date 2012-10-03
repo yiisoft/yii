@@ -425,7 +425,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function tableName()
 	{
-		return get_class($this);
+		return Yii::app()->format->formatAsTableName(get_class($this));
 	}
 
 	/**
