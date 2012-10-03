@@ -104,7 +104,7 @@ class CDbLogRoute extends CLogRoute
 	{
 		if($this->_db!==null)
 			return $this->_db;
-		else if(($id=$this->connectionID)!==null)
+		elseif(($id=$this->connectionID)!==null)
 		{
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;

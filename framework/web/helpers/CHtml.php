@@ -129,7 +129,7 @@ class CHtml
 				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
 			if(is_string($value))
 				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
-			else if(is_array($value))
+			elseif(is_array($value))
 				$value=self::encodeArray($value);
 			$d[$key]=$value;
 		}
@@ -645,7 +645,7 @@ class CHtml
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 		self::clientChange('change',$htmlOptions);
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $value : self::encode($value));
@@ -783,7 +783,7 @@ class CHtml
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 		self::clientChange('change',$htmlOptions);
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
@@ -1148,7 +1148,7 @@ EOD;
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 		return self::tag('input',$htmlOptions);
 	}
@@ -1856,7 +1856,7 @@ EOD;
 			{
 				if(is_object($model))
 					$model=$model->$name;
-				else if(is_array($model) && isset($model[$name]))
+				elseif(is_array($model) && isset($model[$name]))
 					$model=$model[$name];
 				else
 					return $defaultValue;
@@ -1929,13 +1929,13 @@ EOD;
 					}
 				}
 			}
-			else if($htmlOptions['maxlength']===false)
+			elseif($htmlOptions['maxlength']===false)
 				unset($htmlOptions['maxlength']);
 		}
 
 		if($type==='file')
 			unset($htmlOptions['value']);
-		else if(!isset($htmlOptions['value']))
+		elseif(!isset($htmlOptions['value']))
 			$htmlOptions['value']=self::resolveValue($model,$attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
@@ -2006,7 +2006,7 @@ EOD;
 					$selection[$i]=$item->$key;
 			}
 		}
-		else if(is_object($selection))
+		elseif(is_object($selection))
 			$selection=$selection->$key;
 
 		foreach($listData as $key=>$value)
@@ -2141,7 +2141,7 @@ EOD;
 			$htmlOptions['name']=self::resolveName($model,$attribute);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 	}
 
@@ -2271,7 +2271,7 @@ EOD;
 						$html .= '="' . $name . '"';
 				}
 			}
-			else if($value!==null)
+			elseif($value!==null)
 				$html .= ' ' . $name . '="' . ($raw ? $value : self::encode($value)) . '"';
 		}
 

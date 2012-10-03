@@ -182,9 +182,9 @@ class CWsdlGenerator extends CComponent
 	{
 		if(isset(self::$typeMap[$type]))
 			return self::$typeMap[$type];
-		else if(isset($this->_types[$type]))
+		elseif(isset($this->_types[$type]))
 			return is_array($this->_types[$type]) ? 'tns:'.$type : $this->_types[$type];
-		else if(($pos=strpos($type,'[]'))!==false) // if it is an array
+		elseif(($pos=strpos($type,'[]'))!==false) // if it is an array
 		{
 			$type=substr($type,0,$pos);
 			$this->_types[$type.'[]']='tns:'.$type.'Array';
@@ -273,7 +273,7 @@ class CWsdlGenerator extends CComponent
 				$complexContent->appendChild($restriction);
 				$complexType->appendChild($complexContent);
 			}
-			else if(is_array($xmlType))
+			elseif(is_array($xmlType))
 			{
 				$complexType->setAttribute('name',$phpType);
 				$all=$dom->createElement('xsd:all');

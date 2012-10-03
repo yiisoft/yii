@@ -79,7 +79,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 				++$this->_c;
 			}
 		}
-		else if($data!==null)
+		elseif($data!==null)
 			throw new CException(Yii::t('yii','Queue data must be an array or an object implementing Traversable.'));
 	}
 

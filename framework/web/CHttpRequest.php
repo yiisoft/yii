@@ -374,13 +374,13 @@ class CHttpRequest extends CApplicationComponent
 			$scriptName=basename($_SERVER['SCRIPT_FILENAME']);
 			if(basename($_SERVER['SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['SCRIPT_NAME'];
-			else if(basename($_SERVER['PHP_SELF'])===$scriptName)
+			elseif(basename($_SERVER['PHP_SELF'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['PHP_SELF'];
-			else if(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
+			elseif(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['ORIG_SCRIPT_NAME'];
-			else if(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
+			elseif(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
 				$this->_scriptUrl=substr($_SERVER['SCRIPT_NAME'],0,$pos).'/'.$scriptName;
-			else if(isset($_SERVER['DOCUMENT_ROOT']) && strpos($_SERVER['SCRIPT_FILENAME'],$_SERVER['DOCUMENT_ROOT'])===0)
+			elseif(isset($_SERVER['DOCUMENT_ROOT']) && strpos($_SERVER['SCRIPT_FILENAME'],$_SERVER['DOCUMENT_ROOT'])===0)
 				$this->_scriptUrl=str_replace('\\','/',str_replace($_SERVER['DOCUMENT_ROOT'],'',$_SERVER['SCRIPT_FILENAME']));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the entry script URL.'));
@@ -424,9 +424,9 @@ class CHttpRequest extends CApplicationComponent
 			$baseUrl=$this->getBaseUrl();
 			if(strpos($pathInfo,$scriptUrl)===0)
 				$pathInfo=substr($pathInfo,strlen($scriptUrl));
-			else if($baseUrl==='' || strpos($pathInfo,$baseUrl)===0)
+			elseif($baseUrl==='' || strpos($pathInfo,$baseUrl)===0)
 				$pathInfo=substr($pathInfo,strlen($baseUrl));
-			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
+			elseif(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
 				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
@@ -483,7 +483,7 @@ class CHttpRequest extends CApplicationComponent
 		{
 			if(isset($_SERVER['HTTP_X_REWRITE_URL'])) // IIS
 				$this->_requestUri=$_SERVER['HTTP_X_REWRITE_URL'];
-			else if(isset($_SERVER['REQUEST_URI']))
+			elseif(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
 				if(!empty($_SERVER['HTTP_HOST']))
@@ -494,7 +494,7 @@ class CHttpRequest extends CApplicationComponent
 				else
 					$this->_requestUri=preg_replace('/^(http|https):\/\/[^\/]+/i','',$this->_requestUri);
 			}
-			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
+			elseif(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
 			{
 				$this->_requestUri=$_SERVER['ORIG_PATH_INFO'];
 				if(!empty($_SERVER['QUERY_STRING']))

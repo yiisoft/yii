@@ -205,7 +205,7 @@ EOD;
 		{
 			if($pattern===null)
 				$this->_tables[$name]=$this->generateClassName($this->removePrefix($name));
-			else if(preg_match($pattern,$name,$matches))
+			elseif(preg_match($pattern,$name,$matches))
 			{
 				if(count($matches)>1 && !empty($matches[1]))
 					$className=$this->generateClassName($matches[1]);
@@ -406,11 +406,11 @@ EOD;
 					$required[]=$column->name;
 				if($column->type==='integer')
 					$integers[]=$column->name;
-				else if($column->type==='double')
+				elseif($column->type==='double')
 					$numerical[]=$column->name;
-				else if($column->type==='string' && $column->size>0)
+				elseif($column->type==='string' && $column->size>0)
 					$length[$column->size][]=$column->name;
-				else if(!$column->isPrimaryKey && !$r)
+				elseif(!$column->isPrimaryKey && !$r)
 					$safe[]=$column->name;
 			}
 			if($required!==array())

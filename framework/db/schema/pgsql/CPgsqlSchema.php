@@ -112,7 +112,7 @@ class CPgsqlSchema extends CDbSchema
 
 		if(is_string($table->primaryKey) && isset($this->_sequences[$table->rawName.'.'.$table->primaryKey]))
 			$table->sequenceName=$this->_sequences[$table->rawName.'.'.$table->primaryKey];
-		else if(is_array($table->primaryKey))
+		elseif(is_array($table->primaryKey))
 		{
 			foreach($table->primaryKey as $pk)
 			{
@@ -269,7 +269,7 @@ EOD;
 		{
 			if($row['contype']==='p') // primary key
 				$this->findPrimaryKey($table,$row['indkey']);
-			else if($row['contype']==='f') // foreign key
+			elseif($row['contype']==='f') // foreign key
 				$this->findForeignKey($table,$row['consrc']);
 		}
 	}
@@ -302,7 +302,7 @@ EOD;
 				$table->columns[$name]->isPrimaryKey=true;
 				if($table->primaryKey===null)
 					$table->primaryKey=$name;
-				else if(is_string($table->primaryKey))
+				elseif(is_string($table->primaryKey))
 					$table->primaryKey=array($table->primaryKey,$name);
 				else
 					$table->primaryKey[]=$name;
