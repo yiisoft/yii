@@ -256,6 +256,17 @@ class CFormatter extends CApplicationComponent
 		return number_format($value,$this->numberFormat['decimals'],$this->numberFormat['decimalSeparator'],$this->numberFormat['thousandSeparator']);
 	}
 
+    /**
+     * Formats the value (usually class name) as a database table name in lowercase with underscores.
+     * @param mixed $value the value to be formatted.
+     * @access public
+     * @return string the formatted table name.
+     */
+	public function formatAsTableName($value)
+	{
+		return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $value));
+	}
+
 	/**
 	 * @return CHtmlPurifier the HTML purifier instance
 	 */
