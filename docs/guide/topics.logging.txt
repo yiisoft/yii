@@ -96,15 +96,9 @@ we can prevent certain categories from appearing in our logs:
 [php]
 	'routes'=>array(
 		array(
-			'class'=>'CFileLogRoute',
-			'levels'=>'trace, info',
-			'categories'=>'system.*',
-			'exclude'=>'system.CModule', // shows everything from system except CModule level logs
-		),
-		array(
 			'class'=>'CEmailLogRoute',
 			'levels'=>'error, warning',
-			'exclude'=>'system.CModule.*' // Will show everything except any CModule logs
+			'exclude'=>'system.CModule.*' // Will email everything except any CModule logs
 			'emails'=>'admin@example.com',
 		),
 		array(
