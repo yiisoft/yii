@@ -184,9 +184,9 @@ class CWsdlGenerator extends CComponent
 	{
 		if(isset(self::$typeMap[$type]))
 			return self::$typeMap[$type];
-		else if(isset($this->types[$type]))
+		elseif(isset($this->types[$type]))
 			return is_array($this->types[$type]) ? 'tns:'.$type : $this->types[$type];
-		else if(($pos=strpos($type,'[]'))!==false) // if it is an array
+		elseif(($pos=strpos($type,'[]'))!==false) // if it is an array
 		{
 			$type=substr($type,0,$pos);
 			$this->types[$type.'[]']='tns:'.$type.'Array';
@@ -217,9 +217,9 @@ class CWsdlGenerator extends CComponent
 								{
 									if(strcasecmp($prop, 'nillable')===0)
 										$nillable = $attr[3][$id] ? 'true' : 'false';
-									else if(strcasecmp($prop, 'minOccurs')===0)
+									elseif(strcasecmp($prop, 'minOccurs')===0)
 										$minOccurs = intval($attr[3][$id]);
-									else if(strcasecmp($prop, 'maxOccurs')===0)
+									elseif(strcasecmp($prop, 'maxOccurs')===0)
 										$maxOccurs = intval($attr[3][$id]);
 								}
 							}
@@ -302,7 +302,7 @@ class CWsdlGenerator extends CComponent
 				$complexContent->appendChild($restriction);
 				$complexType->appendChild($complexContent);
 			}
-			else if(is_array($xmlType))
+			elseif(is_array($xmlType))
 			{
 				$complexType->setAttribute('name',$phpType);
 				$all=$dom->createElement('xsd:all');
