@@ -2246,6 +2246,10 @@ EOD;
 			'noresize'=>1,
 			'readonly'=>1,
 			'selected'=>1,
+			'novalidate'=>1,
+			'autofocus'=>1,
+			'formnovalidate'=>1,
+			'required'=>1,
 		);
 
 		if($htmlOptions===array())
