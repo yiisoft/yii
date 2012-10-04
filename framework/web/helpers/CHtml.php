@@ -2042,7 +2042,11 @@ EOD;
 	 * @param array $htmlOptions HTML attributes which may contain the following special attributes
 	 * specifying the client change behaviors:
 	 * <ul>
-	 * <li>submit: string, specifies the URL that the button should submit to. If empty, the current requested URL will be used.</li>
+	 * <li>submit: string, specifies the URL to submit to. If the current element has a parent form, that form will be
+	 * submitted (using its regular method). If 'submit' is a non-empty string it will override the form's URL for the
+	 * submit, otherwise the form's URL will be used (or the currently requested URL, if the form has no specific URL
+	 * configured). If there is no parent form, the parameters listed in 'params' will be submitted instead (by the POST
+	 * method and the URL specified in 'submit'). Please note that the 'csrf' setting might be included as well.</li>
 	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
 	 * <li>csrf: boolean, whether a CSRF token should be submitted when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
 	 * You may want to set this to be true if there is no enclosing form around this element.
