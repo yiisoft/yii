@@ -2236,20 +2236,20 @@ EOD;
 	public static function renderAttributes($htmlOptions)
 	{
 		static $specialAttributes=array(
+			'autofocus'=>1,
 			'checked'=>1,
 			'declare'=>1,
 			'defer'=>1,
 			'disabled'=>1,
+			'formnovalidate'=>1,
 			'ismap'=>1,
 			'multiple'=>1,
 			'nohref'=>1,
 			'noresize'=>1,
-			'readonly'=>1,
-			'selected'=>1,
 			'novalidate'=>1,
-			'autofocus'=>1,
-			'formnovalidate'=>1,
+			'readonly'=>1,
 			'required'=>1,
+			'selected'=>1,
 		);
 
 		if($htmlOptions===array())
