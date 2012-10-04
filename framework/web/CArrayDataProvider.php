@@ -156,8 +156,12 @@ class CArrayDataProvider extends CDataProvider
 	 */
 	protected function getSortingFieldValue($data, $fields)
 	{
-		foreach ($fields as $field)
-			$data = is_object($data) ? $data->$field : $data[$field];
+		foreach($fields as $field){
+            if(is_object($data))
+                $data = isset($data->$field)?$data->$field:null;
+            else
+                $data = isset($data[$field])?$data[$field]:null;
+        }
 		return $this->caseSensitiveSort ? $data : mb_strtolower($data,Yii::app()->charset);
 	}
 
