@@ -2236,20 +2236,32 @@ EOD;
 	public static function renderAttributes($htmlOptions)
 	{
 		static $specialAttributes=array(
+			'async'=>1,
 			'autofocus'=>1,
+			'autoplay'=>1,
 			'checked'=>1,
+			'controls'=>1,
 			'declare'=>1,
+			'default'=>1,
 			'defer'=>1,
 			'disabled'=>1,
 			'formnovalidate'=>1,
+			'hidden'=>1,
 			'ismap'=>1,
+			'loop'=>1,
 			'multiple'=>1,
+			'muted'=>1,
 			'nohref'=>1,
 			'noresize'=>1,
 			'novalidate'=>1,
+			'open'=>1,
 			'readonly'=>1,
 			'required'=>1,
+			'reversed'=>1,
+			'scoped'=>1,
+			'seamless'=>1,
 			'selected'=>1,
+			'typemustmatch'=>1,
 		);
 
 		if($htmlOptions===array())
