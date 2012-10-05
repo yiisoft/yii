@@ -158,9 +158,9 @@ class CArrayDataProvider extends CDataProvider
 	{
 		foreach($fields as $field){
             if(is_object($data))
-                $data = isset($data->$field)?$data->$field:null;
+                $data=isset($data->$field) ? $data->$field : null;
             else
-                $data = isset($data[$field])?$data[$field]:null;
+                $data=isset($data[$field]) ? $data[$field] : null;
         }
 		return $this->caseSensitiveSort ? $data : mb_strtolower($data,Yii::app()->charset);
 	}
