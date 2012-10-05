@@ -262,6 +262,7 @@ class CWsdlGenerator extends CComponent
      xmlns:soap-enc=\"http://schemas.xmlsoap.org/soap/encoding/\"></definitions>";
 
 		$dom=new DOMDocument();
+		$dom->formatOutput=true;
 		$dom->loadXml($xml);
 		$this->addTypes($dom);
 
