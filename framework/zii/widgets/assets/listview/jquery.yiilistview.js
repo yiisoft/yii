@@ -111,7 +111,11 @@
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				$('#'+id).removeClass(settings.loadingClass);
-				alert(XMLHttpRequest.responseText);
+				try {
+					console.info(XMLHttpRequest.responseText);
+				} catch(err) {
+					// fail silently
+				}
 			}
 		}, options || {});
 
