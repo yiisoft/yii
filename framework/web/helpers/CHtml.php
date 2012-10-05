@@ -2043,12 +2043,11 @@ EOD;
 	 * specifying the client change behaviors:
 	 * <ul>
 	 * <li>submit: string, specifies the URL to submit to. If the current element has a parent form, that form will be
-	 * submitted (using its regular method). If 'submit' is a non-empty string it will override the form's URL for the
-	 * submit, otherwise the form's URL will be used (or the currently requested URL, if the form has no specific URL
-	 * configured). If there is no parent form, the parameters listed in 'params' will be submitted instead (by the POST
-	 * method and the URL specified in 'submit'). Please note that the 'csrf' setting might be included as well.</li>
+	 * submitted, and if 'submit' contains an URL it will override the form's URL. If there is no parent form the data
+	 * listed in 'params' will be submitted instead (via POST method). Please note that if the 'csrf' setting is true,
+	 * the CSRF token will be included in the params too.</li>
 	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
-	 * <li>csrf: boolean, whether a CSRF token should be submitted when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
+	 * <li>csrf: boolean, whether a CSRF token should be automatically included in 'params' when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
 	 * You may want to set this to be true if there is no enclosing form around this element.
 	 * This option is meaningful only when 'submit' option is set.</li>
 	 * <li>return: boolean, the return value of the javascript. Defaults to false, meaning that the execution of
