@@ -270,9 +270,7 @@ class CHtml
 	 */
 	public static function cssFile($url,$media='')
 	{
-		if($media!=='')
-			$media=' media="'.$media.'"';
-		return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'"'.$media.' />';
+		return CHtml::linkTag('stylesheet','text/css',self::encode($url),$media!=='' ? $media : null);
 	}
 
 	/**
