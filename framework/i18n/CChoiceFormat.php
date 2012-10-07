@@ -55,7 +55,7 @@ class CChoiceFormat
 				if($expression==$number)
 					return $message;
 			}
-			else if(self::evaluate(str_replace('n','$n',$expression),$number))
+			elseif(self::evaluate(str_replace('n','$n',$expression),$number))
 				return $message;
 		}
 		return $message; // return the last choice

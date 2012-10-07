@@ -56,7 +56,7 @@ class CRangeValidator extends CValidator
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not in the list.');
 			$this->addError($object,$attribute,$message);
 		}
-		else if($this->not && in_array($value,$this->range,$this->strict))
+		elseif($this->not && in_array($value,$this->range,$this->strict))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is in the list.');
 			$this->addError($object,$attribute,$message);

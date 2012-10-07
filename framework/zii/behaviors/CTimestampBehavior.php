@@ -101,7 +101,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	protected function getTimestampByAttribute($attribute) {
 		if ($this->timestampExpression instanceof CDbExpression)
 			return $this->timestampExpression;
-		else if ($this->timestampExpression !== null)
+		elseif ($this->timestampExpression !== null)
 			return @eval('return '.$this->timestampExpression.';');
 
 		$columnType = $this->getOwner()->getTableSchema()->getColumn($attribute)->dbType;
