@@ -1008,7 +1008,7 @@ abstract class CActiveRecord extends CModel
 	 * @param array $attributes list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the attributes are valid and the record is inserted successfully.
-	 * @throws CException if the record is not new
+	 * @throws CDbException if the record is not new
 	 */
 	public function insert($attributes=null)
 	{
@@ -1056,7 +1056,7 @@ abstract class CActiveRecord extends CModel
 	 * @param array $attributes list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the update is successful
-	 * @throws CException if the record is new
+	 * @throws CDbException if the record is new
 	 */
 	public function update($attributes=null)
 	{
