@@ -71,6 +71,8 @@ class CDbAuthManager extends CAuthManager
 	 */
 	public function checkAccess($itemName,$userId,$params=array())
 	{
+		if($userId===null)
+			return false;
 		$assignments=$this->getAuthAssignments($userId);
 		return $this->checkAccessRecursive($itemName,$userId,$params,$assignments);
 	}
