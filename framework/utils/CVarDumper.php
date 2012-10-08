@@ -97,7 +97,7 @@ class CVarDumper
 			case 'array':
 				if(self::$_depth<=$level)
 					self::$_output.='array(...)';
-				else if(empty($var))
+				elseif(empty($var))
 					self::$_output.='array()';
 				else
 				{
@@ -117,7 +117,7 @@ class CVarDumper
 			case 'object':
 				if(($id=array_search($var,self::$_objects,true))!==false)
 					self::$_output.=get_class($var).'#'.($id+1).'(...)';
-				else if(self::$_depth<=$level)
+				elseif(self::$_depth<=$level)
 					self::$_output.=get_class($var).'(...)';
 				else
 				{
