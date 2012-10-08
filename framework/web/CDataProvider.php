@@ -94,7 +94,14 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	{
 		if(is_array($value))
 		{
-			$pagination=isset($value['class']) ? $this->getPagination($value['class']) : $this->getPagination();
+			if(isset($value['class']))
+			{
+				$pagination=$this->getPagination($value['class']);
+				unset($value['class']);
+			}
+			else
+				$pagination=$this->getPagination();
+
 			foreach($value as $k=>$v)
 				$pagination->$k=$v;
 		}
@@ -135,7 +142,14 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	{
 		if(is_array($value))
 		{
-			$sort=isset($value['class']) ? $this->getSort($value['class']) : $this->getSort();
+			if(isset($value['class']))
+			{
+				$sort=$this->getSort($value['class']);
+				unset($value['class']);
+			}
+			else
+				$sort=$this->getSort();
+
 			foreach($value as $k=>$v)
 				$sort->$k=$v;
 		}
