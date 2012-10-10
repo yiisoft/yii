@@ -1,5 +1,5 @@
 /*
- ### jQuery Star Rating Plugin v3.13 - 2009-03-26 ###
+ ### jQuery Star Rating Plugin v3.14 - 2012-01-26 ###
  * Home: http://www.fyneworks.com/jquery/star-rating/
  * Code: http://code.google.com/p/jquery-star-rating-plugin/
  *
@@ -11,9 +11,10 @@
 
 /*# AVOID COLLISIONS #*/
 ;if(window.jQuery) (function($){
+/*# AVOID COLLISIONS #*/
 	
 	// IE6 Background Image Fix
-	if ($.browser.msie) try { document.execCommand("BackgroundImageCache", false, true)} catch(e) { }
+	if ($.browser.msie) try { document.execCommand("BackgroundImageCache", false, true)} catch(e) { };
 	// Thanks to http://www.visualjquery.com/rating/rating_redux.html
 	
 	// plugin initialization
@@ -28,12 +29,12 @@
 				return this.each(function(){
 					$.fn.rating.apply($(this), args);
 				});
-			}
+			};
 			// Invoke API method handler
 			$.fn.rating[arguments[0]].apply(this, $.makeArray(arguments).slice(1) || []);
 			// Quick exit...
 			return this;
-		}
+		};
 		
 		// Initialize options for this call
 		var options = $.extend(
@@ -72,7 +73,7 @@
 			else{
 				// create new control if first star or control element was removed/replaced
 				
-				// Initialize options for this raters
+				// Initialize options for this rater
 				control = $.extend(
 					{}/* new object */,
 					options || {} /* current call options */,
@@ -91,7 +92,10 @@
 				rater.addClass('rating-to-be-drawn');
 				
 				// Accept readOnly setting from 'disabled' property
-				if(input.attr('disabled')) control.readOnly = true;
+				if(input.attr('disabled') || input.hasClass('disabled')) control.readOnly = true;
+				
+				// Accept required setting from class property (class='required')
+				if(input.hasClass('required')) control.required = true;
 				
 				// Create 'cancel' button
 				rater.append(
@@ -112,7 +116,7 @@
 					.data('rating', control)
 				);
 				
-			} // first element of group
+			}; // first element of group
 			
 			// insert rating star
 			var star = $('<div class="star-rating rater-'+ control.serial +'"><a title="' + (this.title || this.value) + '">' + this.value + '</a></div>');
@@ -135,7 +139,7 @@
 				// move the star left by using a negative margin
 				// this is work-around to IE's stupid box model (position:relative doesn't work)
 				.find('a').css({ 'margin-left':'-'+ (spi*spw) +'px' })
-			}
+			};
 			
 			// readOnly?
 			if(control.readOnly)//{ //save a byte!
@@ -162,6 +166,12 @@
 			
 			// set current selection
 			if(this.checked)	control.current = star;
+			
+			// set current select for links
+			if(this.nodeName=="A"){
+				if($(this).hasClass('selected'))
+				control.current = star;
+			};
 			
 			// hide input element
 			input.hide();
@@ -278,7 +288,7 @@
 			if(typeof value!='undefined'){
 			 // select by index (0 based)
 				if(typeof value=='number')
-				 return $(control.stars[value]).rating('select',undefined,wantCallBack);
+					return $(control.stars[value]).rating('select',undefined,wantCallBack);
 				// select by literal value (must be passed as a string
 				if(typeof value=='string')
 					//return
@@ -379,3 +389,4 @@
 	
 /*# AVOID COLLISIONS #*/
 })(jQuery);
+/*# AVOID COLLISIONS #*/
