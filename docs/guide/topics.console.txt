@@ -28,7 +28,7 @@ yiic help
 ~~~
 
 This will display a list of available console commands. By default, the available
-commands include those provided by Yii frameweork (called **system commands**)
+commands include those provided by Yii framework (called **system commands**)
 and those developed by users for individual applications (called **user commands**).
 
 To see how to use a command, we can execute
@@ -103,7 +103,7 @@ an action named `index`.
 To execute a specific action, we use the following console command format:
 
 ~~~
-yiic <command-name> <action-name> --option1=value --option2=value2 ...
+yiic <command-name> <action-name> --option1=value1 --option2=value2 ...
 ~~~
 
 The additional option-value pairs will be passed as named parameters to the action method.
