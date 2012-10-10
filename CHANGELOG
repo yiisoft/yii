@@ -26,6 +26,7 @@ Version 1.1.13 work in progress
 - Bug #1444: Fixed CGoogleApi::register call to registerScriptFile (mdomba)
 - Bug #1465: Fixed CHtml::beginForm() when CActiveForm with method GET and ajaxButton is used (mdomba)
 - Bug #1485 CSort does not quote table alias when using CDbCriteria (undsoft)
+- Bug #1499: Fixed CVarDumper highlighting "\" (antoncpu)
 - Bug #1552: Fixed potential vulnerability in CJavaScript::encode(): $safe parameter didn't used to be passed to the recursive method calls (resurtm)
 - Enh #84: Log route categories are now accepted in form of array. Added CLogRoute::except and parameter to CLogRoute::getLogs that allows you to exclude specific categories (paystey)
 - Enh #104: Added CWebLogRoute::$collapsedInFireBug property to control whether the log should be collapsed by default in Firebug (marcovtwout)

@@ -106,13 +106,10 @@ class CVarDumper
 					self::$_output.="array\n".$spaces.'(';
 					foreach($keys as $key)
 					{
-						if(gettype($key)=='integer')
-							$key2=$key;
-						else
-							$key2="'".str_replace("'","\\'",$key)."'";
-
-						self::$_output.="\n".$spaces."    $key2 => ";
-						self::$_output.=self::dumpInternal($var[$key],$level+1);
+						self::$_output.="\n".$spaces.'    ';
+						self::dumpInternal($key,0);
+						self::$_output.=' => ';
+						self::dumpInternal($var[$key],$level+1);
 					}
 					self::$_output.="\n".$spaces.')';
 				}
