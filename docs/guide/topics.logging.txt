@@ -89,6 +89,25 @@ category starts with `system.` are saved. The second route is
 [CEmailLogRoute] which sends messages to the specified email addresses.
 Only messages whose level is `error` or `warning` are sent.
 
+In a more advanced example (using an exclude feature available in Yii 1.1.13+),
+we can prevent certain categories from appearing in our logs:
+
+~~~
+[php]
+	'routes'=>array(
+		array(
+			'class'=>'CEmailLogRoute',
+			'levels'=>'error, warning',
+			'exclude'=>'system.CModule.*' // Will email everything except any CModule logs
+			'emails'=>'admin@example.com',
+		),
+		array(
+			'class'=>'CWebLogRoute',
+			'categories'=>'system.db.*',
+			'exclude'=>'system.db.ar.*', // shows all db level logs but nothing in the ar category
+		),
+~~~
+
 The following log routes are available in Yii:
 
    - [CDbLogRoute]: saves messages in a database table.

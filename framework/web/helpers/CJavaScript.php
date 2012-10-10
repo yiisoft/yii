@@ -83,20 +83,20 @@ class CJavaScript
 		elseif($value instanceof CJavaScriptExpression)
 			return $value->__toString();
 		elseif(is_object($value))
-			return self::encode(get_object_vars($value));
+			return self::encode(get_object_vars($value),$safe);
 		elseif(is_array($value))
 		{
 			$es=array();
 			if(($n=count($value))>0 && array_keys($value)!==range(0,$n-1))
 			{
 				foreach($value as $k=>$v)
-					$es[]="'".self::quote($k)."':".self::encode($v);
+					$es[]="'".self::quote($k)."':".self::encode($v,$safe);
 				return '{'.implode(',',$es).'}';
 			}
 			else
 			{
 				foreach($value as $v)
-					$es[]=self::encode($v);
+					$es[]=self::encode($v,$safe);
 				return '['.implode(',',$es).']';
 			}
 		}

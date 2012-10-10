@@ -133,7 +133,7 @@ array(
 					'levels'=>'error',
 					'filter'=>'CLogFilter',
 				),
-				...other log routes...
+				... 他のログルート ...
 			),
 		),
 	),
@@ -156,12 +156,12 @@ Yii は、`Yii::trace` の呼出しによって記録されるメッセージに
 パフォーマンスのボトルネックがどこにあるかを見つけ出します。
 
 パフォーマンスプロファイリングを使うには、どのコードブロックが計測されるのかを指定する必要があります。
-以下のメソッドを、ブロックの最初と最後に挿入することで印をつけます。
+以下のメソッドを、ブロックの最初と最後に挿入することでマークをつけます。
 
 ~~~
 [php]
 Yii::beginProfile('blockID');
-...計測対象のコードブロック...
+... 計測対象のコードブロック ...
 Yii::endProfile('blockID');
 ~~~
 
@@ -174,6 +174,30 @@ Yii::endProfile('blockID');
 プロファイルの結果を表示するには、[CLogRouter] アプリケーションコンポーネントをインストールする必要があります。
 これは通常のメッセージルーティングのときと同じです。
 [CProfileLogRoute] ルートが計測結果を現在のページの末尾に表示します。
+
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CProfileLogRoute',
+					'report'=>'summary',
+					// マークした全てのコードブロックの実行時間を表示
+					// report を callstack に設定することも可能
+				),
+				... 他のログルート ...
+			),
+		),
+	),
+)
+~~~
 
 SQL 実行をプロファイルする
 ------------------------
