@@ -237,11 +237,12 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the PUT or DELETE request parameters.
+	 * Returns request parameters. Typically PUT or DELETE.
 	 * @return array the request parameters
 	 * @since 1.1.7
+	 * @since 1.1.13 method became public
 	 */
-	protected function getRestParams()
+	public function getRestParams()
 	{
 		if($this->_restParams===null)
 		{
