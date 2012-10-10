@@ -72,7 +72,7 @@ class CLogger extends CComponent
 	/**
 	 * @var array log categories for excluding from filtering (used when filtering)
 	 */
-	private $_except;
+	private $_except=array();
 	/**
 	 * @var array the profiling results (category, token => time in seconds)
 	 */
