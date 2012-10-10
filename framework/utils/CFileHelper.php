@@ -180,10 +180,10 @@ class CFileHelper
 	 * @param string $base the path relative to the original source directory
 	 * @param string $file the file or directory name
 	 * @param boolean $isFile whether this is a file
-	 * @param array $fileTypes list of file name suffix (without dot). Only files with these suffixes will be copied.
+	 * @param array $fileTypes list of valid file name suffixes (without dot).
 	 * @param array $exclude list of directory and file exclusions. Each exclusion can be either a name or a path.
-	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
-	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
+	 * If a file or directory name or path matches the exclusion, false will be returned. For example, an exclusion of
+	 * '.svn' will return false for all files and directories whose name is '.svn'. And an exclusion of '/a/b' will return false for
 	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
 	 * @return boolean whether the file or directory is valid
 	 */
