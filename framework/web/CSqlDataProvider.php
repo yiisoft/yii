@@ -44,6 +44,7 @@ class CSqlDataProvider extends CDataProvider
 	public $db;
 	/**
 	 * @var string|CDbCommand the SQL statement to be used for fetching data rows.
+	 * Since version 1.1.13 this can also be an instance of {@link CDbCommand}.
 	 */
 	public $sql;
 	/**
@@ -57,7 +58,7 @@ class CSqlDataProvider extends CDataProvider
 
 	/**
 	 * Constructor.
-	 * @param string|CDbCommand $sql the SQL statement to be used for fetching data rows.
+	 * @param string|CDbCommand $sql the SQL statement to be used for fetching data rows. Since version 1.1.13 this can also be an instance of {@link CDbCommand}.
 	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct($sql,$config=array())
@@ -73,7 +74,7 @@ class CSqlDataProvider extends CDataProvider
 	 */
 	protected function fetchData()
 	{
-		if(!$this->sql instanceof CDbCommand)
+		if(!($this->sql instanceof CDbCommand))
 		{
 			$db=$this->db===null ? Yii::app()->db : $this->db;
 			$command=$db->createCommand($this->sql);
