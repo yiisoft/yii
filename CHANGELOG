@@ -22,6 +22,7 @@ Version 1.1.13 work in progress
 - Bug #1347: CDbTestCase: table name in fixtures list enclosed into double curly brackets (e.g. 'tasks'=>':{{task}}') didn't worked properly (resurtm)
 - Bug #1351: CClientScript::registerMetaTag() now allows to register multiple meta tags with the same set of attributes (klimov-paul)
 - Bug #1364: Empty CHtml::$errorCss cause class attribute rendering errors (creocoder)
+- Bug #1407: CDbCommandBuilder::createCountCommand() used to bind parameters for unused ORDER clause and unused SELECT part (resurtm)
 - Bug #1444: Fixed CGoogleApi::register call to registerScriptFile (mdomba)
 - Bug #1465: Fixed CHtml::beginForm() when CActiveForm with method GET and ajaxButton is used (mdomba)
 - Bug #1485 CSort does not quote table alias when using CDbCriteria (undsoft)
