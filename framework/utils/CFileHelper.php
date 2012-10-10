@@ -31,7 +31,7 @@ class CFileHelper
 
 	/**
 	 * Copies a directory recursively as another.
-	 * If the destination directory does not exist, it will be created.
+	 * If the destination directory does not exist, it will be created recursively.
 	 * @param string $src the source directory
 	 * @param string $dst the destination directory
 	 * @param array $options options for directory copy. Valid options are:
@@ -55,6 +55,9 @@ class CFileHelper
 		$exclude=array();
 		$level=-1;
 		extract($options);
+		if(!is_dir($dst))
+			self::mkdir($dst, self::getModeFromOptions($options), true);
+
 		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
 	}
 
@@ -110,11 +113,8 @@ class CFileHelper
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
-			mkdir($dst);
-		if(isset($options['newDirMode']))
-			@chmod($dst,$options['newDirMode']);
-		else
-			@chmod($dst,0777);
+			self::mkdir($dst, self::getModeFromOptions($options), false);
+
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
 		{
@@ -128,7 +128,7 @@ class CFileHelper
 				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						@chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
+						chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
 				}
 				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
@@ -263,4 +263,34 @@ class CFileHelper
 		}
 		return null;
 	}
+
+	/**
+	 * Creates directory for $dst path with $mode and $recursive creation is allowed.
+	 * For concurrent compatibility chmod is used instead of mkdir's $mode.
+	 *
+	 * @static
+	 * @param string $dst path to be created
+	 * @param integer $mode access bitmask
+	 * @param boolean $recursive
+	 * @return boolean result of mkdir
+	 * @see mkdir
+	 */
+	private static function mkdir($dst, $mode, $recursive)
+	{
+		$res = mkdir($dst, $mode, $recursive);
+		chmod($dst, $mode);
+		return $res;
+	}
+
+	/**
+	 * Returns dir access mode from options, if set, or default value (0777).
+	 * @static
+	 * @param array $options
+	 * @return integer
+	 */
+	private static function getModeFromOptions(array $options)
+	{
+		return isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
+	}
+
 }
