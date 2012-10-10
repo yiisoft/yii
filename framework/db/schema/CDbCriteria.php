@@ -428,7 +428,7 @@ class CDbCriteria extends CComponent
 			if($op==='<>')
 				return $this->addSearchCondition($column,$value,$escape,$operator,'NOT LIKE');
 		}
-		else if($op==='')
+		elseif($op==='')
 			$op='=';
 
 		$this->addCondition($column.$op.self::PARAM_PREFIX.self::$paramCount,$operator);
@@ -490,7 +490,7 @@ class CDbCriteria extends CComponent
 		{
 			if($this->select==='*')
 				$this->select=$criteria->select;
-			else if($criteria->select!=='*')
+			elseif($criteria->select!=='*')
 			{
 				$select1=is_string($this->select)?preg_split('/\s*,\s*/',trim($this->select),-1,PREG_SPLIT_NO_EMPTY):$this->select;
 				$select2=is_string($criteria->select)?preg_split('/\s*,\s*/',trim($criteria->select),-1,PREG_SPLIT_NO_EMPTY):$criteria->select;
@@ -502,7 +502,7 @@ class CDbCriteria extends CComponent
 		{
 			if($this->condition==='')
 				$this->condition=$criteria->condition;
-			else if($criteria->condition!=='')
+			elseif($criteria->condition!=='')
 				$this->condition="({$this->condition}) $and ({$criteria->condition})";
 		}
 
@@ -522,7 +522,7 @@ class CDbCriteria extends CComponent
 		{
 			if($this->order==='')
 				$this->order=$criteria->order;
-			else if($criteria->order!=='')
+			elseif($criteria->order!=='')
 				$this->order=$criteria->order.', '.$this->order;
 		}
 
@@ -530,7 +530,7 @@ class CDbCriteria extends CComponent
 		{
 			if($this->group==='')
 				$this->group=$criteria->group;
-			else if($criteria->group!=='')
+			elseif($criteria->group!=='')
 				$this->group.=', '.$criteria->group;
 		}
 
@@ -538,7 +538,7 @@ class CDbCriteria extends CComponent
 		{
 			if($this->join==='')
 				$this->join=$criteria->join;
-			else if($criteria->join!=='')
+			elseif($criteria->join!=='')
 				$this->join.=' '.$criteria->join;
 		}
 
@@ -546,7 +546,7 @@ class CDbCriteria extends CComponent
 		{
 			if($this->having==='')
 				$this->having=$criteria->having;
-			else if($criteria->having!=='')
+			elseif($criteria->having!=='')
 				$this->having="({$this->having}) $and ({$criteria->having})";
 		}
 
@@ -561,7 +561,7 @@ class CDbCriteria extends CComponent
 
 		if(empty($this->scopes))
 			$this->scopes=$criteria->scopes;
-		else if(!empty($criteria->scopes))
+		elseif(!empty($criteria->scopes))
 		{
 			$scopes1=(array)$this->scopes;
 			$scopes2=(array)$criteria->scopes;
@@ -569,7 +569,7 @@ class CDbCriteria extends CComponent
 			{
 				if(is_integer($k))
 					$scopes[]=$v;
-				else if(isset($scopes2[$k]))
+				elseif(isset($scopes2[$k]))
 					$scopes[]=array($k=>$v);
 				else
 					$scopes[$k]=$v;
@@ -578,7 +578,7 @@ class CDbCriteria extends CComponent
 			{
 				if(is_integer($k))
 					$scopes[]=$v;
-				else if(isset($scopes1[$k]))
+				elseif(isset($scopes1[$k]))
 					$scopes[]=array($k=>$v);
 				else
 					$scopes[$k]=$v;
@@ -588,14 +588,14 @@ class CDbCriteria extends CComponent
 
 		if(empty($this->with))
 			$this->with=$criteria->with;
-		else if(!empty($criteria->with))
+		elseif(!empty($criteria->with))
 		{
 			$this->with=(array)$this->with;
 			foreach((array)$criteria->with as $k=>$v)
 			{
 				if(is_integer($k))
 					$this->with[]=$v;
-				else if(isset($this->with[$k]))
+				elseif(isset($this->with[$k]))
 				{
 					$excludes=array();
 					foreach(array('joinType','on') as $opt)

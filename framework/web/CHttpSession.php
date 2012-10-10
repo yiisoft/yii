@@ -256,7 +256,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		if(ini_get('session.use_cookies')==='0')
 			return 'none';
-		else if(ini_get('session.use_only_cookies')==='0')
+		elseif(ini_get('session.use_only_cookies')==='0')
 			return 'allow';
 		else
 			return 'only';
@@ -272,12 +272,12 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			ini_set('session.use_cookies','0');
 			ini_set('session.use_only_cookies','0');
 		}
-		else if($value==='allow')
+		elseif($value==='allow')
 		{
 			ini_set('session.use_cookies','1');
 			ini_set('session.use_only_cookies','0');
 		}
-		else if($value==='only')
+		elseif($value==='only')
 		{
 			ini_set('session.use_cookies','1');
 			ini_set('session.use_only_cookies','1');
