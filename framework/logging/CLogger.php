@@ -72,7 +72,7 @@ class CLogger extends CComponent
 	/**
 	 * @var array log categories for excluding from filtering (used when filtering)
 	 */
-	private $_except;
+	private $_except=array();
 	/**
 	 * @var array the profiling results (category, token => time in seconds)
 	 */
@@ -189,7 +189,7 @@ class CLogger extends CComponent
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
 				$ret=true;
 		}
-		if ($ret)
+		if($ret)
 		{
 			foreach($this->_except as $category)
 			{
