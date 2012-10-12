@@ -319,7 +319,7 @@ class CWebApplication extends CApplication
 		while(($pos=strpos($route,'/'))!==false)
 		{
 			$id=substr($route,0,$pos);
-			if(!preg_match('/^\w+$/',$id))
+			if(!preg_match('/^(\w|-)+$/',$id))
 				return null;
 			if(!$caseSensitive)
 				$id=strtolower($id);
