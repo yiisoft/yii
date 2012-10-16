@@ -15,7 +15,6 @@
  * @property CDbSchema $schema The schema for this command builder.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema
  * @since 1.0
  */
@@ -132,7 +131,7 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(is_string($criteria->select) && stripos($criteria->select,'count')===0)
 				$sql="SELECT ".$criteria->select;
-			else if($criteria->distinct)
+			elseif($criteria->distinct)
 			{
 				if(is_array($table->primaryKey))
 				{
@@ -150,6 +149,28 @@ class CDbCommandBuilder extends CComponent
 			$sql.=" FROM {$table->rawName} $alias";
 			$sql=$this->applyJoin($sql,$criteria->join);
 			$sql=$this->applyCondition($sql,$criteria->condition);
+		}
+
+		// Suppress binding of parameters belonging to the ORDER clause. Issue #1407.
+		if($criteria->order && $criteria->params)
+		{
+			$params1=array();
+			preg_match_all('/(:\w+)/',$sql,$params1);
+			$params2=array();
+			preg_match_all('/(:\w+)/',$this->applyOrder($sql,$criteria->order),$params2);
+			foreach(array_diff($params2[0],$params1[0]) as $param)
+				unset($criteria->params[$param]);
+		}
+
+		// Do the same for SELECT part.
+		if($criteria->select && $criteria->params)
+		{
+			$params1=array();
+			preg_match_all('/(:\w+)/',$sql,$params1);
+			$params2=array();
+			preg_match_all('/(:\w+)/',$sql.' '.(is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select),$params2);
+			foreach(array_diff($params2[0],$params1[0]) as $param)
+				unset($criteria->params[$param]);
 		}
 
 		$command=$this->_connection->createCommand($sql);
@@ -252,7 +273,7 @@ class CDbCommandBuilder extends CComponent
 					foreach($value->params as $n=>$v)
 						$values[$n]=$v;
 				}
-				else if($bindByPosition)
+				elseif($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';
 					$values[]=$column->typecast($value);
@@ -296,7 +317,7 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(($column=$table->getColumn($name))!==null)
 			{
-				$value=(int)$value;
+				$value=(float)$value;
 				if($value<0)
 					$fields[]="{$column->rawName}={$column->rawName}-".(-$value);
 				else
@@ -460,7 +481,7 @@ class CDbCommandBuilder extends CComponent
 	{
 		if(is_array($condition))
 			$criteria=new CDbCriteria($condition);
-		else if($condition instanceof CDbCriteria)
+		elseif($condition instanceof CDbCriteria)
 			$criteria=clone $condition;
 		else
 		{
@@ -549,7 +570,7 @@ class CDbCommandBuilder extends CComponent
 			{
 				if(is_array($value))
 					$conditions[]=$this->createInCondition($table,$name,$value,$prefix);
-				else if($value!==null)
+				elseif($value!==null)
 				{
 					if($bindByPosition)
 					{
@@ -664,7 +685,7 @@ class CDbCommandBuilder extends CComponent
 			else
 				return $prefix.$column->rawName.' IN ('.implode(', ',$values).')';
 		}
-		else if(is_array($columnName)) // composite key: $values=array(array('pk1'=>'v1','pk2'=>'v2'),array(...))
+		elseif(is_array($columnName)) // composite key: $values=array(array('pk1'=>'v1','pk2'=>'v2'),array(...))
 		{
 			foreach($columnName as $name)
 			{

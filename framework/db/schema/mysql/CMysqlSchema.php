@@ -12,7 +12,6 @@
  * CMysqlSchema is the class for retrieving metadata information from a MySQL database (version 4.1.x and 5.x).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema.mysql
  * @since 1.0
  */
@@ -22,21 +21,21 @@ class CMysqlSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY',
-        'string' => 'varchar(255)',
-        'text' => 'text',
-        'integer' => 'int(11)',
-        'float' => 'float',
-        'decimal' => 'decimal',
-        'datetime' => 'datetime',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'blob',
-        'boolean' => 'tinyint(1)',
+	public $columnTypes=array(
+		'pk' => 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY',
+		'string' => 'varchar(255)',
+		'text' => 'text',
+		'integer' => 'int(11)',
+		'float' => 'float',
+		'decimal' => 'decimal',
+		'datetime' => 'datetime',
+		'timestamp' => 'timestamp',
+		'time' => 'time',
+		'date' => 'date',
+		'binary' => 'blob',
+		'boolean' => 'tinyint(1)',
 		'money' => 'decimal(19,4)',
-    );
+	);
 
 	/**
 	 * Quotes a table name for use in a query.
@@ -154,7 +153,7 @@ class CMysqlSchema extends CDbSchema
 	 */
 	protected function findColumns($table)
 	{
-		$sql='SHOW COLUMNS FROM '.$table->rawName;
+		$sql='SHOW FULL COLUMNS FROM '.$table->rawName;
 		try
 		{
 			$columns=$this->getDbConnection()->createCommand($sql)->queryAll();
@@ -171,7 +170,7 @@ class CMysqlSchema extends CDbSchema
 			{
 				if($table->primaryKey===null)
 					$table->primaryKey=$c->name;
-				else if(is_string($table->primaryKey))
+				elseif(is_string($table->primaryKey))
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
@@ -197,6 +196,7 @@ class CMysqlSchema extends CDbSchema
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
 		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
+		$c->comment=$column['Comment'];
 
 		return $c;
 	}
@@ -256,6 +256,17 @@ class CMysqlSchema extends CDbSchema
 	}
 
 	/**
+	 * Creates a command builder for the database.
+	 * This method overrides parent implementation in order to create a MySQL specific command builder
+	 * @return CDbCommandBuilder command builder instance
+	 * @since 1.1.13
+	 */
+	protected function createCommandBuilder()
+	{
+		return new CMysqlCommandBuilder($this);
+	}
+
+	/**
 	 * Builds a SQL statement for renaming a column.
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
 	 * @param string $name the old name of the column. The name will be properly quoted by the method.
@@ -305,5 +316,19 @@ class CMysqlSchema extends CDbSchema
 	{
 		return 'ALTER TABLE '.$this->quoteTableName($table)
 			.' DROP FOREIGN KEY '.$this->quoteColumnName($name);
+	}
+
+
+	/**
+	 * Builds a SQL statement for removing a primary key constraint to an existing table.
+	 * @param string $name the name of the primary key constraint to be removed.
+	 * @param string $table the table that the primary key constraint will be removed from.
+	 * @return string the SQL statement for removing a primary key constraint from an existing table.
+	 * @since 1.1.13
+	 */
+	public function dropPrimaryKey($name,$table)
+	{
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' DROP PRIMARY KEY';
+
 	}
 }

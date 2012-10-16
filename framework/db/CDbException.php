@@ -12,7 +12,6 @@
  * CDbException represents an exception that is caused by some DB-related operations.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.0
  */

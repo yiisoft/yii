@@ -5,6 +5,9 @@ Yii::import('system.db.schema.sqlite.CSqliteSchema');
 
 class CSqliteTest extends CTestCase
 {
+	/**
+	 * @var CDbConnection
+	 */
 	private $db;
 
 	public function setUp()
@@ -79,20 +82,22 @@ class CSqliteTest extends CTestCase
 			'type'=>array('integer','string','string','integer','string'),
 			'isPrimaryKey'=>array(true,false,false,false,false),
 			'isForeignKey'=>array(false,false,false,true,false),
+			'allowNull'=>array(false,false,false,false,true),
 		);
 		$this->checkColumns('posts',$values);
 		$values=array
 		(
-			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2', 'null_col'),
-			'rawName'=>array('"int_col"', '"int_col2"', '"char_col"', '"char_col2"', '"char_col3"', '"float_col"', '"float_col2"', '"blob_col"', '"numeric_col"', '"time"', '"bool_col"', '"bool_col2"', '"null_col"'),
-			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, '33.22', '123', null, true, null),
-			'size'=>array(null, null, 100, 100, null, 4, null, null, 5, null, null, null, null),
-			'precision'=>array(null, null, 100, 100, null, 4, null, null, 5, null, null, null, null),
-			'scale'=>array(null, null, null, null, null, 3, null, null, 2, null, null, null, null),
-			'dbType'=>array('int','integer','char(100)','varchar(100)','text','real(4,3)','double','blob','numeric(5,2)','timestamp','bool','boolean','integer'),
-			'type'=>array('integer','integer','string','string','string','double','double','string','string','string','boolean','boolean','integer'),
-			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false),
-			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false),
+			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'char_col4', 'char_col5', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2', 'null_col'),
+			'rawName'=>array('"int_col"', '"int_col2"', '"char_col"', '"char_col2"', '"char_col3"', '"char_col4"', '"char_col5"', '"float_col"', '"float_col2"', '"blob_col"', '"numeric_col"', '"time"', '"bool_col"', '"bool_col2"', '"null_col"'),
+			'defaultValue'=>array(null, 1, null, 'something', null, null, 'NULL', null, '1.23', null, '33.22', '123', null, true, null),
+			'size'=>array(null, null, 100, 100, null, 100, 100, 4, null, null, 5, null, null, null, null),
+			'precision'=>array(null, null, 100, 100, null, 100, 100, 4, null, null, 5, null, null, null, null),
+			'scale'=>array(null, null, null, null, null, null, null, 3, null, null, 2, null, null, null, null),
+			'dbType'=>array('int','integer','char(100)','varchar(100)','text','varchar(100)','varchar(100)','real(4,3)','double','blob','numeric(5,2)','timestamp','bool','boolean','integer'),
+			'type'=>array('integer','integer','string','string','string','string','string','double','double','string','string','string','boolean','boolean','integer'),
+			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false),
+			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false),
+			'allowNull'=>array(false,true,false,true,true,true,true,false,true,true,true,true,false,true,true),
 		);
 		$this->checkColumns('types',$values);
 	}
@@ -254,5 +259,24 @@ class CSqliteTest extends CTestCase
 	{
 		$this->db->schema->checkIntegrity(false);
 		$this->db->schema->checkIntegrity(true);
+	}
+
+	public function testRenameTable()
+	{
+		$this->db->schema->refresh();
+		$this->assertArrayHasKey('profiles',$this->db->schema->tables);
+		$this->assertArrayHasKey('users',$this->db->schema->tables);
+		$this->assertArrayNotHasKey('profiles_renamed',$this->db->schema->tables);
+		$this->assertArrayNotHasKey('users_renamed',$this->db->schema->tables);
+
+		$this->db->schema->refresh();
+		$this->db->createCommand($this->db->schema->renameTable('profiles','profiles_renamed'))->execute();
+		$this->db->createCommand($this->db->schema->renameTable('users','users_renamed'))->execute();
+
+		$this->db->schema->refresh();
+		$this->assertArrayNotHasKey('profiles',$this->db->schema->tables);
+		$this->assertArrayNotHasKey('users',$this->db->schema->tables);
+		$this->assertArrayHasKey('profiles_renamed',$this->db->schema->tables);
+		$this->assertArrayHasKey('users_renamed',$this->db->schema->tables);
 	}
 }

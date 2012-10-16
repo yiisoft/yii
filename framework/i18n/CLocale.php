@@ -31,7 +31,6 @@
  * @property array $pluralRules Plural forms expressions.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n
  * @since 1.0
  */
@@ -223,13 +222,14 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param integer $day weekday (0-6, 0 means Sunday)
+	 * @param integer $day weekday (0-7, 0 and 7 means Sunday)
 	 * @param string $width weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param boolean $standAlone whether the week day name should be returned in stand-alone format
 	 * @return string the weekday name
 	 */
 	public function getWeekDayName($day,$width='wide',$standAlone=false)
 	{
+		$day=$day%7;
 		if($standAlone)
 			return isset($this->_data['weekDayNamesSA'][$width][$day]) ? $this->_data['weekDayNamesSA'][$width][$day] : $this->_data['weekDayNames'][$width][$day];
 		else
@@ -386,7 +386,11 @@ class CLocale extends CComponent
 		{
 			$subTag = explode('_', $id);
 			// territory sub tags can be distigused from script sub tags by length
-			if (strlen($subTag[1])<4)
+			if (isset($subTag[2]) && strlen($subTag[2])<4)
+			{
+				$id = $subTag[2];
+			}
+			elseif (strlen($subTag[1])<4)
 			{
 				$id = $subTag[1];
 			}
@@ -413,19 +417,19 @@ class CLocale extends CComponent
 	public function getLocaleDisplayName($id=null, $category='languages')
 	{
 		$id = $this->getCanonicalID($id);
-		if (isset($this->_data[$category][$id]))
+		if (($category == 'languages') && ($id=$this->getLanguageID($id)) && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];
 		}
-		else if (($category == 'languages') && ($id=$this->getLanguageID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'scripts') && ($id=$this->getScriptID($id)) && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];
 		}
-		else if (($category == 'scripts') && ($id=$this->getScriptID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'territories') && ($id=$this->getTerritoryID($id)) && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];
 		}
-		else if (($category == 'territories') && ($id=$this->getTerritoryID($id)) && (isset($this->_data[$category][$id])))
+		elseif (isset($this->_data[$category][$id]))
 		{
 			return $this->_data[$category][$id];
 		}

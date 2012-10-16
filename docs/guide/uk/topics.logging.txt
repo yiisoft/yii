@@ -191,4 +191,4 @@ Yii::endProfile('blockID');
 що показує скільки часу зайняв той чи інший SQL-запит .
 Для виведення загальної кількості запитів і загального часу виконання можна використовувати [CDbConnection::getStats()].
 
-<div class="revision">$Id: topics.logging.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id$</div>

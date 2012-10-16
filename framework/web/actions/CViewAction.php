@@ -26,7 +26,6 @@
  * This is in the format of 'path.to.view'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.actions
  * @since 1.0
  */

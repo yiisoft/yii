@@ -5,11 +5,9 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 ;(function($) {
-    
 	/**
 	 * yiiListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
@@ -24,36 +22,34 @@
 	$.fn.yiiListView = function(options) {
 		return this.each(function(){
 			var settings = $.extend({}, $.fn.yiiListView.defaults, options || {}),
-                $this = $(this),
-                id = $this.attr('id');
-                
+			$this = $(this),
+			id = $this.attr('id');
+
 			if(settings.updateSelector == undefined) {
 				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.sorterClass.replace(/\s+/g,'.')+' a';
 			}
 			$.fn.yiiListView.settings[id] = settings;
 
 			if(settings.ajaxUpdate.length > 0) {
-				$(settings.updateSelector).die('click').live('click',function(){
-					// Check to see if History.js is enabled for our Browser
-					if (settings.enableHistory && window.History.enabled) {
-						// Ajaxify this link
-						var url = $(this).attr('href'),
-							params = $.deparam.querystring(url);
+				$(document).on('click.yiiListView', settings.updateSelector,function(){
+					if(settings.enableHistory && window.History.enabled) {
+						var url = $(this).attr('href').split('?'),
+							params = $.deparam.querystring('?'+url[1]);
 
 						delete params[settings.ajaxVar];
-						window.History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
 					} else {
 						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
 					}
 					return false;
 				});
-			}
 
-			if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
-				$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
-					var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
-					$.fn.yiiListView.update(id, {url: State.url});
-				});
+				if(settings.enableHistory && window.History.enabled) {
+					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
+						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
+						$.fn.yiiListView.update(id, {url: State.url});
+					});
+				}
 			}
 		});
 	};

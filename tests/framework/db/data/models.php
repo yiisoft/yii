@@ -540,6 +540,8 @@ class UserWithWrappers extends CActiveRecord
 {
 	private static $_counters=array();
 
+	private static $_beforeFindCriteria;
+
 	public static function model($class=__CLASS__)
 	{
 		return parent::model($class);
@@ -549,7 +551,9 @@ class UserWithWrappers extends CActiveRecord
 	{
 		return array(
 			'posts'=>array(self::HAS_MANY,'PostWithWrappers','author_id'),
+			'postsWithScope'=>array(self::HAS_MANY,'PostWithWrappers','author_id','scopes'=>array('replaceContent')),
 			'postCount'=>array(self::STAT,'PostWithWrappers','author_id'),
+			'comments'=>array(self::HAS_MANY,'CommentWithWrappers',array('id'=>'post_id'),'through'=>'posts')
 		);
 	}
 
@@ -562,6 +566,10 @@ class UserWithWrappers extends CActiveRecord
 	{
 		parent::beforeFind();
 		$this->incrementCounter(__FUNCTION__);
+
+		if (self::$_beforeFindCriteria!==null) {
+			$this->getDbCriteria()->mergeWith(self::$_beforeFindCriteria);
+		}
 	}
 
 	protected function afterFind()
@@ -596,11 +604,18 @@ class UserWithWrappers extends CActiveRecord
 	{
 		self::$_counters=array();
 	}
+
+	public static function setBeforeFindCriteria($criteria)
+	{
+		self::$_beforeFindCriteria=(empty($criteria) ? null : $criteria);
+	}
 }
 
 class PostWithWrappers extends CActiveRecord
 {
 	private static $_counters=array();
+
+	private static $_beforeFindCriteria;
 
 	public static function model($class=__CLASS__)
 	{
@@ -632,12 +647,28 @@ class PostWithWrappers extends CActiveRecord
 	{
 		parent::beforeFind();
 		$this->incrementCounter(__FUNCTION__);
+
+		if (self::$_beforeFindCriteria!==null) {
+			$this->getDbCriteria()->mergeWith(self::$_beforeFindCriteria);
+		}
 	}
 
 	protected function afterFind()
 	{
 		parent::afterFind();
 		$this->incrementCounter(__FUNCTION__);
+	}
+
+	public function scopes()
+	{
+		return array(
+			'rename'=>array(
+				'select'=>"'renamed post' AS title",
+			),
+			'replaceContent' => array(
+				'select'=>"'replaced content' AS content",
+			),
+		);
 	}
 
 	protected function incrementCounter($wrapper)
@@ -665,6 +696,11 @@ class PostWithWrappers extends CActiveRecord
 	public static function clearCounters()
 	{
 		self::$_counters=array();
+	}
+
+	public static function setBeforeFindCriteria($criteria)
+	{
+		self::$_beforeFindCriteria=(empty($criteria) ? null : $criteria);
 	}
 }
 
@@ -727,5 +763,56 @@ class CommentWithWrappers extends CActiveRecord
 	public static function clearCounters()
 	{
 		self::$_counters=array();
+	}
+}
+
+class UserWithDefaultScope extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'UserWithDefaultScope';
+	}
+
+	public function defaultScope()
+	{
+		$alias=$this->getTableAlias(false,false);
+
+		return array(
+			'condition'=>"{$alias}.deleted IS NULL",
+			'order'=>"{$alias}.name ASC",
+		);
+	}
+
+	public function relations()
+	{
+		return array(
+			'links'=>array(self::HAS_MANY,'UserWithDefaultScopeLink','from_id'),
+		);
+	}
+}
+
+class UserWithDefaultScopeLink extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'UserWithDefaultScopeLink';
+	}
+
+	public function relations()
+	{
+		return array(
+			'from_user'=>array(self::BELONGS_TO,'UserWithDefaultScope','from_id'),
+			'to_user'=>array(self::BELONGS_TO,'UserWithDefaultScope','to_id'),
+		);
 	}
 }

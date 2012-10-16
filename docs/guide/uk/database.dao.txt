@@ -139,7 +139,7 @@ try
 }
 catch(Exception $e) // у разі помилки при виконанні запиту викидається виключення
 {
-	$transaction->rollBack();
+	$transaction->rollback();
 }
 ~~~
 
@@ -203,4 +203,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id$</div>

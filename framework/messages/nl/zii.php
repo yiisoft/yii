@@ -11,23 +11,25 @@
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
  *
- * NOTE, this file must be saved in UTF-8 encoding.
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
  *
- * @version $Id: $
+ * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
+  'The property updateSelector should be defined.' => 'Het updateSelector property moet gedefinieerd zijn.',
   'Are you sure you want to delete this item?' => 'Ben je zeker dat je dit item wil verwijderen?',
   'Delete' => 'Verwijderen',
   'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Getoond: {start}-{end} van 1 resultaat.|Getoond: {start}-{end} van {count} resultaten.',
-  'Either "name" or "value" must be specified for CDataColumn.' => 'Of "name" of "value" moet opgegeven worden voor CDataColumn',
+  'Either "name" or "value" must be specified for CDataColumn.' => 'Ofwel "name" of "value" moet opgegeven worden voor CDataColumn',
   'Home' => 'Thuis',
-  'No results found.' => 'Geen resultaten gevonden',
+  'No results found.' => 'Geen resultaten gevonden.',
   'Not set' => 'Niet opgegeven',
-  'Please specify the "attributes" property.' => 'Gelieve het "attributes" property op te geven',
-  'Please specify the "data" property.' => 'Gelieve het "data" property op te geven',
+  'Please specify the "attributes" property.' => 'Gelieve het "attributes" property op te geven.',
+  'Please specify the "data" property.' => 'Gelieve het "data" property op te geven.',
   'Sort by: ' => 'Sorteren volgens: ',
   'The "dataProvider" property cannot be empty.' => 'Het "dataProvider" property mag niet leeg zijn.',
-  'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Het formaat van het attribute moet "Name:Type:Label" zijn, "Type" en "Label" zijn optioneel.',
+  'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Het formaat van het attribuut moet "Name:Type:Label" zijn, "Type" en "Label" zijn optioneel.',
   'The button type "{type}" is not supported.' => 'Het button type "{type}" wordt niet ondersteund.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Het formaat van de kolom moet "Name:Type:Label" zijn, "Type" en "Label" zijn optioneel.',
   'The property "itemView" cannot be empty.' => 'Het "itemView" property mag niet leeg zijn.',

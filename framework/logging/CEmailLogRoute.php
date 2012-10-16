@@ -21,12 +21,17 @@
  * @property array $headers Additional headers to use when sending an email.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  * @since 1.0
  */
 class CEmailLogRoute extends CLogRoute
 {
+	/**
+	 * @var boolean set this property to true value in case log data you're going to send through emails contains
+	 * non-latin or UTF-8 characters. Emails would be UTF-8 encoded.
+	 * @since 1.1.13
+	 */
+	public $utf8=false;
 	/**
 	 * @var array list of destination email addresses.
 	 */
@@ -70,8 +75,26 @@ class CEmailLogRoute extends CLogRoute
 	protected function sendEmail($email,$subject,$message)
 	{
 		$headers=$this->getHeaders();
+		if($this->utf8)
+		{
+			$headers[]="MIME-Version: 1.0";
+			$headers[]="Content-type: text/plain; charset=UTF-8";
+			$subject='=?UTF-8?B?'.base64_encode($subject).'?=';
+		}
 		if(($from=$this->getSentFrom())!==null)
-			$headers[]="From: {$from}";
+		{
+			$matches=array();
+			preg_match_all('/([^<]*)<([^>]*)>/iu',$from,$matches);
+			if(isset($matches[1][0],$matches[2][0]))
+			{
+				$name=$this->utf8 ? '=?UTF-8?B?'.base64_encode(trim($matches[1][0])).'?=' : trim($matches[1][0]);
+				$from=trim($matches[2][0]);
+				$headers[]="From: {$name} <{$from}>";
+			}
+			else
+				$headers[]="From: {$from}";
+			$headers[]="Reply-To: {$from}";
+		}
 		mail($email,$subject,$message,implode("\r\n",$headers));
 	}
 

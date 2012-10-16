@@ -36,3 +36,4 @@ return array (
   'View' => 'Εμφάνιση',
   '{class} must specify "model" and "attribute" or "name" property values.' => 'Το {class} πρέπει να ορίζει τις ιδιότητες "model" και "attribute" ή "name".',
 );
+

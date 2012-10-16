@@ -41,7 +41,6 @@
  * so that the provider knows which columns can be sorted.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.1.4
  */
@@ -58,6 +57,13 @@ class CArrayDataProvider extends CDataProvider
 	 * The array elements must use zero-based integer keys.
 	 */
 	public $rawData=array();
+	/**
+	 * @var boolean controls how sorting works. True value means that case will be
+	 * taken into account. False value will lead to the case insensitive sort. Default
+	 * value is true.
+	 * @since 1.1.13
+	 */
+	public $caseSensitiveSort=true;
 
 	/**
 	 * Constructor.
@@ -127,8 +133,9 @@ class CArrayDataProvider extends CDataProvider
 		foreach($directions as $name=>$descending)
 		{
 			$column=array();
+			$fields_array=preg_split('/\.+/',$name,-1,PREG_SPLIT_NO_EMPTY);
 			foreach($this->rawData as $index=>$data)
-				$column[$index]=is_object($data) ? $data->$name : $data[$name];
+				$column[$index]=$this->getSortingFieldValue($data, $fields_array);
 			$args[]=&$column;
 			$dummy[]=&$column;
 			unset($column);
@@ -139,6 +146,27 @@ class CArrayDataProvider extends CDataProvider
 		}
 		$args[]=&$this->rawData;
 		call_user_func_array('array_multisort', $args);
+	}
+
+	/**
+	 * Get field for sorting, using dot like delimiter in query.
+	 * @param mixed $data array or object
+	 * @param array $fields sorting fields in $data
+	 * @return mixed $data sorting field value
+	 */
+	protected function getSortingFieldValue($data, $fields)
+	{
+		if(is_object($data))
+		{
+			foreach($fields as $field)
+				$data=isset($data->$field) ? $data->$field : null;
+		}
+		else
+		{
+			foreach($fields as $field)
+				$data=isset($data[$field]) ? $data[$field] : null;
+		}
+		return $this->caseSensitiveSort ? $data : mb_strtolower($data,Yii::app()->charset);
 	}
 
 	/**

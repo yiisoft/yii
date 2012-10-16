@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'The button type "{type}" is not supported.' => 'O botão do tipo "{type} não é suportado"',

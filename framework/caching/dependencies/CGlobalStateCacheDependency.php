@@ -17,7 +17,6 @@
  * set {@link stateName} to the name of the global state.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching.dependencies
  * @since 1.0
  */

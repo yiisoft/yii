@@ -7,8 +7,8 @@
 CREATE TABLE users
 (
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	username VARCHAR(128) NOT NULL,
-	password VARCHAR(128) NOT NULL,
+	username VARCHAR(128) NOT NULL COMMENT 'Name of the user',
+	password VARCHAR(128) NOT NULL COMMENT 'Hashed password',
 	email VARCHAR(128) NOT NULL
 ) ENGINE=InnoDB;
 

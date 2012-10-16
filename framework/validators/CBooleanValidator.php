@@ -21,7 +21,6 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  */
 class CBooleanValidator extends CValidator
@@ -85,7 +84,7 @@ class CBooleanValidator extends CValidator
 			'{false}'=>$this->falseValue,
 		));
 		return "
-if(".($this->allowEmpty ? "$.trim(value)!='' && " : '')."value!=".CJSON::encode($this->trueValue)." && value!=".CJSON::encode($this->falseValue).") {
+if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '')."value!=".CJSON::encode($this->trueValue)." && value!=".CJSON::encode($this->falseValue).") {
 	messages.push(".CJSON::encode($message).");
 }
 ";

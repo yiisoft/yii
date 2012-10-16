@@ -571,13 +571,13 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 каждого пользователя в этом случае явно неудобно. Для решения этой проблемы можно
 использовать *роли по умолчанию*.
 
-Роль по умолчанию автоматически назначается каждому пользователю, включая гостей.
+Роль по умолчанию автоматически назначается каждому пользователю.
 При вызове [CWebUser::checkAccess] сначала проверяются роли по умолчанию. Назначать
 их явно не требуется.
 
 Роли по умолчанию описываются в свойстве [CAuthManager::defaultRoles].
 К примеру, приведённая ниже конфигурация описывает две роли по умолчанию:
-`authenticated` и `guest`.
+`authenticated` и `admin`.
 
 ~~~
 [php]
@@ -585,7 +585,7 @@ return array(
 	'components'=>array(
 		'authManager'=>array(
 			'class'=>'CDbAuthManager',
-			'defaultRoles'=>array('authenticated', 'guest'),
+			'defaultRoles'=>array('authenticated', 'admin'),
 		),
 	),
 );
@@ -593,16 +593,23 @@ return array(
 
 Так как роль по умолчанию назначается каждому пользователю, обычно требуется
 использовать бизнес-правило, определяющее, к каким именно пользователям её применять.
-К примеру, следующий код определяет две роли: `authenticated` и `guest`,
-которые соответственно применяются к аутентифицированным пользователям и гостям.
+К примеру, следующий код определяет две роли: `authenticated` и `admin`,
+которые соответственно применяются к аутентифицированным пользователям и пользователям
+с именем `admin`.
 
 ~~~
 [php]
-$bizRule='return !Yii::app()->user->isGuest;';
-$auth->createRole('authenticated', 'аутентифицированный пользователь', $bizRule);
+$bizRule='return Yii::app()->user->name === "admin";';
+$auth->createRole('admin', 'администратор', $bizRule);
 
 $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'гость', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+> Info|Информация: Начиная с версии 1.1.11 массив `$params`, передаваемый в
+> бизнес-правило, всегда содежит ключ `userId` с id пользвателя, для которого проверяется
+> правило. Это особенно удобно при использовании [CDbAuthManager::checkAccess()]
+> или [CPhpAuthManager::checkAccess()] когда `Yii::app()->user` не
+> является пользователем, которого вы проверяете.
+
+<div class="revision">$Id$</div>

@@ -34,6 +34,8 @@
  *   'users'=>array('thomas', 'kevin'),
  *   // optional, list of roles (case sensitive!) that this rule applies to.
  *   'roles'=>array('admin', 'editor'),
+ *   // since version 1.1.11 you can pass parameters for RBAC bizRules
+ *   'roles'=>array('updateTopic'=>array('topic'=>$topic))
  *   // optional, list of IP address/patterns that this rule applies to
  *   // e.g. 127.0.0.1, 127.0.0.*
  *   'ips'=>array('127.0.0.1'),
@@ -58,7 +60,6 @@
  * @property array $rules List of access rules.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -123,7 +124,7 @@ class CAccessControlFilter extends CFilter
 		{
 			if(($allow=$rule->isUserAllowed($user,$filterChain->controller,$filterChain->action,$ip,$verb))>0) // allowed
 				break;
-			else if($allow<0) // denied
+			elseif($allow<0) // denied
 			{
 				if(isset($rule->deniedCallback))
 					call_user_func($rule->deniedCallback, $rule);
@@ -148,7 +149,7 @@ class CAccessControlFilter extends CFilter
 	{
 		if($rule->message!==null)
 			return $rule->message;
-		else if($this->message!==null)
+		elseif($this->message!==null)
 			return $this->message;
 		else
 			return Yii::t('yii','You are not authorized to perform this action.');
@@ -174,7 +175,6 @@ class CAccessControlFilter extends CFilter
  * CAccessRule represents an access rule that is managed by {@link CAccessControlFilter}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -303,11 +303,11 @@ class CAccessRule extends CComponent
 		{
 			if($u==='*')
 				return true;
-			else if($u==='?' && $user->getIsGuest())
+			elseif($u==='?' && $user->getIsGuest())
 				return true;
-			else if($u==='@' && !$user->getIsGuest())
+			elseif($u==='@' && !$user->getIsGuest())
 				return true;
-			else if(!strcasecmp($u,$user->getName()))
+			elseif(!strcasecmp($u,$user->getName()))
 				return true;
 		}
 		return false;
@@ -321,10 +321,18 @@ class CAccessRule extends CComponent
 	{
 		if(empty($this->roles))
 			return true;
-		foreach($this->roles as $role)
+		foreach($this->roles as $key=>$role)
 		{
-			if($user->checkAccess($role))
-				return true;
+			if(is_numeric($key))
+			{
+				if($user->checkAccess($role))
+					return true;
+			}
+			else
+			{
+				if($user->checkAccess($key,$role))
+					return true;
+			}
 		}
 		return false;
 	}
