@@ -190,7 +190,7 @@ class ModelCode extends CCodeModel
 	{
         if (Yii::app()->{$this->connectionId}->schemaCachingDuration!==0)
             Yii::app()->{$this->connectionId}->schema->refresh();
-		return Yii::app()->{$this->connectionId}->getSchema()->getTable($tableName);
+        return Yii::app()->{$this->connectionId}->getSchema()->getTable($tableName);
 	}
 
 	public function generateLabels($table)
