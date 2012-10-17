@@ -188,6 +188,8 @@ class ModelCode extends CCodeModel
 
 	public function getTableSchema($tableName)
 	{
+        if (Yii::app()->{$this->connectionId}->schemaCachingDuration!==0)
+            Yii::app()->{$this->connectionId}->schema->refresh();
 		return Yii::app()->{$this->connectionId}->getSchema()->getTable($tableName);
 	}
 
