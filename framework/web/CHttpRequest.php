@@ -24,6 +24,7 @@
  * @property string $url Part of the request URL after the host info.
  * @property string $hostInfo Schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yiiframework.com).
  * @property string $baseUrl The relative URL for the application.
+ * @property string $urlSuffix URL suffix used for matched routing rule 
  * @property string $scriptUrl The relative URL of the entry script.
  * @property string $pathInfo Part of the request URL that is after the entry script and before the question mark.
  * Note, the returned pathinfo is decoded starting from 1.1.4.
@@ -91,6 +92,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_scriptUrl;
 	private $_hostInfo;
 	private $_baseUrl;
+	private $_urlSuffix;
 	private $_cookies;
 	private $_preferredLanguage;
 	private $_csrfToken;
@@ -361,6 +363,24 @@ class CHttpRequest extends CApplicationComponent
 	public function setBaseUrl($value)
 	{
 		$this->_baseUrl=$value;
+	}
+
+	/**
+	 * Gets the URL suffix used for matched rule.
+	 * @return string
+	 */
+	public function getUrlSuffix()
+	{
+	    return $this->_urlSuffix;
+	}
+
+	/**
+	 * Sets the URL suffix used for matched rule.
+	 * @param string $value URL suffix
+	 */
+	public function setUrlSuffix($value)
+	{
+	    $this->_urlSuffix = $value;
 	}
 
 	/**

@@ -821,7 +821,8 @@ class CUrlRule extends CBaseUrlRule
 
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
-			foreach($this->defaultParams as $name=>$value)
+		    Yii::app()->getRequest()->urlSuffix = $this->urlSuffix;
+		    foreach($this->defaultParams as $name=>$value)
 			{
 				if(!isset($_GET[$name]))
 					$_REQUEST[$name]=$_GET[$name]=$value;
