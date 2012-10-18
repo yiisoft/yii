@@ -771,6 +771,10 @@ class CHtml
 	 * </pre>
 	 * </li>
 	 * </ul>
+	 * Since version 1.1.13, a special option named 'unselectValue' is available that can be used to specify
+	 * the value returned when the option is not selected in multiple mode. When set, a hidden field is
+	 * rendered so that when the option is not selected in multiple mode, we can still obtain the posted
+	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see inputField
@@ -1556,6 +1560,11 @@ EOD;
 	 * </pre>
 	 * </li>
 	 * </ul>
+	 * Since 1.1.13, a special option named 'unselectValue' is available that can be used to specify
+	 * the value returned when the option is not selected in multiple mode. By default, this value is ''.
+	 * Internally, a hidden field is rendered so that when the option is not selected in multiple mode,
+	 * we can still obtain the posted unselect value.
+	 * If 'unselectValue' is set as NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see listData
