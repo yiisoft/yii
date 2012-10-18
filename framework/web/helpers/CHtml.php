@@ -1569,8 +1569,22 @@ EOD;
 		{
 			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
+
+			if(array_key_exists('unselectValue',$htmlOptions))
+			{
+				$unselect=$htmlOptions['unselectValue'];
+				unset($htmlOptions['unselectValue']);
+			}
+			else
+				$unselect='';
+
+			$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+			$hidden=$unselect!==null ? self::hiddenField($htmlOptions['name'],$unselect,$hiddenOptions) : '';
 		}
-		return self::tag('select',$htmlOptions,$options);
+		else
+			$hidden='';
+
+		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
 
 	/**
