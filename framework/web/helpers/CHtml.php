@@ -787,6 +787,9 @@ class CHtml
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		if(isset($htmlOptions['multiple']))
 		{
+			if(substr($htmlOptions['name'],-2)!=='[]')
+				$htmlOptions['name'].='[]';
+
 			if(array_key_exists('unselectValue',$htmlOptions))
 			{
 				$unselect=$htmlOptions['unselectValue'];
@@ -802,7 +805,7 @@ class CHtml
 					$unselectOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 				else
 					$unselectOptions=array('id'=>false);
-				$hidden=self::hiddenField($name,$unselect,$unselectOptions);
+				$hidden=self::hiddenField($htmlOptions['name'],$unselect,$unselectOptions);
 			}
 			else
 				$hidden='';
