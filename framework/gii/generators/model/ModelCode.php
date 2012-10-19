@@ -189,10 +189,7 @@ class ModelCode extends CCodeModel
 	public function getTableSchema($tableName)
 	{
 		$connection=Yii::app()->{$this->connectionId};
-		if ($connection->schemaCachingDuration!==0)
-			return $connection->getSchema()->getTable($tableName, true);
-		else
-			return $connection->getSchema()->getTable($tableName);
+		return $connection->getSchema()->getTable($tableName, $connection->schemaCachingDuration!==0);
 	}
 
 	public function generateLabels($table)
