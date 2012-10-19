@@ -12,7 +12,6 @@
  * CInlineValidator represents a validator which is defined as a method in the object being validated.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */

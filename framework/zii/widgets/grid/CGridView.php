@@ -77,7 +77,6 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  * @property CFormatter $formatter The formatter instance. Defaults to the 'format' application component.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -316,7 +315,7 @@ class CGridView extends CBaseListView
 		{
 			if($this->dataProvider instanceof CActiveDataProvider)
 				$this->columns=$this->dataProvider->model->attributeNames();
-			else if($this->dataProvider instanceof IDataProvider)
+			elseif($this->dataProvider instanceof IDataProvider)
 			{
 				// use the keys of the first row of data as the default columns
 				$data=$this->dataProvider->getData();
@@ -393,48 +392,14 @@ class CGridView extends CBaseListView
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->enablePagination)
 			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
-		if($this->beforeAjaxUpdate!==null)
+		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError', 'selectionChanged') as $event)
 		{
-			if((!$this->beforeAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->beforeAjaxUpdate,'js:')!==0)
+			if($this->$event!==null)
 			{
-				$options['beforeAjaxUpdate']=new CJavaScriptExpression($this->beforeAjaxUpdate);
-			}
-			else
-			{
-				$options['beforeAjaxUpdate']=$this->beforeAjaxUpdate;
-			}
-		}
-		if($this->afterAjaxUpdate!==null)
-		{
-			if((!$this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate,'js:')!==0)
-			{
-				$options['afterAjaxUpdate']=new CJavaScriptExpression($this->afterAjaxUpdate);
-			}
-			else
-			{
-				$options['afterAjaxUpdate']=$this->afterAjaxUpdate;
-			}
-		}
-		if($this->ajaxUpdateError!==null)
-		{
-			if((!$this->ajaxUpdateError instanceof CJavaScriptExpression) && strpos($this->ajaxUpdateError,'js:')!==0)
-			{
-				$options['ajaxUpdateError']=new CJavaScriptExpression($this->ajaxUpdateError);
-			}
-			else
-			{
-				$options['ajaxUpdateError']=$this->ajaxUpdateError;
-			}
-		}
-		if($this->selectionChanged!==null)
-		{
-			if((!$this->ajaxUpdateError instanceof CJavaScriptExpression) && strpos($this->selectionChanged,'js:')!==0)
-			{
-				$options['selectionChanged']=new CJavaScriptExpression($this->selectionChanged);
-			}
-			else
-			{
-				$options['selectionChanged']=$this->selectionChanged;
+				if($this->$event instanceof CJavaScriptExpression)
+					$options[$event]=$this->$event;
+				else
+					$options[$event]=new CJavaScriptExpression($this->$event);
 			}
 		}
 
@@ -490,7 +455,7 @@ class CGridView extends CBaseListView
 
 			echo "</thead>\n";
 		}
-		else if($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
+		elseif($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
 		{
 			echo "<thead>\n";
 			$this->renderFilter();
@@ -568,12 +533,14 @@ class CGridView extends CBaseListView
 		if($this->rowCssClassExpression!==null)
 		{
 			$data=$this->dataProvider->data[$row];
-			echo '<tr class="'.$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data)).'">';
+			$class=$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data));
 		}
-		else if(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
-			echo '<tr class="'.$this->rowCssClass[$row%$n].'">';
+		elseif(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
+			$class=$this->rowCssClass[$row%$n];
 		else
-			echo '<tr>';
+			$class='';
+
+		echo empty($class) ? '<tr>' : '<tr class="'.$class.'">';
 		foreach($this->columns as $column)
 			$column->renderDataCell($row);
 		echo "</tr>\n";

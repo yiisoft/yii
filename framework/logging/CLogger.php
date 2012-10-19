@@ -26,7 +26,6 @@
  * @property array $profilingResults The profiling results.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  * @since 1.0
  */
@@ -70,6 +69,10 @@ class CLogger extends CComponent
 	 * @var array log categories for filtering (used when filtering)
 	 */
 	private $_categories;
+	/**
+	 * @var array log categories for excluding from filtering (used when filtering)
+	 */
+	private $_except=array();
 	/**
 	 * @var array the profiling results (category, token => time in seconds)
 	 */
@@ -126,21 +129,29 @@ class CLogger extends CComponent
 	 *   [2] => category (string)
 	 *   [3] => timestamp (float, obtained by microtime(true));
 	 */
-	public function getLogs($levels='',$categories='')
+	public function getLogs($levels='',$categories=array(), $except=array())
 	{
 		$this->_levels=preg_split('/[\s,]+/',strtolower($levels),-1,PREG_SPLIT_NO_EMPTY);
-		$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
-		if(empty($levels) && empty($categories))
-			return $this->_logs;
-		else if(empty($levels))
-			return array_values(array_filter($this->_logs,array($this,'filterByCategory')));
-		else if(empty($categories))
-			return array_values(array_filter($this->_logs,array($this,'filterByLevel')));
+
+		if (is_string($categories))
+			$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
 		else
-		{
-			$ret=array_filter($this->_logs,array($this,'filterByLevel'));
-			return array_values(array_filter($ret,array($this,'filterByCategory')));
-		}
+			$this->_categories=array_filter(array_map('strtolower',$categories));
+
+		if (is_string($except))
+			$this->_except=preg_split('/[\s,]+/',strtolower($except),-1,PREG_SPLIT_NO_EMPTY);
+		else
+			$this->_except=array_filter(array_map('strtolower',$except));
+
+		$ret=$this->_logs;
+
+		if(!empty($levels))
+			$ret=array_values(array_filter($ret,array($this,'filterByLevel')));
+
+		if(!empty($this->_categories) || !empty($this->_except))
+			$ret=array_values(array_filter($ret,array($this,'filterByCategory')));
+
+		return $ret;
 	}
 
 	/**
@@ -150,13 +161,7 @@ class CLogger extends CComponent
 	 */
 	private function filterByCategory($value)
 	{
-		foreach($this->_categories as $category)
-		{
-			$cat=strtolower($value[2]);
-			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				return true;
-		}
-		return false;
+		return $this->filterAllCategories($value, 2);
 	}
 
 	/**
@@ -166,13 +171,33 @@ class CLogger extends CComponent
 	 */
 	private function filterTimingByCategory($value)
 	{
+		return $this->filterAllCategories($value, 1);
+	}
+
+	/**
+	 * Filter function used to filter included and excluded categories
+	 * @param array $value element to be filtered
+	 * @param integer index of the values array to be used for check
+	 * @return boolean true if valid timing entry, false if not.
+	 */
+	private function filterAllCategories($value, $index)
+	{
+		$cat=strtolower($value[$index]);
+		$ret=empty($this->_categories);
 		foreach($this->_categories as $category)
 		{
-			$cat=strtolower($value[1]);
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				return true;
+				$ret=true;
 		}
-		return false;
+		if($ret)
+		{
+			foreach($this->_except as $category)
+			{
+				if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
+					$ret=false;
+			}
+		}
+		return $ret;
 	}
 
 	/**
@@ -234,7 +259,7 @@ class CLogger extends CComponent
 	 * If no filter is specified, the returned results would be an array with each element
 	 * being array($token,$category,$time).
 	 * If a filter is specified, the results would be an array of timings.
-	 * 
+	 *
 	 * Since 1.1.11, filtering results by category supports the same format used for filtering logs in
 	 * {@link getLogs}, and similarly supports filtering by multiple categories and wildcard.
 	 * @param string $token token filter. Defaults to null, meaning not filtered by token.
@@ -280,7 +305,7 @@ class CLogger extends CComponent
 				$log[0]=substr($message,6);
 				$stack[]=$log;
 			}
-			else if(!strncasecmp($message,'end:',4))
+			elseif(!strncasecmp($message,'end:',4))
 			{
 				$token=substr($message,4);
 				if(($last=array_pop($stack))!==null && $last[0]===$token)

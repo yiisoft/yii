@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.11';
+		return '1.1.12';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -837,7 +837,7 @@ class CComponent
 	}
 	public function evaluateExpression($_expression_,$_data_=array())
 	{
-		if(is_string($_expression_) && !function_exists($_expression_))
+		if(is_string($_expression_))
 		{
 			extract($_data_);
 			return eval('return '.$_expression_.';');
@@ -2683,24 +2683,14 @@ class CCookieCollection extends CMap
 		}
 		return $cookies;
 	}
-	public function add($name,$cookie=null)
+	public function add($name,$cookie)
 	{
-		if($name instanceof CHttpCookie)
+		if($cookie instanceof CHttpCookie)
 		{
-			$cookieName=$name->name;
-			$cookieObject=$name;
-		}
-		else
-		{
-			$cookieName=(string)$name;
-			$cookieObject=$cookie;
-		}
-		if($cookieObject instanceof CHttpCookie)
-		{
-			$this->remove($cookieName);
-			parent::add($cookieName,$cookieObject);
+			$this->remove($name);
+			parent::add($name,$cookie);
 			if($this->_initialized)
-				$this->addCookie($cookieObject);
+				$this->addCookie($cookie);
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
@@ -2776,7 +2766,7 @@ class CUrlManager extends CApplicationComponent
 		if(isset($cache))
 			$cache->set(self::CACHE_KEY,array($this->_rules,$hash));
 	}
-	public function addRules($rules, $append=true)
+	public function addRules($rules,$append=true)
 	{
 		if ($append)
 		{
@@ -2785,6 +2775,7 @@ class CUrlManager extends CApplicationComponent
 		}
 		else
 		{
+			$rules=array_reverse($rules);
 			foreach($rules as $pattern=>$route)
 				array_unshift($this->_rules, $this->createUrlRule($route,$pattern));
 		}
@@ -4894,7 +4885,7 @@ EOD;
 			$options['data']=new CJavaScriptExpression('jQuery(this).parents("form").serialize()');
 		foreach(array('beforeSend','complete','error','success') as $name)
 		{
-			if(isset($options[$name]) && (!($options[$name] instanceof CJavaScriptExpression) || strpos($options[$name],'js:')!==0))
+			if(isset($options[$name]) && !($options[$name] instanceof CJavaScriptExpression))
 				$options[$name]=new CJavaScriptExpression($options[$name]);
 		}
 		if(isset($options['update']))
@@ -5414,8 +5405,8 @@ EOD;
 		{
 			if($pos===0) // [a]name[b][c], should ignore [a]
 			{
-				if(preg_match('/\](.*)/',$attribute,$matches))
-					$attribute=$matches[1];
+				if(preg_match('/\](\w+(\[.+)?)/',$attribute,$matches))
+					$attribute=$matches[1]; // we get: name[b][c]
 				if(($pos=strpos($attribute,'['))===false)
 					return $model->$attribute;
 			}
@@ -6886,9 +6877,12 @@ abstract class CActiveRecord extends CModel
 	{
 		return array();
 	}
-	public function resetScope()
+	public function resetScope($resetDefault=true)
 	{
-		$this->_c=new CDbCriteria();
+		if($resetDefault)
+			$this->_c=new CDbCriteria();
+		else
+			$this->_c=null;
 		return $this;
 	}
 	public static function model($className=__CLASS__)
@@ -7360,7 +7354,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
-			$this->_c=null;
+			$this->resetScope(false);
 		}
 	}
 	public function getTableAlias($quote=false, $checkScopes=true)
@@ -7414,7 +7408,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
-			$this->_c=null;
+			$this->resetScope(false);
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findBySql($sql,$params);
 		}
@@ -7429,7 +7423,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
-			$this->_c=null;
+			$this->resetScope(false);
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findAllBySql($sql,$params);
 		}
@@ -7754,6 +7748,28 @@ class CHasManyRelation extends CActiveRelation
 }
 class CManyManyRelation extends CHasManyRelation
 {
+	private $_junctionTableName=null;
+	private $_junctionForeignKeys=null;
+	public function getJunctionTableName()
+	{
+		if ($this->_junctionTableName===null)
+			$this->initJunctionData();
+		return $this->_junctionTableName;
+	}
+	public function getJunctionForeignKeys()
+	{
+		if ($this->_junctionForeignKeys===null)
+			$this->initJunctionData();
+		return $this->_junctionForeignKeys;
+	}
+	private function initJunctionData()
+	{
+		if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
+			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+				array('{class}'=>$this->className,'{relation}'=>$this->name)));
+		$this->_junctionTableName=$matches[1];
+		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+	}
 }
 class CActiveRecordMetaData
 {

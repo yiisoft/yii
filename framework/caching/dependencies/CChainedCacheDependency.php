@@ -22,7 +22,6 @@
  * @property boolean $hasChanged Whether the dependency is changed or not.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching.dependencies
  * @since 1.0
  */

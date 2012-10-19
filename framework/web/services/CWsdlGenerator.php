@@ -76,7 +76,6 @@
  * a primitive type, CWsdlGenerator will look further to find the definition of 'Member'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.services
  * @since 1.0
  */
@@ -109,7 +108,7 @@ class CWsdlGenerator extends CComponent
 		'object'=>'xsd:struct',
 		'mixed'=>'xsd:anyType',
 	);
-	
+
 	private $_operations;
 	private $_types;
 	private $_messages;
@@ -183,9 +182,9 @@ class CWsdlGenerator extends CComponent
 	{
 		if(isset(self::$typeMap[$type]))
 			return self::$typeMap[$type];
-		else if(isset($this->_types[$type]))
+		elseif(isset($this->_types[$type]))
 			return is_array($this->_types[$type]) ? 'tns:'.$type : $this->_types[$type];
-		else if(($pos=strpos($type,'[]'))!==false) // if it is an array
+		elseif(($pos=strpos($type,'[]'))!==false) // if it is an array
 		{
 			$type=substr($type,0,$pos);
 			$this->_types[$type.'[]']='tns:'.$type.'Array';
@@ -264,17 +263,17 @@ class CWsdlGenerator extends CComponent
 				$attribute=$dom->createElement('xsd:attribute');
 				$attribute->setAttribute('ref','soap-enc:arrayType');
 				$attribute->setAttribute('wsdl:arrayType',substr($xmlType,0,strlen($xmlType)-5).'[]');
-				
+
 				$arrayType = ($dppos=strpos($xmlType,':')) !==false ? substr($xmlType,$dppos + 1) : $xmlType; // strip namespace, if any
 				$arrayType = substr($arrayType,0,-5); // strip 'Array' from name
-				$arrayType = (isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]'; 
+				$arrayType = (isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]';
 				$attribute->setAttribute('wsdl:arrayType',$arrayType);
-				
+
 				$restriction->appendChild($attribute);
 				$complexContent->appendChild($restriction);
 				$complexType->appendChild($complexContent);
 			}
-			else if(is_array($xmlType))
+			elseif(is_array($xmlType))
 			{
 				$complexType->setAttribute('name',$phpType);
 				$all=$dom->createElement('xsd:all');

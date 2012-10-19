@@ -17,7 +17,6 @@
  * (see {@link http://digitalbush.com/projects/masked-input-plugin}).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */
@@ -101,13 +100,15 @@ class CMaskedTextField extends CInputWidget
 		$options=array();
 		if($this->placeholder!==null)
 			$options['placeholder']=$this->placeholder;
-		if(is_string($this->completed))
+
+		if($this->completed!==null)
 		{
-			if(!($this->completed instanceof CJavaScriptExpression) && strncmp($this->completed,'js:',3))
-				$options['completed']=new CJavaScriptExpression($this->completed);
-			else
+			if($this->completed instanceof CJavaScriptExpression)
 				$options['completed']=$this->completed;
+			else
+				$options['completed']=new CJavaScriptExpression($this->completed);
 		}
+
 		return $options;
 	}
 }

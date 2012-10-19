@@ -28,7 +28,6 @@
  * a verification code matching the code displayed in the CAPTCHA image.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets.captcha
  * @since 1.0
  */
@@ -114,6 +113,8 @@ class CCaptcha extends CWidget
 		$js="";
 		if($this->showRefreshButton)
 		{
+			// reserve a place in the registered script so that any enclosing button js code appears after the captcha js
+			$cs->registerScript('Yii.CCaptcha#'.$id,'// dummy');
 			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
 			$options=$this->buttonOptions;
 			if(isset($options['id']))

@@ -76,4 +76,4 @@ public function testApprove()
 ~~~
 
 
-<div class="revision">$Id: test.unit.txt 2841 2011-01-12 21:04:12Z alexander.makarow $</div>
+<div class="revision">$Id$</div>

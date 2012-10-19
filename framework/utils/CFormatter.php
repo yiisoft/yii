@@ -42,7 +42,6 @@
  * @property CHtmlPurifier $htmlPurifier The HTML purifier instance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.utils
  * @since 1.1.0
  */
@@ -165,7 +164,7 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatDate($value)
 	{
-		return date($this->dateFormat,$value);
+		return date($this->dateFormat,$this->normalizeDateValue($value));
 	}
 
 	/**
@@ -176,7 +175,7 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatTime($value)
 	{
-		return date($this->timeFormat,$value);
+		return date($this->timeFormat,$this->normalizeDateValue($value));
 	}
 
 	/**
@@ -187,7 +186,19 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatDatetime($value)
 	{
-		return date($this->datetimeFormat,$value);
+		return date($this->datetimeFormat,$this->normalizeDateValue($value));
+	}
+
+	private function normalizeDateValue($time)
+	{
+		if(is_string($time))
+		{
+			if(ctype_digit($time) || ($time{0}=='-' && ctype_digit(substr($time, 1))))
+				return (int)$time;
+			else
+				return strtotime($time);
+		}
+		return (int)$time;
 	}
 
 	/**
@@ -261,6 +272,7 @@ class CFormatter extends CApplicationComponent
 	 * @param boolean $verbose if full names should be used (e.g. Bytes, KiloBytes, ...).
 	 * Defaults to false meaning that short names will be used (e.g. B, KB, ...).
 	 * @return string the formatted result
+	 * @since 1.1.11
 	 */
 	public function formatSize($value,$verbose=false)
 	{

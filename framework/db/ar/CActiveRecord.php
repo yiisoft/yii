@@ -34,7 +34,6 @@
  * @property string $tableAlias The default table alias.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -134,11 +133,11 @@ abstract class CActiveRecord extends CModel
 	{
 		if(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
-		else if(isset($this->getMetaData()->columns[$name]))
+		elseif(isset($this->getMetaData()->columns[$name]))
 			return null;
-		else if(isset($this->_related[$name]))
+		elseif(isset($this->_related[$name]))
 			return $this->_related[$name];
-		else if(isset($this->getMetaData()->relations[$name]))
+		elseif(isset($this->getMetaData()->relations[$name]))
 			return $this->getRelated($name);
 		else
 			return parent::__get($name);
@@ -172,11 +171,11 @@ abstract class CActiveRecord extends CModel
 	{
 		if(isset($this->_attributes[$name]))
 			return true;
-		else if(isset($this->getMetaData()->columns[$name]))
+		elseif(isset($this->getMetaData()->columns[$name]))
 			return false;
-		else if(isset($this->_related[$name]))
+		elseif(isset($this->_related[$name]))
 			return true;
-		else if(isset($this->getMetaData()->relations[$name]))
+		elseif(isset($this->getMetaData()->relations[$name]))
 			return $this->getRelated($name)!==null;
 		else
 			return parent::__isset($name);
@@ -192,7 +191,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(isset($this->getMetaData()->columns[$name]))
 			unset($this->_attributes[$name]);
-		else if(isset($this->getMetaData()->relations[$name]))
+		elseif(isset($this->getMetaData()->relations[$name]))
 			unset($this->_related[$name]);
 		else
 			parent::__unset($name);
@@ -276,7 +275,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if($relation instanceof CHasManyRelation)
 				$this->_related[$name]=array();
-			else if($relation instanceof CStatRelation)
+			elseif($relation instanceof CStatRelation)
 				$this->_related[$name]=$relation->defaultValue;
 			else
 				$this->_related[$name]=null;
@@ -462,13 +461,13 @@ abstract class CActiveRecord extends CModel
 	 *
 	 * Each kind of related objects is defined in this method as an array with the following elements:
 	 * <pre>
-	 * 'varName'=>array('relationType', 'className', 'foreign_key', ...additional options)
+	 * 'varName'=>array('relationType', 'className', 'foreignKey', ...additional options)
 	 * </pre>
 	 * where 'varName' refers to the name of the variable/property that the related object(s) can
 	 * be accessed through; 'relationType' refers to the type of the relation, which can be one of the
 	 * following four constants: self::BELONGS_TO, self::HAS_ONE, self::HAS_MANY and self::MANY_MANY;
 	 * 'className' refers to the name of the active record class that the related object(s) is of;
-	 * and 'foreign_key' states the foreign key that relates the two kinds of active record.
+	 * and 'foreignKey' states the foreign key that relates the two kinds of active record.
 	 * Note, for composite foreign keys, they can be either listed together, separated by commas or specified as an array
 	 * in format of array('key1','key2'). In case you need to specify custom PK->FK association you can define it as
 	 * array('fk'=>'pk'). For composite keys it will be array('fk_c1'=>'pk_с1','fk_c2'=>'pk_c2').
@@ -590,7 +589,7 @@ abstract class CActiveRecord extends CModel
 		$labels=$this->attributeLabels();
 		if(isset($labels[$attribute]))
 			return $labels[$attribute];
-		else if(strpos($attribute,'.')!==false)
+		elseif(strpos($attribute,'.')!==false)
 		{
 			$segs=explode('.',$attribute);
 			$name=array_pop($segs);
@@ -682,7 +681,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(property_exists($this,$name))
 			return $this->$name;
-		else if(isset($this->_attributes[$name]))
+		elseif(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
 	}
 
@@ -698,7 +697,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(property_exists($this,$name))
 			$this->$name=$value;
-		else if(isset($this->getMetaData()->columns[$name]))
+		elseif(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
 		else
 			return false;
@@ -728,7 +727,7 @@ abstract class CActiveRecord extends CModel
 					$this->_related[$name][$index]=$record;
 			}
 		}
-		else if(!isset($this->_related[$name]))
+		elseif(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
 	}
 
@@ -748,7 +747,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($names===true && !isset($attributes[$name]))
+			elseif($names===true && !isset($attributes[$name]))
 				$attributes[$name]=null;
 		}
 		if(is_array($names))
@@ -860,10 +859,15 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This event is raised before an AR finder performs a find call.
-	 * In this event, the {@link CModelEvent::criteria} property contains the query criteria
-	 * passed as parameters to those find methods. If you want to access
-	 * the query criteria specified in scopes, please use {@link getDbCriteria()}.
-	 * You can modify either criteria to customize them based on needs.
+	 * This can be either a call to CActiveRecords find methods or a find call
+	 * when model is loaded in relational context via lazy or eager loading.
+	 * If you want to access or modify the query criteria used for the
+	 * find call, you can use {@link getDbCriteria()} to customize it based on your needs.
+	 * When modifying criteria in beforeFind you have to make sure you are using the right
+	 * table alias which is different on normal find and relational call.
+	 * You can use {@link getTableAlias()} to get the alias used for the upcoming find call.
+	 * Please note that modification of criteria is fully supported as of version 1.1.13.
+	 * Earlier versions had some problems with relational context and applying changes correctly.
 	 * @param CModelEvent $event the event parameter
 	 * @see beforeFind
 	 */
@@ -948,10 +952,12 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * This method is invoked before an AR finder executes a find call.
 	 * The find calls include {@link find}, {@link findAll}, {@link findByPk},
-	 * {@link findAllByPk}, {@link findByAttributes} and {@link findAllByAttributes}.
+	 * {@link findAllByPk}, {@link findByAttributes}, {@link findAllByAttributes},
+	 * {@link findBySql} and {@link findAllBySql}.
 	 * The default implementation raises the {@link onBeforeFind} event.
 	 * If you override this method, make sure you call the parent implementation
 	 * so that the event is raised properly.
+	 * For details on modifying query criteria see {@link onBeforeFind} event.
 	 */
 	protected function beforeFind()
 	{
@@ -1002,7 +1008,7 @@ abstract class CActiveRecord extends CModel
 	 * @param array $attributes list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the attributes are valid and the record is inserted successfully.
-	 * @throws CException if the record is not new
+	 * @throws CDbException if the record is not new
 	 */
 	public function insert($attributes=null)
 	{
@@ -1021,7 +1027,7 @@ abstract class CActiveRecord extends CModel
 				{
 					if(is_string($primaryKey) && $this->$primaryKey===null)
 						$this->$primaryKey=$builder->getLastInsertID($table);
-					else if(is_array($primaryKey))
+					elseif(is_array($primaryKey))
 					{
 						foreach($primaryKey as $pk)
 						{
@@ -1050,7 +1056,7 @@ abstract class CActiveRecord extends CModel
 	 * @param array $attributes list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the update is successful
-	 * @throws CException if the record is new
+	 * @throws CDbException if the record is new
 	 */
 	public function update($attributes=null)
 	{
@@ -1215,7 +1221,7 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getMetaData()->tableSchema;
 		if(is_string($table->primaryKey))
 			return $this->{$table->primaryKey};
-		else if(is_array($table->primaryKey))
+		elseif(is_array($table->primaryKey))
 		{
 			$values=array();
 			foreach($table->primaryKey as $name)
@@ -1239,7 +1245,7 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getMetaData()->tableSchema;
 		if(is_string($table->primaryKey))
 			$this->{$table->primaryKey}=$value;
-		else if(is_array($table->primaryKey))
+		elseif(is_array($table->primaryKey))
 		{
 			foreach($table->primaryKey as $name)
 				$this->$name=$value[$name];
@@ -1323,13 +1329,13 @@ abstract class CActiveRecord extends CModel
 						$scope=$v;
 						$params=array();
 					}
-					else if(is_array($v))
+					elseif(is_array($v))
 					{
 						$scope=key($v);
 						$params=current($v);
 					}
 				}
-				else if(is_string($k))
+				elseif(is_string($k))
 				{
 					$scope=$k;
 					$params=$v;
@@ -1794,7 +1800,7 @@ abstract class CActiveRecord extends CModel
 			{
 				if(property_exists($record,$name))
 					$record->$name=$value;
-				else if(isset($md->columns[$name]))
+				elseif(isset($md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
 			$record->_pk=$record->getPrimaryKey();
@@ -1865,7 +1871,6 @@ abstract class CActiveRecord extends CModel
 /**
  * CBaseActiveRelation is the base class for all active relations.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  */
 class CBaseActiveRelation extends CComponent
@@ -1949,7 +1954,7 @@ class CBaseActiveRelation extends CComponent
 		{
 			if($this->select==='*')
 				$this->select=$criteria['select'];
-			else if($criteria['select']!=='*')
+			elseif($criteria['select']!=='*')
 			{
 				$select1=is_string($this->select)?preg_split('/\s*,\s*/',trim($this->select),-1,PREG_SPLIT_NO_EMPTY):$this->select;
 				$select2=is_string($criteria['select'])?preg_split('/\s*,\s*/',trim($criteria['select']),-1,PREG_SPLIT_NO_EMPTY):$criteria['select'];
@@ -1961,7 +1966,7 @@ class CBaseActiveRelation extends CComponent
 		{
 			if($this->condition==='')
 				$this->condition=$criteria['condition'];
-			else if($criteria['condition']!=='')
+			elseif($criteria['condition']!=='')
 				$this->condition="({$this->condition}) AND ({$criteria['condition']})";
 		}
 
@@ -1972,7 +1977,7 @@ class CBaseActiveRelation extends CComponent
 		{
 			if($this->order==='')
 				$this->order=$criteria['order'];
-			else if($criteria['order']!=='')
+			elseif($criteria['order']!=='')
 				$this->order=$criteria['order'].', '.$this->order;
 		}
 
@@ -1980,7 +1985,7 @@ class CBaseActiveRelation extends CComponent
 		{
 			if($this->group==='')
 				$this->group=$criteria['group'];
-			else if($criteria['group']!=='')
+			elseif($criteria['group']!=='')
 				$this->group.=', '.$criteria['group'];
 		}
 
@@ -1988,7 +1993,7 @@ class CBaseActiveRelation extends CComponent
 		{
 			if($this->join==='')
 				$this->join=$criteria['join'];
-			else if($criteria['join']!=='')
+			elseif($criteria['join']!=='')
 				$this->join.=' '.$criteria['join'];
 		}
 
@@ -1996,7 +2001,7 @@ class CBaseActiveRelation extends CComponent
 		{
 			if($this->having==='')
 				$this->having=$criteria['having'];
-			else if($criteria['having']!=='')
+			elseif($criteria['having']!=='')
 				$this->having="({$this->having}) AND ({$criteria['having']})";
 		}
 	}
@@ -2006,7 +2011,6 @@ class CBaseActiveRelation extends CComponent
 /**
  * CStatRelation represents a statistical relational query.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  */
 class CStatRelation extends CBaseActiveRelation
@@ -2042,7 +2046,6 @@ class CStatRelation extends CBaseActiveRelation
 /**
  * CActiveRelation is the base class for representing active relations that bring back related objects.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -2102,7 +2105,7 @@ class CActiveRelation extends CBaseActiveRelation
 			{
 				if($this->on==='')
 					$this->on=$criteria['condition'];
-				else if($criteria['condition']!=='')
+				elseif($criteria['condition']!=='')
 					$this->on="({$this->on}) AND ({$criteria['condition']})";
 			}
 			unset($criteria['condition']);
@@ -2117,7 +2120,7 @@ class CActiveRelation extends CBaseActiveRelation
 		{
 			if($this->on==='')
 				$this->on=$criteria['on'];
-			else if($criteria['on']!=='')
+			elseif($criteria['on']!=='')
 				$this->on="({$this->on}) AND ({$criteria['on']})";
 		}
 
@@ -2136,7 +2139,6 @@ class CActiveRelation extends CBaseActiveRelation
 /**
  * CBelongsToRelation represents the parameters specifying a BELONGS_TO relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -2148,7 +2150,6 @@ class CBelongsToRelation extends CActiveRelation
 /**
  * CHasOneRelation represents the parameters specifying a HAS_ONE relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -2166,7 +2167,6 @@ class CHasOneRelation extends CActiveRelation
 /**
  * CHasManyRelation represents the parameters specifying a HAS_MANY relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -2217,7 +2217,6 @@ class CHasManyRelation extends CActiveRelation
 /**
  * CManyManyRelation represents the parameters specifying a MANY_MANY relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -2274,7 +2273,6 @@ class CManyManyRelation extends CHasManyRelation
  * CActiveRecordMetaData represents the meta-data for an Active Record class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  * @since 1.0
  */
@@ -2316,7 +2314,7 @@ class CActiveRecordMetaData
 			$table->primaryKey=$model->primaryKey();
 			if(is_string($table->primaryKey) && isset($table->columns[$table->primaryKey]))
 				$table->columns[$table->primaryKey]->isPrimaryKey=true;
-			else if(is_array($table->primaryKey))
+			elseif(is_array($table->primaryKey))
 			{
 				foreach($table->primaryKey as $name)
 				{

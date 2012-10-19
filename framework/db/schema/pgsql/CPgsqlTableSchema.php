@@ -12,7 +12,6 @@
  * CPgsqlTable represents the metadata for a PostgreSQL table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema.pgsql
  * @since 1.0
  */

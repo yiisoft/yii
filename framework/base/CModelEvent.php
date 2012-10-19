@@ -15,7 +15,6 @@
  * CModelEvent represents the event parameters needed by events raised by a model.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */

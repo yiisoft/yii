@@ -60,7 +60,6 @@
  * @property array $rules List of access rules.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -125,7 +124,7 @@ class CAccessControlFilter extends CFilter
 		{
 			if(($allow=$rule->isUserAllowed($user,$filterChain->controller,$filterChain->action,$ip,$verb))>0) // allowed
 				break;
-			else if($allow<0) // denied
+			elseif($allow<0) // denied
 			{
 				if(isset($rule->deniedCallback))
 					call_user_func($rule->deniedCallback, $rule);
@@ -150,7 +149,7 @@ class CAccessControlFilter extends CFilter
 	{
 		if($rule->message!==null)
 			return $rule->message;
-		else if($this->message!==null)
+		elseif($this->message!==null)
 			return $this->message;
 		else
 			return Yii::t('yii','You are not authorized to perform this action.');
@@ -176,7 +175,6 @@ class CAccessControlFilter extends CFilter
  * CAccessRule represents an access rule that is managed by {@link CAccessControlFilter}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -305,11 +303,11 @@ class CAccessRule extends CComponent
 		{
 			if($u==='*')
 				return true;
-			else if($u==='?' && $user->getIsGuest())
+			elseif($u==='?' && $user->getIsGuest())
 				return true;
-			else if($u==='@' && !$user->getIsGuest())
+			elseif($u==='@' && !$user->getIsGuest())
 				return true;
-			else if(!strcasecmp($u,$user->getName()))
+			elseif(!strcasecmp($u,$user->getName()))
 				return true;
 		}
 		return false;

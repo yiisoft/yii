@@ -6,14 +6,12 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 /**
  * WebAppCommand creates an Yii Web application at the specified location.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.cli.commands
  * @since 1.0
  */
@@ -79,16 +77,16 @@ EOD;
 			switch($vcs)
 			{
 				case 'git':
-					$renameMap=array('git.gitignore'=>'.gitignore','git.gitkeep'=>'.gitkeep'); // move with rename git files
-					$ignoreFiles=array('hg.hgignore','hg.hgkeep'); // ignore only hg files
+					$renameMap=array('git-gitignore'=>'.gitignore','git-gitkeep'=>'.gitkeep'); // move with rename git files
+					$ignoreFiles=array('hg-hgignore','hg-hgkeep'); // ignore only hg files
 					break;
 				case 'hg':
-					$renameMap=array('hg.hgignore'=>'.hgignore','hg.hgkeep'=>'.hgkeep'); // move with rename hg files
-					$ignoreFiles=array('git.gitignore','git.gitkeep'); // ignore only git files
+					$renameMap=array('hg-hgignore'=>'.hgignore','hg-hgkeep'=>'.hgkeep'); // move with rename hg files
+					$ignoreFiles=array('git-gitignore','git-gitkeep'); // ignore only git files
 					break;
 				default:
 					// no files for renaming
-					$ignoreFiles=array('git.gitignore','git.gitkeep','hg.hgignore','hg.hgkeep'); // ignore both git and hg files
+					$ignoreFiles=array('git-gitignore','git-gitkeep','hg-hgignore','hg-hgkeep'); // ignore both git and hg files
 					break;
 			}
 			$list=$this->buildFileList($sourceDir,$path,'',$ignoreFiles,$renameMap);

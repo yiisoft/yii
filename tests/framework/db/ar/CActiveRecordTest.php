@@ -301,8 +301,8 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(1.23,$type->float_col2);
 		$this->assertEquals(33.22,$type->numeric_col);
 		$this->assertEquals(123,$type->time);
-		$this->assertEquals(null,$type->bool_col);
-		$this->assertEquals(true,$type->bool_col2);
+		$this->assertNull($type->bool_col);
+		$this->assertTrue($type->bool_col2);
 	}
 
 	public function testPublicAttribute()
@@ -1369,12 +1369,9 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals($result1, $result2);
 	}
 
-	public function testBeforeFind()
-	{
-		$posts=PostWithBeforeFind::model()->findAll();
-		$this->assertEquals(count($posts),1);
-	}
-
+	/**
+	 * https://github.com/yiisoft/yii/issues/1070
+	 */
 	public function testIssue1070()
 	{
 		$dataProvider=new CActiveDataProvider('UserWithDefaultScope');
@@ -1394,4 +1391,14 @@ class CActiveRecordTest extends CTestCase
 			$this->assertTrue($result);
 		}
 	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/507
+	 */
+	public function testIssue507()
+	{
+		$this->assertEquals(2, count(UserWithDefaultScope::model()->findAll()));
+
+	}
+
 }

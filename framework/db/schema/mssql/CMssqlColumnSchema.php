@@ -14,7 +14,6 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @version $Id$
  * @package system.db.schema.mssql
  */
 class CMssqlColumnSchema extends CDbColumnSchema
@@ -44,9 +43,9 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	{
 		if(strpos($dbType,'float')!==false || strpos($dbType,'real')!==false)
 			$this->type='double';
-		else if(strpos($dbType,'bigint')===false && (strpos($dbType,'int')!==false || strpos($dbType,'smallint')!==false || strpos($dbType,'tinyint')))
+		elseif(strpos($dbType,'bigint')===false && (strpos($dbType,'int')!==false || strpos($dbType,'smallint')!==false || strpos($dbType,'tinyint')))
 			$this->type='integer';
-		else if(strpos($dbType,'bit')!==false)
+		elseif(strpos($dbType,'bit')!==false)
 			$this->type='boolean';
 		else
 			$this->type='string';

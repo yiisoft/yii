@@ -36,7 +36,6 @@
  * you may specify a custom value to use instead via {@link timestampExpression}
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
- * @version $Id$
  * @package zii.behaviors
  * @since 1.1
  */
@@ -102,7 +101,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	protected function getTimestampByAttribute($attribute) {
 		if ($this->timestampExpression instanceof CDbExpression)
 			return $this->timestampExpression;
-		else if ($this->timestampExpression !== null)
+		elseif ($this->timestampExpression !== null)
 			return @eval('return '.$this->timestampExpression.';');
 
 		$columnType = $this->getOwner()->getTableSchema()->getColumn($attribute)->dbType;

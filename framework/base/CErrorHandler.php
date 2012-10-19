@@ -50,7 +50,6 @@ Yii::import('CHtml',true);
  * @property array $error The error details. Null if there is no error.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -284,7 +283,7 @@ class CErrorHandler extends CApplicationComponent
 				header("HTTP/1.0 500 Internal Server Error");
 			if($this->isAjaxRequest())
 				$app->displayError($event->code,$event->message,$event->file,$event->line);
-			else if(YII_DEBUG)
+			elseif(YII_DEBUG)
 				$this->render('exception',$data);
 			else
 				$this->render('error',$data);
@@ -431,27 +430,27 @@ class CErrorHandler extends CApplicationComponent
 
 			if(is_object($value))
 				$args[$key] = get_class($value);
-			else if(is_bool($value))
+			elseif(is_bool($value))
 				$args[$key] = $value ? 'true' : 'false';
-			else if(is_string($value))
+			elseif(is_string($value))
 			{
 				if(strlen($value)>64)
 					$args[$key] = '"'.substr($value,0,64).'..."';
 				else
 					$args[$key] = '"'.$value.'"';
 			}
-			else if(is_array($value))
+			elseif(is_array($value))
 				$args[$key] = 'array('.$this->argumentsToString($value).')';
-			else if($value===null)
+			elseif($value===null)
 				$args[$key] = 'null';
-			else if(is_resource($value))
+			elseif(is_resource($value))
 				$args[$key] = 'resource';
 
 			if(is_string($key))
 			{
 				$args[$key] = '"'.$key.'" => '.$args[$key];
 			}
-			else if($isAssoc)
+			elseif($isAssoc)
 			{
 				$args[$key] = $key.' => '.$args[$key];
 			}

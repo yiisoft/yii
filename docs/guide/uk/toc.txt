@@ -27,12 +27,12 @@
 	- [Створення дії](form.action)
 	- [Створення форми](form.view)
 	- [Обробка табличного вводу](form.table)
-	- [Використання будівника форм](form.builder)
+	- [Використання конструктора форм](form.builder)
 
 * Робота з БД
 	- [Огляд](database.overview)
 	- [Обʼєкти доступу до даних (DAO)](database.dao)
-	- [Будівник запитів](database.query-builder)
+	- [Конструктор запитів](database.query-builder)
 	- [Active Record](database.ar)
 	- [Реляційна Active Record](database.arr)
 	- [Міграції](database.migration)
@@ -71,4 +71,4 @@
 	- [Покращення продуктивності](topics.performance)
 	- [Генерація коду за допомогою консолі (застаріле)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>
+<div class="revision">$Id$</div>

@@ -43,7 +43,6 @@
  * the help information for a single action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.console
  * @since 1.0
  */
@@ -132,14 +131,14 @@ abstract class CConsoleCommand extends CComponent
 			{
 				if($param->isArray())
 					$params[]=is_array($options[$name]) ? $options[$name] : array($options[$name]);
-				else if(!is_array($options[$name]))
+				elseif(!is_array($options[$name]))
 					$params[]=$options[$name];
 				else
 					$this->usageError("Option --$name requires a scalar. Array is given.");
 			}
-			else if($name==='args')
+			elseif($name==='args')
 				$params[]=$args;
-			else if($param->isDefaultValueAvailable())
+			elseif($param->isDefaultValueAvailable())
 				$params[]=$param->getDefaultValue();
 			else
 				$this->usageError("Missing required option --$name.");
@@ -238,7 +237,7 @@ abstract class CConsoleCommand extends CComponent
 				else
 					$options[$name]=$value;
 			}
-			else if(isset($action))
+			elseif(isset($action))
 				$params[]=$arg;
 			else
 				$action=$arg;
@@ -387,9 +386,9 @@ abstract class CConsoleCommand extends CComponent
 					$answer=trim(fgets(STDIN));
 					if(!strncasecmp($answer,'q',1))
 						return;
-					else if(!strncasecmp($answer,'y',1))
+					elseif(!strncasecmp($answer,'y',1))
 						echo "  overwrite $name\n";
-					else if(!strncasecmp($answer,'a',1))
+					elseif(!strncasecmp($answer,'a',1))
 					{
 						echo "  overwrite $name\n";
 						$overwriteAll=true;

@@ -16,7 +16,6 @@
  * @property CActiveRecord $owner The owner AR that this behavior is attached to.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.ar
  */
 class CActiveRecordBehavior extends CModelBehavior
@@ -41,57 +40,63 @@ class CActiveRecordBehavior extends CModelBehavior
 
 	/**
 	 * Responds to {@link CActiveRecord::onBeforeSave} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding
+	 * event of the {@link CBehavior::owner owner}.
 	 * You may set {@link CModelEvent::isValid} to be false to quit the saving process.
 	 * @param CModelEvent $event event parameter
 	 */
-	public function beforeSave($event)
+	protected function beforeSave($event)
 	{
 	}
 
 	/**
 	 * Responds to {@link CActiveRecord::onAfterSave} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CModelEvent $event event parameter
 	 */
-	public function afterSave($event)
+	protected function afterSave($event)
 	{
 	}
 
 	/**
 	 * Responds to {@link CActiveRecord::onBeforeDelete} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * You may set {@link CModelEvent::isValid} to be false to quit the deletion process.
 	 * @param CEvent $event event parameter
 	 */
-	public function beforeDelete($event)
+	protected function beforeDelete($event)
 	{
 	}
 
 	/**
 	 * Responds to {@link CActiveRecord::onAfterDelete} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	public function afterDelete($event)
+	protected function afterDelete($event)
 	{
 	}
 
 	/**
 	 * Responds to {@link CActiveRecord::onBeforeFind} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	public function beforeFind($event)
+	protected function beforeFind($event)
 	{
 	}
 
 	/**
 	 * Responds to {@link CActiveRecord::onAfterFind} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	public function afterFind($event)
+	protected function afterFind($event)
 	{
 	}
 }

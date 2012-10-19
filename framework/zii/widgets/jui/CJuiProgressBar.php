@@ -22,7 +22,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *     'value'=>75,
  *     // additional javascript options for the progress bar plugin
  *     'options'=>array(
- *         'change'=>CJavaScriptExpression('function(event, ui) {...}'),
+ *         'change'=>new CJavaScriptExpression('function(event, ui) {...}'),
  *     ),
  *     'htmlOptions'=>array(
  *         'style'=>'height:20px;'
@@ -36,7 +36,6 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1
  */

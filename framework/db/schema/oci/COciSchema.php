@@ -14,7 +14,6 @@
  * @property string $defaultSchema Default schema.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id$
  * @package system.db.schema.oci
  */
 class COciSchema extends CDbSchema
@@ -181,9 +180,11 @@ SELECT a.column_name, a.data_type ||
         WHERE C.OWNER = B.OWNER
            and C.table_name = B.object_name
            and C.column_name = A.column_name
-           and D.constraint_type = 'P') as Key
+           and D.constraint_type = 'P') as Key,
+    com.comments as column_comment
 FROM ALL_TAB_COLUMNS A
 inner join ALL_OBJECTS B ON b.owner = a.owner and ltrim(B.OBJECT_NAME) = ltrim(A.TABLE_NAME)
+LEFT JOIN user_col_comments com ON (A.table_name = com.table_name AND A.column_name = com.column_name)
 WHERE
     a.owner = '{$schemaName}'
 	and (b.object_type = 'TABLE' or b.object_type = 'VIEW')
@@ -206,7 +207,7 @@ EOD;
 			{
 				if($table->primaryKey===null)
 					$table->primaryKey=$c->name;
-				else if(is_string($table->primaryKey))
+				elseif(is_string($table->primaryKey))
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
@@ -231,6 +232,7 @@ EOD;
 		$c->isPrimaryKey=strpos($column['KEY'],'P')!==false;
 		$c->isForeignKey=false;
 		$c->init($column['DATA_TYPE'],$column['DATA_DEFAULT']);
+		$c->comment=$column['COLUMN_COMMENT']===null ? '' : $column['COLUMN_COMMENT'];
 
 		return $c;
 	}
@@ -346,5 +348,32 @@ EOD;
 	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name);
+	}
+
+	/**
+	 * Resets the sequence value of a table's primary key.
+	 * The sequence will be reset such that the primary key of the next new row inserted
+	 * will have the specified value or 1.
+	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
+	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
+	 * the next new row's primary key will have a value 1.
+	 * @since 1.1.13
+	 */
+	public function resetSequence($table,$value=1)
+	{
+		$seq = $table->name."_SEQ";
+		if($table->sequenceName!==null)
+		{
+			$this->getDbConnection()->createCommand("DROP SEQUENCE ".$seq)->execute();
+
+			$createSequenceSql = <<< SQL
+create sequence $seq
+start with $value
+increment by 1
+nomaxvalue
+nocache
+SQL;
+			$this->getDbConnection()->createCommand($createSequenceSql)->execute();
+		}
 	}
 }

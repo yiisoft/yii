@@ -10,20 +10,49 @@ class CFileHelperTest extends CTestCase
 
 	protected function setUp()
 	{
-		parent::setUp();
-		$this->testDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . __CLASS__ . time();
-		$this->createTestStruct($this->testDir);
+		$this->testDir = Yii::getPathOfAlias('application.runtime.CFileHelper');
+		if(!is_dir($this->testDir) &&
+			!(@mkdir($this->testDir)))
+			$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
+
+		// create temporary testing data files
+		$filesData=array(
+			'mimeTypes1.php'=>"<?php return array('txa'=>'application/json','txb'=>'another/mime');",
+			'mimeTypes2.php'=>"<?php return array('txt'=>'text/plain','txb'=>'another/mime2');",
+		);
+		foreach($filesData as $fileName=>$fileData)
+			if(!(@file_put_contents($this->testDir.$fileName,$fileData)))
+				$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 	}
 
 	protected function tearDown()
 	{
-		parent::tearDown();
 		if (is_dir($this->testDir)) $this->rrmdir($this->testDir);
-		clearstatcache();
 	}
 
-	function testCopyDirectory_subDir_modeShoudBe0775()
+	public function testGetMimeTypeByExtension()
 	{
+		// run everything ten times in one test action to be sure that caching inside
+		// CFileHelper::getMimeTypeByExtension() is working the right way
+		for($i=0; $i<10; $i++)
+		{
+			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txa'));
+			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txb'));
+			$this->assertEquals('text/plain',CFileHelper::getMimeTypeByExtension('test.txt'));
+
+			$this->assertEquals('application/json',CFileHelper::getMimeTypeByExtension('test.txa',$this->testDir.'mimeTypes1.php'));
+			$this->assertEquals('another/mime',CFileHelper::getMimeTypeByExtension('test.txb',$this->testDir.'mimeTypes1.php'));
+			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txt',$this->testDir.'mimeTypes1.php'));
+
+			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txa',$this->testDir.'mimeTypes2.php'));
+			$this->assertEquals('another/mime2',CFileHelper::getMimeTypeByExtension('test.txb',$this->testDir.'mimeTypes2.php'));
+			$this->assertEquals('text/plain',CFileHelper::getMimeTypeByExtension('test.txt',$this->testDir.'mimeTypes2.php'));
+		}
+	}
+
+	public function testCopyDirectory_subDir_modeShoudBe0775()
+	{
+		$this->createTestStruct($this->testDir);
 		$src = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir1;
 		$dst = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir2;
 		CFileHelper::copyDirectory($src, $dst, array('newDirMode' => $this->testMode));
@@ -33,8 +62,9 @@ class CFileHelperTest extends CTestCase
 		$this->assertEquals($expectedMode, $subDir2Mode, "Subdir mode is not {$expectedMode}");
 	}
 
-	function testCopyDirectory_subDir_modeShoudBe0777()
+	public function testCopyDirectory_subDir_modeShoudBe0777()
 	{
+		$this->createTestStruct($this->testDir);
 		$src = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir1;
 		$dst = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir2;
 		CFileHelper::copyDirectory($src, $dst);
@@ -46,8 +76,6 @@ class CFileHelperTest extends CTestCase
 
 	private function createTestStruct($testDir)
 	{
-		if (!mkdir($testDir)) $this->fail("mkdir of '{$testDir}' failed");
-
 		$rootDir = $testDir . DIRECTORY_SEPARATOR . $this->rootDir1;
 		mkdir($rootDir);
 
