@@ -802,11 +802,11 @@ class CHtml
 			{
 				// add a hidden field so that if the option is not selected, it still submits a value
 				if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
-					$unselectOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+					$hiddenOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 				else
-					$unselectOptions=array('id'=>false);
+					$hiddenOptions=array('id'=>false);
 
-				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$unselectOptions);
+				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
 				unset($htmlOptions['unselectValue']);
 			}
 		}
