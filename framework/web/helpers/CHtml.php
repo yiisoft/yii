@@ -783,12 +783,16 @@ class CHtml
 	public static function dropDownList($name,$select,$data,$htmlOptions=array())
 	{
 		$htmlOptions['name']=$name;
+
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
 		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
+
 		self::clientChange('change',$htmlOptions);
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
+		$hidden='';
+
 		if(isset($htmlOptions['multiple']))
 		{
 			if(substr($htmlOptions['name'],-2)==='[]')
@@ -801,27 +805,20 @@ class CHtml
 
 			if(array_key_exists('unselectValue',$htmlOptions))
 			{
-				$unselect=$htmlOptions['unselectValue'];
+				if($htmlOptions['unselectValue']!==null)
+				{
+					// add a hidden field so that if the option is not selected, it still submits a value
+					if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+						$unselectOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+					else
+						$unselectOptions=array('id'=>false);
+
+					$hidden=self::hiddenField($hiddenName,$htmlOptions['unselectValue'],$unselectOptions);
+				}
+
 				unset($htmlOptions['unselectValue']);
 			}
-			else
-				$unselect=null;
-
-			if($unselect!==null)
-			{
-				// add a hidden field so that if the option is not selected, it still submits a value
-				if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
-					$unselectOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
-				else
-					$unselectOptions=array('id'=>false);
-				$hidden=self::hiddenField($hiddenName,$unselect,$unselectOptions);
-			}
-			else
-				$hidden='';
 		}
-		else
-			$hidden='';
-
 		// add a hidden field so that if the option is not selected, it still submits a value
 		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
@@ -1580,8 +1577,12 @@ EOD;
 		$selection=self::resolveValue($model,$attribute);
 		$options="\n".self::listOptions($selection,$data,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
+
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
+
+		$hidden='';
+
 		if(isset($htmlOptions['multiple']))
 		{
 			if(substr($htmlOptions['name'],-2)==='[]')
@@ -1592,19 +1593,17 @@ EOD;
 				$htmlOptions['name'].='[]';
 			}
 
-			if(array_key_exists('unselectValue',$htmlOptions))
-			{
-				$unselect=$htmlOptions['unselectValue'];
-				unset($htmlOptions['unselectValue']);
-			}
-			else
-				$unselect='';
+			if(!array_key_exists('unselectValue',$htmlOptions))
+				$htmlOptions['unselectValue']='';
 
-			$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-			$hidden=$unselect!==null ? self::hiddenField($hiddenName,$unselect,$hiddenOptions) : '';
+			if($htmlOptions['unselectValue']!==null)
+			{
+				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+				$hidden=self::hiddenField($hiddenName,$htmlOptions['unselectValue'],$hiddenOptions);
+			}
+
+			unset($htmlOptions['unselectValue']);
 		}
-		else
-			$hidden='';
 
 		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
