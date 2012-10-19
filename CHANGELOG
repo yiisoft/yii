@@ -28,7 +28,7 @@ Version 1.1.13 work in progress
 - Bug #1485 CSort does not quote table alias when using CDbCriteria (undsoft)
 - Bug #1499: Fixed CVarDumper highlighting "\" (antoncpu)
 - Bug #1552: Fixed potential vulnerability in CJavaScript::encode(): $safe parameter didn't used to be passed to the recursive method calls (resurtm)
-- Bug #1572: Added update table schema when use Gii and schemaCachingDuration (SonkoDmitry)
+- Bug #1572: Table schema is refreshed on Gii model generation when schemaCachingDuration is used (SonkoDmitry)
 - Enh #84: Log route categories are now accepted in form of array. Added CLogRoute::except and parameter to CLogRoute::getLogs that allows you to exclude specific categories (paystey)
 - Enh #104: Added CWebLogRoute::$collapsedInFireBug property to control whether the log should be collapsed by default in Firebug (marcovtwout)
 - Enh #117: Added CPhpMessageSource::$extensionPaths to allow extensions, that do not have a base class to use as category prefix, to register message source (rcoelho, cebe)
