@@ -132,8 +132,8 @@ Yii::import('system.web.*');
 Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 ~~~
 
-Простір імен контролерів
-------------------------
+Контролери у просторах імен
+---------------------------
 
 За замовчуванням Yii використовує контролери із глобального простору імен. 
 Ці класи знаходяться у `protected/controllers`. 
@@ -178,8 +178,8 @@ class TestController extends \CController
 }
 ~~~
 
-Простір імен модулів
---------------------
+Модулі у просторах імен
+-----------------------
 
 Іноді корисно визначити простір імен для цілого модуля. Наприклад, якщо ви хочете помістити `testmodule` у простір імен `\mynamespace\modules\testmodule`, який вказує на
 `/var/www/common/mynamespace/modules/testmodule`, вам потрібно спочатку створити наступну файлову структуру:
@@ -255,4 +255,4 @@ return array(
 ~~~
 
 
-<div class="revision">$Id: basics.namespace.txt 3086 2011-03-15 00:04:53Z qiang.xue $</div>
+<div class="revision">$Id$</div>

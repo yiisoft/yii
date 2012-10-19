@@ -18,7 +18,6 @@
  * for a shortcut usage of CClipWidget.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */

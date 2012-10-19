@@ -49,12 +49,11 @@
  * @property string $acceptTypes User browser accept types, null if not present.
  * @property integer $port Port number for insecure requests.
  * @property integer $securePort Port number for secure requests.
- * @property CCookieCollection $cookies The cookie collection.
+ * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
  * @property string $preferredLanguage The user preferred language.
  * @property string $csrfToken The random token for CSRF validation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -95,8 +94,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_cookies;
 	private $_preferredLanguage;
 	private $_csrfToken;
-	private $_deleteParams;
-	private $_putParams;
+	private $_restParams;
 
 	/**
 	 * Initializes the application component.
@@ -204,9 +202,13 @@ class CHttpRequest extends CApplicationComponent
 		if($this->getIsDeleteViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
-		if($this->_deleteParams===null)
-			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
-		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
+		if($this->getIsDeleteRequest())
+		{
+			$this->getRestParams();
+			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+		}
+		else
+			return $defaultValue;
 	}
 
 	/**
@@ -225,24 +227,47 @@ class CHttpRequest extends CApplicationComponent
 		if($this->getIsPutViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
-		if($this->_putParams===null)
-			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
-		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
+		if($this->getIsPutRequest())
+		{
+			$this->getRestParams();
+			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+		}
+		else
+			return $defaultValue;
 	}
 
 	/**
-	 * Returns the PUT or DELETE request parameters.
+	 * Returns request parameters. Typically PUT or DELETE.
 	 * @return array the request parameters
 	 * @since 1.1.7
+	 * @since 1.1.13 method became public
 	 */
-	protected function getRestParams()
+	public function getRestParams()
 	{
-		$result=array();
-		if(function_exists('mb_parse_str'))
-			mb_parse_str(file_get_contents('php://input'), $result);
-		else
-			parse_str(file_get_contents('php://input'), $result);
-		return $result;
+		if($this->_restParams===null)
+		{
+			$result=array();
+			if(function_exists('mb_parse_str'))
+				mb_parse_str($this->getRawBody(), $result);
+			else
+				parse_str($this->getRawBody(), $result);
+			$this->_restParams=$result;
+		}
+
+		return $this->_restParams;
+	}
+
+	/**
+	 * Returns the raw HTTP request body.
+	 * @return string the request body
+	 * @since 1.1.13
+	 */
+	public function getRawBody()
+	{
+		static $rawBody;
+		if($rawBody===null)
+			$rawBody=file_get_contents('php://input');
+		return $rawBody;
 	}
 
 	/**
@@ -350,13 +375,13 @@ class CHttpRequest extends CApplicationComponent
 			$scriptName=basename($_SERVER['SCRIPT_FILENAME']);
 			if(basename($_SERVER['SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['SCRIPT_NAME'];
-			else if(basename($_SERVER['PHP_SELF'])===$scriptName)
+			elseif(basename($_SERVER['PHP_SELF'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['PHP_SELF'];
-			else if(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
+			elseif(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['ORIG_SCRIPT_NAME'];
-			else if(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
+			elseif(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
 				$this->_scriptUrl=substr($_SERVER['SCRIPT_NAME'],0,$pos).'/'.$scriptName;
-			else if(isset($_SERVER['DOCUMENT_ROOT']) && strpos($_SERVER['SCRIPT_FILENAME'],$_SERVER['DOCUMENT_ROOT'])===0)
+			elseif(isset($_SERVER['DOCUMENT_ROOT']) && strpos($_SERVER['SCRIPT_FILENAME'],$_SERVER['DOCUMENT_ROOT'])===0)
 				$this->_scriptUrl=str_replace('\\','/',str_replace($_SERVER['DOCUMENT_ROOT'],'',$_SERVER['SCRIPT_FILENAME']));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the entry script URL.'));
@@ -400,9 +425,9 @@ class CHttpRequest extends CApplicationComponent
 			$baseUrl=$this->getBaseUrl();
 			if(strpos($pathInfo,$scriptUrl)===0)
 				$pathInfo=substr($pathInfo,strlen($scriptUrl));
-			else if($baseUrl==='' || strpos($pathInfo,$baseUrl)===0)
+			elseif($baseUrl==='' || strpos($pathInfo,$baseUrl)===0)
 				$pathInfo=substr($pathInfo,strlen($baseUrl));
-			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
+			elseif(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
 				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
@@ -459,7 +484,7 @@ class CHttpRequest extends CApplicationComponent
 		{
 			if(isset($_SERVER['HTTP_X_REWRITE_URL'])) // IIS
 				$this->_requestUri=$_SERVER['HTTP_X_REWRITE_URL'];
-			else if(isset($_SERVER['REQUEST_URI']))
+			elseif(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
 				if(!empty($_SERVER['HTTP_HOST']))
@@ -470,7 +495,7 @@ class CHttpRequest extends CApplicationComponent
 				else
 					$this->_requestUri=preg_replace('/^(http|https):\/\/[^\/]+/i','',$this->_requestUri);
 			}
-			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
+			elseif(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
 			{
 				$this->_requestUri=$_SERVER['ORIG_PATH_INFO'];
 				if(!empty($_SERVER['QUERY_STRING']))
@@ -750,8 +775,8 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Redirects the browser to the specified URL.
-	 * @param string $url URL to be redirected to. If the URL is a relative one, the base URL of
-	 * the application will be inserted at the beginning.
+	 * @param string $url URL to be redirected to. Note that when URL is not
+	 * absolute (not starting with "/") it will be relative to current request URL.
 	 * @param boolean $terminate whether to terminate the current application
 	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
@@ -816,7 +841,9 @@ class CHttpRequest extends CApplicationComponent
 		{
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
+			ob_start();
 			Yii::app()->end(0,false);
+			ob_end_clean();
 			echo $content;
 			exit(0);
 		}
@@ -960,19 +987,33 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function validateCsrfToken($event)
 	{
-		if($this->getIsPostRequest())
+		if ($this->getIsPostRequest() ||
+			$this->getIsPutRequest() ||
+			$this->getIsDeleteRequest())
 		{
-			// only validate POST requests
 			$cookies=$this->getCookies();
-			if($cookies->contains($this->csrfTokenName) && isset($_POST[$this->csrfTokenName]))
+
+			$method=$this->getRequestType();
+			switch($method)
 			{
-				$tokenFromCookie=$cookies->itemAt($this->csrfTokenName)->value;
-				$tokenFromPost=$_POST[$this->csrfTokenName];
-				$valid=$tokenFromCookie===$tokenFromPost;
+				case 'POST':
+					$userToken=$this->getPost($this->csrfTokenName);
+				break;
+				case 'PUT':
+					$userToken=$this->getPut($this->csrfTokenName);
+				break;
+				case 'DELETE':
+					$userToken=$this->getDelete($this->csrfTokenName);
+			}
+
+			if (!empty($userToken) && $cookies->contains($this->csrfTokenName))
+			{
+				$cookieToken=$cookies->itemAt($this->csrfTokenName)->value;
+				$valid=$cookieToken===$userToken;
 			}
 			else
-				$valid=false;
-			if(!$valid)
+				$valid = false;
+			if (!$valid)
 				throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
 		}
 	}
@@ -989,15 +1030,10 @@ class CHttpRequest extends CApplicationComponent
  * <pre>
  * $cookies[$name]=new CHttpCookie($name,$value); // sends a cookie
  * $value=$cookies[$name]->value; // reads a cookie value
- * unset($cookies[$name]); // removes a cookie
+ * unset($cookies[$name]);  // removes a cookie
  * </pre>
- * Additionally (since Yii 1.1.11) a cookie can be added as an object,
- * without setting the cookie name twice:
- * <pre>
- * $cookies->add(new CHttpCookie($name, $value)); // sends a cookie
- * </pre>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -1052,36 +1088,18 @@ class CCookieCollection extends CMap
 	 * Adds a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
 	 * operations for each newly added CHttpCookie object.
-	 * This method provides the following two options to add a cookie:
-	 * <pre>
-	 * // Array access style - note that cookie name should be used twice here
-	 * Yii::app()->request->cookies['name']=new CHttpCookie('name',$value);
-	 * // Object style - note that cookie name is used only once here
-	 * Yii::app()->request->cookies->add(new CHttpCookie('name', $value));
-	 * </pre>
-	 * @param mixed $name Cookie name or an instance of {@link CHttpCookie}.
-	 * @param CHttpCookie $cookie An instance of {@link HttpCookie}, only used if the first
-	 * parameter is not an instance of {@link CHttpCookie}. Defaults to null.
+	 * @param mixed $name Cookie name.
+	 * @param CHttpCookie $cookie Cookie object.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
-	public function add($name,$cookie=null)
+	public function add($name,$cookie)
 	{
-		if($name instanceof CHttpCookie)
+		if($cookie instanceof CHttpCookie)
 		{
-			$cookieName=$name->name;
-			$cookieObject=$name;
-		}
-		else
-		{
-			$cookieName=(string)$name;
-			$cookieObject=$cookie;
-		}
-		if($cookieObject instanceof CHttpCookie)
-		{
-			$this->remove($cookieName);
-			parent::add($cookieName,$cookieObject);
+			$this->remove($name);
+			parent::add($name,$cookie);
 			if($this->_initialized)
-				$this->addCookie($cookieObject);
+				$this->addCookie($cookie);
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));

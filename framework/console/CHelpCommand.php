@@ -24,7 +24,6 @@
  * @property string $help The command description.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.console
  * @since 1.0
  */

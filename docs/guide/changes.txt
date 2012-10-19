@@ -7,7 +7,9 @@ Version 1.1.11
 --------------
  * [Added http caching support](/doc/guide/caching.page#http-caching)
  * [Added console application exit codes](/doc/guide/topics.console#exit-codes)
-
+ * [Added model validation rules blacklisting](/doc/guide/form.model#declaring-validation-rules)
+ * [Added git and hg support](/doc/guide/quickstart.first-app#creating-your-first-yii-application)
+ 
 Version 1.1.8
 -------------
  * [Added support for using custom URL rule classes](/doc/guide/topics.url#using-custom-url-rule-classes)

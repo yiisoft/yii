@@ -140,4 +140,4 @@ Yii рекомендує іменувати змінні, функції та к
 коли таблиці нашого додатку містяться в БД, що використовується одночасно іншими
 додатками.
 
-<div class="revision">$Id: basics.convention.txt 3225 2011-05-17 23:23:05Z alexander.makarow $</div>
+<div class="revision">$Id$</div>

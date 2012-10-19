@@ -60,7 +60,6 @@
  * @property boolean $isContentCached Whether the content can be found from cache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */
@@ -163,7 +162,7 @@ class COutputCache extends CFilterWidget
 	{
 		if($this->getIsContentCached())
 			$this->replayActions();
-		else if($this->_cache!==null)
+		elseif($this->_cache!==null)
 		{
 			$this->getController()->getCachingStack()->push($this);
 			ob_start();
@@ -186,7 +185,7 @@ class COutputCache extends CFilterWidget
 			else
 				echo $this->_content;
 		}
-		else if($this->_cache!==null)
+		elseif($this->_cache!==null)
 		{
 			$this->_content=ob_get_clean();
 			$this->getController()->getCachingStack()->pop();
@@ -330,13 +329,13 @@ class COutputCache extends CFilterWidget
 		{
 			if($action[0]==='clientScript')
 				$object=$cs;
-			else if($action[0]==='')
+			elseif($action[0]==='')
 				$object=$controller;
 			else
 				$object=$controller->{$action[0]};
 			if(method_exists($object,$action[1]))
 				call_user_func_array(array($object,$action[1]),$action[2]);
-			else if($action[0]==='' && function_exists($action[1]))
+			elseif($action[0]==='' && function_exists($action[1]))
 				call_user_func_array($action[1],$action[2]);
 			else
 				throw new CException(Yii::t('yii','Unable to replay the action "{object}.{method}". The method does not exist.',

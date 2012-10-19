@@ -100,6 +100,22 @@ a list of scenarios where the rule should be applied; and additional options
 are name-value pairs which are used to initialize the corresponding validator's
 property values.
 
+Since version 1.1.11 it is possible to blacklist scenarios. If you don't
+want to perform validation for some rule when particular scenarios are active
+you could specify `except` parameter containing their names. Syntax is the same
+as for `on` parameter.
+
+List of scenarios (`on` and `except` parameters) could be specified in two
+different forms which means the same:
+
+~~~
+[php]
+// arbitary array with scenario names
+'on'=>array('update', 'create'),
+// string with scenario names separated with commas (spaces are ignored)
+'except'=>'ignore, this, scenarios, at-all',
+~~~
+
 There are three ways to specify `Validator` in a validation rule. First,
 `Validator` can be the name of a method in the model class, like
 `authenticate` in the above example. The validator method must be of the

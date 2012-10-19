@@ -12,9 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @author Srinivasan A Paul Joseph <sapauljoseph@gmail.com>
- * @version $Id: $
  */
 return array (
   'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => '"{alias}" மாற்றுப்பெயர் சரியானது இல்லை. சரியான PHP கோப்புக்கு சுட்டிக்காட்டப்பட்டிருக்கிறதா என்று பார்க்கவும்.',

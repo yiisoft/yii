@@ -55,7 +55,6 @@
  * @property array $servers List of memcache server configurations. Each element is a {@link CMemCacheServerConfiguration}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */
@@ -95,7 +94,7 @@ class CMemCache extends CCache
 				if($this->useMemcached)
 					$cache->addServer($server->host,$server->port,$server->weight);
 				else
-					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->status);
+					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->retryInterval,$server->status);
 			}
 		}
 		else
@@ -171,6 +170,11 @@ class CMemCache extends CCache
 	 */
 	protected function setValue($key,$value,$expire)
 	{
+		if($expire>0)
+			$expire+=time();
+		else
+			$expire=0;
+
 		return $this->useMemcached ? $this->_cache->set($key,$value,$expire) : $this->_cache->set($key,$value,0,$expire);
 	}
 
@@ -185,6 +189,11 @@ class CMemCache extends CCache
 	 */
 	protected function addValue($key,$value,$expire)
 	{
+		if($expire>0)
+			$expire+=time();
+		else
+			$expire=0;
+
 		return $this->useMemcached ? $this->_cache->add($key,$value,$expire) : $this->_cache->add($key,$value,0,$expire);
 	}
 
@@ -218,7 +227,6 @@ class CMemCache extends CCache
  * for detailed explanation of each configuration property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */

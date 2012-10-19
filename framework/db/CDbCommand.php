@@ -58,7 +58,6 @@
  * This can be either a string or an array representing multiple union parts.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.0
  */
@@ -247,9 +246,9 @@ class CDbCommand extends CComponent
 		$this->prepare();
 		if($dataType===null)
 			$this->_statement->bindParam($name,$value,$this->_connection->getPdoType(gettype($value)));
-		else if($length===null)
+		elseif($length===null)
 			$this->_statement->bindParam($name,$value,$dataType);
-		else if($driverOptions===null)
+		elseif($driverOptions===null)
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length,$driverOptions);
@@ -327,7 +326,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
-				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
 
 			$this->prepare();
 			if($params===array())
@@ -337,14 +336,14 @@ class CDbCommand extends CComponent
 			$n=$this->_statement->rowCount();
 
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
 
 			return $n;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
             $message = $e->getMessage();
 			Yii::log(Yii::t('yii','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
@@ -541,27 +540,27 @@ class CDbCommand extends CComponent
 	 */
 	public function buildQuery($query)
 	{
-		$sql=isset($query['distinct']) && $query['distinct'] ? 'SELECT DISTINCT' : 'SELECT';
-		$sql.=' '.(isset($query['select']) ? $query['select'] : '*');
+		$sql=!empty($query['distinct']) ? 'SELECT DISTINCT' : 'SELECT';
+		$sql.=' '.(!empty($query['select']) ? $query['select'] : '*');
 
-		if(isset($query['from']))
+		if(!empty($query['from']))
 			$sql.="\nFROM ".$query['from'];
 		else
 			throw new CDbException(Yii::t('yii','The DB query must contain the "from" portion.'));
 
-		if(isset($query['join']))
+		if(!empty($query['join']))
 			$sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);
 
-		if(isset($query['where']))
+		if(!empty($query['where']))
 			$sql.="\nWHERE ".$query['where'];
 
-		if(isset($query['group']))
+		if(!empty($query['group']))
 			$sql.="\nGROUP BY ".$query['group'];
 
-		if(isset($query['having']))
+		if(!empty($query['having']))
 			$sql.="\nHAVING ".$query['having'];
 
-		if(isset($query['order']))
+		if(!empty($query['order']))
 			$sql.="\nORDER BY ".$query['order'];
 
 		$limit=isset($query['limit']) ? (int)$query['limit'] : -1;
@@ -569,7 +568,7 @@ class CDbCommand extends CComponent
 		if($limit>=0 || $offset>0)
 			$sql=$this->_connection->getCommandBuilder()->applyLimit($sql,$limit,$offset);
 
-		if(isset($query['union']))
+		if(!empty($query['union']))
 			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
 
 		return $sql;
@@ -600,7 +599,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 				{
 					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' AS '.$this->_connection->quoteColumnName($matches[2]);
@@ -764,6 +763,55 @@ class CDbCommand extends CComponent
 	public function where($conditions, $params=array())
 	{
 		$this->_query['where']=$this->processConditions($conditions);
+
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
+	}
+
+	/**
+	 * Appends given condition to the existing WHERE part of the query with 'AND' operator.
+	 *
+	 * This method works almost the same way as {@link where} except the fact that it appends condition
+	 * with 'AND' operator, but not replaces it with the new one. For more information on parameters
+	 * of this method refer to the {@link where} documentation.
+	 *
+	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
+	 * @param array $params the parameters (name=>value) to be bound to the query.
+	 * @return CDbCommand the command object itself.
+	 * @since 1.1.13
+	 */
+	public function andWhere($conditions,$params=array())
+	{
+		if(isset($this->_query['where']))
+			$this->_query['where']=$this->processConditions(array('AND',$this->_query['where'],$conditions));
+		else
+			$this->_query['where']=$this->processConditions($conditions);
+
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
+	}
+
+	/**
+	 * Appends given condition to the existing WHERE part of the query with 'OR' operator.
+	 *
+	 * This method works almost the same way as {@link where} except the fact that it appends condition
+	 * with 'OR' operator, but not replaces it with the new one. For more information on parameters
+	 * of this method refer to the {@link where} documentation.
+	 *
+	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
+	 * @param array $params the parameters (name=>value) to be bound to the query.
+	 * @return CDbCommand the command object itself.
+	 * @since 1.1.13
+	 */
+	public function orWhere($conditions,$params=array())
+	{
+		if(isset($this->_query['where']))
+			$this->_query['where']=$this->processConditions(array('OR',$this->_query['where'],$conditions));
+		else
+			$this->_query['where']=$this->processConditions($conditions);
+
 		foreach($params as $name=>$value)
 			$this->params[$name]=$value;
 		return $this;
@@ -916,7 +964,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 					$columns[$i]=$this->_connection->quoteColumnName($column);
 			}
 			$this->_query['group']=implode(', ',$columns);
@@ -1003,7 +1051,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 				{
 					if(preg_match('/^(.*?)\s+(asc|desc)$/i',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' '.strtoupper($matches[2]);
@@ -1186,6 +1234,7 @@ class CDbCommand extends CComponent
 	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
+	 * Do not use column names as parameter names here. They are reserved for <code>$columns</code> parameter.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
@@ -1410,7 +1459,7 @@ class CDbCommand extends CComponent
 	{
 		if(!is_array($conditions))
 			return $conditions;
-		else if($conditions===array())
+		elseif($conditions===array())
 			return '';
 		$n=count($conditions);
 		$operator=strtoupper($conditions[0]);

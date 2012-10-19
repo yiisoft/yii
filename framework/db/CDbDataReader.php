@@ -31,7 +31,6 @@
  * @property mixed $fetchMode Fetch mode.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.0
  */

@@ -25,7 +25,6 @@
  * @property string $viewPath The directory containing the view files for this widget.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */
@@ -113,7 +112,7 @@ class CWidget extends CBaseController
 	{
 		if($this->_id!==null)
 			return $this->_id;
-		else if($autoGenerate)
+		elseif($autoGenerate)
 			return $this->_id='yw'.self::$_counter++;
 	}
 
@@ -210,14 +209,14 @@ class CWidget extends CBaseController
 			$viewFile=$this->getViewPath(true).DIRECTORY_SEPARATOR.$viewName;
 			if(is_file($viewFile.$extension))
 				return Yii::app()->findLocalizedFile($viewFile.$extension);
-			else if($extension!=='.php' && is_file($viewFile.'.php'))
+			elseif($extension!=='.php' && is_file($viewFile.'.php'))
 				return Yii::app()->findLocalizedFile($viewFile.'.php');
 			$viewFile=$this->getViewPath(false).DIRECTORY_SEPARATOR.$viewName;
 		}
 
 		if(is_file($viewFile.$extension))
 			return Yii::app()->findLocalizedFile($viewFile.$extension);
-		else if($extension!=='.php' && is_file($viewFile.'.php'))
+		elseif($extension!=='.php' && is_file($viewFile.'.php'))
 			return Yii::app()->findLocalizedFile($viewFile.'.php');
 		else
 			return false;

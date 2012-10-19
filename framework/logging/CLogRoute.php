@@ -25,7 +25,6 @@
  * satisfying both filter conditions will they be returned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  * @since 1.0
  */
@@ -40,15 +39,23 @@ abstract class CLogRoute extends CComponent
 	 */
 	public $levels='';
 	/**
-	 * @var string list of categories separated by comma or space. Defaults to empty, meaning all categories.
+	 * @var mixed array of categories, or string list separated by comma or space. 
+	 * Defaults to empty array, meaning all categories.
 	 */
-	public $categories='';
+	public $categories=array();
+	/**
+	 * @var mixed array of categories, or string list separated by comma or space, to EXCLUDE from logs.
+	 * Defaults to empty array, meaning no categories are excluded.
+	 * This will exclude any categories after $categories has been ran.
+	 */
+	public $except=array();
 	/**
 	 * @var mixed the additional filter (eg {@link CLogFilter}) that can be applied to the log messages.
 	 * The value of this property will be passed to {@link Yii::createComponent} to create
 	 * a log filter object. As a result, this can be either a string representing the
 	 * filter class name or an array representing the filter configuration.
 	 * In general, the log filter class should implement {@link ILogFilter} interface.
+	 * If you want to apply multiple filters you can use {@link CChainedLogFilter} to do so.
 	 * Defaults to null, meaning no filter will be used.
 	 */
 	public $filter;
@@ -87,7 +94,7 @@ abstract class CLogRoute extends CComponent
 	 */
 	public function collectLogs($logger, $processLogs=false)
 	{
-		$logs=$logger->getLogs($this->levels,$this->categories);
+		$logs=$logger->getLogs($this->levels,$this->categories,$this->except);
 		$this->logs=empty($this->logs) ? $logs : array_merge($this->logs,$logs);
 		if($processLogs && !empty($this->logs))
 		{

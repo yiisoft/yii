@@ -26,7 +26,7 @@
  * )
  * </pre>
  * Where 'BLOB' refers to the BLOB-type of your preffered database.
- * 
+ *
  * CDbHttpSession relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
  *
  * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
@@ -39,7 +39,6 @@
  * @property boolean $useCustomStorage Whether to use custom storage.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -137,7 +136,7 @@ class CDbHttpSession extends CHttpSession
 		$driver=$db->getDriverName();
 		if($driver==='mysql')
 			$blob='LONGBLOB';
-		else if($driver==='pgsql')
+		elseif($driver==='pgsql')
 			$blob='BYTEA';
 		else
 			$blob='BLOB';
@@ -156,7 +155,7 @@ class CDbHttpSession extends CHttpSession
 	{
 		if($this->_db!==null)
 			return $this->_db;
-		else if(($id=$this->connectionID)!==null)
+		elseif(($id=$this->connectionID)!==null)
 		{
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;

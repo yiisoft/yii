@@ -35,14 +35,13 @@
  * @property array $operations Operations (name=>CAuthItem).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
 abstract class CAuthManager extends CApplicationComponent implements IAuthManager
 {
 	/**
-	 * @var boolean Enable error reporting for bizRules.	 
+	 * @var boolean Enable error reporting for bizRules.
 	 * @since 1.1.3
 	 */
 	public $showErrors = false;

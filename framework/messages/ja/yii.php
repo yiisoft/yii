@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   '"{path}" is not a valid directory.' => '{path} は有効なディレクトリではありません。',
@@ -69,7 +67,7 @@ return array (
   'CHttpRequest is unable to determine the path info of the request.' => 'CHttpRequest はリクエストのパス情報を決定できません。',
   'CHttpRequest is unable to determine the request URI.' => 'CHttpRequest はリクエストURIを決定できません。',
   'CHttpSession.cookieMode can only be "none", "allow" or "only".' => 'CHttpSession.cookieMode の取る値は"none"か"allow"か又は"only"です。',
-  'CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.' => 'CHttpSession.gcProbability "{value}" が無効です。0から100までの整数にしてください。',
+  'CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0 and 100.' => 'CHttpSession.gcProbability "{value}" が無効です。0から100までの実数にしてください。',
   'CHttpSession.savePath "{path}" is not a valid directory.' => 'CHttpSession.savePath "{path}" は無効なディレクトリです。',
   'CMemCache requires PHP {extension} extension to be loaded.' => 'CMemCache は PHP {extension}拡張のロードを必要とします。',
   'CMemCache server configuration must be an array.' => 'CMemCache サーバコンフィギュレーションは配列にしてください。',
@@ -109,6 +107,7 @@ return array (
   'GD and FreeType PHP extensions are required.' => 'GDとFreeTypeのPHP拡張が必要です。',
   'Get a new code' => '新しいコードを取得',
   'Go to page: ' => 'ページ:',
+  'In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.' => 'CFileValidator が提供する MIME タイプ検証を使うためには、fileinfo PECL 拡張のインストールが必要です。',
   'Invalid MO file revision: {revision}.' => '無効な MO ファイル版数({revision})です。',
   'Invalid MO file: {file} (magic: {magic}).' => '無効な MO ファイル: {file} (magic: {magic})です。',
   'Invalid enumerable value "{value}". Please make sure it is among ({enum}).' => '無効な列挙値("{value}")です。{enum} に存在するか確認してください。',
@@ -149,7 +148,8 @@ return array (
   'The asset "{asset}" to be published does not exist.' => 'アセット"{asset}"は存在しません。',
   'The command path "{path}" is not a valid directory.' => 'コマンドパス "{path}" は有効なディレクトリではありません。',
   'The controller path "{path}" is not a valid directory.' => 'コントローラパス "{path}" は有効なディレクトリではありません。',
-  'The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.' => 'ファイル "{file}" がアップロードできません。以下の拡張子を持つファイルだけが認められます。{extensions}',
+  'The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.' => 'ファイル "{file}" はアップロード出来ません。以下の MIME タイプのファイルだけが許可されています : {mimeTypes}',
+  'The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.' => 'ファイル "{file}" はアップロード出来ません。以下の拡張子を持つファイルだけが許可されています : {extensions}',
   'The file "{file}" is too large. Its size cannot exceed {limit} bytes.' => 'ファイル "{file}" が大きすぎます。サイズは {limit} バイトを超えることができません。',
   'The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.' => 'ファイル "{file}" が小さすぎます。サイズは {limit} バイトを下回ることができません。',
   'The file "{file}" was only partially uploaded.' => 'ファイル "{file}" は部分的にアップロードされました。',

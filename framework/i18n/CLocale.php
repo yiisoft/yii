@@ -31,7 +31,6 @@
  * @property array $pluralRules Plural forms expressions.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n
  * @since 1.0
  */
@@ -417,15 +416,15 @@ class CLocale extends CComponent
 		{
 			return $this->_data[$category][$id];
 		}
-		else if (($category == 'languages') && ($id=$this->getLanguageID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'languages') && ($id=$this->getLanguageID($id)) && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];
 		}
-		else if (($category == 'scripts') && ($id=$this->getScriptID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'scripts') && ($id=$this->getScriptID($id)) && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];
 		}
-		else if (($category == 'territories') && ($id=$this->getTerritoryID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'territories') && ($id=$this->getTerritoryID($id)) && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];
 		}

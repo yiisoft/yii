@@ -23,7 +23,6 @@
  * @property CMapIterator $iterator An iterator for traversing the items in the list.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -61,7 +60,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 *   And a validator class is a class extending {@link CValidator}.</li>
 	 * <li>on: this specifies the scenarios when the validation rule should be performed.
 	 *   Separate different scenarios with commas. If this option is not set, the rule
-	 *   will be applied in any scenario. Please see {@link scenario} for more details about this option.</li>
+	 *   will be applied in any scenario that is not listed in "except". Please see {@link scenario} for more details about this option.</li>
+	 * <li>except: this specifies the scenarios when the validation rule should not be performed.
+	 *   Separate different scenarios with commas. Please see {@link scenario} for more details about this option.</li>
 	 * <li>additional parameters are used to initialize the corresponding validator properties.
 	 *   Please refer to individal validator class API for possible properties.</li>
 	 * </ul>
@@ -468,7 +469,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		{
 			if(isset($attributes[$name]))
 				$this->$name=$value;
-			else if($safeOnly)
+			elseif($safeOnly)
 				$this->onUnsafeAttribute($name,$value);
 		}
 	}
@@ -508,7 +509,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * be massively assigned.
 	 *
 	 * A validation rule will be performed when calling {@link validate()}
-	 * if its 'on' option is not set or contains the current scenario value.
+	 * if its 'except' value does not contain current scenario value while
+	 * 'on' option is not set or contains the current scenario value.
 	 *
 	 * And an attribute can be massively assigned if it is associated with
 	 * a validation rule for the current scenario. Note that an exception is

@@ -9,13 +9,13 @@ class CAttributeCollectionTest extends CTestCase
 		$collection = new CAttributeCollection();
 		$collection->Property = 'value';
 		$this->assertEquals('value', $collection->Property);
-		$this->assertEquals(true, $collection->canGetProperty('Property'));
+		$this->assertTrue($collection->canGetProperty('Property'));
 	}
 
 	public function testCanNotGetUndefinedProperty()
 	{
 		$collection = new CAttributeCollection(array(), true);
-		$this->assertEquals(false, $collection->canGetProperty('Property'));
+		$this->assertFalse($collection->canGetProperty('Property'));
 		$this->setExpectedException('CException');
 		$value=$collection->Property;
 	}
@@ -25,7 +25,7 @@ class CAttributeCollectionTest extends CTestCase
 		$collection = new CAttributeCollection();
 		$collection->Property = 'value';
 		$this->assertEquals('value', $collection->itemAt('Property'));
-		$this->assertEquals(true, $collection->canSetProperty('Property'));
+		$this->assertTrue($collection->canSetProperty('Property'));
 	}
 
 	public function testCanNotSetPropertyIfReadOnly()
@@ -39,9 +39,9 @@ class CAttributeCollectionTest extends CTestCase
 	{
 		$collection = new CAttributeCollection();
 		$collection->caseSensitive=false;
-		$this->assertEquals(false, $collection->caseSensitive);
+		$this->assertFalse($collection->caseSensitive);
 		$collection->caseSensitive=true;
-		$this->assertEquals(true, $collection->caseSensitive);
+		$this->assertTrue($collection->caseSensitive);
 	}
 
 	public function testSetCaseSensitive()
@@ -83,25 +83,25 @@ class CAttributeCollectionTest extends CTestCase
 
 	public function testIsset(){
 		$collection = new CAttributeCollection();
-		$this->assertEquals(false, isset($collection->Property));
+		$this->assertFalse(isset($collection->Property));
 		$collection->Property = 'value';
-		$this->assertEquals(true, isset($collection->Property));
+		$this->assertTrue(isset($collection->Property));
 	}
 
 	public function testContains()
 	{
 		$collection = new CAttributeCollection();
-		$this->assertEquals(false, $collection->contains('Property'));
+		$this->assertFalse($collection->contains('Property'));
 		$collection->Property = 'value';
-		$this->assertEquals(true, $collection->contains('Property'));
+		$this->assertTrue($collection->contains('Property'));
 	}
 
 	public function testHasProperty()
 	{
 		$collection = new CAttributeCollection();
-		$this->assertEquals(false, $collection->hasProperty('Property'));
+		$this->assertFalse($collection->hasProperty('Property'));
 		$collection->Property = 'value';
-		$this->assertEquals(true, $collection->hasProperty('Property'));
+		$this->assertTrue($collection->hasProperty('Property'));
 	}
 
   public function testMergeWithCaseSensitive()

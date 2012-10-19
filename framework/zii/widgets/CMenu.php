@@ -37,7 +37,6 @@
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets
  * @since 1.1
  */
@@ -120,6 +119,12 @@ class CMenu extends CWidget
 	 * @since 1.1.4
 	 */
 	public $linkLabelWrapper;
+	/**
+	 * @var array HTML attributes for the links' wrap element specified in
+	 * {@link linkLabelWrapper}.
+	 * @since 1.1.13
+	 */
+	public $linkLabelWrapperHtmlOptions=array();
 	/**
 	 * @var string the CSS class that will be assigned to the first item in the main menu or each submenu.
 	 * Defaults to null, meaning no such CSS class will be assigned.
@@ -236,7 +241,7 @@ class CMenu extends CWidget
 	{
 		if(isset($item['url']))
 		{
-			$label=$this->linkLabelWrapper===null ? $item['label'] : '<'.$this->linkLabelWrapper.'>'.$item['label'].'</'.$this->linkLabelWrapper.'>';
+			$label=$this->linkLabelWrapper===null ? $item['label'] : CHtml::tag($this->linkLabelWrapper, $this->linkLabelWrapperHtmlOptions, $item['label']);
 			return CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
 		}
 		else
@@ -284,7 +289,7 @@ class CMenu extends CWidget
 				else
 					$items[$i]['active']=false;
 			}
-			else if($item['active'])
+			elseif($item['active'])
 				$active=true;
 		}
 		return array_values($items);

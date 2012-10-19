@@ -15,9 +15,9 @@
  *
  * In addition to the {@link message} property for setting a custom error message,
  * CStringValidator has a couple custom error messages you can set that correspond to different
- * validation scenarios. For defining a custom message when the string is too short, 
- * you may use the {@link tooShort} property. Similarly with {@link tooLong}. The messages may contain 
- * placeholders that will be replaced with the actual content. In addition to the "{attribute}" 
+ * validation scenarios. For defining a custom message when the string is too short,
+ * you may use the {@link tooShort} property. Similarly with {@link tooLong}. The messages may contain
+ * placeholders that will be replaced with the actual content. In addition to the "{attribute}"
  * placeholder, recognized by all validators (see {@link CValidator}), CStringValidator allows for the following
  * placeholders to be specified:
  * <ul>
@@ -27,7 +27,6 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */

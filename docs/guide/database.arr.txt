@@ -423,7 +423,7 @@ In this new approach, we need to execute two SQL statements. The benefit is that
 no redundancy in the query results.
 
 So which approach is more efficient? There is no absolute answer. Executing a single big SQL statement
-may be more efficient because it causes less overhead in DBMS for yparsing and executing
+may be more efficient because it causes less overhead in DBMS for parsing and executing
 the SQL statements. On the other hand, using the single SQL statement, we end up with more redundant data
 and thus need more time to read and process them.
 
@@ -547,6 +547,14 @@ $posts=Post::model()->findAll(array(
 
 The above query will bring back all posts together with their approved comments. Note that `comments` refers to the relation name, while `recently` and `approved` refer to two named scopes declared in the `Comment` model class. The relation name and the named scopes should be separated by colons.
 
+Occasionally you may need to retrieve a scoped relationship using a lazy-loading approach, instead of the normal eager loading method shown above.  In that case, the following syntax will do what you need:
+
+~~
+[php]
+// note the repetition of the relationship name, which is necessary
+$approvedComments = $post->comments('comments:approved');
+~~
+
 Named scopes can also be specified in the `with` option of the relational rules declared in [CActiveRecord::relations()]. In the following example, if we access `$user->posts`, it would bring back all *approved* comments of the posts.
 
 ~~~
@@ -598,6 +606,22 @@ $users=User::model()->findAll(array(
 		),
 	),
 ));
+
+class Post extends CActiveRecord
+{
+	......
+
+	public function rated($rating)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'condition'=>'rating=:rating',
+			'params'=>array(':rating'=>$rating),
+		));
+		return $this;
+	}
+
+	......
+}
 ~~~
 
 Relational Query with through

@@ -38,7 +38,6 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -87,15 +86,15 @@ class CTypeValidator extends CValidator
 
 		if($this->type==='integer')
 			$valid=preg_match('/^[-+]?[0-9]+$/',trim($value));
-		else if($this->type==='float')
+		elseif($this->type==='float')
 			$valid=preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
-		else if($this->type==='date')
+		elseif($this->type==='date')
 			$valid=CDateTimeParser::parse($value,$this->dateFormat,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
-	    else if($this->type==='time')
+	    elseif($this->type==='time')
 			$valid=CDateTimeParser::parse($value,$this->timeFormat)!==false;
-	    else if($this->type==='datetime')
+	    elseif($this->type==='datetime')
 			$valid=CDateTimeParser::parse($value,$this->datetimeFormat, array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
-		else if($this->type==='array')
+		elseif($this->type==='array')
 			$valid=is_array($value);
 		else
 			return;
