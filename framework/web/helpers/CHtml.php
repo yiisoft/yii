@@ -795,13 +795,8 @@ class CHtml
 
 		if(isset($htmlOptions['multiple']))
 		{
-			if(substr($htmlOptions['name'],-2)==='[]')
-				$hiddenName=substr($htmlOptions['name'],0,-2);
-			else
-			{
-				$hiddenName=$htmlOptions['name'];
+			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
-			}
 
 			if(isset($htmlOptions['unselectValue']))
 			{
@@ -811,7 +806,7 @@ class CHtml
 				else
 					$unselectOptions=array('id'=>false);
 
-				$hidden=self::hiddenField($hiddenName,$htmlOptions['unselectValue'],$unselectOptions);
+				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$unselectOptions);
 				unset($htmlOptions['unselectValue']);
 			}
 		}
@@ -1581,13 +1576,8 @@ EOD;
 
 		if(isset($htmlOptions['multiple']))
 		{
-			if(substr($htmlOptions['name'],-2)==='[]')
-				$hiddenName=substr($htmlOptions['name'],0,-2);
-			else
-			{
-				$hiddenName=$htmlOptions['name'];
+			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
-			}
 
 			if(!array_key_exists('unselectValue',$htmlOptions))
 				$htmlOptions['unselectValue']='';
@@ -1595,7 +1585,7 @@ EOD;
 			if($htmlOptions['unselectValue']!==null)
 			{
 				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-				$hidden=self::hiddenField($hiddenName,$htmlOptions['unselectValue'],$hiddenOptions);
+				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
 			}
 
 			unset($htmlOptions['unselectValue']);
