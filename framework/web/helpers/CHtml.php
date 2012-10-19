@@ -803,19 +803,15 @@ class CHtml
 				$htmlOptions['name'].='[]';
 			}
 
-			if(array_key_exists('unselectValue',$htmlOptions))
+			if(isset($htmlOptions['unselectValue']))
 			{
-				if($htmlOptions['unselectValue']!==null)
-				{
-					// add a hidden field so that if the option is not selected, it still submits a value
-					if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
-						$unselectOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
-					else
-						$unselectOptions=array('id'=>false);
+				// add a hidden field so that if the option is not selected, it still submits a value
+				if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+					$unselectOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+				else
+					$unselectOptions=array('id'=>false);
 
-					$hidden=self::hiddenField($hiddenName,$htmlOptions['unselectValue'],$unselectOptions);
-				}
-
+				$hidden=self::hiddenField($hiddenName,$htmlOptions['unselectValue'],$unselectOptions);
 				unset($htmlOptions['unselectValue']);
 			}
 		}
