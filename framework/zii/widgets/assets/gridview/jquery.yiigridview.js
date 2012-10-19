@@ -349,21 +349,30 @@
 
 		/**
 		 * Returns the key values of the currently checked rows.
-		 * @param column_id string the ID of the column
+		 * @param column_id string Optional ID of the column
 		 * @return array the key values of the currently checked rows.
 		 */
 		getChecked: function (column_id) {
-			var settings = gridSettings[this.attr('id')],
+  			var settings = gridSettings[this.attr('id')],
 				keys = this.find('.keys span'),
 				checked = [];
-			if (column_id.substring(column_id.length - 2) !== '[]') {
-				column_id = column_id + '[]';
-			}
-			this.find('.' + settings.tableClass).children('tbody').children('tr').children('td').children('input[name="' + column_id + '"]').each(function (i) {
+			
+			var nth = '', input = 'input';
+			if (undefined !== column_id) {
+				if (column_id.substring(column_id.length - 2) !== '[]') {
+					column_id = column_id + '[]';
+				}
+				input += '[name="' + column_id + '"]';
+			} else
+				nth = ':first-child';
+			
+			this.find('.' + settings.tableClass).children('tbody').children('tr')
+				.children('td' + nth).children(input).each(function (i) {
 				if (this.checked) {
 					checked.push(keys.eq(i).text());
 				}
 			});
+			
 			return checked;
 		}
 	};
