@@ -502,8 +502,7 @@ class CDbCommand extends CComponent
 			else
 			{
 				$mode=(array)$mode;
-				call_user_func_array(array($this->_statement, 'setFetchMode'), $mode);
-				$result=$this->_statement->$method();
+				$result=call_user_func_array(array($this->_statement, $method), $mode);
 				$this->_statement->closeCursor();
 			}
 
