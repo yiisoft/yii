@@ -442,7 +442,7 @@ class CDbCommand extends CComponent
 	 */
 	public function queryColumn($params=array())
 	{
-		return $this->queryInternal('fetchAll',PDO::FETCH_COLUMN,$params);
+		return $this->queryInternal('fetchAll',array(PDO::FETCH_COLUMN, 0),$params);
 	}
 
 	/**
@@ -502,7 +502,8 @@ class CDbCommand extends CComponent
 			else
 			{
 				$mode=(array)$mode;
-				$result=call_user_func_array(array($this->_statement, $method), $mode);
+				call_user_func_array(array($this->_statement, 'setFetchMode'), $mode);
+				$result=$this->_statement->$method();
 				$this->_statement->closeCursor();
 			}
 
