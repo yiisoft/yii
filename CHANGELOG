@@ -57,6 +57,7 @@ Version 1.1.13 work in progress
 - Enh #1518: Allow to configure CHtml::$closeSingleTags and CHtml::$renderSpecialAttributesValue. Useful for HTML5 code (creocoder)
 - Enh #1531: CArrayDataProvider is now able to sort cutted array, where sorting column is not available in every entry (Yiivgeny)
 - Enh #1535: HTML5 special attributes added to CHtml::renderAttributes() (creocoder)
+- End #1581: Added an option 'unselectValue' to CHtml::dropDownList() and CHtml::activeDropDownList() to define default post value if option is not selected in multiple mode (creocoder)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
