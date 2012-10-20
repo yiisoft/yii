@@ -180,7 +180,7 @@ EOD;
 		$item = '';
 		if($this->selectableRows===null && $this->grid->selectableRows>1)
 			$item = CHtml::checkBox($this->id.'_all',false,array('class'=>'select-on-check-all'));
-		else if($this->selectableRows>1)
+		elseif($this->selectableRows>1)
 			$item = CHtml::checkBox($this->id.'_all',false);
 		else
 		{
@@ -204,7 +204,7 @@ EOD;
 	{
 		if($this->value!==null)
 			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
-		else if($this->name!==null)
+		elseif($this->name!==null)
 			$value=CHtml::value($data,$this->name);
 		else
 			$value=$this->grid->dataProvider->keys[$row];

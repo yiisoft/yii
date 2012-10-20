@@ -72,7 +72,7 @@ class CLogger extends CComponent
 	/**
 	 * @var array log categories for excluding from filtering (used when filtering)
 	 */
-	private $_except;
+	private $_except=array();
 	/**
 	 * @var array the profiling results (category, token => time in seconds)
 	 */
@@ -132,25 +132,25 @@ class CLogger extends CComponent
 	public function getLogs($levels='',$categories=array(), $except=array())
 	{
 		$this->_levels=preg_split('/[\s,]+/',strtolower($levels),-1,PREG_SPLIT_NO_EMPTY);
-		
+
 		if (is_string($categories))
 			$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
 		else
 			$this->_categories=array_filter(array_map('strtolower',$categories));
-		
+
 		if (is_string($except))
 			$this->_except=preg_split('/[\s,]+/',strtolower($except),-1,PREG_SPLIT_NO_EMPTY);
 		else
 			$this->_except=array_filter(array_map('strtolower',$except));
-		
+
 		$ret=$this->_logs;
-	
-		if(!empty($levels))			
+
+		if(!empty($levels))
 			$ret=array_values(array_filter($ret,array($this,'filterByLevel')));
-		
+
 		if(!empty($this->_categories) || !empty($this->_except))
 			$ret=array_values(array_filter($ret,array($this,'filterByCategory')));
-		
+
 		return $ret;
 	}
 
@@ -173,7 +173,7 @@ class CLogger extends CComponent
 	{
 		return $this->filterAllCategories($value, 1);
 	}
-	
+
 	/**
 	 * Filter function used to filter included and excluded categories
 	 * @param array $value element to be filtered
@@ -185,14 +185,14 @@ class CLogger extends CComponent
 		$cat=strtolower($value[$index]);
 		$ret=empty($this->_categories);
 		foreach($this->_categories as $category)
-		{	
+		{
 			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				$ret=true;			
-		}		
-		if ($ret)
+				$ret=true;
+		}
+		if($ret)
 		{
 			foreach($this->_except as $category)
-			{			
+			{
 				if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
 					$ret=false;
 			}
@@ -305,7 +305,7 @@ class CLogger extends CComponent
 				$log[0]=substr($message,6);
 				$stack[]=$log;
 			}
-			else if(!strncasecmp($message,'end:',4))
+			elseif(!strncasecmp($message,'end:',4))
 			{
 				$token=substr($message,4);
 				if(($last=array_pop($stack))!==null && $last[0]===$token)

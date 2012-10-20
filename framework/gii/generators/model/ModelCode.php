@@ -182,13 +182,14 @@ class ModelCode extends CCodeModel
 		$class=@Yii::import($this->baseClass,true);
 		if(!is_string($class) || !$this->classExists($class))
 			$this->addError('baseClass', "Class '{$this->baseClass}' does not exist or has syntax error.");
-		else if($class!=='CActiveRecord' && !is_subclass_of($class,'CActiveRecord'))
+		elseif($class!=='CActiveRecord' && !is_subclass_of($class,'CActiveRecord'))
 			$this->addError('baseClass', "'{$this->model}' must extend from CActiveRecord.");
 	}
 
 	public function getTableSchema($tableName)
 	{
-		return Yii::app()->{$this->connectionId}->getSchema()->getTable($tableName);
+		$connection=Yii::app()->{$this->connectionId};
+		return $connection->getSchema()->getTable($tableName, $connection->schemaCachingDuration!==0);
 	}
 
 	public function generateLabels($table)
@@ -224,11 +225,11 @@ class ModelCode extends CCodeModel
 				$required[]=$column->name;
 			if($column->type==='integer')
 				$integers[]=$column->name;
-			else if($column->type==='double')
+			elseif($column->type==='double')
 				$numerical[]=$column->name;
-			else if($column->type==='string' && $column->size>0)
+			elseif($column->type==='string' && $column->size>0)
 				$length[$column->size][]=$column->name;
-			else if(!$column->isPrimaryKey && !$r)
+			elseif(!$column->isPrimaryKey && !$r)
 				$safe[]=$column->name;
 		}
 		if($required!==array())
@@ -275,7 +276,7 @@ class ModelCode extends CCodeModel
 				if(strpos($name,$prefix)===0)
 					return $schema.'.'.$lb.substr($name,strlen($prefix)).$rb;
 			}
-			else if(strpos($tableName,$prefix)===0)
+			elseif(strpos($tableName,$prefix)===0)
 				return $lb.substr($tableName,strlen($prefix)).$rb;
 		}
 		return $tableName;
