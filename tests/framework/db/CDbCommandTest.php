@@ -235,5 +235,13 @@ class CDbCommandTest extends CTestCase
 		$command->setFetchMode(PDO::FETCH_OBJ);
 		$result = $command->queryRow();
 		$this->assertTrue(is_object($result));
+
+		$sql='SELECT * FROM posts';
+		$command=$this->_connection->createCommand($sql);
+			$command->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'TestClass');
+		$result = $command->queryRow();
+		$this->assertTrue($result instanceof TestClass);
 	}
 }
+
+class TestClass {}
