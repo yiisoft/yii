@@ -94,8 +94,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_cookies;
 	private $_preferredLanguage;
 	private $_csrfToken;
-	private $_deleteParams;
-	private $_putParams;
+	private $_restParams;
 
 	/**
 	 * Initializes the application component.
@@ -203,9 +202,13 @@ class CHttpRequest extends CApplicationComponent
 		if($this->getIsDeleteViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
-		if($this->_deleteParams===null)
-			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
-		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
+		if($this->getIsDeleteRequest())
+		{
+			$this->getRestParams();
+			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+		}
+		else
+			return $defaultValue;
 	}
 
 	/**
@@ -224,24 +227,47 @@ class CHttpRequest extends CApplicationComponent
 		if($this->getIsPutViaPostRequest())
 			return $this->getPost($name, $defaultValue);
 
-		if($this->_putParams===null)
-			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
-		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
+		if($this->getIsPutRequest())
+		{
+			$this->getRestParams();
+			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+		}
+		else
+			return $defaultValue;
 	}
 
 	/**
-	 * Returns the PUT or DELETE request parameters.
+	 * Returns request parameters. Typically PUT or DELETE.
 	 * @return array the request parameters
 	 * @since 1.1.7
+	 * @since 1.1.13 method became public
 	 */
-	protected function getRestParams()
+	public function getRestParams()
 	{
-		$result=array();
-		if(function_exists('mb_parse_str'))
-			mb_parse_str(file_get_contents('php://input'), $result);
-		else
-			parse_str(file_get_contents('php://input'), $result);
-		return $result;
+		if($this->_restParams===null)
+		{
+			$result=array();
+			if(function_exists('mb_parse_str'))
+				mb_parse_str($this->getRawBody(), $result);
+			else
+				parse_str($this->getRawBody(), $result);
+			$this->_restParams=$result;
+		}
+
+		return $this->_restParams;
+	}
+
+	/**
+	 * Returns the raw HTTP request body.
+	 * @return string the request body
+	 * @since 1.1.13
+	 */
+	public function getRawBody()
+	{
+		static $rawBody;
+		if($rawBody===null)
+			$rawBody=file_get_contents('php://input');
+		return $rawBody;
 	}
 
 	/**
@@ -349,13 +375,13 @@ class CHttpRequest extends CApplicationComponent
 			$scriptName=basename($_SERVER['SCRIPT_FILENAME']);
 			if(basename($_SERVER['SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['SCRIPT_NAME'];
-			else if(basename($_SERVER['PHP_SELF'])===$scriptName)
+			elseif(basename($_SERVER['PHP_SELF'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['PHP_SELF'];
-			else if(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
+			elseif(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['ORIG_SCRIPT_NAME'];
-			else if(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
+			elseif(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
 				$this->_scriptUrl=substr($_SERVER['SCRIPT_NAME'],0,$pos).'/'.$scriptName;
-			else if(isset($_SERVER['DOCUMENT_ROOT']) && strpos($_SERVER['SCRIPT_FILENAME'],$_SERVER['DOCUMENT_ROOT'])===0)
+			elseif(isset($_SERVER['DOCUMENT_ROOT']) && strpos($_SERVER['SCRIPT_FILENAME'],$_SERVER['DOCUMENT_ROOT'])===0)
 				$this->_scriptUrl=str_replace('\\','/',str_replace($_SERVER['DOCUMENT_ROOT'],'',$_SERVER['SCRIPT_FILENAME']));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the entry script URL.'));
@@ -399,9 +425,9 @@ class CHttpRequest extends CApplicationComponent
 			$baseUrl=$this->getBaseUrl();
 			if(strpos($pathInfo,$scriptUrl)===0)
 				$pathInfo=substr($pathInfo,strlen($scriptUrl));
-			else if($baseUrl==='' || strpos($pathInfo,$baseUrl)===0)
+			elseif($baseUrl==='' || strpos($pathInfo,$baseUrl)===0)
 				$pathInfo=substr($pathInfo,strlen($baseUrl));
-			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
+			elseif(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
 				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
@@ -458,7 +484,7 @@ class CHttpRequest extends CApplicationComponent
 		{
 			if(isset($_SERVER['HTTP_X_REWRITE_URL'])) // IIS
 				$this->_requestUri=$_SERVER['HTTP_X_REWRITE_URL'];
-			else if(isset($_SERVER['REQUEST_URI']))
+			elseif(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
 				if(!empty($_SERVER['HTTP_HOST']))
@@ -469,7 +495,7 @@ class CHttpRequest extends CApplicationComponent
 				else
 					$this->_requestUri=preg_replace('/^(http|https):\/\/[^\/]+/i','',$this->_requestUri);
 			}
-			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
+			elseif(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
 			{
 				$this->_requestUri=$_SERVER['ORIG_PATH_INFO'];
 				if(!empty($_SERVER['QUERY_STRING']))

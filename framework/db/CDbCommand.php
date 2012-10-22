@@ -246,9 +246,9 @@ class CDbCommand extends CComponent
 		$this->prepare();
 		if($dataType===null)
 			$this->_statement->bindParam($name,$value,$this->_connection->getPdoType(gettype($value)));
-		else if($length===null)
+		elseif($length===null)
 			$this->_statement->bindParam($name,$value,$dataType);
-		else if($driverOptions===null)
+		elseif($driverOptions===null)
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length,$driverOptions);
@@ -442,7 +442,7 @@ class CDbCommand extends CComponent
 	 */
 	public function queryColumn($params=array())
 	{
-		return $this->queryInternal('fetchAll',PDO::FETCH_COLUMN,$params);
+		return $this->queryInternal('fetchAll',array(PDO::FETCH_COLUMN, 0),$params);
 	}
 
 	/**
@@ -502,7 +502,8 @@ class CDbCommand extends CComponent
 			else
 			{
 				$mode=(array)$mode;
-				$result=call_user_func_array(array($this->_statement, $method), $mode);
+				call_user_func_array(array($this->_statement, 'setFetchMode'), $mode);
+				$result=$this->_statement->$method();
 				$this->_statement->closeCursor();
 			}
 
@@ -599,7 +600,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 				{
 					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' AS '.$this->_connection->quoteColumnName($matches[2]);
@@ -964,7 +965,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 					$columns[$i]=$this->_connection->quoteColumnName($column);
 			}
 			$this->_query['group']=implode(', ',$columns);
@@ -1051,7 +1052,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 				{
 					if(preg_match('/^(.*?)\s+(asc|desc)$/i',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' '.strtoupper($matches[2]);
@@ -1459,7 +1460,7 @@ class CDbCommand extends CComponent
 	{
 		if(!is_array($conditions))
 			return $conditions;
-		else if($conditions===array())
+		elseif($conditions===array())
 			return '';
 		$n=count($conditions);
 		$operator=strtoupper($conditions[0]);

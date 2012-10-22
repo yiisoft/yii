@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: yii.php 02:33 Thursday, February 05, 2009 unicorn $
  */
 return array (
   'CHttpRequest is unable to determine the path info of the request.' => 'CHttpRequest не можа да установи информације о путањи (path info) за теккући захтев (request).',

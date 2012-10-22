@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: yii.php,v 1.2 2009-01-16 18:45:59+09 mocapapa Exp mocapapa $
  */
 return array (
   'GD extension with<br />FreeType support'=>'GD拡張 (FreeTypeサポート)',
