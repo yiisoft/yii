@@ -5,7 +5,7 @@
 class SoapPovCalculationOutput {
 	
 	/**
-	* @var integer calculation ID {nillable = 0, minOccurs = 1, maxOccurs = 1}
+	* @var integer calculation ID
 	* @example 187
 	* @soap
 	*/

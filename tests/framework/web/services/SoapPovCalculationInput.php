@@ -19,28 +19,28 @@ class SoapPovCalculationInput
 	public $use_kind;
 	
 	/**
-	* @var integer Engine volume 1 < ccm < 3500 ccm. {nillable = 0, minOccurs = 1, maxOccurs = 1}
+	* @var integer Engine volume 1 < ccm < 3500 ccm.
 	* @example: 1397
 	* @soap
 	*/
-	public $ccm_personal_ccm;
+	public $ccm_personal;
 	
 	/**
-	* @var integer Engine power kW > 0 {nillable = 0, minOccurs = 1, maxOccurs = 1}
+	* @var integer Engine power kW > 0 {nillable = 1}
 	* @example: 55
 	* @soap
 	*/
 	public $car_power;
 	
 	/**
-	* @var integer Vehicle weight 0 < kg < 3500. {nillable = 0, minOccurs = 1, maxOccurs = 1}
+	* @var integer Vehicle weight 0 < kg < 3500. {minOccurs = 1, maxOccurs = 1}
 	* @example: 1615
 	* @soap
 	*/
 	public $car_kg;
 	
 	/**
-	* @var integer Year made. {nillable = 0, minOccurs = 1, maxOccurs = 1}
+	* @var integer Year made. {nillable = false, minOccurs = 1, maxOccurs = 1}
 	* @example: 2001
 	* @soap
 	*/
@@ -54,7 +54,7 @@ class SoapPovCalculationInput
 	public $dob = null;
 	
 	/**
-	* @var date Insurance start date RRRR.MM.DD {nillable = 0, minOccurs = 1, maxOccurs = 1}
+	* @var date Insurance start date RRRR.MM.DD {nillable = true}
 	* @example: 2013-01-01
 	* @soap
 	*/
