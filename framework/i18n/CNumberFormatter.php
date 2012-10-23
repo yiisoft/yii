@@ -157,9 +157,8 @@ class CNumberFormatter extends CComponent
 	{
 		$negative=$value<0;
 		$value=abs($value*$format['multiplier']);
-		if($format['maxDecimalDigits']>=0)  {
+		if($format['maxDecimalDigits']>=0)
 			$value=number_format($value,$format['maxDecimalDigits'],'.','');
-		}
 		$value="$value";
 		if(false !== $pos=strpos($value,'.'))
 		{
@@ -175,11 +174,10 @@ class CNumberFormatter extends CComponent
 			$decimal=str_pad($decimal,$format['decimalDigits'],'0');
 		elseif ($format['decimalDigits']<strlen($decimal))
 		{
-			$decimal_temp='';
-			for ($i=strlen($decimal)-1;$i>=0;$i--){
+			$decimal_temp = '';
+			for ($i=strlen($decimal)-1;$i>=0;$i--)
 				if ($decimal[$i]!=='0' || strlen($decimal_temp)>0)
 					$decimal_temp=$decimal[$i].$decimal_temp;
-			}
 			$decimal=$decimal_temp;
 		}
 		if(strlen($decimal)>0)
