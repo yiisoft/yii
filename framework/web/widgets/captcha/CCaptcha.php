@@ -79,13 +79,13 @@ class CCaptcha extends CWidget
 	 */
 	public function run()
 	{
-		if(self::checkRequirements())
+		if(self::checkRequirements('imagick') || self::checkRequirements('gd'))
 		{
 			$this->renderImage();
 			$this->registerClientScript();
 		}
 		else
-			throw new CException(Yii::t('yii','GD and FreeType PHP extensions are required.'));
+			throw new CException(Yii::t('yii','GD with FreeType or ImageMagick PHP extensions are required.'));
 	}
 
 	/**
@@ -153,16 +153,21 @@ $(document).on('click', '$selector', function(){
 	}
 
 	/**
-	 * Checks if GD with FreeType support is loaded.
-	 * @return boolean true if GD with FreeType support is loaded, otherwise false
+	 * Checks if specified graphic extension support is loaded.
+	 * @param string extension name to be checked. Possible values are 'gd', 'imagick' and null.
+	 * Default value is null meaning that both extensions will be checked. This parameter
+	 * is available since 1.1.13.
+	 * @return boolean true if ImageMagick extension or GD with FreeType support is loaded, otherwise false
 	 * @since 1.1.5
 	 */
-	public static function checkRequirements()
+	public static function checkRequirements($extension=null)
 	{
-		if (extension_loaded('gd'))
+		if(($extension===null || $extension=='imagick') && extension_loaded('imagick'))
+			return true;
+		elseif(($extension===null || $extension=='gd') && extension_loaded('gd'))
 		{
 			$gdinfo=gd_info();
-			if( $gdinfo['FreeType Support'])
+			if($gdinfo['FreeType Support'])
 				return true;
 		}
 		return false;
