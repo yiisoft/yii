@@ -420,26 +420,16 @@ abstract class CModule extends CComponent
 		}
 		elseif(isset($this->_components[$id]))
 		{
-			if(isset($component['class']))
+			if(isset($component['class']) && get_class($this->_components[$id])!==$component['class'])
 			{
-				if(get_class($this->_components[$id])!==$component['class'])
-				{
-					unset($this->_components[$id]);
-					$this->_componentConfig[$id]=$component; //we should ignore merge here
-					return;
-				}
-
-				$class=$component['class'];
-				unset($component['class']);
-
-				foreach($component as $key=>$value)
-					$this->_components[$id]->$key=$value;
-
-				$component['class']=$class;
+				unset($this->_components[$id]);
+				$this->_componentConfig[$id]=$component; //we should ignore merge here
+				return;
 			}
-			else
+
+			foreach($component as $key=>$value)
 			{
-				foreach($component as $key=>$value)
+				if($key!=='class')
 					$this->_components[$id]->$key=$value;
 			}
 		}
