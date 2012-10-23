@@ -115,6 +115,7 @@ class CGridView extends CBaseListView
 	 * stands for the row number (zero-based), <code>$data</code> is the data model associated with
 	 * the row, and <code>$this</code> is the grid object.
 	 * @see rowCssClass
+	 * @deprecated in 1.1.13
 	 */
 	public $rowCssClassExpression;
 	/**
