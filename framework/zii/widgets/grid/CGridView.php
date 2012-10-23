@@ -542,7 +542,9 @@ class CGridView extends CBaseListView
 		if($this->rowHtmlOptionsExpression!==null)
 		{
 			$data=$this->dataProvider->data[$row];
-			$htmlOptions=$this->evaluateExpression($this->rowHtmlOptionsExpression,array('row'=>$row,'data'=>$data));
+			$options=$this->evaluateExpression($this->rowHtmlOptionsExpression,array('row'=>$row,'data'=>$data));
+			if(is_array($options))
+				$htmlOptions = $options;
 		}
 
 		if($this->rowCssClassExpression!==null)
