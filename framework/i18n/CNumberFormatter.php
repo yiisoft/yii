@@ -172,11 +172,11 @@ class CNumberFormatter extends CComponent
 		}
 		if($format['decimalDigits']>strlen($decimal))
 			$decimal=str_pad($decimal,$format['decimalDigits'],'0');
-		elseif ($format['decimalDigits']<strlen($decimal))
+		elseif($format['decimalDigits']<strlen($decimal))
 		{
-			$decimal_temp = '';
-			for ($i=strlen($decimal)-1;$i>=0;$i--)
-				if ($decimal[$i]!=='0' || strlen($decimal_temp)>0)
+			$decimal_temp='';
+			for($i=strlen($decimal)-1;$i>=0;$i--)
+				if($decimal[$i]!=='0' || strlen($decimal_temp)>0)
 					$decimal_temp=$decimal[$i].$decimal_temp;
 			$decimal=$decimal_temp;
 		}
