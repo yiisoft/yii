@@ -357,7 +357,7 @@ class CDbCriteria extends CComponent
 				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 			}
 		}
-		return $this->addCondition(implode(" $columnOperator ",$params), $operator);
+		return $this->addCondition($params, $operator,$columnOperator);
 	}
 
 	/**
