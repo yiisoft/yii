@@ -188,7 +188,8 @@ class ModelCode extends CCodeModel
 
 	public function getTableSchema($tableName)
 	{
-		return Yii::app()->{$this->connectionId}->getSchema()->getTable($tableName);
+		$connection=Yii::app()->{$this->connectionId};
+		return $connection->getSchema()->getTable($tableName, $connection->schemaCachingDuration!==0);
 	}
 
 	public function generateLabels($table)
