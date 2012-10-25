@@ -32,6 +32,13 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria = new CDbCriteria();
 		$criteria->addCondition(array('A', 'B'));
 		$this->assertEquals('(A) AND (B)', $criteria->condition);
+
+		//adding multiple array conditions
+		$criteria = new CDbCriteria();
+		$criteria->addCondition('A');
+		$criteria->addCondition(array('B', 'C'), 'AND');
+		$criteria->addCondition(array('D', 'E'), 'OR');
+		$this->assertEquals('((A) AND ((B) AND (C))) OR ((D) OR (E))', $criteria->condition);
 	}
 
 	/**
