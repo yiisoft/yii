@@ -273,7 +273,7 @@ class CDbCriteria extends CComponent
 		{
 			$value=reset($values);
 			if($value===null)
-				return $this->addCondition($column.' IS NULL');
+				return $this->addCondition($column.' IS NULL',$operator);
 			$condition=$column.'='.self::PARAM_PREFIX.self::$paramCount;
 			$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 		}
@@ -311,7 +311,7 @@ class CDbCriteria extends CComponent
 		{
 			$value=reset($values);
 			if($value===null)
-				return $this->addCondition($column.' IS NOT NULL');
+				return $this->addCondition($column.' IS NOT NULL',$operator);
 			$condition=$column.'!='.self::PARAM_PREFIX.self::$paramCount;
 			$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 		}
