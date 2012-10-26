@@ -32,6 +32,13 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria = new CDbCriteria();
 		$criteria->addCondition(array('A', 'B'));
 		$this->assertEquals('(A) AND (B)', $criteria->condition);
+
+		//adding multiple array conditions
+		$criteria = new CDbCriteria();
+		$criteria->addCondition('A');
+		$criteria->addCondition(array('B', 'C'), 'AND');
+		$criteria->addCondition(array('D', 'E'), 'OR');
+		$this->assertEquals('((A) AND ((B) AND (C))) OR ((D) OR (E))', $criteria->condition);
 	}
 
 	/**
@@ -137,7 +144,7 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria = new CDbCriteria();
 		$criteria->addColumnCondition(array('A' => 1, 'B' => null, 'C' => '2'));
 
-		$this->assertEquals('A=:ycp0 AND B IS NULL AND C=:ycp1', $criteria->condition);
+		$this->assertEquals('(A=:ycp0) AND (B IS NULL) AND (C=:ycp1)', $criteria->condition);
 		$this->assertEquals(1, $criteria->params[':ycp0']);
 		$this->assertEquals('2', $criteria->params[':ycp1']);
 	}

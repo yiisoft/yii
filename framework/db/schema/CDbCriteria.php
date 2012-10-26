@@ -202,20 +202,25 @@ class CDbCriteria extends CComponent
 	 * The new condition and the existing condition will be concatenated via the specified operator
 	 * which defaults to 'AND'.
 	 * The new condition can also be an array. In this case, all elements in the array
-	 * will be concatenated together via the operator.
+	 * will be concatenated together via the internal_operator which defaults to operator.
 	 * This method handles the case when the existing condition is empty.
 	 * After calling this method, the {@link condition} property will be modified.
 	 * @param mixed $condition the new condition. It can be either a string or an array of strings.
-	 * @param string $operator the operator to join different conditions. Defaults to 'AND'.
+	 * @param string $operator the operator used to concatenate the new condition with the existing one.
+	 * Defaults to 'AND'.
+	 * @param string $internal_operator the operator to concatenate multiple matching condition.
+	 * Defaults equal $operator. (@since 1.1.13)
 	 * @return CDbCriteria the criteria object itself
 	 */
-	public function addCondition($condition,$operator='AND')
+	public function addCondition($condition,$operator='AND',$internal_operator=null)
 	{
 		if(is_array($condition))
 		{
 			if($condition===array())
 				return $this;
-			$condition='('.implode(') '.$operator.' (',$condition).')';
+			if($internal_operator===null)
+				$internal_operator=$operator;
+			$condition='('.implode(') '.$internal_operator.' (',$condition).')';
 		}
 		if($this->condition==='')
 			$this->condition=$condition;
@@ -352,7 +357,7 @@ class CDbCriteria extends CComponent
 				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 			}
 		}
-		return $this->addCondition(implode(" $columnOperator ",$params), $operator);
+		return $this->addCondition($params, $operator,$columnOperator);
 	}
 
 	/**
