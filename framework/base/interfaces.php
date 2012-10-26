@@ -186,6 +186,11 @@ interface IAction
 	 * @return CController the controller instance
 	 */
 	public function getController();
+
+	/**
+	 * Invoked on action run.
+	 */
+	public function run();
 }
 
 
