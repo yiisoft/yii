@@ -464,11 +464,7 @@ class CDbCriteria extends CComponent
 		$this->params[$paramEnd]=$valueEnd;
 		$condition="$column BETWEEN $paramStart AND $paramEnd";
 
-		if($this->condition==='')
-			$this->condition=$condition;
-		else
-			$this->condition='('.$this->condition.') '.$operator.' ('.$condition.')';
-		return $this;
+		return $this->addCondition($condition,$operator);
 	}
 
 	/**
