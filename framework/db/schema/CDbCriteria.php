@@ -268,14 +268,17 @@ class CDbCriteria extends CComponent
 	public function addInCondition($column,$values,$operator='AND')
 	{
 		if(($n=count($values))<1)
-			return $this->addCondition('0=1',$operator); // 0=1 is used because in MSSQL value alone can't be used in WHERE
-		if($n===1)
+			$condition='0=1'; // 0=1 is used because in MSSQL value alone can't be used in WHERE
+		elseif($n===1)
 		{
 			$value=reset($values);
 			if($value===null)
-				return $this->addCondition($column.' IS NULL',$operator);
-			$condition=$column.'='.self::PARAM_PREFIX.self::$paramCount;
-			$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
+				$condition=$column.' IS NULL';
+			else
+			{
+				$condition=$column.'='.self::PARAM_PREFIX.self::$paramCount;
+				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
+			}
 		}
 		else
 		{
@@ -311,9 +314,12 @@ class CDbCriteria extends CComponent
 		{
 			$value=reset($values);
 			if($value===null)
-				return $this->addCondition($column.' IS NOT NULL',$operator);
-			$condition=$column.'!='.self::PARAM_PREFIX.self::$paramCount;
-			$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
+				$condition=$column.' IS NOT NULL';
+			else
+			{
+				$condition=$column.'!='.self::PARAM_PREFIX.self::$paramCount;
+				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
+			}
 		}
 		else
 		{
