@@ -45,7 +45,6 @@
 		 * - afterAjaxUpdate: function, the function to be called after ajax response is received
 		 * - ajaxUpdateError: function, the function to be called if an ajax error occurs
 		 * - selectionChanged: function, the function to be called after the row selection is changed
-		 * - destroy: destroys grid view
 		 * @return object the jQuery object
 		 */
 		init: function (options) {
@@ -77,7 +76,7 @@
 				settings.updateSelector = settings.updateSelector
 								.replace('{page}', pagerSelector)
 								.replace('{sort}', sortSelector);
-				settings.filterSelector = (settings.filterSelector || '')
+				settings.filterSelector = settings.filterSelector
 								.replace('{filters}', inputSelector);
 
 				gridSettings[id] = settings;
@@ -369,28 +368,6 @@
 				}
 			});
 			return checked;
-		},
-		
-		/**
-		 * Destroys grid view
-		 */
-		destroy: function () {
-			return this.each(function () {
-				var $grid = $(this),
-					id = $grid.attr('id'),
-					settings = gridSettings[id];
-				if (settings.ajaxUpdate.length > 0)
-					$(document).off('click.yiiGridView', settings.updateSelector);
-				if (settings.filterSelector.length > 0)
-					$(document).off('change.yiiGridView keydown.yiiGridView', settings.filterSelector);
-				if (settings.selectableRows > 0) {
-					$(document).off('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr');
-					if (settings.selectableRows > 1)
-						$(document).off('click.yiiGridView', '#' + id + ' .select-on-check-all');
-				} else
-					$(document).off('click.yiiGridView', '#' + id + ' .select-on-check');
-				$grid.remove();
-			});
 		}
 		
 	};
