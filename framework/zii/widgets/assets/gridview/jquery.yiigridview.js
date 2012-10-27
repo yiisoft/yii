@@ -98,36 +98,35 @@
 					});
 				}
 
-				if (settings.filterSelector.length > 0)
-					$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
-						if (event.type === 'keydown') {
-							if( event.keyCode !== 13) {
-								return; // only react to enter key
-							} else {
-								eventType = 'keydown';
-							}
+				$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
+					if (event.type === 'keydown') {
+						if( event.keyCode !== 13) {
+							return; // only react to enter key
 						} else {
-							// prevent processing for both keydown and change events
-							if (eventType === 'keydown') {
-								eventType = '';
-								return;
-							}
+							eventType = 'keydown';
 						}
-						var data = $(settings.filterSelector).serialize();
-						if (settings.pageVar !== undefined) {
-							data += '&' + settings.pageVar + '=1';
+					} else {
+						// prevent processing for both keydown and change events
+						if (eventType === 'keydown') {
+							eventType = '';
+							return;
 						}
-						if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
-							// Ajaxify this link
-							var url = $('#' + id).yiiGridView('getUrl'),
-								params = $.deparam.querystring($.param.querystring(url, data));
+					}
+					var data = $(settings.filterSelector).serialize();
+					if (settings.pageVar !== undefined) {
+						data += '&' + settings.pageVar + '=1';
+					}
+					if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
+						// Ajaxify this link
+						var url = $('#' + id).yiiGridView('getUrl'),
+							params = $.deparam.querystring($.param.querystring(url, data));
 
-							delete params[settings.ajaxVar];
-							window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url.substr(0, url.indexOf('?')), params)));
-						} else {
-							$('#' + id).yiiGridView('update', {data: data});
-						}
-					});
+						delete params[settings.ajaxVar];
+						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url.substr(0, url.indexOf('?')), params)));
+					} else {
+						$('#' + id).yiiGridView('update', {data: data});
+					}
+				});
 
 				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
