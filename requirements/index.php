@@ -231,7 +231,20 @@ function getPreferredLanguage()
 			$languages[$matches[1][$i]]=empty($matches[3][$i]) ? 1.0 : floatval($matches[3][$i]);
 		arsort($languages);
 		foreach($languages as $language=>$pref)
-			return strtolower(str_replace('-','_',$language));
+		{
+                        $lang=strtolower(str_replace('-','_',$language));
+                        if (preg_match("/^en\_?/", $lang))
+                        {
+                        	return false;
+                        }
+                        else
+                                $viewFile=dirname(__FILE__)."/views/$lang/index.php";
+                        if(!is_file($viewFile))
+                                $lang=false;
+                        else
+                                break;			
+		}
+		return $lang;
 	}
 	return false;
 }
