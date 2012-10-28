@@ -31,7 +31,7 @@ Version 1.1.13 work in progress
 - Bug #1584: Fixed CGridView urls when enableHistory was used with "path" urlFormat (mdomba)
 - Bug: Table schema is refreshed on Gii model generation when schemaCachingDuration is used (SonkoDmitry)
 - Bug: CDbCommand::setFetchMode wasn't accepting additional arguments needed for PDO::FETCH_CLASS (samdark)
-- Bug: Fixed function getPreferredLanguage() to work properly when the most preferred language is missing, check the other languages.(ArtVal)
+- Bug #1624: Fixed function getPreferredLanguage() to work properly when the most preferred language is missing, check the other languages.(ArtVal)
 - Enh #84: Log route categories are now accepted in form of array. Added CLogRoute::except and parameter to CLogRoute::getLogs that allows you to exclude specific categories (paystey)
 - Enh #104: Added CWebLogRoute::$collapsedInFireBug property to control whether the log should be collapsed by default in Firebug (marcovtwout)
 - Enh #117: Added CPhpMessageSource::$extensionPaths to allow extensions, that do not have a base class to use as category prefix, to register message source (rcoelho, cebe)
