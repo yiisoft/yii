@@ -333,7 +333,7 @@ class CGridView extends CBaseListView
 		{
 			if($this->dataProvider instanceof CActiveDataProvider)
 				$this->columns=$this->dataProvider->model->attributeNames();
-			else if($this->dataProvider instanceof IDataProvider)
+			elseif($this->dataProvider instanceof IDataProvider)
 			{
 				// use the keys of the first row of data as the default columns
 				$data=$this->dataProvider->getData();
@@ -474,7 +474,7 @@ class CGridView extends CBaseListView
 
 			echo "</thead>\n";
 		}
-		else if($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
+		elseif($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
 		{
 			echo "<thead>\n";
 			$this->renderFilter();
@@ -554,7 +554,7 @@ class CGridView extends CBaseListView
 			$data=$this->dataProvider->data[$row];
 			$class=$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data));
 		}
-		else if(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
+		elseif(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
 			$class=$this->rowCssClass[$row%$n];
 		else
 			$class='';
