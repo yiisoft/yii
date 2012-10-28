@@ -232,17 +232,15 @@ function getPreferredLanguage()
 		arsort($languages);
 		foreach($languages as $language=>$pref)
 		{
-                        $lang=strtolower(str_replace('-','_',$language));
-                        if (preg_match("/^en\_?/", $lang))
-                        {
-                        	return false;
-                        }
-                        else
-                                $viewFile=dirname(__FILE__)."/views/$lang/index.php";
-                        if(!is_file($viewFile))
-                                $lang=false;
-                        else
-                                break;			
+			$lang=strtolower(str_replace('-','_',$language));
+			if (preg_match("/^en\_?/", $lang))
+				return false;
+			else
+				$viewFile=dirname(__FILE__)."/views/$lang/index.php";
+			if(!is_file($viewFile))
+				$lang=false;
+			else
+				break;			
 		}
 		return $lang;
 	}
