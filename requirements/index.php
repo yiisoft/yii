@@ -235,9 +235,7 @@ function getPreferredLanguage()
 			$lang=strtolower(str_replace('-','_',$language));
 			if (preg_match("/^en\_?/", $lang))
 				return false;
-			else
-				$viewFile=dirname(__FILE__)."/views/$lang/index.php";
-			if(!is_file($viewFile))
+			if (!is_file($viewFile=dirname(__FILE__)."/views/$lang/index.php"))
 				$lang=false;
 			else
 				break;			
