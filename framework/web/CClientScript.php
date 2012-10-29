@@ -652,8 +652,7 @@ class CClientScript extends CApplicationComponent
 			$options['name']=$name;
 		if($httpEquiv!==null)
 			$options['http-equiv']=$httpEquiv;
-		$options['content']=$content;
-		$this->metaTags[]=$options;
+		$this->metaTags[serialize($options)]=array_merge($options, array('content'=>$content));
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
 		return $this;
