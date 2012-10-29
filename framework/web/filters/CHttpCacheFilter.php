@@ -182,7 +182,10 @@ class CHttpCacheFilter extends CFilter
 	protected function sendCacheControlHeader()
 	{
         if(Yii::app()->session->isStarted)
-            session_cache_limiter('nocache');
+        {
+            session_cache_limiter('public');
+            header('Pragma:',true);
+        }
 		header('Cache-Control: '.$this->cacheControl, true);
 	}
 
