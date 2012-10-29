@@ -57,6 +57,7 @@ Version 1.1.13 work in progress
 - Enh #1443: Added CHttpRequest::getRawBody() that allows reading RAW HTTP request body multiple times (itamar82, resurtm, samdark)
 - Enh #1464: CCaptchaAction now supports rendering through ImageMagick, CCaptcha::checkRequirements() changed (resurtm, SonkoDmitry)
 - Enh #1500: CSqlDataProvider now supports CDbCommand in constructor (slavcodev)
+- Enh #1507: Added support for minOccurs, maxOccurs, nillable to CWsdlGenerator. Changed most of the methods visibility to protected. Added unit tests (lubosdz)
 - Enh #1518: Allow to configure CHtml::$closeSingleTags and CHtml::$renderSpecialAttributesValue. Useful for HTML5 code (creocoder)
 - Enh #1531: CArrayDataProvider is now able to sort cutted array, where sorting column is not available in every entry (Yiivgeny)
 - Enh #1535: HTML5 special attributes added to CHtml::renderAttributes() (creocoder)
