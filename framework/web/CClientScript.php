@@ -643,16 +643,18 @@ class CClientScript extends CApplicationComponent
 	 * @param string $name name attribute of the meta tag. If null, the attribute will not be generated
 	 * @param string $httpEquiv http-equiv attribute of the meta tag. If null, the attribute will not be generated
 	 * @param array $options other options in name-value pairs (e.g. 'scheme', 'lang')
+	 * @param string $id Optional id of the meta tag to avoid duplicates
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
+	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array(),$id=null)
 	{
 		$this->hasScripts=true;
 		if($name!==null)
 			$options['name']=$name;
 		if($httpEquiv!==null)
 			$options['http-equiv']=$httpEquiv;
-		$this->metaTags[serialize($options)]=array_merge($options, array('content'=>$content));
+		$options['content']=$content;
+		$this->metaTags[null===$id?count($this->metaTags):$key]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
 		return $this;
