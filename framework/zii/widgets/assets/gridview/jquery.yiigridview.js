@@ -77,7 +77,7 @@
 								.replace('{page}', pagerSelector)
 								.replace('{sort}', sortSelector);
 				settings.filterSelector = settings.filterSelector
-								.replace('{filters}', inputSelector);
+								.replace('{filter}', inputSelector);
 
 				gridSettings[id] = settings;
 

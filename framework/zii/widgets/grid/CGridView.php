@@ -236,25 +236,26 @@ class CGridView extends CBaseListView
 	 */
 	public $loadingCssClass='grid-view-loading';
 	/**
-	 * @var string the jQuery selector of filter input fields. Defaults to '{filters}', that
-	 * will be replaced with selector for internal grid filters.
+	 * @var string the jQuery selector of filter input fields.
+	 * The token '{filter}' is recognized and it will be replaced with the grid filters selector.
+	 * Defaults to '{filter}'.
 	 *
 	 * @since 1.1.13
-	 */
-	public $filterSelector='{filters}';
-	/**
-	 * @var string the CSS class name for the table row element containing all filter input fields. Defaults to 'filters'.
-	 * @see filter
-	 * @since 1.1.1
 	 *
 	 * Note: if this value is empty an exception will be thrown.
 	 *
 	 * Example (adding a custom selector to the default one):
 	 * <pre>
 	 *  ...
-	 *  'filterSelector'=>'{filters}, #myfilter',
+	 *  'filterSelector'=>'{filter}, #myfilter',
 	 *  ...
 	 * </pre>
+	 */
+	public $filterSelector='{filter}';
+	/**
+	 * @var string the CSS class name for the table row element containing all filter input fields. Defaults to 'filters'.
+	 * @see filter
+	 * @since 1.1.1
 	 */
 	public $filterCssClass='filters';
 	/**
