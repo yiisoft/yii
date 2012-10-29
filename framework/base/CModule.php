@@ -395,12 +395,14 @@ abstract class CModule extends CComponent
 	 * The component will be initialized by calling its {@link CApplicationComponent::init() init()}
 	 * method if it has not done so.
 	 * @param string $id component ID
-	 * @param mixed $component application component(configuration or instance)
-	 * If this parameter is null, it will unload the component from the module.
-	 * @param boolean $merge whether to merge the new component configuration with the existing one.
-	 * Defaults to true, meaning the previously registered component configuration of the same ID
-	 * will be merged with the new configuration. If false, the existing configuration will be replaced completely.
-	 * This parameter available since 1.1.13.
+	 * @param array|IApplicationComponent $component application component
+	 * (either configuration array or instance). If this parameter is null,
+	 * component will be unloaded from the module.
+	 * @param boolean $merge whether to merge the new component configuration
+	 * with the existing one. Defaults to true, meaning the previously registered
+	 * component configuration with the same ID will be merged with the new configuration.
+	 * If set to false, the existing configuration will be replaced completely.
+	 * This parameter is available since 1.1.13.
 	 */
 	public function setComponent($id,$component,$merge=true)
 	{
