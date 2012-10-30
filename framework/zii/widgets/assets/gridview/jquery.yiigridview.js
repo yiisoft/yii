@@ -76,6 +76,8 @@
 				settings.updateSelector = settings.updateSelector
 								.replace('{page}', pagerSelector)
 								.replace('{sort}', sortSelector);
+				settings.filterSelector = settings.filterSelector
+								.replace('{filter}', inputSelector);
 
 				gridSettings[id] = settings;
 
@@ -96,7 +98,7 @@
 					});
 				}
 
-				$(document).on('change.yiiGridView keydown.yiiGridView', inputSelector, function (event) {
+				$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
 					if (event.type === 'keydown') {
 						if( event.keyCode !== 13) {
 							return; // only react to enter key
@@ -110,7 +112,7 @@
 							return;
 						}
 					}
-					var data = $(inputSelector).serialize();
+					var data = $(settings.filterSelector).serialize();
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
 					}
@@ -366,6 +368,7 @@
 			});
 			return checked;
 		}
+		
 	};
 
 	$.fn.yiiGridView = function (method) {
