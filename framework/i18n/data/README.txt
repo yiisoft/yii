@@ -1,6 +1,9 @@
 
                 CLDR v2.0.1 (July 18, 2011)
 
+Note that this version of CLDR has been obtained here:
+http://www.unicode.org/repos/cldr/tags/release-2-0-1/
+
 This directory contains the CLDR data files in form of PHP scripts.
 They are obtained by extracting the CLDR data (http://www.unicode.org/cldr/)
 with the script "tools/cldr/build.php".
