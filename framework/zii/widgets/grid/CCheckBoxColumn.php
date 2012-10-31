@@ -85,7 +85,7 @@ class CCheckBoxColumn extends CGridColumn
 	 * <li>1 - only one row can be checked. Checking a checkbox has nothing to do with selecting the row</li>
 	 * <li>2 or more - multiple checkboxes can be checked. Checking a checkbox has nothing to do with selecting the row</li>
 	 * <li>null - {@link CGridView::selectableRows} is used to control how many checkboxes can be checked.
-	 * Cheking a checkbox will also select the row.</li>
+	 * Checking a checkbox will also select the row.</li>
 	 * </ul>
 	 * You may also call the JavaScript function <code>$.fn.yiiGridView.getChecked(containerID,columnID)</code>
 	 * to retrieve the key values of the checked rows.
