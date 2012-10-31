@@ -13,7 +13,6 @@ return array (
   'version' => '5798',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -122,7 +122,7 @@ return array (
       0 => 'Ijp',
       1 => 'Ijt',
       2 => 'Ijn',
-      3 => 'Ijtn',
+      3 => 'Ijt',
       4 => 'Alh',
       5 => 'Iju',
       6 => 'Ijm',

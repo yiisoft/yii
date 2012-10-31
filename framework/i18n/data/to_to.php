@@ -13,7 +13,6 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -425,6 +425,7 @@ return array (
     '054' => 'Melanisia',
     '057' => 'Potu fonua Mikolonisia',
     '061' => 'Polinīsia',
+    '062' => 'ʻĒsia tongalotoloto',
     142 => 'ʻĒsia',
     143 => 'ʻĒsia lotoloto',
     145 => 'ʻĒsia hihifo',
@@ -432,6 +433,7 @@ return array (
     151 => 'ʻIulope hahake',
     154 => 'ʻIulope tokelau',
     155 => 'ʻIulope hihifo',
+    172 => 'Kominiueli',
     419 => 'ʻAmelika fakalatina',
     'ac' => 'Motu ʻAsenisini',
     'ad' => 'ʻEnitola',

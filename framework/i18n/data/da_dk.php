@@ -13,7 +13,6 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ',',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -864,6 +864,7 @@ return array (
     '054' => 'Melanesien',
     '057' => 'Mikronesien',
     '061' => 'Polynesien',
+    '062' => 'Sydcentralasien',
     142 => 'Asien',
     143 => 'Centralasien',
     145 => 'Vestasien',
@@ -871,6 +872,7 @@ return array (
     151 => 'Østeuropa',
     154 => 'Nordeuropa',
     155 => 'Vesteuropa',
+    172 => 'Sammenslutningen af uafhængige stater',
     419 => 'Latinamerika',
     'ac' => 'Ascensionøen',
     'ad' => 'Andorra',

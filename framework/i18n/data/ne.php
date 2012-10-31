@@ -10,10 +10,9 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6472',
+  'version' => '5953',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -429,6 +429,7 @@ return array (
     '054' => 'मेलानेसिया',
     '057' => 'माइक्रोनेसियाली क्षेत्र',
     '061' => 'पोलिनेशिया',
+    '062' => 'दक्षिण मध्य एशिया',
     142 => 'एशिया',
     143 => 'केन्द्रीय एशिया',
     145 => 'पश्चिमी एशिया',
@@ -436,6 +437,7 @@ return array (
     151 => 'पूर्वी युरोप',
     154 => 'उत्तरी युरोप',
     155 => 'पश्चिमी युरोप',
+    172 => 'कमनवेल्थका स्वतन्त्र राज्यहरू',
     419 => 'ल्याटिन अमेरिका तथा क्यारिबियन',
     'ad' => 'अन्डोर्रा',
     'ae' => 'संयुक्त अरब इमिराट्स',

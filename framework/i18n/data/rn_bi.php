@@ -13,7 +13,6 @@ return array (
   'version' => '5798',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -266,7 +266,7 @@ return array (
     'cg' => 'Kongo',
     'ch' => 'Ubusuwisi',
     'ci' => 'Kotedivuware',
-    'ck' => 'Izinga rya Kuku',
+    'ck' => 'I\\inga rya Kuku',
     'cl' => 'Shili',
     'cm' => 'Kameruni',
     'cn' => 'Ubushinwa',

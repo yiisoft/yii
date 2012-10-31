@@ -13,7 +13,6 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -24,15 +23,16 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
-  'decimalFormat' => '0000',
+  'decimalFormat' => '00B',
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '#,##0.00 ¤',
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -249,7 +249,7 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
+  'amName' => 'prije podne',
   'pmName' => 'PM',
   'orientation' => 'ltr',
   'languages' => 
@@ -919,6 +919,7 @@ return array (
     '054' => 'Melanezija',
     '057' => 'Mikronezki oblast',
     '061' => 'Polinezija',
+    '062' => 'Južno-centralna Azija',
     142 => 'Azija',
     143 => 'Srednja Azija',
     145 => 'Zapadna Azija',
@@ -926,7 +927,9 @@ return array (
     151 => 'Istočna Europa',
     154 => 'Sjeverna Europa',
     155 => 'Zapadna Europa',
+    172 => 'Zajednica nezavisnih država',
     419 => 'Latinska Amerika',
+    830 => 'Kanalski otoci',
     'ac' => 'Otok Ascension',
     'ad' => 'Andora',
     'ae' => 'Ujedinjeni Arapski Emirati',

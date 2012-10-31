@@ -319,4 +319,12 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'rtl',
+  'languages' => 
+  array (
+    'dv' => 'ދިވެހިބަސް',
+  ),
+  'territories' => 
+  array (
+    'mv' => 'ދިވެހި ރާއްޖެ',
+  ),
 );

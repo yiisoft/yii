@@ -10,10 +10,9 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6255',
+  'version' => '5968',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -24,15 +23,16 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
-  'decimalFormat' => '0000',
+  'decimalFormat' => '0.0B',
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '¤#,##0.00',
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => '￥',
     'EUR' => '€',
@@ -725,7 +725,7 @@ return array (
     'und' => '不確定語言',
     'ur' => '烏爾都文',
     'uz' => '烏茲別克文',
-    'vai' => '越南文（Vai）',
+    'vai' => '越南文 (Vai)',
     've' => '溫達文',
     'vi' => '越南文',
     'vo' => '沃拉普克文',
@@ -917,6 +917,7 @@ return array (
     '054' => '美拉尼西亞',
     '057' => '密克羅尼西亞',
     '061' => '玻里尼西亞',
+    '062' => '中南亞',
     142 => '亞洲',
     143 => '中亞',
     145 => '西亞',
@@ -924,7 +925,9 @@ return array (
     151 => '東歐',
     154 => '北歐',
     155 => '西歐',
+    172 => '獨立國協',
     419 => '拉丁美洲',
+    830 => '海峽群島',
     'ac' => '阿森松島',
     'ad' => '安道爾',
     'ae' => '阿拉伯聯合大公國',
