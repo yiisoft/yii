@@ -35,4 +35,21 @@ class CDateFormatterTest extends CTestCase
 		$this->assertEquals('1927 04 30 05:05:51', Yii::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '1927-04-30 05:05:51 UTC'));
 	}
 
+	public function testTimeZones()
+	{
+		date_default_timezone_set('UTC');
+		$this->assertEquals('+00:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+
+		date_default_timezone_set('Etc/GMT-6');
+		$this->assertEquals('+06:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+
+		date_default_timezone_set('Etc/GMT+10');
+		$this->assertEquals('-10:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+
+		date_default_timezone_set('Europe/Moscow');
+		$this->assertEquals('+04:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+
+		date_default_timezone_set('America/Los_Angeles');
+		$this->assertEquals('-07:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+	}
 }
