@@ -13,7 +13,6 @@ return array (
   'version' => '5798',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => ' ',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -118,13 +118,13 @@ return array (
     ),
     'abbreviated' => 
     array (
-      0 => 'asa',
+      0 => 'asi',
       1 => 'ayn',
       2 => 'asi',
       3 => 'akṛ',
       4 => 'akw',
       5 => 'asim',
-      6 => 'asiḍ',
+      6 => 'Asiḍ',
     ),
   ),
   'weekDayNamesSA' => 

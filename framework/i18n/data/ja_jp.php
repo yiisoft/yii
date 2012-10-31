@@ -13,7 +13,6 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => '元',
     'EUR' => '€',
@@ -163,7 +163,7 @@ return array (
     'full' => 'y年M月d日EEEE',
     'long' => 'y年M月d日',
     'medium' => 'yyyy/MM/dd',
-    'short' => 'yyyy/MM/dd',
+    'short' => 'yy/MM/dd',
   ),
   'timeFormats' => 
   array (
@@ -830,6 +830,7 @@ return array (
     '054' => 'メラネシア',
     '057' => 'ミクロネシア',
     '061' => 'ポリネシア',
+    '062' => '南中央アジア',
     142 => 'アジア',
     143 => '中央アジア',
     145 => '西アジア',
@@ -837,7 +838,9 @@ return array (
     151 => '東ヨーロッパ',
     154 => '北ヨーロッパ',
     155 => '西ヨーロッパ',
+    172 => '独立国家共同体',
     419 => 'ラテンアメリカ',
+    830 => 'チャネル諸島',
     'ac' => 'アセンション島',
     'ad' => 'アンドラ',
     'ae' => 'アラブ首長国連邦',

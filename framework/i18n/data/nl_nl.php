@@ -13,7 +13,6 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -863,6 +863,7 @@ return array (
     '054' => 'Melanesië',
     '057' => 'Micronesische regio',
     '061' => 'Polynesië',
+    '062' => 'Zuidelijk Centraal-Azië',
     142 => 'Azië',
     143 => 'Centraal-Azië',
     145 => 'West-Azië',
@@ -870,7 +871,9 @@ return array (
     151 => 'Oost-Europa',
     154 => 'Noord-Europa',
     155 => 'West-Europa',
+    172 => 'Gemenebest van Onafhankelijke Staten',
     419 => 'Latijns-Amerika',
+    830 => 'Kanaaleilanden',
     'ac' => 'Ascension',
     'ad' => 'Andorra',
     'ae' => 'Verenigde Arabische Emiraten',
@@ -926,7 +929,6 @@ return array (
     'cs' => 'Servië en Montenegro',
     'cu' => 'Cuba',
     'cv' => 'Kaapverdië',
-    'cw' => 'Curaçao',
     'cx' => 'Christmaseiland',
     'cy' => 'Cyprus',
     'cz' => 'Tsjechië',
@@ -1089,7 +1091,6 @@ return array (
     'sr' => 'Suriname',
     'st' => 'Sao Tomé en Principe',
     'sv' => 'El Salvador',
-    'sx' => 'Sint Maarten',
     'sy' => 'Syrië',
     'sz' => 'Swaziland',
     'ta' => 'Tristan da Cunha',

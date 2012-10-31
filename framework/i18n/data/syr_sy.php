@@ -318,4 +318,12 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'rtl',
+  'languages' => 
+  array (
+    'syr' => 'ܣܘܪܝܝܐ',
+  ),
+  'territories' => 
+  array (
+    'sy' => 'ܣܘܪܝܝܐ',
+  ),
 );

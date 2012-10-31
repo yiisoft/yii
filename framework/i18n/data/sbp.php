@@ -10,10 +10,9 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6546',
+  'version' => '5799',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -75,13 +75,13 @@ return array (
     array (
       1 => 'Mup',
       2 => 'Mwi',
-      3 => 'Msh',
+      3 => 'Mus',
       4 => 'Mun',
-      5 => 'Mag',
+      5 => 'Mus',
       6 => 'Muj',
-      7 => 'Msp',
-      8 => 'Mpg',
-      9 => 'Mye',
+      7 => 'Mus',
+      8 => 'Mup',
+      9 => 'Mun',
       10 => 'Mok',
       11 => 'Mus',
       12 => 'Muh',

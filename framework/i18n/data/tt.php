@@ -319,4 +319,12 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'languages' => 
+  array (
+    'tt' => 'Татар',
+  ),
+  'territories' => 
+  array (
+    'ru' => 'Россия',
+  ),
 );

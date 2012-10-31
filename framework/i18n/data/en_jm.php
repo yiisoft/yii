@@ -10,10 +10,9 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6546',
+  'version' => '4753',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -24,6 +23,7 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
+    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'R$',
+    'BRL' => 'BR$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -202,7 +202,6 @@ return array (
     'anp' => 'Angika',
     'apa' => 'Apache Language',
     'ar' => 'Arabic',
-    'ar_001' => 'Modern Standard Arabic',
     'arc' => 'Aramaic',
     'arn' => 'Araucanian',
     'arp' => 'Arapaho',
@@ -269,7 +268,6 @@ return array (
     'chp' => 'Chipewyan',
     'chr' => 'Cherokee',
     'chy' => 'Cheyenne',
-    'ckb' => 'Sorani Kurdish',
     'cmc' => 'Chamic Language',
     'co' => 'Corsican',
     'cop' => 'Coptic',
@@ -784,7 +782,7 @@ return array (
     'hebr' => 'Hebrew',
     'hira' => 'Hiragana',
     'hmng' => 'Pahawh Hmong',
-    'hrkt' => 'Japanese syllabaries',
+    'hrkt' => 'Katakana or Hiragana',
     'hung' => 'Old Hungarian',
     'inds' => 'Indus',
     'ital' => 'Old Italic',
@@ -794,7 +792,6 @@ return array (
     'kana' => 'Katakana',
     'khar' => 'Kharoshthi',
     'khmr' => 'Khmer',
-    'khoj' => 'Khojki',
     'knda' => 'Kannada',
     'kore' => 'Korean',
     'kthi' => 'Kaithi',
@@ -863,7 +860,6 @@ return array (
     'thaa' => 'Thaana',
     'thai' => 'Thai',
     'tibt' => 'Tibetan',
-    'tirh' => 'Tirhuta',
     'ugar' => 'Ugaritic',
     'vaii' => 'Vai',
     'visp' => 'Visible Speech',
@@ -945,7 +941,7 @@ return array (
     'bm' => 'Bermuda',
     'bn' => 'Brunei',
     'bo' => 'Bolivia',
-    'bq' => 'Bonaire, Sint Eustatius, and Saba',
+    'bq' => 'Bonaire, Saint Eustatius, and Saba',
     'br' => 'Brazil',
     'bs' => 'Bahamas',
     'bt' => 'Bhutan',
@@ -1141,7 +1137,6 @@ return array (
     'sn' => 'Senegal',
     'so' => 'Somalia',
     'sr' => 'Suriname',
-    'ss' => 'South Sudan',
     'st' => 'São Tomé and Príncipe',
     'su' => 'Union of Soviet Socialist Republics',
     'sv' => 'El Salvador',

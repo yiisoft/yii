@@ -318,4 +318,8 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'languages' => 
+  array (
+    'iu' => 'ᐃᓄᒃᑎᑐᑦ ᑎᑎᕋᐅᓯᖅ',
+  ),
 );
