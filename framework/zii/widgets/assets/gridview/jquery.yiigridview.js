@@ -355,9 +355,9 @@
 		getChecked: function (column) {
 			var settings = gridSettings[this.attr('id')],
 				keys = this.find('.keys span'),
-				checked = [];
-
-			var nth = '', input = 'input';
+				checked = [],
+				nth = '',
+				input = 'input';
 			column = column || 1;
 
 			if (/^\d+$/.test(column)) {
