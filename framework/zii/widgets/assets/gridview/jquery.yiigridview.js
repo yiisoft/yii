@@ -352,32 +352,32 @@
 		 * @param column mixed the ID or index of the column, If not specified will default to column 1
 		 * @return array the key values of the currently checked rows.
 		 */
-                getChecked: function (column) {
-                    var settings = gridSettings[this.attr('id')],
-                        keys = this.find('.keys span'),
-                        checked = [];
+		getChecked: function (column) {
+			var settings = gridSettings[this.attr('id')],
+				keys = this.find('.keys span'),
+				checked = [];
 
-                    var nth = '', input = 'input';
-                    column = column || 1;
+			var nth = '', input = 'input';
+			column = column || 1;
 
-                    if (/^\d+$/.test(column)) {
-                        nth = ':nth-child(' + column + ')';
-                    } else {
-                        if (column.substring(column.length - 2) !== '[]') {
-                            column = column + '[]';
-                        }
-                        input += '[name="' + column + '"]';
-                    }
+			if (/^\d+$/.test(column)) {
+				nth = ':nth-child(' + column + ')';
+			} else {
+				if (column.substring(column.length - 2) !== '[]') {
+					column = column + '[]';
+				}
+				input += '[name="' + column + '"]';
+			}
 
-                    this.find('.' + settings.tableClass).children('tbody').children('tr')
-                        .children('td' + nth).children(input).each(function (i) {
-                            if (this.checked) {
-                                checked.push(keys.eq(i).text());
-                            }
-                        });
+			this.find('.' + settings.tableClass).children('tbody').children('tr')
+				.children('td' + nth).children(input).each(function (i) {
+					if (this.checked) {
+						checked.push(keys.eq(i).text());
+					}
+			});
 
-                    return checked;
-                }
+			return checked;
+		}
 	};
 
 	$.fn.yiiGridView = function (method) {
