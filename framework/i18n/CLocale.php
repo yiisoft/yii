@@ -385,7 +385,11 @@ class CLocale extends CComponent
 		{
 			$subTag = explode('_', $id);
 			// territory sub tags can be distigused from script sub tags by length
-			if (strlen($subTag[1])<4)
+			if (isset($subTag[2]) && strlen($subTag[2])<4)
+			{
+				$id = $subTag[2];
+			}
+			elseif (strlen($subTag[1])<4)
 			{
 				$id = $subTag[1];
 			}
@@ -412,11 +416,7 @@ class CLocale extends CComponent
 	public function getLocaleDisplayName($id=null, $category='languages')
 	{
 		$id = $this->getCanonicalID($id);
-		if (isset($this->_data[$category][$id]))
-		{
-			return $this->_data[$category][$id];
-		}
-		elseif (($category == 'languages') && ($id=$this->getLanguageID($id)) && (isset($this->_data[$category][$id])))
+		if (($category == 'languages') && ($id=$this->getLanguageID($id)) && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];
 		}
@@ -425,6 +425,10 @@ class CLocale extends CComponent
 			return $this->_data[$category][$id];
 		}
 		elseif (($category == 'territories') && ($id=$this->getTerritoryID($id)) && (isset($this->_data[$category][$id])))
+		{
+			return $this->_data[$category][$id];
+		}
+		elseif (isset($this->_data[$category][$id]))
 		{
 			return $this->_data[$category][$id];
 		}
