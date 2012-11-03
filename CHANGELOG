@@ -31,6 +31,7 @@ Version 1.1.13 work in progress
 - Bug #1584: Fixed CGridView urls when enableHistory was used with "path" urlFormat (mdomba)
 - Bug #1622: CLocale::getTerritory() used to return invalid territory name when locales (language tags) were specified without territory part (e.g. 'de', 'fr') (resurtm)
 - Bug #1624: Requirements page now tries all other preferred languages when the most preferred one is missing (ArtVal)
+- Bug #1625: CEmailLogRoute does not properly encode UTF-8 characters contained in logs, CEmailLogRoute::$utf8Charset property added (resurtm)
 - Bug #1646: CLocale::getTerritory() used to return invalid territory name when locales (language tags) were specified with script part (e.g. 'zh-Hans-CN', 'zh-Hant-HK') (resurtm)
 - Bug: Table schema is refreshed on Gii model generation when schemaCachingDuration is used (SonkoDmitry)
 - Bug: CDbCommand::setFetchMode wasn't accepting additional arguments needed for PDO::FETCH_CLASS (samdark)
