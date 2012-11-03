@@ -31,7 +31,7 @@ class CEmailLogRoute extends CLogRoute
 	 * non-latin or UTF-8 characters. Emails would be UTF-8 encoded.
 	 * @since 1.1.13
 	 */
-	public $utf8Charset=false;
+	public $utf8=false;
 	/**
 	 * @var array list of destination email addresses.
 	 */
@@ -75,7 +75,7 @@ class CEmailLogRoute extends CLogRoute
 	protected function sendEmail($email,$subject,$message)
 	{
 		$headers=$this->getHeaders();
-		if($this->utf8Charset)
+		if($this->utf8)
 		{
 			$headers[]="MIME-Version: 1.0";
 			$headers[]="Content-type: text/plain; charset=UTF-8";
@@ -87,7 +87,7 @@ class CEmailLogRoute extends CLogRoute
 			preg_match_all('/([^<]*)<([^>]*)>/iu',$from,$matches);
 			if(isset($matches[1][0],$matches[2][0]))
 			{
-				$name=$this->utf8Charset ? '=?UTF-8?B?'.base64_encode(trim($matches[1][0])).'?=' : trim($matches[1][0]);
+				$name=$this->utf8 ? '=?UTF-8?B?'.base64_encode(trim($matches[1][0])).'?=' : trim($matches[1][0]);
 				$from=trim($matches[2][0]);
 				$headers[]="From: {$name} <{$from}>";
 			}
