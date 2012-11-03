@@ -87,7 +87,7 @@ class CEmailLogRoute extends CLogRoute
 			preg_match_all('/([^<]*)<([^>]*)>/iu',$from,$matches);
 			if(isset($matches[1][0],$matches[2][0]))
 			{
-				$name=$this->utf8Charset ? '=?UTF-8?B?'.base64_encode(trim($matches[1][0])).'?=' : $matches[1][0];
+				$name=$this->utf8Charset ? '=?UTF-8?B?'.base64_encode(trim($matches[1][0])).'?=' : trim($matches[1][0]);
 				$from=trim($matches[2][0]);
 				$headers[]="From: {$name} <{$from}>";
 			}
