@@ -1398,7 +1398,40 @@ class CActiveRecordTest extends CTestCase
 	public function testIssue507()
 	{
 		$this->assertEquals(2, count(UserWithDefaultScope::model()->findAll()));
-
 	}
 
+	/**
+	 * https://github.com/yiisoft/yii/issues/1597
+	 */
+	public function testIssue1597()
+	{
+		$logFileName='CActiveRecordTest-testIssue1597.log';
+		$logFilePath=Yii::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR;
+
+		Yii::app()->setComponent('log',array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'trace',
+					'categories'=>'system.db.CDbCommand',
+					'logFile'=>$logFileName,
+					'logPath'=>$logFilePath,
+				),
+			),
+		));
+
+		// lazy load
+		Post::model()->findByPk(1)->getRelated('specialCategories');
+
+		Yii::app()->getComponent('log')->processLogs(new CEvent());
+		Yii::app()->setComponent('log',null);
+
+		$logFileData=@file_get_contents($logFilePath.$logFileName);
+		@unlink($logFilePath.$logFileName);
+
+		// before #1597 fixing both values were 4
+		$this->assertEquals(2,substr_count($logFileData,'defaultScope'));
+		$this->assertEquals(2,substr_count($logFileData,'CManyManyRelation::$on'));
+	}
 }
