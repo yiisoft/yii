@@ -77,7 +77,7 @@ class CFormatter extends CApplicationComponent
 	 */
 	public $booleanFormat=array('No','Yes');
 	/**
-	 * @var array the options to be passed to CHtmlPurifer instance used in this class. CHtmlPurifer is used
+	 * @var array the options to be passed to CHtmlPurifier instance used in this class. CHtmlPurifier is used
 	 * in {@link formatHtml} method, so this property could be useful to customize HTML filtering behavior.
 	 * @since 1.1.13
 	 */
