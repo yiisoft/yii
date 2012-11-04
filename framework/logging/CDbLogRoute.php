@@ -58,15 +58,10 @@ class CDbLogRoute extends CLogRoute
 	 */
 	private $_db;
 
-	/**
-	 * Initializes the route.
-	 * This method is invoked after the route is created by the route manager.
-	 */
-	public function init()
+	public function setEnabled($enabled)
 	{
-		parent::init();
-
-		if($this->autoCreateLogTable)
+		parent::setEnabled($enabled);
+		if($enabled && $this->autoCreateLogTable)
 		{
 			$db=$this->getDbConnection();
 			try
@@ -78,6 +73,16 @@ class CDbLogRoute extends CLogRoute
 				$this->createLogTable($db,$this->logTableName);
 			}
 		}
+	}
+
+	/**
+	 * Initializes the route.
+	 * This method is invoked after the route is created by the route manager.
+	 */
+	public function init()
+	{
+		parent::init();
+		$this->setEnabled($this->getEnabled()); // explicitly force table checking and creating
 	}
 
 	/**
