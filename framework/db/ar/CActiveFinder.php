@@ -453,7 +453,7 @@ class CJoinElement
 
 		if(!$this->children)
 			return;
-		$child=end($this->children);
+		$child=end($this->children); // bridge(s) inside, we're taking only last necessary child
 
 		$query=new CJoinQuery($child);
 		$query->selects=array($child->getColumnSelect($child->relation->select));
