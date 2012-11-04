@@ -24,6 +24,8 @@
  * Level filter and category filter are combinational, i.e., only messages
  * satisfying both filter conditions will they be returned.
  *
+ * @property boolean $enabled boolean whether to enable this log route. Defaults to true.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.logging
  * @since 1.0
@@ -31,9 +33,10 @@
 abstract class CLogRoute extends CComponent
 {
 	/**
-	 * @var boolean whether to enable this log route. Defaults to true.
+	 * @var boolean whether to enable this log route. Defaults to true. This property is private since 1.1.13.
 	 */
-	public $enabled=true;
+	private $_enabled=true;
+
 	/**
 	 * @var string list of levels separated by comma or space. Defaults to empty, meaning all levels.
 	 */
@@ -65,6 +68,25 @@ abstract class CLogRoute extends CComponent
 	 */
 	public $logs=array();
 
+	/**
+	 * Changes whether to enable this log route.
+	 * @param boolean $enabled whether to enable this log route.
+	 * @since 1.1.13
+	 */
+	public function setEnabled($enabled)
+	{
+		$this->_enabled=$enabled;
+	}
+
+	/**
+	 * Returns whether to enable this log route.
+	 * @return boolean whether to enable this log route.
+	 * @since 1.1.13
+	 */
+	public function getEnabled()
+	{
+		return $this->_enabled;
+	}
 
 	/**
 	 * Initializes the route.

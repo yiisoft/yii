@@ -57,17 +57,23 @@ class CDbLogRoute extends CLogRoute
 	 * @var CDbConnection the DB connection instance
 	 */
 	private $_db;
+	/**
+	 * @var boolean whether table checking was performed in the current request. It should be done only
+	 * once per request.
+	 */
+	private $_tableChecked=false;
 
 	/**
-	 * Initializes the route.
-	 * This method is invoked after the route is created by the route manager.
+	 * Changes whether to enable this log route.
+	 * @param boolean $enabled whether to enable this log route.
+	 * @since 1.1.13
 	 */
-	public function init()
+	public function setEnabled($enabled)
 	{
-		parent::init();
-
-		if($this->autoCreateLogTable)
+		parent::setEnabled($enabled);
+		if($this->getEnabled() && $this->autoCreateLogTable && !$this->_tableChecked)
 		{
+			$this->_tableChecked=true;
 			$db=$this->getDbConnection();
 			try
 			{
@@ -78,6 +84,16 @@ class CDbLogRoute extends CLogRoute
 				$this->createLogTable($db,$this->logTableName);
 			}
 		}
+	}
+
+	/**
+	 * Initializes the route.
+	 * This method is invoked after the route is created by the route manager.
+	 */
+	public function init()
+	{
+		parent::init();
+		$this->setEnabled($this->getEnabled()); // explicitly force table presence checking and creating
 	}
 
 	/**

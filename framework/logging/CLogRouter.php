@@ -103,7 +103,7 @@ class CLogRouter extends CApplicationComponent
 		$dumpLogs=isset($event->params['dumpLogs']) && $event->params['dumpLogs'];
 		foreach($this->_routes as $route)
 		{
-			if($route->enabled)
+			if($route->getEnabled())
 				$route->collectLogs($logger,$dumpLogs);
 		}
 	}
@@ -119,7 +119,7 @@ class CLogRouter extends CApplicationComponent
 		$logger=Yii::getLogger();
 		foreach($this->_routes as $route)
 		{
-			if($route->enabled)
+			if($route->getEnabled())
 				$route->collectLogs($logger,true);
 		}
 	}
