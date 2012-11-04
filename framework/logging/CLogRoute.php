@@ -68,11 +68,21 @@ abstract class CLogRoute extends CComponent
 	 */
 	public $logs=array();
 
+	/**
+	 * Changes whether to enable this log route.
+	 * @param boolean $enabled whether to enable this log route.
+	 * @since 1.1.13
+	 */
 	public function setEnabled($enabled)
 	{
 		$this->_enabled=$enabled;
 	}
 
+	/**
+	 * Returns whether to enable this log route.
+	 * @return boolean whether to enable this log route.
+	 * @since 1.1.13
+	 */
 	public function getEnabled()
 	{
 		return $this->_enabled;

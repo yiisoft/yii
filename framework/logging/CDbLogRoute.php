@@ -58,10 +58,15 @@ class CDbLogRoute extends CLogRoute
 	 */
 	private $_db;
 
+	/**
+	 * Changes whether to enable this log route.
+	 * @param boolean $enabled whether to enable this log route.
+	 * @since 1.1.13
+	 */
 	public function setEnabled($enabled)
 	{
 		parent::setEnabled($enabled);
-		if($enabled && $this->autoCreateLogTable)
+		if($this->getEnabled() && $this->autoCreateLogTable)
 		{
 			$db=$this->getDbConnection();
 			try
@@ -82,7 +87,7 @@ class CDbLogRoute extends CLogRoute
 	public function init()
 	{
 		parent::init();
-		$this->setEnabled($this->getEnabled()); // explicitly force table checking and creating
+		$this->setEnabled($this->getEnabled()); // explicitly force table presence checking and creating
 	}
 
 	/**
