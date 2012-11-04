@@ -5,6 +5,9 @@ Yii::import('system.db.schema.sqlite.CSqliteSchema');
 
 class CSqliteTest extends CTestCase
 {
+	/**
+	 * @var CDbConnection
+	 */
 	private $db;
 
 	public function setUp()
@@ -256,5 +259,24 @@ class CSqliteTest extends CTestCase
 	{
 		$this->db->schema->checkIntegrity(false);
 		$this->db->schema->checkIntegrity(true);
+	}
+
+	public function testRenameTable()
+	{
+		$this->db->schema->refresh();
+		$this->assertArrayHasKey('profiles',$this->db->schema->tables);
+		$this->assertArrayHasKey('users',$this->db->schema->tables);
+		$this->assertArrayNotHasKey('profiles_renamed',$this->db->schema->tables);
+		$this->assertArrayNotHasKey('users_renamed',$this->db->schema->tables);
+
+		$this->db->schema->refresh();
+		$this->db->createCommand($this->db->schema->renameTable('profiles','profiles_renamed'))->execute();
+		$this->db->createCommand($this->db->schema->renameTable('users','users_renamed'))->execute();
+
+		$this->db->schema->refresh();
+		$this->assertArrayNotHasKey('profiles',$this->db->schema->tables);
+		$this->assertArrayNotHasKey('users',$this->db->schema->tables);
+		$this->assertArrayHasKey('profiles_renamed',$this->db->schema->tables);
+		$this->assertArrayHasKey('users_renamed',$this->db->schema->tables);
 	}
 }
