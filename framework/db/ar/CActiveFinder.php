@@ -457,7 +457,10 @@ class CJoinElement
 
 		$query=new CJoinQuery($child);
 		$query->selects=array($child->getColumnSelect($child->relation->select));
-		$query->conditions=array($child->relation->condition,$child->relation->on);
+		$query->conditions=array(
+			$child->relation->condition,
+			$child->relation->on,
+		);
 		$query->groups[]=$child->relation->group;
 		$query->joins[]=$child->relation->join;
 		$query->havings[]=$child->relation->having;
