@@ -70,8 +70,7 @@ class CDbLogRoute extends CLogRoute
 	 */
 	public function setEnabled($enabled)
 	{
-		parent::setEnabled($enabled);
-		if($this->getEnabled() && $this->autoCreateLogTable && !$this->_tableChecked)
+		if($this->enabled=$enabled && $this->autoCreateLogTable && !$this->_tableChecked)
 		{
 			$this->_tableChecked=true;
 			$db=$this->getDbConnection();
