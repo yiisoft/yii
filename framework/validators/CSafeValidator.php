@@ -12,7 +12,6 @@
  * CSafeValidator marks the associated attributes to be safe for massive assignments.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.1
  */

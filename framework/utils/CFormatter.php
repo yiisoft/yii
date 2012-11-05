@@ -42,7 +42,6 @@
  * @property CHtmlPurifier $htmlPurifier The HTML purifier instance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.utils
  * @since 1.1.0
  */
@@ -74,6 +73,16 @@ class CFormatter extends CApplicationComponent
 	 * to the text display for false, the second element for true. Defaults to <code>array('No', 'Yes')</code>.
 	 */
 	public $booleanFormat=array('No','Yes');
+
+	/**
+	 * @var array the format used to format size (bytes). Two elements may be specified: "base" and "decimals".
+	 * They correspond to the base at which KiloByte is calculated (1000 or 1024) bytes per KiloByte and
+	 * the number of digits after decimal point.
+	 */
+	public $sizeFormat=array(
+		'base'=>1024,
+		'decimals'=>2,
+	);
 
 	/**
 	 * Calls the format method when its shortcut is invoked.
@@ -155,7 +164,7 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatDate($value)
 	{
-		return date($this->dateFormat,$value);
+		return date($this->dateFormat,$this->normalizeDateValue($value));
 	}
 
 	/**
@@ -166,7 +175,7 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatTime($value)
 	{
-		return date($this->timeFormat,$value);
+		return date($this->timeFormat,$this->normalizeDateValue($value));
 	}
 
 	/**
@@ -177,7 +186,19 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function formatDatetime($value)
 	{
-		return date($this->datetimeFormat,$value);
+		return date($this->datetimeFormat,$this->normalizeDateValue($value));
+	}
+
+	private function normalizeDateValue($time)
+	{
+		if(is_string($time))
+		{
+			if(ctype_digit($time) || ($time{0}=='-' && ctype_digit(substr($time, 1))))
+				return (int)$time;
+			else
+				return strtotime($time);
+		}
+		return (int)$time;
 	}
 
 	/**
@@ -243,5 +264,36 @@ class CFormatter extends CApplicationComponent
 		if($this->_htmlPurifier===null)
 			$this->_htmlPurifier=new CHtmlPurifier;
 		return $this->_htmlPurifier;
+	}
+
+	/**
+	 * Formats the value in bytes as a size in human readable form.
+	 * @param integer $value value in bytes to be formatted
+	 * @param boolean $verbose if full names should be used (e.g. Bytes, KiloBytes, ...).
+	 * Defaults to false meaning that short names will be used (e.g. B, KB, ...).
+	 * @return string the formatted result
+	 * @since 1.1.11
+	 */
+	public function formatSize($value,$verbose=false)
+	{
+		$base=$this->sizeFormat['base'];
+		for($i=0; $base<=$value && $i<5; $i++)
+			$value=$value/$base;
+
+		$value=round($value, $this->sizeFormat['decimals']);
+
+		switch($i)
+		{
+			case 0:
+				return $verbose ? Yii::t('size_units', '{n} Bytes', $value) : Yii::t('size_units', '{n} B', $value);
+			case 1:
+				return $verbose ? Yii::t('size_units', '{n} KiloBytes', $value) : Yii::t('size_units', '{n} KB', $value);
+			case 2:
+				return $verbose ? Yii::t('size_units', '{n} MegaBytes', $value) : Yii::t('size_units', '{n} MB', $value);
+			case 3:
+				return $verbose ? Yii::t('size_units', '{n} GigaBytes', $value) : Yii::t('size_units', '{n} GB', $value);
+			default:
+				return $verbose ? Yii::t('size_units', '{n} TeraBytes', $value) : Yii::t('size_units', '{n} TB', $value);
+		}
 	}
 }

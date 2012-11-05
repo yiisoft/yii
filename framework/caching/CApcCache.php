@@ -17,7 +17,6 @@
  * See {@link CCache} manual for common cache operations that are supported by CApcCache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */
@@ -26,7 +25,7 @@ class CApcCache extends CCache
 	/**
 	 * Initializes this application component.
 	 * This method is required by the {@link IApplicationComponent} interface.
-	 * It checks the availability of memcache.
+	 * It checks the availability of APC.
 	 * @throws CException if APC cache extension is not loaded or is disabled.
 	 */
 	public function init()

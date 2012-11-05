@@ -22,7 +22,6 @@
  * @property string $viewPath The view path of the generator.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.gii
  * @since 1.1.2
  */
@@ -106,7 +105,7 @@ class CCodeGenerator extends CController
 			$file=$model->files[$_GET['id']];
 			if(!in_array($file->type,array('php', 'txt','js','css')))
 				$diff=false;
-			else if($file->operation===CCodeFile::OP_OVERWRITE)
+			elseif($file->operation===CCodeFile::OP_OVERWRITE)
 				$diff=TextDiff::compare(file_get_contents($file->path), $file->content);
 			else
 				$diff='';

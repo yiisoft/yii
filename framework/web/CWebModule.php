@@ -27,7 +27,6 @@
  * moduleDir is the directory containing the module class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  */
 class CWebModule extends CModule
@@ -44,6 +43,12 @@ class CWebModule extends CModule
 	 * will be used. If this is false, then no layout will be used.
 	 */
 	public $layout;
+	/**
+	 * @var string Namespace that should be used when loading controllers.
+	 * Default is to use global namespace.
+	 * @since 1.1.11
+	 */
+	public $controllerNamespace;
 	/**
 	 * @var array mapping from controller ID to controller configurations.
 	 * Pleaser refer to {@link CWebApplication::controllerMap} for more details.

@@ -262,10 +262,13 @@ class CPostgresTest extends CTestCase
 		$this->assertEquals(11,$max);
 	}
 
-	public function testCheckIntegrity()
+	public function testColumnComments()
 	{
-		$this->db->schema->checkIntegrity(false,'test');
-		$this->db->createCommand("INSERT INTO test.profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1000)")->execute();
-		$this->db->schema->checkIntegrity(true,'test');
+		$usersColumns=$this->db->schema->getTable('test.users')->columns;
+
+		$this->assertEquals('',$usersColumns['id']->comment);
+		$this->assertEquals('Name of the user',$usersColumns['username']->comment);
+		$this->assertEquals('Hashed password',$usersColumns['password']->comment);
+		$this->assertEquals('',$usersColumns['email']->comment);
 	}
 }

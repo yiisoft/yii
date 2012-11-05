@@ -25,9 +25,9 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *     ),
  * ));
  *     echo 'Your draggable content here';
- *     
+ *
  * $this->endWidget();
- * 
+ *
  * </pre>
  *
  * By configuring the {@link options} property, you may specify the options
@@ -36,7 +36,6 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -53,13 +52,13 @@ class CJuiDraggable extends CJuiWidget
 	 */
 	public function init(){
 		parent::init();
-		
+
 		$id=$this->getId();
 		if (isset($this->htmlOptions['id']))
 			$id = $this->htmlOptions['id'];
 		else
 			$this->htmlOptions['id']=$id;
-		
+
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').draggable($options);");
 
@@ -72,7 +71,7 @@ class CJuiDraggable extends CJuiWidget
 	public function run(){
 		echo CHtml::closeTag($this->tagName);
 	}
-	
+
 }
 
 

@@ -1,0 +1,82 @@
+La mise en cache
+================
+
+La mise en cache est un moyen pas cher et efficace pour améliorer les performances d'une application
+Web. En stockant les données relativement statiques dans le cache et en le signifiant à partir du
+cache à la demande, nous économisons le temps nécessaire pour générer les données.
+
+Utilisation du cache dans Yii concerne principalement la configuration et l'accès à
+un composant de l'application cache. La configuration de l'application suivant spécifie
+un composant de cache qui utilise memcache avec deux serveurs de cache.
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'cache'=>array(
+			'class'=>'system.caching.CMemCache',
+			'servers'=>array(
+				array('host'=>'serveur1', 'port'=>11211, 'weight'=>60),
+				array('host'=>'serveur2', 'port'=>11211, 'weight'=>40),
+			),
+		),
+	),
+);
+~~~
+
+Lorsque l'application est en cours d'exécution, le composant de cache peut être consulté via
+`Yii::app()->cache`.
+
+Yii fournit des composants de cache différentes qui peuvent stocker des données mises en cache
+dans différents médias. Par exemple, le composant [CMemCache] encapsule l'extension
+PHP memcache et utilise la mémoire comme support de mémoire cache, le composant [CApcCache]
+encapsule l'extension PHP APC et le composant [CDbCache] stocke les données en mémoire cache
+dans la base de données de composants. Ce qui suit est un résumé des éléments de cache disponibles :
+
+   - [CMemCache]: PHP utilise [l'extention memcache](http://www.php.net/manual/en/book.memcache.php).
+
+   - [CApcCache]: PHP utilise [l'extension APC](http://www.php.net/manual/en/book.apc.php).
+
+   - [CXCache]: PHP utilise [l'extension XCache](http://xcache.lighttpd.net/).
+
+   - [CEAcceleratorCache]: PHP utilise [l'extension EAccelerator](http://eaccelerator.net/).
+
+   - [CDbCache]: utilise une table de base de données pour stocker les données mises en cache.
+Par défaut, il va créer et utiliser une base de données SQLite3 sous le répertoire d'exécution.
+Vous pouvez spécifier explicitement une base de données pour qu'elle utilise en définissant sa
+propriété [connectionID|CDbCache::connectionID].
+
+   - [CZendDataCache]: utilise [Zend Cache de Données](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
+   comme support de mise en cache sous-jacent.
+
+   - [CFileCache]: utilise des fichiers pour stocker des données en mémoire cache.
+Ceci est particulièrement adaptée pour mettre en cache gros morceau de données (telles que les pages).
+
+   - [CDummyCache]: présente cache factice qui ne fait pas la mise en cache du tout. Le but
+de ce composant est de simplifier le code qui a besoin de vérifier la disponibilité de cache.
+Par exemple, au cours du développement ou si le serveur ne prend pas en charge la mémoire cache réelle,
+nous pouvons utiliser ce composant cache. Quand un support mémoire cache réelle est activée, on peut passer
+d'utiliser le composant de cache correspondant. Dans les deux cas, on peut utiliser le même code
+`Yii::app()->cache->get($key)` pour tenter la récupération d'une partie des données sans se soucier
+de ce que `Yii::app()->cache` peut-être `null`.
+
+> Acstuce : Parce que tous ces composants cache s'étendent de la même classe de base [CCache],
+on peut passer d'utiliser un autre type de cache sans modifier
+le code qui utilise le cache.
+
+La mise en cache peut être utilisé à différents niveaux. Au niveau le plus bas, nous utilisons
+cache pour stocker un seul morceau de données, comme une variable, et nous appelons cela
+*la mise en cache des données*. Au niveau suivant, on stocke dans la mémoire cache d'un fragment
+de page qui est généré par une partie d'un script de vue. Et au plus haut niveau, nous
+enregistrons une page entière dans le cache et le servir de la mémoire cache en fonction des besoins.
+
+Dans les prochains paragraphes, nous élaborons comment utiliser le cache à ces niveaux.
+
+> Remarque : Par définition, le cache est un support de stockage volatile. Il ne garantit pas
+l'existence des données mises en cache même si elle n'expire pas.
+Par conséquent, ne pas utiliser le cache comme un stockage persistant
+(Par exemple : ne pas utiliser le cache pour stocker les données de session).
+
+<div class="revision">$Id$</div>

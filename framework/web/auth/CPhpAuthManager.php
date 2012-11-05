@@ -21,7 +21,6 @@
  * @property array $authItems The authorization items of the specific type.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -61,6 +60,7 @@ class CPhpAuthManager extends CAuthManager
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
+	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of <code>$userId</code>.
 	 * @return boolean whether the operations can be performed by the user.
 	 */
 	public function checkAccess($itemName,$userId,$params=array())
@@ -69,6 +69,8 @@ class CPhpAuthManager extends CAuthManager
 			return false;
 		$item=$this->_items[$itemName];
 		Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CPhpAuthManager');
+		if(!isset($params['userId']))
+		    $params['userId'] = $userId;
 		if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
 		{
 			if(in_array($itemName,$this->defaultRoles))
@@ -175,7 +177,7 @@ class CPhpAuthManager extends CAuthManager
 	{
 		if(!isset($this->_items[$itemName]))
 			throw new CException(Yii::t('yii','Unknown authorization item "{name}".',array('{name}'=>$itemName)));
-		else if(isset($this->_assignments[$userId][$itemName]))
+		elseif(isset($this->_assignments[$userId][$itemName]))
 			throw new CException(Yii::t('yii','Authorization item "{item}" has already been assigned to user "{user}".',
 				array('{item}'=>$itemName,'{user}'=>$userId)));
 		else
@@ -254,7 +256,7 @@ class CPhpAuthManager extends CAuthManager
 					$items[$name]=$item;
 			}
 		}
-		else if(isset($this->_assignments[$userId]))
+		elseif(isset($this->_assignments[$userId]))
 		{
 			foreach($this->_assignments[$userId] as $assignment)
 			{

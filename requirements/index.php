@@ -10,7 +10,6 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  * @package system
  * @since 1.0
  */
@@ -27,7 +26,7 @@ $requirements=array(
 	array(
 		t('yii','$_SERVER variable'),
 		true,
-		($message=checkServerVar()) === '',
+		'' === $message=checkServerVar(),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		$message),
 	array(
@@ -79,6 +78,30 @@ $requirements=array(
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','This is required if you are using PostgreSQL database.')),
 	array(
+		t('yii','PDO Oracle extension'),
+		false,
+		extension_loaded('pdo_oci'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using Oracle database.')),
+	array(
+		t('yii','PDO MSSQL extension (pdo_mssql)'),
+		false,
+		extension_loaded('pdo_mssql'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using MSSQL database from MS Windows')),
+	array(
+		t('yii','PDO MSSQL extension (pdo_dblib)'),
+		false,
+		extension_loaded('pdo_dblib'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using MSSQL database from GNU/Linux or other UNIX.')),
+	array(
+		t('yii','PDO MSSQL extension (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)'),
+		false,
+		extension_loaded('pdo_sqlsrv'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using MSSQL database with the driver provided by Microsoft.')),
+	array(
 		t('yii','Memcache extension'),
 		false,
 		extension_loaded("memcache") || extension_loaded("memcached"),
@@ -103,10 +126,9 @@ $requirements=array(
 		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
 		''),
 	array(
-		t('yii','GD extension with<br />FreeType support'),
+		t('yii','GD extension with<br />FreeType support<br />or ImageMagick extension'),
 		false,
-		($message=checkGD()) === '',
-		//extension_loaded('gd'),
+		'' === $message=checkCaptchaSupport(),
 		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
 		$message),
 	array(
@@ -142,16 +164,18 @@ function checkServerVar()
 	return '';
 }
 
-function checkGD()
+function checkCaptchaSupport()
 {
-	if(extension_loaded('gd'))
+	if(extension_loaded('imagick'))
+		return '';
+	elseif(extension_loaded('gd'))
 	{
 		$gdinfo=gd_info();
 		if($gdinfo['FreeType Support'])
 			return '';
-		return t('yii','GD installed<br />FreeType support not installed');
+		return t('yii','GD installed,<br />FreeType support not installed');
 	}
-	return t('yii','GD not installed');
+	return t('yii','GD or ImageMagick not installed');
 }
 
 function getYiiVersion()
@@ -207,7 +231,16 @@ function getPreferredLanguage()
 			$languages[$matches[1][$i]]=empty($matches[3][$i]) ? 1.0 : floatval($matches[3][$i]);
 		arsort($languages);
 		foreach($languages as $language=>$pref)
-			return strtolower(str_replace('-','_',$language));
+		{
+			$lang=strtolower(str_replace('-','_',$language));
+			if (preg_match("/^en\_?/", $lang))
+				return false;
+			if (!is_file($viewFile=dirname(__FILE__)."/views/$lang/index.php"))
+				$lang=false;
+			else
+				break;
+		}
+		return $lang;
 	}
 	return false;
 }

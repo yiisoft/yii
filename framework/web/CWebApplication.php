@@ -52,7 +52,6 @@
  * @property string $layoutPath The root directory of layout files. Defaults to 'protected/views/layouts'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -108,6 +107,13 @@ class CWebApplication extends CApplication
 	 * Defaults to null, meaning catch-all is not effective.
 	 */
 	public $catchAllRequest;
+
+	/**
+	 * @var string Namespace that should be used when loading controllers.
+	 * Default is to use global namespace.
+	 * @since 1.1.11
+	 */
+	public $controllerNamespace;
 
 	private $_controllerPath;
 	private $_viewPath;
@@ -338,6 +344,10 @@ class CWebApplication extends CApplication
 				$controllerID.='/';
 			$className=ucfirst($id).'Controller';
 			$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
+
+			if($owner->controllerNamespace!==null)
+				$className=$owner->controllerNamespace.'\\'.$className;
+
 			if(is_file($classFile))
 			{
 				if(!class_exists($className,false))

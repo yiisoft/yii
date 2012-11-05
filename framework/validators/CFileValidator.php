@@ -38,24 +38,23 @@
  *
  * You can use {@link CFileValidator} to validate the file attribute.
  *
- * In addition to the {@link message} property for setting a custom error message, 
+ * In addition to the {@link message} property for setting a custom error message,
  * CFileValidator has a few custom error messages you can set that correspond to different
  * validation scenarios. When the file is too large, you may use the {@link tooLarge} property
- * to define a custom error message. Similarly for {@link tooSmall}, {@link wrongType} and 
- * {@link tooMany}. The messages may contain additional placeholders that will be replaced 
- * with the actual content. In addition to the "{attribute}" placeholder, recognized by all 
- * validators (see {@link CValidator}), CFileValidator allows for the following placeholders 
+ * to define a custom error message. Similarly for {@link tooSmall}, {@link wrongType} and
+ * {@link tooMany}. The messages may contain additional placeholders that will be replaced
+ * with the actual content. In addition to the "{attribute}" placeholder, recognized by all
+ * validators (see {@link CValidator}), CFileValidator allows for the following placeholders
  * to be specified:
  * <ul>
  * <li>{file}: replaced with the name of the file.</li>
- * <li>{limit}: when using {@link tooLarge}, replaced with {@link maxSize}; 
- * when using {@link tooSmall}, replaced with {@link maxSize}; and when using {@link tooMany} 
+ * <li>{limit}: when using {@link tooLarge}, replaced with {@link maxSize};
+ * when using {@link tooSmall}, replaced with {@link minSize}; and when using {@link tooMany}
  * replaced with {@link maxFiles}.</li>
  * <li>{extensions}: when using {@link wrongType}, it will be replaced with the allowed extensions.</li>
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -74,6 +73,15 @@ class CFileValidator extends CValidator
 	 * extensions are allowed.
 	 */
 	public $types;
+	/**
+	 * @var mixed a list of MIME-types of the file that are allowed to be uploaded.
+	 * This can be either an array or a string consisting of MIME-types separated
+	 * by space or comma (e.g. "image/gif, image/jpeg"). MIME-types are
+	 * case-insensitive. Defaults to null, meaning all MIME-types are allowed.
+	 * In order to use this property fileinfo PECL extension should be installed.
+	 * @since 1.1.11
+	 */
+	public $mimeTypes;
 	/**
 	 * @var integer the minimum number of bytes required for the uploaded file.
 	 * Defaults to null, meaning no limit.
@@ -100,9 +108,16 @@ class CFileValidator extends CValidator
 	public $tooSmall;
 	/**
 	 * @var string the error message used when the uploaded file has an extension name
-	 * that is not listed among {@link extensions}.
+	 * that is not listed among {@link types}.
 	 */
 	public $wrongType;
+	/**
+	 * @var string the error message used when the uploaded file has a MIME-type
+	 * that is not listed among {@link mimeTypes}. In order to use this property
+	 * fileinfo PECL extension should be installed.
+	 * @since 1.1.11
+	 */
+	public $wrongMimeType;
 	/**
 	 * @var integer the maximum file count the given attribute can hold.
 	 * It defaults to 1, meaning single file upload. By defining a higher number,
@@ -114,6 +129,12 @@ class CFileValidator extends CValidator
 	 * limit.
 	 */
 	public $tooMany;
+	/**
+	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
+	 * For this validator it defaults to false.
+	 * @since 1.1.12
+	 */
+	public $safe=false;
 
 	/**
 	 * Set the attribute and then validates using {@link validateFile}.
@@ -162,18 +183,18 @@ class CFileValidator extends CValidator
 	{
 		if(null===$file || ($error=$file->getError())==UPLOAD_ERR_NO_FILE)
 			return $this->emptyAttribute($object, $attribute);
-		else if($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
+		elseif($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
 		{
 			$message=$this->tooLarge!==null?$this->tooLarge : Yii::t('yii','The file "{file}" is too large. Its size cannot exceed {limit} bytes.');
 			$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{limit}'=>$this->getSizeLimit()));
 		}
-		else if($error==UPLOAD_ERR_PARTIAL)
+		elseif($error==UPLOAD_ERR_PARTIAL)
 			throw new CException(Yii::t('yii','The file "{file}" was only partially uploaded.',array('{file}'=>$file->getName())));
-		else if($error==UPLOAD_ERR_NO_TMP_DIR)
+		elseif($error==UPLOAD_ERR_NO_TMP_DIR)
 			throw new CException(Yii::t('yii','Missing the temporary folder to store the uploaded file "{file}".',array('{file}'=>$file->getName())));
-		else if($error==UPLOAD_ERR_CANT_WRITE)
+		elseif($error==UPLOAD_ERR_CANT_WRITE)
 			throw new CException(Yii::t('yii','Failed to write the uploaded file "{file}" to disk.',array('{file}'=>$file->getName())));
-		else if(defined('UPLOAD_ERR_EXTENSION') && $error==UPLOAD_ERR_EXTENSION)  // available for PHP 5.2.0 or above
+		elseif(defined('UPLOAD_ERR_EXTENSION') && $error==UPLOAD_ERR_EXTENSION)  // available for PHP 5.2.0 or above
 			throw new CException(Yii::t('yii','File upload was stopped by extension.'));
 
 		if($this->minSize!==null && $file->getSize()<$this->minSize)
@@ -192,6 +213,31 @@ class CFileValidator extends CValidator
 			{
 				$message=$this->wrongType!==null?$this->wrongType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.');
 				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{extensions}'=>implode(', ',$types)));
+			}
+		}
+
+		if($this->mimeTypes!==null)
+		{
+			if(function_exists('finfo_open'))
+			{
+				$mimeType=false;
+				if($info=finfo_open(defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME))
+					$mimeType=finfo_file($info,$file->getTempName());
+			}
+			elseif(function_exists('mime_content_type'))
+				$mimeType=mime_content_type($file->getTempName());
+			else
+				throw new CException(Yii::t('yii','In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.'));
+
+			if(is_string($this->mimeTypes))
+				$mimeTypes=preg_split('/[\s,]+/',strtolower($this->mimeTypes),-1,PREG_SPLIT_NO_EMPTY);
+			else
+				$mimeTypes=$this->mimeTypes;
+
+			if($mimeType===false || !in_array(strtolower($mimeType),$mimeTypes))
+			{
+				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.');
+				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{mimeTypes}'=>implode(', ',$mimeTypes)));
 			}
 		}
 	}
@@ -233,19 +279,25 @@ class CFileValidator extends CValidator
 	}
 
 	/**
-	 * Converts php.ini style size to bytes
+	 * Converts php.ini style size to bytes. Examples of size strings are: 150, 1g, 500k, 5M (size suffix
+	 * is case insensitive). If you pass here the number with a fractional part, then everything after
+	 * the decimal point will be ignored (php.ini values common behavior). For example 1.5G value would be
+	 * treated as 1G and 1073741824 number will be returned as a result. This method is public
+	 * (was private before) since 1.1.11.
 	 *
-	 * @param string $sizeStr $sizeStr
-	 * @return int
+	 * @param string $sizeStr the size string to convert.
+	 * @return integer the byte count in the given size string.
+	 * @since 1.1.11
 	 */
-	private function sizeToBytes($sizeStr)
+	public function sizeToBytes($sizeStr)
 	{
-		switch (substr($sizeStr, -1))
+		// get the latest character
+		switch (strtolower(substr($sizeStr, -1)))
 		{
-			case 'M': case 'm': return (int)$sizeStr * 1048576;
-			case 'K': case 'k': return (int)$sizeStr * 1024;
-			case 'G': case 'g': return (int)$sizeStr * 1073741824;
-			default: return (int)$sizeStr;
+			case 'm': return (int)$sizeStr * 1048576; // 1024 * 1024
+			case 'k': return (int)$sizeStr * 1024; // 1024
+			case 'g': return (int)$sizeStr * 1073741824; // 1024 * 1024 * 1024
+			default: return (int)$sizeStr; // do nothing
 		}
 	}
 }

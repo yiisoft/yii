@@ -14,7 +14,6 @@
  * @property string $coreScriptUrl The base URL of all core javascript files.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -160,6 +159,20 @@ class CClientScript extends CApplicationComponent
 	 * @since 1.1.3
 	 */
 	public $coreScriptPosition=self::POS_HEAD;
+	/**
+	 * @var integer Where the scripts registered using {@link registerScriptFile} will be inserted in the page.
+	 * This can be one of the CClientScript::POS_* constants.
+	 * Defaults to CClientScript::POS_HEAD.
+	 * @since 1.1.11
+	 */
+	public $defaultScriptFilePosition=self::POS_HEAD;
+	/**
+	 * @var integer Where the scripts registered using {@link registerScript} will be inserted in the page.
+	 * This can be one of the CClientScript::POS_* constants.
+	 * Defaults to CClientScript::POS_READY.
+	 * @since 1.1.11
+	 */
+	public $defaultScriptPosition=self::POS_READY;
 
 	private $_baseUrl;
 
@@ -254,7 +267,7 @@ class CClientScript extends CApplicationComponent
 				if($this->scriptMap[$name]!==false)
 					$cssFiles[$this->scriptMap[$name]]=$media;
 			}
-			else if(isset($this->scriptMap['*.css']))
+			elseif(isset($this->scriptMap['*.css']))
 			{
 				if($this->scriptMap['*.css']!==false)
 					$cssFiles[$this->scriptMap['*.css']]=$media;
@@ -276,7 +289,7 @@ class CClientScript extends CApplicationComponent
 					if($this->scriptMap[$name]!==false)
 						$jsFiles[$position][$this->scriptMap[$name]]=$this->scriptMap[$name];
 				}
-				else if(isset($this->scriptMap['*.js']))
+				elseif(isset($this->scriptMap['*.js']))
 				{
 					if($this->scriptMap['*.js']!==false)
 						$jsFiles[$position][$this->scriptMap['*.js']]=$this->scriptMap['*.js'];
@@ -480,7 +493,7 @@ class CClientScript extends CApplicationComponent
 				$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
 			$baseUrl=rtrim($baseUrl,'/');
 		}
-		else if(isset($package['basePath']))
+		elseif(isset($package['basePath']))
 			$baseUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
 		else
 			$baseUrl=$this->getCoreScriptUrl();
@@ -577,8 +590,10 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScriptFile($url,$position=self::POS_HEAD)
+	public function registerScriptFile($url,$position=null)
 	{
+		if($position===null)
+			$position=$this->defaultScriptFilePosition;
 		$this->hasScripts=true;
 		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
@@ -600,8 +615,10 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScript($id,$script,$position=self::POS_READY)
+	public function registerScript($id,$script,$position=null)
 	{
+		if($position===null)
+			$position=$this->defaultScriptPosition;
 		$this->hasScripts=true;
 		$this->scripts[$position][$id]=$script;
 		if($position===self::POS_READY || $position===self::POS_LOAD)
@@ -615,7 +632,7 @@ class CClientScript extends CApplicationComponent
 	 * Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
 	 *
 	 * <b>Note:</b>
-	 * Meta tags with same attributes will be rendered more then once if called with different values.
+	 * Each call of this method will cause a rendering of new meta tag, even if their attributes are equal.
 	 *
 	 * <b>Example:</b>
 	 * <pre>
@@ -636,7 +653,7 @@ class CClientScript extends CApplicationComponent
 		if($httpEquiv!==null)
 			$options['http-equiv']=$httpEquiv;
 		$options['content']=$content;
-		$this->metaTags[serialize($options)]=$options;
+		$this->metaTags[]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
 		return $this;

@@ -50,7 +50,6 @@ Yii::import('CHtml',true);
  * @property array $error The error details. Null if there is no error.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -97,10 +96,32 @@ class CErrorHandler extends CApplicationComponent
 
 		if($this->discardOutput)
 		{
+			$gzHandler=false;
+			foreach(ob_list_handlers() as $h)
+			{
+				if(strpos($h,'gzhandler')!==false)
+					$gzHandler=true;
+			}
 			// the following manual level counting is to deal with zlib.output_compression set to On
+			// for an output buffer created by zlib.output_compression set to On ob_end_clean will fail
 			for($level=ob_get_level();$level>0;--$level)
 			{
-				@ob_end_clean();
+				if(!@ob_end_clean())
+					ob_clean();
+			}
+			// reset headers in case there was an ob_start("ob_gzhandler") before
+			if($gzHandler && !headers_sent() && ob_list_handlers()===array())
+			{
+				if(function_exists('header_remove')) // php >= 5.3
+				{
+					header_remove('Vary');
+					header_remove('Content-Encoding');
+				}
+				else
+				{
+					header('Vary:');
+					header('Content-Encoding:');
+				}
 			}
 		}
 
@@ -262,7 +283,7 @@ class CErrorHandler extends CApplicationComponent
 				header("HTTP/1.0 500 Internal Server Error");
 			if($this->isAjaxRequest())
 				$app->displayError($event->code,$event->message,$event->file,$event->line);
-			else if(YII_DEBUG)
+			elseif(YII_DEBUG)
 				$this->render('exception',$data);
 			else
 				$this->render('error',$data);
@@ -409,27 +430,27 @@ class CErrorHandler extends CApplicationComponent
 
 			if(is_object($value))
 				$args[$key] = get_class($value);
-			else if(is_bool($value))
+			elseif(is_bool($value))
 				$args[$key] = $value ? 'true' : 'false';
-			else if(is_string($value))
+			elseif(is_string($value))
 			{
 				if(strlen($value)>64)
 					$args[$key] = '"'.substr($value,0,64).'..."';
 				else
 					$args[$key] = '"'.$value.'"';
 			}
-			else if(is_array($value))
+			elseif(is_array($value))
 				$args[$key] = 'array('.$this->argumentsToString($value).')';
-			else if($value===null)
+			elseif($value===null)
 				$args[$key] = 'null';
-			else if(is_resource($value))
+			elseif(is_resource($value))
 				$args[$key] = 'resource';
 
 			if(is_string($key))
 			{
 				$args[$key] = '"'.$key.'" => '.$args[$key];
 			}
-			else if($isAssoc)
+			elseif($isAssoc)
 			{
 				$args[$key] = $key.' => '.$args[$key];
 			}

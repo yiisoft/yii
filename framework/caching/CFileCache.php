@@ -21,7 +21,6 @@
  * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  */
 class CFileCache extends CCache
@@ -49,8 +48,6 @@ class CFileCache extends CCache
 	/**
 	 * Initializes this application component.
 	 * This method is required by the {@link IApplicationComponent} interface.
-	 * It checks the availability of memcache.
-	 * @throws CException if APC cache extension is not loaded or is disabled.
 	 */
 	public function init()
 	{
@@ -108,7 +105,7 @@ class CFileCache extends CCache
 		$cacheFile=$this->getCacheFile($key);
 		if(($time=@filemtime($cacheFile))>time())
 			return @file_get_contents($cacheFile);
-		else if($time>0)
+		elseif($time>0)
 			@unlink($cacheFile);
 		return false;
 	}
@@ -198,7 +195,8 @@ class CFileCache extends CCache
 
 	/**
 	 * Removes expired cache files.
-	 * @param boolean $expiredOnly whether to removed expired cache files only. If true, all cache files under {@link cachePath} will be removed.
+	 * @param boolean $expiredOnly whether only expired cache files should be removed.
+	 * If false, all cache files under {@link cachePath} will be removed.
 	 * @param string $path the path to clean with. If null, it will be {@link cachePath}.
 	 */
 	public function gc($expiredOnly=true,$path=null)
@@ -214,7 +212,7 @@ class CFileCache extends CCache
 			$fullPath=$path.DIRECTORY_SEPARATOR.$file;
 			if(is_dir($fullPath))
 				$this->gc($expiredOnly,$fullPath);
-			else if($expiredOnly && @filemtime($fullPath)<time() || !$expiredOnly)
+			elseif($expiredOnly && @filemtime($fullPath)<time() || !$expiredOnly)
 				@unlink($fullPath);
 		}
 		closedir($handle);

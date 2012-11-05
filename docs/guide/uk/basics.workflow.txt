@@ -39,4 +39,4 @@
 
 Для кожного із представлених етапів може знадобитися створення та застосування тестів.
 
-<div class="revision">$Id: basics.workflow.txt 2718 2010-12-07 15:17:04Z qiang.xue $</div>
+<div class="revision">$Id$</div>

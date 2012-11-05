@@ -31,7 +31,6 @@
  * @property string $verifyCode The verification code.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets.captcha
  * @since 1.0
  */
@@ -103,6 +102,13 @@ class CCaptchaAction extends CAction
 	 * @since 1.1.4
 	 */
 	public $fixedVerifyCode;
+	/**
+	 * @var string the graphic extension that will be used to draw CAPTCHA image. Possible values
+	 * are 'gd', 'imagick' and null. Null value means that fallback mode will be used: ImageMagick
+	 * is preferred over GD. Default value is null.
+	 * @since 1.1.13
+	 */
+	public $backend;
 
 	/**
 	 * Runs the action.
@@ -216,11 +222,23 @@ class CCaptchaAction extends CAction
 	}
 
 	/**
-	 * Renders the CAPTCHA image based on the code.
+	 * Renders the CAPTCHA image based on the code using library specified in the {@link $backend} property.
 	 * @param string $code the verification code
-	 * @return string image content
 	 */
 	protected function renderImage($code)
+	{
+		if($this->backend===null && CCaptcha::checkRequirements('imagick') || $this->backend==='imagick')
+			$this->renderImageImagick($code);
+		else if($this->backend===null && CCaptcha::checkRequirements('gd') || $this->backend==='gd')
+			$this->renderImageGD($code);
+	}
+
+	/**
+	 * Renders the CAPTCHA image based on the code using GD library.
+	 * @param string $code the verification code
+	 * @since 1.1.13
+	 */
+	protected function renderImageGD($code)
 	{
 		$image = imagecreatetruecolor($this->width,$this->height);
 
@@ -269,4 +287,50 @@ class CCaptchaAction extends CAction
 		imagedestroy($image);
 	}
 
+	/**
+	 * Renders the CAPTCHA image based on the code using ImageMagick library.
+	 * @param string $code the verification code
+	 * @since 1.1.13
+	 */
+	protected function renderImageImagick($code)
+	{
+		$backColor=new ImagickPixel('#'.dechex($this->backColor));
+		$foreColor=new ImagickPixel('#'.dechex($this->foreColor));
+
+		$image=new Imagick();
+		$image->newImage($this->width,$this->height,$backColor);
+
+		if($this->fontFile===null)
+			$this->fontFile=dirname(__FILE__).'/Duality.ttf';
+
+		$draw=new ImagickDraw();
+		$draw->setFont($this->fontFile);
+		$draw->setFontSize(30);
+		$fontMetrics=$image->queryFontMetrics($draw,$code);
+
+		$length=strlen($code);
+		$w=(int)($fontMetrics['textWidth'])-8+$this->offset*($length-1);
+		$h=(int)($fontMetrics['textHeight'])-8;
+		$scale=min(($this->width-$this->padding*2)/$w,($this->height-$this->padding*2)/$h);
+		$x=10;
+		$y=round($this->height*27/40);
+		for($i=0; $i<$length; ++$i)
+		{
+			$draw=new ImagickDraw();
+			$draw->setFont($this->fontFile);
+			$draw->setFontSize((int)(rand(26,32)*$scale*0.8));
+			$draw->setFillColor($foreColor);
+			$image->annotateImage($draw,$x,$y,rand(-10,10),$code[$i]);
+			$fontMetrics=$image->queryFontMetrics($draw,$code[$i]);
+			$x+=(int)($fontMetrics['textWidth'])+$this->offset;
+		}
+
+		header('Pragma: public');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Content-Transfer-Encoding: binary');
+		header("Content-type: image/png");
+		$image->setImageFormat('png');
+		echo $image;
+	}
 }

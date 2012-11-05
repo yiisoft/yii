@@ -14,7 +14,6 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @version $Id$
  * @package system.db.schema.mssql
  */
 class CMssqlSchema extends CDbSchema
@@ -277,17 +276,20 @@ EOD;
 	{
 		$columnsTable="INFORMATION_SCHEMA.COLUMNS";
 		$where=array();
-		$where[]="TABLE_NAME='".$table->name."'";
+		$where[]="t1.TABLE_NAME='".$table->name."'";
 		if (isset($table->catalogName))
 		{
-			$where[]="TABLE_CATALOG='".$table->catalogName."'";
+			$where[]="t1.TABLE_CATALOG='".$table->catalogName."'";
 			$columnsTable = $table->catalogName.'.'.$columnsTable;
 		}
 		if (isset($table->schemaName))
-			$where[]="TABLE_SCHEMA='".$table->schemaName."'";
+			$where[]="t1.TABLE_SCHEMA='".$table->schemaName."'";
 
-		$sql="SELECT *, columnproperty(object_id(table_schema+'.'+table_name), column_name, 'IsIdentity') as IsIdentity ".
-			 "FROM ".$this->quoteTableName($columnsTable)." WHERE ".join(' AND ',$where);
+		$sql="SELECT t1.*, columnproperty(object_id(t1.table_schema+'.'+t1.table_name), t1.column_name, 'IsIdentity') AS IsIdentity, ".
+			 "CONVERT(VARCHAR, t2.value) AS Comment FROM ".$this->quoteTableName($columnsTable)." AS t1 ".
+			 "LEFT OUTER JOIN sys.extended_properties AS t2 ON t1.ORDINAL_POSITION = t2.minor_id AND ".
+			 "object_name(t2.major_id) = t1.TABLE_NAME AND t2.class=1 AND t2.class_desc='OBJECT_OR_COLUMN' AND t2.name='MS_Description' ".
+			 "WHERE ".join(' AND ',$where);
 		if (($columns=$this->getDbConnection()->createCommand($sql)->queryAll())===array())
 			return false;
 
@@ -329,6 +331,7 @@ EOD;
 		else
 			$c->size=$c->precision=($column['CHARACTER_MAXIMUM_LENGTH']!== null)?(int)$column['CHARACTER_MAXIMUM_LENGTH']:null;
 		$c->autoIncrement=$column['IsIdentity']==1;
+		$c->comment=$column['Comment']===null ? '' : $column['Comment'];
 
 		$c->init($column['DATA_TYPE'],$column['COLUMN_DEFAULT']);
 		return $c;

@@ -17,7 +17,6 @@
  * See {@link CCache} manual for common cache operations that are supported by CXCache.
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @version $Id$
  * @package system.caching
  */
 class CXCache extends CCache

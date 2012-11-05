@@ -14,7 +14,6 @@
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -111,7 +110,7 @@ abstract class CJuiWidget extends CWidget
 		$cs=Yii::app()->getClientScript();
 		if(is_string($this->cssFile))
 			$cs->registerCssFile($this->themeUrl.'/'.$this->theme.'/'.$this->cssFile);
-		else if(is_array($this->cssFile))
+		elseif(is_array($this->cssFile))
 		{
 			foreach($this->cssFile as $cssFile)
 				$cs->registerCssFile($this->themeUrl.'/'.$this->theme.'/'.$cssFile);
@@ -120,7 +119,7 @@ abstract class CJuiWidget extends CWidget
 		$cs->registerCoreScript('jquery');
 		if(is_string($this->scriptFile))
 			$this->registerScriptFile($this->scriptFile);
-		else if(is_array($this->scriptFile))
+		elseif(is_array($this->scriptFile))
 		{
 			foreach($this->scriptFile as $scriptFile)
 				$this->registerScriptFile($scriptFile);

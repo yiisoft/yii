@@ -59,18 +59,18 @@ class CDbCommand2Test extends CTestCase
 		$command=$this->_connection->createCommand();
 
 		// default value
-		$this->assertEquals(false, $command->distinct);
+		$this->assertFalse($command->distinct);
 
 		// select distinct
 		$command->selectDistinct('id, username');
-		$this->assertEquals(true, $command->distinct);
+		$this->assertTrue($command->distinct);
 		$this->assertEquals('"id", "username"', $command->select);
 
 		// getter and setter
 		$command->distinct=false;
-		$this->assertEquals(false, $command->distinct);
+		$this->assertFalse($command->distinct);
 		$command->distinct=true;
-		$this->assertEquals(true, $command->distinct);
+		$this->assertTrue($command->distinct);
 	}
 
 	public function testFrom()
@@ -157,6 +157,54 @@ class CDbCommand2Test extends CTestCase
 
 		$command->where(array('or not like', 'name', array('%tester', '%tester2')));
 		$this->assertEquals('"name" NOT LIKE \'%tester\' OR "name" NOT LIKE \'%tester2\'', $command->where);
+	}
+
+	public function testAndWhere()
+	{
+		$command=$this->_connection->createCommand();
+
+		// default
+		$this->assertEquals('', $command->where);
+		$this->assertEquals(array(), $command->params);
+
+		// string input
+		$command->andWhere('id=1 or id=:id2', array(':id2'=>2));
+		$this->assertEquals('id=1 or id=:id2', $command->where);
+		$this->assertEquals(array(':id2'=>2), $command->params);
+
+		// array input, and/or
+		$command->andWhere(array('and', 'id=1', 'id=2'));
+		$this->assertEquals('(id=1 or id=:id2) AND ((id=1) AND (id=2))', $command->where);
+		$command->andWhere(array('and', 'id=1', array('or', 'id=3', 'id=4'), 'id=2'), array());
+		$this->assertEquals('((id=1 or id=:id2) AND ((id=1) AND (id=2))) AND ((id=1) AND ((id=3) OR (id=4)) AND (id=2))', $command->where);
+
+		// empty input
+		$command->andWhere(array());
+		$this->assertEquals('(((id=1 or id=:id2) AND ((id=1) AND (id=2))) AND ((id=1) AND ((id=3) OR (id=4)) AND (id=2)))', $command->where);
+	}
+
+	public function testOrWhere()
+	{
+		$command=$this->_connection->createCommand();
+
+		// default
+		$this->assertEquals('', $command->where);
+		$this->assertEquals(array(), $command->params);
+
+		// string input
+		$command->orWhere('id=1 or id=:id2', array(':id2'=>2));
+		$this->assertEquals('id=1 or id=:id2', $command->where);
+		$this->assertEquals(array(':id2'=>2), $command->params);
+
+		// array input, and/or
+		$command->orWhere(array('and', 'id=1', 'id=2'));
+		$this->assertEquals('(id=1 or id=:id2) OR ((id=1) AND (id=2))', $command->where);
+		$command->orWhere(array('and', 'id=1', array('or', 'id=3', 'id=4'), 'id=2'), array());
+		$this->assertEquals('((id=1 or id=:id2) OR ((id=1) AND (id=2))) OR ((id=1) AND ((id=3) OR (id=4)) AND (id=2))', $command->where);
+
+		// empty input
+		$command->orWhere(array());
+		$this->assertEquals('(((id=1 or id=:id2) OR ((id=1) AND (id=2))) OR ((id=1) AND ((id=3) OR (id=4)) AND (id=2)))', $command->where);
 	}
 
 	public function testJoin()
@@ -384,5 +432,20 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals(1,count($rows));
 		$this->assertEquals('user2',$rows[0]['username']);
 		$this->assertEquals('pass2',$rows[0]['password']);
+	}
+	/**
+	 * Belongs to #1045
+	 */
+	public function testEmptyArray()
+	{
+		$command=$this->_connection->createCommand();
+		$conditions='';
+		$params=array();
+		$query = $command->select('*')
+						 ->from('tbl')
+						 ->where($conditions, $params)
+						 ->order('id ASC')
+						 ->getText();
+		$this->assertEquals("SELECT *\nFROM 'tbl'\nORDER BY \"id\" ASC", $query);
 	}
 }
