@@ -1705,6 +1705,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.updateAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($this->getTableSchema(),$attributes,$criteria);
 		return $command->execute();
 	}
@@ -1757,6 +1758,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.deleteAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
