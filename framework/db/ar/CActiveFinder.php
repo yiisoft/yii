@@ -451,24 +451,13 @@ class CJoinElement
 		foreach($this->stats as $stat)
 			$stat->query();
 
-		switch(count($this->children))
-		{
-			case 0:
-				return;
-			break;
-			case 1:
-				$child=reset($this->children);
-			break;
-			default: // bridge(s) inside
-				$child=end($this->children);
-			break;
-		}
+		if(!$this->children)
+			return;
+		$child=end($this->children); // bridge(s) inside, we're taking only last necessary child
 
 		$query=new CJoinQuery($child);
-		$query->selects=array();
-		$query->selects[]=$child->getColumnSelect($child->relation->select);
-		$query->conditions=array();
-		$query->conditions[]=$child->relation->condition;
+		$query->selects=array($child->getColumnSelect($child->relation->select));
+		$query->conditions=array($child->relation->condition);
 		// suppress twice 'on' applying: for CManyManyRelation it will be applied in CJoinElement::applyLazyCondition()
 		if(!($child->relation instanceof CManyManyRelation))
 			$query->conditions[]=$child->relation->on;
