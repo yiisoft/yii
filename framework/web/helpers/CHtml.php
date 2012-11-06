@@ -324,7 +324,7 @@ class CHtml
 		$hiddens=array();
 		if(!strcasecmp($method,'get') && ($pos=strpos($url,'?'))!==false)
 		{
-            $um=Yii::app()->getUrlManager();
+			$um=Yii::app()->getUrlManager();
 			foreach(explode('&',substr($url,$pos+1)) as $pair)
 			{
 				if(($pos=strpos($pair,'='))!==false)
