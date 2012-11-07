@@ -78,31 +78,28 @@ class CNumberValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if($this->integerOnly)
+		if($this->integerOnly && !preg_match($this->integerPattern,"$value"))
 		{
-			if(!preg_match($this->integerPattern,"$value"))
-			{
-				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be an integer.');
-				$this->addError($object,$attribute,$message);
-			}
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be an integer.');
+			$this->addError($object,$attribute,$message);
+		}
+		elseif(!$this->integerOnly && !preg_match($this->numberPattern,"$value"))
+		{
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
+			$this->addError($object,$attribute,$message);
 		}
 		else
 		{
-			if(!preg_match($this->numberPattern,"$value"))
+			if($this->min!==null && $value<$this->min)
 			{
-				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
-				$this->addError($object,$attribute,$message);
+				$message=$this->tooSmall!==null?$this->tooSmall:Yii::t('yii','{attribute} is too small (minimum is {min}).');
+				$this->addError($object,$attribute,$message,array('{min}'=>$this->min));
 			}
-		}
-		if($this->min!==null && $value<$this->min)
-		{
-			$message=$this->tooSmall!==null?$this->tooSmall:Yii::t('yii','{attribute} is too small (minimum is {min}).');
-			$this->addError($object,$attribute,$message,array('{min}'=>$this->min));
-		}
-		if($this->max!==null && $value>$this->max)
-		{
-			$message=$this->tooBig!==null?$this->tooBig:Yii::t('yii','{attribute} is too big (maximum is {max}).');
-			$this->addError($object,$attribute,$message,array('{max}'=>$this->max));
+			if($this->max!==null && $value>$this->max)
+			{
+				$message=$this->tooBig!==null?$this->tooBig:Yii::t('yii','{attribute} is too big (maximum is {max}).');
+				$this->addError($object,$attribute,$message,array('{max}'=>$this->max));
+			}
 		}
 	}
 
