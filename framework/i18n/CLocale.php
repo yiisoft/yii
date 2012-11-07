@@ -229,7 +229,7 @@ class CLocale extends CComponent
 	 */
 	public function getWeekDayName($day,$width='wide',$standAlone=false)
 	{
-		if ((int)$day===7)
+		if ($day==7)
 			$day=0;
 		if($standAlone)
 			return isset($this->_data['weekDayNamesSA'][$width][$day]) ? $this->_data['weekDayNamesSA'][$width][$day] : $this->_data['weekDayNames'][$width][$day];
