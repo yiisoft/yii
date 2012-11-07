@@ -57,28 +57,7 @@ class CDbLogRoute extends CLogRoute
 	 * @var CDbConnection the DB connection instance
 	 */
 	private $_db;
-
-	/**
-	 * Initializes the route.
-	 * This method is invoked after the route is created by the route manager.
-	 */
-	public function init()
-	{
-		parent::init();
-
-		if($this->autoCreateLogTable)
-		{
-			$db=$this->getDbConnection();
-			try
-			{
-				$db->createCommand()->delete($this->logTableName,'0=1');
-			}
-			catch(Exception $e)
-			{
-				$this->createLogTable($db,$this->logTableName);
-			}
-		}
-	}
+	private $_tableChecked=false;
 
 	/**
 	 * Creates the DB table for storing log messages.
@@ -125,7 +104,22 @@ class CDbLogRoute extends CLogRoute
 	 */
 	protected function processLogs($logs)
 	{
-		$command=$this->getDbConnection()->createCommand();
+		$db=$this->getDbConnection();
+
+		if($this->autoCreateLogTable && !$this->_tableChecked)
+		{
+			$this->_tableChecked=true;
+			try
+			{
+				$db->createCommand()->delete($this->logTableName,'0=1');
+			}
+			catch(Exception $e)
+			{
+				$this->createLogTable($db,$this->logTableName);
+			}
+		}
+
+		$command=$db->createCommand();
 		foreach($logs as $log)
 		{
 			$command->insert($this->logTableName,array(
