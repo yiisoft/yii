@@ -6,9 +6,9 @@ class CNumberValidatorTest extends CTestCase
 	public function providerIssue1669()
 	{
 		return array(
-			array('number1', 4, array('number1' => array('Number1 is too small (minimum is 5).'))),
+			array('number1', '4.1', array('number1' => array('Number1 is too small (minimum is 5).'))),
 			array('number1', 5, array()),
-			array('number2', 15, array()),
+			array('number2', '15', array()),
 			array('number2', 16, array('number2' => array('Number2 is too big (maximum is 15).'))),
 
 			array('number1', 'a4', array('number1' => array('Number1 must be a number.'))),
