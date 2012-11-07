@@ -1106,7 +1106,7 @@ class CController extends CBaseController
 
 	/**
 	 * The filter method for 'postOnly' filter.
-	 * This filter reports an error if the applied action is receiving a non-POST request.
+	 * This filter throws an exception (CHttpException with code 400) if the applied action is receiving a non-POST request.
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @throws CHttpException if the current request is not a POST request
 	 */
@@ -1120,7 +1120,7 @@ class CController extends CBaseController
 
 	/**
 	 * The filter method for 'ajaxOnly' filter.
-	 * This filter reports an error if the applied action is receiving a non-AJAX request.
+	 * This filter throws an exception (CHttpException with code 400) if the applied action is receiving a non-AJAX request.
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @throws CHttpException if the current request is not an AJAX request.
 	 */
