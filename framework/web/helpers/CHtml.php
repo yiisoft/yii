@@ -324,12 +324,12 @@ class CHtml
 		$hiddens=array();
 		if(!strcasecmp($method,'get') && ($pos=strpos($url,'?'))!==false)
 		{
-			$um=Yii::app()->getUrlManager();
+			$urlManager=Yii::app()->getUrlManager();
 			foreach(explode('&',substr($url,$pos+1)) as $pair)
 			{
 				if(($pos=strpos($pair,'='))!==false)
 				{
-					if(($name=substr($pair,0,$pos))!==$um->routeVar || $um->urlFormat===CUrlManager::GET_FORMAT)
+					if(($name=substr($pair,0,$pos))!==$urlManager->routeVar || $urlManager->urlFormat===CUrlManager::GET_FORMAT)
 						$hiddens[]=self::hiddenField(urldecode($name),urldecode(substr($pair,$pos+1)),array('id'=>false));
 				}
 				else
