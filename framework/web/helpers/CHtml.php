@@ -1858,7 +1858,10 @@ EOD;
 				$group=self::value($model,$groupField);
 				$value=self::value($model,$valueField);
 				$text=self::value($model,$textField);
-				$listData[$group][$value]=$text;
+				if($group===null)
+					$listData[$value]=$text;
+				else
+					$listData[$group][$value]=$text;
 			}
 		}
 		return $listData;
