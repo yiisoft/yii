@@ -26,7 +26,7 @@ $requirements=array(
 	array(
 		t('yii','$_SERVER variable'),
 		true,
-		($message=checkServerVar()) === '',
+		'' === $message=checkServerVar(),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		$message),
 	array(
@@ -126,10 +126,9 @@ $requirements=array(
 		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
 		''),
 	array(
-		t('yii','GD extension with<br />FreeType support'),
+		t('yii','GD extension with<br />FreeType support<br />or ImageMagick extension'),
 		false,
-		($message=checkGD()) === '',
-		//extension_loaded('gd'),
+		'' === $message=checkCaptchaSupport(),
 		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
 		$message),
 	array(
@@ -165,16 +164,18 @@ function checkServerVar()
 	return '';
 }
 
-function checkGD()
+function checkCaptchaSupport()
 {
-	if(extension_loaded('gd'))
+	if(extension_loaded('imagick'))
+		return '';
+	elseif(extension_loaded('gd'))
 	{
 		$gdinfo=gd_info();
 		if($gdinfo['FreeType Support'])
 			return '';
-		return t('yii','GD installed<br />FreeType support not installed');
+		return t('yii','GD installed,<br />FreeType support not installed');
 	}
-	return t('yii','GD not installed');
+	return t('yii','GD or ImageMagick not installed');
 }
 
 function getYiiVersion()
@@ -230,7 +231,16 @@ function getPreferredLanguage()
 			$languages[$matches[1][$i]]=empty($matches[3][$i]) ? 1.0 : floatval($matches[3][$i]);
 		arsort($languages);
 		foreach($languages as $language=>$pref)
-			return strtolower(str_replace('-','_',$language));
+		{
+			$lang=strtolower(str_replace('-','_',$language));
+			if (preg_match("/^en\_?/", $lang))
+				return false;
+			if (!is_file($viewFile=dirname(__FILE__)."/views/$lang/index.php"))
+				$lang=false;
+			else
+				break;
+		}
+		return $lang;
 	}
 	return false;
 }

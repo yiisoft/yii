@@ -199,7 +199,7 @@ class CDateTimeParser
 				    {
 				    	if($hour==12 && $ampm==='am')
 				    		$hour=0;
-				    	else if($hour<12 && $ampm==='pm')
+				    	elseif($hour<12 && $ampm==='pm')
 				    		$hour+=12;
 				    }
 					$i+=2;

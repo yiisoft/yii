@@ -14,8 +14,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'Active record class "{class}" does not have a scope named "{scope}".' => 'اکتیو رکورد با نام کلاس {class} اسکوپی با نام  {scope} ندارد.',

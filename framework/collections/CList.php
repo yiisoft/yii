@@ -120,7 +120,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	{
 		if(isset($this->_d[$index]))
 			return $this->_d[$index];
-		else if($index>=0 && $index<$this->_c) // in case the value is null
+		elseif($index>=0 && $index<$this->_c) // in case the value is null
 			return $this->_d[$index];
 		else
 			throw new CException(Yii::t('yii','List index "{index}" is out of bound.',
@@ -152,7 +152,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 		{
 			if($index===$this->_c)
 				$this->_d[$this->_c++]=$item;
-			else if($index>=0 && $index<$this->_c)
+			elseif($index>=0 && $index<$this->_c)
 			{
 				array_splice($this->_d,$index,0,array($item));
 				$this->_c++;
@@ -269,7 +269,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			foreach($data as $item)
 				$this->add($item);
 		}
-		else if($data!==null)
+		elseif($data!==null)
 			throw new CException(Yii::t('yii','List data must be an array or an object implementing Traversable.'));
 	}
 
@@ -288,7 +288,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			foreach($data as $item)
 				$this->add($item);
 		}
-		else if($data!==null)
+		elseif($data!==null)
 			throw new CException(Yii::t('yii','List data must be an array or an object implementing Traversable.'));
 	}
 

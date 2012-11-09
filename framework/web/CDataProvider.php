@@ -82,7 +82,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * @param mixed $value the pagination to be used by this data provider. This could be a {@link CPagination} object
 	 * or an array used to configure the pagination object. If this is false, it means the pagination should be disabled.
 	 *
-	 * You can configre this property same way as a component:
+	 * You can configure this property same way as a component:
 	 * <pre>
 	 * array(
 	 *     'class' => 'MyPagination',
@@ -94,7 +94,14 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	{
 		if(is_array($value))
 		{
-			$pagination=isset($value['class']) ? $this->getPagination($value['class']) : $this->getPagination();
+			if(isset($value['class']))
+			{
+				$pagination=$this->getPagination($value['class']);
+				unset($value['class']);
+			}
+			else
+				$pagination=$this->getPagination();
+
 			foreach($value as $k=>$v)
 				$pagination->$k=$v;
 		}
@@ -123,7 +130,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * @param mixed $value the sorting to be used by this data provider. This could be a {@link CSort} object
 	 * or an array used to configure the sorting object. If this is false, it means the sorting should be disabled.
 	 *
-	 * You can configre this property same way as a component:
+	 * You can configure this property same way as a component:
 	 * <pre>
 	 * array(
 	 *     'class' => 'MySort',
@@ -135,7 +142,14 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	{
 		if(is_array($value))
 		{
-			$sort=isset($value['class']) ? $this->getSort($value['class']) : $this->getSort();
+			if(isset($value['class']))
+			{
+				$sort=$this->getSort($value['class']);
+				unset($value['class']);
+			}
+			else
+				$sort=$this->getSort();
+
 			foreach($value as $k=>$v)
 				$sort->$k=$v;
 		}

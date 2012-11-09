@@ -439,7 +439,7 @@ class CController extends CBaseController
 			$baseConfig=is_array($actionMap[$actionID]) ? $actionMap[$actionID] : array('class'=>$actionMap[$actionID]);
 			return Yii::createComponent(empty($config)?$baseConfig:array_merge($baseConfig,$config),$this,$requestActionID);
 		}
-		else if($pos===false)
+		elseif($pos===false)
 			return null;
 
 		// the action is defined in a provider
@@ -451,7 +451,7 @@ class CController extends CBaseController
 		$provider=$actionMap[$prefix];
 		if(is_string($provider))
 			$providerType=$provider;
-		else if(is_array($provider) && isset($provider['class']))
+		elseif(is_array($provider) && isset($provider['class']))
 		{
 			$providerType=$provider['class'];
 			if(isset($provider[$actionID]))
@@ -652,7 +652,7 @@ class CController extends CBaseController
 				$module=Yii::app();
 			$layoutName=$module->layout;
 		}
-		else if(($module=$this->getModule())===null)
+		elseif(($module=$this->getModule())===null)
 			$module=Yii::app();
 
 		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::app()->getViewPath(),$module->getViewPath());
@@ -703,14 +703,14 @@ class CController extends CBaseController
 			else
 				$viewFile=$moduleViewPath.$viewName;
 		}
-		else if(strpos($viewName,'.'))
+		elseif(strpos($viewName,'.'))
 			$viewFile=Yii::getPathOfAlias($viewName);
 		else
 			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName;
 
 		if(is_file($viewFile.$extension))
 			return Yii::app()->findLocalizedFile($viewFile.$extension);
-		else if($extension!=='.php' && is_file($viewFile.'.php'))
+		elseif($extension!=='.php' && is_file($viewFile.'.php'))
 			return Yii::app()->findLocalizedFile($viewFile.'.php');
 		else
 			return false;
@@ -960,7 +960,7 @@ class CController extends CBaseController
 	{
 		if($route==='')
 			$route=$this->getId().'/'.$this->getAction()->getId();
-		else if(strpos($route,'/')===false)
+		elseif(strpos($route,'/')===false)
 			$route=$this->getId().'/'.$route;
 		if($route[0]!=='/' && ($module=$this->getModule())!==null)
 			$route=$module->getId().'/'.$route;
@@ -1106,7 +1106,7 @@ class CController extends CBaseController
 
 	/**
 	 * The filter method for 'postOnly' filter.
-	 * This filter reports an error if the applied action is receiving a non-POST request.
+	 * This filter throws an exception (CHttpException with code 400) if the applied action is receiving a non-POST request.
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @throws CHttpException if the current request is not a POST request
 	 */
@@ -1120,7 +1120,7 @@ class CController extends CBaseController
 
 	/**
 	 * The filter method for 'ajaxOnly' filter.
-	 * This filter reports an error if the applied action is receiving a non-AJAX request.
+	 * This filter throws an exception (CHttpException with code 400) if the applied action is receiving a non-AJAX request.
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @throws CHttpException if the current request is not an AJAX request.
 	 */
