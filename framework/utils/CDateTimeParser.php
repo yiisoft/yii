@@ -84,6 +84,7 @@ class CDateTimeParser
 
 		$tokens=self::tokenize($pattern);
 		$i=0;
+		$hr24=true;
 		$n=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
 		foreach($tokens as $token)
 		{
@@ -202,6 +203,7 @@ class CDateTimeParser
 				    	elseif($hour<12 && $ampm==='pm')
 				    		$hour+=12;
 				    }
+					$hr24=false;
 					$i+=2;
 					break;
 				}
@@ -254,7 +256,7 @@ class CDateTimeParser
 			$second=(int)$second;
 		}
 
-		if(CTimestamp::isValidDate($year,$month,$day) && CTimestamp::isValidTime($hour,$minute,$second))
+		if(CTimestamp::isValidDate($year,$month,$day) && CTimestamp::isValidTime($hour,$minute,$second,$hr24))
 			return CTimestamp::getTimestamp($hour,$minute,$second,$month,$day,$year);
 		else
 			return false;

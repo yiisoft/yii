@@ -213,5 +213,8 @@ class CDateTimeParserTest extends CTestCase
 		$this->assertFalse(CDateTimeParser::parse('05, 1991, 01:09, mar', 'dd, yyyy, HH:mm, MMMMM')); // illegal month pattern
 		$this->assertFalse(CDateTimeParser::parse('05, 1991, 01:09, mar', 'ddd, yyyy, HH:mm, MMM')); // illegal day pattern
 		$this->assertFalse(CDateTimeParser::parse('05, 1991, 01:09, mar', 'dd, yyyyy, HH:mm, MMM')); // illegal year pattern
+
+		// 24-hour time used when also using AM/PM pattern
+		$this->assertFalse(CDateTimeParser::parse('19:00 AM', 'HH:mm a'));
 	}
 }
