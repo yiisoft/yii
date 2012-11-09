@@ -1558,4 +1558,29 @@ class CDbCommand extends CComponent
 			$this->params[$name]=$value;
 		return $this;
 	}
+
+	/**
+	 * Builds a SQL statement for creating a primary key constraint.
+	 * @param string $name the name of the primary key constraint to be created. The name will be properly quoted by the method.
+	 * @param string $table the table who will be inheriting the primary key. The name will be properly quoted by the method.
+	 * @param string $columns the column/s where the primary key will be effected. The name will be properly quoted by the method.
+	 * @return integer number of rows affected by the execution.
+	 * @since 1.1.13
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		return $this->setText($this->getConnection()->getSchema()->addPrimaryKey($name,$table,$columns))->execute();
+	}
+
+	/**
+	 * Builds a SQL statement for dropping a primary key constraint.
+	 * @param string $name the name of the primary key constraint to be dropped. The name will be properly quoted by the method.
+	 * @param string $table the table that owns the primary key. The name will be properly quoted by the method.
+	 * @return integer number of rows affected by the execution.
+	 * @since 1.1.13
+	 */
+	public function dropPrimaryKey($name,$table)
+	{
+		return $this->setText($this->getConnection()->getSchema()->dropPrimaryKey($name,$table))->execute();
+	}
 }
