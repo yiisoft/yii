@@ -33,7 +33,7 @@
  * mm      | Minutes in 00 to 59, zero leading
  * s       | Seconds in 0 to 59, no padding
  * ss      | Seconds in 00 to 59, zero leading
- * a       | AM or PM, case-insensitive (since version 1.1.5)
+ * a       | AM or PM, enforces 12-hour clock (since 1.1.13), case-insensitive, (since version 1.1.5)
  * ?       | matches any character (wildcard) (since version 1.1.11)
  * ----------------------------------------------------
  * </pre>
