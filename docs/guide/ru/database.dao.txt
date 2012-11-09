@@ -159,7 +159,7 @@ try
 }
 catch(Exception $e) // в случае возникновения ошибки при выполнении одного из запросов выбрасывается исключение
 {
-	$transaction->rollBack();
+	$transaction->rollback();
 }
 ~~~
 

@@ -353,16 +353,15 @@ Para maior flexibilidade o Yii também permite que um papel seja constituído de
 outros papéis e/ou operações, uma tarefa seja constituída de outras tarefas e uma
 operação seja constituída de outras operações.
 
-An authorization item is uniquely identified by its name.
+Um item de autorização é identificado exclusivamente por seu nome.
 
-An authorization item may be associated with a *business rule*. A
-business rule is a piece of PHP code that will be executed when performing
-access checking with respect to the item. Only when the execution returns
-true, will the user be considered to have the permission represented by the
-item. For example, when defining an operation `updatePost`, we would like
-to add a business rule that checks if the user ID is the same as the post's
-author ID so that only the author himself can have the permission to update
-a post.
+Um item de autorização pode ser associado a uma *business rule* (regra de negócio). Uma
+business rule é um código em PHP que vai ser executado quando ocorrer a verificação
+de acesso com respeito ao item. O usuário terá a permissão de acesso representada 
+pelo item somente quando a execução retornar true. Por exemplo, ao definir uma
+operação `updatePost` (atualizarPost), nós gostaríamos de adicionar uma business
+rule que verifique se ID do usuário é o mesmo que do autor do post de modo que
+somente o próprio autor possa ter permissão de atualizar um post.
 
 Using authorization items, we can build up an *authorization
 hierarchy*. An item `A` is a parent of another item `B` in the

@@ -20,7 +20,6 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * and customize the display order of the buttons.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -107,7 +106,7 @@ class CButtonColumn extends CGridColumn
 	 */
 	public $deleteButtonUrl='Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))';
 	/**
-	 * @var array the HTML options for the view button tag.
+	 * @var array the HTML options for the delete button tag.
 	 */
 	public $deleteButtonOptions=array('class'=>'delete');
 	/**
@@ -138,7 +137,7 @@ class CButtonColumn extends CGridColumn
 	 */
 	public $afterDelete;
 	/**
-	 * @var array the configuration for additional buttons. Each array element specifies a single button
+	 * @var array the configuration for buttons. Each array element specifies a single button
 	 * which has the following format:
 	 * <pre>
 	 * 'buttonID' => array(
@@ -150,11 +149,14 @@ class CButtonColumn extends CGridColumn
 	 *     'visible'=>'...',   // a PHP expression for determining whether the button is visible
 	 * )
 	 * </pre>
+	 *
 	 * In the PHP expression for the 'url' option and/or 'visible' option, the variable <code>$row</code>
 	 * refers to the current row number (zero-based), and <code>$data</code> refers to the data model for
 	 * the row.
 	 *
-	 * Note that in order to display these additional buttons, the {@link template} property needs to
+	 * If the 'buttonID' is 'view', 'update' or 'delete' the options will be applied to the default buttons.
+	 *
+	 * Note that in order to display non-default buttons, the {@link template} property needs to
 	 * be configured so that the corresponding button IDs appear as tokens in the template.
 	 */
 	public $buttons=array();
@@ -171,12 +173,12 @@ class CButtonColumn extends CGridColumn
 		{
 			if(strpos($this->template,'{'.$id.'}')===false)
 				unset($this->buttons[$id]);
-			else if(isset($button['click']))
+			elseif(isset($button['click']))
 			{
 				if(!isset($button['options']['class']))
 					$this->buttons[$id]['options']['class']=$id;
-				if(strpos($button['click'],'js:')!==0)
-					$this->buttons[$id]['click']='js:'.$button['click'];
+				if(!($button['click'] instanceof CJavaScriptExpression))
+					$this->buttons[$id]['click']=new CJavaScriptExpression($button['click']);
 			}
 		}
 
@@ -270,7 +272,7 @@ EOD;
 			{
 				$function=CJavaScript::encode($button['click']);
 				$class=preg_replace('/\s+/','.',$button['options']['class']);
-				$js[]="jQuery('#{$this->grid->id} a.{$class}').live('click',$function);";
+				$js[]="$(document).on('click','#{$this->grid->id} a.{$class}',$function);";
 			}
 		}
 

@@ -18,7 +18,6 @@
  * (a controller or a widget).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */
@@ -80,7 +79,7 @@ abstract class CFormElement extends CComponent
 		$getter='get'.$name;
 		if(method_exists($this,$getter))
 			return $this->$getter();
-		else if(isset($this->attributes[$name]))
+		elseif(isset($this->attributes[$name]))
 			return $this->attributes[$name];
 		else
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',

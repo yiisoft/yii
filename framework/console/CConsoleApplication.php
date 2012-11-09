@@ -40,7 +40,6 @@
  * @property CConsoleCommandRunner $commandRunner The command runner.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.console
  * @since 1.0
  */

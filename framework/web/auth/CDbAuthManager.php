@@ -19,7 +19,6 @@
  * @property array $authItems The authorization items of the specific type.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -214,7 +213,7 @@ class CDbAuthManager extends CAuthManager
 	{
 		if(is_string($names))
 			$condition='parent='.$this->db->quoteValue($names);
-		else if(is_array($names) && $names!==array())
+		elseif(is_array($names) && $names!==array())
 		{
 			foreach($names as &$name)
 				$name=$this->db->quoteValue($name);
@@ -378,14 +377,14 @@ class CDbAuthManager extends CAuthManager
 				->select()
 				->from($this->itemTable);
 		}
-		else if($userId===null)
+		elseif($userId===null)
 		{
 			$command=$this->db->createCommand()
 				->select()
 				->from($this->itemTable)
 				->where('type=:type', array(':type'=>$type));
 		}
-		else if($type===null)
+		elseif($type===null)
 		{
 			$command=$this->db->createCommand()
 				->select('name,type,description,t1.bizrule,t1.data')
@@ -587,7 +586,7 @@ class CDbAuthManager extends CAuthManager
 	{
 		if($this->db!==null)
 			return $this->db;
-		else if(($this->db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
+		elseif(($this->db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 			return $this->db;
 		else
 			throw new CException(Yii::t('yii','CDbAuthManager.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',

@@ -310,10 +310,10 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals(1,$type->int_col2);
 		$this->assertEquals('something',$type->char_col2);
 		$this->assertEquals(1.23,$type->real_col);
-		$this->assertEquals(null,$type->numeric_col);
-		$this->assertEquals(null,$type->time);
-		$this->assertEquals(null,$type->bool_col);
-		$this->assertEquals(true,$type->bool_col2);
+		$this->assertNull($type->numeric_col);
+		$this->assertNull($type->time);
+		$this->assertNull($type->bool_col);
+		$this->assertTrue($type->bool_col2);
 	}
 
 	public function testPublicAttribute()
@@ -498,8 +498,8 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals(2,count($category->nodes));
 		$this->assertTrue($category->nodes[0]->parent instanceof Category2);
 		$this->assertTrue($category->nodes[1]->parent instanceof Category2);
-		$this->assertEquals(0,count($category->nodes[0]->children));
-		$this->assertEquals(2,count($category->nodes[1]->children));
+		$this->assertEquals(2,count($category->nodes[0]->children)); // row in test.categories with id 5 (has 2 descendants)
+		$this->assertEquals(0,count($category->nodes[1]->children)); // row in test.categories with id 4 (has 0 descendants)
 	}
 
 	public function testEagerRecursiveRelation()

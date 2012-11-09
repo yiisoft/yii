@@ -15,14 +15,10 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
-  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Het toekennen van onveilig attribuut "{attribute}" op "{class}" is mislukt.',
-  'Failed to start session.' => 'Het starten van een sessie is mislukt',
-  'Powered by {yii}.' => 'Aangedreven door {yii}.',
-  '{class} and its behaviors do not have a method or closure named "{name}".' => '{class} en zijn behaviors hebben geen method of closure met naam "{name}".',
+  'In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.' => 'Om de door CFileValidator aangeboden MIME-type validatie te gebruiken moet de fileinfo PECL extensie geïnstalleerd zijn',
+  'The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.' => 'Het bestand "{file}" kan niet worden geupload. Alleen bestanden van de volgende MIME-types zijn toegelaten: {mimeTypes}',
   '"{path}" is not a valid directory.' => '"{path}" is geen geldige map.',
   '&lt; Previous' => '&lt; Vorige',
   '&lt;&lt; First' => '&lt;&lt; Eerste',
@@ -53,9 +49,6 @@ return array (
   'CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.' => 'CDbCommand::execute() fout: {error}. Het uitgevoerde SQL statement was: {sql}.',
   'CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.' => 'CDbCommand::{method}() fout: {error}. Het uitgevoerde SQL statement was: {sql}.',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection heeft geen ondersteunig voor het lezen van het schema van een {driver} database.',
-  'CDbConnection failed to open the DB connection.' => 'CDbConnection kon geen verbinding maken met de database.',
-  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection kon geen verbinding maken met de database: {error}',
-  'CDbConnection.connectionString cannot be empty.' => 'CDbConnection.connectionString mag niet leeg zijn.',
   'CDbDataReader cannot rewind. It is a forward-only reader.' => 'CDbDataReader kan niet terugspoelen. Alleen voorwaartse acties zijn mogelijk.',
   'CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'CDbHttpSession.connectionID "{id}" is ongeldig. Gelieve ervoor te zorgen dat het naar de ID van een CDbConnection applicatie-component wijst.',
   'CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.' => 'CDbLogRoute.connectionID "{id}" wijst niet naar een geldige CDbConnection applicatie-component.',
@@ -70,6 +63,7 @@ return array (
   'CFlexWidget.baseUrl cannot be empty.' => 'CFlexWidget.baseUrl mag niet leeg zijn.',
   'CFlexWidget.name cannot be empty.' => 'CFlexWidget.name mag niet leeg zijn.',
   'CGlobalStateCacheDependency.stateName cannot be empty.' => 'CGlobalStateCacheDependency.stateName mag niet leeg zijn.',
+  'CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()' => 'CHttpCacheFilter.lastModified bevatte een waarde die niet begrepen werd door strtotime()',
   'CHttpCookieCollection can only hold CHttpCookie objects.' => 'CHttpCookieCollection kan alleen CHttpCookie objecten bevatten.',
   'CHttpRequest is unable to determine the entry script URL.' => 'CHttpRequest kan de URL van het ingangsscript niet bepalen.',
   'CHttpRequest is unable to determine the path info of the request.' => 'CHttpRequest kan de pad-informatie van het verzoek niet bepalen',
@@ -77,6 +71,7 @@ return array (
   'CHttpSession.cookieMode can only be "none", "allow" or "only".' => 'CHttpSession.cookieMode kan alleen "none", "allow" of "only" zijn.',
   'CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.' => 'CHttpSession.gcProbability "{value}" is ongeldig. Het moet een geheel getal tussen 0 en 100 zijn.',
   'CHttpSession.savePath "{path}" is not a valid directory.' => 'CHttpSession.savePath "{path}" is geen geldige map.',
+  'CMemCache requires PHP {extension} extension to be loaded.' => 'CMemCache vereist dat de PHP {extension} extensie geladen is',
   'CMemCache server configuration must be an array.' => 'De configuratie voor de CMemCache server moet een array zijn.',
   'CMemCache server configuration must have "host" value.' => 'De configuratie voor de CMemCache server moet een "host" waarde bevatten.',
   'CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.' => 'CProfileLogRoute heeft een niet overeenkomstig cod blok "{token}" gevonden. Zorg ervoor dat alle aanroepen naar Yii::beginProfile() en Yii::endProfile() correct genesteld zijn.',
@@ -95,6 +90,7 @@ return array (
   'Cannot add "{child}" as a child of "{parent}". A loop has been detected.' => 'Kan "{child}" niet toevoegen als kind van "{parent}". Er werd een lus ontdekt.',
   'Cannot add "{name}" as a child of itself.' => 'Kan "{child}" niet toevoegen aan zichzelf.',
   'Cannot add an item of type "{child}" to an item of type "{parent}".' => 'Kan een item van type "{child}" niet toevoegen aan een item van type "{parent}".',
+  'Class name "{class}" does not match class file "{file}".' => 'De class-naam "{class}" komt niet overeen met het bestand "{file}".',
   'Column name must be either a string or an array.' => 'De kolomnaam moet een string of een array zijn.',
   'Dropping DB column is not supported by SQLite.' => 'Een DB kolom verwijderen wordt niet ondersteund door SQLite.',
   'Dropping a foreign key constraint is not supported by SQLite.' => 'Een foreign key verwijderen wordt niet ondersteund door SQLite.',
@@ -105,6 +101,8 @@ return array (
   'Event "{class}.{event}" is not defined.' => 'Event "{class}.{event}" is niet gedefinieerd.',
   'Extension path "{path}" does not exist.' => 'Het pad "{path}" van de extensie bestaat niet.',
   'Failed to initialize the mcrypt module.' => 'Er is een fout opgetreden tijdens het initializeren van de mcrypt module.',
+  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Het toekennen van onveilig attribuut "{attribute}" op "{class}" is mislukt.',
+  'Failed to start session.' => 'Het starten van een sessie is mislukt',
   'Failed to write the uploaded file "{file}" to disk.' => 'Kon het geuploade bestand "{file}" niet wegschrijven naar de schijf.',
   'File upload was stopped by extension.' => 'De bestandsupload werd gestopt door de extensie.',
   'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => 'Filter "{filter}" is ongeldig. Controller "{class}" heeft geen "filter{filter}" functie.',
@@ -114,6 +112,7 @@ return array (
   'Invalid MO file revision: {revision}.' => 'Ongeldige versie voor MO bestand: {revision}.',
   'Invalid MO file: {file} (magic: {magic}).' => 'Ongeldige MO bestand: {file} (magic: {magic}).',
   'Invalid enumerable value "{value}". Please make sure it is among ({enum}).' => 'Ongeldige waarde "{value}". Dit moet een van de waarden uit ({enum}) zijn.',
+  'Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()' => 'Ongeldige uitdrukking voor CHttpCacheFilter.lastModifiedExpression: Het evaluatie-resultaat "{value}" werd niet begrepen door strtotime()',
   'Invalid operator "{operator}".' => 'Ongeldige operator "{operator}".',
   'Last &gt;&gt;' => 'Laatste &gt;&gt;',
   'List data must be an array or an object implementing Traversable.' => 'De data voor de lijst moet een array zijn, of een object dat Traversable implementeerd.',
@@ -126,6 +125,7 @@ return array (
   'No counter columns are being updated for table "{table}".' => 'Er worden geen counter kolommen geupdated voor table "{table}".',
   'Object configuration must be an array containing a "class" element.' => 'De configuratie voor een object moet een array zijn met een "class" element.',
   'Please fix the following input errors:' => 'Gelieve de volgende fouten te verhelpen:',
+  'Powered by {yii}.' => 'Aangedreven door {yii}.',
   'Property "{class}.{property}" is not defined.' => 'Het attribuut "{class}.{property}" is niet gedefinieerd.',
   'Property "{class}.{property}" is read only.' => 'Het attribuut "{class}.{property}" is alleen-lezen.',
   'Property CMaskedTextField.mask cannot be empty.' => 'Het attribuut CMaskedTextField.mask mag niet leeg zijn',
@@ -243,6 +243,7 @@ return array (
   '{className} does not support flushValues() functionality.' => '{className} heeft geen flushValues() functionaliteit.',
   '{className} does not support get() functionality.' => '{className} ondersteunt geen get() functionaliteit.',
   '{className} does not support set() functionality.' => '{className} ondersteunt geen set() functionaliteit.',
+  '{class} and its behaviors do not have a method or closure named "{name}".' => '{class} en zijn behaviors hebben geen method of closure met naam "{name}".',
   '{class} does not have relation "{name}".' => '{class} heeft geen relatie "{name}".',
   '{class} does not support fetching all table names.' => '{class} heeft geen ondersteuning voor het opvragen van alle tabel-namen.',
   '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} heeft een ongeldige validatie-regel. De regel moet attributen bevatten om de valideren en de naam van de validator.',

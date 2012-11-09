@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Alias "{alias}" je neplatný. Ubezpečte se, že obsahuje cestu k platnému PHP souboru.',

@@ -55,7 +55,6 @@
  * @author	 Michal Migurski <mike-json@teczno.com>
  * @author	 Matt Knapp <mdknapp[at]gmail[dot]com>
  * @author	 Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
- * @version $Id$
  * @package	system.web.helpers
  * @since 1.0
  */

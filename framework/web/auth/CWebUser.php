@@ -52,7 +52,6 @@
  * @property array $flashes Flash messages (key => message).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -194,7 +193,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		Yii::app()->getSession()->open();
 		if($this->getIsGuest() && $this->allowAutoLogin)
 			$this->restoreFromCookie();
-		else if($this->autoRenewCookie && $this->allowAutoLogin)
+		elseif($this->autoRenewCookie && $this->allowAutoLogin)
 			$this->renewCookie();
 		if($this->autoUpdateFlash)
 			$this->updateFlash();
@@ -331,7 +330,15 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getReturnUrl($defaultUrl=null)
 	{
-		return $this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getRequest()->getScriptUrl() : CHtml::normalizeUrl($defaultUrl));
+		if($defaultUrl===null)
+		{
+			$defaultReturnUrl=Yii::app()->getUrlManager()->showScriptName ? Yii::app()->getRequest()->getScriptUrl() : Yii::app()->getRequest()->getBaseUrl().'/';
+		}
+		else
+		{
+			$defaultReturnUrl=CHtml::normalizeUrl($defaultUrl);
+		}
+		return $this->getState('__returnUrl',$defaultReturnUrl);
 	}
 
 	/**
@@ -440,7 +447,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$app=Yii::app();
 		$request=$app->getRequest();
 		$cookie=$request->getCookies()->itemAt($this->getStateKeyPrefix());
-		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
+		if($cookie && !empty($cookie->value) && is_string($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=@unserialize($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
@@ -697,7 +704,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	protected function changeIdentity($id,$name,$states)
 	{
-		Yii::app()->getSession()->regenerateID();
+		Yii::app()->getSession()->regenerateID(true);
 		$this->setId($id);
 		$this->setName($name);
 		$this->loadIdentityStates($states);

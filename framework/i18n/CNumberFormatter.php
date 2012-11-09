@@ -54,7 +54,6 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n
  * @since 1.0
  */
@@ -94,7 +93,7 @@ class CNumberFormatter extends CComponent
 		$result=$this->formatNumber($format,$value);
 		if($currency===null)
 			return $result;
-		else if(($symbol=$this->_locale->getCurrencySymbol($currency))===null)
+		elseif(($symbol=$this->_locale->getCurrencySymbol($currency))===null)
 			$symbol=$currency;
 		return str_replace('¤',$symbol,$result);
 	}
@@ -232,7 +231,7 @@ class CNumberFormatter extends CComponent
 		// find out multiplier
 		if(strpos($pat,'%')!==false)
 			$format['multiplier']=100;
-		else if(strpos($pat,'‰')!==false)
+		elseif(strpos($pat,'‰')!==false)
 			$format['multiplier']=1000;
 		else
 			$format['multiplier']=1;

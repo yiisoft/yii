@@ -72,7 +72,6 @@
  * @property CFormElementCollection $buttons The form elements.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */
@@ -223,7 +222,7 @@ class CForm extends CFormElement implements ArrayAccess
 				if(isset($_POST[$class]))
 					$this->_model->setAttributes($_POST[$class]);
 			}
-			else if(isset($_GET[$class]))
+			elseif(isset($_GET[$class]))
 				$this->_model->setAttributes($_GET[$class]);
 		}
 		foreach($this->getElements() as $element)
@@ -514,7 +513,7 @@ class CForm extends CFormElement implements ArrayAccess
 				else
 					return "<div class=\"row field_{$element->name}\">\n".$element->render()."</div>\n";
 			}
-			else if($element instanceof CFormButtonElement)
+			elseif($element instanceof CFormButtonElement)
 				return $element->render()."\n";
 			else
 				return $element->render();

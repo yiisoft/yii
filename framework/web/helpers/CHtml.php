@@ -13,7 +13,6 @@
  * CHtml is a static class that provides a collection of helper methods for creating HTML views.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.helpers
  * @since 1.0
  */
@@ -34,6 +33,11 @@ class CHtml
 	 */
 	public static $errorCss='error';
 	/**
+	 * @var string the tag name for the error container tag. Defaults to 'div'.
+	 * @since 1.1.13
+	 */
+	public static $errorContainerTag='div';
+	/**
 	 * @var string the CSS class for required labels. Defaults to 'required'.
 	 * @see label
 	 */
@@ -52,26 +56,35 @@ class CHtml
 	 * @var integer the counter for generating automatic input field names.
 	 */
 	public static $count=0;
-
 	/**
 	 * Sets the default style for attaching jQuery event handlers.
 	 *
-	 * If set to true (default), live/delegated style is used. Event handlers
-	 * are attached to the document body and can process events from descendant
-	 * elements that are added to the document at a later time.
+	 * If set to true (default), event handlers are delegated.
+	 * Event handlers are attached to the document body and can process events
+	 * from descendant elements that are added to the document at a later time.
 	 *
-	 * If set to false, direct style is used. Event handlers are attached directly
-	 * to the DOM element, that must already exist on the page. Elements injected
-	 * into the page at a later time will not be processed.
+	 * If set to false, event handlers are directly bound.
+	 * Event handlers are attached directly to the DOM element, that must already exist
+	 * on the page. Elements injected into the page at a later time will not be processed.
 	 *
-	 * You can override this setting for a particular element by setting the htmlOptions live attribute
+	 * You can override this setting for a particular element by setting the htmlOptions delegate attribute
 	 * (see {@link clientChange}).
 	 *
 	 * For more information about attaching jQuery event handler see {@link http://api.jquery.com/on/}
 	 * @since 1.1.9
 	 * @see clientChange
 	 */
-	public static $liveEvents = true;
+	public static $liveEvents=true;
+	/**
+	 * @var boolean whether to close single tags. Defaults to true. Can be set to false for HTML5.
+	 * @since 1.1.13
+	 */
+	public static $closeSingleTags=true;
+	/**
+	 * @var boolean whether to render special attributes value. Defaults to true. Can be set to false for HTML5.
+	 * @since 1.1.13
+	 */
+	public static $renderSpecialAttributesValue=true;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -116,7 +129,7 @@ class CHtml
 				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
 			if(is_string($value))
 				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
-			else if(is_array($value))
+			elseif(is_array($value))
 				$value=self::encodeArray($value);
 			$d[$key]=$value;
 		}
@@ -139,7 +152,7 @@ class CHtml
 	{
 		$html='<' . $tag . self::renderAttributes($htmlOptions);
 		if($content===false)
-			return $closeTag ? $html.' />' : $html.'>';
+			return $closeTag && self::$closeSingleTags ? $html.' />' : $html.'>';
 		else
 			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
 	}
@@ -257,9 +270,7 @@ class CHtml
 	 */
 	public static function cssFile($url,$media='')
 	{
-		if($media!=='')
-			$media=' media="'.$media.'"';
-		return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'"'.$media.' />';
+		return CHtml::linkTag('stylesheet','text/css',$url,$media!=='' ? $media : null);
 	}
 
 	/**
@@ -317,6 +328,8 @@ class CHtml
 			{
 				if(($pos=strpos($pair,'='))!==false)
 					$hiddens[]=self::hiddenField(urldecode(substr($pair,0,$pos)),urldecode(substr($pair,$pos+1)),array('id'=>false));
+				else
+					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
 			}
 		}
 		$request=Yii::app()->request;
@@ -627,7 +640,7 @@ class CHtml
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 		self::clientChange('change',$htmlOptions);
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $value : self::encode($value));
@@ -713,7 +726,7 @@ class CHtml
 
 		if($uncheck!==null)
 		{
-			// add a hidden field so that if the radio button is not selected, it still submits a value
+			// add a hidden field so that if the check box is not checked, it still submits a value
 			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
@@ -723,7 +736,7 @@ class CHtml
 		else
 			$hidden='';
 
-		// add a hidden field so that if the checkbox  is not selected, it still submits a value
+		// add a hidden field so that if the check box is not checked, it still submits a value
 		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 
@@ -755,6 +768,10 @@ class CHtml
 	 * </pre>
 	 * </li>
 	 * </ul>
+	 * Since version 1.1.13, a special option named 'unselectValue' is available that can be used to specify
+	 * the value returned when the option is not selected in multiple mode. When set, a hidden field is
+	 * rendered so that when the option is not selected in multiple mode, we can still obtain the posted
+	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see inputField
@@ -763,13 +780,35 @@ class CHtml
 	public static function dropDownList($name,$select,$data,$htmlOptions=array())
 	{
 		$htmlOptions['name']=$name;
+
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
+
 		self::clientChange('change',$htmlOptions);
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
-		return self::tag('select',$htmlOptions,$options);
+		$hidden='';
+
+		if(isset($htmlOptions['multiple']))
+		{
+			if(substr($htmlOptions['name'],-2)!=='[]')
+				$htmlOptions['name'].='[]';
+
+			if(isset($htmlOptions['unselectValue']))
+			{
+				// add a hidden field so that if the option is not selected, it still submits a value
+				if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+					$hiddenOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+				else
+					$hiddenOptions=array('id'=>false);
+
+				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
+				unset($htmlOptions['unselectValue']);
+			}
+		}
+		// add a hidden field so that if the option is not selected, it still submits a value
+		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
 
 	/**
@@ -1038,28 +1077,28 @@ EOD;
 	{
 		Yii::app()->getClientScript()->registerCoreScript('jquery');
 		if(!isset($options['url']))
-			$options['url']='js:location.href';
+			$options['url']=new CJavaScriptExpression('location.href');
 		else
 			$options['url']=self::normalizeUrl($options['url']);
 		if(!isset($options['cache']))
 			$options['cache']=false;
 		if(!isset($options['data']) && isset($options['type']))
-			$options['data']='js:jQuery(this).parents("form").serialize()';
+			$options['data']=new CJavaScriptExpression('jQuery(this).parents("form").serialize()');
 		foreach(array('beforeSend','complete','error','success') as $name)
 		{
-			if(isset($options[$name]) && strpos($options[$name],'js:')!==0)
-				$options[$name]='js:'.$options[$name];
+			if(isset($options[$name]) && !($options[$name] instanceof CJavaScriptExpression))
+				$options[$name]=new CJavaScriptExpression($options[$name]);
 		}
 		if(isset($options['update']))
 		{
 			if(!isset($options['success']))
-				$options['success']='js:function(html){jQuery("'.$options['update'].'").html(html)}';
+				$options['success']=new CJavaScriptExpression('function(html){jQuery("'.$options['update'].'").html(html)}');
 			unset($options['update']);
 		}
 		if(isset($options['replace']))
 		{
 			if(!isset($options['success']))
-				$options['success']='js:function(html){jQuery("'.$options['replace'].'").replaceWith(html)}';
+				$options['success']=new CJavaScriptExpression('function(html){jQuery("'.$options['replace'].'").replaceWith(html)}');
 			unset($options['replace']);
 		}
 		return 'jQuery.ajax('.CJavaScript::encode($options).');';
@@ -1130,7 +1169,7 @@ EOD;
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 		return self::tag('input',$htmlOptions);
 	}
@@ -1368,7 +1407,13 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
-		$text=self::resolveValue($model,$attribute);
+		if(isset($htmlOptions['value']))
+		{
+			$text=$htmlOptions['value'];
+			unset($htmlOptions['value']);
+		}
+		else
+			$text=self::resolveValue($model,$attribute);
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $text : self::encode($text));
 	}
 
@@ -1505,6 +1550,11 @@ EOD;
 	 * </pre>
 	 * </li>
 	 * </ul>
+	 * Since 1.1.13, a special option named 'unselectValue' is available that can be used to specify
+	 * the value returned when the option is not selected in multiple mode. By default, this value is ''.
+	 * Internally, a hidden field is rendered so that when the option is not selected in multiple mode,
+	 * we can still obtain the posted unselect value.
+	 * If 'unselectValue' is set as NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see listData
@@ -1515,14 +1565,30 @@ EOD;
 		$selection=self::resolveValue($model,$attribute);
 		$options="\n".self::listOptions($selection,$data,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
+
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
+
+		$hidden='';
+
 		if(isset($htmlOptions['multiple']))
 		{
 			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
+
+			if(!array_key_exists('unselectValue',$htmlOptions))
+				$htmlOptions['unselectValue']='';
+
+			if($htmlOptions['unselectValue']!==null)
+			{
+				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
+			}
+
+			unset($htmlOptions['unselectValue']);
 		}
-		return self::tag('select',$htmlOptions,$options);
+
+		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
 
 	/**
@@ -1729,10 +1795,11 @@ EOD;
 	 * Displays the first validation error for a model attribute.
 	 * @param CModel $model the data model
 	 * @param string $attribute the attribute name
-	 * @param array $htmlOptions additional HTML attributes to be rendered in the container div tag.
+	 * @param array $htmlOptions additional HTML attributes to be rendered in the container tag.
 	 * @return string the error display. Empty if no errors are found.
 	 * @see CModel::getErrors
 	 * @see errorMessageCss
+	 * @see $errorContainerTag
 	 */
 	public static function error($model,$attribute,$htmlOptions=array())
 	{
@@ -1742,7 +1809,7 @@ EOD;
 		{
 			if(!isset($htmlOptions['class']))
 				$htmlOptions['class']=self::$errorMessageCss;
-			return self::tag('div',$htmlOptions,$error);
+			return self::tag(self::$errorContainerTag,$htmlOptions,$error);
 		}
 		else
 			return '';
@@ -1755,11 +1822,21 @@ EOD;
 	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
 	 * encode it if needed.
 	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
+	 * You can also pass anonymous functions as second, third and fourth arguments which calculates
+	 * text field value (PHP 5.3+ only) since 1.1.13. Your anonymous function should receive one argument,
+	 * which is the model, the current &lt;option&gt; tag is generated from.
+	 *
+	 * <pre>
+	 * CHtml::listData($posts,'id',function($post) {
+	 * 	return CHtml::encode($post->title);
+	 * });
+	 * </pre>
+	 *
 	 * @param array $models a list of model objects. This parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
-	 * @param string $valueField the attribute name for list option values
-	 * @param string $textField the attribute name for list option texts
-	 * @param string $groupField the attribute name for list option group names. If empty, no group will be generated.
+	 * @param mixed $valueField the attribute name or anonymous function (PHP 5.3+) for list option values
+	 * @param mixed $textField the attribute name or anonymous function (PHP 5.3+) for list option texts
+	 * @param mixed $groupField the attribute name or anonymous function (PHP 5.3+) for list option group names. If empty, no group will be generated.
 	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
 	 */
 	public static function listData($models,$valueField,$textField,$groupField='')
@@ -1796,22 +1873,39 @@ EOD;
 	 * The model can be either an object or an array. If the latter, the attribute is treated
 	 * as a key of the array. For the example of "author.firstName", if would mean the array value
 	 * "$model['author']['firstName']".
+	 *
+	 * Anonymous function could also be used for attribute calculation since 1.1.13
+	 * ($attribute parameter; PHP 5.3+ only) as follows:
+	 * <pre>
+	 * $taskClosedSecondsAgo=CHtml::value($closedTask,function($model) {
+	 * 	return time()-$model->closed_at;
+	 * });
+	 * </pre>
+	 * Your anonymous function should receive one argument, which is the model, the current
+	 * value is calculated from. This feature could be used together with the {@link listData}.
+	 * Please refer to its documentation for more details.
+	 *
 	 * @param mixed $model the model. This can be either an object or an array.
-	 * @param string $attribute the attribute name (use dot to concatenate multiple attributes)
-	 * @param mixed $defaultValue the default value to return when the attribute does not exist
-	 * @return mixed the attribute value
+	 * @param mixed $attribute the attribute name (use dot to concatenate multiple attributes)
+	 * or anonymous function (PHP 5.3+).
+	 * @param mixed $defaultValue the default value to return when the attribute does not exist.
+	 * @return mixed the attribute value.
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		foreach(explode('.',$attribute) as $name)
-		{
-			if(is_object($model))
-				$model=$model->$name;
-			else if(is_array($model) && isset($model[$name]))
-				$model=$model[$name];
-			else
-				return $defaultValue;
-		}
+		if(is_string($attribute))
+			foreach(explode('.',$attribute) as $name)
+			{
+				if(is_object($model))
+					$model=$model->$name;
+				elseif(is_array($model) && isset($model[$name]))
+					$model=$model[$name];
+				else
+					return $defaultValue;
+			}
+		else
+			return call_user_func($attribute,$model);
+
 		return $model;
 	}
 
@@ -1877,13 +1971,13 @@ EOD;
 					}
 				}
 			}
-			else if($htmlOptions['maxlength']===false)
+			elseif($htmlOptions['maxlength']===false)
 				unset($htmlOptions['maxlength']);
 		}
 
 		if($type==='file')
 			unset($htmlOptions['value']);
-		else if(!isset($htmlOptions['value']))
+		elseif(!isset($htmlOptions['value']))
 			$htmlOptions['value']=self::resolveValue($model,$attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
@@ -1954,7 +2048,7 @@ EOD;
 					$selection[$i]=$item->$key;
 			}
 		}
-		else if(is_object($selection))
+		elseif(is_object($selection))
 			$selection=$selection->$key;
 
 		foreach($listData as $key=>$value)
@@ -1990,16 +2084,21 @@ EOD;
 	 * @param array $htmlOptions HTML attributes which may contain the following special attributes
 	 * specifying the client change behaviors:
 	 * <ul>
-	 * <li>submit: string, specifies the URL that the button should submit to. If empty, the current requested URL will be used.</li>
+	 * <li>submit: string, specifies the URL to submit to. If the current element has a parent form, that form will be
+	 * submitted, and if 'submit' is non-empty its value will replace the form's URL. If there is no parent form the
+	 * data listed in 'params' will be submitted instead (via POST method), to the URL in 'submit' or the currently
+	 * requested URL if 'submit' is empty. Please note that if the 'csrf' setting is true, the CSRF token will be
+	 * included in the params too.</li>
 	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
-	 * <li>csrf: boolean, whether a CSRF token should be submitted when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
+	 * <li>csrf: boolean, whether a CSRF token should be automatically included in 'params' when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
 	 * You may want to set this to be true if there is no enclosing form around this element.
 	 * This option is meaningful only when 'submit' option is set.</li>
 	 * <li>return: boolean, the return value of the javascript. Defaults to false, meaning that the execution of
 	 * javascript would not cause the default behavior of the event.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
-	 * <li>live: boolean, whether the event handler should be attached with live/delegate or direct style. If not set, {@link liveEvents} will be used. This option has been available since version 1.1.6.</li>
+	 * <li>live: boolean, whether the event handler should be delegated or directly bound.
+	 * If not set, {@link liveEvents} will be used. This option has been available since version 1.1.11.</li>
 	 * </ul>
 	 * This parameter has been available since version 1.1.1.
 	 */
@@ -2088,7 +2187,7 @@ EOD;
 			$htmlOptions['name']=self::resolveName($model,$attribute);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 	}
 
@@ -2137,8 +2236,8 @@ EOD;
 		{
 			if($pos===0) // [a]name[b][c], should ignore [a]
 			{
-				if(preg_match('/\](.*)/',$attribute,$matches))
-					$attribute=$matches[1];
+				if(preg_match('/\](\w+(\[.+)?)/',$attribute,$matches))
+					$attribute=$matches[1]; // we get: name[b][c]
 				if(($pos=strpos($attribute,'['))===false)
 					return $model->$attribute;
 			}
@@ -2146,7 +2245,7 @@ EOD;
 			$value=$model->$name;
 			foreach(explode('][',rtrim(substr($attribute,$pos+1),']')) as $id)
 			{
-				if(is_array($value) && isset($value[$id]))
+				if((is_array($value) || $value instanceof ArrayAccess) && isset($value[$id]))
 					$value=$value[$id];
 				else
 					return null;
@@ -2163,6 +2262,9 @@ EOD;
 	 */
 	protected static function addErrorCss(&$htmlOptions)
 	{
+		if(empty(self::$errorCss))
+			return;
+
 		if(isset($htmlOptions['class']))
 			$htmlOptions['class'].=' '.self::$errorCss;
 		else
@@ -2180,16 +2282,32 @@ EOD;
 	public static function renderAttributes($htmlOptions)
 	{
 		static $specialAttributes=array(
+			'async'=>1,
+			'autofocus'=>1,
+			'autoplay'=>1,
 			'checked'=>1,
+			'controls'=>1,
 			'declare'=>1,
+			'default'=>1,
 			'defer'=>1,
 			'disabled'=>1,
+			'formnovalidate'=>1,
+			'hidden'=>1,
 			'ismap'=>1,
+			'loop'=>1,
 			'multiple'=>1,
+			'muted'=>1,
 			'nohref'=>1,
 			'noresize'=>1,
+			'novalidate'=>1,
+			'open'=>1,
 			'readonly'=>1,
+			'required'=>1,
+			'reversed'=>1,
+			'scoped'=>1,
+			'seamless'=>1,
 			'selected'=>1,
+			'typemustmatch'=>1,
 		);
 
 		if($htmlOptions===array())
@@ -2209,9 +2327,13 @@ EOD;
 			if(isset($specialAttributes[$name]))
 			{
 				if($value)
-					$html .= ' ' . $name . '="' . $name . '"';
+				{
+					$html .= ' ' . $name;
+					if(self::$renderSpecialAttributesValue)
+						$html .= '="' . $name . '"';
+				}
 			}
-			else if($value!==null)
+			elseif($value!==null)
 				$html .= ' ' . $name . '="' . ($raw ? $value : self::encode($value)) . '"';
 		}
 

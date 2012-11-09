@@ -142,4 +142,4 @@ Yii надає стандартний набір системних предст
 `framework/views`. Їх можні змінити, створивши файли представлень з
 тими же назвами у директорії `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>
+<div class="revision">$Id$</div>

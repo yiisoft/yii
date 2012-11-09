@@ -6,7 +6,6 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  * @package system.web.widgets.views
  * @since 1.0
  */
@@ -45,7 +44,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 		"type", "application/x-shockwave-flash",
 		"pluginspage", "http://www.adobe.com/go/getflashplayer"
 	);
-} else if (hasRequestedVersion) {
+} elseif (hasRequestedVersion) {
 	// if we've detected an acceptable version
 	// embed the Flash Content SWF when all tests are passed
 	AC_FL_RunContent(

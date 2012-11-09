@@ -35,7 +35,6 @@
  * @property array $fixtures The information of the available fixtures (table name => fixture file).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.test
  * @since 1.1
  */
@@ -176,7 +175,7 @@ class CDbFixtureManager extends CApplicationComponent
 			{
 				if(is_string($primaryKey) && !isset($row[$primaryKey]))
 					$row[$primaryKey]=$builder->getLastInsertID($table);
-				else if(is_array($primaryKey))
+				elseif(is_array($primaryKey))
 				{
 					foreach($primaryKey as $pk)
 					{
@@ -299,9 +298,9 @@ class CDbFixtureManager extends CApplicationComponent
 			{
 				$modelClass=Yii::import($tableName,true);
 				$tableName=CActiveRecord::model($modelClass)->tableName();
-				if(($prefix=$this->getDbConnection()->tablePrefix)!==null)
-					$tableName=preg_replace('/{{(.*?)}}/',$prefix.'\1',$tableName);
 			}
+			if(($prefix=$this->getDbConnection()->tablePrefix)!==null)
+				$tableName=preg_replace('/{{(.*?)}}/',$prefix.'\1',$tableName);
 			$this->resetTable($tableName);
 			$rows=$this->loadFixture($tableName);
 			if(is_array($rows) && is_string($fixtureName))

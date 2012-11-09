@@ -12,7 +12,6 @@
  * CSqliteSchema is the class for retrieving metadata information from a SQLite (2/3) database.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema.sqlite
  * @since 1.0
  */
@@ -138,7 +137,7 @@ class CSqliteSchema extends CDbSchema
 			{
 				if($table->primaryKey===null)
 					$table->primaryKey=$c->name;
-				else if(is_string($table->primaryKey))
+				elseif(is_string($table->primaryKey))
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
@@ -184,8 +183,22 @@ class CSqliteSchema extends CDbSchema
 		$c->allowNull=!$column['notnull'];
 		$c->isPrimaryKey=$column['pk']!=0;
 		$c->isForeignKey=false;
+		$c->comment=null; // SQLite does not support column comments at all
+
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a DB table.
+	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB table.
+	 * @since 1.1.13
+	 */
+	public function renameTable($table, $newName)
+	{
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' RENAME TO ' . $this->quoteTableName($newName);
 	}
 
 	/**

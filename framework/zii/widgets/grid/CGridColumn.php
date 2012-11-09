@@ -22,7 +22,6 @@
  * This is determined based on whether {@link footer} is set.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -133,10 +132,13 @@ abstract class CGridColumn extends CComponent
 		if($this->cssClassExpression!==null)
 		{
 			$class=$this->evaluateExpression($this->cssClassExpression,array('row'=>$row,'data'=>$data));
-			if(isset($options['class']))
-				$options['class'].=' '.$class;
-			else
-				$options['class']=$class;
+			if(!empty($class))
+			{
+				if(isset($options['class']))
+					$options['class'].=' '.$class;
+				else
+					$options['class']=$class;
+			}
 		}
 		echo CHtml::openTag('td',$options);
 		$this->renderDataCellContent($row,$data);

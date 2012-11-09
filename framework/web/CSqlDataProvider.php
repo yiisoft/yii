@@ -32,7 +32,6 @@
  * you must configure {@link sort} property so that the provider knows which columns can be sorted.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.1.4
  */
@@ -44,7 +43,8 @@ class CSqlDataProvider extends CDataProvider
 	 */
 	public $db;
 	/**
-	 * @var string the SQL statement to be used for fetching data rows.
+	 * @var string|CDbCommand the SQL statement to be used for fetching data rows.
+	 * Since version 1.1.13 this can also be an instance of {@link CDbCommand}.
 	 */
 	public $sql;
 	/**
@@ -58,7 +58,7 @@ class CSqlDataProvider extends CDataProvider
 
 	/**
 	 * Constructor.
-	 * @param string $sql the SQL statement to be used for fetching data rows.
+	 * @param string|CDbCommand $sql the SQL statement to be used for fetching data rows. Since version 1.1.13 this can also be an instance of {@link CDbCommand}.
 	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct($sql,$config=array())
@@ -74,19 +74,23 @@ class CSqlDataProvider extends CDataProvider
 	 */
 	protected function fetchData()
 	{
-		$sql=$this->sql;
-		$db=$this->db===null ? Yii::app()->db : $this->db;
-		$db->active=true;
+		if(!($this->sql instanceof CDbCommand))
+		{
+			$db=$this->db===null ? Yii::app()->db : $this->db;
+			$command=$db->createCommand($this->sql);
+		}
+		else
+			$command=clone $this->sql;
 
 		if(($sort=$this->getSort())!==false)
 		{
 			$order=$sort->getOrderBy();
 			if(!empty($order))
 			{
-				if(preg_match('/\s+order\s+by\s+[\w\s,]+$/i',$sql))
-					$sql.=', '.$order;
+				if(preg_match('/\s+order\s+by\s+[\w\s,]+$/i',$command->text))
+					$command->text.=', '.$order;
 				else
-					$sql.=' ORDER BY '.$order;
+					$command->text.=' ORDER BY '.$order;
 			}
 		}
 
@@ -95,10 +99,9 @@ class CSqlDataProvider extends CDataProvider
 			$pagination->setItemCount($this->getTotalItemCount());
 			$limit=$pagination->getLimit();
 			$offset=$pagination->getOffset();
-			$sql=$db->getCommandBuilder()->applyLimit($sql,$limit,$offset);
+			$command->text=$command->getConnection()->getCommandBuilder()->applyLimit($command->text,$limit,$offset);
 		}
 
-		$command=$db->createCommand($sql);
 		foreach($this->params as $name=>$value)
 			$command->bindValue($name,$value);
 

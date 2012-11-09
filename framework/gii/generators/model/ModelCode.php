@@ -19,9 +19,10 @@ class ModelCode extends CCodeModel
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('tablePrefix, baseClass, tableName, modelClass, modelPath', 'filter', 'filter'=>'trim'),
+			array('tablePrefix, baseClass, tableName, modelClass, modelPath, connectionId', 'filter', 'filter'=>'trim'),
 			array('connectionId, tableName, modelPath, baseClass', 'required'),
 			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending asterisk.'),
+			array('connectionId', 'validateConnectionId', 'skipOnError'=>true),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
 			array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
@@ -54,7 +55,7 @@ class ModelCode extends CCodeModel
 	public function init()
 	{
 		if(Yii::app()->{$this->connectionId}===null)
-			throw new CHttpException(500,'An active "'.$this->connectionId.'" connection is required to run this generator.');
+			throw new CHttpException(500,'A valid database connection is required to run this generator.');
 		$this->tablePrefix=Yii::app()->{$this->connectionId}->tablePrefix;
 		parent::init();
 	}
@@ -112,6 +113,9 @@ class ModelCode extends CCodeModel
 
 	public function validateTableName($attribute,$params)
 	{
+		if($this->hasErrors())
+			return;
+
 		$invalidTables=array();
 		$invalidColumns=array();
 
@@ -178,13 +182,14 @@ class ModelCode extends CCodeModel
 		$class=@Yii::import($this->baseClass,true);
 		if(!is_string($class) || !$this->classExists($class))
 			$this->addError('baseClass', "Class '{$this->baseClass}' does not exist or has syntax error.");
-		else if($class!=='CActiveRecord' && !is_subclass_of($class,'CActiveRecord'))
+		elseif($class!=='CActiveRecord' && !is_subclass_of($class,'CActiveRecord'))
 			$this->addError('baseClass', "'{$this->model}' must extend from CActiveRecord.");
 	}
 
 	public function getTableSchema($tableName)
 	{
-		return Yii::app()->{$this->connectionId}->getSchema()->getTable($tableName);
+		$connection=Yii::app()->{$this->connectionId};
+		return $connection->getSchema()->getTable($tableName, $connection->schemaCachingDuration!==0);
 	}
 
 	public function generateLabels($table)
@@ -220,11 +225,11 @@ class ModelCode extends CCodeModel
 				$required[]=$column->name;
 			if($column->type==='integer')
 				$integers[]=$column->name;
-			else if($column->type==='double')
+			elseif($column->type==='double')
 				$numerical[]=$column->name;
-			else if($column->type==='string' && $column->size>0)
+			elseif($column->type==='string' && $column->size>0)
 				$length[$column->size][]=$column->name;
-			else if(!$column->isPrimaryKey && !$r)
+			elseif(!$column->isPrimaryKey && !$r)
 				$safe[]=$column->name;
 		}
 		if($required!==array())
@@ -271,7 +276,7 @@ class ModelCode extends CCodeModel
 				if(strpos($name,$prefix)===0)
 					return $schema.'.'.$lb.substr($name,strlen($prefix)).$rb;
 			}
-			else if(strpos($tableName,$prefix)===0)
+			elseif(strpos($tableName,$prefix)===0)
 				return $lb.substr($tableName,strlen($prefix)).$rb;
 		}
 		return $tableName;
@@ -304,6 +309,12 @@ class ModelCode extends CCodeModel
 				$relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$unprefixedTableName($pks[0], $pks[1])')";
 
 				$relationName=$this->generateRelationName($table1, $table0, true);
+
+				$i=1;
+				$rawName=$relationName;
+				while(isset($relations[$className1][$relationName]))
+					$relationName=$rawName.$i++;
+
 				$relations[$className1][$relationName]="array(self::MANY_MANY, '$className0', '$unprefixedTableName($pks[1], $pks[0])')";
 			}
 			else
@@ -396,38 +407,9 @@ class ModelCode extends CCodeModel
 		return $name;
 	}
 
-	/**
-	 * @return array List of DB connections ready to be displayed in dropdown
-	 */
-	public function getConnectionList()
+	public function validateConnectionId($attribute, $params)
 	{
-		$list=array();
-		foreach(Yii::app()->getComponents(false) as $name=>$component)
-		{
-			if($this->isDbConnection($name,$component))
-			{
-				$connectionString = is_object($component) ? $component->connectionString : $component['connectionString'];
-				$list[$name]=$name.' ('.$connectionString.')';
-			}
-		}
-		return $list;
-	}
-
-	/**
-	 * @param string $name component name
-	 * @param mixed $component component config or component object
-	 * @return bool if component is DB connection
-	 */
-	private function isDbConnection($name,$component)
-	{
-		if(is_array($component))
-		{
-			if(isset($component['class']) && $component['class']=='CDbConnection')
-				return true;
-			else
-				$component=Yii::app()->getComponent($name);
-		}
-
-		return $component instanceof CDbConnection;
+		if(Yii::app()->hasComponent($this->connectionId)===false || !(Yii::app()->getComponent($this->connectionId) instanceof CDbConnection))
+			$this->addError('connectionId','A valid database connection is required to run this generator.');
 	}
 }

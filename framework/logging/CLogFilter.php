@@ -19,10 +19,9 @@
  * issues encountered.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  */
-class CLogFilter extends CComponent
+class CLogFilter extends CComponent implements ILogFilter
 {
 	/**
 	 * @var boolean whether to prefix each log message with the current user session ID.

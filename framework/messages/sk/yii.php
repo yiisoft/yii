@@ -15,14 +15,10 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
-  'CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()' => 'CHttpCacheFilter.lastModified obsahuje hodnotu, ktorá nie je použiteľná vo funkcii strtotime()',
-  'CMemCache requires PHP {extension} extension to be loaded.' => 'CMemCache vyžaduje nahraté rozšírenie PHP {extension}.',
-  'Class name "{class}" does not match class file "{file}".' => 'Názov objektu "{class}" nesúhlasí s názvom súboru "{file}".',
-  'Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()' => 'Neplatný výraz v CHttpCacheFilter.lastModifiedExpression: vyhodnotený výraz nie je použiteľný vo funkcii strtotime()',
+  'CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0 and 100.' => 'Neplatná hodnota CHttpSession.gcProbability "{value}". Zadajte prosím float medzi 0 az 100.',
+  'GD with FreeType or ImageMagick PHP extensions are required.' => 'Požadované je PHP rozšírenie GD s FreeType alebo ImageMagick.',
   '"{path}" is not a valid directory.' => '"{path}" nie je platný adresár.',
   '&lt; Previous' => '&lt; Predchádzajúca',
   '&lt;&lt; First' => '&lt;&lt; Prvá',
@@ -67,13 +63,14 @@ return array (
   'CFlexWidget.baseUrl cannot be empty.' => 'CFlexWidget.baseUrl nemôže byť prázdny.',
   'CFlexWidget.name cannot be empty.' => 'CFlexWidget.name nemôže byť prázdny.',
   'CGlobalStateCacheDependency.stateName cannot be empty.' => 'CGlobalStateCacheDependency.stateName nemôže byť prázdny.',
+  'CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()' => 'CHttpCacheFilter.lastModified obsahuje hodnotu, ktorá nie je použiteľná vo funkcii strtotime()',
   'CHttpCookieCollection can only hold CHttpCookie objects.' => 'CHttpCookieCollection môže obsahovať len objekty typu CHttpCookie.',
   'CHttpRequest is unable to determine the entry script URL.' => 'CHttpRequest nedokázal identifikovať URL vstupného súboru.',
   'CHttpRequest is unable to determine the path info of the request.' => 'CHttpRequest nedokázal identifikovať informácie o ceste k súboru požiadavky.',
   'CHttpRequest is unable to determine the request URI.' => 'CHttpRequest nedokázal identifikovať požadovanú URI.',
   'CHttpSession.cookieMode can only be "none", "allow" or "only".' => 'CHttpSession.cookieMode môže nadobudnúť len hodnoty "none", "allow" alebo "only".',
-  'CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.' => 'CHttpSession.gcProbability "{value}" je neplatná. Zadajte prosím integer medzi 0 az 100.',
   'CHttpSession.savePath "{path}" is not a valid directory.' => 'CHttpSession.savePath "{path}" nie je platný adresár.',
+  'CMemCache requires PHP {extension} extension to be loaded.' => 'CMemCache vyžaduje nahraté rozšírenie PHP {extension}.',
   'CMemCache server configuration must be an array.' => 'Konfigurácia CMemCache musí byť pole.',
   'CMemCache server configuration must have "host" value.' => 'Konfigurácia CMemCache musí obsahovať hodnotu pre "host".',
   'CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.' => 'CProfileLogRoute zistil nesprávne usporiadané bloky kódu "{token}". Ubezpečte sa, že volania Yii::beginProfile() a Yii::endProfile() sú vložené správne.',
@@ -92,6 +89,7 @@ return array (
   'Cannot add "{child}" as a child of "{parent}". A loop has been detected.' => 'Nie je možné pridať "{child}" ako potomka "{parent}". Bol identifikovaný nekonečný cyklus.',
   'Cannot add "{name}" as a child of itself.' => 'Nie je možné pridať "{name}" ako potomka seba samého.',
   'Cannot add an item of type "{child}" to an item of type "{parent}".' => 'Nie je možné pridať položku typu "{child}" ku položke typu "{parent}".',
+  'Class name "{class}" does not match class file "{file}".' => 'Názov objektu "{class}" nesúhlasí s názvom súboru "{file}".',
   'Column name must be either a string or an array.' => 'Názov stĺpca musí byť reťazec alebo pole.',
   'Dropping DB column is not supported by SQLite.' => 'Odstránenie DB stĺpca nie je v prípade SQLite podporované.',
   'Dropping a foreign key constraint is not supported by SQLite.' => 'Odstránenie foreign key nie je v prípade SQLite podporované.',
@@ -107,12 +105,13 @@ return array (
   'Failed to write the uploaded file "{file}" to disk.' => 'Nepodarilo sa zapísať nahratý súbor "{file}" na disk.',
   'File upload was stopped by extension.' => 'Nahrávanie súboru bolo prerušené rozšírením.',
   'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => 'Filter "{filter}" je neplatný. Controller "{class}" nemá implementovanú metódu pre filter "filter{filter}".',
-  'GD and FreeType PHP extensions are required.' => 'Požadované sú PHP Rozšírenia GD a FreeType.',
   'Get a new code' => 'Nový kód',
   'Go to page: ' => 'Prejsť na stránku: ',
+  'In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.' => 'Pre využitie kontroly MIME-typ súboru v rámci validátora CFileValidator je potrebné mať inštalované PECL rozšírenie fileinfo.',
   'Invalid MO file revision: {revision}.' => 'Neplatná revízia MO súboru: {revision}.',
   'Invalid MO file: {file} (magic: {magic}).' => 'Neplatný MO súbor: {file} (magic: {magic}).',
   'Invalid enumerable value "{value}". Please make sure it is among ({enum}).' => 'Neplatná spočítateľná hodnota "{value}". Ubezpečte sa, že hodnota je z výberu ({enum}).',
+  'Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()' => 'Neplatný výraz v CHttpCacheFilter.lastModifiedExpression: vyhodnotený výraz nie je použiteľný vo funkcii strtotime()',
   'Invalid operator "{operator}".' => 'Neplatný operátor "{operator}".',
   'Last &gt;&gt;' => 'Posledná &gt;&gt;',
   'List data must be an array or an object implementing Traversable.' => 'Položky zoznamu musia byť buď pole alebo objekt implementujúci Traversable.',
@@ -149,6 +148,7 @@ return array (
   'The asset "{asset}" to be published does not exist.' => 'Položka "{asset}" určená na publikovanie neexistuje.',
   'The command path "{path}" is not a valid directory.' => 'Príkazový riadok "{path}" neobsahuje cestu ku platnému adresáru.',
   'The controller path "{path}" is not a valid directory.' => 'Cesta kontrollera "{path}" neobsahuje cestu ku platnému adresáru.',
+  'The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.' => 'Súbor "{file}" nemohol byť nahratý. Povolené sú len súbory nasledovných MIME typov: {mimeTypes}.',
   'The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.' => 'Súbor "{file}" nemôže byť nahratý. Povolené sú len súbory s nasledovnými príponami: {extensions}.',
   'The file "{file}" is too large. Its size cannot exceed {limit} bytes.' => 'Súbor "{file}" je príliš veľký. Jeho veľkosť nesmie presiahnuť {limit} bajtov.',
   'The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.' => 'Súbor "{file}" je príliš malý. Jeho veľkosť nesmie byť menej ako {limit} bajtov.',

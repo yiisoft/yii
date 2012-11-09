@@ -28,7 +28,6 @@
  * Note, the ending slashes are stripped off. Defaults to '/AppBaseUrl/assets'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -77,6 +76,18 @@ class CAssetManager extends CApplicationComponent
 	 * @since 1.1.8
 	 */
 	public $newDirMode=0777;
+	/**
+	 * @var boolean whether we should copy the asset files and directories even if they already published before.
+	 * This property is used only during development stage. The main use case of this property is when you need
+	 * to force the original assets always copied by changing only one value without searching needed {@link publish}
+	 * method calls across the application codebase. Also it is useful in operating systems which does not fully
+	 * support symbolic links (therefore it is not possible to use {@link $linkAssets}) or we don't want to use them.
+	 * This property sets the default value of the $forceCopy parameter in {@link publish} method. Default value
+	 * of this property is false meaning that the assets will be published only in case they don't exist in webroot
+	 * assets directory.
+	 * @since 1.1.11
+	 */
+	public $forceCopy=false;
 	/**
 	 * @var string base web accessible path for storing private files
 	 */
@@ -167,19 +178,23 @@ class CAssetManager extends CApplicationComponent
 	 * Level -1 means publishing all subdirectories and files;
 	 * Level 0 means publishing only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
-	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already published before.
+	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already
+	 * published before. In case of publishing a directory old files will not be removed.
 	 * This parameter is set true mainly during development stage when the original
-	 * assets are being constantly changed. The consequence is that the performance
-	 * is degraded, which is not a concern during development, however.
-	 * This parameter has been available since version 1.1.2.
+	 * assets are being constantly changed. The consequence is that the performance is degraded,
+	 * which is not a concern during development, however. Default value of this parameter is null meaning
+	 * that it's value is controlled by {@link $forceCopy} class property. This parameter has been available
+	 * since version 1.1.2. Default value has been changed since 1.1.11.
 	 * @return string an absolute URL to the published asset
 	 * @throws CException if the asset to be published does not exist.
 	 */
-	public function publish($path,$hashByName=false,$level=-1,$forceCopy=false)
+	public function publish($path,$hashByName=false,$level=-1,$forceCopy=null)
 	{
+		if($forceCopy===null)
+			$forceCopy=$this->forceCopy;
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
-		else if(($src=realpath($path))!==false)
+		elseif(($src=realpath($path))!==false)
 		{
 			if(is_file($src))
 			{
@@ -200,7 +215,7 @@ class CAssetManager extends CApplicationComponent
 						symlink($src,$dstFile);
 					}
 				}
-				else if(@filemtime($dstFile)<@filemtime($src))
+				elseif(@filemtime($dstFile)<@filemtime($src))
 				{
 					if(!is_dir($dstDir))
 					{
@@ -213,7 +228,7 @@ class CAssetManager extends CApplicationComponent
 
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
 			}
-			else if(is_dir($src))
+			elseif(is_dir($src))
 			{
 				$dir=$this->hash($hashByName ? basename($src) : $src.filemtime($src));
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
@@ -223,7 +238,7 @@ class CAssetManager extends CApplicationComponent
 					if(!is_dir($dstDir))
 						symlink($src,$dstDir);
 				}
-				else if(!is_dir($dstDir) || $forceCopy)
+				elseif(!is_dir($dstDir) || $forceCopy)
 				{
 					CFileHelper::copyDirectory($src,$dstDir,array(
 						'exclude'=>$this->excludeFiles,
