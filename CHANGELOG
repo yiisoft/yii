@@ -28,7 +28,7 @@ Version 1.1.13 work in progress
 - Bug #1485 CSort does not quote table alias when using CDbCriteria (undsoft)
 - Bug #1499: Fixed CVarDumper highlighting "\" (antoncpu)
 - Bug #1552: Fixed potential vulnerability in CJavaScript::encode(): $safe parameter didn't used to be passed to the recursive method calls (resurtm)
-- Bug #1584: Fixed CGridView urls when enableHistory was used with "path" urlFormat (mdomba)
+- Bug #1584: Fixed CGridView and CListView urls when enableHistory was used with "path" urlFormat (mdomba)
 - Bug #1622: CLocale::getTerritory() used to return invalid territory name when locales (language tags) were specified without territory part (e.g. 'de', 'fr') (resurtm)
 - Bug #1624: Requirements page now tries all other preferred languages when the most preferred one is missing (ArtVal)
 - Bug #1646: CLocale::getTerritory() used to return invalid territory name when locales (language tags) were specified with script part (e.g. 'zh-Hans-CN', 'zh-Hant-HK') (resurtm)
