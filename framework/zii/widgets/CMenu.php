@@ -289,7 +289,7 @@ class CMenu extends CWidget
 				else
 					$items[$i]['active']=false;
 			}
-			else if($item['active'])
+			elseif($item['active'])
 				$active=true;
 		}
 		return array_values($items);

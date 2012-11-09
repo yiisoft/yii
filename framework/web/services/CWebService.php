@@ -237,7 +237,7 @@ class CWebService extends CComponent
 		$options=array();
 		if($this->soapVersion==='1.1')
 			$options['soap_version']=SOAP_1_1;
-		else if($this->soapVersion==='1.2')
+		elseif($this->soapVersion==='1.2')
 			$options['soap_version']=SOAP_1_2;
 		if($this->actor!==null)
 			$options['actor']=$this->actor;

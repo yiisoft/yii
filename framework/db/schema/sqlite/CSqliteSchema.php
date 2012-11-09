@@ -137,7 +137,7 @@ class CSqliteSchema extends CDbSchema
 			{
 				if($table->primaryKey===null)
 					$table->primaryKey=$c->name;
-				else if(is_string($table->primaryKey))
+				elseif(is_string($table->primaryKey))
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
@@ -187,6 +187,18 @@ class CSqliteSchema extends CDbSchema
 
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a DB table.
+	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB table.
+	 * @since 1.1.13
+	 */
+	public function renameTable($table, $newName)
+	{
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' RENAME TO ' . $this->quoteTableName($newName);
 	}
 
 	/**

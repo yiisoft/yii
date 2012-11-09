@@ -626,7 +626,7 @@ abstract class CApplication extends CModule
 				$this->_stateChanged=true;
 			}
 		}
-		else if(!isset($this->_globalState[$key]) || $this->_globalState[$key]!==$value)
+		elseif(!isset($this->_globalState[$key]) || $this->_globalState[$key]!==$value)
 		{
 			$this->_globalState[$key]=$value;
 			$this->_stateChanged=true;

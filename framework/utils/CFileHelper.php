@@ -130,7 +130,7 @@ class CFileHelper
 					if(isset($options['newFileMode']))
 						@chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
 				}
-				else if($level)
+				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
 			}
 		}
@@ -167,7 +167,7 @@ class CFileHelper
 			{
 				if($isFile)
 					$list[]=$path;
-				else if($level)
+				elseif($level)
 					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
 			}
 		}
@@ -180,10 +180,10 @@ class CFileHelper
 	 * @param string $base the path relative to the original source directory
 	 * @param string $file the file or directory name
 	 * @param boolean $isFile whether this is a file
-	 * @param array $fileTypes list of file name suffix (without dot). Only files with these suffixes will be copied.
+	 * @param array $fileTypes list of valid file name suffixes (without dot).
 	 * @param array $exclude list of directory and file exclusions. Each exclusion can be either a name or a path.
-	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
-	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
+	 * If a file or directory name or path matches the exclusion, false will be returned. For example, an exclusion of
+	 * '.svn' will return false for all files and directories whose name is '.svn'. And an exclusion of '/a/b' will return false for
 	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
 	 * @return boolean whether the file or directory is valid
 	 */
@@ -213,7 +213,9 @@ class CFileHelper
 	 * @param string $file the file name.
 	 * @param string $magicFile name of a magic database file, usually something like /path/to/magic.mime.
 	 * This will be passed as the second parameter to {@link http://php.net/manual/en/function.finfo-open.php finfo_open}.
-	 * This parameter has been available since version 1.1.3.
+	 * Magic file format described in {@link http://linux.die.net/man/5/magic man 5 magic}, note that this file does not
+	 * contain a standard PHP array as you might suppose. Specified magic file will be used only when fileinfo
+	 * PHP extension is available. This parameter has been available since version 1.1.3.
 	 * @param boolean $checkExtension whether to check the file extension in case the MIME type cannot be determined
 	 * based on finfo and mime_content_type. Defaults to true. This parameter has been available since version 1.1.4.
 	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
@@ -246,14 +248,18 @@ class CFileHelper
 	 */
 	public static function getMimeTypeByExtension($file,$magicFile=null)
 	{
-		static $extensions;
-		if($extensions===null)
-			$extensions=$magicFile===null ? require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php') : $magicFile;
+		static $extensions, $customExtensions=array();
+		if($magicFile===null && $extensions===null)
+			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
+		elseif($magicFile!==null && !isset($customExtensions[$magicFile]))
+			$customExtensions[$magicFile]=require($magicFile);
 		if(($ext=pathinfo($file, PATHINFO_EXTENSION))!=='')
 		{
 			$ext=strtolower($ext);
-			if(isset($extensions[$ext]))
+			if($magicFile===null && isset($extensions[$ext]))
 				return $extensions[$ext];
+			elseif($magicFile!==null && isset($customExtensions[$magicFile][$ext]))
+				return $customExtensions[$magicFile][$ext];
 		}
 		return null;
 	}

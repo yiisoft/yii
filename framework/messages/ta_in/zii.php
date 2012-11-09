@@ -12,9 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @author Srinivasan A Paul Joseph <sapauljoseph@gmail.com>
- * @version $Id: $
  */
 return array (
   'Are you sure you want to delete this item?' => 'உறுதியாக இதை நீக்கிவிடவா?',

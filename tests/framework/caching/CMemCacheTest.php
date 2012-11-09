@@ -120,7 +120,7 @@ class CMemCacheTest extends CTestCase
 		$cache=$app->cache;
 		$data=array('xyz'=>3,4=>'mnp');
 		$key='data3_2';
-		$cache->set($key,$data,5);
+		$cache->set($key,$data,20);
 		$this->assertTrue($cache->get($key)===$data);
 		sleep(2);
 		$app2=new TestApplication($this->_config);

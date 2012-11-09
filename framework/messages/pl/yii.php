@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   '{class} and its behaviors do not have a method or closure named "{name}".' => 'Klasa {class} i jej zachowania nie posiadają metody lub domknięcia "{name}".',

@@ -343,7 +343,7 @@ class CUrlManager extends CApplicationComponent
 				if(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
 					$url.=$ampersand.$query;
 			}
-			else if(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
+			elseif(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
 				$url.='?'.$query;
 			return $url;
 		}
@@ -373,9 +373,9 @@ class CUrlManager extends CApplicationComponent
 			else
 				return $pathInfo;
 		}
-		else if(isset($_GET[$this->routeVar]))
+		elseif(isset($_GET[$this->routeVar]))
 			return $_GET[$this->routeVar];
-		else if(isset($_POST[$this->routeVar]))
+		elseif(isset($_POST[$this->routeVar]))
 			return $_POST[$this->routeVar];
 		else
 			return '';
@@ -831,7 +831,7 @@ class CUrlRule extends CBaseUrlRule
 			{
 				if(isset($this->references[$key]))
 					$tr[$this->references[$key]]=$value;
-				else if(isset($this->params[$key]))
+				elseif(isset($this->params[$key]))
 					$_REQUEST[$key]=$_GET[$key]=$value;
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params

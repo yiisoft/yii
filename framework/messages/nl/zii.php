@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'The property updateSelector should be defined.' => 'Het updateSelector property moet gedefinieerd zijn.',
