@@ -33,24 +33,28 @@ abstract class CJuiInputWidget extends CJuiWidget
 	 */
 	public $name;
 	/**
-	 * @var string the input value
+	 * @var string the input value.
 	 */
 	public $value;
 
-
 	/**
+	 * @param string $nameProperty this class property name which holds element name to be used. This parameter
+	 * is available since 1.1.13.
+	 * @param string $attributeProperty this class property name which holds model attribute name to be used. This
+	 * parameter is available since 1.1.13.
 	 * @return array the name and the ID of the input.
+	 * @throws CException in case model and attribute property or name property could not be resolved.
 	 */
-	protected function resolveNameID()
+	protected function resolveNameID($nameProperty='name',$attributeProperty='attribute')
 	{
-		if($this->name!==null)
-			$name=$this->name;
-		elseif(isset($this->htmlOptions['name']))
-			$name=$this->htmlOptions['name'];
+		if($this->$nameProperty!==null)
+			$name=$this->$nameProperty;
+		elseif(isset($this->htmlOptions[$nameProperty]))
+			$name=$this->htmlOptions[$nameProperty];
 		elseif($this->hasModel())
-			$name=CHtml::activeName($this->model,$this->attribute);
+			$name=CHtml::activeName($this->model,$this->$attributeProperty);
 		else
-			throw new CException(Yii::t('zii','{class} must specify "model" and "attribute" or "name" property values.',array('{class}'=>get_class($this))));
+			throw new CException(Yii::t('zii','{class} must specify "model" and "{attribute}" or "{name}" property values.',array('{class}'=>get_class($this),'{attribute}'=>$attributeProperty,'{name}'=>$nameProperty)));
 
 		if(($id=$this->getId(false))===null)
 		{
