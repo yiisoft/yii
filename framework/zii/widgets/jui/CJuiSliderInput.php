@@ -122,10 +122,7 @@ class CJuiSliderInput extends CJuiInputWidget
 				echo CHtml::activeHiddenField($this->model,$this->attribute,$options);
 				$options['id']=$options['id'].$this->idEndSuffix;
 				echo CHtml::activeHiddenField($this->model,$this->maxAttribute,$options);
-
 				$maxAttribute=$this->maxAttribute;
-				$this->options['value']=$this->model->$attribute;
-				$this->options['maxValue']=$this->model->$maxAttribute;
 				$this->options['values']=array($this->model->$attribute,$this->model->$maxAttribute);
 			}
 			else
@@ -139,14 +136,10 @@ class CJuiSliderInput extends CJuiInputWidget
 			if ($isRange)
 			{
 				list($maxName,$maxId)=$this->resolveNameID('maxName','maxAttribute');
-
 				$options=$this->htmlOptions;
 				echo CHtml::hiddenField($name,$this->value,$options);
 				$options['id']=$options['id'].$this->idEndSuffix;
 				echo CHtml::hiddenField($maxName,$this->maxValue,$options);
-
-				$this->options['value']=$this->value;
-				$this->options['maxValue']=$this->maxValue;
 				$this->options['values']=array($this->value,$this->maxValue);
 			}
 			else
@@ -161,9 +154,9 @@ class CJuiSliderInput extends CJuiInputWidget
 		$this->htmlOptions['id']=$idHidden.'_slider';
 		echo CHtml::tag($this->tagName,$this->htmlOptions,'');
 
-		$this->options[$this->event]=$isRange ?
-			new CJavaScriptExpression("function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}{$this->idEndSuffix}').val(v[1]); }"):
-			new CJavaScriptExpression('function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }');
+		$this->options[$this->event]=$isRange
+			? new CJavaScriptExpression("function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}{$this->idEndSuffix}').val(v[1]); }")
+			: new CJavaScriptExpression('function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }');
 
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 
