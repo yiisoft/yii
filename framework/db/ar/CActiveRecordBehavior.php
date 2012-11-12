@@ -35,6 +35,7 @@ class CActiveRecordBehavior extends CModelBehavior
 			'onAfterDelete'=>'afterDelete',
 			'onBeforeFind'=>'beforeFind',
 			'onAfterFind'=>'afterFind',
+			'onUnsafeAttribute'=>'UnsafeAttribute'
 		));
 	}
 
