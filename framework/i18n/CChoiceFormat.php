@@ -69,6 +69,9 @@ class CChoiceFormat
 	 */
 	protected static function evaluate($expression,$n)
 	{
-		return @eval("return $expression;");
+		if(function_exists('eval'))
+			return @eval("return $expression;");
+		else
+			Yii::log('Turn on eval() in order to use CChoiceFormatter.')
 	}
 }
