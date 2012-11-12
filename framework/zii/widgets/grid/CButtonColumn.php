@@ -173,7 +173,7 @@ class CButtonColumn extends CGridColumn
 		{
 			if(strpos($this->template,'{'.$id.'}')===false)
 				unset($this->buttons[$id]);
-			else if(isset($button['click']))
+			elseif(isset($button['click']))
 			{
 				if(!isset($button['options']['class']))
 					$this->buttons[$id]['options']['class']=$id;

@@ -76,7 +76,7 @@ class CGettextMoFile extends CGettextFile
 		$magic=current($array=unpack('c',$this->readByte($fr,4)));
 		if($magic==-34)
 			$this->useBigEndian=false;
-		else if($magic==-107)
+		elseif($magic==-107)
 			$this->useBigEndian=true;
 		else
 			throw new CException(Yii::t('yii','Invalid MO file: {file} (magic: {magic}).',

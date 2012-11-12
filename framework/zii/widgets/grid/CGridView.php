@@ -115,8 +115,17 @@ class CGridView extends CBaseListView
 	 * stands for the row number (zero-based), <code>$data</code> is the data model associated with
 	 * the row, and <code>$this</code> is the grid object.
 	 * @see rowCssClass
+	 * @deprecated in 1.1.13
 	 */
 	public $rowCssClassExpression;
+	/**
+	 * @var string a PHP expression that is evaluated for every table body row and whose result
+	 * is used as additional HTML attributes for the row. In this expression, the variable <code>$row</code>
+	 * stands for the row number (zero-based), <code>$data</code> is the data model associated with
+	 * the row, and <code>$this</code> is the grid object.
+	 * @since 1.1.13
+	 */
+	public $rowHtmlOptionsExpression;
 	/**
 	 * @var boolean whether to display the table even when there is no data. Defaults to true.
 	 * The {@link emptyText} will be displayed to indicate there is no data.
@@ -315,7 +324,7 @@ class CGridView extends CBaseListView
 		{
 			if($this->dataProvider instanceof CActiveDataProvider)
 				$this->columns=$this->dataProvider->model->attributeNames();
-			else if($this->dataProvider instanceof IDataProvider)
+			elseif($this->dataProvider instanceof IDataProvider)
 			{
 				// use the keys of the first row of data as the default columns
 				$data=$this->dataProvider->getData();
@@ -455,7 +464,7 @@ class CGridView extends CBaseListView
 
 			echo "</thead>\n";
 		}
-		else if($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
+		elseif($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
 		{
 			echo "<thead>\n";
 			$this->renderFilter();
@@ -530,17 +539,32 @@ class CGridView extends CBaseListView
 	 */
 	public function renderTableRow($row)
 	{
+		$htmlOptions=array();
+		if($this->rowHtmlOptionsExpression!==null)
+		{
+			$data=$this->dataProvider->data[$row];
+			$options=$this->evaluateExpression($this->rowHtmlOptionsExpression,array('row'=>$row,'data'=>$data));
+			if(is_array($options))
+				$htmlOptions = $options;
+		}
+
 		if($this->rowCssClassExpression!==null)
 		{
 			$data=$this->dataProvider->data[$row];
 			$class=$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data));
 		}
-		else if(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
+		elseif(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
 			$class=$this->rowCssClass[$row%$n];
-		else
-			$class='';
 
-		echo empty($class) ? '<tr>' : '<tr class="'.$class.'">';
+		if(!empty($class))
+		{
+			if(isset($htmlOptions['class']))
+				$htmlOptions['class'].=' '.$class;
+			else
+				$htmlOptions['class']=$class;
+		}
+
+		echo CHtml::openTag('tr', $htmlOptions)."\n";
 		foreach($this->columns as $column)
 			$column->renderDataCell($row);
 		echo "</tr>\n";

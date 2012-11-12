@@ -74,7 +74,17 @@ class CHtml
 	 * @since 1.1.9
 	 * @see clientChange
 	 */
-	public static $liveEvents = true;
+	public static $liveEvents=true;
+	/**
+	 * @var boolean whether to close single tags. Defaults to true. Can be set to false for HTML5.
+	 * @since 1.1.13
+	 */
+	public static $closeSingleTags=true;
+	/**
+	 * @var boolean whether to render special attributes value. Defaults to true. Can be set to false for HTML5.
+	 * @since 1.1.13
+	 */
+	public static $renderSpecialAttributesValue=true;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -119,7 +129,7 @@ class CHtml
 				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
 			if(is_string($value))
 				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
-			else if(is_array($value))
+			elseif(is_array($value))
 				$value=self::encodeArray($value);
 			$d[$key]=$value;
 		}
@@ -142,7 +152,7 @@ class CHtml
 	{
 		$html='<' . $tag . self::renderAttributes($htmlOptions);
 		if($content===false)
-			return $closeTag ? $html.' />' : $html.'>';
+			return $closeTag && self::$closeSingleTags ? $html.' />' : $html.'>';
 		else
 			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
 	}
@@ -260,9 +270,7 @@ class CHtml
 	 */
 	public static function cssFile($url,$media='')
 	{
-		if($media!=='')
-			$media=' media="'.$media.'"';
-		return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'"'.$media.' />';
+		return CHtml::linkTag('stylesheet','text/css',$url,$media!=='' ? $media : null);
 	}
 
 	/**
@@ -319,10 +327,7 @@ class CHtml
 			foreach(explode('&',substr($url,$pos+1)) as $pair)
 			{
 				if(($pos=strpos($pair,'='))!==false)
-				{
-					if(($name=substr($pair,0,$pos))!==Yii::app()->getUrlManager()->routeVar)
-						$hiddens[]=self::hiddenField(urldecode($name),urldecode(substr($pair,$pos+1)),array('id'=>false));
-				}
+					$hiddens[]=self::hiddenField(urldecode(substr($pair,0,$pos)),urldecode(substr($pair,$pos+1)),array('id'=>false));
 				else
 					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
 			}
@@ -635,7 +640,7 @@ class CHtml
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 		self::clientChange('change',$htmlOptions);
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $value : self::encode($value));
@@ -763,6 +768,10 @@ class CHtml
 	 * </pre>
 	 * </li>
 	 * </ul>
+	 * Since version 1.1.13, a special option named 'unselectValue' is available that can be used to specify
+	 * the value returned when the option is not selected in multiple mode. When set, a hidden field is
+	 * rendered so that when the option is not selected in multiple mode, we can still obtain the posted
+	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see inputField
@@ -771,13 +780,35 @@ class CHtml
 	public static function dropDownList($name,$select,$data,$htmlOptions=array())
 	{
 		$htmlOptions['name']=$name;
+
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
+
 		self::clientChange('change',$htmlOptions);
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
-		return self::tag('select',$htmlOptions,$options);
+		$hidden='';
+
+		if(isset($htmlOptions['multiple']))
+		{
+			if(substr($htmlOptions['name'],-2)!=='[]')
+				$htmlOptions['name'].='[]';
+
+			if(isset($htmlOptions['unselectValue']))
+			{
+				// add a hidden field so that if the option is not selected, it still submits a value
+				if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+					$hiddenOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+				else
+					$hiddenOptions=array('id'=>false);
+
+				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
+				unset($htmlOptions['unselectValue']);
+			}
+		}
+		// add a hidden field so that if the option is not selected, it still submits a value
+		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
 
 	/**
@@ -1138,7 +1169,7 @@ EOD;
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 		return self::tag('input',$htmlOptions);
 	}
@@ -1519,6 +1550,11 @@ EOD;
 	 * </pre>
 	 * </li>
 	 * </ul>
+	 * Since 1.1.13, a special option named 'unselectValue' is available that can be used to specify
+	 * the value returned when the option is not selected in multiple mode. By default, this value is ''.
+	 * Internally, a hidden field is rendered so that when the option is not selected in multiple mode,
+	 * we can still obtain the posted unselect value.
+	 * If 'unselectValue' is set as NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see listData
@@ -1529,14 +1565,30 @@ EOD;
 		$selection=self::resolveValue($model,$attribute);
 		$options="\n".self::listOptions($selection,$data,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
+
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
+
+		$hidden='';
+
 		if(isset($htmlOptions['multiple']))
 		{
 			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
+
+			if(!array_key_exists('unselectValue',$htmlOptions))
+				$htmlOptions['unselectValue']='';
+
+			if($htmlOptions['unselectValue']!==null)
+			{
+				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
+			}
+
+			unset($htmlOptions['unselectValue']);
 		}
-		return self::tag('select',$htmlOptions,$options);
+
+		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
 
 	/**
@@ -1806,7 +1858,10 @@ EOD;
 				$group=self::value($model,$groupField);
 				$value=self::value($model,$valueField);
 				$text=self::value($model,$textField);
-				$listData[$group][$value]=$text;
+				if($group===null)
+					$listData[$value]=$text;
+				else
+					$listData[$group][$value]=$text;
 			}
 		}
 		return $listData;
@@ -1846,7 +1901,7 @@ EOD;
 			{
 				if(is_object($model))
 					$model=$model->$name;
-				else if(is_array($model) && isset($model[$name]))
+				elseif(is_array($model) && isset($model[$name]))
 					$model=$model[$name];
 				else
 					return $defaultValue;
@@ -1919,13 +1974,13 @@ EOD;
 					}
 				}
 			}
-			else if($htmlOptions['maxlength']===false)
+			elseif($htmlOptions['maxlength']===false)
 				unset($htmlOptions['maxlength']);
 		}
 
 		if($type==='file')
 			unset($htmlOptions['value']);
-		else if(!isset($htmlOptions['value']))
+		elseif(!isset($htmlOptions['value']))
 			$htmlOptions['value']=self::resolveValue($model,$attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
@@ -1996,7 +2051,7 @@ EOD;
 					$selection[$i]=$item->$key;
 			}
 		}
-		else if(is_object($selection))
+		elseif(is_object($selection))
 			$selection=$selection->$key;
 
 		foreach($listData as $key=>$value)
@@ -2032,9 +2087,13 @@ EOD;
 	 * @param array $htmlOptions HTML attributes which may contain the following special attributes
 	 * specifying the client change behaviors:
 	 * <ul>
-	 * <li>submit: string, specifies the URL that the button should submit to. If empty, the current requested URL will be used.</li>
+	 * <li>submit: string, specifies the URL to submit to. If the current element has a parent form, that form will be
+	 * submitted, and if 'submit' is non-empty its value will replace the form's URL. If there is no parent form the
+	 * data listed in 'params' will be submitted instead (via POST method), to the URL in 'submit' or the currently
+	 * requested URL if 'submit' is empty. Please note that if the 'csrf' setting is true, the CSRF token will be
+	 * included in the params too.</li>
 	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
-	 * <li>csrf: boolean, whether a CSRF token should be submitted when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
+	 * <li>csrf: boolean, whether a CSRF token should be automatically included in 'params' when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
 	 * You may want to set this to be true if there is no enclosing form around this element.
 	 * This option is meaningful only when 'submit' option is set.</li>
 	 * <li>return: boolean, the return value of the javascript. Defaults to false, meaning that the execution of
@@ -2131,7 +2190,7 @@ EOD;
 			$htmlOptions['name']=self::resolveName($model,$attribute);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
-		else if($htmlOptions['id']===false)
+		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 	}
 
@@ -2226,16 +2285,32 @@ EOD;
 	public static function renderAttributes($htmlOptions)
 	{
 		static $specialAttributes=array(
+			'async'=>1,
+			'autofocus'=>1,
+			'autoplay'=>1,
 			'checked'=>1,
+			'controls'=>1,
 			'declare'=>1,
+			'default'=>1,
 			'defer'=>1,
 			'disabled'=>1,
+			'formnovalidate'=>1,
+			'hidden'=>1,
 			'ismap'=>1,
+			'loop'=>1,
 			'multiple'=>1,
+			'muted'=>1,
 			'nohref'=>1,
 			'noresize'=>1,
+			'novalidate'=>1,
+			'open'=>1,
 			'readonly'=>1,
+			'required'=>1,
+			'reversed'=>1,
+			'scoped'=>1,
+			'seamless'=>1,
 			'selected'=>1,
+			'typemustmatch'=>1,
 		);
 
 		if($htmlOptions===array())
@@ -2255,9 +2330,13 @@ EOD;
 			if(isset($specialAttributes[$name]))
 			{
 				if($value)
-					$html .= ' ' . $name . '="' . $name . '"';
+				{
+					$html .= ' ' . $name;
+					if(self::$renderSpecialAttributesValue)
+						$html .= '="' . $name . '"';
+				}
 			}
-			else if($value!==null)
+			elseif($value!==null)
 				$html .= ' ' . $name . '="' . ($raw ? $value : self::encode($value)) . '"';
 		}
 

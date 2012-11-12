@@ -75,7 +75,7 @@ class CHttpCacheFilter extends CFilter
 				return false;
 			}
 		}
-		else if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+		elseif(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 		{
 			if($this->checkLastModified($lastModified))
 			{
@@ -84,7 +84,7 @@ class CHttpCacheFilter extends CFilter
 				return false;
 			}
 		}
-		else if(isset($_SERVER['HTTP_IF_NONE_MATCH']))
+		elseif(isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			if($this->checkEtag($etag))
 			{
@@ -116,7 +116,7 @@ class CHttpCacheFilter extends CFilter
 			$value=$this->evaluateExpression($this->lastModifiedExpression);
 			if(is_numeric($value)&&$value==(int)$value)
 				return $value;
-			else if(($lastModified=strtotime($value))===false)
+			elseif(($lastModified=strtotime($value))===false)
 				throw new CException(Yii::t('yii','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()',
 					array('{value}'=>$value)));
 			return $lastModified;
@@ -126,7 +126,7 @@ class CHttpCacheFilter extends CFilter
 		{
 			if(is_numeric($this->lastModified)&&$this->lastModified==(int)$this->lastModified)
 				return $this->lastModified;
-			else if(($lastModified=strtotime($this->lastModified))===false)
+			elseif(($lastModified=strtotime($this->lastModified))===false)
 				throw new CException(Yii::t('yii','CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()'));
 			return $lastModified;
 		}
@@ -141,7 +141,7 @@ class CHttpCacheFilter extends CFilter
 	{
 		if($this->etagSeedExpression)
 			return $this->generateEtag($this->evaluateExpression($this->etagSeedExpression));
-		else if($this->etagSeed)
+		elseif($this->etagSeed)
 			return $this->generateEtag($this->etagSeed);
 		return false;
 	}
@@ -181,7 +181,12 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function sendCacheControlHeader()
 	{
-		header('Cache-Control: '.$this->cacheControl, true);
+		if(Yii::app()->session->isStarted)
+		{
+			session_cache_limiter('public');
+			header('Pragma:',true);
+		}
+		header('Cache-Control: '.$this->cacheControl,true);
 	}
 
 	/**

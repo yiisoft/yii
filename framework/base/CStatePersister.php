@@ -82,7 +82,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 			$cacheKey='Yii.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)
 				return unserialize($value);
-			else if(($content=@file_get_contents($stateFile))!==false)
+			elseif(($content=@file_get_contents($stateFile))!==false)
 			{
 				$cache->set($cacheKey,$content,0,new CFileCacheDependency($stateFile));
 				return unserialize($content);
@@ -90,7 +90,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 			else
 				return null;
 		}
-		else if(($content=@file_get_contents($stateFile))!==false)
+		elseif(($content=@file_get_contents($stateFile))!==false)
 			return unserialize($content);
 		else
 			return null;

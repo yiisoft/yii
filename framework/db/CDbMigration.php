@@ -398,4 +398,33 @@ abstract class CDbMigration extends CComponent
 		$this->getDbConnection()->getSchema()->getTable($table,true);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
+
+	/**
+	 * Builds and executes a SQL statement for creating a primary key, supports composite primary keys.
+	 * @param string $name name of the primary key constraint to add
+	 * @param string $table name of the table to add primary key to
+	 * @param string $columns name of the column to utilise as primary key. If there are multiple columns, separate them with commas.
+	 * @since 1.1.13
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		echo "    > alter table $table add constraint $name primary key ($columns) ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->addPrimaryKey($name,$table,$columns);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
+	 * Builds and executes a SQL statement for removing a primary key, supports composite primary keys.
+	 * @param string $name name of the constraint to remove
+	 * @param string $table name of the table to remove primary key from
+	 * @since 1.1.13
+	 */
+	public function dropPrimaryKey($name,$table)
+	{
+		echo "    > alter table $table drop constraint $name primary key $column ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->dropPrimaryKey($name,$table);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
 }
