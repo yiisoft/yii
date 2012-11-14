@@ -154,6 +154,23 @@ class CActiveRecordEventWrappersTest extends CTestCase
 	}
 
 	/**
+	 * setting select in beforeFind should not effect select on stat relation
+	 * https://github.com/yiisoft/yii/issues/1381
+	 */
+	public function testBeforeFindStatSelect()
+	{
+		PostWithWrappers::setBeforeFindCriteria(new CDbCriteria(array(
+			'select' => 'id, content',
+		)));
+
+		$user1 = UserWithWrappers::model()->findByPk(1);
+		$this->assertEquals(1, $user1->postCount);
+
+		$user2 = UserWithWrappers::model()->findByPk(2);
+		$this->assertEquals(3, $user2->postCount);
+	}
+
+	/**
 	 * tests if criteria modification in beforeFind() applies on normal find*() method call
 	 * @dataProvider userCriteriaProvider
 	 */
