@@ -147,7 +147,7 @@ class CConsoleCommandRunner extends CComponent
 			else // an array configuration
 				return Yii::createComponent($command,$name,$this);
 		}
-		else if($name==='help')
+		elseif($name==='help')
 			return new CHelpCommand('help',$this);
 		else
 			return null;

@@ -136,7 +136,7 @@ class CDbHttpSession extends CHttpSession
 		$driver=$db->getDriverName();
 		if($driver==='mysql')
 			$blob='LONGBLOB';
-		else if($driver==='pgsql')
+		elseif($driver==='pgsql')
 			$blob='BYTEA';
 		else
 			$blob='BLOB';
@@ -155,7 +155,7 @@ class CDbHttpSession extends CHttpSession
 	{
 		if($this->_db!==null)
 			return $this->_db;
-		else if(($id=$this->connectionID)!==null)
+		elseif(($id=$this->connectionID)!==null)
 		{
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
