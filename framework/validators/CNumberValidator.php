@@ -164,7 +164,7 @@ if(value>{$this->max}) {
 		if($this->allowEmpty)
 		{
 			$js="
-if($.trim(value)!='') {
+if(jQuery.trim(value)!='') {
 	$js
 }
 ";
