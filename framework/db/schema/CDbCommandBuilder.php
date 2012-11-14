@@ -317,7 +317,9 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(($column=$table->getColumn($name))!==null)
 			{
-				$value=(int)$value;
+				$value=$column->typecast($value);
+				if(!is_number($value)) 
+					$value=(int)$value;
 				if($value<0)
 					$fields[]="{$column->rawName}={$column->rawName}-".(-$value);
 				else
