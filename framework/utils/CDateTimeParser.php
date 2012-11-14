@@ -33,7 +33,7 @@
  * mm      | Minutes in 00 to 59, zero leading
  * s       | Seconds in 0 to 59, no padding
  * ss      | Seconds in 00 to 59, zero leading
- * a       | AM or PM, case-insensitive (since version 1.1.5)
+ * a       | AM or PM, enforces 12-hour clock (since 1.1.13), case-insensitive, (since version 1.1.5)
  * ?       | matches any character (wildcard) (since version 1.1.11)
  * ----------------------------------------------------
  * </pre>
@@ -84,6 +84,7 @@ class CDateTimeParser
 
 		$tokens=self::tokenize($pattern);
 		$i=0;
+		$hr24=true;
 		$n=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
 		foreach($tokens as $token)
 		{
@@ -202,6 +203,7 @@ class CDateTimeParser
 				    	elseif($hour<12 && $ampm==='pm')
 				    		$hour+=12;
 				    }
+					$hr24=false;
 					$i+=2;
 					break;
 				}
@@ -254,7 +256,7 @@ class CDateTimeParser
 			$second=(int)$second;
 		}
 
-		if(CTimestamp::isValidDate($year,$month,$day) && CTimestamp::isValidTime($hour,$minute,$second))
+		if(CTimestamp::isValidDate($year,$month,$day) && CTimestamp::isValidTime($hour,$minute,$second,$hr24))
 			return CTimestamp::getTimestamp($hour,$minute,$second,$month,$day,$year);
 		else
 			return false;
