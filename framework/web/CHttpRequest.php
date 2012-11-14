@@ -828,13 +828,29 @@ class CHttpRequest extends CApplicationComponent
 			if(($mimeType=CFileHelper::getMimeTypeByExtension($fileName))===null)
 				$mimeType='text/plain';
 		}
+        $fullContentLength = (function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content));
+	    if (isset($_SERVER['HTTP_RANGE']))
+        {
+            $range = $_SERVER['HTTP_RANGE']; 
+		    $range = str_replace('bytes=', '', $range);
+		    list($range, $end) = explode('-', $range);
+            if (!empty($range))
+                $content = function_exists('mb_substr') ? mb_substr($content,$range) : substr($content,$range);
+        }
+		else
+            $range = 0;
+        if ($range != 0)
+            header($_SERVER['SERVER_PROTOCOL'].' 206 Partial Content');
+		else
+            header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
 		header('Pragma: public');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
-		if(ob_get_length()===false)
-			header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
+        header('Accept-Ranges: bytes');
+        header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
+        header('Content-Range: bytes '.$range.'-'.($fullContentLength).'/'.$fullContentLength);
 		header('Content-Transfer-Encoding: binary');
 
 		if($terminate)
