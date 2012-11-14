@@ -823,7 +823,6 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
 	{
-        ob_end_clean();//fix for the correct content
 		if($mimeType===null)
 		{
 			if(($mimeType=CFileHelper::getMimeTypeByExtension($fileName))===null)
@@ -833,7 +832,8 @@ class CHttpRequest extends CApplicationComponent
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
-		header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
+		if(ob_get_length()===false)
+			header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
 
@@ -841,7 +841,9 @@ class CHttpRequest extends CApplicationComponent
 		{
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
+			ob_start();
 			Yii::app()->end(0,false);
+			ob_end_clean();
 			echo $content;
 			exit(0);
 		}
