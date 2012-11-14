@@ -136,14 +136,14 @@ class CCaptcha extends CWidget
 			return;
 
 		$js.="
-$(document).on('click', '$selector', function(){
-	$.ajax({
+jQuery(document).on('click', '$selector', function(){
+	jQuery.ajax({
 		url: ".CJSON::encode($url).",
 		dataType: 'json',
 		cache: false,
 		success: function(data) {
-			$('#$id').attr('src', data['url']);
-			$('body').data('{$this->captchaAction}.hash', [data['hash1'], data['hash2']]);
+			jQuery('#$id').attr('src', data['url']);
+			jQuery('body').data('{$this->captchaAction}.hash', [data['hash1'], data['hash2']]);
 		}
 	});
 	return false;
