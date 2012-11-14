@@ -12,9 +12,9 @@
  * CDataProviderIterator allows iteration over large data sets without holding the entire set in memory.
  *
  * CDataProviderIterator iterates over the results of a data provider, starting at the first page
- * of results and ending at the last page. It is usually only suited for use with CActiveDataProvider.
+ * of results and ending at the last page. It is usually only suited for use with {@link CActiveDataProvider}.
  *
- * For example, the following code will iterate through all registered users without
+ * For example, the following code will iterate over all registered users (active record class User) without
  * running out of memory, even if there are millions of users in the database.
  * <pre>
  * $dataProvider = new CActiveDataProvider("User");
@@ -24,128 +24,70 @@
  * }
  * </pre>
  *
- * @property array $items the currently loaded items
- * @property integer $currentIndex the 0 based current index
- * @property integer $totalItems the total number of items in the iterator
+ * @property CDataProvider $dataProvider the data provider to iterate over
+ * @property integer $totalItemCount the total number of items in the iterator
  *
  * @author Charles Pick <charles.pick@gmail.com>
+ * @author Carsten Brandt <mail@cebe.cc>
  * @package system.web
- * @since 1.1.11
+ * @since 1.1.13
  */
-class CDataProviderIterator implements Iterator, Countable
+class CDataProviderIterator extends CComponent implements Iterator, Countable
 {
-
-	/**
-	 * The data provider to iterate over
-	 *
-	 * @var CDataProvider
-	 */
-	public $dataProvider;
-
-	/**
-	 * The current index
-	 *
-	 * @var integer
-	 */
+	private $_dataProvider;
 	private $_currentIndex=-1;
-
-	/**
-	 * The current page in the pagination
-	 *
-	 * @var integer
-	 */
 	private $_currentPage=0;
-
-	/**
-	 * The total number of items
-	 *
-	 * @var integer
-	 */
-	private $_totalItems=-1;
-
-	/**
-	 * The current set of items
-	 *
-	 * @var array
-	 */
+	private $_totalItemCount=-1;
 	private $_items;
 
 	/**
-	 * Constructor. Sets the data provider to iterator over
-	 *
+	 * Constructor.
 	 * @param CDataProvider $dataProvider the data provider to iterate over
+	 * @param integer $pageSize pageSize to use for iteration. This is the number of objects loaded into memory at the same time.
 	 */
-	public function __construct(CDataProvider $dataProvider)
+	public function __construct(CDataProvider $dataProvider, $pageSize=null)
 	{
-		$this->dataProvider=$dataProvider;
-		$this->_totalItems=$dataProvider->getTotalItemCount();
+		$this->_dataProvider=$dataProvider;
+		$this->_totalItemCount=$dataProvider->getTotalItemCount();
+
+		if(($pagination=$this->_dataProvider->getPagination())===false)
+			$this->_dataProvider->setPagination(new CPagination());
+
+		if($pageSize!==null)
+			$pagination->setPageSize($pageSize);
 	}
 
 	/**
-	 * Sets the current index position
-	 *
-	 * @param integer $currentIndex the current index positon
+	 * Returns the data provider to iterate over
+	 * @return CDataProvider the data provider to iterate over
 	 */
-	public function setCurrentIndex($currentIndex)
+	public function getDataProvider()
 	{
-		$this->_currentIndex=$currentIndex;
-	}
-
-	/**
-	 * Gets the zero based current index position
-	 *
-	 * @return integer index position
-	 */
-	public function getCurrentIndex()
-	{
-		return $this->_currentIndex;
-	}
-
-	/**
-	 * Gets the current set of items to iterate over
-	 *
-	 * @return array the current set items to iterate over
-	 */
-	public function getItems()
-	{
-		return $this->_items;
-	}
-
-	/**
-	 * Sets the total number of items to iterate over
-	 *
-	 * @param int $totalItems the total number of items to iterate over
-	 */
-	public function setTotalItems($totalItems)
-	{
-		$this->_totalItems=$totalItems;
+		return $this->_dataProvider;
 	}
 
 	/**
 	 * Gets the total number of items to iterate over
-	 *
 	 * @return integer the total number of items to iterate over
 	 */
-	public function getTotalItems()
+	public function getTotalItemCount()
 	{
-		return $this->_totalItems;
+		return $this->_totalItemCount;
 	}
 
 	/**
-	 * Loads the page of results
-	 *
+	 * Loads a page of items
 	 * @return array the items from the next page of results
 	 */
 	protected function loadPage()
 	{
-		$this->dataProvider->getPagination()->setCurrentPage($this->_currentPage);
+		$this->_dataProvider->getPagination()->setCurrentPage($this->_currentPage);
 		return $this->_items=$this->dataProvider->getData(true);
 	}
 
 	/**
 	 * Gets the current item in the list.
-	 * This method is required by the Iterator interface
-	 *
+	 * This method is required by the Iterator interface.
 	 * @return mixed the current item in the list
 	 */
 	public function current()
@@ -155,26 +97,24 @@ class CDataProviderIterator implements Iterator, Countable
 
 	/**
 	 * Gets the key of the current item.
-	 * This method is required by the Iterator interface
-	 *
+	 * This method is required by the Iterator interface.
 	 * @return integer the key of the current item
 	 */
 	public function key()
 	{
-		$pagination=$this->dataProvider->getPagination();
-		$pageSize=$pagination->getPageSize();
+		$pageSize=$this->_dataProvider->getPagination()->getPageSize();
 		return $this->_currentPage*$pageSize+$this->_currentIndex;
 	}
 
 	/**
 	 * Moves the pointer to the next item in the list.
-	 * This method is required by the Iterator interface
+	 * This method is required by the Iterator interface.
 	 */
 	public function next()
 	{
-		$pagination=$this->dataProvider->getPagination();
+		$pageSize=$this->_dataProvider->getPagination()->getPageSize();
 		$this->_currentIndex++;
-		if($this->_currentIndex>=$pagination->getPageSize())
+		if($this->_currentIndex >= $pageSize)
 		{
 			$this->_currentPage++;
 			$this->_currentIndex=0;
@@ -184,7 +124,7 @@ class CDataProviderIterator implements Iterator, Countable
 
 	/**
 	 * Rewinds the iterator to the start of the list.
-	 * This method is required by the Iterator interface
+	 * This method is required by the Iterator interface.
 	 */
 	public function rewind()
 	{
@@ -195,23 +135,21 @@ class CDataProviderIterator implements Iterator, Countable
 
 	/**
 	 * Checks if the current position is valid or not.
-	 * This method is required by the Iterator interface
-	 *
+	 * This method is required by the Iterator interface.
 	 * @return boolean true if this index is valid
 	 */
 	public function valid()
 	{
-		return $this->key()<$this->_totalItems;
+		return $this->key() < $this->_totalItemCount;
 	}
 
 	/**
-	 * Gets the total number of items in the dataProvider
-	 * This method is required by the Countable interface
-	 *
+	 * Gets the total number of items in the dataProvider.
+	 * This method is required by the Countable interface.
 	 * @return integer the total number of items
 	 */
 	public function count()
 	{
-		return $this->_totalItems;
+		return $this->_totalItemCount;
 	}
 }
