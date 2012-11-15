@@ -85,16 +85,9 @@ class CJuiButton extends CJuiInputWidget
 		parent::init();
 		if ($this->buttonType=='buttonset')
 		{
-			list($name,$id)=$this->resolveNameID();
-
-			if(isset($this->htmlOptions['id']))
-				$id=$this->htmlOptions['id'];
-			else
+			$id=$this->getId();
+			if(!isset($this->htmlOptions['id']))
 				$this->htmlOptions['id']=$id;
-			if(isset($this->htmlOptions['name']))
-				$name=$this->htmlOptions['name'];
-			else
-				$this->htmlOptions['name']=$name;
 
 			echo CHtml::openTag($this->htmlTag, $this->htmlOptions);
 		}
