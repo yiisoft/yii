@@ -38,9 +38,11 @@ abstract class CJuiInputWidget extends CJuiWidget
 	public $value;
 
 	/**
-	 * @param string $nameProperty this class property name which holds element name to be used. This parameter
+	 * Resolves the name and the ID of the input. Source property of the name and/or source property of the attribute
+	 * could be customized through specifying first and/or second parameter accordingly.
+	 * @param string $nameProperty class property name which holds element name to be used. This parameter
 	 * is available since 1.1.13.
-	 * @param string $attributeProperty this class property name which holds model attribute name to be used. This
+	 * @param string $attributeProperty class property name which holds model attribute name to be used. This
 	 * parameter is available since 1.1.13.
 	 * @return array the name and the ID of the input.
 	 * @throws CException in case model and attribute property or name property could not be resolved.
