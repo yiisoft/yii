@@ -8,6 +8,7 @@ Version 1.1.13 work in progress
 - Bug #112: MSSQL: database abstraction layer now uses native transaction support of the SQLSRV driver (resurtm)
 - Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (cebe, DaSourcerer)
 - Bug #126: Fixed CWebUser::getReturnUrl(), allowing to determine default URL correctly, if CUrlManager::showScriptName is set to false (klimov-paul)
+- Bug #140: Fixed validation CJuiButton with type buttonset (adminnu)
 - Bug #276: Tweaked CGridView stylesheet to include a hover style for the selected row (acorncom)
 - Bug #810: Gii now adds a number to the end of relation name if same named relation already exists instead of not generating relation (n30kill, samdark)
 - Bug #837: Fixed method CDbCriteria::__wakeup(), allowing to keep custom names for params and update all string parts for automatic params (klimov-paul)
