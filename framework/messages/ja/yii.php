@@ -104,7 +104,7 @@ return array (
   'Failed to write the uploaded file "{file}" to disk.' => 'アップロードされたファイル "{file}" をディスクに書き込めませんでした。',
   'File upload was stopped by extension.' => 'ファイルアップロードが拡張により停止されました。',
   'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => '"{filter}"というフィルタは無効です。コントローラ"{class}"にはフィルタメソッド"filter{filter}"は存在しません。',
-  'GD and FreeType PHP extensions are required.' => 'GDとFreeTypeのPHP拡張が必要です。',
+  'GD with FreeType or ImageMagick PHP extensions are required.' => 'GD と FreeType、または ImageMagick の PHP 拡張が必要です。',
   'Get a new code' => '新しいコードを取得',
   'Go to page: ' => 'ページ:',
   'In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.' => 'CFileValidator が提供する MIME タイプ検証を使うためには、fileinfo PECL 拡張のインストールが必要です。',

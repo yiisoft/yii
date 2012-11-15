@@ -35,7 +35,7 @@ class CSqliteSchema extends CDbSchema
         'binary' => 'blob',
         'boolean' => 'tinyint(1)',
 		'money' => 'decimal(19,4)',
-    );
+	);
 
 	/**
 	 * Resets the sequence value of a table's primary key.
@@ -190,6 +190,18 @@ class CSqliteSchema extends CDbSchema
 	}
 
 	/**
+	 * Builds a SQL statement for renaming a DB table.
+	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB table.
+	 * @since 1.1.13
+	 */
+	public function renameTable($table, $newName)
+	{
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' RENAME TO ' . $this->quoteTableName($newName);
+	}
+
+	/**
 	 * Builds a SQL statement for truncating a DB table.
 	 * @param string $table the table to be truncated. The name will be properly quoted by the method.
 	 * @return string the SQL statement for truncating a DB table.
@@ -284,5 +296,34 @@ class CSqliteSchema extends CDbSchema
 	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name);
+	}
+
+	/**
+	 * Builds a SQL statement for adding a primary key constraint to an existing table.
+	 * Because SQLite does not support adding a primary key on an existing table this method will throw an exception
+	 * @param string $name the name of the primary key constraint.
+	 * @param string $table the table that the primary key constraint will be added to.
+	 * @param string $columns the name of the column to that the constraint will be added on.
+	 * @return string the SQL statement for adding a primary key constraint to an existing table.
+	 * @since 1.1.13
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		throw new CDbException(Yii::t('yii', 'Adding a primary key after table has been created is not supported by SQLite.'));
+	}
+
+
+	/**
+	 * Builds a SQL statement for removing a primary key constraint to an existing table.
+	 * Because SQLite does not support dropping a primary key from an existing table this method will throw an exception
+	 * @param string $name the name of the primary key constraint to be removed.
+	 * @param string $table the table that the primary key constraint will be removed from.
+	 * @return string the SQL statement for removing a primary key constraint from an existing table.
+	 * @since 1.1.13
+	 */
+	public function dropPrimaryKey($name,$table)
+	{
+		throw new CDbException(Yii::t('yii', 'Removing a primary key after table has been created is not supported by SQLite.'));
+
 	}
 }

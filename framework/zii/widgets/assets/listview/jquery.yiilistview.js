@@ -33,11 +33,11 @@
 			if(settings.ajaxUpdate.length > 0) {
 				$(document).on('click.yiiListView', settings.updateSelector,function(){
 					if(settings.enableHistory && window.History.enabled) {
-						var url = $(this).attr('href'),
-							params = $.deparam.querystring(url);
+						var url = $(this).attr('href').split('?'),
+							params = $.deparam.querystring('?'+url[1]);
 
 						delete params[settings.ajaxVar];
-						window.History.pushState(null, null, $.param.querystring(url.substr(0, url.indexOf('?')), params));
+						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
 					} else {
 						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
 					}

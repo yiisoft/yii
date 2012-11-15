@@ -115,8 +115,17 @@ class CGridView extends CBaseListView
 	 * stands for the row number (zero-based), <code>$data</code> is the data model associated with
 	 * the row, and <code>$this</code> is the grid object.
 	 * @see rowCssClass
+	 * @deprecated in 1.1.13
 	 */
 	public $rowCssClassExpression;
+	/**
+	 * @var string a PHP expression that is evaluated for every table body row and whose result
+	 * is used as additional HTML attributes for the row. In this expression, the variable <code>$row</code>
+	 * stands for the row number (zero-based), <code>$data</code> is the data model associated with
+	 * the row, and <code>$this</code> is the grid object.
+	 * @since 1.1.13
+	 */
+	public $rowHtmlOptionsExpression;
 	/**
 	 * @var boolean whether to display the table even when there is no data. Defaults to true.
 	 * The {@link emptyText} will be displayed to indicate there is no data.
@@ -236,6 +245,22 @@ class CGridView extends CBaseListView
 	 */
 	public $loadingCssClass='grid-view-loading';
 	/**
+	 * @var string the jQuery selector of filter input fields.
+	 * The token '{filter}' is recognized and it will be replaced with the grid filters selector.
+	 * Defaults to '{filter}'.
+	 *
+	 * Note: if this value is empty an exception will be thrown.
+	 *
+	 * Example (adding a custom selector to the default one):
+	 * <pre>
+	 *  ...
+	 *  'filterSelector'=>'{filter}, #myfilter',
+	 *  ...
+	 * </pre>
+	 * @since 1.1.13
+	 */
+	public $filterSelector='{filter}';
+	/**
 	 * @var string the CSS class name for the table row element containing all filter input fields. Defaults to 'filters'.
 	 * @see filter
 	 * @since 1.1.1
@@ -289,6 +314,8 @@ class CGridView extends CBaseListView
 
 		if(empty($this->updateSelector))
 			throw new CException(Yii::t('zii','The property updateSelector should be defined.'));
+		if(empty($this->filterSelector))
+			throw new CException(Yii::t('zii','The property filterSelector should be defined.'));
 
 		if(!isset($this->htmlOptions['class']))
 			$this->htmlOptions['class']='grid-view';
@@ -386,7 +413,8 @@ class CGridView extends CBaseListView
 			'tableClass'=>$this->itemsCssClass,
 			'selectableRows'=>$this->selectableRows,
 			'enableHistory'=>$this->enableHistory,
-			'updateSelector'=>$this->updateSelector
+			'updateSelector'=>$this->updateSelector,
+			'filterSelector'=>$this->filterSelector
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
@@ -530,6 +558,15 @@ class CGridView extends CBaseListView
 	 */
 	public function renderTableRow($row)
 	{
+		$htmlOptions=array();
+		if($this->rowHtmlOptionsExpression!==null)
+		{
+			$data=$this->dataProvider->data[$row];
+			$options=$this->evaluateExpression($this->rowHtmlOptionsExpression,array('row'=>$row,'data'=>$data));
+			if(is_array($options))
+				$htmlOptions = $options;
+		}
+
 		if($this->rowCssClassExpression!==null)
 		{
 			$data=$this->dataProvider->data[$row];
@@ -537,10 +574,16 @@ class CGridView extends CBaseListView
 		}
 		elseif(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
 			$class=$this->rowCssClass[$row%$n];
-		else
-			$class='';
 
-		echo empty($class) ? '<tr>' : '<tr class="'.$class.'">';
+		if(!empty($class))
+		{
+			if(isset($htmlOptions['class']))
+				$htmlOptions['class'].=' '.$class;
+			else
+				$htmlOptions['class']=$class;
+		}
+
+		echo CHtml::openTag('tr', $htmlOptions)."\n";
 		foreach($this->columns as $column)
 			$column->renderDataCell($row);
 		echo "</tr>\n";

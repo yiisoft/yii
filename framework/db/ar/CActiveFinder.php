@@ -236,6 +236,11 @@ class CActiveFinder extends CComponent
 			$criteria->scopes=$scopes;
 			$model->beforeFindInternal();
 			$model->applyScopes($criteria);
+
+			// select has a special meaning in stat relation, so we need to ignore select from scope or model criteria
+			if($relation instanceof CStatRelation)
+				$criteria->select='*';
+
 			$relation->mergeWith($criteria,true);
 
 			// dynamic options
@@ -451,25 +456,16 @@ class CJoinElement
 		foreach($this->stats as $stat)
 			$stat->query();
 
-		switch(count($this->children))
-		{
-			case 0:
-				return;
-			break;
-			case 1:
-				$child=reset($this->children);
-			break;
-			default: // bridge(s) inside
-				$child=end($this->children);
-			break;
-		}
+		if(!$this->children)
+			return;
+		$child=end($this->children); // bridge(s) inside, we're taking only last necessary child
 
 		$query=new CJoinQuery($child);
-		$query->selects=array();
-		$query->selects[]=$child->getColumnSelect($child->relation->select);
-		$query->conditions=array();
-		$query->conditions[]=$child->relation->condition;
-		$query->conditions[]=$child->relation->on;
+		$query->selects=array($child->getColumnSelect($child->relation->select));
+		$query->conditions=array(
+			$child->relation->condition,
+			$child->relation->on,
+		);
 		$query->groups[]=$child->relation->group;
 		$query->joins[]=$child->relation->join;
 		$query->havings[]=$child->relation->having;

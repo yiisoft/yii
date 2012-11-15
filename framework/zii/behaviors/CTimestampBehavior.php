@@ -9,9 +9,9 @@
  */
 
  /**
- * CTimestampBehavior will automatically fill date and time related atributes.
+ * CTimestampBehavior will automatically fill date and time related attributes.
  *
- * CTimestampBehavior will automatically fill date and time related atributes when the active record
+ * CTimestampBehavior will automatically fill date and time related attributes when the active record
  * is created and/or upadated.
  * You may specify an active record model to use this behavior like so:
  * <pre>
@@ -43,12 +43,12 @@
 class CTimestampBehavior extends CActiveRecordBehavior {
 	/**
 	* @var mixed The name of the attribute to store the creation time.  Set to null to not
-	* use a timstamp for the creation attribute.  Defaults to 'create_time'
+	* use a timestamp for the creation attribute.  Defaults to 'create_time'
 	*/
 	public $createAttribute = 'create_time';
 	/**
 	* @var mixed The name of the attribute to store the modification time.  Set to null to not
-	* use a timstamp for the update attribute.  Defaults to 'update_time'
+	* use a timestamp for the update attribute.  Defaults to 'update_time'
 	*/
 	public $updateAttribute = 'update_time';
 

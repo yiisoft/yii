@@ -783,7 +783,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
 	{
-		if(strpos($url,'/')===0)
+		if(strpos($url,'/')===0 && strpos($url,'//')!==0)
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url, true, $statusCode);
 		if($terminate)
@@ -882,6 +882,11 @@ class CHttpRequest extends CApplicationComponent
 	 * If this option is disabled by the web server, when this method is called a download configuration dialog
 	 * will open but the downloaded file will have 0 bytes.
 	 *
+	 * <b>Known issues</b>:
+	 * There is a Bug with Internet Explorer 6, 7 and 8 when X-SENDFILE is used over an SSL connection, it will show
+	 * an error message like this: "Internet Explorer was not able to open this Internet site. The requested site is either unavailable or cannot be found.".
+	 * You can work around this problem by removing the <code>Pragma</code>-header.
+	 * 
 	 * <b>Example</b>:
 	 * <pre>
 	 * <?php
