@@ -47,6 +47,9 @@
  */
 class CFormatter extends CApplicationComponent
 {
+	/**
+	 * @var CHtmlPurifier
+	 */
 	private $_htmlPurifier;
 
 	/**
@@ -73,6 +76,12 @@ class CFormatter extends CApplicationComponent
 	 * to the text display for false, the second element for true. Defaults to <code>array('No', 'Yes')</code>.
 	 */
 	public $booleanFormat=array('No','Yes');
+	/**
+	 * @var array the options to be passed to CHtmlPurifier instance used in this class. CHtmlPurifier is used
+	 * in {@link formatHtml} method, so this property could be useful to customize HTML filtering behavior.
+	 * @since 1.1.13
+	 */
+	public $htmlPurifierOptions=array();
 
 	/**
 	 * @var array the format used to format size (bytes). Two elements may be specified: "base" and "decimals".
@@ -263,6 +272,7 @@ class CFormatter extends CApplicationComponent
 	{
 		if($this->_htmlPurifier===null)
 			$this->_htmlPurifier=new CHtmlPurifier;
+		$this->_htmlPurifier->options=$this->htmlPurifierOptions;
 		return $this->_htmlPurifier;
 	}
 

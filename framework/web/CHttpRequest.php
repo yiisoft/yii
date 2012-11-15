@@ -783,7 +783,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
 	{
-		if(strpos($url,'/')===0)
+		if(strpos($url,'/')===0 && strpos($url,'//')!==0)
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url, true, $statusCode);
 		if($terminate)
