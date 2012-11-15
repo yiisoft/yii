@@ -88,7 +88,7 @@ class CRangeValidator extends CValidator
 		$range=CJSON::encode($range);
 
 		return "
-if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').($this->not ? "$.inArray(value, $range)>=0" : "$.inArray(value, $range)<0").") {
+if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').($this->not ? "jQuery.inArray(value, $range)>=0" : "jQuery.inArray(value, $range)<0").") {
 	messages.push(".CJSON::encode($message).");
 }
 ";

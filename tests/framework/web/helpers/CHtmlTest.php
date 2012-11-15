@@ -860,11 +860,11 @@ class CHtmlTest extends CTestCase
 	{
 		return array(
 			array('submit', array(), '<a href="#" id="yt0">submit</a>',
-				"$('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
+				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
 			array('link-button', array(), '<a href="#" id="yt0">link-button</a>',
-				"$('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
+				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
 			array('link-button', array('href'=>'http://yiiframework.com/'), '<a href="#" id="yt0">link-button</a>',
-				"$('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'http://yiiframework.com/',{});return false;});"),
+				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'http://yiiframework.com/',{});return false;});"),
 		);
 	}
 
