@@ -213,7 +213,7 @@ class CDbCommand extends CComponent
 			catch(Exception $e)
 			{
 				Yii::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
-                $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
+				$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
 				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
 					array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 			}
@@ -307,7 +307,7 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * binding methods and the input parameters this way can improve the performance.
 	 * @return integer number of rows affected by the execution.
 	 * @throws CException execution failed
 	 */
@@ -344,12 +344,15 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
-            $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
-            $message = $e->getMessage();
+
+			$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
+			$message=$e->getMessage();
 			Yii::log(Yii::t('yii','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
 				array('{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
-            if(YII_DEBUG)
-            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
+
+			if(YII_DEBUG)
+				$message.='. The SQL statement executed was: '.$this->getText().$par;
+
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
@@ -362,7 +365,7 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * binding methods and the input parameters this way can improve the performance.
 	 * @return CDbDataReader the reader object for fetching the query result
 	 * @throws CException execution failed
 	 */
@@ -379,7 +382,7 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * binding methods and the input parameters this way can improve the performance.
 	 * @return array all rows of the query result. Each array element is an array representing a row.
 	 * An empty array is returned if the query results in nothing.
 	 * @throws CException execution failed
@@ -398,7 +401,7 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * binding methods and the input parameters this way can improve the performance.
 	 * @return mixed the first row (in terms of an array) of the query result, false if no result.
 	 * @throws CException execution failed
 	 */
@@ -415,7 +418,7 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * binding methods and the input parameters this way can improve the performance.
 	 * @return mixed the value of the first column in the first row of the query result. False is returned if there is no value.
 	 * @throws CException execution failed
 	 */
@@ -436,7 +439,7 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * binding methods and the input parameters this way can improve the performance.
 	 * @return array the first column of the query result. Empty array if no result.
 	 * @throws CException execution failed
 	 */
@@ -452,7 +455,7 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * binding methods and the input parameters this way can improve the performance.
 	 * @return mixed the method execution result
 	 */
 	private function queryInternal($method,$mode,$params=array())
@@ -482,7 +485,7 @@ class CDbCommand extends CComponent
 			if(($result=$cache->get($cacheKey))!==false)
 			{
 				Yii::trace('Query result found in cache','system.db.CDbCommand');
-				return $result;
+				return $result[0];
 			}
 		}
 
@@ -511,7 +514,7 @@ class CDbCommand extends CComponent
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			if(isset($cache,$cacheKey))
-				$cache->set($cacheKey, $result, $this->_connection->queryCachingDuration, $this->_connection->queryCachingDependency);
+				$cache->set($cacheKey, array($result), $this->_connection->queryCachingDuration, $this->_connection->queryCachingDependency);
 
 			return $result;
 		}
@@ -519,12 +522,15 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
-            $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
-            $message = $e->getMessage();
+
+			$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
+			$message=$e->getMessage();
 			Yii::log(Yii::t('yii','CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.',
 				array('{method}'=>$method, '{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
-            if(YII_DEBUG)
-            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
+
+			if(YII_DEBUG)
+				$message.='. The SQL statement executed was: '.$this->getText().$par;
+
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
@@ -1282,7 +1288,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Builds and executes a SQL statement for creating a new DB table.
 	 *
-	 * The columns in the new  table should be specified as name-definition pairs (e.g. 'name'=>'string'),
+	 * The columns in the new table should be specified as name-definition pairs (e.g. 'name'=>'string'),
 	 * where name stands for a column name which will be properly quoted by the method, and definition
 	 * stands for the column type which can contain an abstract DB type.
 	 * The {@link getColumnType} method will be invoked to convert any abstract type into a physical one.
