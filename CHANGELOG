@@ -25,6 +25,7 @@ Version 1.1.13 work in progress
 - Bug #1364: Empty CHtml::$errorCss cause class attribute rendering errors (creocoder)
 - Bug #1381: Ignore select given by criteria or scope on stat relation (cebe)
 - Bug #1392: HostInfo was appended to CHttpRequest::redirect() location in case of using protocol relative URLs (dInGd0nG, samdark)
+- Bug #1406: Fixed the issue that false value returned from CDbCommand could not be cached properly (mdomba)
 - Bug #1407: CDbCommandBuilder::createCountCommand() used to bind parameters for unused ORDER clause and unused SELECT part (resurtm)
 - Bug #1444: Fixed CGoogleApi::register call to registerScriptFile (mdomba)
 - Bug #1485: CSort does not quote table alias when using CDbCriteria (undsoft)
