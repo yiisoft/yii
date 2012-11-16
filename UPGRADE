@@ -39,6 +39,16 @@ Upgrading from v1.1.12
      $alias = $this->owner->getTableAlias();
      $criteria->condition = $alias.'.myfield = 1';
 
+- API of protected method CJuiInputWidget::resolveNameID() changed. If you are overriding this method make sure
+  to update your code. This method now accepts two parameters (specifies properties containing name and attribute
+  values), so you have to adjust the signature to fit
+
+      protected function resolveNameID($nameProperty='name',$attributeProperty='attribute')
+
+  and the parent call to
+
+      parent::resolveNameID($nameProperty,$attributeProperty);
+
 Upgrading from v1.1.11
 ----------------------
 - Changes in CCookieCollection::add() (introduced in 1.1.11) were reverted as they were triggering E_STRICT on some old PHP-versions
