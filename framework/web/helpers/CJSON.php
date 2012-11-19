@@ -322,7 +322,8 @@ class CJSON
 	*/
 	public static function decode($str, $useArray=true)
 	{
-		if(function_exists('json_decode')) {
+		if(function_exists('json_decode')) 
+		{
 			$json = json_decode($str,$useArray);
 
 			// based on investigation, native fails sometimes returning null.
