@@ -324,6 +324,7 @@ class CComponent
 	{
 		if(!($behavior instanceof IBehavior))
 			$behavior=Yii::createComponent($behavior);
+		$behavior->attachedId=$name;
 		$behavior->setEnabled(true);
 		$behavior->attach($this);
 		return $this->_m[$name]=$behavior;

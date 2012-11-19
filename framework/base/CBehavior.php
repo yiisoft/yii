@@ -22,6 +22,8 @@ class CBehavior extends CComponent implements IBehavior
 	private $_enabled;
 	private $_owner;
 
+	public $attachedId;
+
 	/**
 	 * Declares events and the corresponding event handler methods.
 	 * The events are defined by the {@link owner} component, while the handler

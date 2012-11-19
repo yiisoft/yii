@@ -18,6 +18,16 @@ class CBehaviorTest extends CTestCase {
 		$component->test2();
 	}
 
+	public function testAttachedBehaviorId()
+	{
+		$id = uniqid();
+		$component=new NewComponent;
+		$component->attachBehavior($id, new NewBehavior);
+		$behavior = $component->asa($id);
+
+		$this->assertEquals($id, $behavior->attachedId);
+	}
+
     public function testDisableBehaviors(){
         $component=new NewComponent;
         $component->attachBehavior('a',new NewBehavior);
