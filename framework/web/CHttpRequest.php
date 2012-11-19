@@ -801,21 +801,42 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if($this->_preferredLanguages===null)
 		{
+			$sortedLanguages = array();
 			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-_]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))>0)
 			{
 				$languages=array();
-				$increment = 0.0001 / $n;
 				for($i=0;$i<$n;++$i) {
-					if (!isset($languages[$matches[1][$i]])) {
-						$pref = (($n - $i) * $increment);
-						$languages[$matches[1][$i]]=empty($matches[3][$i]) ? (1.0 + $pref) : (floatval($matches[3][$i]) + $pref);
+					$prefVal=empty($matches[3][$i]) ? (1.0 + $pref) : (floatval($matches[3][$i]) + $pref);
+					if (!isset($languages[$matches[1][$i]]) || $languages[$matches[1][$i]][0] < $prefVal) {
+						$languages[$matches[1][$i]][0] = $prefVal;
+						$languages[$matches[1][$i]][1] = $i;
+						$languages[$matches[1][$i]][2] = $matches[1][$i];
 					}
 				}
-				arsort($languages);
-				$this->_preferredLanguages = array_keys($languages);
+				usort($languages, function($a, $b) {
+					if ($a[0] < $b[0]) { 
+						return 1; 
+					} 
+					else if ($a[0] > $b[0]) { 
+						return -1; 
+					} 
+					else if ($a[1] < $b[1]) { 
+						return -1; 
+					} 
+					else if($a[1] > $b[1]) { 
+						return 1; 
+					} 
+					else { 
+						return 0; 
+					}
+				});
+				for($i=0;$i<count($languages);$i++) {
+					$sortedLanguages[] = $languages[$i][2];
+				}
 			}
+			$this->_preferredLanguages = $sortedLanguages;
 		}
-		return ($this->_preferredLanguages === null || $this->_preferredLanguages === array()) ? false : $this->_preferredLanguages;
+		return $this->_preferredLanguages;
 	}
 
 	/**
@@ -827,7 +848,7 @@ class CHttpRequest extends CApplicationComponent
 	public function getPreferredLanguage()
 	{
 		$preferredLanguages = $this->getPreferredLanguages();
-		return (is_array($preferredLanguages) && count($preferredLanguages) > 0) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
+		return (count($preferredLanguages) > 0) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
 	}
 
 	/**
