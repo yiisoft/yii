@@ -111,15 +111,23 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Formats a value based on the given type.
 	 * @param mixed $value the value to be formatted
-	 * @param string $type the data type. This must correspond to a format method available in CFormatter.
-	 * For example, we can use 'text' here because there is method named {@link formatText}.
+	 * @param mixed $type the data type. If type is a string, it must correspond to a format method available in CFormatter.
+	 * 			If it is an array, it must contain a string, which corresponds to a format method, as first element. 
+	 * 			The further array elements can be optional formatting parameters.
+	 * For example, we can use 'text' here because there is method named {@link formatText}
+	 * or we can use array('datetime', 'format' => 'Y/m/d h:i:s')
 	 * @return string the formatted data
 	 */
 	public function format($value,$type)
 	{
+		$options = array();
+		if (is_array ( $type )) {
+			$options = $type;
+			$type = array_shift($options);
+		}
 		$method='format'.$type;
 		if(method_exists($this,$method))
-			return $this->$method($value);
+			return $this->$method($value, $options);
 		else
 			throw new CException(Yii::t('yii','Unknown type "{type}".',array('{type}'=>$type)));
 	}
@@ -168,36 +176,54 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Formats the value as a date.
 	 * @param mixed $value the value to be formatted
+	 * @param array $options
+	 * 			if $options["format"] is defined, this format will be used;
+	 * 	        otherwise {@link dateFormat} as default will be used.
 	 * @return string the formatted result
 	 * @see dateFormat
 	 */
-	public function formatDate($value)
+	public function formatDate($value, $options = array())
 	{
-		return date($this->dateFormat,$this->normalizeDateValue($value));
+		$format = $this->dateFormat;
+		if (isset($options["format"]))
+			$format = $options["format"];
+		return date($format,$this->normalizeDateValue($value));
 	}
 
 	/**
 	 * Formats the value as a time.
 	 * @param mixed $value the value to be formatted
+	 * @param array $options
+	 * 			if $options["format"] is defined, this format will be used;
+	 * 	        otherwise {@link timeFormat} as default will be used.
 	 * @return string the formatted result
 	 * @see timeFormat
 	 */
-	public function formatTime($value)
+	public function formatTime($value, $options = array())
 	{
-		return date($this->timeFormat,$this->normalizeDateValue($value));
+		$format = $this->timeFormat;
+		if (isset($options["format"]))
+			$format = $options["format"];
+		return date($format,$this->normalizeDateValue($value));
 	}
 
 	/**
 	 * Formats the value as a date and time.
+	 *
 	 * @param mixed $value the value to be formatted
+	 * @param array $options
+	 * 			if $options["format"] is defined, this format will be used;
+	 * 	        otherwise {@link datetimeFormat} as default will be used.
 	 * @return string the formatted result
 	 * @see datetimeFormat
 	 */
-	public function formatDatetime($value)
-	{
-		return date($this->datetimeFormat,$this->normalizeDateValue($value));
+	public function formatDatetime($value, $options = array()) {
+		$format = $this->datetimeFormat;
+		if (isset($options["format"]))
+			$format = $options["format"];
+		return date ( $format, $this->normalizeDateValue ( $value ) );
 	}
-
+	
 	private function normalizeDateValue($time)
 	{
 		if(is_string($time))
@@ -257,12 +283,25 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Formats the value as a number using PHP number_format() function.
 	 * @param mixed $value the value to be formatted
+	 * @param array $options
+	 * 			if $options is given, its given elements will override {@link numberFormat}'s elements
+	 * 			otherwise the default format {@link numberFormats} is used.
+	 * e.g. $options = array('number', 'decimals'=>2, 'decimalSeparator'=>',', 'thousandSeparator'=>'.')
+	 * @param array $options 
 	 * @return string the formatted result
 	 * @see numberFormat
 	 */
-	public function formatNumber($value)
+	public function formatNumber($value, $options=array())
 	{
-		return number_format($value,$this->numberFormat['decimals'],$this->numberFormat['decimalSeparator'],$this->numberFormat['thousandSeparator']);
+		$format = $this->numberFormat;
+		if (isset($options["decimals"]))
+			$format['decimals'] = $options["decimals"];
+		if (isset($options["decimalSeparator"]))
+			$format['decimalSeparator'] = $options["decimalSeparator"];
+		if (isset($options["thousandSeparator"]))
+			$format['thousandSeparator'] = $options["thousandSeparator"];
+		
+		return number_format($value,$format['decimals'],$format['decimalSeparator'],$format['thousandSeparator']);
 	}
 
 	/**
