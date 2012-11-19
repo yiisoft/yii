@@ -813,23 +813,7 @@ class CHttpRequest extends CApplicationComponent
 						$languages[$matches[1][$i]][2] = $matches[1][$i];
 					}
 				}
-				usort($languages, function($a, $b) {
-					if ($a[0] < $b[0]) { 
-						return 1; 
-					} 
-					else if ($a[0] > $b[0]) { 
-						return -1; 
-					} 
-					else if ($a[1] < $b[1]) { 
-						return -1; 
-					} 
-					else if($a[1] > $b[1]) { 
-						return 1; 
-					} 
-					else { 
-						return 0; 
-					}
-				});
+				usort($languages, create_function('$a, $b', 'if ($a[0] < $b[0]) { return 1; } else if ($a[0] > $b[0]) { return -1; } else if ($a[1] < $b[1]) { return -1; } else if($a[1] > $b[1]) { return 1; } else { return 0; }'));
 				for($i=0;$i<count($languages);$i++) {
 					$sortedLanguages[] = $languages[$i][2];
 				}
