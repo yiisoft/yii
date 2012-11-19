@@ -93,7 +93,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_hostInfo;
 	private $_baseUrl;
 	private $_cookies;
-	private $_preferredLanguage;
+	private $_preferredLanguages;
 	private $_csrfToken;
 	private $_restParams;
 
