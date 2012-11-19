@@ -51,23 +51,20 @@ class CJuiButton extends CJuiInputWidget
 	 * @var string The button type (possible types: submit, button, link, radio, checkbox, buttonset).
 	 * "submit" is used as default.
 	 */
-	public $buttonType = 'submit';
-
+	public $buttonType='submit';
 	/**
 	 * @var string The default html tag for the buttonset
 	 */
-	public $htmlTag = 'div';
+	public $htmlTag='div';
 	/**
 	 * @var mixed a URL or an action route that can be used to create a URL. Used when a buttonType "link" is selected.
 	 * See {@link normalizeUrl} for more details about how to specify this parameter.
 	 */
-	public $url = null;
-
+	public $url=null;
 	/**
 	 * @var mixed The value of the current item. Used only for "radio" and "checkbox"
 	 */
 	public $value;
-
 	/**
 	 * @var string The button text
 	 */
@@ -81,14 +78,15 @@ class CJuiButton extends CJuiInputWidget
 	 * (non-PHPdoc)
 	 * @see framework/zii/widgets/jui/CJuiWidget::init()
 	 */
-	public function init(){
+	public function init()
+	{
 		parent::init();
-		if ($this->buttonType=='buttonset')
+		if($this->buttonType=='buttonset')
 		{
 			if(!isset($this->htmlOptions['id']))
 				$this->htmlOptions['id']=$this->getId();
 
-			echo CHtml::openTag($this->htmlTag, $this->htmlOptions);
+			echo CHtml::openTag($this->htmlTag,$this->htmlOptions);
 		}
 	}
 
@@ -98,7 +96,7 @@ class CJuiButton extends CJuiInputWidget
 	 */
 	public function run()
 	{
-		$cs = Yii::app()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		list($name,$id)=$this->resolveNameID();
 
 		if(isset($this->htmlOptions['id']))
@@ -110,7 +108,7 @@ class CJuiButton extends CJuiInputWidget
 		else
 			$this->htmlOptions['name']=$name;
 
-		if ($this->buttonType=='buttonset')
+		if($this->buttonType=='buttonset')
 		{
 			echo CHtml::closeTag($this->htmlTag);
 			$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').buttonset();");
@@ -120,36 +118,36 @@ class CJuiButton extends CJuiInputWidget
 			switch($this->buttonType)
 			{
 				case 'submit':
-					echo CHtml::submitButton($this->caption, $this->htmlOptions) . "\n";
+					echo CHtml::submitButton($this->caption,$this->htmlOptions)."\n";
 					break;
 				case 'button':
-					echo CHtml::htmlButton($this->caption, $this->htmlOptions) . "\n";
+					echo CHtml::htmlButton($this->caption,$this->htmlOptions)."\n";
 					break;
 				case 'link':
-					echo CHtml::link($this->caption, $this->url, $this->htmlOptions) . "\n";
+					echo CHtml::link($this->caption,$this->url,$this->htmlOptions)."\n";
 					break;
 				case 'radio':
-					if ($this->hasModel())
+					if($this->hasModel())
 					{
-						echo CHtml::activeRadioButton($this->model, $this->attribute, $this->htmlOptions);
-						echo CHtml::label($this->caption, CHtml::activeId($this->model, $this->attribute)) . "\n";
+						echo CHtml::activeRadioButton($this->model,$this->attribute,$this->htmlOptions);
+						echo CHtml::label($this->caption,CHtml::activeId($this->model,$this->attribute))."\n";
 					}
 					else
 					{
-						echo CHtml::radioButton($name, $this->value, $this->htmlOptions);
-						echo CHtml::label($this->caption, $id) . "\n";
+						echo CHtml::radioButton($name,$this->value,$this->htmlOptions);
+						echo CHtml::label($this->caption,$id)."\n";
 					}
 					break;
 				case 'checkbox':
-					if ($this->hasModel())
+					if($this->hasModel())
 					{
-						echo CHtml::activeCheckbox($this->model, $this->attribute, $this->htmlOptions);
-						echo CHtml::label($this->caption, CHtml::activeId($this->model, $this->attribute)) . "\n";
+						echo CHtml::activeCheckbox($this->model,$this->attribute,$this->htmlOptions);
+						echo CHtml::label($this->caption,CHtml::activeId($this->model,$this->attribute))."\n";
 					}
 					else
 					{
-						echo CHtml::checkbox($name, $this->value, $this->htmlOptions);
-						echo CHtml::label($this->caption, $id) . "\n";
+						echo CHtml::checkbox($name,$this->value,$this->htmlOptions);
+						echo CHtml::label($this->caption,$id)."\n";
 					}
 					break;
 				default:
@@ -161,13 +159,11 @@ class CJuiButton extends CJuiInputWidget
 			{
 				if(!($this->onclick instanceof CJavaScriptExpression))
 					$this->onclick=new CJavaScriptExpression($this->onclick);
-				$click = CJavaScript::encode($this->onclick);
+				$click=CJavaScript::encode($this->onclick);
 				$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').button($options).click($click);");
 			}
 			else
-			{
 				$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').button($options);");
-			}
 		}
 	}
 }
