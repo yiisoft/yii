@@ -239,7 +239,7 @@ class CListView extends CBaseListView
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->updateSelector!==null)
 			$options['updateSelector']=$this->updateSelector;
-		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate') as $event)
+		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError') as $event)
 		{
 			if($this->$event!==null)
 			{
