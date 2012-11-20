@@ -59,6 +59,7 @@ Version 1.1.13 work in progress
 - Enh #1184: CEmailValidator now supports IDN (Internationalized Domain Names), added CEmailValidator::$validateIDN property (resurtm)
 - Enh #1201: CMenu now supports HTML attributes for the links' wrap element specified in $linkLabelWrapper (resurtm)
 - Enh #1228: Added ability to MessageCommand to generate translation files for multiple functions (Arne-S, samdark)
+- Enh #1238: CJuiDatePicker is now using the native altField option to handle the hidden input when type flat is used (mdomba, christiansalazar)
 - Enh #1282: CDateTimeParser: added MMMM pattern for parsing standard month names such as 'January', 'Décembre' or 'März' (resurtm)
 - Enh #1286: CUrlValidator now supports IDN (Internationalized Domain Names), added CUrlValidator::$validateIDN property (resurtm)
 - Enh #1289: Added support for column comments for MSSQL (CDbColumnSchema::$comment property) (resurtm)
