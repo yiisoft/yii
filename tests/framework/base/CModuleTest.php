@@ -75,6 +75,7 @@ class CModuleTest extends CTestCase {
 		$c = new NewApplicationComponent;
 		$this->mod->setComponent('foo',$c);
 		$this->assertSame(array('foo' => $c),$this->mod->getComponents());
+		$this->assertSame($c,$this->mod->getFoo());
 	}
 	public function testSetComponents() {
 		$expected = array('foo' => new NewApplicationComponent);

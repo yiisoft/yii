@@ -106,6 +106,26 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Calls the named method which is not a class method.
+	 * This method is overridden to support accessing custom or non-core application components
+	 * like calling getter methods. Example: it's possible to do Yii::app()->getCustomManager() call
+	 * in case custom component class CustomManager was declared in the application configuration.
+	 * It's also accessible as Yii::app()->customManager and Yii::app()->getComponent('customManager').
+	 * @param string $name application component or property name
+	 * @param array $parameters the named property value
+	 * @return mixed the named property value
+	 * @since 1.1.13
+	 */
+	public function __call($name,$parameters)
+	{
+		$componentName=lcfirst(substr($name,3)); // getSomeComponent -> someComponent
+		if($this->hasComponent($componentName))
+			return $this->getComponent($componentName);
+		else
+			return parent::__call($name,$parameters);
+	}
+
+	/**
 	 * Checks if a property value is null.
 	 * This method overrides the parent implementation by checking
 	 * if the named application component is loaded.
