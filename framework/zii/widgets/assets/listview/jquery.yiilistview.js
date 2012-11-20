@@ -95,7 +95,14 @@
 	 * the URL to be requested is the one that generates the current content of the list view.
 	 */
 	$.fn.yiiListView.update = function(id, options) {
-		var settings = $.fn.yiiListView.settings[id];
+		var customError,
+			settings = $.fn.yiiListView.settings[id];
+
+		if (options && options.error !== undefined) {
+			customError = options.error;
+			delete options.error;
+		}
+
 		$('#'+id).addClass(settings.loadingClass);
 		options = $.extend({
 			type: 'GET',
@@ -110,10 +117,16 @@
 				$('#'+id).removeClass(settings.loadingClass);
 			},
 			error: function(XHR, textStatus, errorThrown) {
-				var err;
+				var ret, err;
 				$('#'+id).removeClass(settings.loadingClass);
 				if (XHR.readyState === 0 || XHR.status === 0) {
 					return;
+				}
+				if (customError !== undefined) {
+					ret = customError(XHR);
+					if (ret !== undefined && !ret) {
+						return;
+					}
 				}
 				switch (textStatus) {
 				case 'timeout':
