@@ -204,8 +204,8 @@ class CGridView extends CBaseListView
 	/**
 	 * @var string a javascript function that will be invoked after the row selection is changed.
 	 * The function signature is <code>function(id)</code> where 'id' refers to the ID of the grid view.
-	 * In this function, you may use <code>$.fn.yiiGridView.getSelection(id)</code> to get the key values
-	 * of the currently selected rows.
+	 * In this function, you may use <code>$(gridID).yiiGridView('getSelection')</code> to get the key values
+	 * of the currently selected rows (gridID is the DOM selector of the grid).
 	 * @see selectableRows
 	 */
 	public $selectionChanged;
@@ -213,7 +213,8 @@ class CGridView extends CBaseListView
 	 * @var integer the number of table body rows that can be selected. If 0, it means rows cannot be selected.
 	 * If 1, only one row can be selected. If 2 or any other number, it means multiple rows can be selected.
 	 * A selected row will have a CSS class named 'selected'. You may also call the JavaScript function
-	 * <code>$.fn.yiiGridView.getSelection(containerID)</code> to retrieve the key values of the selected rows.
+	 * <code>$(gridID).yiiGridView('getSelection')</code> to retrieve the key values of the currently selected
+	 * rows (gridID is the DOM selector of the grid).
 	 */
 	public $selectableRows=1;
 	/**

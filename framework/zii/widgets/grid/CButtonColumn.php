@@ -241,17 +241,17 @@ class CButtonColumn extends CGridColumn
 			$this->buttons['delete']['click']=<<<EOD
 function() {
 	$confirmation
-	var th=this;
-	var afterDelete=$this->afterDelete;
-	jQuery.fn.yiiGridView.update('{$this->grid->id}', {
-		type:'POST',
-		url:jQuery(this).attr('href'),$csrf
-		success:function(data) {
-			jQuery.fn.yiiGridView.update('{$this->grid->id}');
-			afterDelete(th,true,data);
+	var th = this,
+		afterDelete = $this->afterDelete;
+	jQuery('#{$this->grid->id}').yiiGridView('update', {
+		type: 'POST',
+		url: jQuery(this).attr('href'),$csrf
+		success: function(data) {
+			jQuery('#{$this->grid->id}').yiiGridView('update');
+			afterDelete(th, true, data);
 		},
-		error:function(XHR) {
-			return afterDelete(th,false,XHR);
+		error: function(XHR) {
+			return afterDelete(th, false, XHR);
 		}
 	});
 	return false;
