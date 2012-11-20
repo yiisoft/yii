@@ -118,7 +118,7 @@ abstract class CModule extends CComponent
 	 */
 	public function __call($name,$parameters)
 	{
-		$componentName=lcfirst(substr($name,3)); // getSomeComponent -> someComponent
+		$componentName=strtolower(substr($name,3,1)).substr($name,4); // getSomeComponent -> someComponent
 		if($this->hasComponent($componentName))
 			return $this->getComponent($componentName);
 		else
