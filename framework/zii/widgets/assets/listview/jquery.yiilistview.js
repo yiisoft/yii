@@ -95,7 +95,14 @@
 	 * the URL to be requested is the one that generates the current content of the list view.
 	 */
 	$.fn.yiiListView.update = function(id, options) {
-		var settings = $.fn.yiiListView.settings[id];
+		var customError,
+			settings = $.fn.yiiListView.settings[id];
+
+		if (options && options.error !== undefined) {
+			customError = options.error;
+			delete options.error;
+		}
+
 		$('#'+id).addClass(settings.loadingClass);
 		options = $.extend({
 			type: 'GET',
@@ -109,9 +116,42 @@
 					settings.afterAjaxUpdate(id, data);
 				$('#'+id).removeClass(settings.loadingClass);
 			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			error: function(XHR, textStatus, errorThrown) {
+				var ret, err;
 				$('#'+id).removeClass(settings.loadingClass);
-				alert(XMLHttpRequest.responseText);
+				if (XHR.readyState === 0 || XHR.status === 0) {
+					return;
+				}
+				if (customError !== undefined) {
+					ret = customError(XHR);
+					if (ret !== undefined && !ret) {
+						return;
+					}
+				}
+				switch (textStatus) {
+				case 'timeout':
+					err = 'The request timed out!';
+					break;
+				case 'parsererror':
+					err = 'Parser error!';
+					break;
+				case 'error':
+					if (XHR.status && !/^\s*$/.test(XHR.status)) {
+						err = 'Error ' + XHR.status;
+					} else {
+						err = 'Error';
+					}
+					if (XHR.responseText && !/^\s*$/.test(XHR.responseText)) {
+						err = err + ': ' + XHR.responseText;
+					}
+					break;
+				}
+
+				if (settings.ajaxUpdateError !== undefined) {
+					settings.ajaxUpdateError(XHR, textStatus, errorThrown, err);
+				} else if (err) {
+					alert(err);
+				}
 			}
 		}, options || {});
 
