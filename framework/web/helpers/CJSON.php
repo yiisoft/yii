@@ -322,14 +322,16 @@ class CJSON
 	*/
 	public static function decode($str, $useArray=true)
 	{
-		if(function_exists('json_decode'))
+		if(function_exists('json_decode')) 
+		{
 			$json = json_decode($str,$useArray);
 
-		// based on investigation, native fails sometimes returning null.
-		// see: http://gggeek.altervista.org/sw/article_20070425.html
-		// As of PHP 5.3.6 it still fails on some valid JSON strings
-		if(!is_null($json))
-			return $json;
+			// based on investigation, native fails sometimes returning null.
+			// see: http://gggeek.altervista.org/sw/article_20070425.html
+			// As of PHP 5.3.6 it still fails on some valid JSON strings
+			if(!is_null($json))
+				return $json;
+		}
 
 		$str = self::reduceString($str);
 
