@@ -205,7 +205,7 @@ class CCompareValidator extends CValidator
 		$message=strtr($message,array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
 			'{compareValue}'=>$compareTo,
-			'{compareAttribute}'=>$object->getAttributeLabel($compareAttribute),
+			'{compareAttribute}'=>$compareTo,
 		));
 
 		return "
