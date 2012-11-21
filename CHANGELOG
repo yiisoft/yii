@@ -33,6 +33,7 @@ Version 1.1.13 work in progress
 - Bug #1499: Fixed CVarDumper highlighting "\" (antoncpu)
 - Bug #1552: Fixed potential vulnerability in CJavaScript::encode(): $safe parameter didn't used to be passed to the recursive method calls (resurtm)
 - Bug #1584: Fixed CGridView and CListView urls when enableHistory was used with "path" urlFormat (mdomba)
+- Bug #1621: Fixed CCompareValidator to support {compareAttribute} in $message also on client-side (cebe)
 - Bug #1622: CLocale::getTerritory() used to return invalid territory name when locales (language tags) were specified without territory part (e.g. 'de', 'fr') (resurtm)
 - Bug #1624: Requirements page now tries all other preferred languages when the most preferred one is missing (ArtVal)
 - Bug #1625: CEmailLogRoute does not properly encode UTF8 characters contained in logs, CEmailLogRoute::$utf8 property added (mdomba, resurtm)
