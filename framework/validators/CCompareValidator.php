@@ -209,7 +209,7 @@ class CCompareValidator extends CValidator
 
 		return "
 if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
-	messages.push(".CJSON::encode($message).".replace('{compareValue}', ".$compareValue.");
+	messages.push(".CJSON::encode($message).".replace('{compareValue}', ".$compareValue."));
 }
 ";
 	}
