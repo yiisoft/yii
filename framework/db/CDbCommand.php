@@ -307,7 +307,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return integer number of rows affected by the execution.
 	 * @throws CException execution failed
 	 */
@@ -365,7 +366,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return CDbDataReader the reader object for fetching the query result
 	 * @throws CException execution failed
 	 */
@@ -382,7 +384,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return array all rows of the query result. Each array element is an array representing a row.
 	 * An empty array is returned if the query results in nothing.
 	 * @throws CException execution failed
@@ -401,7 +404,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return mixed the first row (in terms of an array) of the query result, false if no result.
 	 * @throws CException execution failed
 	 */
@@ -418,7 +422,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return mixed the value of the first column in the first row of the query result. False is returned if there is no value.
 	 * @throws CException execution failed
 	 */
@@ -439,7 +444,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return array the first column of the query result. Empty array if no result.
 	 * @throws CException execution failed
 	 */
@@ -453,9 +459,10 @@ class CDbCommand extends CComponent
 	 * @param mixed $mode parameters to be passed to the method
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
-	 * them in this way can improve the performance. Note that you pass parameters in this way,
+	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return mixed the method execution result
 	 */
 	private function queryInternal($method,$mode,$params=array())
