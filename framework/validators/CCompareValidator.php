@@ -204,13 +204,12 @@ class CCompareValidator extends CValidator
 
 		$message=strtr($message,array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
-			'{compareValue}'=>$compareTo,
 			'{compareAttribute}'=>$compareTo,
 		));
 
 		return "
 if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
-	messages.push(".CJSON::encode($message).");
+	messages.push(".CJSON::encode($message).".replace('{compareValue}', ".$compareValue."));
 }
 ";
 	}
