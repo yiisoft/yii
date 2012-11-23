@@ -271,4 +271,12 @@ class CPostgresTest extends CTestCase
 		$this->assertEquals('Hashed password',$usersColumns['password']->comment);
 		$this->assertEquals('',$usersColumns['email']->comment);
 	}
+
+	public function testTableComments()
+	{
+		$this->assertEquals('Users information table',$this->db->schema->getTable('test.users')->comment);
+		$this->assertEquals("User profiles.\nNewline.\n\nTwo new lines.",$this->db->schema->getTable('test.profiles')->comment);
+		$this->assertEquals('',$this->db->schema->getTable('test.posts')->comment);
+		$this->assertEquals('',$this->db->schema->getTable('test.comments')->comment);
+	}
 }

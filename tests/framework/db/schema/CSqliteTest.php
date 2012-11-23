@@ -279,4 +279,24 @@ class CSqliteTest extends CTestCase
 		$this->assertArrayHasKey('profiles_renamed',$this->db->schema->tables);
 		$this->assertArrayHasKey('users_renamed',$this->db->schema->tables);
 	}
+
+	public function testColumnComments()
+	{
+		$usersColumns=$this->db->schema->tables['users']->columns;
+
+		$this->assertEquals(null,$usersColumns['id']->comment);
+		$this->assertEquals(null,$usersColumns['username']->comment);
+		$this->assertEquals(null,$usersColumns['password']->comment);
+		$this->assertEquals(null,$usersColumns['email']->comment);
+	}
+
+	public function testTableComments()
+	{
+		$tables=$this->db->schema->tables;
+
+		$this->assertEquals(null,$tables['users']->comment);
+		$this->assertEquals(null,$tables['profiles']->comment);
+		$this->assertEquals(null,$tables['posts']->comment);
+		$this->assertEquals(null,$tables['comments']->comment);
+	}
 }

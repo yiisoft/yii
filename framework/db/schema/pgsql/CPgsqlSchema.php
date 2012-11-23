@@ -106,6 +106,7 @@ class CPgsqlSchema extends CDbSchema
 	{
 		$table=new CPgsqlTableSchema;
 		$this->resolveTableNames($table,$name);
+		$this->resolveTableComment($table,$name);
 		if(!$this->findColumns($table))
 			return null;
 		$this->findConstraints($table);
@@ -152,6 +153,18 @@ class CPgsqlSchema extends CDbSchema
 			$table->rawName=$this->quoteTableName($tableName);
 		else
 			$table->rawName=$this->quoteTableName($schemaName).'.'.$this->quoteTableName($tableName);
+	}
+
+	/**
+	 * Retrieves table comment by its name.
+	 * @param CPgsqlTableSchema $table the table instance
+	 * @param string $name the unquoted table name
+	 */
+	protected function resolveTableComment($table,$name)
+	{
+		$row=$this->getDbConnection()->createCommand("SELECT obj_description(oid) FROM pg_class WHERE relname=:name AND relkind='r';")
+			->queryRow(true,array(':name'=>$table->name));
+		$table->comment=$row['obj_description'];
 	}
 
 	/**

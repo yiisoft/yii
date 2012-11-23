@@ -13,6 +13,7 @@ CREATE TABLE test.users
 	email VARCHAR(128) NOT NULL
 );
 
+COMMENT ON TABLE test.users IS 'Users information table';
 COMMENT ON COLUMN test.users.username IS 'Name of the user';
 COMMENT ON COLUMN test.users.password IS 'Hashed password';
 
@@ -44,6 +45,8 @@ CREATE TABLE test.profiles
 	CONSTRAINT FK_profile_user FOREIGN KEY (user_id)
 		REFERENCES test.users (id) ON DELETE CASCADE ON UPDATE RESTRICT
 );
+
+COMMENT ON TABLE test.profiles IS E'User profiles.\nNewline.\n\nTwo new lines.';
 
 INSERT INTO test.profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1);
 INSERT INTO test.profiles (first_name, last_name, user_id) VALUES ('first 2','last 2',2);

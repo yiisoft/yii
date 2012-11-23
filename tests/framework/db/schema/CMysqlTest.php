@@ -302,4 +302,14 @@ class CMysqlTest extends CTestCase
 		$this->assertEquals('Hashed password',$usersColumns['password']->comment);
 		$this->assertEquals('',$usersColumns['email']->comment);
 	}
+
+	public function testTableComments()
+	{
+		$tables=$this->db->schema->tables;
+
+		$this->assertEquals('Users information table',$tables['users']->comment);
+		$this->assertEquals("User profiles.\nNewline.\n\nTwo new lines.",$tables['profiles']->comment);
+		$this->assertEquals('',$tables['posts']->comment);
+		$this->assertEquals('',$tables['comments']->comment);
+	}
 }

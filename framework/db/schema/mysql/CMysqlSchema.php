@@ -115,6 +115,7 @@ class CMysqlSchema extends CDbSchema
 	{
 		$table=new CMysqlTableSchema;
 		$this->resolveTableNames($table,$name);
+		$this->resolveTableComment($table,$name);
 
 		if($this->findColumns($table))
 		{
@@ -144,6 +145,18 @@ class CMysqlSchema extends CDbSchema
 			$table->name=$parts[0];
 			$table->rawName=$this->quoteTableName($table->name);
 		}
+	}
+
+	/**
+	 * Retrieves table comment by its name.
+	 * @param CMysqlTableSchema $table the table instance
+	 * @param string $name the unquoted table name
+	 */
+	protected function resolveTableComment($table,$name)
+	{
+		$row=$this->getDbConnection()->createCommand('SHOW TABLE STATUS WHERE Name=:name')
+			->queryRow(true,array(':name'=>$name));
+		$table->comment=$row['Comment'];
 	}
 
 	/**
