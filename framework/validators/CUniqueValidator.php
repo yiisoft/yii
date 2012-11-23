@@ -68,7 +68,21 @@ class CUniqueValidator extends CValidator
 	 * @since 1.1.1
 	 */
 	public $skipOnError=true;
-
+	/**
+	 * @var CActiveRecord the AR class finder that should be used to look for the attribute value being validated.
+	 * Defaults to null, meaning that the standard finder (its name specified in {@link $className}) will be used.
+	 * If this property is not null {@link $className} will be ignored at all. This is useful when you have
+	 * to cache validation data. Example:
+	 * <pre>
+	 * array(
+	 *   'itemId',
+	 *   'unique',
+	 *   'finder'=>Item::model()->namedScope()->cache(3600,new CDbCacheDependency('SELECT MAX(updated_at) FROM {{item}}')),
+	 *   'attributeName'=>'id',
+	 * ),
+	 * @since 1.1.13
+	 */
+	public $finder;
 
 	/**
 	 * Validates the attribute of the object.
@@ -84,7 +98,7 @@ class CUniqueValidator extends CValidator
 
 		$className=$this->className===null?get_class($object):Yii::import($this->className);
 		$attributeName=$this->attributeName===null?$attribute:$this->attributeName;
-		$finder=CActiveRecord::model($className);
+		$finder=$this->finder===null?CActiveRecord::model($className):$this->finder;
 		$table=$finder->getTableSchema();
 		if(($column=$table->getColumn($attributeName))===null)
 			throw new CException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
