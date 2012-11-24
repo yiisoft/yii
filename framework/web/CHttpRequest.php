@@ -792,33 +792,33 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the array of user preferred languages in order of preference.
-	 * The returned language IDs will NOT be canonicalized.
-	 * This method returns false if the user does not have language preferences.
-	 * @return array the user preferred languages in order of preference.
+	 * Returns an array of user accepted languages in order of preference.
+	 * The returned language IDs will NOT be canonicalized using {@link CLocale::getCanonicalID}.
+	 * @return array the user accepted languages in order of preference or false
+	 * if the user does not have any language preferences.
 	 */
 	public function getPreferredLanguages()
 	{
 		if($this->_preferredLanguages===null)
 		{
-			$sortedLanguages = array();
+			$sortedLanguages=array();
 			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-_]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))>0)
 			{
 				$languages=array();
 				for($i=0;$i<$n;++$i) {
-					$prefVal=empty($matches[3][$i]) ? (1.0 + $pref) : (floatval($matches[3][$i]) + $pref);
-					if (!isset($languages[$matches[1][$i]]) || $languages[$matches[1][$i]][0] < $prefVal) {
-						$languages[$matches[1][$i]][0] = $prefVal;
-						$languages[$matches[1][$i]][1] = $i;
-						$languages[$matches[1][$i]][2] = $matches[1][$i];
+					$prefVal=empty($matches[3][$i]) ? (1.0 + $pref) : (floatval($matches[3][$i])+$pref);
+					if(!isset($languages[$matches[1][$i]]) || $languages[$matches[1][$i]][0]<$prefVal)
+					{
+						$languages[$matches[1][$i]][0]=$prefVal;
+						$languages[$matches[1][$i]][1]=$i;
+						$languages[$matches[1][$i]][2]=$matches[1][$i];
 					}
 				}
-				usort($languages, create_function('$a, $b', 'if ($a[0] < $b[0]) { return 1; } else if ($a[0] > $b[0]) { return -1; } else if ($a[1] < $b[1]) { return -1; } else if($a[1] > $b[1]) { return 1; } else { return 0; }'));
-				for($i=0;$i<count($languages);$i++) {
-					$sortedLanguages[] = $languages[$i][2];
-				}
+				usort($languages,create_function('$a, $b','if($a[0]< $b[0]){ return 1; } elseif($a[0]>$b[0]){ return -1; } elseif($a[1]<$b[1]){ return -1; } elseif($a[1]>$b[1]){ return 1; } else { return 0; }'));
+				for($i=0,$count=$languages;$i<$count;$i++)
+					$sortedLanguages[]=$languages[$i][2];
 			}
-			$this->_preferredLanguages = $sortedLanguages;
+			$this->_preferredLanguages=$sortedLanguages;
 		}
 		return $this->_preferredLanguages;
 	}
@@ -826,13 +826,12 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns the user preferred language.
 	 * The returned language ID will be canonicalized using {@link CLocale::getCanonicalID}.
-	 * This method returns false if the user does not have language preference.
-	 * @return string the user preferred language.
+	 * @return string the user preferred language or false if the user does not have any.
 	 */
 	public function getPreferredLanguage()
 	{
-		$preferredLanguages = $this->getPreferredLanguages();
-		return (count($preferredLanguages) > 0) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
+		$preferredLanguages=$this->getPreferredLanguages();
+		return !empty($preferredLanguages) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
 	}
 
 	/**
