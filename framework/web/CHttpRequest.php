@@ -51,6 +51,7 @@
  * @property integer $securePort Port number for secure requests.
  * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
  * @property string $preferredLanguage The user preferred language.
+ * @property array $preferredLanguages An array of all user accepted languages in order of preference.
  * @property string $csrfToken The random token for CSRF validation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -92,7 +93,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_hostInfo;
 	private $_baseUrl;
 	private $_cookies;
-	private $_preferredLanguage;
+	private $_preferredLanguages;
 	private $_csrfToken;
 	private $_restParams;
 
@@ -791,6 +792,38 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the array of user preferred languages in order of preference.
+	 * The returned language IDs will NOT be canonicalized.
+	 * This method returns false if the user does not have language preferences.
+	 * @return array the user preferred languages in order of preference.
+	 */
+	public function getPreferredLanguages()
+	{
+		if($this->_preferredLanguages===null)
+		{
+			$sortedLanguages = array();
+			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-_]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))>0)
+			{
+				$languages=array();
+				for($i=0;$i<$n;++$i) {
+					$prefVal=empty($matches[3][$i]) ? (1.0 + $pref) : (floatval($matches[3][$i]) + $pref);
+					if (!isset($languages[$matches[1][$i]]) || $languages[$matches[1][$i]][0] < $prefVal) {
+						$languages[$matches[1][$i]][0] = $prefVal;
+						$languages[$matches[1][$i]][1] = $i;
+						$languages[$matches[1][$i]][2] = $matches[1][$i];
+					}
+				}
+				usort($languages, create_function('$a, $b', 'if ($a[0] < $b[0]) { return 1; } else if ($a[0] > $b[0]) { return -1; } else if ($a[1] < $b[1]) { return -1; } else if($a[1] > $b[1]) { return 1; } else { return 0; }'));
+				for($i=0;$i<count($languages);$i++) {
+					$sortedLanguages[] = $languages[$i][2];
+				}
+			}
+			$this->_preferredLanguages = $sortedLanguages;
+		}
+		return $this->_preferredLanguages;
+	}
+
+	/**
 	 * Returns the user preferred language.
 	 * The returned language ID will be canonicalized using {@link CLocale::getCanonicalID}.
 	 * This method returns false if the user does not have language preference.
@@ -798,20 +831,8 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getPreferredLanguage()
 	{
-		if($this->_preferredLanguage===null)
-		{
-			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-_]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))>0)
-			{
-				$languages=array();
-				for($i=0;$i<$n;++$i)
-					$languages[$matches[1][$i]]=empty($matches[3][$i]) ? 1.0 : floatval($matches[3][$i]);
-				arsort($languages);
-				foreach($languages as $language=>$pref)
-					return $this->_preferredLanguage=CLocale::getCanonicalID($language);
-			}
-			return $this->_preferredLanguage=false;
-		}
-		return $this->_preferredLanguage;
+		$preferredLanguages = $this->getPreferredLanguages();
+		return (count($preferredLanguages) > 0) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
 	}
 
 	/**
