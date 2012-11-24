@@ -1,7 +1,7 @@
 Yii Documentation
 =================
 
-This directory contains framework ducumentation. Currently it's
+This directory contains framework documentation. Currently it's
 "The Definitive Guide to Yii" and "The Yii Blog Tutorial".
 
 You can point your webserver webroot to this directory and view documentation
