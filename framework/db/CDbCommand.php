@@ -1050,6 +1050,13 @@ class CDbCommand extends CComponent
 	 * Columns can be specified in either a string (e.g. "id ASC, name DESC") or an array (e.g. array('id ASC', 'name DESC')).
 	 * The method will automatically quote the column names unless a column contains some parenthesis
 	 * (which means the column contains a DB expression).
+	 *
+	 * For example, to get "ORDER BY 1" you should use
+	 *
+	 * <pre>
+	 * $criteria->order('(1)');
+	 * </pre>
+	 *
 	 * @return CDbCommand the command object itself
 	 * @since 1.1.6
 	 */
