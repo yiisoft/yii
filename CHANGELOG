@@ -33,6 +33,7 @@ Version 1.1.13 work in progress
 - Bug #1492: Fixed jQuery calls when noConflict feature was used and jQuery code was returned by ajax calls (l-nagash)
 - Bug #1499: Fixed CVarDumper highlighting "\" (antoncpu)
 - Bug #1552: Fixed potential vulnerability in CJavaScript::encode(): $safe parameter didn't used to be passed to the recursive method calls (resurtm)
+- Bug #1575: MessageCommand::extractMessages fails to ignore invalid category definitions (softark)
 - Bug #1584: Fixed CGridView and CListView urls when enableHistory was used with "path" urlFormat (mdomba)
 - Bug #1621: Fixed CCompareValidator to support {compareAttribute} in $message also on client-side (cebe)
 - Bug #1622: CLocale::getTerritory() used to return invalid territory name when locales (language tags) were specified without territory part (e.g. 'de', 'fr') (resurtm)
