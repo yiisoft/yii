@@ -142,5 +142,3 @@ class MyWidget extends CWidget
 Yii предоставляет стандартный набор системных представлений, расположенных в
 `framework/views`. Их можно изменить, создав файлы представлений с
 теми же названиями в директории `protected/views/system`.
-
-<div class="revision">$Id: basics.view.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

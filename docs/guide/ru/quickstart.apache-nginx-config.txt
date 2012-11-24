@@ -82,5 +82,3 @@ server {
 ~~~
 Используя данную конфигурацию, можно в файле php.ini установить опцию
 cgi.fix_pathinfo=0 во избежание множества нежелательных системных вызовов stat().
-
-<div class="revision">$Id: quickstart.apache-nginx-config.txt 3512 2011-12-27 16:50:03Z haertl.mike $</div>

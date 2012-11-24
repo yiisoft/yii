@@ -137,5 +137,3 @@ public function actionIndex()
 Мы указываем отображение `_view`, то есть файл
 `/wwwroot/blog/protected/views/post/_view.php`, в котором мы можем
 обращаться к записи через переменную `$data`.
-
-<div class="revision">$Id: post.display.txt 2121 2010-05-10 01:31:30Z qiang.xue $</div>

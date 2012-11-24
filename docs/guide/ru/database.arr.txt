@@ -513,6 +513,16 @@ $posts=Post::model()->findAll(array(
 соответствует имени связи. `recently` и `approved` — именованные группы, описанные
 в модели `Comment`. Имя связи и группы условий разделяются двоеточием.
 
+Вам может понадобится использовать вместо жадной выборку отложенную для
+связи с группой условий. Синтаксис для этого такой:
+
+~~
+[php]
+// имя связи comments повторяется два раза
+$approvedComments = $post->comments('comments:approved');
+~~
+
+
 Именованные группы могут быть использованы при описании связей модели в
 методе [CActiveRecord::relations()] в параметре `with`. В следующем примере
 при обращении к `$user->posts` вместе с публикациями будут получены все
@@ -569,6 +579,22 @@ $users=User::model()->findAll(array(
 		),
 	),
 ));
+
+class Post extends CActiveRecord
+{
+	......
+
+	public function rated($rating)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'condition'=>'rating=:rating',
+			'params'=>array(':rating'=>$rating),
+		));
+		return $this;
+	}
+
+	......
+}
 ~~~
 
 Реляционные запросы с through
@@ -703,5 +729,3 @@ class User extends CActiveRecord
 $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
-
-<div class="revision">$Id: database.arr.txt 3523 2011-12-30 20:32:29Z alexander.makarow $</div>

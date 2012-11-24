@@ -40,6 +40,3 @@ return array(
 журналируемых сообщений в окне JavaScript-консоли и др. За деталями обратитесь
 к разделу [журналирование](/doc/guide/ru/topics.logging)
 руководства.
-
-
-<div class="revision">$Id: final.logging.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>

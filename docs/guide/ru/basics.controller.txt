@@ -323,5 +323,3 @@ class PostController extends CController
 применён к действиям `edit` и `create`, а `PerformanceFilter` — ко всем действиям,
 *кроме* `edit` и `create`. Если операторы `'+'` и `'-'` не указаны, фильтр будет
 применён ко всем действиям.
-
-<div class="revision">$Id: basics.controller.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

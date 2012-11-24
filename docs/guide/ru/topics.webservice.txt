@@ -209,5 +209,3 @@ class PostController extends CController
 текущий экземпляр [CWebService]. Через [CWebService::methodName] — название
 вызываемого метода. Если метод по каким либо причинам (например, отсутствие прав
 на его выполнение) не должен быть вызван, необходимо вернуть false.
-
-<div class="revision">$Id$</div>
