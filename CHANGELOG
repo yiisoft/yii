@@ -100,6 +100,7 @@ Version 1.1.13 work in progress
 - Chg: Added Oracle unit tests (resurtm)
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
 - Chg: Added punycode.js v1.1.1 (http://mths.be/punycode) and IDNA Converter v0.8.0 (http://phlymail.com/en/downloads/idna-convert.html) to the vendors (third party libraries and utilities) (resurtm)
+- New: Ported offline documentation viewer from yiidoc project. Mainly usable for translations but can be used for reading offline as well (samdark)
 
 Version 1.1.12 August 19, 2012
 ------------------------------
