@@ -81,7 +81,7 @@ public function filters()
 `Last-Modified` при помощи выражения PHP.
 
 > Tip|Подсказка: Как [CHttpCacheFilter::lastModifiedExpression], так и
-[CHttpCacheFilter::lastModified] могут быть принимать как Unix timestamp в виде
+[CHttpCacheFilter::lastModified] могут принимать как Unix timestamp в виде
 целого числа, так и дату строкой в понятном человеку формате. Если дату может
 разобрать [strtotime()](http://php.net/manual/ru/function.strtotime.php), то
 никаких дополнительных преобразований не требуется.
