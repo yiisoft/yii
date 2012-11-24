@@ -8,6 +8,7 @@ return array(
 	'messagePath'=>dirname(__FILE__),
 	'languages'=>array('zh_cn','zh_tw','de','es','el','sv','he','nl','pt','ru','it','fr','ja','pl','hu','ro','id','vi','bg','uk','cs'),
 	'fileTypes'=>array('php'),
+	'overwrite'=>true,
 	'translator'=>'t',
 	'exclude'=>array(
 		'.gitignore',
