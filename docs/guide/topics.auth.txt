@@ -509,8 +509,8 @@ Once we have established this hierarchy, the [authManager|CWebApplication::authM
 items automatically. Therefore, we only need to run the above code one time, and NOT for every request.
 
 > Info: While the above example looks long and tedious, it is mainly for
-> demonstrative purpose. Developers will usually need to develop some administrative user
-> interfaces so that end users can use to establish an authorization
+> demonstrative purposes. Developers will usually need to develop some administrative user
+> interfaces so that end users can establish an authorization
 > hierarchy more intuitively.
 
 
