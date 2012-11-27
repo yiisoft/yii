@@ -85,7 +85,7 @@ Version 1.1.13 work in progress
 - Enh #1535: HTML5 special attributes added to CHtml::renderAttributes() (creocoder)
 - Enh #1538: Added CListView::ajaxUpdateError for the possibility to use a custom ajax error handler (mdomba)
 - Enh #1567: Added filterSelector property to CGridView (MonkeyMaster)
-- Enh #1581: Added an option 'unselectValue' to CHtml::dropDownList() and CHtml::activeDropDownList() to define default post value if option is not selected in multiple mode (creocoder)
+- Enh #1581: Added 'unselectValue' to CHtml::dropDownList() and CHtml::activeDropDownList() to define default post value if no option is selected in multiple mode (creocoder, mdomba)
 - Enh #1596: Added CGridView::rowHtmlOptionsExpression to allow set HTML attributes for the row (Ryadnov)
 - Enh #1657: CDbCommandBuilder::createUpdateCounterCommand now can be used with float values (samdark, hyzhakus)
 - Enh #1658: CFormatter::formatHtml() is now more flexible and customizable through new CFormatter::$htmlPurifierOptions property (resurtm)
