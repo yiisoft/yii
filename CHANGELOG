@@ -42,7 +42,7 @@ Version 1.1.13 work in progress
 - Bug #1628: Active HTTP sessions overwrote the Cache-Control header set by CHttpCacheFilter (DaSourcerer)
 - Bug #1646: CLocale::getTerritory() used to return invalid territory name when locales (language tags) were specified with script part (e.g. 'zh-Hans-CN', 'zh-Hant-HK') (resurtm)
 - Bug #1652: Fixed incorrect syntax of CDbSchema::renameTable() for SQLite, added CSqliteSchema::renameTable() method (Sarke)
-- Bug #1673: CHttpRequest::getPreferredLanguage was selecting wrong language sometimes. Also added CHttpRequest::getPreferredLanguages that returns all user accepted languages in order of preference (Rupert-RR, bwoester, cebe, samdark)
+- Bug #1673: CHttpRequest::getPreferredLanguage now works according to RFC2616. Added CHttpRequest::getPreferredLanguages that returns all user accepted languages in order of preference (Rupert-RR, bwoester, cebe, samdark)
 - Bug #1676: Fixed listData() grouping when no group was specified (mdomba)
 - Bug #1726: Fixed the error Undefined variable: json in CJSON.php when json_decode function did not exist (heyhoo)
 - Bug: Table schema is refreshed on Gii model generation when schemaCachingDuration is used (SonkoDmitry)
