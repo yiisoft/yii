@@ -138,7 +138,7 @@ class CWsdlGenerator extends CComponent
 		if($this->serviceName===null)
 			$this->serviceName=$className;
 		if($this->namespace===null)
-			$this->namespace="urn:{$className}wsdl";
+			$this->namespace='urn:'.str_replace('\\','/',$className).'wsdl';
 
 		$reflection=new ReflectionClass($className);
 		foreach($reflection->getMethods() as $method)
