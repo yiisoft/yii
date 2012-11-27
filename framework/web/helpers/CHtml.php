@@ -882,6 +882,12 @@ class CHtml
 	 * the checkbox list.</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
+	 * <li>labelItemOptions: array, specifies the additional HTML attributes to be rendered
+	 * for individual label tags in the list. The array keys must be the checkbox values
+	 * and the array values are the extra LABEL tag attributes.</li>
+	 * <li>checkBoxOptions: array, specifies the additional HTML attributes to be rendered
+	 * for individual checkboxe tags in the list. The array keys must be the checkbox values
+	 * and the array values are the extra INPUT tag attributes.</li>
 	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to 'span'.
 	 * If the value is an empty string, no enclosing tag will be generated</li>
 	 * </ul>
@@ -906,6 +912,10 @@ class CHtml
 
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
 		unset($htmlOptions['labelOptions']);
+		$labelItemOptions=isset($htmlOptions['labelItemOptions'])?$htmlOptions['labelItemOptions']:array();
+		unset($htmlOptions['labelItemOptions']);
+		$checkBoxOptions=isset($htmlOptions['checkBoxOptions'])?$htmlOptions['checkBoxOptions']:array();
+		unset($htmlOptions['checkBoxOptions']);
 
 		$items=array();
 		$baseID=self::getIdByName($name);
@@ -916,10 +926,12 @@ class CHtml
 		{
 			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
 			$checkAll=$checkAll && $checked;
-			$htmlOptions['value']=$value;
-			$htmlOptions['id']=$baseID.'_'.$id++;
-			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
+			$checkItemOptions=array_merge($htmlOptions,isset($checkBoxOptions[$value])?$checkBoxOptions[$value]:array());
+			$checkItemLabelOptions=array_merge($labelOptions,isset($labelItemOptions[$value])?$labelItemOptions[$value]:array());
+			$checkItemOptions['value']=$value;
+			$checkItemOptions['id']=$baseID.'_'.$id++;
+			$option=self::checkBox($name,$checked,$checkItemOptions);
+			$label=self::label($label,$checkItemOptions['id'],$checkItemLabelOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 
