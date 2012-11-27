@@ -886,7 +886,7 @@ class CHtml
 	 * for individual label tags in the list. The array keys must be the checkbox values
 	 * and the array values are the extra LABEL tag attributes.</li>
 	 * <li>checkBoxOptions: array, specifies the additional HTML attributes to be rendered
-	 * for individual checkboxe tags in the list. The array keys must be the checkbox values
+	 * for individual checkbox tags in the list. The array keys must be the checkbox values
 	 * and the array values are the extra INPUT tag attributes.</li>
 	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to 'span'.
 	 * If the value is an empty string, no enclosing tag will be generated</li>
