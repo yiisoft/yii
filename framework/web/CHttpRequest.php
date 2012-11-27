@@ -794,29 +794,30 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns an array of user accepted languages in order of preference.
 	 * The returned language IDs will NOT be canonicalized using {@link CLocale::getCanonicalID}.
-	 * @return array the user accepted languages in order of preference or false
-	 * if the user does not have any language preferences.
+	 * @return array the user accepted languages in the order of preference.
+	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.4}
 	 */
 	public function getPreferredLanguages()
 	{
 		if($this->_preferredLanguages===null)
 		{
 			$sortedLanguages=array();
-			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-_]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))>0)
+			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $n=preg_match_all('/([\w\-_]+)(?:\s*;\s*q\s*=\s*(\d*\.?\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))
 			{
 				$languages=array();
-				for($i=0;$i<$n;++$i) {
-					$prefVal=empty($matches[3][$i]) ? (1.0 + $pref) : (floatval($matches[3][$i])+$pref);
-					if(!isset($languages[$matches[1][$i]]) || $languages[$matches[1][$i]][0]<$prefVal)
-					{
-						$languages[$matches[1][$i]][0]=$prefVal;
-						$languages[$matches[1][$i]][1]=$i;
-						$languages[$matches[1][$i]][2]=$matches[1][$i];
-					}
+
+				for($i=0;$i<$n;++$i)
+				{
+					$q=$matches[2][$i];
+					if($q==='')
+						$q=1;
+					if($q)
+						$languages[]=array((float)$q,$matches[1][$i]);
 				}
-				usort($languages,create_function('$a, $b','if($a[0]< $b[0]){ return 1; } elseif($a[0]>$b[0]){ return -1; } elseif($a[1]<$b[1]){ return -1; } elseif($a[1]>$b[1]){ return 1; } else { return 0; }'));
-				for($i=0,$count=$languages;$i<$count;$i++)
-					$sortedLanguages[]=$languages[$i][2];
+
+				usort($languages,create_function('$a,$b','if($a[0]==$b[0]) {return 0;} return ($a[0]<$b[0]) ? 1 : -1;'));
+				foreach($languages as $language)
+					$sortedLanguages[]=$language[1];
 			}
 			$this->_preferredLanguages=$sortedLanguages;
 		}
