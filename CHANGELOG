@@ -29,6 +29,7 @@ Version 1.1.13 work in progress
 - Bug #1406: Fixed the issue that false value returned from CDbCommand could not be cached properly (mdomba)
 - Bug #1407: CDbCommandBuilder::createCountCommand() used to bind parameters for unused ORDER clause and unused SELECT part (resurtm)
 - Bug #1444: Fixed CGoogleApi::register call to registerScriptFile (mdomba)
+- Bug #1478: Fixed CWsdlGenerator error when using namespaced classes (Diego-Rocha)
 - Bug #1485: CSort does not quote table alias when using CDbCriteria (undsoft)
 - Bug #1492: Fixed jQuery calls when noConflict feature was used and jQuery code was returned by ajax calls (l-nagash)
 - Bug #1499: Fixed CVarDumper highlighting "\" (antoncpu)
