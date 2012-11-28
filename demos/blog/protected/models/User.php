@@ -37,8 +37,8 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, salt, email', 'required'),
-			array('username, password, salt, email', 'length', 'max'=>128),
+			array('username, password, email', 'required'),
+			array('username, password, email', 'length', 'max'=>128),
 			array('profile', 'safe'),
 		);
 	}
@@ -64,7 +64,6 @@ class User extends CActiveRecord
 			'id' => 'Id',
 			'username' => 'Username',
 			'password' => 'Password',
-			'salt' => 'Salt',
 			'email' => 'Email',
 			'profile' => 'Profile',
 		);
@@ -77,26 +76,36 @@ class User extends CActiveRecord
 	 */
 	public function validatePassword($password)
 	{
-		return $this->hashPassword($password,$this->salt)===$this->password;
+		return crypt($password,$this->password)===$this->password;
 	}
 
 	/**
 	 * Generates the password hash.
 	 * @param string password
-	 * @param string salt
 	 * @return string hash
 	 */
-	public function hashPassword($password,$salt)
+	public function hashPassword($password)
 	{
-		return md5($salt.$password);
+		return crypt($password, $this->generateSalt());
 	}
 
 	/**
 	 * Generates a salt that can be used to generate a password hash.
+	 * @param int cost parameter for Blowfish hash algorithm
 	 * @return string the salt
 	 */
-	protected function generateSalt()
+	protected function generateSalt($cost=10)
 	{
-		return uniqid('',true);
+		if(!is_numeric($cost)||$cost<4||$cost>31){
+			throw new CException(Yii::t('Cost parameter must be between 4 and 31.'));
+		}
+		$rand=array();
+		for($i=0;$i<8;++$i)
+			$rand[]=pack('S',mt_rand(0,0xffff));
+		$rand[]=substr(microtime(),2,6);
+		$rand=sha1(implode('',$rand),true);
+		$salt='$2a$'.str_pad((int)$cost,2,'0',STR_PAD_RIGHT).'$';
+		$salt.=strtr(substr(base64_encode($rand),0,22),array('+'=>'.'));
+		return $salt;
 	}
 }

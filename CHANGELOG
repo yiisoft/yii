@@ -60,6 +60,7 @@ Version 1.1.13 work in progress
 - Enh #846: Added addPrimaryKey() / dropPrimaryKey() commands to CDbMigration (ridget)
 - Enh #949: Added COciSchema::resetSequence (jazahn, samdark)
 - Enh #990: Added CArrayDataProvider::$caseSensitiveSort property which allows to control whether sorting should be case sensitive (resurtm)
+- Enh #999: Changed md5() to crypt() in docs/guide/topics.auth, docs/blog and demos/blog. Added Wiki 425 tutorial on use of crypt() (tom--)
 - Enh #1084: CDateTimeParser: MMM pattern for parsing short month names is now locale aware (resurtm)
 - Enh #1183: CDbCommand: added andWhere()/orWhere() which appends condition to the WHERE part of the query, in contrary of CDbCommand::where() which replaces it (resurtm)
 - Enh #1184: CEmailValidator now supports IDN (Internationalized Domain Names), added CEmailValidator::$validateIDN property (resurtm)

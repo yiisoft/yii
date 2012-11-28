@@ -84,7 +84,7 @@ identity information. If cookie-based login is enabled (by setting
 also be saved in cookie. Make sure you do not declare sensitive information
 (e.g. password) to be persistent.
 
-> Tip: Secure storage of user passwords in a database requires some care. An attacker that has stolen your user table can recover passwords using standard techniques if you don't protect against them. In particular you should salt the password be fore hashing and use a hash function that is computationally expensive. The above code example uses the PHP `crypt()` function, [this README](https://github.com/tom--/Randomness/blob/master/README.mkd) has full details on how it works.
+> Tip: Secure storage of user passwords in a database requires some care. An attacker that has stolen your user table can recover passwords using standard techniques if you don't protect against them. In particular you should salt the password be fore hashing and use a hash function that is computationally expensive. The above code example uses the built-in PHP `crypt()` function, for complete details see the Wiki article [http://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/](http://www.yiiframework.com/wiki/425).
 
 Login and Logout
 ----------------
