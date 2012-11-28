@@ -22,6 +22,9 @@ Upgrading from v1.1.12
 - Be sure to clean all your existing cache during the upgrade. The cache values from CDbCommand has been
   changed to an array to be able to store false values (returned when no records are found).
 
+- Make sure all your event handlers in behaviors are public methods, as we are not supporting protected methods as event handlers anymore.
+  Protected event handlers where possible in some cases but never officially supported.
+
 - We fixed the calls to CActiveRecord::beforeFind() for consistency so that beforeFind() now always gets called for every relation
   on eager loading even if the main query does not return a result. This has been the case for all CActiveRecord::find*()-methods
   already but now also applies for findBySql() and findAllBySql().
