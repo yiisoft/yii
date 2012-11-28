@@ -67,7 +67,7 @@ class CLogRouter extends CApplicationComponent
 			$this->_routes[$name]=$route;
 		}
 		Yii::getLogger()->attachEventHandler('onFlush',array($this,'collectLogs'));
-		register_shutdown_function(array($this,'processLogs'), new CEvent());
+		Yii::app()->attachEventHandler('onEndRequest',array($this,'processLogs'));
 	}
 
 	/**
