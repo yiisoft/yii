@@ -110,6 +110,9 @@ class CTypeValidator extends CValidator
 	 */
 	public function validateValue($value)
 	{
+		if(is_object($value) || is_bool($value))
+			return false;
+
 		if(is_array($value))
 			return $this->type==='array';
 
