@@ -19,6 +19,10 @@ General upgrade instructions
 
 Upgrading from v1.1.12
 ----------------------
+- We completed the behavior of CFormatter::sizeFormat() which has been introduced in Yii 1.1.11. If you are using it with your own translation file
+  you have to move your translations to the `yii` category in `yii.php` file  which is handled by the application component `coreMessages`.
+  We also fixed the default translation strings to be correct English and apply to choice format, so you have to adjust your translation file keys.
+
 - Be sure to clean all your existing cache during the upgrade. The cache values from CDbCommand has been
   changed to an array to be able to store false values (returned when no records are found).
 
