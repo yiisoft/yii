@@ -255,5 +255,16 @@ return array (
   '{controller} cannot find the requested view "{view}".' => '{controller} контролері "{view}" көрінісін таба алмады.',
   '{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.' => '{controller} контролерінің "{view}" көрінісінде қате ішке салынған виджеттер тегтері бар. {widget} виджетінде endWidget() шақыруы қолданылмайды.',
   '{controller} has an extra endWidget({id}) call in its view.' => '{controller} контролерінің көрінісінде endWidget({id}) артық шақыруы бар.',
+  // contrary to the russian language, in kazakh numerals are not declined
+  '{n} B' => '{n} Б',
+  '{n} byte|{n} bytes' => '{n} байт',
+  '{n} GB' => '{n} ГБ',
+  '{n} gigabyte|{n} gigabytes' => '{n} гигабайт',
+  '{n} KB' => '{n} КБ',
+  '{n} kilobyte|{n} kilobytes' => '{n} килобайт',
+  '{n} MB' => '{n} МБ',
+  '{n} megabyte|{n} megabytes' => '{n} мегабайт',
+  '{n} TB' => '{n} ТБ',
+  '{n} terabyte|{n} terabytes' => '{n} терабайт',
   '{widget} cannot find the view "{view}".' => '{widget} виджеті "{view}" көрінісін таба алмады.',
 );
