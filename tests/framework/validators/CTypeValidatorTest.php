@@ -121,6 +121,7 @@ class CTypeValidatorTest extends CTestCase
 		$validator->type='date';
 		$this->assertFalse($validator->validateValue(array(13)));
 
+		$this->assertFalse($validator->validateValue(42));
 		$this->assertFalse($validator->validateValue(true));
 		$this->assertFalse($validator->validateValue(false));
 		$this->assertFalse($validator->validateValue(new stdClass()));
@@ -132,6 +133,7 @@ class CTypeValidatorTest extends CTestCase
 		$validator->type='time';
 		$this->assertFalse($validator->validateValue(array(13)));
 
+		$this->assertFalse($validator->validateValue(42));
 		$this->assertFalse($validator->validateValue(true));
 		$this->assertFalse($validator->validateValue(false));
 		$this->assertFalse($validator->validateValue(new stdClass()));
@@ -143,6 +145,7 @@ class CTypeValidatorTest extends CTestCase
 		$validator->type='datetime';
 		$this->assertFalse($validator->validateValue(array(13)));
 
+		$this->assertFalse($validator->validateValue(42));
 		$this->assertFalse($validator->validateValue(true));
 		$this->assertFalse($validator->validateValue(false));
 		$this->assertFalse($validator->validateValue(new stdClass()));
