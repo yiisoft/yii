@@ -32,6 +32,7 @@ return array (
   'The button type "{type}" is not supported.' => 'ボタンタイプ"{type}"はサポートされていません。',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'カラムは"Name:Type:Label"という形式で指定しなければいけません。"Type"と"Label"は省略可能です。',
   'The property "itemView" cannot be empty.' => '"itemView"プロパティは空ではいけません。',
+  'The property filterSelector should be defined.' => 'filterSelector プロパティを指定しなければいけません。',
   'The property updateSelector should be defined.' => 'updateSelector プロパティを指定しなければいけません。',
   'Total 1 result.|Total {count} results.' => '合計{count}個',
   'Update' => '更新',
