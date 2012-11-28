@@ -48,4 +48,63 @@ class CBehaviorTest extends CTestCase {
         $model->enableBehaviors();
         $model->validate();
     }
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/162
+	 */
+	public function testDuplicateEventHandlers()
+	{
+		$controller = new BehaviorTestController('behaviorTest');
+
+		$b = new TestBehavior();
+		$b->attach($controller);
+		$b->setEnabled(true);
+
+		$controller->onTestEvent();
+		$this->assertEquals(1, $controller->behaviorEventHandled);
+
+		$b->setEnabled(false);
+		$controller->onTestEvent();
+		$this->assertEquals(1, $controller->behaviorEventHandled);
+
+		$b->setEnabled(true);
+		$controller->onTestEvent();
+		$this->assertEquals(2, $controller->behaviorEventHandled);
+
+		$b->detach($controller);
+		$controller->onTestEvent();
+		$this->assertEquals(2, $controller->behaviorEventHandled);
+
+		$b->setEnabled(true);
+		$controller->onTestEvent();
+		$this->assertEquals(2, $controller->behaviorEventHandled);
+	}
+}
+
+class BehaviorTestController extends CController
+{
+	public $behaviorEventHandled=0;
+
+	public function onTestEvent()
+	{
+		$this->raiseEvent("onTestEvent", new CEvent());
+	}
+}
+
+class TestBehavior extends CBehavior
+{
+	public function events()
+	{
+		return array(
+			'onTestEvent' => 'handleTest',
+		);
+	}
+
+	public function handleTest($event)
+	{
+		if (!($event instanceof CEvent)) {
+			throw new CException('event has to be instance of CEvent');
+		}
+		$this->owner->behaviorEventHandled++;
+	}
 }
