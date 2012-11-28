@@ -57,25 +57,34 @@ class CBehaviorTest extends CTestCase {
 		$controller = new BehaviorTestController('behaviorTest');
 
 		$b = new TestBehavior();
+		$this->assertFalse($b->enabled);
+
 		$b->attach($controller);
+		$this->assertTrue($b->enabled);
+
 		$b->setEnabled(true);
+		$this->assertTrue($b->enabled);
 
 		$controller->onTestEvent();
 		$this->assertEquals(1, $controller->behaviorEventHandled);
 
 		$b->setEnabled(false);
+		$this->assertFalse($b->enabled);
 		$controller->onTestEvent();
 		$this->assertEquals(1, $controller->behaviorEventHandled);
 
 		$b->setEnabled(true);
+		$this->assertTrue($b->enabled);
 		$controller->onTestEvent();
 		$this->assertEquals(2, $controller->behaviorEventHandled);
 
 		$b->detach($controller);
+		$this->assertFalse($b->enabled);
 		$controller->onTestEvent();
 		$this->assertEquals(2, $controller->behaviorEventHandled);
 
 		$b->setEnabled(true);
+		$this->assertTrue($b->enabled);
 		$controller->onTestEvent();
 		$this->assertEquals(2, $controller->behaviorEventHandled);
 	}
