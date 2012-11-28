@@ -768,9 +768,9 @@ class CHtml
 	 * </pre>
 	 * </li>
 	 * </ul>
-	 * Since version 1.1.13, a special option named 'unselectValue' is available that can be used to specify
-	 * the value returned when the option is not selected in multiple mode. When set, a hidden field is
-	 * rendered so that when the option is not selected in multiple mode, we can still obtain the posted
+	 * Since 1.1.13, a special option named 'unselectValue' is available. It can be used to set the value
+	 * that will be returned when no option is selected in multiple mode. When set, a hidden field is
+	 * rendered so that if no option is selected in multiple mode, we can still obtain the posted
 	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
@@ -797,12 +797,7 @@ class CHtml
 
 			if(isset($htmlOptions['unselectValue']))
 			{
-				// add a hidden field so that if the option is not selected, it still submits a value
-				if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
-					$hiddenOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
-				else
-					$hiddenOptions=array('id'=>false);
-
+				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
 				unset($htmlOptions['unselectValue']);
 			}
@@ -1550,11 +1545,10 @@ EOD;
 	 * </pre>
 	 * </li>
 	 * </ul>
-	 * Since 1.1.13, a special option named 'unselectValue' is available that can be used to specify
-	 * the value returned when the option is not selected in multiple mode. By default, this value is ''.
-	 * Internally, a hidden field is rendered so that when the option is not selected in multiple mode,
-	 * we can still obtain the posted unselect value.
-	 * If 'unselectValue' is set as NULL, the hidden field will not be rendered.
+	 * Since 1.1.13, a special option named 'unselectValue' is available. It can be used to set the value
+	 * that will be returned when no option is selected in multiple mode. When set, a hidden field is
+	 * rendered so that if no option is selected in multiple mode, we can still obtain the posted
+	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see listData
@@ -1570,24 +1564,18 @@ EOD;
 			self::addErrorCss($htmlOptions);
 
 		$hidden='';
-
 		if(isset($htmlOptions['multiple']))
 		{
 			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
 
-			if(!array_key_exists('unselectValue',$htmlOptions))
-				$htmlOptions['unselectValue']='';
-
-			if($htmlOptions['unselectValue']!==null)
+			if(isset($htmlOptions['unselectValue']))
 			{
 				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
+				unset($htmlOptions['unselectValue']);
 			}
-
-			unset($htmlOptions['unselectValue']);
 		}
-
 		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
 
