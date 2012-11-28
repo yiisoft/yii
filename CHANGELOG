@@ -11,7 +11,7 @@ Version 1.1.13 work in progress
 - Bug #126: Fixed CWebUser::getReturnUrl(), allowing to determine default URL correctly, if CUrlManager::showScriptName is set to false (klimov-paul)
 - Bug #276: Tweaked CGridView stylesheet to include a hover style for the selected row (acorncom)
 - Bug #810: Gii now adds a number to the end of relation name if same named relation already exists instead of not generating relation (n30kill, samdark)
-- Bug #835: Log wasn't written on forceful script termination (samdark)
+- Bug #835: CApplication::onEndRequest is now called at the script shutdown to make sure log is written on forceful script termination (samdark)
 - Bug #837: Fixed method CDbCriteria::__wakeup(), allowing to keep custom names for params and update all string parts for automatic params (klimov-paul)
 - Bug #959: Bug where non-lowercase keys cannot be found in CConsoleApplication::$commandMap fixed (resurtm)
 - Bug #962: Fixed handling of negative timestamps in CDateFormatter::format() (johnmendonca)

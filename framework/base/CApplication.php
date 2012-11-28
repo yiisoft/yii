@@ -170,8 +170,11 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * Called on script shutdown. Makes sure {@link onEndRequest} is called
-	 * before termination.
+	 * This method is automatically called at the end of script execution and
+	 * should not be called explicitly. If overwritten, make sure to call
+	 * the parent implementation so that {@link onEndRequest} event is raised.
+	 *
+	 * @since 1.1.13
 	 */
 	public function shutdown()
 	{
