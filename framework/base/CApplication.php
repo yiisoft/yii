@@ -963,9 +963,9 @@ abstract class CApplication extends CModule
 			'errorHandler'=>array(
 				'class'=>'CErrorHandler',
 			),
-			'securityManager'=>array(
-				'class'=>'CSecurityManager',
-			),
+            'securityManager'=>array(
+         				'class'=>'CSecurityManager',
+         			),
 			'statePersister'=>array(
 				'class'=>'CStatePersister',
 			),
