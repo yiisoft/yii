@@ -11,9 +11,16 @@
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
  *
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
+ *
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
+  'Home' => 'Home',
+  'The button type "{type}" is not supported.' => 'El tipo de botón "{type}" no es soportado.',
+  'The property filterSelector should be defined.' => 'La propiedad filterSelector debería estar definida.',
+  'The property updateSelector should be defined.' => 'La propiedad updateSelector debería estar definida.',
   'Are you sure you want to delete this item?' => 'Seguro que desea borrar este elemento?',
   'Delete' => 'Borrar',
   'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Desplegando {start}-{end} de 1 resultado.|Desplegando {start}-{end} de {count} resultados.',
