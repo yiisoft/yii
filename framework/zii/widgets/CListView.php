@@ -124,6 +124,28 @@ class CListView extends CBaseListView
 	 */
 	public $updateSelector;
 	/**
+	 * @var string a javascript function that will be invoked if an AJAX update error occurs.
+	 *
+	 * The function signature is <code>function(xhr, textStatus, errorThrown, errorMessage)</code>
+	 * <ul>
+	 * <li><code>xhr</code> is the XMLHttpRequest object.</li>
+	 * <li><code>textStatus</code> is a string describing the type of error that occurred.
+	 * Possible values (besides null) are "timeout", "error", "notmodified" and "parsererror"</li>
+	 * <li><code>errorThrown</code> is an optional exception object, if one occurred.</li>
+	 * <li><code>errorMessage</code> is the CGridView default error message derived from xhr and errorThrown.
+	 * Usefull if you just want to display this error differently. CGridView by default displays this error with an javascript.alert()</li>
+	 * </ul>
+	 * Note: This handler is not called for JSONP requests, because they do not use an XMLHttpRequest.
+	 *
+	 * Example (add in a call to CGridView):
+	 * <pre>
+	 *  ...
+	 *  'ajaxUpdateError'=>'function(xhr,ts,et,err){ $("#myerrordiv").text(err); }',
+	 *  ...
+	 * </pre>
+	 */
+	public $ajaxUpdateError;
+	/**
 	 * @var string the name of the GET variable that indicates the request is an AJAX request triggered
 	 * by this widget. Defaults to 'ajax'. This is effective only when {@link ajaxUpdate} is not false.
 	 */
@@ -217,7 +239,7 @@ class CListView extends CBaseListView
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->updateSelector!==null)
 			$options['updateSelector']=$this->updateSelector;
-		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate') as $event)
+		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError') as $event)
 		{
 			if($this->$event!==null)
 			{

@@ -158,6 +158,3 @@ http://www.example.com/blog/index.php?r=comment
     если пользователь не указал действие в URL;
  4. Метод `actionIndex()` делает запрос к базе данных для получения списка последних записей;
  5. Метод `actionIndex()` генерирует представление `index` с данными записей.
-
-
-<div class="revision">$Id: prototype.scaffold.txt 3332 2011-06-28 20:07:38Z alexander.makarow $</div>

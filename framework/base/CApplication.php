@@ -165,23 +165,31 @@ abstract class CApplication extends CModule
 	{
 		if($this->hasEventHandler('onBeginRequest'))
 			$this->onBeginRequest(new CEvent($this));
+		register_shutdown_function(array($this, 'shutdown'));
 		$this->processRequest();
+	}
+
+	/**
+	 * This method is automatically called at the end of script execution and
+	 * should not be called explicitly. If overwritten, make sure to call
+	 * the parent implementation so that {@link onEndRequest} event is raised.
+	 *
+	 * @since 1.1.13
+	 */
+	public function shutdown()
+	{
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
 	}
 
 	/**
 	 * Terminates the application.
-	 * This method replaces PHP's exit() function by calling
-	 * {@link onEndRequest} before exiting.
 	 * @param integer $status exit status (value 0 means normal exit while other values mean abnormal exit).
 	 * @param boolean $exit whether to exit the current request. This parameter has been available since version 1.1.5.
 	 * It defaults to true, meaning the PHP's exit() function will be called at the end of this method.
 	 */
 	public function end($status=0, $exit=true)
 	{
-		if($this->hasEventHandler('onEndRequest'))
-			$this->onEndRequest(new CEvent($this));
 		if($exit)
 			exit($status);
 	}

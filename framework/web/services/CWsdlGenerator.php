@@ -61,7 +61,7 @@
  * <pre>
  * class Foo {
  *     / **
- *       * @var string name of foo
+ *       * @var string name of foo {nillable = 1, minOccurs=0, maxOccurs = 2}
  *       * @soap
  *       * /
  *     public $name;
@@ -74,6 +74,16 @@
  * </pre>
  * In the above, the 'members' property is an array of 'Member' objects. Since 'Member' is not
  * a primitive type, CWsdlGenerator will look further to find the definition of 'Member'.
+ * 
+ * Optionally, extra attributes (nillable, minOccurs, maxOccurs) can be defined for each 
+ * property by enclosing definitions into curly brackets and separated by comma like so: 
+ * 
+ * {[attribute1 = value1], [attribute2 = value2], ...}
+ * 
+ * where the attribute can be one of following:
+ *  nillable = [0|1|true|false]
+ *  minOccurs = n; where n>=0
+ *  maxOccurs = n; where n>=0
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.services
@@ -109,9 +119,9 @@ class CWsdlGenerator extends CComponent
 		'mixed'=>'xsd:anyType',
 	);
 
-	private $_operations;
-	private $_types;
-	private $_messages;
+	protected $operations;
+	protected $types;
+	protected $messages;
 
 	/**
 	 * Generates the WSDL for the given class.
@@ -122,13 +132,13 @@ class CWsdlGenerator extends CComponent
 	 */
 	public function generateWsdl($className, $serviceUrl, $encoding='UTF-8')
 	{
-		$this->_operations=array();
-		$this->_types=array();
-		$this->_messages=array();
+		$this->operations=array();
+		$this->types=array();
+		$this->messages=array();
 		if($this->serviceName===null)
 			$this->serviceName=$className;
 		if($this->namespace===null)
-			$this->namespace="urn:{$className}wsdl";
+			$this->namespace='urn:'.str_replace('\\','/',$className).'wsdl';
 
 		$reflection=new ReflectionClass($className);
 		foreach($reflection->getMethods() as $method)
@@ -140,10 +150,10 @@ class CWsdlGenerator extends CComponent
 		return $this->buildDOM($serviceUrl,$encoding)->saveXML();
 	}
 
-	/*
+	/**
 	 * @param ReflectionMethod $method method
 	 */
-	private function processMethod($method)
+	protected function processMethod($method)
 	{
 		$comment=$method->getDocComment();
 		if(strpos($comment,'@soap')===false)
@@ -160,60 +170,87 @@ class CWsdlGenerator extends CComponent
 		for($i=0;$i<$n;++$i)
 			$message[$params[$i]->getName()]=array($this->processType($matches[1][$i]), trim($matches[3][$i])); // name => type, doc
 
-		$this->_messages[$methodName.'Request']=$message;
+		$this->messages[$methodName.'Request']=$message;
 
 		if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
 			$return=array($this->processType($matches[1]),trim($matches[2])); // type, doc
 		else
 			$return=null;
-		$this->_messages[$methodName.'Response']=array('return'=>$return);
+		$this->messages[$methodName.'Response']=array('return'=>$return);
 
 		if(preg_match('/^\/\*+\s*([^@]*?)\n@/s',$comment,$matches))
 			$doc=trim($matches[1]);
 		else
 			$doc='';
-		$this->_operations[$methodName]=$doc;
+		$this->operations[$methodName]=$doc;
 	}
 
-	/*
+	/**
 	 * @param string $type PHP variable type
 	 */
-	private function processType($type)
+	protected function processType($type)
 	{
 		if(isset(self::$typeMap[$type]))
 			return self::$typeMap[$type];
-		elseif(isset($this->_types[$type]))
-			return is_array($this->_types[$type]) ? 'tns:'.$type : $this->_types[$type];
+		elseif(isset($this->types[$type]))
+			return is_array($this->types[$type]) ? 'tns:'.$type : $this->types[$type];
 		elseif(($pos=strpos($type,'[]'))!==false) // if it is an array
 		{
 			$type=substr($type,0,$pos);
-			$this->_types[$type.'[]']='tns:'.$type.'Array';
+			$this->types[$type.'[]']='tns:'.$type.'Array';
 			$this->processType($type);
-			return $this->_types[$type.'[]'];
+			return $this->types[$type.'[]'];
 		}
 		else // class type
 		{
 			$type=Yii::import($type,true);
-			$this->_types[$type]=array();
+			$this->types[$type]=array();
 			$class=new ReflectionClass($type);
+			
 			foreach($class->getProperties() as $property)
 			{
 				$comment=$property->getDocComment();
 				if($property->isPublic() && strpos($comment,'@soap')!==false)
 				{
 					if(preg_match('/@var\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/mi',$comment,$matches))
-						$this->_types[$type][$property->getName()]=array($this->processType($matches[1]),trim($matches[3]));  // name => type, doc
+					{
+						// support nillable, minOccurs, maxOccurs attributes
+						$nillable=$minOccurs=$maxOccurs=false;
+						if(preg_match('/{(.+)}/',$matches[3],$attr))
+						{
+							$matches[3]=str_replace($attr[0],'',$matches[3]);
+							if(preg_match_all('/((\w+)\s*=\s*(\w+))/mi',$attr[1],$attr))
+							{
+								foreach($attr[2] as $id=>$prop)
+								{
+									if(strcasecmp($prop,'nillable')===0)
+										$nillable=$attr[3][$id] ? 'true' : 'false';
+									elseif(strcasecmp($prop,'minOccurs')===0)
+										$minOccurs=(int)$attr[3][$id];
+									elseif(strcasecmp($prop,'maxOccurs')===0)
+										$maxOccurs=(int)$attr[3][$id];
+								}
+							}
+						}
+						$this->types[$type][$property->getName()]=array(
+							$this->processType($matches[1]), // type
+							trim($matches[3]),				 // doc
+							$nillable,
+							$minOccurs,
+							$maxOccurs
+						);
+					}
 				}
 			}
 			return 'tns:'.$type;
 		}
 	}
 
-	/*
+	/**
 	 * @param string $serviceUrl Web service URL
 	 * @param string $encoding encoding of the WSDL. Defaults to 'UTF-8'.
 	 */
-	private function buildDOM($serviceUrl,$encoding)
+	protected function buildDOM($serviceUrl,$encoding)
 	{
 		$xml="<?xml version=\"1.0\" encoding=\"$encoding\"?>
 <definitions name=\"{$this->serviceName}\" targetNamespace=\"{$this->namespace}\"
@@ -225,6 +262,7 @@ class CWsdlGenerator extends CComponent
      xmlns:soap-enc=\"http://schemas.xmlsoap.org/soap/encoding/\"></definitions>";
 
 		$dom=new DOMDocument();
+		$dom->formatOutput=true;
 		$dom->loadXml($xml);
 		$this->addTypes($dom);
 
@@ -236,17 +274,17 @@ class CWsdlGenerator extends CComponent
 		return $dom;
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
-	private function addTypes($dom)
+	protected function addTypes($dom)
 	{
-		if($this->_types===array())
+		if($this->types===array())
 			return;
 		$types=$dom->createElement('wsdl:types');
 		$schema=$dom->createElement('xsd:schema');
 		$schema->setAttribute('targetNamespace',$this->namespace);
-		foreach($this->_types as $phpType=>$xmlType)
+		foreach($this->types as $phpType=>$xmlType)
 		{
 			if(is_string($xmlType) && strrpos($xmlType,'Array')!==strlen($xmlType)-5)
 				continue;  // simple type
@@ -280,6 +318,12 @@ class CWsdlGenerator extends CComponent
 				foreach($xmlType as $name=>$type)
 				{
 					$element=$dom->createElement('xsd:element');
+					if($type[3]!==false)
+						$element->setAttribute('minOccurs',$type[3]);
+					if($type[4]!==false)
+						$element->setAttribute('maxOccurs',$type[4]);
+					if($type[2]!==false)
+						$element->setAttribute('nillable',$type[2]);
 					$element->setAttribute('name',$name);
 					$element->setAttribute('type',$type[0]);
 					$all->appendChild($element);
@@ -293,16 +337,16 @@ class CWsdlGenerator extends CComponent
 		$dom->documentElement->appendChild($types);
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
-	private function addMessages($dom)
+	protected function addMessages($dom)
 	{
-		foreach($this->_messages as $name=>$message)
+		foreach($this->messages as $name=>$message)
 		{
 			$element=$dom->createElement('wsdl:message');
 			$element->setAttribute('name',$name);
-			foreach($this->_messages[$name] as $partName=>$part)
+			foreach($this->messages[$name] as $partName=>$part)
 			{
 				if(is_array($part))
 				{
@@ -316,24 +360,24 @@ class CWsdlGenerator extends CComponent
 		}
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
-	private function addPortTypes($dom)
+	protected function addPortTypes($dom)
 	{
 		$portType=$dom->createElement('wsdl:portType');
 		$portType->setAttribute('name',$this->serviceName.'PortType');
 		$dom->documentElement->appendChild($portType);
-		foreach($this->_operations as $name=>$doc)
+		foreach($this->operations as $name=>$doc)
 			$portType->appendChild($this->createPortElement($dom,$name,$doc));
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $name method name
 	 * @param string $doc doc
 	 */
-	private function createPortElement($dom,$name,$doc)
+	protected function createPortElement($dom,$name,$doc)
 	{
 		$operation=$dom->createElement('wsdl:operation');
 		$operation->setAttribute('name',$name);
@@ -350,10 +394,10 @@ class CWsdlGenerator extends CComponent
 		return $operation;
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
-	private function addBindings($dom)
+	protected function addBindings($dom)
 	{
 		$binding=$dom->createElement('wsdl:binding');
 		$binding->setAttribute('name',$this->serviceName.'Binding');
@@ -366,15 +410,15 @@ class CWsdlGenerator extends CComponent
 
 		$dom->documentElement->appendChild($binding);
 
-		foreach($this->_operations as $name=>$doc)
+		foreach($this->operations as $name=>$doc)
 			$binding->appendChild($this->createOperationElement($dom,$name));
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $name method name
 	 */
-	private function createOperationElement($dom,$name)
+	protected function createOperationElement($dom,$name)
 	{
 		$operation=$dom->createElement('wsdl:operation');
 		$operation->setAttribute('name', $name);
@@ -399,11 +443,11 @@ class CWsdlGenerator extends CComponent
 		return $operation;
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $serviceUrl Web service URL
 	 */
-	private function addService($dom,$serviceUrl)
+	protected function addService($dom,$serviceUrl)
 	{
 		$service=$dom->createElement('wsdl:service');
 		$service->setAttribute('name', $this->serviceName.'Service');

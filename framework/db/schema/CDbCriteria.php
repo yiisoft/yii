@@ -268,14 +268,17 @@ class CDbCriteria extends CComponent
 	public function addInCondition($column,$values,$operator='AND')
 	{
 		if(($n=count($values))<1)
-			return $this->addCondition('0=1',$operator); // 0=1 is used because in MSSQL value alone can't be used in WHERE
-		if($n===1)
+			$condition='0=1'; // 0=1 is used because in MSSQL value alone can't be used in WHERE
+		elseif($n===1)
 		{
 			$value=reset($values);
 			if($value===null)
-				return $this->addCondition($column.' IS NULL');
-			$condition=$column.'='.self::PARAM_PREFIX.self::$paramCount;
-			$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
+				$condition=$column.' IS NULL';
+			else
+			{
+				$condition=$column.'='.self::PARAM_PREFIX.self::$paramCount;
+				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
+			}
 		}
 		else
 		{
@@ -311,9 +314,12 @@ class CDbCriteria extends CComponent
 		{
 			$value=reset($values);
 			if($value===null)
-				return $this->addCondition($column.' IS NOT NULL');
-			$condition=$column.'!='.self::PARAM_PREFIX.self::$paramCount;
-			$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
+				$condition=$column.' IS NOT NULL';
+			else
+			{
+				$condition=$column.'!='.self::PARAM_PREFIX.self::$paramCount;
+				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
+			}
 		}
 		else
 		{
@@ -464,11 +470,7 @@ class CDbCriteria extends CComponent
 		$this->params[$paramEnd]=$valueEnd;
 		$condition="$column BETWEEN $paramStart AND $paramEnd";
 
-		if($this->condition==='')
-			$this->condition=$condition;
-		else
-			$this->condition='('.$this->condition.') '.$operator.' ('.$condition.')';
-		return $this;
+		return $this->addCondition($condition,$operator);
 	}
 
 	/**
@@ -478,12 +480,15 @@ class CDbCriteria extends CComponent
 	 * Also, the criteria passed as the parameter takes precedence in case
 	 * two options cannot be merged (e.g. LIMIT, OFFSET).
 	 * @param mixed $criteria the criteria to be merged with. Either an array or CDbCriteria.
-	 * @param boolean $useAnd whether to use 'AND' to merge condition and having options.
-	 * If false, 'OR' will be used instead. Defaults to 'AND'.
+	 * @param string|boolean $operator the operator used to concatenate where and having conditions. Defaults to 'AND'.
+	 * For backwards compatibility a boolean value can be passed:
+	 * - 'false' for 'OR'
+	 * - 'true' for 'AND'
 	 */
-	public function mergeWith($criteria,$useAnd=true)
+	public function mergeWith($criteria,$operator='AND')
 	{
-		$and=$useAnd ? 'AND' : 'OR';
+		if(is_bool($operator))
+			$operator=$operator ? 'AND' : 'OR';
 		if(is_array($criteria))
 			$criteria=new self($criteria);
 		if($this->select!==$criteria->select)
@@ -503,7 +508,7 @@ class CDbCriteria extends CComponent
 			if($this->condition==='')
 				$this->condition=$criteria->condition;
 			elseif($criteria->condition!=='')
-				$this->condition="({$this->condition}) $and ({$criteria->condition})";
+				$this->condition="({$this->condition}) $operator ({$criteria->condition})";
 		}
 
 		if($this->params!==$criteria->params)
@@ -547,7 +552,7 @@ class CDbCriteria extends CComponent
 			if($this->having==='')
 				$this->having=$criteria->having;
 			elseif($criteria->having!=='')
-				$this->having="({$this->having}) $and ({$criteria->having})";
+				$this->having="({$this->having}) $operator ({$criteria->having})";
 		}
 
 		if($criteria->distinct>0)
@@ -609,7 +614,7 @@ class CDbCriteria extends CComponent
 						unset($v[$opt]);
 					}
 					$this->with[$k]=new self($this->with[$k]);
-					$this->with[$k]->mergeWith($v,$useAnd);
+					$this->with[$k]->mergeWith($v,$operator);
 					$this->with[$k]=$this->with[$k]->toArray();
 					if (count($excludes)!==0)
 						$this->with[$k]=CMap::mergeArray($this->with[$k],$excludes);

@@ -51,6 +51,7 @@
  * @property integer $securePort Port number for secure requests.
  * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
  * @property string $preferredLanguage The user preferred language.
+ * @property array $preferredLanguages An array of all user accepted languages in order of preference.
  * @property string $csrfToken The random token for CSRF validation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -92,7 +93,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_hostInfo;
 	private $_baseUrl;
 	private $_cookies;
-	private $_preferredLanguage;
+	private $_preferredLanguages;
 	private $_csrfToken;
 	private $_restParams;
 
@@ -783,7 +784,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
 	{
-		if(strpos($url,'/')===0)
+		if(strpos($url,'/')===0 && strpos($url,'//')!==0)
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url, true, $statusCode);
 		if($terminate)
@@ -791,27 +792,47 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns an array of user accepted languages in order of preference.
+	 * The returned language IDs will NOT be canonicalized using {@link CLocale::getCanonicalID}.
+	 * @return array the user accepted languages in the order of preference.
+	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.4}
+	 */
+	public function getPreferredLanguages()
+	{
+		if($this->_preferredLanguages===null)
+		{
+			$sortedLanguages=array();
+			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $n=preg_match_all('/([\w\-_]+)(?:\s*;\s*q\s*=\s*(\d*\.?\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))
+			{
+				$languages=array();
+
+				for($i=0;$i<$n;++$i)
+				{
+					$q=$matches[2][$i];
+					if($q==='')
+						$q=1;
+					if($q)
+						$languages[]=array((float)$q,$matches[1][$i]);
+				}
+
+				usort($languages,create_function('$a,$b','if($a[0]==$b[0]) {return 0;} return ($a[0]<$b[0]) ? 1 : -1;'));
+				foreach($languages as $language)
+					$sortedLanguages[]=$language[1];
+			}
+			$this->_preferredLanguages=$sortedLanguages;
+		}
+		return $this->_preferredLanguages;
+	}
+
+	/**
 	 * Returns the user preferred language.
 	 * The returned language ID will be canonicalized using {@link CLocale::getCanonicalID}.
-	 * This method returns false if the user does not have language preference.
-	 * @return string the user preferred language.
+	 * @return string the user preferred language or false if the user does not have any.
 	 */
 	public function getPreferredLanguage()
 	{
-		if($this->_preferredLanguage===null)
-		{
-			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-_]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))>0)
-			{
-				$languages=array();
-				for($i=0;$i<$n;++$i)
-					$languages[$matches[1][$i]]=empty($matches[3][$i]) ? 1.0 : floatval($matches[3][$i]);
-				arsort($languages);
-				foreach($languages as $language=>$pref)
-					return $this->_preferredLanguage=CLocale::getCanonicalID($language);
-			}
-			return $this->_preferredLanguage=false;
-		}
-		return $this->_preferredLanguage;
+		$preferredLanguages=$this->getPreferredLanguages();
+		return !empty($preferredLanguages) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
 	}
 
 	/**
@@ -832,8 +853,7 @@ class CHttpRequest extends CApplicationComponent
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
-		if(ob_get_length()===false)
-			header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
+		header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
 
@@ -882,6 +902,11 @@ class CHttpRequest extends CApplicationComponent
 	 * If this option is disabled by the web server, when this method is called a download configuration dialog
 	 * will open but the downloaded file will have 0 bytes.
 	 *
+	 * <b>Known issues</b>:
+	 * There is a Bug with Internet Explorer 6, 7 and 8 when X-SENDFILE is used over an SSL connection, it will show
+	 * an error message like this: "Internet Explorer was not able to open this Internet site. The requested site is either unavailable or cannot be found.".
+	 * You can work around this problem by removing the <code>Pragma</code>-header.
+	 * 
 	 * <b>Example</b>:
 	 * <pre>
 	 * <?php

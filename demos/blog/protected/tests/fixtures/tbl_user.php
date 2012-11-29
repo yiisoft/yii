@@ -3,8 +3,7 @@
 return array(
 	array(
 		'username'=>'demo',
-		'password'=>'2e5c7db760a33498023813489cfadc0b',
-		'salt'=>'28b206548469ce62182048fd9cf91760',
+		'password'=>'$2a$10$JTJf6/XqC94rrOtzuF397OHa4mbmZrVTBOQCmYD9U.obZRUut4BoC',
 		'email'=>'webmaster@example.com',
 	),
 );

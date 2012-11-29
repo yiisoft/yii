@@ -371,5 +371,3 @@ public function rules()
 переопределив метод [attributeLabels()|CModel::attributeLabels].
 
 Далее мы увидим, что возможность указания меток в модели данных позволяет быстро создавать сложные формы.
-
-<div class="revision">$Id: form.model.txt 3482 2011-12-13 09:41:36Z mdomba $</div>

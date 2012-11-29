@@ -70,5 +70,3 @@
 	- [Безопасность](topics.security)
 	- [Улучшение производительности](topics.performance)
 	- [Генерация кода при помощи консоли (устаревшее)](quickstart.first-app-yiic)
-
-<div class="revision">$Id$</div>

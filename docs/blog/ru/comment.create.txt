@@ -189,5 +189,3 @@ protected function newComment($post)
 	return $comment;
 }
 ~~~
-
-<div class="revision">$Id: comment.create.txt 3495 2011-12-19 03:37:41Z jefftulsa $</div>

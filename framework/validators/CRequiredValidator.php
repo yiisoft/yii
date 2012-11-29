@@ -98,7 +98,7 @@ if(value!=" . CJSON::encode($this->requiredValue) . ") {
 				'{attribute}'=>$object->getAttributeLabel($attribute),
 			));
 			return "
-if($.trim(value)=='') {
+if(jQuery.trim(value)=='') {
 	messages.push(".CJSON::encode($message).");
 }
 ";

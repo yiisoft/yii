@@ -150,11 +150,6 @@ return array(
 свойством [CFormInputElement], она будет использована как атрибут `maxlength` HTML-элемента
 input.
 
-~~~
-Мы можем задать и другие доступные для записи свойства [CFormInputElement].
-
-~~~
-
 Следует отдельно остановиться на свойстве [type|CFormInputElement::type].
 Оно определяет тип поля ввода. К примеру, тип `text` означает, что будет использован
 элемент формы `input`, а `password` — поле для ввода пароля. В [CFormInputElement]
@@ -477,7 +472,7 @@ echo $form->renderEnd();
 ~~~
 [php]
 <div class="form">
-$this->renderPartial('_form', array('form'=>$form));
+<?php echo $this->renderPartial('_form', array('form'=>$form)); ?>
 </div>
 ~~~
 
@@ -501,5 +496,3 @@ $this->renderPartial('_form', array('form'=>$form));
 В этом случае конструктор форм не очень эффективен, так как нам приходится описывать
 те же объёмы кода формы. Тем не менее, преимущество есть. Оно в том, что форма,
 описанная в отдельном файле конфигурации, позволяет разработчику сфокусироваться на логике.
-
-<div class="revision">$Id: form.builder.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
