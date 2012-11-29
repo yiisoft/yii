@@ -19,7 +19,7 @@
  */
 class CBehavior extends CComponent implements IBehavior
 {
-	private $_enabled;
+	private $_enabled=false;
 	private $_owner;
 
 	/**
@@ -39,24 +39,22 @@ class CBehavior extends CComponent implements IBehavior
 	 * Attaches the behavior object to the component.
 	 * The default implementation will set the {@link owner} property
 	 * and attach event handlers as declared in {@link events}.
+	 * This method will also set {@link enabled} to true.
 	 * Make sure you've declared handler as public and call the parent implementation if you override this method.
 	 * @param CComponent $owner the component that this behavior is to be attached to.
 	 */
 	public function attach($owner)
 	{
 		$this->_owner=$owner;
-		$class=new ReflectionClass($this);
-		foreach($this->events() as $event=>$handler)
-		{
-			if(!$class->getMethod($handler)->isProtected())
-				$owner->attachEventHandler($event,array($this,$handler));
-		}
+		$this->_enabled=false;
+		$this->setEnabled(true);
 	}
 
 	/**
 	 * Detaches the behavior object from the component.
 	 * The default implementation will unset the {@link owner} property
 	 * and detach event handlers declared in {@link events}.
+	 * This method will also set {@link enabled} to false.
 	 * Make sure you call the parent implementation if you override this method.
 	 * @param CComponent $owner the component that this behavior is to be detached from.
 	 */
@@ -65,6 +63,7 @@ class CBehavior extends CComponent implements IBehavior
 		foreach($this->events() as $event=>$handler)
 			$owner->detachEventHandler($event,array($this,$handler));
 		$this->_owner=null;
+		$this->_enabled=false;
 	}
 
 	/**
@@ -88,12 +87,17 @@ class CBehavior extends CComponent implements IBehavior
 	 */
 	public function setEnabled($value)
 	{
+		$value=(bool)$value;
 		if($this->_enabled!=$value && $this->_owner)
 		{
 			if($value)
 			{
+				$class=new ReflectionClass($this);
 				foreach($this->events() as $event=>$handler)
-					$this->_owner->attachEventHandler($event,array($this,$handler));
+				{
+					if(!$class->getMethod($handler)->isProtected())
+						$this->_owner->attachEventHandler($event,array($this,$handler));
+				}
 			}
 			else
 			{
