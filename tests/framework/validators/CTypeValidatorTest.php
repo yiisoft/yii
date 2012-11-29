@@ -47,7 +47,7 @@ class CTypeValidatorTest extends CTestCase
 	{
 		$validator=new CTypeValidator();
 		$validator->type='float';
-		$this->assertTrue($validator->validateValue(42));
+		$this->assertFloat($validator->validateValue(42));
 		$this->assertTrue($validator->validateValue(42.0));
 		$this->assertTrue($validator->validateValue(+42.1));
 		$this->assertTrue($validator->validateValue(-42.2));
