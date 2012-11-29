@@ -110,10 +110,10 @@ class CTypeValidator extends CValidator
 	 */
 	public function validateValue($value)
 	{
-		$type = $this->type==='float' ? 'double' : $this->type;
-		if ($type === gettype($value))
+		$type=$this->type==='float' ? 'double' : $this->type;
+		if($type===gettype($value))
 			return true;
-		elseif ($this->strict || !is_string($value))
+		elseif($this->strict || !is_string($value))
 			return false;
 
 		if($type==='integer')
