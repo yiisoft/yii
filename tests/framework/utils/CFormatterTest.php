@@ -2,6 +2,12 @@
 
 class CFormatterTest extends CTestCase
 {
+	public function tearDown()
+	{
+		parent::tearDown();
+		Yii::app()->language=null; // reset language to not affect other tests
+	}
+
 	/**
 	 * Test formatting size numbers in bytes, kilobytes, ...
 	 */
@@ -62,7 +68,8 @@ class CFormatterTest extends CTestCase
 	{
 		$formatter = new CFormatter();
 
-		Yii::app()->language = $language;
+		Yii::app()->language=$language;
+
 		$this->assertNotEquals('1 byte', $formatter->formatSize(1, true));
 		$this->assertNotEquals('1 kilobyte', $formatter->formatSize(1024, true));
 		$this->assertNotEquals('1 megabyte', $formatter->formatSize(1024 * 1024, true));
