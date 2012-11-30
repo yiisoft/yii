@@ -63,7 +63,7 @@ class CJuiSlider extends CJuiWidget
 		else
 			$this->htmlOptions['id']=$id;
 
-		echo CHtml::tag($this->tagName,$this->htmlOptions,'&nbsp;');
+		echo CHtml::tag($this->tagName,$this->htmlOptions,'');
 
 		if($this->value!==null)
 			$this->options['value']=$this->value;
