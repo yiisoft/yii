@@ -18,7 +18,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * To use this widget as a submit button, you may insert the following code in a view:
  * <pre>
- * $this->widget('zii.widgets.jui.CJuiButton', array(
+ * $this->widget('zii.widgets.jui.CJuiButton',array(
  *     'name'=>'submit',
  *     'caption'=>'Save',
  *     'options'=>array(
@@ -28,7 +28,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * To use this widget as a button, you may insert the following code in a view:
  * <pre>
- * $this->widget('zii.widgets.jui.CJuiButton', array(
+ * $this->widget('zii.widgets.jui.CJuiButton',array(
  *     'name'=>'button',
  *     'caption'=>'Save',
  *     'value'=>'asd',
@@ -81,6 +81,7 @@ class CJuiButton extends CJuiInputWidget
 	public function init()
 	{
 		parent::init();
+
 		if($this->buttonType=='buttonset')
 		{
 			if(!isset($this->htmlOptions['id']))

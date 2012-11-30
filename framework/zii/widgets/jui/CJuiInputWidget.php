@@ -37,7 +37,6 @@ abstract class CJuiInputWidget extends CJuiWidget
 	 */
 	public $value;
 
-
 	/**
 	 * @return array the name and the ID of the input.
 	 */
