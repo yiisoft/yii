@@ -141,7 +141,13 @@ class CPasswordManager extends CApplicationComponent implements IApplicationComp
         if (!is_string($password) || $password === '') {
             throw new CException(Yii::t('yii', 'Cannot hash a password that is empty or not a string.'));
         }
-        return crypt($password, $this->generateSalt());
+        $hash = crypt($password, $this->generateSalt());
+        if (!is_string($hash)
+            || (function_exists('mb_strlen') ? mb_strlen($hash, '8bit') : strlen($hash)) < 32
+        ) {
+            throw new CException(Yii::t('yii', 'Internal error while generating hash.'));
+        }
+        return $hash;
     }
 
     /**
@@ -155,16 +161,31 @@ class CPasswordManager extends CApplicationComponent implements IApplicationComp
      */
     public function verifyPassword($password, $hash)
     {
-        if (!$password) {
-            return false;
-        }
-        if (!preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}', $hash, $matches)
+        if (!$password
+            || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}', $hash, $matches)
             || $matches[1] < 4
             || $matches[1] > 30
         ) {
-            throw new CException(Yii::t('yii', 'Unrecognized hash format. ' . __CLASS__ . ' '));
+            return false;
         }
-        return $hash === crypt($password, $hash);
+
+        $value = crypt($password, $hash);
+
+        if (!is_string($value)) {
+            return false;
+        }
+        $mb = function_exists('mb_strlen');
+        $length = $mb ? mb_strlen($value, '8bit') : strlen($value);
+        if ($length < 32 || $length !== ($mb ? mb_strlen($hash, '8bit') : strlen($hash))) {
+            return false;
+        }
+        for ($i = 0; $i < $length; $i += 1) {
+            if (ord($value[$i]) !== ord($hash[$i])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
