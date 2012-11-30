@@ -5,6 +5,9 @@ require_once dirname(__FILE__) . '/NewBehavior.php';
 require_once dirname(__FILE__) . '/NewBeforeValidateBehavior.php';
 require_once dirname(__FILE__) . '/NewFormModel.php';
 
+require_once dirname(__FILE__) . '/BehaviorTestController.php';
+require_once dirname(__FILE__) . '/TestBehavior.php';
+
 class CBehaviorTest extends CTestCase {
 
 	public function testAttachBehavior() {
@@ -90,30 +93,3 @@ class CBehaviorTest extends CTestCase {
 	}
 }
 
-class BehaviorTestController extends CController
-{
-	public $behaviorEventHandled=0;
-
-	public function onTestEvent()
-	{
-		$this->raiseEvent("onTestEvent", new CEvent());
-	}
-}
-
-class TestBehavior extends CBehavior
-{
-	public function events()
-	{
-		return array(
-			'onTestEvent' => 'handleTest',
-		);
-	}
-
-	public function handleTest($event)
-	{
-		if (!($event instanceof CEvent)) {
-			throw new CException('event has to be instance of CEvent');
-		}
-		$this->owner->behaviorEventHandled++;
-	}
-}
