@@ -1,7 +1,7 @@
 <?php
 
 /**
- *
+ * Used in CBehaviorTest
  */
 class BehaviorTestController extends CController
 {
