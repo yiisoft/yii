@@ -19,7 +19,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * To use this widget, you may insert the following code in a view:
  * <pre>
- * $this->widget('zii.widgets.jui.CJuiAccordion', array(
+ * $this->widget('zii.widgets.jui.CJuiAccordion',array(
  *     'panels'=>array(
  *         'panel 1'=>'content for panel 1',
  *         'panel 2'=>'content for panel 2',
@@ -74,8 +74,8 @@ class CJuiAccordion extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		if (isset($this->htmlOptions['id']))
-			$id = $this->htmlOptions['id'];
+		if(isset($this->htmlOptions['id']))
+			$id=$this->htmlOptions['id'];
 		else
 			$this->htmlOptions['id']=$id;
 
@@ -87,7 +87,7 @@ class CJuiAccordion extends CJuiWidget
 		}
 		echo CHtml::closeTag($this->tagName);
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').accordion($options);");
 	}
 }
