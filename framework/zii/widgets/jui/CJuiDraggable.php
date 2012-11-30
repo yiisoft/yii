@@ -60,7 +60,7 @@ class CJuiDraggable extends CJuiWidget
 		else
 			$this->htmlOptions['id']=$id;
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').draggable($options);");
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";

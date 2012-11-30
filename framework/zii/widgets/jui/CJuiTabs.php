@@ -116,7 +116,7 @@ class CJuiTabs extends CJuiWidget
 		echo $contentOut;
 		echo CHtml::closeTag($this->tagName)."\n";
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').tabs($options);");
 	}
 

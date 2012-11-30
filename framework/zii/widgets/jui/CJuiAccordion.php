@@ -87,7 +87,7 @@ class CJuiAccordion extends CJuiWidget
 		}
 		echo CHtml::closeTag($this->tagName);
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').accordion($options);");
 	}
 }

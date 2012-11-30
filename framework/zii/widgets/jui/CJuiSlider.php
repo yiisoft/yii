@@ -68,7 +68,7 @@ class CJuiSlider extends CJuiWidget
 		if($this->value!==null)
 			$this->options['value']=$this->value;
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').slider($options);");
 	}
 }

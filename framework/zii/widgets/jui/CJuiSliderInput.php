@@ -131,7 +131,7 @@ class CJuiSliderInput extends CJuiInputWidget
 			? new CJavaScriptExpression("function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}_end').val(v[1]); }")
 			: new CJavaScriptExpression("function(event, ui) { jQuery(#'{$idHidden}').val(ui.value); }");
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}_slider').slider($options);");
 	}
 }

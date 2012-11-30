@@ -155,7 +155,7 @@ class CJuiButton extends CJuiInputWidget
 					throw new CException(Yii::t('zii','The button type "{type}" is not supported.',array('{type}'=>$this->buttonType)));
 			}
 
-			$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+			$options=CJavaScript::encode($this->options);
 			if($this->onclick!==null)
 			{
 				if(!($this->onclick instanceof CJavaScriptExpression))

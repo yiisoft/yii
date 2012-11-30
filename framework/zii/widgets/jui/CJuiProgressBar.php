@@ -66,7 +66,7 @@ class CJuiProgressBar extends CJuiWidget
 		echo CHtml::closeTag($this->tagName);
 
 		$this->options['value']=$this->value;
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').progressbar($options);");
 	}
 }

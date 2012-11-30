@@ -105,7 +105,7 @@ class CJuiDatePicker extends CJuiInputWidget
 			echo CHtml::tag('div',$this->htmlOptions,'');
 		}
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		$js = "jQuery('#{$id}').datepicker($options);";
 
 		if($this->language!='' && $this->language!='en')
