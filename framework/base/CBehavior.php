@@ -28,6 +28,7 @@ class CBehavior extends CComponent implements IBehavior
 	 * methods by the behavior class. The handlers will be attached to the corresponding
 	 * events when the behavior is attached to the {@link owner} component; and they
 	 * will be detached from the events when the behavior is detached from the component.
+	 * Make sure you've declared handler method as public.
 	 * @return array events (array keys) and the corresponding event handler methods (array values).
 	 */
 	public function events()
@@ -45,9 +46,9 @@ class CBehavior extends CComponent implements IBehavior
 	 */
 	public function attach($owner)
 	{
+		$this->_enabled=true;
 		$this->_owner=$owner;
-		$this->_enabled=false;
-		$this->setEnabled(true);
+		$this->_attachEventHandlers();
 	}
 
 	/**
@@ -91,14 +92,7 @@ class CBehavior extends CComponent implements IBehavior
 		if($this->_enabled!=$value && $this->_owner)
 		{
 			if($value)
-			{
-				$class=new ReflectionClass($this);
-				foreach($this->events() as $event=>$handler)
-				{
-					if(!$class->getMethod($handler)->isProtected())
-						$this->_owner->attachEventHandler($event,array($this,$handler));
-				}
-			}
+				$this->_attachEventHandlers();
 			else
 			{
 				foreach($this->events() as $event=>$handler)
@@ -106,5 +100,15 @@ class CBehavior extends CComponent implements IBehavior
 			}
 		}
 		$this->_enabled=$value;
+	}
+
+	private function _attachEventHandlers()
+	{
+		$class=new ReflectionClass($this);
+		foreach($this->events() as $event=>$handler)
+		{
+			if($class->getMethod($handler)->isPublic())
+				$this->_owner->attachEventHandler($event,array($this,$handler));
+		}
 	}
 }
