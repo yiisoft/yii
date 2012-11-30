@@ -9,6 +9,7 @@ Version 1.1.13 work in progress
 - Bug #112: MSSQL: database abstraction layer now uses native transaction support of the SQLSRV driver (resurtm)
 - Bug #124: Added CMysqlCommandBuilder to handle JOIN directive on update commands correctly (cebe, DaSourcerer)
 - Bug #126: Fixed CWebUser::getReturnUrl(), allowing to determine default URL correctly, if CUrlManager::showScriptName is set to false (klimov-paul)
+- Bug #138: CMysqlSchema fixed to support MySQL ANSI mode (cebe)
 - Bug #140: Fixed validation CJuiButton with type buttonset (adminnu)
 - Bug #162: Eventhandler attached twice when behavior is set enabled after attaching it (cebe)
 - Bug #276: Tweaked CGridView stylesheet to include a hover style for the selected row (acorncom)
