@@ -99,7 +99,7 @@ class CJuiDatePicker extends CJuiInputWidget
 
 			$this->options['altField']='#'.$id;
 
-			$id = $this->htmlOptions['id']=$id.'_container';
+			$id=$this->htmlOptions['id']=$id.'_container';
 			$this->htmlOptions['name']=$name.'_container';
 
 			echo CHtml::tag('div',$this->htmlOptions,'');
