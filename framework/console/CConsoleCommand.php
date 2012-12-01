@@ -489,13 +489,13 @@ abstract class CConsoleCommand extends CComponent
 	public function pluralize($name)
 	{
 		$rules=array(
-			'/move$/i' => 'moves',
-			'/foot$/i' => 'feet',
-			'/child$/i' => 'children',
-			'/human$/i' => 'humans',
-			'/man$/i' => 'men',
-			'/tooth$/i' => 'teeth',
-			'/person$/i' => 'people',
+			'/(m)ove$/i' => '\1oves',
+			'/(f)oot$/i' => '\1eet',
+			'/(c)hild$/i' => '\1hildren',
+			'/(h)uman$/i' => '\1umans',
+			'/(m)an$/i' => '\1en',
+			'/(t)ooth$/i' => '\1eeth',
+			'/(p)erson$/i' => '\1eople',
 			'/([m|l])ouse$/i' => '\1ice',
 			'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
 			'/([^aeiouy]|qu)y$/i' => '\1ies',
