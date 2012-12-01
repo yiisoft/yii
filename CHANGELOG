@@ -109,7 +109,6 @@ Version 1.1.13 work in progress
 - Chg #1548: Upgraded jQueryUI to 1.9.2 (samdark)
 - Chg #1563: Updated CTestCase for PHPUnit 3.7.7+ (tanakahisateru, samdark)
 - Chg #1746: CDbCriteria::mergeWith() is now more consistent with all other class methods (hyzhakus, samdark)
-- Chg #1548: Upgraded jQueryUI to 1.9.2 (samdark)
 - Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
 - Chg: Added Oracle unit tests (resurtm)
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
