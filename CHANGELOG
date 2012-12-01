@@ -105,6 +105,7 @@ Version 1.1.13 work in progress
 - Enh: Allow to customize CHtml::error() container tag (creocoder)
 - Enh: CModule::setComponents() now can reconfigure already loaded components (creocoder)
 - Enh: CLocale::getWeekDayName() weekday-number argument is now more compatible with date() function, allowing 0 and 7 for sunday (Yiivgeny, cebe)
+- Chg #1193: Upgraded jQuery to 1.8.3 (samdark)
 - Chg #1373: Upgraded jquery star rating to 3.14 (samdark)
 - Chg #1563: Updated CTestCase for PHPUnit 3.7.7+ (tanakahisateru, samdark)
 - Chg #1746: CDbCriteria::mergeWith() is now more consistent with all other class methods (hyzhakus, samdark)
