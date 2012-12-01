@@ -404,13 +404,13 @@ abstract class CCodeModel extends CFormModel
 	public function pluralize($name)
 	{
 		$rules=array(
-			'/move$/i' => '\1oves',
-			'/foot$/i' => '\1eet',
-			'/child$/i' => '\1hildren',
-			'/human$/i' => '\1umans',
-			'/man$/i' => '\1en',
-			'/tooth$/i' => '\1eeth',
-			'/person$/i' => '\1eople',
+			'/(m)ove$/i' => '\1oves',
+			'/(f)oot$/i' => '\1eet',
+			'/(c)hild$/i' => '\1hildren',
+			'/(h)uman$/i' => '\1umans',
+			'/(m)an$/i' => '\1en',
+			'/(t)ooth$/i' => '\1eeth',
+			'/(p)erson$/i' => '\1eople',
 			'/([m|l])ouse$/i' => '\1ice',
 			'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
 			'/([^aeiouy]|qu)y$/i' => '\1ies',
