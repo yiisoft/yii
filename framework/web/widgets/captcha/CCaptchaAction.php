@@ -174,7 +174,7 @@ class CCaptchaAction extends CAction
 	public function validate($input,$caseSensitive)
 	{
 		$code = $this->getVerifyCode();
-		$valid = $caseSensitive ? ($input === $code) : !strcasecmp($input,$code);
+		$valid = $caseSensitive ? ($input === $code) : strcasecmp($input,$code)===0;
 		$session = Yii::app()->session;
 		$session->open();
 		$name = $this->getSessionKey() . 'count';
