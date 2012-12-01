@@ -52,6 +52,10 @@ class CFileHelperTest extends CTestCase
 
 	public function testCopyDirectory_subDir_modeShoudBe0775()
 	{
+		if (substr(PHP_OS, 0, 3) == 'WIN') {
+			$this->markTestSkipped("Can't reliably test it on Windows because fileperms() always return 0777.");
+		}
+
 		$this->createTestStruct($this->testDir);
 		$src = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir1;
 		$dst = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir2;
@@ -64,6 +68,10 @@ class CFileHelperTest extends CTestCase
 
 	public function testCopyDirectory_subDir_modeShoudBe0777()
 	{
+		if (substr(PHP_OS, 0, 3) == 'WIN') {
+			$this->markTestSkipped("Can't reliably test it on Windows because fileperms() always return 0777.");
+		}
+
 		$this->createTestStruct($this->testDir);
 		$src = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir1;
 		$dst = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir2;
