@@ -574,6 +574,9 @@ class CDbCommand extends CComponent
 		if(!empty($query['having']))
 			$sql.="\nHAVING ".$query['having'];
 
+		if(!empty($query['union']))
+			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
+
 		if(!empty($query['order']))
 			$sql.="\nORDER BY ".$query['order'];
 
@@ -581,9 +584,6 @@ class CDbCommand extends CComponent
 		$offset=isset($query['offset']) ? (int)$query['offset'] : -1;
 		if($limit>=0 || $offset>0)
 			$sql=$this->_connection->getCommandBuilder()->applyLimit($sql,$limit,$offset);
-
-		if(!empty($query['union']))
-			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
 
 		return $sql;
 	}
