@@ -51,6 +51,7 @@ Version 1.1.13 work in progress
 - Bug #1652: Fixed incorrect syntax of CDbSchema::renameTable() for SQLite, added CSqliteSchema::renameTable() method (Sarke)
 - Bug #1673: CHttpRequest::getPreferredLanguage now works according to RFC2616. Added CHttpRequest::getPreferredLanguages that returns all user accepted languages in order of preference (Rupert-RR, bwoester, cebe, samdark)
 - Bug #1676: Fixed listData() grouping when no group was specified (mdomba)
+- Bug #1716: Fixed CCodeModel::pluralize() and CConsoleCommand::pluralize() so it doesn't force lowercase the first letter in any words (nsanden)
 - Bug #1726: Fixed the error Undefined variable: json in CJSON.php when json_decode function did not exist (heyhoo)
 - Bug: Table schema is refreshed on Gii model generation when schemaCachingDuration is used (SonkoDmitry)
 - Bug: CDbCommand::setFetchMode wasn't accepting additional arguments needed for PDO::FETCH_CLASS (samdark)
@@ -113,7 +114,6 @@ Version 1.1.13 work in progress
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
 - Chg: Added punycode.js v1.1.1 (http://mths.be/punycode) and IDNA Converter v0.8.0 (http://phlymail.com/en/downloads/idna-convert.html) to the vendors (third party libraries and utilities) (resurtm)
 - New: Ported offline documentation viewer from yiidoc project. Mainly usable for translations but can be used for reading offline as well (samdark)
-- Bug #1716: Fixed CCodeModel::pluralize() and CConsoleCommand::pluralize() so it doesn't force lowercase the first letter in any words (nsanden)
 
 Version 1.1.12 August 19, 2012
 ------------------------------
