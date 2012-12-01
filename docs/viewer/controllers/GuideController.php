@@ -22,6 +22,7 @@ class GuideController extends CController
 		'sv'=>'Swedish',
 		'ta_in'=>'Tamil',
 		'vi'=>'Vietnamese',
+		'uk' => 'Ukrainian',
 		'zh_cn'=>'Simplified Chinese',
 		'zh_tw'=>'Traditional Chinese',
 	);

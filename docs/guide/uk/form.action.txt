@@ -54,5 +54,3 @@ $model->rememberMe=$_POST['LoginForm']['rememberMe'];
 відповідного атрибуту `username`, ми будемо використовувати імʼя `LoginForm[username]`.
 
 Тепер нам залишилося тільки створити представлення `login`, яке буде містити HTML форму з необхідними полями.
-
-<div class="revision">$Id$</div>

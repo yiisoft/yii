@@ -12,5 +12,3 @@
 - Віталій Степаненко, vitaliy.step
 
 © 2008—2010, Yii Software LLC.
-
-<div class="revision">$Id$</div>

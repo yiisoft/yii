@@ -319,5 +319,3 @@ class PostController extends CController
 застосований до дій `edit` та `create`, а `PerformanceFilter` — до всіх дій,
 окрім `edit` і `create`. Якщо оператори `'+'` і `'-'` не зазначені, фільтр буде
 застосований до всіх дій.
-
-<div class="revision">$Id$</div>

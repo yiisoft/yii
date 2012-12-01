@@ -119,5 +119,3 @@ $postPerPage=Yii::app()->controller->module->postPerPage;
 
 Для звертання до дії контролера у дочірньому модулі використовується маршрут
 `parentModuleID/childModuleID/controllerID/actionID`.
-
-<div class="revision">$Id$</div>
