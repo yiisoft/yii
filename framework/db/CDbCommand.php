@@ -574,8 +574,8 @@ class CDbCommand extends CComponent
 		if(!empty($query['having']))
 			$sql.="\nHAVING ".$query['having'];
 
-        if(!empty($query['union']))
-            $sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
+		if(!empty($query['union']))
+			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
 
 		if(!empty($query['order']))
 			$sql.="\nORDER BY ".$query['order'];
