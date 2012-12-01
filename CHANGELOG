@@ -40,6 +40,7 @@ Version 1.1.13 work in progress
 - Enh #949: Added COciSchema::resetSequence (jazahn, samdark)
 - Enh #990: Added CArrayDataProvider::$caseSensitiveSort property which allows to control whether sorting should be case sensitive (resurtm)
 - Enh #1084: CDateTimeParser: MMM pattern for parsing short month names is now locale aware (resurtm)
+- Enh #1146: CFileHelper::copyDirectory recursive directory creation (senz)
 - Enh #1183: CDbCommand: added andWhere()/orWhere() which appends condition to the WHERE part of the query, in contrary of CDbCommand::where() which replaces it (resurtm)
 - Enh #1184: CEmailValidator now supports IDN (Internationalized Domain Names), added CEmailValidator::$validateIDN property (resurtm)
 - Enh #1201: CMenu now supports HTML attributes for the links' wrap element specified in $linkLabelWrapper (resurtm)
