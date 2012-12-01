@@ -76,6 +76,7 @@ Version 1.1.13 work in progress
 - Enh #1146: CFileHelper::copyDirectory recursive directory creation (senz)
 - Enh #1183: CDbCommand: added andWhere()/orWhere() which appends condition to the WHERE part of the query, in contrary of CDbCommand::where() which replaces it (resurtm)
 - Enh #1184: CEmailValidator now supports IDN (Internationalized Domain Names), added CEmailValidator::$validateIDN property (resurtm)
+- Enh #1134: CAssetManager filepath creation now can be extended thru generatePath(). Path creation is now recursive in publish(). (senz)
 - Enh #1201: CMenu now supports HTML attributes for the links' wrap element specified in $linkLabelWrapper (resurtm)
 - Enh #1228: Added ability to MessageCommand to generate translation files for multiple functions (Arne-S, samdark)
 - Enh #1238: CJuiDatePicker is now using the native altField option to handle the hidden input when type flat is used (mdomba, christiansalazar)
