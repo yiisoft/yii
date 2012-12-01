@@ -56,7 +56,7 @@ class CFileHelper
 		$level=-1;
 		extract($options);
 		if(!is_dir($dst))
-			self::mkdir($dst, self::getModeFromOptions($options), true);
+			self::mkdir($dst, $options, true);
 
 		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
 	}
@@ -113,7 +113,7 @@ class CFileHelper
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
-			self::mkdir($dst, self::getModeFromOptions($options), false);
+			self::mkdir($dst, $options, false);
 
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
@@ -265,32 +265,25 @@ class CFileHelper
 	}
 
 	/**
-	 * Creates directory for $dst path with $mode and $recursive creation is allowed.
-	 * For concurrent compatibility chmod is used instead of mkdir's $mode.
+	 * Shared environment safe version of mkdir. Supports recursive creation.
+	 * For avoidance of umask side-effects chmod is used.
 	 *
 	 * @static
 	 * @param string $dst path to be created
-	 * @param integer $mode access bitmask
+	 * @param array $options newDirMode element used, must contain access bitmask.
 	 * @param boolean $recursive
 	 * @return boolean result of mkdir
 	 * @see mkdir
 	 */
-	private static function mkdir($dst, $mode, $recursive)
+	private static function mkdir($dst, array $options, $recursive)
 	{
-		$res = mkdir($dst, $mode, $recursive);
+		$prevDir = dirname($dst);
+		if ($recursive && !is_dir($dst) && !is_dir($prevDir)) self::mkdir(dirname($dst), $options, true);
+
+		$mode = isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
+		$res = mkdir($dst, $mode);
 		chmod($dst, $mode);
 		return $res;
-	}
-
-	/**
-	 * Returns dir access mode from options, if set, or default value (0777).
-	 * @static
-	 * @param array $options
-	 * @return integer
-	 */
-	private static function getModeFromOptions(array $options)
-	{
-		return isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
 	}
 
 }

@@ -759,7 +759,7 @@ Below is an example showing how to create an index:
 ~~~
 [php]
 // CREATE INDEX `idx_username` ON `tbl_user` (`username`)
-createIndex('idx_username', 'tbl_user')
+createIndex('idx_username', 'tbl_user', 'username')
 ~~~
 
 
