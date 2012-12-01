@@ -31,7 +31,7 @@ class CFileHelper
 
 	/**
 	 * Copies a directory recursively as another.
-	 * If the destination directory does not exist, it will be created.
+	 * If the destination directory does not exist, it will be created recursively.
 	 * @param string $src the source directory
 	 * @param string $dst the destination directory
 	 * @param array $options options for directory copy. Valid options are:
@@ -55,6 +55,9 @@ class CFileHelper
 		$exclude=array();
 		$level=-1;
 		extract($options);
+		if(!is_dir($dst))
+			self::mkdir($dst, $options, true);
+
 		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
 	}
 
@@ -110,11 +113,8 @@ class CFileHelper
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
-			mkdir($dst);
-		if(isset($options['newDirMode']))
-			@chmod($dst,$options['newDirMode']);
-		else
-			@chmod($dst,0777);
+			self::mkdir($dst, $options, false);
+
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
 		{
@@ -128,7 +128,7 @@ class CFileHelper
 				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						@chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
+						chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
 				}
 				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
@@ -263,4 +263,27 @@ class CFileHelper
 		}
 		return null;
 	}
+
+	/**
+	 * Shared environment safe version of mkdir. Supports recursive creation.
+	 * For avoidance of umask side-effects chmod is used.
+	 *
+	 * @static
+	 * @param string $dst path to be created
+	 * @param array $options newDirMode element used, must contain access bitmask.
+	 * @param boolean $recursive
+	 * @return boolean result of mkdir
+	 * @see mkdir
+	 */
+	private static function mkdir($dst, array $options, $recursive)
+	{
+		$prevDir = dirname($dst);
+		if ($recursive && !is_dir($dst) && !is_dir($prevDir)) self::mkdir(dirname($dst), $options, true);
+
+		$mode = isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
+		$res = mkdir($dst, $mode);
+		chmod($dst, $mode);
+		return $res;
+	}
+
 }
