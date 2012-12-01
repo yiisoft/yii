@@ -2,17 +2,16 @@
 class CFileHelperTest extends CTestCase
 {
 	private $testDir;
-	private $testMode = 0770;
-	private $rootDir1 = "test1";
-	private $rootDir2 = "test2";
-	private $subDir = 'sub';
-	private $file = 'testfile';
+	private $testMode=0770;
+	private $rootDir1="test1";
+	private $rootDir2="test2";
+	private $subDir='sub';
+	private $file='testfile';
 
 	protected function setUp()
 	{
-		$this->testDir = Yii::getPathOfAlias('application.runtime.CFileHelper');
-		if(!is_dir($this->testDir) &&
-			!(@mkdir($this->testDir)))
+		$this->testDir=Yii::getPathOfAlias('application.runtime.CFileHelper');
+		if(!is_dir($this->testDir) && !(@mkdir($this->testDir)))
 			$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 
 		// create temporary testing data files
@@ -27,14 +26,15 @@ class CFileHelperTest extends CTestCase
 
 	protected function tearDown()
 	{
-		if (is_dir($this->testDir)) $this->rrmdir($this->testDir);
+		if (is_dir($this->testDir))
+			$this->rrmdir($this->testDir);
 	}
 
 	public function testGetMimeTypeByExtension()
 	{
 		// run everything ten times in one test action to be sure that caching inside
 		// CFileHelper::getMimeTypeByExtension() is working the right way
-		for($i=0; $i<10; $i++)
+		for($i=0;$i<10;$i++)
 		{
 			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txa'));
 			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txb'));
@@ -52,69 +52,63 @@ class CFileHelperTest extends CTestCase
 
 	public function testCopyDirectory_subDir_modeShoudBe0775()
 	{
-		if (substr(PHP_OS, 0, 3) == 'WIN') {
+		if (substr(PHP_OS,0,3)=='WIN')
 			$this->markTestSkipped("Can't reliably test it on Windows because fileperms() always return 0777.");
-		}
 
 		$this->createTestStruct($this->testDir);
-		$src = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir1;
-		$dst = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir2;
-		CFileHelper::copyDirectory($src, $dst, array('newDirMode' => $this->testMode));
+		$src=$this->testDir.DIRECTORY_SEPARATOR.$this->rootDir1;
+		$dst=$this->testDir.DIRECTORY_SEPARATOR.$this->rootDir2;
+		CFileHelper::copyDirectory($src,$dst,array('newDirMode'=>$this->testMode));
 
-		$subDir2Mode = $this->getMode($dst . DIRECTORY_SEPARATOR . $this->subDir );
-		$expectedMode = sprintf('%o', $this->testMode);
-		$this->assertEquals($expectedMode, $subDir2Mode, "Subdir mode is not {$expectedMode}");
+		$subDir2Mode=$this->getMode($dst.DIRECTORY_SEPARATOR.$this->subDir);
+		$expectedMode=sprintf('%o',$this->testMode);
+		$this->assertEquals($expectedMode,$subDir2Mode,"Subdir mode is not {$expectedMode}");
 	}
 
 	public function testCopyDirectory_subDir_modeShoudBe0777()
 	{
-		if (substr(PHP_OS, 0, 3) == 'WIN') {
+		if (substr(PHP_OS,0,3)=='WIN')
 			$this->markTestSkipped("Can't reliably test it on Windows because fileperms() always return 0777.");
-		}
 
 		$this->createTestStruct($this->testDir);
-		$src = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir1;
-		$dst = $this->testDir . DIRECTORY_SEPARATOR . $this->rootDir2;
-		CFileHelper::copyDirectory($src, $dst);
+		$src=$this->testDir.DIRECTORY_SEPARATOR.$this->rootDir1;
+		$dst=$this->testDir.DIRECTORY_SEPARATOR.$this->rootDir2;
+		CFileHelper::copyDirectory($src,$dst);
 
-		$subDir2Mode = $this->getMode($dst . DIRECTORY_SEPARATOR . $this->subDir );
-		$expectedMode = sprintf('%o', 0777);
-		$this->assertEquals($expectedMode, $subDir2Mode, "Subdir mode is not {$expectedMode}");
+		$subDir2Mode=$this->getMode($dst.DIRECTORY_SEPARATOR.$this->subDir);
+		$expectedMode=sprintf('%o',0777);
+		$this->assertEquals($expectedMode,$subDir2Mode,"Subdir mode is not {$expectedMode}");
 	}
 
 	private function createTestStruct($testDir)
 	{
-		$rootDir = $testDir . DIRECTORY_SEPARATOR . $this->rootDir1;
+		$rootDir=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1;
 		mkdir($rootDir);
 
-		$subDir = $testDir . DIRECTORY_SEPARATOR . $this->rootDir1 . DIRECTORY_SEPARATOR . $this->subDir;
+		$subDir=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1.DIRECTORY_SEPARATOR.$this->subDir;
 		mkdir($subDir);
 
-		$file = $testDir . DIRECTORY_SEPARATOR . $this->rootDir1 . DIRECTORY_SEPARATOR . $this->subDir . DIRECTORY_SEPARATOR . $this->file;
-		file_put_contents($file, '12321312');
+		$file=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1.DIRECTORY_SEPARATOR.$this->subDir.DIRECTORY_SEPARATOR.$this->file;
+		file_put_contents($file,'12321312');
 	}
 
 	private function getMode($file)
 	{
-		return substr(sprintf('%o', fileperms($file)), -4);
+		return substr(sprintf('%o',fileperms($file)),-4);
 	}
 
 	private function rrmdir($dir)
 	{
-		if ($handle = opendir($dir))
+		if($handle=opendir($dir))
 		{
-			while (false !== ($entry = readdir($handle)))
+			while(false!==($entry=readdir($handle)))
 			{
-				if ($entry != "." && $entry != "..")
+				if($entry!="." && $entry!="..")
 				{
-					if (is_dir($dir . "/" . $entry) === true)
-					{
-						$this->rrmdir($dir . "/" . $entry);
-					}
+					if(is_dir($dir."/".$entry)===true)
+						$this->rrmdir($dir."/".$entry);
 					else
-					{
-						unlink($dir . "/" . $entry);
-					}
+						unlink($dir."/".$entry);
 				}
 			}
 			closedir($handle);

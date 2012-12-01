@@ -26,7 +26,7 @@ class CFileHelper
 	 */
 	public static function getExtension($path)
 	{
-		return pathinfo($path, PATHINFO_EXTENSION);
+		return pathinfo($path,PATHINFO_EXTENSION);
 	}
 
 	/**
@@ -47,6 +47,8 @@ class CFileHelper
 	 * Level 0 means copying only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
  	 * </li>
+	 * <li>newDirMode - the permission to be set for newly copied directories (defaults to 0777);</li>
+	 * <li>newFileMode - the permission to be set for newly copied files (defaults to the current environment setting).</li>
 	 * </ul>
 	 */
 	public static function copyDirectory($src,$dst,$options=array())
@@ -56,7 +58,7 @@ class CFileHelper
 		$level=-1;
 		extract($options);
 		if(!is_dir($dst))
-			self::mkdir($dst, $options, true);
+			self::mkdir($dst,$options,true);
 
 		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
 	}
@@ -113,7 +115,7 @@ class CFileHelper
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
-			self::mkdir($dst, $options, false);
+			self::mkdir($dst,$options,false);
 
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
@@ -128,7 +130,7 @@ class CFileHelper
 				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
+						chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
 				}
 				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
@@ -196,7 +198,7 @@ class CFileHelper
 		}
 		if(!$isFile || empty($fileTypes))
 			return true;
-		if(($type=pathinfo($file, PATHINFO_EXTENSION))!=='')
+		if(($type=pathinfo($file,PATHINFO_EXTENSION))!=='')
 			return in_array($type,$fileTypes);
 		else
 			return false;
@@ -248,12 +250,12 @@ class CFileHelper
 	 */
 	public static function getMimeTypeByExtension($file,$magicFile=null)
 	{
-		static $extensions, $customExtensions=array();
+		static $extensions,$customExtensions=array();
 		if($magicFile===null && $extensions===null)
 			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
 		elseif($magicFile!==null && !isset($customExtensions[$magicFile]))
 			$customExtensions[$magicFile]=require($magicFile);
-		if(($ext=pathinfo($file, PATHINFO_EXTENSION))!=='')
+		if(($ext=pathinfo($file,PATHINFO_EXTENSION))!=='')
 		{
 			$ext=strtolower($ext);
 			if($magicFile===null && isset($extensions[$ext]))
@@ -275,15 +277,15 @@ class CFileHelper
 	 * @return boolean result of mkdir
 	 * @see mkdir
 	 */
-	private static function mkdir($dst, array $options, $recursive)
+	private static function mkdir($dst,array $options,$recursive)
 	{
-		$prevDir = dirname($dst);
-		if ($recursive && !is_dir($dst) && !is_dir($prevDir)) self::mkdir(dirname($dst), $options, true);
+		$prevDir=dirname($dst);
+		if($recursive && !is_dir($dst) && !is_dir($prevDir))
+			self::mkdir(dirname($dst),$options,true);
 
-		$mode = isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
-		$res = mkdir($dst, $mode);
-		chmod($dst, $mode);
+		$mode=isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
+		$res=mkdir($dst, $mode);
+		chmod($dst,$mode);
 		return $res;
 	}
-
 }
