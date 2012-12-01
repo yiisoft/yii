@@ -205,15 +205,15 @@ class CAssetManager extends CApplicationComponent
 
 				if(!is_dir($dstDir))
 				{
-					mkdir($dstDir, $this->newDirMode, true);
-					chmod($dstDir, $this->newDirMode);
+					mkdir($dstDir,$this->newDirMode,true);
+					chmod($dstDir,$this->newDirMode);
 				}
 
 				if($this->linkAssets && !is_file($dstFile)) symlink($src,$dstFile);
 				elseif(@filemtime($dstFile)<@filemtime($src))
 				{
 					copy($src,$dstFile);
-					chmod($dstFile, $this->newFileMode);
+					chmod($dstFile,$this->newFileMode);
 				}
 
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
@@ -256,8 +256,8 @@ class CAssetManager extends CApplicationComponent
 	{
 		if(($path=realpath($path))!==false)
 		{
-			$base=$this->getBasePath().DIRECTORY_SEPARATOR.$this->generatePath($path, $hashByName);
-			return is_file($path) ? $base . DIRECTORY_SEPARATOR . basename($path) : $base ;
+			$base=$this->getBasePath().DIRECTORY_SEPARATOR.$this->generatePath($path,$hashByName);
+			return is_file($path) ? $base.DIRECTORY_SEPARATOR.basename($path) : $base ;
 		}
 		else
 			return false;
@@ -280,7 +280,7 @@ class CAssetManager extends CApplicationComponent
 			return $this->_published[$path];
 		if(($path=realpath($path))!==false)
 		{
-			$base=$this->getBaseUrl().'/'.$this->generatePath($path, $hashByName);
+			$base=$this->getBaseUrl().'/'.$this->generatePath($path,$hashByName);
 			return is_file($path) ? $base.'/'.basename($path) : $base;
 		}
 		else
@@ -305,12 +305,12 @@ class CAssetManager extends CApplicationComponent
 	 * @return string path segments without basePath.
 	 * @since 1.1.13
 	 */
-	protected function generatePath($file, $hashByName=false)
+	protected function generatePath($file,$hashByName=false)
 	{
 		if (is_file($file))
-			$pathForHashing = $hashByName ? basename($file) : dirname($file).filemtime($file);
+			$pathForHashing=$hashByName ? basename($file) : dirname($file).filemtime($file);
 		else
-			$pathForHashing = $hashByName ? basename($file) : $file.filemtime($file);
+			$pathForHashing=$hashByName ? basename($file) : $file.filemtime($file);
 
 		return $this->hash($pathForHashing);
 	}
