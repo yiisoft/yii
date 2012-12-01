@@ -93,5 +93,3 @@ $cs->scriptMap=array(
 …
 </head>
 ~~~
-
-<div class="revision">$Id$</div>
