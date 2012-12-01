@@ -110,24 +110,22 @@ class CTypeValidator extends CValidator
 	 */
 	public function validateValue($value)
 	{
-		if(is_object($value) || is_bool($value))
+		$type=$this->type==='float' ? 'double' : $this->type;
+		if($type===gettype($value))
+			return true;
+		elseif($this->strict || !is_string($value))
 			return false;
 
-		if(is_array($value))
-			return $this->type==='array';
-
-		if($this->type==='integer')
-			return $this->strict ? is_integer($value) : (boolean)preg_match('/^[-+]?[0-9]+$/',trim($value));
-		elseif($this->type==='float')
-			return $this->strict ? is_float($value) : (boolean)preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
-		elseif($this->type==='date')
+		if($type==='integer')
+			return (boolean)preg_match('/^[-+]?[0-9]+$/',trim($value));
+		elseif($type==='double')
+			return (boolean)preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
+		elseif($type==='date')
 			return CDateTimeParser::parse($value,$this->dateFormat,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
-		elseif($this->type==='time')
+		elseif($type==='time')
 			return CDateTimeParser::parse($value,$this->timeFormat)!==false;
-		elseif($this->type==='datetime')
+		elseif($type==='datetime')
 			return CDateTimeParser::parse($value,$this->datetimeFormat, array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
-		elseif($this->type==='string')
-			return is_string($value);
 
 		return false;
 	}
