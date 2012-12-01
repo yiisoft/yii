@@ -77,7 +77,8 @@ class CPortlet extends CWidget
 		ob_start();
 		ob_implicit_flush(false);
 
-		$this->htmlOptions['id']=$this->getId();
+		if(empty($this->htmlOptions['id']))
+			$this->htmlOptions['id']=$this->getId();
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		$this->renderDecoration();
 		echo "<div class=\"{$this->contentCssClass}\">\n";
