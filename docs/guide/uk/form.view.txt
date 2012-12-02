@@ -92,5 +92,3 @@
 <?php $this->endWidget(); ?>
 </div><!-- form -->
 ~~~
-
-<div class="revision">$Id$</div>

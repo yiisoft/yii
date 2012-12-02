@@ -393,7 +393,7 @@ echo $form->renderEnd();
 ~~~
 [php]
 <div class="form">
-$this->renderPartial('_form', array('form'=>$form));
+<?php echo $this->renderPartial('_form', array('form'=>$form)); ?>
 </div>
 ~~~
 
@@ -413,5 +413,3 @@ $this->renderPartial('_form', array('form'=>$form));
 ~~~
 
 У цьому випадку конструктор форм не дуже ефективний, оскільки нам доводиться описувати ті ж обсяги коду форми. Проте, перевага є. Вона в тому, що форма, описана в окремому файлі конфігурації, дозволяє розробнику сфокусуватися на логіці.
-
-<div class="revision">$Id$</div>

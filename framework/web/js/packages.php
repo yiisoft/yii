@@ -68,7 +68,7 @@ return array(
 		'depends'=>array('jquery'),
 	),
 	'bbq'=>array(
-		'js'=>array('jquery.ba-bbq.js'),
+		'js'=>array(YII_DEBUG ? 'jquery.ba-bbq.js' : 'jquery.ba-bbq.min.js'),
 		'depends'=>array('jquery'),
 	),
 	'history'=>array(

@@ -26,12 +26,12 @@ class CFileHelper
 	 */
 	public static function getExtension($path)
 	{
-		return pathinfo($path, PATHINFO_EXTENSION);
+		return pathinfo($path,PATHINFO_EXTENSION);
 	}
 
 	/**
 	 * Copies a directory recursively as another.
-	 * If the destination directory does not exist, it will be created.
+	 * If the destination directory does not exist, it will be created recursively.
 	 * @param string $src the source directory
 	 * @param string $dst the destination directory
 	 * @param array $options options for directory copy. Valid options are:
@@ -47,6 +47,8 @@ class CFileHelper
 	 * Level 0 means copying only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
  	 * </li>
+	 * <li>newDirMode - the permission to be set for newly copied directories (defaults to 0777);</li>
+	 * <li>newFileMode - the permission to be set for newly copied files (defaults to the current environment setting).</li>
 	 * </ul>
 	 */
 	public static function copyDirectory($src,$dst,$options=array())
@@ -55,6 +57,9 @@ class CFileHelper
 		$exclude=array();
 		$level=-1;
 		extract($options);
+		if(!is_dir($dst))
+			self::mkdir($dst,$options,true);
+
 		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
 	}
 
@@ -110,11 +115,8 @@ class CFileHelper
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
-			mkdir($dst);
-		if(isset($options['newDirMode']))
-			@chmod($dst,$options['newDirMode']);
-		else
-			@chmod($dst,0777);
+			self::mkdir($dst,$options,false);
+
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
 		{
@@ -128,7 +130,7 @@ class CFileHelper
 				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						@chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
+						chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
 				}
 				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
@@ -196,7 +198,7 @@ class CFileHelper
 		}
 		if(!$isFile || empty($fileTypes))
 			return true;
-		if(($type=pathinfo($file, PATHINFO_EXTENSION))!=='')
+		if(($type=pathinfo($file,PATHINFO_EXTENSION))!=='')
 			return in_array($type,$fileTypes);
 		else
 			return false;
@@ -248,12 +250,12 @@ class CFileHelper
 	 */
 	public static function getMimeTypeByExtension($file,$magicFile=null)
 	{
-		static $extensions, $customExtensions=array();
+		static $extensions,$customExtensions=array();
 		if($magicFile===null && $extensions===null)
 			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
 		elseif($magicFile!==null && !isset($customExtensions[$magicFile]))
 			$customExtensions[$magicFile]=require($magicFile);
-		if(($ext=pathinfo($file, PATHINFO_EXTENSION))!=='')
+		if(($ext=pathinfo($file,PATHINFO_EXTENSION))!=='')
 		{
 			$ext=strtolower($ext);
 			if($magicFile===null && isset($extensions[$ext]))
@@ -262,5 +264,28 @@ class CFileHelper
 				return $customExtensions[$magicFile][$ext];
 		}
 		return null;
+	}
+
+	/**
+	 * Shared environment safe version of mkdir. Supports recursive creation.
+	 * For avoidance of umask side-effects chmod is used.
+	 *
+	 * @static
+	 * @param string $dst path to be created
+	 * @param array $options newDirMode element used, must contain access bitmask.
+	 * @param boolean $recursive
+	 * @return boolean result of mkdir
+	 * @see mkdir
+	 */
+	private static function mkdir($dst,array $options,$recursive)
+	{
+		$prevDir=dirname($dst);
+		if($recursive && !is_dir($dst) && !is_dir($prevDir))
+			self::mkdir(dirname($dst),$options,true);
+
+		$mode=isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
+		$res=mkdir($dst, $mode);
+		chmod($dst,$mode);
+		return $res;
 	}
 }
