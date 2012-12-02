@@ -648,7 +648,6 @@ class YiiBase
 		'CModelEvent' => '/base/CModelEvent.php',
 		'CModule' => '/base/CModule.php',
 		'CSecurityManager' => '/base/CSecurityManager.php',
-		'CPasswordManager' => '/base/CPasswordManager.php',
 		'CStatePersister' => '/base/CStatePersister.php',
 		'CApcCache' => '/caching/CApcCache.php',
 		'CCache' => '/caching/CCache.php',
