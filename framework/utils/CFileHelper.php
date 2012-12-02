@@ -64,6 +64,30 @@ class CFileHelper
 	}
 
 	/**
+	 * Removes a directory recursively.
+	 * @param string $directory the directory to be deleted recursively.
+	 * @since 1.1.13
+	 */
+	public static function removeDirectory($directory)
+	{
+		if(!is_dir($directory) || !is_readable($directory))
+			return;
+		$handle=opendir($directory);
+		while(($item=readdir($handle))!==false)
+		{
+			if($item=='.' || $item=='..')
+				continue;
+			if(is_dir($path=$directory.DIRECTORY_SEPARATOR.$item))
+				self::removeDirectory($path);
+			else
+				unlink($path);
+		}
+		closedir($handle);
+		if(count(scandir($directory))==2)
+			rmdir($directory);
+	}
+
+	/**
 	 * Returns the files found under the specified directory and subdirectories.
 	 * @param string $dir the directory under which the files will be looked for
 	 * @param array $options options for file searching. Valid options are:
