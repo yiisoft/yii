@@ -129,7 +129,7 @@ class CJuiSliderInput extends CJuiInputWidget
 
 		$this->options[$this->event]= $isRange
 			? new CJavaScriptExpression("function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}_end').val(v[1]); }")
-			: new CJavaScriptExpression("function(event, ui) { jQuery(#'{$idHidden}').val(ui.value); }");
+			: new CJavaScriptExpression("function(event, ui) { jQuery('#{$idHidden}').val(ui.value); }");
 
 		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}_slider').slider($options);");
