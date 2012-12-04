@@ -38,6 +38,7 @@ class CBehavior extends CComponent implements IBehavior
 
 	/**
 	 * Attaches the behavior object to the component.
+	 * One behavior instance only can  belong to one owner component instance.
 	 * The default implementation will set the {@link owner} property
 	 * and attach event handlers as declared in {@link events}.
 	 * This method will also set {@link enabled} to true.
@@ -46,6 +47,9 @@ class CBehavior extends CComponent implements IBehavior
 	 */
 	public function attach($owner)
 	{
+		if($this->_owner){
+			$this->detach( $this->_owner );
+		}
 		$this->_enabled=true;
 		$this->_owner=$owner;
 		$this->_attachEventHandlers();
