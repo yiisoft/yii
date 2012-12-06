@@ -266,6 +266,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				Yii::app()->getSession()->destroy();
 			else
 				$this->clearStates();
+			$this->_access=array();
 			$this->afterLogout();
 		}
 	}
