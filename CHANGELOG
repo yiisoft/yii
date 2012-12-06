@@ -54,6 +54,7 @@ Version 1.1.13 work in progress
 - Bug #1676: Fixed listData() grouping when no group was specified (mdomba)
 - Bug #1716: Fixed CCodeModel::pluralize() and CConsoleCommand::pluralize() so it doesn't force lowercase the first letter in any words (nsanden)
 - Bug #1726: Fixed the error Undefined variable: json in CJSON.php when json_decode function did not exist (heyhoo)
+- Bug #1792: Fixed persistent access permissions when two identities were used in a single application run. (jhenriquemc, François Gannaz)
 - Bug: Table schema is refreshed on Gii model generation when schemaCachingDuration is used (SonkoDmitry)
 - Bug: CDbCommand::setFetchMode wasn't accepting additional arguments needed for PDO::FETCH_CLASS (samdark)
 - Bug: CCaptchaAction::validate check wasn't working properly in some cases (samdark, Qiang)
