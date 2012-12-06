@@ -1913,7 +1913,7 @@ EOD;
 	 */
 	public static function getIdByName($name)
 	{
-		return str_replace(array('[]', '][', '[', ']', ' '), array('', '_', '_', '', '_'), $name);
+		return str_replace(array('[]', '][', '[', ']', ' ', '\\'), array('', '_', '_', '', '_', '_'), $name);
 	}
 
 	/**
