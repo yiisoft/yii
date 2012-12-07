@@ -81,8 +81,8 @@ class CHtmlTest extends CTestCase
     /**
      * @dataProvider providerActiveDOMElements
      *
-     * @param string $action
-     * @param string $method
+     * @param CModel $model
+     * @param string $attribute
      * @param array $htmlOptions
      * @param string $assertion
      */
@@ -676,10 +676,10 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerActiveLabelEx
 	 *
-	 * @param boolean $addErrors
-	 * @param string $attribute
-	 * @param array $htmlOptions
-	 * @param string $validate
+     * @param bool $validate
+     * @param string $attribute
+     * @param array $htmlOptions
+     * @param string $assertion
 	 */
 	public function testActiveLabelEx($validate, $attribute, $htmlOptions, $assertion)
 	{
@@ -847,7 +847,7 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerImageButton
 	 *
-	 * @param string $src
+	 * @param string $label
 	 * @param array $htmlOptions
 	 * @param string $assertion
 	 */
