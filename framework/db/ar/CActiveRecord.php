@@ -890,6 +890,15 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * This event is raised before the record is instantiated by a count method.
+	 * @param CEvent $event the event parameter
+	 */
+	public function onBeforeCount($event)
+	{
+		$this->raiseEvent('onBeforeCount',$event);
+	}
+
+	/**
 	 * This method is invoked before saving a record (after validation, if any).
 	 * The default implementation raises the {@link onBeforeSave} event.
 	 * You may override this method to do any preparation work for record saving.
@@ -970,6 +979,19 @@ abstract class CActiveRecord extends CModel
 			$event=new CModelEvent($this);
 			$this->onBeforeFind($event);
 		}
+	}
+
+	/**
+	 * This method is invoked before an AR finder executes a count call.
+	 * The find calls include {@link count} and {@link countByAttributes}
+	 * The default implementation raises the {@link onBeforeCount} event.
+	 * If you override this method, make sure you call the parent implementation
+	 * so that the event is raised properly.
+	 */
+	protected function beforeCount()
+	{
+		if($this->hasEventHandler('onBeforeCount'))
+			$this->onBeforeCount(new CEvent($this));
 	}
 
 	/**
@@ -1543,6 +1565,7 @@ abstract class CActiveRecord extends CModel
 	{
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
+		$this->beforeCount();
 		$criteria=$builder->createCriteria($condition,$params);
 		$this->applyScopes($criteria);
 
@@ -1570,6 +1593,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.countByAttributes()','system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$builder=$this->getCommandBuilder();
+		$this->beforeCount();
 		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		$this->applyScopes($criteria);
 
@@ -1593,6 +1617,7 @@ abstract class CActiveRecord extends CModel
 	public function countBySql($sql,$params=array())
 	{
 		Yii::trace(get_class($this).'.countBySql()','system.db.ar.CActiveRecord');
+		$this->beforeCount();
 		return $this->getCommandBuilder()->createSqlCommand($sql,$params)->queryScalar();
 	}
 
