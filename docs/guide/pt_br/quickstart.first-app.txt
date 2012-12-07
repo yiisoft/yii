@@ -1,11 +1,12 @@
 Criando a primeira aplicação Yii
-==============================
+================================
 
-Para ter uma experiência inicial com o Yii, descrevemos nesta seção como criar nossa
-primeira aplicação em Yii. Iremos utilizar a poderosa ferramenta `yiic` que pode ser
-usada para automatizar a criação de código para várias finalidades. Assumiremos que
-`YiiRoot` é o diretório onde o Yii está instalado e `WebRoot` é o diretório raíz
-do servidor Web.
+Para lhe dar uma experiência inicial com o Yii, descrevemos nesta seção como criar 
+a sua primeira aplicação em Yii. Nos vamos usar o `yiic` (ferramenta de linha de comando)
+para criar uma nova aplicação em Yii e `Gii` (poderoso gerador de código na web)
+para automatizar a criação de código para determinadas tarefas. Por conveniência,
+assumiremos que `YiiRoot` é o diretório onde o Yii está instalado e `WebRoot` é
+o diretório raíz do servidor Web.
 
 Execute o `yiic` pela linha de comando, como no exemplo a seguir:
 
@@ -15,28 +16,28 @@ Execute o `yiic` pela linha de comando, como no exemplo a seguir:
 
 > Note|Nota: Quando executamos o `yiic` no Mac OS, Linux ou Unix, devemos 
 > alterar a permissão do arquivo `yiic` para torna-lo executável.
->
 > Como forma alternativa, você pode executa-lo da seguinte maneira:
 >
 > ~~~
-> % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % cd WebRoot
+> % php YiiRoot/framework/yiic.php webapp testdrive
 > ~~~
 
-Esse comando irá criar o esquele de uma aplicação Yii, no diretório `WebRoot/testdrive`. 
+Esse comando irá criar um esqueleto de uma aplicação Yii no diretório `WebRoot/testdrive`. 
 A aplicação tem um estrutura de diretórios que é a necessária para a maioria das 
 aplicações feitas no Yii.
 
-Sem ter escrito uma única linha de código, ja podemos testar nossa primeira aplicação Yii, 
+Sem ter escrito uma única linha de código, já podemos testar nossa primeira aplicação Yii, 
 acessando a seguinte URL:
 
 ~~~
 http://nomedoservidor/testdrive/index.php
 ~~~
 
-Como podemos ver, a aplicação tem três páginas: a página inicial, a página de contato e a página
-de login. A página principal mostra algumas informações sobre a aplicação, como o login do 
-usuário ativo, a página de contato exibe um formulário de contato que os usuários podem preencher 
+Como podemos ver, a aplicação tem quatro páginas: a página inicial, a página 
+sobre, a página de contato e a página de login. A página principal mostra algumas
+informações sobre a aplicação, como o login do usuário ativo, a página de contato
+exibe um formulário de contato que os usuários podem preencher 
 e enviar suas mensagens, a página de login permite que os usuários se autentiquem antes de acessar 
 o conteúdo privilegiado. Veja as imagens a seguir para mais detalhes:
 
@@ -59,6 +60,7 @@ obter explicações detalhadas sobre essa estrutura.
 ~~~
 testdrive/
    index.php                 Script de entrada da aplicação Web
+   index-test.php            Script de entrada para os testes funcionais
    assets/                   Contém arquivos de recurso publicados
    css/                      Contém arquivos CSS
    images/                   Contém arquivos de imagem
@@ -66,39 +68,62 @@ testdrive/
    protected/                Contém arquivos protegidos da aplicação
       yiic                   Script de linha de comando yiic
       yiic.bat               Script de linha de comando yiic para o Windows
+      yiic.php               Script PHP de linha de comando yiic 
       commands/              Contém comandos 'yiic' customizados
          shell/              Contém comandos 'yiic shell' customizados
       components/            Contém componentes reutilizáveis do usuário
-         MainMenu.php        A classe widget 'MainMenu' (Menu Principal)
-         Identity.php        A classe 'Identity' usada nas autenticações
-         views/              Contém arquivos de visão dos widgets
-            mainMenu.php     O arquivo de visão do widget 'MainMenu'
+         Controller.php      A classe padrão para todos os controles
+         UserIdentity.php    A classe 'UserIdentity' usada nas autenticações
       config/                Contém arquivos de configurações
          console.php         Configuração da aplicação console
          main.php            Configuração da aplicação Web
+         text.php            Configuração para os testes funcionais
       controllers/           Contém arquivos das classes de controle
          SiteController.php  Classes de controle padrão
+      data/                  Contém exemplos de banco de dados
+         schema.mysql.sql    Esquemas de BD com o banco de amostra em MySQL
+         schema.sqlite.sql   Esquemas de BD com o banco de amostra em SQLite
+         testdrive.db        Arquivo do banco de dados de amostra do SQLite
       extensions/            Contém extensões de terceiros
       messages/              Contém mensagens traduzidas
       models/                Contém arquivos das classes de modelo
          LoginForm.php       Modelo do formulário para a ação 'login'
          ContactForm.php     Modelo do formulário para a ação 'contact'
       runtime/               Contém arquivos gerados temporariamente
+      tests/                 Contém scripts para os testes
       views/                 Contém arquivos de visão dos controles e layouts
          layouts/            Contém arquivos de visão do layout
-            main.php         O layout padrão para todas as visões
+            main.php         O layout padrão para todas as páginas
+            column1.php      O layout para páginas com coluna única
+            column2.php      O layout para páginas com duas colunas
          site/               Contém arquivos de visão para o controle 'site'
+            pages/           Contém páginas "estática"
+               about.php     A visão para a página "about"
             contact.php      Visão para a ação 'contact'
+            error.php      	 Visão para a ação 'error' (exibindo erros externos)
             index.php        Visão para a ação 'index' 
             login.php        Visão para a ação 'login' 
-         system/             Contém arquivos de visão do sistema
 ~~~
 
+O gerador de aplicação descrito acima também suporta a criação de arquivos necessários
+pelo sistema de controle de versão Git. O comando a seguir deveria criar os arquivos:
+`.gitignore` (por exemplo, o conteúdo dos diretórios `assets` e `runtime` não devem
+ser rastreado) e `.gitkeep` (força o rastreamento de diretórios inicialmente vazios
+mas importante).
+
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive git
+~~~
+
+Outro VCS(sistema de controle de versão) suportado é o Mercurial: passe o valor hg
+como terceiro parâmetro se você estiver usando este VCS. Este recurso está 
+disponível desde a versão 1.1.11.
+
 Conectando ao Banco de Dados
-----------------------
+----------------------------
 
 A maioria das aplicações Web são auxiliadas com o uso de banco de dados.
-Nossa aplicação de test-drive não é uma exceção. Para usar banco de dados,
+Nossa aplicação de test-drive não é uma exceção. Para usar um banco de dados,
 primeiro precisamos dizer à aplicação como se conectar a ele. Isto é feito
 alterando o arquivo de configuração `WebRoot/testdrive/protected/config/main.php`, 
 como mostrado abaixo:
@@ -110,7 +135,7 @@ return array(
 	'components'=>array(
 		......
 		'db'=>array(
-			'connectionString'=>'sqlite:protected/data/source.db',
+			'connectionString'=>'sqlite:protected/data/testdrive.db',
 		),
 	),
 	......
@@ -118,20 +143,13 @@ return array(
 ~~~
 
 Acima, nós adicionamos uma entrada para `db` ao array `components`, que instrui a
-aplicação para se conectar ao banco de dados SQLite `WebRoot/testdrive/protected/data/source.db` 
-quando for preciso.
-
-> Note|Nota: Para utilizar os recursos de banco de dados do Yii, precisamos ativar
-a extensão PDO do PHP e a extensão de driver PDO específico. Para a aplicação test-drive,
-as extensões `php_pdo` e `php_pdo_sqlite` deverão estar habilitadas.
-
-Para este fim, precisamos de preparar uma base de dados SQLite, para que a configuração
-feita anteriormente seja eficaz. Usando alguma ferramenta de administração do SQLite,
-podemos criar um banco de dados com o seguinte esquema:
+aplicação para se conectar ao banco de dados SQLite `WebRoot/testdrive/protected/data/testdrive.db` 
+quando for preciso. Nota-se que o banco de dados SQLite já está incluído no esqueleto da
+aplicação que acabou de ser gerada. O banco de dados contém apenas uma única tabela chamada `tbl_user`:
 
 ~~~
 [sql]
-CREATE TABLE User (
+CREATE TABLE tbl_user (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
@@ -139,111 +157,114 @@ CREATE TABLE User (
 );
 ~~~
 
-> Note|Nota: Se estiver utilizando um banco de dados MySQL, você deve substituir o 
-`AUTOINCREMENT`, utilizado no código acima, por `AUTO_INCREMENT`.
+Se você quiser tentar um banco de dados MySQL, você pode usar o arquivo de esquema 
+`WebRoot/testdrive/protected/data/schema.mysql.sql` para criar o banco de dados.
 
-Por simplicidade, criamos somente uma única tabela: `User` no nosso banco de dados.
-O arquivo do banco de dados SQLite foi salvo em `WebRoot/testdrive/protected/data/source.db`.
-Observe que tanto o arquivo quanto o diretório devem ter permissão de leitura do servidor Web,
-como requerido pelo SQLite.
+> Note|Nota: Para utilizar os recursos de banco de dados do Yii, precisamos ativar
+a extensão PDO do PHP e a extensão de driver PDO específico. Para a aplicação test-drive,
+as extensões `php_pdo` e `php_pdo_sqlite` deverão estar habilitadas.
 
 
 Implementando operações do tipo CRUD
-----------------------------
+------------------------------------
 
 Agora começa a parte divertida. Iremos implementar operações CRUD (create, read,
 update and delete) quer realizará inserções, leituras, edições e deleções na 
-tabela `User` que acabamos de criar. Este tipo de operação é frequetemente necessário
-em aplicações reais.
+tabela `tbl_user` que acabamos de criar. Este tipo de operação é frequetemente necessário
+em aplicações reais. Em vez de se dar ao trabalho de escrever o código real, vamos
+usar Gii - um poderoso gerador de código baseado na web.
 
-Em vez da dificuldade na escrita de um código real, iremos utilizar a poderosa ferramenta
-`yiic` para gerar automaticamente o código. Este processo é também conhecido como *scaffolding*.
-Abra a linha de comando e execute os comandos listados a seguir:
+> Info|Info: Gii está disponível desde a versão 1.1.2. Antes disso, podemos usar a 
+ferramenta mencionada `yiic` para realizar a mesma funcionalidade. Para mais detalhes,
+consulte a [Geração de código utilizando a ferramenta de linha de comando](/doc/guide/quickstart.first-app-yiic).
 
-~~~
-% cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.0
-Please type 'help' for help. Type 'exit' to quit.
->> model User
-   generate User.php
 
-The 'User' class has been successfully created in the following file:
-    D:\wwwroot\testdrive\protected\models\User.php
+### Configuring Gii
 
-If you have a 'db' database connection, you can test it now with:
-    $model=User::model()->find();
-    print_r($model);
-
->> crud User
-   generate UserController.php
-   mkdir D:/wwwroot/testdrive/protected/views/user
-   generate create.php
-   generate update.php
-   generate list.php
-   generate show.php
-   generate admin.php
-   generate _form.php
-
-Crud 'user' has been successfully created. You may access it via:
-http://hostname/path/to/index.php?r=user
-~~~
-
-Acima, utilizamos o comando `yiic shell` para interagir com nossa
-aplicação esqueleto. Na linha de comando, podemos digitar dois subcomandos:
-`model User` e `crud User`. O primeiro gera a classe modelo para a tabela
-`User`, enquanto que o segundo comando lê a classe modelo `User` e gera 
-o código necessário para as operações do tipo CRUD.
-
-> Note|Nota: Você poderá encontrar erros como "...could not find driver" ou "...driver não encontrado", 
-> mesmo que o verificador de requisitos mostre que você já tem o PDO ativado e o driver PDO
-> correspondente ao Banco de Dados. Caso isso ocorra, você deve tentar rodar a ferramenta
-> `yiic` do seguinte modo:
->
-> ~~~
-> % php -c caminho/para/php.ini protected/yiic.php shell
-> ~~~
->
-> onde `caminho/para/php.ini` representa o arquivo PHP.ini correto.
-
-Podemos ver nossa primeira aplicação pela seguinte URL:
+Para poder usar Gii, primeiro precisamos editar o arquivo `WebRoot/testdrive/protected/config/main.php`,
+que é conhecido como o arquivo de [configuração da aplicação](/doc/guide/basics.application#application-configuration).
 
 ~~~
-http://hostname/testdrive/index.php?r=user
+[php]
+return array(
+	......
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+	),
+
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'pick up a password here',
+		),
+	),
+);
 ~~~
 
-Essa página irá mostrar uma lista de entradas de usuários da tabela `User`.
-Se tabela estiver vazia, nada será exibido.
+Então, visite a URL `http://nomedoservidor/testdrive/index.php?r=gii`. 
+Vai ser solicitada uma senha, que deve ser a mesma que você acabou de entrar na configuração da aplicação.
 
-Clique no link `New User` da página. Caso não esteja autenticado seremos
-levados à página de login. Uma vez logado, será exibido um formulário
-de entrada que permite adicionar um novo usuário. Preencha o formulário e
-clique sobre o botão `Create`. Se houver qualquer erro de entrada, um 
-erro será mostrado, o que nos impede de salvar os dados. Voltando à lista
-de usuários, iremos ver o recém adicionado usuário aparecendo na lista.
+### Gerando o Modelo User
 
-Repita as etapas acima para adicionar novos usuários. Repare que a tabela de
-usuários será automaticamente paginada, caso existam muitos usuários a serem
+Após o login, clique no link `Model Generator`. Isto nos levará para a página modelo de geração,
+
+![Gerador de Modelo](gii-model.png)
+
+No campo `Table Name`, digite `tbl_user`. No campo `Model Class`, digite `User`. Então pressione o botão `Preview`.
+Isso vai nos mostrar o novo arquivo de código a ser gerado. Agora pressione o botão `Generate`.
+Um novo arquivo chamado `User.php` será criado em `protected/models`. Como descreveremos mais adiante
+neste guia, esta classe modelo `User` nos permite falar com a tabela de banco de dados `tbl_user` 
+de forma orientada a objetos.
+
+### Gerando o código CRUD
+
+Depois de criar o arquivo da classe do modelo, nos iremos gerar o código que implementa as operações CRUD
+sobre os dados do usuário. Escolhemos o Gerador de CRUD no Gii, como mostrado a seguir.
+
+![Gerador CRUD](gii-crud.png)
+
+No campo `Model Class`, digite `User`. No campo `Controller ID`, digite `user` (em minúsculo). Agora
+pressione o botão `Preview` seguido do botão `Generate`. Nós finalizamos a geração de código CRUD.
+
+### Acessando as páginas do CRUD
+
+Vamos verificar o nosso trabalho pela seguinte URL:
+
+~~~
+http://nomedoservidor/testdrive/index.php?r=user
+~~~
+
+Isto irá exibir uma lista dos usuários registrados na tabela `tbl_user`.
+
+Clique no botão `Create User` na página. Iremos ser levados para a página de login,
+caso não tenha se identificado antes. Após o login, vemos um formulário que nos
+permite adicionar um novo usuário. Preencha o formulário e clique no botão `Create`.
+Se houver qualquer erro de entrada, um aviso de erro vai aparecer e não poderemos
+salvar a entrada. Voltando à página da lista dos usuários, devemos ver o recém
+adicionado usuário.
+
+Repita os passos acima para adicionar mais usuários. Observe que a página da
+lista de usuários automaticamente pagina os usuários, caso exista muitos a serem
 exibidos em uma página.
 
-Se logarmos como administrador utilizando o login/senha: `admin/admin`, veremos
-a página de administração de usuários pela seguinte URL:
+Se você entrar como um administrador usando `admin/admin`, podemos ver a página
+do administrador com a seguinte URL:
 
 ~~~
 http://hostname/testdrive/index.php?r=user/admin
 ~~~
 
-Será mostrada uma tabela de usuários. Podemos clicar nas células do cabeçalho 
-para ordenar as colunas correspondentes. E como na página de listagem dos usuários,
-a página de administração dos usuários também realiza a paginação quando existem
-muitos usuários a serem exibidos.
+Isso irá nos mostrar as entradas de usuário em um formato tabular agradável.
+Podemos clicar sobre as células do cabeçalho para ordenar as colunas correspondentes.
+Podemos clicar nos botões em cada linha de dados para ver, atualizar ou excluir a linha
+correspondente. Nós podemos navegar em páginas diferentes. Nós também podemos filtrar e
+pesquisar os dados em que estamos interessados.
 
-Todas essas incríveis funcionalidades foram criadas sem escrever uma única linha de código!
+Todas essas interessantes características foram criadas sem escrever uma única linha de código!
 
-![Página de administração dos usuários](first-app6.png)
+![Página do administrador](first-app6.png)
 
-![Página de criação de um novo usuário](first-app7.png)
-
-
+![Página para criar um novo usuário](first-app7.png)
 
 <div class="revision">$Id: quickstart.first-app.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>
