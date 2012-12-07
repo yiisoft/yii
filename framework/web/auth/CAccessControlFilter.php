@@ -283,8 +283,8 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param CAction $controller the action
-	 * @return boolean whether the rule applies to the action
+	 * @param CController $controller the controller
+	 * @return boolean whether the rule applies to the controller
 	 */
 	protected function isControllerMatched($controller)
 	{
