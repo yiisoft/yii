@@ -56,12 +56,19 @@ class CDateValidator extends CValidator
 		$valid=false;
 		foreach($formats as $format)
 		{
-			$timestamp=CDateTimeParser::parse($value,$format,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0));
-			if($timestamp!==false)
+			$p=CDateTimeParser::parseIntoArray($value, $format, array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0));
+			if(CTimestamp::isValidDate($p[0],$p[1],$p[2]) && CTimestamp::isValidTime($p[3],$p[4],$p[5]))
 			{
 				$valid=true;
 				if($this->timestampAttribute!==null)
-					$object->{$this->timestampAttribute}=$timestamp;
+				{
+					$ts=CTimestamp::getTimestamp($p[3],$p[4],$p[5],$p[1],$p[2],$p[0]);
+					if ($ts)
+						$object->{$this->timestampAttribute}=$ts;
+					else
+						$valid=false;
+				}
+
 				break;
 			}
 		}
