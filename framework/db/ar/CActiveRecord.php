@@ -983,7 +983,7 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This method is invoked before an AR finder executes a count call.
-	 * The find calls include {@link count} and {@link countByAttributes}
+	 * The count calls include {@link count} and {@link countByAttributes}
 	 * The default implementation raises the {@link onBeforeCount} event.
 	 * If you override this method, make sure you call the parent implementation
 	 * so that the event is raised properly.
