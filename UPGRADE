@@ -48,6 +48,10 @@ Upgrading from v1.1.12
      $alias = $this->owner->getTableAlias();
      $criteria->condition = $alias.'.myfield = 1';
 
+- Make sure you are using `CCaptcha::checkRequirements()` method for checking whether CAPTCHA could be rendered successfully in your environment.
+  `extension_loaded('gd')` expression is not enough and wrong because CAPTCHA could be rendered via ImageMagick with fallback to GD since 1.1.13
+  (thus checking code is not simple as it seems).
+
 Upgrading from v1.1.11
 ----------------------
 - Changes in CCookieCollection::add() (introduced in 1.1.11) were reverted as they were triggering E_STRICT on some old PHP-versions
