@@ -79,6 +79,27 @@ class CDateTimeParser
 	 */
 	public static function parse($value,$pattern='MM/dd/yyyy',$defaults=array())
 	{
+		$p=self::parseIntoArray($value, $pattern, $defaults);
+		if(CTimestamp::isValidDate($p[0],$p[1],$p[2]) && CTimestamp::isValidTime($p[3],$p[4],$p[5]))
+			return CTimestamp::getTimestamp($p[3],$p[4],$p[5],$p[1],$p[2],$p[0]);
+		else
+			return false;
+	}
+
+	/**
+	 * Converts a date string into an array (year, month, day, hour, minute, second).
+	 * @param string $value the date string to be parsed
+	 * @param string $pattern the pattern that the date string is following
+	 * @param array $defaults the default values for year, month, day, hour, minute and second.
+	 * The default values will be used in case when the pattern doesn't specify the
+	 * corresponding fields. For example, if the pattern is 'MM/dd/yyyy' and this
+	 * parameter is array('minute'=>0, 'second'=>0), then the actual minute and second
+	 * for the parsing result will take value 0, while the actual hour value will be
+	 * the current hour obtained by date('H'). This parameter has been available since version 1.1.5.
+	 * @return array (year, month, day, hour, minute, second) for the date string. False if parsing fails.
+	 */
+	public static function parseIntoArray($value,$pattern='MM/dd/yyyy',$defaults=array())
+	{
 		if(self::$_mbstringAvailable===null)
 			self::$_mbstringAvailable=extension_loaded('mbstring');
 
@@ -254,10 +275,7 @@ class CDateTimeParser
 			$second=(int)$second;
 		}
 
-		if(CTimestamp::isValidDate($year,$month,$day) && CTimestamp::isValidTime($hour,$minute,$second))
-			return CTimestamp::getTimestamp($hour,$minute,$second,$month,$day,$year);
-		else
-			return false;
+		return array($year,$month,$day,$hour,$minute,$second);
 	}
 
 	/*
