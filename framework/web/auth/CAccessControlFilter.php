@@ -57,11 +57,11 @@
  *   'message'=>'Access Denied.',
  * 
  *   // optional, the denied method callback name, that will be called once the
- *	 // access is denied, instead of showing the customized error message. It can also be
+ *   // access is denied, instead of showing the customized error message. It can also be
  *   // a valid PHP callback, including class method name (array(ClassName/Object, MethodName)),
- *	 // or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:
- *	 // function foo($user, $rule) { ... }
- *	 // where $user is the current application user object and $rule is this access rule.
+ *   // or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:
+ *   // function foo($user, $rule) { ... }
+ *   // where $user is the current application user object and $rule is this access rule.
  *   // This option is available since version 1.1.11.
  *   'deniedCallback'=>'redirectToDeniedMethod',
   * )
