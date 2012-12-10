@@ -126,6 +126,10 @@ o método de mesmo nome existente no controle. A única diferença entre eles é
 que nenhum layout será aplicado a visão do widget. Além disso, nessa view, `$this`
 refere-se a instância do widget em vez da instância do controller.
 
+> Tip|Dica: [CWidgetFactory::widgets] pode ser utilizado para configurar widgets em todo o site,
+> possibilitando a configuração com mais facilidade. Você pode encontrar mais detalhes em 
+> [página de temas](/doc/guide/topics.theming#customizing-widgets-globally)
+
 Visão do Sistema (System View)
 ------------------------------
 

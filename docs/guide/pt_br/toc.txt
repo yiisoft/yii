@@ -4,6 +4,7 @@
 	- [Atualizando a versão 1.0 para 1.1](upgrade)
     - [O que é Yii?](quickstart.what-is-yii)
     - [Instalação](quickstart.installation)
+    - [Configurações do Apache e Nginx](quickstart.apache-nginx-config)
     - [Criando a primeira aplicação Yii](quickstart.first-app)
 
 * Conceitos Básicos
