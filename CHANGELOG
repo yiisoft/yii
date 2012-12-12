@@ -3,6 +3,7 @@
 
 Version 1.1.13 work in progress
 -------------------------------
+- Enh #1515 Post-join operations (use|force|ignore index()) support in relational queries (KonovalovMaxim)
 - Bug #93: Criteria modification in CActiveRecord::beforeFind() did not apply when record was loaded in relational context. See UPGRADE instructions for details on behavior change. (cebe)
 - Bug #109: formatNumber() now uses number_format() instead of round(), because of round() error in IEEE754 accuracy limitations (SonkoDmitry)
 - Bug #110: MSSQL: fixed empty $primaryKey value after saving CActiveRecord model (resurtm)
