@@ -307,9 +307,7 @@ class COutputCache extends CFilterWidget
 			$key.='.';
 
 			if($this->varyByLanguage)
-			{
 				$key.=Yii::app()->language;
-			}
 			$key.='.';
 
 			return $this->_key=$key;
