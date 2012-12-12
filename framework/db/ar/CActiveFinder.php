@@ -231,11 +231,10 @@ class CActiveFinder extends CComponent
 			if(!empty($options['scopes']))
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
-            if(!empty($options['joinOptions']))
-                $relation->joinOptions = $options['joinOptions'];
+			if(!empty($options['joinOptions']))
+				$relation->joinOptions = $options['joinOptions'];
 
-
-            $model->resetScope(false);
+			$model->resetScope(false);
 			$criteria=$model->getDbCriteria();
 			$criteria->scopes=$scopes;
 			$model->beforeFindInternal();
@@ -1065,10 +1064,10 @@ class CJoinElement
 		if(!empty($this->relation->on))
 			$joins[]=$this->relation->on;
 
-        if(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
-            return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ' . $this->relation->joinOptions .  ' ON (' . implode(') AND (',$joins).')';
-        else
-            return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON (' . implode(') AND (',$joins).')';
+		if(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
+			return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ' . $this->relation->joinOptions .  ' ON (' . implode(') AND (',$joins).')';
+		else
+			return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON (' . implode(') AND (',$joins).')';
 	}
 
 	/**
@@ -1137,22 +1136,22 @@ class CJoinElement
 		{
 			$join=$this->relation->joinType.' '.$joinTable->rawName.' '.$joinAlias;
 
-            if(is_array($this->relation->joinOptions) && array_key_exists(0,$this->relation->joinOptions) && is_string($this->relation->joinOptions[0]))
-                $join .= ' ' . $this->relation->joinOptions[0];
-            else
-                if(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
-                    $join .= ' ' . $this->relation->joinOptions;
+			if(is_array($this->relation->joinOptions) && array_key_exists(0,$this->relation->joinOptions) && is_string($this->relation->joinOptions[0]))
+				$join .= ' ' . $this->relation->joinOptions[0];
+			else
+				if(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
+					$join .= ' ' . $this->relation->joinOptions;
 
-            $join.=' ON ('.implode(') AND (',$parentCondition).')';
-            $join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
+			$join.=' ON ('.implode(') AND (',$parentCondition).')';
+			$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
 
-            if(is_array($this->relation->joinOptions) && array_key_exists(1,$this->relation->joinOptions) && is_string($this->relation->joinOptions[1]))
-                $join .= ' ' . $this->relation->joinOptions[1];
+			if(is_array($this->relation->joinOptions) && array_key_exists(1,$this->relation->joinOptions) && is_string($this->relation->joinOptions[1]))
+				$join .= ' ' . $this->relation->joinOptions[1];
 
-            $join.=' ON ('.implode(') AND (',$childCondition).')';
-            if(!empty($this->relation->on))
-                $join.=' AND ('.$this->relation->on.')';
-            return $join;
+			$join.=' ON ('.implode(') AND (',$childCondition).')';
+			if(!empty($this->relation->on))
+				$join.=' AND ('.$this->relation->on.')';
+			return $join;
 		}
 		else
 			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.',
