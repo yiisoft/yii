@@ -633,7 +633,7 @@ class CController extends CBaseController
 	public function getLayoutFile($layoutName)
 	{
 		if($layoutName===false)
-			return false
+			return false;
 
 		if(($theme=Yii::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
 			return $layoutFile;
@@ -651,7 +651,7 @@ class CController extends CBaseController
 		if($module===null)
 			$module=Yii::app();
 
-		if(empty($layoutName))
+		if(empty($layoutName) && $module->layout!==false)
 			$layoutName=$module->layout;
 
 		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::app()->getViewPath(),$module->getViewPath());
