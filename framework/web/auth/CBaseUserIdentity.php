@@ -24,7 +24,7 @@
  * @property string $name The display name for the identity.
  * The default implementation simply returns empty string.
  * @property array $persistentStates The identity states that should be persisted.
- * @property boolean $isAuthenticated The authentication is successful.
+ * @property boolean $isAuthenticated Whether the authentication is successful.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.auth
