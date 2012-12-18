@@ -371,8 +371,8 @@ class CClientScript extends CApplicationComponent
 
 		if($html!=='')
 		{
-			$count=0;
-			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
+			$count=0;			
+			$output=preg_replace('/<\\/head\s*>/is','<###head###>$1',$output,1,$count);
 			if($count)
 				$output=str_replace('<###head###>',$html,$output);
 			else
