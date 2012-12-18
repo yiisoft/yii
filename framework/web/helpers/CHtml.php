@@ -768,9 +768,9 @@ class CHtml
 	 * </pre>
 	 * </li>
 	 * </ul>
-	 * Since version 1.1.13, a special option named 'unselectValue' is available that can be used to specify
-	 * the value returned when the option is not selected in multiple mode. When set, a hidden field is
-	 * rendered so that when the option is not selected in multiple mode, we can still obtain the posted
+	 * Since 1.1.13, a special option named 'unselectValue' is available. It can be used to set the value
+	 * that will be returned when no option is selected in multiple mode. When set, a hidden field is
+	 * rendered so that if no option is selected in multiple mode, we can still obtain the posted
 	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
@@ -797,12 +797,7 @@ class CHtml
 
 			if(isset($htmlOptions['unselectValue']))
 			{
-				// add a hidden field so that if the option is not selected, it still submits a value
-				if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
-					$hiddenOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
-				else
-					$hiddenOptions=array('id'=>false);
-
+				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
 				unset($htmlOptions['unselectValue']);
 			}
@@ -884,6 +879,8 @@ class CHtml
 	 * for every label tag in the list.</li>
 	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to 'span'.
 	 * If the value is an empty string, no enclosing tag will be generated</li>
+	 * <li>baseID: string, specifies the base ID prefix to be used for checkboxes in the list.
+	 * This option is available since version 1.1.13.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -908,7 +905,8 @@ class CHtml
 		unset($htmlOptions['labelOptions']);
 
 		$items=array();
-		$baseID=self::getIdByName($name);
+		$baseID=isset($htmlOptions['baseID']) ? $htmlOptions['baseID'] : self::getIdByName($name);
+		unset($htmlOptions['baseID']);
 		$id=0;
 		$checkAll=true;
 
@@ -936,13 +934,13 @@ class CHtml
 				array_unshift($items,$item);
 			$name=strtr($name,array('['=>'\\[',']'=>'\\]'));
 			$js=<<<EOD
-$('#$id').click(function() {
-	$("input[name='$name']").prop('checked', this.checked);
+jQuery('#$id').click(function() {
+	jQuery("input[name='$name']").prop('checked', this.checked);
 });
-$("input[name='$name']").click(function() {
-	$('#$id').prop('checked', !$("input[name='$name']:not(:checked)").length);
+jQuery("input[name='$name']").click(function() {
+	jQuery('#$id').prop('checked', !jQuery("input[name='$name']:not(:checked)").length);
 });
-$('#$id').prop('checked', !$("input[name='$name']:not(:checked)").length);
+jQuery('#$id').prop('checked', !jQuery("input[name='$name']:not(:checked)").length);
 EOD;
 			$cs=Yii::app()->getClientScript();
 			$cs->registerCoreScript('jquery');
@@ -975,6 +973,8 @@ EOD;
 	 * for every label tag in the list.</li>
 	 * <li>container: string, specifies the radio buttons enclosing tag. Defaults to 'span'.
 	 * If the value is an empty string, no enclosing tag will be generated</li>
+	 * <li>baseID: string, specifies the base ID prefix to be used for radio buttons in the list.
+	 * This option is available since version 1.1.13.</li>
 	 * </ul>
 	 * @return string the generated radio button list
 	 */
@@ -989,7 +989,8 @@ EOD;
 		unset($htmlOptions['labelOptions']);
 
 		$items=array();
-		$baseID=self::getIdByName($name);
+		$baseID=isset($htmlOptions['baseID']) ? $htmlOptions['baseID'] : self::getIdByName($name);
+		unset($htmlOptions['baseID']);
 		$id=0;
 		foreach($data as $value=>$label)
 		{
@@ -1550,11 +1551,10 @@ EOD;
 	 * </pre>
 	 * </li>
 	 * </ul>
-	 * Since 1.1.13, a special option named 'unselectValue' is available that can be used to specify
-	 * the value returned when the option is not selected in multiple mode. By default, this value is ''.
-	 * Internally, a hidden field is rendered so that when the option is not selected in multiple mode,
-	 * we can still obtain the posted unselect value.
-	 * If 'unselectValue' is set as NULL, the hidden field will not be rendered.
+	 * Since 1.1.13, a special option named 'unselectValue' is available. It can be used to set the value
+	 * that will be returned when no option is selected in multiple mode. When set, a hidden field is
+	 * rendered so that if no option is selected in multiple mode, we can still obtain the posted
+	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see listData
@@ -1570,24 +1570,18 @@ EOD;
 			self::addErrorCss($htmlOptions);
 
 		$hidden='';
-
 		if(isset($htmlOptions['multiple']))
 		{
 			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
 
-			if(!array_key_exists('unselectValue',$htmlOptions))
-				$htmlOptions['unselectValue']='';
-
-			if($htmlOptions['unselectValue']!==null)
+			if(isset($htmlOptions['unselectValue']))
 			{
 				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
+				unset($htmlOptions['unselectValue']);
 			}
-
-			unset($htmlOptions['unselectValue']);
 		}
-
 		return $hidden . self::tag('select',$htmlOptions,$options);
 	}
 
@@ -2169,9 +2163,9 @@ EOD;
 		}
 
 		if($live)
-			$cs->registerScript('Yii.CHtml.#' . $id, "$('body').on('$event','#$id',function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#' . $id, "jQuery('body').on('$event','#$id',function(){{$handler}});");
 		else
-			$cs->registerScript('Yii.CHtml.#' . $id, "$('#$id').on('$event', function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#' . $id, "jQuery('#$id').on('$event', function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
 

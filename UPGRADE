@@ -19,6 +19,18 @@ General upgrade instructions
 
 Upgrading from v1.1.12
 ----------------------
+- Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)
+  and [jQuery release notes](http://blog.jquery.com/2012/08/09/jquery-1-8-released/).
+
+- We completed the behavior of CFormatter::sizeFormat() which has been introduced in Yii 1.1.11. If you are using it with your own translation file
+  you have to move your translations to the `yii` category in `yii.php` file  which is handled by the application component `coreMessages`.
+  We also fixed the default translation strings to be correct English and apply to choice format, so you have to adjust your translation file keys.
+
+- Be sure to clean all your existing cache during the upgrade. The cache values from CDbCommand has been
+  changed to an array to be able to store false values (returned when no records are found).
+
+- Make sure all your event handlers in behaviors are public methods, as we are not supporting protected methods as event handlers anymore.
+
 - We fixed the calls to CActiveRecord::beforeFind() for consistency so that beforeFind() now always gets called for every relation
   on eager loading even if the main query does not return a result. This has been the case for all CActiveRecord::find*()-methods
   already but now also applies for findBySql() and findAllBySql().
@@ -26,7 +38,7 @@ Upgrading from v1.1.12
 - Criteria modification in CActiveRecord::beforeFind() did not apply to the query when model was loaded in a relational context.
   Since version 1.1.13 changes to query criteria made in beforeFind() now also apply to the query when model is loaded in a relational context.
   The main problem here is that you can not use the `t`-alias for your table anymore, you have to change your code to
-  use the table alias currently in use as this it different in relational context.
+  use the table alias currently in use as this is different in relational context.
   You can get that alias by calling `$this->getTableAlias();` in your active record class
   or `$this->owner->getTableAlias()` in behavior context.
 
@@ -35,6 +47,10 @@ Upgrading from v1.1.12
   You need to change that to:
      $alias = $this->owner->getTableAlias();
      $criteria->condition = $alias.'.myfield = 1';
+
+- Make sure you are using `CCaptcha::checkRequirements()` method for checking whether CAPTCHA could be rendered successfully in your environment.
+  `extension_loaded('gd')` expression is not enough and wrong because CAPTCHA could be rendered via ImageMagick with fallback to GD since 1.1.13
+  (thus checking code is not simple as it seems).
 
 Upgrading from v1.1.11
 ----------------------

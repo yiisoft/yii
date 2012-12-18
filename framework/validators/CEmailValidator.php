@@ -132,7 +132,7 @@ if (info)
 
 		return "
 $validateIDN
-if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
+if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	messages.push(".CJSON::encode($message).");
 }
 ";

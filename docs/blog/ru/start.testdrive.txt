@@ -118,5 +118,3 @@ deny from all
     `/wwwroot/blog/protected/views/site/contact.php` и результат его выполнения
     подставляется в [макет](/doc/guide/ru/basics.view#layout)
     `/wwwroot/blog/protected/views/layouts/column1.php`.
-
-<div class="revision">$Id: start.testdrive.txt 1734 2010-01-21 18:41:17Z qiang.xue $</div>

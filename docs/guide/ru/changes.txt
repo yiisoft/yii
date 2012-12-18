@@ -24,7 +24,7 @@
  * [В AR добавлена поддержка связей HAS_MANY through и HAS_ONE through](/doc/guide/database.arr#relational-query-with-through)
  * [В миграции добавлена поддержка транзакций](/doc/guide/database.migration#transactional-migrations)
  * [Теперь возможно использовать привязку параметров с отдельными классами действий](/doc/guide/basics.controller#action-parameter-binding)
- * [Добавлена поддержка валидации на клиенте без AJAX с использованием [CActiveForm]]
+ * Добавлена поддержка валидации на клиенте без AJAX с использованием [CActiveForm]
 
 Версия 1.1.6
 ------------
@@ -81,7 +81,7 @@
 	 - [Безопасное присваивание значений атрибутам](/doc/guide/form.model#securing-attribute-assignments).
 
  * Изменён алгоритм жадной загрузки по умолчанию для зависимых запросов AR так,
-   что все таблицы объединяются в одном SQL запросе.
+   что все таблицы объединяются в одном SQL-запросе.
 
  * Изменён псевдоним таблицы по умолчанию на имя связи AR.
 
@@ -90,5 +90,3 @@
  * Добавлен набор новых расширений — [библиотека Zii](http://code.google.com/p/zii/).
 
  * Псевдоним для главной таблицы в AR запросе теперь всегда равен 't'.
-
-<div class="revision">$Id: changes.txt 3526 2012-01-01 03:18:43Z qiang.xue $</div>

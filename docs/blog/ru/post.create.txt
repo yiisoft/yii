@@ -121,5 +121,3 @@ protected function afterFind()
 Здесь мы не будем детально рассматривать метод `Tag::updateFrequency()`.
 Заинтересованные читатели могут ознакомиться с ним в файле
 `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
-
-<div class="revision">$Id: post.create.txt 3209 2011-05-12 12:11:03Z mdomba $</div>

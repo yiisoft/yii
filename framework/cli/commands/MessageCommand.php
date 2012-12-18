@@ -132,7 +132,7 @@ EOD;
 
 		foreach ($translator as $currentTranslator)
 		{
-			$n=preg_match_all('/\b'.$currentTranslator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
+			$n=preg_match_all('/\b'.$currentTranslator.'\s*\(\s*(\'[\w.]*?(?<!\.)\'|"[\w.]*?(?<!\.)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
 
 			for($i=0;$i<$n;++$i)
 			{

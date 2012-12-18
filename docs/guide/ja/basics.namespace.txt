@@ -122,8 +122,14 @@ Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 
 デフォルトでは、Yii はグローバル名前空間にあるコントローラを使用します。
 これらのクラスは `protected/controllers` に配置されています。
-この挙動を変更するためには、アプリケーションの `controllerMap` プロパティを設定して下さい。
-設定を変更する最善の方法は、初期構成ファイル (`protected/config/main.php`) を使用することです。
+この挙動は二つの異なる方法で変更することが出来ます。
+`controllerMap` プロパティを使う方法と `controllerNamespace` プロパティを使う方法です。
+前者を使うと、さまざまな名前空間に属するコントローラを使うことが出来ます。
+後者は、より少ない設定で使うことが出来ますが、すべてのコントローラに共通の名前空間を設定するものです。
+
+### `controllerMap` を使う
+
+コントローラマップを変更する最善の方法は、初期構成ファイル (`protected/config/main.php`) を使用することです。
 
 ~~~
 [php]
@@ -159,6 +165,10 @@ class TestController extends \CController
 	}
 }
 ~~~
+
+### `controllerNamespace` を使う
+
+アプリケーションはそれ自体がモジュールですから、以下の「名前空間化モジュール」で述べられているように、`controllerNamespace` プロパティを使用することが出来ます。
 
 名前空間化モジュール
 ------------------

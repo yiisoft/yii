@@ -776,6 +776,7 @@ class YiiBase
 		'CClientScript' => '/web/CClientScript.php',
 		'CController' => '/web/CController.php',
 		'CDataProvider' => '/web/CDataProvider.php',
+		'CDataProviderIterator' => '/web/CDataProviderIterator.php',
 		'CDbHttpSession' => '/web/CDbHttpSession.php',
 		'CExtController' => '/web/CExtController.php',
 		'CFormModel' => '/web/CFormModel.php',

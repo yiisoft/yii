@@ -18,15 +18,15 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * To use this widget, you may insert the following code in a view:
  * <pre>
- * $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+ * $this->widget('zii.widgets.jui.CJuiAutoComplete',array(
  *     'name'=>'city',
- *     'source'=>array('ac1', 'ac2', 'ac3'),
+ *     'source'=>array('ac1','ac2','ac3'),
  *     // additional javascript options for the autocomplete plugin
  *     'options'=>array(
  *         'minLength'=>'2',
  *     ),
  *     'htmlOptions'=>array(
- *         'style'=>'height:20px;'
+ *         'style'=>'height:20px;',
  *     ),
  * ));
  * </pre>
@@ -51,12 +51,12 @@ class CJuiAutoComplete extends CJuiInputWidget
 	 * @var mixed the entries that the autocomplete should choose from. This can be
 	 * <ul>
 	 * <li>an Array with local data</li>
-	* <li>a String, specifying a URL that returns JSON data as the entries.</li>
-	* <li>a javascript callback. Please make sure you wrap the callback with
+	 * <li>a String, specifying a URL that returns JSON data as the entries.</li>
+	 * <li>a javascript callback. Please make sure you wrap the callback with
 	 * {@link CJavaScriptExpression} in this case.</li>
-	* </ul>
+	 * </ul>
 	 */
-	public $source = array();
+	public $source=array();
 	/**
 	 * @var mixed the URL that will return JSON data as the autocomplete items.
 	 * CHtml::normalizeUrl() will be applied to this property to convert the property
@@ -76,7 +76,6 @@ class CJuiAutoComplete extends CJuiInputWidget
 			$id=$this->htmlOptions['id'];
 		else
 			$this->htmlOptions['id']=$id;
-
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
 
@@ -91,10 +90,6 @@ class CJuiAutoComplete extends CJuiInputWidget
 			$this->options['source']=$this->source;
 
 		$options=CJavaScript::encode($this->options);
-
-		$js = "jQuery('#{$id}').autocomplete($options);";
-
-		$cs = Yii::app()->getClientScript();
-		$cs->registerScript(__CLASS__.'#'.$id, $js);
+		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
 	}
 }

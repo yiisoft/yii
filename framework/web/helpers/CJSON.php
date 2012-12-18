@@ -85,13 +85,13 @@ class CJSON
 	*/
 	const JSON_IN_CMT = 16;
 
-   /**
-	* Encodes an arbitrary variable into JSON format
-	*
-	* @param mixed $var any number, boolean, string, array, or object to be encoded.
-	* If var is a string, it will be converted to UTF-8 format first before being encoded.
-	* @return string JSON string representation of input var
-	*/
+	/**
+	 * Encodes an arbitrary variable into JSON format
+	 *
+	 * @param mixed $var any number, boolean, string, array, or object to be encoded.
+	 * If var is a string, it will be converted to UTF-8 format first before being encoded.
+	 * @return string JSON string representation of input var
+	 */
 	public static function encode($var)
 	{
 		switch (gettype($var)) {
@@ -270,28 +270,28 @@ class CJSON
 		}
 	}
 
-   /**
-	* array-walking function for use in generating JSON-formatted name-value pairs
-	*
-	* @param string $name  name of key to use
-	* @param mixed $value reference to an array element to be encoded
-	*
-	* @return   string  JSON-formatted name-value pair, like '"name":value'
-	* @access   private
-	*/
+	/**
+	 * array-walking function for use in generating JSON-formatted name-value pairs
+	 *
+	 * @param string $name  name of key to use
+	 * @param mixed $value reference to an array element to be encoded
+	 *
+	 * @return   string  JSON-formatted name-value pair, like '"name":value'
+	 * @access   private
+	 */
 	protected static function nameValue($name, $value)
 	{
 		return self::encode(strval($name)) . ':' . self::encode($value);
 	}
 
-   /**
-	* reduce a string by removing leading and trailing comments and whitespace
-	*
-	* @param string $str string value to strip of comments and whitespace
-	*
-	* @return string string value stripped of comments and whitespace
-	* @access   private
-	*/
+	/**
+	 * reduce a string by removing leading and trailing comments and whitespace
+	 *
+	 * @param string $str string value to strip of comments and whitespace
+	 *
+	 * @return string string value stripped of comments and whitespace
+	 * @access   private
+	 */
 	protected static function reduceString($str)
 	{
 		$str = preg_replace(array(
@@ -311,25 +311,27 @@ class CJSON
 		return trim($str);
 	}
 
-   /**
-	* decodes a JSON string into appropriate variable
-	*
-	* @param string $str  JSON-formatted string
-	* @param boolean $useArray  whether to use associative array to represent object data
-	* @return mixed   number, boolean, string, array, or object corresponding to given JSON input string.
-	*    Note that decode() always returns strings in ASCII or UTF-8 format!
-	* @access   public
-	*/
+	/**
+	 * decodes a JSON string into appropriate variable
+	 *
+	 * @param string $str  JSON-formatted string
+	 * @param boolean $useArray  whether to use associative array to represent object data
+	 * @return mixed   number, boolean, string, array, or object corresponding to given JSON input string.
+	 *    Note that decode() always returns strings in ASCII or UTF-8 format!
+	 * @access   public
+	 */
 	public static function decode($str, $useArray=true)
 	{
 		if(function_exists('json_decode'))
+		{
 			$json = json_decode($str,$useArray);
 
-		// based on investigation, native fails sometimes returning null.
-		// see: http://gggeek.altervista.org/sw/article_20070425.html
-		// As of PHP 5.3.6 it still fails on some valid JSON strings
-		if(!is_null($json))
-			return $json;
+			// based on investigation, native fails sometimes returning null.
+			// see: http://gggeek.altervista.org/sw/article_20070425.html
+			// As of PHP 5.3.6 it still fails on some valid JSON strings
+			if(!is_null($json))
+				return $json;
+		}
 
 		$str = self::reduceString($str);
 
@@ -602,14 +604,14 @@ class CJSON
 	}
 
 	/**
-	* This function returns any UTF-8 encoded text as a list of
-	* Unicode values:
-	* @param string $str string to convert
-	* @return string
-	* @author Scott Michael Reynen <scott@randomchaos.com>
-	* @link   http://www.randomchaos.com/document.php?source=php_and_unicode
-	* @see	unicodeToUTF8()
-	*/
+	 * This function returns any UTF-8 encoded text as a list of
+	 * Unicode values:
+	 * @param string $str string to convert
+	 * @return string
+	 * @author Scott Michael Reynen <scott@randomchaos.com>
+	 * @link   http://www.randomchaos.com/document.php?source=php_and_unicode
+	 * @see	unicodeToUTF8()
+	 */
 	protected static function utf8ToUnicode( &$str )
 	{
 		$unicode = array();
@@ -641,13 +643,13 @@ class CJSON
 	}
 
 	/**
-	* This function converts a Unicode array back to its UTF-8 representation
-	* @param string $str string to convert
-	* @return string
-	* @author Scott Michael Reynen <scott@randomchaos.com>
-	* @link   http://www.randomchaos.com/document.php?source=php_and_unicode
-	* @see	utf8ToUnicode()
-	*/
+	 * This function converts a Unicode array back to its UTF-8 representation
+	 * @param string $str string to convert
+	 * @return string
+	 * @author Scott Michael Reynen <scott@randomchaos.com>
+	 * @link   http://www.randomchaos.com/document.php?source=php_and_unicode
+	 * @see	utf8ToUnicode()
+	 */
 	protected static function unicodeToUTF8( &$str )
 	{
 		$utf8 = '';
@@ -673,13 +675,13 @@ class CJSON
 	}
 
 	/**
-	* UTF-8 to UTF-16BE conversion.
-	*
-	* Maybe really UCS-2 without mb_string due to utf8ToUnicode limits
-	* @param string $str string to convert
-	* @param boolean $bom whether to output BOM header
-	* @return string
-	*/
+	 * UTF-8 to UTF-16BE conversion.
+	 *
+	 * Maybe really UCS-2 without mb_string due to utf8ToUnicode limits
+	 * @param string $str string to convert
+	 * @param boolean $bom whether to output BOM header
+	 * @return string
+	 */
 	protected static function utf8ToUTF16BE(&$str, $bom = false)
 	{
 		$out = $bom ? "\xFE\xFF" : '';

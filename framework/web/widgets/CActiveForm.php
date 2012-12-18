@@ -345,7 +345,7 @@ class CActiveForm extends CWidget
 				$cs->registerCoreScript('jquery');
 				$cs->registerScript('CActiveForm#focus',"
 					if(!window.location.hash)
-						$('".$this->focus."').focus();
+						jQuery('".$this->focus."').focus();
 				");
 			}
 			return;
@@ -366,7 +366,7 @@ class CActiveForm extends CWidget
 		$options=CJavaScript::encode($options);
 		$cs->registerCoreScript('yiiactiveform');
 		$id=$this->id;
-		$cs->registerScript(__CLASS__.'#'.$id,"\$('#$id').yiiactiveform($options);");
+		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiactiveform($options);");
 	}
 
 	/**

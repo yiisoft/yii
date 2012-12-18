@@ -222,13 +222,14 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param integer $day weekday (0-6, 0 means Sunday)
+	 * @param integer $day weekday (0-7, 0 and 7 means Sunday)
 	 * @param string $width weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param boolean $standAlone whether the week day name should be returned in stand-alone format
 	 * @return string the weekday name
 	 */
 	public function getWeekDayName($day,$width='wide',$standAlone=false)
 	{
+		$day=$day%7;
 		if($standAlone)
 			return isset($this->_data['weekDayNamesSA'][$width][$day]) ? $this->_data['weekDayNamesSA'][$width][$day] : $this->_data['weekDayNames'][$width][$day];
 		else

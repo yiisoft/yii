@@ -35,7 +35,12 @@ class NewComponent extends CComponent
 	{
 		$this->eventHandled=true;
 	}
+
 	public function exprEvaluator($p1,$comp) {
 		return "Hello $p1";
 	}
+
+	public function handler1() {}
+	public function handler2() {}
+	public function handler3() {}
 }

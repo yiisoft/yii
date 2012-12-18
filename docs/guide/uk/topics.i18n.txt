@@ -308,5 +308,3 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
    - [formatCurrency|CNumberFormatter::formatCurrency]: форматує число і код валюти відповідно до формату, заданим для поточної мови додатка;
 
    - [formatPercentage|CNumberFormatter::formatPercentage]: форматує число відповідно до формату форматування відсотків, заданим для поточної мови додатка.
-
-<div class="revision">$Id$</div>

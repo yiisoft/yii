@@ -386,6 +386,3 @@ return array(
 
 Теперь при запуске команды `migrate` указанные выше настройки будут применены
 без ввода каких-либо дополнительных параметров.
-
-
-<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>

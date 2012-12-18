@@ -120,6 +120,3 @@ $value=$cookie->value;
 $cookie=new CHttpCookie($name,$value);
 Yii::app()->request->cookies[$name]=$cookie;
 ~~~
-
-
-<div class="revision">$Id: topics.security.txt 2535 2010-10-11 08:28:08Z mdomba $</div>

@@ -42,5 +42,3 @@
 параметры в методе [renderDynamic()|CController::renderDynamic()] должны быть
 переданы обратному вызову. Обратный вызов должен не отображать динамическое
 содержимое, а возвращать его.
-
-<div class="revision">$Id: caching.dynamic.txt 163 2008-11-05 12:51:48Z weizhuo $</div>
