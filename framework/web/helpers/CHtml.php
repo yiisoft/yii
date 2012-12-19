@@ -1883,7 +1883,7 @@ EOD;
 	 * Please refer to its documentation for more details.
 	 *
 	 * @param array|object|CModel $model the model. This can be either an object or an array.
-	 * @param integer|string $attribute the attribute name (use dot to concatenate multiple attributes)
+	 * @param string|integer|Closure $attribute the attribute name (use dot to concatenate multiple attributes)
 	 * or anonymous function (PHP 5.3+). Note that numeric value is meaningless when first parameter
 	 * is object typed.
 	 * @param mixed $defaultValue the default value to return when the attribute does not exist.
@@ -1891,19 +1891,17 @@ EOD;
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		if(is_scalar($attribute))
-			foreach(explode('.',$attribute) as $name)
-			{
-				if(is_object($model) && isset($model->$name))
-					$model=$model->$name;
-				elseif(is_array($model) && isset($model[$name]))
-					$model=$model[$name];
-				else
-					return $defaultValue;
-			}
-		else
+		if(is_callable($attribute))
 			return call_user_func($attribute,$model);
-
+		foreach(explode('.',$attribute) as $name)
+		{
+			if(is_object($model) && isset($model->$name))
+				$model=$model->$name;
+			elseif(is_array($model) && isset($model[$name]))
+				$model=$model[$name];
+			else
+				return $defaultValue;
+		}
 		return $model;
 	}
 

@@ -473,14 +473,15 @@ class CHtmlTest extends CTestCase
 			// static method
 			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),array('CHtmlTest','helperTestValue'),null,'v2'),
 			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),array('CHtmlTest','helperTestValue'),null,'v2'),
+
+			// create_function
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model["k2"];'),null,'v2'),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model->k2;'),null,'v2'),
 		);
 		if(class_exists('Closure',false))
 		{
-			$result=array_merge($result,array(
-				// anonymous function
-				array(array('k1'=>'v1','k2'=>'v2','v3','v4'),function($model) { return $model['k2']; },null,'v2'),
-				array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),function($model) { return $model->k2; },null,'v2'),
-			));
+			// anonymous function
+			$result=array_merge($result,require(dirname(__FILE__).'/CHtml/providerValue.php'));
 		}
 		return $result;
 	}
