@@ -7,7 +7,6 @@ class User extends CActiveRecord
 	 * @var integer $id
 	 * @var string $username
 	 * @var string $password
-	 * @var string $salt
 	 * @var string $email
 	 * @var string $profile
 	 */
