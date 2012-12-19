@@ -477,6 +477,18 @@ class CHtmlTest extends CTestCase
 			// create_function
 			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model["k2"];'),null,'v2'),
 			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model->k2;'),null,'v2'),
+
+			// dot access, array
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'k1.k2.k3',null,'v3'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.0',null,'v1'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.k4',null,'v4'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.1',null,null),
+
+			// dot access, object
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'k1.k2.k3',null,'v3'),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.0',null,null),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.k4',null,null),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.1',null,null),
 		);
 		if(class_exists('Closure',false))
 		{
