@@ -1,0 +1,255 @@
+Console Applications
+====================
+
+Console applications are mainly used to perform offline work needed by an
+online Web application, such as code generation, search index compiling, email
+sending, etc. Yii provides a framework for writing console applications in
+an object-oriented way. It allows a console application to access
+the resources (e.g. DB connections) that are used by an online Web application.
+
+
+Overview
+--------
+
+Yii represents each console task in terms of a [command|CConsoleCommand].
+A console command is written as a class extending from [CConsoleCommand].
+
+When we use the `yiic webapp` tool to create an initial skeleton Yii application,
+we may find two files under the `protected` directory:
+
+* `yiic`: this is an executable script used on Linux/Unix;
+* `yiic.bat`: this is an executable batch file used on Windows.
+
+In a console window, we can enter the following commands:
+
+~~~
+cd protected
+yiic help
+~~~
+
+This will display a list of available console commands. By default, the available
+commands include those provided by Yii framework (called **system commands**)
+and those developed by users for individual applications (called **user commands**).
+
+To see how to use a command, we can execute
+
+~~~
+yiic help <command-name>
+~~~
+
+And to execute a command, we can use the following command format:
+
+~~~
+yiic <command-name> [parameters...]
+~~~
+
+
+Creating Commands
+-----------------
+
+Console commands are stored as class files under the directory specified by
+[CConsoleApplication::commandPath]. By default, this refers to the directory
+`protected/commands`.
+
+A console command class must extend from [CConsoleCommand]. The class name
+must be of format `XyzCommand`, where `Xyz` refers to the command name with
+the first letter in upper case. For example, a `sitemap` command must use
+the class name `SitemapCommand`. Console command names are case-sensitive.
+
+> Tip: By configuring [CConsoleApplication::commandMap], one can also have
+> command classes in different naming conventions and located in different
+> directories.
+
+To create a new command, one often needs to override [CConsoleCommand::run()]
+or develop one or several command actions (to be explained in the next section).
+
+When executing a console command, the [CConsoleCommand::run()] method will be
+invoked by the console application. Any console command parameters will be passed
+to the method as well, according to the following signature of the method:
+
+~~~
+[php]
+public function run($args) { ... }
+~~~
+
+where `$args` refers to the extra parameters given in the command line.
+
+Within a console command, we can use `Yii::app()` to access the console application
+instance, through which we can also access resources such as database connections
+(e.g. `Yii::app()->db`). As we can tell, the usage is very similar to what we can
+do in a Web application.
+
+> Info: Starting from version 1.1.1, we can also create global commands that
+are shared by **all** Yii applications on the same machine. To do so, define
+an environment variable named `YII_CONSOLE_COMMANDS` which should point to
+an existing directory. We can then put our global command class files under
+this directory.
+
+
+Console Command Action
+----------------------
+
+> Note: The feature of console command action has been available since version 1.1.5.
+
+A console command often needs to handle different command line parameters, some required,
+some optional. A console command may also need to provide several sub-commands to handle
+different sub-tasks. These work can be simplified using console command actions.
+
+A console command action is a method in a console command class.
+The method name must be of the format `actionXyz`, where `Xyz` refers to the action
+name with the first letter in upper-case. For example, a method `actionIndex` defines
+an action named `index`.
+
+To execute a specific action, we use the following console command format:
+
+~~~
+yiic <command-name> <action-name> --option1=value1 --option2=value2 ...
+~~~
+
+The additional option-value pairs will be passed as named parameters to the action method.
+The value of a `xyz` option will be passed as the `$xyz` parameter of the action method.
+For example, if we define the following command class:
+
+~~~
+[php]
+class SitemapCommand extends CConsoleCommand
+{
+    public function actionIndex($type, $limit=5) { ... }
+    public function actionInit() { ... }
+}
+~~~
+
+Then, the following console commands will all result in calling `actionIndex('News', 5)`:
+
+~~~
+yiic sitemap index --type=News --limit=5
+
+// $limit takes default value
+yiic sitemap index --type=News
+
+// $limit takes default value
+// because 'index' is a default action, we can omit the action name
+yiic sitemap --type=News
+
+// the order of options does not matter
+yiic sitemap index --limit=5 --type=News
+~~~
+
+If an option is given without value (e.g. `--type` instead of `--type=News`), the corresponding
+action parameter value will be assumed to be boolean `true`.
+
+> Note: We do not support alternative option formats such as
+> `--type News`, `-t News`.
+
+A parameter can take an array value by declaring it with array type hinting:
+
+~~~
+[php]
+public function actionIndex(array $types) { ... }
+~~~
+
+To supply the array value, we simply repeat the same option in the command line as needed:
+
+~~~
+yiic sitemap index --types=News --types=Article
+~~~
+
+The above command will call `actionIndex(array('News', 'Article'))` ultimately.
+
+
+Starting from version 1.1.6, Yii also supports using anonymous action parameters and global options.
+
+Anonymous parameters refer to those command line parameters not in the format of options.
+For example, in a command `yiic sitemap index --limit=5 News`, we have an anonymous parameter whose value
+is `News` while the named parameter `limit` is taking the value 5.
+
+To use anonymous parameters, a command action must declare a parameter named as `$args`. For example,
+
+~~~
+[php]
+public function actionIndex($limit=10, $args=array()) {...}
+~~~
+
+The `$args` array will hold all available anonymous parameter values.
+
+Global options refer to those command line options that are shared by all actions in a command.
+For example, in a command that provides several actions, we may want every action to recognize
+an option named as `verbose`. While we can declare `$verbose` parameter in every action method,
+a better way is to declare it as a **public member variable** of the command class, which turns `verbose`
+into a global option:
+
+~~~
+[php]
+class SitemapCommand extends CConsoleCommand
+{
+	public $verbose=false;
+	public function actionIndex($type) {...}
+}
+~~~
+
+The above code will allow us to execute a command with a `verbose` option:
+
+~~~
+yiic sitemap index --verbose=1 --type=News
+~~~
+
+
+Exit Codes
+----------
+
+> Note: The possibility to return exit codes in console commands has been available since version 1.1.11.
+
+When running console commands automatically, via cronjob or using a continuous integration server, it is
+always interesting if the command ran successfully or if there were errors.
+This can be done by checking the exit code a process returns on exit.
+
+These codes are integer values between 0 and 254 (this is the range in [php world](http://www.php.net/manual/en/function.exit.php)),
+where 0 should be returned on success and all other values greater than 0 will indicate an error.
+
+In an action method or in the `run()` method of your console command you can return an integer value
+to exit your application with an exit code.
+Example:
+
+~~~
+[php]
+if (/* error */) {
+    return 1; // exit with error code 1
+}
+// ... do something ...
+return 0; // exit successfully
+~~~
+
+When there is no return value, application will exit with code 0.
+
+
+Customizing Console Applications
+--------------------------------
+
+By default, if an application is created using the `yiic webapp` tool, the configuration
+for the console application will be `protected/config/console.php`. Like a Web application
+configuration file, this file is a PHP script which returns an array representing the
+property initial values for a console application instance. As a result, any public property
+of [CConsoleApplication] can be configured in this file.
+
+Because console commands are often created to serve for the Web application, they need
+to access the resources (such as DB connections) that are used by the latter. We can do so
+in the console application configuration file like the following:
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		'db'=>array(
+			......
+		),
+	),
+);
+~~~
+
+As we can see, the format of the configuration is very similar to what we do in
+a Web application configuration. This is because both [CConsoleApplication] and [CWebApplication]
+share the same base class.
+
+
+<div class="revision">$Id$</div>
