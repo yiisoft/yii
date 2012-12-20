@@ -1,0 +1,15 @@
+Yii 權威指南
+===========================
+
+此教程是在 [Yii 文件條款](http://www.yiiframework.com/doc/terms/) 下發佈。
+
+協助翻譯：
+
+* [joujiahe](http://github.com/joujiahe)
+
+版權所有
+
+2008-2010 &copy; Yii Software LLC.
+
+
+<div class="revision">$Id$</div>
