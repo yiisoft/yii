@@ -101,6 +101,13 @@ class CAssetManager extends CApplicationComponent
 	 */
 	private $_published=array();
 
+	public function init()
+	{
+		parent::init();
+		if($this->forceCopy && $this->linkAssets)
+			throw new CException(Yii::t('yii','The "forceCopy" and the "linkAssets" properties cannot be true simultaneously.'));
+	}
+
 	/**
 	 * @return string the root directory storing the published asset files. Defaults to 'WebRoot/assets'.
 	 */
@@ -190,6 +197,8 @@ class CAssetManager extends CApplicationComponent
 	 */
 	public function publish($path,$hashByName=false,$level=-1,$forceCopy=null)
 	{
+		if($forceCopy && $this->linkAssets)
+			throw new CException(Yii::t('yii','The "forceCopy" parameter and the "linkAssets" property cannot be true simultaneously.'));
 		if($forceCopy===null)
 			$forceCopy=$this->forceCopy;
 		if(isset($this->_published[$path]))
