@@ -193,7 +193,7 @@ class CAssetManager extends CApplicationComponent
 		if($forceCopy===null)
 			$forceCopy=$this->forceCopy;
 		if($forceCopy && $this->linkAssets)
-			throw new CException(Yii::t('yii','The "forceCopy" parameter/property and the "linkAssets" property cannot be true simultaneously.'));
+			throw new CException(Yii::t('yii','The "forceCopy" and "linkAssets" cannot be both true.'));
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
 		elseif(($src=realpath($path))!==false)
