@@ -1891,18 +1891,28 @@ EOD;
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		if(is_callable($attribute))
+		// Why we're strictly comparing $attribute[0] with NULL character in the condition below?
+		// This is needed to distinguish string returned by "create_function" and plain string which
+		// was generated in the PHP code. "create_function" has very useful property/feature:
+		// it returns string with prepended NULL character. Note that this is NOT a clumsy trick,
+		// it's documented and known feature.
+		// String created by "create_function": "{NULL}lambda_{XX}"
+		// String generated in the PHP code: "some_string_without_NULLs"
+		// (Using strings containing NULL bytes as attribute names does not make sense.)
+
+		if(is_scalar($attribute) && $attribute[0]!==chr(0))
+			foreach(explode('.',$attribute) as $name)
+			{
+				if(is_object($model) && isset($model->$name))
+					$model=$model->$name;
+				elseif(is_array($model) && isset($model[$name]))
+					$model=$model[$name];
+				else
+					return $defaultValue;
+			}
+		else
 			return call_user_func($attribute,$model);
 
-		foreach(explode('.',$attribute) as $name)
-		{
-			if(is_object($model) && isset($model->$name))
-				$model=$model->$name;
-			elseif(is_array($model) && isset($model[$name]))
-				$model=$model[$name];
-			else
-				return $defaultValue;
-		}
 		return $model;
 	}
 
