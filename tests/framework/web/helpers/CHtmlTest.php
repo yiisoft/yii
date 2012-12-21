@@ -478,6 +478,12 @@ class CHtmlTest extends CTestCase
 			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model["k2"];'),null,'v2'),
 			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model->k2;'),null,'v2'),
 
+			// standard PHP functions should not be treated as callables
+			array(array('array_filter'=>'array_filter','sort'=>'sort'),'sort',null,'sort'),
+			array(array('array_filter'=>'array_filter','sort'=>'sort'),'array_map','defaultValue','defaultValue'),
+			array((object)array('array_filter'=>'array_filter','sort'=>'sort'),'sort',null,'sort'),
+			array((object)array('array_filter'=>'array_filter','sort'=>'sort'),'array_map','defaultValue','defaultValue'),
+
 			// dot access, array
 			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'k1.k2.k3',null,'v3'),
 			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.0',null,'v1'),
