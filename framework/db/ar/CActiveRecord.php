@@ -1781,6 +1781,19 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Whether or not to use type casting when populating record.
+	 * If true, all attributes fetched from DB will be cast to
+	 * appropriate type, using specifications in AR meta data.
+	 * Override this method in AR models where you want to use
+	 * type casting and return boolean value true
+	 * @return boolean
+	 */
+	public function useTypeCasting()
+	{
+		return false;
+	}
+
+	/**
 	 * Creates an active record with the given attributes.
 	 * This method is internally used by the find methods.
 	 * @param array $attributes attribute values (column name=>column value)
@@ -1801,7 +1814,11 @@ abstract class CActiveRecord extends CModel
 				if(property_exists($record,$name))
 					$record->$name=$value;
 				elseif(isset($md->columns[$name]))
+				{
+					if ($this->useTypeCasting() and $value !== null)
+						settype($value, $md->columns[$name]->type);
 					$record->_attributes[$name]=$value;
+				}
 			}
 			$record->_pk=$record->getPrimaryKey();
 			$record->attachBehaviors($record->behaviors());

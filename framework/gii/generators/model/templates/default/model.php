@@ -152,4 +152,16 @@ foreach($columns as $name=>$column)
 			'criteria'=>$criteria,
 		));
 	}
+	
+	/**
+	 * Whether or not to use type casting when populating record.
+	 * If true, all attributes fetched from DB will be cast to
+	 * appropriate type, using specifications in AR meta data.
+	 * Return true from this method to use type casting in this model.
+	 * @return boolean
+	 */
+	public function useTypeCasting()
+	{
+		return false;
+	}
 }
