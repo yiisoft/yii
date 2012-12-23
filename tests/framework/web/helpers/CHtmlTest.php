@@ -495,6 +495,16 @@ class CHtmlTest extends CTestCase
 			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.0',null,null),
 			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.k4',null,null),
 			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.1',null,null),
+
+			// $attribute parameter is:
+			// 1. null or empty string
+			// 2. not "0" string, 0 integer or 0.0 double/float
+			// 3. empty array doesn't make sense
+			array(array('v1'),null,'defaultValue','defaultValue'),
+			array(array('v1'),"",'defaultValue','defaultValue'),
+			array(array('v1'),"0",'defaultValue','v1'),
+			array(array('v1'),0,'defaultValue','v1'),
+			array(array('v1'),0.0,'defaultValue','v1'),
 		);
 		if(class_exists('Closure',false))
 		{
