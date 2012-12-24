@@ -1,0 +1,98 @@
+建立表單
+=============
+
+撰寫  `login` 視圖是很簡單的，我們以一個 `form` 標記開始，它的 action 屬性應該是前面講述的 `login` 動作的URL。
+然後我們需要為 `LoginForm` 類別中宣告的屬性插入標籤和表單。最後，
+我們插入一個可由使用者點擊提交此表單的提交按鈕。所有這些都可以用純 HTML 程式碼完成。
+
+Yii 提供了幾個輔助類別簡化視圖撰寫。例如，
+要建立一個文本輸入，我們可以調用 [CHtml::textField()]；
+要建立一個下拉清單，則調用 [CHtml::dropDownList()]。
+
+> Info|訊息: 你可能想知道使用輔助類別的好處，如果它們所需的程式碼量和直接寫純 HTML的 程式碼量相當的話。
+> 答案就是助手可以提供比 HTML 程式碼更多的功能。例如，
+> 如下程式碼將產生一個文字輸入區域，它可以在使用者修改了其值時觸發表單提交動作。
+> ~~~
+> [php]
+> CHtml::textField($name,$value,array('submit'=>''));
+> ~~~
+> 不然的話你就需要寫一大堆 JavaScript 。
+
+下面，我們使用 [CHtml] 建立一個登入表單。我們假設變數 `$model` 是 `LoginForm` 的實體。
+
+~~~
+[php]
+<div class="form">
+<?php echo CHtml::beginForm(); ?>
+
+	<?php echo CHtml::errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'username'); ?>
+		<?php echo CHtml::activeTextField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'password'); ?>
+		<?php echo CHtml::activePasswordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+		<?php echo CHtml::activeLabel($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php echo CHtml::endForm(); ?>
+</div><!-- form -->
+~~~
+
+上述程式碼產生了一個更加動態的表單，例如，
+[CHtml::activeLabel()] 產生一個與指定模型的特性相關的標籤。
+如果此特性有一個輸入錯誤，此標籤的 CSS class 將變為 `error`，通過 CSS 樣式改變了標籤的外觀。
+相似的， [CHtml::activeTextField()] 為指定模型的特性產生一個文字輸入區域，並會在錯誤發生時改變它的 CSS class。
+
+如果我們使用由 `yiic` 腳本提供的 CSS 樣式文件，產生的表單就會像下面這樣：
+
+![登入頁](login1.png)
+
+![含有錯誤訊息的登入頁](login2.png)
+
+從版本 1.1.1 開始，提供了一個新的小工具 [CActiveForm] 以簡化表單建立。
+這個小工具可同時提供客戶端及伺服器端無縫的、一致的驗證。使用 [CActiveForm],
+上面的程式碼可重寫為：
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+
+<div class="revision">$Id$</div>
