@@ -25,7 +25,7 @@
     - [建立模型](form.model)
     - [建立動作](form.action)
     - [建立表單](form.view)
-    - [收集表格輸入](form.table)
+    - [收集表格式輸入](form.table)
     - [使用表單產生器](form.builder)
 
 * 使用資料庫
