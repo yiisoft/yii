@@ -30,8 +30,8 @@
 
 * 使用資料庫
     - [概觀](database.overview)
-    - [資料訪問對像（DAO）](database.dao)
-    - [Query Builder](database.query-builder)    
+    - [資料存取物件（DAO）](database.dao)
+    - [查詢產生器](database.query-builder)    
     - [Active Record](database.ar)
     - [Relational Active Record](database.arr)
     - [資料庫轉移](database.migration)
@@ -51,9 +51,9 @@
 
 * 測試
     - [概觀](test.overview)
-    - [Defining Fixtures](test.fixture)
+    - [定義 Fixtures](test.fixture)
     - [單元測試](test.unit)
-    - [Functional Testing](test.functional)
+    - [功能性測試](test.functional)
 
 * 專題
     - [自動化程式碼產生](topics.gii)
@@ -62,7 +62,7 @@
     - [主題與外觀](topics.theming)
     - [日誌記錄](topics.logging)
     - [錯誤處理](topics.error)
-    - [Web Service](topics.webservice)
+    - [網路服務](topics.webservice)
     - [國際化 (I18N)](topics.i18n)
     - [可替換樣板語法](topics.prado)
     - [控制台應用程式](topics.console)
