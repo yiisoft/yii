@@ -33,7 +33,7 @@ return array (
   'The button type "{type}" is not supported.' => 'Ο τύπος κουμπιού "{type}" δεν υποστηρίζεται.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Η στήλη πρέπει να οριστεί στη μορφή "Όνομα:Τύπος:Ετικέτα", όπου "Τύπος" και "Ετικέτα" είναι προαιρετικά.',
   'The property "itemView" cannot be empty.' => 'Η ιδιότητα "itemView" δεν μπορεί να μην έχει τιμή.',
-  'The property updateSelector should be defined.' => 'Η ιδιότητα updateSelector πρέπει να οριστεί.',
+  'The property updateSelector should be defined.' => 'Πρέπει να οριστεί η ιδιότητα updateSelector.',
   'Total 1 result.|Total {count} results.' => 'Συνολικά 1 αποτέλεσμα.|Συνολικά {count} αποτελέσματα.',
   'Update' => 'Ενημέρωση',
   'View' => 'Εμφάνιση',
