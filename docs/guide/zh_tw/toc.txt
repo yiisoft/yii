@@ -30,10 +30,10 @@
 
 * 使用資料庫
     - [概觀](database.overview)
-    - [資料存取物件（DAO）](database.dao)
+    - [資料存取物件 (DAO)](database.dao)
     - [查詢產生器](database.query-builder)    
     - [Active Record](database.ar)
-    - [Relational Active Record](database.arr)
+    - [關聯式 Active Record](database.arr)
     - [資料庫轉移](database.migration)
     
 * 快取
@@ -68,6 +68,6 @@
     - [控制台應用程式](topics.console)
     - [安全](topics.security)
     - [性能調校](topics.performance)
-    - [使用命令列工具產生程式碼 (deprecated)](quickstart.first-app-yiic)
+    - [使用命令列工具產生程式碼 (已捨棄)](quickstart.first-app-yiic)
 
 <div class="revision">$Id$</div>
