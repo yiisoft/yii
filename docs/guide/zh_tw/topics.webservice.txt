@@ -1,0 +1,177 @@
+網路服務 (Web Service)
+===========
+
+[網路服務](http://en.wikipedia.org/wiki/Web_service) 是一個軟體系統，設計來支援主機之間跨網絡相互存取。在 Web 應用程式，它通常用一套 API，可以被網路存取和在遠端系統主機上執行被請求的服務。例如，以 [Flex](http://www.adobe.com/products/flex/) 為基礎的客戶端可能會調用伺服器端運行的 PHP 的網路應用程式的函式。網路服務依賴 [SOAP](http://en.wikipedia.org/wiki/SOAP) 作為通訊協定的基礎層。
+
+Yii 提供 [CWebService] 和 [CWebServiceAction] 簡化了在網路應用程式實現網路服務。這些 API 以類別形式實現，被稱為*服務提供者* Yii 將為每個類別產生一個 [WSDL](http://www.w3.org/TR/wsdl)，描述什麼 API 有效和客戶端怎麼調用。當客戶端調用 API，Yii 將實體化相應的服務提供者和調用被請求的 API 來完成請求。
+
+> Note|注意: [CWebService] 依靠 [PHP SOAP extension](http://www.php.net/manual/en/ref.soap.php) 。請確定您嘗試本節中的例子前啟動此擴充。
+
+
+定義服務提供者 (Service Provider)
+-------------------------
+
+正如我們上文所述，服務提供者是一個類別定義能被遠程調用的方法。Yii 依靠[doc
+comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) and [class
+reflection](http://www.php.net/manual/en/language.oop5.reflection.php) 識別
+哪些方法可以被遠程調用和他們的參數還有返回值。
+
+讓我們以一個簡單的股票報價服務開始。這項服務允許客戶端請求指定股票的報價。我們確定服務提供者如下。請注意，我們定義一個 `StockController` 是藉由擴充 [CController] 的類別而來的，但這不是必需的。
+
+~~~
+[php]
+class StockController extends CController
+{
+	/**
+	 * @param string 股票
+	 * @return float 股價
+	 * @soap
+	 */
+	public function getPrice($symbol)
+	{
+		$prices=array('IBM'=>100, 'GOOGLE'=>350);
+		return isset($prices[$symbol])?$prices[$symbol]:0;
+	    //...回傳 $symbol 的股價
+	}
+}
+~~~
+
+在上面，我們透過在檔案註釋中的 `@soap` 標籤宣告 `getPrice` 方法為一個網路服務 API。依靠檔案註釋指定輸入的參數資料類型和返回值。其他的API可使用類似方式宣告。
+
+
+定義網路服務動作
+----------------------------
+
+已經定義了服務提供者，我們使他能夠透過客戶端存取。特別的是，我們要建立一個控制器動作提供這個服務。要做到這一點很容易，在控制器類中定義一個 [CWebServiceAction] 動作。對於我們的例子中，我們把它放在 `StockController` 中。
+
+~~~
+[php]
+class StockController extends CController
+{
+	public function actions()
+	{
+		return array(
+			'quote'=>array(
+				'class'=>'CWebServiceAction',
+			),
+		);
+	}
+
+	/**
+	 * @param string 股票
+	 * @return float 股價
+	 * @soap
+	 */
+	public function getPrice($symbol)
+	{
+	    //...return 回傳 $symbol 的股價
+	}
+}
+~~~
+
+這就是我們需要建立的網路服務！如果我們嘗試存取
+動作網址 `http://hostname/path/to/index.php?r=stock/quote`，我們將
+看到很多 XML 內容，這實際上是我們定義的網路服務的 WSDL 描述。
+
+> Tip|提示: 在預設情況下， [CWebServiceAction] 假設當前的控制器 是服務提供者。這就是因為我們在 `StockController` 中定義了 `getPrice` 方法。
+
+
+使用網路服務
+---------------------
+
+要完成這個例子，讓我們建立一個客戶端來使用我們剛剛建立的網路服務。例子中的客戶端用 PHP 撰寫的，但可以用別的語言撰寫，例如 `Java`、`C#` 和 `Flex` 等等。
+
+~~~
+[php]
+$client=new SoapClient('http://hostname/path/to/index.php?r=stock/quote');
+echo $client->getPrice('GOOGLE');
+~~~
+
+在網頁中或控制台模式中執行，我們將看到 `GOOGLE` 的價格 `350`。
+
+
+資料類型
+----------
+
+當定義的方法和屬性被遠程存取，我們需要指定輸入和輸出參數的資料類型。以下的原始資料類型可以使用：
+
+   - str/string: 對應 `xsd:string`;
+   - int/integer: 對應 `xsd:int`;
+   - float/double: 對應 `xsd:float`;
+   - bool/boolean: 對應 `xsd:boolean`;
+   - date: 對應 `xsd:date`;
+   - time: 對應 `xsd:time`;
+   - datetime: 對應 `xsd:dateTime`;
+   - array: 對應 `xsd:string`;
+   - object: 對應 `xsd:struct`;
+   - mixed: 對應 `xsd:anyType`.
+
+如果類型不屬於上述任何原始類型，它被看作是複合型屬性。複合型類型被看做類別，他的屬性當做類別的空開成員變數，在檔案註釋中被用 `@soap` 標記。
+
+我們還可以在原始或
+複合型類型的後面透過附加 `[]` 來使用陣列類型。這將定義指定類型的陣列。
+
+下面就是一個例子定義 `getPosts` 網頁 API，返回一個 `Post` 物件的陣列。
+
+~~~
+[php]
+class PostController extends CController
+{
+	/**
+	 * @return Post[] 一個 posts 清單
+	 * @soap
+	 */
+	public function getPosts()
+	{
+		return Post::model()->findAll();
+	}
+}
+
+class Post extends CActiveRecord
+{
+	/**
+	 * @var integer post 識別符號
+	 * @soap
+	 */
+	public $id;
+	/**
+	 * @var string post 標題
+	 * @soap
+	 */
+	public $title;
+}
+~~~
+
+
+類別映射
+-------------
+
+為了從客戶端得到複合型參數，應用程式需要定義從 WSDL 類型到相應 PHP 類別的映射。這是透過配置 [CWebServiceAction] 的 [classMap|CWebServiceAction::classMap] 屬性。
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actions()
+	{
+		return array(
+			'service'=>array(
+				'class'=>'CWebServiceAction',
+				'classMap'=>array(
+					'Post'=>'Post',  // 或是只用 'Post'
+				),
+			),
+		);
+	}
+	......
+}
+~~~
+
+
+攔截遠程方法調用
+-------------------------------------
+
+透過實現 [IWebServiceProvider] 接口，服務提供者可以攔截遠程方法調用。在 
+[IWebServiceProvider::beforeWebMethod]，服務提供者可以獲得當前 [CWebService]實體和透過 [CWebService::methodName] 請求的方法的名字 。它會回傳 false 如果遠程方法基於某種原因不允許被調用（例如：未經授權的存取） 。
+
+<div class="revision">$Id$</div>
