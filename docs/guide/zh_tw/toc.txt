@@ -68,6 +68,5 @@
     - [控制台應用程式](topics.console)
     - [安全](topics.security)
     - [性能調校](topics.performance)
-    - [使用命令列工具產生程式碼 (已捨棄)](quickstart.first-app-yiic)
 
 <div class="revision">$Id$</div>
