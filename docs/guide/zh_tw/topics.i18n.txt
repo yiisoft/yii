@@ -77,7 +77,7 @@ Yii::t('app', 'Path alias "{alias}" is redefined.',
 ~~~
 
 > Note|注意: 要翻譯的訊息必須是常量字串。它們不能包含可能會改變訊息內容的變數
-（例如`"Invalid {$message} content."`）。如果一條訊息需要通過一些參數改變，請使用
+（例如 `"Invalid {$message} content."`）。如果一條訊息需要通過一些參數改變，請使用
 參數佔位符號。
 
 翻譯過的訊息會儲存在一個叫做  *訊息來源* 的庫中。 訊息來源是一個 
