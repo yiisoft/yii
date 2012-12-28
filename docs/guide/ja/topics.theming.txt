@@ -227,8 +227,8 @@ return array(
 <?php
 return array(
 	'default'=>array(
-		'nextPageLabel'=>'&gt;&gt;',
-		'prevPageLabel'=>'&lt;&lt;',
+		'nextPageLabel'=>'次へ',
+		'prevPageLabel'=>'前へ',
 	),
 	'classic'=>array(
 		'header'=>'',
