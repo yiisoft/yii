@@ -419,7 +419,7 @@ abstract class CActiveRecord extends CModel
 
        public static function flushStatic()
        {
-       	    self:$_models = array();
+       	    self::$_models = array();
        }
 
 	/**
