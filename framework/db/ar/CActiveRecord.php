@@ -417,6 +417,11 @@ abstract class CActiveRecord extends CModel
 			$this->_md=$finder->_md;
 	}
 
+       public static function flushStatic()
+       {
+       	    self:$_models = array();
+       }
+
 	/**
 	 * Returns the name of the associated database table.
 	 * By default this method returns the class name as the table name.
