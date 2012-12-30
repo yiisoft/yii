@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.13-RC';
+		return '1.1.13';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -3985,6 +3985,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				Yii::app()->getSession()->destroy();
 			else
 				$this->clearStates();
+			$this->_access=array();
 			$this->afterLogout();
 		}
 	}
@@ -5323,10 +5324,10 @@ EOD;
 	}
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		if(is_string($attribute))
+		if(is_scalar($attribute) || $attribute===null)
 			foreach(explode('.',$attribute) as $name)
 			{
-				if(is_object($model))
+				if(is_object($model) && isset($model->$name))
 					$model=$model->$name;
 				elseif(is_array($model) && isset($model[$name]))
 					$model=$model[$name];
