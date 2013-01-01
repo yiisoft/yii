@@ -1,6 +1,9 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.14 work in progress
+-------------------------------
+
 Version 1.1.13 December 30, 2012
 --------------------------------
 - Bug #93: Criteria modification in CActiveRecord::beforeFind() did not apply when record was loaded in relational context. See UPGRADE instructions for details on behavior change. (cebe)
