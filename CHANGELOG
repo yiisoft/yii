@@ -1,8 +1,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.13 work in progress
--------------------------------
+Version 1.1.13 December 30, 2012
+--------------------------------
 - Bug #93: Criteria modification in CActiveRecord::beforeFind() did not apply when record was loaded in relational context. See UPGRADE instructions for details on behavior change. (cebe)
 - Bug #109: formatNumber() now uses number_format() instead of round(), because of round() error in IEEE754 accuracy limitations (SonkoDmitry)
 - Bug #110: MSSQL: fixed empty $primaryKey value after saving CActiveRecord model (resurtm)
@@ -55,6 +55,7 @@ Version 1.1.13 work in progress
 - Bug #1716: Fixed CCodeModel::pluralize() and CConsoleCommand::pluralize() so it doesn't force lowercase the first letter in any words (nsanden)
 - Bug #1726: Fixed the error Undefined variable: json in CJSON.php when json_decode function did not exist (heyhoo)
 - Bug #1792: Fixed persistent access permissions when two identities were used in a single application run. (jhenriquemc, François Gannaz)
+- Bug #1853: CAssetManager::publish() method will throw an exception if $forceCopy and $linkAssets are both true (resurtm, mdomba)
 - Bug: Table schema is refreshed on Gii model generation when schemaCachingDuration is used (SonkoDmitry)
 - Bug: CDbCommand::setFetchMode wasn't accepting additional arguments needed for PDO::FETCH_CLASS (samdark)
 - Bug: CCaptchaAction::validate check wasn't working properly in some cases (samdark, Qiang)

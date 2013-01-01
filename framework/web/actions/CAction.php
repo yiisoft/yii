@@ -22,6 +22,8 @@
  * @property CController $controller The controller who owns this action.
  * @property string $id Id of this action.
  *
+ * @method run() executes action
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.actions
  * @since 1.0

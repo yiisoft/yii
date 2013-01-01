@@ -1884,16 +1884,18 @@ EOD;
 	 *
 	 * @param mixed $model the model. This can be either an object or an array.
 	 * @param mixed $attribute the attribute name (use dot to concatenate multiple attributes)
-	 * or anonymous function (PHP 5.3+).
+	 * or anonymous function (PHP 5.3+). Remember that functions created by "create_function"
+	 * are not supported by this method. Also note that numeric value is meaningless when
+	 * first parameter is object typed.
 	 * @param mixed $defaultValue the default value to return when the attribute does not exist.
 	 * @return mixed the attribute value.
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		if(is_string($attribute))
+		if(is_scalar($attribute) || $attribute===null)
 			foreach(explode('.',$attribute) as $name)
 			{
-				if(is_object($model))
+				if(is_object($model) && isset($model->$name))
 					$model=$model->$name;
 				elseif(is_array($model) && isset($model[$name]))
 					$model=$model[$name];
