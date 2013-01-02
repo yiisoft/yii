@@ -3,6 +3,7 @@
 
 Version 1.1.14 work in progress
 -------------------------------
+- Bug #1915: CDataProviderIterator: fixed init in case of disabled pagination (antoncpu)
 
 Version 1.1.13 December 30, 2012
 --------------------------------
