@@ -155,6 +155,7 @@
     <echo>Building API...</echo>
     <exec command="${build} api ${build.doc.dir}" dir="." passthru="true" />
 
+    <!--
     <echo>Building API CHM...</echo>
     <exec command="${hhc} ${build.doc.dir}/api/manual.hhp" />
     <move file="${build.doc.dir}/api/manual.chm" tofile="${build.doc.dir}/yii-api-${yii.version}.chm" />
@@ -163,6 +164,7 @@
         <include name="manual.*" />
       </fileset>
     </delete>
+    -->
 
     <echo>Generating doc release file...</echo>
     <mkdir dir="${build.dist.dir}" />

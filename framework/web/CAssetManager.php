@@ -53,6 +53,11 @@ class CAssetManager extends CApplicationComponent
 	 * Options FollowSymLinks
 	 * </pre>
 	 *
+	 * Note that this property cannot be true when {@link $forceCopy} property has true value too. Otherwise
+	 * an exception would be thrown. Using both properties at the same time is illogical because both of them
+	 * are solving similar tasks but in a different ways. Please refer to the {@link $forceCopy} documentation
+	 * for more details.
+	 *
 	 * @since 1.1.5
 	 */
 	public $linkAssets=false;
@@ -85,6 +90,12 @@ class CAssetManager extends CApplicationComponent
 	 * This property sets the default value of the $forceCopy parameter in {@link publish} method. Default value
 	 * of this property is false meaning that the assets will be published only in case they don't exist in webroot
 	 * assets directory.
+	 *
+	 * Note that this property cannot be true when {@link $linkAssets} property has true value too. Otherwise
+	 * an exception would be thrown. Using both properties at the same time is illogical because both of them
+	 * are solving similar tasks but in a different ways. Please refer to the {@link $linkAssets} documentation
+	 * for more details.
+	 *
 	 * @since 1.1.11
 	 */
 	public $forceCopy=false;
@@ -185,6 +196,10 @@ class CAssetManager extends CApplicationComponent
 	 * which is not a concern during development, however. Default value of this parameter is null meaning
 	 * that it's value is controlled by {@link $forceCopy} class property. This parameter has been available
 	 * since version 1.1.2. Default value has been changed since 1.1.11.
+	 * Note that this parameter cannot be true when {@link $linkAssets} property has true value too. Otherwise
+	 * an exception would be thrown. Using this parameter with {@link $linkAssets} property at the same time
+	 * is illogical because both of them are solving similar tasks but in a different ways. Please refer
+	 * to the {@link $linkAssets} documentation for more details.
 	 * @return string an absolute URL to the published asset
 	 * @throws CException if the asset to be published does not exist.
 	 */
@@ -192,6 +207,8 @@ class CAssetManager extends CApplicationComponent
 	{
 		if($forceCopy===null)
 			$forceCopy=$this->forceCopy;
+		if($forceCopy && $this->linkAssets)
+			throw new CException(Yii::t('yii','The "forceCopy" and "linkAssets" cannot be both true.'));
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
 		elseif(($src=realpath($path))!==false)
