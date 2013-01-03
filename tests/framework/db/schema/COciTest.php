@@ -73,13 +73,15 @@ EOD;
 		}
 
 		$sqls='';
-		foreach(explode("\n", file_get_contents($schemaFilePath)) as $line)
+		$lines = explode("\n", file_get_contents($schemaFilePath))
+		foreach( as $line)
 		{
 			if(substr($line, 0, 2)==='--')
 				continue;
 			$sqls.=$line."\n";
 		}
-		foreach(array_filter(explode("\n\n", $sqls)) as $sql)
+		$sqls = array_filter(explode("\n\n", $sqls));
+		foreach($sqls as $sql)
 		{
 			if(trim($sql)!=='')
 			{
