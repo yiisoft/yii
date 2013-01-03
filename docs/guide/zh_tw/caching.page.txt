@@ -1,0 +1,99 @@
+頁面快取
+============
+
+頁面快取指的是快取整個頁面的內容。頁面快取可以發生在不同的地方。
+例如，通過選擇適當的頁面頭，客戶端的瀏覽器可能會快取網頁瀏覽有限時間。 
+Web 應用程式程式本身也可以在快取中儲存網頁內容。
+
+頁面快取可以被看作是 [片段快取](/doc/guide/caching.fragment) 一個特殊情況 。
+由於網頁內容是往往通過應用程式佈局來產生，如果我們只是簡單的在佈局中調用 [beginCache()|CBaseController::beginCache] 
+和 [endCache()|CBaseController::endCache]，將無法正常工作。
+這是因為佈局在 [CController::render()] 方法裡的加載是在頁面內容產生之後。
+
+如果想要快取整個頁面，我們應該跳過產生網頁內容的動作執行。我們可以使用 [COutputCache] 作為動作
+[篩選器](/doc/guide/basics.controller#filter)來完成這一任務。下面的程式碼展示如何配置快取篩選器：
+
+~~~
+[php]
+public function filters()
+{
+	return array(
+		array(
+			'COutputCache',
+			'duration'=>100,
+			'varyByParam'=>array('id'),
+		),
+	);
+}
+~~~
+
+上述篩選器配置會使篩選器適用於控制器中的所有行動。
+我們可能會限制它在一個或幾個行動透過使用插件操作器。
+更多的細節可以看[篩選器](/doc/guide/basics.controller#filter)。
+
+> Tip: 我們可以使用 [COutputCache] 作為一個篩選器，因為它從 [CFilterWidget] 繼承過來，
+這意味著它是一個工具(widget)和一個篩選器。事實上，小工具的工作方式和篩選器非常相似：
+小工具 (篩選器) 是在動作裡的內容執行前執行，在執行後結束。
+
+
+HTTP Caching
+------------
+In addition to simply caching the output of an action, Yii introduced 
+[CHttpCacheFilter] in version 1.1.11. This filter aids in setting the 
+aforementioned headers to notify a client that a page's content has not been 
+changed since the last request, so the server will not have to re-transmit the
+content. [CHttpCacheFilter] can be set up similar to [COutputCache]:
+~~~
+[php]
+public function filters()
+{
+    return array(
+        array(
+            'CHttpCacheFilter + index',
+            'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
+        ),
+    );
+}
+~~~
+The above code will set the `Last-Modified` header to the last date at which a 
+post was updated. You can also use [CHttpCacheFilter::lastModifiedExpression] to set 
+the `Last-Modified` header using a php expression.
+
+> Tip: Both, [CHttpCacheFilter::lastModifiedExpression] and 
+[CHttpCacheFilter::lastModified] can take either an integer representing an 
+epochal Unix timestamp or an arbitrary string representing a human-readable
+date. As long as later one can be parsed by
+[strtotime()](http://php.net/manual/function.strtotime.php), no further
+conversion is necessary.
+
+The "Entity Tag" (or `ETag` for short) header can be set in a similar fashion 
+through [CHttpCacheFilter::etagSeed] and [CHttpCacheFilter::etagSeedExpression] 
+, respectively. Both will be serialized (so you can use either a single value
+or an entire array) and are used to generate a quoted, base64-encoded SHA1
+hash serving as content for the `ETag` header. This differs from the way the
+[Apache Webserver](http://httpd.apache.org) and others are generating their
+ETags. However, this method is perfectly in line with the RFC and turned out to
+be more feasible for use in a framework. 
+
+> Note: In order to comply with
+[RFC 2616, section 13.3.4](http://tools.ietf.org/html/rfc2616#section-13.3.4),
+[CHttpCacheFilter] will send out `ETag` *and* `Last-Modified` headers if they
+can both be generated. Consequently, both will be used for cache validation if
+sent by the client.
+
+Since entity tags are hashes, they allow more complex and/or more precise
+caching strategies than `Last-Modified` headers. For instance, an ETag can be
+invalidated if the site has switched to another theme.
+
+> Tip: Expensive expressions for [CHttpCacheFilter::etagSeedExpression] may
+defeat the purpose of [CHttpCacheFilter] and introduce unnecessary overhead,
+since they need to be re-evaluated on every request. Try to find a simple
+expression that invalidates the cache if the page *content* has been modified.
+
+### SEO Implications
+Search engine bots tend to respect cache headers. Since some crawlers have a
+limit on how many pages per domain they process within a certain time span,
+introducing caching headers may help indexing your site as they reduce the
+number of pages that need to be processed.
+
+<div class="revision">$Id$</div>
