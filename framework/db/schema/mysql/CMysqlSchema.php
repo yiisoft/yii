@@ -22,7 +22,7 @@ class CMysqlSchema extends CDbSchema
 	 * @since 1.1.6
 	 */
 	public $columnTypes=array(
-		'pk' => 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY',
+		'pk' => 'int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY',
 		'string' => 'varchar(255)',
 		'text' => 'text',
 		'integer' => 'int(11)',
