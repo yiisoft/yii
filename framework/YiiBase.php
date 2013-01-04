@@ -703,7 +703,7 @@ class YiiBase
 		'CCubridCommandBuilder' => '/db/schema/cubrid/CCubridCommandBuilder.php',
 		'CCubridSchema' => '/db/schema/cubrid/CCubridSchema.php',
 		'CCubridTableSchema' => '/db/schema/cubrid/CCubridTableSchema.php',
-        'CMssqlColumnSchema' => '/db/schema/mssql/CMssqlColumnSchema.php',
+		'CMssqlColumnSchema' => '/db/schema/mssql/CMssqlColumnSchema.php',
 		'CMssqlCommandBuilder' => '/db/schema/mssql/CMssqlCommandBuilder.php',
 		'CMssqlPdoAdapter' => '/db/schema/mssql/CMssqlPdoAdapter.php',
 		'CMssqlSchema' => '/db/schema/mssql/CMssqlSchema.php',
