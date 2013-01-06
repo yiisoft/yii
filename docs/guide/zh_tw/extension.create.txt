@@ -1,0 +1,179 @@
+建立擴充
+===================
+
+由於擴充意味著是第三方開發者使用，需要一些額外的付出去建立它。以下是一些一般性的指導原則：
+
+*擴充最好是自己自足。也就是說，其外部的依賴應是最少的。如果使用者的擴充需要安裝額外的軟體、類別或資源檔案，這將是一個頭疼的問題。
+*檔案屬於同一個擴充的，應組織在同一目錄下，目錄名用擴充名稱。
+*擴充裡面的類別應使用一些單詞字母前綴，以避免與其他擴充命名衝突。
+*擴充應該提供詳細的安裝和 API 檔案。這將減少其他開發員使用擴充時花費的時間和精力。
+*擴充應該用適當的許可。如果您想您的擴充能在開源和閉源項目中使用，你可以考慮使用如 BSD 、MIT 等，但不是 GPL 的，因為它要求其衍生的程式碼是開源的。
+
+在下面，我們根據 [概述](/doc/guide/extension.overview)中所描述的分類，描述如何建立一個新的擴充。當您要建立一個主要用於在您自己項目的元件，這些描述也適用。
+
+
+應用程式元件
+---------------------
+
+一個[應用程式元件](/doc/guide/basics.application#application-component)
+應實作介面 [IApplicationComponent] 或繼承 [CApplicationComponent]。主要需要實現的方法是
+[IApplicationComponent::init]，元件在此執行一些初始化工作。此方法在元件建立和屬性值（在[應用程式配置](/doc/guide/basics.application#application-configuration) 裡指定的）被賦值後調用。
+
+預設情況下，一個應用程式程式元件建立和初始化，只有當它首次存取期間要求處理。如果一個應用程式程式元件需要在應用程式程式實體被建立後建立，它應要求使用者在 [CApplication::preload] 的屬性中列出他的編號。
+
+
+行為
+--------
+
+要建立一個行為，必須要實作 [IBehavior] 介面。例如，Yii 提供了一個基礎類別 [CBehavior] 已經實作了這個介面，並且提供了一些額外的方便的方法。通常，子類別需要實作這些的方法，因為他們打算給那些附加上的元件所使用。
+
+當開發行為給 [CModel] 和 [CActiveRecord]，必須分別擴充 [CModelBehavior] 和 [CActiveRecordBehavior]。這些基礎類別提供額外的特定功能給 [CModel] 和 [CActiveRecord]。例如，[CActiveRecordBehavior] 類別實作一個方法的集合，用來在一個 ActiveRecord 物件回應這個生命週期內的所發起的事件。一個子類別可以覆寫這些方法來放置一些客製過的程式碼，他將會參與在 AR 的生命週期。
+
+下述的的程式碼秀出一個 ActiveRecord 的行為。當這個行為被附加在一個 AR 物件，並且這個 AR 物件被藉由呼叫 `save()` 來儲存，他們自動設定 `create_time` 和 `update_time` 屬性為現在的時間戳記。
+
+~~~
+[php]
+class TimestampBehavior extends CActiveRecordBehavior
+{
+	public function beforeSave($event)
+	{
+		if($this->owner->isNewRecord)
+			$this->owner->create_time=time();
+		else
+			$this->owner->update_time=time();
+	}
+}
+~~~
+
+
+小工具
+------
+
+[小工具](/doc/guide/basics.view#widget) 應繼承 [CWidget] 或其子類別。
+
+最簡單的方式來建立一個新的小工具是繼承一個現成的小工具和重載它的方法或改變其預設的屬性值。例如，如果您想為 [CTabView] 使用更好的 CSS 樣式，您可以配置其 [CTabView::cssFile] 屬性，當使用的小工具時。您還可以繼承 [CTabView] 如下，讓您在使用小工具時，不再需要配置屬性。
+
+~~~
+[php]
+class MyTabView extends CTabView
+{
+	public function init()
+	{
+		if($this->cssFile===null)
+		{
+			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
+			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+		}
+		parent::init();
+	}
+}
+~~~
+
+在上述裡，當此屬性未設置時，我們重載 [CWidget::init] 方法和指定 [CTabView::cssFile] 的 URL 到我們的新的預設 CSS 樣式。我們把新的CSS樣式檔案和 `MyTabView` 類別檔案放在相同的目錄下，以便他們能夠封裝成擴充。由於 CSS 樣式檔案不是網路可存取的，我們需要發佈作為一項 asset 資源。
+
+要從零開始建立一個新的小工具，我們主要是需要實現兩個方法：[CWidget::init] 和[CWidget::run]。第一種方法是當我們在視圖中使用 `$this->beginWidget` 插入一個小工具時被調用，第二種方法在 `$this->endWidget` 被調用時調用。如果我們想在這兩個方法調用之間捕捉和處理顯示的內容，我們可以在 [CWidget::init] 啟動 [output buffering](http://us3.php.net/manual/en/book.outcontrol.php) 和在 [CWidget::run] 中回收緩衝輸出來作進一步處理。
+
+在網頁中使用的小工具，小工具往往包括 CSS、Javascript或其他資源檔案。我們叫這些檔案 *assets*，因為他們和小工具類別在一起，而且通常網路使用者無法存取。為了使這些檔案通過網路存取，我們需要用 [CWebApplication::assetManager]發佈他們，例如上述程式碼所示。此外，如果我們想包括 CSS 或 JavaScript 檔案在當前的網頁，我們需要使用[CClientScript]註冊 ：
+
+~~~
+[php]
+class MyWidget extends CWidget
+{
+	protected function registerClientScript()
+	{
+		// ...publish CSS or JavaScript file here...
+		$cs=Yii::app()->clientScript;
+		$cs->registerCssFile($cssFile);
+		$cs->registerScriptFile($jsFile);
+	}
+}
+~~~
+
+小工具也可能有自己的視圖檔案。如果是這樣，建立一個目錄命名 `views` 在包含小工具類別檔案的目錄下，並把所有的視圖檔案放裡面。在小工具類中使用 `$this->render('ViewName')` 來呈現小工具視圖，類似於我們在控制器裡做。
+
+
+動作
+------
+
+[動作](/doc/guide/basics.controller#action) 應繼承 [CAction] 或者其子類別。動作要實現的主要方法是 [IAction::run]。
+
+
+篩選器
+------
+[篩選器](/doc/guide/basics.controller#filter) 應繼承 [CFilter] 或者其子類別。篩選器要實現的主要方法是 [CFilter::preFilter] 和 [CFilter::postFilter]。前者是在動作之前被執行，而後者是在之後。
+
+~~~
+[php]
+class MyFilter extends CFilter
+{
+	protected function preFilter($filterChain)
+	{
+		// 動作執行之前
+		return true; // false 則不執行動作
+	}
+
+	protected function postFilter($filterChain)
+	{
+		// 動作執行之後
+	}
+}
+~~~
+
+參數 `$filterChain` 的類型是 [CFilterChain]，其包含當前被篩選器的動作的相關訊息。
+
+
+控制器
+----------
+[控制器](/doc/guide/basics.controller) 要作為擴充需繼承 [CExtController]，而不是 [CController]。主要的原因是因為[CController] 認定控制器視圖檔案位於 `application.views.ControllerID` 下，而 [CExtController] 認定視圖檔案在 `views` 目錄下，也是包含控制器類目錄的一個子目錄。因此，很容易重新分配控制器，因為它的視圖檔案和控制類是在一起的。
+
+
+驗證器
+---------
+驗證器需繼承 [CValidator] 和實現 [CValidator::validateAttribute] 方法。
+
+~~~
+[php]
+class MyValidator extends CValidator
+{
+	protected function validateAttribute($model,$attribute)
+	{
+		$value=$model->$attribute;
+		if($value has error)
+			$model->addError($attribute,$errorMessage);
+	}
+}
+~~~
+
+控制台命令
+---------------
+[控制台命令](/doc/guide/topics.console) 應繼承 [CConsoleCommand] 和實現 [CConsoleCommand::run] 方法。或者，我們可以重載 [CConsoleCommand::getHelp] 來提供一些更好的有關幫助命令。
+
+~~~
+[php]
+class MyCommand extends CConsoleCommand
+{
+	public function run($args)
+	{
+		// $args 命命列參數的陣列
+	}
+
+	public function getHelp()
+	{
+		return 'Usage: how to use this command';
+	}
+}
+~~~
+
+模組
+------
+請參閱 [modules](/doc/guide/basics.module#creating-module) 一節中關於就如何建立一個模組。 
+
+一般準則制訂一個模組，它應該是獨立的。模組所使用的資源檔案（如 CSS、JavaScript、圖片），應該和模組一起分發。還有模組應發佈它們，以便可以網路存取它們。
+
+
+通用元件
+-----------------
+開發一個通用元件擴充類似寫一個類別。還有，該元件還應該自足，以便它可以很容易地被其他開發者使用。
+
+
+<div class="revision">$Id$</div>
