@@ -51,7 +51,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 		$this->_totalItemCount=$dataProvider->getTotalItemCount();
 
 		if(($pagination=$this->_dataProvider->getPagination())===false)
-			$this->_dataProvider->setPagination(new CPagination());
+			$this->_dataProvider->setPagination($pagination=new CPagination());
 
 		if($pageSize!==null)
 			$pagination->setPageSize($pageSize);
