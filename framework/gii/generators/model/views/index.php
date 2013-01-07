@@ -134,5 +134,13 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 		</div>
 		<?php echo $form->error($model,'buildRelations'); ?>
 	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'labelFromComment'); ?>
+		<?php echo $form->checkBox($model,'labelFromComment'); ?>
+		<div class="tooltip">
+			You should write comment in table column
+		</div>
+		<?php echo $form->error($model,'buildRelations'); ?>
+	</div>
 
 <?php $this->endWidget(); ?>
