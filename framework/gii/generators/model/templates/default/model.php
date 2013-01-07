@@ -53,26 +53,6 @@
 class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
 	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return <?php echo $modelClass; ?> the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-<?php if($connectionId!='db'):?>
-
-	/**
-	 * @return CDbConnection database connection
-	 */
-	public function getDbConnection()
-	{
-		return Yii::app()-><?php echo $connectionId ?>;
-	}
-<?php endif?>
-
-	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -125,6 +105,9 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
+	 * Purpose of this method is that you can initialize the model with some values
+	 *  and then run this `search` on it, getting the CActiveDataProvider instance loaded
+	 *  with records found. This way model becomes the filter which can be used in grid views or somewhere else.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search()
@@ -151,5 +134,26 @@ foreach($columns as $name=>$column)
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+<?php if($connectionId!='db'):?>
+	/**
+	 * @return CDbConnection database connection
+	 */
+	public function getDbConnection()
+	{
+		return Yii::app()-><?php echo $connectionId ?>;
+	}
+<?php endif?>
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return <?php echo $modelClass; ?> the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
 	}
 }
