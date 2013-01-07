@@ -165,8 +165,8 @@ class CWidget extends CBaseController
 	public function getViewPath($checkTheme=false)
 	{
 		$className=get_class($this);
-		if(isset(self::$_viewPaths[$className]))
-			return self::$_viewPaths[$className];
+		if(isset(self::$_viewPaths[$className][$checkTheme]))
+			return self::$_viewPaths[$className][$checkTheme];
 		else
 		{
 			if($checkTheme && ($theme=Yii::app()->getTheme())!==null)
@@ -177,11 +177,11 @@ class CWidget extends CBaseController
 				else
 					$path.=$className;
 				if(is_dir($path))
-					return self::$_viewPaths[$className]=$path;
+					return self::$_viewPaths[$className][$checkTheme]=$path;
 			}
 
 			$class=new ReflectionClass($className);
-			return self::$_viewPaths[$className]=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'views';
+			return self::$_viewPaths[$className][$checkTheme]=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'views';
 		}
 	}
 
