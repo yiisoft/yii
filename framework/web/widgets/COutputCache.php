@@ -55,7 +55,7 @@
  * <li>{@link varyByExpression}: this specifies whether the cached content
  *   should be varied with the result of the specified PHP expression.</li>
  * <li>{@link varyByLanguage}: this specifies whether the cached content
- *   should by varied with the user's language.</li>
+ *   should by varied with the user's language. Available since 1.1.14.</li>
  * </ul>
  * For more advanced variation, override {@link getBaseCacheKey()} method.
  *
@@ -115,6 +115,7 @@ class COutputCache extends CFilterWidget
 	 * @var boolean whether the content being cached should be differentiated according to user's language.
 	 * A language is retrieved via Yii::app()->language.
 	 * Defaults to false.
+	 * @since 1.1.14
 	 */
 	public $varyByLanguage=false;
 	/**
