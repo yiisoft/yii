@@ -105,10 +105,15 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * Purpose of this method is that you can initialize the model with some values
-	 *  and then run this `search` on it, getting the CActiveDataProvider instance loaded
-	 *  with records found. This way model becomes the filter which can be used in grid views or somewhere else.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
