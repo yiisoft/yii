@@ -54,6 +54,8 @@
  *   should be varied with the user session.</li>
  * <li>{@link varyByExpression}: this specifies whether the cached content
  *   should be varied with the result of the specified PHP expression.</li>
+ * <li>{@link varyByLanguage}: this specifies whether the cached content
+ *   should by varied with the user's language.</li>
  * </ul>
  * For more advanced variation, override {@link getBaseCacheKey()} method.
  *
@@ -109,6 +111,12 @@ class COutputCache extends CFilterWidget
 	 * where $cache refers to the output cache component.
 	 */
 	public $varyByExpression;
+	/**
+	 * @var boolean whether the content being cached should be differentiated according to user's language.
+	 * A language is retrieved via Yii::app()->language.
+	 * Defaults to false.
+	 */
+	public $varyByLanguage=false;
 	/**
 	 * @var array list of request types (e.g. GET, POST) for which the cache should be enabled only.
 	 * Defaults to null, meaning all request types.
@@ -257,7 +265,7 @@ class COutputCache extends CFilterWidget
 	/**
 	 * Calculates the cache key.
 	 * The key is calculated based on {@link getBaseCacheKey} and other factors, including
-	 * {@link varyByRoute}, {@link varyByParam} and {@link varyBySession}.
+	 * {@link varyByRoute}, {@link varyByParam}, {@link varyBySession} and {@link varyByLanguage}.
 	 * @return string cache key
 	 */
 	protected function getCacheKey()
@@ -296,6 +304,10 @@ class COutputCache extends CFilterWidget
 
 			if($this->varyByExpression!==null)
 				$key.=$this->evaluateExpression($this->varyByExpression);
+			$key.='.';
+
+			if($this->varyByLanguage)
+				$key.=Yii::app()->language;
 			$key.='.';
 
 			return $this->_key=$key;
