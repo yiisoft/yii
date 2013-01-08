@@ -53,26 +53,6 @@
 class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
 	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return <?php echo $modelClass; ?> the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-<?php if($connectionId!='db'):?>
-
-	/**
-	 * @return CDbConnection database connection
-	 */
-	public function getDbConnection()
-	{
-		return Yii::app()-><?php echo $connectionId ?>;
-	}
-<?php endif?>
-
-	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -125,7 +105,15 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
@@ -151,5 +139,26 @@ foreach($columns as $name=>$column)
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+<?php if($connectionId!='db'):?>
+	/**
+	 * @return CDbConnection database connection
+	 */
+	public function getDbConnection()
+	{
+		return Yii::app()-><?php echo $connectionId ?>;
+	}
+<?php endif?>
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return <?php echo $modelClass; ?> the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
 	}
 }

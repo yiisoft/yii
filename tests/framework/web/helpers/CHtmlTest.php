@@ -445,6 +445,96 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals('v4', CHtml::resolveValue($testModel, '[ignore-this]arrayAttr[k3][k4]'));
 	}
 
+	public function providerValue()
+	{
+		$result=array(
+			// $model is array
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),'k1',null,'v1'),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),'k2',null,'v2'),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),'k3',null,null),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),'k3','defaultValue','defaultValue'),
+
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),0,null,'v3'),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),1,null,'v4'),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),2,null,null),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),2,'defaultValue','defaultValue'),
+
+			// $model is stdClass
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),'k1',null,'v1'),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),'k2',null,'v2'),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),'k3',null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),'k3','defaultValue','defaultValue'),
+
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),0,null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),1,null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),2,null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),2,'defaultValue','defaultValue'),
+
+			// static method
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),array('CHtmlTest','helperTestValue'),null,'v2'),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),array('CHtmlTest','helperTestValue'),null,'v2'),
+
+			// create_function is not supported by CHtml::value(), we're just testing this feature/property
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model["k2"];'),null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model->k2;'),null,null),
+
+			// standard PHP functions should not be treated as callables
+			array(array('array_filter'=>'array_filter','sort'=>'sort'),'sort',null,'sort'),
+			array(array('array_filter'=>'array_filter','sort'=>'sort'),'array_map','defaultValue','defaultValue'),
+			array((object)array('array_filter'=>'array_filter','sort'=>'sort'),'sort',null,'sort'),
+			array((object)array('array_filter'=>'array_filter','sort'=>'sort'),'array_map','defaultValue','defaultValue'),
+
+			// dot access, array
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'k1.k2.k3',null,'v3'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.0',null,'v1'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.k4',null,'v4'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.1',null,null),
+
+			// dot access, object
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'k1.k2.k3',null,'v3'),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.0',null,null),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.k4',null,null),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.1',null,null),
+
+			// $attribute parameter is:
+			// 1. null or empty string
+			// 2. not "0" string, 0 integer or 0.0 double/float
+			// 3. empty array doesn't make sense
+			array(array('v1'),null,'defaultValue','defaultValue'),
+			array(array('v1'),"",'defaultValue','defaultValue'),
+			array(array('v1'),"0",'defaultValue','v1'),
+			array(array('v1'),0,'defaultValue','v1'),
+			array(array('v1'),0.0,'defaultValue','v1'),
+		);
+		if(class_exists('Closure',false))
+		{
+			// anonymous function
+			$result=array_merge($result,require(dirname(__FILE__).'/CHtml/providerValue.php'));
+		}
+		return $result;
+	}
+
+	/**
+	 * @dataProvider providerValue
+	 *
+	 * @param array|stdClass $model
+	 * @param integer|double|string $attribute
+	 * @param mixed $defaultValue
+	 * @param string $assertion
+	 */
+	public function testValue($model, $attribute, $defaultValue, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::value($model, $attribute, $defaultValue));
+	}
+
+	/**
+	 * Helper method for {@link testValue()} and {@link providerValue()} methods.
+	 */
+	public static function helperTestValue($model)
+	{
+		return is_array($model) ? $model['k2'] : $model->k2;
+	}
+
 	public static function providerPageStateField()
 	{
 		return array(

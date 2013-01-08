@@ -98,13 +98,13 @@ we can prevent certain categories from appearing in our logs:
 		array(
 			'class'=>'CEmailLogRoute',
 			'levels'=>'error, warning',
-			'exclude'=>'system.CModule.*' // Will email everything except any CModule logs
+			'except'=>'system.CModule.*' // Will email everything except any CModule logs
 			'emails'=>'admin@example.com',
 		),
 		array(
 			'class'=>'CWebLogRoute',
 			'categories'=>'system.db.*',
-			'exclude'=>'system.db.ar.*', // shows all db level logs but nothing in the ar category
+			'except'=>'system.db.ar.*', // shows all db level logs but nothing in the ar category
 		),
 ~~~
 
