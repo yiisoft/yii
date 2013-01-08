@@ -744,6 +744,7 @@ class YiiBase
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CFormatter' => '/utils/CFormatter.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
+		'CPasswordHelper' => '/utils/CPasswordHelper.php',
 		'CPropertyValue' => '/utils/CPropertyValue.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
