@@ -44,7 +44,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 		"type", "application/x-shockwave-flash",
 		"pluginspage", "http://www.adobe.com/go/getflashplayer"
 	);
-} elseif (hasRequestedVersion) {
+} else if (hasRequestedVersion) {
 	// if we've detected an acceptable version
 	// embed the Flash Content SWF when all tests are passed
 	AC_FL_RunContent(
