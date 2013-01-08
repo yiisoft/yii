@@ -68,8 +68,7 @@ EOD;
 
 		// remove comments from SQL
 		$sqls='';
-		$rawSqls = array_filter(explode("\n", $rawSqls));
-		foreach($rawSqls as $line)
+		foreach(array_filter(explode("\n", $rawSqls)) as $line)
 		{
 			if(substr($line,0,2)=='--')
 				continue;
@@ -77,8 +76,7 @@ EOD;
 		}
 
 		// run SQL
-		$sqls = explode('GO',$sqls);
-		foreach($sqls as $sql)
+		foreach(explode('GO',$sqls) as $sql)
 		{
 			if(trim($sql)!=='')
 				$this->db->createCommand($sql)->execute();
