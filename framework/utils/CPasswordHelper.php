@@ -31,7 +31,7 @@
  *
  * Generate a hash from a password:
  * <pre>
- * $hash = PasswordHelper::hashPassword($password);
+ * $hash = CPasswordHelper::hashPassword($password);
  * </pre>
  * This hash can be stored in a database (e.g. CHAR(64) CHARACTER SET latin1). The
  * hash is usually generated and saved to the database when the user enters a new password.
@@ -40,7 +40,7 @@
  *
  * To verify a password, fetch the user's saved hash from the database (into $hash) and:
  * <pre>
- * if (PasswordHelper::verifyPassword($password, $hash)
+ * if (C`PasswordHelper::verifyPassword($password, $hash)
  *     // password is good
  * else
  *     // password is bad
