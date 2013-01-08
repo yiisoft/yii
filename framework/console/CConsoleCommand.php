@@ -494,6 +494,7 @@ abstract class CConsoleCommand extends CComponent
 			'/(c)hild$/i' => '\1hildren',
 			'/(h)uman$/i' => '\1umans',
 			'/(m)an$/i' => '\1en',
+			'/(s)taff$/i' => '\1taff',
 			'/(t)ooth$/i' => '\1eeth',
 			'/(p)erson$/i' => '\1eople',
 			'/([m|l])ouse$/i' => '\1ice',

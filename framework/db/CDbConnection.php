@@ -406,6 +406,7 @@ class CDbConnection extends CApplicationComponent
 	 * Creates the PDO instance.
 	 * When some functionalities are missing in the pdo driver, we may use
 	 * an adapter class to provides them.
+	 * @throws CDbException when failed to open DB connection
 	 * @return PDO the pdo instance
 	 */
 	protected function createPdoInstance()
@@ -419,8 +420,12 @@ class CDbConnection extends CApplicationComponent
 			elseif($driver==='sqlsrv')
 				$pdoClass='CMssqlSqlsrvPdoAdapter';
 		}
-		return new $pdoClass($this->connectionString,$this->username,
+		@$instance=new $pdoClass($this->connectionString,$this->username,
 									$this->password,$this->_attributes);
+		if(!$instance)
+			throw new CDbException(Yii::t('yii', 'CDbConnection failed to open the DB connection'));
+
+		return $instance;
 	}
 
 	/**
