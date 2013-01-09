@@ -59,7 +59,7 @@
     - [自動化程式碼產生](topics.gii)
     - [URL 管理](topics.url)
     - [驗證與授權](topics.auth)
-    - [主題與外觀](topics.theming)
+    - [主題與外表](topics.theming)
     - [日誌記錄](topics.logging)
     - [錯誤處理](topics.error)
     - [網路服務](topics.webservice)
