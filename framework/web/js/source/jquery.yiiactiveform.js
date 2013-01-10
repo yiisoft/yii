@@ -247,7 +247,9 @@
 		attribute.status = 1;
 		var $error, $container,
 			hasError = false,
-			$el = form.find('#' + attribute.inputID);
+			$el = form.find('#' + attribute.inputID),
+			errorCss = form.data('settings').errorCss;
+
 		if ($el.length) {
 			hasError = messages !== null && $.isArray(messages[attribute.id]) && messages[attribute.id].length > 0;
 			$error = form.find('#' + attribute.errorID);
@@ -258,6 +260,9 @@
 				attribute.errorCssClass + ' ' +
 				attribute.successCssClass
 			);
+			$container.find('label, input').each(function () {
+				$(this).removeClass(errorCss);
+			});
 
 			if (hasError) {
 				$error.html(messages[attribute.id][0]);
