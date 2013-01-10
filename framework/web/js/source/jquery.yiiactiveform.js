@@ -343,11 +343,11 @@
 		}
 
 		$.ajax({
-			url : settings.validationUrl,
-			type : $form.attr('method'),
-			data : $form.serialize() + extData,
-			dataType : 'json',
-			success : function (data) {
+			url: settings.validationUrl,
+			type: $form.attr('method'),
+			data: $form.serialize() + extData,
+			dataType: 'json',
+			success: function (data) {
 				if (data !== null && typeof data === 'object') {
 					$.each(settings.attributes, function () {
 						if (!this.enableAjaxValidation) {
@@ -359,7 +359,7 @@
 					successCallback(messages);
 				}
 			},
-			error : function () {
+			error: function () {
 				if (errorCallback !== undefined) {
 					errorCallback();
 				}
@@ -381,46 +381,46 @@
 		ajaxVar: 'ajax',
 		validationUrl: undefined,
 		validationDelay: 200,
-		validateOnSubmit : false,
-		validateOnChange : true,
-		validateOnType : false,
-		hideErrorMessage : false,
-		inputContainer : undefined,
-		errorCssClass : 'error',
-		successCssClass : 'success',
-		validatingCssClass : 'validating',
-		summaryID : undefined,
+		validateOnSubmit: false,
+		validateOnChange: true,
+		validateOnType: false,
+		hideErrorMessage: false,
+		inputContainer: undefined,
+		errorCssClass: 'error',
+		successCssClass: 'success',
+		validatingCssClass: 'validating',
+		summaryID: undefined,
 		timer: undefined,
-		beforeValidateAttribute: undefined, // function (form, attribute) : boolean
+		beforeValidateAttribute: undefined, // function (form, attribute) | boolean
 		afterValidateAttribute: undefined,  // function (form, attribute, data, hasError)
-		beforeValidate: undefined, // function (form) : boolean
-		afterValidate: undefined,  // function (form, data, hasError) : boolean
+		beforeValidate: undefined, // function (form) | boolean
+		afterValidate: undefined,  // function (form, data, hasError) | boolean
+		focus: undefined,  // jquery selector that indicates which element to receive input focus initially
 		/**
 		 * list of attributes to be validated. Each array element is of the following structure:
 		 * {
-		 *     id : 'ModelClass_attribute', // the unique attribute ID
-		 *     model : 'ModelClass', // the model class name
-		 *     name : 'name', // attribute name
-		 *     inputID : 'input-tag-id',
-		 *     errorID : 'error-tag-id',
-		 *     value : undefined,
-		 *     status : 0,  // 0: empty, not entered before,  1: validated, 2: pending validation, 3: validating
-		 *     focus : undefined,  // jquery selector that indicates which element to receive input focus initially
+		 *     id: 'ModelClass_attribute', // the unique attribute ID
+		 *     model: 'ModelClass', // the model class name
+		 *     name: 'name', // attribute name
+		 *     inputID: 'input-tag-id',
+		 *     errorID: 'error-tag-id',
+		 *     value: undefined,
+		 *     status: 0,  // 0: empty, not entered before,  1: validated, 2: pending validation, 3: validating
 		 *     validationDelay: 200,
-		 *     validateOnChange : true,
-		 *     validateOnType : false,
-		 *     hideErrorMessage : false,
-		 *     inputContainer : undefined,
-		 *     errorCssClass : 'error',
-		 *     successCssClass : 'success',
-		 *     validatingCssClass : 'validating',
-		 *     enableAjaxValidation : true,
-		 *     enableClientValidation : true,
-		 *     clientValidation : undefined, // function (value, messages, attribute) : client-side validation
-		 *     beforeValidateAttribute: undefined, // function (form, attribute) : boolean
+		 *     validateOnChange: true,
+		 *     validateOnType: false,
+		 *     hideErrorMessage: false,
+		 *     inputContainer: undefined,
+		 *     errorCssClass: 'error',
+		 *     successCssClass: 'success',
+		 *     validatingCssClass: 'validating',
+		 *     enableAjaxValidation: true,
+		 *     enableClientValidation: true,
+		 *     clientValidation: undefined, // function (value, messages, attribute) | client-side validation
+		 *     beforeValidateAttribute: undefined, // function (form, attribute) | boolean
 		 *     afterValidateAttribute: undefined,  // function (form, attribute, data, hasError)
 		 * }
 		 */
-		attributes : []
+		attributes: []
 	};
 })(jQuery);
