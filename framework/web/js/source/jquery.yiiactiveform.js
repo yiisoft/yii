@@ -203,7 +203,7 @@
 					 * If the form is submited (non ajax) with errors, labels and input gets the class 'error'
 					 */
 					$form.find('label, input').each(function () {
-						$(this).removeClass('error');
+						$(this).removeClass(settings.errorCss);
 					});
 					$('#' + settings.summaryID).hide().find('ul').html('');
 					//.. set to initial focus on reset
@@ -386,6 +386,7 @@
 		validateOnType: false,
 		hideErrorMessage: false,
 		inputContainer: undefined,
+		errorCss: 'error',
 		errorCssClass: 'error',
 		successCssClass: 'success',
 		validatingCssClass: 'validating',
