@@ -61,6 +61,28 @@ class CDateValidatorTest extends CTestCase
     }
 
     /**
+     * Test with old dates
+     *
+     * @return null
+     */
+    public function testOldDates()
+    {
+        // negative timestamp
+        $model = $this->getModelMock();
+        $model->foo = '01/01/1910';
+        $this->assertTrue($model->validate());
+        $model->foo = '42/01/1910';
+        $this->assertFalse($model->validate());
+
+        // out of range of 32b timestamps
+        $model = $this->getModelMock(array('format' => 'dd-MM-yyyy'));
+        $model->foo = '01-01-1818';
+        $this->assertTrue($model->validate());
+        $model->foo = '01-24-1818';
+        $this->assertFalse($model->validate());
+    }
+
+    /**
      * Mocks up an object to test with
      *
      * @param array $operator optional parameters to configure rule
