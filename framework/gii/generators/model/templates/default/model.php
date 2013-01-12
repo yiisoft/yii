@@ -72,7 +72,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 			<?php echo $rule.",\n"; ?>
 <?php endforeach; ?>
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
+			// @todo Please remove those attributes that should not be searched.
 			array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
 		);
 	}
@@ -117,8 +117,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -143,14 +142,14 @@ foreach($columns as $name=>$column)
 
 <?php if($connectionId!='db'):?>
 	/**
-	 * @return CDbConnection database connection
+	 * @return CDbConnection the database connection used for this class
 	 */
 	public function getDbConnection()
 	{
 		return Yii::app()-><?php echo $connectionId ?>;
 	}
-<?php endif?>
 
+<?php endif?>
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

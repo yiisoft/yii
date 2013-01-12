@@ -363,6 +363,9 @@ class CActiveForm extends CWidget
 		if($this->focus!==null)
 			$options['focus']=$this->focus;
 
+		if(!empty(CHtml::$errorCss))
+			$options['errorCss']=CHtml::$errorCss;
+		
 		$options=CJavaScript::encode($options);
 		$cs->registerCoreScript('yiiactiveform');
 		$id=$this->id;
