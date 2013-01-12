@@ -13,7 +13,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
 /**
  * CJuiAutoComplete displays an autocomplete field.
  *
- * CJuiAutoComplete encapsulates the {@link http://jqueryui.com/demos/autocomplete/ JUI
+ * CJuiAutoComplete encapsulates the {@link http://jqueryui.com/autocomplete/ JUI
  * autocomplete} plugin.
  *
  * To use this widget, you may insert the following code in a view:
@@ -33,7 +33,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI autocomplete plugin. Please refer to
- * the {@link http://jqueryui.com/demos/autocomplete/ JUI
+ * the {@link http://api.jqueryui.com/autocomplete/ JUI
  * autocomplete} documentation for possible options (name-value pairs).
  *
  * By configuring the {@link source} property, you may specify where to search

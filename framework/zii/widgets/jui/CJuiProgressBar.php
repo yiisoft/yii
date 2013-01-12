@@ -13,7 +13,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 /**
  * CJuiProgressBar displays a progress bar widget.
  *
- * CJuiProgressBar encapsulates the {@link http://jqueryui.com/demos/progressbar/ JUI
+ * CJuiProgressBar encapsulates the {@link http://jqueryui.com/progressbar/ JUI
  * Progressbar} plugin.
  *
  * To use this widget, you may insert the following code in a view:
@@ -32,7 +32,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI progressbar plugin. Please refer to
- * the {@link http://jqueryui.com/demos/progressbar/ JUI Progressbar} documentation
+ * the {@link http://api.jqueryui.com/progressbar/ JUI Progressbar} documentation
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>

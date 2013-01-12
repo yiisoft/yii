@@ -13,7 +13,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 /**
  * CJuiSlider displays a slider.
  *
- * CJuiSlider encapsulates the {@link http://jqueryui.com/demos/slider/ JUI
+ * CJuiSlider encapsulates the {@link http://jqueryui.com/slider/ JUI
  * slider} plugin.
  *
  * To use this widget, you may insert the following code in a view:
@@ -33,7 +33,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI slider plugin. Please refer to
- * the {@link http://jqueryui.com/demos/slider/ JUI slider} documentation
+ * the {@link http://api.jqueryui.com/slider/ JUI slider} documentation
  * for possible options (name-value pairs).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>

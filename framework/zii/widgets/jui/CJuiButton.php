@@ -13,7 +13,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
 /**
  * CJuiButton displays a button widget.
  *
- * CJuiButton encapsulates the {@link http://jqueryui.com/demos/button/ JUI Button}
+ * CJuiButton encapsulates the {@link http://jqueryui.com/button/ JUI Button}
  * plugin.
  *
  * To use this widget as a submit button, you may insert the following code in a view:
@@ -38,7 +38,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI button plugin. Please refer to
- * the {@link http://jqueryui.com/demos/button/ JUI Button} documentation
+ * the {@link http://api.jqueryui.com/button/ JUI Button} documentation
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
