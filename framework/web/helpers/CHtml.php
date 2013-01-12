@@ -1257,6 +1257,27 @@ EOD;
 		return self::activeInputField('text',$model,$attribute,$htmlOptions);
 	}
 
+   /**
+    * Generates a text field input for a model attribute.
+    * Type "tel" does not really differs from the "text" type except at least one thing:
+    * On iOS devices it will trigger keyboard with numeric digits on the top row.
+    * If the attribute has input error, the input field's CSS class will
+    * be appended with {@link errorCss}.
+    * @param CModel $model the data model
+    * @param string $attribute the attribute
+    * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+    * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+    * @return string the generated input field
+    * @see clientChange
+    * @see activeInputField
+    */
+   public static function activeTelField($model,$attribute,$htmlOptions=array())
+   {
+      self::resolveNameID($model,$attribute,$htmlOptions);
+      self::clientChange('change',$htmlOptions);
+      return self::activeInputField('tel',$model,$attribute,$htmlOptions);
+   }
+
 	/**
 	 * Generates a url field input for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
