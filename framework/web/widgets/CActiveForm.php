@@ -657,6 +657,23 @@ class CActiveForm extends CWidget
 		return CHtml::activeTextField($model,$attribute,$htmlOptions);
 	}
 
+   /**
+    * Renders a text field for a model attribute of type "tel".
+    * Type "tel" does not really differs from the "text" type except at least one thing:
+    * On iOS devices it will trigger keyboard with numeric digits on the top row.
+    * This method is a wrapper of {@link CHtml::activeTelField}.
+    * Please check {@link CHtml::activeTextField} for detailed information
+    * about the parameters for this method.
+    * @param CModel $model the data model
+    * @param string $attribute the attribute
+    * @param array $htmlOptions additional HTML attributes.
+    * @return string the generated input field
+    */
+   public function telField($model,$attribute,$htmlOptions=array())
+   {
+      return CHtml::activeTelField($model,$attribute,$htmlOptions);
+   }
+
 	/**
 	 * Renders a hidden field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeHiddenField}.
