@@ -87,7 +87,7 @@ class CSqlDataProvider extends CDataProvider
 			$order=$sort->getOrderBy();
 			if(!empty($order))
 			{
-				if(preg_match('/\s+order\s+by\s+[\w\s,]+$/i',$command->text))
+				if(preg_match('/\s+order\s+by\s+[\w\s,\.]+$/i',$command->text))
 					$command->text.=', '.$order;
 				else
 					$command->text.=' ORDER BY '.$order;
