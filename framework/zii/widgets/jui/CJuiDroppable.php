@@ -32,8 +32,10 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI Droppable plugin. Please refer to
- * the {@link http://api.jqueryui.com/droppable/ JUI Droppable} documentation
- * for possible options (name-value pairs).
+ * the {@link http://api.jqueryui.com/droppable/ JUI Droppable API} documentation
+ * for possible options (name-value pairs) and
+ * {@link http://jqueryui.com/droppable/ JUI Droppable page} for general
+ * description and demo.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @package zii.widgets.jui

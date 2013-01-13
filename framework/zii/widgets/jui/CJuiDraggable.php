@@ -32,8 +32,10 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI Draggable plugin. Please refer to
- * the {@link http://api.jqueryui.com/draggable/ JUI Draggable} documentation
- * for possible options (name-value pairs).
+ * the {@link http://api.jqueryui.com/draggable/ JUI Draggable API} documentation
+ * for possible options (name-value pairs) and
+ * {@link http://jqueryui.com/draggable/ JUI Draggable page} for general
+ * description and demo.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @package zii.widgets.jui

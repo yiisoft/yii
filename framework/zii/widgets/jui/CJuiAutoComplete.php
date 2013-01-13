@@ -33,8 +33,10 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI autocomplete plugin. Please refer to
- * the {@link http://api.jqueryui.com/autocomplete/ JUI
- * autocomplete} documentation for possible options (name-value pairs).
+ * the {@link http://api.jqueryui.com/autocomplete/ JUI AutoComplete API}
+ * documentation for possible options (name-value pairs) and
+ * {@link http://jqueryui.com/autocomplete/ JUI AutoComplete page} for
+ * general description and demo.
  *
  * By configuring the {@link source} property, you may specify where to search
  * the autocomplete options for each item. If source is an array, the list is

@@ -54,8 +54,10 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI slider plugin. Please refer to
- * the {@link http://api.jqueryui.com/slider/ JUI slider} documentation
- * for possible options (name-value pairs).
+ * the {@link http://api.jqueryui.com/slider/ JUI Slider API} documentation
+ * for possible options (name-value pairs) and
+ * {@link http://jqueryui.com/slider/ JUI Slider page} for general
+ * description and demo.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @package zii.widgets.jui
