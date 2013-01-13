@@ -1,0 +1,280 @@
+自動程式碼產生
+=========================
+
+自版本 1.1.2 起， Yii 配備了基於 Web 界面的程式碼產生工具 *Gii*。 它取代了之前的命令列端的程式碼產生工具 `yiic shell` 。 在這部分，我們將講解如何使用 Gii 以及如何擴展 Gii 以增加我們的開發成果。
+
+使用 Gii
+---------
+
+Gii 是以模組的方式實現的，它必須在一個已存在的 Yii 應用程式中使用。要使用 Gii，我們首先更改應用程式的配置如下：
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'在這裡填寫密碼',
+			// 'ipFilters'=>array(...IP 列表...),
+			// 'newFileMode'=>0666,
+			// 'newDirMode'=>0777,
+		),
+	),
+);
+~~~
+
+在上面，我們宣告了一個名為 `gii` 的模組，它的類別是 [GiiModule]。我們也為這個模組設置了一個密碼，我們存取 Gii 時會有一個輸入框要求填寫這個密碼。
+
+出於安全考慮，預設情況下只允許本機存取 Gii。若允許其他可信賴的機器存取它，我們需要如上所示配置 [GiiModule::ipFilters] 屬性。
+
+因為 Gii 會產生並保存新文件到應用程式中，我們需要確保 Web 服務器進程有權限這樣做。上面的 [GiiModule::newFileMode] 和 [GiiModule::newDirMode] 屬性控制如何產生新文件和新目錄。
+
+> Note|注意: Gii 主要用作一個開發工具。因此，應當只在開發機器上安裝它。因為它可以在應用程式中產生新的 PHP 文件，我們應當對安全問題足夠重視(例如設置密碼，IP 過濾)。
+
+現在可以通過 URL `http://hostname/path/to/index.php?r=gii` 存取 Gii 了。這裡我們假設 `http://hostname/path/to/index.php` 是存取 Yii 應用程式的 URL。
+
+若 Yii 應用程式使用 `path` 格式的 URL (查看 [URL management](/doc/guide/topics.url))，我們可以通過 URL `http://hostname/path/to/index.php/gii` 存取 Gii。 我們可能需要增加如下 URL 規則到已有的 URL 規則的前面:
+
+~~~
+[php]
+'components'=>array(
+	......
+	'urlManager'=>array(
+		'urlFormat'=>'path',
+		'rules'=>array(
+			'gii'=>'gii',
+			'gii/<controller:\w+>'=>'gii/<controller>',
+			'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
+			...已有的規則...
+		),
+	),
+)
+~~~
+
+Gii 有一些預設的程式碼產生器。每個程式碼產生器負責產生特定類別型的程式碼。例如，控制器產生器產生一個控制器類別以及一些動作視圖腳本；模型產生器為指定的資料表產生一個 ActiveRecord 類別。
+
+使用一個產生器的基本流程如下：
+
+1. 進入產生器頁面；
+2. 填寫指定程式碼產生參數的輸入框。例如，使用模組產生器建立一個新模組，你需要指定模組 ID；
+3. 點擊 `Preview` 按鈕預覽即將產生的程式碼。你將看到一個表格中列出了將要產生的文件列表。你可以點擊其中任何一個文件來預覽程式碼；
+4. 點擊 `Generate` 按鈕產生這些程式碼文件；
+5. 查看程式碼產生日誌。
+
+
+擴展 Gii
+-------------
+
+雖然預設的 Gii 程式碼產生器可以產生非常強大的程式碼,然而我們經常想客製化它們或者建立一個新的來適應我們的口味和需求。例如，我們想讓產生的程式碼是我們喜歡的風格，或者想讓程式碼支援多種語言。所有這些在 Gii 中都可非常容易地實現。
+
+可以 2 種方式擴展 Gii：客製化已存在的程式碼產生器的程式碼樣板，以及編寫新的程式碼產生器。
+
+###程式碼產生器的架構
+
+一個程式碼產生器存儲在一個目錄中，這個目錄的名字被認為是產生器的名字。目錄通常由如下內容組成：
+
+~~~
+model/                       模型產生器跟目錄
+   ModelCode.php             產生程式碼的程式碼模型
+   ModelGenerator.php        程式碼產生控制器
+   views/                    產生器的視圖腳本
+      index.php              預設的視圖腳本
+   templates/                包含程式碼樣板集
+      default/               'default' 程式碼樣板集
+         model.php           產生模型類別程式碼的樣板
+~~~
+
+
+###產生器搜尋路徑
+
+Gii 在 [GiiModule::generatorPaths] 屬性指定的目錄中查找可用的產生器。 當需要客製化時，我們可以在應用程式的配置文件中做如下配置，
+
+~~~
+[php]
+return array(
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'generatorPaths'=>array(
+				'application.gii',   // 路徑別名
+			),
+		),
+	),
+);
+~~~
+
+上面的配置告訴 Gii 在別名是 `application.gii` 的目錄中尋找產生器，以及預設的位置 `system.gii.generators`。
+
+在不同的搜尋路徑有同名的產生器也是可以的。這種情況下，在 [GiiModule::generatorPaths] 指定目錄中先出現的產生器有優先權。
+
+
+###客製化程式碼樣板
+
+這是擴展 Gii 最容易最常用的方式。我們使用一個例子來介紹如何客製化程式碼樣板。假設我們想要客製化由模型產生器產生的程式碼。
+
+我們首先建立一個名為 `protected/gii/model/templates/compact` 的目錄。這裡的 `model` 意味著我們將要 *覆蓋* 預設的模型產生器。 `templates/compact` 意味著我們將增加一個新的程式碼樣板集名為 `compact`。
+
+然後我們在應用程式配置裡把 `application.gii` 增加到 [GiiModule::generatorPaths] 。如上所示。
+
+現在打開模型程式碼產生器頁面。點擊 `Code Template` 輸入框。我們應當看到一個下拉列表，這個列表包含了我們新建的樣板目錄 `compact`。可是，若我們選擇此樣板產生程式碼，我們將看到錯誤。這是因為我們還沒有在新的 `compact` 樣板集中放入任何實際的程式碼樣板文件。
+
+複製文件 `framework/gii/generators/model/templates/default/model.php` 到 `protected/gii/model/templates/compact`。若我們再次嘗試以 `compact` 樣板產生，我們會成功。但是，產生的程式碼和以 `default` 樣板集產生的程式碼沒什麼不同。
+
+現在是時候做點真正的工作了。打開文件 `protected/gii/model/templates/compact/model.php` 以編輯它。記得這個文件將作為類別似一個視圖文件被使用，意味著它可以包含 PHP 表達式和語句。讓我們更改樣板以便產生的程式碼裡  `attributeLabels()` 方法使用 `Yii::t()` 來翻譯屬性標籤：
+
+~~~
+[php]
+public function attributeLabels()
+{
+	return array(
+<?php foreach($labels as $name=>$label): ?>
+			<?php echo "'$name' => Yii::t('application', '$label'),\n"; ?>
+<?php endforeach; ?>
+	);
+}
+~~~
+
+在每個程式碼樣板中，我們可以存取一些預先定義的變數，例如上面例子中的 `$labels`。這些變數由對應的程式碼產生器提供。不同的程式碼產生器可能在他們的程式碼樣板中提供不同的變數。請認真閱讀預設程式碼樣板中的描述。
+
+
+###建立新的產生器
+
+這節，將示範如何建立一個新的小工具類別產生器。
+
+首先，我們新增一個資料夾叫做 `protected/gii/widget`。在這個資料夾下，以下的檔案會被建立：
+
+* `WidgetGenerator.php`: 包含 `WidgetGenerator` 控制器類別。這是小工具產生器的進入點。
+* `WidgetCode.php`: 包含 `WidgetCode` 模型類別。這個類別包含了主要的程式碼產生邏輯。
+* `views/index.php`: 這個視圖腳本顯示程式碼產生器的輸入表單。
+* `templates/default/widget.php`: 預設用來產生小工具類別檔案的程式碼樣板。
+
+#### 建立 `WidgetGenerator.php`
+
+`WidgetGenerator.php` 檔案非常的簡單，他只包含下列的程式碼：
+
+~~~
+[php]
+class WidgetGenerator extends CCodeGenerator
+{
+	public $codeModel='application.gii.widget.WidgetCode';
+}
+~~~
+
+上述的程式碼裡，我們指定產生器使用路徑別名是 `application.gii.widget.WidgetCode` 的模型類別。這 `WidgetGenerator` 從一個有很多功能的 [CCodeGenerator] 擴展來，包含控制器動作所需要的程式碼產生過程。
+
+#### 建立 `WidgetCode.php`
+
+`WidgetCode.php` 檔案包含 `WidgetCode` 模型類別，他擁有主要的邏輯用來將使用者個輸入產生小工具類別。本範例中，我們假設所需的使用者輸入只有小工具類別的名稱，我們的 `WidgetCode` 看起來像這樣：
+
+~~~
+[php]
+class WidgetCode extends CCodeModel
+{
+	public $className;
+
+	public function rules()
+	{
+		return array_merge(parent::rules(), array(
+			array('className', 'required'),
+			array('className', 'match', 'pattern'=>'/^\w+$/'),
+		));
+	}
+
+	public function attributeLabels()
+	{
+		return array_merge(parent::attributeLabels(), array(
+			'className'=>'Widget Class Name',
+		));
+	}
+
+	public function prepare()
+	{
+		$path=Yii::getPathOfAlias('application.components.' . $this->className) . '.php';
+		$code=$this->render($this->templatepath.'/widget.php');
+
+		$this->files[]=new CCodeFile($path, $code);
+	}
+}
+~~~
+
+`WidgetCode` 類別擴展了 [CCodeModel]。像個一般的模型類別，在這個類別，我們宣告了 `rules()` 和 `attributeLabels()` 分別用來驗證使用者的輸入和提供屬性標籤。注意，因為基礎類別 [CCodeModel] 已經定義了一些規則和屬性標籤，我們應該整合他們到我們這裡的新規則和標籤。
+
+
+這 `prepare()` 方式預備了要產生的程式碼。他主要的任務是預備一個 [CCodeFile] 物件清單，每一個都代表要被產生的程式碼檔案。在我們的例子裡，我們只需要建立一個 [CCodeFile] 物件用來表示要被產生的小工具類別檔案。這新的小工具類別會被產生在 `protected/components` 資料夾下。我們呼叫 [CCodeFile::render] 方法來產生真正的程式碼。這個方法包含了 PHP 腳本程式碼樣板並且回傳 echoed 的內容當作產生的程式碼。
+
+
+#### 建立 `views/index.php`
+
+有了控制器 (`WidgetGenerator`) 和模型(`WidgetCode`)，接下來就是建立視圖 `views/index.php`。
+
+~~~
+[php]
+<h1>Widget Generator</h1>
+
+<?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'className'); ?>
+		<?php echo $form->textField($model,'className',array('size'=>65)); ?>
+		<div class="tooltip">
+			Widget class name must only contain word characters.
+		</div>
+		<?php echo $form->error($model,'className'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+~~~
+
+上述中，我們主要示範了一使用 [CCodeForm] 小工具的表單。在這表單中，我們示範在 `WidgetCode` 中用來蒐集 `className` 屬性的輸入區塊。
+
+當建立這個表單，我們可以發現 [CCodeForm] 小工具提供的兩個好用的功能。一個是輸入提示，另一個便利輸入。
+
+如果你試過任何預設的程式碼產生器，你會注意到當設定焦點在一個輸入區塊，一個不錯的提示會顯示在產生器旁邊。這可以簡單藉由撰寫一個 CSS 類別是 `tooltip` 的 `div` 在輸入區塊旁邊來完成。
+
+某些輸入區塊，我們或許會想要記住他們上一個正確的輸入值，幫助使用者省下每次使用產生器來產生程式碼重新輸入的時間。一個例子是，預設的控制起產生器會蒐集輸入區塊控制器基礎類別名稱。這些便利區塊預設顯示呈亮點的靜態文字。如果我們點擊他們，他們會被轉換到輸入區塊來取得使用者輸入。
+
+為了宣告一個輸入區塊為便利輸入，我們需要做兩件事情。
+
+第一，我們需要宣告一個 `sticky` 驗證規則給對應的模型屬性。例如，預設的控制器產生器有如下個規則來宣告 `baseClass` 和 `actions` 屬性是便利輸入：
+
+~~~
+[php]
+public function rules()
+{
+	return array_merge(parent::rules(), array(
+		......
+		array('baseClass, actions', 'sticky'),
+	));
+}
+~~~
+
+第二，我們需要新增一個 CSS 類別叫做 `sticky` 在這個輸入區塊的 `div` 容器的視圖如下所示：
+
+~~~
+[php]
+<div class="row sticky">
+	...輸入區塊...
+</div>
+~~~
+
+#### 建立 `templates/default/widget.php`
+
+最後，我們建立程式碼樣板 `templates/default/widget.php`。如前面所述，他就像一個可以有 PHP 表達式和述句的視圖腳本。在一個程式碼樣板，我們可以經常存取 `$this` 變數，他代表程式碼模型物件。在我們的例子，`$this` 表示 `WidgetModel` 物件。我們可以因此透過 `$this->className` 取得使用者輸入的小工具類別名稱。
+
+~~~
+[php]
+<?php echo '<?php'; ?>
+
+class <?php echo $this->className; ?> extends CWidget
+{
+	public function run()
+	{
+
+	}
+}
+~~~
+
+這裡包含了ㄧ些新的程式碼產生器的建立，我們可以直接透過 URL `http://hostname/path/to/index.php?r=gii/widget` 存取這些程式碼產生器。
+
+<div class="revision">$Id$</div>
