@@ -295,6 +295,14 @@ class CLocale extends CComponent
 	}
 
 	/**
+	 * @return bool hour meridian type, in 12 hour format true, with 24 hour format false
+	 */
+	public function getHourMeridian()
+	{
+		return strpos($this->getTimeFormat(), 'H:') ? false : true;
+	}
+
+	/**
 	 * @return string datetime format, i.e., the order of date and time.
 	 */
 	public function getDateTimeFormat()
