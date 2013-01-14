@@ -1407,7 +1407,7 @@ abstract class CActiveRecord extends CModel
 	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
-	 * @return array list of active records satisfying the specified condition. An empty array is returned if none is found.
+	 * @return CActiveRecord[] list of active records satisfying the specified condition. An empty array is returned if none is found.
 	 */
 	public function findAll($condition='',$params=array())
 	{
@@ -1438,7 +1438,7 @@ abstract class CActiveRecord extends CModel
 	 * @param mixed $pk primary key value(s). Use array for multiple primary keys. For composite key, each key value must be an array (column name=>column value).
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
-	 * @return array the records found. An empty array is returned if none is found.
+	 * @return CActiveRecord[] the records found. An empty array is returned if none is found.
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
@@ -1472,7 +1472,7 @@ abstract class CActiveRecord extends CModel
 	 * An attribute value can be an array which will be used to generate an IN condition.
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
-	 * @return array the records found. An empty array is returned if none is found.
+	 * @return CActiveRecord[] the records found. An empty array is returned if none is found.
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
@@ -1509,7 +1509,7 @@ abstract class CActiveRecord extends CModel
 	 * Finds all active records using the specified SQL statement.
 	 * @param string $sql the SQL statement
 	 * @param array $params parameters to be bound to the SQL statement
-	 * @return array the records found. An empty array is returned if none is found.
+	 * @return CActiveRecord[] the records found. An empty array is returned if none is found.
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -1820,7 +1820,7 @@ abstract class CActiveRecord extends CModel
 	 * @param boolean $callAfterFind whether to call {@link afterFind} after each record is populated.
 	 * @param string $index the name of the attribute whose value will be used as indexes of the query result array.
 	 * If null, it means the array will be indexed by zero-based integers.
-	 * @return array list of active records.
+	 * @return CActiveRecord[] list of active records.
 	 */
 	public function populateRecords($data,$callAfterFind=true,$index=null)
 	{
