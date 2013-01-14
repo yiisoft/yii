@@ -1,9 +1,7 @@
 頁面快取
 ============
 
-頁面快取指的是快取整個頁面的內容。頁面快取可以發生在不同的地方。
-例如，通過選擇適當的頁面頭，客戶端的瀏覽器可能會快取網頁瀏覽有限時間。 
-Web 應用程式程式本身也可以在快取中儲存網頁內容。
+頁面快取指的是快取整個頁面的內容。頁面快取可以發生在不同的地方。例如，通過選擇適當的頁面頭，客戶端的瀏覽器可能會快取網頁瀏覽有限時間。 Web 應用程式程式本身也可以在快取中儲存網頁內容。
 
 頁面快取可以被看作是 [片段快取](/doc/guide/caching.fragment) 一個特殊情況 。
 由於網頁內容是往往通過應用程式佈局來產生，如果我們只是簡單的在佈局中調用 [beginCache()|CBaseController::beginCache] 
@@ -36,13 +34,10 @@ public function filters()
 小工具 (篩選器) 是在動作裡的內容執行前執行，在執行後結束。
 
 
-HTTP Caching
+HTTP 快取
 ------------
-In addition to simply caching the output of an action, Yii introduced 
-[CHttpCacheFilter] in version 1.1.11. This filter aids in setting the 
-aforementioned headers to notify a client that a page's content has not been 
-changed since the last request, so the server will not have to re-transmit the
-content. [CHttpCacheFilter] can be set up similar to [COutputCache]:
+除了簡單快取動作的輸出，Yii 在版本 1.1.11 介紹了 [CHttpCacheFilter]。這個篩選器協助了前面所提到的，使用標頭來提示客戶端頁面的內容，自上一次請求後就沒有改變，所以伺服器不需要重新傳送內容。[CHttpCacheFilter] 可以像 [COutputCache] 一樣設置：
+
 ~~~
 [php]
 public function filters()
@@ -55,45 +50,21 @@ public function filters()
     );
 }
 ~~~
-The above code will set the `Last-Modified` header to the last date at which a 
-post was updated. You can also use [CHttpCacheFilter::lastModifiedExpression] to set 
-the `Last-Modified` header using a php expression.
 
-> Tip: Both, [CHttpCacheFilter::lastModifiedExpression] and 
-[CHttpCacheFilter::lastModified] can take either an integer representing an 
-epochal Unix timestamp or an arbitrary string representing a human-readable
-date. As long as later one can be parsed by
-[strtotime()](http://php.net/manual/function.strtotime.php), no further
-conversion is necessary.
+上述的程式碼會設定 `Last-Modified` 標頭成上一次文章被更新的日期。你也可以使用 [CHttpCacheFilter::lastModifiedExpression] 藉由 PHP 表達式來設定 `Last-Modified` 標頭。
 
-The "Entity Tag" (or `ETag` for short) header can be set in a similar fashion 
-through [CHttpCacheFilter::etagSeed] and [CHttpCacheFilter::etagSeedExpression] 
-, respectively. Both will be serialized (so you can use either a single value
-or an entire array) and are used to generate a quoted, base64-encoded SHA1
-hash serving as content for the `ETag` header. This differs from the way the
-[Apache Webserver](http://httpd.apache.org) and others are generating their
-ETags. However, this method is perfectly in line with the RFC and turned out to
-be more feasible for use in a framework. 
+> Tip|提示: [CHttpCacheFilter::lastModifiedExpression] 和 [CHttpCacheFilter::lastModified] 都可以使用 Unix 時間戳記或是人類可讀的字串來表示。後者可以被 [strtotime()](http://php.net/manual/function.strtotime.php) 解析，不需要額外的轉換。
 
-> Note: In order to comply with
-[RFC 2616, section 13.3.4](http://tools.ietf.org/html/rfc2616#section-13.3.4),
-[CHttpCacheFilter] will send out `ETag` *and* `Last-Modified` headers if they
-can both be generated. Consequently, both will be used for cache validation if
-sent by the client.
+這個 "Entity Tag"（或 `ETag`）標頭可以分別藉由像是 [CHttpCacheFilter::etagSeed] 和 [CHttpCacheFilter::etagSeedExpression] 的方法來設定。兩個都會被序列化（所以可以使用單一值或是一整個陣列），並且被用來產生一個被標記的、base64-encoded SHA1 編碼的內容來給 `ETag` 標投當作內容。這跟 [Apache Webserver](http://httpd.apache.org) 的方法不同，各家的伺服器也產生自己的 ETags。然而，非常符合 RFC，而且也成為一個框架中的主流的用法。
 
-Since entity tags are hashes, they allow more complex and/or more precise
-caching strategies than `Last-Modified` headers. For instance, an ETag can be
-invalidated if the site has switched to another theme.
+> Note|注意: 為了遵守 [RFC 2616，第 13.3.4 章節](http://tools.ietf.org/html/rfc2616#section-13.3.4)， [CHttpCacheFilter] 會送出 `ETag` *和* `Last-Modified` 標頭，如果他們可以同時被產生。所以，兩者都會被客戶端用來做快取驗證。
 
-> Tip: Expensive expressions for [CHttpCacheFilter::etagSeedExpression] may
-defeat the purpose of [CHttpCacheFilter] and introduce unnecessary overhead,
-since they need to be re-evaluated on every request. Try to find a simple
-expression that invalidates the cache if the page *content* has been modified.
+當時體標籤被編碼，他們允許比 `Last-Modified` 標頭更複雜且/或更精確的快取策略。例如，一個 ETag 可能是無效的，當網站切換成另外一個主題。
 
-### SEO Implications
-Search engine bots tend to respect cache headers. Since some crawlers have a
-limit on how many pages per domain they process within a certain time span,
-introducing caching headers may help indexing your site as they reduce the
-number of pages that need to be processed.
+> Tip|提示: 昂貴的表達式給 [CHttpCacheFilter::etagSeedExpression] 可以會違背 [CHttpCacheFilter] 的目的和產生不需要的負擔，因為每次的請求都要重新被評估。試著找出一個簡單的表達式，可以檢驗快取是否頁面的 *內容* 已經被修改了。
+
+### 搜尋引擎優化的影響
+
+搜尋引擎機器很看重快取標頭。當一些網路爬蟲有限制每個網域下，在某一個時間區間有多少頁面可以被處理，使用快取標投可以幫助索引你的網站，因為可以減少需要處理的頁面數量。
 
 <div class="revision">$Id$</div>
