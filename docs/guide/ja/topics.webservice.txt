@@ -192,5 +192,3 @@ class PostController extends CController
 サービスプロバイダで [IWebServiceProvider] インタフェースを実装することで、リモートからのメソッド呼び出しを阻止することができます。
 [IWebServiceProvider::beforeWebMethod] 内でプロバイダは [CWebService] のインスタンスをうけとり、[CWebService::methodName] によって、リクエストされたメソッド名を得ることができます。
 何らかの理由 (例: 権限のないアクセスなど) でリモートからのメソッド呼び出しを許可したくない場合は、false を返すことで呼び出しを阻止できます。
-
-<div class="revision">$Id$</div>
