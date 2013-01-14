@@ -1,0 +1,445 @@
+使用表單產生器
+==================
+
+當建立 HTML 表單時，經常我們發現我們在寫很多重複而且在不同項目中很難重用的視圖程式碼。
+例如，對於每個輸入框， 我們需要以一個文字標籤和顯示可能的驗證錯誤來關聯它。
+為了改善這些程式碼的重用性，我們可以使用自版本 1.1.0 可用的表單產生器特徵。
+
+
+基本概念
+--------------
+
+Yii 表單產生器使用 [CForm] 物件來代表描述一個HTML表單所需的內容，包括哪些資料模型關聯到此表單，
+表單中有哪些輸入框，以及如何呈現整個表單。開發者主要需要建立和配置這個 [CForm] 物件，然後調用它的呈現方法來顯示表單。
+
+表單的輸入框參數被組織為根據表單元素的分層架構。
+在架構的頂層，是 [CForm] 物件。此物件的成員分為兩大類： [CForm::buttons] 和 [CForm::elements]。前者包含
+按鈕元素（例如提交按鈕，重設按鈕），後者包含輸入元素，靜態文字和子表單。子表單也是 [CForm] 物件，只是它存在於
+另一個表單的 [CForm::elements] 中。子表單可以有它自己的資料模型，
+[CForm::buttons] 和 [CForm::elements] 集合。
+
+當使用者提交一個表單時，整個表單架構中填寫的資料被提交，
+也包含子表單中填寫的資料。 [CForm] 提供了便利方法，可以自動賦值輸入的資料到對應的資料屬性並執行資料驗證。
+
+
+建立一個簡單的表單
+----------------------
+
+下面，我們展示如何使用表單產生器來建立一個登入表單。
+
+首先，我們撰寫登入 action 程式碼：
+
+~~~
+[php]
+public function actionLogin()
+{
+	$model = new LoginForm;
+	$form = new CForm('application.views.site.loginForm', $model);
+	if($form->submitted('login') && $form->validate())
+		$this->redirect(array('site/index'));
+	else
+		$this->render('login', array('form'=>$form));
+}
+~~~
+
+在上面的程式碼中，我們使用由路徑別名 `application.views.site.loginForm` （將會簡要解釋） 指定的參數建立了 [CForm] 物件。
+[CForm] 物件和 `LoginForm` 模型（在 [Creating Model](/doc/guide/form.model) 中已介紹）關聯。
+
+如程式碼所示，若表單被提交並且所有的輸入經過了驗證而沒有錯誤，我們將轉向使用者的瀏覽器到 `site/index` 頁面。否則，
+我們以此表單呈現 `login` 視圖。
+
+路徑別名 `application.views.site.loginForm` 實際指的是 PHP 文件
+`protected/views/site/loginForm.php`。此文件應當返回一個 PHP 陣列，這個陣列代表了 [CForm] 所需的配置，
+如下所示：
+
+~~~
+[php]
+return array(
+	'title'=>'Please provide your login credential',
+
+    'elements'=>array(
+        'username'=>array(
+            'type'=>'text',
+            'maxlength'=>32,
+        ),
+        'password'=>array(
+            'type'=>'password',
+            'maxlength'=>32,
+        ),
+        'rememberMe'=>array(
+            'type'=>'checkbox',
+        )
+    ),
+
+    'buttons'=>array(
+        'login'=>array(
+            'type'=>'submit',
+            'label'=>'Login',
+        ),
+    ),
+);
+~~~
+
+配置是一個由鍵值對組成的關聯陣列，被用來初始化 [CForm] 的對應屬性。要配置的最重要的屬性，如之前所述，是 [CForm::elements] 和 [CForm::buttons]。
+它們的每一個是一個指定了表單元素列表的陣列。在下一小節我們將給出更多細節關於如何配置表單元素。
+
+最後，我們撰寫 `login` 視圖，可以簡潔地如下所示，
+
+~~~
+[php]
+<h1>Login</h1>
+
+<div class="form">
+<?php echo $form; ?>
+</div>
+~~~
+
+> Tip | 提示: 上面的程式碼 `echo $form;` 相當於 `echo $form->render();`。
+> 這是因為 [CForm] 執行了 `__toString` 魔術方法，它調用 `render()` 並返回它的結果為代表此表單物件的字串。
+
+
+指定表單元素
+------------------------
+
+使用表單產生器，我們大部分的工作由撰寫視圖腳本程式碼轉為指定表單元素。在這一小節中，我們講述如何指定 [CForm::elements] 屬性。
+我們不準備講述 [CForm::buttons] 因為它的配置和 [CForm::elements] 的配置幾乎相同。
+
+[CForm::elements] 屬性接受一個陣列作為它的值。每個陣列元素指定了一個單獨的表單元素，這個表單元素可以是一個輸入框，一個靜態文字字串或一個子表單。
+
+### 指定輸入元素
+
+一個輸入元素主要由標籤，輸入框，提示文字和錯誤顯示組成。
+它必須和一個模型屬性關聯。一個輸入元素的規格被代表為一個 [CFormInputElement]  實體。 [CForm::elements] 陣列中的如下程式碼指定了一個單獨的輸入元素：
+
+~~~
+[php]
+'username'=>array(
+    'type'=>'text',
+    'maxlength'=>32,
+),
+~~~
+
+它說明模型屬性被命名為 `username`，輸入框的類型為 `text`，它的 `maxlength` 屬性為 32。
+
+任何 [CFormInputElement] 可寫的屬性都可以如上配置。例如，我們可以指定
+ [hint|CFormInputElement::hint] 選項來顯示提示訊息，或者我們可以指定
+[items|CFormInputElement::items] 選項若輸入框是一個 list box，一個下拉選單，一個多選列表或一個單選按鈕列表。
+若選項的名字不是一個 [CFormInputElement] 屬性，它將被認為是對應 HTML 輸入元素的屬性，
+例如，因為上面的 `maxlength` 不是一個 [CFormInputElement] 屬性，它被呈現作為 HTML 文字輸入框的 `maxlength` 屬性。
+
+[type|CFormInputElement::type] 選項需要特別注意。它指定了輸入框的類型。
+例如，`text` 類型意味著將呈現一個普通的文字輸入框；`password` 類型意味著將呈現一個密碼輸入框。 [CFormInputElement] 識別如下內置的類型：
+
+ - text
+ - hidden
+ - password
+ - textarea
+ - file
+ - radio
+ - checkbox
+ - listbox
+ - dropdownlist
+ - checkboxlist
+ - radiolist
+
+在上面的內置類型中，我們想要對這些 "list" 類型的用法多說一些，
+包括 `dropdownlist`， `checkboxlist` 和 `radiolist`。這些類型需要設置對應輸入元素的 [items|CFormInputElement::items]
+屬性。可以這樣做：
+
+~~~
+[php]
+'gender'=>array(
+    'type'=>'dropdownlist',
+    'items'=>User::model()->getGenderOptions(),
+    'prompt'=>'Please select:',
+),
+
+...
+
+class User extends CActiveRecord
+{
+	public function getGenderOptions()
+	{
+		return array(
+			0 => 'Male',
+			1 => 'Female',
+		);
+	}
+}
+~~~
+
+上面的程式碼將產生一個下拉選單，提示文字是 「please select:」。選項包括
+「Male」 和 「Female」，它們是由 `User` 模型類中的 `getGenderOptions` 方法返回的。
+
+除了這些內置的類型， [type|CFormInputElement::type] 選項也可以是一個 widget 類名字或 widget 類的路徑別名。
+widget 類必須擴展自 [CInputWidget] 或 [CJuiInputWidget]。當呈現輸入元素時，
+一個指定 widget 類的實體將被建立並呈現。Widget 會根據所給的輸入元素來配置。
+
+
+### 指定靜態文字
+
+很多情況下，一個表單包含一些裝飾性的 HTML 程式碼。 例如，一個水平線被用來分隔表單中不同的部分；一個圖像出現在特定的位置來增強表單的視覺外觀。
+我們可以在 [CForm::elements] 集合中指定這些 HTML 程式碼作為靜態文字。要這樣做，我們只要指定一個靜態文字字串作為一個陣列元素，在 [CForm::elements] 恰當的位置。例如,
+
+~~~
+[php]
+return array(
+    'elements'=>array(
+		......
+        'password'=>array(
+            'type'=>'password',
+            'maxlength'=>32,
+        ),
+
+        '<hr />',
+
+        'rememberMe'=>array(
+            'type'=>'checkbox',
+        )
+    ),
+	......
+);
+~~~
+
+在上面，我們在 `password` 輸入框和 `rememberMe` 之間插入一個水平線。
+
+靜態文字最好用於文字內容和它們的位置不規則時。 若表單中的每個輸入元素需要被相似的裝飾，我們應當客製化表單呈現方法，此章節將簡短介紹。
+
+
+### 指定子表單
+
+子表單被用來分離一個長的表單為幾個邏輯部分。 例如，我們可以分離使用者註冊表單為兩部分：登入訊息和檔案訊息。
+每個子表單和一個資料模型有無關聯均可。例如在使用者註冊表單，若我們儲存使用者登入訊息和檔案訊息到兩個分離的資料表中 (表示為兩個資料模型)，
+ 然後每個子表單需要和一個對應的資料模型關聯。若我們儲存所有訊息到一個資料表中，任意一個子表單都沒有資料模型,因為它們和根表單分享相同的模型。
+
+一個子表單也表示為一個 [CForm] 物件。要指定一個子表單，我們應當配置 [CForm::elements] 屬性為一個類型是 `form` 的元素：
+
+~~~
+[php]
+return array(
+    'elements'=>array(
+		......
+        'user'=>array(
+            'type'=>'form',
+            'title'=>'Login Credential',
+            'elements'=>array(
+            	'username'=>array(
+            		'type'=>'text',
+            	),
+            	'password'=>array(
+            		'type'=>'password',
+            	),
+            	'email'=>array(
+            		'type'=>'text',
+            	),
+            ),
+        ),
+
+        'profile'=>array(
+        	'type'=>'form',
+        	......
+        ),
+        ......
+    ),
+	......
+);
+~~~
+
+類似於配置一個根表單，我們主要需要為一個子表單指定 [CForm::elements] 屬性。若一個子表單需要關聯一個資料模型，我們也可以配置它的 [CForm::model]  屬性。
+
+有時，我們想要使用一個類代表表單，而不使用預設的 [CForm] 類。例如，
+此小節將簡短展示，我們可以擴展 [CForm] 以客製化表單呈現邏輯。
+通過指定輸入元素的類型為 `form`，一個子表單將自動被表示為一個物件，它的類和它的父表單相同。若我們指定輸入元素的類型類似於 `XyzForm` (一個以 `Form` 結尾的字串)，
+然後子表單將被表示為一個 `XyzForm` 物件。
+
+
+存取表單元素
+-----------------------
+
+存取表單元素和存取陣列元素一樣簡單。[CForm::elements] 屬性返回一個 [CFormElementCollection] 物件，
+它擴展自 [CMap]  並允許以類似於一個普通陣列的方式來存取它的元素。例如，要存取登入表單中的元素 `username`，我們可以使用下面的程式碼：
+
+~~~
+[php]
+$username = $form->elements['username'];
+~~~
+
+要存取使用者註冊表單中的 `email` 元素，使用
+
+~~~
+[php]
+$email = $form->elements['user']->elements['email'];
+~~~
+
+因為 [CForm] 為它的 [CForm::elements] 屬性執行陣列存取，上面的程式碼可以簡化為：
+
+~~~
+[php]
+$username = $form['username'];
+$email = $form['user']['email'];
+~~~
+
+
+建立一個巢狀表單
+----------------------
+
+我們已經描述了子表單。我們稱一個有子表單的表單為一個巢狀表單。在這一章節，
+我們使用使用者註冊表單作為例子來展示如何建立一個關聯多個資料模型的巢狀表單。我們假設使用者的認證訊息儲存為一個 `User` 模型，而使用者的檔案訊息被儲存為一個 `Profile` 模型。
+
+我們首先建立 `register` 動作如下：
+
+~~~
+[php]
+public function actionRegister()
+{
+	$form = new CForm('application.views.user.registerForm');
+	$form['user']->model = new User;
+	$form['profile']->model = new Profile;
+	if($form->submitted('register') && $form->validate())
+	{
+		$user = $form['user']->model;
+		$profile = $form['profile']->model;
+		if($user->save(false))
+		{
+			$profile->userID = $user->id;
+			$profile->save(false);
+			$this->redirect(array('site/index'));
+		}
+	}
+
+	$this->render('register', array('form'=>$form));
+}
+~~~
+
+在上面，我們使用由 `application.views.user.registerForm` 指定的配置建立了表單。
+在表單被提交且成功驗證之後，我們嘗試儲存 user 和 proﬁle 模型。
+我們通過存取相應子表單物件的 `model` 屬性來檢索 user 和 proﬁle 模型。
+因為輸入驗證已經完成，我們調用 `$user->save(false)` 來跳過驗證。為 proﬁle 模型也這樣做。
+
+接下來，我們撰寫表單配置文件 `protected/views/user/registerForm.php`：
+
+~~~
+[php]
+return array(
+	'elements'=>array(
+		'user'=>array(
+			'type'=>'form',
+			'title'=>'Login information',
+			'elements'=>array(
+		        'username'=>array(
+		            'type'=>'text',
+		        ),
+		        'password'=>array(
+		            'type'=>'password',
+		        ),
+		        'email'=>array(
+		            'type'=>'text',
+		        )
+			),
+		),
+
+		'profile'=>array(
+			'type'=>'form',
+			'title'=>'Profile information',
+			'elements'=>array(
+		        'firstName'=>array(
+		            'type'=>'text',
+		        ),
+		        'lastName'=>array(
+		            'type'=>'text',
+		        ),
+			),
+		),
+	),
+
+    'buttons'=>array(
+        'register'=>array(
+            'type'=>'submit',
+            'label'=>'Register',
+        ),
+    ),
+);
+~~~
+
+在上面，當指定每個子表單時，我們也指定它的 [CForm::title] 屬性。
+預設的表單呈現邏輯將封裝每個子表單到一個 ﬁeld-set 中，使用此屬性作為它的標題。
+
+最後，我們撰寫 `register` 視圖腳本：
+
+~~~
+[php]
+<h1>Register</h1>
+
+<div class="form">
+<?php echo $form; ?>
+</div>
+~~~
+
+
+客製化表單顯示
+------------------------
+
+使用表單產生器最主要的好處是邏輯 (表單配置被儲存在一個單獨的文件中) 和顯示 ([CForm::render]方法) 的分離。
+這樣，我們可以實現客製化表單顯示，通過重寫 [CForm::render] 或提供一個局部視圖來呈現表單。兩種方法都可以保持表單配置的完整性，並且可以容易地重用。
+
+當重寫 [CForm::render] 時, 你主要需要遍歷 [CForm::elements]  和 [CForm::buttons] 並調用每個表單元素的 [CFormElement::render] 方法。例如,
+
+~~~
+[php]
+class MyForm extends CForm
+{
+	public function render()
+	{
+		$output = $this->renderBegin();
+
+		foreach($this->getElements() as $element)
+			$output .= $element->render();
+
+		$output .= $this->renderEnd();
+
+		return $output;
+	}
+}
+~~~
+
+可能我們也需要寫一個視圖腳本 `_form` 以呈現一個視圖：
+
+~~~
+[php]
+<?php
+echo $form->renderBegin();
+
+foreach($form->getElements() as $element)
+	echo $element->render();
+
+echo $form->renderEnd();
+~~~
+
+要使用此視圖腳本，我們需要調用：
+
+~~~
+[php]
+<div class="form">
+$this->renderPartial('_form', array('form'=>$form));
+</div>
+~~~
+
+若一個通用的表單呈現不適用於一個特殊的表單 (例如，表單為特定的元素需要不規則的裝飾)，在視圖腳本中我們可以這樣做:
+
+~~~
+[php]
+一些複雜的介面元素
+
+<?php echo $form['username']; ?>
+
+一些複雜的介面元素
+
+<?php echo $form['password']; ?>
+
+一些複雜的介面元素
+~~~
+
+在最後的方法中，表單產生器看起來並沒有帶來好處，因為我們仍然需要寫很多表單程式碼。然而，它仍然是有好處的，表單被使用一個分離的配置文件指定，這樣可以幫助開發者更專注於邏輯部分。
+
+
+<div class="revision">$Id$</div>
