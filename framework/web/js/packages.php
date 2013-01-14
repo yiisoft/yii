@@ -78,4 +78,7 @@ return array(
 	'punycode'=>array(
 		'js'=>array(YII_DEBUG ? 'punycode.js' : 'punycode.min.js'),
 	),
+	'globalize'=>array(
+		'js'=>array('globalize/globalize.js'),
+	),
 );
