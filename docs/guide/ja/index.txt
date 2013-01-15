@@ -1,11 +1,11 @@
 Yii 公式ガイド
 ===========================
 
-このチュートリアルは [Yii ドキュメンテーション規約](http://www.yiiframework.com/doc/terms/) の下でリリースされます。
+このチュートリアルは [Yii ドキュメンテーション規約](http://www.yiiframework.com/doc/terms/) の下でリリースされています。
 
 All Rights Reserved.
 
-2008-2012 &copy; Yii Software LLC.
+2008-2013 (c) Yii Software LLC.
 
 翻訳:
  mocapapa &lt;<mocapapa@g.pugpug.org>&gt;,

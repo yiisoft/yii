@@ -1,0 +1,70 @@
+頁面快取
+============
+
+頁面快取指的是快取整個頁面的內容。頁面快取可以發生在不同的地方。例如，通過選擇適當的頁面頭，客戶端的瀏覽器可能會快取網頁瀏覽有限時間。 Web 應用程式程式本身也可以在快取中儲存網頁內容。
+
+頁面快取可以被看作是 [片段快取](/doc/guide/caching.fragment) 一個特殊情況 。
+由於網頁內容是往往通過應用程式佈局來產生，如果我們只是簡單的在佈局中調用 [beginCache()|CBaseController::beginCache] 
+和 [endCache()|CBaseController::endCache]，將無法正常工作。
+這是因為佈局在 [CController::render()] 方法裡的加載是在頁面內容產生之後。
+
+如果想要快取整個頁面，我們應該跳過產生網頁內容的動作執行。我們可以使用 [COutputCache] 作為動作
+[篩選器](/doc/guide/basics.controller#filter)來完成這一任務。下面的程式碼展示如何配置快取篩選器：
+
+~~~
+[php]
+public function filters()
+{
+	return array(
+		array(
+			'COutputCache',
+			'duration'=>100,
+			'varyByParam'=>array('id'),
+		),
+	);
+}
+~~~
+
+上述篩選器配置會使篩選器適用於控制器中的所有行動。
+我們可能會限制它在一個或幾個行動透過使用插件操作器。
+更多的細節可以看[篩選器](/doc/guide/basics.controller#filter)。
+
+> Tip: 我們可以使用 [COutputCache] 作為一個篩選器，因為它從 [CFilterWidget] 繼承過來，
+這意味著它是一個工具(widget)和一個篩選器。事實上，小工具的工作方式和篩選器非常相似：
+小工具 (篩選器) 是在動作裡的內容執行前執行，在執行後結束。
+
+
+HTTP 快取
+------------
+除了簡單快取動作的輸出，Yii 在版本 1.1.11 介紹了 [CHttpCacheFilter]。這個篩選器協助了前面所提到的，使用標頭來提示客戶端頁面的內容，自上一次請求後就沒有改變，所以伺服器不需要重新傳送內容。[CHttpCacheFilter] 可以像 [COutputCache] 一樣設置：
+
+~~~
+[php]
+public function filters()
+{
+    return array(
+        array(
+            'CHttpCacheFilter + index',
+            'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
+        ),
+    );
+}
+~~~
+
+上述的程式碼會設定 `Last-Modified` 標頭成上一次文章被更新的日期。你也可以使用 [CHttpCacheFilter::lastModifiedExpression] 藉由 PHP 表達式來設定 `Last-Modified` 標頭。
+
+> Tip|提示: [CHttpCacheFilter::lastModifiedExpression] 和 [CHttpCacheFilter::lastModified] 都可以使用 Unix 時間戳記或是人類可讀的字串來表示。後者可以被 [strtotime()](http://php.net/manual/function.strtotime.php) 解析，不需要額外的轉換。
+
+這個 "Entity Tag"（或 `ETag`）標頭可以分別藉由像是 [CHttpCacheFilter::etagSeed] 和 [CHttpCacheFilter::etagSeedExpression] 的方法來設定。兩個都會被序列化（所以可以使用單一值或是一整個陣列），並且被用來產生一個被標記的、base64-encoded SHA1 編碼的內容來給 `ETag` 標投當作內容。這跟 [Apache Webserver](http://httpd.apache.org) 的方法不同，各家的伺服器也產生自己的 ETags。然而，非常符合 RFC，而且也成為一個框架中的主流的用法。
+
+> Note|注意: 為了遵守 [RFC 2616，第 13.3.4 章節](http://tools.ietf.org/html/rfc2616#section-13.3.4)， [CHttpCacheFilter] 會送出 `ETag` *和* `Last-Modified` 標頭，如果他們可以同時被產生。所以，兩者都會被客戶端用來做快取驗證。
+
+當時體標籤被編碼，他們允許比 `Last-Modified` 標頭更複雜且/或更精確的快取策略。例如，一個 ETag 可能是無效的，當網站切換成另外一個主題。
+
+> Tip|提示: 昂貴的表達式給 [CHttpCacheFilter::etagSeedExpression] 可以會違背 [CHttpCacheFilter] 的目的和產生不需要的負擔，因為每次的請求都要重新被評估。試著找出一個簡單的表達式，可以檢驗快取是否頁面的 *內容* 已經被修改了。
+
+### 搜尋引擎優化的影響
+
+搜尋引擎機器很看重快取標頭。當一些網路爬蟲有限制每個網域下，在某一個時間區間有多少頁面可以被處理，使用快取標投可以幫助索引你的網站，因為可以減少需要處理的頁面數量。
+
+<div class="revision">$Id$</div>
