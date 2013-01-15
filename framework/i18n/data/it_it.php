@@ -93,6 +93,7 @@ return array (
     ),
     'narrow' => 
     array (
+      1 => 'G',
       2 => 'F',
       3 => 'M',
       4 => 'A',
@@ -125,6 +126,7 @@ return array (
     ),
     'abbreviated' => 
     array (
+      1 => 'gen',
       2 => 'feb',
       3 => 'mar',
       4 => 'apr',
