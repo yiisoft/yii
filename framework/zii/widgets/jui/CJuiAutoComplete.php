@@ -20,6 +20,10 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * <pre>
  * $this->widget('zii.widgets.jui.CJuiAutoComplete',array(
  *     'name'=>'city',
+ *     'renderer' => 'js:function(ul,item){
+ *                         return $( "<li>" ).data( "item.autocomplete", item ).append( "<a>" 
+ *                         + item.label + "<br>" + item.desc + "</a>" ).appendTo( ul );
+ *                     }',
  *     'source'=>array('ac1','ac2','ac3'),
  *     // additional javascript options for the autocomplete plugin
  *     'options'=>array(
@@ -67,6 +71,12 @@ class CJuiAutoComplete extends CJuiInputWidget
 	public $sourceUrl;
 
 	/**
+     * @var string javascript callback. Formats autocomplete items
+	 * {@link http://jqueryui.com/autocomplete/#custom-data}.
+     */
+    public $renderer;
+
+	/**
 	 * Run this widget.
 	 * This method registers necessary javascript and renders the needed HTML code.
 	 */
@@ -91,7 +101,17 @@ class CJuiAutoComplete extends CJuiInputWidget
 		else
 			$this->options['source']=$this->source;
 
+		$customRenderer = false;
+		if (null !== $this->renderer)
+			$customRenderer = CJavaScript::encode($this->renderer);
+
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
+		if ($customRenderer)
+			$js = "jQuery('#{$id}').autocomplete($options).data('autocomplete')._renderItem={$customRenderer};";
+		 else
+			$js = "jQuery('#{$id}').autocomplete($options);";
+
+		$cs = Yii::app()->getClientScript();
+		$cs->registerScript(__CLASS__.'#'.$id, $js);
 	}
 }
