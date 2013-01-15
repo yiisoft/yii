@@ -5,7 +5,7 @@ Ten przewodnik został wydany zgodnie z [warunkami dokumentacji Yii](http://www.
 
 Wszystkie prawa zastrzeżone.
 
-2008-2011 &copy; Yii Software LLC.
+2008-2013 &copy; Yii Software LLC.
 
 
 <div class="revision">$Id: index.txt 1679 2010-01-07 21:03:36Z qiang.xue $</div>
