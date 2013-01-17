@@ -129,6 +129,7 @@ class CMssqlSchema extends CDbSchema
 	{
 		$table=new CMssqlTableSchema;
 		$this->resolveTableNames($table,$name);
+		$this->resolveTableComment($table,$name);
 		//if (!in_array($table->name, $this->tableNames)) return null;
 		$table->primaryKey=$this->findPrimaryKey($table);
 		$table->foreignKeys=$this->findForeignKeys($table);
@@ -171,6 +172,16 @@ class CMssqlSchema extends CDbSchema
 			$table->schemaName=self::DEFAULT_SCHEMA;
 			$table->rawName=$this->quoteTableName($table->schemaName).'.'.$this->quoteTableName($table->name);
 		}
+	}
+
+	/**
+	 * Retrieves table comment by its name.
+	 * @param CMssqlTableSchema $table the table instance
+	 * @param string $name the unquoted table name
+	 */
+	protected function resolveTableComment($table,$name)
+	{
+		$table->comment=null;
 	}
 
 	/**

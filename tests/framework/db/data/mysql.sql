@@ -10,7 +10,7 @@ CREATE TABLE users
 	username VARCHAR(128) NOT NULL COMMENT 'Name of the user',
 	password VARCHAR(128) NOT NULL COMMENT 'Hashed password',
 	email VARCHAR(128) NOT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB COMMENT='Users information table';
 
 INSERT INTO users (username, password, email) VALUES ('user1','pass1','email1');
 INSERT INTO users (username, password, email) VALUES ('user2','pass2','email2');
@@ -24,7 +24,7 @@ CREATE TABLE profiles
 	user_id INTEGER NOT NULL,
 	CONSTRAINT FK_profile_user FOREIGN KEY (user_id)
 		REFERENCES users (id) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB;
+) ENGINE=InnoDB COMMENT='User profiles.\nNewline.\n\nTwo new lines.';
 
 INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1);
 INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 2','last 2',2);

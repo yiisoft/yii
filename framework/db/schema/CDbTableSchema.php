@@ -55,6 +55,13 @@ class CDbTableSchema extends CComponent
 	 * @var array column metadata of this table. Each array element is a CDbColumnSchema object, indexed by column names.
 	 */
 	public $columns=array();
+	/**
+	 * @var string comment of this table. Default value is empty string which means that no comment has been set
+	 * for the table. Null value means that RDBMS does not support table comments at all or comment retrieval
+	 * for the active RDBMS is not yet implemented.
+	 * @since 1.1.13
+	 */
+	public $comment='';
 
 	/**
 	 * Gets the named column metadata.

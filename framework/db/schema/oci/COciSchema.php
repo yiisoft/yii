@@ -117,6 +117,7 @@ class COciSchema extends CDbSchema
 	{
 		$table=new COciTableSchema;
 		$this->resolveTableNames($table,$name);
+		$this->resolveTableComment($table,$name);
 
 		if(!$this->findColumns($table))
 			return null;
@@ -150,6 +151,16 @@ class COciSchema extends CDbSchema
 			$table->rawName=$this->quoteTableName($tableName);
 		else
 			$table->rawName=$this->quoteTableName($schemaName).'.'.$this->quoteTableName($tableName);
+	}
+
+	/**
+	 * Retrieves table comment by its name.
+	 * @param COciTableSchema $table the table instance
+	 * @param string $name the unquoted table name
+	 */
+	protected function resolveTableComment($table,$name)
+	{
+		$table->comment=null;
 	}
 
 	/**

@@ -107,6 +107,7 @@ class CSqliteSchema extends CDbSchema
 		$table=new CDbTableSchema;
 		$table->name=$name;
 		$table->rawName=$this->quoteTableName($name);
+		$table->comment=null;
 
 		if($this->findColumns($table))
 		{
