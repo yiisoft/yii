@@ -87,6 +87,11 @@ class CHtml
 	public static $renderSpecialAttributesValue=true;
 
 	/**
+	 * @var callback the generator used in the {@link CHtml::getNameByModel()} method
+	 */
+	private static $classToNameConverter = null;
+
+	/**
 	 * Encodes special characters into HTML entities.
 	 * The {@link CApplication::charset application charset} will be used for encoding.
 	 * @param string $text data to be encoded
@@ -2160,6 +2165,38 @@ EOD;
 	}
 
 	/**
+	 * Generates HTML name for given model.
+	 * @see CHtml::setNameByModelConverter()
+	 * @param CModel|string $model the data model or the model class name
+	 * @return string the generated HTML name value
+	 */
+	public static function getNameByModel($model) {
+	    $converter = self::$classToNameConverter;
+		$classname = is_object($model)
+			? get_class($model)
+			: (string) $model;
+		return $converter
+			? $converter($classname)
+			: trim(str_replace('\\', '_', $classname), '_');
+	}
+	
+	/**
+	 * Set generator used in the {@link CHtml::getNameByModel()} method. You
+	 * can use the `null` value to restore default generator.
+	 * @param callback $converter the new generator, the model class name
+	 * 		will be passed to the this callback and result must be
+	 * 		a valid value for HTML name attribute.
+	 * @return void
+	 */
+	public static function setNameByModelConverter($converter) {
+		if (is_callable($converter)) {
+			self::$classToNameConverter = $converter;
+		} elseif (is_null($converter)) {
+			self::$classToNameConverter = null;
+		}
+	}
+	
+	/**
 	 * Generates input field name for a model attribute.
 	 * Unlike {@link resolveName}, this method does NOT modify the attribute name.
 	 * @param CModel $model the data model
@@ -2430,24 +2467,26 @@ EOD;
 	 */
 	public static function resolveName($model,&$attribute)
 	{
+		$className=self::getNameByModel($model);
+		
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
-				return get_class($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
+				return $className.'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
 			{
 				$sub=substr($attribute,0,$pos+1);
 				$attribute=substr($attribute,$pos+1);
-				return get_class($model).$sub.'['.$attribute.']';
+				return $className.$sub.'['.$attribute.']';
 			}
 			if(preg_match('/\](\w+\[.*)$/',$attribute,$matches))
 			{
-				$name=get_class($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
+				$name=$className.'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
 				$attribute=$matches[1];
 				return $name;
 			}
 		}
-		return get_class($model).'['.$attribute.']';
+		return $className.'['.$attribute.']';
 	}
 
 	/**
