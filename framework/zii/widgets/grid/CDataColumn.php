@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CDataColumn class file.
  *
@@ -8,6 +7,7 @@
  * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
+
 Yii::import('zii.widgets.grid.CGridColumn');
 
 /**
@@ -26,7 +26,6 @@ Yii::import('zii.widgets.grid.CGridColumn');
  */
 class CDataColumn extends CGridColumn
 {
-
 	/**
 	 * @var string the attribute name of the data model. Used for column sorting, filtering and to render the corresponding
 	 * attribute value in each data cell. If {@link value} is specified it will be used to rendered the data cell instead of the attribute value.
@@ -34,7 +33,6 @@ class CDataColumn extends CGridColumn
 	 * @see sortable
 	 */
 	public $name;
-
 	/**
 	 * @var string a PHP expression that will be evaluated for every data cell and whose result will be rendered
 	 * as the content of the data cells. In this expression, the variable
@@ -42,23 +40,20 @@ class CDataColumn extends CGridColumn
 	 * and <code>$this</code> the column object.
 	 */
 	public $value;
-
 	/**
 	 * @var string the type of the attribute value. This determines how the attribute value is formatted for display.
 	 * Valid values include those recognizable by {@link CGridView::formatter}, such as: raw, text, ntext, html, date, time,
 	 * datetime, boolean, number, email, image, url. For more details, please refer to {@link CFormatter}.
 	 * Defaults to 'text' which means the attribute value will be HTML-encoded.
 	 */
-	public $type = 'text';
-
+	public $type='text';
 	/**
 	 * @var boolean whether the column is sortable. If so, the header cell will contain a link that may trigger the sorting.
 	 * Defaults to true. Note that if {@link name} is not set, or if {@link name} is not allowed by {@link CSort},
 	 * this property will be treated as false.
 	 * @see name
 	 */
-	public $sortable = true;
-
+	public $sortable=true;
 	/**
 	 * @var mixed the HTML code representing a filter input (eg a text field, a dropdown list)
 	 * that is used for this data column. This property is effective only when
@@ -77,9 +72,9 @@ class CDataColumn extends CGridColumn
 	public function init()
 	{
 		parent::init();
-		if($this->name === null)
-			$this->sortable = false;
-		if($this->name === null && $this->value === null)
+		if($this->name===null)
+			$this->sortable=false;
+		if($this->name===null && $this->value===null)
 			throw new CException(Yii::t('zii','Either "name" or "value" must be specified for CDataColumn.'));
 	}
 
@@ -134,9 +129,9 @@ class CDataColumn extends CGridColumn
 	 */
 	protected function renderHeaderCellContent()
 	{
-		if($this->grid->enableSorting && $this->sortable && $this->name !== null)
-			echo $this->grid->dataProvider->getSort()->link($this->name,$this->header,array('class' => 'sort-link'));
-		elseif($this->name !== null && $this->header === null)
+		if($this->grid->enableSorting && $this->sortable && $this->name!==null)
+			echo $this->grid->dataProvider->getSort()->link($this->name,$this->header,array('class'=>'sort-link'));
+		elseif($this->name!==null && $this->header===null)
 		{
 			if($this->grid->dataProvider instanceof CActiveDataProvider)
 				echo CHtml::encode($this->grid->dataProvider->model->getAttributeLabel($this->name));
@@ -155,11 +150,10 @@ class CDataColumn extends CGridColumn
 	 */
 	protected function renderDataCellContent($row,$data)
 	{
-		if($this->value !== null)
-			$value = $this->evaluateExpression($this->value,array('data' => $data,'row' => $row));
-		elseif($this->name !== null)
-			$value = CHtml::value($data,$this->name);
-		echo $value === null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value,$this->type);
+		if($this->value!==null)
+			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
+		elseif($this->name!==null)
+			$value=CHtml::value($data,$this->name);
+		echo $value===null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value,$this->type);
 	}
-
 }
