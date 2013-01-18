@@ -309,10 +309,25 @@ abstract class CConsoleCommand extends CComponent
 					$optional=$param->isDefaultValueAvailable();
 					$defaultValue=$optional ? $param->getDefaultValue() : null;
 					$name=$param->getName();
-					if($optional)
-						$help.=" [--$name=$defaultValue]";
+					if($name==='args')
+						continue;
+					elseif($param->isArray())
+					{
+						if($optional)
+						{
+							foreach($defaultValue as $value)
+								$help.=" [--$name=$value]";
+						}
+						else
+							$help.=" --$name=value";
+					}
 					else
-						$help.=" --$name=value";
+					{
+						if($optional)
+							$help.=" [--$name=$defaultValue]";
+						else
+							$help.=" --$name=value";
+					}
 				}
 				$options[]=$help;
         	}
