@@ -89,12 +89,35 @@ class CDataColumn extends CGridColumn
 	{
 		if(is_string($this->filter))
 			echo $this->filter;
-		elseif($this->filter!==false && $this->grid->filter!==null && $this->name!==null && strpos($this->name,'.')===false)
+		elseif($this->filter !== false && $this->grid->filter !== null && $this->name !== null)
 		{
-			if(is_array($this->filter))
-				echo CHtml::activeDropDownList($this->grid->filter, $this->name, $this->filter, array('id'=>false,'prompt'=>''));
-			elseif($this->filter===null)
-				echo CHtml::activeTextField($this->grid->filter, $this->name, array('id'=>false));
+			if(strpos($this->name,'.') === false)
+			{
+				if(is_array($this->filter))
+					echo CHtml::activeDropDownList($this->grid->filter,$this->name,$this->filter,array('id' => false,'prompt' => ''));
+				elseif($this->filter === null)
+					echo CHtml::activeTextField($this->grid->filter,$this->name,array('id' => false));
+			}
+			else
+			{
+				$segs = explode('.',$this->name);
+				$name = array_pop($segs);
+				$model = $this->grid->filter;
+				foreach($segs as $seg)
+				{
+					if(isset($model->$seg))
+						$model = $model->$seg;
+					else
+						parent::renderFilterCellContent();
+				}
+				if(is_array($this->filter))
+				{
+					echo CHtml::activeDropDownList($model,$name,$this->filter,array('id' => false,'prompt' => ''));
+				}elseif($this->filter === null)
+				{
+					echo CHtml::activeTextField($model,$name,array('id' => false));
+				}
+			}
 		}
 		else
 			parent::renderFilterCellContent();
