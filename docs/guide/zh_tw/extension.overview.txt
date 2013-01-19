@@ -1,0 +1,21 @@
+概述
+========
+
+在開發中，擴充 Yii 是一個很常見的行為。例如，當你寫一個新的控制器時，你透過繼承 [CController] 類別擴充了
+Yii；當你撰寫一個新的元件時，你正在繼承 [CWidget] 或者一個已存在的元件類別。如果擴充程式碼是由第三方開發者為了重用而設計的，我們則稱之為*擴充*。
+
+一個擴充通常是為了一個目的而存在。在 Yii 中，他可以按照如下分類：
+
+ * [應用程式的元件](/doc/guide/basics.application#application-component)
+ * [小工具](/doc/guide/basics.view#widget)
+ * [控制器](/doc/guide/basics.controller)
+ * [動作](/doc/guide/basics.controller#action)
+ * [篩選器](/doc/guide/basics.controller#filter)
+ * [控制台](/doc/guide/topics.console)
+ * 驗證器：驗證器是一個繼承自 [CValidator] 類別的元件。
+ * 輔助器：輔助器是一個只具有靜態方法的類別，它類似於使用類別名稱作為命名空間的全域函數。
+ * [模組](/doc/guide/basics.module)：模組是一個包含 [模型](/doc/guide/basics.model)、[視圖](/doc/guide/basics.view)、[控制器](/doc/guide/basics.controller) 和其他支援的元件。大致上，一個模組就像是一個 [應用程式](/doc/guide/basics.application)。最主要的差別是一個模組包含在一個應用程式裡面。例如，我們可以有一個模組提供使用者管理的功能。
+
+擴充也可以是不屬於上述分類中的任何一個的部件。事實上，Yii 是設計的很謹慎，以至於幾乎它的每段程式碼都可以被擴充和訂製以適用於特定需求.
+
+<div class="revision">$Id$</div>

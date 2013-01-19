@@ -1,0 +1,233 @@
+資料存取物件 (DAO)
+=========================
+
+資料存取物件（DAO） 對存取儲存在不同資料庫管理系統（DBMS）中的資料提供了一個通用的 API。
+因此，在將底層 DBMS 更換為另一個時，無需修改使用了 DAO 存取資料的程式碼。
+
+Yii DAO 基於 [PHP Data Objects
+(PDO)](http://php.net/manual/en/book.pdo.php) 構建。它是一個為眾多流行的 DBMS 提供統一資料存取的擴充，這些 DBMS 包括 MySQL，
+PostgreSQL 等等。因此，要使用 Yii DAO，PDO 擴充和特定的 PDO 資料庫驅動 (例如 `PDO_MYSQL`) 必須安裝。
+
+Yii DAO 主要包含如下四個類：
+
+   - [CDbConnection]: 代表一個資料庫連接。
+   - [CDbCommand]: 代表一條通過資料庫執行的 SQL 述句。
+   - [CDbDataReader]: 代表一個只往前移動的查詢結果的資料流。
+   - [CDbTransaction]: 代表一個資料庫交易。
+
+下面，我們介紹 Yii DAO 在不同場景中的應用程式。
+
+
+建立資料庫連接
+--------------------------------
+
+要建立一個資料庫連接，建立一個 [CDbConnection] 實體並將其啟動。
+連接到資料庫需要一個資料源的名字（DSN）以指定連接訊息。使用者名和密碼也可能會用到。
+當連接到資料庫的過程中發生錯誤時 (例如，錯誤的 DSN 或無效的使用者名/密碼)，將會拋出一個例外。
+
+~~~
+[php]
+$connection=new CDbConnection($dsn,$username,$password);
+// 建立連接。你可以使用  try...catch 獲得可能拋出的例外
+$connection->active=true;
+......
+$connection->active=false;  // 關閉連接
+~~~
+
+DSN 的格式取決於所使用的 PDO 資料庫驅動。總體來說，
+DSN 要含有 PDO 驅動的名字，跟上一個冒號，再跟上驅動特定的連接語法。可查閱 [PDO
+文件](http://www.php.net/manual/en/pdo.construct.php) 取得更多訊息。
+下面是一個常用DSN格式的列表。
+
+   - SQLite: `sqlite:/path/to/dbfile`
+   - MySQL: `mysql:host=localhost;dbname=testdb`
+   - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+   - SQL Server: `mssql:host=localhost;dbname=testdb`
+   - Oracle: `oci:dbname=//localhost:1521/testdb`
+
+由於 [CDbConnection] 繼承自 [CApplicationComponent]，我們也可以將其作為一個 [應用程式元件](/doc/guide/basics.application#application-component)
+使用。要這樣做的話，
+請在 [應用程式配置](/doc/guide/basics.application#application-configuration) 
+中配置一個 `db` （或其他名字）應用程式元件如下：
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'mysql:host=localhost;dbname=testdb',
+			'username'=>'root',
+			'password'=>'password',
+			'emulatePrepare'=>true,  // MySQL 需要
+		),
+	),
+)
+~~~
+
+然後我們就可以通過 `Yii::app()->db` 存取資料庫連接了。它已經被自動啟動了，除非我們特意配置了 
+[CDbConnection::autoConnect] 為 false。通過這種方式，這個單獨的資料庫連接就可以在我們程式碼中的很多地方共享。
+
+
+執行 SQL 述句
+------------------------
+
+資料庫連接建立後，SQL 述句就可以通過使用 [CDbCommand] 執行了。你可以通過使用指定的SQL述句作為參數調用 
+[CDbConnection::createCommand()] 建立一個 [CDbCommand] 實體。
+
+~~~
+[php]
+$connection=Yii::app()->db;   // 假設你已經建立了一個 "db" 連接
+// 如果沒有，你可能需要建立一個連接：
+// $connection=new CDbConnection($dsn,$username,$password);
+$command=$connection->createCommand($sql);
+// 如果需要，此 SQL 述句可通過如下方式修改：
+// $command->text=$newSQL;
+~~~
+
+一條 SQL 述句會通過 [CDbCommand] 以如下兩種方式被執行：
+
+   - [execute()|CDbCommand::execute]: 執行一個無查詢 （non-query）SQL 述句，
+例如 `INSERT`, `UPDATE` 和 `DELETE` 。如果成功，它將返回此執行所影響的行數。
+
+   - [query()|CDbCommand::query]: 執行一條會返回若干行資料的 SQL 述句，例如 `SELECT`。
+如果成功，它將返回一個  [CDbDataReader] 實體，通過此實體可以遍歷資料的結果行。為方便起見，
+（Yii）還實現了一系列 `queryXXX()` 方法以直接返回查詢結果。
+
+執行 SQL 述句時如果發生錯誤，將會拋出一個例外。
+
+~~~
+[php]
+$rowCount=$command->execute();   // 執行無查詢 SQL
+$dataReader=$command->query();   // 執行一個 SQL 查詢
+$rows=$command->queryAll();      // 查詢並返回結果中的所有列
+$row=$command->queryRow();       // 查詢並返回結果中的第一列
+$column=$command->queryColumn(); // 查詢並返回結果中的第一行
+$value=$command->queryScalar();  // 查詢並返回結果中第一列的第一個字串
+~~~
+
+取得查詢結果
+----------------------
+
+在 [CDbCommand::query()] 產生 [CDbDataReader] 實體之後，你可以通過重複調用
+[CDbDataReader::read()] 取得結果中的行。你也可以在 PHP 的 `foreach` 語言架構中使用
+[CDbDataReader] 一行行檢索資料。 
+
+~~~
+[php]
+$dataReader=$command->query();
+// 重複調用 read() 直到它返回 false
+while(($row=$dataReader->read())!==false) { ... }
+// 使用 foreach 遍歷資料中的每一行
+foreach($dataReader as $row) { ... }
+// 一次性擷取所有行到一個陣列
+$rows=$dataReader->readAll();
+~~~
+
+> Note|注意: 不同於 [query()|CDbCommand::query]，所有的 `queryXXX()` 方法會直接返回資料。
+例如， [queryRow()|CDbCommand::queryRow] 會返回代表查詢結果第一列的一個陣列。
+
+使用交易
+------------------
+
+當一個應用程式要執行幾條查詢，每條查詢要從資料庫中讀取並/或向資料庫中寫入訊息時，
+保證資料庫沒有留下幾條查詢而只執行了另外幾條查詢是非常重要的。
+交易，在 Yii 中顯示為 [CDbTransaction] 實體，可能會在下面的情況中啟動：
+
+   - 開始交易.
+   - 一個個執行查詢。任何對資料庫的更新對外界不可見。
+   - 提交交易。如果交易成功，更新變為可見。
+   - 如果一個查詢失敗，整個交易反轉。
+
+上述工作流可以通過如下程式碼實現：
+
+~~~
+[php]
+$transaction=$connection->beginTransaction();
+try
+{
+	$connection->createCommand($sql1)->execute();
+	$connection->createCommand($sql2)->execute();
+	//.... other SQL executions
+	$transaction->commit();
+}
+catch(Exception $e) // 如果有一條查詢失敗，則會拋出例外
+{
+	$transaction->rollBack();
+}
+~~~
+
+綁定參數
+------------------
+
+要避免 [SQL 注入攻擊](http://en.wikipedia.org/wiki/SQL_injection) 並提高重複執行的 SQL 述句的效率，
+你可以 "事先準備" 一條含有可選參數佔位符號的 SQL 述句，在參數綁定時，這些佔位符號將被替換為實際的參數。
+
+參數佔位符號可以是命名的 (顯示為一個唯一的標記) 或未命名的 (顯示為一個問號)。調用
+[CDbCommand::bindParam()] 或 [CDbCommand::bindValue()] 以使用實際參數替換這些佔位符號。
+這些參數不需要使用引號引起來：底層的資料庫驅動會為你處理。
+參數綁定必須在 SQL 述句執行之前完成。
+
+~~~
+[php]
+// 一條帶有兩個佔位符號 ":username" 和 ":email" 的 SQL
+$sql="INSERT INTO tbl_user (username, email) VALUES(:username,:email)";
+$command=$connection->createCommand($sql);
+// 用實際的使用者名替換佔位符號 ":username" 
+$command->bindParam(":username",$username,PDO::PARAM_STR);
+// 用實際的 Email 替換佔位符號 ":email" 
+$command->bindParam(":email",$email,PDO::PARAM_STR);
+$command->execute();
+// 使用新的參數集插入另一行
+$command->bindParam(":username",$username2,PDO::PARAM_STR);
+$command->bindParam(":email",$email2,PDO::PARAM_STR);
+$command->execute();
+~~~
+
+方法 [bindParam()|CDbCommand::bindParam] 和
+[bindValue()|CDbCommand::bindValue] 非常相似。唯一的區別就是前者使用一個 PHP 變數綁定參數，
+而後者使用一個值。對於那些記憶體中的大資料區塊參數，基於性能的考慮，應優先使用前者。
+
+關於綁定參數的更多訊息，請參考 [相關的PHP文件](http://www.php.net/manual/en/pdostatement.bindparam.php)。
+
+綁定欄位
+---------------
+
+當取得查詢結果時，你也可以使用 PHP 變數綁定欄位。
+這樣在每次取得查詢結果中的一行時就會自動使用最新的值填入。
+
+~~~
+[php]
+$sql="SELECT username, email FROM tbl_user";
+$dataReader=$connection->createCommand($sql)->query();
+// 使用 $username 變數綁定第一欄位 (username) 
+$dataReader->bindColumn(1,$username);
+// 使用 $email 變數綁定第二欄位 (email) 
+$dataReader->bindColumn(2,$email);
+while($dataReader->read()!==false)
+{
+    // $username 和 $email 含有當前列中的 username 和 email 
+}
+~~~
+
+使用資料表前綴
+------------------
+
+從版本 1.1.0 起， Yii 提供了整合了對使用表前綴的支援。
+資料表前綴是指在當前連接的資料庫中的資料表的名字前面增加的一個字串。
+它常用於共享的伺服器環境，這種環境中多個應用程式可能會共享同一個資料庫，要使用不同的資料表前綴以相互區分。
+例如，一個應用程式可以使用 `tbl_` 作為表前綴而另一個可以使用 `yii_`。
+
+要使用資料表前綴，配置 [CDbConnection::tablePrefix] 屬性為所希望的資料表前綴。
+然後，在 SQL 述句中使用 `{{TableName}}` 代表資料表的名字，其中的 `TableName` 是指不帶前綴的資料表名。
+例如，如果資料庫含有一個名為 `tbl_user` 的表，而 `tbl_` 被配置為資料表前綴，那我們就可以使用如下程式碼執行使用者相關的查詢：
+
+~~~
+[php]
+$sql='SELECT * FROM {{user}}';
+$users=$connection->createCommand($sql)->queryAll();
+~~~
+
+<div class="revision">$Id$</div>
