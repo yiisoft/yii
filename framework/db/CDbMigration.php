@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -422,7 +422,7 @@ abstract class CDbMigration extends CComponent
 	 */
 	public function dropPrimaryKey($name,$table)
 	{
-		echo "    > alter table $table drop constraint $name primary key $column ...";
+		echo "    > alter table $table drop constraint $name primary key ...";
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->dropPrimaryKey($name,$table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";

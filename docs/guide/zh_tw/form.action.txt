@@ -1,0 +1,61 @@
+建立動作
+===============
+
+有了模型，我們就可以開始撰寫用於操作此模型的邏輯了。
+我們將此邏輯放在一個控制器的動作中。對登入表單的例子來講，相應的程式碼就是：
+
+~~~
+[php]
+public function actionLogin()
+{
+	$model=new LoginForm;
+	if(isset($_POST['LoginForm']))
+	{
+		// 收集使用者輸入的資料
+		$model->attributes=$_POST['LoginForm'];
+		// 驗證使用者輸入，並在判斷輸入正確後重新導向到前一頁
+		if($model->validate())
+			$this->redirect(Yii::app()->user->returnUrl);
+	}
+	// 顯示登入表單
+	$this->render('login',array('model'=>$model));
+}
+~~~
+
+如上所示，我們首先建立了一個 `LoginForm` 模型範例；
+如果請求是一個  POST 請求（意味著這個登入表單被提交了），我們則使用提交的資料 `$_POST['LoginForm']` 
+填入 `$model` ；然後我們驗證此輸入，如果驗證成功，重定向使用者瀏覽器到之前需要身份驗證的頁面。
+如果驗證失敗，或者此動作被初次訪問，我們則呈現 `login` 視圖，此視圖的內容我們在下一節中講解。
+
+> Tip|提示: 在 `login` 動作中，我們使用 `Yii::app()->user->returnUrl` 取得之前需要身份驗證的頁面 URL。
+元件 `Yii::app()->user` 是一種 [CWebUser] (或其子類) ，它表示使用者 Session 資訊（例如 使用者姓名，狀態）。更多詳情，
+請參考 [驗證與授權](/doc/guide/topics.auth).
+
+讓我們特別留意一下 `login` 動作中出現的下面的 PHP 語句：
+
+~~~
+[php]
+$model->attributes=$_POST['LoginForm'];
+~~~
+
+正如我們在 [安全的特性賦值](/doc/guide/form.model#securing-attribute-assignments) 中所講的，
+這行程式碼使用使用者提交的資料填入模型。
+`attributes` 屬性由 [CModel] 定義，它接受一個名值對陣列並將其中的每個值賦給相應的模型特性。
+因此如果 `$_POST['LoginForm']` 給了我們這樣的一個陣列，上面的那段程式碼也就等同於下面冗長的這段
+(假設陣列中存在所有所需的特性):
+
+~~~
+[php]
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
+~~~
+
+> Note|注意: 為了使 `$_POST['LoginForm']` 傳遞給我們的是一個陣列而不是字串，
+我們需要在命名表單域時遵守一個規範。具體的，對應於模型類 `C` 中的特性 `a` 的表單域，我們將其命名為 
+ `C[a]` 。例如，我們可使用 `LoginForm[username]` 命名
+`username` 特性相應的表單域。
+
+現在剩下的工作就是建立 `login` 視圖了，它應該包含一個帶有所需輸入項的 HTML 表單。
+
+<div class="revision">$Id$</div>
