@@ -186,6 +186,8 @@ class CCompareValidator extends CValidator
 				throw new CException(Yii::t('yii','Invalid operator "{operator}".',array('{operator}'=>$this->operator)));
 		}
 
+		$condition.=' && '.$compareValue.'!=""';
+
 		$message=strtr($message,array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
 			'{compareAttribute}'=>$compareTo,
