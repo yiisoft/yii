@@ -1,0 +1,128 @@
+規範
+===========
+
+Yii 偏愛規範勝於配置。遵循規範可使你能夠建立成熟的 Yii 應用程式而不需要撰寫、維護複雜的配置。
+當然了，在必要時，Yii 仍然可以通過配置來實現自行定義的所有東西。
+
+下面我們講解 Yii 開發中推薦的撰寫規範。
+為簡單起見，我們假設 `WebRoot` 是 Yii 應用程式安裝的目錄。
+
+URL
+---
+
+預設情況下，Yii 識別如下格式的 URL：
+
+~~~
+http://hostname/index.php?r=ControllerID/ActionID
+~~~
+
+這個 `r` GET 變數意義是
+[路由（route）](/doc/guide/basics.controller#route) ，它可以被 Yii 解析為 控制器和動作。
+如果 `ActionID` 被省略，控制器將使用預設的動作（在[CController::defaultAction]中定義）；
+如果 `ControllerID` 也被省略（或者 `r` 變數不存在），應用程式將使用預設的控制器
+（在[CWebApplication::defaultController]中定義）。
+
+通過 [CUrlManager] 的幫助，可以建立更加可識別，更加 SEO 友好的 URL，例如
+`http://hostname/ControllerID/ActionID.html`。此功能在 [URL Management](/doc/guide/topics.url) 中有詳細講解。
+
+
+程式碼
+----
+
+Yii 推薦命名變數、函數和類別時使用 駝峰風格，即每個單字的首字母大寫並連在一起，中間無空格。
+變數名和函數名應該使它們的第一個單字全部小寫，以使其區別於類別名（例如：`$basePath`,
+`runController()`，`LinkPager`）。至於私有類別成員變數來說，我們推薦以下劃線作為其名字前綴（例如： `$_actionList`）。
+
+由於在 PHP 5.3.0 之前不支援名字空間，我們推薦類別要通過某種獨立的方式命名，以避免和第三方類別發生衝突。鑒於此，
+所有的 Yii 框架類別名以 "C" 作前綴。
+
+一個針對控制器名字的特殊規則是它們必須以單字 `Controller` 結尾。那麼控制器 ID 即類別名的首字母小寫並去掉單字 `Controller`。
+例如：`PageController` 類別的 ID 就是  `page` 。這個規則使應用程式更加安全。它還使控制器相關的URL更加簡單 (例如：`/index.php?r=page/index` 而不是 `/index.php?r=PageController/index`)。
+
+配置
+-------------
+
+配置是一個鍵值對陣列。每個鍵代表了所配置的對象中的屬性名，每個值則為相應屬性的初始值。
+例如： `array('name'=>'My
+application', 'basePath'=>'./protected')` 初始化了 `name` 和
+`basePath` 屬性為它們相應的陣列值。
+
+類別中任何可寫的屬性都可以被配置。如果沒有配置，屬性將使用它們的預設值。
+當配置一個屬性時，最好閱讀相應文件以保證初始值正確。
+
+文件
+----
+
+命名和使用文件的規範取決於它們的類別型。
+
+類別文件應以它們包含的公有類別命名。例如， [CController] 類別位於 `CController.php` 文件中。
+公有類別是可以被任何其他類別使用的類別。每個類別文件應包含最多一個公有類別。
+私有類別（只能被一個公有類別使用的類別）可以放在使用此類別的共同類別所在的文件中。
+
+視圖文件應以視圖的名字命名。例如， `index` 視圖位於 `index.php` 文件中。
+視圖文件是一個 PHP 腳本文件，它包含了用於呈現內容的 HTML 和 PHP 程式碼。
+
+配置文件可以任意命名。
+配置文件是一個PHP腳本，它的主要目的是返回一個體現配置的關聯陣列。
+
+目錄
+---------
+
+Yii 假定了一系列預設的目錄用於不同的場合。如果需要，每個目錄都可以自定。
+
+   - `WebRoot/protected`: 這是 [應用程式基礎目錄](/doc/guide/basics.application#application-base-directory)，
+ 是放置所有安全敏感的 PHP 腳本和資料文件的地方。Yii 有一個預設的 `application` 別名指向此目錄。
+此目錄及目錄中的文件應該保護起來防止 Web 用戶訪問。它可以通過 [CWebApplication::basePath] 自定。
+
+   - `WebRoot/protected/runtime`: 此目錄放置應用程式在運行時產生的私有臨時文件。
+此目錄必須對 Web 伺服器進程可寫。它可以通過 [CApplication::runtimePath] 自定。
+
+   - `WebRoot/protected/extensions`: 此目錄放置所有第三方擴展。
+它可以通過 [CApplication::extensionPath] 自定。
+
+   - `WebRoot/protected/modules`: 此目錄放置所有的應用程式
+[模組](/doc/guide/basics.module)，每個模組使用一個子目錄。
+
+   - `WebRoot/protected/controllers`: 此目錄放置所有控制器類別文件。
+它可以通過 [CWebApplication::controllerPath] 自定。
+
+   - `WebRoot/protected/views`: 此目錄放置所有視圖文件，
+包含控制器視圖，佈局視圖和系統視圖。
+它可以通過 [CWebApplication::viewPath] 自定。
+
+   - `WebRoot/protected/views/ControllerID`: 此目錄放置單個控制器類別中使用的視圖文件。
+此處的 `ControllerID` 是指控制器的 ID 。它可以通過 [CController::viewPath] 自定。
+
+   - `WebRoot/protected/views/layouts`: 此目錄放置所有佈局視圖文件。它可以通過
+[CWebApplication::layoutPath] 自定。
+
+   - `WebRoot/protected/views/system`: 此目錄放置所有系統視圖文件。
+系統視圖文件是用於顯示異常和錯誤的樣板。它可以通過 [CWebApplication::systemViewPath]
+自定。
+
+   - `WebRoot/assets`: 此目錄放置公共資源文件。
+資源文件是可以被發佈的，可由 Web 用戶訪問的私有文件。此目錄必須對 Web 伺服器進程可寫。
+它可以通過 [CAssetManager::basePath] 自定
+
+   - `WebRoot/themes`: 此目錄放置應用程式使用的不同的主題。每個子目錄即一個主題，主題的名字即目錄的名字。
+它可以通過 [CThemeManager::basePath] 自定。
+
+資料庫
+--------
+
+多數 Web 應用程式是由資料庫驅動的。為了最佳時間，我們
+推薦在對表和列命名時使用如下命名規範。注意，這些規範並不是 Yii 所必須的。
+
+   - 資料庫表名和列名都使用小寫命名。
+
+   - 名字中的單字應使用下劃線分割 (例如 `product_order`)。
+
+   - 對於表名，你既可以使用單數也可以使用複數。但
+不要 同時使用兩者。為簡單起見，我們推薦使用單數名字。
+
+   - 表名可以使用一個通用前綴，例如 `tbl_` 。這樣當應用程式所使用的表和另一個應用程式說使用的表共存於同一個資料庫中時就特別有用。
+這兩個應用程式的表可以通過使用不同的表前綴很容易地區別開。
+
+
+
+<div class="revision">$Id$</div>
