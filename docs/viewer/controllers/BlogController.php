@@ -22,6 +22,7 @@ class BlogController extends CController
 		'sv'=>'Swedish',
 		'ta_in'=>'Tamil',
 		'vi'=>'Vietnam',
+		'uk'=>'Ukrainian',
 		'zh_cn'=>'Simplified Chinese',
 		'zh_tw'=>'Traditional Chinese',
 	);
