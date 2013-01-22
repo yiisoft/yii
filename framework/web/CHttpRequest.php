@@ -143,6 +143,8 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if(is_array($data))
 		{
+			if(count($data) == 0)
+				return $data;
 			$keys=array_map('stripslashes',array_keys($data));
 			$data=array_combine($keys,array_values($data));
 			return array_map(array($this,'stripSlashes'),$data);
