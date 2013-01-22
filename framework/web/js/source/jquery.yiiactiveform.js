@@ -110,7 +110,7 @@
 					});
 				}
 				if (this.validateOnType) {
-					$form.find('#' + this.inputID + dependentAttributesString).keyup(function () {
+					$form.find('#' + this.inputID).keyup(function () {
 						if (attribute.value !== getAFValue($(this)))
 							validate(attribute, false);
 					});
