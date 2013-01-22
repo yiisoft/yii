@@ -141,14 +141,14 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function stripSlashes(&$data)
 	{
-        if(is_array($data))
-        {
-            $keys=array_map('stripslashes',array_keys($data));
-            $data=array_combine($keys,array_values($data));
-            return array_map(array($this,'stripSlashes'),$data);
-        }
-        else
-            return stripslashes($data);
+		if(is_array($data))
+		{
+			$keys=array_map('stripslashes',array_keys($data));
+			$data=array_combine($keys,array_values($data));
+			return array_map(array($this,'stripSlashes'),$data);
+		}
+		else
+			return stripslashes($data);
 	}
 
 	/**
