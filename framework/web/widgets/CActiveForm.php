@@ -446,6 +446,7 @@ class CActiveForm extends CWidget
 			'validationDelay',
 			'validateOnChange',
 			'validateOnType',
+			'dependentAttribute',
 			'hideErrorMessage',
 			'inputContainer',
 			'errorCssClass',
@@ -469,11 +470,9 @@ class CActiveForm extends CWidget
 		{
 			$validators=isset($htmlOptions['clientValidation']) ? array($htmlOptions['clientValidation']) : array();
 
-			$attributeName = $attribute;
+			$attributeName=$attribute;
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1) // e.g. [a]name
-			{
 				$attributeName=substr($attribute,$pos+1);
-			}
 
 			foreach($model->getValidators($attributeName) as $validator)
 			{
@@ -481,6 +480,8 @@ class CActiveForm extends CWidget
 				{
 					if(($js=$validator->clientValidateAttribute($model,$attributeName))!='')
 						$validators[]=$js;
+					if(get_class($validator)=='CCompareValidator' && empty($option['dependentAttribute']) && !empty($validator->compareAttribute))
+						$option['dependentAttribute']=CHtml::activeId($model, $validator->compareAttribute);
 				}
 			}
 			if($validators!==array())

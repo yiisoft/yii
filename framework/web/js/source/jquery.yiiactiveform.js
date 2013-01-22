@@ -17,9 +17,8 @@
 	var getAFValue = function (o) {
 		var type,
 			c = [];
-		if (!o.length) {
+		if (!o.length)
 			return undefined;
-		}
 		if (o[0].tagName.toLowerCase() === 'span') {
 			o.find(':checked').each(function () {
 				c.push(this.value);
@@ -27,11 +26,10 @@
 			return c.join(',');
 		}
 		type = o.attr('type');
-		if (type === 'checkbox' || type === 'radio') {
+		if (type === 'checkbox' || type === 'radio')
 			return o.filter(':checked').val();
-		} else {
+		else
 			return o.val();
-		}
 	};
 
 	/**
@@ -43,9 +41,8 @@
 			var settings = $.extend({}, $.fn.yiiactiveform.defaults, options || {}),
 				$form = $(this);
 
-			if (settings.validationUrl === undefined) {
+			if (settings.validationUrl === undefined)
 				settings.validationUrl = $form.attr('action');
-			}
 			$.each(settings.attributes, function (i) {
 				this.value = getAFValue($form.find('#' + this.inputID));
 				settings.attributes[i] = $.extend({}, {
@@ -65,26 +62,22 @@
 
 			settings.submitting = false;  // whether it is waiting for ajax submission result
 			var validate = function (attribute, forceValidate) {
-				if (forceValidate) {
+				if (forceValidate)
 					attribute.status = 2;
-				}
 				$.each(settings.attributes, function () {
 					if (this.value !== getAFValue($form.find('#' + this.inputID))) {
 						this.status = 2;
 						forceValidate = true;
 					}
 				});
-				if (!forceValidate) {
+				if (!forceValidate)
 					return;
-				}
 
-				if (settings.timer !== undefined) {
+				if (settings.timer !== undefined)
 					clearTimeout(settings.timer);
-				}
 				settings.timer = setTimeout(function () {
-					if (settings.submitting || $form.is(':hidden')) {
+					if (settings.submitting || $form.is(':hidden'))
 						return;
-					}
 					if (attribute.beforeValidateAttribute === undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function () {
 							if (this.status === 2) {
@@ -95,13 +88,13 @@
 						$.fn.yiiactiveform.validate($form, function (data) {
 							var hasError = false;
 							$.each(settings.attributes, function () {
-								if (this.status === 2 || this.status === 3) {
+								if (this.dependentAttribute !== undefined && this.dependentAttribute == attribute.inputID)
+									this.status = 2;
+								if (this.status === 2 || this.status === 3)
 									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
-								}
 							});
-							if (attribute.afterValidateAttribute !== undefined) {
+							if (attribute.afterValidateAttribute !== undefined)
 								attribute.afterValidateAttribute($form, attribute, data, hasError);
-							}
 						});
 					}
 				}, attribute.validationDelay);
@@ -112,16 +105,14 @@
 					$form.find('#' + this.inputID).change(function () {
 						validate(attribute, false);
 					}).blur(function () {
-						if (attribute.status !== 2 && attribute.status !== 3) {
+						if (attribute.status !== 2 && attribute.status !== 3)
 							validate(attribute, !attribute.status);
-						}
 					});
 				}
 				if (this.validateOnType) {
-					$form.find('#' + this.inputID).keyup(function () {
-						if (attribute.value !== getAFValue($(this))) {
+					$form.find('#' + this.inputID + dependentAttributesString).keyup(function () {
+						if (attribute.value !== getAFValue($(this)))
 							validate(attribute, false);
-						}
 					});
 				}
 			});
@@ -136,9 +127,8 @@
 						validated = false;
 						return true;
 					}
-					if (settings.timer !== undefined) {
+					if (settings.timer !== undefined)
 						clearTimeout(settings.timer);
-					}
 					settings.submitting = true;
 					if (settings.beforeValidate === undefined || settings.beforeValidate($form)) {
 						$.fn.yiiactiveform.validate($form, function (data) {
@@ -152,19 +142,17 @@
 									validated = true;
 									var $button = $form.data('submitObject') || $form.find(':submit:first');
 									// TODO: if the submission is caused by "change" event, it will not work
-									if ($button.length) {
+									if ($button.length)
 										$button.click();
-									} else {  // no submit button in the form
+									else // no submit button in the form
 										$form.submit();
-									}
 									return;
 								}
 							}
 							settings.submitting = false;
 						});
-					} else {
+					} else
 						settings.submitting = false;
-					}
 					return false;
 				});
 			}
@@ -207,18 +195,16 @@
 					});
 					$('#' + settings.summaryID).hide().find('ul').html('');
 					//.. set to initial focus on reset
-					if (settings.focus !== undefined && !window.location.hash) {
+					if (settings.focus !== undefined && !window.location.hash)
 						$form.find(settings.focus).focus();
-					}
 				}, 1);
 			});
 
 			/*
 			 * set to initial focus
 			 */
-			if (settings.focus !== undefined && !window.location.hash) {
+			if (settings.focus !== undefined && !window.location.hash)
 				$form.find(settings.focus).focus();
-			}
 		});
 	};
 
@@ -229,11 +215,10 @@
 	 * @return jQuery the jQuery representation of the container
 	 */
 	$.fn.yiiactiveform.getInputContainer = function (attribute, form) {
-		if (attribute.inputContainer === undefined) {
+		if (attribute.inputContainer === undefined)
 			return form.find('#' + attribute.inputID).closest('div');
-		} else {
+		else
 			return form.find(attribute.inputContainer).filter(':has("#' + attribute.inputID + '")');
-		}
 	};
 
 	/**
@@ -267,12 +252,10 @@
 			if (hasError) {
 				$error.html(messages[attribute.id][0]);
 				$container.addClass(attribute.errorCssClass);
-			} else if (attribute.enableAjaxValidation || attribute.clientValidation) {
+			} else if (attribute.enableAjaxValidation || attribute.clientValidation)
 				$container.addClass(attribute.successCssClass);
-			}
-			if (!attribute.hideErrorMessage) {
+			if (!attribute.hideErrorMessage)
 				$error.toggle(hasError);
-			}
 
 			attribute.value = getAFValue($el);
 		}
@@ -287,9 +270,8 @@
 	$.fn.yiiactiveform.updateSummary = function (form, messages) {
 		var settings = $(form).data('settings'),
 			content = '';
-		if (settings.summaryID === undefined) {
+		if (settings.summaryID === undefined)
 			return;
-		}
 		if (messages) {
 			$.each(settings.attributes, function () {
 				if ($.isArray(messages[this.id])) {
@@ -320,13 +302,11 @@
 			if (this.clientValidation !== undefined && (settings.submitting || this.status === 2 || this.status === 3)) {
 				value = getAFValue($form.find('#' + this.inputID));
 				this.clientValidation(value, msg, this);
-				if (msg.length) {
+				if (msg.length)
 					messages[this.id] = msg;
-				}
 			}
-			if (this.enableAjaxValidation && !msg.length && (settings.submitting || this.status === 2 || this.status === 3)) {
+			if (this.enableAjaxValidation && !msg.length && (settings.submitting || this.status === 2 || this.status === 3))
 				needAjaxValidation = true;
-			}
 		});
 
 		if (!needAjaxValidation || settings.submitting && !$.isEmptyObject(messages)) {
@@ -335,17 +315,15 @@
 				setTimeout(function () {
 					successCallback(messages);
 				}, 200);
-			} else {
+			} else
 				successCallback(messages);
-			}
 			return;
 		}
 
 		var $button = $form.data('submitObject'),
 			extData = '&' + settings.ajaxVar + '=' + $form.attr('id');
-		if ($button && $button.length) {
+		if ($button && $button.length)
 			extData += '&' + $button.attr('name') + '=' + $button.attr('value');
-		}
 
 		$.ajax({
 			url: settings.validationUrl,
@@ -355,19 +333,16 @@
 			success: function (data) {
 				if (data !== null && typeof data === 'object') {
 					$.each(settings.attributes, function () {
-						if (!this.enableAjaxValidation) {
+						if (!this.enableAjaxValidation)
 							delete data[this.id];
-						}
 					});
 					successCallback($.extend({}, messages, data));
-				} else {
+				} else
 					successCallback(messages);
-				}
 			},
 			error: function () {
-				if (errorCallback !== undefined) {
+				if (errorCallback !== undefined)
 					errorCallback();
-				}
 			}
 		});
 	};
@@ -389,6 +364,7 @@
 		validateOnSubmit: false,
 		validateOnChange: true,
 		validateOnType: false,
+		dependentAttribute: undefined,
 		hideErrorMessage: false,
 		inputContainer: undefined,
 		errorCss: 'error',
@@ -415,6 +391,7 @@
 		 *     validationDelay: 200,
 		 *     validateOnChange: true,
 		 *     validateOnType: false,
+		 *     dependentAttribute: undefined,
 		 *     hideErrorMessage: false,
 		 *     inputContainer: undefined,
 		 *     errorCssClass: 'error',
