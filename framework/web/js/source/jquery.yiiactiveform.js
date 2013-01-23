@@ -87,7 +87,7 @@
 					}
 					if (attribute.beforeValidateAttribute === undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function () {
-							if (this.dependentAttribute === attribute.inputID) {
+							if (this.dependentAttribute === attribute.inputID && this.status !== undefined) {
 								this.status = 2;
 							}
 							if (this.status === 2) {
