@@ -220,7 +220,7 @@ class ModelCode extends CCodeModel
 		{
 			if($column->autoIncrement)
 				continue;
-			$r=!$column->allowNull && $column->defaultValue===null;
+			$r=!$column->allowNull && !strlen($column->defaultValue);
 			if($r)
 				$required[]=$column->name;
 			if($column->type==='integer')
