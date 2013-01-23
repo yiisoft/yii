@@ -480,7 +480,7 @@ class CActiveForm extends CWidget
 				{
 					if(($js=$validator->clientValidateAttribute($model,$attributeName))!='')
 						$validators[]=$js;
-					if(get_class($validator)=='CCompareValidator' && empty($option['dependentAttribute']) && !empty($validator->compareAttribute))
+					if($validator instanceof CCompareValidator && empty($option['dependentAttribute']) && !empty($validator->compareAttribute))
 						$option['dependentAttribute']=CHtml::activeId($model, $validator->compareAttribute);
 				}
 			}
