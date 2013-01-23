@@ -196,7 +196,8 @@ class CMysqlSchema extends CDbSchema
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
 		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
-		$c->comment=$column['Comment'];
+		if(isset($column['Comment']))
+			$c->comment=$column['Comment'];
 
 		return $c;
 	}
