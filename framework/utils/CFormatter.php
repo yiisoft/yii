@@ -25,6 +25,7 @@
  * <li>raw: the attribute value will not be changed at all.</li>
  * <li>text: the attribute value will be HTML-encoded when rendering.</li>
  * <li>ntext: the {@link formatNtext} method will be called to format the attribute value as a HTML-encoded plain text with newlines converted as the HTML &lt;br /&gt; tags.</li>
+ * <li>ntext2: the {@link formatNtext2} method will be called to format the attribute value as a HTML-encoded plain text with newlines replaced with HTML paragraph &lt;p&gt;&lt;/p&gt; tags.</li>
  * <li>html: the attribute value will be purified and then returned.</li>
  * <li>date: the {@link formatDate} method will be called to format the attribute value as a date.</li>
  * <li>time: the {@link formatTime} method will be called to format the attribute value as a time.</li>
@@ -155,6 +156,24 @@ class CFormatter extends CApplicationComponent
 	public function formatNtext($value)
 	{
 		return nl2br(CHtml::encode($value));
+	}
+
+	/**
+	 * Formats the value as a HTML-encoded plain text and replaces newlines with HTML paragraph tags (&lt;p&gt;&lt;/p&gt;).
+	 * @param mixed $value the value to be formatted
+	 * @param bool $removeEmptyParagraphs whether empty paragraphs should be removed, defaults to true
+	 * @return string the formatted result
+	 */
+	public function formatNtext2($value,$removeEmptyParagraphs=true)
+	{
+		$value='<p>'.strtr(CHtml::encode($value),array(
+			"\n"=>"</p><p>",
+			"\r\n"=>"</p><p>",
+			"\r"=>"</p><p>",
+		)).'</p>';
+		if($removeEmptyParagraphs)
+			$value=preg_replace('/(<\/p><p>){2,}/i','</p><p>',$value);
+		return $value;
 	}
 
 	/**
