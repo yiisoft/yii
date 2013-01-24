@@ -80,4 +80,53 @@ class CFormatterTest extends CTestCase
 		$formatter->sizeFormat['decimals']=4;
 		$this->assertNotEquals('1.5137 kilobytes', $formatter->formatSize(1550, true));
 	}
+
+	public function providerFormatNtext()
+	{
+		return array(
+			array(
+				"<br/>\nline2\n\nline3\n\n\nline4\n\n\n\nline5",
+				"&lt;br/&gt;<br />\nline2<br />\n<br />\nline3<br />\n<br />\n<br />\nline4<br />\n<br />\n<br />\n<br />\nline5",
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerFormatNtext
+	 * @param string $value
+	 * @param string $assertion
+	 */
+	public function testFormatNtext($value, $assertion)
+	{
+		$formatter = new CFormatter();
+		$this->assertEquals($assertion, $formatter->formatNtext($value));
+	}
+
+	public function providerFormatNtext2()
+	{
+		return array(
+			array(
+				"<br/>\nline2\n\nline3\n\n\nline4\n\n\n\r\nline5",
+				true,
+				'<p>&lt;br/&gt;</p><p>line2</p><p>line3</p><p>line4</p><p>line5</p>',
+			),
+			array(
+				"<br/>\nline2\n\nline3\n\n\nline4\n\n\n\r\nline5",
+				false,
+				'<p>&lt;br/&gt;</p><p>line2</p><p></p><p>line3</p><p></p><p></p><p>line4</p><p></p><p></p><p></p><p>line5</p>',
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerFormatNtext2
+	 * @param string $value
+	 * @param boolean $removeEmptyParagraphs
+	 * @param string $assertion
+	 */
+	public function testFormatNtext2($value, $removeEmptyParagraphs, $assertion)
+	{
+		$formatter = new CFormatter();
+		$this->assertEquals($assertion, $formatter->formatNtext2($value, $removeEmptyParagraphs));
+	}
 }
