@@ -343,8 +343,9 @@ class CDbConnection extends CApplicationComponent
 	 * without actually executing the SQL statement.
 	 * @param integer $duration the number of seconds that query results may remain valid in cache.
 	 * If this is 0, the caching will be disabled.
-	 * @param CCacheDependency|ICacheDependency $dependency the dependency that will be used when saving
-	 * the query results into cache.
+	 * @param CCacheDependency|ICacheDependency|array $dependency the dependency that will be used when saving
+	 * the query results into cache. Array value will be treated as chained cache dependency elements and
+	 * will be passed as argument to the {@link CChainedCacheDependency} class constructor.
 	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
 	 * meaning that the next SQL query will be cached.
 	 * @return CDbConnection the connection instance itself.
@@ -353,7 +354,7 @@ class CDbConnection extends CApplicationComponent
 	public function cache($duration, $dependency=null, $queryCount=1)
 	{
 		$this->queryCachingDuration=$duration;
-		$this->queryCachingDependency=$dependency;
+		$this->queryCachingDependency=is_array($dependency) ? new CChainedCacheDependency($dependency) : $dependency;
 		$this->queryCachingCount=$queryCount;
 		return $this;
 	}
