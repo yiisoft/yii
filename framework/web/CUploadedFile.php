@@ -30,6 +30,9 @@
  * @property string $extensionName The file extension name for {@link name}.
  * The extension name does not include the dot character. An empty string
  * is returned if {@link name} does not have an extension name.
+ * @property string $baseName The name of the file being uploaded but without extension name.
+ * The base name does not include the dot character. The name itself
+ * is returned if {@link name} does not have an extension name.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
@@ -269,5 +272,19 @@ class CUploadedFile extends CComponent
 			return (string)substr($this->_name,$pos+1);
 		else
 			return '';
+	}
+
+	/**
+	 * @return string the name of the file being uploaded but without extension name
+	 * The base name does not include the dot character. The name itself
+	 * is returned if {@link name} does not have an extension name.
+	 * @since 1.1.14
+	 */
+	public function getBaseName()
+	{
+		if(($pos=strrpos($this->_name,'.'))!==false)
+			return (string)substr($this->_name,0,$pos);
+		else
+			return $this->_name;
 	}
 }
