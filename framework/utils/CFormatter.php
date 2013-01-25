@@ -24,7 +24,7 @@
  * <ul>
  * <li>raw: the attribute value will not be changed at all.</li>
  * <li>text: the attribute value will be HTML-encoded when rendering.</li>
- * <li>ntext: the {@link formatNtext} method will be called to format the attribute value as a HTML-encoded plain text with newlines converted as the HTML &lt;br /&gt; tags.</li>
+ * <li>ntext: the {@link formatNtext} method will be called to format the attribute value as a HTML-encoded plain text with newlines converted as the HTML &lt;br /&gt; or &lt;p&gt;&lt;/p&gt; tags.</li>
  * <li>html: the attribute value will be purified and then returned.</li>
  * <li>date: the {@link formatDate} method will be called to format the attribute value as a date.</li>
  * <li>time: the {@link formatTime} method will be called to format the attribute value as a time.</li>
@@ -148,13 +148,29 @@ class CFormatter extends CApplicationComponent
 	}
 
 	/**
-	 * Formats the value as a HTML-encoded plain text and converts newlines with HTML br tags.
+	 * Formats the value as a HTML-encoded plain text and converts newlines with HTML &lt;br /&gt; or
+	 * &lt;p&gt;&lt;/p&gt; tags.
 	 * @param mixed $value the value to be formatted
+	 * @param boolean $paragraphs whether newlines should be converted to HTML &lt;p&gt;&lt;/p&gt; tags,
+	 * false by default meaning that HTML &lt;br /&gt; tags will be used
+	 * @param boolean $removeEmptyParagraphs whether empty paragraphs should be removed, defaults to true;
+	 * makes sense only when $paragraphs parameter is true
 	 * @return string the formatted result
 	 */
-	public function formatNtext($value)
+	public function formatNtext($value,$paragraphs=false,$removeEmptyParagraphs=true)
 	{
-		return nl2br(CHtml::encode($value));
+		$value=CHtml::encode($value);
+		if($paragraphs)
+		{
+			$value='<p>'.strtr($value,array("\n"=>'</p><p>',"\r\n"=>'</p><p>',"\r"=>'</p><p>')).'</p>';
+			if($removeEmptyParagraphs)
+     			$value=preg_replace('/(<\/p><p>){2,}/i','</p><p>',$value);
+			return $value;
+		}
+		else
+		{
+			return nl2br($value);
+		}
 	}
 
 	/**
