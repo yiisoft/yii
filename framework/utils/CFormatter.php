@@ -162,7 +162,7 @@ class CFormatter extends CApplicationComponent
 		$value=CHtml::encode($value);
 		if($paragraphs)
 		{
-			$value='<p>'.strtr($value,array("\n"=>'</p><p>',"\r\n"=>'</p><p>',"\r"=>'</p><p>')).'</p>';
+			$value='<p>'.str_replace(array("\r\n", "\n", "\r"), '</p><p>',$value).'</p>';
 			if($removeEmptyParagraphs)
      			$value=preg_replace('/(<\/p><p>){2,}/i','</p><p>',$value);
 			return $value;
