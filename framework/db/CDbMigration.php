@@ -422,7 +422,7 @@ abstract class CDbMigration extends CComponent
 	 */
 	public function dropPrimaryKey($name,$table)
 	{
-		echo "    > alter table $table drop constraint $name primary key ...";
+		echo "    > alter table $table drop primary key $name ...";
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->dropPrimaryKey($name,$table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
