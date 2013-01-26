@@ -44,6 +44,13 @@
 		}
 		
 	],
+	"support": {
+		"issues": "https://github.com/yiisoft/yii/issues?state=open",
+		"forum": "http://www.yiiframework.com/forum/",
+		"wiki": "http://www.yiiframework.com/wiki/",
+		"irc": "irc://irc.freenode.net/yii",
+		"source": "https://github.com/yiisoft/yii"
+	},
 	"require": {
 		"php": ">=5.1.0"
 	}
