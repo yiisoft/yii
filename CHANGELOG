@@ -12,6 +12,7 @@ Version 1.1.14 work in progress
 - Bug #1942: CActiveForm client/ajax validation will now remove error class from server side validation (mdomba)
 - Bug #1945: Reference to undefined variable $column in CDbMigration::dropPrimaryKey (paystey)
 - Bug #1984: CDbMigration: fix of undeclared variable usage in debug information in dropPrimaryKey (papulovskiy)
+- Bug #1996: Using yiic help for commands with parameters with array as default value resulted in PHP error with latest PHP versions (dInGd0nG, samdark)
 - Bug #2030: Fixed problem with MySQL 4.x: Undefined Index: Comment in CMysqlSchema (cebe)
 - Enh #1847: Added COutputCache::varyByLanguage to generate separate cache for different languages (Obramko)
 - Enh #2038: CFormatter::formatNtext() method can replace newlines with `<p></p>` not just with `<br />` as it was before (resurtm)
