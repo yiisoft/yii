@@ -2,7 +2,7 @@
 	"name": "yiisoft/yii",
 	"description": "Yii Web Programming Framework",
 	"keywords": ["yii", "framework"],
-	"homepage": "http://www.yiiframework.com",
+	"homepage": "http://www.yiiframework.com/",
 	"type": "library",
 	"license": "BSD-3-Clause",
 	"authors": [
