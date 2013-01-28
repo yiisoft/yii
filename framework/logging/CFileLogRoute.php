@@ -140,8 +140,10 @@ class CFileLogRoute extends CLogRoute
 		@flock($fp,LOCK_EX);
 		if(@filesize($logFile)>$this->getMaxFileSize()*1024)
 			$this->rotateFiles();
+		$buffer='';
 		foreach($logs as $log)
-			@fwrite($fp,$this->formatLogMessage($log[0],$log[1],$log[2],$log[3]));
+			$buffer.=$this->formatLogMessage($log[0],$log[1],$log[2],$log[3]);
+		@fwrite($fp,$buffer);
 		@flock($fp,LOCK_UN);
 		@fclose($fp);
 	}
