@@ -1769,7 +1769,7 @@ EOD;
 					if($error!='')
 						$content.="<li>$error</li>\n";
 					if($firstError)
-						break;
+						break 3;
 				}
 			}
 		}
