@@ -1294,7 +1294,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if(!$all)
 				$criteria->limit=1;
-			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
+			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria,$this->getTableAlias(false));
 			return $all ? $this->populateRecords($command->queryAll(), true, $criteria->index) : $this->populateRecord($command->queryRow());
 		}
 		else
