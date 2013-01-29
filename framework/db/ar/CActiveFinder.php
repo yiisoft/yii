@@ -1398,7 +1398,7 @@ class CStatElement
 		// generate and perform query
 		if(count($fks)===1)  // single column FK
 		{
-			$col=$table->columns[$fks[0]]->rawName;
+			$col=$tableAlias.'.'.$table->columns[$fks[0]]->rawName;
 			$sql="SELECT $col AS $c, {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias.$join
 				.$where.'('.$builder->createInCondition($table,$fks[0],array_keys($records),$tableAlias.'.').')'
 				." GROUP BY $col".$group
