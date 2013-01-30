@@ -18,7 +18,16 @@
  *
  * It uses {@link CApplication::locale} by default but you can set a custom locale by using {@link setLocale}-method.
  *
- * For a list of recognizable format types, and details on how to call the formatter methods, see {@link CFormatter} documentation.
+ * For a list of recognizable format types, and details on how to call the formatter methods,
+ * see {@link CFormatter} documentation.
+ *
+ * To replace the application component 'format', which is registered by {@link CApplication} by default, you can
+ * put this in your application 'components' config:
+ * <code>
+ * 'format' => array(
+ *     'class' => 'CLocalizedFormatter',
+ * ),
+ * </code>
  *
  * @author Carsten Brandt <mail@cebe.cc>
  * @package system.utils
