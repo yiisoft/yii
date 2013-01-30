@@ -216,7 +216,12 @@ class CFormatter extends CApplicationComponent
 		return date($this->datetimeFormat,$this->normalizeDateValue($value));
 	}
 
-	private function normalizeDateValue($time)
+	/**
+	 * Normalizes an expression as a timestamp.
+	 * @param mixed $time the time expression to be normalized
+	 * @return int the normalized result
+	 */
+	protected function normalizeDateValue($time)
 	{
 		if(is_string($time))
 		{
