@@ -20,6 +20,9 @@
  *
  * @property boolean $hasFooter Whether this column has a footer cell.
  * This is determined based on whether {@link footer} is set.
+ * @property string $filterCellContent The filter cell content.
+ * @property string $headerCellContent The header cell content.
+ * @property string $footerCellContent The footer cell content.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package zii.widgets.grid
@@ -111,6 +114,17 @@ abstract class CGridColumn extends CComponent
 	}
 
 	/**
+	 * @return string the filter cell content.
+	 * @since 1.1.14
+	 */
+	public function getFilterCellContent()
+	{
+		ob_start();
+		$this->renderFilterCellContent();
+		return ob_get_clean();
+	}
+
+	/**
 	 * Renders the header cell.
 	 */
 	public function renderHeaderCell()
@@ -119,6 +133,17 @@ abstract class CGridColumn extends CComponent
 		echo CHtml::openTag('th',$this->headerHtmlOptions);
 		$this->renderHeaderCellContent();
 		echo "</th>";
+	}
+
+	/**
+	 * @return string the header cell content.
+	 * @since 1.1.14
+	 */
+	public function getHeaderCellContent()
+	{
+		ob_start();
+		$this->renderHeaderCellContent();
+		return ob_get_clean();
 	}
 
 	/**
@@ -146,6 +171,20 @@ abstract class CGridColumn extends CComponent
 	}
 
 	/**
+	 * Returns a data cells content.
+	 * @param integer $row the row number (zero-based)
+	 * @return string the data cell content.
+	 * @since 1.1.14
+	 */
+	public function getDataCellContent($row)
+	{
+		ob_start();
+		$data=$this->grid->dataProvider->data[$row];
+		$this->renderDataCellContent($row,$data);
+		return ob_get_clean();
+	}
+
+	/**
 	 * Renders the footer cell.
 	 */
 	public function renderFooterCell()
@@ -153,6 +192,17 @@ abstract class CGridColumn extends CComponent
 		echo CHtml::openTag('td',$this->footerHtmlOptions);
 		$this->renderFooterCellContent();
 		echo '</td>';
+	}
+
+	/**
+	 * @return string the footer cell content.
+	 * @since 1.1.14
+	 */
+	public function getFooterCellContent()
+	{
+		ob_start();
+		$this->renderFooterCellContent();
+		return ob_get_clean();
 	}
 
 	/**
