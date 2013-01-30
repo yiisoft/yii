@@ -220,7 +220,7 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Normalizes an expression as a timestamp.
 	 * @param mixed $time the time expression to be normalized
-	 * @return int the normalized result
+	 * @return int the normalized result as a UNIX timestamp
 	 */
 	protected function normalizeDateValue($time)
 	{
