@@ -146,8 +146,8 @@ class CFileLogRoute extends CLogRoute
 		{
 			$this->rotateFiles();
 			@flock($fp,LOCK_UN);
-            @fclose($fp);
-            @file_put_contents($logFile,$text,FILE_APPEND|LOCK_EX);
+			@fclose($fp);
+			@file_put_contents($logFile,$text,FILE_APPEND|LOCK_EX);
 		}
 		else
 		{
