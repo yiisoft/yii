@@ -86,16 +86,16 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public $csrfCookie;
 
-	private $_requestUri;
-	private $_pathInfo;
-	private $_scriptFile;
-	private $_scriptUrl;
-	private $_hostInfo;
-	private $_baseUrl;
-	private $_cookies;
-	private $_preferredLanguages;
-	private $_csrfToken;
-	private $_restParams;
+	protected $_requestUri;
+	protected $_pathInfo;
+	protected $_scriptFile;
+	protected $_scriptUrl;
+	protected $_hostInfo;
+	protected $_baseUrl;
+	protected $_cookies;
+	protected $_preferredLanguages;
+	protected $_csrfToken;
+	protected $_restParams;
 
 	/**
 	 * Initializes the application component.
@@ -184,7 +184,13 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getPost($name,$defaultValue=null)
 	{
-		return isset($_POST[$name]) ? $_POST[$name] : $defaultValue;
+        if (isset($_SERVER['CONTENT_TYPE']) && strtolower($_SERVER['CONTENT_TYPE']) == 'application/json')
+        {
+            $data = CJSON::decode($this->getRawBody());
+            return isset($data[$name]) ? $data[$name] : $defaultValue;
+        } else {
+            return isset($_POST[$name]) ? $_POST[$name] : $defaultValue;
+        }
 	}
 
 	/**
@@ -248,10 +254,17 @@ class CHttpRequest extends CApplicationComponent
 		if($this->_restParams===null)
 		{
 			$result=array();
-			if(function_exists('mb_parse_str'))
-				mb_parse_str($this->getRawBody(), $result);
-			else
-				parse_str($this->getRawBody(), $result);
+            if (isset($_SERVER['CONTENT_TYPE']) && strtolower($_SERVER['CONTENT_TYPE']) == 'application/json')
+            {
+                $result = CJSON::decode($this->getRawBody());
+            } else {
+                if(function_exists('mb_parse_str')) {
+                    mb_parse_str($this->getRawBody(), $result);
+                } else {
+                    parse_str($this->getRawBody(), $result);
+                }
+            }
+
 			$this->_restParams=$result;
 		}
 
@@ -906,7 +919,7 @@ class CHttpRequest extends CApplicationComponent
 	 * There is a Bug with Internet Explorer 6, 7 and 8 when X-SENDFILE is used over an SSL connection, it will show
 	 * an error message like this: "Internet Explorer was not able to open this Internet site. The requested site is either unavailable or cannot be found.".
 	 * You can work around this problem by removing the <code>Pragma</code>-header.
-	 * 
+	 *
 	 * <b>Example</b>:
 	 * <pre>
 	 * <?php
