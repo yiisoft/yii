@@ -1313,7 +1313,7 @@ class CDbCommand extends CComponent
 	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
 	 * @param array $columns the columns (name=>definition) in the new table.
 	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
-	 * @return integer number of rows affected by the execution.
+	 * @return integer 0 is always returned (see PDO docs for more information http://php.net/manual/en/pdostatement.rowcount.php).
 	 * @since 1.1.6
 	 */
 	public function createTable($table, $columns, $options=null)
@@ -1336,7 +1336,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Builds and executes a SQL statement for dropping a DB table.
 	 * @param string $table the table to be dropped. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return integer 0 is always returned (see PDO docs for more information http://php.net/manual/en/pdostatement.rowcount.php).
 	 * @since 1.1.6
 	 */
 	public function dropTable($table)
