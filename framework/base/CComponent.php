@@ -318,8 +318,8 @@ class CComponent
 	 * @param string $name the behavior's name. It should uniquely identify this behavior.
 	 * @param mixed $behavior the behavior configuration. This is passed as the first
 	 * parameter to {@link YiiBase::createComponent} to create the behavior object.
-	 * You also can pass already created behavior instance (new behavior will replace already created
-	 * behavior with the same given name if it is exists).
+	 * You can also pass an already created behavior instance (the new behavior will replace an already created
+	 * behavior with the same name, if it exists).
 	 * @return IBehavior the behavior object
 	 */
 	public function attachBehavior($name,$behavior)
