@@ -87,7 +87,7 @@
 						if (settings.enableHistory && window.History.enabled) {
 							// Ajaxify this link
 							var url = $(this).attr('href').split('?'),
-								params = $.deparam.querystring('?'+url[1]);
+								params = $.deparam.querystring('?'+ (url[1] || ''));
 
 							delete params[settings.ajaxVar];
 							window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
