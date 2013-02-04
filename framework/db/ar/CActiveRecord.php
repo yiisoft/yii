@@ -1613,7 +1613,7 @@ abstract class CActiveRecord extends CModel
 		$this->applyScopes($criteria);
 
 		if(empty($criteria->with))
-			return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
+			return $builder->createFindCommand($table,$criteria,$this->getTableAlias(false, false))->queryRow()!==false;
 		else
 		{
 			$criteria->select='*';
