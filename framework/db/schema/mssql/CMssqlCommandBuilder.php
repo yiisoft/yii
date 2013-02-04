@@ -199,12 +199,13 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 */
 	protected function rewriteLimitOffsetSql($sql, $limit, $offset)
 	{
-		$end = $limit+$offset;
-		$start = ($limit-1) * ($offset+1);
+		$end = $limit + $offset;
+		$start = $end - $limit + 1;
 		$ordering = $this->findOrdering($sql);
 		$orginalOrdering = $this->joinOrdering($ordering, '[__outer__]');
-		$sql = preg_replace('/([ ]ORDER BY)[\s"\[](.*)(ASC|DESC)?(?:[\s"\[]|$|COMPUTE|FOR)/i','',$sql);
-		$sql = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS [__RowNumber__], * FROM ({$sql}) as [__inner__]) as [__outer__] WHERE [__RowNumber__] BETWEEN {$start} AND {$end} {$orginalOrdering}";
+                $rowNumberOrdering = !empty($orginalOrdering) ? $orginalOrdering : 'ORDER BY (SELECT 1)';
+		$sqlWithoutOrder = preg_replace('/([ ]ORDER BY)[\s"\[](.*)(ASC|DESC)?(?:[\s"\[]|$|COMPUTE|FOR)/i','',$sql);
+		$sql = "SELECT * FROM (SELECT ROW_NUMBER() OVER({$rowNumberOrdering}) AS [__RowNumber__], * FROM ({$sqlWithoutOrder}) as [__inner__]) as [__outer__] WHERE [__RowNumber__] BETWEEN {$start} AND {$end}";
 		return $sql;
 	}
 
