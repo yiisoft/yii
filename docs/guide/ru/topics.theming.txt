@@ -245,8 +245,8 @@ return array(
 <?php
 return array(
     'default'=>array(
-        'nextPageLabel'=>'&gt;&gt;',
-        'prevPageLabel'=>'&lt;&lt;',
+        'nextPageLabel'=>'next',
+        'prevPageLabel'=>'prev',
     ),
     'classic'=>array(
         'header'=>'',

@@ -472,7 +472,7 @@ echo $form->renderEnd();
 ~~~
 [php]
 <div class="form">
-<?php echo $this->renderPartial('_form', array('form'=>$form)); ?>
+<?php $this->renderPartial('_form', array('form'=>$form)); ?>
 </div>
 ~~~
 
