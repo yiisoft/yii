@@ -3,7 +3,6 @@
 
 Version 1.1.14 work in progress
 -------------------------------
-- Bug: Fixed .hgignore rule for assets folder (GeX, Koduc)
 - Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
 - Bug #1693: Fixed log file will rotate twice when high performance (monque)
@@ -17,6 +16,7 @@ Version 1.1.14 work in progress
 - Bug #2030: Fixed problem with MySQL 4.x: Undefined Index: Comment in CMysqlSchema (cebe)
 - Bug #2049: CStatElement relation with join option throw exception when key-field present on joined table (Yiivgeny)
 - Bug #2078: Fixed problem with "undefined" parameter in query string when using CListView or CGridView with enableHistory (Parpaing)
+- Bug #2086: Fixed .hgignore rule for assets folder (GeX, Koduc)
 - Enh: Better CFileLogRoute performance (Qiang, samdark)
 - Enh #1847: Added COutputCache::varyByLanguage to generate separate cache for different languages (Obramko)
 - Enh #1977: CFormatter::normalizeDateValue() now is protected instead of private to enable child classes to override it (etienneq)
