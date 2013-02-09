@@ -56,6 +56,16 @@ class CClientScript extends CApplicationComponent
 	 */
 	public $scriptMap=array();
 	/**
+	 * @var array the list of scripts that should always be included asynchronously.
+	 * This allows specifying scripts that will be included with 'async="async"' set even if the call to {@link registerClientScript} does not specify it.
+	 * This is particularly useful for scripts that appear in {@link $scriptMap}.
+	 *
+	 * If a script is registered as asynchronous, its name is appended to this array.
+	 *
+	 * @since 1.1.14
+	 */
+	public $asyncScripts=array();
+	/**
 	 * @var array list of custom script packages (name=>package spec).
 	 * This property keeps a list of named script packages, each of which can contain
 	 * a set of CSS and/or JavaScript script files, and their dependent package names.
@@ -362,7 +372,7 @@ class CClientScript extends CApplicationComponent
 			if(isset($this->scriptFiles[self::POS_HEAD]))
 			{
 				foreach($this->scriptFiles[self::POS_HEAD] as $scriptFile)
-					$html.=CHtml::scriptFile($scriptFile)."\n";
+					$html.=CHtml::scriptFile($scriptFile,(in_array($scriptFile,$this->asyncScripts)?true:false))."\n";
 			}
 
 			if(isset($this->scripts[self::POS_HEAD]))
@@ -390,7 +400,7 @@ class CClientScript extends CApplicationComponent
 		if(isset($this->scriptFiles[self::POS_BEGIN]))
 		{
 			foreach($this->scriptFiles[self::POS_BEGIN] as $scriptFile)
-				$html.=CHtml::scriptFile($scriptFile)."\n";
+				$html.=CHtml::scriptFile($scriptFile,(in_array($scriptFile,$this->asyncScripts)?true:false))."\n";
 		}
 		if(isset($this->scripts[self::POS_BEGIN]))
 			$html.=CHtml::script(implode("\n",$this->scripts[self::POS_BEGIN]))."\n";
@@ -422,7 +432,7 @@ class CClientScript extends CApplicationComponent
 		if(isset($this->scriptFiles[self::POS_END]))
 		{
 			foreach($this->scriptFiles[self::POS_END] as $scriptFile)
-				$html.=CHtml::scriptFile($scriptFile)."\n";
+				$html.=CHtml::scriptFile($scriptFile,(in_array($scriptFile,$this->asyncScripts)?true:false))."\n";
 		}
 		$scripts=isset($this->scripts[self::POS_END]) ? $this->scripts[self::POS_END] : array();
 		if(isset($this->scripts[self::POS_READY]))

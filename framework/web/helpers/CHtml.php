@@ -276,21 +276,23 @@ class CHtml
 	/**
 	 * Encloses the given JavaScript within a script tag.
 	 * @param string $text the JavaScript to be enclosed
+	 * @param boolean $async whether the script should be executed asynchronously, defaults to false. (@since 1.1.14)
 	 * @return string the enclosed JavaScript
 	 */
-	public static function script($text)
+	public static function script($text,$async=false)
 	{
-		return "<script type=\"text/javascript\">\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</script>";
+		return '<script type="text/javascript"'.($async?' async="async"':'').">\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</script>";
 	}
 
 	/**
 	 * Includes a JavaScript file.
 	 * @param string $url URL for the JavaScript file
+	 * @param boolean $async whether the script should be included asynchronously, defaults to false. (@since 1.1.14)
 	 * @return string the JavaScript file tag
 	 */
-	public static function scriptFile($url)
+	public static function scriptFile($url,$async=false)
 	{
-		return '<script type="text/javascript" src="'.self::encode($url).'"></script>';
+		return '<script type="text/javascript"'.($async?' async="async"':'').' src="'.self::encode($url).'"></script>';
 	}
 
 	/**
