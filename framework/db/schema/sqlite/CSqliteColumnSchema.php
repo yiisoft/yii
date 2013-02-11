@@ -29,4 +29,32 @@ class CSqliteColumnSchema extends CDbColumnSchema
 		if($this->type==='string' && $this->defaultValue!==null) // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
 			$this->defaultValue=trim($this->defaultValue,"'\"");
 	}
+
+	/**
+	 * Converts the input value to the type that this column is of.
+	 * @param mixed $value input value
+	 * @return mixed converted value
+	 */
+	public function typecast($value)
+	{
+		if(gettype($value)===$this->type || $value===null || $value instanceof CDbExpression)
+			return $value;
+
+		if($value==='' && $this->allowNull)
+			return $this->type==='string' ? '' : null;
+
+		switch($this->type)
+		{
+			case 'string': return (string)$value;
+			case 'integer': 
+				if ( PHP_INT_MAX < $value ) {
+					return (float)$value;
+				}
+
+				return (integer)$value;
+			case 'boolean': return (boolean)$value;
+			case 'double':
+			default: return $value;
+		}
+	}
 }

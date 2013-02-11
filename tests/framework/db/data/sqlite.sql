@@ -197,6 +197,7 @@ CREATE TABLE types
 (
 	int_col INT NOT NULL,
 	int_col2 INTEGER DEFAULT 1,
+	int_col3 INTEGER DEFAULT 1359724784030,
 	char_col CHAR(100) NOT NULL,
 	char_col2 VARCHAR(100) DEFAULT 'something',
 	char_col3 TEXT,
