@@ -635,13 +635,45 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.11
+	 * @since 1.1.14
 	 */
 	public function dateField($model,$attribute,$htmlOptions=array())
 	{
 		return CHtml::activeDateField($model,$attribute,$htmlOptions);
 	}
 
+
+    /**
+     * Renders a time field for a model attribute.
+     * This method is a wrapper of {@link CHtml::activeTimeField}.
+     * Please check {@link CHtml::activeTimeField} for detailed information
+     * about the parameters for this method.
+     * @param CModel $model the data model
+     * @param string $attribute the attribute
+     * @param array $htmlOptions additional HTML attributes.
+     * @return string the generated input field
+     * @since 1.1.14
+     */
+    public function timeField($model,$attribute,$htmlOptions=array())
+    {
+        return CHtml::activeTimeField($model,$attribute,$htmlOptions);
+    }
+
+    /**
+     * Renders a time field for a model attribute.
+     * This method is a wrapper of {@link CHtml::activeTimeField}.
+     * Please check {@link CHtml::activeTimeField} for detailed information
+     * about the parameters for this method.
+     * @param CModel $model the data model
+     * @param string $attribute the attribute
+     * @param array $htmlOptions additional HTML attributes.
+     * @return string the generated input field
+     * @since 1.1.14
+     */
+    public function telField($model,$attribute,$htmlOptions=array())
+    {
+        return CHtml::activeTimeField($model,$attribute,$htmlOptions);
+    }
 	/**
 	 * Renders a text field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeTextField}.
