@@ -1471,7 +1471,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.12
+	 * @since 1.1.11
 	 */
 	public static function activeDateField($model,$attribute,$htmlOptions=array())
 	{
