@@ -1,5 +1,8 @@
                    Yii Framework Change Log
                    ========================
+Version 1.1.14
+--------------------------------
+- Enh #1948: Tidy up and improve html5 input support in CHtml and CActiveForm (phpnode)
 
 Version 1.1.13 December 30, 2012
 --------------------------------

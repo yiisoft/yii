@@ -623,7 +623,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.11
+	 * @since 1.1.14
 	 */
 	public static function dateField($name,$value='',$htmlOptions=array())
 	{
