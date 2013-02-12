@@ -648,7 +648,6 @@ class CHtml
 		return self::inputField('time',$name,$value,$htmlOptions);
 	}
 
-
 	/**
 	 * Generates an email field input.
 	 * @param string $name the input name
@@ -683,7 +682,6 @@ class CHtml
 		return self::inputField('tel',$name,$value,$htmlOptions);
 	}
 
-
 	/**
 	 * Generates a URL field input.
 	 * @param string $name the input name
@@ -700,8 +698,6 @@ class CHtml
 		self::clientChange('change',$htmlOptions);
 		return self::inputField('url',$name,$value,$htmlOptions);
 	}
-
-
 
 	/**
 	 * Generates a hidden input.
