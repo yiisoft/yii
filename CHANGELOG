@@ -1,11 +1,9 @@
                    Yii Framework Change Log
                    ========================
-Version 1.1.14
---------------------------------
-- Enh #1948: Tidy up and improve html5 input support in CHtml and CActiveForm (phpnode)
 
 Version 1.1.14 work in progress
 -------------------------------
+- Enh #1948: Tidy up and improve html5 input support in CHtml and CActiveForm (phpnode)
 - Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
 - Bug #1693: Fixed log file will rotate twice when high performance (monque)
