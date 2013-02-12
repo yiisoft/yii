@@ -37,24 +37,12 @@ class CSqliteColumnSchema extends CDbColumnSchema
 	 */
 	public function typecast($value)
 	{
-		if(gettype($value)===$this->type || $value===null || $value instanceof CDbExpression)
-			return $value;
+		$supposed_value = parent::typecast($value);
 
-		if($value==='' && $this->allowNull)
-			return $this->type==='string' ? '' : null;
-
-		switch($this->type)
-		{
-			case 'string': return (string)$value;
-			case 'integer': 
-				if ( PHP_INT_MAX < $value ) {
-					return (float)$value;
-				}
-
-				return (integer)$value;
-			case 'boolean': return (boolean)$value;
-			case 'double':
-			default: return $value;
+		if ( $this->type == 'integer' && PHP_INT_MAX < $value ) {
+			return (float)$value;
 		}
+
+		return $supposed_value;
 	}
 }
