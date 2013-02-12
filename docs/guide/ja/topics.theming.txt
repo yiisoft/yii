@@ -247,7 +247,7 @@ return array(
 <?php $this->widget('CLinkPager'); ?>
 
 <?php $this->widget('CLinkPager', array('skin'=>'classic')); ?>
-
+~~~
 
 ウィジェットを生成する際に初期プロパティ値を指定した場合は、そのプロパティ値が優先され、アプリケーションのスキンと結合されます。
 例えば、下記のビューのコードが生成するページャの初期値は、`array('header'=>'', 'maxButtonCount'=>6, 'cssFile'=>false)` となりますが、それはビューで指定された初期プロパティ値と `classic` スキンを結合した結果です。

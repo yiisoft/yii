@@ -125,7 +125,7 @@ return array (
   'File upload was stopped by extension.' => 'آپلود فایل توسط اکستنشن متوقف شد',
   'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => 'فیلتر "{filter}" نا معتبر است.کنترلر "{class}" دارای متد فیلتر  "filter{filter}" می باشد',
   'Get a new code' => 'کد جدید ایجاد کنید',
-  'Go to page: ' => ' :برو به صفحه',
+  'Go to page: ' => 'برو به صفحه: ',
   'Invalid enumerable value "{value}". Please make sure it is among ({enum}).' => 'مقدار شمارش نامعتبر "{value}". اطمینان حاصل کنید که در میان ({enum}) می باشد',
   'Invalid MO file: {file} (magic: {magic}).' => 'فایل MO نا معتبر : {file} (magic: {magic}) ',
   'Invalid MO file revision: {revision}.' => 'ورژن فایل MO غیر معتبر:{revision}',

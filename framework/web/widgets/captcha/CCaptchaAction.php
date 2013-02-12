@@ -5,7 +5,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -294,7 +294,7 @@ class CCaptchaAction extends CAction
 	 */
 	protected function renderImageImagick($code)
 	{
-		$backColor=new ImagickPixel('#'.dechex($this->backColor));
+		$backColor=$this->transparent ? new ImagickPixel('transparent') : new ImagickPixel('#'.dechex($this->backColor));
 		$foreColor=new ImagickPixel('#'.dechex($this->foreColor));
 
 		$image=new Imagick();
