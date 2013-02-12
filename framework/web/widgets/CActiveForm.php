@@ -635,7 +635,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.14
+	 * @since 1.1.11
 	 */
 	public function dateField($model,$attribute,$htmlOptions=array())
 	{

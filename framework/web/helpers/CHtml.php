@@ -1491,7 +1491,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.12
+	 * @since 1.1.14
 	 */
 	public static function activeTimeField($model,$attribute,$htmlOptions=array())
 	{
@@ -1511,7 +1511,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.12
+	 * @since 1.1.14
 	 */
 	public static function activeTelField($model,$attribute,$htmlOptions=array())
 	{
