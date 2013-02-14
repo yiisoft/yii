@@ -1,6 +1,6 @@
 <?php
 /**
- * CActiveRecord class file.
+ * CActiveFinder class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
