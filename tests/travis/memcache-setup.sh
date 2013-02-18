@@ -6,5 +6,5 @@ else
   wget http://pecl.php.net/get/memcache-2.2.7.tgz
   tar -zxf memcache-2.2.7.tgz
   sh -c "cd memcache-2.2.7 && phpize && ./configure --enable-memcache && make && sudo make install"
-  echo "memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s/.*:\s*//"`
+  echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s/.*:\s*//"`
 fi
