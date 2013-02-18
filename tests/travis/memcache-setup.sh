@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-if [[ $TRAVIS_PHP_VERSION < 5.5 ]]; then
+if [ "$(expr "$TRAVIS_PHP_VERSION" "<" "5.5")" -eq 1 ]; then
   echo 'y' | pecl install memcache > ~/memcache.log || ( echo "=== MEMCACHE BUILD FAILED ==="; cat ~/memcache.log )
 else
   wget http://pecl.php.net/get/memcache-2.2.7.tgz
