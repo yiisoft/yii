@@ -289,7 +289,7 @@ SELECT attnum, attname FROM pg_catalog.pg_attribute WHERE
 			SELECT oid FROM pg_catalog.pg_namespace WHERE nspname=:schema
 		)
 	)
-    AND attnum IN ({$indices})
+	AND attnum IN ({$indices})
 EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
 		$command->bindValue(':table',$table->name);
