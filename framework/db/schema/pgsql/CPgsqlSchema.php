@@ -24,20 +24,20 @@ class CPgsqlSchema extends CDbSchema
 	 * @since 1.1.6
 	 */
     public $columnTypes=array(
-        'pk' => 'serial NOT NULL PRIMARY KEY',
-        'string' => 'character varying (255)',
-        'text' => 'text',
-        'integer' => 'integer',
-        'float' => 'double precision',
-        'decimal' => 'numeric',
-        'datetime' => 'timestamp',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'bytea',
-        'boolean' => 'boolean',
+		'pk' => 'serial NOT NULL PRIMARY KEY',
+		'string' => 'character varying (255)',
+		'text' => 'text',
+		'integer' => 'integer',
+		'float' => 'double precision',
+		'decimal' => 'numeric',
+		'datetime' => 'timestamp',
+		'timestamp' => 'timestamp',
+		'time' => 'time',
+		'date' => 'date',
+		'binary' => 'bytea',
+		'boolean' => 'boolean',
 		'money' => 'decimal(19,4)',
-    );
+	);
 
 	private $_sequences=array();
 
