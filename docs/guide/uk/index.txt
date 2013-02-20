@@ -1,9 +1,7 @@
 Повний посібник по Yii
 ======================
 
-Даний посібник випущено відповідно до 
-[положень про документацію Yii](http://www.yiiframework.com/doc/terms/).
-
+Даний посібник випущено відповідно до [положень про документацію Yii](http://www.yiiframework.com/doc/terms/).
 
 Перекладачі
 -----------
@@ -11,4 +9,4 @@
 - Мирослав Демчунь ([chandler.org.ua](http://chandler.org.ua/))
 - Віталій Степаненко, vitaliy.step
 
-© 2008—2010, Yii Software LLC.
+© 2008—2013, Yii Software LLC.
