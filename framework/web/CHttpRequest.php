@@ -50,6 +50,8 @@
  * @property integer $port Port number for insecure requests.
  * @property integer $securePort Port number for secure requests.
  * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
+ * @property array $preferredAcceptType The user preferred accept type as an array map, containing type, sub-type, quality and parameters.
+ * @property array $preferredAcceptTypes An array of all user accepted types in order of preference (see above).
  * @property string $preferredLanguage The user preferred language.
  * @property array $preferredLanguages An array of all user accepted languages in order of preference.
  * @property string $csrfToken The random token for CSRF validation.
@@ -93,6 +95,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_hostInfo;
 	private $_baseUrl;
 	private $_cookies;
+	private $_preferredAcceptTypes;
 	private $_preferredLanguages;
 	private $_csrfToken;
 	private $_restParams;
@@ -798,6 +801,103 @@ class CHttpRequest extends CApplicationComponent
 		header('Location: '.$url, true, $statusCode);
 		if($terminate)
 			Yii::app()->end();
+	}
+
+	/**
+	 * Returns an array of user accepted MIME types in order of preference.
+	 * Each array entry consists of a map with the type, subType, quality (ie preference ranking) and params, an array map of key-value parameters.
+	 * For example, an Accept value of 'application/xhtml+xml;q=0.9;level=1' would give an array entry of
+	 * array(
+	 * 		'type' => 'application',
+	 * 		'subType' => 'xhtml+xml',
+	 * 		'quality' => 0.9,
+	 * 		'params' => array(
+	 * 			'level' => '1',
+	 * 		),
+	 * )
+	 * NB - to avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly - if
+	 * the header text includes quoted strings containing the , or ; characters then the results may not be * correct!
+	 * @return array the user accepted MIME types in the order of preference.
+	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.1}
+	 */
+	public function getPreferredAcceptTypes()
+	{
+		if($this->_preferredAcceptTypes===null)
+		{
+			$accepts=array();
+			$acceptTypes=$this->getAcceptTypes();
+			if ($acceptTypes!==null)
+			{
+				// split the text on the , character, ignoring whitespace
+				foreach(preg_split('/\s*,\s*/', $acceptTypes) as $term)
+				{
+					$accept=array();
+					$accept['params'] = array();
+					$mediaRange = '';
+					// check whether there are any parameters for this mime type
+					if(preg_match(",^(\S+)\s*;\s*(.*),i",$term,$params))
+					{
+						// store the mime type
+						$mediaRange=$params[1];
+						// parse the remaining text for parameters, splitting on the ; character
+						foreach(preg_split('/\s*;\s*/', $params[2]) as $param)
+						{
+							// only process key=value text
+							if(preg_match(",^\s*(.*?)\s*=\s*(.*),i",$param,$parts))
+							{
+								// if the parameter concerns quality, store it in a particular place
+								if($parts[1]=='q')
+								{
+									// assume that first instance takes precedence if there are more than one
+									if(!isset($accept['quality']))
+									{
+										$accept['quality'] = (double)trim($parts[2]);
+									}
+								}
+								// otherwise store the key value pair in the params array
+								else
+								{
+									// assume that first instance takes precedence if there are more than one
+									if(!isset($accept['params'][$parts[1]]))
+									{
+										$accept['params'][$parts[1]]=trim($parts[2],' "');
+									}
+								}
+							}
+						}
+					}
+					else
+					{
+						// the entire term contains only the mime type
+						$mediaRange=trim($term);
+					}
+					$types=explode('/',$mediaRange);
+					if(isset($types[0]))
+						$accept['type']=$types[0];
+					if(isset($types[1]))
+						$accept['subType']=$types[1];
+					// if the quality has not been explicitly stated, it is equal to 1
+					if(!isset($accept['quality']))
+						$accept['quality']=(double)1;
+					$accepts[]=$accept;
+				}
+				// slightly complicated sorting function - in case of equal quality, higher specificity takes preference, which includes a higher number of parameters if all else is equal - see link
+				usort($accepts,create_function('$a,$b','if($a[\'quality\']==$b[\'quality\']) {if(!($a[\'type\']==\'*\' xor $b[\'type\']==\'*\')) {if (!($a[\'subType\']==\'*\' xor $b[\'subType\']==\'*\')) {if(count($a[\'params\'])==count($b[\'params\'])) {return 0;} return count($a[\'params\'])<count($b[\'params\']) ? 1 : -1;}	return $a[\'subType\']==\'*\' ? 1 : -1;} return $a[\'type\']==\'*\' ? 1 : -1;} return ($a[\'quality\']<$b[\'quality\']) ? 1 : -1;'));
+			}
+			$this->_preferredAcceptTypes=$accepts;
+		}
+		return $this->_preferredAcceptTypes;
+	}
+
+	/**
+	 * Returns the user preferred accept MIME type.
+	 The MIME type is returned as an array map (see {@link CHttpRequest->getPreferredAcceptTypes()}.
+	 * @return array the user preferred accept MIME type or false if the user does not have any.
+	 */
+	public function getPreferredAcceptType()
+	{
+		$preferredAcceptTypes=$this->getPreferredAcceptTypes();
+		return !empty($preferredAcceptTypes) ? $preferredAcceptTypes[0] : false;
 	}
 
 	/**
