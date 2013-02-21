@@ -101,6 +101,21 @@ class CWsdlGenerator extends CComponent
 	 * If not set, it defaults to "urn:{$className}wsdl".
 	 */
 	public $serviceName;
+	/**
+	 * @var array
+	 * soap:body operation style options
+	 */
+	public $operationBodyStyle = array('use' => 'encoded', 'encodingStyle' => "http://schemas.xmlsoap.org/soap/encoding/");
+	/**
+	 * @var array
+	 * soap:operation style
+	 */
+	public $bindingStyle = 'rpc';
+	/**
+	 * @var string
+	 * soap:operation transport
+	 */
+	public $bindingTransport = 'http://schemas.xmlsoap.org/soap/http';
 
 	protected static $typeMap=array(
 		'string'=>'xsd:string',
@@ -121,6 +136,7 @@ class CWsdlGenerator extends CComponent
 
 	protected $operations;
 	protected $types;
+	protected $elements;
 	protected $messages;
 
 	/**
@@ -134,6 +150,7 @@ class CWsdlGenerator extends CComponent
 	{
 		$this->operations=array();
 		$this->types=array();
+		$this->elements=array();
 		$this->messages=array();
 		if($this->serviceName===null)
 			$this->serviceName=$className;
@@ -167,16 +184,54 @@ class CWsdlGenerator extends CComponent
 		$n=preg_match_all('/^@param\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches);
 		if($n>count($params))
 			$n=count($params);
-		for($i=0;$i<$n;++$i)
-			$message[$params[$i]->getName()]=array($this->processType($matches[1][$i]), trim($matches[3][$i])); // name => type, doc
+		if ($this->bindingStyle == 'rpc')
+		{
+			for($i=0;$i<$n;++$i)
+				$message[$params[$i]->getName()]=array(
+					'type'=>$this->processType($matches[1][$i]),
+					'doc'=>trim($matches[3][$i]),
+				);
+		}
+		else
+		{
+			$this->elements[$methodName] = array();
+			for($i=0;$i<$n;++$i)
+				$this->elements[$methodName][$params[$i]->getName()]=array(
+					'type'=>$this->processType($matches[1][$i]),
+					'nillable'=>$params[$i]->isOptional(),
+				);
+			$message['parameters'] = array('element'=>'tns:'.$methodName);
+		}
 
-		$this->messages[$methodName.'Request']=$message;
+		$this->messages[$methodName.'In']=$message;
 
 		if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
 			$return=array($this->processType($matches[1]),trim($matches[2])); // type, doc
 		else
 			$return=null;
 		$this->messages[$methodName.'Response']=array('return'=>$return);
+
+		if ($this->bindingStyle == 'rpc')
+		{
+			if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
+				$return=array(
+					'type'=>$this->processType($matches[1]),
+					'doc'=>trim($matches[2]),
+				);
+			else
+				$return=null;
+			$this->messages[$methodName.'Out']=array('return'=>$return);
+		}
+		else
+		{
+			if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
+			{
+				$this->elements[$methodName.'Response'][$methodName.'Result']=array(
+					'type'=>$this->processType($matches[1]),
+				);
+			}
+			$this->messages[$methodName.'Out']=array('parameters'=>array('element'=>'tns:'.$methodName.'Response'));
+		}
 
 		if(preg_match('/^\/\*+\s*([^@]*?)\n@/s',$comment,$matches))
 			$doc=trim($matches[1]);
@@ -279,7 +334,7 @@ class CWsdlGenerator extends CComponent
 	 */
 	protected function addTypes($dom)
 	{
-		if($this->types===array())
+		if($this->types===array() && $this->elements===array())
 			return;
 		$types=$dom->createElement('wsdl:types');
 		$schema=$dom->createElement('xsd:schema');
@@ -295,21 +350,33 @@ class CWsdlGenerator extends CComponent
 					$complexType->setAttribute('name',substr($xmlType,4));
 				else
 					$complexType->setAttribute('name',$xmlType);
-				$complexContent=$dom->createElement('xsd:complexContent');
-				$restriction=$dom->createElement('xsd:restriction');
-				$restriction->setAttribute('base','soap-enc:Array');
-				$attribute=$dom->createElement('xsd:attribute');
-				$attribute->setAttribute('ref','soap-enc:arrayType');
-				$attribute->setAttribute('wsdl:arrayType',substr($xmlType,0,strlen($xmlType)-5).'[]');
 
 				$arrayType = ($dppos=strpos($xmlType,':')) !==false ? substr($xmlType,$dppos + 1) : $xmlType; // strip namespace, if any
 				$arrayType = substr($arrayType,0,-5); // strip 'Array' from name
-				$arrayType = (isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]';
-				$attribute->setAttribute('wsdl:arrayType',$arrayType);
-
-				$restriction->appendChild($attribute);
-				$complexContent->appendChild($restriction);
-				$complexType->appendChild($complexContent);
+				if ($this->operationBodyStyle['use'] == 'encoded')
+				{
+					$complexContent=$dom->createElement('xsd:complexContent');
+					$restriction=$dom->createElement('xsd:restriction');
+					$restriction->setAttribute('base','soap-enc:Array');
+					$attribute=$dom->createElement('xsd:attribute');
+					$attribute->setAttribute('ref','soap-enc:arrayType');
+					$attribute->setAttribute('arrayType',(isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]');
+					
+					$restriction->appendChild($attribute);
+					$complexContent->appendChild($restriction);
+					$complexType->appendChild($complexContent);
+				}
+				else
+				{
+					$sequence=$dom->createElement('xsd:sequence');
+					$element=$dom->createElement('xsd:element');
+					$element->setAttribute('name','item');
+					$element->setAttribute('type',(isset(self::$typeMap[$arrayType]) ? self::$typeMap[$arrayType] : 'tns:'.$arrayType));
+					$element->setAttribute('minOccurs','0');
+					$element->setAttribute('maxOccurs','unbounded');
+					$sequence->appendChild($element);
+					$complexType->appendChild($sequence);
+				}
 			}
 			elseif(is_array($xmlType))
 			{
@@ -331,9 +398,32 @@ class CWsdlGenerator extends CComponent
 				$complexType->appendChild($all);
 			}
 			$schema->appendChild($complexType);
-			$types->appendChild($schema);
 		}
-
+		foreach($this->elements as $name=>$parameters)
+		{
+			$element=$dom->createElement('xsd:element');
+			$element->setAttribute('name',$name);
+			$complexType=$dom->createElement('xsd:complexType');
+			if (!empty($parameters))
+			{
+				$sequence=$dom->createElement('xsd:sequence');
+				foreach($parameters as $paramName=>$paramOpts)
+				{
+					$innerElement=$dom->createElement('xsd:element');
+					$innerElement->setAttribute('name',$paramName);
+					$innerElement->setAttribute('type',$paramOpts['type']);
+					if (isset($paramOpts['nillable']) && $paramOpts['nillable'])
+					{
+						$innerElement->setAttribute('nillable','true');
+					}
+					$sequence->appendChild($innerElement);
+				}
+				$complexType->appendChild($sequence);
+			}
+			$element->appendChild($complexType);
+			$schema->appendChild($element);
+		}
+		$types->appendChild($schema);
 		$dom->documentElement->appendChild($types);
 	}
 
@@ -352,7 +442,14 @@ class CWsdlGenerator extends CComponent
 				{
 					$partElement=$dom->createElement('wsdl:part');
 					$partElement->setAttribute('name',$partName);
-					$partElement->setAttribute('type',$part[0]);
+					if (isset($part['type']))
+					{
+						$partElement->setAttribute('type',$part['type']);
+					}
+					if (isset($part['element']))
+					{
+						$partElement->setAttribute('element',$part['element']);
+					}
 					$element->appendChild($partElement);
 				}
 			}
@@ -383,9 +480,9 @@ class CWsdlGenerator extends CComponent
 		$operation->setAttribute('name',$name);
 
 		$input = $dom->createElement('wsdl:input');
-		$input->setAttribute('message', 'tns:'.$name.'Request');
+		$input->setAttribute('message', 'tns:'.$name.'In');
 		$output = $dom->createElement('wsdl:output');
-		$output->setAttribute('message', 'tns:'.$name.'Response');
+		$output->setAttribute('message', 'tns:'.$name.'Out');
 
 		$operation->appendChild($dom->createElement('wsdl:documentation',$doc));
 		$operation->appendChild($input);
@@ -404,8 +501,8 @@ class CWsdlGenerator extends CComponent
 		$binding->setAttribute('type','tns:'.$this->serviceName.'PortType');
 
 		$soapBinding=$dom->createElement('soap:binding');
-		$soapBinding->setAttribute('style','rpc');
-		$soapBinding->setAttribute('transport','http://schemas.xmlsoap.org/soap/http');
+		$soapBinding->setAttribute('style',$this->bindingStyle);
+		$soapBinding->setAttribute('transport',$this->bindingTransport);
 		$binding->appendChild($soapBinding);
 
 		$dom->documentElement->appendChild($binding);
@@ -424,15 +521,24 @@ class CWsdlGenerator extends CComponent
 		$operation->setAttribute('name', $name);
 		$soapOperation = $dom->createElement('soap:operation');
 		$soapOperation->setAttribute('soapAction', $this->namespace.'#'.$name);
-		$soapOperation->setAttribute('style','rpc');
+		if ($this->bindingStyle == 'rpc')
+		{
+			$soapOperation->setAttribute('style','rpc');
+		}
 
 		$input = $dom->createElement('wsdl:input');
 		$output = $dom->createElement('wsdl:output');
 
 		$soapBody = $dom->createElement('soap:body');
-		$soapBody->setAttribute('use', 'encoded');
-		$soapBody->setAttribute('namespace', $this->namespace);
-		$soapBody->setAttribute('encodingStyle', 'http://schemas.xmlsoap.org/soap/encoding/');
+		$operationBodyStyle = $this->operationBodyStyle;
+		if ($this->bindingStyle == 'rpc' && !isset($operationBodyStyle['namespace']))
+		{
+			$operationBodyStyle['namespace'] = $this->namespace;
+		}
+		foreach($operationBodyStyle as $attributeName=>$attributeValue)
+		{
+			$soapBody->setAttribute($attributeName, $attributeValue);
+		}
 		$input->appendChild($soapBody);
 		$output->appendChild(clone $soapBody);
 
