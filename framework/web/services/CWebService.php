@@ -174,9 +174,29 @@ class CWebService extends CComponent
 				$provider=$this->provider;
 
 			if(method_exists($server,'setObject'))
-				$server->setObject($provider);
+			{
+				if (is_array($this->generatorConfig) && isset($this->generatorConfig['bindingStyle'])
+					&& $this->generatorConfig['bindingStyle']==='document')
+				{
+					$server->setObject(new CDocumentSoapObjectWrapper($provider));
+				}
+				else
+				{
+					$server->setObject($provider);
+				}
+			}
 			else
-				$server->setClass('CSoapObjectWrapper',$provider);
+			{
+				if (is_array($this->generatorConfig) && isset($this->generatorConfig['bindingStyle'])
+					&& $this->generatorConfig['bindingStyle']==='document')
+				{
+					$server->setClass('CDocumentSoapObjectWrapper',$provider);
+				}
+				else
+				{
+					$server->setClass('CSoapObjectWrapper',$provider);
+				}
+			}
 
 			if($provider instanceof IWebServiceProvider)
 			{
@@ -286,6 +306,50 @@ class CSoapObjectWrapper
 	public function __call($name,$arguments)
 	{
 		return call_user_func_array(array($this->object,$name),$arguments);
+	}
+}
+
+/**
+ * CDocumentSoapObjectWrapper is a wrapper class internally used
+ * when generatorConfig contains bindingStyle key set to document value.
+ *
+ * @author Jan Was <jwas@nets.com.pl>
+ * @package system.web.services
+ */
+class CDocumentSoapObjectWrapper
+{
+	/**
+	 * @var object the service provider
+	 */
+	public $object=null;
+
+	/**
+	 * Constructor.
+	 * @param object $object the service provider
+	 */
+	public function __construct($object)
+	{
+		$this->object=$object;
+	}
+
+	/**
+	 * PHP __call magic method.
+	 * This method calls the service provider to execute the actual logic.
+	 * @param string $name method name
+	 * @param array $arguments method arguments
+	 * @return mixed method return value
+	 */
+	public function __call($name,$arguments)
+	{
+		if (is_array($arguments) && isset($arguments[0]))
+		{
+			$result = call_user_func_array(array($this->object, $name), (array)$arguments[0]);
+		}
+		else
+		{
+			$result = call_user_func_array(array($this->object, $name), $arguments);
+		}
+		return $result === null ? $result : array($name . 'Result' => $result); 
 	}
 }
 
