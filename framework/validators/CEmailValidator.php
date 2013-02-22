@@ -155,7 +155,7 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 		usort($records,array($this,'mxSort'));
 		foreach($records as $record)
 		{
-			$handle=fsockopen($record['target'],25);
+			$handle=@fsockopen($record['target'],25);
 			if($handle!==false)
 			{
 				fclose($handle);
