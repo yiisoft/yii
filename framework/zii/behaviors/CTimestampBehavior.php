@@ -72,9 +72,31 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	* @var array Maps column types to database method
 	*/
 	protected static $map = array(
+		'mssql'=>array(
+			'datetime'=>'GETDATE()',
+			'timestamp'=>'GETDATE()',
+			'date'=>'GETDATE()',
+		),
+		'mysql'=>array(
 			'datetime'=>'NOW()',
 			'timestamp'=>'NOW()',
 			'date'=>'NOW()',
+		),
+		'oci'=>array(
+			'datetime'=>'NOW()',
+			'timestamp'=>'NOW()',
+			'date'=>'NOW()',
+		),
+		'pgsql'=>array(
+			'datetime'=>'NOW()',
+			'timestamp'=>'NOW()',
+			'date'=>'NOW()',
+		),
+		'sqlite'=>array(
+			'datetime'=>'datetime(\'now\')',
+			'timestamp'=>'datetime(\'now\')',
+			'date'=>'date(\'now\')',
+		)
 	);
 
 	/**
@@ -109,12 +131,13 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	}
 
 	/**
-	* Returns the approprate timestamp depending on $columnType
+	* Returns the appropriate timestamp depending on $columnType
 	*
 	* @param string $columnType $columnType
 	* @return mixed timestamp (eg unix timestamp or a mysql function)
 	*/
 	protected function getTimestampByColumnType($columnType) {
-		return isset(self::$map[$columnType]) ? new CDbExpression(self::$map[$columnType]) : time();
+		$driverName = Yii::app()->db->getDriverName();
+		return isset(self::$map[$driverName][$columnType]) ? new CDbExpression(self::$map[$driverName][$columnType]) : time();
 	}
 }
