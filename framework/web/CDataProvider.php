@@ -72,7 +72,10 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 		{
 			$this->_pagination=new $className;
 			if(($id=$this->getId())!='')
+			{
 				$this->_pagination->pageVar=$id.'_page';
+				$this->_pagination->pageSizeVar=$id.'_pagesize';
+			}
 		}
 		return $this->_pagination;
 	}
