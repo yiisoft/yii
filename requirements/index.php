@@ -137,7 +137,14 @@ $requirements=array(
 		extension_loaded("ctype"),
 		'<a href="http://www.yiiframework.com/doc/api/CDateFormatter">CDateFormatter</a>, <a href="http://www.yiiframework.com/doc/api/CDateFormatter">CDateTimeParser</a>, <a href="http://www.yiiframework.com/doc/api/CTextHighlighter">CTextHighlighter</a>, <a href="http://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>',
 		''
-	)
+	),
+    array(
+        t('yii','XSendFile extension'),
+        false,
+        '' !== $message=checkXSendFileSupport(),
+        '<a href="http://www.yiiframework.com/doc/api/CHttpRequest#xSendFile-detail">CHttpRequest#xSendFile</a>',
+        $message
+    )
 );
 
 function checkServerVar()
@@ -182,6 +189,16 @@ function checkCaptchaSupport()
 		return t('yii','GD installed,<br />FreeType support not installed');
 	}
 	return t('yii','GD or ImageMagick not installed');
+}
+
+function checkXSendFileSupport()
+{
+    if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules()))
+        return t('yii','XSendFile is enabled');
+    elseif (function_exists('apache_get_modules') && !in_array('mod_xsendfile', apache_get_modules()))
+        return t('yii','XSendFile not enabled for Apache');
+    else
+        return '';
 }
 
 function getYiiVersion()
