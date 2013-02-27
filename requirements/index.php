@@ -143,7 +143,7 @@ $requirements=array(
         false,
         extension_loaded("fileinfo"),
         '<a href="http://www.yiiframework.com/doc/api/CFileValidator">CFileValidator</a>',
-        t('yii','In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.')
+        t('yii','Required by CFileValidator for MIME-type validation')
     ),
 );
 
