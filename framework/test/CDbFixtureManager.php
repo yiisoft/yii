@@ -12,7 +12,7 @@
  * CDbFixtureManager manages database fixtures during tests.
  *
  * A fixture represents a list of rows for a specific table. For a test method,
- * using a fixture means that at the begin of the method, the table has and only
+ * using a fixture means that at the beginning of the method, the table has and only
  * has the rows that are given in the fixture. Therefore, the table's state is
  * predictable.
  *
