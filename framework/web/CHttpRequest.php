@@ -86,6 +86,11 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public $csrfCookie;
 
+    /**
+     * @var bool autodecode request
+     */
+    public $autoDecode = false;
+
 	protected $_requestUri;
 	protected $_pathInfo;
 	protected $_scriptFile;
@@ -184,7 +189,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getPost($name,$defaultValue=null)
 	{
-        if (isset($_SERVER['CONTENT_TYPE']) && strtolower($_SERVER['CONTENT_TYPE']) == 'application/json')
+        if ($this->autoDecode && $this->_isJsonEncoded())
         {
             $data = CJSON::decode($this->getRawBody());
             return isset($data[$name]) ? $data[$name] : $defaultValue;
@@ -211,7 +216,7 @@ class CHttpRequest extends CApplicationComponent
 
 		if($this->getIsDeleteRequest())
 		{
-			$this->getRestParams();
+			$this->_restParams = $this->getRestParams();
 			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
 		}
 		else
@@ -236,7 +241,7 @@ class CHttpRequest extends CApplicationComponent
 
 		if($this->getIsPutRequest())
 		{
-			$this->getRestParams();
+			$this->_restParams = $this->getRestParams();
 			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
 		}
 		else
@@ -254,7 +259,7 @@ class CHttpRequest extends CApplicationComponent
 		if($this->_restParams===null)
 		{
 			$result=array();
-            if (isset($_SERVER['CONTENT_TYPE']) && strtolower($_SERVER['CONTENT_TYPE']) == 'application/json')
+            if ($this->autoDecode && $this->_isJsonEncoded())
             {
                 $result = CJSON::decode($this->getRawBody());
             } else {
@@ -270,6 +275,19 @@ class CHttpRequest extends CApplicationComponent
 
 		return $this->_restParams;
 	}
+
+    /**
+     * Check is request encoded in JSON
+     * @return bool
+     */
+    protected function _isJsonEncoded()
+    {
+        if (isset($_SERVER['CONTENT_TYPE']) && strpos(strtolower($_SERVER['CONTENT_TYPE']), 'application/json') === 0)
+        {
+            return true;
+        }
+        return false;
+    }
 
 	/**
 	 * Returns the raw HTTP request body.
