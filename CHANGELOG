@@ -3,6 +3,7 @@
 
 Version 1.1.14 work in progress
 -------------------------------
+- Bug #2159: Fixed delete with join in MySQL (serebrov)
 - Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
 - Bug #1693: Fixed log file will rotate twice when high performance (monque)

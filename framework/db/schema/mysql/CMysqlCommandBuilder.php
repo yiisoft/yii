@@ -31,6 +31,11 @@ class CMysqlCommandBuilder extends CDbCommandBuilder
 
 		if(strpos($sql,'UPDATE')===0 && ($pos=strpos($sql,'SET'))!==false)
 			return substr($sql,0,$pos).$join.' '.substr($sql,$pos);
+		elseif(strpos($sql,'DELETE')===0 && $join)
+		{
+			$tableName = substr($sql, strlen('DELETE FROM '));
+			return "DELETE {$tableName} FROM {$tableName} ".$join;
+		}
 		else
 			return $sql.' '.$join;
 	}
