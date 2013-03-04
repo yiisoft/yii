@@ -1420,9 +1420,10 @@ class CActiveRecordTest extends CTestCase
 	public function testCountWithHavingRelational()
 	{
 		$criteriaWithHaving = new CDbCriteria();
+		$criteriaWithHaving->select = 't.id AS test_field';
 		$criteriaWithHaving->with = array('author');
-		$criteriaWithHaving->group = 'id';
-		$criteriaWithHaving->having = 'id = 1';
+		$criteriaWithHaving->group = 't.id';
+		$criteriaWithHaving->having = 'test_field = 1';
 		$count = Post::model()->count($criteriaWithHaving);
 
 		$this->assertEquals(1, $count, 'Having condition has not been applied on count with relation!');
