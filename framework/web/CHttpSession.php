@@ -55,7 +55,7 @@
  * @property boolean $isStarted Whether the session has started.
  * @property string $sessionID The current session ID.
  * @property string $sessionName The current session name.
- * @property string $savePath The current session save path, defaults to '/tmp'.
+ * @property string $savePath The current session save path, defaults to {@link http://php.net/session.save_path}.
  * @property array $cookieParams The session cookie parameters.
  * @property string $cookieMode How to use cookie to store session ID. Defaults to 'Allow'.
  * @property float $gCProbability The probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
@@ -202,7 +202,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return string the current session save path, defaults to '/tmp'.
+	 * @return string the current session save path, defaults to {@link http://php.net/session.save_path}.
 	 */
 	public function getSavePath()
 	{
