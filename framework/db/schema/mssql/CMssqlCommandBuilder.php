@@ -49,15 +49,15 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 
 	}
 
-    /**
-     * Creates an UPDATE command.
-     * Override parent implementation because mssql don't want to update an identity column
-     * @param CDbTableSchema $table the table metadata
-     * @param array $data list of columns to be updated (name=>value)
-     * @param CDbCriteria $criteria the query criteria
+	/**
+	 * Creates an UPDATE command.
+	 * Override parent implementation because mssql don't want to update an identity column
+	 * @param CDbTableSchema $table the table metadata
+	 * @param array $data list of columns to be updated (name=>value)
+	 * @param CDbCriteria $criteria the query criteria
      * @throws CDbException if no columns are being updated.
-     * @return CDbCommand update command.
-     */
+	 * @return CDbCommand update command.
+	 */
 	public function createUpdateCommand($table,$data,$criteria)
 	{
 		$criteria=$this->checkCriteria($table,$criteria);

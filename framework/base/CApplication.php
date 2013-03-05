@@ -289,11 +289,11 @@ abstract class CApplication extends CModule
 		return Yii::getPathOfAlias('ext');
 	}
 
-    /**
-     * Sets the root directory that holds all third-party extensions.
-     * @param string $path the directory that contains all third-party extensions.
+	/**
+	 * Sets the root directory that holds all third-party extensions.
+	 * @param string $path the directory that contains all third-party extensions.
      * @throws CException if the directory does not exist.
-     */
+	 */
 	public function setExtensionPath($path)
 	{
 		if(($extensionPath=realpath($path))===false || !is_dir($extensionPath))

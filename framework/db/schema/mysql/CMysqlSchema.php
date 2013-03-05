@@ -267,15 +267,15 @@ class CMysqlSchema extends CDbSchema
 		return new CMysqlCommandBuilder($this);
 	}
 
-    /**
-     * Builds a SQL statement for renaming a column.
-     * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
-     * @param string $name the old name of the column. The name will be properly quoted by the method.
-     * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	/**
+	 * Builds a SQL statement for renaming a column.
+	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
+	 * @param string $name the old name of the column. The name will be properly quoted by the method.
+	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
      * @throws CDbException if specified column is not found in given table.
-     * @return string the SQL statement for renaming a DB column.
-     * @since 1.1.6
-     */
+	 * @return string the SQL statement for renaming a DB column.
+	 * @since 1.1.6
+	 */
 	public function renameColumn($table, $name, $newName)
 	{
 		$db=$this->getDbConnection();

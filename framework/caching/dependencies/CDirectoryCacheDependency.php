@@ -57,12 +57,12 @@ class CDirectoryCacheDependency extends CCacheDependency
 		$this->directory=$directory;
 	}
 
-    /**
-     * Generates the data needed to determine if dependency has been changed.
-     * This method returns the modification timestamps for files under the directory.
+	/**
+	 * Generates the data needed to determine if dependency has been changed.
+	 * This method returns the modification timestamps for files under the directory.
      * @throws CException if {@link directory} is empty.
-     * @return mixed the data needed to determine if dependency has been changed.
-     */
+	 * @return mixed the data needed to determine if dependency has been changed.
+	 */
 	protected function generateDependentData()
 	{
 		if($this->directory!==null)
@@ -71,14 +71,14 @@ class CDirectoryCacheDependency extends CCacheDependency
 			throw new CException(Yii::t('yii','CDirectoryCacheDependency.directory cannot be empty.'));
 	}
 
-    /**
-     * Determines the last modification time for files under the directory.
-     * This method may go recursively into subdirectories if {@link recursiveLevel} is not 0.
-     * @param string $directory the directory name
-     * @param integer $level level of the recursion
+	/**
+	 * Determines the last modification time for files under the directory.
+	 * This method may go recursively into subdirectories if {@link recursiveLevel} is not 0.
+	 * @param string $directory the directory name
+	 * @param integer $level level of the recursion
      * @throws CException if given directory is not valid
-     * @return array list of file modification time indexed by the file path
-     */
+	 * @return array list of file modification time indexed by the file path
+	 */
 	protected function generateTimestamps($directory,$level=0)
 	{
 		if(($dir=@opendir($directory))===false)

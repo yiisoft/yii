@@ -292,21 +292,21 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * @param CCodeFile $file whether the code file should be saved
      * @return bool
-     */
+	 */
 	public function confirmed($file)
 	{
 		return $this->answers===null && $file->operation===CCodeFile::OP_NEW
 			|| is_array($this->answers) && isset($this->answers[md5($file->path)]);
 	}
 
-    /**
-     * Generates the code using the specified code template file.
-     * This method is manly used in {@link generate} to generate code.
-     * @param string $templateFile the code template file path
-     * @param array $_params_ a set of parameters to be extracted and made available in the code template
+	/**
+	 * Generates the code using the specified code template file.
+	 * This method is manly used in {@link generate} to generate code.
+	 * @param string $templateFile the code template file path
+	 * @param array $_params_ a set of parameters to be extracted and made available in the code template
      * @throws CException is template file does not exist
-     * @return string the generated code
-     */
+	 * @return string the generated code
+	 */
 	public function render($templateFile,$_params_=null)
 	{
 		if(!is_file($templateFile))

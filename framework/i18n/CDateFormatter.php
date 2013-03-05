@@ -210,18 +210,18 @@ class CDateFormatter extends CComponent
 			return str_pad($year,strlen($pattern),'0',STR_PAD_LEFT);
 	}
 
-    /**
-     * Get the month.
-     * "M" will return integer 1 through 12;
-     * "MM" will return two digits month number with necessary zero padding, e.g. 05;
-     * "MMM" will return the abrreviated month name, e.g. "Jan";
-     * "MMMM" will return the full month name, e.g. "January";
-     * "MMMMM" will return the narrow month name, e.g. "J";
-     * @param string $pattern a pattern.
-     * @param array $date result of {@link CTimestamp::getdate}.
+	/**
+	 * Get the month.
+ 	 * "M" will return integer 1 through 12;
+ 	 * "MM" will return two digits month number with necessary zero padding, e.g. 05;
+ 	 * "MMM" will return the abrreviated month name, e.g. "Jan";
+ 	 * "MMMM" will return the full month name, e.g. "January";
+ 	 * "MMMMM" will return the narrow month name, e.g. "J";
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
      * @throws CException if "month" pattern is unknown.
-     * @return string month name
-     */
+	 * @return string month name
+	 */
 	protected function formatMonth($pattern,$date)
 	{
 		$month=$date['mon'];
@@ -252,14 +252,14 @@ class CDateFormatter extends CComponent
 		}
 	}
 
-    /**
-     * Get the day of the month.
-     * "d" for non-padding, "dd" will always return 2 digits day numbers, e.g. 05.
-     * @param string $pattern a pattern.
-     * @param array $date result of {@link CTimestamp::getdate}.
+	/**
+	 * Get the day of the month.
+ 	 * "d" for non-padding, "dd" will always return 2 digits day numbers, e.g. 05.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
      * @throws CException if "day" pattern is unknown.
-     * @return string day of the month
-     */
+	 * @return string day of the month
+	 */
 	protected function formatDay($pattern,$date)
 	{
 		$day=$date['mday'];
@@ -271,13 +271,13 @@ class CDateFormatter extends CComponent
 			throw new CException(Yii::t('yii','The pattern for day of the month must be "d" or "dd".'));
 	}
 
-    /**
-     * Get the day in the year, e.g. [1-366]
-     * @param string $pattern a pattern.
-     * @param array $date result of {@link CTimestamp::getdate}.
+	/**
+	 * Get the day in the year, e.g. [1-366]
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
      * @throws CException is "dayInYear" pattern is unknown.
-     * @return integer hours in AM/PM format.
-     */
+	 * @return integer hours in AM/PM format.
+	 */
 	protected function formatDayInYear($pattern,$date)
 	{
 		$day=$date['yday'];
@@ -287,14 +287,14 @@ class CDateFormatter extends CComponent
 			throw new CException(Yii::t('yii','The pattern for day in year must be "D", "DD" or "DDD".'));
 	}
 
-    /**
-     * Get day of week in the month, e.g. 2nd Wed in July.
-     * @param string $pattern a pattern.
-     * @param array $date result of {@link CTimestamp::getdate}.
+	/**
+	 * Get day of week in the month, e.g. 2nd Wed in July.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
      * @throws CException if "dayInMonth" pattern is unknown.
-     * @return integer day in month
-     * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
-     */
+	 * @return integer day in month
+	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
+	 */
 	protected function formatDayInMonth($pattern,$date)
 	{
 		if($pattern==='F')
@@ -303,17 +303,17 @@ class CDateFormatter extends CComponent
 			throw new CException(Yii::t('yii','The pattern for day in month must be "F".'));
 	}
 
-    /**
-     * Get the day of the week.
-     * "E", "EE", "EEE" will return abbreviated week day name, e.g. "Tues";
-     * "EEEE" will return full week day name;
-     * "EEEEE" will return the narrow week day name, e.g. "T";
-     * @param string $pattern a pattern.
-     * @param array $date result of {@link CTimestamp::getdate}.
+	/**
+	 * Get the day of the week.
+ 	 * "E", "EE", "EEE" will return abbreviated week day name, e.g. "Tues";
+ 	 * "EEEE" will return full week day name;
+ 	 * "EEEEE" will return the narrow week day name, e.g. "T";
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
      * @throws CException if "dayInWeek" pattern is unknown.
-     * @return string day of the week.
-     * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
-     */
+	 * @return string day of the week.
+	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
+	 */
 	protected function formatDayInWeek($pattern,$date)
 	{
 		$day=$date['wday'];

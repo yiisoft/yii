@@ -222,7 +222,7 @@ EOD;
 	 * @param string $fkName the foreign key name
 	 * @param boolean $multiple whether the relation would contain multiple objects
      * @return string the generated relation name
-     */
+	 */
 	protected function generateRelationName($tableName, $fkName, $multiple)
 	{
 		if(strcasecmp(substr($fkName,-2),'id')===0 && strcasecmp($fkName,'id'))

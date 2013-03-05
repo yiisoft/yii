@@ -68,7 +68,7 @@ EOD;
 	/**
 	 * Execute the action.
 	 * @param array $args command line parameters specific for this command
-     */
+	 */
 	public function run($args)
 	{
 		if(!isset($args[0]))

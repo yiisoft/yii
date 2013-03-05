@@ -87,11 +87,11 @@ class CDbFixtureManager extends CApplicationComponent
 		$this->prepare();
 	}
 
-    /**
-     * Returns the database connection used to load fixtures.
+	/**
+	 * Returns the database connection used to load fixtures.
      * @throws CException if {@link connectionID} application component is invalid.
-     * @return CDbConnection the database connection
-     */
+	 * @return CDbConnection the database connection
+	 */
 	public function getDbConnection()
 	{
 		if($this->_db===null)
@@ -235,13 +235,13 @@ class CDbFixtureManager extends CApplicationComponent
 			$this->getDbConnection()->getSchema()->checkIntegrity($check,$schema);
 	}
 
-    /**
-     * Removes all rows from the specified table and resets its primary key sequence, if any.
-     * You may need to call {@link checkIntegrity} to turn off integrity check temporarily
-     * before you call this method.
-     * @param string $tableName the table name
+	/**
+	 * Removes all rows from the specified table and resets its primary key sequence, if any.
+	 * You may need to call {@link checkIntegrity} to turn off integrity check temporarily
+	 * before you call this method.
+	 * @param string $tableName the table name
      * @throws CException if given table does not exist.
-     */
+	 */
 	public function truncateTable($tableName)
 	{
 		$db=$this->getDbConnection();

@@ -93,12 +93,12 @@ class CDbMessageSource extends CMessageSource
 
 	private $_db;
 
-    /**
-     * Returns the DB connection used for the message source.
+	/**
+	 * Returns the DB connection used for the message source.
      * @throws CException if {@link connectionID} application component is invalid.
-     * @return CDbConnection the DB connection used for the message source.
-     * @since 1.1.5
-     */
+	 * @return CDbConnection the DB connection used for the message source.
+	 * @since 1.1.5
+	 */
 	public function getDbConnection()
 	{
 		if($this->_db===null)

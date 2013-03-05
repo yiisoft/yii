@@ -176,15 +176,14 @@ class CActiveFinder extends CComponent
 		$this->_joinTree=null;
 	}
 
-    /**
-     * Builds up the join tree representing the relationships involved in this query.
-     * @param CJoinElement $parent the parent tree node
-     * @param mixed $with the names of the related objects relative to the parent tree node
-     * @param array $options additional query options to be merged with the relation
+	/**
+	 * Builds up the join tree representing the relationships involved in this query.
+	 * @param CJoinElement $parent the parent tree node
+	 * @param mixed $with the names of the related objects relative to the parent tree node
+	 * @param array $options additional query options to be merged with the relation
      * @throws CDbException if given parent tree node is instance of {@link CStatElement}
      * or relation is not defined in given parent's tree node model class
-     * @return CJoinElement|CStatElement
-     */
+	 */
 	private function buildJoinTree($parent,$with,$options=null)
 	{
 		if($parent instanceof CStatElement)
@@ -510,12 +509,12 @@ class CJoinElement
 		}
 	}
 
-    /**
-     * Apply Lazy Condition
-     * @param CJoinQuery $query represents a JOIN SQL statements
-     * @param CActiveRecord $record the active record whose related object is to be fetched.
+	/**
+	 * Apply Lazy Condition
+	 * @param CJoinQuery $query represents a JOIN SQL statements
+	 * @param CActiveRecord $record the active record whose related object is to be fetched.
      * @throws CDbException if relation in active record class is not specified correctly.
-     */
+	 */
 	private function applyLazyCondition($query,$record)
 	{
 		$schema=$this->_builder->getSchema();
@@ -857,13 +856,13 @@ class CJoinElement
 			return $this->_table->rawName;
 	}
 
-    /**
-     * Generates the list of columns to be selected.
-     * Columns will be properly aliased and primary keys will be added to selection if they are not specified.
-     * @param mixed $select columns to be selected. Defaults to '*', indicating all columns.
+	/**
+	 * Generates the list of columns to be selected.
+	 * Columns will be properly aliased and primary keys will be added to selection if they are not specified.
+	 * @param mixed $select columns to be selected. Defaults to '*', indicating all columns.
      * @throws CDbException if active record class is trying to select an invalid column.
-     * @return string the column selection
-     */
+	 * @return string the column selection
+	 */
 	public function getColumnSelect($select='*')
 	{
 		$schema=$this->_builder->getSchema();
@@ -981,10 +980,10 @@ class CJoinElement
 			return $this->_table->rawName.'.';
 	}
 
-    /**
+	/**
      * @throws CDbException if relation in active record class is not specified correctly
-     * @return string the join statement (this node joins with its parent)
-     */
+	 * @return string the join statement (this node joins with its parent)
+	 */
 	public function getJoinCondition()
 	{
 		$parent=$this->_parent;

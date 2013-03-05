@@ -507,11 +507,11 @@ class CDbConnection extends CApplicationComponent
 		return $this->_transaction=new CDbTransaction($this);
 	}
 
-    /**
-     * Returns the database schema for the current connection
+	/**
+	 * Returns the database schema for the current connection
      * @throws CDbException if CDbConnection does not support reading schema for specified database driver.
-     * @return CDbSchema the database schema for the current connection
-     */
+	 * @return CDbSchema the database schema for the current connection
+	 */
 	public function getSchema()
 	{
 		if($this->_schema!==null)
