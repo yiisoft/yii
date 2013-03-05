@@ -699,23 +699,36 @@ class CJoinElement
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
 
-		$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
-		if($select!=='*' && !strncasecmp($select,'count',5))
-			$query->selects=array($select);
-		elseif(is_string($this->_table->primaryKey))
+		$query->limit=$query->offset=-1;
+
+		if(!empty($criteria->group) || !empty($criteria->having))
 		{
-			$prefix=$this->getColumnPrefix();
-			$schema=$this->_builder->getSchema();
-			$column=$prefix.$schema->quoteColumnName($this->_table->primaryKey);
-			$query->selects=array("COUNT(DISTINCT $column)");
+			$query->orders = array();
+			$command=$query->createCommand($this->_builder);
+			$sql=$command->getText();
+			$sql="SELECT COUNT(*) FROM ({$sql}) sq";
+			$command->setText($sql);
+			return $command->queryScalar();
 		}
 		else
-			$query->selects=array("COUNT(*)");
+		{
+			$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
+			if($select!=='*' && !strncasecmp($select,'count',5))
+				$query->selects=array($select);
+			elseif(is_string($this->_table->primaryKey))
+			{
+				$prefix=$this->getColumnPrefix();
+				$schema=$this->_builder->getSchema();
+				$column=$prefix.$schema->quoteColumnName($this->_table->primaryKey);
+				$query->selects=array("COUNT(DISTINCT $column)");
+			}
+			else
+				$query->selects=array("COUNT(*)");
 
-		$query->orders=$query->groups=$query->havings=array();
-		$query->limit=$query->offset=-1;
-		$command=$query->createCommand($this->_builder);
-		return $command->queryScalar();
+			$query->orders=$query->groups=$query->havings=array();
+			$command=$query->createCommand($this->_builder);
+			return $command->queryScalar();
+		}
 	}
 
 	/**
