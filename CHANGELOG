@@ -20,6 +20,7 @@ Version 1.1.14 work in progress
 - Bug #2078: Fixed problem with "undefined" parameter in query string when using CListView or CGridView with enableHistory (Parpaing)
 - Bug #2086: Fixed .hgignore rule for assets folder (GeXu3, Koduc)
 - Bug #2112: Fixed broken yiic shell CRUD command (mbischof)
+- Bug #2146: CEmailValidator fix when fsockopen() can output uncatched error 'Connection refused (61)' (armab)
 - Enh: Better CFileLogRoute performance (Qiang, samdark)
 - Enh #1847: Added COutputCache::varyByLanguage to generate separate cache for different languages (Obramko)
 - Enh #1948: Tidy up and improve html5 input support in CHtml and CActiveForm (phpnode)
