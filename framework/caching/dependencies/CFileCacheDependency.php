@@ -37,11 +37,12 @@ class CFileCacheDependency extends CCacheDependency
 		$this->fileName=$fileName;
 	}
 
-	/**
-	 * Generates the data needed to determine if dependency has been changed.
-	 * This method returns the file's last modification time.
-	 * @return mixed the data needed to determine if dependency has been changed.
-	 */
+    /**
+     * Generates the data needed to determine if dependency has been changed.
+     * This method returns the file's last modification time.
+     * @throws CException if {@link fileName} is empty.
+     * @return mixed the data needed to determine if dependency has been changed.
+     */
 	protected function generateDependentData()
 	{
 		if($this->fileName!==null)

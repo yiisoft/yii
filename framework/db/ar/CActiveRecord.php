@@ -609,12 +609,13 @@ abstract class CActiveRecord extends CModel
 			return $this->generateAttributeLabel($attribute);
 	}
 
-	/**
-	 * Returns the database connection used by active record.
-	 * By default, the "db" application component is used as the database connection.
-	 * You may override this method if you want to use a different database connection.
-	 * @return CDbConnection the database connection used by active record.
-	 */
+    /**
+     * Returns the database connection used by active record.
+     * By default, the "db" application component is used as the database connection.
+     * You may override this method if you want to use a different database connection.
+     * @throws CDbException if "db" application component is not defined.
+     * @return CDbConnection the database connection used by active record.
+     */
 	public function getDbConnection()
 	{
 		if(self::$db!==null)
@@ -1077,24 +1078,24 @@ abstract class CActiveRecord extends CModel
 			return false;
 	}
 
-	/**
-	 * Saves a selected list of attributes.
-	 * Unlike {@link save}, this method only saves the specified attributes
-	 * of an existing row dataset and does NOT call either {@link beforeSave} or {@link afterSave}.
-	 * Also note that this method does neither attribute filtering nor validation.
-	 * So do not use this method with untrusted data (such as user posted data).
-	 * You may consider the following alternative if you want to do so:
-	 * <pre>
-	 * $postRecord=Post::model()->findByPk($postID);
-	 * $postRecord->attributes=$_POST['post'];
-	 * $postRecord->save();
-	 * </pre>
-	 * @param array $attributes attributes to be updated. Each element represents an attribute name
-	 * or an attribute value indexed by its name. If the latter, the record's
-	 * attribute will be changed accordingly before saving.
-	 * @return boolean whether the update is successful
-	 * @throws CException if the record is new or any database error
-	 */
+    /**
+     * Saves a selected list of attributes.
+     * Unlike {@link save}, this method only saves the specified attributes
+     * of an existing row dataset and does NOT call either {@link beforeSave} or {@link afterSave}.
+     * Also note that this method does neither attribute filtering nor validation.
+     * So do not use this method with untrusted data (such as user posted data).
+     * You may consider the following alternative if you want to do so:
+     * <pre>
+     * $postRecord=Post::model()->findByPk($postID);
+     * $postRecord->attributes=$_POST['post'];
+     * $postRecord->save();
+     * </pre>
+     * @param array $attributes attributes to be updated. Each element represents an attribute name
+     * or an attribute value indexed by its name. If the latter, the record's
+     * attribute will be changed accordingly before saving.
+     * @throws CDbException if the record is new.
+     * @return boolean whether the update is successful
+     */
 	public function saveAttributes($attributes)
 	{
 		if(!$this->getIsNewRecord())
@@ -1154,11 +1155,11 @@ abstract class CActiveRecord extends CModel
 			return false;
 	}
 
-	/**
-	 * Deletes the row corresponding to this active record.
-	 * @return boolean whether the deletion is successful.
-	 * @throws CException if the record is new
-	 */
+    /**
+     * Deletes the row corresponding to this active record.
+     * @throws CDbException if the record is new.
+     * @return boolean whether the deletion is successful.
+     */
 	public function delete()
 	{
 		if(!$this->getIsNewRecord())
@@ -2298,10 +2299,11 @@ class CActiveRecordMetaData
 
 	private $_model;
 
-	/**
-	 * Constructor.
-	 * @param CActiveRecord $model the model instance
-	 */
+    /**
+     * Constructor.
+     * @param CActiveRecord $model the model instance
+     * @throws CDbException if specified table for active record class cannot be found in the database.
+     */
 	public function __construct($model)
 	{
 		$this->_model=$model;

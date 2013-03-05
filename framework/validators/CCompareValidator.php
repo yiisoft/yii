@@ -29,7 +29,7 @@
  * CCompareValidator allows for the following placeholders to be specified:
  * <ul>
  * <li>{compareValue}: replaced with the constant value being compared with ({@link compareValue}).</li>
- * <li>{compareAttribute}: replaced with the label of the attribute beeing compared with ({@link compareAttribute}).</li>
+ * <li>{compareAttribute}: replaced with the label of the attribute being compared with ({@link compareAttribute}).</li>
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -72,12 +72,13 @@ class CCompareValidator extends CValidator
 	 */
 	public $operator='=';
 
-	/**
-	 * Validates the attribute of the object.
-	 * If there is any error, the error message is added to the object.
-	 * @param CModel $object the object being validated
-	 * @param string $attribute the attribute being validated
-	 */
+    /**
+     * Validates the attribute of the object.
+     * If there is any error, the error message is added to the object.
+     * @param CModel $object the object being validated
+     * @param string $attribute the attribute being validated
+     * @throws CException if invalid operator is used
+     */
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
@@ -126,14 +127,15 @@ class CCompareValidator extends CValidator
 			$this->addError($object,$attribute,$message,array('{compareAttribute}'=>$compareTo,'{compareValue}'=>$compareValue));
 	}
 
-	/**
-	 * Returns the JavaScript needed for performing client-side validation.
-	 * @param CModel $object the data object being validated
-	 * @param string $attribute the name of the attribute to be validated.
-	 * @return string the client-side validation script.
-	 * @see CActiveForm::enableClientValidation
-	 * @since 1.1.7
-	 */
+    /**
+     * Returns the JavaScript needed for performing client-side validation.
+     * @param CModel $object the data object being validated
+     * @param string $attribute the name of the attribute to be validated.
+     * @throws CException if invalid operator is used.
+     * @return string the client-side validation script.
+     * @see CActiveForm::enableClientValidation
+     * @since 1.1.7
+     */
 	public function clientValidateAttribute($object,$attribute)
 	{
 		if($this->compareValue !== null)

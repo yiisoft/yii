@@ -87,12 +87,13 @@ class CLocale extends CComponent
 		return $locales;
 	}
 
-	/**
-	 * Constructor.
-	 * Since the constructor is protected, please use {@link getInstance}
-	 * to obtain an instance of the specified locale.
-	 * @param string $id the locale ID (e.g. en_US)
-	 */
+    /**
+     * Constructor.
+     * Since the constructor is protected, please use {@link getInstance}
+     * to obtain an instance of the specified locale.
+     * @param string $id the locale ID (e.g. en_US)
+     * @throws CException if given locale id is not recognized.
+     */
 	protected function __construct($id)
 	{
 		$this->_id=self::getCanonicalID($id);

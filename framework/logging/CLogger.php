@@ -103,32 +103,33 @@ class CLogger extends CComponent
 		}
 	}
 
-	/**
-	 * Retrieves log messages.
-	 *
-	 * Messages may be filtered by log levels and/or categories.
-	 * A level filter is specified by a list of levels separated by comma or space
-	 * (e.g. 'trace, error'). A category filter is similar to level filter
-	 * (e.g. 'system, system.web'). A difference is that in category filter
-	 * you can use pattern like 'system.*' to indicate all categories starting
-	 * with 'system'.
-	 *
-	 * If you do not specify level filter, it will bring back logs at all levels.
-	 * The same applies to category filter.
-	 *
-	 * Level filter and category filter are combinational, i.e., only messages
-	 * satisfying both filter conditions will be returned.
-	 *
-	 * @param string $levels level filter
-	 * @param string $categories category filter
-	 * @return array list of messages. Each array element represents one message
-	 * with the following structure:
-	 * array(
-	 *   [0] => message (string)
-	 *   [1] => level (string)
-	 *   [2] => category (string)
-	 *   [3] => timestamp (float, obtained by microtime(true));
-	 */
+    /**
+     * Retrieves log messages.
+     *
+     * Messages may be filtered by log levels and/or categories.
+     * A level filter is specified by a list of levels separated by comma or space
+     * (e.g. 'trace, error'). A category filter is similar to level filter
+     * (e.g. 'system, system.web'). A difference is that in category filter
+     * you can use pattern like 'system.*' to indicate all categories starting
+     * with 'system'.
+     *
+     * If you do not specify level filter, it will bring back logs at all levels.
+     * The same applies to category filter.
+     *
+     * Level filter and category filter are combinational, i.e., only messages
+     * satisfying both filter conditions will be returned.
+     *
+     * @param string $levels level filter
+     * @param array|string $categories category filter
+     * @param array|string $except list of log categories to ignore
+     * @return array list of messages. Each array element represents one message
+     * with the following structure:
+     * array(
+     *   [0] => message (string)
+     *   [1] => level (string)
+     *   [2] => category (string)
+     *   [3] => timestamp (float, obtained by microtime(true));
+     */
 	public function getLogs($levels='',$categories=array(), $except=array())
 	{
 		$this->_levels=preg_split('/[\s,]+/',strtolower($levels),-1,PREG_SPLIT_NO_EMPTY);

@@ -208,6 +208,6 @@ class CAttributeCollection extends CMap
                 $d[strtolower($key)]=$value;
             return parent::mergeWith($d,$recursive);
 		}
-    parent::mergeWith($data,$recursive);
+        parent::mergeWith($data,$recursive);
 	}
 }

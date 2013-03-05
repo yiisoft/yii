@@ -151,14 +151,15 @@ class GiiModule extends CWebModule
 		$this->_assetsUrl=$value;
 	}
 
-	/**
-	 * Performs access check to gii.
-	 * This method will check to see if user IP and password are correct if they attempt
-	 * to access actions other than "default/login" and "default/error".
-	 * @param CController $controller the controller to be accessed.
-	 * @param CAction $action the action to be accessed.
-	 * @return boolean whether the action should be executed.
-	 */
+    /**
+     * Performs access check to gii.
+     * This method will check to see if user IP and password are correct if they attempt
+     * to access actions other than "default/login" and "default/error".
+     * @param CController $controller the controller to be accessed.
+     * @param CAction $action the action to be accessed.
+     * @throws CHttpException if access denied.
+     * @return boolean whether the action should be executed.
+     */
 	public function beforeControllerAction($controller, $action)
 	{
 		if(parent::beforeControllerAction($controller, $action))

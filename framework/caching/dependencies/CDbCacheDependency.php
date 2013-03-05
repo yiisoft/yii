@@ -59,11 +59,12 @@ class CDbCacheDependency extends CCacheDependency
 		return array_keys((array)$this);
 	}
 
-	/**
-	 * Generates the data needed to determine if dependency has been changed.
-	 * This method returns the value of the global state.
-	 * @return mixed the data needed to determine if dependency has been changed.
-	 */
+    /**
+     * Generates the data needed to determine if dependency has been changed.
+     * This method returns the value of the global state.
+     * @throws CException if {@link sql} is empty.
+     * @return mixed the data needed to determine if dependency has been changed.
+     */
 	protected function generateDependentData()
 	{
 		if($this->sql!==null)

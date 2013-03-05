@@ -215,11 +215,12 @@ class CSecurityManager extends CApplicationComponent
 		return rtrim($decrypted,"\0");
 	}
 
-	/**
-	 * Opens the mcrypt module with the configuration specified in {@link cryptAlgorithm}.
-	 * @return resource the mycrypt module handle.
-	 * @since 1.1.3
-	 */
+    /**
+     * Opens the mcrypt module with the configuration specified in {@link cryptAlgorithm}.
+     * @throws CException if failed to initialize the mcrypt module or PHP mcrypt extension.
+     * @return resource the mycrypt module handle.
+     * @since 1.1.3
+     */
 	protected function openCryptModule()
 	{
 		if(extension_loaded('mcrypt'))

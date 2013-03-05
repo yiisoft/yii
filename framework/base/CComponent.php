@@ -242,14 +242,15 @@ class CComponent
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
-	/**
-	 * Calls the named method which is not a class method.
-	 * Do not call this method. This is a PHP magic method that we override
-	 * to implement the behavior feature.
-	 * @param string $name the method name
-	 * @param array $parameters method parameters
-	 * @return mixed the method return value
-	 */
+    /**
+     * Calls the named method which is not a class method.
+     * Do not call this method. This is a PHP magic method that we override
+     * to implement the behavior feature.
+     * @param string $name the method name
+     * @param array $parameters method parameters
+     * @throws CException if current class and its behaviors do not have a method or closure with given name
+     * @return mixed the method return value
+     */
 	public function __call($name,$parameters)
 	{
 		if($this->_m!==null)

@@ -173,12 +173,13 @@ class CFileValidator extends CValidator
 		}
 	}
 
-	/**
-	 * Internally validates a file object.
-	 * @param CModel $object the object being validated
-	 * @param string $attribute the attribute being validated
-	 * @param CUploadedFile $file uploaded file passed to check against a set of rules
-	 */
+    /**
+     * Internally validates a file object.
+     * @param CModel $object the object being validated
+     * @param string $attribute the attribute being validated
+     * @param CUploadedFile $file uploaded file passed to check against a set of rules
+     * @throws CException if failed to upload the file
+     */
 	protected function validateFile($object, $attribute, $file)
 	{
 		if(null===$file || ($error=$file->getError())==UPLOAD_ERR_NO_FILE)

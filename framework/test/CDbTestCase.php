@@ -47,12 +47,13 @@ abstract class CDbTestCase extends CTestCase
 	 */
 	protected $fixtures=false;
 
-	/**
-	 * PHP magic method.
-	 * This method is overridden so that named fixture data can be accessed like a normal property.
-	 * @param string $name the property name
-	 * @return mixed the property value
-	 */
+    /**
+     * PHP magic method.
+     * This method is overridden so that named fixture data can be accessed like a normal property.
+     * @param string $name the property name
+     * @throws Exception if unknown property is used.
+     * @return mixed the property value
+     */
 	public function __get($name)
 	{
 		if(is_array($this->fixtures) && ($rows=$this->getFixtureManager()->getRows($name))!==false)
@@ -61,13 +62,14 @@ abstract class CDbTestCase extends CTestCase
 			throw new Exception("Unknown property '$name' for class '".get_class($this)."'.");
 	}
 
-	/**
-	 * PHP magic method.
-	 * This method is overridden so that named fixture ActiveRecord instances can be accessed in terms of a method call.
-	 * @param string $name method name
-	 * @param string $params method parameters
-	 * @return mixed the property value
-	 */
+    /**
+     * PHP magic method.
+     * This method is overridden so that named fixture ActiveRecord instances can be accessed in terms of a method call.
+     * @param string $name method name
+     * @param string $params method parameters
+     * @throws Exception if unknown method is used.
+     * @return mixed the property value
+     */
 	public function __call($name,$params)
 	{
 		if(is_array($this->fixtures) && isset($params[0]) && ($record=$this->getFixtureManager()->getRecord($name,$params[0]))!==false)
