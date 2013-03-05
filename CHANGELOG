@@ -17,6 +17,7 @@ Version 1.1.14 work in progress
 - Bug #1997: Cache key in CGettextMessageSource::loadMessages wasn't specific enough (odevyatkov)
 - Bug #2023: CHttpRequest::stripSlashes() now modifies array keys as well (etienneq)
 - Bug #2030: Fixed problem with MySQL 4.x: Undefined Index: Comment in CMysqlSchema (cebe)
+- Bug #2048: AR now uses alias from CActiveRecord::getTableAlias instead of always using default "t" (s-larionov)
 - Bug #2049: CStatElement relation with join option throw exception when key-field present on joined table (Yiivgeny)
 - Bug #2078: Fixed problem with "undefined" parameter in query string when using CListView or CGridView with enableHistory (Parpaing)
 - Bug #2086: Fixed .hgignore rule for assets folder (GeXu3, Koduc)
