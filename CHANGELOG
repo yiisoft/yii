@@ -14,6 +14,7 @@ Version 1.1.14 work in progress
 - Bug #1945: Reference to undefined variable $column in CDbMigration::dropPrimaryKey (paystey)
 - Bug #1984: CDbMigration: fix of undeclared variable usage in debug information in dropPrimaryKey (papulovskiy)
 - Bug #1996: Using yiic help for commands with parameters with array as default value resulted in PHP error with latest PHP versions (dInGd0nG, samdark)
+- Bug #1997: Cache key in CGettextMessageSource::loadMessages wasn't specific enough (odevyatkov)
 - Bug #2023: CHttpRequest::stripSlashes() now modifies array keys as well (etienneq)
 - Bug #2030: Fixed problem with MySQL 4.x: Undefined Index: Comment in CMysqlSchema (cebe)
 - Bug #2049: CStatElement relation with join option throw exception when key-field present on joined table (Yiivgeny)
