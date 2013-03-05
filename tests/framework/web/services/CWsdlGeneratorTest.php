@@ -125,12 +125,11 @@ class CWsdlGeneratorTest extends CTestCase{
 
 		$generator = new CWsdlGenerator();
 
-		// HTML documentation is invoked via adding URL parameter $_GET['makedoc']
-		$_GET['makedoc'] = 1;
+		// we dont care this time about WSDL, we simple must craete some parsed data
+		$generator->generateWsdl('SoapController', 'http://10.20.30.40/index.php?r=soap/calculator&ws=1');
 
-		// start parsing & generation
-		// we use any URL location since unit test is executed via CLI and not real HTTP request
-		$html = $generator->generateWsdl('SoapController', 'http://10.20.30.40/index.php?r=soap/calculator&ws=1');
+		// get HTML documentation
+		$html = $generator->buildHtmlDocs(true);
 
 		// uncomment to save WSDL into file
 		/*

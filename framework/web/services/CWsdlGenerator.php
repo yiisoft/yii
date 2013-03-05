@@ -91,6 +91,7 @@
  * A soap indicator must be declared in the doc comment block with the '@soap-indicator' tag.
  * Following soap indicators are currently supported:
  * <ul>
+ * <li>all - (default) allows any sorting order of child nodes</li>
  * <li>sequence - all child nodes in WSDL XML file will be expected in predefined order</li>
  * <li>choice - supplied can be either of the child elements</li>
  * </ul>
@@ -226,9 +227,8 @@ class CWsdlGenerator extends CComponent
 
 		if(isset($_GET['makedoc']))
 		{
-			return $this->buildHtmlDocs();
+			$this->buildHtmlDocs();
 		}
-
 		return $wsdl;
 	}
 
@@ -637,21 +637,24 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/**
-	* Generate human friendly HTML documentation for parsed SOAP service.
-	* Invokable by inserting URL parameter "&makedoc" into URL link, e.g. "http://www.mydomain.com/soap/createUser?makedoc".
-	* For all complex types will be created table with following columns:
+	* Generate human friendly HTML documentation for complex data types.
+	* This method can be invoked two ways - either by inserting URL parameter "&makedoc"
+	* into URL link, e.g. "http://www.mydomain.com/soap/createUser?makedoc", or simply by calling from another script.
+	*
+	* Each complex data type be descripbed in a separate HTML table with following columns:
 	* <ul>
 	* <li># - attribute ID</li>
 	* <li>Attribute - attribute name, e.g. firstname</li>
 	* <li>Type - attribute type, e.g. integer, date, tns:SoapPovCalculationResultArray</li>
 	* <li>Nill - true|false - whether the attribute is nillable</li>
-	* <li>Min - minimum occurences</li>
-	* <li>Max - maximum occurences</li>
-	* <li>Description - Description of the attribute.</li>
+	* <li>Min - minimum number of occurences</li>
+	* <li>Max - maximum number of occurences</li>
+	* <li>Description - Detailed description of the attribute.</li>
 	* <li>Example - Attribute example value if provided via PHPDoc property @example.</li>
 	* <ul>
+	* @param bool $return If true, generated HTML output will be returned rather than directly sent to output buffer
 	*/
-	protected function buildHtmlDocs()
+	public function buildHtmlDocs($return=false)
 	{
 		$html = '<html><head>';
 		$html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
@@ -666,31 +669,39 @@ th, td{font-size: 12px;font-family: courier;padding: 3px;}
 		$html .= '<p>Generated on '.date('d.m.Y H:i:s').'</p>';
 		$html .= '<table border="0" cellspacing="1" cellpadding="1">';
 		$html .= '<tr><td>';
-		foreach($this->types as $object => $options){
-			if(!is_array($options) || empty($options) || !is_array($options['properties']) || empty($options['properties'])){
-				continue;
+		if(!empty($this->types)){
+			foreach($this->types as $object => $options){
+				if(!is_array($options) || empty($options) || !is_array($options['properties']) || empty($options['properties'])){
+					continue;
+				}
+				$params = $options['properties'];
+				$html .= "\n\n<h3>Object: {$object}</h3>";
+				$html .= '<table border="1" cellspacing="1" cellpadding="1">';
+				$html .= '<tr><th>#</th><th>Attribute</th><th>Type</th><th>Nill</th><th>Min</th><th>Max</th><th>Description</th><th>Example</th></tr>';
+				$c = 0;
+				foreach($params as $param => $prop){
+					++$c;
+					$html .= "\n<tr>"
+								."\n\t<td>{$c}</td>"
+								."\n\t<td>{$param}</td>"
+								."\n\t<td>".(str_replace('xsd:','',$prop[0]))."</td>"
+								."\n\t<td>".$prop[2]."</td>"
+								."\n\t<td>".($prop[3]==null ? '&nbsp;' : $prop[3])."</td>"
+								."\n\t<td>".($prop[4]==null ? '&nbsp;' : $prop[4])."</td>"
+								."\n\t<td>{$prop[1]}</td>"
+								."\n\t<td>".(trim($prop[5])=='' ? '&nbsp;' : $prop[5])."</td>"
+							."\n</tr>";
+				}
+				$html .= "\n</table><br/>";
 			}
-			$params = $options['properties'];
-			$html .= "\n\n<h3>Object: {$object}</h3>";
-			$html .= '<table border="1" cellspacing="1" cellpadding="1">';
-			$html .= '<tr><th>#</th><th>Attribute</th><th>Type</th><th>Nill</th><th>Min</th><th>Max</th><th>Description</th><th>Example</th></tr>';
-			$c = 0;
-			foreach($params as $param => $prop){
-				++$c;
-				$html .= "\n<tr>"
-							."\n\t<td>{$c}</td>"
-							."\n\t<td>{$param}</td>"
-							."\n\t<td>".(str_replace('xsd:','',$prop[0]))."</td>"
-							."\n\t<td>".$prop[2]."</td>"
-							."\n\t<td>".($prop[3]==null ? '&nbsp;' : $prop[3])."</td>"
-							."\n\t<td>".($prop[4]==null ? '&nbsp;' : $prop[4])."</td>"
-							."\n\t<td>{$prop[1]}</td>"
-							."\n\t<td>".(trim($prop[5])=='' ? '&nbsp;' : $prop[5])."</td>"
-						."\n</tr>";
-			}
-			$html .= "\n</table><br/>";
+		}else{
+			$html .= 'No complex data type found!';
 		}
 		$html .= '</td></tr></table></body></html>';
-		return $html;
+		if($return){
+			return $html;
+		}
+		echo $html;
+		Yii::app()->end(); // end the app to avoid conflict with text/xml header
 	}
 }

@@ -37,12 +37,14 @@ class CEmailValidator extends CValidator
 	 * @var boolean whether to check the MX record for the email address.
 	 * Defaults to false. To enable it, you need to make sure the PHP function 'checkdnsrr'
 	 * exists in your PHP installation.
+	 * Please note that this check may fail due to temporary problems even if email is deliverable.
 	 */
 	public $checkMX=false;
 	/**
 	 * @var boolean whether to check port 25 for the email address.
 	 * Defaults to false. To enable it, ensure that the PHP functions 'dns_get_record' and
 	 * 'fsockopen' are available in your PHP installation.
+	 * Please note that this check may fail due to temporary problems even if email is deliverable.
 	 */
 	public $checkPort=false;
 	/**

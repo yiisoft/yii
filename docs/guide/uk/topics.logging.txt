@@ -88,13 +88,13 @@ array(
 		array(
 			'class'=>'CEmailLogRoute',
 			'levels'=>'error, warning',
-			'exclude'=>'system.CModule.*' // відправляємо поштою все, окрім повідомлень від CModule
+			'except'=>'system.CModule.*' // відправляємо поштою все, окрім повідомлень від CModule
 			'emails'=>'admin@example.com',
 		),
 		array(
 			'class'=>'CWebLogRoute',
 			'categories'=>'system.db.*',
-			'exclude'=>'system.db.ar.*', // відображаємо все, що стосується бази даних, але не стосується AR
+			'except'=>'system.db.ar.*', // відображаємо все, що стосується бази даних, але не стосується AR
 		),
 ~~~
 
