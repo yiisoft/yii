@@ -119,8 +119,17 @@ class CWsdlGenerator extends CComponent
 		'mixed'=>'xsd:anyType',
 	);
 
+	/*
+	 * @var array operations
+	 */
 	protected $operations;
+	/*
+	 * @var array types
+	 */
 	protected $types;
+	/*
+	 * @var array messages
+	 */
 	protected $messages;
 
 	/**
