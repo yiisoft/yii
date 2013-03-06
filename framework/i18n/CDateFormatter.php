@@ -257,7 +257,7 @@ class CDateFormatter extends CComponent
  	 * "d" for non-padding, "dd" will always return 2 digits day numbers, e.g. 05.
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
-     * @throws CException if "day" pattern is unknown.
+	 * @throws CException if "day" pattern is unknown.
 	 * @return string day of the month
 	 */
 	protected function formatDay($pattern,$date)
