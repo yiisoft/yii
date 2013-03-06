@@ -329,6 +329,35 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::script($text));
 	}
 
+	public static function providerScriptWithHtmlOptions()
+	{
+		return array(
+			array(
+				'var a = 10;',
+				array('defer'=>true),
+				"<script type=\"text/javascript\" defer=\"defer\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+			),
+			array(
+				'var a = 10;',
+				array('async'=>true),
+				"<script type=\"text/javascript\" async=\"async\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+			),
+		);
+	}
+
+	/**
+	 * @depends testScript
+	 * @dataProvider providerScriptWithHtmlOptions
+	 *
+	 * @param string $text
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testScriptWithHtmlOptions($text, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::script($text,$htmlOptions));
+	}
+
 	public static function providerScriptFile()
 	{
 		return array(
@@ -347,6 +376,39 @@ class CHtmlTest extends CTestCase
 	public function testScriptFile($text, $assertion)
 	{
 		$this->assertEquals($assertion, CHtml::scriptFile($text));
+	}
+
+	public static function providerScriptFileWithHtmlOptions()
+	{
+		return array(
+			array(
+				'/js/main.js?a=2&b=4',
+				array('defer'=>true),
+				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" defer="defer"></script>'
+			),
+			array(
+				'/js/main.js?a=2&b=4',
+				array('async'=>true),
+				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" async="async"></script>'
+			),
+			array(
+				'/js/main.js?a=2&b=4',
+				array('onload'=>"some_js_function();"),
+				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" onload="some_js_function();"></script>'
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScriptFileWithHtmlOptions
+	 *
+	 * @param string $text
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testScriptFileWithHtmlOptions($text, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::scriptFile($text, $htmlOptions));
 	}
 
 	public function testEndForm()
