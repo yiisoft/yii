@@ -1,38 +1,38 @@
 {
-	"name": "yiisoft/yii",
+	"name":        "yiisoft/yii",
 	"description": "Yii Web Programming Framework",
-	"keywords": ["yii", "framework"],
-	"homepage": "http://www.yiiframework.com/",
-	"type": "library",
-	"license": "BSD-3-Clause",
-	"authors": [
+	"keywords":    ["yii", "framework"],
+	"homepage":    "http://www.yiiframework.com/",
+	"type":        "library",
+	"license":     "BSD-3-Clause",
+	"authors":     [
 		{
-			"name": "Qiang Xue",
-			"email": "qiang.xue@gmail.com",
+			"name":     "Qiang Xue",
+			"email":    "qiang.xue@gmail.com",
 			"homepage": "http://www.yiiframework.com/",
-			"role": "Founder and project lead"
+			"role":     "Founder and project lead"
 		},
 		{
-			"name": "Alexander Makarov",
-			"email": "sam@rmcreative.ru",
+			"name":     "Alexander Makarov",
+			"email":    "sam@rmcreative.ru",
 			"homepage": "http://rmcreative.ru/",
-			"role": "Core framework development"
+			"role":     "Core framework development"
 		},
 		{
-			"name": "Maurizio Domba",
+			"name":     "Maurizio Domba",
 			"homepage": "http://mdomba.info/",
-			"role": "Core framework development"
+			"role":     "Core framework development"
 		},
 		{
-			"name": "Carsten Brandt",
-			"email": "mail@cebe.cc",
+			"name":     "Carsten Brandt",
+			"email":    "mail@cebe.cc",
 			"homepage": "http://cebe.cc/",
-			"role": "Core framework development"
+			"role":     "Core framework development"
 		},
 		{
-			"name": "Wei Zhuo",
+			"name":  "Wei Zhuo",
 			"email": "weizhuo@gmail.com",
-			"role": "Project site maintenance and development"
+			"role":  "Project site maintenance and development"
 		},
 		{
 			"name": "Sebastián Thierer",
@@ -42,16 +42,19 @@
 			"name": "Jeffrey Winesett",
 			"role": "Documentation and marketing"
 		}
-		
+
 	],
-	"support": {
+	"support":     {
 		"issues": "https://github.com/yiisoft/yii/issues?state=open",
-		"forum": "http://www.yiiframework.com/forum/",
-		"wiki": "http://www.yiiframework.com/wiki/",
-		"irc": "irc://irc.freenode.net/yii",
+		"forum":  "http://www.yiiframework.com/forum/",
+		"wiki":   "http://www.yiiframework.com/wiki/",
+		"irc":    "irc://irc.freenode.net/yii",
 		"source": "https://github.com/yiisoft/yii"
 	},
-	"require": {
+	"require":     {
 		"php": ">=5.1.0"
+	},
+	"autoload":    {
+		"files": ["framework/yii.php"]
 	}
 }
