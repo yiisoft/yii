@@ -275,6 +275,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Creates validator objects based on the specification in {@link rules}.
 	 * This method is mainly used internally.
+	 * @throws CException if current class has an invalid validation rule
 	 * @return CList validators built based on {@link rules()}.
 	 */
 	public function createValidators()

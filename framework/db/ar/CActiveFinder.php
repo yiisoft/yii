@@ -181,6 +181,8 @@ class CActiveFinder extends CComponent
 	 * @param CJoinElement $parent the parent tree node
 	 * @param mixed $with the names of the related objects relative to the parent tree node
 	 * @param array $options additional query options to be merged with the relation
+	 * @throws CDbException if given parent tree node is an instance of {@link CStatElement}
+	 * or relation is not defined in the given parent's tree node model class
 	 */
 	private function buildJoinTree($parent,$with,$options=null)
 	{
@@ -511,6 +513,7 @@ class CJoinElement
 	 * Apply Lazy Condition
 	 * @param CJoinQuery $query represents a JOIN SQL statements
 	 * @param CActiveRecord $record the active record whose related object is to be fetched.
+	 * @throws CDbException if relation in active record class is not specified correctly
 	 */
 	private function applyLazyCondition($query,$record)
 	{
@@ -870,6 +873,7 @@ class CJoinElement
 	 * Generates the list of columns to be selected.
 	 * Columns will be properly aliased and primary keys will be added to selection if they are not specified.
 	 * @param mixed $select columns to be selected. Defaults to '*', indicating all columns.
+	 * @throws CDbException if active record class is trying to select an invalid column
 	 * @return string the column selection
 	 */
 	public function getColumnSelect($select='*')
@@ -990,6 +994,7 @@ class CJoinElement
 	}
 
 	/**
+	 * @throws CDbException if relation in active record class is not specified correctly
 	 * @return string the join statement (this node joins with its parent)
 	 */
 	public function getJoinCondition()
@@ -1033,7 +1038,7 @@ class CJoinElement
 	 * This works for HAS_ONE, HAS_MANY and BELONGS_TO.
 	 * @param CJoinElement $fke the join element containing foreign keys
 	 * @param array $fks the foreign keys
-	 * @param CJoinElement $pke the join element containg primary keys
+	 * @param CJoinElement $pke the join element contains primary keys
 	 * @param CJoinElement $parent the parent join element
 	 * @return string the join statement
 	 * @throws CDbException if a foreign key is invalid

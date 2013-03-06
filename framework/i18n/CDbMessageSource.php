@@ -95,6 +95,7 @@ class CDbMessageSource extends CMessageSource
 
 	/**
 	 * Returns the DB connection used for the message source.
+	 * @throws CException if {@link connectionID} application component is invalid
 	 * @return CDbConnection the DB connection used for the message source.
 	 * @since 1.1.5
 	 */

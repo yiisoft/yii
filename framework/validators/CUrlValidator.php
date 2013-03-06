@@ -160,7 +160,7 @@ if(jQuery.trim(value)!='') {
 
 	/**
 	 * Converts given IDN to the punycode.
-	 * @param $value IDN to be converted.
+	 * @param string $value IDN to be converted.
 	 * @return string resulting punycode.
 	 * @since 1.1.13
 	 */
@@ -173,7 +173,7 @@ if(jQuery.trim(value)!='') {
 
 	/**
 	 * Converts given punycode to the IDN.
-	 * @param $value punycode to be converted.
+	 * @param string $value punycode to be converted.
 	 * @return string resulting IDN.
 	 * @since 1.1.13
 	 */
