@@ -310,7 +310,7 @@ class CClientScript extends CApplicationComponent
 	protected function renderScriptBatch(array $scripts)
 	{
 		$html = '';
-		$noOptionsScripts = '';
+		$noOptionsScripts = array();
 		foreach($scripts as $scriptValue)
 		{
 			if(is_array($scriptValue))
