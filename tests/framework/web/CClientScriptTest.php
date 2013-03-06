@@ -81,6 +81,51 @@ class CClientScriptTest extends CTestCase
 		$returnedClientScript = $this->_clientScript->registerPackage($name);
 		$this->assertEquals($assertion, $returnedClientScript->corePackages[$name]);
 	}
+
+	public function providerScriptFiles()
+	{
+		return array(
+			array('/some/script.js', CClientScript::POS_HEAD, '/some/script.js'),
+			array('http://some/script.js', CClientScript::POS_BEGIN, 'http://some/script.js'),
+			array('/some/script.js', CClientScript::POS_END, '/some/script.js'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScriptFiles
+	 *
+	 * @param string $url
+	 * @param integer $position
+	 * @param string $assertion
+	 */
+	public function testRegisterScriptFile($url, $position, $assertion)
+	{
+		$returnedClientScript = $this->_clientScript->registerScriptFile($url, $position);
+
+		$scriptFiles = $this->readAttribute($returnedClientScript, 'scriptFiles');
+		$this->assertEquals($assertion, $scriptFiles[$position][$url]);
+	}
+
+	public function providerScripts()
+	{
+		return array(
+			array('jsId', "function() {alert('alert')}", CClientScript::POS_HEAD, "function() {alert('alert')}"),
+			array('jsId', "function() {alert('alert')}", CClientScript::POS_BEGIN, "function() {alert('alert')}"),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScripts
+	 *
+	 * @param string $id
+	 * @param string $script
+	 * @param integer $position
+	 * @param string $assertion
+	 */
+	public function testRegisterScript($id, $script, $position, $assertion) {
+		$returnedClientScript = $this->_clientScript->registerScript($id, $script, $position);
+		$this->assertEquals($assertion, $returnedClientScript->scripts[$position][$id]);
+	}
 	
 	public function providerRegisterCss()
 	{
