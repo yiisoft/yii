@@ -26,7 +26,6 @@ Version 1.1.14 work in progress
 - Enh: Better CFileLogRoute performance (Qiang, samdark)
 - Enh: Refactored CHttpRequest::getDelete and CHttpRequest::getPut not to use _restParams directly (samdark)
 - Enh #1847: Added COutputCache::varyByLanguage to generate separate cache for different languages (Obramko)
-- Enh #1866: Client scripts in POS_HEAD are rendered after <title> tag is possible (horechek)
 - Enh #1948: Tidy up and improve html5 input support in CHtml and CActiveForm (phpnode)
 - Enh #1977: CFormatter::normalizeDateValue() now is protected instead of private to enable child classes to override it (etienneq)
 - Enh #2038: CFormatter::formatNtext() method can replace newlines with `<p></p>` not just with `<br />` as it was before (resurtm)
