@@ -234,10 +234,10 @@ class CClientScript extends CApplicationComponent
 
 		if(isset($this->scriptFiles[self::POS_BEGIN]))
 		{
-			foreach($this->scriptFiles[self::POS_BEGIN] as $key=>$scriptFile)
+			foreach($this->scriptFiles[self::POS_BEGIN] as $scriptFile=>$scriptFileValue)
 			{
 				if(isset($map[$scriptFile]))
-					unset($this->scriptFiles[self::POS_BEGIN][$key]);
+					unset($this->scriptFiles[self::POS_BEGIN][$scriptFile]);
 				else
 					$map[$scriptFile]=true;
 			}
@@ -247,7 +247,7 @@ class CClientScript extends CApplicationComponent
 		{
 			foreach($this->scriptFiles[self::POS_END] as $key=>$scriptFile)
 			{
-				if(isset($map[$scriptFile]))
+				if(isset($map[$key]))
 					unset($this->scriptFiles[self::POS_END][$key]);
 			}
 		}
@@ -278,12 +278,12 @@ class CClientScript extends CApplicationComponent
 		$this->cssFiles=$cssFiles;
 
 		$jsFiles=array();
-		foreach($this->scriptFiles as $position=>$scripts)
+		foreach($this->scriptFiles as $position=>$scriptFiles)
 		{
 			$jsFiles[$position]=array();
-			foreach($scripts as $key=>$script)
+			foreach($scriptFiles as $scriptFile=>$scriptFileValue)
 			{
-				$name=basename($script);
+				$name=basename($scriptFileValue);
 				if(isset($this->scriptMap[$name]))
 				{
 					if($this->scriptMap[$name]!==false)
@@ -295,7 +295,7 @@ class CClientScript extends CApplicationComponent
 						$jsFiles[$position][$this->scriptMap['*.js']]=$this->scriptMap['*.js'];
 				}
 				else
-					$jsFiles[$position][$key]=$script;
+					$jsFiles[$position][$scriptFile]=$scriptFileValue;
 			}
 		}
 		$this->scriptFiles=$jsFiles;
@@ -335,8 +335,8 @@ class CClientScript extends CApplicationComponent
 		{
 			if(isset($this->scriptFiles[$this->coreScriptPosition]))
 			{
-				foreach($this->scriptFiles[$this->coreScriptPosition] as $url)
-					$jsFiles[$url]=$url;
+				foreach($this->scriptFiles[$this->coreScriptPosition] as $url => $value)
+					$jsFiles[$url]=$value;
 			}
 			$this->scriptFiles[$this->coreScriptPosition]=$jsFiles;
 		}
@@ -361,8 +361,13 @@ class CClientScript extends CApplicationComponent
 		{
 			if(isset($this->scriptFiles[self::POS_HEAD]))
 			{
-				foreach($this->scriptFiles[self::POS_HEAD] as $scriptFile)
-					$html.=CHtml::scriptFile($scriptFile)."\n";
+				foreach($this->scriptFiles[self::POS_HEAD] as $scriptFileValueUrl=>$scriptFileValue)
+				{
+					if(is_array($scriptFileValue))
+						$html.=CHtml::scriptFile($scriptFileValueUrl,$scriptFileValue)."\n";
+					else
+						$html.=CHtml::scriptFile($scriptFileValueUrl)."\n";
+				}
 			}
 
 			if(isset($this->scripts[self::POS_HEAD]))
@@ -389,8 +394,13 @@ class CClientScript extends CApplicationComponent
 		$html='';
 		if(isset($this->scriptFiles[self::POS_BEGIN]))
 		{
-			foreach($this->scriptFiles[self::POS_BEGIN] as $scriptFile)
-				$html.=CHtml::scriptFile($scriptFile)."\n";
+			foreach($this->scriptFiles[self::POS_BEGIN] as $scriptFileUrl=>$scriptFileValue)
+			{
+				if(is_array($scriptFileValue))
+					$html.=CHtml::scriptFile($scriptFileUrl,$scriptFileValue)."\n";
+				else
+					$html.=CHtml::scriptFile($scriptFileUrl)."\n";
+			}
 		}
 		if(isset($this->scripts[self::POS_BEGIN]))
 			$html.=CHtml::script(implode("\n",$this->scripts[self::POS_BEGIN]))."\n";
@@ -421,8 +431,13 @@ class CClientScript extends CApplicationComponent
 		$html='';
 		if(isset($this->scriptFiles[self::POS_END]))
 		{
-			foreach($this->scriptFiles[self::POS_END] as $scriptFile)
-				$html.=CHtml::scriptFile($scriptFile)."\n";
+			foreach($this->scriptFiles[self::POS_END] as $scriptFileUrl=>$scriptFileValue)
+			{
+				if(is_array($scriptFileValue))
+					$html.=CHtml::scriptFile($scriptFileUrl,$scriptFileValue)."\n";
+				else
+					$html.=CHtml::scriptFile($scriptFileUrl)."\n";
+			}
 		}
 		$scripts=isset($this->scripts[self::POS_END]) ? $this->scripts[self::POS_END] : array();
 		if(isset($this->scripts[self::POS_READY]))
@@ -588,14 +603,21 @@ class CClientScript extends CApplicationComponent
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
 	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	 * </ul>
+	 * @param array $htmlOptions additional HTML attributes
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScriptFile($url,$position=null)
+	public function registerScriptFile($url,$position=null,array $htmlOptions=array())
 	{
 		if($position===null)
 			$position=$this->defaultScriptFilePosition;
 		$this->hasScripts=true;
-		$this->scriptFiles[$position][$url]=$url;
+		if (empty($htmlOptions)) {
+			$value=$url;
+		} else {
+			$value=$htmlOptions;
+			$value['src']=$url;
+		}
+		$this->scriptFiles[$position][$url]=$value;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScriptFile',$params);
 		return $this;
