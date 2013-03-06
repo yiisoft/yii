@@ -302,6 +302,32 @@ class CClientScript extends CApplicationComponent
 	}
 
 	/**
+	 * Composes script HTML block from the given script values.
+	 * Attempts to place all scripts at single 'script' tag if possible.
+	 * @param array $scripts script values to process.
+	 * @return string HTML output
+	 */
+	protected function renderScriptBatch(array $scripts)
+	{
+		$html = '';
+		$noOptionsScripts = '';
+		foreach($scripts as $scriptValue)
+		{
+			if(is_array($scriptValue))
+			{
+				$scriptContent = $scriptValue['content'];
+				unset($scriptValue['content']);
+				$html.=CHtml::script($scriptContent,$scriptValue)."\n";
+			}
+			else
+				$noOptionsScripts[]=$scriptValue;
+		}
+		if(!empty($noOptionsScripts))
+			$html.=CHtml::script(implode("\n",$noOptionsScripts))."\n";
+		return $html;
+	}
+
+	/**
 	 * Renders the specified core javascript library.
 	 */
 	public function renderCoreScripts()
@@ -371,7 +397,7 @@ class CClientScript extends CApplicationComponent
 			}
 
 			if(isset($this->scripts[self::POS_HEAD]))
-				$html.=CHtml::script(implode("\n",$this->scripts[self::POS_HEAD]))."\n";
+				$html.=$this->renderScriptBatch($this->scripts[self::POS_HEAD]);
 		}
 
 		if($html!=='')
@@ -403,7 +429,7 @@ class CClientScript extends CApplicationComponent
 			}
 		}
 		if(isset($this->scripts[self::POS_BEGIN]))
-			$html.=CHtml::script(implode("\n",$this->scripts[self::POS_BEGIN]))."\n";
+			$html.=$this->renderScriptBatch($this->scripts[self::POS_BEGIN]);
 
 		if($html!=='')
 		{
@@ -455,7 +481,7 @@ class CClientScript extends CApplicationComponent
 				$scripts[]=implode("\n",$this->scripts[self::POS_LOAD]);
 		}
 		if(!empty($scripts))
-			$html.=CHtml::script(implode("\n",$scripts))."\n";
+			$html.=$this->renderScriptBatch($scripts);
 
 		if($fullPage)
 			$output=str_replace('<###end###>',$html,$output);
@@ -611,9 +637,10 @@ class CClientScript extends CApplicationComponent
 		if($position===null)
 			$position=$this->defaultScriptFilePosition;
 		$this->hasScripts=true;
-		if (empty($htmlOptions)) {
+		if(empty($htmlOptions))
 			$value=$url;
-		} else {
+		else
+		{
 			$value=$htmlOptions;
 			$value['src']=$url;
 		}
@@ -635,14 +662,25 @@ class CClientScript extends CApplicationComponent
 	 * <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
 	 * <li>CClientScript::POS_READY : the script is inserted in the jQuery's ready function.</li>
 	 * </ul>
+	 * @param array $htmlOptions additional HTML attributes
+	 * Note: HTML attributes are not allowed for script positions "CClientScript::POS_LOAD" and "CClientScript::POS_READY".
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScript($id,$script,$position=null)
+	public function registerScript($id,$script,$position=null,array $htmlOptions=array())
 	{
 		if($position===null)
 			$position=$this->defaultScriptPosition;
 		$this->hasScripts=true;
-		$this->scripts[$position][$id]=$script;
+		if(empty($htmlOptions))
+			$scriptValue=$script;
+		else
+		{
+			if($position==self::POS_LOAD || $position==self::POS_READY)
+				throw new CException(Yii::t('yii','Script HTML options are not allowed for "CClientScript::POS_LOAD" and "CClientScript::POS_READY".'));
+			$scriptValue=$htmlOptions;
+			$scriptValue['content']=$script;
+		}
+		$this->scripts[$position][$id]=$scriptValue;
 		if($position===self::POS_READY || $position===self::POS_LOAD)
 			$this->registerCoreScript('jquery');
 		$params=func_get_args();

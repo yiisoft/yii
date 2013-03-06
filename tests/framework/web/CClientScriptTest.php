@@ -155,6 +155,36 @@ class CClientScriptTest extends CTestCase
 		$returnedClientScript = $this->_clientScript->registerScript($id, $script, $position);
 		$this->assertEquals($assertion, $returnedClientScript->scripts[$position][$id]);
 	}
+
+	public function providerScriptsWithHtmlOptions()
+	{
+		return array(
+			array(
+				'jsId',
+				"function() {alert('alert')}",
+				CClientScript::POS_HEAD,
+				array('defer'=>true),
+				array(
+					'content'=>"function() {alert('alert')}",
+					'defer'=>true,
+				)
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScriptsWithHtmlOptions
+	 *
+	 * @param string $id
+	 * @param string $script
+	 * @param integer $position
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testRegisterScriptWithHtmlOptions($id, $script, $position, $htmlOptions, $assertion) {
+		$returnedClientScript = $this->_clientScript->registerScript($id, $script, $position, $htmlOptions);
+		$this->assertEquals($assertion, $returnedClientScript->scripts[$position][$id]);
+	}
 	
 	public function providerRegisterCss()
 	{
@@ -342,6 +372,28 @@ class CClientScriptTest extends CTestCase
 				CClientScript::POS_READY,
 				array(),
 				CHtml::script("function() {alert('script')}")
+			),
+			// With HTML options
+			array(
+				'option_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_HEAD,
+				array('defer'=>true),
+				CHtml::script("function() {alert('script')}",array('defer'=>true))
+			),
+			array(
+				'option_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_BEGIN,
+				array('defer'=>true),
+				CHtml::script("function() {alert('script')}",array('defer'=>true))
+			),
+			array(
+				'option_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_END,
+				array('defer'=>true),
+				CHtml::script("function() {alert('script')}",array('defer'=>true))
 			),
 		);
 	}
