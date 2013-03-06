@@ -302,28 +302,35 @@ class CClientScript extends CApplicationComponent
 	}
 
 	/**
-	 * Composes script HTML block from the given script values.
-	 * Attempts to place all scripts at single 'script' tag if possible.
+	 * Composes script HTML block from the given script values,
+	 * attempting to group scripts at single 'script' tag if possible.
 	 * @param array $scripts script values to process.
 	 * @return string HTML output
 	 */
 	protected function renderScriptBatch(array $scripts)
 	{
 		$html = '';
-		$noOptionsScripts = array();
+		$scriptBatches = array();
 		foreach($scripts as $scriptValue)
 		{
 			if(is_array($scriptValue))
 			{
 				$scriptContent = $scriptValue['content'];
 				unset($scriptValue['content']);
-				$html.=CHtml::script($scriptContent,$scriptValue)."\n";
+				$scriptHtmlOptions = $scriptValue;
 			}
 			else
-				$noOptionsScripts[]=$scriptValue;
+			{
+				$scriptContent = $scriptValue;
+				$scriptHtmlOptions = array();
+			}
+			$key=serialize(ksort($scriptHtmlOptions));
+			$scriptBatches[$key]['htmlOptions']=$scriptHtmlOptions;
+			$scriptBatches[$key]['scripts'][]=$scriptContent;
 		}
-		if(!empty($noOptionsScripts))
-			$html.=CHtml::script(implode("\n",$noOptionsScripts))."\n";
+		foreach($scriptBatches as $scriptBatch)
+			if(!empty($scriptBatch['scripts']))
+				$html.=CHtml::script(implode("\n",$scriptBatch['scripts']),$scriptBatch['htmlOptions'])."\n";
 		return $html;
 	}
 
