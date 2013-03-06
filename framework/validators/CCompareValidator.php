@@ -77,7 +77,7 @@ class CCompareValidator extends CValidator
 	 * If there is any error, the error message is added to the object.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
-     * @throws CException if invalid operator is used
+	 * @throws CException if invalid operator is used
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -131,7 +131,7 @@ class CCompareValidator extends CValidator
 	 * Returns the JavaScript needed for performing client-side validation.
 	 * @param CModel $object the data object being validated
 	 * @param string $attribute the name of the attribute to be validated.
-     * @throws CException if invalid operator is used.
+	 * @throws CException if invalid operator is used.
 	 * @return string the client-side validation script.
 	 * @see CActiveForm::enableClientValidation
 	 * @since 1.1.7

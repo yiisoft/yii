@@ -221,7 +221,7 @@ EOD;
 	 * @param string $tableName the name of the table to hold the relation
 	 * @param string $fkName the foreign key name
 	 * @param boolean $multiple whether the relation would contain multiple objects
-     * @return string the generated relation name
+	 * @return string the generated relation name
 	 */
 	protected function generateRelationName($tableName, $fkName, $multiple)
 	{

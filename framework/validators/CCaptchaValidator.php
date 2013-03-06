@@ -56,7 +56,7 @@ class CCaptchaValidator extends CValidator
 
 	/**
 	 * Returns the CAPTCHA action object.
-     * @throws CException if {@link action} is invalid.
+	 * @throws CException if {@link action} is invalid.
 	 * @return CCaptchaAction the action object
 	 * @since 1.1.7
 	 */

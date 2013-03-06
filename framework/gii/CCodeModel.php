@@ -291,7 +291,7 @@ abstract class CCodeModel extends CFormModel
 
 	/**
 	 * @param CCodeFile $file whether the code file should be saved
-     * @return bool
+	 * @return bool
 	 */
 	public function confirmed($file)
 	{
@@ -304,7 +304,7 @@ abstract class CCodeModel extends CFormModel
 	 * This method is manly used in {@link generate} to generate code.
 	 * @param string $templateFile the code template file path
 	 * @param array $_params_ a set of parameters to be extracted and made available in the code template
-     * @throws CException is template file does not exist
+	 * @throws CException is template file does not exist
 	 * @return string the generated code
 	 */
 	public function render($templateFile,$_params_=null)

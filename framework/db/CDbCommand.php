@@ -1477,7 +1477,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Generates the condition string that will be put in the WHERE part
 	 * @param mixed $conditions the conditions that will be put in the WHERE part.
-     * @throws CDbException if unknown operator is used.
+	 * @throws CDbException if unknown operator is used.
 	 * @return string the condition string to put in the WHERE part
 	 */
 	private function processConditions($conditions)

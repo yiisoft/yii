@@ -121,7 +121,7 @@ class CLogger extends CComponent
 	 *
 	 * @param string $levels level filter
 	 * @param array|string $categories category filter
-     * @param array|string $except list of log categories to ignore
+	 * @param array|string $except list of log categories to ignore
 	 * @return array list of messages. Each array element represents one message
 	 * with the following structure:
 	 * array(
