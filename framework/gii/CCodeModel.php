@@ -291,7 +291,7 @@ abstract class CCodeModel extends CFormModel
 
 	/**
 	 * @param CCodeFile $file whether the code file should be saved
-	 * @return bool
+	 * @return bool whether the confirmation is found in {@link answers} with appropriate {@link operation}
 	 */
 	public function confirmed($file)
 	{

@@ -59,7 +59,7 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * @param string $value the type of the profiling report to display. Valid values include 'summary' and 'callstack'.
-	 * @throws CException if given value is not "summary" or "callstack".
+	 * @throws CException if given value is not "summary" or "callstack"
 	 */
 	public function setReport($value)
 	{

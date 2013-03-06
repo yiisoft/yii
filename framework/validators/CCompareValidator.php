@@ -131,7 +131,7 @@ class CCompareValidator extends CValidator
 	 * Returns the JavaScript needed for performing client-side validation.
 	 * @param CModel $object the data object being validated
 	 * @param string $attribute the name of the attribute to be validated.
-	 * @throws CException if invalid operator is used.
+	 * @throws CException if invalid operator is used
 	 * @return string the client-side validation script.
 	 * @see CActiveForm::enableClientValidation
 	 * @since 1.1.7

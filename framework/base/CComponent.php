@@ -248,7 +248,7 @@ class CComponent
 	 * to implement the behavior feature.
 	 * @param string $name the method name
 	 * @param array $parameters method parameters
-	 * @throws CException if current class and its behaviors do not have a method or closure with given name
+	 * @throws CException if current class and its behaviors do not have a method or closure with the given name
 	 * @return mixed the method return value
 	 */
 	public function __call($name,$parameters)

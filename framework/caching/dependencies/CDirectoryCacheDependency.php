@@ -60,7 +60,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	/**
 	 * Generates the data needed to determine if dependency has been changed.
 	 * This method returns the modification timestamps for files under the directory.
-	 * @throws CException if {@link directory} is empty.
+	 * @throws CException if {@link directory} is empty
 	 * @return mixed the data needed to determine if dependency has been changed.
 	 */
 	protected function generateDependentData()

@@ -157,7 +157,7 @@ class GiiModule extends CWebModule
 	 * to access actions other than "default/login" and "default/error".
 	 * @param CController $controller the controller to be accessed.
 	 * @param CAction $action the action to be accessed.
-	 * @throws CHttpException if access denied.
+	 * @throws CHttpException if access denied
 	 * @return boolean whether the action should be executed.
 	 */
 	public function beforeControllerAction($controller, $action)

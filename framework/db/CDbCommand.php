@@ -200,7 +200,7 @@ class CDbCommand extends CComponent
 	 * this may improve performance.
 	 * For SQL statement with binding parameters, this method is invoked
 	 * automatically.
-     * @throws CDbException if CDbCommand failed to prepare the SQL statement.
+	 * @throws CDbException if CDbCommand failed to prepare the SQL statement
 	 */
 	public function prepare()
 	{
@@ -464,7 +464,7 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
-     * @throws CDbException if CDbCommand failed to execute the SQL statement.
+	 * @throws CDbException if CDbCommand failed to execute the SQL statement
 	 * @return mixed the method execution result
 	 */
 	private function queryInternal($method,$mode,$params=array())
@@ -551,7 +551,7 @@ class CDbCommand extends CComponent
 	 * query options are supported: {@link select}, {@link distinct}, {@link from},
 	 * {@link where}, {@link join}, {@link group}, {@link having}, {@link order},
 	 * {@link limit}, {@link offset} and {@link union}.
-     * @throws CDbException if "from" key is not present in given query parameter.
+	 * @throws CDbException if "from" key is not present in given query parameter
 	 * @return string the SQL statement
 	 * @since 1.1.6
 	 */
