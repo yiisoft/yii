@@ -304,4 +304,64 @@ class CClientScriptTest extends CTestCase
 		$returnedClientScript->render($output);
 		$this->assertContains($assertion, $output);
 	}
+
+	public function providerRenderScripts()
+	{
+		return array(
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_HEAD,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_BEGIN,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_END,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_LOAD,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_READY,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+		);
+	}
+
+	/**
+	 * @depends testRegisterScript
+	 *
+	 * @dataProvider providerRenderScripts
+	 *
+	 * @param string $id
+	 * @param string $script
+	 * @param integer $position
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testRenderScripts($id, $script, $position, $htmlOptions, $assertion)
+	{
+		$returnedClientScript = $this->_clientScript->registerScript($id, $script, $position, $htmlOptions);
+		$output = '<head></head>';
+		$returnedClientScript->render($output);
+		$this->assertContains($assertion, $output);
+	}
 }
