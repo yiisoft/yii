@@ -214,8 +214,8 @@ class CHttpRequest extends CApplicationComponent
 
 		if($this->getIsDeleteRequest())
 		{
-			$this->getRestParams();
-			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+			$restParams=$this->getRestParams();
+			return isset($restParams[$name]) ? $restParams[$name] : $defaultValue;
 		}
 		else
 			return $defaultValue;
@@ -239,8 +239,8 @@ class CHttpRequest extends CApplicationComponent
 
 		if($this->getIsPutRequest())
 		{
-			$this->getRestParams();
-			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+			$restParams=$this->getRestParams();
+			return isset($restParams[$name]) ? $restParams[$name] : $defaultValue;
 		}
 		else
 			return $defaultValue;
