@@ -89,6 +89,7 @@ class CDbFixtureManager extends CApplicationComponent
 
 	/**
 	 * Returns the database connection used to load fixtures.
+	 * @throws CException if {@link connectionID} application component is invalid
 	 * @return CDbConnection the database connection
 	 */
 	public function getDbConnection()
@@ -239,6 +240,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * You may need to call {@link checkIntegrity} to turn off integrity check temporarily
 	 * before you call this method.
 	 * @param string $tableName the table name
+	 * @throws CException if given table does not exist
 	 */
 	public function truncateTable($tableName)
 	{

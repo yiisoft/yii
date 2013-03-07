@@ -116,6 +116,7 @@ class CFormatter extends CApplicationComponent
 	 * @param mixed $value the value to be formatted
 	 * @param string $type the data type. This must correspond to a format method available in CFormatter.
 	 * For example, we can use 'text' here because there is method named {@link formatText}.
+	 * @throws CException if given type is unknown
 	 * @return string the formatted data
 	 */
 	public function format($value,$type)

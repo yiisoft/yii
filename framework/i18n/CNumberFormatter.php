@@ -27,7 +27,7 @@
  * <li>zero (0): required digit. This specifies the places where a digit must appear (will pad 0 if not).</li>
  * <li>hash (#): optional digit. This is mainly used to specify the location of decimal point and grouping separators.</li>
  * <li>currency (¤): the currency placeholder. It will be replaced with the localized currency symbol.</li>
- * <li>percentage (%): the percetage mark. If appearing, the number will be multiplied by 100 before being formatted.</li>
+ * <li>percentage (%): the percentage mark. If appearing, the number will be multiplied by 100 before being formatted.</li>
  * <li>permillage (‰): the permillage mark. If appearing, the number will be multiplied by 1000 before being formatted.</li>
  * <li>semicolon (;): the character separating positive and negative number sub-patterns.</li>
  * </ul>

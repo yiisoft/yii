@@ -59,6 +59,7 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * @param string $value the type of the profiling report to display. Valid values include 'summary' and 'callstack'.
+	 * @throws CException if given value is not "summary" or "callstack"
 	 */
 	public function setReport($value)
 	{
@@ -88,6 +89,7 @@ class CProfileLogRoute extends CWebLogRoute
 	/**
 	 * Displays the callstack of the profiling procedures for display.
 	 * @param array $logs list of logs
+	 * @throws CException if Yii::beginProfile() and Yii::endProfile() are not matching
 	 */
 	protected function displayCallstack($logs)
 	{
@@ -130,6 +132,7 @@ class CProfileLogRoute extends CWebLogRoute
 	/**
 	 * Displays the summary report of the profiling result.
 	 * @param array $logs list of logs
+	 * @throws CException if Yii::beginProfile() and Yii::endProfile() are not matching
 	 */
 	protected function displaySummary($logs)
 	{
