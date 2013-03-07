@@ -138,11 +138,20 @@ class CNumberFormatter extends CComponent
 	 * @param array $format format with the following structure:
 	 * <pre>
 	 * array(
-	 * 	'decimalDigits'=>2,     // number of required digits after decimal point; 0s will be padded if not enough digits; if -1, it means we should drop decimal point
-	 *  'maxDecimalDigits'=>3,  // maximum number of digits after decimal point. Additional digits will be truncated.
-	 * 	'integerDigits'=>1,     // number of required digits before decimal point; 0s will be padded if not enough digits
-	 * 	'groupSize1'=>3,        // the primary grouping size; if 0, it means no grouping
-	 * 	'groupSize2'=>0,        // the secondary grouping size; if 0, it means no secondary grouping
+	 * 	// number of required digits after the decimal point,
+	 * 	// will be padded with 0 if not enough digits,
+	 * 	// -1 means we should drop the decimal point
+	 * 	'decimalDigits'=>2,
+	 * 	// maximum number of digits after the decimal point,
+	 * 	// additional digits will be truncated.
+	 * 	'maxDecimalDigits'=>3,
+	 * 	// number of required digits before the decimal point,
+	 * 	// will be padded with 0 if not enough digits
+	 * 	'integerDigits'=>1,
+	 * 	// the primary grouping size, 0 means no grouping
+	 * 	'groupSize1'=>3,
+	 * 	// the secondary grouping size, 0 means no secondary grouping
+	 * 	'groupSize2'=>0,
 	 * 	'positivePrefix'=>'+',  // prefix to positive number
 	 * 	'positiveSuffix'=>'',   // suffix to positive number
 	 * 	'negativePrefix'=>'(',  // prefix to negative number
