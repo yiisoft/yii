@@ -1401,4 +1401,32 @@ class CActiveRecordTest extends CTestCase
 
 	}
 
+	/**
+	 * @see https://github.com/yiisoft/yii/issues/135
+	 */
+	public function testCountWithHaving()
+	{
+		$criteriaWithHaving = new CDbCriteria();
+		$criteriaWithHaving->group = 'id';
+		$criteriaWithHaving->having = 'id = 1';
+		$count = Post::model()->count($criteriaWithHaving);
+
+		$this->assertEquals(1, $count, 'Having condition has not been applied on count!');
+	}
+
+	/**
+	 * @see https://github.com/yiisoft/yii/issues/135
+	 */
+	public function testCountWithHavingRelational()
+	{
+		$criteriaWithHaving = new CDbCriteria();
+		$criteriaWithHaving->select = 't.id AS test_field';
+		$criteriaWithHaving->with = array('author');
+		$criteriaWithHaving->group = 't.id';
+		$criteriaWithHaving->having = 'test_field = 1';
+		$count = Post::model()->count($criteriaWithHaving);
+
+		$this->assertEquals(1, $count, 'Having condition has not been applied on count with relation!');
+	}
+
 }

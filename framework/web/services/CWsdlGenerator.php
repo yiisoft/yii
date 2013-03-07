@@ -61,7 +61,7 @@
  * <pre>
  * class Foo {
  *     / **
- *       * @var string name of foo {nillable = 1, minOccurs=0, maxOccurs = 2}
+ *       * @var string name of foo {nillable=1, minOccurs=0, maxOccurs=2}
  *       * @soap
  *       * /
  *     public $name;
@@ -124,19 +124,19 @@
  *   * /
  * class User {
  *     / **
- *       * @var string name of User {minOccurs=1 maxOccurs = 1
+ *       * @var string User name {minOccurs=1, maxOccurs=1}
  *       * @soap
  *       * /
  *     public $name;
  *     / **
- *       * @var integer User age {nillable = 0, minOccurs = 1, maxOccurs = 1}
- * 		 * @example 35
+ *       * @var integer User age {nillable=0, minOccurs=1, maxOccurs=1}
+ *       * @example 35
  *       * @soap
  *       * /
  *     public $age;
  *     / **
- *       * @var date User's birthday {nillable = 0, minOccurs = 1, maxOccurs = 1}
- * 		 * @example 1980-05-27
+ *       * @var date User's birthday {nillable=0, minOccurs=1, maxOccurs=1}
+ *       * @example 1980-05-27
  *       * @soap
  *       * /
  *     public $date_of_birth;
@@ -145,7 +145,7 @@
  * In the example above, WSDL generator would inject under XML node <xsd:User> the code block defined by @soap-wsdl lines.
  *
  * By inserting into SOAP URL link the parameter "?makedoc", WSDL generator will output human-friendly overview of all complex data types rather than XML WSDL file.
- * Each complex type is described in a separate HTML table and recognises also the '@example' var comment block tag. See {@link buildHtmlDocs()}.
+ * Each complex type is described in a separate HTML table and recognizes also the '@example' PHPDoc tag. See {@link buildHtmlDocs()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.services
@@ -226,9 +226,8 @@ class CWsdlGenerator extends CComponent
 		$wsdl=$this->buildDOM($serviceUrl,$encoding)->saveXML();
 
 		if(isset($_GET['makedoc']))
-		{
 			$this->buildHtmlDocs();
-		}
+
 		return $wsdl;
 	}
 
@@ -274,9 +273,9 @@ class CWsdlGenerator extends CComponent
 	{
 		if(isset(self::$typeMap[$type]))
 			return self::$typeMap[$type];
-		else if(isset($this->types[$type]))
+		elseif(isset($this->types[$type]))
 			return is_array($this->types[$type]) ? 'tns:'.$type : $this->types[$type];
-		else if(($pos=strpos($type,'[]'))!==false)
+		elseif(($pos=strpos($type,'[]'))!==false)
 		{	// array of types
 			$type=substr($type,0,$pos);
 			$this->types[$type.'[]']='tns:'.$type.'Array';
@@ -286,26 +285,26 @@ class CWsdlGenerator extends CComponent
 		else
 		{	// process class / complex type
 			$type=Yii::import($type,true);
-			$class = new ReflectionClass($type);
+			$class=new ReflectionClass($type);
 
-			$comment = $class->getDocComment();
-			$comment = strtr($comment,array("\r\n"=>"\n","\r"=>"\n")); // make line endings consistent: win -> unix, mac -> unix
-			$comment = preg_replace('/^\s*\**(\s*?$|\s*)/m','',$comment);
+			$comment=$class->getDocComment();
+			$comment=strtr($comment,array("\r\n"=>"\n","\r"=>"\n")); // make line endings consistent: win -> unix, mac -> unix
+			$comment=preg_replace('/^\s*\**(\s*?$|\s*)/m','',$comment);
 
 			// extract soap indicator flag, if defined, e.g. @soap-indicator sequence
 			// see http://www.w3schools.com/schema/schema_complex_indicators.asp
 			if(preg_match('/^@soap-indicator\s+(\w+)\s*?(.*)$/im', $comment, $matches))
 			{
-				$indicator = $matches[1];
-				$attributes = $this->getWsdlElementAttributes($matches[2]);
+				$indicator=$matches[1];
+				$attributes=$this->getWsdlElementAttributes($matches[2]);
 			}else{
-				$indicator = 'all';
-				$attributes = $this->getWsdlElementAttributes('');
+				$indicator='all';
+				$attributes=$this->getWsdlElementAttributes('');
 			}
 
-			$custom_wsdl = false;
+			$custom_wsdl=false;
 			if(preg_match_all('/^@soap-wsdl\s+(\S.*)$/im',$comment,$matches)>0)
-				$custom_wsdl = implode("\n", $matches[1]);
+				$custom_wsdl=implode("\n", $matches[1]);
 
 			$this->types[$type]=array(
 				'indicator'=>$indicator,
@@ -323,15 +322,15 @@ class CWsdlGenerator extends CComponent
 				{
 					if(preg_match('/@var\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/mi',$comment,$matches))
 					{
-						$attributes = $this->getWsdlElementAttributes($matches[3]);
+						$attributes=$this->getWsdlElementAttributes($matches[3]);
 
-						if(preg_match('/{(.+)}/', $comment, $attr))
-							$matches[3] = str_replace($attr[0], '', $matches[3]);
+						if(preg_match('/{(.+)}/',$comment,$attr))
+							$matches[3]=str_replace($attr[0],'',$matches[3]);
 
-						// extract PHPDoc @examples
-						$example = '';
-						if(preg_match("/@example[:]?(.+)/mi", $comment, $match))
-							$example = trim($match[1]);
+						// extract PHPDoc @example
+						$example='';
+						if(preg_match("/@example[:]?(.+)/mi",$comment,$match))
+							$example=trim($match[1]);
 
 						$this->types[$type]['properties'][$property->getName()]=array(
 							$this->processType($matches[1]),
@@ -353,22 +352,22 @@ class CWsdlGenerator extends CComponent
 	* @param string $comment Extracted PHPDoc comment
 	*/
 	protected function getWsdlElementAttributes($comment) {
-		$nillable = $minOccurs = $maxOccurs = null;
-		if(preg_match('/{(.+)}/', $comment, $attr))
+		$nillable=$minOccurs=$maxOccurs=null;
+		if(preg_match('/{(.+)}/',$comment,$attr))
 		{
-			if(preg_match_all('/((\w+)\s*=\s*(\w+))/mi', $attr[1], $attr))
+			if(preg_match_all('/((\w+)\s*=\s*(\w+))/mi',$attr[1],$attr))
 			{
-				foreach($attr[2] as $id => $prop)
+				foreach($attr[2] as $id=>$prop)
 				{
-					$prop = strtolower($prop);
-					$val = strtolower($attr[3][$id]);
+					$prop=strtolower($prop);
+					$val=strtolower($attr[3][$id]);
 					if($prop=='nillable'){
 						if($val=='false' || $val=='true')
 							$nillable=$val;
 						else
 							$nillable=$val ? 'true' : 'false';
 					}elseif($prop=='minoccurs')
-						$minOccurs = intval($val);
+						$minOccurs=intval($val);
 					elseif($prop=='maxoccurs')
 						$maxOccurs=($val=='unbounded') ? 'unbounded' : intval($val);
 				}
@@ -382,7 +381,7 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/**
-	* Import custom XML node into WSDL document
+	* Import custom XML source node into WSDL document under specified target node
 	* @param DOMDocument $dom XML WSDL document being generated
 	* @param DOMElement $target XML node, to which will be appended $source node
 	* @param DOMNode $source Source XML node to be imported
@@ -459,9 +458,9 @@ class CWsdlGenerator extends CComponent
 				$attribute->setAttribute('ref','soap-enc:arrayType');
 				$attribute->setAttribute('wsdl:arrayType',substr($xmlType,0,strlen($xmlType)-5).'[]');
 
-				$arrayType = ($dppos=strpos($xmlType,':')) !==false ? substr($xmlType,$dppos + 1) : $xmlType; // strip namespace, if any
-				$arrayType = substr($arrayType,0,-5); // strip 'Array' from name
-				$arrayType = (isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]';
+				$arrayType=($dppos=strpos($xmlType,':')) !==false ? substr($xmlType,$dppos + 1) : $xmlType; // strip namespace, if any
+				$arrayType=substr($arrayType,0,-5); // strip 'Array' from name
+				$arrayType=(isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]';
 				$attribute->setAttribute('wsdl:arrayType',$arrayType);
 
 				$restriction->appendChild($attribute);
@@ -506,7 +505,6 @@ class CWsdlGenerator extends CComponent
 			$schema->appendChild($complexType);
 			$types->appendChild($schema);
 		}
-
 		$dom->documentElement->appendChild($types);
 	}
 
@@ -555,9 +553,9 @@ class CWsdlGenerator extends CComponent
 		$operation=$dom->createElement('wsdl:operation');
 		$operation->setAttribute('name',$name);
 
-		$input = $dom->createElement('wsdl:input');
+		$input=$dom->createElement('wsdl:input');
 		$input->setAttribute('message', 'tns:'.$name.'Request');
-		$output = $dom->createElement('wsdl:output');
+		$output=$dom->createElement('wsdl:output');
 		$output->setAttribute('message', 'tns:'.$name.'Response');
 
 		$operation->appendChild($dom->createElement('wsdl:documentation',$doc));
@@ -595,14 +593,14 @@ class CWsdlGenerator extends CComponent
 	{
 		$operation=$dom->createElement('wsdl:operation');
 		$operation->setAttribute('name', $name);
-		$soapOperation = $dom->createElement('soap:operation');
+		$soapOperation=$dom->createElement('soap:operation');
 		$soapOperation->setAttribute('soapAction', $this->namespace.'#'.$name);
 		$soapOperation->setAttribute('style','rpc');
 
-		$input = $dom->createElement('wsdl:input');
-		$output = $dom->createElement('wsdl:output');
+		$input=$dom->createElement('wsdl:input');
+		$output=$dom->createElement('wsdl:output');
 
-		$soapBody = $dom->createElement('soap:body');
+		$soapBody=$dom->createElement('soap:body');
 		$soapBody->setAttribute('use', 'encoded');
 		$soapBody->setAttribute('namespace', $this->namespace);
 		$soapBody->setAttribute('encodingStyle', 'http://schemas.xmlsoap.org/soap/encoding/');
@@ -638,50 +636,52 @@ class CWsdlGenerator extends CComponent
 
 	/**
 	* Generate human friendly HTML documentation for complex data types.
-	* This method can be invoked two ways - either by inserting URL parameter "&makedoc"
-	* into URL link, e.g. "http://www.mydomain.com/soap/createUser?makedoc", or simply by calling from another script.
+	* This method can be invoked either by inserting URL parameter "&makedoc" into URL link, e.g. "http://www.mydomain.com/soap/create?makedoc", or simply by calling from another script with argument $return=true.
 	*
-	* Each complex data type be descripbed in a separate HTML table with following columns:
+	* Each complex data type is described in a separate HTML table containing following columns:
 	* <ul>
 	* <li># - attribute ID</li>
 	* <li>Attribute - attribute name, e.g. firstname</li>
 	* <li>Type - attribute type, e.g. integer, date, tns:SoapPovCalculationResultArray</li>
 	* <li>Nill - true|false - whether the attribute is nillable</li>
-	* <li>Min - minimum number of occurences</li>
-	* <li>Max - maximum number of occurences</li>
+	* <li>Min - minimum number of occurrences</li>
+	* <li>Max - maximum number of occurrences</li>
 	* <li>Description - Detailed description of the attribute.</li>
 	* <li>Example - Attribute example value if provided via PHPDoc property @example.</li>
 	* <ul>
+	*
 	* @param bool $return If true, generated HTML output will be returned rather than directly sent to output buffer
 	*/
 	public function buildHtmlDocs($return=false)
 	{
-		$html = '<html><head>';
-		$html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
-		$html .= '<style type="text/css">
+		$html='<html><head>';
+		$html.='<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+		$html.='<style type="text/css">
 table{border-collapse: collapse;background-color: #DDDDDD;}
 tr{background-color: #FFFFFF;}
 th{background-color: #EEEEEE;}
 th, td{font-size: 12px;font-family: courier;padding: 3px;}
 </style>';
-		$html .= '</head><body>';
-		$html .= '<h2>WSDL documentation for service '.$this->serviceName.'</h2>';
-		$html .= '<p>Generated on '.date('d.m.Y H:i:s').'</p>';
-		$html .= '<table border="0" cellspacing="1" cellpadding="1">';
-		$html .= '<tr><td>';
-		if(!empty($this->types)){
-			foreach($this->types as $object => $options){
+		$html.='</head><body>';
+		$html.='<h2>WSDL documentation for service '.$this->serviceName.'</h2>';
+		$html.='<p>Generated on '.date('d.m.Y H:i:s').'</p>';
+		$html.='<table border="0" cellspacing="1" cellpadding="1">';
+		$html.='<tr><td>';
+
+		if(!empty($this->types))
+		{
+			foreach($this->types as $object=>$options){
 				if(!is_array($options) || empty($options) || !is_array($options['properties']) || empty($options['properties'])){
 					continue;
 				}
-				$params = $options['properties'];
-				$html .= "\n\n<h3>Object: {$object}</h3>";
-				$html .= '<table border="1" cellspacing="1" cellpadding="1">';
-				$html .= '<tr><th>#</th><th>Attribute</th><th>Type</th><th>Nill</th><th>Min</th><th>Max</th><th>Description</th><th>Example</th></tr>';
-				$c = 0;
-				foreach($params as $param => $prop){
+				$params=$options['properties'];
+				$html.="\n\n<h3>Object: {$object}</h3>";
+				$html.='<table border="1" cellspacing="1" cellpadding="1">';
+				$html.='<tr><th>#</th><th>Attribute</th><th>Type</th><th>Nill</th><th>Min</th><th>Max</th><th>Description</th><th>Example</th></tr>';
+				$c=0;
+				foreach($params as $param=>$prop){
 					++$c;
-					$html .= "\n<tr>"
+					$html.="\n<tr>"
 								."\n\t<td>{$c}</td>"
 								."\n\t<td>{$param}</td>"
 								."\n\t<td>".(str_replace('xsd:','',$prop[0]))."</td>"
@@ -692,15 +692,17 @@ th, td{font-size: 12px;font-family: courier;padding: 3px;}
 								."\n\t<td>".(trim($prop[5])=='' ? '&nbsp;' : $prop[5])."</td>"
 							."\n</tr>";
 				}
-				$html .= "\n</table><br/>";
+				$html.="\n</table><br/>";
 			}
-		}else{
-			$html .= 'No complex data type found!';
 		}
-		$html .= '</td></tr></table></body></html>';
-		if($return){
+		else
+			$html.='No complex data type found!';
+
+		$html.='</td></tr></table></body></html>';
+
+		if($return)
 			return $html;
-		}
+
 		echo $html;
 		Yii::app()->end(); // end the app to avoid conflict with text/xml header
 	}
