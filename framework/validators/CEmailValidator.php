@@ -188,8 +188,8 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	 */
 	private function encodeIDN($value)
 	{
-		require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
-		$idnaConvert=new idna_convert();
-		return $idnaConvert->encode($value);
+		require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
+		$idna=new Net_IDNA2();
+		return $idna->encode($value);
 	}
 }
