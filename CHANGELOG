@@ -34,6 +34,7 @@ Version 1.1.14 work in progress
 - Chg #2069: Upgraded jQuery BBQ Plugin to 1.4pre to fix jQuery compatibility problems (samdark)
 - New #575: Yii registering at Packagist, added composer info file (schmunk42)
 - New #1785: Added CPasswordHelper (tom--)
+- New #2178: Added Catalan Translation (ArnauAregall)
 
 Version 1.1.13 December 30, 2012
 --------------------------------
