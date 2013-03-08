@@ -118,6 +118,10 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 */
 	public function itemAt($key)
 	{
+		if ( is_array($key) ) {
+			return self::wanderArray($this->_d, $key);
+		}
+
 		if(isset($this->_d[$key]))
 			return $this->_d[$key];
 		else
@@ -295,6 +299,35 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 			}
 		}
 		return $res;
+	}
+
+	/**
+	 * Walks through a given array by a specified path.
+	 * Each item of the path array specifies the next nested key
+	 * in the array
+	 * @param array $array array to be searched
+	 * @param array $path  array of each level key
+	 * @return mixed the value of the array at the end of the path
+	 */
+	public static function wanderArray($array, $path) {
+		if ( is_string($path) ) {
+			$path = explode('.', $path);
+		}
+
+		if(!is_array($path)) {
+			return null;
+		}
+
+		$key = reset($path);
+		if(!isset($array[$key])) {
+			return null;
+		}
+
+		if( count($path) == 1 ) {
+			return $array[$key];
+		}
+
+		return self::wanderArray($array[$key], array_slice($path, 1));
 	}
 
 	/**
