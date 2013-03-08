@@ -284,10 +284,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		foreach($this->rules() as $rule)
 		{
 			if(isset($rule[0],$rule[1]))  // attributes, validator name
-            {
-                $name = $rule[1];
+			{
+				$name = $rule[1];
 				$validators->add($name::createValidator($name,$this,$rule[0],array_slice($rule,2)));
-            }
+			}
 			else
 				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
 					array('{class}'=>get_class($this))));
