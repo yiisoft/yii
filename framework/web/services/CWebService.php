@@ -86,6 +86,11 @@ class CWebService extends CComponent
 	 * @since 1.1.12
 	 */
 	public $generatorConfig='CWsdlGenerator';
+	/**
+	 * @var boolean whether to check requests for XXE/XEE attacks
+	 * @since 1.1.14
+	 */
+	public $filterRequests=true;
 
 	private $_method;
 
@@ -153,7 +158,48 @@ class CWebService extends CComponent
 			$cache->set($key,$wsdl,$this->wsdlCacheDuration);
 		return $wsdl;
 	}
+	
+	/**
+	 * Prepares request XML and in case of string serialized XML parses and seeks for DOCTYPE
+	 * tags which may contain danger XML entities definition.
+	 * Code adapted from Zend_Soap_Server by Zend
+	 * It is exposed as public to allow unittests of this functionality
+	 * @param mixed $request request data
+	 * @return string request XML as string
+	 */
+	public function filterRequest($request)
+	{
+		//when request is already parsed - there is nothing to do, we only need to save it as string
+		if($request instanceof DOMDocument)
+			$xml = $request->saveXML();
+		elseif($request instanceof DOMNode)
+			$xml = $request->ownerDocument->saveXML();
+		elseif($request instanceof SimpleXMLElement)
+			$xml = $request->asXML();
+		elseif(is_object($request) || is_string($request))
+		{
+			//when request is passed as string or unknown object class - we check it for DOCTYPE tags
+			if(is_object($request))
+				$xml = $request->__toString();
+			else
+				$xml = $request;
 
+			//disabling entity loader is crucial to prevent XXE/XEE checks or we will fall into same trap
+			libxml_disable_entity_loader(true);
+			$dom = new DOMDocument();
+			if(strlen($xml)==0 || !$dom->loadXML($xml))
+				throw new CException('Invalid XML: Parse error');
+
+			foreach($dom->childNodes as $child)
+			{
+				if ($child->nodeType === XML_DOCUMENT_TYPE_NODE)
+					throw new CException('Invalid XML: Detected use of illegal DOCTYPE');
+			}
+			libxml_disable_entity_loader(false);
+		}
+		return $xml;
+	}
+	
 	/**
 	 * Handles the web service request.
 	 */
@@ -178,16 +224,20 @@ class CWebService extends CComponent
 			else
 				$server->setClass('CSoapObjectWrapper',$provider);
 
+			$request=file_get_contents('php://input');
+			if($this->filterRequests)
+				$request=$this->filterRequest($request);
+
 			if($provider instanceof IWebServiceProvider)
 			{
 				if($provider->beforeWebMethod($this))
 				{
-					$server->handle();
+					$server->handle($request);
 					$provider->afterWebMethod($this);
 				}
 			}
 			else
-				$server->handle();
+				$server->handle($request);
 		}
 		catch(Exception $e)
 		{
