@@ -163,11 +163,10 @@ class CWebService extends CComponent
 	 * Prepares request XML and in case of string serialized XML parses and seeks for DOCTYPE
 	 * tags which may contain danger XML entities definition.
 	 * Code adapted from Zend_Soap_Server by Zend
-	 * It is exposed as public to allow unittests of this functionality
 	 * @param mixed $request request data
 	 * @return string request XML as string
 	 */
-	public function filterRequest($request)
+	protected function filterRequest($request)
 	{
 		//when request is already parsed - there is nothing to do, we only need to save it as string
 		if($request instanceof DOMDocument)
@@ -185,7 +184,7 @@ class CWebService extends CComponent
 				$xml = $request;
 
 			//disabling entity loader is crucial to prevent XXE/XEE checks or we will fall into same trap
-			libxml_disable_entity_loader(true);
+			$oldValue=libxml_disable_entity_loader(true);
 			$dom = new DOMDocument();
 			if(strlen($xml)==0 || !$dom->loadXML($xml))
 				throw new CException('Invalid XML: Parse error');
@@ -195,7 +194,7 @@ class CWebService extends CComponent
 				if ($child->nodeType === XML_DOCUMENT_TYPE_NODE)
 					throw new CException('Invalid XML: Detected use of illegal DOCTYPE');
 			}
-			libxml_disable_entity_loader(false);
+			libxml_disable_entity_loader($oldValue);
 		}
 		return $xml;
 	}
@@ -224,7 +223,7 @@ class CWebService extends CComponent
 			else
 				$server->setClass('CSoapObjectWrapper',$provider);
 
-			$request=file_get_contents('php://input');
+			$request=Yii:app()->request->rawBody;
 			if($this->filterRequests)
 				$request=$this->filterRequest($request);
 
