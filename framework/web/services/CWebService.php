@@ -196,6 +196,8 @@ class CWebService extends CComponent
 			}
 			libxml_disable_entity_loader($oldValue);
 		}
+		else
+			throw new CException('Unsupported parameter type.');
 		return $xml;
 	}
 	
