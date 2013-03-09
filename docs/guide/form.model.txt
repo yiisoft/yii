@@ -110,7 +110,7 @@ different forms which means the same:
 
 ~~~
 [php]
-// arbitary array with scenario names
+// arbitrary array with scenario names
 'on'=>array('update', 'create'),
 // string with scenario names separated with commas (spaces are ignored)
 'except'=>'ignore, this, scenarios, at-all',
