@@ -83,6 +83,13 @@ class CUniqueValidator extends CValidator
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 
+		if(is_array($value))
+		{
+			// https://github.com/yiisoft/yii/issues/1955
+			$this->addError($object,$attribute,Yii::t('yii','{attribute} must not have array value.'));
+			return;
+		}
+
 		$className=$this->className===null?get_class($object):Yii::import($this->className);
 		$attributeName=$this->attributeName===null?$attribute:$this->attributeName;
 		$finder=CActiveRecord::model($className);

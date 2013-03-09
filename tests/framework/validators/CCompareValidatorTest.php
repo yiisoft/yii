@@ -25,6 +25,11 @@ class CCompareValidatorTest extends CTestCase
 		$model->bar = 'foo';
 		$this->assertTrue($model->validate());
 
+		// https://github.com/yiisoft/yii/issues/1955
+		$model->foo = array('foo');
+		$this->assertFalse($model->validate());
+		$this->assertTrue($model->hasErrors('foo'));
+
 		// client validation
 		$validator = new CCompareValidator;
 		$validator->operator = '=';

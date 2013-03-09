@@ -72,7 +72,7 @@ class CUrlValidator extends CValidator
 	 * Validates a static value to see if it is a valid URL.
 	 * Note that this method does not respect {@link allowEmpty} property.
 	 * This method is provided so that you can call it directly without going through the model validation rule mechanism.
-	 * @param mixed $value the value to be validated
+	 * @param string $value the value to be validated
 	 * @return mixed false if the the value is not a valid URL, otherwise the possibly modified value ({@see defaultScheme})
 	 * @since 1.1.1
 	 */

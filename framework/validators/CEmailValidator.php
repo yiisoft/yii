@@ -87,7 +87,7 @@ class CEmailValidator extends CValidator
 	 */
 	public function validateValue($value)
 	{
-		if($this->validateIDN)
+		if(is_string($value) && $this->validateIDN)
 			$value=$this->encodeIDN($value);
 		// make sure string length is limited to avoid DOS attacks
 		$valid=is_string($value) && strlen($value)<=254 && (preg_match($this->pattern,$value) || $this->allowName && preg_match($this->fullPattern,$value));
@@ -182,7 +182,7 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 
 	/**
 	 * Converts given IDN to the punycode.
-	 * @param $value IDN to be converted.
+	 * @param string $value IDN to be converted.
 	 * @return string resulting punycode.
 	 * @since 1.1.13
 	 */

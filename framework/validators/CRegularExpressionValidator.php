@@ -48,7 +48,12 @@ class CRegularExpressionValidator extends CValidator
 			return;
 		if($this->pattern===null)
 			throw new CException(Yii::t('yii','The "pattern" property must be specified with a valid regular expression.'));
-		if((!$this->not && !preg_match($this->pattern,$value)) || ($this->not && preg_match($this->pattern,$value)))
+		if(is_array($value))
+		{
+			// https://github.com/yiisoft/yii/issues/1955
+			$this->addError($object,$attribute,Yii::t('yii','{attribute} must not have array value.'));
+		}
+		elseif((!$this->not && !preg_match($this->pattern,$value)) || ($this->not && preg_match($this->pattern,$value)))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is invalid.');
 			$this->addError($object,$attribute,$message);
