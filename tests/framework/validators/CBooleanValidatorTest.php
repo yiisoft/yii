@@ -74,7 +74,7 @@ class CBooleanValidatorTest extends CTestCase
         $model->foo = array(1);
         $this->assertFalse($model->validate());
         $this->assertTrue($model->hasErrors('foo'));
-		$this->assertSame(array('Foo must be either 1 or 0.'), $model->getErrors('foo'));
+        $this->assertSame(array('Foo must be either 1 or 0.'), $model->getErrors('foo'));
     }
     
     /**
