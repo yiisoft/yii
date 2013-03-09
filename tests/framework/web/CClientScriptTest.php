@@ -81,6 +81,110 @@ class CClientScriptTest extends CTestCase
 		$returnedClientScript = $this->_clientScript->registerPackage($name);
 		$this->assertEquals($assertion, $returnedClientScript->corePackages[$name]);
 	}
+
+	public function providerScriptFiles()
+	{
+		return array(
+			array('/some/script.js', CClientScript::POS_HEAD, '/some/script.js'),
+			array('http://some/script.js', CClientScript::POS_BEGIN, 'http://some/script.js'),
+			array('/some/script.js', CClientScript::POS_END, '/some/script.js'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScriptFiles
+	 *
+	 * @param string $url
+	 * @param integer $position
+	 * @param string $assertion
+	 */
+	public function testRegisterScriptFile($url, $position, $assertion)
+	{
+		$returnedClientScript = $this->_clientScript->registerScriptFile($url, $position);
+		$scriptFiles = $this->readAttribute($returnedClientScript, 'scriptFiles');
+		$this->assertEquals($assertion, $scriptFiles[$position][$url]);
+	}
+
+	public function providerScriptFilesWithHtmlOptions()
+	{
+		return array(
+			array(
+				'/some/script.js',
+				CClientScript::POS_HEAD,
+				array('defer'=>true),
+				array(
+					'src'=>'/some/script.js',
+					'defer'=>true
+				)
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScriptFilesWithHtmlOptions
+	 *
+	 * @param string $url
+	 * @param integer $position
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testRegisterScriptFileWithHtmlOptions($url, $position, $htmlOptions, $assertion)
+	{
+		$returnedClientScript = $this->_clientScript->registerScriptFile($url, $position, $htmlOptions);
+		$scriptFiles = $this->readAttribute($returnedClientScript, 'scriptFiles');
+		$this->assertEquals($assertion, $scriptFiles[$position][$url]);
+	}
+
+	public function providerScripts()
+	{
+		return array(
+			array('jsId', "function() {alert('alert')}", CClientScript::POS_HEAD, "function() {alert('alert')}"),
+			array('jsId', "function() {alert('alert')}", CClientScript::POS_BEGIN, "function() {alert('alert')}"),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScripts
+	 *
+	 * @param string $id
+	 * @param string $script
+	 * @param integer $position
+	 * @param string $assertion
+	 */
+	public function testRegisterScript($id, $script, $position, $assertion) {
+		$returnedClientScript = $this->_clientScript->registerScript($id, $script, $position);
+		$this->assertEquals($assertion, $returnedClientScript->scripts[$position][$id]);
+	}
+
+	public function providerScriptsWithHtmlOptions()
+	{
+		return array(
+			array(
+				'jsId',
+				"function() {alert('alert')}",
+				CClientScript::POS_HEAD,
+				array('defer'=>true),
+				array(
+					'content'=>"function() {alert('alert')}",
+					'defer'=>true,
+				)
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider providerScriptsWithHtmlOptions
+	 *
+	 * @param string $id
+	 * @param string $script
+	 * @param integer $position
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testRegisterScriptWithHtmlOptions($id, $script, $position, $htmlOptions, $assertion) {
+		$returnedClientScript = $this->_clientScript->registerScript($id, $script, $position, $htmlOptions);
+		$this->assertEquals($assertion, $returnedClientScript->scripts[$position][$id]);
+	}
 	
 	public function providerRegisterCss()
 	{
@@ -170,4 +274,146 @@ class CClientScriptTest extends CTestCase
 
 	/* Test Script Renderers */
 	
+	public function providerRenderScriptFiles()
+	{
+		return array(
+			array(
+				'/some/script.js',
+				CClientScript::POS_HEAD,
+				array(),
+				'<script type="text/javascript" src="/some/script.js"></script>'
+			),
+			array(
+				'/some/script.js',
+				CClientScript::POS_BEGIN,
+				array(),
+				'<script type="text/javascript" src="/some/script.js"></script>'
+			),
+			array(
+				'/some/script.js',
+				CClientScript::POS_END,
+				array(),
+				'<script type="text/javascript" src="/some/script.js"></script>'
+			),
+			array(
+				'/options/script.js',
+				CClientScript::POS_HEAD,
+				array('defer'=>true),
+				'<script type="text/javascript" src="/options/script.js" defer="defer"></script>'
+			),
+			array(
+				'/options/script.js',
+				CClientScript::POS_BEGIN,
+				array('defer'=>true),
+				'<script type="text/javascript" src="/options/script.js" defer="defer"></script>'
+			),
+			array(
+				'/options/script.js',
+				CClientScript::POS_END,
+				array('defer'=>true),
+				'<script type="text/javascript" src="/options/script.js" defer="defer"></script>'
+			),
+		);
+	}
+
+	/**
+	 * @depends testRegisterScriptFile
+	 * @depends testRegisterScriptFileWithHtmlOptions
+	 * 
+	 * @dataProvider providerRenderScriptFiles
+	 *
+	 * @param string $url
+	 * @param integer $position
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testRenderScriptFiles($url, $position, $htmlOptions, $assertion)
+	{
+		$returnedClientScript = $this->_clientScript->registerScriptFile($url, $position, $htmlOptions);
+		$output = '<head></head>';
+		$returnedClientScript->render($output);
+		$this->assertContains($assertion, $output);
+	}
+
+	public function providerRenderScripts()
+	{
+		return array(
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_HEAD,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_BEGIN,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_END,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_LOAD,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			array(
+				'some_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_READY,
+				array(),
+				CHtml::script("function() {alert('script')}")
+			),
+			// With HTML options
+			array(
+				'option_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_HEAD,
+				array('defer'=>true),
+				CHtml::script("function() {alert('script')}",array('defer'=>true))
+			),
+			array(
+				'option_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_BEGIN,
+				array('defer'=>true),
+				CHtml::script("function() {alert('script')}",array('defer'=>true))
+			),
+			array(
+				'option_js_id',
+				"function() {alert('script')}",
+				CClientScript::POS_END,
+				array('defer'=>true),
+				CHtml::script("function() {alert('script')}",array('defer'=>true))
+			),
+		);
+	}
+
+	/**
+	 * @depends testRegisterScript
+	 *
+	 * @dataProvider providerRenderScripts
+	 *
+	 * @param string $id
+	 * @param string $script
+	 * @param integer $position
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testRenderScripts($id, $script, $position, $htmlOptions, $assertion)
+	{
+		$returnedClientScript = $this->_clientScript->registerScript($id, $script, $position, $htmlOptions);
+		$output = '<head></head>';
+		$returnedClientScript->render($output);
+		$this->assertContains($assertion, $output);
+	}
 }
