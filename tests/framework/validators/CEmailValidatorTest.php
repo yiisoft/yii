@@ -60,4 +60,16 @@ class CEmailValidatorTest extends CTestCase
 		$result = $emailValidator->validateValue($email);
 		$this->assertEquals($assertion, $result);
 	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/1955
+	 */
+	public function testArrayValue()
+	{
+		$model=new ValidatorTestModel('CEmailValidatorTest');
+		$model->email=array('user@domain.tld');
+		$model->validate(array('email'));
+		$this->assertTrue($model->hasErrors('email'));
+		$this->assertEquals(array('Email is not a valid email address.'),$model->getErrors('email'));
+	}
 }
