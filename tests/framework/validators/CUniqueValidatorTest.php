@@ -138,6 +138,5 @@ EOD;
 		$model->name = array('test_name');
 		$this->assertFalse($model->validate());
 		$this->assertTrue($model->hasErrors('name'));
-		$this->assertSame(array('Name must not have array value.'),$model->getErrors('name'));
 	}
 }

@@ -76,7 +76,7 @@ class CExistValidator extends CValidator
 		if(is_array($value))
 		{
 			// https://github.com/yiisoft/yii/issues/1955
-			$this->addError($object,$attribute,Yii::t('yii','{attribute} must not have array value.'));
+			$this->addError($object,$attribute,Yii::t('yii','{attribute} is invalid.'));
 			return;
 		}
 

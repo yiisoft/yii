@@ -29,7 +29,6 @@ class CStringValidatorTest extends CTestCase
 		$model4->string1=array('1234567890');
 		$model4->validate(array('string1'));
 		$this->assertTrue($model4->hasErrors('string1'));
-		$this->assertSame(array('String1 must not have array value.'),$model4->getErrors('string1'));
 	}
 
 	public function testMax()
@@ -59,7 +58,6 @@ class CStringValidatorTest extends CTestCase
 		$model4->string2=array('1234567890');
 		$model4->validate(array('string2'));
 		$this->assertTrue($model4->hasErrors('string2'));
-		$this->assertSame(array('String2 must not have array value.'),$model4->getErrors('string2'));
 	}
 
 	public function testIs()
@@ -96,6 +94,5 @@ class CStringValidatorTest extends CTestCase
 		$model5->string3=array('1234567890');
 		$model5->validate(array('string3'));
 		$this->assertTrue($model5->hasErrors('string3'));
-		$this->assertSame(array('String3 must not have array value.'),$model5->getErrors('string3'));
 	}
 }
