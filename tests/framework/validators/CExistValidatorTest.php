@@ -130,13 +130,13 @@ EOD;
 
 	/**
 	 * https://github.com/yiisoft/yii/issues/1955
+	 * @expectedException CException
 	 */
 	public function testArrayValue()
 	{
 		$modelClassName = $this->_arModelName;
 		$model = new $modelClassName('simple');
 		$model->name = array('test_name');
-		$this->assertFalse($model->validate());
-		$this->assertTrue($model->hasErrors('name'));
+		$model->validate();
 	}
 }

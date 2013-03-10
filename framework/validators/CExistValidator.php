@@ -22,6 +22,8 @@
  * <li>{value}: replaced with value of the attribute.</li>
  * </ul>
  *
+ * This validator is not intended to be used with array values. Otherwise an exception will be raised.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.validators
  */
@@ -76,8 +78,7 @@ class CExistValidator extends CValidator
 		if(is_array($value))
 		{
 			// https://github.com/yiisoft/yii/issues/1955
-			$this->addError($object,$attribute,Yii::t('yii','{attribute} is invalid.'));
-			return;
+			throw new CException(Yii::t('yii','{class} cannot validate array value.',array('{class}'=>'CExistValidator')));
 		}
 
 		$className=$this->className===null?get_class($object):Yii::import($this->className);

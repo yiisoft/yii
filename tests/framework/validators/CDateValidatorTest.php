@@ -44,10 +44,19 @@ class CDateValidatorTest extends CTestCase
         $this->assertTrue($model->validate());
         $model->foo = '01-24-2011';
         $this->assertFalse($model->validate());
+    }
 
-        // array value, https://github.com/yiisoft/yii/issues/1955
+    /**
+     * https://github.com/yiisoft/yii/issues/1955
+     *
+     * @expectedException CException
+     * @return null
+     */
+    public function testArrayValue()
+    {
+        $model = $this->getModelMock(array('format' => 'dd-MM-yyyy'));
         $model->foo = array('01-01-2011');
-        $this->assertFalse($model->validate());
+        $model->validate();
     }
 
     /**

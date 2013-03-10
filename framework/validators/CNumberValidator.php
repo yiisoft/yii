@@ -24,6 +24,8 @@
  * <li>{max}: when using {@link tooBig}, replaced with the upper limit of the number {@link max}.</li>
  * </ul>
  *
+ * This validator is not intended to be used with array values. Otherwise an exception will be raised.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.validators
  * @since 1.0
@@ -72,6 +74,7 @@ class CNumberValidator extends CValidator
 	 * If there is any error, the error message is added to the object.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 * @throws CException if array typed value being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -81,9 +84,7 @@ class CNumberValidator extends CValidator
 		if(is_array($value))
 		{
 			// https://github.com/yiisoft/yii/issues/1955
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
-			$this->addError($object,$attribute,$message);
-			return;
+			throw new CException(Yii::t('yii','{class} cannot validate array value.',array('{class}'=>'CNumberValidator')));
 		}
 		if($this->integerOnly)
 		{

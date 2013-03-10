@@ -26,6 +26,8 @@
  * <li>{length}: when using {@link message}, replaced with the exact required length, {@link is}, if set.</li>
  * </ul>
  *
+ * This validator is not intended to be used with array values. Otherwise an exception will be raised.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.validators
  * @since 1.0
@@ -73,6 +75,7 @@ class CStringValidator extends CValidator
 	 * If there is any error, the error message is added to the object.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 * @throws CException if array typed value being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -83,8 +86,7 @@ class CStringValidator extends CValidator
 		if(is_array($value))
 		{
 			// https://github.com/yiisoft/yii/issues/1955
-			$this->addError($object,$attribute,Yii::t('yii','{attribute} is invalid.'));
-			return;
+			throw new CException(Yii::t('yii','{class} cannot validate array value.',array('{class}'=>'CStringValidator')));
 		}
 
 		if(function_exists('mb_strlen') && $this->encoding!==false)

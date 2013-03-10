@@ -12,6 +12,8 @@
  * CRegularExpressionValidator validates that the attribute value matches to the specified {@link pattern regular expression}.
  * You may invert the validation logic with help of the {@link not} property (available since 1.1.5).
  *
+ * This validator is not intended to be used with array values. Otherwise an exception will be raised.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.validators
  * @since 1.0
@@ -40,6 +42,7 @@ class CRegularExpressionValidator extends CValidator
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
 	 * @throws CException if given {@link pattern} is empty
+	 * @throws CException if array typed value being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -48,10 +51,12 @@ class CRegularExpressionValidator extends CValidator
 			return;
 		if($this->pattern===null)
 			throw new CException(Yii::t('yii','The "pattern" property must be specified with a valid regular expression.'));
-		// reason of array checking explained here: https://github.com/yiisoft/yii/issues/1955
-		if(is_array($value) ||
-			(!$this->not && !preg_match($this->pattern,$value)) ||
-			($this->not && preg_match($this->pattern,$value)))
+		if(is_array($value))
+		{
+			// https://github.com/yiisoft/yii/issues/1955
+			throw new CException(Yii::t('yii','{class} cannot validate array value.',array('{class}'=>'CRegularExpressionValidator')));
+		}
+		if((!$this->not && !preg_match($this->pattern,$value)) || ($this->not && preg_match($this->pattern,$value)))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is invalid.');
 			$this->addError($object,$attribute,$message);
