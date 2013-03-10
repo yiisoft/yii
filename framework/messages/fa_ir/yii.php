@@ -207,7 +207,7 @@ return array (
   'The table "{table}" for active record class "{class}" cannot be found in the database.' => 'جدول "{table}" برای اکتیو رکورد کلاس "{class}" در پایگاه اطلاعاتی یافت نمی شود',
   'The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.' => 'الگوی URL"{pattern}" برای مسیر یابی "{route}"   عبارت با قاعده معتبری نمی باشد.',
   'The value for the column "{column}" is not supplied when querying the table "{table}".' => 'مقدار بازگردانی شده از کوئری ستون "{column}" در جدول "{table}" صحیح نمی باشد.',
-  'The verification code is incorrect.' => 'کد تاییده نا معتبر است.',
+  'The verification code is incorrect.' => 'کد تأیید نا معتبر است.',
   'The view path "{path}" is not a valid directory.' => 'مسیر ظاهر "{path}" معتبر نمی باشد.',
   'This content requires the <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a>.' => 'محتوای این صفحه احتیاج به <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a> دارد.',
   'Unable to add an item whose name is the same as an existing item.' => 'امکان اضافه کردن آیتم جدیدی که نامش با نام آیتم موجودی برابر است وجود ندارد.',
