@@ -1574,6 +1574,11 @@ EOD;
 		}
 		else
 			$text=self::resolveValue($model,$attribute);
+
+		// https://github.com/yiisoft/yii/issues/1955
+		if(is_array($text))
+			$text='';
+
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $text : self::encode($text));
 	}
 
@@ -2137,6 +2142,11 @@ EOD;
 			unset($htmlOptions['value']);
 		elseif(!isset($htmlOptions['value']))
 			$htmlOptions['value']=self::resolveValue($model,$attribute);
+
+		// https://github.com/yiisoft/yii/issues/1955
+		if(is_array($htmlOptions['value']))
+			$htmlOptions['value']='';
+
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::tag('input',$htmlOptions);
