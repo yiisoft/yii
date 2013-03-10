@@ -13,6 +13,8 @@
  *
  * CCaptchaValidator should be used together with {@link CCaptchaAction}.
  *
+ * This validator is not intended to be used with array values. Otherwise an exception will be raised.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.validators
  * @since 1.0
@@ -40,15 +42,20 @@ class CCaptchaValidator extends CValidator
 	 * If there is any error, the error message is added to the object.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 * @throws CException if array typed value being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
+		if(is_array($value))
+		{
+			// https://github.com/yiisoft/yii/issues/1955
+			throw new CException(Yii::t('yii','{class} cannot validate array value.',array('{class}'=>'CCaptchaValidator')));
+		}
 		$captcha=$this->getCaptchaAction();
-		// reason of array checking is explained here: https://github.com/yiisoft/yii/issues/1955
-		if(is_array($value) || !$captcha->validate($value,$this->caseSensitive))
+		if(!$captcha->validate($value,$this->caseSensitive))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','The verification code is incorrect.');
 			$this->addError($object,$attribute,$message);

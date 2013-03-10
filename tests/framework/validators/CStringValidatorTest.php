@@ -23,12 +23,17 @@ class CStringValidatorTest extends CTestCase
 		$model3->validate(array('string1'));
 		$this->assertFalse($model3->hasErrors('string1'));
 		$this->assertNotSame(array('Too short message.'),$model3->getErrors('string1'));
+	}
 
-		// array value: https://github.com/yiisoft/yii/issues/1955
-		$model4=new ValidatorTestModel('CStringValidatorTest');
-		$model4->string1=array('1234567890');
-		$model4->validate(array('string1'));
-		$this->assertTrue($model4->hasErrors('string1'));
+	/**
+	 * https://github.com/yiisoft/yii/issues/1955
+	 * @expectedException CException
+	 */
+	public function testMinArrayValue()
+	{
+		$model=new ValidatorTestModel('CStringValidatorTest');
+		$model->string1=array('1234567890');
+		$model->validate(array('string1'));
 	}
 
 	public function testMax()
@@ -52,12 +57,17 @@ class CStringValidatorTest extends CTestCase
 		$model3->validate(array('string2'));
 		$this->assertFalse($model3->hasErrors('string2'));
 		$this->assertNotSame(array('Too long message.'),$model3->getErrors('string2'));
+	}
 
-		// array value: https://github.com/yiisoft/yii/issues/1955
-		$model4=new ValidatorTestModel('CStringValidatorTest');
-		$model4->string2=array('1234567890');
-		$model4->validate(array('string2'));
-		$this->assertTrue($model4->hasErrors('string2'));
+	/**
+	 * https://github.com/yiisoft/yii/issues/1955
+	 * @expectedException CException
+	 */
+	public function testMaxArrayValue()
+	{
+		$model=new ValidatorTestModel('CStringValidatorTest');
+		$model->string2=array('1234567890');
+		$model->validate(array('string2'));
 	}
 
 	public function testIs()
@@ -88,11 +98,16 @@ class CStringValidatorTest extends CTestCase
 		$model4->validate(array('string3'));
 		$this->assertFalse($model4->hasErrors('string3'));
 		$this->assertNotSame(array('Error message.'),$model4->getErrors('string3'));
+	}
 
-		// array value: https://github.com/yiisoft/yii/issues/1955
-		$model5=new ValidatorTestModel('CStringValidatorTest');
-		$model5->string3=array('1234567890');
-		$model5->validate(array('string3'));
-		$this->assertTrue($model5->hasErrors('string3'));
+	/**
+	 * https://github.com/yiisoft/yii/issues/1955
+	 * @expectedException CException
+	 */
+	public function testIsArrayValue()
+	{
+		$model=new ValidatorTestModel('CStringValidatorTest');
+		$model->string3=array('1234567890');
+		$model->validate(array('string3'));
 	}
 }

@@ -19,6 +19,8 @@
  * <li>{value}: replaced with current value of the attribute.</li>
  * </ul>
  *
+ * This validator is not intended to be used with array values. Otherwise an exception will be raised.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.validators
  * @since 1.0
@@ -76,6 +78,7 @@ class CUniqueValidator extends CValidator
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
 	 * @throws CException if given table does not have specified column name
+	 * @throws CException if array typed value being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -86,8 +89,7 @@ class CUniqueValidator extends CValidator
 		if(is_array($value))
 		{
 			// https://github.com/yiisoft/yii/issues/1955
-			$this->addError($object,$attribute,Yii::t('yii','{attribute} is invalid.'));
-			return;
+			throw new CException(Yii::t('yii','{class} cannot validate array value.',array('{class}'=>'CUniqueValidator')));
 		}
 
 		$className=$this->className===null?get_class($object):Yii::import($this->className);

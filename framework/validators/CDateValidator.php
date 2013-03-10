@@ -14,6 +14,8 @@
  * By setting the {@link format} property, one can specify what format the date value
  * must be in. If the given date value doesn't follow the format, the attribute is considered as invalid.
  *
+ * This validator is not intended to be used with array values. Otherwise an exception will be raised.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id: CDateValidator.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.validators
@@ -45,6 +47,7 @@ class CDateValidator extends CValidator
 	 * If there is any error, the error message is added to the object.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 * @throws CException if array typed value being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -52,22 +55,23 @@ class CDateValidator extends CValidator
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 
-		$valid=false;
-
-		// reason of array checking is explained here: https://github.com/yiisoft/yii/issues/1955
-		if(!is_array($value))
+		if(is_array($value))
 		{
-			$formats=is_string($this->format) ? array($this->format) : $this->format;
-			foreach($formats as $format)
+			// https://github.com/yiisoft/yii/issues/1955
+			throw new CException(Yii::t('yii','{class} cannot validate array value.',array('{class}'=>'CDateValidator')));
+		}
+
+		$formats=is_string($this->format) ? array($this->format) : $this->format;
+		$valid=false;
+		foreach($formats as $format)
+		{
+			$timestamp=CDateTimeParser::parse($value,$format,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0));
+			if($timestamp!==false)
 			{
-				$timestamp=CDateTimeParser::parse($value,$format,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0));
-				if($timestamp!==false)
-				{
-					$valid=true;
-					if($this->timestampAttribute!==null)
-						$object->{$this->timestampAttribute}=$timestamp;
-					break;
-				}
+				$valid=true;
+				if($this->timestampAttribute!==null)
+					$object->{$this->timestampAttribute}=$timestamp;
+				break;
 			}
 		}
 

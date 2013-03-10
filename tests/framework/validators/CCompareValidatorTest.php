@@ -25,11 +25,6 @@ class CCompareValidatorTest extends CTestCase
 		$model->bar = 'foo';
 		$this->assertTrue($model->validate());
 
-		// https://github.com/yiisoft/yii/issues/1955
-		$model->foo = array('foo');
-		$this->assertFalse($model->validate());
-		$this->assertTrue($model->hasErrors('foo'));
-
 		// client validation
 		$validator = new CCompareValidator;
 		$validator->operator = '=';
@@ -37,6 +32,19 @@ class CCompareValidatorTest extends CTestCase
 		$script = $validator->clientValidateAttribute($model, 'foo');
 		$this->assertInternalType('string', $script);
 		$this->assertContains('Foo must be repeated exactly.', $script);
+	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/1955
+	 *
+	 * @return null
+	 */
+	public function testArrayValue()
+	{
+		$model = $this->getModelMock(array('compareAttribute' => 'bar'));
+		$model->foo = array('foo');
+		$this->assertFalse($model->validate());
+		$this->assertTrue($model->hasErrors('foo'));
 	}
 
 	/**
