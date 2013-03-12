@@ -317,7 +317,7 @@ class CLocale extends CComponent
 	 */
 	public function getPluralRules()
 	{
-		return isset($this->_data['pluralRules']) ? $this->_data['pluralRules'] : array();
+		return isset($this->_data['pluralRules']) ? $this->_data['pluralRules'] : array(0=>'true');
 	}
 
 	/**
