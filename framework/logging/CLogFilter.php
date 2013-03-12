@@ -97,7 +97,7 @@ class CLogFilter extends CComponent implements ILogFilter
 		foreach($this->logVars as $name)
 		{
 			if(!empty($GLOBALS[$name]))
-				$context[]="\${$name}=".var_export($GLOBALS[$name],true);
+				$context[]="\${$name}=".CVarDumper::dumpAsString($GLOBALS[$name]);
 		}
 
 		return implode("\n\n",$context);
