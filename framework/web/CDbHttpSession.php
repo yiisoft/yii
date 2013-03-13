@@ -140,7 +140,7 @@ class CDbHttpSession extends CHttpSession
 			$blob='BYTEA';
 		else
 			$blob='BLOB';
-        $hashBits = intval(@ini_get('session.hash_bits_per_character'));
+		$hashBits = intval(@ini_get('session.hash_bits_per_character'));
 		$idLength = min(32, 8 * $hashBits);
 		$db->createCommand()->createTable($tableName,array(
 			'id'=>sprintf('CHAR(%d) PRIMARY KEY', $idLength),
