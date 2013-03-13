@@ -791,14 +791,17 @@ abstract class CApplication extends CModule
 			}
 			if(isset($_SERVER['REQUEST_URI']))
 				$log.='REQUEST_URI='.$_SERVER['REQUEST_URI'];
-			Yii::log($log,CLogger::LEVEL_ERROR,'php');
+			Yii::log($log,CLogger::parsePhpErrorCode($code),'php');
 
 			try
 			{
 				Yii::import('CErrorEvent',true);
 				$event=new CErrorEvent($this,$code,$message,$file,$line);
 				$this->onError($event);
-				if(!$event->handled)
+				//resume script operation if event was handled (do not end app)
+				if($event->handled)
+					return true;
+				else
 				{
 					// try an error handler
 					if(($handler=$this->getErrorHandler())!==null)
@@ -933,9 +936,29 @@ abstract class CApplication extends CModule
 		if(YII_ENABLE_EXCEPTION_HANDLER)
 			set_exception_handler(array($this,'handleException'));
 		if(YII_ENABLE_ERROR_HANDLER)
+		{
 			set_error_handler(array($this,'handleError'),error_reporting());
+			register_shutdown_function(array($this,'phpShutdownFunction'));
+		}
 	}
 
+	/**
+	 * Executed on php shutdown.
+	 * Raises an error event if there was an error during shutdown.
+	 */
+	public function phpShutdownFunction()
+	{
+		$error = error_get_last();
+		if ($error and $error['type'] & error_reporting())
+		{
+			$msg = $error['message'] . ' in ' . $error['file'] . ':' . $error['line'];
+			Yii::log($msg, CLogger::parsePhpErrorCode($error['type']), 'php');
+			Yii::import('CErrorEvent',true);
+			$event=new CErrorEvent($this,$error['type'],$error['message'],$error['file'],$error['line']);
+			$this->onError($event);
+		}
+	}
+	
 	/**
 	 * Registers the core application components.
 	 * @see setComponents
