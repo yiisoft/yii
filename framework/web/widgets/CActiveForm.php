@@ -494,7 +494,7 @@ class CActiveForm extends CWidget
 				$htmlOptions['style']=rtrim($htmlOptions['style'],';').';display:none';
 			else
 				$htmlOptions['style']='display:none';
-			$html=CHtml::tag('div',$htmlOptions,'');
+			$html=CHtml::tag(CHtml::$errorContainerTag,$htmlOptions,'');
 		}
 
 		$this->attributes[$inputID]=$option;
