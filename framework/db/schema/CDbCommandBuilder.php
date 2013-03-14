@@ -254,6 +254,7 @@ class CDbCommandBuilder extends CComponent
 	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param array $data list of columns to be updated (name=>value)
 	 * @param CDbCriteria $criteria the query criteria
+	 * @throws CDbException if no columns are being updated for the given table
 	 * @return CDbCommand update command.
 	 */
 	public function createUpdateCommand($table,$data,$criteria)
@@ -306,8 +307,8 @@ class CDbCommandBuilder extends CComponent
 	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param array $counters counters to be updated (counter increments/decrements indexed by column names.)
 	 * @param CDbCriteria $criteria the query criteria
+	 * @throws CDbException if no columns are being updated for the given table
 	 * @return CDbCommand the created command
-	 * @throws CException if no counter is specified
 	 */
 	public function createUpdateCounterCommand($table,$counters,$criteria)
 	{
@@ -550,6 +551,7 @@ class CDbCommandBuilder extends CComponent
 	 * This is only used when the third parameter is a string (query condition).
 	 * In other cases, please use {@link CDbCriteria::params} to set parameters.
 	 * @param string $prefix column prefix (ended with dot). If null, it will be the table name
+	 * @throws CDbException if specified column is not found in given table
 	 * @return CDbCriteria the created query criteria
 	 */
 	public function createColumnCriteria($table,$columns,$condition='',$params=array(),$prefix=null)
@@ -611,6 +613,7 @@ class CDbCommandBuilder extends CComponent
 	 * @param mixed $keywords search keywords. This can be either a string with space-separated keywords or an array of keywords.
 	 * @param string $prefix optional column prefix (with dot at the end). If null, the table name will be used as the prefix.
 	 * @param boolean $caseSensitive whether the search is case-sensitive. Defaults to true.
+	 * @throws CDbException if specified column is not found in given table
 	 * @return string SQL search condition matching on a set of columns. An empty string is returned
 	 * if either the column array or the keywords are empty.
 	 */
@@ -650,6 +653,7 @@ class CDbCommandBuilder extends CComponent
 	 * or an array of column names. If the latter, it stands for a composite key.
 	 * @param array $values list of key values to be selected within
 	 * @param string $prefix column prefix (ended with dot). If null, it will be the table name
+	 * @throws CDbException if specified column is not found in given table
 	 * @return string the expression for selection
 	 */
 	public function createInCondition($table,$columnName,$values,$prefix=null)

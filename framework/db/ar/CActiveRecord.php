@@ -613,6 +613,7 @@ abstract class CActiveRecord extends CModel
 	 * Returns the database connection used by active record.
 	 * By default, the "db" application component is used as the database connection.
 	 * You may override this method if you want to use a different database connection.
+	 * @throws CDbException if "db" application component is not defined
 	 * @return CDbConnection the database connection used by active record.
 	 */
 	public function getDbConnection()
@@ -1092,8 +1093,8 @@ abstract class CActiveRecord extends CModel
 	 * @param array $attributes attributes to be updated. Each element represents an attribute name
 	 * or an attribute value indexed by its name. If the latter, the record's
 	 * attribute will be changed accordingly before saving.
+	 * @throws CDbException if the record is new
 	 * @return boolean whether the update is successful
-	 * @throws CException if the record is new or any database error
 	 */
 	public function saveAttributes($attributes)
 	{
@@ -1156,8 +1157,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Deletes the row corresponding to this active record.
+	 * @throws CDbException if the record is new
 	 * @return boolean whether the deletion is successful.
-	 * @throws CException if the record is new
 	 */
 	public function delete()
 	{
@@ -1294,7 +1295,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if(!$all)
 				$criteria->limit=1;
-			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
+			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria,$this->getTableAlias());
 			return $all ? $this->populateRecords($command->queryAll(), true, $criteria->index) : $this->populateRecord($command->queryRow());
 		}
 		else
@@ -1611,7 +1612,7 @@ abstract class CActiveRecord extends CModel
 		$this->applyScopes($criteria);
 
 		if(empty($criteria->with))
-			return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
+			return $builder->createFindCommand($table,$criteria,$this->getTableAlias(false, false))->queryRow()!==false;
 		else
 		{
 			$criteria->select='*';
@@ -2301,6 +2302,7 @@ class CActiveRecordMetaData
 	/**
 	 * Constructor.
 	 * @param CActiveRecord $model the model instance
+	 * @throws CDbException if specified table for active record class cannot be found in the database
 	 */
 	public function __construct($model)
 	{

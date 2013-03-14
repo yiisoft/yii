@@ -92,6 +92,7 @@ class CLocale extends CComponent
 	 * Since the constructor is protected, please use {@link getInstance}
 	 * to obtain an instance of the specified locale.
 	 * @param string $id the locale ID (e.g. en_US)
+	 * @throws CException if given locale id is not recognized
 	 */
 	protected function __construct($id)
 	{
@@ -316,7 +317,7 @@ class CLocale extends CComponent
 	 */
 	public function getPluralRules()
 	{
-		return isset($this->_data['pluralRules']) ? $this->_data['pluralRules'] : array();
+		return isset($this->_data['pluralRules']) ? $this->_data['pluralRules'] : array(0=>'true');
 	}
 
 	/**

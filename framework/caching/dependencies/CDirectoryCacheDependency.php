@@ -60,6 +60,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	/**
 	 * Generates the data needed to determine if dependency has been changed.
 	 * This method returns the modification timestamps for files under the directory.
+	 * @throws CException if {@link directory} is empty
 	 * @return mixed the data needed to determine if dependency has been changed.
 	 */
 	protected function generateDependentData()
@@ -75,6 +76,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	 * This method may go recursively into subdirectories if {@link recursiveLevel} is not 0.
 	 * @param string $directory the directory name
 	 * @param integer $level level of the recursion
+	 * @throws CException if given directory is not valid
 	 * @return array list of file modification time indexed by the file path
 	 */
 	protected function generateTimestamps($directory,$level=0)

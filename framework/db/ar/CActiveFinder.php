@@ -181,6 +181,8 @@ class CActiveFinder extends CComponent
 	 * @param CJoinElement $parent the parent tree node
 	 * @param mixed $with the names of the related objects relative to the parent tree node
 	 * @param array $options additional query options to be merged with the relation
+	 * @throws CDbException if given parent tree node is an instance of {@link CStatElement}
+	 * or relation is not defined in the given parent's tree node model class
 	 */
 	private function buildJoinTree($parent,$with,$options=null)
 	{
@@ -511,6 +513,7 @@ class CJoinElement
 	 * Apply Lazy Condition
 	 * @param CJoinQuery $query represents a JOIN SQL statements
 	 * @param CActiveRecord $record the active record whose related object is to be fetched.
+	 * @throws CDbException if relation in active record class is not specified correctly
 	 */
 	private function applyLazyCondition($query,$record)
 	{
@@ -699,23 +702,36 @@ class CJoinElement
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
 
-		$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
-		if($select!=='*' && !strncasecmp($select,'count',5))
-			$query->selects=array($select);
-		elseif(is_string($this->_table->primaryKey))
+		$query->limit=$query->offset=-1;
+
+		if(!empty($criteria->group) || !empty($criteria->having))
 		{
-			$prefix=$this->getColumnPrefix();
-			$schema=$this->_builder->getSchema();
-			$column=$prefix.$schema->quoteColumnName($this->_table->primaryKey);
-			$query->selects=array("COUNT(DISTINCT $column)");
+			$query->orders = array();
+			$command=$query->createCommand($this->_builder);
+			$sql=$command->getText();
+			$sql="SELECT COUNT(*) FROM ({$sql}) sq";
+			$command->setText($sql);
+			return $command->queryScalar();
 		}
 		else
-			$query->selects=array("COUNT(*)");
+		{
+			$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
+			if($select!=='*' && !strncasecmp($select,'count',5))
+				$query->selects=array($select);
+			elseif(is_string($this->_table->primaryKey))
+			{
+				$prefix=$this->getColumnPrefix();
+				$schema=$this->_builder->getSchema();
+				$column=$prefix.$schema->quoteColumnName($this->_table->primaryKey);
+				$query->selects=array("COUNT(DISTINCT $column)");
+			}
+			else
+				$query->selects=array("COUNT(*)");
 
-		$query->orders=$query->groups=$query->havings=array();
-		$query->limit=$query->offset=-1;
-		$command=$query->createCommand($this->_builder);
-		return $command->queryScalar();
+			$query->orders=$query->groups=$query->havings=array();
+			$command=$query->createCommand($this->_builder);
+			return $command->queryScalar();
+		}
 	}
 
 	/**
@@ -857,6 +873,7 @@ class CJoinElement
 	 * Generates the list of columns to be selected.
 	 * Columns will be properly aliased and primary keys will be added to selection if they are not specified.
 	 * @param mixed $select columns to be selected. Defaults to '*', indicating all columns.
+	 * @throws CDbException if active record class is trying to select an invalid column
 	 * @return string the column selection
 	 */
 	public function getColumnSelect($select='*')
@@ -977,6 +994,7 @@ class CJoinElement
 	}
 
 	/**
+	 * @throws CDbException if relation in active record class is not specified correctly
 	 * @return string the join statement (this node joins with its parent)
 	 */
 	public function getJoinCondition()
@@ -1020,7 +1038,7 @@ class CJoinElement
 	 * This works for HAS_ONE, HAS_MANY and BELONGS_TO.
 	 * @param CJoinElement $fke the join element containing foreign keys
 	 * @param array $fks the foreign keys
-	 * @param CJoinElement $pke the join element containg primary keys
+	 * @param CJoinElement $pke the join element contains primary keys
 	 * @param CJoinElement $parent the parent join element
 	 * @return string the join statement
 	 * @throws CDbException if a foreign key is invalid

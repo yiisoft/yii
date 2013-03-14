@@ -214,7 +214,7 @@ class CActiveForm extends CWidget
 	 * the jquery representation of the form object. If the return value of this function is NOT true, the validation
 	 * will be cancelled.
 	 *
-	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpressoin} to prevent it
+	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpression} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * <li>afterValidate: function, the function that will be invoked after performing ajax-based validation
 	 * triggered by form submission action (available only when validateOnSubmit is set true).
@@ -223,7 +223,7 @@ class CActiveForm extends CWidget
 	 * is a boolean value indicating whether there is any validation error. If the return value of this function is NOT true,
 	 * the normal form submission will be cancelled.
 	 *
-	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpressoin} to prevent it
+	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpression} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * <li>beforeValidateAttribute: function, the function that will be invoked before performing ajax-based validation
 	 * triggered by a single attribute input change. The expected function signature should be
@@ -231,7 +231,7 @@ class CActiveForm extends CWidget
 	 * and 'attribute' refers to the js options for the triggering attribute (see {@link error}).
 	 * If the return value of this function is NOT true, the validation will be cancelled.
 	 *
-	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpressoin} to prevent it
+	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpression} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * <li>afterValidateAttribute: function, the function that will be invoked after performing ajax-based validation
 	 * triggered by a single attribute input change. The expected function signature should be
@@ -240,7 +240,7 @@ class CActiveForm extends CWidget
 	 * 'data' is the JSON response from the server-side validation; 'hasError' is a boolean value indicating whether
 	 * there is any validation error.
 	 *
-	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpressoin} to prevent it
+	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpression} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * </ul>
 	 *
@@ -494,7 +494,7 @@ class CActiveForm extends CWidget
 				$htmlOptions['style']=rtrim($htmlOptions['style'],';').';display:none';
 			else
 				$htmlOptions['style']='display:none';
-			$html=CHtml::tag('div',$htmlOptions,'');
+			$html=CHtml::tag(CHtml::$errorContainerTag,$htmlOptions,'');
 		}
 
 		$this->attributes[$inputID]=$option;

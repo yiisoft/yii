@@ -292,6 +292,7 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the root directory that holds all third-party extensions.
 	 * @param string $path the directory that contains all third-party extensions.
+	 * @throws CException if the directory does not exist
 	 */
 	public function setExtensionPath($path)
 	{
