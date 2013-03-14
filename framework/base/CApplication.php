@@ -97,6 +97,13 @@ abstract class CApplication extends CModule
 	 * the language that the messages and view files are in. Defaults to 'en_us' (US English).
 	 */
 	public $sourceLanguage='en_us';
+	/**
+	 * @var int specify what PHP errors should be handled by Yii.
+	 * Note that this will only have an effect if YII_ENABLE_ERROR_HANDLER is set to true.
+	 * If not specified, defaults to the current value of error_reporting().
+	 * @see http://www.php.net/manual/en/errorfunc.constants.php
+	 */
+	public $phpErrorReportingLevel;	
 
 	private $_id;
 	private $_basePath;
@@ -144,10 +151,11 @@ abstract class CApplication extends CModule
 
 		$this->preinit();
 
-		$this->initSystemHandlers();
 		$this->registerCoreComponents();
 
 		$this->configure($config);
+		//init system handlers after configuring, because we need the config value of phpErrorReportingLevel
+		$this->initSystemHandlers();
 		$this->attachBehaviors($this->behaviors);
 		$this->preloadComponents();
 
@@ -930,10 +938,13 @@ abstract class CApplication extends CModule
 	 */
 	protected function initSystemHandlers()
 	{
+		if ($this->phpErrorReportingLevel === null)
+			$this->phpErrorReportingLevel = error_reporting();
+
 		if(YII_ENABLE_EXCEPTION_HANDLER)
 			set_exception_handler(array($this,'handleException'));
 		if(YII_ENABLE_ERROR_HANDLER)
-			set_error_handler(array($this,'handleError'),error_reporting());
+			set_error_handler(array($this,'handleError'),$this->phpErrorReportingLevel);
 	}
 
 	/**
