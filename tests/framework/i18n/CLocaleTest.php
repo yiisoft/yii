@@ -96,6 +96,36 @@ class CLocaleTest extends CTestCase
 		}
 	}
 
+	public function providerGetLocaleDisplayName()
+	{
+		return array(
+			array('de','en_US','amerikanisches englisch'),
+			array('de','en','englisch'),
+			array('de_DE','en_US','amerikanisches englisch'),
+			array('de_DE','en','englisch'),
+
+			array('es_MX',null,null),
+			array('es_ES',null,null),
+
+			// https://github.com/yiisoft/yii/issues/2087
+			array('en_us','en','english'),
+			array('en_us','en_us','u.s. english'),
+			array('en_us','pt','portuguese'),
+			array('en_us','pt','portuguese'),
+			array('en_us','pt_br','brazilian portuguese'),
+			array('en_us','pt_pt','iberian portuguese'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerGetLocaleDisplayName
+	 */
+	public function testGetLocaleDisplayName($ctorLocale,$methodLocale,$assertion)
+	{
+		$locale=CLocale::getInstance($ctorLocale);
+		$this->assertEquals(mb_strtolower($assertion),mb_strtolower($locale->getLocaleDisplayName($methodLocale)));
+	}
+
 	public function providerGetLanguage()
 	{
 		return array(
@@ -121,6 +151,14 @@ class CLocaleTest extends CTestCase
 			array('en_US','zh-Hant-HK','chinese'),
 			array('ru','zh-Hant-HK','китайский'),
 			array('en','zh-Hant-HK','chinese'),
+
+			// https://github.com/yiisoft/yii/issues/2087
+			array('en_us','en','English'),
+			array('en_us','en_us','English'),
+			array('en_us','pt','Portuguese'),
+			array('en_us','pt','Portuguese'),
+			array('en_us','pt_br','Portuguese'),
+			array('en_us','pt_pt','Portuguese'),
 		);
 	}
 
