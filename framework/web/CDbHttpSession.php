@@ -133,13 +133,23 @@ class CDbHttpSession extends CHttpSession
 	 */
 	protected function createSessionTable($db,$tableName)
 	{
-		$driver=$db->getDriverName();
-		if($driver==='mysql')
-			$blob='LONGBLOB';
-		elseif($driver==='pgsql')
-			$blob='BYTEA';
-		else
-			$blob='BLOB';
+		switch($db->getDriverName())
+		{
+			case 'mysql':
+				$blob='LONGBLOB';
+				break;
+			case 'pgsql':
+				$blob='BYTEA';
+				break;
+			case 'sqlsrv':
+			case 'mssql':
+			case 'dblib':
+				$blob='VARBINARY(MAX)';
+				break;
+			default:
+				$blob='BLOB';
+				break;
+		}
 		$db->createCommand()->createTable($tableName,array(
 			'id'=>'CHAR(32) PRIMARY KEY',
 			'expire'=>'integer',
@@ -203,11 +213,17 @@ class CDbHttpSession extends CHttpSession
 	 */
 	public function readSession($id)
 	{
-		$data=$this->getDbConnection()->createCommand()
-			->select('data')
+		$db=$this->getDbConnection();
+		if($db->getDriverName()=='sqlsrv' || $db->getDriverName()=='mssql' || $db->getDriverName()=='dblib')
+			$select='CONVERT(VARCHAR(MAX), data)';
+		else
+			$select='data';
+		$data=$db->createCommand()
+			->select($select)
 			->from($this->sessionTableName)
 			->where('expire>:expire AND id=:id',array(':expire'=>time(),':id'=>$id))
 			->queryScalar();
+
 		return $data===false?'':$data;
 	}
 
@@ -226,6 +242,8 @@ class CDbHttpSession extends CHttpSession
 		{
 			$expire=time()+$this->getTimeout();
 			$db=$this->getDbConnection();
+			if($db->getDriverName()=='sqlsrv' || $db->getDriverName()=='mssql' || $db->getDriverName()=='dblib')
+				$data=new CDbExpression('CONVERT(VARBINARY(MAX), '.$db->quoteValue($data).')');
 			if($db->createCommand()->select('id')->from($this->sessionTableName)->where('id=:id',array(':id'=>$id))->queryScalar()===false)
 				$db->createCommand()->insert($this->sessionTableName,array(
 					'id'=>$id,
