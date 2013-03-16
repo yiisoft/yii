@@ -14,7 +14,11 @@
 <div class="form">
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
-	'id'=>'".$this->class2id($this->modelClass).'-'.basename($this->viewName)."-form',
+    'id'=>'".$this->class2id($this->modelClass).'-'.basename($this->viewName)."-form',
+    // if enableAjaxValidation=>true make sure actionCreate() on the 
+    // controller is performing performAjaxValidation. Default on CRUD 
+    // generated code is commented, or else when the ajax validation comes to 
+    // the server, the action saves a copy instead of just validating
 	'enableAjaxValidation'=>false,
 )); ?>\n"; ?>
 
