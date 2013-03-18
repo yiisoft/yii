@@ -35,6 +35,7 @@ Version 1.1.14 work in progress
 - Enh #1977: CFormatter::normalizeDateValue() now is protected instead of private to enable child classes to override it (etienneq)
 - Enh #2038: CFormatter::formatNtext() method can replace newlines with `<p></p>` not just with `<br />` as it was before (resurtm)
 - Enh #2131: Added Accept header parsing to CHttpRequest to give an array of accepted types in order of preference (Rupert-RR)
+- Enh #2135: MessageCommand can now handles Yii::t() messages with files in subfolders (firsyura)
 - Enh #2205: CActiveForm::error() now depends on CHtml::$errorContainerTag (malyshev)
 - Chg: Upgraded HTMLPurifier to v4.5.0 (samdark)
 - Chg #645: CDbConnection now throws CDbException when failed to open DB connection instead of failing with a warning (kidol, eirikhm, samdark, cebe)

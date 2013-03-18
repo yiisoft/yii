@@ -1524,7 +1524,7 @@ EOD;
 	{
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
-		return self::activeInputField('time',$model,$attribute,$htmlOptions);
+		return self::activeInputField('tel',$model,$attribute,$htmlOptions);
 	}
 
 
