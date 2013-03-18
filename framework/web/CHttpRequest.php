@@ -804,7 +804,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Parses an Http Accept header, returning an array map with all parts of each entry
+	 * Parses an Http Accept header, returning an array map with all parts of each entry.
 	 * Each array entry consists of a map with the type, subType, quality (ie preference ranking) and params, an array map of key-value parameters.
 	 * For example, an Accept value of 'application/xhtml+xml;q=0.9;level=1' would give an array entry of
 	 * array(
@@ -817,7 +817,7 @@ class CHttpRequest extends CApplicationComponent
 	 * 		),
 	 * )
 	 * NB - to avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly - if
-	 * the header text includes quoted strings containing the , or ; characters then the results may not be * correct!
+	 * the header text includes quoted strings containing the , or ; characters then the results may not be correct!
 	 * @return array the user accepted MIME types.
 	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.1}
 	 */
@@ -861,9 +861,9 @@ class CHttpRequest extends CApplicationComponent
 									// sanity check on q value
 									$q=(double)trim($paramMatch[2]);
 									if($q>1)
-										$q=1;
+										$q=(double)1;
 									elseif($q<0)
-										$q=0;
+										$q=(double)0;
 									$accept['params'][$paramMatch[1]]=$q;
 								}
 								else

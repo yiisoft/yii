@@ -24,6 +24,7 @@ Version 1.1.14 work in progress
 - Bug #2049: CStatElement relation with join option throw exception when key-field present on joined table (Yiivgeny)
 - Bug #2078: Fixed problem with "undefined" parameter in query string when using CListView or CGridView with enableHistory (Parpaing)
 - Bug #2086: Fixed .hgignore rule for assets folder (GeXu3, Koduc)
+- Bug #2087: CLocale: getLocaleDisplayName() was only returning the language display name, not the full locale display name (brandonkelly)
 - Bug #2112: Fixed broken yiic shell CRUD command (mbischof)
 - Bug #2123: Fixed error in plural rules handling if locale has no plural rules defined (cebe, stepanselyuk)
 - Bug #2146: CEmailValidator fix when fsockopen() can output uncatched error 'Connection refused (61)' (armab)
