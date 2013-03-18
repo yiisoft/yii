@@ -1105,6 +1105,10 @@ EOD;
 	 * If the value is an empty string, no enclosing tag will be generated</li>
 	 * <li>baseID: string, specifies the base ID prefix to be used for radio buttons in the list.
 	 * This option is available since version 1.1.13.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * The 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a radio button at the beginning. Note, the text label will NOT be HTML-encoded.
+	 * This option is available since version 1.1.14.</li>
 	 * </ul>
 	 * @return string the generated radio button list
 	 */
@@ -1117,6 +1121,14 @@ EOD;
 
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
 		unset($htmlOptions['labelOptions']);
+
+		if(isset($htmlOptions['empty']))
+		{
+			if(!is_array($htmlOptions['empty']))
+				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
+			$data=array_merge($htmlOptions['empty'],$data);
+			unset($htmlOptions['empty']);
+		}
 
 		$items=array();
 		$baseID=isset($htmlOptions['baseID']) ? $htmlOptions['baseID'] : self::getIdByName($name);
