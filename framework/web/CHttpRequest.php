@@ -804,86 +804,127 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns an array of user accepted MIME types in order of preference.
+	 * Parses an Http Accept header, returning an array map with all parts of each entry
 	 * Each array entry consists of a map with the type, subType, quality (ie preference ranking) and params, an array map of key-value parameters.
 	 * For example, an Accept value of 'application/xhtml+xml;q=0.9;level=1' would give an array entry of
 	 * array(
 	 * 		'type' => 'application',
-	 * 		'subType' => 'xhtml+xml',
-	 * 		'quality' => 0.9,
+	 * 		'subType' => 'xhtml',
+	 * 		'baseType' => 'xml',
 	 * 		'params' => array(
+	 * 			'q' => 0.9,
 	 * 			'level' => '1',
 	 * 		),
 	 * )
 	 * NB - to avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly - if
 	 * the header text includes quoted strings containing the , or ; characters then the results may not be * correct!
-	 * @return array the user accepted MIME types in the order of preference.
+	 * @return array the user accepted MIME types.
 	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.1}
+	 */
+	public static function parseAcceptHeader($header)
+	{
+		$matches=array();
+		$accepts = array();
+		// get individual entries with their type, subtype, basetype and remaining characters (containing params)
+		preg_match_all('/([^,;\/=\s]+)\/([^,;\/=\s+]+)(\+([^,;\/=\s+]+))?(\s?;\s?[^,]*)*/',$header,$matches,PREG_SET_ORDER);
+		for($i=0,$len=count($matches);$i<$len;$i++)
+		{
+			$matchLen=count($matches[$i]);
+			// an entry must have matched at least a type and subtype
+			if($matchLen>2)
+			{
+				$accept=array(
+					'type'=>$matches[$i][1],
+					'subType'=>$matches[$i][2],
+					'baseType'=>null,
+					'params'=>array(),
+				);
+				if($matchLen>4)
+				{
+					// add base type if not empty
+					if($matches[$i][4]!=='')
+						$accept['baseType']=$matches[$i][4];
+					// parse params if available
+					if($matchLen>5)
+					{
+						$paramMatches = array();
+						// match all key=value pairs
+						preg_match_all('/;?\s?([^;=]+)=([^;=]+)/',$matches[$i][5],$paramMatches,PREG_SET_ORDER);
+						foreach($paramMatches as $paramMatch)
+						{
+							// each param must include a key and a value
+							if(count($paramMatch)>2)
+							{
+								// if this is the quality param, convert it to a double
+								if($paramMatch[1]==='q')
+								{
+									// sanity check on q value
+									$q=(double)trim($paramMatch[2]);
+									if($q>1)
+										$q=1;
+									elseif($q<0)
+										$q=0;
+									$accept['params'][$paramMatch[1]]=$q;
+								}
+								else
+									$accept['params'][$paramMatch[1]]=trim($paramMatch[2]);
+							}
+						}
+					}
+				}
+				// q defaults to 1 if not explicitly given
+				if(!isset($accept['params']['q']))
+					$accept['params']['q']=(double)1;
+				$accepts[] = $accept;
+			}
+		}
+		return $accepts;
+	}
+
+	/**
+	 * Compare function for determining the preference of accepted MIME type array maps
+	 * @param array $a user accepted MIME type as an array map
+	 * @param array $b user accepted MIME type as an array map
+	 * @return integer -1, 0 or 1 if $a has respectively less preference, equal preference or greater preference than $b.
+	 * See {@link parseAcceptHeader()} for the format of $a and $b
+	 */
+	public static function compareAcceptTypes($a, $b)
+	{
+		// check for equal quality first
+		if($a['params']['q']==$b['params']['q'])
+		{
+			if(!($a['type']=='*' xor $b['type']=='*'))
+			{
+				if (!($a['subType']=='*' xor $b['subType']=='*'))
+				{
+					// finally, higher number of parameters counts as greater precedence
+					if(count($a['params'])==count($b['params']))
+					{
+						return 0;
+					}
+					return count($a['params'])<count($b['params']) ? 1 : -1;
+				}
+				// more specific takes precedence - whichever one doesn't have a * subType
+				return $a['subType']=='*' ? 1 : -1;
+			}
+			// more specific takes precedence - whichever one doesn't have a * type
+			return $a['type']=='*' ? 1 : -1;
+		}
+		return ($a['params']['q']<$b['params']['q']) ? 1 : -1;
+	}
+
+	/**
+	 * Returns an array of user accepted MIME types in order of preference.
+	 * Each array entry consists of a map with the type, subType, baseType and params, an array map of key-value parameters.
+	 * See {@link parseAcceptHeader()} for a description of the array map.
+	 * @return array the user accepted MIME types, as array maps, in the order of preference.
 	 */
 	public function getPreferredAcceptTypes()
 	{
 		if($this->_preferredAcceptTypes===null)
 		{
-			$accepts=array();
-			$acceptTypes=$this->getAcceptTypes();
-			if ($acceptTypes!==null)
-			{
-				// split the text on the , character, ignoring whitespace
-				foreach(preg_split('/\s*,\s*/', $acceptTypes) as $term)
-				{
-					$accept=array();
-					$accept['params'] = array();
-					$mediaRange = '';
-					// check whether there are any parameters for this mime type
-					if(preg_match(",^(\S+)\s*;\s*(.*),i",$term,$params))
-					{
-						// store the mime type
-						$mediaRange=$params[1];
-						// parse the remaining text for parameters, splitting on the ; character
-						foreach(preg_split('/\s*;\s*/', $params[2]) as $param)
-						{
-							// only process key=value text
-							if(preg_match(",^\s*(.*?)\s*=\s*(.*),i",$param,$parts))
-							{
-								// if the parameter concerns quality, store it in a particular place
-								if($parts[1]=='q')
-								{
-									// assume that first instance takes precedence if there are more than one
-									if(!isset($accept['quality']))
-									{
-										$accept['quality'] = (double)trim($parts[2]);
-									}
-								}
-								// otherwise store the key value pair in the params array
-								else
-								{
-									// assume that first instance takes precedence if there are more than one
-									if(!isset($accept['params'][$parts[1]]))
-									{
-										$accept['params'][$parts[1]]=trim($parts[2],' "');
-									}
-								}
-							}
-						}
-					}
-					else
-					{
-						// the entire term contains only the mime type
-						$mediaRange=trim($term);
-					}
-					$types=explode('/',$mediaRange);
-					if(isset($types[0]))
-						$accept['type']=$types[0];
-					if(isset($types[1]))
-						$accept['subType']=$types[1];
-					// if the quality has not been explicitly stated, it is equal to 1
-					if(!isset($accept['quality']))
-						$accept['quality']=(double)1;
-					$accepts[]=$accept;
-				}
-				// slightly complicated sorting function - in case of equal quality, higher specificity takes preference, which includes a higher number of parameters if all else is equal - see link
-				usort($accepts,create_function('$a,$b','if($a[\'quality\']==$b[\'quality\']) {if(!($a[\'type\']==\'*\' xor $b[\'type\']==\'*\')) {if (!($a[\'subType\']==\'*\' xor $b[\'subType\']==\'*\')) {if(count($a[\'params\'])==count($b[\'params\'])) {return 0;} return count($a[\'params\'])<count($b[\'params\']) ? 1 : -1;}	return $a[\'subType\']==\'*\' ? 1 : -1;} return $a[\'type\']==\'*\' ? 1 : -1;} return ($a[\'quality\']<$b[\'quality\']) ? 1 : -1;'));
-			}
+			$accepts=self::parseAcceptHeader($this->getAcceptTypes());
+			usort($accepts,array(get_class($this), 'compareAcceptTypes'));
 			$this->_preferredAcceptTypes=$accepts;
 		}
 		return $this->_preferredAcceptTypes;
@@ -891,7 +932,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the user preferred accept MIME type.
-	 The MIME type is returned as an array map (see {@link CHttpRequest->getPreferredAcceptTypes()}.
+	 The MIME type is returned as an array map (see {@link parseAcceptHeader()}.
 	 * @return array the user preferred accept MIME type or false if the user does not have any.
 	 */
 	public function getPreferredAcceptType()
