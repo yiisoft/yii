@@ -79,10 +79,12 @@ class CDbColumnSchemaTest extends CTestCase
 			array('boolean', '', false),
 			array('boolean', 'not empty', true),
 			array('integer', '123', 123),
+			array('integer', ' 123 ', 123),
 			array('integer', 'some string', 0),
 			array('integer', 'abc123', 0),
 			array('double', '123', '123'),
 			array('double', '5.2', '5.2'),
+			array('double', ' 5.2 ', '5.2'),
 			/* @see https://github.com/yiisoft/yii/issues/2206 */
 			array('integer', '123abc', 0),
 			array('double', 'abc5.2', 0),
