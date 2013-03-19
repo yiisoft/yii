@@ -2171,7 +2171,7 @@ EOD;
 	 * @return string the generated HTML name value
 	 */
 	public static function getNameByModel($model) {
-	    $converter = self::$classToNameConverter;
+		$converter = self::$classToNameConverter;
 		$classname = is_object($model)
 			? get_class($model)
 			: (string) $model;
