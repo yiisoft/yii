@@ -144,9 +144,9 @@ class CDbColumnSchema extends CComponent
 		switch($this->type)
 		{
 			case 'string': return (string)$value;
-			case 'integer': return (integer)$value;
+			case 'integer': return ctype_digit(trim($value)) ? (integer)$value : 0;
 			case 'boolean': return (boolean)$value;
-			case 'double':
+			case 'double': return is_numeric($value=trim($value)) ? $value : 0;
 			default: return $value;
 		}
 	}
