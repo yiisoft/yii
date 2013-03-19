@@ -206,6 +206,25 @@ class CSort extends CComponent
 	}
 
 	/**
+	 * Check connection model
+	 */
+	private function hasModelClass()
+	{
+		return ($this->modelClass?true:false);
+	}
+
+	/**
+	 * get object of connect model
+	 * return link object
+	 */
+	private function getModelClass()
+	{
+		if(is_string($this->modelClass) and $this->modelClass)
+			$this->modelClass = CActiveRecord::model($this->modelClass);
+		return $this->modelClass;
+	}
+
+	/**
 	 * Modifies the query criteria by changing its {@link CDbCriteria::order} property.
 	 * This method will use {@link directions} to determine which columns need to be sorted.
 	 * They will be put in the ORDER BY clause. If the criteria already has non-empty {@link CDbCriteria::order} value,
@@ -236,8 +255,8 @@ class CSort extends CComponent
 			return is_string($this->defaultOrder) ? $this->defaultOrder : '';
 		else
 		{
-			if($this->modelClass!==null)
-				$schema=CActiveRecord::model($this->modelClass)->getDbConnection()->getSchema();
+			if($this->hasModelClass())
+				$schema = $this->getModelClass()->getDbConnection()->getSchema();
 			$orders=array();
 			foreach($directions as $attribute=>$descending)
 			{
@@ -257,7 +276,7 @@ class CSort extends CComponent
 						if(($pos=strpos($attribute,'.'))!==false)
 							$attribute=$schema->quoteTableName(substr($attribute,0,$pos)).'.'.$schema->quoteColumnName(substr($attribute,$pos+1));
 						else
-							$attribute=($criteria===null || $criteria->alias===null ? CActiveRecord::model($this->modelClass)->getTableAlias(true) : $schema->quoteTableName($criteria->alias)).'.'.$schema->quoteColumnName($attribute);
+							$attribute=($criteria===null || $criteria->alias===null ? $this->getModelClass()->getTableAlias(true) : $schema->quoteTableName($criteria->alias)).'.'.$schema->quoteColumnName($attribute);
 					}
 					$orders[]=$descending?$attribute.' DESC':$attribute;
 				}
@@ -326,8 +345,9 @@ class CSort extends CComponent
 		}
 		elseif(is_string($definition))
 			$attribute=$definition;
-		if($this->modelClass!==null)
-			return CActiveRecord::model($this->modelClass)->getAttributeLabel($attribute);
+		
+		if( $this->hasModelClass() )
+			return $this->getModelClass()->getAttributeLabel($attribute);
 		else
 			return $attribute;
 	}
@@ -365,8 +385,23 @@ class CSort extends CComponent
 					}
 				}
 			}
-			if($this->_directions===array() && is_array($this->defaultOrder))
-				$this->_directions=$this->defaultOrder;
+			if($this->_directions===array())
+			{
+				if(is_array($this->defaultOrder))
+				{
+					$this->_directions=$this->defaultOrder;
+				}
+				// Support multiple sort
+				elseif($this->defaultOrder)
+				{
+					$list = explode(',', $this->defaultOrder);
+					foreach($list as $i)
+					{
+						$i = explode(' ', trim($i) );
+						$this->_directions[trim($i[0])] = (stripos($i[1], 'DESC')===false ? static::SORT_ASC : static::SORT_DESC);
+					}
+				}
+			}
 		}
 		return $this->_directions;
 	}
@@ -421,8 +456,8 @@ class CSort extends CComponent
 	{
 		if($this->attributes!==array())
 			$attributes=$this->attributes;
-		elseif($this->modelClass!==null)
-			$attributes=CActiveRecord::model($this->modelClass)->attributeNames();
+		else if($this->hasModelClass())
+			$attributes = $this->getModelClass()->attributeNames();
 		else
 			return false;
 		foreach($attributes as $name=>$definition)
@@ -434,7 +469,7 @@ class CSort extends CComponent
 			}
 			elseif($definition==='*')
 			{
-				if($this->modelClass!==null && CActiveRecord::model($this->modelClass)->hasAttribute($attribute))
+				if($this->hasModelClass() && $this->getModelClass()->hasAttribute($attribute))
 					return $attribute;
 			}
 			elseif($definition===$attribute)
