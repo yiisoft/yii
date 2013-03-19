@@ -2166,7 +2166,7 @@ EOD;
 
 	/**
 	 * Generates HTML name for given model.
-	 * @see CHtml::setNameByModelConverter()
+	 * @see CHtml::setClassToNameConverter()
 	 * @param CModel|string $model the data model or the model class name
 	 * @return string the generated HTML name value
 	 */
@@ -2188,7 +2188,7 @@ EOD;
 	 * 		a valid value for HTML name attribute.
 	 * @return void
 	 */
-	public static function setNameByModelConverter($converter) {
+	public static function setClassToNameConverter($converter) {
 		if (is_callable($converter)) {
 			self::$classToNameConverter = $converter;
 		} elseif (is_null($converter)) {
