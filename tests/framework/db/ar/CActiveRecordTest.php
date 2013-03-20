@@ -1434,10 +1434,15 @@ class CActiveRecordTest extends CTestCase
 	 *
 	 * @see https://github.com/yiisoft/yii/issues/2216
 	 */
-	public function testFindBySinglePkBySingleSizeArrayWithMixedKeys()
+	public function testFindBySinglePkByArrayWithMixedKeys()
 	{
 		$posts=Post::model()->findAllByPk(array('some'=>3));
 		$this->assertEquals(1,count($posts));
 		$this->assertEquals(3,$posts[0]->id);
+
+		$posts=Post::model()->findAllByPk(array('some'=>3, 'another'=>2));
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(2,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
 	}
 }
