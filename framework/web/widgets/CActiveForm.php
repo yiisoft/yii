@@ -675,8 +675,9 @@ class CActiveForm extends CWidget
 	 */
 	public function telField($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeTimeField($model,$attribute,$htmlOptions);
+		return CHtml::activeTelField($model,$attribute,$htmlOptions);
 	}
+
 	/**
 	 * Renders a text field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeTextField}.
