@@ -678,6 +678,7 @@ class CDbCommandBuilder extends CComponent
 				array('{table}'=>$table->name, '{column}'=>$columnName)));
 			$column=$table->columns[$columnName];
 
+			$values=array_values($values);
 			foreach($values as &$value)
 			{
 				$value=$column->typecast($value);
