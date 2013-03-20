@@ -4,7 +4,7 @@
  *
  * @author Sebastian Thierer <sebas@artfos.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -22,7 +22,8 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *     'name'=>'submit',
  *     'caption'=>'Save',
  *     'options'=>array(
- *     'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
+ *         'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
+ *     ),
  * ));
  * </pre>
  *

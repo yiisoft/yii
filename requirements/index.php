@@ -8,7 +8,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  * @package system
  * @since 1.0
@@ -64,43 +64,43 @@ $requirements=array(
 		false,
 		extension_loaded('pdo_sqlite'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','This is required if you are using SQLite database.')),
+		t('yii','Required for SQLite database.')),
 	array(
 		t('yii','PDO MySQL extension'),
 		false,
 		extension_loaded('pdo_mysql'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','This is required if you are using MySQL database.')),
+		t('yii','Required for MySQL database.')),
 	array(
 		t('yii','PDO PostgreSQL extension'),
 		false,
 		extension_loaded('pdo_pgsql'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','This is required if you are using PostgreSQL database.')),
+		t('yii','Required for PostgreSQL database.')),
 	array(
 		t('yii','PDO Oracle extension'),
 		false,
 		extension_loaded('pdo_oci'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','This is required if you are using Oracle database.')),
+		t('yii','Required for Oracle database.')),
 	array(
 		t('yii','PDO MSSQL extension (pdo_mssql)'),
 		false,
 		extension_loaded('pdo_mssql'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','This is required if you are using MSSQL database from MS Windows')),
+		t('yii','Required for MSSQL database from MS Windows')),
 	array(
 		t('yii','PDO MSSQL extension (pdo_dblib)'),
 		false,
 		extension_loaded('pdo_dblib'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','This is required if you are using MSSQL database from GNU/Linux or other UNIX.')),
+		t('yii','Required for MSSQL database from GNU/Linux or other UNIX.')),
 	array(
 		t('yii','PDO MSSQL extension (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)'),
 		false,
 		extension_loaded('pdo_sqlsrv'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','This is required if you are using MSSQL database with the driver provided by Microsoft.')),
+		t('yii','Required for MSSQL database with the driver provided by Microsoft.')),
 	array(
 		t('yii','Memcache extension'),
 		false,
@@ -118,7 +118,7 @@ $requirements=array(
 		false,
 		extension_loaded("mcrypt"),
 		'<a href="http://www.yiiframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
-		t('yii','This is required by encrypt and decrypt methods.')),
+		t('yii','Required by encrypt and decrypt methods.')),
 	array(
 		t('yii','SOAP extension'),
 		false,
@@ -137,7 +137,14 @@ $requirements=array(
 		extension_loaded("ctype"),
 		'<a href="http://www.yiiframework.com/doc/api/CDateFormatter">CDateFormatter</a>, <a href="http://www.yiiframework.com/doc/api/CDateFormatter">CDateTimeParser</a>, <a href="http://www.yiiframework.com/doc/api/CTextHighlighter">CTextHighlighter</a>, <a href="http://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>',
 		''
-	)
+	),
+	array(
+		t('yii','Fileinfo extension'),
+		false,
+		extension_loaded("fileinfo"),
+		'<a href="http://www.yiiframework.com/doc/api/CFileValidator">CFileValidator</a>',
+		t('yii','Required for MIME-type validation')
+	),
 );
 
 function checkServerVar()

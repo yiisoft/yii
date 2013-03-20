@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -23,21 +23,21 @@ class CPgsqlSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'serial NOT NULL PRIMARY KEY',
-        'string' => 'character varying (255)',
-        'text' => 'text',
-        'integer' => 'integer',
-        'float' => 'double precision',
-        'decimal' => 'numeric',
-        'datetime' => 'timestamp',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'bytea',
-        'boolean' => 'boolean',
+	public $columnTypes=array(
+		'pk' => 'serial NOT NULL PRIMARY KEY',
+		'string' => 'character varying (255)',
+		'text' => 'text',
+		'integer' => 'integer',
+		'float' => 'double precision',
+		'decimal' => 'numeric',
+		'datetime' => 'timestamp',
+		'timestamp' => 'timestamp',
+		'time' => 'time',
+		'date' => 'date',
+		'binary' => 'bytea',
+		'boolean' => 'boolean',
 		'money' => 'decimal(19,4)',
-    );
+	);
 
 	private $_sequences=array();
 
@@ -289,7 +289,7 @@ SELECT attnum, attname FROM pg_catalog.pg_attribute WHERE
 			SELECT oid FROM pg_catalog.pg_namespace WHERE nspname=:schema
 		)
 	)
-    AND attnum IN ({$indices})
+	AND attnum IN ({$indices})
 EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
 		$command->bindValue(':table',$table->name);

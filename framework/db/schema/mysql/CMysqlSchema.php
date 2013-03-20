@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -196,7 +196,8 @@ class CMysqlSchema extends CDbSchema
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
 		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
-		$c->comment=$column['Comment'];
+		if(isset($column['Comment']))
+			$c->comment=$column['Comment'];
 
 		return $c;
 	}
@@ -271,6 +272,7 @@ class CMysqlSchema extends CDbSchema
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
 	 * @param string $name the old name of the column. The name will be properly quoted by the method.
 	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 * @throws CDbException if specified column is not found in given table
 	 * @return string the SQL statement for renaming a DB column.
 	 * @since 1.1.6
 	 */

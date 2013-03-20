@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -122,6 +122,7 @@ abstract class CDbMigration extends CComponent
 	 * You can call {@link setDbConnection} to switch to a different database connection.
 	 * Methods such as {@link insert}, {@link createTable} will use this database connection
 	 * to perform DB queries.
+	 * @throws CException if "db" application component is not configured
 	 * @return CDbConnection the currently active database connection
 	 */
 	public function getDbConnection()
@@ -422,7 +423,7 @@ abstract class CDbMigration extends CComponent
 	 */
 	public function dropPrimaryKey($name,$table)
 	{
-		echo "    > alter table $table drop constraint $name primary key $column ...";
+		echo "    > alter table $table drop primary key $name ...";
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->dropPrimaryKey($name,$table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";

@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -99,7 +99,8 @@ abstract class CActiveRecord extends CModel
 	 * It changes the query caching parameter of the {@link dbConnection} instance.
 	 * @param integer $duration the number of seconds that query results may remain valid in cache.
 	 * If this is 0, the caching will be disabled.
-	 * @param CCacheDependency $dependency the dependency that will be used when saving the query results into cache.
+	 * @param CCacheDependency|ICacheDependency $dependency the dependency that will be used when saving
+	 * the query results into cache.
 	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
 	 * meaning that the next SQL query will be cached.
 	 * @return CActiveRecord the active record instance itself.
@@ -612,6 +613,7 @@ abstract class CActiveRecord extends CModel
 	 * Returns the database connection used by active record.
 	 * By default, the "db" application component is used as the database connection.
 	 * You may override this method if you want to use a different database connection.
+	 * @throws CDbException if "db" application component is not defined
 	 * @return CDbConnection the database connection used by active record.
 	 */
 	public function getDbConnection()
@@ -1091,8 +1093,8 @@ abstract class CActiveRecord extends CModel
 	 * @param array $attributes attributes to be updated. Each element represents an attribute name
 	 * or an attribute value indexed by its name. If the latter, the record's
 	 * attribute will be changed accordingly before saving.
+	 * @throws CDbException if the record is new
 	 * @return boolean whether the update is successful
-	 * @throws CException if the record is new or any database error
 	 */
 	public function saveAttributes($attributes)
 	{
@@ -1155,8 +1157,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Deletes the row corresponding to this active record.
+	 * @throws CDbException if the record is new
 	 * @return boolean whether the deletion is successful.
-	 * @throws CException if the record is new
 	 */
 	public function delete()
 	{
@@ -1293,7 +1295,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if(!$all)
 				$criteria->limit=1;
-			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
+			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria,$this->getTableAlias());
 			return $all ? $this->populateRecords($command->queryAll(), true, $criteria->index) : $this->populateRecord($command->queryRow());
 		}
 		else
@@ -1407,7 +1409,7 @@ abstract class CActiveRecord extends CModel
 	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
-	 * @return array list of active records satisfying the specified condition. An empty array is returned if none is found.
+	 * @return CActiveRecord[] list of active records satisfying the specified condition. An empty array is returned if none is found.
 	 */
 	public function findAll($condition='',$params=array())
 	{
@@ -1438,7 +1440,7 @@ abstract class CActiveRecord extends CModel
 	 * @param mixed $pk primary key value(s). Use array for multiple primary keys. For composite key, each key value must be an array (column name=>column value).
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
-	 * @return array the records found. An empty array is returned if none is found.
+	 * @return CActiveRecord[] the records found. An empty array is returned if none is found.
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
@@ -1472,7 +1474,7 @@ abstract class CActiveRecord extends CModel
 	 * An attribute value can be an array which will be used to generate an IN condition.
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
-	 * @return array the records found. An empty array is returned if none is found.
+	 * @return CActiveRecord[] the records found. An empty array is returned if none is found.
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
@@ -1509,7 +1511,7 @@ abstract class CActiveRecord extends CModel
 	 * Finds all active records using the specified SQL statement.
 	 * @param string $sql the SQL statement
 	 * @param array $params parameters to be bound to the SQL statement
-	 * @return array the records found. An empty array is returned if none is found.
+	 * @return CActiveRecord[] the records found. An empty array is returned if none is found.
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -1610,7 +1612,7 @@ abstract class CActiveRecord extends CModel
 		$this->applyScopes($criteria);
 
 		if(empty($criteria->with))
-			return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
+			return $builder->createFindCommand($table,$criteria,$this->getTableAlias(false, false))->queryRow()!==false;
 		else
 		{
 			$criteria->select='*';
@@ -1820,7 +1822,7 @@ abstract class CActiveRecord extends CModel
 	 * @param boolean $callAfterFind whether to call {@link afterFind} after each record is populated.
 	 * @param string $index the name of the attribute whose value will be used as indexes of the query result array.
 	 * If null, it means the array will be indexed by zero-based integers.
-	 * @return array list of active records.
+	 * @return CActiveRecord[] list of active records.
 	 */
 	public function populateRecords($data,$callAfterFind=true,$index=null)
 	{
@@ -2300,6 +2302,7 @@ class CActiveRecordMetaData
 	/**
 	 * Constructor.
 	 * @param CActiveRecord $model the model instance
+	 * @throws CDbException if specified table for active record class cannot be found in the database
 	 */
 	public function __construct($model)
 	{
