@@ -669,12 +669,13 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
+	 * @since 1.1.14
 	 */
 	public function searchField($model,$attribute,$htmlOptions=array())
 	{
 		return CHtml::activeSearchField($model,$attribute,$htmlOptions);
 	}
-	
+
 	/**
 	 * Renders a hidden field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeHiddenField}.
