@@ -711,7 +711,6 @@ class CJoinElement
 			$sql=$command->getText();
 			$sql="SELECT COUNT(*) FROM ({$sql}) sq";
 			$command->setText($sql);
-			$command->params = $query->params;
 			return $command->queryScalar();
 		}
 		else
