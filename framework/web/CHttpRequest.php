@@ -804,8 +804,9 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Parses an Http Accept header, returning an array map with all parts of each entry.
-	 * Each array entry consists of a map with the type, subType, quality (i.e. preference ranking) and params, an array map of key-value parameters.
+	 * Parses an HTTP Accept header, returning an array map with all parts of each entry.
+	 * Each array entry consists of a map with the type, subType, baseType and params, an array map of key-value parameters,
+	 * obligatorily including a `q` value (i.e. preference ranking) as a double.
 	 * For example, an Accept value of 'application/xhtml+xml;q=0.9;level=1' would give an array entry of
 	 * array(
 	 * 		'type' => 'application',
