@@ -6,7 +6,7 @@ class CHttpRequestTest extends CTestCase
 	 * @covers CHttpRequest::parseAcceptHeader
 	 * @dataProvider acceptHeaderDataProvider
 	 */
-	public function testParseAcceptHeader($header, $result, $errorString='Parse of header did not give expected result')
+	public function testParseAcceptHeader($header,$result,$errorString='Parse of header did not give expected result')
 	{
 		$this->assertEquals($result,CHttpRequest::parseAcceptHeader($header),$errorString);
 	}
