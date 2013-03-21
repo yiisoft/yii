@@ -1429,4 +1429,20 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(1, $count, 'Having condition has not been applied on count with relation!');
 	}
 
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/2216
+	 */
+	public function testFindBySinglePkByArrayWithMixedKeys()
+	{
+		$posts=Post::model()->findAllByPk(array('some'=>3));
+		$this->assertEquals(1,count($posts));
+		$this->assertEquals(3,$posts[0]->id);
+
+		$posts=Post::model()->findAllByPk(array('some'=>3, 'another'=>2));
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(2,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
+	}
 }
