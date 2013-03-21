@@ -4,32 +4,48 @@ class CHttpRequestTest extends CTestCase
 {
 	/**
 	 * @covers CHttpRequest::parseAcceptHeader
+	 * @dataProvider acceptHeaderDataProvider
 	 */
-	public function testParseAcceptHeader()
+	public function testParseAcceptHeader($header, $result, $errorString='Parse of header did not give expected result')
 	{
-		$tests=array(
+		$this->assertEquals($result,CHttpRequest::parseAcceptHeader($header),$errorString);
+	}
+
+	/**
+	 * @covers CHttpRequest::compareAcceptTypes
+	 * @dataProvider acceptContentTypeArrayMapDataProvider
+	 */
+	public function testCompareAcceptTypes($a,$b,$result,$errorString='Compare of content type array maps did not give expected preference')
+	{
+		$this->assertEquals($result,CHttpRequest::compareAcceptTypes($a,$b),$errorString);
+		// make sure that inverse comparison holds
+		$this->assertEquals($result*-1,CHttpRequest::compareAcceptTypes($b,$a),'(Inverse) '.$errorString);
+	}
+
+	public function acceptHeaderDataProvider() {
+		return array(
 			// null header
 			array(
-				'header'=>null,
-				'result'=>array(),
-				'error'=>'Parsing null Accept header did not return empty array',
+				null,
+				array(),
+				'Parsing null Accept header did not return empty array',
 			),
 			// empty header
 			array(
-				'header'=>'',
-				'result'=>array(),
-				'error'=>'Parsing empty Accept header did not return empty array',
+				'',
+				array(),
+				'Parsing empty Accept header did not return empty array',
 			),
 			// nonsense header, containing no valid accept types (but containing the characters that the header is split on)
 			array(
-				'header'=>'gsf,\'yas\'erys"rt;,";s,y s;,',
-				'result'=>array(),
-				'error'=>'Parsing completely invalid Accept header did not return empty array',
+				'gsf,\'yas\'erys"rt;,";s,y s;,',
+				array(),
+				'Parsing completely invalid Accept header did not return empty array',
 			),
 			// valid header containing only content types
 			array(
-				'header'=>'application/xhtml+xml,text/html,*/json,image/png',
-				'result'=>array(
+				'application/xhtml+xml,text/html,*/json,image/png',
+				array(
 					array(
 						'type'=>'application',
 						'subType'=>'xhtml',
@@ -63,12 +79,12 @@ class CHttpRequestTest extends CTestCase
 						),
 					),
 				),
-				'error'=>'Parsing valid Accept header containing only content types did not return correct result',
+				'Parsing valid Accept header containing only content types did not return correct result',
 			),
 			// valid header containing all details
 			array(
-				'header'=>'application/xhtml+xml;q=0.9,text/html,*/json;q=4;level=three,image/png;a=1;b=2;c=3',
-				'result'=>array(
+				'application/xhtml+xml;q=0.9,text/html,*/json;q=4;level=three,image/png;a=1;b=2;c=3',
+				array(
 					array(
 						'type'=>'application',
 						'subType'=>'xhtml',
@@ -106,12 +122,12 @@ class CHttpRequestTest extends CTestCase
 						),
 					),
 				),
-				'error'=>'Parsing valid Accept header containing all details did not return correct result',
+				'Parsing valid Accept header containing all details did not return correct result',
 			),
 			// partially valid header containing all details (no , after */json)
 			array(
-				'header'=>'application/xhtml+xml;q=0.9,text/html,*/json;q=4;level=three image/png;a=1;b=2;c=3',
-				'result'=>array(
+				'application/xhtml+xml;q=0.9,text/html,*/json;q=4;level=three image/png;a=1;b=2;c=3',
+				array(
 					array(
 						'type'=>'application',
 						'subType'=>'xhtml',
@@ -138,23 +154,15 @@ class CHttpRequestTest extends CTestCase
 						),
 					),
 				),
-				'error'=>'Parsing partially valid Accept header containing all details did not return correct result',
+				'Parsing partially valid Accept header containing all details did not return correct result',
 			),
 		);
-
-		foreach($tests as $test) {
-			$this->assertEquals($test['result'],CHttpRequest::parseAcceptHeader($test['header']),$test['error']);
-		}
 	}
 
-	/**
-	 * @covers CHttpRequest::compareAcceptTypes
-	 */
-	public function testCompareAcceptTypes()
-	{
-		$tests=array(
+	public function acceptContentTypeArrayMapDataProvider() {
+		return array(
 			array(
-				'a' => array(
+				array(
 					'type'=>'application',
 					'subType'=>'xhtml',
 					'baseType'=>'xml',
@@ -162,7 +170,7 @@ class CHttpRequestTest extends CTestCase
 						'q'=>0.99,
 					),
 				),
-				'b' => array(
+				array(
 					'type'=>'text',
 					'subType'=>'html',
 					'baseType'=>null,
@@ -170,11 +178,11 @@ class CHttpRequestTest extends CTestCase
 						'q'=>(double)1,
 					),
 				),
-				'result'=>1,
-				'error'=>'Comparing different q did not assign correct preference',
+				1,
+				'Comparing different q did not assign correct preference',
 			),
 			array(
-				'a' => array(
+				array(
 					'type'=>'application',
 					'subType'=>'xhtml',
 					'baseType'=>'xml',
@@ -182,7 +190,7 @@ class CHttpRequestTest extends CTestCase
 						'q'=>0.5,
 					),
 				),
-				'b' => array(
+				array(
 					'type'=>'*',
 					'subType'=>'html',
 					'baseType'=>null,
@@ -190,11 +198,11 @@ class CHttpRequestTest extends CTestCase
 						'q'=>0.5,
 					),
 				),
-				'result'=>-1,
-				'error'=>'Comparing type wildcard with specific type did not assign correct preference',
+				-1,
+				'Comparing type wildcard with specific type did not assign correct preference',
 			),
 			array(
-				'a' => array(
+				array(
 					'type'=>'application',
 					'subType'=>'*',
 					'baseType'=>'xml',
@@ -202,7 +210,7 @@ class CHttpRequestTest extends CTestCase
 						'q'=>0.5,
 					),
 				),
-				'b' => array(
+				array(
 					'type'=>'text',
 					'subType'=>'html',
 					'baseType'=>null,
@@ -210,11 +218,11 @@ class CHttpRequestTest extends CTestCase
 						'q'=>0.5,
 					),
 				),
-				'result'=>1,
-				'error'=>'Comparing subType wildcard with specific subType did not assign correct preference',
+				1,
+				'Comparing subType wildcard with specific subType did not assign correct preference',
 			),
 			array(
-				'a' => array(
+				array(
 					'type'=>'*',
 					'subType'=>'xhtml',
 					'baseType'=>'xml',
@@ -223,7 +231,7 @@ class CHttpRequestTest extends CTestCase
 						'foo'=>'bar2',
 					),
 				),
-				'b' => array(
+				array(
 					'type'=>'*',
 					'subType'=>'html',
 					'baseType'=>null,
@@ -233,11 +241,11 @@ class CHttpRequestTest extends CTestCase
 						'test'=>'drive',
 					),
 				),
-				'result'=>1,
-				'error'=>'Comparing different number of params did not assign correct preference',
+				1,
+				'Comparing different number of params did not assign correct preference',
 			),
 			array(
-				'a' => array(
+				array(
 					'type'=>'*',
 					'subType'=>'xhtml',
 					'baseType'=>'xml',
@@ -246,7 +254,7 @@ class CHttpRequestTest extends CTestCase
 						'foo'=>'bar',
 					),
 				),
-				'b' => array(
+				array(
 					'type'=>'*',
 					'subType'=>'html',
 					'baseType'=>null,
@@ -255,15 +263,9 @@ class CHttpRequestTest extends CTestCase
 						'foo'=>'bar',
 					),
 				),
-				'result'=>0,
-				'error'=>'Comparing equal type, subType, q and number of params did not return equality',
+				0,
+				'Comparing equal type, subType, q and number of params did not return equality',
 			),
 		);
-
-		foreach($tests as $test)
-			$this->assertEquals($test['result'],CHttpRequest::compareAcceptTypes($test['a'],$test['b']),$test['error']);
-		// make sure that inverse comparison holds
-		foreach($tests as $test)
-			$this->assertEquals($test['result']*-1,CHttpRequest::compareAcceptTypes($test['b'],$test['a']),'Inverse '.$test['error']);
 	}
 }
