@@ -1416,6 +1416,7 @@ class CActiveRecordTest extends CTestCase
 
 	/**
 	 * @see https://github.com/yiisoft/yii/issues/135
+	 * @see https://github.com/yiisoft/yii/issues/2201
 	 */
 	public function testCountWithHavingRelational()
 	{
@@ -1423,7 +1424,8 @@ class CActiveRecordTest extends CTestCase
 		$criteriaWithHaving->select = 't.id AS test_field';
 		$criteriaWithHaving->with = array('author');
 		$criteriaWithHaving->group = 't.id';
-		$criteriaWithHaving->having = 'test_field = 1';
+		$criteriaWithHaving->having = 'test_field = :test_field';
+		$criteriaWithHaving->params['test_field'] = 1;
 		$count = Post::model()->count($criteriaWithHaving);
 
 		$this->assertEquals(1, $count, 'Having condition has not been applied on count with relation!');
