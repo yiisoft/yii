@@ -161,10 +161,11 @@ class CActiveForm extends CWidget
 	 */
 	public $stateful=false;
 	/**
-	 * @var string the CSS class name for error messages. Defaults to 'errorMessage' defined in {@link CHtml::$errorMessageCss}.
+	 * @var string the CSS class name for error messages. 
+	 * Since 1.1.14 this defaults to 'errorMessage' defined in {@link CHtml::$errorMessageCss}.
 	 * Individual {@link error} call may override this value by specifying the 'class' HTML option.
 	 */
-	public $errorMessageCssClass=null;
+	public $errorMessageCssClass;
 	/**
 	 * @var array additional HTML attributes that should be rendered for the form tag.
 	 */
@@ -326,8 +327,8 @@ class CActiveForm extends CWidget
 		else
 			echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
 			
-		if (!isset($this->errorMessageCssClass))
-			$this->errorMessageCssClass = CHtml::$errorMessageCss;
+		if ($this->errorMessageCssClass===null)
+			$this->errorMessageCssClass=CHtml::$errorMessageCss;
 	}
 
 	/**
