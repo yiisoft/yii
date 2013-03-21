@@ -827,7 +827,7 @@ class CHttpRequest extends CApplicationComponent
 		$matches=array();
 		$accepts=array();
 		// get individual entries with their type, subtype, basetype and params
-		preg_match_all('/(?:\G\s?,\s?|^)(\w+)\/(\w+)(?:\+(\w+))?|(?<!^)\G(?:\s?;\s?(\w+)=([\w\.]+))/',$header,$matches);
+		preg_match_all('/(?:\G\s?,\s?|^)(\w+|\*)\/(\w+|\*)(?:\+(\w+))?|(?<!^)\G(?:\s?;\s?(\w+)=([\w\.]+))/',$header,$matches);
 		// the regexp should (in theory) always return an array of 6 arrays
 		if(count($matches)===6)
 		{
@@ -881,7 +881,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Compare function for determining the preference of accepted MIME type array maps
 	 * @param array $a user accepted MIME type as an array map
 	 * @param array $b user accepted MIME type as an array map
-	 * @return integer -1, 0 or 1 if $a has respectively less preference, equal preference or greater preference than $b.
+	 * @return integer -1, 0 or 1 if $a has respectively greater preference, equal preference or less preference than $b (higher preference comes first).
 	 * See {@link parseAcceptHeader()} for the format of $a and $b
 	 */
 	public static function compareAcceptTypes($a,$b)
