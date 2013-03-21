@@ -824,53 +824,45 @@ class CHttpRequest extends CApplicationComponent
 	public static function parseAcceptHeader($header)
 	{
 		$matches=array();
-		$accepts = array();
-		// get individual entries with their type, subtype, basetype and remaining characters (containing params)
-		preg_match_all('/([^,;\/=\s]+)\/([^,;\/=\s+]+)(\+([^,;\/=\s+]+))?(\s?;\s?[^,]*)*/',$header,$matches,PREG_SET_ORDER);
-		for($i=0,$len=count($matches);$i<$len;$i++)
-		{
-			$matchLen=count($matches[$i]);
-			// an entry must have matched at least a type and subtype
-			if($matchLen>2)
+		$accepts=array();
+		// get individual entries with their type, subtype, basetype and params
+		preg_match_all('/(?:\G\s?,\s?|^)(\w+)\/(\w+)(?:\+(\w+))?|(?<!^)\G(?:\s?;\s?(\w+)=([\w\.]+))/',$header,$matches);
+		// the regexp should (in theory) always return an array of 6 arrays
+		if(count($matches)===6) {
+			for($i=0,$itemLen=count($matches[1]);$i<$itemLen;)
 			{
+				// fill out a content type
 				$accept=array(
-					'type'=>$matches[$i][1],
-					'subType'=>$matches[$i][2],
+					'type'=>$matches[1][$i],
+					'subType'=>$matches[2][$i],
 					'baseType'=>null,
 					'params'=>array(),
 				);
-				if($matchLen>4)
+				// fill in the base type if it exists
+				if($matches[3][$i]!==null && $matches[3][$i]!=='')
+					$accept['baseType']=$matches[3][$i];
+				// continue looping while there is no new content type, to fill in all accompanying params
+				for($i++;$i<$itemLen;$i++)
 				{
-					// add base type if not empty
-					if($matches[$i][4]!=='')
-						$accept['baseType']=$matches[$i][4];
-					// parse params if available
-					if($matchLen>5)
+					// if the next content type is null, then the item is a param for the current content type
+					if($matches[1][$i]===null || $matches[1][$i]==='')
 					{
-						$paramMatches = array();
-						// match all key=value pairs
-						preg_match_all('/;?\s?([^;=]+)=([^;=]+)/',$matches[$i][5],$paramMatches,PREG_SET_ORDER);
-						foreach($paramMatches as $paramMatch)
+						// if this is the quality param, convert it to a double
+						if($matches[4][$i]==='q')
 						{
-							// each param must include a key and a value
-							if(count($paramMatch)>2)
-							{
-								// if this is the quality param, convert it to a double
-								if($paramMatch[1]==='q')
-								{
-									// sanity check on q value
-									$q=(double)trim($paramMatch[2]);
-									if($q>1)
-										$q=(double)1;
-									elseif($q<0)
-										$q=(double)0;
-									$accept['params'][$paramMatch[1]]=$q;
-								}
-								else
-									$accept['params'][$paramMatch[1]]=trim($paramMatch[2]);
-							}
+							// sanity check on q value
+							$q=(double)$matches[5][$i];
+							if($q>1)
+								$q=(double)1;
+							elseif($q<0)
+								$q=(double)0;
+							$accept['params'][$matches[4][$i]]=$q;
 						}
+						else
+							$accept['params'][$matches[4][$i]]=$matches[5][$i];
 					}
+					else
+						break;
 				}
 				// q defaults to 1 if not explicitly given
 				if(!isset($accept['params']['q']))
