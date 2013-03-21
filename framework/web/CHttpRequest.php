@@ -50,8 +50,8 @@
  * @property integer $port Port number for insecure requests.
  * @property integer $securePort Port number for secure requests.
  * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
- * @property array $preferredAcceptType The user preferred accept type as an array map, containing type, sub-type, quality and parameters.
- * @property array $preferredAcceptTypes An array of all user accepted types in order of preference (see above).
+ * @property array $preferredAcceptType The user preferred accept type as an array map, e.g. array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'params' => array('q' => 0.9)).
+ * @property array $preferredAcceptTypes An array of all user accepted types (as array maps like array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'params' => array('q' => 0.9)) ) in order of preference.
  * @property string $preferredLanguage The user preferred language.
  * @property array $preferredLanguages An array of all user accepted languages in order of preference.
  * @property string $csrfToken The random token for CSRF validation.
@@ -805,7 +805,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Parses an Http Accept header, returning an array map with all parts of each entry.
-	 * Each array entry consists of a map with the type, subType, quality (ie preference ranking) and params, an array map of key-value parameters.
+	 * Each array entry consists of a map with the type, subType, quality (i.e. preference ranking) and params, an array map of key-value parameters.
 	 * For example, an Accept value of 'application/xhtml+xml;q=0.9;level=1' would give an array entry of
 	 * array(
 	 * 		'type' => 'application',
@@ -816,8 +816,8 @@ class CHttpRequest extends CApplicationComponent
 	 * 			'level' => '1',
 	 * 		),
 	 * )
-	 * NB - to avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly - if
-	 * the header text includes quoted strings containing the , or ; characters then the results may not be correct!
+	 * NB: to avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly.
+	 * If the header text includes quoted strings containing space or the , or ; characters then the results may not be correct!
 	 * @return array the user accepted MIME types.
 	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.1}
 	 */
@@ -828,8 +828,11 @@ class CHttpRequest extends CApplicationComponent
 		// get individual entries with their type, subtype, basetype and params
 		preg_match_all('/(?:\G\s?,\s?|^)(\w+)\/(\w+)(?:\+(\w+))?|(?<!^)\G(?:\s?;\s?(\w+)=([\w\.]+))/',$header,$matches);
 		// the regexp should (in theory) always return an array of 6 arrays
-		if(count($matches)===6) {
-			for($i=0,$itemLen=count($matches[1]);$i<$itemLen;)
+		if(count($matches)===6)
+		{
+			$i=0;
+			$itemLen=count($matches[1]);
+			while($i<$itemLen)
 			{
 				// fill out a content type
 				$accept=array(
@@ -880,29 +883,25 @@ class CHttpRequest extends CApplicationComponent
 	 * @return integer -1, 0 or 1 if $a has respectively less preference, equal preference or greater preference than $b.
 	 * See {@link parseAcceptHeader()} for the format of $a and $b
 	 */
-	public static function compareAcceptTypes($a, $b)
+	public static function compareAcceptTypes($a,$b)
 	{
 		// check for equal quality first
-		if($a['params']['q']==$b['params']['q'])
-		{
-			if(!($a['type']=='*' xor $b['type']=='*'))
-			{
-				if (!($a['subType']=='*' xor $b['subType']=='*'))
-				{
+		if($a['params']['q']===$b['params']['q'])
+			if(!($a['type']==='*' xor $b['type']==='*'))
+				if (!($a['subType']==='*' xor $b['subType']==='*'))
 					// finally, higher number of parameters counts as greater precedence
-					if(count($a['params'])==count($b['params']))
-					{
+					if(count($a['params'])===count($b['params']))
 						return 0;
-					}
-					return count($a['params'])<count($b['params']) ? 1 : -1;
-				}
+					else
+						return count($a['params'])<count($b['params']) ? 1 : -1;
 				// more specific takes precedence - whichever one doesn't have a * subType
-				return $a['subType']=='*' ? 1 : -1;
-			}
+				else
+					return $a['subType']==='*' ? 1 : -1;
 			// more specific takes precedence - whichever one doesn't have a * type
-			return $a['type']=='*' ? 1 : -1;
-		}
-		return ($a['params']['q']<$b['params']['q']) ? 1 : -1;
+			else
+				return $a['type']==='*' ? 1 : -1;
+		else
+			return ($a['params']['q']<$b['params']['q']) ? 1 : -1;
 	}
 
 	/**
@@ -916,7 +915,7 @@ class CHttpRequest extends CApplicationComponent
 		if($this->_preferredAcceptTypes===null)
 		{
 			$accepts=self::parseAcceptHeader($this->getAcceptTypes());
-			usort($accepts,array(get_class($this), 'compareAcceptTypes'));
+			usort($accepts,array(get_class($this),'compareAcceptTypes'));
 			$this->_preferredAcceptTypes=$accepts;
 		}
 		return $this->_preferredAcceptTypes;
@@ -924,13 +923,13 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the user preferred accept MIME type.
-	 The MIME type is returned as an array map (see {@link parseAcceptHeader()}.
+	 * The MIME type is returned as an array map (see {@link parseAcceptHeader()}.
 	 * @return array the user preferred accept MIME type or false if the user does not have any.
 	 */
 	public function getPreferredAcceptType()
 	{
 		$preferredAcceptTypes=$this->getPreferredAcceptTypes();
-		return !empty($preferredAcceptTypes) ? $preferredAcceptTypes[0] : false;
+		return empty($preferredAcceptTypes) ? false : $preferredAcceptTypes[0];
 	}
 
 	/**
