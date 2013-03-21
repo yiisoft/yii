@@ -22,7 +22,8 @@ class CHttpRequestTest extends CTestCase
 		$this->assertEquals($result*-1,CHttpRequest::compareAcceptTypes($b,$a),'(Inverse) '.$errorString);
 	}
 
-	public function acceptHeaderDataProvider() {
+	public function acceptHeaderDataProvider()
+	{
 		return array(
 			// null header
 			array(
@@ -159,7 +160,8 @@ class CHttpRequestTest extends CTestCase
 		);
 	}
 
-	public function acceptContentTypeArrayMapDataProvider() {
+	public function acceptContentTypeArrayMapDataProvider()
+	{
 		return array(
 			array(
 				array(
