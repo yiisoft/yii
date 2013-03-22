@@ -279,4 +279,42 @@ class MessageCommandTest extends CTestCase
 		$this->assertEquals('@@'.$oldMessageContent.'@@',$messages[$oldMessage],'No longer needed message content does not marked properly!');
 	}
 
+	/**
+	 * @depends testMerge
+	 * @see https://github.com/yiisoft/yii/issues/2244
+	 */
+	public function testMergeWithContentZero()
+	{
+		$language = 'en';
+		$category='test_category';
+		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
+
+		$zeroMessage='test zero message';
+		$zeroMessageContent='0';
+		$falseMessage='test false message';
+		$falseMessageContent='false';
+		$this->createMessageFile($messageFileName,array(
+			$zeroMessage=>$zeroMessageContent,
+			$falseMessage=>$falseMessageContent,
+		));
+
+		$newMessage='test new message';
+		$sourceFileContent = "Yii::t('{$category}','{$zeroMessage}')";
+		$sourceFileContent .= "Yii::t('{$category}','{$falseMessage}')";
+		$sourceFileContent .= "Yii::t('{$category}','{$newMessage}')";
+		$this->createSourceFile($sourceFileContent);
+
+		$this->composeConfigFile(array(
+			'languages'=>array($language),
+			'sourcePath'=>$this->sourcePath,
+			'messagePath'=>$this->messagePath,
+			'overwrite'=>true,
+		));
+		$this->runMessageCommand(array($this->configFileName));
+
+		$messages=require($this->messagePath.DIRECTORY_SEPARATOR.$messageFileName);
+		$this->assertTrue($zeroMessageContent===$messages[$zeroMessage],'Message content "0" is lost!');
+		$this->assertTrue($falseMessageContent===$messages[$falseMessage],'Message content "false" is lost!');
+	}
+
 }
