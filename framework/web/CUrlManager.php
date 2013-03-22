@@ -815,7 +815,7 @@ class CUrlRule extends CBaseUrlRule
 		}
 
 		if($this->hasHostInfo)
-			$pathInfo=strtolower($request->getHostInfo()).rtrim('/'.$pathInfo,'/');
+			$pathInfo=strtolower($request->getHostInfo().$request->getBaseUrl()).rtrim('/'.$pathInfo,'/');
 
 		$pathInfo.='/';
 
