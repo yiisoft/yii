@@ -572,7 +572,7 @@ abstract class CDbSchema extends CComponent
 	 */
 	public function addPrimaryKey($name,$table,$columns)
 	{
-		if (is_string($columns))
+		if(is_string($columns))
 			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($columns as $i=>$col)
 			$columns[$i]=$this->quoteColumnName($col);
