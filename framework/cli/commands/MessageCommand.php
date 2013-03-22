@@ -164,7 +164,7 @@ EOD;
 			$untranslated=array();
 			foreach($messages as $message)
 			{
-				if(!empty($translated[$message]))
+				if(strlen($translated[$message])>0)
 					$merged[$message]=$translated[$message];
 				else
 					$untranslated[]=$message;
