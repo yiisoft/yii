@@ -246,4 +246,37 @@ class MessageCommandTest extends CTestCase
 		$this->assertEquals($existingMessageContent,$messages[$existingMessage],'Unable to keep existing message content!');
 	}
 
+	/**
+	 * @depends testMerge
+	 */
+	public function testNoLongerNeedTranslation()
+	{
+		$language = 'en';
+		$category='test_category';
+		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
+
+		$oldMessage='test old message';
+		$oldMessageContent='test old message content';
+		$this->createMessageFile($messageFileName,array(
+			$oldMessage=>$oldMessageContent
+		));
+
+		$sourceFileContent = "Yii::t('{$category}','some new message')";
+		$this->createSourceFile($sourceFileContent);
+
+		$this->composeConfigFile(array(
+			'languages'=>array($language),
+			'sourcePath'=>$this->sourcePath,
+			'messagePath'=>$this->messagePath,
+			'overwrite'=>true,
+			'removeOld'=>false,
+		));
+		$this->runMessageCommand(array($this->configFileName));
+
+		$messages=require($this->messagePath.DIRECTORY_SEPARATOR.$messageFileName);
+
+		$this->assertTrue(array_key_exists($oldMessage,$messages),'No longer needed message removed!');
+		$this->assertEquals('@@'.$oldMessageContent.'@@',$messages[$oldMessage],'No longer needed message content does not marked properly!');
+	}
+
 }
