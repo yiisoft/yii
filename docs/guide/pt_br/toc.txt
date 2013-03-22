@@ -16,7 +16,7 @@
     - [Visão](basics.view)
     - [Componentes](basics.component)
     - [Módulo](basics.module)
-    - [Path Alias and Namespace](basics.namespace)
+    - [Path Alias e Namespace](basics.namespace)
     - [Convenções](basics.convention)
     - [Fluxo de Trabalho](basics.workflow)
     - [Melhores Práticas em MVC](basics.best-practices)

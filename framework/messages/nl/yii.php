@@ -163,7 +163,7 @@ return array (
   'The DB query must contain the "from" portion.' => 'De DB query moet een "from"-gedeelte bevatten.',
   'The STAT relation "{name}" cannot have child relations.' => 'De STAT relatie "{name}" kan geen onderliggende relaties hebben.',
   'The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.' => 'Het URL pattern "{pattern}" voor route "{route}" is geen geldige reguliere expressie.',
-  'The active record cannot be deleted because it is new.' => 'Het active record is niet en kan dus niet verwijderd worden.',
+  'The active record cannot be deleted because it is new.' => 'Het active record kan niet verwijderd worden want het is nieuw.',
   'The active record cannot be inserted to database because it is not new.' => 'Insert kan niet gebruikt worden want het active record is niet nieuw.',
   'The active record cannot be updated because it is new.' => 'Het active record kan niet geupdated worden want het is nieuw.',
   'The asset "{asset}" to be published does not exist.' => 'Het te publiceren asset "{asset}" bestaat niet',

@@ -276,21 +276,32 @@ class CHtml
 	/**
 	 * Encloses the given JavaScript within a script tag.
 	 * @param string $text the JavaScript to be enclosed
+	 * @param array $htmlOptions additional HTML attributes (see {@link tag})
 	 * @return string the enclosed JavaScript
 	 */
-	public static function script($text)
+	public static function script($text,array $htmlOptions=array())
 	{
-		return "<script type=\"text/javascript\">\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</script>";
+		$defaultHtmlOptions=array(
+			'type'=>'text/javascript',
+		);
+		$htmlOptions=array_merge($defaultHtmlOptions,$htmlOptions);
+		return self::tag('script',$htmlOptions,"\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n");
 	}
 
 	/**
 	 * Includes a JavaScript file.
 	 * @param string $url URL for the JavaScript file
+	 * @param array $htmlOptions additional HTML attributes (see {@link tag})
 	 * @return string the JavaScript file tag
 	 */
-	public static function scriptFile($url)
+	public static function scriptFile($url,array $htmlOptions=array())
 	{
-		return '<script type="text/javascript" src="'.self::encode($url).'"></script>';
+		$defaultHtmlOptions=array(
+			'type'=>'text/javascript',
+			'src'=>$url
+		);
+		$htmlOptions=array_merge($defaultHtmlOptions,$htmlOptions);
+		return self::tag('script',$htmlOptions,'');
 	}
 
 	/**
@@ -578,6 +589,125 @@ class CHtml
 	{
 		self::clientChange('change',$htmlOptions);
 		return self::inputField('text',$name,$value,$htmlOptions);
+	}
+
+	/**
+	 * Generates a number field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.14
+	 */
+	public static function numberField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('number',$name,$value,$htmlOptions);
+	}
+
+	/**
+	 * Generates a range field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.14
+	 */
+	public static function rangeField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('range',$name,$value,$htmlOptions);
+	}
+
+	/**
+	 * Generates a date field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.14
+	 */
+	public static function dateField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('date',$name,$value,$htmlOptions);
+	}
+
+	/**
+	 * Generates a time field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.14
+	 */
+	public static function timeField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('time',$name,$value,$htmlOptions);
+	}
+
+	/**
+	 * Generates an email field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.14
+	 */
+	public static function emailField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('email',$name,$value,$htmlOptions);
+	}
+
+	/**
+	 * Generates a telephone field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.14
+	 */
+	public static function telField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('tel',$name,$value,$htmlOptions);
+	}
+
+	/**
+	 * Generates a URL field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.14
+	 */
+	public static function urlField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('url',$name,$value,$htmlOptions);
 	}
 
 	/**
@@ -975,6 +1105,10 @@ EOD;
 	 * If the value is an empty string, no enclosing tag will be generated</li>
 	 * <li>baseID: string, specifies the base ID prefix to be used for radio buttons in the list.
 	 * This option is available since version 1.1.13.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * The 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a radio button at the beginning. Note, the text label will NOT be HTML-encoded.
+	 * This option is available since version 1.1.14.</li>
 	 * </ul>
 	 * @return string the generated radio button list
 	 */
@@ -987,6 +1121,14 @@ EOD;
 
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
 		unset($htmlOptions['labelOptions']);
+
+		if(isset($htmlOptions['empty']))
+		{
+			if(!is_array($htmlOptions['empty']))
+				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
+			$data=array_merge($htmlOptions['empty'],$data);
+			unset($htmlOptions['empty']);
+		}
 
 		$items=array();
 		$baseID=isset($htmlOptions['baseID']) ? $htmlOptions['baseID'] : self::getIdByName($name);
@@ -1258,6 +1400,26 @@ EOD;
 	}
 
 	/**
+	 * Generates a search field input for a model attribute.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see activeInputField
+	 * @since 1.1.14
+	 */
+	public static function activeSearchField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('search',$model,$attribute,$htmlOptions);
+	}
+
+	/**
 	 * Generates a url field input for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
 	 * be appended with {@link errorCss}.
@@ -1355,6 +1517,46 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('date',$model,$attribute,$htmlOptions);
+	}
+
+	/**
+	 * Generates a time field input for a model attribute.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see activeInputField
+	 * @since 1.1.14
+	 */
+	public static function activeTimeField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('time',$model,$attribute,$htmlOptions);
+	}
+
+	/**
+	 * Generates a telephone field input for a model attribute.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see activeInputField
+	 * @since 1.1.14
+	 */
+	public static function activeTelField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('tel',$model,$attribute,$htmlOptions);
 	}
 
 

@@ -51,6 +51,7 @@ abstract class CDbTestCase extends CTestCase
 	 * PHP magic method.
 	 * This method is overridden so that named fixture data can be accessed like a normal property.
 	 * @param string $name the property name
+	 * @throws Exception if unknown property is used
 	 * @return mixed the property value
 	 */
 	public function __get($name)
@@ -66,6 +67,7 @@ abstract class CDbTestCase extends CTestCase
 	 * This method is overridden so that named fixture ActiveRecord instances can be accessed in terms of a method call.
 	 * @param string $name method name
 	 * @param string $params method parameters
+	 * @throws Exception if unknown method is used
 	 * @return mixed the property value
 	 */
 	public function __call($name,$params)

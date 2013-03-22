@@ -9,7 +9,7 @@
  */
 
 /**
- * CStackIterator implements an interator for {@link CStack}.
+ * CStackIterator implements an iterator for {@link CStack}.
  *
  * It allows CStack to return a new iterator for traversing the items in the stack.
  *

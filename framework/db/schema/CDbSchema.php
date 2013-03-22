@@ -300,6 +300,7 @@ abstract class CDbSchema extends CComponent
 	 * because the default implementation simply throws an exception.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
+	 * @throws CDbException if current schema does not support fetching all table names
 	 * @return array all table names in the database.
 	 */
 	protected function findTableNames($schema='')

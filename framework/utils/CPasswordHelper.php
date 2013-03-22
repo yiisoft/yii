@@ -132,10 +132,10 @@ class CPasswordHelper
 	 * independent of the string values if the subject strings are of equal length.
 	 *
 	 * The function can be useful to prevent timing attacks. For example, if $a and $b
-	 * are both hash values from the same algirithm, then the timing of this function
+	 * are both hash values from the same algorithm, then the timing of this function
 	 * does not reveal whether or not there is a match.
 	 *
-	 * NOTE: timing is affacted if $a and $b are different lengths or either is not a
+	 * NOTE: timing is affected if $a and $b are different lengths or either is not a
 	 * string. For the purpose of checking password hash this does not reveal information
 	 * useful to an attacker.
 	 *
@@ -204,7 +204,7 @@ class CPasswordHelper
 		$rand.=microtime();
 		// Mix the bits cryptographically into a 20-byte binary string.
 		$rand=sha1($rand,true);
-		// Form the prefix that specifies Blowfish algo and cost parameter.
+		// Form the prefix that specifies Blowfish algorithm and cost parameter.
 		$salt=sprintf("$2a$%02d$",$cost);
 		// Append the random salt data in the required base64 format.
 		$salt.=str_replace('+','.',substr(base64_encode($rand),0,22));

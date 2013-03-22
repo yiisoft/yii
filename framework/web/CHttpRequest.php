@@ -141,7 +141,16 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function stripSlashes(&$data)
 	{
-		return is_array($data)?array_map(array($this,'stripSlashes'),$data):stripslashes($data);
+		if(is_array($data))
+		{
+			if(count($data) == 0)
+				return $data;
+			$keys=array_map('stripslashes',array_keys($data));
+			$data=array_combine($keys,array_values($data));
+			return array_map(array($this,'stripSlashes'),$data);
+		}
+		else
+			return stripslashes($data);
 	}
 
 	/**
@@ -205,8 +214,8 @@ class CHttpRequest extends CApplicationComponent
 
 		if($this->getIsDeleteRequest())
 		{
-			$this->getRestParams();
-			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+			$restParams=$this->getRestParams();
+			return isset($restParams[$name]) ? $restParams[$name] : $defaultValue;
 		}
 		else
 			return $defaultValue;
@@ -230,8 +239,8 @@ class CHttpRequest extends CApplicationComponent
 
 		if($this->getIsPutRequest())
 		{
-			$this->getRestParams();
-			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+			$restParams=$this->getRestParams();
+			return isset($restParams[$name]) ? $restParams[$name] : $defaultValue;
 		}
 		else
 			return $defaultValue;
@@ -906,7 +915,7 @@ class CHttpRequest extends CApplicationComponent
 	 * There is a Bug with Internet Explorer 6, 7 and 8 when X-SENDFILE is used over an SSL connection, it will show
 	 * an error message like this: "Internet Explorer was not able to open this Internet site. The requested site is either unavailable or cannot be found.".
 	 * You can work around this problem by removing the <code>Pragma</code>-header.
-	 * 
+	 *
 	 * <b>Example</b>:
 	 * <pre>
 	 * <?php
