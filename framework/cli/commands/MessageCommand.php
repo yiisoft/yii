@@ -76,7 +76,7 @@ EOD;
 		if(!is_file($args[0]))
 			$this->usageError("the configuration file {$args[0]} does not exist.");
 
-		$config=require_once($args[0]);
+		$config=require($args[0]);
 		$translator='Yii::t';
 		extract($config);
 
