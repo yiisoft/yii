@@ -327,7 +327,7 @@ class CActiveForm extends CWidget
 		else
 			echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
 			
-		if ($this->errorMessageCssClass===null)
+		if($this->errorMessageCssClass===null)
 			$this->errorMessageCssClass=CHtml::$errorMessageCss;
 	}
 
