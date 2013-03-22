@@ -385,7 +385,7 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$model=self::$_models[$className]=new $className(null);
-			$model->_md=new CActiveRecordMetaData($model);
+			$model->_md=call_user_func(array($model,'generateMetaData'),$model);
 			$model->attachBehaviors($model->behaviors());
 			return $model;
 		}
@@ -400,10 +400,24 @@ abstract class CActiveRecord extends CModel
 		if($this->_md!==null)
 			return $this->_md;
 		else
-			return $this->_md=self::model(get_class($this))->_md;
+		{
+			$class = get_class($this);
+			return $this->_md=call_user_func(array($class,'generateMetaData'),$class);
+		}
 	}
 
 	/**
+	 * Generates the meta-data object for the AR model
+     *
+     * @param string $model
+	 * @return CActiveRecordMetaData
+	 */
+	protected static function generateMetaData($model)
+	{
+		return new CActiveRecordMetaData($model);
+	}
+
+    /**
 	 * Refreshes the meta data for this AR class.
 	 * By calling this method, this AR class will regenerate the meta data needed.
 	 * This is useful if the table schema has been changed and you want to use the latest
