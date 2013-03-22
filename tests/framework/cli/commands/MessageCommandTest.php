@@ -162,7 +162,7 @@ class MessageCommandTest extends CTestCase
 
 		$category='test_category';
 		$message='test message';
-		$sourceFileContent = "Yii::t('{$category}','{$message}')";
+		$sourceFileContent="Yii::t('{$category}','{$message}')";
 		$this->createSourceFile($sourceFileContent);
 
 		$this->composeConfigFile(array(
@@ -317,4 +317,41 @@ class MessageCommandTest extends CTestCase
 		$this->assertTrue($falseMessageContent===$messages[$falseMessage],'Message content "false" is lost!');
 	}
 
+	/**
+	 * @depends testCreateTranslation
+	 * @see https://github.com/yiisoft/yii/issues/1228
+	 */
+	public function testMultiplyTranslators()
+	{
+		$language = 'en';
+		$category='test_category';
+
+		$translators=array(
+			'Yii::t',
+			'Custom::translate',
+		);
+
+		$sourceMessages=array(
+			'first message',
+			'second message',
+		);
+		$sourceFileContent='';
+		foreach($sourceMessages as $key => $message)
+			$sourceFileContent.=$translators[$key]."('{$category}','{$message}');\n";
+		$this->createSourceFile($sourceFileContent);
+
+		$this->composeConfigFile(array(
+			'languages'=>array($language),
+			'sourcePath'=>$this->sourcePath,
+			'messagePath'=>$this->messagePath,
+			'translator'=>$translators,
+		));
+		$this->runMessageCommand(array($this->configFileName));
+
+		$messageFileName=$this->messagePath.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$category.'.php';
+		$messages=require($messageFileName);
+
+		foreach($sourceMessages as $sourceMessage)
+			$this->assertTrue(array_key_exists($sourceMessage,$messages));
+	}
 }
