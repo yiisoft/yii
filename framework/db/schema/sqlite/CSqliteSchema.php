@@ -300,10 +300,10 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Builds a SQL statement for adding a primary key constraint to an existing table.
-	 * Because SQLite does not support adding a primary key on an existing table this method will throw an exception
+	 * Because SQLite does not support adding a primary key on an existing table this method will throw an exception.
 	 * @param string $name the name of the primary key constraint.
 	 * @param string $table the table that the primary key constraint will be added to.
-	 * @param string $columns the name of the column to that the constraint will be added on.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
 	 * @return string the SQL statement for adding a primary key constraint to an existing table.
 	 * @since 1.1.13
 	 */

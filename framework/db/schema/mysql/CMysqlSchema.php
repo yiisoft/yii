@@ -335,16 +335,16 @@ class CMysqlSchema extends CDbSchema
 	}
 	
 	/**
-	 * Builds a SQL statement for adding a primary key constraint too a table.
-	 * @param string $name Not used in the MySql syntax, the primary key is always called PRIMARY and is reserved.
+	 * Builds a SQL statement for adding a primary key constraint to a table.
+	 * @param string $name not used in the MySQL syntax, the primary key is always called PRIMARY and is reserved.
 	 * @param string $table the table that the primary key constraint will be added to.
-	 * @param mixed $columns comma separated string or array of columns that the primary key will consist of.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
 	 * @return string the SQL statement for adding a primary key constraint to an existing table.
 	 * @since 1.1.14
 	 */
-	public function addPrimaryKey($name, $table, $columns)
+	public function addPrimaryKey($name,$table,$columns)
 	{
-		if (is_string($columns))
+		if(is_string($columns))
 			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($columns as $i=>$col)
 			$columns[$i]=$this->quoteColumnName($col);
