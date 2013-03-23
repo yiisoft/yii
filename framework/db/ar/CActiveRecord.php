@@ -402,17 +402,17 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$class = get_class($this);
-			return $this->_md=call_user_func(array($class,'generateMetaData'),$class);
+			return $this->_md=call_user_func(array($class,'generateMetaData'),$this);
 		}
 	}
 
 	/**
 	 * Generates the meta-data object for the AR model
      *
-     * @param string $model
+     * @param CActiveRecord $model
 	 * @return CActiveRecordMetaData
 	 */
-	protected static function generateMetaData($model)
+	protected static function generateMetaData(CActiveRecord $model)
 	{
 		return new CActiveRecordMetaData($model);
 	}
