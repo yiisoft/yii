@@ -284,7 +284,7 @@ class CSecurityManager extends CApplicationComponent
 	 * hash algorithms. Note that if you are using PHP 5.1.1 or below, you can only use 'sha1' or 'md5'.
 	 * Defaults to null, meaning using {@link hashAlgorithm} value.
 	 * @return string the HMAC for the data.
-	 * @throws CException
+	 * @throws CException on unsupported hash algorithm given.
 	 */
 	public function computeHMAC($data,$key=null,$hashAlgorithm=null)
 	{
@@ -293,11 +293,9 @@ class CSecurityManager extends CApplicationComponent
 		if($hashAlgorithm===null)
 			$hashAlgorithm=$this->hashAlgorithm;
 
-		// PHP 5.1.2 and above
 		if(function_exists('hash_hmac'))
 			return hash_hmac($hashAlgorithm,$data,$key);
 
-		// PHP 5.1.1 and below
 		if(0===strcasecmp($hashAlgorithm,'sha1'))
 		{
 			$pack='H40';
