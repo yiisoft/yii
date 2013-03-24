@@ -39,6 +39,13 @@ Yii::import('system.test.CTestCase');
  */
 abstract class CDbTestCase extends CTestCase
 {
+
+	/**
+	 * @var string valid fixtures path for the current test. Path must be
+	 * valid alias.
+	 */
+	protected $fixturesPath;
+
 	/**
 	 * @var array a list of fixtures that should be loaded before each test method executes.
 	 * The array keys are fixture names, and the array values are either AR class names
@@ -113,6 +120,10 @@ abstract class CDbTestCase extends CTestCase
 	protected function setUp()
 	{
 		parent::setUp();
+
+		if ($this->fixturesPath !== null)
+			$this->getFixtureManager()->basePath = Yii::getPathOfAlias($this->fixturesPath);
+
 		if(is_array($this->fixtures))
 			$this->getFixtureManager()->load($this->fixtures);
 	}
