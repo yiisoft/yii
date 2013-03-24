@@ -121,10 +121,10 @@ abstract class CDbTestCase extends CTestCase
 	{
 		parent::setUp();
 
-		if ($this->fixturesPath !== null)
+		if ($this->fixturePath !== null)
 		{
-			if (Yii::getPathOfAlias($this->fixturesPath))
-				$this->getFixtureManager()->basePath = Yii::getPathOfAlias($this->fixturesPath);
+			if (Yii::getPathOfAlias($this->fixturePath))
+				$this->getFixtureManager()->basePath = Yii::getPathOfAlias($this->fixturePath);
 			else
 				throw new CException(Yii::t('yii','{path}" is not a valid directory.',array(
 					'{path}' => $this->fixturePath
