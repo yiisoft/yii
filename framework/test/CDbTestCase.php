@@ -44,7 +44,7 @@ abstract class CDbTestCase extends CTestCase
 	 * @var string valid fixtures path for the current test. Path must be
 	 * valid alias.
 	 */
-	protected $fixturesPath;
+	public $fixturePath;
 
 	/**
 	 * @var array a list of fixtures that should be loaded before each test method executes.
