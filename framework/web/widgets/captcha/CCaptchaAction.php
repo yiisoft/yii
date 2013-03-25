@@ -89,8 +89,8 @@ class CCaptchaAction extends CAction
 	 **/
 	public $offset = -2;
 	/**
-	 * @var string the TrueType font file. Defaults to Duality.ttf which is provided
-	 * with the Yii release.
+	 * @var string the TrueType font file. Defaults to SpicyRice.ttf which is provided with the Yii release.
+	 * Note that non-free Duality.ttf has been changed to open/free SpicyRice.ttf since 1.1.14.
 	 */
 	public $fontFile;
 	/**
@@ -258,7 +258,7 @@ class CCaptchaAction extends CAction
 				$this->foreColor % 0x100);
 
 		if($this->fontFile === null)
-			$this->fontFile = dirname(__FILE__) . '/Duality.ttf';
+			$this->fontFile = dirname(__FILE__) . '/SpicyRice.ttf';
 
 		$length = strlen($code);
 		$box = imagettfbbox(30,0,$this->fontFile,$code);
@@ -301,7 +301,7 @@ class CCaptchaAction extends CAction
 		$image->newImage($this->width,$this->height,$backColor);
 
 		if($this->fontFile===null)
-			$this->fontFile=dirname(__FILE__).'/Duality.ttf';
+			$this->fontFile=dirname(__FILE__).'/SpicyRice.ttf';
 
 		$draw=new ImagickDraw();
 		$draw->setFont($this->fontFile);
