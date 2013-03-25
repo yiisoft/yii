@@ -258,7 +258,7 @@ class CHtml
 	{
 		$content="$seconds";
 		if($url!=='')
-			$content.=';'.self::normalizeUrl($url);
+			$content.=';url='.self::normalizeUrl($url);
 		Yii::app()->clientScript->registerMetaTag($content,null,'refresh');
 	}
 
