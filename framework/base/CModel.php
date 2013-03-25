@@ -298,13 +298,14 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @param mixed $attributes list of attributes to be validated. This can be either an array of
 	 * the attribute names or a string of comma-separated attribute names.
 	 * @param array $params initial values to be applied to the validator properties
-	 * @return CValidator the new validator
+	 * @return CModel allows method chaining
+	 * @since 1.1.14
 	 */
 	public function addValidator($name,$attributes,$params=array())
 	{
 		$validator=CValidator::createValidator($name,$this,$attributes,$params);
 		$this->getValidatorList()->add($validator);
-		return $validator;
+		return $this;
 	}
 	/**
 	 * Returns a value indicating whether the attribute is required.
