@@ -36,6 +36,10 @@ Upgrading from v1.1.13
       $idna=new Net_IDNA2();
       $result=$idna->encode($value);
 
+- CAPTCHA appearance has been changed. Non-free Duality.ttf font (used by CCaptchaAction) replaced by open/free
+  SpicyRice.ttf. New font is distributed under SIL Open Font License version 1.1. Do not forget to adjust font path
+  in case your application relies on Duality.ttf font file.
+
 Upgrading from v1.1.12
 ----------------------
 - Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)
