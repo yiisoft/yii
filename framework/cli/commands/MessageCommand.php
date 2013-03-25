@@ -76,7 +76,7 @@ EOD;
 		if(!is_file($args[0]))
 			$this->usageError("the configuration file {$args[0]} does not exist.");
 
-		$config=require_once($args[0]);
+		$config=require($args[0]);
 		$translator='Yii::t';
 		extract($config);
 
@@ -164,7 +164,7 @@ EOD;
 			$untranslated=array();
 			foreach($messages as $message)
 			{
-				if(!empty($translated[$message]))
+				if(array_key_exists($message,$translated) && strlen($translated[$message])>0)
 					$merged[$message]=$translated[$message];
 				else
 					$untranslated[]=$message;
