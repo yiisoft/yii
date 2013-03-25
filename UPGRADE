@@ -41,7 +41,7 @@ Upgrading from v1.1.13
   in case your application relies on Duality.ttf font file.
 
 - CSecurityManager::computeHMAC() method is now public and third parameter has been added. You must change signature
-  of this method in the extended child class to fit new circumstances. Otherwise an E_NOTICE error will be issued.
+  of this method in the extended child class to fit new circumstances. Otherwise an E_STRICT error will be issued.
 
 Upgrading from v1.1.12
 ----------------------
