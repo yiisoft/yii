@@ -307,6 +307,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		$this->getValidatorList()->add($validator);
 		return $this;
 	}
+	
 	/**
 	 * Returns a value indicating whether the attribute is required.
 	 * This is determined by checking if the attribute is associated with a
