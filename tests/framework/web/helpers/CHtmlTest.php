@@ -659,12 +659,12 @@ class CHtmlTest extends CTestCase
 			array(
 				10,
 				'http://yiiframework.com/',
-				'<meta http-equiv="refresh" content="10;http://yiiframework.com/" />'."\n",
+				'<meta http-equiv="refresh" content="10;url=http://yiiframework.com/" />'."\n",
 			),
 			array(
 				15,
 				array('site/index'),
-				'<meta http-equiv="refresh" content="15;/bootstrap.php?r=site/index" />'."\n",
+				'<meta http-equiv="refresh" content="15;url=/bootstrap.php?r=site/index" />'."\n",
 			),
 		);
 	}
