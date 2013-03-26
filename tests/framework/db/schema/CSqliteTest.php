@@ -261,14 +261,14 @@ class CSqliteTest extends CTestCase
 		$this->db->schema->checkIntegrity(true);
 	}
 
-	/**
-	 * @expectedException CDbException
-	 */
 	public function testCheckIntegrity2()
 	{
 		$this->db->schema->checkIntegrity(true);
 		$this->assertEquals(0,$this->db->createCommand('SELECT COUNT(*) FROM profiles WHERE user_id=9999')->queryScalar());
+		if(version_compare(PHP_VERSION,'5.3.0','>='))
+			$this->setExpectedException('CDbException');
 		$this->db->createCommand("INSERT INTO profiles (first_name,last_name,user_id) VALUES ('orphaned','profile',9999)")->execute();
+		$this->assertEquals(1,$this->db->createCommand('SELECT COUNT(*) FROM profiles WHERE user_id=9999')->queryScalar());
 	}
 
 	public function testCheckIntegrity3()
