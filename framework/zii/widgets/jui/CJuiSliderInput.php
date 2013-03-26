@@ -98,7 +98,7 @@ class CJuiSliderInput extends CJuiInputWidget
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
 
-		$isRange=isset($this->options['range']) && $this->options['range'];
+		$isRange=isset($this->options['range']) && $this->options['range'] && is_bool($this->options['range']);
 
 		if($this->hasModel())
 		{
