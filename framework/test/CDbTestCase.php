@@ -43,6 +43,7 @@ abstract class CDbTestCase extends CTestCase
 	/**
 	 * @var string valid fixtures path for the current test. Path must be
 	 * valid alias.
+	 * @since 1.1.14
 	 */
 	public $fixturePath;
 
@@ -120,17 +121,15 @@ abstract class CDbTestCase extends CTestCase
 	protected function setUp()
 	{
 		parent::setUp();
-
-		if ($this->fixturePath !== null)
+		if ($this->fixturePath!==null)
 		{
-			if (Yii::getPathOfAlias($this->fixturePath))
-				$this->getFixtureManager()->basePath = Yii::getPathOfAlias($this->fixturePath);
+			if ($basePath=Yii::getPathOfAlias($this->fixturePath))
+				$this->getFixtureManager()->basePath=$basePath;
 			else
 				throw new CException(Yii::t('yii','{path}" is not a valid directory.',array(
 					'{path}' => $this->fixturePath
 				)));
 		}
-
 		if(is_array($this->fixtures))
 			$this->getFixtureManager()->load($this->fixtures);
 	}
