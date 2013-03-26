@@ -41,8 +41,7 @@ abstract class CDbTestCase extends CTestCase
 {
 
 	/**
-	 * @var string valid fixtures path for the current test. Path must be
-	 * valid alias.
+	 * @var string valid fixtures path for the current test. Path must be valid alias.
 	 * @since 1.1.14
 	 */
 	public $fixturePath;
@@ -127,7 +126,7 @@ abstract class CDbTestCase extends CTestCase
 				$this->getFixtureManager()->basePath=$basePath;
 			else
 				throw new CException(Yii::t('yii','{path}" is not a valid directory.',array(
-					'{path}' => $this->fixturePath
+					'{path}'=>$this->fixturePath
 				)));
 		}
 		if(is_array($this->fixtures))
