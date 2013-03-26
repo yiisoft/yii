@@ -159,8 +159,9 @@ Symlinking assets
 -----------------
 
 If your project uses assets a lot you can improve its performance slightly by
-using symbolic links instead of file copies. In order to turn it on you should
-configure [linkAssets|CAssetManager::linkAssets] property of `assetManager`
+using [symbolic links](http://en.wikipedia.org/wiki/Symbolic_link) instead of
+file copies. In order to turn it on you should configure
+[linkAssets|CAssetManager::linkAssets] property of `assetManager`
 application component using `protected/config/main.php` config file:
 
 ~~~
