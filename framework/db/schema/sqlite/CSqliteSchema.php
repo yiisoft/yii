@@ -66,15 +66,15 @@ class CSqliteSchema extends CDbSchema
 	}
 
 	/**
-	 * Enables or disables integrity check.
+	 * Enables or disables integrity check. Note that this method used to do nothing before 1.1.14. Since 1.1.14
+	 * it changes integrity check state as expected.
 	 * @param boolean $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
 	{
-		// SQLite doesn't enforce integrity
-		return;
+		$this->getDbConnection()->createCommand('PRAGMA foreign_keys='.(int)$check)->execute();
 	}
 
 	/**
