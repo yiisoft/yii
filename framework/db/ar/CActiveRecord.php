@@ -66,6 +66,8 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Constructor.
 	 * @param string $scenario scenario name. See {@link CModel::scenario} for more details about this parameter.
+	 * Note: in order to setup initial model parameters use {@link init()} or {@link afterConstruct()}.
+	 * Do NOT override the constructor unless it is absolutely necessary!
 	 */
 	public function __construct($scenario='insert')
 	{
