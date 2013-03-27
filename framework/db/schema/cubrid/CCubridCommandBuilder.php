@@ -31,15 +31,15 @@ class CCubridCommandBuilder extends CDbCommandBuilder
 	 */
 	public function createFindCommand($table,$criteria,$alias='t')
 	{
-		$columns = $table->getColumnNames();
+		$columns=$table->getColumnNames();
 
 		$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
 
-		$criteria->select = $this->quoteColumnNames($columns, $select);
-		$criteria->condition = $this->quoteColumnNames($columns, $criteria->condition);
-		$criteria->order = $this->quoteColumnNames($columns, $criteria->order);
-		$criteria->group = $this->quoteColumnNames($columns, $criteria->group);
-		$criteria->having = $this->quoteColumnNames($columns, $criteria->having);
+		$criteria->select=$this->quoteColumnNames($columns,$select);
+		$criteria->condition=$this->quoteColumnNames($columns,$criteria->condition);
+		$criteria->order=$this->quoteColumnNames($columns,$criteria->order);
+		$criteria->group=$this->quoteColumnNames($columns,$criteria->group);
+		$criteria->having=$this->quoteColumnNames($columns,$criteria->having);
 
 		return parent::createFindCommand($table,$criteria,$alias);
 	}
@@ -53,15 +53,15 @@ class CCubridCommandBuilder extends CDbCommandBuilder
 	 */
 	public function createCountCommand($table,$criteria,$alias='t')
 	{
-		$columns = $table->getColumnNames();
+		$columns=$table->getColumnNames();
 
 		$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
 
-		$criteria->select = $this->quoteColumnNames($columns, $select);
-		$criteria->condition = $this->quoteColumnNames($columns, $criteria->condition);
-		$criteria->order = $this->quoteColumnNames($columns, $criteria->order);
-		$criteria->group = $this->quoteColumnNames($columns, $criteria->group);
-		$criteria->having = $this->quoteColumnNames($columns, $criteria->having);
+		$criteria->select=$this->quoteColumnNames($columns,$select);
+		$criteria->condition=$this->quoteColumnNames($columns,$criteria->condition);
+		$criteria->order=$this->quoteColumnNames($columns,$criteria->order);
+		$criteria->group=$this->quoteColumnNames($columns,$criteria->group);
+		$criteria->having=$this->quoteColumnNames($columns,$criteria->having);
 
 		return parent::createCountCommand($table,$criteria,$alias);
 	}
@@ -74,10 +74,10 @@ class CCubridCommandBuilder extends CDbCommandBuilder
 	 */
 	public function createDeleteCommand($table,$criteria)
 	{
-		$columns = $table->getColumnNames();
+		$columns=$table->getColumnNames();
 		// DELETE FROM query has only WHERE condition, no ORDER BY,
 		// so quote only WHERE condition.
-		$criteria->condition = $this->quoteColumnNames($columns, $criteria->condition);
+		$criteria->condition=$this->quoteColumnNames($columns,$criteria->condition);
 
 		return parent::createDeleteCommand($table,$criteria);
 	}
@@ -91,12 +91,12 @@ class CCubridCommandBuilder extends CDbCommandBuilder
 	 */
 	public function createUpdateCommand($table,$data,$criteria)
 	{
-		$columns = $table->getColumnNames();
+		$columns=$table->getColumnNames();
 
-		$criteria->condition = $this->quoteColumnNames($columns, $criteria->condition);
-		$criteria->order = $this->quoteColumnNames($columns, $criteria->order);
-		$criteria->group = $this->quoteColumnNames($columns, $criteria->group);
-		$criteria->having = $this->quoteColumnNames($columns, $criteria->having);
+		$criteria->condition=$this->quoteColumnNames($columns,$criteria->condition);
+		$criteria->order=$this->quoteColumnNames($columns,$criteria->order);
+		$criteria->group=$this->quoteColumnNames($columns,$criteria->group);
+		$criteria->having=$this->quoteColumnNames($columns,$criteria->having);
 
 		return parent::createUpdateCommand($table,$data,$criteria);
 	}
@@ -111,12 +111,12 @@ class CCubridCommandBuilder extends CDbCommandBuilder
 	 */
 	public function createUpdateCounterCommand($table,$counters,$criteria)
 	{
-		$columns = $table->getColumnNames();
+		$columns=$table->getColumnNames();
 
-		$criteria->condition = $this->quoteColumnNames($columns, $criteria->condition);
-		$criteria->order = $this->quoteColumnNames($columns, $criteria->order);
-		$criteria->group = $this->quoteColumnNames($columns, $criteria->group);
-		$criteria->having = $this->quoteColumnNames($columns, $criteria->having);
+		$criteria->condition=$this->quoteColumnNames($columns,$criteria->condition);
+		$criteria->order=$this->quoteColumnNames($columns,$criteria->order);
+		$criteria->group=$this->quoteColumnNames($columns,$criteria->group);
+		$criteria->having=$this->quoteColumnNames($columns,$criteria->having);
 
 		return parent::createUpdateCounterCommand($table,$counters,$criteria);
 	}

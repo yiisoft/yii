@@ -218,7 +218,7 @@ class CCubridSchema extends CDbSchema
 
 			if($table->primaryKey===null)
 				$table->primaryKey=$c->name;
-			else if(is_string($table->primaryKey))
+			elseif(is_string($table->primaryKey))
 				$table->primaryKey=array($table->primaryKey,$c->name);
 			else
 				$table->primaryKey[]=$c->name;
@@ -230,7 +230,7 @@ class CCubridSchema extends CDbSchema
 	/**
 	 * Creates a command builder for the database.
 	 * This method may be overridden by child classes to create a DBMS-specific command builder.
-	 * @return CDbCommandBuilder command builder instance
+	 * @return CCubridCommandBuilder command builder instance
 	 */
 	protected function createCommandBuilder()
 	{

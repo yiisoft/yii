@@ -27,9 +27,9 @@ class CCubridColumnSchema extends CDbColumnSchema
 			$this->type='double';
 		// The following "bool" and 'boolean" are for future compatibility.
 		// As of CUBRID 9.0, they are not supported.
-		else if(strpos($dbType,'BOOL')!==false)
+		elseif(strpos($dbType,'BOOL')!==false)
 			$this->type='boolean';
-		else if(preg_match('/(INT|BIT|SMA|SHO|NUM)/',$dbType))
+		elseif(preg_match('/(INT|BIT|SMA|SHO|NUM)/',$dbType))
 			$this->type='integer';
 		else
 			$this->type='string';
