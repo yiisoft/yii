@@ -239,4 +239,14 @@ class CModelTest extends CTestCase
 				$e->getMessage());
 		}
 	}
+	public function testAddValidator()
+	{
+	    $model = new NewModel('test');
+	    $model->addValidator('required', 'firstName', array('on' => 'test'));
+	    $this->assertTrue( $model->isAttributeRequired('firstName') );
+	    $validators = $this->getValidatorList();
+	    //gets last validator in the list
+	    $validator = $validators->itemAt( $validators->count() - 1 );
+	    $this->assertTrue( $validator instanceof CRequiredValidator );
+	}
 }
