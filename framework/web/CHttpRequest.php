@@ -379,6 +379,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns the relative URL of the entry script.
 	 * The implementation of this method referenced Zend_Controller_Request_Http in Zend Framework.
+	 * @throws CException when it is unable to determine the entry script URL.
 	 * @return string the relative URL of the entry script.
 	 */
 	public function getScriptUrl()
@@ -807,20 +808,26 @@ class CHttpRequest extends CApplicationComponent
 	 * Parses an HTTP Accept header, returning an array map with all parts of each entry.
 	 * Each array entry consists of a map with the type, subType, baseType and params, an array map of key-value parameters,
 	 * obligatorily including a `q` value (i.e. preference ranking) as a double.
-	 * For example, an Accept value of 'application/xhtml+xml;q=0.9;level=1' would give an array entry of
+	 * For example, an Accept header value of <code>'application/xhtml+xml;q=0.9;level=1'</code> would give an array entry of
+	 * <pre>
 	 * array(
-	 * 		'type' => 'application',
-	 * 		'subType' => 'xhtml',
-	 * 		'baseType' => 'xml',
-	 * 		'params' => array(
-	 * 			'q' => 0.9,
-	 * 			'level' => '1',
-	 * 		),
+	 *        'type' => 'application',
+	 *        'subType' => 'xhtml',
+	 *        'baseType' => 'xml',
+	 *        'params' => array(
+	 *            'q' => 0.9,
+	 *            'level' => '1',
+	 *        ),
 	 * )
-	 * NB: to avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly.
+	 * </pre>
+	 *
+	 * <b>Please note:</b>
+	 * To avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly.
 	 * If the header text includes quoted strings containing space or the , or ; characters then the results may not be correct!
+	 *
+	 * See also {@link http://tools.ietf.org/html/rfc2616#section-14.1} for details on Accept header.
+	 * @param string $header the accept header value to parse
 	 * @return array the user accepted MIME types.
-	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.1}
 	 */
 	public static function parseAcceptHeader($header)
 	{
@@ -879,10 +886,10 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Compare function for determining the preference of accepted MIME type array maps
+	 * See {@link parseAcceptHeader()} for the format of $a and $b
 	 * @param array $a user accepted MIME type as an array map
 	 * @param array $b user accepted MIME type as an array map
 	 * @return integer -1, 0 or 1 if $a has respectively greater preference, equal preference or less preference than $b (higher preference comes first).
-	 * See {@link parseAcceptHeader()} for the format of $a and $b
 	 */
 	public static function compareAcceptTypes($a,$b)
 	{
@@ -924,7 +931,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the user preferred accept MIME type.
-	 * The MIME type is returned as an array map (see {@link parseAcceptHeader()}.
+	 * The MIME type is returned as an array map (see {@link parseAcceptHeader()}).
 	 * @return array the user preferred accept MIME type or false if the user does not have any.
 	 */
 	public function getPreferredAcceptType()
