@@ -48,6 +48,7 @@ Version 1.1.14 work in progress
 - Enh #2038: CFormatter::formatNtext() method can replace newlines with `<p></p>` not just with `<br />` as it was before (resurtm)
 - Enh #2090: Allow passing array of columns to CDbSchema::addPrimaryKey() (paystey)
 - Enh #2096: CAPTCHA: non-free Duality.ttf font replaced by open/free SpicyRice.ttf (licensed under SIL OFL v1.1) (resurtm)
+- Enh #2131: Added Accept header parsing to CHttpRequest to give an array of accepted types in order of preference (Rupert-RR)
 - Enh #2135: MessageCommand can now handles Yii::t() messages with files in subfolders (firsyura)
 - Enh #2205: CActiveForm::error() now depends on CHtml::$errorContainerTag (malyshev)
 - Enh #2217: Support of the empty option for CHtml::radioButtonList() has been introduced (resurtm)
