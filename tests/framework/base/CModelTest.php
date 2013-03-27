@@ -247,6 +247,7 @@ class CModelTest extends CTestCase
 	    $validators = $this->getValidatorList();
 	    //gets last validator in the list
 	    $validator = $validators->itemAt( $validators->count() - 1 );
-	    $this->assertTrue( $validator instanceof CRequiredValidator );
+	    $this->assertInstanceOf( 'CRequiredValidator', $validator );
+	    $this->assertSame( $validator->attributes[0], 'firstName' );
 	}
 }
