@@ -4,16 +4,16 @@
  *
  * @author Esen Sagynov <kadismal@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
+
 /**
- * CCubridTableSchema represents the metadata for a CUBRID table.
+ * CCubridTableSchema represents the metadata for a CUBRID database table.
  *
  * @author Esen Sagynov <kadismal@gmail.com>
- * @version $Id: CCubridTableSchema.php
  * @package system.db.schema.cubrid
- * @since 1.1.8
+ * @since 1.1.14
  */
 class CCubridTableSchema extends CDbTableSchema
 {

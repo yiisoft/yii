@@ -4,22 +4,24 @@
  *
  * @author Esen Sagynov <kadishmal@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
 /**
- * CCubridCommandBuilder provides basic methods to create query commands for tables for Mssql Servers.
+ * CCubridCommandBuilder provides basic methods to create query commands for tables for CUBRID database servers.
  *
  * @author Esen Sagynov <kadishmal@gmail.com>
- * @version $Id: CCubridCommandBuilder.php
  * @package system.db.schema.cubrid
- * @since 1.1.12
+ * @since 1.1.14
  */
 class CCubridCommandBuilder extends CDbCommandBuilder
 {
-	// CUBRID operator special characters
+	/**
+	 * @var array CUBRID operator special characters
+	 */
 	private $operatorSpecialChars = array('+', '-', '*', '/', '%', '|', '!', '<', '>', '=', '^', '&' , '~');
+
 	/**
 	 * Creates a SELECT command for a single table.
 	 * @param CDbTableSchema $table the table metadata
@@ -52,7 +54,7 @@ class CCubridCommandBuilder extends CDbCommandBuilder
 	public function createCountCommand($table,$criteria,$alias='t')
 	{
 		$columns = $table->getColumnNames();
-		
+
 		$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
 
 		$criteria->select = $this->quoteColumnNames($columns, $select);
@@ -168,7 +170,7 @@ class CCubridCommandBuilder extends CDbCommandBuilder
 				{
 					$pos = $posEnd = 0;
 					$len = strlen($column);
-					
+
 					while (($posEnd = stripos($expression, $column, $pos)) !== false)
 					{
 						if ($posEnd > 0)

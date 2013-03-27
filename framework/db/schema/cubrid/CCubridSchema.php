@@ -4,7 +4,7 @@
  *
  * @author Esen Sagynov <kadismal@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,9 +12,8 @@
  * CCubridSchema is the class for retrieving metadata information from a CUBRID database (version 8.4.0 and later).
  *
  * @author Esen Sagynov <kadismal@gmail.com>
- * @version $Id: CCubridSchema.php
  * @package system.db.schema.cubrid
- * @since 1.1.12
+ * @since 1.1.14
  */
 class CCubridSchema extends CDbSchema
 {
@@ -42,7 +41,6 @@ class CCubridSchema extends CDbSchema
 	* A simple table name does not schema prefix.
 	* @param string $name table name
 	* @return string the properly quoted table name
-	* @since 1.1.6
 	*/
 	public function quoteSimpleTableName($name)
 	{
@@ -54,14 +52,13 @@ class CCubridSchema extends CDbSchema
 	* A simple column name does not contain prefix.
 	* @param string $name column name
 	* @return string the properly quoted column name
-	* @since 1.1.6
 	*/
 	public function quoteSimpleColumnName($name)
 	{
 		return '`'.$name.'`';
 	}
 
-        /**
+	/**
 	 * Compares two table names.
 	 * The table names can be either quoted or unquoted. This method
 	 * will consider both cases.
@@ -81,7 +78,6 @@ class CCubridSchema extends CDbSchema
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
 	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
-	 * @since 1.1
 	 */
 	public function resetSequence($table,$value=null)
 	{
@@ -143,7 +139,7 @@ class CCubridSchema extends CDbSchema
 	 */
 	protected function findColumns($table)
 	{
-        // it may be good to use CUBRID PHP API to retrieve column info.
+		// it may be good to use CUBRID PHP API to retrieve column info.
 		$sql='SHOW COLUMNS FROM '.$table->rawName;
 		try
 		{
@@ -217,17 +213,17 @@ class CCubridSchema extends CDbSchema
 
 		foreach($pks as $pk)
 		{
-            $c = $table->columns[$pk['ATTR_NAME']];
-            $c->isPrimaryKey = true;
+			$c = $table->columns[$pk['ATTR_NAME']];
+			$c->isPrimaryKey = true;
 
-            if($table->primaryKey===null)
-                $table->primaryKey=$c->name;
-            else if(is_string($table->primaryKey))
-                $table->primaryKey=array($table->primaryKey,$c->name);
-            else
-                $table->primaryKey[]=$c->name;
-            if($c->autoIncrement)
-                $table->sequenceName='';
+			if($table->primaryKey===null)
+				$table->primaryKey=$c->name;
+			else if(is_string($table->primaryKey))
+				$table->primaryKey=array($table->primaryKey,$c->name);
+			else
+				$table->primaryKey[]=$c->name;
+			if($c->autoIncrement)
+				$table->sequenceName='';
 		}
 	}
 
@@ -246,7 +242,6 @@ class CCubridSchema extends CDbSchema
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
-	 * @since 1.0.2
 	 */
 	protected function findTableNames($schema='')
 	{

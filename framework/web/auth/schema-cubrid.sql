@@ -3,9 +3,9 @@
  *
  * @author Esen Sagynov <kadishmal@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @copyright 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @since 1.1.12
+ * @since 1.1.14
  */
 
 drop table if exists `AuthAssignment`;

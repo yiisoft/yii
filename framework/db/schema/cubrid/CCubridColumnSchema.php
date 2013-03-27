@@ -4,7 +4,7 @@
  *
  * @author Esen Sagynov <kadismal@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,9 +12,8 @@
  * CCubridColumnSchema class describes the column meta data of a CUBRID table.
   *
  * @author Esen Sagynov <kadismal@gmail.com>
- * @version $Id: CCubridColumnSchema.php
  * @package system.db.schema.cubrid
- * @since 1.1.8
+ * @since 1.1.14
  */
 class CCubridColumnSchema extends CDbColumnSchema
 {
@@ -48,7 +47,7 @@ class CCubridColumnSchema extends CDbColumnSchema
 		else
 			parent::extractDefault($defaultValue);
 	}
-	
+
 	/**
 	 * Extracts size, precision and scale information from column's DB type.
 	 * @param string $dbType the column's DB type
@@ -57,7 +56,7 @@ class CCubridColumnSchema extends CDbColumnSchema
 	{
 		parent::extractLimit($dbType);
 		// CUBRID does not set limits to numeric data types.
-		// So, we need to set the defalt limit size for INTEGER equal to 11.
+		// So, we need to set the default limit size for INTEGER equal to 11.
 		if ($this->size==null && strpos($dbType,'INT')!==false)
 		{
 			$this->size=$this->precision=11;
