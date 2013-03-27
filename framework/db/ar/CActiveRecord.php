@@ -53,8 +53,8 @@ abstract class CActiveRecord extends CModel
 	public static $db;
 
 	private static $_models=array();			// class name => model
+	private static $_md=array();				// class name => meta data
 
-	private $_md;								// meta data
 	private $_new=false;						// whether this instance is new or not
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
@@ -119,7 +119,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function __sleep()
 	{
-		$this->_md=null;
 		return array_keys((array)$this);
 	}
 
@@ -385,7 +384,6 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$model=self::$_models[$className]=new $className(null);
-			$model->_md=new CActiveRecordMetaData($model);
 			$model->attachBehaviors($model->behaviors());
 			return $model;
 		}
@@ -397,10 +395,10 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getMetaData()
 	{
-		if($this->_md!==null)
-			return $this->_md;
-		else
-			return $this->_md=self::model(get_class($this))->_md;
+		$className=get_class($this);
+		if(!array_key_exists($className,self::$_md))
+			self::$_md[$className]=new CActiveRecordMetaData($this);
+		return self::$_md[$className];
 	}
 
 	/**
@@ -412,10 +410,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function refreshMetaData()
 	{
-		$finder=self::model(get_class($this));
-		$finder->_md=new CActiveRecordMetaData($finder);
-		if($this!==$finder)
-			$this->_md=$finder->_md;
+		$className=get_class($this);
+		if(array_key_exists($className,self::$_md))
+			unset(self::$_md[$className]);
 	}
 
 	/**
