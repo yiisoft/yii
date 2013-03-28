@@ -2296,8 +2296,6 @@ class CActiveRecordMetaData
 	 */
 	public $attributeDefaults=array();
 
-	private $_model;
-
 	/**
 	 * Constructor.
 	 * @param CActiveRecord $model the model instance
@@ -2305,8 +2303,6 @@ class CActiveRecordMetaData
 	 */
 	public function __construct($model)
 	{
-		$this->_model=$model;
-
 		$tableName=$model->tableName();
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
