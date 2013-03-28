@@ -53,8 +53,8 @@ abstract class CActiveRecord extends CModel
 	public static $db;
 
 	private static $_models=array();			// class name => model
+	private static $_md=array();				// class name => meta data
 
-	private $_md;								// meta data
 	private $_new=false;						// whether this instance is new or not
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
@@ -66,6 +66,8 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Constructor.
 	 * @param string $scenario scenario name. See {@link CModel::scenario} for more details about this parameter.
+	 * Note: in order to setup initial model parameters use {@link init()} or {@link afterConstruct()}.
+	 * Do NOT override the constructor unless it is absolutely necessary!
 	 */
 	public function __construct($scenario='insert')
 	{
@@ -119,7 +121,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function __sleep()
 	{
-		$this->_md=null;
 		return array_keys((array)$this);
 	}
 
@@ -385,7 +386,6 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$model=self::$_models[$className]=new $className(null);
-			$model->_md=new CActiveRecordMetaData($model);
 			$model->attachBehaviors($model->behaviors());
 			return $model;
 		}
@@ -397,10 +397,10 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getMetaData()
 	{
-		if($this->_md!==null)
-			return $this->_md;
-		else
-			return $this->_md=self::model(get_class($this))->_md;
+		$className=get_class($this);
+		if(!array_key_exists($className,self::$_md))
+			self::$_md[$className]=new CActiveRecordMetaData($this);
+		return self::$_md[$className];
 	}
 
 	/**
@@ -412,10 +412,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function refreshMetaData()
 	{
-		$finder=self::model(get_class($this));
-		$finder->_md=new CActiveRecordMetaData($finder);
-		if($this!==$finder)
-			$this->_md=$finder->_md;
+		$className=get_class($this);
+		if(array_key_exists($className,self::$_md))
+			unset(self::$_md[$className]);
 	}
 
 	/**
@@ -2297,8 +2296,6 @@ class CActiveRecordMetaData
 	 */
 	public $attributeDefaults=array();
 
-	private $_model;
-
 	/**
 	 * Constructor.
 	 * @param CActiveRecord $model the model instance
@@ -2306,8 +2303,6 @@ class CActiveRecordMetaData
 	 */
 	public function __construct($model)
 	{
-		$this->_model=$model;
-
 		$tableName=$model->tableName();
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
@@ -2350,7 +2345,7 @@ class CActiveRecordMetaData
 	 * @throws CDbException
 	 * @param string $name $name Name of the relation.
 	 * @param array $config $config Relation parameters.
-     * @return void
+	 * @return void
 	 * @since 1.1.2
 	 */
 	public function addRelation($name,$config)
