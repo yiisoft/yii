@@ -63,7 +63,7 @@ class CUploadedFile extends CComponent
 	 * Returns all uploaded files for the given model attribute.
 	 * @param CModel $model the model instance
 	 * @param string $attribute the attribute name. For tabular file uploading, this can be in the format of "[$i]attributeName", where $i stands for an integer index.
-	 * @return array array of CUploadedFile objects.
+	 * @return CUploadedFile[] array of CUploadedFile objects.
 	 * Empty array is returned if no available file was found for the given attribute.
 	 */
 	public static function getInstances($model, $attribute)
@@ -92,7 +92,7 @@ class CUploadedFile extends CComponent
 	 * If multiple files were uploaded and saved as 'Files[0]', 'Files[1]',
 	 * 'Files[n]'..., you can have them all by passing 'Files' as array name.
 	 * @param string $name the name of the array of files
-	 * @return array the array of CUploadedFile objects. Empty array is returned
+	 * @return CUploadedFile[] the array of CUploadedFile objects. Empty array is returned
 	 * if no adequate upload was found. Please note that this array will contain
 	 * all files from all subarrays regardless how deeply nested they are.
 	 */
