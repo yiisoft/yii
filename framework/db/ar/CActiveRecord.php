@@ -2296,6 +2296,8 @@ class CActiveRecordMetaData
 	 */
 	public $attributeDefaults=array();
 
+	private $_modelClassName;
+
 	/**
 	 * Constructor.
 	 * @param CActiveRecord $model the model instance
@@ -2303,10 +2305,12 @@ class CActiveRecordMetaData
 	 */
 	public function __construct($model)
 	{
+		$this->_modelClassName=get_class($model);
+
 		$tableName=$model->tableName();
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
-				array('{class}'=>get_class($model),'{table}'=>$tableName)));
+				array('{class}'=>$this->_modelClassName,'{table}'=>$tableName)));
 		if($table->primaryKey===null)
 		{
 			$table->primaryKey=$model->primaryKey();
@@ -2353,7 +2357,7 @@ class CActiveRecordMetaData
 		if(isset($config[0],$config[1],$config[2]))  // relation class, AR class, FK
 			$this->relations[$name]=new $config[0]($name,$config[1],$config[2],array_slice($config,3));
 		else
-			throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.', array('{class}'=>get_class($this->_model),'{relation}'=>$name)));
+			throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.', array('{class}'=>$this->_modelClassName,'{relation}'=>$name)));
 	}
 
 	/**
