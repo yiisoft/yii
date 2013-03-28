@@ -3,6 +3,7 @@
 
 Version 1.1.14 work in progress
 -------------------------------
+- Bug #2267: Fixed method visibilty of event handler callbacks on behaviors to be public (eventit)
 - Bug #135: Fixed wrong CActiveRecord rows count with having (klimov-paul)
 - Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
