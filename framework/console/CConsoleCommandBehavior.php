@@ -38,7 +38,7 @@ class CConsoleCommandBehavior extends CBehavior
 	 * Override this method and make it public if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CConsoleCommandEvent $event event parameter
 	 */
-	protected function beforeAction($event)
+	public function beforeAction($event)
 	{
 	}
 
@@ -47,7 +47,7 @@ class CConsoleCommandBehavior extends CBehavior
 	 * Override this method and make it public if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CConsoleCommandEvent $event event parameter
 	 */
-	protected function afterAction($event)
+	public function afterAction($event)
 	{
 	}
 }

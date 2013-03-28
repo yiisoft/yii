@@ -45,7 +45,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * You may set {@link CModelEvent::isValid} to be false to quit the saving process.
 	 * @param CModelEvent $event event parameter
 	 */
-	protected function beforeSave($event)
+	public function beforeSave($event)
 	{
 	}
 
@@ -55,7 +55,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * of the {@link CBehavior::owner owner}.
 	 * @param CModelEvent $event event parameter
 	 */
-	protected function afterSave($event)
+	public function afterSave($event)
 	{
 	}
 
@@ -66,7 +66,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * You may set {@link CModelEvent::isValid} to be false to quit the deletion process.
 	 * @param CEvent $event event parameter
 	 */
-	protected function beforeDelete($event)
+	public function beforeDelete($event)
 	{
 	}
 
@@ -76,7 +76,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	protected function afterDelete($event)
+	public function afterDelete($event)
 	{
 	}
 
@@ -86,7 +86,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	protected function beforeFind($event)
+	public function beforeFind($event)
 	{
 	}
 
@@ -96,7 +96,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	protected function afterFind($event)
+	public function afterFind($event)
 	{
 	}
 }

@@ -41,7 +41,7 @@ class CModelBehavior extends CBehavior
 	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	protected function afterConstruct($event)
+	public function afterConstruct($event)
 	{
 	}
 
@@ -52,7 +52,7 @@ class CModelBehavior extends CBehavior
 	 * You may set {@link CModelEvent::isValid} to be false to quit the validation process.
 	 * @param CModelEvent $event event parameter
 	 */
-	protected function beforeValidate($event)
+	public function beforeValidate($event)
 	{
 	}
 
@@ -62,7 +62,7 @@ class CModelBehavior extends CBehavior
 	 * of the {@link owner}.
 	 * @param CEvent $event event parameter
 	 */
-	protected function afterValidate($event)
+	public function afterValidate($event)
 	{
 	}
 }
