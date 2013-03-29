@@ -283,7 +283,7 @@ class CClientScript extends CApplicationComponent
 			$jsFiles[$position]=array();
 			foreach($scriptFiles as $scriptFile=>$scriptFileValue)
 			{
-				$name=basename($scriptFileValue);
+				$name=basename($scriptFile);
 				if(isset($this->scriptMap[$name]))
 				{
 					if($this->scriptMap[$name]!==false)
