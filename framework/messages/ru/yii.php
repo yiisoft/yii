@@ -125,7 +125,7 @@ return array (
   'List index "{index}" is out of bound.' => 'Индекс списка "{index}" выходит за его пределы.',
   'Login Required' => 'Необходима авторизация',
   'Map data must be an array or an object implementing Traversable.' => 'Карта должна быть представлена массивом или объектом, реализующим интерфейс Traversable.',
-  'Missing the temporary folder to store the uploaded file "{file}".' => 'Не найдена временна директория для хранения загруженного файла "{file}".',
+  'Missing the temporary folder to store the uploaded file "{file}".' => 'Не найдена временная директория для хранения загруженного файла "{file}".',
   'Next &gt;' => 'Следующая &gt;',
   'No columns are being updated for table "{table}".' => 'Нет столбцов подлежащих обновлению в таблице "{table}".',
   'No counter columns are being updated for table "{table}".' => 'Нет столбцов-счетчиков подлежащих обновлению в таблице "{table}".',
