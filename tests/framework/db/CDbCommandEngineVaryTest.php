@@ -57,11 +57,18 @@ class CDbCommandEngineVaryTest extends CTestCase
 			if(!extension_loaded('pdo_mysql'))
 				$dbConnections[$dbDriver]=false;
 
-			// open connection
-			if($dbDriver=='sqlite')
-				$dbConnection=new CDbConnection('sqlite::memory:');
-			else
-				$dbConnection=new CDbConnection($dbDriver.':host=127.0.0.1;dbname=yii','test','test');
+			// Create Connection:
+			switch($dbDriver)
+			{
+				case 'sqlite':
+					$dbConnection=new CDbConnection('sqlite::memory:');
+					break;
+				case 'mysql':
+				default:
+					$dbConnection=new CDbConnection($dbDriver.':host=127.0.0.1;dbname=yii','test','test');
+			}
+
+			// Open Connection:
 			try
 			{
 				$dbConnection->active=true;
@@ -72,11 +79,12 @@ class CDbCommandEngineVaryTest extends CTestCase
 				continue;
 			}
 
-			// clear tables:
+			// Clear Tables:
 			$tables=array('comments','post_category','posts','categories','profiles','users','items','orders','types');
 			switch($dbDriver)
 			{
-				case 'sqlite': break;
+				case 'sqlite':
+					break;
 				case 'mysql':
 				default:
 				{
@@ -85,8 +93,20 @@ class CDbCommandEngineVaryTest extends CTestCase
 				}
 			}
 
-			// fill up database:
-			$dbConnection->pdoInstance->exec(file_get_contents(dirname(__FILE__)."/data/{$dbDriver}.sql"));
+			// Fill Up Database:
+			switch($dbDriver)
+			{
+				case 'sqlite':
+				case 'mysql':
+				default:
+					$sqls=file_get_contents(dirname(__FILE__)."/data/{$dbDriver}.sql");
+					foreach(explode(';',$sqls) as $sql)
+					{
+						if(trim($sql)!=='')
+							$dbConnection->createCommand($sql)->execute();
+					}
+			}
+
 			$dbConnections[$dbDriver]=$dbConnection;
 		}
 		return $dbConnections;
