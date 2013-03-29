@@ -1270,7 +1270,7 @@ class CDbCommand extends CComponent
 	public function insertMultiple($table,array $columns,array $values)
 	{
 		$dbSchema=$this->getConnection()->getSchema();
-		$sqliteSyntax=((class_exists('CSqliteSchema',false)) && is_a($dbSchema,'CSqliteSchema'));
+		$sqliteSyntax=(class_exists('CSqliteSchema',false) && is_a($dbSchema,'CSqliteSchema'));
 
 		$params=array();
 		$names=array();
