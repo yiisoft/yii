@@ -57,6 +57,7 @@ class CDbCommandEngineVaryTest extends CTestCase
 			if(!extension_loaded('pdo_mysql'))
 				$dbConnections[$dbDriver]=false;
 
+			// open connection
 			if($dbDriver=='sqlite')
 				$dbConnection=new CDbConnection('sqlite::memory:');
 			else
@@ -64,13 +65,29 @@ class CDbCommandEngineVaryTest extends CTestCase
 			try
 			{
 				$dbConnection->active=true;
-				$dbConnection->pdoInstance->exec(file_get_contents(dirname(__FILE__)."/data/{$dbDriver}.sql"));
-				$dbConnections[$dbDriver]=$dbConnection;
 			}
 			catch(Exception $e)
 			{
 				$dbConnections[$dbDriver]=false;
+				continue;
 			}
+
+			// clear tables:
+			$tables=array('comments','post_category','posts','categories','profiles','users','items','orders','types');
+			switch($dbDriver)
+			{
+				case 'sqlite': break;
+				case 'mysql':
+				default:
+				{
+					foreach($tables as $table)
+						$dbConnection->createCommand('DROP TABLE IF EXISTS '.$dbConnection->quoteTableName($table).' CASCADE')->execute();
+				}
+			}
+
+			// fill up database:
+			$dbConnection->pdoInstance->exec(file_get_contents(dirname(__FILE__)."/data/{$dbDriver}.sql"));
+			$dbConnections[$dbDriver]=$dbConnection;
 		}
 		return $dbConnections;
 	}
