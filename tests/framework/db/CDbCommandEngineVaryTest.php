@@ -107,15 +107,36 @@ class CDbCommandEngineVaryTest extends CTestCase
 		$columns=array(
 			'int_col',
 			'char_col',
+			'float_col',
+			'bool_col',
 		);
 		$values=array(
-			array(1,'char_1'),
-			array(2,'char_2'),
+			array(
+				1,
+				'char_col_val_1',
+				1.1,
+				true,
+			),
+			array(
+				2,
+				'char_col_val_2',
+				2.2,
+				false,
+			),
 		);
 		$multipleInsertCommand->insertMultiple($tableName,$columns,$values);
 
-		$rows=$dbConnection->createCommand('SELECT * FROM '.$dbConnection->quoteTableName($tableName))->query();
+		$rows=$dbConnection->createCommand('SELECT * FROM '.$dbConnection->quoteTableName($tableName))->queryAll();
 
-		$this->assertEquals(count($values),count($rows));
+		$this->assertEquals(count($values),count($rows),'Records count miss matches!');
+		foreach($rows as $rowIndex=>$row)
+			foreach($row as $columnName=>$value)
+			{
+				$columnIndex=array_search($columnName,$columns,true);
+				if($columnIndex==false)
+					continue;
+				$expectedValue=$values[$rowIndex][$columnIndex];
+				$this->assertEquals($expectedValue,$value,"Value for column '{$columnName}' incorrect!");
+			}
 	}
 }

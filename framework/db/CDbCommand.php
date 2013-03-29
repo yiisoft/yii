@@ -1266,6 +1266,9 @@ class CDbCommand extends CComponent
 	 */
 	public function insertMultiple($table,$columns,$values)
 	{
+		$dbSchema=$this->getConnection()->getSchema();
+		$sqliteSyntax=((class_exists('CSqliteSchema',false)) && is_a($dbSchema,'CSqliteSchema'));
+
 		$params=array();
 		$names=array();
 		$placeholders=array();
@@ -1292,11 +1295,27 @@ class CDbCommand extends CComponent
 				}
 			}
 
-			$placeholders[]='('.implode(', ',$insertValues).')';
+			if($sqliteSyntax)
+			{
+				$placeholderParts=array();
+				foreach($insertValues as $columnKey=>$columnInsertValue)
+					$placeholderParts[] = $columnInsertValue.' AS '.$columns[$columnKey];
+				$placeholders[]='SELECT '.implode(', ', $placeholderParts);
+			}
+			else
+				$placeholders[]='('.implode(', ',$insertValues).')';
 		}
 
-		$sql='INSERT INTO ' . $this->_connection->quoteTableName($table)
-			. ' (' . implode(', ',$names) . ') VALUES ' . implode(', ',$placeholders);
+		if($sqliteSyntax)
+		{
+			$sql='INSERT INTO '.$this->_connection->quoteTableName($table)
+				.' ('.implode(', ',$names).') '
+				.implode(' UNION ',$placeholders);
+		} else
+		{
+			$sql='INSERT INTO '.$this->_connection->quoteTableName($table)
+				.' ('.implode(', ',$names).') VALUES '.implode(', ',$placeholders);
+		}
 
 		return $this->setText($sql)->execute($params);
 	}
