@@ -1260,56 +1260,57 @@ class CDbCommand extends CComponent
 	 * The method will properly escape the column names, and bind the values to be inserted.
 	 * @param string $table the table that new rows will be inserted into.
 	 * @param array $columns the column names to be inserted into the table.
-	 * @param array $values the values to be inserted into the table.
+	 * @param array[] $values the values to be inserted into the table.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.13
 	 */
-	public function insertMultiple($table,$columns,$values)
+	public function insertMultiple($table,array $columns,array $values)
 	{
 		$dbSchema=$this->getConnection()->getSchema();
 		$sqliteSyntax=((class_exists('CSqliteSchema',false)) && is_a($dbSchema,'CSqliteSchema'));
 
 		$params=array();
 		$names=array();
-		$placeholders=array();
+		$rowInsertValues=array();
 
+		$columns=array_values($columns);
 		foreach($columns as $name)
 			$names[]=$this->_connection->quoteColumnName($name);
 
 		foreach($values as $rowKey=>$rowValues)
 		{
-			$insertValues=array();
+			$columnInsertValues=array();
 
-			foreach($rowValues as $columnKey=>$columnValue)
+			foreach(array_values($rowValues) as $columnKey=>$columnValue)
 			{
 				if($columnValue instanceof CDbExpression)
 				{
-					$insertValue=$columnValue->expression;
+					$columnInsertValue=$columnValue->expression;
 					foreach($columnValue->params as $columnValueParamName=>$columnValueParam)
 						$params[$columnValueParamName]=$columnValueParam;
 				}
 				else
 				{
-					$insertValue=':'.$columns[$columnKey].'_'.$rowKey;
+					$columnInsertValue=':'.$columns[$columnKey].'_'.$rowKey;
 					$params[':'.$columns[$columnKey].'_'.$rowKey]=$columnValue;
 				}
 				if($sqliteSyntax)
-					$insertValue=$insertValue.' AS '.$columns[$columnKey];
-				$insertValues[]=$insertValue;
+					$columnInsertValue=$columnInsertValue.' AS '.$columns[$columnKey];
+				$columnInsertValues[]=$columnInsertValue;
 			}
 
 			if($sqliteSyntax)
-				$placeholders[]='SELECT '.implode(', ', $insertValues);
+				$rowInsertValues[]='SELECT '.implode(', ', $columnInsertValues);
 			else
-				$placeholders[]='('.implode(', ',$insertValues).')';
+				$rowInsertValues[]='('.implode(', ',$columnInsertValues).')';
 		}
 
 		if($sqliteSyntax)
 			$sql='INSERT INTO '.$this->_connection->quoteTableName($table)
-				.' ('.implode(', ',$names).') '.implode(' UNION ',$placeholders);
+				.' ('.implode(', ',$names).') '.implode(' UNION ',$rowInsertValues);
 		else
 			$sql='INSERT INTO '.$this->_connection->quoteTableName($table)
-				.' ('.implode(', ',$names).') VALUES '.implode(', ',$placeholders);
+				.' ('.implode(', ',$names).') VALUES '.implode(', ',$rowInsertValues);
 
 		return $this->setText($sql)->execute($params);
 	}
