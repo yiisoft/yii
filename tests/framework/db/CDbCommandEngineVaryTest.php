@@ -153,7 +153,7 @@ class CDbCommandEngineVaryTest extends CTestCase
 				if($columnIndex==false)
 					continue;
 				$expectedValue=$values[$rowIndex][$columnIndex];
-				$this->assertEquals($expectedValue,$value,"Value for column '{$columnName}' incorrect!");
+				$this->assertTrue($expectedValue==$value,"Value for column '{$columnName}' incorrect!");
 			}
 	}
 }
