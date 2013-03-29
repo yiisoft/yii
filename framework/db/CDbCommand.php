@@ -1256,13 +1256,16 @@ class CDbCommand extends CComponent
 	}
 
 	/**
-	 * Creates and executes an INSERT SQL statement.
+	 * Creates and executes an INSERT SQL statement, which performs insertion of the several
+	 * records into the single table at once.
 	 * The method will properly escape the column names, and bind the values to be inserted.
+	 * This method could be used to achieve better performance during insertion of the large
+	 * amount of data into the database tables.
 	 * @param string $table the table that new rows will be inserted into.
 	 * @param array $columns the column names to be inserted into the table.
 	 * @param array[] $values the values to be inserted into the table.
 	 * @return integer number of rows affected by the execution.
-	 * @since 1.1.13
+	 * @since 1.1.14
 	 */
 	public function insertMultiple($table,array $columns,array $values)
 	{
