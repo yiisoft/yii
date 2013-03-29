@@ -1273,27 +1273,26 @@ class CDbCommand extends CComponent
 		foreach($columns as $name)
 			$names[]=$this->_connection->quoteColumnName($name);
 
-		foreach($values as $rn=>$value)
+		foreach($values as $rowKey=>$rowValues)
 		{
-			$p=array();
+			$insertValues=array();
 
-			foreach($value as $vn=>$v)
+			foreach($rowValues as $columnKey=>$columnValue)
 			{
-				if($v instanceof CDbExpression)
+				if($columnValue instanceof CDbExpression)
 				{
-					$p[]=$v->expression;
-
-					foreach($v->params as $pn=>$pv)
-						$p[$pn]=$pv;
+					$insertValues[]=$columnValue->expression;
+					foreach($columnValue->params as $columnValueParamName=>$columnValueParam)
+						$params[$columnValueParamName]=$columnValueParam;
 				}
 				else
 				{
-					$p[]=':' . $columns[$vn] . '_' . $rn;
-					$params[':' . $columns[$vn] . '_' . $rn]=$v;
+					$insertValues[]=':'.$columns[$columnKey].'_'.$rowKey;
+					$params[':'.$columns[$columnKey].'_'.$rowKey]=$columnValue;
 				}
 			}
 
-			$placeholders[]='(' . implode(', ',$p) . ')';
+			$placeholders[]='('.implode(', ',$insertValues).')';
 		}
 
 		$sql='INSERT INTO ' . $this->_connection->quoteTableName($table)
