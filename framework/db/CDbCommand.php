@@ -1284,38 +1284,32 @@ class CDbCommand extends CComponent
 			{
 				if($columnValue instanceof CDbExpression)
 				{
-					$insertValues[]=$columnValue->expression;
+					$insertValue=$columnValue->expression;
 					foreach($columnValue->params as $columnValueParamName=>$columnValueParam)
 						$params[$columnValueParamName]=$columnValueParam;
 				}
 				else
 				{
-					$insertValues[]=':'.$columns[$columnKey].'_'.$rowKey;
+					$insertValue=':'.$columns[$columnKey].'_'.$rowKey;
 					$params[':'.$columns[$columnKey].'_'.$rowKey]=$columnValue;
 				}
+				if($sqliteSyntax)
+					$insertValue=$insertValue.' AS '.$columns[$columnKey];
+				$insertValues[]=$insertValue;
 			}
 
 			if($sqliteSyntax)
-			{
-				$placeholderParts=array();
-				foreach($insertValues as $columnKey=>$columnInsertValue)
-					$placeholderParts[] = $columnInsertValue.' AS '.$columns[$columnKey];
-				$placeholders[]='SELECT '.implode(', ', $placeholderParts);
-			}
+				$placeholders[]='SELECT '.implode(', ', $insertValues);
 			else
 				$placeholders[]='('.implode(', ',$insertValues).')';
 		}
 
 		if($sqliteSyntax)
-		{
 			$sql='INSERT INTO '.$this->_connection->quoteTableName($table)
-				.' ('.implode(', ',$names).') '
-				.implode(' UNION ',$placeholders);
-		} else
-		{
+				.' ('.implode(', ',$names).') '.implode(' UNION ',$placeholders);
+		else
 			$sql='INSERT INTO '.$this->_connection->quoteTableName($table)
 				.' ('.implode(', ',$names).') VALUES '.implode(', ',$placeholders);
-		}
 
 		return $this->setText($sql)->execute($params);
 	}
