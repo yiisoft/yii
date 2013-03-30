@@ -80,7 +80,7 @@ echo $document->textHeight;
 $document->readOnly=true;
 ~~~
 
-When trying to write a componet property and the property isn't defined as a
+When trying to write a component property and the property isn't defined as a
 public class member, Yii is trying to use a getter method i.e. for `textWidth`
 a getter method will be `getTextWidth`. Same thing happens when trying to read a
 property not defined as a public class member.
