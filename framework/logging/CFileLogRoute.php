@@ -17,12 +17,16 @@
  * is performed, which renames the current log file by suffixing the file name
  * with '.1'. All existing log files are moved backwards one place, i.e., '.2'
  * to '.3', '.1' to '.2'. The property {@link setMaxLogFiles maxLogFiles}
- * specifies how many files to be kept.
+ * specifies how many files to be kept. If the property {@link setRotateByCopy
+ * rotateByCopy} is True, the primary log file will be rotated by a copy and
+ * truncate (to be more compatible with log tailers); otherwise it will be
+ * rotated by being renamed.
  *
  * @property string $logPath Directory storing log files. Defaults to application runtime path.
  * @property string $logFile Log file name. Defaults to 'application.log'.
  * @property integer $maxFileSize Maximum log file size in kilo-bytes (KB). Defaults to 1024 (1MB).
  * @property integer $maxLogFiles Number of files used for rotation. Defaults to 5.
+ * @property boolean $rotateByCopy Whether to rotate primary log by copy and truncate. Defaults to False.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.logging
@@ -46,6 +50,10 @@ class CFileLogRoute extends CLogRoute
 	 * @var string log file name
 	 */
 	private $_logFile='application.log';
+	/**
+	 * @var boolean rotate by copy and truncate
+	 */
+	private $_rotateByCopy=False;
 
 
 	/**
@@ -130,6 +138,22 @@ class CFileLogRoute extends CLogRoute
 	}
 
 	/**
+	 * @return boolean whether to rotate primary log by copy and truncate
+	 */
+	public function getRotateByCopy()
+	{
+		return $this->_rotateByCopy;
+	}
+
+	/**
+	 * @param boolean whether to rotate primary log by copy and truncate
+	 */
+	public function setRotateByCopy($value)
+	{
+		$this->_rotateByCopy=(bool)$value;
+	}
+
+	/**
 	 * Saves log messages in files.
 	 * @param array $logs list of log messages
 	 */
@@ -177,6 +201,15 @@ class CFileLogRoute extends CLogRoute
 			}
 		}
 		if(is_file($file))
-			@rename($file,$file.'.1'); // suppress errors because it's possible multiple processes enter into this section
+		{
+			// suppress errors because it's possible multiple processes enter into this section
+			if($this->getRotateByCopy())
+			{
+				@copy($file,$file.'.1');
+				$fp=@fopen($file,'a') and @ftruncate($fp,0) and @fclose($fp);
+			}
+			else
+				@rename($file,$file.'.1');
+		}
 	}
 }
