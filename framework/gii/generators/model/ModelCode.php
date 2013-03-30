@@ -9,6 +9,7 @@ class ModelCode extends CCodeModel
 	public $modelPath='application.models';
 	public $baseClass='CActiveRecord';
 	public $buildRelations=true;
+    public $labelFromComment=false;
 
 	/**
 	 * @var array list of candidate relation code. The array are indexed by AR class names and relation names.
@@ -28,7 +29,7 @@ class ModelCode extends CCodeModel
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
-			array('connectionId, tablePrefix, modelPath, baseClass, buildRelations', 'sticky'),
+			array('connectionId, tablePrefix, modelPath, baseClass, buildRelations, labelFromComment', 'sticky'),
 		));
 	}
 
@@ -42,6 +43,7 @@ class ModelCode extends CCodeModel
 			'baseClass'=>'Base Class',
 			'buildRelations'=>'Build Relations',
 			'connectionId'=>'Database Connection',
+            'labelFromComment'=>'Label From Column Comment',
 		));
 	}
 
@@ -194,15 +196,28 @@ class ModelCode extends CCodeModel
 
 	public function generateLabels($table)
 	{
+        if($this->labelFromComment) {
+            $command = Yii::app()->{$this->connectionId}->createCommand("SHOW FULL COLUMNS FROM {$table->name}");
+            $reader = $command->query();
+            $comments = array();
+            foreach($reader as $row) {
+                $comments[$row['Field']] = $row['Comment'];
+            }
+        }
+
 		$labels=array();
 		foreach($table->columns as $column)
 		{
-			$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
-			$label=preg_replace('/\s+/',' ',$label);
-			if(strcasecmp(substr($label,-3),' id')===0)
-				$label=substr($label,0,-3);
-			if($label==='Id')
-				$label='ID';
+            if($this->labelFromComment && !empty($comments[$column->name])) {
+                $label = $comments[$column->name];
+            } else {
+                $label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
+                $label=preg_replace('/\s+/',' ',$label);
+                if(strcasecmp(substr($label,-3),' id')===0)
+                    $label=substr($label,0,-3);
+                if($label==='Id')
+                    $label='ID';
+            }
 			$labels[$column->name]=$label;
 		}
 		return $labels;
