@@ -38,10 +38,10 @@ $cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 		<?php echo CHtml::link('webapp',Yii::app()->homeUrl); ?> |
 		<a href="http://www.yiiframework.com">yii</a>
 		<?php if(!Yii::app()->user->isGuest): ?>
-			| <?php echo CHtml::link('logout',array('/gii/default/logout')); ?>
+			| <?php echo CHtml::link('logout',array('default/logout')); ?>
 		<?php endif; ?>
 		</div>
-		<div id="logo"><?php echo CHtml::link(CHtml::image($this->module->assetsUrl.'/images/logo.png'),array('/gii')); ?></div>
+		<div id="logo"><?php echo CHtml::link(CHtml::image($this->module->assetsUrl.'/images/logo.png'),array('default/index')); ?></div>
 	</div><!-- header -->
 
 	<?php echo $content; ?>

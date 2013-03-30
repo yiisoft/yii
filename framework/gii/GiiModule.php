@@ -114,6 +114,7 @@ class GiiModule extends CWebModule
 	public function init()
 	{
 		parent::init();
+		Yii::setPathOfAlias('gii',dirname(__FILE__));
 		Yii::app()->setComponents(array(
 			'errorHandler'=>array(
 				'class'=>'CErrorHandler',
