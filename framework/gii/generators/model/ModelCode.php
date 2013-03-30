@@ -199,7 +199,7 @@ class ModelCode extends CCodeModel
 		$labels=array();
 		foreach($table->columns as $column)
 		{
-			if($column->comment)
+			if($this->commentsAsLabels && $column->comment)
 				$labels[$column->name]=$column->comment;
 			else
 			{
