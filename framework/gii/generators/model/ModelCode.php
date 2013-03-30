@@ -9,6 +9,7 @@ class ModelCode extends CCodeModel
 	public $modelPath='application.models';
 	public $baseClass='CActiveRecord';
 	public $buildRelations=true;
+	public $commentsAsLabels=false;
 
 	/**
 	 * @var array list of candidate relation code. The array are indexed by AR class names and relation names.
@@ -28,7 +29,7 @@ class ModelCode extends CCodeModel
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
-			array('connectionId, tablePrefix, modelPath, baseClass, buildRelations', 'sticky'),
+			array('connectionId, tablePrefix, modelPath, baseClass, buildRelations, commentsAsLabels', 'sticky'),
 		));
 	}
 
@@ -41,6 +42,7 @@ class ModelCode extends CCodeModel
 			'modelClass'=>'Model Class',
 			'baseClass'=>'Base Class',
 			'buildRelations'=>'Build Relations',
+			'commentsAsLabels'=>'Use Column Comments as Attribute Labels',
 			'connectionId'=>'Database Connection',
 		));
 	}
@@ -195,15 +197,23 @@ class ModelCode extends CCodeModel
 	public function generateLabels($table)
 	{
 		$labels=array();
-		foreach($table->columns as $column)
+		if($this->commentsAsLabels)
 		{
-			$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
-			$label=preg_replace('/\s+/',' ',$label);
-			if(strcasecmp(substr($label,-3),' id')===0)
-				$label=substr($label,0,-3);
-			if($label==='Id')
-				$label='ID';
-			$labels[$column->name]=$label;
+			foreach($table->columns as $column)
+				$labels[$column->name]=(string)$column->comment;
+		}
+		else
+		{
+			foreach($table->columns as $column)
+			{
+				$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
+				$label=preg_replace('/\s+/',' ',$label);
+				if(strcasecmp(substr($label,-3),' id')===0)
+					$label=substr($label,0,-3);
+				if($label==='Id')
+					$label='ID';
+				$labels[$column->name]=$label;
+			}
 		}
 		return $labels;
 	}

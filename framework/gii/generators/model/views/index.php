@@ -134,5 +134,14 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 		</div>
 		<?php echo $form->error($model,'buildRelations'); ?>
 	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'commentsAsLabels'); ?>
+		<?php echo $form->checkBox($model,'commentsAsLabels'); ?>
+		<div class="tooltip">
+			Whether comments specified for the table columns should be used as the new model's attribute labels.
+			In case your RDBMS doesn't support this feature empty string would be used.
+		</div>
+		<?php echo $form->error($model,'commentsAsLabels'); ?>
+	</div>
 
 <?php $this->endWidget(); ?>
