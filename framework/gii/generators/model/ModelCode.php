@@ -197,14 +197,11 @@ class ModelCode extends CCodeModel
 	public function generateLabels($table)
 	{
 		$labels=array();
-		if($this->commentsAsLabels)
+		foreach($table->columns as $column)
 		{
-			foreach($table->columns as $column)
-				$labels[$column->name]=(string)$column->comment;
-		}
-		else
-		{
-			foreach($table->columns as $column)
+			if($column->comment)
+				$labels[$column->name]=$column->comment;
+			else
 			{
 				$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
 				$label=preg_replace('/\s+/',' ',$label);
