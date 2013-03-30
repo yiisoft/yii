@@ -475,7 +475,12 @@ class CJoinElement
 		if(is_array($child->relation->params))
 			$query->params=$child->relation->params;
 		$query->elements[$child->id]=true;
-		if($child->relation instanceof CHasManyRelation)
+		if($child->relation instanceof CHasOneRelation)
+		{
+			$query->limit=1;
+			$query->offset=-1;
+		}
+		else if($child->relation instanceof CHasManyRelation)
 		{
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
