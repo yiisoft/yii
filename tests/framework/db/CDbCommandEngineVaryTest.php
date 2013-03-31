@@ -85,7 +85,7 @@ class CDbCommandEngineVaryTest extends CTestCase
 						continue;
 					}
 					$dbConnection=new CDbConnection($dbDriver.':host=127.0.0.1;dbname=yii','test','test');
-					$this->db->charset='UTF8';
+					$dbConnection->charset='UTF8';
 			}
 
 			// Open Connection:
