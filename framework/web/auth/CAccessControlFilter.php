@@ -200,7 +200,7 @@ class CAccessRule extends CComponent
 	 */
 	public $actions;
 	/**
-	 * @var array list of controler IDs that this rule applies to. The comparison is case-insensitive.
+	 * @var array list of controller IDs that this rule applies to. The comparison is case-insensitive.
 	 */
 	public $controllers;
 	/**
