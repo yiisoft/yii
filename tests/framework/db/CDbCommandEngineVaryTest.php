@@ -50,20 +50,39 @@ class CDbCommandEngineVaryTest extends CTestCase
 		$dbDrivers=array(
 			'sqlite',
 			'mysql',
+			'mssql',
 		);
 		$dbConnections=array();
 		foreach($dbDrivers as $dbDriver)
 		{
-			if(!extension_loaded('pdo_mysql'))
-				$dbConnections[$dbDriver]=false;
+
 
 			// Create Connection:
 			switch($dbDriver)
 			{
+				case 'mssql':
+					if(!extension_loaded('sqlsrv') || !extension_loaded('pdo_sqlsrv'))
+					{
+						$dbConnections[$dbDriver]=false;
+						continue;
+					}
+					$dbConnection=new CDbConnection('sqlsrv:Server=YII;Database=yii','test','test');
+					$dbConnection->setAttribute(PDO::SQLSRV_ATTR_ENCODING, PDO::SQLSRV_ENCODING_SYSTEM);
+					break;
 				case 'sqlite':
+					if(!extension_loaded('pdo_sqlite'))
+					{
+						$dbConnections[$dbDriver]=false;
+						continue;
+					}
 					$dbConnection=new CDbConnection('sqlite::memory:');
 					break;
 				case 'mysql':
+					if(!extension_loaded('pdo_mysql'))
+					{
+						$dbConnections[$dbDriver]=false;
+						continue;
+					}
 				default:
 					$dbConnection=new CDbConnection($dbDriver.':host=127.0.0.1;dbname=yii','test','test');
 			}
@@ -83,6 +102,16 @@ class CDbCommandEngineVaryTest extends CTestCase
 			$tables=array('comments','post_category','posts','categories','profiles','users','items','orders','types');
 			switch($dbDriver)
 			{
+				case 'mssql':
+					foreach($tables as $table)
+					{
+						$sql=<<<EOD
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[{$table}]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE [dbo].[{$table}]
+EOD;
+						$dbConnection->createCommand($sql)->execute();
+					}
+					break;
 				case 'sqlite':
 					break;
 				case 'mysql':
@@ -96,6 +125,25 @@ class CDbCommandEngineVaryTest extends CTestCase
 			// Fill Up Database:
 			switch($dbDriver)
 			{
+				case 'mssql':
+					$rawSqls=file_get_contents(dirname(__FILE__)."/data/{$dbDriver}.sql");
+
+					// remove comments from SQL
+					$sqls='';
+					foreach(array_filter(explode("\n", $rawSqls)) as $line)
+					{
+						if(substr($line,0,2)=='--')
+							continue;
+						$sqls.=$line."\n";
+					}
+
+					// run SQL
+					foreach(explode('GO',$sqls) as $sql)
+					{
+						if(trim($sql)!=='')
+							$dbConnection->createCommand($sql)->execute();
+					}
+					break;
 				case 'sqlite':
 				case 'mysql':
 				default:
