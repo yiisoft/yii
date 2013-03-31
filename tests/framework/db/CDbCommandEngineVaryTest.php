@@ -116,8 +116,8 @@ EOD;
 				case 'sqlite':
 					break;
 				case 'pgsql':
-					try	{ $this->db->createCommand('DROP SCHEMA test CASCADE')->execute(); } catch(Exception $e) { }
-					try	{ $this->db->createCommand('DROP TABLE yii_types CASCADE')->execute(); } catch(Exception $e) { }
+					try	{ $dbConnection->createCommand('DROP SCHEMA test CASCADE')->execute(); } catch(Exception $e) { }
+					try	{ $dbConnection->createCommand('DROP TABLE yii_types CASCADE')->execute(); } catch(Exception $e) { }
 					break;
 				case 'mysql':
 				default:
