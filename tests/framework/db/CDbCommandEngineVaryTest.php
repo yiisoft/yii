@@ -100,7 +100,7 @@ class CDbCommandEngineVaryTest extends CTestCase
 			}
 
 			// Clear Tables:
-			$tables=array('comments','post_category','posts','categories','profiles','users','items','orders','types');
+			$tables=array('multi_insert_tests');
 			switch($dbDriver)
 			{
 				case 'mssql':
@@ -128,45 +128,12 @@ EOD;
 			}
 
 			// Fill Up Database:
-			switch($dbDriver)
-			{
-				case 'mssql':
-					$rawSqls=file_get_contents(dirname(__FILE__)."/data/{$dbDriver}.sql");
-
-					// remove comments from SQL
-					$sqls='';
-					foreach(array_filter(explode("\n", $rawSqls)) as $line)
-					{
-						if(substr($line,0,2)=='--')
-							continue;
-						$sqls.=$line."\n";
-					}
-
-					// run SQL
-					foreach(explode('GO',$sqls) as $sql)
-					{
-						if(trim($sql)!=='')
-							$dbConnection->createCommand($sql)->execute();
-					}
-					break;
-				case 'pgsql':
-					$sqls=file_get_contents(dirname(__FILE__).'/data/postgres.sql');
-					foreach(explode(';',$sqls) as $sql)
-					{
-						if(trim($sql)!=='')
-							$dbConnection->createCommand($sql)->execute();
-					}
-					break;
-				case 'sqlite':
-				case 'mysql':
-				default:
-					$sqls=file_get_contents(dirname(__FILE__)."/data/{$dbDriver}.sql");
-					foreach(explode(';',$sqls) as $sql)
-					{
-						if(trim($sql)!=='')
-							$dbConnection->createCommand($sql)->execute();
-					}
-			}
+			$columns=array(
+				'id'=>'pk',
+				'int_col'=>'integer',
+				'char_col'=>'string',
+			);
+			$dbConnection->createCommand()->createTable('multi_insert_tests',$columns);
 
 			$dbConnections[$dbDriver]=$dbConnection;
 		}
@@ -201,25 +168,19 @@ EOD;
 
 		$multipleInsertCommand=$dbConnection->createCommand();
 
-		$tableName='types';
+		$tableName='multi_insert_tests';
 		$columns=array(
 			'int_col',
 			'char_col',
-			'float_col',
-			'bool_col',
 		);
 		$values=array(
 			array(
 				1,
 				'char_col_val_1',
-				1.1,
-				true,
 			),
 			array(
 				2,
 				'char_col_val_2',
-				2.2,
-				false,
 			),
 		);
 		$multipleInsertCommand->insertMultiple($tableName,$columns,$values);
