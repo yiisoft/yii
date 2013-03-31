@@ -51,7 +51,7 @@ class CDbCommandEngineVaryTest extends CTestCase
 			'sqlite',
 			'mysql',
 			'pgsql',
-			'mssql',
+			//'mssql',
 		);
 		$dbConnections=array();
 		foreach($dbDrivers as $dbDriver)
@@ -107,7 +107,7 @@ class CDbCommandEngineVaryTest extends CTestCase
 					foreach($tables as $table)
 					{
 						$sql=<<<EOD
-IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[{$table}]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[{$table}]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE [dbo].[{$table}]
 EOD;
 						$dbConnection->createCommand($sql)->execute();
