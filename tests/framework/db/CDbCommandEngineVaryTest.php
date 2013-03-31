@@ -50,13 +50,12 @@ class CDbCommandEngineVaryTest extends CTestCase
 		$dbDrivers=array(
 			'sqlite',
 			'mysql',
+			'pgsql',
 			'mssql',
 		);
 		$dbConnections=array();
 		foreach($dbDrivers as $dbDriver)
 		{
-
-
 			// Create Connection:
 			switch($dbDriver)
 			{
@@ -77,14 +76,16 @@ class CDbCommandEngineVaryTest extends CTestCase
 					}
 					$dbConnection=new CDbConnection('sqlite::memory:');
 					break;
+				case 'pgsql':
 				case 'mysql':
-					if(!extension_loaded('pdo_mysql'))
+				default:
+					if(!extension_loaded('pdo_'.$dbDriver))
 					{
 						$dbConnections[$dbDriver]=false;
 						continue;
 					}
-				default:
 					$dbConnection=new CDbConnection($dbDriver.':host=127.0.0.1;dbname=yii','test','test');
+					$this->db->charset='UTF8';
 			}
 
 			// Open Connection:
@@ -114,6 +115,10 @@ EOD;
 					break;
 				case 'sqlite':
 					break;
+				case 'pgsql':
+					try	{ $this->db->createCommand('DROP SCHEMA test CASCADE')->execute(); } catch(Exception $e) { }
+					try	{ $this->db->createCommand('DROP TABLE yii_types CASCADE')->execute(); } catch(Exception $e) { }
+					break;
 				case 'mysql':
 				default:
 				{
@@ -139,6 +144,14 @@ EOD;
 
 					// run SQL
 					foreach(explode('GO',$sqls) as $sql)
+					{
+						if(trim($sql)!=='')
+							$dbConnection->createCommand($sql)->execute();
+					}
+					break;
+				case 'pgsql':
+					$sqls=file_get_contents(dirname(__FILE__).'/data/postgres.sql');
+					foreach(explode(';',$sqls) as $sql)
 					{
 						if(trim($sql)!=='')
 							$dbConnection->createCommand($sql)->execute();
