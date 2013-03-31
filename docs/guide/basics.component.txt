@@ -32,7 +32,7 @@ class Document extends CComponent
 ~~~
 
 Another way is to use getters and setters. It is more flexible since additionally
-to normal properties you can declare a property either read only, write only.
+to normal properties you can declare a read only or write only property.
 
 ~~~
 [php]
