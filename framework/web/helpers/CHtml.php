@@ -87,18 +87,20 @@ class CHtml
 	public static $renderSpecialAttributesValue=true;
 
 	/**
-	 * Namespaced class names can be shortened or obfuscated.
-	 * Default method is to replace "\" with "_"
+	 * PHP callback used to compose input name from model instance.
+	 * If not set the model class name will be used. If class name is namespaced '\' will be replaced by '_'.
+	 * You can setup this field intoducing your logic of the input name creation.
 	 * <code>
-	 * CHtml::$modelNameFilter = function($model) {
+	 * CHtml::$modelNameNormalizer = function($model) {
 	 * 	return dechex(crc32(get_class($model)));
 	 * };
 	 * </code>
 	 *
-	 * @var callback method used to clean and/or shorten class name
+	 * @var callback PHP callback used to compose input name from model instance.
+	 * @see normalizeModelName()
 	 * @since 1.1.14
 	 */
-	public static $modelNameFilter;
+	public static $modelNameNormalizer;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -2411,13 +2413,13 @@ EOD;
 	 * @param CModel $model the data model
 	 * @return string the normalized model string
 	 */
-	public static function nameForModel($model) {
-		if((self::$modelNameFilter !== null) && is_callable(self::$modelNameFilter)) {
-			$nameForModel = call_user_func(self::$modelNameFilter, $model);
+	public static function normalizeModelName($model) {
+		if((self::$modelNameNormalizer !== null) && is_callable(self::$modelNameNormalizer)) {
+			$normalizedModelName = call_user_func(self::$modelNameNormalizer, $model);
 		} else {
-			$nameForModel = str_replace('\\', '_', get_class($model));
+			$normalizedModelName = str_replace('\\', '_', get_class($model));
 		}
-		return $nameForModel;
+		return $normalizedModelName;
 	}
 
 	/**
@@ -2426,7 +2428,7 @@ EOD;
 	 * @return mixed the content of $_POST for current model or null if empty
 	 */
 	public static function postDataForModel($model) {
-		$normalizedModelName = self::nameForModel($model);
+		$normalizedModelName = self::normalizeModelName($model);
 		return isset($_POST[$normalizedModelName])?$_POST[$normalizedModelName]:null;
 	}
 
@@ -2443,21 +2445,21 @@ EOD;
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
-				return self::nameForModel($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
+				return self::normalizeModelName($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
 			{
 				$sub=substr($attribute,0,$pos+1);
 				$attribute=substr($attribute,$pos+1);
-				return self::nameForModel($model).$sub.'['.$attribute.']';
+				return self::normalizeModelName($model).$sub.'['.$attribute.']';
 			}
 			if(preg_match('/\](\w+\[.*)$/',$attribute,$matches))
 			{
-				$name=self::nameForModel($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
+				$name=self::normalizeModelName($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
 				$attribute=$matches[1];
 				return $name;
 			}
 		}
-		return self::nameForModel($model).'['.$attribute.']';
+		return self::normalizeModelName($model).'['.$attribute.']';
 	}
 
 	/**

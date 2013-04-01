@@ -71,11 +71,11 @@ class CActiveDataProvider extends CDataProvider
 		if(is_string($modelClass))
 		{
 			$this->model=CActiveRecord::model($modelClass);
-			$this->modelClass=CHtml::nameForModel($this->model);
+			$this->modelClass=CHtml::normalizeModelName($this->model);
 		}
 		elseif($modelClass instanceof CActiveRecord)
 		{
-			$this->modelClass=CHtml::nameForModel($modelClass);
+			$this->modelClass=CHtml::normalizeModelName($modelClass);
 			$this->model=$modelClass;
 		}
 		$this->setId($this->modelClass);
