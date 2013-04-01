@@ -1224,29 +1224,96 @@ class CDbCommand extends CComponent
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
-	public function insert($table, $columns)
+	public function insert($table,$columns)
 	{
 		$params=array();
 		$names=array();
 		$placeholders=array();
+
 		foreach($columns as $name=>$value)
 		{
 			$names[]=$this->_connection->quoteColumnName($name);
+
 			if($value instanceof CDbExpression)
 			{
-				$placeholders[] = $value->expression;
-				foreach($value->params as $n => $v)
-					$params[$n] = $v;
+				$placeholders[]=$value->expression;
+
+				foreach($value->params as $n=>$v)
+					$params[$n]=$v;
 			}
 			else
 			{
-				$placeholders[] = ':' . $name;
-				$params[':' . $name] = $value;
+				$placeholders[]=':' . $name;
+				$params[':' . $name]=$value;
 			}
 		}
+
 		$sql='INSERT INTO ' . $this->_connection->quoteTableName($table)
 			. ' (' . implode(', ',$names) . ') VALUES ('
-			. implode(', ', $placeholders) . ')';
+			. implode(', ',$placeholders) . ')';
+
+		return $this->setText($sql)->execute($params);
+	}
+
+	/**
+	 * Creates and executes an INSERT SQL statement, which performs insertion of the several
+	 * records into the single table at once.
+	 * The method will properly escape the column names, and bind the values to be inserted.
+	 * This method could be used to achieve better performance during insertion of the large
+	 * amount of data into the database tables.
+	 * @param string $table the table that new rows will be inserted into.
+	 * @param array $columns the column names to be inserted into the table.
+	 * @param array[] $values the values to be inserted into the table.
+	 * @return integer number of rows affected by the execution.
+	 * @since 1.1.14
+	 */
+	public function insertMultiple($table,array $columns,array $values)
+	{
+		$sqliteSyntax=($this->_connection->getDriverName()=='sqlite');
+
+		$params=array();
+		$names=array();
+		$rowInsertValues=array();
+
+		$columns=array_values($columns);
+		foreach($columns as $name)
+			$names[]=$this->_connection->quoteColumnName($name);
+
+		foreach($values as $rowKey=>$rowValues)
+		{
+			$columnInsertValues=array();
+
+			foreach(array_values($rowValues) as $columnKey=>$columnValue)
+			{
+				if($columnValue instanceof CDbExpression)
+				{
+					$columnInsertValue=$columnValue->expression;
+					foreach($columnValue->params as $columnValueParamName=>$columnValueParam)
+						$params[$columnValueParamName]=$columnValueParam;
+				}
+				else
+				{
+					$columnInsertValue=':'.$columns[$columnKey].'_'.$rowKey;
+					$params[':'.$columns[$columnKey].'_'.$rowKey]=$columnValue;
+				}
+				if($sqliteSyntax)
+					$columnInsertValue=$columnInsertValue.' AS '.$columns[$columnKey];
+				$columnInsertValues[]=$columnInsertValue;
+			}
+
+			if($sqliteSyntax)
+				$rowInsertValues[]='SELECT '.implode(', ', $columnInsertValues);
+			else
+				$rowInsertValues[]='('.implode(', ',$columnInsertValues).')';
+		}
+
+		if($sqliteSyntax)
+			$sql='INSERT INTO '.$this->_connection->quoteTableName($table)
+				.' ('.implode(', ',$names).') '.implode(' UNION ',$rowInsertValues);
+		else
+			$sql='INSERT INTO '.$this->_connection->quoteTableName($table)
+				.' ('.implode(', ',$names).') VALUES '.implode(', ',$rowInsertValues);
+
 		return $this->setText($sql)->execute($params);
 	}
 
