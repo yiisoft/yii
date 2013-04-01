@@ -2423,16 +2423,6 @@ EOD;
 	}
 
 	/**
-	 * Use html compliant model name to retrieve post data
-	 * @param CModel $model the target model
-	 * @return mixed the content of $_POST for current model or null if empty
-	 */
-	public static function postDataForModel($model) {
-		$normalizedModelName = self::normalizeModelName($model);
-		return isset($_POST[$normalizedModelName])?$_POST[$normalizedModelName]:null;
-	}
-
-	/**
 	 * Generates input name for a model attribute.
 	 * Note, the attribute name may be modified after calling this method if the name
 	 * contains square brackets (mainly used in tabular input) before the real attribute name.
