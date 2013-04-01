@@ -2409,7 +2409,9 @@ EOD;
 	}
 
 	/**
-	 * Return HTML compliant name for selected model
+	 * Return HTML compliant input name for selected model instance.
+	 * if @see $modelNameNormalizer is null, and class name is namespaced '\' will be replaced by '_'.
+	 *
 	 * @param CModel $model the data model
 	 * @return string the normalized model string
 	 */
