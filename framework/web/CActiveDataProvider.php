@@ -70,12 +70,12 @@ class CActiveDataProvider extends CDataProvider
 	{
 		if(is_string($modelClass))
 		{
-			$this->modelClass=$modelClass;
-			$this->model=CActiveRecord::model($this->modelClass);
+			$this->model=CActiveRecord::model($modelClass);
+			$this->modelClass=CHtml::nameForModel($this->model);
 		}
 		elseif($modelClass instanceof CActiveRecord)
 		{
-			$this->modelClass=get_class($modelClass);
+			$this->modelClass=CHtml::nameForModel($modelClass);
 			$this->model=$modelClass;
 		}
 		$this->setId($this->modelClass);
