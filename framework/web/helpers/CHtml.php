@@ -87,6 +87,20 @@ class CHtml
 	public static $renderSpecialAttributesValue=true;
 
 	/**
+	 * Namespaced class names can be shortened or obfuscated.
+	 * Default method is to replace "\" with "_"
+	 * <code>
+	 * CHtml::$modelNameFilter = function($model) {
+	 * 	return dechex(crc32(get_class($model)));
+	 * };
+	 * </code>
+	 *
+	 * @var callback method used to clean and/or shorten class name
+	 * @since 1.1.14
+	 */
+	public static $modelNameFilter;
+
+	/**
 	 * Encodes special characters into HTML entities.
 	 * The {@link CApplication::charset application charset} will be used for encoding.
 	 * @param string $text data to be encoded
@@ -2393,6 +2407,30 @@ EOD;
 	}
 
 	/**
+	 * Return HTML compliant name for selected model
+	 * @param CModel $model the data model
+	 * @return string the normalized model string
+	 */
+	public static function nameForModel($model) {
+		if((self::$modelNameFilter !== null) && is_callable(self::$modelNameFilter)) {
+			$nameForModel = call_user_func(self::$modelNameFilter, $model);
+		} else {
+			$nameForModel = str_replace('\\', '_', get_class($model));
+		}
+		return $nameForModel;
+	}
+
+	/**
+	 * Use html compliant model name to retrieve post data
+	 * @param CModel $model the target model
+	 * @return mixed the content of $_POST for current model or null if empty
+	 */
+	public static function postDataForModel($model) {
+		$normalizedModelName = self::nameForModel($model);
+		return isset($_POST[$normalizedModelName])?$_POST[$normalizedModelName]:null;
+	}
+
+	/**
 	 * Generates input name for a model attribute.
 	 * Note, the attribute name may be modified after calling this method if the name
 	 * contains square brackets (mainly used in tabular input) before the real attribute name.
@@ -2405,21 +2443,21 @@ EOD;
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
-				return get_class($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
+				return self::nameForModel($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
 			{
 				$sub=substr($attribute,0,$pos+1);
 				$attribute=substr($attribute,$pos+1);
-				return get_class($model).$sub.'['.$attribute.']';
+				return self::nameForModel($model).$sub.'['.$attribute.']';
 			}
 			if(preg_match('/\](\w+\[.*)$/',$attribute,$matches))
 			{
-				$name=get_class($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
+				$name=self::nameForModel($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
 				$attribute=$matches[1];
 				return $name;
 			}
 		}
-		return get_class($model).'['.$attribute.']';
+		return self::nameForModel($model).'['.$attribute.']';
 	}
 
 	/**
