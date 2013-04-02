@@ -276,7 +276,7 @@ class CDbCommandBuilder extends CComponent
 			}
 		}
 		foreach($columns as $name)
-			$columnInsertNames[]=$this->_connection->quoteColumnName($name);
+			$columnInsertNames[]=$this->getDbConnection()->quoteColumnName($name);
 
 		foreach($data as $rowKey=>$rowData)
 		{
@@ -293,17 +293,17 @@ class CDbCommandBuilder extends CComponent
 				}
 				else
 				{
-					$columnInsertValue=':'.$columns[$columnName].'_'.$rowKey;
-					$params[':'.$columns[$columnName].'_'.$rowKey]=$column->typecast($columnValue);
+					$columnInsertValue=':'.$columnName.'_'.$rowKey;
+					$params[':'.$columnName.'_'.$rowKey]=$column->typecast($columnValue);
 				}
 				$columnInsertValues[]=$columnInsertValue;
 			}
 			$rowInsertValues[]='('.implode(', ',$columnInsertValues).')';
 		}
 
-		$sql='INSERT INTO '.$this->_connection->quoteTableName($table->name)
+		$sql='INSERT INTO '.$this->getDbConnection()->quoteTableName($table->name)
 			.' ('.implode(', ',$columnInsertNames).') VALUES '.implode(', ',$rowInsertValues);
-		$command=$this->_connection->createCommand($sql);
+		$command=$this->getDbConnection()->createCommand($sql);
 
 		foreach($params as $name=>$value)
 			$command->bindValue($name,$value);
