@@ -886,9 +886,9 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $model)
 		{
-			$normalizedModelClass = CHtml::normalizeModelName($model);
-			if($loadInput && isset($_POST[$normalizedModelClass]))
-				$model->attributes=$_POST[$normalizedModelClass];
+			$normalizedModelName=CHtml::normalizeModelName($model);
+			if($loadInput && isset($_POST[$normalizedModelName]))
+				$model->attributes=$_POST[$normalizedModelName];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,$attribute)]=$errors;
@@ -915,7 +915,7 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $i=>$model)
 		{
-			$normalizedModelName = CHtml::normalizeModelName($model);
+			$normalizedModelName=CHtml::normalizeModelName($model);
 			if($loadInput && isset($_POST[$normalizedModelName][$i]))
 				$model->attributes=$_POST[$normalizedModelName][$i];
 			$model->validate($attributes);
