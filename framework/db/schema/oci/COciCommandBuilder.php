@@ -121,4 +121,67 @@ EOD;
 
 		return $command;
 	}
+
+	/**
+	 * Creates a multiple INSERT command.
+	 * This method could be used to achieve better performance during insertion of the large
+	 * amount of data into the database tables.
+	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+	 * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
+	 * If a key is not a valid column name, the corresponding value will be ignored.
+	 * @return CDbCommand multiple insert command
+	 */
+	public function createMultipleInsertCommand($table,array $data)
+	{
+		$this->ensureTable($table);
+		$params=array();
+		$columnInsertNames=array();
+		$rowInsertValues=array();
+
+		$columns=array();
+		foreach($data as $rowData)
+		{
+			foreach($rowData as $columnName=>$columnValue)
+			{
+				if(array_search($columnName,$columns,true)===false)
+					if($table->getColumn($columnName)!==null)
+						$columns[]=$columnName;
+			}
+		}
+		foreach($columns as $name)
+			$columnInsertNames[]=$this->getDbConnection()->quoteColumnName($name);
+
+		$rowInsertValueBase='INTO '.$this->getDbConnection()->quoteTableName($table->name).
+			' ('.implode(', ',$columnInsertNames).') VALUES ';
+		foreach($data as $rowKey=>$rowData)
+		{
+			$columnInsertValues=array();
+			foreach($columns as $columnName)
+			{
+				$column=$table->getColumn($columnName);
+				$columnValue=array_key_exists($columnName,$rowData) ? $rowData[$columnName] : new CDbExpression('NULL');
+				if($columnValue instanceof CDbExpression)
+				{
+					$columnInsertValue=$columnValue->expression;
+					foreach($columnValue->params as $columnValueParamName=>$columnValueParam)
+						$params[$columnValueParamName]=$columnValueParam;
+				}
+				else
+				{
+					$columnInsertValue=':'.$columnName.'_'.$rowKey;
+					$params[':'.$columnName.'_'.$rowKey]=$column->typecast($columnValue);
+				}
+				$columnInsertValues[]=$columnInsertValue;
+			}
+			$rowInsertValues[]=$rowInsertValueBase.'('.implode(', ',$columnInsertValues).')';
+		}
+
+		$sql='INSERT ALL '.implode(' ',$rowInsertValues).' SELECT * FROM dual';
+		$command=$this->getDbConnection()->createCommand($sql);
+
+		foreach($params as $name=>$value)
+			$command->bindValue($name,$value);
+
+		return $command;
+	}
 }
