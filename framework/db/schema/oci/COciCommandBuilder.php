@@ -133,55 +133,14 @@ EOD;
 	 */
 	public function createMultipleInsertCommand($table,array $data)
 	{
-		$this->ensureTable($table);
-		$params=array();
-		$columnInsertNames=array();
-		$rowInsertValues=array();
-
-		$columns=array();
-		foreach($data as $rowData)
-		{
-			foreach($rowData as $columnName=>$columnValue)
-			{
-				if(array_search($columnName,$columns,true)===false)
-					if($table->getColumn($columnName)!==null)
-						$columns[]=$columnName;
-			}
-		}
-		foreach($columns as $name)
-			$columnInsertNames[]=$this->getDbConnection()->quoteColumnName($name);
-
-		$rowInsertValueBase='INTO '.$this->getDbConnection()->quoteTableName($table->name).
-			' ('.implode(', ',$columnInsertNames).') VALUES ';
-		foreach($data as $rowKey=>$rowData)
-		{
-			$columnInsertValues=array();
-			foreach($columns as $columnName)
-			{
-				$column=$table->getColumn($columnName);
-				$columnValue=array_key_exists($columnName,$rowData) ? $rowData[$columnName] : new CDbExpression('NULL');
-				if($columnValue instanceof CDbExpression)
-				{
-					$columnInsertValue=$columnValue->expression;
-					foreach($columnValue->params as $columnValueParamName=>$columnValueParam)
-						$params[$columnValueParamName]=$columnValueParam;
-				}
-				else
-				{
-					$columnInsertValue=':'.$columnName.'_'.$rowKey;
-					$params[':'.$columnName.'_'.$rowKey]=$column->typecast($columnValue);
-				}
-				$columnInsertValues[]=$columnInsertValue;
-			}
-			$rowInsertValues[]=$rowInsertValueBase.'('.implode(', ',$columnInsertValues).')';
-		}
-
-		$sql='INSERT ALL '.implode(' ',$rowInsertValues).' SELECT * FROM dual';
-		$command=$this->getDbConnection()->createCommand($sql);
-
-		foreach($params as $name=>$value)
-			$command->bindValue($name,$value);
-
-		return $command;
+		$templates=array(
+			'main'=>'INSERT ALL {{rowInsertValues}} SELECT * FROM dual',
+			'columnInsertValue'=>'{{value}}',
+			'columnInsertValueGlue'=>', ',
+			'rowInsertValue'=>'INTO {{tableName}} ({{columnInsertNames}}) VALUES ({{columnInsertValues}})',
+			'rowInsertValueGlue'=>' ',
+			'columnInsertNameGlue'=>', ',
+		);
+		return $this->composeMultipleInsertCommand($table,$data,$templates);
 	}
 }
