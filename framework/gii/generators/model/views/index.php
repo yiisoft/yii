@@ -86,10 +86,11 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 			),
 			'htmlOptions'=>array(
 				'id'=>CHtml::activeId($model,'tableName'),
-				'size'=>'65'
+				'size'=>'65',
+				'data-tooltip'=>'#tableName-tooltip'
 			),
 		)); ?>
-		<div class="tooltip">
+		<div class="tooltip" id="tableName-tooltip">
 		This refers to the table name that a new model class should be generated for
 		(e.g. <code>tbl_user</code>). It can contain schema name, if needed (e.g. <code>public.tbl_post</code>).
 		You may also enter <code>*</code> (or <code>schemaName.*</code> for a particular DB schema)
