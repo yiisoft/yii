@@ -257,6 +257,7 @@ class CDbCommandBuilder extends CComponent
 	 * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
 	 * If a key is not a valid column name, the corresponding value will be ignored.
 	 * @return CDbCommand multiple insert command
+	 * @since 1.1.14
 	 */
 	public function createMultipleInsertCommand($table,array $data)
 	{
