@@ -6,6 +6,9 @@ Yii::import('system.db.schema.mysql.CMysqlSchema');
 
 class CMysql2Test extends CTestCase
 {
+	/**
+	 * @var CDbConnection
+	 */
 	private $db;
 
 	public function setUp()
@@ -134,6 +137,17 @@ class CMysql2Test extends CTestCase
 	{
 		$sql=$this->db->schema->dropIndex('id_pk','test');
 		$expect='DROP INDEX `id_pk` ON `test`';
+		$this->assertEquals($expect, $sql);
+	}
+
+	public function testAddPrimaryKey()
+	{
+		$sql=$this->db->schema->addPrimaryKey('this-string-is-ignored','table','id');
+		$expect='ALTER TABLE `table` ADD PRIMARY KEY (`id` )';
+		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->addPrimaryKey('this-string-is-ignored','table',array('id1','id2'));
+		$expect='ALTER TABLE `table` ADD PRIMARY KEY (`id1`, `id2` )';
 		$this->assertEquals($expect, $sql);
 	}
 }

@@ -33,14 +33,14 @@ EOD;
 		$toc = '';
 		foreach($chapters as $chapter=>$sections)
 		{
-			$toc .= sprintf("\chapter{%s}\n", $chapter);
+			$toc .= sprintf("\\chapter{%s}\n", $chapter);
 			foreach($sections as $path=>$section)
 			{
 				echo "creating '$section'...";
 				$content=file_get_contents($sourcePath."/{$path}.txt");
 				$this->createLatexFile($chapter,$section,$content, $path);
 				echo "done\n";
-				$toc .= sprintf("\input{%s}\n", $path);
+				$toc .= sprintf("\\input{%s}\n", $path);
 			}
 		}
 		$main_file = sprintf('%s/main.tex', $this->getOutputDir());

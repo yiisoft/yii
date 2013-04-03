@@ -74,6 +74,3 @@ public function testApprove()
 	$this->assertEquals(Comment::STATUS_APPROVED,$comment->status);
 }
 ~~~
-
-
-<div class="revision">$Id$</div>

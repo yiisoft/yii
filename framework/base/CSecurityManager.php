@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -158,7 +158,8 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * This method has been deprecated since version 1.1.3.
 	 * Please use {@link hashAlgorithm} instead.
-	 * @return string
+	 * @return string -
+	 * @deprecated
 	 */
 	public function getValidation()
 	{
@@ -169,6 +170,7 @@ class CSecurityManager extends CApplicationComponent
 	 * This method has been deprecated since version 1.1.3.
 	 * Please use {@link hashAlgorithm} instead.
 	 * @param string $value -
+	 * @deprecated
 	 */
 	public function setValidation($value)
 	{
@@ -217,6 +219,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Opens the mcrypt module with the configuration specified in {@link cryptAlgorithm}.
+	 * @throws CException if failed to initialize the mcrypt module or PHP mcrypt extension
 	 * @return resource the mycrypt module handle.
 	 * @since 1.1.3
 	 */
@@ -271,33 +274,46 @@ class CSecurityManager extends CApplicationComponent
 	}
 
 	/**
-	 * Computes the HMAC for the data with {@link getValidationKey ValidationKey}.
-	 * @param string $data data to be generated HMAC
-	 * @param string $key the private key to be used for generating HMAC. Defaults to null, meaning using {@link validationKey}.
-	 * @return string the HMAC for the data
+	 * Computes the HMAC for the data with {@link getValidationKey validationKey}. This method has been made public
+	 * since 1.1.14.
+	 * @param string $data data to be generated HMAC.
+	 * @param string|null $key the private key to be used for generating HMAC. Defaults to null, meaning using
+	 * {@link validationKey} value.
+	 * @param string|null $hashAlgorithm the name of the hashing algorithm to be used.
+	 * See {@link http://php.net/manual/en/function.hash-algos.php hash-algos} for the list of possible
+	 * hash algorithms. Note that if you are using PHP 5.1.1 or below, you can only use 'sha1' or 'md5'.
+	 * Defaults to null, meaning using {@link hashAlgorithm} value.
+	 * @return string the HMAC for the data.
+	 * @throws CException on unsupported hash algorithm given.
 	 */
-	protected function computeHMAC($data,$key=null)
+	public function computeHMAC($data,$key=null,$hashAlgorithm=null)
 	{
 		if($key===null)
 			$key=$this->getValidationKey();
+		if($hashAlgorithm===null)
+			$hashAlgorithm=$this->hashAlgorithm;
 
 		if(function_exists('hash_hmac'))
-			return hash_hmac($this->hashAlgorithm, $data, $key);
+			return hash_hmac($hashAlgorithm,$data,$key);
 
-		if(!strcasecmp($this->hashAlgorithm,'sha1'))
+		if(0===strcasecmp($hashAlgorithm,'sha1'))
 		{
 			$pack='H40';
 			$func='sha1';
 		}
-		else
+		elseif(0===strcasecmp($hashAlgorithm,'md5'))
 		{
 			$pack='H32';
 			$func='md5';
 		}
-		if($this->strlen($key) > 64)
-			$key=pack($pack, $func($key));
-		if($this->strlen($key) < 64)
-			$key=str_pad($key, 64, chr(0));
+		else
+		{
+			throw new CException(Yii::t('yii','Only SHA1 and MD5 hashing algorithms are supported when using PHP 5.1.1 or below.'));
+		}
+		if($this->strlen($key)>64)
+			$key=pack($pack,$func($key));
+		if($this->strlen($key)<64)
+			$key=str_pad($key,64,chr(0));
 		$key=$this->substr($key,0,64);
 		return $func((str_repeat(chr(0x5C), 64) ^ $key) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ $key) . $data)));
 	}

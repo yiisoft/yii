@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -275,6 +275,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Creates validator objects based on the specification in {@link rules}.
 	 * This method is mainly used internally.
+	 * @throws CException if current class has an invalid validation rule
 	 * @return CList validators built based on {@link rules()}.
 	 */
 	public function createValidators()
@@ -290,7 +291,23 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		}
 		return $validators;
 	}
-
+	
+	/**
+	 * Creates a new validator for the model
+	 * @param string $name the name or class of the validator
+	 * @param mixed $attributes list of attributes to be validated. This can be either an array of
+	 * the attribute names or a string of comma-separated attribute names.
+	 * @param array $params initial values to be applied to the validator properties
+	 * @return CModel allows method chaining
+	 * @since 1.1.14
+	 */
+	public function addValidator($name,$attributes,$params=array())
+	{
+		$validator=CValidator::createValidator($name,$this,$attributes,$params);
+		$this->getValidatorList()->add($validator);
+		return $this;
+	}
+	
 	/**
 	 * Returns a value indicating whether the attribute is required.
 	 * This is determined by checking if the attribute is associated with a

@@ -5,7 +5,7 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -83,7 +83,7 @@ class CMssqlSchema extends CDbSchema
 	 * The sequence will be reset such that the primary key of the next new row inserted
 	 * will have the specified value or 1.
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
+	 * @param integer|null $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
 	 * @since 1.1.6
 	 */
@@ -93,8 +93,9 @@ class CMssqlSchema extends CDbSchema
 		{
 			$db=$this->getDbConnection();
 			if($value===null)
-				$value=$db->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
-			$value=(int)$value;
+				$value=(int)$db->createCommand("SELECT MAX([{$table->primaryKey}]) FROM {$table->rawName}")->queryScalar();
+			else
+				$value=(int)($value)-1;
 			$name=strtr($table->rawName,array('['=>'',']'=>''));
 			$db->createCommand("DBCC CHECKIDENT ('$name', RESEED, $value)")->execute();
 		}

@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -178,6 +178,7 @@ class CFileValidator extends CValidator
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
 	 * @param CUploadedFile $file uploaded file passed to check against a set of rules
+	 * @throws CException if failed to upload the file
 	 */
 	protected function validateFile($object, $attribute, $file)
 	{

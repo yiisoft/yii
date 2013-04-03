@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -241,17 +241,17 @@ class CButtonColumn extends CGridColumn
 			$this->buttons['delete']['click']=<<<EOD
 function() {
 	$confirmation
-	var th=this;
-	var afterDelete=$this->afterDelete;
-	$.fn.yiiGridView.update('{$this->grid->id}', {
-		type:'POST',
-		url:$(this).attr('href'),$csrf
-		success:function(data) {
-			$.fn.yiiGridView.update('{$this->grid->id}');
-			afterDelete(th,true,data);
+	var th = this,
+		afterDelete = $this->afterDelete;
+	jQuery('#{$this->grid->id}').yiiGridView('update', {
+		type: 'POST',
+		url: jQuery(this).attr('href'),$csrf
+		success: function(data) {
+			jQuery('#{$this->grid->id}').yiiGridView('update');
+			afterDelete(th, true, data);
 		},
-		error:function(XHR) {
-			return afterDelete(th,false,XHR);
+		error: function(XHR) {
+			return afterDelete(th, false, XHR);
 		}
 	});
 	return false;
@@ -272,7 +272,7 @@ EOD;
 			{
 				$function=CJavaScript::encode($button['click']);
 				$class=preg_replace('/\s+/','.',$button['options']['class']);
-				$js[]="$(document).on('click','#{$this->grid->id} a.{$class}',$function);";
+				$js[]="jQuery(document).on('click','#{$this->grid->id} a.{$class}',$function);";
 			}
 		}
 

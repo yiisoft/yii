@@ -82,7 +82,7 @@ array(
 このルートでは、レベルが `error` か `warning` のものだけが送信されます。
 
 さらに高度な例として、特定のカテゴリがログに出現するのを抑止する方法を以下に示します
-( Yii 1.1.13 以降で利用可能になった exclude 機能を使います )。
+( Yii 1.1.13 以降で利用可能になった except プロパティを使います )。
 
 ~~~
 [php]
@@ -90,13 +90,13 @@ array(
 		array(
 			'class'=>'CEmailLogRoute',
 			'levels'=>'error, warning',
-			'exclude'=>'system.CModule.*' // CModule のログ以外をすべてメールで送信
+			'except'=>'system.CModule.*' // CModule のログ以外をすべてメールで送信
 			'emails'=>'admin@example.com',
 		),
 		array(
 			'class'=>'CWebLogRoute',
 			'categories'=>'system.db.*',
-			'exclude'=>'system.db.ar.*', // すべてのレベルの db ログを表示 (ただし ar カテゴリは除外)
+			'except'=>'system.db.ar.*', // すべてのレベルの db ログを表示 (ただし ar カテゴリは除外)
 		),
 ~~~
 

@@ -346,5 +346,3 @@ return array(
 ~~~
 
 これで、毎回コマンドラインオプションを入力しなくても、`migrate` コマンドを実行すれば、上記の設定が有効になります。
-
-<div class="revision">$Id$</div>

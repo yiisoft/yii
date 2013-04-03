@@ -1,0 +1,84 @@
+Boas Práticas com MVC
+=====================
+
+Apesar de o padrão de desenvolvimento modelo-visão-controle (MVC) ser conhecido por quase todos os programadores, a maneira apropriada de usá-lo no desenvolvimento de aplicações ainda falta a muitas pessoas. A ideia central por trás do MVC é **reuso de código e separação de conceitos**. Nesta seção, nós descrevemos algumas orientações gerais sobre como seguir melhor o MVC ao desenvolver uma aplicação com o Yii.
+
+Para explicar melhor estas orientações, nós assumimos que uma aplicação Web consiste de algumas sub-aplicações, tais como
+
+* front end: um website público para usuários normais;
+* back end: um website que expõe funcionalidades administrativas para o gerenciamento da aplicação. Ele é geralmente restrito à equipe administrativa;
+* console: uma aplicação que consiste de comandos de console (linha de comando) para serem executados em uma janela de terminal ou como tarefas agendadas para dar suporte à aplicação como um todo;
+* Web API: fornece interfaces para a integração com a aplicação por terceiros.
+
+As sub-aplicações podem ser implementadas em termos de [módulos](/doc/guide/basics.module), ou como aplicações Yii que compartilham código com outras sub-aplicações.
+
+
+Modelo
+------
+
+[Modelos](/doc/guide/basics.model) representam a estrutura de dados que está por trá de uma aplicação Web. Os modelos são geralmente compartilhados por diferentes sub-aplicações de uma aplicação Web. Por exemplo, um modelo `LoginForm` pode ser usado pelo front e pelo back end de uma aplicação; um modelo `News` pode ser usado por comandos de console, APIs Web, pelo front end e pelo back end de uma aplicação. Então, modelos
+
+* devem conter propriedades para representar dados específicos;
+
+* devem conter lógica de negócio (regras de validação, por exemplo), para certificar que os dados representados cumprem as requisições da aplicação;
+
+* pode conter código para manipular dados. Por exemplo, um modelo `SearchForm` além de representar os dados fornecidos para a busca, pode conter um método `search` para implementar a busca real.
+
+Algumas vezes, seguir a última regra pode tornar o modelo muito grande, com código demais em uma só classe. Isto pode também dificultar a manutenção do modelo se o seu código serve a diferentes propósitos. Por exemplo, um modelo `News` pode conter um método chamado `getLatestNews` que é usado somente pelo front end; ele pode também ter um método chamado `getDeletedNews` que é usado somente pelo back end. Isto pode ser adequado para uma aplicação de tamanho pequeno ou médio. Para grandes aplicações, a estratégia a seguir pode ser usada para tornar os modelos mais manuteníveis:
+
+* Definir uma classe de modelo `NewsBase` que contenha apenas o código compartilhado pelas diferentes sub-aplicações (por exemplo, front end e back end);
+
+* Em cada sub-aplicação, definir um modelo `News` que estende de `NewsBase`. Adicione ao modelo `News` todo o código que é específico para a sub-aplicação.
+
+Então, se nós seguirmos esta estratégia no nosso exemplo acima, nós teríamos um modelo `News` na apliação front end que tem somente o método `getLatestNews`e nós vamos adicionara outro modelo `News` na aplicação back end, que vai ter somente o método `getDeletedNews`.
+
+Em geral, os modelos não devem ter lógica que lide diretamente com os usuários. Mais especificamente, os modelos
+
+* não devem usar `$_GET`, `$_POST` ou outras variáveis similares que estão diretamente ligadas à requisição do usuário. Lembre-se que um modelo pode ser usado por uma sub-aplicação totalmente diferente (por exemplo, testes unitários ou API Web) que podem não usar estas variáveis para representar requisições de usuários. Estas variáveis pertencentes à requisição do usuário devem ser tratadas pelo controle.
+
+* devem evitar conter HTML ou outro código para a representação dos dados. Como este código para a representação dos dados variará de acordo com os requisitos do usuário (por exemplo, no front end e no back end os detalhes de um modelo -- uma notícia no nosso exemplo -- podem ser representados de maneiras totalmente diferentes), ele será melhor tratado pelas visões.
+
+
+Visão
+-----
+
+[Visões](/doc/guide/basics.view) são responsáveis pela representação dos modelos no formato que os usuários desejam. Em geral, visões
+
+* devem conter principalmente código para a representação dos dados, como HTML, e código PHP simples para iterar, formatar e renderizar os dados;
+
+* devem evitar conter código que faça consultas explícitas ao banco de dados. Este código é mais apropriado para os modelos;
+
+* devem evitar o acesso direto a `$_GET`, `$_POST` ou outras variáveis similares que representam a requisição do usuário. Isto é um trabalho para o controle. A visão deve ser focada na exibição e no layout dos dados fornecidos a ela pelo controle e/ou pelo modelo, e não tentar acessar diretamente as variáveis da requisição ou o banco de dados;
+
+* pode acessar propriedades e métodos de controles e modelos diretamente. Porém, isto deve ser feito somentenly com o objetivo de exibição dos dados.
+
+
+Visões podem ser reutilizadas de maneiras diferentes:
+
+* Layout: áreas de exibição comuns (por exemplo, o cabeçalho e o rodapé da página) podem ser postas em uma visão de layout.
+
+* Visões parciais: use visões parciais (visões que não são envolvidas por layouts) para reutilizar fragmentos de código de representação de dados. Por exemplo, nós usamos a visão parcial `_form.php` para exibir o formulário de entrada de dados do modelo que é usado nas páginas de criação e edição de modelos.
+
+* Widgets: se muita lógica é necessária para representar uma visão parcial, esta pode ser transformada em um widget, cuja classe é o melhor lugar para conter esta lógica. Para widgets que geram muito markup em HTML, é melhor usar visões específicas do widget para conter o markup.
+
+* Classes auxiliares: nas visões nós precisamos com frequência de fragmentos de código para fazer pequenas tarefas como a formatação de dados ou a geração de tags HTML. Invés de deixar este código diretamente nos arquivos das visões, uma abordagem melhor é deixar todo este código em uma classe auxiliar para as visões. Então, é só usar a classe auxiliar nas suas visões. O Yii fornece um exemplo desta abordagem. O Yii tem a poderosa classe auxiliar [CHtml] que pode produzir código HTML comumente usado. As classes auxiliares podem ser postas em um [diretório auto carregável](/doc/guide/basics.namespace) para que elas possam ser usadas sem uma inclusão explícita da classe.
+
+
+Controle
+--------
+
+[Controles](/doc/guide/basics.controller) são a cola que une modelos, visões e outros componentes em uma aplicação executável. Controles são responsáveis por lidar diretamente com as requisições dos usuários. Então, controles
+
+* podem acessar `$_GET`, `$_POST` e outras variáveis do PHP que representam requisições dos usuários;
+
+* podem criar instâncias de modelos e gerenciar os seus ciclos de vida. Por exemplo, em uma típica ação de edição de um modelo, o controle pode primeiro criar a instância do modelo, preencher os atributos do modelo com os dados enviados do usuário a partir dos dados na variável `$_POST` e, depois de salvar o modelo com sucesso, o controle pode redirecionar o navegador do usuário para a página de detalhes do modelo. Note que a implementação de fato do salvamento do modelo deve estar localizada no modelo invés de no controle.
+
+* deve evitar conter comandos SQL, que são melhor contidos em modelos;
+
+* deve evitar conter HTML ou qualquer outros markup com fins de representação de dados. Isto é melhor mantido nas visões.
+
+
+Em uma aplicação MVC bem projetda, os controles são geralmente bem "magros", contendo provavelmente apenas algumas dúzias de linhas de código; enquanto os modelos são bem "gordos", com a maior parte do código responsável por representar e manipular os dados. Isto acontece porque a estrutura de dados e a lógica de negócios representadas pelos modelos são tipicamente muito específicas para a aplicação em particular, e precisam ser profundamente personalizadas para atender às requisições específicas da aplicação; enquanto a lógica dos controles comumente seguem um padrão similar em várias aplicações e então podem ser simplificadas pelo framework ou pelas classes base.
+
+
+<div class="revision">$Id$</div>

@@ -23,5 +23,3 @@
 -----------
 - Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
 - Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))
-
-<div class="revision">$Id: start.overview.txt 3463 2011-11-25 19:22:38Z alexander.makarow $</div>

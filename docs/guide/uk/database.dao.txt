@@ -202,5 +202,3 @@ Yii забезпечує вбудовану підтримку префіксі�
 $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
-
-<div class="revision">$Id$</div>

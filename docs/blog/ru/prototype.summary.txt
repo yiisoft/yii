@@ -23,5 +23,3 @@
 определяются [связи](/doc/guide/ru/database.arr#declaring-relationship).
 Затем изменяется код [действия контроллера](/doc/guide/ru/basics.controller) и
 [представления](/doc/guide/ru/basics.view) для каждой отдельной операции CRUD.
-
-<div class="revision">$Id: prototype.summary.txt 2333 2010-08-24 21:11:55Z mdomba $</div>

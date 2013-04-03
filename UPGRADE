@@ -1,4 +1,4 @@
-         Upgrading Instructions for Yii Framework v1.1.13
+         Upgrading Instructions for Yii Framework v1.1.14
          ================================================
 
 !!!IMPORTANT!!!
@@ -17,8 +17,46 @@ General upgrade instructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
+Upgrading from v1.1.13
+----------------------
+
+- CActiveRecord::count() now respects group by and having. If your code relied
+  on ignoring it your application may break and should be updated.
+
+- Vendors: phlymail's Net_IDNA was replaced by PEAR Net_IDNA2. The latter library is better maintained than the former.
+  In case your code relies on bundled phlymail's Net_IDNA you should change it a bit. Old way of encoding IDNs:
+
+      require_once(Yii::getPathOfAlias('system.vendors.idna_convert').DIRECTORY_SEPARATOR.'idna_convert.class.php');
+      $idnaConvert=new idna_convert();
+      $result=$idnaConvert->encode($value);
+
+  New:
+
+      require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
+      $idna=new Net_IDNA2();
+      $result=$idna->encode($value);
+
+- CAPTCHA appearance has been changed. Non-free Duality.ttf font (used by CCaptchaAction) replaced by open/free
+  SpicyRice.ttf. New font is distributed under SIL Open Font License version 1.1. Do not forget to adjust font path
+  in case your application relies on Duality.ttf font file.
+
+- CSecurityManager::computeHMAC() method is now public and third parameter has been added. You must change signature
+  of this method in the extended child class to fit new circumstances. Otherwise an E_STRICT error will be issued.
+
 Upgrading from v1.1.12
 ----------------------
+- Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)
+  and [jQuery release notes](http://blog.jquery.com/2012/08/09/jquery-1-8-released/).
+
+- We completed the behavior of CFormatter::sizeFormat() which has been introduced in Yii 1.1.11. If you are using it with your own translation file
+  you have to move your translations to the `yii` category in `yii.php` file  which is handled by the application component `coreMessages`.
+  We also fixed the default translation strings to be correct English and apply to choice format, so you have to adjust your translation file keys.
+
+- Be sure to clean all your existing cache during the upgrade. The cache values from CDbCommand has been
+  changed to an array to be able to store false values (returned when no records are found).
+
+- Make sure all your event handlers in behaviors are public methods, as we are not supporting protected methods as event handlers anymore.
+
 - We fixed the calls to CActiveRecord::beforeFind() for consistency so that beforeFind() now always gets called for every relation
   on eager loading even if the main query does not return a result. This has been the case for all CActiveRecord::find*()-methods
   already but now also applies for findBySql() and findAllBySql().
@@ -26,7 +64,7 @@ Upgrading from v1.1.12
 - Criteria modification in CActiveRecord::beforeFind() did not apply to the query when model was loaded in a relational context.
   Since version 1.1.13 changes to query criteria made in beforeFind() now also apply to the query when model is loaded in a relational context.
   The main problem here is that you can not use the `t`-alias for your table anymore, you have to change your code to
-  use the table alias currently in use as this it different in relational context.
+  use the table alias currently in use as this is different in relational context.
   You can get that alias by calling `$this->getTableAlias();` in your active record class
   or `$this->owner->getTableAlias()` in behavior context.
 
@@ -35,6 +73,10 @@ Upgrading from v1.1.12
   You need to change that to:
      $alias = $this->owner->getTableAlias();
      $criteria->condition = $alias.'.myfield = 1';
+
+- Make sure you are using `CCaptcha::checkRequirements()` method for checking whether CAPTCHA could be rendered successfully in your environment.
+  `extension_loaded('gd')` expression is not enough and wrong because CAPTCHA could be rendered via ImageMagick with fallback to GD since 1.1.13
+  (thus checking code is not simple as it seems).
 
 Upgrading from v1.1.11
 ----------------------

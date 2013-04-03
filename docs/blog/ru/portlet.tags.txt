@@ -66,5 +66,3 @@ class TagCloud extends CPortlet
 </div>
 …
 ~~~
-
-<div class="revision">$Id: portlet.tags.txt 1772 2010-02-01 18:18:09Z qiang.xue $</div>

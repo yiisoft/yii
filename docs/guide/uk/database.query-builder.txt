@@ -723,7 +723,7 @@ function createIndex($name, $table, $column, $unique=false)
 ~~~
 [php]
 // CREATE INDEX `idx_username` ON `tbl_user` (`username`)
-createIndex('idx_username', 'tbl_user')
+createIndex('idx_username', 'tbl_user', 'username')
 ~~~
 
 
@@ -743,5 +743,3 @@ function dropIndex($name, $table)
 // DROP INDEX `idx_username` ON `tbl_user`
 dropIndex('idx_username', 'tbl_user')
 ~~~
-
-<div class="revision">$Id$</div>

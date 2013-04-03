@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -138,7 +138,7 @@ class CWsdlGenerator extends CComponent
 		if($this->serviceName===null)
 			$this->serviceName=$className;
 		if($this->namespace===null)
-			$this->namespace="urn:{$className}wsdl";
+			$this->namespace='urn:'.str_replace('\\','/',$className).'wsdl';
 
 		$reflection=new ReflectionClass($className);
 		foreach($reflection->getMethods() as $method)
@@ -150,7 +150,7 @@ class CWsdlGenerator extends CComponent
 		return $this->buildDOM($serviceUrl,$encoding)->saveXML();
 	}
 
-	/*
+	/**
 	 * @param ReflectionMethod $method method
 	 */
 	protected function processMethod($method)
@@ -185,7 +185,7 @@ class CWsdlGenerator extends CComponent
 		$this->operations[$methodName]=$doc;
 	}
 
-	/*
+	/**
 	 * @param string $type PHP variable type
 	 */
 	protected function processType($type)
@@ -246,7 +246,7 @@ class CWsdlGenerator extends CComponent
 		}
 	}
 
-	/*
+	/**
 	 * @param string $serviceUrl Web service URL
 	 * @param string $encoding encoding of the WSDL. Defaults to 'UTF-8'.
 	 */
@@ -274,7 +274,7 @@ class CWsdlGenerator extends CComponent
 		return $dom;
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
 	protected function addTypes($dom)
@@ -337,7 +337,7 @@ class CWsdlGenerator extends CComponent
 		$dom->documentElement->appendChild($types);
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
 	protected function addMessages($dom)
@@ -360,7 +360,7 @@ class CWsdlGenerator extends CComponent
 		}
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
 	protected function addPortTypes($dom)
@@ -372,7 +372,7 @@ class CWsdlGenerator extends CComponent
 			$portType->appendChild($this->createPortElement($dom,$name,$doc));
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $name method name
 	 * @param string $doc doc
@@ -394,7 +394,7 @@ class CWsdlGenerator extends CComponent
 		return $operation;
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
 	protected function addBindings($dom)
@@ -414,7 +414,7 @@ class CWsdlGenerator extends CComponent
 			$binding->appendChild($this->createOperationElement($dom,$name));
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $name method name
 	 */
@@ -443,7 +443,7 @@ class CWsdlGenerator extends CComponent
 		return $operation;
 	}
 
-	/*
+	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $serviceUrl Web service URL
 	 */

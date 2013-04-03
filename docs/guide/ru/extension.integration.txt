@@ -82,5 +82,3 @@ Yii::createWebApplication('путь/к/config.php');
 возможностей Yii. Например, для получения доступа к экземпляру приложения
 можно использовать `Yii::app()`. Также можно использовать DAO, ActiveRecord
 модели, валидацию и т.д.
-
-<div class="revision">$Id: extension.integration.txt 3431 2011-11-03 00:53:44Z alexander.makarow@gmail.com $</div>

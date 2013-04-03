@@ -86,5 +86,3 @@ return array(
  3. Отредактируйте файл точки входа `index.php`, указав в переменной `$yii` путь к файлу начальной загрузки Yii;
  4. Отредактируйте файл `protected/yiic.php`, указав в переменной `$yiic` путь к новому файлу `yiic.php`;
  5. Измените права директорий `assets` и `protected/runtime` так, чтобы они имели доступ на перезапись процессом Web-сервера.
-
-<div class="revision">$Id: final.deployment.txt 2017 2010-04-05 17:12:13Z alexander.makarow $</div>

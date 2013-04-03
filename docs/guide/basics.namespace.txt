@@ -142,9 +142,15 @@ Namespaced Controllers
 ----------------------
 
 By default Yii uses controllers from the global namespace. These classes are
-located under `protected/controllers`. To change this behavior you can configure
-`controllerMap` property of your application. The best way to do it is to use the
-configuration file (`protected/config/main.php`):
+located under `protected/controllers`. You can change this behavior in two
+different ways: using `controllerMap` and using `controllerNamespace`. The former
+allows you to use controllers from various namespaces. The latter requires less
+configuration while setting a common namespace for all controllers.
+
+### Using `controllerMap`
+
+The best way to change controller map is to use the configuration file
+(`protected/config/main.php`):
 
 ~~~
 [php]
@@ -183,6 +189,12 @@ class TestController extends \CController
 	}
 }
 ~~~
+
+
+### Using `controllerNamespace`
+
+Since application is the module itself, you can use `controllerNamespace` property
+in the same way as described in "Namespaced Modules" below.
 
 Namespaced Modules
 ------------------

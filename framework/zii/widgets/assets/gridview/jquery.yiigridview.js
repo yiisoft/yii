@@ -3,7 +3,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -76,6 +76,8 @@
 				settings.updateSelector = settings.updateSelector
 								.replace('{page}', pagerSelector)
 								.replace('{sort}', sortSelector);
+				settings.filterSelector = settings.filterSelector
+								.replace('{filter}', inputSelector);
 
 				gridSettings[id] = settings;
 
@@ -85,7 +87,7 @@
 						if (settings.enableHistory && window.History.enabled) {
 							// Ajaxify this link
 							var url = $(this).attr('href').split('?'),
-								params = $.deparam.querystring('?'+url[1]);
+								params = $.deparam.querystring('?'+ (url[1] || ''));
 
 							delete params[settings.ajaxVar];
 							window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
@@ -96,7 +98,7 @@
 					});
 				}
 
-				$(document).on('change.yiiGridView keydown.yiiGridView', inputSelector, function (event) {
+				$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
 					if (event.type === 'keydown') {
 						if( event.keyCode !== 13) {
 							return; // only react to enter key
@@ -110,7 +112,7 @@
 							return;
 						}
 					}
-					var data = $(inputSelector).serialize();
+					var data = $(settings.filterSelector).serialize();
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
 					}
@@ -366,6 +368,7 @@
 			});
 			return checked;
 		}
+		
 	};
 
 	$.fn.yiiGridView = function (method) {

@@ -467,7 +467,7 @@ To use this view script, we can simply call:
 ~~~
 [php]
 <div class="form">
-$this->renderPartial('_form', array('form'=>$form));
+<?php $this->renderPartial('_form', array('form'=>$form)); ?>
 </div>
 ~~~
 
