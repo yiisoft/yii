@@ -78,9 +78,10 @@ class CNumberValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if(is_array($value))
+		if(!is_numeric($value))
 		{
 			// https://github.com/yiisoft/yii/issues/1955
+			// https://github.com/yiisoft/yii/issues/1669
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
 			$this->addError($object,$attribute,$message);
 			return;
