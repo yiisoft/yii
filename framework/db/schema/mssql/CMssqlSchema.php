@@ -24,20 +24,20 @@ class CMssqlSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'int IDENTITY PRIMARY KEY',
-        'string' => 'varchar(255)',
-        'text' => 'text',
-        'integer' => 'int',
-        'float' => 'float',
-        'decimal' => 'decimal',
-        'datetime' => 'datetime',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'binary',
-        'boolean' => 'bit',
-    );
+	public $columnTypes=array(
+		'pk' => 'int IDENTITY PRIMARY KEY',
+		'string' => 'varchar(255)',
+		'text' => 'text',
+		'integer' => 'int',
+		'float' => 'float',
+		'decimal' => 'decimal',
+		'datetime' => 'datetime',
+		'timestamp' => 'timestamp',
+		'time' => 'time',
+		'date' => 'date',
+		'binary' => 'binary',
+		'boolean' => 'bit',
+	);
 
 	/**
 	 * Quotes a table name for use in a query.
@@ -191,13 +191,13 @@ class CMssqlSchema extends CDbSchema
 
 		$sql = <<<EOD
 		SELECT k.column_name field_name
-			FROM {$this->quoteTableName($kcu)} k
-		    LEFT JOIN {$this->quoteTableName($tc)} c
-		      ON k.table_name = c.table_name
-		     AND k.constraint_name = c.constraint_name
-		   WHERE c.constraint_type ='PRIMARY KEY'
-		   	    AND k.table_name = :table
-				AND k.table_schema = :schema
+		FROM {$this->quoteTableName($kcu)} k
+		LEFT JOIN {$this->quoteTableName($tc)} c
+		ON k.table_name = c.table_name
+			AND k.constraint_name = c.constraint_name
+		WHERE c.constraint_type ='PRIMARY KEY'
+			AND k.table_name = :table
+			AND k.table_schema = :schema
 EOD;
 		$command = $this->getDbConnection()->createCommand($sql);
 		$command->bindValue(':table', $table->name);
