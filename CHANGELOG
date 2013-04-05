@@ -3,6 +3,7 @@
 
 Version 1.1.14 work in progress
 -------------------------------
+- Enh #172: One ActiveRecord class => multiple tables / Model "Factory" / Model cache function extension.
 - Bug #135: Fixed wrong CActiveRecord rows count with having (klimov-paul)
 - Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
