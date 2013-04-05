@@ -354,7 +354,7 @@ EOD;
 		else
 			$condition="TABLE_TYPE='BASE TABLE'";
 		$sql=<<<EOD
-SELECT TABLE_NAME, TABLE_SCHEMA FROM [INFORMATION_SCHEMA].[TABLES]
+SELECT TABLE_NAME FROM [INFORMATION_SCHEMA].[TABLES]
 WHERE TABLE_SCHEMA=:schema AND $condition
 EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
@@ -366,7 +366,7 @@ EOD;
 			if ($schema == self::DEFAULT_SCHEMA)
 				$names[]=$row['TABLE_NAME'];
 			else
-				$names[]=$schema.'.'.$row['TABLE_SCHEMA'].'.'.$row['TABLE_NAME'];
+				$names[]=$schema.'.'.$row['TABLE_NAME'];
 		}
 
 		return $names;
