@@ -293,8 +293,13 @@ class ModelCode extends CCodeModel
 	{
 		if(!$this->buildRelations)
 			return array();
+
+		$schemaName='';
+		if(($pos=strpos($this->tableName,'.'))!==false)
+			$schemaName=substr($this->tableName,0,$pos);
+
 		$relations=array();
-		foreach(Yii::app()->{$this->connectionId}->schema->getTables() as $table)
+		foreach(Yii::app()->{$this->connectionId}->schema->getTables($schemaName) as $table)
 		{
 			if($this->tablePrefix!='' && strpos($table->name,$this->tablePrefix)!==0)
 				continue;
@@ -373,6 +378,8 @@ class ModelCode extends CCodeModel
 			return $this->modelClass;
 
 		$tableName=$this->removePrefix($tableName,false);
+		if(($pos=strpos($tableName,'.'))!==false) // remove schema part (e.g. remove 'public2.' from 'public2.post')
+			$tableName=substr($tableName,$pos+1);
 		$className='';
 		foreach(explode('_',$tableName) as $name)
 		{
