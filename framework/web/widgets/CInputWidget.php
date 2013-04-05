@@ -57,7 +57,7 @@ abstract class CInputWidget extends CWidget
 		elseif($this->hasModel())
 			$name=CHtml::activeName($this->model,$this->attribute);
 		else
-			throw new CException(Yii::t('yii','{class} must specify "model" and "attribute" or "name" property values.',array('{class}'=>get_class($this))));
+			throw new CException(Yii::t('yii','{class} must specify "model" and "attribute" or "name" property values.',array('{class}'=>($this->getClassName()))));
 
 		if(($id=$this->getId(false))===null)
 		{

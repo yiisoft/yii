@@ -75,7 +75,7 @@ class CActiveDataProvider extends CDataProvider
 		}
 		elseif($modelClass instanceof CActiveRecord)
 		{
-			$this->modelClass=get_class($modelClass);
+			$this->modelClass=($modelClass->getClassName());
 			$this->model=$modelClass;
 		}
 		$this->setId($this->modelClass);
