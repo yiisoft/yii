@@ -24,7 +24,7 @@ class CSqliteColumnSchema extends CDbColumnSchema
 	 */
 	protected function extractDefault($defaultValue)
 	{
-		if ($this->dbType==='timestamp' && $defaultValue==='CURRENT_TIMESTAMP')
+		if($this->dbType==='timestamp' && $defaultValue==='CURRENT_TIMESTAMP')
 			$this->defaultValue=null;
 		else
 			$this->defaultValue=$this->typecast(strcasecmp($defaultValue,'null') ? $defaultValue : null);
