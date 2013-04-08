@@ -87,6 +87,14 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	}
 
 	/**
+	 * @see CCacheDependencyTest
+	 */
+	public static function resetReusableData()
+	{
+		self::$_reusableData=array();
+	}
+
+	/**
 	 * Generates the data needed to determine if dependency has been changed.
 	 * Derived classes should override this method to generate actual dependent data.
 	 * @return mixed the data needed to determine if dependency has been changed.
