@@ -3,102 +3,65 @@ Yii::import('system.caching.dependencies.CFileCacheDependency');
 
 class CCacheDependencyTest extends CTestCase
 {
-	public function testReusable()
-	{
-		$tempFile=dirname(__FILE__).'/../../runtime/foo.txt';
-		@unlink($tempFile);
-		$fw=fopen($tempFile,"w");
-		fwrite($fw,"test");
-		fclose($fw);
-		clearstatcache();
-		$dependency = new MockFileCacheDependency($tempFile);
-		$dependency->reuseDependentData = true;
-		$dependency->evaluateDependency();
-		$this->assertEquals(1,MockFileCacheDependency::$generateDependentDataCalled);
-		// change file
-		$fw=fopen($tempFile,"w");
-		fwrite($fw,"test again");
-		fclose($fw);
-		clearstatcache();
-		$this->assertFalse($dependency->getHasChanged());
-		$this->assertEquals(1,MockFileCacheDependency::$generateDependentDataCalled);
-		$dependency2 = new MockDirectoryCacheDependency(dirname($tempFile));
-		$dependency2->reuseDependentData = true;
-		// change file
-		$fw=fopen($tempFile,"w");
-		fwrite($fw,"test again");
-		fclose($fw);
-		clearstatcache();
-		$this->assertTrue($dependency2->getHasChanged());
-		$this->assertEquals(1,MockDirectoryCacheDependency::$generateDependentDataCalled);
-		$dependency3 = new MockDirectoryCacheDependency(dirname($tempFile));
-		$dependency3->reuseDependentData = true;
-		$dependency3->evaluateDependency();
-		// Behavior is slightly modified after patching CCacheDependency, but in my opinion, correctly.
-		//
-		// Before: after calling evaluateDependency(), hasChanged() would keep returning 'true',
-		// as $_reusableData' also stored the result of the comparison.
-		//
-		// Now: since the dependency data is always compared to the stored value in $_reusableData, after calling evaluateDependency(),
-		// hasChanged() will return 'false'.
-		//$this->assertTrue($dependency3->getHasChanged());
-		$this->assertFalse($dependency3->getHasChanged());
-		$this->assertEquals(1,MockDirectoryCacheDependency::$generateDependentDataCalled);
-	}
+    protected $_cacheDependentData=null;
 
-	/**
-	 * @note This test requires CCacheDependency::$_reusableData to be made public.
-	 */
-	public function testReusableWithStoredDependencies()
-	{
-		$stateName = 'test';
-		$storedValue = 500;
-		Yii::app()->setGlobalState($stateName, $storedValue);
-		$dependency = new CGlobalStateCacheDependency($stateName);
-		$dependency->reuseDependentData = true;
+    public function setCacheDependentData($cacheDependentData)
+    {
+        $this->_cacheDependentData = $cacheDependentData;
+    }
 
-		$fileCache = new CFileCache;
-		$fileCache->set('foo', $storedValue, 0, $dependency);
-		$fileCache->set('bar', $storedValue, 0, $dependency);
+    public function getCacheDependentData()
+    {
+        return $this->_cacheDependentData;
+    }
 
-		$this->assertTrue($fileCache->get('foo')==$storedValue);
+    public function testReuseDependentData()
+    {
+        MockCacheDependency::$generateDependentDataCallback=array($this,'getCacheDependentData');
+        $dependency1=new MockCacheDependency();
+        $dependency1->reuseDependentData = true;
+        $dependency2=new MockCacheDependency();
+        $dependency2->reuseDependentData = true;
 
-		/** NEW REQUEST **/
-		CGlobalStateCacheDependency::$_reusableData=array();	// reset $_reusableData
+        CCacheDependency::resetReusableData();
+        $this->setCacheDependentData('start');
+        $dependency1->evaluateDependency();
+        $dependency2->evaluateDependency();
+        $this->assertFalse($dependency1->getHasChanged(),'Initial dependency1 changed!');
+        $this->assertFalse($dependency2->getHasChanged(),'Initial dependency2 changed!');
+        $this->assertEquals(1,MockCacheDependency::$generateDependentDataCalled,'Extra invokations of "generateDependentData()"!');
 
-		Yii::app()->setGlobalState($stateName, $storedValue+1);	// changing state should invalidate cache
+        // New request:
+        CCacheDependency::resetReusableData();
+        MockCacheDependency::$generateDependentDataCalled=0;
+        $this->assertFalse($dependency1->getHasChanged(),'Dependency1 changed for new request!');
+        $this->assertFalse($dependency2->getHasChanged(),'Dependency2 changed for new request!');
+        $this->assertEquals(1,MockCacheDependency::$generateDependentDataCalled,'Extra invokations of "generateDependentData()"!');
 
-		$this->assertFalse($fileCache->get('foo'));
-		$fileCache->set('foo', $storedValue+1, 0, $dependency);	// update cache with new value
+        // New request:
+        CCacheDependency::resetReusableData();
+        MockCacheDependency::$generateDependentDataCalled=0;
+        $this->setCacheDependentData('change1');
+        $this->assertTrue($dependency1->getHasChanged(),'Dependency1 is not changed after source change!');
+        $dependency1->evaluateDependency();
 
-		/** NEW REQUEST **/
-		CGlobalStateCacheDependency::$_reusableData=array();	// reset $_reusableData
-
-		$this->assertTrue($fileCache->get('foo')==$storedValue+1);
-		$this->assertFalse($fileCache->get('bar'));				// this should be invalidated
-	}
+        // New request:
+        CCacheDependency::resetReusableData();
+        MockCacheDependency::$generateDependentDataCalled=0;
+        $this->assertFalse($dependency1->getHasChanged(),'Dependency1 has been changed!');
+        $this->assertTrue($dependency2->getHasChanged(),'Dependency2 has not been changed!');
+        $this->assertEquals(1,MockCacheDependency::$generateDependentDataCalled,'Extra invokations of "generateDependentData()"!');
+    }
 }
 
-class MockFileCacheDependency extends CFileCacheDependency
+class MockCacheDependency extends CCacheDependency
 {
-	public static $generateDependentDataCalled = 0;
+    public static $generateDependentDataCallback;
+    public static $generateDependentDataCalled = 0;
 
-	public function generateDependentData()
-	{
-		self::$generateDependentDataCalled++;
-		return parent::generateDependentData();
-	}
-
-}
-
-class MockDirectoryCacheDependency extends CDirectoryCacheDependency
-{
-	public static $generateDependentDataCalled = 0;
-
-	public function generateDependentData()
-	{
-		self::$generateDependentDataCalled++;
-		return parent::generateDependentData();
-	}
-
+    public function generateDependentData()
+    {
+        self::$generateDependentDataCalled++;
+        return call_user_func(self::$generateDependentDataCallback);
+    }
 }
