@@ -38,7 +38,7 @@ class Document extends CComponent
 class Document extends CComponent
 {
     private $_textWidth;
-    protected $_readOnly=false;
+    protected $_completed=false;
 
     public function getTextWidth()
     {
@@ -55,9 +55,9 @@ class Document extends CComponent
         // розраховує та повертає висоту тексту
     }
 
-    public function setReadOnly($value)
+    public function setCompleted($value)
     {
-        $this->_readOnly=$value;
+        $this->_completed=$value;
     }
 }
 ~~~
@@ -75,8 +75,8 @@ echo $document->textWidth;
 // ми можемо тільки читати textHeight
 echo $document->textHeight;
 
-// ми можемо тільки писати readOnly
-$document->readOnly=true;
+// ми можемо тільки писати completed
+$document->completed=true;
 ~~~
 
 При спробі прочитати властивість компонента і властивість не визначена, 
