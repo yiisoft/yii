@@ -399,7 +399,10 @@ abstract class CActiveRecord extends CModel
 	{
 		$className=get_class($this);
 		if(!array_key_exists($className,self::$_md))
+		{
+			self::$_md[$className]=null; // preventing recursive invokes of {@link getMetaData()} via {@link __get()}
 			self::$_md[$className]=new CActiveRecordMetaData($this);
+		}
 		return self::$_md[$className];
 	}
 
