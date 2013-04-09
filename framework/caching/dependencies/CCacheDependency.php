@@ -87,7 +87,8 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	}
 
 	/**
-	 * @see CCacheDependencyTest
+	 * Resets cached data for reusable dependencies.
+	 * @since 1.1.14
 	 */
 	public static function resetReusableData()
 	{
