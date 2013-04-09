@@ -64,6 +64,9 @@
 		"irc": "irc://irc.freenode.net/yii",
 		"source": "https://github.com/yiisoft/yii"
 	},
+    "bin": [
+        "framework/yiic"
+    ],
 	"require": {
 		"php": ">=5.1.0"
 	}
