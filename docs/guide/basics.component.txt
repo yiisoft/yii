@@ -39,7 +39,7 @@ to normal properties you can declare a read only or write only property.
 class Document extends CComponent
 {
     private $_textWidth;
-    protected $_readOnly=false;
+    protected $_completed=false;
 
     public function getTextWidth()
     {
@@ -56,9 +56,9 @@ class Document extends CComponent
         // calculates and returns text height
     }
 
-    public function setReadOnly($value)
+    public function setCompleted($value)
     {
-        $this->_readOnly=$value;
+        $this->_completed=$value;
     }
 }
 ~~~
@@ -76,8 +76,8 @@ echo $document->textWidth;
 // we can only read textHeight
 echo $document->textHeight;
 
-// we can only write readOnly
-$document->readOnly=true;
+// we can only write completed
+$document->completed=true;
 ~~~
 
 When trying to read a component property and the property isn't defined as a
