@@ -37,7 +37,7 @@ class Document extends CComponent
 class Document extends CComponent
 {
     private $_textWidth;
-    protected $_readOnly=false;
+    protected $_completed=false;
 
     public function getTextWidth()
     {
@@ -54,9 +54,9 @@ class Document extends CComponent
         // テキストの高さを計算して返す
     }
 
-    public function setReadOnly($value)
+    public function setCompleted($value)
     {
-        $this->_readOnly=$value;
+        $this->_completed=$value;
     }
 }
 ~~~
@@ -74,21 +74,8 @@ echo $document->textWidth;
 // テキストの高さは読み出すことしか出来ない
 echo $document->textHeight;
 
-// 読み取り専用プロパティは設定することしかできない
+// 完了フラグは設定することしかできない
 $document->readOnly=true;
-~~~
-
-~~~
-[php]
-public function getTextWidth()
-{
-    return $this->_textWidth;
-}
-
-public function setTextWidth($value)
-{
-    $this->_textWidth=$value;
-}
 ~~~
 
 コンポーネントのプロパティを読み出そうとするとき、そのプロパティがパブリックなクラスメンバとして定義されていない場合には、
