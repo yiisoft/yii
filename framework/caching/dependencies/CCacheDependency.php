@@ -53,7 +53,7 @@ class CCacheDependency extends CComponent implements ICacheDependency
 		if ($this->reuseDependentData)
 		{
 			$hash=$this->getHash();
-			if (!isset(self::$_reusableData[$hash]['dependentData']))
+			if(!isset(self::$_reusableData[$hash]['dependentData']))
 				self::$_reusableData[$hash]['dependentData']=$this->generateDependentData();
 			$this->_data=self::$_reusableData[$hash]['dependentData'];
 		}
@@ -69,7 +69,7 @@ class CCacheDependency extends CComponent implements ICacheDependency
 		if ($this->reuseDependentData)
 		{
 			$hash=$this->getHash();
-			if (!isset(self::$_reusableData[$hash]['dependentData']))
+			if(!isset(self::$_reusableData[$hash]['dependentData']))
 				self::$_reusableData[$hash]['dependentData']=$this->generateDependentData();
 			return self::$_reusableData[$hash]['dependentData']!=$this->_data;
 		}
