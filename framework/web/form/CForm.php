@@ -115,6 +115,15 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public $showErrorSummary=false;
 	/**
+	 * @var boolean whether error elements of the form attributes should be rendered. Defaults to null meaning
+	 * that {@link $showErrorSummary} will be negated and used as the value. This is done mainly to keep backward
+	 * compatibility with existing applications. If you want to use error summary with AJAX and/or client validation
+	 * you have to set this property to the true value (recall that {@link CActiveForm::error()} should be called
+	 * for each attribute that is going to be AJAX and/or client validated).
+	 * @since 1.1.14
+	 */
+	public $showErrors;
+	/**
 	 * @var array the configuration used to create the active form widget.
 	 * The widget will be used to render the form tag and the error messages.
 	 * The 'class' option is required, which specifies the class of the widget.
@@ -149,6 +158,8 @@ class CForm extends CFormElement implements ArrayAccess
 		if($parent===null)
 			$parent=Yii::app()->getController();
 		parent::__construct($config,$parent);
+		if($this->showErrors===null)
+			$this->showErrors=!$this->showErrorSummary;
 		$this->init();
 	}
 

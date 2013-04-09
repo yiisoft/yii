@@ -59,6 +59,7 @@ Version 1.1.14 work in progress
 - Enh #2135: MessageCommand can now handles Yii::t() messages with files in subfolders (firsyura)
 - Enh #2205: CActiveForm::error() now depends on CHtml::$errorContainerTag (malyshev)
 - Enh #2217: Support of the empty option for CHtml::radioButtonList() has been introduced (resurtm)
+- Enh #2254: CForm::$showErrors property has been added, it controls whether error elements of the form attributes should be rendered (resurtm)
 - Enh #2259: Allow creation of new validators on the fly (gusnips)
 - Chg: Upgraded HTMLPurifier to v4.5.0 (samdark)
 - Chg #645: CDbConnection now throws CDbException when failed to open DB connection instead of failing with a warning (kidol, eirikhm, samdark, cebe)
