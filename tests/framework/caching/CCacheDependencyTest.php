@@ -23,7 +23,7 @@ class CCacheDependencyTest extends CTestCase
         $dependency2=new MockCacheDependency();
         $dependency2->reuseDependentData = true;
 
-        MockCacheDependency::resetReusableData();
+        CCacheDependency::resetReusableData();
         $this->setCacheDependentData('start');
         $dependency1->evaluateDependency();
         $dependency2->evaluateDependency();
@@ -32,21 +32,21 @@ class CCacheDependencyTest extends CTestCase
         $this->assertEquals(1,MockCacheDependency::$generateDependentDataCalled,'Extra invokations of "generateDependentData()"!');
 
         // New request:
-        MockCacheDependency::resetReusableData();
+        CCacheDependency::resetReusableData();
         MockCacheDependency::$generateDependentDataCalled=0;
         $this->assertFalse($dependency1->getHasChanged(),'Dependency1 changed for new request!');
         $this->assertFalse($dependency2->getHasChanged(),'Dependency2 changed for new request!');
         $this->assertEquals(1,MockCacheDependency::$generateDependentDataCalled,'Extra invokations of "generateDependentData()"!');
 
         // New request:
-        MockCacheDependency::resetReusableData();
+        CCacheDependency::resetReusableData();
         MockCacheDependency::$generateDependentDataCalled=0;
         $this->setCacheDependentData('change1');
         $this->assertTrue($dependency1->getHasChanged(),'Dependency1 is not changed after source change!');
         $dependency1->evaluateDependency();
 
         // New request:
-        MockCacheDependency::resetReusableData();
+        CCacheDependency::resetReusableData();
         MockCacheDependency::$generateDependentDataCalled=0;
         $this->assertFalse($dependency1->getHasChanged(),'Dependency1 has been changed!');
         $this->assertTrue($dependency2->getHasChanged(),'Dependency2 has not been changed!');
@@ -64,9 +64,4 @@ class MockCacheDependency extends CCacheDependency
         self::$generateDependentDataCalled++;
         return call_user_func(self::$generateDependentDataCallback);
     }
-
-	public static function resetReusableData()
-	{
-		self::$reusableData=array();
-	}
 }
