@@ -82,7 +82,7 @@ class CExistValidator extends CValidator
 
 		$className=$this->className===null?get_class($object):Yii::import($this->className);
 		$attributeName=$this->attributeName===null?$attribute:$this->attributeName;
-		$finder=CActiveRecord::model($className);
+		$finder=$this->getModel($className);
 		$table=$finder->getTableSchema();
 		if(($column=$table->getColumn($attributeName))===null)
 			throw new CException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
@@ -103,5 +103,15 @@ class CExistValidator extends CValidator
 			$this->addError($object,$attribute,$message,array('{value}'=>CHtml::encode($value)));
 		}
 	}
+
+	/** CActiveRecord::model factory method. You may override this method to use your CActive* parallel class hierarchy
+	 * @param string active record class name.
+	 * @return CActiveRecord active record model instance.
+	 */
+	protected function getModel($className)
+	{
+		return CActiveRecord::model($className);
+	}
+	
 }
 
