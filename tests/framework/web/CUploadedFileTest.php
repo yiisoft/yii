@@ -100,7 +100,7 @@ class CUploadedFileTest extends CTestCase
 	 *
 	 * @see https://github.com/yiisoft/yii/issues/159
 	 */
-	public function testGetInstanceByNamePartOfOtherName()
+	public function testGetInstancesByNamePartOfOtherName()
 	{
 		$baseInputName='base_name';
 		$tailedInputName=$baseInputName.'_tail';
@@ -120,7 +120,8 @@ class CUploadedFileTest extends CTestCase
 			'size'=>100,
 		);
 
-		$uploadedFile=CUploadedFile::getInstanceByName($tailedInputName);
-		$this->assertEquals($_FILES[$baseInputName]['name'],$uploadedFile->getName(),'Wrong file fetched!');
+		$uploadedFiles=CUploadedFile::getInstancesByName($baseInputName);
+		foreach($uploadedFiles as $uploadedFile)
+			$this->assertEquals($_FILES[$baseInputName]['name'],$uploadedFile->getName(),'Wrong file fetched!');
 	}
 }
