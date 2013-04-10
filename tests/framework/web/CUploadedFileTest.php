@@ -94,4 +94,33 @@ class CUploadedFileTest extends CTestCase
 		$this->assertEquals($_FILES[$baseInputName]['error'][$subInputName],$uploadedFile->getError(),'Wrong error!');
 		$this->assertEquals($_FILES[$baseInputName]['size'][$subInputName],$uploadedFile->getSize(),'Wrong size!');
 	}
+
+	/**
+	 * @depends testGetInstanceByName
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/159
+	 */
+	public function testGetInstanceByNamePartOfOtherName()
+	{
+		$baseInputName='base_name';
+		$tailedInputName=$baseInputName.'_tail';
+
+		$_FILES[$baseInputName]=array(
+			'name'=>$baseInputName.'.dat',
+			'type'=>'somemime/'.$baseInputName,
+			'tmp_name'=>'/tmp/'.$baseInputName,
+			'error'=>UPLOAD_ERR_OK,
+			'size'=>100,
+		);
+		$_FILES[$tailedInputName]=array(
+			'name'=>$tailedInputName.'.dat',
+			'type'=>'somemime/'.$tailedInputName,
+			'tmp_name'=>'/tmp/'.$tailedInputName,
+			'error'=>UPLOAD_ERR_OK,
+			'size'=>100,
+		);
+
+		$uploadedFile=CUploadedFile::getInstanceByName($tailedInputName);
+		$this->assertEquals($_FILES[$baseInputName]['name'],$uploadedFile->getName(),'Wrong file fetched!');
+	}
 }
