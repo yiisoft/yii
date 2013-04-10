@@ -96,7 +96,7 @@ class CUploadedFileTest extends CTestCase
 	}
 
 	/**
-	 * @depends testGetInstanceByName
+	 * @depends testGetInstancesByName
 	 *
 	 * @see https://github.com/yiisoft/yii/issues/159
 	 */
