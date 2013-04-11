@@ -484,8 +484,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$data=@unserialize($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
-				$cookie->expire=time()+$data[2];
-				$cookies->add($cookie->name,$cookie);
+				$this->saveToCookie(time()+$data[2]);
 			}
 		}
 	}
