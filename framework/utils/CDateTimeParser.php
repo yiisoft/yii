@@ -265,26 +265,21 @@ class CDateTimeParser
 	 */
 	private static function tokenize($pattern)
 	{
-		if (!($n = strlen($pattern)))
+		if (!($n=self::$_mbstringAvailable ? mb_strlen($pattern,Yii::app()->charset) : strlen($pattern)))
 			return array();
 
-		if (self::$_mbstringAvailable===null)
-			self::$_mbstringAvailable=extension_loaded('mbstring');
-
-		$n=self::$_mbstringAvailable ? mb_strlen($pattern, Yii::app()->charset) : $n;
 		$tokens=array();
-
-		$c0=self::$_mbstringAvailable ? mb_substr($pattern, 0, 1, Yii::app()->charset) : substr($pattern, 0, 1);
+		$c0=self::$_mbstringAvailable ? mb_substr($pattern,0,1,Yii::app()->charset) : substr($pattern,0,1);
 
 		for ($start=0, $i=1; $i<$n; ++$i) {
-			$c=self::$_mbstringAvailable ? mb_substr($pattern, $i, 1, Yii::app()->charset) : substr($pattern, $i, 1);
+			$c=self::$_mbstringAvailable ? mb_substr($pattern,$i,1, Yii::app()->charset) : substr($pattern,$i,1);
 			if ($c!==$c0) {
-				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern, $start, $i-$start, Yii::app()->charset) : substr($pattern, $start, $i-$start);
-				$c0= $c;
-				$start= $i;
+				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$i-$start,Yii::app()->charset) : substr($pattern,$start,$i-$start);
+				$c0=$c;
+				$start=$i;
 			}
 		}
-		$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern, $start, $n-$start, Yii::app()->charset) : substr($pattern, $start, $n-$start);
+		$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$n-$start,Yii::app()->charset) : substr($pattern,$start,$n-$start);
 		return $tokens;
 	}
 
