@@ -15,7 +15,7 @@
  * <pre>
  * CREATE TABLE SourceMessage
  * (
- *     id INTEGER PRIMARY KEY,
+ *     id INTEGER PRIMARY KEY AUTO_INCREMENT,
  *     category VARCHAR(32),
  *     message TEXT
  * );
