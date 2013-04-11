@@ -87,6 +87,22 @@ class CHtml
 	public static $renderSpecialAttributesValue=true;
 
 	/**
+	 * PHP callback used to compose input name from model instance.
+	 * If not set the model class name will be used. If class name is namespaced '\' will be replaced by '_'.
+	 * You can setup this field intoducing your logic of the input name creation.
+	 * <code>
+	 * CHtml::$modelNameNormalizer = function($model) {
+	 * 	return dechex(crc32(get_class($model)));
+	 * };
+	 * </code>
+	 *
+	 * @var callback PHP callback used to compose input name from model instance.
+	 * @see normalizeModelName()
+	 * @since 1.1.14
+	 */
+	public static $modelNameNormalizer;
+
+	/**
 	 * Encodes special characters into HTML entities.
 	 * The {@link CApplication::charset application charset} will be used for encoding.
 	 * @param string $text data to be encoded
@@ -2393,6 +2409,22 @@ EOD;
 	}
 
 	/**
+	 * Return HTML compliant input name for selected model instance.
+	 * if @see $modelNameNormalizer is null, and class name is namespaced '\' will be replaced by '_'.
+	 *
+	 * @param CModel $model the data model
+	 * @return string the normalized model string
+	 */
+	public static function normalizeModelName($model) {
+		if((self::$modelNameNormalizer !== null) && is_callable(self::$modelNameNormalizer)) {
+			$normalizedModelName = call_user_func(self::$modelNameNormalizer, $model);
+		} else {
+			$normalizedModelName = str_replace('\\', '_', get_class($model));
+		}
+		return $normalizedModelName;
+	}
+
+	/**
 	 * Generates input name for a model attribute.
 	 * Note, the attribute name may be modified after calling this method if the name
 	 * contains square brackets (mainly used in tabular input) before the real attribute name.
@@ -2405,21 +2437,21 @@ EOD;
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
-				return get_class($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
+				return self::normalizeModelName($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
 			{
 				$sub=substr($attribute,0,$pos+1);
 				$attribute=substr($attribute,$pos+1);
-				return get_class($model).$sub.'['.$attribute.']';
+				return self::normalizeModelName($model).$sub.'['.$attribute.']';
 			}
 			if(preg_match('/\](\w+\[.*)$/',$attribute,$matches))
 			{
-				$name=get_class($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
+				$name=self::normalizeModelName($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
 				$attribute=$matches[1];
 				return $name;
 			}
 		}
-		return get_class($model).'['.$attribute.']';
+		return self::normalizeModelName($model).'['.$attribute.']';
 	}
 
 	/**

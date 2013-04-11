@@ -216,14 +216,14 @@ class CForm extends CFormElement implements ArrayAccess
 	{
 		if($this->_model!==null)
 		{
-			$class=get_class($this->_model);
+			$normalizedModelName = CHtml::normalizeModelName($this->_model);
 			if(strcasecmp($this->getRoot()->method,'get'))
 			{
-				if(isset($_POST[$class]))
-					$this->_model->setAttributes($_POST[$class]);
+				if(isset($_POST[$normalizedModelName]))
+					$this->_model->setAttributes($_POST[$normalizedModelName]);
 			}
-			elseif(isset($_GET[$class]))
-				$this->_model->setAttributes($_GET[$class]);
+			elseif(isset($_GET[$normalizedModelName]))
+				$this->_model->setAttributes($_GET[$normalizedModelName]);
 		}
 		foreach($this->getElements() as $element)
 		{

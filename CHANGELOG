@@ -44,6 +44,7 @@ Version 1.1.14 work in progress
 - Bug #2299: CMssqlSchema: findTableNames(), getTables() and getTableNames() methods used to prepend schema prefix to the table names twice (resurtm)
 - Enh: Better CFileLogRoute performance (Qiang, samdark)
 - Enh: Refactored CHttpRequest::getDelete and CHttpRequest::getPut not to use _restParams directly (samdark)
+- Enh #129: Change CHTML::resolveName() to allow the use of namespaced models without breaking HTML (lastdragon-ru, pgaultier)
 - Enh #1142: CSecurityManager::computeHMAC() has been made public (resurtm)
 - Enh #1447: CSqliteSchema: added enabling/disabling integrity check for sqlite (gleb-sternharz, resurtm)
 - Enh #1604: Added method CDbCommandBuilder::createMultipleInsertCommand() to support multiple insertion (klimov-paul)
