@@ -459,8 +459,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 					$this->changeIdentity($id,$name,$states);
 					if($this->autoRenewCookie)
 					{
-						$cookie->expire=time()+$duration;
-						$request->getCookies()->add($cookie->name,$cookie);
+						$this->saveToCookie(time()+$duration);
 					}
 					$this->afterLogin(true);
 				}
