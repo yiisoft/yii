@@ -265,13 +265,13 @@ class CDateTimeParser
 	 */
 	private static function tokenize($pattern)
 	{
-		if (!($n=self::$_mbstringAvailable ? mb_strlen($pattern,Yii::app()->charset) : strlen($pattern)))
+		if(!($n=self::$_mbstringAvailable ? mb_strlen($pattern,Yii::app()->charset) : strlen($pattern)))
 			return array();
 
 		$tokens=array();
 		$c0=self::$_mbstringAvailable ? mb_substr($pattern,0,1,Yii::app()->charset) : substr($pattern,0,1);
 
-		for ($start=0, $i=1; $i<$n; ++$i) {
+		for($start=0, $i=1; $i<$n; ++$i) {
 			$c=self::$_mbstringAvailable ? mb_substr($pattern,$i,1, Yii::app()->charset) : substr($pattern,$i,1);
 			if ($c!==$c0) {
 				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$i-$start,Yii::app()->charset) : substr($pattern,$start,$i-$start);
