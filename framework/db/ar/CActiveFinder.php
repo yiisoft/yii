@@ -1442,7 +1442,7 @@ class CStatElement
 			$cols=array();
 			foreach($pkTable->primaryKey as $n=>$pk)
 			{
-				$name=$table->columns[$map[$pk]]->rawName;
+				$name=$tableAlias.'.'.$table->columns[$map[$pk]]->rawName;
 				$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
 			}
 			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias.$join
