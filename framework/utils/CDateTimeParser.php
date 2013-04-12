@@ -271,9 +271,9 @@ class CDateTimeParser
 		$tokens=array();
 		$c0=self::$_mbstringAvailable ? mb_substr($pattern,0,1,Yii::app()->charset) : substr($pattern,0,1);
 
-		for($start=0, $i=1; $i<$n; ++$i) {
-			$c=self::$_mbstringAvailable ? mb_substr($pattern,$i,1, Yii::app()->charset) : substr($pattern,$i,1);
-			if ($c!==$c0) {
+		for($start=0,$i=1;$i<$n;$i++){
+			$c=self::$_mbstringAvailable ? mb_substr($pattern,$i,1,Yii::app()->charset) : substr($pattern,$i,1);
+			if($c!==$c0){
 				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$i-$start,Yii::app()->charset) : substr($pattern,$start,$i-$start);
 				$c0=$c;
 				$start=$i;
