@@ -20,6 +20,10 @@ class CDateTimeParserTest extends CTestCase
 			'02 Aug, 2010, 05:09:07',
 			date('d M, Y, H:i:s', CDateTimeParser::parse('02_augUST|10, W, 05-09-07', 'dd_MMMM|yy, ?, HH-mm-ss'))
 		);
+		$this->assertEquals(
+			'2013-03-27',
+			date('Y-m-d', CDateTimeParser::parse('2013年3月27日', 'yyyy年M月d日'))
+		);
 	}
 
 	public function testParseDefaults()
@@ -182,6 +186,14 @@ class CDateTimeParserTest extends CTestCase
 		$this->assertEquals(
 			'Dec 01, 1971, 23:59',
 			date('M d, Y, H:i', CDateTimeParser::parse('十二月 01, 1971, 23:59', 'MMMM dd, yyyy, HH:mm'))
+		);
+
+		// th_TH.UTF-8
+		Yii::app()->setLanguage('th_TH');
+		Yii::app()->charset='UTF-8';
+		$this->assertEquals(
+			'2012-03-28',
+			date('Y-m-d', CDateTimeParser::parse('28 มีนาคม 2012', 'd MMMM yyyy'))
 		);
 
 		// reestablish old active language and charset
