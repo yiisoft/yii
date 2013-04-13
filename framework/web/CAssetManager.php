@@ -132,11 +132,17 @@ class CAssetManager extends CApplicationComponent
 	 */
 	public function setBasePath($value)
 	{
-		if(($basePath=realpath($value))!==false && is_dir($basePath) && is_writable($basePath))
-			$this->_basePath=$basePath;
-		else
+		$basePath = realpath($value);
+		if($basePath === false || !is_dir($value)) 
+		{
+			mkdir($value);
+			$basePath = realpath($value);
+		}
+		if($basePath === false || !is_writable($value))
 			throw new CException(Yii::t('yii','CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.',
-				array('{path}'=>$value)));
+						array('{path}'=>$basePath)));
+
+		$this->_basePath=$basePath;
 	}
 
 	/**

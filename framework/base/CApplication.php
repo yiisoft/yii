@@ -274,9 +274,16 @@ abstract class CApplication extends CModule
 	 */
 	public function setRuntimePath($path)
 	{
-		if(($runtimePath=realpath($path))===false || !is_dir($runtimePath) || !is_writable($runtimePath))
+		$runtimePath = realpath($path);
+		if($runtimePath === false || !is_dir($path)) 
+		{
+			mkdir($path);
+			$runtimePath = realpath($path);
+		}
+		if($runtimePath === false || !is_writable($path))
 			throw new CException(Yii::t('yii','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
-				array('{path}'=>$path)));
+						array('{path}'=>$runtimePath)));
+
 		$this->_runtimePath=$runtimePath;
 	}
 
