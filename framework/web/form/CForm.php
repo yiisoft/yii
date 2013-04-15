@@ -119,11 +119,17 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public $showErrorSummary=false;
 	/**
-	 * @var boolean whether error elements of the form attributes should be rendered. Defaults to null meaning
-	 * that {@link $showErrorSummary} will be negated and used as the value. This is done mainly to keep backward
-	 * compatibility with existing applications. If you want to use error summary with AJAX and/or client validation
-	 * you have to set this property to true (recall that {@link CActiveForm::error()} should be called for each
-	 * attribute that is going to be AJAX and/or client validated).
+	 * @var boolean|null whether error elements of the form attributes should be rendered. There are three possible
+	 * values: null, true and false.
+	 *
+	 * Defaults to null meaning that {@link $showErrorSummary} will be negated and used as the value. This is done
+	 * mainly to keep backward compatibility with existing applications. If you want to use error summary with AJAX
+	 * and/or client validation you have to set this property to true (recall that {@link CActiveForm::error()}
+	 * should be called for each attribute that is going to be AJAX and/or client validated).
+	 *
+	 * False value means that the error elements of the form attributes shall not be displayed. True value means that
+	 * the error elements of the form attributes will be rendered.
+	 *
 	 * @since 1.1.14
 	 */
 	public $showErrors;
