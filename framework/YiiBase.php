@@ -714,6 +714,7 @@ class YiiBase
 		'COciSchema' => '/db/schema/oci/COciSchema.php',
 		'COciTableSchema' => '/db/schema/oci/COciTableSchema.php',
 		'CPgsqlColumnSchema' => '/db/schema/pgsql/CPgsqlColumnSchema.php',
+		'CPgsqlCommandBuilder' => '/db/schema/pgsql/CPgsqlCommandBuilder.php',
 		'CPgsqlSchema' => '/db/schema/pgsql/CPgsqlSchema.php',
 		'CPgsqlTableSchema' => '/db/schema/pgsql/CPgsqlTableSchema.php',
 		'CSqliteColumnSchema' => '/db/schema/sqlite/CSqliteColumnSchema.php',
