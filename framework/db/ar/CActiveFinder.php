@@ -601,10 +601,18 @@ class CJoinElement
 		else
 		{
 			$element=$this;
-			while($element->slave!==null)
+			while(true)
 			{
-				$query->joins[]=$element->slave->joinOneMany($element->slave,$element->relation->foreignKey,$element,$parent);
-				$element=$element->slave;
+				if(isset($element->relation->condition))
+					$query->conditions[]=$element->relation->condition;
+				$query->params=array_merge($query->params,$element->relation->params);
+				if($element->slave!==null)
+				{
+					$query->joins[]=$element->slave->joinOneMany($element->slave,$element->relation->foreignKey,$element,$parent);
+					$element=$element->slave;
+				}
+				else
+					break;
 			}
 			$fks=is_array($element->relation->foreignKey) ? $element->relation->foreignKey : preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
 			$prefix=$element->getColumnPrefix();
