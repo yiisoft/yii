@@ -556,6 +556,7 @@ class ArticleComment extends Content
 		return array(
 			'author'=>array(self::BELONGS_TO,'User','authorID'),
 			'article'=>array(self::BELONGS_TO,'Article','parentID'),
+			'articleAuthor'=>array(self::HAS_ONE,'User',array('authorID'=>'id'),'through'=>'article'),
 		);
 	}
 }

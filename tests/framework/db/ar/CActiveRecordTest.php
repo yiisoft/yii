@@ -1447,4 +1447,18 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
 	}
+
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/662
+	 */
+	public function testHasOneThroughLazy()
+	{
+		$articleComments=ArticleComment::model()->findAll();
+		foreach($articleComments as $articleComment)
+		{
+			$this->assertFalse(empty($articleComment->articleAuthor));
+		}
+	}
 }
