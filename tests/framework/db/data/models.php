@@ -359,6 +359,7 @@ class Comment extends CActiveRecord
 		return array(
 			'post'=>array(self::BELONGS_TO,'Post','post_id'),
 			'author'=>array(self::BELONGS_TO,'User','author_id'),
+			'postAuthor'=>array(self::HAS_ONE,'User',array('author_id'=>'id'),'through'=>'post'),
 		);
 	}
 
@@ -556,7 +557,6 @@ class ArticleComment extends Content
 		return array(
 			'author'=>array(self::BELONGS_TO,'User','authorID'),
 			'article'=>array(self::BELONGS_TO,'Article','parentID'),
-			'articleAuthor'=>array(self::HAS_ONE,'User',array('authorID'=>'id'),'through'=>'article'),
 		);
 	}
 }

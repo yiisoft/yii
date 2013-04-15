@@ -1453,12 +1453,12 @@ class CActiveRecordTest extends CTestCase
 	 *
 	 * @see https://github.com/yiisoft/yii/issues/662
 	 */
-	public function testHasOneThroughLazy()
+	public function testThroughBelongsToLazy()
 	{
-		$articleComments=ArticleComment::model()->findAll();
-		foreach($articleComments as $articleComment)
+		$comments=Comment::model()->findAll();
+		foreach($comments as $comment)
 		{
-			$this->assertFalse(empty($articleComment->articleAuthor));
+			$this->assertFalse(empty($comment->postAuthor));
 		}
 	}
 }
