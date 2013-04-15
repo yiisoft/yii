@@ -617,16 +617,16 @@ class CJoinElement
 					$fk=$i;
 				}
 
-				if($this->relation instanceof CBelongsToRelation)
+				if($element->relation instanceof CBelongsToRelation)
 				{
 					if(is_int($i))
 					{
 						if(isset($parent->_table->foreignKeys[$fk]))  // FK defined
 							$pk=$parent->_table->foreignKeys[$fk][1];
-						elseif(is_array($this->_table->primaryKey)) // composite PK
-							$pk=$this->_table->primaryKey[$i];
+						elseif(is_array($element->_table->primaryKey)) // composite PK
+							$pk=$element->_table->primaryKey[$i];
 						else
-							$pk=$this->_table->primaryKey;
+							$pk=$element->_table->primaryKey;
 					}
 					$params[$pk]=$record->$fk;
 				}
@@ -634,8 +634,8 @@ class CJoinElement
 				{
 					if(is_int($i))
 					{
-						if(isset($this->_table->foreignKeys[$fk]))  // FK defined
-							$pk=$this->_table->foreignKeys[$fk][1];
+						if(isset($element->_table->foreignKeys[$fk]))  // FK defined
+							$pk=$element->_table->foreignKeys[$fk][1];
 						elseif(is_array($parent->_table->primaryKey)) // composite PK
 							$pk=$parent->_table->primaryKey[$i];
 						else
