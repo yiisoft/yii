@@ -599,7 +599,6 @@ class CActiveRecord2Test extends CTestCase
 
 	/**
 	 * https://github.com/yiisoft/yii/issues/2336
-	 * @group grp1
 	 */
 	public function testEmptyModel()
 	{
