@@ -603,8 +603,9 @@ class CJoinElement
 			$element=$this;
 			while(true)
 			{
-				if(isset($element->relation->condition))
-					$query->conditions[]=$element->relation->condition;
+				$condition=$element->relation->condition;
+				if(!empty($condition))
+					$query->conditions[]=$condition;
 				$query->params=array_merge($query->params,$element->relation->params);
 				if($element->slave!==null)
 				{

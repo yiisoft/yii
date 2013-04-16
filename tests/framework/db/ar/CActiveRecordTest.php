@@ -1456,7 +1456,7 @@ class CActiveRecordTest extends CTestCase
 	public function testLazyLoadThroughRelationWithCondition()
 	{
 		$masterModel=Group::model()->findByPk(1);
-		$this->assertFalse(empty($masterModel->users),'Test environment is missing!');
-		$this->assertTrue(empty($masterModel->usersWhichEmptyByCondition),'Unable to apply condition from through relation!');
+		$this->assertTrue(count($masterModel->users)>0,'Test environment is missing!');
+		$this->assertEquals(0,count($masterModel->usersWhichEmptyByCondition),'Unable to apply condition from through relation!');
 	}
 }
