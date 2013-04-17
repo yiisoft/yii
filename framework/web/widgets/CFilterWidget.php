@@ -64,7 +64,6 @@ class CFilterWidget extends CWidget implements IFilter
 	 */
 	public function filter($filterChain)
 	{
-		$this->init();
 		if(!$this->stopAction)
 		{
 			$filterChain->run();

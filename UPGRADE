@@ -43,6 +43,10 @@ Upgrading from v1.1.13
 - CSecurityManager::computeHMAC() method is now public and third parameter has been added. You must change signature
   of this method in the extended child class to fit new circumstances. Otherwise an E_STRICT error will be issued.
 
+- CFilterWidget and its descendants (COutputCache, COutputProcessor, CContentDecorator, CHtmlPurifier, CMarkdown,
+  CTextHighlighter) used to be initialized twice (CFilterWidget::init() called two times). Make sure you're not relying
+  on this characteristic in your application code since it has been fixed.
+
 Upgrading from v1.1.12
 ----------------------
 - Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)
