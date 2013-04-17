@@ -41,9 +41,9 @@ class CRequiredValidator extends CValidator
 	 */
 	public $strict=false;
 	/**
-	 * @var boolean whether it trims the value in comparing the string.
-	 * When this is false, the attribute value can contain spaces at the beginning or end
-	 * Defaults to true, meaning the value will be trimmed
+	 * @var boolean whether the value should be trimmed with php trim() function when comparing strings.
+	 * When set to false, the attribute value is not considered empty when it contains spaces.
+	 * Defaults to true, meaning the value will be trimmed.
 	 * @since 1.1.14
 	 */
 	public $trim=true;
