@@ -190,6 +190,11 @@ class CGridView extends CBaseListView
 	 */
 	public $ajaxUrl;
 	/**
+	 * @var string the type (GET or POST) of the AJAX requests, default is "GET".
+	 * @since 1.1.14
+	 */
+	public $ajaxType;
+	/**
 	 * @var string a javascript function that will be invoked before an AJAX update occurs.
 	 * The function signature is <code>function(id,options)</code> where 'id' refers to the ID of the grid view,
 	 * 'options' the AJAX request options  (see jQuery.ajax api manual).
@@ -419,6 +424,8 @@ class CGridView extends CBaseListView
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
+		if($this->ajaxType!==null)
+			$options['ajaxType']=$this->ajaxType;
 		if($this->enablePagination)
 			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
 		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError', 'selectionChanged') as $event)
