@@ -18,4 +18,12 @@ class CRequiredValidatorTest extends CTestCase
 		$this->assertArrayNotHasKey('username', $model->getErrors());
 	}
 
+	public function testEmptyWithSpaces()
+	{
+		$model = new ValidatorTestModel('CRequiredValidatorTest');
+		$model->address = ' ';
+		$model->validate(array('address'));
+		$this->assertArrayHasKey('address', $model->getErrors());
+	}
+
 }
