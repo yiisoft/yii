@@ -103,7 +103,7 @@ Version 1.1.13 work in progress
 - Enh #1596: Added CGridView::rowHtmlOptionsExpression to allow set HTML attributes for the row (Ryadnov)
 - Enh #1657: CDbCommandBuilder::createUpdateCounterCommand now can be used with float values (samdark, hyzhakus)
 - Enh #1658: CFormatter::formatHtml() is now more flexible and customizable through new CFormatter::$htmlPurifierOptions property (resurtm)
-- Enh #2343: Added CRequiredValidator::$trim property whether to trim attribute value or not
+- Enh #2343: Added CRequiredValidator::$trim property which determines to trim attribute value or not (KJLJon, AnatolyRugalev)
 - Enh: Fixed the check for ajaxUpdate false value in jquery.yiilistview.js as that never happens (mdomba)
 - Enh: Requirements checker: added check for Oracle database (pdo_oci extension) and MSSQL (pdo_dblib, pdo_sqlsrv and pdo_mssql extensions) (resurtm)
 - Enh: Added CChainedLogFilter class to allow adding multiple filters to a logroute (cebe)
