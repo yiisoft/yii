@@ -51,6 +51,7 @@
 			var settings = $.extend({
 					ajaxUpdate: [],
 					ajaxVar: 'ajax',
+					ajaxType: 'get',
 					pagerClass: 'pager',
 					loadingClass: 'loading',
 					filterClass: 'filters',
@@ -246,7 +247,7 @@
 				$grid.addClass(settings.loadingClass);
 
 				options = $.extend({
-					type: 'GET',
+					type: settings.ajaxType,
 					url: $grid.yiiGridView('getUrl'),
 					success: function (data) {
 						var $data = $('<div>' + data + '</div>');
