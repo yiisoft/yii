@@ -52,7 +52,7 @@
 			var settings = $.extend({
 					ajaxUpdate: [],
 					ajaxVar: 'ajax',
-					ajaxType: 'get',
+					ajaxType: 'GET',
 					pagerClass: 'pager',
 					loadingClass: 'loading',
 					filterClass: 'filters',
