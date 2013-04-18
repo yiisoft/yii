@@ -59,6 +59,8 @@
  * @property integer $limit The limit of the data. This may be used to set the
  * LIMIT value for a SQL statement for fetching the current page of data.
  * This returns the same value as {@link pageSize}.
+ * @property array $requestParams parameters, among which the requested page number will be searched.
+ * By default $_GET value will be used. This property available since 1.1.14
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
@@ -99,6 +101,7 @@ class CPagination extends CComponent
 	private $_pageSize=self::DEFAULT_PAGE_SIZE;
 	private $_itemCount=0;
 	private $_currentPage;
+	private $_requestParams;
 
 	/**
 	 * Constructor.
@@ -159,9 +162,10 @@ class CPagination extends CComponent
 	{
 		if($this->_currentPage===null || $recalculate)
 		{
-			if(isset($_GET[$this->pageVar]))
+			$requestParams=$this->getRequestParams();
+			if(isset($requestParams[$this->pageVar]))
 			{
-				$this->_currentPage=(int)$_GET[$this->pageVar]-1;
+				$this->_currentPage=(int)$requestParams[$this->pageVar]-1;
 				if($this->validateCurrentPage)
 				{
 					$pageCount=$this->getPageCount();
@@ -184,6 +188,28 @@ class CPagination extends CComponent
 	{
 		$this->_currentPage=$value;
 		$_GET[$this->pageVar]=$value+1;
+		if($this->_requestParams!==null)
+			$this->_requestParams[$this->pageVar]=$_GET[$this->pageVar];
+	}
+
+	/**
+	 * @param array $requestParams request parameters.
+	 * @since 1.1.14
+	 */
+	public function setRequestParams(array $requestParams)
+	{
+		$this->_requestParams = $requestParams;
+	}
+
+	/**
+	 * @return array request parameters.
+	 * @since 1.1.14
+	 */
+	public function getRequestParams()
+	{
+		if($this->_requestParams===null)
+			$this->_requestParams=$_GET;
+		return $this->_requestParams;
 	}
 
 	/**
@@ -199,7 +225,7 @@ class CPagination extends CComponent
 	 */
 	public function createPageUrl($controller,$page)
 	{
-		$params=$this->params===null ? $_GET : $this->params;
+		$params=$this->params===null ? $this->getRequestParams() : $this->params;
 		if($page>0) // page 0 is the default
 			$params[$this->pageVar]=$page+1;
 		else
