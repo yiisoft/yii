@@ -1040,15 +1040,23 @@ class CHtml
 		$id=0;
 		$checkAll=true;
 
-		foreach($data as $value=>$label)
+		foreach($data as $value=>$labelTitle)
 		{
 			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
 			$checkAll=$checkAll && $checked;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
-			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			$beginLabel=self::openTag('label',$labelOptions);
+			$label=self::label($labelTitle,$htmlOptions['id'],$labelOptions);
+			$endLabel=self::closeTag('label');
+			$items[]=strtr($template,array(
+				'{input}'=>$option,
+				'{beginLabel}'=>$beginLabel,
+				'{label}'=>$label,
+				'{labelTitle}'=>$labelTitle,
+				'{endLabel}'=>$endLabel,
+			));
 		}
 
 		if(isset($checkAllLabel))
@@ -1056,8 +1064,16 @@ class CHtml
 			$htmlOptions['value']=1;
 			$htmlOptions['id']=$id=$baseID.'_all';
 			$option=self::checkBox($id,$checkAll,$htmlOptions);
+			$beginLabel=self::openTag('label',$labelOptions);
 			$label=self::label($checkAllLabel,$id,$labelOptions);
-			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			$endLabel=self::closeTag('label');
+			$item=strtr($template,array(
+				'{input}'=>$option,
+				'{beginLabel}'=>$beginLabel,
+				'{label}'=>$label,
+				'{labelTitle}'=>$checkAllLabel,
+				'{endLabel}'=>$endLabel,
+			));
 			if($checkAllLast)
 				$items[]=$item;
 			else
@@ -1134,14 +1150,22 @@ EOD;
 		$baseID=isset($htmlOptions['baseID']) ? $htmlOptions['baseID'] : self::getIdByName($name);
 		unset($htmlOptions['baseID']);
 		$id=0;
-		foreach($data as $value=>$label)
+		foreach($data as $value=>$labelTitle)
 		{
 			$checked=!strcmp($value,$select);
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
-			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			$beginLabel=self::openTag('label',$labelOptions);
+			$label=self::label($labelTitle,$htmlOptions['id'],$labelOptions);
+			$endLabel=self::closeTag('label');
+			$items[]=strtr($template,array(
+				'{input}'=>$option,
+				'{beginLabel}'=>$beginLabel,
+				'{label}'=>$label,
+				'{labelTitle}'=>$labelTitle,
+				'{endLabel}'=>$endLabel,
+			));
 		}
 		if(empty($container))
 			return implode($separator,$items);
