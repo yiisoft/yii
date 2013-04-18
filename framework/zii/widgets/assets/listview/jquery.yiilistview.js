@@ -32,15 +32,16 @@
 			$.fn.yiiListView.settings[id] = settings;
 
 			if(settings.ajaxUpdate.length > 0) {
-				$(document).on('click.yiiListView', settings.updateSelector,function(){
+				$(document).on('click.yiiListView', settings.updateSelector, function(){
+					// Ajaxify this link
+					var url = $(this).attr('href').split('?'),
+						params = $.deparam.querystring('?'+ (url[1] || ''));
+					delete params[settings.ajaxVar];
+					// Check to see if History.js is enabled for our Browser
 					if(settings.enableHistory && window.History.enabled) {
-						var url = $(this).attr('href').split('?'),
-							params = $.deparam.querystring('?'+ (url[1] || ''));
-
-						delete params[settings.ajaxVar];
 						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
 					} else {
-						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
+						$.fn.yiiListView.update(id, {data: params});
 					}
 					return false;
 				});
