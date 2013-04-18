@@ -450,7 +450,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie=$request->getCookies()->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && is_string($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
-			$data=@unserialize($data);
+			$data=@$this->unserializeData($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
 				list($id,$name,$duration,$states)=$data;
@@ -481,7 +481,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie=$cookies->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=Yii::app()->getSecurityManager()->validateData($cookie->value))!==false)
 		{
-			$data=@unserialize($data);
+			$data=@$this->unserializeData($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
 				$cookie->expire=time()+$data[2];
@@ -509,8 +509,30 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$duration,
 			$this->saveIdentityStates(),
 		);
-		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
+		$cookie->value=$app->getSecurityManager()->hashData($this->serializeData($data));
 		$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+	}
+
+	/**
+	 * Convert the data object into a string that can be stored in the cookie.  Override this if you want to use a
+	 * different form of compression, eg JSON if you're also accessing the cookie data from JavaScript.
+	 * @param $data mixed
+	 * @return string
+	 */
+	protected function serializeData($data)
+	{
+		return serialize($data);
+	}
+
+	/**
+	 * Convert the data from its stringified form back into an object.  Override this if you want to use a
+	 * different form of compression, eg JSON if you're also accessing the cookie data from JavaScript.
+	 * @param $data mixed
+	 * @return string
+	 */
+	protected function unserializeData($data)
+	{
+		return unserialize($data);
 	}
 
 	/**
