@@ -85,16 +85,15 @@
 
 				if (settings.ajaxUpdate.length > 0) {
 					$(document).on('click.yiiGridView', settings.updateSelector, function () {
+						// Ajaxify this link
+						var url = $(this).attr('href').split('?'),
+							params = $.deparam.querystring('?'+ (url[1] || ''));
+						delete params[settings.ajaxVar];
 						// Check to see if History.js is enabled for our Browser
 						if (settings.enableHistory && window.History.enabled) {
-							// Ajaxify this link
-							var url = $(this).attr('href').split('?'),
-								params = $.deparam.querystring('?'+ (url[1] || ''));
-
-							delete params[settings.ajaxVar];
 							window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
 						} else {
-							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
+							$('#' + id).yiiGridView('update', {data:params});
 						}
 						return false;
 					});
