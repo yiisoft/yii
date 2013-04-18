@@ -183,7 +183,7 @@ abstract class CBaseListView extends CWidget
 		echo CHtml::openTag('div',array(
 			'class'=>'keys',
 			'style'=>'display:none',
-			'title'=>Yii::app()->getRequest()->getUrl(),
+			'data-url'=>Yii::app()->getRequest()->getUrl(),
 		));
 		foreach($this->dataProvider->getKeys() as $key)
 			echo "<span>".CHtml::encode($key)."</span>";
