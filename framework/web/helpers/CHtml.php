@@ -998,7 +998,7 @@ class CHtml
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * check box input tag while "{label}" be replaced by the corresponding check box label,
 	 * {beginLabel} will be replaced by <label> with labelOptions, {labelTitle} will be replaced by the corresponding
-	 * check box label title and {endLabel} wiil be replaced by </label></li>
+	 * check box label title and {endLabel} will be replaced by </label></li>
 	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
 	 * <li>checkAll: string, specifies the label for the "check all" checkbox.
 	 * If this option is specified, a 'check all' checkbox will be displayed. Clicking on
@@ -1117,7 +1117,7 @@ EOD;
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label,
 	 * {beginLabel} will be replaced by <label> with labelOptions, {labelTitle} will be replaced by the corresponding
-	 * radio button label title and {endLabel} wiil be replaced by </label></li>
+	 * radio button label title and {endLabel} will be replaced by </label></li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list.</li>
