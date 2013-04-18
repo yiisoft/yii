@@ -516,7 +516,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * Convert the data object into a string that can be stored in the cookie.  Override this if you want to use a
 	 * different form of compression, eg JSON if you're also accessing the cookie data from JavaScript.
-	 * @param $data mixed
+	 * @param $data mixed The data to serialize
 	 * @return string
 	 */
 	protected function serializeData($data)
@@ -527,7 +527,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * Convert the data from its stringified form back into an object.  Override this if you want to use a
 	 * different form of compression, eg JSON if you're also accessing the cookie data from JavaScript.
-	 * @param $data mixed
+	 * @param $data mixed The data to serialize
 	 * @return string
 	 */
 	protected function unserializeData($data)
