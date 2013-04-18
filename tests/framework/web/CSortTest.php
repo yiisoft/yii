@@ -29,13 +29,14 @@ class CSortTest extends CTestCase {
 	 *
 	 * @return void
 	 */
-	function testGetDirectionsWithDots(){
+	public function testGetDirectionsWithDots()
+	{
 		$_GET['sort'] = 'comments.id';
 
-		$criteria = new CDbCriteria();
+		$criteria=new CDbCriteria();
 		$criteria->with = 'comments';
 
-		$sort = new CSort('TestPost');
+		$sort=new CSort('TestPost');
 		$sort->attributes = array(
 			'id',
 			'comments.id' => array(
@@ -44,9 +45,28 @@ class CSortTest extends CTestCase {
 			),
 		);
 		$sort->applyOrder($criteria);
-		$directions = $sort->getDirections();
+		$directions=$sort->getDirections();
 
 		$this->assertTrue(isset($directions['comments.id']));
+	}
+
+	public function testGetDirectionsFromCustomRequestParams()
+	{
+		$requestParams=array(
+			'sort'=>'id'
+		);
+
+		$criteria=new CDbCriteria();
+
+		$sort=new CSort('TestPost');
+		$sort->setRequestParams($requestParams);
+		$sort->attributes = array(
+			'id',
+		);
+		$sort->applyOrder($criteria);
+		$directions=$sort->getDirections();
+
+		$this->assertTrue(isset($directions['id']));
 	}
 }
 

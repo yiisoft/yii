@@ -41,6 +41,8 @@
  * @property array $directions Sort directions indexed by attribute names.
  * The sort direction. Can be either CSort::SORT_ASC for ascending order or
  * CSort::SORT_DESC for descending order.
+ * @property array $requestParams parameters, among which the requested sort value will be searched.
+ * By default $_GET value will be used. This property available since 1.1.14
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
@@ -189,11 +191,32 @@ class CSort extends CComponent
 	public $separators=array('-','.');
 	/**
 	 * @var array the additional GET parameters (name=>value) that should be used when generating sort URLs.
-	 * Defaults to null, meaning using the currently available GET parameters.
+	 * Defaults to null, meaning using the current {@link requestParams} value.
 	 */
 	public $params;
 
 	private $_directions;
+	private $_requestParams;
+
+	/**
+	 * @param array $requestParams request parameters.
+	 * @since 1.1.14
+	 */
+	public function setRequestParams(array $requestParams)
+	{
+		$this->_requestParams = $requestParams;
+	}
+
+	/**
+	 * @return array request parameters.
+	 * @since 1.1.14
+	 */
+	public function getRequestParams()
+	{
+		if($this->_requestParams===null)
+			$this->_requestParams=$_GET;
+		return $this->_requestParams;
+	}
 
 	/**
 	 * Constructor.
@@ -343,9 +366,10 @@ class CSort extends CComponent
 		if($this->_directions===null)
 		{
 			$this->_directions=array();
-			if(isset($_GET[$this->sortVar]) && is_string($_GET[$this->sortVar]))
+			$requestParams=$this->getRequestParams();
+			if(isset($requestParams[$this->sortVar]) && is_string($requestParams[$this->sortVar]))
 			{
-				$attributes=explode($this->separators[0],$_GET[$this->sortVar]);
+				$attributes=explode($this->separators[0],$requestParams[$this->sortVar]);
 				foreach($attributes as $attribute)
 				{
 					if(($pos=strrpos($attribute,$this->separators[1]))!==false)
@@ -397,7 +421,7 @@ class CSort extends CComponent
 		$sorts=array();
 		foreach($directions as $attribute=>$descending)
 			$sorts[]=$descending ? $attribute.$this->separators[1].$this->descTag : $attribute;
-		$params=$this->params===null ? $_GET : $this->params;
+		$params=$this->params===null ? $this->getRequestParams() : $this->params;
 		$params[$this->sortVar]=implode($this->separators[0],$sorts);
 		return $controller->createUrl($this->route,$params);
 	}
