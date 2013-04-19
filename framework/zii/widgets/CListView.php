@@ -157,6 +157,11 @@ class CListView extends CBaseListView
 	 */
 	public $ajaxUrl;
 	/**
+	 * @var string the type (GET or POST) of the AJAX requests, default is "GET".
+	 * @since 1.1.14
+	 */
+	public $ajaxType;
+	/**
 	 * @var string a javascript function that will be invoked before an AJAX update occurs.
 	 * The function signature is <code>function(id)</code> where 'id' refers to the ID of the list view.
 	 */
@@ -237,6 +242,8 @@ class CListView extends CBaseListView
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
+		if($this->ajaxType!==null)
+			$options['ajaxType']=strtoupper($this->ajaxType);
 		if($this->updateSelector!==null)
 			$options['updateSelector']=$this->updateSelector;
 		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError') as $event)
