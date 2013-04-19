@@ -12,7 +12,7 @@
  * CTimestampBehavior will automatically fill date and time related attributes.
  *
  * CTimestampBehavior will automatically fill date and time related attributes when the active record
- * is created and/or upadated.
+ * is created and/or updated.
  * You may specify an active record model to use this behavior like so:
  * <pre>
  * public function behaviors(){
@@ -93,7 +93,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	}
 
 	/**
-	* Gets the approprate timestamp depending on the column type $attribute is
+	* Gets the appropriate timestamp depending on the column type $attribute is
 	*
 	* @param string $attribute $attribute
 	* @return mixed timestamp (eg unix timestamp or a mysql function)
@@ -109,7 +109,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	}
 
 	/**
-	* Returns the approprate timestamp depending on $columnType
+	* Returns the appropriate timestamp depending on $columnType
 	*
 	* @param string $columnType $columnType
 	* @return mixed timestamp (eg unix timestamp or a mysql function)
