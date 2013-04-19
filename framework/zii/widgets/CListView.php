@@ -158,8 +158,8 @@ class CListView extends CBaseListView
 	public $ajaxUrl;
 	/**
 	 * @var string the type (GET or POST) of the AJAX requests, default is "GET".
-	 * You can setup this to "POST", if you are using large filter and have a problem with GET query string overflow.
-	 * However, in such mode direct links and {@link enableHistory} feature may not work correctly!
+	 * You can set this to "POST" if you are filtering by many fields at once and have a problem with GET query string length.
+	 * Note that in POST mode direct links and {@link enableHistory} feature may not work correctly!
 	 * @since 1.1.14
 	 */
 	public $ajaxType;
