@@ -248,7 +248,7 @@
 				$grid.addClass(settings.loadingClass);
 
 				options = $.extend({
-					type: 'GET',
+					type: settings.ajaxType,
 					url: $grid.yiiGridView('getUrl'),
 					success: function (data) {
 						var $data = $('<div>' + data + '</div>');
