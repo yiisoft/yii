@@ -302,9 +302,15 @@
 						}
 					}
 				}, options || {});
-				if (options.data !== undefined && options.type === 'GET') {
-					options.url = $.param.querystring(options.url, options.data);
-					options.data = {};
+				if (options.type === 'GET') {
+					if (options.data !== undefined) {
+						options.url = $.param.querystring(options.url, options.data);
+						options.data = {};
+					}
+				} else {
+					if (options.data === undefined) {
+						options.data = $(settings.filterSelector).serialize();
+					}
 				}
 
 				if (settings.ajaxUpdate !== false) {
