@@ -189,7 +189,7 @@ class CPasswordHelper
 			));
 
 		$cost=(int)$cost;
-		if($cost<4 || $cost>30)
+		if($cost<4 || $cost>31)
 		    throw new CException(Yii::t('yii',
 				'{class}::$cost must be between 4 and 31.',
 				array("{class}"=>__CLASS__)
