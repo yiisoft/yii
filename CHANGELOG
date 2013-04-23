@@ -52,6 +52,7 @@ Version 1.1.14 work in progress
 - Enh #1447: CSqliteSchema: added enabling/disabling integrity check for sqlite (gleb-sternharz, resurtm)
 - Enh #1604: Added method CDbCommandBuilder::createMultipleInsertCommand() to support multiple insertion (klimov-paul)
 - Enh #1743: Added CActiveForm::searchField() and CHtml::activeSearchField() to create HTML input field of type SEARCH (njasm)
+- Enh #1796: Separate count criteria has been added to the CActiveDataProvider, it's useful for the counting queries simplification (resurtm)
 - Enh #1847: Added COutputCache::varyByLanguage to generate separate cache for different languages (Obramko)
 - Enh #1928: Gii is now able to use table columns' comments as the attribute labels of a new generated model (resurtm, tlikai)
 - Enh #1948: Tidy up and improve html5 input support in CHtml and CActiveForm (phpnode)
