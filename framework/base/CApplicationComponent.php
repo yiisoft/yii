@@ -26,6 +26,23 @@
 abstract class CApplicationComponent extends CComponent implements IApplicationComponent
 {
 	/**
+	 * @var CModule Owner of this CApplicationComponent,
+	 * which should be normally the Yii::app() in real-world applications,
+	 * but with this property we can also instantiate the application components in isolation.
+	 */
+	private $owner;
+
+	public function setOwner($owner)
+	{
+		$this->owner = $owner;
+	}
+
+	public function getOwner()
+	{
+		return $this->owner;
+	}
+
+	/**
 	 * @var array the behaviors that should be attached to this component.
 	 * The behaviors will be attached to the component when {@link init} is called.
 	 * Please refer to {@link CModel::behaviors} on how to specify the value of this property.

@@ -29,6 +29,21 @@ interface IApplicationComponent
 	 * @return boolean whether the {@link init()} method has been invoked.
 	 */
 	public function getIsInitialized();
+
+	/**
+	 * @var CModule $owner Set the owner of the component.
+	 * It's essentially a backreference to the module (possibly an application),
+	 * with which we can instantiate the component in isolation.
+	 */
+	public function setOwner($owner);
+
+	/**
+	 * @return CModule The owner of the component.
+	 * It should be the reference to object which instantiated the component.
+	 * It's essentially a backreference to the module (possibly an application),
+	 * with which we can instantiate the component in isolation.
+	 */
+	public function getOwner();
 }
 
 /**
