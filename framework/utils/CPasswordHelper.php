@@ -117,7 +117,7 @@ class CPasswordHelper
 		if(!is_string($password) || $password === '')
 			throw new CException(Yii::t('yii','Cannot hash a password that is empty or not a string.'));
 
-		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) || $matches[1] < 4 || $matches[1] > 30)
+		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) || $matches[1] < 4 || $matches[1] > 31)
 			return false;
 
 		$test=crypt($password,$hash);
@@ -189,7 +189,7 @@ class CPasswordHelper
 			));
 
 		$cost=(int)$cost;
-		if($cost<4 || $cost>30)
+		if($cost<4 || $cost>31)
 		    throw new CException(Yii::t('yii',
 				'{class}::$cost must be between 4 and 31.',
 				array("{class}"=>__CLASS__)

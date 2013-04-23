@@ -36,7 +36,8 @@
 		 * yiiGridView set function.
 		 * @param options map settings for the grid view. Available options are as follows:
 		 * - ajaxUpdate: array, IDs of the containers whose content may be updated by ajax response
-		 * - ajaxVar: string, the name of the GET variable indicating the ID of the element triggering the AJAX request
+		 * - ajaxVar: string, the name of the request variable indicating the ID of the element triggering the AJAX request
+		 * - ajaxType: string, the type (GET or POST) of the AJAX request
 		 * - pagerClass: string, the CSS class for the pager container
 		 * - tableClass: string, the CSS class for the table
 		 * - selectableRows: integer, the number of rows that can be selected
@@ -51,6 +52,7 @@
 			var settings = $.extend({
 					ajaxUpdate: [],
 					ajaxVar: 'ajax',
+					ajaxType: 'GET',
 					pagerClass: 'pager',
 					loadingClass: 'loading',
 					filterClass: 'filters',
@@ -246,7 +248,7 @@
 				$grid.addClass(settings.loadingClass);
 
 				options = $.extend({
-					type: 'GET',
+					type: settings.ajaxType,
 					url: $grid.yiiGridView('getUrl'),
 					success: function (data) {
 						var $data = $('<div>' + data + '</div>');
@@ -300,9 +302,15 @@
 						}
 					}
 				}, options || {});
-				if (options.data !== undefined && options.type === 'GET') {
-					options.url = $.param.querystring(options.url, options.data);
-					options.data = {};
+				if (options.type === 'GET') {
+					if (options.data !== undefined) {
+						options.url = $.param.querystring(options.url, options.data);
+						options.data = {};
+					}
+				} else {
+					if (options.data === undefined) {
+						options.data = $(settings.filterSelector).serialize();
+					}
 				}
 
 				if (settings.ajaxUpdate !== false) {

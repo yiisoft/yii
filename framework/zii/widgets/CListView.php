@@ -157,6 +157,13 @@ class CListView extends CBaseListView
 	 */
 	public $ajaxUrl;
 	/**
+	 * @var string the type ('GET' or 'POST') of the AJAX requests. If not set, 'GET' will be used.
+	 * You can set this to 'POST' if you are filtering by many fields at once and have a problem with GET query string length.
+	 * Note that in POST mode direct links and {@link enableHistory} feature may not work correctly!
+	 * @since 1.1.14
+	 */
+	public $ajaxType;
+	/**
 	 * @var string a javascript function that will be invoked before an AJAX update occurs.
 	 * The function signature is <code>function(id)</code> where 'id' refers to the ID of the list view.
 	 */
@@ -237,6 +244,8 @@ class CListView extends CBaseListView
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
+		if($this->ajaxType!==null)
+			$options['ajaxType']=strtoupper($this->ajaxType);
 		if($this->updateSelector!==null)
 			$options['updateSelector']=$this->updateSelector;
 		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError') as $event)

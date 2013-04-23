@@ -9,6 +9,11 @@ class ValidatorTestModel extends CFormModel
 
 	public $url;
 
+	public $number;
+
+	public $username;
+	public $address;
+
 	public function rules()
 	{
 		return array(
@@ -22,6 +27,11 @@ class ValidatorTestModel extends CFormModel
 			array('email', 'email', 'allowEmpty'=>false, 'on'=>'CEmailValidatorTest'),
 
 			array('url', 'url', 'allowEmpty'=>false, 'on'=>'CUrlValidatorTest'),
+
+			array('number', 'numerical', 'min'=>5, 'max'=>15, 'integerOnly'=>true, 'on'=>'CNumberValidatorTest'),
+
+			array('username', 'required', 'trim' => false, 'on' => 'CRequiredValidatorTest'),
+			array('address', 'required', 'on' => 'CRequiredValidatorTest'),
 		);
 	}
 }

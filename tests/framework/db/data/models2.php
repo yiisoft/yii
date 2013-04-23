@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ */
 class User2 extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -32,6 +38,12 @@ class User2 extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property integer $user_id
+ */
 class Post2 extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -62,6 +74,12 @@ class Post2 extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property integer $user_id
+ */
 class PostExt2 extends CActiveRecord
 {
 	public $title='default title';
@@ -85,6 +103,12 @@ class PostExt2 extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $content
+ * @property integer $post_id
+ * @property integer $author_id
+ */
 class Comment2 extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -106,7 +130,11 @@ class Comment2 extends CActiveRecord
 	}
 }
 
-
+/**
+ * @property integer $id
+ * @property string $name
+ * @property integer $parent_id
+ */
 class Category2 extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -130,7 +158,11 @@ class Category2 extends CActiveRecord
 	}
 }
 
-
+/**
+ * @property integer $key1
+ * @property integer $key2
+ * @property string $name
+ */
 class Order2 extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -151,6 +183,12 @@ class Order2 extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $name
+ * @property integer $col1
+ * @property integer $col2
+ */
 class Item2 extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -171,6 +209,19 @@ class Item2 extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $int_col
+ * @property integer $int_col2
+ * @property string $char_col
+ * @property string $char_col2
+ * @property string $char_col3
+ * @property float $numeric_col
+ * @property float $real_col
+ * @property string $blob_col
+ * @property string $time
+ * @property integer $bool_col
+ * @property integer $bool_col2
+ */
 class ComplexType2 extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
