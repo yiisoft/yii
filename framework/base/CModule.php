@@ -385,6 +385,8 @@ abstract class CModule extends CComponent
 				unset($config['enabled']);
 				$component=Yii::createComponent($config);
 				$component->init();
+				$component->setOwner($this);
+
 				return $this->_components[$id]=$component;
 			}
 		}
@@ -417,6 +419,8 @@ abstract class CModule extends CComponent
 
 			if(!$component->getIsInitialized())
 				$component->init();
+
+			$component->setOwner($this);
 
 			return;
 		}
