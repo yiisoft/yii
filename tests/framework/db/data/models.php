@@ -96,7 +96,7 @@ class Group extends CActiveRecord
 			'comments'=>array(self::HAS_MANY,'Comment',array('id'=>'author_id'),'through'=>'users'),
 			'description'=>array(self::HAS_ONE,'GroupDescription','group_id'),
 			/* Support for {@link CActiveRecordTest::testLazyLoadThroughRelationWithCondition()}: */
-			'rolesWhichEmptyByCondition'=>array(self::HAS_MANY,'Role','group_id','condition'=>'2<:compareValue','params'=>array(':compareValue'=>1)),
+			'rolesWhichEmptyByCondition'=>array(self::HAS_MANY,'Role','group_id','condition'=>'2=:compareValue','params'=>array(':compareValue'=>1)),
 			'usersWhichEmptyByCondition'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'rolesWhichEmptyByCondition'),
 		);
 	}
