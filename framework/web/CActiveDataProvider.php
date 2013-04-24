@@ -147,6 +147,19 @@ class CActiveDataProvider extends CDataProvider
 		}
 
 		$this->model->setDbCriteria($baseCriteria!==null ? clone $baseCriteria : null);
+		if($pagination !== false){
+                    if($pagination->currentPage>0)
+                    {
+                        $curpage = $pagination->currentPage+1;
+
+                        $rowall = $this->model->count($criteria);
+                        $maxpage = floor($rowall/$criteria->limit);
+                        $lastrow = $rowall%$criteria->limit;
+
+                        if($curpage>$maxpage)
+                                $criteria->limit = $lastrow;    
+                    }
+                }
 		$data=$this->model->findAll($criteria);
 		$this->model->setDbCriteria($baseCriteria);  // restore original criteria
 		return $data;
