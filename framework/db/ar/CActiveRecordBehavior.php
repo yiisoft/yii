@@ -103,7 +103,8 @@ class CActiveRecordBehavior extends CModelBehavior
 
 	/**
 	 * Responds to {@link CActiveRecord::onBeforeCount} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 * @since 1.1.14
 	 */
