@@ -3,6 +3,7 @@
 
 Version 1.1.14 work in progress
 -------------------------------
+- Add comment with tip on ajax validaton which may lead to duplicate entries in the database (elmig)
 - Bug #135: Fixed wrong CActiveRecord rows count with having (klimov-paul)
 - Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
