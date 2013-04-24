@@ -890,8 +890,15 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * This event is raised before the record is instantiated by a count method.
-	 * @param CEvent $event the event parameter
+	 * This event is raised before an AR finder performs a count call.
+	 * If you want to access or modify the query criteria used for the
+	 * count call, you can use {@link getDbCriteria()} to customize it based on your needs.
+	 * When modifying criteria in beforeCount you have to make sure you are using the right
+	 * table alias which is different on normal count and relational call.
+	 * You can use {@link getTableAlias()} to get the alias used for the upcoming count call.
+	 * @param CModelEvent $event the event parameter
+	 * @see beforeCount
+	 * @since 1.1.14
 	 */
 	public function onBeforeCount($event)
 	{
@@ -987,6 +994,7 @@ abstract class CActiveRecord extends CModel
 	 * The default implementation raises the {@link onBeforeCount} event.
 	 * If you override this method, make sure you call the parent implementation
 	 * so that the event is raised properly.
+	 * @since 1.1.14
 	 */
 	protected function beforeCount()
 	{
