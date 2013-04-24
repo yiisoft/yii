@@ -84,7 +84,7 @@ Version 1.1.13 work in progress
 - Enh #1286: CUrlValidator now supports IDN (Internationalized Domain Names), added CUrlValidator::$validateIDN property (resurtm)
 - Enh #1289: Added support for column comments for MSSQL (CDbColumnSchema::$comment property) (resurtm)
 - Enh #1299: Added CSRF token validation for PUT and DELETE (miraage, samdark)
-- Enh #1353: Added onBeforeCount to active records (jakob-stoeck)
+- Enh #1353: Added onBeforeCount to CActiveRecord (jakob-stoeck)
 - Enh #1369: Added CCheckBoxColumn::disabled that accepts PHP expression or anonymous function determining if checkbox for the row should be disabled (sucotronic)
 - Enh #1386: Second parameter of the CHtml::value() is now able to accept anonymous function which calculates value to be used (Qiang, resurtm)
 - Enh #1396: Added 'text/csv' mime-type for the 'csv' file extension in utils/mimeTypes.php (effectively used by e.g. CHttpRequest::sendFile()) (rawtaz)
