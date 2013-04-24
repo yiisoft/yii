@@ -890,6 +890,22 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * This event is raised before an AR finder performs a count call.
+	 * If you want to access or modify the query criteria used for the
+	 * count call, you can use {@link getDbCriteria()} to customize it based on your needs.
+	 * When modifying criteria in beforeCount you have to make sure you are using the right
+	 * table alias which is different on normal count and relational call.
+	 * You can use {@link getTableAlias()} to get the alias used for the upcoming count call.
+	 * @param CModelEvent $event the event parameter
+	 * @see beforeCount
+	 * @since 1.1.14
+	 */
+	public function onBeforeCount($event)
+	{
+		$this->raiseEvent('onBeforeCount',$event);
+	}
+
+	/**
 	 * This method is invoked before saving a record (after validation, if any).
 	 * The default implementation raises the {@link onBeforeSave} event.
 	 * You may override this method to do any preparation work for record saving.
@@ -970,6 +986,20 @@ abstract class CActiveRecord extends CModel
 			$event=new CModelEvent($this);
 			$this->onBeforeFind($event);
 		}
+	}
+
+	/**
+	 * This method is invoked before an AR finder executes a count call.
+	 * The count calls include {@link count} and {@link countByAttributes}
+	 * The default implementation raises the {@link onBeforeCount} event.
+	 * If you override this method, make sure you call the parent implementation
+	 * so that the event is raised properly.
+	 * @since 1.1.14
+	 */
+	protected function beforeCount()
+	{
+		if($this->hasEventHandler('onBeforeCount'))
+			$this->onBeforeCount(new CEvent($this));
 	}
 
 	/**
@@ -1543,6 +1573,7 @@ abstract class CActiveRecord extends CModel
 	{
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
+		$this->beforeCount();
 		$criteria=$builder->createCriteria($condition,$params);
 		$this->applyScopes($criteria);
 
@@ -1570,6 +1601,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.countByAttributes()','system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$builder=$this->getCommandBuilder();
+		$this->beforeCount();
 		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		$this->applyScopes($criteria);
 
@@ -1593,6 +1625,7 @@ abstract class CActiveRecord extends CModel
 	public function countBySql($sql,$params=array())
 	{
 		Yii::trace(get_class($this).'.countBySql()','system.db.ar.CActiveRecord');
+		$this->beforeCount();
 		return $this->getCommandBuilder()->createSqlCommand($sql,$params)->queryScalar();
 	}
 
