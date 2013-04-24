@@ -622,10 +622,28 @@ class CGridView extends CBaseListView
 	}
 
 	/**
-	 * @param CFormatter $value the formatter instance
+	 * @param CFormatter|array $value the formatter instance or an array of configuration for the formatter
+	 * if an array and it contains a 'class' element, it will create a new formatter
+	 * otherwise it will clone the current formatter and set the new options to it
 	 */
 	public function setFormatter($value)
 	{
+		if(is_array($value))
+		{
+			if(!isset($value['class']))
+			{
+				$formatter=clone $this->formatter;
+				foreach($value as $i=>$v)
+				{
+					$formatter->$i=$v;
+				}
+			}
+			else
+			{
+				$formatter=Yii::createComponent($value);
+			}
+			$value=$formatter;
+		}
 		$this->_formatter=$value;
 	}
 }
