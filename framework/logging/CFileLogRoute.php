@@ -52,6 +52,7 @@ class CFileLogRoute extends CLogRoute
 	/**
 	 * @var boolean Whether to rotate primary log by copy and truncate
 	 * which is more compatible with log tailers. Defaults to false.
+	 * @since 1.1.14
 	 */
 	public $rotateByCopy=false;
 
@@ -134,22 +135,6 @@ class CFileLogRoute extends CLogRoute
 	{
 		if(($this->_maxLogFiles=(int)$value)<1)
 			$this->_maxLogFiles=1;
-	}
-
-	/**
-	 * @return boolean whether to rotate primary log by copy and truncate
-	 */
-	public function getRotateByCopy()
-	{
-		return $this->_rotateByCopy;
-	}
-
-	/**
-	 * @param boolean whether to rotate primary log by copy and truncate
-	 */
-	public function setRotateByCopy($value)
-	{
-		$this->_rotateByCopy=(bool)$value;
 	}
 
 	/**
