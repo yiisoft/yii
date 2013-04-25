@@ -459,7 +459,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 					$this->changeIdentity($id,$name,$states);
 					if($this->autoRenewCookie)
 					{
-						$this->saveToCookie(time()+$duration);
+						$this->saveToCookie($duration);
 					}
 					$this->afterLogin(true);
 				}
@@ -483,7 +483,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$data=@unserialize($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
-				$this->saveToCookie(time()+$data[2]);
+				$this->saveToCookie($data[2]);
 			}
 		}
 	}
