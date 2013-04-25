@@ -178,7 +178,7 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used to filter included and excluded categories
 	 * @param array $value element to be filtered
-	 * @param integer index of the values array to be used for check
+	 * @param integer $index index of the values array to be used for check
 	 * @return boolean true if valid timing entry, false if not.
 	 */
 	private function filterAllCategories($value, $index)
