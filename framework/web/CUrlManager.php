@@ -265,7 +265,11 @@ class CUrlManager extends CApplicationComponent
 		if(is_array($route) && isset($route['class']))
 			return $route;
 		else
-			return new $this->urlRuleClass($route,$pattern);
+		{
+			if(($pos=strrpos($urlRuleClass=$this->urlRuleClass,'.'))!==false)
+				$urlRuleClass=Yii::import($urlRuleClass,true);
+			return new $urlRuleClass($route,$pattern);
+		}
 	}
 
 	/**
