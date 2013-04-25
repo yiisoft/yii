@@ -472,6 +472,7 @@ class CActiveForm extends CWidget
 		if($enableClientValidation)
 		{
 			$validators=isset($htmlOptions['clientValidation']) ? array($htmlOptions['clientValidation']) : array();
+			unset($htmlOptions['clientValidation']);
 
 			$attributeName = $attribute;
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1) // e.g. [a]name
