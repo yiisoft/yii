@@ -65,11 +65,11 @@ class CActiveDataProvider extends CDataProvider
 	public $keyAttribute;
 
 	/**
-	 * @var CDbCriteria|null
+	 * @var CDbCriteria
 	 */
 	private $_criteria;
 	/**
-	 * @var CDbCriteria|null
+	 * @var CDbCriteria
 	 */
 	private $_countCriteria;
 
