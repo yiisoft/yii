@@ -460,7 +460,11 @@ class CJoinElement
 
 		if(!$this->children)
 			return;
-		$child=end($this->children); // bridge(s) inside, we're taking only last necessary child
+
+		$params=array();
+		foreach($this->children as $child)
+			if(is_array($child->relation->params))
+				$params=array_merge($params,$child->relation->params);
 
 		$query=new CJoinQuery($child);
 		$query->selects=array($child->getColumnSelect($child->relation->select));
@@ -472,8 +476,7 @@ class CJoinElement
 		$query->joins[]=$child->relation->join;
 		$query->havings[]=$child->relation->having;
 		$query->orders[]=$child->relation->order;
-		if(is_array($child->relation->params))
-			$query->params=$child->relation->params;
+		$query->params=$params;
 		$query->elements[$child->id]=true;
 		if($child->relation instanceof CHasManyRelation)
 		{
