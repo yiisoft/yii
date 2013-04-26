@@ -30,6 +30,7 @@ Version 1.1.14 work in progress
 - Bug #2087: CLocale: getLocaleDisplayName() was only returning the language display name, not the full locale display name (brandonkelly)
 - Bug #2112: Fixed broken yiic shell CRUD command (mbischof)
 - Bug #2121: CMssqlSchema::resetSequence() incorrectly resets sequence (resurtm, joewoodhouse)
+- Bug #2122: CActiveRecord, lazy load: 'params' from relations used in 'through' option were not applied to the final SQL statement (resurtm)
 - Bug #2123: Fixed error in plural rules handling if locale has no plural rules defined (cebe, stepanselyuk)
 - Bug #2146: CEmailValidator fix when fsockopen() can output uncatched error 'Connection refused (61)' (armab)
 - Bug #2159: Fixed SQL syntax for delete command with join in MySQL (serebrov)
