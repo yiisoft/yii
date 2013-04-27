@@ -920,7 +920,7 @@ class CHtml
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		$hidden='';
 
-		if(isset($htmlOptions['multiple']))
+		if(!empty($htmlOptions['multiple']))
 		{
 			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
@@ -973,7 +973,7 @@ class CHtml
 	{
 		if(!isset($htmlOptions['size']))
 			$htmlOptions['size']=4;
-		if(isset($htmlOptions['multiple']))
+		if(!empty($htmlOptions['multiple']))
 		{
 			if(substr($name,-2)!=='[]')
 				$name.='[]';
@@ -1800,7 +1800,7 @@ EOD;
 			self::addErrorCss($htmlOptions);
 
 		$hidden='';
-		if(isset($htmlOptions['multiple']))
+		if(!empty($htmlOptions['multiple']))
 		{
 			if(substr($htmlOptions['name'],-2)!=='[]')
 				$htmlOptions['name'].='[]';
