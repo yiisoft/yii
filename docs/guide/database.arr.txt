@@ -382,6 +382,28 @@ $posts=Post::model()->with('comments')->findAll(array(
 ));
 ~~~
 
+> Tip: The default alias of a nested relation table is the relation name of the last one
+> without any prefix. For example, the alias for 'author.group' relation is 'group', not 'author.group'.
+>
+> ~~~
+> [php]
+> $posts=Post::model()->with('author', 'author.group')->findAll(array(
+> 	'order'=>'group.name, author.name, t.title'
+> ));
+> ~~~
+> 
+> You can avoid the collision of tables' aliases by specifying the [alias|CActiveRelation::alias] property
+> of the relation.
+>
+> ~~~
+> [php]
+> $comments=Comment::model()->with(
+> 	'author',
+> 	'post',
+> 	'post.author'=>array('alias'=>'p_author'))->findAll(array(
+> 	'order'=>'author.name, p_author.name, post.title'
+> ));
+> ~~~
 
 Dynamic Relational Query Options
 --------------------------------
