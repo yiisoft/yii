@@ -382,8 +382,10 @@ $posts=Post::model()->with('comments')->findAll(array(
 ));
 ~~~
 
-> Tip: The default alias of a nested relation table is the relation name of the last one
-> without any prefix. For example, the alias for 'author.group' relation is 'group', not 'author.group'.
+> Tip: The default alias of a related table is the name of the relation. Please note that if you're
+> using relation from within another relation the alias will be the former relation name only and
+> will not be prefixed with the parent relation. For example, the alias for 'author.group' relation is
+> 'group', not 'author.group'.
 >
 > ~~~
 > [php]
