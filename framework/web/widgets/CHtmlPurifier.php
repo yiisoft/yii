@@ -26,6 +26,8 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * Note: since HTML Purifier is a big package, its performance is not very good.
  * You should consider either caching the purification result or purifying the user input
  * before saving to database.
+ * Also, please note, the options property is bound to the created instance, 
+ * therefore you need to create a new instance for each options set. 
  *
  * Usage as a class:
  * <pre>
