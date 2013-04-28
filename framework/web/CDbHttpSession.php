@@ -27,6 +27,10 @@
  * </pre>
  * Where 'BLOB' refers to the BLOB-type of your preffered database.
  *
+ * Note that if your session IDs are more than 32 characters (can be changed via
+ * session.hash_bits_per_character or session.hash_function) you should modify
+ * SQL schema accordingly.
+ *
  * CDbHttpSession relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
  *
  * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
