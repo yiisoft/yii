@@ -48,6 +48,10 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  */
 class CHtmlPurifier extends COutputProcessor
 {
+    /**
+	 * @var mixed the HTML Purifier instance.
+	 */
+    protected $_purifier;
 	/**
 	 * @var mixed the options to be passed to HTML Purifier instance.
 	 * This can be a HTMLPurifier_Config object,  an array of directives (Namespace.Directive => Value)
@@ -69,13 +73,25 @@ class CHtmlPurifier extends COutputProcessor
 
 	/**
 	 * Purifies the HTML content by removing malicious code.
-	 * @param string $content the content to be purified.
-	 * @return string the purified content
+	 * @param mixed $content the content to be purified.
+	 * @return mixed the purified content
 	 */
 	public function purify($content)
 	{
-		$purifier=new HTMLPurifier($this->options);
-		$purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
-		return $purifier->purify($content);
+        if(is_array($content))
+            $content=array_map(array($this, 'purify'),$content);
+        else
+            $content=$this->getPurifier()->purify($content);
+        
+        return $content;    
 	}
+    
+    public function getPurifier()
+    {
+        if($this->_purifier!==null)
+            return $this->_purifier;
+        $this->_purifier=new HTMLPurifier($this->options);
+		$this->_purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
+        return $this->_purifier;
+    }
 }
