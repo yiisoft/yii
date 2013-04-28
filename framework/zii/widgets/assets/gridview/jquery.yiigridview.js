@@ -8,7 +8,7 @@
  */
 
 (function ($) {
-	var selectCheckedRows, methods, yiiXHR,
+	var selectCheckedRows, methods, yiiXHR={},
 		gridSettings = [];
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
@@ -251,8 +251,6 @@
 					url: $grid.yiiGridView('getUrl'),
 					success: function (data) {
 						var $data = $('<div>' + data + '</div>');
-						yiiXHR = null;
-						$grid.removeClass(settings.loadingClass);
 						$.each(settings.ajaxUpdate, function (i, el) {
 							var updateId = '#' + el;
 							$(updateId).replaceWith($(updateId, $data));
@@ -264,10 +262,12 @@
 							selectCheckedRows(id);
 						}
 					},
+					complete: function () {
+						yiiXHR[id] = null;
+						$grid.removeClass(settings.loadingClass);
+					},
 					error: function (XHR, textStatus, errorThrown) {
 						var ret, err;
-						yiiXHR = null;
-						$grid.removeClass(settings.loadingClass);
 						if (XHR.readyState === 0 || XHR.status === 0) {
 							return;
 						}
@@ -313,8 +313,8 @@
 						options.data = $(settings.filterSelector).serialize();
 					}
 				}
-				if(yiiXHR != null){//there is an ajax request, cancel it
-					yiiXHR.abort();
+				if(yiiXHR[id] != null){
+					yiiXHR[id].abort();
 				}
 				//class must be add after yiiXHR.abort otherwise ajax.error will remove it
 				$grid.addClass(settings.loadingClass);
@@ -324,7 +324,7 @@
 					if (settings.beforeAjaxUpdate !== undefined) {
 						settings.beforeAjaxUpdate(id, options);
 					}
-					yiiXHR = $.ajax(options);
+					yiiXHR[id] = $.ajax(options);
 				} else {  // non-ajax mode
 					if (options.type === 'GET') {
 						window.location.href = options.url;
