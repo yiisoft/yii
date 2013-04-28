@@ -8,7 +8,7 @@
  */
 
 ;(function($) {
-	var yiiXHR;
+	var yiiXHR = {};
 	/**
 	 * yiiListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
@@ -116,13 +116,13 @@
 				});
 				if(settings.afterAjaxUpdate != undefined)
 					settings.afterAjaxUpdate(id, data);
+			},
+			complete: function() {
 				$('#'+id).removeClass(settings.loadingClass);
-				yiiXHR = null;
+				yiiXHR[id] = null;
 			},
 			error: function(XHR, textStatus, errorThrown) {
 				var ret, err;
-				$('#'+id).removeClass(settings.loadingClass);
-				yiiXHR = null;
 				if (XHR.readyState === 0 || XHR.status === 0) {
 					return;
 				}
@@ -165,15 +165,15 @@
 		}
 		options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
 		
-		if(yiiXHR != null) {
-			yiiXHR.abort();	
+		if(yiiXHR[id] != null) {
+			yiiXHR[id].abort();	
 		}
 		
 		$('#'+id).addClass(settings.loadingClass);
 
 		if(settings.beforeAjaxUpdate != undefined)
 			settings.beforeAjaxUpdate(id);
-		yiiXHR = $.ajax(options);
+		yiiXHR[id] = $.ajax(options);
 	};
 
 })(jQuery);
