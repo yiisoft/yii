@@ -26,8 +26,6 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * Note: since HTML Purifier is a big package, its performance is not very good.
  * You should consider either caching the purification result or purifying the user input
  * before saving to database.
- * Also, please note, the options property is bound to the created instance, 
- * therefore you need to create a new instance for each options set. 
  *
  * Usage as a class:
  * <pre>
@@ -60,7 +58,7 @@ class CHtmlPurifier extends COutputProcessor
 	 * or the filename of an ini file.
 	 * @see http://htmlpurifier.org/live/configdoc/plain.html
 	 */
-	public $options=null;
+	protected $_options=null;
 
 	/**
 	 * Processes the captured output.
@@ -84,15 +82,47 @@ class CHtmlPurifier extends COutputProcessor
             $content=array_map(array($this, 'purify'),$content);
         else
             $content=$this->getPurifier()->purify($content);
-        
         return $content;    
 	}
     
-    public function getPurifier()
+    /**
+    * Set the options for the HTMLPurifier 
+    * @param mixed $options the options
+    **/
+    public function setOptions($options)
+    {
+        $this->_options = $options;
+        $this->createHtmlPurifierInstance();
+        return $this;
+    }
+    
+    /**
+    * Get the options for the HTMLPurifier 
+    * @return mixed the options
+    **/
+    public function getOptions()
+    {
+        return $this->_options;
+    }
+    
+    /**
+    * Get the HTMLPurifier instance or create a new one if it doesn't exist.
+    * @return object HTMLPurifier instance
+    **/
+    protected function getPurifier()
     {
         if($this->_purifier!==null)
             return $this->_purifier;
-        $this->_purifier=new HTMLPurifier($this->options);
+        return $this->createHtmlPurifierInstance();
+    }
+    
+    /**
+    * Create the HTMLPurifier instance.
+    * @return object HTMLPurifier instance
+    **/
+    protected function createHtmlPurifierInstance()
+    {
+        $this->_purifier=new HTMLPurifier($this->getOptions());
 		$this->_purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
         return $this->_purifier;
     }
