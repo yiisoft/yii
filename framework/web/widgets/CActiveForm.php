@@ -161,10 +161,11 @@ class CActiveForm extends CWidget
 	 */
 	public $stateful=false;
 	/**
-	 * @var string the CSS class name for error messages. Defaults to 'errorMessage'.
+	 * @var string the CSS class name for error messages. 
+	 * Since 1.1.14 this defaults to 'errorMessage' defined in {@link CHtml::$errorMessageCss}.
 	 * Individual {@link error} call may override this value by specifying the 'class' HTML option.
 	 */
-	public $errorMessageCssClass='errorMessage';
+	public $errorMessageCssClass;
 	/**
 	 * @var array additional HTML attributes that should be rendered for the form tag.
 	 */
@@ -325,6 +326,9 @@ class CActiveForm extends CWidget
 			echo CHtml::statefulForm($this->action, $this->method, $this->htmlOptions);
 		else
 			echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
+			
+		if($this->errorMessageCssClass===null)
+			$this->errorMessageCssClass=CHtml::$errorMessageCss;
 	}
 
 	/**
@@ -468,6 +472,7 @@ class CActiveForm extends CWidget
 		if($enableClientValidation)
 		{
 			$validators=isset($htmlOptions['clientValidation']) ? array($htmlOptions['clientValidation']) : array();
+			unset($htmlOptions['clientValidation']);
 
 			$attributeName = $attribute;
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1) // e.g. [a]name
@@ -494,7 +499,7 @@ class CActiveForm extends CWidget
 				$htmlOptions['style']=rtrim($htmlOptions['style'],';').';display:none';
 			else
 				$htmlOptions['style']='display:none';
-			$html=CHtml::tag('div',$htmlOptions,'');
+			$html=CHtml::tag(CHtml::$errorContainerTag,$htmlOptions,'');
 		}
 
 		$this->attributes[$inputID]=$option;
@@ -675,8 +680,9 @@ class CActiveForm extends CWidget
 	 */
 	public function telField($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeTimeField($model,$attribute,$htmlOptions);
+		return CHtml::activeTelField($model,$attribute,$htmlOptions);
 	}
+
 	/**
 	 * Renders a text field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeTextField}.
@@ -690,6 +696,22 @@ class CActiveForm extends CWidget
 	public function textField($model,$attribute,$htmlOptions=array())
 	{
 		return CHtml::activeTextField($model,$attribute,$htmlOptions);
+	}
+
+	/**
+	 * Renders a search field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeSearchField}.
+	 * Please check {@link CHtml::activeSearchField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 * @since 1.1.14
+	 */
+	public function searchField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeSearchField($model,$attribute,$htmlOptions);
 	}
 
 	/**

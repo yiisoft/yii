@@ -22,7 +22,7 @@ class CMssqlTest extends CTestCase
 	const DB_NAME='yii';
 	const DB_USER='test';
 	const DB_PASS='test';
-	const DB_DSN_PREFIX='dblib'; // Set this to 'mssql' or 'sqlsrv' on MS Windows or 'dblib' on GNU/Linux.
+	const DB_DSN_PREFIX='sqlsrv'; // Set this to 'mssql' or 'sqlsrv' on MS Windows or 'dblib' on GNU/Linux.
 
 	/**
 	 * @var CDbConnection
@@ -375,5 +375,25 @@ EOD;
 		$this->assertEquals(4, $user->primaryKey);
 		$this->assertEquals(4, $user->id);
 		$this->assertEquals(4, $this->db->createCommand('SELECT MAX(id) FROM [dbo].[users]')->queryScalar());
+	}
+
+	public function testResetSequence()
+	{
+		$tables=$this->db->schema->tables;
+
+		$this->db->schema->resetSequence($tables['users']);
+		$this->db->createCommand()->insert('users',array('username'=>'testerX','password'=>'passwordX','email'=>'emailX@gmail.com'));
+		$id=$this->db->createCommand()->select('id')->from('users')->where("[username]='testerX'")->queryScalar();
+		$this->assertEquals(4,$id);
+
+		$this->db->schema->resetSequence($tables['users'],100);
+		$this->db->createCommand()->insert('users',array('username'=>'testerY','password'=>'passwordY','email'=>'emailY@gmail.com'));
+		$id=$this->db->createCommand()->select('id')->from('users')->where("[username]='testerY'")->queryScalar();
+		$this->assertEquals(100,$id);
+
+		$this->db->schema->resetSequence($tables['users']);
+		$this->db->createCommand()->insert('users',array('username'=>'testerZ','password'=>'passwordZ','email'=>'emailZ@gmail.com'));
+		$id=$this->db->createCommand()->select('id')->from('users')->where("[username]='testerZ'")->queryScalar();
+		$this->assertEquals(101,$id);
 	}
 }

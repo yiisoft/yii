@@ -93,7 +93,7 @@ array('AttributeList', 'Validator', 'on'=>'ScenarioList', ... 追加のオプシ
 
 ~~~
 [php]
-// シナリオ名を列挙した配列
+// 任意のシナリオ名を含む配列
 'on'=>array('update', 'create'),
 // カンマで区切られたシナリオ名の文字列 (空白は無視されます)
 'except'=>'ignore, this, scenarios, at-all',

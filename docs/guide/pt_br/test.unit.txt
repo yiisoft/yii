@@ -1,0 +1,120 @@
+Testes Unitários
+============
+
+Uma vez que o framework de testes do Yii é construído em cima do
+[PHPUnit](http://www.phpunit.de/), é recomendado que você primeiro consulte
+[sua documentação](http://www.phpunit.de/manual/current/en/index.html)
+para entender o básico sobre como escrever um teste unitário. Nós
+resumimos a seguir os princípios básicos de escrita de um teste unitário no Yii:
+
+ * Um teste unitário é escrito em termos de uma classe `XyzTest` que estende de
+   [CTestCase] ou [CDbTestCase], onde `Xyz` representa a classe sendo testada.
+   Por exemplo, para testar a classe `Post`, por convenção devemos chamar a
+   classe de teste unitário correspondente de `PostTest`. A classe-mãe
+   [CTestCase] é destinada para testes unitários genéricos, enquanto a
+   [CDbTestCase] é adequada para testar classes de modelo
+   [active record](/doc/guide/database.ar). Já que `PHPUnit_Framework_TestCase`
+   é a classe-mãe de ambas as classes, nós podemos usar todos os métodos
+   herdados desta classe.
+
+ * A classe de teste unitário é salva em um arquivo PHP chamado de
+   `XyzTest.php`. Por convenção, o arquivo de teste unitário pode ser armazenado
+   no diretório `protected/tests/unit`.
+
+ * A classe de teste contém na maior parte um conjunto de métodos de teste
+   chamados como `testAbc`, onde `Abc` geralmente é o nome do método da classe
+   que será testado.
+
+ * Um método de teste geralmente contém uma série de métodos de asserção (por
+   exemplo, `assertTrue`, `assertEquals`) que servem como checkpoints ao
+   validar o comportamento da classe alvo.
+
+
+A seguir, descrevemos principalmente como escrever testes unitários para classes
+de modelo [active record](/doc/guide/database.ar). Estenderemos as nossas
+classes de [CDbTestCase] porque ela fornece o suporte às fixtures de banco de
+dados que introduzimos na seção anterior.
+
+Suponha que queremos testar a classe do modelo `Comment` (comentário) no
+[exemplo de blog](http://www.yiiframework.com/demos/blog/). Começamos criando
+uma classe chamada de `CommentTest` e a salvando como
+`protected/tests/unit/CommentTest.php`:
+
+~~~
+[php]
+class CommentTest extends CDbTestCase
+{
+	public $fixtures=array(
+		'posts'=>'Post',
+		'comments'=>'Comment',
+	);
+
+	......
+}
+~~~
+
+Nesta classe, especificamos o atributo `fixtures` como um array que especifica
+quais fixtures serão usadas por este teste. O array representa um mapeamento
+dos nomes das fixtures aos nomes das classes de modelo ou aos nomes das tabelas
+das fixtures (por exemplo, do nome de fixture `posts` para a classe de modelo
+`Post`). Note que ao mapear para nomes de tabelas de fixtures, devemos prefixar
+o nome da tabela com dois pontos (por exemplo, `:Post`) para diferenciá-lo dos
+nomes de classe de modelo. E ao usar nomes de classes de modelo, as tabelas
+correspondentes serão consideradas como tabelas de fixtures. Conforme
+descrevemos anteriormente, as tabelas das fixtures serão resetadas a algum
+estado conhecido toda vez que um método de teste for executado.
+
+Os nomes das fixtures nos permitem acessar os seus dados nos métodos de teste de
+uma maneira conveniente. O código a seguir demonstra a sua típica utilização:
+
+~~~
+[php]
+// retorna todas as linhas na tabela da fixture 'Comment'
+$comments = $this->comments;
+// retorna a linha cujo alias é 'sample1' na tabela da fixture `Post`
+$post = $this->posts['sample1'];
+// retorna a instância de AR representando a linha de dados 'sample1'
+$post = $this->posts('sample1');
+~~~
+
+> Note|Nota: Se uma fixture for declarada usando seu nome de tabela (por
+exemplo, `'posts'=>':Post'`), então o terceiro uso acima não é válido porque nós
+não temos informações sobre com qual classe de modelo a tabela está associada.
+
+Em seguida, escrevemos o método `testApprove` para testar o método `approve` na
+classe de modelo `Comment`. O código é bastante claro: primeiro inserimos um
+comentário de status pendente; então verificamos que este comentário está em
+status pendente retornando ele do banco de dados; e finalmente chamamos o método
+`approve` e verificamos se o status mudou conforme o esperado.
+
+~~~
+[php]
+public function testApprove()
+{
+	// insere um comentário de status pendente
+	$comment=new Comment;
+	$comment->setAttributes(array(
+		'content'=>'comment 1',
+		'status'=>Comment::STATUS_PENDING,
+		'createTime'=>time(),
+		'author'=>'me',
+		'email'=>'me@example.com',
+		'postId'=>$this->posts['sample1']['id'],
+	),false);
+	$this->assertTrue($comment->save(false));
+
+	// verifica se o comentário está em status pendente
+	$comment=Comment::model()->findByPk($comment->id);
+	$this->assertTrue($comment instanceof Comment);
+	$this->assertEquals(Comment::STATUS_PENDING,$comment->status);
+
+	// chama approve() e verifica se o comentário tem o status aprovado
+	$comment->approve();
+	$this->assertEquals(Comment::STATUS_APPROVED,$comment->status);
+	$comment=Comment::model()->findByPk($comment->id);
+	$this->assertEquals(Comment::STATUS_APPROVED,$comment->status);
+}
+~~~
+
+
+<div class="revision">$Id$</div>

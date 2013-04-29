@@ -12,7 +12,8 @@
 	 * yiiListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
 	 * - ajaxUpdate: array, IDs of the containers whose content may be updated by ajax response
-	 * - ajaxVar: string, the name of the GET variable indicating the ID of the element triggering the AJAX request
+	 * - ajaxVar: string, the name of the request variable indicating the ID of the element triggering the AJAX request
+	 * - ajaxType: string, the type (GET or POST) of the AJAX request
 	 * - pagerClass: string, the CSS class for the pager container
 	 * - sorterClass: string, the CSS class for the sorter container
 	 * - updateSelector: string, the selector for choosing which elements can trigger ajax requests
@@ -57,6 +58,7 @@
 	$.fn.yiiListView.defaults = {
 		ajaxUpdate: [],
 		ajaxVar: 'ajax',
+		ajaxType: 'GET',
 		pagerClass: 'pager',
 		loadingClass: 'loading',
 		sorterClass: 'sorter'
@@ -105,7 +107,7 @@
 
 		$('#'+id).addClass(settings.loadingClass);
 		options = $.extend({
-			type: 'GET',
+			type: settings.ajaxType,
 			url: $.fn.yiiListView.getUrl(id),
 			success: function(data,status) {
 				$.each(settings.ajaxUpdate, function(i,v) {

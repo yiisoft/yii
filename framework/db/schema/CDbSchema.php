@@ -565,20 +565,21 @@ abstract class CDbSchema extends CComponent
 	 * Builds a SQL statement for adding a primary key constraint to an existing table.
 	 * @param string $name the name of the primary key constraint.
 	 * @param string $table the table that the primary key constraint will be added to.
-	 * @param string $columns the name of the column to that the constraint will be added on.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
+	 * Array value can be passed since 1.1.14.
 	 * @return string the SQL statement for adding a primary key constraint to an existing table.
 	 * @since 1.1.13
 	 */
 	public function addPrimaryKey($name,$table,$columns)
 	{
-		$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		if(is_string($columns))
+			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($columns as $i=>$col)
 			$columns[$i]=$this->quoteColumnName($col);
 		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' ADD CONSTRAINT '
 			. $this->quoteColumnName($name) . '  PRIMARY KEY ('
 			. implode(', ', $columns). ' )';
 	}
-
 
 	/**
 	 * Builds a SQL statement for removing a primary key constraint to an existing table.
@@ -592,7 +593,4 @@ abstract class CDbSchema extends CComponent
 		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' DROP CONSTRAINT '
 			. $this->quoteColumnName($name);
 	}
-
-
-
 }

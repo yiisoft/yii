@@ -137,6 +137,7 @@ class CProfileLogRoute extends CWebLogRoute
 	protected function displaySummary($logs)
 	{
 		$stack=array();
+		$results=array();
 		foreach($logs as $log)
 		{
 			if($log[1]!==CLogger::LEVEL_PROFILE)

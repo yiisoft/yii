@@ -26,7 +26,7 @@
  *   'allow',  // or 'deny'
  * 
  *   // optional, list of action IDs (case insensitive) that this rule applies to
- *   // if not specified, rule applies to all actions
+ *   // if not specified or empty, rule applies to all actions
  *   'actions'=>array('edit', 'delete'),
  * 
  *   // optional, list of controller IDs (case insensitive) that this rule applies to
@@ -200,7 +200,7 @@ class CAccessRule extends CComponent
 	 */
 	public $actions;
 	/**
-	 * @var array list of controler IDs that this rule applies to. The comparison is case-insensitive.
+	 * @var array list of controller IDs that this rule applies to. The comparison is case-insensitive.
 	 */
 	public $controllers;
 	/**

@@ -460,7 +460,11 @@ class CJoinElement
 
 		if(!$this->children)
 			return;
-		$child=end($this->children); // bridge(s) inside, we're taking only last necessary child
+
+		$params=array();
+		foreach($this->children as $child)
+			if(is_array($child->relation->params))
+				$params=array_merge($params,$child->relation->params);
 
 		$query=new CJoinQuery($child);
 		$query->selects=array($child->getColumnSelect($child->relation->select));
@@ -472,8 +476,7 @@ class CJoinElement
 		$query->joins[]=$child->relation->join;
 		$query->havings[]=$child->relation->having;
 		$query->orders[]=$child->relation->order;
-		if(is_array($child->relation->params))
-			$query->params=$child->relation->params;
+		$query->params=$params;
 		$query->elements[$child->id]=true;
 		if($child->relation instanceof CHasManyRelation)
 		{
@@ -711,6 +714,7 @@ class CJoinElement
 			$sql=$command->getText();
 			$sql="SELECT COUNT(*) FROM ({$sql}) sq";
 			$command->setText($sql);
+			$command->params=$query->params;
 			return $command->queryScalar();
 		}
 		else
@@ -1441,7 +1445,7 @@ class CStatElement
 			$cols=array();
 			foreach($pkTable->primaryKey as $n=>$pk)
 			{
-				$name=$table->columns[$map[$pk]]->rawName;
+				$name=$tableAlias.'.'.$table->columns[$map[$pk]]->rawName;
 				$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
 			}
 			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias.$join
