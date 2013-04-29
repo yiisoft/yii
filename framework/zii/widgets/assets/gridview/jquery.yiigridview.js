@@ -8,7 +8,8 @@
  */
 
 (function ($) {
-	var selectCheckedRows, methods, yiiXHR={},
+	var selectCheckedRows, methods, 
+	 	yiiXHR={},
 		gridSettings = [];
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
