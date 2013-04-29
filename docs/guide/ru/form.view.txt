@@ -99,5 +99,3 @@
 <?php $this->endWidget(); ?>
 </div><!-- form -->
 ~~~
-
-<div class="revision">$Id: form.view.txt 1751 2010-01-25 17:21:31Z qiang.xue $</div>

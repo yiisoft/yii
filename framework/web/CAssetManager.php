@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -53,6 +53,11 @@ class CAssetManager extends CApplicationComponent
 	 * Options FollowSymLinks
 	 * </pre>
 	 *
+	 * Note that this property cannot be true when {@link $forceCopy} property has true value too. Otherwise
+	 * an exception would be thrown. Using both properties at the same time is illogical because both of them
+	 * are solving similar tasks but in a different ways. Please refer to the {@link $forceCopy} documentation
+	 * for more details.
+	 *
 	 * @since 1.1.5
 	 */
 	public $linkAssets=false;
@@ -85,6 +90,12 @@ class CAssetManager extends CApplicationComponent
 	 * This property sets the default value of the $forceCopy parameter in {@link publish} method. Default value
 	 * of this property is false meaning that the assets will be published only in case they don't exist in webroot
 	 * assets directory.
+	 *
+	 * Note that this property cannot be true when {@link $linkAssets} property has true value too. Otherwise
+	 * an exception would be thrown. Using both properties at the same time is illogical because both of them
+	 * are solving similar tasks but in a different ways. Please refer to the {@link $linkAssets} documentation
+	 * for more details.
+	 *
 	 * @since 1.1.11
 	 */
 	public $forceCopy=false;
@@ -185,6 +196,10 @@ class CAssetManager extends CApplicationComponent
 	 * which is not a concern during development, however. Default value of this parameter is null meaning
 	 * that it's value is controlled by {@link $forceCopy} class property. This parameter has been available
 	 * since version 1.1.2. Default value has been changed since 1.1.11.
+	 * Note that this parameter cannot be true when {@link $linkAssets} property has true value too. Otherwise
+	 * an exception would be thrown. Using this parameter with {@link $linkAssets} property at the same time
+	 * is illogical because both of them are solving similar tasks but in a different ways. Please refer
+	 * to the {@link $linkAssets} documentation for more details.
 	 * @return string an absolute URL to the published asset
 	 * @throws CException if the asset to be published does not exist.
 	 */
@@ -192,51 +207,39 @@ class CAssetManager extends CApplicationComponent
 	{
 		if($forceCopy===null)
 			$forceCopy=$this->forceCopy;
+		if($forceCopy && $this->linkAssets)
+			throw new CException(Yii::t('yii','The "forceCopy" and "linkAssets" cannot be both true.'));
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
 		elseif(($src=realpath($path))!==false)
 		{
+			$dir=$this->generatePath($src,$hashByName);
+			$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 			if(is_file($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : dirname($src).filemtime($src));
 				$fileName=basename($src);
-				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
 
-				if($this->linkAssets)
+				if(!is_dir($dstDir))
 				{
-					if(!is_file($dstFile))
-					{
-						if(!is_dir($dstDir))
-						{
-							mkdir($dstDir);
-							@chmod($dstDir, $this->newDirMode);
-						}
-						symlink($src,$dstFile);
-					}
+					mkdir($dstDir,$this->newDirMode,true);
+					chmod($dstDir,$this->newDirMode);
 				}
+
+				if($this->linkAssets && !is_file($dstFile)) symlink($src,$dstFile);
 				elseif(@filemtime($dstFile)<@filemtime($src))
 				{
-					if(!is_dir($dstDir))
-					{
-						mkdir($dstDir);
-						@chmod($dstDir, $this->newDirMode);
-					}
 					copy($src,$dstFile);
-					@chmod($dstFile, $this->newFileMode);
+					chmod($dstFile,$this->newFileMode);
 				}
 
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
 			}
 			elseif(is_dir($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : $src.filemtime($src));
-				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
-
-				if($this->linkAssets)
+				if($this->linkAssets && !is_dir($dstDir))
 				{
-					if(!is_dir($dstDir))
-						symlink($src,$dstDir);
+					symlink($src,$dstDir);
 				}
 				elseif(!is_dir($dstDir) || $forceCopy)
 				{
@@ -270,11 +273,8 @@ class CAssetManager extends CApplicationComponent
 	{
 		if(($path=realpath($path))!==false)
 		{
-			$base=$this->getBasePath().DIRECTORY_SEPARATOR;
-			if(is_file($path))
-				return $base . $this->hash($hashByName ? basename($path) : dirname($path).filemtime($path)) . DIRECTORY_SEPARATOR . basename($path);
-			else
-				return $base . $this->hash($hashByName ? basename($path) : $path.filemtime($path));
+			$base=$this->getBasePath().DIRECTORY_SEPARATOR.$this->generatePath($path,$hashByName);
+			return is_file($path) ? $base.DIRECTORY_SEPARATOR.basename($path) : $base ;
 		}
 		else
 			return false;
@@ -297,10 +297,8 @@ class CAssetManager extends CApplicationComponent
 			return $this->_published[$path];
 		if(($path=realpath($path))!==false)
 		{
-			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path).filemtime($path)).'/'.basename($path);
-			else
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path.filemtime($path));
+			$base=$this->getBaseUrl().'/'.$this->generatePath($path,$hashByName);
+			return is_file($path) ? $base.'/'.basename($path) : $base;
 		}
 		else
 			return false;
@@ -315,5 +313,22 @@ class CAssetManager extends CApplicationComponent
 	protected function hash($path)
 	{
 		return sprintf('%x',crc32($path.Yii::getVersion()));
+	}
+
+	/**
+	 * Generates path segments relative to basePath.
+	 * @param string $file for which public path will be created.
+	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
+	 * @return string path segments without basePath.
+	 * @since 1.1.13
+	 */
+	protected function generatePath($file,$hashByName=false)
+	{
+		if (is_file($file))
+			$pathForHashing=$hashByName ? basename($file) : dirname($file).filemtime($file);
+		else
+			$pathForHashing=$hashByName ? basename($file) : $file.filemtime($file);
+
+		return $this->hash($pathForHashing);
 	}
 }

@@ -242,8 +242,8 @@ Yii::t('test', '{n} cucumber|{n} cucumbers',
 array(5, '{n}' => convertNumber(5)));
 ~~~
 
+Количество множественных форм будет варьироваться от языка к языку. К примеру:
 
-Для Русского строка перевода будет выглядеть так:
 ~~~
 [php]
 Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
@@ -252,7 +252,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
 Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
-Соответствующая строка из файла с переводом:
+при переводе на русский будет содержать четыре множественных формы вместо двух:
 
 ~~~
 [php]
@@ -271,7 +271,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 
 
 
-> Info|Информация: число и порядок значений можно узнать в разделе
+> Info|Информация: число и порядок выражений можно узнать в разделе
  [Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
  на сайте CLDR.
 
@@ -306,7 +306,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 timestamp:
 
    - [format|CDateFormatter::format]: форматирует переданную в формате UNIX timestamp дату
-согласно шаблону (например, `$dateFormatter->format('dd.MM.yyyy', $timestamp)`);
+согласно шаблону даты-времени (например, `$dateFormatter->format('dd.MM.yyyy', $timestamp)`);
 
    - [formatDateTime|CDateFormatter::formatDateTime]: форматирует переданную в формате UNIX timestamp дату
 согласно шаблону, заданному для выбранного языка (например формат даты `short`, формат времени `long`).
@@ -334,5 +334,3 @@ timestamp:
 
    - [formatPercentage|CNumberFormatter::formatPercentage]: форматирует число в соответствии с форматом форматирования процентов,
    заданным для текущего языка приложения.
-
-<div class="revision">$Id: topics.i18n.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

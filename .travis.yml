@@ -4,9 +4,7 @@ php:
   - 5.2
   - 5.3
   - 5.4
-
-services:
-  - memcached
+  - 5.5
 
 before_script:
   - ./tests/travis/mysql-setup.sh
@@ -14,4 +12,4 @@ before_script:
   - ./tests/travis/memcache-setup.sh
   - cd tests
 
-script: phpunit --colors --coverage-text --exclude-group mssql,oci framework
+script: phpunit --colors --no-globals-backup --exclude-group mssql,oci framework

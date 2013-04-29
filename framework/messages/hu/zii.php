@@ -30,7 +30,7 @@ return array (
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Az oszlopot az alábbi formában kell megadni "Name:Type:Label". A "Type" és a "Label" nem kötelező.',
   'The property "itemView" cannot be empty.' => 'Az "itemView" változó nem lehet üres.',
   'Total 1 result.|Total {count} results.' => 'Összesen 1 találat.|Összesen {count} találat.',
-  'Update' => 'Frissít',
+  'Update' => 'Szerkeszt',
   'View' => 'Mutat',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} meg kell határozni a "model" és a "attribute" vagy "name" értékét.',
 );

@@ -99,6 +99,3 @@ return array(
 > 	…
 > );
 > ~~~
-
-
-<div class="revision">$Id: prototype.database.txt 2332 2010-08-24 20:55:36Z mdomba $</div>

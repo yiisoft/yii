@@ -70,5 +70,3 @@
 	- [Безпека](topics.security)
 	- [Покращення продуктивності](topics.performance)
 	- [Генерація коду за допомогою консолі (застаріле)](quickstart.first-app-yiic)
-
-<div class="revision">$Id$</div>

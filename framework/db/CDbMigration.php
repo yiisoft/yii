@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -122,6 +122,7 @@ abstract class CDbMigration extends CComponent
 	 * You can call {@link setDbConnection} to switch to a different database connection.
 	 * Methods such as {@link insert}, {@link createTable} will use this database connection
 	 * to perform DB queries.
+	 * @throws CException if "db" application component is not configured
 	 * @return CDbConnection the currently active database connection
 	 */
 	public function getDbConnection()
@@ -396,6 +397,35 @@ abstract class CDbMigration extends CComponent
 		echo "    > refresh table $table schema cache ...";
 		$time=microtime(true);
 		$this->getDbConnection()->getSchema()->getTable($table,true);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
+	 * Builds and executes a SQL statement for creating a primary key, supports composite primary keys.
+	 * @param string $name name of the primary key constraint to add
+	 * @param string $table name of the table to add primary key to
+	 * @param string $columns name of the column to utilise as primary key. If there are multiple columns, separate them with commas.
+	 * @since 1.1.13
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		echo "    > alter table $table add constraint $name primary key ($columns) ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->addPrimaryKey($name,$table,$columns);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
+	 * Builds and executes a SQL statement for removing a primary key, supports composite primary keys.
+	 * @param string $name name of the constraint to remove
+	 * @param string $table name of the table to remove primary key from
+	 * @since 1.1.13
+	 */
+	public function dropPrimaryKey($name,$table)
+	{
+		echo "    > alter table $table drop primary key $name ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->dropPrimaryKey($name,$table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 }

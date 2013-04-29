@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -50,7 +50,10 @@
  * @property integer $port Port number for insecure requests.
  * @property integer $securePort Port number for secure requests.
  * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
+ * @property array $preferredAcceptType The user preferred accept type as an array map, e.g. array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'params' => array('q' => 0.9)).
+ * @property array $preferredAcceptTypes An array of all user accepted types (as array maps like array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'params' => array('q' => 0.9)) ) in order of preference.
  * @property string $preferredLanguage The user preferred language.
+ * @property array $preferredLanguages An array of all user accepted languages in order of preference.
  * @property string $csrfToken The random token for CSRF validation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -92,7 +95,8 @@ class CHttpRequest extends CApplicationComponent
 	private $_hostInfo;
 	private $_baseUrl;
 	private $_cookies;
-	private $_preferredLanguage;
+	private $_preferredAcceptTypes;
+	private $_preferredLanguages;
 	private $_csrfToken;
 	private $_restParams;
 
@@ -140,7 +144,16 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function stripSlashes(&$data)
 	{
-		return is_array($data)?array_map(array($this,'stripSlashes'),$data):stripslashes($data);
+		if(is_array($data))
+		{
+			if(count($data) == 0)
+				return $data;
+			$keys=array_map('stripslashes',array_keys($data));
+			$data=array_combine($keys,array_values($data));
+			return array_map(array($this,'stripSlashes'),$data);
+		}
+		else
+			return stripslashes($data);
 	}
 
 	/**
@@ -204,8 +217,8 @@ class CHttpRequest extends CApplicationComponent
 
 		if($this->getIsDeleteRequest())
 		{
-			$this->getRestParams();
-			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+			$restParams=$this->getRestParams();
+			return isset($restParams[$name]) ? $restParams[$name] : $defaultValue;
 		}
 		else
 			return $defaultValue;
@@ -229,8 +242,8 @@ class CHttpRequest extends CApplicationComponent
 
 		if($this->getIsPutRequest())
 		{
-			$this->getRestParams();
-			return isset($this->_restParams[$name]) ? $this->_restParams[$name] : $defaultValue;
+			$restParams=$this->getRestParams();
+			return isset($restParams[$name]) ? $restParams[$name] : $defaultValue;
 		}
 		else
 			return $defaultValue;
@@ -366,6 +379,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns the relative URL of the entry script.
 	 * The implementation of this method referenced Zend_Controller_Request_Http in Zend Framework.
+	 * @throws CException when it is unable to determine the entry script URL.
 	 * @return string the relative URL of the entry script.
 	 */
 	public function getScriptUrl()
@@ -783,7 +797,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
 	{
-		if(strpos($url,'/')===0)
+		if(strpos($url,'/')===0 && strpos($url,'//')!==0)
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url, true, $statusCode);
 		if($terminate)
@@ -791,27 +805,183 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Parses an HTTP Accept header, returning an array map with all parts of each entry.
+	 * Each array entry consists of a map with the type, subType, baseType and params, an array map of key-value parameters,
+	 * obligatorily including a `q` value (i.e. preference ranking) as a double.
+	 * For example, an Accept header value of <code>'application/xhtml+xml;q=0.9;level=1'</code> would give an array entry of
+	 * <pre>
+	 * array(
+	 *        'type' => 'application',
+	 *        'subType' => 'xhtml',
+	 *        'baseType' => 'xml',
+	 *        'params' => array(
+	 *            'q' => 0.9,
+	 *            'level' => '1',
+	 *        ),
+	 * )
+	 * </pre>
+	 *
+	 * <b>Please note:</b>
+	 * To avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly.
+	 * If the header text includes quoted strings containing space or the , or ; characters then the results may not be correct!
+	 *
+	 * See also {@link http://tools.ietf.org/html/rfc2616#section-14.1} for details on Accept header.
+	 * @param string $header the accept header value to parse
+	 * @return array the user accepted MIME types.
+	 */
+	public static function parseAcceptHeader($header)
+	{
+		$matches=array();
+		$accepts=array();
+		// get individual entries with their type, subtype, basetype and params
+		preg_match_all('/(?:\G\s?,\s?|^)(\w+|\*)\/(\w+|\*)(?:\+(\w+))?|(?<!^)\G(?:\s?;\s?(\w+)=([\w\.]+))/',$header,$matches);
+		// the regexp should (in theory) always return an array of 6 arrays
+		if(count($matches)===6)
+		{
+			$i=0;
+			$itemLen=count($matches[1]);
+			while($i<$itemLen)
+			{
+				// fill out a content type
+				$accept=array(
+					'type'=>$matches[1][$i],
+					'subType'=>$matches[2][$i],
+					'baseType'=>null,
+					'params'=>array(),
+				);
+				// fill in the base type if it exists
+				if($matches[3][$i]!==null && $matches[3][$i]!=='')
+					$accept['baseType']=$matches[3][$i];
+				// continue looping while there is no new content type, to fill in all accompanying params
+				for($i++;$i<$itemLen;$i++)
+				{
+					// if the next content type is null, then the item is a param for the current content type
+					if($matches[1][$i]===null || $matches[1][$i]==='')
+					{
+						// if this is the quality param, convert it to a double
+						if($matches[4][$i]==='q')
+						{
+							// sanity check on q value
+							$q=(double)$matches[5][$i];
+							if($q>1)
+								$q=(double)1;
+							elseif($q<0)
+								$q=(double)0;
+							$accept['params'][$matches[4][$i]]=$q;
+						}
+						else
+							$accept['params'][$matches[4][$i]]=$matches[5][$i];
+					}
+					else
+						break;
+				}
+				// q defaults to 1 if not explicitly given
+				if(!isset($accept['params']['q']))
+					$accept['params']['q']=(double)1;
+				$accepts[] = $accept;
+			}
+		}
+		return $accepts;
+	}
+
+	/**
+	 * Compare function for determining the preference of accepted MIME type array maps
+	 * See {@link parseAcceptHeader()} for the format of $a and $b
+	 * @param array $a user accepted MIME type as an array map
+	 * @param array $b user accepted MIME type as an array map
+	 * @return integer -1, 0 or 1 if $a has respectively greater preference, equal preference or less preference than $b (higher preference comes first).
+	 */
+	public static function compareAcceptTypes($a,$b)
+	{
+		// check for equal quality first
+		if($a['params']['q']===$b['params']['q'])
+			if(!($a['type']==='*' xor $b['type']==='*'))
+				if (!($a['subType']==='*' xor $b['subType']==='*'))
+					// finally, higher number of parameters counts as greater precedence
+					if(count($a['params'])===count($b['params']))
+						return 0;
+					else
+						return count($a['params'])<count($b['params']) ? 1 : -1;
+				// more specific takes precedence - whichever one doesn't have a * subType
+				else
+					return $a['subType']==='*' ? 1 : -1;
+			// more specific takes precedence - whichever one doesn't have a * type
+			else
+				return $a['type']==='*' ? 1 : -1;
+		else
+			return ($a['params']['q']<$b['params']['q']) ? 1 : -1;
+	}
+
+	/**
+	 * Returns an array of user accepted MIME types in order of preference.
+	 * Each array entry consists of a map with the type, subType, baseType and params, an array map of key-value parameters.
+	 * See {@link parseAcceptHeader()} for a description of the array map.
+	 * @return array the user accepted MIME types, as array maps, in the order of preference.
+	 */
+	public function getPreferredAcceptTypes()
+	{
+		if($this->_preferredAcceptTypes===null)
+		{
+			$accepts=self::parseAcceptHeader($this->getAcceptTypes());
+			usort($accepts,array(get_class($this),'compareAcceptTypes'));
+			$this->_preferredAcceptTypes=$accepts;
+		}
+		return $this->_preferredAcceptTypes;
+	}
+
+	/**
+	 * Returns the user preferred accept MIME type.
+	 * The MIME type is returned as an array map (see {@link parseAcceptHeader()}).
+	 * @return array the user preferred accept MIME type or false if the user does not have any.
+	 */
+	public function getPreferredAcceptType()
+	{
+		$preferredAcceptTypes=$this->getPreferredAcceptTypes();
+		return empty($preferredAcceptTypes) ? false : $preferredAcceptTypes[0];
+	}
+
+	/**
+	 * Returns an array of user accepted languages in order of preference.
+	 * The returned language IDs will NOT be canonicalized using {@link CLocale::getCanonicalID}.
+	 * @return array the user accepted languages in the order of preference.
+	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.4}
+	 */
+	public function getPreferredLanguages()
+	{
+		if($this->_preferredLanguages===null)
+		{
+			$sortedLanguages=array();
+			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $n=preg_match_all('/([\w\-_]+)(?:\s*;\s*q\s*=\s*(\d*\.?\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))
+			{
+				$languages=array();
+
+				for($i=0;$i<$n;++$i)
+				{
+					$q=$matches[2][$i];
+					if($q==='')
+						$q=1;
+					if($q)
+						$languages[]=array((float)$q,$matches[1][$i]);
+				}
+
+				usort($languages,create_function('$a,$b','if($a[0]==$b[0]) {return 0;} return ($a[0]<$b[0]) ? 1 : -1;'));
+				foreach($languages as $language)
+					$sortedLanguages[]=$language[1];
+			}
+			$this->_preferredLanguages=$sortedLanguages;
+		}
+		return $this->_preferredLanguages;
+	}
+
+	/**
 	 * Returns the user preferred language.
 	 * The returned language ID will be canonicalized using {@link CLocale::getCanonicalID}.
-	 * This method returns false if the user does not have language preference.
-	 * @return string the user preferred language.
+	 * @return string the user preferred language or false if the user does not have any.
 	 */
 	public function getPreferredLanguage()
 	{
-		if($this->_preferredLanguage===null)
-		{
-			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-_]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))>0)
-			{
-				$languages=array();
-				for($i=0;$i<$n;++$i)
-					$languages[$matches[1][$i]]=empty($matches[3][$i]) ? 1.0 : floatval($matches[3][$i]);
-				arsort($languages);
-				foreach($languages as $language=>$pref)
-					return $this->_preferredLanguage=CLocale::getCanonicalID($language);
-			}
-			return $this->_preferredLanguage=false;
-		}
-		return $this->_preferredLanguage;
+		$preferredLanguages=$this->getPreferredLanguages();
+		return !empty($preferredLanguages) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
 	}
 
 	/**
@@ -832,8 +1002,7 @@ class CHttpRequest extends CApplicationComponent
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
-		if(ob_get_length()===false)
-			header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
+		header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
 
@@ -886,7 +1055,7 @@ class CHttpRequest extends CApplicationComponent
 	 * There is a Bug with Internet Explorer 6, 7 and 8 when X-SENDFILE is used over an SSL connection, it will show
 	 * an error message like this: "Internet Explorer was not able to open this Internet site. The requested site is either unavailable or cannot be found.".
 	 * You can work around this problem by removing the <code>Pragma</code>-header.
-	 * 
+	 *
 	 * <b>Example</b>:
 	 * <pre>
 	 * <?php

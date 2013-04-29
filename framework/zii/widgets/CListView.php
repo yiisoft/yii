@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -124,6 +124,28 @@ class CListView extends CBaseListView
 	 */
 	public $updateSelector;
 	/**
+	 * @var string a javascript function that will be invoked if an AJAX update error occurs.
+	 *
+	 * The function signature is <code>function(xhr, textStatus, errorThrown, errorMessage)</code>
+	 * <ul>
+	 * <li><code>xhr</code> is the XMLHttpRequest object.</li>
+	 * <li><code>textStatus</code> is a string describing the type of error that occurred.
+	 * Possible values (besides null) are "timeout", "error", "notmodified" and "parsererror"</li>
+	 * <li><code>errorThrown</code> is an optional exception object, if one occurred.</li>
+	 * <li><code>errorMessage</code> is the CGridView default error message derived from xhr and errorThrown.
+	 * Usefull if you just want to display this error differently. CGridView by default displays this error with an javascript.alert()</li>
+	 * </ul>
+	 * Note: This handler is not called for JSONP requests, because they do not use an XMLHttpRequest.
+	 *
+	 * Example (add in a call to CGridView):
+	 * <pre>
+	 *  ...
+	 *  'ajaxUpdateError'=>'function(xhr,ts,et,err){ $("#myerrordiv").text(err); }',
+	 *  ...
+	 * </pre>
+	 */
+	public $ajaxUpdateError;
+	/**
 	 * @var string the name of the GET variable that indicates the request is an AJAX request triggered
 	 * by this widget. Defaults to 'ajax'. This is effective only when {@link ajaxUpdate} is not false.
 	 */
@@ -134,6 +156,13 @@ class CListView extends CBaseListView
 	 * @since 1.1.8
 	 */
 	public $ajaxUrl;
+	/**
+	 * @var string the type ('GET' or 'POST') of the AJAX requests. If not set, 'GET' will be used.
+	 * You can set this to 'POST' if you are filtering by many fields at once and have a problem with GET query string length.
+	 * Note that in POST mode direct links and {@link enableHistory} feature may not work correctly!
+	 * @since 1.1.14
+	 */
+	public $ajaxType;
 	/**
 	 * @var string a javascript function that will be invoked before an AJAX update occurs.
 	 * The function signature is <code>function(id)</code> where 'id' refers to the ID of the list view.
@@ -215,9 +244,11 @@ class CListView extends CBaseListView
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
+		if($this->ajaxType!==null)
+			$options['ajaxType']=strtoupper($this->ajaxType);
 		if($this->updateSelector!==null)
 			$options['updateSelector']=$this->updateSelector;
-		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate') as $event)
+		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError') as $event)
 		{
 			if($this->$event!==null)
 			{

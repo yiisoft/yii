@@ -1,0 +1,101 @@
+測試
+=======
+
+測試是軟體開發中不可缺少的環節，無論我們是否意識到，在開發網路應用程式的時候，我們始終都是在測試的。例如：當我們用 PHP 寫了一個類別時，我們可能會用到一些 `echo` 或者 `die` 語法來顯示我們是否正確地實現了某個方法；當我們實現了包含一套複雜的 HTML 表單的 web 頁面時，我們可能會試著輸入一些測試資料來確認頁面是否是按照我們的預期來作用的。更進階的開發者則會寫一些程式碼來自動完成這個測試過程。這樣一來，每當我們需要測試一些東西的時候，我們只需要調用程式碼，剩下來的就交給電腦了。這就是所謂的 *自動測試*，也是本章的主題。
+
+Yii 提供的測試支援包括 *單元測試* 和 *功能性測試*.
+
+單元測試檢驗了程式碼的一個獨立單元是否按照預期工作。在物件導向程式設計中，最基本的程式碼單元就是類別。因此，單元測試的主要職責就是校驗這個類別所實現的每個方法工作都是正常的。單元測試通常是由開發了這個類別的人來撰寫。
+
+功能性測試檢驗了功能是否按照預期工作（如：在一個部落格系統裡的提交操作）與單元測試相比，功能性測試通常要更高層次一些，因為待測試的功能常常牽涉到多個類別。功能性測試通常是由非常瞭解系統需求的人撰寫（這個人既可以是開發者也可以是品質工程師）。
+
+
+測試驅動開發
+-----------------------
+
+以下展示的便是所謂的 [測試驅動開發 (TDD)](http://zh.wikipedia.org/wiki/測試驅動開發) 的開發週期:
+
+ 1. 建立一個涵蓋要實現的功能的新的測試。測試預計將在第一次執行的時候失敗，因為功能尚未實現。
+ 2. 執行所有測試，確保這個新的測試是失敗的。
+ 3. 撰寫程式碼來使得測試通過。
+ 4. 執行所有測試,確保所有測試通過。
+ 5. 重構新撰寫的程式碼並確保這些測試仍然能夠通過。
+
+重複步驟 1 至 5 推進整體功能的實現。
+
+
+構建測試環境
+----------------------
+
+Yii 提供的測試支援需要 [PHPUnit](http://www.phpunit.de/) 3.5+ 和 [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+。請參照他們提供的檔案來安裝 PHPUnit 和 Selenium Remote Control。
+
+當我們使用 `yiic webapp` 控制台命令來建立一個新的 Yii 應用程式時，它將會產生以下檔案和目錄供我們來撰寫和完成測試。
+
+~~~
+testdrive/
+   protected/                包含了受保護的應用程式檔案
+      tests/                 包含了應用程式測試
+         fixtures/           包含了資料 fixtures
+         functional/         包含了功能性測試
+         unit/               包含了單元測試
+         report/             包含了 coverage 報告
+         bootstrap.php       這個腳本在一開始執行
+         phpunit.xml         PHPUnit 配置檔案
+         WebTestCase.php     基於 Web 的功能性測試基礎類別
+~~~
+
+如上所述，我們的測試程式碼主要放在 `fixtures`、`functional` 和 `unit` 這三個目錄下，`report` 目錄則用於儲存產生的程式碼 coverage 報告。
+
+我們可以在控制台視窗執行以下命令來執行測試（無論是單元測試還是功能性測試）：
+
+~~~
+% cd testdrive/protected/tests
+% phpunit functional/PostTest.php    // 執行一個測試
+% phpunit --verbose functional       // 執行 'functional' 下的所有測試
+% phpunit --coverage-html ./report unit
+~~~
+
+上面的最後一條命令將執行 `unit` 目錄下的所有測試然後在 `report` 目錄下產生出一份 code-coverage 報告。注意要產生 code-coverage 報告必須安裝並開啟 PHP 的 [xdebug 擴充](http://www.xdebug.org/)。
+
+
+測試的啟動腳本
+--------------------
+
+讓我們來看看 `bootstrap.php` 檔案裡會有些什麼。首先這個檔案有點特殊，因為它看起來很像是 [入口腳本](/doc/guide/basics.entry)，而它也正是我們執行一系列測試的入口。 
+
+~~~
+[php]
+$yiit='path/to/yii/framework/yiit.php';
+$config=dirname(__FILE__).'/../config/test.php';
+require_once($yiit);
+require_once(dirname(__FILE__).'/WebTestCase.php');
+Yii::createWebApplication($config);
+~~~
+
+如上所述，首先我們包含了來自 Yii 框架的 `yiit.php` 檔案，它初始化了一些全域常數以及必要的測試基礎類別，然後我們使用 `test.php` 這個配置檔案來建立一個應用程式實體。如果你查看 `test.php` 檔案，你會發現它是繼承自 `main.php` 這個配置檔案的，只不過它多加了一個類別名為 [CDbFixtureManager] 的 `fixture` 應用程式元件。我們將在下一節中詳細的介紹 fixtures。
+
+~~~
+[php]
+return CMap::mergeArray(
+	require(dirname(__FILE__).'/main.php'),
+	array(
+		'components'=>array(
+			'fixture'=>array(
+				'class'=>'system.test.CDbFixtureManager',
+			),
+			/* 去除以下註釋可為測試提供一個資料庫連接.
+			'db'=>array(
+				'connectionString'=>'DSN for test database',
+			),
+			*/
+		),
+	)
+);
+~~~
+
+當我執行那些涉及到資料庫操作的測試時，我們應該提供一個測試專用的資料庫。以便測試執行不會干擾到正常的開發或者生產活動。這樣一來，我們只需要去除上面 `db` 配置的註釋，然後填寫 `connectionString` 屬性用以連接到資料庫的 DSN（資料源名稱）即可。
+
+通過這樣一個啟動腳本，當我們執行單元測試時，我們便可以獲得一個與服務需求類似的應用程式實體。而主要的不同就是測試擁有一個 fixture 管理器以及它專屬的測試資料庫。
+
+
+<div class="revision">$Id$</div>

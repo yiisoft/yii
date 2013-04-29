@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -165,6 +165,7 @@ abstract class CApplication extends CModule
 	{
 		if($this->hasEventHandler('onBeginRequest'))
 			$this->onBeginRequest(new CEvent($this));
+		register_shutdown_function(array($this,'end'),0,false);
 		$this->processRequest();
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
@@ -178,7 +179,7 @@ abstract class CApplication extends CModule
 	 * @param boolean $exit whether to exit the current request. This parameter has been available since version 1.1.5.
 	 * It defaults to true, meaning the PHP's exit() function will be called at the end of this method.
 	 */
-	public function end($status=0, $exit=true)
+	public function end($status=0,$exit=true)
 	{
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
@@ -291,6 +292,7 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the root directory that holds all third-party extensions.
 	 * @param string $path the directory that contains all third-party extensions.
+	 * @throws CException if the directory does not exist
 	 */
 	public function setExtensionPath($path)
 	{

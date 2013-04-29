@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -300,6 +300,7 @@ abstract class CDbSchema extends CComponent
 	 * because the default implementation simply throws an exception.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
+	 * @throws CDbException if current schema does not support fetching all table names
 	 * @return array all table names in the database.
 	 */
 	protected function findTableNames($schema='')
@@ -335,18 +336,18 @@ abstract class CDbSchema extends CComponent
 	 * @return string physical column type.
 	 * @since 1.1.6
 	 */
-    public function getColumnType($type)
-    {
-    	if(isset($this->columnTypes[$type]))
-    		return $this->columnTypes[$type];
-    	elseif(($pos=strpos($type,' '))!==false)
-    	{
-    		$t=substr($type,0,$pos);
-    		return (isset($this->columnTypes[$t]) ? $this->columnTypes[$t] : $t).substr($type,$pos);
-    	}
-    	else
-    		return $type;
-    }
+	public function getColumnType($type)
+	{
+		if(isset($this->columnTypes[$type]))
+			return $this->columnTypes[$type];
+		elseif(($pos=strpos($type,' '))!==false)
+		{
+			$t=substr($type,0,$pos);
+			return (isset($this->columnTypes[$t]) ? $this->columnTypes[$t] : $t).substr($type,$pos);
+		}
+		else
+			return $type;
+	}
 
 	/**
 	 * Builds a SQL statement for creating a new DB table.
@@ -558,5 +559,38 @@ abstract class CDbSchema extends CComponent
 	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name).' ON '.$this->quoteTableName($table);
+	}
+
+	/**
+	 * Builds a SQL statement for adding a primary key constraint to an existing table.
+	 * @param string $name the name of the primary key constraint.
+	 * @param string $table the table that the primary key constraint will be added to.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
+	 * Array value can be passed since 1.1.14.
+	 * @return string the SQL statement for adding a primary key constraint to an existing table.
+	 * @since 1.1.13
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		if(is_string($columns))
+			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $i=>$col)
+			$columns[$i]=$this->quoteColumnName($col);
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' ADD CONSTRAINT '
+			. $this->quoteColumnName($name) . '  PRIMARY KEY ('
+			. implode(', ', $columns). ' )';
+	}
+
+	/**
+	 * Builds a SQL statement for removing a primary key constraint to an existing table.
+	 * @param string $name the name of the primary key constraint to be removed.
+	 * @param string $table the table that the primary key constraint will be removed from.
+	 * @return string the SQL statement for removing a primary key constraint from an existing table.
+	 * @since 1.1.13
+	 */
+	public function dropPrimaryKey($name,$table)
+	{
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' DROP CONSTRAINT '
+			. $this->quoteColumnName($name);
 	}
 }

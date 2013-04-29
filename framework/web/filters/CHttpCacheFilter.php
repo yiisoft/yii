@@ -4,7 +4,7 @@
  *
  * @author Da:Sourcerer <webmaster@dasourcerer.net>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2012 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -181,7 +181,12 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function sendCacheControlHeader()
 	{
-		header('Cache-Control: '.$this->cacheControl, true);
+		if(Yii::app()->session->isStarted)
+		{
+			session_cache_limiter('public');
+			header('Pragma:',true);
+		}
+		header('Cache-Control: '.$this->cacheControl,true);
 	}
 
 	/**

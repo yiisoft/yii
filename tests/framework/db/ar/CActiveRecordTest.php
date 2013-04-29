@@ -1401,6 +1401,52 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
+	 * @see https://github.com/yiisoft/yii/issues/135
+	 */
+	public function testCountWithHaving()
+	{
+		$criteriaWithHaving = new CDbCriteria();
+		$criteriaWithHaving->group = 'id';
+		$criteriaWithHaving->having = 'id = 1';
+		$count = Post::model()->count($criteriaWithHaving);
+
+		$this->assertEquals(1, $count, 'Having condition has not been applied on count!');
+	}
+
+	/**
+	 * @see https://github.com/yiisoft/yii/issues/135
+	 * @see https://github.com/yiisoft/yii/issues/2201
+	 */
+	public function testCountWithHavingRelational()
+	{
+		$criteriaWithHaving = new CDbCriteria();
+		$criteriaWithHaving->select = 't.id AS test_field';
+		$criteriaWithHaving->with = array('author');
+		$criteriaWithHaving->group = 't.id';
+		$criteriaWithHaving->having = 'test_field = :test_field';
+		$criteriaWithHaving->params['test_field'] = 1;
+		$count = Post::model()->count($criteriaWithHaving);
+
+		$this->assertEquals(1, $count, 'Having condition has not been applied on count with relation!');
+	}
+
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/2216
+	 */
+	public function testFindBySinglePkByArrayWithMixedKeys()
+	{
+		$posts=Post::model()->findAllByPk(array('some'=>3));
+		$this->assertEquals(1,count($posts));
+		$this->assertEquals(3,$posts[0]->id);
+
+		$posts=Post::model()->findAllByPk(array('some'=>3, 'another'=>2));
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(2,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
+	}
+	/**
 	 * https://github.com/yiisoft/yii/issues/1597
 	 */
 	public function testIssue1597()

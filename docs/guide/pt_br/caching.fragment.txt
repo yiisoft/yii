@@ -150,5 +150,7 @@ inválidos, o cache do conteúdo interno ainda vai conter seu fragmento válido.
 inverso não é verdadeiro. Se o conteúdo externo contém dados válidos, ele sempre 
 irá fornecer a cópia em cache, mesmo que o cache do conteúdo interno já tenha 
 expirado.
+Você deve ter cuidado na definição das durações ou as dependências dos caches aninhados,
+caso contrário, os fragmentos desatualizados internas podem ser mantidos no fragmento exterior.
 
-<div class="revision">$Id: caching.fragment.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id$</div>
