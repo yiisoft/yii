@@ -79,26 +79,27 @@ class CHtmlPurifier extends COutputProcessor
 	public function purify($content)
 	{
         if(is_array($content))
-            $content=array_map(array($this, 'purify'),$content);
+            $content=array_map(array($this,'purify'),$content);
         else
             $content=$this->getPurifier()->purify($content);
         return $content;    
 	}
     
     /**
-    * Set the options for the HTMLPurifier 
-    * @param mixed $options the options
+    * Set the options for HTML Purifier and create a new HTML Purifier instance based on these options.
+    * @param mixed $options the options for HTML Purifier
+    * @return object current class instance
     **/
     public function setOptions($options)
     {
-        $this->_options = $options;
-        $this->createHtmlPurifierInstance();
+        $this->_options=$options;
+        $this->createNewHtmlPurifierInstance();
         return $this;
     }
     
     /**
-    * Get the options for the HTMLPurifier 
-    * @return mixed the options
+    * Get the options for the HTML Purifier instance.
+    * @return mixed the HTML Purifier instance options
     **/
     public function getOptions()
     {
@@ -106,21 +107,21 @@ class CHtmlPurifier extends COutputProcessor
     }
     
     /**
-    * Get the HTMLPurifier instance or create a new one if it doesn't exist.
-    * @return object HTMLPurifier instance
+    * Get the HTML Purifier instance or create a new one if it doesn't exist.
+    * @return object HTML Purifier instance
     **/
     protected function getPurifier()
     {
         if($this->_purifier!==null)
             return $this->_purifier;
-        return $this->createHtmlPurifierInstance();
+        return $this->createNewHtmlPurifierInstance();
     }
     
     /**
-    * Create the HTMLPurifier instance.
-    * @return object HTMLPurifier instance
+    * Create a new HTML Purifier instance.
+    * @return object newly created HTML Purifier instance
     **/
-    protected function createHtmlPurifierInstance()
+    protected function createNewHtmlPurifierInstance()
     {
         $this->_purifier=new HTMLPurifier($this->getOptions());
 		$this->_purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
