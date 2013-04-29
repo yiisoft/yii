@@ -1455,13 +1455,13 @@ class CActiveRecordTest extends CTestCase
 	{
 		Yii::app()->setComponent('log',array('class'=>'MockLogRouter'));
 
-		// execute code to be tested
+		// execute testing code
 		Post::model()->findByPk(1)->getRelated('specialCategories');
 
 		Yii::app()->getComponent('log')->collectLogs(new CEvent());
 		Yii::app()->setComponent('log',null);
 
-		// before fixing #1597 both values were equal 4, after fixing 2
+		// before fixing #1597 both values were equal to 4, after fixing to 2
 		$this->assertEquals(2,substr_count(MockLogRouter::$queries,'defaultScope'));
 		$this->assertEquals(2,substr_count(MockLogRouter::$queries,'CManyManyRelation::$on'));
 	}
