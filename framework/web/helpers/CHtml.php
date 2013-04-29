@@ -454,7 +454,7 @@ class CHtml
 		}
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
-		if(!isset($htmlOptions['value']))
+		if(!isset($htmlOptions['value']) && $htmlOptions['type']!='image')
 			$htmlOptions['value']=$label;
 		self::clientChange('click',$htmlOptions);
 		return self::tag('input',$htmlOptions);
