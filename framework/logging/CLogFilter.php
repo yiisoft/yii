@@ -98,7 +98,7 @@ class CLogFilter extends CComponent implements ILogFilter
 		{
 			if ( is_array($name) ) {
 				$imploded_name = implode('.', $name);
-				$context[] = "\${$imploded_name}=".var_export(CMap::wanderArray($GLOBALS, $name), true);
+				$context[] = "\${$imploded_name}=".var_export(CMap::searchArrayPath($GLOBALS, $name), true);
 			} else {
 				if(!empty($GLOBALS[$name]))
 					$context[]="\${$name}=".var_export($GLOBALS[$name],true);
