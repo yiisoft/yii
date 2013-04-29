@@ -1448,10 +1448,11 @@ class CActiveRecordTest extends CTestCase
 	}
 	/**
 	 * https://github.com/yiisoft/yii/issues/1597
+	 * https://github.com/yiisoft/yii/pull/1649
 	 */
-	public function testIssue1597()
+	public function testManyToManyConditionApplyTwice()
 	{
-		$logFileName='CActiveRecordTest-testIssue1597.log';
+		$logFileName='CActiveRecordTest-testManyToManyConditionApplyTwice.log';
 		$logFilePath=Yii::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR;
 
 		Yii::app()->setComponent('log',array(

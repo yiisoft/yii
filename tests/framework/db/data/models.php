@@ -161,6 +161,7 @@ class Post extends CActiveRecord
 			'comments'=>array(self::HAS_MANY,'Comment','post_id','order'=>'comments.content DESC'),
 			'commentCount'=>array(self::STAT,'Comment','post_id'),
 			'categories'=>array(self::MANY_MANY,'Category','post_category(post_id,category_id)','order'=>'categories.id DESC'),
+
 			'specialCategories'=>array(self::MANY_MANY,'CategorySpecial','post_category(post_id,category_id)',
 				'on'=>'"CManyManyRelation::$on"="CManyManyRelation::$on"'),
 		);
@@ -399,7 +400,11 @@ class Category extends CActiveRecord
 	}
 }
 
-
+/**
+ * @property integer $id
+ * @property string $name
+ * @property integer $parent_id
+ */
 class CategorySpecial extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
