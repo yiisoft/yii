@@ -58,7 +58,7 @@ class CHtmlPurifier extends COutputProcessor
      * or the filename of an ini file.
      * @see http://htmlpurifier.org/live/configdoc/plain.html
      */
-    public $_options=null;
+    protected $_options=null;
     
     /**
      * Processes the captured output.
