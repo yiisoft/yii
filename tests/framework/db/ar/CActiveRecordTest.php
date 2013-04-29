@@ -1446,39 +1446,35 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
 	}
+
 	/**
 	 * https://github.com/yiisoft/yii/issues/1597
 	 * https://github.com/yiisoft/yii/pull/1649
 	 */
 	public function testManyToManyConditionApplyTwice()
 	{
-		$logFileName='CActiveRecordTest-testManyToManyConditionApplyTwice.log';
-		$logFilePath=Yii::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR;
+		Yii::app()->setComponent('log',array('class'=>'MockLogRouter'));
 
-		Yii::app()->setComponent('log',array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'trace',
-					'categories'=>'system.db.CDbCommand',
-					'logFile'=>$logFileName,
-					'logPath'=>$logFilePath,
-				),
-			),
-		));
-
-		// lazy load
+		// execute code to be tested
 		Post::model()->findByPk(1)->getRelated('specialCategories');
 
-		Yii::app()->getComponent('log')->processLogs(new CEvent());
+		Yii::app()->getComponent('log')->collectLogs(new CEvent());
 		Yii::app()->setComponent('log',null);
 
-		$logFileData=@file_get_contents($logFilePath.$logFileName);
-		@unlink($logFilePath.$logFileName);
+		// before fixing #1597 both values were equal 4, after fixing 2
+		$this->assertEquals(2,substr_count(MockLogRouter::$queries,'defaultScope'));
+		$this->assertEquals(2,substr_count(MockLogRouter::$queries,'CManyManyRelation::$on'));
+	}
+}
 
-		// before #1597 fixing both values were 4
-		$this->assertEquals(2,substr_count($logFileData,'defaultScope'));
-		$this->assertEquals(2,substr_count($logFileData,'CManyManyRelation::$on'));
+class MockLogRouter extends CLogRouter
+{
+	public static $queries='';
+
+	public function collectLogs($event)
+	{
+		$entries=Yii::getLogger()->getLogs('',array('system.db.CDbCommand'));
+		foreach($entries as $entry)
+			self::$queries.=mb_substr($entry[0],14).'; ';
 	}
 }
