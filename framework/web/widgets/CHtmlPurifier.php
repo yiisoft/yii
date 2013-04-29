@@ -49,41 +49,41 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
 class CHtmlPurifier extends COutputProcessor
 {
     /**
-	 * @var mixed the HTML Purifier instance.
-	 */
+     * @var mixed the HTML Purifier instance.
+     */
     protected $_purifier;
-	/**
-	 * @var mixed the options to be passed to HTML Purifier instance.
-	 * This can be a HTMLPurifier_Config object,  an array of directives (Namespace.Directive => Value)
-	 * or the filename of an ini file.
-	 * @see http://htmlpurifier.org/live/configdoc/plain.html
-	 */
-	protected $_options=null;
+    /**
+     * @var mixed the options to be passed to HTML Purifier instance.
+     * This can be a HTMLPurifier_Config object,  an array of directives (Namespace.Directive => Value)
+     * or the filename of an ini file.
+     * @see http://htmlpurifier.org/live/configdoc/plain.html
+     */
+    protected $_options=null;
 
-	/**
-	 * Processes the captured output.
-	* This method purifies the output using {@link http://htmlpurifier.org HTML Purifier}.
-	 * @param string $output the captured output to be processed
-	 */
-	public function processOutput($output)
-	{
-		$output=$this->purify($output);
-		parent::processOutput($output);
-	}
+    /**
+     * Processes the captured output.
+    * This method purifies the output using {@link http://htmlpurifier.org HTML Purifier}.
+     * @param string $output the captured output to be processed
+     */
+    public function processOutput($output)
+    {
+    	$output=$this->purify($output);
+    	parent::processOutput($output);
+    }
 
-	/**
-	 * Purifies the HTML content by removing malicious code.
-	 * @param mixed $content the content to be purified.
-	 * @return mixed the purified content
-	 */
-	public function purify($content)
-	{
+    /**
+     * Purifies the HTML content by removing malicious code.
+     * @param mixed $content the content to be purified.
+     * @return mixed the purified content
+     */
+    public function purify($content)
+    {
         if(is_array($content))
             $content=array_map(array($this,'purify'),$content);
         else
             $content=$this->getPurifier()->purify($content);
         return $content;    
-	}
+    }
     
     /**
     * Set the options for HTML Purifier and create a new HTML Purifier instance based on these options.
@@ -124,7 +124,7 @@ class CHtmlPurifier extends COutputProcessor
     protected function createNewHtmlPurifierInstance()
     {
         $this->_purifier=new HTMLPurifier($this->getOptions());
-		$this->_purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
+        $this->_purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
         return $this->_purifier;
     }
 }
