@@ -98,7 +98,7 @@ class CLogFilter extends CComponent implements ILogFilter
 		{
 			if ( is_array($name) ) {
 				$imploded_name = implode('.', $name);
-				$context[] = "\${$imploded_name}=".var_export(CMap::searchArrayPath($GLOBALS, $name), true);
+				$context[] = "\${$imploded_name}=".var_export($this->searchArrayPath($GLOBALS, $name), true);
 			} else {
 				if(!empty($GLOBALS[$name]))
 					$context[]="\${$name}=".var_export($GLOBALS[$name],true);
@@ -106,5 +106,31 @@ class CLogFilter extends CComponent implements ILogFilter
 		}
 
 		return implode("\n\n",$context);
+	}
+
+	/**
+	 * Searches through array by a given path.
+	 * Each item in path represents a key of the array.
+	 *
+	 * @param array $array array to be searched
+	 * @param array $path  array with array keys
+	 * @return mixed the value of the array at the end of the path
+	 */
+	private function searchArrayPath($array, $path) {
+
+		if(!is_array($path)) {
+			return null;
+		}
+
+		$key = reset($path);
+		if(!isset($array[$key])) {
+			return null;
+		}
+
+		if( count($path) == 1 ) {
+			return $array[$key];
+		}
+
+		return $this->searchArrayPath($array[$key], array_slice($path, 1));
 	}
 }

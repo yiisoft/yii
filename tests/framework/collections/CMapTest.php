@@ -150,36 +150,6 @@ class CMapTest extends CTestCase
 		$this->assertEquals($this->item3, $map['k3']['k4']);
 	}
 
-	public function testItemAtWithPath()
-	{
-		$value = 'value';
-		$a=array(
-			'lvl1'=>array(
-				'lvl2'=>array(
-					'lvl3'=>array(
-						'key'=>$value
-					)
-				)
-			)
-		);
-		$b=array(
-			0=>array(
-				0=>array(
-					1=>array(
-						2=>$value
-					)
-				)
-			)
-		);
-		$map=new CMap($a);
-		$map2=new CMap($b);
-
-		$this->assertEquals($value, $map->itemAt(array('lvl1', 'lvl2', 'lvl3', 'key')));
-		$this->assertEquals($value, $map2->itemAt(array(0,0,1,2)));
-		$this->assertNull($map->itemAt(array('lvl1', 'lvl2', 'unknown')));
-		$this->assertNull($map->itemAt(array()));
-	}
-
 	public function testArrayRead()
 	{
 		$this->assertEquals($this->item1,$this->map['key1']);
