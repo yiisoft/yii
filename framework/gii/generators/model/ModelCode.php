@@ -316,17 +316,16 @@ class ModelCode extends CCodeModel
 				$className1=$this->generateClassName($table1);
 
 				$unprefixedTableName=$this->removePrefix($tableName);
-
-				$relationName=$this->generateRelationName($table0, $table1, true);
+				
+				$relationName = $this->generateRelationName($this->removePrefix($tableName,false),$this->removePrefix($tableName,false),true);
+				
 				$relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$unprefixedTableName($pks[0], $pks[1])')";
-
-				$relationName=$this->generateRelationName($table1, $table0, true);
 
 				$i=1;
 				$rawName=$relationName;
 				while(isset($relations[$className1][$relationName]))
 					$relationName=$rawName.$i++;
-
+				
 				$relations[$className1][$relationName]="array(self::MANY_MANY, '$className0', '$unprefixedTableName($pks[1], $pks[0])')";
 			}
 			else
