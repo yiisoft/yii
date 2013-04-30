@@ -55,6 +55,11 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public $keyPrefix;
 	/**
+	 * Id of the key containing tag dependency. We search the version of the tags in cache with this id.
+	 * @var string
+	 */
+	public $tagsDependencyId = 'tags_dependency_cache';
+	/**
 	 * @var boolean whether to md5-hash the cache key for normalization purposes. Defaults to true. Setting this property to false makes sure the cache
 	 * key will not be tampered when calling the relevant methods {@link get()}, {@link set()}, {@link add()} and {@link delete()}. This is useful if a Yii
 	 * application as well as an external application need to access the same cache pool (also see description of {@link keyPrefix} regarding this use case).
@@ -218,6 +223,25 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	{
 		Yii::trace('Deleting "'.$id.'" from cache','system.caching.'.get_class($this));
 		return $this->deleteValue($this->generateUniqueKey($id));
+	}
+	
+	/**
+	 * Increments the version of the tag in cache.
+	 * @param  string $tag The name of the tag.
+	 * @return boolean      True if succes, false if no tag with that name in cache.
+	 */
+	public function deleteByTag( $tag )
+	{
+		$tagVersions = $this->get( $this->tagsDependencyId );
+		if ( $tagVersions !== false && array_key_exists( $tag, $tagVersions ) ) 
+		{
+			$tagVersions[$tag]++;
+			$this->set( $this->tagsDependencyId, $tagVersions );
+
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
