@@ -915,11 +915,16 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $i=>$model)
 		{
-			if($loadInput && isset($_POST[get_class($model)][$i]))
-				$model->attributes=$_POST[get_class($model)][$i];
-			$model->validate($attributes);
-			foreach($model->getErrors() as $attribute=>$errors)
-				$result[CHtml::activeId($model,'['.$i.']'.$attribute)]=$errors;
+                    if($loadInput && isset($_POST[get_class($model)])){
+                        foreach($_POST[get_class($model)] as $count=>$data)
+                        {
+                                $model->attributes=$data;
+                                $model->validate($attributes);
+                                foreach($model->getErrors() as $attribute=>$errors)
+                                        $result[CHtml::activeId($model,'['.$count.']'.$attribute)]=$errors;
+                       }
+                    }
+			
 		}
 		return function_exists('json_encode') ? json_encode($result) : CJSON::encode($result);
 	}
