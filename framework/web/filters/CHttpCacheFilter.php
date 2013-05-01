@@ -19,9 +19,9 @@
 class CHttpCacheFilter extends CFilter
 {
 	/**
-	 * Timestamp for the last modification date. Must be either a string parsable by
-	 * {@link http://php.net/strtotime strtotime()} or an integer representing a unix timestamp.
-	 * @var string|integer
+	 * @var string|integer Timestamp for the last modification date.
+	 * Must be either a string parsable by {@link http://php.net/strtotime strtotime()}
+	 * or an integer representing a unix timestamp.
 	 */
 	public $lastModified;
 	/**
@@ -35,8 +35,8 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $lastModifiedExpression;
 	/**
-	 * Seed for the ETag. Can be anything that passes through {@link http://php.net/serialize serialize()}.
-	 * @var mixed
+	 * @var mixed Seed for the ETag.
+	 * Can be anything that passes through {@link http://php.net/serialize serialize()}.
 	 */
 	public $etagSeed;
 	/**
@@ -50,11 +50,10 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $etagSeedExpression;
 	/**
-	 * Http cache control headers. Set this to an empty string in order to keep this
+	 * @var string Http cache control headers. Set this to an empty string in order to keep this
 	 * header from being sent entirely.
-	 * @var string
 	 */
-	public $cacheControl = 'max-age=3600, public';
+	public $cacheControl='max-age=3600, public';
 
 	/**
 	 * Performs the pre-action filtering.
@@ -205,6 +204,6 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function generateEtag($seed)
 	{
-		return '"'.base64_encode(sha1(serialize($seed), true)).'"';
+		return '"'.base64_encode(sha1(serialize($seed),true)).'"';
 	}
 }

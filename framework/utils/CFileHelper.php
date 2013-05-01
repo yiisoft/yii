@@ -270,10 +270,9 @@ class CFileHelper
 	 * Shared environment safe version of mkdir. Supports recursive creation.
 	 * For avoidance of umask side-effects chmod is used.
 	 *
-	 * @static
 	 * @param string $dst path to be created
-	 * @param array $options newDirMode element used, must contain access bitmask.
-	 * @param boolean $recursive
+	 * @param array $options newDirMode element used, must contain access bitmask
+	 * @param boolean $recursive whether to create directory structure recursive if parent dirs do not exist
 	 * @return boolean result of mkdir
 	 * @see mkdir
 	 */
