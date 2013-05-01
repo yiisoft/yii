@@ -28,7 +28,7 @@
  * array(
  *     'components'=>array(
  *         'cache'=>array(
- *             'class'=>'RedisCache',
+ *             'class'=>'CRedisCache',
  *             'hostname'=>'localhost',
  *             'port'=>6379,
  *             'database'=>0,
@@ -48,11 +48,11 @@ class CRedisCache extends CCache
 	 */
 	public $hostname='localhost';
 	/**
-	 * @var int the to use for connecting to the redis server. Default port is 6379.
+	 * @var int the port to use for connecting to the redis server. Default port is 6379.
 	 */
 	public $port=6379;
 	/**
-	 * @var string the password to use to identify with the redis server. If not set, no AUTH command will be sent.
+	 * @var string the password to use to authenticate with the redis server. If not set, no AUTH command will be sent.
 	 */
 	public $password;
 	/**
@@ -88,16 +88,27 @@ class CRedisCache extends CCache
 			$this->executeCommand('SELECT',array($this->database));
 		}
 		else
-			throw new CException('failed to connect to redis: '.$errorDescription,(int)$errorNumber);
+			throw new CException('Failed to connect to redis: '.$errorDescription,(int)$errorNumber);
 	}
 
 	/**
-	 * Execute a redis command
+	 * Executes a redis command.
+	 * For a list of available commands and their parameters see {@link http://redis.io/commands}.
 	 *
-	 * @see http://redis.io/commands
-	 * @param $name
-	 * @param $params
-	 * @return array|bool|null|string
+	 * @param string $name the name of the command
+	 * @param array $params list of parameters for the command
+	 * @return array|bool|null|string Dependend on the executed command this method
+	 * will return different data types:
+	 * <ul>
+	 *   <li><code>true</code> for commands that return "status reply".</li>
+	 *   <li><code>string</code> for commands that return "integer reply"
+	 *       as the value is in the range of a signed 64 bit integer.</li>
+	 *   <li><code>string</code> or <code>null</code> for commands that return "bulk reply".</li>
+	 *   <li><code>array</code> for commands that return "Multi-bulk replies".</li>
+	 * </ul>
+	 * See {@link http://redis.io/topics/protocol redis protocol description}
+	 * for details on the mentioned reply types.
+	 * @trows CException for commands that return {@link http://redis.io/topics/protocol#error-reply error reply}.
 	 */
 	public function executeCommand($name,$params=array())
 	{
@@ -109,9 +120,9 @@ class CRedisCache extends CCache
 		foreach($params as $arg)
 			$command.='$'.strlen($arg)."\r\n".$arg."\r\n";
 
-		fwrite($this->_socket, $command);
+		fwrite($this->_socket,$command);
 
-		return $this->parseResponse(implode(' ', $params));
+		return $this->parseResponse(implode(' ',$params));
 	}
 
 	/**
@@ -121,9 +132,8 @@ class CRedisCache extends CCache
 	 */
 	private function parseResponse()
 	{
-		if(($line=fgets($this->_socket))===false) {
+		if(($line=fgets($this->_socket))===false)
 			throw new CException('Failed reading data from redis connection socket.');
-		}
 		$type=$line[0];
 		$line=substr($line,1,-2);
 		switch($type)
@@ -131,14 +141,14 @@ class CRedisCache extends CCache
 			case '+': // Status reply
 				return true;
 			case '-': // Error reply
-				throw new CException("Redis error: " . $line);
+				throw new CException('Redis error: '.$line);
 			case ':': // Integer reply
 				// no cast to int as it is in the range of a signed 64 bit integer
 				return $line;
 			case '$': // Bulk replies
 				if($line=='-1')
 					return null;
-				if(($data = fread($this->_socket,$line+2))===false)
+				if(($data=fread($this->_socket,$line+2))===false)
 					throw new CException('Failed reading data from redis connection socket.');
 				return substr($data,0,-2);
 			case '*': // Multi-bulk replies
@@ -156,11 +166,11 @@ class CRedisCache extends CCache
 	 * Retrieves a value from cache with a specified key.
 	 * This is the implementation of the method declared in the parent class.
 	 * @param string $key a unique key identifying the cached value
-	 * @return string the value stored in cache, false if the value is not in the cache or expired.
+	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	protected function getValue($key)
 	{
-		return $this->executeCommand('GET', array($key));
+		return $this->executeCommand('GET',array($key));
 	}
 
 	/**
@@ -170,12 +180,11 @@ class CRedisCache extends CCache
 	 */
 	protected function getValues($keys)
 	{
-		$response = $this->executeCommand('MGET', $keys);
-		$result = array();
-		$i = 0;
-		foreach($keys as $key) {
-			$result[$key] = $response[$i++];
-		}
+		$response=$this->executeCommand('MGET',$keys);
+		$result=array();
+		$i=0;
+		foreach($keys as $key)
+			$result[$key]=$response[$i++];
 		return $result;
 	}
 
@@ -190,12 +199,10 @@ class CRedisCache extends CCache
 	 */
 	protected function setValue($key,$value,$expire)
 	{
-		if ($expire == 0) {
-			return (bool) $this->executeCommand('SET', array($key, $value));
-		} else {
-			$expire = (int) ($expire * 1000);
-			return (bool) $this->executeCommand('PSETEX', array($key, $expire, $value));
-		}
+		if ($expire==0)
+			return (bool)$this->executeCommand('SET',array($key,$value));
+		$expire=(int)($expire*1000);
+		return (bool)$this->executeCommand('PSETEX',array($key,$expire,$value));
 	}
 
 	/**
@@ -209,16 +216,15 @@ class CRedisCache extends CCache
 	 */
 	protected function addValue($key,$value,$expire)
 	{
-		if ($expire == 0) {
-			return (bool) $this->executeCommand('SETNX', array($key, $value));
-		} else {
-			$expire = (int) ($expire * 1000);
-			$this->executeCommand('MULTI');
-			$this->executeCommand('SETNX', array($key, $value));
-			$this->executeCommand('PEXPIRE', array($key, $expire));
-			$response = $this->executeCommand('EXEC');
-			return (bool) $response[0];
-		}
+		if ($expire == 0)
+			return (bool)$this->executeCommand('SETNX',array($key,$value));
+
+		$expire=(int)($expire*1000);
+		$this->executeCommand('MULTI');
+		$this->executeCommand('SETNX',array($key,$value));
+		$this->executeCommand('PEXPIRE',array($key,$expire));
+		$response = $this->executeCommand('EXEC');
+		return (bool)$response[0];
 	}
 
 	/**
@@ -229,7 +235,7 @@ class CRedisCache extends CCache
 	 */
 	protected function deleteValue($key)
 	{
-		return (bool) $this->executeCommand('DEL', array($key));
+		return (bool)$this->executeCommand('DEL',array($key));
 	}
 
 	/**
