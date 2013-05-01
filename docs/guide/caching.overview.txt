@@ -44,6 +44,8 @@ summary of the available cache components:
 
    - [CEAcceleratorCache]: uses PHP [EAccelerator extension](http://eaccelerator.net/).
 
+   - [CRedisCache]: uses [redis](http://redis.io/) key value-store as storage backend.
+
    - [CDbCache]: uses a database table to store cached data. By default,
 it will create and use a SQLite3 database under the runtime directory. You
 can explicitly specify a database for it to use by setting its
@@ -81,4 +83,3 @@ ensure the existence of the cached data even if it does not expire.
 Therefore, do not use cache as a persistent storage (e.g. do not use cache
 to store session data).
 
-<div class="revision">$Id$</div>

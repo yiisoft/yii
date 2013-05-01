@@ -20,7 +20,7 @@
  * authenticate with the server after connect.
  *
  * See {@link CCache} manual for common cache operations that are supported by CRedisCache.
- * Different from the description in {@link CCache}, CRedisCache allows the expire parameter of
+ * Unlike the {@link CCache}, CRedisCache allows the expire parameter of
  * {@link set} and {@link add} to be a floating point number, so you may specify the time in milliseconds.
  *
  * To use CRedisCache as the cache application component, configure the application as follows,
