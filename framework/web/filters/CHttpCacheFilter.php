@@ -25,8 +25,13 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $lastModified;
 	/**
-	 * Expression for the last modification date. If set, this takes precedence over {@link lastModified}.
-	 * @var string|callback
+	 * @var string|callback PHP Expression for the last modification date.
+	 * If set, this takes precedence over {@link lastModified}.
+	 *
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $lastModifiedExpression;
 	/**
@@ -35,8 +40,13 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $etagSeed;
 	/**
-	 * Expression for the ETag seed. If set, this takes precedence over {@link etagSeed}.
-	 * @var string|callback
+	 * @var string|callback Expression for the ETag seed.
+	 * If set, this takes precedence over {@link etagSeed}.
+	 *
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $etagSeedExpression;
 	/**

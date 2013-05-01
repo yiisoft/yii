@@ -111,18 +111,34 @@ class CGridView extends CBaseListView
 	public $rowCssClass=array('odd','even');
 	/**
 	 * @var string a PHP expression that is evaluated for every table body row and whose result
-	 * is used as the CSS class name for the row. In this expression, the variable <code>$row</code>
-	 * stands for the row number (zero-based), <code>$data</code> is the data model associated with
-	 * the row, and <code>$this</code> is the grid object.
+	 * is used as the CSS class name for the row. In this expression, you can use the following variables:
+	 * <ul>
+	 *   <li><code>$row</code> the row number (zero-based)</li>
+	 *   <li><code>$data</code> the data model for the row</li>
+	 *   <li><code>$this</code> the grid view object</li>
+	 * </ul>
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 * @see rowCssClass
-	 * @deprecated in 1.1.13
+	 * @deprecated in 1.1.13 in favor of {@link rowHtmlOptionsExpression}
 	 */
 	public $rowCssClassExpression;
 	/**
 	 * @var string a PHP expression that is evaluated for every table body row and whose result
-	 * is used as additional HTML attributes for the row. In this expression, the variable <code>$row</code>
-	 * stands for the row number (zero-based), <code>$data</code> is the data model associated with
-	 * the row, and <code>$this</code> is the grid object.
+	 * is used as additional HTML attributes for the row. The expression should return an
+	 * array whose key value pairs correspond to html attribute and value.
+	 * In this expression, you can use the following variables:
+	 * <ul>
+	 *   <li><code>$row</code> the row number (zero-based)</li>
+	 *   <li><code>$data</code> the data model for the row</li>
+	 *   <li><code>$this</code> the grid view object</li>
+	 * </ul>
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 * @since 1.1.13
 	 */
 	public $rowHtmlOptionsExpression;
@@ -312,6 +328,8 @@ class CGridView extends CBaseListView
 	 * @since 1.1.11
 	 */
 	public $enableHistory=false;
+
+
 	/**
 	 * Initializes the grid view.
 	 * This method will initialize required property values and instantiate {@link columns} objects.

@@ -29,6 +29,8 @@
  * In case the given number doesn't select any message, the last candidate message
  * will be returned.
  *
+ * The PHP expressions will be evaluated using {@link evaluate}.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.i18n
  */
