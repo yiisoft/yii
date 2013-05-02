@@ -3,10 +3,19 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.1.14
+--------------
+
+ * [CPasswordHelper] hinzugefügt
+ * [CRedisCache] hinzugefügt
+
 Version 1.1.11
 --------------
  * [Unterstützung von HTTP-Caching](/doc/guide/caching.page#http-caching)
  * ["Exit Codes" für Konsolenbefehle](/doc/guide/topics.console#exit-codes)
+
+ * [Model Validierung: Blacklist für Scenarios](/doc/guide/form.model#declaring-validation-rules)
+ * [git und hg Unterstützung](/doc/guide/quickstart.first-app)
 
 Version 1.1.8
 -------------
@@ -90,4 +99,3 @@ Erstellen von Formularen.
 
  * Bei AR-Abfragen lautet der Alias für die Haupttabelle immer `t`.
 
-<div class="revision">$Id: changes.txt 3235 2011-05-24 18:54:01Z qiang.xue $</div>

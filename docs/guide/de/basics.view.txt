@@ -131,6 +131,9 @@ Der einzige Unterschied besteht darin, dass kein Layout auf einen Widgetview
 angewendet wird. Außerdem bezieht sich `$this` in diesem View auf das
 Widgetobjekt, nicht auf den Controller.
 
+> Tip: Um Widgets einfach seitenweit zu konfigurieren, kann [CWidgetFactory::widgets] verwendet werden.
+> Weitere Informationen dazu finden Sie im Bereich [Themes](/doc/guide/topics.theming#widgets-global-anpassen).
+
 Systemview
 -----------
 
@@ -148,4 +151,3 @@ Yii stellt eine Reihe von Vorgabe-Systemviews bereit, die unter
 `framework/views` zu finden sind. Man kann sie leicht anpassen, indem
 man gleichnamige Viewdateien in `protected/views/system` anlegt.
 
-sehr <div class="revision">$Id: basics.view.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>
