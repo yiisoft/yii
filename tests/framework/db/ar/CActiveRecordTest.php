@@ -1453,28 +1453,17 @@ class CActiveRecordTest extends CTestCase
 	 */
 	public function testManyToManyConditionApplyTwice()
 	{
-		Yii::app()->setComponent('log',array('class'=>'MockLogRouter'));
+		Yii::app()->setComponent('log',array('class'=>'CLogRouter'));
 
-		// execute testing code
 		Post::model()->findByPk(1)->getRelated('specialCategories');
 
 		Yii::app()->getComponent('log')->collectLogs(new CEvent());
+		$queries='';
+		foreach(Yii::getLogger()->getLogs('trace',array('system.db.CDbCommand')) as $logEntry)
+			$queries.=$logEntry[0];
 		Yii::app()->setComponent('log',null);
 
-		// before fixing #1597 both values were equal to 4, after fixing to 2
-		$this->assertEquals(2,substr_count(MockLogRouter::$queries,'defaultScope'));
-		$this->assertEquals(2,substr_count(MockLogRouter::$queries,'CManyManyRelation::$on'));
-	}
-}
-
-class MockLogRouter extends CLogRouter
-{
-	public static $queries='';
-
-	public function collectLogs($event)
-	{
-		$entries=Yii::getLogger()->getLogs('',array('system.db.CDbCommand'));
-		foreach($entries as $entry)
-			self::$queries.=mb_substr($entry[0],14).'; ';
+		$this->assertEquals(2,substr_count($queries,'defaultScope'));
+		$this->assertEquals(2,substr_count($queries,'CManyManyRelation::$on'));
 	}
 }
