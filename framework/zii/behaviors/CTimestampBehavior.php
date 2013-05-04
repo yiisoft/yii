@@ -64,7 +64,10 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	 * or a {@link CDbExpression} object representing a DB expression (e.g. new CDbExpression('NOW()')).
 	 * Defaults to null, meaning that we will attempt to figure out the appropriate timestamp
 	 * automatically. If we fail at finding the appropriate timestamp, then it will
-	 * fall back to using the current UNIX timestamp
+	 * fall back to using the current UNIX timestamp.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $timestampExpression;
 

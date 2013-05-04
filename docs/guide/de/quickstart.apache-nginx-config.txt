@@ -14,9 +14,13 @@ die Virtual-Host-Konfiguration einfügen:
 ~~~
 RewriteEngine on
 
+# Zugriff auf sog. dotfiles verhindern (.htaccess, .svn, .git, etc.)
+RedirectMatch 403 /\..*$
+
 # Existierende Verzeichnisse oder Dateien direkt ausliefern
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
 # ansonsten zu index.php weiterleiten
 RewriteRule . index.php
 ~~~
@@ -76,8 +80,11 @@ server {
         fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
     }
 
-    location ~ /\.ht {
-        deny  all;
+    # Zugriff auf sog. dotfiles verhindern (.htaccess, .svn, .git, etc.)
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
     }
 }
 ~~~
@@ -85,4 +92,3 @@ server {
 Mit dieser Konfiguration kann man dann in der `php.ini` `cgi.fix_pathinfo=0`
 setzen, um unnötige `stat()`-Aufrufe des Systems zu vermeiden.
 
-<div class="revision">$Id: quickstart.apache-nginx-config.txt 3512 2011-12-27 16:50:03Z haertl.mike $</div>

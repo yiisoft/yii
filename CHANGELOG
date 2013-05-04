@@ -8,6 +8,7 @@ Version 1.1.14 work in progress
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
 - Bug #1597: CActiveFinder: lazy loading mechanism for CManyManyRelation used to apply 'on' part twice to the final query (resurtm)
 - Bug #1669: CNumberValidator used to add wrong error messages in case non-numeric values being validated (resurtm)
+- Bug #1692: CWebUser::renewCookie() and CWebUser::restoreFromCookie() now make use of the identityCookie options (f10i)
 - Bug #1693: Fixed log file will rotate twice when high performance (monque)
 - Bug #1724: Allow CClientScript registering scripts and script files with the HTML options (klimov-paul)
 - Bug #1763: CSqlDataProvider was appending another ORDER BY string to an existing ORDER BY statement when using fieldname with dot (szako)
