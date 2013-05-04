@@ -13,7 +13,7 @@ URL можно добавить инструкцию для модуля `mod_re
 ~~~
 RewriteEngine on
 
-# не позволять httpd отдавать файлы, начинающиеся с точки (.htaccess, .svn, .git, etc.)
+# не позволять httpd отдавать файлы, начинающиеся с точки (.htaccess, .svn, .git и прочие)
 RedirectMatch 403 /\..*$
 # если директория или файл существуют, использовать их напрямую
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -76,7 +76,7 @@ server {
         fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
     }
 
-    # не позволять nginx отдавать файлы, начинающиеся с точки (.htaccess, .svn, .git, etc.)
+    # не позволять nginx отдавать файлы, начинающиеся с точки (.htaccess, .svn, .git и прочие)
     location ~ /\. {
         deny all;
         access_log off;
