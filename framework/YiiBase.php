@@ -666,6 +666,7 @@ class YiiBase
 		'CExpressionDependency' => '/caching/dependencies/CExpressionDependency.php',
 		'CFileCacheDependency' => '/caching/dependencies/CFileCacheDependency.php',
 		'CGlobalStateCacheDependency' => '/caching/dependencies/CGlobalStateCacheDependency.php',
+		'CTagCacheDependency' => '/caching/dependencies/CTagCacheDependency.php',
 		'CAttributeCollection' => '/collections/CAttributeCollection.php',
 		'CConfiguration' => '/collections/CConfiguration.php',
 		'CList' => '/collections/CList.php',
