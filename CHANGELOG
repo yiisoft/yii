@@ -51,6 +51,7 @@ Version 1.1.14 work in progress
 - Bug #2398: Fixed 'Undefined variable: results' E_NOTICE at CProfileLogRoute (klimov-paul)
 - Bug #2402: Fixed clientValidation incorrectly rendered as HTML attribute, when used in CActiveForm::error() (mdomba)
 - Bug #2406: CUrlManager::$urlRuleClass now supports path alias value (as it was described in its PHPDoc before this fix) (resurtm)
+- Bug #2423: Fixed CHtml::button() enforces "value" attribute for the image buttons (klimov-paul)
 - Enh: Better CFileLogRoute performance (Qiang, samdark)
 - Enh: Refactored CHttpRequest::getDelete and CHttpRequest::getPut not to use _restParams directly (samdark)
 - Enh #169: Allow to set AJAX request type for CListView and CGridView (klimov-paul)
