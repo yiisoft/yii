@@ -115,7 +115,7 @@ class User extends CActiveRecord
 		// Mix the bits cryptographically.
 		$rand=sha1($rand,true);
 		// Form the prefix that specifies hash algorithm type and cost parameter.
-		$salt='$2a$'.str_pad((int)$cost,2,'0',STR_PAD_RIGHT).'$';
+		$salt='$2a$'.str_pad((int)$cost,2,'0',STR_PAD_LEFT).'$';
 		// Append the random salt string in the required base64 format.
 		$salt.=strtr(substr(base64_encode($rand),0,22),array('+'=>'.'));
 		return $salt;
