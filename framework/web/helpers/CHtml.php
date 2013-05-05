@@ -2171,17 +2171,17 @@ EOD;
 	 * @return string the generated HTML name value
 	 */
 	public static function modelName($model) {
-		$modelname = null;
+		$modelName = null;
 		
 		if (is_callable(self::$modelNameConverter)) {
 			$converter = self::$modelNameConverter;
-			$modelname = $converter($model);
+			$modelName = $converter($model);
 		} else {
-			$classname = is_object($model) ? get_class($model) : (string) $model;
-			$modelname = trim(str_replace('\\', '_', $classname), '_');
+			$className = is_object($model) ? get_class($model) : (string) $model;
+			$modelName = trim(str_replace('\\', '_', $className), '_');
 		}
 		
-		return $modelname;
+		return $modelName;
 	}
 	
 	/**
