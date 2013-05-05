@@ -216,7 +216,7 @@ class CForm extends CFormElement implements ArrayAccess
 	{
 		if($this->_model!==null)
 		{
-			$class=CHtml::getNameByModel($this->_model);
+			$class=CHtml::modelName($this->_model);
 			if(strcasecmp($this->getRoot()->method,'get'))
 			{
 				if(isset($_POST[$class]))

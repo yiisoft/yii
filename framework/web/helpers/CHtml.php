@@ -87,9 +87,9 @@ class CHtml
 	public static $renderSpecialAttributesValue=true;
 
 	/**
-	 * @var callback the generator used in the {@link CHtml::getNameByModel()} method
+	 * @var callback the generator used in the {@link CHtml::modelName()} method
 	 */
-	private static $classToNameConverter = null;
+	private static $modelNameConverter = null;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -2166,33 +2166,39 @@ EOD;
 
 	/**
 	 * Generates HTML name for given model.
-	 * @see CHtml::setClassToNameConverter()
+	 * @see CHtml::setModelNameConverter()
 	 * @param CModel|string $model the data model or the model class name
 	 * @return string the generated HTML name value
 	 */
-	public static function getNameByModel($model) {
-		$converter = self::$classToNameConverter;
-		$classname = is_object($model)
-			? get_class($model)
-			: (string) $model;
-		return $converter
-			? $converter($classname)
-			: trim(str_replace('\\', '_', $classname), '_');
+	public static function modelName($model) {
+		$modelname = null;
+		
+		if (is_callable(self::$modelNameConverter)) {
+			$converter = self::$modelNameConverter;
+			$modelname = $converter($model);
+		} else {
+			$classname = is_object($model) ? get_class($model) : (string) $model;
+			$modelname = trim(str_replace('\\', '_', $classname), '_');
+		}
+		
+		return $modelname;
 	}
 	
 	/**
-	 * Set generator used in the {@link CHtml::getNameByModel()} method. You
+	 * Set generator used in the {@link CHtml::modelName()} method. You
 	 * can use the `null` value to restore default generator.
-	 * @param callback $converter the new generator, the model class name
+	 * @param callback|null $converter the new generator, the model or class name
 	 * 		will be passed to the this callback and result must be
 	 * 		a valid value for HTML name attribute.
 	 * @return void
 	 */
-	public static function setClassToNameConverter($converter) {
+	public static function setModelNameConverter($converter) {
 		if (is_callable($converter)) {
-			self::$classToNameConverter = $converter;
+			self::$modelNameConverter = $converter;
 		} elseif (is_null($converter)) {
-			self::$classToNameConverter = null;
+			self::$modelNameConverter = null;
+		} else {
+			throw new CException(Yii::t('yii', 'The $converter argument must be a valid callback or null.'));
 		}
 	}
 	
@@ -2467,26 +2473,26 @@ EOD;
 	 */
 	public static function resolveName($model,&$attribute)
 	{
-		$className=self::getNameByModel($model);
+		$modelName=self::modelName($model);
 		
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
-				return $className.'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
+				return $modelName.'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
 			{
 				$sub=substr($attribute,0,$pos+1);
 				$attribute=substr($attribute,$pos+1);
-				return $className.$sub.'['.$attribute.']';
+				return $modelName.$sub.'['.$attribute.']';
 			}
 			if(preg_match('/\](\w+\[.*)$/',$attribute,$matches))
 			{
-				$name=$className.'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
+				$name=$modelName.'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
 				$attribute=$matches[1];
 				return $name;
 			}
 		}
-		return $className.'['.$attribute.']';
+		return $modelName.'['.$attribute.']';
 	}
 
 	/**
