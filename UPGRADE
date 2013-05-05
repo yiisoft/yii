@@ -43,6 +43,13 @@ Upgrading from v1.1.13
 - CSecurityManager::computeHMAC() method is now public and third parameter has been added. You must change signature
   of this method in the extended child class to fit new circumstances. Otherwise an E_STRICT error will be issued.
 
+- CClientScript::registerScriptFile() and CClientScript::registerScript() methods signature changed.
+  Updated your subclasses that override registerScriptFile() or registerScript() if any.
+
+- CActiveRecord::refreshMetaData() now clears meta data for all objects of the particular Active Record class.
+  Also CActiveRecord::refreshMetaData() will not create new meta data at once - new CActiveRecordMetaData instance
+  will be created on the first demand.
+
 Upgrading from v1.1.12
 ----------------------
 - Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)
