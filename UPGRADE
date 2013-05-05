@@ -44,7 +44,7 @@ Upgrading from v1.1.13
   of this method in the extended child class to fit new circumstances. Otherwise an E_STRICT error will be issued.
 
 - CClientScript::registerScriptFile() and CClientScript::registerScript() methods signature changed.
-  Updated your subclasses that override registerScriptFile() or registerScript() if any.
+  Update your subclasses that override registerScriptFile() or registerScript() if any.
 
 - CActiveRecord::refreshMetaData() now clears meta data for all objects of the particular Active Record class.
   Also CActiveRecord::refreshMetaData() will not create new meta data at once - new CActiveRecordMetaData instance
