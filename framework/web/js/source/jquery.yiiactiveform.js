@@ -223,17 +223,14 @@
 	};
 
 	/**
-	 * Returns the container element of the specified attribute.
+	 * Returns the (innermost) container element of the specified attribute.
 	 * @param attribute object the configuration for a particular attribute.
 	 * @param form the form jQuery object
 	 * @return jQuery the jQuery representation of the container
 	 */
 	$.fn.yiiactiveform.getInputContainer = function (attribute, form) {
-		if (attribute.inputContainer === undefined) {
-			return form.find('#' + attribute.inputID).closest('div');
-		} else {
-			return form.find(attribute.inputContainer).filter(':has("#' + attribute.inputID + '")');
-		}
+		var container = attribute.inputContainer === undefined ? 'div' : attribute.inputContainer;
+		return form.find('#' + attribute.inputID).closest(container);
 	};
 
 	/**
