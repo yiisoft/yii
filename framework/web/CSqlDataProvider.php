@@ -115,8 +115,15 @@ class CSqlDataProvider extends CDataProvider
 	protected function fetchKeys()
 	{
 		$keys=array();
-		foreach($this->getData() as $i=>$data)
-			$keys[$i]=$data[$this->keyField];
+		if($data=$this->getData())
+		{
+			if(is_object(reset($data)))
+				foreach($this->getData() as $i=>$data)
+					$keys[$i]=$data->{$this->keyField};
+			else
+				foreach($this->getData() as $i=>$data)
+					$keys[$i]=$data[$this->keyField];
+		}
 		return $keys;
 	}
 
