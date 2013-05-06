@@ -118,11 +118,11 @@ class CSqlDataProvider extends CDataProvider
 		if($data=$this->getData())
 		{
 			if(is_object(reset($data)))
-				foreach($this->getData() as $i=>$data)
-					$keys[$i]=$data->{$this->keyField};
+				foreach($data as $i=>$item)
+					$keys[$i]=$item->{$this->keyField};
 			else
-				foreach($this->getData() as $i=>$data)
-					$keys[$i]=$data[$this->keyField];
+				foreach($data as $i=>$item)
+					$keys[$i]=$item[$this->keyField];
 		}
 		return $keys;
 	}
