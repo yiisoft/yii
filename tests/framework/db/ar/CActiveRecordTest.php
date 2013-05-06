@@ -1447,4 +1447,16 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
 	}
+
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/139
+	 */
+	public function testLazyLoadThroughRelationWithCondition()
+	{
+		$masterModel=Group::model()->findByPk(1);
+		$this->assertTrue(count($masterModel->users)>0,'Test environment is missing!');
+		$this->assertEquals(0,count($masterModel->usersWhichEmptyByCondition),'Unable to apply condition from through relation!');
+	}
 }
