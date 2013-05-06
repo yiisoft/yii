@@ -36,9 +36,9 @@ class CGettextPoFile extends CGettextFile
 		{
 			if($matches[2][$i]===$context)
 			{
-	        	$id=$this->decode($matches[3][$i]);
-	        	$message=$this->decode($matches[4][$i]);
-	        	$messages[$id]=$message;
+				$id=$this->decode($matches[3][$i]);
+				$message=$this->decode($matches[4][$i]);
+				$messages[$id]=$message;
 			}
 		}
 		return $messages;
