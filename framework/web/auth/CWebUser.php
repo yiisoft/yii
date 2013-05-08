@@ -95,7 +95,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public $authTimeout;
 	/**
 	 * @var integer timeout in seconds after which user is logged out regardless of activity.
-	 * @since 1.1.4
+	 * @since 1.1.14
 	 */
 	public $absoluteAuthTimeout;
 	/**
