@@ -95,7 +95,7 @@ Upgrading from v1.1.11
 		$cookies[$name] = new CHttpCookie($name, $value);
 
 
-- CActiveRecord::resetScope() method signature changed. Updated your subclasses that override resetScope() if any.
+- CActiveRecord::resetScope() method signature changed. Please update your subclasses that override resetScope() if any.
 
 Upgrading from v1.1.10
 ----------------------
