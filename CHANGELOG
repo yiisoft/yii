@@ -52,6 +52,7 @@ Version 1.1.14 work in progress
 - New #575: Yii registering at Packagist, added composer info file (schmunk42)
 - New #1785: Added CPasswordHelper (tom--)
 - New #2178: Added Catalan Translation (ArnauAregall)
+- New #2459: Absolute session timeout in CWebUser (ivokund)
 
 Version 1.1.13 December 30, 2012
 --------------------------------
