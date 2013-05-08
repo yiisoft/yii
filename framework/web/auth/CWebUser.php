@@ -95,10 +95,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public $authTimeout;
 	/**
 	 * @var integer timeout in seconds after which user is logged out regardless of activity.
-	 * Defaults to 0 (no absolute timeout).
 	 * @since 1.1.4
 	 */
-	public $absoluteAuthTimeout=0;
+	public $absoluteAuthTimeout;
 	/**
 	 * @var boolean whether to automatically renew the identity cookie each time a page is requested.
 	 * Defaults to false. This property is effective only when {@link allowAutoLogin} is true.
