@@ -1398,7 +1398,6 @@ class CActiveRecordTest extends CTestCase
 	public function testIssue507()
 	{
 		$this->assertEquals(2, count(UserWithDefaultScope::model()->findAll()));
-
 	}
 
 	/**
@@ -1446,5 +1445,25 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,count($posts));
 		$this->assertEquals(2,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
+	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/1597
+	 * https://github.com/yiisoft/yii/pull/1649
+	 */
+	public function testManyToManyConditionApplyTwice()
+	{
+		Yii::app()->setComponent('log',array('class'=>'CLogRouter'));
+
+		Post::model()->findByPk(1)->getRelated('specialCategories');
+
+		Yii::app()->getComponent('log')->collectLogs(new CEvent());
+		$queries='';
+		foreach(Yii::getLogger()->getLogs('trace',array('system.db.CDbCommand')) as $logEntry)
+			$queries.=$logEntry[0];
+		Yii::app()->setComponent('log',null);
+
+		$this->assertEquals(2,substr_count($queries,'defaultScope'));
+		$this->assertEquals(2,substr_count($queries,'CManyManyRelation::$on'));
 	}
 }

@@ -468,10 +468,10 @@ class CJoinElement
 
 		$query=new CJoinQuery($child);
 		$query->selects=array($child->getColumnSelect($child->relation->select));
-		$query->conditions=array(
-			$child->relation->condition,
-			$child->relation->on,
-		);
+		$query->conditions=array($child->relation->condition);
+		// avoiding applying 'on' condition for CManyManyRelation, which will be applied at CJoinElement::applyLazyCondition()
+		if(!($child->relation instanceof CManyManyRelation))
+			$query->conditions[]=$child->relation->on;
 		$query->groups[]=$child->relation->group;
 		$query->joins[]=$child->relation->join;
 		$query->havings[]=$child->relation->having;

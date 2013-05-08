@@ -161,6 +161,9 @@ class Post extends CActiveRecord
 			'comments'=>array(self::HAS_MANY,'Comment','post_id','order'=>'comments.content DESC'),
 			'commentCount'=>array(self::STAT,'Comment','post_id'),
 			'categories'=>array(self::MANY_MANY,'Category','post_category(post_id,category_id)','order'=>'categories.id DESC'),
+
+			'specialCategories'=>array(self::MANY_MANY,'CategorySpecial','post_category(post_id,category_id)',
+				'on'=>'"CManyManyRelation::$on"="CManyManyRelation::$on"'),
 		);
 	}
 
@@ -393,6 +396,31 @@ class Category extends CActiveRecord
 			'children'=>array(self::HAS_MANY,'Category','parent_id'),
 			'nodes'=>array(self::HAS_MANY,'Category','parent_id','with'=>array('parent','children')),
 			'postCount'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)'),
+		);
+	}
+}
+
+/**
+ * @property integer $id
+ * @property string $name
+ * @property integer $parent_id
+ */
+class CategorySpecial extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'categories';
+	}
+
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>'"defaultScope"="defaultScope"',
 		);
 	}
 }
