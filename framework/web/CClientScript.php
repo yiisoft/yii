@@ -616,7 +616,7 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerCssFile($url,$media='', $order=-1)
+	public function registerCssFile($url,$media='', $order=self::APPEND)
 	{
 		$this->hasScripts=true;
 		if ($order==self::APPEND)
@@ -645,7 +645,7 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerCss($id,$css,$media='', $order=-1)
+	public function registerCss($id,$css,$media='', $order=self::APPEND)
 	{
 		$this->hasScripts=true;
 		if ($order==self::APPEND)
@@ -679,7 +679,7 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScriptFile($url,$position=null,array $htmlOptions=array(), $order=-1)
+	public function registerScriptFile($url,$position=null,array $htmlOptions=array(), $order=self::APPEND)
 	{
 		if($position===null)
 			$position=$this->defaultScriptFilePosition;
@@ -726,7 +726,7 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScript($id,$script,$position=null,array $htmlOptions=array(),$order=-1)
+	public function registerScript($id,$script,$position=null,array $htmlOptions=array(),$order=self::APPEND)
 	{
 		if($position===null)
 			$position=$this->defaultScriptPosition;
