@@ -154,7 +154,7 @@ jQuery(document).on('click', '$selector', function(){
 
 	/**
 	 * Checks if specified graphic extension support is loaded.
-	 * @param string extension name to be checked. Possible values are 'gd', 'imagick' and null.
+	 * @param string $extension name to be checked. Possible values are 'gd', 'imagick' and null.
 	 * Default value is null meaning that both extensions will be checked. This parameter
 	 * is available since 1.1.13.
 	 * @return boolean true if ImageMagick extension with PNG support or GD with FreeType support is loaded,

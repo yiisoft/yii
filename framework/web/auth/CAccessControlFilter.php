@@ -50,6 +50,9 @@
  *   'verbs'=>array('GET', 'POST'),
  * 
  *   // optional, a PHP expression whose value indicates whether this rule applies
+ *   // The PHP expression will be evaluated using {@link evaluateExpression}.
+ *   // A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+ *   // please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
  *   'expression'=>'!$user->isGuest && $user->level==2',
  * 
  *   // optional, the customized error message to be displayed
@@ -235,6 +238,11 @@ class CAccessRule extends CComponent
 	 * function foo($user, $rule) { ... }
 	 * </pre>
 	 * where $user is the current application user object and $rule is this access rule.
+	 *
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $expression;
 	/**

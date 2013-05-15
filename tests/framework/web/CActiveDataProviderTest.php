@@ -1,8 +1,5 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.web.CActiveArrayDataProvider');
-
 require_once(dirname(__FILE__).'/../db/data/models.php');
 
 class CActiveDataProviderTest extends CTestCase

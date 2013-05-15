@@ -8,11 +8,13 @@ Yii готовий до роботи із налаштуваннями Apache з
 `.htaccess` у фреймворку та директоріях додатку обмежують доступ до
 деяких ресурсів. Для приховання файла точки входу (звичайно це `index.php`) в
 URL можна додати інструкцію для модуля `mod_rewrite` у файл `.htaccess`
-в кореневій директорії додатку чи у налаштуваннях віртуальных хостів:
+в кореневій директорії додатку чи у налаштуваннях віртуальних хостів:
 
 ~~~
 RewriteEngine on
 
+# не дозволяти httpd віддавати файли, що починаються із крапки (.htaccess, .svn, .git та інші)
+RedirectMatch 403 /\..*$
 # якщо директорія або файл існують, використовувати їх напряму
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -75,8 +77,11 @@ server {
         fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
     }
 
-    location ~ /\.ht {
-        deny  all;
+    # не дозволяти nginx віддавати файли, що починаються із крапки (.htaccess, .svn, .git та інші)
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
     }
 }
 ~~~
