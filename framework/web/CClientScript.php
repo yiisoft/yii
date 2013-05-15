@@ -353,8 +353,15 @@ class CClientScript extends CApplicationComponent
 			}
 			if(!empty($package['css']))
 			{
-				foreach($package['css'] as $css)
-					$cssFiles[$baseUrl.'/'.$css]='';
+				foreach($package['css'] as $media => $css) {
+					if (is_array($css) && !is_numeric($media)) {
+						foreach($css as $cssFileByMedia) {
+							$cssFiles[$baseUrl.'/'.$cssFileByMedia]=$media;
+						}
+					} else {
+						$cssFiles[$baseUrl.'/'.$css]='';
+					}
+				}
 			}
 		}
 		// merge in place
