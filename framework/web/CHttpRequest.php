@@ -1003,12 +1003,12 @@ class CHttpRequest extends CApplicationComponent
 		$contentStart=0;
 		$contentEnd=$fileSize-1;
 
-		if (isset($_SERVER['HTTP_RANGE']))
+		if(isset($_SERVER['HTTP_RANGE']))
 		{
 			header('Accept-Ranges: bytes');
 
 			//client sent us a multibyte range, can not hold this one for now
-			if (strpos($_SERVER['HTTP_RANGE'],',')!==false)
+			if(strpos($_SERVER['HTTP_RANGE'],',')!==false)
 			{
 				header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
 				throw new CHttpException(416,'Requested Range Not Satisfiable');
@@ -1026,14 +1026,14 @@ class CHttpRequest extends CApplicationComponent
 
 				// check if the last-byte-pos presents in header
 				if((isset($range[1]) && is_numeric($range[1])))
-					$contentEnd = $range[1];
+					$contentEnd=$range[1];
 			}
 
 			/* Check the range and make sure it's treated according to the specs.
 			 * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
 			 */
 			// End bytes can not be larger than $end.
-			$contentEnd=($contentEnd > $fileSize) ? $fileSize - 1 : $contentEnd;
+			$contentEnd=($contentEnd > $fileSize) ? $fileSize-1 : $contentEnd;
 
 			// Validate the requested range and return an error if it's not correct.
 			$wrongContentStart=($contentStart>$contentEnd || $contentStart>$fileSize-1 || $contentStart<0);
