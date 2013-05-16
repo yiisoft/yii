@@ -225,7 +225,7 @@ return array (
   '{attribute} "{value}" has already been taken.' => '{attribute} "{value}" уже занят.',
   '{attribute} "{value}" is invalid.' => '{attribute} "{value}" неверно.',
   '{attribute} cannot accept more than {limit} files.' => '{attribute} не может принять более {limit} файлов.',
-  '{attribute} cannot be blank.' => 'Необходимо заполнить поле {attribute}.',
+  '{attribute} cannot be blank.' => 'Необходимо заполнить поле «{attribute}».',
   '{attribute} is in the list.' => '{attribute} находится в списке.',
   '{attribute} is invalid.' => '{attribute} не верен.',
   '{attribute} is not a valid URL.' => '{attribute} не является правильным URL.',
