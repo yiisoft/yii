@@ -417,8 +417,15 @@ class YiiBase
 						}
 					}
 				}
+                                else if(strpos($className,'.')!==false)
+                                {
+                                    self::import($className, true);
+                                    $className = array_pop(explode('.', $className));
+                                }
 				else
-					include($className.'.php');
+                                {
+                                    include($className.'.php');
+                                }
 			}
 			else  // class name with namespace in PHP 5.3
 			{
