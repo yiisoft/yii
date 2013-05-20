@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -196,7 +196,8 @@ class CMysqlSchema extends CDbSchema
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
 		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
-		$c->comment=$column['Comment'];
+		if(isset($column['Comment']))
+			$c->comment=$column['Comment'];
 
 		return $c;
 	}
@@ -271,6 +272,7 @@ class CMysqlSchema extends CDbSchema
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
 	 * @param string $name the old name of the column. The name will be properly quoted by the method.
 	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 * @throws CDbException if specified column is not found in given table
 	 * @return string the SQL statement for renaming a DB column.
 	 * @since 1.1.6
 	 */
@@ -330,5 +332,23 @@ class CMysqlSchema extends CDbSchema
 	{
 		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' DROP PRIMARY KEY';
 
+	}
+	
+	/**
+	 * Builds a SQL statement for adding a primary key constraint to a table.
+	 * @param string $name not used in the MySQL syntax, the primary key is always called PRIMARY and is reserved.
+	 * @param string $table the table that the primary key constraint will be added to.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
+	 * @return string the SQL statement for adding a primary key constraint to an existing table.
+	 * @since 1.1.14
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		if(is_string($columns))
+			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $i=>$col)
+			$columns[$i]=$this->quoteColumnName($col);
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' ADD PRIMARY KEY ('
+			. implode(', ', $columns). ' )';
 	}
 }

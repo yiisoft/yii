@@ -13,4 +13,4 @@
 - Сергей Кузнецов, cr0t ([summercode.ru](http://summercode.ru/))
 - Александр Кожевников, Bethrezen ([bethrezen.ru](http://bethrezen.ru/))
 
-© 2008—2012, Yii Software LLC.
+© 2008—2013, Yii Software LLC.

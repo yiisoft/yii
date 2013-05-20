@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -66,15 +66,15 @@ class CSqliteSchema extends CDbSchema
 	}
 
 	/**
-	 * Enables or disables integrity check.
+	 * Enables or disables integrity check. Note that this method used to do nothing before 1.1.14. Since 1.1.14
+	 * it changes integrity check state as expected.
 	 * @param boolean $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
 	{
-		// SQLite doesn't enforce integrity
-		return;
+		$this->getDbConnection()->createCommand('PRAGMA foreign_keys='.(int)$check)->execute();
 	}
 
 	/**
@@ -300,10 +300,10 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Builds a SQL statement for adding a primary key constraint to an existing table.
-	 * Because SQLite does not support adding a primary key on an existing table this method will throw an exception
+	 * Because SQLite does not support adding a primary key on an existing table this method will throw an exception.
 	 * @param string $name the name of the primary key constraint.
 	 * @param string $table the table that the primary key constraint will be added to.
-	 * @param string $columns the name of the column to that the constraint will be added on.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
 	 * @return string the SQL statement for adding a primary key constraint to an existing table.
 	 * @since 1.1.13
 	 */

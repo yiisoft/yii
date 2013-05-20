@@ -15,7 +15,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2012 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  * @version $Id: $
  * @since 1.0
@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.13-RC';
+		return '1.1.13';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -3985,6 +3985,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				Yii::app()->getSession()->destroy();
 			else
 				$this->clearStates();
+			$this->_access=array();
 			$this->afterLogout();
 		}
 	}
@@ -5323,10 +5324,10 @@ EOD;
 	}
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		if(is_string($attribute))
+		if(is_scalar($attribute) || $attribute===null)
 			foreach(explode('.',$attribute) as $name)
 			{
-				if(is_object($model))
+				if(is_object($model) && isset($model->$name))
 					$model=$model->$name;
 				elseif(is_array($model) && isset($model[$name]))
 					$model=$model[$name];
@@ -5339,7 +5340,7 @@ EOD;
 	}
 	public static function getIdByName($name)
 	{
-		return str_replace(array('[]', '][', '[', ']', ' '), array('', '_', '_', '', '_'), $name);
+		return str_replace(array('\\','[]', '][', '[', ']', ' '), array('-','', '_', '_', '', '_'), $name);
 	}
 	public static function activeId($model,$attribute)
 	{

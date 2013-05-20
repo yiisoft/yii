@@ -4,7 +4,7 @@
  *
  * @author Sebastian Thierer <sebas@artfos.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -13,7 +13,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
 /**
  * CJuiButton displays a button widget.
  *
- * CJuiButton encapsulates the {@link http://jqueryui.com/demos/button/ JUI Button}
+ * CJuiButton encapsulates the {@link http://jqueryui.com/button/ JUI Button}
  * plugin.
  *
  * To use this widget as a submit button, you may insert the following code in a view:
@@ -22,7 +22,8 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *     'name'=>'submit',
  *     'caption'=>'Save',
  *     'options'=>array(
- *     'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
+ *         'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
+ *     ),
  * ));
  * </pre>
  *
@@ -38,8 +39,10 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI button plugin. Please refer to
- * the {@link http://jqueryui.com/demos/button/ JUI Button} documentation
- * for possible options (name-value pairs).
+ * the {@link http://api.jqueryui.com/button/ JUI Button API} documentation
+ * for possible options (name-value pairs) and
+ * {@link http://jqueryui.com/button/ JUI Button page} for general description
+ * and demo.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @package zii.widgets.jui

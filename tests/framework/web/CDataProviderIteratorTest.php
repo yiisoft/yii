@@ -41,6 +41,17 @@ class CDataProviderIteratorTest extends CTestCase
 	}
 
 	/**
+	 * @dataProvider pageSizes
+	 */
+	public function testInitWithDisabledPagination($pageSizes)
+	{
+		$dataProvider = new CArrayDataProvider($this->generateData(10), array(
+			'pagination' => false,
+		));
+		new CDataProviderIterator($dataProvider, $pageSizes);
+	}
+	
+	/**
 	 * Generates some data to fill a dataProvider
 	 * @param integer $totalItems the total number of items to generate
 	 * @return array the data

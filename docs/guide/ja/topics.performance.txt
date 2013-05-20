@@ -135,4 +135,26 @@ $cs->scriptMap=array(
 </head>
 ~~~
 
-<div class="revision">$Id$</div>
+アセットをシンボリックリンクする
+--------------------------------
+
+プロジェクトが多数のアセットファイルを使用する場合は、ファイルコピーの代りに
+[シンボリックリンク](http://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AA%E3%83%83%E3%82%AF%E3%83%AA%E3%83%B3%E3%82%AF) を使うことでパフォーマンスをわずかに向上させることが出来ます。
+アセットのシンボリックリンクを有効にするためには、`protected/config/main.php` 設定ファイルを使用して、
+`assetManager` アプリケーション・コンポーネントの [linkAssets|CAssetManager::linkAssets] プロパティを
+設定しなければなりません。
+
+~~~
+[php]
+return array(
+	// ...
+	'components' => array(
+		// ...
+		'assetManager' => array(
+			'linkAssets' => true,
+		),
+	),
+);
+~~~
+
+ただし、[これ以外にも変更しなければならない設定があるかも知れない|CAssetManager::linkAssets] ということに注意して下さい。

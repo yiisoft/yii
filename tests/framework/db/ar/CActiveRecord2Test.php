@@ -593,4 +593,15 @@ class CActiveRecord2Test extends CTestCase
 		Post2::model()->with('author','firstComment','comments','categories')->findAllBySql('SELECT * FROM test.posts WHERE id=100');
 		$this->assertTrue($posts===array());
 	}
+
+	/**
+	 * @see https://github.com/yiisoft/yii/issues/2122
+	 */
+	public function testIssue2122()
+	{
+		$user=User2::model()->findByPk(2);
+		$this->assertEquals(2,count($user->postsWithParam));
+		$this->assertEquals('post 2',$user->postsWithParam[0]->title);
+		$this->assertEquals('post 3',$user->postsWithParam[1]->title);
+	}
 }

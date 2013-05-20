@@ -120,7 +120,7 @@ class PostController extends CController
 ~~~
 
 У наведеному коді ми використовуємо псевдонім маршруту `application.controllers.post.UpdateAction` 
-Щоб вказати на файл класу дії `protected/controllers/post/UpdateAction.php`.
+щоб вказати на файл класу дії `protected/controllers/post/UpdateAction.php`.
 Створюючи дії, засновані на класах, можна організувати додаток у модульному стилі. 
 Наприклад структура, директорій, приведена нижче, може бути використана для розташування коду контролерів:
 ~~~

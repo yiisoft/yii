@@ -17,9 +17,7 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'GD extension with<br />FreeType support<br />or ImageMagick extension' => 'Расширение GD<br />с поддержкой FreeType<br /> или ImageMagick',
-  'GD installed,<br />FreeType support not installed' => 'Расширение GD установлено<br />без поддержки FreeType',
-  'GD or ImageMagick not installed' => 'Расшиение GD или ImageMagick не установлены',
+  'GD extension with<br />FreeType support<br />or ImageMagick<br />extension with<br />PNG support' => 'Расширение GD<br />с поддержкой FreeType<br /> или ImageMagick<br /> с поддержкой PNG',
   '$_SERVER does not have {vars}.' => 'Переменная $_SERVER не содержит {vars}.',
   '$_SERVER variable' => 'Переменная $_SERVER.',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Переменная $_SERVER["SCRIPT_FILENAME"] должна соответствовать пути к файлу входного скрипта.',
@@ -28,6 +26,8 @@ return array (
   'Ctype extension' => 'Расширение Ctype',
   'DOM extension' => 'Расширение DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Должна существовать хотя бы одна из серверных переменных: $_SERVER["REQUEST_URI"] или $_SERVER["QUERY_STRING"].',
+  'GD installed,<br />FreeType support not installed' => 'Расширение GD установлено<br />без поддержки FreeType',
+  'GD or ImageMagick not installed' => 'Расшиение GD или ImageMagick не установлены',
   'Mcrypt extension' => 'Расширение Mcrypt',
   'Memcache extension' => 'Расширение Memcache',
   'PCRE extension' => 'Расширение PCRE',

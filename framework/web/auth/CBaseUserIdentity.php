@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -24,7 +24,7 @@
  * @property string $name The display name for the identity.
  * The default implementation simply returns empty string.
  * @property array $persistentStates The identity states that should be persisted.
- * @property whether $isAuthenticated The authentication is successful.
+ * @property boolean $isAuthenticated Whether the authentication is successful.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.auth
@@ -80,7 +80,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	}
 
 	/**
-	 * Sets an array of presistent states.
+	 * Sets an array of persistent states.
 	 *
 	 * @param array $states the identity states that should be persisted.
 	 */

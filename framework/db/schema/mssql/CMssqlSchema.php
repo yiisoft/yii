@@ -5,7 +5,7 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -24,20 +24,20 @@ class CMssqlSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'int IDENTITY PRIMARY KEY',
-        'string' => 'varchar(255)',
-        'text' => 'text',
-        'integer' => 'int',
-        'float' => 'float',
-        'decimal' => 'decimal',
-        'datetime' => 'datetime',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'binary',
-        'boolean' => 'bit',
-    );
+	public $columnTypes=array(
+		'pk' => 'int IDENTITY PRIMARY KEY',
+		'string' => 'varchar(255)',
+		'text' => 'text',
+		'integer' => 'int',
+		'float' => 'float',
+		'decimal' => 'decimal',
+		'datetime' => 'datetime',
+		'timestamp' => 'timestamp',
+		'time' => 'time',
+		'date' => 'date',
+		'binary' => 'binary',
+		'boolean' => 'bit',
+	);
 
 	/**
 	 * Quotes a table name for use in a query.
@@ -83,7 +83,7 @@ class CMssqlSchema extends CDbSchema
 	 * The sequence will be reset such that the primary key of the next new row inserted
 	 * will have the specified value or 1.
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
+	 * @param integer|null $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
 	 * @since 1.1.6
 	 */
@@ -93,8 +93,9 @@ class CMssqlSchema extends CDbSchema
 		{
 			$db=$this->getDbConnection();
 			if($value===null)
-				$value=$db->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
-			$value=(int)$value;
+				$value=(int)$db->createCommand("SELECT MAX([{$table->primaryKey}]) FROM {$table->rawName}")->queryScalar();
+			else
+				$value=(int)($value)-1;
 			$name=strtr($table->rawName,array('['=>'',']'=>''));
 			$db->createCommand("DBCC CHECKIDENT ('$name', RESEED, $value)")->execute();
 		}
@@ -190,13 +191,13 @@ class CMssqlSchema extends CDbSchema
 
 		$sql = <<<EOD
 		SELECT k.column_name field_name
-			FROM {$this->quoteTableName($kcu)} k
-		    LEFT JOIN {$this->quoteTableName($tc)} c
-		      ON k.table_name = c.table_name
-		     AND k.constraint_name = c.constraint_name
-		   WHERE c.constraint_type ='PRIMARY KEY'
-		   	    AND k.table_name = :table
-				AND k.table_schema = :schema
+		FROM {$this->quoteTableName($kcu)} k
+		LEFT JOIN {$this->quoteTableName($tc)} c
+		ON k.table_name = c.table_name
+			AND k.constraint_name = c.constraint_name
+		WHERE c.constraint_type ='PRIMARY KEY'
+			AND k.table_name = :table
+			AND k.table_schema = :schema
 EOD;
 		$command = $this->getDbConnection()->createCommand($sql);
 		$command->bindValue(':table', $table->name);
@@ -353,7 +354,7 @@ EOD;
 		else
 			$condition="TABLE_TYPE='BASE TABLE'";
 		$sql=<<<EOD
-SELECT TABLE_NAME, TABLE_SCHEMA FROM [INFORMATION_SCHEMA].[TABLES]
+SELECT TABLE_NAME FROM [INFORMATION_SCHEMA].[TABLES]
 WHERE TABLE_SCHEMA=:schema AND $condition
 EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
@@ -365,7 +366,7 @@ EOD;
 			if ($schema == self::DEFAULT_SCHEMA)
 				$names[]=$row['TABLE_NAME'];
 			else
-				$names[]=$schema.'.'.$row['TABLE_SCHEMA'].'.'.$row['TABLE_NAME'];
+				$names[]=$schema.'.'.$row['TABLE_NAME'];
 		}
 
 		return $names;

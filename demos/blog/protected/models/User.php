@@ -7,7 +7,6 @@ class User extends CActiveRecord
 	 * @var integer $id
 	 * @var string $username
 	 * @var string $password
-	 * @var string $salt
 	 * @var string $email
 	 * @var string $profile
 	 */
@@ -101,11 +100,12 @@ class User extends CActiveRecord
 	 *
 	 * @param int cost parameter for Blowfish hash algorithm
 	 * @return string the salt
+	 * @throws CException if improper cost passed
 	 */
 	protected function generateSalt($cost=10)
 	{
 		if(!is_numeric($cost)||$cost<4||$cost>31){
-			throw new CException(Yii::t('Cost parameter must be between 4 and 31.'));
+			throw new CException('Cost parameter must be between 4 and 31.');
 		}
 		// Get some pseudo-random data from mt_rand().
 		$rand='';
@@ -116,7 +116,7 @@ class User extends CActiveRecord
 		// Mix the bits cryptographically.
 		$rand=sha1($rand,true);
 		// Form the prefix that specifies hash algorithm type and cost parameter.
-		$salt='$2a$'.str_pad((int)$cost,2,'0',STR_PAD_RIGHT).'$';
+		$salt='$2a$'.sprintf('%02d',$cost).'$';
 		// Append the random salt string in the required base64 format.
 		$salt.=strtr(substr(base64_encode($rand),0,22),array('+'=>'.'));
 		return $salt;

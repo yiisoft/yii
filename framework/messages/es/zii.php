@@ -17,7 +17,7 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'Home' => 'Home',
+  'Home' => 'Inicio',
   'The button type "{type}" is not supported.' => 'El tipo de botón "{type}" no es soportado.',
   'The property filterSelector should be defined.' => 'La propiedad filterSelector debería estar definida.',
   'The property updateSelector should be defined.' => 'La propiedad updateSelector debería estar definida.',

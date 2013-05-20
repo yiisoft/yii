@@ -42,6 +42,10 @@ class CMysqlColumnSchema extends CDbColumnSchema
 	 */
 	protected function extractDefault($defaultValue)
 	{
+		/**
+		 * Pull request #1842
+		 * @link https://github.com/yiisoft/yii/pull/1842
+		 */
 		if(strncmp($this->dbType,'bit',3)===0)
 			parent::extractDefault(bindec(trim($defaultValue,'b\'')));
 		else if($this->dbType==='timestamp' && $defaultValue==='CURRENT_TIMESTAMP')

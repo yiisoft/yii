@@ -104,5 +104,3 @@ $cookie=new CHttpCookie($name,$value);
 Yii::app()->request->cookies[$name]=$cookie;
 ~~~
 
-
-<div class="revision">$Id$</div>
