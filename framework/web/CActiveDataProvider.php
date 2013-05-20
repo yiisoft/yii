@@ -91,7 +91,7 @@ class CActiveDataProvider extends CDataProvider
 			$this->modelClass=get_class($modelClass);
 			$this->model=$modelClass;
 		}
-		$this->setId($this->modelClass);
+		$this->setId(CHtml::modelName($this->model));
 		foreach($config as $key=>$value)
 			$this->$key=$value;
 	}
