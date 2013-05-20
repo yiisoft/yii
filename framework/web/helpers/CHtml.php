@@ -89,7 +89,7 @@ class CHtml
 	/**
 	 * @var callback the generator used in the {@link CHtml::modelName()} method
 	 */
-	private static $modelNameConverter = null;
+	private static $modelNameConverter=null;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -259,7 +259,7 @@ class CHtml
 	 * @param string $url the URL to which the page should be redirected to. If empty, it means the current page.
 	 * @since 1.1.1
 	 */
-	public static function refresh($seconds, $url='')
+	public static function refresh($seconds,$url='')
 	{
 		$content="$seconds";
 		if($url!=='')
@@ -897,7 +897,7 @@ class CHtml
 	 *     OPTION tag attributes in the name-value pairs. For example,
 	 * <pre>
 	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value1'=>array('disabled'=>true,'label'=>'value 1'),
 	 *         'value2'=>array('label'=>'value 2'),
 	 *     );
 	 * </pre>
@@ -963,7 +963,7 @@ class CHtml
 	 *     OPTION tag attributes in the name-value pairs. For example,
 	 * <pre>
 	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value1'=>array('disabled'=>true,'label'=>'value 1'),
 	 *         'value2'=>array('label'=>'value 2'),
 	 *     );
 	 * </pre>
@@ -1780,7 +1780,7 @@ EOD;
 	 *     OPTION tag attributes in the name-value pairs. For example,
 	 * <pre>
 	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value1'=>array('disabled'=>true,'label'=>'value 1'),
 	 *         'value2'=>array('label'=>'value 2'),
 	 *     );
 	 * </pre>
@@ -1845,7 +1845,7 @@ EOD;
 	 *     OPTION tag attributes in the name-value pairs. For example,
 	 * <pre>
 	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value1'=>array('disabled'=>true,'label'=>'value 1'),
 	 *         'value2'=>array('label'=>'value 2'),
 	 *     );
 	 * </pre>
@@ -2150,7 +2150,7 @@ EOD;
 	 */
 	public static function getIdByName($name)
 	{
-		return str_replace(array('[]', '][', '[', ']', ' '), array('', '_', '_', '', '_'), $name);
+		return str_replace(array('[]','][','[',']',' '),array('','_','_','','_'),$name);
 	}
 
 	/**
@@ -2170,35 +2170,31 @@ EOD;
 	 * @param CModel|string $model the data model or the model class name
 	 * @return string the generated HTML name value
 	 */
-	public static function modelName($model) {
-		$modelName = null;
-		
-		if (is_callable(self::$modelNameConverter)) {
-			$modelName = call_user_func(self::$modelNameConverter, $model);
-		} else {
-			$className = is_object($model) ? get_class($model) : (string) $model;
-			$modelName = trim(str_replace('\\', '_', $className), '_');
-		}
-		
-		return $modelName;
+	public static function modelName($model)
+	{
+		if (is_callable(self::$modelNameConverter))
+			return call_user_func(self::$modelNameConverter,$model);
+
+		$className = is_object($model) ? get_class($model) : (string)$model;
+		return trim(str_replace('\\','_',$className),'_');
 	}
-	
+
 	/**
-	 * Set generator used in the {@link CHtml::modelName()} method. You
-	 * can use the `null` value to restore default generator.
-	 * @param callback|null $converter the new generator, the model or class name
-	 * 		will be passed to the this callback and result must be
-	 * 		a valid value for HTML name attribute.
-	 * @return void
+	 * Set generator used in the {@link CHtml::modelName()} method. You can use the `null` value to restore default
+	 * generator.
+	 *
+	 * @param callback|null $converter the new generator, the model or class name will be passed to the this callback
+	 * and result must be a valid value for HTML name attribute.
+	 * @throws CException if $converter isn't a valid callback
 	 */
-	public static function setModelNameConverter($converter) {
-		if (is_callable($converter)) {
-			self::$modelNameConverter = $converter;
-		} elseif (is_null($converter)) {
-			self::$modelNameConverter = null;
-		} else {
-			throw new CException(Yii::t('yii', 'The $converter argument must be a valid callback or null.'));
-		}
+	public static function setModelNameConverter($converter)
+	{
+		if (is_callable($converter))
+			self::$modelNameConverter=$converter;
+		elseif(is_null($converter))
+			self::$modelNameConverter=null;
+
+		throw new CException(Yii::t('yii','The $converter argument must be a valid callback or null.'));
 	}
 	
 	/**
@@ -2271,7 +2267,7 @@ EOD;
 	 *     OPTION tag attributes in the name-value pairs. For example,
 	 * <pre>
 	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value1'=>array('disabled'=>true,'label'=>'value 1'),
 	 *         'value2'=>array('label'=>'value 2'),
 	 *     );
 	 * </pre>
@@ -2290,7 +2286,7 @@ EOD;
 		$content='';
 		if(isset($htmlOptions['prompt']))
 		{
-			$content.='<option value="">'.strtr($htmlOptions['prompt'],array('<'=>'&lt;', '>'=>'&gt;'))."</option>\n";
+			$content.='<option value="">'.strtr($htmlOptions['prompt'],array('<'=>'&lt;','>'=>'&gt;'))."</option>\n";
 			unset($htmlOptions['prompt']);
 		}
 		if(isset($htmlOptions['empty']))
@@ -2298,7 +2294,7 @@ EOD;
 			if(!is_array($htmlOptions['empty']))
 				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
 			foreach($htmlOptions['empty'] as $value=>$label)
-				$content.='<option value="'.self::encode($value).'">'.strtr($label,array('<'=>'&lt;', '>'=>'&gt;'))."</option>\n";
+				$content.='<option value="'.self::encode($value).'">'.strtr($label,array('<'=>'&lt;','>'=>'&gt;'))."</option>\n";
 			unset($htmlOptions['empty']);
 		}
 
@@ -2335,7 +2331,7 @@ EOD;
 			}
 			else
 			{
-				$attributes=array('value'=>(string)$key, 'encode'=>!$raw);
+				$attributes=array('value'=>(string)$key,'encode'=>!$raw);
 				if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
 					$attributes['selected']='selected';
 				if(isset($options[$key]))
@@ -2437,9 +2433,9 @@ EOD;
 		}
 
 		if($live)
-			$cs->registerScript('Yii.CHtml.#' . $id, "jQuery('body').on('$event','#$id',function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#' . $id,"jQuery('body').on('$event','#$id',function(){{$handler}});");
 		else
-			$cs->registerScript('Yii.CHtml.#' . $id, "jQuery('#$id').on('$event', function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#' . $id,"jQuery('#$id').on('$event', function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
 
