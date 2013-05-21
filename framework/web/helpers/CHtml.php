@@ -2193,8 +2193,8 @@ EOD;
 			self::$modelNameConverter=$converter;
 		elseif(is_null($converter))
 			self::$modelNameConverter=null;
-
-		throw new CException(Yii::t('yii','The $converter argument must be a valid callback or null.'));
+		else
+			throw new CException(Yii::t('yii','The $converter argument must be a valid callback or null.'));
 	}
 	
 	/**
