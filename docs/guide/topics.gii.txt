@@ -96,14 +96,15 @@ return array(
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'generatorPaths'=>array(
-				'application.gii',   // a path alias
+				'common.gii',   // a path alias
 			),
 		),
 	),
 );
 ~~~
 
-The above configuration instructs Gii to look for generators under the directory aliased as `application.gii`, in addition to the default location `system.gii.generators`.
+The above configuration instructs Gii to look for generators under the directory aliased as `common.gii`, in addition
+to the default locations `system.gii.generators` and `application.gii`.
 
 It is possible to have two generators with the same name but under different search paths. In this case, the generator under the path specified earlier in [GiiModule::generatorPaths] will take precedence.
 
