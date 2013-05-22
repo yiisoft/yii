@@ -20,8 +20,6 @@
  * authenticate with the server after connect.
  *
  * See {@link CCache} manual for common cache operations that are supported by CRedisCache.
- * Unlike the {@link CCache}, CRedisCache allows the expire parameter of
- * {@link set} and {@link add} to be a floating point number, so you may specify the time in milliseconds.
  *
  * To use CRedisCache as the cache application component, configure the application as follows,
  * <pre>
@@ -36,6 +34,8 @@
  *     ),
  * )
  * </pre>
+ *
+ * The minimum required redis version is 2.0.0.
  *
  * @author Carsten Brandt <mail@cebe.cc>
  * @package system.caching
@@ -201,8 +201,7 @@ class CRedisCache extends CCache
 	{
 		if ($expire==0)
 			return (bool)$this->executeCommand('SET',array($key,$value));
-		$expire=(int)($expire*1000);
-		return (bool)$this->executeCommand('PSETEX',array($key,$expire,$value));
+		return (bool)$this->executeCommand('SETEX',array($key,$expire,$value));
 	}
 
 	/**
@@ -219,12 +218,13 @@ class CRedisCache extends CCache
 		if ($expire == 0)
 			return (bool)$this->executeCommand('SETNX',array($key,$value));
 
-		$expire=(int)($expire*1000);
-		$this->executeCommand('MULTI');
-		$this->executeCommand('SETNX',array($key,$value));
-		$this->executeCommand('PEXPIRE',array($key,$expire));
-		$response = $this->executeCommand('EXEC');
-		return (bool)$response[0];
+		if($this->executeCommand('SETNX',array($key,$value)))
+		{
+			$this->executeCommand('EXPIRE',array($key,$expire));
+			return true;
+		}
+		else
+			return false;
 	}
 
 	/**

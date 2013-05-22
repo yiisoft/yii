@@ -97,18 +97,6 @@ class CRedisCacheTest extends CTestCase
 		$this->assertFalse($cache->get($key));
 	}
 
-	public function testExpireMilliseconds()
-	{
-		$app=$this->getApplication();
-		$cache=$app->cache;
-
-		$this->assertTrue($cache->set('expire_test_ms', 'expire_test_ms', 0.2));
-		usleep(100000);
-		$this->assertEquals('expire_test_ms', $cache->get('expire_test_ms'));
-		usleep(300000);
-		$this->assertFalse($cache->get('expire_test_ms'));
-	}
-
 	public function testAdd()
 	{
 		$cache = $this->getApplication()->cache;
