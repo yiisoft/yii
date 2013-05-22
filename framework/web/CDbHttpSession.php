@@ -126,6 +126,7 @@ class CDbHttpSession extends CHttpSession
 			$db->createCommand()->insert($this->sessionTableName, array(
 				'id'=>$newID,
 				'expire'=>time()+$this->getTimeout(),
+				'data'=>'',
 			));
 		}
 	}
