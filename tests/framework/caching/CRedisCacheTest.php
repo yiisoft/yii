@@ -3,6 +3,7 @@
 class CRedisCacheTest extends CTestCase
 {
 	protected $config = array(
+		'class' => 'CRedisCache',
 		'hostname' => 'localhost',
 		'port' => 6379,
 		'database' => 0,
