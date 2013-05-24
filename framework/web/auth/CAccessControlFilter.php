@@ -306,7 +306,7 @@ class CAccessRule extends CComponent
 	 */
 	protected function isControllerMatched($controller)
 	{
-		return empty($this->controllers) || in_array(strtolower($controller->getId()),$this->controllers);
+		return empty($this->controllers) || in_array(strtolower($controller->getUniqueId()),$this->controllers);
 	}
 
 	/**
