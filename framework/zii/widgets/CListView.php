@@ -143,6 +143,7 @@ class CListView extends CBaseListView
 	 *  'ajaxUpdateError'=>'function(xhr,ts,et,err){ $("#myerrordiv").text(err); }',
 	 *  ...
 	 * </pre>
+	 * @since 1.1.13
 	 */
 	public $ajaxUpdateError;
 	/**
