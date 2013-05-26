@@ -81,7 +81,7 @@ class CViewAction extends CAction
 	{
 		if($this->_viewPath===null)
 		{
-			if(!empty($_GET[$this->viewParam]))
+			if(!empty($_GET[$this->viewParam]) && is_string($_GET[$this->viewParam]))
 				$this->_viewPath=$_GET[$this->viewParam];
 			else
 				$this->_viewPath=$this->defaultView;

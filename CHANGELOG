@@ -55,6 +55,7 @@ Version 1.1.14 work in progress
 - Bug #2406: CUrlManager::$urlRuleClass now supports path alias value (as it was described in its PHPDoc before this fix) (resurtm)
 - Bug #2423: Fixed CHtml::button() enforces "value" attribute for the image buttons (klimov-paul)
 - Bug #2426: CDbCriteria::__wakeup() used to issue an error in case SQL containing fields were arrays and criteria parameters were specified (resurtm)
+- Bug #2438: CViewAction now checks if requested view is a string to not fail when array was given (cebe)
 - Bug #2449: CSqlDataProvider causes an error when CDbCommand with enabled PDO::FETCH_OBJ mode used as SQL source (resurtm)
 - Bug #2454: Fix CMysqlColumnSchema::extractLimit for ENUM values containing comma (blueyed)
 - Bug #2491: Prevent SQL exception being thrown when inserting a row into the session table whilst regenerating the session ID (mynameiszanders)
