@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -42,7 +42,13 @@ class CMysqlColumnSchema extends CDbColumnSchema
 	 */
 	protected function extractDefault($defaultValue)
 	{
-		if($this->dbType==='timestamp' && $defaultValue==='CURRENT_TIMESTAMP')
+		/**
+		 * Pull request #1842
+		 * @link https://github.com/yiisoft/yii/pull/1842
+		 */
+		if(strncmp($this->dbType,'bit',3)===0)
+			parent::extractDefault(bindec(trim($defaultValue,'b\'')));
+		else if($this->dbType==='timestamp' && $defaultValue==='CURRENT_TIMESTAMP')
 			$this->defaultValue=null;
 		else
 			parent::extractDefault($defaultValue);
@@ -54,17 +60,16 @@ class CMysqlColumnSchema extends CDbColumnSchema
 	 */
 	protected function extractLimit($dbType)
 	{
-		if (strncmp($dbType, 'enum', 4)===0 && preg_match('/\(([\'"])(.*)\\1\)/',$dbType,$matches))
+		if (strncmp($dbType, 'enum', 4)===0 && preg_match('/\((.*)\)/',$dbType,$matches))
 		{
-			// explode by (single or double) quote and comma (ENUM values may contain commas)
-			$values = explode($matches[1].','.$matches[1], $matches[2]);
+			$values = explode(',', $matches[1]);
 			$size = 0;
 			foreach($values as $value)
 			{
 				if(($n=strlen($value)) > $size)
 					$size=$n;
 			}
-			$this->size = $this->precision = $size;
+			$this->size = $this->precision = $size-2;
 		}
 		else
 			parent::extractLimit($dbType);

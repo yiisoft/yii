@@ -2150,7 +2150,7 @@ EOD;
 	 */
 	public static function getIdByName($name)
 	{
-		return str_replace(array('[]','][','[',']',' '),array('','_','_','','_'),$name);
+		return str_replace(array('\\','[]','][','[',']',' '),array('-','','_','_','','_'),$name);
 	}
 
 	/**
@@ -2196,7 +2196,7 @@ EOD;
 		else
 			throw new CException(Yii::t('yii','The $converter argument must be a valid callback or null.'));
 	}
-	
+
 	/**
 	 * Generates input field name for a model attribute.
 	 * Unlike {@link resolveName}, this method does NOT modify the attribute name.
@@ -2469,7 +2469,7 @@ EOD;
 	public static function resolveName($model,&$attribute)
 	{
 		$modelName=self::modelName($model);
-		
+
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
