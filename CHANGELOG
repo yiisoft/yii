@@ -107,6 +107,7 @@ Version 1.1.14 work in progress
 - Chg #2069: Upgraded jQuery BBQ Plugin to 1.4pre to fix jQuery compatibility problems (samdark)
 - Chg #2183: Vendors: phlymail's Net_IDNA was replaced by PEAR Net_IDNA2 (resurtm, DaSourcerer)
 - Chg #2187: Vendors: punycode.js updated from 1.1.1 (June 27, 2012) to 1.2.0 (October 10, 2012) (resurtm)
+- Chg #2461: Upgraded jquery star rating to 4.11 (samdark)
 - New: Added CRedisCache which uses redis key value store as cache backend (cebe)
 - New #575: Yii registering at Packagist, added composer info file (schmunk42)
 - New #1785: Added CPasswordHelper (tom--)
