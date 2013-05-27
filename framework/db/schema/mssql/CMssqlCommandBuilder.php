@@ -190,22 +190,22 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 
 	/**
 	 * Rewrite sql to apply $limit > and $offset > 0 for MSSQL database.
-	 * See http://troels.arvin.dk/db/rdbms/#select-limit-offset
 	 * @param string $sql sql query
 	 * @param integer $limit $limit > 0
 	 * @param integer $offset $offset > 0
 	 * @return string modified sql query applied with limit and offset.
 	 *
-	 * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
+	 * @author Diego Rocha <diego[dot]rocha[dot]br[at]gmail[dot]com>
 	 */
 	protected function rewriteLimitOffsetSql($sql, $limit, $offset)
 	{
-		$fetch = $limit+$offset;
-		$sql = preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',"\\1SELECT\\2 TOP $fetch", $sql);
+		$end = $limit + $offset;
+		$start = $end - $limit + 1;
 		$ordering = $this->findOrdering($sql);
 		$orginalOrdering = $this->joinOrdering($ordering, '[__outer__]');
-		$reverseOrdering = $this->joinOrdering($this->reverseDirection($ordering), '[__inner__]');
-		$sql = "SELECT * FROM (SELECT TOP {$limit} * FROM ($sql) as [__inner__] {$reverseOrdering}) as [__outer__] {$orginalOrdering}";
+                $rowNumberOrdering = !empty($orginalOrdering) ? $orginalOrdering : 'ORDER BY (SELECT 1)';
+		$sqlWithoutOrder = preg_replace('/([ ]ORDER BY)[\s"\[](.*)(ASC|DESC)?(?:[\s"\[]|$|COMPUTE|FOR)/i','',$sql);
+		$sql = "SELECT * FROM (SELECT ROW_NUMBER() OVER({$rowNumberOrdering}) AS [__RowNumber__], * FROM ({$sqlWithoutOrder}) as [__inner__]) as [__outer__] WHERE [__RowNumber__] BETWEEN {$start} AND {$end}";
 		return $sql;
 	}
 

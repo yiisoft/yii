@@ -224,7 +224,8 @@ EOD;
 			'order'=>'title',
 			'limit'=>2,
 			'offset'=>3)));
-		$this->assertEquals('SELECT * FROM (SELECT TOP 2 * FROM (SELECT TOP 5 id, title FROM [dbo].[posts] [t] ORDER BY title) as [__inner__] ORDER BY title DESC) as [__outer__] ORDER BY title ASC',$c->text);
+		$expectedSql = 'SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS [__RowNumber__], * FROM (SELECT id, title FROM [dbo].[posts] [t]) as [__inner__]) as [__outer__] WHERE [__RowNumber__] BETWEEN 4 AND 5 ORDER BY title ASC';
+		$this->assertEquals($expectedSql,$c->text);
 		$rows=$c->query()->readAll();
 		$this->assertEquals(2,count($rows));
 		$this->assertEquals('post 4',$rows[0]['title']);
