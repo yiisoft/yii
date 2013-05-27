@@ -19,6 +19,7 @@ Version 1.1.14 work in progress
 - Bug #1895: Fixed erroneous language attributes in french views (located at `framework\views\fr`) (Ragazzo)
 - Bug #1911: MigrateCommand does not rely on cached value about migration table existance anymore as this info could be outdated in testing enviroment (cebe)
 - Bug #1915: CDataProviderIterator: fixed init in case of disabled pagination (antoncpu)
+- Bug #1916: CMssqlSchema::findColumns() issues an "invalid object name" error (resurtm)
 - Bug #1933: fixed using "multiple" parameter with a value of false in CHtml::activeDropDownList, CHtml::ListBox and CHtml::DropDownList (adminnu)
 - Bug #1941: yiiactiveform.js form reset now uses CHtml::errorCss instead of a hardcoded value (mdomba)
 - Bug #1942: CActiveForm client/ajax validation will now remove error class from server side validation (mdomba)
