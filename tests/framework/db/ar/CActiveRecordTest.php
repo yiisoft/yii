@@ -1471,4 +1471,18 @@ class CActiveRecordTest extends CTestCase
 		$this->assertTrue(count($masterModel->users)>0,'Test environment is missing!');
 		$this->assertEquals(0,count($masterModel->usersWhichEmptyByCondition),'Unable to apply condition from through relation!');
 	}
+
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/662
+	 */
+	public function testThroughBelongsToLazy()
+	{
+		$comments=Comment::model()->findAll();
+		foreach($comments as $comment)
+		{
+			$this->assertFalse(empty($comment->postAuthor));
+		}
+	}
 }

@@ -7,6 +7,7 @@ Version 1.1.14 work in progress
 - Bug #135: Fixed wrong CActiveRecord rows count with having (klimov-paul)
 - Bug #139: Fixed Active Record lazy load through relation with condition (klimov-paul)
 - Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
+- Bug #662: Fixed incorrect Active Record lazy loading of relation through BELONGS_TO relation (klimov-paul)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
 - Bug #1669: CNumberValidator used to add wrong error messages in case non-numeric values being validated (resurtm)
 - Bug #1692: CWebUser::renewCookie() and CWebUser::restoreFromCookie() now make use of the identityCookie options (f10i)
