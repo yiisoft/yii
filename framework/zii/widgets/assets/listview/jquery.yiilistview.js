@@ -8,6 +8,7 @@
  */
 
 ;(function($) {
+	var yiiXHR = {};
 	/**
 	 * yiiListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
@@ -105,7 +106,6 @@
 			delete options.error;
 		}
 
-		$('#'+id).addClass(settings.loadingClass);
 		options = $.extend({
 			type: settings.ajaxType,
 			url: $.fn.yiiListView.getUrl(id),
@@ -116,11 +116,13 @@
 				});
 				if(settings.afterAjaxUpdate != undefined)
 					settings.afterAjaxUpdate(id, data);
+			},
+			complete: function() {
 				$('#'+id).removeClass(settings.loadingClass);
+				yiiXHR[id] = null;
 			},
 			error: function(XHR, textStatus, errorThrown) {
 				var ret, err;
-				$('#'+id).removeClass(settings.loadingClass);
 				if (XHR.readyState === 0 || XHR.status === 0) {
 					return;
 				}
@@ -156,16 +158,22 @@
 				}
 			}
 		}, options || {});
-
+		
 		if(options.data!=undefined && options.type=='GET') {
 			options.url = $.param.querystring(options.url, options.data);
 			options.data = {};
 		}
 		options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
+		
+		if(yiiXHR[id] != null) {
+			yiiXHR[id].abort();	
+		}
+		
+		$('#'+id).addClass(settings.loadingClass);
 
 		if(settings.beforeAjaxUpdate != undefined)
 			settings.beforeAjaxUpdate(id);
-		$.ajax(options);
+		yiiXHR[id] = $.ajax(options);
 	};
 
 })(jQuery);

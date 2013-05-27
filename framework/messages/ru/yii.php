@@ -17,8 +17,9 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'Only SHA1 and MD5 hashing algorithms are supported when using PHP 5.1.1 or below.' => 'При использовании PHP 5.1.1 или ниже поддерживаемыми алгоритмами хеширования являются только SHA1 и MD5.',
-  'Script HTML options are not allowed for "CClientScript::POS_LOAD" and "CClientScript::POS_READY".' => 'HTML опции скриптов недопустимы для "CClientScript::POS_LOAD" и "CClientScript::POS_READY".',
+  'No' => 'Нет',
+  'The $converter argument must be a valid callback or null.' => 'Аргумент $converter должен быть либо callback либо null.',
+  'Yes' => 'Да',
   '"{path}" is not a valid directory.' => 'Путь "{path}" не является правильной директорией.',
   '&lt; Previous' => '&lt; Предыдущая',
   '&lt;&lt; First' => '&lt;&lt; Первая',
@@ -130,6 +131,7 @@ return array (
   'No columns are being updated for table "{table}".' => 'Нет столбцов подлежащих обновлению в таблице "{table}".',
   'No counter columns are being updated for table "{table}".' => 'Нет столбцов-счетчиков подлежащих обновлению в таблице "{table}".',
   'Object configuration must be an array containing a "class" element.' => 'Конфигурация объекта должна быть представлена массивом, содержащим элемент "class".',
+  'Only SHA1 and MD5 hashing algorithms are supported when using PHP 5.1.1 or below.' => 'При использовании PHP 5.1.1 или ниже поддерживаемыми алгоритмами хеширования являются только SHA1 и MD5.',
   'Please fix the following input errors:' => 'Необходимо исправить следующие ошибки:',
   'Powered by {yii}.' => 'Создано на {yii}.',
   'Property "{class}.{property}" is not defined.' => 'Не определено свойство "{class}.{property}".',
@@ -139,6 +141,7 @@ return array (
   'Relation "{name}" is not defined in active record class "{class}".' => 'Отношение "{name}" не было определено в active record классе "{class}".',
   'Removing a primary key after table has been created is not supported by SQLite.' => 'Удаление первичного ключа после создания таблицы не поддерживается SQLite.',
   'Renaming a DB column is not supported by SQLite.' => 'Переименование поля БД не поддерживается SQLite.',
+  'Script HTML options are not allowed for "CClientScript::POS_LOAD" and "CClientScript::POS_READY".' => 'HTML опции скриптов недопустимы для "CClientScript::POS_LOAD" и "CClientScript::POS_READY".',
   'Stack data must be an array or an object implementing Traversable.' => 'Стек должен быть представлен массивом или объектом, реализующим интерфейс Traversable.',
   'Table "{table}" does not exist.' => 'Таблица "{table}" не существует.',
   'Table "{table}" does not have a column named "{column}".' => 'Таблица "{table}" не содержит столбца "{column}".',

@@ -270,7 +270,7 @@ abstract class CActiveRecord extends CModel
 			$r=$name;
 		unset($this->_related[$name]);
 
-		$finder=new CActiveFinder($this,$r);
+		$finder=$this->getActiveFinder($r);
 		$finder->lazyFind($this);
 
 		if(!isset($this->_related[$name]))
@@ -890,6 +890,19 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Given 'with' options returns a new active finder instance.
+	 *
+	 * @param mixed $with the relation names to be actively looked for
+	 * @return CActiveFinder active finder for the operation
+	 *
+	 * @since 1.1.14
+	 */
+	public function getActiveFinder($with)
+	{
+		return new CActiveFinder($this,$with);
+	}
+
+	/**
 	 * This event is raised before an AR finder performs a count call.
 	 * If you want to access or modify the query criteria used for the
 	 * count call, you can use {@link getDbCriteria()} to customize it based on your needs.
@@ -1332,7 +1345,7 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 		{
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->query($criteria,$all);
 		}
 	}
@@ -1529,7 +1542,7 @@ abstract class CActiveRecord extends CModel
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
 			$this->resetScope(false);
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->findBySql($sql,$params);
 		}
 		else
@@ -1552,7 +1565,7 @@ abstract class CActiveRecord extends CModel
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
 			$this->resetScope(false);
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->findAllBySql($sql,$params);
 		}
 		else
@@ -1581,7 +1594,7 @@ abstract class CActiveRecord extends CModel
 			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 		else
 		{
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->count($criteria);
 		}
 	}
@@ -1609,7 +1622,7 @@ abstract class CActiveRecord extends CModel
 			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 		else
 		{
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->count($criteria);
 		}
 	}
@@ -1651,7 +1664,7 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$criteria->select='*';
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->count($criteria)>0;
 		}
 	}

@@ -84,7 +84,7 @@ class CActiveDataProvider extends CDataProvider
 		if(is_string($modelClass))
 		{
 			$this->modelClass=$modelClass;
-			$this->model=CActiveRecord::model($this->modelClass);
+			$this->model=$this->getModel($this->modelClass);
 		}
 		elseif($modelClass instanceof CActiveRecord)
 		{
@@ -150,6 +150,19 @@ class CActiveDataProvider extends CDataProvider
 		if(($sort=parent::getSort($className))!==false)
 			$sort->modelClass=$this->modelClass;
 		return $sort;
+	}
+
+	/**
+	 * Given active record class name returns new model instance.
+	 *
+	 * @param string $className active record class name.
+	 * @return CActiveRecord active record model instance.
+	 *
+	 * @since 1.1.14
+	 */
+	protected function getModel($className)
+	{
+		return CActiveRecord::model($className);
 	}
 
 	/**

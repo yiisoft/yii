@@ -104,7 +104,7 @@ class CUploadedFile extends CComponent
 		$len=strlen($name);
 		$results=array();
 		foreach(array_keys(self::$_files) as $key)
-			if(0===strncmp($key, $name, $len) && self::$_files[$key]->getError()!=UPLOAD_ERR_NO_FILE)
+			if(0===strncmp($key, $name.'[', $len+1) && self::$_files[$key]->getError()!=UPLOAD_ERR_NO_FILE)
 				$results[] = self::$_files[$key];
 		return $results;
 	}

@@ -169,6 +169,19 @@ class CActiveFinder extends CComponent
 		$this->destroyJoinTree();
 	}
 
+	/**
+	 * Given active record class name returns new model instance.
+	 *
+	 * @param string $className active record class name
+	 * @return CActiveRecord active record model instance
+	 *
+	 * @since 1.1.14
+	 */
+	public function getModel($className)
+	{
+		return CActiveRecord::model($className);
+	}
+
 	private function destroyJoinTree()
 	{
 		if($this->_joinTree!==null)
@@ -214,7 +227,7 @@ class CActiveFinder extends CComponent
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
 
 			$relation=clone $relation;
-			$model=CActiveRecord::model($relation->className);
+			$model=$this->getModel($relation->className);
 
 			if($relation instanceof CActiveRelation)
 			{
@@ -363,7 +376,7 @@ class CJoinElement
 		{
 			$this->relation=$relation;
 			$this->_parent=$parent;
-			$this->model=CActiveRecord::model($relation->className);
+			$this->model=$this->_finder->getModel($relation->className);
 			$this->_builder=$this->model->getCommandBuilder();
 			$this->tableAlias=$relation->alias===null?$relation->name:$relation->alias;
 			$this->rawTableAlias=$this->_builder->getSchema()->quoteTableName($this->tableAlias);
@@ -604,10 +617,19 @@ class CJoinElement
 		else
 		{
 			$element=$this;
-			while($element->slave!==null)
+			while(true)
 			{
-				$query->joins[]=$element->slave->joinOneMany($element->slave,$element->relation->foreignKey,$element,$parent);
-				$element=$element->slave;
+				$condition=$element->relation->condition;
+				if(!empty($condition))
+					$query->conditions[]=$condition;
+				$query->params=array_merge($query->params,$element->relation->params);
+				if($element->slave!==null)
+				{
+					$query->joins[]=$element->slave->joinOneMany($element->slave,$element->relation->foreignKey,$element,$parent);
+					$element=$element->slave;
+				}
+				else
+					break;
 			}
 			$fks=is_array($element->relation->foreignKey) ? $element->relation->foreignKey : preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
 			$prefix=$element->getColumnPrefix();
@@ -620,16 +642,16 @@ class CJoinElement
 					$fk=$i;
 				}
 
-				if($this->relation instanceof CBelongsToRelation)
+				if($element->relation instanceof CBelongsToRelation)
 				{
 					if(is_int($i))
 					{
 						if(isset($parent->_table->foreignKeys[$fk]))  // FK defined
 							$pk=$parent->_table->foreignKeys[$fk][1];
-						elseif(is_array($this->_table->primaryKey)) // composite PK
-							$pk=$this->_table->primaryKey[$i];
+						elseif(is_array($element->_table->primaryKey)) // composite PK
+							$pk=$element->_table->primaryKey[$i];
 						else
-							$pk=$this->_table->primaryKey;
+							$pk=$element->_table->primaryKey;
 					}
 					$params[$pk]=$record->$fk;
 				}
@@ -637,8 +659,8 @@ class CJoinElement
 				{
 					if(is_int($i))
 					{
-						if(isset($this->_table->foreignKeys[$fk]))  // FK defined
-							$pk=$this->_table->foreignKeys[$fk][1];
+						if(isset($element->_table->foreignKeys[$fk]))  // FK defined
+							$pk=$element->_table->foreignKeys[$fk][1];
 						elseif(is_array($parent->_table->primaryKey)) // composite PK
 							$pk=$parent->_table->primaryKey[$i];
 						else
@@ -1366,7 +1388,7 @@ class CStatElement
 	private function queryOneMany()
 	{
 		$relation=$this->relation;
-		$model=CActiveRecord::model($relation->className);
+		$model=$this->_finder->getModel($relation->className);
 		$builder=$model->getCommandBuilder();
 		$schema=$builder->getSchema();
 		$table=$model->getTableSchema();
@@ -1477,7 +1499,7 @@ class CStatElement
 	private function queryManyMany($joinTableName,$keys)
 	{
 		$relation=$this->relation;
-		$model=CActiveRecord::model($relation->className);
+		$model=$this->_finder->getModel($relation->className);
 		$table=$model->getTableSchema();
 		$builder=$model->getCommandBuilder();
 		$schema=$builder->getSchema();
