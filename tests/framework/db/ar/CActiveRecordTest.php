@@ -1459,4 +1459,16 @@ class CActiveRecordTest extends CTestCase
 		$this->assertTrue(is_object($model),'Unable to get master records!');
 		$this->assertTrue(count($model->students)>0,'Empty slave records!');
 	}
+
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/139
+	 */
+	public function testLazyLoadThroughRelationWithCondition()
+	{
+		$masterModel=Group::model()->findByPk(1);
+		$this->assertTrue(count($masterModel->users)>0,'Test environment is missing!');
+		$this->assertEquals(0,count($masterModel->usersWhichEmptyByCondition),'Unable to apply condition from through relation!');
+	}
 }
