@@ -1237,7 +1237,8 @@ EOD;
 
 	/**
 	 * Generates the JavaScript that initiates an AJAX request.
-	 * @param array $options AJAX options. The valid options are specified in the jQuery ajax documentation.
+	 * @param array $options AJAX options. The valid options are used in the form of jQuery.ajax([settings])
+	 * as specified in the jQuery AJAX documentation.
 	 * The following special options are added for convenience:
 	 * <ul>
 	 * <li>update: string, specifies the selector whose HTML content should be replaced
@@ -1247,7 +1248,7 @@ EOD;
 	 * </ul>
 	 * Note, if you specify the 'success' option, the above options will be ignored.
 	 * @return string the generated JavaScript
-	 * @see http://docs.jquery.com/Ajax/jQuery.ajax#options
+	 * @see http://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings
 	 */
 	public static function ajax($options)
 	{
