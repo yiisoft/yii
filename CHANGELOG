@@ -49,6 +49,7 @@ Version 1.1.14 work in progress
 - Bug #2283: Gii Model Generator's tooltips are not working and always invisible (resurtm)
 - Bug #2289: CDbCacheDependency with reuseDependentData did not invalidate cache when getting cache across different requests (marcovtwout)
 - Bug #2299: CMssqlSchema: findTableNames(), getTables() and getTableNames() methods used to prepend schema prefix to the table names twice (resurtm)
+- Bug #2311: Fixed SQlite default value for timestamp CURRENT_TIMESTAMP (zeeke)
 - Bug #2321: CGettextPoFile is now able to parse multiline msgid and msgstr declarations (resurtm)
 - Bug #2325: Fixed UTF-8 troubles in CDateTimeParser (error in parsing chinese and thai dates) (s-larionov)
 - Bug #2368: Reset error CSS for ':input', which includes SELECT elements (blueyed)
