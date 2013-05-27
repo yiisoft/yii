@@ -121,4 +121,27 @@ EOD;
 
 		return $command;
 	}
+
+	/**
+	 * Creates a multiple INSERT command.
+	 * This method could be used to achieve better performance during insertion of the large
+	 * amount of data into the database tables.
+	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+	 * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
+	 * If a key is not a valid column name, the corresponding value will be ignored.
+	 * @return CDbCommand multiple insert command
+	 * @since 1.1.14
+	 */
+	public function createMultipleInsertCommand($table,array $data)
+	{
+		$templates=array(
+			'main'=>'INSERT ALL {{rowInsertValues}} SELECT * FROM dual',
+			'columnInsertValue'=>'{{value}}',
+			'columnInsertValueGlue'=>', ',
+			'rowInsertValue'=>'INTO {{tableName}} ({{columnInsertNames}}) VALUES ({{columnInsertValues}})',
+			'rowInsertValueGlue'=>' ',
+			'columnInsertNameGlue'=>', ',
+		);
+		return $this->composeMultipleInsertCommand($table,$data,$templates);
+	}
 }

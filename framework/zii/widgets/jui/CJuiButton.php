@@ -22,7 +22,8 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *     'name'=>'submit',
  *     'caption'=>'Save',
  *     'options'=>array(
- *     'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
+ *         'onclick'=>new CJavaScriptExpression('function(){alert("Yes");}'),
+ *     ),
  * ));
  * </pre>
  *

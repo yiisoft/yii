@@ -33,6 +33,21 @@ array(
 )
 ~~~
 
+Note that application is [a component](/doc/guide/basics.component) like almost every Yii class. It means two things:
+
+- You can't set arbitrary properties as with plain PHP objects. A property must be defined in the application class.
+- Application supports setters to define a property so you can set, for example, a property defined by
+[setImport|CModule::setImport] method like the following:
+
+~~~
+[php]
+array(
+	'import'=>array(
+		'application.components.*',
+	),
+)
+~~~
+
 We usually store the configuration in a separate PHP script (e.g.
 `protected/config/main.php`). Inside the script, we return the
 configuration array as follows:
@@ -86,7 +101,7 @@ performs some initial processing of a user request with the help of the [CUrlMan
 and [CHttpRequest] components.
 
 By configuring the [components|CApplication::components] property of
-the application instance, we can customize the class and property values of any
+the application instance, we can customize the class and [property values](/doc/guide/basics.component) of any
 application component used. For example, we can configure the [CMemCache] component 
 so that it can use multiple memcache servers for caching, like this:
 
@@ -109,7 +124,7 @@ array(
 
 In the above, we added the `cache` element to the `components` array. The
 `cache` element states that the class of the component is
-`CMemCache` and its `servers` property should be initialized as such.
+[CMemCache] and its [servers|CMemcache::servers] property should be initialized as such.
 
 To access an application component, use `Yii::app()->ComponentID`, where
 `ComponentID` refers to the ID of the component (e.g. `Yii::app()->cache`).

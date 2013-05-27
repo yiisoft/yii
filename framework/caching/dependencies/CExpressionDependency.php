@@ -25,7 +25,12 @@ class CExpressionDependency extends CCacheDependency
 	/**
 	 * @var string the PHP expression whose result is used to determine the dependency.
 	 * The expression can also be a valid serializable PHP callback.
-	 * The callback will be passed with a parameter which is the dependency object itself.
+	 * It will be passed with a parameter which is the dependency object itself.
+	 *
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $expression;
 

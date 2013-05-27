@@ -32,7 +32,7 @@ forum/
    models/                    містить файли класів моделей
    views/                     містить файли представлень контролера та макетів
       layouts/                містить файли макетів
-      default/                містить файлы представлень для контролера за замовчуванням
+      default/                містить файли представлень для контролера за замовчуванням
          index.php            файл представлення 'index'
 ~~~
 
@@ -99,7 +99,7 @@ $postPerPage=Yii::app()->controller->module->postPerPage;
 [маршрут](/doc/guide/basics.controller#route) `moduleID/controllerID/actionID`.
 Наприклад, допустимо, що все той же модуль `forum` має контролер з іменем `PostController`, 
 тоді ми можемо використовувати [маршрут](/doc/guide/basics.controller#route) `forum/post/create` для того, 
-щоб звернутися до дії `create` цього контролеру.
+щоб звернутися до дії `create` цього контролера.
 Адреса URL, яка відповідає цьому маршруту, буде такою: 
 `http://www.example.com/index.php?r=forum/post/create`.
 

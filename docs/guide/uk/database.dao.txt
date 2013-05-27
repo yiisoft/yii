@@ -88,8 +88,8 @@ $command=$connection->createCommand($sql);
 
 ~~~
 [php]
-$rowCount=$command->execute();   // виконання вирази типу `INSERT`, `UPDATE` та `DELETE`
-$dataReader=$command->query();   // виконання вирази типу `SELECT`
+$rowCount=$command->execute();   // виконання виразів типу `INSERT`, `UPDATE` та `DELETE`
+$dataReader=$command->query();   // виконання виразу типу `SELECT`
 $rows=$command->queryAll();      // запит і повернення всіх рядків результату
 $row=$command->queryRow();       // запит і повернення першого рядка результату
 $column=$command->queryColumn(); // запит і повернення першого стовпця результату

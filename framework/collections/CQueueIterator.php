@@ -9,7 +9,7 @@
  */
 
 /**
- * CQueueIterator implements an interator for {@link CQueue}.
+ * CQueueIterator implements an iterator for {@link CQueue}.
  *
  * It allows CQueue to return a new iterator for traversing the items in the queue.
  *

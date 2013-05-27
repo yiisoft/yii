@@ -9,6 +9,8 @@ Yii is ready to work with a default Apache web server configuration. The `.htacc
 ~~~
 RewriteEngine on
 
+# prevent httpd from serving dotfiles (.htaccess, .svn, .git, etc.)
+RedirectMatch 403 /\..*$
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -68,8 +70,11 @@ server {
         fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
     }
 
-    location ~ /\.ht {
-        deny  all;
+    # prevent nginx from serving dotfiles (.htaccess, .svn, .git, etc.)
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
     }
 }
 ~~~

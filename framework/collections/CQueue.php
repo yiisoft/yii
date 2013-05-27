@@ -45,7 +45,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Constructor.
 	 * Initializes the queue with an array or an iterable object.
-	 * @param array $data the intial data. Default is null, meaning no initialization.
+	 * @param array $data the initial data. Default is null, meaning no initialization.
 	 * @throws CException If data is not null and neither an array nor an iterator.
 	 */
 	public function __construct($data=null)

@@ -30,16 +30,29 @@
 			"role": "Core framework development"
 		},
 		{
+			"name": "Timur Ruziev",
+			"email": "resurtm@gmail.com",
+			"homepage": "http://resurtm.com/",
+			"role": "Core framework development"
+		},
+		{
+			"name": "Paul Klimov",
+			"email": "klimov.paul@gmail.com",
+			"role": "Core framework development"
+		},
+		{
 			"name": "Wei Zhuo",
 			"email": "weizhuo@gmail.com",
 			"role": "Project site maintenance and development"
 		},
 		{
 			"name": "Sebastián Thierer",
+			"email": "sebas@artfos.com",
 			"role": "Component development"
 		},
 		{
 			"name": "Jeffrey Winesett",
+			"email": "jefftulsa@gmail.com",
 			"role": "Documentation and marketing"
 		}
 		
@@ -51,6 +64,9 @@
 		"irc": "irc://irc.freenode.net/yii",
 		"source": "https://github.com/yiisoft/yii"
 	},
+	"bin": [
+		"framework/yiic"
+	],
 	"require": {
 		"php": ">=5.1.0"
 	}
