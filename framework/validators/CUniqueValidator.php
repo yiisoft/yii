@@ -135,9 +135,13 @@ class CUniqueValidator extends CValidator
 		}
 	}
 	
-	/** CActiveRecord::model factory method. You may override this method to use your CActive* parallel class hierarchy
-	 * @param string active record class name.
+	/**
+	 * Given active record class name returns new model instance.
+	 *
+	 * @param string $className active record class name.
 	 * @return CActiveRecord active record model instance.
+	 *
+	 * @since 1.1.14
 	 */
 	protected function getModel($className)
 	{

@@ -889,13 +889,17 @@ abstract class CActiveRecord extends CModel
 		$this->raiseEvent('onAfterFind',$event);
 	}
 
-	/** Factory method to get instance of CActiveFinder. You may override this method to use your CActive* parallel class hierarchy
+	/**
+	 * Given 'with' options returns a new active finder instance.
+	 *
 	 * @param mixed $with the relation names to be actively looked for
 	 * @return CActiveFinder active finder for the operation
+	 *
+	 * @since 1.1.14
 	 */
 	public function getActiveFinder($with)
 	{
-		return new CActiveFinder($this, $with);
+		return new CActiveFinder($this,$with);
 	}
 
 	/**
