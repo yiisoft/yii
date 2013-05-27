@@ -84,7 +84,7 @@ class CActiveDataProvider extends CDataProvider
 		if(is_string($modelClass))
 		{
 			$this->modelClass=$modelClass;
-			$this->model=CActiveRecord::model($this->modelClass);
+			$this->model=$this->getModel($this->modelClass);
 		}
 		elseif($modelClass instanceof CActiveRecord)
 		{
@@ -150,6 +150,15 @@ class CActiveDataProvider extends CDataProvider
 		if(($sort=parent::getSort($className))!==false)
 			$sort->modelClass=$this->modelClass;
 		return $sort;
+	}
+
+	/** CActiveRecord::model factory method. You may override this method to use your CActive* parallel class hierarchy
+	 * @param string active record class name.
+	 * @return CActiveRecord active record model instance.
+	 */
+	protected function getModel($className)
+	{
+		return CActiveRecord::model($className);
 	}
 
 	/**

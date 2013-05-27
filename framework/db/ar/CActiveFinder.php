@@ -169,6 +169,15 @@ class CActiveFinder extends CComponent
 		$this->destroyJoinTree();
 	}
 
+	/** CActiveRecord::model factory method. You may override this method to use your CActive* parallel class hierarchy
+	 * @param string active record class name.
+	 * @return CActiveRecord active record model instance.
+	 */
+	public function getModel($className)
+	{
+		return CActiveRecord::model($className);
+	}
+
 	private function destroyJoinTree()
 	{
 		if($this->_joinTree!==null)
@@ -214,7 +223,7 @@ class CActiveFinder extends CComponent
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
 
 			$relation=clone $relation;
-			$model=CActiveRecord::model($relation->className);
+			$model=$this->getModel($relation->className);
 
 			if($relation instanceof CActiveRelation)
 			{
@@ -363,7 +372,7 @@ class CJoinElement
 		{
 			$this->relation=$relation;
 			$this->_parent=$parent;
-			$this->model=CActiveRecord::model($relation->className);
+			$this->model=$this->_finder->getModel($relation->className);
 			$this->_builder=$this->model->getCommandBuilder();
 			$this->tableAlias=$relation->alias===null?$relation->name:$relation->alias;
 			$this->rawTableAlias=$this->_builder->getSchema()->quoteTableName($this->tableAlias);
@@ -1375,7 +1384,7 @@ class CStatElement
 	private function queryOneMany()
 	{
 		$relation=$this->relation;
-		$model=CActiveRecord::model($relation->className);
+		$model=$this->_finder->getModel($relation->className);
 		$builder=$model->getCommandBuilder();
 		$schema=$builder->getSchema();
 		$table=$model->getTableSchema();
@@ -1486,7 +1495,7 @@ class CStatElement
 	private function queryManyMany($joinTableName,$keys)
 	{
 		$relation=$this->relation;
-		$model=CActiveRecord::model($relation->className);
+		$model=$this->_finder->getModel($relation->className);
 		$table=$model->getTableSchema();
 		$builder=$model->getCommandBuilder();
 		$schema=$builder->getSchema();

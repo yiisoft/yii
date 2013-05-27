@@ -81,6 +81,7 @@ Version 1.1.14 work in progress
 - Enh #1818: Created a CLocalizedFormatter application component that allows formatting values according to current locale (cebe)
 - Enh #1842: Added support for MySQL BIT(M) data type default values (migelsabre, cebe)
 - Enh #1847: Added COutputCache::varyByLanguage to generate separate cache for different languages (Obramko)
+- Enh #1863: Added CActiveFinder::getModel, added CActiveRecord::getActiveFinder, CExistValidator::getModel, CUniqueValidator::getModel, CActiveDataProvider::getModel, CSort::getModel (denisarius, samdark)
 - Enh #1928: Gii is now able to use table columns' comments as the attribute labels of a new generated model (resurtm, tlikai)
 - Enh #1948: Tidy up and improve html5 input support in CHtml and CActiveForm (phpnode)
 - Enh #1977: CFormatter::normalizeDateValue() now is protected instead of private to enable child classes to override it (etienneq)
