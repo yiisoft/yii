@@ -87,17 +87,17 @@ class CSqliteTest extends CTestCase
 		$this->checkColumns('posts',$values);
 		$values=array
 		(
-			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'char_col4', 'char_col5', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2', 'null_col'),
-			'rawName'=>array('"int_col"', '"int_col2"', '"char_col"', '"char_col2"', '"char_col3"', '"char_col4"', '"char_col5"', '"float_col"', '"float_col2"', '"blob_col"', '"numeric_col"', '"time"', '"bool_col"', '"bool_col2"', '"null_col"'),
-			'defaultValue'=>array(null, 1, null, 'something', null, null, 'NULL', null, '1.23', null, '33.22', '123', null, true, null),
-			'size'=>array(null, null, 100, 100, null, 100, 100, 4, null, null, 5, null, null, null, null),
-			'precision'=>array(null, null, 100, 100, null, 100, 100, 4, null, null, 5, null, null, null, null),
-			'scale'=>array(null, null, null, null, null, null, null, 3, null, null, 2, null, null, null, null),
-			'dbType'=>array('int','integer','char(100)','varchar(100)','text','varchar(100)','varchar(100)','real(4,3)','double','blob','numeric(5,2)','timestamp','bool','boolean','integer'),
-			'type'=>array('integer','integer','string','string','string','string','string','double','double','string','string','string','boolean','boolean','integer'),
-			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false),
-			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false),
-			'allowNull'=>array(false,true,false,true,true,true,true,false,true,true,true,true,false,true,true),
+			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'char_col4', 'char_col5', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2', 'null_col', 'created_at'),
+			'rawName'=>array('"int_col"', '"int_col2"', '"char_col"', '"char_col2"', '"char_col3"', '"char_col4"', '"char_col5"', '"float_col"', '"float_col2"', '"blob_col"', '"numeric_col"', '"time"', '"bool_col"', '"bool_col2"', '"null_col"', '"created_at"'),
+			'defaultValue'=>array(null, 1, null, 'something', null, null, 'NULL', null, '1.23', null, '33.22', '123', null, true, null, null),
+			'size'=>array(null, null, 100, 100, null, 100, 100, 4, null, null, 5, null, null, null, null, null),
+			'precision'=>array(null, null, 100, 100, null, 100, 100, 4, null, null, 5, null, null, null, null, null),
+			'scale'=>array(null, null, null, null, null, null, null, 3, null, null, 2, null, null, null, null, null),
+			'dbType'=>array('int','integer','char(100)','varchar(100)','text','varchar(100)','varchar(100)','real(4,3)','double','blob','numeric(5,2)','timestamp','bool','boolean','integer','timestamp'),
+			'type'=>array('integer','integer','string','string','string','string','string','double','double','string','string','string','boolean','boolean','integer','string'),
+			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false),
+			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false),
+			'allowNull'=>array(false,true,false,true,true,true,true,false,true,true,true,true,false,true,true,false),
 		);
 		$this->checkColumns('types',$values);
 	}
@@ -255,10 +255,28 @@ class CSqliteTest extends CTestCase
 		$this->assertEquals(11,$max);
 	}
 
-	public function testCheckIntegrity()
+	public function testCheckIntegrity1()
 	{
 		$this->db->schema->checkIntegrity(false);
 		$this->db->schema->checkIntegrity(true);
+	}
+
+	public function testCheckIntegrity2()
+	{
+		$this->db->schema->checkIntegrity(true);
+		$this->assertEquals(0,$this->db->createCommand('SELECT COUNT(*) FROM profiles WHERE user_id=9999')->queryScalar());
+		if(version_compare(PHP_VERSION,'5.3.0','>='))
+			$this->setExpectedException('CDbException');
+		$this->db->createCommand("INSERT INTO profiles (first_name,last_name,user_id) VALUES ('orphaned','profile',9999)")->execute();
+		$this->assertEquals(1,$this->db->createCommand('SELECT COUNT(*) FROM profiles WHERE user_id=9999')->queryScalar());
+	}
+
+	public function testCheckIntegrity3()
+	{
+		$this->db->schema->checkIntegrity(false);
+		$this->assertEquals(0,$this->db->createCommand('SELECT COUNT(*) FROM profiles WHERE user_id=9999')->queryScalar());
+		$this->db->createCommand("INSERT INTO profiles (first_name,last_name,user_id) VALUES ('orphaned','profile',9999)")->execute();
+		$this->assertEquals(1,$this->db->createCommand('SELECT COUNT(*) FROM profiles WHERE user_id=9999')->queryScalar());
 	}
 
 	public function testRenameTable()
@@ -278,5 +296,41 @@ class CSqliteTest extends CTestCase
 		$this->assertArrayNotHasKey('users',$this->db->schema->tables);
 		$this->assertArrayHasKey('profiles_renamed',$this->db->schema->tables);
 		$this->assertArrayHasKey('users_renamed',$this->db->schema->tables);
+	}
+
+	public function testMultipleInsert()
+	{
+		$builder=$this->db->getSchema()->getCommandBuilder();
+		$tableName='types';
+		$data=array(
+			array(
+				'int_col'=>1,
+				'char_col'=>'char_col_1',
+				'char_col2'=>'char_col_2_1',
+				'float_col'=>1.1,
+				'bool_col'=>true,
+			),
+			array(
+				'int_col'=>2,
+				'char_col'=>'char_col_2',
+				'float_col'=>2.2,
+				'bool_col'=>false,
+			),
+		);
+		$command=$builder->createMultipleInsertCommand($tableName,$data);
+		$command->execute();
+
+		$rows=$builder->dbConnection->createCommand('SELECT * FROM '.$builder->dbConnection->quoteTableName($tableName))->queryAll();
+
+		$this->assertEquals(count($data),count($rows),'Records count miss matches!');
+		foreach($rows as $rowIndex=>$row)
+			foreach($row as $columnName=>$value)
+			{
+				$columnIndex=array_search($columnName,$data[$rowIndex],true);
+				if($columnIndex==false)
+					continue;
+				$expectedValue=$data[$rowIndex][$columnIndex];
+				$this->assertTrue($expectedValue==$value,"Value for column '{$columnName}' incorrect!");
+			}
 	}
 }

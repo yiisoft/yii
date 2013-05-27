@@ -161,10 +161,11 @@ class CActiveForm extends CWidget
 	 */
 	public $stateful=false;
 	/**
-	 * @var string the CSS class name for error messages. Defaults to 'errorMessage'.
+	 * @var string the CSS class name for error messages. 
+	 * Since 1.1.14 this defaults to 'errorMessage' defined in {@link CHtml::$errorMessageCss}.
 	 * Individual {@link error} call may override this value by specifying the 'class' HTML option.
 	 */
-	public $errorMessageCssClass='errorMessage';
+	public $errorMessageCssClass;
 	/**
 	 * @var array additional HTML attributes that should be rendered for the form tag.
 	 */
@@ -325,6 +326,9 @@ class CActiveForm extends CWidget
 			echo CHtml::statefulForm($this->action, $this->method, $this->htmlOptions);
 		else
 			echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
+			
+		if($this->errorMessageCssClass===null)
+			$this->errorMessageCssClass=CHtml::$errorMessageCss;
 	}
 
 	/**
@@ -396,7 +400,21 @@ class CActiveForm extends CWidget
 	 * particular model attribute. For more details about these options, please refer to {@link clientOptions}.
 	 * Note that these options are only used when {@link enableAjaxValidation} or {@link enableClientValidation}
 	 * is set true.
-	 *
+	 * <ul>
+	 * <li>inputID</li>
+	 * </ul>
+	 * When an CActiveForm input field uses a custom ID, for ajax/client validation to work properly 
+	 * inputID should be set to the same ID
+	 * 
+	 * Example:
+	 * <pre>
+	 * <div class="form-element">
+	 *    <?php echo $form->labelEx($model,'attribute'); ?>
+	 *    <?php echo $form->textField($model,'attribute', array('id'=>'custom-id')); ?>
+	 *    <?php echo $form->error($model,'attribute',array('inputID'=>'custom-id')); ?>
+	 * </div>
+	 * </pre>
+	 * 
 	 * When client-side validation is enabled, an option named "clientValidation" is also recognized.
 	 * This option should take a piece of JavaScript code to perform client-side validation. In the code,
 	 * the variables are predefined:
@@ -468,6 +486,7 @@ class CActiveForm extends CWidget
 		if($enableClientValidation)
 		{
 			$validators=isset($htmlOptions['clientValidation']) ? array($htmlOptions['clientValidation']) : array();
+			unset($htmlOptions['clientValidation']);
 
 			$attributeName = $attribute;
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1) // e.g. [a]name
@@ -494,7 +513,7 @@ class CActiveForm extends CWidget
 				$htmlOptions['style']=rtrim($htmlOptions['style'],';').';display:none';
 			else
 				$htmlOptions['style']='display:none';
-			$html=CHtml::tag('div',$htmlOptions,'');
+			$html=CHtml::tag(CHtml::$errorContainerTag,$htmlOptions,'');
 		}
 
 		$this->attributes[$inputID]=$option;
@@ -675,8 +694,9 @@ class CActiveForm extends CWidget
 	 */
 	public function telField($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeTimeField($model,$attribute,$htmlOptions);
+		return CHtml::activeTelField($model,$attribute,$htmlOptions);
 	}
+
 	/**
 	 * Renders a text field for a model attribute.
 	 * This method is a wrapper of {@link CHtml::activeTextField}.
@@ -690,6 +710,22 @@ class CActiveForm extends CWidget
 	public function textField($model,$attribute,$htmlOptions=array())
 	{
 		return CHtml::activeTextField($model,$attribute,$htmlOptions);
+	}
+
+	/**
+	 * Renders a search field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeSearchField}.
+	 * Please check {@link CHtml::activeSearchField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 * @since 1.1.14
+	 */
+	public function searchField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeSearchField($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -865,8 +901,9 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $model)
 		{
-			if($loadInput && isset($_POST[get_class($model)]))
-				$model->attributes=$_POST[get_class($model)];
+			$modelName=CHtml::modelName($model);
+			if($loadInput && isset($_POST[$modelName]))
+				$model->attributes=$_POST[$modelName];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,$attribute)]=$errors;
@@ -893,8 +930,9 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $i=>$model)
 		{
-			if($loadInput && isset($_POST[get_class($model)][$i]))
-				$model->attributes=$_POST[get_class($model)][$i];
+			$modelName=CHtml::modelName($model);
+			if($loadInput && isset($_POST[$modelName][$i]))
+				$model->attributes=$_POST[$modelName][$i];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,'['.$i.']'.$attribute)]=$errors;

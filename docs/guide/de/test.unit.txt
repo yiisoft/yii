@@ -70,7 +70,7 @@ $comments = $this->comments;
 // Zeile mit dem Alias 'sample1' aus der Fixturetabelle 'Post' zurückliefern
 $post = $this->posts['sample1'];
 // Die AR-Instanz, die der Fixturezeile 'sample1' entspricht zurückliefern
-$post = $this->post('sample1');
+$post = $this->posts('sample1');
 ~~~
 
 > Note|Hinweis: Wenn ein Fixture über seinen Tabellennamen festgelegt wurde

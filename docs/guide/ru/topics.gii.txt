@@ -128,7 +128,7 @@ return array(
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'generatorPaths'=>array(
-				'application.gii',   // псевдоним пути
+				'common.gii',   // псевдоним пути
 			),
 		),
 	),
@@ -136,7 +136,7 @@ return array(
 ~~~
 
 Приведённые выше настройки заставляют Gii искать генераторы в директории
-с псевдонимом `application.gii` в дополнение к стандартному `system.gii.generators`.
+с псевдонимом `common.gii` в дополнение к стандартным `system.gii.generators` и `application.gii`.
 
 Возможно иметь несколько одноимённых генераторов, если у них разные пути
 поиска. В этом случае будет использоваться генератор, путь поиска которого

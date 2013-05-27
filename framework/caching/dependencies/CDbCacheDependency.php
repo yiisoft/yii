@@ -62,6 +62,7 @@ class CDbCacheDependency extends CCacheDependency
 	/**
 	 * Generates the data needed to determine if dependency has been changed.
 	 * This method returns the value of the global state.
+	 * @throws CException if {@link sql} is empty
 	 * @return mixed the data needed to determine if dependency has been changed.
 	 */
 	protected function generateDependentData()

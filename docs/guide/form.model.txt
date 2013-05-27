@@ -97,8 +97,8 @@ where `AttributeList` is a string of comma-separated attribute names which
 need to be validated according to the rule; `Validator` specifies what kind of
 validation should be performed; the `on` parameter is optional which specifies
 a list of scenarios where the rule should be applied; and additional options
-are name-value pairs which are used to initialize the corresponding validator's
-property values.
+are name-value pairs which are used to initialize the corresponding validator [component's
+property values](/doc/guide/basics.component).
 
 Since version 1.1.11 it is possible to blacklist scenarios. If you don't
 want to perform validation for some rule when particular scenarios are active
@@ -110,7 +110,7 @@ different forms which means the same:
 
 ~~~
 [php]
-// arbitary array with scenario names
+// arbitrary array with scenario names
 'on'=>array('update', 'create'),
 // string with scenario names separated with commas (spaces are ignored)
 'except'=>'ignore, this, scenarios, at-all',

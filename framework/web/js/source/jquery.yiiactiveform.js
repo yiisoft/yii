@@ -202,7 +202,7 @@
 					/*
 					 * If the form is submited (non ajax) with errors, labels and input gets the class 'error'
 					 */
-					$form.find('label, input').each(function () {
+					$form.find('label, :input').each(function () {
 						$(this).removeClass(settings.errorCss);
 					});
 					$('#' + settings.summaryID).hide().find('ul').html('');
@@ -260,7 +260,7 @@
 				attribute.errorCssClass + ' ' +
 				attribute.successCssClass
 			);
-			$container.find('label, input').each(function () {
+			$container.find('label, :input').each(function () {
 				$(this).removeClass(errorCss);
 			});
 

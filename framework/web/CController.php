@@ -807,7 +807,7 @@ class CController extends CBaseController
 	}
 
 	/**
-	 * This method is invoked after the specified is rendered by calling {@link render()}.
+	 * This method is invoked after the specified view is rendered by calling {@link render()}.
 	 * Note that this method is invoked BEFORE {@link processOutput()}.
 	 * You may override this method to do some postprocessing for the view rendering.
 	 * @param string $view the view that has been rendered

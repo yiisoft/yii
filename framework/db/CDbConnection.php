@@ -509,6 +509,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns the database schema for the current connection
+	 * @throws CDbException if CDbConnection does not support reading schema for specified database driver
 	 * @return CDbSchema the database schema for the current connection
 	 */
 	public function getSchema()
