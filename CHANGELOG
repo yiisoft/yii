@@ -75,6 +75,7 @@ Version 1.1.14 work in progress
 - Enh #1743: Added CActiveForm::searchField() and CHtml::activeSearchField() to create HTML input field of type SEARCH (njasm)
 - Enh #1796: Separate count criteria has been added to the CActiveDataProvider, it's useful for the counting queries simplification (resurtm)
 - Enh #1818: Created a CLocalizedFormatter application component that allows formatting values according to current locale (cebe)
+- Enh #1842: Added support for MySQL BIT(M) data type default values (migelsabre, cebe)
 - Enh #1847: Added COutputCache::varyByLanguage to generate separate cache for different languages (Obramko)
 - Enh #1928: Gii is now able to use table columns' comments as the attribute labels of a new generated model (resurtm, tlikai)
 - Enh #1948: Tidy up and improve html5 input support in CHtml and CActiveForm (phpnode)
