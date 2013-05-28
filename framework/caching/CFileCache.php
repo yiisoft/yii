@@ -42,14 +42,14 @@ class CFileCache extends CCache
 	 */
 	public $directoryLevel=0;
 	/**
-	 * @var boolean whether cache entry expiration time should be embedded into the physical file.
+	 * @var boolean whether cache entry expiration time should be embedded into a physical file.
 	 * Defaults to false meaning that the file modification time will be used to store expire value.
 	 * True value means that first ten bytes of the file would be reserved and used to store expiration time.
 	 * On some systems PHP is not allowed to change file modification time to be in future even with 777
 	 * permissions, so this property could be useful in this case.
 	 * @since 1.1.14
 	 */
-	public $embedMtime=false;
+	public $embedExpiry=false;
 
 	private $_gcProbability=100;
 	private $_gced=false;
@@ -113,7 +113,7 @@ class CFileCache extends CCache
 	{
 		$cacheFile=$this->getCacheFile($key);
 		if(($time=$this->filemtime($cacheFile))>time())
-			return @file_get_contents($cacheFile,false,null,$this->embedMtime ? 10 : -1);
+			return @file_get_contents($cacheFile,false,null,$this->embedExpiry ? 10 : -1);
 		elseif($time>0)
 			@unlink($cacheFile);
 		return false;
@@ -143,10 +143,10 @@ class CFileCache extends CCache
 		$cacheFile=$this->getCacheFile($key);
 		if($this->directoryLevel>0)
 			@mkdir(dirname($cacheFile),0777,true);
-		if(@file_put_contents($cacheFile,$this->embedMtime ? $expire.$value : $value,LOCK_EX)!==false)
+		if(@file_put_contents($cacheFile,$this->embedExpiry ? $expire.$value : $value,LOCK_EX)!==false)
 		{
 			@chmod($cacheFile,0777);
-			return $this->embedMtime ? true : @touch($cacheFile,$expire);
+			return $this->embedExpiry ? true : @touch($cacheFile,$expire);
 		}
 		else
 			return false;
@@ -227,9 +227,14 @@ class CFileCache extends CCache
 		closedir($handle);
 	}
 
+	/**
+	 * Returns cache file modification time. {@link $embedExpiry} aware.
+	 * @param string $path to the file, modification time to be retrieved from.
+	 * @return integer file modification time.
+	 */
 	private function filemtime($path)
 	{
-		if($this->embedMtime)
+		if($this->embedExpiry)
 			return (int)@file_get_contents($path,false,null,0,10);
 		else
 			return @filemtime($path);
