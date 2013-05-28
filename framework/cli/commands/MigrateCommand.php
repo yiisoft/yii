@@ -449,7 +449,7 @@ class MigrateCommand extends CConsoleCommand
 	protected function getMigrationHistory($limit)
 	{
 		$db=$this->getDbConnection();
-		if($db->schema->getTable($this->migrationTable)===null)
+		if($db->schema->getTable($this->migrationTable,true)===null)
 		{
 			$this->createMigrationHistoryTable();
 		}

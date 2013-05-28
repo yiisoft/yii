@@ -400,7 +400,21 @@ class CActiveForm extends CWidget
 	 * particular model attribute. For more details about these options, please refer to {@link clientOptions}.
 	 * Note that these options are only used when {@link enableAjaxValidation} or {@link enableClientValidation}
 	 * is set true.
-	 *
+	 * <ul>
+	 * <li>inputID</li>
+	 * </ul>
+	 * When an CActiveForm input field uses a custom ID, for ajax/client validation to work properly 
+	 * inputID should be set to the same ID
+	 * 
+	 * Example:
+	 * <pre>
+	 * <div class="form-element">
+	 *    <?php echo $form->labelEx($model,'attribute'); ?>
+	 *    <?php echo $form->textField($model,'attribute', array('id'=>'custom-id')); ?>
+	 *    <?php echo $form->error($model,'attribute',array('inputID'=>'custom-id')); ?>
+	 * </div>
+	 * </pre>
+	 * 
 	 * When client-side validation is enabled, an option named "clientValidation" is also recognized.
 	 * This option should take a piece of JavaScript code to perform client-side validation. In the code,
 	 * the variables are predefined:
@@ -887,8 +901,9 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $model)
 		{
-			if($loadInput && isset($_POST[get_class($model)]))
-				$model->attributes=$_POST[get_class($model)];
+			$modelName=CHtml::modelName($model);
+			if($loadInput && isset($_POST[$modelName]))
+				$model->attributes=$_POST[$modelName];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,$attribute)]=$errors;
@@ -915,8 +930,9 @@ class CActiveForm extends CWidget
 			$models=array($models);
 		foreach($models as $i=>$model)
 		{
-			if($loadInput && isset($_POST[get_class($model)][$i]))
-				$model->attributes=$_POST[get_class($model)][$i];
+			$modelName=CHtml::modelName($model);
+			if($loadInput && isset($_POST[$modelName][$i]))
+				$model->attributes=$_POST[$modelName][$i];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,'['.$i.']'.$attribute)]=$errors;

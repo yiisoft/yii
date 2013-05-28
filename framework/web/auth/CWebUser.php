@@ -61,6 +61,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	const FLASH_COUNTERS='Yii.CWebUser.flashcounters';
 	const STATES_VAR='__states';
 	const AUTH_TIMEOUT_VAR='__timeout';
+	const AUTH_ABSOLUTE_TIMEOUT_VAR='__absolute_timeout';
 
 	/**
 	 * @var boolean whether to enable cookie-based login. Defaults to false.
@@ -92,6 +93,11 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @since 1.1.7
 	 */
 	public $authTimeout;
+	/**
+	 * @var integer timeout in seconds after which user is logged out regardless of activity.
+	 * @since 1.1.14
+	 */
+	public $absoluteAuthTimeout;
 	/**
 	 * @var boolean whether to automatically renew the identity cookie each time a page is requested.
 	 * Defaults to false. This property is effective only when {@link allowAutoLogin} is true.
@@ -235,6 +241,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 						array('{class}'=>get_class($this))));
 			}
 
+			if ($this->absoluteAuthTimeout)
+				$this->setState(self::AUTH_ABSOLUTE_TIMEOUT_VAR, time()+$this->absoluteAuthTimeout);
 			$this->afterLogin(false);
 		}
 		return !$this->getIsGuest();
@@ -764,16 +772,18 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Updates the authentication status according to {@link authTimeout}.
-	 * If the user has been inactive for {@link authTimeout} seconds,
+	 * If the user has been inactive for {@link authTimeout} seconds, or {link absoluteAuthTimeout} has passed,
 	 * he will be automatically logged out.
 	 * @since 1.1.7
 	 */
 	protected function updateAuthStatus()
 	{
-		if($this->authTimeout!==null && !$this->getIsGuest())
+		if(($this->authTimeout!==null || $this->absoluteAuthTimeout!==null) && !$this->getIsGuest())
 		{
 			$expires=$this->getState(self::AUTH_TIMEOUT_VAR);
-			if ($expires!==null && $expires < time())
+			$expiresAbsolute=$this->getState(self::AUTH_ABSOLUTE_TIMEOUT_VAR);
+
+			if ($expires!==null && $expires < time() || $expiresAbsolute!==null && $expiresAbsolute < time())
 				$this->logout(false);
 			else
 				$this->setState(self::AUTH_TIMEOUT_VAR,time()+$this->authTimeout);
