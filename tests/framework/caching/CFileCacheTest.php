@@ -5,7 +5,7 @@ class CFileCacheTest extends CTestCase
 	/**
 	 * https://github.com/yiisoft/yii/issues/2435
 	 */
-	public function testEmbedMtime()
+	public function testEmbedExpiry()
 	{
 		$app=new TestApplication(array(
 			'id'=>'testApp',
@@ -32,7 +32,7 @@ class CFileCacheTest extends CTestCase
 		$app=new TestApplication(array(
 			'id'=>'testApp',
 			'components'=>array(
-				'cache'=>array('class'=>'CFileCache','embedMtime'=>true),
+				'cache'=>array('class'=>'CFileCache','embedExpiry'=>true),
 			),
 		));
 		$app->reset();
