@@ -55,7 +55,7 @@ Version 1.1.14 work in progress
 - Bug #2311: Fixed SQlite default value for timestamp CURRENT_TIMESTAMP (zeeke)
 - Bug #2321: CGettextPoFile is now able to parse multiline msgid and msgstr declarations (resurtm)
 - Bug #2325: Fixed UTF-8 troubles in CDateTimeParser (error in parsing chinese and thai dates) (s-larionov)
-- Bug #2336: PostgreSQL: CDbCommandBuilder uses `NULL` instead of `DEFAULT` as default value for the primary keys of serial type (resurtm)
+- Bug #2336: PostgreSQL: CDbCommandBuilder used `NULL` instead of `DEFAULT` as default value for the primary keys of serial type (resurtm)
 - Bug #2368: Reset error CSS for ':input', which includes SELECT elements (blueyed)
 - Bug #2398: Fixed 'Undefined variable: results' E_NOTICE at CProfileLogRoute (klimov-paul)
 - Bug #2402: Fixed clientValidation incorrectly rendered as HTML attribute, when used in CActiveForm::error() (mdomba)
