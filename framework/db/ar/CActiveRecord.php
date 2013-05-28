@@ -236,7 +236,14 @@ abstract class CActiveRecord extends CModel
 	 * or an empty array.
 	 * @param string $name the relation name (see {@link relations})
 	 * @param boolean $refresh whether to reload the related objects from database. Defaults to false.
+	 * If the current record is not a new record and it does not have the related objects loaded they
+	 * will be retrieved from the database even if this is set to false.
+	 * If the current record is a new record and this value is false, the related objects will not be
+	 * retrieved from the database.
 	 * @param mixed $params array or CDbCriteria object with additional parameters that customize the query conditions as specified in the relation declaration.
+	 * If this is supplied the related record(s) will be retrieved from the database regardless of the value or {@link $refresh}.
+	 * The related record(s) retrieved when this is supplied will only be returned by this method and will not be loaded into the current record's relation.
+	 * The value of the relation prior to running this method will still be available for the current record if this is supplied.
 	 * @return mixed the related object(s).
 	 * @throws CDbException if the relation is not specified in {@link relations}.
 	 */
@@ -270,7 +277,7 @@ abstract class CActiveRecord extends CModel
 			$r=$name;
 		unset($this->_related[$name]);
 
-		$finder=new CActiveFinder($this,$r);
+		$finder=$this->getActiveFinder($r);
 		$finder->lazyFind($this);
 
 		if(!isset($this->_related[$name]))
@@ -890,6 +897,35 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Given 'with' options returns a new active finder instance.
+	 *
+	 * @param mixed $with the relation names to be actively looked for
+	 * @return CActiveFinder active finder for the operation
+	 *
+	 * @since 1.1.14
+	 */
+	public function getActiveFinder($with)
+	{
+		return new CActiveFinder($this,$with);
+	}
+
+	/**
+	 * This event is raised before an AR finder performs a count call.
+	 * If you want to access or modify the query criteria used for the
+	 * count call, you can use {@link getDbCriteria()} to customize it based on your needs.
+	 * When modifying criteria in beforeCount you have to make sure you are using the right
+	 * table alias which is different on normal count and relational call.
+	 * You can use {@link getTableAlias()} to get the alias used for the upcoming count call.
+	 * @param CModelEvent $event the event parameter
+	 * @see beforeCount
+	 * @since 1.1.14
+	 */
+	public function onBeforeCount($event)
+	{
+		$this->raiseEvent('onBeforeCount',$event);
+	}
+
+	/**
 	 * This method is invoked before saving a record (after validation, if any).
 	 * The default implementation raises the {@link onBeforeSave} event.
 	 * You may override this method to do any preparation work for record saving.
@@ -970,6 +1006,20 @@ abstract class CActiveRecord extends CModel
 			$event=new CModelEvent($this);
 			$this->onBeforeFind($event);
 		}
+	}
+
+	/**
+	 * This method is invoked before an AR finder executes a count call.
+	 * The count calls include {@link count} and {@link countByAttributes}
+	 * The default implementation raises the {@link onBeforeCount} event.
+	 * If you override this method, make sure you call the parent implementation
+	 * so that the event is raised properly.
+	 * @since 1.1.14
+	 */
+	protected function beforeCount()
+	{
+		if($this->hasEventHandler('onBeforeCount'))
+			$this->onBeforeCount(new CEvent($this));
 	}
 
 	/**
@@ -1302,7 +1352,7 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 		{
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->query($criteria,$all);
 		}
 	}
@@ -1499,7 +1549,7 @@ abstract class CActiveRecord extends CModel
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
 			$this->resetScope(false);
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->findBySql($sql,$params);
 		}
 		else
@@ -1522,7 +1572,7 @@ abstract class CActiveRecord extends CModel
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
 			$this->resetScope(false);
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->findAllBySql($sql,$params);
 		}
 		else
@@ -1543,6 +1593,7 @@ abstract class CActiveRecord extends CModel
 	{
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
+		$this->beforeCount();
 		$criteria=$builder->createCriteria($condition,$params);
 		$this->applyScopes($criteria);
 
@@ -1550,7 +1601,7 @@ abstract class CActiveRecord extends CModel
 			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 		else
 		{
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->count($criteria);
 		}
 	}
@@ -1570,6 +1621,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.countByAttributes()','system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$builder=$this->getCommandBuilder();
+		$this->beforeCount();
 		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		$this->applyScopes($criteria);
 
@@ -1577,7 +1629,7 @@ abstract class CActiveRecord extends CModel
 			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 		else
 		{
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->count($criteria);
 		}
 	}
@@ -1593,6 +1645,7 @@ abstract class CActiveRecord extends CModel
 	public function countBySql($sql,$params=array())
 	{
 		Yii::trace(get_class($this).'.countBySql()','system.db.ar.CActiveRecord');
+		$this->beforeCount();
 		return $this->getCommandBuilder()->createSqlCommand($sql,$params)->queryScalar();
 	}
 
@@ -1618,7 +1671,7 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$criteria->select='*';
-			$finder=new CActiveFinder($this,$criteria->with);
+			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->count($criteria)>0;
 		}
 	}

@@ -10,4 +10,3 @@ Alle Rechte vorbehalten.
 
 Übersetzt von Michael Härtl und Peter Matulla.
 
-<div class="revision">$Id: index.txt 1679 2010-01-07 21:03:36Z qiang.xue $</div>

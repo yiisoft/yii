@@ -27,7 +27,7 @@
  * Options are bound to action parameters via parameter names. For example, the following
  * action method will allow us to run a command with <code>yiic sitemap --type=News</code>:
  * <pre>
- * class SitemapCommand {
+ * class SitemapCommand extends CConsoleCommand {
  *     public function actionIndex($type) {
  *         ....
  *     }

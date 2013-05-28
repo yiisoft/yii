@@ -26,6 +26,7 @@
  *
  * When using CFileValidator with an active record, the following code is often used:
  * <pre>
+ *  $model->attribute = CUploadedFile::getInstance($model, "attribute");
  *  if($model->save())
  *  {
  *     // single upload

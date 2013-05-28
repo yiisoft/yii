@@ -87,8 +87,8 @@ class CPasswordHelper
 	 * compute the hash doubles for every increment by one of $cost. So, for example, if the
 	 * hash takes 1 second to compute when $cost is 14 then then the compute time varies as
 	 * 2^($cost - 14) seconds.
-	 * @throws CException on bad password parameter or if crypt() with Blowfish hash is not available.
 	 * @return string The password hash string, ASCII and not longer than 64 characters.
+	 * @throws CException on bad password parameter or if crypt() with Blowfish hash is not available.
 	 */
 	public static function hashPassword($password,$cost=13)
 	{
@@ -107,7 +107,6 @@ class CPasswordHelper
 	 *
 	 * @param string $password The password to verify.
 	 * @param string $hash The hash to verify the password against.
-	 *
 	 * @return bool True if the password matches the hash.
 	 * @throws CException on bad password or hash parameters or if crypt() with Blowfish hash is not available.
 	 */
@@ -117,7 +116,7 @@ class CPasswordHelper
 		if(!is_string($password) || $password === '')
 			throw new CException(Yii::t('yii','Cannot hash a password that is empty or not a string.'));
 
-		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) || $matches[1] < 4 || $matches[1] > 30)
+		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) || $matches[1] < 4 || $matches[1] > 31)
 			return false;
 
 		$test=crypt($password,$hash);
@@ -143,9 +142,8 @@ class CPasswordHelper
 	 * @see http://codereview.stackexchange.com/questions/13512
 	 * @see https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
 	 *
-	 * @param $a string First subject string to compare.
-	 * @param $b string Second subject string to compare.
-	 *
+	 * @param string $a First subject string to compare.
+	 * @param string $b Second subject string to compare.
 	 * @return bool true if the strings are the same, false if they are different or if
 	 * either is not a string.
 	 */
@@ -176,9 +174,9 @@ class CPasswordHelper
 	 *  "$",
 	 *  22 characters from the alphabet "./0-9A-Za-z".
 	 *
-	 * @param $cost
-	 * @throws CException
+	 * @param int $cost Cost parameter used by the Blowfish hash algorithm.
 	 * @return string the random salt value.
+	 * @throws CException in case of invalid cost number
 	 */
 	protected static function generateSalt($cost = 13)
 	{
@@ -189,7 +187,7 @@ class CPasswordHelper
 			));
 
 		$cost=(int)$cost;
-		if($cost<4 || $cost>30)
+		if($cost<4 || $cost>31)
 		    throw new CException(Yii::t('yii',
 				'{class}::$cost must be between 4 and 31.',
 				array("{class}"=>__CLASS__)

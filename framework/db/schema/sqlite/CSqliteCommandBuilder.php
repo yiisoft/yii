@@ -41,6 +41,7 @@ class CSqliteCommandBuilder extends CDbCommandBuilder
 	 * Creates a multiple INSERT command.
 	 * This method could be used to achieve better performance during insertion of the large
 	 * amount of data into the database tables.
+	 * Note that SQLite does not keep original order of the inserted rows.
 	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
 	 * If a key is not a valid column name, the corresponding value will be ignored.

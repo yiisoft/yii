@@ -13,6 +13,8 @@ URL можно добавить инструкцию для модуля `mod_re
 ~~~
 RewriteEngine on
 
+# не позволять httpd отдавать файлы, начинающиеся с точки (.htaccess, .svn, .git и прочие)
+RedirectMatch 403 /\..*$
 # если директория или файл существуют, использовать их напрямую
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -50,17 +52,16 @@ server {
         deny  all;
     }
 
-    #отключаем обработку запросов фреймворком к несуществующим статичным файлам
+    # отключаем обработку запросов фреймворком к несуществующим статичным файлам
     location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
         try_files $uri =404;
     }
 
     # передаем PHP-скрипт серверу FastCGI, прослушивающему адрес 127.0.0.1:9000
-    #
     location ~ \.php {
         fastcgi_split_path_info  ^(.+\.php)(.*)$;
 
-        #позволяем yii перехватывать запросы к несуществующим PHP-файлам
+        # позволяем yii перехватывать запросы к несуществующим PHP-файлам
         set $fsn /$yii_bootstrap;
         if (-f $document_root$fastcgi_script_name){
             set $fsn $fastcgi_script_name;
@@ -70,13 +71,16 @@ server {
         include fastcgi_params;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fsn;
 
-        #PATH_INFO и PATH_TRANSLATED могут быть опущены, но стандарт RFC 3875 определяет для CGI
+        # PATH_INFO и PATH_TRANSLATED могут быть опущены, но стандарт RFC 3875 определяет для CGI
         fastcgi_param  PATH_INFO        $fastcgi_path_info;
         fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
     }
 
-    location ~ /\.ht {
-        deny  all;
+    # не позволять nginx отдавать файлы, начинающиеся с точки (.htaccess, .svn, .git и прочие)
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
     }
 }
 ~~~

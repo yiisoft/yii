@@ -11,6 +11,8 @@ URL からブートストラップファイル (通常は index.php) を隠す�
 ~~~
 RewriteEngine on
 
+# httpd が隠しファイル (.htaccess, .svn, .git など) を送出するのを防ぐ
+RedirectMatch 403 /\..*$
 # ディレクトリまたはファイルが存在する場合は、直接それを使う
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -70,8 +72,11 @@ server {
         fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
     }
 
-    location ~ /\.ht {
-        deny  all;
+    # nginx が隠しファイル (.htaccess, .svn, .git など) を送出するのを防ぐ
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
     }
 }
 ~~~

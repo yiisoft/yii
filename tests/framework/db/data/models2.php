@@ -29,6 +29,11 @@ class User2 extends CActiveRecord
 		return array(
 			'posts'=>array(self::HAS_MANY,'Post2','author_id'),
 			'friends'=>array(self::MANY_MANY,'User2','test.user_friends(id,friend)'),
+
+			// CActiveRecord2Test::testIssue2122()
+			'commentsWithParam'=>array(self::HAS_MANY,'Comment2','author_id','on'=>'"commentsWithParam"."post_id">:postId',
+				'params'=>array(':postId'=>1)),
+			'postsWithParam'=>array(self::HAS_MANY,'Post2',array('post_id'=>'id'),'through'=>'commentsWithParam'),
 		);
 	}
 

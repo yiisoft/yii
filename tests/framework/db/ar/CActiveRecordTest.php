@@ -1447,4 +1447,42 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
 	}
+
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/101
+	 */
+	public function testHasManyThroughHasManyWithCustomSelect()
+	{
+		$model=User::model()->with('studentsCustomSelect')->findByPk(1);
+		$this->assertTrue(is_object($model),'Unable to get master records!');
+		$this->assertTrue(count($model->students)>0,'Empty slave records!');
+	}
+
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/139
+	 */
+	public function testLazyLoadThroughRelationWithCondition()
+	{
+		$masterModel=Group::model()->findByPk(1);
+		$this->assertTrue(count($masterModel->users)>0,'Test environment is missing!');
+		$this->assertEquals(0,count($masterModel->usersWhichEmptyByCondition),'Unable to apply condition from through relation!');
+	}
+
+	/**
+	 * @depends testFind
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/662
+	 */
+	public function testThroughBelongsToLazy()
+	{
+		$comments=Comment::model()->findAll();
+		foreach($comments as $comment)
+		{
+			$this->assertFalse(empty($comment->postAuthor));
+		}
+	}
 }
