@@ -101,6 +101,7 @@ Version 1.1.14 work in progress
 - Enh #2275: Added primary log rotation by copy and truncate to CFileLogRoute (bdstevens)
 - Enh #2415: Cancel current ajax request before create a new one in CGridView and CListView (gusnips)
 - Enh #2416: Avoid instantiating HTMLPurifier on each CHtmlPurifier::purify() call. Allow to pass array as argument of CHtmlPurifier::purify() (twisted1919)
+- Enh #2435: CFileCache entry expiration time could now be embedded into the cache file instead of changing file's modification time to be in future (resurtm)
 - Enh #2459: Absolute session timeout in CWebUser (ivokund)
 - Enh #2494: Allow to configure CBaseListView emptyText container tag name (ifdattic)
 - Chg: Upgraded HTMLPurifier to v4.5.0 (samdark)
