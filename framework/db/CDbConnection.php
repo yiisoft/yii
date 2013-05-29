@@ -98,6 +98,7 @@
  * @property array $attributes Attributes (name=>value) that are previously explicitly set for the DB connection.
  * @property array $stats The first element indicates the number of SQL statements executed,
  * and the second element the total time spent in SQL execution.
+ * @property boolean $autoReconnectOnUnserialize Whether the DB connection is automatically re-established on unserialize
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.db
@@ -250,6 +251,13 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $pdoClass = 'PDO';
 
+
+	/**
+	 * @var boolean When true automatically attempts to reconnect the connection on unserialize
+	 */
+	public $autoReconnectOnUnserialize = false;
+
+
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -283,6 +291,17 @@ class CDbConnection extends CApplicationComponent
 		$this->close();
 		return array_keys(get_object_vars($this));
 	}
+
+	/**
+	 * Optionally reopen the connection when unserializing.
+	 * @return void
+	 */
+	public function __wakeup()
+	{
+		if ($this->autoReconnectOnUnserialize)
+			$this->open();
+	}
+
 
 	/**
 	 * Returns a list of available PDO drivers.
