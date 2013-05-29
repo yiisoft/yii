@@ -6,6 +6,7 @@
 Version 1.1.14
 --------------
  * [CPasswordHelper] を追加
+ * [CRedisCache] を追加
 
 Version 1.1.11
 --------------
