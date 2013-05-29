@@ -42,6 +42,14 @@ class CLogFilter extends CComponent implements ILogFilter
 	 * Note that a variable must be accessible via $GLOBALS. Otherwise it won't be logged.
 	 */
 	public $logVars=array('_GET','_POST','_FILES','_COOKIE','_SESSION','_SERVER');
+	/**
+	 * @var callable or function which will be used to dump context information.
+	 * Defaults to `var_export`. If you're having problems with circular references
+	 * problem change it to `print_r`. Any kind of callable (static methods, user defined
+	 * functions, lambdas, etc.) could also be used.
+	 * @since 1.1.14
+	 */
+	public $dumper='var_export';
 
 
 	/**
@@ -94,10 +102,17 @@ class CLogFilter extends CComponent implements ILogFilter
 		if($this->logUser && ($user=Yii::app()->getComponent('user',false))!==null)
 			$context[]='User: '.$user->getName().' (ID: '.$user->getId().')';
 
-		foreach($this->logVars as $name)
+		if($this->dumper==='var_export' || $this->dumper==='print_r')
 		{
-			if(!empty($GLOBALS[$name]))
-				$context[]="\${$name}=".var_export($GLOBALS[$name],true);
+			foreach($this->logVars as $name)
+				if(!empty($GLOBALS[$name]))
+					$context[]="\${$name}=".call_user_func($this->dumper,$GLOBALS[$name],true);
+		}
+		else
+		{
+			foreach($this->logVars as $name)
+				if(!empty($GLOBALS[$name]))
+					$context[]="\${$name}=".call_user_func($this->dumper,$GLOBALS[$name]);
 		}
 
 		return implode("\n\n",$context);
