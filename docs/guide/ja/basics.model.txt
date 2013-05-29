@@ -24,4 +24,5 @@ AR オブジェクトは [CActiveRecord] クラスまたはそのサブクラス
 行のフィールド(カラム)は AR オブジェクトのプロパティとして表されます。
 詳細は、[アクティブレコード](/doc/guide/database.ar) を参照してください。
 
-<div class="revision">$Id$</div>
+モデルを定義するときのベストプラクティスについては、 [MVC のベストプラクティス](/doc/guide/basics.best-practices) の
+モデルの章を参照して下さい。

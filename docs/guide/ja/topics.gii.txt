@@ -118,14 +118,14 @@ return array(
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'generatorPaths'=>array(
-				'application.gii',   // パスエイリアス
+				'common.gii',   // パスエイリアス
 			),
 		),
 	),
 );
 ~~~
 
-上記の構成は、Gii に対して、デフォルトの場所である `system.gii.generator` に加えて `application.gii` というエイリアスのディレクトリの下からもジェネレータを探すように指示するものです。
+上記の構成は、Gii に対して、デフォルトの場所である `system.gii.generator` および `application.gii` に加えて、 `common.gii` というエイリアスのディレクトリの下からもジェネレータを探すように指示するものです。
 
 異なるサーチパスの下に同じ名前の二つのジェネレータを置くことも可能です。
 その場合は、[GiiModule::generatorPaths] で先に指定されたパスの下にあるジェネレータが優先されます。
