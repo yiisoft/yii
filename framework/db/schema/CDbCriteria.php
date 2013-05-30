@@ -153,7 +153,7 @@ class CDbCriteria extends CComponent
 	 * @var string
 	 * @since 1.1.14
 	 */
-	public $reverseOrderMerge=true;
+	public $reverseOrderMerge=false;
 
 	/**
 	 * Constructor.
