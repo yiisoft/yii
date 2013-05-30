@@ -50,6 +50,11 @@ Upgrading from v1.1.13
   Also CActiveRecord::refreshMetaData() will not create new meta data at once - new CActiveRecordMetaData instance
   will be created on the first demand.
 
+- Oracle related note: in case you're using COciSchema::resetSequence() or CDbSchema::resetSequence() methods with
+  the Oracle database, keep in mind that its behavior has changed to be consistent with the same methods for
+  the other database management systems. Please refer to its documentation for more details and don't forget
+  to adjust your code respectively.
+
 Upgrading from v1.1.12
 ----------------------
 - Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)

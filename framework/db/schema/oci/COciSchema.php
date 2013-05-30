@@ -353,27 +353,36 @@ EOD;
 	/**
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
-	 * will have the specified value or 1.
+	 * will have the specified value or max value of a primary key plus one (i.e. sequence trimming).
+	 *
+	 * Note, behavior of this method has changed since 1.1.14 release. Please refer to the following
+	 * issue for more details: {@link https://github.com/yiisoft/yii/issues/2241}
+	 *
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
-	 * the next new row's primary key will have a value 1.
+	 * @param integer|null $value the value for the primary key of the next new row inserted.
+	 * If this is not set, the next new row's primary key will have the max value of a primary
+	 * key plus one (i.e. sequence trimming).
 	 * @since 1.1.13
 	 */
-	public function resetSequence($table,$value=1)
+	public function resetSequence($table,$value=null)
 	{
-		$seq = $table->name."_SEQ";
-		if($table->sequenceName!==null)
-		{
-			$this->getDbConnection()->createCommand("DROP SEQUENCE ".$seq)->execute();
+		if($table->sequenceName===null)
+			return;
 
-			$createSequenceSql = <<< SQL
-create sequence $seq
-start with $value
-increment by 1
-nomaxvalue
-nocache
-SQL;
-			$this->getDbConnection()->createCommand($createSequenceSql)->execute();
+		if($value!==null)
+			$value=(int)$value;
+		else
+		{
+			$value=(int)$this->getDbConnection()
+				->createCommand("SELECT MAX(\"{$table->primaryKey}\") FROM {$table->rawName}")
+				->queryScalar();
+			$value++;
 		}
+		$this->getDbConnection()
+			->createCommand("DROP SEQUENCE \"{$table->name}_SEQ\"")
+			->execute();
+		$this->getDbConnection()
+			->createCommand("CREATE SEQUENCE \"{$table->name}_SEQ\" START WITH {$value} INCREMENT BY 1 NOMAXVALUE NOCACHE")
+			->execute();
 	}
 }

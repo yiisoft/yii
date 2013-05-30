@@ -48,6 +48,7 @@ Version 1.1.14 work in progress
 - Bug #2216: CDbCommandBuilder::createInCondition() has been updated, allowing to pass array of values with mixed keys for the single type column (klimov-paul)
 - Bug #2223: CActiveForm::error does not respect CHtml::$errorMessageCss (ivokund)
 - Bug #2239: Fixed CHtml::refresh() method to use proper syntax (mdomba)
+- Bug #2241: COciSchema::resetSequence() now works the same way as the same methods for the other RDMBSes. PHPDocs of the CMssqlSchema::resetSequence(), CMysqlSchema::resetSequence(), CPgsqlSchema::resetSequence(), COciSchema::resetSequence() and CSqliteSchema::resetSequence() methods have been adjusted to fit their real functionality (resurtm)
 - Bug #2244: MessageCommand has been updated, allowing to merge string with value '0' correctly (klimov-paul)
 - Bug #2258: CJuiSliderInput didn't support string typed 'range' option (bookin)
 - Bug #2283: Gii Model Generator's tooltips are not working and always invisible (resurtm)
