@@ -17,7 +17,7 @@
  * is associated with. For example, month names and weekday names may vary
  * under different locales, which yields different formatting results.
  * The patterns that CDateFormatter recognizes are as defined in
- * {@link http://www.unicode.org/reports/tr35/#Date_Format_Patterns CLDR}.
+ * {@link http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns CLDR}.
  *
  * CDateFormatter supports predefined patterns as well as customized ones:
  * <ul>
