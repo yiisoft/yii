@@ -79,6 +79,7 @@ Version 1.1.14 work in progress
 - Enh #1447: CSqliteSchema: added enabling/disabling integrity check for sqlite (gleb-sternharz, resurtm)
 - Enh #1589: Added HTTP range responses support to CHttpRequest::sendFile (Ragazzo, samdark)
 - Enh #1604: Added method CDbCommandBuilder::createMultipleInsertCommand() to support multiple insertion (klimov-paul)
+- Enh #1725: Added CFileHelper::removeDirectory() static method (resurtm)
 - Enh #1743: Added CActiveForm::searchField() and CHtml::activeSearchField() to create HTML input field of type SEARCH (njasm)
 - Enh #1796: Separate count criteria has been added to the CActiveDataProvider, it's useful for the counting queries simplification (resurtm)
 - Enh #1818: Created a CLocalizedFormatter application component that allows formatting values according to current locale (cebe)

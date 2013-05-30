@@ -6,7 +6,10 @@ class CFileHelperTest extends CTestCase
 	private $rootDir1="test1";
 	private $rootDir2="test2";
 	private $subDir='sub';
-	private $file='testfile';
+	private $file1='testfile';
+	private $file2='.htaccess';
+	private $file3='..svn';
+	private $file4='non-existent-file';
 
 	protected function setUp()
 	{
@@ -80,6 +83,42 @@ class CFileHelperTest extends CTestCase
 		$this->assertEquals($expectedMode,$subDir2Mode,"Subdir mode is not {$expectedMode}");
 	}
 
+	public function testRemoveDirectory()
+	{
+		$this->createTestStruct($this->testDir);
+
+		$ds=DIRECTORY_SEPARATOR;
+		$bd=$this->testDir.$ds;
+
+		$this->assertTrue(is_dir($bd.$this->rootDir1));
+		$this->assertTrue(is_dir($bd.$this->rootDir1.$ds.$this->subDir));
+		$this->assertFalse(is_dir($bd.$this->rootDir2));
+		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file1));
+		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file2));
+		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file3));
+		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file4));
+
+		CFileHelper::removeDirectory($bd.$this->rootDir2);
+
+		$this->assertTrue(is_dir($bd.$this->rootDir1));
+		$this->assertTrue(is_dir($bd.$this->rootDir1.$ds.$this->subDir));
+		$this->assertFalse(is_dir($bd.$this->rootDir2));
+		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file1));
+		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file2));
+		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file3));
+		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file4));
+
+		CFileHelper::removeDirectory($bd);
+
+		$this->assertFalse(is_dir($bd.$this->rootDir1));
+		$this->assertFalse(is_dir($bd.$this->rootDir1.$ds.$this->subDir));
+		$this->assertFalse(is_dir($bd.$this->rootDir2));
+		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file1));
+		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file2));
+		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file3));
+		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file4));
+	}
+
 	private function createTestStruct($testDir)
 	{
 		$rootDir=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1;
@@ -88,8 +127,14 @@ class CFileHelperTest extends CTestCase
 		$subDir=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1.DIRECTORY_SEPARATOR.$this->subDir;
 		mkdir($subDir);
 
-		$file=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1.DIRECTORY_SEPARATOR.$this->subDir.DIRECTORY_SEPARATOR.$this->file;
-		file_put_contents($file,'12321312');
+		$file1=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1.DIRECTORY_SEPARATOR.$this->subDir.DIRECTORY_SEPARATOR.$this->file1;
+		file_put_contents($file1,'12321312');
+
+		$file2=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1.DIRECTORY_SEPARATOR.$this->subDir.DIRECTORY_SEPARATOR.$this->file2;
+		file_put_contents($file2,'.htaccess');
+
+		$file3=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1.DIRECTORY_SEPARATOR.$this->subDir.DIRECTORY_SEPARATOR.$this->file3;
+		file_put_contents($file3,'..svn');
 	}
 
 	private function getMode($file)
