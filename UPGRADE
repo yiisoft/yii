@@ -55,6 +55,16 @@ Upgrading from v1.1.13
   the other database management systems. Please refer to its documentation for more details and don't forget
   to adjust your code respectively.
 
+- Signature of the CJuiInputWidget::resolveNameID() method has changed. If you're overriding this method you must
+  change your code to fit it. This method now accepts two parameters, it means you have to adjust code of the
+  overlapped descendant method signature as follows:
+
+      protected function resolveNameID($nameProperty='name',$attributeProperty='attribute')
+
+  And ancestor method call to:
+
+      parent::resolveNameID($nameProperty,$attributeProperty);
+
 Upgrading from v1.1.12
 ----------------------
 - Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)
