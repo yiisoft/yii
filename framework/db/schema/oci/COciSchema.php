@@ -402,12 +402,12 @@ EOD;
 		foreach($this->getTableNames($schema) as $table)
 		{
 			$constraints=$this->getDbConnection()
-				->createCommand("SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME=:t AND OWNER=:o")
+					->createCommand("SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME=:t AND OWNER=:o")
 				->queryColumn(array(':t'=>$table,':o'=>$schema));
 			foreach($constraints as $constraint)
 			{
 				$this->getDbConnection()
-					->createCommand("ALTER TABLE {$schema}.{$table} {$mode} CONSTRAINT {$constraint}")
+					->createCommand("ALTER TABLE \"{$schema}\".\"{$table}\" {$mode} CONSTRAINT \"{$constraint}\"")
 					->execute();
 			}
 		}
