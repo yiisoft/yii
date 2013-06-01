@@ -394,6 +394,10 @@ EOD;
 	 */
 	public function checkIntegrity($check=true,$schema='')
 	{
+		if($schema==='')
+		{
+			$schema=$this->getDefaultSchema();
+		}
 		$mode=$check ? 'ENABLE' : 'DISABLE';
 		foreach($this->getTableNames($schema) as $table)
 		{
