@@ -385,4 +385,27 @@ EOD;
 			->createCommand("CREATE SEQUENCE \"{$table->name}_SEQ\" START WITH {$value} INCREMENT BY 1 NOMAXVALUE NOCACHE")
 			->execute();
 	}
+
+	/**
+	 * Enables or disables integrity check.
+	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @since 1.1.14
+	 */
+	public function checkIntegrity($check=true,$schema='')
+	{
+		$mode=$check ? 'ENABLE' : 'DISABLE';
+		foreach($this->getTableNames($schema) as $table)
+		{
+			$constraints=$this->getDbConnection()
+				->createCommand("SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME=:t AND OWNER=:o")
+				->queryColumn(array(':t'=>$table,':o'=>$schema));
+			foreach($constraints as $constraint)
+			{
+				$this->getDbConnection()
+					->createCommand("ALTER TABLE {$schema}.{$table} {$mode} CONSTRAINT {$constraint}")
+					->execute();
+			}
+		}
+	}
 }

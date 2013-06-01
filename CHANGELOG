@@ -75,6 +75,7 @@ Version 1.1.14 work in progress
 - Enh #118: Proper support of namespaced models in forms (LastDragon-ru, Ekstazi, pgaultier)
 - Enh #169: Allow to set AJAX request type for CListView and CGridView (klimov-paul)
 - Enh #289: Gii module could be submodule of an another module (resurtm)
+- Enh #315: COciSchema::checkIntegrity() method added: allows to toggle integrity check (resurtm)
 - Enh #755: Allow to get currently running command from CConsoleApplication (klimov-paul)
 - Enh #1065: CJuiSliderInput now supports ranged slider when using it without model (resurtm)
 - Enh #1142: CSecurityManager::computeHMAC() has been made public (resurtm)
