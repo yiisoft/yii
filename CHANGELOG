@@ -109,6 +109,7 @@ Version 1.1.14 work in progress
 - Enh #2435: CFileCache entry expiration time could now be embedded into the cache file instead of changing file's modification time to be in future (resurtm)
 - Enh #2459: Absolute session timeout in CWebUser (ivokund)
 - Enh #2494: Allow to configure CBaseListView emptyText container tag name (ifdattic)
+- Enh #2512: Add autoReconnectOnUnserialize option to CDbConnection
 - Chg: Upgraded HTMLPurifier to v4.5.0 (samdark)
 - Chg #645: CDbConnection now throws CDbException when failed to open DB connection instead of failing with a warning (kidol, eirikhm, samdark, cebe)
 - Chg #895: Add second argument $params to client validation function (slavcodev)
