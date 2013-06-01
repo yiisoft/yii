@@ -69,6 +69,7 @@ Version 1.1.14 work in progress
 - Bug #2454: Fix CMysqlColumnSchema::extractLimit for ENUM values containing comma (blueyed)
 - Bug #2491: Prevent SQL exception being thrown when inserting a row into the session table whilst regenerating the session ID (mynameiszanders)
 - Bug #2502: Fix match controller in access rule, match uniqueId instead id (slavcodev)
+- Bug #2508: Fix CHtml::activeLabel() to resolve attribute input name for tabular input with custom 'for' (klimov-paul)
 - Bug #2524: Fixed incorrect HTTPS detection (resurtm)
 - Enh: Better CFileLogRoute performance (Qiang, samdark)
 - Enh: Refactored CHttpRequest::getDelete and CHttpRequest::getPut not to use _restParams directly (samdark)
