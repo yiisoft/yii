@@ -2146,6 +2146,12 @@ class CActiveRelation extends CBaseActiveRelation
 	 * @since 1.1.9
 	 */
 	 public $scopes;
+	/**
+	 * @var string the name of the relation that should be used as the bridge to this relation.
+	 * Defaults to null, meaning don't use any bridge.
+	 * @since 1.1.7
+	 */
+	public $through;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
@@ -2212,12 +2218,6 @@ class CBelongsToRelation extends CActiveRelation
  */
 class CHasOneRelation extends CActiveRelation
 {
-	/**
-	 * @var string the name of the relation that should be used as the bridge to this relation.
-	 * Defaults to null, meaning don't use any bridge.
-	 * @since 1.1.7
-	 */
-	public $through;
 }
 
 
@@ -2242,12 +2242,6 @@ class CHasManyRelation extends CActiveRelation
 	 * Defaults to null, meaning using zero-based integer IDs.
 	 */
 	public $index;
-	/**
-	 * @var string the name of the relation that should be used as the bridge to this relation.
-	 * Defaults to null, meaning don't use any bridge.
-	 * @since 1.1.7
-	 */
-	public $through;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
