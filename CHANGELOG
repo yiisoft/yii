@@ -124,7 +124,7 @@ Version 1.1.14 work in progress
 - New #1785: Added CPasswordHelper (tom--)
 - New #2178: Added Catalan Translation (ArnauAregall)
 - New #2370: New template placeholders for CHtml::radioButtonList() and CHtml::checkBoxList() (creocoder)
-- New #2530: Added CActiveRecord::BELONGS_TO 'through' option (creocoder)
+- New #2530: Added 'through' option to CActiveRecord::BELONGS_TO relation (creocoder)
 
 Version 1.1.13 December 30, 2012
 --------------------------------

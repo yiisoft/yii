@@ -1483,6 +1483,9 @@ class CActiveRecordTest extends CTestCase
 		foreach($comments as $comment)
 		{
 			$this->assertFalse(empty($comment->postAuthor));
+			// equal relation definition with BELONGS_TO: https://github.com/yiisoft/yii/pull/2530
+			$this->assertFalse(empty($comment->postAuthorBelongsTo));
+			$this->assertTrue($comment->postAuthor->equals($comment->postAuthorBelongsTo));
 		}
 	}
 }
