@@ -17,6 +17,8 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
+  '{class} must specify "model" and "{attribute}" or "{name}" property values.' => 'Luokan {class} pitää määrittää "model"- ja "{attribute}"- tai "{name}"-ominaisuuksien arvot.',
+  '{class} must specify "model" and "attribute" or "name" property values.' => 'Luokan {class} pitää määrittää "model"- ja "attribute"- tai "name"-ominaisuuksien arvot.',
   'Are you sure you want to delete this item?' => 'Haluatko varmasti poistaa tämän?',
   'Delete' => 'Poista',
   'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Näytetään {start}-{end} kaikkiaan 1 tuloksesta.|Näytetään {start}-{end} kaikkiaan {count} tuloksesta.',
@@ -37,5 +39,4 @@ return array (
   'Total 1 result.|Total {count} results.' => 'Yhteensä 1 tulos.|Yhteensä {count} tulosta.',
   'Update' => 'Päivitä',
   'View' => 'Näytä',
-  '{class} must specify "model" and "attribute" or "name" property values.' => 'Luokan {class} pitää määrittää "model"- ja "attribute"- tai "name"-ominaisuuksien arvot.',
 );
