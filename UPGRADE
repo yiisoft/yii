@@ -67,7 +67,7 @@ Upgrading from v1.1.13
 
 - In case you've used your own relation types extended from `CHasOneRelation` or
   `CHasManyRelation` make sure you update these to reflect moving `through` property
-  from both these to `CActiveRecord`.
+  from both these to `CActiveRelation`.
 
 Upgrading from v1.1.12
 ----------------------
