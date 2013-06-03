@@ -325,8 +325,9 @@ to `BELONGS_TO` relation.
 apply to `BELONGS_TO` relation.
 
    - `through`: name of the model's relation that will be used as a bridge when
-   getting related data. Can be set only for `HAS_ONE` and `HAS_MANY`.
-   This option has been available since version 1.1.7.
+   getting related data. This option has been available since version 1.1.7
+   where it can be used for `HAS_ONE` and `HAS_MANY`. Since 1.1.14 it can be used
+   for `BELONGS_TO` as well.
 
 Below we modify the `posts` relationship declaration in the `User` by
 including some of the above options:
@@ -668,7 +669,7 @@ In the above `array('key1'=>'key2')`:
   - `key1` is a key defined in relation specified in `through` (`posts` is this case).
   - `key2` is a key defined in a model relation points to (`Comment` in this case).
 
-`through` can be used with both `HAS_ONE` and `HAS_MANY` relations.
+`through` can be used with `HAS_ONE`, `BELONGS_TO` and `HAS_MANY` relations.
 
 
 ### `HAS_MANY` through
@@ -797,5 +798,3 @@ class User extends CActiveRecord
 $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
-
-<div class="revision">$Id$</div>

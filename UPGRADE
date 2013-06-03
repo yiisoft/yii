@@ -65,6 +65,10 @@ Upgrading from v1.1.13
 
       parent::resolveNameID($nameProperty,$attributeProperty);
 
+- In case you've used your own relation types extended from `CHasOneRelation` or
+  `CHasManyRelation` make sure you update these to reflect moving `through` property
+  from both these to `CActiveRecord`.
+
 Upgrading from v1.1.12
 ----------------------
 - Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)
