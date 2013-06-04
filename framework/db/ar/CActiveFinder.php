@@ -1040,20 +1040,29 @@ class CJoinElement
 		else
 		{
 			$fks=is_array($this->relation->foreignKey) ? $this->relation->foreignKey : preg_split('/\s*,\s*/',$this->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
-			if($this->relation instanceof CBelongsToRelation)
+			if($this->slave!==null)
+			{
+				if($this->relation instanceof CBelongsToRelation)
+				{
+					$fks=array_flip($fks);
+					$pke=$this->slave;
+					$fke=$this;
+				}
+				else
+				{
+					$pke=$this;
+					$fke=$this->slave;
+				}
+			}
+			elseif($this->relation instanceof CBelongsToRelation)
 			{
 				$pke=$this;
 				$fke=$parent;
 			}
-			elseif($this->slave===null)
+			else
 			{
 				$pke=$parent;
 				$fke=$this;
-			}
-			else
-			{
-				$pke=$this;
-				$fke=$this->slave;
 			}
 			return $this->joinOneMany($fke,$fks,$pke,$parent);
 		}
