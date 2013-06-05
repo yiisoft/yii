@@ -18,7 +18,7 @@
 	 */
 	selectCheckedRows = function (gridId) {
 		var settings = gridSettings[gridId],
-			table = $('#' + gridId).children('.' + settings.tableClass);
+			table = $('#' + gridId).find('.' + settings.tableClass);
 
 		table.children('tbody').find('input.select-on-check').filter(':checked').each(function () {
 			$(this).closest('tr').addClass('selected');
@@ -169,7 +169,7 @@
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
-								$rows = $currentGrid.children('.' + settings.tableClass).children('tbody').children();
+								$rows = $currentGrid.find('.' + settings.tableClass).children('tbody').children();
 							if (this.checked) {
 								$rows.addClass('selected');
 								$checks.prop('checked', true);
@@ -215,7 +215,7 @@
 		 */
 		getRow: function (row) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.' + sClass).children('tbody').children('tr').eq(row).children();
+			return this.find('.' + sClass).children('tbody').children('tr').eq(row).children();
 		},
 
 		/**
@@ -225,7 +225,7 @@
 		 */
 		getColumn: function (column) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.' + sClass).children('tbody').children('tr').children('td:nth-child(' + (column + 1) + ')');
+			return this.find('.' + sClass).children('tbody').children('tr').children('td:nth-child(' + (column + 1) + ')');
 		},
 
 		/**
