@@ -325,9 +325,9 @@ class CAssetManager extends CApplicationComponent
 	protected function generatePath($file,$hashByName=false)
 	{
 		if (is_file($file))
-			$pathForHashing=$hashByName ? basename($file) : dirname($file).filemtime($file);
+			$pathForHashing=$hashByName ? basename($file) : dirname($file).CFileHelper::filemtime($file);
 		else
-			$pathForHashing=$hashByName ? basename($file) : $file.filemtime($file);
+			$pathForHashing=$hashByName ? basename($file) : $file.CFileHelper::filemtime($file);
 
 		return $this->hash($pathForHashing);
 	}
