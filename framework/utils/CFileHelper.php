@@ -308,4 +308,26 @@ class CFileHelper
 		chmod($dst,$mode);
 		return $res;
 	}
+
+	/**
+	* Gets file modification time (recusive)
+	* 
+	* @param string $path path of file or directory
+	* @return integer last inode change time of file
+	*/
+	public static function filemtime($path)
+	{
+    		if (!file_exists($path))
+        		return 0;
+    
+    		if (is_file($path))
+        		return filemtime($path);
+
+    		$ret = 0;
+    
+     		foreach (glob($path."/*") as $fn)
+			$ret = max($ret, static::filemtime($fn));
+
+    		return $ret;    
+	}
 }
