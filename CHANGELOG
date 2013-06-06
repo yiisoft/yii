@@ -83,6 +83,7 @@ Version 1.1.14 work in progress
 - Enh #1065: CJuiSliderInput now supports ranged slider when using it without model (resurtm)
 - Enh #1142: CSecurityManager::computeHMAC() has been made public (resurtm)
 - Enh #1353: Added onBeforeCount event to CActiveRecord (jakob-stoeck)
+- Enh #1391: CDetailView: callables (including anonymous functions for PHP 5.3+) could be used as value generators of the attributes (resurtm)
 - Enh #1447: CSqliteSchema: added enabling/disabling integrity check for sqlite (gleb-sternharz, resurtm)
 - Enh #1589: Added HTTP range responses support to CHttpRequest::sendFile (Ragazzo, samdark)
 - Enh #1604: Added method CDbCommandBuilder::createMultipleInsertCommand() to support multiple insertion (klimov-paul)
