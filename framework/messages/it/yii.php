@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'CHttpRequest is unable to determine the path info of the request.' => 'CHttpRequest non può determinare le informazioni sul path della richiesta.',

@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'Action class {class} must implement the "run" method.' => 'A classe Action {class} deve implementar o método "run".',
@@ -237,7 +235,7 @@ return array (
   'You are not authorized to perform this action.' => 'Você não está autorizado a realizar essa operação.',
   'Your request is invalid.' => 'Sua requisição é inválida.',
   'Your request is not valid.' => 'Sua solicitação não é válida.',
-  '{attribute} "{value}" has already been taken.' => '{attribute} "{value}" já tem sido pego.',
+  '{attribute} "{value}" has already been taken.' => '{attribute} "{value}" já existe.',
   '{attribute} "{value}" is invalid.' => '{attribute} "{value}" é inválido.',
   '{attribute} cannot accept more than {limit} files.' => '{attribute} não aceita mais que {limit} arquivo(s).',
   '{attribute} cannot be blank.' => '{attribute} não pode ser vazio.',

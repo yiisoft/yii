@@ -197,10 +197,8 @@ class PostController extends CController
 Перехоплення віддаленого виклику методу
 ---------------------------------------
 
-Якщо реалізований інтерфейс [IWebServiceProvider], провайдер може перехоплювати віддалені виклики методів. 
-Використовуючи [IWebServiceProvider::beforeWebMethod] можна отримати поточний екземпляр [CWebService]. 
+Реалізуючи інтерфейс [IWebServiceProvider], провайдер може перехоплювати віддалені виклики методів. 
+Використовуючи [IWebServiceProvider::beforeWebMethod], можна отримати поточний екземпляр [CWebService]. 
 Через [CWebService::methodName] — назву метода, що викликається. 
 Якщо метод з якихось причин (наприклад, відсутність прав на його виконання) не повинен бути викликаний,
 необхідно повернути false.
-
-<div class="revision">$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>

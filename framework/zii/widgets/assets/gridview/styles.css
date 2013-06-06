@@ -69,6 +69,11 @@
 	background: #BCE774;
 }
 
+.grid-view table.items tr:hover.selected
+{
+	background: #CCFF66;
+}
+
 .grid-view table.items tbody tr:hover
 {
 	background: #ECFBD4;

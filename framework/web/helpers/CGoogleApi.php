@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -66,7 +66,7 @@ class CGoogleApi
 	{
 		$cs=Yii::app()->getClientScript();
 		$url=$apiKey===null?self::$bootstrapUrl:self::$bootstrapUrl.'?key='.$apiKey;
-		$cs->registerScriptFile($url);
+		$cs->registerScriptFile($url,CClientScript::POS_HEAD);
 
 		$js=self::load($name,$version,$options);
 		$cs->registerScript($name,$js,CClientScript::POS_HEAD);

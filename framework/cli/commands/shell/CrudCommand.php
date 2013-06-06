@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -81,7 +81,7 @@ EOD;
 
 	/**
 	 * Execute the action.
-	 * @param array command line parameters specific for this command
+	 * @param array $args command line parameters specific for this command
 	 * @return integer|null non zero application exit code for help or null on success
 	 */
 	public function run($args)
@@ -196,7 +196,7 @@ EOD;
 		$id=$model->tableSchema->primaryKey;
 		if($id===null)
 			throw new ShellException(Yii::t('yii','Error: Table "{table}" does not have a primary key.',array('{table}'=>$model->tableName())));
-		else if(is_array($id))
+		elseif(is_array($id))
 			throw new ShellException(Yii::t('yii','Error: Table "{table}" has a composite primary key which is not supported by crud command.',array('{table}'=>$model->tableName())));
 
 		if(!is_file($source))  // fall back to default ones
@@ -243,7 +243,7 @@ EOD;
 	{
 		if($column->type==='boolean')
 			return "CHtml::activeCheckBox(\$model,'{$column->name}')";
-		else if(stripos($column->dbType,'text')!==false)
+		elseif(stripos($column->dbType,'text')!==false)
 			return "CHtml::activeTextArea(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50))";
 		else
 		{
@@ -272,7 +272,7 @@ EOD;
 	{
 		if($column->type==='boolean')
 			return "\$form->checkBox(\$model,'{$column->name}')";
-		else if(stripos($column->dbType,'text')!==false)
+		elseif(stripos($column->dbType,'text')!==false)
 			return "\$form->textArea(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50))";
 		else
 		{

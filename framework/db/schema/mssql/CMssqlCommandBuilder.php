@@ -6,7 +6,7 @@
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -55,6 +55,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * @param CDbTableSchema $table the table metadata
 	 * @param array $data list of columns to be updated (name=>value)
 	 * @param CDbCriteria $criteria the query criteria
+	 * @throws CDbException if no columns are being updated
 	 * @return CDbCommand update command.
 	 */
 	public function createUpdateCommand($table,$data,$criteria)
@@ -76,7 +77,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 					foreach($value->params as $n=>$v)
 						$values[$n]=$v;
 				}
-				else if($bindByPosition)
+				elseif($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';
 					$values[]=$column->typecast($value);
@@ -178,11 +179,11 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 */
 	public function applyLimit($sql, $limit, $offset)
 	{
-		$limit = $limit!==null ? intval($limit) : -1;
-		$offset = $offset!==null ? intval($offset) : -1;
+		$limit = $limit!==null ? (int)$limit : -1;
+		$offset = $offset!==null ? (int)$offset : -1;
 		if ($limit > 0 && $offset <= 0) //just limit
 			$sql = preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',"\\1SELECT\\2 TOP $limit", $sql);
-		else if($limit > 0 && $offset > 0)
+		elseif($limit > 0 && $offset > 0)
 			$sql = $this->rewriteLimitOffsetSql($sql, $limit,$offset);
 		return $sql;
 	}

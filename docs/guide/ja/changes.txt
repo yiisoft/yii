@@ -3,6 +3,11 @@
 
 このページは、各々の Yii リリースにおいて導入された主な新機能をまとめています。
 
+Version 1.1.14
+--------------
+ * [CPasswordHelper] を追加
+ * [CRedisCache] を追加
+
 Version 1.1.11
 --------------
  * [http キャッシュのサポートを追加](/doc/guide/caching.page#sec-3)

@@ -41,9 +41,9 @@ session.
 
 #### An Example
 
-In the following example, we use an identity class to demonstrate using a database approach to authentication. This is very typical of most Web applications. A user will enter their username and password into a login form, and then we validate these credentials, using [ActiveRecord](/doc/guide/database.ar), against a user table in the database . There are actually a few things being demonstrated in this single example:
+In the following example, we use an identity class to demonstrate using a database approach to authentication. This is typical in Web applications. A user will enter their username and password into a login form, and then we validate these credentials, using [ActiveRecord](/doc/guide/database.ar), against a user table in the database . There are actually a few things being demonstrated in this single example:
 
-1. The implementation of the `authenticate()` to use the database to validate credentials.
+1. The implementation of the `authenticate()` method to use the database to validate credentials.
 2. Overriding the `CUserIdentity::getId()` method to return the `_id` property because the default implementation returns the username as the ID.
 3. Using the `setState()` ([CBaseUserIdentity::setState]) method to demonstrate storing other information that can easily be retrieved upon subsequent requests.
 
@@ -57,7 +57,7 @@ class UserIdentity extends CUserIdentity
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
 		if($record===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($record->password!==md5($this->password))
+		else if($record->password!==crypt($this->password,$record->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
@@ -83,6 +83,16 @@ identity information. If cookie-based login is enabled (by setting
 [CWebUser::allowAutoLogin] to be true), the user identity information may
 also be saved in cookie. Make sure you do not declare sensitive information
 (e.g. password) to be persistent.
+
+### Storing passwords in the database
+
+Secure storage of user passwords in a database requires some care. An attacker that has stolen your user table (or a backup of it) can recover passwords using standard techniques if you don't protect against them. In particular you should salt the password before hashing and use a hash function that takes the attacker a long time to compute. The above code example uses the built-in PHP `crypt()` function which, with appropriate use, returns hashes that are very hard to crack.
+
+To learn more about these topics please read.
+
+- [PHP `crypt()` function](http://php.net/manual/en/function.crypt.php)
+- Yii Wiki article [Use crypt() for password storage](http://www.yiiframework.com/wiki/425)
+
 
 Login and Logout
 ----------------
@@ -509,8 +519,8 @@ Once we have established this hierarchy, the [authManager|CWebApplication::authM
 items automatically. Therefore, we only need to run the above code one time, and NOT for every request.
 
 > Info: While the above example looks long and tedious, it is mainly for
-> demonstrative purpose. Developers will usually need to develop some administrative user
-> interfaces so that end users can use to establish an authorization
+> demonstrative purposes. Developers will usually need to develop some administrative user
+> interfaces so that end users can establish an authorization
 > hierarchy more intuitively.
 
 

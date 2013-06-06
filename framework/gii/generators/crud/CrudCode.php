@@ -16,7 +16,7 @@ class CrudCode extends CCodeModel
 			array('model, controller, baseControllerClass', 'required'),
 			array('model', 'match', 'pattern'=>'/^\w+[\w+\\.]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
 			array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
-			array('baseControllerClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
+			array('baseControllerClass', 'match', 'pattern'=>'/^[a-zA-Z_][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
 			array('baseControllerClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('model', 'validateModel'),
 			array('baseControllerClass', 'sticky'),
@@ -59,14 +59,14 @@ class CrudCode extends CCodeModel
 		$class=@Yii::import($this->model,true);
 		if(!is_string($class) || !$this->classExists($class))
 			$this->addError('model', "Class '{$this->model}' does not exist or has syntax error.");
-		else if(!is_subclass_of($class,'CActiveRecord'))
+		elseif(!is_subclass_of($class,'CActiveRecord'))
 			$this->addError('model', "'{$this->model}' must extend from CActiveRecord.");
 		else
 		{
 			$table=CActiveRecord::model($class)->tableSchema;
 			if($table->primaryKey===null)
 				$this->addError('model',"Table '{$table->name}' does not have a primary key.");
-			else if(is_array($table->primaryKey))
+			elseif(is_array($table->primaryKey))
 				$this->addError('model',"Table '{$table->name}' has a composite primary key which is not supported by crud generator.");
 			else
 			{
@@ -177,7 +177,7 @@ class CrudCode extends CCodeModel
 	{
 		if($column->type==='boolean')
 			return "CHtml::activeCheckBox(\$model,'{$column->name}')";
-		else if(stripos($column->dbType,'text')!==false)
+		elseif(stripos($column->dbType,'text')!==false)
 			return "CHtml::activeTextArea(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50))";
 		else
 		{
@@ -206,7 +206,7 @@ class CrudCode extends CCodeModel
 	{
 		if($column->type==='boolean')
 			return "\$form->checkBox(\$model,'{$column->name}')";
-		else if(stripos($column->dbType,'text')!==false)
+		elseif(stripos($column->dbType,'text')!==false)
 			return "\$form->textArea(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50))";
 		else
 		{

@@ -10,10 +10,10 @@ class CUrlValidatorTest extends CTestCase
 		$this->assertArrayHasKey('url', $model->getErrors());
 	}
 
-	public function testArbitaryUrl()
+	public function testArbitraryUrl()
 	{
 		$urlValidator = new CUrlValidator();
-		$url = 'http://testing-arbitary-domain.com/';
+		$url = 'http://testing-arbitrary-domain.com/';
 		$result = $urlValidator->validateValue($url);
 		$this->assertEquals($url, $result);
 	}
@@ -172,5 +172,17 @@ class CUrlValidatorTest extends CTestCase
 		$urlValidator->allowEmpty = $allowEmpty;
 		$result = $urlValidator->validateValue($url);
 		$this->assertEquals($assertion, $result);
+	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/1955
+	 */
+	public function testArrayValue()
+	{
+		$model=new ValidatorTestModel('CUrlValidatorTest');
+		$model->url=array('http://yiiframework.com/');
+		$model->validate(array('url'));
+		$this->assertTrue($model->hasErrors('url'));
+		$this->assertEquals(array('Url is not a valid URL.'),$model->getErrors('url'));
 	}
 }

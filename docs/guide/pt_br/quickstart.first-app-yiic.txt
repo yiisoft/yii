@@ -1,0 +1,100 @@
+Geração de código utilizando a ferramenta de linha de comando (deprecated)
+=========================================
+
+> Note|Nota: O gerador de código em `yiic shell` foi descontinuado(deprecated) desde a 
+versão 1.1.2. Por favor, use o mais poderoso e extensível gerador de código disponíveis
+baseado na web [Gii](/doc/guide/topics.gii). 
+
+Abra a linha de comando e execute os comandos listados a seguir:
+
+~~~
+% cd WebRoot/testdrive
+% protected/yiic shell
+Yii Interactive Tool v1.1
+Please type 'help' for help. Type 'exit' to quit.
+>> model User tbl_user
+   generate models/User.php
+   generate fixtures/tbl_user.php
+   generate unit/UserTest.php
+
+The following model classes are successfully generated:
+    User
+
+If you have a 'db' database connection, you can test these models now with:
+    $model=User::model()->find();
+    print_r($model);
+
+>> crud User
+   generate UserController.php
+   generate UserTest.php
+   mkdir D:/testdrive/protected/views/user
+   generate create.php
+   generate update.php
+   generate index.php
+   generate view.php
+   generate admin.php
+   generate _form.php
+   generate _view.php
+
+Crud 'user' has been successfully created. You may access it via:
+http://hostname/path/to/index.php?r=user
+~~~
+
+Acima, utilizamos o comando `yiic shell` para interagir com nossa
+aplicação esqueleto. Na linha de comando, executamos dois subcomandos:
+`model User tbl_user` e `crud User`. O primeiro gera a classe modelo para a tabela
+`tbl_user`, enquanto que o segundo comando lê a classe modelo `User` e gera 
+o código necessário para as operações do tipo CRUD.
+
+> Note|Nota: Você poderá encontrar erros como "...could not find driver" ou "...driver não encontrado", 
+> mesmo que o verificador de requisitos mostre que você já tem o PDO ativado e o driver PDO
+> correspondente ao Banco de Dados. Caso isso ocorra, você deve tentar rodar a ferramenta
+> `yiic` do seguinte modo:
+>
+> ~~~
+> % php -c caminho/para/php.ini protected/yiic.php shell
+> ~~~
+>
+> onde `caminho/para/php.ini` representa o arquivo PHP.ini correto.
+
+Podemos ver nossa primeira aplicação pela seguinte URL:
+
+~~~
+http://nomedoservidor/testdrive/index.php?r=user
+~~~
+
+Essa página irá mostrar uma lista de entradas de usuários da tabela `tbl_user`.
+Se tabela estiver vazia, nada será exibido.
+
+Clique no link `New User` da página. Caso não esteja autenticado seremos
+levados à página de login. Uma vez logado, será exibido um formulário
+de entrada que permite adicionar um novo usuário. Preencha o formulário e
+clique sobre o botão `Create`. Se houver qualquer erro de entrada, um 
+erro será mostrado, o que nos impede de salvar os dados. Voltando à lista
+de usuários, iremos ver o recém adicionado usuário aparecendo na lista.
+
+Repita as etapas acima para adicionar novos usuários. Repare que a tabela de
+usuários será automaticamente paginada, caso existam muitos usuários a serem
+exibidos em uma página.
+
+Se logarmos como administrador utilizando o login/senha: `admin/admin`, veremos
+a página de administração de usuários pela seguinte URL:
+
+~~~
+http://nomedoservidor/testdrive/index.php?r=user/admin
+~~~
+
+Será mostrada uma tabela de usuários. Podemos clicar nas células do cabeçalho 
+para ordenar as colunas correspondentes. E como na página de listagem dos usuários,
+a página de administração dos usuários também realiza a paginação quando existem
+muitos usuários a serem exibidos.
+
+Todas essas incríveis funcionalidades foram criadas sem escrever uma única linha de código!
+
+![Página de administração dos usuários](first-app6.png)
+
+![Página de criação de um novo usuário](first-app7.png)
+
+
+
+<div class="revision">$Id$</div>

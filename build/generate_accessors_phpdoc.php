@@ -6,12 +6,11 @@ $nClasses = 0;
 $nClassesTotal = 0;
 
 file_put_contents(
-    dirname(__FILE__) . '\phpdoc.txt',
-    getPhpDocForDir('D:\Web\libs-dev\yii\framework') . getPhpDocStats());
-    //getPhpDocForDir('D:\Web\libs\yii\framework') . getPhpDocStats());
-//echo getPhpDocForDir('D:\Web\libs\yii\framework');
-//echo getPhpDocForDir('D:\Web\libs\yii\framework\caching');
-//echo getPhpDocForFile('D:\Web\libs\yii\framework\base\CModel.php');
+    dirname(__FILE__) . '/phpdoc.txt',
+	getPhpDocForDir(dirname(dirname(__FILE__)) . '/framework') . getPhpDocStats()
+//	getPhpDocForDir(dirname(dirname(__FILE__)) . '/framework/caching') . getPhpDocStats()
+//	getPhpDocForDir(dirname(dirname(__FILE__)) . '/framework/base/CModel.php') . getPhpDocStats()
+);
 
 function getPhpDocStats()
 {

@@ -260,5 +260,3 @@ class Post extends CActiveRecord
 с ключами, равными соответствующим им значениям), мы можем воспользоваться кодом
 `Lookup::items('PostStatus')`. А для получения конкретной строки — кодом
 `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)`.
-
-<div class="revision">$Id: post.model.txt 3366 2011-08-03 21:24:26Z alexander.makarow $</div>

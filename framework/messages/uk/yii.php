@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()' => 'CHttpCacheFilter.lastModified містить значення, яке не може бути зрозумілим strtotime()',
@@ -253,5 +251,15 @@ return array (
   '{controller} cannot find the requested view "{view}".' => 'Контролер {controller} не може знайти представлення "{view}".',
   '{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.' => 'Контролер {controller} містить у своєму представленні "{view}" теги віджетів із невірною вкладеністю. У віджеті {widget} не використовується виклик endWidget().',
   '{controller} has an extra endWidget({id}) call in its view.' => 'У представленні контролера {controller} виявлено зайвий виклик endWidget({id}).',
+  '{n} B' => '{n} Б',
+  '{n} byte|{n} bytes' => '{n} байт|{n} байта|{n} байтів|{n} байта',
+  '{n} GB' => '{n} ГБ',
+  '{n} gigabyte|{n} gigabytes' => '{n} гігабайт|{n} гігабайта|{n} гігабайтів|{n} гігабайта',
+  '{n} KB' => '{n} КБ',
+  '{n} kilobyte|{n} kilobytes' => '{n} кілобайт|{n} кілобайта|{n} кілобайтів|{n} кілобайта',
+  '{n} MB' => '{n} МБ',
+  '{n} megabyte|{n} megabytes' => '{n} мегабайт|{n} мегабайта|{n} мегабайтів|{n} мегабайта',
+  '{n} TB' => '{n} ТБ',
+  '{n} terabyte|{n} terabytes' => '{n} терабайт|{n} терабайта|{n} терабайтів|{n} терабайта',
   '{widget} cannot find the view "{view}".' => 'Віджет {widget} не може знайти представлення "{view}".',
 );

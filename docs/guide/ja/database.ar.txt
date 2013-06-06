@@ -585,4 +585,3 @@ $contents=Content::model()->findAll();
 > これらは、`INSERT`、`UPDATE`、`DELETE` クエリに対しては無視されます。
 > さらに、デフォルトスコープまたは名前付きスコープを宣言するとき、そのスコープを宣言するメソッドの中では AR クラスを使って DB クエリを作成することが出来ません。
 
-<div class="revision">$Id$</div>

@@ -15,17 +15,15 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
-  'The property updateSelector should be defined.' => 'Η ιδιότητα updateSelector πρέπει να οριστεί.',
+  'The property filterSelector should be defined.' => 'Πρέπει να οριστεί η ιδιότητα filterSelector.',
   'Are you sure you want to delete this item?' => 'Είστε σίγουρος ότι θέλετε να διαγράψετε το αντικείμενο;',
   'Delete' => 'Διαγραφή',
-  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Εμφάνιση {start}-{end} από {count} των αποτελεσμάτων.',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Εμφάνιση {start}-{end} από 1 αποτέλεσμα.|Εμφάνιση {start}-{end} από {count} αποτελέσματα.',
   'Either "name" or "value" must be specified for CDataColumn.' => 'Πρέπει να οριστεί είτε το "όνομα" είτε η "τιμή" για το CDataColumn.',
-  'Home' => 'Αρχή',
-  'No results found.' => 'Δεν υπάρχουν αποτελέσματα.',
+  'Home' => 'Αρχική',
+  'No results found.' => 'Δε βρέθηκαν αποτελέσματα.',
   'Not set' => 'Δεν έχει οριστεί',
   'Please specify the "attributes" property.' => 'Καθορίστε την ιδιότητα "attributes".',
   'Please specify the "data" property.' => 'Καθορίστε την ιδιότητα "data".',
@@ -35,7 +33,8 @@ return array (
   'The button type "{type}" is not supported.' => 'Ο τύπος κουμπιού "{type}" δεν υποστηρίζεται.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Η στήλη πρέπει να οριστεί στη μορφή "Όνομα:Τύπος:Ετικέτα", όπου "Τύπος" και "Ετικέτα" είναι προαιρετικά.',
   'The property "itemView" cannot be empty.' => 'Η ιδιότητα "itemView" δεν μπορεί να μην έχει τιμή.',
-  'Total 1 result.|Total {count} results.' => 'Συνολικά {count} αποτελέσματα.',
+  'The property updateSelector should be defined.' => 'Πρέπει να οριστεί η ιδιότητα updateSelector.',
+  'Total 1 result.|Total {count} results.' => 'Συνολικά 1 αποτέλεσμα.|Συνολικά {count} αποτελέσματα.',
   'Update' => 'Ενημέρωση',
   'View' => 'Εμφάνιση',
   '{class} must specify "model" and "attribute" or "name" property values.' => 'Το {class} πρέπει να ορίζει τις ιδιότητες "model" και "attribute" ή "name".',

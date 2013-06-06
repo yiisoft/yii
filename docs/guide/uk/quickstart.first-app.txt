@@ -249,5 +249,3 @@ http://hostname/testdrive/index.php?r=user/admin
 ![Сторінка управління користувачами](first-app6.png)
 
 ![Сторінка додавання нового користувача](first-app7.png)
-
-<div class="revision">$Id: quickstart.first-app.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>

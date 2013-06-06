@@ -5,6 +5,9 @@ require_once dirname(__FILE__) . '/NewBehavior.php';
 require_once dirname(__FILE__) . '/NewBeforeValidateBehavior.php';
 require_once dirname(__FILE__) . '/NewFormModel.php';
 
+require_once dirname(__FILE__) . '/BehaviorTestController.php';
+require_once dirname(__FILE__) . '/TestBehavior.php';
+
 class CBehaviorTest extends CTestCase {
 
 	public function testAttachBehavior() {
@@ -48,4 +51,45 @@ class CBehaviorTest extends CTestCase {
         $model->enableBehaviors();
         $model->validate();
     }
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/162
+	 */
+	public function testDuplicateEventHandlers()
+	{
+		$controller = new BehaviorTestController('behaviorTest');
+
+		$b = new TestBehavior();
+		$this->assertFalse($b->enabled);
+
+		$b->attach($controller);
+		$this->assertTrue($b->enabled);
+
+		$b->setEnabled(true);
+		$this->assertTrue($b->enabled);
+
+		$controller->onTestEvent();
+		$this->assertEquals(1, $controller->behaviorEventHandled);
+
+		$b->setEnabled(false);
+		$this->assertFalse($b->enabled);
+		$controller->onTestEvent();
+		$this->assertEquals(1, $controller->behaviorEventHandled);
+
+		$b->setEnabled(true);
+		$this->assertTrue($b->enabled);
+		$controller->onTestEvent();
+		$this->assertEquals(2, $controller->behaviorEventHandled);
+
+		$b->detach($controller);
+		$this->assertFalse($b->enabled);
+		$controller->onTestEvent();
+		$this->assertEquals(2, $controller->behaviorEventHandled);
+
+		$b->setEnabled(true);
+		$this->assertTrue($b->enabled);
+		$controller->onTestEvent();
+		$this->assertEquals(2, $controller->behaviorEventHandled);
+	}
 }
+

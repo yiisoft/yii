@@ -1,0 +1,431 @@
+驗證和授權
+================================
+
+對於需要限制某些使用者存取的網頁，我們需要使用驗證和授權。驗證是指核查一個人是否真的是他自己所宣稱的那個人。這通常需要一個使用者名和密碼，但也包括任何其它可以表明身份的方式，例如一個智慧卡、指紋等等。授權則是找出已透過驗證的使用者是否允許操作特定的資源。這一般是透過查詢此使用者是否屬於一個有權存取該資源的角色來判斷的。
+
+Yii 有一個內建的驗證/授權框架，用起來很方便，還能對其進行自定，使其符合特殊的需求。
+
+Yii 驗證框架的核心是一個預先定義的 *使用者應用程式元件*，它是一個實現了 [IWebUser] 介面的物件。此使用者元件代表當前使用者的持續性認證訊息。我們可以透過 `Yii::app()->user` 在任何地方存取它。
+
+使用此使用者元件，我們可以透過 [CWebUser::isGuest] 檢查檢查一個使用者是否已經登入；我們可以 [登入|CWebUser::login] 或 [登出|CWebUser::logout] 一個使用者；我們可以透過 [CWebUser::checkAccess] 檢查此使用者是否可以執行特定的操作；還可以取得此使用者的 [唯一辨識符號|CWebUser::name] 及其它持續性身份訊息。
+
+
+定義身分類別
+-----------------------
+
+如上所述，驗證是用來檢驗一個使用者個身份。實作一個典型的網路應用程式授權通常包含了使用者名稱和密碼的結合來驗證使用者的身份。然而，他可能包含其它的方法且需要不同的實作方法。為了達到驗證的方法，Yii 驗證框架帶來了身份類別。
+
+我們定義一個包含真實的驗證邏輯的身份類別。這個身份類別必須實作 [IUserIdentity] 介面。不同的身份類別可以用不同的驗證方法（例如： OpenID、LDAP、Twitter OAuth、Facebook Connect）來實作。擴展 [CUserIdentity] 來時做你的身分驗證是一個好的開始，他是一個使用名稱和密碼來驗證的基礎類別。
+
+定義一個身份類別的主要工作是實作 [IUserIdentity::authenticate] 方法，它是用來封裝驗證的詳細過程。一個身份類別可能也會宣告一些額外的持續性的身份訊息。
+
+#### 範例
+
+下面的例子，我們使用一個身份類別來示範如何使用資料庫來做驗證。這是一個典型的網路應用程式，一個使用者會輸入它的名稱和密碼再登入表單裡，然後驗證這些資料，使用 [ActiveRecord](/doc/guide/database.ar)，在資料庫中的一個使用者資料表。除此之外，還有一些需要注意的事情在這個範例中：
+
+1. 實作 `authenticate()` 藉由資料庫來驗證。
+2. 覆寫 `CUserIdentity::getId()` 方法來回傳 `_id` 屬性，因為預設是回傳使用者名稱來當作識別。
+3. 使用 `setState()` ([CBaseUserIdentity::setState]) 方法來示範如何儲存額外的資料，提供給後來的請求來存取。
+
+~~~
+[php]
+class UserIdentity extends CUserIdentity
+{
+	private $_id;
+	public function authenticate()
+	{
+		$record=User::model()->findByAttributes(array('username'=>$this->username));
+		if($record===null)
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+		else if($record->password!==md5($this->password))
+			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+		else
+		{
+			$this->_id=$record->id;
+			$this->setState('title', $record->title);
+			$this->errorCode=self::ERROR_NONE;
+		}
+		return !$this->errorCode;
+    }
+
+	public function getId()
+	{
+		return $this->_id;
+	}
+}
+~~~
+
+在下一個章節中介紹登入和登出，我們會看到如何傳送身份類別給登入方法。作為狀態儲存的訊息（透過調用 [CBaseUserIdentity::setState] ）將被傳遞給 [CWebUser]。而後者則把這些訊息存放在一個持續性儲存媒介上，例如 session。我們可以把這些訊息當作 [CWebUser] 的屬性來使用。例如，我們透過 `$this->setState('title', $record->title);` 來儲存使用者標題資訊。一旦完成了登入程序，我們只要透過 `Yii::app()->user->title` 就可以取得當前使用者的 `title` 資訊。
+
+> info|提示: 預設情況下，[CWebUser] 用 session 來儲存使用者身份訊息。如果允許基於 cookie 方式登入（透過設置 [CWebUser::allowAutoLogin] 為 true），使用者身份訊息將被存放在 cookie 中。切記敏感訊息不要存放（例如：密碼）。
+
+### 在資料庫中儲存密碼
+
+安全的儲存使用者密碼在資料庫中需要特別注意，一個攻擊者竊取了你的使用者資料表（或是備份）可以藉由一些技術來覆蓋你的密碼，如果沒有保護他們。你應該要在加密密碼前給他加料，並且使用雜湊函式來拖延攻擊者。上述的範例使用 PHP 內建的 `crypt()` 函式，正確的使用會使得它非常難以破解。
+
+延伸閱讀＞
+
+- [PHP `crypt()` function](http://php.net/manual/en/function.crypt.php)
+- Yii 維基文章 [Use crypt() for password storage](http://www.yiiframework.com/wiki/425)
+
+
+登入和登出
+----------------
+
+接下來將示範如何建立一個使用者身分，我們使用它來幫我們我們實作需要的登入和登出動作。如下所示：
+
+~~~
+[php]
+// 使用提供的使用者名和密碼登入使用者
+$identity=new UserIdentity($username,$password);
+if($identity->authenticate())
+	Yii::app()->user->login($identity);
+else
+	echo $identity->errorMessage;
+......
+// 登出當前使用者
+Yii::app()->user->logout();
+~~~
+
+接下來，我們要建立一個新的 UserIdentity 物件，並且將認證的資訊（例如：使用者輸入的 `$username` 和 `$password` ）傳給他的建構器。然後，我們只需要呼叫 `authenticate()` 方法。如果成功，傳送身分資訊給 [CWebUser::login] 方法，它會把這些資訊到儲存一個持續性的儲存裝置（預設是 PHP session）給接下來的需求存取。如果認證失敗，我們可以透過 `errorMessage` 屬性提供更多資訊以及為什麼會失敗。
+
+要檢查一個使用者是否已經認證成功，只要簡單的透過 `Yii::app()->user->isGuest` 就可以檢查出來。如果使用像是 session 的持續性儲存裝置（預設）或是 cookie（稍後討論）來儲存身分資訊，使用者可以不用再重新登入來下請求。這種情況下，我們不需要使用 UserIdentity 類別和完整的登入程序。CWebUser 會自動的把身分資訊從持續性儲存裝置載入，並透過他來判斷 `Yii::app()->user->isGuest` 的回傳是 true 或是 false。.
+
+
+基於 Cookie 的登入
+------------------
+
+預設情況下，使用者將在 [session configuration](http://www.php.net/manual/en/session.configuration.php)一段時間沒有活動後登出。設置使用者元件的 [allowAutoLogin|CWebUser::allowAutoLogin] 屬性為 true 和在 [CWebUser::login] 方法中設置一個時間參數來改變這個行為。即使使用者關閉瀏覽器，此使用者將保留使用者登入狀態時間為被設置的時間之久。前提是使用者的瀏覽器接受 cookies。
+
+~~~
+[php]
+// 保留使用者登入狀態時間 7 天
+// 確保使用者元件的 allowAutoLogin 被設置為 true。
+Yii::app()->user->login($identity,3600*24*7);
+~~~
+
+如上所述，當 cookie-based 登入被啟動，透過 [CBaseUserIdentity::setState] 儲存的狀態會被儲存在 cookie 裡。下一次使用者登入時，這些狀態會透過 `Yii::app()->user` 從 cookie 讀取出來。
+
+雖然 Yii 已經盡量避免 cookie 的狀態被用戶端竄改，還是強烈的建議安全性敏感的資訊不要儲存成狀態。反而應該把這些資訊儲存在伺服器端的持續性儲存裝置（例如：資料庫），並藉由讀取的方式來取得。
+
+除此之外，對一個嚴謹的網路應用程式，我們建議使用下述的策略來加強 cookie-based 登入的安全性。
+
+* 當一個使用者成功地透過填寫表單來登入，產生一組隨機的鑰匙並儲存在 cookie 狀態和伺服器端的持續性儲存裝置（例如：資料庫）
+
+* 對於後續的請求，當使用認證已經透過 cookie 完成，讓使用者在登入前，比對 cookie 狀態和持續性儲存裝置中的隨機鑰匙。
+
+*如果使用者再次透過登入表單登入，鑰匙也必須重新產生。
+
+藉由上述的策略，可以避免使用者使用舊 cookie 的過期的狀態資訊的可能性。
+
+為了實作上述的策略，我們需要覆蓋下述兩個方法：
+
+* [CUserIdentity::authenticate()]: 真正的認證會在這裡進行。如果使用者已經認證成功，必須重新產生一組新的隨機鑰匙，並同時儲存身分資訊在資料庫和 [CBaseUserIdentity::setState] 儲存狀態。
+
+* [CWebUser::beforeLogin()]: 當使用登入成功會被呼叫。必須檢查從 cookie 取得的狀態是否與資料庫相同。
+
+
+存取控制篩選器
+---------------------
+
+存取控制篩選器是檢查當前使用者是否能執行存取的控制器動作的初步授權模式。這種授權模式基於使用者名稱、客戶 IP 位址和存取類型。篩選器是由 ["accessControl"|CController::filterAccessControl] 所提供的。
+
+> Tip|提示: 存取控制篩選器適用於簡單的驗證。複雜的存取控制，需要使用將要講解到的基於角色的存取控制（RBAC）。
+
+在控制器裡重載 [CController::filters] 方法安裝存取篩選器來控制存取動作（前往
+[Filter](/doc/guide/basics.controller#filter) 瞭解更多篩選器安裝訊息)。
+
+~~~
+[php]
+class PostController extends CController
+{
+	......
+	public function filters()
+	{
+		return array(
+			'accessControl',
+		);
+	}
+}
+~~~
+
+在上面，設置的 [accesscontrol|CController::filterAccessControl] 篩選器將應用於 `PostController` 裡每個動作。篩選器具體的授權規則透過重載控制器的 [CController::accessRules] 方法來指定。
+
+~~~
+[php]
+class PostController extends CController
+{
+	......
+	public function accessRules()
+	{
+		return array(
+			array('deny',
+				'actions'=>array('create', 'edit'),
+				'users'=>array('?'),
+			),
+			array('allow',
+				'actions'=>array('delete'),
+				'roles'=>array('admin'),
+			),
+			array('deny',
+				'actions'=>array('delete'),
+				'users'=>array('*'),
+			),
+		);
+	}
+}
+~~~
+
+上面設定了三個規則，都使用個陣列表示。陣列的第一個元素不是 `'allow'` 就是 `'deny'`，其它是名-值配對形式設置的規則參數的。上面的規則理解成：`create` 和 `edit` 動作不能被匿名執行；`delete` 動作可以被 `admin` 角色的使用者執行；`delete` 動作不能被任何人執行。
+
+存取規則是一個一個按照設定的順序一個一個來執行判斷的。和當前判斷模式（例如：使用者名、角色、客戶端IP、地址）相匹配的第一條規則決定授權的結果。如果這個規則是 `allow`，則動作可執行；如果是 `deny`，不能執行；如果沒有規則匹配，動作可以執行。
+
+> Info|提示: 為了確保某類別動作在沒允許情況下不被執行，設置一個匹配所有人的 `deny` 規則在最後，類別似如下：
+
+> ~~~
+> [php]
+> return array(
+>     // ... 別的規則...
+>     // 以下匹配所有人規則拒絕 'delete' 動作
+>     array('deny',
+>         'action'=>'delete',
+>     ),
+> );
+> ~~~
+> 因為如果沒有設置規則匹配動作，動作預設會被執行。
+
+存取規則透過如下的內文參數設置：
+
+   - [actions|CAccessRule::actions]: 設置哪個動作匹配此規則。
+
+   - [users|CAccessRule::users]: 設置哪個使用者匹配此規則。此當前使用者的 [name|CWebUser::name] 被用來匹配。三種設定字符在這裡可以用：
+
+	   - `*`: 任何使用者，包括匿名和驗證透過的使用者。
+	   - `?`: 匿名使用者。
+	   - `@`: 驗證透過的使用者。
+
+   - [roles|CAccessRule::roles]: 設定哪個角色匹配此規則。這裡用到了將在後面描述的 [role-based access control](#role-based-access-control) 技術。這規則會在當 [CWebUser::checkAccess] 回傳某個腳色為 true 時而使用。注意，設定腳色應該以 `allow` 規則為主，因為定義上，一個腳色表示對某些東西的權限。除此之外，雖然我們使用 `roles` 這個詞彙，事實上，他的值可以是任何驗證項目，包括腳色、任務和操作。
+
+   - [ips|CAccessRule::ips]: 設定哪個客戶端 IP 匹配此規則。
+
+   - [verbs|CAccessRule::verbs]: 設定哪種請求類別型（例如：`GET`、`POST`）匹配此規則。
+
+   - [expression|CAccessRule::expression]: 設定一個PHP表達式。它的值用來表明這條規則是否適用。在表達式，你可以使用一個叫 `$user` 的變數，它代表的是`Yii::app()->user`。
+
+
+### 處理授權結果
+
+當授權失敗，即使用者不允許執行此動作，以下的兩種可能將會產生：
+
+   - 如果使用者沒有登入且在使用者元件中設定了 [loginUrl|CWebUser::loginUrl]，瀏覽器將導向網頁到此設定 URL。
+
+   - 否則一個錯誤程式碼 401 的 HTTP 例外將顯示。
+
+設定 [loginUrl|CWebUser::loginUrl] 屬性，可以用相對和絕對 URL。還可以使用陣列透過 [CWebApplication::createUrl]來產生 URL。第一個元素將設置 [route](/doc/guide/basics.controller#route) 為登入控制器動作，其它為名-值配對形式的 GET 參數。如下，
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		'user'=>array(
+			// 這實際上是預設值
+			'loginUrl'=>array('site/login'),
+		),
+	),
+)
+~~~
+
+如果瀏覽器導向到登入頁面，而且登入成功，我們將導向瀏覽器到引起驗證失敗的頁面。我們怎麼知道這個值呢？我們可以透過使用者元件的 [returnUrl|CWebUser::returnUrl] 屬性獲得。我們因此可以用如下執行重新導向：
+
+~~~
+[php]
+Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+~~~
+
+
+基於角色的存取控制
+-------------------------
+
+基於角色的存取控制提供了一種簡單而又強大的集中存取控制。請參閱 [維基文章](http://en.wikipedia.org/wiki/Role-based_access_control) 瞭解更多詳細的 RBAC 與其它較傳統的存取控制模式的比較。
+
+Yii 透過其 [authManager|CWebApplication::authManager] 元件實現了分等級的 RBAC 架構。在下文中，我們將首先介紹在此架構中用到的主要概念。然後講解怎樣定義用於授權的資料。最後，我們看看如何利用這些授權資料執行存取檢查。
+
+
+### 概觀
+
+在 Yii 的 RBAC 中，一個基本的概念是 *授權項目（authorization item）*。一個授權項目就是一個做某件事的權限（例如新帖發佈，使用者管理）。根據其密度和目標群眾，授權項目可分為 *操作（operations）*、*任務（tasks）* 和 *角色（roles）*。一個角色由若干任務組成，一個任務由若干操作組成， 而一個操作就是一個許可，不可再分。例如，我們有一個系統，它有一個 `管理員` 角色，它由 `文章管理` 和 `使用者管理` 任務組成。`使用者管理` 任務可以包含 `建立使用者`、`修改使用者` 和 `刪除使用者` 操作組成。為保持靈活性，Yii 還允許一個角色包含其它角色或操作，一個任務可以包含其它操作，一個操作可以包括其它操作。
+
+授權項目是透過它的名字唯一識別的。
+
+一個授權項目可能與一個 *商業規則* 關聯。商業規則是一段 PHP 程式碼，在進行涉及授權項目的存取檢查時將會被執行。僅在執行返回 true 時，使用者才會被視為擁有此授權項目所代表的權限許可。例如，當定義一個 `updatePost（更新文章）` 操作時，我們可以增加一個檢查當前使用者 ID 是否與此文章的作者 ID 相同的商業規則，這樣，只有作者自己才有更新文章的權限。
+
+透過授權項目，我們可以構建一個 *授權階層*。在階層中，如果項目 `A` 由另外的項目 `B` 組成（或者說 `A` 繼承了 `B` 所代表的權限），則 `A` 就是 `B` 的父項目。一個授權項目可以有多個子項目，也可以有多個父項目。因此，授權階層是一個偏序圖形架構，而不是一種樹狀架構。在這種階層中，角色項目位於最頂層，操作項目位於最底層，而任務項目位於兩者之間。
+
+一旦有了授權階層，我們就可以將此階層中的角色分配給使用者。而一個使用者一旦被賦予一個角色，他就會擁有此角色所代表的權限。例如，如果我們賦予一個使用者 `管理員` 的角色，他就會擁有管理員的權限，包括 `文章管理` 和 `使用者管理` （以及相應的操作，例如 `建立使用者`）。
+
+現在有趣的部分開始了，在一個控制器動作中，我們想檢查當前使用者是否可以刪除指定的文章。利用 RBAC 階層和分配，可以很容易做到這一點。如下：
+
+~~~
+[php]
+if(Yii::app()->user->checkAccess('deletePost'))
+{
+	// 刪除此帖
+}
+~~~
+
+
+授權管理器
+---------------------------------
+
+在我們準備定義一個授權階層並執行存取權限檢查之前，我們需要設定一下 [authManager|CWebApplication::authManager] 應用程式元件。Yii 提供了兩種授權管理器：  [CPhpAuthManager] 和 [CDbAuthManager]。前者將授權資料儲存在一個 PHP 腳本文件中而後者儲存在資料庫中。設定 [authManager|CWebApplication::authManager] 應用程式元件時，我們需要指定使用哪個授權管理器元件類別，以及所選授權管理器元件的初始化屬性值。例如：
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'sqlite:path/to/file.db',
+		),
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'connectionID'=>'db',
+		),
+	),
+);
+~~~
+
+然後，我們便可以使用 `Yii::app()->authManager` 存取 [authManager|CWebApplication::authManager] 應用程式元件。
+
+
+定義授權階層
+--------------------------------
+
+定義授權等級體總共分三步驟：定義授權項目、建立授權項目之間的關係以及分配角色給使用者。
+[authManager|CWebApplication::authManager] 應用程式元件提供了用於完成這三項任務的一系列 API 。
+
+要定義一個授權項目，可調用下列方法之一，具體取決於項目的類型：
+
+   - [CAuthManager::createRole]
+   - [CAuthManager::createTask]
+   - [CAuthManager::createOperation]
+
+建立授權項目之後，我們就可以調用下列方法建立授權項目之間的關係：
+
+   - [CAuthManager::addItemChild]
+   - [CAuthManager::removeItemChild]
+   - [CAuthItem::addChild]
+   - [CAuthItem::removeChild]
+
+最後，我們調用下列方法將角色分配給使用者。
+
+   - [CAuthManager::assign]
+   - [CAuthManager::revoke]
+
+下面的程式碼展示了使用 Yii 提供的 API 構建一個授權階層的例子：
+
+~~~
+[php]
+$auth=Yii::app()->authManager;
+
+$auth->createOperation('createPost','create a post');
+$auth->createOperation('readPost','read a post');
+$auth->createOperation('updatePost','update a post');
+$auth->createOperation('deletePost','delete a post');
+
+$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
+$task->addChild('updatePost');
+
+$role=$auth->createRole('reader');
+$role->addChild('readPost');
+
+$role=$auth->createRole('author');
+$role->addChild('reader');
+$role->addChild('createPost');
+$role->addChild('updateOwnPost');
+
+$role=$auth->createRole('editor');
+$role->addChild('reader');
+$role->addChild('updatePost');
+
+$role=$auth->createRole('admin');
+$role->addChild('editor');
+$role->addChild('author');
+$role->addChild('deletePost');
+
+$auth->assign('reader','readerA');
+$auth->assign('author','authorB');
+$auth->assign('editor','editorC');
+$auth->assign('admin','adminD');
+~~~
+
+建立此授權階層後，[authManager|CWebApplication::authManager] 元件（例如 [CPhpAuthManager]、[CDbAuthManager]）
+就會自動加載授權項目。因此，我們只需要運行上述程式碼一次，並不需要在每個請求中都要運行。
+
+> Info|訊息: 上面的範例看起來冗長乏味，它主要用於展示的目的。開發者通常需要開發一些用於管理的使用者界面，這樣最終使用者可以透過界面更直觀地建立一個授權階層。
+
+
+使用商業規則
+--------------------
+
+在定義授權階層時，我們可以將 *商業規則* 關聯到一個角色，一個任務，或者一個操作。我們也可以在為一個使用者分配角色時關聯一個商業規則。一個商業規則就是一段 PHP 程式碼，在我們執行權限檢查時被執行。程式碼返回的值用來決定是否將角色或分配應用程式到當前使用者。在上面的例子中，我們把一條商業規則關聯到了 `updateOwnPost` 任務。在商業規則中，我們簡單的檢查了當前使用者的 ID 是否與指定文章的作者 ID 相同。`$params` 陣列中的文章訊息由開發者在執行權限檢查時提供。
+
+
+### 權限檢查
+
+要執行權限檢查，我們首先需要知道授權項目的名字。例如，要檢查當前使用者是否可以建立文章，我們需要檢查他是否擁有 `createPost` 所表示的權限。然後我們調用 [CWebUser::checkAccess] 執行權限檢查：
+
+~~~
+[php]
+if(Yii::app()->user->checkAccess('createPost'))
+{
+	// 建立文章
+}
+~~~
+
+如果授權規則關聯了一條需要額外參數的商業規則，我們也可以傳遞給它。例如，要檢查一個使用者是否可以更新文章，我們可以透過 `$params` 傳遞文章的資料：
+
+~~~
+[php]
+$params=array('post'=>$post);
+if(Yii::app()->user->checkAccess('updateOwnPost',$params))
+{
+	// 更新文章
+}
+~~~
+
+
+### 使用預設角色
+
+許多網路應用程式需要一些可以分配給系統中所有或大多數使用者的比較特殊的角色。例如，我們可能想要分配一些權限給所有已透過身份驗證的使用者。如果我們特意指定並儲存這些角色分配，就會引起很多維護上的麻煩。我們可以利用 *預設角色* 解決這個問題。
+
+預設角色就是一個隱含地分配給每個使用者的角色，這些使用者包括透過身份驗證的使用者和遊客。我們不需要清楚地地將其分配給一個使用者。當 [CWebUser::checkAccess] 被調用時，將會首先檢查預設的角色，就像它已經被分配給這個使用者一樣。
+
+預設角色必須定義在 [CAuthManager::defaultRoles] 屬性中。例如，下面的設定聲明了兩個角色為預設角色：`authenticated` 和 `guest`。
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'defaultRoles'=>array('authenticated', 'guest'),
+		),
+	),
+);
+~~~
+
+由於預設角色會被分配給每個使用者，它通常需要關聯一個商業規則以確定角色是否真的要應用程式到使用者。例如，下面的程式碼定義了兩個角色， `authenticated` 和 `guest`，很有效率地分別應用到已透過身份驗證的使用者和遊客使用者。
+
+~~~
+[php]
+$bizRule='return !Yii::app()->user->isGuest;';
+$auth->createRole('authenticated', 'authenticated user', $bizRule);
+
+$bizRule='return Yii::app()->user->isGuest;';
+$auth->createRole('guest', 'guest user', $bizRule);
+~~~
+
+<div class="revision">$Id$</div>

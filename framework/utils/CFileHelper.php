@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -26,12 +26,12 @@ class CFileHelper
 	 */
 	public static function getExtension($path)
 	{
-		return pathinfo($path, PATHINFO_EXTENSION);
+		return pathinfo($path,PATHINFO_EXTENSION);
 	}
 
 	/**
 	 * Copies a directory recursively as another.
-	 * If the destination directory does not exist, it will be created.
+	 * If the destination directory does not exist, it will be created recursively.
 	 * @param string $src the source directory
 	 * @param string $dst the destination directory
 	 * @param array $options options for directory copy. Valid options are:
@@ -47,6 +47,8 @@ class CFileHelper
 	 * Level 0 means copying only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
  	 * </li>
+	 * <li>newDirMode - the permission to be set for newly copied directories (defaults to 0777);</li>
+	 * <li>newFileMode - the permission to be set for newly copied files (defaults to the current environment setting).</li>
 	 * </ul>
 	 */
 	public static function copyDirectory($src,$dst,$options=array())
@@ -55,7 +57,31 @@ class CFileHelper
 		$exclude=array();
 		$level=-1;
 		extract($options);
+		if(!is_dir($dst))
+			self::mkdir($dst,$options,true);
+
 		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
+	}
+
+	/**
+	 * Removes a directory recursively.
+	 * @param string $directory to be deleted recursively.
+	 * @since 1.1.14
+	 */
+	public static function removeDirectory($directory)
+	{
+		$items=glob($directory.DIRECTORY_SEPARATOR.'{,.}*',GLOB_MARK | GLOB_BRACE);
+		foreach($items as $item)
+		{
+			if(basename($item)=='.' || basename($item)=='..')
+				continue;
+			if(substr($item,-1)==DIRECTORY_SEPARATOR)
+				self::removeDirectory($item);
+			else
+				unlink($item);
+		}
+		if(is_dir($directory))
+			rmdir($directory);
 	}
 
 	/**
@@ -110,11 +136,8 @@ class CFileHelper
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
-			mkdir($dst);
-		if(isset($options['newDirMode']))
-			@chmod($dst,$options['newDirMode']);
-		else
-			@chmod($dst,0777);
+			self::mkdir($dst,$options,false);
+
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
 		{
@@ -128,9 +151,9 @@ class CFileHelper
 				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						@chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
+						chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
 				}
-				else if($level)
+				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
 			}
 		}
@@ -167,7 +190,7 @@ class CFileHelper
 			{
 				if($isFile)
 					$list[]=$path;
-				else if($level)
+				elseif($level)
 					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
 			}
 		}
@@ -180,10 +203,10 @@ class CFileHelper
 	 * @param string $base the path relative to the original source directory
 	 * @param string $file the file or directory name
 	 * @param boolean $isFile whether this is a file
-	 * @param array $fileTypes list of file name suffix (without dot). Only files with these suffixes will be copied.
+	 * @param array $fileTypes list of valid file name suffixes (without dot).
 	 * @param array $exclude list of directory and file exclusions. Each exclusion can be either a name or a path.
-	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
-	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
+	 * If a file or directory name or path matches the exclusion, false will be returned. For example, an exclusion of
+	 * '.svn' will return false for all files and directories whose name is '.svn'. And an exclusion of '/a/b' will return false for
 	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
 	 * @return boolean whether the file or directory is valid
 	 */
@@ -196,7 +219,7 @@ class CFileHelper
 		}
 		if(!$isFile || empty($fileTypes))
 			return true;
-		if(($type=pathinfo($file, PATHINFO_EXTENSION))!=='')
+		if(($type=pathinfo($file,PATHINFO_EXTENSION))!=='')
 			return in_array($type,$fileTypes);
 		else
 			return false;
@@ -213,7 +236,9 @@ class CFileHelper
 	 * @param string $file the file name.
 	 * @param string $magicFile name of a magic database file, usually something like /path/to/magic.mime.
 	 * This will be passed as the second parameter to {@link http://php.net/manual/en/function.finfo-open.php finfo_open}.
-	 * This parameter has been available since version 1.1.3.
+	 * Magic file format described in {@link http://linux.die.net/man/5/magic man 5 magic}, note that this file does not
+	 * contain a standard PHP array as you might suppose. Specified magic file will be used only when fileinfo
+	 * PHP extension is available. This parameter has been available since version 1.1.3.
 	 * @param boolean $checkExtension whether to check the file extension in case the MIME type cannot be determined
 	 * based on finfo and mime_content_type. Defaults to true. This parameter has been available since version 1.1.4.
 	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
@@ -246,15 +271,41 @@ class CFileHelper
 	 */
 	public static function getMimeTypeByExtension($file,$magicFile=null)
 	{
-		static $extensions;
-		if($extensions===null)
-			$extensions=$magicFile===null ? require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php') : $magicFile;
-		if(($ext=pathinfo($file, PATHINFO_EXTENSION))!=='')
+		static $extensions,$customExtensions=array();
+		if($magicFile===null && $extensions===null)
+			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
+		elseif($magicFile!==null && !isset($customExtensions[$magicFile]))
+			$customExtensions[$magicFile]=require($magicFile);
+		if(($ext=pathinfo($file,PATHINFO_EXTENSION))!=='')
 		{
 			$ext=strtolower($ext);
-			if(isset($extensions[$ext]))
+			if($magicFile===null && isset($extensions[$ext]))
 				return $extensions[$ext];
+			elseif($magicFile!==null && isset($customExtensions[$magicFile][$ext]))
+				return $customExtensions[$magicFile][$ext];
 		}
 		return null;
+	}
+
+	/**
+	 * Shared environment safe version of mkdir. Supports recursive creation.
+	 * For avoidance of umask side-effects chmod is used.
+	 *
+	 * @param string $dst path to be created
+	 * @param array $options newDirMode element used, must contain access bitmask
+	 * @param boolean $recursive whether to create directory structure recursive if parent dirs do not exist
+	 * @return boolean result of mkdir
+	 * @see mkdir
+	 */
+	private static function mkdir($dst,array $options,$recursive)
+	{
+		$prevDir=dirname($dst);
+		if($recursive && !is_dir($dst) && !is_dir($prevDir))
+			self::mkdir(dirname($dst),$options,true);
+
+		$mode=isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
+		$res=mkdir($dst, $mode);
+		chmod($dst,$mode);
+		return $res;
 	}
 }

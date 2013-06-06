@@ -139,5 +139,3 @@ public function actionError()
 `exception.ExceptionClassName` (в случае [CHttpException] к категории добавляется
 [код состояния|CHttpException::statusCode]). Для отслеживания ошибок, возникающих в процессе
 выполнения приложения, можно использовать функционал [журналирования](/doc/guide/topics.logging).
-
-<div class="revision">$Id: topics.error.txt 3374 2011-08-05 23:01:19Z alexander.makarow $</div>

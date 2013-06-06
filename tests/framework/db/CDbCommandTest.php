@@ -4,6 +4,7 @@ Yii::import('system.db.CDbConnection');
 
 class CDbCommandTest extends CTestCase
 {
+	/** @var CDbConnection */
 	private $_connection;
 
 	public function setUp()
@@ -224,16 +225,31 @@ class CDbCommandTest extends CTestCase
 		$command->queryScalar();
 	}
 
-	public function testFetchMode(){
+	public function testFetchModeDefault()
+	{
 		$sql='SELECT * FROM posts';
 		$command=$this->_connection->createCommand($sql);
 		$result = $command->queryRow();
 		$this->assertTrue(is_array($result));
+	}
 
+	public function testFetchModeObject()
+	{
 		$sql='SELECT * FROM posts';
 		$command=$this->_connection->createCommand($sql);
 		$command->setFetchMode(PDO::FETCH_OBJ);
 		$result = $command->queryRow();
 		$this->assertTrue(is_object($result));
 	}
+
+	public function testFetchModeClass()
+	{
+		$sql='SELECT * FROM posts';
+		$command=$this->_connection->createCommand($sql);
+		$command->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'TestClass');
+		$result = $command->queryRow();
+		$this->assertTrue($result instanceof TestClass);
+	}
 }
+
+class TestClass {}

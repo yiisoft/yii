@@ -81,6 +81,25 @@ array(
 二番目のルートは [CEmailLogRoute] で、指定されたメールアドレス宛にメッセージを送信します。
 このルートでは、レベルが `error` か `warning` のものだけが送信されます。
 
+さらに高度な例として、特定のカテゴリがログに出現するのを抑止する方法を以下に示します
+( Yii 1.1.13 以降で利用可能になった except プロパティを使います )。
+
+~~~
+[php]
+	'routes'=>array(
+		array(
+			'class'=>'CEmailLogRoute',
+			'levels'=>'error, warning',
+			'except'=>'system.CModule.*' // CModule のログ以外をすべてメールで送信
+			'emails'=>'admin@example.com',
+		),
+		array(
+			'class'=>'CWebLogRoute',
+			'categories'=>'system.db.*',
+			'except'=>'system.db.ar.*', // すべてのレベルの db ログを表示 (ただし ar カテゴリは除外)
+		),
+~~~
+
 Yii では以下のログルートが利用可能です。
 
    - [CDbLogRoute]: メッセージをデータベースに保存する
@@ -133,7 +152,7 @@ array(
 					'levels'=>'error',
 					'filter'=>'CLogFilter',
 				),
-				...other log routes...
+				... 他のログルート ...
 			),
 		),
 	),
@@ -156,12 +175,12 @@ Yii は、`Yii::trace` の呼出しによって記録されるメッセージに
 パフォーマンスのボトルネックがどこにあるかを見つけ出します。
 
 パフォーマンスプロファイリングを使うには、どのコードブロックが計測されるのかを指定する必要があります。
-以下のメソッドを、ブロックの最初と最後に挿入することで印をつけます。
+以下のメソッドを、ブロックの最初と最後に挿入することでマークをつけます。
 
 ~~~
 [php]
 Yii::beginProfile('blockID');
-...計測対象のコードブロック...
+... 計測対象のコードブロック ...
 Yii::endProfile('blockID');
 ~~~
 
@@ -174,6 +193,30 @@ Yii::endProfile('blockID');
 プロファイルの結果を表示するには、[CLogRouter] アプリケーションコンポーネントをインストールする必要があります。
 これは通常のメッセージルーティングのときと同じです。
 [CProfileLogRoute] ルートが計測結果を現在のページの末尾に表示します。
+
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CProfileLogRoute',
+					'report'=>'summary',
+					// マークした全てのコードブロックの実行時間を表示
+					// report を callstack に設定することも可能
+				),
+				... 他のログルート ...
+			),
+		),
+	),
+)
+~~~
 
 SQL 実行をプロファイルする
 ------------------------

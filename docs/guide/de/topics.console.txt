@@ -257,4 +257,3 @@ Man sieht, das Format ähnelt der Konfiguration für die Webanwendung. Das liegt
 daran, dass [CConsoleApplication] und [CWebApplication] von der selben
 Basisklasse abgeleitet wurden.
 
-<div class="revision">$Id: topics.console.txt 2867 2011-01-15 10:22:03Z haertl.mike $</div>

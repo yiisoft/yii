@@ -85,5 +85,3 @@ class Comment extends CActiveRecord
 </div>
 …
 ~~~
-
-<div class="revision">$Id: portlet.comments.txt 1773 2010-02-01 18:39:49Z qiang.xue $</div>

@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -76,6 +76,10 @@ abstract class CBaseListView extends CWidget
 	 * @var string the message to be displayed when {@link dataProvider} does not have any data.
 	 */
 	public $emptyText;
+	/**
+	 * @var string the HTML tag name for the container of the {@link emptyText} property.
+	 */
+	public $emptyTagName='span';
 	/**
 	 * @var string the CSS class name for the container of all data item display. Defaults to 'items'.
 	 */
@@ -172,7 +176,7 @@ abstract class CBaseListView extends CWidget
 	public function renderEmptyText()
 	{
 		$emptyText=$this->emptyText===null ? Yii::t('zii','No results found.') : $this->emptyText;
-		echo CHtml::tag('span', array('class'=>'empty'), $emptyText);
+		echo CHtml::tag($this->emptyTagName, array('class'=>'empty'), $emptyText);
 	}
 
 	/**
@@ -247,7 +251,7 @@ abstract class CBaseListView extends CWidget
 		$class='CLinkPager';
 		if(is_string($this->pager))
 			$class=$this->pager;
-		else if(is_array($this->pager))
+		elseif(is_array($this->pager))
 		{
 			$pager=$this->pager;
 			if(isset($pager['class']))

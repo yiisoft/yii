@@ -15,21 +15,27 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: yii.php 2164 2011-06-23 13:46:17Z yiifrmwrk@lourdas.name $
  */
 return array (
-  'Ctype extension' => 'Επέκταση Ctype',
+  'GD extension with<br />FreeType support<br />or ImageMagick<br />extension with<br />PNG support' => 'Επέκταση GD με<br />υποστήριξη FreeType<br />ή ImageMagick<br />επέκταση με<br />υποστήριξη PNG',
+  'GD installed,<br />FreeType support not installed' => 'Εγκατεστημένη GD,<br />η υποστήριξη FreeType δεν υπάρχει',
+  'GD or ImageMagick not installed' => 'Το GD ή ImageMagick δεν είναι εγκατεστημένο',
+  'PDO MSSQL extension (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)' => 'Επέκταση PDO MSSQL (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)',
+  'PDO MSSQL extension (pdo_dblib)' => 'Επέκταση PDO MSSQL (pdo_dblib)',
+  'PDO MSSQL extension (pdo_mssql)' => 'Επέκταση PDO MSSQL (pdo_mssql)',
+  'PDO Oracle extension' => 'Επέκταση PDO Oracle',
+  'This is required if you are using MSSQL database from GNU/Linux or other UNIX.' => 'Απαιτείται αν χρησιμοποιείτε βάση δεδομένων MSSQL από GNU/Linux ή άλλο UNIX.',
+  'This is required if you are using MSSQL database from MS Windows' => 'Απαιτείται αν χρησιμοποιείτε βάση δεδομένων MSSQL από MS Windows.',
+  'This is required if you are using MSSQL database with the driver provided by Microsoft.' => 'Απαιτείται αν χρησιμοποιείτε βάση δεδομένων MSSQL με οδηγό που παρέχει η Microsoft.',
+  'This is required if you are using Oracle database.' => 'Απαιτείται αν χρησιμοποιείτε βάση δεδομένων Oracle.',
   '$_SERVER does not have {vars}.' => 'Ο πίνακας $_SERVER δεν περιέχει τη(τις) μεταβλητή(-ές) {vars}.',
   '$_SERVER variable' => 'Μεταβλητή $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Το $_SERVER["SCRIPT_FILENAME"] πρέπει να είναι το ίδιο με το αρχικό αρχείο σεναρίου.',
   'APC extension' => 'Επέκταση APC',
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Όλες οι <a href="http://www.yiiframework.com/doc/api/#system.db">σχετικές με βάση κλάσεις</a>',
+  'Ctype extension' => 'Επέκταση Ctype',
   'DOM extension' => 'Επέκταση DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Πρέπει να υπάρχει είτε το $_SERVER["REQUEST_URI"] είτε το $_SERVER["QUERY_STRING"].',
-  'GD extension with<br />FreeType support' => 'Επέκταση GD με<br />υποστήριξη για FreeType',
-  'GD installed<br />FreeType support not installed' => 'Επέκταση GD εγκατεστημένη<br />υποστήριξη FreeType δεν υπάρχει.',
-  'GD not installed' => 'Δεν είναι εγκατεστημένη η επέκταση GD',
   'Mcrypt extension' => 'Επέκταση Mcrypt',
   'Memcache extension' => 'Επέκταση Memcache',
   'PCRE extension' => 'Επέκταση PCRE',

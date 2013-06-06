@@ -214,10 +214,10 @@ class PostController extends CController
 Intercepting Remote Method Invocation
 -------------------------------------
 
-By implementing the [IWebServiceProvider] interface, a sevice provider can
+By implementing the [IWebServiceProvider] interface, a service provider can
 intercept remote method invocations. In
 [IWebServiceProvider::beforeWebMethod], the provider may retrieve the
-current [CWebService] instance and obtain the the name of the method
+current [CWebService] instance and obtain the name of the method
 currently being requested via [CWebService::methodName]. It can return
 false if the remote method should not be invoked for some reason (e.g.
 unauthorized access).

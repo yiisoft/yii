@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -103,7 +103,7 @@ abstract class CMessageSource extends CApplicationComponent
 			$this->_messages[$key]=$this->loadMessages($category,$language);
 		if(isset($this->_messages[$key][$message]) && $this->_messages[$key][$message]!=='')
 			return $this->_messages[$key][$message];
-		else if($this->hasEventHandler('onMissingTranslation'))
+		elseif($this->hasEventHandler('onMissingTranslation'))
 		{
 			$event=new CMissingTranslationEvent($this,$category,$message,$language);
 			$this->onMissingTranslation($event);

@@ -91,7 +91,7 @@ public function run($args) { ... }
 特定のアクションを実行するためには、以下のコンソールコマンド書式を使います。
 
 ~~~
-yiic <コマンド名> <アクション名> --option1=value --option2=value2 ...
+yiic <コマンド名> <アクション名> --option1=value1 --option2=value2 ...
 ~~~
 
 追加される option-value のペアは、アクションメソッドに名前付きの引数として渡されます。

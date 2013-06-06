@@ -443,7 +443,7 @@ anything coming from the client side.
 
 AR performs data validation automatically when
 [save()|CActiveRecord::save] is being invoked. The validation is based on
-the rules specified by in the [rules()|CModel::rules] method of the AR class.
+the rules specified in the [rules()|CModel::rules] method of the AR class.
 For more details about how to specify validation rules, refer to
 the [Declaring Validation Rules](/doc/guide/form.model#declaring-validation-rules)
 section. Below is the typical workflow needed by saving a record:

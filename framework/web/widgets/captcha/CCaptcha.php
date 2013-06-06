@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -79,13 +79,13 @@ class CCaptcha extends CWidget
 	 */
 	public function run()
 	{
-		if(self::checkRequirements())
+		if(self::checkRequirements('imagick') || self::checkRequirements('gd'))
 		{
 			$this->renderImage();
 			$this->registerClientScript();
 		}
 		else
-			throw new CException(Yii::t('yii','GD and FreeType PHP extensions are required.'));
+			throw new CException(Yii::t('yii','GD with FreeType or ImageMagick PHP extensions are required.'));
 	}
 
 	/**
@@ -136,14 +136,14 @@ class CCaptcha extends CWidget
 			return;
 
 		$js.="
-$(document).on('click', '$selector', function(){
-	$.ajax({
+jQuery(document).on('click', '$selector', function(){
+	jQuery.ajax({
 		url: ".CJSON::encode($url).",
 		dataType: 'json',
 		cache: false,
 		success: function(data) {
-			$('#$id').attr('src', data['url']);
-			$('body').data('{$this->captchaAction}.hash', [data['hash1'], data['hash2']]);
+			jQuery('#$id').attr('src', data['url']);
+			jQuery('body').data('{$this->captchaAction}.hash', [data['hash1'], data['hash2']]);
 		}
 	});
 	return false;
@@ -153,18 +153,36 @@ $(document).on('click', '$selector', function(){
 	}
 
 	/**
-	 * Checks if GD with FreeType support is loaded.
-	 * @return boolean true if GD with FreeType support is loaded, otherwise false
+	 * Checks if specified graphic extension support is loaded.
+	 * @param string $extension name to be checked. Possible values are 'gd', 'imagick' and null.
+	 * Default value is null meaning that both extensions will be checked. This parameter
+	 * is available since 1.1.13.
+	 * @return boolean true if ImageMagick extension with PNG support or GD with FreeType support is loaded,
+	 * otherwise false
 	 * @since 1.1.5
 	 */
-	public static function checkRequirements()
+	public static function checkRequirements($extension=null)
 	{
-		if (extension_loaded('gd'))
+		if(extension_loaded('imagick'))
 		{
-			$gdinfo=gd_info();
-			if( $gdinfo['FreeType Support'])
+			$imagick=new Imagick();
+			$imagickFormats=$imagick->queryFormats('PNG');
+		}
+		if(extension_loaded('gd'))
+		{
+			$gdInfo=gd_info();
+		}
+		if($extension===null)
+		{
+			if(isset($imagickFormats) && in_array('PNG',$imagickFormats))
+				return true;
+			if(isset($gdInfo) && $gdInfo['FreeType Support'])
 				return true;
 		}
+		elseif($extension=='imagick' && isset($imagickFormats) && in_array('PNG',$imagickFormats))
+			return true;
+		elseif($extension=='gd' && isset($gdInfo) && $gdInfo['FreeType Support'])
+			return true;
 		return false;
 	}
 }

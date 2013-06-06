@@ -273,6 +273,7 @@ return array(
 一般的な [コンポーネント](/doc/guide/basics.component) を使用するには、はじめに、下記のようにそのクラスファイルをインクルードする必要があります。
 
 ~~~
+[php]
 Yii::import('ext.xyz.XyzClass');
 ~~~
 

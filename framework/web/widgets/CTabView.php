@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -200,7 +200,7 @@ class CTabView extends CWidget
 			echo "<div class=\"view\" id=\"{$id}\"{$inactive}>\n";
 			if(isset($tab['content']))
 				echo $tab['content'];
-			else if(isset($tab['view']))
+			elseif(isset($tab['view']))
 			{
 				if(isset($tab['data']))
 				{

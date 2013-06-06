@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -22,7 +22,7 @@
  * If an SQL statement returns results (such as a SELECT SQL), the results
  * can be accessed via the returned {@link CDbDataReader}.
  *
- * CDbCommand supports SQL statment preparation and parameter binding.
+ * CDbCommand supports SQL statement preparation and parameter binding.
  * Call {@link bindParam} to bind a PHP variable to a parameter in SQL.
  * Call {@link bindValue} to bind a value to an SQL parameter.
  * When binding a parameter, the SQL statement is automatically prepared.
@@ -47,7 +47,7 @@
  * @property string $from The FROM part (without 'FROM' ) in the query.
  * @property string $where The WHERE part (without 'WHERE' ) in the query.
  * @property mixed $join The join part in the query. This can be an array representing
- * multiple join fragments, or a string representing a single jojin fragment.
+ * multiple join fragments, or a string representing a single join fragment.
  * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
  * @property string $group The GROUP BY part (without 'GROUP BY' ) in the query.
  * @property string $having The HAVING part (without 'HAVING' ) in the query.
@@ -200,6 +200,7 @@ class CDbCommand extends CComponent
 	 * this may improve performance.
 	 * For SQL statement with binding parameters, this method is invoked
 	 * automatically.
+	 * @throws CDbException if CDbCommand failed to prepare the SQL statement
 	 */
 	public function prepare()
 	{
@@ -213,7 +214,7 @@ class CDbCommand extends CComponent
 			catch(Exception $e)
 			{
 				Yii::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
-                $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
+				$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
 				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
 					array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 			}
@@ -246,9 +247,9 @@ class CDbCommand extends CComponent
 		$this->prepare();
 		if($dataType===null)
 			$this->_statement->bindParam($name,$value,$this->_connection->getPdoType(gettype($value)));
-		else if($length===null)
+		elseif($length===null)
 			$this->_statement->bindParam($name,$value,$dataType);
-		else if($driverOptions===null)
+		elseif($driverOptions===null)
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length,$driverOptions);
@@ -307,9 +308,10 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return integer number of rows affected by the execution.
-	 * @throws CException execution failed
+	 * @throws CDbException execution failed
 	 */
 	public function execute($params=array())
 	{
@@ -344,12 +346,15 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
-            $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
-            $message = $e->getMessage();
+
+			$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
+			$message=$e->getMessage();
 			Yii::log(Yii::t('yii','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
 				array('{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
-            if(YII_DEBUG)
-            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
+
+			if(YII_DEBUG)
+				$message.='. The SQL statement executed was: '.$this->getText().$par;
+
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
@@ -362,7 +367,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return CDbDataReader the reader object for fetching the query result
 	 * @throws CException execution failed
 	 */
@@ -379,7 +385,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return array all rows of the query result. Each array element is an array representing a row.
 	 * An empty array is returned if the query results in nothing.
 	 * @throws CException execution failed
@@ -398,7 +405,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return mixed the first row (in terms of an array) of the query result, false if no result.
 	 * @throws CException execution failed
 	 */
@@ -415,7 +423,8 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return mixed the value of the first column in the first row of the query result. False is returned if there is no value.
 	 * @throws CException execution failed
 	 */
@@ -436,13 +445,14 @@ class CDbCommand extends CComponent
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return array the first column of the query result. Empty array if no result.
 	 * @throws CException execution failed
 	 */
 	public function queryColumn($params=array())
 	{
-		return $this->queryInternal('fetchAll',PDO::FETCH_COLUMN,$params);
+		return $this->queryInternal('fetchAll',array(PDO::FETCH_COLUMN, 0),$params);
 	}
 
 	/**
@@ -450,9 +460,11 @@ class CDbCommand extends CComponent
 	 * @param mixed $mode parameters to be passed to the method
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
-	 * them in this way can improve the performance. Note that you pass parameters in this way,
+	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
-	 * binding methods and  the input parameters this way can improve the performance.
+	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
+	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
+	 * @throws CDbException if CDbCommand failed to execute the SQL statement
 	 * @return mixed the method execution result
 	 */
 	private function queryInternal($method,$mode,$params=array())
@@ -482,7 +494,7 @@ class CDbCommand extends CComponent
 			if(($result=$cache->get($cacheKey))!==false)
 			{
 				Yii::trace('Query result found in cache','system.db.CDbCommand');
-				return $result;
+				return $result[0];
 			}
 		}
 
@@ -502,7 +514,8 @@ class CDbCommand extends CComponent
 			else
 			{
 				$mode=(array)$mode;
-				$result=call_user_func_array(array($this->_statement, $method), $mode);
+				call_user_func_array(array($this->_statement, 'setFetchMode'), $mode);
+				$result=$this->_statement->$method();
 				$this->_statement->closeCursor();
 			}
 
@@ -510,7 +523,7 @@ class CDbCommand extends CComponent
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			if(isset($cache,$cacheKey))
-				$cache->set($cacheKey, $result, $this->_connection->queryCachingDuration, $this->_connection->queryCachingDependency);
+				$cache->set($cacheKey, array($result), $this->_connection->queryCachingDuration, $this->_connection->queryCachingDependency);
 
 			return $result;
 		}
@@ -518,12 +531,15 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
-            $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
-            $message = $e->getMessage();
+
+			$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
+			$message=$e->getMessage();
 			Yii::log(Yii::t('yii','CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.',
 				array('{method}'=>$method, '{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
-            if(YII_DEBUG)
-            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
+
+			if(YII_DEBUG)
+				$message.='. The SQL statement executed was: '.$this->getText().$par;
+
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
@@ -535,6 +551,7 @@ class CDbCommand extends CComponent
 	 * query options are supported: {@link select}, {@link distinct}, {@link from},
 	 * {@link where}, {@link join}, {@link group}, {@link having}, {@link order},
 	 * {@link limit}, {@link offset} and {@link union}.
+	 * @throws CDbException if "from" key is not present in given query parameter
 	 * @return string the SQL statement
 	 * @since 1.1.6
 	 */
@@ -560,6 +577,9 @@ class CDbCommand extends CComponent
 		if(!empty($query['having']))
 			$sql.="\nHAVING ".$query['having'];
 
+		if(!empty($query['union']))
+			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
+
 		if(!empty($query['order']))
 			$sql.="\nORDER BY ".$query['order'];
 
@@ -567,9 +587,6 @@ class CDbCommand extends CComponent
 		$offset=isset($query['offset']) ? (int)$query['offset'] : -1;
 		if($limit>=0 || $offset>0)
 			$sql=$this->_connection->getCommandBuilder()->applyLimit($sql,$limit,$offset);
-
-		if(!empty($query['union']))
-			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
 
 		return $sql;
 	}
@@ -599,7 +616,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 				{
 					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' AS '.$this->_connection->quoteColumnName($matches[2]);
@@ -964,7 +981,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 					$columns[$i]=$this->_connection->quoteColumnName($column);
 			}
 			$this->_query['group']=implode(', ',$columns);
@@ -1036,6 +1053,13 @@ class CDbCommand extends CComponent
 	 * Columns can be specified in either a string (e.g. "id ASC, name DESC") or an array (e.g. array('id ASC', 'name DESC')).
 	 * The method will automatically quote the column names unless a column contains some parenthesis
 	 * (which means the column contains a DB expression).
+	 *
+	 * For example, to get "ORDER BY 1" you should use
+	 *
+	 * <pre>
+	 * $criteria->order('(1)');
+	 * </pre>
+	 *
 	 * @return CDbCommand the command object itself
 	 * @since 1.1.6
 	 */
@@ -1051,7 +1075,7 @@ class CDbCommand extends CComponent
 			{
 				if(is_object($column))
 					$columns[$i]=(string)$column;
-				else if(strpos($column,'(')===false)
+				elseif(strpos($column,'(')===false)
 				{
 					if(preg_match('/^(.*?)\s+(asc|desc)$/i',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' '.strtoupper($matches[2]);
@@ -1281,7 +1305,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Builds and executes a SQL statement for creating a new DB table.
 	 *
-	 * The columns in the new  table should be specified as name-definition pairs (e.g. 'name'=>'string'),
+	 * The columns in the new table should be specified as name-definition pairs (e.g. 'name'=>'string'),
 	 * where name stands for a column name which will be properly quoted by the method, and definition
 	 * stands for the column type which can contain an abstract DB type.
 	 * The {@link getColumnType} method will be invoked to convert any abstract type into a physical one.
@@ -1292,7 +1316,7 @@ class CDbCommand extends CComponent
 	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
 	 * @param array $columns the columns (name=>definition) in the new table.
 	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
-	 * @return integer number of rows affected by the execution.
+	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
 	 * @since 1.1.6
 	 */
 	public function createTable($table, $columns, $options=null)
@@ -1304,7 +1328,7 @@ class CDbCommand extends CComponent
 	 * Builds and executes a SQL statement for renaming a DB table.
 	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
 	 * @param string $newName the new table name. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
 	 * @since 1.1.6
 	 */
 	public function renameTable($table, $newName)
@@ -1315,7 +1339,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Builds and executes a SQL statement for dropping a DB table.
 	 * @param string $table the table to be dropped. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
 	 * @since 1.1.6
 	 */
 	public function dropTable($table)
@@ -1453,13 +1477,14 @@ class CDbCommand extends CComponent
 	/**
 	 * Generates the condition string that will be put in the WHERE part
 	 * @param mixed $conditions the conditions that will be put in the WHERE part.
+	 * @throws CDbException if unknown operator is used
 	 * @return string the condition string to put in the WHERE part
 	 */
 	private function processConditions($conditions)
 	{
 		if(!is_array($conditions))
 			return $conditions;
-		else if($conditions===array())
+		elseif($conditions===array())
 			return '';
 		$n=count($conditions);
 		$operator=strtoupper($conditions[0]);
@@ -1556,5 +1581,30 @@ class CDbCommand extends CComponent
 		foreach($params as $name=>$value)
 			$this->params[$name]=$value;
 		return $this;
+	}
+
+	/**
+	 * Builds a SQL statement for creating a primary key constraint.
+	 * @param string $name the name of the primary key constraint to be created. The name will be properly quoted by the method.
+	 * @param string $table the table who will be inheriting the primary key. The name will be properly quoted by the method.
+	 * @param string $columns the column/s where the primary key will be effected. The name will be properly quoted by the method.
+	 * @return integer number of rows affected by the execution.
+	 * @since 1.1.13
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		return $this->setText($this->getConnection()->getSchema()->addPrimaryKey($name,$table,$columns))->execute();
+	}
+
+	/**
+	 * Builds a SQL statement for dropping a primary key constraint.
+	 * @param string $name the name of the primary key constraint to be dropped. The name will be properly quoted by the method.
+	 * @param string $table the table that owns the primary key. The name will be properly quoted by the method.
+	 * @return integer number of rows affected by the execution.
+	 * @since 1.1.13
+	 */
+	public function dropPrimaryKey($name,$table)
+	{
+		return $this->setText($this->getConnection()->getSchema()->dropPrimaryKey($name,$table))->execute();
 	}
 }

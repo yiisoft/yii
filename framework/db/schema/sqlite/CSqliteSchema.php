@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -35,46 +35,50 @@ class CSqliteSchema extends CDbSchema
         'binary' => 'blob',
         'boolean' => 'tinyint(1)',
 		'money' => 'decimal(19,4)',
-    );
+	);
 
 	/**
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
-	 * will have the specified value or 1.
+	 * will have the specified value or max value of a primary key plus one (i.e. sequence trimming).
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
-	 * the next new row's primary key will have a value 1.
+	 * @param integer|null $value the value for the primary key of the next new row inserted.
+	 * If this is not set, the next new row's primary key will have the max value of a primary
+	 * key plus one (i.e. sequence trimming).
 	 * @since 1.1
 	 */
 	public function resetSequence($table,$value=null)
 	{
-		if($table->sequenceName!==null)
+		if($table->sequenceName===null)
+			return;
+		if($value!==null)
+			$value=(int)($value)-1;
+		else
+			$value=(int)$this->getDbConnection()
+				->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")
+				->queryScalar();
+		try
 		{
-			if($value===null)
-				$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
-			else
-				$value=(int)$value-1;
-			try
-			{
-				// it's possible sqlite_sequence does not exist
-				$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
-			}
-			catch(Exception $e)
-			{
-			}
+			// it's possible that 'sqlite_sequence' does not exist
+			$this->getDbConnection()
+				->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")
+				->execute();
+		}
+		catch(Exception $e)
+		{
 		}
 	}
 
 	/**
-	 * Enables or disables integrity check.
+	 * Enables or disables integrity check. Note that this method used to do nothing before 1.1.14. Since 1.1.14
+	 * it changes integrity check state as expected.
 	 * @param boolean $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
 	{
-		// SQLite doesn't enforce integrity
-		return;
+		$this->getDbConnection()->createCommand('PRAGMA foreign_keys='.(int)$check)->execute();
 	}
 
 	/**
@@ -137,7 +141,7 @@ class CSqliteSchema extends CDbSchema
 			{
 				if($table->primaryKey===null)
 					$table->primaryKey=$c->name;
-				else if(is_string($table->primaryKey))
+				elseif(is_string($table->primaryKey))
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
@@ -187,6 +191,18 @@ class CSqliteSchema extends CDbSchema
 
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a DB table.
+	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB table.
+	 * @since 1.1.13
+	 */
+	public function renameTable($table, $newName)
+	{
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' RENAME TO ' . $this->quoteTableName($newName);
 	}
 
 	/**
@@ -284,5 +300,34 @@ class CSqliteSchema extends CDbSchema
 	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name);
+	}
+
+	/**
+	 * Builds a SQL statement for adding a primary key constraint to an existing table.
+	 * Because SQLite does not support adding a primary key on an existing table this method will throw an exception.
+	 * @param string $name the name of the primary key constraint.
+	 * @param string $table the table that the primary key constraint will be added to.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
+	 * @return string the SQL statement for adding a primary key constraint to an existing table.
+	 * @since 1.1.13
+	 */
+	public function addPrimaryKey($name,$table,$columns)
+	{
+		throw new CDbException(Yii::t('yii', 'Adding a primary key after table has been created is not supported by SQLite.'));
+	}
+
+
+	/**
+	 * Builds a SQL statement for removing a primary key constraint to an existing table.
+	 * Because SQLite does not support dropping a primary key from an existing table this method will throw an exception
+	 * @param string $name the name of the primary key constraint to be removed.
+	 * @param string $table the table that the primary key constraint will be removed from.
+	 * @return string the SQL statement for removing a primary key constraint from an existing table.
+	 * @since 1.1.13
+	 */
+	public function dropPrimaryKey($name,$table)
+	{
+		throw new CDbException(Yii::t('yii', 'Removing a primary key after table has been created is not supported by SQLite.'));
+
 	}
 }

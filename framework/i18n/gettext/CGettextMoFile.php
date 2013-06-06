@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -76,7 +76,7 @@ class CGettextMoFile extends CGettextFile
 		$magic=current($array=unpack('c',$this->readByte($fr,4)));
 		if($magic==-34)
 			$this->useBigEndian=false;
-		else if($magic==-107)
+		elseif($magic==-107)
 			$this->useBigEndian=true;
 		else
 			throw new CException(Yii::t('yii','Invalid MO file: {file} (magic: {magic}).',

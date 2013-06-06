@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -105,7 +105,7 @@ class CCodeGenerator extends CController
 			$file=$model->files[$_GET['id']];
 			if(!in_array($file->type,array('php', 'txt','js','css')))
 				$diff=false;
-			else if($file->operation===CCodeFile::OP_OVERWRITE)
+			elseif($file->operation===CCodeFile::OP_OVERWRITE)
 				$diff=TextDiff::compare(file_get_contents($file->path), $file->content);
 			else
 				$diff='';

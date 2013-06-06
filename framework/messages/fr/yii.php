@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'L\'ajout d\'une clef étrangère sur une table existante n\'est pas supporté par SQLite.',

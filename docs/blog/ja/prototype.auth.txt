@@ -48,8 +48,11 @@ class UserIdentity extends CUserIdentity
 
 ユーザが正当なパスワードを入力したかどうかをチェックするため、`User` クラスの `validatePassword` メソッドを呼び出しています。
 `/wwwroot/blog/protected/models/User.php` を以下の様に修正する必要があります。
-プレーンなパスワードをデータベースに保存するのではなく、パスワードのハッシュの結果をランダムに発生したソルトキーとともに保存することに注意してください。
-ユーザが入力したパスワードを検証する際は、パスワードではなくハッシュされた結果を比較することになります。
+平文のパスワードをデータベースに保存するのではなく、パスワードとランダムに発生させたソルトキーのハッシュを保存することに注意してください。
+ユーザが入力したパスワードを検証する際は、パスワードではなくハッシュの結果を比較することになります。
+パスワードのハッシュと検証には、PHP の組み込み関数である `crypt()` を使います。
+詳細な解説としては、Wiki 記事 [Use crypt() for password storage](http://www.yiiframework.com/wiki/425) を参照して下さい。
+ 
 
 ~~~
 [php]
@@ -58,12 +61,12 @@ class User extends CActiveRecord
 	......
 	public function validatePassword($password)
 	{
-		return $this->hashPassword($password,$this->salt)===$this->password;
+		return crypt($password,$this->password)===$this->password;
 	}
 
-	public function hashPassword($password,$salt)
+	public function hashPassword($password)
 	{
-		return md5($salt.$password);
+		return crypt($password, $this->generateSalt());
 	}
 }
 ~~~

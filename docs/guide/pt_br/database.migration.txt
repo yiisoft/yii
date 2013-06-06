@@ -1,0 +1,313 @@
+Migração da Base de Dados
+=========================
+
+> Note|Nota: A função de migração de banco de dados está disponível desde a versão 1.1.6.
+
+Como o código-fonte, a estrutura de um banco de dados está evoluindo conforme nós desenvolvemos e mantemos a aplicação. Por exemplo, durante o desenvolvimento, nós podemos querer adicionar uma nova tabela; ou depois de a apliação ser posta em produção, nós podemos nos dar conta da necessidade da adição de um índice em uma coluna. É importante manter o controle destas mudanças estruturais do banco de dados (chamadas **migrações**) da mesma maneira que fazemos com o código-fonte. Se o código-fonte e o banco de dados estão sem sincronia, é muito provável que o sistema como um todo pare de funcionar. Por esta razão, Yii fornece uma ferramenta de migração de banco de ddos que pode controlar o histórico de migrações do banco de dados, aplicar novas migrações ou reverter migrações existentes.
+
+Os passos seguintes mostram como nós podemos usar a migração do banco de dados durante o desenvolvimento:
+
+1. João cria uma nova migração (por exemplo, uma nova tabela)
+2. João faz o commit da nova migração no sistem de versionamento de código-fonte (como SVN, GIT)
+3. Pedro faz um update a partir do sistema de versionamento de código-fonte e recebe a nova migração
+4. Pedro aplica a migração ao seu banco de dados local de desenvolvimento
+
+
+Yii suporta migrações de banco de dados atraves da ferramenta de linha de comando `yiic migrate`. Esta ferramenta suporta a criação de novas migrações, a aplicação/reversão/reaplicação de migrações, e a exibição do histórico de migrações e as novas migrações.
+
+A seguir, vamos descrever como usar esta ferramenta.
+
+> Note|Nota: É melhor usar o yiic específico da aplicação (por exemplo, `cd caminho/até/protected`)
+> quando trabalhar com o comando `migrate` ao invés de usar o do diretório `framework`.
+> Certifique-se de que você tem um diretório `protected\migrations` e de que ele tem permissões de escrita.
+> Verifique também se você configurou a conexão do banco de dados no seu arquivo `protected/config/console.php`.
+
+Criando Migrações
+-----------------
+
+Para criar uma nova migração (por exemplo, criar uma nova tabela `news`), nós executamos o seguinte comando:
+
+~~~
+yiic migrate create <name>
+~~~
+
+O parâmetro obrigatório `name` especifica uma breve descrição da migração (por exemplo, `create_news_table`). Como nós vamos mostrar abaixo, o parâmetro `name` é usado como marte de uma classe PHP. Então, ele deve coter apenas letras, números e/ou caracteres de sublinhado.
+
+~~~
+yiic migrate create create_news_table
+~~~
+
+O comando acima vai criar, sob o diretório `protected/migrations` um novo arquivo chamado `m101129_185401_create_news_table.php`, que contém o seguinte código inicial:
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function up()
+	{
+	}
+
+    public function down()
+    {
+		echo "m101129_185401_create_news_table does not support migration down.\n";
+		return false;
+    }
+
+	/*
+	// implement safeUp/safeDown instead if transaction is needed
+	public function safeUp()
+	{
+	}
+
+	public function safeDown()
+	{
+	}
+	*/
+}
+~~~
+
+Note que o nome da classe é o mesmo que o nome do arquivo, o qual tem o padrão `m<timestamp>_<name>`, onde `<timestamp>` refere-se a um "carimbo de tempo" UTC (no formato `yymmdd_hhmmss`) de quando a migração é criada, e `<name>` é obtido a partir do parâmetro `name` da linha de comando.
+
+O método `up()` deve conter o código implementando a migração de fato, enquanto o método `down()` pode conter o código revertendo o que é feito em `up()`.
+
+Algumas vezes, é impossível implementar o método `down()`. Por exemplo, se nós removemos linhas de uma tabela em `up()`, nós não poderemos recuperá-las em `down()`. Neste caso, a migração é chamada irreversível, o que significa que nós não podemos reertê-la para um estado anterior do banco de dados. No código gerado acima, o método `down()` retorna `false` para indicar que a migração não pode ser revertida.
+
+> Info|Informação: A partir da versão 1.1.7, se o método `up()` ou `down()` retornar
+> `false`, todas as migrações seguintes serão canceladas. Anteriormente, na versão
+> 1.1.6, o usuário teria que lançar exceções para cancelar as migrações seguintes.
+
+Como um exemplo, vamos mostrar uma migração para a criação de uma tabela `news`.
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function up()
+	{
+		$this->createTable('tbl_news', array(
+			'id' => 'pk',
+			'title' => 'string NOT NULL',
+			'content' => 'text',
+		));
+	}
+
+	public function down()
+	{
+		$this->dropTable('tbl_news');
+	}
+}
+~~~
+
+A classe base [CDbMigration] fornece um conjunto de métodos para a manupulação de dados e da estrutura  de um banco de dados. Por exemplo, [CDbMigration::createTable] criará uma tabela, enquanto [CDbMigration::insert] vai inserir uma linha de dados. Todos estes métodos usam a conexão de banco de dados retornada por [CDbMigration::getDbConnection()], a qual por padrão retorna `Yii::app()->db`.
+
+> Info|Informação: Você pode notar que os métodos de banco de dados fornecidos pela classe [CDbMigration] são muito similares aos em [CDbCommand]. De fato, eles são praticamente os mesmos, exceto que os métodos de [CDbMigration] vão medir o tempo usado e imprimir algumas mensagens sobre os parâmetros passados.
+
+
+Migrações Transacionais
+-----------------------
+
+> Info|Informação: A funcionalidade de migrações transacionais é suportada desde a versão 1.1.7.
+
+Ao realizar migrações complexas do banco de dados, nós geralmente queremos ter certeza de que cada migração teve sucesso ou de que ela falhou como um todo, para que o banco de dados mantenha a consistência e a integridade. Para alcançarmos este objetivo, nós podemos fazer uso das transações do banco de dados.
+
+Nós podemos explicitamente iniciar uma transação do banco de dados e realizar o resto do código relacionado ao banco de dados dentro da transação, como a seguir:
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function up()
+	{
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			$this->createTable('tbl_news', array(
+				'id' => 'pk',
+				'title' => 'string NOT NULL',
+				'content' => 'text',
+			));
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage()."\n";
+			$transaction->rollback();
+			return false;
+		}
+	}
+
+	// ...similar code for down()
+}
+~~~
+
+Porém, uma maneira mais fácil de obter o suporte a transações é implementar o método `safeUp()` ao invés de `up()`, e `safeDown()` ao invés de `down()`. Por exemplo,
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function safeUp()
+	{
+		$this->createTable('tbl_news', array(
+			'id' => 'pk',
+			'title' => 'string NOT NULL',
+			'content' => 'text',
+		));
+	}
+
+	public function safeDown()
+	{
+		$this->dropTable('tbl_news');
+	}
+}
+~~~
+
+Quando o Yii realizar a migração, ele iniciará uma transação do banco de dados e então chamará `safeUp()` ou `safeDown()`. Se algum ocorrer algum erro do banco de dados em `safeUp()` ou `safeDown()`, a transação será revertida, o que garante que o banco de dados continue em boa forma.
+
+> Note|Nota: Nem todos os SGBD suportam transações. E algumas cosultas do banco de dados
+> não podem ser postas em uma transação. Neste caso, você terá que implementar `up()` e
+> `down()`. E, para o MySQL, alguns comandos SQL podem causar
+> [commits implícitos](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
+
+
+Aplicação Migrações
+-------------------
+
+Para aplicar todas as novas migrações disponíveis (o que significa deixar o banco de dados local atualizado),execute o seguinte comando:
+
+~~~
+yiic migrate
+~~~
+
+O comando irá mostras a lista de todas as novas migrações. Se você confirmar apply a aplicaçao das migrações, ele chamará o método `up()` em cada nova classe de migração, uma após a outra, na ordem do valor do "carimbo de tempo" em cada nome de classe.
+
+Após aplicar a migração, a ferramenta de migração manterá um registro em uma tabela chamada `tbl_migration` no banco de dados. Isto permite que a ferramenta identifique quais migrações já foram aplicadas e quais não foram. Se a tabela `tbl_migration` não existir, a ferramenta a criará automaticamente no banco de dados especificado pelo componente de aplicação `db`.
+
+Algumas vezes, nós podemos querer aplicar somente uma ou algumas das migrações. Nós podemos usar o comando abaixo:
+
+~~~
+yiic migrate up 3
+~~~
+
+Este comando aplicará as 3 novas migrações. Alterando o valor "3" nos permitirá alterar o número de migrações a serem aplicadas.
+
+Nós podemos também migrar para uma versão específica do banco de dados com o seguinte comando:
+
+~~~
+yiic migrate to 101129_185401
+~~~
+
+Isto é, nós usamos a parte do "carimbo de tempo" do nome de uma migração para especificar a versão para a qual nós desejamos migrar o banco de dados. Se há múltiplas migrações entre a última migração aplicada e  migração especificada, todas estas migrações serão aplicadas. Se a migração especificada já foi aplicada antes, então todas as migrações aplicadas depois dela serõ revertidas (a ser descrito na próxima seção).
+
+
+Revertendo Migrações
+--------------------
+
+Para reverter a última ou algumas das últimas migrações aplicadas, nós podemos usar o seguinte comando:
+
+~~~
+yiic migrate down [step]
+~~~
+
+Onde o parâmetro opcional `step` especifica quantas migrações devem ser revertidas. O padrão é 1, o que significa que a última migração aplicada será revertida.
+
+Como nós descrevemos antes, nem todas as migrações podem ser revertidas. Se você tentar reverter uma destas migrações, será lançada uma exceção e todo o processo de reversão será encerrado.
+
+
+Reaplicando Migrações
+---------------------
+
+Reaplicar uma migração significa primeiro reverter e então aplicar a migração especificada. Isto pode ser feito com o comando a seguir:
+
+~~~
+yiic migrate redo [step]
+~~~
+
+onde o parâmetro opcional`step` especifica quantas migrações serão reaplicadas. O padrão é 1, o que significa que a última migração aplicada será reaplicada.
+
+
+Exibindo Informações da Migração
+--------------------------------
+
+Além de aplicar e reverter migrações, a ferramenta de migrações também pode exibir o histórico de migrações e as novas migrações a serem aplicadas.
+
+~~~
+yiic migrate history [limit]
+yiic migrate new [limit]
+~~~
+
+Onde o parâmetro opcional `limit` especifica o número de aplicações a serem exibidas. Se `limit` não é especificado, todas as migrações disponíveis serão exibidas.
+
+O primeiro comando exibe as migrações que foram aplicadas, enquanto o segundo mostra as migrações que não foram aplicadas.
+
+
+Modificando o Histórico de Migrações
+------------------------------------
+
+Algumas vezes, nós podemos querer modificar o histórico de migrações para uma versão de migração específica sem de fato aplicar ou reverter as migrações relevantes. Isto acontece frequentemente quando estamos criando uma nova migração. Nós podemos usar o comando a seguir para atingir este objetivo.
+
+~~~
+yiic migrate mark 101129_185401
+~~~
+
+Este comando é muito similar ao comando `yiic migrate to`, exceto que ele apenas modifica a tabela do histórico de migrações para a migração especificada sem aplicar ou reverter migrações.
+
+
+Personalizando o Comando de Migração
+------------------------------------
+
+Há algumas maneiras de personalizar o comando de migração.
+
+### Use Opções de Linha de Comando
+
+O comando de migração possui quatro opções que podem ser especificadas na linha de comando:
+
+* `interactive`: boolean, especifica se as migrações devem ser executadas em modo interativo. O padrão é `true`, o que significa que o usuário será perguntado quando executar uma migração específica. Você pode alterar esta opção para `false` quando as migrações são feitas por um processo em background.
+
+* `migrationPath`: string, espeficica o diretório contendo todos os arquivos das classes de migrações. Esta opção deve ser especificada como um path alias (apelido para caminho), e o diretório correspondente deve existir. Se não for especificado, será usado o subdiretório `migrations` sob o caminho base da aplicação.
+
+* `migrationTable`: string, especifica o nome da tabela do banco de dados para armazenar o histórico de migrações. O padrão é `tbl_migration`. A estrutura da tabela é `version varchar(255) primary key, apply_time integer`.
+
+* `connectionID`: string, especifica o ID do componente de banco de dados da aplicação. O padrão é 'db'.
+
+* `templateFile`: string, especifica o caminho do arquivo que servirá de modelo para a geração das classes de migração. Esta opção deve ser especificada como um path alias (por exemplo `application.migrations.template`). Se não for configurado, um modelo interno será usado. Dentro do modelo, o símbolo `{ClassName}` será substituído pelo nome real da classe da migração.
+
+Para especificar estas opções, execute o comando de migração com o seguinte formato
+
+~~~
+yiic migrate up --option1=value1 --option2=value2 ...
+~~~
+
+Por exemplo, se nós queremos migrar para um módulo `forum` cujos arquivos de migração estejam localizados no diretório `migrations` do módulo, nós podemos usar o comando abaixo:
+
+~~~
+yiic migrate up --migrationPath=ext.forum.migrations
+~~~
+
+
+### Configurar o Comando Globalmente
+
+Enquanto as opções de linha de comando nos permitem configurar o comando de migração dinamicamente, algumas vezes nós podemos querer configura o comando uma vez para todas as execuções. Por exemplo, nós podemos querer usar uma tabela diferente para armazenar o histórico de migrações, ou nós podemos querer usar um modelo de migração personalizado. Nós podemos fazer isto modificando o arquivo de configuração da aplicação de console como a seguir,
+
+~~~
+[php]
+return array(
+	......
+	'commandMap'=>array(
+		'migrate'=>array(
+			'class'=>'system.cli.commands.MigrateCommand',
+			'migrationPath'=>'application.migrations',
+			'migrationTable'=>'tbl_migration',
+			'connectionID'=>'db',
+			'templateFile'=>'application.migrations.template',
+		),
+		......
+	),
+	......
+);
+~~~
+
+Agora, se nós executarmos o comando `migrate`, a configuração acima fará efeito sem ser necessário usar as opções de linha de comando em todas as vezes.
+
+
+<div class="revision">$Id$</div>

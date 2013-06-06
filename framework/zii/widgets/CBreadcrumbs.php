@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -114,7 +114,7 @@ class CBreadcrumbs extends CWidget
 		$links=array();
 		if($this->homeLink===null)
 			$links[]=CHtml::link(Yii::t('zii','Home'),Yii::app()->homeUrl);
-		else if($this->homeLink!==false)
+		elseif($this->homeLink!==false)
 			$links[]=$this->homeLink;
 		foreach($this->links as $label=>$url)
 		{

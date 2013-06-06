@@ -15,6 +15,9 @@ function globalEventHandler2($event)
 
 class CComponentTest extends CTestCase
 {
+	/**
+	 * @var NewComponent
+	 */
 	protected $component;
 
 	public function setUp()
@@ -170,7 +173,7 @@ class CComponentTest extends CTestCase
 		}
 	}
 
-	public function testDettachEventHandler()
+	public function testDetachEventHandler()
 	{
 		$this->component->attachEventHandler('OnMyEvent','foo');
 		$this->component->attachEventHandler('OnMyEvent',array($this->component,'myEventHandler'));
@@ -187,6 +190,30 @@ class CComponentTest extends CTestCase
 
 		$this->assertFalse($this->component->detachEventHandler('OnMyEvent','foo'));
 	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/1191
+	 */
+	public function testAttachDetachEventHandler()
+	{
+		$this->component->attachEventHandler('OnMyEvent',array($this->component,'handler1'));
+		$this->component->onMyEvent();
+		$this->component->attachEventHandler('OnMyEvent',array($this->component,'handler2'));
+		$this->component->onMyEvent();
+		$this->component->attachEventHandler('OnMyEvent',array($this->component,'handler3'));
+		$this->component->onMyEvent();
+
+		$this->component->detachEventHandler('OnMyEvent',array($this->component,'handler2'));
+		$this->component->onMyEvent();
+
+		$this->component->attachEventHandler('OnMyEvent',array($this->component,'handler2'));
+		$this->component->onMyEvent();
+		$this->component->detachEventHandler('OnMyEvent',array($this->component,'handler1'));
+		$this->component->onMyEvent();
+		$this->component->attachEventHandler('OnMyEvent',array($this->component,'handler2'));
+		$this->component->onMyEvent();
+	}
+
 
 	public function testRaiseEvent()
 	{

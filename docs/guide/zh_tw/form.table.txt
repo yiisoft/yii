@@ -1,0 +1,64 @@
+收集表格式輸入
+========================
+
+有時我們想通過批量模式收集使用者輸入。也就是說，
+使用者可以為多個模型實體輸入訊息並將它們一次性提交。
+我們將此稱為 *表格式輸入（tabular input）* ，因為這些輸入項通常以 HTML 表格的形式呈現。
+
+要使用表格式輸入，我們首先需要建立或填入一個模型實體陣列，取決於我們是想插入還是更新資料。
+然後我們從 `$_POST` 變數中擷取使用者輸入的資料並將其賦值到每個模型。和單模型輸入稍有不同的一點就是：
+我們要使用 `$_POST['ModelClass'][$i]` 擷取輸入的資料而不是使用 `$_POST['ModelClass']`。
+
+~~~
+[php]
+public function actionBatchUpdate()
+{
+	// 假設每一項（item）是一個 'Item' 類的實體，
+	// 擷取要通過批量模式更新的項
+	$items=$this->getItemsToUpdate();
+	if(isset($_POST['Item']))
+	{
+		$valid=true;
+		foreach($items as $i=>$item)
+		{
+			if(isset($_POST['Item'][$i]))
+				$item->attributes=$_POST['Item'][$i];
+			$valid=$valid && $item->validate();
+		}
+		if($valid)  // 如果所有項目有效
+			// ...則在此處做一些操作
+	}
+	// 顯示視圖收集表格式輸入
+	$this->render('batchUpdate',array('items'=>$items));
+}
+~~~
+
+準備好了這個動作，我們需要繼續 `batchUpdate` 視圖的工作以在一個 HTML 表格中顯示輸入項目。
+
+~~~
+[php]
+<div class="form">
+<?php echo CHtml::beginForm(); ?>
+<table>
+<tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
+<?php foreach($items as $i=>$item): ?>
+<tr>
+<td><?php echo CHtml::activeTextField($item,"[$i]name"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"[$i]price"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"[$i]count"); ?></td>
+<td><?php echo CHtml::activeTextArea($item,"[$i]description"); ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<?php echo CHtml::submitButton('Save'); ?>
+<?php echo CHtml::endForm(); ?>
+</div><!-- form -->
+~~~
+
+注意，在上面的程式碼中我們使用了 `"[$i]name"` 而不是 `"name"` 作為調用 
+[CHtml::activeTextField] 時的第二個參數。
+
+如果有任何驗證錯誤，相應的輸入項將會自動高亮顯示，就像前面我們講解的單一模型輸入一樣。
+
+<div class="revision">$Id$</div>
