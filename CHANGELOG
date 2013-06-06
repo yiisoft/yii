@@ -15,6 +15,7 @@ Version 1.1.14 work in progress
 - Bug #1692: CWebUser::renewCookie() and CWebUser::restoreFromCookie() now make use of the identityCookie options (f10i)
 - Bug #1693: Fixed log file will rotate twice when high performance (monque)
 - Bug #1724: Allow CClientScript registering scripts and script files with the HTML options (klimov-paul)
+- Bug #1732: CWebLogRoute and CProfileLogRoute with enabled $showInFireBug: fixed bug related to JS `console` object in MSIE 8 and 9 (resurtm)
 - Bug #1763: CSqlDataProvider was appending another ORDER BY string to an existing ORDER BY statement when using fieldname with dot (szako)
 - Bug #1827: Gii wasn't properly handling table name with the schema part for PostgreSQL (resurtm)
 - Bug #1895: Fixed erroneous language attributes in french views (located at `framework\views\fr`) (Ragazzo)
