@@ -506,9 +506,8 @@ class CDateFormatter extends CComponent
 	{
 		if($pattern==='W')
 		{
-			$first=date('N',strtotime($date['year'].'-'.$date['mon'].'-01'));
-			$current=date('j',strtotime($date['year'].'-'.$date['mon'].'-'.$date['mday']));
-			return floor(($first+$current-2)/7)+1;
+			$weekDay=date('N',mktime(0,0,0,$date['mon'],1,$date['year']));
+			return floor(($weekDay+$date['mday']-2)/7)+1;
 		}
 		else
 			throw new CException(Yii::t('yii','The pattern for week in month must be "W".'));
