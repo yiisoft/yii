@@ -30,6 +30,7 @@ Version 1.1.14 work in progress
 - Bug #1955: Some validators used to cause warnings or errors in case non-scalar array typed values being checked (resurtm)
 - Bug #1957: Add primary key support for MySQL schema (paystey)
 - Bug #1984: CDbMigration: fix of undeclared variable usage in debug information in dropPrimaryKey (papulovskiy)
+- Bug #1990: CDateFormatter::formatWeekInMonth(): incorrect result for a week which was last in a previous year and first in a next year simultaneously (resurtm)
 - Bug #1996: Using yiic help for commands with parameters with array as default value resulted in PHP error with latest PHP versions (dInGd0nG, samdark)
 - Bug #1997: Cache key in CGettextMessageSource::loadMessages wasn't specific enough (odevyatkov)
 - Bug #2023: CHttpRequest::stripSlashes() now modifies array keys as well (etienneq)

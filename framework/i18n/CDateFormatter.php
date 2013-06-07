@@ -505,7 +505,11 @@ class CDateFormatter extends CComponent
 	protected function formatWeekInMonth($pattern,$date)
 	{
 		if($pattern==='W')
-			return @date('W',@mktime(0,0,0,$date['mon'], $date['mday'],$date['year']))-date('W', mktime(0,0,0,$date['mon'],1,$date['year']))+1;
+		{
+			$first=date('N',strtotime($date['year'].'-'.$date['mon'].'-01'));
+			$current=date('j',strtotime($date['year'].'-'.$date['mon'].'-'.$date['mday']));
+			return floor(($first+$current-2)/7)+1;
+		}
 		else
 			throw new CException(Yii::t('yii','The pattern for week in month must be "W".'));
 	}
