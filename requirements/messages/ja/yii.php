@@ -25,7 +25,7 @@ return array (
   'Ctype extension' => 'Ctype 拡張',
   'DOM extension' => 'DOM 拡張',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] か $_SERVER["QUERY_STRING"] のどちらかが存在しなければなりません。',
-  'Fileinfo extension' => '',
+  'Fileinfo extension' => 'Fileinfo 拡張',
   'GD extension with<br />FreeType support<br />or ImageMagick<br />extension with<br />PNG support' => 'GD 拡張<br />(+ FreeType サポート)<br />または<br />ImageMagick 拡張<br />(+ PNG サポート)',
   'GD installed,<br />FreeType support not installed' => 'GD インストール済み<br />FreeType サポート 未インストール',
   'GD or ImageMagick not installed' => 'GD も ImageMagick も未インストール',
