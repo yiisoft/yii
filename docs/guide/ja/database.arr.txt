@@ -285,8 +285,8 @@ $users=User::model()->with(array(
 このオプションは `BELONGS_TO` リレーションには適用されません。
 
    - `through`: 関連するデータを取得する際に、ブリッジとして使用されるモデルのリレーションの名前。
-`HAS_MANY` および `MANY_MANY` のリレーションに対してのみ設定出来ます。
-このオプションは、バージョン 1.1.7 以降で利用可能です。
+このオプションは、バージョン 1.1.7 以降で、`HAS_MANY` および `MANY_MANY` のリレーションに対して
+使用可能です。1.1.14 以降は、`BELONGS_TO` に対しても使用出来ます。
 
 以下では、`User` における `posts` リレーション宣言を修正して、上記のオプションのいくつかを含むようにしてみましょう。
 
@@ -628,7 +628,7 @@ through を使うリレーショナルクエリ
   - `key1` は `through` で指定されているリレーション (この場合は`posts`) で定義されているキーであり、
   - `key2` は リレーションが指し示すモデル (この場合は`Comment`) で定義されているキーです。
 
-`through` は `HAS_ONE` と `HAS_MANY` の両方のリレーションで使用出来ます。
+`through` は `HAS_ONE`, `BELONGS_TO` および `HAS_MANY` のリレーションで使用出来ます。
 
 ### HAS_MANY の through
 
@@ -742,5 +742,3 @@ class User extends CActiveRecord
 $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
-
-<div class="revision">$Id$</div>
