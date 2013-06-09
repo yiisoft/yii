@@ -372,7 +372,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$app=Yii::app();
 		$request=$app->getRequest();
 
-		if(!$request->getIsAjaxRequest()) {
+		if(!$request->getIsAjaxRequest())
+		{
 			$this->setReturnUrl($request->getUrl());
 			if(($url=$this->loginUrl)!==null)
 			{
