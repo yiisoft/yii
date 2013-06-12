@@ -54,13 +54,13 @@ class CRangeValidator extends CValidator
 			throw new CException(Yii::t('yii','The "range" property must be specified with a list of values.'));
 		$result = false;
 		if($this->strict)
-			$result = in_array($value,$this->range,true);
+			$result=in_array($value,$this->range,true);
 		else
 		{
 			foreach($this->range as $r)
 			{
-				$result = $r === '' || $value === '' ? $r === $value : $r == $value;
-				if ($result)
+				$result=(strcmp($r,$value)===0);
+				if($result)
 					break;
 			}
 		}
