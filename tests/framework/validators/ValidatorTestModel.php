@@ -32,6 +32,9 @@ class ValidatorTestModel extends CFormModel
 
 			array('username', 'required', 'trim' => false, 'on' => 'CRequiredValidatorTest'),
 			array('address', 'required', 'on' => 'CRequiredValidatorTest'),
+
+			array('string1', 'in', 'allowEmpty' => false, 'range' => array(0,1,7,13), 'on' => 'CRangeValidatorTest'),
+			array('string2', 'in', 'allowEmpty' => false, 'range' => array('',1,7,13), 'on' => 'CRangeValidatorTest'),
 		);
 	}
 }
