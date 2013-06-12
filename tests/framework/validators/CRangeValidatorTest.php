@@ -20,7 +20,7 @@ class CRangeValidatorTest extends CTestCase
 		$model->string2 = '0';
 		$model->validate(array('string1','string2'));
 		$this->assertArrayNotHasKey('string1', $model->getErrors());
-		$this->assertArrayHasKey('string1', $model->getErrors());
+		$this->assertArrayHasKey('string2', $model->getErrors());
 	}
 
 	public function testZeroNumber()
