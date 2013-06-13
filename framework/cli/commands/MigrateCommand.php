@@ -369,7 +369,7 @@ class MigrateCommand extends CConsoleCommand
 
 	public function confirm($message,$default=false)
 	{
-		if(!$this->interactive)
+        if ($this->interactive == 'false' || !$this->interactive)
 			return true;
 		return parent::confirm($message,$default);
 	}
