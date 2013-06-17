@@ -90,7 +90,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 		if($this->autoStart)
 			$this->open();
-		register_shutdown_function(array($this,'close'));
+		Yii::app()->attachEventHandler('onEndRequest', array($this,'close'));
 	}
 
 	/**
