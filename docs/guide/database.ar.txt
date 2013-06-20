@@ -547,14 +547,14 @@ try
 	$post=$model->findByPk(10);
 	$post->title='new post title';
 	if($post->save())
-	    $transaction->commit();
+		$transaction->commit();
 	else
-	    $transaction->rollback();
+		$transaction->rollback();
 }
 catch(Exception $e)
 {
-    $transaction->rollback();
-    throw $e;
+	$transaction->rollback();
+	throw $e;
 }
 ~~~
 
