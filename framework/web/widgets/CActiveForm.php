@@ -423,6 +423,8 @@ class CActiveForm extends CWidget
 	 * <li>messages: an array that may be appended with new error messages for the attribute.</li>
 	 * <li>attribute: a data structure keeping all client-side options for the attribute</li>
 	 * </ul>
+	 * This should NOT be a function but just the code, Yii will enclose the code you provide inside the
+	 * actual JS function.
 	 * @param boolean $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
 	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
 	 * must be true.
