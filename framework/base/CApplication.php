@@ -127,8 +127,9 @@ abstract class CApplication extends CModule
 	public function __construct($config=null)
 	{
 		Yii::setApplication($this);
+		$this->initSystemHandlers();
+		$this->registerCoreComponents();
 
-		// set basePath at early as possible to avoid trouble
 		if(is_string($config))
 			$config=require($config);
 		if(isset($config['basePath']))
@@ -143,14 +144,9 @@ abstract class CApplication extends CModule
 		Yii::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
 
 		$this->preinit();
-
-		$this->initSystemHandlers();
-		$this->registerCoreComponents();
-
 		$this->configure($config);
 		$this->attachBehaviors($this->behaviors);
 		$this->preloadComponents();
-
 		$this->init();
 	}
 
