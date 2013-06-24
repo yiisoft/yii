@@ -75,6 +75,7 @@ Version 1.1.14 work in progress
 - Bug #2508: Fix CHtml::activeLabel() to resolve attribute input name for tabular input with custom 'for' (klimov-paul)
 - Bug #2516: Fixed the bug that some $.fn.yiiGridView methods were not working always if a custom CGridView::template was used (buakos)
 - Bug #2524: Fixed incorrect HTTPS detection (resurtm)
+- Bug #2529: Fixed the bug that CAssetManager caused "chmod() operation not allowed" error on NTFS (samdark)
 - Bug #2551: CWebUser::loginRequired() AJAX response now properly sends 403 (creocoder)
 - Bug #2554: Fixed CRangeValidator when allowEmpty is false (samdark, creocoder)
 - Bug #2565: CCaptchaAction in ImageMagick mode used to issue an exception in case $backColor or $foreColor have had leading zeros (resurtm)
