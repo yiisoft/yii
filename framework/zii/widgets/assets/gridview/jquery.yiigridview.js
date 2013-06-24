@@ -321,7 +321,9 @@
 				$grid.addClass(settings.loadingClass);
 				
 				if (settings.ajaxUpdate !== false) {
-					options.url = $.param.querystring(options.url, settings.ajaxVar + '=' + id);
+					if(settings.ajaxVar) {
+						options.url = $.param.querystring(options.url, settings.ajaxVar + '=' + id);
+					}
 					if (settings.beforeAjaxUpdate !== undefined) {
 						settings.beforeAjaxUpdate(id, options);
 					}
