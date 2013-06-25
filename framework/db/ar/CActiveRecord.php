@@ -760,9 +760,9 @@ abstract class CActiveRecord extends CModel
 		$attributes=$this->_dbAttributes;
 		foreach($this->attributeNames() as $name)
 		{
-			if(property_exists($this,$name) || !isset($this->getMetaData()->columns[$name]))
+			if(property_exists($this,$name) || $this->canGetProperty($name))
 				$attributes[$name]=$this->$name;
-			elseif(isset($this->getMetaData()->columns[$name]) && $names===true && !isset($attributes[$name]))
+			elseif($names===true && !isset($attributes[$name]))
 				$attributes[$name]=null;
 		}
 		if(is_array($names))
@@ -770,7 +770,7 @@ abstract class CActiveRecord extends CModel
 			$attrs=array();
 			foreach($names as $name)
 			{
-				if(property_exists($this,$name) || !isset($this->getMetaData()->columns[$name]))
+				if(property_exists($this,$name))
 					$attrs[$name]=$this->$name;
 				else
 					$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
