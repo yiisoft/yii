@@ -674,7 +674,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function hasAttribute($name)
 	{
-		return in_array($name, $this->attributeNames());
+		return in_array($name,$this->attributeNames());
 	}
 
 	/**
@@ -694,7 +694,7 @@ abstract class CActiveRecord extends CModel
 			return $this->$name;
 		elseif(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
-		elseif(!isset($this->getMetaData()->columns[$name]) && in_array($name, $this->attributeNames()))
+		elseif(!isset($this->getMetaData()->columns[$name]) && in_array($name,$this->attributeNames()))
 			return $this->$name;
 	}
 
@@ -712,7 +712,7 @@ abstract class CActiveRecord extends CModel
 			$this->$name=$value;
 		elseif(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
-		elseif(!isset($this->getMetaData()->columns[$name]) && in_array($name, $this->attributeNames()))
+		elseif(in_array($name,$this->attributeNames()))
 			$this->$name=$value;
 		else
 			return false;
