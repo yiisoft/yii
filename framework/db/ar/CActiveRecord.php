@@ -1247,7 +1247,7 @@ abstract class CActiveRecord extends CModel
 			$this->_related=array();
 			foreach($this->getMetaData()->columns as $name=>$column)
 			{
-				if(property_exists($this,$name) || !isset($this->getMetaData()->columns[$name]))
+				if(property_exists($this,$name))
 					$this->$name=$record->$name;
 				else
 					$this->_dbAttributes[$name]=$record->$name;
