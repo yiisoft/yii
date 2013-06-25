@@ -1500,4 +1500,21 @@ class CActiveRecordTest extends CTestCase
 			$this->assertTrue($comment->postAuthor->equals($comment->postAuthorBelongsTo));
 		}
 	}
+
+	public function testCustomAttributes()
+	{
+		$model=new UserWithCustomAttributes();
+		$attributes = array(
+			'id' => 12345,
+			'username' => 'test_username',
+			'email' => 'test_email',
+			'password' => 'test_password',
+			'publicAttribute' => 'test_publicAttribute',
+			'magicAttribute' => 'test_magicAttribute',
+		);
+		$model->setAttributes($attributes);
+		$this->assertEquals($attributes, $model->getAttributes(), 'Unable to set custom attributes!');
+
+		$this->assertTrue($model->save(false), 'Unable to save model with custom attributes!');
+	}
 }

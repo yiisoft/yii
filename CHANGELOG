@@ -9,6 +9,7 @@ Version 1.1.14 work in progress
 - Bug #139: Fixed Active Record lazy load through relation with condition (klimov-paul)
 - Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
 - Bug #159: CUploadedFile::getInstancesByName() has been fixed allowing correct fetching files, which name is a part of other file name (klimov-paul)
+- Enh #627: Fixed disrespect of overrides of CActiveRecord::attributeNames() (AnatolyRugalev)
 - Bug #662: Fixed incorrect Active Record lazy loading of relation through BELONGS_TO relation (klimov-paul)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
 - Bug #1669: CNumberValidator used to add wrong error messages in case non-numeric values being validated (resurtm)
