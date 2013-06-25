@@ -674,7 +674,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function hasAttribute($name)
 	{
-		return isset($this->getMetaData()->columns[$name]);
+		return in_array($name, $this->attributeNames());
 	}
 
 	/**
@@ -694,6 +694,8 @@ abstract class CActiveRecord extends CModel
 			return $this->$name;
 		elseif(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
+		elseif(!isset($this->getMetaData()->columns[$name]) && in_array($name, $this->attributeNames()))
+			return $this->$name;
 	}
 
 	/**
@@ -710,6 +712,8 @@ abstract class CActiveRecord extends CModel
 			$this->$name=$value;
 		elseif(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
+		elseif(!isset($this->getMetaData()->columns[$name]) && in_array($name, $this->attributeNames()))
+			$this->$name=$value;
 		else
 			return false;
 		return true;
@@ -754,11 +758,11 @@ abstract class CActiveRecord extends CModel
 	public function getAttributes($names=true)
 	{
 		$attributes=$this->_attributes;
-		foreach($this->getMetaData()->columns as $name=>$column)
+		foreach($this->attributeNames() as $name)
 		{
-			if(property_exists($this,$name))
+			if(property_exists($this,$name) || !isset($this->getMetaData()->columns[$name]))
 				$attributes[$name]=$this->$name;
-			elseif($names===true && !isset($attributes[$name]))
+			elseif(isset($this->getMetaData()->columns[$name]) && $names===true && !isset($attributes[$name]))
 				$attributes[$name]=null;
 		}
 		if(is_array($names))
@@ -766,7 +770,7 @@ abstract class CActiveRecord extends CModel
 			$attrs=array();
 			foreach($names as $name)
 			{
-				if(property_exists($this,$name))
+				if(property_exists($this,$name) || !isset($this->getMetaData()->columns[$name]))
 					$attrs[$name]=$this->$name;
 				else
 					$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
@@ -1243,7 +1247,7 @@ abstract class CActiveRecord extends CModel
 			$this->_related=array();
 			foreach($this->getMetaData()->columns as $name=>$column)
 			{
-				if(property_exists($this,$name))
+				if(property_exists($this,$name) || !isset($this->getMetaData()->columns[$name]))
 					$this->$name=$record->$name;
 				else
 					$this->_attributes[$name]=$record->$name;
