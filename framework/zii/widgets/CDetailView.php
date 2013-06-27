@@ -146,7 +146,10 @@ class CDetailView extends CWidget
 		}
 		if($this->nullDisplay===null)
 			$this->nullDisplay='<span class="null">'.Yii::t('zii','Not set').'</span>';
-		$this->htmlOptions['id']=$this->getId();
+		if(isset($this->htmlOptions['id']))
+			$this->id=$this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$this->id;
 
 		if($this->baseScriptUrl===null)
 			$this->baseScriptUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/detailview';

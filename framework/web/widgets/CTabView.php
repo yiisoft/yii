@@ -135,7 +135,10 @@ class CTabView extends CWidget
 		}
 
 		$htmlOptions=$this->htmlOptions;
-		$htmlOptions['id']=$this->getId();
+		if(isset($this->htmlOptions['id']))
+			$this->id=$this->htmlOptions['id'];
+		else
+			$htmlOptions['id']=$this->id;
 		if(!isset($htmlOptions['class']))
 			$htmlOptions['class']=self::CSS_CLASS;
 
