@@ -46,7 +46,7 @@
  *             'url'=>'http://www.yiiframework.com/',
  *         ),
  *     ),
- * ))?>
+ * ));
  * </pre>
  *
  * By default, the first tab will be activated. To activate a different tab
