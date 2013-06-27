@@ -267,7 +267,8 @@ class CListView extends CBaseListView
 		if($this->enableHistory)
 			$cs->registerCoreScript('history');
 		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiilistview.js',CClientScript::POS_END);
-		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiListView($options);");
+		$htmlOptionsId=$this->htmlOptions['id'];
+		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('$htmlOptionsId').yiiListView($options);");
 	}
 
 	/**

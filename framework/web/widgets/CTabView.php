@@ -135,7 +135,8 @@ class CTabView extends CWidget
 		}
 
 		$htmlOptions=$this->htmlOptions;
-		$htmlOptions['id']=$this->getId();
+		if(empty($this->htmlOptions['id']))
+			$htmlOptions['id']=$this->htmlOptions['id']=$this->getId();
 		if(!isset($htmlOptions['class']))
 			$htmlOptions['class']=self::CSS_CLASS;
 
@@ -155,7 +156,8 @@ class CTabView extends CWidget
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('yiitab');
 		$id=$this->getId();
-		$cs->registerScript('Yii.CTabView#'.$id,"jQuery(\"#{$id}\").yiitab();");
+		$htmlOptionsId=$this->htmlOptions['id'];
+		$cs->registerScript('Yii.CTabView#'.$id,"jQuery(\"#{$htmlOptionsId}\").yiitab();");
 
 		if($this->cssFile!==false)
 			self::registerCssFile($this->cssFile);

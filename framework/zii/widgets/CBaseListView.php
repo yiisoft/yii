@@ -110,7 +110,8 @@ abstract class CBaseListView extends CWidget
 
 		$this->dataProvider->getData();
 
-		$this->htmlOptions['id']=$this->getId();
+		if(empty($this->htmlOptions['id']))
+			$this->htmlOptions['id']=$this->getId();
 
 		if($this->enableSorting && $this->dataProvider->getSort()===false)
 			$this->enableSorting=false;
