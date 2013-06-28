@@ -292,12 +292,11 @@
 		}
 		if (messages) {
 			$.each(settings.attributes, function () {
-				if ($.isArray(messages[this.id])) {
-					if ($.inArray(messages[this.id][0], settings.summaryModels) !== -1) {
-						$.each(messages[this.id][1], function (j, message) {
-							content = content + '<li>' + message + '</li>';
-						});
-					}
+				if ($.isArray(messages[this.id]) && $.isArray(messages[this.id][1]) &&
+					$.inArray(messages[this.id][0], settings.summaryModels) !== -1) {
+					$.each(messages[this.id][1], function (j, message) {
+						content = content + '<li>' + message + '</li>';
+					});
 				}
 			});
 		}
