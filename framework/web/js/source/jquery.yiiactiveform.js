@@ -287,15 +287,17 @@
 	$.fn.yiiactiveform.updateSummary = function (form, messages) {
 		var settings = $(form).data('settings'),
 			content = '';
-		if (settings.summaryID === undefined) {
+		if (settings.summaryID === undefined || settings.summaryModels.length == 0) {
 			return;
 		}
 		if (messages) {
 			$.each(settings.attributes, function () {
 				if ($.isArray(messages[this.id])) {
-					$.each(messages[this.id], function (j, message) {
-						content = content + '<li>' + message + '</li>';
-					});
+					if ($.inArray(messages[this.id][0], settings.summaryModels) !== -1) {
+						$.each(messages[this.id][1], function (j, message) {
+							content = content + '<li>' + message + '</li>';
+						});
+					}
 				}
 			});
 		}
@@ -396,6 +398,7 @@
 		successCssClass: 'success',
 		validatingCssClass: 'validating',
 		summaryID: undefined,
+		summaryModels: [],
 		timer: undefined,
 		beforeValidateAttribute: undefined, // function (form, attribute) | boolean
 		afterValidateAttribute: undefined,  // function (form, attribute, data, hasError)

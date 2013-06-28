@@ -310,6 +310,11 @@ class CActiveForm extends CWidget
 	 * @since 1.1.7
 	 */
 	protected $summaryID;
+	/**
+	 * @var string[] models to be used to display error summary.
+	 * @since 1.1.14
+	 */
+	private $_summaryModels=array();
 
 	/**
 	 * Initializes the widget.
@@ -363,13 +368,14 @@ class CActiveForm extends CWidget
 
 		if($this->summaryID!==null)
 			$options['summaryID']=$this->summaryID;
+		$options['summaryModels']=$this->_summaryModels;
 
 		if($this->focus!==null)
 			$options['focus']=$this->focus;
 
 		if(!empty(CHtml::$errorCss))
 			$options['errorCss']=CHtml::$errorCss;
-		
+
 		$options=CJavaScript::encode($options);
 		$cs->registerCoreScript('yiiactiveform');
 		$id=$this->id;
@@ -551,6 +557,10 @@ class CActiveForm extends CWidget
 			$htmlOptions['style']=isset($htmlOptions['style']) ? rtrim($htmlOptions['style'],';').';display:none' : 'display:none';
 			$html=CHtml::tag('div',$htmlOptions,$header."\n<ul><li>dummy</li></ul>".$footer);
 		}
+
+		$this->_summaryModels=is_array($models) ? $models : array($models);
+		foreach($this->_summaryModels as $i=>$model)
+			$this->_summaryModels[$i]=CHtml::modelName($model);
 
 		$this->summaryID=$htmlOptions['id'];
 		return $html;
@@ -908,7 +918,7 @@ class CActiveForm extends CWidget
 				$model->attributes=$_POST[$modelName];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
-				$result[CHtml::activeId($model,$attribute)]=$errors;
+				$result[CHtml::activeId($model,$attribute)]=array($modelName,$errors);
 		}
 		return function_exists('json_encode') ? json_encode($result) : CJSON::encode($result);
 	}
