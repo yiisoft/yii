@@ -908,7 +908,7 @@ class CActiveForm extends CWidget
 	 */
 	public static function validate($models, $attributes=null, $loadInput=true)
 	{
-		$result=array('messages'=>array(),'models'=>array());
+		$result=array();
 		if(!is_array($models))
 			$models=array($models);
 		foreach($models as $model)
@@ -918,11 +918,7 @@ class CActiveForm extends CWidget
 				$model->attributes=$_POST[$modelName];
 			$model->validate($attributes);
 			foreach($model->getErrors() as $attribute=>$errors)
-			{
-				$id=CHtml::activeId($model,$attribute);
-				$result['messages'][$id]=$errors;
-				$result['models'][$id]=$modelName;
-			}
+				$result[$modelName][CHtml::activeId($model,$attribute)]=$errors;
 		}
 		return function_exists('json_encode') ? json_encode($result) : CJSON::encode($result);
 	}

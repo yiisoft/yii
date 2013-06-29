@@ -355,13 +355,21 @@
 			dataType: 'json',
 			success: function (data) {
 				if (data !== null && typeof data === 'object') {
+					var dataMessages = {},
+						dataModels = {};
+					for (var i in data) {
+						for (var j in data[i]) {
+							dataMessages[j] = data[i][j];
+							dataModels[j] = i;
+						}
+					}
 					$.each(settings.attributes, function () {
 						if (!this.enableAjaxValidation) {
-							delete data.messages[this.id];
-							delete data.models[this.id];
+							delete dataMessages[this.id];
+							delete dataModels[this.id];
 						}
 					});
-					successCallback($.extend({}, messages, data.messages), data.models);
+					successCallback($.extend({}, messages, dataMessages), dataModels);
 				} else {
 					successCallback(messages);
 				}
