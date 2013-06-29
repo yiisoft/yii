@@ -19,6 +19,7 @@ Version 1.1.14 work in progress
 - Bug #1763: CSqlDataProvider was appending another ORDER BY string to an existing ORDER BY statement when using fieldname with dot (szako)
 - Bug #1827: Gii wasn't properly handling table name with the schema part for PostgreSQL (resurtm)
 - Bug #1895: Fixed erroneous language attributes in french views (located at `framework\views\fr`) (Ragazzo)
+- Bug #1909: CGridView::$filterSelector now prevents default action after event has completed by returning false result in event handler function (matih)
 - Bug #1911: MigrateCommand does not rely on cached value about migration table existance anymore as this info could be outdated in testing enviroment (cebe)
 - Bug #1915: CDataProviderIterator: fixed init in case of disabled pagination (antoncpu)
 - Bug #1916: CMssqlSchema::findColumns() issues an "invalid object name" error (resurtm)

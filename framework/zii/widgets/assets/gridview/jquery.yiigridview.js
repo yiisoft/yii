@@ -103,7 +103,7 @@
 
 				$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
 					if (event.type === 'keydown') {
-						if( event.keyCode !== 13) {
+						if (event.keyCode !== 13) {
 							return; // only react to enter key
 						} else {
 							eventType = 'keydown';
@@ -129,6 +129,7 @@
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}
+					return false;
 				});
 
 				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
