@@ -92,15 +92,15 @@
 								$.fn.yiiactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
 							}
 						});
-						$.fn.yiiactiveform.validate($form, function (data) {
+						$.fn.yiiactiveform.validate($form, function (messages, models) {
 							var hasError = false;
 							$.each(settings.attributes, function () {
 								if (this.status === 2 || this.status === 3) {
-									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
+									hasError = $.fn.yiiactiveform.updateInput(this, messages, $form) || hasError;
 								}
 							});
 							if (attribute.afterValidateAttribute !== undefined) {
-								attribute.afterValidateAttribute($form, attribute, data, hasError);
+								attribute.afterValidateAttribute($form, attribute, messages, hasError);
 							}
 						});
 					}
@@ -141,13 +141,13 @@
 					}
 					settings.submitting = true;
 					if (settings.beforeValidate === undefined || settings.beforeValidate($form)) {
-						$.fn.yiiactiveform.validate($form, function (data) {
+						$.fn.yiiactiveform.validate($form, function (messages, models) {
 							var hasError = false;
 							$.each(settings.attributes, function () {
-								hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
+								hasError = $.fn.yiiactiveform.updateInput(this, messages, $form) || hasError;
 							});
-							$.fn.yiiactiveform.updateSummary($form, data);
-							if (settings.afterValidate === undefined || settings.afterValidate($form, data, hasError)) {
+							$.fn.yiiactiveform.updateSummary($form, messages, models);
+							if (settings.afterValidate === undefined || settings.afterValidate($form, messages, hasError)) {
 								if (!hasError) {
 									validated = true;
 									var $button = $form.data('submitObject') || $form.find(':submit:first');
@@ -283,18 +283,18 @@
 	 * updates the error summary, if any.
 	 * @param form jquery the jquery representation of the form
 	 * @param messages array the json data obtained from the ajax validation request
+	 * @param models {"attributeId": "modelName"} map/lookup object
 	 */
-	$.fn.yiiactiveform.updateSummary = function (form, messages) {
+	$.fn.yiiactiveform.updateSummary = function (form, messages, models) {
 		var settings = $(form).data('settings'),
 			content = '';
 		if (settings.summaryID === undefined || settings.summaryModels.length == 0) {
 			return;
 		}
-		if (messages) {
+		if (messages && models) {
 			$.each(settings.attributes, function () {
-				if ($.isArray(messages[this.id]) && $.isArray(messages[this.id][1]) &&
-					$.inArray(messages[this.id][0], settings.summaryModels) !== -1) {
-					$.each(messages[this.id][1], function (j, message) {
+				if ($.isArray(messages[this.id]) && $.inArray(models[this.id], settings.summaryModels) !== -1) {
+					$.each(messages[this.id], function (j, message) {
 						content = content + '<li>' + message + '</li>';
 					});
 				}
@@ -357,10 +357,11 @@
 				if (data !== null && typeof data === 'object') {
 					$.each(settings.attributes, function () {
 						if (!this.enableAjaxValidation) {
-							delete data[this.id];
+							delete data.messages[this.id];
+							delete data.models[this.id];
 						}
 					});
-					successCallback($.extend({}, messages, data));
+					successCallback($.extend({}, messages, data.messages), data.models);
 				} else {
 					successCallback(messages);
 				}
