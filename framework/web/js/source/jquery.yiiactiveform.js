@@ -92,15 +92,15 @@
 								$.fn.yiiactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
 							}
 						});
-						$.fn.yiiactiveform.validate($form, function (data) {
+						$.fn.yiiactiveform.validate($form, function (messages, models) {
 							var hasError = false;
 							$.each(settings.attributes, function () {
 								if (this.status === 2 || this.status === 3) {
-									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
+									hasError = $.fn.yiiactiveform.updateInput(this, messages, $form) || hasError;
 								}
 							});
 							if (attribute.afterValidateAttribute !== undefined) {
-								attribute.afterValidateAttribute($form, attribute, data, hasError);
+								attribute.afterValidateAttribute($form, attribute, messages, hasError);
 							}
 						});
 					}
@@ -141,13 +141,13 @@
 					}
 					settings.submitting = true;
 					if (settings.beforeValidate === undefined || settings.beforeValidate($form)) {
-						$.fn.yiiactiveform.validate($form, function (data) {
+						$.fn.yiiactiveform.validate($form, function (messages, models) {
 							var hasError = false;
 							$.each(settings.attributes, function () {
-								hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
+								hasError = $.fn.yiiactiveform.updateInput(this, messages, $form) || hasError;
 							});
-							$.fn.yiiactiveform.updateSummary($form, data);
-							if (settings.afterValidate === undefined || settings.afterValidate($form, data, hasError)) {
+							$.fn.yiiactiveform.updateSummary($form, messages, models);
+							if (settings.afterValidate === undefined || settings.afterValidate($form, messages, hasError)) {
 								if (!hasError) {
 									validated = true;
 									var $button = $form.data('submitObject') || $form.find(':submit:first');
@@ -283,16 +283,17 @@
 	 * updates the error summary, if any.
 	 * @param form jquery the jquery representation of the form
 	 * @param messages array the json data obtained from the ajax validation request
+	 * @param models {"attributeId": "modelName"} map/lookup object
 	 */
-	$.fn.yiiactiveform.updateSummary = function (form, messages) {
+	$.fn.yiiactiveform.updateSummary = function (form, messages, models) {
 		var settings = $(form).data('settings'),
 			content = '';
-		if (settings.summaryID === undefined) {
+		if (settings.summaryID === undefined || settings.summaryModels.length == 0) {
 			return;
 		}
-		if (messages) {
+		if (messages && models) {
 			$.each(settings.attributes, function () {
-				if ($.isArray(messages[this.id])) {
+				if ($.isArray(messages[this.id]) && $.inArray(models[this.id], settings.summaryModels) !== -1) {
 					$.each(messages[this.id], function (j, message) {
 						content = content + '<li>' + message + '</li>';
 					});
@@ -354,12 +355,21 @@
 			dataType: 'json',
 			success: function (data) {
 				if (data !== null && typeof data === 'object') {
+					var dataMessages = {},
+						dataModels = {};
+					for (var i in data) {
+						for (var j in data[i]) {
+							dataMessages[j] = data[i][j];
+							dataModels[j] = i;
+						}
+					}
 					$.each(settings.attributes, function () {
 						if (!this.enableAjaxValidation) {
-							delete data[this.id];
+							delete dataMessages[this.id];
+							delete dataModels[this.id];
 						}
 					});
-					successCallback($.extend({}, messages, data));
+					successCallback($.extend({}, messages, dataMessages), dataModels);
 				} else {
 					successCallback(messages);
 				}
@@ -396,6 +406,7 @@
 		successCssClass: 'success',
 		validatingCssClass: 'validating',
 		summaryID: undefined,
+		summaryModels: [],
 		timer: undefined,
 		beforeValidateAttribute: undefined, // function (form, attribute) | boolean
 		afterValidateAttribute: undefined,  // function (form, attribute, data, hasError)
