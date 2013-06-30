@@ -364,11 +364,12 @@ class CActiveForm extends CWidget
 		if(isset($this->clientOptions['validationUrl']) && is_array($this->clientOptions['validationUrl']))
 			$options['validationUrl']=CHtml::normalizeUrl($this->clientOptions['validationUrl']);
 
+		foreach($this->_summaryAttributes as $attribute)
+			$this->attributes[$attribute]['summary']=true;
 		$options['attributes']=array_values($this->attributes);
 
 		if($this->summaryID!==null)
 			$options['summaryID']=$this->summaryID;
-		$options['summaryAttributes']=$this->_summaryAttributes;
 
 		if($this->focus!==null)
 			$options['focus']=$this->focus;

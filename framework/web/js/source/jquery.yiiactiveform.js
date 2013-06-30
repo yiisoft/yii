@@ -291,8 +291,14 @@
 			return;
 		}
 		if (messages) {
+			var summaryAttributes = [];
+			for (var i in settings.attributes) {
+				if (settings.attributes[i].summary) {
+					summaryAttributes.push(settings.attributes[i].id);
+				}
+			}
 			$.each(settings.attributes, function () {
-				if ($.inArray(this.id, settings.summaryAttributes) !== -1 && $.isArray(messages[this.id])) {
+				if ($.inArray(this.id, summaryAttributes) !== -1 && $.isArray(messages[this.id])) {
 					$.each(messages[this.id], function (j, message) {
 						content = content + '<li>' + message + '</li>';
 					});
@@ -396,7 +402,6 @@
 		successCssClass: 'success',
 		validatingCssClass: 'validating',
 		summaryID: undefined,
-		summaryAttributes: [],
 		timer: undefined,
 		beforeValidateAttribute: undefined, // function (form, attribute) | boolean
 		afterValidateAttribute: undefined,  // function (form, attribute, data, hasError)
