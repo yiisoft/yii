@@ -310,6 +310,11 @@ class CActiveForm extends CWidget
 	 * @since 1.1.7
 	 */
 	protected $summaryID;
+	/**
+	 * @var string[] attribute IDs to be used to display error summary.
+	 * @since 1.1.14
+	 */
+	private $_summaryAttributes=array();
 
 	/**
 	 * Initializes the widget.
@@ -363,13 +368,14 @@ class CActiveForm extends CWidget
 
 		if($this->summaryID!==null)
 			$options['summaryID']=$this->summaryID;
+		$options['summaryAttributes']=$this->_summaryAttributes;
 
 		if($this->focus!==null)
 			$options['focus']=$this->focus;
 
 		if(!empty(CHtml::$errorCss))
 			$options['errorCss']=CHtml::$errorCss;
-		
+
 		$options=CJavaScript::encode($options);
 		$cs->registerCoreScript('yiiactiveform');
 		$id=$this->id;
@@ -553,6 +559,10 @@ class CActiveForm extends CWidget
 		}
 
 		$this->summaryID=$htmlOptions['id'];
+		foreach(is_array($models) ? $models : array($models) as $model)
+			foreach($model->getSafeAttributeNames() as $attribute)
+				$this->_summaryAttributes[]=CHtml::activeId($model,$attribute);
+
 		return $html;
 	}
 
