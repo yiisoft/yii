@@ -190,6 +190,6 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	{
 		require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
 		$idna=new Net_IDNA2();
-		return $idna->encode($value);
+		return @$idna->encode($value);
 	}
 }
