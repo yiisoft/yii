@@ -270,6 +270,8 @@ class YiiBase
 
 		if(($pos=strrpos($alias,'\\'))!==false) // a class name in PHP 5.3 namespace format
 		{
+			if(class_exists($alias, true)) // check if there's an autoloader that can find this
+				return $alias;
 			$namespace=str_replace('\\','.',ltrim(substr($alias,0,$pos),'\\'));
 			if(($path=self::getPathOfAlias($namespace))!==false)
 			{
