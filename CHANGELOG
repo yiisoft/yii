@@ -111,6 +111,7 @@ Version 1.1.14 work in progress
 - Enh #1977: CFormatter::normalizeDateValue() now is protected instead of private to enable child classes to override it (etienneq)
 - Enh #2003: Gii now allows namespaced base classes to be defined in generators (etienneq)
 - Enh #2038: CFormatter::formatNtext() method can replace newlines with `<p></p>` not just with `<br />` as it was before (resurtm)
+- Enh #2053: CPasswordHelper has been refactored, CSecurityManager has been enhanced and now able to generate cryptographically strong random stuff (resurtm, tom--, ekerazha, samdark)
 - Enh #2062: CWsdlGenerator now supports soap indicators (sequence, choice), injecting of custom WSDL string block and generation of human-friendly documentation for complex types. Added unit test. (lubosdz)
 - Enh #2090: Allow passing array of columns to CDbSchema::addPrimaryKey() (paystey)
 - Enh #2096: CAPTCHA: non-free Duality.ttf font replaced by open/free SpicyRice.ttf (licensed under SIL OFL v1.1) (resurtm)

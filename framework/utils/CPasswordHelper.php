@@ -59,16 +59,13 @@ class CPasswordHelper
 	protected static function checkBlowfish()
 	{
 		if(!function_exists('crypt'))
-			throw new CException(Yii::t('yii',
-				'{class} requires the PHP crypt() function. This system does not have it.',
-				array("{class}"=>__CLASS__)
-			));
+			throw new CException(Yii::t('yii','{class} requires the PHP crypt() function. This system does not have it.',
+				array('{class}'=>__CLASS__)));
 
-		if (!defined('CRYPT_BLOWFISH') || !CRYPT_BLOWFISH)
+		if(!defined('CRYPT_BLOWFISH') || !CRYPT_BLOWFISH)
 			throw new CException(Yii::t('yii',
 				'{class} requires the Blowfish option of the PHP crypt() function. This system does not have it.',
-				array("{class}"=>__CLASS__)
-			));
+				array('{class}'=>__CLASS__)));
     }
 
 	/**
@@ -113,10 +110,11 @@ class CPasswordHelper
 	public static function verifyPassword($password, $hash)
 	{
 		self::checkBlowfish();
-		if(!is_string($password) || $password === '')
+		if(!is_string($password) || $password==='')
 			throw new CException(Yii::t('yii','Cannot hash a password that is empty or not a string.'));
 
-		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) || $matches[1] < 4 || $matches[1] > 31)
+		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) ||
+			$matches[1] < 4 || $matches[1] > 31)
 			return false;
 
 		$test=crypt($password,$hash);
@@ -158,7 +156,7 @@ class CPasswordHelper
 			return false;
 
 		$check=0;
-		for($i=0;$i<$length;$i+=1)
+		for($i=0; $i<$length; $i+=1)
 			$check|=(ord($a[$i])^ord($b[$i]));
 
 		return $check===0;
@@ -178,34 +176,16 @@ class CPasswordHelper
 	 * @return string the random salt value.
 	 * @throws CException in case of invalid cost number
 	 */
-	protected static function generateSalt($cost = 13)
+	protected static function generateSalt($cost=13)
 	{
 		if(!is_numeric($cost))
-			throw new CException(Yii::t('yii',
-				'{class}::$cost must be a number.',
-				array("{class}"=>__CLASS__)
-			));
+			throw new CException(Yii::t('yii','{class}::$cost must be a number.',array('{class}'=>__CLASS__)));
 
 		$cost=(int)$cost;
 		if($cost<4 || $cost>31)
-		    throw new CException(Yii::t('yii',
-				'{class}::$cost must be between 4 and 31.',
-				array("{class}"=>__CLASS__)
-			));
+		    throw new CException(Yii::t('yii','{class}::$cost must be between 4 and 31.',array('{class}'=>__CLASS__)));
 
-		// Get 20 * 8bits of pseudo-random entropy from mt_rand().
-		$rand='';
-		for($i=0;$i<20;$i+=1)
-			$rand.=chr(mt_rand(0,255));
-
-		// Add the microtime for a little more entropy.
-		$rand.=microtime();
-		// Mix the bits cryptographically into a 20-byte binary string.
-		$rand=sha1($rand,true);
-		// Form the prefix that specifies Blowfish algorithm and cost parameter.
-		$salt=sprintf("$2a$%02d$",$cost);
-		// Append the random salt data in the required base64 format.
-		$salt.=str_replace('+','.',substr(base64_encode($rand),0,22));
-		return $salt;
+		$random=Yii::app()->getSecurityManager()->generateRandomString(20);
+		return sprintf('$2a$%02d$',$cost).str_replace('+','.',substr(base64_encode($random),0,22));
 	}
 }

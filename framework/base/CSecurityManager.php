@@ -80,11 +80,12 @@ class CSecurityManager extends CApplicationComponent
 	}
 
 	/**
-	 * @return string a randomly generated private key
+	 * @return string a randomly generated private key.
+	 * @deprecated in favor of {@link generateRandomString()}. Never use this method.
 	 */
 	protected function generateRandomKey()
 	{
-		return sprintf('%08x%08x%08x%08x',mt_rand(),mt_rand(),mt_rand(),mt_rand());
+		return $this->generateRandomString(32);
 	}
 
 	/**
@@ -101,7 +102,7 @@ class CSecurityManager extends CApplicationComponent
 				$this->setValidationKey($key);
 			else
 			{
-				$key=$this->generateRandomKey();
+				$key=$this->generateRandomString(32);
 				$this->setValidationKey($key);
 				Yii::app()->setGlobalState(self::STATE_VALIDATION_KEY,$key);
 			}
@@ -135,7 +136,7 @@ class CSecurityManager extends CApplicationComponent
 				$this->setEncryptionKey($key);
 			else
 			{
-				$key=$this->generateRandomKey();
+				$key=$this->generateRandomString(32);
 				$this->setEncryptionKey($key);
 				Yii::app()->setGlobalState(self::STATE_ENCRYPTION_KEY,$key);
 			}
@@ -316,6 +317,135 @@ class CSecurityManager extends CApplicationComponent
 			$key=str_pad($key,64,chr(0));
 		$key=$this->substr($key,0,64);
 		return $func((str_repeat(chr(0x5C), 64) ^ $key) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ $key) . $data)));
+	}
+
+	/**
+	 * Generate a random ASCII string. Generates only [0-9a-zA-z~.] characters which are all
+	 * transparent in raw URL encoding.
+	 * @param integer $length of the string in characters to be generated.
+	 * @param boolean $cryptographicallyStrong set this to require cryptographically strong randomness.
+	 * @return string generated random string.
+	 */
+	public function generateRandomString($length,$cryptographicallyStrong=true)
+	{
+		return strtr(
+			$this->substr(base64_encode($this->generateRandomBytes($length+2,$cryptographicallyStrong)),0,$length),
+			array('+'=>'_','/'=>'~')
+		);
+	}
+
+	/**
+	 * Generates a string of random bytes.
+	 * @param integer $length number of random bytes to be generated.
+	 * @param boolean $cryptographicallyStrong whether generated string should be cryptographically strong.
+	 * @return boolean|string generated random binary string. Returns false on failure.
+	 */
+	public function generateRandomBytes($length,$cryptographicallyStrong=true)
+	{
+		$bytes='';
+		if($cryptographicallyStrong)
+		{
+			if(function_exists('openssl_random_pseudo_bytes') &&
+				($bytes=openssl_random_pseudo_bytes($length,$strong))!==false &&
+				$strong &&
+				$this->strlen($bytes)>=$length)
+			{
+				return $this->substr($bytes,0,$length);
+			}
+
+			if(function_exists('mcrypt_create_iv') &&
+				($bytes=mcrypt_create_iv($length,MCRYPT_DEV_RANDOM))!==false &&
+				$this->strlen($bytes)>=$length)
+			{
+				return $this->substr($bytes,0,$length);
+			}
+
+			if(($file=@fopen('/dev/random','r'))!==false &&
+				stream_set_blocking($file,0) &&
+				($bytes=@fread($file,$length))!==false &&
+				(fclose($file) || true) &&
+				$this->strlen($bytes)>=$length)
+			{
+				return $this->substr($bytes,0,$length);
+			}
+
+			$i=0;
+			while($this->strlen($bytes)<$length &&
+				($byte=$this->getSessionRandomBlock())!==false &&
+				++$i<3)
+			{
+				$bytes.=$byte;
+			}
+			if($this->strlen($bytes)>=$length)
+				return $this->substr($bytes,0,$length);
+
+			return false;
+		}
+
+		while($this->strlen($bytes)<$length)
+			$bytes.=$this->generatePseudoRandomBlock();
+		return $this->substr($bytes,0,$length);
+	}
+
+	/**
+	 * Generate a pseudo random block of data using several sources. This is the better alternative
+	 * to {@link mt_rand} function which is not really random at all.
+	 * @return string of 64 pseudo random bytes.
+	 */
+	public function generatePseudoRandomBlock()
+	{
+		$r=array();
+		for($i=0; $i<32; ++$i)
+			$r[]=pack('S',mt_rand(0,0xffff));
+
+		// On UNIX and UNIX-like operating systems the numerical values in `ps`, `uptime` and `iostat`
+		// ought to be fairly unpredictable. Gather the non-zero digits from those.
+		foreach(array('ps','uptime','iostat') as $command) {
+			@exec($command,$s,$ret);
+			if(is_array($s) && !empty($s) && $ret===0)
+			{
+				foreach($s as $v)
+				{
+					if(preg_match_all('/[1-9]+/',$v,$m)!==false && isset($m[0]))
+						$r[]=implode('',$m[0]);
+				}
+			}
+		}
+
+		// Gather the current time's microsecond part. Note: this is only a source of entropy on
+		// the first call! If multiple calls are made, the entropy is only as much as the
+		// randomness in the time between calls.
+		$r[]=$this->substr(microtime(),2,6);
+
+		// Concatenate everything gathered, mix it with sha512. hash() is part of PHP core and
+		// enabled by default but it can be disabled at compile time but we ignore that possibility here.
+		return hash('sha512',implode('',$r),true);
+	}
+
+	/**
+	 * Get random bytes from the system entropy source via PHP session manager.
+	 * @return boolean|string 20-byte random binary string or false on error.
+	 * Returns false in case it cannot be retrieved.
+	 */
+	public function getSessionRandomBlock()
+	{
+		ini_set('session.entropy_length',20);
+		if(ini_get('session.entropy_length')!=20)
+			return false;
+
+		// These calls are (supposed to be, according to PHP manual) safe even if
+		// there is already an active session for the calling script.
+		@session_start();
+		@session_regenerate_id();
+
+		$bytes=session_id();
+		if(!$bytes)
+			return false;
+
+		// $bytes has 20 bytes of entropy but the session manager converts the binary
+		// random bytes into something readable. We have to convert that back.
+		// SHA-1 should do it without losing entropy.
+		return sha1($bytes,true);
 	}
 
 	/**
