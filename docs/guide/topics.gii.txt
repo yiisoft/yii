@@ -62,6 +62,9 @@ The basic workflow of using a generator is as follows:
 4. Press the `Generate` button to generate the code files;
 5. Review the code generation log.
 
+> Note: when generating models make sure to review and correct `rules` method since database structure often doesn't
+reflect data validation requirements.
+
 
 Extending Gii
 -------------
@@ -276,5 +279,3 @@ class <?php echo $this->className; ?> extends CWidget
 ~~~
 
 This concludes the creation of a new code generator. We can access this code generator immediately via the URL `http://hostname/path/to/index.php?r=gii/widget`.
-
-<div class="revision">$Id$</div>
