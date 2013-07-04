@@ -21,14 +21,14 @@
 public function accessRules()
 {
 	return array(
-		array('allow',  // allow all users to perform 'list' and 'show' actions
+		array('allow',  // позволим всем пользователям выполнять действия 'list' и 'show'
 			'actions'=>array('index', 'view'),
 			'users'=>array('*'),
 		),
-		array('allow', // allow authenticated users to perform any action
+		array('allow', // позволим аутентифицированным пользователям выполнять любые действия
 			'users'=>array('@'),
 		),
-		array('deny',  // deny all users
+		array('deny',  // остальным запретим всё
 			'users'=>array('*'),
 		),
 	);
