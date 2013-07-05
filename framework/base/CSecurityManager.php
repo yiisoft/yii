@@ -91,6 +91,7 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * @return string the private key used to generate HMAC.
 	 * If the key is not explicitly set, a random one is generated and returned.
+	 * @throws CException in case random string cannot be generated.
 	 */
 	public function getValidationKey()
 	{
@@ -128,6 +129,7 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * @return string the private key used to encrypt/decrypt data.
 	 * If the key is not explicitly set, a random one is generated and returned.
+	 * @throws CException in case random string cannot be generated.
 	 */
 	public function getEncryptionKey()
 	{
@@ -335,13 +337,8 @@ class CSecurityManager extends CApplicationComponent
 	public function generateRandomString($length,$cryptographicallyStrong=true)
 	{
 		if(($randomBytes=$this->generateRandomBytes($length+2,$cryptographicallyStrong))!==false)
-		{
 			return strtr($this->substr(base64_encode($randomBytes),0,$length),array('+'=>'_','/'=>'~'));
-		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
