@@ -91,9 +91,7 @@ class CPasswordHelper
 	{
 		self::checkBlowfish();
 		$salt=self::generateSalt($cost);
-		echo $salt.'<br/>';
 		$hash=crypt($password,$salt);
-		echo $hash.'<br/>';
 
 		if(!is_string($hash) || (function_exists('mb_strlen') ? mb_strlen($hash, '8bit') : strlen($hash))<32)
 			throw new CException(Yii::t('yii','Internal error while generating hash.'));
