@@ -304,7 +304,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	public function prependValidator($name,$attributes,$params=array())
 	{
 		$validator=CValidator::createValidator($name,$this,$attributes,$params);
-		$this->getValidatorList()->insertAt(0, $validator);
+		$this->getValidatorList()->insertAt(0,$validator);
 		return $this;
 	}
 
