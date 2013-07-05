@@ -81,7 +81,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @return string a randomly generated private key.
-	 * @deprecated in favor of {@link generateRandomString()}. Never use this method.
+	 * @deprecated in favor of {@link generateRandomString()} since 1.1.14. Never use this method.
 	 */
 	protected function generateRandomKey()
 	{
@@ -330,9 +330,10 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Generate a random ASCII string. Generates only [0-9a-zA-z~.] characters which are all
 	 * transparent in raw URL encoding.
-	 * @param integer $length of the string in characters to be generated.
+	 * @param integer $length length of the generated string in characters.
 	 * @param boolean $cryptographicallyStrong set this to require cryptographically strong randomness.
-	 * @return string|boolean generated random string. Returns false in case string cannot be generated
+	 * @return string|boolean random string or false in case it cannot be generated.
+	 * @since 1.1.14
 	 */
 	public function generateRandomString($length,$cryptographicallyStrong=true)
 	{
@@ -345,8 +346,9 @@ class CSecurityManager extends CApplicationComponent
 	 * Generates a string of random bytes.
 	 * @param integer $length number of random bytes to be generated.
 	 * @param boolean $cryptographicallyStrong whether generated string should be cryptographically strong.
-	 * True parameter value may cause very slow random generation.
-	 * @return boolean|string generated random binary string. Returns false on failure.
+	 * Note that setting this parameter to true makes generation very slow.
+	 * @return boolean|string generated random binary string or false on failure.
+	 * @since 1.1.14
 	 */
 	public function generateRandomBytes($length,$cryptographicallyStrong=true)
 	{
@@ -405,8 +407,9 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Generate a pseudo random block of data using several sources. This is the better alternative
-	 * to {@link mt_rand} function which is not really random at all.
+	 * to {@link mt_rand} function which is not really random.
 	 * @return string of 64 pseudo random bytes.
+	 * @since 1.1.14
 	 */
 	public function generatePseudoRandomBlock()
 	{
@@ -435,7 +438,7 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Get random bytes from the system entropy source via PHP session manager.
 	 * @return boolean|string 20-byte random binary string or false on error.
-	 * Returns false in case it cannot be retrieved.
+	 * @since 1.1.14
 	 */
 	public function generateSessionRandomBlock()
 	{

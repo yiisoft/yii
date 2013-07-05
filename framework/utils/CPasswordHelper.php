@@ -114,7 +114,7 @@ class CPasswordHelper
 			throw new CException(Yii::t('yii','Cannot hash a password that is empty or not a string.'));
 
 		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) ||
-			$matches[1] < 4 || $matches[1] > 31)
+			$matches[1]<4 || $matches[1]>31)
 			return false;
 
 		$test=crypt($password,$hash);
