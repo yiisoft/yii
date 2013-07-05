@@ -248,7 +248,7 @@ class CModelTest extends CTestCase
 		$model=new NewModel();
 		$scenario='test';
 		$model->scenario=$scenario;
-		$model->addValidator('required','firstName',array('on'=>$scenario));
+		$model->appendValidator('required','firstName',array('on'=>$scenario));
 		$this->assertTrue($model->isAttributeRequired('firstName'));
 		$validators = $model->getValidatorList();
 		//gets first validator in the list
@@ -265,7 +265,7 @@ class CModelTest extends CTestCase
 		$model=new NewModel();
 		$scenario='test';
 		$model->scenario=$scenario;
-		$model->addValidator('required','firstName',array('on'=>$scenario));
+		$model->appendValidator('required','firstName',array('on'=>$scenario));
 		$this->assertTrue($model->isAttributeRequired('firstName'));
 		$validators = $model->getValidatorList();
 		//gets last validator in the list
