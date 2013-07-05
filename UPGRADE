@@ -70,7 +70,7 @@ Upgrading from v1.1.13
   from both these to `CActiveRelation`.
 
 - CSecurityManager::generateRandomKey() has been deprecated in favor of CSecurityManager::generateRandomString().
-  Try not to use and avoid CSecurityManager::generateRandomKey() method anymore in your code.
+  Try not to use anymore and avoid CSecurityManager::generateRandomKey() method in your code.
 
 Upgrading from v1.1.12
 ----------------------

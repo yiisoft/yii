@@ -102,7 +102,10 @@ class CSecurityManager extends CApplicationComponent
 				$this->setValidationKey($key);
 			else
 			{
-				$key=$this->generateRandomString(32);
+				if(($key=$this->generateRandomString(32,true))===false)
+					if(($key=$this->generateRandomString(32,false))===false)
+						throw new CException(Yii::t('yii',
+							'CSecurityManager::generateRandomString() cannot generate random string in the current environment.'));
 				$this->setValidationKey($key);
 				Yii::app()->setGlobalState(self::STATE_VALIDATION_KEY,$key);
 			}
@@ -136,7 +139,10 @@ class CSecurityManager extends CApplicationComponent
 				$this->setEncryptionKey($key);
 			else
 			{
-				$key=$this->generateRandomString(32);
+				if(($key=$this->generateRandomString(32,true))===false)
+					if(($key=$this->generateRandomString(32,false))===false)
+						throw new CException(Yii::t('yii',
+							'CSecurityManager::generateRandomString() cannot generate random string in the current environment.'));
 				$this->setEncryptionKey($key);
 				Yii::app()->setGlobalState(self::STATE_ENCRYPTION_KEY,$key);
 			}
@@ -324,20 +330,25 @@ class CSecurityManager extends CApplicationComponent
 	 * transparent in raw URL encoding.
 	 * @param integer $length of the string in characters to be generated.
 	 * @param boolean $cryptographicallyStrong set this to require cryptographically strong randomness.
-	 * @return string generated random string.
+	 * @return string|boolean generated random string. Returns false in case string cannot be generated
 	 */
 	public function generateRandomString($length,$cryptographicallyStrong=true)
 	{
-		return strtr(
-			$this->substr(base64_encode($this->generateRandomBytes($length+2,$cryptographicallyStrong)),0,$length),
-			array('+'=>'_','/'=>'~')
-		);
+		if(($randomBytes=$this->generateRandomBytes($length+2,$cryptographicallyStrong))!==false)
+		{
+			return strtr($this->substr(base64_encode($randomBytes),0,$length),array('+'=>'_','/'=>'~'));
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
 	 * Generates a string of random bytes.
 	 * @param integer $length number of random bytes to be generated.
 	 * @param boolean $cryptographicallyStrong whether generated string should be cryptographically strong.
+	 * True parameter value may cause very slow random generation.
 	 * @return boolean|string generated random binary string. Returns false on failure.
 	 */
 	public function generateRandomBytes($length,$cryptographicallyStrong=true)
@@ -360,7 +371,7 @@ class CSecurityManager extends CApplicationComponent
 				return $this->substr($bytes,0,$length);
 			}
 
-			if(($file=@fopen('/dev/random','r'))!==false &&
+			if(($file=@fopen('/dev/random','rb'))!==false &&
 				stream_set_blocking($file,0) &&
 				($bytes=@fread($file,$length))!==false &&
 				(fclose($file) || true) &&
@@ -371,7 +382,7 @@ class CSecurityManager extends CApplicationComponent
 
 			$i=0;
 			while($this->strlen($bytes)<$length &&
-				($byte=$this->getSessionRandomBlock())!==false &&
+				($byte=$this->generateSessionRandomBlock())!==false &&
 				++$i<3)
 			{
 				$bytes.=$byte;
@@ -380,6 +391,15 @@ class CSecurityManager extends CApplicationComponent
 				return $this->substr($bytes,0,$length);
 
 			return false;
+		}
+
+		if(($file=@fopen('/dev/urandom','rb'))!==false &&
+			stream_set_blocking($file,0) &&
+			($bytes=@fread($file,$length))!==false &&
+			(fclose($file) || true) &&
+			$this->strlen($bytes)>=$length)
+		{
+			return $this->substr($bytes,0,$length);
 		}
 
 		while($this->strlen($bytes)<$length)
@@ -394,32 +414,26 @@ class CSecurityManager extends CApplicationComponent
 	 */
 	public function generatePseudoRandomBlock()
 	{
-		$r=array();
+		$bytes='';
 		for($i=0; $i<32; ++$i)
-			$r[]=pack('S',mt_rand(0,0xffff));
+			$bytes.=pack('S',mt_rand(0,0xffff));
 
 		// On UNIX and UNIX-like operating systems the numerical values in `ps`, `uptime` and `iostat`
 		// ought to be fairly unpredictable. Gather the non-zero digits from those.
 		foreach(array('ps','uptime','iostat') as $command) {
-			@exec($command,$s,$ret);
-			if(is_array($s) && !empty($s) && $ret===0)
-			{
-				foreach($s as $v)
-				{
-					if(preg_match_all('/[1-9]+/',$v,$m)!==false && isset($m[0]))
-						$r[]=implode('',$m[0]);
-				}
-			}
+			@exec($command,$commandResult,$retVal);
+			if(is_array($commandResult) && !empty($commandResult) && $retVal==0)
+				$bytes.=preg_replace('/[^1-9]/','',implode('',$commandResult));
 		}
 
 		// Gather the current time's microsecond part. Note: this is only a source of entropy on
 		// the first call! If multiple calls are made, the entropy is only as much as the
 		// randomness in the time between calls.
-		$r[]=$this->substr(microtime(),2,6);
+		$bytes.=$this->substr(microtime(),2,6);
 
 		// Concatenate everything gathered, mix it with sha512. hash() is part of PHP core and
 		// enabled by default but it can be disabled at compile time but we ignore that possibility here.
-		return hash('sha512',implode('',$r),true);
+		return hash('sha512',$bytes,true);
 	}
 
 	/**
@@ -427,7 +441,7 @@ class CSecurityManager extends CApplicationComponent
 	 * @return boolean|string 20-byte random binary string or false on error.
 	 * Returns false in case it cannot be retrieved.
 	 */
-	public function getSessionRandomBlock()
+	public function generateSessionRandomBlock()
 	{
 		ini_set('session.entropy_length',20);
 		if(ini_get('session.entropy_length')!=20)
