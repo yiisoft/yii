@@ -372,7 +372,6 @@ class CSecurityManager extends CApplicationComponent
 			}
 
 			if(($file=@fopen('/dev/random','rb'))!==false &&
-				stream_set_blocking($file,0) &&
 				($bytes=@fread($file,$length))!==false &&
 				(fclose($file) || true) &&
 				$this->strlen($bytes)>=$length)
