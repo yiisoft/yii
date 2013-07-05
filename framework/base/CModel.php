@@ -291,9 +291,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		}
 		return $validators;
 	}
-	
+
 	/**
-	 * Creates a new validator for the model
+	 * Prepends a new validator for the model
 	 * @param string $name the name or class of the validator
 	 * @param mixed $attributes list of attributes to be validated. This can be either an array of
 	 * the attribute names or a string of comma-separated attribute names.
@@ -301,13 +301,29 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @return CModel allows method chaining
 	 * @since 1.1.14
 	 */
-	public function addValidator($name,$attributes,$params=array())
+	public function prependValidator($name,$attributes,$params=array())
+	{
+		$validator=CValidator::createValidator($name,$this,$attributes,$params);
+		$this->getValidatorList()->insertAt(0,$validator);
+		return $this;
+	}
+
+	/**
+	 * Appends a new validator for the model
+	 * @param string $name the name or class of the validator
+	 * @param mixed $attributes list of attributes to be validated. This can be either an array of
+	 * the attribute names or a string of comma-separated attribute names.
+	 * @param array $params initial values to be applied to the validator properties
+	 * @return CModel allows method chaining
+	 * @since 1.1.14
+	 */
+	public function appendValidator($name,$attributes,$params=array())
 	{
 		$validator=CValidator::createValidator($name,$this,$attributes,$params);
 		$this->getValidatorList()->add($validator);
 		return $this;
 	}
-	
+
 	/**
 	 * Returns a value indicating whether the attribute is required.
 	 * This is determined by checking if the attribute is associated with a
