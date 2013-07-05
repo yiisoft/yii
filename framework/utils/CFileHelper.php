@@ -151,7 +151,7 @@ class CFileHelper
 				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
+						@chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
 				}
 				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
@@ -305,7 +305,7 @@ class CFileHelper
 
 		$mode=isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
 		$res=mkdir($dst, $mode);
-		chmod($dst,$mode);
+		@chmod($dst,$mode);
 		return $res;
 	}
 }
