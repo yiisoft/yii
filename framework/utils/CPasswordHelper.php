@@ -91,7 +91,9 @@ class CPasswordHelper
 	{
 		self::checkBlowfish();
 		$salt=self::generateSalt($cost);
+		echo $salt.'<br/>';
 		$hash=crypt($password,$salt);
+		echo $hash.'<br/>';
 
 		if(!is_string($hash) || (function_exists('mb_strlen') ? mb_strlen($hash, '8bit') : strlen($hash))<32)
 			throw new CException(Yii::t('yii','Internal error while generating hash.'));
@@ -156,7 +158,7 @@ class CPasswordHelper
 			return false;
 
 		$check=0;
-		for($i=0; $i<$length; $i+=1)
+		for($i=0;$i<$length;$i+=1)
 			$check|=(ord($a[$i])^ord($b[$i]));
 
 		return $check===0;
@@ -176,7 +178,7 @@ class CPasswordHelper
 	 * @return string the random salt value.
 	 * @throws CException in case of invalid cost number
 	 */
-	protected static function generateSalt($cost=13)
+	public static function generateSalt($cost=13)
 	{
 		if(!is_numeric($cost))
 			throw new CException(Yii::t('yii','{class}::$cost must be a number.',array('{class}'=>__CLASS__)));
@@ -185,7 +187,9 @@ class CPasswordHelper
 		if($cost<4 || $cost>31)
 		    throw new CException(Yii::t('yii','{class}::$cost must be between 4 and 31.',array('{class}'=>__CLASS__)));
 
-		$random=Yii::app()->getComponent('securityManager')->generateRandomString(20);
-		return sprintf('$2a$%02d$',$cost).str_replace('+','.',substr(base64_encode($random),0,22));
+		if(($random=Yii::app()->getSecurityManager()->generateRandomString(21,true))===false)
+			if(($random=Yii::app()->getSecurityManager()->generateRandomString(21,false))===false)
+				throw new CException(Yii::t('yii','Unable to generate random string.'));
+		return sprintf('$2a$%02d$',$cost).strtr($random,array('_'=>'.','~'=>'/')).'$';
 	}
 }

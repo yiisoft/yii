@@ -414,7 +414,7 @@ class CSecurityManager extends CApplicationComponent
 	public function generatePseudoRandomBlock()
 	{
 		$bytes='';
-		for($i=0; $i<32; ++$i)
+		for($i=0;$i<32;++$i)
 			$bytes.=pack('S',mt_rand(0,0xffff));
 
 		// On UNIX and UNIX-like operating systems the numerical values in `ps`, `uptime` and `iostat`
