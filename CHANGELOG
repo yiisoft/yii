@@ -119,7 +119,6 @@ Version 1.1.14 work in progress
 - Enh #2213: Added comment with hint on ajax validaton which may lead to duplicate entries in the database to gii form template (elmig, cebe)
 - Enh #2217: Support of the empty option for CHtml::radioButtonList() has been introduced (resurtm)
 - Enh #2254: CForm::$showErrors property has been added, it controls whether error elements of the form attributes should be rendered (resurtm)
-- Enh #2259: Allow appending and prepending new validators on the fly (gusnips, creocoder)
 - Enh #2275: Added primary log rotation by copy and truncate to CFileLogRoute (bdstevens)
 - Enh #2415: Cancel current ajax request before create a new one in CGridView and CListView (gusnips)
 - Enh #2416: Avoid instantiating HTMLPurifier on each CHtmlPurifier::purify() call. Allow to pass array as argument of CHtmlPurifier::purify() (twisted1919)

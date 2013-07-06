@@ -239,38 +239,4 @@ class CModelTest extends CTestCase
 				$e->getMessage());
 		}
 	}
-
-	/**
-	 * @see https://github.com/yiisoft/yii/pull/2607
-	 */
-	public function testPrependValidator()
-	{
-		$model=new NewModel();
-		$scenario='test';
-		$model->scenario=$scenario;
-		$model->appendValidator('required','firstName',array('on'=>$scenario));
-		$this->assertTrue($model->isAttributeRequired('firstName'));
-		$validators = $model->getValidatorList();
-		//gets first validator in the list
-		$validator = $validators->itemAt(0);
-		$this->assertInstanceOf('CRequiredValidator',$validator);
-		$this->assertSame($validator->attributes[0],'firstName');
-	}
-
-	/**
-	 * @see https://github.com/yiisoft/yii/pull/2607
-	 */
-	public function testAppendValidator()
-	{
-		$model=new NewModel();
-		$scenario='test';
-		$model->scenario=$scenario;
-		$model->appendValidator('required','firstName',array('on'=>$scenario));
-		$this->assertTrue($model->isAttributeRequired('firstName'));
-		$validators = $model->getValidatorList();
-		//gets last validator in the list
-		$validator = $validators->itemAt($validators->count()-1);
-		$this->assertInstanceOf('CRequiredValidator',$validator);
-		$this->assertSame($validator->attributes[0],'firstName');
-	}
 }
