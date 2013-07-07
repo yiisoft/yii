@@ -328,7 +328,7 @@ class CSecurityManager extends CApplicationComponent
 	}
 
 	/**
-	 * Generate a random ASCII string. Generates only [0-9a-zA-z~.] characters which are all
+	 * Generate a random ASCII string. Generates only [0-9a-zA-z_~] characters which are all
 	 * transparent in raw URL encoding.
 	 * @param integer $length length of the generated string in characters.
 	 * @param boolean $cryptographicallyStrong set this to require cryptographically strong randomness.
@@ -346,59 +346,46 @@ class CSecurityManager extends CApplicationComponent
 	 * Generates a string of random bytes.
 	 * @param integer $length number of random bytes to be generated.
 	 * @param boolean $cryptographicallyStrong whether generated string should be cryptographically strong.
-	 * Note that setting this parameter to true makes generation very slow.
 	 * @return boolean|string generated random binary string or false on failure.
 	 * @since 1.1.14
 	 */
 	public function generateRandomBytes($length,$cryptographicallyStrong=true)
 	{
 		$bytes='';
-		if($cryptographicallyStrong)
-		{
-			if(function_exists('openssl_random_pseudo_bytes') &&
-				($bytes=openssl_random_pseudo_bytes($length,$strong))!==false &&
-				$strong &&
-				$this->strlen($bytes)>=$length)
-			{
-				return $this->substr($bytes,0,$length);
-			}
+		if(function_exists('openssl_random_pseudo_bytes'))
+        {
+            $bytes=openssl_random_pseudo_bytes($length,$strong);
+            if($this->strlen($bytes)>=$length && ($strong || !$cryptographicallyStrong))
+                return $this->substr($bytes,0,$length);
+        }
 
-			if(function_exists('mcrypt_create_iv') &&
-				($bytes=mcrypt_create_iv($length,MCRYPT_DEV_RANDOM))!==false &&
-				$this->strlen($bytes)>=$length)
-			{
-				return $this->substr($bytes,0,$length);
-			}
+        if(function_exists('mcrypt_create_iv') &&
+            ($bytes=mcrypt_create_iv($length))!==false &&
+            $this->strlen($bytes)>=$length)
+        {
+            return $this->substr($bytes,0,$length);
+        }
 
-			if(($file=@fopen('/dev/random','rb'))!==false &&
-				($bytes=@fread($file,$length))!==false &&
-				(fclose($file) || true) &&
-				$this->strlen($bytes)>=$length)
-			{
-				return $this->substr($bytes,0,$length);
-			}
+        if(($file=@fopen('/dev/urandom','rb'))!==false &&
+            ($bytes=@fread($file,$length))!==false &&
+            (fclose($file) || true) &&
+            $this->strlen($bytes)>=$length)
+        {
+            return $this->substr($bytes,0,$length);
+        }
 
-			$i=0;
-			while($this->strlen($bytes)<$length &&
-				($byte=$this->generateSessionRandomBlock())!==false &&
-				++$i<3)
-			{
-				$bytes.=$byte;
-			}
-			if($this->strlen($bytes)>=$length)
-				return $this->substr($bytes,0,$length);
+        $i=0;
+        while($this->strlen($bytes)<$length &&
+            ($byte=$this->generateSessionRandomBlock())!==false &&
+            ++$i<3)
+        {
+            $bytes.=$byte;
+        }
+        if($this->strlen($bytes)>=$length)
+            return $this->substr($bytes,0,$length);
 
-			return false;
-		}
-
-		if(($file=@fopen('/dev/urandom','rb'))!==false &&
-			stream_set_blocking($file,0) &&
-			($bytes=@fread($file,$length))!==false &&
-			(fclose($file) || true) &&
-			$this->strlen($bytes)>=$length)
-		{
-			return $this->substr($bytes,0,$length);
-		}
+        if ($cryptographicallyStrong)
+            return false;
 
 		while($this->strlen($bytes)<$length)
 			$bytes.=$this->generatePseudoRandomBlock();
@@ -406,15 +393,23 @@ class CSecurityManager extends CApplicationComponent
 	}
 
 	/**
-	 * Generate a pseudo random block of data using several sources. This is the better alternative
-	 * to {@link mt_rand} function which is not really random.
+	 * Generate a pseudo random block of data using several sources. On some systems this may be a bit
+     * better than PHP's {@link mt_rand} built-in function, which is not really random.
 	 * @return string of 64 pseudo random bytes.
 	 * @since 1.1.14
 	 */
 	public function generatePseudoRandomBlock()
 	{
 		$bytes='';
-		for($i=0;$i<32;++$i)
+
+        if (function_exists('openssl_random_pseudo_bytes')
+            && ($bytes=openssl_random_pseudo_bytes(512))!==false
+            && $this->strlen($bytes)>=512
+        ) {
+            return $this->substr($bytes,0,512);
+        }
+
+        for($i=0;$i<32;++$i)
 			$bytes.=pack('S',mt_rand(0,0xffff));
 
 		// On UNIX and UNIX-like operating systems the numerical values in `ps`, `uptime` and `iostat`
