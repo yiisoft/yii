@@ -69,6 +69,9 @@ Upgrading from v1.1.13
   `CHasManyRelation` make sure you update these to reflect moving `through` property
   from both these to `CActiveRelation`.
 
+- CSecurityManager::generateRandomKey() has been deprecated in favor of CSecurityManager::generateRandomString().
+  Try not to use it anymore and avoid CSecurityManager::generateRandomKey() method in your code.
+
 Upgrading from v1.1.12
 ----------------------
 - Both jQuery and jQueryUI were updated. Check [jQuery UI upgrade guide](http://jqueryui.com/upgrade-guide/1.9/)
