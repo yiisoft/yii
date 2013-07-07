@@ -199,8 +199,6 @@ class CButtonColumn extends CGridColumn
 				unset($this->buttons[$id]);
 			elseif(isset($button['click']))
 			{
-				if(!isset($button['options']['class']))
-					$this->buttons[$id]['options']['class']=$id;
 				if(!($button['click'] instanceof CJavaScriptExpression))
 					$this->buttons[$id]['click']=new CJavaScriptExpression($button['click']);
 			}
@@ -295,8 +293,7 @@ EOD;
 			if(isset($button['click']))
 			{
 				$function=CJavaScript::encode($button['click']);
-				$class=preg_replace('/\s+/','.',$button['options']['class']);
-				$js[]="jQuery(document).on('click','#{$this->grid->id} a.{$class}',$function);";
+				$js[]="jQuery(document).on('click','#{$this->grid->id} a#{$id}',$function);";
 			}
 		}
 
@@ -339,6 +336,8 @@ EOD;
 		$label=isset($button['label']) ? $button['label'] : $id;
 		$url=isset($button['url']) ? $this->evaluateExpression($button['url'],array('data'=>$data,'row'=>$row)) : '#';
 		$options=isset($button['options']) ? $button['options'] : array();
+		if(!isset($options['id']))
+			$options['id']=$id;
 		if(!isset($options['title']))
 			$options['title']=$label;
 		if(isset($button['imageUrl']) && is_string($button['imageUrl']))
