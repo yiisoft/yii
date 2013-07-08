@@ -360,7 +360,7 @@ class CSecurityManager extends CApplicationComponent
 		}
 
 		if(function_exists('mcrypt_create_iv') &&
-			($bytes=mcrypt_create_iv($length))!==false &&
+			($bytes=mcrypt_create_iv($length, MCRYPT_DEV_URANDOM))!==false &&
 			$this->strlen($bytes)>=$length)
 		{
 			return $this->substr($bytes,0,$length);
