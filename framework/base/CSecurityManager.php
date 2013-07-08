@@ -353,39 +353,39 @@ class CSecurityManager extends CApplicationComponent
 	{
 		$bytes='';
 		if(function_exists('openssl_random_pseudo_bytes'))
-        {
-            $bytes=openssl_random_pseudo_bytes($length,$strong);
-            if($this->strlen($bytes)>=$length && ($strong || !$cryptographicallyStrong))
-                return $this->substr($bytes,0,$length);
-        }
+		{
+			$bytes=openssl_random_pseudo_bytes($length,$strong);
+			if($this->strlen($bytes)>=$length && ($strong || !$cryptographicallyStrong))
+				return $this->substr($bytes,0,$length);
+		}
 
-        if(function_exists('mcrypt_create_iv') &&
-            ($bytes=mcrypt_create_iv($length))!==false &&
-            $this->strlen($bytes)>=$length)
-        {
-            return $this->substr($bytes,0,$length);
-        }
+		if(function_exists('mcrypt_create_iv') &&
+			($bytes=mcrypt_create_iv($length))!==false &&
+			$this->strlen($bytes)>=$length)
+		{
+			return $this->substr($bytes,0,$length);
+		}
 
-        if(($file=@fopen('/dev/urandom','rb'))!==false &&
-            ($bytes=@fread($file,$length))!==false &&
-            (fclose($file) || true) &&
-            $this->strlen($bytes)>=$length)
-        {
-            return $this->substr($bytes,0,$length);
-        }
+		if(($file=@fopen('/dev/urandom','rb'))!==false &&
+			($bytes=@fread($file,$length))!==false &&
+			(fclose($file) || true) &&
+			$this->strlen($bytes)>=$length)
+		{
+			return $this->substr($bytes,0,$length);
+		}
 
-        $i=0;
-        while($this->strlen($bytes)<$length &&
-            ($byte=$this->generateSessionRandomBlock())!==false &&
-            ++$i<3)
-        {
-            $bytes.=$byte;
-        }
-        if($this->strlen($bytes)>=$length)
-            return $this->substr($bytes,0,$length);
+		$i=0;
+		while($this->strlen($bytes)<$length &&
+			($byte=$this->generateSessionRandomBlock())!==false &&
+			++$i<3)
+		{
+			$bytes.=$byte;
+		}
+		if($this->strlen($bytes)>=$length)
+			return $this->substr($bytes,0,$length);
 
-        if ($cryptographicallyStrong)
-            return false;
+		if ($cryptographicallyStrong)
+			return false;
 
 		while($this->strlen($bytes)<$length)
 			$bytes.=$this->generatePseudoRandomBlock();
@@ -394,7 +394,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Generate a pseudo random block of data using several sources. On some systems this may be a bit
-     * better than PHP's {@link mt_rand} built-in function, which is not really random.
+	 * better than PHP's {@link mt_rand} built-in function, which is not really random.
 	 * @return string of 64 pseudo random bytes.
 	 * @since 1.1.14
 	 */
@@ -402,14 +402,14 @@ class CSecurityManager extends CApplicationComponent
 	{
 		$bytes='';
 
-        if (function_exists('openssl_random_pseudo_bytes')
-            && ($bytes=openssl_random_pseudo_bytes(512))!==false
-            && $this->strlen($bytes)>=512
-        ) {
-            return $this->substr($bytes,0,512);
-        }
+		if (function_exists('openssl_random_pseudo_bytes')
+			&& ($bytes=openssl_random_pseudo_bytes(512))!==false
+			&& $this->strlen($bytes)>=512)
+		{
+			return $this->substr($bytes,0,512);
+		}
 
-        for($i=0;$i<32;++$i)
+		for($i=0;$i<32;++$i)
 			$bytes.=pack('S',mt_rand(0,0xffff));
 
 		// On UNIX and UNIX-like operating systems the numerical values in `ps`, `uptime` and `iostat`
