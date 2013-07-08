@@ -85,11 +85,11 @@ class CHtml
 	 * @since 1.1.13
 	 */
 	public static $renderSpecialAttributesValue=true;
-
 	/**
-	 * @var callback the generator used in the {@link CHtml::modelName()} method
+	 * @var callback the generator used in the {@link CHtml::modelName()} method.
+	 * @since 1.1.14
 	 */
-	private static $modelNameConverter=null;
+	private static $_modelNameConverter;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -2171,13 +2171,14 @@ EOD;
 	 * @see CHtml::setModelNameConverter()
 	 * @param CModel|string $model the data model or the model class name
 	 * @return string the generated HTML name value
+	 * @since 1.1.14
 	 */
 	public static function modelName($model)
 	{
-		if (is_callable(self::$modelNameConverter))
-			return call_user_func(self::$modelNameConverter,$model);
+		if(is_callable(self::$_modelNameConverter))
+			return call_user_func(self::$_modelNameConverter,$model);
 
-		$className = is_object($model) ? get_class($model) : (string)$model;
+		$className=is_object($model) ? get_class($model) : (string)$model;
 		return trim(str_replace('\\','_',$className),'_');
 	}
 
@@ -2188,13 +2189,14 @@ EOD;
 	 * @param callback|null $converter the new generator, the model or class name will be passed to the this callback
 	 * and result must be a valid value for HTML name attribute.
 	 * @throws CException if $converter isn't a valid callback
+	 * @since 1.1.14
 	 */
 	public static function setModelNameConverter($converter)
 	{
-		if (is_callable($converter))
-			self::$modelNameConverter=$converter;
-		elseif(is_null($converter))
-			self::$modelNameConverter=null;
+		if(is_callable($converter))
+			self::$_modelNameConverter=$converter;
+		elseif($converter===null)
+			self::$_modelNameConverter=null;
 		else
 			throw new CException(Yii::t('yii','The $converter argument must be a valid callback or null.'));
 	}
