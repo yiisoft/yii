@@ -972,6 +972,9 @@ abstract class CApplication extends CModule
 			'format'=>array(
 				'class'=>'CFormatter',
 			),
+			'surveillance'=>array(
+				'class'=>'system.surveillance.CSurveillanceComponent',
+			),
 		);
 
 		$this->setComponents($components);

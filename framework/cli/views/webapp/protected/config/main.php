@@ -71,6 +71,9 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
+				array(
+					'class'=>'system.surveillance.CSurveillanceLogRoute',
+				),
 				// uncomment the following to show log messages on web pages
 				/*
 				array(
