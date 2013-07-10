@@ -138,6 +138,11 @@ abstract class CApplication extends CModule
 		}
 		else
 			$this->setBasePath('protected');
+		if(isset($config['aliases'])){
+			$this->setAliases($config['aliases']);
+			unset($config['aliases']);
+		}
+
 		Yii::setPathOfAlias('application',$this->getBasePath());
 		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 		Yii::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
