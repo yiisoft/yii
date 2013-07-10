@@ -102,6 +102,20 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 <?php endforeach; ?>
 		);
 	}
+	
+<?php foreach($finds as $column=>$functionName): ?>
+	/**
+	 * @param string $<?php echo $column; ?>
+	 * @param mixed $condition query condition or criteria.
+	 * @param array $params parameters to be bound to an SQL statement.
+	 * 
+	 * @return <?php echo $modelClass; ?>|null The record found. Null if none is found.
+	 **/
+	public function <?php echo $functionName; ?>($<?php echo $column; ?>, $condition = '', $params = array())
+	{
+		return $this->findByAttributes(array('<?php echo $column; ?>'=>$<?php echo $column; ?>), $condition, $params);
+	}
+<?php endforeach; ?>
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.

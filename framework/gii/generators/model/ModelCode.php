@@ -9,6 +9,8 @@ class ModelCode extends CCodeModel
 	public $modelPath='application.models';
 	public $baseClass='CActiveRecord';
 	public $buildRelations=true;
+	public $buildFinds=false;
+	public $ignoredColumns;
 	public $commentsAsLabels=false;
 
 	/**
@@ -30,7 +32,7 @@ class ModelCode extends CCodeModel
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
-			array('connectionId, tablePrefix, modelPath, baseClass, buildRelations, commentsAsLabels', 'sticky'),
+			array('connectionId, tablePrefix, modelPath, baseClass, buildRelations, buildFinds, ignoredColumns, commentsAsLabels', 'sticky'),
 		));
 	}
 
@@ -43,6 +45,8 @@ class ModelCode extends CCodeModel
 			'modelClass'=>'Model Class',
 			'baseClass'=>'Base Class',
 			'buildRelations'=>'Build Relations',
+			'buildFinds'=>'Build Finds',
+			'ignoredColumns'=>'Ignored Columns',
 			'commentsAsLabels'=>'Use Column Comments as Attribute Labels',
 			'connectionId'=>'Database Connection',
 		));
@@ -104,6 +108,7 @@ class ModelCode extends CCodeModel
 				'columns'=>$table->columns,
 				'labels'=>$this->generateLabels($table),
 				'rules'=>$this->generateRules($table),
+				'finds'=>$this->generateFinds($table),
 				'relations'=>isset($this->relations[$className]) ? $this->relations[$className] : array(),
 				'connectionId'=>$this->connectionId,
 			);
@@ -214,6 +219,21 @@ class ModelCode extends CCodeModel
 			}
 		}
 		return $labels;
+	}
+	
+	public function generateFinds($table)
+	{
+		if(!$this->buildFinds)
+			return array();
+			
+		$finds = array();
+		
+		$ignoredColumns = explode(',', $this->ignoredColumns);
+		foreach($table->columns as $column)
+			if(!in_array($column->name, array_merge(array('attributes','pk','sql'), $ignoredColumns)))
+				$finds[$column->name] = 'findBy'.ucfirst(preg_replace('/_(.?)/e',"strtoupper('$1')",$column->name));
+		
+		return $finds;
 	}
 
 	public function generateRules($table)
