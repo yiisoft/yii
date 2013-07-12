@@ -146,7 +146,7 @@ abstract class CApplication extends CModule
 			unset($config['extensionPath']);
 		}
 		else
-			Yii::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
+			$this->setExtensionPath($this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
 		if(isset($config['aliases']))
 		{
 			$this->setAliases($config['aliases']);
