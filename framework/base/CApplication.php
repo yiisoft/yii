@@ -142,7 +142,7 @@ abstract class CApplication extends CModule
 		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 		if(isset($config['extensionPath']))
 		{
-			Yii::setPathOfAlias('ext',Yii::getPathOfAlias($config['extensionPath']));
+			$this->setExtensionPath($config['extensionPath']);
 			unset($config['extensionPath']);
 		}
 		else
