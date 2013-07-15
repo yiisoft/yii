@@ -1154,7 +1154,11 @@ class CHttpRequest extends CApplicationComponent
 
 		if($options['mimeType']!==null)
 			header('Content-type: '.$options['mimeType']);
-		header('Content-Disposition: '.$disposition.'; filename="'.$options['saveName'].'"');
+		if (strpos($this->getUserAgent(), "MSIE 8")) {
+			header('Content-Disposition: '.$disposition.'; filename="'.urlencode($options['saveName']).'"');
+		} else {
+			header('Content-Disposition: '.$disposition.'; filename*=UTF-8\'\''.urlencode($options['saveName']).'');
+		}
 		if(isset($options['addHeaders']))
 		{
 			foreach($options['addHeaders'] as $header=>$value)
