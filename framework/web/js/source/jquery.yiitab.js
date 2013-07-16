@@ -1,9 +1,9 @@
 /**
  * jQuery Yii plugin file.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
+ * @author Qiang Xue <qiang.xue@gmail.com>,代码之美<haohetao@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright 2008-2010 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -28,7 +28,7 @@
 			this.find('>ul a').click(function(event) {
 				var href=$(this).attr('href');
 				var pos=href.indexOf('#');
-				activate(href);
+				activate('>ul a[href="'+href+'"]');
 				if(pos==0 || (pos>0 && (window.location.pathname=='' || window.location.pathname==href.substring(0,pos))))
 					return false;
 			});
@@ -39,7 +39,7 @@
 			if (pos >= 0) {
 				var id = url.substring(pos);
 				if (this.find('>ul a[href="'+id+'"]').length > 0) {
-					activate(id);
+					activate('>ul a[href="'+id+'"]');
 					return;
 				}
 			}
