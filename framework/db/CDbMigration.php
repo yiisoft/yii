@@ -98,7 +98,8 @@ abstract class CDbMigration extends CComponent
 	 * be enclosed within a DB transaction.
 	 * Child classes may implement this method instead of {@link up} if the DB logic
 	 * needs to be within a transaction.
-	 * @return boolean
+	 * @return boolean Returning false means, the migration will not be applied and
+	 * the transaction will be rolled back.
 	 * @since 1.1.7
 	 */
 	public function safeUp()
@@ -111,7 +112,8 @@ abstract class CDbMigration extends CComponent
 	 * be enclosed within a DB transaction.
 	 * Child classes may implement this method instead of {@link up} if the DB logic
 	 * needs to be within a transaction.
-	 * @return boolean
+	 * @return boolean Returning false means, the migration will not be applied and
+	 * the transaction will be rolled back.
 	 * @since 1.1.7
 	 */
 	public function safeDown()
