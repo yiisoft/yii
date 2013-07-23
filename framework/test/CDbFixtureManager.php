@@ -70,10 +70,10 @@ class CDbFixtureManager extends CApplicationComponent
 	 */
 	public $schemas=array('');
 
-	private $_db;
-	private $_fixtures;
-	private $_rows;				// fixture name, row alias => row
-	private $_records;			// fixture name, row alias => record (or class name)
+	protected $_db;
+	protected $_fixtures;
+	protected $_rows;				// fixture name, row alias => row
+	protected $_records;			// fixture name, row alias => record (or class name)
 
 
 	/**
