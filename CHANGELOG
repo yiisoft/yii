@@ -85,6 +85,7 @@ Version 1.1.14
 - Bug #2602: CUrlValidator and CEmailValidator now works correctly with display_errors = on and validateIDN = true (creocoder)
 - Bug #2632: Fixed inability import non-build aliases by config on some case (Yiivgeny)
 - Bug #2651: CHttpSession was using hardcoded GC probability/divisor values (marcovtwout, cebe, samdark)
+- Bug #2674: CDbFixtureManager private members are now protected to allow easier inheritance (undsoft)
 - Enh: Better CFileLogRoute performance (Qiang, samdark)
 - Enh: Refactored CHttpRequest::getDelete and CHttpRequest::getPut not to use _restParams directly (samdark)
 - Enh #100: CLogFilter::$logVars can now be array of arrays intended for designating particular items of the $GLOBALS (resurtm, tomtomsen)
