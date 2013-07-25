@@ -1115,7 +1115,10 @@ class CController extends CBaseController
 		if(Yii::app()->getRequest()->getIsPostRequest())
 			$filterChain->run();
 		else
-			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
+		{
+			header('Allow: POST');
+			throw new CHttpException(405,Yii::t('yii','Your request is invalid.'));
+		}
 	}
 
 	/**
