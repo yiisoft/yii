@@ -205,7 +205,7 @@ translated message:
 
 ~~~
 [php]
-Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+Yii::t('app', 'n==1#one book|n>1#many books', array(1));
 //or since 1.1.6
 Yii::t('app', 'n==1#one book|n>1#many books', 1));
 ~~~
