@@ -335,6 +335,14 @@ class CHtml
 	public static function beginForm($action='',$method='post',$htmlOptions=array())
 	{
 		$htmlOptions['action']=$url=self::normalizeUrl($action);
+		if (strcasecmp($method,'get')!==0 && strcasecmp($method,'post')!==0)
+		{
+			$customMethod=$method;
+			$method='post';
+		}
+		else
+			$customMethod=false;
+
 		$htmlOptions['method']=$method;
 		$form=self::tag('form',$htmlOptions,false,false);
 		$hiddens=array();
@@ -351,6 +359,8 @@ class CHtml
 		$request=Yii::app()->request;
 		if($request->enableCsrfValidation && !strcasecmp($method,'post'))
 			$hiddens[]=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
+		if ($customMethod!==false)
+			$hiddens[]=self::hiddenField('_method', $customMethod);
 		if($hiddens!==array())
 			$form.="\n".self::tag('div',array('style'=>'display:none'),implode("\n",$hiddens));
 		return $form;
@@ -2200,7 +2210,7 @@ EOD;
 		else
 			throw new CException(Yii::t('yii','The $converter argument must be a valid callback or null.'));
 	}
-	
+
 	/**
 	 * Generates input field name for a model attribute.
 	 * Unlike {@link resolveName}, this method does NOT modify the attribute name.
@@ -2473,7 +2483,7 @@ EOD;
 	public static function resolveName($model,&$attribute)
 	{
 		$modelName=self::modelName($model);
-		
+
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
