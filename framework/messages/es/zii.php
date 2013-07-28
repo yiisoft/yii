@@ -17,7 +17,6 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  '{class} must specify "model" and "{attribute}" or "{name}" property values.' => '{class} debe especificar valores para las propiedades "model" y "{attribute}" o para "{name}".',
   'Are you sure you want to delete this item?' => '¿Está seguro que desea borrar este elemento?',
   'Delete' => 'Borrar',
   'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Viendo {start}-{end} de 1 resultado.|Viendo {start}-{end} de {count} resultados.',
@@ -38,4 +37,5 @@ return array (
   'Total 1 result.|Total {count} results.' => 'Total de 1 resultado.|Total de {count} resultados.',
   'Update' => 'Actualizar',
   'View' => 'Ver',
+  '{class} must specify "model" and "{attribute}" or "{name}" property values.' => '{class} debe especificar valores para las propiedades "model" y "{attribute}" o para "{name}".',
 );
