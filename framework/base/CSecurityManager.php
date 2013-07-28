@@ -404,8 +404,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Generate a pseudo random block of data using several sources. On some systems this may be a bit
-	 * better than PHP's {@link mt_rand} built-in function, which is not really random. Users should
-     * review the
+	 * better than PHP's {@link mt_rand} built-in function, which is not really random.
 	 * @return string of 64 pseudo random bytes.
 	 * @since 1.1.14
 	 */
