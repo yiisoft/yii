@@ -1607,4 +1607,37 @@ class CDbCommand extends CComponent
 	{
 		return $this->setText($this->getConnection()->getSchema()->dropPrimaryKey($name,$table))->execute();
 	}
+
+	/**
+	 * @param Closure $callable
+	 * @return boolean|null
+	 * @throws Exception
+	 */
+	public function atomic($callable)
+	{
+		static $activeTransaction;
+		if($activeTransaction!==null)
+			$result=call_user_func($callable);
+		else
+		{
+			$transaction=$this->getConnection()->beginTransaction();
+			$activeTransaction=$transaction;
+			try
+			{
+				$result=call_user_func($callable);
+				if($result===null || $result)
+					$transaction->commit();
+				else
+					$transaction->rollback();
+				$activeTransaction=null;  // emulate finally
+			}
+			catch(Exception $e)
+			{
+				$transaction->rollback();
+				$activeTransaction=null;  // emulate finally
+				throw $e;
+			}
+		}
+		return $result===null || $result;
+	}
 }
