@@ -178,8 +178,7 @@ abstract class CApplication extends CModule
 			$this->onBeginRequest(new CEvent($this));
 		register_shutdown_function(array($this,'end'),0,false);
 		$this->processRequest();
-		if($this->hasEventHandler('onEndRequest'))
-			$this->onEndRequest(new CEvent($this));
+		$this->end(0,false);
 	}
 
 	/**
@@ -192,8 +191,12 @@ abstract class CApplication extends CModule
 	 */
 	public function end($status=0,$exit=true)
 	{
-		if($this->hasEventHandler('onEndRequest'))
-			$this->onEndRequest(new CEvent($this));
+		if(!$this->_ended)
+		{
+			$this->_ended=true;
+			if($this->hasEventHandler('onEndRequest'))
+				$this->onEndRequest(new CEvent($this));
+		}
 		if($exit)
 			exit($status);
 	}
@@ -213,11 +216,7 @@ abstract class CApplication extends CModule
 	 */
 	public function onEndRequest($event)
 	{
-		if(!$this->_ended)
-		{
-			$this->_ended=true;
-			$this->raiseEvent('onEndRequest',$event);
-		}
+		$this->raiseEvent('onEndRequest',$event);
 	}
 
 	/**
