@@ -77,7 +77,16 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertTrue($model->hasAttribute('id'));
 		$this->assertFalse($model->hasAttribute('comments'));
 		$this->assertFalse($model->hasAttribute('foo'));
-		$this->assertEquals(array(),$model->getAttributes(false));
+		$this->assertEquals(
+			array(
+				'id'=>null,
+				'title'=>null,
+				'create_time'=>null,
+				'author_id'=>null,
+				'content'=>null
+			),
+			$model->getAttributes(false)
+		);
 
 		$post=new Post2;
 		$this->assertNull($post->id);
@@ -182,7 +191,16 @@ class CActiveRecord2Test extends CTestCase
 	public function testInsert()
 	{
 		$post=new Post2;
-		$this->assertEquals(array(),$post->getAttributes(false));
+		$this->assertEquals(
+			array(
+				'id'=>null,
+				'title'=>null,
+				'create_time'=>null,
+				'author_id'=>null,
+				'content'=>null
+			),
+			$post->getAttributes(false)
+		);
 		$post->title='test post 1';
 		$post->create_time='2004-10-19 10:23:54';
 		$post->author_id=1;
@@ -190,12 +208,16 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertTrue($post->isNewRecord);
 		$this->assertNull($post->id);
 		$this->assertTrue($post->save());
-		$this->assertEquals(array(
-			'id'=>6,
-			'title'=>'test post 1',
-			'create_time'=>$post->create_time,
-			'author_id'=>1,
-			'content'=>'test post content 1'),$post->getAttributes());
+		$this->assertEquals(
+			array(
+				'id'=>6,
+				'title'=>'test post 1',
+				'create_time'=>$post->create_time,
+				'author_id'=>1,
+				'content'=>'test post content 1'
+			),
+			$post->getAttributes()
+		);
 		$this->assertFalse($post->isNewRecord);
 		$this->assertEquals($post->getAttributes(false),Post2::model()->findByPk($post->id)->getAttributes(false));
 	}
@@ -322,7 +344,16 @@ class CActiveRecord2Test extends CTestCase
 	public function testPublicAttribute()
 	{
 		$post=new PostExt2;
-		$this->assertEquals(array('id'=>null,'title'=>'default title'),$post->getAttributes(false));
+		$this->assertEquals(
+			array(
+				'id'=>null,
+				'title'=>'default title',
+				'create_time'=>null,
+				'author_id'=>null,
+				'content'=>null
+			),
+			$post->getAttributes(false)
+		);
 		$post=Post2::model()->findByPk(1);
 		$this->assertEquals(array(
 			'id'=>1,
