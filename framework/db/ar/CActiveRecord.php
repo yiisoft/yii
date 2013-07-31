@@ -595,9 +595,8 @@ abstract class CActiveRecord extends CModel
 				if($property->isPublic() && !$property->isStatic())
 					$names[]=$name;
 			}
-			$dbAttributeNames = array_keys($this->getMetaData()->columns);
-			self::$_attributeNames = array_merge(self::$_attributeNames, $dbAttributeNames);
-			return self::$_attributeNames[$className]=$names;
+			$dbAttributeNames=array_keys($this->getMetaData()->columns);
+			return self::$_attributeNames[$className]=array_merge($names, $dbAttributeNames);
 		}
 		else
 			return self::$_attributeNames[$className];
@@ -710,10 +709,12 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getAttribute($name)
 	{
-		if(property_exists($this,$name))
-			return $this->$name;
+		if(!in_array($name,$this->attributeNames()))
+			return null;
 		elseif(isset($this->_dbAttributes[$name]))
 			return $this->_dbAttributes[$name];
+		else
+			return $this->$name;
 	}
 
 	/**
@@ -726,13 +727,18 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function setAttribute($name,$value)
 	{
-		if(property_exists($this,$name))
-			$this->$name=$value;
-		elseif(isset($this->getMetaData()->columns[$name]))
-			$this->_dbAttributes[$name]=$value;
-		else
+		if(!in_array($name,$this->attributeNames()))
 			return false;
-		return true;
+		else
+		{
+			if(property_exists($this,$name))
+				$this->$name=$value;
+			elseif(isset($this->getMetaData()->columns[$name]))
+				$this->_dbAttributes[$name]=$value;
+			else
+				return parent::__set($name, $value);
+			return true;
+		}
 	}
 
 	/**
@@ -773,24 +779,16 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getAttributes($names=true)
 	{
-		$attributes=$this->_dbAttributes;
-		foreach($this->getMetaData()->columns as $name=>$column)
+		$attributes=array();
+		foreach($this->attributeNames() as $name)
 		{
-			if(property_exists($this,$name))
-				$attributes[$name]=$this->$name;
-			elseif($names===true && !isset($attributes[$name]))
-				$attributes[$name]=null;
+			$attributes[$name] = $this->getAttribute($name);
 		}
 		if(is_array($names))
 		{
 			$attrs=array();
 			foreach($names as $name)
-			{
-				if(property_exists($this,$name))
-					$attrs[$name]=$this->$name;
-				else
-					$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
-			}
+				$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
 			return $attrs;
 		}
 		else
@@ -1872,14 +1870,10 @@ abstract class CActiveRecord extends CModel
 			$record=$this->instantiate($attributes);
 			$record->setScenario('update');
 			$record->init();
-			$md=$record->getMetaData();
+			$attributeNames=$this->attributeNames();
 			foreach($attributes as $name=>$value)
-			{
-				if(property_exists($record,$name))
+				if(in_array($name,$attributeNames))
 					$record->$name=$value;
-				elseif(isset($md->columns[$name]))
-					$record->_dbAttributes[$name]=$value;
-			}
 			$record->_pk=$record->getPrimaryKey();
 			$record->attachBehaviors($record->behaviors());
 			if($callAfterFind)
