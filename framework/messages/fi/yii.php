@@ -17,8 +17,7 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'CSecurityManager::generateRandomString() cannot generate random string in the current environment.' => 'CSecurityManager::generateRandomString() ei pysty generoimaan satunnaista merkkijonoa nykyisessä ympäristössä.',
-  'Unable to generate random string.' => 'Satunnaista merkkijonoa ei pysty generoimaan.',
+  'A PHP extension stopped the file upload.' => 'PHP-laajennus on pysäyttänyt tiedoston latauksen.',
   '"{path}" is not a valid directory.' => '"{path}" ei ole kelvollinen hakemisto.',
   '&lt; Previous' => '&lt; Edellinen',
   '&lt;&lt; First' => '&lt;&lt; Ensimmäinen',
@@ -82,6 +81,7 @@ return array (
   'CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.' => 'CSecurityManager vaatii, että PHP:n mcrypt-laajennus on ladattu, jotta tiedonsalaustoiminnallisuutta voi käyttää.',
   'CSecurityManager.encryptionKey cannot be empty.' => 'CSecurityManager.encryptionKey ei voi olla tyhjä.',
   'CSecurityManager.validationKey cannot be empty.' => 'CSecurityManager.validationKey ei voi olla tyhjä.',
+  'CSecurityManager::generateRandomString() cannot generate random string in the current environment.' => 'CSecurityManager::generateRandomString() ei pysty generoimaan satunnaista merkkijonoa nykyisessä ympäristössä.',
   'CTypedList<{type}> can only hold objects of {type} class.' => 'CTypedList<{type}> hyväksyy vain {type}-luokan olioita.',
   'CTypedMap<{type}> can only hold objects of {type} class.' => 'CTypedMap<{type}> hyväksyy vain {type}-luokan olioita.',
   'CUrlManager.UrlFormat must be either "path" or "get".' => 'CUrlManager.UrlFormat pitää olla joko "path" tai "get".',
@@ -108,7 +108,6 @@ return array (
   'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Ei voitu asettaa "{class}"-luokan turvatonta attribuuttia "{attribute}".',
   'Failed to start session.' => 'Ei voitu aloittaa sessiota.',
   'Failed to write the uploaded file "{file}" to disk.' => 'Ladattua tiedostoa "{file}" ei voitu kirjoittaa levylle.',
-  'File upload was stopped by extension.' => 'Laajennus on pysäyttänyt tiedoston latauksen.',
   'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => 'Suodatin "{filter}" on virheellinen. Käsittelijällä "{class}" ei ole suodattimen metodia "filter{filter}".',
   'GD with FreeType or ImageMagick PHP extensions are required.' => 'GD FreeType-tuella tai ImageMagick PHP -laajennuksia tarvitaan.',
   'Get a new code' => 'Pyydä uusi koodi',
@@ -191,7 +190,6 @@ return array (
   'The pattern for week in month must be "W".' => 'Kuukauden viikon muodon pitää olla "W".',
   'The pattern for week in year must be "w".' => 'Vuoden viikon muodon pitää olla "w".',
   'The queue is empty.' => 'Jono on tyhjä.',
-  'The relation "{relation}" in active record class "{class}" is not specified correctly. The join table "{joinTable}" given in the foreign key cannot be found in the database.' => 'Relaation "{relation}" active record -luokkaa "{class}" ei ole määritelty oikein. Viiteavaimelle (fk) annettua liitostaulua "{joinTable}" ei löydy tietokannasta.',
   'The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.' => 'Relaation "{relation}" active record -luokkaa "{class}" ei ole määritelty oikein: Viiteavaimelle (fk) annettua liitostaulua "{joinTable}" ei löydy tietokannasta.',
   'The relation "{relation}" in active record class "{class}" is specified with a foreign key "{key}" that does not point to the parent table "{table}".' => 'Relaation "{relation}" active record -luokalle "{class}" on määritelty viiteavain (fk) "{key}", joka ei osoita ylätauluun "{table}".',
   'The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.' => 'Relaation "{relation}" active record -luokalle "{class}" on määritelty puutteellinen viiteavain (fk). Viiteavaimen (fk) tulee koostua kentistä, jotka viittaavat molempiin liitostauluihin.',
@@ -212,6 +210,7 @@ return array (
   'Unable to change the item name. The name "{name}" is already used by another item.' => 'Kohteen nimeä ei voi vaihtaa. Nimi "{name}" on jo toisen kohteen käytössä.',
   'Unable to create application state file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.' => 'Sovelluksen tilatiedostoa ei voitu luoda. Varmista, että web-palvelimen prosessilla on kirjoitusoikeus hakemistoon, jossa tiedosto sijaitsee, ja että hakemisto on olemassa.',
   'Unable to find "{column}" in table "{table}".' => 'Taulusta "{table}" ei löydy kenttää "{column}".',
+  'Unable to generate random string.' => 'Satunnaista merkkijonoa ei pysty generoimaan.',
   'Unable to lock file "{file}" for reading.' => 'Tiedoston "{file}" lukitseminen lukua varten epäonnistui.',
   'Unable to lock file "{file}" for writing.' => 'Tiedoston "{file}" lukitseminen kirjoitusta varten epäonnistui.',
   'Unable to read file "{file}".' => 'Tiedostoa "{file}" ei voida lukea.',
