@@ -54,6 +54,7 @@ abstract class CActiveRecord extends CModel
 
 	private static $_models=array();			// class name => model
 	private static $_md=array();				// class name => meta data
+	private static $_attributeNames=array();	// class name => attribute names
 
 	private $_new=false;						// whether this instance is new or not
 	private $_attributes=array();				// attribute name => attribute value
@@ -424,7 +425,10 @@ abstract class CActiveRecord extends CModel
 	{
 		$className=get_class($this);
 		if(array_key_exists($className,self::$_md))
+		{
 			unset(self::$_md[$className]);
+			unset(self::$_attributeNames[$className]);
+		}
 	}
 
 	/**
@@ -580,7 +584,23 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function attributeNames()
 	{
-		return array_keys($this->getMetaData()->columns);
+		$className=get_class($this);
+		if(!isset(self::$_attributeNames[$className]))
+		{
+			$class=new ReflectionClass(get_class($this));
+			$names=array();
+			foreach($class->getProperties() as $property)
+			{
+				$name=$property->getName();
+				if($property->isPublic() && !$property->isStatic())
+					$names[]=$name;
+			}
+			$dbAttributeNames = array_keys($this->getMetaData()->columns);
+			self::$_attributeNames = array_merge(self::$_attributeNames, $dbAttributeNames);
+			return self::$_attributeNames[$className]=$names;
+		}
+		else
+			return self::$_attributeNames[$className];
 	}
 
 	/**
