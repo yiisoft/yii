@@ -769,33 +769,6 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns all column attribute values.
-	 * Note, related objects are not returned.
-	 * @param mixed $names names of attributes whose value needs to be returned.
-	 * If this is true (default), then all attribute values will be returned, including
-	 * those that are not loaded from DB (null will be returned for those attributes).
-	 * If this is null, all attributes except those that are not loaded from DB will be returned.
-	 * @return array attribute values indexed by attribute names.
-	 */
-	public function getAttributes($names=true)
-	{
-		$attributes=array();
-		foreach($this->attributeNames() as $name)
-		{
-			$attributes[$name] = $this->getAttribute($name);
-		}
-		if(is_array($names))
-		{
-			$attrs=array();
-			foreach($names as $name)
-				$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
-			return $attrs;
-		}
-		else
-			return $attributes;
-	}
-
-	/**
 	 * Saves the current record.
 	 *
 	 * The record is inserted as a row into the database table if its {@link isNewRecord}
