@@ -299,6 +299,13 @@ For more details, see the section "Relational Query Performance".
    - `join`: the extra `JOIN` clause. It defaults to empty. This option
 has been available since version 1.1.3.
 
+   - `joinOptions`: the property for setting post-`JOIN` operations such as
+`USE INDEX`. String typed value can be used with `JOIN`s for `HAS_MANY` and `MANY_MANY`
+relations, while array typed value designed to be used only with `MANY_MANY` relations.
+First array element will be used for junction table `JOIN` and second array element
+will be used for target table `JOIN`. This option has been available since version
+1.1.14.
+
    - `group`: the `GROUP BY` clause. It defaults to empty. Column names
 referenced in this option should be disambiguated.
 
@@ -797,4 +804,136 @@ class User extends CActiveRecord
 // get all students taught by teacher whose ID is 1
 $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
+~~~
+
+Post-JOIN operations
+--------------------
+
+Since 1.1.14 additional post-JOIN operations could be set.
+`CBaseActiveRelation::$joinOptions` has been added.
+Consider we have the following models and relations:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts' => array(self::HAS_MANY, 'Post', 'user_id'),
+		);
+	}
+}
+
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'tags' => array(self::MANY_MANY, 'Tag', '{{post_tag}}(post_id, tag_id)'),
+		);
+	}
+}
+
+class Tag extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts' => array(self::MANY_MANY, 'Post', '{{post_tag}}(tag_id, post_id)'),
+		);
+	}
+}
+~~~
+
+Query code examples with `USE INDEX` clauses:
+
+~~~
+[php]
+$users=User::model()->findAll(array(
+	'select'=>'t.id,t.name',
+	'with'=>array(
+		'posts'=>array(
+			'alias'=>'p',
+			'select'=>'p.id,p.title',
+			'joinOptions'=>'USE INDEX(post__user)',
+		),
+	),
+));
+
+$posts=Post::model()->findAll(array(
+	'select'=>'t.id,t.title',
+	'with'=>array(
+		'tags'=>array(
+			'alias'=>'a',
+			'select'=>'a.id,a.name',
+			'joinOptions'=>'USE INDEX(post_tag__tag) USE INDEX(post_tag__post)',
+		),
+	),
+));
+
+$posts=Post::model()->findAll(array(
+	'select'=>'t.id,t.title',
+	'with'=>array(
+		'tags'=>array(
+			'alias'=>'a',
+			'select'=>'a.id,a.name',
+			'joinOptions'=>array(
+				'USE INDEX(post_tag__tag) USE INDEX(post_tag__post)',
+				'USE INDEX(tag__name)',
+			),
+		),
+	),
+));
+~~~
+
+Code above should generate following MySQL queries respectively:
+
+~~~
+[sql]
+SELECT
+	`t`.`id` AS `t0_c0`, `t`.`name` AS `t0_c1`,
+	`p`.`id` AS `t1_c0`, `p`.`title` AS `t1_c2`
+FROM `tbl_user` `t`
+LEFT OUTER JOIN `tbl_post` `p`
+	USE INDEX(post__user) ON (`p`.`user_id`=`t`.`id`);
+
+SELECT
+	`t`.`id` AS `t0_c0`, `t`.`title` AS `t0_c2`,
+	`a`.`id` AS `t1_c0`, `a`.`name` AS `t1_c1`
+FROM `tbl_post` `t`
+LEFT OUTER JOIN `tbl_post_tag` `tags_a`
+	USE INDEX(post_tag__tag) USE INDEX(post_tag__post) ON (`t`.`id`=`tags_a`.`post_id`)
+LEFT OUTER JOIN `tbl_tag` `a` ON (`a`.`id`=`tags_a`.`tag_id`);
+
+SELECT
+	`t`.`id` AS `t0_c0`, `t`.`title` AS `t0_c2`,
+	`a`.`id` AS `t1_c0`, `a`.`name` AS `t1_c1`
+FROM `tbl_post` `t`
+LEFT OUTER JOIN `tbl_post_tag` `tags_a`
+	USE INDEX(post_tag__tag) USE INDEX(post_tag__post) ON (`t`.`id`=`tags_a`.`post_id`)
+LEFT OUTER JOIN `tbl_tag` `a`
+	USE INDEX(tag__name) ON (`a`.`id`=`tags_a`.`tag_id`);
+~~~
+
+The `$joinOptions` query option could also be set in relation declarations as follows:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'tags' => array(self::MANY_MANY, 'Tag', '{{post_tag}}(post_id, tag_id)',
+				'joinOptions' => array(
+					'USE INDEX(post_tag__tag) USE INDEX(post_tag__post)',
+					'USE INDEX(tag__name)',
+				),
+			),
+		);
+	}
+}
 ~~~

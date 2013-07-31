@@ -247,7 +247,7 @@ class CActiveFinder extends CComponent
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
 			if(!empty($options['joinOptions']))
-				$relation->joinOptions = $options['joinOptions'];
+				$relation->joinOptions=$options['joinOptions'];
 
 			$model->resetScope(false);
 			$criteria=$model->getDbCriteria();
@@ -1118,7 +1118,8 @@ class CJoinElement
 			$joins[]=$this->relation->on;
 
 		if(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
-			return $this->relation->joinType.' '.$this->getTableNameWithAlias().' '.$this->relation->joinOptions.' ON ('.implode(') AND (',$joins).')';
+			return $this->relation->joinType.' '.$this->getTableNameWithAlias().' '.$this->relation->joinOptions.
+				' ON ('.implode(') AND (',$joins).')';
 		else
 			return $this->relation->joinType.' '.$this->getTableNameWithAlias().' ON ('.implode(') AND (',$joins).')';
 	}
@@ -1189,17 +1190,18 @@ class CJoinElement
 		{
 			$join=$this->relation->joinType.' '.$joinTable->rawName.' '.$joinAlias;
 
-			if(is_array($this->relation->joinOptions) && array_key_exists(0,$this->relation->joinOptions) && is_string($this->relation->joinOptions[0]))
-				$join.= ' '.$this->relation->joinOptions[0];
-			else
-				if(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
-					$join.= ' '.$this->relation->joinOptions;
+			if(is_array($this->relation->joinOptions) && isset($this->relation->joinOptions[0]) &&
+				is_string($this->relation->joinOptions[0]))
+				$join.=' '.$this->relation->joinOptions[0];
+			elseif(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
+				$join.=' '.$this->relation->joinOptions;
 
 			$join.=' ON ('.implode(') AND (',$parentCondition).')';
 			$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
 
-			if(is_array($this->relation->joinOptions) && array_key_exists(1,$this->relation->joinOptions) && is_string($this->relation->joinOptions[1]))
-				$join.= ' '.$this->relation->joinOptions[1];
+			if(is_array($this->relation->joinOptions) && isset($this->relation->joinOptions[1]) &&
+				is_string($this->relation->joinOptions[1]))
+				$join.=' '.$this->relation->joinOptions[1];
 
 			$join.=' ON ('.implode(') AND (',$childCondition).')';
 			if(!empty($this->relation->on))
