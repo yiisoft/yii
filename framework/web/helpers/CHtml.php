@@ -2229,6 +2229,9 @@ EOD;
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
+
+		$htmlOptions['required']=$model->isAttributeRequired($attribute);
+
 		if($type==='text' || $type==='password')
 		{
 			if(!isset($htmlOptions['maxlength']))
