@@ -302,11 +302,11 @@ abstract class CActiveRecord extends CModel
             foreach ($relatedRelations as $relatedName => $relatedRelation)
             {
                 if (
-                    ($relation[0] == self::BELONGS_TO || $relation[0] == self::HAS_ONE)
+                    ($relatedRelation[0] == self::BELONGS_TO || $relatedRelation[0] == self::HAS_ONE)
                     &&
-                    $relation[1] == get_class($this)
+                    $relatedRelation[1] == get_class($this)
                     &&
-                    $relation[2] == $relation[2]
+                    $relatedRelation[2] == $relation[2]
                 )
                 {
                     $otherSideRelationName = $relatedName;
