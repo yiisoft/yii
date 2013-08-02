@@ -133,6 +133,7 @@ Version 1.1.14
 - Enh #2494: Allow to configure CBaseListView emptyText container tag name (ifdattic)
 - Enh #2529: Silenced all chmod calls to prevent "chmod() operation not allowed" error on NTFS (samdark)
 - Enh #2602: CEmailValidator and CUrlValidator now uses native PHP `idn` extension in case it is available (`idn_to_ascii` and `idn_ to_ utf8` functions) and Net_IDNA2 otherwise (resurtm, creocoder)
+- Enh #2642: Support third party autoloaders when importing classes via Yii::import() (phpnode)
 - Chg: Upgraded HTMLPurifier to v4.5.0 (samdark)
 - Chg #645: CDbConnection now throws CDbException when failed to open DB connection instead of failing with a warning (kidol, eirikhm, samdark, cebe)
 - Chg #895: Add second argument $params to client validation function (slavcodev)

@@ -286,9 +286,17 @@ class YiiBase
 					self::$classMap[$alias]=$classFile;
 				return $alias;
 			}
-			else
-				throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
-					array('{alias}'=>$namespace)));
+			else {
+				try
+				{
+					new ReflectionClass($alias); // autoload the class without instantiation
+					return $alias;
+				}
+				catch (ReflectionException $e) {
+					throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
+						array('{alias}'=>$namespace)));
+				}
+			}
 		}
 
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
