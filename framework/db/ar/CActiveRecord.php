@@ -289,6 +289,36 @@ abstract class CActiveRecord extends CModel
 			else
 				$this->_related[$name]=null;
 		}
+        else
+        {
+            $relatedRecords = $this->_related[$name];
+
+            if (!is_array($relatedRecords))
+                $relatedRecords = array($relatedRecords);
+
+            $relatedRelations = $relatedRecords[0]->relations();
+            $otherSideRelationName = null;
+
+            foreach ($relatedRelations as $relatedName => $relatedRelation)
+            {
+                if (
+                    ($relation[0] == self::BELONGS_TO || $relation[0] == self::HAS_ONE)
+                    &&
+                    $relation[1] == get_class($this)
+                    &&
+                    $relation[2] == $relation[2]
+                )
+                {
+                    $otherSideRelationName = $relatedName;
+                    break;
+                }
+            }
+
+            if ($otherSideRelationName)
+                foreach($relatedRecords as $record)
+                    $record->$otherSideRelationName = $this;
+        }
+
 
 		if($params!==array())
 		{
