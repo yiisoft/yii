@@ -112,10 +112,11 @@ class CFileHelper
 		$absolutePaths=true;
 		extract($options);
 		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
-		$dirLen=mb_strlen($dir);
+		$mbstring=function_exists('mb_strlen');
+		$dirLen=$mbstring?mb_strlen($dir):strlen($dir);
 		if(!$absolutePaths)
 			foreach ($list as &$path)
-				$path=mb_substr($path,$dirLen+1);
+				$path=$mbstring?mb_substr($path,$dirLen+1):substr($path,$dirLen+1);
 		sort($list);
 		return $list;
 	}
