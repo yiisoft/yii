@@ -100,6 +100,7 @@ class CFileHelper
 	 * Level 0 means searching for only the files DIRECTLY under the directory;
 	 * level N means searching for those directories that are within N levels.
  	 * </li>
+ 	 * <li>absolutePaths: boolean, whether to return absolute paths or relative ones, default=true.</li>
 	 * </ul>
 	 * @return array files found under the directory. The file list is sorted.
 	 */
@@ -108,8 +109,13 @@ class CFileHelper
 		$fileTypes=array();
 		$exclude=array();
 		$level=-1;
+		$absolutePaths=true;
 		extract($options);
 		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
+		$dirLen=mb_strlen($dir);
+		if(!$absolutePaths)
+			foreach ($list as &$path)
+				$path=mb_substr($path,$dirLen+1);
 		sort($list);
 		return $list;
 	}
