@@ -290,7 +290,7 @@ class YiiBase
 				try
 				{
 					new ReflectionClass($alias); // autoload the class without instantiation
-					return $alias;
+					return self::$_imports[$alias]=$alias;
 				}
 				catch (ReflectionException $e) {
 					throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
