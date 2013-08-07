@@ -42,9 +42,15 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-In the `authenticate()` method, we use the `User` class to look for a row in the `tbl_user` table whose `username` column is the same as the given username in a case-insensitive manner. Remember that the `User` class was created using the `gii` tool in the prior section. Because the `User` class extends from [CActiveRecord], we can exploit [the ActiveRecord feature](http://www.yiiframework.com/doc/guide/database.ar) to access the `tbl_user` table in an OOP fashion.
+In the `authenticate()` method, we use the `User` class to look for a row in the `tbl_user` table whose `username` column
+is the same as the given username in a case-insensitive manner. Remember that the `User` class was created using the `gii`
+tool in the prior section. Because the `User` class extends from [CActiveRecord], we can exploit
+[the ActiveRecord feature](http://www.yiiframework.com/doc/guide/database.ar) to access the `tbl_user` table in an OOP fashion.
 
-In order to check if the user has entered a valid password, we invoke the `validatePassword` method of the `User` class. We need to modify the file `/wwwroot/blog/protected/models/User.php` as follows. Note that instead of storing the plain password in the database, we store a hash of the password and a randomly generated salt. When validating the user-entered password, we should compare the hash results, instead. We use the PHP built-in function `crypt()` to hash the password and to validate it, for complete details see the Wiki article [Use crypt() for password storage](http://www.yiiframework.com/wiki/425).
+In order to check if the user has entered a valid password, we invoke the `validatePassword` method of the `User` class.
+We need to modify the file `/wwwroot/blog/protected/models/User.php` as follows. Note that instead of storing the plain
+password in the database, we store a hash of the password. When validating the user-entered password, we should compare
+the hash results, instead. We use the Yii built-in [CPasswordHelper] to hash the password and to validate it.
 
 ~~~
 [php]
@@ -53,12 +59,12 @@ class User extends CActiveRecord
 	......
 	public function validatePassword($password)
 	{
-		return crypt($password,$this->password)===$this->password;
+		return CPasswordHelper::verifyPassword($password,$this->password);
 	}
 
 	public function hashPassword($password)
 	{
-		return crypt($password, $this->generateSalt());
+		return CPasswordHelper::hashPassword($password);
 	}
 }
 ~~~

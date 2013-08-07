@@ -21,7 +21,7 @@ Yii 权威指南
 
 All Rights Reserved.
 
-2008-2012 &copy; Yii Software LLC.
+2008-2013 &copy; Yii Software LLC.
 
 
 <div class="revision">$Id: index.txt 2335 2012-02-27 03:39:10Z dongbeta@qq.com $</div>

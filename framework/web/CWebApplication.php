@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -82,7 +82,7 @@ class CWebApplication extends CApplication
 	 *      'class'=>'path.to.PostController',
 	 *      'pageTitle'=>'something new',
 	 *   ),
-	 *   'user'=>'path.to.UserController',,
+	 *   'user'=>'path.to.UserController',
 	 * )
 	 * </pre>
 	 *

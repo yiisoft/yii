@@ -1,0 +1,65 @@
+Створення портлета хмари тегів
+==============================
+
+[Хмара тегів](http://uk.wikipedia.org/wiki/Хмарка_тегів) відображає список тегів
+записів із візуальним оформленням, що показує популярність кожного тега.
+
+Створення класа `TagCloud`
+--------------------------
+
+Ми створюємо клас `TagCloud` у файлі `/wwwroot/blog/protected/components/TagCloud.php`.
+Вміст файлу:
+
+~~~
+[php]
+Yii::import('zii.widgets.CPortlet');
+
+class TagCloud extends CPortlet
+{
+	public $title='Tags';
+	public $maxTags=20;
+
+	protected function renderContent()
+	{
+		$tags=Tag::model()->findTagWeights($this->maxTags);
+
+		foreach($tags as $tag=>$weight)
+		{
+			$link=CHtml::link(CHtml::encode($tag), array('post/index','tag'=>$tag));
+			echo CHtml::tag('span', array(
+				'class'=>'tag',
+				'style'=>"font-size:{$weight}pt",
+			), $link)."\n";
+		}
+	}
+}
+~~~
+
+Портлет `TagCloud`, на відміну від портлета `UserMenu`, не використовує відображення.
+Замість цього, його зовнішній вигляд формує метод `renderContent()`, так як немає необхідності виводити велику кількість HTML.
+
+Ми відображаємо кожен тег як посилання на список записів, що містять його. 
+Розмір шрифту кожного такого посилання змінюється у залежності від відносної ваги тега
+по відношенню до решти. Чим частіше використовується тег, 
+тим більший використовується розмір шрифту.
+
+Використання портлета `TagCloud`
+--------------------------------
+
+Використовувати портлет `TagCloud` дуже просто. Ми змінюємо файл макету
+`/wwwroot/blog/protected/views/layouts/column2.php` наступним чином:
+
+~~~
+[php]
+…
+<div id="sidebar">
+
+	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+
+	<?php $this->widget('TagCloud', array(
+		'maxTags'=>Yii::app()->params['tagCloudCount'],
+	)); ?>
+
+</div>
+…
+~~~

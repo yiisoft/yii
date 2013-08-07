@@ -284,6 +284,12 @@ For example, if we want to migrate for a `forum` module whose migration files ar
 yiic migrate up --migrationPath=ext.forum.migrations
 ~~~
 
+Note that in case you're setting boolean options such as `interactive` using command line you should pass either `1`
+or `0` like the following:
+
+~~~
+yiic migrate --interactive=0
+~~~
 
 ### Configure Command Globally
 

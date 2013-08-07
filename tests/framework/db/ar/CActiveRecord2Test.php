@@ -6,6 +6,9 @@ require_once(dirname(__FILE__).'/../data/models2.php');
 
 class CActiveRecord2Test extends CTestCase
 {
+	/**
+	 * @var CDbConnection
+	 */
 	private $db;
 
 	public function setUp()
@@ -592,5 +595,32 @@ class CActiveRecord2Test extends CTestCase
 
 		Post2::model()->with('author','firstComment','comments','categories')->findAllBySql('SELECT * FROM test.posts WHERE id=100');
 		$this->assertTrue($posts===array());
+	}
+
+	/**
+	 * @see https://github.com/yiisoft/yii/issues/2122
+	 */
+	public function testIssue2122()
+	{
+		$user=User2::model()->findByPk(2);
+		$this->assertEquals(2,count($user->postsWithParam));
+		$this->assertEquals('post 2',$user->postsWithParam[0]->title);
+		$this->assertEquals('post 3',$user->postsWithParam[1]->title);
+	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/2336
+	 */
+	public function testEmptyModel()
+	{
+		$post=new NullablePost2();
+		$post->insert();
+
+		$post=new NullablePost2();
+		$post->title='dummy';
+		$post->insert();
+
+		$this->assertEquals(2,$this->db->createCommand('SELECT COUNT(*) FROM "test"."nullable_posts"')->queryScalar());
+		$this->assertEquals(1,$this->db->createCommand('SELECT COUNT(*) FROM "test"."nullable_posts" WHERE LENGTH("title") > 0')->queryScalar());
 	}
 }

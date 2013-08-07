@@ -1,0 +1,118 @@
+性能調校
+==================
+
+網絡應用程式程式的性能受很多因素的影響。資料庫存取，檔案系統操作，網絡頻寬等都是潛在的影響因素。 Yii 已在各個方面減少框架帶來的性能影響。但是在使用者的應用程式中仍有很多地方可以被改善來提高性能。
+
+
+開啟 APC 擴充
+----------------------
+
+啟用 [PHP APC
+擴充](http://docs.php.net/manual/zh/book.apc.php) 可能是改善一個應用程式整體性能的最簡單方式。此擴充快取並優化 PHP 中間程式碼來避免時間花費再為每個新來的請求解析 PHP 腳本。
+
+
+停用除錯模式
+--------------------
+
+停用除錯模式是另一個改善性能的方式。若常數 `YII_DEBUG` 被定以為 true,這個 Yii 應用程式將以除錯模式運行。 除錯模
+式在開發階段是有用的，但一些元件會引起額外的系統開銷。例如，訊息記錄器將會記錄額外的除錯訊息。
+
+
+使用 `yiilite.php`
+-------------------
+
+當啟用 [PHP APC 擴充](http://docs.php.net/manual/zh/book.apc.php) 時， 我們可以將 `yii.php` 替換為另一個名為 `yiilite.php` 的啟動檔案來進一步提高 Yii 的應用程式的性能。
+
+檔案 `yiilite.php` 包含在每個 Yii 發佈中。它是一些常用到的 Yii 類檔案的合併檔案。在檔案中，註釋和跟蹤語句都被去除。因此，使用 `yiilite.php` 將減少被引用的檔案數量並避免執行追蹤語句。
+
+注意，使用 `yiilite.php` 而不開啟 APC 實際上將降低性能，因為 `yiilite.php` 包含了一些不是每個請求都必須的類別，這將花費額外的解析時間。 同時也要注意，在一些伺服器配置下使用 `yiilite.php` 將更慢，即使 APC 被打開。 
+最好使用展示的 `hello world` 運行一個標竿程式來決定是否使用 `yiilite.php`。
+
+
+使用快取技術
+------------------------
+
+如在 [快取](/doc/guide/caching.overview) 章節所述，Yii 提供了幾個可以有效提高性能的快取方案。
+若一些資料的產生需要長時間，我們可以使用 [資料快取](/doc/guide/caching.data) 方法來減少資料產生的頻率；若頁面的一部分保持相對的固定，我們可以使用 [片段快取](/doc/guide/caching.fragment) 方法減少它的顯示頻率；若一整個頁面保持相對的固定，我們可以使用 [頁面快取](/doc/guide/caching.page) 方法來節省頁面呈現所需的開銷。
+
+若應用程式在使用 [Active Record](/doc/guide/database.ar)，我們應當打開 資料架構快取 以節省解析資料表架構的時間。可以
+通過設置 [CDbConnection::schemaCachingDuration] 屬性為一個大於 0 的值來完成。
+
+除了這些應用程式層級的快取技術，我們也可使用服層級的快取方案來提高應用程式的性能。
+事實上，我們之前描述的 [PHP APC 快取](/doc/guide/topics.performance#enabling-apc-extension) 就屬於此項。 也有其他的伺服器技術，例如 [Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/)，其他不一一列出。
+
+
+資料庫優化
+---------------------
+
+從資料庫取出資料經常是一個網絡應用程式的主要瓶頸。雖然使用快取可以減少性能損失，它不能解決根本問題。 當資料庫包
+含大量資料而被快取的資料是無效時，如果沒有良好的資料庫和查詢優化設計，取得最新的資料將會非常耗費資源。
+
+在一個資料庫中聰明的設計索引。索引可以讓 `SELECT` 查詢更快， 但它會讓 `INSERT`, `UPDATE` 或 `DELETE` 查詢更慢。
+
+對於複雜的查詢，推薦為它建立一個資料庫視圖，而不是通過 PHP 程式碼產生查詢語句讓 DBMS 來重複解析他們。
+
+不要濫用 [Active Record](/doc/guide/database.ar)。雖然 [Active Record](/doc/guide/database.ar) 擅長以一個 OOP 樣式模型化資料，它實際上為了它需要建立一個或幾個物件來代表每條查詢結果降低了性能。 對於資料密集的應用程式，在底層使用 [DAO](/doc/guide/database.dao) 或 資料庫接口 將是一個更好的選擇。
+
+最後但並不是最不重要的一點，在你的 `SELECT` 查詢中使用 `LIMIT` 。這將避免從資料庫中取出過多的資料，而耗盡為 PHP 分配的記憶體。
+
+
+最小化腳本檔案
+-----------------------
+
+複雜的頁面經常需要導入很多外部的 JavaScript 和 CSS 檔案。 因為每個檔案將引起一次額外的往返一次，我們應當通過合併檔案來最小化腳本檔案的數量。 我們也應當考慮減少每個腳本檔案的大小來減少 網絡傳輸時間。有很多工具來幫助改善這兩方面。
+
+對於一個 Yii 產生的頁面，機會會是在一些我們不想要更改且由元件呈現的腳本檔案 (例如 Yii core 元件，第三方元件)。 為了最小化這些腳本檔案，我們需要兩個步驟。
+
+> Note: 下面描述的 `scriptMap` 特徵已自版本 1.0.3 起被支援。
+
+首先，通過配置應用程式元件 [clientScript|CWebApplication::clientScript] 的 [scriptMap|CClientScript::scriptMap] 屬性來聲明腳本被最小化。 可以在應用程式配置中完成，也可以在程式碼中配置。例如，
+
+~~~
+[php]
+$cs=Yii::app()->clientScript;
+$cs->scriptMap=array(
+	'jquery.js'=>'/js/all.js',
+	'jquery.ajaxqueue.js'=>'/js/all.js',
+	'jquery.metadata.js'=>'/js/all.js',
+	......
+);
+~~~
+
+上面的程式碼所做是映射這些 JavaScript 檔案到 URL `/js/all.js`。 若這些 JavaScript 檔案任何之一需要被一些元件導入， Yii 將導入這個 URL (一次) 而不是各個獨立的腳本檔案。
+
+其次，我們需要使用一些工具來聯合 (和壓縮) JavaScript 檔案為一個單獨的檔案，並儲存為 `js/all.js`。
+
+相同的技巧也適用於 CSS 檔案。
+
+在 [Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/) 幫助下，我們可以改善頁面載入速度。例如，我們可以從 Google 的伺服器導入 `jquery.js`
+而不是從我們自己的伺服器。要這樣做， 我們首先配置 `scriptMap` 如下,
+
+~~~
+[php]
+$cs=Yii::app()->clientScript;
+$cs->scriptMap=array(
+	'jquery.js'=>false,
+	'jquery.ajaxqueue.js'=>false,
+	'jquery.metadata.js'=>false,
+	......
+);
+~~~
+
+通過映射(map)這些腳本檔案為 false，我們阻止 Yii 產生導入這些檔案的程式碼。作為替代，我們在頁面中撰寫如下程式碼直接從 Google 導入檔案,
+
+~~~
+[php]
+<head>
+<?php echo CGoogleApi::init(); ?>
+
+<?php echo CHtml::script(
+	CGoogleApi::load('jquery','1.3.2') . "\n" .
+	CGoogleApi::load('jquery.ajaxqueue.js') . "\n" .
+	CGoogleApi::load('jquery.metadata.js')
+); ?>
+......
+</head>
+~~~
+
+<div class="revision">$Id$</div>

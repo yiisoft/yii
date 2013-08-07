@@ -464,16 +464,19 @@ $model=Post::model();
 $transaction=$model->dbConnection->beginTransaction();
 try
 {
-	// find と save の二つのステップは、他のリクエストによる干渉を受ける可能性があります
-	// 従って、一貫性と完全性を確保するために、トランザクションを使用します
+	// find と save の二つのステップの間に他のリクエストが割って入る可能性があります
+	// このため、一貫性と完全性を確保するために、トランザクションを使用します
 	$post=$model->findByPk(10);
 	$post->title='new post title';
-	$post->save();
-	$transaction->commit();
+	if($post->save())
+		$transaction->commit();
+	else
+		$transaction->rollback();
 }
 catch(Exception $e)
 {
 	$transaction->rollback();
+	throw $e;
 }
 ~~~
 
@@ -585,4 +588,3 @@ $contents=Content::model()->findAll();
 > これらは、`INSERT`、`UPDATE`、`DELETE` クエリに対しては無視されます。
 > さらに、デフォルトスコープまたは名前付きスコープを宣言するとき、そのスコープを宣言するメソッドの中では AR クラスを使って DB クエリを作成することが出来ません。
 
-<div class="revision">$Id$</div>

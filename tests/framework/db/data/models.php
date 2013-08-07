@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ */
 class User extends CActiveRecord
 {
 	public $username2;
@@ -31,6 +37,9 @@ class User extends CActiveRecord
 			'postsOrderDescFormat1'=>array(self::HAS_MANY,'Post','author_id','scopes'=>'orderDesc'),
 			'postsOrderDescFormat2'=>array(self::HAS_MANY,'Post','author_id','scopes'=>array('orderDesc')),
 			'postCount'=>array(self::STAT,'Post','author_id'),
+			/* For {@link CActiveRecordTest::testHasManyThroughHasManyWithCustomSelect()}: */
+			'mentorshipsCustomSelect'=>array(self::HAS_MANY,'Mentorship','teacher_id','select' => array('teacher_id', 'student_id')),
+			'studentsCustomSelect'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorshipsCustomSelect','select' => array('id', 'username')),
 		);
 	}
 
@@ -53,6 +62,11 @@ class User extends CActiveRecord
     }
 }
 
+/**
+ * @property integer $teacher_id
+ * @property integer $student_id
+ * @property string $progress
+ */
 class Mentorship extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -66,6 +80,10 @@ class Mentorship extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $name
+ */
 class Group extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -80,6 +98,9 @@ class Group extends CActiveRecord
 			'users'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'roles'),
 			'comments'=>array(self::HAS_MANY,'Comment',array('id'=>'author_id'),'through'=>'users'),
 			'description'=>array(self::HAS_ONE,'GroupDescription','group_id'),
+			/* Support for {@link CActiveRecordTest::testLazyLoadThroughRelationWithCondition()}: */
+			'rolesWhichEmptyByCondition'=>array(self::HAS_MANY,'Role','group_id','condition'=>'2=:compareValue','params'=>array(':compareValue'=>1)),
+			'usersWhichEmptyByCondition'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'rolesWhichEmptyByCondition'),
 		);
 	}
 
@@ -89,6 +110,10 @@ class Group extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $group_id
+ * @property string $name
+ */
 class GroupDescription extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -102,6 +127,11 @@ class GroupDescription extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $user_id
+ * @property integer $group_id
+ * @property string $name
+ */
 class Role extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -115,6 +145,13 @@ class Role extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $title
+ * @property float $create_time
+ * @property integer $author_id
+ * @property string $content
+ */
 class Post extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -218,6 +255,13 @@ class PostScopesBehavior extends CActiveRecordBehavior
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $title
+ * @property float $create_time
+ * @property integer $author_id
+ * @property string $content
+ */
 class PostSpecial extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -247,6 +291,12 @@ class PostSpecial extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ */
 class UserSpecial extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -267,6 +317,13 @@ class UserSpecial extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $title
+ * @property float $create_time
+ * @property integer $author_id
+ * @property string $content
+ */
 class PostExt extends CActiveRecord
 {
 	public $title='default title';
@@ -290,6 +347,12 @@ class PostExt extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $content
+ * @property integer $post_id
+ * @property integer $author_id
+ */
 class Comment extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -302,6 +365,8 @@ class Comment extends CActiveRecord
 		return array(
 			'post'=>array(self::BELONGS_TO,'Post','post_id'),
 			'author'=>array(self::BELONGS_TO,'User','author_id'),
+			'postAuthor'=>array(self::HAS_ONE,'User',array('author_id'=>'id'),'through'=>'post'),
+			'postAuthorBelongsTo'=>array(self::BELONGS_TO,'User',array('author_id'=>'id'),'through'=>'post'),
 		);
 	}
 
@@ -311,7 +376,11 @@ class Comment extends CActiveRecord
 	}
 }
 
-
+/**
+ * @property integer $id
+ * @property string $name
+ * @property integer $parent_id
+ */
 class Category extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -336,7 +405,11 @@ class Category extends CActiveRecord
 	}
 }
 
-
+/**
+ * @property integer $key1
+ * @property integer $key2
+ * @property string $name
+ */
 class Order extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -358,6 +431,12 @@ class Order extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $name
+ * @property integer $col1
+ * @property integer $col2
+ */
 class Item extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -378,6 +457,23 @@ class Item extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $int_col
+ * @property integer $int_col2
+ * @property string $char_col
+ * @property string $char_col2
+ * @property string $char_col3
+ * @property string $char_col4
+ * @property string $char_col5
+ * @property float $float_col
+ * @property float $float_col2
+ * @property string $blob_col
+ * @property float $numeric_col
+ * @property float $time
+ * @property integer $bool_col
+ * @property integer $bool_col2
+ * @property integer $null_col
+ */
 class ComplexType extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -391,6 +487,13 @@ class ComplexType extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $class
+ * @property integer $parentID
+ * @property integer $ownerID
+ * @property string $title
+ */
 class Content extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -413,6 +516,11 @@ class Content extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property integer $authorID
+ * @property string $body
+ */
 class Article extends Content
 {
 	public static function model($class=__CLASS__)
@@ -434,6 +542,11 @@ class Article extends Content
 	}
 }
 
+/**
+ * @property integer $id
+ * @property integer $authorID
+ * @property string $body
+ */
 class ArticleComment extends Content
 {
 	public static function model($class=__CLASS__)
@@ -455,7 +568,12 @@ class ArticleComment extends Content
 	}
 }
 
-
+/**
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ */
 class UserNoFk extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -476,6 +594,13 @@ class UserNoFk extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $title
+ * @property float $create_time
+ * @property integer $author_id
+ * @property string $content
+ */
 class PostNoFk extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -496,6 +621,12 @@ class PostNoFk extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ */
 class UserNoTogether extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -516,6 +647,13 @@ class UserNoTogether extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $title
+ * @property float $create_time
+ * @property integer $author_id
+ * @property string $content
+ */
 class PostNoTogether extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -536,6 +674,12 @@ class PostNoTogether extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ */
 class UserWithWrappers extends CActiveRecord
 {
 	private static $_counters=array();
@@ -611,6 +755,13 @@ class UserWithWrappers extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $title
+ * @property float $create_time
+ * @property integer $author_id
+ * @property string $content
+ */
 class PostWithWrappers extends CActiveRecord
 {
 	private static $_counters=array();
@@ -704,6 +855,12 @@ class PostWithWrappers extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property string $content
+ * @property integer $post_id
+ * @property integer $author_id
+ */
 class CommentWithWrappers extends CActiveRecord
 {
 	private static $_counters=array();
@@ -766,6 +923,11 @@ class CommentWithWrappers extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property integer $deleted
+ * @property string $name
+ */
 class UserWithDefaultScope extends CActiveRecord
 {
 	public static function model($class=__CLASS__)
@@ -796,6 +958,11 @@ class UserWithDefaultScope extends CActiveRecord
 	}
 }
 
+/**
+ * @property integer $id
+ * @property integer $from_id
+ * @property integer $to_id
+ */
 class UserWithDefaultScopeLink extends CActiveRecord
 {
 	public static function model($class=__CLASS__)

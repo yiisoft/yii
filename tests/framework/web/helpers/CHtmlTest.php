@@ -20,129 +20,129 @@ class CHtmlTest extends CTestCase
 		Yii::app()->clientScript->reset();
 	}
 
-    /* HTML characters encode/decode tests */
+	/* HTML characters encode/decode tests */
 
-    public static function providerEncodeArray()
-    {
-        return array(
-                array( array('lessThanExpression'=>'4 < 9'), array('lessThanExpression'=>'4 &lt; 9') ),
-                array( array(array('lessThanExpression'=>'4 < 9')), array(array('lessThanExpression'=>'4 &lt; 9')) ),
-                array( array(array('lessThanExpression'=>'4 < 9'), 'greaterThanExpression'=>'4 > 9'), array(array('lessThanExpression'=>'4 &lt; 9'), 'greaterThanExpression'=>'4 &gt; 9') )
-            );
-    }
+	public static function providerEncodeArray()
+	{
+		return array(
+				array( array('lessThanExpression'=>'4 < 9'), array('lessThanExpression'=>'4 &lt; 9') ),
+				array( array(array('lessThanExpression'=>'4 < 9')), array(array('lessThanExpression'=>'4 &lt; 9')) ),
+				array( array(array('lessThanExpression'=>'4 < 9'), 'greaterThanExpression'=>'4 > 9'), array(array('lessThanExpression'=>'4 &lt; 9'), 'greaterThanExpression'=>'4 &gt; 9') )
+			);
+	}
 
-    /**
-     * @dataProvider providerEncodeArray
-     *
-     * @param type $data
-     * @param type $assertion
-     */
-    public function testEncodeArray($data, $assertion)
-    {
-        $this->assertEquals($assertion, CHtml::encodeArray($data));
-    }
+	/**
+	 * @dataProvider providerEncodeArray
+	 *
+	 * @param type $data
+	 * @param type $assertion
+	 */
+	public function testEncodeArray($data, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::encodeArray($data));
+	}
 
-    /* Javascript generator tests */
+	/* Javascript generator tests */
 
-    public static function providerAjax()
-    {
-        return array(
-                array(array("url" => "index"), "jQuery.ajax({'url':'index','cache':false});"),
-                array(array("url" => "index", "success" => "function() { this.alert(\"HI\"); }"), "jQuery.ajax({'url':'index','success':function() { this.alert(\"HI\"); },'cache':false});"),
-                array(array("async" => true, "success" => "function() { this.alert(\"HI\"); }"), "jQuery.ajax({'async':true,'success':function() { this.alert(\"HI\"); },'url':location.href,'cache':false});"),
-                array(array("update" =>"#my-div", "success" => "function() { this.alert(\"HI\"); }"), "jQuery.ajax({'success':function() { this.alert(\"HI\"); },'url':location.href,'cache':false});"),
-                array(array("update" =>"#my-div"), "jQuery.ajax({'url':location.href,'cache':false,'success':function(html){jQuery(\"#my-div\").html(html)}});"),
-                array(array("replace" =>"#my-div", "success" => "function() { this.alert(\"HI\"); }"), "jQuery.ajax({'success':function() { this.alert(\"HI\"); },'url':location.href,'cache':false});"),
-                array(array("replace" =>"#my-div"), "jQuery.ajax({'url':location.href,'cache':false,'success':function(html){jQuery(\"#my-div\").replaceWith(html)}});")
-            );
-    }
+	public static function providerAjax()
+	{
+		return array(
+				array(array("url" => "index"), "jQuery.ajax({'url':'index','cache':false});"),
+				array(array("url" => "index", "success" => "function() { this.alert(\"HI\"); }"), "jQuery.ajax({'url':'index','success':function() { this.alert(\"HI\"); },'cache':false});"),
+				array(array("async" => true, "success" => "function() { this.alert(\"HI\"); }"), "jQuery.ajax({'async':true,'success':function() { this.alert(\"HI\"); },'url':location.href,'cache':false});"),
+				array(array("update" =>"#my-div", "success" => "function() { this.alert(\"HI\"); }"), "jQuery.ajax({'success':function() { this.alert(\"HI\"); },'url':location.href,'cache':false});"),
+				array(array("update" =>"#my-div"), "jQuery.ajax({'url':location.href,'cache':false,'success':function(html){jQuery(\"#my-div\").html(html)}});"),
+				array(array("replace" =>"#my-div", "success" => "function() { this.alert(\"HI\"); }"), "jQuery.ajax({'success':function() { this.alert(\"HI\"); },'url':location.href,'cache':false});"),
+				array(array("replace" =>"#my-div"), "jQuery.ajax({'url':location.href,'cache':false,'success':function(html){jQuery(\"#my-div\").replaceWith(html)}});")
+			);
+	}
 
-    /**
-     * @dataProvider providerAjax
-     *
-     * @param type $options
-     * @param type $assertion
-     */
-    public function testAjax($options, $assertion)
-    {
-        $this->assertEquals($assertion, CHtml::ajax($options));
-    }
+	/**
+	 * @dataProvider providerAjax
+	 *
+	 * @param type $options
+	 * @param type $assertion
+	 */
+	public function testAjax($options, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::ajax($options));
+	}
 
-    /* DOM element generated from model attribute tests */
+	/* DOM element generated from model attribute tests */
 
-    public static function providerActiveDOMElements()
-    {
-        return array(
-                array(new CHtmlTestModel(array('attr1'=>true)), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />'),
-                array(new CHtmlTestModel(array('attr1'=>false)), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />')
-            );
-    }
+	public static function providerActiveDOMElements()
+	{
+		return array(
+				array(new CHtmlTestModel(array('attr1'=>true)), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />'),
+				array(new CHtmlTestModel(array('attr1'=>false)), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />')
+			);
+	}
 
-    /**
-     * @dataProvider providerActiveDOMElements
-     *
-     * @param string $action
-     * @param string $method
-     * @param array $htmlOptions
-     * @param string $assertion
-     */
-    public function testActiveCheckbox($model,$attribute,$htmlOptions, $assertion)
-    {
-        $this->assertEquals($assertion, CHtml::activeCheckBox($model,$attribute,$htmlOptions));
-    }
+	/**
+	 * @dataProvider providerActiveDOMElements
+	 *
+	 * @param string $action
+	 * @param string $method
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testActiveCheckbox($model,$attribute,$htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::activeCheckBox($model,$attribute,$htmlOptions));
+	}
 
-    /* Static DOM element generator tests */
+	/* Static DOM element generator tests */
 
-    public static function providerBeginForm()
-    {
-        return array(
-                array("index", "get", array(), '<form action="index" method="get">'),
-                array("index", "post", array(), '<form action="index" method="post">'),
-                array("index?myFirstParam=3&mySecondParam=true", "get", array(),
+	public static function providerBeginForm()
+	{
+		return array(
+				array("index", "get", array(), '<form action="index" method="get">'),
+				array("index", "post", array(), '<form action="index" method="post">'),
+				array("index?myFirstParam=3&mySecondParam=true", "get", array(),
 "<form action=\"index?myFirstParam=3&amp;mySecondParam=true\" method=\"get\">\n".
 "<div style=\"display:none\"><input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
 "<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" /></div>"),
 
-            );
-    }
+			);
+	}
 
-    /**
-     * @dataProvider providerBeginForm
-     *
-     * @param string $action
-     * @param string $method
-     * @param array $htmlOptions
-     * @param string $assertion
-     */
-    public function testBeginForm($action, $method, $htmlOptions, $assertion)
-    {
-        /* TODO - Steven Wexler - 3/5/11 - Mock out static methods in this function when CHtml leverages late static method binding
-         * because PHPUnit.  This is only possible Yii supports only >= PHP 5.3   - */
-        $this->assertEquals($assertion, CHtml::beginForm($action, $method, $htmlOptions));
+	/**
+	 * @dataProvider providerBeginForm
+	 *
+	 * @param string $action
+	 * @param string $method
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testBeginForm($action, $method, $htmlOptions, $assertion)
+	{
+		/* TODO - Steven Wexler - 3/5/11 - Mock out static methods in this function when CHtml leverages late static method binding
+		 * because PHPUnit.  This is only possible Yii supports only >= PHP 5.3   - */
+		$this->assertEquals($assertion, CHtml::beginForm($action, $method, $htmlOptions));
 		$this->assertEquals($assertion, CHtml::form($action, $method, $htmlOptions));
-    }
+	}
 
-    public static function providerTextArea()
-    {
-        return array(
-                array("textareaone", '', array(), "<textarea name=\"textareaone\" id=\"textareaone\"></textarea>"),
-                array("textareaone", '', array("id"=>"MyAwesomeTextArea", "dog"=>"Lassie", "class"=>"colorful bright"), "<textarea id=\"MyAwesomeTextArea\" dog=\"Lassie\" class=\"colorful bright\" name=\"textareaone\"></textarea>"),
-                array("textareaone", '', array("id"=>false), "<textarea name=\"textareaone\"></textarea>"),
-            );
-    }
+	public static function providerTextArea()
+	{
+		return array(
+				array("textareaone", '', array(), "<textarea name=\"textareaone\" id=\"textareaone\"></textarea>"),
+				array("textareaone", '', array("id"=>"MyAwesomeTextArea", "dog"=>"Lassie", "class"=>"colorful bright"), "<textarea id=\"MyAwesomeTextArea\" dog=\"Lassie\" class=\"colorful bright\" name=\"textareaone\"></textarea>"),
+				array("textareaone", '', array("id"=>false), "<textarea name=\"textareaone\"></textarea>"),
+			);
+	}
 
-    /**
-     * @dataProvider providerTextArea
-     *
-     * @param string $name
-     * @param string $value
-     * @param array $htmlOptions
-     * @param string $assertion
-     */
-    public function testTextArea($name, $value, $htmlOptions, $assertion)
-    {
-        $this->assertEquals($assertion, CHtml::textArea($name, $value, $htmlOptions));
-    }
+	/**
+	 * @dataProvider providerTextArea
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testTextArea($name, $value, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::textArea($name, $value, $htmlOptions));
+	}
 
 	public function providerOpenTag()
 	{
@@ -329,6 +329,35 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::script($text));
 	}
 
+	public static function providerScriptWithHtmlOptions()
+	{
+		return array(
+			array(
+				'var a = 10;',
+				array('defer'=>true),
+				"<script type=\"text/javascript\" defer=\"defer\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+			),
+			array(
+				'var a = 10;',
+				array('async'=>true),
+				"<script type=\"text/javascript\" async=\"async\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+			),
+		);
+	}
+
+	/**
+	 * @depends testScript
+	 * @dataProvider providerScriptWithHtmlOptions
+	 *
+	 * @param string $text
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testScriptWithHtmlOptions($text, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::script($text,$htmlOptions));
+	}
+
 	public static function providerScriptFile()
 	{
 		return array(
@@ -347,6 +376,40 @@ class CHtmlTest extends CTestCase
 	public function testScriptFile($text, $assertion)
 	{
 		$this->assertEquals($assertion, CHtml::scriptFile($text));
+	}
+
+	public static function providerScriptFileWithHtmlOptions()
+	{
+		return array(
+			array(
+				'/js/main.js?a=2&b=4',
+				array('defer'=>true),
+				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" defer="defer"></script>'
+			),
+			array(
+				'/js/main.js?a=2&b=4',
+				array('async'=>true),
+				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" async="async"></script>'
+			),
+			array(
+				'/js/main.js?a=2&b=4',
+				array('onload'=>"some_js_function();"),
+				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" onload="some_js_function();"></script>'
+			),
+		);
+	}
+
+	/**
+	 * @depends testScriptFile
+	 * @dataProvider providerScriptFileWithHtmlOptions
+	 *
+	 * @param string $text
+	 * @param array $htmlOptions
+	 * @param string $assertion
+	 */
+	public function testScriptFileWithHtmlOptions($text, $htmlOptions, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::scriptFile($text, $htmlOptions));
 	}
 
 	public function testEndForm()
@@ -445,6 +508,96 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals('v4', CHtml::resolveValue($testModel, '[ignore-this]arrayAttr[k3][k4]'));
 	}
 
+	public function providerValue()
+	{
+		$result=array(
+			// $model is array
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),'k1',null,'v1'),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),'k2',null,'v2'),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),'k3',null,null),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),'k3','defaultValue','defaultValue'),
+
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),0,null,'v3'),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),1,null,'v4'),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),2,null,null),
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),2,'defaultValue','defaultValue'),
+
+			// $model is stdClass
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),'k1',null,'v1'),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),'k2',null,'v2'),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),'k3',null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),'k3','defaultValue','defaultValue'),
+
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),0,null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),1,null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),2,null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),2,'defaultValue','defaultValue'),
+
+			// static method
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),array('CHtmlTest','helperTestValue'),null,'v2'),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),array('CHtmlTest','helperTestValue'),null,'v2'),
+
+			// create_function is not supported by CHtml::value(), we're just testing this feature/property
+			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model["k2"];'),null,null),
+			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model->k2;'),null,null),
+
+			// standard PHP functions should not be treated as callables
+			array(array('array_filter'=>'array_filter','sort'=>'sort'),'sort',null,'sort'),
+			array(array('array_filter'=>'array_filter','sort'=>'sort'),'array_map','defaultValue','defaultValue'),
+			array((object)array('array_filter'=>'array_filter','sort'=>'sort'),'sort',null,'sort'),
+			array((object)array('array_filter'=>'array_filter','sort'=>'sort'),'array_map','defaultValue','defaultValue'),
+
+			// dot access, array
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'k1.k2.k3',null,'v3'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.0',null,'v1'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.k4',null,'v4'),
+			array(array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.1',null,null),
+
+			// dot access, object
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'k1.k2.k3',null,'v3'),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.0',null,null),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.k4',null,null),
+			array((object)array('k1'=>array('k2'=>array('k3'=>'v3')),array('v1','k4'=>'v4')),'0.1',null,null),
+
+			// $attribute parameter is:
+			// 1. null or empty string
+			// 2. not "0" string, 0 integer or 0.0 double/float
+			// 3. empty array doesn't make sense
+			array(array('v1'),null,'defaultValue','defaultValue'),
+			array(array('v1'),"",'defaultValue','defaultValue'),
+			array(array('v1'),"0",'defaultValue','v1'),
+			array(array('v1'),0,'defaultValue','v1'),
+			array(array('v1'),0.0,'defaultValue','v1'),
+		);
+		if(class_exists('Closure',false))
+		{
+			// anonymous function
+			$result=array_merge($result,require(dirname(__FILE__).'/CHtml/providerValue.php'));
+		}
+		return $result;
+	}
+
+	/**
+	 * @dataProvider providerValue
+	 *
+	 * @param array|stdClass $model
+	 * @param integer|double|string $attribute
+	 * @param mixed $defaultValue
+	 * @param string $assertion
+	 */
+	public function testValue($model, $attribute, $defaultValue, $assertion)
+	{
+		$this->assertEquals($assertion, CHtml::value($model, $attribute, $defaultValue));
+	}
+
+	/**
+	 * Helper method for {@link testValue()} and {@link providerValue()} methods.
+	 */
+	public static function helperTestValue($model)
+	{
+		return is_array($model) ? $model['k2'] : $model->k2;
+	}
+
 	public static function providerPageStateField()
 	{
 		return array(
@@ -506,12 +659,12 @@ class CHtmlTest extends CTestCase
 			array(
 				10,
 				'http://yiiframework.com/',
-				'<meta http-equiv="refresh" content="10;http://yiiframework.com/" />'."\n",
+				'<meta http-equiv="refresh" content="10;url=http://yiiframework.com/" />'."\n",
 			),
 			array(
 				15,
 				array('site/index'),
-				'<meta http-equiv="refresh" content="15;/bootstrap.php?r=site/index" />'."\n",
+				'<meta http-equiv="refresh" content="15;url=/bootstrap.php?r=site/index" />'."\n",
 			),
 		);
 	}
@@ -640,6 +793,7 @@ class CHtmlTest extends CTestCase
 			array(true, 'userName', array('for'=>'someTestingInput'), '<label class="error" for="someTestingInput">User Name</label>'),
 			array(true, 'firstName', array('label'=>'Custom Label'), '<label for="CHtmlTestActiveModel_firstName">Custom Label</label>'),
 			array(true, 'userName', array('label'=>false), ''),
+			array(false, '[1]userName', array('for'=>'customFor'), '<label for="customFor">User Name</label>'),
 		);
 	}
 
@@ -838,8 +992,8 @@ class CHtmlTest extends CTestCase
 	public function providerImageButton()
 	{
 		return array(
-			array('/images/test-image.png', array('src'=>'ignored-src'), '<input src="/images/test-image.png" type="image" name="yt0" value="submit" />'),
-			array('/images/test-image.jpg', array('type'=>'button'), '<input type="image" src="/images/test-image.jpg" name="yt0" value="submit" />'),
+			array('/images/test-image.png', array('src'=>'ignored-src'), '<input src="/images/test-image.png" type="image" name="yt0" />'),
+			array('/images/test-image.jpg', array('type'=>'button'), '<input type="image" src="/images/test-image.jpg" name="yt0" />'),
 			array('/images/test-image.gif', array('value'=>'image'), '<input value="image" src="/images/test-image.gif" type="image" name="yt0" />'),
 		);
 	}
@@ -908,39 +1062,39 @@ class CHtmlTest extends CTestCase
 
 class CHtmlTestModel extends CModel
 {
-    private static $_names=array();
+	private static $_names=array();
 
-    /**
-     * @property mixed $attr1
-     */
-    public $attr1;
+	/**
+	 * @property mixed $attr1
+	 */
+	public $attr1;
 
-    /**
-     * @property mixed $attr2
-     */
-    public $attr2;
+	/**
+	 * @property mixed $attr2
+	 */
+	public $attr2;
 
-    /**
-     * @property mixed $attr3
-     */
-    public $attr3;
+	/**
+	 * @property mixed $attr3
+	 */
+	public $attr3;
 
-    /**
-     * @property mixed $attr4
-     */
-    public $attr4;
+	/**
+	 * @property mixed $attr4
+	 */
+	public $attr4;
 
-    public function __constructor(array $properties)
-    {
-        foreach($properties as $property=>$value)
-        {
-            if(!property_exists($this, $property))
-            {
-                throw new Exception("$property is not a property of this class, and I'm not allowing you to add it!");
-            }
-            $this->{$property} = $value;
-        }
-    }
+	public function __constructor(array $properties)
+	{
+		foreach($properties as $property=>$value)
+		{
+			if(!property_exists($this, $property))
+			{
+				throw new Exception("$property is not a property of this class, and I'm not allowing you to add it!");
+			}
+			$this->{$property} = $value;
+		}
+	}
 
     /**
 	 * Returns the list of attribute names.
