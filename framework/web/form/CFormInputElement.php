@@ -82,10 +82,6 @@ class CFormInputElement extends CFormElement
 	 */
 	public $name;
 	/**
-	 * @var string attribute name for feeding list inputs with CHtml::active*List()
-	 */
-	public $attribute;
-	/**
 	 * @var string hint text of this input
 	 */
 	public $hint;
@@ -215,23 +211,19 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderInput()
 	{
-		// ability to substitute model attribute name, to use custom data getter
-		$attrName = ($this->attribute !== null) ? $this->attribute : $this->name;
 		if(isset(self::$coreTypes[$this->type]))
 		{
-			
 			$method=self::$coreTypes[$this->type];
-			if(strpos($method,'List')!==false){
-				return CHtml::$method($this->getParent()->getModel(), $attrName, $this->items, $this->attributes);
-			}
+			if(strpos($method,'List')!==false)
+				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->attributes);
 			else
-				return CHtml::$method($this->getParent()->getModel(), $attrName, $this->attributes);
+				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->attributes);
 		}
 		else
 		{
 			$attributes=$this->attributes;
 			$attributes['model']=$this->getParent()->getModel();
-			$attributes['attribute']=$attrName;
+			$attributes['attribute']=$this->name;
 			ob_start();
 			$this->getParent()->getOwner()->widget($this->type, $attributes);
 			return ob_get_clean();
