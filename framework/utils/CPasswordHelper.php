@@ -40,7 +40,7 @@
  *
  * To verify a password, fetch the user's saved hash from the database (into $hash) and:
  * <pre>
- * if (CPasswordHelper::verifyPassword($password, $hash)
+ * if (CPasswordHelper::verifyPassword($password, $hash))
  *     // password is good
  * else
  *     // password is bad
