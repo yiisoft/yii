@@ -17,13 +17,13 @@ $cs->registerScriptFile($baseUrl.'/js/main.js');
 	<meta name="language" content="en" />
 
 	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl; ?>/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl; ?>/css/print.css" media="print" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/screen.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/print.css" media="print" />
 	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl; ?>/css/ie.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/ie.css" media="screen, projection" />
 	<![endif]-->
 
-	<link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl; ?>/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/main.css" />
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
@@ -40,7 +40,7 @@ $cs->registerScriptFile($baseUrl.'/js/main.js');
 			| <?php echo CHtml::link('logout',array('default/logout')); ?>
 		<?php endif; ?>
 		</div>
-		<div id="logo"><?php echo CHtml::link(CHtml::image($this->module->assetsUrl.'/images/logo.png'),array('default/index')); ?></div>
+		<div id="logo"><?php echo CHtml::link(CHtml::image($baseUrl.'/images/logo.png'),array('default/index')); ?></div>
 	</div><!-- header -->
 
 	<?php echo $content; ?>
