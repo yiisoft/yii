@@ -150,7 +150,7 @@ class CRedisCache extends CCache
 					return null;
 				$length=$line+2;
 				$data='';
-				while(!feof($this->_socket) && $length>0)
+				while($length>0)
 				{
 					if(($block=fread($this->_socket,$length))===false)
 						throw new CException('Failed reading data from redis connection socket.');
