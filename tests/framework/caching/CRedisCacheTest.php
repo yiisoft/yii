@@ -129,4 +129,43 @@ class CRedisCacheTest extends CTestCase
 		$this->assertTrue($cache->flush());
 		$this->assertFalse($cache->get('number_test'));
 	}
+
+	/**
+	 * Store a value that is 2 times buffer size big
+	 * https://github.com/yiisoft/yii/pull/2750
+	 */
+	public function testLargeData()
+	{
+		$app=$this->getApplication();
+		$cache=$app->cache;
+
+		$data=str_repeat('XX',8192); // http://www.php.net/manual/en/function.fread.php
+		$key='bigdata1';
+
+		$this->assertFalse($cache->get($key));
+		$cache->set($key,$data);
+		$this->assertTrue($cache->get($key)===$data);
+
+		// try with multibyte string
+		$data=str_repeat('ЖЫ',8192); // http://www.php.net/manual/en/function.fread.php
+		$key='bigdata2';
+
+		$this->assertFalse($cache->get($key));
+		$cache->set($key,$data);
+		$this->assertTrue($cache->get($key)===$data);
+	}
+
+	public function testMultiByteGetAndSet()
+	{
+		$app=$this->getApplication();
+		$cache=$app->cache;
+
+		$data=array('abc'=>'ежик',2=>'def');
+		$key='data1';
+
+		$this->assertFalse($cache->get($key));
+		$cache->set($key,$data);
+		$this->assertTrue($cache->get($key)===$data);
+	}
+
 }
