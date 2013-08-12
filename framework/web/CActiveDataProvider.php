@@ -225,7 +225,10 @@ class CActiveDataProvider extends CDataProvider
 		$baseCriteria=$this->model->getDbCriteria(false);
 		if($baseCriteria!==null)
 			$baseCriteria=clone $baseCriteria;
-		$count=$this->model->count($this->getCountCriteria());
+        	if(!empty($this->getCriteria()->join)&&!empty($this->getCriteria()->group))
+           		$count=count($this->model->findAll($this->getCriteria()));
+        	else
+            		$count=$this->model->count($this->getCriteria());
 		$this->model->setDbCriteria($baseCriteria);
 		return $count;
 	}
