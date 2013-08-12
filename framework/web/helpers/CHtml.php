@@ -2229,7 +2229,7 @@ EOD;
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
-		$html5_fields = array('text', 'password', 'color', 'date', 'datetime', 'datetime-local', 'email', 'month', 'number', 'range', 'search', 'tel', 'time', 'url', 'week');
+		$html5_fields = array('text', 'password', 'color', 'date', 'datetime', 'datetime-local', 'email', 'month', 'number', 'range', 'search', 'tel', 'time', 'url', 'week'); // http://www.w3schools.com/html/html5_form_input_types.asp
 		
 		if(in_array($type, $html5_fields)) {
 		{
