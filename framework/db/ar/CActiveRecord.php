@@ -1972,6 +1972,10 @@ class CBaseActiveRelation extends CComponent
 	 */
 	public $join='';
 	/**
+	 * @var string property for setting post-join operations such us USE INDEX
+	 */
+	public $joinOptions='';
+	/**
 	 * @var string HAVING clause. For {@link CActiveRelation} descendant classes, column names
 	 * referenced in this property should be disambiguated with prefix 'relationName.'.
 	 */
