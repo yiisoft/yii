@@ -2229,7 +2229,9 @@ EOD;
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
-		if($type==='text' || $type==='password' || $type == 'email' || $type == 'number')
+		$html5_fields = array('text', 'password', 'color', 'date', 'datetime', 'datetime-local', 'email', 'month', 'number', 'range', 'search', 'tel', 'time', 'url', 'week');
+		
+		if(in_array($type, $html5_fields)) {
 		{
 			if(!isset($htmlOptions['maxlength']))
 			{
