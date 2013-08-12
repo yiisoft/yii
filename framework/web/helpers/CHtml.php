@@ -2229,7 +2229,7 @@ EOD;
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
-		if($type==='text' || $type==='password')
+		if($type==='text' || $type==='password' || $type == 'email' || $type == 'number')
 		{
 			if(!isset($htmlOptions['maxlength']))
 			{
