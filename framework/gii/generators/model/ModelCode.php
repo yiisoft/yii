@@ -221,6 +221,8 @@ class ModelCode extends CCodeModel
 	{
 		$rules=array();
 		$required=array();
+		$booleanRequired=array();
+		$boolean==array();
 		$integers=array();
 		$numerical=array();
 		$length=array();
@@ -231,11 +233,16 @@ class ModelCode extends CCodeModel
 				continue;
 			$r=!$column->allowNull && $column->defaultValue===null;
 			if($r)
-				$required[]=$column->name;
+				if ($column->type==='boolean')
+					$booleanRequired[]=$column->name;
+				else
+					$required[]=$column->name;
 			if($column->type==='integer')
 				$integers[]=$column->name;
 			elseif($column->type==='double')
 				$numerical[]=$column->name;
+			elseif($column->type==='boolean')
+				$boolean[]=$column->name;
 			elseif($column->type==='string' && $column->size>0)
 				$length[$column->size][]=$column->name;
 			elseif(!$column->isPrimaryKey && !$r)
@@ -243,6 +250,11 @@ class ModelCode extends CCodeModel
 		}
 		if($required!==array())
 			$rules[]="array('".implode(', ',$required)."', 'required')";
+		if($booleanRequired!==array())
+			$rules[]="array('".implode(', ',$booleanRequired)."', 'boolean', 'allowEmpty'=>false)";
+		$boolean=array_diff($boolean,$booleanRequired);
+		if($boolean!==array())
+			 $rules[]="array('".implode(', ',$boolean)."', 'boolean')";
 		if($integers!==array())
 			$rules[]="array('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true)";
 		if($numerical!==array())
