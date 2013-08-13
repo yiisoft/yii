@@ -3,7 +3,7 @@
 
 Version 1.1.15 under development
 --------------------------------
-
+- Bug #2762: Boolean fix: CRequiredValidator no trim on boolean / Gii model generator creates boolean rules instead of required (markusbaumer)
 
 Version 1.1.14 August 11, 2013
 ------------------------------

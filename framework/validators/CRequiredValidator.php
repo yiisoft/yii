@@ -65,7 +65,7 @@ class CRequiredValidator extends CValidator
 				$this->addError($object,$attribute,$message);
 			}
 		}
-		elseif($this->isEmpty($value,$this->trim))
+		elseif($this->isEmpty($value,(!is_boolean($value)&&$this->trim)))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} cannot be blank.');
 			$this->addError($object,$attribute,$message);
