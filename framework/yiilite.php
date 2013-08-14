@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.14-rc';
+		return '1.1.14';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -134,8 +134,14 @@ class YiiBase
 				return $alias;
 			}
 			else
-				throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
-					array('{alias}'=>$namespace)));
+			{
+				// try to autoload the class with an autoloader
+				if (class_exists($alias,true))
+					return self::$_imports[$alias]=$alias;
+				else
+					throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
+						array('{alias}'=>$namespace)));
+			}
 		}
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
@@ -2787,7 +2793,7 @@ class CHttpRequest extends CApplicationComponent
 		header('Pragma: public');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		header("Content-type: $mimeType");
+		header("Content-Type: $mimeType");
 		header('Content-Length: '.$length);
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
@@ -2821,7 +2827,7 @@ class CHttpRequest extends CApplicationComponent
 		if(!isset($options['xHeader']))
 			$options['xHeader']='X-Sendfile';
 		if($options['mimeType']!==null)
-			header('Content-type: '.$options['mimeType']);
+			header('Content-Type: '.$options['mimeType']);
 		header('Content-Disposition: '.$disposition.'; filename="'.$options['saveName'].'"');
 		if(isset($options['addHeaders']))
 		{
@@ -4444,9 +4450,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function init()
 	{
 		parent::init();
-		// default session gc probability is 1%
-		ini_set('session.gc_probability',1);
-		ini_set('session.gc_divisor',100);
 		if($this->autoStart)
 			$this->open();
 		register_shutdown_function(array($this,'close'));

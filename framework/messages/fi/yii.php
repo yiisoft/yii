@@ -17,10 +17,10 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'A PHP extension stopped the file upload.' => 'PHP-laajennus on pysäyttänyt tiedoston latauksen.',
   '"{path}" is not a valid directory.' => '"{path}" ei ole kelvollinen hakemisto.',
   '&lt; Previous' => '&lt; Edellinen',
   '&lt;&lt; First' => '&lt;&lt; Ensimmäinen',
+  'A PHP extension stopped the file upload.' => 'PHP-laajennus on pysäyttänyt tiedoston latauksen.',
   'Action class {class} must implement the "run" method.' => '{class}-toimintaluokan pitää toteuttaa "run"-metodi',
   'Active Record requires a "db" CDbConnection application component.' => 'Active record vaatii "db" CDbConnection -sovelluskomponentin.',
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active record -luokalla "{class}" on virheellinen konfiguraatio relaatiolle "{relation}". Sen pitää määrittää relaation tyyppi, siihen liittyvä active record -luokka ja viiteavain (fk).',
@@ -29,7 +29,6 @@ return array (
   'Adding a primary key after table has been created is not supported by SQLite.' => 'SQLite ei tue perusavaimen (pk) lisäystä taulun luonnin jälkeen.',
   'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Alias "{alias}" on virheellinen. Varmista, että se osoittaa olemassa olevaan PHP-tiedostoon ja että tiedosto on luettavissa.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Alias "{alias}" on virheellinen. Varmista, että se osoittaa olemassa olevaan hakemistoon tai tiedostoon.',
-  'Alias "{alias}" is invalid. Make sure it points to an existing directory.' => 'Alias "{alias}" on virheellinen. Varmista, että se osoittaa olemassa olevaan hakemistoon.',
   'Altering a DB column is not supported by SQLite.' => 'SQLite ei tue kentän muokkausta.',
   'Application Log' => 'Sovellusloki',
   'Application base path "{path}" is not a valid directory.' => 'Sovelluksen base-polku "{path}" ei ole kelvollinen hakemisto.',
@@ -93,7 +92,6 @@ return array (
   'Cannot add "{child}" as a child of "{parent}". A loop has been detected.' => 'Kohdetta "{child}" ei voida lisätä kohteen "{parent}" lapseksi. Silmukka havaittu.',
   'Cannot add "{name}" as a child of itself.' => 'Kohdetta "{name}" ei voida lisätä itsensä lapseksi.',
   'Cannot add an item of type "{child}" to an item of type "{parent}".' => 'Kohdetta tyyppiä "{child}" ei voida lisätä  kohteeseen tyyppiä "{parent}".',
-  'Cannot hash a password that is empty or not a string.' => 'Tiivistettä ei voida luoda salasanalle, joka on tyhjä tai ei ole merkkijono.',
   'Class name "{class}" does not match class file "{file}".' => 'Luokan nimi "{class}" ei vastaa luokkatiedostoa "{file}".',
   'Column name must be either a string or an array.' => 'Kentän nimen pitää olla joko merkkijono tai taulukko.',
   'Dropping DB column is not supported by SQLite.' => 'SQLite ei tue kentän poistoa.',
