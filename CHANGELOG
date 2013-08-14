@@ -3,7 +3,7 @@
 
 Version 1.1.15 under development
 --------------------------------
-
+- Bug #2770: Fixed CClientScript renders scripts with different HTML options inside same tag (klimov-paul)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
