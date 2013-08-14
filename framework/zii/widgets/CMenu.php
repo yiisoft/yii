@@ -151,7 +151,10 @@ class CMenu extends CWidget
 	 */
 	public function init()
 	{
-		$this->htmlOptions['id']=$this->getId();
+		if(isset($this->htmlOptions['id']))
+			$this->id=$this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$this->id;
 		$route=$this->getController()->getRoute();
 		$this->items=$this->normalizeItems($this->items,$route,$hasActiveChild);
 	}

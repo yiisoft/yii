@@ -269,6 +269,12 @@ yiic migrate up --option1=value1 --option2=value2 ...
 yiic migrate up --migrationPath=ext.forum.migrations
 ~~~
 
+Варто відзначити, що при передачі через командний рядок прапорів,
+таких як `interactive`, необхідно використовувати значення `1` або `0`:
+
+~~~
+yiic migrate --interactive=0
+~~~
 
 ### Глобальна конфігурація команди
 

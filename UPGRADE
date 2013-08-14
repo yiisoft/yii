@@ -1,4 +1,4 @@
-         Upgrading Instructions for Yii Framework v1.1.14
+         Upgrading Instructions for Yii Framework v1.1.15
          ================================================
 
 !!!IMPORTANT!!!
@@ -16,6 +16,9 @@ General upgrade instructions
   release and update.
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
+
+Upgrading from v1.1.14
+----------------------
 
 Upgrading from v1.1.13
 ----------------------
@@ -49,6 +52,28 @@ Upgrading from v1.1.13
 - CActiveRecord::refreshMetaData() now clears meta data for all objects of the particular Active Record class.
   Also CActiveRecord::refreshMetaData() will not create new meta data at once - new CActiveRecordMetaData instance
   will be created on the first demand.
+
+- Oracle related note: in case you're using COciSchema::resetSequence() or CDbSchema::resetSequence() methods with
+  the Oracle database, keep in mind that its behavior has changed to be consistent with the same methods for
+  the other database management systems. Please refer to its documentation for more details and don't forget
+  to adjust your code respectively.
+
+- Signature of the CJuiInputWidget::resolveNameID() method has changed. If you're overriding this method you must
+  change your code to fit it. This method now accepts two parameters, it means you have to adjust code of the
+  overlapped descendant method signature as follows:
+
+      protected function resolveNameID($nameProperty='name',$attributeProperty='attribute')
+
+  And ancestor method call to:
+
+      parent::resolveNameID($nameProperty,$attributeProperty);
+
+- In case you've used your own relation types extended from `CHasOneRelation` or
+  `CHasManyRelation` make sure you update these to reflect moving `through` property
+  from both these to `CActiveRelation`.
+
+- CSecurityManager::generateRandomKey() has been deprecated in favor of CSecurityManager::generateRandomString().
+  Try not to use it anymore and avoid CSecurityManager::generateRandomKey() method in your code.
 
 Upgrading from v1.1.12
 ----------------------

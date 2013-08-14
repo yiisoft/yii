@@ -78,7 +78,7 @@ class CJavaScript
 			elseif($value===INF)
 				return 'Number.POSITIVE_INFINITY';
 			else
-				return rtrim(sprintf('%.16F',$value),'0');  // locale-independent representation
+				return str_replace(',','.',(float)$value);  // locale-independent representation
 		}
 		elseif($value instanceof CJavaScriptExpression)
 			return $value->__toString();

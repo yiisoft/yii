@@ -366,6 +366,7 @@ class Comment extends CActiveRecord
 			'post'=>array(self::BELONGS_TO,'Post','post_id'),
 			'author'=>array(self::BELONGS_TO,'User','author_id'),
 			'postAuthor'=>array(self::HAS_ONE,'User',array('author_id'=>'id'),'through'=>'post'),
+			'postAuthorBelongsTo'=>array(self::BELONGS_TO,'User',array('author_id'=>'id'),'through'=>'post'),
 		);
 	}
 

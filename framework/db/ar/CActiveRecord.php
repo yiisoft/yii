@@ -236,7 +236,14 @@ abstract class CActiveRecord extends CModel
 	 * or an empty array.
 	 * @param string $name the relation name (see {@link relations})
 	 * @param boolean $refresh whether to reload the related objects from database. Defaults to false.
+	 * If the current record is not a new record and it does not have the related objects loaded they
+	 * will be retrieved from the database even if this is set to false.
+	 * If the current record is a new record and this value is false, the related objects will not be
+	 * retrieved from the database.
 	 * @param mixed $params array or CDbCriteria object with additional parameters that customize the query conditions as specified in the relation declaration.
+	 * If this is supplied the related record(s) will be retrieved from the database regardless of the value or {@link $refresh}.
+	 * The related record(s) retrieved when this is supplied will only be returned by this method and will not be loaded into the current record's relation.
+	 * The value of the relation prior to running this method will still be available for the current record if this is supplied.
 	 * @return mixed the related object(s).
 	 * @throws CDbException if the relation is not specified in {@link relations}.
 	 */
@@ -2139,6 +2146,12 @@ class CActiveRelation extends CBaseActiveRelation
 	 * @since 1.1.9
 	 */
 	 public $scopes;
+	/**
+	 * @var string the name of the relation that should be used as the bridge to this relation.
+	 * Defaults to null, meaning don't use any bridge.
+	 * @since 1.1.7
+	 */
+	public $through;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
@@ -2205,12 +2218,6 @@ class CBelongsToRelation extends CActiveRelation
  */
 class CHasOneRelation extends CActiveRelation
 {
-	/**
-	 * @var string the name of the relation that should be used as the bridge to this relation.
-	 * Defaults to null, meaning don't use any bridge.
-	 * @since 1.1.7
-	 */
-	public $through;
 }
 
 
@@ -2235,12 +2242,6 @@ class CHasManyRelation extends CActiveRelation
 	 * Defaults to null, meaning using zero-based integer IDs.
 	 */
 	public $index;
-	/**
-	 * @var string the name of the relation that should be used as the bridge to this relation.
-	 * Defaults to null, meaning don't use any bridge.
-	 * @since 1.1.7
-	 */
-	public $through;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.

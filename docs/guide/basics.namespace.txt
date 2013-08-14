@@ -49,7 +49,8 @@ The [import|YiiBase::import] method differs from `include` and `require`
 in that it is more efficient. The class definition being imported is
 actually not included until it is referenced for the first time (implemented
 via PHP autoloading mechanism). Importing the same namespace multiple times
-is also much faster than `include_once` and `require_once`.
+is also much faster than `include_once` and `require_once`. Note that importing
+a directory does not import any of its subdirectories.
 
 > Tip: When referring to a class defined by the Yii framework, we do not
 > need to import or include it. All core Yii classes are pre-imported.

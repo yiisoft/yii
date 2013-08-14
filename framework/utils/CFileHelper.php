@@ -64,6 +64,27 @@ class CFileHelper
 	}
 
 	/**
+	 * Removes a directory recursively.
+	 * @param string $directory to be deleted recursively.
+	 * @since 1.1.14
+	 */
+	public static function removeDirectory($directory)
+	{
+		$items=glob($directory.DIRECTORY_SEPARATOR.'{,.}*',GLOB_MARK | GLOB_BRACE);
+		foreach($items as $item)
+		{
+			if(basename($item)=='.' || basename($item)=='..')
+				continue;
+			if(substr($item,-1)==DIRECTORY_SEPARATOR)
+				self::removeDirectory($item);
+			else
+				unlink($item);
+		}
+		if(is_dir($directory))
+			rmdir($directory);
+	}
+
+	/**
 	 * Returns the files found under the specified directory and subdirectories.
 	 * @param string $dir the directory under which the files will be looked for
 	 * @param array $options options for file searching. Valid options are:
@@ -130,7 +151,7 @@ class CFileHelper
 				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
+						@chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
 				}
 				elseif($level)
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
@@ -284,7 +305,7 @@ class CFileHelper
 
 		$mode=isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
 		$res=mkdir($dst, $mode);
-		chmod($dst,$mode);
+		@chmod($dst,$mode);
 		return $res;
 	}
 }

@@ -793,6 +793,7 @@ class CHtmlTest extends CTestCase
 			array(true, 'userName', array('for'=>'someTestingInput'), '<label class="error" for="someTestingInput">User Name</label>'),
 			array(true, 'firstName', array('label'=>'Custom Label'), '<label for="CHtmlTestActiveModel_firstName">Custom Label</label>'),
 			array(true, 'userName', array('label'=>false), ''),
+			array(false, '[1]userName', array('for'=>'customFor'), '<label for="customFor">User Name</label>'),
 		);
 	}
 

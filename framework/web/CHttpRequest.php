@@ -537,7 +537,8 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsSecureConnection()
 	{
-		return !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'],'off');
+		return isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS']=='on' || $_SERVER['HTTPS']==1)
+			|| isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO']=='https';
 	}
 
 	/**
@@ -1055,7 +1056,7 @@ class CHttpRequest extends CApplicationComponent
 		header('Pragma: public');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		header("Content-type: $mimeType");
+		header("Content-Type: $mimeType");
 		header('Content-Length: '.$length);
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
@@ -1152,7 +1153,7 @@ class CHttpRequest extends CApplicationComponent
 			$options['xHeader']='X-Sendfile';
 
 		if($options['mimeType']!==null)
-			header('Content-type: '.$options['mimeType']);
+			header('Content-Type: '.$options['mimeType']);
 		header('Content-Disposition: '.$disposition.'; filename="'.$options['saveName'].'"');
 		if(isset($options['addHeaders']))
 		{

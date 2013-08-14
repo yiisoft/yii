@@ -197,7 +197,7 @@ class CFileValidator extends CValidator
 		elseif($error==UPLOAD_ERR_CANT_WRITE)
 			throw new CException(Yii::t('yii','Failed to write the uploaded file "{file}" to disk.',array('{file}'=>$file->getName())));
 		elseif(defined('UPLOAD_ERR_EXTENSION') && $error==UPLOAD_ERR_EXTENSION)  // available for PHP 5.2.0 or above
-			throw new CException(Yii::t('yii','File upload was stopped by extension.'));
+			throw new CException(Yii::t('yii','A PHP extension stopped the file upload.'));
 
 		if($this->minSize!==null && $file->getSize()<$this->minSize)
 		{

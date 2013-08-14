@@ -52,12 +52,24 @@ class CRangeValidator extends CValidator
 			return;
 		if(!is_array($this->range))
 			throw new CException(Yii::t('yii','The "range" property must be specified with a list of values.'));
-		if(!$this->not && !in_array($value,$this->range,$this->strict))
+		$result = false;
+		if($this->strict)
+			$result=in_array($value,$this->range,true);
+		else
+		{
+			foreach($this->range as $r)
+			{
+				$result=(strcmp($r,$value)===0);
+				if($result)
+					break;
+			}
+		}
+		if(!$this->not && !$result)
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not in the list.');
 			$this->addError($object,$attribute,$message);
 		}
-		elseif($this->not && in_array($value,$this->range,$this->strict))
+		elseif($this->not && $result)
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is in the list.');
 			$this->addError($object,$attribute,$message);

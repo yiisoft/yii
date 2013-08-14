@@ -18,7 +18,7 @@
 	 */
 	selectCheckedRows = function (gridId) {
 		var settings = gridSettings[gridId],
-			table = $('#' + gridId).children('.' + settings.tableClass);
+			table = $('#' + gridId).find('.' + settings.tableClass);
 
 		table.children('tbody').find('input.select-on-check').filter(':checked').each(function () {
 			$(this).closest('tr').addClass('selected');
@@ -103,7 +103,7 @@
 
 				$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
 					if (event.type === 'keydown') {
-						if( event.keyCode !== 13) {
+						if (event.keyCode !== 13) {
 							return; // only react to enter key
 						} else {
 							eventType = 'keydown';
@@ -129,6 +129,7 @@
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}
+					return false;
 				});
 
 				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
@@ -169,7 +170,7 @@
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
-								$rows = $currentGrid.children('.' + settings.tableClass).children('tbody').children();
+								$rows = $currentGrid.find('.' + settings.tableClass).children('tbody').children();
 							if (this.checked) {
 								$rows.addClass('selected');
 								$checks.prop('checked', true);
@@ -215,7 +216,7 @@
 		 */
 		getRow: function (row) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.' + sClass).children('tbody').children('tr').eq(row).children();
+			return this.find('.' + sClass).children('tbody').children('tr').eq(row).children();
 		},
 
 		/**
@@ -225,7 +226,7 @@
 		 */
 		getColumn: function (column) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.' + sClass).children('tbody').children('tr').children('td:nth-child(' + (column + 1) + ')');
+			return this.find('.' + sClass).children('tbody').children('tr').children('td:nth-child(' + (column + 1) + ')');
 		},
 
 		/**
@@ -321,7 +322,9 @@
 				$grid.addClass(settings.loadingClass);
 				
 				if (settings.ajaxUpdate !== false) {
-					options.url = $.param.querystring(options.url, settings.ajaxVar + '=' + id);
+					if(settings.ajaxVar) {
+						options.url = $.param.querystring(options.url, settings.ajaxVar + '=' + id);
+					}
 					if (settings.beforeAjaxUpdate !== undefined) {
 						settings.beforeAjaxUpdate(id, options);
 					}

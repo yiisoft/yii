@@ -84,10 +84,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		parent::init();
 
-		// default session gc probability is 1%
-		ini_set('session.gc_probability',1);
-		ini_set('session.gc_divisor',100);
-
 		if($this->autoStart)
 			$this->open();
 		register_shutdown_function(array($this,'close'));

@@ -389,10 +389,15 @@ try
 	$post->title='new post title';
 	$post->save();
 	$transaction->commit();
+	if($post->save())
+    	$transaction->commit();
+    else
+    	$transaction->rollback();
 }
 catch(Exception $e)
 {
 	$transaction->rollback();
+	throw $e;
 }
 ~~~
 

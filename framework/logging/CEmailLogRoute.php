@@ -78,7 +78,7 @@ class CEmailLogRoute extends CLogRoute
 		if($this->utf8)
 		{
 			$headers[]="MIME-Version: 1.0";
-			$headers[]="Content-type: text/plain; charset=UTF-8";
+			$headers[]="Content-Type: text/plain; charset=UTF-8";
 			$subject='=?UTF-8?B?'.base64_encode($subject).'?=';
 		}
 		if(($from=$this->getSentFrom())!==null)
