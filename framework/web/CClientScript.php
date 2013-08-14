@@ -324,7 +324,8 @@ class CClientScript extends CApplicationComponent
 				$scriptContent = $scriptValue;
 				$scriptHtmlOptions = array();
 			}
-			$key=serialize(ksort($scriptHtmlOptions));
+			ksort($scriptHtmlOptions);
+			$key=serialize($scriptHtmlOptions);
 			$scriptBatches[$key]['htmlOptions']=$scriptHtmlOptions;
 			$scriptBatches[$key]['scripts'][]=$scriptContent;
 		}

@@ -466,6 +466,8 @@ class CClientScriptTest extends CTestCase
 	 *
 	 * @param array $scriptBatch
 	 * @param integer $expectedScriptTagCount
+	 *
+	 * @see https://github.com/yiisoft/yii/issues/2770
 	 */
 	public function testRenderScriptsBatch(array $scriptBatch, $expectedScriptTagCount)
 	{
