@@ -18,7 +18,7 @@
  * <pre>
  * function foo($value) {...return $newValue; }
  * </pre>
- * Many PHP functions qualify this signature (e.g. trim).
+ * Many PHP 'built in' functions qualify this signature (e.g. trim).
  *
  * To specify the filter method, set {@link filter} property to be the function name.
  *

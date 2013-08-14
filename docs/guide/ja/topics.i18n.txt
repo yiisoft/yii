@@ -157,9 +157,9 @@ choice format を使用するには、翻訳メッセージが下記のように
 
 ~~~
 [php]
-Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+Yii::t('app', 'n==1#one book|n>1#many books', array(1));
 // または、1.1.6 以降なら
-Yii::t('app', 'n==1#one book|n>1#many books', 1));
+Yii::t('app', 'n==1#one book|n>1#many books', 1);
 ~~~
 
 略記法として、式が数値のみの場合、`n==数値` と解釈されます。

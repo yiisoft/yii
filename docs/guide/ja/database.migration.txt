@@ -320,6 +320,12 @@ yiic migrate up --option1=value1 --option2=value2 ...
 yiic migrate up --migrationPath=ext.forum.migrations
 ~~~
 
+コマンドラインを使って `interactive` のような真偽値のオプションを設定する場合には、
+以下のように `1` か `0` を渡す必要があることに注意して下さい。
+
+~~~
+yiic migrate --interactive=0
+~~~
 
 ### コマンドをグローバルに構成する
 

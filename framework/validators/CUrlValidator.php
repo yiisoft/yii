@@ -80,11 +80,11 @@ class CUrlValidator extends CValidator
 	{
 		if(is_string($value) && strlen($value)<2000)  // make sure the length is limited to avoid DOS attacks
 		{
-			if($this->validateIDN)
-				$value=$this->encodeIDN($value);
-
 			if($this->defaultScheme!==null && strpos($value,'://')===false)
 				$value=$this->defaultScheme.'://'.$value;
+
+			if($this->validateIDN)
+				$value=$this->encodeIDN($value);
 
 			if(strpos($this->pattern,'{schemes}')!==false)
 				$pattern=str_replace('{schemes}','('.implode('|',$this->validSchemes).')',$this->pattern);
@@ -166,9 +166,18 @@ if(jQuery.trim(value)!='') {
 	 */
 	private function encodeIDN($value)
 	{
-		require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
-		$idna=new Net_IDNA2();
-		return $idna->encode($value);
+		if(preg_match_all('/^(.*):\/\/([^\/]+)(.*)$/',$value,$matches))
+		{
+			if(function_exists('idn_to_ascii'))
+				$value=$matches[1][0].'://'.idn_to_ascii($matches[2][0]).$matches[3][0];
+			else
+			{
+				require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
+				$idna=new Net_IDNA2();
+				$value=$matches[1][0].'://'.@$idna->encode($matches[2][0]).$matches[3][0];
+			}
+		}
+		return $value;
 	}
 
 	/**
@@ -179,8 +188,17 @@ if(jQuery.trim(value)!='') {
 	 */
 	private function decodeIDN($value)
 	{
-		require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
-		$idna=new Net_IDNA2();
-		return $idna->decode($value);
+		if(preg_match_all('/^(.*):\/\/([^\/]+)(.*)$/',$value,$matches))
+		{
+			if(function_exists('idn_to_utf8'))
+				$value=$matches[1][0].'://'.idn_to_utf8($matches[2][0]).$matches[3][0];
+			else
+			{
+				require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
+				$idna=new Net_IDNA2();
+				$value=$matches[1][0].'://'.@$idna->decode($matches[2][0]).$matches[3][0];
+			}
+		}
+		return $value;
 	}
 }

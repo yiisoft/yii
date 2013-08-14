@@ -373,24 +373,25 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$request=$app->getRequest();
 
 		if(!$request->getIsAjaxRequest())
+		{
 			$this->setReturnUrl($request->getUrl());
+			if(($url=$this->loginUrl)!==null)
+			{
+				if(is_array($url))
+				{
+					$route=isset($url[0]) ? $url[0] : $app->defaultController;
+					$url=$app->createUrl($route,array_splice($url,1));
+				}
+				$request->redirect($url);
+			}
+		}
 		elseif(isset($this->loginRequiredAjaxResponse))
 		{
 			echo $this->loginRequiredAjaxResponse;
 			Yii::app()->end();
 		}
 
-		if(($url=$this->loginUrl)!==null)
-		{
-			if(is_array($url))
-			{
-				$route=isset($url[0]) ? $url[0] : $app->defaultController;
-				$url=$app->createUrl($route,array_splice($url,1));
-			}
-			$request->redirect($url);
-		}
-		else
-			throw new CHttpException(403,Yii::t('yii','Login Required'));
+		throw new CHttpException(403,Yii::t('yii','Login Required'));
 	}
 
 	/**

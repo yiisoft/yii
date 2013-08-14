@@ -24,7 +24,7 @@ class CEmailValidatorTest extends CTestCase
 			array('test@президент.рф', true, true),
 			array('test@bücher.de', true, true),
 			array('test@检查域.cn', true, true),
-			array('☃-⌘@mañana.com', true, true),
+			array('☃-⌘@mañana.com', true, false),
 			array('test@google.com', true, true),
 			array('test@yiiframework.com', true, true),
 			array('bad-email', true, false),

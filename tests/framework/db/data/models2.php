@@ -45,9 +45,10 @@ class User2 extends CActiveRecord
 
 /**
  * @property integer $id
- * @property string $first_name
- * @property string $last_name
- * @property integer $user_id
+ * @property string $title
+ * @property string $create_time
+ * @property integer $author_id
+ * @property string $content
  */
 class Post2 extends CActiveRecord
 {
@@ -81,9 +82,30 @@ class Post2 extends CActiveRecord
 
 /**
  * @property integer $id
- * @property string $first_name
- * @property string $last_name
- * @property integer $user_id
+ * @property string $title
+ * @property string $create_time
+ * @property integer $author_id
+ * @property string $content
+ */
+class NullablePost2 extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'test.nullable_posts';
+	}
+}
+
+/**
+ * @property integer $id
+ * @property string $title
+ * @property string $create_time
+ * @property integer $author_id
+ * @property string $content
  */
 class PostExt2 extends CActiveRecord
 {

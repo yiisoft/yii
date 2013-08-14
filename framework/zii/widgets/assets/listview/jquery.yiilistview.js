@@ -163,7 +163,9 @@
 			options.url = $.param.querystring(options.url, options.data);
 			options.data = {};
 		}
-		options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
+		
+		if(settings.ajaxVar)
+			options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
 		
 		if(yiiXHR[id] != null) {
 			yiiXHR[id].abort();	

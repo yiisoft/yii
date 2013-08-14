@@ -310,6 +310,11 @@ class CActiveForm extends CWidget
 	 * @since 1.1.7
 	 */
 	protected $summaryID;
+	/**
+	 * @var string[] attribute IDs to be used to display error summary.
+	 * @since 1.1.14
+	 */
+	private $_summaryAttributes=array();
 
 	/**
 	 * Initializes the widget.
@@ -359,6 +364,8 @@ class CActiveForm extends CWidget
 		if(isset($this->clientOptions['validationUrl']) && is_array($this->clientOptions['validationUrl']))
 			$options['validationUrl']=CHtml::normalizeUrl($this->clientOptions['validationUrl']);
 
+		foreach($this->_summaryAttributes as $attribute)
+			$this->attributes[$attribute]['summary']=true;
 		$options['attributes']=array_values($this->attributes);
 
 		if($this->summaryID!==null)
@@ -369,7 +376,7 @@ class CActiveForm extends CWidget
 
 		if(!empty(CHtml::$errorCss))
 			$options['errorCss']=CHtml::$errorCss;
-		
+
 		$options=CJavaScript::encode($options);
 		$cs->registerCoreScript('yiiactiveform');
 		$id=$this->id;
@@ -423,6 +430,8 @@ class CActiveForm extends CWidget
 	 * <li>messages: an array that may be appended with new error messages for the attribute.</li>
 	 * <li>attribute: a data structure keeping all client-side options for the attribute</li>
 	 * </ul>
+	 * This should NOT be a function but just the code, Yii will enclose the code you provide inside the
+	 * actual JS function.
 	 * @param boolean $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
 	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
 	 * must be true.
@@ -551,6 +560,10 @@ class CActiveForm extends CWidget
 		}
 
 		$this->summaryID=$htmlOptions['id'];
+		foreach(is_array($models) ? $models : array($models) as $model)
+			foreach($model->getSafeAttributeNames() as $attribute)
+				$this->_summaryAttributes[]=CHtml::activeId($model,$attribute);
+
 		return $html;
 	}
 
@@ -682,9 +695,9 @@ class CActiveForm extends CWidget
 	}
 
 	/**
-	 * Renders a time field for a model attribute.
-	 * This method is a wrapper of {@link CHtml::activeTimeField}.
-	 * Please check {@link CHtml::activeTimeField} for detailed information
+	 * Renders a tel field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeTelField}.
+	 * Please check {@link CHtml::activeTelField} for detailed information
 	 * about the parameters for this method.
 	 * @param CModel $model the data model
 	 * @param string $attribute the attribute
