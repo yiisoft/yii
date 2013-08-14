@@ -3,7 +3,7 @@
 
 Version 1.1.15 under development
 --------------------------------
-
+- Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
