@@ -111,12 +111,7 @@ class CFileHelper
 		$level=-1;
 		$absolutePaths=true;
 		extract($options);
-		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
-		$mbstring=function_exists('mb_strlen');
-		$dirLen=$mbstring?mb_strlen($dir,Yii::app()->charset):strlen($dir);
-		if(!$absolutePaths)
-			foreach($list as &$path)
-				$path=$mbstring?mb_substr($path,$dirLen+1,null,Yii::app()->charset):substr($path,$dirLen+1);
+		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level,$absolutePaths);
 		sort($list);
 		return $list;
 	}
@@ -181,24 +176,26 @@ class CFileHelper
 	 * Level -1 means searching for all directories and files under the directory;
 	 * Level 0 means searching for only the files DIRECTLY under the directory;
 	 * level N means searching for those directories that are within N levels.
+	 * @param boolean $absolutePaths whether to return absolute paths or relative ones
 	 * @return array files found under the directory.
 	 */
-	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
+	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level,$absolutePaths)
 	{
 		$list=array();
-		$handle=opendir($dir);
+		$handle=opendir($dir.$base);
 		while(($file=readdir($handle))!==false)
 		{
 			if($file==='.' || $file==='..')
 				continue;
-			$path=$dir.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
+			$path=substr($base.DIRECTORY_SEPARATOR.$file,1);
+			$fullPath=$dir.DIRECTORY_SEPARATOR.$path;
+			$isFile=is_file($fullPath);
 			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
 			{
 				if($isFile)
-					$list[]=$path;
+					$list[]=$absolutePaths?$fullPath:$path;
 				elseif($level)
-					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
+					$list=array_merge($list,self::findFilesRecursive($dir,$base.'/'.$file,$fileTypes,$exclude,$level-1,$absolutePaths));
 			}
 		}
 		closedir($handle);
