@@ -160,7 +160,7 @@ class CFileCache extends CCache
 		$cacheFile=$this->getCacheFile($key);
 		if($this->directoryLevel>0)
 		{
-			$cacheDir = dirname($cacheFile);
+			$cacheDir=dirname($cacheFile);
 			@mkdir($cacheDir,$this->cachePathMode,true);
 			@chmod($cacheDir,$this->cachePathMode);
 		}
