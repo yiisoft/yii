@@ -3,7 +3,7 @@
 
 Version 1.1.15 under development
 --------------------------------
-
+- Enh #2722: CFileHelper::findFiles() accepts absolutePaths in $options and returns absolute paths if true or relative ones otherwise (defaults to true) (pavel-voronin)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
