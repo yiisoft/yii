@@ -183,7 +183,9 @@ class CFileValidator extends CValidator
 	 */
 	protected function validateFile($object, $attribute, $file)
 	{
-		if(null===$file || ($error=$file->getError())==UPLOAD_ERR_NO_FILE)
+		if(null===$file || ($error=$file->getError())==UPLOAD_ERR_OK)
+			true;
+		elseif($error==UPLOAD_ERR_NO_FILE)
 			return $this->emptyAttribute($object, $attribute);
 		elseif($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
 		{
@@ -218,13 +220,13 @@ class CFileValidator extends CValidator
 			}
 		}
 
-		if($this->mimeTypes!==null)
+		if($this->mimeTypes!==null && !empty($file->tempName))
 		{
 			if(function_exists('finfo_open'))
 			{
 				$mimeType=false;
 				if($info=finfo_open(defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME))
-					$mimeType=finfo_file($info,$file->getTempName());
+					$mimeType=finfo_file($info,$tempName);
 			}
 			elseif(function_exists('mime_content_type'))
 				$mimeType=mime_content_type($file->getTempName());
