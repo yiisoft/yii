@@ -226,7 +226,7 @@ class CFileValidator extends CValidator
 			{
 				$mimeType=false;
 				if($info=finfo_open(defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME))
-					$mimeType=finfo_file($info,$tempName);
+					$mimeType=finfo_file($info,$file->getTempName());
 			}
 			elseif(function_exists('mime_content_type'))
 				$mimeType=mime_content_type($file->getTempName());
