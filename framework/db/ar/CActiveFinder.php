@@ -482,7 +482,6 @@ class CJoinElement
 		$query=new CJoinQuery($child);
 		$query->selects=array($child->getColumnSelect($child->relation->select));
 		$query->conditions=array(
-			$child->relation->condition,
 			$child->relation->on,
 		);
 		$query->groups[]=$child->relation->group;
@@ -537,6 +536,9 @@ class CJoinElement
 		$parent=$this->_parent;
 		if($this->relation instanceof CManyManyRelation)
 		{
+			$query->conditions=array(
+				$this->relation->condition,
+			);
 			$joinTableName=$this->relation->getJunctionTableName();
 			if(($joinTable=$schema->getTable($joinTableName))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
