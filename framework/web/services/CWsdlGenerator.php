@@ -153,6 +153,10 @@
  */
 class CWsdlGenerator extends CComponent
 {
+	const STYLE_RPC = 'rpc';
+	const STYLE_DOCUMENT = 'document';
+	const USE_ENCODED = 'encoded';
+	const USE_LITERAL = 'literal';
 	/**
 	 * @var string the namespace to be used in the generated WSDL.
 	 * If not set, it defaults to the name of the class that WSDL is generated upon.
@@ -167,12 +171,15 @@ class CWsdlGenerator extends CComponent
 	 * @var array
 	 * soap:body operation style options
 	 */
-	public $operationBodyStyle = array('use' => 'encoded', 'encodingStyle' => "http://schemas.xmlsoap.org/soap/encoding/");
+	public $operationBodyStyle = array(
+		'use' => self::USE_ENCODED,
+		'encodingStyle' => 'http://schemas.xmlsoap.org/soap/encoding/',
+	);
 	/**
 	 * @var array
 	 * soap:operation style
 	 */
-	public $bindingStyle = 'rpc';
+	public $bindingStyle = self::STYLE_RPC;
 	/**
 	 * @var string
 	 * soap:operation transport
@@ -269,7 +276,7 @@ class CWsdlGenerator extends CComponent
 		$n=preg_match_all('/^@param\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches);
 		if($n>count($params))
 			$n=count($params);
-		if ($this->bindingStyle == 'rpc')
+		if ($this->bindingStyle == self::STYLE_RPC)
 		{
 			for($i=0;$i<$n;++$i)
 				$message[$params[$i]->getName()]=array(
@@ -296,7 +303,7 @@ class CWsdlGenerator extends CComponent
 			$return=null;
 		$this->messages[$methodName.'Response']=array('return'=>$return);
 
-		if ($this->bindingStyle == 'rpc')
+		if ($this->bindingStyle == self:STYLE_RPC)
 		{
 			if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
 				$return=array(
@@ -513,7 +520,7 @@ class CWsdlGenerator extends CComponent
 
 				$arrayType = ($dppos=strpos($xmlType,':')) !==false ? substr($xmlType,$dppos + 1) : $xmlType; // strip namespace, if any
 				$arrayType = substr($arrayType,0,-5); // strip 'Array' from name
-				if ($this->operationBodyStyle['use'] == 'encoded')
+				if ($this->operationBodyStyle['use'] == self::USE_ENCODED)
 				{
 					$complexContent=$dom->createElement('xsd:complexContent');
 					$restriction=$dom->createElement('xsd:restriction');
@@ -697,9 +704,9 @@ class CWsdlGenerator extends CComponent
 		$operation->setAttribute('name', $name);
 		$soapOperation=$dom->createElement('soap:operation');
 		$soapOperation->setAttribute('soapAction', $this->namespace.'#'.$name);
-		if ($this->bindingStyle == 'rpc')
+		if ($this->bindingStyle == self::STYLE_RPC)
 		{
-			$soapOperation->setAttribute('style','rpc');
+			$soapOperation->setAttribute('style', self::STYLE_RPC);
 		}
 
 		$input=$dom->createElement('wsdl:input');
@@ -707,7 +714,7 @@ class CWsdlGenerator extends CComponent
 
 		$soapBody=$dom->createElement('soap:body');
 		$operationBodyStyle=$this->operationBodyStyle;
-		if ($this->bindingStyle == 'rpc' && !isset($operationBodyStyle['namespace']))
+		if ($this->bindingStyle == self::STYLE_RPC && !isset($operationBodyStyle['namespace']))
 		{
 			$operationBodyStyle['namespace'] = $this->namespace;
 		}
