@@ -4,6 +4,7 @@
 Version 1.1.15 under development
 --------------------------------
 - Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
+- Enh #2737: CFileCache: added cachePathMode and cacheFileMode options to set modes used by chmod() for cache directory and files (ujovlado)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
