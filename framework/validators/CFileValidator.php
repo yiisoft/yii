@@ -183,23 +183,24 @@ class CFileValidator extends CValidator
 	 */
 	protected function validateFile($object, $attribute, $file)
 	{
-		if(null===$file || ($error=$file->getError())==UPLOAD_ERR_OK)
-			true;
-		elseif($error==UPLOAD_ERR_NO_FILE)
-			return $this->emptyAttribute($object, $attribute);
-		elseif($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
+		if(null!==$file && ($error=$file->getError())!==UPLOAD_ERR_OK)
 		{
-			$message=$this->tooLarge!==null?$this->tooLarge : Yii::t('yii','The file "{file}" is too large. Its size cannot exceed {limit} bytes.');
-			$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{limit}'=>$this->getSizeLimit()));
+			if($error==UPLOAD_ERR_NO_FILE)
+				return $this->emptyAttribute($object, $attribute);
+			elseif($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
+			{
+				$message=$this->tooLarge!==null?$this->tooLarge : Yii::t('yii','The file "{file}" is too large. Its size cannot exceed {limit} bytes.');
+				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{limit}'=>$this->getSizeLimit()));
+			}
+			elseif($error==UPLOAD_ERR_PARTIAL)
+				throw new CException(Yii::t('yii','The file "{file}" was only partially uploaded.',array('{file}'=>$file->getName())));
+			elseif($error==UPLOAD_ERR_NO_TMP_DIR)
+				throw new CException(Yii::t('yii','Missing the temporary folder to store the uploaded file "{file}".',array('{file}'=>$file->getName())));
+			elseif($error==UPLOAD_ERR_CANT_WRITE)
+				throw new CException(Yii::t('yii','Failed to write the uploaded file "{file}" to disk.',array('{file}'=>$file->getName())));
+			elseif(defined('UPLOAD_ERR_EXTENSION') && $error==UPLOAD_ERR_EXTENSION)  // available for PHP 5.2.0 or above
+				throw new CException(Yii::t('yii','A PHP extension stopped the file upload.'));
 		}
-		elseif($error==UPLOAD_ERR_PARTIAL)
-			throw new CException(Yii::t('yii','The file "{file}" was only partially uploaded.',array('{file}'=>$file->getName())));
-		elseif($error==UPLOAD_ERR_NO_TMP_DIR)
-			throw new CException(Yii::t('yii','Missing the temporary folder to store the uploaded file "{file}".',array('{file}'=>$file->getName())));
-		elseif($error==UPLOAD_ERR_CANT_WRITE)
-			throw new CException(Yii::t('yii','Failed to write the uploaded file "{file}" to disk.',array('{file}'=>$file->getName())));
-		elseif(defined('UPLOAD_ERR_EXTENSION') && $error==UPLOAD_ERR_EXTENSION)  // available for PHP 5.2.0 or above
-			throw new CException(Yii::t('yii','A PHP extension stopped the file upload.'));
 
 		if($this->minSize!==null && $file->getSize()<$this->minSize)
 		{
