@@ -3,7 +3,7 @@
 
 Version 1.1.15 under development
 --------------------------------
-- Bug #2787: CDetailView does not return "Not set" if formatter returns null (Corfiot)
+- Enh #2787: CDetailView does not return "Not set" if formatter returns null (Corfiot)
 - Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
 
