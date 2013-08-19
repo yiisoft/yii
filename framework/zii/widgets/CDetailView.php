@@ -215,7 +215,13 @@ class CDetailView extends CWidget
 			else
 				$value=null;
 
-			$tr['{value}']=$value===null ? $this->nullDisplay : $formatter->format($value,$attribute['type']);
+			if ($value !== null)
+			{
+				$f = $formatter->format($value, $attribute['type']);
+				$tr['{value}'] = $f === null ? $this->nullDisplay : $f;
+			} 
+			else
+				$tr['{value}'] = $this->nullDisplay;
 
 			$this->renderItem($attribute, $tr);
 
