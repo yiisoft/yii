@@ -438,19 +438,11 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function getAttributes($names=null)
 	{
+		if(!$names) $names = $this->attributeNames();
 		$values=array();
-		foreach($this->attributeNames() as $name)
+		foreach($names as $name)
 			$values[$name]=$this->$name;
-
-		if(is_array($names))
-		{
-			$values2=array();
-			foreach($names as $name)
-				$values2[$name]=isset($values[$name]) ? $values[$name] : null;
-			return $values2;
-		}
-		else
-			return $values;
+		return $values;
 	}
 
 	/**
