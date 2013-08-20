@@ -97,7 +97,7 @@
  * </ul>
  * The Group indicators can be also injected via custom soap definitions as XML node into WSDL structure.
  *
- * In the following example, class Foo will create a XML node <xsd:Foo><xsd:sequence> ... </xsd:sequence></xsd:Foo> with children attributes expected in pre-defined order.
+ * In the following example, class Foo will create a XML node &lt;xsd:Foo&gt;&lt;xsd:sequence&gt; ... &lt;/xsd:sequence&gt;&lt;/xsd:Foo&gt; with children attributes expected in pre-defined order.
  * <pre>
  * / *
  *   * @soap-indicator sequence
@@ -142,7 +142,7 @@
  *     public $date_of_birth;
  * }
  * </pre>
- * In the example above, WSDL generator would inject under XML node <xsd:User> the code block defined by @soap-wsdl lines.
+ * In the example above, WSDL generator would inject under XML node &lt;xsd:User&gt; the code block defined by @soap-wsdl lines.
  *
  * By inserting into SOAP URL link the parameter "?makedoc", WSDL generator will output human-friendly overview of all complex data types rather than XML WSDL file.
  * Each complex type is described in a separate HTML table and recognizes also the '@example' PHPDoc tag. See {@link buildHtmlDocs()}.
@@ -648,7 +648,7 @@ class CWsdlGenerator extends CComponent
 	* <li>Max - maximum number of occurrences</li>
 	* <li>Description - Detailed description of the attribute.</li>
 	* <li>Example - Attribute example value if provided via PHPDoc property @example.</li>
-	* <ul>
+	* </ul>
 	*
 	* @param bool $return If true, generated HTML output will be returned rather than directly sent to output buffer
 	*/
