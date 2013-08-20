@@ -759,9 +759,9 @@ class CActiveForm extends CWidget
     }
 
 	/**
-	 * Renders a time field for a model attribute.
-	 * This method is a wrapper of {@link CHtml::activeTimeField}.
-	 * Please check {@link CHtml::activeTimeField} for detailed information
+	 * Renders a tel field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeTelField}.
+	 * Please check {@link CHtml::activeTelField} for detailed information
 	 * about the parameters for this method.
 	 * @param CModel $model the data model
 	 * @param string $attribute the attribute
