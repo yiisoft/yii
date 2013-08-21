@@ -124,7 +124,7 @@ $requirements=array(
 		false,
 		function_exists('crypt') && defined('CRYPT_BLOWFISH') && CRYPT_BLOWFISH,
 		'<a href="http://www.yiiframework.com/doc/api/1.1/CPasswordHelper">CPasswordHelper</a>',
-		t('yii','Require for secure password storage.')),
+		t('yii','Required for secure password storage.')),
 	array(
 		t('yii','SOAP extension'),
 		false,
