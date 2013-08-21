@@ -335,7 +335,7 @@ class CHtml
 	public static function beginForm($action='',$method='post',$htmlOptions=array())
 	{
 		$htmlOptions['action']=$url=self::normalizeUrl($action);
-		if (strcasecmp($method,'get')!==0 && strcasecmp($method,'post')!==0)
+		if(strcasecmp($method,'get')!==0 && strcasecmp($method,'post')!==0)
 		{
 			$customMethod=$method;
 			$method='post';
@@ -360,7 +360,7 @@ class CHtml
 		if($request->enableCsrfValidation && !strcasecmp($method,'post'))
 			$hiddens[]=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
 		if ($customMethod!==false)
-			$hiddens[]=self::hiddenField('_method', $customMethod);
+			$hiddens[]=self::hiddenField('_method',$customMethod);
 		if($hiddens!==array())
 			$form.="\n".self::tag('div',array('style'=>'display:none'),implode("\n",$hiddens));
 		return $form;
