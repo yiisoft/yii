@@ -64,13 +64,14 @@ CREATE TABLE profiles
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	first_name VARCHAR(128) NOT NULL,
 	last_name VARCHAR(128) NOT NULL,
+	country VARCHAR(128),
 	user_id INTEGER NOT NULL,
 	CONSTRAINT FK_profile_user FOREIGN KEY (user_id)
 		REFERENCES users (id) ON DELETE CASCADE ON UPDATE RESTRICT
 );
 
-INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1);
-INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 2','last 2',2);
+INSERT INTO profiles (first_name, last_name, country, user_id) VALUES ('first 1','last 1','country 1',1);
+INSERT INTO profiles (first_name, last_name, country, user_id) VALUES ('first 2','last 2','country 2',2);
 
 CREATE TABLE posts
 (
