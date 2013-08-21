@@ -6,6 +6,8 @@ Version 1.1.15 under development
 - Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
 - Bug #2778: Fixed throwing unnecessary exception in CFileValidator when validating MIME types for a file upload that failed (Rupert-RR)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
+- Enh #2791: requirements/index.php: added CRYPT_BLOWFISH check for CPasswordHelper (tom--)
+- Enh #2688: CHtml::beginForm() now supports additional HTTP methods, via a hidden `_method` field. (phpnode)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
@@ -139,7 +141,6 @@ Version 1.1.14 August 11, 2013
 - Enh #2494: Allow to configure CBaseListView emptyText container tag name (ifdattic)
 - Enh #2529: Silenced all chmod calls to prevent "chmod() operation not allowed" error on NTFS (samdark)
 - Enh #2602: CEmailValidator and CUrlValidator now uses native PHP `idn` extension in case it is available (`idn_to_ascii` and `idn_ to_ utf8` functions) and Net_IDNA2 otherwise (resurtm, creocoder)
-- Enh #2688: CHtml::beginForm() now supports additional HTTP methods, via a hidden `_method` field. (phpnode)
 - Enh #2642: Support third party autoloaders when importing classes via Yii::import() (phpnode)
 - Chg: Upgraded HTMLPurifier to v4.5.0 (samdark)
 - Chg #645: CDbConnection now throws CDbException when failed to open DB connection instead of failing with a warning (kidol, eirikhm, samdark, cebe)
