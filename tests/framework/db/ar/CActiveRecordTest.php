@@ -1370,6 +1370,17 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
+	 * verify https://github.com/yiisoft/yii/issues/2756
+	 */
+	public function testLazyFindCondition()
+	{
+		$user = User::model()->findByPk(2);
+		$this->assertEquals(3, count($user->posts()));
+		$this->assertEquals(2, count($user->posts(array('condition' => 'id IN (2,3)'))));
+		$this->assertEquals(2, count($user->postsCondition()));
+	}
+
+	/**
 	 * https://github.com/yiisoft/yii/issues/1070
 	 */
 	public function testIssue1070()

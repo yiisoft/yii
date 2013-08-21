@@ -626,7 +626,7 @@ $command->delete('tbl_user', 'id=:id', array(':id'=>1));
 * `text`: текстовый тип (длинная строка). Для MySQL конвертируется в `text`;
 * `integer`: целое. Для MySQL конвертируется в `int(11)`;
 * `float`: число с плавающей точкой. Для MySQL конвертируется в `float`;
-* `decimal`: дясятичное число. Для MySQL конвертируется в `decimal`;
+* `decimal`: десятичное число. Для MySQL конвертируется в `decimal`;
 * `datetime`: дата и время. Для MySQL конвертируется в `datetime`;
 * `timestamp`: метка времени. Для MySQL конвертируется в `timestamp`;
 * `time`: время. Для MySQL конвертируется в `time`;
