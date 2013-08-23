@@ -12,6 +12,15 @@ class CHttpRequestTest extends CTestCase
 	}
 
 	/**
+	 * @covers CHttpRequest::parseAcceptLanguagesHeader
+	 * @dataProvider acceptLanguagesHeaderDataProvider
+	 */
+	public function testParseAcceptLanguagesHeader($header,$result,$errorString='Parse of header did not give expected result')
+	{
+		$this->assertEquals($result,CHttpRequest::parseAcceptLanguagesHeader($header),$errorString);
+	}
+
+	/**
 	 * @covers CHttpRequest::compareAcceptTypes
 	 * @dataProvider acceptContentTypeArrayMapDataProvider
 	 */
@@ -20,6 +29,17 @@ class CHttpRequestTest extends CTestCase
 		$this->assertEquals($result,CHttpRequest::compareAcceptTypes($a,$b),$errorString);
 		// make sure that inverse comparison holds
 		$this->assertEquals($result*-1,CHttpRequest::compareAcceptTypes($b,$a),'(Inverse) '.$errorString);
+	}
+
+	/**
+	 * @covers CHttpRequest::compareAcceptLanguages
+	 * @dataProvider acceptLanguagesArrayMapDataProvider
+	 */
+	public function testCompareAcceptLanguages($a,$b,$result,$errorString='Compare of content type array maps did not give expected preference')
+	{
+		$this->assertEquals($result,CHttpRequest::compareAcceptLanguages($a,$b),$errorString);
+		// make sure that inverse comparison holds
+		$this->assertEquals($result*-1,CHttpRequest::compareAcceptLanguages($b,$a),'(Inverse) '.$errorString);
 	}
 
 	public function acceptHeaderDataProvider()
@@ -51,6 +71,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'application',
 						'subType'=>'xhtml',
 						'baseType'=>'xml',
+						'position'=>0,
 						'params'=>array(
 							'q'=>1,
 						),
@@ -59,6 +80,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'text',
 						'subType'=>'html',
 						'baseType'=>null,
+						'position'=>1,
 						'params'=>array(
 							'q'=>1,
 						),
@@ -67,6 +89,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'*',
 						'subType'=>'json',
 						'baseType'=>null,
+						'position'=>2,
 						'params'=>array(
 							'q'=>1,
 						),
@@ -75,6 +98,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'image',
 						'subType'=>'png',
 						'baseType'=>null,
+						'position'=>3,
 						'params'=>array(
 							'q'=>1,
 						),
@@ -90,6 +114,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'application',
 						'subType'=>'xhtml',
 						'baseType'=>'xml',
+						'position'=>0,
 						'params'=>array(
 							'q'=>0.9,
 						),
@@ -98,6 +123,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'text',
 						'subType'=>'html',
 						'baseType'=>null,
+						'position'=>1,
 						'params'=>array(
 							'q'=>1,
 						),
@@ -106,6 +132,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'*',
 						'subType'=>'json',
 						'baseType'=>null,
+						'position'=>2,
 						'params'=>array(
 							'q'=>1,
 							'level'=>'three',
@@ -115,6 +142,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'image',
 						'subType'=>'png',
 						'baseType'=>null,
+						'position'=>3,
 						'params'=>array(
 							'q'=>1,
 							'a'=>1,
@@ -133,6 +161,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'application',
 						'subType'=>'xhtml',
 						'baseType'=>'xml',
+						'position'=>0,
 						'params'=>array(
 							'q'=>0.9,
 						),
@@ -141,6 +170,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'text',
 						'subType'=>'html',
 						'baseType'=>null,
+						'position'=>1,
 						'params'=>array(
 							'q'=>1,
 						),
@@ -149,6 +179,7 @@ class CHttpRequestTest extends CTestCase
 						'type'=>'*',
 						'subType'=>'json',
 						'baseType'=>null,
+						'position'=>2,
 						'params'=>array(
 							'q'=>1,
 							'level'=>'three',
@@ -156,6 +187,115 @@ class CHttpRequestTest extends CTestCase
 					),
 				),
 				'Parsing partially valid Accept header containing all details did not return correct result',
+			),
+		);
+	}
+
+	public function acceptLanguagesHeaderDataProvider()
+	{
+		return array(
+			// null header
+			array(
+				null,
+				array(),
+				'Parsing null Accept-Language header did not return empty array',
+			),
+			// empty header
+			array(
+				'',
+				array(),
+				'Parsing empty Accept-Language header did not return empty array',
+			),
+			// header containing multiple languages without any q values (so should revert to original order)
+			array(
+				'ru,en,fr,cn,es',
+				array(
+					array(
+						'q'=>1,
+						'language'=>'ru',
+						'position'=>0,
+					),
+					array(
+						'q'=>1,
+						'language'=>'en',
+						'position'=>1,
+					),
+					array(
+						'q'=>1,
+						'language'=>'fr',
+						'position'=>2,
+					),
+					array(
+						'q'=>1,
+						'language'=>'cn',
+						'position'=>3,
+					),
+					array(
+						'q'=>1,
+						'language'=>'es',
+						'position'=>4,
+					),
+				),
+				'Parsing languages without q values did not return expected order',
+			),
+			// valid header with q values
+			array(
+				'en;q=0.8,fr;q=0.9,ru;q=0.777,cn;q=0.90001',
+				array(
+					array(
+						'q'=>0.8,
+						'language'=>'en',
+						'position'=>0,
+					),
+					array(
+						'q'=>0.9,
+						'language'=>'fr',
+						'position'=>1,
+					),
+					array(
+						'q'=>0.777,
+						'language'=>'ru',
+						'position'=>2,
+					),
+					array(
+						'q'=>0.90001,
+						'language'=>'cn',
+						'position'=>3,
+					),
+				),
+				'Parsing valid Accept-Language header with q values did not return correct result',
+			),
+			// valid header with multiple q values and multiple missing q values
+			array(
+				'cn,es,fr;q=0.5,ru;q=0.5,en;q=1',
+				array(
+					array(
+						'q'=>1,
+						'language'=>'cn',
+						'position'=>0,
+					),
+					array(
+						'q'=>1,
+						'language'=>'es',
+						'position'=>1,
+					),
+					array(
+						'q'=>0.5,
+						'language'=>'fr',
+						'position'=>2,
+					),
+					array(
+						'q'=>0.5,
+						'language'=>'ru',
+						'position'=>3,
+					),
+					array(
+						'q'=>1,
+						'language'=>'en',
+						'position'=>4,
+					),
+				),
+				'Parsing valid Accept header containing all details did not return correct result',
 			),
 		);
 	}
@@ -168,6 +308,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'application',
 					'subType'=>'xhtml',
 					'baseType'=>'xml',
+					'position'=>0,
 					'params'=>array(
 						'q'=>0.99,
 					),
@@ -176,6 +317,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'text',
 					'subType'=>'html',
 					'baseType'=>null,
+					'position'=>1,
 					'params'=>array(
 						'q'=>(double)1,
 					),
@@ -188,6 +330,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'application',
 					'subType'=>'xhtml',
 					'baseType'=>'xml',
+					'position'=>0,
 					'params'=>array(
 						'q'=>0.5,
 					),
@@ -196,6 +339,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'*',
 					'subType'=>'html',
 					'baseType'=>null,
+					'position'=>1,
 					'params'=>array(
 						'q'=>0.5,
 					),
@@ -208,6 +352,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'application',
 					'subType'=>'*',
 					'baseType'=>'xml',
+					'position'=>0,
 					'params'=>array(
 						'q'=>0.5,
 					),
@@ -216,6 +361,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'text',
 					'subType'=>'html',
 					'baseType'=>null,
+					'position'=>1,
 					'params'=>array(
 						'q'=>0.5,
 					),
@@ -228,6 +374,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'*',
 					'subType'=>'xhtml',
 					'baseType'=>'xml',
+					'position'=>0,
 					'params'=>array(
 						'q'=>0.9,
 						'foo'=>'bar2',
@@ -237,6 +384,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'*',
 					'subType'=>'html',
 					'baseType'=>null,
+					'position'=>1,
 					'params'=>array(
 						'q'=>0.9,
 						'foo'=>'bar',
@@ -251,6 +399,7 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'*',
 					'subType'=>'xhtml',
 					'baseType'=>'xml',
+					'position'=>0,
 					'params'=>array(
 						'q'=>0.9,
 						'foo'=>'bar',
@@ -260,13 +409,62 @@ class CHttpRequestTest extends CTestCase
 					'type'=>'*',
 					'subType'=>'html',
 					'baseType'=>null,
+					'position'=>1,
 					'params'=>array(
 						'q'=>0.9,
 						'foo'=>'bar',
 					),
 				),
-				0,
-				'Comparing equal type, subType, q and number of params did not return equality',
+				-1,
+				'Comparing equal type, subType, q and number of params did not correctly take original position into account',
+			),
+		);
+	}
+
+	public function acceptLanguagesArrayMapDataProvider()
+	{
+		return array(
+			array(
+				array(
+					'q'=>1,
+					'language'=>'cn',
+					'position'=>0,
+				),
+				array(
+					'q'=>1,
+					'language'=>'es',
+					'position'=>1,
+				),
+				-1,
+				'Comparing equal q with different position did not assign correct preference',
+			),
+			array(
+				array(
+					'q'=>0.5,
+					'language'=>'fr',
+					'position'=>3,
+				),
+				array(
+					'q'=>0.9,
+					'language'=>'ru',
+					'position'=>3,
+				),
+				1,
+				'Comparing different q values did not assign correct preference',
+			),
+			array(
+				array(
+					'q'=>0.500001,
+					'language'=>'fr',
+					'position'=>3,
+				),
+				array(
+					'q'=>0.5,
+					'language'=>'ru',
+					'position'=>3,
+				),
+				-1,
+				'Comparing very slightly different q values did not assign correct preference',
 			),
 		);
 	}
