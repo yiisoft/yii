@@ -905,9 +905,9 @@ class CActiveForm extends CWidget
 	 * the listed attributes will be validated.
 	 * @param boolean $loadInput whether to load the data from $_POST array in this method.
 	 * If this is true, the model will be populated from <code>$_POST[ModelClass]</code>.
-	 * @return string the JSON representation of the validation error messages.
+	 * @return object associative array representation with the validation error messages.
 	 */
-	public static function validate($models, $attributes=null, $loadInput=true)
+	public static function validateUnencoded($models, $attributes=null, $loadInput=true)
 	{
 		$result=array();
 		if(!is_array($models))
@@ -921,7 +921,54 @@ class CActiveForm extends CWidget
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,$attribute)]=$errors;
 		}
+		return $result;
+	}
+
+	/**
+	 * Validates one or several models and returns the results in JSON format.
+	 * This is a helper method that simplifies the way of writing AJAX validation code.
+	 * @param mixed $models a single model instance or an array of models.
+	 * @param array $attributes list of attributes that should be validated. Defaults to null,
+	 * meaning any attribute listed in the applicable validation rules of the models should be
+	 * validated. If this parameter is given as a list of attributes, only
+	 * the listed attributes will be validated.
+	 * @param boolean $loadInput whether to load the data from $_POST array in this method.
+	 * If this is true, the model will be populated from <code>$_POST[ModelClass]</code>.
+	 * @return string the JSON representation of the validation error messages.
+	 */
+	public static function validate($models, $attributes=null, $loadInput=true)
+	{
+		$result=self::validateUnencoded($models, $attributes, $loadInput);
 		return function_exists('json_encode') ? json_encode($result) : CJSON::encode($result);
+	}
+
+	/**
+	 * Validates an array of model instances and returns the results in JSON format.
+	 * This is a helper method that simplifies the way of writing AJAX validation code for tabular input.
+	 * @param mixed $models an array of model instances.
+	 * @param array $attributes list of attributes that should be validated. Defaults to null,
+	 * meaning any attribute listed in the applicable validation rules of the models should be
+	 * validated. If this parameter is given as a list of attributes, only
+	 * the listed attributes will be validated.
+	 * @param boolean $loadInput whether to load the data from $_POST array in this method.
+	 * If this is true, the model will be populated from <code>$_POST[ModelClass][$i]</code>.
+	 * @return object associative array representation with the validation error messages.
+	 */
+	public static function validateTabularUnencoded($models, $attributes=null, $loadInput=true)
+	{
+		$result=array();
+		if(!is_array($models))
+			$models=array($models);
+		foreach($models as $i=>$model)
+		{
+			$modelName=CHtml::modelName($model);
+			if($loadInput && isset($_POST[$modelName][$i]))
+				$model->attributes=$_POST[$modelName][$i];
+			$model->validate($attributes);
+			foreach($model->getErrors() as $attribute=>$errors)
+				$result[CHtml::activeId($model,'['.$i.']'.$attribute)]=$errors;
+		}
+		return $result;
 	}
 
 	/**
@@ -938,18 +985,7 @@ class CActiveForm extends CWidget
 	 */
 	public static function validateTabular($models, $attributes=null, $loadInput=true)
 	{
-		$result=array();
-		if(!is_array($models))
-			$models=array($models);
-		foreach($models as $i=>$model)
-		{
-			$modelName=CHtml::modelName($model);
-			if($loadInput && isset($_POST[$modelName][$i]))
-				$model->attributes=$_POST[$modelName][$i];
-			$model->validate($attributes);
-			foreach($model->getErrors() as $attribute=>$errors)
-				$result[CHtml::activeId($model,'['.$i.']'.$attribute)]=$errors;
-		}
+		$result=self::validateTabularUnencoded($models, $attributes, $loadInput);
 		return function_exists('json_encode') ? json_encode($result) : CJSON::encode($result);
 	}
 }
