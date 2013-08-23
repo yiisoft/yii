@@ -869,7 +869,7 @@ class CHttpRequest extends CApplicationComponent
 							if($q>1)
 								$q=(double)1;
 							elseif($q<0)
-							$q=(double)0;
+								$q=(double)0;
 							$accept['params'][$matches[4][$i]]=$q;
 						}
 						else
