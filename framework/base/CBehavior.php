@@ -48,7 +48,7 @@ class CBehavior extends CComponent implements IBehavior
 	{
 		$this->_enabled=true;
 		$this->_owner=$owner;
-		$this->_attachEventHandlers();
+		$this->attachEventHandlers();
 	}
 
 	/**
@@ -92,7 +92,7 @@ class CBehavior extends CComponent implements IBehavior
 		if($this->_enabled!=$value && $this->_owner)
 		{
 			if($value)
-				$this->_attachEventHandlers();
+				$this->attachEventHandlers();
 			else
 			{
 				foreach($this->events() as $event=>$handler)
@@ -102,7 +102,7 @@ class CBehavior extends CComponent implements IBehavior
 		$this->_enabled=$value;
 	}
 
-	private function _attachEventHandlers()
+	protected function attachEventHandlers()
 	{
 		$class=new ReflectionClass($this);
 		foreach($this->events() as $event=>$handler)
