@@ -3,6 +3,7 @@
 
 Version 1.1.15 under development
 --------------------------------
+- Bug #2429: CHttpRequest now properly takes into account original items order when sorting parsed Accept headers (Rupert-RR)
 - Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
 

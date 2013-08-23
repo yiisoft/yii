@@ -51,9 +51,9 @@
  * @property integer $securePort Port number for secure requests.
  * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
  * @property array $preferredAcceptType The user preferred accept type as an array map, e.g. array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'params' => array('q' => 0.9)).
- * @property array $preferredAcceptTypes An array of all user accepted types (as array maps like array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'params' => array('q' => 0.9)) ) in order of preference.
+ * @property array $preferredAcceptTypes An array of all user accepted types (as array maps like array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'position' => 0, 'params' => array('q' => 0.9)) ) in order of preference.
  * @property string $preferredLanguage The user preferred language.
- * @property array $preferredLanguages An array of all user accepted languages in order of preference.
+ * @property array $preferredLanguages An array of all user accepted languages (as array maps like array('q' => 1, 'language' => 'fr', 'position' => 0) in order of preference.
  * @property string $csrfToken The random token for CSRF validation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -807,7 +807,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Parses an HTTP Accept header, returning an array map with all parts of each entry.
-	 * Each array entry consists of a map with the type, subType, baseType and params, an array map of key-value parameters,
+	 * Each array entry consists of a map with the type, subType, baseType, initial array position and params, an array map of key-value parameters,
 	 * obligatorily including a `q` value (i.e. preference ranking) as a double.
 	 * For example, an Accept header value of <code>'application/xhtml+xml;q=0.9;level=1'</code> would give an array entry of
 	 * <pre>
@@ -815,6 +815,7 @@ class CHttpRequest extends CApplicationComponent
 	 *        'type' => 'application',
 	 *        'subType' => 'xhtml',
 	 *        'baseType' => 'xml',
+	 *        'position' => 0,
 	 *        'params' => array(
 	 *            'q' => 0.9,
 	 *            'level' => '1',
@@ -839,7 +840,7 @@ class CHttpRequest extends CApplicationComponent
 		// the regexp should (in theory) always return an array of 6 arrays
 		if(count($matches)===6)
 		{
-			$i=0;
+			$i=$x=0;
 			$itemLen=count($matches[1]);
 			while($i<$itemLen)
 			{
@@ -848,6 +849,7 @@ class CHttpRequest extends CApplicationComponent
 					'type'=>$matches[1][$i],
 					'subType'=>$matches[2][$i],
 					'baseType'=>null,
+					'position'=>$x++,
 					'params'=>array(),
 				);
 				// fill in the base type if it exists
@@ -867,7 +869,7 @@ class CHttpRequest extends CApplicationComponent
 							if($q>1)
 								$q=(double)1;
 							elseif($q<0)
-								$q=(double)0;
+							$q=(double)0;
 							$accept['params'][$matches[4][$i]]=$q;
 						}
 						else
@@ -886,6 +888,43 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Parses an HTTP Accept-Language header, returning an array map with all parts of each entry.
+	 * Each array entry consists of a map with the q value, language code and initial array position.
+	 * For example, an Accept-Language header value of <code>'fr;q=0.8'</code> would give an array entry of
+	 * <pre>
+	 * array(
+	 *        'q' => 0.8,
+	 *        'language' => 'fr',
+	 *        'position' => 0,
+	 * )
+	 * </pre>
+	 *
+	 * See also {@link http://tools.ietf.org/html/rfc2616#section-14.1} for details on Accept header.
+	 * @param string $header the accept-language header value to parse
+	 * @return array the user accepted languages.
+	 */
+	public static function parseAcceptLanguagesHeader($header)
+	{
+		$languages=array();
+		$matches=array();
+		if($n=preg_match_all('/([\w\-_]+)(?:\s*;\s*q\s*=\s*(\d*\.?\d*))?/',$header,$matches))
+		{
+			for($i=$x=0;$i<$n;++$i)
+			{
+				$q=(double)1;
+				if($matches[2][$i]!=='')
+					$q=(double)$matches[2][$i];
+				// sanity check on q value
+				if($q>1)
+					$q=(double)1;
+				if($q>0)
+					$languages[]=array('q'=>(double)$q,'language'=>$matches[1][$i],'position'=>$x++);
+			}
+		}
+		return $languages;
+	}
+
+	/**
 	 * Compare function for determining the preference of accepted MIME type array maps
 	 * See {@link parseAcceptHeader()} for the format of $a and $b
 	 * @param array $a user accepted MIME type as an array map
@@ -896,21 +935,58 @@ class CHttpRequest extends CApplicationComponent
 	{
 		// check for equal quality first
 		if($a['params']['q']===$b['params']['q'])
+		{
 			if(!($a['type']==='*' xor $b['type']==='*'))
+			{
 				if (!($a['subType']==='*' xor $b['subType']==='*'))
-					// finally, higher number of parameters counts as greater precedence
+				{
 					if(count($a['params'])===count($b['params']))
-						return 0;
+					{
+						// finally check for initial position
+						if ($a['position']===$b['position'])
+							return 0;
+						else
+							// earlier position gives higher priority
+							return ($a['position']<$b['position'] ? -1 : 1);
+					}
 					else
+						// higher number of parameters counts as greater precedence
 						return count($a['params'])<count($b['params']) ? 1 : -1;
-				// more specific takes precedence - whichever one doesn't have a * subType
+				}
 				else
+					// more specific takes precedence - whichever one doesn't have a * subType
 					return $a['subType']==='*' ? 1 : -1;
-			// more specific takes precedence - whichever one doesn't have a * type
+			}
 			else
+				// more specific takes precedence - whichever one doesn't have a * type
 				return $a['type']==='*' ? 1 : -1;
+		}
 		else
 			return ($a['params']['q']<$b['params']['q']) ? 1 : -1;
+	}
+
+	/**
+	 * Compare function for determining the preference of accepted language array maps
+	 * See {@link parseLanguageHeader()} for the format of $a and $b
+	 * @param array $a user accepted language as an array map
+	 * @param array $b user accepted language as an array map
+	 * @return integer -1, 0 or 1 if $a has respectively greater preference, equal preference or less preference than $b (higher preference comes first).
+	 */
+	public static function compareAcceptLanguages($a,$b)
+	{
+		// check for equal quality first
+		if($a['q']===$b['q'])
+		{
+			// then check for initial positions
+			if ($a['position']===$b['position'])
+				return 0;
+			else
+				// earlier position gives higher priority
+				return ($a['position']<$b['position'] ? -1 : 1);
+		}
+		else
+			// higher q value gives earlier position
+			return ($a['q']<$b['q']) ? 1 : -1;
 	}
 
 	/**
@@ -942,34 +1018,19 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns an array of user accepted languages in order of preference.
-	 * The returned language IDs will NOT be canonicalized using {@link CLocale::getCanonicalID}.
-	 * @return array the user accepted languages in the order of preference.
+	 * Returns an array of user accepted languages as array maps, in order of preference.
+	 * See {@link parseAcceptLanguagesHeader()} for a description of the array map.
+	 * The language IDs will NOT be canonicalized using {@link CLocale::getCanonicalID}.
+	 * @return array map of the user accepted languages in the order of preference.
 	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.4}
 	 */
 	public function getPreferredLanguages()
 	{
 		if($this->_preferredLanguages===null)
 		{
-			$sortedLanguages=array();
-			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $n=preg_match_all('/([\w\-_]+)(?:\s*;\s*q\s*=\s*(\d*\.?\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))
-			{
-				$languages=array();
-
-				for($i=0;$i<$n;++$i)
-				{
-					$q=$matches[2][$i];
-					if($q==='')
-						$q=1;
-					if($q)
-						$languages[]=array((float)$q,$matches[1][$i]);
-				}
-
-				usort($languages,create_function('$a,$b','if($a[0]==$b[0]) {return 0;} return ($a[0]<$b[0]) ? 1 : -1;'));
-				foreach($languages as $language)
-					$sortedLanguages[]=$language[1];
-			}
-			$this->_preferredLanguages=$sortedLanguages;
+			$accepts=self::parseAcceptLanguagesHeader($this->getAcceptLanguages());
+			usort($accepts,array(get_class($this),'compareAcceptLanguages'));
+			$this->_preferredLanguages=$accepts;
 		}
 		return $this->_preferredLanguages;
 	}
@@ -982,7 +1043,7 @@ class CHttpRequest extends CApplicationComponent
 	public function getPreferredLanguage()
 	{
 		$preferredLanguages=$this->getPreferredLanguages();
-		return !empty($preferredLanguages) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
+		return !empty($preferredLanguages) ? CLocale::getCanonicalID($preferredLanguages[0]['language']) : false;
 	}
 
 	/**
