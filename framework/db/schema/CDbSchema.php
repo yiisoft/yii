@@ -536,11 +536,11 @@ abstract class CDbSchema extends CComponent
 	 * @return string the SQL statement for creating a new index.
 	 * @since 1.1.6
 	 */
-	public function createIndex($name, $table, $column, $unique=false)
+	public function createIndex($name, $table, $columns, $unique=false)
 	{
 		$cols=array();
-		if(is_string($column))
-			$columns=preg_split('/\s*,\s*/',$column,-1,PREG_SPLIT_NO_EMPTY);
+		if(is_string($columns))
+			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($columns as $col)
 		{
 			if(strpos($col,'(')!==false)
