@@ -8,6 +8,7 @@ Version 1.1.15 under development
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
 - Enh #2791: requirements/index.php: added CRYPT_BLOWFISH check for CPasswordHelper (tom--)
 - Enh #2688: CHtml::beginForm() now supports additional HTTP methods, via a hidden `_method` field. (phpnode)
+- Enh #2817: Corrected inconsistent accepted data types in method parameters of CDbSchema (mynameiszanders)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
