@@ -493,10 +493,12 @@ abstract class CDbSchema extends CComponent
 	 */
 	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
 	{
-		$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		if(is_string($columns))
+			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($columns as $i=>$col)
 			$columns[$i]=$this->quoteColumnName($col);
-		$refColumns=preg_split('/\s*,\s*/',$refColumns,-1,PREG_SPLIT_NO_EMPTY);
+		if(is_string($refColumns))
+			$refColumns=preg_split('/\s*,\s*/',$refColumns,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($refColumns as $i=>$col)
 			$refColumns[$i]=$this->quoteColumnName($col);
 		$sql='ALTER TABLE '.$this->quoteTableName($table)
@@ -537,7 +539,8 @@ abstract class CDbSchema extends CComponent
 	public function createIndex($name, $table, $column, $unique=false)
 	{
 		$cols=array();
-		$columns=preg_split('/\s*,\s*/',$column,-1,PREG_SPLIT_NO_EMPTY);
+		if(is_string($column))
+			$columns=preg_split('/\s*,\s*/',$column,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($columns as $col)
 		{
 			if(strpos($col,'(')!==false)
