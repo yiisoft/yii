@@ -34,6 +34,7 @@ class User extends CActiveRecord
 			'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
 			'students'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorships','joinType'=>'INNER JOIN'),
 			'posts'=>array(self::HAS_MANY,'Post','author_id'),
+			'postsCondition'=>array(self::HAS_MANY,'Post','author_id', 'condition'=>'postsCondition.id IN (2,3)'),
 			'postsOrderDescFormat1'=>array(self::HAS_MANY,'Post','author_id','scopes'=>'orderDesc'),
 			'postsOrderDescFormat2'=>array(self::HAS_MANY,'Post','author_id','scopes'=>array('orderDesc')),
 			'postCount'=>array(self::STAT,'Post','author_id'),
