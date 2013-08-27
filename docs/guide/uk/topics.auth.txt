@@ -40,7 +40,7 @@ class UserIdentity extends CUserIdentity
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
 		if($record===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($record->password!==crypt($this->password, $record->password))
+		else if($record->password!==CPasswordHelper::verifyPassword($this->password, $record->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
@@ -69,13 +69,8 @@ class UserIdentity extends CUserIdentity
 використовуючи стандартні підходи, у випадку, якщо ви не передбачите захист від них.
 Зокрема, ви повинні додавати "сіль" до паролю перед хешуванням і використовувати хеш-функцію, 
 яка забере у нападника багато часу для обчислення.
-Наведений вище приклад коду використовує вбудовану в PHP функцію `crypt()`, яка,
-із відповідним використання, повертає хеш, який дуже важко зламати.
-
-Щоб дізнатися більше про ці теми, будь-ласка, прочитайте:
-
-- [Функція PHP `crypt()`](http://php.net/manual/ru/function.crypt.php)
-- Yii wiki-стаття [Використання crypt() для зберігання паролів](http://www.yiiframework.com/wiki/425)
+Наведений вище приклад коду використовує вбудований помічник Yii [CPasswordHelper] для хешування та валідації пароля (починаючи із версії 1.1.14).
+[CPasswordHelper::hashPassword] повертає достатньо стійкий хеш.
 
 Вхід и вихід
 ------------
