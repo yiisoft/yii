@@ -297,7 +297,7 @@ class CFileHelper
 	 * @return boolean result of mkdir
 	 * @see mkdir
 	 */
-	private static function mkdir($dst,array $options,$recursive)
+	public static function mkdir($dst,array $options,$recursive)
 	{
 		$prevDir=dirname($dst);
 		if($recursive && !is_dir($dst) && !is_dir($prevDir))
