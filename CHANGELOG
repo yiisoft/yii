@@ -5,6 +5,7 @@ Version 1.1.15 under development
 --------------------------------
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
+- Bug #2770: Fixed CClientScript renders scripts with different HTML options inside same tag (klimov-paul)
 - Bug #2778: Fixed throwing unnecessary exception in CFileValidator when validating MIME types for a file upload that failed (Rupert-RR)
 - Bug #2785: Use table name with schema in composeMultipleInsertCommand (nineinchnick)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
