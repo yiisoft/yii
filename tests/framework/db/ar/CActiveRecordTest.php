@@ -1370,10 +1370,9 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
-	 * @see github issue 268
-	 * CActiveRecord->count() returns contry name instead of records count
+	 * @see https://github.com/yiisoft/yii/issues/268
 	 */
-	public function testIssue268()
+	public function testCountIsSubStringOfFieldName()
 	{
 		$result = User::model()->with('profiles')->count(array('select'=>'country AS country','condition'=>'t.id=2'));
 		$this->assertEquals(1,$result);
