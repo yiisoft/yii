@@ -299,7 +299,7 @@ class CFileHelper
 	 * @param integer $mode the permission to be set for newly created directories, if not set - 0777 will be used
 	 * @param boolean $recursive whether to create directory structure recursive if parent dirs do not exist
 	 * @return boolean result of mkdir
-	 * @see createDirectory
+	 * @see mkdir
 	 */
 	public static function createDirectory($dst,$mode=null,$recursive=false)
 	{
