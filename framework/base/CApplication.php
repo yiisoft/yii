@@ -75,6 +75,7 @@
  * @property CHttpRequest $request The request component.
  * @property CUrlManager $urlManager The URL manager component.
  * @property CController $controller The currently active controller. Null is returned in this base class.
+ * @property CWebUser $user The user component.
  * @property string $baseUrl The relative URL for the application.
  * @property string $homeUrl The homepage URL.
  *
