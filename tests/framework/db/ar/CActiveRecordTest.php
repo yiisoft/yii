@@ -1370,6 +1370,16 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
+	 * @see github issue 268
+	 * CActiveRecord->count() returns contry name instead of records count
+	 */
+	public function testIssue268()
+	{
+		$result = User::model()->with('profiles')->count(array('select'=>'country AS country','condition'=>'t.id=2'));
+		$this->assertEquals(1,$result);
+	}
+
+	/**
 	 * verify https://github.com/yiisoft/yii/issues/2756
 	 */
 	public function testLazyFindCondition()
