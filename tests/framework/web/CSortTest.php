@@ -48,6 +48,32 @@ class CSortTest extends CTestCase {
 
 		$this->assertTrue(isset($directions['comments.id']));
 	}
+
+	/**
+	 * Tests for acceptance of arrays for asc/desc keys in
+	 * CSort::attributes.
+	 *
+	 * @return void
+	 */
+	function testGetDirectionsWithArrays(){
+		$_GET['sort'] = 'comments.id';
+
+		$criteria = new CDbCriteria();
+		$criteria->with = 'comments';
+
+		$sort = new CSort('TestPost');
+		$sort->attributes = array(
+			'id',
+			'comments.id' => array(
+			  'asc'=>array('comments.id', 'id'),
+			  'desc'=>array('comments.id desc', 'id desc'),
+			),
+		);
+		$sort->applyOrder($criteria);
+		$directions = $sort->getDirections();
+
+		$this->assertEquals($criteria->order, 'comments.id, id');
+	}
 }
 
 
