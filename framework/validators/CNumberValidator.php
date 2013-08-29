@@ -96,11 +96,22 @@ class CNumberValidator extends CValidator
 		}
 		else
 		{
+			$oldLocale=null;
+			if (!is_string($value)) {
+				$oldLocale=setlocale(LC_NUMERIC,0);
+				$localeConv=localeconv();
+				if ($localeConv['decimal_point']=='.')
+					$oldLocale=null;
+				else
+					setlocale(LC_NUMERIC,'C','C.UTF-8','POSIX');
+			}
 			if(!preg_match($this->numberPattern,"$value"))
 			{
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
 				$this->addError($object,$attribute,$message);
 			}
+			if ($oldLocale!==null)
+				setlocale(LC_NUMERIC,$oldLocale);
 		}
 		if($this->min!==null && $value<$this->min)
 		{
