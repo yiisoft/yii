@@ -58,7 +58,7 @@ class CFileHelper
 		$level=-1;
 		extract($options);
 		if(!is_dir($dst))
-			self::mkdir($dst,$options,true);
+			self::createDirectory($dst,isset($options['newDirMode'])?$options['newDirMode']:null,true);
 
 		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
 	}
@@ -138,7 +138,7 @@ class CFileHelper
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
-			self::mkdir($dst,$options,false);
+			self::createDirectory($dst,isset($options['newDirMode'])?$options['newDirMode']:null,false);
 
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
@@ -296,18 +296,18 @@ class CFileHelper
 	 * For avoidance of umask side-effects chmod is used.
 	 *
 	 * @param string $dst path to be created
-	 * @param array $options newDirMode element used, must contain access bitmask
+	 * @param integer $mode the permission to be set for newly created directories, if not set - 0777 will be used
 	 * @param boolean $recursive whether to create directory structure recursive if parent dirs do not exist
 	 * @return boolean result of mkdir
-	 * @see mkdir
+	 * @see createDirectory
 	 */
-	private static function mkdir($dst,array $options,$recursive)
+	public static function createDirectory($dst,$mode=null,$recursive=false)
 	{
+		if($mode===null)
+			$mode=0777;
 		$prevDir=dirname($dst);
 		if($recursive && !is_dir($dst) && !is_dir($prevDir))
-			self::mkdir(dirname($dst),$options,true);
-
-		$mode=isset($options['newDirMode']) ? $options['newDirMode'] : 0777;
+			self::createDirectory(dirname($dst),$mode,true);
 		$res=mkdir($dst, $mode);
 		@chmod($dst,$mode);
 		return $res;

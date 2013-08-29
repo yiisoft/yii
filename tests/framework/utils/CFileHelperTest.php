@@ -145,6 +145,13 @@ class CFileHelperTest extends CTestCase
 		$this->assertEquals($bd.'sub'.DIRECTORY_SEPARATOR.'testfile',$files[2]);
 	}
 
+	public function testCreateDirectory()
+	{
+		$path = $this->testDir . DIRECTORY_SEPARATOR . 'test' . DIRECTORY_SEPARATOR . 'path';
+		$this->assertTrue(CFileHelper::createDirectory($path,null,true));
+		$this->assertTrue(is_dir($path));
+	}
+
 	private function createTestStruct($testDir)
 	{
 		$rootDir=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1;
