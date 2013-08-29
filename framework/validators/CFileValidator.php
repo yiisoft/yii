@@ -183,7 +183,7 @@ class CFileValidator extends CValidator
 	 */
 	protected function validateFile($object, $attribute, $file)
 	{
-		$error=(null!==$file ? null : $file->getError());
+		$error=(null===$file ? null : $file->getError());
 		if($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
 		{
 			$message=$this->tooLarge!==null?$this->tooLarge : Yii::t('yii','The file "{file}" is too large. Its size cannot exceed {limit} bytes.');
