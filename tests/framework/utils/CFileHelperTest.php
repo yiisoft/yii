@@ -119,6 +119,32 @@ class CFileHelperTest extends CTestCase
 		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file4));
 	}
 
+	public function testFindFiles_absolutePaths()
+	{
+		$this->createTestStruct($this->testDir);
+
+		$bd=$this->testDir.DIRECTORY_SEPARATOR.$this->rootDir1.DIRECTORY_SEPARATOR;
+
+		$files=CFileHelper::findFiles($this->testDir);
+
+		$this->assertEquals($bd.'sub'.DIRECTORY_SEPARATOR.'..svn',$files[0]);
+		$this->assertEquals($bd.'sub'.DIRECTORY_SEPARATOR.'.htaccess',$files[1]);
+		$this->assertEquals($bd.'sub'.DIRECTORY_SEPARATOR.'testfile',$files[2]);
+	}
+
+	public function testFindFiles_relativePaths()
+	{
+		$this->createTestStruct($this->testDir);
+
+		$bd=$this->rootDir1.DIRECTORY_SEPARATOR;
+
+		$files=CFileHelper::findFiles($this->testDir,array('absolutePaths'=>0));
+
+		$this->assertEquals($bd.'sub'.DIRECTORY_SEPARATOR.'..svn',$files[0]);
+		$this->assertEquals($bd.'sub'.DIRECTORY_SEPARATOR.'.htaccess',$files[1]);
+		$this->assertEquals($bd.'sub'.DIRECTORY_SEPARATOR.'testfile',$files[2]);
+	}
+
 	private function createTestStruct($testDir)
 	{
 		$rootDir=$testDir.DIRECTORY_SEPARATOR.$this->rootDir1;

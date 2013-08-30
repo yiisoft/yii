@@ -562,8 +562,6 @@ class CDbCommand extends CComponent
 
 		if(!empty($query['from']))
 			$sql.="\nFROM ".$query['from'];
-		else
-			throw new CDbException(Yii::t('yii','The DB query must contain the "from" portion.'));
 
 		if(!empty($query['join']))
 			$sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);

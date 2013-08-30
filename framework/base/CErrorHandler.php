@@ -200,15 +200,7 @@ class CErrorHandler extends CApplicationComponent
 			if(!headers_sent())
 				header("HTTP/1.0 {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
 
-			if($exception instanceof CHttpException || !YII_DEBUG)
-				$this->render('error',$data);
-			else
-			{
-				if($this->isAjaxRequest())
-					$app->displayException($exception);
-				else
-					$this->render('exception',$data);
-			}
+			$this->renderException($exception);
 		}
 		else
 			$app->displayException($exception);
@@ -270,7 +262,7 @@ class CErrorHandler extends CApplicationComponent
 				default:
 					$type = 'PHP error';
 			}
-			$this->_error=$data=array(
+			$this->_error=array(
 				'code'=>500,
 				'type'=>$type,
 				'message'=>$event->message,
@@ -281,12 +273,7 @@ class CErrorHandler extends CApplicationComponent
 			);
 			if(!headers_sent())
 				header("HTTP/1.0 500 Internal Server Error");
-			if($this->isAjaxRequest())
-				$app->displayError($event->code,$event->message,$event->file,$event->line);
-			elseif(YII_DEBUG)
-				$this->render('exception',$data);
-			else
-				$this->render('error',$data);
+			$this->renderError();
 		}
 		else
 			$app->displayError($event->code,$event->message,$event->file,$event->line);
@@ -327,15 +314,47 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function render($view,$data)
 	{
-		if($view==='error' && $this->errorAction!==null)
+		$data['version']=$this->getVersionInfo();
+		$data['time']=time();
+		$data['admin']=$this->adminInfo;
+		include($this->getViewFile($view,$data['code']));
+	}
+
+	/**
+	 * Renders the exception information.
+	 * This method will display information from current {@link error} value.
+	 * @param Exception $exception exception object.
+	 */
+	protected function renderException(Exception $exception)
+	{
+		if($exception instanceof CHttpException || !YII_DEBUG)
+			$this->renderError();
+		else
+		{
+			if($this->isAjaxRequest())
+				Yii::app()->displayException($exception);
+			else
+				$this->render('exception',$this->getError());
+		}
+	}
+
+	/**
+	 * Renders the current error information.
+	 * This method will display information from current {@link error} value.
+	 */
+	protected function renderError()
+	{
+		if($this->errorAction!==null)
 			Yii::app()->runController($this->errorAction);
 		else
 		{
-			// additional information to be passed to view
-			$data['version']=$this->getVersionInfo();
-			$data['time']=time();
-			$data['admin']=$this->adminInfo;
-			include($this->getViewFile($view,$data['code']));
+			$data=$this->getError();
+			if($this->isAjaxRequest())
+				Yii::app()->displayError($data['code'],$data['message'],$data['file'],$data['line']);
+			elseif(YII_DEBUG)
+				$this->render('exception',$data);
+			else
+				$this->render('error',$data);
 		}
 	}
 

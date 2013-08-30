@@ -744,7 +744,7 @@ class CJoinElement
 		else
 		{
 			$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
-			if($select!=='*' && !strncasecmp($select,'count',5))
+			if($select!=='*' && preg_match('/^count\s*\(/',trim($select)))
 				$query->selects=array($select);
 			elseif(is_string($this->_table->primaryKey))
 			{
