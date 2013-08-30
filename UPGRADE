@@ -20,6 +20,9 @@ General upgrade instructions
 Upgrading from v1.1.14
 ----------------------
 
+- CErrorHandler now runs errorAction for errors, which appear via AJAX request.
+  If you use CErrorHandler::errorAction, make sure it handles AJAX request properly.
+
 Upgrading from v1.1.13
 ----------------------
 
