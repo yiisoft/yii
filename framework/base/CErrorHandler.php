@@ -314,7 +314,6 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function render($view,$data)
 	{
-		// additional information to be passed to view
 		$data['version']=$this->getVersionInfo();
 		$data['time']=time();
 		$data['admin']=$this->adminInfo;
