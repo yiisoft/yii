@@ -1370,6 +1370,26 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
+	 * @see https://github.com/yiisoft/yii/issues/268
+	 */
+	public function testCountIsSubStringOfFieldName()
+	{
+		$result = User::model()->with('profiles')->count(array('select'=>'country AS country','condition'=>'t.id=2'));
+		$this->assertEquals(1,$result);
+	}
+
+	/**
+	 * verify https://github.com/yiisoft/yii/issues/2756
+	 */
+	public function testLazyFindCondition()
+	{
+		$user = User::model()->findByPk(2);
+		$this->assertEquals(3, count($user->posts()));
+		$this->assertEquals(2, count($user->posts(array('condition' => 'id IN (2,3)'))));
+		$this->assertEquals(2, count($user->postsCondition()));
+	}
+
+	/**
 	 * https://github.com/yiisoft/yii/issues/1070
 	 */
 	public function testIssue1070()
