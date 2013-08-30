@@ -182,7 +182,7 @@ public function ValidatorName($attribute,$params) { … }
 array('username', 'required'),
 // довжина імені користувача повинна бути від 3 до 12 символів включно
 array('username', 'length', 'min'=>3, 'max'=>12),
-// у сценарії регістрації значення полів «password» та «password2» повинні бути рівні
+// у сценарії реєстрації значення полів «password» та «password2» повинні бути рівні
 array('password', 'compare', 'compareAttribute'=>'password2', 'on'=>'register'),
 // у сценарії аутентифікації поле `password` повинно бути перевірене на відповідність вказаного імені користувача
 array('password', 'authenticate', 'on'=>'login'),
@@ -242,7 +242,7 @@ $model=new User('login');
 if(isset($_POST['User']))
 	$model->attributes=$_POST['User'];
 
-// сценарій регістрації
+// сценарій реєстрації
 $model=new User('register');
 if(isset($_POST['User']))
 	$model->attributes=$_POST['User'];
