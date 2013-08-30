@@ -257,7 +257,7 @@ class CJSON
 				{
 					// We use the function defined in the interface instead of json_encode.
 					// This way even for PHP < 5.4 one could define the interface and use it.
-					return $var->jsonSerialize();
+					return self::encode($var->jsonSerialize());
 				}
 				elseif ($var instanceof Traversable)
 				{
