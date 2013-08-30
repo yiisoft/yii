@@ -253,7 +253,7 @@ class CJSON
 			case 'object':
 				// Check for the JsonSerializable interface available in PHP5.4
 				// Note that instanceof returns false in case it doesnt know the interface.
-				if ($var instanceof JsonSerializable)
+				if (interface_exists('JsonSerializable', false) && $var instanceof JsonSerializable)
 				{
 					// We use the function defined in the interface instead of json_encode.
 					// This way even for PHP < 5.4 one could define the interface and use it.
