@@ -169,7 +169,7 @@ abstract class CBaseController extends CComponent
 				$widget->run();
 			} catch (Exception $e)
 			{
-				ob_end_flush();
+				ob_end_clean();
 				throw $e;
 			}
 			return ob_get_clean();
