@@ -167,7 +167,8 @@ abstract class CBaseController extends CComponent
 			{
 				$widget=$this->createWidget($className,$properties);
 				$widget->run();
-			} catch (Exception $e)
+			}
+			catch(Exception $e)
 			{
 				ob_end_clean();
 				throw $e;
