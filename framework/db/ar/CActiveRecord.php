@@ -1072,7 +1072,7 @@ abstract class CActiveRecord extends CModel
 		{
 			Yii::trace(get_class($this).'.insert()','system.db.ar.CActiveRecord');
 			$builder=$this->getCommandBuilder();
-			$table=$this->getMetaData()->tableSchema;
+			$table=$this->getTableSchema();
 			$command=$builder->createInsertCommand($table,$this->getAttributes($attributes));
 			if($command->execute())
 			{
@@ -1272,7 +1272,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getPrimaryKey()
 	{
-		$table=$this->getMetaData()->tableSchema;
+		$table=$this->getTableSchema();
 		if(is_string($table->primaryKey))
 			return $this->{$table->primaryKey};
 		elseif(is_array($table->primaryKey))
@@ -1296,7 +1296,7 @@ abstract class CActiveRecord extends CModel
 	public function setPrimaryKey($value)
 	{
 		$this->_pk=$this->getPrimaryKey();
-		$table=$this->getMetaData()->tableSchema;
+		$table=$this->getTableSchema();
 		if(is_string($table->primaryKey))
 			$this->{$table->primaryKey}=$value;
 		elseif(is_array($table->primaryKey))
