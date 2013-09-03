@@ -888,6 +888,25 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * This event is raised after each record is instantiated by a find method.
+	 * This method will be raised immediately before, and is identical to, the {@link onAfterFind()} event, except
+	 * that the CEvent property {@link CEvent::params} will be populated with exactly the same value as the argument passed
+	 * as the attributes parameter of the {@link populateRecord()} method.
+	 * This information may be useful if a database query used to populate, or find, a CActiveRecord object returns
+	 * additional values not defined as database table columns or properties of that CActiveRecord. Normally those values
+	 * are silently ignored by the {@link populateRecord()} method, even if they are important to the configuration of the
+	 * CActiveRecord instance. You may use this event to examine those additional values and modify the configuration
+	 * of the CActiveRecord instance as appropriate.
+	 * @param CEvent $event the event parameter
+	 * @see afterFindWithAttributes
+	 * @since 1.1.14
+	 */
+	protected function onAfterFindWithAttributes($event)
+	{
+		$this->raiseEvent('onAfterFindWithAttributes',$event);
+	}
+
+	/**
 	 * This event is raised after the record is instantiated by a find method.
 	 * @param CEvent $event the event parameter
 	 */
@@ -1020,6 +1039,23 @@ abstract class CActiveRecord extends CModel
 	{
 		if($this->hasEventHandler('onBeforeCount'))
 			$this->onBeforeCount(new CEvent($this));
+	}
+
+	/**
+	 * This method is invoked after each record is instantiated by a find method.
+	 * The default implementation raises the {@link onAfterFindWithAttributes} event.
+	 * This method will be called immediately before and is identical to the {@link afterFind} method, except
+	 * an event parameter named 'attributes' will be defined in the CEvent object.
+	 * The event parameter 'attributes' will be populated with exactly the same value as the attributes parameter
+	 * passed to the {@link populateRecord} method.
+	 * You may override this method to do postprocessing after each newly found record is instantiated.
+	 * Make sure you call the parent implementation so that the event is raised properly.
+	 * @since 1.1.14
+	 */
+	protected function afterFindWithAttributes($attributes)
+	{
+		if($this->hasEventHandler('onAfterFindWithAttributes'))
+			$this->onAfterFindWithAttributes(new CEvent($this,$attributes));
 	}
 
 	/**
@@ -1841,7 +1877,7 @@ abstract class CActiveRecord extends CModel
 	 * Creates an active record with the given attributes.
 	 * This method is internally used by the find methods.
 	 * @param array $attributes attribute values (column name=>column value)
-	 * @param boolean $callAfterFind whether to call {@link afterFind} after the record is populated.
+	 * @param boolean $callAfterFind whether to call {@link afterFindWithAttributes} and {@link afterFind} after the record is populated.
 	 * @return CActiveRecord the newly created active record. The class of the object is the same as the model class.
 	 * Null is returned if the input data is false.
 	 */
@@ -1863,7 +1899,10 @@ abstract class CActiveRecord extends CModel
 			$record->_pk=$record->getPrimaryKey();
 			$record->attachBehaviors($record->behaviors());
 			if($callAfterFind)
+			{
+				$record->afterFindWithAttributes($attributes);
 				$record->afterFind();
+			}
 			return $record;
 		}
 		else
