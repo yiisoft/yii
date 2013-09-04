@@ -69,6 +69,12 @@ class CWebLogRoute extends CLogRoute
 			if($isAjax && $this->ignoreAjaxInFireBug || $isFlash && $this->ignoreFlashInFireBug)
 				return;
 			$view.='-firebug';
+			if(($userAgent=$app->getRequest()->getUserAgent())!==null && preg_match('/msie [5-9]/i',$userAgent))
+			{
+				echo '<script type="text/javascript">';
+				echo file_get_contents(dirname(__FILE__).'/../vendors/console-normalizer/normalizeconsole.min.js');
+				echo "</script>\n";
+			}
 		}
 		elseif(!($app instanceof CWebApplication) || $isAjax || $isFlash)
 			return;

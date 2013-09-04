@@ -546,12 +546,15 @@ try
 	// we therefore use a transaction to ensure consistency and integrity
 	$post=$model->findByPk(10);
 	$post->title='new post title';
-	$post->save();
-	$transaction->commit();
+	if($post->save())
+		$transaction->commit();
+	else
+		$transaction->rollback();
 }
 catch(Exception $e)
 {
 	$transaction->rollback();
+	throw $e;
 }
 ~~~
 

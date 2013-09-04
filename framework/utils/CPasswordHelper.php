@@ -40,7 +40,7 @@
  *
  * To verify a password, fetch the user's saved hash from the database (into $hash) and:
  * <pre>
- * if (CPasswordHelper::verifyPassword($password, $hash)
+ * if (CPasswordHelper::verifyPassword($password, $hash))
  *     // password is good
  * else
  *     // password is bad
@@ -59,16 +59,13 @@ class CPasswordHelper
 	protected static function checkBlowfish()
 	{
 		if(!function_exists('crypt'))
-			throw new CException(Yii::t('yii',
-				'{class} requires the PHP crypt() function. This system does not have it.',
-				array("{class}"=>__CLASS__)
-			));
+			throw new CException(Yii::t('yii','{class} requires the PHP crypt() function. This system does not have it.',
+				array('{class}'=>__CLASS__)));
 
-		if (!defined('CRYPT_BLOWFISH') || !CRYPT_BLOWFISH)
+		if(!defined('CRYPT_BLOWFISH') || !CRYPT_BLOWFISH)
 			throw new CException(Yii::t('yii',
 				'{class} requires the Blowfish option of the PHP crypt() function. This system does not have it.',
-				array("{class}"=>__CLASS__)
-			));
+				array('{class}'=>__CLASS__)));
     }
 
 	/**
@@ -87,8 +84,8 @@ class CPasswordHelper
 	 * compute the hash doubles for every increment by one of $cost. So, for example, if the
 	 * hash takes 1 second to compute when $cost is 14 then then the compute time varies as
 	 * 2^($cost - 14) seconds.
-	 * @throws CException on bad password parameter or if crypt() with Blowfish hash is not available.
 	 * @return string The password hash string, ASCII and not longer than 64 characters.
+	 * @throws CException on bad password parameter or if crypt() with Blowfish hash is not available.
 	 */
 	public static function hashPassword($password,$cost=13)
 	{
@@ -105,19 +102,19 @@ class CPasswordHelper
 	/**
 	 * Verify a password against a hash.
 	 *
-	 * @param string $password The password to verify.
+	 * @param string $password The password to verify. If password is empty or not a string, method will return false.
 	 * @param string $hash The hash to verify the password against.
-	 *
 	 * @return bool True if the password matches the hash.
 	 * @throws CException on bad password or hash parameters or if crypt() with Blowfish hash is not available.
 	 */
 	public static function verifyPassword($password, $hash)
 	{
 		self::checkBlowfish();
-		if(!is_string($password) || $password === '')
-			throw new CException(Yii::t('yii','Cannot hash a password that is empty or not a string.'));
+		if(!is_string($password) || $password==='')
+			return false;
 
-		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) || $matches[1] < 4 || $matches[1] > 30)
+		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) ||
+			$matches[1]<4 || $matches[1]>31)
 			return false;
 
 		$test=crypt($password,$hash);
@@ -132,10 +129,10 @@ class CPasswordHelper
 	 * independent of the string values if the subject strings are of equal length.
 	 *
 	 * The function can be useful to prevent timing attacks. For example, if $a and $b
-	 * are both hash values from the same algirithm, then the timing of this function
+	 * are both hash values from the same algorithm, then the timing of this function
 	 * does not reveal whether or not there is a match.
 	 *
-	 * NOTE: timing is affacted if $a and $b are different lengths or either is not a
+	 * NOTE: timing is affected if $a and $b are different lengths or either is not a
 	 * string. For the purpose of checking password hash this does not reveal information
 	 * useful to an attacker.
 	 *
@@ -143,9 +140,8 @@ class CPasswordHelper
 	 * @see http://codereview.stackexchange.com/questions/13512
 	 * @see https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
 	 *
-	 * @param $a string First subject string to compare.
-	 * @param $b string Second subject string to compare.
-	 *
+	 * @param string $a First subject string to compare.
+	 * @param string $b Second subject string to compare.
 	 * @return bool true if the strings are the same, false if they are different or if
 	 * either is not a string.
 	 */
@@ -176,38 +172,22 @@ class CPasswordHelper
 	 *  "$",
 	 *  22 characters from the alphabet "./0-9A-Za-z".
 	 *
-	 * @param $cost
-	 * @throws CException
+	 * @param int $cost Cost parameter used by the Blowfish hash algorithm.
 	 * @return string the random salt value.
+	 * @throws CException in case of invalid cost number
 	 */
-	protected static function generateSalt($cost = 13)
+	public static function generateSalt($cost=13)
 	{
 		if(!is_numeric($cost))
-			throw new CException(Yii::t('yii',
-				'{class}::$cost must be a number.',
-				array("{class}"=>__CLASS__)
-			));
+			throw new CException(Yii::t('yii','{class}::$cost must be a number.',array('{class}'=>__CLASS__)));
 
 		$cost=(int)$cost;
-		if($cost<4 || $cost>30)
-		    throw new CException(Yii::t('yii',
-				'{class}::$cost must be between 4 and 31.',
-				array("{class}"=>__CLASS__)
-			));
+		if($cost<4 || $cost>31)
+		    throw new CException(Yii::t('yii','{class}::$cost must be between 4 and 31.',array('{class}'=>__CLASS__)));
 
-		// Get 20 * 8bits of pseudo-random entropy from mt_rand().
-		$rand='';
-		for($i=0;$i<20;$i+=1)
-			$rand.=chr(mt_rand(0,255));
-
-		// Add the microtime for a little more entropy.
-		$rand.=microtime();
-		// Mix the bits cryptographically into a 20-byte binary string.
-		$rand=sha1($rand,true);
-		// Form the prefix that specifies Blowfish algo and cost parameter.
-		$salt=sprintf("$2a$%02d$",$cost);
-		// Append the random salt data in the required base64 format.
-		$salt.=str_replace('+','.',substr(base64_encode($rand),0,22));
-		return $salt;
+		if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,true))===false)
+			if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,false))===false)
+				throw new CException(Yii::t('yii','Unable to generate random string.'));
+		return sprintf('$2a$%02d$',$cost).strtr($random,array('_'=>'.','~'=>'/'));
 	}
 }

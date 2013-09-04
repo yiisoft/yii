@@ -38,6 +38,7 @@ abstract class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 * PHP magic method.
 	 * This method is overridden so that named fixture data can be accessed like a normal property.
 	 * @param string $name the property name
+	 * @throws Exception if unknown property is used
 	 * @return mixed the property value
 	 */
 	public function __get($name)

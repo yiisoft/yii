@@ -24,7 +24,7 @@ class CEmailValidatorTest extends CTestCase
 			array('test@президент.рф', true, true),
 			array('test@bücher.de', true, true),
 			array('test@检查域.cn', true, true),
-			array('☃-⌘@mañana.com', true, true),
+			array('☃-⌘@mañana.com', true, false),
 			array('test@google.com', true, true),
 			array('test@yiiframework.com', true, true),
 			array('bad-email', true, false),
@@ -59,5 +59,17 @@ class CEmailValidatorTest extends CTestCase
 		$emailValidator->validateIDN = $validateIDN;
 		$result = $emailValidator->validateValue($email);
 		$this->assertEquals($assertion, $result);
+	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/1955
+	 */
+	public function testArrayValue()
+	{
+		$model=new ValidatorTestModel('CEmailValidatorTest');
+		$model->email=array('user@domain.tld');
+		$model->validate(array('email'));
+		$this->assertTrue($model->hasErrors('email'));
+		$this->assertEquals(array('Email is not a valid email address.'),$model->getErrors('email'));
 	}
 }

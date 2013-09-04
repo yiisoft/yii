@@ -6,6 +6,9 @@ Yii::import('system.db.schema.mysql.CMysqlSchema');
 
 class CMysql2Test extends CTestCase
 {
+	/**
+	 * @var CDbConnection
+	 */
 	private $db;
 
 	public function setUp()
@@ -110,6 +113,14 @@ class CMysql2Test extends CTestCase
 		$sql=$this->db->schema->addForeignKey('fk_test', 'profile', 'user_id', 'users', 'id','CASCADE','RESTRICTED');
 		$expect='ALTER TABLE `profile` ADD CONSTRAINT `fk_test` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICTED';
 		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->addForeignKey('fk_test', 'profile', 'user_id,id', 'users', 'id,username','CASCADE','RESTRICTED');
+		$expect='ALTER TABLE `profile` ADD CONSTRAINT `fk_test` FOREIGN KEY (`user_id`, `id`) REFERENCES `users` (`id`, `username`) ON DELETE CASCADE ON UPDATE RESTRICTED';
+		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->addForeignKey('fk_test', 'profile', array('user_id', 'id'), 'users', array('id','username'),'CASCADE','RESTRICTED');
+		$expect='ALTER TABLE `profile` ADD CONSTRAINT `fk_test` FOREIGN KEY (`user_id`, `id`) REFERENCES `users` (`id`, `username`) ON DELETE CASCADE ON UPDATE RESTRICTED';
+		$this->assertEquals($expect, $sql);
 	}
 
 	public function testDropForeignKey()
@@ -128,12 +139,27 @@ class CMysql2Test extends CTestCase
 		$sql=$this->db->schema->createIndex('id_pk','test','id1,id2',true);
 		$expect='CREATE UNIQUE INDEX `id_pk` ON `test` (`id1`, `id2`)';
 		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->createIndex('id_pk','test',array('id1','id2'),true);
+		$expect='CREATE UNIQUE INDEX `id_pk` ON `test` (`id1`, `id2`)';
+		$this->assertEquals($expect, $sql);
 	}
 
 	public function testDropIndex()
 	{
 		$sql=$this->db->schema->dropIndex('id_pk','test');
 		$expect='DROP INDEX `id_pk` ON `test`';
+		$this->assertEquals($expect, $sql);
+	}
+
+	public function testAddPrimaryKey()
+	{
+		$sql=$this->db->schema->addPrimaryKey('this-string-is-ignored','table','id');
+		$expect='ALTER TABLE `table` ADD PRIMARY KEY (`id` )';
+		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->addPrimaryKey('this-string-is-ignored','table',array('id1','id2'));
+		$expect='ALTER TABLE `table` ADD PRIMARY KEY (`id1`, `id2` )';
 		$this->assertEquals($expect, $sql);
 	}
 }

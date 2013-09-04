@@ -44,13 +44,19 @@ summary of the available cache components:
 
    - [CEAcceleratorCache]: uses PHP [EAccelerator extension](http://eaccelerator.net/).
 
+   - [CRedisCache]: uses [redis](http://redis.io/) key value-store as storage backend.
+
    - [CDbCache]: uses a database table to store cached data. By default,
 it will create and use a SQLite3 database under the runtime directory. You
 can explicitly specify a database for it to use by setting its
 [connectionID|CDbCache::connectionID] property.
 
-   - [CZendDataCache]: uses [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
+   - [CZendDataCache]: uses
+   [Zend Data Cache](http://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm)
    as the underlying caching medium.
+
+   - [CWinCache]: uses PHP [WinCache](http://iis.net/downloads/microsoft/wincache-extension)
+   ([see also](http://php.net/manual/en/book.wincache.php)) extension.
 
    - [CFileCache]: uses files to store cached data. This is particular suitable to
 cache large chunk of data (such as pages).
@@ -81,4 +87,3 @@ ensure the existence of the cached data even if it does not expire.
 Therefore, do not use cache as a persistent storage (e.g. do not use cache
 to store session data).
 
-<div class="revision">$Id$</div>

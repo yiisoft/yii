@@ -21,7 +21,7 @@ class HelpCommand extends CConsoleCommand
 {
 	/**
 	 * Execute the action.
-	 * @param array command line parameters specific for this command
+	 * @param array $args command line parameters specific for this command
 	 * @return integer non zero application exit code for help
 	 */
 	public function run($args)

@@ -34,10 +34,13 @@
  * <li>email: the {@link formatEmail} method will be called to format the attribute value as a mailto link.</li>
  * <li>image: the {@link formatImage} method will be called to format the attribute value as an image tag where the attribute value is the image URL.</li>
  * <li>url: the {@link formatUrl} method will be called to format the attribute value as a hyperlink where the attribute value is the URL.</li>
+ * <li>size: the {@link formatSize} method will be called to format the attribute value, interpreted as a number of bytes, as a size in human readable form.</li>
  * </ul>
  *
  * By default, {@link CApplication} registers {@link CFormatter} as an application component whose ID is 'format'.
  * Therefore, one may call <code>Yii::app()->format->boolean(1)</code>.
+ * You might want to replace this component with {@link CLocalizedFormatter} to enable formatting based on the
+ * current locale settings.
  *
  * @property CHtmlPurifier $htmlPurifier The HTML purifier instance.
  *
@@ -115,6 +118,7 @@ class CFormatter extends CApplicationComponent
 	 * @param mixed $value the value to be formatted
 	 * @param string $type the data type. This must correspond to a format method available in CFormatter.
 	 * For example, we can use 'text' here because there is method named {@link formatText}.
+	 * @throws CException if given type is unknown
 	 * @return string the formatted data
 	 */
 	public function format($value,$type)
@@ -216,7 +220,12 @@ class CFormatter extends CApplicationComponent
 		return date($this->datetimeFormat,$this->normalizeDateValue($value));
 	}
 
-	private function normalizeDateValue($time)
+	/**
+	 * Normalizes an expression as a timestamp.
+	 * @param mixed $time the time expression to be normalized
+	 * @return int the normalized result as a UNIX timestamp
+	 */
+	protected function normalizeDateValue($time)
 	{
 		if(is_string($time))
 		{

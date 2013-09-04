@@ -35,7 +35,7 @@ class CConsoleCommandBehavior extends CBehavior
 	}
 	/**
 	 * Responds to {@link CConsoleCommand::onBeforeAction} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CConsoleCommandEvent $event event parameter
 	 */
 	protected function beforeAction($event)
@@ -44,7 +44,7 @@ class CConsoleCommandBehavior extends CBehavior
 
 	/**
 	 * Responds to {@link CConsoleCommand::onAfterAction} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
 	 * @param CConsoleCommandEvent $event event parameter
 	 */
 	protected function afterAction($event)

@@ -106,16 +106,16 @@ class CMysqlTest extends CTestCase
 		$this->checkColumns('posts',$values);
 		$values=array
 		(
-			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2'),
-			'rawName'=>array('`int_col`', '`int_col2`', '`char_col`', '`char_col2`', '`char_col3`', '`float_col`', '`float_col2`', '`blob_col`', '`numeric_col`', '`time`', '`bool_col`', '`bool_col2`'),
-			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, '33.22', '2002-01-01 00:00:00', null, 1),
-			'size'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1),
-			'precision'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1),
-			'scale'=>array(null, null, null, null, null, 3, null, null, 2, null, null, null),
-			'dbType'=>array('int(11)','int(11)','char(100)','varchar(100)','text','double(4,3)','double','blob','decimal(5,2)','timestamp','tinyint(1)','tinyint(1)'),
-			'type'=>array('integer','integer','string','string','string','double','double','string','string','string','integer','integer'),
-			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
-			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
+			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2', 'bit_col1', 'bit_col2'),
+			'rawName'=>array('`int_col`', '`int_col2`', '`char_col`', '`char_col2`', '`char_col3`', '`float_col`', '`float_col2`', '`blob_col`', '`numeric_col`', '`time`', '`bool_col`', '`bool_col2`', '`bit_col1`', '`bit_col2`'),
+			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, '33.22', '2002-01-01 00:00:00', null, 1, null, 42),
+			'size'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1, 1, 32),
+			'precision'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1, 1, 32),
+			'scale'=>array(null, null, null, null, null, 3, null, null, 2, null, null, null, null, null),
+			'dbType'=>array('int(11)','int(11)','char(100)','varchar(100)','text','double(4,3)','double','blob','decimal(5,2)','timestamp','tinyint(1)','tinyint(1)','bit(1)','bit(32)'),
+			'type'=>array('integer','integer','string','string','string','double','double','string','string','string','integer','integer','integer','integer'),
+			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false),
+			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false),
 		);
 		$this->checkColumns('types',$values);
 	}
@@ -154,6 +154,18 @@ class CMysqlTest extends CTestCase
 			'condition'=>'id=:id',
 			'params'=>array('id'=>6))));
 		$this->assertEquals('DELETE FROM `posts` WHERE id=:id',$c->text);
+		$c->execute();
+		$c=$builder->createCountCommand($table,new CDbCriteria);
+		$this->assertEquals(5,$c->queryScalar());
+ 
+		// test for delete with joins
+		$c=$builder->createInsertCommand($table,array('title'=>'new post delete','create_time'=>'2000-01-01','author_id'=>1,'content'=>'test content'));
+		$c->execute();
+		$c=$builder->createDeleteCommand($table,new CDbCriteria(array(
+				'condition'=>'u.`username`=:username and `posts`.`title`=:title',
+				'join'=>'JOIN `users` u ON `author_id`=u.`id`',
+				'params'=>array(':username'=>'user1', ':title'=>'new post delete'))));
+        $this->assertEquals('DELETE `posts` FROM `posts` JOIN `users` u ON `author_id`=u.`id` WHERE u.`username`=:username and `posts`.`title`=:title',$c->text);
 		$c->execute();
 		$c=$builder->createCountCommand($table,new CDbCriteria);
 		$this->assertEquals(5,$c->queryScalar());

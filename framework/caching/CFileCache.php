@@ -31,9 +31,23 @@ class CFileCache extends CCache
 	 */
 	public $cachePath;
 	/**
+	 * @var integer the permission to be set for directory to store cache files
+	 * This value will be used by PHP chmod function.
+	 * Defaults to 0777, meaning the directory can be read, written and executed by all users.
+	 * @since 1.1.15
+	 */
+	public $cachePathMode=0777;
+	/**
 	 * @var string cache file suffix. Defaults to '.bin'.
 	 */
 	public $cacheFileSuffix='.bin';
+	/**
+	 * @var integer the permission to be set for new cache files.
+	 * This value will be used by PHP chmod function.
+	 * Defaults to 0666, meaning the file is read-writable by all users.
+	 * @since 1.1.15
+	 */
+	public $cacheFileMode=0666;
 	/**
 	 * @var integer the level of sub-directories to store cache files. Defaults to 0,
 	 * meaning no sub-directories. If the system has huge number of cache files (e.g. 10K+),
@@ -41,6 +55,15 @@ class CFileCache extends CCache
 	 * The value of this property should not exceed 16 (less than 3 is recommended).
 	 */
 	public $directoryLevel=0;
+	/**
+	 * @var boolean whether cache entry expiration time should be embedded into a physical file.
+	 * Defaults to false meaning that the file modification time will be used to store expire value.
+	 * True value means that first ten bytes of the file would be reserved and used to store expiration time.
+	 * On some systems PHP is not allowed to change file modification time to be in future even with 777
+	 * permissions, so this property could be useful in this case.
+	 * @since 1.1.14
+	 */
+	public $embedExpiry=false;
 
 	private $_gcProbability=100;
 	private $_gced=false;
@@ -55,7 +78,10 @@ class CFileCache extends CCache
 		if($this->cachePath===null)
 			$this->cachePath=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
 		if(!is_dir($this->cachePath))
-			mkdir($this->cachePath,0777,true);
+		{
+			mkdir($this->cachePath,$this->cachePathMode,true);
+			chmod($this->cachePath,$this->cachePathMode);
+		}
 	}
 
 	/**
@@ -98,13 +124,13 @@ class CFileCache extends CCache
 	 * Retrieves a value from cache with a specified key.
 	 * This is the implementation of the method declared in the parent class.
 	 * @param string $key a unique key identifying the cached value
-	 * @return string the value stored in cache, false if the value is not in the cache or expired.
+	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	protected function getValue($key)
 	{
 		$cacheFile=$this->getCacheFile($key);
-		if(($time=@filemtime($cacheFile))>time())
-			return @file_get_contents($cacheFile);
+		if(($time=$this->filemtime($cacheFile))>time())
+			return @file_get_contents($cacheFile,false,null,$this->embedExpiry ? 10 : -1);
 		elseif($time>0)
 			@unlink($cacheFile);
 		return false;
@@ -133,11 +159,15 @@ class CFileCache extends CCache
 
 		$cacheFile=$this->getCacheFile($key);
 		if($this->directoryLevel>0)
-			@mkdir(dirname($cacheFile),0777,true);
-		if(@file_put_contents($cacheFile,$value,LOCK_EX)!==false)
 		{
-			@chmod($cacheFile,0777);
-			return @touch($cacheFile,$expire);
+			$cacheDir=dirname($cacheFile);
+			@mkdir($cacheDir,$this->cachePathMode,true);
+			@chmod($cacheDir,$this->cachePathMode);
+		}
+		if(@file_put_contents($cacheFile,$this->embedExpiry ? $expire.$value : $value,LOCK_EX)!==false)
+		{
+			@chmod($cacheFile,$this->cacheFileMode);
+			return $this->embedExpiry ? true : @touch($cacheFile,$expire);
 		}
 		else
 			return false;
@@ -155,7 +185,7 @@ class CFileCache extends CCache
 	protected function addValue($key,$value,$expire)
 	{
 		$cacheFile=$this->getCacheFile($key);
-		if(@filemtime($cacheFile)>time())
+		if($this->filemtime($cacheFile)>time())
 			return false;
 		return $this->setValue($key,$value,$expire);
 	}
@@ -212,9 +242,22 @@ class CFileCache extends CCache
 			$fullPath=$path.DIRECTORY_SEPARATOR.$file;
 			if(is_dir($fullPath))
 				$this->gc($expiredOnly,$fullPath);
-			elseif($expiredOnly && @filemtime($fullPath)<time() || !$expiredOnly)
+			elseif($expiredOnly && $this->filemtime($fullPath)<time() || !$expiredOnly)
 				@unlink($fullPath);
 		}
 		closedir($handle);
+	}
+
+	/**
+	 * Returns cache file modification time. {@link $embedExpiry} aware.
+	 * @param string $path to the file, modification time to be retrieved from.
+	 * @return integer file modification time.
+	 */
+	private function filemtime($path)
+	{
+		if($this->embedExpiry)
+			return (int)@file_get_contents($path,false,null,0,10);
+		else
+			return @filemtime($path);
 	}
 }

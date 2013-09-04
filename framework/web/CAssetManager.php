@@ -223,14 +223,14 @@ class CAssetManager extends CApplicationComponent
 				if(!is_dir($dstDir))
 				{
 					mkdir($dstDir,$this->newDirMode,true);
-					chmod($dstDir,$this->newDirMode);
+					@chmod($dstDir,$this->newDirMode);
 				}
 
 				if($this->linkAssets && !is_file($dstFile)) symlink($src,$dstFile);
 				elseif(@filemtime($dstFile)<@filemtime($src))
 				{
 					copy($src,$dstFile);
-					chmod($dstFile,$this->newFileMode);
+					@chmod($dstFile,$this->newFileMode);
 				}
 
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
