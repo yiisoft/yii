@@ -1520,4 +1520,11 @@ class CActiveRecordTest extends CTestCase
 			$this->assertTrue($comment->postAuthor->equals($comment->postAuthorBelongsTo));
 		}
 	}
+
+	public function testNamespacedTableName()
+	{
+		require_once(dirname(__FILE__).'/../data/models-namespaced.php');
+		$this->assertEquals("test.posts",Post2::model()->tableName());
+		$this->assertEquals("Example",CActiveRecord::model("yiiArExample\\testspace\\Example")->tableName());
+	}
 }

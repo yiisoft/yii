@@ -623,11 +623,4 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals(2,$this->db->createCommand('SELECT COUNT(*) FROM "test"."nullable_posts"')->queryScalar());
 		$this->assertEquals(1,$this->db->createCommand('SELECT COUNT(*) FROM "test"."nullable_posts" WHERE LENGTH("title") > 0')->queryScalar());
 	}
-
-	public function testNamespacedTableName()
-	{
-		require_once(dirname(__FILE__).'/../data/models-namespaced.php');
-		$this->assertEquals("test.posts",Post2::model()->tableName());
-		$this->assertEquals("Example",CActiveRecord::model("yiiArExample\\testspace\\Example")->tableName());
-	}
 }

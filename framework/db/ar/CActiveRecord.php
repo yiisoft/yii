@@ -436,10 +436,9 @@ abstract class CActiveRecord extends CModel
 	public function tableName()
 	{
 		$tableName = get_class($this);
-		if(strpos($tableName,'\\') !== false)
-			return implode('', array_slice(explode('\\', $tableName), -1));
-		else
-			return $tableName;
+		if(($pos=strrpos($tableName,'\\')) !== false)
+			return substr($tableName,$pos+1);
+		return $tableName;
 	}
 
 	/**
