@@ -299,7 +299,8 @@ class YiiBase
 
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
-			if($forceInclude && self::autoload($alias))
+			// try to autoload the class with an autoloader if $forceInclude is true
+			if($forceInclude && class_exists($alias,true))
 				self::$_imports[$alias]=$alias;
 			return $alias;
 		}
