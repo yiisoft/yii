@@ -35,4 +35,20 @@ class CFileValidatorTest extends CTestCase
 		$fileValidator=new CFileValidator();
 		$this->assertEquals($assertion, $fileValidator->sizeToBytes($sizeString));
 	}
+
+	public function testValidate()
+	{
+		$model = new ValidatorTestModel(__CLASS__);
+		$uploadedFile = new CUploadedFile('test.txt', __FILE__, 'text/plain', 40, UPLOAD_ERR_OK);
+		$model->uploaded_file = $uploadedFile;
+		$this->assertTrue($model->validate(), 'Valid file validation failed!');
+	}
+
+	public function testValidateNoFile()
+	{
+		$model = new ValidatorTestModel(__CLASS__);
+		$uploadedFile = new CUploadedFile('test.txt', __FILE__, 'text/plain', 40, UPLOAD_ERR_NO_FILE);
+		$model->uploaded_file = $uploadedFile;
+		$this->assertFalse($model->validate(), 'File with error passed validation!');
+	}
 }

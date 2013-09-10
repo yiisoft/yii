@@ -345,7 +345,17 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Generates a string of random bytes.
 	 * @param integer $length number of random bytes to be generated.
-	 * @param boolean $cryptographicallyStrong whether generated string should be cryptographically strong.
+	 * @param boolean $cryptographicallyStrong whether to fail if a cryptographically strong
+	 * result cannot be generated. The method attempts to read from a cryptographically strong
+	 * pseudorandom number generator (CS-PRNG), see
+	 * {@link https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator#Requirements Wikipedia}.
+	 * However, in some runtime environments, PHP has no access to a CS-PRNG, in which case
+	 * the method returns false if $cryptographicallyStrong is true. When $cryptographicallyStrong is false,
+	 * the method always returns a pseudorandom result but may fall back to using {@link generatePseudoRandomBlock}.
+	 * This method does not guarantee that entropy, from sources external to the CS-PRNG, was mixed into
+	 * the CS-PRNG state between each successive call. The caller can therefore expect non-blocking
+	 * behavior, unlike, for example, reading from /dev/random on Linux, see
+	 * {@link http://eprint.iacr.org/2006/086.pdf Gutterman et al 2006}.
 	 * @return boolean|string generated random binary string or false on failure.
 	 * @since 1.1.14
 	 */

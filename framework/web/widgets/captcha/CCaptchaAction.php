@@ -190,12 +190,12 @@ class CCaptchaAction extends CAction
 	 */
 	protected function generateVerifyCode()
 	{
+		if($this->minLength > $this->maxLength)
+			$this->maxLength = $this->minLength;
 		if($this->minLength < 3)
 			$this->minLength = 3;
 		if($this->maxLength > 20)
 			$this->maxLength = 20;
-		if($this->minLength > $this->maxLength)
-			$this->maxLength = $this->minLength;
 		$length = mt_rand($this->minLength,$this->maxLength);
 
 		$letters = 'bcdfghjklmnpqrstvwxyz';
@@ -282,7 +282,7 @@ class CCaptchaAction extends CAction
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Content-Transfer-Encoding: binary');
-		header("Content-type: image/png");
+		header("Content-Type: image/png");
 		imagepng($image);
 		imagedestroy($image);
 	}
@@ -329,7 +329,7 @@ class CCaptchaAction extends CAction
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Content-Transfer-Encoding: binary');
-		header("Content-type: image/png");
+		header("Content-Type: image/png");
 		$image->setImageFormat('png');
 		echo $image;
 	}

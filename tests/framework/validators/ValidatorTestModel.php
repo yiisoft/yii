@@ -14,6 +14,8 @@ class ValidatorTestModel extends CFormModel
 	public $username;
 	public $address;
 
+	public $uploaded_file;
+
 	public function rules()
 	{
 		return array(
@@ -35,6 +37,8 @@ class ValidatorTestModel extends CFormModel
 
 			array('string1', 'in', 'allowEmpty' => false, 'range' => array(0,1,7,13), 'on' => 'CRangeValidatorTest'),
 			array('string2', 'in', 'allowEmpty' => false, 'range' => array('',1,7,13), 'on' => 'CRangeValidatorTest'),
+
+			array('uploaded_file', 'file', 'on' => 'CFileValidatorTest'),
 		);
 	}
 }

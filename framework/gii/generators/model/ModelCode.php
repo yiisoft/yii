@@ -210,6 +210,7 @@ class ModelCode extends CCodeModel
 					$label=substr($label,0,-3);
 				if($label==='Id')
 					$label='ID';
+				$label=str_replace("'","\\'",$label);
 				$labels[$column->name]=$label;
 			}
 		}

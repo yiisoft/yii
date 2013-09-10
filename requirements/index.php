@@ -120,6 +120,12 @@ $requirements=array(
 		'<a href="http://www.yiiframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
 		t('yii','Required by encrypt and decrypt methods.')),
 	array(
+		t('yii','crypt() CRYPT_BLOWFISH option'),
+		false,
+		function_exists('crypt') && defined('CRYPT_BLOWFISH') && CRYPT_BLOWFISH,
+		'<a href="http://www.yiiframework.com/doc/api/1.1/CPasswordHelper">CPasswordHelper</a>',
+		t('yii','Required for secure password storage.')),
+	array(
 		t('yii','SOAP extension'),
 		false,
 		extension_loaded("soap"),
