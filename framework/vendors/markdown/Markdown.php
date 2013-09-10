@@ -10,8 +10,7 @@
 # Copyright (c) 2004-2006 John Gruber  
 # <http://daringfireball.net/projects/markdown/>
 #
-namespace Michelf;
-
+# WARNING: This file differs from the original by absence of namespaces to provide support for earlier versions of PHP
 
 #
 # Markdown Parser Class
@@ -1524,7 +1523,7 @@ class Markdown {
 # one.
 #
 
-class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
+class _MarkdownExtra_TmpImpl extends Markdown {
 
 	### Configuration Variables ###
 

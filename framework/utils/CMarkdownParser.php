@@ -48,7 +48,7 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * @package system.utils
  * @since 1.0
  */
-class CMarkdownParser extends \Michelf\MarkdownExtra
+class CMarkdownParser extends MarkdownExtra
 {
 	/**
 	 * @var string the css class for the div element containing
