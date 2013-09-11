@@ -22,6 +22,7 @@ Version 1.1.15 under development
 - Enh #2722: CFileHelper::findFiles() accepts absolutePaths in $options and returns absolute paths if true or relative ones otherwise (defaults to true) (pavel-voronin)
 - Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
 - Enh #2852: Refactored ShellCommand to be easier to extend (samdark, mindplay-dk)
+- Bug #2855: Allow properties of type Closure in components and behaviors to be called via __call
 
 Version 1.1.14 August 11, 2013
 ------------------------------
