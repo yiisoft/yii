@@ -694,69 +694,69 @@ class CActiveForm extends CWidget
 		return CHtml::activeTimeField($model,$attribute,$htmlOptions);
 	}
 
-    /**
-     * Renders a datetime field for a model attribute.
-     * This method is a wrapper of {@link CHtml::activeDateTimeField}.
-     * Please check {@link CHtml::activeDateTimeField} for detailed information
-     * about the parameters for this method.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @param array $htmlOptions additional HTML attributes.
-     * @return string the generated input field
-     * @since 1.1.15
-     */
-    public function dateTimeField($model,$attribute,$htmlOptions=array())
-    {
-        return CHtml::activeDateTimeField($model,$attribute,$htmlOptions);
-    }
+	/**
+	 * Renders a datetime field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeDateTimeField}.
+	 * Please check {@link CHtml::activeDateTimeField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 * @since 1.1.15
+	 */
+	public function dateTimeField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeDateTimeField($model,$attribute,$htmlOptions);
+	}
 
-    /**
-     * Renders a local datetime field for a model attribute.
-     * This method is a wrapper of {@link CHtml::activeDateTimeLocalField}.
-     * Please check {@link CHtml::activeDateTimeLocalField} for detailed information
-     * about the parameters for this method.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @param array $htmlOptions additional HTML attributes.
-     * @return string the generated input field
-     * @since 1.1.15
-     */
-    public function dateTimeLocalField($model,$attribute,$htmlOptions=array())
-    {
-        return CHtml::activeDateTimeLocalField($model,$attribute,$htmlOptions);
-    }
+	/**
+	 * Renders a local datetime field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeDateTimeLocalField}.
+	 * Please check {@link CHtml::activeDateTimeLocalField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 * @since 1.1.15
+	 */
+	public function dateTimeLocalField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeDateTimeLocalField($model,$attribute,$htmlOptions);
+	}
 
-    /**
-     * Renders a week field for a model attribute.
-     * This method is a wrapper of {@link CHtml::activeWeekField}.
-     * Please check {@link CHtml::activeWeekField} for detailed information
-     * about the parameters for this method.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @param array $htmlOptions additional HTML attributes.
-     * @return string the generated input field
-     * @since 1.1.15
-     */
-    public function weekField($model,$attribute,$htmlOptions=array())
-    {
-        return CHtml::activeWeekField($model,$attribute,$htmlOptions);
-    }
+	/**
+	 * Renders a week field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeWeekField}.
+	 * Please check {@link CHtml::activeWeekField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 * @since 1.1.15
+	 */
+	public function weekField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeWeekField($model,$attribute,$htmlOptions);
+	}
 
-    /**
-     * Renders a color picker field for a model attribute.
-     * This method is a wrapper of {@link CHtml::activeColorField}.
-     * Please check {@link CHtml::activeColorField} for detailed information
-     * about the parameters for this method.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @param array $htmlOptions additional HTML attributes.
-     * @return string the generated input field
-     * @since 1.1.15
-     */
-    public function colorField($model,$attribute,$htmlOptions=array())
-    {
-        return CHtml::activeColorField($model,$attribute,$htmlOptions);
-    }
+	/**
+	 * Renders a color picker field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeColorField}.
+	 * Please check {@link CHtml::activeColorField} for detailed information
+	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
+	 * @since 1.1.15
+	 */
+	public function colorField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeColorField($model,$attribute,$htmlOptions);
+	}
 
 	/**
 	 * Renders a tel field for a model attribute.

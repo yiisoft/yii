@@ -590,22 +590,22 @@ class CHtml
 		return self::tag('label',$htmlOptions,$label);
 	}
 
-    /**
-     * Generates a color picker field input.
-     * @param string $name the input name
-     * @param string $value the input value
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see inputField
-     * @since 1.1.15
-     */
-    public static function colorField($name,$value='',$htmlOptions=array())
-    {
-        self::clientChange('change',$htmlOptions);
-        return self::inputField('color',$name,$value,$htmlOptions);
-    }
+	/**
+	 * Generates a color picker field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.15
+	 */
+	public static function colorField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('color',$name,$value,$htmlOptions);
+	}
 
 	/**
 	 * Generates a text field input.
@@ -623,22 +623,22 @@ class CHtml
 		return self::inputField('text',$name,$value,$htmlOptions);
 	}
 
-    /**
-     * Generates a search field input.
-     * @param string $name the input name
-     * @param string $value the input value
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see inputField
-     * @since 1.1.15
-     */
-    public static function searchField($name,$value='',$htmlOptions=array())
-    {
-        self::clientChange('change',$htmlOptions);
-        return self::inputField('search',$name,$value,$htmlOptions);
-    }
+	/**
+	 * Generates a search field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.15
+	 */
+	public static function searchField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('search',$name,$value,$htmlOptions);
+	}
 	/**
 	 * Generates a number field input.
 	 * @param string $name the input name
@@ -707,56 +707,56 @@ class CHtml
 		return self::inputField('time',$name,$value,$htmlOptions);
 	}
 
-    /**
-     * Generates a datetime field input.
-     * @param string $name the input name
-     * @param string $value the input value
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see inputField
-     * @since 1.1.15
-     */
-    public static function dateTimeField($name,$value='',$htmlOptions=array())
-    {
-        self::clientChange('change',$htmlOptions);
-        return self::inputField('datetime',$name,$value,$htmlOptions);
-    }
+	/**
+	 * Generates a datetime field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.15
+	 */
+	public static function dateTimeField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('datetime',$name,$value,$htmlOptions);
+	}
 
-    /**
-     * Generates a local datetime field input.
-     * @param string $name the input name
-     * @param string $value the input value
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see inputField
-     * @since 1.1.15
-     */
-    public static function dateTimeLocalField($name,$value='',$htmlOptions=array())
-    {
-        self::clientChange('change',$htmlOptions);
-        return self::inputField('datetime-local',$name,$value,$htmlOptions);
-    }
+	/**
+	 * Generates a local datetime field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.15
+	 */
+	public static function dateTimeLocalField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('datetime-local',$name,$value,$htmlOptions);
+	}
 
-    /**
-     * Generates a week field input.
-     * @param string $name the input name
-     * @param string $value the input value
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see inputField
-     * @since 1.1.15
-     */
-    public static function weekField($name,$value='',$htmlOptions=array())
-    {
-        self::clientChange('change',$htmlOptions);
-        return self::inputField('week',$name,$value,$htmlOptions);
-    }
+	/**
+	 * Generates a week field input.
+	 * @param string $name the input name
+	 * @param string $value the input value
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see inputField
+	 * @since 1.1.15
+	 */
+	public static function weekField($name,$value='',$htmlOptions=array())
+	{
+		self::clientChange('change',$htmlOptions);
+		return self::inputField('week',$name,$value,$htmlOptions);
+	}
 
 	/**
 	 * Generates an email field input.
@@ -1668,85 +1668,85 @@ EOD;
 		return self::activeInputField('time',$model,$attribute,$htmlOptions);
 	}
 
-    /**
-     * Generates a datetime field input for a model attribute.
-     * If the attribute has input error, the input field's CSS class will
-     * be appended with {@link errorCss}.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see activeInputField
-     * @since 1.1.15
-     */
-    public static function activeDateTimeField($model,$attribute,$htmlOptions=array())
-    {
-        self::resolveNameID($model,$attribute,$htmlOptions);
-        self::clientChange('change',$htmlOptions);
-        return self::activeInputField('datetime',$model,$attribute,$htmlOptions);
-    }
+	/**
+	 * Generates a datetime field input for a model attribute.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see activeInputField
+	 * @since 1.1.15
+	 */
+	public static function activeDateTimeField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('datetime',$model,$attribute,$htmlOptions);
+	}
 
-    /**
-     * Generates a datetime-local field input for a model attribute.
-     * If the attribute has input error, the input field's CSS class will
-     * be appended with {@link errorCss}.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see activeInputField
-     * @since 1.1.15
-     */
-    public static function activeDateTimeLocalField($model,$attribute,$htmlOptions=array())
-    {
-        self::resolveNameID($model,$attribute,$htmlOptions);
-        self::clientChange('change',$htmlOptions);
-        return self::activeInputField('datetime-local',$model,$attribute,$htmlOptions);
-    }
+	/**
+	 * Generates a datetime-local field input for a model attribute.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see activeInputField
+	 * @since 1.1.15
+	 */
+	public static function activeDateTimeLocalField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('datetime-local',$model,$attribute,$htmlOptions);
+	}
 
-    /**
-     * Generates a week field input for a model attribute.
-     * If the attribute has input error, the input field's CSS class will
-     * be appended with {@link errorCss}.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see activeInputField
-     * @since 1.1.15
-     */
-    public static function activeWeekField($model,$attribute,$htmlOptions=array())
-    {
-        self::resolveNameID($model,$attribute,$htmlOptions);
-        self::clientChange('change',$htmlOptions);
-        return self::activeInputField('week',$model,$attribute,$htmlOptions);
-    }
+	/**
+	 * Generates a week field input for a model attribute.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see activeInputField
+	 * @since 1.1.15
+	 */
+	public static function activeWeekField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('week',$model,$attribute,$htmlOptions);
+	}
 
-    /**
-     * Generates a color picker field input for a model attribute.
-     * If the attribute has input error, the input field's CSS class will
-     * be appended with {@link errorCss}.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-     * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-     * @return string the generated input field
-     * @see clientChange
-     * @see activeInputField
-     * @since 1.1.15
-     */
-    public static function activeColorField($model,$attribute,$htmlOptions=array())
-    {
-        self::resolveNameID($model,$attribute,$htmlOptions);
-        self::clientChange('change',$htmlOptions);
-        return self::activeInputField('color',$model,$attribute,$htmlOptions);
-    }
+	/**
+	 * Generates a color picker field input for a model attribute.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated input field
+	 * @see clientChange
+	 * @see activeInputField
+	 * @since 1.1.15
+	 */
+	public static function activeColorField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('color',$model,$attribute,$htmlOptions);
+	}
 
 	/**
 	 * Generates a telephone field input for a model attribute.
