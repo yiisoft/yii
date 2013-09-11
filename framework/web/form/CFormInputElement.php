@@ -68,7 +68,12 @@ class CFormInputElement extends CFormElement
 		'email'=>'activeEmailField',
 		'number'=>'activeNumberField',
 		'range'=>'activeRangeField',
-		'date'=>'activeDateField'
+		'date'=>'activeDateField',
+		'datetime'=>'activeDateTimeField',
+		'datetimelocal'=>'activeDateTimeLocalField',
+		'week'=>'activeWeekField',
+		'color'=>'activeColorField',
+		'search'=>'activeSearchField',
 	);
 
 	/**
@@ -197,9 +202,9 @@ class CFormInputElement extends CFormElement
 		);
 
 		if(!empty($this->attributes['id']))
-        {
-            $options['for'] = $this->attributes['id'];
-        }
+		{
+			$options['for'] = $this->attributes['id'];
+		}
 
 		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);
 	}
