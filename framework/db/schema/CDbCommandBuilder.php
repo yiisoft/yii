@@ -288,7 +288,7 @@ class CDbCommandBuilder extends CComponent
 			$templates
 		);
 		$this->ensureTable($table);
-		$tableName=$this->getDbConnection()->quoteTableName($table->name);
+		$tableName=$table->rawName;
 		$params=array();
 		$columnInsertNames=array();
 		$rowInsertValues=array();

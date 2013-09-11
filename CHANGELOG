@@ -3,11 +3,25 @@
 
 Version 1.1.15 under development
 --------------------------------
+- Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
+- Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
+- Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
+- Bug #2753: Fixed CErrorHandler::errorAction ignored if error occurs while AJAX request (klimov-paul)
 - Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
+- Bug #2770: Fixed CClientScript renders scripts with different HTML options inside same tag (klimov-paul)
 - Bug #2778: Fixed throwing unnecessary exception in CFileValidator when validating MIME types for a file upload that failed (Rupert-RR)
+- Bug #2785: Use table name with schema in composeMultipleInsertCommand (nineinchnick)
+- Bug #2836: Fixed rendering when try-catching widget Exception while 'captureOutput' is set to true (darkheir)
+- Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
+- Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
+- Enh #2737: CFileCache: added cachePathMode and cacheFileMode options to set modes used by chmod() for cache directory and files (ujovlado)
 - Enh #2791: requirements/index.php: added CRYPT_BLOWFISH check for CPasswordHelper (tom--)
 - Enh #2688: CHtml::beginForm() now supports additional HTTP methods, via a hidden `_method` field. (phpnode)
+- Enh #2817: Allow specifying $colums and $refColumns arguments as array in various CDbSchema methods (mynameiszanders, samdark)
+- Enh #2722: CFileHelper::findFiles() accepts absolutePaths in $options and returns absolute paths if true or relative ones otherwise (defaults to true) (pavel-voronin)
+- Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
+- Enh #2852: Refactored ShellCommand to be easier to extend (samdark, mindplay-dk)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
