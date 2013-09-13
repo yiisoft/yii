@@ -1161,7 +1161,7 @@ EOD;
 		{
 			if(!is_array($htmlOptions['empty']))
 				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
-			$data=array_merge($htmlOptions['empty'],$data);
+			$data=CMap::mergeArray($htmlOptions['empty'],$data);
 			unset($htmlOptions['empty']);
 		}
 
