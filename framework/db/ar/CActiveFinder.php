@@ -298,6 +298,23 @@ class CActiveFinder extends CComponent
 				$this->buildJoinTree($parent,$key,$value);
 		}
 	}
+
+	/**
+	 * Builds a CDbCommand using provided criteria.
+	 * @param CDbCriteria $criteria the DB criteria
+	 * @result CDbCommand
+	 */
+	public function createCommand($criteria) {
+		//workaround for selecting i.e. ARRAY[col_name, col_name2]
+		$select = $criteria->select;
+		$criteria->select = "*";
+
+		$query = new CJoinQuery($this->_joinTree, $criteria);
+		$this->_joinTree->buildQuery($query);
+		if (!empty($select))
+			$query->selects = array($select);
+		return $query->createCommand($this->_builder);
+	}
 }
 
 
