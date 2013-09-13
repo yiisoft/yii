@@ -21,6 +21,11 @@
 class CDbCommandBuilder extends CComponent
 {
 	const PARAM_PREFIX=':yp';
+	/**
+	 * @var integer the global counter for anonymous binding parameters.
+	 * This counter is used for generating the name for the anonymous parameters.
+	 */
+	public static $paramCount=0;
 
 	private $_schema;
 	private $_connection;
@@ -211,7 +216,6 @@ class CDbCommandBuilder extends CComponent
 		$fields=array();
 		$values=array();
 		$placeholders=array();
-		$i=0;
 		foreach($data as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull))
@@ -225,9 +229,8 @@ class CDbCommandBuilder extends CComponent
 				}
 				else
 				{
-					$placeholders[]=self::PARAM_PREFIX.$i;
-					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
-					$i++;
+					$placeholders[]=self::PARAM_PREFIX.self::$paramCount;
+					$values[self::PARAM_PREFIX.self::$paramCount++]=$column->typecast($value);
 				}
 			}
 		}
@@ -364,7 +367,6 @@ class CDbCommandBuilder extends CComponent
 		$fields=array();
 		$values=array();
 		$bindByPosition=isset($criteria->params[0]);
-		$i=0;
 		foreach($data as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null)
@@ -382,9 +384,8 @@ class CDbCommandBuilder extends CComponent
 				}
 				else
 				{
-					$fields[]=$column->rawName.'='.self::PARAM_PREFIX.$i;
-					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
-					$i++;
+					$fields[]=$column->rawName.'='.self::PARAM_PREFIX.self::$paramCount;
+					$values[self::PARAM_PREFIX.self::$paramCount++]=$column->typecast($value);
 				}
 			}
 		}
@@ -664,7 +665,6 @@ class CDbCommandBuilder extends CComponent
 		$bindByPosition=isset($criteria->params[0]);
 		$conditions=array();
 		$values=array();
-		$i=0;
 		if($prefix===null)
 			$prefix=$table->rawName.'.';
 		foreach($columns as $name=>$value)
@@ -682,9 +682,8 @@ class CDbCommandBuilder extends CComponent
 					}
 					else
 					{
-						$conditions[]=$prefix.$column->rawName.'='.self::PARAM_PREFIX.$i;
-						$values[self::PARAM_PREFIX.$i]=$value;
-						$i++;
+						$conditions[]=$prefix.$column->rawName.'='.self::PARAM_PREFIX.self::$paramCount;
+						$values[self::PARAM_PREFIX.self::$paramCount++]=$value;
 					}
 				}
 				else
