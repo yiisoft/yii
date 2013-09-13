@@ -81,15 +81,15 @@ before the Yii autoloader:
 ~~~
 [php]
 require_once('PHPUnit/Autoload.php'); // register 3rd-party autoloader
-require_once('/path/to/framework/yii.php'); // register Yii autoloder
+require_once('/path/to/framework/yii.php'); // register Yii autoloader
 ...
 ~~~
-If 3rd-party class autoloder is coming as separated function or method, you may use
+If 3rd-party class autoloader is coming as separated function or method, you may use
 `Yii::registerAutoloader()` method to register it. In this case Yii will prepend it
 before own autoloader automatically.
 ~~~
 [php]
-require_once('/path/to/framework/yii.php'); // register Yii autoloder
+require_once('/path/to/framework/yii.php'); // register Yii autoloader
 ...
 Yii::registerAutoloader(array('SomeLibrary','autoload')); // register 3rd-party autoloader
 ...
