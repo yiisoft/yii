@@ -2,7 +2,6 @@
                    ========================
 Work in progress
 ----------------
- - Enh #2653: updated Markdown Extra Lib to version 1.3 (SleepWalker)
 
 Version 1.1.15 under development
 --------------------------------
@@ -25,6 +24,7 @@ Version 1.1.15 under development
 - Enh #2722: CFileHelper::findFiles() accepts absolutePaths in $options and returns absolute paths if true or relative ones otherwise (defaults to true) (pavel-voronin)
 - Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
 - Enh #2852: Refactored ShellCommand to be easier to extend (samdark, mindplay-dk)
+- Chg #2653: Upgraded Markdown Extra Lib to version 1.3 (SleepWalker)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
