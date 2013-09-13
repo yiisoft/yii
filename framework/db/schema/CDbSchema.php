@@ -316,10 +316,11 @@ abstract class CDbSchema extends CComponent
 	 * These abstract column types are supported (using MySQL as example to explain the corresponding
 	 * physical types):
 	 * <ul>
-	 * <li>pk: an auto-incremental primary key type, will be converted into "int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY"</li>
+	 * <li>pk and bigpk: an auto-incremental primary key type, will be converted into "int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY" or "bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY"</li>
 	 * <li>string: string type, will be converted into "varchar(255)"</li>
 	 * <li>text: a long string type, will be converted into "text"</li>
 	 * <li>integer: integer type, will be converted into "int(11)"</li>
+	 * <li>biginteger: integer type, will be converted into "bigint(20)"</li>
 	 * <li>boolean: boolean type, will be converted into "tinyint(1)"</li>
 	 * <li>float: float number type, will be converted into "float"</li>
 	 * <li>decimal: decimal number type, will be converted into "decimal"</li>
