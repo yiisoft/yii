@@ -3,7 +3,6 @@
 
 Version 1.1.15 under development
 --------------------------------
-- Bug: Fixed array_merge caused renumbering of $data indexes in CHtml::radioButtonList()
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
@@ -14,6 +13,7 @@ Version 1.1.15 under development
 - Bug #2785: Use table name with schema in composeMultipleInsertCommand (nineinchnick)
 - Bug #2836: Fixed rendering when try-catching widget Exception while 'captureOutput' is set to true (darkheir)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
+- Bug #2862: Fixed array_merge caused renumbering of $data indexes in CHtml::radioButtonList() (ligser)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
 - Enh #2737: CFileCache: added cachePathMode and cacheFileMode options to set modes used by chmod() for cache directory and files (ujovlado)
