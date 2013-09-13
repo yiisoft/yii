@@ -8,7 +8,8 @@
  * @license http://www.yiiframework.com/license/
  */
 
-require_once(Yii::getPathOfAlias('system.vendors.markdown.markdown').'.php');
+require_once(Yii::getPathOfAlias('system.vendors.markdown.Markdown').'.php');
+require_once(Yii::getPathOfAlias('system.vendors.markdown.MarkdownExtra').'.php');
 if(!class_exists('HTMLPurifier_Bootstrap',false))
 {
 	require_once(Yii::getPathOfAlias('system.vendors.htmlpurifier').DIRECTORY_SEPARATOR.'HTMLPurifier.standalone.php');
@@ -16,9 +17,9 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
 }
 
 /**
- * CMarkdownParser is a wrapper of {@link http://michelf.com/projects/php-markdown/extra/ MarkdownExtra_Parser}.
+ * CMarkdownParser is a wrapper of {@link https://github.com/michelf/php-markdown/blob/lib/Michelf/MarkdownExtra.php MarkdownExtra}.
  *
- * CMarkdownParser extends MarkdownExtra_Parser by using Text_Highlighter
+ * CMarkdownParser extends MarkdownExtra by using Text_Highlighter
  * to highlight code blocks with specific language syntax.
  * In particular, if a code block starts with the following:
  * <pre>
@@ -47,7 +48,7 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * @package system.utils
  * @since 1.0
  */
-class CMarkdownParser extends MarkdownExtra_Parser
+class CMarkdownParser extends MarkdownExtra
 {
 	/**
 	 * @var string the css class for the div element containing
