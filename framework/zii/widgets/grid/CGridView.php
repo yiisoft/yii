@@ -450,7 +450,6 @@ class CGridView extends CBaseListView
 			if ($options['ajaxType']=='POST' && $request->enableCsrfValidation) {
 				$options['csrfTokenName']=$request->csrfTokenName;
 				$options['csrfToken']=$request->getCsrfToken();
-
 			}
 		}
 		if($this->enablePagination)
