@@ -317,7 +317,7 @@
 						options.data = $(settings.filterSelector).serialize();
 					}
 				}
-				if (settings.csrfTokenName !== null && settings.csrfToken !== null) {
+				if (settings.csrfTokenName && settings.csrfToken) {
 					if (typeof options.data=='string')
 						options.data+='&'+settings.csrfTokenName+'='+settings.csrfToken;
 					else
