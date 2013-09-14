@@ -444,8 +444,15 @@ class CGridView extends CBaseListView
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
-		if($this->ajaxType!==null)
+		if($this->ajaxType!==null) {
 			$options['ajaxType']=strtoupper($this->ajaxType);
+			$request=Yii::app()->getRequest();
+			if ($options['ajaxType']=='POST' && $request->enableCsrfValidation) {
+				$options['csrfTokenName']=$request->csrfTokenName;
+				$options['csrfToken']=$request->getCsrfToken();
+
+			}
+		}
 		if($this->enablePagination)
 			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
 		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError', 'selectionChanged') as $event)
