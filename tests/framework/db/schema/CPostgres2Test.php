@@ -52,7 +52,7 @@ class CPostgres2Test extends CTestCase
 			'id'=>'bigpk',
 			'name'=>'string not null',
 			'desc'=>'text',
-			'number'=>'biginteger',
+			'number'=>'bigint',
 			'number2'=>'bigint not null default 0',
 			'primary key (id, name)',
 		));
