@@ -27,7 +27,7 @@ class CMysqlSchema extends CDbSchema
 		'string' => 'varchar(255)',
 		'text' => 'text',
 		'integer' => 'int(11)',
-		'biginteger' => 'bigint(20)',
+		'bigint' => 'bigint(20)',
 		'float' => 'float',
 		'decimal' => 'decimal',
 		'datetime' => 'datetime',

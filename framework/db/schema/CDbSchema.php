@@ -320,7 +320,7 @@ abstract class CDbSchema extends CComponent
 	 * <li>string: string type, will be converted into "varchar(255)"</li>
 	 * <li>text: a long string type, will be converted into "text"</li>
 	 * <li>integer: integer type, will be converted into "int(11)"</li>
-	 * <li>biginteger: integer type, will be converted into "bigint(20)"</li>
+	 * <li>bigint: integer type, will be converted into "bigint(20)"</li>
 	 * <li>boolean: boolean type, will be converted into "tinyint(1)"</li>
 	 * <li>float: float number type, will be converted into "float"</li>
 	 * <li>decimal: decimal number type, will be converted into "decimal"</li>

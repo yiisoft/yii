@@ -27,7 +27,7 @@ class CSqliteSchema extends CDbSchema
         'string' => 'varchar(255)',
         'text' => 'text',
         'integer' => 'integer',
-        'biginteger' => 'integer',
+        'bigint' => 'integer',
         'float' => 'float',
         'decimal' => 'decimal',
         'datetime' => 'datetime',

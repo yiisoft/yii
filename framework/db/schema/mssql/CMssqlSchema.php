@@ -30,7 +30,7 @@ class CMssqlSchema extends CDbSchema
 		'string' => 'varchar(255)',
 		'text' => 'text',
 		'integer' => 'int',
-		'biginteger' => 'bigint',
+		'bigint' => 'bigint',
 		'float' => 'float',
 		'decimal' => 'decimal',
 		'datetime' => 'datetime',

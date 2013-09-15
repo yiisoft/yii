@@ -29,7 +29,7 @@ class CPgsqlSchema extends CDbSchema
 		'string' => 'character varying (255)',
 		'text' => 'text',
 		'integer' => 'integer',
-		'biginteger' => 'bigint',
+		'bigint' => 'bigint',
 		'float' => 'double precision',
 		'decimal' => 'numeric',
 		'datetime' => 'timestamp',

@@ -30,7 +30,7 @@ class COciSchema extends CDbSchema
 		'string' => 'VARCHAR2(255)',
 		'text' => 'CLOB',
 		'integer' => 'NUMBER(10)',
-		'biginteger' => 'NUMBER(20)',
+		'bigint' => 'NUMBER(20)',
 		'float' => 'NUMBER',
 		'decimal' => 'NUMBER',
 		'datetime' => 'TIMESTAMP',
