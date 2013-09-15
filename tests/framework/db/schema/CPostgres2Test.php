@@ -46,6 +46,27 @@ class CPostgres2Test extends CTestCase
 		$this->assertEquals($expect, $sql);
 	}
 
+	public function testCreateTableBig()
+	{
+		$sql=$this->db->schema->createTable('test',array(
+			'id'=>'bigpk',
+			'name'=>'string not null',
+			'desc'=>'text',
+			'number'=>'biginteger',
+			'number2'=>'bigint not null default 0',
+			'primary key (id, name)',
+		));
+		$expect="CREATE TABLE \"test\" (\n"
+			. "\t\"id\" bigserial NOT NULL PRIMARY KEY,\n"
+			. "\t\"name\" character varying (255) not null,\n"
+			. "\t\"desc\" text,\n"
+			. "\t\"number\" bigint,\n"
+			. "\t\"number2\" bigint not null default 0,\n"
+			. "\tprimary key (id, name)\n"
+			. ")";
+		$this->assertEquals($expect, $sql);
+	}
+
 	public function testRenameTable()
 	{
 		$sql=$this->db->schema->renameTable('test', 'test2');
