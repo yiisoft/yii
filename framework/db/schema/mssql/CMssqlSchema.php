@@ -26,9 +26,11 @@ class CMssqlSchema extends CDbSchema
 	 */
 	public $columnTypes=array(
 		'pk' => 'int IDENTITY PRIMARY KEY',
+		'bigpk' => 'bigint IDENTITY PRIMARY KEY',
 		'string' => 'varchar(255)',
 		'text' => 'text',
 		'integer' => 'int',
+		'bigint' => 'bigint',
 		'float' => 'float',
 		'decimal' => 'decimal',
 		'datetime' => 'datetime',

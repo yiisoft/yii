@@ -25,9 +25,11 @@ class CPgsqlSchema extends CDbSchema
 	 */
 	public $columnTypes=array(
 		'pk' => 'serial NOT NULL PRIMARY KEY',
+		'bigpk' => 'bigserial NOT NULL PRIMARY KEY',
 		'string' => 'character varying (255)',
 		'text' => 'text',
 		'integer' => 'integer',
+		'bigint' => 'bigint',
 		'float' => 'double precision',
 		'decimal' => 'numeric',
 		'datetime' => 'timestamp',
