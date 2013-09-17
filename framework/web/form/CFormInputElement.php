@@ -203,7 +203,7 @@ class CFormInputElement extends CFormElement
 
 		if(!empty($this->attributes['id']))
 		{
-			$options['for'] = $this->attributes['id'];
+			$options['for']=$this->attributes['id'];
 		}
 
 		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);
