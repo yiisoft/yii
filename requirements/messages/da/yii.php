@@ -17,9 +17,9 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  '$_SERVER does not have {vars}.' => '$_SERVER indeholder ikke {vars}',
+  '$_SERVER does not have {vars}.' => '$_SERVER indeholder ikke {vars}.',
   '$_SERVER variable' => '$_SERVER variabel',
-  '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] skal være som stien til startscriptet',
+  '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] skal være som stien til startscriptet.',
   'APC extension' => 'APC extension',
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alle <a href="http://www.yiiframework.com/doc/api/#system.db">DB-relaterede klasser</a>',
   'Ctype extension' => 'Ctype extension',
@@ -40,7 +40,7 @@ return array (
   'PDO PostgreSQL extension' => 'PDO PostgreSQL extension',
   'PDO SQLite extension' => 'PDO SQLite extension',
   'PDO extension' => 'PDO extension',
-  'PHP 5.1.0 or higher is required.' => 'PHP 5.1.0 eller nyere er påkrævet',
+  'PHP 5.1.0 or higher is required.' => 'PHP 5.1.0 eller nyere er påkrævet.',
   'PHP version' => 'PHP version',
   'Reflection extension' => 'Reflection extension',
   'Required by encrypt and decrypt methods.' => 'Påkrævet af encrypt og decrypt funktioner.',
