@@ -1529,4 +1529,14 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals("posts",Post::model()->tableName());
 		$this->assertEquals("Example",CActiveRecord::model("yiiArExample\\testspace\\Example")->tableName());
 	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/2884
+	 */
+	public function testDefaultScopeAlias()
+	{
+		$this->assertEquals('user3', UserWithDefaultScopeAlias::model()->resetScope()->findByPk(3)->username);
+		$this->assertNull(UserWithDefaultScopeAlias::model()->findByPk(3));
+		$this->assertNotNull(UserWithDefaultScopeAlias::model()->findByPk(1));
+	}
 }
