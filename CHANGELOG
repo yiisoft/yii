@@ -29,6 +29,7 @@ Version 1.1.15 under development
 - Enh #2817: Allow specifying $colums and $refColumns arguments as array in various CDbSchema methods (mynameiszanders, samdark)
 - Enh #2722: CFileHelper::findFiles() accepts absolutePaths in $options and returns absolute paths if true or relative ones otherwise (defaults to true) (pavel-voronin)
 - Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
+- Enh #2850: Parameter 'id' added for 'ajaxUpdateError' js function at 'CListView' and 'CGridView' (klimov-paul)
 - Enh #2852: Refactored ShellCommand to be easier to extend (samdark, mindplay-dk)
 - Chg #2653: Upgraded Markdown Extra Lib to version 1.3 (SleepWalker)
 
