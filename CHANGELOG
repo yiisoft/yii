@@ -16,7 +16,7 @@ Version 1.1.15 under development
 - Bug #2836: Fixed rendering when try-catching widget Exception while 'captureOutput' is set to true (darkheir)
 - Bug #2862: Fixed array_merge caused renumbering of $data indexes in CHtml::radioButtonList() (ligser)
 - Bug #2864: Fixed CGridView ajax calls failing CSRF validation when ajaxType is set to POST (nineinchnick)
-- Bug #2874: Fixed duplicate columns selection for HAS_MANY relation with composite primary key
+- Bug #2874: Fixed duplicate columns selection for HAS_MANY relation with composite primary key (borro)
 - Bug #2876: Fixed single quotes in comments column causes syntax error in model code generated  by Gii(klimov-paul)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
