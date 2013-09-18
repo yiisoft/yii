@@ -131,6 +131,7 @@ class CPostgresTest extends CTestCase
 
 	public function testCommandBuilder()
 	{
+		CDbCommandBuilder::$paramCount=0;
 		$schema=$this->db->schema;
 		$builder=$schema->commandBuilder;
 		$this->assertTrue($builder instanceof CDbCommandBuilder);
@@ -230,7 +231,7 @@ class CPostgresTest extends CTestCase
 
 		// createColumnCriteria
 		$c=$builder->createColumnCriteria($table,array('id'=>1,'author_id'=>2),'title=\'\'');
-		$this->assertEquals('"test"."posts"."id"=:yp0 AND "test"."posts"."author_id"=:yp1 AND (title=\'\')',$c->condition);
+		$this->assertEquals('"test"."posts"."id"=:yp5 AND "test"."posts"."author_id"=:yp6 AND (title=\'\')',$c->condition);
 	}
 
 	public function testResetSequence()

@@ -6,6 +6,7 @@ Work in progress
 Version 1.1.15 under development
 --------------------------------
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
+- Bug #583: Fixed param name collision in CDbCommandBuilder class when using createColumnCriteria() with createUpdateCommand() (nineinchnick)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
 - Bug #2753: Fixed CErrorHandler::errorAction ignored if error occurs while AJAX request (klimov-paul)

@@ -118,6 +118,7 @@ class CSqliteTest extends CTestCase
 
 	public function testCommandBuilder()
 	{
+		CDbCommandBuilder::$paramCount=0;
 		$schema=$this->db->schema;
 		$builder=$schema->commandBuilder;
 		$this->assertTrue($builder instanceof CDbCommandBuilder);
@@ -220,7 +221,7 @@ class CSqliteTest extends CTestCase
 
 		// createColumnCriteria
 		$c=$builder->createColumnCriteria($table,array('id'=>1,'author_id'=>2),'title=\'\'');
-		$this->assertEquals('\'posts\'."id"=:yp0 AND \'posts\'."author_id"=:yp1 AND (title=\'\')',$c->condition);
+		$this->assertEquals('\'posts\'."id"=:yp5 AND \'posts\'."author_id"=:yp6 AND (title=\'\')',$c->condition);
 
 		$c=$builder->createPkCriteria($table2,array());
 		$this->assertEquals('0=1',$c->condition);
