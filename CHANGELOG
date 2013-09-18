@@ -18,6 +18,7 @@ Version 1.1.15 under development
 - Bug #2864: Fixed CGridView ajax calls failing CSRF validation when ajaxType is set to POST (nineinchnick)
 - Bug #2874: Fixed duplicate columns selection for HAS_MANY relation with composite primary key (borro)
 - Bug #2876: Fixed single quotes in comments column causes syntax error in model code generated  by Gii(klimov-paul)
+- Bug #2884: Fixed problem with table alias in CActiveRecord that has been introduced in 1.1.14 (cebe)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
