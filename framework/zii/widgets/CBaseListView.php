@@ -73,6 +73,10 @@ abstract class CBaseListView extends CWidget
 	 */
 	public $summaryText;
 	/**
+	 * @var string the summary text to be displayed when {@link dataProvider} does not have any data.
+	 */
+	public $emptySummaryText;
+	/**
 	 * @var string the message to be displayed when {@link dataProvider} does not have any data.
 	 */
 	public $emptyText;
@@ -202,11 +206,15 @@ abstract class CBaseListView extends CWidget
 	 */
 	public function renderSummary()
 	{
-		if(($count=$this->dataProvider->getItemCount())<=0)
+		if(($count=$this->dataProvider->getItemCount())<=0 && $this->emptySummaryText===null)
 			return;
 
 		echo '<div class="'.$this->summaryCssClass.'">';
-		if($this->enablePagination)
+		if($count<=0)
+		{
+			echo $this->emptySummaryText;
+		}
+		elseif($this->enablePagination)
 		{
 			$pagination=$this->dataProvider->getPagination();
 			$total=$this->dataProvider->getTotalItemCount();
