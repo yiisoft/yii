@@ -250,6 +250,8 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $pdoClass = 'PDO';
 
+	protected $_driverName;
+
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -413,9 +415,8 @@ class CDbConnection extends CApplicationComponent
 	protected function createPdoInstance()
 	{
 		$pdoClass=$this->pdoClass;
-		if(($pos=strpos($this->connectionString,':'))!==false)
+		if(($driver=$this->getDriverName())!==null)
 		{
-			$driver=strtolower(substr($this->connectionString,0,$pos));
 			if($driver==='mssql' || $driver==='dblib')
 				$pdoClass='CMssqlPdoAdapter';
 			elseif($driver==='sqlsrv')
@@ -692,9 +693,20 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function getDriverName()
 	{
-		if(($pos=strpos($this->connectionString, ':'))!==false)
-			return strtolower(substr($this->connectionString, 0, $pos));
+		if($this->_driverName!==null)
+			return $this->_driverName;
+		elseif(($pos=strpos($this->connectionString, ':'))!==false)
+			return $this->_driverName=strtolower(substr($this->connectionString, 0, $pos));
 		// return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+	}
+
+	/**
+	 * Sets driverName, overriding value extracted from the {@link connectionString}.
+	 * @param string $value a key from the {@link driverMap} property
+	 */
+	public function setDriverName($value)
+	{
+		$this->_driverName = $value;
 	}
 
 	/**

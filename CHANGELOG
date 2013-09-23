@@ -20,6 +20,7 @@ Version 1.1.15 under development
 - Bug #2876: Fixed single quotes in comments column causes syntax error in model code generated  by Gii(klimov-paul)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
+- Enh #132: Support for using pdo_odbc by overriding driverName property of CDbConnection (nineinchnick)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
 - Enh #640: Introduce bigpk and bigint column types in each class extending CDbSchema (nineinchnick)
 - Enh #2737: CFileCache: added cachePathMode and cacheFileMode options to set modes used by chmod() for cache directory and files (ujovlado)
