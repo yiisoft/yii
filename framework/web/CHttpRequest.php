@@ -1066,9 +1066,7 @@ class CHttpRequest extends CApplicationComponent
 		{
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
-			ob_start();
-			Yii::app()->end(0,false);
-			ob_end_clean();
+			Yii::app()->shutdown(0,false);
 			echo $content;
 			exit(0);
 		}
