@@ -344,7 +344,7 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function renderError()
 	{
-		if($this->errorAction!==null)
+		if($this->errorAction!==null && !YII_DEBUG)
 			Yii::app()->runController($this->errorAction);
 		else
 		{
