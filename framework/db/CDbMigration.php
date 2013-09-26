@@ -180,6 +180,23 @@ abstract class CDbMigration extends CComponent
 	}
 
 	/**
+	 * Creates and executes an INSERT SQL statement with multiple data.
+	 * The method will properly escape the column names, and bind the values to be inserted.
+	 * @param string $table the table that new rows will be inserted into.
+	 * @param array $data an array of various column data (name=>value) to be inserted into the table.
+	 * @since 1.1.15
+	 */
+	public function insertMultiple($table, $data)
+	{
+		echo "    > insert into $table ...";
+		$time=microtime(true);
+		$builder=$this->getDbConnection()->getSchema()->getCommandBuilder();
+		$command=$builder->createMultipleInsertCommand($table,$data);
+		$command->execute();
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
 	 * Creates and executes an UPDATE SQL statement.
 	 * The method will properly escape the column names and bind the values to be updated.
 	 * @param string $table the table to be updated.
