@@ -50,6 +50,7 @@
  * )) ?>
  * </pre>
  *
+ * @property string $id The unique ID that uniquely identifies the underlying data.
  * @property integer $pageSize Number of items in each page. Defaults to 10.
  * @property integer $itemCount Total number of items. Defaults to 0.
  * @property integer $pageCount Number of pages.
@@ -99,6 +100,7 @@ class CPagination extends CComponent
 	private $_pageSize=self::DEFAULT_PAGE_SIZE;
 	private $_itemCount=0;
 	private $_currentPage;
+	private $_id;
 
 	/**
 	 * Constructor.
@@ -109,6 +111,28 @@ class CPagination extends CComponent
 		$this->setItemCount($itemCount);
 	}
 
+	/**
+	 * Returns the ID that uniquely identifies the underlying data.
+	 * @return string the unique ID that uniquely identifies the underlying data.
+	 */
+	public function getId()
+	{
+		return $this->_id;
+	}
+
+	/**
+	 * Sets the underlying data ID.
+	 * @param string $value the unique ID that uniquely identifies the underlying data.
+	 */
+	public function setId($value)
+	{
+		$this->_id=$value;
+		if($value!='')
+			$this->pageVar=$value.'_page';
+		else
+			$this->pageVar='page';
+	}
+	
 	/**
 	 * @return integer number of items in each page. Defaults to 10.
 	 */
