@@ -174,7 +174,7 @@
 		$('#'+id).addClass(settings.loadingClass);
 
 		if(settings.beforeAjaxUpdate != undefined)
-			settings.beforeAjaxUpdate(id);
+			settings.beforeAjaxUpdate(id, options);
 		yiiXHR[id] = $.ajax(options);
 	};
 
