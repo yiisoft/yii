@@ -142,7 +142,7 @@ class CSort extends CComponent
 	 * element is the first element in the array, the model attribute takes precedence; and if the star
 	 * element is the last one, the virtual attribute takes precedence.
 	 */
-	public $attributes=array();
+	private $_attributes=array();
 	/**
 	 * @var string the name of the GET parameter that specifies which attributes to be sorted
 	 * in which direction. Defaults to 'sort'.
@@ -192,6 +192,18 @@ class CSort extends CComponent
 	 * Defaults to null, meaning using the currently available GET parameters.
 	 */
 	public $params;
+	/**
+	 * @var array index of the attributes sorting tags with their associated attribute that should be used
+	 * when generating sort URLs. Set magically by @link setAttributes when attributes array is set.
+	 * <pre>
+	 * array(
+	 *     tag1 => attribute1,
+	 *     tag2 => attribute2,
+	 *     etc...
+	 * )
+	 * </pre>
+	 */
+	private $_sortTags=array();
 
 	private $_directions;
 
@@ -203,6 +215,25 @@ class CSort extends CComponent
 	public function __construct($modelClass=null)
 	{
 		$this->modelClass=$modelClass;
+	}
+
+	/**
+	 * Sets the sorting attributes.
+	 * @param array $attributes the sorting attributes.
+	 */
+	public function setAttributes($attributes) {
+		$this->_attributes = $attributes;
+		foreach($attributes as $name => $definition)
+			if (is_array($definition) && isset($definition['sortTag']))
+				$this->_sortTags[$definition['sortTag']] = $name;
+	}
+
+	/**
+	 * Gets the sorting attributes.
+	 * @return array the sorting attributes.
+	 */
+	public function getAttributes() {
+		return $this->_attributes;
 	}
 
 	/**
@@ -283,6 +314,8 @@ class CSort extends CComponent
 		if(($definition=$this->resolveAttribute($attribute))===false)
 			return $label;
 		$directions=$this->getDirections();
+		if (is_array($definition) && isset($definition['sortTag']))
+			$attribute = $definition['sortTag'];
 		if(isset($directions[$attribute]))
 		{
 			$class=$directions[$attribute] ? 'desc' : 'asc';
@@ -429,7 +462,7 @@ class CSort extends CComponent
 		{
 			if(is_string($name))
 			{
-				if($name===$attribute)
+				if($name===$attribute || is_array($definition) && isset($definition['sortTag']) && $definition['sortTag']===$attribute)
 					return $definition;
 			}
 			elseif($definition==='*')
