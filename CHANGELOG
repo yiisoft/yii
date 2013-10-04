@@ -23,6 +23,7 @@ Version 1.1.15 under development
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
 - Enh #640: Introduce bigpk and bigint column types in each class extending CDbSchema (nineinchnick)
+- Enh #1593: Allow access to exception currently processed by CErrorHandler (klimov-paul)
 - Enh #873: CStatRelation (CActiveRecord::STAT) now supports scopes (resurtm, klimov-paul)
 - Enh #2540: Enable CJSON to use JsonSerializable interface when serializing objects (sammousa)
 - Enh #2737: CFileCache: added cachePathMode and cacheFileMode options to set modes used by chmod() for cache directory and files (ujovlado)

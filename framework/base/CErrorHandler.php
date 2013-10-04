@@ -48,6 +48,7 @@ Yii::import('CHtml',true);
  * {@link CApplication::getErrorHandler()}.
  *
  * @property array $error The error details. Null if there is no error.
+ * @property Exception|null $exception exception instance. Null if there is no exception.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base
@@ -82,6 +83,7 @@ class CErrorHandler extends CApplicationComponent
 	public $errorAction;
 
 	private $_error;
+	private $_exception;
 
 	/**
 	 * Handles the exception/error event.
@@ -151,6 +153,15 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the instance of the exception that is currently being handled.
+	 * @return Exception|null exception instance. Null if there is no exception.
+	 */
+	public function getException()
+	{
+		return $this->_exception;
+	}
+
+	/**
 	 * Handles the exception.
 	 * @param Exception $exception the exception captured
 	 */
@@ -186,6 +197,7 @@ class CErrorHandler extends CApplicationComponent
 				unset($trace[$i]['object']);
 			}
 
+			$this->_exception=$exception;
 			$this->_error=$data=array(
 				'code'=>($exception instanceof CHttpException)?$exception->statusCode:500,
 				'type'=>get_class($exception),
@@ -200,7 +212,7 @@ class CErrorHandler extends CApplicationComponent
 			if(!headers_sent())
 				header("HTTP/1.0 {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
 
-			$this->renderException($exception);
+			$this->renderException();
 		}
 		else
 			$app->displayException($exception);
@@ -262,6 +274,7 @@ class CErrorHandler extends CApplicationComponent
 				default:
 					$type = 'PHP error';
 			}
+			$this->_exception=null;
 			$this->_error=array(
 				'code'=>500,
 				'type'=>$type,
@@ -323,10 +336,10 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Renders the exception information.
 	 * This method will display information from current {@link error} value.
-	 * @param Exception $exception exception object.
 	 */
-	protected function renderException(Exception $exception)
+	protected function renderException()
 	{
+		$exception=$this->getException();
 		if($exception instanceof CHttpException || !YII_DEBUG)
 			$this->renderError();
 		else

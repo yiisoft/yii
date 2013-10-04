@@ -258,7 +258,7 @@ class CCaptchaAction extends CAction
 				$this->foreColor % 0x100);
 
 		if($this->fontFile === null)
-			$this->fontFile = dirname(__FILE__) . '/SpicyRice.ttf';
+			$this->fontFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'SpicyRice.ttf';
 
 		$length = strlen($code);
 		$box = imagettfbbox(30,0,$this->fontFile,$code);
@@ -301,7 +301,7 @@ class CCaptchaAction extends CAction
 		$image->newImage($this->width,$this->height,$backColor);
 
 		if($this->fontFile===null)
-			$this->fontFile=dirname(__FILE__).'/SpicyRice.ttf';
+			$this->fontFile=dirname(__FILE__).DIRECTORY_SEPARATOR.'SpicyRice.ttf';
 
 		$draw=new ImagickDraw();
 		$draw->setFont($this->fontFile);
