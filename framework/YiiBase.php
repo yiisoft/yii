@@ -363,8 +363,12 @@ class YiiBase
 		elseif(($pos=strpos($alias,'.'))!==false)
 		{
 			$rootAlias=substr($alias,0,$pos);
+			if(($pos2=strpos($alias,'.',$pos+1))!==false)
+				$rootAlias2=substr($alias,0,$pos2);
 			if(isset(self::$_aliases[$rootAlias]))
 				return self::$_aliases[$alias]=rtrim(self::$_aliases[$rootAlias].DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($alias,$pos+1)),'*'.DIRECTORY_SEPARATOR);
+			if(isset($rootAlias2, self::$_aliases[$rootAlias2]))
+				return self::$_aliases[$alias]=rtrim(self::$_aliases[$rootAlias2].DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($alias,$pos2+1)),'*'.DIRECTORY_SEPARATOR);
 			elseif(self::$_app instanceof CWebApplication)
 			{
 				if(self::$_app->findModule($rootAlias)!==null)
