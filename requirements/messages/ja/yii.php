@@ -52,8 +52,10 @@ return array (
   'Required for Oracle database.' => 'Oracle データベースを使用する場合に必要。',
   'Required for PostgreSQL database.' => 'PostgreSQL データベースを使用する場合に必要。',
   'Required for SQLite database.' => 'SQLite データベースを使用する場合に必要。',
+  'Required for secure password storage.' => '安全なパスワード保存に必要。',
   'SOAP extension' => 'SOAP 拡張',
   'SPL extension' => 'SPL 拡張',
   'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'memcached を使用するためには <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> を <code>true</code> に設定して下さい。',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'URL パス情報を決定できません。$_SERVER["PATH_INFO"] (もしくは $_SERVER["PHP_SELF"] と $_SERVER["SCRIPT_NAME"]) が正しい値かどうか確認してください。',
+  'crypt() CRYPT_BLOWFISH option' => 'crypt() CRYPT_BLOWFISH オプション',
 );
