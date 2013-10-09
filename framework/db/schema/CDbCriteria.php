@@ -520,7 +520,7 @@ class CDbCriteria extends CComponent
 		if($this->params!==$criteria->params)
 			$this->params=array_merge($this->params,$criteria->params);
 
-		if($criteria->limit>0)
+		if($criteria->limit>=0)
 			$this->limit=$criteria->limit;
 
 		if($criteria->offset>=0)
