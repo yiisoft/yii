@@ -30,6 +30,7 @@
  *             'hostname'=>'localhost',
  *             'port'=>6379,
  *             'database'=>0,
+ *             'useExtension'=>'redis' //Optional - use native php 'redis' extension
  *         ),
  *     ),
  * )
@@ -38,6 +39,7 @@
  * The minimum required redis version is 2.0.0.
  *
  * @author Carsten Brandt <mail@cebe.cc>
+ * @author Andrew Kehrig <me@andrewkehrig.com
  * @package system.caching
  * @since 1.1.14
  */
@@ -59,6 +61,11 @@ class CRedisCache extends CCache
 	 * @var int the redis database to use. This is an integer value starting from 0. Defaults to 0.
 	 */
 	public $database=0;
+    /**
+     * @var string used to switch native redis extensions if available for added performance.
+     * Initial support only for (http://pecl.php.net/package/redis)
+     */
+    public $useExtension=null;
 	/**
 	 * @var float timeout to use for connection to redis. If not set the timeout set in php.ini will be used: ini_get("default_socket_timeout")
 	 */
@@ -67,7 +74,11 @@ class CRedisCache extends CCache
 	 * @var resource redis socket connection
 	 */
 	private $_socket;
-
+    /**
+     * @var resource used to hold redis extension object.
+     */
+    private $_redis=null;
+       
 	/**
 	 * Establishes a connection to the redis server.
 	 * It does nothing if the connection has already been established.
@@ -75,20 +86,46 @@ class CRedisCache extends CCache
 	 */
 	protected function connect()
 	{
-		$this->_socket=@stream_socket_client(
-			$this->hostname.':'.$this->port,
-			$errorNumber,
-			$errorDescription,
-			$this->timeout ? $this->timeout : ini_get("default_socket_timeout")
-		);
-		if ($this->_socket)
-		{
-			if($this->password!==null)
-				$this->executeCommand('AUTH',array($this->password));
-			$this->executeCommand('SELECT',array($this->database));
-		}
-		else
-			throw new CException('Failed to connect to redis: '.$errorDescription,(int)$errorNumber);
+        switch($this->useExtension)
+        {
+            case 'redis':
+                if($this->_redis === null)
+                {
+                    if(extension_loaded('redis')) {
+                        $this->_redis = new Redis();
+                    }
+                }
+                if($this->_redis->connect(
+                    $this->hostname,
+                    $this->port,
+                    $this->timeout ? $this->timeout : ini_get("default_socket_timeout")
+                    ) === false) {
+                    throw new CException('Failed to connect to redis');
+                }
+                if($this->_redis->isConnected() === true) {
+                    if($this->password !== null && !$this->_redis->auth($this->password)) {
+                        throw new CException('Failed to authenticate with redis server');
+                    }
+                    $this->_redis->select($this->database);
+                }
+                break;
+            default:
+                $this->_socket=@stream_socket_client(
+                    $this->hostname.':'.$this->port,
+                    $errorNumber,
+                    $errorDescription,
+                    $this->timeout ? $this->timeout : ini_get("default_socket_timeout")
+                );
+                if ($this->_socket)
+                {
+                    if($this->password!==null)
+                        $this->executeCommand('AUTH',array($this->password));
+                    $this->executeCommand('SELECT',array($this->database));
+                }
+                else
+                    throw new CException('Failed to connect to redis: '.$errorDescription,(int)$errorNumber);
+                break;   
+        }
 	}
 
 	/**
@@ -112,17 +149,38 @@ class CRedisCache extends CCache
 	 */
 	public function executeCommand($name,$params=array())
 	{
-		if($this->_socket===null)
-			$this->connect();
+        switch($this->useExtension)
+        {
+            case 'redis':
+                if(empty($this->_redis) || $this->_redis->isConnected() !== true) 
+                    $this->connect();
+                try {
+                    if(!is_array($params))
+                        return $this->_redis->$name($params);
+                    else {
+                        return call_user_func_array(array(
+                            $this->_redis,
+                            $name
+                        ), $params);
+                    }
+                } catch(Exception $exc) {
+                    throw new CException('Unable to execute "$name" on redis.');
+                }
+                break;
+            default:
+                if($this->_socket===null)
+                    $this->connect();
 
-		array_unshift($params,$name);
-		$command='*'.count($params)."\r\n";
-		foreach($params as $arg)
-			$command.='$'.strlen($arg)."\r\n".$arg."\r\n";
+                array_unshift($params,$name);
+                $command='*'.count($params)."\r\n";
+                foreach($params as $arg)
+                    $command.='$'.strlen($arg)."\r\n".$arg."\r\n";
 
-		fwrite($this->_socket,$command);
+                fwrite($this->_socket,$command);
 
-		return $this->parseResponse(implode(' ',$params));
+                return $this->parseResponse(implode(' ',$params));       
+                break;
+        }
 	}
 
 	/**
@@ -174,10 +232,19 @@ class CRedisCache extends CCache
 	 * This is the implementation of the method declared in the parent class.
 	 * @param string $key a unique key identifying the cached value
 	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
+     * @throws CException if using extension and fails to execute command
 	 */
 	protected function getValue($key)
 	{
-		return $this->executeCommand('GET',array($key));
+        switch($this->useExtension)
+        {
+            case 'redis':
+                return $this->executeCommand('get', $key);
+                break;
+            default:
+                return $this->executeCommand('GET',array($key));
+                break;
+        }
 	}
 
 	/**
@@ -187,12 +254,20 @@ class CRedisCache extends CCache
 	 */
 	protected function getValues($keys)
 	{
-		$response=$this->executeCommand('MGET',$keys);
-		$result=array();
-		$i=0;
-		foreach($keys as $key)
-			$result[$key]=$response[$i++];
-		return $result;
+        switch($this->useExtension)
+        {
+            case 'redis':
+                return $this->executeCommand('mGet', array(array($keys)));
+                break;
+            default:
+                $response=$this->executeCommand('MGET',$keys);
+                break;
+            $result=array();
+            $i=0;
+            foreach($keys as $key)
+                $result[$key]=$response[$i++];
+            return $result;
+        }
 	}
 
 	/**
@@ -206,9 +281,21 @@ class CRedisCache extends CCache
 	 */
 	protected function setValue($key,$value,$expire)
 	{
-		if ($expire==0)
-			return (bool)$this->executeCommand('SET',array($key,$value));
-		return (bool)$this->executeCommand('SETEX',array($key,$expire,$value));
+        switch($this->useExtension)
+        {
+            case 'redis':
+                if (empty($expire))
+                    return $this->executeCommand('set', array($key, $value));
+                elseif (is_int($expire)) {
+                    return $this->executeCommand('setex',array($key, $expire, $value));
+                }
+                break;
+            default:
+                if ($expire==0)
+                    return (bool)$this->executeCommand('SET',array($key,$value));
+                return (bool)$this->executeCommand('SETEX',array($key,$expire,$value));
+                break;
+        }
 	}
 
 	/**
@@ -222,16 +309,31 @@ class CRedisCache extends CCache
 	 */
 	protected function addValue($key,$value,$expire)
 	{
-		if ($expire == 0)
-			return (bool)$this->executeCommand('SETNX',array($key,$value));
+        switch($this->useExtension)
+        {
+            case 'redis':
+                if (empty($expire))
+                    return $this->executeCommand('setnx', array($key,$value));
+                elseif (is_int($expire)) {
+                    $result = $this->executeCommand('setnx',array($key, $value));
+                    if($result === true) {
+                        $this->executeCommand('expire',array($key, $expire));
+                    }
+                }
+                break;
+            default:
+                if ($expire == 0)
+                    return (bool)$this->executeCommand('SETNX',array($key,$value));
 
-		if($this->executeCommand('SETNX',array($key,$value)))
-		{
-			$this->executeCommand('EXPIRE',array($key,$expire));
-			return true;
-		}
-		else
-			return false;
+                if($this->executeCommand('SETNX',array($key,$value)))
+                {
+                    $this->executeCommand('EXPIRE',array($key,$expire));
+                    return true;
+                }
+                else
+                    return false;
+                break;
+        }
 	}
 
 	/**
@@ -242,7 +344,15 @@ class CRedisCache extends CCache
 	 */
 	protected function deleteValue($key)
 	{
-		return (bool)$this->executeCommand('DEL',array($key));
+        switch($this->useExtension)
+        {
+            case 'redis':
+                return $this->executeCommand('del',$key);
+                break;
+            default:
+                return (bool)$this->executeCommand('DEL',array($key));
+                break;
+        }
 	}
 
 	/**
@@ -252,6 +362,14 @@ class CRedisCache extends CCache
 	 */
 	protected function flushValues()
 	{
-		return $this->executeCommand('FLUSHDB');
+        switch($this->useExtension)
+        {
+            case 'redis':
+                return $this->executeCommand('flushdb');
+                break;
+            default:
+                return $this->executeCommand('FLUSHDB');
+                break;
+        }
 	}
 }
