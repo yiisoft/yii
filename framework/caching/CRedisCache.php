@@ -39,7 +39,7 @@
  * The minimum required redis version is 2.0.0.
  *
  * @author Carsten Brandt <mail@cebe.cc>
- * @author Andrew Kehrig <me@andrewkehrig.com
+ * @author Andrew Kehrig <me@andrewkehrig.com>
  * @package system.caching
  * @since 1.1.14
  */
