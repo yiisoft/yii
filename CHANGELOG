@@ -36,6 +36,7 @@ Version 1.1.15 under development
 - Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
 - Enh #2852: Refactored ShellCommand to be easier to extend (samdark, mindplay-dk)
 - Enh #2908: Add insertMultiple to Migrations (luislobo)
+- Enh #2954: composer.json: added autoload part for easiest Composer autoloading usage (ujovlado)
 - Chg #2653: Upgraded Markdown Extra Lib to version 1.3 (SleepWalker)
 
 Version 1.1.14 August 11, 2013
