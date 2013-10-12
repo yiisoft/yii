@@ -59,6 +59,11 @@ class CExistValidator extends CValidator
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
+	/**
+	 * @var boolean whether the attribute value can be array. Defaults to false,
+	 * meaning that attribute is not array.
+	 */
+	public $multiple=false;
 
 	/**
 	 * Validates the attribute of the object.
@@ -72,13 +77,6 @@ class CExistValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-
-		if(is_array($value))
-		{
-			// https://github.com/yiisoft/yii/issues/1955
-			$this->addError($object,$attribute,Yii::t('yii','{attribute} is invalid.'));
-			return;
-		}
 
 		$className=$this->className===null?get_class($object):Yii::import($this->className);
 		$attributeName=$this->attributeName===null?$attribute:$this->attributeName;
@@ -95,12 +93,37 @@ class CExistValidator extends CValidator
 		$tableAlias = empty($criteria->alias) ? $finder->getTableAlias(true) : $criteria->alias;
 		$valueParamName = CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++;
 		$criteria->addCondition($this->caseSensitive ? "{$tableAlias}.{$columnName}={$valueParamName}" : "LOWER({$tableAlias}.{$columnName})=LOWER({$valueParamName})");
-		$criteria->params[$valueParamName] = $value;
-
-		if(!$finder->exists($criteria))
+		
+		if(is_array($value))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} "{value}" is invalid.');
-			$this->addError($object,$attribute,$message,array('{value}'=>CHtml::encode($value)));
+			if($this->multiple)
+			{
+				foreach($value as $_value)
+				{
+					$criteria->params[$valueParamName]=$_value;
+
+					if(!$finder->exists($criteria))
+					{
+						$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} "{value}" is invalid.');
+						$this->addError($object,$attribute,$message,array('{value}'=>CHtml::encode($_value)));
+						break;
+					}
+				}
+			}
+			else
+			{
+				$this->addError($object,$attribute,Yii::t('yii','{attribute} is invalid.'));
+			}
+		}
+		else
+		{
+			$criteria->params[$valueParamName]=$value;
+
+			if(!$finder->exists($criteria))
+			{
+				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} "{value}" is invalid.');
+				$this->addError($object,$attribute,$message,array('{value}'=>CHtml::encode($value)));
+			}
 		}
 	}
 
