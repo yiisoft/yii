@@ -37,6 +37,7 @@ Version 1.1.15 under development
 - Enh #2852: Refactored ShellCommand to be easier to extend (samdark, mindplay-dk)
 - Enh #2908: Add insertMultiple to Migrations (luislobo)
 - Chg #2653: Upgraded Markdown Extra Lib to version 1.3 (SleepWalker)
+- New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
