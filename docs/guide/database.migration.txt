@@ -166,8 +166,9 @@ When Yii performs the migration, it will start a DB transaction and then call `s
 
 > Note: Not all DBMS support transactions. And some DB queries cannot be put
 > into a transaction. In this case, you will have to implement `up()` and
-> `down()`, instead. And for MySQL, some SQL statements may cause
-> [implicit commit](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
+> `down()`, instead. And for MySQL and MariaDB, some SQL statements may cause implicit commit
+> (see documentation of [MySQL](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html) and
+> [MariaDB](https://mariadb.com/kb/en/sql-statements-that-cause-an-implicit-commit/) for details).
 
 
 Applying Migrations
