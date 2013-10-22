@@ -41,6 +41,15 @@ class CClientScript extends CApplicationComponent
 	const POS_READY=4;
 
 	/**
+	 * The script is added before all previously registered scripts
+	 */
+	const PREPEND=0;
+	/**
+	 * The script is added after all previously registered scripts
+	 */
+	const APPEND=-1;
+
+	/**
 	 * @var boolean whether JavaScript should be enabled. Defaults to true.
 	 */
 	public $enableJavaScript=true;
@@ -601,12 +610,25 @@ class CClientScript extends CApplicationComponent
 	 * Registers a CSS file
 	 * @param string $url URL of the CSS file
 	 * @param string $media media that the CSS file should be applied to. If empty, it means all media types.
+	 * @param integer $order the order of the CSS file. Valid values include the following:
+	 * <ul>
+	 * <li>CClientScript::PREPEND : add before previously registered files (within same media).</li>
+	 * <li>CClientScript::APPEND : the default behavior of adding it after previous files.</li>
+	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerCssFile($url,$media='')
+	public function registerCssFile($url,$media='', $order=self::APPEND)
 	{
 		$this->hasScripts=true;
-		$this->cssFiles[$url]=$media;
+		if ($order==self::APPEND)
+			$this->cssFiles[$url]=$media;
+		else if ($order==self::PREPEND)
+			$this->cssFiles=array($url=>$media) + $this->cssFiles;
+		else
+			$this->cssFiles=
+				array_slice($this->cssFiles, 0, $order) +
+				array($url=>$media) +
+				array_slice($this->cssFiles, $order);
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCssFile',$params);
 		return $this;
@@ -617,12 +639,25 @@ class CClientScript extends CApplicationComponent
 	 * @param string $id ID that uniquely identifies this piece of CSS code
 	 * @param string $css the CSS code
 	 * @param string $media media that the CSS code should be applied to. If empty, it means all media types.
+	 * @param integer $order the order of the CSS code. Valid values include the following:
+	 * <ul>
+	 * <li>CClientScript::PREPEND : add css before previously registered codes (within same media).</li>
+	 * <li>CClientScript::APPEND : the default behavior of adding it after previous codes.</li>
+	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerCss($id,$css,$media='')
+	public function registerCss($id,$css,$media='', $order=self::APPEND)
 	{
 		$this->hasScripts=true;
-		$this->css[$id]=array($css,$media);
+		if ($order==self::APPEND)
+			$this->css[$id]=array($css,$media);
+		else if ($order==self::PREPEND)
+			$this->css=array($id=>array($css,$media)) + $this->css;
+		else
+			$this->css=
+				array_slice($this->css, 0, $order) +
+				array($id=>array($css,$media)) +
+				array_slice($this->css, $order);
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCss',$params);
 		return $this;
@@ -638,9 +673,14 @@ class CClientScript extends CApplicationComponent
 	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	 * </ul>
 	 * @param array $htmlOptions additional HTML attributes
+	 * @param integer $order the order of the JavaScript code. Valid values include the following:
+	 * <ul>
+	 * <li>CClientScript::PREPEND : add script before previously registered scripts (within same position).</li>
+	 * <li>CClientScript::APPEND : the default behavior of adding it after previous scripts.</li>
+	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScriptFile($url,$position=null,array $htmlOptions=array())
+	public function registerScriptFile($url,$position=null,array $htmlOptions=array(), $order=self::APPEND)
 	{
 		if($position===null)
 			$position=$this->defaultScriptFilePosition;
@@ -652,7 +692,15 @@ class CClientScript extends CApplicationComponent
 			$value=$htmlOptions;
 			$value['src']=$url;
 		}
-		$this->scriptFiles[$position][$url]=$value;
+		if ($order==self::APPEND)
+			$this->scriptFiles[$position][$url]=$value;
+		else if ($order==self::PREPEND)
+			$this->scriptFiles[$position]=array($url=>$value) + $this->scriptFiles[$position];
+		else
+			$this->scriptFiles[$position]=
+				array_slice($this->scriptFiles[$position],0, $order) +
+				array($url=>$value) +
+				array_slice($this->scriptFiles[$position], $order);
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScriptFile',$params);
 		return $this;
@@ -672,9 +720,14 @@ class CClientScript extends CApplicationComponent
 	 * </ul>
 	 * @param array $htmlOptions additional HTML attributes
 	 * Note: HTML attributes are not allowed for script positions "CClientScript::POS_LOAD" and "CClientScript::POS_READY".
+	 * @param integer $order the order of the JavaScript code. Valid values include the following:
+	 * <ul>
+	 * <li>CClientScript::PREPEND : add script before previously registered scripts (within same position).</li>
+	 * <li>CClientScript::APPEND : the default behavior of adding it after previous scripts.</li>
+	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScript($id,$script,$position=null,array $htmlOptions=array())
+	public function registerScript($id,$script,$position=null,array $htmlOptions=array(),$order=self::APPEND)
 	{
 		if($position===null)
 			$position=$this->defaultScriptPosition;
@@ -688,6 +741,15 @@ class CClientScript extends CApplicationComponent
 			$scriptValue=$htmlOptions;
 			$scriptValue['content']=$script;
 		}
+		if ($order==self::APPEND)
+			$this->scripts[$position][$id]=$scriptValue;
+		else if ($order==self::PREPEND)
+			$this->scripts[$position][$id]=array($url=>$value) + $this->scripts[$position];
+		else
+			$this->scripts[$position][$id]=
+				array_slice($this->scripts[$position],0, $order) +
+				array($url=>$value) +
+				array_slice($this->scripts[$position], $order);
 		$this->scripts[$position][$id]=$scriptValue;
 		if($position===self::POS_READY || $position===self::POS_LOAD)
 			$this->registerCoreScript('jquery');
