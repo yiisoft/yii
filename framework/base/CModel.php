@@ -64,7 +64,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * <li>except: this specifies the scenarios when the validation rule should not be performed.
 	 *   Separate different scenarios with commas. Please see {@link scenario} for more details about this option.</li>
 	 * <li>additional parameters are used to initialize the corresponding validator properties.
-	 *   Please refer to individal validator class API for possible properties.</li>
+	 *   Please refer to individual validator class API for possible properties.</li>
 	 * </ul>
 	 *
 	 * The following are some examples:
