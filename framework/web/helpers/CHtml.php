@@ -2420,6 +2420,10 @@ EOD;
 				unset($htmlOptions['maxlength']);
 		}
 
+		// set HTML5 requried
+		if(!isset($htmlOptions['required']) && $model->isAttributeRequired($attribute))
+			$htmlOptions['required']=true;
+
 		if($type==='file')
 			unset($htmlOptions['value']);
 		elseif(!isset($htmlOptions['value']))
