@@ -368,7 +368,7 @@ class CUrlManager extends CApplicationComponent
 				if(is_array($rule))
 					$this->_rules[$i]=$rule=Yii::createComponent($rule);
 				if(($r=$rule->parseUrl($this,$request,$pathInfo,$rawPathInfo))!==false)
-                    return $r;
+					return $r;
 			}
             // fall back behavior
             if(isset($_GET[$this->routeVar]))
