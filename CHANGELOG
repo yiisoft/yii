@@ -2,6 +2,7 @@
                    ========================
 Work in progress
 ----------------
+- Enh #2986: Set HTML5 required attribute on input fields where $model->isAttributeRequired returns true (leffe108)
 
 Version 1.1.15 under development
 --------------------------------
