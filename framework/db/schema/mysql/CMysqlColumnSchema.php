@@ -46,6 +46,8 @@ class CMysqlColumnSchema extends CDbColumnSchema
 			$this->defaultValue=bindec(trim($defaultValue,'b\''));
 		elseif($this->dbType==='timestamp' && $defaultValue==='CURRENT_TIMESTAMP')
 			$this->defaultValue=null;
+		elseif($this->dbType==='datetime' && $defaultValue==='CURRENT_TIMESTAMP')
+			$this->defaultValue=null;
 		else
 			parent::extractDefault($defaultValue);
 	}

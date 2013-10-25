@@ -2,6 +2,7 @@
                    ========================
 Work in progress
 ----------------
+- Bug 2993: Crash when inserting a record with a DATETIME with CURRENT_TIMESTAMP as default
 
 Version 1.1.15 under development
 --------------------------------
