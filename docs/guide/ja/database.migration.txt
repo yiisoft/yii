@@ -187,7 +187,10 @@ Yii はマイグレーションを実行する時に、DB トランザクショ�
 > Note|注意: すべての DBMS がトランザクションをサポートしている訳ではありません。
 > また、DB クエリの中には、トランザクションの中に入れることが出来ないものもあります。
 > その場合には、代りに `up()` または `down()` を実装しなければなりません。
-> また、MySQL の場合、[暗黙のコミット](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html) を引き起こす SQL 文がありますので、注意して下さい。
+> また、MySQL と MariaDB の場合、[暗黙のコミット] を引き起こす SQL 文があります。
+> (詳細は、[MySQL](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html) および
+> [MariaDB](https://mariadb.com/kb/en/sql-statements-that-cause-an-implicit-commit/) の
+> ドキュメントを参照して下さい。)
 
 
 マイグレーションを適用する
