@@ -7,6 +7,7 @@ class CRedisCacheTest extends CTestCase
 		'hostname' => 'localhost',
 		'port' => 6379,
 		'database' => 0,
+//		'useExtension' => true //uncomment if testing native extension support		
 	);
 
 	protected function getApplication()
