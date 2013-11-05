@@ -157,9 +157,11 @@ class CDecimalValidator extends CValidator
 		$c = localeconv();
 		$thousands = $c['thousands_sep'] ?: ',';
 		$decimal = $c['decimal_point'] ?: '.';
+    $thousandsMatch = ($thousands == '.') ? "\\." : $thousands;
+    $decimalMatch = ($thousands == '.') ? "\\." : $decimal;
 		$pattern=$this->numberPattern;
-		$pattern = str_replace("\\.","\\".$decimal,$pattern);
-		$pattern = str_replace(',',$thousands,$pattern);
+		$pattern = str_replace("\\.",$decimalMatch,$pattern);
+		$pattern = str_replace(',',$thousandsMatch,$pattern);
 		
 		$js="
 if(typeof(value)!='undefined' && value!==null && jQuery.trim(value)!='') {
@@ -174,7 +176,7 @@ if(typeof(value)!='undefined' && value!==null && jQuery.trim(value)!='') {
 		if($this->maxIntDigits!==null || $this->maxFloatDigits!==null)
 		{
 			$js.="
-		var parts = value.replace(/$thousands/g,\"\").split(\"$decimal\");
+		var parts = value.replace(/$thousandsMatch/g,\"\").split(\"$decimal\");
 ";
 		}
 		if($this->maxIntDigits!==null)
