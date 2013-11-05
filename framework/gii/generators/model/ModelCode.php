@@ -26,7 +26,7 @@ class ModelCode extends CCodeModel
 			array('connectionId', 'validateConnectionId', 'skipOnError'=>true),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
 			array('tablePrefix, modelClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
-				array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
+      array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
@@ -350,7 +350,7 @@ class ModelCode extends CCodeModel
 				{
 					// Put table and key name in variables for easier reading
 					$refTable=$fkEntry[0]; // Table name that current fk references to
-					$refKey=$fkEntry[1];	 // Key in that table being referenced
+					$refKey=$fkEntry[1];   // Key in that table being referenced
 					$refClassName=$this->generateClassName($refTable);
 
 					// Add relation for this table
@@ -392,7 +392,7 @@ class ModelCode extends CCodeModel
 			return $this->modelClass;
 
 		$tableName=$this->removePrefix($tableName,false);
-		if(($pos=strpos($tableName,'.'))!==false) // remove schema part (e.g. remove 'public2.' from 'public2.post')
+		if(($pos=strpos($tableName,'.'))!==false)  // remove schema part (e.g. remove 'public2.' from 'public2.post')
 			$tableName=substr($tableName,$pos+1);
 		$className='';
 		foreach(explode('_',$tableName) as $name)
@@ -422,7 +422,7 @@ class ModelCode extends CCodeModel
 			$relationName=$this->pluralize($relationName);
 
 		$names=preg_split('/_+/',$relationName,-1,PREG_SPLIT_NO_EMPTY);
-		if(empty($names)) return $relationName;	// unlikely
+		if(empty($names)) return $relationName;  // unlikely
 		for($name=$names[0], $i=1;$i<count($names);++$i)
 			$name.=ucfirst($names[$i]);
 
