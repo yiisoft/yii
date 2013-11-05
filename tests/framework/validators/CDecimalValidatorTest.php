@@ -2,8 +2,6 @@
 
 class CDecimalValidatorTest extends CTestCase {
 
-	private static $jsTest = '';
-
 	public function testValidation() {
 		$m = new CDecimalValidator();
 		$basicError = strtr($m->message, array('{attribute}' => 'Decimal'));
@@ -89,15 +87,11 @@ class CDecimalValidatorTest extends CTestCase {
 		$dErrors = empty($errors) ? array() : array('decimal' => $errors);
 		$this->assertEquals($dErrors, $model->getErrors(), "case $testNum:");
 		
-		// TODO: run generated js per test for each one assert messages == (array)$errors['decimal]
-		$input = json_encode($input);
-		self::$jsTest .= "\nconsole.log('case '+$testNum);\nmessages = [];\nvalue = $input;\n";
-		self::$jsTest .= $validator->clientValidateAttribute($model, 'decimal');
-		self::$jsTest .= "\nconsole.log(".CJSON::encode($errors).");\nconsole.log(messages);\n";
-	}
-	
-	public static function tearDownAfterClass() {
-		file_put_contents('./jsTest.js', self::$jsTest);
+		// TODO: run generated js per test and for each one assert messages == (array)$errors['decimal]
+		//$input = json_encode($input);
+		//$jsTest .= "\nconsole.log('case '+$testNum);\nmessages = [];\nvalue = $input;\n";
+		//$jsTest .= $validator->clientValidateAttribute($model, 'decimal');
+		//$jsTest .= "\nconsole.log(".CJSON::encode($errors).");\nconsole.log(messages);\n";
 	}
 
 }
