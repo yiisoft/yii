@@ -158,7 +158,7 @@ class CDecimalValidator extends CValidator
 		$thousands = $c['thousands_sep'] ?: ',';
 		$decimal = $c['decimal_point'] ?: '.';
     $thousandsMatch = ($thousands == '.') ? "\\." : $thousands;
-    $decimalMatch = ($thousands == '.') ? "\\." : $decimal;
+    $decimalMatch = ($decimal == '.') ? "\\." : $decimal;
 		$pattern=$this->numberPattern;
 		$pattern = str_replace("\\.",$decimalMatch,$pattern);
 		$pattern = str_replace(',',$thousandsMatch,$pattern);
