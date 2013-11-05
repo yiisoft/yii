@@ -26,7 +26,7 @@ class ModelCode extends CCodeModel
 			array('connectionId', 'validateConnectionId', 'skipOnError'=>true),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
 			array('tablePrefix, modelClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
-		    array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
+				array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
@@ -222,6 +222,7 @@ class ModelCode extends CCodeModel
 		$rules=array();
 		$required=array();
 		$integers=array();
+		$decimals=array();
 		$numerical=array();
 		$length=array();
 		$safe=array();
@@ -237,7 +238,12 @@ class ModelCode extends CCodeModel
 			elseif($column->type==='double')
 				$numerical[]=$column->name;
 			elseif($column->type==='string' && $column->size>0)
-				$length[$column->size][]=$column->name;
+			{
+				if(strtolower(substr($column->dbType, 0, 7)) == 'decimal')
+					$decimals[$column->size-$column->scale][$column->scale][] = $column->name;
+				else
+					$length[$column->size][]=$column->name;
+			}
 			elseif(!$column->isPrimaryKey && !$r)
 				$safe[]=$column->name;
 		}
@@ -247,6 +253,12 @@ class ModelCode extends CCodeModel
 			$rules[]="array('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true)";
 		if($numerical!==array())
 			$rules[]="array('".implode(', ',$numerical)."', 'numerical')";
+		if($decimals!==array())
+		{
+			foreach($decimals as $intDigits => $floats)
+				foreach($floats as $floatDigits => $cols) 
+					$rules[]="array('".implode(', ',$cols)."', 'decimal', 'maxIntDigits'=>$intDigits, 'maxFloatDigits'=>$floatDigits)";
+		}
 		if($length!==array())
 		{
 			foreach($length as $len=>$cols)
@@ -338,7 +350,7 @@ class ModelCode extends CCodeModel
 				{
 					// Put table and key name in variables for easier reading
 					$refTable=$fkEntry[0]; // Table name that current fk references to
-					$refKey=$fkEntry[1];   // Key in that table being referenced
+					$refKey=$fkEntry[1];	 // Key in that table being referenced
 					$refClassName=$this->generateClassName($refTable);
 
 					// Add relation for this table
@@ -410,7 +422,7 @@ class ModelCode extends CCodeModel
 			$relationName=$this->pluralize($relationName);
 
 		$names=preg_split('/_+/',$relationName,-1,PREG_SPLIT_NO_EMPTY);
-		if(empty($names)) return $relationName;  // unlikely
+		if(empty($names)) return $relationName;	// unlikely
 		for($name=$names[0], $i=1;$i<count($names);++$i)
 			$name.=ucfirst($names[$i]);
 
