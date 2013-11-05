@@ -392,7 +392,7 @@ class ModelCode extends CCodeModel
 			return $this->modelClass;
 
 		$tableName=$this->removePrefix($tableName,false);
-		if(($pos=strpos($tableName,'.'))!==false)  // remove schema part (e.g. remove 'public2.' from 'public2.post')
+		if(($pos=strpos($tableName,'.'))!==false) // remove schema part (e.g. remove 'public2.' from 'public2.post')
 			$tableName=substr($tableName,$pos+1);
 		$className='';
 		foreach(explode('_',$tableName) as $name)
