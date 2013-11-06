@@ -5,6 +5,7 @@ Work in progress
 
 Version 1.1.15 under development
 --------------------------------
+- Enh: CActiveFinder::populateRecord fixed. $this->_pkAlias May be NULL, but it wasn't validated. (jonasasx)
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
