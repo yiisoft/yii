@@ -1595,8 +1595,8 @@ abstract class CActiveRecord extends CModel
 	public function count($condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
 		$this->beforeCount();
+		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$this->applyScopes($criteria);
 
