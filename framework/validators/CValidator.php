@@ -69,6 +69,7 @@ abstract class CValidator extends CComponent
 		'length'=>'CStringValidator',
 		'in'=>'CRangeValidator',
 		'numerical'=>'CNumberValidator',
+		'decimal'=>'CDecimalValidator',
 		'captcha'=>'CCaptchaValidator',
 		'type'=>'CTypeValidator',
 		'file'=>'CFileValidator',
