@@ -430,6 +430,7 @@ class Category extends CActiveRecord
 			'children'=>array(self::HAS_MANY,'Category','parent_id'),
 			'nodes'=>array(self::HAS_MANY,'Category','parent_id','with'=>array('parent','children')),
 			'postCount'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)'),
+			'postCountCustom'=>array(self::STAT, 'Post', array('post_category', 'category_id'=>'id', 'post_id'=>'id')),
 			/* For {@link CActiveRecordTest::testRelationalStatWithScopes}: */
 			'recentPostCount1'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)','scopes'=>'recentScope2'), // CStatRelation with scopes, MANY_MANY case
 			'recentPostCount2'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)','scopes'=>array('recentScope2')), // CStatRelation with scopes, MANY_MANY case

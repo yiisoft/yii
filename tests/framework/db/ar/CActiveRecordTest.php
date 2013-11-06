@@ -711,6 +711,14 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(0,$categories[5]->postCount);
 		$this->assertEquals(0,$categories[6]->postCount);
 
+		$this->assertEquals(3,$categories[0]->postCountCustom);
+		$this->assertEquals(1,$categories[1]->postCountCustom);
+		$this->assertEquals(1,$categories[2]->postCountCustom);
+		$this->assertEquals(1,$categories[3]->postCountCustom);
+		$this->assertEquals(0,$categories[4]->postCountCustom);
+		$this->assertEquals(0,$categories[5]->postCountCustom);
+		$this->assertEquals(0,$categories[6]->postCountCustom);
+
 		$users=User::model()->with('postCount','posts.commentCount')->findAll();
 		$this->assertEquals(4,count($users));
 	}
