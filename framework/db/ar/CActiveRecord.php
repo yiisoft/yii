@@ -2324,11 +2324,30 @@ class CManyManyRelation extends CHasManyRelation
 	 */
 	private function initJunctionData()
 	{
-		if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
-			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
-				array('{class}'=>$this->className,'{relation}'=>$this->name)));
-		$this->_junctionTableName=$matches[1];
-		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+		if(is_array($this->foreignKey))
+		{
+			if(count($this->foreignKey)<2)
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+					array('{class}'=>$this->className,'{relation}'=>$this->name)));
+			$foreignKey = $this->foreignKey;
+			$this->_junctionTableName=array_shift($foreignKey);
+			if(count($foreignKey)==1 && strpos(reset($foreignKey),',')!==false)
+			{
+				$this->_junctionForeignKeys=preg_split('/\s*,\s*/',reset($foreignKey),-1,PREG_SPLIT_NO_EMPTY);
+			}
+			else
+			{
+				$this->_junctionForeignKeys=$foreignKey;
+			}
+		}
+		else
+		{
+			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+					array('{class}'=>$this->className,'{relation}'=>$this->name)));
+			$this->_junctionTableName=$matches[1];
+			$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+		}
 	}
 }
 

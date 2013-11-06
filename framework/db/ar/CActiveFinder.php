@@ -554,7 +554,7 @@ class CJoinElement
 			$fkDefined=true;
 			foreach($fks as $i=>$fk)
 			{
-				if(isset($joinTable->foreignKeys[$fk]))  // FK defined
+				if(is_int($i) && isset($joinTable->foreignKeys[$fk]))  // FK defined
 				{
 					list($tableName,$pk)=$joinTable->foreignKeys[$fk];
 					if(!isset($parentCondition[$pk]) && $schema->compareTableNames($parent->_table->rawName,$tableName))
@@ -583,22 +583,35 @@ class CJoinElement
 				$parentCondition=array();
 				$childCondition=array();
 				$count=0;
+				$fkNumber=0;
 				$params=array();
 				foreach($fks as $i=>$fk)
 				{
-					if($i<count($parent->_table->primaryKey))
+					if(!is_int($i))
 					{
-						$pk=is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$i] : $parent->_table->primaryKey;
+						$pk=$fk;
+						$fk=$i;
+					}
+					if($fkNumber<count($parent->_table->primaryKey))
+					{
+						if(is_int($i))
+						{
+							$pk=is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$fkNumber] : $parent->_table->primaryKey;
+						}
 						$parentCondition[$pk]=$joinAlias.'.'.$schema->quoteColumnName($fk).'=:ypl'.$count;
 						$params[':ypl'.$count]=$record->$pk;
 						$count++;
 					}
 					else
 					{
-						$j=$i-count($parent->_table->primaryKey);
-						$pk=is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
+						if(is_int($i))
+						{
+							$j=$fkNumber-count($parent->_table->primaryKey);
+							$pk=is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
+						}
 						$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 					}
+					$fkNumber++;
 				}
 			}
 
@@ -1140,7 +1153,7 @@ class CJoinElement
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".',
 					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk, '{table}'=>$joinTable->name)));
 
-			if(isset($joinTable->foreignKeys[$fk]))
+			if(is_int($i) && isset($joinTable->foreignKeys[$fk]))
 			{
 				list($tableName,$pk)=$joinTable->foreignKeys[$fk];
 				if(!isset($parentCondition[$pk]) && $schema->compareTableNames($parent->_table->rawName,$tableName))
@@ -1164,19 +1177,32 @@ class CJoinElement
 		{
 			$parentCondition=array();
 			$childCondition=array();
+			$fkNumber=0;
 			foreach($fks as $i=>$fk)
 			{
-				if($i<count($parent->_table->primaryKey))
+				if(!is_int($i))
 				{
-					$pk=is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$i] : $parent->_table->primaryKey;
+					$pk=$fk;
+					$fk=$i;
+				}
+				if($fkNumber<count($parent->_table->primaryKey))
+				{
+					if(is_int($i))
+					{
+						$pk=is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$fkNumber] : $parent->_table->primaryKey;
+					}
 					$parentCondition[$pk]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 				}
 				else
 				{
-					$j=$i-count($parent->_table->primaryKey);
-					$pk=is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
+					if(is_int($i))
+					{
+						$j=$fkNumber-count($parent->_table->primaryKey);
+						$pk=is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
+					}
 					$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 				}
+				$fkNumber++;
 			}
 		}
 
