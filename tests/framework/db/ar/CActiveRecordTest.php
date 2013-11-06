@@ -386,6 +386,7 @@ class CActiveRecordTest extends CTestCase
 		// test self join
 		$category=Category::model()->findByPk(5);
 		$this->assertEquals(array(),$category->posts);
+		$this->assertEquals(array(),$category->postsCustom);
 		$this->assertEquals(2,count($category->children));
 		$this->assertEquals(array(
 			'id'=>6,
@@ -403,6 +404,7 @@ class CActiveRecordTest extends CTestCase
 
 		$category=Category::model()->findByPk(2);
 		$this->assertEquals(1,count($category->posts));
+		$this->assertEquals(1,count($category->postsCustom));
 		$this->assertEquals(array(),$category->children);
 		$this->assertNull($category->parent);
 
