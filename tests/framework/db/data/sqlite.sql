@@ -164,6 +164,7 @@ INSERT INTO post_category (category_id, post_id) VALUES (3,1);
 INSERT INTO post_category (category_id, post_id) VALUES (4,2);
 INSERT INTO post_category (category_id, post_id) VALUES (1,2);
 INSERT INTO post_category (category_id, post_id) VALUES (1,3);
+INSERT INTO post_category (category_id, post_id) VALUES (5,4);
 
 CREATE TABLE orders
 (
