@@ -822,7 +822,7 @@ class CJoinElement
 			else	// no matching related objects
 				return null;
 		}
-		else // is_array, composite key
+		elseif(is_array($this->_pkAlias)) // is_array, composite key
 		{
 			$pk=array();
 			foreach($this->_pkAlias as $name=>$alias)
@@ -833,6 +833,8 @@ class CJoinElement
 					return null;
 			}
 			$pk=serialize($pk);
+		} else {
+		    $pk = null;
 		}
 
 		// retrieve or populate the record according to the primary key value
