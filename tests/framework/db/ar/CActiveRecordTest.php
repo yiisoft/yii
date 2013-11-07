@@ -1416,9 +1416,9 @@ class CActiveRecordTest extends CTestCase
 			$result[]=array($user->username,$category->name);
 
 		$this->assertEquals(array(
-			array('user2','cat 5'),
-			array('user2','cat 4'),
 			array('user2','cat 1'),
+			array('user2','cat 4'),
+			array('user2','cat 5'),
 		),$result);
 
 		$this->assertEquals(3,count($user->posts));

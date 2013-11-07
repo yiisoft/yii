@@ -43,6 +43,7 @@ Version 1.1.15 under development
 - Chg #2653: Upgraded Markdown Extra Lib to version 1.3 (SleepWalker)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 - New #3015: Enable custom PK to FK mapping by enabling an array syntax in foreign key definition of a MANY_MANY relation (nineinchnick)
+- New #3018: Added 'through' option to CActiveRecord::MANY_MANY relation (nineinchnick)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
