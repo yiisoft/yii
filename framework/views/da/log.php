@@ -13,10 +13,10 @@
 	</tr>
 <?php
 $colors=array(
-	CLogger::LEVEL_PROFILE=>'#DFFFE0',
-	CLogger::LEVEL_INFO=>'#FFFFDF',
-	CLogger::LEVEL_WARNING=>'#FFDFE5',
-	CLogger::LEVEL_ERROR=>'#FFC0CB',
+	\CLogger::LEVEL_PROFILE=>'#DFFFE0',
+	\CLogger::LEVEL_INFO=>'#FFFFDF',
+	\CLogger::LEVEL_WARNING=>'#FFDFE5',
+	\CLogger::LEVEL_ERROR=>'#FFC0CB',
 );
 foreach($data as $index=>$log)
 {
