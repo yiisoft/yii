@@ -7,9 +7,9 @@ if(typeof(console)=='object')
 foreach($data as $index=>$log)
 {
 	$time=date('H:i:s.',$log[3]).sprintf('%03d',(int)(($log[3]-(int)$log[3])*1000));
-	if($log[1]===CLogger::LEVEL_WARNING)
+	if($log[1]===\CLogger::LEVEL_WARNING)
 		$func='warn';
-	elseif($log[1]===CLogger::LEVEL_ERROR)
+	elseif($log[1]===\CLogger::LEVEL_ERROR)
 		$func='error';
 	else
 		$func='log';
