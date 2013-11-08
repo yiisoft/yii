@@ -411,7 +411,9 @@ class CClientScript extends CApplicationComponent
 		if($html!=='')
 		{
 			$count=0;
-			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
+			//OLD OUTPUT DECLARATION: CONSIDER ONLY </HEAD> TAG AND NOT <TITLE> TAG TO PLACE SCRIPTS AND CSS IN CORRECT PLACE (AFTER <TITLE>)
+			//$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
+			$output=preg_replace('/(<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
 			if($count)
 				$output=str_replace('<###head###>',$html,$output);
 			else
