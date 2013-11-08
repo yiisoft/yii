@@ -42,6 +42,7 @@ Version 1.1.15 under development
 - Enh #2908: Add insertMultiple to Migrations (luislobo)
 - Enh #3014: Allow changing the database used by ActiveRecord in beforeCount() like it is possible in beforeFind() already (cebe)
 - Enh #3023: Added support for formatting DateTime instances to CFormatter (cebe, nitso)
+- Enh #3029: Added click event as a parameter to CGridView selectionChanged (acorncom)
 - Chg #2653: Upgraded Markdown Extra Lib to version 1.3 (SleepWalker)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 

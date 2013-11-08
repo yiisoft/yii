@@ -226,9 +226,10 @@ class CGridView extends CBaseListView
 	public $afterAjaxUpdate;
 	/**
 	 * @var string a javascript function that will be invoked after the row selection is changed.
-	 * The function signature is <code>function(id)</code> where 'id' refers to the ID of the grid view.
-	 * In this function, you may use <code>$(gridID).yiiGridView('getSelection')</code> to get the key values
-	 * of the currently selected rows (gridID is the DOM selector of the grid).
+	 * The function signature is <code>function(id, event)</code> where 'id' refers to the ID of the grid view
+	 * and 'event' refers to the click event triggered on the grid. In this function, you may use
+	 * <code>$(gridID).yiiGridView('getSelection')</code> to get the key values of the currently selected rows
+	 * (gridID is the DOM selector of the grid).
 	 * @see selectableRows
 	 */
 	public $selectionChanged;
