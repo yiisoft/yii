@@ -64,7 +64,7 @@
 					// updateSelector: '#id .pager a, '#id .grid thead th a',
 					// beforeAjaxUpdate: function (id) {},
 					// afterAjaxUpdate: function (id, data) {},
-					// selectionChanged: function (id) {},
+					// selectionChanged: function (id, event) {},
 					// url: 'ajax request URL'
 				}, options || {});
 
@@ -164,11 +164,11 @@
 						$("input.select-on-check-all", $currentGrid).prop('checked', $checks.length === $checks.filter(':checked').length);
 
 						if (settings.selectionChanged !== undefined) {
-							settings.selectionChanged(id);
+							settings.selectionChanged(id, e);
 						}
 					});
 					if (settings.selectableRows > 1) {
-						$(document).on('click.yiiGridView', '#' + id + ' .select-on-check-all', function () {
+						$(document).on('click.yiiGridView', '#' + id + ' .select-on-check-all', function (event) {
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
@@ -183,7 +183,7 @@
 								$checksAll.prop('checked', false);
 							}
 							if (settings.selectionChanged !== undefined) {
-								settings.selectionChanged(id);
+								settings.selectionChanged(id, event);
 							}
 						});
 					}
