@@ -220,7 +220,117 @@ class CCaptchaAction extends CAction
 	{
 		return self::SESSION_VAR_PREFIX . Yii::app()->getId() . '.' . $this->getController()->getUniqueId() . '.' . $this->getId();
 	}
-
+	
+	/**
+	 * Return a random number for phase used to waving image
+	 * @return integer
+	 */
+	protected function randomPhase()
+	{
+		return mt_rand(0, 3141592) / 1000000;
+	}
+	
+	/**
+	 * Return a random number for size used to waving image
+	 * @return integer
+	 */
+	protected function randomSize()
+	{
+		return mt_rand(300, 500) / 100;
+	}
+	
+	/**
+	 * Return a random number for freq used to waving image
+	 * @return integer
+	 */
+	protected function randomFreq()
+	{
+		return mt_rand(900000, 1000000) / 13000000;
+	}
+	
+	public function applyForeColor($r, $g, $b)
+	{
+		$nr = (int)($this->foreColor % 0x1000000 / 0x10000);
+		$ng = (int)($this->foreColor % 0x10000 / 0x100);
+		$nb = $this->foreColor % 0x100;
+		
+		$orp = $r/255;
+		$ogp = $g/255;
+		$obp = $b/255;
+		
+		$nrp = $orp * (255-$nr);
+		$ngp = $ogp * (255-$ng);
+		$nbp = $obp * (255-$nb);
+		
+		$nr += $nrp;
+		$ng += $ngp;
+		$nb += $nbp;
+		
+		return [$nr, $ng, $nb];
+	}
+    
+	protected function applyWave($image)
+	{
+		$width  = $this->width;
+		$height = $this->height;
+		
+		$freq1 = $this->randomFreq();
+		$freq2 = $this->randomFreq();
+		$freq3 = $this->randomFreq();
+		$freq4 = $this->randomFreq();
+		
+		$ph1 = $this->randomPhase();
+		$ph2 = $this->randomPhase();
+		$ph3 = $this->randomPhase();
+		$ph4 = $this->randomPhase();
+		
+		$szx = $this->randomSize();
+		$szy = $this->randomSize();
+		
+		$newImage = imagecreatetruecolor($width, $height);
+		$bgColor = imagecolorallocate($newImage, 255, 255, 255);
+		imagefilledrectangle($newImage, 0, 0, $width-1, $height-1, $bgColor);
+		
+		for ($x = 0; $x < $width; $x++) {
+			for ($y = 0; $y < $height; $y++) {
+				$sx = $x + (sin($x*$freq1 + $ph1) + sin($y*$freq3 + $ph3)) * $szx;
+				$sy = $y + (sin($x*$freq2 + $ph2) + sin($y*$freq4 + $ph4)) * $szy;
+				
+				if ($sx < 0 || $sy < 0 || $sx >= $width - 1 || $sy >= $height - 1) {
+					continue;
+				} else {
+					$color   = (imagecolorat($image, $sx, $sy) >> 16)         & 0xFF;
+					$colorX  = (imagecolorat($image, $sx + 1, $sy) >> 16)     & 0xFF;
+					$colorY  = (imagecolorat($image, $sx, $sy + 1) >> 16)     & 0xFF;
+					$colorXY = (imagecolorat($image, $sx + 1, $sy + 1) >> 16) & 0xFF;
+				}
+				
+				if ($color == 255 && $colorX == 255 && $colorY == 255 && $colorXY == 255) {
+					// ignore background
+					continue;
+				} elseif ($color == 0 && $colorX == 0 && $colorY == 0 && $colorXY == 0) {
+					// transfer inside of the image as-is
+					$newcolor = 0;
+				} else {
+					// do antialiasing for border items
+					$fracX  = $sx - floor($sx);
+					$fracY  = $sy - floor($sy);
+					$fracX1 = 1 - $fracX;
+					$fracY1 = 1 - $fracY;
+					
+					$newcolor = $color   * $fracX1 * $fracY1
+					+ $colorX  * $fracX  * $fracY1
+					+ $colorY  * $fracX1 * $fracY
+					+ $colorXY * $fracX  * $fracY;
+				}
+				
+				$newcolorArray = $this->applyForeColor($newcolor, $newcolor, $newcolor);
+				imagesetpixel($newImage, $x, $y, imagecolorallocate($newImage, $newcolorArray[0], $newcolorArray[1], $newcolorArray[2]));
+			}
+		}
+		
+		return $newImage;
+	}
 	/**
 	 * Renders the CAPTCHA image based on the code using library specified in the {@link $backend} property.
 	 * @param string $code the verification code
@@ -252,13 +362,10 @@ class CCaptchaAction extends CAction
 		if($this->transparent)
 			imagecolortransparent($image,$backColor);
 
-		$foreColor = imagecolorallocate($image,
-				(int)($this->foreColor % 0x1000000 / 0x10000),
-				(int)($this->foreColor % 0x10000 / 0x100),
-				$this->foreColor % 0x100);
+		$foreColor = imagecolorallocate($image,0,0,0);
 
 		if($this->fontFile === null)
-			$this->fontFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'SpicyRice.ttf';
+			$this->fontFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'segoeui.ttf';
 
 		$length = strlen($code);
 		$box = imagettfbbox(30,0,$this->fontFile,$code);
@@ -270,12 +377,14 @@ class CCaptchaAction extends CAction
 		for($i = 0; $i < $length; ++$i)
 		{
 			$fontSize = (int)(rand(26,32) * $scale * 0.8);
-			$angle = rand(-10,10);
+			$angle = 0;
 			$letter = $code[$i];
 			$box = imagettftext($image,$fontSize,$angle,$x,$y,$foreColor,$this->fontFile,$letter);
 			$x = $box[2] + $this->offset;
 		}
-
+		
+		$image = $this->applyWave($image);
+		
 		imagecolordeallocate($image,$foreColor);
 
 		header('Pragma: public');
