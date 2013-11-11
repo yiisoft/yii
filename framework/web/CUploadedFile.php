@@ -267,9 +267,6 @@ class CUploadedFile extends CComponent
 	 */
 	public function getExtensionName()
 	{
-		if(($pos=strrpos($this->_name,'.'))!==false)
-			return (string)substr($this->_name,$pos+1);
-		else
-			return '';
+		return CFileHelper::getExtension($this->_name);
 	}
 }
