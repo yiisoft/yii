@@ -341,7 +341,7 @@ class CWebApplication extends CApplication
 				$controllerID='';
 			}
 			else
-				$controllerID.='/';
+				$controllerID='/';
 			$className=ucfirst($id).'Controller';
 			$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 
