@@ -22,7 +22,7 @@ Yii::import('zii.widgets.CBaseListView');
  * when the user browser disables JavaScript, the sorting and pagination automatically degenerate
  * to normal page requests and are still functioning as expected.
  *
- * CListView should be used together with a {@link IDataProvider data provider}, preferrably a
+ * CListView should be used together with a {@link IDataProvider data provider}, preferably a
  * {@link CActiveDataProvider}.
  *
  * The minimal code needed to use CListView is as follows:
