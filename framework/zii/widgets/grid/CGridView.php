@@ -25,7 +25,7 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  * when the user browser disables JavaScript, the sorting and pagination automatically degenerate
  * to normal page requests and are still functioning as expected.
  *
- * CGridView should be used together with a {@link IDataProvider data provider}, preferrably a
+ * CGridView should be used together with a {@link IDataProvider data provider}, preferably a
  * {@link CActiveDataProvider}.
  *
  * The minimal code needed to use CGridView is as follows:
@@ -182,7 +182,7 @@ class CGridView extends CBaseListView
 	 * Possible values (besides null) are "timeout", "error", "notmodified" and "parsererror"</li>
 	 * <li><code>errorThrown</code> is an optional exception object, if one occurred.</li>
 	 * <li><code>errorMessage</code> is the CGridView default error message derived from xhr and errorThrown.
-	 * Usefull if you just want to display this error differently. CGridView by default displays this error with an javascript.alert()</li>
+	 * Useful if you just want to display this error differently. CGridView by default displays this error with an javascript.alert()</li>
 	 * </ul>
 	 * Note: This handler is not called for JSONP requests, because they do not use an XMLHttpRequest.
 	 *
