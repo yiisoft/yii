@@ -54,34 +54,34 @@ testdrive/
    images/                   Contient les images
    themes/                   Contient les différents thèmes de l'application
    protected/                Contient les fichiers protégés de l'application
-      yiic                   L'outil en ligne de commande 'yiic'
-      yiic.bat               L'outil en ligne de commande 'yiic' pour Windows
-      commands/              Contient les commandes personnalisées pour l'outil 'yiic'
-         shell/              Contient les commandes personnalisées pour l'outil 'yiic shell'
-      components/            Contient les composants utilisateur
-         MainMenu.php        Le widget 'MainMenu'
-         Identity.php        La class 'Identity' utilisée pour l'authentification
-         views/              Contient les fichiers 'Vue' des widgets
-            mainMenu.php     Le fichier Vue pour le widget 'MainMenu"
-      config/                Contient les fichiers de configuration
-         console.php         Le fichier de configuration pour l'application en ligne de commande
-         main.php            Le fichier de configuration pour l'application Web
-      controllers/           Contient les fichiers des Controlleurs
-         SiteController.php  Le contrôleur par défaut
-      extensions/            Contient les extensions tierces
-      messages/              Contient les messages traduits
-      models/                Contient les fichiers des Modèles
-         LoginForm.php       Le modèle de type Formulaire pour l'action 'Login'
-         ContactForm.php     Le modèle de type Formulaire pour l'action 'Contact'
-      runtime/               Contient les fichiers temporaires générés par l'application
-      views/                 Contient les fichiers Vue des contrôleurs et Layout
-         layouts/            Contient les fichiers Vue des Layout
-            main.php         Le 'layout' par défaut pour toutes les vues
-         site/               Contient les fichiers Vue pour le contrôleur 'site'
-            contact.php      La vue pour l'action 'Contact'
-            index.php        La vue pour l'action 'index'
-            login.php        La vue pour l'action 'login'
-         system/             Contient les fichiers pour les vues système
+	  yiic                   L'outil en ligne de commande 'yiic'
+	  yiic.bat               L'outil en ligne de commande 'yiic' pour Windows
+	  commands/              Contient les commandes personnalisées pour l'outil 'yiic'
+		 shell/              Contient les commandes personnalisées pour l'outil 'yiic shell'
+	  components/            Contient les composants utilisateur
+		 MainMenu.php        Le widget 'MainMenu'
+		 Identity.php        La class 'Identity' utilisée pour l'authentification
+		 views/              Contient les fichiers 'Vue' des widgets
+			mainMenu.php     Le fichier Vue pour le widget 'MainMenu"
+	  config/                Contient les fichiers de configuration
+		 console.php         Le fichier de configuration pour l'application en ligne de commande
+		 main.php            Le fichier de configuration pour l'application Web
+	  controllers/           Contient les fichiers des Controlleurs
+		 SiteController.php  Le contrôleur par défaut
+	  extensions/            Contient les extensions tierces
+	  messages/              Contient les messages traduits
+	  models/                Contient les fichiers des Modèles
+		 LoginForm.php       Le modèle de type Formulaire pour l'action 'Login'
+		 ContactForm.php     Le modèle de type Formulaire pour l'action 'Contact'
+	  runtime/               Contient les fichiers temporaires générés par l'application
+	  views/                 Contient les fichiers Vue des contrôleurs et Layout
+		 layouts/            Contient les fichiers Vue des Layout
+			main.php         Le 'layout' par défaut pour toutes les vues
+		 site/               Contient les fichiers Vue pour le contrôleur 'site'
+			contact.php      La vue pour l'action 'Contact'
+			index.php        La vue pour l'action 'index'
+			login.php        La vue pour l'action 'login'
+		 system/             Contient les fichiers pour les vues système
 ~~~
 
 Connexions aux bases de données
@@ -89,7 +89,7 @@ Connexions aux bases de données
 
 La plupart des applications web sont gérées par une base de données.
 Notre application de test ne fait pas exception. Pour utiliser une base de
-données, nous devons auparavant signaler à l'application comment se connecter à la base de données. Pour cela, il faut modifier le fichier de configuration de l'application 
+données, nous devons auparavant signaler à l'application comment se connecter à la base de données. Pour cela, il faut modifier le fichier de configuration de l'application
 `WebRoot/testdrive/protected/config/main.php` comme ceci :
 
 ~~~
@@ -106,7 +106,7 @@ return array(
 );
 ~~~
 
-Dans cet exemple, nous ajoutons une entrée nommée `db` aux `components` (composants), qui indique à l'application de se connecter à la base de données SQLlite 
+Dans cet exemple, nous ajoutons une entrée nommée `db` aux `components` (composants), qui indique à l'application de se connecter à la base de données SQLlite
 `WebRoot/testdrive/protected/data/source.db` quand cela est nécessaire.
 
 > Note|Note : Pour utiliser les fonctionnalités de base de données de Yii, il
@@ -138,7 +138,7 @@ que le répertoire qui le contient doivent être accessibles en écriture par l'
 Implémentations des opérations CRUD
 -----------------------------------
 
-Maintenant, la partie amusante! Nous aimerions implémenter les opérations CRUD sur la table `User` que vous venez de créer (CRUD signifie Create, Read, Update et Delete, i.e. Création, Lecture, Modification et Suppression). Les opérations CRUD sont la base de la manipulation des données et donc nécessaires la plupart du temps.
+Maintenant, la partie amusante! Vous allez implémenter les opérations CRUD sur la table `User` que vous venez de créer (CRUD signifie Create, Read, Update et Delete, i.e. Création, Lecture, Modification et Suppression). Les opérations CRUD sont le fondement de la manipulation des données et donc nécessaires la plupart du temps.
 
 Plutôt que d'écrire du code qui implémente ces opérations CRUD, vous allez encore vous servir du puissant outil `yiic`, afin de générer automatiquement ce code. Ce processus est aussi connu sous le nom de *scaffolding* (échafaudage). Ouvrez une fenêtre de ligne de commande, et exécutez les commandes suivantes :
 
@@ -151,11 +151,11 @@ Please type 'help' for help. Type 'exit' to quit.
    generate User.php
 
 The 'User' class has been successfully created in the following file:
-    D:\wwwroot\testdrive\protected\models\User.php
+	D:\wwwroot\testdrive\protected\models\User.php
 
 If you have a 'db' database connection, you can test it now with:
-    $model=User::model()->find();
-    print_r($model);
+	$model=User::model()->find();
+	print_r($model);
 
 >> crud User
    generate UserController.php
@@ -216,4 +216,4 @@ Toutes ces fonctionnalités ont été réalisées sans écrire une seule ligne d
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1266 $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1267 2013-11-20 $</div>
