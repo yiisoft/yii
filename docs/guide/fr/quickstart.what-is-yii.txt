@@ -5,7 +5,7 @@ Yii est un framework PHP basé sur des composants ultra performants qui a été 
 Yii a été conçu autour de composants dans le but d’accélérer le développement
 d'applications Web en simplifiant la réutilisation de code existant.
 
-Le nom Yii (à prononcer `Yee` ou `[ji:]`) se veut être un synonyme de *facile*, *efficace* et *extensible*.
+Le nom Yii (se prononce `Yee` ou `[ji:]`) se veut être un synonyme de *facile*, *efficace* et *extensible*.
 
 Pré-requis
 ----------

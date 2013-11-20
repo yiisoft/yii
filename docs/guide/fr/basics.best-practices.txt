@@ -1,4 +1,4 @@
-Bonnes Pratiques MVC 
+Bonnes Pratiques MVC
 ====================
 
 Bien que l'architecture Modèle-Vue-Contrôleur (MVC) soit connue de la quasi totalité des développeurs web, de nombreuses personnes s'interrogent encore sur la meilleure façon de l'appliquer lors du développement d'une application. Les idées centrales derrière MVC sont **la réutilisation et le séparation logique du code**. Nous allons voir dans cette section les règles générales à suivre afin de respecter au mieux l'architecture MVC lors du développement d'une application Yii.
@@ -87,7 +87,7 @@ Un [contrôleur](/doc/guide/basics.controller) est la pièce maîtresse reliant 
 * doivent éviter de contenir du code HTML ou tout autre code d'affichage. Ce code est normalement situé dans les vues.
 
 
-Dans une application MVC bien conçue, les contrôleurs sont souvent très léger, contenant seulement quelques douzaines de lignes de code; alors que les modèles sont plus importants en taille, contenant la plupart du code responsable pour afficher et manipuler les données. En effet cela est dû au fait que les structures de données et la logique applicative représentées par les modèles sont en général très spécifiques à une application particulière, et ont besoin d'être grandement adaptées pour répondre aux besoins de l'application; alors que la logique du contrôleur suit souvent des patterns similaires entre applications et peut ainsi être simplifiée par le framework sous-jacent ou les classes de base.
+Dans une application MVC bien conçue, les contrôleurs sont souvent très légers, contenant seulement quelques douzaines de lignes de code; alors que les modèles sont plus importants en taille, contenant la plupart du code responsable de l'affichage et de la manipulation des données. En effet cela est dû au fait que les structures de données et la logique applicative représentées par les modèles sont en général très spécifiques à une application particulière, et ont besoin d'être grandement adaptées pour répondre aux besoins de l'application; alors que la logique du contrôleur suit souvent des modèles de conception similaires entre applications et peut ainsi être simplifiée par le framework sous-jacent ou les classes de base.
 
 
-<div class="revision">$Id: basics.best-practices.txt 2796 $</div>
+<div class="revision">$Id: basics.best-practices.txt 2797 2013-11-20 $</div>
