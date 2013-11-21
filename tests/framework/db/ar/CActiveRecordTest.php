@@ -4,6 +4,7 @@ Yii::import('system.db.CDbConnection');
 Yii::import('system.db.ar.CActiveRecord');
 
 require_once(dirname(__FILE__).'/../data/models.php');
+require_once(dirname(__FILE__).'/../data/models2.php');
 
 class CActiveRecordTest extends CTestCase
 {
