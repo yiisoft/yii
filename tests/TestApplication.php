@@ -7,7 +7,7 @@ class TestApplication extends CWebApplication
 	{
 		Yii::setApplication(null);
 		clearstatcache();
-		$this->tmpDir = $tmpDir ?: __DIR__;
+		$this->tmpDir = $tmpDir ? $tmpDir : __DIR__;
 		parent::__construct($config);
 	}
 
