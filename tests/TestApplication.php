@@ -2,10 +2,12 @@
 
 class TestApplication extends CWebApplication
 {
-	public function __construct($config=null)
+	private $tmpDir;
+	public function __construct($config=null, $tmpDir=null)
 	{
 		Yii::setApplication(null);
 		clearstatcache();
+		$this->tmpDir = $tmpDir ?: __DIR__;
 		parent::__construct($config);
 	}
 
@@ -34,17 +36,17 @@ class TestApplication extends CWebApplication
 
 	public function getAssetPath()
 	{
-		return dirname(__FILE__).DIRECTORY_SEPARATOR.'assets';
+		return $this->tmpDir.DIRECTORY_SEPARATOR.'assets';
 	}
 
 	public function getRuntimePath()
 	{
-		return dirname(__FILE__).DIRECTORY_SEPARATOR.'runtime';
+		return $this->tmpDir.DIRECTORY_SEPARATOR.'runtime';
 	}
 
 	public function getBasePath()
 	{
-		return dirname(__FILE__);
+		return $this->tmpDir;
 	}
 
 	public function setBasePath($value)
