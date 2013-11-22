@@ -8,6 +8,7 @@ php:
 
 services:
   - redis-server
+  - memcached
 
 before_script:
   - ./tests/travis/mysql-setup.sh
