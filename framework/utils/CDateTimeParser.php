@@ -89,6 +89,7 @@ class CDateTimeParser
 		{
 			switch($token)
 			{
+				case 'y':
 				case 'yyyy':
 				{
 					if(($year=self::parseInteger($value,$i,4,4))===false)
@@ -324,27 +325,25 @@ class CDateTimeParser
 	protected static function parseMonth($value,$offset,$width,&$monthName)
 	{
 		$valueLength=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
-		for($len=1; $offset+$len<=$valueLength; $len++)
-		{
-			$monthName=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yii::app()->charset) : substr($value,$offset,$len);
-			if(!preg_match('/^[\p{L}\p{M}]+$/u',$monthName)) // unicode aware replacement for ctype_alpha($monthName)
-			{
-				$monthName=self::$_mbstringAvailable ? mb_substr($monthName,0,-1,Yii::app()->charset) : substr($monthName,0,-1);
-				break;
-			}
-		}
-		$monthName=self::$_mbstringAvailable ? mb_strtolower($monthName,Yii::app()->charset) : strtolower($monthName);
-
 		$monthNames=Yii::app()->getLocale()->getMonthNames($width,false);
 		foreach($monthNames as $k=>$v)
-			$monthNames[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
-
+			$monthNames[$k]=self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v);
 		$monthNamesStandAlone=Yii::app()->getLocale()->getMonthNames($width,true);
 		foreach($monthNamesStandAlone as $k=>$v)
-			$monthNamesStandAlone[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
-
-		if(($v=array_search($monthName,$monthNames))===false && ($v=array_search($monthName,$monthNamesStandAlone))===false)
+			$monthNamesStandAlone[$k]=self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v);
+		for($len=$valueLength; $len>0; $len--)
+		{
+			$monthName=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yii::app()->charset) : substr($value,$offset,$len);
+			if(($v1=array_search($monthName,$monthNames))!==false)
+				break;
+			if(($v2=array_search($monthName,$monthNamesStandAlone))!==false)
+				break;
+		}
+		if ( isset($v1) )
+			return $v1;
+		else if ( isset($v2) )
+			return $v2;
+		else
 			return false;
-		return $v;
 	}
 }
