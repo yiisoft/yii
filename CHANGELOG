@@ -5,6 +5,7 @@ Work in progress
 
 Version 1.1.15 under development
 --------------------------------
+- Enh #3027: Added custom encodeLabel attributes of the CMenu items (hugeval)
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
@@ -42,6 +43,7 @@ Version 1.1.15 under development
 - Enh #2908: Add insertMultiple to Migrations (luislobo)
 - Enh #3014: Allow changing the database used by ActiveRecord in beforeCount() like it is possible in beforeFind() already (cebe)
 - Enh #3023: Added support for formatting DateTime instances to CFormatter (cebe, nitso)
+- Enh #3048: CApcCache is now compatible with APCu (iobotis, samdark)
 - Chg #2653: Upgraded Markdown Extra Lib to version 1.3 (SleepWalker)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
