@@ -5,6 +5,7 @@ Work in progress
 
 Version 1.1.15 under development
 --------------------------------
+- Enh #3027: Added custom encodeLabel attributes of the CMenu items (hugeval)
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
