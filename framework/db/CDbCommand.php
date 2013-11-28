@@ -966,6 +966,34 @@ class CDbCommand extends CComponent
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
 	 * @return CDbCommand the command object itself
+	 */
+	public function naturalLeftJoin($table)
+	{
+		return $this->joinInternal('natural left join', $table);
+	}
+
+	/**
+	 * Appends a NATURAL RIGHT JOIN part to the query.
+	 * Note that not all DBMS support NATURAL RIGHT JOIN.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
+	 */
+	public function naturalRightJoin($table)
+	{
+		return $this->joinInternal('natural right join', $table);
+	}
+
+	/**
+	 * Appends a NATURAL LEFT JOIN part to the query.
+	 * Note that not all DBMS support NATURAL LEFT JOIN.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
 	 * @since 1.1.6
 	 */
 	public function naturalLeftJoin($table)
