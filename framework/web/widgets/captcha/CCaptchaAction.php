@@ -190,12 +190,12 @@ class CCaptchaAction extends CAction
 	 */
 	protected function generateVerifyCode()
 	{
+		if($this->minLength > $this->maxLength)
+			$this->maxLength = $this->minLength;
 		if($this->minLength < 3)
 			$this->minLength = 3;
 		if($this->maxLength > 20)
 			$this->maxLength = 20;
-		if($this->minLength > $this->maxLength)
-			$this->maxLength = $this->minLength;
 		$length = mt_rand($this->minLength,$this->maxLength);
 
 		$letters = 'bcdfghjklmnpqrstvwxyz';
@@ -258,7 +258,7 @@ class CCaptchaAction extends CAction
 				$this->foreColor % 0x100);
 
 		if($this->fontFile === null)
-			$this->fontFile = dirname(__FILE__) . '/SpicyRice.ttf';
+			$this->fontFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'SpicyRice.ttf';
 
 		$length = strlen($code);
 		$box = imagettfbbox(30,0,$this->fontFile,$code);
@@ -282,7 +282,7 @@ class CCaptchaAction extends CAction
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Content-Transfer-Encoding: binary');
-		header("Content-type: image/png");
+		header("Content-Type: image/png");
 		imagepng($image);
 		imagedestroy($image);
 	}
@@ -301,7 +301,7 @@ class CCaptchaAction extends CAction
 		$image->newImage($this->width,$this->height,$backColor);
 
 		if($this->fontFile===null)
-			$this->fontFile=dirname(__FILE__).'/SpicyRice.ttf';
+			$this->fontFile=dirname(__FILE__).DIRECTORY_SEPARATOR.'SpicyRice.ttf';
 
 		$draw=new ImagickDraw();
 		$draw->setFont($this->fontFile);
@@ -329,7 +329,7 @@ class CCaptchaAction extends CAction
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Content-Transfer-Encoding: binary');
-		header("Content-type: image/png");
+		header("Content-Type: image/png");
 		$image->setImageFormat('png');
 		echo $image;
 	}

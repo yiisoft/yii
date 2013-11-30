@@ -39,7 +39,7 @@ class MigrateCommand extends CConsoleCommand
 	/**
 	 * @var string the name of the table for keeping applied migration information.
 	 * This table will be automatically created if not exists. Defaults to 'tbl_migration'.
-	 * The table structure is: (version varchar(255) primary key, apply_time integer)
+	 * The table structure is: (version varchar(180) primary key, apply_time integer)
 	 */
 	public $migrationTable='tbl_migration';
 	/**
@@ -466,7 +466,7 @@ class MigrateCommand extends CConsoleCommand
 		$db=$this->getDbConnection();
 		echo 'Creating migration history table "'.$this->migrationTable.'"...';
 		$db->createCommand()->createTable($this->migrationTable,array(
-			'version'=>'string NOT NULL PRIMARY KEY',
+			'version'=>'varchar(180) NOT NULL PRIMARY KEY',
 			'apply_time'=>'integer',
 		));
 		$db->createCommand()->insert($this->migrationTable,array(

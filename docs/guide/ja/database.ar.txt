@@ -69,6 +69,7 @@ AR に対するサポートは、DBMS によって制限されます。
 現在、以下の DBMS だけがサポートされています。
 
    - [MySQL 4.1 以降](http://www.mysql.com)
+   - [MariaDB](https://mariadb.com)
    - [PostgreSQL 7.3 以降](http://www.postgres.com)
    - [SQLite 2 または 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 以降](http://www.microsoft.com/sqlserver/)

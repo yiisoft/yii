@@ -1,13 +1,9 @@
-Créer sa première applicatin Yii
+Créer sa première application Yii
 ================================
 
-Pour se faire la main sur Yii, nous allons décrire dans cette section comment créér
-notre première application avec le framework Yii. Nous allons utiliser le puissant outil
-`yiic` qui peut automatiser la création du code pour certaines taches. Par convention,
-nous supposons que `YiiRoot` est le répertoire où Yii est installé, and `WebRoot` est
-la racine Web du serveur.
+Pour se faire la main avec Yii, nous allons décrire dans cette section comment créer votre première application avec le framework Yii. Vous allez pour cela utiliser le puissant outil `yiic` qui peut automatiser la création du code pour certaines tâches. Par convention, nous supposons que `YiiRoot` est le répertoire où Yii est installé, et `WebRoot` est la racine Web du serveur.
 
-Lancer `yiic` sur la ligne de commande comme suit :
+Lancez `yiic` sur la ligne de commande comme suit :
 
 ~~~
 % YiiRoot/framework/yiic webapp WebRoot/testdrive
@@ -23,22 +19,17 @@ Lancer `yiic` sur la ligne de commande comme suit :
 > ~~~
 
 Cette commande va créer un squelette d'application Yii sous le répertoire
-`WebRoot/testdvive`. L'application a une structure de répertoire qui
-est nécessaire à la plupart des applications `Yii`
+`WebRoot/testdrive`. L'application comporte une structure de répertoire nécessaire à la plupart des applications `Yii`
 
-Sans écrire une seule ligne de code, nous pouvons tester notre première application
-Uii, en accédant à l'url suivante dans le navigateur :
+Sans écrire une seule ligne de code, vous pouvez tester votre première application Yii, en accédant à l'url suivante dans le navigateur :
 
 ~~~
-http://hostname/testdrive/index.php
+http://WebRoot/testdrive/index.php
 ~~~
 
-Comme nous pouvons le constater, l'application a trois pages: la page d'accueil,
-la page de contact et la page de login. La page d'accueil nous montre des informations
-sur l'application, ainsi que sur l'état de l'utilisateur connecté. La page de contact
-affiche un formulaire de contact que les utilisateurs peuvent remplir, et la page de
-login permet aux utilisateurs de d'authentifier avant d'accéder à un contenu privé.
-Les copies d'écran suivantes nous montrent plus de details.
+Comme vous pouvez le constater, l'application a trois pages: la page d'accueil,
+la page de contact et la page de login. La page d'accueil vous montre des informations sur l'application, ainsi que sur l'état de l'utilisateur connecté. La page de contact affiche un formulaire de contact que les utilisateurs peuvent remplir, et la page de login permet aux utilisateurs de s'authentifier avant d'accéder à un contenu privé.
+Les copies d'écran suivantes vous montrent plus de détails.
 
 
 ![Page d'accueil](first-app1.png)
@@ -52,9 +43,8 @@ Les copies d'écran suivantes nous montrent plus de details.
 ![Page de login](first-app5.png)
 
 
-Le schéma suivant montre la structure des répertoires de notre applications.
-Veuillez consulter la page [Conventions](/doc/guide/basics.convention#directory) pour
-de plus amples informations à propos de cette structure.
+Le schéma suivant montre la structure des répertoires de votre application.
+Veuillez consulter la page [Conventions](/doc/guide/basics.convention#directory) pour de plus amples informations à propos de cette structure.
 
 ~~~
 testdrive/
@@ -64,43 +54,42 @@ testdrive/
    images/                   Contient les images
    themes/                   Contient les différents thèmes de l'application
    protected/                Contient les fichiers protégés de l'application
-      yiic                   L'outil en ligne de commande 'yiic'
-      yiic.bat               L'outil en ligne de commande 'yiic' pour Windows
-      commands/              Contient les commandes personnalisées pour l'outil 'yiic'
-         shell/              Contient les commandes personnalisées pour l'outil 'yiic shell'
-      components/            Contient les composants utilisateur
-         MainMenu.php        Le widget 'MainMenu'
-         Identity.php        La class 'Identity' utilisée pour l'authentification
-         views/              Contient les fichiers 'Vue' des widgets
-            mainMenu.php     Le fichier Vue pour le widget 'MainMenu"
-      config/                Contient les fichiers de configuration
-         console.php         Le fichier de configuration pour l'application en ligne de commande
-         main.php            Le fichier de confiruration pour l'application Web
-      controllers/           Contient les fichiers des Controlleurs
-         SiteController.php  Le controlleur par défaut
-      extensions/            Contient les extensions tierces
-      messages/              Contient les messages traduits
-      models/                Contient les fichiers des Modèles
-         LoginForm.php       Le modèle de type Formulaire pour l'action 'Login'
-         ContactForm.php     Le modèle de type Formulaire pour l'action 'Contact'
-      runtime/               Contient les fichiers temporaires générés par l'application
-      views/                 Contient les fichiers Vue des controlleurs et Layout
-         layouts/            Contient les fichiers Vue des Layout
-            main.php         Le 'layout' par défaut pour toutes les vues
-         site/               Contient les fichiers Vue pour le controlleur 'site'
-            contact.php      La vue pour l'action 'Contact'
-            index.php        La vue pour l'action 'index'
-            login.php        La vue pour l'action 'login'
-         system/             Contient les fichiers pour les vues system
+	  yiic                   L'outil en ligne de commande 'yiic'
+	  yiic.bat               L'outil en ligne de commande 'yiic' pour Windows
+	  commands/              Contient les commandes personnalisées pour l'outil 'yiic'
+		 shell/              Contient les commandes personnalisées pour l'outil 'yiic shell'
+	  components/            Contient les composants utilisateur
+		 MainMenu.php        Le widget 'MainMenu'
+		 Identity.php        La class 'Identity' utilisée pour l'authentification
+		 views/              Contient les fichiers 'Vue' des widgets
+			mainMenu.php     Le fichier Vue pour le widget 'MainMenu"
+	  config/                Contient les fichiers de configuration
+		 console.php         Le fichier de configuration pour l'application en ligne de commande
+		 main.php            Le fichier de configuration pour l'application Web
+	  controllers/           Contient les fichiers des Controlleurs
+		 SiteController.php  Le contrôleur par défaut
+	  extensions/            Contient les extensions tierces
+	  messages/              Contient les messages traduits
+	  models/                Contient les fichiers des Modèles
+		 LoginForm.php       Le modèle de type Formulaire pour l'action 'Login'
+		 ContactForm.php     Le modèle de type Formulaire pour l'action 'Contact'
+	  runtime/               Contient les fichiers temporaires générés par l'application
+	  views/                 Contient les fichiers Vue des contrôleurs et Layout
+		 layouts/            Contient les fichiers Vue des Layout
+			main.php         Le 'layout' par défaut pour toutes les vues
+		 site/               Contient les fichiers Vue pour le contrôleur 'site'
+			contact.php      La vue pour l'action 'Contact'
+			index.php        La vue pour l'action 'index'
+			login.php        La vue pour l'action 'login'
+		 system/             Contient les fichiers pour les vues système
 ~~~
 
 Connexions aux bases de données
 -------------------------------
 
 La plupart des applications web sont gérées par une base de données.
-Notre application de test n'est pas une exception. Pour utiliser une base de
-donnée, nous devons auparavant signaler à l'application comment se connecter à
-celle-ci. Pour cela, il faut modifier le fichier de configuration de l'application
+Notre application de test ne fait pas exception. Pour utiliser une base de
+données, nous devons auparavant signaler à l'application comment se connecter à la base de données. Pour cela, il faut modifier le fichier de configuration de l'application
 `WebRoot/testdrive/protected/config/main.php` comme ceci :
 
 ~~~
@@ -117,17 +106,15 @@ return array(
 );
 ~~~
 
-Dans cet exemple, nous ajoutons une entrée nommée `db` aux `composants`, qui
-permet à l'application de se conencter à la base de donnée SQLlite
-`WebRoot/testdrive/protected/data/source.db` quand celà est nécessaire.
+Dans cet exemple, nous ajoutons une entrée nommée `db` aux `components` (composants), qui indique à l'application de se connecter à la base de données SQLlite
+`WebRoot/testdrive/protected/data/source.db` quand cela est nécessaire.
 
 > Note|Note : Pour utiliser les fonctionnalités de base de données de Yii, il
 > est nécessaire d'activer l'extension PDO dans PHP, ainsi que les différents drivers
-> PDO spécifiques à chaque base de donnée. Pour notre application de test, nous
-> avons besoin que les extensions `php_pdo` et `php_pdo_sqlite` soient activées.
+> PDO spécifiques à chaque base de données. Pour votre application de test, vous
+> avez besoin que les extensions `php_pdo` et `php_pdo_sqlite` soient activées.
 
-Pour finir, nous devons préparer une base de donnée SQLite. En utilisant les outils
-d'administration SQLite, nous pouvons créer une base de donnée avec le modèle suivant :
+Pour finir, nous devons préparer une base de donnée SQLite. En utilisant les outils d'administration SQLite, vous pouvez créer une table dans la base de données avec le modèle suivant :
 
 ~~~
 [sql]
@@ -142,25 +129,18 @@ CREATE TABLE User (
 > Note: Si vous utilisez MySQL, vous devez remplacer `AUTOINCREMENT`
 > par `AUTO_INCREMENT` dans le code SQL ci-dessus.
 
-Par souci de simplification, nous créeons seulement une table `User` dans notre
-base. Le fichier de base de donnée SQLite est sauvé sous le nom
+Par souci de simplification, seule une table appelée `User` est créée dans la base. Le fichier de base de données SQLite est sauvé sous le nom
 
 `WebRoot/testdrive/protected/data/source.db`. Notez que le nom de fichier ainsi
-que le répertoire qui le contient doivent être accessibles en écriture par l'utilisateur
-exécutant le serveur web.
+que le répertoire qui le contient doivent être accessibles en écriture par l'utilisateur exécutant le serveur web.
 
 
 Implémentations des opérations CRUD
 -----------------------------------
 
-Maintenant, la partie amusante. Nous aimerions implémenter les opérations CRUD
-(Create, Read, Update and Delete, soit Création, Lecture, Modification et Suppression)
-sur la table `User` que nous venons de créer. C'est une opération nécessaire la
-plupart du temps.
+Maintenant, la partie amusante! Vous allez implémenter les opérations CRUD sur la table `User` que vous venez de créer (CRUD signifie Create, Read, Update et Delete, i.e. Création, Lecture, Modification et Suppression). Les opérations CRUD sont le fondement de la manipulation des données et donc nécessaires la plupart du temps.
 
-Plutot que d'écrire du code, nous allons encore nous servir du puissant outil `yiic`,
-afin de générer automatiquement le code. Ce processus est aussi connu sous le nom de
-*scaffolding*. Ouvrez une fenêtre de ligne de commande, et exécutez les commandes suivantes :
+Plutôt que d'écrire du code qui implémente ces opérations CRUD, vous allez encore vous servir du puissant outil `yiic`, afin de générer automatiquement ce code. Ce processus est aussi connu sous le nom de *scaffolding* (échafaudage). Ouvrez une fenêtre de ligne de commande, et exécutez les commandes suivantes :
 
 ~~~
 % cd WebRoot/testdrive
@@ -171,11 +151,11 @@ Please type 'help' for help. Type 'exit' to quit.
    generate User.php
 
 The 'User' class has been successfully created in the following file:
-    D:\wwwroot\testdrive\protected\models\User.php
+	D:\wwwroot\testdrive\protected\models\User.php
 
 If you have a 'db' database connection, you can test it now with:
-    $model=User::model()->find();
-    print_r($model);
+	$model=User::model()->find();
+	print_r($model);
 
 >> crud User
    generate UserController.php
@@ -189,10 +169,9 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Ci-dessus, nous utilisons la commande `yiic shell` pour interagir avec notre
+Ci-dessus, c'est la commande `yiic shell` qui est utilisée pour interagir avec votre
 application. Au prompt, nous exécutons 2 sous-commandes : `model User`, et `crud User`.
-La première genère une class "Model" pour la table `User`, et la seconde lit ce modèle
-pour générer le code qui implémente les traitements CRUD.
+La première génère une classe "Model" pour la table `User`, et la seconde lit ce modèle pour générer le code qui implémente les opérations CRUD.
 
 > Note|Note : Si vous rencontrez des erreurs comme "...could not find driver", alors
 > que le script de test des pré-requis signale que PDO et les drivers associés sont
@@ -202,42 +181,34 @@ pour générer le code qui implémente les traitements CRUD.
 > % php -c path/to/php.ini protected/yiic.php shell
 > ~~~
 >
-> où `path/to/php.ini` représente le chemin d'accès au fichier php.ini
+où `path/to/php.ini` représente le chemin d'accès au fichier php.ini
 
-Jetons maintenant un oeil à notre application par cette URL :
-
-~~~
-http://hostname/testdrive/index.php?r=user
-~~~
-
-Cela va afficher la liste des entrées dans la table `User`. Etant donné que
-notre table est vide, rien n'apparaîtra pour le moment.
-
-Cliquez sur le lien `New User` sur la page. Si nous n'étions pas encore connecté,
-nous allons être redirigés vers la page de login. Après s'être connecté, un formulaire
-contenant tous les champs permettant la création d'un utilisateur sera affiché.
-Completez le formulaire, et cliquez sur le bouton `Create`. Si une erreur de saisie
-s'est glissée dans le formulaire, un message d'erreur sera affiché, nous empêchant
-alors de sauvegarer l'entrée. En revenant à la liste des utilisateurs, nous devrions
-alors voir le nouvel utilisateur que nous avons créé.
-
-Répetez ces étapes pour ajouter plus d'utilisateur. Notez que la liste d'utilisateur
-sera automatiquement paginée s'il y a trop d'utilisateur à afficher sur une seule
-page.
-
-Si nous nous connectons en tant qu'administrateur en utilisant `admin/admin`, nous
-pouvons visiter l'a page d'administration à l'URL suivante :
+Jetons maintenant un œil à notre application qui est à cette URL :
 
 ~~~
-http://hostname/testdrive/index.php?r=user/admin
+http://WebRoot/testdrive/index.php?r=user
+~~~
+
+Cela va afficher la liste des entrées contenues dans la table `User`. Etant donné que notre table est vide, rien n'apparaîtra pour le moment.
+
+Cliquez sur le lien `New User` sur la page. Si vous n'étiez pas encore connecté, vous allez être redirigé vers la page de login. Après s'être connecté, un formulaire contenant tous les champs permettant la création d'un utilisateur sera affiché.
+Complétez le formulaire, et cliquez sur le bouton `Create`. Si une erreur de saisie
+s'est glissée dans le formulaire, un message d'erreur sera affiché, vous empêchant alors de sauvegarder l'entrée. En revenant à la liste des utilisateurs, vous devriez alors voir le nouvel utilisateur que vous avez créé.
+
+Répétez ces étapes pour ajouter autant d'utilisateurs que vous voulez. Notez que la liste des utilisateurs sera automatiquement paginée s'il y a de nombreux utilisateurs à afficher sur une seule page.
+
+Si vous vous connectez en tant qu'administrateur en utilisant `admin/admin`, vous pouvez visiter la page d'administration à l'URL suivante :
+
+~~~
+http://WebRoot/testdrive/index.php?r=user/admin
 ~~~
 
 Cette page affiche une jolie table des utilisateurs. Il est possible de cliquer
 sur les entêtes de la table afin de la trier selon la colonne correspondante. Et,
-de la même manière que la liste précédente, cette table sera paginée si le nombre
+de la même manière que la liste précédente, cette table est paginée si le nombre
 d'entrées est trop important.
 
-Toutes ces fonctionnalités ont été réalisées sans écrire une seule ligne de code !
+Toutes ces fonctionnalités ont été réalisées sans écrire une seule ligne de code!
 
 ![Page d'administration des utilisateurs](first-app6.png)
 
@@ -245,4 +216,4 @@ Toutes ces fonctionnalités ont été réalisées sans écrire une seule ligne d
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1264 $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1267 2013-11-20 $</div>

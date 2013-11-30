@@ -422,13 +422,13 @@ class CLocale extends CComponent
 		{
 			return $this->_data[$category][$id];
 		}
-		elseif (($category == 'scripts') && ($id=$this->getScriptID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'scripts') && ($val=$this->getScriptID($id)) && (isset($this->_data[$category][$val])))
 		{
-			return $this->_data[$category][$id];
+			return $this->_data[$category][$val];
 		}
-		elseif (($category == 'territories') && ($id=$this->getTerritoryID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'territories') && ($val=$this->getTerritoryID($id)) && (isset($this->_data[$category][$val])))
 		{
-			return $this->_data[$category][$id];
+			return $this->_data[$category][$val];
 		}
 		elseif (isset($this->_data[$category][$id]))
 		{
