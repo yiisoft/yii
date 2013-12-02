@@ -483,10 +483,10 @@ class CGridView extends CBaseListView
 		if($this->dataProvider->getItemCount()>0 || $this->showTableOnEmpty)
 		{
 			echo "<table class=\"{$this->itemsCssClass}\">\n";
-			$this->renderTableHeader();
 			ob_start();
 			$this->renderTableBody();
 			$body=ob_get_clean();
+			$this->renderTableHeader();
 			$this->renderTableFooter();
 			echo $body; // TFOOT must appear before TBODY according to the standard.
 			echo "</table>";
