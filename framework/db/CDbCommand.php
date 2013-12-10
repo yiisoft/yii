@@ -69,12 +69,12 @@ class CDbCommand extends CComponent
 	 */
 	public $params=array();
 
-	private $_connection;
-	private $_text;
-	private $_statement;
-	private $_paramLog=array();
-	private $_query;
-	private $_fetchMode = array(PDO::FETCH_ASSOC);
+	protected $_connection;
+	protected $_text;
+	protected $_statement;
+	protected $_paramLog=array();
+	protected $_query;
+	protected $_fetchMode = array(PDO::FETCH_ASSOC);
 
 	/**
 	 * Constructor.
@@ -467,7 +467,7 @@ class CDbCommand extends CComponent
 	 * @throws CDbException if CDbCommand failed to execute the SQL statement
 	 * @return mixed the method execution result
 	 */
-	private function queryInternal($method,$mode,$params=array())
+	protected function queryInternal($method,$mode,$params=array())
 	{
 		$params=array_merge($this->params,$params);
 
@@ -1506,7 +1506,7 @@ class CDbCommand extends CComponent
 	 * @throws CDbException if unknown operator is used
 	 * @return string the condition string to put in the WHERE part
 	 */
-	private function processConditions($conditions)
+	protected function processConditions($conditions)
 	{
 		if(!is_array($conditions))
 			return $conditions;
@@ -1585,7 +1585,7 @@ class CDbCommand extends CComponent
 	 * @return CDbCommand the command object itself
 	 * @since 1.1.6
 	 */
-	private function joinInternal($type, $table, $conditions='', $params=array())
+	protected function joinInternal($type, $table, $conditions='', $params=array())
 	{
 		if(strpos($table,'(')===false)
 		{
