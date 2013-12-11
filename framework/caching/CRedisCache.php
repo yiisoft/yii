@@ -66,7 +66,7 @@ class CRedisCache extends CCache
 	/**
 	 * @var resource redis socket connection
 	 */
-	private $_socket;
+	protected $_socket;
 
 	/**
 	 * Establishes a connection to the redis server.
@@ -75,6 +75,8 @@ class CRedisCache extends CCache
 	 */
 	protected function connect()
 	{
+    $errorNumber = 0;
+    $errorDescription='';
 		$this->_socket=@stream_socket_client(
 			$this->hostname.':'.$this->port,
 			$errorNumber,
@@ -83,12 +85,14 @@ class CRedisCache extends CCache
 		);
 		if ($this->_socket)
 		{
-			if($this->password!==null)
+			if($this->password!==null){
 				$this->executeCommand('AUTH',array($this->password));
+      }
 			$this->executeCommand('SELECT',array($this->database));
 		}
-		else
+		else{
 			throw new CException('Failed to connect to redis: '.$errorDescription,(int)$errorNumber);
+    }
 	}
 
 	/**
