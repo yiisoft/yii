@@ -56,6 +56,21 @@ class CRedisSentinelCacheTest extends CTestCase
 		$this->assertEquals($cache->port,'6379');
 	}
 
+	public function testCacheConfigFilePath(){
+		$cache = new CRedisSentinelMockCache;
+		$rgex = '/redis-cache-' . $cache->sentinelMasterName . '\.conf$/';
+		$this->assertEquals(preg_match($rgex, $cache->getCacheConfigFilePath()), 1);
+	}
+
+	public function testCacheConfigFilePathPersisted(){
+		$cache = new CRedisSentinelMockCache;
+		if(file_exists($cache->getCacheConfigFilePath())){
+			unlink($cache->getCacheConfigFilePath());
+		}
+		$cache->get('nothing');
+		$this->assertTrue(file_exists($cache->getCacheConfigFilePath()));
+	}
+
 	public function testKeyPrefix()
 	{
 		$cache=new CRedisSentinelCache;
@@ -198,4 +213,8 @@ class CRedisSentinelCacheTest extends CTestCase
 }
 
 class CRedisSentinelMockCache extends CRedisSentinelCache{
+
+	public function getCacheConfigFilePath(){
+		return $this->getSentinelMasterConfFile();
+	}
 }

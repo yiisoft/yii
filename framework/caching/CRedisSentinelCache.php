@@ -139,7 +139,6 @@ class CRedisSentinelCache extends CRedisCache
   }
     
   private function removeCurrentMasterConf(){
-    echo "remove";
     if(!file_exists($this->getSentinelMasterConfFile())){
       return true;
     }
@@ -149,7 +148,7 @@ class CRedisSentinelCache extends CRedisCache
   }
   
   
-  private function getSentinelMasterConfFile(){
+  protected function getSentinelMasterConfFile(){
     return Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'redis-cache-' . $this->sentinelMasterName . '.conf';
   }
 }
