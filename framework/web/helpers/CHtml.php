@@ -2422,7 +2422,7 @@ EOD;
 
 		if($type==='file')
 			unset($htmlOptions['value']);
-		elseif(!isset($htmlOptions['value']))
+		elseif(!isset($htmlOptions['value']) && $type!=='password')
 			$htmlOptions['value']=self::resolveValue($model,$attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
