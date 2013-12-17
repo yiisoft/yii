@@ -590,7 +590,7 @@ abstract class CActiveRecord extends CModel
 	 * Returns the text label for the specified attribute.
 	 * This method overrides the parent implementation by supporting
 	 * returning the label defined in relational object.
-	 * In particular, if the attribute name is in the form of "post.author.name",
+	 * In particular, if the attribute name is in the form of "post.author.name" or "post[author][name]",
 	 * then this method will derive the label from the "author" relation's "name" attribute.
 	 * @param string $attribute the attribute name
 	 * @return string the attribute label
@@ -602,8 +602,10 @@ abstract class CActiveRecord extends CModel
 		$labels=$this->attributeLabels();
 		if(isset($labels[$attribute]))
 			return $labels[$attribute];
-		elseif(strpos($attribute,'.')!==false)
+		elseif(($dot=strpos($attribute,'.'))!==false || strpos($attribute,'[')!==false)
 		{
+			if ($dot===false) // convert bracket to dot notation
+				$attribute = strtr($attribute, array(']['=>'.','['=>'.',']'=>''));
 			$segs=explode('.',$attribute);
 			$name=array_pop($segs);
 			$model=$this;
