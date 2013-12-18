@@ -84,7 +84,7 @@ class CDecimalValidator extends CValidator
 		if(is_string($value))
 			$value=trim(str_replace($thousands,'',$value));
 		
-		if(!is_numeric($value) || !empty(trim($value,'+-.,0123456789')))
+		if(!is_numeric($value) || trim($value,'+-.,0123456789'))
 		{
 			$this->addError($object, $attribute, Yii::t('yii',$this->message));
 			return;
