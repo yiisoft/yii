@@ -235,8 +235,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'y年M月d日EEEE',
-    'long' => 'y年M月d日',
+    'full' => 'yyyy年M月d日EEEE',
+    'long' => 'yyyy年M月d日',
     'medium' => 'yyyy-M-d',
     'short' => 'yy-M-d',
   ),

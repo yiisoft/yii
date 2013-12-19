@@ -195,9 +195,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, d MMMM y \'р\'.',
-    'long' => 'd MMMM y \'р\'.',
-    'medium' => 'd MMM y',
+    'full' => 'EEEE, d MMMM yyyy \'р\'.',
+    'long' => 'd MMMM yyyy \'р\'.',
+    'medium' => 'd MMM yyyy',
     'short' => 'dd.MM.yy',
   ),
   'timeFormats' => 

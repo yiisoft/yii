@@ -11,7 +11,7 @@
  */
 return array (
   'version' => '6546',
-  'numberSymbols' => 
+  'numberSymbols' =>
   array (
     'alias' => '',
     'decimal' => '.',
@@ -29,7 +29,7 @@ return array (
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '¤#,##0.00',
-  'currencySymbols' => 
+  'currencySymbols' =>
   array (
     'AUD' => 'AU$',
     'BRL' => 'R$',
@@ -53,9 +53,9 @@ return array (
     'XOF' => 'CFA',
     'XPF' => 'CFPF',
   ),
-  'monthNames' => 
+  'monthNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       1 => '1月',
       2 => '2月',
@@ -70,7 +70,7 @@ return array (
       11 => '11月',
       12 => '12月',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => '1',
       2 => '2',
@@ -86,9 +86,9 @@ return array (
       12 => '12',
     ),
   ),
-  'monthNamesSA' => 
+  'monthNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       1 => '1',
       2 => '2',
@@ -104,9 +104,9 @@ return array (
       12 => '12',
     ),
   ),
-  'weekDayNames' => 
+  'weekDayNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       0 => '日曜日',
       1 => '月曜日',
@@ -116,7 +116,7 @@ return array (
       5 => '金曜日',
       6 => '土曜日',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => '日',
       1 => '月',
@@ -127,9 +127,9 @@ return array (
       6 => '土',
     ),
   ),
-  'weekDayNamesSA' => 
+  'weekDayNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       0 => '日',
       1 => '月',
@@ -140,32 +140,32 @@ return array (
       6 => '土',
     ),
   ),
-  'eraNames' => 
+  'eraNames' =>
   array (
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'BC',
       1 => 'AD',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => '紀元前',
       1 => '西暦',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'BC',
       1 => 'AD',
     ),
   ),
-  'dateFormats' => 
+  'dateFormats' =>
   array (
-    'full' => 'y年M月d日EEEE',
-    'long' => 'y年M月d日',
+    'full' => 'yyyy年M月d日EEEE',
+    'long' => 'yyyy年M月d日',
     'medium' => 'yyyy/MM/dd',
     'short' => 'yyyy/MM/dd',
   ),
-  'timeFormats' => 
+  'timeFormats' =>
   array (
     'full' => 'H時mm分ss秒 zzzz',
     'long' => 'H:mm:ss z',
@@ -176,7 +176,7 @@ return array (
   'amName' => '午前',
   'pmName' => '午後',
   'orientation' => 'ltr',
-  'languages' => 
+  'languages' =>
   array (
     'aa' => 'アファル語',
     'ab' => 'アブハズ語',
@@ -692,7 +692,7 @@ return array (
     'zun' => 'ズニ語',
     'zxx' => '言語的内容なし',
   ),
-  'scripts' => 
+  'scripts' =>
   array (
     'arab' => 'ペルソ・アラビア',
     'armn' => 'アルメニア文字',
@@ -806,7 +806,7 @@ return array (
     'zyyy' => '共用文字',
     'zzzz' => '言語不明または無効な文字',
   ),
-  'territories' => 
+  'territories' =>
   array (
     '001' => '世界',
     '002' => 'アフリカ',

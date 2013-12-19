@@ -302,9 +302,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE፥ dd MMMM መዓልት y G',
-    'long' => 'dd MMMM y',
-    'medium' => 'dd-MMM-y',
+    'full' => 'EEEE፥ dd MMMM መዓልት yyyy G',
+    'long' => 'dd MMMM yyyy',
+    'medium' => 'dd-MMM-yyyy',
     'short' => 'dd/MM/yy',
   ),
   'timeFormats' => 

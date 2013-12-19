@@ -302,9 +302,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, y MMMM dd',
-    'long' => 'y MMMM d',
-    'medium' => 'y MMM d',
+    'full' => 'EEEE, yyyy MMMM dd',
+    'long' => 'yyyy MMMM d',
+    'medium' => 'yyyy MMM d',
     'short' => 'yy/MM/dd',
   ),
   'timeFormats' => 

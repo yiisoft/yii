@@ -11,7 +11,7 @@
  */
 return array (
   'version' => '4768',
-  'numberSymbols' => 
+  'numberSymbols' =>
   array (
     'decimal' => '.',
     'group' => ',',
@@ -30,7 +30,7 @@ return array (
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '¤#,##0.00',
-  'currencySymbols' => 
+  'currencySymbols' =>
   array (
     'AFN' => 'Af',
     'ANG' => 'NAf.',
@@ -195,9 +195,9 @@ return array (
     'ZRZ' => 'ZRZ',
     'ZWD' => 'Z$',
   ),
-  'monthNames' => 
+  'monthNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       1 => 'ጠሐረ',
       2 => 'ከተተ',
@@ -212,7 +212,7 @@ return array (
       11 => 'ኀደረ',
       12 => 'ኀሠሠ',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => '1',
       2 => '2',
@@ -228,9 +228,9 @@ return array (
       12 => '12',
     ),
   ),
-  'monthNamesSA' => 
+  'monthNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       1 => 'ጠ',
       2 => 'ከ',
@@ -246,9 +246,9 @@ return array (
       12 => 'ኀ',
     ),
   ),
-  'weekDayNames' => 
+  'weekDayNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       0 => 'እኁድ',
       1 => 'ሰኑይ',
@@ -258,7 +258,7 @@ return array (
       5 => 'ዓርበ',
       6 => 'ቀዳሚት',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => '1',
       1 => '2',
@@ -269,9 +269,9 @@ return array (
       6 => '7',
     ),
   ),
-  'weekDayNamesSA' => 
+  'weekDayNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'እ',
       1 => 'ሰ',
@@ -282,32 +282,32 @@ return array (
       6 => 'ቀ',
     ),
   ),
-  'eraNames' => 
+  'eraNames' =>
   array (
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'ዓ/ዓ',
       1 => 'ዓ/ም',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => 'ዓ/ዓ',
       1 => 'ዓ/ም',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'ዓ/ዓ',
       1 => 'ዓ/ም',
     ),
   ),
-  'dateFormats' => 
+  'dateFormats' =>
   array (
-    'full' => 'EEEE፥ dd MMMM መዓልት y G',
-    'long' => 'dd MMMM y',
-    'medium' => 'dd-MMM-y',
+    'full' => 'EEEE፥ dd MMMM መዓልት yyyy G',
+    'long' => 'dd MMMM yyyy',
+    'medium' => 'dd-MMM-yyyy',
     'short' => 'dd/MM/yy',
   ),
-  'timeFormats' => 
+  'timeFormats' =>
   array (
     'full' => 'h:mm:ss a zzzz',
     'long' => 'h:mm:ss a z',

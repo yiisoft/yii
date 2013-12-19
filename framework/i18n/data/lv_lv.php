@@ -176,9 +176,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, y. \'gada\' d. MMMM',
-    'long' => 'y. \'gada\' d. MMMM',
-    'medium' => 'y. \'gada\' d. MMM',
+    'full' => 'EEEE, yyyy. \'gada\' d. MMMM',
+    'long' => 'yyyy. \'gada\' d. MMMM',
+    'medium' => 'yyyy. \'gada\' d. MMM',
     'short' => 'dd.MM.yy',
   ),
   'timeFormats' => 

@@ -11,7 +11,7 @@
  */
 return array (
   'version' => '6546',
-  'numberSymbols' => 
+  'numberSymbols' =>
   array (
     'alias' => '',
     'decimal' => ',',
@@ -29,7 +29,7 @@ return array (
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '#,##0.00 ¤',
-  'currencySymbols' => 
+  'currencySymbols' =>
   array (
     'AUD' => 'AU$',
     'BRL' => 'R$',
@@ -54,9 +54,9 @@ return array (
     'XPF' => 'CFPF',
     'GRD' => 'Δρχ',
   ),
-  'monthNames' => 
+  'monthNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       1 => 'Ιανουαρίου',
       2 => 'Φεβρουαρίου',
@@ -71,7 +71,7 @@ return array (
       11 => 'Νοεμβρίου',
       12 => 'Δεκεμβρίου',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => 'Ιαν',
       2 => 'Φεβ',
@@ -86,7 +86,7 @@ return array (
       11 => 'Νοε',
       12 => 'Δεκ',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       1 => 'Ι',
       2 => 'Φ',
@@ -102,9 +102,9 @@ return array (
       12 => 'Δ',
     ),
   ),
-  'monthNamesSA' => 
+  'monthNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       1 => 'Ι',
       2 => 'Φ',
@@ -119,7 +119,7 @@ return array (
       11 => 'Ν',
       12 => 'Δ',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => 'Ιαν',
       2 => 'Φεβ',
@@ -134,7 +134,7 @@ return array (
       11 => 'Νοέ',
       12 => 'Δεκ',
     ),
-    'wide' => 
+    'wide' =>
     array (
       1 => 'Ιανουάριος',
       2 => 'Φεβρουάριος',
@@ -150,9 +150,9 @@ return array (
       12 => 'Δεκέμβριος',
     ),
   ),
-  'weekDayNames' => 
+  'weekDayNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       0 => 'Κυριακή',
       1 => 'Δευτέρα',
@@ -162,7 +162,7 @@ return array (
       5 => 'Παρασκευή',
       6 => 'Σάββατο',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'Κυρ',
       1 => 'Δευ',
@@ -172,7 +172,7 @@ return array (
       5 => 'Παρ',
       6 => 'Σαβ',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'Κ',
       1 => 'Δ',
@@ -183,9 +183,9 @@ return array (
       6 => 'Σ',
     ),
   ),
-  'weekDayNamesSA' => 
+  'weekDayNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'Κ',
       1 => 'Δ',
@@ -195,7 +195,7 @@ return array (
       5 => 'Π',
       6 => 'Σ',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'Κυρ',
       1 => 'Δευ',
@@ -205,7 +205,7 @@ return array (
       5 => 'Παρ',
       6 => 'Σάβ',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => 'Κυριακή',
       1 => 'Δευτέρα',
@@ -216,32 +216,32 @@ return array (
       6 => 'Σάββατο',
     ),
   ),
-  'eraNames' => 
+  'eraNames' =>
   array (
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'π.Χ.',
       1 => 'μ.Χ.',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => 'π.Χ.',
       1 => 'μ.Χ.',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'π.Χ.',
       1 => 'μ.Χ.',
     ),
   ),
-  'dateFormats' => 
+  'dateFormats' =>
   array (
-    'full' => 'EEEE, d MMMM y',
-    'long' => 'd MMMM y',
-    'medium' => 'd MMM y',
+    'full' => 'EEEE, d MMMM yyyy',
+    'long' => 'd MMMM yyyy',
+    'medium' => 'd MMM yyyy',
     'short' => 'd/M/yy',
   ),
-  'timeFormats' => 
+  'timeFormats' =>
   array (
     'full' => 'h:mm:ss a zzzz',
     'long' => 'h:mm:ss a z',
@@ -252,7 +252,7 @@ return array (
   'amName' => 'π.μ.',
   'pmName' => 'μ.μ.',
   'orientation' => 'ltr',
-  'languages' => 
+  'languages' =>
   array (
     'aa' => 'Αφάρ',
     'ab' => 'Αμπχαζικά',
@@ -772,7 +772,7 @@ return array (
     'zxx' => 'Χωρίς γλωσσολογικό περιεχόμενο',
     'zza' => 'Ζάζα',
   ),
-  'scripts' => 
+  'scripts' =>
   array (
     'arab' => 'Περσικά-Αραβικά',
     'armi' => 'Αυτοκρατορικό Αραμαϊκό',
@@ -905,7 +905,7 @@ return array (
     'zyyy' => 'Κοινό',
     'zzzz' => 'Άγνωστη ή ακατάλληλη γραφή',
   ),
-  'territories' => 
+  'territories' =>
   array (
     '001' => 'Κόσμος',
     '002' => 'Αφρική',
@@ -1195,7 +1195,7 @@ return array (
     'zw' => 'Ζιμπάμπουε',
     'zz' => 'Άγνωστη ή μη έγκυρη περιοχή',
   ),
-  'pluralRules' => 
+  'pluralRules' =>
   array (
     0 => 'n==1',
     1 => 'true',

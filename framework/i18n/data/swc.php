@@ -144,8 +144,8 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'mbele ya Y',
-      1 => 'kisha ya Y',
+      0 => 'mbele ya yyyy',
+      1 => 'kisha ya yyyy',
     ),
     'wide' => 
     array (
@@ -154,15 +154,15 @@ return array (
     ),
     'narrow' => 
     array (
-      0 => 'mbele ya Y',
-      1 => 'kisha ya Y',
+      0 => 'mbele ya yyyy',
+      1 => 'kisha ya yyyy',
     ),
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE d MMMM y',
-    'long' => 'd MMMM y',
-    'medium' => 'd MMM y',
+    'full' => 'EEEE d MMMM yyyy',
+    'long' => 'd MMMM yyyy',
+    'medium' => 'd MMM yyyy',
     'short' => 'd/M/yyyy',
   ),
   'timeFormats' => 

@@ -161,8 +161,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE dd MMMM y',
-    'long' => 'd. MMM y',
+    'full' => 'EEEE dd MMMM yyyy',
+    'long' => 'd. MMM yyyy',
     'medium' => 'dd-MM-yyyy',
     'short' => 'dd-MM-yy',
   ),

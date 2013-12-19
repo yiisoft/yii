@@ -162,9 +162,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'y نچی ییل d نچی MMMM EEEE کونی',
-    'long' => 'd نچی MMMM y',
-    'medium' => 'd MMM y',
+    'full' => 'yyyy نچی ییل d نچی MMMM EEEE کونی',
+    'long' => 'd نچی MMMM yyyy',
+    'medium' => 'd MMM yyyy',
     'short' => 'yyyy/M/d',
   ),
   'timeFormats' => 

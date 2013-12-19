@@ -235,9 +235,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, d \'di\' MMMM \'di\' y',
-    'long' => 'd \'di\' MMMM \'di\' y',
-    'medium' => 'd \'di\' MMM \'di\' y',
+    'full' => 'EEEE, d \'di\' MMMM \'di\' yyyy',
+    'long' => 'd \'di\' MMMM \'di\' yyyy',
+    'medium' => 'd \'di\' MMM \'di\' yyyy',
     'short' => 'd/M/yyyy',
   ),
   'timeFormats' => 
@@ -355,7 +355,7 @@ return array (
     '034' => 'Sul di Azia',
     '035' => 'Sudesti Aziatiku',
     '039' => 'Europa di Sul',
-    '053' => 'Australia y Nova Zelandia',
+    '053' => 'Australia yyyy Nova Zelandia',
     '054' => 'Melanezia',
     '057' => 'Rejiãu di Mikronezia',
     '061' => 'Polinezia',

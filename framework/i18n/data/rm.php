@@ -160,8 +160,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, \'ils\' d \'da\' MMMM y',
-    'long' => 'd \'da\' MMMM y',
+    'full' => 'EEEE, \'ils\' d \'da\' MMMM yyyy',
+    'long' => 'd \'da\' MMMM yyyy',
     'medium' => 'dd-MM-yyyy',
     'short' => 'dd-MM-yy',
   ),

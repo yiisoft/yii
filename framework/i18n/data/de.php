@@ -11,7 +11,7 @@
  */
 return array (
   'version' => '6546',
-  'numberSymbols' => 
+  'numberSymbols' =>
   array (
     'alias' => '',
     'decimal' => ',',
@@ -29,7 +29,7 @@ return array (
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0 %',
   'currencyFormat' => '#,##0.00 ¤',
-  'currencySymbols' => 
+  'currencySymbols' =>
   array (
     'AUD' => 'AU$',
     'BRL' => 'R$',
@@ -54,9 +54,9 @@ return array (
     'XPF' => 'CFPF',
     'ATS' => 'öS',
   ),
-  'monthNames' => 
+  'monthNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       1 => 'Januar',
       2 => 'Februar',
@@ -71,7 +71,7 @@ return array (
       11 => 'November',
       12 => 'Dezember',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => 'Jan',
       2 => 'Feb',
@@ -87,9 +87,9 @@ return array (
       12 => 'Dez',
     ),
   ),
-  'monthNamesSA' => 
+  'monthNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       1 => 'J',
       2 => 'F',
@@ -104,7 +104,7 @@ return array (
       11 => 'N',
       12 => 'D',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => 'Jan',
       2 => 'Feb',
@@ -120,9 +120,9 @@ return array (
       12 => 'Dez',
     ),
   ),
-  'weekDayNames' => 
+  'weekDayNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       0 => 'Sonntag',
       1 => 'Montag',
@@ -132,7 +132,7 @@ return array (
       5 => 'Freitag',
       6 => 'Samstag',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'So.',
       1 => 'Mo.',
@@ -143,9 +143,9 @@ return array (
       6 => 'Sa.',
     ),
   ),
-  'weekDayNamesSA' => 
+  'weekDayNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'S',
       1 => 'M',
@@ -155,7 +155,7 @@ return array (
       5 => 'F',
       6 => 'S',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'So',
       1 => 'Mo',
@@ -166,32 +166,32 @@ return array (
       6 => 'Sa',
     ),
   ),
-  'eraNames' => 
+  'eraNames' =>
   array (
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'v. Chr.',
       1 => 'n. Chr.',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => 'v. Chr.',
       1 => 'n. Chr.',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'v. Chr.',
       1 => 'n. Chr.',
     ),
   ),
-  'dateFormats' => 
+  'dateFormats' =>
   array (
-    'full' => 'EEEE, d. MMMM y',
-    'long' => 'd. MMMM y',
+    'full' => 'EEEE, d. MMMM yyyy',
+    'long' => 'd. MMMM yyyy',
     'medium' => 'dd.MM.yyyy',
     'short' => 'dd.MM.yy',
   ),
-  'timeFormats' => 
+  'timeFormats' =>
   array (
     'full' => 'HH:mm:ss zzzz',
     'long' => 'HH:mm:ss z',
@@ -202,7 +202,7 @@ return array (
   'amName' => 'vorm.',
   'pmName' => 'nachm.',
   'orientation' => 'ltr',
-  'languages' => 
+  'languages' =>
   array (
     'aa' => 'Afar',
     'ab' => 'Abchasisch',
@@ -718,7 +718,7 @@ return array (
     'zxx' => 'Keine Sprachinhalte',
     'zza' => 'Zaza',
   ),
-  'scripts' => 
+  'scripts' =>
   array (
     'arab' => 'Persisch',
     'armi' => 'Armi',
@@ -843,7 +843,7 @@ return array (
     'zyyy' => 'Unbestimmt',
     'zzzz' => 'Uncodierte Schrift',
   ),
-  'territories' => 
+  'territories' =>
   array (
     '001' => 'Welt',
     '002' => 'Afrika',
@@ -1133,7 +1133,7 @@ return array (
     'zw' => 'Simbabwe',
     'zz' => 'Unbekannte Region',
   ),
-  'pluralRules' => 
+  'pluralRules' =>
   array (
     0 => 'n==1',
     1 => 'true',

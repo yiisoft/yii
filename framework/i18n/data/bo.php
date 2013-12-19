@@ -174,9 +174,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, y MMMM dd',
-    'long' => 'སྦྱི་ལོ་y MMMMའི་ཙེས་dད',
-    'medium' => 'y ལོ་འི་MMMཙེས་d',
+    'full' => 'EEEE, yyyy MMMM dd',
+    'long' => 'སྦྱི་ལོ་yyyy MMMMའི་ཙེས་dད',
+    'medium' => 'yyyy ལོ་འི་MMMཙེས་d',
     'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 

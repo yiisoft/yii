@@ -171,9 +171,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, y\'eko\' MMMM\'ren\' dd\'a\'',
-    'long' => 'y\'eko\' MMM\'ren\' dd\'a\'',
-    'medium' => 'y MMM d',
+    'full' => 'EEEE, yyyy\'eko\' MMMM\'ren\' dd\'a\'',
+    'long' => 'yyyy\'eko\' MMM\'ren\' dd\'a\'',
+    'medium' => 'yyyy MMM d',
     'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 

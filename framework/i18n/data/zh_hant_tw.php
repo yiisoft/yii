@@ -11,7 +11,7 @@
  */
 return array (
   'version' => '4123',
-  'numberSymbols' => 
+  'numberSymbols' =>
   array (
     'alias' => '',
     'decimal' => '.',
@@ -29,7 +29,7 @@ return array (
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '¤#,##0.00',
-  'currencySymbols' => 
+  'currencySymbols' =>
   array (
     'AUD' => 'AU$',
     'BRL' => 'R$',
@@ -53,9 +53,9 @@ return array (
     'XOF' => 'CFA',
     'XPF' => 'CFPF',
   ),
-  'monthNames' => 
+  'monthNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       1 => '1月',
       2 => '2月',
@@ -70,7 +70,7 @@ return array (
       11 => '11月',
       12 => '12月',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => '1月',
       2 => '2月',
@@ -85,7 +85,7 @@ return array (
       11 => '11月',
       12 => '12月',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       1 => '1',
       2 => '2',
@@ -101,9 +101,9 @@ return array (
       12 => '12',
     ),
   ),
-  'monthNamesSA' => 
+  'monthNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       1 => '1',
       2 => '2',
@@ -118,7 +118,7 @@ return array (
       11 => '11',
       12 => '12',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => '1月',
       2 => '2月',
@@ -133,7 +133,7 @@ return array (
       11 => '11月',
       12 => '12月',
     ),
-    'wide' => 
+    'wide' =>
     array (
       1 => '一月',
       2 => '二月',
@@ -149,9 +149,9 @@ return array (
       12 => '十二月',
     ),
   ),
-  'weekDayNames' => 
+  'weekDayNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       0 => '星期日',
       1 => '星期一',
@@ -161,7 +161,7 @@ return array (
       5 => '星期五',
       6 => '星期六',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => '週日',
       1 => '週一',
@@ -171,7 +171,7 @@ return array (
       5 => '週五',
       6 => '週六',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => '日',
       1 => '一',
@@ -182,9 +182,9 @@ return array (
       6 => '六',
     ),
   ),
-  'weekDayNamesSA' => 
+  'weekDayNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       0 => '日',
       1 => '一',
@@ -194,7 +194,7 @@ return array (
       5 => '五',
       6 => '六',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => '周日',
       1 => '周一',
@@ -204,7 +204,7 @@ return array (
       5 => '周五',
       6 => '周六',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => '星期日',
       1 => '星期一',
@@ -215,32 +215,32 @@ return array (
       6 => '星期六',
     ),
   ),
-  'eraNames' => 
+  'eraNames' =>
   array (
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => '西元前',
       1 => '西元',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => '公元前',
       1 => '公元',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => '公元前',
       1 => '公元',
     ),
   ),
-  'dateFormats' => 
+  'dateFormats' =>
   array (
-    'full' => 'y年M月d日EEEE',
-    'long' => 'y年M月d日',
+    'full' => 'yyyy年M月d日EEEE',
+    'long' => 'yyyy年M月d日',
     'medium' => 'yyyy/M/d',
-    'short' => 'y/M/d',
+    'short' => 'yyyy/M/d',
   ),
-  'timeFormats' => 
+  'timeFormats' =>
   array (
     'full' => 'zzzzah時mm分ss秒',
     'long' => 'zah時mm分ss秒',
@@ -251,7 +251,7 @@ return array (
   'amName' => '上午',
   'pmName' => '下午',
   'orientation' => 'ltr',
-  'languages' => 
+  'languages' =>
   array (
     'aa' => '阿法文',
     'ab' => '阿布哈茲文',
@@ -769,7 +769,7 @@ return array (
     'wae' => '瓦瑟文',
     'zbl' => '布列斯符號',
   ),
-  'scripts' => 
+  'scripts' =>
   array (
     'arab' => '波斯阿拉伯文字',
     'armn' => '亞美尼亞文',
@@ -893,7 +893,7 @@ return array (
     'cakm' => '查克馬文',
     'sylo' => '希洛弟納格里文',
   ),
-  'territories' => 
+  'territories' =>
   array (
     '001' => '世界',
     '002' => '非洲',

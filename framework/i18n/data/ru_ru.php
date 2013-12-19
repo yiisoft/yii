@@ -238,8 +238,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, d MMMM y \'г\'.',
-    'long' => 'd MMMM y \'г\'.',
+    'full' => 'EEEE, d MMMM yyyy \'г\'.',
+    'long' => 'd MMMM yyyy \'г\'.',
     'medium' => 'dd.MM.yyyy',
     'short' => 'dd.MM.yy',
   ),

@@ -11,7 +11,7 @@
  */
 return array (
   'version' => '6546',
-  'numberSymbols' => 
+  'numberSymbols' =>
   array (
     'alias' => '',
     'decimal' => ',',
@@ -29,7 +29,7 @@ return array (
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0 %',
   'currencyFormat' => '#,##0.00 ¤',
-  'currencySymbols' => 
+  'currencySymbols' =>
   array (
     'AUD' => 'AU$',
     'BRL' => 'R$',
@@ -54,9 +54,9 @@ return array (
     'XPF' => 'CFPF',
     'CZK' => 'Kč',
   ),
-  'monthNames' => 
+  'monthNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       1 => 'ledna',
       2 => 'února',
@@ -71,7 +71,7 @@ return array (
       11 => 'listopadu',
       12 => 'prosince',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => 'Led',
       2 => 'Úno',
@@ -86,7 +86,7 @@ return array (
       11 => 'Lis',
       12 => 'Pro',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       1 => '1',
       2 => '2',
@@ -102,9 +102,9 @@ return array (
       12 => '12',
     ),
   ),
-  'monthNamesSA' => 
+  'monthNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       1 => 'l',
       2 => 'ú',
@@ -119,7 +119,7 @@ return array (
       11 => 'l',
       12 => 'p',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => '1.',
       2 => '2.',
@@ -134,7 +134,7 @@ return array (
       11 => '11.',
       12 => '12.',
     ),
-    'wide' => 
+    'wide' =>
     array (
       1 => 'leden',
       2 => 'únor',
@@ -150,9 +150,9 @@ return array (
       12 => 'prosinec',
     ),
   ),
-  'weekDayNames' => 
+  'weekDayNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       0 => 'neděle',
       1 => 'pondělí',
@@ -162,7 +162,7 @@ return array (
       5 => 'pátek',
       6 => 'sobota',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'ne',
       1 => 'po',
@@ -172,7 +172,7 @@ return array (
       5 => 'pá',
       6 => 'so',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'N',
       1 => 'P',
@@ -183,9 +183,9 @@ return array (
       6 => 'S',
     ),
   ),
-  'weekDayNamesSA' => 
+  'weekDayNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'N',
       1 => 'P',
@@ -195,7 +195,7 @@ return array (
       5 => 'P',
       6 => 'S',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'ne',
       1 => 'po',
@@ -205,7 +205,7 @@ return array (
       5 => 'pá',
       6 => 'so',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => 'neděle',
       1 => 'pondělí',
@@ -216,32 +216,32 @@ return array (
       6 => 'sobota',
     ),
   ),
-  'eraNames' => 
+  'eraNames' =>
   array (
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'př. n. l.',
       1 => 'n. l.',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => 'př. n. l.',
       1 => 'n. l.',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'př.n.l.',
       1 => 'n. l.',
     ),
   ),
-  'dateFormats' => 
+  'dateFormats' =>
   array (
-    'full' => 'EEEE, d. MMMM y',
-    'long' => 'd. MMMM y',
+    'full' => 'EEEE, d. MMMM yyyy',
+    'long' => 'd. MMMM yyyy',
     'medium' => 'd. M. yyyy',
     'short' => 'dd.MM.yy',
   ),
-  'timeFormats' => 
+  'timeFormats' =>
   array (
     'full' => 'H:mm:ss zzzz',
     'long' => 'H:mm:ss z',
@@ -252,7 +252,7 @@ return array (
   'amName' => 'dop.',
   'pmName' => 'odp.',
   'orientation' => 'ltr',
-  'languages' => 
+  'languages' =>
   array (
     'aa' => 'afarština',
     'ab' => 'abcházština',
@@ -725,7 +725,7 @@ return array (
     'zun' => 'zunijština',
     'zxx' => 'žádný jazykový obsah',
   ),
-  'scripts' => 
+  'scripts' =>
   array (
     'arab' => 'persko-arabské',
     'armn' => 'arménské',
@@ -825,7 +825,7 @@ return array (
     'zyyy' => 'obecné',
     'zzzz' => 'neznámé písmo',
   ),
-  'territories' => 
+  'territories' =>
   array (
     '001' => 'Svět',
     '002' => 'Afrika',
@@ -1114,7 +1114,7 @@ return array (
     'zw' => 'Zimbabwe',
     'zz' => 'Neznámá nebo neplatná oblast',
   ),
-  'pluralRules' => 
+  'pluralRules' =>
   array (
     0 => 'n==1',
     1 => '(n>=2&&n<=4&&fmod(n,1)==0)',
