@@ -25,7 +25,8 @@ class CUnsafeValidator extends CValidator
 	public $safe=false;
 	/**
 	 * Validates the attribute of the object.
-	 * If there is any error, the error message is added to the object.
+	 * This validator does not do any validation as it is meant
+	 * to only mark attributes as unsafe.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
 	 */

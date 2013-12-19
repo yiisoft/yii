@@ -9,7 +9,7 @@
  */
 
 /**
- * CMapIterator implements an interator for {@link CMap}.
+ * CMapIterator implements an iterator for {@link CMap}.
  *
  * It allows CMap to return a new iterator for traversing the items in the map.
  *

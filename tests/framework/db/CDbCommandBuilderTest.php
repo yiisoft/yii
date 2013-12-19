@@ -167,4 +167,40 @@ class CDbCommandBuilderTest extends CTestCase
 		$this->setExpectedException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
+
+	public function testMultipleInsert()
+	{
+		$builder=$this->db->getSchema()->getCommandBuilder();
+		$tableName='types';
+		$data=array(
+			array(
+				'int_col'=>1,
+				'char_col'=>'char_col_1',
+				'char_col2'=>'char_col_2_1',
+				'float_col'=>1.1,
+				'bool_col'=>true,
+			),
+			array(
+				'int_col'=>2,
+				'char_col'=>'char_col_2',
+				'float_col'=>2.2,
+				'bool_col'=>false,
+			),
+		);
+		$command=$builder->createMultipleInsertCommand($tableName,$data);
+		$command->execute();
+
+		$rows=$builder->dbConnection->createCommand('SELECT * FROM '.$builder->dbConnection->quoteTableName($tableName))->queryAll();
+
+		$this->assertEquals(count($data),count($rows),'Records count miss matches!');
+		foreach($rows as $rowIndex=>$row)
+			foreach($row as $columnName=>$value)
+			{
+				$columnIndex=array_search($columnName,$data[$rowIndex],true);
+				if($columnIndex==false)
+					continue;
+				$expectedValue=$data[$rowIndex][$columnIndex];
+				$this->assertTrue($expectedValue==$value,"Value for column '{$columnName}' incorrect!");
+			}
+	}
 }

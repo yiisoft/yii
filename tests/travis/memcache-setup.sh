@@ -1,10 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 
-if [[ $TRAVIS_PHP_VERSION < 5.5 ]]; then
-  echo 'y' | pecl install memcache > ~/memcache.log || ( echo "=== MEMCACHE BUILD FAILED ==="; cat ~/memcache.log )
-else
-  wget http://pecl.php.net/get/memcache-2.2.7.tgz
-  tar -zxf memcache-2.2.7.tgz
-  sh -c "cd memcache-2.2.7 && phpize && ./configure --enable-memcache && make && sudo make install"
-  echo "memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s/.*:\s*//"`
-fi
+install_memcache() {
+    if [ "$(expr "$TRAVIS_PHP_VERSION" ">=" "5.5")" -eq 1 ]; then
+        MEMCACHE_VERSION="2.2.7"
+        wget "http://pecl.php.net/get/memcache-$MEMCACHE_VERSION.tgz" &&
+        tar -zxf "memcache-$MEMCACHE_VERSION.tgz" &&
+        sh -c "cd memcache-$MEMCACHE_VERSION && phpize && ./configure --enable-memcache && make && sudo make install"
+    fi
+
+    echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+    return $?
+}
+
+install_memcache > ~/memcache.log || ( echo "=== MEMCACHE BUILD FAILED ==="; cat ~/memcache.log )

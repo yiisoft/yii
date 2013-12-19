@@ -27,7 +27,7 @@
  * Options are bound to action parameters via parameter names. For example, the following
  * action method will allow us to run a command with <code>yiic sitemap --type=News</code>:
  * <pre>
- * class SitemapCommand {
+ * class SitemapCommand extends CConsoleCommand {
  *     public function actionIndex($type) {
  *         ....
  *     }
@@ -274,9 +274,9 @@ abstract class CConsoleCommand extends CComponent
 		$help='Usage: '.$this->getCommandRunner()->getScriptName().' '.$this->getName();
 		$options=$this->getOptionHelp();
 		if(empty($options))
-			return $help;
+			return $help."\n";
 		if(count($options)===1)
-			return $help.' '.$options[0];
+			return $help.' '.$options[0]."\n";
 		$help.=" <action>\nActions:\n";
 		foreach($options as $option)
 			$help.='    '.$option."\n";

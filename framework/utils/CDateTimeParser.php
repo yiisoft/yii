@@ -350,7 +350,7 @@ class CDateTimeParser
 		for($len=1; $offset+$len<=$valueLength; $len++)
 		{
 			$monthName=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yii::app()->charset) : substr($value,$offset,$len);
-			if(!preg_match('/^\p{L}+$/u',$monthName)) // unicode aware replacement for ctype_alpha($monthName)
+			if(!preg_match('/^[\p{L}\p{M}]+$/u',$monthName)) // unicode aware replacement for ctype_alpha($monthName)
 			{
 				$monthName=self::$_mbstringAvailable ? mb_substr($monthName,0,-1,Yii::app()->charset) : substr($monthName,0,-1);
 				break;

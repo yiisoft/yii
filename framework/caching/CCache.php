@@ -238,7 +238,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * in {@link get()} already. So only the implementation of data retrieval
 	 * is needed.
 	 * @param string $key a unique key identifying the cached value
-	 * @return string the value stored in cache, false if the value is not in the cache or expired.
+	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
 	 * @throws CException if this method is not overridden by child classes
 	 */
 	protected function getValue($key)

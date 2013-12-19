@@ -47,6 +47,7 @@ abstract class CInputWidget extends CWidget
 
 	/**
 	 * @return array the name and the ID of the input.
+	 * @throws CException in case input name and ID cannot be resolved.
 	 */
 	protected function resolveNameID()
 	{

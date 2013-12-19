@@ -9,7 +9,7 @@
  */
 
 /**
- * CHttpSessionIterator implements an interator for {@link CHttpSession}.
+ * CHttpSessionIterator implements an iterator for {@link CHttpSession}.
  *
  * It allows CHttpSession to return a new iterator for traversing the session variables.
  *
