@@ -125,7 +125,7 @@ return array (
   'Map data must be an array or an object implementing Traversable.' => 'De Map data moet een array zijn, of een object dat Traversable implementeerd.',
   'Missing the temporary folder to store the uploaded file "{file}".' => 'Er is geen tijdelijke map om het geuploade bestand te bewaren.',
   'Next &gt;' => 'Volgende &gt;',
-  'No' => 'Neen',
+  'No' => 'Nee',
   'No columns are being updated for table "{table}".' => 'Er worden geen kolommen geupdated voor tabel "{table}".',
   'No counter columns are being updated for table "{table}".' => 'Er worden geen counter kolommen geupdated voor table "{table}".',
   'Object configuration must be an array containing a "class" element.' => 'De configuratie voor een object moet een array zijn met een "class" element.',
