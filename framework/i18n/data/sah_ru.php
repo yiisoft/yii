@@ -190,9 +190,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'y \'сыл\' MMMM d \'күнэ\', EEEE',
-    'long' => 'y, MMMM d',
-    'medium' => 'y, MMM d',
+    'full' => 'yyyy \'сыл\' MMMM d \'күнэ\', EEEE',
+    'long' => 'yyyy, MMMM d',
+    'medium' => 'yyyy, MMM d',
     'short' => 'yy/M/d',
   ),
   'timeFormats' => 

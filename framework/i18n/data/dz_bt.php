@@ -161,9 +161,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd',
-    'long' => 'སྤྱི་ལོ་y ཟླ་ MMMM ཚེས་ dd',
-    'medium' => 'སྤྱི་ལོ་y ཟླ་ MMM ཚེས་ dd',
+    'full' => 'སྤྱི་ལོ་yyyy ཟླ་ MMMM ཚེས་ dd',
+    'long' => 'སྤྱི་ལོ་yyyy ཟླ་ MMMM ཚེས་ dd',
+    'medium' => 'སྤྱི་ལོ་yyyy ཟླ་ MMM ཚེས་ dd',
     'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 

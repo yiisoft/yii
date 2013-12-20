@@ -160,8 +160,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'y년 M월 d일 EEEE',
-    'long' => 'y년 M월 d일',
+    'full' => 'yyyy년 M월 d일 EEEE',
+    'long' => 'yyyy년 M월 d일',
     'medium' => 'yyyy. M. d.',
     'short' => 'yy. M. d.',
   ),

@@ -81,12 +81,22 @@ class CDateTimeParser
 	{
 		if(self::$_mbstringAvailable===null)
 			self::$_mbstringAvailable=extension_loaded('mbstring');
-
 		$tokens=self::tokenize($pattern);
 		$i=0;
 		$n=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
+		$skip = false;
 		foreach($tokens as $token)
 		{
+			if ( $token == "'") {
+				$skip = !$skip;
+				continue;
+			}
+
+			if ( $skip ) {
+				$i += self::$_mbstringAvailable ? mb_strlen($token,Yii::app()->charset) : strlen($token);
+				continue;
+			}
+
 			switch($token)
 			{
 				case 'yyyy':
@@ -100,7 +110,7 @@ class CDateTimeParser
 				{
 					if(($year=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($year);
+					$i+= self::$_mbstringAvailable ? mb_strlen($year, Yii::app()->charset) : strlen($year);
 					break;
 				}
 				case 'MMMM':
@@ -130,7 +140,7 @@ class CDateTimeParser
 				{
 					if(($month=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($month);
+					$i+= self::$_mbstringAvailable ? mb_strlen($month, Yii::app()->charset) : strlen($month);
 					break;
 				}
 				case 'dd':
@@ -144,7 +154,17 @@ class CDateTimeParser
 				{
 					if(($day=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($day);
+					$i+= self::$_mbstringAvailable ? mb_strlen($day, Yii::app()->charset) : strlen($day);
+					break;
+				}
+				case 'EEEE':
+				case 'cccc':
+				{
+					$dayName='';
+					if((self::parseWeekDayName($value, $i, 'wide', $dayName))===false) {
+						return false;
+					}
+					$i += self::$_mbstringAvailable ? mb_strlen($dayName, Yii::app()->charset) : strlen($dayName);
 					break;
 				}
 				case 'h':
@@ -152,7 +172,7 @@ class CDateTimeParser
 				{
 					if(($hour=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($hour);
+					$i += self::$_mbstringAvailable ? mb_strlen($hour, Yii::app()->charset) : strlen($hour);
 					break;
 				}
 				case 'hh':
@@ -167,7 +187,7 @@ class CDateTimeParser
 				{
 					if(($minute=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($minute);
+					$i += self::$_mbstringAvailable ? mb_strlen($minute, Yii::app()->charset) : strlen($minute);
 					break;
 				}
 				case 'mm':
@@ -181,7 +201,7 @@ class CDateTimeParser
 				{
 					if(($second=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($second);
+					$i += self::$_mbstringAvailable ? mb_strlen($second, Yii::app()->charset) : strlen($second);
 					break;
 				}
 				case 'ss':
@@ -205,11 +225,17 @@ class CDateTimeParser
 					$i+=2;
 					break;
 				}
+				case 'G':
+				{
+					$i+=2;
+					break;
+				}
 				default:
 				{
 					$tn=self::$_mbstringAvailable ? mb_strlen($token,Yii::app()->charset) : strlen($token);
 					if($i>=$n || ($token{0}!='?' && (self::$_mbstringAvailable ? mb_substr($value,$i,$tn,Yii::app()->charset) : substr($value,$i,$tn))!==$token))
 						return false;
+
 					$i+=$tn;
 					break;
 				}
@@ -265,22 +291,19 @@ class CDateTimeParser
 	 */
 	private static function tokenize($pattern)
 	{
-		if(!($n=self::$_mbstringAvailable ? mb_strlen($pattern,Yii::app()->charset) : strlen($pattern)))
+		if(!($n=self::$_mbstringAvailable ? mb_strlen($pattern, Yii::app()->charset) : strlen($pattern)))
 			return array();
 		$tokens=array();
-		$c0=self::$_mbstringAvailable ? mb_substr($pattern,0,1,Yii::app()->charset) : substr($pattern,0,1);
-
-		for($start=0,$i=1;$i<$n;++$i)
+		for($c0=self::$_mbstringAvailable ? mb_substr($pattern, 0, 1, Yii::app()->charset) : substr($pattern, 0, 1),$start=0,$i=1;$i<$n;++$i)
 		{
-			$c=self::$_mbstringAvailable ? mb_substr($pattern,$i,1,Yii::app()->charset) : substr($pattern,$i,1);
-			if($c!==$c0)
+			if(($c=self::$_mbstringAvailable ? mb_substr($pattern, $i, 1, Yii::app()->charset) : substr($pattern, $i, 1))!==$c0)
 			{
-				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$i-$start,Yii::app()->charset) : substr($pattern,$start,$i-$start);
+				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern, $start, $i-$start,Yii::app()->charset) : substr($pattern,$start,$i-$start);
 				$c0=$c;
 				$start=$i;
 			}
 		}
-		$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$n-$start,Yii::app()->charset) : substr($pattern,$start,$n-$start);
+		$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern, $start, $n-$start,Yii::app()->charset) : substr($pattern,$start,$n-$start);
 		return $tokens;
 	}
 
@@ -343,8 +366,51 @@ class CDateTimeParser
 		foreach($monthNamesStandAlone as $k=>$v)
 			$monthNamesStandAlone[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
 
-		if(($v=array_search($monthName,$monthNames))===false && ($v=array_search($monthName,$monthNamesStandAlone))===false)
+		if(($v=self::array_find($monthName,$monthNames))===false && ($v=self::array_find($monthName,$monthNamesStandAlone))===false)
 			return false;
+
+		$monthName = $monthNames[$v];
 		return $v;
+	}
+
+	protected static function parseWeekDayName($value, $offset, $width, &$dayName)
+	{
+		$valueLength=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
+		for($len=1; $offset+$len<=$valueLength; $len++)
+		{
+			$dayName=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yii::app()->charset) : substr($value,$offset,$len);
+			if(!preg_match('/^\p{L}+$/u',$dayName)) // unicode aware replacement for ctype_alpha($monthName)
+			{
+				$dayName=self::$_mbstringAvailable ? mb_substr($dayName,0,-1,Yii::app()->charset) : substr($dayName,0,-1);
+				break;
+			}
+		}
+		$dayName=self::$_mbstringAvailable ? mb_strtolower($dayName,Yii::app()->charset) : strtolower($dayName);
+
+		$dayNames=Yii::app()->getLocale()->getWeekDayNames($width,false);
+		foreach($dayNames as $k=>$v)
+			$dayNames[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
+
+
+		$dayNamesStandAlone=Yii::app()->getLocale()->getWeekDayNames($width,true);
+		foreach($dayNamesStandAlone as $k=>$v) {
+			$dayNamesStandAlone[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
+		}
+
+		if(($v=self::array_find($dayName,$dayNames))===false && ($v=self::array_find($dayName,$dayNamesStandAlone))===false)
+			return false;
+
+		$dayName = $dayNames[$v];
+		return $v;
+	}
+
+	protected static function array_find($needle, array $haystack)
+	{
+		foreach ($haystack as $key => $value) {
+			if (0 === (self::$_mbstringAvailable ? mb_stripos($needle, $value, 0, Yii::app()->charset) : stripos($needle, $value))) {
+				return $key;
+			}
+		}
+		return false;
 	}
 }

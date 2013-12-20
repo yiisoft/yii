@@ -235,8 +235,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE d \'di\' MMMM \'dal\' y',
-    'long' => 'd \'di\' MMMM \'dal\' y',
+    'full' => 'EEEE d \'di\' MMMM \'dal\' yyyy',
+    'long' => 'd \'di\' MMMM \'dal\' yyyy',
     'medium' => 'dd/MM/yyyy',
     'short' => 'dd/MM/yy',
   ),

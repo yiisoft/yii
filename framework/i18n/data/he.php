@@ -201,8 +201,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, d בMMMM y',
-    'long' => 'd בMMMM y',
+    'full' => 'EEEE, d בMMMM yyyy',
+    'long' => 'd בMMMM yyyy',
     'medium' => 'd בMMM yyyy',
     'short' => 'dd/MM/yy',
   ),

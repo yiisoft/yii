@@ -11,7 +11,7 @@
  */
 return array (
   'version' => '4123',
-  'numberSymbols' => 
+  'numberSymbols' =>
   array (
     'alias' => '',
     'decimal' => '.',
@@ -29,7 +29,7 @@ return array (
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
   'currencyFormat' => '¤#,##0.00;(¤#,##0.00)',
-  'currencySymbols' => 
+  'currencySymbols' =>
   array (
     'AUD' => 'AU$',
     'BRL' => 'R$',
@@ -53,9 +53,9 @@ return array (
     'XOF' => 'CFA',
     'XPF' => 'CFPF',
   ),
-  'monthNames' => 
+  'monthNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       1 => 'January',
       2 => 'February',
@@ -70,7 +70,7 @@ return array (
       11 => 'November',
       12 => 'December',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       1 => 'Jan',
       2 => 'Feb',
@@ -86,9 +86,9 @@ return array (
       12 => 'Dec',
     ),
   ),
-  'monthNamesSA' => 
+  'monthNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       1 => 'J',
       2 => 'F',
@@ -104,9 +104,9 @@ return array (
       12 => 'D',
     ),
   ),
-  'weekDayNames' => 
+  'weekDayNames' =>
   array (
-    'wide' => 
+    'wide' =>
     array (
       0 => 'Sunday',
       1 => 'Monday',
@@ -116,7 +116,7 @@ return array (
       5 => 'Friday',
       6 => 'Saturday',
     ),
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'Sun',
       1 => 'Mon',
@@ -127,9 +127,9 @@ return array (
       6 => 'Sat',
     ),
   ),
-  'weekDayNamesSA' => 
+  'weekDayNamesSA' =>
   array (
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'S',
       1 => 'M',
@@ -140,32 +140,32 @@ return array (
       6 => 'S',
     ),
   ),
-  'eraNames' => 
+  'eraNames' =>
   array (
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'BC',
       1 => 'AD',
     ),
-    'wide' => 
+    'wide' =>
     array (
       0 => 'Before Christ',
       1 => 'Anno Domini',
     ),
-    'narrow' => 
+    'narrow' =>
     array (
       0 => 'B',
       1 => 'A',
     ),
   ),
-  'dateFormats' => 
+  'dateFormats' =>
   array (
-    'full' => 'EEEE, MMMM d, y',
-    'long' => 'MMMM d, y',
-    'medium' => 'MMM d, y',
+    'full' => 'EEEE, MMMM d, yyyy',
+    'long' => 'MMMM d, yyyy',
+    'medium' => 'MMM d, yyyy',
     'short' => 'M/d/yy',
   ),
-  'timeFormats' => 
+  'timeFormats' =>
   array (
     'full' => 'h:mm:ss a zzzz',
     'long' => 'h:mm:ss a z',
@@ -176,7 +176,7 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
-  'languages' => 
+  'languages' =>
   array (
     'aa' => 'Afar',
     'ab' => 'Abkhazian',
@@ -735,7 +735,7 @@ return array (
     'zxx' => 'No linguistic content',
     'zza' => 'Zaza',
   ),
-  'scripts' => 
+  'scripts' =>
   array (
     'arab' => 'Perso-Arabic',
     'armi' => 'Imperial Aramaic',
@@ -877,7 +877,7 @@ return array (
     'zyyy' => 'Common',
     'zzzz' => 'Unknown Script',
   ),
-  'territories' => 
+  'territories' =>
   array (
     '001' => 'World',
     '002' => 'Africa',
@@ -1189,7 +1189,7 @@ return array (
     'zw' => 'Zimbabwe',
     'zz' => 'Unknown Region',
   ),
-  'pluralRules' => 
+  'pluralRules' =>
   array (
     0 => 'n==1',
     1 => 'true',

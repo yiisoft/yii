@@ -236,10 +236,10 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, d. MMMM y.',
-    'long' => 'd. MMMM y.',
-    'medium' => 'd. M. y.',
-    'short' => 'd.M.y.',
+    'full' => 'EEEE, d. MMMM yyyy.',
+    'long' => 'd. MMMM yyyy.',
+    'medium' => 'd. M. yyyy.',
+    'short' => 'd.M.yyyy.',
   ),
   'timeFormats' => 
   array (

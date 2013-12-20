@@ -161,9 +161,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE፥ dd MMMM ጋላሳ y G',
-    'long' => 'dd MMMM y',
-    'medium' => 'dd-MMM-y',
+    'full' => 'EEEE፥ dd MMMM ጋላሳ yyyy G',
+    'long' => 'dd MMMM yyyy',
+    'medium' => 'dd-MMM-yyyy',
     'short' => 'dd/MM/yy',
   ),
   'timeFormats' => 

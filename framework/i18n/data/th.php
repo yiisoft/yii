@@ -175,9 +175,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEEที่ d MMMM G y',
-    'long' => 'd MMMM y',
-    'medium' => 'd MMM y',
+    'full' => 'EEEEที่ d MMMM G yyyy',
+    'long' => 'd MMMM yyyy',
+    'medium' => 'd MMM yyyy',
     'short' => 'd/M/yyyy',
   ),
   'timeFormats' => 

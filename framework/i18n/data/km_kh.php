@@ -161,9 +161,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y',
-    'long' => 'd ខែ MMMM ឆ្នាំ y',
-    'medium' => 'd MMM y',
+    'full' => 'EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ yyyy',
+    'long' => 'd ខែ MMMM ឆ្នាំ yyyy',
+    'medium' => 'd MMM yyyy',
     'short' => 'd/M/yyyy',
   ),
   'timeFormats' => 

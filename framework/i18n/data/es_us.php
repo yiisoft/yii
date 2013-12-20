@@ -171,9 +171,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, d \'de\' MMMM \'de\' y',
-    'long' => 'd \'de\' MMMM \'de\' y',
-    'medium' => 'MMM d, y',
+    'full' => 'EEEE, d \'de\' MMMM \'de\' yyyy',
+    'long' => 'd \'de\' MMMM \'de\' yyyy',
+    'medium' => 'MMM d, yyyy',
     'short' => 'M/d/yy',
   ),
   'timeFormats' => 

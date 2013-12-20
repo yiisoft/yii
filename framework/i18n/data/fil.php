@@ -166,9 +166,9 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, MMMM dd y',
-    'long' => 'MMMM d, y',
-    'medium' => 'MMM d, y',
+    'full' => 'EEEE, MMMM dd yyyy',
+    'long' => 'MMMM d, yyyy',
+    'medium' => 'MMM d, yyyy',
     'short' => 'M/d/yy',
   ),
   'timeFormats' => 
