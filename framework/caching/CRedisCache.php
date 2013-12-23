@@ -145,7 +145,7 @@ class CRedisCache extends CCache
 			case '+': // Status reply
 				return true;
 			case '-': // Error reply
-				throw new CException('Redis error: '.$line);
+				$this->handleError($line);
 			case ':': // Integer reply
 				// no cast to int as it is in the range of a signed 64 bit integer
 				return $line;
@@ -172,6 +172,15 @@ class CRedisCache extends CCache
 				throw new CException('Unable to parse data received from redis.');
 		}
 	}
+  
+  /**
+   * Handle a Redis Error
+   * @param type $message
+   * @throws CException
+   */
+  protected function handleError($message){
+    throw new CException('Redis Error: ' . $message);
+  }
 
 	/**
 	 * Retrieves a value from cache with a specified key.

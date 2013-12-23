@@ -135,9 +135,13 @@ class CRedisSentinelCache extends CRedisCache
     $arConfig = array('hostname' => $this->hostname, 'port' => $this->port);
     $f = fopen($this->getSentinelMasterConfFile(), 'w');
     fputs($f, serialize($arConfig));
-    fclose($f);
+    return fclose($f);
   }
     
+  /**
+   * Remove Redis Config Cache file path
+   * @return true if successfully removed 
+   */
   private function removeCurrentMasterConf(){
     if(!file_exists($this->getSentinelMasterConfFile())){
       return true;
@@ -147,8 +151,24 @@ class CRedisSentinelCache extends CRedisCache
     return true;
   }
   
-  
+  /**
+   * Return Redis Config Cache file path
+   * @return string with Redis cache file path
+   */
   protected function getSentinelMasterConfFile(){
     return Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'redis-cache-' . $this->sentinelMasterName . '.conf';
+  }
+    
+  /**
+   * Handle a Redis Error and remove current master conf if
+   * Redis message shows that the current server is in read-only mode
+   * @param type $message
+   * @throws CException
+   */
+  protected function handleError($message){
+    if(preg_match('/READONLY/i', $message)){
+      $this->removeCurrentMasterConf();
+    }
+    throw new CException('Redis Error: ' . $message);
   }
 }
