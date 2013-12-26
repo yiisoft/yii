@@ -119,7 +119,7 @@ class CRedisSentinelCache extends CRedisCache
     if($this->sentinelMasterName == null){
       throw new Exception('Set Sentinel Master name.');
     }
-    if(!file_exists($this->getSentinelMasterConfFile())){
+    if(!is_file($this->getSentinelMasterConfFile())){
       return false;
     }
     $f = fopen($this->getSentinelMasterConfFile(), 'r');
@@ -143,7 +143,7 @@ class CRedisSentinelCache extends CRedisCache
    * @return true if successfully removed 
    */
   private function removeCurrentMasterConf(){
-    if(!file_exists($this->getSentinelMasterConfFile())){
+    if(!is_file($this->getSentinelMasterConfFile())){
       return true;
     }
     unlink($this->getSentinelMasterConfFile());
@@ -169,6 +169,6 @@ class CRedisSentinelCache extends CRedisCache
     if(preg_match('/READONLY/i', $message)){
       $this->removeCurrentMasterConf();
     }
-    throw new CException('Redis Error: ' . $message);
+    throw new CException( Yii::t('yii',"Redis Error: {message}", array('{message}'=>$message)) );
   }
 }

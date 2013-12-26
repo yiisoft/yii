@@ -173,14 +173,14 @@ class CRedisCache extends CCache
 		}
 	}
   
-  /**
-   * Handle a Redis Error
-   * @param type $message
-   * @throws CException
-   */
-  protected function handleError($message){
-    throw new CException('Redis Error: ' . $message);
-  }
+	/**
+	 * Handle a Redis Error
+	 * @param type $message
+	 * @throws CException
+	 */
+	protected function handleError($message){
+		throw new CException( Yii::t('yii',"Redis Error: {message}", array('{message}'=>$message)) );
+	}
 
 	/**
 	 * Retrieves a value from cache with a specified key.
