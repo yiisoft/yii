@@ -357,6 +357,12 @@ yiic migrate up --option1=value1 --option2=value2 ...
 yiic migrate up --migrationPath=ext.forum.migrations
 ~~~
 
+Стоит отметить, что при передаче через командную строку флагов, таких как `interactive`, необходимо использовать
+значения `1` или `0`:
+
+~~~
+yiic migrate --interactive=0
+~~~
 
 ### Глобальная конфигурация команды
 

@@ -170,7 +170,7 @@ class m101129_185401_erstelle_news_tabelle extends CDbMigration
 		catch(Exception $e)
 		{
 			echo "Exception: ".$e->getMessage()."\n";
-			$transaction->rollBack();
+			$transaction->rollback();
 			return false;
 		}
 	}
@@ -402,4 +402,3 @@ return array(
 Ruft man nun den `migrate`-Befehl auf, werden obige Optionen immer angewendet,
 ohne sie explizit mit angeben zu müssen.
 
-<div class="revision">$Id: database.migration.txt 3450 2011-11-20 22:52:07Z alexander.makarow $</div>

@@ -77,7 +77,13 @@ abstract class CBaseListView extends CWidget
 	 */
 	public $emptyText;
 	/**
+	 * @var string the HTML tag name for the container of the {@link emptyText} property.
+	 */
+	public $emptyTagName='span';
+	/**
 	 * @var string the CSS class name for the container of all data item display. Defaults to 'items'.
+	 * Note, this property must not contain false, null or empty string values. Otherwise such values may
+	 * cause undefined behavior.
 	 */
 	public $itemsCssClass='items';
 	/**
@@ -86,6 +92,8 @@ abstract class CBaseListView extends CWidget
 	public $summaryCssClass='summary';
 	/**
 	 * @var string the CSS class name for the pager container. Defaults to 'pager'.
+	 * Note, this property must not contain false, null or empty string values. Otherwise such values may
+	 * cause undefined behavior.
 	 */
 	public $pagerCssClass='pager';
 	/**
@@ -106,7 +114,10 @@ abstract class CBaseListView extends CWidget
 
 		$this->dataProvider->getData();
 
-		$this->htmlOptions['id']=$this->getId();
+		if(isset($this->htmlOptions['id']))
+			$this->id=$this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$this->id;
 
 		if($this->enableSorting && $this->dataProvider->getSort()===false)
 			$this->enableSorting=false;
@@ -172,7 +183,7 @@ abstract class CBaseListView extends CWidget
 	public function renderEmptyText()
 	{
 		$emptyText=$this->emptyText===null ? Yii::t('zii','No results found.') : $this->emptyText;
-		echo CHtml::tag('span', array('class'=>'empty'), $emptyText);
+		echo CHtml::tag($this->emptyTagName, array('class'=>'empty'), $emptyText);
 	}
 
 	/**

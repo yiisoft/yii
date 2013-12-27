@@ -82,7 +82,7 @@ class CWebApplication extends CApplication
 	 *      'class'=>'path.to.PostController',
 	 *      'pageTitle'=>'something new',
 	 *   ),
-	 *   'user'=>'path.to.UserController',,
+	 *   'user'=>'path.to.UserController',
 	 * )
 	 * </pre>
 	 *

@@ -22,7 +22,7 @@
  * If an SQL statement returns results (such as a SELECT SQL), the results
  * can be accessed via the returned {@link CDbDataReader}.
  *
- * CDbCommand supports SQL statment preparation and parameter binding.
+ * CDbCommand supports SQL statement preparation and parameter binding.
  * Call {@link bindParam} to bind a PHP variable to a parameter in SQL.
  * Call {@link bindValue} to bind a value to an SQL parameter.
  * When binding a parameter, the SQL statement is automatically prepared.
@@ -47,7 +47,7 @@
  * @property string $from The FROM part (without 'FROM' ) in the query.
  * @property string $where The WHERE part (without 'WHERE' ) in the query.
  * @property mixed $join The join part in the query. This can be an array representing
- * multiple join fragments, or a string representing a single jojin fragment.
+ * multiple join fragments, or a string representing a single join fragment.
  * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
  * @property string $group The GROUP BY part (without 'GROUP BY' ) in the query.
  * @property string $having The HAVING part (without 'HAVING' ) in the query.
@@ -200,6 +200,7 @@ class CDbCommand extends CComponent
 	 * this may improve performance.
 	 * For SQL statement with binding parameters, this method is invoked
 	 * automatically.
+	 * @throws CDbException if CDbCommand failed to prepare the SQL statement
 	 */
 	public function prepare()
 	{
@@ -310,7 +311,7 @@ class CDbCommand extends CComponent
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @return integer number of rows affected by the execution.
-	 * @throws CException execution failed
+	 * @throws CDbException execution failed
 	 */
 	public function execute($params=array())
 	{
@@ -463,6 +464,7 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
+	 * @throws CDbException if CDbCommand failed to execute the SQL statement
 	 * @return mixed the method execution result
 	 */
 	private function queryInternal($method,$mode,$params=array())
@@ -549,6 +551,7 @@ class CDbCommand extends CComponent
 	 * query options are supported: {@link select}, {@link distinct}, {@link from},
 	 * {@link where}, {@link join}, {@link group}, {@link having}, {@link order},
 	 * {@link limit}, {@link offset} and {@link union}.
+	 * @throws CDbException if "from" key is not present in given query parameter
 	 * @return string the SQL statement
 	 * @since 1.1.6
 	 */
@@ -559,8 +562,6 @@ class CDbCommand extends CComponent
 
 		if(!empty($query['from']))
 			$sql.="\nFROM ".$query['from'];
-		else
-			throw new CDbException(Yii::t('yii','The DB query must contain the "from" portion.'));
 
 		if(!empty($query['join']))
 			$sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);
@@ -1419,9 +1420,9 @@ class CDbCommand extends CComponent
 	 * The method will properly quote the table and column names.
 	 * @param string $name the name of the foreign key constraint.
 	 * @param string $table the table that the foreign key constraint will be added to.
-	 * @param string $columns the name of the column to that the constraint will be added on. If there are multiple columns, separate them with commas.
+	 * @param string|array $columns the name of the column to that the constraint will be added on. If there are multiple columns, separate them with commas or pass as an array of column names.
 	 * @param string $refTable the table that the foreign key references to.
-	 * @param string $refColumns the name of the column that the foreign key references to. If there are multiple columns, separate them with commas.
+	 * @param string|array $refColumns the name of the column that the foreign key references to. If there are multiple columns, separate them with commas or pass as an array of column names.
 	 * @param string $delete the ON DELETE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
 	 * @param string $update the ON UPDATE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
 	 * @return integer number of rows affected by the execution.
@@ -1448,15 +1449,15 @@ class CDbCommand extends CComponent
 	 * Builds and executes a SQL statement for creating a new index.
 	 * @param string $name the name of the index. The name will be properly quoted by the method.
 	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
-	 * @param string $column the column(s) that should be included in the index. If there are multiple columns, please separate them
-	 * by commas. The column names will be properly quoted by the method.
+	 * @param string|array $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
+	 * by commas or pass as an array of column names. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
 	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
-	public function createIndex($name, $table, $column, $unique=false)
+	public function createIndex($name, $table, $columns, $unique=false)
 	{
-		return $this->setText($this->getConnection()->getSchema()->createIndex($name, $table, $column, $unique))->execute();
+		return $this->setText($this->getConnection()->getSchema()->createIndex($name, $table, $columns, $unique))->execute();
 	}
 
 	/**
@@ -1474,6 +1475,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Generates the condition string that will be put in the WHERE part
 	 * @param mixed $conditions the conditions that will be put in the WHERE part.
+	 * @throws CDbException if unknown operator is used
 	 * @return string the condition string to put in the WHERE part
 	 */
 	private function processConditions($conditions)
@@ -1583,7 +1585,8 @@ class CDbCommand extends CComponent
 	 * Builds a SQL statement for creating a primary key constraint.
 	 * @param string $name the name of the primary key constraint to be created. The name will be properly quoted by the method.
 	 * @param string $table the table who will be inheriting the primary key. The name will be properly quoted by the method.
-	 * @param string $columns the column/s where the primary key will be effected. The name will be properly quoted by the method.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
+	 * Array value can be passed since 1.1.14.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.13
 	 */

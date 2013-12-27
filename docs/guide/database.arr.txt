@@ -51,6 +51,11 @@ many-to-many relationship directly. In our example database schema, the
 `MANY_MANY` as the combination of `BELONGS_TO` and `HAS_MANY`. For example,
 `Post` belongs to many `Category` and `Category` has many `Post`.
 
+There is fifth special type which performs aggregational queries on the related
+records - it's called `STAT`. Please refer to the
+[Statistical Query](/doc/guide/database.arr#statistical-query) section
+for more details.
+
 Declaring relationship in AR involves overriding the
 [relations()|CActiveRecord::relations] method of [CActiveRecord]. The
 method returns an array of relationship configurations. Each array element
@@ -320,8 +325,9 @@ to `BELONGS_TO` relation.
 apply to `BELONGS_TO` relation.
 
    - `through`: name of the model's relation that will be used as a bridge when
-   getting related data. Can be set only for `HAS_ONE` and `HAS_MANY`.
-   This option has been available since version 1.1.7.
+   getting related data. This option has been available since version 1.1.7
+   where it can be used for `HAS_ONE` and `HAS_MANY`. Since 1.1.14 it can be used
+   for `BELONGS_TO` as well.
 
 Below we modify the `posts` relationship declaration in the `User` by
 including some of the above options:
@@ -377,6 +383,30 @@ $posts=Post::model()->with('comments')->findAll(array(
 ));
 ~~~
 
+> Tip: The default alias of a related table is the name of the relation. Please note that if you're
+> using relation from within another relation the alias will be the former relation name only and
+> will not be prefixed with the parent relation. For example, the alias for 'author.group' relation is
+> 'group', not 'author.group'.
+>
+> ~~~
+> [php]
+> $posts=Post::model()->with('author', 'author.group')->findAll(array(
+> 	'order'=>'group.name, author.name, t.title'
+> ));
+> ~~~
+> 
+> You can avoid the collision of tables' aliases by specifying the [alias|CActiveRelation::alias] property
+> of the relation.
+>
+> ~~~
+> [php]
+> $comments=Comment::model()->with(
+> 	'author',
+> 	'post',
+> 	'post.author'=>array('alias'=>'p_author'))->findAll(array(
+> 	'order'=>'author.name, p_author.name, post.title'
+> ));
+> ~~~
 
 Dynamic Relational Query Options
 --------------------------------
@@ -639,7 +669,7 @@ In the above `array('key1'=>'key2')`:
   - `key1` is a key defined in relation specified in `through` (`posts` is this case).
   - `key2` is a key defined in a model relation points to (`Comment` in this case).
 
-`through` can be used with both `HAS_ONE` and `HAS_MANY` relations.
+`through` can be used with `HAS_ONE`, `BELONGS_TO` and `HAS_MANY` relations.
 
 
 ### `HAS_MANY` through
@@ -768,5 +798,3 @@ class User extends CActiveRecord
 $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
-
-<div class="revision">$Id$</div>

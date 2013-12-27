@@ -596,6 +596,8 @@ $command->delete('tbl_user', 'id=:id', array(':id'=>1));
 * [addColumn()|CDbCommand::addColumn]: テーブルのカラムを追加する
 * [renameColumn()|CDbCommand::renameColumn]: テーブルのカラムの名前を変更する
 * [alterColumn()|CDbCommand::alterColumn]: テーブルのカラムを変更する
+* [addForeignKey()|CDbCommand::addForeignKey]: 外部キーを追加する (1.1.6 以降で利用可能)
+* [dropForeignKey()|CDbCommand::dropForeignKey]: 外部キーを削除する (1.1.6 以降で利用可能)
 * [dropColumn()|CDbCommand::dropColumn]: テーブルのカラムを削除する
 * [createIndex()|CDbCommand::createIndex]: インデックスを作成する
 * [dropIndex()|CDbCommand::dropIndex]: インデックスを削除する

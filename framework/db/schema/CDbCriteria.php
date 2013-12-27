@@ -183,7 +183,7 @@ class CDbCriteria extends CComponent
 		}
 		if (!empty($map))
 		{
-			$sqlContentFieldNames = array(
+			$sqlContentFieldNames=array(
 				'select',
 				'condition',
 				'order',
@@ -191,8 +191,14 @@ class CDbCriteria extends CComponent
 				'join',
 				'having',
 			);
-			foreach($sqlContentFieldNames as $fieldName)
-				$this->$fieldName=strtr($this->$fieldName,$map);
+			foreach($sqlContentFieldNames as $field)
+			{
+				if(is_array($this->$field))
+					foreach($this->$field as $k=>$v)
+						$this->{$field}[$k]=strtr($v,$map);
+				else
+					$this->$field=strtr($this->$field,$map);
+			}
 		}
 		$this->params=$params;
 	}
@@ -514,7 +520,7 @@ class CDbCriteria extends CComponent
 		if($this->params!==$criteria->params)
 			$this->params=array_merge($this->params,$criteria->params);
 
-		if($criteria->limit>0)
+		if($criteria->limit>=0)
 			$this->limit=$criteria->limit;
 
 		if($criteria->offset>=0)

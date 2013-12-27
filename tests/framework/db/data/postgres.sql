@@ -65,6 +65,17 @@ INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 3'
 INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 4',TIMESTAMP '2004-10-19 10:23:54',2,'content 4');
 INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 5',TIMESTAMP '2004-10-19 10:23:54',3,'content 5');
 
+CREATE TABLE test.nullable_posts
+(
+	id SERIAL NOT NULL PRIMARY KEY,
+	title VARCHAR(128) NULL,
+	create_time TIMESTAMP NULL,
+	author_id INTEGER NULL,
+	content TEXT NULL,
+	CONSTRAINT FK_post_author FOREIGN KEY (author_id)
+		REFERENCES test.users (id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
+
 CREATE TABLE test.comments
 (
 	id SERIAL NOT NULL PRIMARY KEY,

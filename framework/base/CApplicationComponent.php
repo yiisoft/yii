@@ -47,7 +47,7 @@ abstract class CApplicationComponent extends CComponent implements IApplicationC
 	}
 
 	/**
-	 * Checks if this application component bas been initialized.
+	 * Checks if this application component has been initialized.
 	 * @return boolean whether this application component has been initialized (ie, {@link init()} is invoked).
 	 */
 	public function getIsInitialized()
