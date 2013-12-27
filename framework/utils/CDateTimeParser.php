@@ -394,7 +394,7 @@ class CDateTimeParser
 	 * @param string $width week day name width. It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param string $weekdayName extracted week day name. Passed by reference.
 	 * @return string parsed week day name.
-	 * @since 1.1.13
+	 * @since 1.1.15
 	 */
 	protected static function parseWeekday($value,$offset,$width,&$weekdayName)
 	{
@@ -430,6 +430,13 @@ class CDateTimeParser
 		return $v;
 	}
 
+	/**
+	 * searches for a matching string in $haystack with starts with $needle
+	 *
+	 * @param string $needle
+	 * @param string[] $haystack
+	 * @return string|false matching string or false if nothing could be found
+	 */
 	protected static function array_find($needle, array $haystack)
 	{
 		foreach ($haystack as $key => $value) {
