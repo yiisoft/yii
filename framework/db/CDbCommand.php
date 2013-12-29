@@ -489,7 +489,7 @@ class CDbCommand extends CComponent
 				&& ($cache=Yii::app()->getComponent($this->_connection->queryCacheID))!==null)
 		{
 			$this->_connection->queryCachingCount--;
-			$cacheKey='yii:dbquery'.$this->_connection->connectionString.':'.$this->_connection->username;
+			$cacheKey='yii:dbquery'.':'.$method.':'.$this->_connection->connectionString.':'.$this->_connection->username;
 			$cacheKey.=':'.$this->getText().':'.serialize(array_merge($this->_paramLog,$params));
 			if(($result=$cache->get($cacheKey))!==false)
 			{
