@@ -37,6 +37,7 @@ Version 1.1.15 under development
 - Enh #2688: CHtml::beginForm() now supports additional HTTP methods, via a hidden `_method` field. (phpnode)
 - Enh #2722: CFileHelper::findFiles() accepts absolutePaths in $options and returns absolute paths if true or relative ones otherwise (defaults to true) (pavel-voronin)
 - Enh #2737: CFileCache: added cachePathMode and cacheFileMode options to set modes used by chmod() for cache directory and files (ujovlado)
+- Enh #2758: Updated phpdoc in blog demo to match current IDE supported syntax (samdark)
 - Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
 - Enh #2791: requirements/index.php: added CRYPT_BLOWFISH check for CPasswordHelper (tom--)
 - Enh #2799: Add HTML5 input support for color, datetime, datetime-local, week and search to CHtml and CActiveForm (phpnode)
