@@ -347,7 +347,7 @@ class CDbConnection extends CApplicationComponent
 	 * the query results into cache.
 	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
 	 * meaning that the next SQL query will be cached.
-	 * @return CDbConnection the connection instance itself.
+	 * @return static the connection instance itself.
 	 * @since 1.1.7
 	 */
 	public function cache($duration, $dependency=null, $queryCount=1)
