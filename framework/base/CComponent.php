@@ -499,7 +499,7 @@ class CComponent
 	 * $component->getEventHandlers($eventName)->add($eventHandler);
 	 * </pre>
 	 *
-	 * Using {@link getEventHandlers}, one can also specify the excution order
+	 * Using {@link getEventHandlers}, one can also specify the execution order
 	 * of multiple handlers attaching to the same event. For example:
 	 * <pre>
 	 * $component->getEventHandlers($eventName)->insertAt(0,$eventHandler);
