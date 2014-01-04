@@ -26,6 +26,7 @@ Version 1.1.15 under development
 - Bug #2970: Fixed Active Record may join same relation twice on eager loading. (klimov-paul)
 - Bug #3064: Fixed problem with array to string converion in CDbMigration methods that accept array parameters (cebe)
 - Bug #3134: Fixed the issue that query cache returns the same data for the same SQL but different query methods (qiangxue)
+- Bug #3144: It wasn't possible to use attributes with spaces in validation rules (samdark)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
