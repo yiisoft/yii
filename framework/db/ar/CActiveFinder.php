@@ -1503,11 +1503,12 @@ class CStatElement
 			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
 	}
 
-	/*
-	 * @param string $joinTableName jointablename
-	 * @param string $keys keys
-	 */
-	private function queryManyMany($joinTableName,$keys)
+    /**
+     * @param $joinTableName jointablename
+     * @param $keys keys
+     * @throws CDbException
+     */
+    private function queryManyMany($joinTableName,$keys)
 	{
 		$relation=$this->relation;
 		$model=$this->_finder->getModel($relation->className);
