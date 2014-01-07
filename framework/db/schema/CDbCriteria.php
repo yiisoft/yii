@@ -482,7 +482,7 @@ class CDbCriteria extends CComponent
 	/**
 	 * Merges with another criteria.
 	 * In general, the merging makes the resulting criteria more restrictive.
-	 * For example, if both criteria have conditions, they will be 'AND' together.
+	 * For example, if both criterias have conditions, they will be 'AND' together.
 	 * Also, the criteria passed as the parameter takes precedence in case
 	 * two options cannot be merged (e.g. LIMIT, OFFSET).
 	 * @param mixed $criteria the criteria to be merged with. Either an array or CDbCriteria.

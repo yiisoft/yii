@@ -1504,8 +1504,8 @@ class CStatElement
 	}
 
     /**
-     * @param $joinTableName jointablename
-     * @param $keys keys
+     * @param string $joinTableName jointablename
+     * @param string $keys keys
      * @throws CDbException
      */
     private function queryManyMany($joinTableName,$keys)

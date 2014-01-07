@@ -354,7 +354,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Resets all scopes and criteria applied.
+	 * Resets all scopes and criterias applied.
 	 *
 	 * @param boolean $resetDefault including default scope. This parameter available since 1.1.12
 	 * @return static the AR instance itself
