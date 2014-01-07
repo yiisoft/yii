@@ -446,7 +446,9 @@ class CHttpRequest extends CApplicationComponent
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
 
-			if($pathInfo[0]==='/')
+			if($pathInfo==='/')
+				$pathInfo='';
+			elseif($pathInfo[0]==='/')
 				$pathInfo=substr($pathInfo,1);
 
 			if($pathInfo[strlen($pathInfo)-1]==='/')
