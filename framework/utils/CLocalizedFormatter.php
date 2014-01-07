@@ -14,7 +14,7 @@
  * It provides the same functionality as {@link CFormatter}, but overrides all the settings for
  * {@link booleanFormat}, {@link datetimeFormat} and {@link numberFormat} with the values for the
  * current locale. Because of this you are not able to configure these properties for CLocalizedFormatter directly.
- * Date and time format can be adjsuted by setting {@link dateFormat} and {@link timeFormat}.
+ * Date and time format can be adjusted by setting {@link dateFormat} and {@link timeFormat}.
  *
  * It uses {@link CApplication::locale} by default but you can set a custom locale by using {@link setLocale}-method.
  *

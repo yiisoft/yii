@@ -363,7 +363,7 @@ class ModelCode extends CCodeModel
 	 * Checks if the given table is a "many to many" pivot table.
 	 * Their PK has 2 fields, and both of those fields are also FK to other separate tables.
 	 * @param CDbTableSchema table to inspect
-	 * @return boolean true if table matches description of helpter table.
+	 * @return boolean true if table matches description of helper table.
 	 */
 	protected function isRelationTable($table)
 	{
