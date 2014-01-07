@@ -451,7 +451,7 @@ class CHttpRequest extends CApplicationComponent
 			elseif($pathInfo[0]==='/')
 				$pathInfo=substr($pathInfo,1);
 
-			if($pathInfo[strlen($pathInfo)-1]==='/')
+			if((strlen($pathInfo)-1)>0 && $pathInfo[strlen($pathInfo)-1]==='/')
 				$pathInfo=substr($pathInfo,0,strlen($pathInfo)-1);
 
 			$this->_pathInfo=$pathInfo;
