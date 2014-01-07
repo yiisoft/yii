@@ -1504,12 +1504,12 @@ class CStatElement
 	}
 
     /**
-     * @param string $joinTableName jointablename
-     * @param string $keys keys
-     * @throws CDbException
-     */
+    * @param string $joinTableName jointablename
+    * @param string $keys keys
+    * @throws CDbException
+    */
     private function queryManyMany($joinTableName,$keys)
-	{
+    {
 		$relation=$this->relation;
 		$model=$this->_finder->getModel($relation->className);
 		$table=$model->getTableSchema();
