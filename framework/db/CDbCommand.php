@@ -873,7 +873,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Returns the join part in the query.
 	 * @return mixed the join part in the query. This can be an array representing
-	 * multiple join fragments, or a string representing a single jojin fragment.
+	 * multiple join fragments, or a string representing a single join fragment.
 	 * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
 	 * @since 1.1.6
 	 */
