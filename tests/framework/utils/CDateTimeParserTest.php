@@ -242,7 +242,6 @@ class CDateTimeParserTest extends CTestCase
 		$format = $locale->getDateFormat($width);
 
 		$dateString = Yii::app()->dateFormatter->format($format, '2012-09-03 09:54:09 UTC');
-		//var_dump($localCode . ' ' . $width . ' ' . $dateString);
 		$this->assertTrue(false !== $dateString, 'formatting date failed (format: ' . $format . ')');
 
 		$timestamp = CDateTimeParser::parse($dateString, $format);
