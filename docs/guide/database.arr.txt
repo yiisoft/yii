@@ -741,7 +741,7 @@ class User extends CActiveRecord
 		return array(
 			'profile'=>array(self::HAS_ONE,'Profile','user_id'),
 			'address'=>array(
-				self::HAS_ONE,'Address',array('id'=>'profile_id'),
+				self::HAS_ONE,'Address',array('profile_id'=>'id'),
 					'through'=>'profile'
 			),
 		);
