@@ -12,6 +12,11 @@
 /**
  * CHtml is a static class that provides a collection of helper methods for creating HTML views.
  *
+ * Nearly all of the methods in this class allow setting additional html attributes for the html
+ * tags they generate. You can specify for example. 'class', 'style'  or 'id' for an html element.
+ * For example when using <code>array('class' => 'my-class', 'target' => '_blank')</code> as htmlOptions
+ * it will result in the html attributes rendered like this: <code>class="my-class" target="_blank"</code>.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.helpers
  * @since 1.0
