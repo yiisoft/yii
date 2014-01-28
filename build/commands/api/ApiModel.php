@@ -202,7 +202,7 @@ class ApiModel
 		if(($text=trim($matches[2]))==='')
 			$text=$url;
 
-		if(preg_match('/^(http|ftp):\/\//i',$url))  // an external URL
+		if(preg_match('/^(http|https|ftp):\/\//i',$url))  // an external URL
 			return "<a href=\"$url\">$text</a>";
 		$url=$this->resolveInternalUrl($url);
 		return $url===''?$text:'{{'.$url.'|'.$text.'}}';
