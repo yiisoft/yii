@@ -3,6 +3,8 @@
 
 Version 1.1.15 under development
 --------------------------------
+- Enh #2741: Updated CHtml.php to add maxlength support to all HTML5 fields (ggirtsou)
+
 
 
 Version 1.1.14 August 11, 2013
