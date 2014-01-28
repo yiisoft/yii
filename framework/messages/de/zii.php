@@ -17,8 +17,7 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'The property filterSelector should be defined.' => 'Die Eigenschaft "filterSelector" muss definiert werden.',
-  'The property updateSelector should be defined.' => 'Die Eigenschaft "updateSelector" muss definiert werden.',
+  '{class} must specify "model" and "{attribute}" or "{name}" property values.' => '{class} muss die Eigenschaften "model" und "{attribute}" oder "{name}" spezifizieren.',
   'Are you sure you want to delete this item?' => 'Wollen Sie diesen Eintrag wirklich löschen?',
   'Delete' => 'Löschen',
   'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Zeige Ergebnisse {start}-{end} von {count}.',
@@ -34,8 +33,9 @@ return array (
   'The button type "{type}" is not supported.' => 'Buttontyp "{type}" wird nicht unterstützt.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Die Spalte muss im Format "Name:Typ:Label" angegeben werden, wobei "Typ" und "Label" optional sind.',
   'The property "itemView" cannot be empty.' => 'Die Eigenschaft "itemView" darf nicht leer sein.',
+  'The property filterSelector should be defined.' => 'Die Eigenschaft "filterSelector" muss definiert werden.',
+  'The property updateSelector should be defined.' => 'Die Eigenschaft "updateSelector" muss definiert werden.',
   'Total 1 result.|Total {count} results.' => 'Insgesamt 1 Ergebnis.|Insgesamt {count} Ergebnisse.',
   'Update' => 'Bearbeiten',
   'View' => 'Anzeigen',
-  '{class} must specify "model" and "attribute" or "name" property values.' => '{class} muss die Eigenschaften "model" und "attribute" oder "name" spezifizieren.',
 );

@@ -44,15 +44,17 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-この `authenticate()` メソッドにおいては、`User` クラスを用いて、`tbl_user` テーブルの中から、`username` カラムが与えられた `username` と同じである行を探し出しています(大文字と小文字は区別しません)。`User` クラスは前のセクションで `gii` ツールによって作られたものであることを思い出してください。`User` クラスは [CActiveRecord] を継承しているため、 [アクティブレコードの機能](http://www.yiiframework.com/doc/guide/ja/database.ar) を利用して、オブジェクト指向(OOP)の流儀で `tbl_user` テーブルにアクセスすることが出来ます。
+この `authenticate()` メソッドにおいては、`User` クラスを用いて、`tbl_user` テーブルの中から、
+`username` カラムが与えられた `username` と同じである行を探し出しています(大文字と小文字は区別しません)。
+`User` クラスは前のセクションで `gii` ツールによって作られたものであることを思い出してください。
+`User` クラスは [CActiveRecord] を継承しているため、 [アクティブレコードの機能](http://www.yiiframework.com/doc/guide/ja/database.ar) を利用して、
+オブジェクト指向(OOP)の流儀で `tbl_user` テーブルにアクセスすることが出来ます。
 
 ユーザが正当なパスワードを入力したかどうかをチェックするため、`User` クラスの `validatePassword` メソッドを呼び出しています。
 `/wwwroot/blog/protected/models/User.php` を以下の様に修正する必要があります。
-平文のパスワードをデータベースに保存するのではなく、パスワードとランダムに発生させたソルトキーのハッシュを保存することに注意してください。
-ユーザが入力したパスワードを検証する際は、パスワードではなくハッシュの結果を比較することになります。
-パスワードのハッシュと検証には、PHP の組み込み関数である `crypt()` を使います。
-詳細な解説としては、Wiki 記事 [Use crypt() for password storage](http://www.yiiframework.com/wiki/425) を参照して下さい。
- 
+平文のパスワードをデータベースに保存するのではなく、パスワードのハッシュを保存することに注意してください。
+ユーザが入力したパスワードを検証する際は、パスワードではなくハッシュの結果を比較しなければなりません。
+パスワードのハッシュと検証には、Yii に組み込まれている [CPasswordHelper] クラスを使います。
 
 ~~~
 [php]
@@ -61,12 +63,12 @@ class User extends CActiveRecord
 	......
 	public function validatePassword($password)
 	{
-		return crypt($password,$this->password)===$this->password;
+		return CPasswordHelper::verifyPassword($password,$this->password);
 	}
 
 	public function hashPassword($password)
 	{
-		return crypt($password, $this->generateSalt());
+		return CPasswordHelper::hashPassword($password);
 	}
 }
 ~~~

@@ -191,7 +191,7 @@ return array (
   'You are not authorized to perform this action.' => 'Jūs neesat autorizēts veikt šo darbību.',
   'Your request is not valid.' => 'Jūsu pieprasījums ir nekorekts.',
   '{attribute} "{value}" has already been taken.' => 'Atribūts {attribute} "{value}" jau ir aizņemts.',
-  '{attribute} "{value}" is invalid.' => 'Atribūts {attribute} "{value}" ir nekorkts.',
+  '{attribute} "{value}" is invalid.' => 'Atribūts {attribute} "{value}" ir nekorekts.',
   '{attribute} cannot be blank.' => 'Lauks \'{attribute}\' ir obligāts.',
   '{attribute} is invalid.' => 'Lauks \'{attribute}\' ir nekorekts.',
   '{attribute} is not a valid URL.' => 'Lauks \'{attribute}\' nav korekts URL.',

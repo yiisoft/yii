@@ -40,7 +40,7 @@
  *
  * To verify a password, fetch the user's saved hash from the database (into $hash) and:
  * <pre>
- * if (CPasswordHelper::verifyPassword($password, $hash)
+ * if (CPasswordHelper::verifyPassword($password, $hash))
  *     // password is good
  * else
  *     // password is bad
@@ -102,7 +102,7 @@ class CPasswordHelper
 	/**
 	 * Verify a password against a hash.
 	 *
-	 * @param string $password The password to verify.
+	 * @param string $password The password to verify. If password is empty or not a string, method will return false.
 	 * @param string $hash The hash to verify the password against.
 	 * @return bool True if the password matches the hash.
 	 * @throws CException on bad password or hash parameters or if crypt() with Blowfish hash is not available.
@@ -111,7 +111,7 @@ class CPasswordHelper
 	{
 		self::checkBlowfish();
 		if(!is_string($password) || $password==='')
-			throw new CException(Yii::t('yii','Cannot hash a password that is empty or not a string.'));
+			return false;
 
 		if (!$password || !preg_match('{^\$2[axy]\$(\d\d)\$[\./0-9A-Za-z]{22}}',$hash,$matches) ||
 			$matches[1]<4 || $matches[1]>31)

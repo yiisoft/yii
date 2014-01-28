@@ -148,8 +148,15 @@ class CRedisCache extends CCache
 			case '$': // Bulk replies
 				if($line=='-1')
 					return null;
-				if(($data=fread($this->_socket,$line+2))===false)
-					throw new CException('Failed reading data from redis connection socket.');
+				$length=$line+2;
+				$data='';
+				while($length>0)
+				{
+					if(($block=fread($this->_socket,$length))===false)
+						throw new CException('Failed reading data from redis connection socket.');
+					$data.=$block;
+					$length-=(function_exists('mb_strlen') ? mb_strlen($block,'8bit') : strlen($block));
+				}
 				return substr($data,0,-2);
 			case '*': // Multi-bulk replies
 				$count=(int)$line;

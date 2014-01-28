@@ -1,7 +1,7 @@
 Alias et Espaces de noms
 ========================
 
-Yii utilise les alias de manière intensive. Un alias défini l'accès à un dossier
+Yii utilise les alias de manière intensive. Un alias définit l'accès à un dossier
 ou à un fichier. Les alias s'écrivent en utilisant une notation pointée similaire au format
 largement utilisé pour déclarer des espaces de nom.
 
@@ -9,7 +9,7 @@ largement utilisé pour déclarer des espaces de nom.
 AliasRacine.chemin.vers.la.cible
 ~~~
 
-ou `AliasRacine` est un alias vers un dossier existant. Il est possible de
+où `AliasRacine` est un alias vers un dossier existant. Il est possible de
 définir de nouveaux alias en appelant [YiiBase::setPathOfAlias()]. Pour faciliter
 les choses, dles alias suivant sont prédéfinis par Yii :
 
@@ -44,10 +44,11 @@ De la même manière, importer un alias plusieurs fois est plus rapide
 que d'utiliser les directives `include_once` et `require_once`.
 
 > Tip|Astuce: Il n'est pas nécessaire d'importer ou d'inclure les classes définies par le
-framework Yii. Tous les classes du core étant pré-importées.
+framework Yii. Toutes les classes du noyau (core) étant pré-importées (mais instanciées uniquement
+à la demande).
 
 La syntaxe suivante peut être utilisée pour importer automatiquement
-l'intégralité des classes d'un dossier.
+l'intégralité des classes d'un dossier:
 
 ~~~
 [php]
@@ -57,7 +58,7 @@ Yii::import('system.web.*');
 Les alias, en dehors de l'[import|YiiBase::import], sont utilisés pour
 référencer des classes. Par exemple, un alias peut être passé à
 [Yii::createComponent()] pour créer une instance de la classe correspondante,
-et ce, même si la classe n'a pas été incluse précédemment.
+et ce, même si la classe n'a pas été inclue précédemment.
 
 Il est important de ne pas confondre alias et espace de noms.
 Un espace de noms permet de grouper de manière logique des classes
@@ -74,4 +75,4 @@ définies par l'utilisateur. Il est donc très fortement recommandé de réserve
 la lettre 'C' aux classes du framework Yii et d'utiliser d'autres lettres
 pour les classes utilisateur.
 
-<div class="revision">$Id: basics.namespace.txt 1400 $</div>
+<div class="revision">$Id: basics.namespace.txt 1400 2013-11-20 $</div>
