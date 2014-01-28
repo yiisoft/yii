@@ -6,6 +6,7 @@ Work in progress
 Version 1.1.15 under development
 --------------------------------
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
+- Bug #788: createIndex is not using the recommended way to create unique indexes on Postgres (nineinchnick)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
 - Bug #2658: CBaseListView, CGridView, CListView: added note about $itemsCssClass and $pagerCssClass properties, they must not contain empty string, null or false values (resurtm)
