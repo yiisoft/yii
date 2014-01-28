@@ -24,6 +24,7 @@ Version 1.1.15 under development
 - Bug #2959: Fixed CFileValidator to encode file name, while composing error messages (klimov-paul)
 - Bug #2963: CAssetManager::generatePath no longer uses basename for hasing (eirikhm)
 - Bug #2970: Fixed Active Record may join same relation twice on eager loading. (klimov-paul)
+- Bug #3010: Problem with callables given as values to CDetailView. CDetailView now only allows annonymous functions to be called, all other values will be taken as value (cebe)
 - Bug #3064: Fixed problem with array to string converion in CDbMigration methods that accept array parameters (cebe)
 - Bug #3134: Fixed the issue that query cache returns the same data for the same SQL but different query methods (qiangxue)
 - Bug #3144: It wasn't possible to use attributes with spaces in validation rules (samdark)

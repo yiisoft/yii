@@ -23,6 +23,10 @@ Upgrading from v1.1.14
 - CErrorHandler now runs errorAction for errors, which appear via AJAX request.
   If you use CErrorHandler::errorAction, make sure it handles AJAX request properly.
 
+- The possibility to use callables for values of CDetailView introduced a problem with string beeing interpreted as
+  PHP functions. CDetailView now only allows anonymous functions to be called, all other values will be taken as value.
+
+
 Upgrading from v1.1.13
 ----------------------
 
