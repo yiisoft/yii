@@ -69,12 +69,12 @@ class CDbCommand extends CComponent
 	 */
 	public $params=array();
 
-	private $_connection;
-	private $_text;
-	private $_statement;
-	private $_paramLog=array();
-	private $_query;
-	private $_fetchMode = array(PDO::FETCH_ASSOC);
+	protected $_connection;
+	protected $_text;
+	protected $_statement;
+	protected $_paramLog=array();
+	protected $_query;
+	protected $_fetchMode = array(PDO::FETCH_ASSOC);
 
 	/**
 	 * Constructor.
@@ -467,7 +467,7 @@ class CDbCommand extends CComponent
 	 * @throws CDbException if CDbCommand failed to execute the SQL statement
 	 * @return mixed the method execution result
 	 */
-	private function queryInternal($method,$mode,$params=array())
+	protected function queryInternal($method,$mode,$params=array())
 	{
 		$params=array_merge($this->params,$params);
 
@@ -956,6 +956,34 @@ class CDbCommand extends CComponent
 	public function naturalJoin($table)
 	{
 		return $this->joinInternal('natural join', $table);
+	}
+	
+	/**
+	 * Appends a NATURAL LEFT OUTER JOIN part to the query.
+	 * Note that not all DBMS support NATURAL LEFT OUTER JOIN.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
+	 */
+	public function naturalLeftJoin($table)
+	{
+		return $this->joinInternal('natural left join', $table);
+	}
+	
+	/**
+	 * Appends a NATURAL RIGHT OUTER JOIN part to the query.
+	 * Note that not all DBMS support NATURAL RIGHT OUTER JOIN.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
+	 */
+	public function naturalRightJoin($table)
+	{
+		return $this->joinInternal('natural right join', $table);
 	}
 
 	/**
@@ -1478,7 +1506,7 @@ class CDbCommand extends CComponent
 	 * @throws CDbException if unknown operator is used
 	 * @return string the condition string to put in the WHERE part
 	 */
-	private function processConditions($conditions)
+	protected function processConditions($conditions)
 	{
 		if(!is_array($conditions))
 			return $conditions;
@@ -1557,7 +1585,7 @@ class CDbCommand extends CComponent
 	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
-	private function joinInternal($type, $table, $conditions='', $params=array())
+	protected function joinInternal($type, $table, $conditions='', $params=array())
 	{
 		if(strpos($table,'(')===false)
 		{
