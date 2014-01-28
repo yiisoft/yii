@@ -37,6 +37,7 @@ Version 1.1.15 under development
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
 - Enh #640: Introduce bigpk and bigint column types in each class extending CDbSchema (nineinchnick)
 - Enh #873: CStatRelation (CActiveRecord::STAT) now supports scopes (resurtm, klimov-paul)
+- Enh #1515: Post-JOIN operations (use|force|ignore index()) support in relational queries (KonovalovMaxim, resurtm)
 - Enh #1593: Allow access to exception currently processed by CErrorHandler (klimov-paul)
 - Enh #2540: Enable CJSON to use JsonSerializable interface when serializing objects (sammousa)
 - Enh #2688: CHtml::beginForm() now supports additional HTTP methods, via a hidden `_method` field. (phpnode)

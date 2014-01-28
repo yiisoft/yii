@@ -1975,6 +1975,14 @@ class CBaseActiveRelation extends CComponent
 	 */
 	public $join='';
 	/**
+	 * @var string|array property for setting post-JOIN operations such as USE INDEX.
+	 * String typed value can be used with JOINs for HAS_MANY and MANY_MANY relations, while array typed
+	 * value designed to be used only with MANY_MANY relations. First array element will be used for junction
+	 * table JOIN and second array element will be used for target table JOIN.
+	 * @since 1.1.15
+	 */
+	public $joinOptions='';
+	/**
 	 * @var string HAVING clause. For {@link CActiveRelation} descendant classes, column names
 	 * referenced in this property should be disambiguated with prefix 'relationName.'.
 	 */
