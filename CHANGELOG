@@ -29,6 +29,7 @@ Version 1.1.15 under development
 - Bug #3144: It wasn't possible to use attributes with spaces in validation rules (samdark)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
+- Bug: Fixed an issue with CFilehelper and not accessable directories which resulted in endless loop (cebe)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
