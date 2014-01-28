@@ -400,10 +400,10 @@ $posts=Post::model()->with('comments')->findAll(array(
 >
 > ~~~
 > [php]
-> $comments=Comment::model()->with(
+> $comments=Comment::model()->with(array(
 > 	'author',
 > 	'post',
-> 	'post.author'=>array('alias'=>'p_author'))->findAll(array(
+> 	'post.author'=>array('alias'=>'p_author')))->findAll(array(
 > 	'order'=>'author.name, p_author.name, post.title'
 > ));
 > ~~~
