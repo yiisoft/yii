@@ -8,6 +8,7 @@ Version 1.1.14
 
  * Added [CPasswordHelper]
  * Added [CRedisCache]
+ * [Added AR post-JOIN operations](/doc/guide/database.arr#post-join-operations)
 
 Version 1.1.11
 --------------
