@@ -1564,7 +1564,17 @@ class CActiveRecordTest extends CTestCase
 		if(!version_compare(PHP_VERSION,"5.3.0",">="))
 			$this->markTestSkipped('PHP 5.3.0 or higher required for namespaces.');
 		require_once(dirname(__FILE__).'/../data/models-namespaced.php');
-		$this->assertEquals("test.posts",Post2::model()->tableName());
+		$this->assertEquals("posts",Post::model()->tableName());
 		$this->assertEquals("Example",CActiveRecord::model("yiiArExample\\testspace\\Example")->tableName());
+	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/2884
+	 */
+	public function testDefaultScopeAlias()
+	{
+		$this->assertEquals('user3', UserWithDefaultScopeAlias::model()->resetScope()->findByPk(3)->username);
+		$this->assertNull(UserWithDefaultScopeAlias::model()->findByPk(3));
+		$this->assertNotNull(UserWithDefaultScopeAlias::model()->findByPk(1));
 	}
 }
