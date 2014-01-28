@@ -57,6 +57,7 @@ Version 1.1.15 under development
 - Enh #2908: Add insertMultiple to Migrations (luislobo)
 - Enh #3014: Allow changing the database used by ActiveRecord in beforeCount() like it is possible in beforeFind() already (cebe)
 - Enh #3023: Added support for formatting DateTime instances to CFormatter (cebe, nitso)
+- Enh #3027: Added custom encodeLabel attributes of the CMenu items (hugeval)
 - Enh #3048: CApcCache is now compatible with APCu (iobotis, samdark)
 - Enh #3068: Added CDbCommand::naturalLeftJoin() and CDbCommand::naturalRightJoin() (bunchachis)
 - Enh #3115: Updated phpdoc for better code completion in modern IDEs (samdark)
