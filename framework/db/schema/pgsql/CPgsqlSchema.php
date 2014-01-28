@@ -393,7 +393,7 @@ EOD;
 		$type=$this->getColumnType($type);
 		$sql='ALTER TABLE ' . $this->quoteTableName($table)
 			. ' ADD COLUMN ' . $this->quoteColumnName($column) . ' '
-			. $this->getColumnType($type);
+			. $type;
 		return $sql;
 	}
 

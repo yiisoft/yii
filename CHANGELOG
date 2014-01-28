@@ -11,6 +11,7 @@ Version 1.1.15 under development
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
 - Bug #2658: CBaseListView, CGridView, CListView: added note about $itemsCssClass and $pagerCssClass properties, they must not contain empty string, null or false values (resurtm)
+- Bug #2969: CPgsqlSchema::addColumn() converts column type twice (cebe, klimov-paul)
 - Bug #2753: Fixed CErrorHandler::errorAction ignored if error occurs while AJAX request (klimov-paul)
 - Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
 - Bug #2770: Fixed CClientScript renders scripts with different HTML options inside same tag (klimov-paul)
