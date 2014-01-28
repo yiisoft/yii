@@ -18,6 +18,7 @@ Version 1.1.15 under development
 - Bug #2778: Fixed throwing unnecessary exception in CFileValidator when validating MIME types for a file upload that failed (Rupert-RR)
 - Bug #2785: Use table name with schema in composeMultipleInsertCommand (nineinchnick)
 - Bug #2836: Fixed rendering when try-catching widget Exception while 'captureOutput' is set to true (darkheir)
+- Bug #2855: Fixed issue with Component::__call() and normal properties holding a Closure (cebe)
 - Bug #2862: Fixed array_merge caused renumbering of $data indexes in CHtml::radioButtonList() (ligser)
 - Bug #2864: Fixed CGridView ajax calls failing CSRF validation when ajaxType is set to POST (nineinchnick)
 - Bug #2874: Fixed duplicate columns selection for HAS_MANY relation with composite primary key (borro)
