@@ -65,7 +65,6 @@ Version 1.1.15 under development
 - Enh #3115: Updated phpdoc for better code completion in modern IDEs (samdark)
 - Enh #3147: Updated Request::getIsSecureConnection() to work with lower and uppercase config values (cebe)
 - Enh #3182: Added namespace support for controllers in subdirectories (Ekstazi, samdark)
-- Enh #2670: Validate IP address in getUserHostAddress() (janisto)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
