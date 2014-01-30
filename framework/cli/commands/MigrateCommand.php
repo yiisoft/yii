@@ -54,6 +54,12 @@ class MigrateCommand extends CConsoleCommand
 	 */
 	public $templateFile;
 	/**
+	 * @var string the extension of the template file for generating new migrations.
+	 * Defaults to 'php'.
+	 * @since 1.1.15
+	 */
+	public $templateExtention='php';
+	/**
 	 * @var string the default command action. It defaults to 'up'.
 	 */
 	public $defaultAction='up';
@@ -552,7 +558,7 @@ EOD;
 	protected function getTemplate()
 	{
 		if($this->templateFile!==null)
-			return file_get_contents(Yii::getPathOfAlias($this->templateFile).'.php');
+			return file_get_contents(Yii::getPathOfAlias($this->templateFile).'.'.$this->templateExtention);
 		else
 			return <<<EOD
 <?php
