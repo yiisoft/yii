@@ -245,6 +245,7 @@ class CWsdlGenerator extends CComponent
 		$comment=preg_replace('/^\s*\**(\s*?$|\s*)/m','',$comment);
 		$params=$method->getParameters();
 		$message=array();
+		$headers=array();
 		$n=preg_match_all('/^@param\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches);
 		if($n>count($params))
 			$n=count($params);
@@ -252,6 +253,22 @@ class CWsdlGenerator extends CComponent
 			$message[$params[$i]->getName()]=array($this->processType($matches[1][$i]), trim($matches[3][$i])); // name => type, doc
 
 		$this->messages[$methodName.'Request']=$message;
+
+		$n=preg_match_all('/^@header\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches);
+		for($i=0;$i<$n;++$i)
+			$headers[$matches[1][$i]]=array($this->processType($matches[1][$i]),trim($matches[3][$i])); // name => type, doc
+
+		if ($headers !== array())
+		{
+			$this->messages[$methodName.'Headers']=$headers;
+			$headerKeys = array_keys($headers);
+			$firstHeaderKey = reset($headerKeys);
+			$firstHeader = $headers[$firstHeaderKey];
+		}
+		else
+		{
+			$firstHeader = null;
+		}
 
 		if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
 			$return=array($this->processType($matches[1]),trim($matches[2])); // type, doc
@@ -263,7 +280,10 @@ class CWsdlGenerator extends CComponent
 			$doc=trim($matches[1]);
 		else
 			$doc='';
-		$this->operations[$methodName]=$doc;
+		$this->operations[$methodName]=array(
+			'doc'=>$doc,
+			'headers'=>$firstHeader === null ? null : array('input'=>array($methodName.'Headers', $firstHeaderKey)),
+		);
 	}
 
 	/**
@@ -539,8 +559,8 @@ class CWsdlGenerator extends CComponent
 		$portType=$dom->createElement('wsdl:portType');
 		$portType->setAttribute('name',$this->serviceName.'PortType');
 		$dom->documentElement->appendChild($portType);
-		foreach($this->operations as $name=>$doc)
-			$portType->appendChild($this->createPortElement($dom,$name,$doc));
+		foreach($this->operations as $name=>$operation)
+			$portType->appendChild($this->createPortElement($dom,$name,$operation['doc']));
 	}
 
 	/**
@@ -581,15 +601,16 @@ class CWsdlGenerator extends CComponent
 
 		$dom->documentElement->appendChild($binding);
 
-		foreach($this->operations as $name=>$doc)
-			$binding->appendChild($this->createOperationElement($dom,$name));
+		foreach($this->operations as $name=>$operation)
+			$binding->appendChild($this->createOperationElement($dom,$name,$operation['headers']));
 	}
 
 	/**
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $name method name
+	 * @param array $headers array like array('input'=>array(MESSAGE,PART),'output=>array(MESSAGE,PART))
 	 */
-	protected function createOperationElement($dom,$name)
+	protected function createOperationElement($dom,$name,$headers=null)
 	{
 		$operation=$dom->createElement('wsdl:operation');
 		$operation->setAttribute('name', $name);
@@ -606,6 +627,29 @@ class CWsdlGenerator extends CComponent
 		$soapBody->setAttribute('encodingStyle', 'http://schemas.xmlsoap.org/soap/encoding/');
 		$input->appendChild($soapBody);
 		$output->appendChild(clone $soapBody);
+		if (is_array($headers))
+		{
+			if (isset($headers['input']) && is_array($headers['input']) && count($headers['input'])==2)
+			{
+				$soapHeader = $dom->createElement('soap:header');
+				$soapHeader->setAttribute('use', 'encoded');
+				$soapHeader->setAttribute('namespace', $this->namespace);
+				$soapHeader->setAttribute('encodingStyle', 'http://schemas.xmlsoap.org/soap/encoding/');
+				$soapHeader->setAttribute('message', $headers['input'][0]);
+				$soapHeader->setAttribute('part', $headers['input'][1]);
+				$input->appendChild($soapHeader);
+			}
+			if (isset($headers['output']) && is_array($headers['output']) && count($headers['output'])==2)
+			{
+				$soapHeader = $dom->createElement('soap:header');
+				$soapHeader->setAttribute('use', 'encoded');
+				$soapHeader->setAttribute('namespace', $this->namespace);
+				$soapHeader->setAttribute('encodingStyle', 'http://schemas.xmlsoap.org/soap/encoding/');
+				$soapHeader->setAttribute('message', $headers['output'][0]);
+				$soapHeader->setAttribute('part', $headers['output'][1]);
+				$output->appendChild($soapHeader);
+			}
+		}
 
 		$operation->appendChild($soapOperation);
 		$operation->appendChild($input);
