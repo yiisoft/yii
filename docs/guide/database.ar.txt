@@ -77,6 +77,7 @@ Support for AR is limited by DBMS. Currently, only the following DBMS are
 supported:
 
    - [MySQL 4.1 or later](http://www.mysql.com)
+   - [MariaDB](https://mariadb.com)
    - [PostgreSQL 7.3 or later](http://www.postgres.com)
    - [SQLite 2 and 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)

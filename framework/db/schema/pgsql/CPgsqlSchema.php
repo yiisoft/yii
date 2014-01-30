@@ -25,9 +25,11 @@ class CPgsqlSchema extends CDbSchema
 	 */
 	public $columnTypes=array(
 		'pk' => 'serial NOT NULL PRIMARY KEY',
+		'bigpk' => 'bigserial NOT NULL PRIMARY KEY',
 		'string' => 'character varying (255)',
 		'text' => 'text',
 		'integer' => 'integer',
+		'bigint' => 'bigint',
 		'float' => 'double precision',
 		'decimal' => 'numeric',
 		'datetime' => 'timestamp',
@@ -391,7 +393,7 @@ EOD;
 		$type=$this->getColumnType($type);
 		$sql='ALTER TABLE ' . $this->quoteTableName($table)
 			. ' ADD COLUMN ' . $this->quoteColumnName($column) . ' '
-			. $this->getColumnType($type);
+			. $type;
 		return $sql;
 	}
 
@@ -411,6 +413,42 @@ EOD;
 		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' ALTER COLUMN '
 			. $this->quoteColumnName($column) . ' TYPE ' . $this->getColumnType($type);
 		return $sql;
+	}
+
+	/**
+	 * Builds a SQL statement for creating a new index.
+	 * @param string $name the name of the index. The name will be properly quoted by the method.
+	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
+	 * @param string $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
+	 * by commas. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
+	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
+	 * @return string the SQL statement for creating a new index.
+	 * @since 1.1.6
+	 */
+	public function createIndex($name, $table, $columns, $unique=false)
+	{
+		$cols=array();
+		if (is_string($columns))
+			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $col)
+		{
+			if(strpos($col,'(')!==false)
+				$cols[]=$col;
+			else
+				$cols[]=$this->quoteColumnName($col);
+		}
+		if ($unique)
+		{
+			return 'ALTER TABLE ONLY '
+				. $this->quoteTableName($table).' ADD CONSTRAINT '
+				. $this->quoteTableName($name).' UNIQUE ('.implode(', ',$cols).')';
+		}
+		else
+		{
+			return 'CREATE INDEX '
+				. $this->quoteTableName($name).' ON '
+				. $this->quoteTableName($table).' ('.implode(', ',$cols).')';
+		}
 	}
 
 	/**

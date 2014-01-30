@@ -93,7 +93,7 @@ class CViewAction extends CAction
 	 * Resolves the user-specified view into a valid view name.
 	 * @param string $viewPath user-specified view in the format of 'path.to.view'.
 	 * @return string fully resolved view in the format of 'path/to/view'.
-	 * @throw CHttpException if the user-specified view is invalid
+	 * @throws CHttpException if the user-specified view is invalid
 	 */
 	protected function resolveView($viewPath)
 	{

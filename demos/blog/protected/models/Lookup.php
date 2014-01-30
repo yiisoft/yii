@@ -1,23 +1,21 @@
 <?php
-
+/**
+ * The followings are the available columns in table 'tbl_lookup':
+ * @property integer $id
+ * @property string $object_type
+ * @property integer $code
+ * @property string $name_en
+ * @property string $name_fr
+ * @property integer $sequence
+ * @property integer $status
+ */
 class Lookup extends CActiveRecord
 {
-	/**
-	 * The followings are the available columns in table 'tbl_lookup':
-	 * @var integer $id
-	 * @var string $object_type
-	 * @var integer $code
-	 * @var string $name_en
-	 * @var string $name_fr
-	 * @var integer $sequence
-	 * @var integer $status
-	 */
-
 	private static $_items=array();
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return CActiveRecord the static model class
+	 * @return static the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

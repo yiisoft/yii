@@ -26,9 +26,11 @@ class COciSchema extends CDbSchema
 	 */
 	public $columnTypes=array(
 		'pk' => 'NUMBER(10) NOT NULL PRIMARY KEY',
+		'bigpk' => 'NUMBER(20) NOT NULL PRIMARY KEY',
 		'string' => 'VARCHAR2(255)',
 		'text' => 'CLOB',
 		'integer' => 'NUMBER(10)',
+		'bigint' => 'NUMBER(20)',
 		'float' => 'NUMBER',
 		'decimal' => 'NUMBER',
 		'datetime' => 'TIMESTAMP',

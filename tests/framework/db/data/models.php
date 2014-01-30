@@ -33,13 +33,18 @@ class User extends CActiveRecord
 			'groups'=>array(self::HAS_MANY,'Group',array('group_id'=>'id'),'through'=>'roles'),
 			'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
 			'students'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorships','joinType'=>'INNER JOIN'),
+			'profiles'=>array(self::HAS_MANY,'Profile','user_id'),
 			'posts'=>array(self::HAS_MANY,'Post','author_id'),
+			'postsCondition'=>array(self::HAS_MANY,'Post','author_id', 'condition'=>'postsCondition.id IN (2,3)'),
 			'postsOrderDescFormat1'=>array(self::HAS_MANY,'Post','author_id','scopes'=>'orderDesc'),
 			'postsOrderDescFormat2'=>array(self::HAS_MANY,'Post','author_id','scopes'=>array('orderDesc')),
 			'postCount'=>array(self::STAT,'Post','author_id'),
 			/* For {@link CActiveRecordTest::testHasManyThroughHasManyWithCustomSelect()}: */
 			'mentorshipsCustomSelect'=>array(self::HAS_MANY,'Mentorship','teacher_id','select' => array('teacher_id', 'student_id')),
 			'studentsCustomSelect'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorshipsCustomSelect','select' => array('id', 'username')),
+			/* For {@link CActiveRecordTest::testRelationalStatWithScopes}: */
+			'recentPostCount1'=>array(self::STAT,'Post','author_id','scopes'=>'recentScope'), // CStatRelation with scopes, HAS_MANY case
+			'recentPostCount2'=>array(self::STAT,'Post','author_id','scopes'=>array('recentScope')), // CStatRelation with scopes, HAS_MANY case
 		);
 	}
 
@@ -147,6 +152,26 @@ class Role extends CActiveRecord
 
 /**
  * @property integer $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $country
+ * @property integer $user_id
+ */
+class Profile extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'profiles';
+	}
+}
+
+/**
+ * @property integer $id
  * @property string $title
  * @property float $create_time
  * @property integer $author_id
@@ -190,6 +215,9 @@ class Post extends CActiveRecord
 			'post3'=>array('condition'=>'id=3'),
 			'postX'=>array('condition'=>'id=:id1 OR id=:id2', 'params'=>array(':id1'=>2, ':id2'=>3)),
 			'orderDesc'=>array('order'=>'posts.id DESC','alias'=>'posts'),
+			/* For {@link CActiveRecordTest::testRelationalStatWithScopes}: */
+			'recentScope'=>array('condition'=>"$this->tableAlias.create_time>=:create_time", 'params'=>array(':create_time'=>100002)),// CStatRelation with scopes, HAS_MANY case
+			'recentScope2'=>array('condition'=>"$this->tableAlias.create_time>=:create_time", 'params'=>array(':create_time'=>100001)),// CStatRelation with scopes, MANY_MANY case
 		);
 	}
 
@@ -401,6 +429,9 @@ class Category extends CActiveRecord
 			'children'=>array(self::HAS_MANY,'Category','parent_id'),
 			'nodes'=>array(self::HAS_MANY,'Category','parent_id','with'=>array('parent','children')),
 			'postCount'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)'),
+			/* For {@link CActiveRecordTest::testRelationalStatWithScopes}: */
+			'recentPostCount1'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)','scopes'=>'recentScope2'), // CStatRelation with scopes, MANY_MANY case
+			'recentPostCount2'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)','scopes'=>array('recentScope2')), // CStatRelation with scopes, MANY_MANY case
 		);
 	}
 }
@@ -954,6 +985,28 @@ class UserWithDefaultScope extends CActiveRecord
 	{
 		return array(
 			'links'=>array(self::HAS_MANY,'UserWithDefaultScopeLink','from_id'),
+		);
+	}
+}
+
+class UserWithDefaultScopeAlias extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'users';
+	}
+
+	public function defaultScope()
+	{
+		return array(
+			'alias'=>'my_alias',
+			'condition'=>"my_alias.username='user1'",
+			'order'=>'my_alias.username',
 		);
 	}
 }

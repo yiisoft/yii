@@ -15,7 +15,7 @@ class Text_Diff_Mapped extends Text_Diff {
     /**
      * Computes a diff between sequences of strings.
      *
-     * This can be used to compute things like case-insensitve diffs, or diffs
+     * This can be used to compute things like case-insensitive diffs, or diffs
      * which ignore changes in white-space.
      *
      * @param array $from_lines         An array of strings.

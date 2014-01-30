@@ -66,6 +66,44 @@ Yii::setPathOfAlias('Imagine',Yii::getPathOfAlias('application.vendors.Imagine')
 In the code above the name of the alias we've defined should match the first namespace
 part used in the library.
 
+Using 3rd-Party Autoloaders
+---------------------------
+
+Some 3rd-Party libraries (for example PHPUnit) use their own class autoloaders, which perform
+class file inclusion by rules, which are different from the ones used in Yii autoloader.
+Since Yii uses PHP include path as a 'last source' of class files, registering such 3rd-party
+autoloaders may produce a PHP Warning:
+~~~
+include(PHPUnit_Framework_TestCase.php) [function.include]: failed to open stream: No such file or directory
+~~~
+In order to avoid such problem make sure any 3rd-party class autoloaders are registered
+before the Yii autoloader:
+~~~
+[php]
+require_once('PHPUnit/Autoload.php'); // register 3rd-party autoloader
+require_once('/path/to/framework/yii.php'); // register Yii autoloader
+...
+~~~
+If 3rd-party class autoloader is coming as separated function or method, you may use
+`Yii::registerAutoloader()` method to register it. In this case Yii will prepend it
+before own autoloader automatically.
+~~~
+[php]
+require_once('/path/to/framework/yii.php'); // register Yii autoloader
+...
+Yii::registerAutoloader(array('SomeLibrary','autoload')); // register 3rd-party autoloader
+...
+~~~
+You can also avoid problems with 3rd-party autoloader disabling usage of PHP include path
+by setting `YiiBase::$enableIncludePath` to `false` before starting application:
+~~~
+[php]
+require_once('/path/to/framework/yii.php');
+$configFile='/path/to/config/main.php';
+Yii::$enableIncludePath = false; // disable PHP include path usage
+Yii::createWebApplication($configFile)->run();
+~~~
+
 Using Yii in 3rd-Party Systems
 ------------------------------
 

@@ -185,7 +185,7 @@ class CDbConnection extends CApplicationComponent
 	public $autoConnect=true;
 	/**
 	 * @var string the charset used for database connection. The property is only used
-	 * for MySQL and PostgreSQL databases. Defaults to null, meaning using default charset
+	 * for MySQL, MariaDB and PostgreSQL databases. Defaults to null, meaning using default charset
 	 * as specified by the database.
 	 *
 	 * Note that if you're using GBK or BIG5 then it's highly recommended to
@@ -235,7 +235,7 @@ class CDbConnection extends CApplicationComponent
 	public $driverMap=array(
 		'pgsql'=>'CPgsqlSchema',    // PostgreSQL
 		'mysqli'=>'CMysqlSchema',   // MySQL
-		'mysql'=>'CMysqlSchema',    // MySQL
+		'mysql'=>'CMysqlSchema',    // MySQL,MariaDB
 		'sqlite'=>'CSqliteSchema',  // sqlite 3
 		'sqlite2'=>'CSqliteSchema', // sqlite 2
 		'mssql'=>'CMssqlSchema',    // Mssql driver on windows hosts
@@ -347,7 +347,7 @@ class CDbConnection extends CApplicationComponent
 	 * the query results into cache.
 	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
 	 * meaning that the next SQL query will be cached.
-	 * @return CDbConnection the connection instance itself.
+	 * @return static the connection instance itself.
 	 * @since 1.1.7
 	 */
 	public function cache($duration, $dependency=null, $queryCount=1)
@@ -437,7 +437,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Initializes the open db connection.
 	 * This method is invoked right after the db connection is established.
-	 * The default implementation is to set the charset for MySQL and PostgreSQL database connections.
+	 * The default implementation is to set the charset for MySQL, MariaDB and PostgreSQL database connections.
 	 * @param PDO $pdo the PDO instance
 	 */
 	protected function initConnection($pdo)
