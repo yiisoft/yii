@@ -87,6 +87,27 @@ abstract class CFormElement extends CComponent
 	}
 
 	/**
+	 * Checks a property value or an attribute value on existence or not null
+	 * Do not call this method. This is a PHP magic method that we override
+	 * to allow using the following syntax to read a property or attribute:
+	 * <pre>
+	 * isset($element->propertyName);
+	 * </pre>
+	 * @param string $name the property or attribute name
+	 * @return boolean
+	 */
+	public function __isset($name)
+	{
+		$getter='get'.$name;
+		if(method_exists($this,$getter))
+			return $this->$getter()!==null;
+		elseif(isset($this->attributes[$name]))
+			return isset($this->attributes[$name]);
+		else
+			return false;
+	}
+
+	/**
 	 * Sets value of a property or attribute.
 	 * Do not call this method. This is a PHP magic method that we override
 	 * to allow using the following syntax to set a property or attribute.

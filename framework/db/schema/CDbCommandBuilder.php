@@ -288,7 +288,7 @@ class CDbCommandBuilder extends CComponent
 			$templates
 		);
 		$this->ensureTable($table);
-		$tableName=$this->getDbConnection()->quoteTableName($table->name);
+		$tableName=$table->rawName;
 		$params=array();
 		$columnInsertNames=array();
 		$rowInsertValues=array();
@@ -499,7 +499,7 @@ class CDbCommandBuilder extends CComponent
 
 	/**
 	 * Alters the SQL to apply LIMIT and OFFSET.
-	 * Default implementation is applicable for PostgreSQL, MySQL and SQLite.
+	 * Default implementation is applicable for PostgreSQL, MySQL, MariaDB and SQLite.
 	 * @param string $sql SQL query string without LIMIT and OFFSET.
 	 * @param integer $limit maximum number of rows, -1 to ignore limit.
 	 * @param integer $offset row offset, -1 to ignore offset.
@@ -736,7 +736,7 @@ class CDbCommandBuilder extends CComponent
 			$condition=array();
 			foreach($keywords as $keyword)
 			{
-				$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
+				$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_', '\\'=>'\\\\')).'%';
 				if($caseSensitive)
 					$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
 				else

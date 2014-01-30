@@ -7,7 +7,7 @@ Apache
 Yii kann bereits mit einem standardmäßig konfigurierten Apache Webserver
 betrieben werden. Die `.htaccess`-Dateien in Yii-Framework- und
 Anwendungsverzeichnissen sperren den Zugriff auf vertrauliche Dateien. Um das
-Starscript (normalerweise `index.php`) in URLs zu unterdrücken, kann man
+Startscript (normalerweise `index.php`) in URLs zu unterdrücken, kann man
 `mod_rewrite`-Anweisungen in die `.htaccess`-Datei im Webverzeichnis oder in
 die Virtual-Host-Konfiguration einfügen:
 

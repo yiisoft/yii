@@ -212,7 +212,7 @@ life cycle:
 
    0. Pre-initialize the application with [CApplication::preinit()];
 
-   1. Set up the class autoloader and error handling;
+   1. Set up the error handling;
 
    2. Register core application components;
 

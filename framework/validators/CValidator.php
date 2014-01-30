@@ -141,7 +141,7 @@ abstract class CValidator extends CComponent
 	public static function createValidator($name,$object,$attributes,$params=array())
 	{
 		if(is_string($attributes))
-			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
+			$attributes=preg_split('/\s*,\s*/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
 
 		if(isset($params['on']))
 		{

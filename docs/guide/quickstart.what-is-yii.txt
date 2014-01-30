@@ -36,7 +36,7 @@ How does Yii Compare with Other Frameworks?
 
 Like most PHP frameworks, Yii is an MVC framework.
 
-Yii excels other PHP frameworks at being efficient, feature-rich and
+Yii excels among PHP frameworks at being efficient, feature-rich and
 clearly-documented. Yii is carefully designed from the ground up to be fit
 for serious Web application development. It is neither a byproduct of some
 project nor a conglomerate of third-party work. It is the result of the

@@ -1,18 +1,17 @@
 <?php
-
+/**
+ * The followings are the available columns in table 'tbl_post':
+ * @property integer $id
+ * @property string $title
+ * @property string $content
+ * @property string $tags
+ * @property integer $status
+ * @property integer $create_time
+ * @property integer $update_time
+ * @property integer $author_id
+ */
 class Post extends CActiveRecord
 {
-	/**
-	 * The followings are the available columns in table 'tbl_post':
-	 * @var integer $id
-	 * @var string $title
-	 * @var string $content
-	 * @var string $tags
-	 * @var integer $status
-	 * @var integer $create_time
-	 * @var integer $update_time
-	 * @var integer $author_id
-	 */
 	const STATUS_DRAFT=1;
 	const STATUS_PUBLISHED=2;
 	const STATUS_ARCHIVED=3;
@@ -21,7 +20,7 @@ class Post extends CActiveRecord
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return CActiveRecord the static model class
+	 * @return static the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

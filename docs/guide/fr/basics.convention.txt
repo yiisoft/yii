@@ -33,7 +33,7 @@ Cette fonctionnalité est décrite en détail dans le chapitre [Gestion des URLs
 Programmation / Code
 --------------------
 
-Yii recommande d'écrire les variables, functions et classes en camel case. Cela
+Yii recommande d'écrire les variables, fonctions et classes en camel case. Cela
 signifie qu'il faut mettre en majuscule la première lettre de chaque mot puis
 fusionner le tout sans espace.
 Dans le cas des noms de variables et de fonctions, la première lettre doit être 
@@ -42,7 +42,7 @@ mise en minuscule pour pouvoir les différencier des noms de classes (e.g. `$bas
 il est recommandé de préfixer leur nom d'une underscore (e.g.
 `$_actionList`).
 
-Sachant que la notion de namespace n'est pas supporté par les versions de PHP 
+Sachant que la notion de namespace n'est pas supportée par les versions de PHP 
 antérieures à la 5.3.0, il est recommandé de nommer les classes de manière
 unique afin d'éviter tout conflit avec les classes tierces. C'est pour cette 
 raison que toutes les classes du framework sont préfixées de la lettre "C".
@@ -100,8 +100,8 @@ Par défaut, Yii s'appuie sur plusieurs répertoires. Chacun peut
 
    - `WebRoot/protected`: C'est le [dossier de base de l'application](/doc/guide/basics.application#application-base-directory) 
 qui contient tous les éléments sensibles (PHP et données). Yii dispose d'un
-raccourcis par défaut `application` associé à ce chemin. Tout accès à ce dossier, 
-ainsi qu'à ce qu'il contient doit être interdit aux utilisateurs web. Ce chemin
+raccourcis par défaut `application` associé à ce chemin. Tout accès à ce dossier  
+ainsi qu'à son contenu doit être interdit aux utilisateurs web. Ce chemin
 peut être modifié via la propriété [CWebApplication::basePath].
 
    - `WebRoot/protected/runtime`: ce dossier contient les fichiers
@@ -135,32 +135,28 @@ vues systèmes. Les vues systèmes sont des gabarits permettant l'affichage
 des exceptions et des erreurs. Ce chemin peut être modifié via 
 la propriété [CWebApplication::systemViewPath].
 
-   - `WebRoot/assets`: ce dossier contient les assets publiés. Un asset est un fichier
-privé qui peut être publié et donc rendu accessible à l'utilisateur web. 
-Le processus web doit pouvoir y accéder en écriture. Ce chemin peut être modifié via
-la propriété [CAssetManager::basePath].
+   - `WebRoot/assets`: ce dossier contient les assets publiés. Un asset est un fichier privé qui peut être publié et donc rendu accessible à l'utilisateur web. 
+Le processus web doit pouvoir y accéder en écriture.
+Ce chemin peut être modifié via la propriété [CAssetManager::basePath].
 
    - `WebRoot/themes`: ce dossier contient les divers thèmes qui peuvent être
-utilisés par l'application. Chaque sous dossier correspond à un et un seul thème dont
-le nom est le nom du dossier. Ce chemin peut être modifié via 
+utilisés par l'application. Chaque sous dossier correspond à un et un seul thème dont le nom est le nom du dossier. Ce chemin peut être modifié via 
 la propriété [CThemeManager::basePath].
 
 Base de données
 ---------------
 
 La plupart des applications Web utilisent une base de données. En guise de bonne pratique,
-nous proposons les conventions de nommage suivantes (qui ne sont pas nécessaire au bon
+nous proposons les conventions de nommage suivantes (qui ne sont pas nécessaires au bon
 fonctionnement de Yii):
 
-   - Les noms de tables et de colonnes doivent être en minuscules.
+   - Les noms des tables et des colonnes doivent être en minuscules.
 
    - Les mots au sein d'un nom doivent être séparés par des underscores (ex: `product_order`).
 
-   - Les noms de tables peuvent être au singulier ou au pluriel, mais pas les deux.
+   - Les noms des tables peuvent être au singulier ou au pluriel, mais pas les deux.
 Pour simplifier, nous recommandons d'utiliser des noms singuliers.
 
-   - Les noms des tables peuvent être préfixés d'une chaine commune telle que `tbl_`. Cela peut
-être utile lorsque des tables de plusieurs applications distinctes doivent coexister au sein
-de la même base de données.
+   - Les noms des tables peuvent être préfixés d'une chaîne commune à toutes les tables. Par exemple `tbly1_`. Typiquement, cela est utile pour éviter des conflits de noms lorsque la base de données est partagée entre plusieurs applications et que des tables distinctes doivent donc coexister au sein de cette même base de données.
 
-<div class="revision">$Id: basics.convention.txt 1906 $</div>
+<div class="revision">$Id: basics.convention.txt 1907 $</div>

@@ -234,7 +234,10 @@ class CFormatter extends CApplicationComponent
 			else
 				return strtotime($time);
 		}
-		return (int)$time;
+		elseif (class_exists('DateTime', false) && $time instanceof DateTime)
+			return $time->getTimestamp();
+		else
+			return (int)$time;
 	}
 
 	/**

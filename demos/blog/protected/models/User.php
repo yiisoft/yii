@@ -1,19 +1,18 @@
 <?php
 
+/**
+ * The followings are the available columns in table 'tbl_user':
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ * @property string $profile
+ */
 class User extends CActiveRecord
 {
 	/**
-	 * The followings are the available columns in table 'tbl_user':
-	 * @var integer $id
-	 * @var string $username
-	 * @var string $password
-	 * @var string $email
-	 * @var string $profile
-	 */
-
-	/**
 	 * Returns the static model of the specified AR class.
-	 * @return CActiveRecord the static model class
+	 * @return static the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

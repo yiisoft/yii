@@ -29,6 +29,13 @@
  * <li>number: an HTML5 number input generated using {@link CHtml::activeNumberField}</li>
  * <li>range: an HTML5 range input generated using {@link CHtml::activeRangeField}</li>
  * <li>date: an HTML5 date input generated using {@link CHtml::activeDateField}</li>
+ * <li>time: an HTML5 time input generated using {@link CHtml::activeTimeField}</li>
+ * <li>datetime: an HTML5 datetime input generated using {@link CHtml::activeDateTimeField}</li>
+ * <li>datetimelocal: an HTML5 datetime-local input generated using {@link CHtml::activeDateTimeLocalField}</li>
+ * <li>week: an HTML5 week input generated using {@link CHtml::activeWeekField}</li>
+ * <li>color: an HTML5 color input generated using {@link CHtml::activeColorField}</li>
+ * <li>tel: an HTML5 tel input generated using {@link CHtml::activeTelField}</li>
+ * <li>search: an HTML5 search input generated using {@link CHtml::activeSearchField}</li>
  * </ul>
  * The {@link type} property can also be a class name or a path alias to the class. In this case,
  * the input is generated using a widget of the specified class. Note, the widget must
@@ -68,7 +75,14 @@ class CFormInputElement extends CFormElement
 		'email'=>'activeEmailField',
 		'number'=>'activeNumberField',
 		'range'=>'activeRangeField',
-		'date'=>'activeDateField'
+		'date'=>'activeDateField',
+		'time'=>'activeTimeField',
+		'datetime'=>'activeDateTimeField',
+		'datetimelocal'=>'activeDateTimeLocalField',
+		'week'=>'activeWeekField',
+		'color'=>'activeColorField',
+		'tel'=>'activeTelField',
+		'search'=>'activeSearchField',
 	);
 
 	/**
@@ -197,9 +211,7 @@ class CFormInputElement extends CFormElement
 		);
 
 		if(!empty($this->attributes['id']))
-        {
-            $options['for'] = $this->attributes['id'];
-        }
+			$options['for']=$this->attributes['id'];
 
 		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);
 	}

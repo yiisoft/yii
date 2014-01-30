@@ -239,6 +239,16 @@ class CDbCommand2Test extends CTestCase
 		$command->naturalJoin('user');
 		$join[]='NATURAL JOIN \'user\'';
 		$this->assertEquals($join, $command->join);
+
+		// natural left join
+		$command->naturalLeftJoin('user');
+		$join[]='NATURAL LEFT JOIN \'user\'';
+		$this->assertEquals($join, $command->join);
+
+		// natural right join
+		$command->naturalRightJoin('user');
+		$join[]='NATURAL RIGHT JOIN \'user\'';
+		$this->assertEquals($join, $command->join);
 	}
 
 	public function testGroup()
