@@ -3,6 +3,11 @@
 
 このページは、各々の Yii リリースにおいて導入された主な新機能をまとめています。
 
+Version 1.1.15
+--------------
+
+ * [AR に JOIN 後の操作](/doc/guide/database.arr#sec-12) を追加
+
 Version 1.1.14
 --------------
  * [CPasswordHelper] を追加
