@@ -300,7 +300,20 @@ class CWsdlGenerator extends CComponent
 
 		$n=preg_match_all('/^@header\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches);
 		for($i=0;$i<$n;++$i)
-			$headers[$matches[1][$i]]=array($this->processType($matches[1][$i]),trim($matches[3][$i])); // name => type, doc
+		{
+			$name = $matches[1][$i];
+			$type = $this->processType($matches[1][$i]);
+			$doc = trim($matches[3][$i]);
+			if ($this->bindingStyle == self::STYLE_RPC)
+			{
+				$headers[$name]=array($type,$doc);
+			}
+			else
+			{
+				$this->elements[$name][$name]=array('type'=>$type);
+				$headers[$name] = array('element'=>$type);
+			}
+		}
 
 		if ($headers !== array())
 		{
@@ -314,13 +327,7 @@ class CWsdlGenerator extends CComponent
 			$firstHeader = null;
 		}
 
-		if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
-			$return=array($this->processType($matches[1]),trim($matches[2])); // type, doc
-		else
-			$return=null;
-		$this->messages[$methodName.'Response']=array('return'=>$return);
-
-		if ($this->bindingStyle == self:STYLE_RPC)
+		if ($this->bindingStyle == self::STYLE_RPC)
 		{
 			if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
 				$return=array(
@@ -750,9 +757,9 @@ class CWsdlGenerator extends CComponent
 			if (isset($headers['input']) && is_array($headers['input']) && count($headers['input'])==2)
 			{
 				$soapHeader = $dom->createElement('soap:header');
-				$soapHeader->setAttribute('use', 'encoded');
-				$soapHeader->setAttribute('namespace', $this->namespace);
-				$soapHeader->setAttribute('encodingStyle', 'http://schemas.xmlsoap.org/soap/encoding/');
+				foreach($operationBodyStyle as $attributeName=>$attributeValue) {
+					$soapHeader->setAttribute($attributeName, $attributeValue);
+				}
 				$soapHeader->setAttribute('message', $headers['input'][0]);
 				$soapHeader->setAttribute('part', $headers['input'][1]);
 				$input->appendChild($soapHeader);
@@ -760,9 +767,9 @@ class CWsdlGenerator extends CComponent
 			if (isset($headers['output']) && is_array($headers['output']) && count($headers['output'])==2)
 			{
 				$soapHeader = $dom->createElement('soap:header');
-				$soapHeader->setAttribute('use', 'encoded');
-				$soapHeader->setAttribute('namespace', $this->namespace);
-				$soapHeader->setAttribute('encodingStyle', 'http://schemas.xmlsoap.org/soap/encoding/');
+				foreach($operationBodyStyle as $attributeName=>$attributeValue) {
+					$soapHeader->setAttribute($attributeName, $attributeValue);
+				}
 				$soapHeader->setAttribute('message', $headers['output'][0]);
 				$soapHeader->setAttribute('part', $headers['output'][1]);
 				$output->appendChild($soapHeader);
