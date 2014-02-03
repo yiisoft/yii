@@ -7,6 +7,7 @@ Version 1.1.15 under development
 --------------------------------
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #788: createIndex is not using the recommended way to create unique indexes on Postgres (nineinchnick)
+- Bug #1257: CFileValidator is no longer unsafe by default to prevent setting arbitrary values. Instead, when no file is uploaded attribute is set to null (marcovtwout)
 - Bug #2235: CPgsqlColumnSchema can't parse default value for numeric field (cebe, pavimus)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
