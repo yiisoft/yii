@@ -64,6 +64,8 @@ class CFileValidator extends CValidator
 	/**
 	 * @var boolean whether the attribute requires a file to be uploaded or not.
 	 * Defaults to false, meaning a file is required to be uploaded.
+	 * When no file is uploaded, the owner attribute is set to null to prevent
+	 * setting arbitrary values.
 	 */
 	public $allowEmpty=false;
 	/**
@@ -130,12 +132,6 @@ class CFileValidator extends CValidator
 	 * limit.
 	 */
 	public $tooMany;
-	/**
-	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
-	 * For this validator it defaults to false.
-	 * @since 1.1.12
-	 */
-	public $safe=false;
 
 	/**
 	 * Set the attribute and then validates using {@link validateFile}.
@@ -254,11 +250,13 @@ class CFileValidator extends CValidator
 
 	/**
 	 * Raises an error to inform end user about blank attribute.
+	 * Sets the owner attribute to null to prevent setting arbitrary values.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
 	 */
 	protected function emptyAttribute($object, $attribute)
 	{
+		$object->$attribute=null;
 		if(!$this->allowEmpty)
 		{
 			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} cannot be blank.');
