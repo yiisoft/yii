@@ -64,7 +64,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * <li>except: this specifies the scenarios when the validation rule should not be performed.
 	 *   Separate different scenarios with commas. Please see {@link scenario} for more details about this option.</li>
 	 * <li>additional parameters are used to initialize the corresponding validator properties.
-	 *   Please refer to individal validator class API for possible properties.</li>
+	 *   Please refer to individual validator class API for possible properties.</li>
 	 * </ul>
 	 *
 	 * The following are some examples:
@@ -291,23 +291,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		}
 		return $validators;
 	}
-	
-	/**
-	 * Creates a new validator for the model
-	 * @param string $name the name or class of the validator
-	 * @param mixed $attributes list of attributes to be validated. This can be either an array of
-	 * the attribute names or a string of comma-separated attribute names.
-	 * @param array $params initial values to be applied to the validator properties
-	 * @return CModel allows method chaining
-	 * @since 1.1.14
-	 */
-	public function addValidator($name,$attributes,$params=array())
-	{
-		$validator=CValidator::createValidator($name,$this,$attributes,$params);
-		$this->getValidatorList()->add($validator);
-		return $this;
-	}
-	
+
 	/**
 	 * Returns a value indicating whether the attribute is required.
 	 * This is determined by checking if the attribute is associated with a

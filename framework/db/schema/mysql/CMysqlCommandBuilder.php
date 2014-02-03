@@ -40,4 +40,19 @@ class CMysqlCommandBuilder extends CDbCommandBuilder
 		else
 			return $sql.' '.$join;
 	}
+
+	/**
+	 * Alters the SQL to apply LIMIT and OFFSET.
+	 * @param string $sql SQL query string without LIMIT and OFFSET.
+	 * @param integer $limit maximum number of rows, -1 to ignore limit.
+	 * @param integer $offset row offset, -1 to ignore offset.
+	 * @return string SQL with LIMIT and OFFSET
+	 */
+	public function applyLimit($sql,$limit,$offset)
+	{
+		// Ugly, but this is how MySQL recommends doing it: https://dev.mysql.com/doc/refman/5.0/en/select.html
+		if($limit<=0 && $offset>0)
+			$limit=PHP_INT_MAX;
+		return parent::applyLimit($sql,$limit,$offset);
+	}
 }

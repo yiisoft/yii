@@ -32,10 +32,11 @@
  * @property string $requestUri The request URI portion for the currently requested URL.
  * @property string $queryString Part of the request URL that is after the question mark.
  * @property boolean $isSecureConnection If the request is sent via secure channel (https).
- * @property string $requestType Request type, such as GET, POST, HEAD, PUT, DELETE.
+ * @property string $requestType Request type, such as GET, POST, HEAD, PUT, PATCH, DELETE.
  * @property boolean $isPostRequest Whether this is a POST request.
  * @property boolean $isDeleteRequest Whether this is a DELETE request.
  * @property boolean $isPutRequest Whether this is a PUT request.
+ * @property boolean $isPatchRequest Whether this is a PATCH request.
  * @property boolean $isAjaxRequest Whether this is an AJAX (XMLHttpRequest) request.
  * @property boolean $isFlashRequest Whether this is an Adobe Flash or Adobe Flex request.
  * @property string $serverName Server name.
@@ -250,7 +251,32 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns request parameters. Typically PUT or DELETE.
+	 * Returns the named PATCH parameter value.
+	 * If the PATCH parameter does not exist or if the current request is not a PATCH request,
+	 * the second parameter to this method will be returned.
+	 * If the PATCH request was tunneled through POST via _method parameter, the POST parameter
+	 * will be returned instead.
+	 * @param string $name the PATCH parameter name
+	 * @param mixed $defaultValue the default parameter value if the PATCH parameter does not exist.
+	 * @return mixed the PATCH parameter value
+	 * @since 1.1.15
+	 */
+	public function getPatch($name,$defaultValue=null)
+	{
+		if($this->getIsPatchViaPostRequest())
+			return $this->getPost($name, $defaultValue);
+
+		if($this->getIsPatchRequest())
+		{
+			$restParams=$this->getRestParams();
+			return isset($restParams[$name]) ? $restParams[$name] : $defaultValue;
+		}
+		else
+			return $defaultValue;
+	}
+
+	/**
+	 * Returns request parameters. Typically PUT, PATCH or DELETE.
 	 * @return array the request parameters
 	 * @since 1.1.7
 	 * @since 1.1.13 method became public
@@ -446,7 +472,15 @@ class CHttpRequest extends CApplicationComponent
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
 
-			$this->_pathInfo=trim($pathInfo,'/');
+			if($pathInfo==='/')
+				$pathInfo='';
+			elseif($pathInfo[0]==='/')
+				$pathInfo=substr($pathInfo,1);
+
+			if(($posEnd=strlen($pathInfo)-1)>0 && $pathInfo[$posEnd]==='/')
+				$pathInfo=substr($pathInfo,0,$posEnd);
+
+			$this->_pathInfo=$pathInfo;
 		}
 		return $this->_pathInfo;
 	}
@@ -537,15 +571,16 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsSecureConnection()
 	{
-		return !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'],'off');
+		return isset($_SERVER['HTTPS']) && (strcasecmp($_SERVER['HTTPS'],'on')===0 || $_SERVER['HTTPS']==1)
+			|| isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'],'https')===0;
 	}
 
 	/**
-	 * Returns the request type, such as GET, POST, HEAD, PUT, DELETE.
+	 * Returns the request type, such as GET, POST, HEAD, PUT, PATCH, DELETE.
 	 * Request type can be manually set in POST requests with a parameter named _method. Useful
-	 * for RESTful request from older browsers which do not support PUT or DELETE
+	 * for RESTful request from older browsers which do not support PUT, PATCH or DELETE
 	 * natively (available since version 1.1.11).
-	 * @return string request type, such as GET, POST, HEAD, PUT, DELETE.
+	 * @return string request type, such as GET, POST, HEAD, PUT, PATCH, DELETE.
 	 */
 	public function getRequestType()
 	{
@@ -602,6 +637,26 @@ class CHttpRequest extends CApplicationComponent
 	protected function getIsPutViaPostRequest()
 	{
 		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'PUT');
+	}
+
+	/**
+	 * Returns whether this is a PATCH request.
+	 * @return boolean whether this is a PATCH request.
+	 * @since 1.1.15
+	 */
+	public function getIsPatchRequest()
+	{
+		return (isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PATCH')) || $this->getIsPatchViaPostRequest();
+	}
+
+	/**
+	 * Returns whether this is a PATCH request which was tunneled through POST.
+	 * @return boolean whether this is a PATCH request tunneled through POST.
+	 * @since 1.1.15
+	 */
+	protected function getIsPatchViaPostRequest()
+	{
+		return isset($_POST['_method']) && !strcasecmp($_POST['_method'],'PATCH');
 	}
 
 	/**
@@ -998,13 +1053,68 @@ class CHttpRequest extends CApplicationComponent
 			if(($mimeType=CFileHelper::getMimeTypeByExtension($fileName))===null)
 				$mimeType='text/plain';
 		}
+
+		$fileSize=(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content));
+		$contentStart=0;
+		$contentEnd=$fileSize-1;
+
+		if(isset($_SERVER['HTTP_RANGE']))
+		{
+			header('Accept-Ranges: bytes');
+
+			//client sent us a multibyte range, can not hold this one for now
+			if(strpos($_SERVER['HTTP_RANGE'],',')!==false)
+			{
+				header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
+				throw new CHttpException(416,'Requested Range Not Satisfiable');
+			}
+
+			$range=str_replace('bytes=','',$_SERVER['HTTP_RANGE']);
+
+			//range requests starts from "-", so it means that data must be dumped the end point.
+			if($range[0]==='-')
+				$contentStart=$fileSize-substr($range,1);
+			else
+			{
+				$range=explode('-',$range);
+				$contentStart=$range[0];
+
+				// check if the last-byte-pos presents in header
+				if((isset($range[1]) && is_numeric($range[1])))
+					$contentEnd=$range[1];
+			}
+
+			/* Check the range and make sure it's treated according to the specs.
+			 * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+			 */
+			// End bytes can not be larger than $end.
+			$contentEnd=($contentEnd > $fileSize) ? $fileSize-1 : $contentEnd;
+
+			// Validate the requested range and return an error if it's not correct.
+			$wrongContentStart=($contentStart>$contentEnd || $contentStart>$fileSize-1 || $contentStart<0);
+
+			if($wrongContentStart)
+			{
+				header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
+				throw new CHttpException(416,'Requested Range Not Satisfiable');
+			}
+
+			header('HTTP/1.1 206 Partial Content');
+			header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
+		}
+		else
+			header('HTTP/1.1 200 OK');
+
+		$length=$contentEnd-$contentStart+1; // Calculate new content length
+
 		header('Pragma: public');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		header("Content-type: $mimeType");
-		header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
+		header("Content-Type: $mimeType");
+		header('Content-Length: '.$length);
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
+		$content=function_exists('mb_substr') ? mb_substr($content,$contentStart,$length) : substr($content,$contentStart,$length);
 
 		if($terminate)
 		{
@@ -1096,8 +1206,8 @@ class CHttpRequest extends CApplicationComponent
 		if(!isset($options['xHeader']))
 			$options['xHeader']='X-Sendfile';
 
-		if($options['mimeType'] !== null)
-			header('Content-type: '.$options['mimeType']);
+		if($options['mimeType']!==null)
+			header('Content-Type: '.$options['mimeType']);
 		header('Content-Disposition: '.$disposition.'; filename="'.$options['saveName'].'"');
 		if(isset($options['addHeaders']))
 		{
@@ -1163,6 +1273,7 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if ($this->getIsPostRequest() ||
 			$this->getIsPutRequest() ||
+			$this->getIsPatchRequest() ||
 			$this->getIsDeleteRequest())
 		{
 			$cookies=$this->getCookies();
@@ -1175,6 +1286,9 @@ class CHttpRequest extends CApplicationComponent
 				break;
 				case 'PUT':
 					$userToken=$this->getPut($this->csrfTokenName);
+				break;
+				case 'PATCH':
+					$userToken=$this->getPatch($this->csrfTokenName);
 				break;
 				case 'DELETE':
 					$userToken=$this->getDelete($this->csrfTokenName);

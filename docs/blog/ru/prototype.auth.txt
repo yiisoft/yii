@@ -67,12 +67,10 @@ class UserIdentity extends CUserIdentity
 Для того, чтобы проверить, ввёл ли пользователь правильный пароль, мы вызываем
 метод `validatePassword` класса `User`. Нам необходимо изменить файл
 `/wwwroot/blog/protected/models/User.php` как показано ниже. Отметим, что
-вместо хранения пароля в БД в явном виде, мы используем хеш от пароля и генерируемого
-случайным образом ключа (соли). При проверке введённого пользователем пароля,
-вместо сравнения паролей, мы должны сравнивать хеши. Мы используем стандартную
-PHP-функцию `crypt()` для хэширования и проверки пароля. Ознакомьтесь с вики-статьей
-[Use crypt() for password storage](http://www.yiiframework.com/wiki/425), которая
-описывает все подробности работы с данной функцией.
+вместо хранения пароля в БД в явном виде, мы сохраняем его хеш. При проверке введённого пользователем пароля,
+вместо сравнения паролей, мы должны сравнивать хеши. Для хеширования пароля и его проверки мы используем входящий
+в Yii класс [CPasswordHelper].
+
 
 ~~~
 [php]
@@ -81,12 +79,12 @@ class User extends CActiveRecord
 	......
 	public function validatePassword($password)
 	{
-		return crypt($password,$this->password)===$this->password;
+		return CPasswordHelper::verifyPassword($password,$this->password);
 	}
 
 	public function hashPassword($password)
 	{
-		return crypt($password, $this->generateSalt());
+		return CPasswordHelper::hashPassword($password);
 	}
 }
 ~~~

@@ -403,4 +403,3 @@ Ziel-Locale vorgegebene Währungsmuster verwendet.
 formatiert die gegebene Zahl, indem sie das in der Ziel-Locale vorgegebene 
 Prozentsatz-Muster verwendet.
 
-<div class="revision">$Id: topics.i18n.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

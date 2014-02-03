@@ -102,6 +102,18 @@ testdrive/
             login.php        View für die 'login'-Action
 ~~~
 
+Der oben beschriebene Kommandozeilenbefehl kann zusätzlich auch Dateien erstellen, die vom
+Versionskontrollsystem GIT benötigt werden. Der folgende Befehl erzeugt die nötigen Dateien,
+wie zum Beispiel .gitignore (um den Inhalt der asset- und runtime-Ordner von der Versionskontrolle auszuschließen)
+und .gitkeep (um leere, aber notwendige Ordner mit in die Versionskontrolle aufzunehmen):
+
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive git
+~~~
+
+Unterstützung für das Versionskontrollsystem Mercurial wurde in Version 1.1.11 hinzugefügt.
+Ersetzen Sie dafür im oben stehenden Komandozeilenbefehl das `git` durch `hg`, wenn Sie Mercurial benutzen.
+
 Verbindung zu einer Datenbank
 -----------------------------
 

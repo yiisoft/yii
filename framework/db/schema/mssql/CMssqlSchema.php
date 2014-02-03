@@ -26,9 +26,11 @@ class CMssqlSchema extends CDbSchema
 	 */
 	public $columnTypes=array(
 		'pk' => 'int IDENTITY PRIMARY KEY',
+		'bigpk' => 'bigint IDENTITY PRIMARY KEY',
 		'string' => 'varchar(255)',
 		'text' => 'text',
 		'integer' => 'int',
+		'bigint' => 'bigint',
 		'float' => 'float',
 		'decimal' => 'decimal',
 		'datetime' => 'datetime',
@@ -81,24 +83,27 @@ class CMssqlSchema extends CDbSchema
 	/**
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
-	 * will have the specified value or 1.
+	 * will have the specified value or max value of a primary key plus one (i.e. sequence trimming).
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param integer|null $value the value for the primary key of the next new row inserted. If this is not set,
-	 * the next new row's primary key will have a value 1.
+	 * @param integer|null $value the value for the primary key of the next new row inserted.
+	 * If this is not set, the next new row's primary key will have the max value of a primary
+	 * key plus one (i.e. sequence trimming).
 	 * @since 1.1.6
 	 */
 	public function resetSequence($table,$value=null)
 	{
-		if($table->sequenceName!==null)
-		{
-			$db=$this->getDbConnection();
-			if($value===null)
-				$value=(int)$db->createCommand("SELECT MAX([{$table->primaryKey}]) FROM {$table->rawName}")->queryScalar();
-			else
-				$value=(int)($value)-1;
-			$name=strtr($table->rawName,array('['=>'',']'=>''));
-			$db->createCommand("DBCC CHECKIDENT ('$name', RESEED, $value)")->execute();
-		}
+		if($table->sequenceName===null)
+			return;
+		if($value!==null)
+			$value=(int)($value)-1;
+		else
+			$value=(int)$this->getDbConnection()
+				->createCommand("SELECT MAX([{$table->primaryKey}]) FROM {$table->rawName}")
+				->queryScalar();
+		$name=strtr($table->rawName,array('['=>'',']'=>''));
+		$this->getDbConnection()
+			->createCommand("DBCC CHECKIDENT ('$name',RESEED,$value)")
+			->execute();
 	}
 
 	private $_normalTables=array();  // non-view tables
@@ -291,8 +296,16 @@ EOD;
 			 "LEFT OUTER JOIN sys.extended_properties AS t2 ON t1.ORDINAL_POSITION = t2.minor_id AND ".
 			 "object_name(t2.major_id) = t1.TABLE_NAME AND t2.class=1 AND t2.class_desc='OBJECT_OR_COLUMN' AND t2.name='MS_Description' ".
 			 "WHERE ".join(' AND ',$where);
-		if (($columns=$this->getDbConnection()->createCommand($sql)->queryAll())===array())
+		try
+		{
+			$columns=$this->getDbConnection()->createCommand($sql)->queryAll();
+			if(empty($columns))
+				return false;
+		}
+		catch(Exception $e)
+		{
 			return false;
+		}
 
 		foreach($columns as $column)
 		{

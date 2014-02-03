@@ -6,6 +6,10 @@ php:
   - 5.4
   - 5.5
 
+services:
+  - redis-server
+  - memcached
+
 before_script:
   - ./tests/travis/mysql-setup.sh
   - ./tests/travis/postgresql-setup.sh

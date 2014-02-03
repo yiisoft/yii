@@ -76,4 +76,25 @@ class CJSONTest extends CTestCase {
 		$this->assertEquals(array('a', 'b'), CJSON::decode('["a","b"]'));
 		$this->assertEquals(array('a', 'b' => array('a', 'b' => 'c')), CJSON::decode('{"0":"a","b":{"0":"a","b":"c"}}'));
 	}
+
+	public function testJsonSerializable()
+    {
+        if(!interface_exists('JsonSerializable'))
+            $this->markTestSkipped('JsonSerializable interface is required.');
+
+        $className = get_class($this).'_JsonSerializable';
+        $classCode = <<<EOL
+class $className implements JsonSerializable{
+	public function jsonSerialize()
+	{
+		return 'test';
+	}
+}
+EOL;
+		eval($classCode);
+		$object = new $className();
+		$this->assertEquals(CJSON::encode($object), json_encode($object));
+    }
+
+
 }

@@ -17,8 +17,21 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  '{n} megabyte|{n} megabytes' => '{n} megabyte|{n} megabytes',
-  '{n} terabyte|{n} terabytes' => '{n} terabyte|{n} terabytes',
+  'CDbConnection failed to open the DB connection.' => 'Το CDbConnection απέτυχε να ανοίξει τη σύνδεση με τη βάση δεδομένων.',
+  'CDbConnection is unable to find PDO class "{className}". Make sure PDO is installed correctly.' => 'Το CDbConnection αδυνατεί να βρει την PDO κλάση "{className}". Σιγουρευτείτε ότι το PDO είναι σωστά εγκατεστημένο.',
+  'CSecurityManager::generateRandomString() cannot generate random string in the current environment.' => 'Η μέθοδος CSecurityManager::generateRandomString() δεν μπορεί να δημιουργήσει τυχαία αλφαριθμητική φράση στο τρέχον περιβάλλον.',
+  'Cannot hash a password that is empty or not a string.' => 'Δεν είναι δυνατός ο κατακερματισμός ένας συνθηματικού που δεν έχει τιμή ή δεν είναι αλφαριθμητική φράση.',
+  'Internal error while generating hash.' => 'Εσωτερικό σφάλμα κατά τον κατακερματισμό.',
+  'No' => 'Όχι',
+  'Only SHA1 and MD5 hashing algorithms are supported when using PHP 5.1.1 or below.' => 'Μόνο αλγόριθμοι κατακερματισμού SHA1 και MD5 υποστηρίζονται όταν χρησιμοποιείται έκδοση PHP 5.1.1 και πιο κάτω.',
+  'Script HTML options are not allowed for "CClientScript::POS_LOAD" and "CClientScript::POS_READY".' => 'Οι επιλογές σεναρίου HTML δεν επιτρέπονται για τα "CClientScript::POS_LOAD" και "CClientScript::POS_READY".',
+  'The $converter argument must be a valid callback or null.' => 'Το όρισμα $converter πρέπει να είναι έγκυρη συνάρτηση επανάκλησης ή null.',
+  'Unable to generate random string.' => 'Δεν ήταν δυνατή η δημιουργία τυχαίας αλφαριθμητικής φράσης.',
+  'Yes' => 'Ναι',
+  '{class} requires the Blowfish option of the PHP crypt() function. This system does not have it.' => 'Η κλάση {class} απαιτεί την επιλογή Blowfish της συνάρτησης crypt() της PHP. Το σύστημα δεν την έχει.',
+  '{class} requires the PHP crypt() function. This system does not have it.' => 'Η κλάση {class} απαιτεί τη συνάρτηση crypt() της PHP. Το σύστημα δεν την έχει.',
+  '{class}::$cost must be a number.' => 'Το {class}::$cost πρέπει να είναι αριθμός.',
+  '{class}::$cost must be between 4 and 31.' => 'Το {class}::$cost πρέπει να είναι μεταξύ 4 και 31.',
   '"{path}" is not a valid directory.' => 'Η διαδρομή "{path}" δεν είναι έγκυρος κατάλογος.',
   '&lt; Previous' => '&lt; Προηγούμενη',
   '&lt;&lt; First' => '&lt;&lt; Αρχική',
@@ -266,5 +279,7 @@ return array (
   '{n} byte|{n} bytes' => '{n} byte|{n} bytes',
   '{n} gigabyte|{n} gigabytes' => '{n} gigabyte|{n} gigabytes',
   '{n} kilobyte|{n} kilobytes' => '{n} kilobyte|{n} kilobytes',
+  '{n} megabyte|{n} megabytes' => '{n} megabyte|{n} megabytes',
+  '{n} terabyte|{n} terabytes' => '{n} terabyte|{n} terabytes',
   '{widget} cannot find the view "{view}".' => 'Το widget {widget} δεν μπορεί να βρει την όψη "{view}".',
 );

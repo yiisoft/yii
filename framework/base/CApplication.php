@@ -42,7 +42,7 @@
  * CApplication will undergo the following lifecycles when processing a user request:
  * <ol>
  * <li>load application configuration;</li>
- * <li>set up class autoloader and error handling;</li>
+ * <li>set up error handling;</li>
  * <li>load static application components;</li>
  * <li>{@link onBeginRequest}: preprocess the user request;</li>
  * <li>{@link processRequest}: process the user request;</li>
@@ -140,7 +140,18 @@ abstract class CApplication extends CModule
 			$this->setBasePath('protected');
 		Yii::setPathOfAlias('application',$this->getBasePath());
 		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
-		Yii::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
+		if(isset($config['extensionPath']))
+		{
+			$this->setExtensionPath($config['extensionPath']);
+			unset($config['extensionPath']);
+		}
+		else
+			Yii::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
+		if(isset($config['aliases']))
+		{
+			$this->setAliases($config['aliases']);
+			unset($config['aliases']);
+		}
 
 		$this->preinit();
 
@@ -926,7 +937,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * Initializes the class autoloader and error handlers.
+	 * Initializes the error handlers.
 	 */
 	protected function initSystemHandlers()
 	{

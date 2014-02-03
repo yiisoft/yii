@@ -84,10 +84,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		parent::init();
 
-		// default session gc probability is 1%
-		ini_set('session.gc_probability',1);
-		ini_set('session.gc_divisor',100);
-
 		if($this->autoStart)
 			$this->open();
 		register_shutdown_function(array($this,'close'));
@@ -235,7 +231,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Sets the session cookie parameters.
 	 * The effect of this method only lasts for the duration of the script.
 	 * Call this method before the session starts.
-	 * @param array $value cookie parameters, valid keys include: lifetime, path, domain, secure.
+	 * @param array $value cookie parameters, valid keys include: lifetime, path,
+	 * domain, secure, httponly. Note that httponly is all lowercase.
 	 * @see http://us2.php.net/manual/en/function.session-set-cookie-params.php
 	 */
 	public function setCookieParams($value)

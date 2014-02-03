@@ -29,6 +29,11 @@ class User2 extends CActiveRecord
 		return array(
 			'posts'=>array(self::HAS_MANY,'Post2','author_id'),
 			'friends'=>array(self::MANY_MANY,'User2','test.user_friends(id,friend)'),
+
+			// CActiveRecord2Test::testIssue2122()
+			'commentsWithParam'=>array(self::HAS_MANY,'Comment2','author_id','on'=>'"commentsWithParam"."post_id">:postId',
+				'params'=>array(':postId'=>1)),
+			'postsWithParam'=>array(self::HAS_MANY,'Post2',array('post_id'=>'id'),'through'=>'commentsWithParam'),
 		);
 	}
 
@@ -40,9 +45,10 @@ class User2 extends CActiveRecord
 
 /**
  * @property integer $id
- * @property string $first_name
- * @property string $last_name
- * @property integer $user_id
+ * @property string $title
+ * @property string $create_time
+ * @property integer $author_id
+ * @property string $content
  */
 class Post2 extends CActiveRecord
 {
@@ -76,9 +82,30 @@ class Post2 extends CActiveRecord
 
 /**
  * @property integer $id
- * @property string $first_name
- * @property string $last_name
- * @property integer $user_id
+ * @property string $title
+ * @property string $create_time
+ * @property integer $author_id
+ * @property string $content
+ */
+class NullablePost2 extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'test.nullable_posts';
+	}
+}
+
+/**
+ * @property integer $id
+ * @property string $title
+ * @property string $create_time
+ * @property integer $author_id
+ * @property string $content
  */
 class PostExt2 extends CActiveRecord
 {

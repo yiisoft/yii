@@ -80,7 +80,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.14-dev';
+		return '1.1.15-dev';
 	}
 
 	/**
@@ -287,13 +287,20 @@ class YiiBase
 				return $alias;
 			}
 			else
-				throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
-					array('{alias}'=>$namespace)));
+			{
+				// try to autoload the class with an autoloader
+				if (class_exists($alias,true))
+					return self::$_imports[$alias]=$alias;
+				else
+					throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
+						array('{alias}'=>$namespace)));
+			}
 		}
 
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
-			if($forceInclude && self::autoload($alias))
+			// try to autoload the class with an autoloader if $forceInclude is true
+			if($forceInclude && (Yii::autoload($alias,true) || class_exists($alias,true)))
 				self::$_imports[$alias]=$alias;
 			return $alias;
 		}
@@ -386,15 +393,19 @@ class YiiBase
 	 * Class autoload loader.
 	 * This method is provided to be invoked within an __autoload() magic method.
 	 * @param string $className class name
+	 * @param bool $classMapOnly whether to load classes via classmap only
 	 * @return boolean whether the class has been loaded successfully
+	 * @throws CException When class name does not match class file in debug mode.
 	 */
-	public static function autoload($className)
+	public static function autoload($className,$classMapOnly=false)
 	{
 		// use include so that the error PHP file may appear
 		if(isset(self::$classMap[$className]))
 			include(self::$classMap[$className]);
 		elseif(isset(self::$_coreClasses[$className]))
 			include(YII_PATH.self::$_coreClasses[$className]);
+		elseif($classMapOnly)
+			return false;
 		else
 		{
 			// include class file relying on include_path
@@ -612,6 +623,9 @@ class YiiBase
 	 * any other existing autoloaders.
 	 * @param callback $callback a valid PHP callback (function name or array($className,$methodName)).
 	 * @param boolean $append whether to append the new autoloader after the default Yii autoloader.
+	 * Be careful using this option as it will disable {@link enableIncludePath autoloading via include path}
+	 * when set to true. After this the Yii autoloader can not rely on loading classes via simple include anymore
+	 * and you have to {@link import} all classes explicitly.
 	 */
 	public static function registerAutoloader($callback, $append=false)
 	{
@@ -656,6 +670,7 @@ class YiiBase
 		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
 		'CFileCache' => '/caching/CFileCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
+		'CRedisCache' => '/caching/CRedisCache.php',
 		'CWinCache' => '/caching/CWinCache.php',
 		'CXCache' => '/caching/CXCache.php',
 		'CZendDataCache' => '/caching/CZendDataCache.php',
@@ -714,6 +729,7 @@ class YiiBase
 		'COciSchema' => '/db/schema/oci/COciSchema.php',
 		'COciTableSchema' => '/db/schema/oci/COciTableSchema.php',
 		'CPgsqlColumnSchema' => '/db/schema/pgsql/CPgsqlColumnSchema.php',
+		'CPgsqlCommandBuilder' => '/db/schema/pgsql/CPgsqlCommandBuilder.php',
 		'CPgsqlSchema' => '/db/schema/pgsql/CPgsqlSchema.php',
 		'CPgsqlTableSchema' => '/db/schema/pgsql/CPgsqlTableSchema.php',
 		'CSqliteColumnSchema' => '/db/schema/sqlite/CSqliteColumnSchema.php',
@@ -743,6 +759,7 @@ class YiiBase
 		'CDateTimeParser' => '/utils/CDateTimeParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CFormatter' => '/utils/CFormatter.php',
+		'CLocalizedFormatter' => '/utils/CLocalizedFormatter.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
 		'CPasswordHelper' => '/utils/CPasswordHelper.php',
 		'CPropertyValue' => '/utils/CPropertyValue.php',

@@ -20,6 +20,9 @@
  *
  * @property boolean $hasFooter Whether this column has a footer cell.
  * This is determined based on whether {@link footer} is set.
+ * @property string $filterCellContent The filter cell content.
+ * @property string $headerCellContent The header cell content.
+ * @property string $footerCellContent The footer cell content.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package zii.widgets.grid
@@ -50,9 +53,16 @@ abstract class CGridColumn extends CComponent
 	public $visible=true;
 	/**
 	 * @var string a PHP expression that is evaluated for every data cell and whose result
-	 * is used as the CSS class name for the data cell. In this expression, the variable
-	 * <code>$row</code> the row number (zero-based); <code>$data</code> the data model for the row;
-	 * and <code>$this</code> the column object.
+	 * is used as the CSS class name for the data cell. In this expression, you can use the following variables:
+	 * <ul>
+	 *   <li><code>$row</code> the row number (zero-based)</li>
+	 *   <li><code>$data</code> the data model for the row</li>
+	 *   <li><code>$this</code> the column object</li>
+	 * </ul>
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $cssClassExpression;
 	/**
@@ -156,44 +166,90 @@ abstract class CGridColumn extends CComponent
 	}
 
 	/**
-	 * Renders the header cell content.
-	 * The default implementation simply renders {@link header}.
+	 * Returns the header cell content.
+	 * The default implementation simply returns {@link header}.
 	 * This method may be overridden to customize the rendering of the header cell.
+	 * @return string the header cell content.
+	 * @since 1.1.15
+	 */
+	public function getHeaderCellContent()
+	{
+		return trim($this->header)!=='' ? $this->header : $this->grid->blankDisplay;
+	}
+
+	/**
+	 * Renders the header cell content.
+	 * @deprecated since 1.1.15. Use {@link getHeaderCellContent()} instead.
 	 */
 	protected function renderHeaderCellContent()
 	{
-		echo trim($this->header)!=='' ? $this->header : $this->grid->blankDisplay;
+		echo $this->getHeaderCellContent();
+	}
+
+	/**
+	 * Returns the footer cell content.
+	 * The default implementation simply returns {@link footer}.
+	 * This method may be overridden to customize the rendering of the footer cell.
+	 * @return string the footer cell content.
+	 * @since 1.1.15
+	 */
+	public function getFooterCellContent()
+	{
+		return trim($this->footer)!=='' ? $this->footer : $this->grid->blankDisplay;
 	}
 
 	/**
 	 * Renders the footer cell content.
-	 * The default implementation simply renders {@link footer}.
-	 * This method may be overridden to customize the rendering of the footer cell.
+	 * @deprecated since 1.1.15. Use {@link getFooterCellContent()} instead.
 	 */
 	protected function renderFooterCellContent()
 	{
-		echo trim($this->footer)!=='' ? $this->footer : $this->grid->blankDisplay;
+		echo $this->getFooterCellContent();
+	}
+
+	/**
+	 * Returns the data cell content.
+	 * This method SHOULD be overridden to customize the rendering of the data cell.
+	 * @param integer $row the row number (zero-based)
+	 * The data for this row is available via <code>$this->grid->dataProvider->data[$row];</code>
+	 * @return string the data cell content.
+	 * @since 1.1.15
+	 */
+	public function getDataCellContent($row)
+	{
+		return $this->grid->blankDisplay;
 	}
 
 	/**
 	 * Renders the data cell content.
-	 * This method SHOULD be overridden to customize the rendering of the data cell.
 	 * @param integer $row the row number (zero-based)
 	 * @param mixed $data the data associated with the row
+	 * @deprecated since 1.1.15. Use {@link getDataCellContent()} instead.
 	 */
 	protected function renderDataCellContent($row,$data)
 	{
-		echo $this->grid->blankDisplay;
+		echo $this->getDataCellContent($row);
+	}
+
+	/**
+	 * Returns the filter cell content.
+	 * The default implementation simply returns an empty column.
+	 * This method may be overridden to customize the rendering of the filter cell (if any).
+	 * @return string the filter cell content.
+	 * @since 1.1.15
+	 */
+	public function getFilterCellContent()
+	{
+		return $this->grid->blankDisplay;
 	}
 
 	/**
 	 * Renders the filter cell content.
-	 * The default implementation simply renders a space.
-	 * This method may be overridden to customize the rendering of the filter cell (if any).
 	 * @since 1.1.1
+	 * @deprecated since 1.1.15. Use {@link getFilterCellContent()} instead.
 	 */
 	protected function renderFilterCellContent()
 	{
-		echo $this->grid->blankDisplay;
+		echo $this->getFilterCellContent();
 	}
 }
