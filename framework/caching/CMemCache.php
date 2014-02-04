@@ -165,15 +165,12 @@ class CMemCache extends CCache
 	 *
 	 * @param string $key the key identifying the value to be cached
 	 * @param string $value the value to be cached
-	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @param integer $expire Expiration time of the item. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days).
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
 	protected function setValue($key,$value,$expire)
 	{
-		if($expire>0)
-			$expire+=time();
-		else
-			$expire=0;
+        $expire = max(0, $expire);
 
 		return $this->useMemcached ? $this->_cache->set($key,$value,$expire) : $this->_cache->set($key,$value,0,$expire);
 	}
@@ -184,15 +181,12 @@ class CMemCache extends CCache
 	 *
 	 * @param string $key the key identifying the value to be cached
 	 * @param string $value the value to be cached
-	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @param integer $expire Expiration time of the item. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days).
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
 	protected function addValue($key,$value,$expire)
 	{
-		if($expire>0)
-			$expire+=time();
-		else
-			$expire=0;
+        $expire = max(0, $expire);
 
 		return $this->useMemcached ? $this->_cache->add($key,$value,$expire) : $this->_cache->add($key,$value,0,$expire);
 	}
