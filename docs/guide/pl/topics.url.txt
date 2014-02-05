@@ -266,7 +266,7 @@ adres URL `http://admin.example.com/en/profile` może zostać sparsowany do para
 GET `user=admin` oraz `lang=en`. Z drugiej strony, reguły z nazwą hosta mogą zostać użyte 
 do utworzenia URLi z parametryzowanymi nazwami hostów.
 
-W celu używania parametryzowanych nazw hostów, po prostu zadeklaruj regułę URL z  
+W celu używania parametryzowanych nazw hostów, po prostu zadeklaruj regułę URL z 
 informacją o hoście, np: 
 
 ~~~
@@ -280,13 +280,13 @@ Powyższy przykład mówi, iż pierwszy segment w nazwie hosta powinien być tra
 parametr `user`, zaś pierwszy segment w ścieżce powinien być parametrem `lang`. 
 Reguła odpowiada trasie `user/profile`.
 
-Zauważ, że [CUrlManager::showScriptName] nie będzie działało, jeśli URL zostanie  
+Zauważ, że [CUrlManager::showScriptName] nie będzie działało, jeśli URL zostanie 
 utworzony za pomocą reguły z parametryzowaną nazwą hosta.
 
 Zauważ, że reguła ze sparametryzowaną nazwą hosta NIE POWINNA zawierać podkatalogu
 jeśli aplikacja znajduje się w podkatalogu katalogu głównego www.
 Na przykład, jeśli aplikacja znajduje się w 
-`http://www.example.com/sandbox/blog`, wtedy wciąż powinniśmy używać tej samej reguły URL  
+`http://www.example.com/sandbox/blog`, wtedy wciąż powinniśmy używać tej samej reguły URL 
 jak opisana powyżej bez podkatalogu `sandbox/blog`.
 
 Ukrywanie `index.php`
@@ -416,7 +416,7 @@ Poza powyższym, typowym użyciem, własne klasy reguł URL mogą być implement
 Na przykład, chcemy napisać klasę reguł logującą parsowanie URL i tworzenie żądania.
 Może być to bardzo użyteczne na etapie rozwoju aplikacji. Możemy również napisać klasę reguły
 do wyświetlania specjalnej strony błędu 404 w przypadku gdy wszystkie pozostałe reguły URL
-nie będą potrafiły rozszyfrować aktualnego żądania. Zauwać, że w takim przypadku, reguła
+nie będą potrafiły rozszyfrować aktualnego żądania. Zauważ, że w takim przypadku, reguła
 z tą specjalną klasą musi zostać zadeklarowana jako ostatnia.
 
 <div class="revision">$Id: topics.url.txt 3591 2012-02-17 21:44:32Z qiang.xue@gmail.com $</div>

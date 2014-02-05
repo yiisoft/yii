@@ -72,7 +72,7 @@ powinniśmy zobaczyć nowo dodanego użytkownika w liście.
 Powtarzaj powyższe kroki aby dodać więcej użytkowników. Zauważ, że strona z listą użytkowników
 będzie automatycznie podzielona na strony jeśli użytkowników jest zbyt wiele, by wyświetlić ich na jednej stronie.
 
-Jeśli zalogujemy się jako adminsitrator przy użyciu `admin/admsin`, możemy zobaczyć stronę zarządzania użytkownikami
+Jeśli zalogujemy się jako adminsitrator przy użyciu `admin/admin`, możemy zobaczyć stronę zarządzania użytkownikami
 za pomocą następującego adresu URL:
 
 ~~~
