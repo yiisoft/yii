@@ -403,8 +403,7 @@ abstract class CApplication extends CModule
 	 */
 	public function getLocale($localeID=null)
 	{
-		$class=$this->localeClass;
-		return $class::getInstance($localeID===null?$this->getLanguage():$localeID);
+		return call_user_func_array(array($this->localeClass, 'getInstance'),array($localeID===null?$this->getLanguage():$localeID));
 	}
 
 	/**
