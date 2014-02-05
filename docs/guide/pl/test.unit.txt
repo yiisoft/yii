@@ -31,7 +31,7 @@ dziedzicząc z klasy [CDbTestCase] gdyż dostarcza ona wsparcia dla konfiguracji
 o której pisaliśmy w poprzednim rozdziale.
 
 Załóżmy, że chcemy przetestować klasę modelu komentarza `Comment` z
-[przykładowego blogu](http://www.yiiframework.com/demos/blog/). Rozpoczynamy poprzez  
+[przykładowego blogu](http://www.yiiframework.com/demos/blog/). Rozpoczynamy poprzez 
 utworzenie klasy o nazwie `CommentTest` i zapisania jej jako `protected/tests/unit/CommentTest.php`:
 
 ~~~
@@ -54,7 +54,7 @@ testów bazodanowych (np. pomiędzy nazwą konfiguracji testu `posts` a klasą m
 Zauważ, iż podczas mapowania do nazw tabeli konfiguracji testu, poprzedzamy tabelę
 dwukropkiem (np. `:Post`) aby odróżnić ją od nazwy klasy modelu. Jeśli będziemy 
 używać nazw klas modeli, odpowiadające im tabele będą traktowane jako tabele konfiguracji
-testu. Jak już opisaliśmy wcześniej, konfiguracje testu będą zresetowane do jakiegoś znanego  
+testu. Jak już opisaliśmy wcześniej, konfiguracje testu będą zresetowane do jakiegoś znanego 
 stanu, za każdym razem, kiedy metoda testowa jest wywoływana.
 
 Nazwy konfiguracji testu pozwalają nam na wygodny dostęp do danych konfiguracji testu w metodach
