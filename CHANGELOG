@@ -5,6 +5,7 @@ Work in progress
 
 Version 1.1.15 under development
 --------------------------------
+- Enh: Adding support for the `X-HTTP-Method-Override` header in CHttpRequest.
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #788: createIndex is not using the recommended way to create unique indexes on Postgres (nineinchnick)
 - Bug #1257: CFileValidator is no longer unsafe by default to prevent setting arbitrary values. Instead, when no file is uploaded attribute is set to null (marcovtwout)
