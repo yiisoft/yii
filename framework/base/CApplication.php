@@ -414,7 +414,7 @@ abstract class CApplication extends CModule
 	public function getLocaleDataPath()
 	{
 		$class=$this->localeClass;
-		return $class::$dataPath===null ? Yii::getPathOfAlias('system.i18n.data') : $class::$dataPath;
+		return $class::$$dataPath===null ? Yii::getPathOfAlias('system.i18n.data') : $class::$$dataPath;
 	}
 
 	/**
@@ -425,7 +425,7 @@ abstract class CApplication extends CModule
 	public function setLocaleDataPath($value)
 	{
 		$class=$this->localeClass;
-		$class::$dataPath=$value;
+		$class::$$dataPath=$value;
 	}
 
 	/**
