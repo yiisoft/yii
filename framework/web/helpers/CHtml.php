@@ -2632,11 +2632,19 @@ EOD;
 			else
 				$handler="return $confirm;";
 		}
-
+		
+		$scBindId = $id;
+		$scBindHtml = '#'.$id;
+		if (isset($htmlOptions['classBind']))
+		{
+			$scBindId = $htmlOptions['classBind'];
+			$scBindHtml = '.'.$htmlOptions['classBind'];
+		}
+		
 		if($live)
-			$cs->registerScript('Yii.CHtml.#' . $id,"jQuery('body').on('$event','#$id',function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#' . $scBindId,"jQuery('body').on('$event','$scBindHtml',function(){{$handler}});");
 		else
-			$cs->registerScript('Yii.CHtml.#' . $id,"jQuery('#$id').on('$event', function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#' . $scBindId,"jQuery('$scBindHtml').on('$event', function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
 
