@@ -703,6 +703,12 @@ class CDbCommand extends CComponent
 				$tables=preg_split('/\s*,\s*/',trim($tables),-1,PREG_SPLIT_NO_EMPTY);
 			foreach($tables as $i=>$table)
 			{
+				if(empty($table))
+				{
+					unset($tables[$i]);
+					continue;
+				}
+			
 				if(strpos($table,'(')===false)
 				{
 					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
