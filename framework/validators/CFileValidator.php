@@ -256,7 +256,9 @@ class CFileValidator extends CValidator
 	 */
 	protected function emptyAttribute($object, $attribute)
 	{
-		$object->$attribute=null;
+		if($this->safe) 
+			$object->$attribute=null;
+
 		if(!$this->allowEmpty)
 		{
 			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} cannot be blank.');
