@@ -72,6 +72,7 @@ Version 1.1.15 under development
 - Enh #3202: Adding support for the `X-HTTP-Method-Override` header in CHttpRequest (pawzar)
 - Enh #3211: Added support for PHPUnit 3.8+ in the bootstrap (JoelMarcey, samdark)
 - Enh #3307: Adding attribute localeClass to CApplication (pawzar)
+- Enh #3225: Added CForm::errorSummaryHeader and CForm::errorSummaryFooter, used like in CActiveForm::errorSummary() (rawtaz)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
