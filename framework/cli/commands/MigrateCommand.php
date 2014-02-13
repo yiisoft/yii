@@ -195,14 +195,11 @@ class MigrateCommand extends CConsoleCommand
 			echo "\nMigration redone successfully.\n";
 		}
 	}
-
-	public function actionTo($args)
+	
+	
+	
+	private function migrateToVersion($version)
 	{
-		if(isset($args[0]))
-			$version=$args[0];
-		else
-			$this->usageError('Please specify which version to migrate to.');
-
 		$originalVersion=$version;
 		if(preg_match('/^m?(\d{6}_\d{6})(_.*?)?$/',$version,$matches))
 			$version='m'.$matches[1];
@@ -234,10 +231,67 @@ class MigrateCommand extends CConsoleCommand
 				else
 					return $this->actionDown(array($i));
 			}
+			}
+		
+			echo "Error: Unable to find the version '$originalVersion'.\n";
+			return 1;
+	}
+	
+	/**
+	 * Migrate down to version before time
+	 * 
+	 * @param int(11) $time	 
+	 */
+	private function migrateToTime($time)
+	{
+		
+		// Find last apply merge before $time
+		$db=$this->getDbConnection();
+		$version = $db->createCommand()
+		->select('version, apply_time')
+		->from($this->migrationTable)
+		->order('apply_time DESC')
+		->where('apply_time < :apply_time', array(':apply_time'=>$time))
+		->limit(1)
+		->queryRow();
+	
+	
+		if ($version)
+		{
+			echo "Found version ".$version['version']." applyed at ".date('Y-m-d H:i:s', $version['apply_time']).", it's before ".date('Y-m-d H:i:s', $time)."\n";
+				
+			$dt_tm = substr($version['version'], 1, 13);
+			return $this->migrateToVersion($dt_tm);
 		}
-
-		echo "Error: Unable to find the version '$originalVersion'.\n";
-		return 1;
+		else
+		{
+			echo "Error: Unable to find a version before ".date('Y-m-d H:i:s', $time)."\n";
+			return 1;
+		}
+			
+	
+	
+	}
+	
+	public function actionTo($args)
+	{
+		if(!isset($args[0]))
+			$this->usageError('Please specify which version to migrate to.');
+		
+		
+		// If it's unix time stamp
+		if (is_numeric($args[0]) && strlen($args[0]) == 11)
+			$this->migrateToTime($args[0]);
+		
+		// If it's date time in string
+		elseif (strtotime($args[0]))
+		$this->migrateToTime(strtotime($args[0]));
+		
+		// else use version
+		else
+			$this->migrateToVersion($args[0]);
+		
+		
 	}
 
 	public function actionMark($args)
