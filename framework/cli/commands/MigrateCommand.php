@@ -195,9 +195,7 @@ class MigrateCommand extends CConsoleCommand
 			echo "\nMigration redone successfully.\n";
 		}
 	}
-	
-	
-	
+
 	private function migrateToVersion($version)
 	{
 		$originalVersion=$version;
@@ -208,7 +206,7 @@ class MigrateCommand extends CConsoleCommand
 			echo "Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n";
 			return 1;
 		}
-		
+
 		// try migrate up
 		$migrations=$this->getNewMigrations();
 		foreach($migrations as $i=>$migration)
@@ -216,7 +214,7 @@ class MigrateCommand extends CConsoleCommand
 			if(strpos($migration,$version.'_')===0)
 				return $this->actionUp(array($i+1));
 		}
-		
+
 		// try migrate down
 		$migrations=array_keys($this->getMigrationHistory(-1));
 		foreach($migrations as $i=>$migration)
@@ -231,12 +229,12 @@ class MigrateCommand extends CConsoleCommand
 				else
 					return $this->actionDown(array($i));
 			}
-			}
-		
-			echo "Error: Unable to find the version '$originalVersion'.\n";
-			return 1;
+		}
+
+		echo "Error: Unable to find the version '$originalVersion'.\n";
+		return 1;
 	}
-	
+
 	/**
 	 * Migrate down to version before time
 	 * 
@@ -244,7 +242,6 @@ class MigrateCommand extends CConsoleCommand
 	 */
 	private function migrateToTime($time)
 	{
-		
 		// Find last apply merge before $time
 		$db=$this->getDbConnection();
 		$version = $db->createCommand()
@@ -254,12 +251,10 @@ class MigrateCommand extends CConsoleCommand
 		->where('apply_time < :apply_time', array(':apply_time'=>$time))
 		->limit(1)
 		->queryRow();
-	
-	
+
 		if ($version)
 		{
 			echo "Found version ".$version['version']." applyed at ".date('Y-m-d H:i:s', $version['apply_time']).", it's before ".date('Y-m-d H:i:s', $time)."\n";
-				
 			$dt_tm = substr($version['version'], 1, 13);
 			return $this->migrateToVersion($dt_tm);
 		}
@@ -268,30 +263,24 @@ class MigrateCommand extends CConsoleCommand
 			echo "Error: Unable to find a version before ".date('Y-m-d H:i:s', $time)."\n";
 			return 1;
 		}
-			
-	
-	
 	}
-	
+
 	public function actionTo($args)
 	{
 		if(!isset($args[0]))
 			$this->usageError('Please specify which version to migrate to.');
-		
-		
+
 		// If it's unix time stamp
 		if (is_numeric($args[0]) && strlen($args[0]) == 11)
 			$this->migrateToTime($args[0]);
-		
+
 		// If it's date time in string
 		elseif (strtotime($args[0]))
 		$this->migrateToTime(strtotime($args[0]));
-		
+
 		// else use version
 		else
 			$this->migrateToVersion($args[0]);
-		
-		
 	}
 
 	public function actionMark($args)
