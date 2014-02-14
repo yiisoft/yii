@@ -208,7 +208,7 @@ class MigrateCommand extends CConsoleCommand
 			echo "Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n";
 			return 1;
 		}
-
+		
 		// try migrate up
 		$migrations=$this->getNewMigrations();
 		foreach($migrations as $i=>$migration)
@@ -216,7 +216,7 @@ class MigrateCommand extends CConsoleCommand
 			if(strpos($migration,$version.'_')===0)
 				return $this->actionUp(array($i+1));
 		}
-
+		
 		// try migrate down
 		$migrations=array_keys($this->getMigrationHistory(-1));
 		foreach($migrations as $i=>$migration)
