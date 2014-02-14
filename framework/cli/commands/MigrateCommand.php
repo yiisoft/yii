@@ -248,7 +248,7 @@ class MigrateCommand extends CConsoleCommand
 		->select('version, apply_time')
 		->from($this->migrationTable)
 		->order('apply_time DESC')
-		->where('apply_time < :apply_time', array(':apply_time'=>$time))
+		->where('apply_time <= :apply_time', array(':apply_time'=>$time))
 		->limit(1)
 		->queryRow();
 
@@ -271,7 +271,7 @@ class MigrateCommand extends CConsoleCommand
 			$this->usageError('Please specify which version to migrate to.');
 
 		// If it's unix time stamp
-		if (is_numeric($args[0]) && strlen($args[0]) == 11)
+		if (preg_match('/^1\d{9}$/', $args[0]))
 			$this->migrateToTime($args[0]);
 
 		// If it's date time in string
