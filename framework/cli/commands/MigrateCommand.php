@@ -201,7 +201,7 @@ class MigrateCommand extends CConsoleCommand
 		if(!isset($args[0]))
 			$this->usageError('Please specify which version, timestamp or datetime to migrate to.');
 
-		if((string)(int)$args[0]===$args[0] && $args[0]>=~PHP_INT_MAX && $args[0]<=PHP_INT_MAX)
+		if((string)(int)$args[0]==$args[0])
 			return $this->migrateToTime($args[0]);
 		elseif(($time=strtotime($args[0]))!==false)
 			return $this->migrateToTime($time);
@@ -226,7 +226,7 @@ class MigrateCommand extends CConsoleCommand
 		}
 		else
 		{
-			echo "Found version ".$data['version']." applied at ".date('Y-m-d H:i:s',$data['apply_time']).", it's before ".date('Y-m-d H:i:s',$time).".\n";
+			echo "Found version ".$data['version']." applied at ".date('Y-m-d H:i:s',$data['apply_time']).", it is before ".date('Y-m-d H:i:s',$time).".\n";
 			return $this->migrateToVersion(substr($data['version'],1,13));
 		}
 	}
