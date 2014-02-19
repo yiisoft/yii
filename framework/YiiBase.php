@@ -776,6 +776,7 @@ class YiiBase
 		'CFilterValidator' => '/validators/CFilterValidator.php',
 		'CInlineValidator' => '/validators/CInlineValidator.php',
 		'CNumberValidator' => '/validators/CNumberValidator.php',
+		'CDecimalValidator' => '/validators/CDecimalValidator.php',
 		'CRangeValidator' => '/validators/CRangeValidator.php',
 		'CRegularExpressionValidator' => '/validators/CRegularExpressionValidator.php',
 		'CRequiredValidator' => '/validators/CRequiredValidator.php',
