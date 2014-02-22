@@ -367,7 +367,7 @@ class CHtml
 		if($customMethod!==false)
 			$hiddens[]=self::hiddenField('_method',$customMethod);
 		if($hiddens!==array())
-			$form.="\n".self::tag('div',array('style'=>'display:none'),implode("\n",$hiddens));
+			$form.="\n".implode("\n",$hiddens);
 		return $form;
 	}
 

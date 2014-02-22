@@ -4830,7 +4830,7 @@ class CHtml
 		if($request->enableCsrfValidation && !strcasecmp($method,'post'))
 			$hiddens[]=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
 		if($hiddens!==array())
-			$form.="\n".self::tag('div',array('style'=>'display:none'),implode("\n",$hiddens));
+			$form.="\n".implode("\n",$hiddens);
 		return $form;
 	}
 	public static function endForm()
