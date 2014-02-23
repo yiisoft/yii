@@ -39,6 +39,7 @@ Version 1.1.15 under development
 - Bug #3144: It wasn't possible to use attributes with spaces in validation rules (samdark)
 - Bug #3206: Quote table names in CDbMessageSource::loadMessagesFromDb (nkovacs)
 - Bug #3233: Gii now allows base classes with absolute namespace as well, not only relative ones (etienneq)
+- Bug #3242: Removed display:none on form hidden fields (mahadazad)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
 - Bug: Fixed an issue with CFilehelper and not accessable directories which resulted in endless loop (cebe)
