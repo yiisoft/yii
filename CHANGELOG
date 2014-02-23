@@ -42,6 +42,7 @@ Version 1.1.15 under development
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
 - Bug: Fixed an issue with CFilehelper and not accessable directories which resulted in endless loop (cebe)
+- Bug #3242: Removed display:none on form hidden fields (mahadazad)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
 - Enh #89: Support for SOAP headers in WSDL generator (nineinchnick)
 - Enh #94: Web services: Implement document/literal encoding for WDSL (nineinchnick)
