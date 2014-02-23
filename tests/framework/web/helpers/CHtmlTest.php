@@ -100,8 +100,8 @@ class CHtmlTest extends CTestCase
 				array("index", "post", array(), '<form action="index" method="post">'),
 				array("index?myFirstParam=3&mySecondParam=true", "get", array(),
 "<form action=\"index?myFirstParam=3&amp;mySecondParam=true\" method=\"get\">\n".
-"<div style=\"display:none\"><input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
-"<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" /></div>"),
+"<input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
+"<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" />"),
 
 			);
 	}
