@@ -166,7 +166,7 @@ class CPgsqlSchema extends CDbSchema
 	protected function findColumns($table)
 	{
 		$sql=<<<EOD
-SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, d.adsrc, a.attnotnull, a.atthasdef,
+SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, pg_get_expr(d.adbin, d.adrelid) as default, a.attnotnull, a.atthasdef,
 	pg_catalog.col_description(a.attrelid, a.attnum) AS comment
 FROM pg_attribute a LEFT JOIN pg_attrdef d ON a.attrelid = d.adrelid AND a.attnum = d.adnum
 WHERE a.attnum > 0 AND NOT a.attisdropped
@@ -186,7 +186,7 @@ EOD;
 			$c=$this->createColumn($column);
 			$table->columns[$c->name]=$c;
 
-			if(stripos($column['adsrc'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['adsrc'],$matches))
+			if(stripos($column['default'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['default'],$matches))
 			{
 				if(strpos($matches[1],'.')!==false || $table->schemaName===self::DEFAULT_SCHEMA)
 					$this->_sequences[$table->rawName.'.'.$c->name]=$matches[1];
@@ -213,7 +213,7 @@ EOD;
 		$c->isForeignKey=false;
 		$c->comment=$column['comment']===null ? '' : $column['comment'];
 
-		$c->init($column['type'],$column['atthasdef'] ? $column['adsrc'] : null);
+		$c->init($column['type'],$column['atthasdef'] ? $column['default'] : null);
 
 		return $c;
 	}
