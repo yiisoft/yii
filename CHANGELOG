@@ -52,6 +52,7 @@ Version 1.1.15 under development
 - Enh #3115: Updated phpdoc for better code completion in modern IDEs (samdark)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
+- New #3245: CActiveRecord::instantiate can return null (Pfarrer)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
