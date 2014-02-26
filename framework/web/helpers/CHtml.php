@@ -2426,9 +2426,9 @@ EOD;
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
-		if($type=='text'||$type=='password'||$type=='color'||$type=='date'||$type=='datetime'||
-			$type=='datetime-local'||$type=='email'||$type=='month'||$type=='number'||$type=='range'||
-			$type=='search'||$type=='tel'||$type=='time'||$type=='url'||$type=='week')
+		if($type==='text'||$type==='password'||$type==='color'||$type==='date'||$type==='datetime'||
+			$type==='datetime-local'||$type==='email'||$type==='month'||$type==='number'||$type==='range'||
+			$type==='search'||$type==='tel'||$type==='time'||$type==='url'||$type==='week')
 		{
 			if(!isset($htmlOptions['maxlength']))
 			{
