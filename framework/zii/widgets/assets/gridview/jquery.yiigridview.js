@@ -127,7 +127,7 @@
 							params = $.deparam.querystring($.param.querystring(url, data));
 
 						delete params[settings.ajaxVar];
-						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url.substr(0, url.indexOf('?')), params)));
+						window.History.pushState({params:params}, document.title, decodeURIComponent($.param.querystring(url.substr(0, url.indexOf('?')), params)));
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}
@@ -137,7 +137,9 @@
 				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
-						$('#' + id).yiiGridView('update', {url: State.url});
+						$('#' + id).yiiGridView('update', {
+                            url: State.url.substr(0, State.url.indexOf('?'))+'?'+$.param(State.data.params)
+                        });
 					});
 				}
 
