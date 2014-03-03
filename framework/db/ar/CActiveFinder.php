@@ -182,7 +182,7 @@ class CActiveFinder extends CComponent
 		return CActiveRecord::model($className);
 	}
 
-	private function destroyJoinTree()
+	public function destroyJoinTree()
 	{
 		if($this->_joinTree!==null)
 			$this->_joinTree->destroy();
@@ -315,6 +315,18 @@ class CActiveFinder extends CComponent
 			$query->selects = array($select);
 		return $query->createCommand($this->_builder);
 	}
+
+	/**
+	 * This method should only be used to populate relations when using eager loading
+	 * and processing rows from a query returned by createCommand() method.
+	 */
+	public function populateRecord($data)
+	{
+		$record = $this->_joinTree->populateRecord($this->_query,$data);
+		$this->_joinTree->afterFind(false);
+		$this->_joinTree->clear();
+		return $record;
+	}
 }
 
 
@@ -437,6 +449,20 @@ class CJoinElement
 				$child->destroy();
 		}
 		unset($this->_finder, $this->_parent, $this->model, $this->relation, $this->master, $this->slave, $this->records, $this->children, $this->stats);
+	}
+
+	/**
+	 * Clears properties filled in populateRecord().
+	 */
+	public function clear()
+	{
+		if(!empty($this->children))
+		{
+			foreach($this->children as $child)
+				$child->clear();
+		}
+		$this->records = array();
+		$this->_related = array();
 	}
 
 	/**
@@ -781,15 +807,18 @@ class CJoinElement
 
 	/**
 	 * Calls {@link CActiveRecord::afterFind} of all the records.
+	 * @param boolean $resetChildren should the children property be set to null
 	 */
-	public function afterFind()
+	public function afterFind($resetChildren=true)
 	{
 		foreach($this->records as $record)
 			$record->afterFindInternal();
 		foreach($this->children as $child)
-			$child->afterFind();
+			$child->afterFind($resetChildren);
 
-		$this->children = null;
+		if ($resetChildren) {
+			$this->children=null;
+		}
 	}
 
 	/**
@@ -829,7 +858,7 @@ class CJoinElement
 	 * @param array $row a row of data
 	 * @return CActiveRecord the populated record
 	 */
-	private function populateRecord($query,$row)
+	public function populateRecord($query,$row)
 	{
 		// determine the primary key value
 		if(is_string($this->_pkAlias))  // single key
