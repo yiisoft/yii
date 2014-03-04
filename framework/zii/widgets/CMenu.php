@@ -311,18 +311,29 @@ class CMenu extends CWidget
 	 */
 	protected function isItemActive($item,$route)
 	{
-		if(isset($item['url']) && is_array($item['url']) && !strcasecmp(trim($item['url'][0],'/'),$route))
+		if(isset($item['url']) && is_array($item['url']))
 		{
-			unset($item['url']['#']);
-			if(count($item['url'])>1)
+			$itemUrl=trim($item['url'][0],'/');
+			if(substr_count($itemUrl,'/')===0 && isset(Yii::app()->controller->module->id) && isset(Yii::app()->controller->id))
+				$itemUrl=Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/'.$itemUrl;
+			elseif(substr_count($itemUrl,'/')===0 && isset(Yii::app()->controller->id))
+				$itemUrl=Yii::app()->controller->id.'/'.$itemUrl;
+			elseif(substr_count($itemUrl,'/')===1 && isset(Yii::app()->controller->module->id))
+				$itemUrl=Yii::app()->controller->module->id.'/'.$itemUrl;
+
+			if(!strcasecmp($itemUrl,$route))
 			{
-				foreach(array_splice($item['url'],1) as $name=>$value)
+				unset($item['url']['#']);
+				if(count($item['url'])>1)
 				{
-					if(!isset($_GET[$name]) || $_GET[$name]!=$value)
-						return false;
+					foreach(array_splice($item['url'],1) as $name=>$value)
+					{
+						if(!isset($_GET[$name]) || $_GET[$name]!=$value)
+							return false;
+					}
 				}
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
