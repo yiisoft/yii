@@ -314,7 +314,7 @@ class CMenu extends CWidget
 		if(isset($item['url']) && is_array($item['url']))
 		{
 			$itemUrl=trim($item['url'][0],'/');
-			if(substr_count($itemUrl,'/')===0 && isset(Yii::app()->controller->module->id) && isset(Yii::app()->controller->id))
+			if(substr_count($itemUrl,'/')===0 && isset(Yii::app()->controller->module->id,Yii::app()->controller->id))
 				$itemUrl=Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/'.$itemUrl;
 			elseif(substr_count($itemUrl,'/')===0 && isset(Yii::app()->controller->id))
 				$itemUrl=Yii::app()->controller->id.'/'.$itemUrl;
