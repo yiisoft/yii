@@ -200,7 +200,7 @@ return array (
   '{attribute} is of the wrong length (should be {length} characters).' => 'Laukam \'{attribute}\' nekorekts garums (jāsastāv no {length} simboliem.).',
   '{attribute} is too big (maximum is {max}).' => 'Lauka \'{attribute}\' vērtība ir pārāk liela (maksimums: {max}).',
   '{attribute} is too long (maximum is {max} characters).' => 'Lauka \'{attribute}\' vērtība ir pārāk gara (maksimums: {max} simb.).',
-  '{attribute} is too short (minimum is {min} characters).' => 'Lauka \'{attribute}\' vērtība ir pārāk īsa (minumums: {max} simb.).',
+  '{attribute} is too short (minimum is {min} characters).' => 'Lauka \'{attribute}\' vērtība ir pārāk īsa (minumums: {min} simb.).',
   '{attribute} is too small (minimum is {min}).' => 'Lauka \'{attribute}\' vērtība ir pārāk maza (minimums: {min}).',
   '{attribute} must be a number.' => 'Laukam \'{attribute}\' ir jābūt skaitlim',
   '{attribute} must be an integer.' => 'Laukam \'{attribute}\' ir jābūt veselam skaitlim.',
