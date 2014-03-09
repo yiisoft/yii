@@ -37,6 +37,7 @@ Version 1.1.15 under development
 - Bug #3113: Fixed problems with realpath(false) which can occur in combination with Yii::getPathOfAlias() when alias does not exist (cebe)
 - Bug #3134: Fixed the issue that query cache returns the same data for the same SQL but different query methods (qiangxue)
 - Bug #3144: It wasn't possible to use attributes with spaces in validation rules (samdark)
+- Bug #3179: Fixed a bug with CBreadcrumbs widget and homelink that did not use activeLinkTemplate property (mbdwey, cebe)
 - Bug #3206: Quote table names in CDbMessageSource::loadMessagesFromDb (nkovacs)
 - Bug #3233: Gii now allows base classes with absolute namespace as well, not only relative ones (etienneq)
 - Bug #3242: Removed display:none on form hidden fields (mahadazad)
