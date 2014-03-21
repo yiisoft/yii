@@ -8,8 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-if(!class_exists('PHPUnit_Runner_Version'))
-{
+if(!class_exists('PHPUnit_Runner_Version')) {
     require_once('PHPUnit/Runner/Version.php');
     require_once('PHPUnit/Util/Filesystem.php'); // workaround for PHPUnit <= 3.6.11
 
