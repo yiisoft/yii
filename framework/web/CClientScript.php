@@ -69,7 +69,7 @@ class CClientScript extends CApplicationComponent
 	 *     'basePath'=>'alias of the directory containing the script files',
 	 *     'baseUrl'=>'base URL for the script files',
 	 *     'js'=>array(list of js files relative to basePath/baseUrl),
-	 *     'css'=>array(list of css files relative to basePath/baseUrl),
+	 *     'css'=>array(list of css files relative to basePath/baseUrl or css file=>media type),
 	 *     'depends'=>array(list of dependent packages),
 	 *   ),
 	 *   ......
@@ -354,8 +354,13 @@ class CClientScript extends CApplicationComponent
 			}
 			if(!empty($package['css']))
 			{
-				foreach($package['css'] as $css)
-					$cssFiles[$baseUrl.'/'.$css]='';
+				foreach($package['css'] as $css=>$media) {
+					if (is_integer($css)) {
+						$css = $media;
+						$media = '';
+					}
+					$cssFiles[$baseUrl.'/'.$css]=$media;
+				}
 			}
 		}
 		// merge in place
