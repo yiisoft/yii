@@ -232,7 +232,7 @@ return array (
   '{attribute} must be greater than or equal to "{compareValue}".' => 'Atrybut {attribute} musi być większy lub równy "{compareValue}".',
   '{attribute} must be less than "{compareValue}".' => 'Atrybut {attribute} musi być mniejszy od "{compareValue}".',
   '{attribute} must be less than or equal to "{compareValue}".' => 'Atrybut {attribute} musi być mniejszy lub równy "{compareValue}".',
-  '{attribute} must be repeated exactly.' => '{attribute} musi być powtórzony ponownie.',
+  '{attribute} must be repeated exactly.' => 'Atrybut {attribute} musi być dokładnie powtórzony.',
   '{attribute} must be {type}.' => 'Zawartość pola {attribute} musi być typu {type}.',
   '{attribute} must be {value}.' => 'Pole {attribute} musi posiadać wartość {value}.',
   '{attribute} must not be equal to "{compareValue}".' => 'Pole {attribute} nie może być równy "{compareValue}".',
