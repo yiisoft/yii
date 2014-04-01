@@ -80,15 +80,15 @@ class CAssetManager extends CApplicationComponent
 	/**
 	 * @var string base web accessible path for storing private files
 	 */
-	private $_basePath;
+	protected $_basePath;
 	/**
 	 * @var string base URL for accessing the publishing directory.
 	 */
-	private $_baseUrl;
+	protected $_baseUrl;
 	/**
 	 * @var array published assets
 	 */
-	private $_published=array();
+	protected $_published=array();
 
 	/**
 	 * @return string the root directory storing the published asset files. Defaults to 'WebRoot/assets'.
