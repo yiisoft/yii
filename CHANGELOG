@@ -80,6 +80,7 @@ Version 1.1.15 under development
 - Enh #3307: Adding attribute localeClass to CApplication (pawzar)
 - Enh #3228: Added an ability to migrate to the certain time (gorcer, resurtm)
 - Enh #3277: CHtml::checkBoxList and radioButtonList to take into account closeSingleTag for <br> (hwmaier)
+- Enh #3314: Removed async from special attribute list enabling async=false for scripts (wilwade)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
