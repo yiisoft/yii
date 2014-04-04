@@ -87,6 +87,8 @@ class CEmailValidator extends CValidator
 	 */
 	public function validateValue($value)
 	{
+		if($this->allowEmpty && $this->isEmpty($value))
+			return true;
 		if(is_string($value) && $this->validateIDN)
 			$value=$this->encodeIDN($value);
 		// make sure string length is limited to avoid DOS attacks
