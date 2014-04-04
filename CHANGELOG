@@ -41,6 +41,7 @@ Version 1.1.15 under development
 - Bug #3206: Quote table names in CDbMessageSource::loadMessagesFromDb (nkovacs)
 - Bug #3233: Gii now allows base classes with absolute namespace as well, not only relative ones (etienneq)
 - Bug #3242: Removed display:none on form hidden fields (mahadazad)
+- Bug #3283: Fixed CEmailValidator to validate empty value (nukkumatti)
 - Bug #3288: Check if PHPUnit_Runner_Version exists before requiring (hjellek)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
