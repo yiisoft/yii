@@ -1115,6 +1115,7 @@ class CHtml
 	 * for every label tag in the list.</li>
 	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to 'span'.
 	 * If the value is an empty string, no enclosing tag will be generated</li>
+	 * <li>containerCssClass: string, specifies the checkboxes enclosing tag's class.</li>
 	 * <li>baseID: string, specifies the base ID prefix to be used for checkboxes in the list.
 	 * This option is available since version 1.1.13.</li>
 	 * </ul>
@@ -1125,7 +1126,8 @@ class CHtml
 		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
 		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:self::tag('br');
 		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
-		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
+		$containerCssClass=isset($htmlOptions['containerCssClass'])?$htmlOptions['containerCssClass']:null;
+		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container'],$htmlOptions['containerCssClass']);
 
 		if(substr($name,-2)!=='[]')
 			$name.='[]';
@@ -1199,10 +1201,10 @@ EOD;
 			$cs->registerScript($id,$js);
 		}
 
-		if(empty($container))
-			return implode($separator,$items);
+		if (empty($container))
+			return implode($separator, $items);
 		else
-			return self::tag($container,array('id'=>$baseID),implode($separator,$items));
+			return self::tag($container, array('id' => $baseID, 'class' => $containerCssClass), implode($separator, $items));
 	}
 
 	/**
