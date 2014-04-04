@@ -1229,6 +1229,7 @@ EOD;
 	 * for every label tag in the list.</li>
 	 * <li>container: string, specifies the radio buttons enclosing tag. Defaults to 'span'.
 	 * If the value is an empty string, no enclosing tag will be generated</li>
+	 * <li>containerCssClass: string, specifies the checkboxes enclosing tag's class.</li>
 	 * <li>baseID: string, specifies the base ID prefix to be used for radio buttons in the list.
 	 * This option is available since version 1.1.13.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
@@ -1243,7 +1244,8 @@ EOD;
 		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
 		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:self::tag('br');
 		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
-		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
+		$containerCssClass=isset($htmlOptions['containerCssClass'])?$htmlOptions['containerCssClass']:null;
+		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container'],$htmlOptions['containerCssClass']);
 
 		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
 		unset($htmlOptions['labelOptions']);
@@ -1277,10 +1279,11 @@ EOD;
 				'{endLabel}'=>$endLabel,
 			));
 		}
-		if(empty($container))
-			return implode($separator,$items);
+		
+		if (empty($container))
+			return implode($separator, $items);
 		else
-			return self::tag($container,array('id'=>$baseID),implode($separator,$items));
+			return self::tag($container, array('id' => $baseID, 'class' => $containerCssClass), implode($separator, $items));
 	}
 
 	/**
