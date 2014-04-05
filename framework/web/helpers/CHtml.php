@@ -2756,6 +2756,7 @@ EOD;
 		static $specialAttributes=array(
 			'autofocus'=>1,
 			'autoplay'=>1,
+			'async'=>1,
 			'checked'=>1,
 			'controls'=>1,
 			'declare'=>1,
@@ -2797,7 +2798,10 @@ EOD;
 		{
 			if(isset($specialAttributes[$name]))
 			{
-				if($value)
+				if($value===false && $name==='async') {
+					$html .= ' ' . $name.'="false"';
+				}
+				elseif($value)
 				{
 					$html .= ' ' . $name;
 					if(self::$renderSpecialAttributesValue)

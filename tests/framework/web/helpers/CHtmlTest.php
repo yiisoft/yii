@@ -342,6 +342,11 @@ class CHtmlTest extends CTestCase
 				array('async'=>true),
 				"<script type=\"text/javascript\" async=\"async\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
 			),
+            array(
+                'var a = 10;',
+                array('async'=>false),
+                "<script type=\"text/javascript\" async=\"false\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+            ),
 		);
 	}
 
