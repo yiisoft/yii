@@ -81,7 +81,6 @@ activated automatically, unless we explictly configure
 [CDbConnection::autoConnect] to be false. Using this approach, the single
 DB connection can be shared in multiple places in our code.
 
-
 Using ODBC Connection
 ---------------------
 
