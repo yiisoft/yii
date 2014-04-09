@@ -115,6 +115,27 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $connectionString;
 	/**
+	 * @var string use this property if you want to force the DB connection to use a particular driver
+	 * by the given name, disregarding of what was set in the {@link $connectionString} property.
+	 *
+	 * Possible values are: 'mysql', 'sqlsrv', etc.
+	 *
+	 * This might be useful when working with ODBC connection driver. Sample code for that case:
+	 *
+	 * <pre>
+	 * 'db'=>array(
+	 *     'driver'=>'mysql',
+	 *     'connectionString'=>'odbc:Driver={MySQL};Server=127.0.0.1;Database=test',
+	 *     'username'=>'',
+	 *     'password'=>'',
+	 * ),
+	 * </pre>
+	 *
+	 * @since 1.1.15
+	 * @see connectionString
+	 */
+	public $driver;
+	/**
 	 * @var string the username for establishing DB connection. Defaults to empty string.
 	 */
 	public $username='';
@@ -413,9 +434,13 @@ class CDbConnection extends CApplicationComponent
 	protected function createPdoInstance()
 	{
 		$pdoClass=$this->pdoClass;
-		if(($pos=strpos($this->connectionString,':'))!==false)
-		{
+
+		if($this->driver!==null)
+			$driver=strtolower($this->driver);
+		elseif(($pos=strpos($this->connectionString,':'))!==false)
 			$driver=strtolower(substr($this->connectionString,0,$pos));
+		if(isset($driver))
+		{
 			if($driver==='mssql' || $driver==='dblib')
 				$pdoClass='CMssqlPdoAdapter';
 			elseif($driver==='sqlsrv')
@@ -687,14 +712,16 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the name of the DB driver
-	 * @return string name of the DB driver
+	 * Returns the name of the DB driver.
+	 * @return string name of the DB driver.
 	 */
 	public function getDriverName()
 	{
-		if(($pos=strpos($this->connectionString, ':'))!==false)
-			return strtolower(substr($this->connectionString, 0, $pos));
-		// return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+		if($this->driver!==null)
+			return strtolower($this->driver);
+		if(($pos=strpos($this->connectionString,':'))!==false)
+			return strtolower(substr($this->connectionString,0,$pos));
+		//return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
 	}
 
 	/**
