@@ -109,4 +109,29 @@ class CDbConnectionTest extends CTestCase
 		$this->_connection->nullConversion=PDO::NULL_EMPTY_STRING;
 		$this->assertEquals(PDO::NULL_EMPTY_STRING,$this->_connection->NullConversion);
 	}
+
+	public function testOdbc()
+	{
+		if(!extension_loaded('pdo_odbc'))
+			$this->markTestSkipped('pdo_odbc extension is required.');
+
+		$db=new CDbConnection();
+		$db->connectionString='odbc:Driver=SQLite3;Database=:memory:';
+		$db->driverName='sqlite';
+
+		try
+		{
+			$this->assertEquals('odbc',$db->getAttribute(PDO::ATTR_DRIVER_NAME));
+			$this->assertEquals('sqlite',$db->getDriverName());
+		}
+		catch(Exception $e)
+		{
+			$this->markTestSkipped('SQLite3 ODBC driver package must be installed in your operating system.');
+		}
+
+		$db->active=true;
+		$db->pdoInstance->exec(file_get_contents(dirname(__FILE__).'/data/sqlite.sql'));
+		$command=$db->createCommand('SELECT * FROM posts');
+		$this->assertTrue($command instanceof CDbCommand);
+	}
 }

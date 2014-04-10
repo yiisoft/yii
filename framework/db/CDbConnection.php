@@ -78,6 +78,20 @@
  * )
  * </pre>
  *
+ * Use the {@link driverName} property if you want to force the DB connection to use a particular driver
+ * by the given name, disregarding of what was set in the {@link connectionString} property. This might
+ * be useful when working with ODBC connections. Sample code:
+ *
+ * <pre>
+ * 'db'=>array(
+ *     'class'=>'CDbConnection',
+ *     'driverName'=>'mysql',
+ *     'connectionString'=>'odbc:Driver={MySQL};Server=127.0.0.1;Database=test',
+ *     'username'=>'',
+ *     'password'=>'',
+ * ),
+ * </pre>
+ *
  * @property boolean $active Whether the DB connection is established.
  * @property PDO $pdoInstance The PDO instance, null if the connection is not established yet.
  * @property CDbTransaction $currentTransaction The currently active transaction. Null if no active transaction.
@@ -88,7 +102,8 @@
  * @property mixed $nullConversion How the null and empty strings are converted.
  * @property boolean $autoCommit Whether creating or updating a DB record will be automatically committed.
  * @property boolean $persistent Whether the connection is persistent or not.
- * @property string $driverName Name of the DB driver.
+ * @property string $driverName Name of the DB driver. This property is read-write since 1.1.15.
+ * Before 1.1.15 it was read-only.
  * @property string $clientVersion The version information of the DB driver.
  * @property string $connectionStatus The status of the connection.
  * @property boolean $prefetch Whether the connection performs data prefetching.
@@ -250,6 +265,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $pdoClass = 'PDO';
 
+	private $_driverName;
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -413,9 +429,8 @@ class CDbConnection extends CApplicationComponent
 	protected function createPdoInstance()
 	{
 		$pdoClass=$this->pdoClass;
-		if(($pos=strpos($this->connectionString,':'))!==false)
+		if(($driver=$this->getDriverName())!==null)
 		{
-			$driver=strtolower(substr($this->connectionString,0,$pos));
 			if($driver==='mssql' || $driver==='dblib')
 				$pdoClass='CMssqlPdoAdapter';
 			elseif($driver==='sqlsrv')
@@ -687,14 +702,29 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the name of the DB driver
-	 * @return string name of the DB driver
+	 * Returns the name of the DB driver.
+	 * @return string name of the DB driver.
 	 */
 	public function getDriverName()
 	{
-		if(($pos=strpos($this->connectionString, ':'))!==false)
-			return strtolower(substr($this->connectionString, 0, $pos));
-		// return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+		if($this->_driverName!==null)
+			return $this->_driverName;
+		elseif(($pos=strpos($this->connectionString,':'))!==false)
+			return $this->_driverName=strtolower(substr($this->connectionString,0,$pos));
+		//return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+	}
+
+	/**
+	 * Changes the name of the DB driver. Overrides value extracted from the {@link connectionString},
+	 * which is behavior by default.
+	 * @param string $driverName to be set. Valid values are the keys from the {@link driverMap} property.
+	 * @see getDriverName
+	 * @see driverName
+	 * @since 1.1.15
+	 */
+	public function setDriverName($driverName)
+	{
+		$this->_driverName=strtolower($driverName);
 	}
 
 	/**
