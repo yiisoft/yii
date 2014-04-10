@@ -86,8 +86,8 @@ Using ODBC Connection
 
 There is a peculiarity when you want to work with the database through the ODBC layer.
 When using ODBC, its connection string (DSN) doesn't indicate uniquely what database
-type is being used. Thus it's not able to automatically detect needed DBMS specific
-classes (`CMysqlSchema`, `CMssqlSchema` and so forth).
+type is being used (MySQL, MS SQL Server, etc.). Thus it's not able to automatically
+detect needed DBMS specific classes (`CMysqlSchema`, `CMssqlSchema` and so forth).
 
 That's why you have to use `$driverName` property of the `CDbConnection` class
 to disambiguate that:

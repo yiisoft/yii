@@ -80,7 +80,7 @@
  *
  * Use the {@link driverName} property if you want to force the DB connection to use a particular driver
  * by the given name, disregarding of what was set in the {@link connectionString} property. This might
- * be useful when working with ODBC connection driver. Sample code:
+ * be useful when working with ODBC connections. Sample code:
  *
  * <pre>
  * 'db'=>array(

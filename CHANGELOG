@@ -51,7 +51,7 @@ Version 1.1.15 under development
 - Enh #89: Support for SOAP headers in WSDL generator (nineinchnick)
 - Enh #94: Web services: Implement document/literal encoding for WDSL (nineinchnick)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
-- Enh #132: Added support for using pdo_odbc extension by overriding `driverName` property in CDbConnection (nineinchnick, resurtm)
+- Enh #132: Added ODBC support in CDbConnection (nineinchnick, resurtm)
 - Enh #182: CSort: allow arrays in asc/desc keys of virtual attributes (nineinchnick)
 - Enh #640: Introduce bigpk and bigint column types in each class extending CDbSchema (nineinchnick)
 - Enh #873: CStatRelation (CActiveRecord::STAT) now supports scopes (resurtm, klimov-paul)
