@@ -1,6 +1,6 @@
 <?php
 /**
- * CFileLogRoute class file.
+ * CSysLogRoute class file.
  *
  * @author miramir <gmiramir@gmail.com>
  * @author resurtm <resurtm@gmail.com>
