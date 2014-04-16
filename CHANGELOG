@@ -43,6 +43,7 @@ Version 1.1.15 under development
 - Bug #3242: Removed display:none on form hidden fields (mahadazad)
 - Bug #3283: Fixed CEmailValidator to validate empty value (nukkumatti)
 - Bug #3288: Check if PHPUnit_Runner_Version exists before requiring (hjellek)
+- Bug #3302: CActiveForm::error() fixed to respect 'hideErrorMessage' option on regular render (klimov-paul)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
 - Bug: Fixed an issue with CFilehelper and not accessable directories which resulted in endless loop (cebe)
