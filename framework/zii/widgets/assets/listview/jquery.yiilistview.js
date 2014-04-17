@@ -41,7 +41,9 @@
 								params = $.deparam.querystring('?'+ (url[1] || ''));
 
 							delete params[settings.ajaxVar];
-							window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
+
+							var ajaxUrl = $.param.querystring(url[0], params);
+							window.History.pushState({ajaxUrl: ajaxUrl}, document.title, decodeURIComponent(ajaxUrl));
 						}
 					} else {
 						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
@@ -52,7 +54,11 @@
 				if(settings.enableHistory && window.History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
-						$.fn.yiiListView.update(id, {url: State.url});
+						var url = State.url;
+						if (State.data.ajaxUrl != undefined) {
+							url = State.data.ajaxUrl;
+						}
+						$.fn.yiiListView.update(id, {url: url});
 					});
 				}
 			}
