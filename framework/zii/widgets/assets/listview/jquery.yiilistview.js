@@ -42,8 +42,8 @@
 
 							delete params[settings.ajaxVar];
 
-							var ajaxUrl = $.param.querystring(url[0], params);
-							window.History.pushState({ajaxUrl: ajaxUrl}, document.title, decodeURIComponent(ajaxUrl));
+							var updateUrl = $.param.querystring(url[0], params);
+							window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
 						}
 					} else {
 						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
@@ -55,8 +55,8 @@
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
 						var url = State.url;
-						if (State.data.ajaxUrl != undefined) {
-							url = State.data.ajaxUrl;
+						if (State.data.url != undefined) {
+							url = State.data.url;
 						}
 						$.fn.yiiListView.update(id, {url: url});
 					});
