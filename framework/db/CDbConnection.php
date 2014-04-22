@@ -248,6 +248,7 @@ class CDbConnection extends CApplicationComponent
 	 * @since 1.1.6
 	 */
 	public $driverMap=array(
+		'cubrid'=>'CCubridSchema',  // CUBRID
 		'pgsql'=>'CPgsqlSchema',    // PostgreSQL
 		'mysqli'=>'CMysqlSchema',   // MySQL
 		'mysql'=>'CMysqlSchema',    // MySQL,MariaDB
