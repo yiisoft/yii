@@ -13,7 +13,7 @@
  *
  * @author Esen Sagynov <kadismal@gmail.com>
  * @package system.db.schema.cubrid
- * @since 1.1.14
+ * @since 1.1.15
  */
 class CCubridSchema extends CDbSchema
 {
@@ -225,16 +225,6 @@ class CCubridSchema extends CDbSchema
 			if($c->autoIncrement)
 				$table->sequenceName='';
 		}
-	}
-
-	/**
-	 * Creates a command builder for the database.
-	 * This method may be overridden by child classes to create a DBMS-specific command builder.
-	 * @return CCubridCommandBuilder command builder instance
-	 */
-	protected function createCommandBuilder()
-	{
-		return new CCubridCommandBuilder($this);
 	}
 
 	/**

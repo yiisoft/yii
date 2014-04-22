@@ -13,7 +13,7 @@
   *
  * @author Esen Sagynov <kadismal@gmail.com>
  * @package system.db.schema.cubrid
- * @since 1.1.14
+ * @since 1.1.15
  */
 class CCubridColumnSchema extends CDbColumnSchema
 {
@@ -46,20 +46,5 @@ class CCubridColumnSchema extends CDbColumnSchema
 			$this->defaultValue=null;
 		else
 			parent::extractDefault($defaultValue);
-	}
-
-	/**
-	 * Extracts size, precision and scale information from column's DB type.
-	 * @param string $dbType the column's DB type
-	 */
-	protected function extractLimit($dbType)
-	{
-		parent::extractLimit($dbType);
-		// CUBRID does not set limits to numeric data types.
-		// So, we need to set the default limit size for INTEGER equal to 11.
-		if ($this->size==null && strpos($dbType,'INT')!==false)
-		{
-			$this->size=$this->precision=11;
-		}
 	}
 }

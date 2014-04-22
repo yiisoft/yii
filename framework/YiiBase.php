@@ -700,7 +700,6 @@ class YiiBase
 		'CDbSchema' => '/db/schema/CDbSchema.php',
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
 		'CCubridColumnSchema' => '/db/schema/cubrid/CCubridColumnSchema.php',
-		'CCubridCommandBuilder' => '/db/schema/cubrid/CCubridCommandBuilder.php',
 		'CCubridSchema' => '/db/schema/cubrid/CCubridSchema.php',
 		'CCubridTableSchema' => '/db/schema/cubrid/CCubridTableSchema.php',
 		'CMssqlColumnSchema' => '/db/schema/mssql/CMssqlColumnSchema.php',
