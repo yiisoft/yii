@@ -13,7 +13,7 @@ class CCubridTest extends CTestCase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_cubrid'))
 			$this->markTestSkipped('PDO and CUBRID extensions are required.');
 
-		$this->db=new CDbConnection('cubrid:host=localhost;port=33000;dbname=yii','test','test');
+		$this->db=new CDbConnection('cubrid:dbname=demodb;host=localhost;port=33000','dba','');
 		try
 		{
 			$this->db->active=true;
