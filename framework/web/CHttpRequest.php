@@ -1031,14 +1031,31 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the user preferred language.
-	 * The returned language ID will be canonicalized using {@link CLocale::getCanonicalID}.
-	 * @return string the user preferred language or false if the user does not have any.
+	 * Returns the user-preferred language that should be used by this application.
+	 * The language resolution is based on the user preferred languages and the languages
+	 * supported by the application. The method will try to find the best match.
+	 * @param array $languages a list of the languages supported by the application.
+	 * If empty, this method will return the first language returned by [[getPreferredLanguages()]].
+	 * @return string the language that the application should use. false is returned if both [[getPreferredLanguages()]]
+	 * and `$languages` are empty.
 	 */
-	public function getPreferredLanguage()
+	public function getPreferredLanguage($languages=array())
 	{
 		$preferredLanguages=$this->getPreferredLanguages();
-		return !empty($preferredLanguages) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
+		if(empty($languages)) {
+			return !empty($preferredLanguages) ? CLocale::getCanonicalID($preferredLanguages[0]) : false;
+		}
+		foreach ($preferredLanguages as $preferredLanguage) {
+			$preferredLanguage=CLocale::getCanonicalID($preferredLanguage);
+			foreach ($languages as $language) {
+				$language=CLocale::getCanonicalID($language);
+				// en_us==en_us, en==en_us, en_us==en
+				if($language===$acceptedLanguage || strpos($acceptedLanguage,$language.'_')===0 || strpos($language,$acceptedLanguage.'_')===0) {
+					return $language;
+				}
+			}
+		}
+		return reset($languages);
 	}
 
 	/**
