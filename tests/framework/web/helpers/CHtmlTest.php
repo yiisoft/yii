@@ -100,8 +100,8 @@ class CHtmlTest extends CTestCase
 				array("index", "post", array(), '<form action="index" method="post">'),
 				array("index?myFirstParam=3&mySecondParam=true", "get", array(),
 "<form action=\"index?myFirstParam=3&amp;mySecondParam=true\" method=\"get\">\n".
-"<div style=\"display:none\"><input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
-"<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" /></div>"),
+"<input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
+"<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" />"),
 
 			);
 	}
@@ -342,6 +342,11 @@ class CHtmlTest extends CTestCase
 				array('async'=>true),
 				"<script type=\"text/javascript\" async=\"async\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
 			),
+            array(
+                'var a = 10;',
+                array('async'=>false),
+                "<script type=\"text/javascript\" async=\"false\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+            ),
 		);
 	}
 
@@ -793,6 +798,7 @@ class CHtmlTest extends CTestCase
 			array(true, 'userName', array('for'=>'someTestingInput'), '<label class="error" for="someTestingInput">User Name</label>'),
 			array(true, 'firstName', array('label'=>'Custom Label'), '<label for="CHtmlTestActiveModel_firstName">Custom Label</label>'),
 			array(true, 'userName', array('label'=>false), ''),
+			array(false, '[1]userName', array('for'=>'customFor'), '<label for="customFor">User Name</label>'),
 		);
 	}
 
@@ -991,8 +997,8 @@ class CHtmlTest extends CTestCase
 	public function providerImageButton()
 	{
 		return array(
-			array('/images/test-image.png', array('src'=>'ignored-src'), '<input src="/images/test-image.png" type="image" name="yt0" value="submit" />'),
-			array('/images/test-image.jpg', array('type'=>'button'), '<input type="image" src="/images/test-image.jpg" name="yt0" value="submit" />'),
+			array('/images/test-image.png', array('src'=>'ignored-src'), '<input src="/images/test-image.png" type="image" name="yt0" />'),
+			array('/images/test-image.jpg', array('type'=>'button'), '<input type="image" src="/images/test-image.jpg" name="yt0" />'),
 			array('/images/test-image.gif', array('value'=>'image'), '<input value="image" src="/images/test-image.gif" type="image" name="yt0" />'),
 		);
 	}

@@ -120,4 +120,58 @@ class CSecurityManagerTest extends CTestCase
 		$sm2=new CSecurityManager;
 		$this->assertEquals($assertion,$sm2->computeHMAC($data,$key,$hashAlgorithm));
 	}
+
+	public function testGenerateRandomString()
+	{
+		$sm=new CSecurityManager;
+		// loop to be sure always get the expected pattern.
+		// student-t test that the distribution of chars is uniform would be nice.
+		for ($i=1; $i<999; $i+=1){
+			$ran=$sm->generateRandomString($i,false);
+			$this->assertInternalType('string', $ran);
+			$this->assertEquals(1, preg_match('{[a-zA-Z0-9_~]{' . $i . '}}', $ran));
+		}
+	}
+
+	public function testGenerateRandomBytes()
+	{
+		$sm=new CSecurityManager;
+		// any char is allowed so only string length is important
+		$mbStrlen = function_exists('mb_strlen');
+		for ($i=1; $i<255; $i+=1){
+			$ran=$sm->generateRandomBytes($i,false);
+			$this->assertInternalType('string', $ran);
+			$this->assertEquals($i, $mbStrlen ? mb_strlen($ran, '8bit') : strlen($ran));
+		}
+	}
+
+	/*
+	 * Expected to fail on some systems!
+	 */
+	public function testGenerateRandomStringCS()
+	{
+		$sm=new CSecurityManager;
+		// loop to be sure always get the expected pattern.
+		// student-t test that the distribution of chars is uniform would be nice.
+		for ($i=1; $i<999; $i+=1){
+			$ran=$sm->generateRandomString($i,true);
+			$this->assertInternalType('string', $ran);
+			$this->assertEquals(1, preg_match('{[a-zA-Z0-9_~]{' . $i . '}}', $ran));
+		}
+	}
+
+	/*
+	 * Expected to fail on some systems!
+	 */
+	public function testGenerateRandomBytesCS()
+	{
+		$sm=new CSecurityManager;
+		// any char is allowed so only string length is important
+		$mbStrlen = function_exists('mb_strlen');
+		for ($i=1; $i<255; $i+=1){
+			$ran=$sm->generateRandomBytes($i,true);
+			$this->assertInternalType('string', $ran);
+			$this->assertEquals($i, $mbStrlen ? mb_strlen($ran, '8bit') : strlen($ran));
+		}
+	}
 }

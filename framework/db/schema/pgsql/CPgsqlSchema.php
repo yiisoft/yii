@@ -25,9 +25,11 @@ class CPgsqlSchema extends CDbSchema
 	 */
 	public $columnTypes=array(
 		'pk' => 'serial NOT NULL PRIMARY KEY',
+		'bigpk' => 'bigserial NOT NULL PRIMARY KEY',
 		'string' => 'character varying (255)',
 		'text' => 'text',
 		'integer' => 'integer',
+		'bigint' => 'bigint',
 		'float' => 'double precision',
 		'decimal' => 'numeric',
 		'datetime' => 'timestamp',
@@ -56,25 +58,27 @@ class CPgsqlSchema extends CDbSchema
 	/**
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
-	 * will have the specified value or 1.
+	 * will have the specified value or max value of a primary key plus one (i.e. sequence trimming).
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
-	 * the next new row's primary key will have a value 1.
+	 * @param integer|null $value the value for the primary key of the next new row inserted.
+	 * If this is not set, the next new row's primary key will have the max value of a primary
+	 * key plus one (i.e. sequence trimming).
 	 * @since 1.1
 	 */
 	public function resetSequence($table,$value=null)
 	{
-		if($table->sequenceName!==null)
-		{
-			$seq='"'.$table->sequenceName.'"';
-			if(strpos($seq,'.')!==false)
-				$seq=str_replace('.','"."',$seq);
-			if($value===null)
-				$value="(SELECT COALESCE(MAX(\"{$table->primaryKey}\"),0) FROM {$table->rawName}) + 1";
-			else
-				$value=(int)$value;
-			$this->getDbConnection()->createCommand("SELECT SETVAL('$seq', $value, false)")->execute();
-		}
+		if($table->sequenceName===null)
+			return;
+		$sequence='"'.$table->sequenceName.'"';
+		if(strpos($sequence,'.')!==false)
+			$sequence=str_replace('.','"."',$sequence);
+		if($value!==null)
+			$value=(int)$value;
+		else
+			$value="(SELECT COALESCE(MAX(\"{$table->primaryKey}\"),0) FROM {$table->rawName})+1";
+		$this->getDbConnection()
+			->createCommand("SELECT SETVAL('$sequence',$value,false)")
+			->execute();
 	}
 
 	/**
@@ -389,7 +393,7 @@ EOD;
 		$type=$this->getColumnType($type);
 		$sql='ALTER TABLE ' . $this->quoteTableName($table)
 			. ' ADD COLUMN ' . $this->quoteColumnName($column) . ' '
-			. $this->getColumnType($type);
+			. $type;
 		return $sql;
 	}
 
@@ -412,6 +416,42 @@ EOD;
 	}
 
 	/**
+	 * Builds a SQL statement for creating a new index.
+	 * @param string $name the name of the index. The name will be properly quoted by the method.
+	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
+	 * @param string $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
+	 * by commas. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
+	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
+	 * @return string the SQL statement for creating a new index.
+	 * @since 1.1.6
+	 */
+	public function createIndex($name, $table, $columns, $unique=false)
+	{
+		$cols=array();
+		if (is_string($columns))
+			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $col)
+		{
+			if(strpos($col,'(')!==false)
+				$cols[]=$col;
+			else
+				$cols[]=$this->quoteColumnName($col);
+		}
+		if ($unique)
+		{
+			return 'ALTER TABLE ONLY '
+				. $this->quoteTableName($table).' ADD CONSTRAINT '
+				. $this->quoteTableName($name).' UNIQUE ('.implode(', ',$cols).')';
+		}
+		else
+		{
+			return 'CREATE INDEX '
+				. $this->quoteTableName($name).' ON '
+				. $this->quoteTableName($table).' ('.implode(', ',$cols).')';
+		}
+	}
+
+	/**
 	 * Builds a SQL statement for dropping an index.
 	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
@@ -421,5 +461,15 @@ EOD;
 	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name);
+	}
+
+	/**
+	 * Creates a command builder for the database.
+	 * This method may be overridden by child classes to create a DBMS-specific command builder.
+	 * @return CPgsqlCommandBuilder command builder instance.
+	 */
+	protected function createCommandBuilder()
+	{
+		return new CPgsqlCommandBuilder($this);
 	}
 }

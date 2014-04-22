@@ -17,7 +17,7 @@
  * is associated with. For example, month names and weekday names may vary
  * under different locales, which yields different formatting results.
  * The patterns that CDateFormatter recognizes are as defined in
- * {@link http://www.unicode.org/reports/tr35/#Date_Format_Patterns CLDR}.
+ * {@link http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns CLDR}.
  *
  * CDateFormatter supports predefined patterns as well as customized ones:
  * <ul>
@@ -79,7 +79,7 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Formats a date according to a customized pattern.
-	 * @param string $pattern the pattern (See {@link http://www.unicode.org/reports/tr35/#Date_Format_Patterns})
+	 * @param string $pattern the pattern (See {@link http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns})
 	 * @param mixed $time UNIX timestamp or a string in strtotime format
 	 * @return string formatted date time. Null if $time is null. (the null value check is available since Yii 1.1.11)
 	 */
@@ -505,7 +505,10 @@ class CDateFormatter extends CComponent
 	protected function formatWeekInMonth($pattern,$date)
 	{
 		if($pattern==='W')
-			return @date('W',@mktime(0,0,0,$date['mon'], $date['mday'],$date['year']))-date('W', mktime(0,0,0,$date['mon'],1,$date['year']))+1;
+		{
+			$weekDay=date('N',mktime(0,0,0,$date['mon'],1,$date['year']));
+			return floor(($weekDay+$date['mday']-2)/7)+1;
+		}
 		else
 			throw new CException(Yii::t('yii','The pattern for week in month must be "W".'));
 	}

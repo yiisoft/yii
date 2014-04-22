@@ -8,11 +8,13 @@
  */
 
 ;(function($) {
+	var yiiXHR = {};
 	/**
 	 * yiiListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
 	 * - ajaxUpdate: array, IDs of the containers whose content may be updated by ajax response
-	 * - ajaxVar: string, the name of the GET variable indicating the ID of the element triggering the AJAX request
+	 * - ajaxVar: string, the name of the request variable indicating the ID of the element triggering the AJAX request
+	 * - ajaxType: string, the type (GET or POST) of the AJAX request
 	 * - pagerClass: string, the CSS class for the pager container
 	 * - sorterClass: string, the CSS class for the sorter container
 	 * - updateSelector: string, the selector for choosing which elements can trigger ajax requests
@@ -33,11 +35,14 @@
 			if(settings.ajaxUpdate.length > 0) {
 				$(document).on('click.yiiListView', settings.updateSelector,function(){
 					if(settings.enableHistory && window.History.enabled) {
-						var url = $(this).attr('href').split('?'),
-							params = $.deparam.querystring('?'+ (url[1] || ''));
+						var href = $(this).attr('href');
+						if(href){
+							var url = href.split('?'),
+								params = $.deparam.querystring('?'+ (url[1] || ''));
 
-						delete params[settings.ajaxVar];
-						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
+							delete params[settings.ajaxVar];
+							window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
+						}
 					} else {
 						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
 					}
@@ -57,6 +62,7 @@
 	$.fn.yiiListView.defaults = {
 		ajaxUpdate: [],
 		ajaxVar: 'ajax',
+		ajaxType: 'GET',
 		pagerClass: 'pager',
 		loadingClass: 'loading',
 		sorterClass: 'sorter'
@@ -103,9 +109,8 @@
 			delete options.error;
 		}
 
-		$('#'+id).addClass(settings.loadingClass);
 		options = $.extend({
-			type: 'GET',
+			type: settings.ajaxType,
 			url: $.fn.yiiListView.getUrl(id),
 			success: function(data,status) {
 				$.each(settings.ajaxUpdate, function(i,v) {
@@ -114,11 +119,13 @@
 				});
 				if(settings.afterAjaxUpdate != undefined)
 					settings.afterAjaxUpdate(id, data);
+			},
+			complete: function() {
 				$('#'+id).removeClass(settings.loadingClass);
+				yiiXHR[id] = null;
 			},
 			error: function(XHR, textStatus, errorThrown) {
 				var ret, err;
-				$('#'+id).removeClass(settings.loadingClass);
 				if (XHR.readyState === 0 || XHR.status === 0) {
 					return;
 				}
@@ -159,11 +166,19 @@
 			options.url = $.param.querystring(options.url, options.data);
 			options.data = {};
 		}
-		options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
+
+		if(settings.ajaxVar)
+			options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
+
+		if(yiiXHR[id] != null) {
+			yiiXHR[id].abort();
+		}
+
+		$('#'+id).addClass(settings.loadingClass);
 
 		if(settings.beforeAjaxUpdate != undefined)
-			settings.beforeAjaxUpdate(id);
-		$.ajax(options);
+			settings.beforeAjaxUpdate(id, options);
+		yiiXHR[id] = $.ajax(options);
 	};
 
 })(jQuery);

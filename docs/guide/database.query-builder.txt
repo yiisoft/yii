@@ -227,7 +227,7 @@ $command->where(array('like', 'title', '%'.$keyword.'%'));
 function andWhere($conditions, $params=array())
 ~~~
 
-The [addWhere()|CDbCommand::addWhere() ] method appends given condition to the `WHERE` part of a query with `AND` operator. Behavior of this method is almost the same as [where()|CDbCommand::where() ] except it appends condition not replaces it. Refer to the [where()|CDbCommand::where() ] documentation for more information on parameters of this method.
+The [andWhere()|CDbCommand::andWhere() ] method appends given condition to the `WHERE` part of a query with `AND` operator. Behavior of this method is almost the same as [where()|CDbCommand::where() ] except it appends condition not replaces it. Refer to the [where()|CDbCommand::where() ] documentation for more information on parameters of this method.
 
 
 ### orWhere()
@@ -520,6 +520,8 @@ Besides normal data retrieval and manipulation queries, the query builder also o
 * [addColumn()|CDbCommand::addColumn]: adds a table column
 * [renameColumn()|CDbCommand::renameColumn]: renames a table column
 * [alterColumn()|CDbCommand::alterColumn]: alters a table column
+* [addForeignKey()|CDbCommand::addForeignKey]: adds a foreign key (available since 1.1.6)
+* [dropForeignKey()|CDbCommand::dropForeignKey]: drops a foreign key (available since 1.1.6)
 * [dropColumn()|CDbCommand::dropColumn]: drops a table column
 * [createIndex()|CDbCommand::createIndex]: creates an index
 * [dropIndex()|CDbCommand::dropIndex]: drops an index

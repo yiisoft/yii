@@ -78,6 +78,8 @@ Gii にはデフォルトでいくつかのコードジェネレータが含ま�
 4. `Generate` ボタンを押してコードファイルを生成します。
 5. コード生成ログを確認します。
 
+> Note|注意: モデルを生成した場合は、必ず `rules` メソッドを確認して修正して下さい。
+なぜなら、データベースの構造がデータバリデーションの要求を反映していない場合がしばしばあるからです。
 
 Gii を拡張する
 -------------
@@ -118,14 +120,14 @@ return array(
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'generatorPaths'=>array(
-				'application.gii',   // パスエイリアス
+				'common.gii',   // パスエイリアス
 			),
 		),
 	),
 );
 ~~~
 
-上記の構成は、Gii に対して、デフォルトの場所である `system.gii.generator` に加えて `application.gii` というエイリアスのディレクトリの下からもジェネレータを探すように指示するものです。
+上記の構成は、Gii に対して、デフォルトの場所である `system.gii.generator` および `application.gii` に加えて、 `common.gii` というエイリアスのディレクトリの下からもジェネレータを探すように指示するものです。
 
 異なるサーチパスの下に同じ名前の二つのジェネレータを置くことも可能です。
 その場合は、[GiiModule::generatorPaths] で先に指定されたパスの下にあるジェネレータが優先されます。
@@ -341,5 +343,3 @@ class <?php echo $this->className; ?> extends CWidget
 
 これで新しいコードジェネレータの作成は完了です。
 URL `http://hostname/path/to/index.php?r=gii/widget` によって、ただちにこのコードジェネレータにアクセスすることが出来ます。
-
-<div class="revision">$Id$</div>

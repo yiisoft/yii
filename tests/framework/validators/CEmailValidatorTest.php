@@ -5,9 +5,13 @@ class CEmailValidatorTest extends CTestCase
 {
 	public function testEmpty()
 	{
-		$model = new ValidatorTestModel('CEmailValidatorTest');
-		$model->validate(array('email'));
-		$this->assertArrayHasKey('email', $model->getErrors());
+		$emailValidator = new CEmailValidator();
+		$this->assertTrue($emailValidator->validateValue('test@example.com'));
+		$this->assertTrue($emailValidator->validateValue(''));
+		
+		$emailValidator->allowEmpty = false;
+		$this->assertTrue($emailValidator->validateValue('test@example.com'));
+		$this->assertFalse($emailValidator->validateValue(''));
 	}
 
 	public function testNumericEmail()
@@ -24,7 +28,7 @@ class CEmailValidatorTest extends CTestCase
 			array('test@президент.рф', true, true),
 			array('test@bücher.de', true, true),
 			array('test@检查域.cn', true, true),
-			array('☃-⌘@mañana.com', true, true),
+			array('☃-⌘@mañana.com', true, false),
 			array('test@google.com', true, true),
 			array('test@yiiframework.com', true, true),
 			array('bad-email', true, false),

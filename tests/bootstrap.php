@@ -8,7 +8,9 @@ $_SERVER['SCRIPT_FILENAME']=__FILE__;
 
 require_once(dirname(__FILE__).'/../framework/yii.php');
 require_once(dirname(__FILE__).'/TestApplication.php');
-require_once('PHPUnit/Framework/TestCase.php');
+// Support PHPUnit <=3.7 and >=3.8
+if (@include_once('PHPUnit/Framework/TestCase.php')===false) // <= 3.7
+	require_once('src/Framework/TestCase.php'); // >= 3.8
 
 // make sure non existing PHPUnit classes do not break with Yii autoloader
 Yii::$enableIncludePath = false;

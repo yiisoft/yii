@@ -39,6 +39,10 @@ ARでは、以下の4種類のリレーションがあります。
 AR 用語では、`BELONGS_TO` と `HAS_MANY` の組合せとして、`MANY_MANY` を説明することができます。
 例えば `Post` は多くの `Category` に属しています。そして `Category` には多くの `Post` があります。
 
+5番目に、リレーションのレコードで集計クエリを実行する特殊なタイプがあります。
+`STAT` と呼ばれるリレーションです。
+詳細については、[統計クエリ](/doc/guide/database.arr#sec-9) を参照してください。
+
 AR でのリレーション宣言は、[CActiveRecord] クラスの [relations()|CActiveRecord::relations] メソッドをオーバライドすることで行います。
 このメソッドはリレーション構成の配列を返します。
 各々の配列要素は以下のフォーマットで示す一つのリレーションを意味します。
@@ -258,6 +262,13 @@ $users=User::model()->with(array(
 デフォルトでは空です。
 このオプションは、バージョン 1.1.3 以降で利用可能です。
 
+   - `joinOptions`: `USE INDEX` のような `JOIN` 後の操作を設定するためのプロパティです。
+文字列型の値を `HAS_MANY` と `MANY_MANY` のリレーションの `JOIN` のために使うことが出来ます。
+一方、配列型の値は `MANY_MANY` リレーションのためだけに使われることを想定しています。
+配列の最初の要素がジャンクションテーブルの `JOIN` のために使われ、2番目の要素がターゲットテーブルの
+`JOIN` のために使われます。
+このオプションは、バージョン 1.1.15 以降で利用可能です。
+
    - `group`: `GROUP BY` 句です。デフォルトは空です。
 このオプションで参照されるカラム名は曖昧さを無くさなければなりません。
 
@@ -281,8 +292,8 @@ $users=User::model()->with(array(
 このオプションは `BELONGS_TO` リレーションには適用されません。
 
    - `through`: 関連するデータを取得する際に、ブリッジとして使用されるモデルのリレーションの名前。
-`HAS_MANY` および `MANY_MANY` のリレーションに対してのみ設定出来ます。
-このオプションは、バージョン 1.1.7 以降で利用可能です。
+このオプションは、バージョン 1.1.7 以降で、`HAS_MANY` および `MANY_MANY` のリレーションに対して
+使用可能です。1.1.14 以降は、`BELONGS_TO` に対しても使用出来ます。
 
 以下では、`User` における `posts` リレーション宣言を修正して、上記のオプションのいくつかを含むようにしてみましょう。
 
@@ -309,11 +320,11 @@ class User extends CActiveRecord
 ---------------------------
 
 結合される二つ以上のテーブルに同じ名前のカラムが出現する場合、カラム名の曖昧さを無くする必要があります。
-これは、カラム名の前にテーブルの別名 (エイリアス) を追加することで行います。
+これは、カラム名の前にテーブルのエイリアス(別名)を追加することで行います。
 
-リレーショナル AR クエリにおいては、主テーブルの別名は `t` に固定されます。
-一方、関連するテーブルの別名は、デフォルトでは、対応するリレーション名と同じものになります。
-例えば、次の文では、`Post` および `Comment` の別名は、それぞれ、`t` および `comments` です。
+リレーショナル AR クエリにおいては、主テーブルのエイリアスは `t` に固定されます。
+一方、関連するテーブルのエイリアスは、デフォルトでは、対応するリレーション名と同じものになります。
+例えば、次の文では、`Post` および `Comment` のエイリアスは、それぞれ、`t` および `comments` です。
 
 ~~~
 [php]
@@ -330,6 +341,31 @@ $posts=Post::model()->with('comments')->findAll(array(
 	'order'=>'t.create_time, comments.create_time'
 ));
 ~~~
+
+> Tip|ヒント: 関連するテーブルのデフォルトのエイリアスはリレーション名です。リレーションを別のリレーションの中から参照する
+> 場合でも、そのテーブルのエイリアスは前者のリレーション名であり、親のリレーション名を前置したものにはならないということに
+> 注意して下さい。例えば、'author.group' というリレーションのテーブルエイリアスは 'group' であり、'author.group'
+> ではありません。
+>
+> ~~~
+> [php]
+> $posts=Post::model()->with('author', 'author.group')->findAll(array(
+> 	'order'=>'group.name, author.name, t.title'
+> ));
+> ~~~
+> 
+> テーブルエイリアスの衝突を回避するために、リレーションの [alias|CActiveRelation::alias] プロパティを設定することが出来ます。
+>
+> ~~~
+> [php]
+> $comments=Comment::model()->with(array(
+> 	'author',
+> 	'post',
+> 	'post.author'=>array('alias'=>'p_author')))->findAll(array(
+> 	'order'=>'author.name, p_author.name, post.title'
+> ));
+> ~~~
+
 
 動的リレーショナルクエリオプション
 --------------------------------
@@ -599,7 +635,7 @@ through を使うリレーショナルクエリ
   - `key1` は `through` で指定されているリレーション (この場合は`posts`) で定義されているキーであり、
   - `key2` は リレーションが指し示すモデル (この場合は`Comment`) で定義されているキーです。
 
-`through` は `HAS_ONE` と `HAS_MANY` の両方のリレーションで使用出来ます。
+`through` は `HAS_ONE`, `BELONGS_TO` および `HAS_MANY` のリレーションで使用出来ます。
 
 ### HAS_MANY の through
 
@@ -714,4 +750,135 @@ $teacher=User::model()->findByPk(1);
 $students=$teacher->students;
 ~~~
 
-<div class="revision">$Id$</div>
+
+JOIN 後の操作
+-------------
+
+バージョン 1.1.15 以降は、JOIN 後の操作を追加して設定することが出来ます。
+`CBaseActiveRelation::$joinOptions` が追加されました。
+下記のようなモデルとリレーションがあるとします。
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts' => array(self::HAS_MANY, 'Post', 'user_id'),
+		);
+	}
+}
+
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'tags' => array(self::MANY_MANY, 'Tag', '{{post_tag}}(post_id, tag_id)'),
+		);
+	}
+}
+
+class Tag extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts' => array(self::MANY_MANY, 'Post', '{{post_tag}}(tag_id, post_id)'),
+		);
+	}
+}
+~~~
+
+`USE INDEX` 句を使ったクエリコードのサンプルを示します。
+
+~~~
+[php]
+$users=User::model()->findAll(array(
+	'select'=>'t.id,t.name',
+	'with'=>array(
+		'posts'=>array(
+			'alias'=>'p',
+			'select'=>'p.id,p.title',
+			'joinOptions'=>'USE INDEX(post__user)',
+		),
+	),
+));
+
+$posts=Post::model()->findAll(array(
+	'select'=>'t.id,t.title',
+	'with'=>array(
+		'tags'=>array(
+			'alias'=>'a',
+			'select'=>'a.id,a.name',
+			'joinOptions'=>'USE INDEX(post_tag__tag) USE INDEX(post_tag__post)',
+		),
+	),
+));
+
+$posts=Post::model()->findAll(array(
+	'select'=>'t.id,t.title',
+	'with'=>array(
+		'tags'=>array(
+			'alias'=>'a',
+			'select'=>'a.id,a.name',
+			'joinOptions'=>array(
+				'USE INDEX(post_tag__tag) USE INDEX(post_tag__post)',
+				'USE INDEX(tag__name)',
+			),
+		),
+	),
+));
+~~~
+
+上記のコードは、それぞれ以下のような MySQL クエリを生成します。
+
+~~~
+[sql]
+SELECT
+	`t`.`id` AS `t0_c0`, `t`.`name` AS `t0_c1`,
+	`p`.`id` AS `t1_c0`, `p`.`title` AS `t1_c2`
+FROM `tbl_user` `t`
+LEFT OUTER JOIN `tbl_post` `p`
+	USE INDEX(post__user) ON (`p`.`user_id`=`t`.`id`);
+
+SELECT
+	`t`.`id` AS `t0_c0`, `t`.`title` AS `t0_c2`,
+	`a`.`id` AS `t1_c0`, `a`.`name` AS `t1_c1`
+FROM `tbl_post` `t`
+LEFT OUTER JOIN `tbl_post_tag` `tags_a`
+	USE INDEX(post_tag__tag) USE INDEX(post_tag__post) ON (`t`.`id`=`tags_a`.`post_id`)
+LEFT OUTER JOIN `tbl_tag` `a` ON (`a`.`id`=`tags_a`.`tag_id`);
+
+SELECT
+	`t`.`id` AS `t0_c0`, `t`.`title` AS `t0_c2`,
+	`a`.`id` AS `t1_c0`, `a`.`name` AS `t1_c1`
+FROM `tbl_post` `t`
+LEFT OUTER JOIN `tbl_post_tag` `tags_a`
+	USE INDEX(post_tag__tag) USE INDEX(post_tag__post) ON (`t`.`id`=`tags_a`.`post_id`)
+LEFT OUTER JOIN `tbl_tag` `a`
+	USE INDEX(tag__name) ON (`a`.`id`=`tags_a`.`tag_id`);
+~~~
+
+クエリオプション `$joinOptions` は、次に示すように、リレーションの宣言の中で設定することも出来ます。
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'tags' => array(self::MANY_MANY, 'Tag', '{{post_tag}}(post_id, tag_id)',
+				'joinOptions' => array(
+					'USE INDEX(post_tag__tag) USE INDEX(post_tag__post)',
+					'USE INDEX(tag__name)',
+				),
+			),
+		);
+	}
+}
+~~~

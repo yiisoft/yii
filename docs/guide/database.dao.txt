@@ -48,7 +48,7 @@ documentation](http://www.php.net/manual/en/pdo.construct.php) for complete
 information. Below is a list of commonly used DSN formats:
 
    - SQLite: `sqlite:/path/to/dbfile`
-   - MySQL: `mysql:host=localhost;dbname=testdb`
+   - MySQL/MariaDB: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
    - SQL Server: `mssql:host=localhost;dbname=testdb`
    - Oracle: `oci:dbname=//localhost:1521/testdb`
@@ -80,6 +80,38 @@ We can then access the DB connection via `Yii::app()->db` which is already
 activated automatically, unless we explictly configure
 [CDbConnection::autoConnect] to be false. Using this approach, the single
 DB connection can be shared in multiple places in our code.
+
+Using ODBC Connection
+---------------------
+
+There is a peculiarity when you want to work with the database through the ODBC layer.
+When using ODBC, its connection string (DSN) doesn't indicate uniquely what database
+type is being used (MySQL, MS SQL Server, etc.). Thus it's not able to automatically
+detect needed DBMS specific classes (`CMysqlSchema`, `CMssqlSchema` and so forth).
+
+That's why you have to use `$driverName` property of the `CDbConnection` class
+to disambiguate that:
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'class'=>'CDbConnection'
+			'driverName'=>'mysql',
+			'connectionString'=>'odbc:Driver={MySQL};Server=127.0.0.1;Database=test',
+			'username'=>'',
+			'password'=>'',
+		),
+	),
+)
+~~~
+
+> Note: The configuration above is only relevant since the 1.1.15 version of the framework.
+If you're using the older versions of the framework you have to extend the database connection
+class and handle that case yourself.
 
 Executing SQL Statements
 ------------------------

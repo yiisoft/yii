@@ -48,13 +48,19 @@ memcache для PHP и использует оперативную память 
    - [CEAcceleratorCache]: использует
    [расширение EAccelerator для PHP](http://eaccelerator.net/).
 
+   - [CRedisCache]: использует [redis](http://redis.io/).
+
    - [CDbCache]: использует таблицу базы данных для хранения кэшируемых данных.
 По умолчанию создаёт и использует базу данных SQLite3 во временном каталоге.
 Мы можем явно задать используемую базу данных, установив значение свойства
 [connectionID|CDbCache::connectionID].
 
    - [CZendDataCache]: использует
-   [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm).
+   [Zend Data Cache](http://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm).
+
+   - [CWinCache]: использует [WinCache](http://iis.net/downloads/microsoft/wincache-extension)
+   ([смотрите также](http://php.net/manual/en/book.wincache.php)).
+
 
    - [CFileCache]: использует файлы для хранения кэшированных данных. Хорошо
 подходит для больших единиц данных (например, страниц).

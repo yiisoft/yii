@@ -18,6 +18,9 @@
  * with '.1'. All existing log files are moved backwards one place, i.e., '.2'
  * to '.3', '.1' to '.2'. The property {@link setMaxLogFiles maxLogFiles}
  * specifies how many files to be kept.
+ * If the property {@link rotateByCopy} is true, the primary log file will be
+ * rotated by a copy and truncated (to be more compatible with log tailers)
+ * otherwise it will be rotated by being renamed.
  *
  * @property string $logPath Directory storing log files. Defaults to application runtime path.
  * @property string $logFile Log file name. Defaults to 'application.log'.
@@ -46,7 +49,12 @@ class CFileLogRoute extends CLogRoute
 	 * @var string log file name
 	 */
 	private $_logFile='application.log';
-
+	/**
+	 * @var boolean Whether to rotate primary log by copy and truncate
+	 * which is more compatible with log tailers. Defaults to false.
+	 * @since 1.1.14
+	 */
+	public $rotateByCopy=false;
 
 	/**
 	 * Initializes the route.
@@ -177,6 +185,19 @@ class CFileLogRoute extends CLogRoute
 			}
 		}
 		if(is_file($file))
-			@rename($file,$file.'.1'); // suppress errors because it's possible multiple processes enter into this section
+		{
+			// suppress errors because it's possible multiple processes enter into this section
+			if($this->rotateByCopy)
+			{
+				@copy($file,$file.'.1');
+				if($fp=@fopen($file,'a'))
+				{
+					@ftruncate($fp,0);
+					@fclose($fp);
+				}
+			}
+			else
+				@rename($file,$file.'.1');
+		}
 	}
 }

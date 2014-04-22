@@ -1,4 +1,4 @@
-         Upgrading Instructions for Yii Framework v1.1.14
+         Upgrading Instructions for Yii Framework v1.1.15
          ================================================
 
 !!!IMPORTANT!!!
@@ -16,6 +16,16 @@ General upgrade instructions
   release and update.
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
+
+Upgrading from v1.1.14
+----------------------
+
+- CErrorHandler now runs errorAction for errors, which appear via AJAX request.
+  If you use CErrorHandler::errorAction, make sure it handles AJAX request properly.
+
+- The possibility to use callables for values of CDetailView introduced a problem with string beeing interpreted as
+  PHP functions. CDetailView now only allows anonymous functions to be called, all other values will be taken as value.
+
 
 Upgrading from v1.1.13
 ----------------------
@@ -42,6 +52,35 @@ Upgrading from v1.1.13
 
 - CSecurityManager::computeHMAC() method is now public and third parameter has been added. You must change signature
   of this method in the extended child class to fit new circumstances. Otherwise an E_STRICT error will be issued.
+
+- CClientScript::registerScriptFile() and CClientScript::registerScript() methods signature changed.
+  Update your subclasses that override registerScriptFile() or registerScript() if any.
+
+- CActiveRecord::refreshMetaData() now clears meta data for all objects of the particular Active Record class.
+  Also CActiveRecord::refreshMetaData() will not create new meta data at once - new CActiveRecordMetaData instance
+  will be created on the first demand.
+
+- Oracle related note: in case you're using COciSchema::resetSequence() or CDbSchema::resetSequence() methods with
+  the Oracle database, keep in mind that its behavior has changed to be consistent with the same methods for
+  the other database management systems. Please refer to its documentation for more details and don't forget
+  to adjust your code respectively.
+
+- Signature of the CJuiInputWidget::resolveNameID() method has changed. If you're overriding this method you must
+  change your code to fit it. This method now accepts two parameters, it means you have to adjust code of the
+  overlapped descendant method signature as follows:
+
+      protected function resolveNameID($nameProperty='name',$attributeProperty='attribute')
+
+  And ancestor method call to:
+
+      parent::resolveNameID($nameProperty,$attributeProperty);
+
+- In case you've used your own relation types extended from `CHasOneRelation` or
+  `CHasManyRelation` make sure you update these to reflect moving `through` property
+  from both these to `CActiveRelation`.
+
+- CSecurityManager::generateRandomKey() has been deprecated in favor of CSecurityManager::generateRandomString().
+  Try not to use it anymore and avoid CSecurityManager::generateRandomKey() method in your code.
 
 Upgrading from v1.1.12
 ----------------------
@@ -78,6 +117,9 @@ Upgrading from v1.1.12
   `extension_loaded('gd')` expression is not enough and wrong because CAPTCHA could be rendered via ImageMagick with fallback to GD since 1.1.13
   (thus checking code is not simple as it seems).
 
+- In case you're using MSSQL driver make sure authentication credentials you use have permissions to use
+  `sys.extended_properties` system view. This is critical for retrieving additional metadata on tables.
+
 Upgrading from v1.1.11
 ----------------------
 - Changes in CCookieCollection::add() (introduced in 1.1.11) were reverted as they were triggering E_STRICT on some old PHP-versions
@@ -88,7 +130,7 @@ Upgrading from v1.1.11
 		$cookies[$name] = new CHttpCookie($name, $value);
 
 
-- CActiveRecord::resetScope() method signature changed. Updated your subclasses that override resetScope() if any.
+- CActiveRecord::resetScope() method signature changed. Please update your subclasses that override resetScope() if any.
 
 Upgrading from v1.1.10
 ----------------------

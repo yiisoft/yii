@@ -50,8 +50,8 @@ class CPgsqlColumnSchema extends CDbColumnSchema
 			$this->defaultValue=null;
 		elseif(preg_match('/^\'(.*)\'::/',$defaultValue,$matches))
 			$this->defaultValue=$this->typecast(str_replace("''","'",$matches[1]));
-		elseif(preg_match('/^-?\d+(\.\d*)?$/',$defaultValue,$matches))
-			$this->defaultValue=$this->typecast($defaultValue);
+		elseif(preg_match('/^(-?\d+(\.\d*)?)(::.*)?$/',$defaultValue,$matches))
+			$this->defaultValue=$this->typecast($matches[1]);
 		// else is null
 	}
 }

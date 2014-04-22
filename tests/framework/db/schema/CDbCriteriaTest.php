@@ -615,4 +615,24 @@ class CDbCriteriaTest extends CTestCase {
 		$this->assertEquals(str_replace($paramName,$newParamName,$criteria->select),$unserializedCriteria->select,'Criteria select has not been updated!');
 	}
 
+	/**
+	 * https://github.com/yiisoft/yii/issues/2426
+	 */
+	public function testWakeupWhenSqlContainingFieldsAreArraysWithSpecifiedParams()
+	{
+		CDbCriteria::$paramCount=10;
+		$criteria=new CDbCriteria();
+		$criteria->select=array('id','title');
+		$criteria->condition='id=:postId';
+		$criteria->params['postId']=1;
+		$criteria->compare('authorId',2);
+
+		$oldCriteria=clone $criteria;
+
+		$criteria=serialize($criteria);
+		CDbCriteria::$paramCount=10;
+		$criteria=unserialize($criteria);
+
+		$this->assertEquals($oldCriteria,$criteria);
+	}
 }

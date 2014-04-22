@@ -237,13 +237,114 @@ class CDbCommandBuilder extends CComponent
 			foreach($pks as $pk)
 			{
 				$fields[]=$table->getColumn($pk)->rawName;
-				$placeholders[]='NULL';
+				$placeholders[]=$this->getIntegerPrimaryKeyDefaultValue();
 			}
 		}
 		$sql="INSERT INTO {$table->rawName} (".implode(', ',$fields).') VALUES ('.implode(', ',$placeholders).')';
 		$command=$this->_connection->createCommand($sql);
 
 		foreach($values as $name=>$value)
+			$command->bindValue($name,$value);
+
+		return $command;
+	}
+
+	/**
+	 * Creates a multiple INSERT command.
+	 * This method could be used to achieve better performance during insertion of the large
+	 * amount of data into the database tables.
+	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+	 * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
+	 * If a key is not a valid column name, the corresponding value will be ignored.
+	 * @return CDbCommand multiple insert command
+	 * @since 1.1.14
+	 */
+	public function createMultipleInsertCommand($table,array $data)
+	{
+		return $this->composeMultipleInsertCommand($table,$data);
+	}
+
+	/**
+	 * Creates a multiple INSERT command.
+	 * This method compose the SQL expression via given part templates, providing ability to adjust
+	 * command for different SQL syntax.
+	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+	 * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
+	 * If a key is not a valid column name, the corresponding value will be ignored.
+	 * @param array $templates templates for the SQL parts.
+	 * @return CDbCommand multiple insert command
+	 */
+	protected function composeMultipleInsertCommand($table,array $data,array $templates=array())
+	{
+		$templates=array_merge(
+			array(
+				'main'=>'INSERT INTO {{tableName}} ({{columnInsertNames}}) VALUES {{rowInsertValues}}',
+				'columnInsertValue'=>'{{value}}',
+				'columnInsertValueGlue'=>', ',
+				'rowInsertValue'=>'({{columnInsertValues}})',
+				'rowInsertValueGlue'=>', ',
+				'columnInsertNameGlue'=>', ',
+			),
+			$templates
+		);
+		$this->ensureTable($table);
+		$tableName=$table->rawName;
+		$params=array();
+		$columnInsertNames=array();
+		$rowInsertValues=array();
+
+		$columns=array();
+		foreach($data as $rowData)
+		{
+			foreach($rowData as $columnName=>$columnValue)
+			{
+				if(!in_array($columnName,$columns,true))
+					if($table->getColumn($columnName)!==null)
+						$columns[]=$columnName;
+			}
+		}
+		foreach($columns as $name)
+			$columnInsertNames[$name]=$this->getDbConnection()->quoteColumnName($name);
+		$columnInsertNamesSqlPart=implode($templates['columnInsertNameGlue'],$columnInsertNames);
+
+		foreach($data as $rowKey=>$rowData)
+		{
+			$columnInsertValues=array();
+			foreach($columns as $columnName)
+			{
+				$column=$table->getColumn($columnName);
+				$columnValue=array_key_exists($columnName,$rowData) ? $rowData[$columnName] : new CDbExpression('NULL');
+				if($columnValue instanceof CDbExpression)
+				{
+					$columnInsertValue=$columnValue->expression;
+					foreach($columnValue->params as $columnValueParamName=>$columnValueParam)
+						$params[$columnValueParamName]=$columnValueParam;
+				}
+				else
+				{
+					$columnInsertValue=':'.$columnName.'_'.$rowKey;
+					$params[':'.$columnName.'_'.$rowKey]=$column->typecast($columnValue);
+				}
+				$columnInsertValues[]=strtr($templates['columnInsertValue'],array(
+					'{{column}}'=>$columnInsertNames[$columnName],
+					'{{value}}'=>$columnInsertValue,
+				));
+			}
+			$rowInsertValues[]=strtr($templates['rowInsertValue'],array(
+				'{{tableName}}'=>$tableName,
+				'{{columnInsertNames}}'=>$columnInsertNamesSqlPart,
+				'{{columnInsertValues}}'=>implode($templates['columnInsertValueGlue'],$columnInsertValues)
+			));
+		}
+
+		$sql=strtr($templates['main'],array(
+			'{{tableName}}'=>$tableName,
+			'{{columnInsertNames}}'=>$columnInsertNamesSqlPart,
+			'{{rowInsertValues}}'=>implode($templates['rowInsertValueGlue'], $rowInsertValues),
+		));
+		$command=$this->getDbConnection()->createCommand($sql);
+
+		foreach($params as $name=>$value)
 			$command->bindValue($name,$value);
 
 		return $command;
@@ -398,7 +499,7 @@ class CDbCommandBuilder extends CComponent
 
 	/**
 	 * Alters the SQL to apply LIMIT and OFFSET.
-	 * Default implementation is applicable for PostgreSQL, MySQL and SQLite.
+	 * Default implementation is applicable for PostgreSQL, MySQL, MariaDB and SQLite.
 	 * @param string $sql SQL query string without LIMIT and OFFSET.
 	 * @param integer $limit maximum number of rows, -1 to ignore limit.
 	 * @param integer $offset row offset, -1 to ignore offset.
@@ -635,7 +736,7 @@ class CDbCommandBuilder extends CComponent
 			$condition=array();
 			foreach($keywords as $keyword)
 			{
-				$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
+				$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_', '\\'=>'\\\\')).'%';
 				if($caseSensitive)
 					$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
 				else
@@ -757,5 +858,16 @@ class CDbCommandBuilder extends CComponent
 		if(is_string($table) && ($table=$this->_schema->getTable($tableName=$table))===null)
 			throw new CDbException(Yii::t('yii','Table "{table}" does not exist.',
 				array('{table}'=>$tableName)));
+	}
+
+	/**
+	 * Returns default value of the integer/serial primary key. Default value means that the next
+	 * autoincrement/sequence value would be used.
+	 * @return string default value of the integer/serial primary key.
+	 * @since 1.1.14
+	 */
+	protected function getIntegerPrimaryKeyDefaultValue()
+	{
+		return 'NULL';
 	}
 }

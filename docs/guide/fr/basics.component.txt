@@ -1,22 +1,23 @@
 Composant
 =========
 
-Les applications Yii sont construites sur des composants.
+Les applications Yii sont construites à partir de composants, i.e. d'objets
+écrits dans le but de répondre à des spécifications et un cahier des charges précis.
 Un composant est une instance de [CComponent] ou d'une de ses classes dérivées.
-L'utilisation d'un composant implique l'accès à ses propriétés et la gestion de
-ses événements. La classe de base [CComponent] spécifie comment définir les
+L'utilisation d'un composant consiste principalement à accéder à ses propriétés et
+utiliser ses événements. La classe de base [CComponent] spécifie comment définir les
 propriétés et les événements.
 
-Propriété d'un composant
-------------------------
+Définir et utiliser la propriété d'un composant
+-----------------------------------------------
 
-Une propriété d'un composant fonctionne comme les propriétés publique d'un
+Une propriété d'un composant est similaire à une variable publique d'un
 objet. Il est possible d'y lire ou d'y assigner une valeur. Par exemple,
 
 ~~~
 [php]
 $width=$component->textWidth;     // récupère la propriété textWidth
-$component->enableCaching=true;   // défini la propriété enableCaching
+$component->enableCaching=true;   // définit la propriété enableCaching
 ~~~
 
 Pour définir une propriété, il est possible soit de déclarer une
@@ -27,21 +28,21 @@ les getter et setter correspondant comme ceci:
 [php]
 public function getTextWidth()
 {
-    return $this->_textWidth;
+	return $this->_textWidth;
 }
 
 public function setTextWidth($value)
 {
-    $this->_textWidth=$value;
+	$this->_textWidth=$value;
 }
 ~~~
 
-Le fragment de code ci dessus défini un accès en lecture/écriture
+Le fragment de code ci-dessus définit un accès en lecture/écriture
 à la propriété nommée `textWidth` (le nom n'est pas sensible à la casse).
-Lors de la lecture de la propriété, `getTextWidth()` est appelé et la
+Lors de la lecture de la propriété, `getTextWidth()` est appelée et la
 valeur retournée devient la valeur de la propriété; le fonctionnement est
 similaire lorsque l'on y accède en écriture, la méthode `setTextWidth()` est
-appelé. Si le setter n'est pas défini, la propriété est accessible en
+appelée. Si le setter n'est pas défini, la propriété est accessible en
 lecture seule et un accès en écriture lève une exception. L'utilisation
 de getter et setter à l'avantage de permettre d'insérer de la logique de traitement
 lors de l'accès à la propriété (e.g. effectuer une validation, lever un événement).
@@ -55,16 +56,18 @@ pas le cas pour une variable de classe.
 Evénement et composant
 ----------------------
 
-Les évènements d'un composant sont des propriétés spéciales qui prennent pour
-valeur des méthodes (appelées `gestionnaires d'évènements`). Le fait d'attacher
-une méthode à un évènement va permettre de l'invoquer dès que l'évènement
-est levé. Il faut donc être attentif car cette gestion d'évènement peu
-modifier le comportement du composant de manière imprévisible.
+Les événements d'un composant sont des propriétés spéciales qui prennent pour
+valeur des méthodes (appelées `gestionnaires d'événement`). Le fait d'attacher
+(assigner ou affecter) une méthode à un événement va permettre d'invoquer automatiquement
+la méthode dès que l'événement est levé. Par conséquent, le comportement d'un composant
+peut être modifié d'une manière qui ne peut parfois pas être prévue pendant le développement et
+la mise au point du composant.
 
-Un évènement est défini par une méthode dont le nom commence par `on`.
-Comme pour les propriétés définies par getter/setter, les noms des
-évènements ne sont pas sensible à la casse. Le code suivant défini
-un évènement `onClicked`:
+
+Un événement est défini par une méthode dont le nom commence par `on`.
+Tout comme pour les propriétés définies par des getter/setter, les noms des
+événements ne sont pas sensibles à la casse. Le code suivant définit
+un événement `onClicked`:
 
 ~~~
 [php]
@@ -74,35 +77,35 @@ public function onClicked($event)
 }
 ~~~
 
-ou `$event` est une instance de [CEvent] ou de l'une de ses classes filles.
+où `$event` est une instance de [CEvent] ou de l'une de ses classes filles.
 
-Une méthode est attachée à un évènement de la façon suivante:
+Une méthode est attachée à un événement de la façon suivante:
 
 ~~~
 [php]
 $component->onClicked=$callback;
 ~~~
 
-ou `$callback` est une fonction de rappel PHP valide. Ce peut être une fonction
+où `$callback` est une fonction de rappel PHP valide. Ce peut être une fonction
 globale ou une méthode de classe. Dans ce cas (méthode de classe), la fonction
 de rappel doit être donnée via un array: `array($object,'methodName')`.
 
-La signature d'un gestionnaire d'évènement doit être:
+La signature d'un gestionnaire d'événement doit être:
 
 ~~~
 [php]
 function methodName($event)
 {
-    ......
+	......
 }
 ~~~
 
-ou le paramètre `$event` décrit l'évènement (il provient de l'appel de
+où le paramètre `$event` décrit l'événement (il provient de l'appel de
 `raiseEvent()`). Le paramètre `$event` doit être une instance de [CEvent]
 ou de l'une de ses classes dérivées. A minima, il doit permettre de
-savoir qui à levé l'évènement.
+savoir qui a levé l'événement.
 
-A partir de la version 1.0.10, un gestionnaire d'évènement peut être une fonction anonyme (ou lambda function)
+A partir de la version 1.0.10, un gestionnaire d'événement peut être une fonction anonyme (ou une fonction lambda)
 ce qui est supporté depuis PHP 5.3. Par exemple,
 
 ~~~
@@ -113,12 +116,12 @@ $component->onClicked=function($event) {
 ~~~
 
 
-Désormais, si l'on appelle `onClicked()`, l'évènement `onClicked` va être
-levé (a l'intérieur de `onClicked()`), et le gestionnaire d'évènement
+Désormais, si l'on appelle `onClicked()`, l'événement `onClicked` va être
+levé (à l'intérieur de `onClicked()`), et le gestionnaire d'événement
 associé va être invoqué automatiquement.
 
-Un évènement peut être attaché à plusieurs gestionnaires. Lorsqu'un évènement
-est levé, les gestionnaires seront invoqués dans l'ordre ou ils ont été attachés.
+Un événement peut être attaché à plusieurs gestionnaires. Lorsqu'un événement
+est levé, les gestionnaires seront invoqués dans l'ordre dans lequel ils ont été attachés.
 Si un gestionnaire doit interdire l'invocation des autres gestionnaires, il lui
 suffit de mettre la propriété [$event->handled|CEvent::handled] à true.
 
@@ -129,8 +132,8 @@ Comportement d'un composant
 A partir de la version 1.0.2, le support des [mixin](http://en.wikipedia.org/wiki/Mixin) a été
 ajouté pour permettre d'attacher un composant à plusieurs comportements.
 Un *comportement* (behavior) est un objet dont les méthodes peuvent être
-'hérités' par les composants qui y sont attachés. L'idée étant de collecter
-des fonctionnalités au lieu de spécialiser les composants (i.e., notion
+'héritées' par les composants qui y sont attachés. L'idée étant de collecter
+des fonctionnalités au lieu de spécialiser les composants (i.e. notion
 d'héritage classique). Un composant peut donc être attaché à plusieurs
 composants pour simuler 'l'héritage multiple'.
 
@@ -143,7 +146,7 @@ fonctionnalités spécifiques à la gestion des modèles.
 
 Pour pouvoir utiliser un comportement, il doit tout d'abord être attaché
 à un composant en appelant la méthode [attach()|IBehavior::attach]. Ensuite,
-le comportement peut appelé via le composant comme ceci:
+le comportement peut être appelé via le composant comme ceci:
 
 ~~~
 [php]
@@ -155,7 +158,7 @@ $component->test();
 
 Un comportement attaché à un composant peut être accédé comme une propriété
 classique. Par exemple, si le comportement `tree` est attaché au composant
-component, on peut obtenir la référence du comportement en utilisant:
+`component`, on peut obtenir la référence du comportement en utilisant:
 
 ~~~
 [php]
@@ -166,7 +169,7 @@ $behavior=$component->tree;
 
 Un comportement peut être temporairement désactivé pour que ses méthodes
 ne puissent être appelées par le composant.
-Par exemple,
+Par exemple:
 
 ~~~
 [php]
@@ -182,16 +185,16 @@ Il est possible que deux comportements attachés au même composant aient des m�
 avec un même nom. Dans ce cas, la méthode appartement au comportement qui a été
 attaché en premier aura la précédence.
 
-Lorsqu'ils sont utilisés avec les [évènements](#component-event), les comportements
-peuvent être extrèmement puissant. Un comportement, lorsqu'il est affecté à un
-composant, peut attacher certaines de ses méthodes à des évènements du composant.
+Lorsqu'ils sont utilisés avec les [événements](#component-event), les comportements
+peuvent être extrêmement puissants. Un comportement, lorsqu'il est affecté à un
+composant, peut attacher certaines de ses méthodes à des événements du composant.
 Cela permet à un comportement d'observer et/ou de changer le cycle d'exécution du
 composant.
 
 Depuis la version 1.1.0, les propriétés d'un `comportement` sont accessibles directement depuis
 le composant auquel il est rattaché. Les propriétés intègrent à la fois les variables publiques
-et les propriétés du comportement définies par getter/setter. Par exemple, si un comportement
+et les propriétés du comportement définies par les getter/setter. Par exemple, si un comportement
 à une propriété `xyz` et que ce comportement est attaché à un composant `$a`. Alors il devient possible
 d'utiliser l'expression `$a->xyz` pour accéder à la propriété du comportement.
 
-<div class="revision">$Id: basics.component.txt 1474 $</div>
+<div class="revision">$Id: basics.component.txt 1476 $</div>

@@ -6,11 +6,11 @@ Yii アプリケーションは、一定の仕様に基づいて書かれたオ�
 コンポーネントの使用は大概の場合、プロパティへのアクセスやイベントの発生、ハンドリングを伴います。
 基底クラスである [CComponent] は、どのようにプロパティやイベントの定義を行うかを指定しています。
 
-コンポーネントのプロパティ
-------------------
+コンポーネントのプロパティの定義と使用
+-------------------------
 
 コンポーネントのプロパティはオブジェクトのパブリックなメンバ変数の様なものです。
-値を割り当てたり、読み取る事ができます。以下は例です。
+下の例のように、値を割り当てたり、読み取ったりする事ができます。
 
 ~~~
 [php]
@@ -18,28 +18,77 @@ $width=$component->textWidth;     // textWidth プロパティを取得
 $component->enableCaching=true;   // enableCaching プロパティをセット
 ~~~
 
-コンポーネントのプロパティを定義するためには、単純にコンポーネントクラスの中でパブリックなメンバ変数を宣言すれば十分です。
-しかし、もっと柔軟なやり方は、下記の様に getter や setter メソッドを定義する方法です:
+コンポーネントのプロパティは、二つの異なる方法によって定義することが出来ます。
+一つの方法は、以下の例のように、コンポーネントクラスの中でパブリックなメンバ変数を宣言するという単純な方法です。
 
 ~~~
 [php]
-public function getTextWidth()
+class Document extends CComponent
 {
-    return $this->_textWidth;
-}
-
-public function setTextWidth($value)
-{
-    $this->_textWidth=$value;
+    public $textWidth;
 }
 ~~~
 
-これらのコードは、書き込み可能な `textWidth` プロパティ (この名前の大文字小文字は区別されません) を定義しています。
-プロパティの値を読み取る際は `getTextWidth()` が呼ばれ、プロパティの値が返されます。
-同様に、プロパティに値を書き込む際は `setTextWidth()` が呼ばれます。
-もし setter メソッドが未定義の場合、プロパティは読み取りのみが可能となり、書き込みは例外を発生させるでしょう。
-プロパティを定義するのに getter と setter のメソッドを使用すると、
-プロパティの読み込みや書き込みの時に追加的なロジック (例えば検証の実行やイベントの発生など) を実行することが出来るという利点があります。
+もう一つの方法は getter と setter を使うものです。こちらの方がより柔軟です。
+と言うのは、通常のプロパティに追加して、読出し専用や書込み専用のプロパティを宣言することが出来るからです。
+
+~~~
+[php]
+class Document extends CComponent
+{
+    private $_textWidth;
+    protected $_completed=false;
+
+    public function getTextWidth()
+    {
+        return $this->_textWidth;
+    }
+
+    public function setTextWidth($value)
+    {
+        $this->_textWidth=$value;
+    }
+
+    public function getTextHeight()
+    {
+        // テキストの高さを計算して返す
+    }
+
+    public function setCompleted($value)
+    {
+        $this->_completed=$value;
+    }
+}
+~~~
+
+上記のコンポーネントは以下のようにして使うことが出来ます。
+
+~~~
+[php]
+$document=new Document();
+
+// テキストの幅は設定することも読み出すこともできる
+$document->textWidth=100;
+echo $document->textWidth;
+
+// テキストの高さは読み出すことしか出来ない
+echo $document->textHeight;
+
+// 完了フラグは設定することしかできない
+$document->readOnly=true;
+~~~
+
+コンポーネントのプロパティを読み出そうとするとき、そのプロパティがパブリックなクラスメンバとして定義されていない場合には、
+Yii は getter メソッドを使おうと試みます。`textWidth` に対しては `getTextWidth` が
+getter メソッドになります。また、パブリックなクラスメンバとして定義されていないプロパティに対して
+値を設定しようとする場合にも同じことが起ります。
+
+getter メソッドはあるけれども setter メソッドは無いという場合、そのコンポーネントプロパティは読出し専用になり、
+値を設定しようとすると例外が投げられます。逆の場合は、プロパティは書込み専用になります。
+
+プロパティを定義するのに getter と setter のメソッドを使用することには、
+プロパティの読み出しや書き込みの時に追加的なロジック (例えば検証の実行やイベントの発生など) を実行する
+ことが出来るという利点があります。
 
 >Note|注意: getter/setter メソッドで定義されたプロパティとクラスのメンバ変数には少し違いがあります。
 前者では、名前の大文字小文字は区別されませんが、後者では大文字小文字が区別されます。
