@@ -359,6 +359,10 @@ Now if we access `$author->posts`, we would obtain the author's posts
 sorted according to their creation time in descending order. Each post
 instance also has its categories loaded.
 
+Note: when using eager loading such relation options as 'order', 'group',
+'having', 'limit' and 'offset' will be ignored. You should setup such parameters
+at the main model criteria level if you wish them to be applied.
+
 
 Disambiguating Column Names
 ---------------------------
