@@ -97,7 +97,9 @@
 									params = $.deparam.querystring('?'+ (url[1] || ''));
 
 								delete params[settings.ajaxVar];
-								window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
+
+								var updateUrl = $.param.querystring(url[0], params);
+								window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
 							}
 						} else {
 							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
@@ -130,7 +132,9 @@
 							params = $.deparam.querystring($.param.querystring(url, data));
 
 						delete params[settings.ajaxVar];
-						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url.substr(0, url.indexOf('?')), params)));
+
+						var updateUrl = $.param.querystring(url.substr(0, url.indexOf('?')), params);
+						window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}
@@ -140,7 +144,10 @@
 				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
-						$('#' + id).yiiGridView('update', {url: State.url});
+						if (State.data.url === undefined) {
+							State.data.url = State.url;
+						}
+						$('#' + id).yiiGridView('update', State.data);
 					});
 				}
 
