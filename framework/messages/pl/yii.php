@@ -100,7 +100,7 @@ return array (
   'Event "{class}.{event}" is not defined.' => 'Zdarzenie "{class}.{event}" nie jest zdefiniowane.',
   'Extension path "{path}" does not exist.' => 'Ścieżka rozszerzenia "{path}" nie istnieje.',
   'Failed to initialize the mcrypt module.' => 'Inicjalizacja modułu mcrypt nie powiodła się.',
-  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Ustawianie niebezpiecznego (ang. unsage) atrybutu "{attribute}" klasy "{class}" nie powiodło się',
+  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Ustawianie niebezpiecznego (ang. unsafe) atrybutu "{attribute}" klasy "{class}" nie powiodło się',
   'Failed to start session.' => 'Uruchamianie sesji nie powiodło się',  
   'Failed to write the uploaded file "{file}" to disk.' => 'Zapis przesłanego pliku "{file}" na dysk nie powiódł się.',  
   'File upload was stopped by extension.' => 'Przesyłanie pliku zostało zatrzymane przez rozszerzenie.',
