@@ -638,6 +638,13 @@ class CUrlRule extends CBaseUrlRule
 	public $hasHostInfo;
 
 	/**
+	 * Static callback for preg_replace_callback in counstructor
+	 */
+	private static function pregQuote($matches) {
+		return preg_quote($matches[0]);
+	}
+
+	/**
 	 * Constructor.
 	 * @param string $route the route of the URL (controller/action)
 	 * @param string $pattern the pattern for matching the URL
@@ -690,7 +697,7 @@ class CUrlRule extends CBaseUrlRule
 		$this->template=preg_replace('/<(\w+):?.*?>/','<$1>',$p);
 		$p=$this->template;
 		if(!$this->parsingOnly)
-			$p=preg_replace_callback('/(?<=^|>)[^<]+(?=<|$)/',create_function('$matches', 'return preg_quote($matches[0]);'),$p);
+			$p=preg_replace_callback('/(?<=^|>)[^<]+(?=<|$)/',array(__CLASS__,'pregQuote'),$p);
 		$this->pattern='/^'.strtr($p,$tr).'\/';
 		if($this->append)
 			$this->pattern.='/u';
