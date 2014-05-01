@@ -690,7 +690,7 @@ class CUrlRule extends CBaseUrlRule
 		$this->template=preg_replace('/<(\w+):?.*?>/','<$1>',$p);
 		$p=$this->template;
 		if(!$this->parsingOnly)
-			$p=preg_replace_callback('/(?<=^|>)[^<]+(?=<|$)/',function($matches) { return preg_quote($matches[0]); },$p);
+			$p=preg_replace_callback('/(?<=^|>)[^<]+(?=<|$)/',create_function('$matches', 'return preg_quote($matches[0]);'),$p);
 		$this->pattern='/^'.strtr($p,$tr).'\/';
 		if($this->append)
 			$this->pattern.='/u';
