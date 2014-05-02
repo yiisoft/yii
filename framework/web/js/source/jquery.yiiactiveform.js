@@ -435,6 +435,6 @@
 		 * }
 		 */
 		attributes: [],
-		errorCallback: undefined,
+		errorCallback: undefined
 	};
 })(jQuery);
