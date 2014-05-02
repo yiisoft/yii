@@ -93,6 +93,7 @@ Version 1.1.15 under development
 - Enh #3307: Adding attribute localeClass to CApplication (pawzar)
 - Enh #3314: Removed async from special attribute list enabling async=false for scripts (wilwade)
 - Enh #3324: Added syslog log route (miramir, resurtm)
+- Enh #3349: Added errorCalback to CActiveForm::$clientOptions (rusalex)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
