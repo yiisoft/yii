@@ -196,8 +196,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE، d MMMM، y',
-    'long' => 'd MMMM، y',
+    'full' => 'EEEE، d MMMM y',
+    'long' => 'd MMMM y',
     'medium' => 'yyyy/MM/dd',
     'short' => 'yyyy/M/d',
   ),
