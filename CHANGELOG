@@ -97,6 +97,7 @@ Version 1.1.15 under development
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
+- Enh #3362: Updated i18n data to CLDR 25 (dralshehri)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
