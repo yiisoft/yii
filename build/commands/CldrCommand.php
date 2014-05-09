@@ -225,7 +225,7 @@ EOD;
 
 	protected function parseNumberSymbols($xml,&$data)
 	{
-		foreach($xml->xpath('/ldml/numbers/symbols/*') as $symbol)
+		foreach($xml->xpath('/ldml/numbers/symbols[@numberSystem=\'latn\']/*') as $symbol)
 		{
 			$name=$symbol->getName();
 			if(!isset($data['numberSymbols'][$name]) || (string)$symbol['draft']==='')
@@ -449,7 +449,7 @@ EOD;
 
 	protected function parseOrientation($xml,&$data)
 	{
-		$orientation=$xml->xpath('/ldml/layout/orientation[@characters=\'right-to-left\']');
+		$orientation=$xml->xpath('/ldml/layout/orientation[characterOrder=\'right-to-left\']/characterOrder');
 		if(!empty($orientation))
 			$data['orientation']='rtl';
 		else if(!isset($data['orientation']))
