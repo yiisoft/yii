@@ -10,10 +10,9 @@
  * @copyright 2008-2013 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5798',
+  'version' => '9061',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -21,6 +20,7 @@ return array (
     'plusSign' => '+',
     'minusSign' => '-',
     'exponential' => 'E',
+    'superscriptingExponent' => '×',
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
@@ -28,31 +28,69 @@ return array (
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
-  'currencyFormat' => '¤#,##0.00;(¤#,##0.00)',
+  'currencyFormat' => '¤#,##0.00',
   'currencySymbols' => 
   array (
-    'AUD' => 'AU$',
+    'ARS' => '$',
+    'AUD' => 'A$',
+    'BBD' => '$',
+    'BDT' => '৳',
+    'BMD' => '$',
+    'BND' => '$',
     'BRL' => 'R$',
+    'BSD' => '$',
+    'BYR' => 'р.',
+    'BZD' => '$',
     'CAD' => 'CA$',
+    'CLP' => '$',
     'CNY' => 'CN¥',
+    'COP' => '$',
+    'CRC' => '₡',
+    'CUP' => '$',
+    'DOP' => '$',
+    'ESP' => '₧',
     'EUR' => '€',
+    'FJD' => '$',
     'GBP' => '£',
+    'GHS' => '₵',
+    'GIP' => '£',
+    'GYD' => '$',
     'HKD' => 'HK$',
     'ILS' => '₪',
     'INR' => '₹',
+    'JMD' => '$',
     'JPY' => 'JP¥',
+    'KHR' => '៛',
     'KRW' => '₩',
+    'KYD' => '$',
+    'KZT' => '₸',
+    'LAK' => '₭',
+    'LRD' => '$',
+    'MNT' => '₮',
     'MXN' => 'MX$',
+    'NAD' => '$',
+    'NGN' => '₦',
     'NZD' => 'NZ$',
+    'PHP' => '₱',
+    'PYG' => '₲',
+    'RUR' => 'р.',
+    'SBD' => '$',
+    'SGD' => '$',
+    'SRD' => '$',
+    'SSP' => '£',
     'THB' => '฿',
+    'TRY' => '₺',
+    'TTD' => '$',
     'TWD' => 'NT$',
+    'UAH' => '₴',
     'USD' => 'US$',
+    'UYU' => '$',
     'VND' => '₫',
     'XAF' => 'FCFA',
     'XCD' => 'EC$',
     'XOF' => 'CFA',
     'XPF' => 'CFPF',
-    'ZMK' => 'ZK',
+    'ZMW' => 'K',
   ),
   'monthNames' => 
   array (
@@ -119,26 +157,26 @@ return array (
     ),
     'abbreviated' => 
     array (
-      0 => '1',
-      1 => '2',
-      2 => '3',
-      3 => '4',
-      4 => '5',
-      5 => '6',
-      6 => '7',
+      0 => 'Sun',
+      1 => 'Mon',
+      2 => 'Tue',
+      3 => 'Wed',
+      4 => 'Thu',
+      5 => 'Fri',
+      6 => 'Sat',
     ),
   ),
   'weekDayNamesSA' => 
   array (
     'narrow' => 
     array (
-      0 => '1',
-      1 => '2',
-      2 => '3',
-      3 => '4',
-      4 => '5',
-      5 => '6',
-      6 => '7',
+      0 => 'S',
+      1 => 'M',
+      2 => 'T',
+      3 => 'W',
+      4 => 'T',
+      5 => 'F',
+      6 => 'S',
     ),
   ),
   'eraNames' => 
@@ -164,7 +202,7 @@ return array (
     'full' => 'EEEE, d MMMM y',
     'long' => 'd MMMM y',
     'medium' => 'd MMM y',
-    'short' => 'dd/MM/yyyy',
+    'short' => 'dd/MM/y',
   ),
   'timeFormats' => 
   array (
@@ -177,6 +215,12 @@ return array (
   'amName' => 'uluchelo',
   'pmName' => 'akasuba',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n = 1 @integer 1 @decimal 1.0, 1.00, 1.000, 1.0000',
+    1 => ' @integer 0, 2~16, 100, 1000, 10000, 100000, 1000000, … @decimal 0.0~0.9, 1.1~1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …',
+    2 => 'true',
+  ),
   'languages' => 
   array (
     'ak' => 'Ichi Akan',
@@ -228,10 +272,5 @@ return array (
   'territories' => 
   array (
     'zm' => 'Zambia',
-  ),
-  'pluralRules' => 
-  array (
-    0 => 'n==1',
-    1 => 'true',
   ),
 );

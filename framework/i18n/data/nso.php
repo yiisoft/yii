@@ -10,10 +10,9 @@
  * @copyright 2008-2013 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6546',
+  'version' => '9287',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => ' ',
     'list' => ';',
@@ -21,6 +20,7 @@ return array (
     'plusSign' => '+',
     'minusSign' => '-',
     'exponential' => 'E',
+    'superscriptingExponent' => '×',
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
@@ -31,22 +31,60 @@ return array (
   'currencyFormat' => '¤#,##0.00',
   'currencySymbols' => 
   array (
-    'AUD' => 'AU$',
+    'ARS' => '$',
+    'AUD' => 'A$',
+    'BBD' => '$',
+    'BDT' => '৳',
+    'BMD' => '$',
+    'BND' => '$',
     'BRL' => 'R$',
+    'BSD' => '$',
+    'BYR' => 'р.',
+    'BZD' => '$',
     'CAD' => 'CA$',
+    'CLP' => '$',
     'CNY' => 'CN¥',
+    'COP' => '$',
+    'CRC' => '₡',
+    'CUP' => '$',
+    'DOP' => '$',
+    'ESP' => '₧',
     'EUR' => '€',
+    'FJD' => '$',
     'GBP' => '£',
+    'GHS' => '₵',
+    'GIP' => '£',
+    'GYD' => '$',
     'HKD' => 'HK$',
     'ILS' => '₪',
     'INR' => '₹',
+    'JMD' => '$',
     'JPY' => 'JP¥',
+    'KHR' => '៛',
     'KRW' => '₩',
+    'KYD' => '$',
+    'KZT' => '₸',
+    'LAK' => '₭',
+    'LRD' => '$',
+    'MNT' => '₮',
     'MXN' => 'MX$',
+    'NAD' => '$',
+    'NGN' => '₦',
     'NZD' => 'NZ$',
+    'PHP' => '₱',
+    'PYG' => '₲',
+    'RUR' => 'р.',
+    'SBD' => '$',
+    'SGD' => '$',
+    'SRD' => '$',
+    'SSP' => '£',
     'THB' => '฿',
+    'TRY' => '₺',
+    'TTD' => '$',
     'TWD' => 'NT$',
+    'UAH' => '₴',
     'USD' => 'US$',
+    'UYU' => '$',
     'VND' => '₫',
     'XAF' => 'FCFA',
     'XCD' => 'EC$',
@@ -132,13 +170,13 @@ return array (
   array (
     'narrow' => 
     array (
-      0 => '1',
-      1 => '2',
-      2 => '3',
-      3 => '4',
-      4 => '5',
-      5 => '6',
-      6 => '7',
+      0 => 'S',
+      1 => 'M',
+      2 => 'T',
+      3 => 'W',
+      4 => 'T',
+      5 => 'F',
+      6 => 'S',
     ),
   ),
   'eraNames' => 
@@ -161,10 +199,10 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, y MMMM dd',
+    'full' => 'y MMMM d, EEEE',
     'long' => 'y MMMM d',
     'medium' => 'y MMM d',
-    'short' => 'yyyy-MM-dd',
+    'short' => 'y-MM-dd',
   ),
   'timeFormats' => 
   array (
@@ -177,13 +215,14 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n = 0..1 @integer 0, 1 @decimal 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000',
+    1 => ' @integer 2~17, 100, 1000, 10000, 100000, 1000000, … @decimal 0.1~0.9, 1.1~1.7, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …',
+    2 => 'true',
+  ),
   'languages' => 
   array (
     'nso' => 'Sesotho sa Leboa',
-  ),
-  'pluralRules' => 
-  array (
-    0 => '(n>=0&&n<=1&&fmod(n,1)==0)',
-    1 => 'true',
   ),
 );

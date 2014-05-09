@@ -10,10 +10,9 @@
  * @copyright 2008-2013 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '6546',
+  'version' => '9287',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -21,6 +20,7 @@ return array (
     'plusSign' => '+',
     'minusSign' => '-',
     'exponential' => 'E',
+    'superscriptingExponent' => '×',
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
@@ -31,22 +31,60 @@ return array (
   'currencyFormat' => '¤#,##0.00',
   'currencySymbols' => 
   array (
-    'AUD' => 'AU$',
+    'ARS' => '$',
+    'AUD' => 'A$',
+    'BBD' => '$',
+    'BDT' => '৳',
+    'BMD' => '$',
+    'BND' => '$',
     'BRL' => 'R$',
+    'BSD' => '$',
+    'BYR' => 'р.',
+    'BZD' => '$',
     'CAD' => 'CA$',
+    'CLP' => '$',
     'CNY' => 'CN¥',
+    'COP' => '$',
+    'CRC' => '₡',
+    'CUP' => '$',
+    'DOP' => '$',
+    'ESP' => '₧',
     'EUR' => '€',
+    'FJD' => '$',
     'GBP' => '£',
+    'GHS' => '₵',
+    'GIP' => '£',
+    'GYD' => '$',
     'HKD' => 'HK$',
     'ILS' => '₪',
     'INR' => '₹',
+    'JMD' => '$',
     'JPY' => 'JP¥',
+    'KHR' => '៛',
     'KRW' => '₩',
+    'KYD' => '$',
+    'KZT' => '₸',
+    'LAK' => '₭',
+    'LRD' => '$',
+    'MNT' => '₮',
     'MXN' => 'MX$',
+    'NAD' => '$',
+    'NGN' => '₦',
     'NZD' => 'NZ$',
+    'PHP' => '₱',
+    'PYG' => '₲',
+    'RUR' => 'р.',
+    'SBD' => '$',
+    'SGD' => '$',
+    'SRD' => '$',
+    'SSP' => '£',
     'THB' => '฿',
+    'TRY' => '₺',
+    'TTD' => '$',
     'TWD' => 'NT$',
+    'UAH' => '₴',
     'USD' => 'US$',
+    'UYU' => '$',
     'VND' => '₫',
     'XAF' => 'FCFA',
     'XCD' => 'EC$',
@@ -131,13 +169,13 @@ return array (
   array (
     'narrow' => 
     array (
-      0 => '1',
-      1 => '2',
-      2 => '3',
-      3 => '4',
-      4 => '5',
-      5 => '6',
-      6 => '7',
+      0 => 'S',
+      1 => 'M',
+      2 => 'T',
+      3 => 'W',
+      4 => 'T',
+      5 => 'F',
+      6 => 'S',
     ),
   ),
   'eraNames' => 
@@ -163,7 +201,7 @@ return array (
     'full' => 'EEEE d MMMM y',
     'long' => 'd MMMM y',
     'medium' => 'd MMM y',
-    'short' => 'dd/MM/yyyy',
+    'short' => 'dd/MM/y',
   ),
   'timeFormats' => 
   array (
@@ -176,6 +214,13 @@ return array (
   'amName' => 'a.m.',
   'pmName' => 'p.m.',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n = 1 @integer 1 @decimal 1.0, 1.00, 1.000, 1.0000',
+    1 => 'n = 2 @integer 2 @decimal 2.0, 2.00, 2.000, 2.0000',
+    2 => ' @integer 0, 3~17, 100, 1000, 10000, 100000, 1000000, … @decimal 0.0~0.9, 1.1~1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …',
+    3 => 'true',
+  ),
   'languages' => 
   array (
     'ar' => 'Arabek',
@@ -197,7 +242,7 @@ return array (
     'yue' => 'Kantonek',
     'zh' => 'Chinek',
     'zh_hans' => 'Chinek sempel',
-    'zh_hant' => 'Chinek hengovek',
+    'zh_hant' => 'Chînek Tradycyonal',
   ),
   'scripts' => 
   array (
@@ -215,11 +260,5 @@ return array (
     'jp' => 'Japan',
     'ru' => 'Russi',
     'us' => 'Statys Unys',
-  ),
-  'pluralRules' => 
-  array (
-    0 => 'n==1',
-    1 => 'n==2',
-    2 => 'true',
   ),
 );
