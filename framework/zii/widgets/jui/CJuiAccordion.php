@@ -3,9 +3,9 @@
  * CJuiAccordion class file.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @author Qiang XUe <qiang.xue@gmail.com>
+ * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -14,12 +14,12 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 /**
  * CJuiAccordion displays an accordion widget.
  *
- * CJuiAccordion encapsulates the {@link http://jqueryui.com/demos/accordion/ JUI Accordion}
+ * CJuiAccordion encapsulates the {@link http://jqueryui.com/accordion/ JUI Accordion}
  * plugin.
  *
  * To use this widget, you may insert the following code in a view:
  * <pre>
- * $this->widget('zii.widgets.jui.CJuiAccordion', array(
+ * $this->widget('zii.widgets.jui.CJuiAccordion',array(
  *     'panels'=>array(
  *         'panel 1'=>'content for panel 1',
  *         'panel 2'=>'content for panel 2',
@@ -35,12 +35,13 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI accordion plugin. Please refer to
- * the {@link http://jqueryui.com/demos/accordion/ JUI Accordion} documentation
- * for possible options (name-value pairs).
+ * the {@link http://api.jqueryui.com/accordion/ JUI Accordion API}
+ * documentation for possible options (name-value pairs) and
+ * {@link http://jqueryui.com/accordion/ JUI Accordion page} for general
+ * description and demo.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @author Qiang XUe <qiang.xue@gmail.com>
- * @version $Id$
+ * @author Qiang Xue <qiang.xue@gmail.com>
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -75,8 +76,8 @@ class CJuiAccordion extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		if (isset($this->htmlOptions['id']))
-			$id = $this->htmlOptions['id'];
+		if(isset($this->htmlOptions['id']))
+			$id=$this->htmlOptions['id'];
 		else
 			$this->htmlOptions['id']=$id;
 
@@ -88,7 +89,7 @@ class CJuiAccordion extends CJuiWidget
 		}
 		echo CHtml::closeTag($this->tagName);
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').accordion($options);");
 	}
 }

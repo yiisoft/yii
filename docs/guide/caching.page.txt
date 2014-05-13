@@ -66,8 +66,8 @@ public function filters()
 }
 ~~~
 The above code will set the `Last-Modified` header to the last date at which a 
-post was updated. For lazy evaluation,
-[CHttpCacheFilter::lastModifiedExpression] is available.
+post was updated. You can also use [CHttpCacheFilter::lastModifiedExpression] to set 
+the `Last-Modified` header using a php expression.
 
 > Tip: Both, [CHttpCacheFilter::lastModifiedExpression] and 
 [CHttpCacheFilter::lastModified] can take either an integer representing an 

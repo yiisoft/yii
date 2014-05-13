@@ -187,7 +187,7 @@ Then, the action can be accessed via [route](/doc/guide/basics.controller#route)
 Filter
 ------
 [Filters](/doc/guide/basics.controller#filter) are also used by a [controller](/doc/guide/basics.controller).
-Their mainly pre- and post-process the user request when it is handled by an
+They mainly pre- and post-process the user request when it is handled by an
 [action](/doc/guide/basics.controller#action).
 Given a filter class `XyzClass` belonging to
 the `xyz` extension, we can use it by overriding the [CController::filters] method
@@ -308,6 +308,7 @@ To use a generic [component](/doc/guide/basics.component), we first
 need to include its class file by using
 
 ~~~
+[php]
 Yii::import('ext.xyz.XyzClass');
 ~~~
 

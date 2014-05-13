@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -34,24 +34,25 @@
  *
  * For example, the {@link tabs} property can be configured as follows,
  * <pre>
- * array(
- *     'tab1'=>array(
- *           'title'=>'tab 1 title',
- *           'view'=>'view1',
- *           'data'=>array('model'=>$model),
+ * $this->widget('CTabView', array(
+ *     'tabs'=>array(
+ *         'tab1'=>array(
+ *             'title'=>'tab 1 title',
+ *             'view'=>'view1',
+ *             'data'=>array('model'=>$model),
+ *         ),
+ *         'tab2'=>array(
+ *             'title'=>'tab 2 title',
+ *             'url'=>'http://www.yiiframework.com/',
+ *         ),
  *     ),
- *     'tab2'=>array(
- *           'title'=>'tab 2 title',
- *           'url'=>'http://www.yiiframework.com/',
- *     ),
- * )
+ * ));
  * </pre>
  *
  * By default, the first tab will be activated. To activate a different tab
  * when the page is initially loaded, set {@link activeTab} to be the ID of the desired tab.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */
@@ -123,10 +124,10 @@ class CTabView extends CWidget
 		foreach($this->tabs as $id=>$tab)
 			if(isset($tab['visible']) && $tab['visible']==false)
 				unset($this->tabs[$id]);
-				
+
 		if(empty($this->tabs))
 			return;
-			
+
 		if($this->activeTab===null || !isset($this->tabs[$this->activeTab]))
 		{
 			reset($this->tabs);
@@ -134,7 +135,10 @@ class CTabView extends CWidget
 		}
 
 		$htmlOptions=$this->htmlOptions;
-		$htmlOptions['id']=$this->getId();
+		if(isset($this->htmlOptions['id']))
+			$this->id=$this->htmlOptions['id'];
+		else
+			$htmlOptions['id']=$this->id;
 		if(!isset($htmlOptions['class']))
 			$htmlOptions['class']=self::CSS_CLASS;
 
@@ -199,7 +203,7 @@ class CTabView extends CWidget
 			echo "<div class=\"view\" id=\"{$id}\"{$inactive}>\n";
 			if(isset($tab['content']))
 				echo $tab['content'];
-			else if(isset($tab['view']))
+			elseif(isset($tab['view']))
 			{
 				if(isset($tab['data']))
 				{

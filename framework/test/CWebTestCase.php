@@ -4,10 +4,11 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
+Yii::import('system.test.CTestCase');
 require_once('PHPUnit/Extensions/SeleniumTestCase.php');
 
 /**
@@ -19,7 +20,6 @@ require_once('PHPUnit/Extensions/SeleniumTestCase.php');
  * @property CDbFixtureManager $fixtureManager The database fixture manager.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.test
  * @since 1.1
  */
@@ -38,6 +38,7 @@ abstract class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 * PHP magic method.
 	 * This method is overridden so that named fixture data can be accessed like a normal property.
 	 * @param string $name the property name
+	 * @throws Exception if unknown property is used
 	 * @return mixed the property value
 	 */
 	public function __get($name)

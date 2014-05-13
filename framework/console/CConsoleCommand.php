@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -27,7 +27,7 @@
  * Options are bound to action parameters via parameter names. For example, the following
  * action method will allow us to run a command with <code>yiic sitemap --type=News</code>:
  * <pre>
- * class SitemapCommand {
+ * class SitemapCommand extends CConsoleCommand {
  *     public function actionIndex($type) {
  *         ....
  *     }
@@ -43,7 +43,6 @@
  * the help information for a single action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.console
  * @since 1.0
  */
@@ -132,14 +131,14 @@ abstract class CConsoleCommand extends CComponent
 			{
 				if($param->isArray())
 					$params[]=is_array($options[$name]) ? $options[$name] : array($options[$name]);
-				else if(!is_array($options[$name]))
+				elseif(!is_array($options[$name]))
 					$params[]=$options[$name];
 				else
 					$this->usageError("Option --$name requires a scalar. Array is given.");
 			}
-			else if($name==='args')
+			elseif($name==='args')
 				$params[]=$args;
-			else if($param->isDefaultValueAvailable())
+			elseif($param->isDefaultValueAvailable())
 				$params[]=$param->getDefaultValue();
 			else
 				$this->usageError("Missing required option --$name.");
@@ -238,7 +237,7 @@ abstract class CConsoleCommand extends CComponent
 				else
 					$options[$name]=$value;
 			}
-			else if(isset($action))
+			elseif(isset($action))
 				$params[]=$arg;
 			else
 				$action=$arg;
@@ -275,9 +274,9 @@ abstract class CConsoleCommand extends CComponent
 		$help='Usage: '.$this->getCommandRunner()->getScriptName().' '.$this->getName();
 		$options=$this->getOptionHelp();
 		if(empty($options))
-			return $help;
+			return $help."\n";
 		if(count($options)===1)
-			return $help.' '.$options[0];
+			return $help.' '.$options[0]."\n";
 		$help.=" <action>\nActions:\n";
 		foreach($options as $option)
 			$help.='    '.$option."\n";
@@ -309,7 +308,14 @@ abstract class CConsoleCommand extends CComponent
 				{
 					$optional=$param->isDefaultValueAvailable();
 					$defaultValue=$optional ? $param->getDefaultValue() : null;
+					if(is_array($defaultValue)) {
+						$defaultValue = str_replace(array("\r\n", "\n", "\r"), "", print_r($defaultValue, true));
+					}
 					$name=$param->getName();
+
+					if($name==='args')
+						continue;
+
 					if($optional)
 						$help.=" [--$name=$defaultValue]";
 					else
@@ -387,9 +393,9 @@ abstract class CConsoleCommand extends CComponent
 					$answer=trim(fgets(STDIN));
 					if(!strncasecmp($answer,'q',1))
 						return;
-					else if(!strncasecmp($answer,'y',1))
+					elseif(!strncasecmp($answer,'y',1))
 						echo "  overwrite $name\n";
-					else if(!strncasecmp($answer,'a',1))
+					elseif(!strncasecmp($answer,'a',1))
 					{
 						echo "  overwrite $name\n";
 						$overwriteAll=true;
@@ -418,22 +424,27 @@ abstract class CConsoleCommand extends CComponent
 	 * @param string $sourceDir the source directory
 	 * @param string $targetDir the target directory
 	 * @param string $baseDir base directory
+	 * @param array $ignoreFiles list of the names of files that should
+	 * be ignored in list building process. Argument available since 1.1.11.
+	 * @param array $renameMap hash array of file names that should be
+	 * renamed. Example value: array('1.old.txt'=>'2.new.txt').
+	 * Argument available since 1.1.11.
 	 * @return array the file list (see {@link copyFiles})
 	 */
-	public function buildFileList($sourceDir, $targetDir, $baseDir='')
+	public function buildFileList($sourceDir, $targetDir, $baseDir='', $ignoreFiles=array(), $renameMap=array())
 	{
 		$list=array();
 		$handle=opendir($sourceDir);
 		while(($file=readdir($handle))!==false)
 		{
-			if($file==='.' || $file==='..' || $file==='.svn' ||$file==='.gitignore')
+			if(in_array($file,array('.','..','.svn','.gitignore')) || in_array($file,$ignoreFiles))
 				continue;
 			$sourcePath=$sourceDir.DIRECTORY_SEPARATOR.$file;
-			$targetPath=$targetDir.DIRECTORY_SEPARATOR.$file;
+			$targetPath=$targetDir.DIRECTORY_SEPARATOR.strtr($file,$renameMap);
 			$name=$baseDir===''?$file : $baseDir.'/'.$file;
 			$list[$name]=array('source'=>$sourcePath, 'target'=>$targetPath);
 			if(is_dir($sourcePath))
-				$list=array_merge($list,$this->buildFileList($sourcePath,$targetPath,$name));
+				$list=array_merge($list,$this->buildFileList($sourcePath,$targetPath,$name,$ignoreFiles,$renameMap));
 		}
 		closedir($handle);
 		return $list;
@@ -485,13 +496,14 @@ abstract class CConsoleCommand extends CComponent
 	public function pluralize($name)
 	{
 		$rules=array(
-			'/move$/i' => 'moves',
-			'/foot$/i' => 'feet',
-			'/child$/i' => 'children',
-			'/human$/i' => 'humans',
-			'/man$/i' => 'men',
-			'/tooth$/i' => 'teeth',
-			'/person$/i' => 'people',
+			'/(m)ove$/i' => '\1oves',
+			'/(f)oot$/i' => '\1eet',
+			'/(c)hild$/i' => '\1hildren',
+			'/(h)uman$/i' => '\1umans',
+			'/(m)an$/i' => '\1en',
+			'/(s)taff$/i' => '\1taff',
+			'/(t)ooth$/i' => '\1eeth',
+			'/(p)erson$/i' => '\1eople',
 			'/([m|l])ouse$/i' => '\1ice',
 			'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
 			'/([^aeiouy]|qu)y$/i' => '\1ies',
@@ -552,8 +564,8 @@ abstract class CConsoleCommand extends CComponent
 	 * Asks user to confirm by typing y or n.
 	 *
 	 * @param string $message to echo out before waiting for user input
-	 * @param bool $default this value is returned if no selection is made. This parameter has been available since version 1.1.11.
-	 * @return bool if user confirmed
+	 * @param boolean $default this value is returned if no selection is made. This parameter has been available since version 1.1.11.
+	 * @return boolean whether user confirmed
 	 *
 	 * @since 1.1.9
 	 */

@@ -6,7 +6,7 @@
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -16,7 +16,6 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @version $Id$
  * @package system.db.schema.mssql
  */
 class CMssqlCommandBuilder extends CDbCommandBuilder
@@ -56,6 +55,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * @param CDbTableSchema $table the table metadata
 	 * @param array $data list of columns to be updated (name=>value)
 	 * @param CDbCriteria $criteria the query criteria
+	 * @throws CDbException if no columns are being updated
 	 * @return CDbCommand update command.
 	 */
 	public function createUpdateCommand($table,$data,$criteria)
@@ -77,7 +77,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 					foreach($value->params as $n=>$v)
 						$values[$n]=$v;
 				}
-				else if($bindByPosition)
+				elseif($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';
 					$values[]=$column->typecast($value);
@@ -160,14 +160,15 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * In particular, <b>commas</b> should <b>NOT</b>
 	 * be used as part of the ordering expression or identifier. Commas must only be
 	 * used for separating the ordering clauses.
-	 *  </li>
-	 *  <li>
+	 *   </li>
+	 *   <li>
 	 * In the ORDER BY clause, the column name should NOT be be qualified
 	 * with a table name or view name. Alias the column names or use column index.
-	 * </li>
-	 * <li>
+	 *   </li>
+	 *   <li>
 	 * No clauses should follow the ORDER BY clause, e.g. no COMPUTE or FOR clauses.
-	 * </li>
+	 *   </li>
+	 * </ul>
 	 *
 	 * @param string $sql SQL query string.
 	 * @param integer $limit maximum number of rows, -1 to ignore limit.
@@ -178,11 +179,11 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 */
 	public function applyLimit($sql, $limit, $offset)
 	{
-		$limit = $limit!==null ? intval($limit) : -1;
-		$offset = $offset!==null ? intval($offset) : -1;
+		$limit = $limit!==null ? (int)$limit : -1;
+		$offset = $offset!==null ? (int)$offset : -1;
 		if ($limit > 0 && $offset <= 0) //just limit
 			$sql = preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',"\\1SELECT\\2 TOP $limit", $sql);
-		else if($limit > 0 && $offset > 0)
+		elseif($limit > 0 && $offset > 0)
 			$sql = $this->rewriteLimitOffsetSql($sql, $limit,$offset);
 		return $sql;
 	}
@@ -193,7 +194,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * @param string $sql sql query
 	 * @param integer $limit $limit > 0
 	 * @param integer $offset $offset > 0
-	 * @return sql modified sql query applied with limit and offset.
+	 * @return string modified sql query applied with limit and offset.
 	 *
 	 * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
 	 */
@@ -202,9 +203,9 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 		$fetch = $limit+$offset;
 		$sql = preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',"\\1SELECT\\2 TOP $fetch", $sql);
 		$ordering = $this->findOrdering($sql);
-		$orginalOrdering = $this->joinOrdering($ordering, '[__outer__]');
+		$originalOrdering = $this->joinOrdering($ordering, '[__outer__]');
 		$reverseOrdering = $this->joinOrdering($this->reverseDirection($ordering), '[__inner__]');
-		$sql = "SELECT * FROM (SELECT TOP {$limit} * FROM ($sql) as [__inner__] {$reverseOrdering}) as [__outer__] {$orginalOrdering}";
+		$sql = "SELECT * FROM (SELECT TOP {$limit} * FROM ($sql) as [__inner__] {$reverseOrdering}) as [__outer__] {$originalOrdering}";
 		return $sql;
 	}
 
@@ -304,7 +305,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * If not, order it by pk.
 	 * @param CMssqlTableSchema $table table schema
 	 * @param CDbCriteria $criteria criteria
-	 * @return CDbCrireria the modified criteria
+	 * @return CDbCriteria the modified criteria
 	 */
 	protected function checkCriteria($table, $criteria)
 	{

@@ -1,0 +1,29 @@
+入口腳本
+============
+
+入口腳本是處理用戶的初始引導的 PHP 腳本。它是唯一一個用戶可直接請求執行的 PHP 腳本。
+
+多數情況下，一個 Yii 應用程式的入口腳本包含像下面這樣簡單的腳本：
+
+~~~
+[php]
+// 在發行環境中請刪除此行
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// 包含 Yii 引導文件
+require_once('path/to/yii/framework/yii.php');
+// 建立一個應用程式實體並執行
+$configFile='path/to/config/file.php';
+Yii::createWebApplication($configFile)->run();
+~~~
+
+腳本首先包含了 Yii 框架的引導文件 `yii.php`。然後他按指定的配置建立了一個 Web 應用程式實體並執行。
+
+除錯模式
+----------
+
+Yii 應用程式可以按常數 `YII_DEBUG` 的值運行在除錯或發行模式。預設情況下，此常數值定義為 `false`，
+意為發行模式。要運行在除錯模式中則需要在包含 `yii.php` 文件之前定義此常量為 `true`。
+在除錯模式中運行應用程式效能較低，因為它要維護許多內部日誌。另一角度講，除錯模式在開發環境中非常有用，
+因為它在錯誤產生時提供了豐富的除錯訊息。
+
+<div class="revision">$Id$</div>

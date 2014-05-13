@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -31,7 +31,6 @@
  * @property array $pluralRules Plural forms expressions.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n
  * @since 1.0
  */
@@ -93,6 +92,7 @@ class CLocale extends CComponent
 	 * Since the constructor is protected, please use {@link getInstance}
 	 * to obtain an instance of the specified locale.
 	 * @param string $id the locale ID (e.g. en_US)
+	 * @throws CException if given locale id is not recognized
 	 */
 	protected function __construct($id)
 	{
@@ -223,13 +223,14 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param integer $day weekday (0-6, 0 means Sunday)
+	 * @param integer $day weekday (0-7, 0 and 7 means Sunday)
 	 * @param string $width weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param boolean $standAlone whether the week day name should be returned in stand-alone format
 	 * @return string the weekday name
 	 */
 	public function getWeekDayName($day,$width='wide',$standAlone=false)
 	{
+		$day=$day%7;
 		if($standAlone)
 			return isset($this->_data['weekDayNamesSA'][$width][$day]) ? $this->_data['weekDayNamesSA'][$width][$day] : $this->_data['weekDayNames'][$width][$day];
 		else
@@ -316,7 +317,7 @@ class CLocale extends CComponent
 	 */
 	public function getPluralRules()
 	{
-		return isset($this->_data['pluralRules']) ? $this->_data['pluralRules'] : array();
+		return isset($this->_data['pluralRules']) ? $this->_data['pluralRules'] : array(0=>'true');
 	}
 
 	/**
@@ -353,7 +354,7 @@ class CLocale extends CComponent
 		if(($underscorePosition=strpos($id, '_'))!==false)
 		{
 			$subTag = explode('_', $id);
-			// script sub tags can be distigused from territory sub tags by length
+			// script sub tags can be distinguished from territory sub tags by length
 			if (strlen($subTag[1])===4)
 			{
 				$id = $subTag[1];
@@ -385,8 +386,12 @@ class CLocale extends CComponent
 		if (($underscorePosition=strpos($id, '_'))!== false)
 		{
 			$subTag = explode('_', $id);
-			// territory sub tags can be distigused from script sub tags by length
-			if (strlen($subTag[1])<4)
+			// territory sub tags can be distinguished from script sub tags by length
+			if (isset($subTag[2]) && strlen($subTag[2])<4)
+			{
+				$id = $subTag[2];
+			}
+			elseif (strlen($subTag[1])<4)
 			{
 				$id = $subTag[1];
 			}
@@ -413,19 +418,19 @@ class CLocale extends CComponent
 	public function getLocaleDisplayName($id=null, $category='languages')
 	{
 		$id = $this->getCanonicalID($id);
-		if (isset($this->_data[$category][$id]))
+		if (($category == 'languages') && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];
 		}
-		else if (($category == 'languages') && ($id=$this->getLanguageID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'scripts') && ($val=$this->getScriptID($id)) && (isset($this->_data[$category][$val])))
 		{
-			return $this->_data[$category][$id];
+			return $this->_data[$category][$val];
 		}
-		else if (($category == 'scripts') && ($id=$this->getScriptID($id)) && (isset($this->_data[$category][$id])))
+		elseif (($category == 'territories') && ($val=$this->getTerritoryID($id)) && (isset($this->_data[$category][$val])))
 		{
-			return $this->_data[$category][$id];
+			return $this->_data[$category][$val];
 		}
-		else if (($category == 'territories') && ($id=$this->getTerritoryID($id)) && (isset($this->_data[$category][$id])))
+		elseif (isset($this->_data[$category][$id]))
 		{
 			return $this->_data[$category][$id];
 		}
@@ -441,6 +446,7 @@ class CLocale extends CComponent
 	 */
 	public function getLanguage($id)
 	{
+		$id = $this->getLanguageID($id);
 		return $this->getLocaleDisplayName($id, 'languages');
 	}
 

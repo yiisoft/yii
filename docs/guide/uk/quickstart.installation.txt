@@ -25,5 +25,3 @@ http://hostname/path/to/yii/requirements/index.php
 Для роботи Yii вимагає як мінімум PHP 5.1. Yii тестувалася на
 [Apache HTTP server](http://httpd.apache.org/) під Windows та Linux, але може
 працювати також і на інших веб-серверах та платформах із підтримкою PHP 5.1.
-
-<div class="revision">$Id: quickstart.installation.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>

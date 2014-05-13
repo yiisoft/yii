@@ -14,8 +14,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'Are you sure you want to delete this item?' => 'آیا از حذف این آیتم اطمینان دارید؟',
@@ -35,4 +33,5 @@ return array (
   'Update' => 'به روز رسانی',
   'View' => 'مشاهده',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} می بایست مقادیر  "model" و  "attribute"  یا "name" را مشخص کرده باشد.',
+  'Home' => 'صفحه اول',
 );

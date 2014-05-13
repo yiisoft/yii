@@ -4,15 +4,13 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 /**
  * ApiModel represents the documentation for the Yii framework.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.build
  * @since 1.0
  */
@@ -204,7 +202,7 @@ class ApiModel
 		if(($text=trim($matches[2]))==='')
 			$text=$url;
 
-		if(preg_match('/^(http|ftp):\/\//i',$url))  // an external URL
+		if(preg_match('/^(http|https|ftp):\/\//i',$url))  // an external URL
 			return "<a href=\"$url\">$text</a>";
 		$url=$this->resolveInternalUrl($url);
 		return $url===''?$text:'{{'.$url.'|'.$text.'}}';
@@ -616,7 +614,7 @@ class ApiModel
 			/*
 			 * Get lines with @param, and parameter name
 			 */
-			if(preg_match('/^\s*\*\s*@param\s[A-Za-z0-9_\|]+\s(\$\w+)\s./',$line,$matches,PREG_OFFSET_CAPTURE))
+			if(preg_match('/^\s*\*\s*@param\s[A-Za-z0-9_\|\[\]]+\s(\$\w+)\s./',$line,$matches,PREG_OFFSET_CAPTURE))
 			{
 				$docParam[]=array(
 					'docLine'=>$no+1,

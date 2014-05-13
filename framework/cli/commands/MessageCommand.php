@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -14,7 +14,6 @@
  * under the specified directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.cli.commands
  * @since 1.0
  */
@@ -55,7 +54,8 @@ PARAMETERS
      directory 'sourcePath/a/b'.
    - translator: the name of the function for translating messages.
      Defaults to 'Yii::t'. This is used as a mark to find messages to be
-     translated.
+     translated. Accepts both string for single function name or array for
+     multiple function names.
    - overwrite: if message file must be overwritten with the merged messages.
    - removeOld: if message no longer needs translation it will be removed,
      instead of being enclosed between a pair of '@@' marks.
@@ -67,7 +67,7 @@ EOD;
 
 	/**
 	 * Execute the action.
-	 * @param array command line parameters specific for this command
+	 * @param array $args command line parameters specific for this command
 	 */
 	public function run($args)
 	{
@@ -76,7 +76,7 @@ EOD;
 		if(!is_file($args[0]))
 			$this->usageError("the configuration file {$args[0]} does not exist.");
 
-		$config=require_once($args[0]);
+		$config=require($args[0]);
 		$translator='Yii::t';
 		extract($config);
 
@@ -97,7 +97,7 @@ EOD;
 
 		if(!isset($sort))
 			$sort = false;
-		
+
 		$options=array();
 		if(isset($fileTypes))
 			$options['fileTypes']=$fileTypes;
@@ -126,16 +126,23 @@ EOD;
 	{
 		echo "Extracting messages from $fileName...\n";
 		$subject=file_get_contents($fileName);
-		$n=preg_match_all('/\b'.$translator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
 		$messages=array();
-		for($i=0;$i<$n;++$i)
+		if(!is_array($translator))
+			$translator=array($translator);
+
+		foreach ($translator as $currentTranslator)
 		{
-			if(($pos=strpos($matches[$i][1],'.'))!==false)
-				$category=substr($matches[$i][1],$pos+1,-1);
-			else
-				$category=substr($matches[$i][1],1,-1);
-			$message=$matches[$i][2];
-			$messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
+			$n=preg_match_all('/\b'.$currentTranslator.'\s*\(\s*(\'[\w.\/]*?(?<!\.)\'|"[\w.]*?(?<!\.)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
+
+			for($i=0;$i<$n;++$i)
+			{
+				if(($pos=strpos($matches[$i][1],'.'))!==false)
+					$category=substr($matches[$i][1],$pos+1,-1);
+				else
+					$category=substr($matches[$i][1],1,-1);
+				$message=$matches[$i][2];
+				$messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
+			}
 		}
 		return $messages;
 	}
@@ -157,7 +164,7 @@ EOD;
 			$untranslated=array();
 			foreach($messages as $message)
 			{
-				if(!empty($translated[$message]))
+				if(array_key_exists($message,$translated) && strlen($translated[$message])>0)
 					$merged[$message]=$translated[$message];
 				else
 					$untranslated[]=$message;
@@ -212,8 +219,6 @@ EOD;
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version \$Id: \$
  */
 return $array;
 

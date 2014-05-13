@@ -148,8 +148,8 @@ class TestController extends CController
 
 Тепер до дії можна звернутися по [маршруту](/doc/guide/basics.controller#route) `test/xyz`.
 
-Фільтри
--------
+Фільтр
+------
 
 [Фільтри](/doc/guide/basics.controller#filter) також використовуються в [контролерах](/doc/guide/basics.controller). В основному вони використовуються в [діях](/doc/guide/basics.controller#action) для здійснення перед- і пост-обробки користувальницького запиту. Фільтр класу `XyzClass` розширення `xyz` можна використовувати шляхом перевизначення методу [CController::filters] у нашому класі контролера:
 
@@ -252,9 +252,8 @@ return array(
 Щоб використовувати загальний [компонент](/doc/guide/basics.component), потрібно для початку включити його клас:
 
 ~~~
+[php]
 Yii::import('ext.xyz.XyzClass');
 ~~~
 
 Тепер ми можемо створювати екземпляр цього класу, налаштувати його властивості, викликати його методи. Крім того, можна його розширити для створення дочірніх класів.
-
-<div class="revision">$Id: extension.use.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

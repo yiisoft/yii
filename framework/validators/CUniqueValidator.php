@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -20,7 +20,6 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -52,8 +51,9 @@ class CUniqueValidator extends CValidator
 	 */
 	public $attributeName;
 	/**
-	 * @var array additional query criteria. This will be combined with the condition
-	 * that checks if the attribute value exists in the corresponding table column.
+	 * @var mixed additional query criteria. Either an array or CDbCriteria.
+	 * This will be combined with the condition that checks if the attribute
+	 * value exists in the corresponding table column.
 	 * This array will be used to instantiate a {@link CDbCriteria} object.
 	 */
 	public $criteria=array();
@@ -75,6 +75,7 @@ class CUniqueValidator extends CValidator
 	 * If there is any error, the error message is added to the object.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 * @throws CException if given table does not have specified column name
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -82,21 +83,29 @@ class CUniqueValidator extends CValidator
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 
+		if(is_array($value))
+		{
+			// https://github.com/yiisoft/yii/issues/1955
+			$this->addError($object,$attribute,Yii::t('yii','{attribute} is invalid.'));
+			return;
+		}
+
 		$className=$this->className===null?get_class($object):Yii::import($this->className);
 		$attributeName=$this->attributeName===null?$attribute:$this->attributeName;
-		$finder=CActiveRecord::model($className);
+		$finder=$this->getModel($className);
 		$table=$finder->getTableSchema();
 		if(($column=$table->getColumn($attributeName))===null)
 			throw new CException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
 				array('{column}'=>$attributeName,'{table}'=>$table->name)));
 
 		$columnName=$column->rawName;
-		$criteria=new CDbCriteria(array(
-			'condition'=>$this->caseSensitive ? "$columnName=:value" : "LOWER($columnName)=LOWER(:value)",
-			'params'=>array(':value'=>$value),
-		));
+		$criteria=new CDbCriteria();
 		if($this->criteria!==array())
 			$criteria->mergeWith($this->criteria);
+		$tableAlias = empty($criteria->alias) ? $finder->getTableAlias(true) : $criteria->alias;
+		$valueParamName = CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount++;
+		$criteria->addCondition($this->caseSensitive ? "{$tableAlias}.{$columnName}={$valueParamName}" : "LOWER({$tableAlias}.{$columnName})=LOWER({$valueParamName})");
+		$criteria->params[$valueParamName] = $value;
 
 		if(!$object instanceof CActiveRecord || $object->isNewRecord || $object->tableName()!==$finder->tableName())
 			$exists=$finder->exists($criteria);
@@ -124,6 +133,19 @@ class CUniqueValidator extends CValidator
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} "{value}" has already been taken.');
 			$this->addError($object,$attribute,$message,array('{value}'=>CHtml::encode($value)));
 		}
+	}
+	
+	/**
+	 * Given active record class name returns new model instance.
+	 *
+	 * @param string $className active record class name.
+	 * @return CActiveRecord active record model instance.
+	 *
+	 * @since 1.1.14
+	 */
+	protected function getModel($className)
+	{
+		return CActiveRecord::model($className);
 	}
 }
 

@@ -13,6 +13,9 @@ CREATE TABLE test.users
 	email VARCHAR(128) NOT NULL
 );
 
+COMMENT ON COLUMN test.users.username IS 'Name of the user';
+COMMENT ON COLUMN test.users.password IS 'Hashed password';
+
 INSERT INTO test.users (username, password, email) VALUES ('user1','pass1','email1');
 INSERT INTO test.users (username, password, email) VALUES ('user2','pass2','email2');
 INSERT INTO test.users (username, password, email) VALUES ('user3','pass3','email3');
@@ -61,6 +64,17 @@ INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 2'
 INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 3',TIMESTAMP '2004-10-19 10:23:54',2,'content 3');
 INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 4',TIMESTAMP '2004-10-19 10:23:54',2,'content 4');
 INSERT INTO test.posts (title, create_time, author_id, content) VALUES ('post 5',TIMESTAMP '2004-10-19 10:23:54',3,'content 5');
+
+CREATE TABLE test.nullable_posts
+(
+	id SERIAL NOT NULL PRIMARY KEY,
+	title VARCHAR(128) NULL,
+	create_time TIMESTAMP NULL,
+	author_id INTEGER NULL,
+	content TEXT NULL,
+	CONSTRAINT FK_post_author FOREIGN KEY (author_id)
+		REFERENCES test.users (id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
 
 CREATE TABLE test.comments
 (

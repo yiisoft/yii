@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Unauthorized</title>
+<title>Forbidden</title>
 <style type="text/css">
 /*<![CDATA[*/
 body {font-family:"Verdana";font-weight:normal;color:black;background-color:white;}
@@ -17,7 +17,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 </style>
 </head>
 <body>
-<h1>Unauthorized</h1>
+<h1>Forbidden</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
 You do not have the proper credential to access this page.

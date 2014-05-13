@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'Action class {class} must implement the "run" method.' => 'A classe Action {class} deve implementar o método "run".',
@@ -84,7 +82,7 @@ return array (
   'CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.' => 'CDbLogRoute.connectionID "{id}" não aponta a um componente CDbConnection válido da aplicação.',
   'CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.' => 'CDbMessageSource.connectionID é inválido. Por favor, tenha certeza de que "{id}" refer-se a um componente válido de banco de dados.',
   'CDbTestFixture.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'CDbTestFixture.connectionID "{id}" é invãlido. Por favor, assegure-se de que ele faz referência ao ID de um componente CDbConnection.',
-  'CDbTransaction is inactive and cannot perform commit or roll back operations.' => 'CDbTransaction está inativo e não pode realziar as operações commit ou roll back.',
+  'CDbTransaction is inactive and cannot perform commit or roll back operations.' => 'CDbTransaction está inativo e não pode realizar as operações commit ou roll back.',
   'CDirectoryCacheDependency.directory cannot be empty.' => 'CDirectoryCacheDependency.directory não pode estar vazio.',
   'CEAcceleratorCache requires PHP eAccelerator extension to be loaded, enabled or compiled with the "--with-eaccelerator-shared-memory" option.' => 'CEAcceleratorCache exige que a extensão PHP eAccelerator tenha sido carregada, habilitada ou compilada com a opção "--with-eaccelerator-shared-memory".',
   'CFileCacheDependency.fileName cannot be empty.' => 'CFileCacheDependency.fileName não pode estar vazio.',

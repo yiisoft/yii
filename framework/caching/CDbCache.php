@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -27,7 +27,6 @@
  * @property CDbConnection $dbConnection The DB connection instance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */
@@ -125,7 +124,7 @@ class CDbCache extends CCache
 		$driver=$db->getDriverName();
 		if($driver==='mysql')
 			$blob='LONGBLOB';
-		else if($driver==='pgsql')
+		elseif($driver==='pgsql')
 			$blob='BYTEA';
 		else
 			$blob='BLOB';
@@ -148,7 +147,7 @@ EOD;
 	{
 		if($this->_db!==null)
 			return $this->_db;
-		else if(($id=$this->connectionID)!==null)
+		elseif(($id=$this->connectionID)!==null)
 		{
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
@@ -177,7 +176,7 @@ EOD;
 	 * Retrieves a value from cache with a specified key.
 	 * This is the implementation of the method declared in the parent class.
 	 * @param string $key a unique key identifying the cached value
-	 * @return string the value stored in cache, false if the value is not in the cache or expired.
+	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	protected function getValue($key)
 	{

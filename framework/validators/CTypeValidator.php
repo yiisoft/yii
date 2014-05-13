@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -38,7 +38,6 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -74,6 +73,15 @@ class CTypeValidator extends CValidator
 	public $allowEmpty=true;
 
 	/**
+	 * @var boolean whether the actual PHP type of attribute value should be checked.
+	 * Defaults to false, meaning that correctly formatted strings are accepted for
+	 * integer and float validators.
+	 *
+	 * @since 1.1.13
+	 */
+	public $strict=false;
+
+	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
 	 * @param CModel $object the object being validated
@@ -85,26 +93,40 @@ class CTypeValidator extends CValidator
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 
-		if($this->type==='integer')
-			$valid=preg_match('/^[-+]?[0-9]+$/',trim($value));
-		else if($this->type==='float')
-			$valid=preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
-		else if($this->type==='date')
-			$valid=CDateTimeParser::parse($value,$this->dateFormat,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
-	    else if($this->type==='time')
-			$valid=CDateTimeParser::parse($value,$this->timeFormat)!==false;
-	    else if($this->type==='datetime')
-			$valid=CDateTimeParser::parse($value,$this->datetimeFormat, array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
-		else if($this->type==='array')
-			$valid=is_array($value);
-		else
-			return;
-
-		if(!$valid)
+		if(!$this->validateValue($value))
 		{
 			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} must be {type}.');
 			$this->addError($object,$attribute,$message,array('{type}'=>$this->type));
 		}
 	}
-}
 
+	/**
+	 * Validates a static value.
+	 * Note that this method does not respect {@link allowEmpty} property.
+	 * This method is provided so that you can call it directly without going through the model validation rule mechanism.
+	 * @param mixed $value the value to be validated
+	 * @return boolean whether the value is valid
+	 * @since 1.1.13
+	 */
+	public function validateValue($value)
+	{
+		$type=$this->type==='float' ? 'double' : $this->type;
+		if($type===gettype($value))
+			return true;
+		elseif($this->strict || is_array($value) || is_object($value) || is_resource($value) || is_bool($value))
+			return false;
+
+		if($type==='integer')
+			return (boolean)preg_match('/^[-+]?[0-9]+$/',trim($value));
+		elseif($type==='double')
+			return (boolean)preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
+		elseif($type==='date')
+			return CDateTimeParser::parse($value,$this->dateFormat,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
+		elseif($type==='time')
+			return CDateTimeParser::parse($value,$this->timeFormat)!==false;
+		elseif($type==='datetime')
+			return CDateTimeParser::parse($value,$this->datetimeFormat, array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
+
+		return false;
+	}
+}

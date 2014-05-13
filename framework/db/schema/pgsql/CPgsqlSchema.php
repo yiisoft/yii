@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,7 +12,6 @@
  * CPgsqlSchema is the class for retrieving metadata information from a PostgreSQL database.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db.schema.pgsql
  * @since 1.0
  */
@@ -24,21 +23,23 @@ class CPgsqlSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'serial NOT NULL PRIMARY KEY',
-        'string' => 'character varying (255)',
-        'text' => 'text',
-        'integer' => 'integer',
-        'float' => 'double precision',
-        'decimal' => 'numeric',
-        'datetime' => 'timestamp',
-        'timestamp' => 'timestamp',
-        'time' => 'time',
-        'date' => 'date',
-        'binary' => 'bytea',
-        'boolean' => 'boolean',
+	public $columnTypes=array(
+		'pk' => 'serial NOT NULL PRIMARY KEY',
+		'bigpk' => 'bigserial NOT NULL PRIMARY KEY',
+		'string' => 'character varying (255)',
+		'text' => 'text',
+		'integer' => 'integer',
+		'bigint' => 'bigint',
+		'float' => 'double precision',
+		'decimal' => 'numeric',
+		'datetime' => 'timestamp',
+		'timestamp' => 'timestamp',
+		'time' => 'time',
+		'date' => 'date',
+		'binary' => 'bytea',
+		'boolean' => 'boolean',
 		'money' => 'decimal(19,4)',
-    );
+	);
 
 	private $_sequences=array();
 
@@ -57,25 +58,27 @@ class CPgsqlSchema extends CDbSchema
 	/**
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
-	 * will have the specified value or 1.
+	 * will have the specified value or max value of a primary key plus one (i.e. sequence trimming).
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
-	 * the next new row's primary key will have a value 1.
+	 * @param integer|null $value the value for the primary key of the next new row inserted.
+	 * If this is not set, the next new row's primary key will have the max value of a primary
+	 * key plus one (i.e. sequence trimming).
 	 * @since 1.1
 	 */
 	public function resetSequence($table,$value=null)
 	{
-		if($table->sequenceName!==null)
-		{
-			$seq='"'.$table->sequenceName.'"';
-			if(strpos($seq,'.')!==false)
-				$seq=str_replace('.','"."',$seq);
-			if($value===null)
-				$value="(SELECT COALESCE(MAX(\"{$table->primaryKey}\"),0) FROM {$table->rawName}) + 1";
-			else
-				$value=(int)$value;
-			$this->getDbConnection()->createCommand("SELECT SETVAL('$seq', $value, false)")->execute();
-		}
+		if($table->sequenceName===null)
+			return;
+		$sequence='"'.$table->sequenceName.'"';
+		if(strpos($sequence,'.')!==false)
+			$sequence=str_replace('.','"."',$sequence);
+		if($value!==null)
+			$value=(int)$value;
+		else
+			$value="(SELECT COALESCE(MAX(\"{$table->primaryKey}\"),0) FROM {$table->rawName})+1";
+		$this->getDbConnection()
+			->createCommand("SELECT SETVAL('$sequence',$value,false)")
+			->execute();
 	}
 
 	/**
@@ -113,7 +116,7 @@ class CPgsqlSchema extends CDbSchema
 
 		if(is_string($table->primaryKey) && isset($this->_sequences[$table->rawName.'.'.$table->primaryKey]))
 			$table->sequenceName=$this->_sequences[$table->rawName.'.'.$table->primaryKey];
-		else if(is_array($table->primaryKey))
+		elseif(is_array($table->primaryKey))
 		{
 			foreach($table->primaryKey as $pk)
 			{
@@ -163,7 +166,8 @@ class CPgsqlSchema extends CDbSchema
 	protected function findColumns($table)
 	{
 		$sql=<<<EOD
-SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, d.adsrc, a.attnotnull, a.atthasdef
+SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, d.adsrc, a.attnotnull, a.atthasdef,
+	pg_catalog.col_description(a.attrelid, a.attnum) AS comment
 FROM pg_attribute a LEFT JOIN pg_attrdef d ON a.attrelid = d.adrelid AND a.attnum = d.adnum
 WHERE a.attnum > 0 AND NOT a.attisdropped
 	AND a.attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname=:table
@@ -207,6 +211,7 @@ EOD;
 		$c->allowNull=!$column['attnotnull'];
 		$c->isPrimaryKey=false;
 		$c->isForeignKey=false;
+		$c->comment=$column['comment']===null ? '' : $column['comment'];
 
 		$c->init($column['type'],$column['atthasdef'] ? $column['adsrc'] : null);
 
@@ -268,7 +273,7 @@ EOD;
 		{
 			if($row['contype']==='p') // primary key
 				$this->findPrimaryKey($table,$row['indkey']);
-			else if($row['contype']==='f') // foreign key
+			elseif($row['contype']==='f') // foreign key
 				$this->findForeignKey($table,$row['consrc']);
 		}
 	}
@@ -288,7 +293,7 @@ SELECT attnum, attname FROM pg_catalog.pg_attribute WHERE
 			SELECT oid FROM pg_catalog.pg_namespace WHERE nspname=:schema
 		)
 	)
-    AND attnum IN ({$indices})
+	AND attnum IN ({$indices})
 EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
 		$command->bindValue(':table',$table->name);
@@ -301,7 +306,7 @@ EOD;
 				$table->columns[$name]->isPrimaryKey=true;
 				if($table->primaryKey===null)
 					$table->primaryKey=$name;
-				else if(is_string($table->primaryKey))
+				elseif(is_string($table->primaryKey))
 					$table->primaryKey=array($table->primaryKey,$name);
 				else
 					$table->primaryKey[]=$name;
@@ -388,7 +393,7 @@ EOD;
 		$type=$this->getColumnType($type);
 		$sql='ALTER TABLE ' . $this->quoteTableName($table)
 			. ' ADD COLUMN ' . $this->quoteColumnName($column) . ' '
-			. $this->getColumnType($type);
+			. $type;
 		return $sql;
 	}
 
@@ -411,6 +416,42 @@ EOD;
 	}
 
 	/**
+	 * Builds a SQL statement for creating a new index.
+	 * @param string $name the name of the index. The name will be properly quoted by the method.
+	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
+	 * @param string $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
+	 * by commas. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
+	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
+	 * @return string the SQL statement for creating a new index.
+	 * @since 1.1.6
+	 */
+	public function createIndex($name, $table, $columns, $unique=false)
+	{
+		$cols=array();
+		if (is_string($columns))
+			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $col)
+		{
+			if(strpos($col,'(')!==false)
+				$cols[]=$col;
+			else
+				$cols[]=$this->quoteColumnName($col);
+		}
+		if ($unique)
+		{
+			return 'ALTER TABLE ONLY '
+				. $this->quoteTableName($table).' ADD CONSTRAINT '
+				. $this->quoteTableName($name).' UNIQUE ('.implode(', ',$cols).')';
+		}
+		else
+		{
+			return 'CREATE INDEX '
+				. $this->quoteTableName($name).' ON '
+				. $this->quoteTableName($table).' ('.implode(', ',$cols).')';
+		}
+	}
+
+	/**
 	 * Builds a SQL statement for dropping an index.
 	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
@@ -420,5 +461,15 @@ EOD;
 	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name);
+	}
+
+	/**
+	 * Creates a command builder for the database.
+	 * This method may be overridden by child classes to create a DBMS-specific command builder.
+	 * @return CPgsqlCommandBuilder command builder instance.
+	 */
+	protected function createCommandBuilder()
+	{
+		return new CPgsqlCommandBuilder($this);
 	}
 }

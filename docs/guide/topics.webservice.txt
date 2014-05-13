@@ -37,8 +37,7 @@ parameters and return value.
 Let's start with a simple stock quoting service. This service allows a
 client to request for the quote of the specified stock. We define the
 service provider as follows. Note that we define the provider class
-`StockController` by extending [CController]. This is not required. We will
-explain why we do so shortly.
+`StockController` by extending [CController]. This is not required.
 
 ~~~
 [php]
@@ -215,10 +214,10 @@ class PostController extends CController
 Intercepting Remote Method Invocation
 -------------------------------------
 
-By implementing the [IWebServiceProvider] interface, a sevice provider can
+By implementing the [IWebServiceProvider] interface, a service provider can
 intercept remote method invocations. In
 [IWebServiceProvider::beforeWebMethod], the provider may retrieve the
-current [CWebService] instance and obtain the the name of the method
+current [CWebService] instance and obtain the name of the method
 currently being requested via [CWebService::methodName]. It can return
 false if the remote method should not be invoked for some reason (e.g.
 unauthorized access).

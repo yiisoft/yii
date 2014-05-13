@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -29,6 +29,13 @@
  * <li>number: an HTML5 number input generated using {@link CHtml::activeNumberField}</li>
  * <li>range: an HTML5 range input generated using {@link CHtml::activeRangeField}</li>
  * <li>date: an HTML5 date input generated using {@link CHtml::activeDateField}</li>
+ * <li>time: an HTML5 time input generated using {@link CHtml::activeTimeField}</li>
+ * <li>datetime: an HTML5 datetime input generated using {@link CHtml::activeDateTimeField}</li>
+ * <li>datetimelocal: an HTML5 datetime-local input generated using {@link CHtml::activeDateTimeLocalField}</li>
+ * <li>week: an HTML5 week input generated using {@link CHtml::activeWeekField}</li>
+ * <li>color: an HTML5 color input generated using {@link CHtml::activeColorField}</li>
+ * <li>tel: an HTML5 tel input generated using {@link CHtml::activeTelField}</li>
+ * <li>search: an HTML5 search input generated using {@link CHtml::activeSearchField}</li>
  * </ul>
  * The {@link type} property can also be a class name or a path alias to the class. In this case,
  * the input is generated using a widget of the specified class. Note, the widget must
@@ -44,7 +51,6 @@
  * this method will call {@link CModel::getAttributeLabel} to determine the label.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */
@@ -69,12 +75,19 @@ class CFormInputElement extends CFormElement
 		'email'=>'activeEmailField',
 		'number'=>'activeNumberField',
 		'range'=>'activeRangeField',
-		'date'=>'activeDateField'
+		'date'=>'activeDateField',
+		'time'=>'activeTimeField',
+		'datetime'=>'activeDateTimeField',
+		'datetimelocal'=>'activeDateTimeLocalField',
+		'week'=>'activeWeekField',
+		'color'=>'activeColorField',
+		'tel'=>'activeTelField',
+		'search'=>'activeSearchField',
 	);
 
 	/**
 	 * @var string the type of this input. This can be a widget class name, a path alias of a widget class name,
-	 * or a input type alias (text, hidden, password, textarea, file, radio, checkbox, listbox, dropdownlist, checkboxlist, or radiolist).
+	 * or an input type alias (text, hidden, password, textarea, file, radio, checkbox, listbox, dropdownlist, checkboxlist, or radiolist).
 	 * If a widget class, it must extend from {@link CInputWidget} or (@link CJuiInputWidget).
 	 */
 	public $type;
@@ -180,7 +193,7 @@ class CFormInputElement extends CFormElement
 			'{label}'=>$this->renderLabel(),
 			'{input}'=>$this->renderInput(),
 			'{hint}'=>$this->renderHint(),
-			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
+			'{error}'=>!$this->getParent()->showErrors ? '' : $this->renderError(),
 		);
 		return strtr($this->layout,$output);
 	}
@@ -198,9 +211,7 @@ class CFormInputElement extends CFormElement
 		);
 
 		if(!empty($this->attributes['id']))
-        {
-            $options['for'] = $this->attributes['id'];
-        }
+			$options['for']=$this->attributes['id'];
 
 		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);
 	}

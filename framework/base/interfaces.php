@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -15,7 +15,6 @@
  * method of every loaded application component.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -38,7 +37,6 @@ interface IApplicationComponent
  * This interface must be implemented by classes supporting caching feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */
@@ -106,7 +104,6 @@ interface ICache
  * Objects implementing this interface must be able to be serialized and unserialized.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */
@@ -125,12 +122,11 @@ interface ICacheDependency
 
 
 /**
- * IStatePersister is the interface that must be implemented by state persister calsses.
+ * IStatePersister is the interface that must be implemented by state persister classes.
  *
  * This interface must be implemented by all state persister classes (such as
  * {@link CStatePersister}.
  *
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -152,7 +148,6 @@ interface IStatePersister
 /**
  * IFilter is the interface that must be implemented by action filters.
  *
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -172,7 +167,6 @@ interface IFilter
 /**
  * IAction is the interface that must be implemented by controller actions.
  *
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -195,7 +189,6 @@ interface IAction
  * If this interface is implemented, the provider instance will be able
  * to intercept the remote method invocation (e.g. for logging or authentication purpose).
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -223,7 +216,6 @@ interface IWebServiceProvider
  * implemented in {@link CBaseController}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -249,7 +241,6 @@ interface IViewRenderer
  * used with the {@link CWebApplication::user user application component}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -292,7 +283,6 @@ interface IUserIdentity
  * for the current user.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -340,7 +330,6 @@ interface IWebUser
  * An auth manager is mainly responsible for providing role-based access control (RBAC) service.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -348,8 +337,8 @@ interface IAuthManager
 {
 	/**
 	 * Performs access check for the specified user.
-	 * @param string $itemName the name of the operation that need access check
-	 * @param mixed $userId the user ID. This should can be either an integer and a string representing
+	 * @param string $itemName the name of the operation that we are checking access to
+	 * @param mixed $userId the user ID. This should be either an integer or a string representing
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
@@ -361,7 +350,7 @@ interface IAuthManager
 	 * Creates an authorization item.
 	 * An authorization item represents an action permission (e.g. creating a post).
 	 * It has three types: operation, task and role.
-	 * Authorization items form a hierarchy. Higher level items inheirt permissions representing
+	 * Authorization items form a hierarchy. Higher level items inherit permissions representing
 	 * by lower level items.
 	 * @param string $name the item name. This must be a unique identifier.
 	 * @param integer $type the item type (0: operation, 1: task, 2: role).
@@ -499,7 +488,7 @@ interface IAuthManager
 	 * @param string $bizRule the business rule to be executed.
 	 * @param array $params additional parameters to be passed to the business rule when being executed.
 	 * @param mixed $data additional data that is associated with the corresponding authorization item or assignment
-	 * @return whether the execution returns a true value.
+	 * @return boolean whether the execution returns a true value.
 	 * If the business rule is empty, it will also return true.
 	 */
 	public function executeBizRule($bizRule,$params,$data);
@@ -513,7 +502,6 @@ interface IAuthManager
  * are defined in the behavior class and not available in the component class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  */
 interface IBehavior
@@ -545,7 +533,6 @@ interface IBehavior
  * it will be used for creating the requested widget.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.1
  */
@@ -568,7 +555,6 @@ interface IWidgetFactory
  * Besides providing data, they also support pagination and sorting.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.1
  */
@@ -615,3 +601,31 @@ interface IDataProvider
 	 */
 	public function getPagination();
 }
+
+
+/**
+ * ILogFilter is the interface that must be implemented by log filters.
+ *
+ * A log filter preprocesses the logged messages before they are handled by a log route.
+ * You can attach classes that implement ILogFilter to {@link CLogRoute::$filter}.
+ *
+ * @package system.logging
+ * @since 1.1.11
+ */
+interface ILogFilter
+{
+	/**
+	 * This method should be implemented to perform actual filtering of log messages
+	 * by working on the array given as the first parameter.
+	 * Implementation might reformat, remove or add information to logged messages.
+	 * @param array $logs list of messages. Each array element represents one message
+	 * with the following structure:
+	 * array(
+	 *   [0] => message (string)
+	 *   [1] => level (string)
+	 *   [2] => category (string)
+	 *   [3] => timestamp (float, obtained by microtime(true));
+	 */
+	public function filter(&$logs);
+}
+

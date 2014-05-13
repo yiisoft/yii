@@ -21,14 +21,14 @@
 public function accessRules()
 {
 	return array(
-		array('allow',  // allow all users to perform 'list' and 'show' actions
+		array('allow',  // позволим всем пользователям выполнять действия 'list' и 'show'
 			'actions'=>array('index', 'view'),
 			'users'=>array('*'),
 		),
-		array('allow', // allow authenticated users to perform any action
+		array('allow', // позволим аутентифицированным пользователям выполнять любые действия
 			'users'=>array('@'),
 		),
-		array('deny',  // deny all users
+		array('deny',  // остальным запретим всё
 			'users'=>array('*'),
 		),
 	);
@@ -121,5 +121,3 @@ protected function afterFind()
 Здесь мы не будем детально рассматривать метод `Tag::updateFrequency()`.
 Заинтересованные читатели могут ознакомиться с ним в файле
 `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
-
-<div class="revision">$Id: post.create.txt 3209 2011-05-12 12:11:03Z mdomba $</div>

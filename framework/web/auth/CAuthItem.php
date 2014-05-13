@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -25,7 +25,6 @@
  * @property array $children All child items of this item.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -47,7 +46,7 @@ class CAuthItem extends CComponent
 	 * @param IAuthManager $auth authorization manager
 	 * @param string $name authorization item name
 	 * @param integer $type authorization item type. This can be 0 (operation), 1 (task) or 2 (role).
-	 * @param description $description the description
+	 * @param string $description the description
 	 * @param string $bizRule the business rule associated with this item
 	 * @param mixed $data additional data for this item
 	 */
@@ -63,7 +62,8 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Checks to see if the specified item is within the hierarchy starting from this item.
-	 * This method is internally used by {@link IAuthManager::checkAccess}.
+	 * This method is expected to be internally used by the actual implementations
+	 * of the {@link IAuthManager::checkAccess}.
 	 * @param string $itemName the name of the item to be checked
 	 * @param array $params the parameters to be passed to business rule evaluation
 	 * @return boolean whether the specified item is within the hierarchy starting from this item.

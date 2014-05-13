@@ -2,14 +2,14 @@ Korzystanie z alternatywnych składni szablonów
 =================================
 
 Yii pozwala deweloperom na korzystanie ze swojej ulubionej składni szablonów (np. Prado, Smarty)
-podczas pisania kontrolera lub widoków widżetu. Jest to możliwe poprzez utworzenie    
+podczas pisania kontrolera lub widoków widżetu. Jest to możliwe poprzez utworzenie 
 i zainstalowanie komponentu aplikacji [viewRenderer|CWebApplication::viewRenderer].
 
 Generator widoków przechwytuje wywołania metody [CBaseController::renderFile], 
 kompiluje plik widoku przy użyciu niestandardowej składni szablonów i generuje 
 wynik kompilacji. 
 
-> Info|Info: Rekomenduje się używanie niestandardowej składni szablonów tylko podczas  
+> Info|Info: Rekomenduje się używanie niestandardowej składni szablonów tylko podczas 
 pisania widoków, które są rzadko używane ponownie. W przeciwnym przypadku, ludzie 
 którzy chcą użyć ponownie widoku, zmuszeni są do używania tej samej, niestandardowej składni
 szablonów w swojej aplikacji.
@@ -19,7 +19,7 @@ umożliwia deweloperowi używania składni szablonu podobnej do tej z [framework
 Dla ludzi, którzy chcą utworzyć swoje własne generatory widoków, [CPradoViewRenderer] 
 jest dobrym przykładem.
 
-Używanie`CPradoViewRenderer`
+Używanie `CPradoViewRenderer`
 --------------------------
 
 Aby móc używać [CPradoViewRenderer] musimy jedynie skonfigurować aplikację w następujący sposób:
@@ -90,7 +90,7 @@ wyrażeniem PHP zamkniętym w parę okrągłtych nawiasów. Na przykład:
 <com:CCaptcha captchaAction="captcha" showRefreshButton={false} />
 ~~~
 
-would be translated as
+będzie przetłumaczone na
 
 ~~~
 [php]
@@ -115,7 +115,7 @@ Ich składnia jest następująca:
 ~~~
 
 gdzie `fragmentID` powinien być identyfikatorem, który jednoznacznie definiuje zawartość, 
-która zostanie zbuforowana a part właściwość-wartość są używane do konfiguracji dla 
+która zostanie zbuforowana a pary właściwość-wartość są używane do konfiguracji dla 
 buforowania fragmentarycznego, na przykład
 
 ~~~

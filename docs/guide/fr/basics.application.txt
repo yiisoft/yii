@@ -2,13 +2,13 @@ Application
 ===========
 
 L'application représente le contexte d'exécution de gestion des requêtes.
-Son principal objet est de résoudre les requêtes utilisateurs et de les
+Son rôle principal est de résoudre les requêtes utilisateurs et de les
 rediriger vers le contrôleur adéquat. Elle sert aussi à centraliser toutes
 les informations de configuration qui lui sont relatives.
-C'est pour cela que l'application peut aussi être appelé `front-controller`
+C'est pour cela que l'application peut aussi être appelée `front-controller`
 
 L'application est un singleton créé par le [script de démarrage](/doc/guide/basics.entry).
-Le singleton peut être accédé de n'importe ou en utilisant [Yii::app()|YiiBase::app].
+Le singleton peut être accédé de n'importe où en utilisant [Yii::app()|YiiBase::app].
 
 Configuration de l'Application
 ------------------------------
@@ -20,7 +20,7 @@ propriétés de l'instance à sa création. Lorsque le paramétrage par
 fichier de configuration est inadapté ou insuffisant, il est possible
 d'étendre directement [CWebApplication].
 
-La configuration est un tableau de paires clef-valeur ou chaque clef représente
+La configuration est un tableau de paires clef-valeur où chaque clef représente
 le nom d'une propriété de l'instance de l'application et chaque valeur, la valeur
 à affecter lors de l'initialisation.
 Par exemple, la configuration suivante permet de paramétrer les
@@ -63,7 +63,7 @@ Dossier de base de l'Application
 --------------------------------
 
 Le dossier de base de l'application est le dossier racine qui contient tous les
-élément sensibles de l'application (scripts PHP, données, ...). En standard,
+éléments sensibles de l'application (scripts PHP, données, ...). En standard,
 c'est le sous dossier `protected` qui se trouve à l'intérieur du dossier
 qui contient le script de démarrage. Ce dossier peut être changé en modifiant
 la propriété [basePath|CWebApplication::basePath] dans le fichier de [configuration de l'application](/doc/guide/basics.application#application-configuration).
@@ -81,14 +81,12 @@ Composant d'Application
 
 Une application peut être aisément modifiée et enrichie de nouvelles fonctionnalités
 grâce à son architecture très souple basée sur des composants.
-En pratique, une application fédère un batterie de composants ou chacun prend en charge
-une fonctionnalité spécifique.
+En pratique, une application fédère une batterie de composants où chacun prend en charge une fonctionnalité spécifique.
 Par exemple, l'application résoud une requête utilisateur grâce aux composants
 [CUrlManager] et [CHttpRequest].
 
-Il est possible de paramétrer les propriétés  de tous les [composants|CApplication::components] d'une
-application,  Par example, il est possible de configurer le composant
-[CMemCache] pour qu'il utilise plusieurs serveurs de cache,
+Il est possible de paramétrer les propriétés de chacun des [composants|CApplication::components] d'une
+application, Par exemple, il est possible de configurer le composant [CMemCache] pour qu'il utilise plusieurs serveurs de cache.
 
 ~~~
 [php]
@@ -108,31 +106,30 @@ array(
 ~~~
 
 Dans la configuration ci-dessus, l'élément `cache` a été ajouté à la liste
-des `components`. Le sous-élément `cache` défini la classe de cache à utiliser,
-ici `CMemCache` et la liste des serveurs `servers` avec leur paramètres à utiliser.
+des `components`. Le sous-élément `cache` définit la classe de cache à utiliser,
+ici `CMemCache` et la liste des serveurs `servers` à utiliser avec leurs paramètres.
 
 Pour accéder à un composant de l'application, il suffit d'effectuer l'appel
-`Yii::app()->ComponentID`, ou `ComponentID` correspond à l'ID du composant.
-Pour l'exemple précédent, l'accès au composant `cache` se ferait tout simplement
+`Yii::app()->ComponentID`, où `ComponentID` correspond à l'ID du composant.
+Pour l'exemple précédent, l'accès au composant `cache` se fait tout simplement
 par l'appel `Yii::app()->cache`.
 
 Un composant peut être désactivé en forçant sa propriété `enabled` à false.
-Lors de l'accès au composant, si il a été désactivé, la valeur null est retournée.
+Lors de l'accès à un composant qui a été désactivé, la valeur null est retournée.
 
 > Tip|Astuce : En standard, les composants de l'application sont créés à la demande.
-Cela signifie qu'un composant de l'application n'est pas instancié si
-il n'est pas accédé. Cela permet de ne pas dégrader les performances de
-l'application même si beaucoup de composants sont déclarés. Pour certains composants
-tel que le [CLogRouter], il peut être nécessaire de les instancier,
-même si il ne sont pas accédés pendant le cycle de vie de l'application. Pour ce
-faire, il suffit de les déclarer dans la section [preload|CApplication::preload] du
+Cela signifie qu'un composant de l'application n'est pas instancié avant son utilisation, i.e. avant son accés.
+Cela permet de ne pas dégrader les performances de l'application même dans les cas où beaucoup
+de composants sont déclarés. Pour certains composants tels que le [CLogRouter], il peut toutefois être nécessaire
+de les instancier dès le démarrage de l'application, même s'ils ne sont pas référencés explicitement pendant le cycle de vie de l'application.
+Pour ce faire, il suffit de les déclarer dans la section [preload|CApplication::preload] du
 paramétrage de l'application.
 
 Composants du noyau de l'application
 ------------------------------------
 
 Par défaut, Yii prédéfini les propriétés de toute une série de composants
-communs aux applications web. C'est, par exemple, le cas du composant
+communs aux applications Web. C'est, par exemple, le cas du composant
 [request|CWebApplication::request] chargé de gérer les requêtes utilisateur.
 En paramétrant ces composants, il est possible d'adapter quasiment tous les
 aspects du comportement de Yii.
@@ -154,9 +151,9 @@ lors de l'accès au composant.
 gestions des scripts client (javascripts et CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-fourni la traduction des messages utilisés par le noyau de Yii.
+fournit la traduction des messages utilisés par le noyau de Yii.
 
-   - [db|CApplication::db]: [CDbConnection] - fourni la connexion à la
+   - [db|CApplication::db]: [CDbConnection] - fournit la connexion à la
 base de données. Attention, il faut définir correctement la propriété
 [connectionString|CDbConnection::connectionString] avant d'utiliser le
 composant.
@@ -168,25 +165,21 @@ des erreurs PHP et des exceptions.
 l'affichage.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] -
-fourni la traduction des messages utilisés par Yii.
+fournit la traduction des messages utilisés par Yii.
 
-   - [request|CWebApplication::request]: [CHttpRequest] - fourni
-les fonctionnalités relatives aux requêtes utilisateurs.
+   - [request|CWebApplication::request]: [CHttpRequest] - fournit les fonctionnalités relatives aux requêtes utilisateurs.
 
    - [securityManager|CApplication::securityManager]: [CSecurityManager] -
-fourni les services de sécurity tels que le hashage ou le cryptage de données.
+fournit des services de sécurité tels que le hashage ou le cryptage de données.
 
-   - [session|CWebApplication::session]: [CHttpSession] - fourni
-les fonctionnalités relatives aux sessions.
+   - [session|CWebApplication::session]: [CHttpSession] - fournit les fonctionnalités relatives aux sessions.
 
    - [statePersister|CApplication::statePersister]: [CStatePersister] -
-fourni une méthode globale de gestion de la persistance des données.
+fournit une méthode globale de gestion de la persistance des données.
 
-   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - fourni
-les fonctionnalités de création et d'interprétation des URLs.
+   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - fournit les fonctionnalités de création et d'interprétation des URLs.
 
-   - [user|CWebApplication::user]: [CWebUser] - information relative
-à l'identité de l'utilisateur courant.
+   - [user|CWebApplication::user]: [CWebUser] - informations relatives à l'identité de l'utilisateur courant.
 
    - [themeManager|CWebApplication::themeManager]: [CThemeManager] - gestion des thèmes.
 
@@ -209,13 +202,13 @@ par les étapes suivantes :
 	   - Enregistrement des "comportements" de l'application;
 	   - Chargement des composants statiques;
 
-   5. Levée de l'évènement [onBeginRequest|CApplication::onBeginRequest];
+   5. Levée de l’événement [onBeginRequest|CApplication::onBeginRequest];
 
    6. Traitement de la requête utilisateur:
 	   - Résolution de la requête;
 	   - Création du contrôleur;
 	   - Exécution du contrôleur;
 
-   7. Levée de l'évènement [onEndRequest|CApplication::onEndRequest];
+   7. Levée de l’événement [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 1906 $</div>
+<div class="revision">$Id: basics.application.txt 1911 2013-11-20 $</div>

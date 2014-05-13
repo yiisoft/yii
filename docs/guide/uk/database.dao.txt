@@ -35,7 +35,7 @@ $connection->active=false;  // close connection
 Нижче представлені кілька основних форматів DSN:
 
    - SQLite: `sqlite:/path/to/dbfile`
-   - MySQL: `mysql:host=localhost;dbname=testdb`
+   - MySQL/MariaDB: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
    - SQL Server: `mssql:host=localhost;dbname=testdb`
    - Oracle: `oci:dbname=//localhost:1521/testdb`
@@ -88,8 +88,8 @@ $command=$connection->createCommand($sql);
 
 ~~~
 [php]
-$rowCount=$command->execute();   // виконання вирази типу `INSERT`, `UPDATE` та `DELETE`
-$dataReader=$command->query();   // виконання вирази типу `SELECT`
+$rowCount=$command->execute();   // виконання виразів типу `INSERT`, `UPDATE` та `DELETE`
+$dataReader=$command->query();   // виконання виразу типу `SELECT`
 $rows=$command->queryAll();      // запит і повернення всіх рядків результату
 $row=$command->queryRow();       // запит і повернення першого рядка результату
 $column=$command->queryColumn(); // запит і повернення першого стовпця результату
@@ -139,7 +139,7 @@ try
 }
 catch(Exception $e) // у разі помилки при виконанні запиту викидається виключення
 {
-	$transaction->rollBack();
+	$transaction->rollback();
 }
 ~~~
 
@@ -202,5 +202,3 @@ Yii забезпечує вбудовану підтримку префіксі�
 $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
-
-<div class="revision">$Id: database.dao.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -13,11 +13,11 @@
  *
  * In addition to the {@link message} property for setting a custom error message,
  * CNumberValidator has a couple custom error messages you can set that correspond to different
- * validation scenarios. To specify a custom message when the numeric value is too big, 
+ * validation scenarios. To specify a custom message when the numeric value is too big,
  * you may use the {@link tooBig} property. Similarly with {@link tooSmall}.
- * The messages may contain additional placeholders that will be replaced 
- * with the actual content. In addition to the "{attribute}" placeholder, recognized by all 
- * validators (see {@link CValidator}), CNumberValidator allows for the following placeholders 
+ * The messages may contain additional placeholders that will be replaced
+ * with the actual content. In addition to the "{attribute}" placeholder, recognized by all
+ * validators (see {@link CValidator}), CNumberValidator allows for the following placeholders
  * to be specified:
  * <ul>
  * <li>{min}: when using {@link tooSmall}, replaced with the lower limit of the number {@link min}.</li>
@@ -25,7 +25,6 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -79,6 +78,14 @@ class CNumberValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
+		if(!is_numeric($value))
+		{
+			// https://github.com/yiisoft/yii/issues/1955
+			// https://github.com/yiisoft/yii/issues/1669
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
+			$this->addError($object,$attribute,$message);
+			return;
+		}
 		if($this->integerOnly)
 		{
 			if(!preg_match($this->integerPattern,"$value"))
@@ -165,7 +172,7 @@ if(value>{$this->max}) {
 		if($this->allowEmpty)
 		{
 			$js="
-if($.trim(value)!='') {
+if(jQuery.trim(value)!='') {
 	$js
 }
 ";

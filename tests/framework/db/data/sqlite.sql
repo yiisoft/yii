@@ -64,13 +64,14 @@ CREATE TABLE profiles
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	first_name VARCHAR(128) NOT NULL,
 	last_name VARCHAR(128) NOT NULL,
+	country VARCHAR(128),
 	user_id INTEGER NOT NULL,
 	CONSTRAINT FK_profile_user FOREIGN KEY (user_id)
 		REFERENCES users (id) ON DELETE CASCADE ON UPDATE RESTRICT
 );
 
-INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1);
-INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 2','last 2',2);
+INSERT INTO profiles (first_name, last_name, country, user_id) VALUES ('first 1','last 1','country 1',1);
+INSERT INTO profiles (first_name, last_name, country, user_id) VALUES ('first 2','last 2','country 2',2);
 
 CREATE TABLE posts
 (
@@ -200,6 +201,8 @@ CREATE TABLE types
 	char_col CHAR(100) NOT NULL,
 	char_col2 VARCHAR(100) DEFAULT 'something',
 	char_col3 TEXT,
+	char_col4 VARCHAR(100) DEFAULT NULL,
+	char_col5 VARCHAR(100) DEFAULT 'NULL',
 	float_col REAL(4,3) NOT NULL,
 	float_col2 DOUBLE DEFAULT 1.23,
 	blob_col BLOB,
@@ -207,7 +210,8 @@ CREATE TABLE types
 	time TIMESTAMP DEFAULT 123,
 	bool_col BOOL NOT NULL,
 	bool_col2 BOOLEAN DEFAULT 1,
-	null_col INTEGER DEFAULT NULL
+	null_col INTEGER DEFAULT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Content
@@ -259,3 +263,25 @@ CREATE TABLE Comment
 INSERT INTO Comment (id,authorID,body) VALUES (3,1,'content for comment 1');
 INSERT INTO Comment (id,authorID,body) VALUES (5,1,'content for comment 2');
 INSERT INTO Comment (id,authorID,body) VALUES (6,1,'content for comment 3');
+
+CREATE TABLE UserWithDefaultScope
+(
+	id INTEGER NOT NULL PRIMARY KEY,
+	deleted INTEGER DEFAULT NULL,
+	`name` VARCHAR(255) NOT NULL
+);
+
+INSERT INTO UserWithDefaultScope (id,deleted,`name`) VALUES (1,NULL,'Fred Bloggs');
+INSERT INTO UserWithDefaultScope (id,deleted,`name`) VALUES (2,NULL,'Joe Bloggs');
+INSERT INTO UserWithDefaultScope (id,deleted,`name`) VALUES (3,1,'Jane Bloggs');
+
+CREATE TABLE UserWithDefaultScopeLink
+(
+	id INTEGER NOT NULL PRIMARY KEY,
+	from_id INTEGER NOT NULL,
+	to_id INTEGER NOT NULL
+);
+
+INSERT INTO UserWithDefaultScopeLink (id,from_id,to_id) VALUES (1,1,2);
+INSERT INTO UserWithDefaultScopeLink (id,from_id,to_id) VALUES (2,2,3);
+INSERT INTO UserWithDefaultScopeLink (id,from_id,to_id) VALUES (3,3,1);

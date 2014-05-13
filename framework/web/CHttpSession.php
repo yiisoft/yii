@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -55,10 +55,10 @@
  * @property boolean $isStarted Whether the session has started.
  * @property string $sessionID The current session ID.
  * @property string $sessionName The current session name.
- * @property string $savePath The current session save path, defaults to '/tmp'.
+ * @property string $savePath The current session save path, defaults to {@link http://php.net/session.save_path}.
  * @property array $cookieParams The session cookie parameters.
  * @property string $cookieMode How to use cookie to store session ID. Defaults to 'Allow'.
- * @property integer $gCProbability The probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
+ * @property float $gCProbability The probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
  * @property boolean $useTransparentSessionID Whether transparent sid support is enabled or not, defaults to false.
  * @property integer $timeout The number of seconds after which data will be seen as 'garbage' and cleaned up, defaults to 1440 seconds.
  * @property CHttpSessionIterator $iterator An iterator for traversing the session variables.
@@ -66,7 +66,6 @@
  * @property array $keys The list of session variable names.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -77,7 +76,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public $autoStart=true;
 
-
 	/**
 	 * Initializes the application component.
 	 * This method is required by IApplicationComponent and is invoked by application.
@@ -85,6 +83,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function init()
 	{
 		parent::init();
+
 		if($this->autoStart)
 			$this->open();
 		register_shutdown_function(array($this,'close'));
@@ -199,7 +198,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return string the current session save path, defaults to '/tmp'.
+	 * @return string the current session save path, defaults to {@link http://php.net/session.save_path}.
 	 */
 	public function getSavePath()
 	{
@@ -232,7 +231,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Sets the session cookie parameters.
 	 * The effect of this method only lasts for the duration of the script.
 	 * Call this method before the session starts.
-	 * @param array $value cookie parameters, valid keys include: lifetime, path, domain, secure.
+	 * @param array $value cookie parameters, valid keys include: lifetime, path,
+	 * domain, secure, httponly. Note that httponly is all lowercase.
 	 * @see http://us2.php.net/manual/en/function.session-set-cookie-params.php
 	 */
 	public function setCookieParams($value)
@@ -253,7 +253,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		if(ini_get('session.use_cookies')==='0')
 			return 'none';
-		else if(ini_get('session.use_only_cookies')==='0')
+		elseif(ini_get('session.use_only_cookies')==='0')
 			return 'allow';
 		else
 			return 'only';
@@ -269,12 +269,12 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			ini_set('session.use_cookies','0');
 			ini_set('session.use_only_cookies','0');
 		}
-		else if($value==='allow')
+		elseif($value==='allow')
 		{
 			ini_set('session.use_cookies','1');
 			ini_set('session.use_only_cookies','0');
 		}
-		else if($value==='only')
+		elseif($value==='only')
 		{
 			ini_set('session.use_cookies','1');
 			ini_set('session.use_only_cookies','1');
@@ -284,27 +284,27 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return integer the probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
+	 * @return float the probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
 	 */
 	public function getGCProbability()
 	{
-		return (int)ini_get('session.gc_probability');
+		return (float)(ini_get('session.gc_probability')/ini_get('session.gc_divisor')*100);
 	}
 
 	/**
-	 * @param integer $value the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
+	 * @param float $value the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
 	 * @throws CException if the value is beyond [0,100]
 	 */
 	public function setGCProbability($value)
 	{
-		$value=(int)$value;
 		if($value>=0 && $value<=100)
 		{
-			ini_set('session.gc_probability',$value);
-			ini_set('session.gc_divisor','100');
+			// percent * 21474837 / 2147483647 ≈ percent * 0.01
+			ini_set('session.gc_probability',floor($value*21474836.47));
+			ini_set('session.gc_divisor',2147483647);
 		}
 		else
-			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.',
+			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0 and 100.',
 				array('{value}'=>$value)));
 	}
 

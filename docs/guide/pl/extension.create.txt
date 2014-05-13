@@ -19,7 +19,7 @@ twoje rozszerzenie dostępne zarówno dla projektów open-source jak i o kodzie 
 powinieneś rozważyć używanie licencji takich jak BSD, MIT, itp. ale nie GPL, gdyż ta wymaga
 aby kod wywodził się od innego kodu open-source.
 
-Następnie, opiszemy jak utworzyć nowe rozszerzenie, odpowiednio do katergori
+Następnie, opiszemy jak utworzyć nowe rozszerzenie, odpowiednio do katergorii
 opisanych w [przeglądzie](/doc/guide/extension.overview). Opis ten również ma zastosowanie
 kiedy tworzysz komponenty do użytku we własnych projektach.
 
@@ -35,9 +35,9 @@ aplikacji](/doc/guide/basics.application#application-configuration))
 zostały nadane.
 
 Domyślnie, komponent aplikacji jest tworzony i inicalizowany tylko wtedy, gdy
-żądamy dostępu do nie go po raz pierwszy podczas obsługiwania żądania. Jeśli komponent
+żądamy dostępu do niego po raz pierwszy podczas obsługiwania żądania. Jeśli komponent
 aplikacji musi być utworzony zaraz po tym jak instancja aplikacji została utworzona, 
-powinien jedo ID zostać dodane do listy we właściwości [CApplication::preload].
+jego ID powino zostać dodane do listy we właściwości [CApplication::preload].
 
 
 Zachowanie (ang. Behavior)
@@ -176,7 +176,7 @@ class MyFilter extends CFilter
 ~~~
 
 Parametr `$filterChain` jest typu [CFilterChain] i zawiera informacje dotyczące 
-akcji, któa jest aktualnie filtrowana.
+akcji, która jest aktualnie filtrowana.
 
 Kontroler
 ----------
@@ -232,15 +232,15 @@ Moduł
 Zerknij do sekcji dotyczącej [modułów](/doc/guide/basics.module#creating-module) 
 aby zobaczyć jak utworzyć moduł.
 
-Ogólną wytyczną dla tworzenia moduły jest to, iż powinien on być samowystarczalny. 
+Ogólną wytyczną dla tworzenia modułu jest to, iż powinien on być samowystarczalny. 
 Pliki zasobów (takie jak CSS, JavaScript, obrazki), które są używane w module,
-powinny być dystrybuowane razem z modułem, a moduł powinien opublikować jest, tak
+powinny być dystrybuowane razem z modułem, a moduł powinien opublikować je, tak
 żeby były one dostępne dla internauty.
 
 
 Generyczne komponenty
 -----------------
-Tworzenie rozszerzeń generycznych komponentów to jak pianie klasy. Również tutaj, 
+Tworzenie rozszerzeń generycznych komponentów to jak pisanie klasy. Również tutaj, 
 komponent powinien być samowystarczalny, tak że może ony być w łatwy sposób
 wykorzystany przez innych deweloperów.
 

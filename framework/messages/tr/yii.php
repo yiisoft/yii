@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   '"{path}" is not a valid directory.' => '{path} geçerli bir dizin değil.',

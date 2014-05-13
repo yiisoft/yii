@@ -67,9 +67,10 @@ class UserIdentity extends CUserIdentity
 Для того, чтобы проверить, ввёл ли пользователь правильный пароль, мы вызываем
 метод `validatePassword` класса `User`. Нам необходимо изменить файл
 `/wwwroot/blog/protected/models/User.php` как показано ниже. Отметим, что
-вместо хранения пароля в БД в явном виде, мы используем хеш от пароля и генерируемого
-случайным образом ключа (соли). При проверке введённого пользователем пароля,
-вместо сравнения паролей, мы должны сравнивать хеши.
+вместо хранения пароля в БД в явном виде, мы сохраняем его хеш. При проверке введённого пользователем пароля,
+вместо сравнения паролей, мы должны сравнивать хеши. Для хеширования пароля и его проверки мы используем входящий
+в Yii класс [CPasswordHelper].
+
 
 ~~~
 [php]
@@ -78,12 +79,12 @@ class User extends CActiveRecord
 	......
 	public function validatePassword($password)
 	{
-		return $this->hashPassword($password,$this->salt)===$this->password;
+		return CPasswordHelper::verifyPassword($password,$this->password);
 	}
 
-	public function hashPassword($password,$salt)
+	public function hashPassword($password)
 	{
-		return md5($salt.$password);
+		return CPasswordHelper::hashPassword($password);
 	}
 }
 ~~~
@@ -138,7 +139,7 @@ switch($identity->errorCode)
 ~~~
 
 
-> Info|Информация: Люди часто запутываются в идентификации (identity) и компоненте
+> Info|Информация: Люди часто путаются в идентификации (identity) и компоненте
 > приложения `user`. Первая представляет способ выполнения аутентификации, в то
 > время как последний используется, чтобы представить информацию, связанную с
 > текущим пользователем. У приложения может быть только один компонент `user`,
@@ -157,5 +158,3 @@ switch($identity->errorCode)
 пользователь не может изменить свою учетную запись или создать новую через веб-интерфейс.
 Функцию управления пользователями можно рассматривать как будущее расширение к
 приложению блога.
-
-<div class="revision">$Id: prototype.auth.txt 2333 2010-08-24 21:11:55Z mdomba $</div>

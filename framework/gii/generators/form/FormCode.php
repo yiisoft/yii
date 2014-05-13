@@ -58,7 +58,7 @@ EOD;
 		$class=@Yii::import($this->model,true);
 		if(!is_string($class) || !$this->classExists($class))
 			$this->addError('model', "Class '{$this->model}' does not exist or has syntax error.");
-		else if(!is_subclass_of($class,'CModel'))
+		elseif(!is_subclass_of($class,'CModel'))
 			$this->addError('model', "'{$this->model}' must extend from CModel.");
 		else
 			$this->_modelClass=$class;

@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -36,7 +36,6 @@
  * page state persistent method based on cache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -83,7 +82,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 			$cacheKey='Yii.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)
 				return unserialize($value);
-			else if(($content=@file_get_contents($stateFile))!==false)
+			elseif(($content=@file_get_contents($stateFile))!==false)
 			{
 				$cache->set($cacheKey,$content,0,new CFileCacheDependency($stateFile));
 				return unserialize($content);
@@ -91,7 +90,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 			else
 				return null;
 		}
-		else if(($content=@file_get_contents($stateFile))!==false)
+		elseif(($content=@file_get_contents($stateFile))!==false)
 			return unserialize($content);
 		else
 			return null;

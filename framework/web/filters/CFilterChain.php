@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -15,7 +15,6 @@
  * CFilterChain executes the filter list by {@link run()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.filters
  * @since 1.0
  */
@@ -72,7 +71,7 @@ class CFilterChain extends CList
 				else
 					$filter=CInlineFilter::create($controller,$filter);
 			}
-			else if(is_array($filter))  // array('path.to.class [+|- action1, action2]','param1'=>'value1',...)
+			elseif(is_array($filter))  // array('path.to.class [+|- action1, action2]','param1'=>'value1',...)
 			{
 				if(!isset($filter[0]))
 					throw new CException(Yii::t('yii','The first element in a filter configuration must be the filter class.'));

@@ -4,7 +4,7 @@
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -13,12 +13,12 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 /**
  * CJuiTabs displays a tabs widget.
  *
- * CJuiTabs encapsulates the {@link http://jqueryui.com/demos/tabs/ JUI tabs}
+ * CJuiTabs encapsulates the {@link http://jqueryui.com/tabs/ JUI tabs}
  * plugin.
  *
  * To use this widget, you may insert the following code in a view:
  * <pre>
- * $this->widget('zii.widgets.jui.CJuiTabs', array(
+ * $this->widget('zii.widgets.jui.CJuiTabs',array(
  *     'tabs'=>array(
  *         'StaticTab 1'=>'Content for tab 1',
  *         'StaticTab 2'=>array('content'=>'Content for tab 2', 'id'=>'tab2'),
@@ -34,11 +34,26 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI tabs plugin. Please refer to
- * the {@link http://jqueryui.com/demos/tabs/ JUI tabs} documentation
- * for possible options (name-value pairs).
+ * the {@link http://api.jqueryui.com/tabs/ JUI Tabs API} documentation
+ * for possible options (name-value pairs) and
+ * {@link http://jqueryui.com/tabs/ JUI Tabs page} for general
+ * description and demo.
+ *
+ * Note, in case you're using &lt;base/&gt; HTML tag you may run into the
+ * issue when jQuery UI uses altered base URL to load content, but not
+ * the base URL content was loaded from. (Developer may expect both behavior
+ * in different cases.) For this occasion consider using absolute URL
+ * generation as follows:
+ *
+ * <pre>
+ * $this->widget('zii.widgets.jui.CJuiTabs',array(
+ *     'tabs'=>array(
+ *         'Dynamic Tab'=>array('ajax'=>$this->createAbsoluteUrl('tab/content/route')),
+ *     ),
+ * ));
+ * </pre>
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -67,7 +82,7 @@ class CJuiTabs extends CJuiWidget
 	 * The token "{title}" in the template will be replaced with the panel title and
 	 * the token "{url}" will be replaced with "#TabID" or with the url of the ajax request.
 	 */
-	public $headerTemplate='<li><a href="{url}" title="{id}">{title}</a></li>';
+	public $headerTemplate='<li><a href="{url}" title="{title}">{title}</a></li>';
 	/**
 	 * @var string the template that is used to generated every tab content.
 	 * The token "{content}" in the template will be replaced with the panel content
@@ -82,43 +97,42 @@ class CJuiTabs extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		if (isset($this->htmlOptions['id']))
-			$id = $this->htmlOptions['id'];
+		if(isset($this->htmlOptions['id']))
+			$id=$this->htmlOptions['id'];
 		else
 			$this->htmlOptions['id']=$id;
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 
-		$tabsOut = "";
-		$contentOut = "";
-		$tabCount = 0;
+		$tabsOut="";
+		$contentOut="";
+		$tabCount=0;
 
 		foreach($this->tabs as $title=>$content)
 		{
-			$tabId = (is_array($content) && isset($content['id']))?$content['id']:$id.'_tab_'.$tabCount++;
+			$tabId=(is_array($content) && isset($content['id']))?$content['id']:$id.'_tab_'.$tabCount++;
 
-			if (!is_array($content))
+			if(!is_array($content))
 			{
-				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>'#'.$tabId, '{id}'=>'#' . $tabId))."\n";
-				$contentOut .= strtr($this->contentTemplate, array('{content}'=>$content,'{id}'=>$tabId))."\n";
+				$tabsOut.=strtr($this->headerTemplate,array('{title}'=>$title,'{url}'=>'#'.$tabId,'{id}'=>'#'.$tabId))."\n";
+				$contentOut.=strtr($this->contentTemplate,array('{content}'=>$content,'{id}'=>$tabId))."\n";
 			}
-			elseif (isset($content['ajax']))
+			elseif(isset($content['ajax']))
 			{
-				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>CHtml::normalizeUrl($content['ajax']), '{id}'=>'#' . $tabId))."\n";
+				$tabsOut.=strtr($this->headerTemplate,array('{title}'=>$title,'{url}'=>CHtml::normalizeUrl($content['ajax']),'{id}'=>'#'.$tabId))."\n";
 			}
 			else
 			{
-				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>'#'.$tabId, '{id}'=>$tabId))."\n";
+				$tabsOut.=strtr($this->headerTemplate,array('{title}'=>$title,'{url}'=>'#'.$tabId,'{id}'=>$tabId))."\n";
 				if(isset($content['content']))
-					$contentOut .= strtr($this->contentTemplate, array('{content}'=>$content['content'],'{id}'=>$tabId))."\n";
+					$contentOut.=strtr($this->contentTemplate,array('{content}'=>$content['content'],'{id}'=>$tabId))."\n";
 			}
 		}
-		echo "<ul>\n" . $tabsOut . "</ul>\n";
+		echo "<ul>\n".$tabsOut."</ul>\n";
 		echo $contentOut;
-
 		echo CHtml::closeTag($this->tagName)."\n";
 
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').tabs($options);");
 	}
 

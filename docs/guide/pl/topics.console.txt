@@ -2,17 +2,16 @@ Aplikacje konsolowe
 ====================
 
 Aplikacje konsolowe używane są głównie przez aplikacje webowe do wykonywania zadań 
-w trybie online, takich jak generowanie kodu, kompilacja indeksu wyszukiwania,  
-wysyłanie maili, itp. Yii dostarcza frameworku do pisania aplikacji konsolowych  
+w trybie online, takich jak generowanie kodu, kompilacja indeksu wyszukiwania, 
+wysyłanie maili, itp. Yii dostarcza frameworku do pisania aplikacji konsolowych 
 w sposób systematyczny i obiektowo zorientowany. Yii udostępnia aplikacji konsolowej
 zasoby (np. połączenia z bazą danych), które używane są przez aplikację sieciową 
 w trybie online.
 
 Przegląd
-====================
 
 Yii reprezentuje każde zadanie konsolowe pod pojęciem [polecenia|CConsoleCommand].
-Polecenia konsolowe zostały napisane klasy dziedziczące z [CConsoleCommand].
+Polecenia konsolowe zostały napisane jako klasy dziedziczące z [CConsoleCommand].
 
 Jeśli używamy narzędzia `yiic webapp` w celu utworzenia początkowego szkieletu aplikacji Yii,
 znajdujemy dwa następujące pliki w katalogu `protected`:
@@ -106,7 +105,7 @@ yiic <nazwa-polecenia> <nazwa-akcji> --opcja1=wartość --opcja2=wartość2 ...
 ~~~
 
 Dodatkowe pary opcja-wartość zostaną przekazane jako nazwane parametry do metody akcji.
-Wasrtośc opcji `xyz` zostanie prezkazana do parametru `$xyz` metody akcji. 
+Wartość opcji `xyz` zostanie przekazana do parametru `$xyz` metody akcji. 
 Na przykład, jeśli zdefiniujemy następująco klasę poleceń:
 
 ~~~
@@ -137,7 +136,7 @@ yiic sitemap index --limit=5 --type=News
 Jeśli opcja podana została bez wartości (np. `--type` zamiast `--type=News`), 
 to odpowiadająca mu wartość parametru akcji zostanie przyjęta jako `true`.
 
-> Note|Uwaga: Nie wspieramy alternatywnego formatpu opcji, takich jak:
+> Note|Uwaga: Nie wspieramy alternatywnego formatu opcji, takich jak:
 > `--type News`, `-t News`.
 
 Parametr może przyjmować wartości tablicowe jeśli zadeklarujemy go poprzez podpowiadanie typów:
@@ -172,7 +171,7 @@ public function actionIndex($limit=10, $args=array()) {...}
 Tablica `$args` będzie przechowywać wszystkie wartości dostępnych anonimowych parametrów.
 
 Globalne opcje odnoszą się do tych opcji linii polecań, które są dzielone przez wszystkie akcje w poleceniu.
-Na przykład, w poceneiu, które dostarcza kilka akcji, możemy chcieć aby każda akcja rozpoznawała
+Na przykład, w poleceniu, które dostarcza kilka akcji, możemy chcieć aby każda akcja rozpoznawała
 opcje nazwaną `verbose` (z ang. gadatliwy, wielomówny). Chociaż możemy zadeklarować parametr `$verbose` 
 w każdej metodzie akcji, lepszym sposobem jest zadelarować ją jako **publiczną zmienną** klasy polecenia, 
 która zamieni `verbose` w globalną opcję:

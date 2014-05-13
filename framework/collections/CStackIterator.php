@@ -4,17 +4,16 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
 /**
- * CStackIterator implements an interator for {@link CStack}.
+ * CStackIterator implements an iterator for {@link CStack}.
  *
  * It allows CStack to return a new iterator for traversing the items in the stack.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.collections
  * @since 1.0
  */

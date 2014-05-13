@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -57,7 +57,7 @@
  * }
  * catch(Exception $e)
  * {
- *    $transaction->rollBack();
+ *    $transaction->rollback();
  * }
  * </pre>
  *
@@ -78,6 +78,20 @@
  * )
  * </pre>
  *
+ * Use the {@link driverName} property if you want to force the DB connection to use a particular driver
+ * by the given name, disregarding of what was set in the {@link connectionString} property. This might
+ * be useful when working with ODBC connections. Sample code:
+ *
+ * <pre>
+ * 'db'=>array(
+ *     'class'=>'CDbConnection',
+ *     'driverName'=>'mysql',
+ *     'connectionString'=>'odbc:Driver={MySQL};Server=127.0.0.1;Database=test',
+ *     'username'=>'',
+ *     'password'=>'',
+ * ),
+ * </pre>
+ *
  * @property boolean $active Whether the DB connection is established.
  * @property PDO $pdoInstance The PDO instance, null if the connection is not established yet.
  * @property CDbTransaction $currentTransaction The currently active transaction. Null if no active transaction.
@@ -88,7 +102,8 @@
  * @property mixed $nullConversion How the null and empty strings are converted.
  * @property boolean $autoCommit Whether creating or updating a DB record will be automatically committed.
  * @property boolean $persistent Whether the connection is persistent or not.
- * @property string $driverName Name of the DB driver.
+ * @property string $driverName Name of the DB driver. This property is read-write since 1.1.15.
+ * Before 1.1.15 it was read-only.
  * @property string $clientVersion The version information of the DB driver.
  * @property string $connectionStatus The status of the connection.
  * @property boolean $prefetch Whether the connection performs data prefetching.
@@ -100,7 +115,6 @@
  * and the second element the total time spent in SQL execution.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.db
  * @since 1.0
  */
@@ -158,7 +172,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $queryCachingDuration=0;
 	/**
-	 * @var CCacheDependency the dependency that will be used when saving query results into cache.
+	 * @var CCacheDependency|ICacheDependency the dependency that will be used when saving query results into cache.
 	 * @see queryCachingDuration
 	 * @since 1.1.7
 	 */
@@ -186,7 +200,7 @@ class CDbConnection extends CApplicationComponent
 	public $autoConnect=true;
 	/**
 	 * @var string the charset used for database connection. The property is only used
-	 * for MySQL and PostgreSQL databases. Defaults to null, meaning using default charset
+	 * for MySQL, MariaDB and PostgreSQL databases. Defaults to null, meaning using default charset
 	 * as specified by the database.
 	 *
 	 * Note that if you're using GBK or BIG5 then it's highly recommended to
@@ -234,9 +248,10 @@ class CDbConnection extends CApplicationComponent
 	 * @since 1.1.6
 	 */
 	public $driverMap=array(
+		'cubrid'=>'CCubridSchema',  // CUBRID
 		'pgsql'=>'CPgsqlSchema',    // PostgreSQL
 		'mysqli'=>'CMysqlSchema',   // MySQL
-		'mysql'=>'CMysqlSchema',    // MySQL
+		'mysql'=>'CMysqlSchema',    // MySQL,MariaDB
 		'sqlite'=>'CSqliteSchema',  // sqlite 3
 		'sqlite2'=>'CSqliteSchema', // sqlite 2
 		'mssql'=>'CMssqlSchema',    // Mssql driver on windows hosts
@@ -251,6 +266,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $pdoClass = 'PDO';
 
+	private $_driverName;
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -344,10 +360,11 @@ class CDbConnection extends CApplicationComponent
 	 * without actually executing the SQL statement.
 	 * @param integer $duration the number of seconds that query results may remain valid in cache.
 	 * If this is 0, the caching will be disabled.
-	 * @param CCacheDependency $dependency the dependency that will be used when saving the query results into cache.
+	 * @param CCacheDependency|ICacheDependency $dependency the dependency that will be used when saving
+	 * the query results into cache.
 	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
 	 * meaning that the next SQL query will be cached.
-	 * @return CDbConnection the connection instance itself.
+	 * @return static the connection instance itself.
 	 * @since 1.1.7
 	 */
 	public function cache($duration, $dependency=null, $queryCount=1)
@@ -406,26 +423,37 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Creates the PDO instance.
 	 * When some functionalities are missing in the pdo driver, we may use
-	 * an adapter class to provides them.
+	 * an adapter class to provide them.
+	 * @throws CDbException when failed to open DB connection
 	 * @return PDO the pdo instance
 	 */
 	protected function createPdoInstance()
 	{
 		$pdoClass=$this->pdoClass;
-		if(($pos=strpos($this->connectionString,':'))!==false)
+		if(($driver=$this->getDriverName())!==null)
 		{
-			$driver=strtolower(substr($this->connectionString,0,$pos));
-			if($driver==='mssql' || $driver==='dblib' || $driver==='sqlsrv')
+			if($driver==='mssql' || $driver==='dblib')
 				$pdoClass='CMssqlPdoAdapter';
+			elseif($driver==='sqlsrv')
+				$pdoClass='CMssqlSqlsrvPdoAdapter';
 		}
-		return new $pdoClass($this->connectionString,$this->username,
-									$this->password,$this->_attributes);
+
+		if(!class_exists($pdoClass))
+			throw new CDbException(Yii::t('yii','CDbConnection is unable to find PDO class "{className}". Make sure PDO is installed correctly.',
+				array('{className}'=>$pdoClass)));
+
+		@$instance=new $pdoClass($this->connectionString,$this->username,$this->password,$this->_attributes);
+
+		if(!$instance)
+			throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection.'));
+
+		return $instance;
 	}
 
 	/**
 	 * Initializes the open db connection.
 	 * This method is invoked right after the db connection is established.
-	 * The default implementation is to set the charset for MySQL and PostgreSQL database connections.
+	 * The default implementation is to set the charset for MySQL, MariaDB and PostgreSQL database connections.
 	 * @param PDO $pdo the PDO instance
 	 */
 	protected function initConnection($pdo)
@@ -497,6 +525,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns the database schema for the current connection
+	 * @throws CDbException if CDbConnection does not support reading schema for specified database driver
 	 * @return CDbSchema the database schema for the current connection
 	 */
 	public function getSchema()
@@ -587,6 +616,7 @@ class CDbConnection extends CApplicationComponent
 			'boolean'=>PDO::PARAM_BOOL,
 			'integer'=>PDO::PARAM_INT,
 			'string'=>PDO::PARAM_STR,
+			'resource'=>PDO::PARAM_LOB,
 			'NULL'=>PDO::PARAM_NULL,
 		);
 		return isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
@@ -673,14 +703,29 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the name of the DB driver
-	 * @return string name of the DB driver
+	 * Returns the name of the DB driver.
+	 * @return string name of the DB driver.
 	 */
 	public function getDriverName()
 	{
-		if(($pos=strpos($this->connectionString, ':'))!==false)
-			return strtolower(substr($this->connectionString, 0, $pos));
-		// return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+		if($this->_driverName!==null)
+			return $this->_driverName;
+		elseif(($pos=strpos($this->connectionString,':'))!==false)
+			return $this->_driverName=strtolower(substr($this->connectionString,0,$pos));
+		//return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+	}
+
+	/**
+	 * Changes the name of the DB driver. Overrides value extracted from the {@link connectionString},
+	 * which is behavior by default.
+	 * @param string $driverName to be set. Valid values are the keys from the {@link driverMap} property.
+	 * @see getDriverName
+	 * @see driverName
+	 * @since 1.1.15
+	 */
+	public function setDriverName($driverName)
+	{
+		$this->_driverName=strtolower($driverName);
 	}
 
 	/**

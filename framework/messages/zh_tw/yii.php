@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   '"{path}" is not a valid directory.' => '"{path}" 不是一個合法的目錄.',
@@ -57,7 +55,7 @@ return array (
   'CHttpSession.cookieMode can only be "none", "allow" or "only".' => 'CHttpSession.cookieMode 只能是 "none", "allow" 或 "only".',
   'CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.' => 'CHttpSession.gcProbability "{value}" 是無效的. 它必須是介於 0 與 100之間的整數.',
   'CHttpSession.savePath "{path}" is not a valid directory.' => 'CHttpSession.savePath "{path}" 不是一個有效的目錄.',
-  'CMemCache requires PHP memcache extension to be loaded.' => 'CMemCache 要求 PHP memcache extension 必須先被載入.',
+  'CMemCache requires PHP memcache extension to be loaded.' => 'CMemCache 要求 PHP memcache 插件必須先被載入.',
   'CMemCache server configuration must be an array.' => 'CMemCache 伺服器組態設定必須是一個陣列.',
   'CMemCache server configuration must have "host" value.' => 'CMemCache 伺服器組態設定必須有 "host" 的值.',
   'CMultiFileUpload.name is required.' => 'CMultiFileUpload.name 是必要的.',
@@ -69,7 +67,7 @@ return array (
   'CSecurityManager.validationKey cannot be empty.' => 'CSecurityManager.validationKey 不能是空的.',
   'CTypedList<{type}> can only hold objects of {type} class.' => 'CTypedList<{type}> 只能持有 {type} 類別的物件.',
   'CUrlManager.UrlFormat must be either "path" or "get".' => 'CUrlManager.UrlFormat 必須是 "path" 或 "get".',
-  'CXCache requires PHP XCache extension to be loaded.' => 'CXCache 要求 PHP XCache extension 必須先被載入.',
+  'CXCache requires PHP XCache extension to be loaded.' => 'CXCache 要求 PHP XCache 插件必須先被載入.',
   'Cache table "{tableName}" does not exist.' => 'Cache table "{tableName}" 不存在.',
   'Cannot add "{child}" as a child of "{name}". A loop has been detected.' => '無法新增 "{child}" 成為 "{name}" 的子項. 偵測到有迴圈產生.',
   'Cannot add "{child}" as a child of "{parent}". A loop has been detected.' => '無法新增 "{child}" 成為 "{parent}" 的子項. 偵測到有迴圈產生.',
@@ -81,7 +79,7 @@ return array (
   'Event "{class}.{event}" is attached with an invalid handler "{handler}".' => '事件 "{class}.{event}" 附加了一個無效的 handler "{handler}".',
   'Event "{class}.{event}" is not defined.' => '事件 "{class}.{event}" 未定義.',
   'Failed to write the uploaded file "{file}" to disk.' => '無法將已上傳的檔案 "{file}" 寫入磁碟.',
-  'File upload was stopped by extension.' => '檔案上傳被 extension 所停止.',
+  'File upload was stopped by extension.' => '檔案上傳被插件所停止.',
   'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => '篩選器 "{filter}" 是無效的. 控制器 "{class}" 沒有名為 "filter{filter}" 的篩選器方法.',
   'Get a new code' => '取得一組新代碼',
   'Invalid MO file revision: {revision}.' => '無效的 MO 檔案修訂: {revision}.',
@@ -128,19 +126,19 @@ return array (
   'The pattern for 12 hour format must be "h" or "hh".' => '代表12小時制的樣式必須是 "h" 或 "hh".',
   'The pattern for 24 hour format must be "H" or "HH".' => '代表24小時制的樣式必須是 "H" 或 "HH".',
   'The pattern for AM/PM marker must be "a".' => '代表 AM/PM 標記的樣式必須是 "a".',
-  'The pattern for day in month must be "F".' => '代表 day in month 的樣式必須是 "F".',
-  'The pattern for day in year must be "D", "DD" or "DDD".' => '代表 day in year 的樣式必須是 "D", "DD" 或 "DDD".',
-  'The pattern for day of the month must be "d" or "dd".' => '代表 day of the month 的樣式必須是 "d" 或 "dd".',
-  'The pattern for day of the week must be "E", "EE", "EEE", "EEEE" or "EEEEE".' => '代表 day of the week 的樣式必須是 "E", "EE", "EEE", "EEEE" 或 "EEEEE".',
+  'The pattern for day in month must be "F".' => '代表以月數取代天數的樣式必須是 "F".',
+  'The pattern for day in year must be "D", "DD" or "DDD".' => '代表該年的第幾天的樣式必須是 "D", "DD" 或 "DDD".',
+  'The pattern for day of the month must be "d" or "dd".' => '代表該月的日子的樣式必須是 "d" 或 "dd".',
+  'The pattern for day of the week must be "E", "EE", "EEE", "EEEE" or "EEEEE".' => '代表該星期的第幾天的樣式必須是 "E", "EE", "EEE", "EEEE" 或 "EEEEE".',
   'The pattern for era must be "G", "GG", "GGG", "GGGG" or "GGGGG".' => '代表年代的樣式必須是 "G", "GG", "GGG", "GGGG" 或 "GGGGG".',
   'The pattern for hour in AM/PM must be "K" or "KK".' => '代表時(AM/PM格式)的樣式必須是 "K" 或 "KK".',
   'The pattern for hour in day must be "k" or "kk".' => '代表該天第幾小時的樣式必須是 "k" 或 "kk".',
-  'The pattern for minutes must be "m" or "mm".' => '代表分的樣式必須是 "m" 或 "mm".',
+  'The pattern for minutes must be "m" or "mm".' => '代表分鐘的樣式必須是 "m" 或 "mm".',
   'The pattern for month must be "M", "MM", "MMM", or "MMMM".' => '代表月份的樣式必須是 "M", "MM", "MMM", 或 "MMMM".',
   'The pattern for seconds must be "s" or "ss".' => '代表秒的樣式必須是 "s" 或 "ss".',
   'The pattern for time zone must be "z" or "v".' => '代表時區的樣式必須是 "z" 或 "v".',
-  'The pattern for week in month must be "W".' => '代表 week in month 的樣式必須是 "W".',
-  'The pattern for week in year must be "w".' => '代表 week in year 的樣式必須是 "w".',
+  'The pattern for week in month must be "W".' => '代表以月數取代星期數的樣式必須是 "W".',
+  'The pattern for week in year must be "w".' => '代表以年數取代星期數的樣式必須是 "w".',
   'The queue is empty.' => '佇列狀態為空.',
   'The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.' => 'active record class "{class}" 中的關聯 "{relation}" 未被正確指明: 資料庫中無法找到 foreign key 中所給的 join table "{joinTable}".',
   'The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.' => 'active record class "{class}" 中的關聯 "{relation}" 有一個不完整的 foreign key. foreign key 必須是參照 joining tables 中的欄位所構成.',

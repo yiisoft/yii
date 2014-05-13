@@ -4,7 +4,7 @@
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -13,28 +13,30 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
 /**
  * CJuiAutoComplete displays an autocomplete field.
  *
- * CJuiAutoComplete encapsulates the {@link http://jqueryui.com/demos/autocomplete/ JUI
+ * CJuiAutoComplete encapsulates the {@link http://jqueryui.com/autocomplete/ JUI
  * autocomplete} plugin.
  *
  * To use this widget, you may insert the following code in a view:
  * <pre>
- * $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+ * $this->widget('zii.widgets.jui.CJuiAutoComplete',array(
  *     'name'=>'city',
- *     'source'=>array('ac1', 'ac2', 'ac3'),
+ *     'source'=>array('ac1','ac2','ac3'),
  *     // additional javascript options for the autocomplete plugin
  *     'options'=>array(
  *         'minLength'=>'2',
  *     ),
  *     'htmlOptions'=>array(
- *         'style'=>'height:20px;'
+ *         'style'=>'height:20px;',
  *     ),
  * ));
  * </pre>
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI autocomplete plugin. Please refer to
- * the {@link http://jqueryui.com/demos/autocomplete/ JUI
- * autocomplete} documentation for possible options (name-value pairs).
+ * the {@link http://api.jqueryui.com/autocomplete/ JUI AutoComplete API}
+ * documentation for possible options (name-value pairs) and
+ * {@link http://jqueryui.com/autocomplete/ JUI AutoComplete page} for
+ * general description and demo.
  *
  * By configuring the {@link source} property, you may specify where to search
  * the autocomplete options for each item. If source is an array, the list is
@@ -42,7 +44,6 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * autocomplete items from an ajax response.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1.2
  */
@@ -52,11 +53,12 @@ class CJuiAutoComplete extends CJuiInputWidget
 	 * @var mixed the entries that the autocomplete should choose from. This can be
 	 * <ul>
 	 * <li>an Array with local data</li>
-     * <li>a String, specifying a URL that returns JSON data as the entries.</li>
-     * <li>a javascript callback. Please make sure you prefix the callback name with "js:" in this case.</li>
-     * </ul>
+	 * <li>a String, specifying a URL that returns JSON data as the entries.</li>
+	 * <li>a javascript callback. Please make sure you wrap the callback with
+	 * {@link CJavaScriptExpression} in this case.</li>
+	 * </ul>
 	 */
-	public $source = array();
+	public $source=array();
 	/**
 	 * @var mixed the URL that will return JSON data as the autocomplete items.
 	 * CHtml::normalizeUrl() will be applied to this property to convert the property
@@ -76,7 +78,6 @@ class CJuiAutoComplete extends CJuiInputWidget
 			$id=$this->htmlOptions['id'];
 		else
 			$this->htmlOptions['id']=$id;
-
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
 
@@ -91,10 +92,6 @@ class CJuiAutoComplete extends CJuiInputWidget
 			$this->options['source']=$this->source;
 
 		$options=CJavaScript::encode($this->options);
-
-		$js = "jQuery('#{$id}').autocomplete($options);";
-
-		$cs = Yii::app()->getClientScript();
-		$cs->registerScript(__CLASS__.'#'.$id, $js);
+		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
 	}
 }

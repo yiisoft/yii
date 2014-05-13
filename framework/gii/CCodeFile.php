@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -15,7 +15,6 @@
  * @property string $type The code file extension (e.g. php, txt).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.gii
  * @since 1.1.2
  */
@@ -54,7 +53,7 @@ class CCodeFile extends CComponent
 		$this->content=$content;
 		if(is_file($path))
 			$this->operation=file_get_contents($path)===$content ? self::OP_SKIP : self::OP_OVERWRITE;
-		else if($content===null)  // is dir
+		elseif($content===null)  // is dir
 			$this->operation=is_dir($path) ? self::OP_SKIP : self::OP_NEW;
 		else
 			$this->operation=self::OP_NEW;

@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -33,7 +33,6 @@
  * @property string $on Scenario names separated by commas. Defaults to null.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */
@@ -105,7 +104,7 @@ class CFormButtonElement extends CFormElement
 				if(!isset($attributes['params'][$this->name]))
 					$attributes['params'][$this->name]=1;
 			}
-			else if($method==='htmlButton')
+			elseif($method==='htmlButton')
 			{
 				$attributes['type']=$this->type==='htmlSubmit' ? 'submit' : ($this->type==='htmlReset' ? 'reset' : 'button');
 				$attributes['name']=$this->name;
