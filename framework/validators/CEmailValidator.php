@@ -177,9 +177,7 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	 */
 	protected function mxSort($a, $b)
 	{
-		if($a['pri']==$b['pri'])
-			return 0;
-		return ($a['pri']<$b['pri'])?-1:1;
+		return $a['pri']-$b['pri'];
 	}
 
 	/**
