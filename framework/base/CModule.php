@@ -336,7 +336,7 @@ abstract class CModule extends CComponent
 	 * with the existing one. Defaults to true, meaning the previously registered
 	 * module configuration with the same ID will be merged with the new configuration.
 	 * If set to false, the existing configuration will be replaced completely.
-	 * This parameter is available since 1.1.16.
+	 * This parameter is available since 1.1.15.
 	 */
 	public function setModules($modules,$merge=true)
 	{
