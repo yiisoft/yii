@@ -172,6 +172,8 @@ return array(
 	'vivo'=>'video/vnd.vivo',
 	'vrml'=>'model/vrml',
 	'wav'=>'audio/x-wav',
+	'weba'=>'audio/webm',
+	'webm'=>'video/webm',
 	'wrl'=>'model/vrml',
 	'xbm'=>'image/x-xbitmap',
 	'xlc'=>'application/vnd.ms-excel',
