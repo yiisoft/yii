@@ -321,20 +321,40 @@
 			settings = $form.data('settings'),
 			needAjaxValidation = false,
 			messages = {};
+
 		$.each(settings.attributes, function () {
 			var value,
 				msg = [];
+
+			this.validated = true;
+			this.finished = true;
+
 			if (this.clientValidation !== undefined && (settings.submitting || this.status === 2 || this.status === 3)) {
 				value = getAFValue($form.find('#' + this.inputID));
 				this.clientValidation(value, msg, this);
-				if (msg.length) {
-					messages[this.id] = msg;
+				this.finished = false;
+				this.endStuff = function () {
+					this.finished = true;
+					if (msg.length) {
+						messages[this.id] = msg;
+					}
+					if (!needAjaxValidation && (this.enableAjaxValidation && !msg.length && (settings.submitting || this.status === 2 || this.status === 3))) {
+						needAjaxValidation = true;
+					}
 				}
 			}
-			if (this.enableAjaxValidation && !msg.length && (settings.submitting || this.status === 2 || this.status === 3)) {
-				needAjaxValidation = true;
-			}
 		});
+
+		var interval = setInterval(function () {
+			var validated = $.grep(settings.attributes, function (attr) {
+				return attr.validated;
+			});
+			$.each(validated, function () {
+				if (!this.finished) this.endStuff();
+			})
+
+			if (validated.length == settings.attributes.length) {
+				clearInterval(interval);
 
 		if (!needAjaxValidation || settings.submitting && !$.isEmptyObject(messages)) {
 			if (settings.submitting) {
@@ -377,6 +397,8 @@
 				}
 			}
 		});
+			}
+		}, 100);
 	};
 
 	/**
