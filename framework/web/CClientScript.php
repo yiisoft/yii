@@ -593,6 +593,12 @@ class CClientScript extends CApplicationComponent
 			$this->hasScripts=true;
 			$params=func_get_args();
 			$this->recordCachingAction('clientScript','registerCoreScript',$params);
+		} else {
+			if(YII_DEBUG=='')
+			{
+				$message=Yii::t('yii','There is no package:' . $name);
+				Yii::log($message, CLogger::LEVEL_WARNING, 'system.web.CClientScript');
+			}
 		}
 		return $this;
 	}
