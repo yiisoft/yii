@@ -273,6 +273,9 @@ class CJSON
 										   array_values($vars)))
 					   . '}';
 
+			case 'resource':
+				return 'null';
+
 			default:
 				return '';
 		}
