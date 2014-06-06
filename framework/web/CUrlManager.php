@@ -640,7 +640,7 @@ class CUrlRule extends CBaseUrlRule
 	/**
 	 * Static callback for preg_replace_callback in counstructor
 	 */
-	private static function pregQuote($matches) {
+	private static function escapeRegexpSpecialChars($matches) {
 		return preg_quote($matches[0]);
 	}
 
@@ -697,7 +697,7 @@ class CUrlRule extends CBaseUrlRule
 		$this->template=preg_replace('/<(\w+):?.*?>/','<$1>',$p);
 		$p=$this->template;
 		if(!$this->parsingOnly)
-			$p=preg_replace_callback('/(?<=^|>)[^<]+(?=<|$)/',array(__CLASS__,'pregQuote'),$p);
+			$p=preg_replace_callback('/(?<=^|>)[^<]+(?=<|$)/',array(__CLASS__,'escapeRegexpSpecialChars'),$p);
 		$this->pattern='/^'.strtr($p,$tr).'\/';
 		if($this->append)
 			$this->pattern.='/u';
