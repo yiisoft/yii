@@ -72,6 +72,7 @@
 
 			return this.each(function () {
 				var eventType,
+					eventTarget,
 					$grid = $(this),
 					id = $grid.attr('id'),
 					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
@@ -114,11 +115,13 @@
 							return; // only react to enter key
 						} else {
 							eventType = 'keydown';
+							eventTarget = event.target;
 						}
 					} else {
-						// prevent processing for both keydown and change events
-						if (eventType === 'keydown') {
+						// prevent processing for both keydown and change events on the same element
+						if (eventType === 'keydown' && eventTarget === event.target) {
 							eventType = '';
+							eventTarget = null;
 							return;
 						}
 					}

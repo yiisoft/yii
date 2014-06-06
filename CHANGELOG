@@ -4,6 +4,7 @@
 Version 1.1.17 work in progress
 -------------------------------
 
+- Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
 - Bug #3497: CErrorHandler messages for HTTP response codes were not matching RFCs (TeMPOraL)
 - Bug #3637: Fixed not quoting primary key in count statements (applee)
