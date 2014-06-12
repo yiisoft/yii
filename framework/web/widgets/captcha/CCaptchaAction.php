@@ -331,6 +331,6 @@ class CCaptchaAction extends CAction
 		header('Content-Transfer-Encoding: binary');
 		header("Content-Type: image/png");
 		$image->setImageFormat('png');
-		echo $image;
+		echo $image->getImageBlob();
 	}
 }
