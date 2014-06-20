@@ -93,6 +93,7 @@ Version 1.1.15 under development
 - Enh #3202: Adding support for the `X-HTTP-Method-Override` header in CHttpRequest (pawzar)
 - Enh #3211: Added support for PHPUnit 3.8+ in the bootstrap (JoelMarcey, samdark)
 - Enh #3222: 'summaryTagName' and 'emptyCssClass' options added to CBaseListView (klimov-paul)
+- Enh #3225: Added CForm::errorSummaryHeader and CForm::errorSummaryFooter, used like in CActiveForm::errorSummary() (rawtaz)
 - Enh #3228: Added an ability to migrate to the certain time (gorcer, resurtm)
 - Enh #3277: CHtml::checkBoxList and radioButtonList to take into account closeSingleTag for <br> (hwmaier)
 - Enh #3307: Adding attribute localeClass to CApplication (pawzar)
