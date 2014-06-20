@@ -61,6 +61,9 @@ PARAMETERS
      instead of being enclosed between a pair of '@@' marks.
    - sort: sort messages by key when merging, regardless of their translation
      state (new, obsolete, translated.)
+   - fileHeader: A boolean indicating whether the file should contain a default
+     comment that explains the message file or a string representing
+     some PHP code or comment to add before the return tag in the message file.
 
 EOD;
 	}
@@ -204,9 +207,8 @@ EOD;
 			echo "saved.\n";
 		}
 		$array=str_replace("\r",'',var_export($merged,true));
-		if ($fileHeader === true):
-		$content=<<<EOD
-<?php
+		if($fileHeader===true)
+			$fileHeader=<<<EOD
 /**
  * Message translations.
  *
@@ -224,23 +226,16 @@ EOD;
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  */
-return $array;
-
 EOD;
-		elseif ($fileHeader === false):
-		$content=<<<EOD
+		elseif($fileHeader===false)
+			$fileHeader='';
+
+		file_put_contents($fileName,<<<EOD
 <?php
+$fileHeader
 return $array;
 
-EOD;
-		else:
-				$content=<<<EOD
-<?php
-{$fileHeader}
-return $array;
-
-EOD;
-		endif;
-		file_put_contents($fileName, $content);
+EOD
+		);
 	}
 }
