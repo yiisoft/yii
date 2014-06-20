@@ -98,6 +98,9 @@ EOD;
 		if(!isset($sort))
 			$sort = false;
 
+		if(!isset($fileHeader))
+			$fileHeader = true;
+
 		$options=array();
 		if(isset($fileTypes))
 			$options['fileTypes']=$fileTypes;
@@ -117,7 +120,7 @@ EOD;
 			foreach($messages as $category=>$msgs)
 			{
 				$msgs=array_values(array_unique($msgs));
-				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld,$sort);
+				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld,$sort,$fileHeader);
 			}
 		}
 	}
@@ -147,7 +150,7 @@ EOD;
 		return $messages;
 	}
 
-	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld,$sort)
+	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld,$sort,$fileHeader)
 	{
 		echo "Saving messages to $fileName...";
 		if(is_file($fileName))
@@ -201,6 +204,7 @@ EOD;
 			echo "saved.\n";
 		}
 		$array=str_replace("\r",'',var_export($merged,true));
+		if ($fileHeader === true):
 		$content=<<<EOD
 <?php
 /**
@@ -223,6 +227,20 @@ EOD;
 return $array;
 
 EOD;
+		elseif ($fileHeader === false):
+		$content=<<<EOD
+<?php
+return $array;
+
+EOD;
+		else:
+				$content=<<<EOD
+<?php
+{$fileHeader}
+return $array;
+
+EOD;
+		endif;
 		file_put_contents($fileName, $content);
 	}
 }
