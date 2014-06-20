@@ -160,7 +160,7 @@
 				}
 
 				if (settings.ajaxUpdateError !== undefined) {
-					settings.ajaxUpdateError(XHR, textStatus, errorThrown, err);
+					settings.ajaxUpdateError(XHR, textStatus, errorThrown, err, id);
 				} else if (err) {
 					alert(err);
 				}
