@@ -141,9 +141,9 @@ class CFileValidator extends CValidator
 	 */
 	protected function validateAttribute($object, $attribute)
 	{
+		$files=$object->$attribute;
 		if($this->maxFiles > 1)
 		{
-			$files=$object->$attribute;
 			if(!is_array($files) || !isset($files[0]) || !$files[0] instanceof CUploadedFile)
 				$files = CUploadedFile::getInstances($object, $attribute);
 			if(array()===$files)
@@ -159,7 +159,19 @@ class CFileValidator extends CValidator
 		}
 		else
 		{
-			$file = $object->$attribute;
+			if (is_array($files))
+			{
+				if (count($files) > 1)
+				{
+					$message=$this->tooMany!==null?$this->tooMany : Yii::t('yii', '{attribute} cannot accept more than {limit} files.');
+					$this->addError($object, $attribute, $message, array('{attribute}'=>$attribute, '{limit}'=>$this->maxFiles));
+					return;
+				}
+				else
+					$file = empty($files) ? null : reset($files);
+			}
+			else
+				$file = $files;
 			if(!$file instanceof CUploadedFile)
 			{
 				$file = CUploadedFile::getInstance($object, $attribute);
