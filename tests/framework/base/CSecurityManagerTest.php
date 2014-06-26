@@ -86,11 +86,11 @@ class CSecurityManagerTest extends CTestCase
 			$this->markTestSkipped('Mcrypt ARCFOUR module required to test encryption with a stream cipher.');
 		$securityManager=new CSecurityManager();
 		$securityManager->cryptAlgorithm='arcfour';
-		$securityManager->encryptionKey="\x72\x88\xFC\x31\xBF";
+		$securityManager->setEncryptionKey("\x72\x88\xFC\x31\xBF");
 		$plaintext="\xD2\x4D\x0C\x59\xEB\x33\x38\x1C\x9A\xC6";
 		$ciphertext=$securityManager->encrypt($plaintext);
 		$decrypted=$securityManager->decrypt($ciphertext);
-		$this->assertEquals($plaintext, $decrypted);
+		$this->assertEquals($plaintext,$decrypted);
 	}
 
 	public function providerComputeHMAC()
