@@ -54,6 +54,7 @@ Version 1.1.15 under development
 - Bug #3305: COciSchema column comment reading from another schema (gureedo)
 - Bug #3406: Fixed Object of class Imagick could not be converted to string (eXprojects)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
+- Enh: Added proper handling and support of the symlinked directories in CFileHelper::removeDirectory(), added $options parameter in CFileHelper::removeDirectory() (resurtm)
 - Enh #89: Support for SOAP headers in WSDL generator (nineinchnick)
 - Enh #94: Web services: Implement document/literal encoding for WDSL (nineinchnick)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
