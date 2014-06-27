@@ -6360,8 +6360,12 @@ class CClientScript extends CApplicationComponent
 				$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
 			$baseUrl=rtrim($baseUrl,'/');
 		}
-		elseif(isset($package['basePath']))
-			$baseUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
+        elseif(isset($package['basePath'])){
+            $basePath = Yii::getPathOfAlias($package['basePath']) ? Yii::getPathOfAlias($package['basePath']) : realpath($package['basePath']);
+            if($basePath === false)
+                throw new CException(Yii::t('yii', 'Wrong basePath definition in {package}', array('package'=>$name)));
+            $baseUrl=Yii::app()->getAssetManager()->publish($basePath);
+        }
 		else
 			$baseUrl=$this->getCoreScriptUrl();
 		return $this->coreScripts[$name]['baseUrl']=$baseUrl;
