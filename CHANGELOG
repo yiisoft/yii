@@ -1,9 +1,7 @@
                    Yii Framework Change Log
                    ========================
-Work in progress
-----------------
 
-Version 1.1.15 under development
+Version 1.1.16 under development
 --------------------------------
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #788: createIndex is not using the recommended way to create unique indexes on Postgres (nineinchnick)
@@ -111,6 +109,10 @@ Version 1.1.15 under development
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
+
+Version 1.1.15 June 29, 2014
+----------------------------
+- Bug (CVE-2014-4672): CDetailView may be exploited to allow executing arbitrary PHP script on the server (cebe, qiangxue)
 
 Version 1.1.14 August 11, 2013
 ------------------------------
