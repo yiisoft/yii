@@ -429,7 +429,31 @@ class YiiBase
 					}
 				}
 				else
-					include($className.'.php');
+				{
+
+					/*
+					 * Fix for issue: 3418
+					 * This should now work with new version of PHPUnit.
+					 *
+					 * */
+
+					$ip = get_include_path();
+					$includes = strstr($ip, PATH_SEPARATOR) ? explode(PATH_SEPARATOR, $ip) : array($ip);
+					$found = false;
+
+					foreach ($includes as $include)
+					{
+						if (file_exists($include . DIRECTORY_SEPARATOR . $className . '.php'))
+						{
+							$found = true;
+							break;
+						}
+					}
+
+					include_once(($found ? $className : str_replace('_', DIRECTORY_SEPARATOR, $className)) . '.php');
+
+				}
+
 			}
 			else  // class name with namespace in PHP 5.3
 			{
