@@ -738,9 +738,9 @@ class CDbCommandBuilder extends CComponent
 			{
 				$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_', '\\'=>'\\\\')).'%';
 				if($caseSensitive)
-					$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
+					$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue($keyword);
 				else
-					$condition[]='LOWER('.$prefix.$column->rawName.') LIKE LOWER('.$this->_connection->quoteValue('%'.$keyword.'%').')';
+					$condition[]='LOWER('.$prefix.$column->rawName.') LIKE LOWER('.$this->_connection->quoteValue($keyword).')';
 			}
 			$conditions[]=implode(' AND ',$condition);
 		}

@@ -223,11 +223,11 @@ return array (
   '{widget} cannot find the view "{view}".' => '{widget} نمیتواند قالب "{view}" را پیدا کند.',
   'Yii application can only be created once.' => 'اپلیکیشن یی تنها یک بار می تواند ایجاد شود.',
   'You are not authorized to perform this action.' => 'شما دسترسی انجام این عمل را ندارید.',
-  'Your request is not valid.' => 'درخواست شما ، معتبر نمی باشد.',  
+  'Your request is not valid.' => 'درخواست شما معتبر نمی باشد.',
   'The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.' => 'آپلود فایل "{file}" ممکن نیست. MIME-type های مجاز برای آپلود: {mimeTypes}',
   'The format of {attribute} is invalid.' => 'قالب {attribute} معتبر نیست.',
   'The requested view "{name}" was not found.' => 'نمای {name} پیدا نشد.',
-  'Your request is invalid.' => 'درخواست شما معتبر است.',
+  'Your request is invalid.' => 'درخواست شما معتبر نیست.',
   '{attribute} cannot accept more than {limit} files.' => '{attribute} نمی تواند بیشتر از {limit} فایل قبول کند.',
   '{attribute} is in the list.' => '{attribute} در لیست موجود است.',
 );

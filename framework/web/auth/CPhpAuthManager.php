@@ -100,7 +100,7 @@ class CPhpAuthManager extends CAuthManager
 	public function addItemChild($itemName,$childName)
 	{
 		if(!isset($this->_items[$childName],$this->_items[$itemName]))
-			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{name}'=>$itemName)));
+			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));
 		$child=$this->_items[$childName];
 		$item=$this->_items[$itemName];
 		$this->checkItemChildType($item->getType(),$child->getType());

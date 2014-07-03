@@ -1,9 +1,7 @@
                    Yii Framework Change Log
                    ========================
-Work in progress
-----------------
 
-Version 1.1.15 under development
+Version 1.1.16 under development
 --------------------------------
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
 - Bug #788: createIndex is not using the recommended way to create unique indexes on Postgres (nineinchnick)
@@ -11,6 +9,7 @@ Version 1.1.15 under development
 - Bug #2235: CPgsqlColumnSchema can't parse default value for numeric field (cebe, pavimus)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
 - Bug #2519: CGridView and CListView fixed to be able handling special characters if history is enabled (klimov-paul)
+- Bug #2594: CLogRouter::processLogs() now ensures to clear the Logger messages so nothing is logged twice when method is called multiple times (cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
 - Bug #2658: CBaseListView, CGridView, CListView: added note about $itemsCssClass and $pagerCssClass properties, they must not contain empty string, null or false values (resurtm)
 - Bug #2969: CPgsqlSchema::addColumn() converts column type twice (cebe, klimov-paul)
@@ -45,11 +44,15 @@ Version 1.1.15 under development
 - Bug #3242: Removed display:none on form hidden fields (mahadazad)
 - Bug #3283: Fixed CEmailValidator to validate empty value (nukkumatti)
 - Bug #3288: Check if PHPUnit_Runner_Version exists before requiring (hjellek)
+- Bug #3321: Clear stat cache after rotating log files so later file size check is not cached (cebe, jjdunn)
+- Bug #3410: Fixed wrong translation parameter name in CPhpAuthManager::addItemChild() (klimov-paul)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
 - Bug: Fixed an issue with CFilehelper and not accessable directories which resulted in endless loop (cebe)
 - Bug #3305: COciSchema column comment reading from another schema (gureedo)
+- Bug #3406: Fixed Object of class Imagick could not be converted to string (eXprojects)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
+- Enh: Added proper handling and support of the symlinked directories in CFileHelper::removeDirectory(), added $options parameter in CFileHelper::removeDirectory() (resurtm)
 - Enh #89: Support for SOAP headers in WSDL generator (nineinchnick)
 - Enh #94: Web services: Implement document/literal encoding for WDSL (nineinchnick)
 - Enh #106: Added getters to CGridColumn to allow getting cell contents for extended use cases of CGridView (cebe)
@@ -72,7 +75,11 @@ Version 1.1.15 under development
 - Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
 - Enh #2791: requirements/index.php: added CRYPT_BLOWFISH check for CPasswordHelper (tom--)
 - Enh #2799: Add HTML5 input support for color, datetime, datetime-local, week and search to CHtml and CActiveForm (phpnode)
+- Enh #2722: CFileHelper::findFiles() accepts absolutePaths in $options and returns absolute paths if true or relative ones otherwise (defaults to true) (pavel-voronin)
+- Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
 - Enh #2817: Allow specifying $colums and $refColumns arguments as array in various CDbSchema methods (mynameiszanders, samdark)
+- Enh #2850: Parameter 'id' added for 'ajaxUpdateError' js function at 'CListView' and 'CGridView' (klimov-paul)
+- Enh #2851: Improved Mime-Type detection by using the `mime.types` file from apache http project to dected mime types by file extension (cebe, pavel-voronin, trejder)
 - Enh #2852: Refactored ShellCommand to be easier to extend (samdark, mindplay-dk)
 - Enh #2908: Add insertMultiple to Migrations (luislobo)
 - Enh #3014: Allow changing the database used by ActiveRecord in beforeCount() like it is possible in beforeFind() already (cebe)
@@ -88,16 +95,25 @@ Version 1.1.15 under development
 - Enh #3202: Adding support for the `X-HTTP-Method-Override` header in CHttpRequest (pawzar)
 - Enh #3211: Added support for PHPUnit 3.8+ in the bootstrap (JoelMarcey, samdark)
 - Enh #3222: 'summaryTagName' and 'emptyCssClass' options added to CBaseListView (klimov-paul)
+- Enh #3225: Added CForm::errorSummaryHeader and CForm::errorSummaryFooter, used like in CActiveForm::errorSummary() (rawtaz)
 - Enh #3228: Added an ability to migrate to the certain time (gorcer, resurtm)
 - Enh #3277: CHtml::checkBoxList and radioButtonList to take into account closeSingleTag for <br> (hwmaier)
 - Enh #3307: Adding attribute localeClass to CApplication (pawzar)
 - Enh #3314: Removed async from special attribute list enabling async=false for scripts (wilwade)
 - Enh #3324: Added syslog log route (miramir, resurtm)
-- Enh #3349: Added errorCalback to CActiveForm::$clientOptions (rusalex)
+- Enh #3346: Added `fileHeader` option to MessageCommand (mbdwey)
+- Enh #3349: Added errorCallback to CActiveForm::$clientOptions (rusalex)
+- Enh #3351: Allow array attribute for CFileValidator even if `maxFiles` is not > 1 (cebe)
+- Enh #3359: Added merge parameter to CModule::setModules (KJLJon)
+- Enh #3391: Exception and log for not existed ClientScript package (rusalex)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 - Enh #3362: Updated i18n data to CLDR 25 (dralshehri)
+
+Version 1.1.15 June 29, 2014
+----------------------------
+- Bug (CVE-2014-4672): CDetailView may be exploited to allow executing arbitrary PHP script on the server (cebe, qiangxue)
 
 Version 1.1.14 August 11, 2013
 ------------------------------

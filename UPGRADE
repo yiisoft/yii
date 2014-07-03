@@ -1,4 +1,4 @@
-         Upgrading Instructions for Yii Framework v1.1.15
+         Upgrading Instructions for Yii Framework v1.1.16
          ================================================
 
 !!!IMPORTANT!!!
@@ -17,6 +17,9 @@ General upgrade instructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
+Upgrading from v1.1.15
+----------------------
+
 Upgrading from v1.1.14
 ----------------------
 
@@ -26,6 +29,11 @@ Upgrading from v1.1.14
 - The possibility to use callables for values of CDetailView introduced a problem with string beeing interpreted as
   PHP functions. CDetailView now only allows anonymous functions to be called, all other values will be taken as value.
 
+- We updated the `framework/utils/mimeTypes.php` with more file extensions from the http apache project.
+  Due to this fact some of the assignments have changed so if you rely on the mimeType detection of `CFileHelper`
+  you need to check if your code works with the new mime type assigments.
+  You can use a custom `mimeTypes.php` file to bring back the old behavior if needed by specifying the second parameter
+  of `CFileHelper::getMimeTypeByExtension($file, $magicFile='path/to/your/mimeTypes.php')`.
 
 Upgrading from v1.1.13
 ----------------------

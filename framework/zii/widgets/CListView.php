@@ -140,7 +140,7 @@ class CListView extends CBaseListView
 	 * Example (add in a call to CGridView):
 	 * <pre>
 	 *  ...
-	 *  'ajaxUpdateError'=>'function(xhr,ts,et,err){ $("#myerrordiv").text(err); }',
+	 *  'ajaxUpdateError'=>'function(xhr,ts,et,err,id){ $("#"+id).text(err); }',
 	 *  ...
 	 * </pre>
 	 * @since 1.1.13

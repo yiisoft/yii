@@ -134,6 +134,14 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public $showErrors;
 	/**
+	 * @var string|null HTML code to prepend to the list of errors in the error summary. See {@link CActiveForm::errorSummary()}.
+	 */
+	public $errorSummaryHeader;
+	/**
+	 * @var string|null HTML code to append to the list of errors in the error summary. See {@link CActiveForm::errorSummary()}.
+	 */
+	public $errorSummaryFooter;
+	/**
 	 * @var array the configuration used to create the active form widget.
 	 * The widget will be used to render the form tag and the error messages.
 	 * The 'class' option is required, which specifies the class of the widget.
@@ -476,7 +484,7 @@ class CForm extends CFormElement implements ArrayAccess
 			$output.="<div class=\"description\">\n".$this->description."</div>\n";
 
 		if($this->showErrorSummary && ($model=$this->getModel(false))!==null)
-			$output.=$this->getActiveFormWidget()->errorSummary($model)."\n";
+			$output.=$this->getActiveFormWidget()->errorSummary($model,$this->errorSummaryHeader,$this->errorSummaryFooter)."\n";
 
 		$output.=$this->renderElements()."\n".$this->renderButtons()."\n";
 
