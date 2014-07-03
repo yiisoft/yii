@@ -7,6 +7,7 @@ Version 1.1.15
 --------------
 
  * [AR に JOIN 後の操作](/doc/guide/database.arr#sec-12) を追加
+ * [ODBC 接続に関するノートを追加](/doc/guide/database.dao#sec-3)
 
 Version 1.1.14
 --------------
@@ -93,10 +94,8 @@ Version 1.1.0
 
  * デフォルトのテーブルエイリアスを、アクティブレコードのリレーション名をとるように変更
 
- * [テーブルプレフィクスを使用するためのサポートを追加](/doc/guide/database.dao#sec-8).
+ * [テーブルプレフィクスを使用するためのサポートを追加](/doc/guide/database.dao#sec-9).
 
  * [Ziiライブラリ](http://code.google.com/p/zii/)として知られる新しいエクステンションを追加
 
  * AR クエリにおける主テーブルのエイリアスを 't' に固定
-
-<div class="revision">$Id$</div>
