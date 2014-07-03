@@ -316,10 +316,9 @@ class User extends CActiveRecord
 このように宣言した場合、`$author->posts` としてアクセスすると、著者の記事を作成日時の降順でソートして取得することが出来ます。
 また、各記事のインスタンスには、そのカテゴリも付加されます。
 
-> Note|注意: when using eager loading such relation options as 'order', 'group',
-'having', 'limit' and 'offset' will be ignored. You should setup such parameters
-at the main model criteria level if you wish them to be applied.
-
+> Note|注意: イーガーローディングを使う場合、'order'、'group'、'having'、'limit'
+> および 'offset' というようなオプションは無視されます。このようなパラメータを適用したいときは、
+> メインモデルのクライテリアのレベルで設定しなければなりません。
 
 カラム名の曖昧さを無くする
 ---------------------------
