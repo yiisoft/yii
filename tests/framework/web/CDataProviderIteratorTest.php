@@ -13,7 +13,7 @@ class CDataProviderIteratorTest extends CTestCase
 			array(1,100),
 			array(10,30),
 			array(110,40),
-            array(15,87)
+			array(15,87)
 		);
 	}
 
@@ -60,8 +60,7 @@ class CDataProviderIteratorTest extends CTestCase
 		foreach($iterator as $item) {
 			$this->assertEquals("Item ".$n,$item['name']);
 			$n++;
-            array_pop($dataProvider->rawData);
-
+			array_pop($dataProvider->rawData);
 		}
 	}
 
