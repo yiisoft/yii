@@ -45,6 +45,7 @@ Version 1.1.16 under development
 - Bug #3283: Fixed CEmailValidator to validate empty value (nukkumatti)
 - Bug #3288: Check if PHPUnit_Runner_Version exists before requiring (hjellek)
 - Bug #3321: Clear stat cache after rotating log files so later file size check is not cached (cebe, jjdunn)
+- Bug #3327: Gii did not generate empty directories properly (gureedo)
 - Bug #3410: Fixed wrong translation parameter name in CPhpAuthManager::addItemChild() (klimov-paul)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
