@@ -109,6 +109,7 @@ Version 1.1.16 under development
 - Enh #3391: Exception and log for not existed ClientScript package (rusalex)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
+- Chg #3465: Added ability to override system path (slavcodev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
 Version 1.1.15 June 29, 2014
