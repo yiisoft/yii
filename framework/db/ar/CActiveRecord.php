@@ -1149,7 +1149,9 @@ abstract class CActiveRecord extends CModel
 	 * or an attribute value indexed by its name. If the latter, the record's
 	 * attribute will be changed accordingly before saving.
 	 * @throws CDbException if the record is new
-	 * @return boolean whether the update is successful
+	 * @return boolean whether the update is successful. Note that false is also returned if the saving
+	 * was successfull but no attributes had changed and the database driver returns 0 for the number
+	 * of updated records.
 	 */
 	public function saveAttributes($attributes)
 	{
