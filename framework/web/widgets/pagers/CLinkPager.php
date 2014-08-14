@@ -149,26 +149,34 @@ class CLinkPager extends CBasePager
 		list($beginPage,$endPage)=$this->getPageRange();
 		$currentPage=$this->getCurrentPage(false); // currentPage is calculated in getPageRange()
 		$buttons=array();
-
-		// first page
-		$buttons[]=$this->createPageButton($this->firstPageLabel,0,$this->firstPageCssClass,$currentPage<=0,false);
-
-		// prev page
-		if(($page=$currentPage-1)<0)
-			$page=0;
-		$buttons[]=$this->createPageButton($this->prevPageLabel,$page,$this->previousPageCssClass,$currentPage<=0,false);
+		
+		if ($this->firstPageLabel !== false) {
+			// first page
+			$buttons[]=$this->createPageButton($this->firstPageLabel,0,$this->firstPageCssClass,$currentPage<=0,false);
+		}
+		
+		if ($this->prevPageLabel !== false) {
+			// prev page
+			if(($page=$currentPage-1)<0)
+				$page=0;
+			$buttons[]=$this->createPageButton($this->prevPageLabel,$page,$this->previousPageCssClass,$currentPage<=0,false);
+		}
 
 		// internal pages
 		for($i=$beginPage;$i<=$endPage;++$i)
 			$buttons[]=$this->createPageButton($i+1,$i,$this->internalPageCssClass,false,$i==$currentPage);
+		
+		if ($this->nextPageLabel !== false) {
+			// next page
+			if(($page=$currentPage+1)>=$pageCount-1)
+				$page=$pageCount-1;
+			$buttons[]=$this->createPageButton($this->nextPageLabel,$page,$this->nextPageCssClass,$currentPage>=$pageCount-1,false);
+		}
 
-		// next page
-		if(($page=$currentPage+1)>=$pageCount-1)
-			$page=$pageCount-1;
-		$buttons[]=$this->createPageButton($this->nextPageLabel,$page,$this->nextPageCssClass,$currentPage>=$pageCount-1,false);
-
-		// last page
-		$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$this->lastPageCssClass,$currentPage>=$pageCount-1,false);
+		if ($this->lastPageLabel !== false) {
+			// last page
+			$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$this->lastPageCssClass,$currentPage>=$pageCount-1,false);
+		}
 
 		return $buttons;
 	}
