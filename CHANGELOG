@@ -38,6 +38,7 @@ Version 1.1.16 under development
 - Bug #3010: Problem with callables given as values to CDetailView. CDetailView now only allows annonymous functions to be called, all other values will be taken as value (cebe)
 - Bug #3064: Fixed problem with array to string converion in CDbMigration methods that accept array parameters (cebe)
 - Bug #3055: CAction::runWithParams() now returns consistent result even if called without parameters (cebe)
+- Bug #3087: Fixed crash on cookie validation when switching between enabling and disabling validation (cebe)
 - Bug #3113: Fixed problems with realpath(false) which can occur in combination with Yii::getPathOfAlias() when alias does not exist (cebe)
 - Bug #3134: Fixed the issue that query cache returns the same data for the same SQL but different query methods (qiangxue)
 - Bug #3144: It wasn't possible to use attributes with spaces in validation rules (samdark)
