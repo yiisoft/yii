@@ -192,8 +192,10 @@ class CCompareValidator extends CValidator
 			'{attribute}'=>$object->getAttributeLabel($attribute),
 			'{compareAttribute}'=>$compareTo,
 		));
+		$skipOnError = $this->clientValidateSkipOnError();
 
 		return "
+$skipOnError
 if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	messages.push(".CJSON::encode($message).".replace('{compareValue}', ".$compareValue."));
 }

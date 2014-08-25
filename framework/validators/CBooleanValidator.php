@@ -83,7 +83,9 @@ class CBooleanValidator extends CValidator
 			'{true}'=>$this->trueValue,
 			'{false}'=>$this->falseValue,
 		));
+		$skipOnError = $this->clientValidateSkipOnError();
 		return "
+$skipOnError
 if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '')."value!=".CJSON::encode($this->trueValue)." && value!=".CJSON::encode($this->falseValue).") {
 	messages.push(".CJSON::encode($message).");
 }

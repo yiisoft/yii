@@ -125,6 +125,7 @@ if (info)
 		else
 			$validateIDN='';
 
+		$skipOnError = $this->clientValidateSkipOnError();
 		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} is not a valid email address.');
 		$message=strtr($message, array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
@@ -136,6 +137,7 @@ if (info)
 
 		return "
 $validateIDN
+$skipOnError
 if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	messages.push(".CJSON::encode($message).");
 }

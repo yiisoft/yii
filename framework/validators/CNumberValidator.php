@@ -146,8 +146,10 @@ class CNumberValidator extends CValidator
 			'{min}'=>$this->min,
 		));
 
+		$skipOnError = $this->clientValidateSkipOnError();
 		$pattern=$this->integerOnly ? $this->integerPattern : $this->numberPattern;
 		$js="
+$skipOnError
 if(!value.match($pattern)) {
 	messages.push(".CJSON::encode($message).");
 }

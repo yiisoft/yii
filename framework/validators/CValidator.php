@@ -233,6 +233,20 @@ abstract class CValidator extends CComponent
 	}
 
 	/**
+	 * Returns the Javascript code for skip validation on error
+	 * @return string
+	 */
+	public function clientValidateSkipOnError()
+	{
+		$skipOnError = '';
+		if($this->skipOnError)
+		{
+			$skipOnError = "if (messages.length) return;";
+		}
+		return $skipOnError;
+	}
+
+	/**
 	 * Returns a value indicating whether the validator applies to the specified scenario.
 	 * A validator applies to a scenario as long as any of the following conditions is met:
 	 * <ul>
