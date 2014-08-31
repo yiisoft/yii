@@ -174,6 +174,7 @@ CREATE TABLE public.yii_types
 	real_col REAL DEFAULT 1.23,
 	blob_col BYTEA,
 	time TIMESTAMP,
+	time2 TIMESTAMP(4),
 	bool_col BOOL NOT NULL,
 	bool_col2 BOOLEAN DEFAULT TRUE
 );

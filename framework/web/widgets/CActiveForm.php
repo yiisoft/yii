@@ -515,7 +515,10 @@ class CActiveForm extends CWidget
 				$option['clientValidation']=new CJavaScriptExpression("function(value, messages, attribute) {\n".implode("\n",$validators)."\n}");
 		}
 
-		$html=CHtml::error($model,$attribute,$htmlOptions);
+		if(empty($option['hideErrorMessage']) && empty($this->clientOptions['hideErrorMessage']))
+			$html=CHtml::error($model,$attribute,$htmlOptions);
+		else
+			$html='';
 		if($html==='')
 		{
 			if(isset($htmlOptions['style']))
