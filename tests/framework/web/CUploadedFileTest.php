@@ -124,4 +124,24 @@ class CUploadedFileTest extends CTestCase
 		foreach($uploadedFiles as $uploadedFile)
 			$this->assertEquals($_FILES[$baseInputName]['name'],$uploadedFile->getName(),'Wrong file fetched!');
 	}
+
+    public function testGetExtensionName()
+    {
+        $inputName='test_name';
+        $_FILES[$inputName]=array(
+            'name'=>'test_file.dat',
+            'type'=>'somemime/type',
+            'tmp_name'=>'/tmp/test_file',
+            'error'=>UPLOAD_ERR_OK,
+            'size'=>100,
+        );
+        $uploadedFile=CUploadedFile::getInstanceByName($inputName);
+        $this->assertEquals("dat",$uploadedFile->getExtensionName(),'Wrong extension name!');
+
+        // reset and test a setup without file extension
+        CUploadedFile::reset();
+        $_FILES[$inputName]['name']='test_file';
+        $uploadedFile=CUploadedFile::getInstanceByName($inputName);
+        $this->assertEquals("",$uploadedFile->getExtensionName(),'Wrong extension name!');
+    }
 }

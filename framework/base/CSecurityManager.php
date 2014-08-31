@@ -271,6 +271,9 @@ class CSecurityManager extends CApplicationComponent
 	 */
 	public function validateData($data,$key=null)
 	{
+		if (!is_string($data))
+			return false;
+
 		$len=$this->strlen($this->computeHMAC('test'));
 		if($this->strlen($data)>=$len)
 		{
