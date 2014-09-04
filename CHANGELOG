@@ -114,6 +114,7 @@ Version 1.1.16 under development
 - Enh #3351: Allow array attribute for CFileValidator even if `maxFiles` is not > 1 (cebe)
 - Enh #3359: Added merge parameter to CModule::setModules (KJLJon)
 - Enh #3391: Exception and log for not existed ClientScript package (rusalex)
+- Enh #3513: Added 'getExtensionByMimeType' method to CFileHelper class (UA2004)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
