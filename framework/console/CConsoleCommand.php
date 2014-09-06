@@ -362,6 +362,9 @@ abstract class CConsoleCommand extends CComponent
 		$overwriteAll=false;
 		foreach($fileList as $name=>$file)
 		{
+			if (!isset($file['source']) || !isset($file['target'])){
+				continue;
+			}
 			$source=strtr($file['source'],'/\\',DIRECTORY_SEPARATOR);
 			$target=strtr($file['target'],'/\\',DIRECTORY_SEPARATOR);
 			$callback=isset($file['callback']) ? $file['callback'] : null;
