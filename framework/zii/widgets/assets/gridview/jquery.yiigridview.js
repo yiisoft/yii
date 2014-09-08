@@ -392,14 +392,14 @@
 		 */
 		getChecked: function (column_id) {
 			var settings = gridSettings[this.attr('id')],
-				keys = this.find('.keys span'),
+				keys = this.find("input[name='" + column_id + "[]']"),
 				checked = [];
 			if (column_id.substring(column_id.length - 2) !== '[]') {
 				column_id = column_id + '[]';
 			}
 			this.find('.' + settings.tableClass).children('tbody').children('tr').children('td').children('input[name="' + column_id + '"]').each(function (i) {
 				if (this.checked) {
-					checked.push(keys.eq(i).text());
+					checked.push(keys.eq(i).val());
 				}
 			});
 			return checked;
