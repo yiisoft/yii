@@ -69,7 +69,8 @@ class CListIterator implements Iterator
 	 */
 	public function current()
 	{
-		return $this->_d[$this->_i];
+		if (isset($this->_d[$this->_i]))
+			return $this->_d[$this->_i];
 	}
 
 	/**
