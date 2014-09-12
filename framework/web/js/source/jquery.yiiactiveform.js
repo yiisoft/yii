@@ -34,6 +34,75 @@
 		}
 	};
 
+	var bindAttributeEvents = function (form, attributes) {
+		var $form = $(form);
+
+		$.each(attributes, function (i, attribute) {
+			if (this.validateOnChange) {
+				$form.find('#' + this.inputID).change(function () {
+					validateInput(attribute, $form, false);
+				}).blur(function () {
+					if (attribute.status !== 2 && attribute.status !== 3) {
+						validateInput(attribute, $form, !attribute.status);
+					}
+				});
+			}
+			if (this.validateOnType) {
+				$form.find('#' + this.inputID).keyup(function () {
+					if (attribute.value !== getAFValue($(this))) {
+						validateInput(attribute, $form, false);
+					}
+				});
+			}
+		});
+	};
+
+	var validateInput = function (attribute, form, forceValidate) {
+		var $form = $(form);
+		var settings = $form.data('settings');
+
+		if (forceValidate) {
+			attribute.status = 2;
+		}
+		$.each(settings.attributes, function () {
+			if (this.value !== getAFValue($form.find('#' + this.inputID))) {
+				this.status = 2;
+				forceValidate = true;
+			}
+		});
+		if (!forceValidate) {
+			return;
+		}
+
+		if (settings.timer !== undefined) {
+			clearTimeout(settings.timer);
+		}
+		settings.timer = setTimeout(function () {
+			if (settings.submitting || $form.is(':hidden')) {
+				return;
+			}
+			if (attribute.beforeValidateAttribute === undefined || attribute.beforeValidateAttribute($form, attribute)) {
+				$.each(settings.attributes, function () {
+					if (this.status === 2) {
+						this.status = 3;
+						$.fn.yiiactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
+					}
+				});
+				$.fn.yiiactiveform.validate($form, function (data) {
+					var hasError = false;
+					$.each(settings.attributes, function () {
+						if (this.status === 2 || this.status === 3) {
+							hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
+						}
+					});
+					if (attribute.afterValidateAttribute !== undefined) {
+						attribute.afterValidateAttribute($form, attribute, data, hasError);
+					}
+				},settings.errorCallback);
+			}
+		}, attribute.validationDelay);
+	};
+
 	/**
 	 * yiiactiveform set function.
 	 * @param options map settings for the active form plugin. Please see {@link CActiveForm::options} for availablel options.
@@ -46,86 +115,14 @@
 			if (settings.validationUrl === undefined) {
 				settings.validationUrl = $form.attr('action');
 			}
-			$.each(settings.attributes, function (i) {
-				this.value = getAFValue($form.find('#' + this.inputID));
-				settings.attributes[i] = $.extend({}, {
-					validationDelay: settings.validationDelay,
-					validateOnChange: settings.validateOnChange,
-					validateOnType: settings.validateOnType,
-					hideErrorMessage: settings.hideErrorMessage,
-					inputContainer: settings.inputContainer,
-					errorCssClass: settings.errorCssClass,
-					successCssClass: settings.successCssClass,
-					beforeValidateAttribute: settings.beforeValidateAttribute,
-					afterValidateAttribute: settings.afterValidateAttribute,
-					validatingCssClass: settings.validatingCssClass,
-					errorCallback: settings.errorCallback
-				}, this);
-			});
+
 			$form.data('settings', settings);
+			$.fn.yiiactiveform.addAttributes($form, settings.attributes);
 
 			settings.submitting = false;  // whether it is waiting for ajax submission result
-			var validate = function (attribute, forceValidate) {
-				if (forceValidate) {
-					attribute.status = 2;
-				}
-				$.each(settings.attributes, function () {
-					if (this.value !== getAFValue($form.find('#' + this.inputID))) {
-						this.status = 2;
-						forceValidate = true;
-					}
-				});
-				if (!forceValidate) {
-					return;
-				}
 
-				if (settings.timer !== undefined) {
-					clearTimeout(settings.timer);
-				}
-				settings.timer = setTimeout(function () {
-					if (settings.submitting || $form.is(':hidden')) {
-						return;
-					}
-					if (attribute.beforeValidateAttribute === undefined || attribute.beforeValidateAttribute($form, attribute)) {
-						$.each(settings.attributes, function () {
-							if (this.status === 2) {
-								this.status = 3;
-								$.fn.yiiactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
-							}
-						});
-						$.fn.yiiactiveform.validate($form, function (data) {
-							var hasError = false;
-							$.each(settings.attributes, function () {
-								if (this.status === 2 || this.status === 3) {
-									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
-								}
-							});
-							if (attribute.afterValidateAttribute !== undefined) {
-								attribute.afterValidateAttribute($form, attribute, data, hasError);
-							}
-						},settings.errorCallback);
-					}
-				}, attribute.validationDelay);
-			};
-
-			$.each(settings.attributes, function (i, attribute) {
-				if (this.validateOnChange) {
-					$form.find('#' + this.inputID).change(function () {
-						validate(attribute, false);
-					}).blur(function () {
-						if (attribute.status !== 2 && attribute.status !== 3) {
-							validate(attribute, !attribute.status);
-						}
-					});
-				}
-				if (this.validateOnType) {
-					$form.find('#' + this.inputID).keyup(function () {
-						if (attribute.value !== getAFValue($(this))) {
-							validate(attribute, false);
-						}
-					});
-				}
-			});
+			// Binds the events to attributes (onchange, onkeyup validation, etc) according to settings
+			bindAttributeEvents($form, settings.attributes);
 
 			if (settings.validateOnSubmit) {
 				$form.on('mouseup keyup', ':submit', function () {
@@ -308,6 +305,34 @@
 		}
 		$('#' + settings.summaryID).toggle(content !== '').find('ul').html(content);
 	};
+
+	$.fn.yiiactiveform.addAttributes = function (form, attributes)
+	{
+		var $form = $(form),
+			settings = $form.data('settings');
+
+		$.each(attributes, function() {
+			this.value = getAFValue($form.find('#' + this.inputID));
+
+			settings.attributes.push($.extend({}, {
+				validationDelay: settings.validationDelay,
+				validateOnChange: settings.validateOnChange,
+				validateOnType: settings.validateOnType,
+				hideErrorMessage: settings.hideErrorMessage,
+				inputContainer: settings.inputContainer,
+				errorCssClass: settings.errorCssClass,
+				successCssClass: settings.successCssClass,
+				beforeValidateAttribute: settings.beforeValidateAttribute,
+				afterValidateAttribute: settings.afterValidateAttribute,
+				validatingCssClass: settings.validatingCssClass,
+				errorCallback: settings.errorCallback
+			}, this));
+		});
+
+		$form.data('settings', settings);
+
+		bindAttributeEvents($form, attributes);
+	}
 
 	/**
 	 * Performs the ajax validation request.
