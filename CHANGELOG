@@ -118,6 +118,7 @@ Version 1.1.16 under development
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
+- Enh #3533: Added Yii and YiiBase classes to composer autoloader (sammousa)
 
 Version 1.1.15 June 29, 2014
 ----------------------------
