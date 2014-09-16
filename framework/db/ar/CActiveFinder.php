@@ -249,7 +249,7 @@ class CActiveFinder extends CComponent
 			if(!empty($options['joinOptions']))
 				$relation->joinOptions=$options['joinOptions'];
 
-			$model->resetScope(false);
+			$model->resetScope(!empty($options['resetDefaultScope']));
 			$criteria=$model->getDbCriteria();
 			$criteria->scopes=$scopes;
 			$model->beforeFindInternal();
