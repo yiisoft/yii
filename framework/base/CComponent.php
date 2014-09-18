@@ -547,9 +547,7 @@ class CComponent
 		{
 			foreach($this->_e[$name] as $handler)
 			{
-				if(null===$handler) // Ignore removed event handlers
-					continue;
-				elseif(is_string($handler))
+				if(is_string($handler))
 					call_user_func($handler,$event);
 				elseif(is_callable($handler,true))
 				{
