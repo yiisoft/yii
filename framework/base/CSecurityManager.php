@@ -170,6 +170,7 @@ class CSecurityManager extends CApplicationComponent
 				$this->setEncryptionKey($key);
 				Yii::app()->setGlobalState(self::STATE_ENCRYPTION_KEY,$key);
 			}
+			return $this->_encryptionKey;
 		}
 	}
 
