@@ -35,15 +35,6 @@ class CSecurityManagerTest extends CTestCase
 	/**
 	 * @expectedException CException
 	 */
-	public function testMissingKey()
-	{
-		$sm=new CSecurityManager;
-		$sm->encrypt('some data');
-	}
-
-	/**
-	 * @expectedException CException
-	 */
 	public function testUndersizedGlobalKey()
 	{
 		$sm=new CSecurityManager;
