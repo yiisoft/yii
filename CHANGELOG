@@ -1,6 +1,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.16 September **, 2014
+---------------------------------
+- Bug (CVE-2014-****): CSecurityManager encryption and string comparison were enhanced (sarciszewski, Jan Ewald, tom--, ircmaxell, qiangxue, samdark)
+
 Version 1.1.15 June 29, 2014
 ----------------------------
 - Bug (CVE-2014-4672): CDetailView may be exploited to allow executing arbitrary PHP script on the server (cebe, qiangxue)

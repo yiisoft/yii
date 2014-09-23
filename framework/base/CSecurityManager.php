@@ -58,6 +58,11 @@ class CSecurityManager extends CApplicationComponent
 	);
 
 	/**
+	 * @var boolean if encryption key should be validated
+	 */
+	public $validateEncryptionKey=true;
+
+	/**
 	 * @var string the name of the hashing algorithm to be used by {@link computeHMAC}.
 	 * See {@link http://php.net/manual/en/function.hash-algos.php hash-algos} for the list of possible
 	 * hash algorithms. Note that if you are using PHP 5.1.1 or below, you can only use 'sha1' or 'md5'.
@@ -145,10 +150,27 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @return string the private key used to encrypt/decrypt data.
+	 * If the key is not explicitly set, a random one is generated and returned.
+	 * @throws CException in case random string cannot be generated.
 	 */
 	public function getEncryptionKey()
 	{
-		return $this->_encryptionKey;
+		if($this->_encryptionKey!==null)
+			return $this->_encryptionKey;
+		else
+		{
+			if(($key=Yii::app()->getGlobalState(self::STATE_ENCRYPTION_KEY))!==null)
+				$this->setEncryptionKey($key);
+			else
+			{
+				if(($key=$this->generateRandomString(32,true))===false)
+					if(($key=$this->generateRandomString(32,false))===false)
+						throw new CException(Yii::t('yii',
+							'CSecurityManager::generateRandomString() cannot generate random string in the current environment.'));
+				$this->setEncryptionKey($key);
+				Yii::app()->setGlobalState(self::STATE_ENCRYPTION_KEY,$key);
+			}
+		}
 	}
 
 	/**
@@ -525,7 +547,7 @@ class CSecurityManager extends CApplicationComponent
     
 	/**
 	 * Decrypts legacy ciphertext which was produced by the old, broken implementation of encrypt().
-     * @deprecated use only to convert data encrypted prior to 1.1.16
+	 * @deprecated use only to convert data encrypted prior to 1.1.16
 	 * @param string $data data to be decrypted.
 	 * @param string $key the decryption key. This defaults to null, meaning the key should be loaded from persistent storage.
 	 * @param string|array $cipher the algorithm to be used
