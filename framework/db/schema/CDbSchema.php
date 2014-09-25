@@ -89,7 +89,7 @@ abstract class CDbSchema extends CComponent
 
 			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
 			{
-				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
+				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$realName;
 				$table=$cache->get($key);
 				if($refresh===true || $table===false)
 				{
