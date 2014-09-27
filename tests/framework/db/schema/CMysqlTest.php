@@ -8,6 +8,22 @@ class CMysqlTest extends CTestCase
 {
 	private $db;
 
+    private $_appConfig=array(
+        'id'=>'testApp',
+        'components'=>array(
+            'cache'=>array(
+                'class'=>'CFileCache',
+            ),
+            'db'=>array(
+                'connectionString'=>'mysql:host=127.0.0.1;dbname=yii',
+                'username'=>'root',
+                'password'=>'root',
+                'charset'=>'UTF8',
+                'schemaCachingDuration'=>300,
+            ),
+        ),
+    );
+
 	public function setUp()
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_mysql'))
@@ -25,7 +41,7 @@ class CMysqlTest extends CTestCase
 			$this->markTestSkipped("Please read $schemaFile for details on setting up the test environment for MySQL test case.");
 		}
 
-		$tables=array('comments','post_category','posts','categories','profiles','users','items','orders','types');
+		$tables=array('comments','post_category','posts','categories','profiles','users','items','orders','types','p1_state','p2_state');
 		foreach($tables as $table)
 			$this->db->createCommand("DROP TABLE IF EXISTS $table CASCADE")->execute();
 
@@ -54,7 +70,38 @@ class CMysqlTest extends CTestCase
 		$this->assertNull($schema->getTable('foo'));
 	}
 
-	public function testTable()
+    public function testTableSchemaWithTablePrefix()
+    {
+        $schema=$this->db->schema;
+        $this->db->tablePrefix = 'p1_';
+        $table=$schema->getTable('{{state}}');
+        $this->assertEquals('p1_state',$table->name);
+        $this->db->tablePrefix = 'p2_';
+        $table=$schema->getTable('{{state}}');
+        $this->assertEquals('p1_state',$table->name);
+    }
+
+    public function testTableSchemaWithTablePrefixAndEnabledCache()
+    {
+        $app=new TestApplication($this->_appConfig);
+        $app->reset();
+        $app->cache->flush();
+        $schema=$app->db->schema;
+        $app->db->tablePrefix = 'p1_';
+        $table=$schema->getTable('{{state}}');
+        $this->assertEquals('p1_state',$table->name);
+    }
+
+    public function testTableSchemaWithTablePrefixAndEnabledCacheForCachedSchema()
+    {
+        $app=new TestApplication($this->_appConfig);
+        $schema=$app->db->schema;
+        $app->db->tablePrefix = 'p2_';
+        $table=$schema->getTable('{{state}}');
+        $this->assertEquals('p2_state',$table->name);
+    }
+
+    public function testTable()
 	{
 		$table=$this->db->schema->getTable('posts');
 		$this->assertTrue($table instanceof CDbTableSchema);
