@@ -70,38 +70,38 @@ class CMysqlTest extends CTestCase
 		$this->assertNull($schema->getTable('foo'));
 	}
 
-    public function testTableSchemaWithTablePrefix()
-    {
-        $schema=$this->db->schema;
-        $this->db->tablePrefix = 'p1_';
-        $table=$schema->getTable('{{state}}');
-        $this->assertEquals('p1_state',$table->name);
-        $this->db->tablePrefix = 'p2_';
-        $table=$schema->getTable('{{state}}');
-        $this->assertEquals('p1_state',$table->name);
-    }
+	public function testTableSchemaWithTablePrefix()
+	{
+		$schema=$this->db->schema;
+		$this->db->tablePrefix = 'p1_';
+		$table=$schema->getTable('{{state}}');
+		$this->assertEquals('p1_state',$table->name);
+		$this->db->tablePrefix = 'p2_';
+		$table=$schema->getTable('{{state}}');
+		$this->assertEquals('p1_state',$table->name);
+	}
 
-    public function testTableSchemaWithTablePrefixAndEnabledCache()
-    {
-        $app=new TestApplication($this->_appConfig);
-        $app->reset();
-        $app->cache->flush();
-        $schema=$app->db->schema;
-        $app->db->tablePrefix = 'p1_';
-        $table=$schema->getTable('{{state}}');
-        $this->assertEquals('p1_state',$table->name);
-    }
+	public function testTableSchemaWithTablePrefixAndEnabledCache()
+	{
+		$app=new TestApplication($this->_appConfig);
+		$app->reset();
+		$app->cache->flush();
+		$schema=$app->db->schema;
+		$app->db->tablePrefix = 'p1_';
+		$table=$schema->getTable('{{state}}');
+		$this->assertEquals('p1_state',$table->name);
+	}
 
-    public function testTableSchemaWithTablePrefixAndEnabledCacheForCachedSchema()
-    {
-        $app=new TestApplication($this->_appConfig);
-        $schema=$app->db->schema;
-        $app->db->tablePrefix = 'p2_';
-        $table=$schema->getTable('{{state}}');
-        $this->assertEquals('p2_state',$table->name);
-    }
+	public function testTableSchemaWithTablePrefixAndEnabledCacheForCachedSchema()
+	{
+		$app=new TestApplication($this->_appConfig);
+		$schema=$app->db->schema;
+		$app->db->tablePrefix = 'p2_';
+		$table=$schema->getTable('{{state}}');
+		$this->assertEquals('p2_state',$table->name);
+	}
 
-    public function testTable()
+	public function testTable()
 	{
 		$table=$this->db->schema->getTable('posts');
 		$this->assertTrue($table instanceof CDbTableSchema);
