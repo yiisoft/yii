@@ -116,6 +116,7 @@ Version 1.1.16 under development
 - Enh #3359: Added merge parameter to CModule::setModules (KJLJon)
 - Enh #3391: Exception and log for not existed ClientScript package (rusalex)
 - Enh #3513: Added 'getExtensionByMimeType' method to CFileHelper class (UA2004)
+- Enh #3536: Added support for validating dynamically added form fields withiin jquery.yiiactiveform.js (DennisJamin)
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
