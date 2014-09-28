@@ -273,9 +273,12 @@ class CDbCommandBuilder extends CComponent
 	 * If a key is not a valid column name, the corresponding value will be ignored.
 	 * @param array $templates templates for the SQL parts.
 	 * @return CDbCommand multiple insert command
+	 * @throws CDbException if $data is empty.
 	 */
 	protected function composeMultipleInsertCommand($table,array $data,array $templates=array())
 	{
+		if (empty($data))
+			throw new CDbException(Yii::t('yii','Can not generate multiple insert command with empty data set.'));
 		$templates=array_merge(
 			array(
 				'main'=>'INSERT INTO {{tableName}} ({{columnInsertNames}}) VALUES {{rowInsertValues}}',
