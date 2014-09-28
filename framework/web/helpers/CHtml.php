@@ -2434,9 +2434,9 @@ EOD;
 			{
 				foreach($model->getValidators($attribute) as $validator)
 				{
-					if($validator instanceof CStringValidator && $validator->max!==null)
+					if($validator instanceof CStringValidator && ((($max = $validator->is) || ($max = $validator->max)) || $max !== null))
 					{
-						$htmlOptions['maxlength']=$validator->max;
+						$htmlOptions['maxlength']=$max;
 						break;
 					}
 				}
