@@ -58,7 +58,6 @@ Version 1.1.16 under development
 - Bug: Fixed an issue with CFilehelper and not accessable directories which resulted in endless loop (cebe)
 - Bug #3305: COciSchema column comment reading from another schema (gureedo)
 - Bug #3406: Fixed Object of class Imagick could not be converted to string (eXprojects)
-- Bug #3551: CDbSchema::getTable() fixed caching for table schema with prefix (maxsh)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
 - Enh: Added proper handling and support of the symlinked directories in CFileHelper::removeDirectory(), added $options parameter in CFileHelper::removeDirectory() (resurtm)
 - Enh #89: Support for SOAP headers in WSDL generator (nineinchnick)
