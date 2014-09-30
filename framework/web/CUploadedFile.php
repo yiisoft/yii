@@ -149,7 +149,10 @@ class CUploadedFile extends CComponent
 				self::collectFilesRecursive($key.'['.$item.']', $names[$item], $tmp_names[$item], $types[$item], $sizes[$item], $errors[$item]);
 		}
 		else
-			self::$_files[$key] = new CUploadedFile($names, $tmp_names, $types, $sizes, $errors);
+        {
+            $className = static::getClassName();
+			self::$_files[$key] = new $className($names, $tmp_names, $types, $sizes, $errors);
+        }
 	}
 
 	/**
@@ -183,7 +186,7 @@ class CUploadedFile extends CComponent
 
 	/**
 	 * Saves the uploaded file.
-	 * Note: this method uses php's move_uploaded_file() method. As such, if the target file ($file) 
+	 * Note: this method uses php's move_uploaded_file() method. As such, if the target file ($file)
 	 * already exists it is overwritten.
 	 * @param string $file the file path used to save the uploaded file
 	 * @param boolean $deleteTempFile whether to delete the temporary file after saving.
@@ -269,4 +272,16 @@ class CUploadedFile extends CComponent
 	{
 		return CFileHelper::getExtension($this->_name);
 	}
+
+    /**
+     * Returns the name of the class, this function is used to support
+     * subclassing of CUploadedFile, so the correct class is returned from
+     * collectFilesRecursive()
+     * @return string name of the subclass
+     */
+    protected static function getClassName()
+    {
+        return __CLASS__;
+    }
+
 }
