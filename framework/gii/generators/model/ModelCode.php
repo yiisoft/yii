@@ -386,7 +386,7 @@ class ModelCode extends CCodeModel
 		foreach(explode('_',$tableName) as $name)
 		{
 			if($name!=='')
-				$className.=ucfirst($name);
+				$className.=ucfirst(strtolower($name));
 		}
 		return $className;
 	}
@@ -404,7 +404,8 @@ class ModelCode extends CCodeModel
 			$relationName=rtrim(substr($fkName, 0, -2),'_');
 		else
 			$relationName=$fkName;
-		$relationName[0]=strtolower($relationName);
+		
+		$relationName=strtolower($relationName);
 
 		if($multiple)
 			$relationName=$this->pluralize($relationName);
