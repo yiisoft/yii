@@ -1,7 +1,5 @@
                    Yii Framework Change Log
                    ========================
-Version 1.1.17
-- Enh #3571: Extracted rendering of data cell in CGridView.renderTableRow() to separate method for extensibility (hijarian).
 
 Version 1.1.16 under development
 --------------------------------
@@ -121,6 +119,7 @@ Version 1.1.16 under development
 - Enh #3391: Exception and log for not existed ClientScript package (rusalex)
 - Enh #3513: Added 'getExtensionByMimeType' method to CFileHelper class (UA2004)
 - Enh #3533: Added Yii and YiiBase classes to composer autoloader (sammousa)
+- Enh #3571: Extracted rendering of data cell in CGridView.renderTableRow() to separate method for extensibility (hijarian).
 - Chg #3137: Upgraded HTMLPurifier to 4.6.0 (samdark)
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
