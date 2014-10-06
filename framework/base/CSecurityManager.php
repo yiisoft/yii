@@ -67,7 +67,7 @@ class CSecurityManager extends CApplicationComponent
 	 * Defaults to 'des', meaning using DES crypt algorithm.
 	 * @since 1.1.3
 	 */
-	public $cryptAlgorithm='des';
+	public $cryptAlgorithm='rijndael-128';
 
 	private $_validationKey;
 	private $_encryptionKey;
@@ -196,7 +196,14 @@ class CSecurityManager extends CApplicationComponent
 	public function encrypt($data,$key=null)
 	{
 		$module=$this->openCryptModule();
-		$key=$this->substr($key===null ? md5($this->getEncryptionKey()) : $key,0,mcrypt_enc_get_key_size($module));
+                if( function_exists('hash') ) {
+                  // If you have hash, use it! Get a full 256-bit binary string for your key, not a 128-bit hex-encoded output to the same length
+                  // Hex-encoded strings fail silently when you pass them to mcrypt, but I classify them as a crypto weakness
+                  $key=$this->substr($key===null ? hash('sha256', $this->getEncryptionKey(), true) : $key,0,mcrypt_enc_get_key_size($module));
+                } else {
+                  // Not the best key stretching I've ever seen, but better than using hex md5 :(
+                  $key=$this->substr($key===null ? md5($this->getEncryptionKey(), true).md5(md5($this->getEncryptionKey(), true), true) : $key,0,mcrypt_enc_get_key_size($module));
+                }
 		srand();
 		$iv=mcrypt_create_iv(mcrypt_enc_get_iv_size($module), MCRYPT_RAND);
 		mcrypt_generic_init($module,$key,$iv);
@@ -279,7 +286,7 @@ class CSecurityManager extends CApplicationComponent
 		{
 			$hmac=$this->substr($data,0,$len);
 			$data2=$this->substr($data,$len,$this->strlen($data));
-			return $hmac===$this->computeHMAC($data2,$key)?$data2:false;
+			return $this->constantTimeCompare($hmac, $this->computeHMAC($data2,$key))?$data2:false;
 		}
 		else
 			return false;
@@ -491,5 +498,21 @@ class CSecurityManager extends CApplicationComponent
 	private function substr($string,$start,$length)
 	{
 		return $this->_mbstring ? mb_substr($string,$start,$length,'8bit') : substr($string,$start,$length);
+	}
+        /**
+         * Compare two strings in constant time; prevents timing attacks
+         * 
+         * @param type $a Left string
+         * @param type $b Right string
+         * @return type
+         */
+	public function constantTimeCompare($a, $b)
+	{
+		$diff = strlen($a) ^ strlen($b);
+		for($i = 0; $i < strlen($a) && $i < strlen($b); $i++)
+		{
+			$diff |= ord($a[$i]) ^ ord($b[$i]);
+		}
+		return $diff === 0;
 	}
 }
