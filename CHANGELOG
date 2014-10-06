@@ -1,5 +1,7 @@
                    Yii Framework Change Log
                    ========================
+Version 1.1.17
+- Enh #3571: Extracted rendering of data cell in CGridView.renderTableRow() to separate method for extensibility (hijarian).
 
 Version 1.1.16 under development
 --------------------------------
