@@ -350,7 +350,11 @@ class CClientScript extends CApplicationComponent
 			if(!empty($package['js']))
 			{
 				foreach($package['js'] as $js)
-					$jsFiles[$baseUrl.'/'.$js]=$baseUrl.'/'.$js;
+					if((array) $js === $js) {
+						$jsFiles[$js[1]][$baseUrl.'/'.$js[0]]=$baseUrl.'/'.$js[0];
+					} else {
+						$jsFiles[$this->coreScriptPosition][$baseUrl.'/'.$js]=$baseUrl.'/'.$js;
+					}
 			}
 			if(!empty($package['css']))
 			{
@@ -367,12 +371,10 @@ class CClientScript extends CApplicationComponent
 		}
 		if($jsFiles!==array())
 		{
-			if(isset($this->scriptFiles[$this->coreScriptPosition]))
-			{
-				foreach($this->scriptFiles[$this->coreScriptPosition] as $url => $value)
-					$jsFiles[$url]=$value;
-			}
-			$this->scriptFiles[$this->coreScriptPosition]=$jsFiles;
+			foreach($this->scriptFiles as $position => $scripts)
+				foreach ($scripts as $url => $value)
+					$jsFiles[$position][$url] = $value;
+			$this->scriptFiles = $jsFiles;
 		}
 	}
 
