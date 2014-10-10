@@ -1,6 +1,5 @@
 Yii Web Programming Framework
 =============================
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/yiisoft/yii?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Thank you for choosing Yii - a high-performance component-based PHP framework.
 
