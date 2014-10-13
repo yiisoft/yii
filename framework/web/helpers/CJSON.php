@@ -325,10 +325,34 @@ class CJSON
 	 * @param string $str  JSON-formatted string
 	 * @param boolean $useArray  whether to use associative array to represent object data
 	 * @return mixed   number, boolean, string, array, or object corresponding to given JSON input string.
+	 *                 Returns NULL when the input string is not valid JSON.
 	 *    Note that decode() always returns strings in ASCII or UTF-8 format!
 	 * @access   public
 	 */
 	public static function decode($str, $useArray=true)
+	{
+		$illegalData = false;
+		$rv = self::__decode_internal($str, $useArray, $illegalData);
+		if ($illegalData)
+		{
+			return null;
+		}
+		return $rv;
+	}
+
+	/**
+	 * @internal
+	 * 
+	 * decodes a JSON string into appropriate variable
+	 *
+	 * @param string $str  JSON-formatted string
+	 * @param boolean $useArray  whether to use associative array to represent object data
+	 * @param boolean $illegalData  pass by reference flag which will be set when illegal input is detected
+	 * @return mixed   number, boolean, string, array, or object corresponding to given JSON input string.
+	 *    Note that decode() always returns strings in ASCII or UTF-8 format!
+	 * @access   protected
+	 */
+	protected static function __decode_internal($str, $useArray, &$illegalData)
 	{
 		if(function_exists('json_decode'))
 		{
@@ -487,14 +511,12 @@ class CJSON
 					if ($chrs == '') {
 						if (reset($stk) == self::JSON_IN_ARR) {
 							return $arr;
-
 						} else {
 							return $obj;
-
 						}
 					}
 
-					//print("\nparsing {$chrs}\n");
+					//Yii::log("\nparsing {$chrs}\n", 'warning');
 
 					$strlen_chrs = strlen($chrs);
 
@@ -512,7 +534,7 @@ class CJSON
 
 							if (reset($stk) == self::JSON_IN_ARR) {
 								// we are in an array, so just push an element onto the stack
-								$arr[] = self::decode($slice,$useArray);
+								$arr[] = self::__decode_internal($slice,$useArray,$illegalData);
 
 							} elseif (reset($stk) == self::JSON_IN_OBJ) {
 								// we are in an object, so figure
@@ -521,8 +543,8 @@ class CJSON
 								// for now
 								if (preg_match('/^\s*(["\'].*[^\\\]["\'])\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
 									// "name":value pair
-									$key = self::decode($parts[1],$useArray);
-									$val = self::decode($parts[2],$useArray);
+									$key = self::__decode_internal($parts[1],$useArray,$illegalData);
+									$val = self::__decode_internal($parts[2],$useArray,$illegalData);
 
 									if ($useArray) {
 										$obj[$key] = $val;
@@ -532,7 +554,7 @@ class CJSON
 								} elseif (preg_match('/^\s*(\w+)\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
 									// name:value pair, where name is unquoted
 									$key = $parts[1];
-									$val = self::decode($parts[2],$useArray);
+									$val = self::__decode_internal($parts[2],$useArray,$illegalData);
 
 									if ($useArray) {
 										$obj[$key] = $val;
@@ -601,14 +623,15 @@ class CJSON
 
 					if (reset($stk) == self::JSON_IN_ARR) {
 						return $arr;
-
 					} elseif (reset($stk) == self::JSON_IN_OBJ) {
 						return $obj;
-
 					}
 
 				}
 		}
+		// erroneous input detected
+		$illegalData = true;
+		return null;
 	}
 
 	/**
