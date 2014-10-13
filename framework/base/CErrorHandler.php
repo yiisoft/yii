@@ -84,8 +84,8 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	public $errorAction;
 
-	protected $_error;
-	protected $_exception;
+	private $_error;
+	private $_exception;
 
 	/**
 	 * Handles the exception/error event.
