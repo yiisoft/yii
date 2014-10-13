@@ -1089,7 +1089,7 @@ class CHtmlTestModel extends CModel
 	 */
 	public $attr4;
 
-	public function __constructor(array $properties)
+	public function __construct(array $properties)
 	{
 		foreach($properties as $property=>$value)
 		{
