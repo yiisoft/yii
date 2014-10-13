@@ -56,6 +56,7 @@ Version 1.1.16 under development
 - Bug #3406: Fixed Object of class Imagick could not be converted to string (eXprojects)
 - Bug #3410: Fixed wrong translation parameter name in CPhpAuthManager::addItemChild() (klimov-paul)
 - Bug #3569: CConsoleCommand::copyFiles() did not replace DIRECTORY_SEPARATOR correctly (jmxhit)
+- Bug #3589: CJSON::decode does not properly flag invalid JSON input as invalid (GerHobbelt)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
 - Bug: Fixed an issue with CFilehelper and not accessable directories which resulted in endless loop (cebe)
