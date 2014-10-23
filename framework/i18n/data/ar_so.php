@@ -13,7 +13,6 @@ return array (
   'version' => '8268',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -267,7 +266,7 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'ص',
   'pmName' => 'م',
-  'orientation' => 'ltr',
+  'orientation' => 'rtl',
   'languages' => 
   array (
     'aa' => 'الأفارية',

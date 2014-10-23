@@ -13,7 +13,6 @@ return array (
   'version' => '8245',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -23,7 +22,7 @@ return array (
     'exponential' => 'E',
     'perMille' => '‰',
     'infinity' => '∞',
-    'nan' => 'ཨང་མེན་',
+    'nan' => 'NaN',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',

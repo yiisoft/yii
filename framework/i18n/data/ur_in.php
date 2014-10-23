@@ -13,7 +13,6 @@ return array (
   'version' => '8245',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -221,7 +220,7 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'قبل دوپہر',
   'pmName' => 'بعد دوپہر',
-  'orientation' => 'ltr',
+  'orientation' => 'rtl',
   'languages' => 
   array (
     'ab' => 'ابقازیان',

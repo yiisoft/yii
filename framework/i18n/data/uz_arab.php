@@ -13,14 +13,13 @@ return array (
   'version' => '8245',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
-    'percentSign' => '٪',
+    'percentSign' => '%',
     'plusSign' => '+',
     'minusSign' => '−',
-    'exponential' => '×۱۰^',
+    'exponential' => 'E',
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
@@ -177,7 +176,7 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'AM',
   'pmName' => 'PM',
-  'orientation' => 'ltr',
+  'orientation' => 'rtl',
   'languages' => 
   array (
     'ar' => 'Арабча',

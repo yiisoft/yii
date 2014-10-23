@@ -13,7 +13,6 @@ return array (
   'version' => '8245',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ';',
@@ -176,7 +175,7 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'غ.م.',
   'pmName' => 'غ.و.',
-  'orientation' => 'ltr',
+  'orientation' => 'rtl',
   'languages' => 
   array (
     'af' => 'افريکاني',

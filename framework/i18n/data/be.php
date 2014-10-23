@@ -13,7 +13,6 @@ return array (
   'version' => '8249',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => ',',
     'group' => ' ',
     'list' => ';',

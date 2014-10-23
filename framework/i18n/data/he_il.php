@@ -13,7 +13,6 @@ return array (
   'version' => '8245',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -236,7 +235,7 @@ return array (
   'dateTimeFormat' => '{1}, {0}',
   'amName' => 'לפנה״צ',
   'pmName' => 'אחה״צ',
-  'orientation' => 'ltr',
+  'orientation' => 'rtl',
   'languages' => 
   array (
     'aa' => 'אפארית',
