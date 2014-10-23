@@ -37,6 +37,7 @@ class ValidatorTestModel extends CFormModel
 
 			array('string1', 'in', 'allowEmpty' => false, 'range' => array(0,1,7,13), 'on' => 'CRangeValidatorTest'),
 			array('string2', 'in', 'allowEmpty' => false, 'range' => array('',1,7,13), 'on' => 'CRangeValidatorTest'),
+			array('string3', 'in', 'allowEmpty' => false, 'range' => array(1), 'on' => 'CRangeValidatorTest', 'strict' => false),
 
 			array('uploaded_file', 'file', 'on' => 'CFileValidatorTest'),
 		);
