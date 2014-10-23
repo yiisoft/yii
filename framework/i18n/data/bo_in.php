@@ -10,10 +10,9 @@
  * @copyright 2008-2013 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4123',
+  'version' => '9061',
   'numberSymbols' => 
   array (
-    'alias' => '',
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
@@ -21,9 +20,10 @@ return array (
     'plusSign' => '+',
     'minusSign' => '-',
     'exponential' => 'E',
+    'superscriptingExponent' => '×',
     'perMille' => '‰',
     'infinity' => '∞',
-    'nan' => 'ཨང་མེན་',
+    'nan' => 'NaN',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -31,22 +31,60 @@ return array (
   'currencyFormat' => '¤ #,##0.00',
   'currencySymbols' => 
   array (
-    'AUD' => 'AU$',
+    'ARS' => '$',
+    'AUD' => 'A$',
+    'BBD' => '$',
+    'BDT' => '৳',
+    'BMD' => '$',
+    'BND' => '$',
     'BRL' => 'R$',
+    'BSD' => '$',
+    'BYR' => 'р.',
+    'BZD' => '$',
     'CAD' => 'CA$',
+    'CLP' => '$',
     'CNY' => 'CN¥',
+    'COP' => '$',
+    'CRC' => '₡',
+    'CUP' => '$',
+    'DOP' => '$',
+    'ESP' => '₧',
     'EUR' => '€',
+    'FJD' => '$',
     'GBP' => '£',
+    'GHS' => '₵',
+    'GIP' => '£',
+    'GYD' => '$',
     'HKD' => 'HK$',
     'ILS' => '₪',
     'INR' => '₹',
+    'JMD' => '$',
     'JPY' => 'JP¥',
+    'KHR' => '៛',
     'KRW' => '₩',
+    'KYD' => '$',
+    'KZT' => '₸',
+    'LAK' => '₭',
+    'LRD' => '$',
+    'MNT' => '₮',
     'MXN' => 'MX$',
+    'NAD' => '$',
+    'NGN' => '₦',
     'NZD' => 'NZ$',
+    'PHP' => '₱',
+    'PYG' => '₲',
+    'RUR' => 'р.',
+    'SBD' => '$',
+    'SGD' => '$',
+    'SRD' => '$',
+    'SSP' => '£',
     'THB' => '฿',
+    'TRY' => '₺',
+    'TTD' => '$',
     'TWD' => 'NT$',
+    'UAH' => '₴',
     'USD' => 'US$',
+    'UYU' => '$',
     'VND' => '₫',
     'XAF' => 'FCFA',
     'XCD' => 'EC$',
@@ -128,7 +166,13 @@ return array (
     ),
     'narrow' => 
     array (
+      0 => 'ཉི',
+      1 => 'ཟླ',
+      2 => 'མི',
       3 => 'ཧླག',
+      4 => 'ཕུ',
+      5 => 'ས',
+      6 => 'སྤེ',
     ),
   ),
   'weekDayNamesSA' => 
@@ -145,13 +189,23 @@ return array (
     ),
     'abbreviated' => 
     array (
-      3 => 'ལྷག་པ་',
-      5 => 'པ་སངས་',
+      0 => 'ཉི་མ་',
+      1 => 'ཟླ་བ་',
+      2 => 'མིག་དམར་',
+      3 => 'ཧླག་པ་',
+      4 => 'ཕུར་བུ་',
+      5 => 'སངས་',
+      6 => 'སྤེན་པ་',
     ),
     'wide' => 
     array (
-      3 => 'གཟའ་ལྷག་པ་',
-      5 => 'གཟའ་པ་སངས་',
+      0 => 'གཟའ་ཉི་མ་',
+      1 => 'གཟའ་ཟླ་བ་',
+      2 => 'གཟའ་མིག་དམར་',
+      3 => 'གཟའ་ཧླག་པ་',
+      4 => 'གཟའ་ཕུར་བུ་',
+      5 => 'གཟའ་སངས་',
+      6 => 'གཟའ་སྤེན་པ་',
     ),
   ),
   'eraNames' => 
@@ -174,10 +228,10 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, y MMMM dd',
+    'full' => 'y MMMM d, EEEE',
     'long' => 'སྦྱི་ལོ་y MMMMའི་ཙེས་dད',
     'medium' => 'y ལོ་འི་MMMཙེས་d',
-    'short' => 'yyyy-MM-dd',
+    'short' => 'y-MM-dd',
   ),
   'timeFormats' => 
   array (
@@ -190,6 +244,11 @@ return array (
   'amName' => 'སྔ་དྲོ་',
   'pmName' => 'ཕྱི་དྲོ་',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => ' @integer 0~15, 100, 1000, 10000, 100000, 1000000, … @decimal 0.0~1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …',
+    1 => 'true',
+  ),
   'languages' => 
   array (
     'bn' => 'བྷང་ག་ལའི་སྐད།',
@@ -262,7 +321,6 @@ return array (
   array (
     '001' => 'འཛམ་གླིང་།',
     '002' => 'ཨཕྲི་ཀ།',
-    '019' => 'ཨ་མེ་རི་ཀ།',
     '053' => 'ཨསྟྲེ་ལི་ཡ་དང་། ནིའུ་ཛི་ལན྄ཌ།',
     142 => 'ཨེ་ཤི་ཡ།',
     150 => 'ཡུ་རོབ།',
@@ -436,7 +494,7 @@ return array (
     'tv' => 'ཐུ་ཝ་ལུ།',
     'ua' => 'ཡུ་ཀྲན།',
     'ug' => 'ཡུ་གན་ཌ།',
-    'us' => 'ཨ་མེ་རི་ཀ་',
+    'us' => 'ཨ་མེ་རི་ཀ།',
     'uy' => 'ཨུ་རུ་གྷེ།',
     'uz' => 'ཨུཛ་བེ་ཀིསྟཱན།',
     'va' => 'ཝེ་ཊི་ཀན།',
@@ -450,5 +508,6 @@ return array (
     'zm' => 'ཛམ་བི་ཡ།',
     'zw' => 'ཛིམ་བྷཱ་བེ།',
     'zz' => 'མིའི་ཤེས་རྟོགས་མ་བྱུང་བའི་ཁོར་ཡུག',
+    '009' => 'ཨོཤི་ཡཱན་ན།',
   ),
 );
