@@ -142,6 +142,6 @@ class CDataColumn extends CGridColumn
 			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
 		elseif($this->name!==null)
 			$value=CHtml::value($data,$this->name);
-		echo $value===null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value,$this->type);
+		return $value===null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value,$this->type);
 	}
 }
