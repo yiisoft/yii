@@ -191,7 +191,7 @@ EOD;
 	 * This method will render a checkbox in the header when {@link selectableRows} is greater than 1
 	 * or in case {@link selectableRows} is null when {@link CGridView::selectableRows} is greater than 1.
 	 * @return string the header cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getHeaderCellContent()
 	{
@@ -215,7 +215,7 @@ EOD;
 	 * This method renders a checkbox in the data cell.
 	 * @param integer $row the row number (zero-based)
 	 * @return string the data cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getDataCellContent($row)
 	{
