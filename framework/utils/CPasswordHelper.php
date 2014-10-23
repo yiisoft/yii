@@ -33,7 +33,7 @@
  * <pre>
  * $hash = CPasswordHelper::hashPassword($password);
  * </pre>
- * This hash can be stored in a database (e.g. CHAR(64) CHARACTER SET latin1). The
+ * This hash can be stored in a database (e.g. CHAR(60) CHARACTER SET latin1). The
  * hash is usually generated and saved to the database when the user enters a new password.
  * But it can also be useful to generate and save a hash after validating a user's
  * password in order to change the cost or refresh the salt.
@@ -84,7 +84,7 @@ class CPasswordHelper
 	 * compute the hash doubles for every increment by one of $cost. So, for example, if the
 	 * hash takes 1 second to compute when $cost is 14 then then the compute time varies as
 	 * 2^($cost - 14) seconds.
-	 * @return string The password hash string, ASCII and not longer than 64 characters.
+	 * @return string The password hash string, always 60 ASCII characters.
 	 * @throws CException on bad password parameter or if crypt() with Blowfish hash is not available.
 	 */
 	public static function hashPassword($password,$cost=13)
