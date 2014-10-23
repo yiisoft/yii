@@ -167,7 +167,7 @@ class CPasswordHelper
 	 *
 	 * The PHP {@link http://php.net/manual/en/function.crypt.php crypt()} built-in function
 	 * requires, for the Blowfish hash algorithm, a salt string in a specific format:
-	 *  "$2a$" (in which the "a" may be replaced by "x" or "y" see PHP manual for details),
+	 *  "$2y$" (in which the "y" may be replaced by "a" or "y" see PHP manual for details),
 	 *  a two digit cost parameter,
 	 *  "$",
 	 *  22 characters from the alphabet "./0-9A-Za-z".
@@ -188,6 +188,6 @@ class CPasswordHelper
 		if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,true))===false)
 			if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,false))===false)
 				throw new CException(Yii::t('yii','Unable to generate random string.'));
-		return sprintf('$2a$%02d$',$cost).strtr($random,array('_'=>'.','~'=>'/'));
+		return sprintf('$2y$%02d$',$cost).strtr($random,array('_'=>'.','~'=>'/'));
 	}
 }
