@@ -75,6 +75,8 @@ class CErrorHandler extends CApplicationComponent
 	 * @var boolean whether to discard any existing page output before error display. Defaults to true.
 	 */
 	public $discardOutput=true;
+	
+	public $defaultCode=500;
 	/**
 	 * @var string the route (eg 'site/error') to the controller action that will be used to display external errors.
 	 * Inside the action, it can retrieve the error information by Yii::app()->errorHandler->error.
@@ -199,7 +201,7 @@ class CErrorHandler extends CApplicationComponent
 
 			$this->_exception=$exception;
 			$this->_error=$data=array(
-				'code'=>($exception instanceof CHttpException)?$exception->statusCode:500,
+				'code'=>($exception instanceof CHttpException)?$exception->statusCode:$this->defaultCode,
 				'type'=>get_class($exception),
 				'errorCode'=>$exception->getCode(),
 				'message'=>$exception->getMessage(),
@@ -276,7 +278,7 @@ class CErrorHandler extends CApplicationComponent
 			}
 			$this->_exception=null;
 			$this->_error=array(
-				'code'=>500,
+				'code'=>$this->defaultCode,
 				'type'=>$type,
 				'message'=>$event->message,
 				'file'=>$event->file,
@@ -285,7 +287,7 @@ class CErrorHandler extends CApplicationComponent
 				'traces'=>$trace,
 			);
 			if(!headers_sent())
-				header("HTTP/1.0 500 Internal Server Error");
+				header("HTTP/1.0 {$data['code']} ".$this->getHttpHeader($data['code']));
 			$this->renderError();
 		}
 		else
