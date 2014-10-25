@@ -91,7 +91,7 @@ class CLinkColumn extends CGridColumn
 	 * This method renders a hyperlink in the data cell.
 	 * @param integer $row the row number (zero-based)
 	 * @return string the data cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getDataCellContent($row)
 	{
@@ -106,8 +106,8 @@ class CLinkColumn extends CGridColumn
 			$label=$this->label;
 		$options=$this->linkHtmlOptions;
 		if(is_string($this->imageUrl))
-			echo CHtml::link(CHtml::image($this->imageUrl,$label),$url,$options);
+			return CHtml::link(CHtml::image($this->imageUrl,$label),$url,$options);
 		else
-			echo CHtml::link($label,$url,$options);
+			return CHtml::link($label,$url,$options);
 	}
 }

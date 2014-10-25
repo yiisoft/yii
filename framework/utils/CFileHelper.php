@@ -72,7 +72,7 @@ class CFileHelper
 	 * Defaults to `false`, meaning that the content of the symlinked directory would not be deleted.
 	 * Only symlink would be removed in that default case.</li>
 	 * </ul>
-	 * Note, options parameter is available since 1.1.15
+	 * Note, options parameter is available since 1.1.16
 	 * @since 1.1.14
 	 */
 	public static function removeDirectory($directory,$options=array())

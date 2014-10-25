@@ -259,7 +259,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $name the PATCH parameter name
 	 * @param mixed $defaultValue the default parameter value if the PATCH parameter does not exist.
 	 * @return mixed the PATCH parameter value
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getPatch($name,$defaultValue=null)
 	{
@@ -644,7 +644,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns whether this is a PATCH request.
 	 * @return boolean whether this is a PATCH request.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getIsPatchRequest()
 	{
@@ -654,7 +654,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns whether this is a PATCH request which was tunneled through POST.
 	 * @return boolean whether this is a PATCH request tunneled through POST.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	protected function getIsPatchViaPostRequest()
 	{

@@ -1981,7 +1981,7 @@ class CBaseActiveRelation extends CComponent
 	 * String typed value can be used with JOINs for HAS_MANY and MANY_MANY relations, while array typed
 	 * value designed to be used only with MANY_MANY relations. First array element will be used for junction
 	 * table JOIN and second array element will be used for target table JOIN.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public $joinOptions='';
 	/**
@@ -2102,7 +2102,7 @@ class CStatRelation extends CBaseActiveRelation
 	 * <li>Single scope: 'scopes'=>'scopeName'.</li>
 	 * <li>Multiple scopes: 'scopes'=>array('scopeName1','scopeName2').</li>
 	 * </ul>
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public $scopes;
 

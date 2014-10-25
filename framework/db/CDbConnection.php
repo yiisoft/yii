@@ -102,7 +102,7 @@
  * @property mixed $nullConversion How the null and empty strings are converted.
  * @property boolean $autoCommit Whether creating or updating a DB record will be automatically committed.
  * @property boolean $persistent Whether the connection is persistent or not.
- * @property string $driverName Name of the DB driver. This property is read-write since 1.1.15.
+ * @property string $driverName Name of the DB driver. This property is read-write since 1.1.16.
  * Before 1.1.15 it was read-only.
  * @property string $clientVersion The version information of the DB driver.
  * @property string $connectionStatus The status of the connection.
@@ -721,7 +721,7 @@ class CDbConnection extends CApplicationComponent
 	 * @param string $driverName to be set. Valid values are the keys from the {@link driverMap} property.
 	 * @see getDriverName
 	 * @see driverName
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function setDriverName($driverName)
 	{

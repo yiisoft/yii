@@ -23,6 +23,7 @@
  * MM      | Month digit 01 to 12, zero leading
  * MMM     | Abbreviation representation of month (available since 1.1.11; locale aware since 1.1.13)
  * MMMM    | Full name representation (available since 1.1.13; locale aware)
+ * y       | 4 year digit, e.g., 2005 (available since 1.1.16)
  * yy      | 2 year digit, e.g., 96, 05
  * yyyy    | 4 year digit, e.g., 2005
  * h       | Hour in 0 to 23, no padding
@@ -90,6 +91,7 @@ class CDateTimeParser
 			switch($token)
 			{
 				case 'yyyy':
+				case 'y':
 				{
 					if(($year=self::parseInteger($value,$i,4,4))===false)
 						return false;

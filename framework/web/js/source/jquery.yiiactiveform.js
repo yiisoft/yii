@@ -36,7 +36,7 @@
 
 	/**
 	 * yiiactiveform set function.
-	 * @param options map settings for the active form plugin. Please see {@link CActiveForm::options} for availablel options.
+	 * @param options map settings for the active form plugin. Please see {@link CActiveForm::options} for available options.
 	 */
 	$.fn.yiiactiveform = function (options) {
 		return this.each(function () {
