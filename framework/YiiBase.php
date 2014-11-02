@@ -40,6 +40,10 @@ defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
  * Defines the Zii library installation path.
  */
 defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'zii');
+/**
+ * Defines the HTTP Version for the application.
+ */
+defined('HTTP_VERSION') or define('HTTP_VERSION','HTTP/1.1');
 
 /**
  * YiiBase is a helper class serving common framework functionalities.

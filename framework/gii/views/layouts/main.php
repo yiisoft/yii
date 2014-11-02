@@ -8,11 +8,14 @@ $cs->registerScriptFile($baseUrl.'/js/tooltip.js');
 $cs->registerScriptFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.pack.js');
 $cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- blueprint CSS framework -->
 	<link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl; ?>/css/screen.css" media="screen, projection" />
@@ -23,8 +26,6 @@ $cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 
 	<link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl; ?>/css/main.css" />
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-
 	<script type="text/javascript" src="<?php echo $this->module->assetsUrl; ?>/js/main.js"></script>
 
 </head>
@@ -32,7 +33,7 @@ $cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 <body>
 
 <div class="container" id="page">
-	<div id="header">
+	<header id="header">
 		<div class="top-menus">
 		<?php echo CHtml::link('help','http://www.yiiframework.com/doc/guide/topics.gii'); ?> |
 		<?php echo CHtml::link('webapp',Yii::app()->homeUrl); ?> |
@@ -42,16 +43,16 @@ $cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 		<?php endif; ?>
 		</div>
 		<div id="logo"><?php echo CHtml::link(CHtml::image($this->module->assetsUrl.'/images/logo.png'),array('default/index')); ?></div>
-	</div><!-- header -->
+	</header><!-- header -->
 
 	<?php echo $content; ?>
 
 </div><!-- page -->
 
-<div id="footer">
+<footer id="footer">
 	<?php echo Yii::powered(); ?>
 	<br/>A product of <a href="http://www.yiisoft.com">Yii Software LLC</a>.
-</div><!-- footer -->
+</footer><!-- footer -->
 
 </body>
 </html>
