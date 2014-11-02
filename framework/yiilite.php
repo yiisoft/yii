@@ -2839,11 +2839,11 @@ class CHttpRequest extends CApplicationComponent
 				header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
 				throw new CHttpException(416,'Requested Range Not Satisfiable');
 			}
-			header('HTTP/1.1 206 Partial Content');
+			header(HTTP_VERSION.' 206 Partial Content');
 			header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
 		}
 		else
-			header('HTTP/1.1 200 OK');
+			header(HTTP_VERSION.' 200 OK');
 		$length=$contentEnd-$contentStart+1; // Calculate new content length
 		header('Pragma: public');
 		header('Expires: 0');

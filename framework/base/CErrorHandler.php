@@ -210,7 +210,7 @@ class CErrorHandler extends CApplicationComponent
 			);
 
 			if(!headers_sent())
-				header("HTTP/1.0 {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
+				header(HTTP_VERSION." {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
 
 			$this->renderException();
 		}
@@ -285,7 +285,7 @@ class CErrorHandler extends CApplicationComponent
 				'traces'=>$trace,
 			);
 			if(!headers_sent())
-				header("HTTP/1.0 500 Internal Server Error");
+				header(HTTP_VERSION." 500 Internal Server Error");
 			$this->renderError();
 		}
 		else

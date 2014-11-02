@@ -180,7 +180,7 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function send304Header()
 	{
-		header('HTTP/1.1 304 Not Modified');
+		header(HTTP_VERSION.' 304 Not Modified');
 	}
 
 	/**
