@@ -1078,7 +1078,7 @@ class CHttpRequest extends CApplicationComponent
 		$contentStart=0;
 		$contentEnd=$fileSize-1;
 
-		$httpVersion=Yii::app()->request->getHttpVersion();
+		$httpVersion=$this->getHttpVersion();
 		if(isset($_SERVER['HTTP_RANGE']))
 		{
 			header('Accept-Ranges: bytes');
