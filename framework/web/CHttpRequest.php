@@ -100,6 +100,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_preferredLanguages;
 	private $_csrfToken;
 	private $_restParams;
+	private $_httpVersion;
 
 	/**
 	 * Initializes the application component.
@@ -1077,6 +1078,7 @@ class CHttpRequest extends CApplicationComponent
 		$contentStart=0;
 		$contentEnd=$fileSize-1;
 
+		$httpVersion=Yii::app()->request->getHttpVersion();
 		if(isset($_SERVER['HTTP_RANGE']))
 		{
 			header('Accept-Ranges: bytes');
@@ -1118,11 +1120,11 @@ class CHttpRequest extends CApplicationComponent
 				throw new CHttpException(416,'Requested Range Not Satisfiable');
 			}
 
-			header('HTTP/1.1 206 Partial Content');
+			header("HTTP/$httpVersion 206 Partial Content");
 			header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
 		}
 		else
-			header('HTTP/1.1 200 OK');
+			header("HTTP/$httpVersion 200 OK");
 
 		$length=$contentEnd-$contentStart+1; // Calculate new content length
 
@@ -1323,6 +1325,25 @@ class CHttpRequest extends CApplicationComponent
 			if (!$valid)
 				throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
 		}
+	}
+
+
+	/**
+	 * Returns the version of the HTTP protocol used by client.
+	 *
+	 * @return string the version of the HTTP protocol.
+	 * @since 1.1.16
+	 */
+	public function getHttpVersion()
+	{
+		if($this->_httpVersion===null)
+		{
+			if(isset($_SERVER['SERVER_PROTOCOL']) && $_SERVER['SERVER_PROTOCOL']==='HTTP/1.0')
+				$this->_httpVersion='1.0';
+			else
+				$this->_httpVersion='1.1';
+		}
+		return $this->_httpVersion;
 	}
 }
 

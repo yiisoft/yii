@@ -180,7 +180,8 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function send304Header()
 	{
-		header('HTTP/1.1 304 Not Modified');
+		$httpVersion=Yii::app()->request->getHttpVersion();
+		header("HTTP/$httpVersion 304 Not Modified");
 	}
 
 	/**

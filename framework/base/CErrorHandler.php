@@ -210,7 +210,10 @@ class CErrorHandler extends CApplicationComponent
 			);
 
 			if(!headers_sent())
-				header("HTTP/1.1 {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
+			{
+				$httpVersion=Yii::app()->request->getHttpVersion();
+				header("HTTP/$httpVersion {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
+			}
 
 			$this->renderException();
 		}
@@ -285,7 +288,11 @@ class CErrorHandler extends CApplicationComponent
 				'traces'=>$trace,
 			);
 			if(!headers_sent())
-				header("HTTP/1.1 500 Internal Server Error");
+			{
+				$httpVersion=Yii::app()->request->getHttpVersion();
+				header("HTTP/$httpVersion 500 Internal Server Error");
+			}
+
 			$this->renderError();
 		}
 		else

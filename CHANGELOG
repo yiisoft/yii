@@ -121,6 +121,7 @@ Version 1.1.16 under development
 - Enh #3351: Allow array attribute for CFileValidator even if `maxFiles` is not > 1 (cebe)
 - Enh #3359: Added merge parameter to CModule::setModules (KJLJon)
 - Enh #3391: Exception and log for not existed ClientScript package (rusalex)
+- Enh #3500: Framework now responds with HTTP protocol version requested (samdark)
 - Enh #3513: Added 'getExtensionByMimeType' method to CFileHelper class (UA2004)
 - Enh #3533: Added Yii and YiiBase classes to composer autoloader (sammousa)
 - Enh #3571: Extracted rendering of data cell in CGridView.renderTableRow() to separate method for extensibility (hijarian)
