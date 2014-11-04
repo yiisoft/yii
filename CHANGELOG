@@ -89,8 +89,6 @@ Version 1.1.16 under development
 - Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
 - Enh #2791: requirements/index.php: added CRYPT_BLOWFISH check for CPasswordHelper (tom--)
 - Enh #2799: Add HTML5 input support for color, datetime, datetime-local, week and search to CHtml and CActiveForm (phpnode)
-- Enh #2722: CFileHelper::findFiles() accepts absolutePaths in $options and returns absolute paths if true or relative ones otherwise (defaults to true) (pavel-voronin)
-- Enh #2777: Allow Yii::import() and Yii::createComponent() to import classes that are loaded by other autoloaders e.g. composer (cebe)
 - Enh #2817: Allow specifying $colums and $refColumns arguments as array in various CDbSchema methods (mynameiszanders, samdark)
 - Enh #2850: Parameter 'id' added for 'ajaxUpdateError' js function at 'CListView' and 'CGridView' (klimov-paul)
 - Enh #2851: Improved Mime-Type detection by using the `mime.types` file from apache http project to dected mime types by file extension (cebe, pavel-voronin, trejder)
