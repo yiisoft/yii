@@ -64,6 +64,10 @@
 class CHttpRequest extends CApplicationComponent
 {
 	/**
+	 * The length of the CSRF token mask.
+	 */
+	const CSRF_MASK_LENGTH = 8;
+	/**
 	 * @var boolean whether cookies should be validated to ensure they are not tampered. Defaults to false.
 	 */
 	public $enableCookieValidation=false;
@@ -88,6 +92,12 @@ class CHttpRequest extends CApplicationComponent
 	 * This property is effective only when {@link enableCsrfValidation} is true.
 	 */
 	public $csrfCookie;
+	/**
+	 * @var boolean whether the CSRF token should be masked or not to prevent BREACH Attack.
+	 * This property is effective only when {@link enableCsrfValidation} is true.
+	 * @see http://breachattack.com/
+	 */
+	public $maskCsrf;
 
 	private $_requestUri;
 	private $_pathInfo;
@@ -1259,6 +1269,11 @@ class CHttpRequest extends CApplicationComponent
 				$this->_csrfToken=$cookie->value;
 				$this->getCookies()->add($cookie->name,$cookie);
 			}
+			if($this->maskCsrf)
+			{
+				$mask = Yii::app()->getSecurityManager()->generateRandomBytes(self::CSRF_MASK_LENGTH);
+				$this->_csrfToken = base64_encode($mask . $this->xorTokens($mask, $this->_csrfToken));
+			}
 		}
 
 		return $this->_csrfToken;
@@ -1318,6 +1333,14 @@ class CHttpRequest extends CApplicationComponent
 			if (!empty($userToken) && $cookies->contains($this->csrfTokenName))
 			{
 				$cookieToken=$cookies->itemAt($this->csrfTokenName)->value;
+				if($this->maskCsrf)
+				{
+					$decodedToken = base64_decode($userToken);
+					$mask = mb_substr($decodedToken, 0, self::CSRF_MASK_LENGTH, '8bit');
+					$length = mb_strlen($decodedToken, '8bit');
+					$token = mb_substr($decodedToken, self::CSRF_MASK_LENGTH, $length - self::CSRF_MASK_LENGTH, '8bit');
+					$userToken = $this->xorTokens($mask, $token);
+				}
 				$valid=$cookieToken===$userToken;
 			}
 			else
@@ -1344,6 +1367,25 @@ class CHttpRequest extends CApplicationComponent
 				$this->_httpVersion='1.1';
 		}
 		return $this->_httpVersion;
+	}
+	
+	/**
+	 * Returns the XOR result of two strings.
+	 * If the two strings are of different lengths, the shorter one will be padded to the length of the longer one.
+	 * @param string $token1
+	 * @param string $token2
+	 * @return string the XOR result
+	 */
+	private function xorTokens($token1, $token2)
+	{
+		$n1 = mb_strlen($token1, '8bit');
+		$n2 = mb_strlen($token2, '8bit');
+		if ($n1 > $n2) {
+			$token2 = str_pad($token2, $n1, $token2);
+		} elseif ($n1 < $n2) {
+			$token1 = str_pad($token1, $n2, $token1);
+		}
+		return $token1 ^ $token2;
 	}
 }
 
