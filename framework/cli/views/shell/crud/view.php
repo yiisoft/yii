@@ -21,7 +21,7 @@ $this->menu=array(
 	array('label'=>'List <?php echo $modelClass; ?>', 'url'=>array('index')),
 	array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
 	array('label'=>'Update <?php echo $modelClass; ?>', 'url'=>array('update', 'id'=>$model-><?php echo $ID; ?>)),
-	array('label'=>'Delete <?php echo $modelClass; ?>', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $ID; ?>),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Delete <?php echo $modelClass; ?>', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $ID; ?>),'confirm'=>Yii::t('zii','Are you sure you want to delete this item?'))),
 	array('label'=>'Manage <?php echo $modelClass; ?>', 'url'=>array('admin')),
 );
 ?>
