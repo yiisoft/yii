@@ -17,6 +17,7 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
+  'Can not generate multiple insert command with empty data set.' => 'Ein multi-INSERT-command kann nicht mit leerem Datensatz erstellt werden.',
   '"{path}" is not a valid directory.' => '"{path}" ist kein gültiges Verzeichnis.',
   '&lt; Previous' => '&lt; Vorherige',
   '&lt;&lt; First' => '&lt;&lt; Erste',
