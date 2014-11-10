@@ -97,7 +97,7 @@ class CDateFormatterTest extends CTestCase
 		$this->assertEquals('-10:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
 
 		date_default_timezone_set('Europe/Moscow');
-		$this->assertEquals('+04:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+		$this->assertEquals('+03:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
 
 		date_default_timezone_set('America/Los_Angeles');
 		$this->assertEquals('-07:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
