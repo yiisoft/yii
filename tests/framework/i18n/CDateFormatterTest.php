@@ -100,6 +100,6 @@ class CDateFormatterTest extends CTestCase
 		$this->assertEquals('+03:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
 
 		date_default_timezone_set('America/Los_Angeles');
-		$this->assertEquals('-07:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+		$this->assertEquals(date('I') == '1' ? '-07:00' : '-08:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
 	}
 }
