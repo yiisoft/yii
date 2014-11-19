@@ -596,19 +596,7 @@ class YiiBase
 		{
 			if(strpos($message,'|')!==false)
 			{
-				if(strpos($message,'#')===false)
-				{
-					$chunks=explode('|',$message);
-					$expressions=self::$_app->getLocale($language)->getPluralRules();
-					if($n=min(count($chunks),count($expressions)))
-					{
-						for($i=0;$i<$n;$i++)
-							$chunks[$i]=$expressions[$i].'#'.$chunks[$i];
-
-						$message=implode('|',$chunks);
-					}
-				}
-				$message=CChoiceFormat::format($message,$params[0]);
+				$message=self::$_app->getLocale($language)->getPluralFormatter()->format($message,$params[0]);
 			}
 			if(!isset($params['{n}']))
 				$params['{n}']=$params[0];
@@ -746,6 +734,7 @@ class YiiBase
 		'CMessageSource' => '/i18n/CMessageSource.php',
 		'CNumberFormatter' => '/i18n/CNumberFormatter.php',
 		'CPhpMessageSource' => '/i18n/CPhpMessageSource.php',
+		'CPluralFormatter' => '/i18n/CPluralFormatter.php',
 		'CGettextFile' => '/i18n/gettext/CGettextFile.php',
 		'CGettextMoFile' => '/i18n/gettext/CGettextMoFile.php',
 		'CGettextPoFile' => '/i18n/gettext/CGettextPoFile.php',
