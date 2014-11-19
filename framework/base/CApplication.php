@@ -65,6 +65,8 @@
  * The current {@link getLocale application locale} will be used.
  * @property CDateFormatter $dateFormatter The locale-dependent date formatter.
  * The current {@link getLocale application locale} will be used.
+ * @property CPluralFormatter $pluralFormatter The locale-dependent plural formatter.
+ * The current {@link getLocale application locale} will be used.
  * @property CDbConnection $db The database connection.
  * @property CErrorHandler $errorHandler The error handler application component.
  * @property CSecurityManager $securityManager The security manager application component.
@@ -447,6 +449,16 @@ abstract class CApplication extends CModule
 	public function getDateFormatter()
 	{
 		return $this->getLocale()->getDateFormatter();
+	}
+
+	/**
+	 * @return CPluralFormatter the locale-dependent plural formatter.
+	 * The current {@link getLocale application locale} will be used.
+	 * @since 1.1.16
+	 */
+	public function getPluralFormatter()
+	{
+		return $this->getLocale()->getPluralFormatter();
 	}
 
 	/**

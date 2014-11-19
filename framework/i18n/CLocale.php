@@ -16,6 +16,7 @@
  * @property string $id The locale ID (in canonical form).
  * @property CNumberFormatter $numberFormatter The number formatter for this locale.
  * @property CDateFormatter $dateFormatter The date formatter for this locale.
+ * @property CPluralFormatter $pluralFormatter The plural formatter for this locale.
  * @property string $decimalFormat The decimal format.
  * @property string $currencyFormat The currency format.
  * @property string $percentFormat The percent format.
@@ -47,6 +48,7 @@ class CLocale extends CComponent
 	private $_data;
 	private $_dateFormatter;
 	private $_numberFormatter;
+	private $_pluralFormatter;
 
 	/**
 	 * Returns the instance of the specified locale.
@@ -142,6 +144,17 @@ class CLocale extends CComponent
 		if($this->_dateFormatter===null)
 			$this->_dateFormatter=new CDateFormatter($this);
 		return $this->_dateFormatter;
+	}
+
+	/**
+	 * @return CPluralFormatter the plural formatter for this locale
+	 * @since 1.1.16
+	 */
+	public function getPluralFormatter()
+	{
+		if($this->_pluralFormatter===null)
+			$this->_pluralFormatter=new CPluralFormatter($this);
+		return $this->_pluralFormatter;
 	}
 
 	/**
