@@ -20,6 +20,13 @@ General upgrade instructions
 Upgrading from v1.1.15
 ----------------------
 
+- jQuery was updated past version 1.9, which introduced important API changes. Check the
+  [upgrade guide](http://jquery.com/upgrade-guide/1.9/). The [jquery-migrate plugin](https://github.com/jquery/jquery-migrate/)
+  can help checking your code for deprecated functionality.
+
+- jQueryUI was updated. Check the upgrade guides for [1.10](http://jqueryui.com/upgrade-guide/1.10) and
+  [1.11](http://jqueryui.com/upgrade-guide/1.11).
+
 - CErrorHandler now runs errorAction for errors, which appear via AJAX request.
   If you use CErrorHandler::errorAction, make sure it handles AJAX request properly.
 
