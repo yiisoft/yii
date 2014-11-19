@@ -33,7 +33,7 @@ Upgrading from v1.1.15
   of `CFileHelper::getMimeTypeByExtension($file, $magicFile='path/to/your/mimeTypes.php')`.
 
 - We upgraded the bundled jQuery version to 1.11.1. Previous version was 1.8.3.
-  There where breaking changes in the jQuery API which you can find in the jQuery blog:
+  There were breaking changes in the jQuery API which you can find in the jQuery blog:
   <http://jquery.com/upgrade-guide/1.9/#changes-of-note-in-jquery-1-9>
 
 Upgrading from v1.1.14
