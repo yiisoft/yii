@@ -137,11 +137,11 @@ class CDbCommandBuilder extends CComponent
 				{
 					$pk=array();
 					foreach($table->primaryKey as $key)
-						$pk[]=$alias.'.'.$key;
+						$pk[]=$alias.'.'.$this->_schema->quoteColumnName($key);
 					$pk=implode(', ',$pk);
 				}
 				else
-					$pk=$alias.'.'.$table->primaryKey;
+					$pk=$alias.'.'.$this->_schema->quoteColumnName($table->primaryKey);
 				$sql="SELECT COUNT(DISTINCT $pk)";
 			}
 			else
