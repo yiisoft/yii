@@ -350,12 +350,18 @@ class CClientScript extends CApplicationComponent
 			if(!empty($package['js']))
 			{
 				foreach($package['js'] as $js)
-					$jsFiles[$baseUrl.'/'.$js]=$baseUrl.'/'.$js;
+				{
+					$path = preg_match('/^https?:\/\//i', $js) ? $js : $baseUrl . '/' . $js;
+                    			$jsFiles[$path] = $path;
+				}
 			}
 			if(!empty($package['css']))
 			{
 				foreach($package['css'] as $css)
-					$cssFiles[$baseUrl.'/'.$css]='';
+				{
+					$path = preg_match('/^https?:\/\//i', $css) ? $css : $baseUrl . '/' . $css;
+					$cssFiles[$path] = '';
+				}
 			}
 		}
 		// merge in place
