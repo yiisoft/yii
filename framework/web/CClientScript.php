@@ -354,7 +354,7 @@ class CClientScript extends CApplicationComponent
 					if (strncmp($js, '//', 2) === 0)
 					{
 						$path = $js;
-					} else 
+					} else
 						$path = preg_match('/^https?:\/\//i', $js) ? $js : $baseUrl . '/' . $js;
 
                     $jsFiles[$path] = $path;
@@ -369,7 +369,7 @@ class CClientScript extends CApplicationComponent
 						$path = $css;
 					} else 
 						$path = preg_match('/^https?:\/\//i', $css) ? $css : $baseUrl . '/' . $css;
-						
+
 					$cssFiles[$path] = '';
 				}
 			}
