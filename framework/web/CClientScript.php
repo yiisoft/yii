@@ -351,15 +351,25 @@ class CClientScript extends CApplicationComponent
 			{
 				foreach($package['js'] as $js)
 				{
-					$path = preg_match('/^https?:\/\//i', $js) ? $js : $baseUrl . '/' . $js;
-                    			$jsFiles[$path] = $path;
+					if (strncmp($js, '//', 2) === 0)
+					{
+						$path = $js;
+					} else 
+						$path = preg_match('/^https?:\/\//i', $js) ? $js : $baseUrl . '/' . $js;
+
+                    $jsFiles[$path] = $path;
 				}
 			}
 			if(!empty($package['css']))
 			{
 				foreach($package['css'] as $css)
 				{
-					$path = preg_match('/^https?:\/\//i', $css) ? $css : $baseUrl . '/' . $css;
+					if (strncmp($css, '//', 2) === 0)
+					{
+						$path = $css;
+					} else 
+						$path = preg_match('/^https?:\/\//i', $css) ? $css : $baseUrl . '/' . $css;
+						
 					$cssFiles[$path] = '';
 				}
 			}
