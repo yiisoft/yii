@@ -966,7 +966,7 @@ class CDbCommand extends CComponent
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
 	 * @return CDbCommand the command object itself
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function naturalLeftJoin($table)
 	{
@@ -981,7 +981,7 @@ class CDbCommand extends CComponent
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
 	 * @return CDbCommand the command object itself
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function naturalRightJoin($table)
 	{

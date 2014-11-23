@@ -59,7 +59,7 @@ EOD;
 			),
 		);
 		$files=CFileHelper::findFiles(YII_PATH,$options);
-		$map='';
+		$map=array();
 		foreach($files as $file)
 		{
 			if(($pos=strpos($file,YII_PATH))!==0)
@@ -67,8 +67,10 @@ EOD;
 			$path=str_replace('\\','/',substr($file,strlen(YII_PATH)));
 			$className=substr(basename($path),0,-4);
 			if($className[0]==='C')
-				$map.="\t\t'$className' => '$path',\n";
+				$map[$path]="\t\t'$className' => '$path',\n";
 		}
+		ksort($map);
+		$map=implode($map);
 
 		$yiiBase=file_get_contents(YII_PATH.'/YiiBase.php');
 		$newYiiBase=preg_replace('/private\s+static\s+\$_coreClasses\s*=\s*array\s*\([^\)]*\)\s*;/',"private static \$_coreClasses=array(\n{$map}\t);",$yiiBase);

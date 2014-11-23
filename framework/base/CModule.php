@@ -336,7 +336,7 @@ abstract class CModule extends CComponent
 	 * with the existing one. Defaults to true, meaning the previously registered
 	 * module configuration with the same ID will be merged with the new configuration.
 	 * If set to false, the existing configuration will be replaced completely.
-	 * This parameter is available since 1.1.15.
+	 * This parameter is available since 1.1.16.
 	 */
 	public function setModules($modules,$merge=true)
 	{
@@ -353,7 +353,8 @@ abstract class CModule extends CComponent
 			{
 				if(!isset($module['class']))
 				{
-					Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
+					if (Yii::getPathOfAlias($id)===false)
+						Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
 					$module['class']=$id.'.'.ucfirst($id).'Module';
 				}
 				$this->_moduleConfig[$id]=$module;
