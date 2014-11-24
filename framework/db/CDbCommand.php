@@ -202,10 +202,10 @@ class CDbCommand extends CComponent
 	    $this->_statement = $value;
 	}
 
-    /**
-     * @return array Current bind params
-     */
-    public function getParamLog()
+	/**
+	* @return array Current bind params
+	*/
+	public function getParamLog()
 	{
 	    return $this->_paramLog;
 	}
