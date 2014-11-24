@@ -199,7 +199,7 @@ class CDbCommand extends CComponent
 	 */
 	public function setPdoStatement(PDOStatement $value)
 	{
-	    $this->_statement = $value;
+		$this->_statement = $value;
 	}
 
 	/**
@@ -207,7 +207,7 @@ class CDbCommand extends CComponent
 	*/
 	public function getParamLog()
 	{
-	    return $this->_paramLog;
+		return $this->_paramLog;
 	}
 
 	/**
@@ -215,7 +215,7 @@ class CDbCommand extends CComponent
 	 */
 	public function setParamLog(array $value)
 	{
-	    $this->_paramLog = $value;
+		$this->_paramLog = $value;
 	}
 
 	/**
