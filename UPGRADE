@@ -25,9 +25,6 @@ Upgrading from v1.1.15
 
 - jQuery UI is updated. Check the upgrade guides: [1.10](http://jqueryui.com/upgrade-guide/1.10) and [1.11](http://jqueryui.com/upgrade-guide/1.11)
 
-Upgrading from v1.1.14
-----------------------
-
 - CErrorHandler now runs errorAction for errors, which appear via AJAX request.
   If you use CErrorHandler::errorAction, make sure it handles AJAX request properly.
 
@@ -39,6 +36,11 @@ Upgrading from v1.1.14
   you need to check if your code works with the new mime type assignments.
   You can use a custom `mimeTypes.php` file to bring back the old behavior if needed by specifying the second parameter
   of `CFileHelper::getMimeTypeByExtension($file, $magicFile='path/to/your/mimeTypes.php')`.
+
+Upgrading from v1.1.14
+----------------------
+
+No significant changes, 1.1.15 was a security fix release.
 
 Upgrading from v1.1.13
 ----------------------
