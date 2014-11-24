@@ -202,6 +202,14 @@ class CDbCommand extends CComponent
         $this->_statement = $statement;
     }
 
+    /**
+     * @param array $paramLog
+     */
+    public function setParamLog(array $paramLog)
+    {
+        $this->_paramLog = $paramLog;
+    }
+
 	/**
 	 * Prepares the SQL statement to be executed.
 	 * For complex SQL statement that is to be executed multiple times,
