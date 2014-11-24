@@ -194,6 +194,14 @@ class CDbCommand extends CComponent
 		return $this->_statement;
 	}
 
+    /**
+     * @param PDOStatement $statement
+     */
+    public function setPdoStatement(PDOStatement $statement)
+    {
+        $this->_statement = $statement;
+    }
+
 	/**
 	 * Prepares the SQL statement to be executed.
 	 * For complex SQL statement that is to be executed multiple times,
