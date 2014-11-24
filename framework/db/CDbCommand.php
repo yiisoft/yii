@@ -195,19 +195,19 @@ class CDbCommand extends CComponent
 	}
 
     /**
-     * @param PDOStatement $statement
+     * @param PDOStatement $value
      */
-    public function setPdoStatement(PDOStatement $statement)
+    public function setPdoStatement(PDOStatement $value)
     {
-        $this->_statement = $statement;
+        $this->_statement = $value;
     }
 
     /**
-     * @param array $paramLog
+     * @param array $value
      */
-    public function setParamLog(array $paramLog)
+    public function setParamLog(array $value)
     {
-        $this->_paramLog = $paramLog;
+        $this->_paramLog = $value;
     }
 
 	/**
