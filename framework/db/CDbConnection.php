@@ -513,6 +513,7 @@ class CDbConnection extends CApplicationComponent
 	
 	/**
 	 * Set transaction object for override {@link beginTransaction} , {@link CDbTransaction}
+	 * @param CDbTransaction $value
 	 */
 	public function setCurrentTransaction(CDbTransaction $value)
 	{
