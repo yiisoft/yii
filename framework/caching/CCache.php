@@ -170,7 +170,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @param ICacheDependency $dependency dependency of the cached item. If the dependency changes, the item is labeled invalid.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
-	public function set($id,$value,$expire=0,$dependency=null)
+	public function set($id,$value,$expire=0,ICacheDependency $dependency=null)
 	{
 		Yii::trace('Saving "'.$id.'" to cache','system.caching.'.get_class($this));
 
