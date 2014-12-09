@@ -62,6 +62,7 @@ Version 1.1.16 under development
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
 - Bug: Fixed URL parsing so it's now properly giving 404 for URLs like "http://example.com//////site/about/////" (samdark)
 - Bug: Fixed an issue with CFilehelper and not accessable directories which resulted in endless loop (cebe)
+- Bug: CSecurityManager encryption and string comparison were enhanced (sarciszewski, Jan Ewald, tom--, ircmaxell, qiangxue, samdark)
 - Enh: Public method CFileHelper::createDirectory() has been added (klimov-paul)
 - Enh: Added proper handling and support of the symlinked directories in CFileHelper::removeDirectory(), added $options parameter in CFileHelper::removeDirectory() (resurtm)
 - Enh #89: Support for SOAP headers in WSDL generator (nineinchnick)

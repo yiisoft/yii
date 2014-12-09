@@ -43,6 +43,18 @@ Upgrading from v1.1.15
   There were breaking changes in the jQuery API which you can find in the jQuery blog:
   <http://jquery.com/upgrade-guide/1.9/#changes-of-note-in-jquery-1-9>
 
+- Use CSecurityManager::legacyDecrypt() and CSecurityManager::encrypt() to convert existing encrypted data if any.
+
+- If there are exceptions about encryption key length you need to:
+
+  1. Decrypt all the data.
+  2. Change key via application config (encryptionKey property of securityManager component) to the one that conforms
+  to recommendations.
+  3. Encrypt all the data.
+
+  You can disable key validation by setting validateEncryptionKey property of securityManager component to false but
+  if it strongly not recommended.
+
 Upgrading from v1.1.14
 ----------------------
 

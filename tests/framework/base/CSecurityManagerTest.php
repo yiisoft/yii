@@ -26,15 +26,50 @@ class CSecurityManagerTest extends CTestCase
 	public function testEncryptionKey()
 	{
 		$sm=new CSecurityManager;
-		$key='123456';
-		$sm->encryptionKey=$key;
-		$this->assertEquals($key,$sm->encryptionKey);
+		$sm->cryptAlgorithm='des';
+		$key="\xA5\x94\x72\x26\x1F\xA3\x8A\x5B";
+		$sm->setEncryptionKey($key);
+		$this->assertEquals($key,$sm->getEncryptionKey());
+	}
 
-		$app=new TestApplication;
-		$key=$app->securityManager->encryptionKey;
-		$app->saveGlobalState();
-		$app2=new TestApplication;
-		$this->assertEquals($app2->securityManager->encryptionKey,$key);
+	/**
+	 * @expectedException CException
+	 */
+	public function testUndersizedGlobalKey()
+	{
+		$sm=new CSecurityManager;
+		$sm->cryptAlgorithm='des';
+		$sm->setEncryptionKey('1');
+	}
+
+	/**
+	 * @expectedException CException
+	 */
+	public function testUndersizedKey()
+	{
+		$sm=new CSecurityManager;
+		$sm->cryptAlgorithm='des';
+		$sm->encrypt('some data', '1');
+	}
+
+	/**
+	 * @expectedException CException
+	 */
+	public function testOversizedGlobalKey()
+	{
+		$sm=new CSecurityManager;
+		$sm->cryptAlgorithm='des';
+		$sm->setEncryptionKey('123456789');
+	}
+
+	/**
+	 * @expectedException CException
+	 */
+	public function testOversizedKey()
+	{
+		$sm=new CSecurityManager;
+		$sm->cryptAlgorithm='des';
+		$sm->encrypt('some data', '123456789');
 	}
 
 	public function testValidation()
@@ -69,7 +104,8 @@ class CSecurityManagerTest extends CTestCase
 		if(!extension_loaded('mcrypt'))
 			$this->markTestSkipped('mcrypt extension is required to test encrypt feature.');
 		$sm=new CSecurityManager;
-		$sm->encryptionKey='123456';
+		$sm->cryptAlgorithm='des';
+		$sm->setEncryptionKey("\xAF\x84\x8F\xF2\xEE\x92\xDF\xA8");
 		$data='this is raw data';
 		$encryptedData=$sm->encrypt($data);
 		$this->assertTrue($data!==$encryptedData);
@@ -173,5 +209,43 @@ class CSecurityManagerTest extends CTestCase
 			$this->assertInternalType('string', $ran);
 			$this->assertEquals($i, $mbStrlen ? mb_strlen($ran, '8bit') : strlen($ran));
 		}
+	}
+
+	public function dataProviderCompareStrings()
+	{
+		return array(
+			array("",""),
+			array(false,""),
+			array(null,""),
+			array(0,""),
+			array(0.00,""),
+			array("",null),
+			array("",false),
+			array("",0),
+			array("","\0"),
+			array("\0",""),
+			array("\0","\0"),
+			array("0","\0"),
+			array(0,"\0"),
+			array("user","User"),
+			array("password","password"),
+			array("password","passwordpassword"),
+			array("password1","password"),
+			array("password","password2"),
+			array("","password"),
+			array("password",""),
+		);
+	}
+
+	/**
+	 * @dataProvider dataProviderCompareStrings
+	 *
+	 * @param $expected
+	 * @param $actual
+	 */
+	public function testCompareStrings($expected, $actual)
+	{
+		$sm=new CSecurityManager;
+		$this->assertEquals(strcmp($expected,$actual)===0,$sm->compareString($expected,$actual));
 	}
 }
