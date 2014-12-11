@@ -5,7 +5,7 @@
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -27,7 +27,7 @@
  * <li>zero (0): required digit. This specifies the places where a digit must appear (will pad 0 if not).</li>
  * <li>hash (#): optional digit. This is mainly used to specify the location of decimal point and grouping separators.</li>
  * <li>currency (¤): the currency placeholder. It will be replaced with the localized currency symbol.</li>
- * <li>percentage (%): the percetage mark. If appearing, the number will be multiplied by 100 before being formatted.</li>
+ * <li>percentage (%): the percentage mark. If appearing, the number will be multiplied by 100 before being formatted.</li>
  * <li>permillage (‰): the permillage mark. If appearing, the number will be multiplied by 1000 before being formatted.</li>
  * <li>semicolon (;): the character separating positive and negative number sub-patterns.</li>
  * </ul>
@@ -54,7 +54,6 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n
  * @since 1.0
  */
@@ -94,7 +93,7 @@ class CNumberFormatter extends CComponent
 		$result=$this->formatNumber($format,$value);
 		if($currency===null)
 			return $result;
-		else if(($symbol=$this->_locale->getCurrencySymbol($currency))===null)
+		elseif(($symbol=$this->_locale->getCurrencySymbol($currency))===null)
 			$symbol=$currency;
 		return str_replace('¤',$symbol,$result);
 	}
@@ -139,11 +138,20 @@ class CNumberFormatter extends CComponent
 	 * @param array $format format with the following structure:
 	 * <pre>
 	 * array(
-	 * 	'decimalDigits'=>2,     // number of required digits after decimal point; 0s will be padded if not enough digits; if -1, it means we should drop decimal point
-	 *  'maxDecimalDigits'=>3,  // maximum number of digits after decimal point. Additional digits will be truncated.
-	 * 	'integerDigits'=>1,     // number of required digits before decimal point; 0s will be padded if not enough digits
-	 * 	'groupSize1'=>3,        // the primary grouping size; if 0, it means no grouping
-	 * 	'groupSize2'=>0,        // the secondary grouping size; if 0, it means no secondary grouping
+	 * 	// number of required digits after the decimal point,
+	 * 	// will be padded with 0 if not enough digits,
+	 * 	// -1 means we should drop the decimal point
+	 * 	'decimalDigits'=>2,
+	 * 	// maximum number of digits after the decimal point,
+	 * 	// additional digits will be truncated.
+	 * 	'maxDecimalDigits'=>3,
+	 * 	// number of required digits before the decimal point,
+	 * 	// will be padded with 0 if not enough digits
+	 * 	'integerDigits'=>1,
+	 * 	// the primary grouping size, 0 means no grouping
+	 * 	'groupSize1'=>3,
+	 * 	// the secondary grouping size, 0 means no secondary grouping
+	 * 	'groupSize2'=>0,
 	 * 	'positivePrefix'=>'+',  // prefix to positive number
 	 * 	'positiveSuffix'=>'',   // suffix to positive number
 	 * 	'negativePrefix'=>'(',  // prefix to negative number
@@ -159,9 +167,9 @@ class CNumberFormatter extends CComponent
 		$negative=$value<0;
 		$value=abs($value*$format['multiplier']);
 		if($format['maxDecimalDigits']>=0)
-			$value=round($value,$format['maxDecimalDigits']);
+			$value=number_format($value,$format['maxDecimalDigits'],'.','');
 		$value="$value";
-		if(($pos=strpos($value,'.'))!==false)
+		if(false !== $pos=strpos($value,'.'))
 		{
 			$integer=substr($value,0,$pos);
 			$decimal=substr($value,$pos+1);
@@ -171,9 +179,16 @@ class CNumberFormatter extends CComponent
 			$integer=$value;
 			$decimal='';
 		}
-
 		if($format['decimalDigits']>strlen($decimal))
 			$decimal=str_pad($decimal,$format['decimalDigits'],'0');
+		elseif($format['decimalDigits']<strlen($decimal))
+		{
+			$decimal_temp='';
+			for($i=strlen($decimal)-1;$i>=0;$i--)
+				if($decimal[$i]!=='0' || strlen($decimal_temp)>0)
+					$decimal_temp=$decimal[$i].$decimal_temp;
+			$decimal=$decimal_temp;
+		}
 		if(strlen($decimal)>0)
 			$decimal=$this->_locale->getNumberSymbol('decimal').$decimal;
 
@@ -232,7 +247,7 @@ class CNumberFormatter extends CComponent
 		// find out multiplier
 		if(strpos($pat,'%')!==false)
 			$format['multiplier']=100;
-		else if(strpos($pat,'‰')!==false)
+		elseif(strpos($pat,'‰')!==false)
 			$format['multiplier']=1000;
 		else
 			$format['multiplier']=1;

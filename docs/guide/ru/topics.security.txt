@@ -22,7 +22,7 @@ Yii включает в себя библиотеку [HTMLPurifier](http://html
 может отфильтровать весь вредоносный код при помощи тщательно проверенного
 белого листа. Также компонент делает код совместимым со стандартами.
 
-[CHtmlPurifier] может быть использован и как [виджет](/doc/guide/basics.view#widget)
+[CHtmlPurifier] может быть использован и как [виджет](/doc/guide/basics.view#widget),
 и как [фильтр](/doc/guide/basics.controller#filter). При использовании в качестве
 виджета [CHtmlPurifier] обрабатывает заключённое в него содержимое:
 
@@ -120,6 +120,3 @@ $value=$cookie->value;
 $cookie=new CHttpCookie($name,$value);
 Yii::app()->request->cookies[$name]=$cookie;
 ~~~
-
-
-<div class="revision">$Id: topics.security.txt 2535 2010-10-11 08:28:08Z mdomba $</div>

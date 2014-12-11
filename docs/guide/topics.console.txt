@@ -28,7 +28,7 @@ yiic help
 ~~~
 
 This will display a list of available console commands. By default, the available
-commands include those provided by Yii frameweork (called **system commands**)
+commands include those provided by Yii framework (called **system commands**)
 and those developed by users for individual applications (called **user commands**).
 
 To see how to use a command, we can execute
@@ -103,7 +103,7 @@ an action named `index`.
 To execute a specific action, we use the following console command format:
 
 ~~~
-yiic <command-name> <action-name> --option1=value --option2=value2 ...
+yiic <command-name> <action-name> --option1=value1 --option2=value2 ...
 ~~~
 
 The additional option-value pairs will be passed as named parameters to the action method.
@@ -192,6 +192,34 @@ The above code will allow us to execute a command with a `verbose` option:
 ~~~
 yiic sitemap index --verbose=1 --type=News
 ~~~
+
+
+Exit Codes
+----------
+
+> Note: The possibility to return exit codes in console commands has been available since version 1.1.11.
+
+When running console commands automatically, via cronjob or using a continuous integration server, it is
+always interesting if the command ran successfully or if there were errors.
+This can be done by checking the exit code a process returns on exit.
+
+These codes are integer values between 0 and 254 (this is the range in [php world](http://www.php.net/manual/en/function.exit.php)),
+where 0 should be returned on success and all other values greater than 0 will indicate an error.
+
+In an action method or in the `run()` method of your console command you can return an integer value
+to exit your application with an exit code.
+Example:
+
+~~~
+[php]
+if (/* error */) {
+    return 1; // exit with error code 1
+}
+// ... do something ...
+return 0; // exit successfully
+~~~
+
+When there is no return value, application will exit with code 0.
 
 
 Customizing Console Applications

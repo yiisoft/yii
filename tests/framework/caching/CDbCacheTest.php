@@ -1,7 +1,7 @@
 <?php
 
 if(!defined('DBCACHE_TEST_DBFILE'))
-	define('DBCACHE_TEST_DBFILE',dirname(__FILE__).'/temp/test2.db');
+	define('DBCACHE_TEST_DBFILE',Yii::app()->getRuntimePath().'/CDbCacheTest_database.db');
 
 if(!defined('DBCACHE_TEST_DB'))
 	define('DBCACHE_TEST_DB','sqlite:'.DBCACHE_TEST_DBFILE);
@@ -64,6 +64,25 @@ class CDbCacheTest extends CTestCase
 
 		$app2=new TestApplication($this->_config1);
 		$this->assertTrue($app2->cache->get($key)===$data);
+	}
+
+	public function testMGet()
+	{
+		$app=new TestApplication($this->_config1);
+		$app->reset();
+		$cache=$app->cache;
+
+		$key1='multidata1';
+		$data1='abc';
+		$key2='multidata2';
+		$data2=34;
+
+		$this->assertEquals($cache->mget(array($key1,$key2)), array($key1=>false,$key2=>false));
+		$cache->set($key1,$data1);
+		$cache->set($key2,$data2);
+		$this->assertEquals($cache->mget(array($key1,$key2)), array($key1=>$data1,$key2=>$data2));
+		$app2=new TestApplication($this->_config1);
+		$this->assertEquals($app2->cache->mget(array($key1,$key2)), array($key1=>$data1,$key2=>$data2));
 	}
 
 	public function testArrayAccess()

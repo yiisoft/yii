@@ -4,7 +4,7 @@
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,7 +12,6 @@
  * COciCommandBuilder provides basic methods to create query commands for tables.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id$
  * @package system.db.schema.oci
  */
 class COciCommandBuilder extends CDbCommandBuilder
@@ -34,7 +33,6 @@ class COciCommandBuilder extends CDbCommandBuilder
 
 	/**
 	 * Alters the SQL to apply LIMIT and OFFSET.
-	 * Default implementation is applicable for PostgreSQL, MySQL and SQLite.
 	 * @param string $sql SQL query string without LIMIT and OFFSET.
 	 * @param integer $limit maximum number of rows, -1 to ignore limit.
 	 * @param integer $offset row offset, -1 to ignore offset.
@@ -62,11 +60,11 @@ class COciCommandBuilder extends CDbCommandBuilder
 
 
 		$sql = <<<EOD
-				WITH USER_SQL AS ({$sql}),
-				   PAGINATION AS (SELECT USER_SQL.*, rownum as rowNumId FROM USER_SQL)
-				SELECT *
-				FROM PAGINATION
-				{$filter}
+WITH USER_SQL AS ({$sql}),
+	PAGINATION AS (SELECT USER_SQL.*, rownum as rowNumId FROM USER_SQL)
+SELECT *
+FROM PAGINATION
+{$filter}
 EOD;
 
 		return $sql;
@@ -121,5 +119,28 @@ EOD;
 			$command->bindValue($name,$value);
 
 		return $command;
+	}
+
+	/**
+	 * Creates a multiple INSERT command.
+	 * This method could be used to achieve better performance during insertion of the large
+	 * amount of data into the database tables.
+	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+	 * @param array[] $data list data to be inserted, each value should be an array in format (column name=>column value).
+	 * If a key is not a valid column name, the corresponding value will be ignored.
+	 * @return CDbCommand multiple insert command
+	 * @since 1.1.14
+	 */
+	public function createMultipleInsertCommand($table,array $data)
+	{
+		$templates=array(
+			'main'=>'INSERT ALL {{rowInsertValues}} SELECT * FROM dual',
+			'columnInsertValue'=>'{{value}}',
+			'columnInsertValueGlue'=>', ',
+			'rowInsertValue'=>'INTO {{tableName}} ({{columnInsertNames}}) VALUES ({{columnInsertValues}})',
+			'rowInsertValueGlue'=>' ',
+			'columnInsertNameGlue'=>', ',
+		);
+		return $this->composeMultipleInsertCommand($table,$data,$templates);
 	}
 }

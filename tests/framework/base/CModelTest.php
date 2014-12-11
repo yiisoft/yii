@@ -36,7 +36,7 @@ class CModelTest extends CTestCase
 		$model=new NewModel;
 		$this->assertTrue($model->isAttributeRequired('attr1'));
 		$this->assertFalse($model->isAttributeRequired('attr2'));
-	}	
+	}
 
 	function testIsAttributeSafe(){
 		$model=new NewModel;
@@ -103,7 +103,7 @@ class CModelTest extends CTestCase
 
 		$attributes = $model->getAttributes(array('attr1', 'non_existing'));
 		$this->assertEquals(1, $attributes['attr1']);
-		$this->assertEquals(null, $attributes['non_existing']);
+		$this->assertNull($attributes['non_existing']);
 	}
 
 	function testUnsetAttributes(){
@@ -112,11 +112,131 @@ class CModelTest extends CTestCase
 		$model->attr2 = 2;
 
 		$model->unsetAttributes(array('attr1'));
-		$this->assertEquals(null, $model->attr1);
+		$this->assertNull($model->attr1);
 		$this->assertEquals(2, $model->attr2);
 
 		$model->unsetAttributes();
-		$this->assertEquals(null, $model->attr1);
-		$this->assertEquals(null, $model->attr2);
+		$this->assertNull($model->attr1);
+		$this->assertNull($model->attr2);
+	}
+
+	public function testGeneratingAttributeLabel()
+	{
+		$model = new NewModel();
+		$this->assertSame('Department Name', $model->generateAttributeLabel('department_name'));
+		$this->assertSame('First Name', $model->generateAttributeLabel('firstName'));
+		$this->assertSame('Last Name', $model->generateAttributeLabel('LastName'));
+	}
+
+	public function testErrorsForAllAttributes()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$this->assertNotEmpty($model->getErrors());
+	}
+
+	public function testErrorsForSingleAttribute()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$this->assertNotEmpty($model->getErrors('attr1'));
+		$this->assertEmpty($model->getErrors('attr2'));
+	}
+
+	public function testAddingAnErrorToSpecifiedAttribute()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$model->clearErrors();
+		$model->addError('firstName', 'This field is required');
+		$this->assertSame(1, count($model->getErrors('firstName')));
+	}
+
+	public function testAddingAnErrorToASingleAttribute()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$model->clearErrors();
+		$model->addErrors(array('firstName' => 'This field is required'));
+		$this->assertSame(1, count($model->getErrors('firstName')));
+	}
+
+	public function testAddingAnErrorToMultipleAttributes()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$model->clearErrors();
+		$model->addErrors(array(
+			'firstName' => array('This attribute is required'),
+			'LastName' => array('This field is required'),
+		));
+		$this->assertSame(1, count($model->getErrors('firstName')));
+		$this->assertSame(1, count($model->getErrors('LastName')));
+	}
+
+	public function testAddingMultipleErrorsToASingleAttribute()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$model->clearErrors();
+		$model->addErrors(array('firstName' => array(
+			'This attribute is required',
+			'This field is required',
+		)));
+		$this->assertSame(2, count($model->getErrors('firstName')));
+	}
+
+	public function testAddingMultipleErrorsToMultipleAttributes()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$model->clearErrors();
+		$model->addErrors(array(
+			'firstName' => array(
+				'This attribute is required',
+				'This field is required',
+			),
+			'LastName' => array(
+				'This attribute is required',
+				'This field is required',
+			),
+		));
+		$this->assertSame(2, count($model->getErrors('firstName')));
+		$this->assertSame(2, count($model->getErrors('LastName')));
+	}
+
+	public function testFirstErrorMessageForInvalidAttribute()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$model->clearErrors();
+		$model->addErrors(array(
+			'attr1' => array(
+				'This attribute is required.',
+				'This field is required.',
+			),
+		));
+		$this->assertSame('This attribute is required.', $model->getError('attr1'));
+	}
+
+	public function testNoErrorMessageForValidAttribute()
+	{
+		$model = new NewModel();
+		$model->validate();
+		$this->assertNull($model->getError('attr2'));
+	}
+
+	public function testModelWithInvalidRules()
+	{
+		$model = new InvalidModel();
+		try {
+			$this->assertFalse($model->validate());
+		} catch (Exception $e) {
+			$this->assertInstanceOf('CException', $e);
+			$this->assertSame(
+				'InvalidModel has an invalid validation rule. '.
+				'The rule must specify attributes to be validated and the validator name.',
+				$e->getMessage());
+		}
 	}
 }

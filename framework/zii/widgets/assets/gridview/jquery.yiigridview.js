@@ -3,15 +3,14 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 (function ($) {
-	var selectCheckedRows, methods,
+	var selectCheckedRows, methods, 
+	 	yiiXHR={},
 		gridSettings = [];
-
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
 	 * 2. Check if "check all" need to be checked/unchecked
@@ -19,7 +18,7 @@
 	 */
 	selectCheckedRows = function (gridId) {
 		var settings = gridSettings[gridId],
-			table = $('#' + gridId).children('.' + settings.tableClass);
+			table = $('#' + gridId).find('.' + settings.tableClass);
 
 		table.children('tbody').find('input.select-on-check').filter(':checked').each(function () {
 			$(this).closest('tr').addClass('selected');
@@ -38,7 +37,8 @@
 		 * yiiGridView set function.
 		 * @param options map settings for the grid view. Available options are as follows:
 		 * - ajaxUpdate: array, IDs of the containers whose content may be updated by ajax response
-		 * - ajaxVar: string, the name of the GET variable indicating the ID of the element triggering the AJAX request
+		 * - ajaxVar: string, the name of the request variable indicating the ID of the element triggering the AJAX request
+		 * - ajaxType: string, the type (GET or POST) of the AJAX request
 		 * - pagerClass: string, the CSS class for the pager container
 		 * - tableClass: string, the CSS class for the table
 		 * - selectableRows: integer, the number of rows that can be selected
@@ -53,6 +53,9 @@
 			var settings = $.extend({
 					ajaxUpdate: [],
 					ajaxVar: 'ajax',
+					ajaxType: 'GET',
+					csrfTokenName: null,
+					csrfToken: null,
 					pagerClass: 'pager',
 					loadingClass: 'loading',
 					filterClass: 'filters',
@@ -65,40 +68,96 @@
 					// url: 'ajax request URL'
 				}, options || {});
 
+			settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
+
 			return this.each(function () {
-				var $grid = $(this),
+				var eventType,
+					$grid = $(this),
 					id = $grid.attr('id'),
+					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
+					sortSelector = '#' + id + ' .' + settings.tableClass + ' thead th a.sort-link',
 					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
 
-				settings.tableClass = settings.tableClass.replace(/\s+/g, '.');
-				if (settings.updateSelector === undefined) {
-					settings.updateSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a, #' + id + ' .' + settings.tableClass + ' thead th a';
-				}
+				settings.updateSelector = settings.updateSelector
+								.replace('{page}', pagerSelector)
+								.replace('{sort}', sortSelector);
+				settings.filterSelector = settings.filterSelector
+								.replace('{filter}', inputSelector);
 
 				gridSettings[id] = settings;
 
 				if (settings.ajaxUpdate.length > 0) {
-					$(document).on('click', settings.updateSelector, function () {
-						$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
+					$(document).on('click.yiiGridView', settings.updateSelector, function () {
+						// Check to see if History.js is enabled for our Browser
+						if (settings.enableHistory && window.History.enabled) {
+							// Ajaxify this link
+							var href = $(this).attr('href');
+							if(href){
+								var url = href.split('?'),
+									params = $.deparam.querystring('?'+ (url[1] || ''));
+
+								delete params[settings.ajaxVar];
+
+								var updateUrl = $.param.querystring(url[0], params);
+								window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
+							}
+						} else {
+							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
+						}
 						return false;
 					});
 				}
 
-				$(document).on('change', inputSelector, function () {
-					var data = $(inputSelector).serialize();
+				$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
+					if (event.type === 'keydown') {
+						if (event.keyCode !== 13) {
+							return; // only react to enter key
+						} else {
+							eventType = 'keydown';
+						}
+					} else {
+						// prevent processing for both keydown and change events
+						if (eventType === 'keydown') {
+							eventType = '';
+							return;
+						}
+					}
+					var data = $(settings.filterSelector).serialize();
 					if (settings.pageVar !== undefined) {
 						data += '&' + settings.pageVar + '=1';
 					}
-					$('#' + id).yiiGridView('update', {data: data});
+					if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
+						// Ajaxify this link
+						var url = $('#' + id).yiiGridView('getUrl'),
+							params = $.deparam.querystring($.param.querystring(url, data));
+
+						delete params[settings.ajaxVar];
+
+						var updateUrl = $.param.querystring(url.substr(0, url.indexOf('?')), params);
+						window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
+					} else {
+						$('#' + id).yiiGridView('update', {data: data});
+					}
+					return false;
 				});
+
+				if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
+					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
+						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
+						if (State.data.url === undefined) {
+							State.data.url = State.url;
+						}
+						$('#' + id).yiiGridView('update', State.data);
+					});
+				}
 
 				if (settings.selectableRows > 0) {
 					selectCheckedRows(this.id);
-					$(document).on('click', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
+					$(document).on('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
 						var $currentGrid, $row, isRowSelected, $checks,
 							$target = $(e.target);
 
-						if ($target.closest('td').hasClass('button-column') || (e.target.type === 'checkbox' && !$target.hasClass('select-on-check'))) {
+						if ($target.closest('td').is('.empty,.button-column') || (e.target.type === 'checkbox' && !$target.hasClass('select-on-check'))) {
 							return;
 						}
 
@@ -119,11 +178,11 @@
 						}
 					});
 					if (settings.selectableRows > 1) {
-						$(document).on('click', '#' + id + ' .select-on-check-all', function () {
+						$(document).on('click.yiiGridView', '#' + id + ' .select-on-check-all', function () {
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
-								$rows = $currentGrid.children('.' + settings.tableClass).children('tbody').children();
+								$rows = $currentGrid.find('.' + settings.tableClass).children('tbody').children();
 							if (this.checked) {
 								$rows.addClass('selected');
 								$checks.prop('checked', true);
@@ -139,7 +198,7 @@
 						});
 					}
 				} else {
-					$(document).on('click', '#' + id + ' .select-on-check', false);
+					$(document).on('click.yiiGridView', '#' + id + ' .select-on-check', false);
 				}
 			});
 		},
@@ -169,7 +228,7 @@
 		 */
 		getRow: function (row) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.' + sClass).children('tbody').children('tr').eq(row).children();
+			return this.find('.' + sClass).children('tbody').children('tr').eq(row).children();
 		},
 
 		/**
@@ -179,7 +238,7 @@
 		 */
 		getColumn: function (column) {
 			var sClass = gridSettings[this.attr('id')].tableClass;
-			return this.children('.' + sClass).children('tbody').children('tr').children('td:nth-child(' + (column + 1) + ')');
+			return this.find('.' + sClass).children('tbody').children('tr').children('td:nth-child(' + (column + 1) + ')');
 		},
 
 		/**
@@ -200,14 +259,12 @@
 					$grid = $(this),
 					id = $grid.attr('id'),
 					settings = gridSettings[id];
-				$grid.addClass(settings.loadingClass);
 
 				options = $.extend({
-					type: 'GET',
+					type: settings.ajaxType,
 					url: $grid.yiiGridView('getUrl'),
 					success: function (data) {
 						var $data = $('<div>' + data + '</div>');
-						$grid.removeClass(settings.loadingClass);
 						$.each(settings.ajaxUpdate, function (i, el) {
 							var updateId = '#' + el;
 							$(updateId).replaceWith($(updateId, $data));
@@ -219,9 +276,12 @@
 							selectCheckedRows(id);
 						}
 					},
+					complete: function () {
+						yiiXHR[id] = null;
+						$grid.removeClass(settings.loadingClass);
+					},
 					error: function (XHR, textStatus, errorThrown) {
 						var ret, err;
-						$grid.removeClass(settings.loadingClass);
 						if (XHR.readyState === 0 || XHR.status === 0) {
 							return;
 						}
@@ -251,23 +311,42 @@
 						}
 
 						if (settings.ajaxUpdateError !== undefined) {
-							settings.ajaxUpdateError(XHR, textStatus, errorThrown, err);
+							settings.ajaxUpdateError(XHR, textStatus, errorThrown, err, id);
 						} else if (err) {
 							alert(err);
 						}
 					}
 				}, options || {});
-				if (options.data !== undefined && options.type === 'GET') {
-					options.url = $.param.querystring(options.url, options.data);
-					options.data = {};
+				if (options.type === 'GET') {
+					if (options.data !== undefined) {
+						options.url = $.param.querystring(options.url, options.data);
+						options.data = {};
+					}
+				} else {
+					if (options.data === undefined) {
+						options.data = $(settings.filterSelector).serialize();
+					}
 				}
-
+				if (settings.csrfTokenName && settings.csrfToken) {
+					if (typeof options.data=='string')
+						options.data+='&'+settings.csrfTokenName+'='+settings.csrfToken;
+					else
+						options.data[settings.csrfTokenName] = settings.csrfToken;
+				}
+				if(yiiXHR[id] != null){
+					yiiXHR[id].abort();
+				}
+				//class must be added after yiiXHR.abort otherwise ajax.error will remove it
+				$grid.addClass(settings.loadingClass);
+				
 				if (settings.ajaxUpdate !== false) {
-					options.url = $.param.querystring(options.url, settings.ajaxVar + '=' + id);
+					if(settings.ajaxVar) {
+						options.url = $.param.querystring(options.url, settings.ajaxVar + '=' + id);
+					}
 					if (settings.beforeAjaxUpdate !== undefined) {
 						settings.beforeAjaxUpdate(id, options);
 					}
-					$.ajax(options);
+					yiiXHR[id] = $.ajax(options);
 				} else {  // non-ajax mode
 					if (options.type === 'GET') {
 						window.location.href = options.url;
@@ -298,7 +377,7 @@
 			var settings = gridSettings[this.attr('id')],
 				keys = this.find('.keys span'),
 				selection = [];
-			this.children('.' + settings.tableClass).children('tbody').children().each(function (i) {
+			this.find('.' + settings.tableClass).children('tbody').children().each(function (i) {
 				if ($(this).hasClass('selected')) {
 					selection.push(keys.eq(i).text());
 				}
@@ -318,13 +397,14 @@
 			if (column_id.substring(column_id.length - 2) !== '[]') {
 				column_id = column_id + '[]';
 			}
-			this.children('.' + settings.tableClass).children('tbody').children('tr').children('td').children('input[name="' + column_id + '"]').each(function (i) {
+			this.find('.' + settings.tableClass).children('tbody').children('tr').children('td').children('input[name="' + column_id + '"]').each(function (i) {
 				if (this.checked) {
 					checked.push(keys.eq(i).text());
 				}
 			});
 			return checked;
 		}
+		
 	};
 
 	$.fn.yiiGridView = function (method) {

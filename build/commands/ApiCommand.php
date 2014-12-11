@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 Yii::import('application.commands.api.ApiModel');
@@ -15,7 +15,6 @@ Yii::import('application.commands.api.ApiModel');
  * under the specified directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.build
  * @since 1.0
  */
@@ -27,7 +26,7 @@ class ApiCommand extends CConsoleCommand
 	public $pageTitle;
 	public $themePath;
 	public $currentClass;
-	public $baseSourceUrl="http://code.google.com/p/yii/source/browse";
+	public $baseSourceUrl="https://github.com/yiisoft/yii/blob";
 	public $version;
 
 	public function getHelp()
@@ -65,7 +64,7 @@ EOD;
 		$options=array(
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
-				'.svn',
+				'.gitignore',
 				'/yiilite.php',
 				'/yiit.php',
 				'/cli',
@@ -105,13 +104,13 @@ EOD;
 		$this->version=Yii::getVersion();
 
 		/*
-		 * development version - link to trunk
+		 * development version - link to master
 		 * release version link to tags
 		 */
 		if(substr($this->version,-3)=='dev')
-			$this->baseSourceUrl .= '/trunk/framework';
+			$this->baseSourceUrl .= '/master/framework';
 		else
-			$this->baseSourceUrl .= '/tags/'.$this->version.'/framework';
+			$this->baseSourceUrl .= '/'.$this->version.'/framework';
 
 		$this->pageTitle='Yii Framework Class Reference';
 		$themePath=dirname(__FILE__).'/api';
@@ -184,7 +183,7 @@ EOD;
 		if($line===null)
 			return CHtml::link('framework'.$sourcePath,$this->baseSourceUrl.$sourcePath,array('class'=>'sourceLink'));
 		else
-			return CHtml::link('framework'.$sourcePath.'#'.$line, $this->baseSourceUrl.$sourcePath.'#'.$line,array('class'=>'sourceLink'));
+			return CHtml::link('framework'.$sourcePath.'#'.$line, $this->baseSourceUrl.$sourcePath.'#L'.$line,array('class'=>'sourceLink'));
 	}
 
 	public function highlight($code,$limit=20)
@@ -211,7 +210,7 @@ EOD;
 			file_put_contents($docPath.'/'.$name.'.html',$content);
 		}
 
-		CFileHelper::copyDirectory($this->themePath.'/assets',$docPath,array('exclude'=>array('.svn')));
+		CFileHelper::copyDirectory($this->themePath.'/assets',$docPath);
 
 		$content=$this->renderPartial('chmProject',null,true);
 		file_put_contents($docPath.'/manual.hhp',$content);

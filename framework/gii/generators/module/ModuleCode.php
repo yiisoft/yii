@@ -55,7 +55,10 @@ EOD;
 		);
 
 		$files=CFileHelper::findFiles($templatePath,array(
-			'exclude'=>array('.svn'),
+			'exclude'=>array(
+				'.svn',
+				'.gitignore'
+			),
 		));
 
 		foreach($files as $file)
@@ -64,7 +67,7 @@ EOD;
 			{
 				if(CFileHelper::getExtension($file)==='php')
 					$content=$this->render($file);
-				else if(basename($file)==='.yii')  // an empty directory
+				elseif(basename($file)==='.gitkeep')  // an empty directory
 				{
 					$file=dirname($file);
 					$content=null;

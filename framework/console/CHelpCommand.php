@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -24,7 +24,6 @@
  * @property string $help The command description.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.console
  * @since 1.0
  */
@@ -33,6 +32,7 @@ class CHelpCommand extends CConsoleCommand
 	/**
 	 * Execute the action.
 	 * @param array $args command line parameters specific for this command
+	 * @return integer non zero application exit code after printing help
 	 */
 	public function run($args)
 	{
@@ -62,6 +62,7 @@ class CHelpCommand extends CConsoleCommand
 		}
 		else
 			echo $runner->createCommand($name)->getHelp();
+		return 1;
 	}
 
 	/**

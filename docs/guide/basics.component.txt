@@ -7,8 +7,8 @@ written to a specification. A component is an instance of
 accessing its properties and raising/handling its events. The base class
 [CComponent] specifies how to define properties and events.
 
-Component Property
-------------------
+Defining and using a Component Property
+---------------------------------------
 
 A component property is like an object's public member variable. We can
 read its value or assign a value to it. For example,
@@ -19,29 +19,77 @@ $width=$component->textWidth;     // get the textWidth property
 $component->enableCaching=true;   // set the enableCaching property
 ~~~
 
-To define a component property, we can simply declare a public member
-variable in the component class. A more flexible way, however, is by
-defining getter and setter methods like the following:
+There are two different ways of defining a component property. First way is
+to simply declare a public member variable in the component class like the
+following:
 
 ~~~
 [php]
-public function getTextWidth()
+class Document extends CComponent
 {
-    return $this->_textWidth;
-}
-
-public function setTextWidth($value)
-{
-    $this->_textWidth=$value;
+    public $textWidth;
 }
 ~~~
 
-The above code defines a writable property named `textWidth` (the name is
-case-insensitive). When reading the property, `getTextWidth()` is  invoked
-and its returned value becomes the property value; Similarly, when writing
-the property, `setTextWidth()` is invoked. If the setter method is not
-defined, the property would be read-only and writing it would throw an
-exception. Using getter and setter methods to define a property has the
+Another way is to use getters and setters. It is more flexible since additionally
+to normal properties you can declare a read only or write only property.
+
+~~~
+[php]
+class Document extends CComponent
+{
+    private $_textWidth;
+    protected $_completed=false;
+
+    public function getTextWidth()
+    {
+        return $this->_textWidth;
+    }
+
+    public function setTextWidth($value)
+    {
+        $this->_textWidth=$value;
+    }
+
+    public function getTextHeight()
+    {
+        // calculates and returns text height
+    }
+
+    public function setCompleted($value)
+    {
+        $this->_completed=$value;
+    }
+}
+~~~
+
+The component above can be used like the following:
+
+~~~
+[php]
+$document=new Document();
+
+// we can write and read textWidth
+$document->textWidth=100;
+echo $document->textWidth;
+
+// we can only read textHeight
+echo $document->textHeight;
+
+// we can only write completed
+$document->completed=true;
+~~~
+
+When trying to read a component property and the property isn't defined as a
+public class member, Yii is trying to use a getter method i.e. for `textWidth`
+a getter method will be `getTextWidth`. Same thing happens when trying to write a
+property not defined as a public class member.
+
+If there's a getter method but no setter method the component property becomes
+read only and throws an exception if we're trying to write it. If it's the
+other way around, the property is write-only.
+
+Using getter and setter methods to define a property has the
 benefit that additional logic (e.g. performing validation, raising events)
 can be executed when reading and writing the property.
 
@@ -114,7 +162,7 @@ automatically.
 
 An event can be attached with multiple handlers. When the event is raised,
 the handlers will be invoked in the order that they are attached to the event.
-If a handler decides to prevent the rest handlers from being invoked, it can set
+If a handler decides to prevent the rest of the handlers from being invoked, it can set
 [$event->handled|CEvent::handled] to be true.
 
 
@@ -130,7 +178,7 @@ A component can be attached with several behaviors and thus achieve 'multiple in
 Behavior classes must implement the [IBehavior] interface. Most behaviors can
 extend from the [CBehavior] base class. If a behavior needs to be attached to
 a [model](/doc/guide/basics.model), it may also extend from [CModelBehavior] or
-[CActiveRecordBehavior] which implements additional features specifc for models.
+[CActiveRecordBehavior] which implements additional features specific for models.
 
 To use a behavior, it must be attached to a component first by calling the behavior's
 [attach()|IBehavior::attach] method. Then we can call a behavior method via the component:

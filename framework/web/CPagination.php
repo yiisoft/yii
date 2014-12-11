@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -22,14 +22,14 @@
  * Controller action:
  * <pre>
  * function actionIndex(){
- *     $criteria = new CDbCriteria();
+ *     $criteria=new CDbCriteria();
  *     $count=Article::model()->count($criteria);
  *     $pages=new CPagination($count);
  *
  *     // results per page
  *     $pages->pageSize=10;
  *     $pages->applyLimit($criteria);
- *     $models = Post::model()->findAll($criteria);
+ *     $models=Article::model()->findAll($criteria);
  *
  *     $this->render('index', array(
  *     'models' => $models,
@@ -61,7 +61,6 @@
  * This returns the same value as {@link pageSize}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */

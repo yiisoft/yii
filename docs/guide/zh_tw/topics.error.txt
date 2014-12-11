@@ -1,0 +1,99 @@
+錯誤處理
+==============
+
+Yii 提供了一個完整的，基於 PHP5 例外處理的錯誤處理機制。當一個應用程式開始運行，進行使用者請求的處理的時候，會註冊 [handleError|CApplication::handleError] 方法來處理 PHP warnings 和 notices 訊息；同時也註冊 [handleException|CApplication::handleException] 方法來處理未被捕獲的 PHP 例外。因此，如果在應用程式運行期間出現一個 PHP warning/notice 或者一個未捕獲的 PHP 例外，錯誤處理器就會接過控制權來運行必要的處理機制。
+
+> Tip|提示: 錯誤處理器的註冊是在應用程式中的建構器方法中進行的，使用了 PHP 函數[set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php) 
+和 [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php)。
+如果你不想讓 Yii 來處理錯誤和例外，你可以在[入口腳本](/doc/guide/basics.entry)中定義 `YII_ENABLE_ERROR_HANDLER` 和 `YII_ENABLE_EXCEPTION_HANDLER` 為false.
+
+預設情況下，在觸發 [onError|CApplication::onError] 事件（或[onException|CApplication::onException]事件）的時候，[errorHandler|CApplication::errorHandler]（或[exceptionHandler|CApplication::exceptionHandler]）將被觸發。如果錯誤或者例外未被任何事件所處理，那麼就需要運行 [errorHandler|CErrorHandler] 元件來處理了。
+
+
+引發例外
+------------------
+
+在Yii中引發例外和在普通 PHP 檔案中沒什麼兩樣。你可以使用下面的程式碼來拋出例外：
+
+~~~
+[php]
+throw new ExceptionClass('錯誤訊息');
+~~~
+
+Yii定義了兩個例外類別：[CException]和[CHttpException]。前者是一個通用的例外類別，而後者用於對最終使用者顯示例外訊息。同時，後者有一個[statusCode|CHttpException::statusCode]屬性來代表 HTTP 狀態碼。例外的類型決定了顯示效果，下面會細說。
+
+> Tip|提示: 想要告訴使用者某個操作是錯誤的，那麼引發一個 [CHttpException] 例外是最簡單的方法了。比如說，如果使用者在 URL 中提供了一個無效的 ID 值，我們可以顯示一個 404 錯誤:
+~~~
+[php]
+// 如果提交的 ID 是無效的
+throw new CHttpException(404,'此頁面不存在');
+~~~
+
+
+顯示錯誤
+-----------------
+
+當一個錯誤被轉發給元件 [CErrorHandler] 的時候，它會選擇合適的視圖來顯示錯誤。如果這個錯誤要顯示給終端使用者的（比如說一個[CHttpException]），那麼會使用名為 `errorXXX` 的視圖來顯示錯誤。這個 `XXX` 代表著 HTTP 錯誤碼（比如說400，404，500等）。如果這是個內部錯誤，應該只能被開發者看到，那麼將使用的視圖名是 `exception`。在第二種中，將會顯示完整的調用堆疊訊息和錯誤行號訊息。
+
+> Info|訊息: 當應用程式運行在[產品模式](/doc/guide/basics.entry#debug-mode)時，所有的錯誤，包括內部錯誤都會使用視圖 `errorXXX`。這是因為調用的堆疊訊息和錯誤行號訊息可能包含一些敏感訊息。這種情況下，開發者應該依靠錯誤日誌來確定錯誤原因。
+
+[CErrorHandler] 會搜尋合適的視圖來顯示錯誤訊息，搜尋的順序如下：
+
+   1. `WebRoot/themes/ThemeName/views/system`: 在當前主題視圖下的 `system` 目錄中。
+
+   2. `WebRoot/protected/views/system`: 在應用程式的預設視圖的 `system` 目錄中。
+
+   3. `yii/framework/views`: 在 Yii 提供的標準視圖目錄中。
+
+因此，如果你想要自定錯誤顯示，可以直接在 `system` 視圖目錄中或者主題的 `system` 視圖目錄中建立一個視圖檔案。每個視圖檔案都是一個包含許多 HTML程 式碼的普通 PHP 檔案。參考框架的 `view` 目錄下的檔案，可以取得更多訊息。
+
+
+使用一個動作來處理錯誤
+-------------------------------
+
+Yii也可以使用[控制器 動作](/doc/guide/basics.controller#action)來處理錯誤顯示。實現的方法是在應用程式的配置檔案中配置一個錯誤處理器。
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		'errorHandler'=>array(
+			'errorAction'=>'site/error',
+		),
+	),
+);
+~~~
+
+上面的程式碼中，我們配置了 [CErrorHandler::errorAction] 屬性，屬性值是一個路由`site/error`。這個路由指向 `SiteController` 中的 `error`。當然，你也可以使用其他的路由。
+
+我們可以這樣來撰寫 `error` 動作：
+
+~~~
+[php]
+public function actionError()
+{
+	if($error=Yii::app()->errorHandler->error)
+		$this->render('error', $error);
+}
+~~~
+
+在這個動作中，首先從 [CErrorHandler::error]中取得詳細的錯誤訊息。如果取得的訊息非空值，就使用[CErrorHandler::error]返回的訊息來呈現 `error` 視圖。[CErrorHandler::error]返回的訊息是一個陣列，架構如下：
+
+ * `code`: HTTP 狀態碼（比如 403, 500）；
+ * `type`: 錯誤類型（比如 [CHttpException], `PHP Error`）；
+ * `message`: 錯誤訊息；
+ * `file`: 發生錯誤的PHP檔案名；
+ * `line`: 錯誤所在的行號；
+ * `trace`: 錯誤的調用堆疊訊息；
+ * `source`: 發生錯誤的程式碼的上下文。
+
+> Tip|提示: 我們檢查 [CErrorHandler::error] 是否為空值的原因是 `error` 動作可以被使用者存取，這時候也許並沒有什麼錯誤。當我們傳遞 `$error` 陣列給視圖，它將會被自動釋放為獨立的變數。所以，在視圖中我們可以使用 `$code` 和 `$type` 來存取這些訊息。
+
+
+訊息記錄
+---------------
+
+一個 `error` 級別的錯誤訊息會在錯誤發生時候被記錄。如果這個錯誤是由 PHP warning 或 notice 引發的，那麼這個訊息將會被記錄在 `php` 這個分類中；如果錯誤訊息是由未捕獲的例外所引起的，那麼分類將是 `exception.ExceptionClassName`（對於 [CHttpException] 來說，它的 [statusCode|CHttpException::statusCode] 也將被追加到分類中）。開發者可以使用這些[記錄](/doc/guide/topics.logging)來監測應用程式執行時候的錯誤訊息
+
+<div class="revision">$Id$</div>

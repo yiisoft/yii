@@ -30,7 +30,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -51,7 +51,7 @@ div.form fieldset
 	border: 1px solid #DDD;
 	padding: 10px;
 	margin: 0 0 10px 0;
-    -moz-border-radius:7px;
+	-moz-border-radius:7px;
 }
 
 div.form label

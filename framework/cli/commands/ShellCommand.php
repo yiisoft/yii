@@ -4,9 +4,8 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 /**
@@ -15,7 +14,6 @@
  * @property string $help The help information for the shell command.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.cli.commands
  * @since 1.0
  */
@@ -106,11 +104,8 @@ EOD;
 		// disable E_NOTICE so that the shell is more friendly
 		error_reporting(E_ALL ^ E_NOTICE);
 
-		$_runner_=new CConsoleCommandRunner;
-		$_runner_->addCommands(dirname(__FILE__).'/shell');
-		$_runner_->addCommands(Yii::getPathOfAlias('application.commands.shell'));
-		if(($_path_=@getenv('YIIC_SHELL_COMMAND_PATH'))!==false)
-			$_runner_->addCommands($_path_);
+		$_runner_=$this->createCommandRunner();
+		$this->addCommands($_runner_);
 		$_commands_=$_runner_->commands;
 		$log=Yii::app()->log;
 
@@ -140,6 +135,29 @@ EOD;
 					echo $e;
 			}
 		}
+	}
+
+	/**
+	 * Creates a commands runner
+	 * @return CConsoleCommandRunner
+	 * @since 1.1.16
+	 */
+	protected function createCommandRunner()
+	{
+		return new CConsoleCommandRunner;
+	}
+
+	/**
+	 * Adds commands to runner
+	 * @param CConsoleCommandRunner $runner
+	 * @since 1.1.16
+	 */
+	protected function addCommands(CConsoleCommandRunner $runner)
+	{
+		$runner->addCommands(Yii::getPathOfAlias('system.cli.commands.shell'));
+		$runner->addCommands(Yii::getPathOfAlias('application.commands.shell'));
+		if(($_path_=@getenv('YIIC_SHELL_COMMAND_PATH'))!==false)
+			$runner->addCommands($_path_);
 	}
 }
 

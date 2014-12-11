@@ -89,6 +89,25 @@ category starts with `system.` are saved. The second route is
 [CEmailLogRoute] which sends messages to the specified email addresses.
 Only messages whose level is `error` or `warning` are sent.
 
+In a more advanced example (using an exclude feature available in Yii 1.1.13+),
+we can prevent certain categories from appearing in our logs:
+
+~~~
+[php]
+	'routes'=>array(
+		array(
+			'class'=>'CEmailLogRoute',
+			'levels'=>'error, warning',
+			'except'=>'system.CModule.*' // Will email everything except any CModule logs
+			'emails'=>'admin@example.com',
+		),
+		array(
+			'class'=>'CWebLogRoute',
+			'categories'=>'system.db.*',
+			'except'=>'system.db.ar.*', // shows all db level logs but nothing in the ar category
+		),
+~~~
+
 The following log routes are available in Yii:
 
    - [CDbLogRoute]: saves messages in a database table.
@@ -196,6 +215,29 @@ To show profiling result, we need to install a [CLogRouter] application
 component with a [CProfileLogRoute] log route. This is the same as we do
 with normal message routing. The [CProfileLogRoute] route will display the
 performance results at the end of the current page.
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CProfileLogRoute',
+					'report'=>'summary',
+					// lists execution time of every marked code block
+					// report can also be set to callstack
+				),
+				...other log routes...
+			),
+		),
+	),
+)
+~~~
 
 
 Profiling SQL Executions

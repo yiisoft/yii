@@ -1,5 +1,5 @@
 安装
-====
+============
 
 Yii 的安装由如下两步组成：
 
@@ -17,6 +17,6 @@ Yii 的安装由如下两步组成：
 http://hostname/path/to/yii/requirements/index.php
 ~~~
 
-Yii 的最低需求是你的 Web 服务器支持 PHP 5.1.0 或更高版本。Yii 在 Windows 和 Linux 系统上的 [Apache HTTP 服务器](http://httpd.apache.org/) 中测试通过，应该在其它支持 PHP 5 的 Web 服务器和平台上也工作正常。
+Yii 的最低需求是你的 Web 服务器支持 PHP 5.1.0 或更高版本。Yii 在 Windows 和 Linux 系统上的 [Apache HTTP 服务器](http://httpd.apache.org/) 中测试通过。理论上来说，在其它支持 PHP 5.1 的 Web 服务器和平台上Yii也能正常工作。
 
-<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 2338 2012-02-27 07:13:42Z dongbeta@qq.com $</div>

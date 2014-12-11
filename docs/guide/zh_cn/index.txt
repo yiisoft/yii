@@ -15,15 +15,13 @@ Yii 权威指南
 * nowgoo
 * qiang
 * rainyjune
-* riverlet（[Yii 中国开发者网站](http://www.yiikuangjia.com)）
+* riverlet
 * sharehua 
 * thaiki
 
-
-
 All Rights Reserved.
 
-2008-2010 &copy; Yii Software LLC.
+2008-2013 &copy; Yii Software LLC.
 
 
-<div class="revision">$Id: index.txt 1824 2010-12-10 07:40:30Z yiidoc@dongbeta.com $</div>
+<div class="revision">$Id: index.txt 2335 2012-02-27 03:39:10Z dongbeta@qq.com $</div>

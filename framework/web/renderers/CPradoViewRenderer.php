@@ -5,7 +5,7 @@
  * @author Steve Heyns http://customgothic.com/
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -62,7 +62,6 @@
  *
  * @author Steve Heyns http://customgothic.com/
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.renderers
  * @since 1.0
  */
@@ -109,9 +108,9 @@ class CPradoViewRenderer extends CViewRenderer
 				else
 					$this->_output.=$this->processWidget($type,$match[4][0],$match[2][1]);
 			}
-			else if(strpos($str,'</com:')===0)	// closing component tag
+			elseif(strpos($str,'</com:')===0)	// closing component tag
 				$this->_output.=$this->processEndWidget($match[3][0],$match[2][1]);
-			else if(strpos($str,'<cache:')===0)	// opening cache tag
+			elseif(strpos($str,'<cache:')===0)	// opening cache tag
 			{
 				$id=$match[3][0];
 				if($str[strlen($str)-2]!=='/')  // open tag
@@ -119,9 +118,9 @@ class CPradoViewRenderer extends CViewRenderer
 				else
 					$this->_output.=$this->processCache($id,$match[4][0],$match[2][1]);
 			}
-			else if(strpos($str,'</cache:')===0)	// closing cache tag
+			elseif(strpos($str,'</cache:')===0)	// closing cache tag
 				$this->_output.=$this->processEndCache($match[3][0],$match[2][1]);
-			else if(strpos($str,'<clip:')===0)	// opening clip tag
+			elseif(strpos($str,'<clip:')===0)	// opening clip tag
 			{
 				$id=$match[3][0];
 				if($str[strlen($str)-2]!=='/')  // open tag
@@ -129,11 +128,11 @@ class CPradoViewRenderer extends CViewRenderer
 				else
 					$this->_output.=$this->processClip($id,$match[4][0],$match[2][1]);
 			}
-			else if(strpos($str,'</clip:')===0)	// closing clip tag
+			elseif(strpos($str,'</clip:')===0)	// closing clip tag
 				$this->_output.=$this->processEndClip($match[3][0],$match[2][1]);
-			else if(strpos($str,'<%=')===0)	// expression
+			elseif(strpos($str,'<%=')===0)	// expression
 				$this->_output.=$this->processExpression($match[1][0],$match[1][1]);
-			else if(strpos($str,'<%')===0)	// statement
+			elseif(strpos($str,'<%')===0)	// statement
 				$this->_output.=$this->processStatement($match[1][0],$match[1][1]);
 		}
 		if($textStart<strlen($this->_input))

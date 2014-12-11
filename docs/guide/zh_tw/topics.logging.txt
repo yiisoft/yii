@@ -1,0 +1,186 @@
+日誌記錄
+=======
+
+Yii 提供了一個靈活可擴充的日誌功能。記錄的日誌
+可以通過日誌級別和訊息分類進行歸類。通過使用
+級別和分類篩選器，所選的訊息還可以進一步路由到
+不同的目的地，例如一個檔案、Email和瀏覽器窗口等。
+
+
+訊息記錄
+---------------
+
+訊息可以通過 [Yii::log] 或 [Yii::trace] 記錄。其
+區別是後者只在當應用程式程式運行在 [除錯模式(debug mode)](/doc/guide/basics.entry#debug-mode)
+中時才會記錄訊息。
+
+~~~
+[php]
+Yii::log($message, $level, $category);
+Yii::trace($message, $category);
+~~~
+
+當記錄訊息時，我們需要指定它的分類和級別
+分類是一串格式 `xxx.yyy.zzz` 類似於 [路徑別名](/doc/guide/basics.namespace) 的字串。
+例如，如果一條訊息是在 [CController] 中記錄的，我們可以使用 `system.web.CController`
+作為分類。訊息級別應該是下列值中的一種：
+
+   - `trace`: 這是在  [Yii::trace] 中使用的級別。它用於在開發中
+追蹤程式的執行流程。
+
+   - `info`: 這個用於記錄普通的訊息。
+
+   - `profile`: 這個是性能分析。下面馬上會有更詳細的說明。
+
+   - `warning`: 這個用於警告訊息。
+
+   - `error`: 這個用於致命錯誤訊息。
+
+
+訊息路由
+---------------
+
+通過 [Yii::log] 或 [Yii::trace] 記錄的訊息是儲存在記憶體中的。
+我們通常需要將它們顯示到瀏覽器窗口中，或者將他們儲存到一些
+持久儲存例如檔案和 Email 中。這個就叫作 *訊息路由*，例如，
+發送訊息到不同的目的地。
+
+在 Yii 中，訊息路由是由一個叫做 [CLogRouter] 的應用程式元件管理的。
+它負責管理一系列稱作 *日誌路由* 的東西。每個日誌路由
+代表一個單獨的日誌目的地。通過一個日誌路由發送的訊息會被他們的級別和分類篩選。
+
+要使用訊息路由，我們需要安裝並預先加載一個 [CLogRouter]
+應用程式元件。我們也還需要配置它的 
+[routes|CLogRouter::routes] 屬性為我們想要的那些日誌路由。
+下面的程式碼展示了一個所需的  [應用程式配置](/doc/guide/basics.application#application-configuration)
+範例: 
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'trace, info',
+					'categories'=>'system.*',
+				),
+				array(
+					'class'=>'CEmailLogRoute',
+					'levels'=>'error, warning',
+					'emails'=>'admin@example.com',
+				),
+			),
+		),
+	),
+)
+~~~
+
+在上面的例子中，我們定義了兩個日誌路由。第一個是
+[CFileLogRoute] ，它會把訊息儲存在位於應用程式程式 runtime 目錄中的一個檔案中。
+而且只有級別為 `trace` 或 `info` 、分類以 `system.` 開頭的訊息才會被儲存。 
+第二個路由是
+[CEmailLogRoute] ，它會將訊息發送到指定的 email 地址，且只有級別為  `error` 
+或 `warning` 的才會發送。
+
+在 Yii 中，有下列幾種日誌路由可用：
+
+   - [CDbLogRoute]: 將訊息儲存到資料庫的表中。
+   - [CEmailLogRoute]: 發送訊息到指定的 Email 地址。
+   - [CFileLogRoute]: 儲存訊息到應用程式程式 runtime 目錄中的一個檔案中。
+   - [CWebLogRoute]: 將訊息顯示在當前頁面的底部。
+   - [CProfileLogRoute]: 在頁面的底部顯示分析訊息。
+
+> Info|訊息: 訊息路由發生在當前請求週期最後的 [onEndRequest|CApplication::onEndRequest] 事件觸發時。
+要終止當前請求過程，請調用 [CApplication::end()] 而不是使用 `die()` 或 `exit()`，因為 
+[CApplication::end()] 將會觸發 [onEndRequest|CApplication::onEndRequest] 事件，
+這樣訊息才會被順利地記錄。
+
+
+訊息篩選
+-----------------
+
+正如我們所提到的，訊息可以在他們被發送到一個日誌路由之前通過它們的級別和分類篩選。
+這是通過設置對應日誌路由的 [levels|CLogRoute::levels] 和 [categories|CLogRoute::categories] 屬性完成的。
+多個級別或分類應使用逗號連接。
+
+由於訊息分類是類似 `xxx.yyy.zzz` 格式的，我們可以將其視為一個分類層級。
+具體地，我們說 `xxx` 是 `xxx.yyy` 的父級，而`xxx.yyy` 又是 `xxx.yyy.zzz` 的父級。
+這樣我們就可以使用 `xxx.*` 表示分類 `xxx` 及其所有的子級和孫級分類
+
+
+記錄上下文訊息
+---------------------------
+
+從版本 1.0.6 起，我們可以設置記錄附加的上下文訊息，
+比如 PHP 的預先定義變數（例如 `$_GET`, `$_SERVER`），session ID，使用者名等。
+這是通過指定一個日誌路由的 [CLogRoute::filter] 屬性為一個合適的日誌篩選規則實現的。
+
+大部分情況下，Yii 框架使用了一個非常方便的 [CLogFilter] 用來作為日誌篩選器。預設，[CLogFilter] 會記錄一個含有 `$_GET` 和 `$_SERVER` 的訊息，因為這些變數通常包含許多有用系統訊息。
+[CLogFilter] 也可以設置每個日誌訊息有 session ID、username 等等的前缀，可以用來簡化在檢查各種日誌訊息時的全域搜尋。
+
+下面的設置顯示如何啟用日誌內文資訊。注意一點，每個日誌路由或許會有他們自己的日誌篩選器。預設上，一個日誌路由是沒有日誌篩選器的。
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'error',
+					'filter'=>'CLogFilter',
+				),
+				...其他日誌路由...
+			),
+		),
+	),
+)
+~~~
+
+
+從 1.0.7 開始，Yii 支援堆疊資訊的日誌呼叫在那些藉由呼叫 `Yii::trace` 而記錄下來的訊息。這功能預設是關閉的，因為它會降低效能。要使用著個功能。簡單的設定一個大於 0 且叫做 `YII_TRACE_LEVEL` 的常數在入口腳本裡面 (在載入 `yii.php` 之前) 。Yii 便會附加程式碼的檔案名稱和行號在每個追蹤訊息的呼叫堆疊上。`YII_TRACE_LEVEL` 的數字代表幾階的呼叫堆疊要被記錄下來。這在開發階段非常有用，因為它可以告訴我們在哪裡觸發了這個追蹤訊息。
+
+
+效能分析
+---------------------
+
+效能分析是一個特別的訊息日誌。效能分析可以被用來估算特定區塊的程式碼的時間，進而找出來效能的瓶頸。
+
+使用效能分析，我們需要定義那些程式碼區塊需要被分析。我們藉由下述的方法來標出區塊的位置：
+
+~~~
+[php]
+Yii::beginProfile('blockID');
+...要被分析的程式碼區塊...
+Yii::endProfile('blockID');
+~~~
+
+其中 `blockID` 是一個用來識別程式碼區塊的 ID。
+
+注意，程式碼區塊的巢狀結構必須要正確。也就是，一個程式碼區塊不能與其他區塊相互交錯。它們之間必須是一種平行的狀態或包含在另一個程式碼區塊裡。
+
+為了展現分析結果，我們需要安裝有一個 [CProfileLogRoute] 日誌路由的 [CLogRouter] 應用程式元件。這跟我們在做一般的訊息路由一樣。[CProfileLogRoute] 會顯示效能分析的結果在頁面的底端。
+
+
+分析 SQL 的執行
+------------------------
+
+分析用在有資料庫的情況下特別有用，因為一個應用程式最主要的效能瓶頸通常是 SQL 的執行。除了可以手動插入 `beginProfile` 和 `endProfile` 在適當的位置來分析 SQL 執行的時間之外，Yii 提供了一個更全面的方法來解決這個問題。
+
+設定 [CDbConnection::enableProfiling] 為 true 在應用程式的設定檔裡,
+每個 SQL 述句執行時都會進行分析，分析結果可以輕易地
+藉由 [CProfileLogRoute] 顯示執行 SQL 述句時所花的時間。我們也可以呼叫 [CDbConnection::getStats()] 來取出總共的 SQL 執行次數和時間。
+
+
+<div class="revision">$Id$</div>

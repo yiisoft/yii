@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -17,7 +17,6 @@
  * There is {@link http://www.learningjquery.com/2010/06/autocomplete-migration-guide a good migration guide from the author of both JavaScript solutions}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  * @deprecated in 1.1.3
@@ -183,7 +182,7 @@ class CAutoComplete extends CInputWidget
 	 * @var array additional options that can be passed to the constructor of the autocomplete js object.
 	 * This allows you to override existing functions of the autocomplete js class (e.g. the parse() function)
 	 *
-	 * If you want to provide JavaScript native code, you have to prefix the string with js: otherwise it will
+	 * If you want to provide JavaScript native code, you have to wrap the string with {@link CJavaScriptExpression} otherwise it will
 	 * be enclosed by quotes.
 	 */
 	public $options=array();
@@ -270,7 +269,6 @@ class CAutoComplete extends CInputWidget
 			'matchCase', 'matchContains', 'mustMatch', 'selectFirst',
 			'extraParams', 'multiple', 'multipleSeparator', 'width',
 			'autoFill', 'max', 'scroll', 'scrollHeight', 'inputClass',
-			'formatItem', 'formatMatch', 'formatResult', 'highlight',
 			'resultsClass', 'loadingClass');
 		static $functions=array('formatItem', 'formatMatch', 'formatResult', 'highlight');
 
@@ -282,8 +280,13 @@ class CAutoComplete extends CInputWidget
 		}
 		foreach($functions as $func)
 		{
-			if(is_string($this->$func) && strncmp($this->$func,'js:',3))
-				$options[$func]='js:'.$this->$func;
+			if($this->$func!==null)
+			{
+				if($this->$func instanceof CJavaScriptExpression)
+					$options[$func]=$this->$func;
+				else
+					$options[$func]=new CJavaScriptExpression($this->$func);
+			}
 		}
 
 		return $options;

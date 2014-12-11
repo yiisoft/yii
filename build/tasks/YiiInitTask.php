@@ -4,9 +4,8 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 require_once 'phing/Task.php';
@@ -23,7 +22,6 @@ require_once 'phing/tasks/system/PropertyTask.php';
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package build.tasks
  * @since 1.0
  */
@@ -66,20 +64,16 @@ class YiiInitTask extends PropertyTask
 	}
 
 	/**
-	 * @return string Yii SVN revision
+	 * @return string Yii GIT revision
 	 */
 	private function getYiiRevision()
 	{
-		$svnPath=dirname(__FILE__).'/../../.svn';
-		if(is_file($svnPath.'/all-wcprops'))
-			$propFile=$svnPath.'/all-wcprops';
-		else if(is_file($svnPath.'/dir-wcprops'))
-			$propFile=$svnPath.'/dir-wcprops';
-		else
-			return 'unknown';
-		$contents=file_get_contents($propFile);
-		if(preg_match('/\\/\\!svn\\/ver\\/(\d+)\\//ms',$contents,$matches)>0)
-			return $matches[1];
+		$gitFile=dirname(__FILE__).'/../../.git/HEAD';
+		if(is_file($gitFile))
+		{
+			$contents=file_get_contents($gitFile);
+			return substr($contents, 0, 6);
+		}
 		else
 			return 'unknown';
 	}

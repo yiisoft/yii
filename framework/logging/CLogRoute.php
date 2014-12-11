@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -25,7 +25,6 @@
  * satisfying both filter conditions will they be returned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  * @since 1.0
  */
@@ -40,15 +39,23 @@ abstract class CLogRoute extends CComponent
 	 */
 	public $levels='';
 	/**
-	 * @var string list of categories separated by comma or space. Defaults to empty, meaning all categories.
+	 * @var mixed array of categories, or string list separated by comma or space. 
+	 * Defaults to empty array, meaning all categories.
 	 */
-	public $categories='';
+	public $categories=array();
+	/**
+	 * @var mixed array of categories, or string list separated by comma or space, to EXCLUDE from logs.
+	 * Defaults to empty array, meaning no categories are excluded.
+	 * This will exclude any categories after $categories has been ran.
+	 */
+	public $except=array();
 	/**
 	 * @var mixed the additional filter (eg {@link CLogFilter}) that can be applied to the log messages.
 	 * The value of this property will be passed to {@link Yii::createComponent} to create
 	 * a log filter object. As a result, this can be either a string representing the
 	 * filter class name or an array representing the filter configuration.
-	 * In general, the log filter class should be {@link CLogFilter} or a child class of it.
+	 * In general, the log filter class should implement {@link ILogFilter} interface.
+	 * If you want to apply multiple filters you can use {@link CChainedLogFilter} to do so.
 	 * Defaults to null, meaning no filter will be used.
 	 */
 	public $filter;
@@ -56,7 +63,7 @@ abstract class CLogRoute extends CComponent
 	 * @var array the logs that are collected so far by this log route.
 	 * @since 1.1.0
 	 */
-	public $logs;
+	public $logs=array();
 
 
 	/**
@@ -87,13 +94,14 @@ abstract class CLogRoute extends CComponent
 	 */
 	public function collectLogs($logger, $processLogs=false)
 	{
-		$logs=$logger->getLogs($this->levels,$this->categories);
+		$logs=$logger->getLogs($this->levels,$this->categories,$this->except);
 		$this->logs=empty($this->logs) ? $logs : array_merge($this->logs,$logs);
 		if($processLogs && !empty($this->logs))
 		{
 			if($this->filter!==null)
 				Yii::createComponent($this->filter)->filter($this->logs);
-			$this->processLogs($this->logs);
+			if($this->logs!==array())
+				$this->processLogs($this->logs);
 			$this->logs=array();
 		}
 	}
@@ -101,7 +109,7 @@ abstract class CLogRoute extends CComponent
 	/**
 	 * Processes log messages and sends them to specific destination.
 	 * Derived child classes must implement this method.
-	 * @param array $logs list of messages.  Each array elements represents one message
+	 * @param array $logs list of messages. Each array element represents one message
 	 * with the following structure:
 	 * array(
 	 *   [0] => message (string)

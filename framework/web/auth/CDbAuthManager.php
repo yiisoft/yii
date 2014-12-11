@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -19,7 +19,6 @@
  * @property array $authItems The authorization items of the specific type.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -67,6 +66,7 @@ class CDbAuthManager extends CAuthManager
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
+	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of <code>$userId</code>.
 	 * @return boolean whether the operations can be performed by the user.
 	 */
 	public function checkAccess($itemName,$userId,$params=array())
@@ -83,6 +83,7 @@ class CDbAuthManager extends CAuthManager
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
+	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of <code>$userId</code>.
 	 * @param array $assignments the assignments to the specified user
 	 * @return boolean whether the operations can be performed by the user.
 	 * @since 1.1.3
@@ -92,6 +93,8 @@ class CDbAuthManager extends CAuthManager
 		if(($item=$this->getAuthItem($itemName))===null)
 			return false;
 		Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CDbAuthManager');
+		if(!isset($params['userId']))
+		    $params['userId'] = $userId;
 		if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
 		{
 			if(in_array($itemName,$this->defaultRoles))
@@ -210,7 +213,7 @@ class CDbAuthManager extends CAuthManager
 	{
 		if(is_string($names))
 			$condition='parent='.$this->db->quoteValue($names);
-		else if(is_array($names) && $names!==array())
+		elseif(is_array($names) && $names!==array())
 		{
 			foreach($names as &$name)
 				$name=$this->db->quoteValue($name);
@@ -374,14 +377,14 @@ class CDbAuthManager extends CAuthManager
 				->select()
 				->from($this->itemTable);
 		}
-		else if($userId===null)
+		elseif($userId===null)
 		{
 			$command=$this->db->createCommand()
 				->select()
 				->from($this->itemTable)
 				->where('type=:type', array(':type'=>$type));
 		}
-		else if($type===null)
+		elseif($type===null)
 		{
 			$command=$this->db->createCommand()
 				->select('name,type,description,t1.bizrule,t1.data')
@@ -418,7 +421,7 @@ class CDbAuthManager extends CAuthManager
 	 * Creates an authorization item.
 	 * An authorization item represents an action permission (e.g. creating a post).
 	 * It has three types: operation, task and role.
-	 * Authorization items form a hierarchy. Higher level items inheirt permissions representing
+	 * Authorization items form a hierarchy. Higher level items inherit permissions representing
 	 * by lower level items.
 	 * @param string $name the item name. This must be a unique identifier.
 	 * @param integer $type the item type (0: operation, 1: task, 2: role).
@@ -583,7 +586,7 @@ class CDbAuthManager extends CAuthManager
 	{
 		if($this->db!==null)
 			return $this->db;
-		else if(($this->db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
+		elseif(($this->db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 			return $this->db;
 		else
 			throw new CException(Yii::t('yii','CDbAuthManager.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',

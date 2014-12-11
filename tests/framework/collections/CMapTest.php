@@ -154,7 +154,7 @@ class CMapTest extends CTestCase
 	{
 		$this->assertEquals($this->item1,$this->map['key1']);
 		$this->assertEquals($this->item2,$this->map['key2']);
-		$this->assertEquals(null,$this->map['key3']);
+		$this->assertNull($this->map['key3']);
 	}
 
 	public function testArrayWrite()

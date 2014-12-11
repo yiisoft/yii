@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -55,7 +55,6 @@
  * @property array $servers List of memcache server configurations. Each element is a {@link CMemCacheServerConfiguration}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */
@@ -95,7 +94,7 @@ class CMemCache extends CCache
 				if($this->useMemcached)
 					$cache->addServer($server->host,$server->port,$server->weight);
 				else
-					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->status);
+					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->retryInterval,$server->status);
 			}
 		}
 		else
@@ -103,14 +102,21 @@ class CMemCache extends CCache
 	}
 
 	/**
-	 * @return mixed the memcache instance (or memcached if {@link useMemcached} is true) used by this component.
+	 * @throws CException if extension isn't loaded
+	 * @return Memcache|Memcached the memcache instance (or memcached if {@link useMemcached} is true) used by this component.
 	 */
 	public function getMemCache()
 	{
 		if($this->_cache!==null)
 			return $this->_cache;
 		else
+		{
+			$extension=$this->useMemcached ? 'memcached' : 'memcache';
+			if(!extension_loaded($extension))
+				throw new CException(Yii::t('yii',"CMemCache requires PHP {extension} extension to be loaded.",
+                    array('{extension}'=>$extension)));
 			return $this->_cache=$this->useMemcached ? new Memcached : new Memcache;
+		}
 	}
 
 	/**
@@ -136,7 +142,7 @@ class CMemCache extends CCache
 	 * Retrieves a value from cache with a specified key.
 	 * This is the implementation of the method declared in the parent class.
 	 * @param string $key a unique key identifying the cached value
-	 * @return string the value stored in cache, false if the value is not in the cache or expired.
+	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	protected function getValue($key)
 	{
@@ -221,7 +227,6 @@ class CMemCache extends CCache
  * for detailed explanation of each configuration property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.caching
  * @since 1.0
  */

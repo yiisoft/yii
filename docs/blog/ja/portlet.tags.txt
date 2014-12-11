@@ -1,14 +1,13 @@
 タグクラウドポートレットの作成
 ==========================
 
-[タグクラウド](http://en.wikipedia.org/wiki/Tag_cloud)は、ポストされたタグを、それぞれのタグの人気のヒントと共に表示します。
+[タグクラウド](http://en.wikipedia.org/wiki/Tag_cloud) は、各タグの人気の高さを示唆する視覚効果とともに、記事のタグの一覧を表示するものです。
 
 
 `TagCloud`クラスの作成
 -------------------------
 
-
-`TagCloud`クラスを`/wwwroot/blog/protected/components/TagCloud.php`ファイルとして
+`TagCloud` クラスを `/wwwroot/blog/protected/components/TagCloud.php` ファイルとして
 作成します。このファイルは以下のとおりです。
 
 ~~~
@@ -36,20 +35,20 @@ class TagCloud extends CPortlet
 }
 ~~~
 
-`UserMenu`ポートレットと異り、`TagCloud`ポートレットはビューを使用しません。
-その代わり、その表現は`renderContent()`メソッドで行われます。
-これは表現が、あまり多くのHTMLタグを含まないためです。
+`UserMenu` ポートレットと異り、`TagCloud` ポートレットはビューを使用しません。
+その代わり、その表現は `renderContent()` メソッドで行われます。
+これは表現が、あまり多くの HTML タグを含まないためです。
 
-それぞれのタグは対応するタグパラメータと共に、対応するポストのインデクスページへのハイパーリンクとして表示されます。
-タグのフォントの大きさは、他のタグとの相対的な重みにより調整されます。
-もしあるタグがより頻繁にポストに表れるなら、そのフォントの大きさはより大きく表示されます。
+それぞれのタグは、記事のインデクスページへのハイパーリンク (対応するタグをパラメータとして持ちます) として表示されます。
+各タグのリンクのフォントサイズは、他のタグとの相対的な重みにより調整されます。
+もしあるタグがより頻繁に記事に表れるなら、そのフォントサイズはより大きくなります。
 
-`TagCloud`ポートレットの使用
+`TagCloud` ポートレットの使用
 -------------------------
 
 
-`TagCloud`ポートレットの使用はとても単純です。
-レイアウトファイル`/wwwroot/blog/protected/views/layouts/column2.php`を以下のように修正します。
+`TagCloud` ポートレットの使用はとても単純です。
+レイアウトファイル `/wwwroot/blog/protected/views/layouts/column2.php` を以下のように修正します。
 
 ~~~
 [php]
@@ -66,4 +65,4 @@ class TagCloud extends CPortlet
 ......
 ~~~
 
-<div class="revision">$Id: portlet.tags.txt 1772 2010-02-01 18:18:09Z qiang.xue $</div>
+<div class="revision">$Id$</div>

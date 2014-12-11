@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -14,7 +14,6 @@
  * under the specified directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.cli.commands
  * @since 1.0
  */
@@ -55,17 +54,23 @@ PARAMETERS
      directory 'sourcePath/a/b'.
    - translator: the name of the function for translating messages.
      Defaults to 'Yii::t'. This is used as a mark to find messages to be
-     translated.
+     translated. Accepts both string for single function name or array for
+     multiple function names.
    - overwrite: if message file must be overwritten with the merged messages.
    - removeOld: if message no longer needs translation it will be removed,
      instead of being enclosed between a pair of '@@' marks.
+   - sort: sort messages by key when merging, regardless of their translation
+     state (new, obsolete, translated.)
+   - fileHeader: A boolean indicating whether the file should contain a default
+     comment that explains the message file or a string representing
+     some PHP code or comment to add before the return tag in the message file.
 
 EOD;
 	}
 
 	/**
 	 * Execute the action.
-	 * @param array command line parameters specific for this command
+	 * @param array $args command line parameters specific for this command
 	 */
 	public function run($args)
 	{
@@ -74,7 +79,7 @@ EOD;
 		if(!is_file($args[0]))
 			$this->usageError("the configuration file {$args[0]} does not exist.");
 
-		$config=require_once($args[0]);
+		$config=require($args[0]);
 		$translator='Yii::t';
 		extract($config);
 
@@ -92,7 +97,13 @@ EOD;
 
 		if(!isset($removeOld))
 			$removeOld = false;
-		
+
+		if(!isset($sort))
+			$sort = false;
+
+		if(!isset($fileHeader))
+			$fileHeader = true;
+
 		$options=array();
 		if(isset($fileTypes))
 			$options['fileTypes']=$fileTypes;
@@ -112,7 +123,7 @@ EOD;
 			foreach($messages as $category=>$msgs)
 			{
 				$msgs=array_values(array_unique($msgs));
-				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld);
+				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld,$sort,$fileHeader);
 			}
 		}
 	}
@@ -121,21 +132,28 @@ EOD;
 	{
 		echo "Extracting messages from $fileName...\n";
 		$subject=file_get_contents($fileName);
-		$n=preg_match_all('/\b'.$translator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
 		$messages=array();
-		for($i=0;$i<$n;++$i)
+		if(!is_array($translator))
+			$translator=array($translator);
+
+		foreach ($translator as $currentTranslator)
 		{
-			if(($pos=strpos($matches[$i][1],'.'))!==false)
-				$category=substr($matches[$i][1],$pos+1,-1);
-			else
-				$category=substr($matches[$i][1],1,-1);
-			$message=$matches[$i][2];
-			$messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
+			$n=preg_match_all('/\b'.$currentTranslator.'\s*\(\s*(\'[\w.\/]*?(?<!\.)\'|"[\w.]*?(?<!\.)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
+
+			for($i=0;$i<$n;++$i)
+			{
+				if(($pos=strpos($matches[$i][1],'.'))!==false)
+					$category=substr($matches[$i][1],$pos+1,-1);
+				else
+					$category=substr($matches[$i][1],1,-1);
+				$message=$matches[$i][2];
+				$messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
+			}
 		}
 		return $messages;
 	}
 
-	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld)
+	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld,$sort,$fileHeader)
 	{
 		echo "Saving messages to $fileName...";
 		if(is_file($fileName))
@@ -152,7 +170,7 @@ EOD;
 			$untranslated=array();
 			foreach($messages as $message)
 			{
-				if(!empty($translated[$message]))
+				if(array_key_exists($message,$translated) && strlen($translated[$message])>0)
 					$merged[$message]=$translated[$message];
 				else
 					$untranslated[]=$message;
@@ -166,9 +184,16 @@ EOD;
 			foreach($translated as $message=>$translation)
 			{
 				if(!isset($merged[$message]) && !isset($todo[$message]) && !$removeOld)
-					$todo[$message]='@@'.$translation.'@@';
+				{
+					if(substr($translation,0,2)==='@@' && substr($translation,-2)==='@@')
+						$todo[$message]=$translation;
+					else
+						$todo[$message]='@@'.$translation.'@@';
+				}
 			}
 			$merged=array_merge($todo,$merged);
+			if($sort)
+				ksort($merged);
 			if($overwrite === false)
 				$fileName.='.merged';
 			echo "translation merged.\n";
@@ -182,8 +207,8 @@ EOD;
 			echo "saved.\n";
 		}
 		$array=str_replace("\r",'',var_export($merged,true));
-		$content=<<<EOD
-<?php
+		if($fileHeader===true)
+			$fileHeader=<<<EOD
 /**
  * Message translations.
  *
@@ -200,12 +225,17 @@ EOD;
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version \$Id: \$
  */
+EOD;
+		elseif($fileHeader===false)
+			$fileHeader='';
+
+		file_put_contents($fileName,<<<EOD
+<?php
+$fileHeader
 return $array;
 
-EOD;
-		file_put_contents($fileName, $content);
+EOD
+		);
 	}
 }

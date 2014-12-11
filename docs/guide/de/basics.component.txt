@@ -9,8 +9,8 @@ Basisklasse [CComponent] legt fest, wie man Eigenschaften und Events
 definiert.
 
 
-Eigenschaft 
------------
+Definieren und Verwenden von Eigenschaft 
+----------------------------------------
 
 Eine Eigenschaft einer Komponente verhält sich wie eine öffentliche 
 Klassenvariable. Man kann Ihren Wert lesen oder ihr einen Wert zuweisen. 
@@ -23,27 +23,76 @@ $component->enableCaching=true;   // Setzt die Eigenschaft enableCaching
 ~~~
 
 Eine Eigenschaft kann daher einfach eine öffentliche Variable in der Klasse
-sein. Stattdesssen kann man aber auch wesentlich flexiblere Getter- 
-und Setter-Methoden verwenden:
+sein, die wie folgt definiert ist:
 
 ~~~
 [php]
-public function getTextWidth()
+class Document extends CComponent
 {
-    return $this->_textWidth;
-}
-
-public function setTextWidth($value)
-{
-    $this->_textWidth=$value;
+    public $textWidth;
 }
 ~~~
 
-Diese beiden Methoden definieren die beschreibbare Eigenschaft `textWidth`.
-Groß-/Kleinschreibung des Namens wird dabei nicht berücksichtigt. Beim Lesen
-dieser Eigenschaft wird `getTextWidth()` aufgerufen, und der Eigenschaftswert
-mit return zurückgegeben. Entsprechend wird beim Schreiben `setTextWidth()`
-aufgerufen. Wenn die Setter-Methode nicht definiert ist, ist die Eigenschaft
+Alternativ kann man aber auch, wesentlich flexiblere, Getter- 
+und Setter-Methoden verwenden. Damit ist es möglich Eigenschaften
+zu erzeugen, die nur lesbar oder nur schreibbar sind.
+Wie das funktioniert sehen wir an folgendem Beispiel:
+
+~~~
+[php]
+class Document extends CComponent
+{
+    private $_textWidth;
+    protected $_completed=false;
+
+    public function getTextWidth()
+    {
+        return $this->_textWidth;
+    }
+
+    public function setTextWidth($value)
+    {
+        $this->_textWidth=$value;
+    }
+
+    public function getTextHeight()
+    {
+        // berechnet die Texthöhe und gibt anschließend das Ergebnis zurück
+    }
+
+    public function setCompleted($value)
+    {
+        $this->_completed=$value;
+    }
+}
+~~~
+
+Die oben gezeigte Klasse kann nun wie folgt verwendet werden:
+
+~~~
+[php]
+$document=new Document();
+
+// Wir können die Eigenschaft textWidth lesen und schreiben
+$document->textWidth=100;
+echo $document->textWidth;
+
+// Wir können textHeight nur lesend verwenden
+echo $document->textHeight;
+
+// Wir können auf die Eigenschaft completed nur schreibend zugreifen
+$document->completed=true;
+~~~
+
+Beim Lesen einer Eigenschaft, die nicht als öffentliche Variable definiert ist,
+wird Yii versuchen eine Getter-Methode zu finden. Im Beispiel mit `textWidth`
+ist die zugehörige Getter-Methode `getTextWidth`.
+Als Wert der Eigenschaft gilt dann der Rückgabewert der Methode.
+Analog funktioniert das auch, wenn wir schreibend zugreifen wollen.
+In diesem Fall würde dann die Setter-Methode `setTextWidth` aufgerufen, der
+als Parameter der zu setzende Wert übergeben wird.
+
+Wenn die Setter-Methode nicht definiert ist, ist die Eigenschaft
 nur lesbar und beim Schreiben würde eine Exception ausgelöst. Der Einsatz von
 Getter-/Setter-Methoden zum Definieren einer Eigenschaft hat den Vorteil, das
 beim Lesen und Schreiben zusätzliche Logik ausgeführt werden kann 
@@ -195,4 +244,3 @@ Behavior zum Beispiel eine Eigenschaft namens `xyz` besitzt und an eine
 Komponente `$a` angebunden wurde, kann mit `$a->xyz` darauf zugegriffen
 werden.
 
-<div class="revision">$Id: basics.component.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

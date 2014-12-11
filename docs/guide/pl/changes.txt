@@ -85,4 +85,4 @@ Wersja 1.1.0
 
  * Alias nazwy dla tabeli głównej w zapytaniu AR ustalony został jako 't'.
 
-<div class="revision">$Id: changes.txt 3235 2011-05-24 18:54:01Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 3526 2012-01-01 03:18:43Z qiang.xue $</div>

@@ -42,9 +42,9 @@ class CListTest extends CTestCase
 	public function testGetReadOnly()
 	{
 		$list = new CList(null, true);
-		$this->assertEquals(true, $list->getReadOnly(), 'List is not read-only');
+		$this->assertTrue($list->getReadOnly(), 'List is not read-only');
 		$list = new CList(null, false);
-		$this->assertEquals(false, $list->getReadOnly(), 'List is read-only');
+		$this->assertFalse($list->getReadOnly(), 'List is read-only');
 	}
 
 	public function testGetCount()
@@ -86,7 +86,7 @@ class CListTest extends CTestCase
 		$this->assertEquals(-1,$this->list->indexOf($this->item1));
 		$this->assertEquals(0,$this->list->indexOf($this->item2));
 		
-		$this->assertEquals(false,$this->list->remove($this->item1));
+		$this->assertFalse($this->list->remove($this->item1));
 
 	}
 

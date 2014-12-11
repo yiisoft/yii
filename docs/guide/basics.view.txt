@@ -126,6 +126,9 @@ containing the widget class file. These views can be rendered by calling
 that no layout will be applied to a widget view. Also, `$this` in the view refers
 to the widget instance instead of the controller instance.
 
+> Tip: [CWidgetFactory::widgets] can be used to configure widgets on a site-wide basis,
+> allowing much easier base configuration. You can find more details on the [theming page](/doc/guide/topics.theming#customizing-widgets-globally)
+
 System View
 -----------
 

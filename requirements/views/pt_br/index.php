@@ -29,9 +29,9 @@ e se as definições do arquivo php.ini estão corretas.
 <?php if($result>0): ?>
 Parabéns! As configurações do seu servidor satisfazem todos os requisitos do Yii.
 <?php elseif($result<0): ?>
-As configurações do seu servidor satisfazem os requisitos mínimos do Yii. Por favor, preste atenção às advertências listados abaixo caso sua aplicação irá utilizar os recursos correspondentes.
+As configurações do seu servidor satisfazem os requisitos mínimos do Yii. Por favor, preste atenção às advertências listadas abaixo caso sua aplicação for utilizar os recursos correspondentes.
 <?php else: ?>
-Infelizmente o as configurações do seu servidor não satisfazem os requisitos do Yii.
+Infelizmente as configurações do seu servidor não satisfazem os requisitos do Yii.
 <?php endif; ?>
 </p>
 

@@ -7,9 +7,8 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 // fix for fcgi
@@ -23,11 +22,12 @@ if(isset($config))
 {
 	$app=Yii::createConsoleApplication($config);
 	$app->commandRunner->addCommands(YII_PATH.'/cli/commands');
-	$env=@getenv('YII_CONSOLE_COMMANDS');
-	if(!empty($env))
-		$app->commandRunner->addCommands($env);
 }
 else
 	$app=Yii::createConsoleApplication(array('basePath'=>dirname(__FILE__).'/cli'));
+
+$env=@getenv('YII_CONSOLE_COMMANDS');
+if(!empty($env))
+	$app->commandRunner->addCommands($env);
 
 $app->run();

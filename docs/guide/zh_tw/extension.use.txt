@@ -1,0 +1,267 @@
+使用擴充
+================
+
+使用擴充通常包含了以下三步：
+
+  1. 從 Yii 的 [擴充庫](http://www.yiiframework.com/extensions/) 下載擴充。
+  2. 解壓到 [應用程式程式的根目錄](/doc/guide/basics.application#application-base-directory)
+的子目錄 `extensions/xyz` 下，這裡的 `xyz` 是擴充的名稱。
+  3. 導入、配置和使用擴充。
+
+每個擴充都有一個所有擴充中唯一的名稱標識。把一個擴充命名為 `xyz`，我們也可以使用路徑別名定位到包含了 `xyz`
+所有檔案的根目錄。
+
+不同的擴充有著不同的導入、配置和使用要求。以下是我們通常會用到擴充的場景，按照他們在
+ [概述](/doc/guide/extension.overview) 中的描述分類。
+
+
+Zii 擴充
+--------------
+
+在我們開始描述如何使用第三方擴充前，我們會先介紹 Zii 擴充函式庫，他們 Yii 開發團隊所開發一個擴充的集合，從 Yii 版本 1.1.0 之後開始導入。Zii 函式庫被主持成一個 Google 專案，叫做 [zii](http://code.google.com/p/zii/)。
+
+當使用 Zii 擴充，必須使用路徑別名來參照到相對應的類別，格式是 `zii.path.to.ClassName`。這裡的根路徑別名是 `zii`，由 Yii 事先定義的。他對應到 Zii 函式庫的跟目錄。例如，要使用 [CGridView]，我們必須使用如下的程式碼在一個視圖腳本裡來參照到這個擴充：
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
+
+應用程式的元件
+---------------------
+
+使用 [應用程式的元件](/doc/guide/basics.application#application-component)，首先我們需要增加一個新項目到 [應用程式配置](/doc/guide/basics.application#application-configuration) 的 `components` 屬性，如下所示：
+
+~~~
+[php]
+return array(
+    // 'preload'=>array('xyz',...),
+    'components'=>array(
+        'xyz'=>array(
+            'class'=>'application.extensions.xyz.XyzClass',
+            'property1'=>'value1',
+            'property2'=>'value2',
+        ),
+        // 其他元件配置
+    ),
+);
+~~~
+
+然後,我們可以在任何地方透過使用 `Yii::app()->xyz` 來存取元件。元件將會被延遲建立（就是，僅當它第一次被存取時建立），
+除非我們把它配置到  `preload` 屬性裡。
+
+
+行為
+--------
+
+[行為](/doc/guide/basics.component#component-behavior) 可以被所有元件使用。它的使用方法包含兩個步驟。第一步，一個行為必須附加在一個目標元件。第二步，一個行為方法必須夠過目標元件來呼叫。例如：
+
+~~~
+[php]
+// $name 元件裡的行為的識別符號
+$component->attachBehavior($name,$behavior);
+// test() 是 $behavior 的方法
+$component->test();
+~~~
+
+通常，附加一個行為到元件是使用配置來代替呼叫 `attachBehavior` 方法。例如，要附加一個行為到一個 [應用程式元件](/doc/guide/basics.application#application-component)我們可以使用如下 [應用程式配置](/doc/guide/basics.application#application-configuration)：
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'behaviors'=>array(
+				'xyz'=>array(
+					'class'=>'ext.xyz.XyzBehavior',
+					'property1'=>'value1',
+					'property2'=>'value2',
+				),
+			),
+		),
+		//....
+	),
+);
+~~~
+
+上述的程式碼附加了 `xyz` 行為到 `db` 應用程式元件。我們可以這樣做是因為 [CApplicationComponent] 定義了一個屬性叫做 `behaviors`。藉由設定一個行為的清單到這個屬性，這個元件在初始化的時候會被附加這些行為。
+
+而 [CController]、[CFormModel] 和 [CActiveRecord] 類別通常會被擴充，附加行為可以透過覆寫 `behaviors()` 來完成。這個類別會初始化時自動附加那些在 `behaviors()` 所有宣告的行為。例如，
+
+~~~
+[php]
+public function behaviors()
+{
+	return array(
+		'xyz'=>array(
+			'class'=>'ext.xyz.XyzBehavior',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+	);
+}
+~~~
+
+
+小工具
+------
+
+[小工具](/doc/guide/basics.view#widget) 主要用在 [視圖](/doc/guide/basics.view) 裡。假設元件類別 `XyzClass` 屬於 `xyz` 擴充，我們可以如下的方法在視圖中使用它：
+
+~~~
+[php]
+// 小工具不需要主體內容
+<?php $this->widget('application.extensions.xyz.XyzClass', array(
+    'property1'=>'value1',
+    'property2'=>'value2')); ?>
+
+// 小工具可以包含主體內容
+<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+    'property1'=>'value1',
+    'property2'=>'value2')); ?>
+
+...小工具的主體內容...
+
+<?php $this->endWidget(); ?>
+~~~
+
+
+動作
+------
+
+[動作](/doc/guide/basics.controller#action) 被 [控制器](/doc/guide/basics.controller) 用於回應指定的使用者請求。假設動作的類別 `XyzClass` 屬於 `xyz` 擴充，我們可以在我們的控制器類別裡重寫 [CController::actions] 方法來使用它：
+
+~~~
+[php]
+class TestController extends CController
+{
+	public function actions()
+	{
+		return array(
+			'xyz'=>array(
+				'class'=>'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// 其他動作
+		);
+	}
+}
+~~~
+
+然後，我們可以通過 [路由](/doc/guide/basics.controller#route) `test/xyz` 來存取。
+
+
+篩選器
+------
+[篩選器](/doc/guide/basics.controller#filter) 也被 [控制器](/doc/guide/basics.controller) 使用。篩選器主要用於 [動作](/doc/guide/basics.controller#action) 處理使用者請求執行的前後。假設篩選器的類別 `XyzClass` 屬於 `xyz` 擴充,我們可以在我們的控制器類裡重寫 [CController::filters] 方法來使用它：
+
+~~~
+[php]
+class TestController extends CController
+{
+	public function filters()
+	{
+		return array(
+			array(
+				'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// 其他篩選器
+		);
+	}
+}
+~~~
+
+在上述程式碼中，我們可以在陣列的第一個元素裡使用加號或者減號操作符來限定篩選器只在那些動作中生效。更多訊息，請參照檔案的 [CController]。
+
+
+控制器
+----------
+[控制器](/doc/guide/basics.controller) 提供了一套可以被使用者請求的動作。我們需要在 [應用程式配置](/doc/guide/basics.application#application-configuration) 裡設置 [CWebApplication::controllerMap] 屬性，才能在控制器裡使用擴充：
+
+~~~
+[php]
+return array(
+	'controllerMap'=>array(
+		'xyz'=>array(
+			'class'=>'application.extensions.xyz.XyzClass',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+		// 其他控制器
+	),
+);
+~~~
+
+然後, 一個在控制裡的 `a` 行為就可以通過 [路由](/doc/guide/basics.controller#route) `xyz/a` 來存取了.
+
+
+校驗器
+---------
+校驗器主要用在 [模型](/doc/guide/basics.model)類別（繼承自 [CFormModel] 或者 [CActiveRecord]）中。假設校驗器類別 `XyzClass` 屬於 `xyz` 擴充，我們可以在我們的模型類中通過 [CModel::rules] 重寫 [CModel::rules] 來使用它：
+
+~~~
+[php]
+class MyModel extends CActiveRecord // or CFormModel
+{
+	public function rules()
+	{
+		return array(
+			array(
+				'attr1, attr2',
+				'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// 其他校驗規則
+		);
+	}
+}
+~~~
+
+
+控制台命令
+---------------
+[控制台命令](/doc/guide/topics.console) 擴充通常使用一個額外的命令來增強 `yiic` 的功能。假設命令控制台 `XyzClass` 屬於 `xyz` 擴充,我們可以通過設定控制台應用程式的配置來使用它：
+
+~~~
+[php]
+return array(
+	'commandMap'=>array(
+		'xyz'=>array(
+			'class'=>'application.extensions.xyz.XyzClass',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+		// 其他命令
+	),
+);
+~~~
+
+然後，我們就能使用配備了額外命令 `xyz` 的 `yiic` 工具了。
+
+> Note|注意：控制台應用程式通常使用了一個不同於網路應用程式的配置檔案。如果使用了 `yiic webapp` 命令建立了一個應用程式，這樣的話，控制台應用程式的 `protected/yiic` 的配置檔案就是 `protected/config/console.php`  了,而網路應用程式的配置檔案則是 `protected/config/main.php`。
+
+
+模組
+------
+請參考 [modules](/doc/guide/basics.module#using-module) 來使用一個模組。
+
+
+通用元件
+-----------------
+使用一個通用 [元件](/doc/guide/basics.component)，我們首先需要透過載入
+
+~~~
+Yii::import('application.extensions.xyz.XyzClass');
+~~~
+
+來包含它的類別檔案。然後，我們既可以建立一個類別的實體，配置它的屬性，也可以調用它的方法。我們還可以建立一個新的子類別來擴充它。
+
+<div class="revision">$Id$</div>

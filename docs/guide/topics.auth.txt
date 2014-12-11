@@ -41,9 +41,9 @@ session.
 
 #### An Example
 
-In the following example, we use an identity class to demonstrate using a database approach to authentication. This is very typical of most Web applications. A user will enter their username and password into a login form, and then we validate these credentials, using [ActiveRecord](/doc/guide/database.ar), against a user table in the database . There are actually a few things being demonstrated in this single example:
+In the following example, we use an identity class to demonstrate using a database approach to authentication. This is typical in Web applications. A user will enter their username and password into a login form, and then we validate these credentials, using [ActiveRecord](/doc/guide/database.ar), against a user table in the database . There are actually a few things being demonstrated in this single example:
 
-1. The implementation of the `authenticate()` to use the database to validate credentials.
+1. The implementation of the `authenticate()` method to use the database to validate credentials.
 2. Overriding the `CUserIdentity::getId()` method to return the `_id` property because the default implementation returns the username as the ID.
 3. Using the `setState()` ([CBaseUserIdentity::setState]) method to demonstrate storing other information that can easily be retrieved upon subsequent requests.
 
@@ -57,7 +57,7 @@ class UserIdentity extends CUserIdentity
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
 		if($record===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($record->password!==md5($this->password))
+		else if(!CPasswordHelper::verifyPassword($this->password,$record->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
@@ -83,6 +83,10 @@ identity information. If cookie-based login is enabled (by setting
 [CWebUser::allowAutoLogin] to be true), the user identity information may
 also be saved in cookie. Make sure you do not declare sensitive information
 (e.g. password) to be persistent.
+
+### Storing passwords in the database
+
+Secure storage of user passwords in a database requires some care. An attacker that has stolen your user table (or a backup of it) can recover passwords using standard techniques if you don't protect against them. The above code example uses Yii built-in [CPasswordHelper] to hash the password and to validate it (since version 1.1.14). [CPasswordHelper::hashPassword] returns hashes that are very hard to crack.
 
 Login and Logout
 ----------------
@@ -509,8 +513,8 @@ Once we have established this hierarchy, the [authManager|CWebApplication::authM
 items automatically. Therefore, we only need to run the above code one time, and NOT for every request.
 
 > Info: While the above example looks long and tedious, it is mainly for
-> demonstrative purpose. Developers will usually need to develop some administrative user
-> interfaces so that end users can use to establish an authorization
+> demonstrative purposes. Developers will usually need to develop some administrative user
+> interfaces so that end users can establish an authorization
 > hierarchy more intuitively.
 
 
@@ -558,13 +562,13 @@ privileges to all authenticated users. It poses a lot of maintenance trouble
 if we explicitly specify and store these role assignments. We can exploit
 *default roles* to solve this problem.
 
-A default role is a role that is implicitly assigned to every user, including
-both authenticated and guest. We do not need to explicitly assign it to a user.
+A default role is a role that is implicitly assigned to every user. We do not 
+need to explicitly assign it to a user.
 When [CWebUser::checkAccess] is invoked, default roles will be checked first as if they are
 assigned to the user.
 
 Default roles must be declared in the [CAuthManager::defaultRoles] property.
-For example, the following configuration declares two roles to be default roles: `authenticated` and `guest`.
+For example, the following configuration declares two roles to be default roles: `authenticated` and `admin`.
 
 ~~~
 [php]
@@ -572,7 +576,7 @@ return array(
 	'components'=>array(
 		'authManager'=>array(
 			'class'=>'CDbAuthManager',
-			'defaultRoles'=>array('authenticated', 'guest'),
+			'defaultRoles'=>array('authenticated', 'admin'),
 		),
 	),
 );
@@ -581,16 +585,21 @@ return array(
 Because a default role is assigned to every user, it usually needs to be
 associated with a business rule that determines whether the role
 really applies to the user. For example, the following code defines two
-roles, `authenticated` and `guest`, which effectively apply to authenticated
-users and guest users, respectively.
+roles, `authenticated` and `admin`, which effectively apply to authenticated
+users and users with the username `admin`, respectively.
 
 ~~~
 [php]
 $bizRule='return !Yii::app()->user->isGuest;';
 $auth->createRole('authenticated', 'authenticated user', $bizRule);
 
-$bizRule='return Yii::app()->user->isGuest;';
-$auth->createRole('guest', 'guest user', $bizRule);
+$bizRule='return Yii::app()->user->name === "admin";';
+$auth->createRole('admin', 'admin user', $bizRule);
 ~~~
+
+> Info: Since version 1.1.11 the `$params` array passed to a business rule has a key named
+> `userId` whose value is the id of the user the business rule is checked for.
+> You would need this if you call [CDbAuthManager::checkAccess()] or [CPhpAuthManager::checkAccess()] in places
+> where `Yii::app()->user` is not available or not the user you are checking access for.
 
 <div class="revision">$Id$</div>

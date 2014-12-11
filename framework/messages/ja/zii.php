@@ -15,27 +15,27 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
-  'Home' => 'ホーム',
-  'The button type "{type}" is not supported.' => 'ボタンタイプ"{type}"はサポートされていません。',
   'Are you sure you want to delete this item?' => 'この項目を削除してもよろしいですか?',
   'Delete' => '削除',
-  'Displaying {start}-{end} of {count} result(s).' => '{count}個の結果を{start}から{end}まで表示します。',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => '{count}個の結果を{start}から{end}まで表示します。',
   'Either "name" or "value" must be specified for CDataColumn.' => 'CDataColumnの"name"または"value"を指定しなければなりません。',
+  'Home' => 'ホーム',
   'No results found.' => '結果が得られませんでした。',
-  'Not set' => 'セットされません。',
+  'Not set' => 'セットされていません',
   'Please specify the "attributes" property.' => '"attributes"プロパティを指定してください。',
   'Please specify the "data" property.' => '"data"プロパティを指定してください。',
   'Sort by: ' => 'ソート:',
   'The "dataProvider" property cannot be empty.' => '"dataProvider"プロパティは空ではいけません。',
-  'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => '"Type"と"Label"がオプションであるときアトリビュートは"Name:Type:Label"というフォーマットで指定されます。',
-  'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => '"Type"と"Label"がオプションであるときカラムは"Name:Type:Label"というフォーマットで指定されます。',
+  'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'アトリビュートは"Name:Type:Label"という形式で指定しなければいけません。"Type"と"Label"は省略可能です。',
+  'The button type "{type}" is not supported.' => 'ボタンタイプ"{type}"はサポートされていません。',
+  'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'カラムは"Name:Type:Label"という形式で指定しなければいけません。"Type"と"Label"は省略可能です。',
   'The property "itemView" cannot be empty.' => '"itemView"プロパティは空ではいけません。',
-  'Total {count} result(s).' => 'トータル{count}個',
+  'The property filterSelector should be defined.' => 'filterSelector プロパティを指定しなければいけません。',
+  'The property updateSelector should be defined.' => 'updateSelector プロパティを指定しなければいけません。',
+  'Total 1 result.|Total {count} results.' => '合計{count}個',
   'Update' => '更新',
   'View' => '表示',
-  '{class} must specify "model" and "attribute" or "name" property values.' => '{class}は"model"と"attribute"または"name"プロパティ値を指定すべきです。',
+  '{class} must specify "model" and "{attribute}" or "{name}" property values.' => '{class}は"model"と"{attribute}"または"{name}"のプロパティ値を指定しなければいけません。',
 );

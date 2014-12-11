@@ -106,16 +106,16 @@ class CMysqlTest extends CTestCase
 		$this->checkColumns('posts',$values);
 		$values=array
 		(
-			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2'),
-			'rawName'=>array('`int_col`', '`int_col2`', '`char_col`', '`char_col2`', '`char_col3`', '`float_col`', '`float_col2`', '`blob_col`', '`numeric_col`', '`time`', '`bool_col`', '`bool_col2`'),
-			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, '33.22', '2002-01-01 00:00:00', null, 1),
-			'size'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1),
-			'precision'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1),
-			'scale'=>array(null, null, null, null, null, 3, null, null, 2, null, null, null),
-			'dbType'=>array('int(11)','int(11)','char(100)','varchar(100)','text','double(4,3)','double','blob','decimal(5,2)','timestamp','tinyint(1)','tinyint(1)'),
-			'type'=>array('integer','integer','string','string','string','double','double','string','string','string','integer','integer'),
-			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
-			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
+			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2', 'bit_col1', 'bit_col2'),
+			'rawName'=>array('`int_col`', '`int_col2`', '`char_col`', '`char_col2`', '`char_col3`', '`float_col`', '`float_col2`', '`blob_col`', '`numeric_col`', '`time`', '`bool_col`', '`bool_col2`', '`bit_col1`', '`bit_col2`'),
+			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, '33.22', '2002-01-01 00:00:00', null, 1, null, 42),
+			'size'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1, 1, 32),
+			'precision'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1, 1, 32),
+			'scale'=>array(null, null, null, null, null, 3, null, null, 2, null, null, null, null, null),
+			'dbType'=>array('int(11)','int(11)','char(100)','varchar(100)','text','double(4,3)','double','blob','decimal(5,2)','timestamp','tinyint(1)','tinyint(1)','bit(1)','bit(32)'),
+			'type'=>array('integer','integer','string','string','string','double','double','string','string','string','integer','integer','integer','integer'),
+			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false),
+			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false,false,false),
 		);
 		$this->checkColumns('types',$values);
 	}
@@ -157,6 +157,18 @@ class CMysqlTest extends CTestCase
 		$c->execute();
 		$c=$builder->createCountCommand($table,new CDbCriteria);
 		$this->assertEquals(5,$c->queryScalar());
+ 
+		// test for delete with joins
+		$c=$builder->createInsertCommand($table,array('title'=>'new post delete','create_time'=>'2000-01-01','author_id'=>1,'content'=>'test content'));
+		$c->execute();
+		$c=$builder->createDeleteCommand($table,new CDbCriteria(array(
+				'condition'=>'u.`username`=:username and `posts`.`title`=:title',
+				'join'=>'JOIN `users` u ON `author_id`=u.`id`',
+				'params'=>array(':username'=>'user1', ':title'=>'new post delete'))));
+        $this->assertEquals('DELETE `posts` FROM `posts` JOIN `users` u ON `author_id`=u.`id` WHERE u.`username`=:username and `posts`.`title`=:title',$c->text);
+		$c->execute();
+		$c=$builder->createCountCommand($table,new CDbCriteria);
+		$this->assertEquals(5,$c->queryScalar());
 
 		$c=$builder->createFindCommand($table,new CDbCriteria(array(
 			'select'=>'id, title',
@@ -179,16 +191,36 @@ class CMysqlTest extends CTestCase
 			'condition'=>'id=:id',
 			'params'=>array('id'=>5))));
 		$this->assertEquals('new post 5',$c->queryScalar());
-
+		
 		$c=$builder->createSqlCommand('SELECT title FROM posts WHERE id=:id',array(':id'=>3));
 		$this->assertEquals('post 3',$c->queryScalar());
 
-		$c=$builder->createUpdateCounterCommand($table,array('author_id'=>-2),new CDbCriteria(array('condition'=>'id=5')));
-		$this->assertEquals('UPDATE `posts` SET `author_id`=`author_id`-2 WHERE id=5',$c->text);
+		$c=$builder->createUpdateCounterCommand($table,array('author_id'=>-1),new CDbCriteria(array('condition'=>'id=5')));
+		$this->assertEquals('UPDATE `posts` SET `author_id`=`author_id`-1 WHERE id=5',$c->text);
 		$c->execute();
 		$c=$builder->createSqlCommand('SELECT author_id FROM posts WHERE id=5');
-		$this->assertEquals(1,$c->queryScalar());
+		$this->assertEquals(2,$c->queryScalar());
 
+		// test for updates with joins
+		$c=$builder->createUpdateCommand($table,array('title'=>'new post 1'),new CDbCriteria(array(
+				'condition'=>'u.`username`=:username',
+				'join'=>'JOIN `users` u ON `author_id`=u.`id`',
+				'params'=>array(':username'=>'user1'))));
+		$c->execute();
+		$c=$builder->createFindCommand($table,new CDbCriteria(array(
+				'select'=>'title',
+				'condition'=>'id=:id',
+				'params'=>array('id'=>1))));
+		$this->assertEquals('new post 1',$c->queryScalar());
+		
+		$c=$builder->createUpdateCounterCommand($table,array('author_id'=>-1),new CDbCriteria(array(
+				'condition'=>'u.`username`="user2"',
+				'join'=>'JOIN `users` u ON `author_id`=u.`id`')));
+		$this->assertEquals('UPDATE `posts` JOIN `users` u ON `author_id`=u.`id` SET `author_id`=`author_id`-1 WHERE u.`username`="user2"',$c->text);
+		$c->execute();
+		$c=$builder->createSqlCommand('SELECT author_id FROM posts WHERE id=2');
+		$this->assertEquals(1,$c->queryScalar());
+		
 		// test bind by position
 		$c=$builder->createFindCommand($table,new CDbCriteria(array(
 			'select'=>'title',
@@ -271,5 +303,15 @@ class CMysqlTest extends CTestCase
 		$this->db->createCommand("INSERT INTO users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
 		$max=$this->db->createCommand("SELECT MAX(id) FROM users")->queryScalar();
 		$this->assertEquals(11,$max);
+	}
+
+	public function testColumnComments()
+	{
+		$usersColumns=$this->db->schema->tables['users']->columns;
+
+		$this->assertEquals('',$usersColumns['id']->comment);
+		$this->assertEquals('Name of the user',$usersColumns['username']->comment);
+		$this->assertEquals('Hashed password',$usersColumns['password']->comment);
+		$this->assertEquals('',$usersColumns['email']->comment);
 	}
 }

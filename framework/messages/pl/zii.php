@@ -12,15 +12,13 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'Home' => 'Start',
   'The button type "{type}" is not supported.' => 'Typ przycisku "{type}" nie jest obsługiwany.',
   'Are you sure you want to delete this item?' => 'Czy na pewno usunąć ten element?',
   'Delete' => 'Usuń',
-  'Displaying {start}-{end} of {count} result(s).' => 'Wyświetlono rezultaty {start}-{end} z {count}.',
+  'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Wyświetlono rezultaty {start}-{end} z {count}.',
   'Either "name" or "value" must be specified for CDataColumn.' => 'W CDataColumn pole "name" lub "value" musi być zadeklarowane.',
   'No results found.' => 'Nie znaleziono wyników.',
   'Not set' => 'Nie ustawiony',
@@ -31,7 +29,7 @@ return array (
   'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Atrybut musi być określony w formacie "Name:Type:Label", gdzie "Type" i "Label" są opcjonalne.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Kolumna musi być określona w formacie "Name:Type:Label", gdzie "Type" i "Label" są opcjonalne.',
   'The property "itemView" cannot be empty.' => 'Pole "itemView" nie może być puste.',
-  'Total {count} result(s).' => 'Znaleziono {count} wynik(ów)',
+  'Total 1 result.|Total {count} results.' => 'Znaleziono {count} wynik(ów)',
   'Update' => 'Aktualizuj',
   'View' => 'Podgląd',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} musi określać pola "model" i "attribute" lub "name".',

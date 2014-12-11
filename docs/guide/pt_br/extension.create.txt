@@ -1,0 +1,265 @@
+Criando Extensões
+===================
+
+Uma vez que uma extensão visa ser utilizada por outros desenvolvedores, ela
+requer alguns esforços adicionais para ser criada. Estas são apenas algumas
+orientações gerais:
+
+* Uma extensão deve ser auto-contida. Ou seja, sua dependência externa deveria
+  ser mínima. Seria uma dor de cabeça para seus usuários se uma extensão
+  exigisse a instalação de pacotes, classes ou arquivos adicionais.
+* Arquivos que pertencem a uma extensão deveriam ser organizados sob o mesmo
+  diretório cujo nome é o nome da extensão.
+* As classes em uma extensão devem ser prefixadas com alguma(s) letra(s) para
+  evitar conflitos de nomenclatura com classes em outras extensões.
+* Uma extensão deve vir com documentação detalhada de instalação e da API.
+  Isso reduziria o tempo e o esforço necessários por outros desenvolvedores
+  quando eles usam a extensão.
+* Uma extensão deve usar uma licença apropriada. Se você deseja que a sua
+  aplicação seja usada tanto por projetos open-source como closed-source, você
+  pode considerar usar licenças tais como BSD, MIT, etc., mas não GPL já que ela
+  requer que seu código derivado também seja open-source.
+
+A seguir, descrevemos como criar uma nova extensão, de acordo com a sua
+categorização conforme descrita na [visão geral](/doc/guide/extension.overview).
+Estas descrições também se aplicam quando você está criando um componente usado
+principalmente em seus próprios projetos.
+
+Componente da Aplicação
+---------------------
+
+Um [componente da aplicação](/doc/guide/basics.application#application-component)
+deveria implementar a interface [IApplicationComponent] ou estender de
+[CApplicationComponent]. O método principal que precisa ser implementado é o
+[IApplicationComponent::init] no qual o componente faz algum trabalho de
+inicialização. Este método é invocado após cada componente ser criado e os
+valores de propriedades iniciais (especificados na
+[configuração da aplicação](/doc/guide/basics.application#application-configuration))
+serem aplicados.
+
+Por padrão, um componente de aplicação é criado e inicializado somente quando
+ele é acessado pela primeira vez durante o tratamento da requisição. Se um
+componente da aplicação precisa ser criado logo após a instância da aplicação
+ser criada, ele deveria exigir que o usuário listasse seu ID na propriedade
+[CApplication::preload].
+
+
+Comportamento
+--------
+
+Para criar um comportamento, deve-se implementar a interface [IBehavior]. Por
+conveniência, o Yii fornece uma classe-mãe [CBehavior] que já implementa essa
+interface e fornece alguns métodos adicionais convenientes. As classes-filha
+na maioria dos casos só precisam implementar os métodos extra que elas pretendem
+tornar disponíveis aos componentes aos quais são anexadas.
+
+Ao desenvolver comportamentos para [CModel] e [CActiveRecord], pode-se também
+estender a [CModelBehavior] e a [CActiveRecordBehavior], respectivamente. Essas
+classes-mãe oferecem recursos adicionais que foram criados especificamente para
+a [CModel] e a [CActiveRecord]. Por exemplo, a classe [CActiveRecordBehavior] 
+implementa um grupo de métodos para responder aos eventos do ciclo de vida
+chamados em um objeto ActiveRecord. Desta forma, uma classe-filha pode
+sobrescrever estes métodos para inserir código personalizado que participará
+nos ciclos de vida do AR.
+
+O código a seguir mostra um exemplo de um comportamento de ActiveRecord. Quando
+este comportamento é anexado a um objeto AR e quando o objeto AR está sendo
+salvo chamando o método `save()`, ele automaticamente definirá os atributos
+`data_criacao` e `data_atualizacao` com a timestamp atual.
+
+~~~
+[php]
+class TimestampBehavior extends CActiveRecordBehavior
+{
+	public function beforeSave($event)
+	{
+		if($this->owner->isNewRecord)
+			$this->owner->data_criacao=time();
+		else
+			$this->owner->data_atualizacao=time();
+	}
+}
+~~~
+
+
+Widget
+------
+
+Um [widget](/doc/guide/basics.view#widget) deve estender de [CWidget] ou suas
+classes-filha.
+
+A maneira mais fácil de criar um novo widget é estender um widget existente
+e sobrescrer seus métodos ou alterar o valor padrão de suas propriedades. Por
+exemplo, se você quer usar um estilo CSS mais legal para a [CTabView], você
+poderia configurar a sua propriedade [CTabView::cssFile] ao usar o widget.
+Você também pode estender a [CTabView] como segue de modo que você não precisa
+mais configurar a propriedade ao usar o widget.
+
+~~~
+[php]
+class MyTabView extends CTabView
+{
+	public function init()
+	{
+		if($this->cssFile===null)
+		{
+			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
+			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+		}
+		parent::init();
+	}
+}
+~~~
+
+No exemplo acima, sobrescrevemos o método [CWidget::init] e designamos para
+[CTabView::cssFile] a URL que aponta para o nosso novo estilo CSS padrão, se a
+propriedade não estiver definida. Colocamos o novo arquivo de estilo CSS sob o
+mesmo diretório contendo o arquivo da classe `MyTabView` de modo que eles possam
+ser empacotados como uma extensão. Uma vez que o arquivo de estilo CSS não está
+acessível na Web, precisamos publicá-lo como um asset.
+
+Para criar um novo widget do zero, precisamos implementar principalmente dois
+métodos: [CWidget::init] e [CWidget::run]. O primeiro método é chamado quando
+usamos `$this->beginWidget` para inserir um widget na visão, e o segundo método
+é invocado quando chamamos `$this->endWidget`. Se quisermos capturar e processar
+o conteúdo exibido entre estas duas chamadas de métodos, podemos iniciar o
+[buffer de saída](http://us3.php.net/manual/en/book.outcontrol.php)
+em [CWidget::init] e obter a saída do buffer em [CWidget::run] para posterior
+processamento.
+
+Um widget frequentemente envolve incluir arquivos de CSS, JavaScript ou outros
+recursos na página que usa o widget. Chamamos esses arquivos de *assets* 
+(posses, ativos) porque eles permanecem junto com o arquivo da classe do widget
+e geralmente não estão acessíveis aos usuários da Web. Para tornar estes
+arquivos acessíveis, precisamos publicá-los usando o 
+[CWebApplication::assetManager], conforme demonstrado no trecho de código acima.
+Além disso, se quiser incluir um arquivo CSS ou JavaScript na página atual,
+precisamos registrá-lo usando o [CClientScript]:
+
+~~~
+[php]
+class MyWidget extends CWidget
+{
+	protected function registerClientScript()
+	{
+		// ...publica o arquivo CSS ou JavaScript aqui...
+		$cs=Yii::app()->clientScript;
+		$cs->registerCssFile($cssFile);
+		$cs->registerScriptFile($jsFile);
+	}
+}
+~~~
+
+Um widget também pode ter os seus próprios arquivos de visão. Se for o caso,
+crie um diretório chamado `views` dentro do diretório que contém o arquivo da
+classe do widget, e coloque todos os arquivos de visão ali. Na classe do widget,
+de modo a renderizar a visão do widget, use `$this->render('ViewName')`, que
+é parecido com o que fazemos num controle.
+
+Ação
+------
+
+Uma [ação](/doc/guide/basics.controller#action) deve herdar de [CAction] ou suas
+classes-filha. O método principal que precisa ser implementado para uma ação é
+o [IAction::run].
+
+Filtro
+------
+Um [filtro](/doc/guide/basics.controller#filter) deve herdar de [CFilter] ou
+suas classes-filha. Os métodos principais que precisam ser implementados para um
+filtro são [CFilter::preFilter] e [CFilter::postFilter]. O primeiro é chamado
+antes da ação ser executada enquanto o outro é invocado depois.
+
+~~~
+[php]
+class MyFilter extends CFilter
+{
+	protected function preFilter($filterChain)
+	{
+		// lógica sendo aplicada antes que a ação seja executada
+		return true; // false se a ação não deveria ser executada
+	}
+
+	protected function postFilter($filterChain)
+	{
+		// lógica sendo aplicada após a ação ser executada
+	}
+}
+~~~
+
+O parâmetro `$filterChain` é do tipo [CFilterChain], que contém informações
+sobre a ação que está sendo filtrada.
+
+
+Controle
+----------
+Um [controle](/doc/guide/basics.controller) distribuído como uma extensão deve
+herdar de [CExtController], ao invés de [CController]. O motivo principal é que
+[CController] assume que os arquivos de visão do controle estão localizados em
+`application.views.ControllerID`, enquanto [CExtController] assume que os
+arquivos de visão estão localizados sob o diretório `views` que é um
+subdiretório do diretório que contém o arquivo da classe do controle. Portanto,
+é mais fácil redistribuir o controle, uma vez que seus arquivos de visão estão
+juntos com o arquivo da classe do controle.
+
+
+Validador
+---------
+Um validador deve herdar de [CValidator] e implementar seu método
+[CValidator::validateAttribute].
+
+~~~
+[php]
+class MyValidator extends CValidator
+{
+	protected function validateAttribute($model,$attribute)
+	{
+		$value=$model->$attribute;
+		if($value has error)
+			$model->addError($attribute,$errorMessage);
+	}
+}
+~~~
+
+Comandos de Console
+---------------
+Um [comando de console](/doc/guide/topics.console) deve herdar de
+[CConsoleCommand] e implementar seu método [CConsoleCommand::run].
+Opcionalmente, podemos sobrescrever [CConsoleCommand::getHelp] para
+disponibilizar alguma informação de ajuda amigável sobre o comando.
+
+~~~
+[php]
+class MyCommand extends CConsoleCommand
+{
+	public function run($args)
+	{
+		// $args dá um array dos argumentos de linha de comando deste comando
+	}
+
+	public function getHelp()
+	{
+		return 'Uso: como usar este comando';
+	}
+}
+~~~
+
+Módulo
+------
+Por favor, consulte a seção sobre 
+[módulos](/doc/guide/basics.module#creating-module) sobre como criar um módulo.
+
+Uma regra geral para desenvolver um módulo é que ele deveria ser auto-contido.
+Arquivos de recursos (como CSS, JavaScript, imagens) que são usados por um
+módulo devem ser distribuídos junto com o módulo. E o módulo deve publicá-los de
+modo que eles estejam acessíveis na Web.
+
+
+Componente Genérico
+-----------------
+Desenvolver uma extensão de componente genérico é como escrever uma classe.
+Novamente, o componente também deve ser auto-contido para que ele possa ser
+facilmente usado por outros desenvolvedores.
+
+
+<div class="revision">$Id$</div>

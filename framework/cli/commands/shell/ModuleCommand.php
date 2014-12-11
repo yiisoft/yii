@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  * @version $Id: ModuleCommand.php 433 2008-12-30 22:59:17Z qiang.xue $
  */
@@ -43,7 +43,8 @@ EOD;
 
 	/**
 	 * Execute the action.
-	 * @param array command line parameters specific for this command
+	 * @param array $args command line parameters specific for this command
+	 * @return integer|null non zero application exit code for help or null on success
 	 */
 	public function run($args)
 	{
@@ -51,7 +52,7 @@ EOD;
 		{
 			echo "Error: module ID is required.\n";
 			echo $this->getHelp();
-			return;
+			return 1;
 		}
 
 		$moduleID=$args[0];

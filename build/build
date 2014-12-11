@@ -8,14 +8,9 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @copyright 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
-
-require_once('PHPUnit/Runner/Version.php');
-if(version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1')>=0)
-    require_once('PHPUnit/Autoload.php');
 
 $root=dirname(__FILE__);
 $config=array('basePath'=>$root);

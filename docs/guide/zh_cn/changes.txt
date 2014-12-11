@@ -3,6 +3,10 @@
 
 此页面总结了每次 Yii 发布所引入的新功能。
 
+版本 1.1.8
+-------------
+ * [添加对自定义URL规则类的支持](doc/guide/topics.url#using-custom-url-rule-classes)
+
 版本 1.1.7
 -------------
  * [支持RESTful URL](/doc/guide/topics.url#user-friendly-urls)
@@ -146,4 +150,4 @@
  * 增强了 [CUrlManager] ，支持URL规则中的 route 部分。查看：
      - [Parameterizing Routes in URL Rules](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1823 2010-12-10 07:36:08Z yiidoc@dongbeta.com $</div>
+<div class="revision">$Id: changes.txt 2340 2012-02-28 03:26:19Z dongbeta@qq.com $</div>

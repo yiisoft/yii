@@ -22,8 +22,8 @@ rozszerzeń, zgodnie z kategoriami opisanymi w [przeglądzie](/doc/guide/extensi
 Rozszerzenie Zii
 --------------
 
-Zanim rozpoczniemy opisuywanie jak używać rozszerzenia firm trzecich, chcielibyśmy przedstawić
-bibliotekę rozszerzeń Zii, która jest zestawem rozszerzeń oprogranowanych przez zespół  
+Zanim rozpoczniemy opisywanie jak używać rozszerzenia firm trzecich, chcielibyśmy przedstawić
+bibliotekę rozszerzeń Zii, która jest zestawem rozszerzeń oprogranowanych przez zespół 
 programistów Yii. Jest ona dołączana do każdego wydania.
 
 Podczas używanie rozszerzenia Zii, należy odnosić się do odpowiednich klas używając aliasu ścieżki
@@ -300,7 +300,7 @@ aby zobaczyć jak używać modułów.
 Komponenty generyczne
 -----------------
 Aby używać generycznych [komponentów](/doc/guide/basics.component), najpierw musimy 
-dołączyć ich plik klasy używając
+dołączyć ich plik klasy używając:
 
 ~~~
 Yii::import('ext.xyz.XyzClass');

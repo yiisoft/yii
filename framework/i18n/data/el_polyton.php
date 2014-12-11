@@ -7,12 +7,13 @@
  * Copyright © 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
+ * @copyright 2008-2013 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '5798',
+  'version' => '6444',
   'numberSymbols' => 
   array (
+    'alias' => '',
     'decimal' => ',',
     'group' => '.',
     'list' => ',',
@@ -23,7 +24,6 @@ return array (
     'perMille' => '‰',
     'infinity' => '∞',
     'nan' => 'NaN',
-    'alias' => '',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -32,7 +32,7 @@ return array (
   'currencySymbols' => 
   array (
     'AUD' => 'AU$',
-    'BRL' => 'BR$',
+    'BRL' => 'R$',
     'CAD' => 'CA$',
     'CNY' => 'CN¥',
     'EUR' => '€',
@@ -929,7 +929,6 @@ return array (
     '054' => 'Μελανησία',
     '057' => 'Περιοχή Μικρονησίας',
     '061' => 'Πολυνησία',
-    '062' => 'Νότια Κεντρική Ασία',
     142 => 'Ασία',
     143 => 'Κεντρική Ασία',
     145 => 'Δυτική Ασία',
@@ -937,9 +936,7 @@ return array (
     151 => 'Ανατολική Ευρώπη',
     154 => 'Βόρεια Ευρώπη',
     155 => 'Δυτική Ευρώπη',
-    172 => 'Κοινοπολιτεία Ανεξαρτήτων Πολιτειών',
     419 => 'Λατινική Αμερική',
-    830 => 'Νησιά Τσάνελ',
     'ac' => 'Νήσος Ασενσιόν',
     'ad' => 'Ἀνδόρα',
     'ae' => 'Ἠνωμένα Ἀραβικὰ Ἐμιράτα',

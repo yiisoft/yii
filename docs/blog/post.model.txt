@@ -160,6 +160,8 @@ As a generic solution, we use the `tbl_lookup` table to store the mapping betwee
 [php]
 class Lookup extends CActiveRecord
 {
+......
+
 	private static $_items=array();
 
 	public static function items($type)

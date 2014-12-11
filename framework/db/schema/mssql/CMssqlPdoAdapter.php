@@ -4,7 +4,7 @@
  *
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,7 +12,6 @@
  * This is an extension of default PDO class for mssql driver only
  * It provides some missing functionalities of pdo driver
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @version $Id$
  * @package system.db.schema.mssql
  */
 class CMssqlPdoAdapter extends PDO
@@ -26,9 +25,7 @@ class CMssqlPdoAdapter extends PDO
 	 */
 	public function lastInsertId ($sequence=NULL)
 	{
-		$value=$this->query('SELECT SCOPE_IDENTITY()')->fetchColumn();
-		$value=preg_replace('/[,.]0+$/', '', $value); // issue 2312
-		return strtr($value,array(','=>'','.'=>''));
+		return $this->query('SELECT CAST(COALESCE(SCOPE_IDENTITY(), @@IDENTITY) AS bigint)')->fetchColumn();
 	}
 
 	/**

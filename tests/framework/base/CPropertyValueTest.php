@@ -33,7 +33,7 @@ class CPropertyValueTest extends CTestCase
 		);
 		foreach($entries as $index=>$entry)
 			$this->assertTrue(CPropertyValue::ensureBoolean($entry[0])===$entry[1],
-				"Comparison $index: {$entry[0]}=={$entry[1]}");
+				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	public function testEnsureString()
@@ -48,12 +48,19 @@ class CPropertyValueTest extends CTestCase
 			array(-1.1,'-1.1'),
 			array(true,'true'),
 			array(false,'false'),
-			array(array(),'Array'),
-			array(array(0),'Array'),
 		);
+
+		if(version_compare(PHP_VERSION, '5.4.0', '<'))
+		{
+			$entries = array_merge($entries, array(
+				array(array(),'Array'),
+				array(array(0),'Array'),
+			));
+		}
+
 		foreach($entries as $index=>$entry)
 			$this->assertTrue(CPropertyValue::ensureString($entry[0])===$entry[1],
-				"Comparison $index: {$entry[0]}=={$entry[1]}");
+				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	public function testEnsureInteger()
@@ -77,7 +84,7 @@ class CPropertyValueTest extends CTestCase
 		);
 		foreach($entries as $index=>$entry)
 			$this->assertTrue(CPropertyValue::ensureInteger($entry[0])===$entry[1],
-				"Comparison $index: {$entry[0]}=={$entry[1]}");
+				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	public function testEnsureFloat()
@@ -101,7 +108,7 @@ class CPropertyValueTest extends CTestCase
 		);
 		foreach($entries as $index=>$entry)
 			$this->assertTrue(CPropertyValue::ensureFloat($entry[0])===$entry[1],
-				"Comparison $index: {$entry[0]}=={$entry[1]}");
+				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	public function testEnsureArray()
@@ -120,7 +127,14 @@ class CPropertyValueTest extends CTestCase
 		);
 		foreach($entries as $index=>$entry)
 			$this->assertTrue(CPropertyValue::ensureArray($entry[0])===$entry[1],
-				"Comparison $index: {$entry[0]}=={$entry[1]}");
+				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
+	}
+
+	private function varToString($var)
+	{
+		if(is_array($var))
+			return 'Array';
+		return (string)$var;
 	}
 
 	public function testEnsureObject()

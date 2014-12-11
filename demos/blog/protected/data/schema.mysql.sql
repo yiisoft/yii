@@ -12,7 +12,6 @@ CREATE TABLE tbl_user
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
-	salt VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL,
 	profile TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -58,7 +57,7 @@ INSERT INTO tbl_lookup (name, type, code, position) VALUES ('Archived', 'PostSta
 INSERT INTO tbl_lookup (name, type, code, position) VALUES ('Pending Approval', 'CommentStatus', 1, 1);
 INSERT INTO tbl_lookup (name, type, code, position) VALUES ('Approved', 'CommentStatus', 2, 2);
 
-INSERT INTO tbl_user (username, password, salt, email) VALUES ('demo','2e5c7db760a33498023813489cfadc0b','28b206548469ce62182048fd9cf91760','webmaster@example.com');
+INSERT INTO tbl_user (username, password, email) VALUES ('demo','$2a$10$JTJf6/XqC94rrOtzuF397OHa4mbmZrVTBOQCmYD9U.obZRUut4BoC','webmaster@example.com');
 INSERT INTO tbl_post (title, content, status, create_time, update_time, author_id, tags) VALUES ('Welcome!','This blog system is developed using Yii. It is meant to demonstrate how to use Yii to build a complete real-world application. Complete source code may be found in the Yii releases.
 
 Feel free to try this system by writing new posts and posting comments.',2,1230952187,1230952187,1,'yii, blog');

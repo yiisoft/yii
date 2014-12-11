@@ -1,0 +1,100 @@
+模組
+======
+
+> Note|注意: 版本 1.0.3 起支援模組。
+
+模組是一個獨立的軟體單元，它包含 [模型](/doc/guide/basics.model), [視圖](/doc/guide/basics.view), [控制器](/doc/guide/basics.controller) 和其他支援的元件。
+在許多方面上，模組看起來像一個 [應用程式](/doc/guide/basics.application)。主要的區別就是模組不能單獨部署，它必須存在於一個應用程式裡。
+用戶可以像他們存取普通應用程式的控制器那樣存取模組中的控制器。
+
+模組在一些場景裡很有用。對大型應用程式來說，我們可能需要把它劃分為幾個模組，每個模組可以單獨維護和部署。一些通用的功能，例如：用戶管理，
+評論管理，可以以模組的形式開發，這樣他們就可以容易地在以後的專用中被重用。
+
+
+建立模組
+---------------
+
+模組組織在一個目錄中，目錄的名字即模組的唯一 [ID|CWebModule::id] 。
+模組目錄的結構跟  [應用程式基礎目錄](/doc/guide/basics.application#application-base-directory) 很相似。下面列出了一個  `fourm` 的模組的典型的目錄結構：
+
+~~~
+forum/
+   ForumModule.php            模組類別檔案
+   components/                包含可重用的用戶元件
+      views/                  包含小工具的視圖檔案
+   controllers/               包含控制器類別檔案
+      DefaultController.php   預設的控制器類別檔案
+   extensions/                包含第三方擴展
+   models/                    包含模組類別檔案
+   views/                     包含控制器視圖和佈局檔案
+      layouts/                包含佈局檔案
+      default/                包含 DefaultController 的視圖檔案
+         index.php            首頁視圖檔案
+~~~
+
+模組必須有一個繼承自 [CWebModule] 的模組類別。類別的名字通過表達式  `ucfirst($id).'Module'` 確定, 其中的 `$id` 代表模組的 ID (或者說模組的目錄名字)。
+模組類別是儲存模組程式碼間可共享訊息的中心位置。例如，我們可以使用 [CWebModule::params] 儲存模組參數，使用 [CWebModule::components] 分享模層的 [應用程式元件](/doc/guide/basics.application#application-component) .
+
+> Tip|提示: 我們可以使用 Gii 中的模組建立器建立新模組的基本骨架。
+
+
+使用模組
+------------
+
+要使用模組，首先將模組目錄放在 [應用程式基礎目錄](/doc/guide/basics.application#application-base-directory) 的 `modules` 中。
+然後在應用程式的  [modules|CWebApplication::modules] 屬性中聲明模組 ID 。例如，為了使用上面的 `forum` 模組，
+我們可以使用如下 [應用程式配置](/doc/guide/basics.application#application-configuration):
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array('forum',...),
+	......
+);
+~~~
+
+模組也可以在配置時帶有初始屬性值。做法和配置 [應用程式元件](/doc/guide/basics.application#application-component) 很類別似。
+例如： `forum` 模組可以在其模組類別中有一個名為 `postPerPage` 的屬性，它可以在 [應用程式配置](/doc/guide/basics.application#application-configuration) 中配置如下:
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array(
+	    'forum'=>array(
+	        'postPerPage'=>20,
+	    ),
+	),
+	......
+);
+~~~
+
+模組的實例可通過當前活動控制器的 [module|CController::module] 屬性存取。在模組實例中，我們可以存取在模組級中共享的訊息。
+例如：為存取上面的 `postPerPage` 訊息，我們可使用如下表達式：
+
+~~~
+[php]
+$postPerPage=Yii::app()->controller->module->postPerPage;
+// or the following if $this refers to the controller instance
+// $postPerPage=$this->module->postPerPage;
+~~~
+
+模組中的控制器動作可以通過 [路由](/doc/guide/basics.controller#route) `moduleID/controllerID/actionID` 存取。
+例如：假設上面的 `forum` 模組有一個名為 `PostController` 的控制器，我們就可以通過 [路由](/doc/guide/basics.controller#route) `forum/post/create` 存取此控制器中的 `create` 動作。
+此路由對應的 URL  即 `http://www.example.com/index.php?r=forum/post/create`。
+
+> Tip|提示: 如果一個控制器位於 `controllers` 目錄的子目錄中，我們仍然可以使用上述 [路由](/doc/guide/basics.controller#route) 格式。
+例如：假設 `PostController` 位於 `forum/controllers/admin` 中，我們可以通過  `forum/admin/post/create` 存取 `create` 動作。
+
+
+巢狀的模組
+-------------
+
+模組可以無限級巢狀。這就是說，一個模組可以包含另一個模組，而這另一個模組又可以包含其他模組。我們稱前者為 *父模組* ，後者為 *子模組*. 
+子模組必須定義在其父模組的  [modules|CWebModule::modules] 屬性中，就像我們前面在應用程式配置中定義模組一樣。
+
+要存取子模組中的控制器動作，我們應使用路由  `parentModuleID/childModuleID/controllerID/actionID`.
+
+
+<div class="revision">$Id$</div>

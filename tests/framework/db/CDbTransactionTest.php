@@ -34,7 +34,7 @@ class CDbTransactionTest extends CTestCase
 		}
 		catch(Exception $e)
 		{
-			$transaction->rollBack();
+			$transaction->rollback();
 			$reader=$this->_connection->createCommand('SELECT * FROM posts WHERE id=10')->query();
 			$this->assertFalse($reader->read());
 		}
@@ -53,7 +53,7 @@ class CDbTransactionTest extends CTestCase
 		}
 		catch(Exception $e)
 		{
-			$transaction->rollBack();
+			$transaction->rollback();
 			$this->fail('Unexpected exception');
 		}
 		$n=$this->_connection->createCommand('SELECT COUNT(*) FROM posts WHERE id=10')->queryScalar();

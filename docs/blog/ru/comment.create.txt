@@ -75,7 +75,8 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment.
+				Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}
@@ -188,5 +189,3 @@ protected function newComment($post)
 	return $comment;
 }
 ~~~
-
-<div class="revision">$Id: comment.create.txt 3495 2011-12-19 03:37:41Z jefftulsa $</div>

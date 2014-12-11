@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   '"{path}" is not a valid directory.' => '"{path}" er ikke en gyldig katalog',
@@ -198,7 +196,7 @@ return array (
   '{attribute} is too short (minimum is {min} characters).' => '{attribute} er for kort (minimum er {min} tegn)',
   '{attribute} is too small (minimum is {min}).' => '{attribute} er for liten (minimum er {min}',
   '{attribute} must be a number.' => '{attribute} må være et tall.',
-  '{attribute} must be an integer.' => '{attribute} må være et heltallr.',
+  '{attribute} must be an integer.' => '{attribute} må være et heltall.',
   '{attribute} must be repeated exactly.' => '{attribute} må gjenntaes nøyaktig.',
   '{attribute} must be {type}.' => '{attribute} må være {type}.',
   '{className} does not support add() functionality.' => '{className} støtter ikke add()-funksjonalitet.',

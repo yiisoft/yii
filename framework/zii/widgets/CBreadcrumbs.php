@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -40,7 +40,6 @@
  * Then, in each view script, one only needs to assign the "breadcrumbs" property as needed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets
  * @since 1.1
  */
@@ -111,13 +110,15 @@ class CBreadcrumbs extends CWidget
 		if(empty($this->links))
 			return;
 
+		$definedLinks = $this->links;
+
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		$links=array();
 		if($this->homeLink===null)
-			$links[]=CHtml::link(Yii::t('zii','Home'),Yii::app()->homeUrl);
-		else if($this->homeLink!==false)
+			$definedLinks=array_merge(array(Yii::t('zii','Home') => Yii::app()->homeUrl),$definedLinks);
+		elseif($this->homeLink!==false)
 			$links[]=$this->homeLink;
-		foreach($this->links as $label=>$url)
+		foreach($definedLinks as $label=>$url)
 		{
 			if(is_string($label) || is_array($url))
 				$links[]=strtr($this->activeLinkTemplate,array(

@@ -5,7 +5,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -31,7 +31,6 @@
  * @property string $verifyCode The verification code.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.widgets.captcha
  * @since 1.0
  */
@@ -90,8 +89,8 @@ class CCaptchaAction extends CAction
 	 **/
 	public $offset = -2;
 	/**
-	 * @var string the TrueType font file. Defaults to Duality.ttf which is provided
-	 * with the Yii release.
+	 * @var string the TrueType font file. Defaults to SpicyRice.ttf which is provided with the Yii release.
+	 * Note that non-free Duality.ttf has been changed to open/free SpicyRice.ttf since 1.1.14.
 	 */
 	public $fontFile;
 	/**
@@ -103,6 +102,13 @@ class CCaptchaAction extends CAction
 	 * @since 1.1.4
 	 */
 	public $fixedVerifyCode;
+	/**
+	 * @var string the graphic extension that will be used to draw CAPTCHA image. Possible values
+	 * are 'gd', 'imagick' and null. Null value means that fallback mode will be used: ImageMagick
+	 * is preferred over GD. Default value is null.
+	 * @since 1.1.13
+	 */
+	public $backend;
 
 	/**
 	 * Runs the action.
@@ -168,7 +174,7 @@ class CCaptchaAction extends CAction
 	public function validate($input,$caseSensitive)
 	{
 		$code = $this->getVerifyCode();
-		$valid = $caseSensitive ? ($input === $code) : !strcasecmp($input,$code);
+		$valid = $caseSensitive ? ($input === $code) : strcasecmp($input,$code)===0;
 		$session = Yii::app()->session;
 		$session->open();
 		$name = $this->getSessionKey() . 'count';
@@ -184,12 +190,12 @@ class CCaptchaAction extends CAction
 	 */
 	protected function generateVerifyCode()
 	{
+		if($this->minLength > $this->maxLength)
+			$this->maxLength = $this->minLength;
 		if($this->minLength < 3)
 			$this->minLength = 3;
 		if($this->maxLength > 20)
 			$this->maxLength = 20;
-		if($this->minLength > $this->maxLength)
-			$this->maxLength = $this->minLength;
 		$length = mt_rand($this->minLength,$this->maxLength);
 
 		$letters = 'bcdfghjklmnpqrstvwxyz';
@@ -216,11 +222,23 @@ class CCaptchaAction extends CAction
 	}
 
 	/**
-	 * Renders the CAPTCHA image based on the code.
+	 * Renders the CAPTCHA image based on the code using library specified in the {@link $backend} property.
 	 * @param string $code the verification code
-	 * @return string image content
 	 */
 	protected function renderImage($code)
+	{
+		if($this->backend===null && CCaptcha::checkRequirements('imagick') || $this->backend==='imagick')
+			$this->renderImageImagick($code);
+		else if($this->backend===null && CCaptcha::checkRequirements('gd') || $this->backend==='gd')
+			$this->renderImageGD($code);
+	}
+
+	/**
+	 * Renders the CAPTCHA image based on the code using GD library.
+	 * @param string $code the verification code
+	 * @since 1.1.13
+	 */
+	protected function renderImageGD($code)
 	{
 		$image = imagecreatetruecolor($this->width,$this->height);
 
@@ -240,7 +258,7 @@ class CCaptchaAction extends CAction
 				$this->foreColor % 0x100);
 
 		if($this->fontFile === null)
-			$this->fontFile = dirname(__FILE__) . '/Duality.ttf';
+			$this->fontFile = dirname(__FILE__).DIRECTORY_SEPARATOR.'SpicyRice.ttf';
 
 		$length = strlen($code);
 		$box = imagettfbbox(30,0,$this->fontFile,$code);
@@ -264,9 +282,55 @@ class CCaptchaAction extends CAction
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Content-Transfer-Encoding: binary');
-		header("Content-type: image/png");
+		header("Content-Type: image/png");
 		imagepng($image);
 		imagedestroy($image);
 	}
 
+	/**
+	 * Renders the CAPTCHA image based on the code using ImageMagick library.
+	 * @param string $code the verification code
+	 * @since 1.1.13
+	 */
+	protected function renderImageImagick($code)
+	{
+		$backColor=$this->transparent ? new ImagickPixel('transparent') : new ImagickPixel(sprintf('#%06x',$this->backColor));
+		$foreColor=new ImagickPixel(sprintf('#%06x',$this->foreColor));
+
+		$image=new Imagick();
+		$image->newImage($this->width,$this->height,$backColor);
+
+		if($this->fontFile===null)
+			$this->fontFile=dirname(__FILE__).DIRECTORY_SEPARATOR.'SpicyRice.ttf';
+
+		$draw=new ImagickDraw();
+		$draw->setFont($this->fontFile);
+		$draw->setFontSize(30);
+		$fontMetrics=$image->queryFontMetrics($draw,$code);
+
+		$length=strlen($code);
+		$w=(int)($fontMetrics['textWidth'])-8+$this->offset*($length-1);
+		$h=(int)($fontMetrics['textHeight'])-8;
+		$scale=min(($this->width-$this->padding*2)/$w,($this->height-$this->padding*2)/$h);
+		$x=10;
+		$y=round($this->height*27/40);
+		for($i=0; $i<$length; ++$i)
+		{
+			$draw=new ImagickDraw();
+			$draw->setFont($this->fontFile);
+			$draw->setFontSize((int)(rand(26,32)*$scale*0.8));
+			$draw->setFillColor($foreColor);
+			$image->annotateImage($draw,$x,$y,rand(-10,10),$code[$i]);
+			$fontMetrics=$image->queryFontMetrics($draw,$code[$i]);
+			$x+=(int)($fontMetrics['textWidth'])+$this->offset;
+		}
+
+		header('Pragma: public');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Content-Transfer-Encoding: binary');
+		header("Content-Type: image/png");
+		$image->setImageFormat('png');
+		echo $image->getImageBlob();
+	}
 }

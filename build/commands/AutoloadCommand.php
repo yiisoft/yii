@@ -4,9 +4,8 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 /**
@@ -14,7 +13,6 @@
  * The class file YiiBase.php will be modified with updated class map.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.build
  * @since 1.0
  */
@@ -44,7 +42,7 @@ EOD;
 		$options=array(
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
-				'.svn',
+				'.gitignore',
 				'/messages',
 				'/views',
 				'/cli',
@@ -61,7 +59,7 @@ EOD;
 			),
 		);
 		$files=CFileHelper::findFiles(YII_PATH,$options);
-		$map='';
+		$map=array();
 		foreach($files as $file)
 		{
 			if(($pos=strpos($file,YII_PATH))!==0)
@@ -69,8 +67,10 @@ EOD;
 			$path=str_replace('\\','/',substr($file,strlen(YII_PATH)));
 			$className=substr(basename($path),0,-4);
 			if($className[0]==='C')
-				$map.="\t\t'$className' => '$path',\n";
+				$map[$path]="\t\t'$className' => '$path',\n";
 		}
+		ksort($map);
+		$map=implode($map);
 
 		$yiiBase=file_get_contents(YII_PATH.'/YiiBase.php');
 		$newYiiBase=preg_replace('/private\s+static\s+\$_coreClasses\s*=\s*array\s*\([^\)]*\)\s*;/',"private static \$_coreClasses=array(\n{$map}\t);",$yiiBase);
