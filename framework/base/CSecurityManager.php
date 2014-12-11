@@ -540,7 +540,7 @@ class CSecurityManager extends CApplicationComponent
 				$minLength=self::$encryptionKeyMinimumLengths[$this->cryptAlgorithm];
 				$maxLength=mcrypt_module_get_algo_key_size($this->cryptAlgorithm);
 				if($this->strlen($key)<$minLength || $this->strlen($key)>$maxLength)
-					throw new CException(Yii::t('yii','Encryption key length must be between {minLength} and {maxLength}.',array('minLength'=>$minLength,'maxLength'=>$maxLength)));
+					throw new CException(Yii::t('yii','Encryption key length must be between {minLength} and {maxLength}.',array('{minLength}'=>$minLength,'{maxLength}'=>$maxLength)));
 			}
 			else
 				throw new CException(Yii::t('yii','Failed to validate key. Supported key lengths of cipher not known.'));
