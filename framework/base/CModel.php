@@ -303,7 +303,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		foreach($this->getValidators($attribute) as $validator)
 		{
-			if($validator instanceof CRequiredValidator)
+			if($validator instanceof CRequiredValidator && $validator->when === null)
 				return true;
 		}
 		return false;
