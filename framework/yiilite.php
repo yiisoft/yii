@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.16-dev';
+		return '1.1.16';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -1044,7 +1044,8 @@ abstract class CModule extends CComponent
 			{
 				if(!isset($module['class']))
 				{
-					Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
+					if (Yii::getPathOfAlias($id)===false)
+						Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
 					$module['class']=$id.'.'.ucfirst($id).'Module';
 				}
 				$this->_moduleConfig[$id]=$module;
@@ -2276,6 +2277,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_preferredLanguages;
 	private $_csrfToken;
 	private $_restParams;
+	private $_httpVersion;
 	public function init()
 	{
 		parent::init();
@@ -2806,6 +2808,7 @@ class CHttpRequest extends CApplicationComponent
 		$fileSize=(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content));
 		$contentStart=0;
 		$contentEnd=$fileSize-1;
+		$httpVersion=$this->getHttpVersion();
 		if(isset($_SERVER['HTTP_RANGE']))
 		{
 			header('Accept-Ranges: bytes');
@@ -2839,11 +2842,11 @@ class CHttpRequest extends CApplicationComponent
 				header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
 				throw new CHttpException(416,'Requested Range Not Satisfiable');
 			}
-			header('HTTP/1.1 206 Partial Content');
+			header("HTTP/$httpVersion 206 Partial Content");
 			header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
 		}
 		else
-			header('HTTP/1.1 200 OK');
+			header("HTTP/$httpVersion 200 OK");
 		$length=$contentEnd-$contentStart+1; // Calculate new content length
 		header('Pragma: public');
 		header('Expires: 0');
@@ -2950,6 +2953,17 @@ class CHttpRequest extends CApplicationComponent
 			if (!$valid)
 				throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
 		}
+	}
+	public function getHttpVersion()
+	{
+		if($this->_httpVersion===null)
+		{
+			if(isset($_SERVER['SERVER_PROTOCOL']) && $_SERVER['SERVER_PROTOCOL']==='HTTP/1.0')
+				$this->_httpVersion='1.0';
+			else
+				$this->_httpVersion='1.1';
+		}
+		return $this->_httpVersion;
 	}
 }
 class CCookieCollection extends CMap
@@ -4081,8 +4095,8 @@ abstract class CAction extends CComponent implements IAction
 		$method=new ReflectionMethod($this, 'run');
 		if($method->getNumberOfParameters()>0)
 			return $this->runWithParamsInternal($this, $method, $params);
-		else
-			return $this->run();
+		$this->run();
+		return true;
 	}
 	protected function runWithParamsInternal($object, $method, $params)
 	{
@@ -4122,8 +4136,8 @@ class CInlineAction extends CAction
 		$method=new ReflectionMethod($controller, $methodName);
 		if($method->getNumberOfParameters()>0)
 			return $this->runWithParamsInternal($controller, $method, $params);
-		else
-			return $controller->$methodName();
+		$controller->$methodName();
+		return true;
 	}
 }
 class CWebUser extends CApplicationComponent implements IWebUser
@@ -4570,7 +4584,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 	public function regenerateID($deleteOldSession=false)
 	{
-		session_regenerate_id($deleteOldSession);
+		if($this->getIsStarted())
+			session_regenerate_id($deleteOldSession);
 	}
 	public function getSessionName()
 	{
@@ -5984,6 +5999,7 @@ EOD;
 			'formnovalidate'=>1,
 			'hidden'=>1,
 			'ismap'=>1,
+			'itemscope'=>1,
 			'loop'=>1,
 			'multiple'=>1,
 			'muted'=>1,
@@ -8429,9 +8445,9 @@ class CActiveRecordMetaData
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
 				array('{class}'=>$this->_modelClassName,'{table}'=>$tableName)));
-		if($table->primaryKey===null)
+		if(($modelPk=$model->primaryKey())!==null || $table->primaryKey===null)
 		{
-			$table->primaryKey=$model->primaryKey();
+			$table->primaryKey=$modelPk;
 			if(is_string($table->primaryKey) && isset($table->columns[$table->primaryKey]))
 				$table->columns[$table->primaryKey]->isPrimaryKey=true;
 			elseif(is_array($table->primaryKey))

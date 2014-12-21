@@ -20,13 +20,6 @@ General upgrade instructions
 Upgrading from v1.1.15
 ----------------------
 
-- jQuery was updated past version 1.9, which introduced important API changes. Check the
-  [upgrade guide](http://jquery.com/upgrade-guide/1.9/). The [jquery-migrate plugin](https://github.com/jquery/jquery-migrate/)
-  can help checking your code for deprecated functionality.
-
-- jQueryUI was updated. Check the upgrade guides for [1.10](http://jqueryui.com/upgrade-guide/1.10) and
-  [1.11](http://jqueryui.com/upgrade-guide/1.11).
-
 - CErrorHandler now runs errorAction for errors, which appear via AJAX request.
   If you use CErrorHandler::errorAction, make sure it handles AJAX request properly.
 
@@ -41,19 +34,25 @@ Upgrading from v1.1.15
 
 - We upgraded the bundled jQuery version to 1.11.1. Previous version was 1.8.3.
   There were breaking changes in the jQuery API which you can find in the jQuery blog:
-  <http://jquery.com/upgrade-guide/1.9/#changes-of-note-in-jquery-1-9>
+  <http://jquery.com/upgrade-guide/1.9/#changes-of-note-in-jquery-1-9>. The [jquery-migrate plugin](https://github.com/jquery/jquery-migrate/)
+  can help checking your code for deprecated functionality.
 
-- Use CSecurityManager::legacyDecrypt() and CSecurityManager::encrypt() to convert existing encrypted data if any.
+- jQueryUI was updated. Check the upgrade guides for [1.10](http://jqueryui.com/upgrade-guide/1.10) and
+  [1.11](http://jqueryui.com/upgrade-guide/1.11).
 
-- If there are exceptions about encryption key length you need to:
+- The implementation of `CSecurityManager::encrypt()` and `decrypt()` were changed to be more secure.
+  The old implementations were renamed as `legacyEncrypt()` and `legacyDecrypt()`. If you use these methods to encrypt
+  your data, you should either call legacy versions now to avoid code break or take the following steps to use the new
+  version (which we highly recommend):
 
-  1. Decrypt all the data.
+  1. Decrypt existing data that were encrypted using `legacyDecrypt()`.
   2. Change key via application config (encryptionKey property of securityManager component) to the one that conforms
-  to recommendations.
-  3. Encrypt all the data.
+     to recommendations.
+  3. Encrypt the data using `legacyEncrypt()`.
 
   You can disable key validation by setting validateEncryptionKey property of securityManager component to false but
   if it strongly not recommended.
+
 
 Upgrading from v1.1.14
 ----------------------
