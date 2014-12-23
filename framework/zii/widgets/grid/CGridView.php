@@ -631,7 +631,7 @@ class CGridView extends CBaseListView
 	 * 
 	 * @param CGridColumn $column The Column instance to 
 	 * @param integer $row
-	 * @since 1.1.17
+	 * @since 1.1.16
 	 */
 	protected function renderDataCell($column, $row)
 	{
