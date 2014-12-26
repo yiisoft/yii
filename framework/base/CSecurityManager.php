@@ -532,7 +532,7 @@ class CSecurityManager extends CApplicationComponent
 			if($supportedKeyLengths)
 			{
 				if(!in_array($this->strlen($key),$supportedKeyLengths)) {
-					throw new CException(Yii::t('yii','Encryption key length can be {keyLengths}',array('{keyLengths}'=>implode(',',$supportedKeyLengths).'.')));
+					throw new CException(Yii::t('yii','Encryption key length can be {keyLengths}.',array('{keyLengths}'=>implode(',',$supportedKeyLengths))));
 				}
 			}
 			elseif(isset(self::$encryptionKeyMinimumLengths[$this->cryptAlgorithm]))
