@@ -56,6 +56,9 @@ Upgrading from v1.1.15
   You can disable key validation by setting validateEncryptionKey property of securityManager component to false but
   if it strongly not recommended.
 
+- Namespaced controllers in subdirectories should now have subdirectory in namespace. Previously it was possible to
+  use the same namespace for both controllers in root directory and subdirectories.
+
 
 Upgrading from v1.1.14
 ----------------------
