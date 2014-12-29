@@ -160,6 +160,7 @@ return array (
   'The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.' => 'Le fichier « {file} » est trop petit. Sa taille ne peut être inférieure à {limit} octets.',
   'The file "{file}" was only partially uploaded.' => 'Le fichier « {file} » a été téléchargé partiellement.',
   'The first element in a filter configuration must be the filter class.' => 'Le premier élément de la configuration d\'un filtre doit être la classe filtre.',
+  'The format of {attribute} is invalid.' => 'Le format de {attribute} est invalide.',
   'The item "{name}" does not exist.' => 'L\'élément « {name} » est inexistant.',
   'The item "{parent}" already has a child "{child}".' => 'L\'élément « {parent} » a déjà un enfant « {child} ».',
   'The layout path "{path}" is not a valid directory.' => 'Le chemin d\'accès « {path} » au gabarit n\'est pas un dossier valide.',
