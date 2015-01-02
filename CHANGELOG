@@ -4,6 +4,7 @@
 Version 1.1.17 work in progress
 -------------------------------
 
+- Bug #3579: Criteria applied to CActiveRecord::getRelated now merge correctly (claudiocarotenuto)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
 
 Version 1.1.16 December 21, 2014
