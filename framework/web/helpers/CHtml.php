@@ -2537,7 +2537,7 @@ EOD;
 				$attributes=array('value'=>(string)$key,'encode'=>!$raw);
 				if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
 					$attributes['selected']='selected';
-				if(isset($options[$key]))
+				if(isset($options[$key]) && is_array($options[$key]))
 					$attributes=array_merge($attributes,$options[$key]);
 				$content.=self::tag('option',$attributes,$raw?(string)$value : self::encode((string)$value))."\n";
 			}
