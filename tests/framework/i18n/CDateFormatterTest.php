@@ -1,6 +1,7 @@
 <?php
 /**
  * CDateFormatterTest
+ * @group i18n
  */
 class CDateFormatterTest extends CTestCase
 {
@@ -96,8 +97,8 @@ class CDateFormatterTest extends CTestCase
 		date_default_timezone_set('Etc/GMT+10');
 		$this->assertEquals('-10:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
 
-		date_default_timezone_set('Europe/Moscow');
-		$this->assertEquals('+03:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+		date_default_timezone_set('Europe/Berlin');
+		$this->assertEquals(date('I') == '1' ? '+02:00' : '+01:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
 
 		date_default_timezone_set('America/Los_Angeles');
 		$this->assertEquals(date('I') == '1' ? '-07:00' : '-08:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));

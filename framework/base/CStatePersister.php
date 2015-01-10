@@ -33,7 +33,6 @@
  *
  * CStatePersister is a core application component used to store global application state.
  * It may be accessed via {@link CApplication::getStatePersister()}.
- * page state persistent method based on cache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base
