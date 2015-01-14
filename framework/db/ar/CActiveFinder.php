@@ -825,7 +825,7 @@ class CJoinElement
 			else	// no matching related objects
 				return null;
 		}
-		else // is_array, composite key
+		else if(is_array($this->_pkAlias)) // is_array, composite key
 		{
 			$pk=array();
 			foreach($this->_pkAlias as $name=>$alias)
