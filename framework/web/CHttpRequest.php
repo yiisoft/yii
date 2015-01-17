@@ -1051,7 +1051,7 @@ class CHttpRequest extends CApplicationComponent
 			foreach ($languages as $language) {
 				$language=CLocale::getCanonicalID($language);
 				// en_us==en_us, en==en_us, en_us==en
-				if($language===$acceptedLanguage || strpos($acceptedLanguage,$language.'_')===0 || strpos($language,$acceptedLanguage.'_')===0) {
+				if($language===$preferredLanguage || strpos($preferredLanguage,$language.'_')===0 || strpos($language,$preferredLanguage.'_')===0) {
 					return $language;
 				}
 			}
