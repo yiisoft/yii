@@ -2210,36 +2210,39 @@ class CActiveRelation extends CBaseActiveRelation
 				$this->on="({$this->on}) AND ({$criteria['on']})";
 		}
 
-		if(empty($this->with))
-			$this->with=$criteria['with'];
-		elseif(isset($criteria['with']))
+		if(isset($criteria['with']))
 		{
-			foreach($criteria['with'] as $k=>$v)
-			{
-				if(is_integer($k))
-					$this->with[]=$v;
-				elseif(isset($this->with[$k]))
-				{
-					$excludes=array();
-					foreach(array('joinType','on') as $opt)
-					{
-						if(isset($this->with[$k][$opt]))
-							$excludes[$opt]=$this->with[$k][$opt];
-						if(isset($v[$opt]))
-							$excludes[$opt]= ($opt==='on' && isset($excludes[$opt]) && $v[$opt]!==$excludes[$opt]) ?
-								"($excludes[$opt]) AND $v[$opt]" : $v[$opt];
-						unset($this->with[$k][$opt]);
-						unset($v[$opt]);
-					}
-					$c=new CDbCriteria($this->with[$k]);
-					$c->mergeWith($v);
-					$this->with[$k]=$c->toArray();
-					if (count($excludes)!==0)
-						$this->with[$k]=CMap::mergeArray($this->with[$k],$excludes);
-				}
-				else
-					$this->with[$k]=$v;
-			}
+    		if(empty($this->with))
+    			$this->with=$criteria['with'];
+    		else
+    		{
+    			foreach($criteria['with'] as $k=>$v)
+    			{
+    				if(is_integer($k))
+    					$this->with[]=$v;
+    				elseif(isset($this->with[$k]))
+    				{
+    					$excludes=array();
+    					foreach(array('joinType','on') as $opt)
+    					{
+    						if(isset($this->with[$k][$opt]))
+    							$excludes[$opt]=$this->with[$k][$opt];
+    						if(isset($v[$opt]))
+    							$excludes[$opt]= ($opt==='on' && isset($excludes[$opt]) && $v[$opt]!==$excludes[$opt]) ?
+    								"($excludes[$opt]) AND $v[$opt]" : $v[$opt];
+    						unset($this->with[$k][$opt]);
+    						unset($v[$opt]);
+    					}
+    					$c=new CDbCriteria($this->with[$k]);
+    					$c->mergeWith($v);
+    					$this->with[$k]=$c->toArray();
+    					if (count($excludes)!==0)
+    						$this->with[$k]=CMap::mergeArray($this->with[$k],$excludes);
+    				}
+    				else
+    					$this->with[$k]=$v;
+    			}
+    		}
 		}
 
 		if(isset($criteria['alias']))
