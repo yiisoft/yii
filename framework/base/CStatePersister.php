@@ -81,20 +81,49 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 			$cacheKey='Yii.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)
 				return unserialize($value);
-			elseif(($content=@file_get_contents($stateFile))!==false)
-			{
-				$cache->set($cacheKey,$content,0,new CFileCacheDependency($stateFile));
-				return unserialize($content);
+			else {
+				
+				if(($content=$this->getContent($stateFile))!==false)
+				{
+					$unserialized_content=unserialize($content);
+					// If it can't be unserialized, don't cache it:
+					if ($unserialized_content!==false || $content=="") 
+						$cache->set($cacheKey,$content,0,new CFileCacheDependency($stateFile));
+					return $unserialized_content;
+				}
+				else
+					return null;
 			}
-			else
-				return null;
 		}
-		elseif(($content=@file_get_contents($stateFile))!==false)
+		elseif(($content=$this->getContent($stateFile))!==false)
 			return unserialize($content);
 		else
 			return null;
 	}
-
+	
+	/**
+	 * Actually load content from file.
+	 * Uses a shared lock so as to avoid reading the file while it is being written by save()
+	 * with the consequent data corruption.
+	 * @return string file contents as returned by file_get_contents().
+	 */
+	protected function getContent($filename) {
+		$file = fopen ($filename,"r");
+		if ($file) {
+			$ok=flock ($file, LOCK_SH);
+			if ($ok) {
+				$contents = @file_get_contents($filename);  
+				flock ($file, LOCK_UN);
+			}
+			else {
+				$contents=false;
+			}
+			fclose ($file);
+			return $contents;
+		}
+		else return false;
+	}
+	
 	/**
 	 * Saves application state in persistent storage.
 	 * @param mixed $state state data (must be serializable).
