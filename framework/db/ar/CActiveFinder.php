@@ -1502,8 +1502,8 @@ class CStatElement
 			if(is_array($relation->params))
 				$builder->bindValues($command,$relation->params);
 			$stats=array();
-			foreach($command->queryAll() as $row)
-				$stats[$row['c']]=$row['s'];
+			foreach($command->queryAll(false) as $row)
+				$stats[$row[0]]=$row[1];
 		}
 		else  // composite FK
 		{
@@ -1521,7 +1521,7 @@ class CStatElement
 				$name=$tableAlias.'.'.$table->columns[$map[$pk]]->rawName;
 				$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
 			}
-			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias.$join
+			$sql="SELECT {$relation->select} AS $s, ".implode(', ',$cols)." FROM {$table->rawName} ".$tableAlias.$join
 				.$where.'('.$builder->createInCondition($table,$fks,$keys,$tableAlias.'.').')'
 				.' GROUP BY '.implode(', ',array_keys($cols)).$group
 				.$having.$order;
@@ -1529,12 +1529,12 @@ class CStatElement
 			if(is_array($relation->params))
 				$builder->bindValues($command,$relation->params);
 			$stats=array();
-			foreach($command->queryAll() as $row)
+			foreach($command->queryAll(false) as $row)
 			{
 				$key=array();
 				foreach($pkTable->primaryKey as $n=>$pk)
-					$key[$pk]=$row['c'.$n];
-				$stats[serialize($key)]=$row['s'];
+					$key[$pk]=$row[$n+1];
+				$stats[serialize($key)]=$row[0];
 			}
 		}
 
@@ -1662,17 +1662,17 @@ class CStatElement
 			$builder->bindValues($command,$relation->params);
 
 		$stats=array();
-		foreach($command->queryAll() as $row)
+		foreach($command->queryAll(false) as $row)
 		{
 			if(is_array($pkTable->primaryKey))
 			{
 				$key=array();
 				foreach($pkTable->primaryKey as $n=>$k)
-					$key[$k]=$row['c'.$n];
-				$stats[serialize($key)]=$row['s'];
+					$key[$k]=$row[$n+1];
+				$stats[serialize($key)]=$row[0];
 			}
 			else
-				$stats[$row['c0']]=$row['s'];
+				$stats[$row[1]]=$row[0];
 		}
 
 		foreach($records as $pk=>$record)
