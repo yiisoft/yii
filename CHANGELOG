@@ -4,6 +4,7 @@
 Version 1.1.17 work in progress
 -------------------------------
 
+- Bug #3579: Criteria applied to CActiveRecord::getRelated now merge correctly (claudiocarotenuto)
 - Bug #3696: Fixed broken case insensitiveness for Active Record count expressions introduced with fixed #268 (xt99)
 - Bug #3700: Undefined variable `$acceptedLanguage` in `CHttpRequest::getPreferredLanguage()` (cebe,ddebin)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
