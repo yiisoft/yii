@@ -554,7 +554,7 @@ class CWsdlGenerator extends CComponent
 					$restriction->setAttribute('base','soap-enc:Array');
 					$attribute=$dom->createElement('xsd:attribute');
 					$attribute->setAttribute('ref','soap-enc:arrayType');
-					$attribute->setAttribute('arrayType',(isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]');
+					$attribute->setAttribute('wsdl:arrayType',(isset(self::$typeMap[$arrayType]) ? 'xsd:' : 'tns:') .$arrayType.'[]');
 					
 					$restriction->appendChild($attribute);
 					$complexContent->appendChild($restriction);
