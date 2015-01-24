@@ -368,9 +368,13 @@ class CUrlManager extends CApplicationComponent
 				if(is_array($rule))
 					$this->_rules[$i]=$rule=Yii::createComponent($rule);
 				if(($r=$rule->parseUrl($this,$request,$pathInfo,$rawPathInfo))!==false)
-					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
+					return $r;
 			}
-			if($this->useStrictParsing)
+            // fall back behavior
+            if(isset($_GET[$this->routeVar]))
+                return $_GET[$this->routeVar];
+
+            if($this->useStrictParsing)
 				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
 					array('{route}'=>$pathInfo)));
 			else
