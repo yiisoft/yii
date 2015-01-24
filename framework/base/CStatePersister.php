@@ -109,7 +109,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	 */
 	protected function getContent($filename)
 	{
-		$file=fopen($filename,"r");
+		$file=@fopen($filename,"r");
 		if($file && flock($file,LOCK_SH))
 		{
 			$contents=@file_get_contents($filename);
