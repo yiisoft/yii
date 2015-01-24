@@ -68,7 +68,7 @@ class CFileHelper
 	 * @param string $directory to be deleted recursively.
 	 * @return boolean Returns the result of rmdir().
 	 */
-	public static function removeDirectory($dir)
+	public static function removeDirectory($dir, $options=null)
 	{
 		$files = array_diff(scandir($dir), array('.','..'));
 		foreach ($files as $file) {
