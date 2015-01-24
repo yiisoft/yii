@@ -66,15 +66,34 @@ class CFileHelper
 	/**
 	 * Removes a directory recursively.
 	 * @param string $directory to be deleted recursively.
-	 * @return boolean Returns the result of rmdir().
+	 * @param array $options for the directory removal. Valid options are:
+	 * <ul>
+	 * <li>traverseSymlinks: boolean, whether symlinks to the directories should be traversed too.
+	 * Defaults to `false`, meaning that the content of the symlinked directory would not be deleted.
+	 * Only symlink would be removed in that default case.</li>
+	 * </ul>
+	 * Note, options parameter is available since 1.1.16
+	 * @since 1.1.14
 	 */
-	public static function removeDirectory($dir, $options=null)
+	public static function removeDirectory($directory, $options=array())
 	{
-		$files = array_diff(scandir($dir), array('.','..'));
-		foreach ($files as $file) {
-			(is_dir("$dir/$file")) ? self::removeDirectory("$dir/$file") : unlink("$dir/$file");
+		if(!isset($options['traverseSymlinks']))
+			$options['traverseSymlinks']=false;
+		$files = array_diff(scandir($directory), array('.','..'));
+		foreach ($files as $file)
+		{
+			if (is_dir("$directory/$file"))
+			{
+				if(!$options['traverseSymlinks'] && is_link(rtrim($file,DIRECTORY_SEPARATOR))) {
+					unlink("$directory/$file");
+				} else {
+					self::removeDirectory("$directory/$file",$options);
+				}
+			} else {
+				unlink("$directory/$file");
+			}
 		}
-		return rmdir($dir);
+		return rmdir($directory);
 	}
 
 	/**
