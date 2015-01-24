@@ -1,7 +1,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.17 work in progress
+Version 1.1.17 work in progress (MATTEO SISTI SETTE)
 -------------------------------
 
 - Bug #3696: Fixed broken case insensitiveness for Active Record count expressions introduced with fixed #268 (xt99)
@@ -9,6 +9,7 @@ Version 1.1.17 work in progress
 - Bug #3715: 1.1.16 `CSecurityManager::legacyDecrypt` was not compatible with 1.1.15 method (DanaLuther)
 - Bug #3724: Fixed namespace prefix in WSDL generator for arrayType. (ametad)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
+- Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption.
 
 Version 1.1.16 December 21, 2014
 --------------------------------
