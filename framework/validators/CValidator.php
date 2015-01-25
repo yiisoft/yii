@@ -123,6 +123,7 @@ abstract class CValidator extends CComponent
 	 *     return $model->country == Country::USA;
 	 * }
 	 * ```
+	 * @since 1.1.17
 	 */
 	public $when;
 
@@ -217,7 +218,8 @@ abstract class CValidator extends CComponent
 		foreach($attributes as $attribute)
 		{
 			if(!$this->skipOnError || !$object->hasErrors($attribute))
-				if ($this->when === null || call_user_func_array($this->when, array($object, $attribute))) {
+				if($this->when === null || call_user_func_array($this->when, array($object, $attribute)))
+				{
 					$this->validateAttribute($object, $attribute);
 				}
 		}
