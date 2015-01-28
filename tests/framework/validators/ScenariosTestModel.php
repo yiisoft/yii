@@ -40,6 +40,17 @@ class ScenariosTestModel extends CFormModel
 
 			// scenario2
 			array('birthday', 'required', 'on'=>'scenario2', 'except'=>'scenario3'),
+
+			// scenario5
+			array('title', 'required',
+				'on'=>'scenario5',
+				'except'=>array('scenario1', 'scenario2', 'scenario3', 'scenario4'),
+				'when' => array($this, 'whenTest')),
 		);
+	}
+
+	public function whenTest($model, $attribute)
+	{
+		return isset($model->login);
 	}
 }

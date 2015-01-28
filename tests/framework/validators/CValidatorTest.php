@@ -63,4 +63,21 @@ class CValidatorTest extends CTestCase
 		$this->assertEquals(1, count($errors));
 		$this->assertArrayHasKey('login', $errors);
 	}
+
+	public function testWhenCondition(){
+		// scenario5
+		// fields should be validated: title
+		$scenario5TestModel=new ScenariosTestModel('scenario5');
+
+		$scenario5TestModel->validate(array('title'));
+		$errors=$scenario5TestModel->getErrors();
+		$this->assertEquals(array(), $errors);
+
+		$scenario5TestModel->login = 'test';
+		$scenario5TestModel->validate(array('title'));
+		$errors=$scenario5TestModel->getErrors();
+		$this->assertEquals(1, count($errors));
+		$this->assertArrayHasKey('title', $errors);
+
+	}
 }
