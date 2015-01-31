@@ -786,7 +786,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 			if ($expires!==null && $expires < time() || $expiresAbsolute!==null && $expiresAbsolute < time())
 				$this->logout(false);
-			else
+			elseif ($this->authTimeout!==null)
 				$this->setState(self::AUTH_TIMEOUT_VAR,time()+$this->authTimeout);
 		}
 	}
