@@ -60,6 +60,10 @@ class CRedisCache extends CCache
 	 */
 	public $database=0;
 	/**
+	 * @var boolean denotes whether the connection is optional or not
+	 */
+	public $successful_connection_optional=false;
+	/**
 	 * @var float timeout to use for connection to redis. If not set the timeout set in php.ini will be used: ini_get("default_socket_timeout")
 	 */
 	public $timeout=null;
@@ -88,7 +92,16 @@ class CRedisCache extends CCache
 			$this->executeCommand('SELECT',array($this->database));
 		}
 		else
-			throw new CException('Failed to connect to redis: '.$errorDescription,(int)$errorNumber);
+		{
+			// Disable Redis caching if the connection failed and the connection is optional
+			if ($this->successful_connection_optional === true)
+			{
+				Yii::app()->setComponent('cache', new CDummyCache);
+				$this->_socket = null;
+			}
+			else
+				throw new CException('Failed to connect to redis: ' . $errorDescription, (int)$errorNumber);
+		}
 	}
 
 	/**
@@ -114,6 +127,9 @@ class CRedisCache extends CCache
 	{
 		if($this->_socket===null)
 			$this->connect();
+
+		if($this->_socket===null)
+			return false;
 
 		array_unshift($params,$name);
 		$command='*'.count($params)."\r\n";
