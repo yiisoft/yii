@@ -56,10 +56,10 @@ Wyświetlanie błędów
 -----------------
 
 Gdy błąd jest przekazywany do komponentu aplikacji [CErrorHandler], to wybierany 
-jest odpowiedni widok w celu wyświetlenia błędu. Jeśli błąd jest przewidziany  
+jest odpowiedni widok w celu wyświetlenia błędu. Jeśli błąd jest przewidziany 
 do wyświetlenia użytkownikowi końcowemu, tak jak [CHttpException] użyje on widoku
 nazwanego `errorXXX`, gdzie `XXX` oznacza kod statusu HTTP (np.
-400, 404, 500). Jeśli błąd jest błędem wewnętrznym i powinien być pokazany jedynie  
+400, 404, 500). Jeśli błąd jest błędem wewnętrznym i powinien być pokazany jedynie 
 deweloperowi, użyje widoku nazwanego `exception`. W ostatnim przypadku, kompletny
 stos wywołań, jak również linia wystąpienia błędu zostaną wyświetlone.
 
@@ -68,7 +68,7 @@ wszystkie błędy, włączając w to wewnętrzne będą wyświetlone przy użyci
 `errorXXX`. Dzieje się tak, ponieważ stos wywołań może zawierać ważne informacje.  
 W tym przypadku deweloperzy powinni polegać na logu błędów aby odnaleźć prawdziwą przyczynę błędu.
 
-[CErrorHandler] szuka pliku odpowiedniego pliku widoku w następującym porządku:
+[CErrorHandler] szuka odpowiedniego pliku widoku w następującym porządku:
 
    1. `WebRoot/themes/ThemeName/views/system`: `system` jest to systemowy folder widoków 
    dla aktualnie aktywnego tematu.
@@ -138,7 +138,7 @@ W rezultacie, w widoku możemy bezpośrednio odwołać się do zmiennych takich 
 Logowanie komunikatów
 ---------------
 
-Komunikat o poziomie `błędu` będzie zawsze logowane jeśli wystąpi błąd. Jeśli jest to
+Komunikat o poziomie `błędu` będzie zawsze logowany jeśli wystąpi błąd. Jeśli jest to
 błąd spowodowany przez ostrzeżenie lub wiadomość PHP, komunikat będzie zalogowany
 przy użyciu kategorii `php`; jeśli błąd spowodowany jest przez nieprzechwycony wyjątek 
 kategorią będzie `exception.ExceptionClassName` (dla [CHttpException] jego 

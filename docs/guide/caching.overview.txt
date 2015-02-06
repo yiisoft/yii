@@ -58,7 +58,7 @@ can explicitly specify a database for it to use by setting its
    - [CWinCache]: uses PHP [WinCache](http://iis.net/downloads/microsoft/wincache-extension)
    ([see also](http://php.net/manual/en/book.wincache.php)) extension.
 
-   - [CFileCache]: uses files to store cached data. This is particular suitable to
+   - [CFileCache]: uses files to store cached data. This is particularly suitable to
 cache large chunk of data (such as pages).
 
    - [CDummyCache]: presents dummy cache that does no caching at all. The purpose

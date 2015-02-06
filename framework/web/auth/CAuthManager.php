@@ -18,7 +18,7 @@
  * Access Control (RBAC).
  *
  * The main idea is that permissions are organized as a hierarchy of
- * {@link CAuthItem authorization items}. Items on higer level inherit the permissions
+ * {@link CAuthItem authorization items}. Items on higher level inherit the permissions
  * represented by items on lower level. And roles are simply top-level authorization items
  * that may be assigned to individual users. A user is said to have a permission
  * to do something if the corresponding authorization item is inherited by one of his roles.

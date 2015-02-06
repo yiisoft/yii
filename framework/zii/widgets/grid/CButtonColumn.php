@@ -152,7 +152,7 @@ class CButtonColumn extends CGridColumn
 	 * <pre>
 	 *  array(
 	 *     class'=>'CButtonColumn',
-	 *     'afterDelete'=>'function(link,success,data){ if(success) alert("Delete completed successfuly"); }',
+	 *     'afterDelete'=>'function(link,success,data){ if(success) alert("Delete completed successfully"); }',
 	 *  ),
 	 * </pre>
 	 */
@@ -309,7 +309,7 @@ EOD;
 	 * This method renders the view, update and delete buttons in the data cell.
 	 * @param integer $row the row number (zero-based)
 	 * @return string the data cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getDataCellContent($row)
 	{

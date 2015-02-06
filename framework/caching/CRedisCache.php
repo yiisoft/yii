@@ -108,7 +108,7 @@ class CRedisCache extends CCache
 	 * </ul>
 	 * See {@link http://redis.io/topics/protocol redis protocol description}
 	 * for details on the mentioned reply types.
-	 * @trows CException for commands that return {@link http://redis.io/topics/protocol#error-reply error reply}.
+	 * @throws CException for commands that return {@link http://redis.io/topics/protocol#error-reply error reply}.
 	 */
 	public function executeCommand($name,$params=array())
 	{

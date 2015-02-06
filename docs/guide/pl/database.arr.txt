@@ -549,6 +549,7 @@ Nazwane podzbiory mogą również zostać zdefiniowane w opcji `with` reguły re
 w [CActiveRecord::relations()]. W następnym przykładzie, jeśli odczytamy `$user->posts`, 
 zwróci nam wszystkie zatwierdzone komentarze (*approved*) postu.
 
+~~~
 [php]
 class User extends CActiveRecord
 {

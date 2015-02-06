@@ -113,7 +113,7 @@ class CLocaleTest extends CTestCase
 			array('en_us','pt','portuguese'),
 			array('en_us','pt','portuguese'),
 			array('en_us','pt_br','brazilian portuguese'),
-			array('en_us','pt_pt','iberian portuguese'),
+			array('en_us','pt_pt','european portuguese'),
 		);
 	}
 

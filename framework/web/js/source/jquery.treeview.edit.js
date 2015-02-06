@@ -17,7 +17,7 @@
 			.find(">.hitarea")
 				.removeClass(CLASSES.lastCollapsableHitarea)
 				.removeClass(CLASSES.lastExpandableHitarea);
-			$(branches).find("li").andSelf().prepareBranches(settings).applyClasses(settings, $(this).data("toggler"));
+			$(branches).find("li").addBack().prepareBranches(settings).applyClasses(settings, $(this).data("toggler"));
 		}).bind("remove", function(event, branches) {
 			var prev = $(branches).prev();
 			var parent = $(branches).parent();
@@ -29,7 +29,7 @@
 				.find(">.hitarea").replaceClass(CLASSES.collapsableHitarea, CLASSES.lastCollapsableHitarea);
 			if (parent.is(":not(:has(>))") && parent[0] != this) {
 				parent.parent().removeClass(CLASSES.collapsable).removeClass(CLASSES.expandable);
-				parent.siblings(".hitarea").andSelf().remove();
+				parent.siblings(".hitarea").addBack().remove();
 			}
 		});
 	};

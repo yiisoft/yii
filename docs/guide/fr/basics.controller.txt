@@ -3,17 +3,17 @@ Contrôleur
 
 Un contrôleur est une instance de [CController] ou d'une classe qui en hérite.
 Il est créé par l'objet application lorsque l'utilisateur en fait la demande. Quand un contrôleur
-s'exécute, il effectue l'action demandée, ce qui porte habituellement
-dans les modèles nécessaires et rend une vue appropriée. Un `action`, dans sa forme la plus simple, est
+s'exécute, il effectue l'action demandée, ce qui habituellement appelle
+les modèles nécessaires et affiche la vue appropriée. Une `action`, dans sa forme la plus simple, est
 juste une méthode de la classe contrôleur dont le nom commence par `action`.
 
-Un contrôleur a une action par défaut. Lorsque la demande de l'utilisateur ne spécifie pas
-l'action à exécuter, l'action par défaut sera exécutée. Par défaut,
-l'action par défaut est nommé comme `index`. Elle peut être modifiée par le réglage de
+Un contrôleur a une action par défaut. Lorsque la requête de l'utilisateur ne spécifie pas
+d'action à exécuter, l'action par défaut sera exécutée. Par défaut,
+l'action par défaut est nommée `index`. Elle peut être modifiée en spécifiant la
 variable d'instance publique, [CController::defaultAction].
 
-Le code suivant définit un contrôleur `site`, une action `index` (la valeur par défaut
-action), et une action `contact` :
+Le code suivant définit un contrôleur `site`, une action `index` (l'action par défaut), et
+une action `contact` :
 
 ~~~
 [php]
@@ -36,14 +36,14 @@ Route
 -----
 
 Les contrôleurs et les actions sont identifiés par des ID. Un ID de contrôleur est
-au format `path/to/xyz`, ce qui correspond au fichier de classe contrôleur
-`protected/controllers/path/to/XyzController.php`, où le jeton `xyz`
+au format `path/to/xyz`, ce qui correspond au fichier de classe du contrôleur
+`protected/controllers/path/to/XyzController.php`, et où le jeton `xyz`
 doit être remplacé par les noms réels; par exemple `post` correspond à
-`protected/controllers/PostController.php`. L'ID d'action est le nom de la méthode
-d'action sans `action` préfixe. Par exemple, si une classe de contrôleur
+`protected/controllers/PostController.php`. L'ID de l'action est le nom de la méthode
+d'action sans le préfixe `action`. Par exemple, si une classe de contrôleur
 contient une méthode nommée `actionEdit`, l'ID de l'action correspondante serait `edit`.
 
-Les utilisateurs demandent un contrôleur spécifique et d'action en termes de route.
+Les utilisateurs nécessitent un contrôleur et une action spécifiques en termes de route.
 Une route est formée par la concaténation d'un ID de contrôleur et un ID d'action, séparés
 par une barre oblique. Par exemple, la route `post/edit` réfère à `PostController`
 et son action `edit`. Par défaut, l'URL `http://hostname/index.php?r=post/edit`
@@ -139,18 +139,18 @@ organiser le code pour les contrôleurs :
 
 ~~~
 protected/
-    controllers/
-        PostController.php
-        UserController.php
-        post/
-            CreateAction.php
-            ReadAction.php
-            UpdateAction.php
-        user/
-            CreateAction.php
-            ListAction.php
-            ProfileAction.php
-            UpdateAction.php
+	controllers/
+		PostController.php
+		UserController.php
+		post/
+			CreateAction.php
+			ReadAction.php
+			UpdateAction.php
+		user/
+			CreateAction.php
+			ListAction.php
+			ProfileAction.php
+			UpdateAction.php
 ~~~
 
 ### Paramètre Action reliure
@@ -185,7 +185,7 @@ class PostController extends CController
 		else
 			$language='en';
 
-		// ... Code plaisir commence ici ...
+		// ... Le code amusant commence ici ...
 	}
 }
 ~~~
@@ -200,20 +200,20 @@ class PostController extends CController
 	{
 		$category=(int)$category;
 
-		// ... Code plaisir commence ici ...
+		// ... Le code amusant commence ici ...
 	}
 }
 ~~~
 
-Notez que nous avons ajouter deux paramètres à la méthode d'action `actionCreate`.
-Le nom de ces paramètres doivent être exactement les mêmes que ceux que
-nous attendons de `$_GET`. La paramètre de `$language` prend une valeur par défaut `en`
-au cas où la demande ne comprend pas un tel paramètre. Parce que `$category`
-n'a pas de valeur par défaut, si la demande ne comporte pas de paramètre `category`,
-un [CHttpException](error code 400) sera lancé automatiquement.
+Notez que nous avons ajouté deux paramètres à la méthode d'action `actionCreate`.
+Les noms de ces paramètres doivent être exactement les mêmes que ceux que attendus
+du `$_GET`. La paramètre `$language` prend une valeur par défaut `en`
+au cas où la requête ne contient pas ce paramètre. Comme `$category` n'a pas de
+valeur par défaut, si la requête ne comporte pas de paramètre `category`,
+une [CHttpException](error code 400) sera automatiquement levée.
 
-Depuis la version 1.1.5, Yii supporte également la détection de type tableau pour les paramètres de l'action.
-Cela se fait par type PHP allusion en utilisant la syntaxe comme suit :
+Depuis la version 1.1.5, Yii supporte également la détection du type tableau pour les paramètres de l'action.
+Cela se fait par allusion au type PHP en utilisant une syntaxe comme suit:
 
 ~~~
 [php]
@@ -227,17 +227,17 @@ class PostController extends CController
 ~~~
 
 Autrement dit, nous ajoutons le mot-clé `array` en face de `$categories` dans la déclaration
-de paramètre de méthode. Ce faisant, si `$_GET['categories']` est une chaîne simple, il sera
+du paramètre de la méthode. Ce faisant, si `$_GET['categories']` est une chaîne simple, il sera
 converti en un tableau constitué de cette chaîne.
 
-> Remarque : Si un paramètre est déclaré sans `array` soupçon type, cela signifie que le paramètre
-> doit être un scalaire (ie, pas un tableau). Dans ce cas, en passant un paramètre de tableau via
+> Remarque : Si un paramètre est déclaré sans l'allusion au type `array`, cela signifie que le paramètre
+> doit être un scalaire (ie, pas un tableau). Dans ce cas, passer un paramètre de type tableau via
 > `$_GET` provoquerait une exception HTTP.
 
-Depuis la version 1.1.7, la liaison des paramètres automatique fonctionne également pour
-la classe de base des actions. Lorsque le `run()` méthode d'une classe d'action est défini
-avec certains paramètres, ils seront remplis avec les correspondants désignés
-valeurs de paramètre de requête. Par exemple,
+Depuis la version 1.1.7, la liaison automatique des paramètres fonctionne également pour
+les actions basées sur des classe. Lorsque la méthode  `run()` d'une classe d'action est définie
+avec des paramètres, ceux-ci seront renseignés/initialisés avec les valeurs des paramètres de requête correspondants.
+Par exemple:
 
 ~~~
 [php]
@@ -245,7 +245,7 @@ class UpdateAction extends CAction
 {
 	public function run($id)
 	{
-		// $id will be populated with $_GET['id']
+		// $id sera renseigné/initialisé avec $_GET['id']
 	}
 }
 ~~~
@@ -254,34 +254,34 @@ class UpdateAction extends CAction
 Filtre
 ------
 
-Le filtre est un morceau de code qui est configuré pour être exécuté avant et/ou
-après une action de contrôleur exécute. Par exemple, un filtre de contrôle d'accès
+Un filtre est un morceau de code qui est configuré pour être exécuté avant et/ou
+après l'exécution de l'action du contrôleur. Par exemple, un filtre de contrôle d'accès
 peut être exécuté afin de s'assurer que l'utilisateur est authentifié avant d'exécuter
-l'action demandée; performances d'un filtre peut être utilisé pour mesurer le temps
+l'action demandée; Un filtre de performances peut être utilisé pour mesurer le temps
 passé à l'exécution de l'action.
 
 Une action peut avoir plusieurs filtres. Les filtres sont exécutés dans l'ordre
-où ils apparaissent dans la liste de filtres. Un filtre peut empêcher l'exécution
-de l'action et le reste des filtres non exécutés.
+où ils apparaissent dans la liste des filtres. Un filtre peut empêcher l'exécution
+de l'action et du reste des filtres non encore exécutés.
 
-Un filtre peut être définie comme une méthode de la classe contrôleur. Le nom de la méthode doit
+Un filtre peut être défini comme une méthode de la classe contrôleur. Le nom de la méthode doit
 commencer par `filter`. Par exemple, une méthode nommée `filterAccessControl`
-définit un filtre nommé `accessControl`. La méthode de filtrage doit porter
-la signature à droite :
+définit un filtre nommé `accessControl`. La  méthode de filtrage doit comporter
+une signature précise:
 
 ~~~
 [php]
 public function filterAccessControl($filterChain)
 {
-	// Appel de l'exécution $filterChain->run() pour continuer filtre et l'action
+	// Appel $filterChain->run() pour continuer l'exécution du filtre et l'action
 }
 ~~~
 
 où `$filterChain` est une instance de [CFilterChain] qui représente
-la liste des filtres associés à l'action demandée. L'intérieur d'une méthode de filtrage,
-on peut appeler `$filterChain->run()` de continuer à filtre et exécution de l'action.
+la liste des filtres associés à l'action demandée. A l'intérieur d'une méthode de filtrage,
+on peut appeler `$filterChain->run()` pour continuer à filtrer et exécuter l'action.
 
-Un filtre peut également être une instance de [CFilter] ou sa classe enfant.
+Un filtre peut également être une instance de [CFilter] ou de sa classe enfant.
 Le code suivant définit une nouvelle classe de filtre:
 
 ~~~
@@ -290,20 +290,20 @@ class PerformanceFilter extends CFilter
 {
 	protected function preFilter($filterChain)
 	{
-		// Logique étant appliquée avant que l'action est exécutée
+		// La logique à appliquer avant que l'action soit exécutée
 		return true; // false si l'action ne doit pas être exécuté
 	}
 
 	protected function postFilter($filterChain)
 	{
-		// Logique étant appliqué après l'action est exécutée
+		// La logique à appliquer après que l'action soit exécutée
 	}
 }
 ~~~
 
-Pour appliquer des filtres à des actions, nous avons besoin de surcharger les
-`CController::filters()` méthode. La méthode doit retourner un tableau
-des configurations de filtres. Par exemple,
+Pour appliquer des filtres à des actions, nous avons besoin de surcharger
+la méthode `CController::filters()`. La méthode doit retourner un tableau
+de configuration des filtres. Par exemple:
 
 ~~~
 [php]
@@ -324,19 +324,19 @@ class PostController extends CController
 ~~~
 
 Le code ci-dessus spécifie deux filtres: `postOnly` et `PerformanceFilter`.
-Le `postOnly` filtre est fondée sur une méthode (la méthode de filtre correspondant
-est défini dans [CController] déjà), tandis que le `PerformanceFilter` filtre est basé
-sur les objets. Le chemin alias `application.filters.PerformanceFilter`
-spécifie que le fichier de classe filtre est `protected/filters/PerformanceFilter`.
+Le filtre `postOnly` est basé sur une méthode (la méthode de filtre correspondante
+est définie dans [CController] déjà), tandis que le filtre `PerformanceFilter` est basé
+sur un objet. L'alias de chemin `application.filters.PerformanceFilter`
+spécifie que le fichier de classe du filtre est `protected/filters/PerformanceFilter`.
 Nous utilisons un tableau de configurer `PerformanceFilter` de sorte qu'il peut être
-utilisé pour initialiser les valeurs des propriétés de l'objet filtre. Voici la `unit`
-propriété de `PerformanceFilter` sera initialisé comme `second`.
+utilisé pour initialiser les valeurs des propriétés de l'objet filtre. Dans cet exemple,
+la propriété `unit` de `PerformanceFilter` sera initialisée à `second`.
 
-En utilisant le plus et les moins opérateurs, on peut spécifier quelles actions
-le filtre doit et ne doit pas être appliqué. Dans ce qui précède, le `postOnly`
-filtre sera appliqué pour les `edit` et de `create` actions, tandis que
-`PerformanceFilter` filtre sera appliqué à toutes les actions SAUF `edit` et
-`create`. Si aucun avantage ni moins apparaît dans la configuration du filtre,
+En utilisant les opérateurs plus et moins, il est possible de spécifier pour quelles actions
+le filtre doit ou ne doit pas être appliqué. Dans ce qui précède, le filtre `postOnly`
+sera appliqué pour les actions `edit` et `create`, tandis que le filtre `PerformanceFilter`
+sera appliqué à toutes les actions SAUF `edit` et `create`.
+Si aucun des signes plus ou moins apparaît dans la configuration du filtre,
 le filtre sera appliqué à toutes les actions.
 
 <div class="revision">$Id$</div>

@@ -5,7 +5,7 @@ Yii 公式ガイド
 
 All Rights Reserved.
 
-2008-2013 (c) Yii Software LLC.
+2008-2014 (c) Yii Software LLC.
 
 翻訳:
  mocapapa &lt;<mocapapa@g.pugpug.org>&gt;,
@@ -16,5 +16,3 @@ All Rights Reserved.
  morita &lt;<morita21@gmail.com>&gt;,
  jamband &lt;<tmsongbooks215@gmail.com>&gt;
  miata &lt;<desktopcorps@gmail.com>&gt;
-
-<div class="revision">$Id$</div>

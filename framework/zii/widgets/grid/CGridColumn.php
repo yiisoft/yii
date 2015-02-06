@@ -170,7 +170,7 @@ abstract class CGridColumn extends CComponent
 	 * The default implementation simply returns {@link header}.
 	 * This method may be overridden to customize the rendering of the header cell.
 	 * @return string the header cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getHeaderCellContent()
 	{
@@ -179,7 +179,7 @@ abstract class CGridColumn extends CComponent
 
 	/**
 	 * Renders the header cell content.
-	 * @deprecated since 1.1.15. Use {@link getHeaderCellContent()} instead.
+	 * @deprecated since 1.1.16. Use {@link getHeaderCellContent()} instead.
 	 */
 	protected function renderHeaderCellContent()
 	{
@@ -191,7 +191,7 @@ abstract class CGridColumn extends CComponent
 	 * The default implementation simply returns {@link footer}.
 	 * This method may be overridden to customize the rendering of the footer cell.
 	 * @return string the footer cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getFooterCellContent()
 	{
@@ -200,7 +200,7 @@ abstract class CGridColumn extends CComponent
 
 	/**
 	 * Renders the footer cell content.
-	 * @deprecated since 1.1.15. Use {@link getFooterCellContent()} instead.
+	 * @deprecated since 1.1.16. Use {@link getFooterCellContent()} instead.
 	 */
 	protected function renderFooterCellContent()
 	{
@@ -213,7 +213,7 @@ abstract class CGridColumn extends CComponent
 	 * @param integer $row the row number (zero-based)
 	 * The data for this row is available via <code>$this->grid->dataProvider->data[$row];</code>
 	 * @return string the data cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getDataCellContent($row)
 	{
@@ -224,7 +224,7 @@ abstract class CGridColumn extends CComponent
 	 * Renders the data cell content.
 	 * @param integer $row the row number (zero-based)
 	 * @param mixed $data the data associated with the row
-	 * @deprecated since 1.1.15. Use {@link getDataCellContent()} instead.
+	 * @deprecated since 1.1.16. Use {@link getDataCellContent()} instead.
 	 */
 	protected function renderDataCellContent($row,$data)
 	{
@@ -236,7 +236,7 @@ abstract class CGridColumn extends CComponent
 	 * The default implementation simply returns an empty column.
 	 * This method may be overridden to customize the rendering of the filter cell (if any).
 	 * @return string the filter cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getFilterCellContent()
 	{
@@ -246,7 +246,7 @@ abstract class CGridColumn extends CComponent
 	/**
 	 * Renders the filter cell content.
 	 * @since 1.1.1
-	 * @deprecated since 1.1.15. Use {@link getFilterCellContent()} instead.
+	 * @deprecated since 1.1.16. Use {@link getFilterCellContent()} instead.
 	 */
 	protected function renderFilterCellContent()
 	{

@@ -1,17 +1,15 @@
 <?php
-
+/**
+ * The followings are the available columns in table 'tbl_tag':
+ * @property integer $id
+ * @property string $name
+ * @property integer $frequency
+ */
 class Tag extends CActiveRecord
 {
 	/**
-	 * The followings are the available columns in table 'tbl_tag':
-	 * @var integer $id
-	 * @var string $name
-	 * @var integer $frequency
-	 */
-
-	/**
 	 * Returns the static model of the specified AR class.
-	 * @return CActiveRecord the static model class
+	 * @return static the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

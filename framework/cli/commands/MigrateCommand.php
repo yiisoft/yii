@@ -39,7 +39,7 @@ class MigrateCommand extends CConsoleCommand
 	/**
 	 * @var string the name of the table for keeping applied migration information.
 	 * This table will be automatically created if not exists. Defaults to 'tbl_migration'.
-	 * The table structure is: (version varchar(255) primary key, apply_time integer)
+	 * The table structure is: (version varchar(180) primary key, apply_time integer)
 	 */
 	public $migrationTable='tbl_migration';
 	/**
@@ -198,11 +198,41 @@ class MigrateCommand extends CConsoleCommand
 
 	public function actionTo($args)
 	{
-		if(isset($args[0]))
-			$version=$args[0];
-		else
-			$this->usageError('Please specify which version to migrate to.');
+		if(!isset($args[0]))
+			$this->usageError('Please specify which version, timestamp or datetime to migrate to.');
 
+		if((string)(int)$args[0]==$args[0])
+			return $this->migrateToTime($args[0]);
+		elseif(($time=strtotime($args[0]))!==false)
+			return $this->migrateToTime($time);
+		else
+			return $this->migrateToVersion($args[0]);
+	}
+
+	private function migrateToTime($time)
+	{
+		$data=$this->getDbConnection()->createCommand()
+			->select('version,apply_time')
+			->from($this->migrationTable)
+			->where('apply_time<=:time',array(':time'=>$time))
+			->order('apply_time DESC')
+			->limit(1)
+			->queryRow();
+
+		if($data===false)
+		{
+			echo "Error: Unable to find a version before ".date('Y-m-d H:i:s',$time).".\n";
+			return 1;
+		}
+		else
+		{
+			echo "Found version ".$data['version']." applied at ".date('Y-m-d H:i:s',$data['apply_time']).", it is before ".date('Y-m-d H:i:s',$time).".\n";
+			return $this->migrateToVersion(substr($data['version'],1,13));
+		}
+	}
+
+	private function migrateToVersion($version)
+	{
 		$originalVersion=$version;
 		if(preg_match('/^m?(\d{6}_\d{6})(_.*?)?$/',$version,$matches))
 			$version='m'.$matches[1];
@@ -466,7 +496,7 @@ class MigrateCommand extends CConsoleCommand
 		$db=$this->getDbConnection();
 		echo 'Creating migration history table "'.$this->migrationTable.'"...';
 		$db->createCommand()->createTable($this->migrationTable,array(
-			'version'=>'string NOT NULL PRIMARY KEY',
+			'version'=>'varchar(180) NOT NULL PRIMARY KEY',
 			'apply_time'=>'integer',
 		));
 		$db->createCommand()->insert($this->migrationTable,array(
@@ -529,6 +559,16 @@ EXAMPLES
 
  * yiic migrate to 101129_185401
    Migrates up or down to version 101129_185401.
+
+ * yiic migrate to 1392447720
+   Migrates to the given UNIX timestamp. This means that all the versions
+   applied after the specified timestamp will be reverted. Versions applied
+   before won't be touched.
+
+ * yiic migrate to "2014-02-15 13:00:50"
+   Migrates to the given datetime parseable by the strtotime() function.
+   This means that all the versions applied after the specified datetime
+   will be reverted. Versions applied before won't be touched.
 
  * yiic migrate mark 101129_185401
    Modifies the migration history up or down to version 101129_185401.

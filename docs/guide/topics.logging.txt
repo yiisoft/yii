@@ -98,7 +98,7 @@ we can prevent certain categories from appearing in our logs:
 		array(
 			'class'=>'CEmailLogRoute',
 			'levels'=>'error, warning',
-			'except'=>'system.CModule.*' // Will email everything except any CModule logs
+			'except'=>'system.CModule.*', // Will email everything except any CModule logs
 			'emails'=>'admin@example.com',
 		),
 		array(

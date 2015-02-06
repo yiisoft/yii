@@ -67,6 +67,37 @@ array(
 その後、[CDbConnection::autoConnect] 設定が false になっていない限り、すでに自動的にアクティブになっている `Yii::app()->db` を利用してDB 接続にアクセスできます。
 このアプローチを使うと、単一の DB 接続をコード中の色々な場所で共有することができます。
 
+ODBC 接続を使う
+---------------
+
+ODBC レイヤーを通してデータベースを操作したい場合には、一つ、変った点があることに注意して下さい。
+ODBC を使う場合、その接続文字列 (DSN) には、どのタイプのデータベースが使われているか (MySQL、MS SQL Server、等々) を
+特定するものが含まれていません。そのため、必要となる DBMS 固有のクラス (`CMysqlSchema`, `CMssqlSchema` など) を
+自動的にロードすることが出来ません。
+
+このために、`CDbConnection` クラスの `$driverName` プロパティを使って、それを明示する必要があります。
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'class'=>'CDbConnection'
+			'driverName'=>'mysql',
+			'connectionString'=>'odbc:Driver={MySQL};Server=127.0.0.1;Database=test',
+			'username'=>'',
+			'password'=>'',
+		),
+	),
+)
+~~~
+
+> Note|注意: 上記の設定は、フレームワークのバージョン 1.1.15 以降にのみ適用されされます。
+> それより前のフレームワークを使っている場合は、データベース接続のクラスを拡張して、自分自身で
+> この問題を処理する必要があります。
+
 SQL 文の実行
 ------------------------
 

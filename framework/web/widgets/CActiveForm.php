@@ -515,7 +515,10 @@ class CActiveForm extends CWidget
 				$option['clientValidation']=new CJavaScriptExpression("function(value, messages, attribute) {\n".implode("\n",$validators)."\n}");
 		}
 
-		$html=CHtml::error($model,$attribute,$htmlOptions);
+		if(empty($option['hideErrorMessage']) && empty($this->clientOptions['hideErrorMessage']))
+			$html=CHtml::error($model,$attribute,$htmlOptions);
+		else
+			$html='';
 		if($html==='')
 		{
 			if(isset($htmlOptions['style']))
@@ -703,7 +706,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function dateTimeField($model,$attribute,$htmlOptions=array())
 	{
@@ -719,7 +722,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function dateTimeLocalField($model,$attribute,$htmlOptions=array())
 	{
@@ -735,7 +738,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function weekField($model,$attribute,$htmlOptions=array())
 	{
@@ -751,7 +754,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function colorField($model,$attribute,$htmlOptions=array())
 	{

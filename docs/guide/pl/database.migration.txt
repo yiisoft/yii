@@ -140,7 +140,7 @@ class m101129_185401_create_news_table extends CDbMigration
 }
 ~~~
 
-Jednakże łatwiejszym sposobem uzyskania wparcia dla transakcyjności jest zaimplementowanie metody `safeUp()` zamiast `up()` oraz `safeDown()` zamiast`down()`. Na przykład:
+Jednakże łatwiejszym sposobem uzyskania wparcia dla transakcyjności jest zaimplementowanie metody `safeUp()` zamiast `up()` oraz `safeDown()` zamiast `down()`. Na przykład:
 
 ~~~
 [php]
@@ -211,7 +211,7 @@ yiic migrate down [step]
 
 gdzie opcjonalny parametr `step` określa jak wiele migracji zostanie odwróconych. Domyślnie przyjmuje wartość 1 co oznacza odwracanie ostatnio zaaplikowanej migracji.
 
-Tak jak wspominaliśmy wcześniej nie wszystkie migracje można odwracać. Próbując odwrócać nieodwracalną migrację otrzymamy wyjątek i proces odwracania zostanie przerwany. 
+Tak jak wspominaliśmy wcześniej nie wszystkie migracje można odwracać. Próbując odwrócić nieodwracalną migrację otrzymamy wyjątek i proces odwracania zostanie przerwany. 
 
 
 Poprawianie migracji
@@ -270,9 +270,9 @@ Polecenia migracji dostarczane są wraz z czterema opcjami, które mogą być ok
 
 * `connectionID`: łańcuch znaków, określający identyfikator komponentu bazy danych aplikacji. Domyślnie 'db'.
 
-* `templateFile`: łańcuch znaków, określający ścieżkę do pliku, który posłuży jako szablon kodu używany do generowania klas migracji. Należy go określić przy użyciu aliasu ścieżki (np. `application.migrations.template`). Jeśli nie został podany, wewnętrzny szablon zostanie użyty, W szablonie token `{ClassName}` zostanie zastąpiony aktualną nazwą klasy migrującej.
+* `templateFile`: łańcuch znaków, określający ścieżkę do pliku, który posłuży jako szablon kodu używany do generowania klas migracji. Należy go określić przy użyciu aliasu ścieżki (np. `application.migrations.template`). Jeśli nie został podany, wewnętrzny szablon zostanie użyty. W szablonie token `{ClassName}` zostanie zastąpiony aktualną nazwą klasy migrującej.
 
-W celu zdefiniowania tych opcji wykonaj polecenia migracji używając formatu
+W celu zdefiniowania tych opcji wykonaj polecenia migracji używając formatu:
 
 ~~~
 yiic migrate up --opcja1=wartość1 --opcja2=wartość2 ...

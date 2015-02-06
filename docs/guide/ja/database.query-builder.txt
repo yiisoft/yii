@@ -260,7 +260,7 @@ $command->where(array('like', 'title', '%'.$keyword.'%'));
 function andWhere($conditions, $params=array())
 ~~~
 
-[addWhere()|CDbCommand::addWhere() ] メソッドは与えられた条件をクエリの `WHERE` の部分に `AND` 演算子を使って追加します。
+[andWhere()|CDbCommand::andWhere() ] メソッドは与えられた条件をクエリの `WHERE` の部分に `AND` 演算子を使って追加します。
 このメソッドの動作は、条件を置き換えるのでなく追加するという点を除いて、[where()|CDbCommand::where() ] とほとんど同一です。
 このメソッドのパラメータに関する詳細な情報は、[where()|CDbCommand::where() ] のドキュメントを参照して下さい。
 

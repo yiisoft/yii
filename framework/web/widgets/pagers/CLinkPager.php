@@ -66,18 +66,22 @@ class CLinkPager extends CBasePager
 	public $maxButtonCount=10;
 	/**
 	 * @var string the text label for the next page button. Defaults to 'Next &gt;'.
+	 * Setting this to false will disable this button.
 	 */
 	public $nextPageLabel;
 	/**
 	 * @var string the text label for the previous page button. Defaults to '&lt; Previous'.
+	 * Setting this to false will disable this button.
 	 */
 	public $prevPageLabel;
 	/**
 	 * @var string the text label for the first page button. Defaults to '&lt;&lt; First'.
+	 * Setting this to false will disable this button.
 	 */
 	public $firstPageLabel;
 	/**
 	 * @var string the text label for the last page button. Defaults to 'Last &gt;&gt;'.
+	 * Setting this to false will disable this button.
 	 */
 	public $lastPageLabel;
 	/**
@@ -149,26 +153,32 @@ class CLinkPager extends CBasePager
 		list($beginPage,$endPage)=$this->getPageRange();
 		$currentPage=$this->getCurrentPage(false); // currentPage is calculated in getPageRange()
 		$buttons=array();
-
+		
 		// first page
-		$buttons[]=$this->createPageButton($this->firstPageLabel,0,$this->firstPageCssClass,$currentPage<=0,false);
-
+		if ($this->firstPageLabel !== false) {
+			$buttons[]=$this->createPageButton($this->firstPageLabel,0,$this->firstPageCssClass,$currentPage<=0,false);
+		}
 		// prev page
-		if(($page=$currentPage-1)<0)
-			$page=0;
-		$buttons[]=$this->createPageButton($this->prevPageLabel,$page,$this->previousPageCssClass,$currentPage<=0,false);
+		if ($this->prevPageLabel !== false) {
+			if(($page=$currentPage-1)<0)
+				$page=0;
+			$buttons[]=$this->createPageButton($this->prevPageLabel,$page,$this->previousPageCssClass,$currentPage<=0,false);
+		}
 
 		// internal pages
 		for($i=$beginPage;$i<=$endPage;++$i)
 			$buttons[]=$this->createPageButton($i+1,$i,$this->internalPageCssClass,false,$i==$currentPage);
-
+		
 		// next page
-		if(($page=$currentPage+1)>=$pageCount-1)
-			$page=$pageCount-1;
-		$buttons[]=$this->createPageButton($this->nextPageLabel,$page,$this->nextPageCssClass,$currentPage>=$pageCount-1,false);
-
+		if ($this->nextPageLabel !== false) {
+			if(($page=$currentPage+1)>=$pageCount-1)
+				$page=$pageCount-1;
+			$buttons[]=$this->createPageButton($this->nextPageLabel,$page,$this->nextPageCssClass,$currentPage>=$pageCount-1,false);
+		}
 		// last page
-		$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$this->lastPageCssClass,$currentPage>=$pageCount-1,false);
+		if ($this->lastPageLabel !== false) {
+			$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$this->lastPageCssClass,$currentPage>=$pageCount-1,false);
+		}
 
 		return $buttons;
 	}
