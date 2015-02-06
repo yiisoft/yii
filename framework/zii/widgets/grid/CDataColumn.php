@@ -90,7 +90,7 @@ class CDataColumn extends CGridColumn
 	 * If {@link filter} is an array, it is assumed to be a list of options, and a dropdown selector will be rendered.
 	 * Otherwise if {@link filter} is not false, a text field is rendered.
 	 * @return string the filter cell content
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getFilterCellContent()
 	{
@@ -111,7 +111,7 @@ class CDataColumn extends CGridColumn
 	 * Returns the header cell content.
 	 * This method will render a link that can trigger the sorting if the column is sortable.
 	 * @return string the header cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getHeaderCellContent()
 	{
@@ -133,7 +133,7 @@ class CDataColumn extends CGridColumn
 	 * This method evaluates {@link value} or {@link name} and renders the result.
 	 * @param integer $row the row number (zero-based)
 	 * @return string the data cell content.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getDataCellContent($row)
 	{
@@ -142,6 +142,6 @@ class CDataColumn extends CGridColumn
 			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
 		elseif($this->name!==null)
 			$value=CHtml::value($data,$this->name);
-		echo $value===null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value,$this->type);
+		return $value===null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value,$this->type);
 	}
 }

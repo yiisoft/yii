@@ -178,7 +178,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public function regenerateID($deleteOldSession=false)
 	{
-		session_regenerate_id($deleteOldSession);
+		if($this->getIsStarted())
+			session_regenerate_id($deleteOldSession);
 	}
 
 	/**

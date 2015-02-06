@@ -23,9 +23,11 @@ class CMysqlSchema extends CDbSchema
 	 */
 	public $columnTypes=array(
 		'pk' => 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY',
+		'bigpk' => 'bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY',
 		'string' => 'varchar(255)',
 		'text' => 'text',
 		'integer' => 'int(11)',
+		'bigint' => 'bigint(20)',
 		'float' => 'float',
 		'decimal' => 'decimal',
 		'datetime' => 'datetime',

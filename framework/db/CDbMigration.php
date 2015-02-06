@@ -180,6 +180,23 @@ abstract class CDbMigration extends CComponent
 	}
 
 	/**
+	 * Creates and executes an INSERT SQL statement with multiple data.
+	 * The method will properly escape the column names, and bind the values to be inserted.
+	 * @param string $table the table that new rows will be inserted into.
+	 * @param array $data an array of various column data (name=>value) to be inserted into the table.
+	 * @since 1.1.16
+	 */
+	public function insertMultiple($table, $data)
+	{
+		echo "    > insert into $table ...";
+		$time=microtime(true);
+		$builder=$this->getDbConnection()->getSchema()->getCommandBuilder();
+		$command=$builder->createMultipleInsertCommand($table,$data);
+		$command->execute();
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
 	 * Creates and executes an UPDATE SQL statement.
 	 * The method will properly escape the column names and bind the values to be updated.
 	 * @param string $table the table to be updated.
@@ -335,15 +352,16 @@ abstract class CDbMigration extends CComponent
 	 * The method will properly quote the table and column names.
 	 * @param string $name the name of the foreign key constraint.
 	 * @param string $table the table that the foreign key constraint will be added to.
-	 * @param string $columns the name of the column to that the constraint will be added on. If there are multiple columns, separate them with commas.
+	 * @param string|array $columns the name of the column to that the constraint will be added on. If there are multiple columns, separate them with commas or pass as an array of column names.
 	 * @param string $refTable the table that the foreign key references to.
-	 * @param string $refColumns the name of the column that the foreign key references to. If there are multiple columns, separate them with commas.
+	 * @param string|array $refColumns the name of the column that the foreign key references to. If there are multiple columns, separate them with commas or pass as an array of column names.
 	 * @param string $delete the ON DELETE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
 	 * @param string $update the ON UPDATE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
 	 */
 	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
 	{
-		echo "    > add foreign key $name: $table ($columns) references $refTable ($refColumns) ...";
+		echo "    > add foreign key $name: $table (".(is_array($columns) ? implode(',', $columns) : $columns).
+			 ") references $refTable (".(is_array($refColumns) ? implode(',', $refColumns) : $refColumns).") ...";
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete, $update);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
@@ -366,15 +384,15 @@ abstract class CDbMigration extends CComponent
 	 * Builds and executes a SQL statement for creating a new index.
 	 * @param string $name the name of the index. The name will be properly quoted by the method.
 	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
-	 * @param string $column the column(s) that should be included in the index. If there are multiple columns, please separate them
-	 * by commas. The column names will be properly quoted by the method.
+	 * @param string|array $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
+	 * by commas or pass as an array of column names. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
 	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
 	 */
-	public function createIndex($name, $table, $column, $unique=false)
+	public function createIndex($name, $table, $columns, $unique=false)
 	{
-		echo "    > create".($unique ? ' unique':'')." index $name on $table ($column) ...";
+		echo "    > create".($unique ? ' unique':'')." index $name on $table (".(is_array($columns) ? implode(',', $columns) : $columns).") ...";
 		$time=microtime(true);
-		$this->getDbConnection()->createCommand()->createIndex($name, $table, $column, $unique);
+		$this->getDbConnection()->createCommand()->createIndex($name, $table, $columns, $unique);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
@@ -408,12 +426,13 @@ abstract class CDbMigration extends CComponent
 	 * Builds and executes a SQL statement for creating a primary key, supports composite primary keys.
 	 * @param string $name name of the primary key constraint to add
 	 * @param string $table name of the table to add primary key to
-	 * @param string $columns name of the column to utilise as primary key. If there are multiple columns, separate them with commas.
+	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
+	 * Array value can be passed since 1.1.14.
 	 * @since 1.1.13
 	 */
 	public function addPrimaryKey($name,$table,$columns)
 	{
-		echo "    > alter table $table add constraint $name primary key ($columns) ...";
+		echo "    > alter table $table add constraint $name primary key (".(is_array($columns) ? implode(',', $columns) : $columns).") ...";
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->addPrimaryKey($name,$table,$columns);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";

@@ -70,6 +70,7 @@ return array(
 В настоящий момент AR поддерживает следующие СУБД:
 
    - [MySQL 4.1 и выше](http://www.mysql.com)
+   - [MariaDB](https://mariadb.com)
    - [PostgreSQL 7.3 и выше](http://www.postgres.com)
    - [SQLite 2 и 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 и выше](http://www.microsoft.com/sqlserver/)

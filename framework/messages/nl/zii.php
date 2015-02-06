@@ -17,7 +17,6 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  '{class} must specify "model" and "{attribute}" or "{name}" property values.' => '{class} moet "model" en "{attribute}" of "{name}" waarden bevatten voor de properties.',
   'Are you sure you want to delete this item?' => 'Ben je zeker dat je dit item wil verwijderen?',
   'Delete' => 'Verwijderen',
   'Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.' => 'Getoond: {start}-{end} van 1 resultaat.|Getoond: {start}-{end} van {count} resultaten.',
@@ -38,4 +37,5 @@ return array (
   'Total 1 result.|Total {count} results.' => '1 resultaat in totaal.|{count} resultaten in totaal.',
   'Update' => 'Updaten',
   'View' => 'Bekijken',
+  '{class} must specify "model" and "{attribute}" or "{name}" property values.' => '{class} moet de "model" en "{attribute}" of "{name}" property-waarden bevatten.',
 );

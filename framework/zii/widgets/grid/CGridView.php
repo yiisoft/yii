@@ -25,7 +25,7 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  * when the user browser disables JavaScript, the sorting and pagination automatically degenerate
  * to normal page requests and are still functioning as expected.
  *
- * CGridView should be used together with a {@link IDataProvider data provider}, preferrably a
+ * CGridView should be used together with a {@link IDataProvider data provider}, preferably a
  * {@link CActiveDataProvider}.
  *
  * The minimal code needed to use CGridView is as follows:
@@ -182,14 +182,14 @@ class CGridView extends CBaseListView
 	 * Possible values (besides null) are "timeout", "error", "notmodified" and "parsererror"</li>
 	 * <li><code>errorThrown</code> is an optional exception object, if one occurred.</li>
 	 * <li><code>errorMessage</code> is the CGridView default error message derived from xhr and errorThrown.
-	 * Usefull if you just want to display this error differently. CGridView by default displays this error with an javascript.alert()</li>
+	 * Useful if you just want to display this error differently. CGridView by default displays this error with an javascript.alert()</li>
 	 * </ul>
 	 * Note: This handler is not called for JSONP requests, because they do not use an XMLHttpRequest.
 	 *
 	 * Example (add in a call to CGridView):
 	 * <pre>
 	 *  ...
-	 *  'ajaxUpdateError'=>'function(xhr,ts,et,err){ $("#myerrordiv").text(err); }',
+	 *  'ajaxUpdateError'=>'function(xhr,ts,et,err,id){ $("#"+id).text(err); }',
 	 *  ...
 	 * </pre>
 	 */
@@ -444,8 +444,14 @@ class CGridView extends CBaseListView
 		);
 		if($this->ajaxUrl!==null)
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
-		if($this->ajaxType!==null)
+		if($this->ajaxType!==null) {
 			$options['ajaxType']=strtoupper($this->ajaxType);
+			$request=Yii::app()->getRequest();
+			if ($options['ajaxType']=='POST' && $request->enableCsrfValidation) {
+				$options['csrfTokenName']=$request->csrfTokenName;
+				$options['csrfToken']=$request->getCsrfToken();
+			}
+		}
 		if($this->enablePagination)
 			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
 		foreach(array('beforeAjaxUpdate', 'afterAjaxUpdate', 'ajaxUpdateError', 'selectionChanged') as $event)
@@ -613,10 +619,25 @@ class CGridView extends CBaseListView
 
 		echo CHtml::openTag('tr', $htmlOptions)."\n";
 		foreach($this->columns as $column)
-			$column->renderDataCell($row);
+			$this->renderDataCell($column, $row);
 		echo "</tr>\n";
 	}
 
+	/**
+	 * A seam for people extending CGridView to be able to hook onto the data cell rendering process.
+	 * 
+	 * By overriding only this method we will not need to copypaste and modify the whole entirety of `renderTableRow`.
+	 * Or override `renderDataCell()` method of all possible CGridColumn descendants.
+	 * 
+	 * @param CGridColumn $column The Column instance to 
+	 * @param integer $row
+	 * @since 1.1.16
+	 */
+	protected function renderDataCell($column, $row)
+	{
+		$column->renderDataCell($row);
+	}
+	
 	/**
 	 * @return boolean whether the table should render a footer.
 	 * This is true if any of the {@link columns} has a true {@link CGridColumn::hasFooter} value.

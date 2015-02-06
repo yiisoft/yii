@@ -73,6 +73,11 @@ abstract class CBaseListView extends CWidget
 	 */
 	public $summaryText;
 	/**
+	 * @var string the HTML tag name for the container of the {@link summaryText} property.
+	 * @since 1.1.16
+	 */
+	public $summaryTagName='div';
+	/**
 	 * @var string the message to be displayed when {@link dataProvider} does not have any data.
 	 */
 	public $emptyText;
@@ -81,7 +86,14 @@ abstract class CBaseListView extends CWidget
 	 */
 	public $emptyTagName='span';
 	/**
+	 * @var string the CSS class name for the container of the {@link emptyText} property. Defaults to 'empty'.
+	 * @since 1.1.16
+	 */
+	public $emptyCssClass='empty';
+	/**
 	 * @var string the CSS class name for the container of all data item display. Defaults to 'items'.
+	 * Note, this property must not contain false, null or empty string values. Otherwise such values may
+	 * cause undefined behavior.
 	 */
 	public $itemsCssClass='items';
 	/**
@@ -90,6 +102,8 @@ abstract class CBaseListView extends CWidget
 	public $summaryCssClass='summary';
 	/**
 	 * @var string the CSS class name for the pager container. Defaults to 'pager'.
+	 * Note, this property must not contain false, null or empty string values. Otherwise such values may
+	 * cause undefined behavior.
 	 */
 	public $pagerCssClass='pager';
 	/**
@@ -179,7 +193,7 @@ abstract class CBaseListView extends CWidget
 	public function renderEmptyText()
 	{
 		$emptyText=$this->emptyText===null ? Yii::t('zii','No results found.') : $this->emptyText;
-		echo CHtml::tag($this->emptyTagName, array('class'=>'empty'), $emptyText);
+		echo CHtml::tag($this->emptyTagName, array('class'=>$this->emptyCssClass), $emptyText);
 	}
 
 	/**
@@ -205,7 +219,7 @@ abstract class CBaseListView extends CWidget
 		if(($count=$this->dataProvider->getItemCount())<=0)
 			return;
 
-		echo '<div class="'.$this->summaryCssClass.'">';
+		echo CHtml::openTag($this->summaryTagName, array('class'=>$this->summaryCssClass));
 		if($this->enablePagination)
 		{
 			$pagination=$this->dataProvider->getPagination();
@@ -239,7 +253,7 @@ abstract class CBaseListView extends CWidget
 				'{pages}'=>1,
 			));
 		}
-		echo '</div>';
+		echo CHtml::closeTag($this->summaryTagName);
 	}
 
 	/**

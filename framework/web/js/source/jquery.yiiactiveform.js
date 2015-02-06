@@ -36,7 +36,7 @@
 
 	/**
 	 * yiiactiveform set function.
-	 * @param options map settings for the active form plugin. Please see {@link CActiveForm::options} for availablel options.
+	 * @param options map settings for the active form plugin. Please see {@link CActiveForm::options} for available options.
 	 */
 	$.fn.yiiactiveform = function (options) {
 		return this.each(function () {
@@ -58,7 +58,8 @@
 					successCssClass: settings.successCssClass,
 					beforeValidateAttribute: settings.beforeValidateAttribute,
 					afterValidateAttribute: settings.afterValidateAttribute,
-					validatingCssClass: settings.validatingCssClass
+					validatingCssClass: settings.validatingCssClass,
+					errorCallback: settings.errorCallback
 				}, this);
 			});
 			$form.data('settings', settings);
@@ -102,7 +103,7 @@
 							if (attribute.afterValidateAttribute !== undefined) {
 								attribute.afterValidateAttribute($form, attribute, data, hasError);
 							}
-						});
+						},settings.errorCallback);
 					}
 				}, attribute.validationDelay);
 			};
@@ -161,7 +162,7 @@
 								}
 							}
 							settings.submitting = false;
-						});
+						},settings.errorCallback);
 					} else {
 						settings.submitting = false;
 					}
@@ -433,6 +434,7 @@
 		 *     afterValidateAttribute: undefined,  // function (form, attribute, data, hasError)
 		 * }
 		 */
-		attributes: []
+		attributes: [],
+		errorCallback: undefined
 	};
 })(jQuery);

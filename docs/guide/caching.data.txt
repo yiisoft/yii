@@ -18,7 +18,7 @@ The cached data will remain in the cache forever unless it is removed
 because of some caching policy (e.g. caching space is full and the oldest
 data are removed). To change this behavior, we can also supply an
 expiration parameter when calling [set()|CCache::set] so that the data will
-be removed from the cache after a certain period of time:
+be removed from the cache after, at most, that period of time:
 
 ~~~
 [php]
@@ -28,8 +28,8 @@ Yii::app()->cache->set($id, $value, 30);
 
 Later when we need to access this variable (in either the same or a
 different Web request), we call [get()|CCache::get] with the ID to retrieve
-it from cache. If the value returned is false, it means the value is not
-available in cache and we should regenerate it.
+it from cache. If the returned value is false, it means the value is not
+available in cache and we have to regenerate it.
 
 ~~~
 [php]
@@ -51,7 +51,7 @@ applications.
 Some cache storages, such as MemCache, APC, support retrieving
 multiple cached values in a batch mode, which may reduce the overhead involved
 in retrieving cached data. A method named
-[mget()|CCache::mget] is provided to exploit this feature. In case the underlying
+[mget()|CCache::mget] is provided to achieve this feature. In case the underlying
 cache storage does not support this feature, [mget()|CCache::mget] will still
 simulate it.
 
@@ -126,7 +126,7 @@ in future, as the result can be directly served from the cache.
 > Info: Some DBMS (e.g. [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
 > also support query caching on the DB server side. Compared with the server-side
 > query caching, the same feature we support here offers more flexibility and
-> potentially may be more efficient.
+> may be potentially more efficient.
 
 
 ### Enabling Query Caching

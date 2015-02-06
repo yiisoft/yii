@@ -140,7 +140,7 @@ EOD;
 	/**
 	 * Creates a commands runner
 	 * @return CConsoleCommandRunner
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	protected function createCommandRunner()
 	{
@@ -150,7 +150,7 @@ EOD;
 	/**
 	 * Adds commands to runner
 	 * @param CConsoleCommandRunner $runner
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	protected function addCommands(CConsoleCommandRunner $runner)
 	{

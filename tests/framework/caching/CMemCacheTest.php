@@ -6,6 +6,8 @@ if(!defined('MEMCACHE_TEST_HOST'))
 if(!defined('MEMCACHE_TEST_PORT'))
 	define('MEMCACHE_TEST_PORT', 11211);
 
+if (!defined('MEMCACHE_USE_MEMCACHED'))
+	define('MEMCACHE_USE_MEMCACHED', false);
 
 class CMemCacheTest extends CTestCase
 {
@@ -14,6 +16,7 @@ class CMemCacheTest extends CTestCase
 		'components'=>array(
 			'cache'=>array(
 	            'class'=>'CMemCache',
+		    'useMemcached' => MEMCACHE_USE_MEMCACHED,
 	            'servers'=>array(
 	                array('host'=>MEMCACHE_TEST_HOST, 'port'=>MEMCACHE_TEST_PORT, 'weight'=>100),
 	    		),

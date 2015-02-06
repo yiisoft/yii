@@ -1,6 +1,7 @@
 <?php
 /**
  * CDateFormatterTest
+ * @group i18n
  */
 class CDateFormatterTest extends CTestCase
 {
@@ -81,7 +82,25 @@ class CDateFormatterTest extends CTestCase
 	 */
 	public function testFormatWeekInMonth($date,$expected)
 	{
-		list($year,$month,$day)=explode('.',$date);
-		$this->assertEquals($expected,Yii::app()->dateFormatter->format('W',mktime(12,0,0,(int)$month,(int)$day,(int)$year)));
+		list($year, $month, $day) = explode('.', $date);
+		$this->assertEquals($expected, Yii::app()->dateFormatter->format('W', mktime(12, 0, 0, (int)$month, (int)$day, (int)$year)));
+	}
+
+	public function testTimeZones()
+	{
+		date_default_timezone_set('UTC');
+		$this->assertEquals('+00:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+
+		date_default_timezone_set('Etc/GMT-6');
+		$this->assertEquals('+06:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+
+		date_default_timezone_set('Etc/GMT+10');
+		$this->assertEquals('-10:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+
+		date_default_timezone_set('Europe/Berlin');
+		$this->assertEquals(date('I') == '1' ? '+02:00' : '+01:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+
+		date_default_timezone_set('America/Los_Angeles');
+		$this->assertEquals(date('I') == '1' ? '-07:00' : '-08:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
 	}
 }

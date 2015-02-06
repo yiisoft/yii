@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>403 未認証</title>
+<title>403 禁止</title>
 <style type="text/css">
 /*<![CDATA[*/
 body {font-family:Verdana, 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic ProN', sans-serif; font-weight:normal; color:black; background-color:white;}
@@ -17,7 +17,7 @@ p {font-weight:normal;color:black;font-size:9pt;margin-top: -5px}
 </style>
 </head>
 <body>
-<h1>403 未認証</h1>
+<h1>403 禁止</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
 あなたはこのページをアクセスする正当な許可を得ていません。

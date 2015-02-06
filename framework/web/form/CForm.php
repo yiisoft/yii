@@ -134,6 +134,14 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public $showErrors;
 	/**
+	 * @var string|null HTML code to prepend to the list of errors in the error summary. See {@link CActiveForm::errorSummary()}.
+	 */
+	public $errorSummaryHeader;
+	/**
+	 * @var string|null HTML code to append to the list of errors in the error summary. See {@link CActiveForm::errorSummary()}.
+	 */
+	public $errorSummaryFooter;
+	/**
 	 * @var array the configuration used to create the active form widget.
 	 * The widget will be used to render the form tag and the error messages.
 	 * The 'class' option is required, which specifies the class of the widget.
@@ -427,7 +435,7 @@ class CForm extends CFormElement implements ArrayAccess
 				$options['htmlOptions']=$this->attributes;
 			ob_start();
 			$this->_activeForm=$this->getOwner()->beginWidget($class, $options);
-			return ob_get_clean() . "<div style=\"visibility:hidden\">".CHtml::hiddenField($this->getUniqueID(),1)."</div>\n";
+			return ob_get_clean() . "<div style=\"display:none\">".CHtml::hiddenField($this->getUniqueID(),1)."</div>\n";
 		}
 	}
 
@@ -476,7 +484,7 @@ class CForm extends CFormElement implements ArrayAccess
 			$output.="<div class=\"description\">\n".$this->description."</div>\n";
 
 		if($this->showErrorSummary && ($model=$this->getModel(false))!==null)
-			$output.=$this->getActiveFormWidget()->errorSummary($model)."\n";
+			$output.=$this->getActiveFormWidget()->errorSummary($model,$this->errorSummaryHeader,$this->errorSummaryFooter)."\n";
 
 		$output.=$this->renderElements()."\n".$this->renderButtons()."\n";
 
@@ -530,7 +538,7 @@ class CForm extends CFormElement implements ArrayAccess
 			if($element instanceof CFormInputElement)
 			{
 				if($element->type==='hidden')
-					return "<div style=\"visibility:hidden\">\n".$element->render()."</div>\n";
+					return "<div style=\"display:none\">\n".$element->render()."</div>\n";
 				else
 					return "<div class=\"row field_{$element->name}\">\n".$element->render()."</div>\n";
 			}

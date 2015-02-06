@@ -3,14 +3,14 @@ Bezpieczeństwo
 
 Zabezpieczenie przed Cross-site Scripting 
 -------------------------------
-Cross-site scripting (znany jako XSS) występuje gdy aplikacja webowa otrzyma    
+Cross-site scripting (znany jako XSS) występuje gdy aplikacja webowa otrzyma 
 złośliwe dane od użytkownika. Często atakujący wstrzykują skrypty JavaScript,
 VBScript, ActiveX, HTML, lub Flash do podatnych aplikacji w celu oszukania 
 użytkowników aplikacji w celu uzyskania jego danych. Na przykład, źle zaprojektowany
 system forum, może wyświetlić dane wprowadzone przez użytkownika w poście forum 
 bez żadnego sprawdzania.
 
-Atakujący może wtedy wstrzyknąć kawałek złośliwego kodu JavaScript do postu, tak,   
+Atakujący może wtedy wstrzyknąć kawałek złośliwego kodu JavaScript do postu, tak, 
 że gdy inni użytkownicy będą czytać ten post, JavaScript nieoczekiwanie zostanie 
 uruchomiony na ich komputerze.
 

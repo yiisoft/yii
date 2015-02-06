@@ -261,7 +261,7 @@ class CComponent
 					return call_user_func_array(array($object,$name),$parameters);
 			}
 		}
-		if(class_exists('Closure', false) && $this->canGetProperty($name) && $this->$name instanceof Closure)
+		if(class_exists('Closure', false) && ($this->canGetProperty($name) || property_exists($this, $name)) && $this->$name instanceof Closure)
 			return call_user_func_array($this->$name, $parameters);
 		throw new CException(Yii::t('yii','{class} and its behaviors do not have a method or closure named "{name}".',
 			array('{class}'=>get_class($this), '{name}'=>$name)));
@@ -499,7 +499,7 @@ class CComponent
 	 * $component->getEventHandlers($eventName)->add($eventHandler);
 	 * </pre>
 	 *
-	 * Using {@link getEventHandlers}, one can also specify the excution order
+	 * Using {@link getEventHandlers}, one can also specify the execution order
 	 * of multiple handlers attaching to the same event. For example:
 	 * <pre>
 	 * $component->getEventHandlers($eventName)->insertAt(0,$eventHandler);

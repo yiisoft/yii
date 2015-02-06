@@ -49,7 +49,7 @@ class WebTestCase extends CWebTestCase
 ~~~
 
 Klasa `WebTestCase` przede wszystkim ustawia adres bazowy URL strony, która będzie 
-testowana. Później, w metodach testujących, możemy używać relatywne adresy URL  
+testowana. Później, w metodach testujących, możemy używać relatywne adresy URL 
 w celu określenia, która strona powinna być przetestowana.
 
 Powinniśmy też zwrócić uwagę, na to że w adresie bazowym URL używamy `index-test.php`
@@ -84,11 +84,11 @@ class PostTest extends WebTestCase
 ~~~
 
 Tak jak pisząc klasy testów jednostkowych, tak i tutaj deklarujemy konfiguracje 
-testuów, które bedziemy używać podczas testowania. Tutaj wkazaliśmy, iż 
-konfiguracja testu `Post` będzie użyta. W metodzie testującej `testShow`,
+testów, które bedziemy używać podczas testowania. Tutaj wkazaliśmy, iż 
+użyta będzie konfiguracja testu `Post`. W metodzie testującej `testShow`,
 najpierw poinstruowaliśmy Selenium RC aby otwarło adres URL `post/1`.
-Zauważ, że jest to relatywny adres URL a kompletny adres URL jest utworzony  
-poprzez dołączenie do niego adresu bazowego URL, który ustawiliśmy w klasie  
+Zauważ, że jest to relatywny adres URL a kompletny adres URL jest utworzony 
+poprzez dołączenie do niego adresu bazowego URL, który ustawiliśmy w klasie 
 bazowej (np. `http://localhost/yii/demos/blog/index-test.php/post/1`). 
 Następnie weryfikujemy czy możemy znaleźć tytuł postu `sample1` na aktualnej stronie.
 Sprawdzamy również, czy strona zawiera tekst `Zostaw komentarz`.
