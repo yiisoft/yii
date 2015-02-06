@@ -526,7 +526,7 @@ class CDateFormatter extends CComponent
 		if($pattern[0]==='z' || $pattern[0]==='v')
 			return @date('T', @mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']));
 		elseif($pattern[0]==='Z')
-			return @date('O', @mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']));
+			return @date('P', @mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']));
 		else
 			throw new CException(Yii::t('yii','The pattern for time zone must be "z" or "v".'));
 	}

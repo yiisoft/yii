@@ -199,5 +199,7 @@ class CFileLogRoute extends CLogRoute
 			else
 				@rename($file,$file.'.1');
 		}
+		// clear stat cache after moving files so later file size check is not cached
+		clearstatcache();
 	}
 }

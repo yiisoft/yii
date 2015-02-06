@@ -1,7 +1,7 @@
 Automatyczne generowanie kodu
 =========================
 
-Poczynając od wersji 1.1.2, Yii wyposażone jest w opartym na przegląradkowym narzędziu do generowania kodu *Gii*. Zastępuje ona poprzednie narzędzie do generacji `yiic shell`, które uruchamiane jest z linii poleceń. W tej części opiszemy jak używać Gii i jak rozszerzać Gii by zwiększyć produktywność dewelopmentu.
+Poczynając od wersji 1.1.2, Yii wyposażone jest w przeglądarkowe narzędzie do generowania kodu *Gii*. Zastępuje ona poprzednie narzędzie do generacji `yiic shell`, które uruchamiane jest z linii poleceń. W tej części opiszemy jak używać Gii i jak rozszerzać Gii by zwiększyć produktywność dewelopmentu.
 
 Używanie Gii
 ---------
@@ -58,7 +58,7 @@ Kolejne kroki używane podczas generowania wyglądają następująco:
 
 1. Wejdź na stronę generatora;
 2. Uzupełnij pola, które określają parametry generacji kodu. Na przykład, aby używać generatora modułu do utworzenia nowego modułu, należy podać ID modułu.
-3. Naciśnij przyciśk podglądu kodu `Preview`, który zostanie wygenerowany. Pokaże się tabela przedstawiająca listę plików z kodem, które mają zostac wygenerowane. Możesz kliknąć na każdej z pozycji tej listy aby podejrzeć kod.
+3. Naciśnij przycisk podglądu kodu `Preview`, który zostanie wygenerowany. Pokaże się tabela przedstawiająca listę plików z kodem, które mają zostac wygenerowane. Możesz kliknąć na każdej z pozycji tej listy aby podejrzeć kod.
 4. Naciśnij przycisk generuj `Generate` aby wygenerować pliki z kodem;
 5. Przejrzyj log po generacji kodu.
 
@@ -72,7 +72,7 @@ Gii może zostać rozszerzone na dwa sposoby: dostosowanie szablonów kodu istni
 
 ###Struktura generatora kodu
 
-Generator kodu przechowywany jest w katalogu, którego nazwa jest traktowana jak nazwa generatora. Generator zazwyczaj zawieta następującą zawartość:
+Generator kodu przechowywany jest w katalogu, którego nazwa jest traktowana jak nazwa generatora. Generator zazwyczaj zawiera następującą zawartość:
 
 ~~~
 model/                       katalog główny generatora modelu
@@ -112,13 +112,13 @@ Możliwym jest posiadanie dwóch generatorów o tej samej nazwie ale pod różny
 
 Jest to najprostszy i najczęściej stosowany sposób rozszerzania Gii. Użyjemy przykładu w celu wyjaśnienia jak dostosować kod szablonu. Zakładamy, że chcemy dostoswać kod generowany przez generator modeli.
 
-Najpierw tworzymy katalog o nazwie `protected/gii/model/templates/compact`. Tutaj `model` oznacza będziemy *nadpisywać* domyślny generator modelu. `templates/compact` oznacza, że dodamy nowy zestaw szablonów kodu o nazwie `compact`.
+Najpierw tworzymy katalog o nazwie `protected/gii/model/templates/compact`. Tutaj `model` oznacza, że będziemy *nadpisywać* domyślny generator modelu. `templates/compact` oznacza, że dodamy nowy zestaw szablonów kodu o nazwie `compact`.
 
 Następnie modyfikujemy naszą konfigurację aplikacji dodając `application.gii` do [GiiModule::generatorPaths] jak pokazano w poprzednim akapicie.
 
-Teraz otwórz stronę generowania modelu. Kliknij ma polu szablonu kodu `Code Template`. Powinniśmy zobaczyć listę rozwijaną, zawierającą nasz nowo utworzony katalog szablonów `compact`. Jednakże, jeśli wybierzemy ten szablon do generowania kodu, zobaczymy błąd. Dzieje się tak, pownieważ musimy jeszcze nie wstawiliśmy żadnego pliku szablonu kodu w nowym zestawie szablonów `compact`.
+Teraz otwórz stronę generowania modelu. Kliknij na polu szablonu kodu `Code Template`. Powinniśmy zobaczyć listę rozwijaną, zawierającą nasz nowo utworzony katalog szablonów `compact`. Jednakże, jeśli wybierzemy ten szablon do generowania kodu, zobaczymy błąd. Dzieje się tak, pownieważ musimy jeszcze umieścić jakikolwiek właściwy plik szablonu kodu w nowym zestawie szablonów `compact`.
 
-Skopiuj plik `framework/gii/generators/model/templates/default/model.php` do `protected/gii/model/templates/compact`. Jeśli spróbujemy ponownie wygenerować szablon `compact` zakończy się to sukcesem. Jednakże kod wygenerowany nie rózni się od tego generowanego przez `domyślny` zestaw szablonów.
+Skopiuj plik `framework/gii/generators/model/templates/default/model.php` do `protected/gii/model/templates/compact`. Jeśli spróbujemy ponownie wygenerować szablon `compact` zakończy się to sukcesem. Jednakże kod wygenerowany nie różni się od tego generowanego przez `domyślny` zestaw szablonów.
 
 Nadszedł czas aby wykonać rzeczywista pracę dostosowywania. Otwórz plik `protected/gii/model/templates/compact/model.php` w celu edytowania go. Pamiętaj, że plik ten będzie używane jako skrypt widoku, co oznacza, że może on zawierać deklaracje i wyrażenia PHP. Zmodyfikujmy szablon w taki sposób, że metoda `attributeLabels()` w generowanym kodzie będzie używała `Yii::t()` do tłumaczenia etykiet atrybutów:
 
@@ -134,7 +134,7 @@ public function attributeLabels()
 }
 ~~~
 
-W każdym szablonie kodu możemy uzyskać dostep do pewnych predefiniowanych zmiennych takich jak `$labels` w powyższym przykładzie. Zmienne te są dostarczane przez odpowiednei generatory kodu. Różne generatory kodu mogą dostarczać różne zestawy zmiennych w swoich szablonach kodu. Prześledź uważnie opisy w domyślnym szablonie.
+W każdym szablonie kodu możemy uzyskać dostep do pewnych predefiniowanych zmiennych takich jak `$labels` w powyższym przykładzie. Zmienne te są dostarczane przez odpowiednie generatory kodu. Różne generatory kodu mogą dostarczać różne zestawy zmiennych w swoich szablonach kodu. Prześledź uważnie opisy w domyślnym szablonie.
 
 
 ###Tworzenie nowych generatorów
@@ -145,7 +145,7 @@ Najpierw utworzymy katalog o nazwie `protected/gii/widget`. W katalogu tym utwor
 
 * `WidgetGenerator.php`: zawiera klasę kontrolera `WidgetGenerator`. Jest to punkt startowy generatora widżetów.
 * `WidgetCode.php`: zawiera klasę modelu `WidgetCode`. Klasa ta zawiera główną logikę generowania kodu.
-* `views/index.php`: skrypt widoku pokazujący formualrz z polami wejściowymi generatora kodu.
+* `views/index.php`: skrypt widoku pokazujący formularz z polami wejściowymi generatora kodu.
 * `templates/default/widget.php`: domyślny kod szablonu do generowania pliku klasy widżetu.
 
 
@@ -200,7 +200,7 @@ class WidgetCode extends CCodeModel
 
 Klasa `WidgetCode` dziedziczy z [CCodeModel]. Tak jak w zwykłej klasie modelu także w tej możemy zadeklarować reguły `rules()` oraz etykiety atrybutów `attributeLabels()` odpowiednio w celu sprawdzenia danych wprowadzanych przez użytkownika oraz dostarczenia etykiet atrybutów. Zauważ, że klasa bazowa [CCodeModel] definiuje już pewne reguły oraz etykiety atrybutów i powinniśmy połączyć je z naszymi nowymi regułami i etykietami w naszej klasie.
 
-Metoda `prepare()` przygptpwuje kod, kóry będzie generowany. Jej głównym zadaniem jest przygotować likse obiektów [CCodeFile], z których każdy reprezentuje plik kodu, który zostanie wygenerowany. W naszym przykładzie musimy jedynie utworzyć obiekt [CCodeFile], który reprezentuje plik klasy widżetu, który zostanie wygenerowany. Nowa klasa widżetu zostanie wygenerowana w katalogu `protected/components`. Wywołujemy metodę [CCodeFile::render] w celu wygenerowania aktualnego kodu. Metoda ta dołącza kod szablonu jako skrypt PHP i zwraca jego zawartość jako wygenerowany kod za pomocą polecenia echo.
+Metoda `prepare()` przygotowuje kod, kóry będzie generowany. Jej głównym zadaniem jest przygotować listę obiektów [CCodeFile], z których każdy reprezentuje plik kodu, który zostanie wygenerowany. W naszym przykładzie musimy jedynie utworzyć obiekt [CCodeFile], który reprezentuje plik klasy widżetu, który zostanie wygenerowany. Nowa klasa widżetu zostanie wygenerowana w katalogu `protected/components`. Wywołujemy metodę [CCodeFile::render] w celu wygenerowania aktualnego kodu. Metoda ta dołącza kod szablonu jako skrypt PHP i zwraca jego zawartość jako wygenerowany kod za pomocą polecenia echo.
 
 
 #### Tworznie `views/index.php`
@@ -217,7 +217,7 @@ Posiadając kontroler (`WidgetGenerator`) i model (`WidgetCode`) naszedł czas a
 		<?php echo $form->labelEx($model,'className'); ?>
 		<?php echo $form->textField($model,'className',array('size'=>65)); ?>
 		<div class="tooltip">
-			Nazwa klasy widżetu musia zawierać jedynie litery i cyfry.
+			Nazwa klasy widżetu musi zawierać jedynie litery i cyfry.
 		</div>
 		<?php echo $form->error($model,'className'); ?>
 	</div>
@@ -225,17 +225,17 @@ Posiadając kontroler (`WidgetGenerator`) i model (`WidgetCode`) naszedł czas a
 <?php $this->endWidget(); ?>
 ~~~
 
-W powyższym przykładzie wyświetlamy przede wszystkim formularz używając widżetu [CCodeForm]. W formularzu tym wyświetlamy pole zbierające dane wprowadzone dla atrybutu `className` klasy WidgetCode`.
+W powyższym przykładzie wyświetlamy przede wszystkim formularz używając widżetu [CCodeForm]. W formularzu tym wyświetlamy pole zbierające dane wprowadzone dla atrybutu `className` klasy `WidgetCode`.
 
 Podczas tworzenia formularza, możemy wykorzystać dwie fajne funkcjonalności dostarczone przez widżet [CCodeForm]. Pierwszą są podpowiedzi. Druga to przyklejone dane wejściowe (ang. sticky inputs).
 
 Jeśli wypróbowałeś jakikolwiek z domyślnych generatorów kodu, zauważyłeś że podczas ustawiania fokusu na danym polu wejściowym, tuż obok pola wyświetli się ładna dla oka podpowiedź. Może to zostać uzystkane w bardzo prosty sposób poprzez napisanie za polem wejściowym tagu `div`, którego klasą CSS jest `tooltip`.
 
-Dla pewnych pól wejściowych możemy chcieć zapamiętać ich ostatnią porpawną wartość tak aby uchronić użytkownika przed kłopotliwym powtarzaniem za każdym razem tych samych wartości podczas używania generatora.  Przykładem jest pole odczytujące nazwę klasy bazowej domyślnego generatora kodu. Te przyklejone pola są początkowo wyświetlane jako podświetlony, statyczny tekst. Jeśli na nim klikniemy, zamieni się on na pole wejściowe pobierające daną wejściową od użytkownika.
+Dla pewnych pól wejściowych możemy chcieć zapamiętać ich ostatnią poprawną wartość tak aby uchronić użytkownika przed kłopotliwym powtarzaniem za każdym razem tych samych wartości podczas używania generatora.  Przykładem jest pole odczytujące nazwę klasy bazowej domyślnego generatora kodu. Te przyklejone pola są początkowo wyświetlane jako podświetlony, statyczny tekst. Jeśli na nim klikniemy, zamieni się on na pole wejściowe pobierające daną wejściową od użytkownika.
 
 W celu zdefiniowana pola wejściowego jako przyklejonego, potrzebujemy zrobić dwie rzeczy.
 
-Najpierw potrzebujemy zadeklarować regułę sprawdzania poprawności `sticky` do odpowiedniego atrybutu modelu. Na przykład, generator domyślnego kontolera posiada następujące reguły deklarujace atrybuty klasy bazowej `baseClass` oraz akcji `actions` jako przyklejone:
+Najpierw potrzebujemy zadeklarować regułę sprawdzania poprawności `sticky` do odpowiedniego atrybutu modelu. Na przykład, generator domyślnego kontolera posiada następujące reguły deklarujące atrybuty klasy bazowej `baseClass` oraz akcji `actions` jako przyklejone:
 
 ~~~
 [php]
@@ -259,7 +259,7 @@ Po drugie, potrzebujemy dodać klasę CSS o nazwie `sticky` do kontenera `div` p
 
 #### Tworzenie `templates/default/widget.php`
 
-Na koniec tworzymy szablon kodu `templates/default/widget.php`. Tak jak napisaliśmy już wcześniej, jest on używany jako skrypt widoku, który może zawierać wyrażenia i deklaracje PHP. W szablonie kodu mozemy zawsze mieć dostęp do zmiennej `$this`, która odnosi się do obiektu modelu kodu. W naszym przykładzie `$this` odnosi się do obiektu `WidgetModel`. To pozwala uzyskać wprowadzoną przez użytkownika nazwę klasy poprzez `$this->className`.
+Na koniec tworzymy szablon kodu `templates/default/widget.php`. Tak jak napisaliśmy już wcześniej, jest on używany jako skrypt widoku, który może zawierać wyrażenia i deklaracje PHP. W szablonie kodu możemy zawsze mieć dostęp do zmiennej `$this`, która odnosi się do obiektu modelu kodu. W naszym przykładzie `$this` odnosi się do obiektu `WidgetModel`. To pozwala uzyskać wprowadzoną przez użytkownika nazwę klasy poprzez `$this->className`.
 
 ~~~
 [php]

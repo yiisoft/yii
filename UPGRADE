@@ -1,4 +1,4 @@
-         Upgrading Instructions for Yii Framework v1.1.15
+         Upgrading Instructions for Yii Framework v1.1.17
          ================================================
 
 !!!IMPORTANT!!!
@@ -17,11 +17,53 @@ General upgrade instructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
-Upgrading from v1.1.14
+Upgrading from v1.1.16
+----------------------
+
+Upgrading from v1.1.15
 ----------------------
 
 - CErrorHandler now runs errorAction for errors, which appear via AJAX request.
   If you use CErrorHandler::errorAction, make sure it handles AJAX request properly.
+
+- The possibility to use callables for values of CDetailView introduced a problem with string being interpreted as
+  PHP functions. CDetailView now only allows anonymous functions to be called, all other values will be taken as value.
+
+- We updated the `framework/utils/mimeTypes.php` with more file extensions from the http apache project.
+  Due to this fact some of the assignments have changed so if you rely on the mimeType detection of `CFileHelper`
+  you need to check if your code works with the new mime type assignments.
+  You can use a custom `mimeTypes.php` file to bring back the old behavior if needed by specifying the second parameter
+  of `CFileHelper::getMimeTypeByExtension($file, $magicFile='path/to/your/mimeTypes.php')`.
+
+- We upgraded the bundled jQuery version to 1.11.1. Previous version was 1.8.3.
+  There were breaking changes in the jQuery API which you can find in the jQuery blog:
+  <http://jquery.com/upgrade-guide/1.9/#changes-of-note-in-jquery-1-9>. The [jquery-migrate plugin](https://github.com/jquery/jquery-migrate/)
+  can help checking your code for deprecated functionality.
+
+- jQueryUI was updated. Check the upgrade guides for [1.10](http://jqueryui.com/upgrade-guide/1.10) and
+  [1.11](http://jqueryui.com/upgrade-guide/1.11).
+
+- The implementation of `CSecurityManager::encrypt()` and `decrypt()` were changed to be more secure.
+  The old implementations were renamed as `legacyEncrypt()` and `legacyDecrypt()`. If you use these methods to encrypt
+  your data, you should either call legacy versions now to avoid code break or take the following steps to use the new
+  version (which we highly recommend):
+
+  1. Decrypt existing data that were encrypted using `legacyDecrypt()`.
+  2. Change key via application config (encryptionKey property of securityManager component) to the one that conforms
+     to recommendations.
+  3. Encrypt the data using `legacyEncrypt()`.
+
+  You can disable key validation by setting validateEncryptionKey property of securityManager component to false but
+  if it strongly not recommended.
+
+- Namespaced controllers in subdirectories should now have subdirectory in namespace. Previously it was possible to
+  use the same namespace for both controllers in root directory and subdirectories.
+
+
+Upgrading from v1.1.14
+----------------------
+
+No significant changes, 1.1.15 was a security fix release.
 
 Upgrading from v1.1.13
 ----------------------

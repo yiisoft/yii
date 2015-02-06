@@ -13,18 +13,6 @@
  *
  * Child classes must implement the {@link validateAttribute} method.
  *
- * The following properties are defined in CValidator:
- * <ul>
- * <li>{@link attributes}: array, list of attributes to be validated;</li>
- * <li>{@link message}: string, the customized error message. The message
- *   may contain placeholders that will be replaced with the actual content.
- *   For example, the "{attribute}" placeholder will be replaced with the label
- *   of the problematic attribute. Different validators may define additional
- *   placeholders.</li>
- * <li>{@link on}: string, in which scenario should the validator be in effect.
- *   This is used to match the 'on' parameter supplied when calling {@link CModel::validate}.</li>
- * </ul>
- *
  * When using {@link createValidator} to create a validator, the following aliases
  * are recognized as the corresponding built-in validator classes:
  * <ul>
@@ -141,7 +129,7 @@ abstract class CValidator extends CComponent
 	public static function createValidator($name,$object,$attributes,$params=array())
 	{
 		if(is_string($attributes))
-			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
+			$attributes=preg_split('/\s*,\s*/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
 
 		if(isset($params['on']))
 		{

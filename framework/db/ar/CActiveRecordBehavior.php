@@ -54,7 +54,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * Responds to {@link CActiveRecord::onAfterSave} event.
 	 * Override this method and make it public if you want to handle the corresponding event
 	 * of the {@link CBehavior::owner owner}.
-	 * @param CModelEvent $event event parameter
+	 * @param CEvent $event event parameter
 	 */
 	protected function afterSave($event)
 	{
