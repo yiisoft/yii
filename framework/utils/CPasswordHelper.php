@@ -20,7 +20,7 @@
  *
  * (1) Most *nix systems since PHP 4 (the algorithm is part of the library function crypt(3));
  * (2) Any PHP since 5.3.7 or PHP with the {@link http://www.hardened-php.net/suhosin/ Suhosin patch} including
- * $2y fix backported. Note that Debian's 6.0 official package should be of version 5.3.3-7+squeeze4 or newer.
+ * $2y fix backported. Note that Debian's 5.3.3 is not supported.
  *
  * For more information about password hashing, crypt() and Blowfish, please read
  * the Yii Wiki article
