@@ -44,14 +44,12 @@ Upgrading from v1.1.15
   [1.11](http://jqueryui.com/upgrade-guide/1.11).
 
 - The implementation of `CSecurityManager::encrypt()` and `decrypt()` were changed to be more secure.
-  The old implementations were renamed as `legacyEncrypt()` and `legacyDecrypt()`. If you use these methods to encrypt
-  your data, you should either call legacy versions now to avoid code break or take the following steps to use the new
-  version (which we highly recommend):
+  If you use these methods to encrypt your data, you should take the following steps to use the new version:
 
   1. Decrypt existing data that were encrypted using `legacyDecrypt()`.
   2. Change key via application config (encryptionKey property of securityManager component) to the one that conforms
      to recommendations.
-  3. Encrypt the data using `legacyEncrypt()`.
+  3. Encrypt the data using `encrypt()`.
 
   You can disable key validation by setting validateEncryptionKey property of securityManager component to false but
   if it strongly not recommended.
