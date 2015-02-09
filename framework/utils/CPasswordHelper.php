@@ -15,11 +15,13 @@
  * environments through the PHP {@link http://php.net/manual/en/function.crypt.php crypt()}
  * built-in function. As of Dec 2012 it is the strongest algorithm available in PHP
  * and the only algorithm without some security concerns surrounding it. For this reason,
- * CPasswordHelper fails to initialize when run in and environment that does not have
- * crypt() and its Blowfish option. Systems with the option include:
+ * CPasswordHelper fails when run in and environment that does not have
+ * crypt() with its Blowfish option and $2y hash fix. Compatible system is:
+ *
  * (1) Most *nix systems since PHP 4 (the algorithm is part of the library function crypt(3));
- * (2) All PHP systems since 5.3.0; (3) All PHP systems with the
- * {@link http://www.hardened-php.net/suhosin/ Suhosin patch}.
+ * (2) Any PHP since 5.3.7 or PHP with the {@link http://www.hardened-php.net/suhosin/ Suhosin patch} including
+ * $2y fix backported. Note that Debian's 6.0 official package should be of version 5.3.3-7+squeeze4 or newer.
+ *
  * For more information about password hashing, crypt() and Blowfish, please read
  * the Yii Wiki article
  * {@link http://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/ Use crypt() for password storage}.
