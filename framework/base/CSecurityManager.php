@@ -527,7 +527,9 @@ class CSecurityManager extends CApplicationComponent
 	{
 		if(is_string($key))
 		{
-			$supportedKeyLengths=mcrypt_module_get_supported_key_sizes($this->cryptAlgorithm);
+			$cryptAlgorithm = is_array($this->cryptAlgorithm) ? $this->cryptAlgorithm[0] : $this->cryptAlgorithm;
+
+			$supportedKeyLengths=mcrypt_module_get_supported_key_sizes($cryptAlgorithm);
 
 			if($supportedKeyLengths)
 			{
@@ -535,10 +537,10 @@ class CSecurityManager extends CApplicationComponent
 					throw new CException(Yii::t('yii','Encryption key length can be {keyLengths}.',array('{keyLengths}'=>implode(',',$supportedKeyLengths))));
 				}
 			}
-			elseif(isset(self::$encryptionKeyMinimumLengths[$this->cryptAlgorithm]))
+			elseif(isset(self::$encryptionKeyMinimumLengths[$cryptAlgorithm]))
 			{
-				$minLength=self::$encryptionKeyMinimumLengths[$this->cryptAlgorithm];
-				$maxLength=mcrypt_module_get_algo_key_size($this->cryptAlgorithm);
+				$minLength=self::$encryptionKeyMinimumLengths[$cryptAlgorithm];
+				$maxLength=mcrypt_module_get_algo_key_size($cryptAlgorithm);
 				if($this->strlen($key)<$minLength || $this->strlen($key)>$maxLength)
 					throw new CException(Yii::t('yii','Encryption key length must be between {minLength} and {maxLength}.',array('{minLength}'=>$minLength,'{maxLength}'=>$maxLength)));
 			}
