@@ -15,7 +15,7 @@
  * environments through the PHP {@link http://php.net/manual/en/function.crypt.php crypt()}
  * built-in function. As of Dec 2012 it is the strongest algorithm available in PHP
  * and the only algorithm without some security concerns surrounding it. For this reason,
- * CPasswordHelper fails when run in and environment that does not have
+ * CPasswordHelper fails when run in an environment that does not have
  * crypt() with its Blowfish option and $2y hash fix. Compatible system is:
  *
  * (1) Most *nix systems since PHP 4 (the algorithm is part of the library function crypt(3));
