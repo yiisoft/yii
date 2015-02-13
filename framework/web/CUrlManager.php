@@ -640,7 +640,8 @@ class CUrlRule extends CBaseUrlRule
 	/**
 	 * Callback for preg_replace_callback in counstructor
 	 */
-	protected function escapeRegexpSpecialChars($matches) {
+	protected function escapeRegexpSpecialChars($matches)
+	{
 		return preg_quote($matches[0]);
 	}
 
