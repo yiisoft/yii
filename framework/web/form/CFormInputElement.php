@@ -147,7 +147,7 @@ class CFormInputElement extends CFormElement
 		if($this->_required!==null)
 			return $this->_required;
 		else
-			return $this->getParent()->getModel()->isAttributeRequired($this->name);
+			return $this->getParent()->getModel()->isAttributeRequired($this->getAttributeName());
 	}
 
 	/**
@@ -167,7 +167,7 @@ class CFormInputElement extends CFormElement
 		if($this->_label!==null)
 			return $this->_label;
 		else
-			return $this->getParent()->getModel()->getAttributeLabel($this->name);
+			return $this->getParent()->getModel()->getAttributeLabel($this->getAttributeName());
 	}
 
 	/**
@@ -271,6 +271,14 @@ class CFormInputElement extends CFormElement
 	 */
 	protected function evaluateVisible()
 	{
-		return $this->getParent()->getModel()->isAttributeSafe($this->name);
+		return $this->getParent()->getModel()->isAttributeSafe($this->getAttributeName());
+	}
+
+	protected function getAttributeName()
+	{
+		$attribute = $this->name;
+		CHtml::resolveName($this->getParent()->getModel(), $attribute); // filtering [a][b]attribute
+
+		return $attribute;
 	}
 }
