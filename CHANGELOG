@@ -13,6 +13,7 @@ Version 1.1.17 work in progress
 - Bug #3715: 1.1.16 `CSecurityManager::legacyDecrypt` was not compatible with 1.1.15 method (DanaLuther)
 - Bug #3724: Fixed namespace prefix in WSDL generator for arrayType. (ametad)
 - Enh #2399: It is now possible to use table names containing spaces by introducing alias (devivan)
+- Enh #3279: CJuiAutoComplete: added `inputType` option that controls the type of the generated input field (Sibilino)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
 - Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
 
