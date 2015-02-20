@@ -240,7 +240,6 @@ class CGridView extends CBaseListView
 	 * rows (gridID is the DOM selector of the grid).
 	 */
 	public $selectableRows=1;
-	
 	/**
 	 * @var string the jQuery selector of the HTML elements that may trigger the selection of their row when they are clicked.
 	 * The default value is an empty string, meaning that the selection may be triggered by clicking anywhere on the row itself.
