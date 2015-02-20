@@ -122,7 +122,7 @@ class CJuiAutoComplete extends CJuiInputWidget
 
 		$inputField = $this->inputType.'Field';
 		if ($this->hasModel())
-			$inputField = "active$inputField";
+			$inputField = 'active'.ucfirst($inputField);
 		
 		return CHtml::{$inputField}($this->model,$this->attribute,$this->htmlOptions);
 	}
