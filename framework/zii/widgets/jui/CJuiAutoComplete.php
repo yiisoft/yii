@@ -74,6 +74,7 @@ class CJuiAutoComplete extends CJuiInputWidget
 	 * <li>tel</li>
 	 * <li>url</li>
 	 * </ul>
+	 * @since 1.1.17
 	 */
 	public $inputType='text';
 
