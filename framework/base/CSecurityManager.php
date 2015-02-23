@@ -353,6 +353,28 @@ class CSecurityManager extends CApplicationComponent
 		$key=$this->substr($key,0,64);
 		return $func((str_repeat(chr(0x5C), 64) ^ $key) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ $key) . $data)));
 	}
+	
+	/**
+	 * Same as {@link generateRandomString} with one exception that it generates only [0-9] digits.
+	 * @param integer $length length of the generated string in characters.
+	 * @param boolean $cryptographicallyStrong set this to require cryptographically strong randomness.
+	 * @return string|boolean random string or false in case it cannot be generated.
+	 * @since 1.1.17
+	 */
+	public function generateRandomDigits($length, $cryptographicallyStrong=true)
+	{
+		$str = $this->generateRandomString($length, $cryptographicallyStrong);
+        	if($str === false)
+        		return false;
+        		
+        	$result = '';
+        	for($i=0; $i<strlen($str); $i++)
+        	{
+        		$result .= ord($str{$i}) % 10;
+        	}
+        
+        	return $result;
+	}
 
 	/**
 	 * Generate a random ASCII string. Generates only [0-9a-zA-z_~] characters which are all
