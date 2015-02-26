@@ -434,7 +434,7 @@ class YiiBase
 			else  // class name with namespace in PHP 5.3
 			{
 				$namespace=str_replace('\\','.',ltrim($className,'\\'));
-				if(($path=self::getPathOfAlias($namespace))!==false)
+				if(($path=self::getPathOfAlias($namespace))!==false && is_file($path.'.php'))
 					include($path.'.php');
 				else
 					return false;
