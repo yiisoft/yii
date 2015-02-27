@@ -64,7 +64,7 @@
 class CHttpRequest extends CApplicationComponent
 {
 	/**
-	 * @var boolean whether parsing objects in the body of a JSON request should result in associative arrays.
+	 * @var boolean whether the parsing of JSON REST requests should return associative arrays for object data.
 	 * @see getRestParams
 	 * @since 1.1.17
 	 */
