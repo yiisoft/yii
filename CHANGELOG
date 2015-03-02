@@ -1,7 +1,22 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.16 under development
+Version 1.1.17 work in progress
+-------------------------------
+
+- Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
+- Bug #3497: CErrorHandler messages for HTTP response codes were not matching RFCs (TeMPOraL)
+- Bug #3637: Fixed not quoting primary key in count statements (applee)
+- Bug #3696: Fixed broken case insensitiveness for Active Record count expressions introduced with fixed #268 (xt99)
+- Bug #3700: Undefined variable `$acceptedLanguage` in `CHttpRequest::getPreferredLanguage()` (cebe,ddebin)
+- Bug #3704: Fixed `CSecurityManager` to work properly is case `cryptAlgorithm` specified as array (samdark)
+- Bug #3715: 1.1.16 `CSecurityManager::legacyDecrypt` was not compatible with 1.1.15 method (DanaLuther)
+- Bug #3724: Fixed namespace prefix in WSDL generator for arrayType. (ametad)
+- Enh #2399: It is now possible to use table names containing spaces by introducing alias (devivan)
+- Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
+- Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
+
+Version 1.1.16 December 21, 2014
 --------------------------------
 - Bug #264: Fixed wrong timestamp precision value in postgres schema (nineinchnick)
 - Bug #268: Fixed Active Record count error when some field name starting from 'count' (nineinchnick)
@@ -558,6 +573,7 @@ Version 1.1.10 February 12, 2012
 - Bug #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
 - Bug #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
 - Bug #3103: Fixed the bug that CActiveForm->error() was not overloading htmlOptions (mdomba)
+- Bug #3103: Fixed the bug that CUrlRule treated special regex characters differently in createUrl and parseUrl (lierdakil)
 - Bug #3107: Fixed the wrong encoding issue of Italian messages (Qiang)
 - Bug #3108: Fixed the bug introduced in CActiveFinder::applyLazyCondition (Qiang)
 - Bug #3166: Fixed the bug that CDbColumnSchema typecasted to NULL even for NOT NULL columns (Sam Dark)

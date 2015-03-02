@@ -80,7 +80,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.16-dev';
+		return '1.1.17-dev';
 	}
 
 	/**
