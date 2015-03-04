@@ -133,6 +133,9 @@ abstract class CBaseListView extends CWidget
 			$this->enableSorting=false;
 		if($this->enablePagination && $this->dataProvider->getPagination()===false)
 			$this->enablePagination=false;
+			
+		if($this->ajaxUrl!==null && $this->enablePagination)
+			$this->dataProvider->getPagination()->route = CHtml::normalizeUrl($this->ajaxUrl);
 	}
 
 	/**
