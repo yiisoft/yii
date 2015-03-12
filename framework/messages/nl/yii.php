@@ -232,7 +232,7 @@ return array (
   '{attribute} is in the list.' => '{attribute} maakt deel uit van de lijst.',
   '{attribute} is invalid.' => '{attribute} is ongeldig.',
   '{attribute} is not a valid URL.' => '{attribute} is geen geldige URL.',
-  '{attribute} is not a valid email address.' => '{attribute} is geen geldig emailadres.',
+  '{attribute} is not a valid email address.' => '{attribute} is geen geldig e-mailadres.',
   '{attribute} is not in the list.' => '{attribute} zit niet in de lijst.',
   '{attribute} is of the wrong length (should be {length} characters).' => '{attribute} heeft de verkeerde lengte (het zou {length} karakters lang moeten zijn)',
   '{attribute} is too big (maximum is {max}).' => '{attribute} is te groot (het maximum is {max})',
