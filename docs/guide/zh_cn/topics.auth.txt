@@ -29,9 +29,9 @@ Yii auth 框架的核心是一个预定义的 *用户（user）应用组件* 它
 
 下面的例子，我们使用[Active Record](/doc/guide/database.ar)来验证提供的用户名、密码和数据库的用户表是否吻合。我们通过重写`getId`函数来返回验证过程中获得的`_id`变量（缺省的实现则是返回用户名）。在验证过程中，我们还借助[CBaseUserIdentity::setState]函数把获得的`title`信息存成一个状态。
 
-1. The implementation of the `authenticate()` to use the database to validate credentials.
-2. Overriding the `CUserIdentity::getId()` method to return the `_id` property because the default implementation returns the username as the ID.
-3. Using the `setState()` ([CBaseUserIdentity::setState]) method to demonstrate storing other information that can easily be retrieved upon subsequent requests.
+1. 利用数据库来实现验证用户资格的`authenticate()`方法。
+2. 由于默认的`getId`方法直接返回`username`，所以需要重写`CUserIdentity::getId()`来返回真正的`_id`属性。
+3. 使用`setState()` ([CBaseUserIdentity::setState])方法来手动将用户的其他信息保存到SESSION，以便后续操作使用。
 
 ~~~
 [php]
