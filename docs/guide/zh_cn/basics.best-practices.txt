@@ -10,15 +10,13 @@ MVC最佳实践
 * 终端：一个运行于终端窗口或用以支撑整个应用的计划任务的终端命令应用。
 * Web API：提供一系列Web接口用以整合第三方应用。
 
+子应用可能以[模块](basics.module)的形式实现，或者以一个Yii应用的形式实现并且和其他子应用共享某些代码。
 
 
-The sub-applications may be implemented in terms of [modules](/doc/guide/basics.module), or as a Yii application that shares some code with other sub-applications.
-
-
-Model
+模型
 -----
 
-[Models](/doc/guide/basics.model) represent the underlying data structure of a Web application. Models are often shared among different sub-applications of a Web application. For example, a `LoginForm` model may be used by both the front end and the back end of an application; a `News` model may be used by the console commands, Web APIs, and the front/back end of an application. Therefore, models
+[模型](basics.model) represent the underlying data structure of a Web application. Models are often shared among different sub-applications of a Web application. For example, a `LoginForm` model may be used by both the front end and the back end of an application; a `News` model may be used by the console commands, Web APIs, and the front/back end of an application. Therefore, models
 
 * should contain properties to represent specific data;
 
