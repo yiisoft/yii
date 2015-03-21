@@ -66,6 +66,25 @@ class CBooleanValidator extends CValidator
 			));
 		}
 	}
+	
+	/**
+	 * Validates a static value to see if it is a valid boolean.
+	 * This method is provided so that you can call it directly without going
+	 * through the model validation rule mechanism.
+	 * @param mixed $value the value to be validated
+	 * @return boolean whether the value is a valid boolean
+	 * @since 1.1.17
+	 */
+	public function validateValue($value)
+	{
+		if($this->allowEmpty && $this->isEmpty($value))
+			return true;
+
+		$valid = !(!$this->strict && $value!=$this->trueValue && $value!=$this->falseValue
+			|| $this->strict && $value!==$this->trueValue && $value!==$this->falseValue);
+		
+		return $valid;
+	}
 
 	/**
 	 * Returns the JavaScript needed for performing client-side validation.
