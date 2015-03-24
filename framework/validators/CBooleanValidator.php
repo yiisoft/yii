@@ -54,10 +54,8 @@ class CBooleanValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && $this->isEmpty($value))
-			return;
-		if(!$this->strict && $value!=$this->trueValue && $value!=$this->falseValue
-			|| $this->strict && $value!==$this->trueValue && $value!==$this->falseValue)
+		
+		if(!$this->validateValue($value))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be either {true} or {false}.');
 			$this->addError($object,$attribute,$message,array(
