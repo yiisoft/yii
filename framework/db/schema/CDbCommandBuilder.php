@@ -475,7 +475,7 @@ class CDbCommandBuilder extends CComponent
 	}
         
         /**
-	 * Alters the SQL to apply JOIN clause.
+	 * Alters the SQL to apply SET clause.
 	 * @param string $sql the SQL statement to be altered
 	 * @param array $fields the fields (array of strings) for the SET clause
 	 * @return string the altered SQL statement
