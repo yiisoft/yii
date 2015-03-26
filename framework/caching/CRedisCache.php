@@ -60,6 +60,10 @@ class CRedisCache extends CCache
 	 */
 	public $database=0;
 	/**
+	 * @var int the options to use for stream_socket_client options to the redis server. Defaults to STREAM_CLIENT_CONNECT.
+	 */
+	public $options=STREAM_CLIENT_CONNECT;
+	/**
 	 * @var float timeout to use for connection to redis. If not set the timeout set in php.ini will be used: ini_get("default_socket_timeout")
 	 */
 	public $timeout=null;
@@ -79,7 +83,8 @@ class CRedisCache extends CCache
 			$this->hostname.':'.$this->port,
 			$errorNumber,
 			$errorDescription,
-			$this->timeout ? $this->timeout : ini_get("default_socket_timeout")
+			$this->timeout ? $this->timeout : ini_get("default_socket_timeout"),
+			$options
 		);
 		if ($this->_socket)
 		{
