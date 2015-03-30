@@ -176,7 +176,7 @@ class CFileHelper
 					if(isset($options['newFileMode']))
 						@chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
 				}
-				elseif($level)
+				elseif($level && is_dir($path))
 					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
 			}
 		}
@@ -217,7 +217,7 @@ class CFileHelper
 			{
 				if($isFile)
 					$list[]=$absolutePaths?$fullPath:$path;
-				elseif($level)
+				elseif($level && is_dir($dir.$base.'/'.$file))
 					$list=array_merge($list,self::findFilesRecursive($dir,$base.'/'.$file,$fileTypes,$exclude,$level-1,$absolutePaths));
 			}
 		}
