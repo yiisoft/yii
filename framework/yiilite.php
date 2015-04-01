@@ -2855,7 +2855,7 @@ class CHttpRequest extends CApplicationComponent
 		header('Content-Length: '.$length);
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
-		$content=function_exists('mb_substr') ? mb_substr($content,$contentStart,$length) : substr($content,$contentStart,$length);
+		$content=function_exists('mb_substr') ? mb_substr($content,$contentStart,$length,'8bit') : substr($content,$contentStart,$length);
 		if($terminate)
 		{
 			// clean up the application first because the file downloading could take long time
