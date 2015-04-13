@@ -1995,6 +1995,8 @@ class CBaseActiveRelation extends CComponent
 	 */
 	public $order='';
 
+	public $hinting = array();
+
 	/**
 	 * Constructor.
 	 * @param string $name name of the relation
