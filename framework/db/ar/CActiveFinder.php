@@ -1271,6 +1271,8 @@ class CJoinQuery
 	 */
 	public $elements=array();
 
+	public $hints=array();
+
 	/**
 	 * Constructor.
 	 * @param CJoinElement $joinElement The root join tree.
@@ -1300,6 +1302,9 @@ class CJoinQuery
 			$this->conditions[]=$joinElement->getPrimaryKeyRange();
 		}
 		$this->elements[$joinElement->id]=true;
+
+		if ($criteria!==null && $criteria->hints)
+			$this->hints=array_merge($this->hints,$criteria->hints);
 	}
 
 	/**
@@ -1327,6 +1332,10 @@ class CJoinQuery
 				$this->params=$element->relation->params;
 		}
 		$this->elements[$element->id]=true;
+
+
+		if (!empty($element->relation->hints))
+			$this->hints[]=$element->relation->hints;
 	}
 
 	/**
@@ -1336,7 +1345,18 @@ class CJoinQuery
 	 */
 	public function createCommand($builder)
 	{
-		$sql=($this->distinct ? 'SELECT DISTINCT ':'SELECT ') . implode(', ',$this->selects);
+		$sql='SELECT ';
+		if($this->hints)
+		{
+			$sql.='/*+';
+			foreach($this->hints as $hint)
+			{
+				$sql.=$hint.' ';
+			}
+			$sql.='*/ ';
+		}
+
+		$sql.=($this->distinct?'DISTINCT ':'').implode(', ',$this->selects);
 		$sql.=' FROM ' . implode(' ',array_unique($this->joins));
 
 		$conditions=array();
