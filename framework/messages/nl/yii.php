@@ -32,7 +32,7 @@ return array (
   'Altering a DB column is not supported by SQLite.' => 'Een DB kolom aanpassen wordt niet ondersteund door SQLite.',
   'Application Log' => 'Applicatielogboek',
   'Application base path "{path}" is not a valid directory.' => 'Het base path voor de applicatie "{path}" is ongeldig.',
-  'Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.' => 'Het runtime path voor de applicatie "{path}" is ongeldig. Dit moet een map zijn die door de web server kan aangepast worden.',
+  'Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.' => 'Het runtime path voor de applicatie "{path}" is ongeldig. Dit moet een map zijn die door de web server aangepast kan worden.',
   'Authorization item "{item}" has already been assigned to user "{user}".' => 'Authorisatie-item "{item}" was al aan gebruiker "{user}" toegewezen.',
   'Base path "{path}" is not a valid directory.' => 'Het base path "{path}" is ongeldig.',
   'CApcCache requires PHP apc extension to be loaded.' => 'Voor het gebruik van CApcCache moet de apc extensie geladen zijn.',
