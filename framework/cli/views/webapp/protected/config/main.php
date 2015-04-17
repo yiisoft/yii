@@ -54,8 +54,8 @@ return array(
 		'db'=>require(dirname(__FILE__).'/database.php'),
 
 		'errorHandler'=>array(
-			// use 'site/error' action to display errors. Set to null to display stacktrace in debug mode.
-			'errorAction'=>'site/error',
+			// use 'site/error' action to display errors
+			'errorAction'=>YII_DEBUG ? null : 'site/error',
 		),
 
 		'log'=>array(
