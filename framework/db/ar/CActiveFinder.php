@@ -219,8 +219,21 @@ class CActiveFinder extends CComponent
 				$with=substr($with,0,$pos);
 			}
 
+			$childAlias = isset($options['alias']) ? $with.'_'.$options['alias'] : $with;
 			if(isset($parent->children[$with]) && $parent->children[$with]->master===null)
-				return $parent->children[$with];
+			{
+				if($childAlias != $with && !isset($parent->children[$childAlias]))
+				{
+					if(!isset($parent->children[$with.'_'.$options['alias']]))
+					{
+						$child = clone $parent->children[$with];
+						$child->tableAlias = $options['alias'];
+						$child->rawTableAlias = $this->_builder->getSchema()->quoteTableName($child->tableAlias);
+						$parent->children[$childAlias] = $child;
+					}
+				}
+				return $parent->children[$childAlias];
+			}
 
 			if(($relation=$parent->model->getActiveRelation($with))===null)
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
@@ -281,11 +294,13 @@ class CActiveFinder extends CComponent
 					$element=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
 				if(!empty($relation->through))
 				{
-					$slave=$this->buildJoinTree($parent,$relation->through,array('select'=>''));
+					$slave=(is_array($relation->through))
+						? $this->buildJoinTree($parent,key($relation->through),array('select'=>false, 'alias'=>current($relation->through)))
+						: $this->buildJoinTree($parent,$relation->through,array('select'=>''));
 					$slave->master=$element;
 					$element->slave=$slave;
 				}
-				$parent->children[$with]=$element;
+				$parent->children[$childAlias]=$element;
 				if(!empty($relation->with))
 					$this->buildJoinTree($element,$relation->with);
 				return $element;
@@ -338,11 +353,11 @@ class CJoinElement
 	 */
 	public $records=array();
 	/**
-	 * @var array list of child join elements
+	 * @var CJoinElement[] list of child join elements
 	 */
 	public $children=array();
 	/**
-	 * @var array list of stat elements
+	 * @var CStatElement[] list of stat elements
 	 */
 	public $stats=array();
 	/**
