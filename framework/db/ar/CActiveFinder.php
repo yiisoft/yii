@@ -519,7 +519,7 @@ class CJoinElement
 			foreach($child->records as $record)
 			{
 				if($child->relation->index!==null)
-					$index=$record->{$child->relation->index};
+					$index=CHtml::value($record,$child->relation->index);
 				else
 					$index=true;
 				$baseRecord->addRelatedRecord($child->relation->name,$record,$index);
