@@ -2378,13 +2378,23 @@ class CActiveRecordMetaData
 	 */
 	public function __construct($model)
 	{
-		$this->_modelClassName=get_class($model);
+		$schemaCachingDuration = (isset(Yii::app()->params['schemaCachingDuration']))?(int)Yii::app()->params['schemaCachingDuration']:0;
+        $this->_modelClassName = get_class($model);
+        $tableName = $model->tableName();
+        $cacheSchemaIndex = 'METADATA:'.$tableName;
+        $table = Yii::app()->cache->get($cacheSchemaIndex);
 
-		$tableName=$model->tableName();
-		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
-			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
-				array('{class}'=>$this->_modelClassName,'{table}'=>$tableName)));
-				
+        if(!$table OR $schemaCachingDuration<=0){
+            $table=$model->getDbConnection()->getSchema()->getTable($tableName);
+            if($table===null){
+                throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
+                    array('{class}'=>$this->_modelClassName,'{table}'=>$tableName)));
+            }
+            else {
+                Yii::app()->cache->set($cacheSchemaIndex, $table, $schemaCachingDuration);
+            }
+        }
+
 		if(($modelPk=$model->primaryKey())!==null || $table->primaryKey===null)
 		{
 			$table->primaryKey=$modelPk;
