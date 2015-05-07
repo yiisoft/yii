@@ -64,6 +64,8 @@ class CFileValidator extends CValidator
 	/**
 	 * @var boolean whether the attribute requires a file to be uploaded or not.
 	 * Defaults to false, meaning a file is required to be uploaded.
+	 * When no file is uploaded, the owner attribute is set to null to prevent
+	 * setting arbitrary values.
 	 */
 	public $allowEmpty=false;
 	/**
@@ -130,12 +132,6 @@ class CFileValidator extends CValidator
 	 * limit.
 	 */
 	public $tooMany;
-	/**
-	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
-	 * For this validator it defaults to false.
-	 * @since 1.1.12
-	 */
-	public $safe=false;
 
 	/**
 	 * Set the attribute and then validates using {@link validateFile}.
@@ -145,9 +141,9 @@ class CFileValidator extends CValidator
 	 */
 	protected function validateAttribute($object, $attribute)
 	{
+		$files=$object->$attribute;
 		if($this->maxFiles > 1)
 		{
-			$files=$object->$attribute;
 			if(!is_array($files) || !isset($files[0]) || !$files[0] instanceof CUploadedFile)
 				$files = CUploadedFile::getInstances($object, $attribute);
 			if(array()===$files)
@@ -163,7 +159,19 @@ class CFileValidator extends CValidator
 		}
 		else
 		{
-			$file = $object->$attribute;
+			if (is_array($files))
+			{
+				if (count($files) > 1)
+				{
+					$message=$this->tooMany!==null?$this->tooMany : Yii::t('yii', '{attribute} cannot accept more than {limit} files.');
+					$this->addError($object, $attribute, $message, array('{attribute}'=>$attribute, '{limit}'=>$this->maxFiles));
+					return;
+				}
+				else
+					$file = empty($files) ? null : reset($files);
+			}
+			else
+				$file = $files;
 			if(!$file instanceof CUploadedFile)
 			{
 				$file = CUploadedFile::getInstance($object, $attribute);
@@ -254,11 +262,15 @@ class CFileValidator extends CValidator
 
 	/**
 	 * Raises an error to inform end user about blank attribute.
+	 * Sets the owner attribute to null to prevent setting arbitrary values.
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
 	 */
 	protected function emptyAttribute($object, $attribute)
 	{
+		if($this->safe) 
+			$object->$attribute=null;
+
 		if(!$this->allowEmpty)
 		{
 			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} cannot be blank.');

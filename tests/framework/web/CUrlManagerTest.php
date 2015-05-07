@@ -18,6 +18,9 @@ class CUrlManagerTest extends CTestCase
 			'<c:(post|comment)>s/*'=>'<c>/list',
 			'http://<user:\w+>.example.com/<lang:\w+>/profile'=>'user/profile',
 			'currency/<c:\p{Sc}>'=>'currency/info',
+			'url*with+special.symbols'=>'controller1/action',
+			'<name:\w+>.<ext:\w+>'=>'controller2/action',
+			'<name:\w+>*<ext:\w+>'=>'controller3/action',
 		);
 		$entries=array(
 			array(
@@ -120,6 +123,26 @@ class CUrlManagerTest extends CTestCase
 				'route'=>'currency/info',
 				'params'=>array('c'=>'＄'),
 			),
+			array(
+				'pathInfo'=>'url*with+special.symbols',
+				'route'=>'controller1/action',
+				'params'=>array(),
+			),
+			array(
+				'pathInfo'=>'picture.jpg',
+				'route'=>'controller2/action',
+				'params'=>array('name'=>'picture','ext'=>'jpg'),
+			),
+			array(
+				'pathInfo'=>'urlwithoutadot',
+				'route'=>'urlwithoutadot',
+				'params'=>array(),
+			),
+			array(
+				'pathInfo'=>'picture*jpg',
+				'route'=>'controller3/action',
+				'params'=>array('name'=>'picture','ext'=>'jpg'),
+			),
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
@@ -158,6 +181,7 @@ class CUrlManagerTest extends CTestCase
 	public function testcreateUrlWithPathFormat()
 	{
 		$rules=array(
+			'<name:\w+>.<ext:\w+>'=>'controller2/action',
 			'article/<id:\d+>'=>'article/read',
 			'article/<year:\d{4}>/<title>/*'=>'article/read',
 			'a/<_a>/*'=>'article',
@@ -168,6 +192,8 @@ class CUrlManagerTest extends CTestCase
 			'<c:(post|comment)>s/*'=>'<c>/list',
 			'http://<user:\w+>.example.com/<lang:\w+>/profile'=>'user/profile',
 			'currency/<c:\p{Sc}>'=>'currency/info',
+			'url*with+special.symbols'=>'controller1/action',
+			'<name:\w+>*<ext:\w+>'=>'controller3/action',
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
@@ -300,6 +326,30 @@ class CUrlManagerTest extends CTestCase
 				'params'=>array(
 					'c'=>'＄',
 				),
+			),
+			array(
+				'scriptUrl'=>'/index.php',
+				'route'=>'controller1/action',
+				'params'=>array(),
+				'url'=>'/index.php/url*with+special.symbols',
+				'url2'=>'/url*with+special.symbols',
+				'url3'=>'/url*with+special.symbols.html',
+			),
+			array(
+				'scriptUrl'=>'/index.php',
+				'route'=>'controller2/action',
+				'params'=>array('name'=>'picture','ext'=>'jpg'),
+				'url'=>'/index.php/picture.jpg',
+				'url2'=>'/picture.jpg',
+				'url3'=>'/picture.jpg.html',
+			),
+			array(
+				'scriptUrl'=>'/index.php',
+				'route'=>'controller3/action',
+				'params'=>array('name'=>'picture','ext'=>'jpg'),
+				'url'=>'/index.php/picture*jpg',
+				'url2'=>'/picture*jpg',
+				'url3'=>'/picture*jpg.html',
 			),
 		);
 		foreach($entries as $entry)

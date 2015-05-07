@@ -989,6 +989,28 @@ class UserWithDefaultScope extends CActiveRecord
 	}
 }
 
+class UserWithDefaultScopeAlias extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'users';
+	}
+
+	public function defaultScope()
+	{
+		return array(
+			'alias'=>'my_alias',
+			'condition'=>"my_alias.username='user1'",
+			'order'=>'my_alias.username',
+		);
+	}
+}
+
 /**
  * @property integer $id
  * @property integer $from_id

@@ -137,11 +137,11 @@ class CDbCommandBuilder extends CComponent
 				{
 					$pk=array();
 					foreach($table->primaryKey as $key)
-						$pk[]=$alias.'.'.$key;
+						$pk[]=$alias.'.'.$this->_schema->quoteColumnName($key);
 					$pk=implode(', ',$pk);
 				}
 				else
-					$pk=$alias.'.'.$table->primaryKey;
+					$pk=$alias.'.'.$this->_schema->quoteColumnName($table->primaryKey);
 				$sql="SELECT COUNT(DISTINCT $pk)";
 			}
 			else
@@ -273,9 +273,12 @@ class CDbCommandBuilder extends CComponent
 	 * If a key is not a valid column name, the corresponding value will be ignored.
 	 * @param array $templates templates for the SQL parts.
 	 * @return CDbCommand multiple insert command
+	 * @throws CDbException if $data is empty.
 	 */
 	protected function composeMultipleInsertCommand($table,array $data,array $templates=array())
 	{
+		if (empty($data))
+			throw new CDbException(Yii::t('yii','Can not generate multiple insert command with empty data set.'));
 		$templates=array_merge(
 			array(
 				'main'=>'INSERT INTO {{tableName}} ({{columnInsertNames}}) VALUES {{rowInsertValues}}',
@@ -736,11 +739,11 @@ class CDbCommandBuilder extends CComponent
 			$condition=array();
 			foreach($keywords as $keyword)
 			{
-				$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
+				$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_', '\\'=>'\\\\')).'%';
 				if($caseSensitive)
-					$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
+					$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue($keyword);
 				else
-					$condition[]='LOWER('.$prefix.$column->rawName.') LIKE LOWER('.$this->_connection->quoteValue('%'.$keyword.'%').')';
+					$condition[]='LOWER('.$prefix.$column->rawName.') LIKE LOWER('.$this->_connection->quoteValue($keyword).')';
 			}
 			$conditions[]=implode(' AND ',$condition);
 		}

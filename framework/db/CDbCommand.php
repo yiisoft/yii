@@ -122,7 +122,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Set the default fetch mode for this statement
 	 * @param mixed $mode fetch mode
-	 * @return CDbCommand
+	 * @return static
 	 * @see http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
 	 * @since 1.1.7
 	 */
@@ -138,7 +138,7 @@ class CDbCommand extends CComponent
 	 * This method is mainly used when a command object is being reused
 	 * multiple times for building different queries.
 	 * Calling this method will clean up all internal states of the command object.
-	 * @return CDbCommand this command instance
+	 * @return static this command instance
 	 * @since 1.1.6
 	 */
 	public function reset()
@@ -165,7 +165,7 @@ class CDbCommand extends CComponent
 	 * Specifies the SQL statement to be executed.
 	 * Any previous execution will be terminated or cancel.
 	 * @param string $value the SQL statement to be executed
-	 * @return CDbCommand this command instance
+	 * @return static this command instance
 	 */
 	public function setText($value)
 	{
@@ -239,7 +239,7 @@ class CDbCommand extends CComponent
 	 * @param integer $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
 	 * @param integer $length length of the data type
 	 * @param mixed $driverOptions the driver-specific options (this is available since version 1.1.6)
-	 * @return CDbCommand the current command being executed
+	 * @return static the current command being executed
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindParam.php
 	 */
 	public function bindParam($name, &$value, $dataType=null, $length=null, $driverOptions=null)
@@ -265,7 +265,7 @@ class CDbCommand extends CComponent
 	 * placeholders, this will be the 1-indexed position of the parameter.
 	 * @param mixed $value The value to bind to the parameter
 	 * @param integer $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
-	 * @return CDbCommand the current command being executed
+	 * @return static the current command being executed
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindValue.php
 	 */
 	public function bindValue($name, $value, $dataType=null)
@@ -286,7 +286,7 @@ class CDbCommand extends CComponent
 	 * @param array $values the values to be bound. This must be given in terms of an associative
 	 * array with array keys being the parameter names, and array values the corresponding parameter values.
 	 * For example, <code>array(':name'=>'John', ':age'=>25)</code>.
-	 * @return CDbCommand the current command being executed
+	 * @return static the current command being executed
 	 * @since 1.1.5
 	 */
 	public function bindValues($values)
@@ -489,7 +489,7 @@ class CDbCommand extends CComponent
 				&& ($cache=Yii::app()->getComponent($this->_connection->queryCacheID))!==null)
 		{
 			$this->_connection->queryCachingCount--;
-			$cacheKey='yii:dbquery'.$this->_connection->connectionString.':'.$this->_connection->username;
+			$cacheKey='yii:dbquery'.':'.$method.':'.$this->_connection->connectionString.':'.$this->_connection->username;
 			$cacheKey.=':'.$this->getText().':'.serialize(array_merge($this->_paramLog,$params));
 			if(($result=$cache->get($cacheKey))!==false)
 			{
@@ -598,7 +598,7 @@ class CDbCommand extends CComponent
 	 * (which means the column contains a DB expression).
 	 * @param string $option additional option that should be appended to the 'SELECT' keyword. For example,
 	 * in MySQL, the option 'SQL_CALC_FOUND_ROWS' can be used. This parameter is supported since version 1.1.8.
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function select($columns='*', $option='')
@@ -690,7 +690,7 @@ class CDbCommand extends CComponent
 	 * Table names can contain schema prefixes (e.g. 'public.tbl_user') and/or table aliases (e.g. 'tbl_user u').
 	 * The method will automatically quote the table names unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function from($tables)
@@ -705,7 +705,7 @@ class CDbCommand extends CComponent
 			{
 				if(strpos($table,'(')===false)
 				{
-					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
+          if(preg_match('/^(.*?)(?i:\s+as|)\s+([^ ]+)$/',$table,$matches))  // with alias
 						$tables[$i]=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 					else
 						$tables[$i]=$this->_connection->quoteTableName($table);
@@ -772,7 +772,7 @@ class CDbCommand extends CComponent
 	 * </ul>
 	 * @param mixed $conditions the conditions that should be put in the WHERE part.
 	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function where($conditions, $params=array())
@@ -793,7 +793,7 @@ class CDbCommand extends CComponent
 	 *
 	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
 	 * @param array $params the parameters (name=>value) to be bound to the query.
-	 * @return CDbCommand the command object itself.
+	 * @return static the command object itself.
 	 * @since 1.1.13
 	 */
 	public function andWhere($conditions,$params=array())
@@ -817,7 +817,7 @@ class CDbCommand extends CComponent
 	 *
 	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
 	 * @param array $params the parameters (name=>value) to be bound to the query.
-	 * @return CDbCommand the command object itself.
+	 * @return static the command object itself.
 	 * @since 1.1.13
 	 */
 	public function orWhere($conditions,$params=array())
@@ -873,7 +873,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Returns the join part in the query.
 	 * @return mixed the join part in the query. This can be an array representing
-	 * multiple join fragments, or a string representing a single jojin fragment.
+	 * multiple join fragments, or a string representing a single join fragment.
 	 * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
 	 * @since 1.1.6
 	 */
@@ -959,12 +959,42 @@ class CDbCommand extends CComponent
 	}
 
 	/**
+	 * Appends a NATURAL LEFT JOIN part to the query.
+	 * Note that not all DBMS support NATURAL LEFT JOIN.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.16
+	 */
+	public function naturalLeftJoin($table)
+	{
+		return $this->joinInternal('natural left join', $table);
+	}
+
+	/**
+	 * Appends a NATURAL RIGHT JOIN part to the query.
+	 * Note that not all DBMS support NATURAL RIGHT JOIN.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.16
+	 */
+	public function naturalRightJoin($table)
+	{
+		return $this->joinInternal('natural right join', $table);
+	}
+
+	/**
 	 * Sets the GROUP BY part of the query.
 	 * @param mixed $columns the columns to be grouped by.
 	 * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
 	 * The method will automatically quote the column names unless a column contains some parenthesis
 	 * (which means the column contains a DB expression).
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function group($columns)
@@ -1013,7 +1043,7 @@ class CDbCommand extends CComponent
 	 * @param mixed $conditions the conditions to be put after HAVING.
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function having($conditions, $params=array())
@@ -1058,7 +1088,7 @@ class CDbCommand extends CComponent
 	 * $criteria->order('(1)');
 	 * </pre>
 	 *
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function order($columns)
@@ -1111,7 +1141,7 @@ class CDbCommand extends CComponent
 	 * Sets the LIMIT part of the query.
 	 * @param integer $limit the limit
 	 * @param integer $offset the offset
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function limit($limit, $offset=null)
@@ -1146,7 +1176,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Sets the OFFSET part of the query.
 	 * @param integer $offset the offset
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function offset($offset)
@@ -1179,7 +1209,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Appends a SQL statement using UNION operator.
 	 * @param string $sql the SQL statement to be appended using UNION
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function union($sql)
@@ -1554,14 +1584,14 @@ class CDbCommand extends CComponent
 	 * @param mixed $conditions the join condition that should appear in the ON part.
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	private function joinInternal($type, $table, $conditions='', $params=array())
 	{
 		if(strpos($table,'(')===false)
 		{
-			if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
+      if(preg_match('/^(.*?)(?i:\s+as|)\s+([^ ]+)$/',$table,$matches))  // with alias
 				$table=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 			else
 				$table=$this->_connection->quoteTableName($table);

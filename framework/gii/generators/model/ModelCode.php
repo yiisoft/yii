@@ -26,7 +26,7 @@ class ModelCode extends CCodeModel
 			array('connectionId', 'validateConnectionId', 'skipOnError'=>true),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
 			array('tablePrefix, modelClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
-		    array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
+		    array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_\\\\][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
@@ -363,7 +363,7 @@ class ModelCode extends CCodeModel
 	 * Checks if the given table is a "many to many" pivot table.
 	 * Their PK has 2 fields, and both of those fields are also FK to other separate tables.
 	 * @param CDbTableSchema table to inspect
-	 * @return boolean true if table matches description of helpter table.
+	 * @return boolean true if table matches description of helper table.
 	 */
 	protected function isRelationTable($table)
 	{

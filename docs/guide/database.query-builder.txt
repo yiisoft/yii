@@ -227,7 +227,7 @@ $command->where(array('like', 'title', '%'.$keyword.'%'));
 function andWhere($conditions, $params=array())
 ~~~
 
-The [addWhere()|CDbCommand::addWhere() ] method appends given condition to the `WHERE` part of a query with `AND` operator. Behavior of this method is almost the same as [where()|CDbCommand::where() ] except it appends condition not replaces it. Refer to the [where()|CDbCommand::where() ] documentation for more information on parameters of this method.
+The [andWhere()|CDbCommand::andWhere() ] method appends given condition to the `WHERE` part of a query with `AND` operator. Behavior of this method is almost the same as [where()|CDbCommand::where() ] except it appends condition not replaces it. Refer to the [where()|CDbCommand::where() ] documentation for more information on parameters of this method.
 
 
 ### orWhere()

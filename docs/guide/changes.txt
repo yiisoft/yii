@@ -3,6 +3,12 @@ New Features
 
 This page summarizes the main new features introduced in each Yii release.
 
+Version 1.1.15
+--------------
+
+ * [Added AR post-JOIN operations](/doc/guide/database.arr#post-join-operations)
+ * [Added ODBC connection related note](/doc/guide/database.dao#using-odbc-connection)
+
 Version 1.1.14
 --------------
 

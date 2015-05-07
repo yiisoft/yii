@@ -131,7 +131,7 @@ $behavior=$component->tree;
 // $behavior=$component->asa('tree');
 ~~~
 
-行为是可以被临时禁止的,此时它的方法开就会在组件中失效.例如:
+行为是可以被临时禁止的,此时它的方法就会在组件中失效.例如:
 
 ~~~
 [php]

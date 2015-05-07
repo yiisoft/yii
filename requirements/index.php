@@ -102,6 +102,12 @@ $requirements=array(
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required for MSSQL database with the driver provided by Microsoft.')),
 	array(
+		t('yii','PDO ODBC extension'),
+		false,
+		extension_loaded('pdo_odbc'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','Required in case database interaction will be through ODBC layer.')),
+	array(
 		t('yii','Memcache extension'),
 		false,
 		extension_loaded("memcache") || extension_loaded("memcached"),

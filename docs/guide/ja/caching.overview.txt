@@ -1,10 +1,10 @@
 キャッシュ概要
 =======
 
-キャッシュはウェブアプリケーションのパフォーマンスを改善する、安価で効果的な方法です。
-比較的静的なデータをキャッシュし、リクエストがあった際にそのキャッシュを利用することで、データを生成するための時間を抑える事ができます。
+キャッシュはウェブアプリケーションのパフォーマンスを改善する安価で効果的な方法です。
+比較的静的なデータをキャッシュに保存し、リクエストがあった時にそれをキャッシュから提供することによって、データを生成するための時間を節約する事ができます。
 
-Yii におけるキャッシュの利用は、主として、アプリケーション初期設定とキャッシュアプリケーションコンポーネントへのアクセスに関係します。
+Yii においてキャッシュを利用するためには、主として、キャッシュアプリケーションコンポーネントを設定してアクセスすることが必要です。
 次のアプリケーション初期設定は、2台のキャッシュサーバで memcache を使用するキャッシュコンポーネントを指定しています。
 
 ~~~
@@ -48,9 +48,9 @@ Yii は、異なるメディアにキャッシュデータを保存すること�
 
    - [CZendDataCache]: キャッシュメディアとして [Zend Data Cache](http://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm) を使用します。
 
-+   - [CWinCache]: PHP [WinCache](http://iis.net/downloads/microsoft/wincache-extension) 拡張を使用します。
-+   ([PHP 用の Windows キャッシュ](http://php.net/manual/ja/book.wincache.php) も参照して下さい。)
-+
+   - [CWinCache]: PHP [WinCache](http://iis.net/downloads/microsoft/wincache-extension) 拡張を使用します。
+   ([PHP 用の Windows キャッシュ](http://php.net/manual/ja/book.wincache.php) も参照して下さい。)
+
    - [CFileCache]: キャッシュデータを保存するのにファイルを使用します。これはページのような大きなかたまりのデータに特に適しています。
 
    - [CDummyCache]: なにもキャッシュを行わないダミーキャッシュを提供します。

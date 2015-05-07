@@ -80,7 +80,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.15-dev';
+		return '1.1.17-dev';
 	}
 
 	/**
@@ -434,7 +434,7 @@ class YiiBase
 			else  // class name with namespace in PHP 5.3
 			{
 				$namespace=str_replace('\\','.',ltrim($className,'\\'));
-				if(($path=self::getPathOfAlias($namespace))!==false)
+				if(($path=self::getPathOfAlias($namespace))!==false && is_file($path.'.php'))
 					include($path.'.php');
 				else
 					return false;
@@ -714,6 +714,9 @@ class YiiBase
 		'CDbExpression' => '/db/schema/CDbExpression.php',
 		'CDbSchema' => '/db/schema/CDbSchema.php',
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
+		'CCubridColumnSchema' => '/db/schema/cubrid/CCubridColumnSchema.php',
+		'CCubridSchema' => '/db/schema/cubrid/CCubridSchema.php',
+		'CCubridTableSchema' => '/db/schema/cubrid/CCubridTableSchema.php',
 		'CMssqlColumnSchema' => '/db/schema/mssql/CMssqlColumnSchema.php',
 		'CMssqlCommandBuilder' => '/db/schema/mssql/CMssqlCommandBuilder.php',
 		'CMssqlPdoAdapter' => '/db/schema/mssql/CMssqlPdoAdapter.php',
@@ -755,6 +758,7 @@ class YiiBase
 		'CLogRouter' => '/logging/CLogRouter.php',
 		'CLogger' => '/logging/CLogger.php',
 		'CProfileLogRoute' => '/logging/CProfileLogRoute.php',
+		'CSysLogRoute' => '/logging/CSysLogRoute.php',
 		'CWebLogRoute' => '/logging/CWebLogRoute.php',
 		'CDateTimeParser' => '/utils/CDateTimeParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',

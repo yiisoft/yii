@@ -5,7 +5,7 @@ if($file->type==='php')
 	highlight_string($file->content);
 	echo '</div>';
 }
-elseif(in_array($file->type,array('txt','js','css')))
+elseif(in_array($file->type,array('txt','js','css','sql')))
 {
 	echo '<div class="content">';
 	echo nl2br($file->content);

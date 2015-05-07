@@ -184,7 +184,7 @@ abstract class CDbMigration extends CComponent
 	 * The method will properly escape the column names, and bind the values to be inserted.
 	 * @param string $table the table that new rows will be inserted into.
 	 * @param array $data an array of various column data (name=>value) to be inserted into the table.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function insertMultiple($table, $data)
 	{

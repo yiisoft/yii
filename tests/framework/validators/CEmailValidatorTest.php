@@ -5,9 +5,13 @@ class CEmailValidatorTest extends CTestCase
 {
 	public function testEmpty()
 	{
-		$model = new ValidatorTestModel('CEmailValidatorTest');
-		$model->validate(array('email'));
-		$this->assertArrayHasKey('email', $model->getErrors());
+		$emailValidator = new CEmailValidator();
+		$this->assertTrue($emailValidator->validateValue('test@example.com'));
+		$this->assertTrue($emailValidator->validateValue(''));
+		
+		$emailValidator->allowEmpty = false;
+		$this->assertTrue($emailValidator->validateValue('test@example.com'));
+		$this->assertFalse($emailValidator->validateValue(''));
 	}
 
 	public function testNumericEmail()

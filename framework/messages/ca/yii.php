@@ -44,7 +44,7 @@ return array (
   'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => 'El filtre "{filter}" no és vàlid. El controlador "{class}" no conté el mètodo de filtre "filter{filter}".',
   'GD with FreeType or ImageMagick PHP extensions are required.' => 'Les extensions de PHP GD amb FreeType o ImageMagick són necessàries.',
   'In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.' => 'Amb el fi d\'utilitzar la validació de tipus MIME prevista per CFileValidator, l\'extensió de PECL fileinfo ha d\'estar instalada.',
-  'Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()' => 'Expressió no vàlida per CHttpCacheFilter.lastModifiedExpression: El resultat de l\'evaluació "{value}" no ha pogut ser entès per strototime()',
+  'Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()' => 'Expressió no vàlida per CHttpCacheFilter.lastModifiedExpression: El resultat de l\'evaluació "{value}" no ha pogut ser entès per strtotime()',
   'Invalid operator "{operator}".' => 'Operador no vàlid "{operator}".',
   'Powered by {yii}.' => 'Potenciat per {yii}.',
   'Property CMaskedTextField.mask cannot be empty.' => 'La propietat CMaskedTextField.mask no pot ser buida.',

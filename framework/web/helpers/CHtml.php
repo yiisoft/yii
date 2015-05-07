@@ -12,6 +12,11 @@
 /**
  * CHtml is a static class that provides a collection of helper methods for creating HTML views.
  *
+ * Nearly all of the methods in this class allow setting additional html attributes for the html
+ * tags they generate. You can specify for example. 'class', 'style'  or 'id' for an html element.
+ * For example when using <code>array('class' => 'my-class', 'target' => '_blank')</code> as htmlOptions
+ * it will result in the html attributes rendered like this: <code>class="my-class" target="_blank"</code>.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.helpers
  * @since 1.0
@@ -362,7 +367,7 @@ class CHtml
 		if($customMethod!==false)
 			$hiddens[]=self::hiddenField('_method',$customMethod);
 		if($hiddens!==array())
-			$form.="\n".self::tag('div',array('style'=>'display:none'),implode("\n",$hiddens));
+			$form.="\n".implode("\n",$hiddens);
 		return $form;
 	}
 
@@ -599,7 +604,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function colorField($name,$value='',$htmlOptions=array())
 	{
@@ -632,7 +637,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function searchField($name,$value='',$htmlOptions=array())
 	{
@@ -716,7 +721,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function dateTimeField($name,$value='',$htmlOptions=array())
 	{
@@ -733,7 +738,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function dateTimeLocalField($name,$value='',$htmlOptions=array())
 	{
@@ -750,7 +755,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function weekField($name,$value='',$htmlOptions=array())
 	{
@@ -1118,7 +1123,7 @@ class CHtml
 	public static function checkBoxList($name,$select,$data,$htmlOptions=array())
 	{
 		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
-		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
+		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:self::tag('br');
 		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
 		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
 
@@ -1234,7 +1239,7 @@ EOD;
 	public static function radioButtonList($name,$select,$data,$htmlOptions=array())
 	{
 		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
-		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
+		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:self::tag('br');
 		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
 		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
 
@@ -1505,7 +1510,8 @@ EOD;
 	{
 		$realAttribute=$attribute;
 		self::resolveName($model,$attribute); // strip off square brackets if any
-		$htmlOptions['required']=$model->isAttributeRequired($attribute);
+		if (!isset($htmlOptions['required']))
+			$htmlOptions['required']=$model->isAttributeRequired($attribute);
 		return self::activeLabel($model,$realAttribute,$htmlOptions);
 	}
 
@@ -1679,7 +1685,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function activeDateTimeField($model,$attribute,$htmlOptions=array())
 	{
@@ -1699,7 +1705,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function activeDateTimeLocalField($model,$attribute,$htmlOptions=array())
 	{
@@ -1719,7 +1725,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function activeWeekField($model,$attribute,$htmlOptions=array())
 	{
@@ -1739,7 +1745,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function activeColorField($model,$attribute,$htmlOptions=array())
 	{
@@ -2065,6 +2071,12 @@ EOD;
 	 * or is false, the 'check all' checkbox will be displayed at the beginning of
 	 * the checkbox list.</li>
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.</li>
+	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
+	 * for every label tag in the list.</li>
+	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to 'span'.
+	 * If the value is an empty string, no enclosing tag will be generated</li>
+	 * <li>baseID: string, specifies the base ID prefix to be used for checkboxes in the list.
+	 * This option is available since version 1.1.13.</li>
 	 * </ul>
 	 * Since 1.1.7, a special option named 'uncheckValue' is available. It can be used to set the value
 	 * that will be returned when the checkbox is not checked. By default, this value is ''.
@@ -2110,9 +2122,21 @@ EOD;
 	 * <ul>
 	 * <li>template: string, specifies how each radio button is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
+	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label,
+	 * {beginLabel} will be replaced by &lt;label&gt; with labelOptions, {labelTitle} will be replaced
+	 * by the corresponding radio button label title and {endLabel} will be replaced by &lt;/label&gt;</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.</li>
+	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
+	 * for every label tag in the list.</li>
+	 * <li>container: string, specifies the radio buttons enclosing tag. Defaults to 'span'.
+	 * If the value is an empty string, no enclosing tag will be generated</li>
+	 * <li>baseID: string, specifies the base ID prefix to be used for radio buttons in the list.
+	 * This option is available since version 1.1.13.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * The 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a radio button at the beginning. Note, the text label will NOT be HTML-encoded.
+	 * This option is available since version 1.1.14.</li>
 	 * </ul>
 	 * Since version 1.1.7, a special option named 'uncheckValue' is available that can be used to specify the value
 	 * returned when the radio button is not checked. By default, this value is ''. Internally, a hidden field is
@@ -2403,7 +2427,9 @@ EOD;
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
-		if($type==='text' || $type==='password')
+		if($type==='text'||$type==='password'||$type==='color'||$type==='date'||$type==='datetime'||
+			$type==='datetime-local'||$type==='email'||$type==='month'||$type==='number'||$type==='range'||
+			$type==='search'||$type==='tel'||$type==='time'||$type==='url'||$type==='week')
 		{
 			if(!isset($htmlOptions['maxlength']))
 			{
@@ -2729,9 +2755,9 @@ EOD;
 	public static function renderAttributes($htmlOptions)
 	{
 		static $specialAttributes=array(
-			'async'=>1,
 			'autofocus'=>1,
 			'autoplay'=>1,
+			'async'=>1,
 			'checked'=>1,
 			'controls'=>1,
 			'declare'=>1,
@@ -2741,6 +2767,7 @@ EOD;
 			'formnovalidate'=>1,
 			'hidden'=>1,
 			'ismap'=>1,
+			'itemscope'=>1,
 			'loop'=>1,
 			'multiple'=>1,
 			'muted'=>1,
@@ -2773,7 +2800,10 @@ EOD;
 		{
 			if(isset($specialAttributes[$name]))
 			{
-				if($value)
+				if($value===false && $name==='async') {
+					$html .= ' ' . $name.'="false"';
+				}
+				elseif($value)
 				{
 					$html .= ' ' . $name;
 					if(self::$renderSpecialAttributesValue)

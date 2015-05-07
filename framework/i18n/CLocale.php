@@ -354,7 +354,7 @@ class CLocale extends CComponent
 		if(($underscorePosition=strpos($id, '_'))!==false)
 		{
 			$subTag = explode('_', $id);
-			// script sub tags can be distigused from territory sub tags by length
+			// script sub tags can be distinguished from territory sub tags by length
 			if (strlen($subTag[1])===4)
 			{
 				$id = $subTag[1];
@@ -386,7 +386,7 @@ class CLocale extends CComponent
 		if (($underscorePosition=strpos($id, '_'))!== false)
 		{
 			$subTag = explode('_', $id);
-			// territory sub tags can be distigused from script sub tags by length
+			// territory sub tags can be distinguished from script sub tags by length
 			if (isset($subTag[2]) && strlen($subTag[2])<4)
 			{
 				$id = $subTag[2];

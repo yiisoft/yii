@@ -29,7 +29,7 @@ zapisanych małymi literami (np. `en`, `en_us`).
 Dane lokalne są reprezentowane jako instancja klasy [CLocale]. Dostarcza ona zależne od ustawień 
 lokalnych informacje, w tym symbole i formaty liczb, symbole i formaty walut, formaty daty i czasu 
 oraz nazwy dni i miesięcy. Ponieważ informacja o języku znajduje się 
-już w ID ustawień lokalnych nie jest ona dostarczona przez [CLocale]. Z tego samego  
+już w ID ustawień lokalnych nie jest ona dostarczona przez [CLocale]. Z tego samego 
 powodu często zamiennie używamy terminów ustawienia lokalne i język.
 
 Mając ID ustawień lokalnych można otrzymać odpowiadającą mu instancję [CLocale] poprzez
@@ -136,8 +136,8 @@ Podsumowując, w celu korzystania z tłumaczenia komunikatów, wymagane są nast
 
    3. Skonfiguruj właściwości [CApplication::sourceLanguage] oraz [CApplication::language].
 
-> Tip|Wskazówka: Narzędzie `yiic` może zostać zarządzać tłumaczeniami komunikatów
-jeśli używamy [CPhpMessageSource] jako źródło komunikatów. Jego polecenie `message` 
+> Tip|Wskazówka: Narzędzie `yiic` może zostać użyte do zarządzania tłumaczeniami komunikatów
+jeśli używamy [CPhpMessageSource] jako źródła komunikatów. Jego polecenie `message` 
 może automatycznie wydobyć komunikaty, które powinny zostać przetłumaczone z wybranego pliku źródłowego
 oraz jeśli jest to konieczne dołączyć je do istniejących tłumaczeń. Aby uzyskać więcej szczegółów 
 dotyczących komendy `message`, uruchom polecenie `yiic help message`.
@@ -183,7 +183,7 @@ zakładając, ze tłumaczona wiadomość to:
 'n==1#one book|n>1#many books'
 ~~~
 
-i że przekazujemy wartość liczbową 2 w w tablicy parametrów komunikatu podczas wywoływania
+i że przekazujemy wartość liczbową 2 w tablicy parametrów komunikatu podczas wywoływania
 metody [Yii::t()|YiiBase::t], otrzymamy `many books` jako końcowy wynik tłumaczenia komunikatu:
 
 ~~~
@@ -206,7 +206,7 @@ Dlatego, powyższej tłumaczony komunikat, może również być zapisany jako:
 
 Poczynając od wersji 1.1.6 alternatywny format liczby mnogiej bazujący na CLDR może być
 używany z prostszą składnią. Jest to bardzo wygodne w przypadku języków
-posiadająych złożone formy liczby mnogiej.
+posiadających złożone formy liczby mnogiej.
 
 
 Reguła dla języka angielskiego dla powyższej liczby mnogiej jest zapisana w następujący sposób:
@@ -243,7 +243,7 @@ Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
 array(5, '{username}' => 'samdark'));
 ~~~
 
-a nawet zastępować parametry numeryczne czymś innymi wartościami:
+a nawet zastępować parametry numeryczne czymś innymi:
 
 ~~~
 [php]

@@ -189,6 +189,7 @@ return array (
   '{attribute} must be an integer.' => '{attribute} deve essere un intero.',
   '{attribute} must be repeated exactly.' => '{attribute} deve essere ripetuto esattamente.',
   '{attribute} must be {type}.' => '{attribute} deve essere {type}.',
+  '{attribute} must be {value}.' => '{attribute} deve essere {value}.',
   '{className} does not support add() functionality.' => '{className} non supporta la funzionalità add().',
   '{className} does not support delete() functionality.' => '{className} non supporta la funzionalità delete().',
   '{className} does not support flush() functionality.' => '{className} non supporta la funzionalità flush().',
