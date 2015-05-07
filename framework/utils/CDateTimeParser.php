@@ -25,11 +25,11 @@
  * MMMM    | Full name representation (available since 1.1.13; locale aware)
  * EEEE    | Full name representation of weekday (available since 1.1.15; locale aware)
  * cccc    | Full name representation of weekday (available since 1.1.15; locale aware)
- * y       | 4 year digit, e.g., 2005
+ * y       | 4 year digit, e.g., 2005 (available since 1.1.16)
  * yy      | 2 year digit, e.g., 96, 05
  * yyyy    | 4 year digit, e.g., 2005
- * h       | Hour in 0 to 23, no padding
- * hh      | Hour in 00 to 23, zero leading
+ * h       | Hour in 0 to 12, no padding
+ * hh      | Hour in 00 to 12, zero leading
  * H       | Hour in 0 to 23, no padding
  * HH      | Hour in 00 to 23, zero leading
  * m       | Minutes in 0 to 59, no padding
