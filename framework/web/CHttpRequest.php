@@ -712,8 +712,15 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns the user agent, null if not present.
 	 * @return string user agent, null if not present
 	 */
-	public function getUserAgent()
+	static function getUserHostAddress($proxy_set_header ='HTTP_X_FORWARDED_FOR')
 	{
+		if(isset($_SERVER[$proxy_set_header])){
+			$ip = $_SERVER[$proxy_set_header];
+			$pos = strpos($ip,',');
+			if($pos===false)
+				return $ip;
+			return substr($ip,0,$pos);
+		}
 		return isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:null;
 	}
 
