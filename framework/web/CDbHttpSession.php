@@ -246,6 +246,8 @@ class CDbHttpSession extends CHttpSession
 		{
 			$expire=time()+$this->getTimeout();
 			$db=$this->getDbConnection();
+			if($db->getDriverName()=='pgsql')
+				$data=new CDbExpression("convert_to(".$db->quoteValue($data).", 'UTF8')");
 			if($db->getDriverName()=='sqlsrv' || $db->getDriverName()=='mssql' || $db->getDriverName()=='dblib')
 				$data=new CDbExpression('CONVERT(VARBINARY(MAX), '.$db->quoteValue($data).')');
 			if($db->createCommand()->select('id')->from($this->sessionTableName)->where('id=:id',array(':id'=>$id))->queryScalar()===false)
