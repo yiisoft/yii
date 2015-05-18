@@ -7,6 +7,7 @@ Version 1.1.17 work in progress
 - Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
 - Bug #3144: Fixed regression introduced in 1.1.16, whitespace before and after attributes in validation rules where not ignored (cebe)
+- Bug #3476: Database sessions with Postgres did not work properly (c-schmitz) 
 - Bug #3497: CErrorHandler messages for HTTP response codes were not matching RFCs (TeMPOraL)
 - Bug #3637: Fixed not quoting primary key in count statements (applee)
 - Bug #3696: Fixed broken case insensitiveness for Active Record count expressions introduced with fixed #268 (xt99)
