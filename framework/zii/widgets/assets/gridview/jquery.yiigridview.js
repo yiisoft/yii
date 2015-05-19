@@ -327,7 +327,10 @@
 					}
 				} else {
 					if (options.data === undefined) {
-						options.data = $(settings.filterSelector).serialize();
+						options.data = {};
+						$.each($(settings.filterSelector).serializeArray(), function () {
+							options.data[this.name] = this.value;
+						});
 					}
 				}
 				if (settings.csrfTokenName && settings.csrfToken) {
