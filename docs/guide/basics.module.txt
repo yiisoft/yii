@@ -69,6 +69,16 @@ $postPerPage=Yii::app()->controller->module->postPerPage;
 // $postPerPage=$this->module->postPerPage;
 ~~~
 
+Now you need create module class, if it not done yet.
+For example, the `forum` module should have in file `protected/modules/forum/ForumModule.php` class `ForumModule`:
+
+~~~
+[php]
+class ForumModule extends CWebModule
+{
+}
+~~~
+
 A controller action in a module can be accessed using the [route](/doc/guide/basics.controller#route) `moduleID/controllerID/actionID`. For example, assuming the above `forum` module has a controller named `PostController`, we can use the [route](/doc/guide/basics.controller#route) `forum/post/create` to refer to the `create` action in this controller. The corresponding URL for this route would be `http://www.example.com/index.php?r=forum/post/create`.
 
 > Tip: If a controller is in a sub-directory of `controllers`, we can still use the above [route](/doc/guide/basics.controller#route) format. For example, assuming `PostController` is under `forum/controllers/admin`, we can refer to the `create` action using `forum/admin/post/create`.
