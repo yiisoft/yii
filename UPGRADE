@@ -23,6 +23,20 @@ Upgrading from v1.1.16
 Upgrading from v1.1.15
 ----------------------
 
+- CFileValidator now clears attribute after validation in case attribute is marked as `safe` in `rules()` which is default.
+  The reason is that file uploads were often handled incorrectly by using real database attribute which lead to ability to
+  write arbitrary data into database column.
+
+  If you've followed [wiki article about uploading files](http://www.yiiframework.com/wiki/2/how-to-upload-a-file-using-a-model/),
+  you need to mark attribute as `unsafe`:
+
+  public function rules()
+  {
+      return array(
+          array('image', 'file', 'types'=>'jpg, gif, png', 'safe' => false), // <--- here
+      );
+  }
+
 - CErrorHandler now runs errorAction for errors, which appear via AJAX request.
   If you use CErrorHandler::errorAction, make sure it handles AJAX request properly.
 
