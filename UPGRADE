@@ -80,6 +80,14 @@ No significant changes, 1.1.15 was a security fix release.
 Upgrading from v1.1.13
 ----------------------
 
+- CUploadedFile::getInstancesByName() now cannot handle a single file upload. Either change your upload field name to
+  be something like `ImageUpload[]` or, to keep backwards compatibility in your app, handle it like the following:
+
+  $this->ImageUpload = CUploadedFile::getInstancesByName('ImageUpload');
+  if (empty($this->ImageUpload)) {
+      $this->ImageUpload = array(CUploadedFile::getInstanceByName('ImageUpload'));
+  }
+
 - CActiveRecord::count() now respects group by and having. If your code relied
   on ignoring it your application may break and should be updated.
 
