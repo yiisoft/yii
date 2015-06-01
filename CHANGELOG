@@ -3,7 +3,7 @@
 
 Version 1.1.14 work in progress
 -------------------------------
-- Bug #150: Fixed CWidget was not switching between views paths when using themes (antoncpu)
+- Bug #150: Fixed CWidget was not switching between view paths when using themes (antoncpu)
 - Bug #1464: Fixed transparent background for ImageMagick in CCaptchaAction (manuel-84, cebe)
 - Bug #1763: CSqlDataProvider was appending another ORDER BY string to an existing ORDER BY statement when using fieldname with dot (szako)
 - Bug #1915: CDataProviderIterator: fixed init in case of disabled pagination (antoncpu)
