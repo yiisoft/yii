@@ -327,6 +327,9 @@ EOD;
 		if(preg_match($pattern,str_replace('"','',$src),$matches))
 		{
 			$keys=preg_split('/,\s+/', $matches[1]);
+			//ignore composite foreign keys https://github.com/yiisoft/yii/issues/3438
+			if (count($keys) !== 1) return;
+
 			$tableName=$matches[2];
 			$fkeys=preg_split('/,\s+/', $matches[3]);
 			foreach($keys as $i=>$key)
