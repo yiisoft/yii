@@ -25,7 +25,7 @@ potrzebujemy ID do zidentyfikowania fragmentu, który będzie buforowany.
 Powyżej, jeśli metoda [beginCache()|CBaseController::beginCache()] zwróci wartość
 false, zbuforowana zawartość będzie automatycznie wstawiona w tym miejscu;
 w przeciwnym przypadku, zawartość zawarta w wyrażeniu `if` będzie wykonana 
-i zbuforowana kiedy metoda [endCache()|CBaseController::endCache()] jest wywołana.
+i zbuforowana do miejsca wywołania metody [endCache()|CBaseController::endCache()].
 
 Opcje buforowania
 ---------------
@@ -40,7 +40,7 @@ każdej z właściwości [COutputCache].
 
 ### Czas trwania
 
-Prawdopodobni najbardziej znaną opcją jest czas trwania [duration|COutputCache::duration],
+Prawdopodobnie najbardziej znaną opcją jest czas trwania [duration|COutputCache::duration],
 która określa jak długo zawartość może pozostać poprawna dla bufora. Jest ona podobna 
 do parametru wygasania metody [CCache::set()]. Następujący kod buforuje część 
 zawartości na maksymalnie godzinę czasu:
@@ -91,10 +91,10 @@ Następujący kod deklaruje część zawartości, zależną od zmian wartości w
 Zawartość, która będzie buforowana, może zostać zmieniona odpowiednio do pewnych
 parametrów. Na przykład, profil osobisty, może wyglądać różnie dla różnych użytkowników.
 Buforując zawartość profilu, będziemy chcieli uzmiennić zbuforowaną kopię, odpowiednio
-do ID użytkowników. To essentially znaczy, że będziemy chcieli używać różnych
+do ID użytkowników. To w istocie oznacza, że będziemy chcieli używać różnych
 ID podczas wołania metody [beginCache()|CBaseController::beginCache()].
 
-Zamiast prosić dewelopera do uzmiennienie ID odpowiednio do pewnego wzorca, 
+Zamiast prosić dewelopera o uzmiennienie ID odpowiednio do pewnego wzorca, 
 [COutputCache] posiada takie wbudowane funkcjonalności. Poniżej ich podsumowanie.
 
    - [varyByRoute|COutputCache::varyByRoute]: ustawiając tą opcję na true, buforowana
@@ -112,7 +112,7 @@ Zamiast prosić dewelopera do uzmiennienie ID odpowiednio do pewnego wzorca,
    GET. Na przykład, jeśli strona wyświetla zawartość posta, odpowiednio do parametru 
    GET o nazwie `id`, możemy określić jako [varyByParam|COutputCache::varyByParam] 
    tablicę `array('id')`, tak, że możemy zbuforować zawartość dla każdego posta.
-   Bez takiej parametryzacji, będziemy mogli buforować pojedyncze posty.
+   Bez takiej parametryzacji, będziemy mogli buforować tylko pojedynczy post.
    
    - [varyByExpression|COutputCache::varyByExpression]: ustawiając tą opcję jako wyrażenie PHP, możemy zbuforowaną
    zawartość uzmiennić w zależności od wyniku wyrażenia PHP.

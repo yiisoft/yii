@@ -4,6 +4,7 @@ Yii::import('system.db.CDbConnection');
 Yii::import('system.db.ar.CActiveRecord');
 
 require_once(dirname(__FILE__).'/../data/models.php');
+require_once(dirname(__FILE__).'/../data/models2.php');
 
 class CActiveRecordTest extends CTestCase
 {
@@ -713,6 +714,43 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(4,count($users));
 	}
 
+	/**
+	 * @depends testRelationalStat
+	 * @see https://github.com/yiisoft/yii/issues/873
+	 */
+	public function testRelationalStatWithScopes()
+	{
+		// CStatRelation with scopes, HAS_MANY case
+		$users=User::model()->findAll();
+		// user1
+		$this->assertEquals(0,$users[0]->recentPostCount1);
+		$this->assertEquals(0,$users[0]->recentPostCount2);
+		// user2
+		$this->assertEquals(2,$users[1]->recentPostCount1);
+		$this->assertEquals(2,$users[1]->recentPostCount2);
+		// user3
+		$this->assertEquals(1,$users[2]->recentPostCount1);
+		$this->assertEquals(1,$users[2]->recentPostCount2);
+		// user4
+		$this->assertEquals(0,$users[3]->recentPostCount1);
+		$this->assertEquals(0,$users[3]->recentPostCount2);
+
+		// CStatRelation with scopes, MANY_MANY case
+		$categories=Category::model()->findAll();
+		// category1
+		$this->assertEquals(2,$categories[0]->recentPostCount1);
+		$this->assertEquals(2,$categories[0]->recentPostCount2);
+		// category2
+		$this->assertEquals(0,$categories[1]->recentPostCount1);
+		$this->assertEquals(0,$categories[1]->recentPostCount2);
+		// category3
+		$this->assertEquals(0,$categories[2]->recentPostCount1);
+		$this->assertEquals(0,$categories[2]->recentPostCount2);
+		// category4
+		$this->assertEquals(1,$categories[3]->recentPostCount1);
+		$this->assertEquals(1,$categories[3]->recentPostCount2);
+	}
+
 	public function testLazyLoadingWithConditions()
 	{
 		$user=User::model()->findByPk(2);
@@ -1370,6 +1408,26 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
+	 * @see https://github.com/yiisoft/yii/issues/268
+	 */
+	public function testCountIsSubStringOfFieldName()
+	{
+		$result = User::model()->with('profiles')->count(array('select'=>'country AS country','condition'=>'t.id=2'));
+		$this->assertEquals(1,$result);
+	}
+
+	/**
+	 * verify https://github.com/yiisoft/yii/issues/2756
+	 */
+	public function testLazyFindCondition()
+	{
+		$user = User::model()->findByPk(2);
+		$this->assertEquals(3, count($user->posts()));
+		$this->assertEquals(2, count($user->posts(array('condition' => 'id IN (2,3)'))));
+		$this->assertEquals(2, count($user->postsCondition()));
+	}
+
+	/**
 	 * https://github.com/yiisoft/yii/issues/1070
 	 */
 	public function testIssue1070()
@@ -1499,5 +1557,24 @@ class CActiveRecordTest extends CTestCase
 			$this->assertFalse(empty($comment->postAuthorBelongsTo));
 			$this->assertTrue($comment->postAuthor->equals($comment->postAuthorBelongsTo));
 		}
+	}
+
+	public function testNamespacedTableName()
+	{
+		if(!version_compare(PHP_VERSION,"5.3.0",">="))
+			$this->markTestSkipped('PHP 5.3.0 or higher required for namespaces.');
+		require_once(dirname(__FILE__).'/../data/models-namespaced.php');
+		$this->assertEquals("posts",Post::model()->tableName());
+		$this->assertEquals("Example",CActiveRecord::model("yiiArExample\\testspace\\Example")->tableName());
+	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/2884
+	 */
+	public function testDefaultScopeAlias()
+	{
+		$this->assertEquals('user3', UserWithDefaultScopeAlias::model()->resetScope()->findByPk(3)->username);
+		$this->assertNull(UserWithDefaultScopeAlias::model()->findByPk(3));
+		$this->assertNotNull(UserWithDefaultScopeAlias::model()->findByPk(1));
 	}
 }

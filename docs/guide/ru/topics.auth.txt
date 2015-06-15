@@ -68,7 +68,7 @@ class UserIdentity extends CUserIdentity
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
 		if($record===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($record->password!==crypt($this->password,$record->password))
+		else if(!CPasswordHelper::verifyPassword($this->password,$record->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
@@ -103,12 +103,10 @@ class UserIdentity extends CUserIdentity
 
 ### Хранение паролей в базе данных
 
-Безопасное хранение паролей в базе данных требует дополнительных мер предосторожности. Злоумышленник завладевший таблицей пользователей (или её резервной копией) может восстановить пароли при помощи стандартных методов если вы от них не защищаетесь. В частности, вы должны «солить» пароль перед его хэшированием и использовать стойкую хэш-функцию, результат работы которой мог бы занять у злоумышленника продолжительное время на перебор. Приведенный выше пример использует встроенную PHP-функцию `crypt()`, которая при правильном использовании возвращает достаточно устойчивый хэш.
-
-Дополнительные материалы по данной теме:
-
-- Стандартная [PHP-функция `crypt()`](http://php.net/manual/ru/function.crypt.php)
-- Вики-статья [Use crypt() for password storage](http://www.yiiframework.com/wiki/425)
+Безопасное хранение паролей в базе данных требует определённой аккуратности. Атакующий, получивший досутп к базе или
+резеврным копиям может восстановить пароли используя достаточно распространённые приёмы, если от них не защититься.
+Пример кода выше использует встроенный класс [CPasswordHelper], доступный с версии 1.1.14, для хеширования и проверки
+пароля. [CPasswordHelper::hashPassword] возвращает стойкий ко взлому хеш.
 
 
 Вход и выход

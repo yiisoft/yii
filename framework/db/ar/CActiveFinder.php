@@ -246,6 +246,9 @@ class CActiveFinder extends CComponent
 			if(!empty($options['scopes']))
 				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
+			if(!empty($options['joinOptions']))
+				$relation->joinOptions=$options['joinOptions'];
+
 			$model->resetScope(false);
 			$criteria=$model->getDbCriteria();
 			$criteria->scopes=$scopes;
@@ -482,7 +485,6 @@ class CJoinElement
 		$query=new CJoinQuery($child);
 		$query->selects=array($child->getColumnSelect($child->relation->select));
 		$query->conditions=array(
-			$child->relation->condition,
 			$child->relation->on,
 		);
 		$query->groups[]=$child->relation->group;
@@ -537,6 +539,9 @@ class CJoinElement
 		$parent=$this->_parent;
 		if($this->relation instanceof CManyManyRelation)
 		{
+			$query->conditions=array(
+				$this->relation->condition,
+			);
 			$joinTableName=$this->relation->getJunctionTableName();
 			if(($joinTable=$schema->getTable($joinTableName))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
@@ -742,7 +747,7 @@ class CJoinElement
 		else
 		{
 			$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
-			if($select!=='*' && !strncasecmp($select,'count',5))
+			if($select!=='*' && preg_match('/^count\s*\(/i',trim($select)))
 				$query->selects=array($select);
 			elseif(is_string($this->_table->primaryKey))
 			{
@@ -965,9 +970,9 @@ class CJoinElement
 				$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$schema->quoteColumnName($this->_pkAlias);
 			elseif(is_array($this->_pkAlias))
 			{
-				foreach($this->_table->primaryKey as $name)
-					if(!isset($selected[$name]))
-						$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$schema->quoteColumnName($this->_pkAlias[$name]);
+				foreach($this->_pkAlias as $name=>$alias)
+					if(!isset($selected[$alias]))
+						$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$schema->quoteColumnName($alias);
 			}
 		}
 
@@ -1113,7 +1118,12 @@ class CJoinElement
 		}
 		if(!empty($this->relation->on))
 			$joins[]=$this->relation->on;
-		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON (' . implode(') AND (',$joins).')';
+
+		if(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
+			return $this->relation->joinType.' '.$this->getTableNameWithAlias().' '.$this->relation->joinOptions.
+				' ON ('.implode(') AND (',$joins).')';
+		else
+			return $this->relation->joinType.' '.$this->getTableNameWithAlias().' ON ('.implode(') AND (',$joins).')';
 	}
 
 	/**
@@ -1181,8 +1191,20 @@ class CJoinElement
 		if($parentCondition!==array() && $childCondition!==array())
 		{
 			$join=$this->relation->joinType.' '.$joinTable->rawName.' '.$joinAlias;
+
+			if(is_array($this->relation->joinOptions) && isset($this->relation->joinOptions[0]) &&
+				is_string($this->relation->joinOptions[0]))
+				$join.=' '.$this->relation->joinOptions[0];
+			elseif(!empty($this->relation->joinOptions) && is_string($this->relation->joinOptions))
+				$join.=' '.$this->relation->joinOptions;
+
 			$join.=' ON ('.implode(') AND (',$parentCondition).')';
 			$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
+
+			if(is_array($this->relation->joinOptions) && isset($this->relation->joinOptions[1]) &&
+				is_string($this->relation->joinOptions[1]))
+				$join.=' '.$this->relation->joinOptions[1];
+
 			$join.=' ON ('.implode(') AND (',$childCondition).')';
 			if(!empty($this->relation->on))
 				$join.=' AND ('.$this->relation->on.')';
@@ -1315,7 +1337,7 @@ class CJoinQuery
 	public function createCommand($builder)
 	{
 		$sql=($this->distinct ? 'SELECT DISTINCT ':'SELECT ') . implode(', ',$this->selects);
-		$sql.=' FROM ' . implode(' ',$this->joins);
+		$sql.=' FROM ' . implode(' ',array_unique($this->joins));
 
 		$conditions=array();
 		foreach($this->conditions as $condition)
@@ -1501,9 +1523,10 @@ class CStatElement
 			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
 	}
 
-	/*
+	/**
 	 * @param string $joinTableName jointablename
 	 * @param string $keys keys
+	 * @throws CDbException
 	 */
 	private function queryManyMany($joinTableName,$keys)
 	{

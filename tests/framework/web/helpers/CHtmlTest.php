@@ -100,8 +100,8 @@ class CHtmlTest extends CTestCase
 				array("index", "post", array(), '<form action="index" method="post">'),
 				array("index?myFirstParam=3&mySecondParam=true", "get", array(),
 "<form action=\"index?myFirstParam=3&amp;mySecondParam=true\" method=\"get\">\n".
-"<div style=\"display:none\"><input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
-"<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" /></div>"),
+"<input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
+"<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" />"),
 
 			);
 	}
@@ -342,6 +342,11 @@ class CHtmlTest extends CTestCase
 				array('async'=>true),
 				"<script type=\"text/javascript\" async=\"async\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
 			),
+            array(
+                'var a = 10;',
+                array('async'=>false),
+                "<script type=\"text/javascript\" async=\"false\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+            ),
 		);
 	}
 
@@ -1083,18 +1088,6 @@ class CHtmlTestModel extends CModel
 	 * @property mixed $attr4
 	 */
 	public $attr4;
-
-	public function __constructor(array $properties)
-	{
-		foreach($properties as $property=>$value)
-		{
-			if(!property_exists($this, $property))
-			{
-				throw new Exception("$property is not a property of this class, and I'm not allowing you to add it!");
-			}
-			$this->{$property} = $value;
-		}
-	}
 
     /**
 	 * Returns the list of attribute names.

@@ -332,8 +332,13 @@ abstract class CModule extends CComponent
 	 * You may also enable or disable a module by specifying the 'enabled' option in the configuration.
 	 *
 	 * @param array $modules module configurations.
+	 * @param boolean $merge whether to merge the new module configuration
+	 * with the existing one. Defaults to true, meaning the previously registered
+	 * module configuration with the same ID will be merged with the new configuration.
+	 * If set to false, the existing configuration will be replaced completely.
+	 * This parameter is available since 1.1.16.
 	 */
-	public function setModules($modules)
+	public function setModules($modules,$merge=true)
 	{
 		foreach($modules as $id=>$module)
 		{
@@ -342,16 +347,18 @@ abstract class CModule extends CComponent
 				$id=$module;
 				$module=array();
 			}
-			if(!isset($module['class']))
-			{
-				Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
-				$module['class']=$id.'.'.ucfirst($id).'Module';
-			}
-
-			if(isset($this->_moduleConfig[$id]))
+			if(isset($this->_moduleConfig[$id]) && $merge)
 				$this->_moduleConfig[$id]=CMap::mergeArray($this->_moduleConfig[$id],$module);
 			else
+			{
+				if(!isset($module['class']))
+				{
+					if (Yii::getPathOfAlias($id)===false)
+						Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
+					$module['class']=$id.'.'.ucfirst($id).'Module';
+				}
 				$this->_moduleConfig[$id]=$module;
+			}
 		}
 	}
 

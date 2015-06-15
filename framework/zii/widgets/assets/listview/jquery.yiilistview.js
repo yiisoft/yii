@@ -35,11 +35,16 @@
 			if(settings.ajaxUpdate.length > 0) {
 				$(document).on('click.yiiListView', settings.updateSelector,function(){
 					if(settings.enableHistory && window.History.enabled) {
-						var url = $(this).attr('href').split('?'),
-							params = $.deparam.querystring('?'+ (url[1] || ''));
+						var href = $(this).attr('href');
+						if(href){
+							var url = href.split('?'),
+								params = $.deparam.querystring('?'+ (url[1] || ''));
 
-						delete params[settings.ajaxVar];
-						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url[0], params)));
+							delete params[settings.ajaxVar];
+
+							var updateUrl = $.param.querystring(url[0], params);
+							window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
+						}
 					} else {
 						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
 					}
@@ -49,7 +54,10 @@
 				if(settings.enableHistory && window.History.enabled) {
 					$(window).bind('statechange', function() { // Note: We are using statechange instead of popstate
 						var State = window.History.getState(); // Note: We are using History.getState() instead of event.state
-						$.fn.yiiListView.update(id, {url: State.url});
+						if (State.data.url === undefined) {
+							State.data.url = State.url;
+						}
+						$.fn.yiiListView.update(id, State.data);
 					});
 				}
 			}
@@ -152,29 +160,29 @@
 				}
 
 				if (settings.ajaxUpdateError !== undefined) {
-					settings.ajaxUpdateError(XHR, textStatus, errorThrown, err);
+					settings.ajaxUpdateError(XHR, textStatus, errorThrown, err, id);
 				} else if (err) {
 					alert(err);
 				}
 			}
 		}, options || {});
-		
+
 		if(options.data!=undefined && options.type=='GET') {
 			options.url = $.param.querystring(options.url, options.data);
 			options.data = {};
 		}
-		
+
 		if(settings.ajaxVar)
 			options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
-		
+
 		if(yiiXHR[id] != null) {
-			yiiXHR[id].abort();	
+			yiiXHR[id].abort();
 		}
-		
+
 		$('#'+id).addClass(settings.loadingClass);
 
 		if(settings.beforeAjaxUpdate != undefined)
-			settings.beforeAjaxUpdate(id);
+			settings.beforeAjaxUpdate(id, options);
 		yiiXHR[id] = $.ajax(options);
 	};
 

@@ -87,13 +87,15 @@ class CLinkColumn extends CGridColumn
 	public $linkHtmlOptions=array();
 
 	/**
-	 * Renders the data cell content.
+	 * Returns the data cell content.
 	 * This method renders a hyperlink in the data cell.
 	 * @param integer $row the row number (zero-based)
-	 * @param mixed $data the data associated with the row
+	 * @return string the data cell content.
+	 * @since 1.1.16
 	 */
-	protected function renderDataCellContent($row,$data)
+	public function getDataCellContent($row)
 	{
+		$data=$this->grid->dataProvider->data[$row];
 		if($this->urlExpression!==null)
 			$url=$this->evaluateExpression($this->urlExpression,array('data'=>$data,'row'=>$row));
 		else
@@ -104,8 +106,8 @@ class CLinkColumn extends CGridColumn
 			$label=$this->label;
 		$options=$this->linkHtmlOptions;
 		if(is_string($this->imageUrl))
-			echo CHtml::link(CHtml::image($this->imageUrl,$label),$url,$options);
+			return CHtml::link(CHtml::image($this->imageUrl,$label),$url,$options);
 		else
-			echo CHtml::link($label,$url,$options);
+			return CHtml::link($label,$url,$options);
 	}
 }

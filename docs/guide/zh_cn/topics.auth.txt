@@ -29,9 +29,9 @@ Yii auth 框架的核心是一个预定义的 *用户（user）应用组件* 它
 
 下面的例子，我们使用[Active Record](/doc/guide/database.ar)来验证提供的用户名、密码和数据库的用户表是否吻合。我们通过重写`getId`函数来返回验证过程中获得的`_id`变量（缺省的实现则是返回用户名）。在验证过程中，我们还借助[CBaseUserIdentity::setState]函数把获得的`title`信息存成一个状态。
 
-1. The implementation of the `authenticate()` to use the database to validate credentials.
-2. Overriding the `CUserIdentity::getId()` method to return the `_id` property because the default implementation returns the username as the ID.
-3. Using the `setState()` ([CBaseUserIdentity::setState]) method to demonstrate storing other information that can easily be retrieved upon subsequent requests.
+1. 利用数据库来实现验证用户资格的`authenticate()`方法。
+2. 由于默认的`getId`方法直接返回`username`，所以需要重写`CUserIdentity::getId()`来返回真正的`_id`属性。
+3. 使用`setState()` ([CBaseUserIdentity::setState])方法来手动将用户的其他信息保存到SESSION，以便后续操作使用。
 
 ~~~
 [php]
@@ -84,9 +84,9 @@ else
 Yii::app()->user->logout();
 ~~~
 
-Here we are creating a new UserIdentity object and passing in the authentication credentials (i.e. the `$username` and `$password` values submitted by the user) to its constructor. We then simply call the `authenticate()` method. If successful, we pass the identity information into the [CWebUser::login] method, which will store the identity information into persistent storage (PHP session by default) for retrieval upon subsequent requests. If the authentication fails, we can interrogate the `errorMessage` property for more information as to why it failed.
+现在我们创建了一个新的UserIdentity对象而且把用户验证凭据（如：用户提交的`$username`和`$password`值）传递给了它的构造函数。然后只需要简单地调用`authenticate()`方法。如果成功，我们就将身份信息传递给[CwebUser::login]方法，同时该方法会将身份信息保存到持久化存储中（默认是PHP的session），以供后续请求读取使用。如果验证失败，我们可以从`errorMessage`属性中得知失败原因。
 
-Whether or not a user has been authenticated can easily be checked throughout the application by using `Yii::app()->user->isGuest`. If using persistent storage like session (the default) and/or a cookie (discussed below) to store the identity information, the user can remain logged in upon subsequent requests. In this case, we don't need to use the UserIdentity class and the entire login process upon each request. Rather CWebUser will automatically take care of loading the identity information from this persistent storage and will use it to determine whether `Yii::app()->user->isGuest` returns true or false.
+无论一个用户是否经过鉴权，程序中都可以通过`Yii::app()->user->isGuest`来检查。如果采用session（默认）或cookie（下面会讨论）等持久化存储来保存身份信息，那么用户就可以在接下来的请求中保留登录信息。正因如此，我们不需要在接下来的每个请求中都使用UserIdentity类，更不需要再次走完整个登录流程。相反，CWebUser会根据`Yii::app()->user->isGuest`的返回值自动从持久化存储中读取身份信息。
 
 ### 基于Cookie 的登录
 
@@ -99,43 +99,22 @@ Whether or not a user has been authenticated can easily be checked throughout th
 Yii::app()->user->login($identity,3600*24*7);
 ~~~
 
-As we mentioned above, when cookie-based login is enabled, the states
-stored via [CBaseUserIdentity::setState] will be saved in the cookie as well.
-The next time when the user is logged in, these states will be read from
-the cookie and made accessible via `Yii::app()->user`.
+正如我们上面提到的，当基于cookie的登录开启后，通过[CBaseUserIdentity::setState]保存的状态将会同时保存到cookie中。当下次用户登录的时候，`Yii::app()->user`将会从cookie中读取这些状态来使用。
 
-Although Yii has measures to prevent the state cookie from being tampered
-on the client side, we strongly suggest that security sensitive information be not
-stored as states. Instead, these information should be restored on the server
-side by reading from some persistent storage on the server side (e.g. database).
+虽然Yii有一定措施来防止客户端的cookie被篡改，但我们还是强烈建议您不要在安全敏感的信息保存到用户状态(State)中。相反的，这些信息应该保存在服务器端（如：数据库中），并可以通过某些保存在服务端的持久化数据来读取。
 
-In addition, for any serious Web applications, we recommend using the following
-strategy to enhance the security of cookie-based login.
+除此之外，在一个正式的Web应用中，我们建议采用以下策略来增强基于Cookie登录的安全性。
 
-* When a user successfully logs in by filling out a login form, we generate and
-store a random key in both the cookie state and in persistent storage on server side
-(e.g. database).
+* 当一个用户成功通过填写用户登录表单登录之后，生成一个随机密钥，同时保存在cookie和持久化存储中（如：数据库）
+* 在接下来的请求中，当用户通过cookie信息验证时，我们通过比较两个密钥的一致性来确保用户正常登录。
+* 如果用户再次通过登录表单登录，重置密钥。
 
-* Upon a subsequent request, when the user authentication is being done via the cookie information, we compare the two copies
-of this random key and ensure a match before logging in the user.
+通过以上策略，我们可以排除用户使用可能包含过期信息的cookie登录的可能性。
 
-* If the user logs in via the login form again, the key needs to be re-generated.
+要实现以上策略，我们需要重写以下两个方法：
 
-By using the above strategy, we eliminate the possibility that a user may re-use
-an old state cookie which may contain outdated state information.
-
-To implement the above strategy, we need to override the following two methods:
-
-* [CUserIdentity::authenticate()]: this is where the real authentication is performed.
-If the user is authenticated, we should re-generate a new random key, and store it
-in the database as well as in the identity states via [CBaseUserIdentity::setState].
-
-* [CWebUser::beforeLogin()]: this is called when a user is being logged in.
-We should check if the key obtained from the state cookie is the same as the one
-from the database.
-
-
-
+* [CUserIdentity::authenticate()]：这是真正执行验证的地方。 如果用户验证成功，我们应该重新生成一个新的随机密钥，并使用[CBaseUserIdentity::setState]将它保存到用户状态中，同时保存到数据库中。
+* [CWebUser::beforeLogin()]：当用户将要登入的时候调用。我们需要在此检查从cookie中获取的密钥是否和数据库中的一致。
 
 访问控制过滤器（Access Control Filter）
 ---------------------

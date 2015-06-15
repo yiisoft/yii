@@ -102,15 +102,15 @@ class CPostgresTest extends CTestCase
 		$this->checkColumns('test.posts',$values);
 		$values=array
 		(
-			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'numeric_col', 'real_col', 'blob_col', 'time', 'bool_col', 'bool_col2'),
-			'rawName'=>array('"int_col"', '"int_col2"', '"char_col"', '"char_col2"', '"char_col3"', '"numeric_col"', '"real_col"', '"blob_col"', '"time"', '"bool_col"', '"bool_col2"'),
-			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, null, null, true),
-			'size'=>array(null, null, 100, 100, null, 4, null, null, null, null, null),
-			'precision'=>array(null, null, 100, 100, null, 4, null, null, null, null, null),
-			'scale'=>array(null, null, null, null, null, 3, null, null, null, null, null),
-			'type'=>array('integer','integer','string','string','string','string','double','string','string','boolean','boolean'),
-			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false),
-			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false),
+			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'numeric_col', 'real_col', 'blob_col', 'time', 'time2', 'bool_col', 'bool_col2'),
+			'rawName'=>array('"int_col"', '"int_col2"', '"char_col"', '"char_col2"', '"char_col3"', '"numeric_col"', '"real_col"', '"blob_col"', '"time"', '"time2"', '"bool_col"', '"bool_col2"'),
+			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, null, null, null, true),
+			'size'=>array(null, null, 100, 100, null, 4, null, null, null, null, null, null),
+			'precision'=>array(null, null, 100, 100, null, 4, null, null, null, 4, null, null),
+			'scale'=>array(null, null, null, null, null, 3, null, null, null, null, null, null),
+			'type'=>array('integer','integer','string','string','string','string','double','string','string','string','boolean','boolean'),
+			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
+			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
 		);
 		$this->checkColumns('yii_types',$values);
 	}

@@ -80,7 +80,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.15';
+		return '1.1.17-dev';
 	}
 
 	/**
@@ -299,7 +299,8 @@ class YiiBase
 
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
-			if($forceInclude && self::autoload($alias))
+			// try to autoload the class with an autoloader if $forceInclude is true
+			if($forceInclude && (Yii::autoload($alias,true) || class_exists($alias,true)))
 				self::$_imports[$alias]=$alias;
 			return $alias;
 		}
@@ -392,15 +393,19 @@ class YiiBase
 	 * Class autoload loader.
 	 * This method is provided to be invoked within an __autoload() magic method.
 	 * @param string $className class name
+	 * @param bool $classMapOnly whether to load classes via classmap only
 	 * @return boolean whether the class has been loaded successfully
+	 * @throws CException When class name does not match class file in debug mode.
 	 */
-	public static function autoload($className)
+	public static function autoload($className,$classMapOnly=false)
 	{
 		// use include so that the error PHP file may appear
 		if(isset(self::$classMap[$className]))
 			include(self::$classMap[$className]);
 		elseif(isset(self::$_coreClasses[$className]))
 			include(YII_PATH.self::$_coreClasses[$className]);
+		elseif($classMapOnly)
+			return false;
 		else
 		{
 			// include class file relying on include_path
@@ -429,7 +434,7 @@ class YiiBase
 			else  // class name with namespace in PHP 5.3
 			{
 				$namespace=str_replace('\\','.',ltrim($className,'\\'));
-				if(($path=self::getPathOfAlias($namespace))!==false)
+				if(($path=self::getPathOfAlias($namespace))!==false && is_file($path.'.php'))
 					include($path.'.php');
 				else
 					return false;
@@ -709,6 +714,9 @@ class YiiBase
 		'CDbExpression' => '/db/schema/CDbExpression.php',
 		'CDbSchema' => '/db/schema/CDbSchema.php',
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
+		'CCubridColumnSchema' => '/db/schema/cubrid/CCubridColumnSchema.php',
+		'CCubridSchema' => '/db/schema/cubrid/CCubridSchema.php',
+		'CCubridTableSchema' => '/db/schema/cubrid/CCubridTableSchema.php',
 		'CMssqlColumnSchema' => '/db/schema/mssql/CMssqlColumnSchema.php',
 		'CMssqlCommandBuilder' => '/db/schema/mssql/CMssqlCommandBuilder.php',
 		'CMssqlPdoAdapter' => '/db/schema/mssql/CMssqlPdoAdapter.php',
@@ -750,6 +758,7 @@ class YiiBase
 		'CLogRouter' => '/logging/CLogRouter.php',
 		'CLogger' => '/logging/CLogger.php',
 		'CProfileLogRoute' => '/logging/CProfileLogRoute.php',
+		'CSysLogRoute' => '/logging/CSysLogRoute.php',
 		'CWebLogRoute' => '/logging/CWebLogRoute.php',
 		'CDateTimeParser' => '/utils/CDateTimeParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',

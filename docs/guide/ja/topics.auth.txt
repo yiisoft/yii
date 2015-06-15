@@ -44,9 +44,9 @@ identity クラス定義の主な作業は [IUserIdentity::authenticate] メソ�
 ユーザがログインフォームにユーザ名とパスワードを入力すると、その認証情報を検証するために、[アクティブレコード](/doc/guide/database.ar) を使って、データベースにある user テーブルに問い合わせをする、というものです。
 実際には、この単純な例の中で、いくつかの事柄が示されています。
 
-1. データベースを使って認証情報を検証するように `authenticate()` を実装している。
-2. デフォルトの実装ではユーザ名を ID として返すので、`CUserIdentity::getId()` メソッドをオーバーライドして、`_id` プロパティを返している。
-3. 後に続くリクエストにおいて簡単に引き出せるように、`setState()` ([CBaseUserIdentity::setState]) メソッドを使ってその他の情報を保存している。
+1. データベースを使って認証情報を検証するように `authenticate()` を実装しています。
+2. デフォルトの実装ではユーザ名を ID として返すので、`CUserIdentity::getId()` メソッドをオーバーライドして、`_id` プロパティを返しています。
+3. 後に続くリクエストにおいて簡単に引き出せるように、`setState()` ([CBaseUserIdentity::setState]) メソッドを使ってその他の情報を保存しています。
 
 ~~~
 [php]
@@ -58,7 +58,7 @@ class UserIdentity extends CUserIdentity
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
 		if($record===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($record->password!==crypt($this->password,$record->password))
+		else if(!CPasswordHelper::verifyPassword($this->password,$record->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
@@ -89,14 +89,11 @@ class UserIdentity extends CUserIdentity
 
 ユーザのパスワードをデータベースに安全に保存するためには、いくらか配慮が必要です。
 ユーザのテーブル（またはそのバックアップ）を盗んだ攻撃者は、対策を施していない場合には、標準的な手法を使ってユーザのパスワードを回復することが出来ます。
+上記のサンプルコードは Yii 内蔵の [CPasswordHelper] (バージョン 1.1.14 以降で使用出来ます) を使って、パスワードのハッシュと検証をしています。
+[CPasswordHelper::hashPassword] は非常にクラックしにくいハッシュを返すものです。
+
 具体的に言えば、パスワードをハッシュする前にソルトすべきであり、また、攻撃者が計算に長い時間を要するようなハッシュ関数を使うべきです。
 上記のコード例では、PHP 組み込みの `crypt()` 関数を使っていますが、これは、正しく用いるなら、非常にクラックしにくいハッシュを生成するものです。
-
-これらの話題についての更に詳しい情報は、下記を参照して下さい。
-
-- [PHP `crypt()` 関数](http://php.net/manual/ja/function.crypt.php)
-- Yii Wiki 記事 [Use crypt() for password storage](http://www.yiiframework.com/wiki/425)
-
 
 ログインとログアウト
 ----------------

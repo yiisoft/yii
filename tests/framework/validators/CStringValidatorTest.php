@@ -1,4 +1,5 @@
 <?php
+require_once('ValidatorTestModel.php');
 
 class CStringValidatorTest extends CTestCase
 {

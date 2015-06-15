@@ -49,6 +49,20 @@ class CSecurityManager extends CApplicationComponent
 	const STATE_ENCRYPTION_KEY='Yii.CSecurityManager.encryptionkey';
 
 	/**
+	 * @var array known minimum lengths per encryption algorithm
+	 */
+	protected static $encryptionKeyMinimumLengths=array(
+		'blowfish'=>4,
+		'arcfour'=>5,
+		'rc2'=>5,
+	);
+
+	/**
+	 * @var boolean if encryption key should be validated
+	 */
+	public $validateEncryptionKey=true;
+
+	/**
 	 * @var string the name of the hashing algorithm to be used by {@link computeHMAC}.
 	 * See {@link http://php.net/manual/en/function.hash-algos.php hash-algos} for the list of possible
 	 * hash algorithms. Note that if you are using PHP 5.1.1 or below, you can only use 'sha1' or 'md5'.
@@ -62,12 +76,20 @@ class CSecurityManager extends CApplicationComponent
 	 * This will be passed as the first parameter to {@link http://php.net/manual/en/function.mcrypt-module-open.php mcrypt_module_open}.
 	 *
 	 * This property can also be configured as an array. In this case, the array elements will be passed in order
-	 * as parameters to mcrypt_module_open. For example, <code>array('rijndael-256', '', 'ofb', '')</code>.
+	 * as parameters to mcrypt_module_open. For example, <code>array('rijndael-128', '', 'ofb', '')</code>.
 	 *
-	 * Defaults to 'des', meaning using DES crypt algorithm.
+	 * Defaults to AES
+	 *
+	 * Note: MCRYPT_RIJNDAEL_192 and MCRYPT_RIJNDAEL_256 are *not* AES-192 and AES-256. The numbers of the MCRYPT_RIJNDAEL
+	 * constants refer to the block size, whereas the numbers of the AES variants refer to the key length. AES is Rijndael
+	 * with a block size of 128 bits and a key length of 128 bits, 192 bits or 256 bits. So to use AES in Mcrypt, you need
+	 * MCRYPT_RIJNDAEL_128 and a key with 16 bytes (AES-128), 24 bytes (AES-192) or 32 bytes (AES-256). The other two
+	 * Rijndael variants in Mcrypt should be avoided, because they're not standardized and have been analyzed much less
+	 * than AES.
+	 *
 	 * @since 1.1.3
 	 */
-	public $cryptAlgorithm='des';
+	public $cryptAlgorithm='rijndael-128';
 
 	private $_validationKey;
 	private $_encryptionKey;
@@ -158,10 +180,8 @@ class CSecurityManager extends CApplicationComponent
 	 */
 	public function setEncryptionKey($value)
 	{
-		if(!empty($value))
-			$this->_encryptionKey=$value;
-		else
-			throw new CException(Yii::t('yii','CSecurityManager.encryptionKey cannot be empty.'));
+		$this->validateEncryptionKey($value);
+		$this->_encryptionKey=$value;
 	}
 
 	/**
@@ -191,12 +211,14 @@ class CSecurityManager extends CApplicationComponent
 	 * @param string $data data to be encrypted.
 	 * @param string $key the decryption key. This defaults to null, meaning using {@link getEncryptionKey EncryptionKey}.
 	 * @return string the encrypted data
-	 * @throws CException if PHP Mcrypt extension is not loaded
+	 * @throws CException if PHP Mcrypt extension is not loaded or key is invalid
 	 */
 	public function encrypt($data,$key=null)
 	{
+		if($key===null)
+			$key=$this->getEncryptionKey();
+		$this->validateEncryptionKey($key);
 		$module=$this->openCryptModule();
-		$key=$this->substr($key===null ? md5($this->getEncryptionKey()) : $key,0,mcrypt_enc_get_key_size($module));
 		srand();
 		$iv=mcrypt_create_iv(mcrypt_enc_get_iv_size($module), MCRYPT_RAND);
 		mcrypt_generic_init($module,$key,$iv);
@@ -211,12 +233,14 @@ class CSecurityManager extends CApplicationComponent
 	 * @param string $data data to be decrypted.
 	 * @param string $key the decryption key. This defaults to null, meaning using {@link getEncryptionKey EncryptionKey}.
 	 * @return string the decrypted data
-	 * @throws CException if PHP Mcrypt extension is not loaded
+	 * @throws CException if PHP Mcrypt extension is not loaded or key is invalid
 	 */
 	public function decrypt($data,$key=null)
 	{
+		if($key===null)
+			$key=$this->getEncryptionKey();
+		$this->validateEncryptionKey($key);
 		$module=$this->openCryptModule();
-		$key=$this->substr($key===null ? md5($this->getEncryptionKey()) : $key,0,mcrypt_enc_get_key_size($module));
 		$ivSize=mcrypt_enc_get_iv_size($module);
 		$iv=$this->substr($data,0,$ivSize);
 		mcrypt_generic_init($module,$key,$iv);
@@ -271,12 +295,15 @@ class CSecurityManager extends CApplicationComponent
 	 */
 	public function validateData($data,$key=null)
 	{
+		if (!is_string($data))
+			return false;
+
 		$len=$this->strlen($this->computeHMAC('test'));
 		if($this->strlen($data)>=$len)
 		{
 			$hmac=$this->substr($data,0,$len);
 			$data2=$this->substr($data,$len,$this->strlen($data));
-			return $hmac===$this->computeHMAC($data2,$key)?$data2:false;
+			return $this->compareString($hmac,$this->computeHMAC($data2,$key))?$data2:false;
 		}
 		else
 			return false;
@@ -488,5 +515,101 @@ class CSecurityManager extends CApplicationComponent
 	private function substr($string,$start,$length)
 	{
 		return $this->_mbstring ? mb_substr($string,$start,$length,'8bit') : substr($string,$start,$length);
+	}
+    
+	/**
+	 * Checks if a key is valid for {@link cryptAlgorithm}.
+	 * @param string $key the key to check
+	 * @return boolean the validation result
+	 * @throws CException if the supported key lengths of the cipher are unknown
+	 */
+	protected function validateEncryptionKey($key)
+	{
+		if(is_string($key))
+		{
+			$cryptAlgorithm = is_array($this->cryptAlgorithm) ? $this->cryptAlgorithm[0] : $this->cryptAlgorithm;
+
+			$supportedKeyLengths=mcrypt_module_get_supported_key_sizes($cryptAlgorithm);
+
+			if($supportedKeyLengths)
+			{
+				if(!in_array($this->strlen($key),$supportedKeyLengths)) {
+					throw new CException(Yii::t('yii','Encryption key length can be {keyLengths}.',array('{keyLengths}'=>implode(',',$supportedKeyLengths))));
+				}
+			}
+			elseif(isset(self::$encryptionKeyMinimumLengths[$cryptAlgorithm]))
+			{
+				$minLength=self::$encryptionKeyMinimumLengths[$cryptAlgorithm];
+				$maxLength=mcrypt_module_get_algo_key_size($cryptAlgorithm);
+				if($this->strlen($key)<$minLength || $this->strlen($key)>$maxLength)
+					throw new CException(Yii::t('yii','Encryption key length must be between {minLength} and {maxLength}.',array('{minLength}'=>$minLength,'{maxLength}'=>$maxLength)));
+			}
+			else
+				throw new CException(Yii::t('yii','Failed to validate key. Supported key lengths of cipher not known.'));
+		}
+		else
+			throw new CException(Yii::t('yii','Encryption key should be a string.'));
+	}
+    
+	/**
+	 * Decrypts legacy ciphertext which was produced by the old, broken implementation of encrypt().
+	 * @deprecated use only to convert data encrypted prior to 1.1.16
+	 * @param string $data data to be decrypted.
+	 * @param string $key the decryption key. This defaults to null, meaning the key should be loaded from persistent storage.
+	 * @param string|array $cipher the algorithm to be used
+	 * @return string the decrypted data
+	 * @throws CException if PHP Mcrypt extension is not loaded
+	 * @throws CException if the key is missing
+	 */
+	public function legacyDecrypt($data,$key=null,$cipher='des')
+	{
+		if (!$key)
+		{
+			$key=Yii::app()->getGlobalState(self::STATE_ENCRYPTION_KEY);
+			if(!$key)
+				throw new CException(Yii::t('yii','No encryption key specified.'));
+			$key = md5($key);
+		}
+
+		if(extension_loaded('mcrypt'))
+		{
+			if(is_array($cipher))
+				$module=@call_user_func_array('mcrypt_module_open',$cipher);
+			else
+				$module=@mcrypt_module_open($cipher,'', MCRYPT_MODE_CBC,'');
+
+			if($module===false)
+				throw new CException(Yii::t('yii','Failed to initialize the mcrypt module.'));
+		}
+		else
+			throw new CException(Yii::t('yii','CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
+
+		$derivedKey=$this->substr($key,0,mcrypt_enc_get_key_size($module));
+		$ivSize=mcrypt_enc_get_iv_size($module);
+		$iv=$this->substr($data,0,$ivSize);
+		mcrypt_generic_init($module,$derivedKey,$iv);
+		$decrypted=mdecrypt_generic($module,$this->substr($data,$ivSize,$this->strlen($data)));
+		mcrypt_generic_deinit($module);
+		mcrypt_module_close($module);
+		return rtrim($decrypted,"\0");
+	}
+
+	/**
+	 * Performs string comparison using timing attack resistant approach.
+	 * @see http://codereview.stackexchange.com/questions/13512
+	 * @param string $expected string to compare.
+	 * @param string $actual user-supplied string.
+	 * @return boolean whether strings are equal.
+	 */
+	public function compareString($expected,$actual)
+	{
+		$expected.="\0";
+		$actual.="\0";
+		$expectedLength=$this->strlen($expected);
+		$actualLength=$this->strlen($actual);
+		$diff=$expectedLength-$actualLength;
+		for($i=0;$i<$actualLength;$i++)
+			$diff|=(ord($actual[$i])^ord($expected[$i%$expectedLength]));
+		return $diff===0;
 	}
 }

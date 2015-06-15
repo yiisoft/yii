@@ -31,9 +31,23 @@ class CFileCache extends CCache
 	 */
 	public $cachePath;
 	/**
+	 * @var integer the permission to be set for directory to store cache files
+	 * This value will be used by PHP chmod function.
+	 * Defaults to 0777, meaning the directory can be read, written and executed by all users.
+	 * @since 1.1.16
+	 */
+	public $cachePathMode=0777;
+	/**
 	 * @var string cache file suffix. Defaults to '.bin'.
 	 */
 	public $cacheFileSuffix='.bin';
+	/**
+	 * @var integer the permission to be set for new cache files.
+	 * This value will be used by PHP chmod function.
+	 * Defaults to 0666, meaning the file is read-writable by all users.
+	 * @since 1.1.16
+	 */
+	public $cacheFileMode=0666;
 	/**
 	 * @var integer the level of sub-directories to store cache files. Defaults to 0,
 	 * meaning no sub-directories. If the system has huge number of cache files (e.g. 10K+),
@@ -64,7 +78,10 @@ class CFileCache extends CCache
 		if($this->cachePath===null)
 			$this->cachePath=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
 		if(!is_dir($this->cachePath))
-			mkdir($this->cachePath,0777,true);
+		{
+			mkdir($this->cachePath,$this->cachePathMode,true);
+			chmod($this->cachePath,$this->cachePathMode);
+		}
 	}
 
 	/**
@@ -142,10 +159,14 @@ class CFileCache extends CCache
 
 		$cacheFile=$this->getCacheFile($key);
 		if($this->directoryLevel>0)
-			@mkdir(dirname($cacheFile),0777,true);
+		{
+			$cacheDir=dirname($cacheFile);
+			@mkdir($cacheDir,$this->cachePathMode,true);
+			@chmod($cacheDir,$this->cachePathMode);
+		}
 		if(@file_put_contents($cacheFile,$this->embedExpiry ? $expire.$value : $value,LOCK_EX)!==false)
 		{
-			@chmod($cacheFile,0777);
+			@chmod($cacheFile,$this->cacheFileMode);
 			return $this->embedExpiry ? true : @touch($cacheFile,$expire);
 		}
 		else

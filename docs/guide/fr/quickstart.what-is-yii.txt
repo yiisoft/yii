@@ -1,12 +1,11 @@
 Qu'est-ce que Yii
 =================
 
-Yii est un framework PHP basé sur des composants ultra performant qui a été développé
-pour créer des application Web de grande qualité.
-Yii a été conçu autour de composants dans le but d'accélerer le développement
+Yii est un framework PHP basé sur des composants ultra performants qui a été développé pour créer des applications Web de grande qualité.
+Yii a été conçu autour de composants dans le but d’accélérer le développement
 d'applications Web en simplifiant la réutilisation de code existant.
 
-Le nom Yii (à prononcer `Yee` ou `[ji:]`) se veut être un synonyme de *facile*, *efficace* et *extensible*.
+Le nom Yii (se prononce `Yee` ou `[ji:]`) se veut être un synonyme de *facile*, *efficace* et *extensible*.
 
 Pré-requis
 ----------
@@ -18,7 +17,7 @@ Pour les développeurs qui veulent utiliser Yii, la connaissance des principes
 de base de la programmation orientée-objet (OOP) est un plus car Yii est un pur
 framework OOP.
 
-Pour quel usage Yii est il optimal?
+Pour quel usage Yii est-il optimal?
 -----------------------------------
 
 Yii est un framework générique conçu pour faciliter la programmation web.
@@ -28,7 +27,7 @@ le rendent particulièrement adapté au développement d'applications a
 forte audience telles que des portails, des forums, des sites de gestion
 de contenu (CMS), des sites e-commerce, etc.
 
-Comment se positionne Yii vis-à-vis des autres Frameworks?
+Comment se positionne Yii vis-à-vis des autres frameworks?
 --------------------------------------------------------
 
 Comme la plupart des frameworks PHP, Yii est basé sur le modèle MVC.
@@ -36,8 +35,7 @@ Comme la plupart des frameworks PHP, Yii est basé sur le modèle MVC.
 Les points forts de Yii sont l'efficacité, la richesse fonctionnelle et une
 documentation claire. Yii a été conçu dès le départ pour permettre le
 développement d'applications Web de grande qualité. Ce n'est ni le dérivé
-d'un projet existant ni l'aggrégation de composants tiers. Ce framework résulte
-de la riche expérience des auteurs ainsi que de l'analyse des meilleurs framework
-et applications Web du marché.
+d'un projet existant ni l’agrégation de composants tiers. Ce framework résulte
+de la riche expérience des auteurs ainsi que de l'analyse des meilleurs framework et applications Web du marché.
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 1906 $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 1907 $</div>

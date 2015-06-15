@@ -245,9 +245,9 @@ class CSort extends CComponent
 				if(is_array($definition))
 				{
 					if($descending)
-						$orders[]=isset($definition['desc']) ? $definition['desc'] : $attribute.' DESC';
+						$orders[]=isset($definition['desc']) ? (is_array($definition['desc']) ? implode(', ',$definition['desc']) : $definition['desc']) : $attribute.' DESC';
 					else
-						$orders[]=isset($definition['asc']) ? $definition['asc'] : $attribute;
+						$orders[]=isset($definition['asc']) ? (is_array($definition['asc']) ? implode(', ',$definition['asc']) : $definition['asc']) : $attribute;
 				}
 				elseif($definition!==false)
 				{

@@ -26,7 +26,7 @@ class ModelCode extends CCodeModel
 			array('connectionId', 'validateConnectionId', 'skipOnError'=>true),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
 			array('tablePrefix, modelClass', 'match', 'pattern'=>'/^[a-zA-Z_]\w*$/', 'message'=>'{attribute} should only contain word characters.'),
-		    array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
+		    array('baseClass', 'match', 'pattern'=>'/^[a-zA-Z_\\\\][\w\\\\]*$/', 'message'=>'{attribute} should only contain word characters and backslashes.'),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
@@ -186,7 +186,7 @@ class ModelCode extends CCodeModel
 		if(!is_string($class) || !$this->classExists($class))
 			$this->addError('baseClass', "Class '{$this->baseClass}' does not exist or has syntax error.");
 		elseif($class!=='CActiveRecord' && !is_subclass_of($class,'CActiveRecord'))
-			$this->addError('baseClass', "'{$this->model}' must extend from CActiveRecord.");
+			$this->addError('baseClass', "'{$this->baseClass}' must extend from CActiveRecord.");
 	}
 
 	public function getTableSchema($tableName)
@@ -363,7 +363,7 @@ class ModelCode extends CCodeModel
 	 * Checks if the given table is a "many to many" pivot table.
 	 * Their PK has 2 fields, and both of those fields are also FK to other separate tables.
 	 * @param CDbTableSchema table to inspect
-	 * @return boolean true if table matches description of helpter table.
+	 * @return boolean true if table matches description of helper table.
 	 */
 	protected function isRelationTable($table)
 	{

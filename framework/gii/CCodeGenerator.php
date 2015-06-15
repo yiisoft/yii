@@ -103,7 +103,7 @@ class CCodeGenerator extends CController
 		if(isset($_GET['id']) && isset($model->files[$_GET['id']]))
 		{
 			$file=$model->files[$_GET['id']];
-			if(!in_array($file->type,array('php', 'txt','js','css')))
+			if(!in_array($file->type,array('php', 'txt','js','css','sql')))
 				$diff=false;
 			elseif($file->operation===CCodeFile::OP_OVERWRITE)
 				$diff=TextDiff::compare(file_get_contents($file->path), $file->content);

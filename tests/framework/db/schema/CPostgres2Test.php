@@ -46,6 +46,27 @@ class CPostgres2Test extends CTestCase
 		$this->assertEquals($expect, $sql);
 	}
 
+	public function testCreateTableBig()
+	{
+		$sql=$this->db->schema->createTable('test',array(
+			'id'=>'bigpk',
+			'name'=>'string not null',
+			'desc'=>'text',
+			'number'=>'bigint',
+			'number2'=>'bigint not null default 0',
+			'primary key (id, name)',
+		));
+		$expect="CREATE TABLE \"test\" (\n"
+			. "\t\"id\" bigserial NOT NULL PRIMARY KEY,\n"
+			. "\t\"name\" character varying (255) not null,\n"
+			. "\t\"desc\" text,\n"
+			. "\t\"number\" bigint,\n"
+			. "\t\"number2\" bigint not null default 0,\n"
+			. "\tprimary key (id, name)\n"
+			. ")";
+		$this->assertEquals($expect, $sql);
+	}
+
 	public function testRenameTable()
 	{
 		$sql=$this->db->schema->renameTable('test', 'test2');
@@ -97,6 +118,14 @@ class CPostgres2Test extends CTestCase
 		$sql=$this->db->schema->addForeignKey('fk_test', 'profile', 'user_id', 'users', 'id','CASCADE','RESTRICTED');
 		$expect='ALTER TABLE "profile" ADD CONSTRAINT "fk_test" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE RESTRICTED';
 		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->addForeignKey('fk_test', 'profile', 'user_id,id', 'users', 'id,username','CASCADE','RESTRICTED');
+		$expect='ALTER TABLE "profile" ADD CONSTRAINT "fk_test" FOREIGN KEY ("user_id", "id") REFERENCES "users" ("id", "username") ON DELETE CASCADE ON UPDATE RESTRICTED';
+		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->addForeignKey('fk_test', 'profile', array('user_id','id'), 'users', array('id','username'),'CASCADE','RESTRICTED');
+		$expect='ALTER TABLE "profile" ADD CONSTRAINT "fk_test" FOREIGN KEY ("user_id", "id") REFERENCES "users" ("id", "username") ON DELETE CASCADE ON UPDATE RESTRICTED';
+		$this->assertEquals($expect, $sql);
 	}
 
 	public function testDropForeignKey()
@@ -113,7 +142,11 @@ class CPostgres2Test extends CTestCase
 		$this->assertEquals($expect, $sql);
 
 		$sql=$this->db->schema->createIndex('id_pk','test','id1,id2',true);
-		$expect='CREATE UNIQUE INDEX "id_pk" ON "test" ("id1", "id2")';
+		$expect='ALTER TABLE ONLY "test" ADD CONSTRAINT "id_pk" UNIQUE ("id1", "id2")';
+		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->createIndex('id_pk','test',array('id1','id2'),true);
+		$expect='ALTER TABLE ONLY "test" ADD CONSTRAINT "id_pk" UNIQUE ("id1", "id2")';
 		$this->assertEquals($expect, $sql);
 	}
 

@@ -57,7 +57,7 @@ class UserIdentity extends CUserIdentity
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
 		if($record===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($record->password!==crypt($this->password,$record->password))
+		else if(!CPasswordHelper::verifyPassword($this->password,$record->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
@@ -86,13 +86,7 @@ also be saved in cookie. Make sure you do not declare sensitive information
 
 ### Storing passwords in the database
 
-Secure storage of user passwords in a database requires some care. An attacker that has stolen your user table (or a backup of it) can recover passwords using standard techniques if you don't protect against them. In particular you should salt the password before hashing and use a hash function that takes the attacker a long time to compute. The above code example uses the built-in PHP `crypt()` function which, with appropriate use, returns hashes that are very hard to crack.
-
-To learn more about these topics please read.
-
-- [PHP `crypt()` function](http://php.net/manual/en/function.crypt.php)
-- Yii Wiki article [Use crypt() for password storage](http://www.yiiframework.com/wiki/425)
-
+Secure storage of user passwords in a database requires some care. An attacker that has stolen your user table (or a backup of it) can recover passwords using standard techniques if you don't protect against them. The above code example uses Yii built-in [CPasswordHelper] to hash the password and to validate it (since version 1.1.14). [CPasswordHelper::hashPassword] returns hashes that are very hard to crack.
 
 Login and Logout
 ----------------

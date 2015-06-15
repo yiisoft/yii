@@ -187,43 +187,39 @@ EOD;
 	}
 
 	/**
-	 * Renders the header cell content.
+	 * Returns the header cell content.
 	 * This method will render a checkbox in the header when {@link selectableRows} is greater than 1
 	 * or in case {@link selectableRows} is null when {@link CGridView::selectableRows} is greater than 1.
+	 * @return string the header cell content.
+	 * @since 1.1.16
 	 */
-	protected function renderHeaderCellContent()
+	public function getHeaderCellContent()
 	{
 		if(trim($this->headerTemplate)==='')
-		{
-			echo $this->grid->blankDisplay;
-			return;
-		}
+			return $this->grid->blankDisplay;
 
-		$item = '';
 		if($this->selectableRows===null && $this->grid->selectableRows>1)
-			$item = CHtml::checkBox($this->id.'_all',false,array('class'=>'select-on-check-all'));
+			$item=CHtml::checkBox($this->id.'_all',false,array('class'=>'select-on-check-all'));
 		elseif($this->selectableRows>1)
-			$item = CHtml::checkBox($this->id.'_all',false);
+			$item=CHtml::checkBox($this->id.'_all',false);
 		else
-		{
-			ob_start();
-			parent::renderHeaderCellContent();
-			$item = ob_get_clean();
-		}
+			$item=parent::getHeaderCellContent();
 
-		echo strtr($this->headerTemplate,array(
+		return strtr($this->headerTemplate,array(
 			'{item}'=>$item,
 		));
 	}
 
 	/**
-	 * Renders the data cell content.
+	 * Returns the data cell content.
 	 * This method renders a checkbox in the data cell.
 	 * @param integer $row the row number (zero-based)
-	 * @param mixed $data the data associated with the row
+	 * @return string the data cell content.
+	 * @since 1.1.16
 	 */
-	protected function renderDataCellContent($row,$data)
+	public function getDataCellContent($row)
 	{
+		$data=$this->grid->dataProvider->data[$row];
 		if($this->value!==null)
 			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
 		elseif($this->name!==null)
@@ -243,6 +239,6 @@ EOD;
 		unset($options['name']);
 		$options['value']=$value;
 		$options['id']=$this->id.'_'.$row;
-		echo CHtml::checkBox($name,$checked,$options);
+		return CHtml::checkBox($name,$checked,$options);
 	}
 }

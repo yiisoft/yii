@@ -202,7 +202,7 @@ class ApiModel
 		if(($text=trim($matches[2]))==='')
 			$text=$url;
 
-		if(preg_match('/^(http|ftp):\/\//i',$url))  // an external URL
+		if(preg_match('/^(http|https|ftp):\/\//i',$url))  // an external URL
 			return "<a href=\"$url\">$text</a>";
 		$url=$this->resolveInternalUrl($url);
 		return $url===''?$text:'{{'.$url.'|'.$text.'}}';
@@ -458,10 +458,7 @@ class ApiModel
 			$object->type=$segs[0];
 			if(isset($segs[1]) && empty($object->description))
 			{
-				if(($pos=strpos($segs[1],'.'))!==false)
-					$object->introduction=$this->processDescription(substr($segs[1],0,$pos+1));
-				else
-					$object->introduction=$this->processDescription($segs[1]);
+				$object->introduction=$this->processDescription($this->extractFirstSentence($segs[1]));
 				$object->description=$this->processDescription($segs[1]);
 			}
 		}
@@ -475,12 +472,25 @@ class ApiModel
 			$object->type=$segs[0];
 			if(isset($segs[1]) && empty($object->description))
 			{
-				if(($pos=strpos($segs[1],'.'))!==false)
-					$object->introduction=$this->processDescription(substr($segs[1],0,$pos+1));
-				else
-					$object->introduction=$this->processDescription($segs[1]);
+				$object->introduction=$this->processDescription($this->extractFirstSentence($segs[1]));
 				$object->description=$this->processDescription($segs[1]);
 			}
+		}
+	}
+
+	public static function extractFirstSentence($text)
+	{
+		if (mb_strlen($text) > 4 && ($pos = mb_strpos($text, '.', 4, 'utf-8')) !== false) {
+			$sentence = mb_substr($text, 0, $pos + 1, 'utf-8');
+			if (mb_strlen($text) >= $pos + 3) {
+				$abbrev = mb_substr($text, $pos - 1, 4);
+				if ($abbrev === 'e.g.' || $abbrev === 'i.e.') { // do not break sentence after abbreviation
+					$sentence .= static::extractFirstSentence(mb_substr($text, $pos + 1));
+				}
+			}
+			return $sentence;
+		} else {
+			return $text;
 		}
 	}
 
