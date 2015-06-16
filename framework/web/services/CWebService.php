@@ -236,10 +236,7 @@ class CWebService extends CComponent
 	{
 		if($this->_method===null)
 		{
-			if(isset($HTTP_RAW_POST_DATA))
-				$request=$HTTP_RAW_POST_DATA;
-			else
-				$request=file_get_contents('php://input');
+			$request=file_get_contents('php://input');
 			if(preg_match('/<.*?:Body[^>]*>\s*<.*?:(\w+)/mi',$request,$matches))
 				$this->_method=$matches[1];
 			else

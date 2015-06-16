@@ -22,6 +22,7 @@ Version 1.1.17 work in progress
 - Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
 - Enh #3827: Added the $options parameter to be used in stream_socket_client in CRedisCache.
 - Chg #3776: Autoloader now doesn't error in case of non-existing namespaced classes so other autoloaders have chance to handle these (alexandernst)
+- Chg #3890: Always use `php://input` since HTTP_RAW_POST_DATA is deprecated in PHP 5.6 and causes a warning
 
 Version 1.1.16 December 21, 2014
 --------------------------------
