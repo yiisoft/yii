@@ -832,8 +832,8 @@ class CJoinElement
 			{
 				if(isset($row[$alias]))
 					$pk[$name]=$row[$alias];
-				else	// no matching related objects
-					return null;
+				else	//for view
+					$pk[$name]=null;
 			}
 			$pk=serialize($pk);
 		}
