@@ -828,13 +828,17 @@ class CJoinElement
 		else // is_array, composite key
 		{
 			$pk=array();
+			$pkNull=true;
 			foreach($this->_pkAlias as $name=>$alias)
 			{
-				if(isset($row[$alias]))
-					$pk[$name]=$row[$alias];
+				if(isset($row[$alias])) {
+					$pk[$name] = $row[$alias];
+					$pkNull = false;
+				}
 				else	//for view
 					$pk[$name]=null;
 			}
+			if ($pkNull) return;
 			$pk=serialize($pk);
 		}
 
