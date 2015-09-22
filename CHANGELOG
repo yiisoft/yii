@@ -22,6 +22,7 @@ Version 1.1.17 work in progress
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
 - Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
 - Enh #3827: Added the $options parameter to be used in stream_socket_client in CRedisCache.
+- Enh #3872: Added database-based StatePersister implementation (AloneCoder)
 - Chg #3776: Autoloader now doesn't error in case of non-existing namespaced classes so other autoloaders have chance to handle these (alexandernst)
 
 Version 1.1.16 December 21, 2014
