@@ -499,8 +499,10 @@ class CDbCriteria extends CComponent
 			$criteria=new self($criteria);
 		if($this->select!==$criteria->select)
 		{
-			if($this->select==='*')
+			if($this->select==='*'||$this->select===false)
 				$this->select=$criteria->select;
+			elseif($criteria->select===false)
+				$this->select=false;
 			elseif($criteria->select!=='*')
 			{
 				$select1=is_string($this->select)?preg_split('/\s*,\s*/',trim($this->select),-1,PREG_SPLIT_NO_EMPTY):$this->select;
