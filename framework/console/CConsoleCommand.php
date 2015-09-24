@@ -355,11 +355,11 @@ abstract class CConsoleCommand extends CComponent
 	 *   by the function will be saved into the target file.</li>
 	 * <li>params: optional, the parameters to be passed to the callback</li>
 	 * </ul>
+	 * @param boolean $overwriteAll whether to overwrite all files.
 	 * @see buildFileList
 	 */
-	public function copyFiles($fileList)
+	public function copyFiles($fileList,$overwriteAll=false)
 	{
-		$overwriteAll=false;
 		foreach($fileList as $name=>$file)
 		{
 			$source=strtr($file['source'],'/\\',DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR);
