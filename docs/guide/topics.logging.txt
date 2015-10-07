@@ -256,4 +256,4 @@ in executing what SQL statement. We can also call [CDbConnection::getStats()] to
 the total number SQL statements executed and their total execution time.
 
 
-<div class="revision">$Id$</div>
+

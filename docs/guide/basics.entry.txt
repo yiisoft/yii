@@ -34,4 +34,4 @@ in debug mode is less efficient because it keeps many internal logs. On the
 other hand, debug mode is also more helpful during the development stage
 because it provides richer debugging information when an error occurs.
 
-<div class="revision">$Id$</div>
+

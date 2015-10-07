@@ -28,4 +28,4 @@ available to the web server.  Yii has been tested with [Apache HTTP server](http
 on Windows and Linux.  It may also run on other Web servers and platforms, 
 provided PHP 5.1 is supported.
 
-<div class="revision">$Id$</div>
+

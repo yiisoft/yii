@@ -317,4 +317,4 @@ return array(
 Now if we run the `migrate` command, the above configurations will take effect without requiring us to enter the command line options every time.
 
 
-<div class="revision">$Id$</div>
+

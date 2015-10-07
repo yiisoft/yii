@@ -43,4 +43,4 @@ project nor a conglomerate of third-party work. It is the result of the
 authors' rich experience with Web application development and their investigation
 of the most popular Web programming frameworks and applications.
 
-<div class="revision">$Id$</div>
+

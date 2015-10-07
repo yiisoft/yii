@@ -65,4 +65,3 @@ The final deployment process manly involves copying the directory `/wwwroot/blog
  5. Change the permission of the directories `assets` and `protected/runtime` so that they are writable by the Web server process.
 
 
-<div class="revision">$Id$</div>

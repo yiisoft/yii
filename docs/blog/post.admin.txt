@@ -106,4 +106,3 @@ The above code is very straightforward: it first deletes all those comments whos
 
 > Tip: We have to explicitly delete all comments for the deleted post here because SQLite does not really support foreign key constraints. In a DBMS that supports this constraint (such as MySQL, PostgreSQL), the foreign key constraint can be set up such that the DBMS automatically deletes the related comments if the post is deleted. In that case, we no longer this explicit deletion call in our code.
 
-<div class="revision">$Id$</div>

@@ -229,4 +229,3 @@ via getters and/or setters of the behavior. For example, if a behavior has a pro
 and the behavior is attached to a component `$a`. Then we can use the expression `$a->xyz` to access
 the behavior's property.
 
-<div class="revision">$Id$</div>

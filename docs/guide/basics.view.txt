@@ -146,4 +146,4 @@ Yii provides a set of default system views located under
 `framework/views`. They can be customized by creating the same-named view
 files under `protected/views/system`.
 
-<div class="revision">$Id$</div>
+

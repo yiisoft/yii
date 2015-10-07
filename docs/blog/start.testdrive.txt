@@ -82,4 +82,3 @@ To help understand how Yii works, we describe the main workflow in our skeleton 
  6. The `actionContact` method renders a [view](http://www.yiiframework.com/doc/guide/basics.view) named `contact` to the Web user. Internally, this is achieved by including the view file `/wwwroot/blog/protected/views/site/contact.php` and embedding the result into the [layout](http://www.yiiframework.com/doc/guide/basics.view#layout) file `/wwwroot/blog/protected/views/layouts/column1.php`.
 
 
-<div class="revision">$Id$</div>

@@ -247,4 +247,3 @@ Developing a generic component extension is like writing a class. Again, the com
 should also be self-contained so that it can be easily used by other developers.
 
 
-<div class="revision">$Id$</div>
