@@ -18,13 +18,13 @@ Version 1.1.17 work in progress
 - Bug #3869: jQuery Yii GridView now doesn't fail when refreshing grid via POST request (a-t)
 - Bug #3879: Numeric labels in CBreadCrumbs reindex after using array_merge (AloneCoder)
 - Bug #3947: Fix error with `array_diff` when one of CDbCriteria->select contains "false" (askobara, cebe)
-- Enh #3969: soap.wsdl_cache_enabled gets reset. (tomtomsen)
 - Enh #2399: It is now possible to use table names containing spaces by introducing alias (devivan)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
 - Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
 - Enh #3827: Added the $options parameter to be used in stream_socket_client in CRedisCache.
 - Enh #3948: Enhanced CHttpRequest path info extraction for compatibility with PHP 7 (dmitrivereshchagin)
 - Enh #3949: Added `$overwriteAll` argument to `CConsoleCommand::copyFiles()` which can be set to true in noninteractive commands (dmitrivereshchagin)
+- Enh #3969: soap.wsdl_cache_enabled gets reset. (tomtomsen)
 - Chg #3776: Autoloader now doesn't error in case of non-existing namespaced classes so other autoloaders have chance to handle these (alexandernst)
 
 Version 1.1.16 December 21, 2014
