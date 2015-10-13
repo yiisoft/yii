@@ -161,8 +161,10 @@ class CWebService extends CComponent
 	{
 		header('Content-Type: text/xml;charset='.$this->encoding);
 		if(YII_DEBUG)
-			ini_set("soap.wsdl_cache_enabled",0);
+			$wsdl_cache_enabled = ini_set("soap.wsdl_cache_enabled",0);
 		$server=new SoapServer($this->wsdlUrl,$this->getOptions());
+		if(YII_DEBUG)
+			ini_set("soap.wsdl_cache_enabled",$wsdl_cache_enabled);
 		Yii::app()->attachEventHandler('onError',array($this,'handleError'));
 		try
 		{
