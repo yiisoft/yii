@@ -351,7 +351,7 @@ class CDocumentSoapObjectWrapper
 		{
 			$result = call_user_func_array(array($this->object, $name), $arguments);
 		}
-		return $result === null ? $result : array($name . 'Result' => $result); 
+		return $result === null ? $result : array($name . 'Result' => $result);
 	}
 }
 
