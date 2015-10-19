@@ -19,6 +19,7 @@ Version 1.1.17 work in progress
 - Bug #3869: jQuery Yii GridView now doesn't fail when refreshing grid via POST request (a-t)
 - Bug #3879: Numeric labels in CBreadCrumbs reindex after using array_merge (AloneCoder)
 - Bug #3947: Fix error with `array_diff` when one of CDbCriteria->select contains "false" (askobara, cebe)
+- Bug #3976: Overriding applyJoin() to comply with the DELETE command syntax. (odalecne)
 - Enh #2399: It is now possible to use table names containing spaces by introducing alias (devivan)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
 - Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
