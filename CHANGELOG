@@ -4,6 +4,7 @@
 Version 1.1.17 work in progress
 -------------------------------
 
+- Bug #3974: Fixed warning when request parameter contain array (cmazx)
 - Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
 - Bug #2993: Fixed Mysql datetime fields can have default CURRENT_TIMESTAMP (tomvdp)
