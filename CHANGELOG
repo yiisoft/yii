@@ -6,7 +6,7 @@ Version 1.1.17 work in progress
 
 - Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
-- Bug #2993: Fixed Mysql datetime fields can have default CURRENT_TIMESTAMP (tomvdp)
+- Bug #2993: Fixed MySQL datetime fields can have default CURRENT_TIMESTAMP (tomvdp)
 - Bug #3144: Fixed regression introduced in 1.1.16, whitespace before and after attributes in validation rules where not ignored (cebe)
 - Bug #3497: CErrorHandler messages for HTTP response codes were not matching RFCs (TeMPOraL)
 - Bug #3637: Fixed not quoting primary key in count statements (applee)
@@ -20,6 +20,7 @@ Version 1.1.17 work in progress
 - Bug #3879: Numeric labels in CBreadCrumbs reindex after using array_merge (AloneCoder)
 - Bug #3947: Fix error with `array_diff` when one of CDbCriteria->select contains "false" (askobara, cebe)
 - Bug #3974: Fixed warning when request parameter contains array (cmazx)
+- Bug #3976: Fixed MSSQL command builderto comply with the DELETE command syntax (odalecne)
 - Bug #3980: Fixed CRedisCache error when using `mbstring.func_overload` and UTF-8 as `mbstring.internal_encoding` (Lexx918)
 - Enh #2399: It is now possible to use table names containing spaces by introducing alias (devivan)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
