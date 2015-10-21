@@ -142,7 +142,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 */
 	public function applyJoin($sql,$join)
 	{
-		if(trim($join)!='')
+		if(trim($join)!=='')
 			$sql=preg_replace('/^\s*DELETE\s+FROM\s+((\[.+\])|([^\s]+))\s*/i',"DELETE \\1 FROM \\1",$sql);
 		return parent::applyJoin($sql,$join);
 	}
