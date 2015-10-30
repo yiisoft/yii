@@ -59,6 +59,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @var boolean if encryption key should be validated
+	 * @deprecated
 	 */
 	public $validateEncryptionKey=true;
 
