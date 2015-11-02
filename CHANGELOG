@@ -4,6 +4,7 @@
 Version 1.1.17 work in progress
 -------------------------------
 
+- Bug #3616: Fixed `CDbHttpSession` SQL Server exception when regenerating non-existent session by storing NULL instead of an empty string.
 - Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
 - Bug #2993: Fixed Mysql datetime fields can have default CURRENT_TIMESTAMP (tomvdp)
