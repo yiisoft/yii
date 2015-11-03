@@ -17,6 +17,13 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
+  'Can not generate multiple insert command with empty data set.' => 'Tyhjällä tietojoukolla ei voida luoda useita insert-komentoja.',
+  'Encryption key length can be {keyLengths}.' => 'Salausavaimen pituus voi olla {keyLengths}.',
+  'Encryption key length must be between {minLength} and {maxLength}.' => 'Salausavaimen pituus täytyy olla {minLength} ja {maxLength} väliltä.',
+  'Encryption key should be a string.' => 'Salausavaimen tulee olla merkkijono.',
+  'Failed to validate key. Supported key lengths of cipher not known.' => 'Avain kelpoisuustarkistus epäonnistui. Salakirjoitusjärjestelmän tuettuja avainpituuksia ei tiedetä.',
+  'No encryption key specified.' => 'Salausavainta ei ole määritetty.',
+  'Unable to upload the file "{file}" because of an unrecognized error.' => 'Ei voi ladata tiedostoa "{file}" tuntemattoman virheen vuoksi.',
   '"{path}" is not a valid directory.' => '"{path}" ei ole kelvollinen hakemisto.',
   '&lt; Previous' => '&lt; Edellinen',
   '&lt;&lt; First' => '&lt;&lt; Ensimmäinen',
@@ -78,7 +85,6 @@ return array (
   'CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.' => 'CProfileLogRoute löysi yhteensopimattoman koodilohkon "{token}". Varmista, että Yii::beginProfile() ja Yii::endProfile() -kutsut on sisennetty oikein.',
   'CProfileLogRoute.report "{report}" is invalid. Valid values include "summary" and "callstack".' => 'CProfileLogRoute.report "{report}" on virheellinen. Arvoiksi kelpaavat "summary" ja "callstack".',
   'CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.' => 'CSecurityManager vaatii, että PHP:n mcrypt-laajennus on ladattu, jotta tiedonsalaustoiminnallisuutta voi käyttää.',
-  'CSecurityManager.encryptionKey cannot be empty.' => 'CSecurityManager.encryptionKey ei voi olla tyhjä.',
   'CSecurityManager.validationKey cannot be empty.' => 'CSecurityManager.validationKey ei voi olla tyhjä.',
   'CSecurityManager::generateRandomString() cannot generate random string in the current environment.' => 'CSecurityManager::generateRandomString() ei pysty generoimaan satunnaista merkkijonoa nykyisessä ympäristössä.',
   'CTypedList<{type}> can only hold objects of {type} class.' => 'CTypedList<{type}> hyväksyy vain {type}-luokan olioita.',
@@ -149,7 +155,6 @@ return array (
   'The "range" property must be specified with a list of values.' => '"range"-ominaisuudelle pitää määrittää arvoluettelo.',
   'The $converter argument must be a valid callback or null.' => '$converter argumentin täytyy olla kelvollinen callback tai null.',
   'The CSRF token could not be verified.' => 'CSRF-tokenia ei voitu todentaa.',
-  'The DB query must contain the "from" portion.' => 'Tietokantakyselyssä pitää olla "from"-osuus.',
   'The STAT relation "{name}" cannot have child relations.' => 'STAT-relaatiolla "{name}" ei voi olla lapsirelaatioita.',
   'The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.' => 'URL-ratkaisumalli "{pattern}" reitille "{route}" ei ole kelvollinen säännöllinen lauseke.',
   'The active record cannot be deleted because it is new.' => 'Active recordia ei voi poistaa, koska se on uusi.',
