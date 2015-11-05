@@ -467,14 +467,27 @@ class CJoinElement
 
 	public function buildConditions()
 	{
-		$values = array_keys($this->_parent->records);
-		if (is_array($this->_parent->_table->primaryKey)) {
-			foreach ($values as &$value) {
-				$value = unserialize($value);
-			}
-		}
+        $values=array_keys($this->_parent->records);
+        if(is_array($this->_parent->_table->primaryKey))
+        {
+            foreach($values as &$value)
+                $value=unserialize($value);
+            unset($value);
+        }
+        if (is_array($this->_parent->_table->primaryKey)) {
+            $keys = array();
+            foreach ($this->_parent->_table->primaryKey as $key) {
+                if (array_key_exists($key, $this->relation->foreignKey)) {
+                    $keys[] = $this->relation->foreignKey[$key];
+                } else {
+                    $keys[] = $key;
+                }
+            }
+        } else {
+            $keys = is_array($this->relation->foreignKey) ? key($this->relation->foreignKey) : $this->relation->foreignKey;
+        }
 
-		return $this->_builder->createInCondition($this->_table, $this->_parent->_table->primaryKey, $values, $this->getColumnPrefix());
+        return $this->_builder->createInCondition($this->_table,$keys,$values,$this->getColumnPrefix());
 	}
 
 	public function getRelationsKeys()
