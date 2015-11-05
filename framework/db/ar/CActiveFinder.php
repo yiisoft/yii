@@ -441,10 +441,20 @@ class CJoinElement
 		}
 		elseif(!$this->_joined && !empty($this->_parent->records)) // not joined before
 		{
-			$query=new CJoinQuery($this->_parent);
-			$this->_joined=true;
-			$query->join($this);
-			$this->buildQuery($query);
+			if (count($this->relation->foreignKey) === count($this->_parent->_pkAlias)) {
+				$query            = new CJoinQuery($this);
+				$this->_joined    = true;
+				$query->selects   = array(); // reset to not receive the extra keys
+				$query->selects[] = $this->getColumnSelect($this->relation->select);
+				$query->selects[] = $this->getRelationsKeys();
+				$this->buildQuery($query);
+				$query->conditions[] = $this->buildConditions();
+			} else {
+				$query=new CJoinQuery($this->_parent);
+				$this->_joined=true;
+				$query->join($this);
+				$this->buildQuery($query);
+			}
 			$this->_parent->runQuery($query);
 		}
 
@@ -453,6 +463,36 @@ class CJoinElement
 
 		foreach($this->stats as $stat)
 			$stat->query();
+	}
+
+	public function buildConditions()
+	{
+		$values = array_keys($this->_parent->records);
+		if (is_array($this->_parent->_table->primaryKey)) {
+			foreach ($values as &$value) {
+				$value = unserialize($value);
+			}
+		}
+
+		return $this->_builder->createInCondition($this->_table, $this->_parent->_table->primaryKey, $values, $this->getColumnPrefix());
+	}
+
+	public function getRelationsKeys()
+	{
+		$fields = array();
+		$foreignKey      = $this->relation->foreignKey;
+		$parentPkAliases = $this->_parent->_pkAlias;
+
+		if (is_string($parentPkAliases)) {
+			$fields[] = sprintf('%s.%s AS %s', $this->tableAlias, is_string($foreignKey) ? $foreignKey : key($foreignKey), $parentPkAliases);
+		} else {
+			foreach ($foreignKey as $modelField => $parentField) {
+				if (array_key_exists($parentField, $parentPkAliases)) {
+					$fields[] = sprintf('%s.%s AS %s', $this->tableAlias, $modelField, $parentPkAliases[$parentField]);
+				}
+			}
+		}
+		return implode(',', $fields);
 	}
 
 	/**
