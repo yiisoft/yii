@@ -29,6 +29,7 @@ Version 1.1.17 work in progress
 - Enh #3948: Enhanced CHttpRequest path info extraction for compatibility with PHP 7 (dmitrivereshchagin)
 - Enh #3949: Added `$overwriteAll` argument to `CConsoleCommand::copyFiles()` which can be set to true in noninteractive commands (dmitrivereshchagin)
 - Chg #3776: Autoloader now doesn't error in case of non-existing namespaced classes so other autoloaders have chance to handle these (alexandernst)
+- Chg #3890: Always use `php://input` since HTTP_RAW_POST_DATA is deprecated in PHP 5.6 and causes a warning
 
 Version 1.1.16 December 21, 2014
 --------------------------------

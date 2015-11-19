@@ -236,7 +236,7 @@ class CWebService extends CComponent
 	{
 		if($this->_method===null)
 		{
-			if(isset($HTTP_RAW_POST_DATA))
+			if (version_compare(phpversion(),'5.6.0','<') && isset($HTTP_RAW_POST_DATA))
 				$request=$HTTP_RAW_POST_DATA;
 			else
 				$request=file_get_contents('php://input');
@@ -349,7 +349,7 @@ class CDocumentSoapObjectWrapper
 		{
 			$result = call_user_func_array(array($this->object, $name), $arguments);
 		}
-		return $result === null ? $result : array($name . 'Result' => $result); 
+		return $result === null ? $result : array($name . 'Result' => $result);
 	}
 }
 
