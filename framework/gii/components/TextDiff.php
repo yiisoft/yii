@@ -3,9 +3,9 @@
 error_reporting(E_ALL);
 
 Yii::import('gii.components.Pear.*');
-require_once 'Text/Diff.php';
-require_once 'Text/Diff/Renderer.php';
-require_once 'Text/Diff/Renderer/inline.php';
+require_once 'Pear/Text/Diff.php';
+require_once 'Pear/Text/Diff/Renderer.php';
+require_once 'Pear/Text/Diff/Renderer/inline.php';
 
 class TextDiff extends CComponent
 {
