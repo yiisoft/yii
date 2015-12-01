@@ -187,7 +187,7 @@ class MessageCommandTest extends CTestCase
 	{
 		$language = 'en';
 
-		$category='test_category';
+		$category='test_category1';
 		$message='test message';
 		$sourceFileContent = "Yii::t('{$category}','{$message}')";
 		$this->createSourceFile($sourceFileContent);
@@ -217,7 +217,7 @@ class MessageCommandTest extends CTestCase
 	public function testMerge()
 	{
 		$language = 'en';
-		$category='test_category';
+		$category='test_category2';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
 
 		$existingMessage='test existing message';
@@ -252,7 +252,7 @@ class MessageCommandTest extends CTestCase
 	public function testNoLongerNeedTranslation()
 	{
 		$language = 'en';
-		$category='test_category';
+		$category='test_category3';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
 
 		$oldMessage='test old message';
@@ -286,7 +286,7 @@ class MessageCommandTest extends CTestCase
 	public function testMergeWithContentZero()
 	{
 		$language = 'en';
-		$category='test_category';
+		$category='test_category4';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
 
 		$zeroMessage='test zero message';
@@ -324,7 +324,7 @@ class MessageCommandTest extends CTestCase
 	public function testMultiplyTranslators()
 	{
 		$language = 'en';
-		$category='test_category';
+		$category='test_category5';
 
 		$translators=array(
 			'Yii::t',
