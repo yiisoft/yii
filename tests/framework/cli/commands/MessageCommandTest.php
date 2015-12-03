@@ -216,6 +216,10 @@ class MessageCommandTest extends CTestCase
 	 */
 	public function testMerge()
 	{
+		if (defined('HHVM_VERSION')) {
+			$this->markTestSkipped('This test needs duplicate require of a file after its has changed, this does not work on HHVM.');
+		}
+
 		$language = 'en';
 		$category='test_category2';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
@@ -251,6 +255,10 @@ class MessageCommandTest extends CTestCase
 	 */
 	public function testNoLongerNeedTranslation()
 	{
+		if (defined('HHVM_VERSION')) {
+			$this->markTestSkipped('This test needs duplicate require of a file after its has changed, this does not work on HHVM.');
+		}
+
 		$language = 'en';
 		$category='test_category3';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
@@ -285,6 +293,10 @@ class MessageCommandTest extends CTestCase
 	 */
 	public function testMergeWithContentZero()
 	{
+		if (defined('HHVM_VERSION')) {
+			$this->markTestSkipped('This test needs duplicate require of a file after its has changed, this does not work on HHVM.');
+		}
+
 		$language = 'en';
 		$category='test_category4';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
@@ -323,6 +335,10 @@ class MessageCommandTest extends CTestCase
 	 */
 	public function testMultiplyTranslators()
 	{
+		if (defined('HHVM_VERSION')) {
+			$this->markTestSkipped('This test needs duplicate require of a file after its has changed, this does not work on HHVM.');
+		}
+
 		$language = 'en';
 		$category='test_category5';
 
