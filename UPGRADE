@@ -20,6 +20,8 @@ General upgrade instructions
 Upgrading from v1.1.16
 ----------------------
 
+- If you're using CApcCache with APCu, set `useApcu` to `true` in the component config.
+
 Upgrading from v1.1.15
 ----------------------
 
