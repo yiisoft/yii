@@ -31,8 +31,8 @@ Version 1.1.17 work in progress
 - Enh #3872: Added database-based StatePersister implementation (AloneCoder)
 - Enh #3948: Enhanced CHttpRequest path info extraction for compatibility with PHP 7 (dmitrivereshchagin)
 - Enh #3949: Added `$overwriteAll` argument to `CConsoleCommand::copyFiles()` which can be set to true in noninteractive commands (dmitrivereshchagin)
+- Enh #3995: CAuthManager is now able to silence errors when using PHP 7 (samdark)
 - Enh: CApcCache is now able to handle PHP 7 APCu (samdark)
-- Enh: CAuthManager is now able to silence errors when using PHP 7 (samdark)
 - Chg #3776: Autoloader now doesn't error in case of non-existing namespaced classes so other autoloaders have chance to handle these (alexandernst)
 
 Version 1.1.16 December 21, 2014
