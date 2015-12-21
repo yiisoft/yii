@@ -19,6 +19,9 @@ services:
   - redis-server
   - memcached
 
+install:
+  - travis_retry composer self-update && composer --version
+
 before_script:
   - ./tests/travis/mysql-setup.sh
   - ./tests/travis/postgresql-setup.sh
