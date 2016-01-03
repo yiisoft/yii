@@ -16,6 +16,7 @@ Version 1.1.17 work in progress
 - Bug #3704: Fixed `CSecurityManager` to work properly is case `cryptAlgorithm` specified as array (samdark)
 - Bug #3715: 1.1.16 `CSecurityManager::legacyDecrypt` was not compatible with 1.1.15 method (DanaLuther)
 - Bug #3724: Fixed namespace prefix in WSDL generator for arrayType. (ametad)
+- Bug #3757: Fixed regression in `CPgsqlSchema::dropIndex()` (samdark)
 - Bug #3833: Fixed `CHttpRequest::sendFile()` range support in case `mbstring.internal_encoding=UTF-8` (MonkeyMaster)
 - Bug #3869: jQuery Yii GridView now doesn't fail when refreshing grid via POST request (a-t)
 - Bug #3879: Numeric labels in CBreadCrumbs reindex after using array_merge (AloneCoder)
