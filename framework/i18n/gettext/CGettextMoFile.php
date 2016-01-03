@@ -73,7 +73,8 @@ class CGettextMoFile extends CGettextFile
 			throw new CException(Yii::t('yii','Unable to lock file "{file}" for reading.',
 				array('{file}'=>$file)));
 
-		$magic=current($array=unpack('c',$this->readByte($fr,4)));
+		$array=unpack('c',$this->readByte($fr,4));
+		$magic=current($array);
 		if($magic==-34)
 			$this->useBigEndian=false;
 		elseif($magic==-107)
@@ -231,7 +232,8 @@ class CGettextMoFile extends CGettextFile
 	 */
 	protected function readInteger($fr)
 	{
-		return current($array=unpack($this->useBigEndian ? 'N' : 'V', $this->readByte($fr,4)));
+		$array=unpack($this->useBigEndian ? 'N' : 'V', $this->readByte($fr,4));
+		return current($array);
 	}
 
 	/**
