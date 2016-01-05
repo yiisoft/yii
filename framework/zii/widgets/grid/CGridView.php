@@ -241,6 +241,20 @@ class CGridView extends CBaseListView
 	 */
 	public $selectableRows=1;
 	/**
+	 * @var string the jQuery selector of the HTML elements that may trigger the selection of their row when they are clicked.
+	 * The default value is an empty string, meaning that the selection may be triggered by clicking anywhere on the row itself.
+	 * 
+	 * Example (row selection is only triggered by a CCheckBoxColumn input element in the row):
+	 * <pre>
+	 *  ...
+	 *  'rowSelectionSelector'=>'input.select-on-check',
+	 *  ...
+	 * </pre>
+	 * @see selectableRows
+	 * @since 1.1.17
+	 */
+	public $rowSelectionSelector='';
+	/**
 	 * @var string the base script URL for all grid view resources (eg javascript, CSS file, images).
 	 * Defaults to null, meaning using the integrated grid view resources (which are published as assets).
 	 */
@@ -438,6 +452,7 @@ class CGridView extends CBaseListView
 			'filterClass'=>$this->filterCssClass,
 			'tableClass'=>$this->itemsCssClass,
 			'selectableRows'=>$this->selectableRows,
+			'rowSelectionSelector'=>$this->rowSelectionSelector,
 			'enableHistory'=>$this->enableHistory,
 			'updateSelector'=>$this->updateSelector,
 			'filterSelector'=>$this->filterSelector

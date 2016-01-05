@@ -60,7 +60,8 @@
 					loadingClass: 'loading',
 					filterClass: 'filters',
 					tableClass: 'items',
-					selectableRows: 1
+					selectableRows: 1,
+					rowSelectionSelector: ''
 					// updateSelector: '#id .pager a, '#id .grid thead th a',
 					// beforeAjaxUpdate: function (id) {},
 					// afterAjaxUpdate: function (id, data) {},
@@ -77,13 +78,15 @@
 					id = $grid.attr('id'),
 					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
 					sortSelector = '#' + id + ' .' + settings.tableClass + ' thead th a.sort-link',
-					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
+					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select',
+					rowSelector = '#' + id + ' .' + settings.tableClass + ' > tbody > tr';
 
 				settings.updateSelector = settings.updateSelector
 								.replace('{page}', pagerSelector)
 								.replace('{sort}', sortSelector);
 				settings.filterSelector = settings.filterSelector
 								.replace('{filter}', inputSelector);
+				settings.rowSelectionSelector = $.trim(rowSelector + ' ' + settings.rowSelectionSelector);
 
 				gridSettings[id] = settings;
 
@@ -156,7 +159,7 @@
 
 				if (settings.selectableRows > 0) {
 					selectCheckedRows(this.id);
-					$(document).on('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
+					$(document).on('click.yiiGridView', settings.rowSelectionSelector, function (e) {
 						var $currentGrid, $row, isRowSelected, $checks,
 							$target = $(e.target);
 
@@ -164,7 +167,7 @@
 							return;
 						}
 
-						$row = $(this);
+						$row = $(this).closest('tr');
 						$currentGrid = $('#' + id);
 						$checks = $('input.select-on-check', $currentGrid);
 						isRowSelected = $row.toggleClass('selected').hasClass('selected');
