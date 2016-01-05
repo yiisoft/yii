@@ -68,6 +68,8 @@ class CEmailValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
+		if($this->allowEmpty && $this->isEmpty($value))
+			return;
 
 		if(!$this->validateValue($value))
 		{
@@ -79,15 +81,16 @@ class CEmailValidator extends CValidator
 	/**
 	 * Validates a static value to see if it is a valid email.
 	 * This method is provided so that you can call it directly without going through the model validation rule mechanism.
+	 *
+	 * Note that this method does not respect the {@link allowEmpty} property.
+	 *
 	 * @param mixed $value the value to be validated
 	 * @return boolean whether the value is a valid email
 	 * @since 1.1.1
+	 * @see https://github.com/yiisoft/yii/issues/3764#issuecomment-75457805
 	 */
 	public function validateValue($value)
 	{
-		if($this->allowEmpty && $this->isEmpty($value))
-			return true;
-
 		if(is_string($value) && $this->validateIDN)
 			$value=$this->encodeIDN($value);
 		// make sure string length is limited to avoid DOS attacks
