@@ -54,10 +54,8 @@ class CBooleanValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && $this->isEmpty($value))
-			return;
-		if(!$this->strict && $value!=$this->trueValue && $value!=$this->falseValue
-			|| $this->strict && $value!==$this->trueValue && $value!==$this->falseValue)
+		
+		if(!$this->validateValue($value))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be either {true} or {false}.');
 			$this->addError($object,$attribute,$message,array(
@@ -65,6 +63,25 @@ class CBooleanValidator extends CValidator
 				'{false}'=>$this->falseValue,
 			));
 		}
+	}
+	
+	/**
+	 * Validates a static value to see if it is a valid boolean.
+	 * This method is provided so that you can call it directly without going
+	 * through the model validation rule mechanism.
+	 * @param mixed $value the value to be validated
+	 * @return boolean whether the value is a valid boolean
+	 * @since 1.1.17
+	 */
+	public function validateValue($value)
+	{
+		if($this->allowEmpty && $this->isEmpty($value))
+			return true;
+
+		$valid = !(!$this->strict && $value!=$this->trueValue && $value!=$this->falseValue
+			|| $this->strict && $value!==$this->trueValue && $value!==$this->falseValue);
+		
+		return $valid;
 	}
 
 	/**
