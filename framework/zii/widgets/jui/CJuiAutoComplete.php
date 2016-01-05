@@ -65,6 +65,18 @@ class CJuiAutoComplete extends CJuiInputWidget
 	 * into a proper URL. When this property is set, the {@link source} property will be ignored.
 	 */
 	public $sourceUrl;
+	/**
+	 * @var string the input type of the autocomplete field. The default type is 'text'. Supported types are:
+	 * <ul>
+	 * <li>text</li>
+	 * <li>search</li>
+	 * <li>email</li>
+	 * <li>tel</li>
+	 * <li>url</li>
+	 * </ul>
+	 * @since 1.1.17
+	 */
+	public $inputType='text';
 
 	/**
 	 * Run this widget.
@@ -81,11 +93,8 @@ class CJuiAutoComplete extends CJuiInputWidget
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
 
-		if($this->hasModel())
-			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
-		else
-			echo CHtml::textField($name,$this->value,$this->htmlOptions);
-
+		echo $this->generateField();
+		
 		if($this->sourceUrl!==null)
 			$this->options['source']=CHtml::normalizeUrl($this->sourceUrl);
 		else
@@ -93,5 +102,29 @@ class CJuiAutoComplete extends CJuiInputWidget
 
 		$options=CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
+	}
+	
+	/**
+	 * Generates the HTML for the configured {@link inputType}.
+	 * @return string the generated input field.
+	 */
+	protected function generateField()
+	{
+		$supportedTypes = array(
+			'text',
+			'search',
+			'email',
+			'tel',
+			'url'
+		);
+		
+		if (!in_array($this->inputType, $supportedTypes))
+			$this->inputType = 'text';
+
+		$inputField = $this->inputType.'Field';
+		if ($this->hasModel())
+			$inputField = 'active'.ucfirst($inputField);
+		
+		return CHtml::{$inputField}($this->model,$this->attribute,$this->htmlOptions);
 	}
 }
