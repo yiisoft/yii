@@ -3,7 +3,7 @@
 
 Version 1.1.17 work in progress
 -------------------------------
-
+- Bug #3438: Postgres - ignore composite foreign keys. Wrong behaviour for multiple constraints for the same field (baso10)
 - Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
 - Bug #2993: Fixed MySQL datetime fields can have default CURRENT_TIMESTAMP (tomvdp)
