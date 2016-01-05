@@ -110,6 +110,8 @@
 				}
 
 				$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
+					var $this = $(this);
+
 					if (event.type === 'keydown') {
 						if (event.keyCode !== 13) {
 							return; // only react to enter key
@@ -118,8 +120,8 @@
 							eventTarget = event.target;
 						}
 					} else {
-						// prevent processing for both keydown and change events on the same element
-						if (eventType === 'keydown' && eventTarget === event.target) {
+						// prevent processing for both keydown and change events on the same element. Also prevent change event processing only on text elements
+						if ((eventType === 'keydown' && eventTarget === event.target) || (event.type === 'change' && $this.is('input[type=text]'))) {
 							eventType = '';
 							eventTarget = null;
 							return;
