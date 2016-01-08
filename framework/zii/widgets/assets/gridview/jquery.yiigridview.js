@@ -100,7 +100,7 @@
 								delete params[settings.ajaxVar];
 
 								var updateUrl = $.param.querystring(url[0], params);
-								window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
+								window.History.pushState({url: updateUrl}, document.title, updateUrl);
 							}
 						} else {
 							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
@@ -137,7 +137,7 @@
 						delete params[settings.ajaxVar];
 
 						var updateUrl = $.param.querystring(url.substr(0, url.indexOf('?')), params);
-						window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
+						window.History.pushState({url: updateUrl}, document.title, updateUrl);
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}
