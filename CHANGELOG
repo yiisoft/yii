@@ -9,7 +9,7 @@ Version 1.1.17 work in progress
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
 - Bug #2993: Fixed MySQL datetime fields can have default CURRENT_TIMESTAMP (tomvdp)
 - Bug #3144: Fixed regression introduced in 1.1.16, whitespace before and after attributes in validation rules where not ignored (cebe)
-- Bug #3458: Fixed CGridView with enableHistory breaks queries containing '&' characters (samdark)
+- Bug #3458: Fixed CGridView with enableHistory breaks queries containing '&' characters (nkovacs)
 - Bug #3476: Database sessions with Postgres did not work properly (c-schmitz) 
 - Bug #3497: CErrorHandler messages for HTTP response codes were not matching RFCs (TeMPOraL)
 - Bug #3637: Fixed not quoting primary key in count statements (applee)
