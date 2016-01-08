@@ -73,6 +73,7 @@
  * @property CPhpMessageSource $coreMessages The core message translations.
  * @property CMessageSource $messages The application message translations.
  * @property CHttpRequest $request The request component.
+ * @property CFormatter $format The formatter component.
  * @property CUrlManager $urlManager The URL manager component.
  * @property CController $controller The currently active controller. Null is returned in this base class.
  * @property string $baseUrl The relative URL for the application.
@@ -528,6 +529,15 @@ abstract class CApplication extends CModule
 	public function getUrlManager()
 	{
 		return $this->getComponent('urlManager');
+	}
+
+	/**
+	 * Returns the formatter component.
+	 * @return CFormatter the formatter component
+	 */
+	public function getFormat()
+	{
+		return $this->getComponent('format');
 	}
 
 	/**
