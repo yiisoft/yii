@@ -28,6 +28,7 @@ Version 1.1.17 work in progress
 - Bug #3976: Fixed MSSQL command builderto comply with the DELETE command syntax (odalecne)
 - Bug #3980: Fixed CRedisCache error when using `mbstring.func_overload` and UTF-8 as `mbstring.internal_encoding` (Lexx918)
 - Enh #2399: It is now possible to use table names containing spaces by introducing alias (devivan)
+- Enh #3457: CHttpRequest can now detect content type and decode JSON in REST method bodies. (Sibilino)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
 - Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
 - Enh #3827: Added the $options parameter to be used in stream_socket_client in CRedisCache.
