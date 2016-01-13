@@ -46,7 +46,6 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 	 * @var CDbConnection instance
 	 */
 	public $db;
-
 	/**
 	 * @var string Column name for value-field
 	 */
@@ -55,6 +54,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 	 * @var string Column name for key-field
 	 */
 	public $keyField='key';
+
 
 	/**
 	 * Initializes the component.

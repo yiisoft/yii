@@ -96,6 +96,7 @@ class CSecurityManager extends CApplicationComponent
 	private $_encryptionKey;
 	private $_mbstring;
 
+
 	public function init()
 	{
 		parent::init();

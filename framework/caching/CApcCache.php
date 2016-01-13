@@ -31,6 +31,7 @@ class CApcCache extends CCache
 	 */
 	public $useApcu=false;
 
+
 	/**
 	 * Initializes this application component.
 	 * This method is required by the {@link IApplicationComponent} interface.
