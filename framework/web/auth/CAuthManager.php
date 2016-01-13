@@ -151,6 +151,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 		if ($this->showErrors)
 			return eval($bizRule)!=0;
 		else
+		{
 			try
 			{
 				return @eval($bizRule)!=0;
@@ -159,6 +160,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 			{
 				return false;
 			}
+		}
 	}
 
 	/**
