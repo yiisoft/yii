@@ -68,7 +68,7 @@ class CPasswordHelper
 			throw new CException(Yii::t('yii',
 				'{class} requires the Blowfish option of the PHP crypt() function. This system does not have it.',
 				array('{class}'=>__CLASS__)));
-    }
+	}
 
 	/**
 	 * Generate a secure hash from a password and a random salt.
@@ -99,7 +99,7 @@ class CPasswordHelper
 			throw new CException(Yii::t('yii','Internal error while generating hash.'));
 
 		return $hash;
-    }
+	}
 
 	/**
 	 * Verify a password against a hash.
@@ -185,7 +185,7 @@ class CPasswordHelper
 
 		$cost=(int)$cost;
 		if($cost<4 || $cost>31)
-		    throw new CException(Yii::t('yii','{class}::$cost must be between 4 and 31.',array('{class}'=>__CLASS__)));
+			throw new CException(Yii::t('yii','{class}::$cost must be between 4 and 31.',array('{class}'=>__CLASS__)));
 
 		if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,true))===false)
 			if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,false))===false)

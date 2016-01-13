@@ -46,7 +46,7 @@ class CContentDecorator extends COutputProcessor
 
 	/**
 	 * Processes the captured output.
-     * This method decorates the output with the specified {@link view}.
+	 * This method decorates the output with the specified {@link view}.
 	 * @param string $output the captured output to be processed
 	 */
 	public function processOutput($output)

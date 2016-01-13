@@ -72,7 +72,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 				'{db}'=>$this->dbComponent
 			)));
 		if(!($this->db instanceof CDbConnection))
-            throw new CException(Yii::t ('yii', '\'{db}\' component is not a valid CDbConnection instance.',array(
+			throw new CException(Yii::t ('yii', '\'{db}\' component is not a valid CDbConnection instance.',array(
 				'{db}'=>$this->dbComponent
 			)));
 		if($this->db->schema->getTable($this->stateTableName,true)===null)
@@ -111,7 +111,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 				$this->valueField=>serialize($state)
 			));
 		else
-            return $command->update($this->stateTableName,array($this->valueField=>serialize($state)),
+			return $command->update($this->stateTableName,array($this->valueField=>serialize($state)),
 				$this->db->quoteColumnName($this->keyField).'=:key',
 				array(':key'=>Yii::app()->name)
 		);

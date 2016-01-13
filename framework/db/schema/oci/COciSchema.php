@@ -95,7 +95,7 @@ class COciSchema extends CDbSchema
 		}
 
 		return $this->_defaultSchema;
-    }
+	}
 
 	/**
 	 * @param string $table table name with optional schema name prefix, uses default schema name prefix is not provided.
