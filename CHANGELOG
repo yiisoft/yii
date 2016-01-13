@@ -1,9 +1,13 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.18 under development
+--------------------------------
+
+- no changes have been made yet.
+
 Version 1.1.17 Januar 13, 2016
 ------------------------------
-
 - Bug #1191: Fixed undefined index in CListIterator when data removed in parent CList (steven-hadfield)
 - Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)

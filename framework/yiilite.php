@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.17';
+		return '1.1.18-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
