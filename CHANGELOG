@@ -7,6 +7,7 @@ Version 1.1.18 under development
 - Enh #2819: backported masking of CSRF tokens from Yii 2.0 (samdark)
 - Enh #4049: Added '//' as a proper beginning of absolute URL in createAbsoluteUrl() method (ksowa)
 - Enh #4075: Added CClientScript::hasPackage() (samdark)
+- Bug #4004: Better fix for PostgreSQL Session storage (GuillaumeSmaha)
 - Bug #4015: Fixed bug with missing "disabled" attribute in internally rendered hidden fields (rob006)
 - Bug #4020: Fixed PHP 7 related bug in CCacheHttpSession when destroying not cached sessions (dirx)
 - Bug #4034: Fixed `CHttpSession::getIsStarted()` PHP 7 compatibility (tomotomo)
