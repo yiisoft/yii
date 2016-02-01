@@ -70,6 +70,12 @@
 	"require": {
 		"php": ">=5.1.0"
 	},
+	"replace": {
+		"yiisoft/yii": "~1.1"
+	},
+	"conflict": {
+		"yiisoft/yii": "~1.1"
+	},
 	"autoload": {
 		"classmap" : [
 			"framework/YiiBase.php",
