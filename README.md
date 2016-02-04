@@ -53,7 +53,7 @@ You can access it with the following URL:
         http://hostname/YiiPath/testdrive/index.php
 
 
-WHAT's NEXT
+WHAT'S NEXT
 -----------
 
 Please visit the project website for tutorials, class reference
