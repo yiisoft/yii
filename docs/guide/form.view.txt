@@ -106,4 +106,3 @@ the above view code can be rewritten as:
 </div><!-- form -->
 ~~~
 
-<div class="revision">$Id$</div>

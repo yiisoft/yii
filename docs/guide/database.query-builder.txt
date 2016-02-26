@@ -782,4 +782,4 @@ Below is an example showing how to drop an index:
 dropIndex('idx_username', 'tbl_user')
 ~~~
 
-<div class="revision">$Id$</div>
+

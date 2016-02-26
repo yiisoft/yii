@@ -97,7 +97,7 @@ class CCacheHttpSession extends CHttpSession
 	 */
 	public function destroySession($id)
 	{
-	    return $this->_cache->delete($this->calculateKey($id));
+		return $this->_cache->delete($this->calculateKey($id));
 	}
 
 	/**
@@ -107,6 +107,6 @@ class CCacheHttpSession extends CHttpSession
 	 */
 	protected function calculateKey($id)
 	{
-	    return self::CACHE_KEY_PREFIX.$id;
+		return self::CACHE_KEY_PREFIX.$id;
 	}
 }

@@ -1,11 +1,9 @@
 /*
- ### jQuery Multiple File Upload Plugin v1.47 - 2010-03-26 ###
+ ### jQuery Multiple File Upload Plugin v1.48 - 2012-07-19 ###
  * Home: http://www.fyneworks.com/jquery/multiple-file-upload/
  * Code: http://code.google.com/p/jquery-multifile-plugin/
  *
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
+	* Licensed under http://en.wikipedia.org/wiki/MIT_License
  ###
 */
 
@@ -87,12 +85,12 @@
        // limit number of files that can be selected?
        if(!(o.max>0) /*IsNull(MultiFile.max)*/){
         o.max = MultiFile.E.attr('maxlength');
-        if(!(o.max>0) /*IsNull(MultiFile.max)*/){
-         o.max = (String(MultiFile.e.className.match(/\b(max|limit)\-([0-9]+)\b/gi) || ['']).match(/[0-9]+/gi) || [''])[0];
-         if(!(o.max>0)) o.max = -1;
-         else           o.max = String(o.max).match(/[0-9]+/gi)[0];
-        }
        };
+							if(!(o.max>0) /*IsNull(MultiFile.max)*/){
+								o.max = (String(MultiFile.e.className.match(/\b(max|limit)\-([0-9]+)\b/gi) || ['']).match(/[0-9]+/gi) || [''])[0];
+								if(!(o.max>0)) o.max = -1;
+								else           o.max = String(o.max).match(/[0-9]+/gi)[0];
+							}
        o.max = new Number(o.max);
        // limit extensions?
        o.accept = o.accept || MultiFile.E.attr('accept') || '';
@@ -448,7 +446,7 @@
      $.fn[method] = function(){
       $.fn.MultiFile.disableEmpty();
       value = $.fn.MultiFile.intercepted[method].apply(this, arguments);
-						//SEE-http://code.google.com/p/jquery-multifile-plugin/issues/detail?id=27
+						//SEE http://code.google.com/p/jquery-multifile-plugin/issues/detail?id=27
       setTimeout(function(){ $.fn.MultiFile.reEnableEmpty() },1000);
       return value;
      }; // interception
@@ -471,6 +469,11 @@
 		
 		// name to use for newly created elements
 		namePattern: '$name', // same name by default (which creates an array)
+         /*master name*/ // use $name
+         /*master id  */ // use $id
+         /*group count*/ // use $g
+         /*slave count*/ // use $i
+									/*other      */ // use any combination of he above, eg.: $name_file$i
 		
 		// STRING: collection lets you show messages in different languages
 		STRING: {

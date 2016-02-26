@@ -62,6 +62,29 @@ class CBooleanValidatorTest extends CTestCase
         $this->assertTrue($model->hasErrors('foo'));
     }
 
+    public function testValidateValue()
+    {
+	    $validator = new CBooleanValidator();
+	    $this->assertTrue($validator->validateValue('1'));
+	    $this->assertTrue($validator->validateValue('0'));
+	    $this->assertTrue($validator->validateValue(true));
+	    $this->assertTrue($validator->validateValue(false));
+	    $this->assertTrue($validator->validateValue(1));
+	    $this->assertTrue($validator->validateValue(0));
+	    $this->assertFalse($validator->validateValue(null));
+	    $this->assertFalse($validator->validateValue('foo'));
+
+	    $validator->strict = true;
+	    $this->assertTrue($validator->validateValue('1'));
+	    $this->assertTrue($validator->validateValue('0'));
+	    $this->assertFalse($validator->validateValue(true));
+	    $this->assertFalse($validator->validateValue(false));
+	    $this->assertFalse($validator->validateValue(1));
+	    $this->assertFalse($validator->validateValue(0));
+	    $this->assertFalse($validator->validateValue(null));
+	    $this->assertFalse($validator->validateValue('foo'));
+    }
+
     /**
      * Test array typed value
      * https://github.com/yiisoft/yii/issues/1955

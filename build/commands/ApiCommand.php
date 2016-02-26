@@ -57,10 +57,13 @@ EOD;
 
 	/**
 	 * Execute the action.
-	 * @param array command line parameters specific for this command
+	 * @param array $args command line parameters specific for this command
 	 */
 	public function run($args)
 	{
+		if(is_file($composerAutoload=__DIR__.'/../../vendor/autoload.php'))
+			require $composerAutoload;
+
 		$options=array(
 			'fileTypes'=>array('php'),
 			'exclude'=>array(

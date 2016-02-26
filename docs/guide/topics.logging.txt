@@ -98,7 +98,7 @@ we can prevent certain categories from appearing in our logs:
 		array(
 			'class'=>'CEmailLogRoute',
 			'levels'=>'error, warning',
-			'except'=>'system.CModule.*' // Will email everything except any CModule logs
+			'except'=>'system.CModule.*', // Will email everything except any CModule logs
 			'emails'=>'admin@example.com',
 		),
 		array(
@@ -256,4 +256,4 @@ in executing what SQL statement. We can also call [CDbConnection::getStats()] to
 the total number SQL statements executed and their total execution time.
 
 
-<div class="revision">$Id$</div>
+

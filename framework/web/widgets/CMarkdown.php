@@ -46,8 +46,8 @@ class CMarkdown extends COutputProcessor
 
 	/**
 	 * Processes the captured output.
-     * This method converts the content in markdown syntax to HTML code.
-     * If {@link purifyOutput} is true, the HTML code will also be purified.
+	 * This method converts the content in markdown syntax to HTML code.
+	 * If {@link purifyOutput} is true, the HTML code will also be purified.
 	 * @param string $output the captured output to be processed
 	 * @see convert
 	 */

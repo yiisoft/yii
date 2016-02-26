@@ -115,4 +115,3 @@ In order to understand better how the above files are used, we show in the follo
  5. The `actionIndex()` method renders the `index` view with the post data.
 
 
-<div class="revision">$Id$</div>

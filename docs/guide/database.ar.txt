@@ -656,4 +656,3 @@ $contents=Content::model()->findAll();
 > Note: Default scope and named scopes only apply to `SELECT` queries. They are ignored for `INSERT`, `UPDATE` and `DELETE` queries.
 > Also, when declaring a scope (default or named), the AR class cannot be used to make DB queries in the method that declares the scope.
 
-<div class="revision">$Id$</div>

@@ -85,4 +85,3 @@ Notice that in the above code, because both `tbl_post` and `tbl_comment` have co
 
 Like the post index view, the `index` view for `CommentController` uses [CListView] to display the comment list which in turn uses the partial view `/wwwroot/blog/protected/views/comment/_view.php` to display the detail of each individual comment. We will not go into details here. Interested readers may refer to the corresponding file in the blog demo `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
 
-<div class="revision">$Id$</div>

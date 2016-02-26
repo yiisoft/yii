@@ -394,4 +394,3 @@ label. This can be customized by overriding the
 following subsections, specifying labels in the model allows us to create a
 form more quickly and powerful.
 
-<div class="revision">$Id$</div>

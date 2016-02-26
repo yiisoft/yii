@@ -105,4 +105,3 @@ After we finish with `actionIndex()`, we modify the `index` view as follows. Our
 
 Note that in the above, we use [CListView] to display the post list. This widget requires a partial view to display the detail of each individual post. Here we specify the partial view to be `_view`, which means the file `/wwwroot/blog/protected/views/post/_view.php`. In this view script, we can acccess the post instance being displayed via a local variable named `$data`.
 
-<div class="revision">$Id$</div>

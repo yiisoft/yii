@@ -28,7 +28,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *     ),
  *     // additional javascript options for the accordion plugin
  *     'options'=>array(
- *         'animated'=>'bounceslide',
+ *         'animate'=>'bounceslide',
  *     ),
  * ));
  * </pre>

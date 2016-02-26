@@ -57,4 +57,3 @@ It is also possible that we do not like the default way of resetting a table, i.
 
 In the next two sections, we will describe how to make use of the fixtures managed by [CDbFixtureManager] in unit tests and functional tests.
 
-<div class="revision">$Id$</div>

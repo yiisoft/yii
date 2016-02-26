@@ -93,4 +93,3 @@ In the implementation, because we want to detect if the user changes the tags in
 We are not going to give details of the `Tag::updateFrequency()` method here. Interested readers may refer to the file `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
 
 
-<div class="revision">$Id$</div>

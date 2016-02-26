@@ -43,7 +43,7 @@
 							delete params[settings.ajaxVar];
 
 							var updateUrl = $.param.querystring(url[0], params);
-							window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
+							window.History.pushState({url: updateUrl}, document.title, updateUrl);
 						}
 					} else {
 						$.fn.yiiListView.update(id, {url: $(this).attr('href')});

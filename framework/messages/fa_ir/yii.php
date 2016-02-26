@@ -31,7 +31,7 @@ return array (
   '{attribute} is of the wrong length (should be {length} characters).' => '{attribute} دارای طول اشتباه است ( باشدcharacters {length} باید)',
   '{attribute} is too big (maximum is {max}).' => '{attribute} بسیار بزرگ است. ({max}حداکثر)',
   '{attribute} is too long (maximum is {max} characters).' => '{attribute} بسیار طویل است. (می باشد {max}حداکثر کاراکتر)',
-  '{attribute} is too short (minimum is {min} characters).' => '{attribute} بسیار کوتاه است (می باشد {min} حداقل کاراکتر)',
+  '{attribute} is too short (minimum is {min} characters).' => '{attribute} بسیار کوتاه است. (حداقل {min} کاراکتر باید وارد شود.)',
   '{attribute} is too small (minimum is {min}).' => '{attribute} بسیار کوچک است.(می باشد {min}حداقل)',
   '{attribute} must be an integer.' => '  integer باشدباید {attribute}.',
   '{attribute} must be a number.' => '{attribute} باید عدد باشد.',

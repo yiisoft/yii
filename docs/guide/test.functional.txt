@@ -64,4 +64,3 @@ Like writing a unit test class, we declare the fixtures to be used by this test.
 
 > Tip: Before running functional tests, the Selenium-RC server must be started. This can be done by executing the command `java -jar selenium-server.jar` under your Selenium server installation directory.
 
-<div class="revision">$Id$</div>

@@ -706,7 +706,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function dateTimeField($model,$attribute,$htmlOptions=array())
 	{
@@ -722,7 +722,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function dateTimeLocalField($model,$attribute,$htmlOptions=array())
 	{
@@ -738,7 +738,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function weekField($model,$attribute,$htmlOptions=array())
 	{
@@ -754,7 +754,7 @@ class CActiveForm extends CWidget
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions additional HTML attributes.
 	 * @return string the generated input field
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function colorField($model,$attribute,$htmlOptions=array())
 	{

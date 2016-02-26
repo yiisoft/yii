@@ -71,6 +71,13 @@ class CChoiceFormat
 	 */
 	protected static function evaluate($expression,$n)
 	{
-		return @eval("return $expression;");
+		try
+		{
+			return @eval("return $expression;");
+		}
+		catch (ParseError $e)
+		{
+			return false;
+		}
 	}
 }

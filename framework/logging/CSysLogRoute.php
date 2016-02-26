@@ -15,7 +15,7 @@
  * @author miramir <gmiramir@gmail.com>
  * @author resurtm <resurtm@gmail.com>
  * @package system.logging
- * @since 1.1.15
+ * @since 1.1.16
  */
 class CSysLogRoute extends CLogRoute
 {

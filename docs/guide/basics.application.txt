@@ -231,4 +231,4 @@ life cycle:
 
    7. Raise an [onEndRequest|CApplication::onEndRequest] event;
 
-<div class="revision">$Id$</div>
+

@@ -187,7 +187,7 @@ class MessageCommandTest extends CTestCase
 	{
 		$language = 'en';
 
-		$category='test_category';
+		$category='test_category1';
 		$message='test message';
 		$sourceFileContent = "Yii::t('{$category}','{$message}')";
 		$this->createSourceFile($sourceFileContent);
@@ -216,8 +216,12 @@ class MessageCommandTest extends CTestCase
 	 */
 	public function testMerge()
 	{
+		if (defined('HHVM_VERSION')) {
+			$this->markTestSkipped('This test needs duplicate require of a file after its has changed, this does not work on HHVM.');
+		}
+
 		$language = 'en';
-		$category='test_category';
+		$category='test_category2';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
 
 		$existingMessage='test existing message';
@@ -251,8 +255,12 @@ class MessageCommandTest extends CTestCase
 	 */
 	public function testNoLongerNeedTranslation()
 	{
+		if (defined('HHVM_VERSION')) {
+			$this->markTestSkipped('This test needs duplicate require of a file after its has changed, this does not work on HHVM.');
+		}
+
 		$language = 'en';
-		$category='test_category';
+		$category='test_category3';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
 
 		$oldMessage='test old message';
@@ -285,8 +293,12 @@ class MessageCommandTest extends CTestCase
 	 */
 	public function testMergeWithContentZero()
 	{
+		if (defined('HHVM_VERSION')) {
+			$this->markTestSkipped('This test needs duplicate require of a file after its has changed, this does not work on HHVM.');
+		}
+
 		$language = 'en';
-		$category='test_category';
+		$category='test_category4';
 		$messageFileName=$language.DIRECTORY_SEPARATOR.$category.'.php';
 
 		$zeroMessage='test zero message';
@@ -323,8 +335,12 @@ class MessageCommandTest extends CTestCase
 	 */
 	public function testMultiplyTranslators()
 	{
+		if (defined('HHVM_VERSION')) {
+			$this->markTestSkipped('This test needs duplicate require of a file after its has changed, this does not work on HHVM.');
+		}
+
 		$language = 'en';
-		$category='test_category';
+		$category='test_category5';
 
 		$translators=array(
 			'Yii::t',

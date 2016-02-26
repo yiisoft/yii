@@ -340,4 +340,4 @@ filter will be applied to the `edit` and `create` actions, while
 `create`. If neither plus nor minus appears in the filter configuration,
 the filter will be applied to all actions.
 
-<div class="revision">$Id$</div>
+

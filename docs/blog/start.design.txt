@@ -50,4 +50,3 @@ We divide the development of our blog application into the following milestones.
  * Milestone 4: implementing portlets. It includes user menu, login, tag cloud and recent comments portlets.
  * Milestone 5: final tune-up and deployment.
 
-<div class="revision">$Id$</div>

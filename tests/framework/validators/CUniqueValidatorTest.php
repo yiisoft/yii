@@ -34,8 +34,11 @@ class CUniqueValidatorTest extends CTestCase
 
 	protected function tearDown()
 	{
-		$this->_connection->createCommand()->dropTable($this->_tableName);
-		$this->_connection->active=false;
+		if($this->_connection instanceof CDbConnection)
+		{
+			$this->_connection->createCommand()->dropTable($this->_tableName);
+			$this->_connection->active=false;
+		}
 	}
 
 	/**

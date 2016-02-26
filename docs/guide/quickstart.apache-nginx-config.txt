@@ -80,4 +80,3 @@ server {
 ~~~
 Using this configuration you can set `cgi.fix_pathinfo=0` in php.ini to avoid many unnecessary system stat() calls.
 
-<div class="revision">$Id$</div>

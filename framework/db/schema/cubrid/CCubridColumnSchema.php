@@ -13,7 +13,7 @@
   *
  * @author Esen Sagynov <kadismal@gmail.com>
  * @package system.db.schema.cubrid
- * @since 1.1.15
+ * @since 1.1.16
  */
 class CCubridColumnSchema extends CDbColumnSchema
 {

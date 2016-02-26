@@ -55,7 +55,7 @@ return array(
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+			'errorAction'=>YII_DEBUG ? null : 'site/error',
 		),
 
 		'log'=>array(

@@ -604,7 +604,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function colorField($name,$value='',$htmlOptions=array())
 	{
@@ -637,7 +637,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function searchField($name,$value='',$htmlOptions=array())
 	{
@@ -721,7 +721,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function dateTimeField($name,$value='',$htmlOptions=array())
 	{
@@ -738,7 +738,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function dateTimeLocalField($name,$value='',$htmlOptions=array())
 	{
@@ -755,7 +755,7 @@ class CHtml
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see inputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function weekField($name,$value='',$htmlOptions=array())
 	{
@@ -918,6 +918,8 @@ class CHtml
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
 				$uncheckOptions=array('id'=>false);
+			if(!empty($htmlOptions['disabled']))
+				$uncheckOptions['disabled']=$htmlOptions['disabled'];
 			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
 		}
 		else
@@ -965,6 +967,8 @@ class CHtml
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
 				$uncheckOptions=array('id'=>false);
+			if(!empty($htmlOptions['disabled']))
+				$uncheckOptions['disabled']=$htmlOptions['disabled'];
 			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
 		}
 		else
@@ -1032,6 +1036,8 @@ class CHtml
 			if(isset($htmlOptions['unselectValue']))
 			{
 				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+				if(!empty($htmlOptions['disabled']))
+					$hiddenOptions['disabled']=$htmlOptions['disabled'];
 				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
 				unset($htmlOptions['unselectValue']);
 			}
@@ -1510,7 +1516,8 @@ EOD;
 	{
 		$realAttribute=$attribute;
 		self::resolveName($model,$attribute); // strip off square brackets if any
-		$htmlOptions['required']=$model->isAttributeRequired($attribute);
+		if (!isset($htmlOptions['required']))
+			$htmlOptions['required']=$model->isAttributeRequired($attribute);
 		return self::activeLabel($model,$realAttribute,$htmlOptions);
 	}
 
@@ -1684,7 +1691,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function activeDateTimeField($model,$attribute,$htmlOptions=array())
 	{
@@ -1704,7 +1711,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function activeDateTimeLocalField($model,$attribute,$htmlOptions=array())
 	{
@@ -1724,7 +1731,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function activeWeekField($model,$attribute,$htmlOptions=array())
 	{
@@ -1744,7 +1751,7 @@ EOD;
 	 * @return string the generated input field
 	 * @see clientChange
 	 * @see activeInputField
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public static function activeColorField($model,$attribute,$htmlOptions=array())
 	{
@@ -1851,6 +1858,8 @@ EOD;
 		// add a hidden field so that if a model only has a file field, we can
 		// still use isset($_POST[$modelClass]) to detect if the input is submitted
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		return self::hiddenField($htmlOptions['name'],'',$hiddenOptions)
 			. self::activeInputField('file',$model,$attribute,$htmlOptions);
 	}
@@ -1890,6 +1899,8 @@ EOD;
 			$uncheck='0';
 
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 
 		// add a hidden field so that if the radio button is not selected, it still submits a value
@@ -1932,6 +1943,8 @@ EOD;
 			$uncheck='0';
 
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 
 		return $hidden . self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
@@ -1994,6 +2007,8 @@ EOD;
 			if(isset($htmlOptions['unselectValue']))
 			{
 				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+				if(!empty($htmlOptions['disabled']))
+					$hiddenOptions['disabled']=$htmlOptions['disabled'];
 				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
 				unset($htmlOptions['unselectValue']);
 			}
@@ -2102,6 +2117,8 @@ EOD;
 			$uncheck='';
 
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
 
 		return $hidden . self::checkBoxList($name,$selection,$data,$htmlOptions);
@@ -2162,6 +2179,8 @@ EOD;
 			$uncheck='';
 
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
 
 		return $hidden . self::radioButtonList($name,$selection,$data,$htmlOptions);
@@ -2766,6 +2785,7 @@ EOD;
 			'formnovalidate'=>1,
 			'hidden'=>1,
 			'ismap'=>1,
+			'itemscope'=>1,
 			'loop'=>1,
 			'multiple'=>1,
 			'muted'=>1,

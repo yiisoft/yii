@@ -705,7 +705,7 @@ class CDbCommand extends CComponent
 			{
 				if(strpos($table,'(')===false)
 				{
-					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
+					if(preg_match('/^(.*?)(?i:\s+as|)\s+([^ ]+)$/',$table,$matches))  // with alias
 						$tables[$i]=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 					else
 						$tables[$i]=$this->_connection->quoteTableName($table);
@@ -966,7 +966,7 @@ class CDbCommand extends CComponent
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
 	 * @return CDbCommand the command object itself
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function naturalLeftJoin($table)
 	{
@@ -981,7 +981,7 @@ class CDbCommand extends CComponent
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
 	 * @return CDbCommand the command object itself
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function naturalRightJoin($table)
 	{
@@ -1591,7 +1591,7 @@ class CDbCommand extends CComponent
 	{
 		if(strpos($table,'(')===false)
 		{
-			if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
+			if(preg_match('/^(.*?)(?i:\s+as|)\s+([^ ]+)$/',$table,$matches))  // with alias
 				$table=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 			else
 				$table=$this->_connection->quoteTableName($table);

@@ -33,7 +33,6 @@
  *
  * CStatePersister is a core application component used to store global application state.
  * It may be accessed via {@link CApplication::getStatePersister()}.
- * page state persistent method based on cache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base
@@ -82,20 +81,46 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 			$cacheKey='Yii.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)
 				return unserialize($value);
-			elseif(($content=@file_get_contents($stateFile))!==false)
-			{
-				$cache->set($cacheKey,$content,0,new CFileCacheDependency($stateFile));
-				return unserialize($content);
-			}
 			else
-				return null;
+			{
+				if(($content=$this->getContent($stateFile))!==false)
+				{
+					$unserialized_content=unserialize($content);
+					// If it can't be unserialized, don't cache it:
+					if ($unserialized_content!==false || $content=="") 
+						$cache->set($cacheKey,$content,0,new CFileCacheDependency($stateFile));
+					return $unserialized_content;
+				}
+				else
+					return null;
+			}
 		}
-		elseif(($content=@file_get_contents($stateFile))!==false)
+		elseif(($content=$this->getContent($stateFile))!==false)
 			return unserialize($content);
 		else
 			return null;
 	}
-
+	
+	/**
+	 * Loads content from file using a shared lock to avoid data corruption when reading
+	 * the file while it is being written by save()
+	 *
+	 * @return string file contents
+	 * @since 1.1.17
+	 */
+	protected function getContent($filename)
+	{
+		$file=@fopen($filename,"r");
+		if($file && flock($file,LOCK_SH))
+		{
+			$contents=@file_get_contents($filename);
+			flock($file,LOCK_UN);
+			fclose($file);
+			return $contents;
+		}
+		return false;
+	}
+	
 	/**
 	 * Saves application state in persistent storage.
 	 * @param mixed $state state data (must be serializable).

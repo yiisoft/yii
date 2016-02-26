@@ -70,4 +70,3 @@ class `C`, we name it as `C[a]`. For example, we would use
 The remaining task now is to create the `login` view which should contain
 an HTML form with the needed input fields.
 
-<div class="revision">$Id$</div>

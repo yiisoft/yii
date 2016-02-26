@@ -288,4 +288,3 @@ differences are as follows.
    - Skin is themeable;
    - Using skin is more expensive than using global widget customization.
 
-<div class="revision">$Id$</div>

@@ -1089,18 +1089,6 @@ class CHtmlTestModel extends CModel
 	 */
 	public $attr4;
 
-	public function __constructor(array $properties)
-	{
-		foreach($properties as $property=>$value)
-		{
-			if(!property_exists($this, $property))
-			{
-				throw new Exception("$property is not a property of this class, and I'm not allowing you to add it!");
-			}
-			$this->{$property} = $value;
-		}
-	}
-
     /**
 	 * Returns the list of attribute names.
 	 * @return array list of attribute names. Defaults to all public properties of the class.

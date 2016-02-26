@@ -74,7 +74,7 @@ abstract class CBaseListView extends CWidget
 	public $summaryText;
 	/**
 	 * @var string the HTML tag name for the container of the {@link summaryText} property.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public $summaryTagName='div';
 	/**
@@ -87,7 +87,7 @@ abstract class CBaseListView extends CWidget
 	public $emptyTagName='span';
 	/**
 	 * @var string the CSS class name for the container of the {@link emptyText} property. Defaults to 'empty'.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public $emptyCssClass='empty';
 	/**

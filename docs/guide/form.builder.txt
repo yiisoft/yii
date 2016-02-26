@@ -492,4 +492,3 @@ similar amount of form code. It is still beneficial, however, that the form is s
 a separate configuration file as it helps developers to better focus on the logic.
 
 
-<div class="revision">$Id$</div>

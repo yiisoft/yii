@@ -64,6 +64,12 @@
 class CHttpRequest extends CApplicationComponent
 {
 	/**
+	 * @var boolean whether the parsing of JSON REST requests should return associative arrays for object data.
+	 * @see getRestParams
+	 * @since 1.1.17
+	 */
+	public $jsonAsArray = true;
+	/**
 	 * @var boolean whether cookies should be validated to ensure they are not tampered. Defaults to false.
 	 */
 	public $enableCookieValidation=false;
@@ -100,6 +106,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_preferredLanguages;
 	private $_csrfToken;
 	private $_restParams;
+	private $_httpVersion;
 
 	/**
 	 * Initializes the application component.
@@ -259,7 +266,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $name the PATCH parameter name
 	 * @param mixed $defaultValue the default parameter value if the PATCH parameter does not exist.
 	 * @return mixed the PATCH parameter value
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getPatch($name,$defaultValue=null)
 	{
@@ -286,7 +293,9 @@ class CHttpRequest extends CApplicationComponent
 		if($this->_restParams===null)
 		{
 			$result=array();
-			if(function_exists('mb_parse_str'))
+			if (strncmp($this->getContentType(), 'application/json', 16) === 0)
+				$result = CJSON::decode($this->getRawBody(), $this->jsonAsArray);
+			elseif(function_exists('mb_parse_str'))
 				mb_parse_str($this->getRawBody(), $result);
 			else
 				parse_str($this->getRawBody(), $result);
@@ -472,9 +481,9 @@ class CHttpRequest extends CApplicationComponent
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
 
-			if($pathInfo==='/')
+			if($pathInfo==='/' || $pathInfo===false)
 				$pathInfo='';
-			elseif($pathInfo[0]==='/')
+			elseif($pathInfo!=='' && $pathInfo[0]==='/')
 				$pathInfo=substr($pathInfo,1);
 
 			if(($posEnd=strlen($pathInfo)-1)>0 && $pathInfo[$posEnd]==='/')
@@ -586,8 +595,8 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if(isset($_POST['_method']))
 			return strtoupper($_POST['_method']);
-                elseif(isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']))
-                	return strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']);
+		elseif(isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']))
+			return strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']);
 
 		return strtoupper(isset($_SERVER['REQUEST_METHOD'])?$_SERVER['REQUEST_METHOD']:'GET');
 	}
@@ -644,7 +653,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns whether this is a PATCH request.
 	 * @return boolean whether this is a PATCH request.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	public function getIsPatchRequest()
 	{
@@ -654,7 +663,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns whether this is a PATCH request which was tunneled through POST.
 	 * @return boolean whether this is a PATCH request tunneled through POST.
-	 * @since 1.1.15
+	 * @since 1.1.16
 	 */
 	protected function getIsPatchViaPostRequest()
 	{
@@ -765,6 +774,27 @@ class CHttpRequest extends CApplicationComponent
 	public function getAcceptTypes()
 	{
 		return isset($_SERVER['HTTP_ACCEPT'])?$_SERVER['HTTP_ACCEPT']:null;
+	}
+	
+	/**
+	 * Returns request content-type
+	 * The Content-Type header field indicates the MIME type of the data
+	 * contained in {@link getRawBody()} or, in the case of the HEAD method, the
+	 * media type that would have been sent had the request been a GET.
+	 * @return string request content-type. Null is returned if this information is not available.
+	 * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
+	 * HTTP 1.1 header field definitions
+	 * @since 1.1.17
+	 */
+	public function getContentType()
+	{
+		if (isset($_SERVER["CONTENT_TYPE"])) {
+			return $_SERVER["CONTENT_TYPE"];
+		} elseif (isset($_SERVER["HTTP_CONTENT_TYPE"])) {
+			//fix bug https://bugs.php.net/bug.php?id=66606
+			return $_SERVER["HTTP_CONTENT_TYPE"];
+		}
+		return null;
 	}
 
 	private $_port;
@@ -1050,7 +1080,7 @@ class CHttpRequest extends CApplicationComponent
 			foreach ($languages as $language) {
 				$language=CLocale::getCanonicalID($language);
 				// en_us==en_us, en==en_us, en_us==en
-				if($language===$acceptedLanguage || strpos($acceptedLanguage,$language.'_')===0 || strpos($language,$acceptedLanguage.'_')===0) {
+				if($language===$preferredLanguage || strpos($preferredLanguage,$language.'_')===0 || strpos($language,$preferredLanguage.'_')===0) {
 					return $language;
 				}
 			}
@@ -1077,6 +1107,7 @@ class CHttpRequest extends CApplicationComponent
 		$contentStart=0;
 		$contentEnd=$fileSize-1;
 
+		$httpVersion=$this->getHttpVersion();
 		if(isset($_SERVER['HTTP_RANGE']))
 		{
 			header('Accept-Ranges: bytes');
@@ -1118,11 +1149,11 @@ class CHttpRequest extends CApplicationComponent
 				throw new CHttpException(416,'Requested Range Not Satisfiable');
 			}
 
-			header('HTTP/1.1 206 Partial Content');
+			header("HTTP/$httpVersion 206 Partial Content");
 			header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
 		}
 		else
-			header('HTTP/1.1 200 OK');
+			header("HTTP/$httpVersion 200 OK");
 
 		$length=$contentEnd-$contentStart+1; // Calculate new content length
 
@@ -1133,7 +1164,7 @@ class CHttpRequest extends CApplicationComponent
 		header('Content-Length: '.$length);
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
-		$content=function_exists('mb_substr') ? mb_substr($content,$contentStart,$length) : substr($content,$contentStart,$length);
+		$content=function_exists('mb_substr') ? mb_substr($content,$contentStart,$length,'8bit') : substr($content,$contentStart,$length);
 
 		if($terminate)
 		{
@@ -1323,6 +1354,25 @@ class CHttpRequest extends CApplicationComponent
 			if (!$valid)
 				throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
 		}
+	}
+
+
+	/**
+	 * Returns the version of the HTTP protocol used by client.
+	 *
+	 * @return string the version of the HTTP protocol.
+	 * @since 1.1.16
+	 */
+	public function getHttpVersion()
+	{
+		if($this->_httpVersion===null)
+		{
+			if(isset($_SERVER['SERVER_PROTOCOL']) && $_SERVER['SERVER_PROTOCOL']==='HTTP/1.0')
+				$this->_httpVersion='1.0';
+			else
+				$this->_httpVersion='1.1';
+		}
+		return $this->_httpVersion;
 	}
 }
 

@@ -79,4 +79,3 @@ We modify the layout file `/wwwroot/blog/protected/views/layouts/column2.php` to
 ......
 ~~~
 
-<div class="revision">$Id$</div>

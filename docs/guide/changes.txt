@@ -101,4 +101,4 @@ Version 1.1.0
 
  * The alias name for the primary table in an AR query is fixed to be 't'
 
-<div class="revision">$Id$</div>
+

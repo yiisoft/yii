@@ -381,4 +381,4 @@ predefined in the target locale data.
 formats the given number using the percentage pattern predefined in the
 target locale data.
 
-<div class="revision">$Id$</div>
+

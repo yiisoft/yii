@@ -51,4 +51,4 @@ with this action. The action is executed if it is allowed by the filters.
    11. The action completes the view rendering and displays the result to the user.
 
 
-<div class="revision">$Id$</div>
+

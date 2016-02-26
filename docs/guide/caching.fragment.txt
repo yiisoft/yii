@@ -167,4 +167,3 @@ inner cache has been invalidated.
 You must be careful in setting the durations or the dependencies of the nested caches,
 otherwise the outdated inner fragments may be kept in the outer fragment.
 
-<div class="revision">$Id$</div>
