@@ -394,7 +394,11 @@ class CDbCommandBuilder extends CComponent
 		if($fields===array())
 			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
 				array('{table}'=>$table->name)));
-		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
+		if($criteria->alias!='')
+			$alias=' '.$this->_schema->quoteTableName($criteria->alias);
+		else
+			$alias='';
+		$sql="UPDATE {$table->rawName}$alias SET ".implode(', ',$fields);
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$sql=$this->applyOrder($sql,$criteria->order);
@@ -431,7 +435,11 @@ class CDbCommandBuilder extends CComponent
 		}
 		if($fields!==array())
 		{
-			$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
+			if($criteria->alias!='')
+				$alias=' '.$this->_schema->quoteTableName($criteria->alias);
+			else
+				$alias='';
+			$sql="UPDATE {$table->rawName}$alias SET ".implode(', ',$fields);
 			$sql=$this->applyJoin($sql,$criteria->join);
 			$sql=$this->applyCondition($sql,$criteria->condition);
 			$sql=$this->applyOrder($sql,$criteria->order);
