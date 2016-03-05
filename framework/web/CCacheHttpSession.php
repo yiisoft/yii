@@ -92,12 +92,18 @@ class CCacheHttpSession extends CHttpSession
 	/**
 	 * Session destroy handler.
 	 * Do not call this method directly.
+	 *
+	 * Since 1.1.18 release, this method always returns true.
+	 * Please refer to the following issue for more details:
+	 * {@link https://github.com/yiisoft/yii/issues/4020}
+	 *
 	 * @param string $id session ID
-	 * @return boolean whether session is destroyed successfully
+	 * @return boolean true if no error happens during deletion
 	 */
 	public function destroySession($id)
 	{
-		return $this->_cache->delete($this->calculateKey($id));
+		$this->_cache->delete($this->calculateKey($id));
+		return true;
 	}
 
 	/**
