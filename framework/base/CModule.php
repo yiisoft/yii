@@ -71,7 +71,7 @@ abstract class CModule extends CComponent
 		$this->_id=$id;
 		$this->_parentModule=$parent;
 
-		// set basePath at early as possible to avoid trouble
+		// set basePath as early as possible to avoid trouble
 		if(is_string($config))
 			$config=require($config);
 		if(isset($config['basePath']))
