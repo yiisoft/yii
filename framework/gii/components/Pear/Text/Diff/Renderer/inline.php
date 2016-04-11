@@ -2,9 +2,9 @@
 /**
  * "Inline" diff renderer.
  *
- * $Horde: framework/Text_Diff/Diff/Renderer/inline.php,v 1.4.10.14 2008/01/04 10:37:27 jan Exp $
+ * $Horde: framework/Text_Diff/Diff/Renderer/inline.php,v 1.4.10.16 2009/07/24 13:25:29 jan Exp $
  *
- * Copyright 2004-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
@@ -131,12 +131,14 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
         /* We want to split on word boundaries, but we need to
          * preserve whitespace as well. Therefore we split on words,
          * but include all blocks of whitespace in the wordlist. */
-        $diff = new Text_Diff($this->_splitOnWords($text1, $nl),
-                              $this->_splitOnWords($text2, $nl));
+        $diff = new Text_Diff('native',
+                              array($this->_splitOnWords($text1, $nl),
+                                    $this->_splitOnWords($text2, $nl)));
 
         /* Get the diff in inline format. */
-        $renderer = new Text_Diff_Renderer_inline(array_merge($this->getParams(),
-                                                              array('split_level' => 'words')));
+        $renderer = new Text_Diff_Renderer_inline
+            (array_merge($this->getParams(),
+                         array('split_level' => 'words')));
 
         /* Run the diff and get the output. */
         return str_replace($nl, "\n", $renderer->render($diff)) . "\n";
