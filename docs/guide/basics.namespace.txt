@@ -275,4 +275,3 @@ return array(
 	),
 ~~~
 
-<div class="revision">$Id$</div>

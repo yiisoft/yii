@@ -301,7 +301,9 @@ class CFileValidator extends CValidator
 	}
 
 	/**
-	 * Converts php.ini style size to bytes. Examples of size strings are: 150, 1g, 500k, 5M (size suffix
+	 * Converts php.ini style size to bytes.
+	 *
+	 * Examples of size strings are: 150, 1g, 500k, 5M (size suffix
 	 * is case insensitive). If you pass here the number with a fractional part, then everything after
 	 * the decimal point will be ignored (php.ini values common behavior). For example 1.5G value would be
 	 * treated as 1G and 1073741824 number will be returned as a result. This method is public

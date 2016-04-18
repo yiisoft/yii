@@ -81,4 +81,3 @@ Controller
 In a well-designed MVC application, controllers are often very thin, containing probably only a few dozen lines of code; while models are very fat, containing most of the code responsible for representing and manipulating the data. This is because the data structure and business logic represented by models is typically very specific to the particular application, and needs to be heavily customized to meet the specific application requirements; while controller logic often follows a similar pattern across applications and therefore may well be simplified by the underlying framework or the base classes.
 
 
-<div class="revision">$Id$</div>

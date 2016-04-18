@@ -32,4 +32,3 @@
     - [Final Tune-up and Deployment](final.deployment)
     - [Future Enhancements](final.future)
 
-<div class="revision">$Id$</div>

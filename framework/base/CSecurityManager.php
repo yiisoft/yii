@@ -59,6 +59,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @var boolean if encryption key should be validated
+	 * @deprecated
 	 */
 	public $validateEncryptionKey=true;
 
@@ -94,6 +95,7 @@ class CSecurityManager extends CApplicationComponent
 	private $_validationKey;
 	private $_encryptionKey;
 	private $_mbstring;
+
 
 	public function init()
 	{

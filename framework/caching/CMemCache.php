@@ -114,7 +114,7 @@ class CMemCache extends CCache
 			$extension=$this->useMemcached ? 'memcached' : 'memcache';
 			if(!extension_loaded($extension))
 				throw new CException(Yii::t('yii',"CMemCache requires PHP {extension} extension to be loaded.",
-                    array('{extension}'=>$extension)));
+					array('{extension}'=>$extension)));
 			return $this->_cache=$this->useMemcached ? new Memcached : new Memcache;
 		}
 	}

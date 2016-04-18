@@ -1,25 +1,52 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.17 work in progress
--------------------------------
+Version 1.1.18 under development
+--------------------------------
 
 - Bug #2396: CDateTimeParser is now able to parse the result of CDateTimeFormatter (tomtomsen)
+- Bug #4015: Fixed bug with missing "disabled" attribute in internally rendered hidden fields (rob006)
+- Bug #4020: Fixed PHP 7 related bug in CCacheHttpSession when destroying not cached sessions (dirx)
+- Chg #4033: Updated Pear/Text used by Gii so it's PHP 7 compatible (samdark)
+
+Version 1.1.17 January 13, 2016
+------------------------------
+- Bug #1191: Fixed undefined index in CListIterator when data removed in parent CList (steven-hadfield)
 - Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)
+- Bug #2993: Fixed MySQL datetime fields can have default CURRENT_TIMESTAMP (tomvdp)
 - Bug #3144: Fixed regression introduced in 1.1.16, whitespace before and after attributes in validation rules where not ignored (cebe)
+- Bug #3458: Fixed CGridView with enableHistory breaks queries containing '&' characters (nkovacs)
+- Bug #3476: Database sessions with Postgres did not work properly (c-schmitz)
 - Bug #3497: CErrorHandler messages for HTTP response codes were not matching RFCs (TeMPOraL)
 - Bug #3637: Fixed not quoting primary key in count statements (applee)
 - Bug #3696: Fixed broken case insensitiveness for Active Record count expressions introduced with fixed #268 (xt99)
-- Bug #3700: Undefined variable `$acceptedLanguage` in `CHttpRequest::getPreferredLanguage()` (cebe,ddebin)
+- Bug #3700: Undefined variable `$acceptedLanguage` in `CHttpRequest::getPreferredLanguage()` (cebe, ddebin)
 - Bug #3704: Fixed `CSecurityManager` to work properly is case `cryptAlgorithm` specified as array (samdark)
-- Bug #3715: 1.1.16 `CSecurityManager::legacyDecrypt` was not compatible with 1.1.15 method (DanaLuther)
+- Bug #3715: `CSecurityManager::legacyDecrypt` in version 1.1.16 was not compatible with 1.1.15 method (DanaLuther)
 - Bug #3724: Fixed namespace prefix in WSDL generator for arrayType. (ametad)
+- Bug #3757: Fixed regression in 1.1.16 `CPgsqlSchema::dropIndex()` (samdark)
+- Bug #3764: Fixed regression in 1.1.16, `CEmailValidator::validateValue()` should not allow empty values to pass (cebe)
+- Enh #3812: Added 'validateValue' method to 'CBooleanValidator' class (UA2004)
 - Bug #3833: Fixed `CHttpRequest::sendFile()` range support in case `mbstring.internal_encoding=UTF-8` (MonkeyMaster)
+- Bug #3869: jQuery Yii GridView now doesn't fail when refreshing grid via POST request (a-t)
+- Bug #3879: Numeric labels in CBreadCrumbs reindex after using array_merge (AloneCoder)
+- Bug #3890: Ensured forward compatibility of `CWebService::getMethodName()` (samdark)
+- Bug #3947: Fix error with `array_diff` when one of CDbCriteria->select contains "false" (askobara, cebe)
+- Bug #3974: Fixed warning when request parameter contains array (cmazx)
+- Bug #3976: Fixed MSSQL command builderto comply with the DELETE command syntax (odalecne)
+- Bug #3980: Fixed CRedisCache error when using `mbstring.func_overload` and UTF-8 as `mbstring.internal_encoding` (Lexx918)
 - Enh #2399: It is now possible to use table names containing spaces by introducing alias (devivan)
+- Enh #3457: CHttpRequest can now detect content type and decode JSON in REST method bodies. (Sibilino)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
 - Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
 - Enh #3827: Added the $options parameter to be used in stream_socket_client in CRedisCache.
+- Enh #3872: Added database-based StatePersister implementation (AloneCoder)
+- Enh #3948: Enhanced CHttpRequest path info extraction for compatibility with PHP 7 (dmitrivereshchagin)
+- Enh #3949: Added `$overwriteAll` argument to `CConsoleCommand::copyFiles()` which can be set to true in noninteractive commands (dmitrivereshchagin)
+- Enh #3995: CAuthManager is now able to silence errors when using PHP 7 (samdark)
+- Enh #3998: Improved PHP 7 compatibility for CTimestampBehavior and CChoiceFormat, and for Travis CI (softark)
+- Enh: CApcCache is now able to handle PHP 7 APCu (samdark)
 - Chg #3776: Autoloader now doesn't error in case of non-existing namespaced classes so other autoloaders have chance to handle these (alexandernst)
 
 Version 1.1.16 December 21, 2014
@@ -579,7 +606,6 @@ Version 1.1.10 February 12, 2012
 - Bug #3071: Fixed the bug that afterValidateAttribute was not called properly (mdomba)
 - Bug #3096: Fixed the bug when reporting an error and CHtml is not loaded (mdomba)
 - Bug #3103: Fixed the bug that CActiveForm->error() was not overloading htmlOptions (mdomba)
-- Bug #3103: Fixed the bug that CUrlRule treated special regex characters differently in createUrl and parseUrl (lierdakil)
 - Bug #3107: Fixed the wrong encoding issue of Italian messages (Qiang)
 - Bug #3108: Fixed the bug introduced in CActiveFinder::applyLazyCondition (Qiang)
 - Bug #3166: Fixed the bug that CDbColumnSchema typecasted to NULL even for NOT NULL columns (Sam Dark)

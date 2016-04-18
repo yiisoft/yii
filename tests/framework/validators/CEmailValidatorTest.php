@@ -6,8 +6,9 @@ class CEmailValidatorTest extends CTestCase
 	public function testEmpty()
 	{
 		$emailValidator = new CEmailValidator();
+		$emailValidator->allowEmpty = true;
 		$this->assertTrue($emailValidator->validateValue('test@example.com'));
-		$this->assertTrue($emailValidator->validateValue(''));
+		$this->assertFalse($emailValidator->validateValue(''));
 		
 		$emailValidator->allowEmpty = false;
 		$this->assertTrue($emailValidator->validateValue('test@example.com'));

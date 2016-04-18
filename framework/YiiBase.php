@@ -80,7 +80,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.17-dev';
+		return '1.1.18-dev';
 	}
 
 	/**
@@ -652,6 +652,7 @@ class YiiBase
 		'CApplicationComponent' => '/base/CApplicationComponent.php',
 		'CBehavior' => '/base/CBehavior.php',
 		'CComponent' => '/base/CComponent.php',
+		'CDbStatePersister' => '/base/CDbStatePersister.php',
 		'CErrorEvent' => '/base/CErrorEvent.php',
 		'CErrorHandler' => '/base/CErrorHandler.php',
 		'CException' => '/base/CException.php',

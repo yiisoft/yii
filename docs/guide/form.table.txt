@@ -68,4 +68,3 @@ If there are any validation errors, the corresponding input fields will
 be highlighted automatically, just like the single model input we described
 earlier on.
 
-<div class="revision">$Id$</div>

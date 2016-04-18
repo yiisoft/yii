@@ -77,4 +77,3 @@ public function testApprove()
 ~~~
 
 
-<div class="revision">$Id$</div>

@@ -602,4 +602,4 @@ $auth->createRole('admin', 'admin user', $bizRule);
 > You would need this if you call [CDbAuthManager::checkAccess()] or [CPhpAuthManager::checkAccess()] in places
 > where `Yii::app()->user` is not available or not the user you are checking access for.
 
-<div class="revision">$Id$</div>
+

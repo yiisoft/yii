@@ -316,4 +316,3 @@ Then, we can either create an instance of the class, configure its properties,
 and call its methods. We may also extend it to create new child classes.
 
 
-<div class="revision">$Id$</div>

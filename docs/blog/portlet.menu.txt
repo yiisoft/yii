@@ -91,4 +91,3 @@ Summary
 
 What we have created is a portlet that is highly reusable. We can easily reuse it in a different project with little or no modification. Moreover, the design of this portlet follows closely the philosophy that logic and presentation should be separated. While we did not point this out in the previous sections, such practice is used nearly everywhere in a typical Yii application.
 
-<div class="revision">$Id$</div>

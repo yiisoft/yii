@@ -252,4 +252,4 @@ of each entry to be 1MB. Therefore, if the size of a query result exceeds this l
 the caching will fail.
 
 
-<div class="revision">$Id$</div>
+

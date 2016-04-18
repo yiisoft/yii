@@ -98,4 +98,4 @@ When we run tests that involve database, we should provide a test database so th
 With such a bootstrap script, when we run unit tests, we will have an application instance that is nearly the same as the one that serves for Web requests. The main difference is that it has the fixture manager and is using the test database.
 
 
-<div class="revision">$Id$</div>
+

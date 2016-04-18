@@ -27,10 +27,6 @@ class CListIterator implements Iterator
 	 * @var integer index of the current item
 	 */
 	private $_i;
-	/**
-	 * @var integer count of the data items
-	 */
-	private $_c;
 
 	/**
 	 * Constructor.
@@ -40,7 +36,6 @@ class CListIterator implements Iterator
 	{
 		$this->_d=&$data;
 		$this->_i=0;
-		$this->_c=count($this->_d);
 	}
 
 	/**
@@ -88,6 +83,6 @@ class CListIterator implements Iterator
 	 */
 	public function valid()
 	{
-		return $this->_i<$this->_c;
+		return $this->_i<count($this->_d);
 	}
 }

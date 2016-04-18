@@ -61,4 +61,3 @@ Other Changes
 - The signature of the [CActiveRecord] constructor is changed. The first parameter
 (list of attributes) is removed.
 
-<div class="revision">$Id$</div>

@@ -6,10 +6,10 @@
  * The original PHP version of this code was written by Geoffrey T. Dairiki
  * <dairiki@dairiki.org>, and is used/adapted with his permission.
  *
- * $Horde: framework/Text_Diff/Diff.php,v 1.11.2.11 2008/02/24 10:57:46 jan Exp $
+ * $Horde: framework/Text_Diff/Diff.php,v 1.11.2.12 2009/01/06 15:23:41 jan Exp $
  *
  * Copyright 2004 Geoffrey T. Dairiki <dairiki@dairiki.org>
- * Copyright 2004-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
@@ -35,7 +35,7 @@ class Text_Diff {
      *                           Normally an array of two arrays, each
      *                           containing the lines from a file.
      */
-    function Text_Diff($engine, $params)
+    function __construct($engine, $params)
     {
         // Backward compatibility workaround.
         if (!is_string($engine)) {
@@ -294,7 +294,7 @@ class Text_MappedDiff extends Text_Diff {
     /**
      * Computes a diff between sequences of strings.
      *
-     * This can be used to compute things like case-insensitive diffs, or diffs
+     * This can be used to compute things like case-insensitve diffs, or diffs
      * which ignore changes in white-space.
      *
      * @param array $from_lines         An array of strings.

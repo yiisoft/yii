@@ -27,4 +27,4 @@ categories. As a matter of fact, Yii is carefully designed such that nearly
 every piece of its code can be extended and customized to fit for individual
 needs.
 
-<div class="revision">$Id$</div>
+

@@ -125,7 +125,7 @@ class CRedisCache extends CCache
 		array_unshift($params,$name);
 		$command='*'.count($params)."\r\n";
 		foreach($params as $arg)
-			$command.='$'.strlen($arg)."\r\n".$arg."\r\n";
+			$command.='$'.$this->byteLength($arg)."\r\n".$arg."\r\n";
 
 		fwrite($this->_socket,$command);
 
@@ -162,7 +162,7 @@ class CRedisCache extends CCache
 					if(($block=fread($this->_socket,$length))===false)
 						throw new CException('Failed reading data from redis connection socket.');
 					$data.=$block;
-					$length-=(function_exists('mb_strlen') ? mb_strlen($block,'8bit') : strlen($block));
+					$length-=$this->byteLength($block);
 				}
 				return substr($data,0,-2);
 			case '*': // Multi-bulk replies
@@ -174,6 +174,17 @@ class CRedisCache extends CCache
 			default:
 				throw new CException('Unable to parse data received from redis.');
 		}
+	}
+
+	/**
+	 * Counting amount of bytes in a string.
+	 *
+	 * @param string $str
+	 * @return int
+	 */
+	private function byteLength($str)
+	{
+		return function_exists('mb_strlen') ? mb_strlen($str, '8bit') : strlen($str);
 	}
 
 	/**

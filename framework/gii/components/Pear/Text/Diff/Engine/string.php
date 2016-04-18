@@ -10,10 +10,10 @@
  * echo $renderer->render($diff);
  * </code>
  *
- * $Horde: framework/Text_Diff/Diff/Engine/string.php,v 1.5.2.5 2008/09/10 08:31:58 jan Exp $
+ * $Horde: framework/Text_Diff/Diff/Engine/string.php,v 1.5.2.7 2009/07/24 13:04:43 jan Exp $
  *
  * Copyright 2005 Örjan Persson <o@42mm.org>
- * Copyright 2005-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2005-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
@@ -39,6 +39,19 @@ class Text_Diff_Engine_string {
      */
     function diff($diff, $mode = 'autodetect')
     {
+        // Detect line breaks.
+        $lnbr = "\n";
+        if (strpos($diff, "\r\n") !== false) {
+            $lnbr = "\r\n";
+        } elseif (strpos($diff, "\r") !== false) {
+            $lnbr = "\r";
+        }
+
+        // Make sure we have a line break at the EOF.
+        if (substr($diff, -strlen($lnbr)) != $lnbr) {
+            $diff .= $lnbr;
+        }
+
         if ($mode != 'autodetect' && $mode != 'context' && $mode != 'unified') {
             return PEAR::raiseError('Type of diff is unsupported');
         }
@@ -56,7 +69,7 @@ class Text_Diff_Engine_string {
         }
 
         // Split by new line and remove the diff header, if there is one.
-        $diff = explode("\n", $diff);
+        $diff = explode($lnbr, $diff);
         if (($mode == 'context' && strpos($diff[0], '***') === 0) ||
             ($mode == 'unified' && strpos($diff[0], '---') === 0)) {
             array_shift($diff);

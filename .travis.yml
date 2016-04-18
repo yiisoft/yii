@@ -5,8 +5,8 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
   - hhvm
-  - hhvm-nightly
 
 # run build against hhvm but allow them to fail
 # http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
@@ -14,11 +14,13 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: hhvm
-    - php: hhvm-nightly
 
 services:
   - redis-server
   - memcached
+
+install:
+  - travis_retry composer self-update && composer --version
 
 before_script:
   - ./tests/travis/mysql-setup.sh

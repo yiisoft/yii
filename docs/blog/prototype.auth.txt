@@ -108,4 +108,3 @@ switch($identity->errorCode)
 
 To test the modified `UserIdentity` class, we can browse the URL `http://www.example.com/blog/index.php` and try logging in with the username and password that we store in the `tbl_user` table. If we use the database provided by the [blog demo](http://www.yiiframework.com/demos/blog/), we should be able to login with username `demo` and password `demo`. Note that this blog system does not provide the user management feature. As a result, a user cannot change his account or create a new one through the Web interface. The user management feature may be considered as a future enhancement to the blog application.
 
-<div class="revision">$Id$</div>

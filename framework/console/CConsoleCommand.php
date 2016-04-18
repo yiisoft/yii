@@ -295,14 +295,14 @@ abstract class CConsoleCommand extends CComponent
 	{
 		$options=array();
 		$class=new ReflectionClass(get_class($this));
-        foreach($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
-        {
-        	$name=$method->getName();
-        	if(!strncasecmp($name,'action',6) && strlen($name)>6)
-        	{
-        		$name=substr($name,6);
-        		$name[0]=strtolower($name[0]);
-        		$help=$name;
+		foreach($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
+		{
+			$name=$method->getName();
+			if(!strncasecmp($name,'action',6) && strlen($name)>6)
+			{
+				$name=substr($name,6);
+				$name[0]=strtolower($name[0]);
+				$help=$name;
 
 				foreach($method->getParameters() as $param)
 				{
@@ -322,9 +322,9 @@ abstract class CConsoleCommand extends CComponent
 						$help.=" --$name=value";
 				}
 				$options[]=$help;
-        	}
-        }
-        return $options;
+			}
+		}
+		return $options;
 	}
 
 	/**
@@ -355,11 +355,11 @@ abstract class CConsoleCommand extends CComponent
 	 *   by the function will be saved into the target file.</li>
 	 * <li>params: optional, the parameters to be passed to the callback</li>
 	 * </ul>
+	 * @param boolean $overwriteAll whether to overwrite all files.
 	 * @see buildFileList
 	 */
-	public function copyFiles($fileList)
+	public function copyFiles($fileList,$overwriteAll=false)
 	{
-		$overwriteAll=false;
 		foreach($fileList as $name=>$file)
 		{
 			$source=strtr($file['source'],'/\\',DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR);

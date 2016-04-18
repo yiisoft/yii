@@ -71,4 +71,3 @@ protected function beforeSave()
 ~~~
 
 
-<div class="revision">$Id$</div>

@@ -106,6 +106,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	 * the file while it is being written by save()
 	 *
 	 * @return string file contents
+	 * @since 1.1.17
 	 */
 	protected function getContent($filename)
 	{

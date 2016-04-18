@@ -94,7 +94,7 @@ class CDbAuthManager extends CAuthManager
 			return false;
 		Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CDbAuthManager');
 		if(!isset($params['userId']))
-		    $params['userId'] = $userId;
+			$params['userId'] = $userId;
 		if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
 		{
 			if(in_array($itemName,$this->defaultRoles))

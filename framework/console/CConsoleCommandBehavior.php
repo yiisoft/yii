@@ -29,8 +29,8 @@ class CConsoleCommandBehavior extends CBehavior
 	public function events()
 	{
 		return array(
-		    'onBeforeAction' => 'beforeAction',
-		    'onAfterAction' => 'afterAction'
+			'onBeforeAction' => 'beforeAction',
+			'onAfterAction' => 'afterAction'
 		);
 	}
 	/**

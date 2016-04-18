@@ -42,4 +42,3 @@ The rules are used by `urlManager` to parse and create the URLs in the desired f
 The `urlManager` component can further beautify our URLs, such as hiding `index.php` in the URLs, appending suffix like `.html` to the URLs. We can obtain these features easily by configuring various properties of `urlManager` in the application configuration. For more details, please refer to [the Guide](http://www.yiiframework.com/doc/guide/topics.url).
 
 
-<div class="revision">$Id$</div>

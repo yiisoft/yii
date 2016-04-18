@@ -126,4 +126,3 @@ we can use `Yii::app()` to access the application instance; we can use the datab
 such as DAO and ActiveRecord; we can use the model and validation feature; and so on.
 
 
-<div class="revision">$Id$</div>
