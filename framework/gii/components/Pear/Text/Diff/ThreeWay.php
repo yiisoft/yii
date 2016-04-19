@@ -221,7 +221,7 @@ class Text_Diff_ThreeWay_Op_copy extends Text_Diff_ThreeWay_Op {
  */
 class Text_Diff_ThreeWay_BlockBuilder {
 
-    function Text_Diff_ThreeWay_BlockBuilder()
+    function __construct()
     {
         $this->_init();
     }

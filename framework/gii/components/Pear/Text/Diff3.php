@@ -221,7 +221,7 @@ class Text_Diff3_Op_copy extends Text_Diff3_Op {
  */
 class Text_Diff3_BlockBuilder {
 
-    function Text_Diff3_BlockBuilder()
+    function __construct()
     {
         $this->_init();
     }
