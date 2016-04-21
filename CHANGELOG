@@ -7,6 +7,7 @@ Version 1.1.18 under development
 - Bug #4015: Fixed bug with missing "disabled" attribute in internally rendered hidden fields (rob006)
 - Bug #4020: Fixed PHP 7 related bug in CCacheHttpSession when destroying not cached sessions (dirx)
 - Chg #4033: Updated Pear/Text used by Gii so it's PHP 7 compatible (samdark)
+- Bug #4034: Fixed `CHttpSession::getIsStarted()` PHP 7 compatibility (tomotomo)
 
 Version 1.1.17 January 13, 2016
 ------------------------------
