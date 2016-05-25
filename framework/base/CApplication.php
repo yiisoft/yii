@@ -572,7 +572,7 @@ abstract class CApplication extends CModule
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
 		$url=$this->createUrl($route,$params,$ampersand);
-		if(strpos($url,'http')===0)
+		if(strpos($url,'http')===0 || strpos($url,'//')===0)
 			return $url;
 		else
 			return $this->getRequest()->getHostInfo($schema).$url;
