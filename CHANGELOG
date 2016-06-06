@@ -4,6 +4,7 @@
 Version 1.1.18 under development
 --------------------------------
 
+- Enh #4049: Added '//' as a proper beginning of absolute URL in createAbsoluteUrl() method (ksowa)
 - Bug #4015: Fixed bug with missing "disabled" attribute in internally rendered hidden fields (rob006)
 - Bug #4020: Fixed PHP 7 related bug in CCacheHttpSession when destroying not cached sessions (dirx)
 - Chg #4033: Updated Pear/Text used by Gii so it's PHP 7 compatible (samdark)
