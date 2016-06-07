@@ -151,6 +151,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * This method is overriden so that persistent states can be set like properties.
 	 * @param string $name property name
 	 * @param mixed $value property value
+	 * @throws CException
 	 */
 	public function __set($name,$value)
 	{
@@ -223,6 +224,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * If greater than 0, cookie-based login will be used. In this case, {@link allowAutoLogin}
 	 * must be set true, otherwise an exception will be thrown.
 	 * @return boolean whether the user is logged in
+	 * @throws CException
 	 */
 	public function login($identity,$duration=0)
 	{

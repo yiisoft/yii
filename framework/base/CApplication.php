@@ -400,7 +400,7 @@ abstract class CApplication extends CModule
 	/**
 	 * Returns the locale instance.
 	 * @param string $localeID the locale ID (e.g. en_US). If null, the {@link getLanguage application language ID} will be used.
-	 * @return an instance of CLocale
+	 * @return CLocale an instance of CLocale
 	 */
 	public function getLocale($localeID=null)
 	{
