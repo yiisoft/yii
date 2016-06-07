@@ -57,6 +57,7 @@ class CAttributeCollection extends CMap
 	 * to the collection.
 	 * @param string $name the property name or event name
 	 * @param mixed $value the property value or event handler
+	 * @return null
 	 * @throws CException If the property is not defined or read-only.
 	 */
 	public function __set($name,$value)
@@ -84,6 +85,7 @@ class CAttributeCollection extends CMap
 	 * This method overrides the parent implementation by clearing
 	 * the specified key value.
 	 * @param string $name the property name or the event name
+	 * @return null
 	 */
 	public function __unset($name)
 	{
