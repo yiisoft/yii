@@ -10,7 +10,7 @@ Jedes Attribut des Models entspricht einem Feld des Datenjobekts.
 Ein Attribut hat ein Label (Bezeichnung bzw. Beschriftung) und kann mit einer
 Reihe von Regeln validiert, also auf Gültigkeit geprüft werden.
 
-Yii bietet zwei Model-Arten: FormModel (Formularmodel) und ActiveRecord. Beide
+Yee bietet zwei Model-Arten: FormModel (Formularmodel) und ActiveRecord. Beide
 erweitern die selbe Basisklasse [CModel].
 
 Ein FormModel ist eine Instanz von [CFormModel]. Es wird dann verwendet,

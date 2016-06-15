@@ -63,7 +63,7 @@ class PostController extends CController
 	public function actionCreate()
 	{
 		$post=new Post;
-		if(Yii::app()->request->isPostRequest)
+		if(Yee::app()->request->isPostRequest)
 		{
 			if(isset($_POST['Post']))
 				$post->setAttributes($_POST['Post']);
@@ -80,7 +80,7 @@ class PostController extends CController
 	public function actionUpdate()
 	{
 		$post=$this->loadPost();
-		if(Yii::app()->request->isPostRequest)
+		if(Yee::app()->request->isPostRequest)
 		{
 			if(isset($_POST['Post']))
 				$post->setAttributes($_POST['Post']);
@@ -96,7 +96,7 @@ class PostController extends CController
 	 */
 	public function actionDelete()
 	{
-		if(Yii::app()->request->isPostRequest)
+		if(Yee::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
 			$this->loadPost()->delete();

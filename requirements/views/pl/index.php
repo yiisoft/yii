@@ -4,21 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Sprawdzanie wymagań przez Yii</title>
+<title>Sprawdzanie wymagań przez Yee</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Sprawdzanie wymagań stawianych przez Yii</h1>
+<h1>Sprawdzanie wymagań stawianych przez Yee</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Opis</h2>
 <p>
 Skrypt ten sprawdza czy konfiguracja Twojego serwera spełnia wymagania
-pozwalające uruchomić aplikację napisaną przy użyciu <a href="http://www.yiiframework.com/">Yii</a>.
+pozwalające uruchomić aplikację napisaną przy użyciu <a href="http://www.yeeframework.com/">Yee</a>.
 Sprawdza on, czy serwer używa poprawnej wersji PHP,
 czy zostały załadowane odpowiednie rozszerzenia PHP oraz czy ustawienia w pliku php.ini są prawidłowe.
 </p>
@@ -26,12 +26,12 @@ czy zostały załadowane odpowiednie rozszerzenia PHP oraz czy ustawienia w plik
 <h2>Rozstrzygnięcie</h2>
 <p>
 <?php if($result>0): ?>
-Gratulacje! Konfiguracja Twojego serwera spełnia wszystkie wymagania stawiane przez Yii.
+Gratulacje! Konfiguracja Twojego serwera spełnia wszystkie wymagania stawiane przez Yee.
 <?php elseif($result<0): ?>
-Konfiguracja Twojego serwera spełnia minimalne wymagania stawiane przez Yii.
+Konfiguracja Twojego serwera spełnia minimalne wymagania stawiane przez Yee.
 Zwróć uwagę na ostrzeżenia wyświetlone poniżej jeśli Twoja aplikacja będzie używała odpowiadających im funkcjonalności.
 <?php else: ?>
-Niestety konfiguracja Twojego serwera nie spełnia wymagań stawianych przez Yii.
+Niestety konfiguracja Twojego serwera nie spełnia wymagań stawianych przez Yee.
 <?php endif; ?>
 </p>
 

@@ -3,9 +3,9 @@
  * CDbAuthManager class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -92,7 +92,7 @@ class CDbAuthManager extends CAuthManager
 	{
 		if(($item=$this->getAuthItem($itemName))===null)
 			return false;
-		Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CDbAuthManager');
+		Yee::trace('Checking permission "'.$item->getName().'"','system.web.auth.CDbAuthManager');
 		if(!isset($params['userId']))
 			$params['userId'] = $userId;
 		if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
@@ -129,7 +129,7 @@ class CDbAuthManager extends CAuthManager
 	public function addItemChild($itemName,$childName)
 	{
 		if($itemName===$childName)
-			throw new CException(Yii::t('yii','Cannot add "{name}" as a child of itself.',
+			throw new CException(Yee::t('yee','Cannot add "{name}" as a child of itself.',
 					array('{name}'=>$itemName)));
 
 		$rows=$this->db->createCommand()
@@ -155,7 +155,7 @@ class CDbAuthManager extends CAuthManager
 			}
 			$this->checkItemChildType($parentType,$childType);
 			if($this->detectLoop($itemName,$childName))
-				throw new CException(Yii::t('yii','Cannot add "{child}" as a child of "{name}". A loop has been detected.',
+				throw new CException(Yee::t('yee','Cannot add "{child}" as a child of "{name}". A loop has been detected.',
 					array('{child}'=>$childName,'{name}'=>$itemName)));
 
 			$this->db->createCommand()
@@ -167,7 +167,7 @@ class CDbAuthManager extends CAuthManager
 			return true;
 		}
 		else
-			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));
+			throw new CException(Yee::t('yee','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));
 	}
 
 	/**
@@ -252,7 +252,7 @@ class CDbAuthManager extends CAuthManager
 	public function assign($itemName,$userId,$bizRule=null,$data=null)
 	{
 		if($this->usingSqlite() && $this->getAuthItem($itemName)===null)
-			throw new CException(Yii::t('yii','The item "{name}" does not exist.',array('{name}'=>$itemName)));
+			throw new CException(Yee::t('yee','The item "{name}" does not exist.',array('{name}'=>$itemName)));
 
 		$this->db->createCommand()
 			->insert($this->assignmentTable, array(
@@ -586,10 +586,10 @@ class CDbAuthManager extends CAuthManager
 	{
 		if($this->db!==null)
 			return $this->db;
-		elseif(($this->db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
+		elseif(($this->db=Yee::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 			return $this->db;
 		else
-			throw new CException(Yii::t('yii','CDbAuthManager.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+			throw new CException(Yee::t('yee','CDbAuthManager.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 				array('{id}'=>$this->connectionID)));
 	}
 

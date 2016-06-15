@@ -4,32 +4,32 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Yii 必要条件チェッカ</title>
+<title>Yee 必要条件チェッカ</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Yii 必要条件チェッカ</h1>
+<h1>Yee 必要条件チェッカ</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>説明</h2>
 <p>
-このスクリプトは、あなたのサーバ構成が <a href="http://www.yiiframework.com/">Yii</a>
+このスクリプトは、あなたのサーバ構成が <a href="http://www.yeeframework.com/">Yee</a>
 ウェブアプリケーションを実行する必要条件を満たしているかどうかを確認するものです。
 すなわち、サーバが正しいバージョンの PHP を実行しているか、適切な PHP 拡張をロードしているか、php.ini ファイルの設定が正しいか、を確認します。</p>
 
 <h2>判定結果</h2>
 <p>
 <?php if($result>0): ?>
-おめでとうございます。あなたのサーバ構成は Yii の全ての必要条件を満しています。
+おめでとうございます。あなたのサーバ構成は Yee の全ての必要条件を満しています。
 <?php elseif($result<0): ?>
-あなたのサーバ構成は Yii の最低限の必要条件を満しています。
+あなたのサーバ構成は Yee の最低限の必要条件を満しています。
 「注意」が出ている項目について、あなたのアプリケーションが対応する機能を使用する予定が有るか無いかを確認してください。
 <?php else: ?>
-残念ですが、あなたのサーバ構成は Yii の必要条件を満していません。
+残念ですが、あなたのサーバ構成は Yee の必要条件を満していません。
 <?php endif; ?>
 </p>
 

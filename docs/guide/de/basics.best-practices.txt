@@ -6,7 +6,7 @@ entzieht sich der richtige Einsatz von MVC in realen Anwendungen oft deren
 Kenntnis. Die zentrale Idee hinter MVC besteht in der **Wiederverwendbarkeit 
 von Code und einer Trennung von Zuständigkeiten**. In diesem Abschnitt
 geben wir einige allgemeine Richtlinien, wie man dem MVC-Konzept beim Entwickeln 
-mit Yii dem besser gerecht wird.
+mit Yee dem besser gerecht wird.
 
 Zum leichteren Verständnis nehmen wir eine Webanwendung an, die aus mehreren
 Teilapplikationen besteht, wie zum Beispiel
@@ -21,7 +21,7 @@ die zeitgesteuerte ablaufen.
 * Web-API: stellt Schnittstellen zur Integration der Webanwendung für Dritte zur Verfügung.
 
 Die Teilapplikationen können etwa als [Module](/doc/guide/basics.module) oder
-als Yii-Anwendung, die Code mit anderen Teilapplikationen teilt, implementiert
+als Yee-Anwendung, die Code mit anderen Teilapplikationen teilt, implementiert
 werden.
 
 
@@ -118,7 +118,7 @@ eigene Viewdatei für diesen code.
 * Hilfsklassen: In Views benötigt man für so kleine Aufgaben wie das
 Formatieren von Daten oder das Rendern von HTML-Tags oft häufig wiederkehrende
 Codeschnipsel. Statt diesen Code überall zu wiederholen, lagert man ihn besser
-in eine Hilfsklasse aus und verwendet diese stattdessen im View. Yii enthält
+in eine Hilfsklasse aus und verwendet diese stattdessen im View. Yee enthält
 bereits ein Beispiel für diesen Ansatz: Die leistungsfähige
 [CHtml]-Hilfsklasse kann häufig verwendeten HTML-Code erzeugen. Hilfsklassen
 können in einem [importierten Verzeichnis](/doc/guide/basics.namespace) abgelegt werden, 

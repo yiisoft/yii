@@ -102,7 +102,7 @@ Beispiel die obige `postPerPage`-Information kann z.B. so erhalten werden:
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // oder wenn $this sich auf die Controllerinstanz bezieht:
 // $postPerPage=$this->module->postPerPage;
 ~~~

@@ -3,9 +3,9 @@
  * CBaseListView class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -120,7 +120,7 @@ abstract class CBaseListView extends CWidget
 	public function init()
 	{
 		if($this->dataProvider===null)
-			throw new CException(Yii::t('zii','The "dataProvider" property cannot be empty.'));
+			throw new CException(Yee::t('zii','The "dataProvider" property cannot be empty.'));
 
 		$this->dataProvider->getData();
 
@@ -192,7 +192,7 @@ abstract class CBaseListView extends CWidget
 	 */
 	public function renderEmptyText()
 	{
-		$emptyText=$this->emptyText===null ? Yii::t('zii','No results found.') : $this->emptyText;
+		$emptyText=$this->emptyText===null ? Yee::t('zii','No results found.') : $this->emptyText;
 		echo CHtml::tag($this->emptyTagName, array('class'=>$this->emptyCssClass), $emptyText);
 	}
 
@@ -204,7 +204,7 @@ abstract class CBaseListView extends CWidget
 		echo CHtml::openTag('div',array(
 			'class'=>'keys',
 			'style'=>'display:none',
-			'title'=>Yii::app()->getRequest()->getUrl(),
+			'title'=>Yee::app()->getRequest()->getUrl(),
 		));
 		foreach($this->dataProvider->getKeys() as $key)
 			echo "<span>".CHtml::encode($key)."</span>";
@@ -232,7 +232,7 @@ abstract class CBaseListView extends CWidget
 				$start=$end-$count+1;
 			}
 			if(($summaryText=$this->summaryText)===null)
-				$summaryText=Yii::t('zii','Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.',$total);
+				$summaryText=Yee::t('zii','Displaying {start}-{end} of 1 result.|Displaying {start}-{end} of {count} results.',$total);
 			echo strtr($summaryText,array(
 				'{start}'=>$start,
 				'{end}'=>$end,
@@ -244,7 +244,7 @@ abstract class CBaseListView extends CWidget
 		else
 		{
 			if(($summaryText=$this->summaryText)===null)
-				$summaryText=Yii::t('zii','Total 1 result.|Total {count} results.',$count);
+				$summaryText=Yee::t('zii','Total 1 result.|Total {count} results.',$count);
 			echo strtr($summaryText,array(
 				'{count}'=>$count,
 				'{start}'=>1,

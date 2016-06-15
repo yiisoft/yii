@@ -1,12 +1,12 @@
-Повний посібник по Yii
+Повний посібник по Yee
 ======================
 
-Даний посібник випущено відповідно до [положень про документацію Yii](http://www.yiiframework.com/doc/terms/).
+Даний посібник випущено відповідно до [положень про документацію Yee](http://www.yeeframework.com/doc/terms/).
 
 Перекладачі
 -----------
-- Олександр Бордун, Borales ([yiiframework.com.ua](http://yiiframework.com.ua/))
+- Олександр Бордун, Borales ([yeeframework.com.ua](http://yeeframework.com.ua/))
 - Мирослав Демчунь ([chandler.org.ua](http://chandler.org.ua/))
 - Віталій Степаненко, vitaliy.step
 
-© 2008—2013, Yii Software LLC.
+© 2008—2013, Yee Software LLC.

@@ -3,12 +3,12 @@
  * CJuiSliderInput class file.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiInputWidget');
+Yee::import('zii.widgets.jui.CJuiInputWidget');
 
 /**
  * CJuiSliderInput displays a slider. It can be used in forms and post its value.
@@ -163,6 +163,6 @@ class CJuiSliderInput extends CJuiInputWidget
 			: new CJavaScriptExpression("function(event, ui) { jQuery('#{$idHidden}').val(ui.value); }");
 
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}_slider').slider($options);");
+		Yee::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}_slider').slider($options);");
 	}
 }

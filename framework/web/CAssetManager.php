@@ -3,9 +3,9 @@
  * CAssetManager class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -119,7 +119,7 @@ class CAssetManager extends CApplicationComponent
 	{
 		if($this->_basePath===null)
 		{
-			$request=Yii::app()->getRequest();
+			$request=Yee::app()->getRequest();
 			$this->setBasePath(dirname($request->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
 		}
 		return $this->_basePath;
@@ -135,7 +135,7 @@ class CAssetManager extends CApplicationComponent
 		if(($basePath=realpath($value))!==false && is_dir($basePath) && is_writable($basePath))
 			$this->_basePath=$basePath;
 		else
-			throw new CException(Yii::t('yii','CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.',
+			throw new CException(Yee::t('yee','CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.',
 				array('{path}'=>$value)));
 	}
 
@@ -147,7 +147,7 @@ class CAssetManager extends CApplicationComponent
 	{
 		if($this->_baseUrl===null)
 		{
-			$request=Yii::app()->getRequest();
+			$request=Yee::app()->getRequest();
 			$this->setBaseUrl($request->getBaseUrl().'/'.self::DEFAULT_BASEPATH);
 		}
 		return $this->_baseUrl;
@@ -178,7 +178,7 @@ class CAssetManager extends CApplicationComponent
 	 * that holds the published assets. This problem can be avoided altogether by 'requesting'
 	 * in advance all the resources that are supposed to trigger a 'publish()' call, and doing
 	 * that in the application deployment phase, before system goes live. See more in the following
-	 * discussion: http://code.google.com/p/yii/issues/detail?id=2579
+	 * discussion: http://code.google.com/p/yee/issues/detail?id=2579
 	 *
 	 * @param string $path the asset (file or directory) to be published
 	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
@@ -208,7 +208,7 @@ class CAssetManager extends CApplicationComponent
 		if($forceCopy===null)
 			$forceCopy=$this->forceCopy;
 		if($forceCopy && $this->linkAssets)
-			throw new CException(Yii::t('yii','The "forceCopy" and "linkAssets" cannot be both true.'));
+			throw new CException(Yee::t('yee','The "forceCopy" and "linkAssets" cannot be both true.'));
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
 		elseif(is_string($path) && ($src=realpath($path))!==false)
@@ -254,7 +254,7 @@ class CAssetManager extends CApplicationComponent
 				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
 			}
 		}
-		throw new CException(Yii::t('yii','The asset "{asset}" to be published does not exist.',
+		throw new CException(Yee::t('yee','The asset "{asset}" to be published does not exist.',
 			array('{asset}'=>$path)));
 	}
 
@@ -312,7 +312,7 @@ class CAssetManager extends CApplicationComponent
 	 */
 	protected function hash($path)
 	{
-		return sprintf('%x',crc32($path.Yii::getVersion()));
+		return sprintf('%x',crc32($path.Yee::getVersion()));
 	}
 
 	/**

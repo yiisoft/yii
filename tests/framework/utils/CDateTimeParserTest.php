@@ -74,12 +74,12 @@ class CDateTimeParserTest extends CTestCase
 	public function testLocaleShortMonthTitle()
 	{
 		// remember active application language and charset
-		$oldLanguage=Yii::app()->getLanguage();
-		$oldCharset=Yii::app()->charset;
+		$oldLanguage=Yee::app()->getLanguage();
+		$oldCharset=Yee::app()->charset;
 
 		// ru_RU.UTF-8
-		Yii::app()->setLanguage('ru_RU');
-		Yii::app()->charset='UTF-8';
+		Yee::app()->setLanguage('ru_RU');
+		Yee::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 СЕНТ, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
@@ -94,8 +94,8 @@ class CDateTimeParserTest extends CTestCase
 		);
 
 		// de_DE.UTF-8
-		Yii::app()->setLanguage('de_DE');
-		Yii::app()->charset='UTF-8';
+		Yee::app()->setLanguage('de_DE');
+		Yee::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 sep, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
@@ -110,8 +110,8 @@ class CDateTimeParserTest extends CTestCase
 		);
 
 		// zh_CN.UTF-8
-		Yii::app()->setLanguage('zh_CN');
-		Yii::app()->charset='UTF-8';
+		Yee::app()->setLanguage('zh_CN');
+		Yee::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 九月, 2011, 13:37', 'dd MMM, yyyy, HH:mm'))
@@ -126,19 +126,19 @@ class CDateTimeParserTest extends CTestCase
 		);
 
 		// reestablish old active language and charset
-		Yii::app()->setLanguage($oldLanguage);
-		Yii::app()->charset=$oldCharset;
+		Yee::app()->setLanguage($oldLanguage);
+		Yee::app()->charset=$oldCharset;
 	}
 
 	public function testLocaleMonthTitle()
 	{
 		// remember active application language and charset
-		$oldLanguage=Yii::app()->getLanguage();
-		$oldCharset=Yii::app()->charset;
+		$oldLanguage=Yee::app()->getLanguage();
+		$oldCharset=Yee::app()->charset;
 
 		// ru_RU.UTF-8
-		Yii::app()->setLanguage('ru_RU');
-		Yii::app()->charset='UTF-8';
+		Yee::app()->setLanguage('ru_RU');
+		Yee::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 СЕНТЯБРЯ, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
@@ -153,8 +153,8 @@ class CDateTimeParserTest extends CTestCase
 		);
 
 		// de_DE.UTF-8
-		Yii::app()->setLanguage('de_DE');
-		Yii::app()->charset='UTF-8';
+		Yee::app()->setLanguage('de_DE');
+		Yee::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 SEPTEMBER, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
@@ -169,8 +169,8 @@ class CDateTimeParserTest extends CTestCase
 		);
 
 		// zh_CN.UTF-8
-		Yii::app()->setLanguage('zh_CN');
-		Yii::app()->charset='UTF-8';
+		Yee::app()->setLanguage('zh_CN');
+		Yee::app()->charset='UTF-8';
 		$this->assertEquals(
 			'21 Sep, 2011, 13:37',
 			date('d M, Y, H:i', CDateTimeParser::parse('21 九月, 2011, 13:37', 'dd MMMM, yyyy, HH:mm'))
@@ -185,8 +185,8 @@ class CDateTimeParserTest extends CTestCase
 		);
 
 		// reestablish old active language and charset
-		Yii::app()->setLanguage($oldLanguage);
-		Yii::app()->charset=$oldCharset;
+		Yee::app()->setLanguage($oldLanguage);
+		Yee::app()->charset=$oldCharset;
 	}
 
 	public function testFailing()

@@ -3,15 +3,15 @@
  * This file contains classes implementing security manager feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
  * CSecurityManager provides private keys, hashing and encryption functions.
  *
- * CSecurityManager is used by Yii components and applications for security-related purpose.
+ * CSecurityManager is used by Yee components and applications for security-related purpose.
  * For example, it is used in cookie validation feature to prevent cookie data
  * from being tampered.
  *
@@ -45,8 +45,8 @@
  */
 class CSecurityManager extends CApplicationComponent
 {
-	const STATE_VALIDATION_KEY='Yii.CSecurityManager.validationkey';
-	const STATE_ENCRYPTION_KEY='Yii.CSecurityManager.encryptionkey';
+	const STATE_VALIDATION_KEY='Yee.CSecurityManager.validationkey';
+	const STATE_ENCRYPTION_KEY='Yee.CSecurityManager.encryptionkey';
 
 	/**
 	 * @var array known minimum lengths per encryption algorithm
@@ -123,16 +123,16 @@ class CSecurityManager extends CApplicationComponent
 			return $this->_validationKey;
 		else
 		{
-			if(($key=Yii::app()->getGlobalState(self::STATE_VALIDATION_KEY))!==null)
+			if(($key=Yee::app()->getGlobalState(self::STATE_VALIDATION_KEY))!==null)
 				$this->setValidationKey($key);
 			else
 			{
 				if(($key=$this->generateRandomString(32,true))===false)
 					if(($key=$this->generateRandomString(32,false))===false)
-						throw new CException(Yii::t('yii',
+						throw new CException(Yee::t('yee',
 							'CSecurityManager::generateRandomString() cannot generate random string in the current environment.'));
 				$this->setValidationKey($key);
-				Yii::app()->setGlobalState(self::STATE_VALIDATION_KEY,$key);
+				Yee::app()->setGlobalState(self::STATE_VALIDATION_KEY,$key);
 			}
 			return $this->_validationKey;
 		}
@@ -147,7 +147,7 @@ class CSecurityManager extends CApplicationComponent
 		if(!empty($value))
 			$this->_validationKey=$value;
 		else
-			throw new CException(Yii::t('yii','CSecurityManager.validationKey cannot be empty.'));
+			throw new CException(Yee::t('yee','CSecurityManager.validationKey cannot be empty.'));
 	}
 
 	/**
@@ -161,16 +161,16 @@ class CSecurityManager extends CApplicationComponent
 			return $this->_encryptionKey;
 		else
 		{
-			if(($key=Yii::app()->getGlobalState(self::STATE_ENCRYPTION_KEY))!==null)
+			if(($key=Yee::app()->getGlobalState(self::STATE_ENCRYPTION_KEY))!==null)
 				$this->setEncryptionKey($key);
 			else
 			{
 				if(($key=$this->generateRandomString(32,true))===false)
 					if(($key=$this->generateRandomString(32,false))===false)
-						throw new CException(Yii::t('yii',
+						throw new CException(Yee::t('yee',
 							'CSecurityManager::generateRandomString() cannot generate random string in the current environment.'));
 				$this->setEncryptionKey($key);
-				Yii::app()->setGlobalState(self::STATE_ENCRYPTION_KEY,$key);
+				Yee::app()->setGlobalState(self::STATE_ENCRYPTION_KEY,$key);
 			}
 			return $this->_encryptionKey;
 		}
@@ -268,12 +268,12 @@ class CSecurityManager extends CApplicationComponent
 				$module=@mcrypt_module_open($this->cryptAlgorithm,'', MCRYPT_MODE_CBC,'');
 
 			if($module===false)
-				throw new CException(Yii::t('yii','Failed to initialize the mcrypt module.'));
+				throw new CException(Yee::t('yee','Failed to initialize the mcrypt module.'));
 
 			return $module;
 		}
 		else
-			throw new CException(Yii::t('yii','CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
+			throw new CException(Yee::t('yee','CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
 	}
 
 	/**
@@ -346,7 +346,7 @@ class CSecurityManager extends CApplicationComponent
 		}
 		else
 		{
-			throw new CException(Yii::t('yii','Only SHA1 and MD5 hashing algorithms are supported when using PHP 5.1.1 or below.'));
+			throw new CException(Yee::t('yee','Only SHA1 and MD5 hashing algorithms are supported when using PHP 5.1.1 or below.'));
 		}
 		if($this->strlen($key)>64)
 			$key=pack($pack,$func($key));
@@ -536,7 +536,7 @@ class CSecurityManager extends CApplicationComponent
 			if($supportedKeyLengths)
 			{
 				if(!in_array($this->strlen($key),$supportedKeyLengths)) {
-					throw new CException(Yii::t('yii','Encryption key length can be {keyLengths}.',array('{keyLengths}'=>implode(',',$supportedKeyLengths))));
+					throw new CException(Yee::t('yee','Encryption key length can be {keyLengths}.',array('{keyLengths}'=>implode(',',$supportedKeyLengths))));
 				}
 			}
 			elseif(isset(self::$encryptionKeyMinimumLengths[$cryptAlgorithm]))
@@ -544,13 +544,13 @@ class CSecurityManager extends CApplicationComponent
 				$minLength=self::$encryptionKeyMinimumLengths[$cryptAlgorithm];
 				$maxLength=mcrypt_module_get_algo_key_size($cryptAlgorithm);
 				if($this->strlen($key)<$minLength || $this->strlen($key)>$maxLength)
-					throw new CException(Yii::t('yii','Encryption key length must be between {minLength} and {maxLength}.',array('{minLength}'=>$minLength,'{maxLength}'=>$maxLength)));
+					throw new CException(Yee::t('yee','Encryption key length must be between {minLength} and {maxLength}.',array('{minLength}'=>$minLength,'{maxLength}'=>$maxLength)));
 			}
 			else
-				throw new CException(Yii::t('yii','Failed to validate key. Supported key lengths of cipher not known.'));
+				throw new CException(Yee::t('yee','Failed to validate key. Supported key lengths of cipher not known.'));
 		}
 		else
-			throw new CException(Yii::t('yii','Encryption key should be a string.'));
+			throw new CException(Yee::t('yee','Encryption key should be a string.'));
 	}
     
 	/**
@@ -567,9 +567,9 @@ class CSecurityManager extends CApplicationComponent
 	{
 		if (!$key)
 		{
-			$key=Yii::app()->getGlobalState(self::STATE_ENCRYPTION_KEY);
+			$key=Yee::app()->getGlobalState(self::STATE_ENCRYPTION_KEY);
 			if(!$key)
-				throw new CException(Yii::t('yii','No encryption key specified.'));
+				throw new CException(Yee::t('yee','No encryption key specified.'));
 			$key = md5($key);
 		}
 
@@ -581,10 +581,10 @@ class CSecurityManager extends CApplicationComponent
 				$module=@mcrypt_module_open($cipher,'', MCRYPT_MODE_CBC,'');
 
 			if($module===false)
-				throw new CException(Yii::t('yii','Failed to initialize the mcrypt module.'));
+				throw new CException(Yee::t('yee','Failed to initialize the mcrypt module.'));
 		}
 		else
-			throw new CException(Yii::t('yii','CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
+			throw new CException(Yee::t('yee','CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
 
 		$derivedKey=$this->substr($key,0,mcrypt_enc_get_key_size($module));
 		$ivSize=mcrypt_enc_get_iv_size($module);

@@ -7,7 +7,7 @@ Manajemen comment termasuk melakukan update, delete dan meng-approve suatu comme
 Mengupdate dan Menghapus Comment
 ------------------------------
 
-Kode yang digenerate oleh `yiic` untuk mengupdate dan menghapus comment tidak mengalami perubahan.
+Kode yang digenerate oleh `yeec` untuk mengupdate dan menghapus comment tidak mengalami perubahan.
 
 
 Menyetujui Comment
@@ -21,7 +21,7 @@ Kita membuat sebuah method `actionApprove()` di `CommentController` sebagai beri
 [php]
 public function actionApprove()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		$comment=$this->loadModel();
 		$comment->approve();
@@ -53,8 +53,8 @@ public function actionIndex()
 }
 ~~~
 
-Perhatikan kode di atas, karena antara `tbl_post` dan `tbl_comment` memiliki kolom `status` dan `create_time`, kita perlu membedakan kedua kolom tersebut dengan memasang prefiks dengan nama alias tabel. Seperti yang dijelaskan dalam [guide](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names), alias untuk tabel utama di dalam relational query adalah `t`. Oleh karena itu, kita memberi awalan `t` untuk kolom `status` dan `create_time` pada code di atas.
+Perhatikan kode di atas, karena antara `tbl_post` dan `tbl_comment` memiliki kolom `status` dan `create_time`, kita perlu membedakan kedua kolom tersebut dengan memasang prefiks dengan nama alias tabel. Seperti yang dijelaskan dalam [guide](http://www.yeeframework.com/doc/guide/database.arr#disambiguating-column-names), alias untuk tabel utama di dalam relational query adalah `t`. Oleh karena itu, kita memberi awalan `t` untuk kolom `status` dan `create_time` pada code di atas.
 
-Seperti view index post, view `index` untuk `CommentController` menggunakan [CListView] untuk menampilkan daftar comment yang pada berikutnya menggunakan partial view `/wwwroot/blog/protected/views/comment/_view.php` untuk menampilkan detail dari setiap comment individu. Kita tidak akan membahas secara detail di sini. Bagi yang tertarik dengan file ini bisa melihatnya di demo blog `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`..
+Seperti view index post, view `index` untuk `CommentController` menggunakan [CListView] untuk menampilkan daftar comment yang pada berikutnya menggunakan partial view `/wwwroot/blog/protected/views/comment/_view.php` untuk menampilkan detail dari setiap comment individu. Kita tidak akan membahas secara detail di sini. Bagi yang tertarik dengan file ini bisa melihatnya di demo blog `/wwwroot/yee/demos/blog/protected/views/comment/_view.php`..
 
 <div class="revision">$Id: comment.admin.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

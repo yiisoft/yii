@@ -8,7 +8,7 @@ av en databasdriven applikation. Till exempel under pågående utveckling, kan v
 när applikationen gått i produktion kan vi upptäcka behov av att lägga till ett index för en kolumn. 
 Dat är viktigt att hålla reda på sådana strukturella databasändringar (benämnda **migration**), 
 så som vi gör med vår källkod. Om källkod och databas kommer ur synk, är det mycket sannolikt att 
-hela systemet kan fallera. Av denna anledning tillhandahåller Yii ett verktyg för databasmigrering 
+hela systemet kan fallera. Av denna anledning tillhandahåller Yee ett verktyg för databasmigrering 
 som kan hålla reda på historik för datamigrering, applicera nya migreringar, eller återställa 
 sådana som gjorts tidigare.
 
@@ -20,13 +20,13 @@ Följande steg belyser hur databasmigrering kan användas under utvecklingens g�
 4. Doug applicerar migreringen på sin lokala utvecklingsdatabas
 
 
-Yii stöder databasmigrering via kommandoradsverktyget `yiic migrate`. Detta verktyg har stöd för att
+Yee stöder databasmigrering via kommandoradsverktyget `yeec migrate`. Detta verktyg har stöd för att
 skapa nya migreringar, applicera/återställa/upprepa migreringar samt för att visa migreringshistorik 
 och nya migreringar.
 
 I det följande kommer vi att visa hur detta verktyg används.
 
-> Note|Märk: Det är bättre att använda applikationens instans av yiic (t.ex. `cd path/to/protected`)
+> Note|Märk: Det är bättre att använda applikationens instans av yeec (t.ex. `cd path/to/protected`)
 > vid arbete med `migrate`-kommandot, i stället för den i `framework`-katalogen.
 > Kontrollera att katalogen `protected\migrations` existerar och är möjlig att skriva till, 
 > samt att en databasanslutning är konfigurerad i `protected/config/console.php`.
@@ -37,7 +37,7 @@ Skapa migreringar
 För att skapa en ny migrering (t.ex. skapa tabellen news), kör vi följande kommando:
 
 ~~~
-yiic migrate create <name>
+yeec migrate create <name>
 ~~~
 
 Den obligatoriska `name`-parametern specificerar en mycket kortfattad beskrivning 
@@ -46,7 +46,7 @@ kommer att användas som en del i ett PHP-klassnamn. Därför skall den bara
 innehålla bokstäver, siffror och/eller understrykningstecken.
 
 ~~~
-yiic migrate create create_news_table
+yeec migrate create create_news_table
 ~~~
 
 Ovanstående kommando kommer att, i katalogen `protected/migrations`, skapa en ny fil 
@@ -120,7 +120,7 @@ class m101129_185401_create_news_table extends CDbMigration
 Basklassen [CDbMigration] erbjuder en uppsättning metoder för manipulering av data och databasens schema. 
 Till exempel, [CDbMigration::createTable] skapar en databastabell, medan [CDbMigration::insert] lägger till 
 en rad med data. Dessa metoder använder alla databasanslutningen som returneras av [CDbMigration::getDbConnection()], 
-som standard `Yii::app()->db`.
+som standard `Yee::app()->db`.
 
 > Info: Noterbart är att databasmetoderna som [CDbMigration] erbjuder är mycket lika de i [CDbCommand]. 
 Faktiskt så är de likadana med undantaget att [CDbMigration]-metoderna mäter tidåtgång och skriver ut 
@@ -190,7 +190,7 @@ class m101129_185401_create_news_table extends CDbMigration
 }
 ~~~
 
-När migreringen utförs kommer Yii att starta en DB-transaktion och därefter anropa `safeUp()` eller `safeDown()`. 
+När migreringen utförs kommer Yee att starta en DB-transaktion och därefter anropa `safeUp()` eller `safeDown()`. 
 Om något DB-fel inträffar i `safeUp()` eller `safeDown()`, kommer transaktionen att reverseras och därmed  
 säkerställa att databasen förblir i ett gott skick.
 
@@ -206,7 +206,7 @@ För att applicera alla tillgängliga nya migreringar (dvs göra den lokala data
 kör följande kommando:
 
 ~~~
-yiic migrate
+yeec migrate
 ~~~
 
 Kommandot kommer att presentera en lista över alla nya migreringar. Efter bekräftelse att migreringarna 
@@ -221,7 +221,7 @@ av applikationskomponenten `db`.
 Ibland vill vi bara applicera en eller ett fåtal nya migreringar. Följande kommando kan då användas:
 
 ~~~
-yiic migrate up 3
+yeec migrate up 3
 ~~~
 
 Detta kommando applicerar tre nya migreringar. Genom att ändra värdet (3) kan vi 
@@ -230,7 +230,7 @@ Detta kommando applicerar tre nya migreringar. Genom att ändra värdet (3) kan 
 Vi kan även migrera databasen till en specifik version, med följande kommando:
 
 ~~~
-yiic migrate to 101129_185401
+yeec migrate to 101129_185401
 ~~~
 
 Det vill säga, vi använder tidstämpeldelen av migreringens namn för att specificera den 
@@ -246,7 +246,7 @@ migreringen redan har applicerats tidigare, kommer alla migreringar som applicer
 För att backa tillbaka den senaste eller flera applicerade migreringar, kan följande kommando användas:
 
 ~~~
-yiic migrate down [step]
+yeec migrate down [step]
 ~~~
 
 där den frivilliga `step`-parametern specificerar antalet migreringar som skall backas tillbaka. 
@@ -263,7 +263,7 @@ Att göra om migreringar innebär att först backa och sedan på nytt applicera 
 Detta kan göras med följande kommando:
 
 ~~~
-yiic migrate redo [step]
+yeec migrate redo [step]
 ~~~
 
 där den frivilliga `step`-parametern specificerar antalet migreringar som skall göras om. Standardvärde 1, 
@@ -277,8 +277,8 @@ Utöver att applicera och backa tillbaka migreringar, kan migreringsverktyget ä
 och de nya migreringar som väntar på att appliceras.
 
 ~~~
-yiic migrate history [limit]
-yiic migrate new [limit]
+yeec migrate history [limit]
+yeec migrate new [limit]
 ~~~
 
 där den frivilliga parametern `limit` specificerar antalet migreringar som skall visas. Om `limit` utelämnas, 
@@ -296,10 +296,10 @@ eller backa tillbaka de relevanta migreringarna. Detta inträffar ofta under utv
 Följande kommando kan användas för detta ändamål.
 
 ~~~
-yiic migrate mark 101129_185401
+yeec migrate mark 101129_185401
 ~~~
 
-Detta kommando är snarlikt `yiic migrate to`-kommandot, med undantag för att det enbart ändrar tabellen med 
+Detta kommando är snarlikt `yeec migrate to`-kommandot, med undantag för att det enbart ändrar tabellen med 
 migreringshistorik till den specificerade versionen utan att applicera eller backa tillbaka migreringarna.
 
 
@@ -333,14 +333,14 @@ att ersättas av det faktiska namnet på migreringsklassen.
 För att specificera dessa alternativ, exekvera migreringskommandot på följande format
 
 ~~~
-yiic migrate up --option1=value1 --option2=value2 ...
+yeec migrate up --option1=value1 --option2=value2 ...
 ~~~
 
 Till exempel, om vi vill migrera för en modul `forum`, vars migreringsfiler är placerade i modulens 
 underkatalog `migrations`, kan vi använda följande kommando:
 
 ~~~
-yiic migrate up --migrationPath=ext.forum.migrations
+yeec migrate up --migrationPath=ext.forum.migrations
 ~~~
 
 

@@ -1,7 +1,7 @@
 Codegenerierung an der Kommandozeile (veraltet)
 ====================================
 
-> Note|Hinweis: Seit Version 1.1.2 wird die Codegenerierung mit `yiic shell`
+> Note|Hinweis: Seit Version 1.1.2 wird die Codegenerierung mit `yeec shell`
 > nicht mehr empfohlen. Verwenden Sie stattdessen den leistungsfähigeren 
 > erweiterbaren Codegenerator in [Gii](/doc/guide/topics.gii).
 
@@ -9,8 +9,8 @@ Codegenerierung an der Kommandozeile (veraltet)
 
 ~~~
 % cd WebVerzeichnis/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
+% protected/yeec shell
+Yee Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
    generate models/User.php
@@ -41,7 +41,7 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Mit obigem `yiic shell`-Kommando gelangt man an eine Eingabeaufforderung, 
+Mit obigem `yeec shell`-Kommando gelangt man an eine Eingabeaufforderung, 
 um Befehle an die Anwendung zu senden.  Mit dem Unterbefehl 
 `model User tbl_user` wird zunächst die Modelklasse für die
 `tbl_user`-Tabelle erzeugt. `crud User` analysiert dann das eben
@@ -51,10 +51,10 @@ erzeugte Model `User` und generiert anschließend den Code für die CRUD-Operati
 > Note|Hinweis: Falls Ihnen Fehler wie "...could not find driver" 
 > ("...konnte Treiber nicht finden") begegnen, obwohl Ihr Server
 > alle Voraussetzungen bzgl. PDO erfüllt,  können Sie versuchen, 
-> `yiic` wie folgt aufzurufen:
+> `yeec` wie folgt aufzurufen:
 >
 > ~~~
-> % php -c pfad/zu/php.ini protected/yiic.php shell
+> % php -c pfad/zu/php.ini protected/yeec.php shell
 > ~~~
 > 
 > wobei `pfad/zu/php.ini` auf die richtige INI-Datei verweist.
@@ -100,4 +100,4 @@ schreiben zu müssen!
 
 ![Seite zum Erstellen eines neuen Benutzers](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app-yeec.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

@@ -8,7 +8,7 @@
  * http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=markup
  * This file has been placed in the public domain for unlimited redistribution.
  *
- * This file has been backported form Yii 2.
+ * This file has been backported form Yee 2.
  */
 return array(
 	'3dml'=>'text/vnd.in3d.3dml',

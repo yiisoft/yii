@@ -1,13 +1,13 @@
 Development Workflow
 ====================
 
-Having described the fundamental concepts of Yii, we show the common
-workflow for developing a web application using Yii. The workflow assumes
+Having described the fundamental concepts of Yee, we show the common
+workflow for developing a web application using Yee. The workflow assumes
 that we have done the requirement analysis as well as the necessary design
 analysis for the application.
 
-   1. Create the skeleton directory structure. The `yiic` tool described in
-[Creating First Yii Application](/doc/guide/quickstart.first-app) can be
+   1. Create the skeleton directory structure. The `yeec` tool described in
+[Creating First Yee Application](/doc/guide/quickstart.first-app) can be
 used to speed up this step.
 
    2. Configure the [application](/doc/guide/basics.application). This is
@@ -16,7 +16,7 @@ require writing some application components (e.g. the user component).
 
    3. Create a [model](/doc/guide/basics.model) class for each type of data
 to be managed. The `Gii` tool described in
-[Creating First Yii Application](/doc/guide/quickstart.first-app#implementing-crud-operations)
+[Creating First Yee Application](/doc/guide/quickstart.first-app#implementing-crud-operations)
 and in [Automatic Code Generation](/doc/guide/topics.gii) can be used to
 automatically generate the [active record](/doc/guide/database.ar) class
 for each interested database table.

@@ -1,13 +1,13 @@
-Meng-extend Yii
+Meng-extend Yee
 ========
 
-Memperluas Yii merupakan kegiatan umum selama pengembangan. Contohnya, saat
-Anda membuat controller baru, Anda memperluas Yii dengan menurunkan kelas [CController]
+Memperluas Yee merupakan kegiatan umum selama pengembangan. Contohnya, saat
+Anda membuat controller baru, Anda memperluas Yee dengan menurunkan kelas [CController]
 dan saat membuat widget baru, Anda memperluas [CWidget] atau kelas widget
 lain yang sudah ada. Jika kode yang diperluas, didesain untuk dipakai ulang, oleh pengembang
 pihak ketiga, kita menyebutnya sebagai *extension*.
 
-Extension biasanya melakukan satu pekerjaan tertentu. Dalam batasan Yii, extension dapat
+Extension biasanya melakukan satu pekerjaan tertentu. Dalam batasan Yee, extension dapat
 diklasifikasikan sebagai berikut,
 
  * [komponen aplikasi](/doc/guide/basics.application#application-component)
@@ -23,7 +23,7 @@ diklasifikasikan sebagai berikut,
  * [module](/doc/guide/basics.module): module adalah unit software berdiri sendiri yang terdiri dari [model](/doc/guide/basics.model), [tampilan](/doc/guide/basics.view), [controller](/doc/guide/basics.controller) dan komponen pendukung lainnya. Dalam banyak aspek, module mirip dengan [aplikasi](/doc/guide/basics.application). Perbedaan utamanya adalah bahwa module ada di dalam aplikasi. Sebagai contoh, kita dapat memiliki module yang menyediakan fungsionalitas manajemen pengguna.
 
 Extension juga dapat berupa komponen yang tidak masuk ke dalam kategori
-di atas. Bahkan, Yii didesain secara teliti sehingga hampir seluruh kodenya
+di atas. Bahkan, Yee didesain secara teliti sehingga hampir seluruh kodenya
 dapat diperluas dan diatur agar sesuai dengan kebutuhan
 setiap individu.
 

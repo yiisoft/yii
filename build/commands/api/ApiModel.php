@@ -3,13 +3,13 @@
  * ApiModel class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
- * ApiModel represents the documentation for the Yii framework.
+ * ApiModel represents the documentation for the Yee framework.
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.build
  * @since 1.0
@@ -561,7 +561,7 @@ class ApiModel
 		$oldConstants=get_defined_constants(true);
 
 		$classFiles=$this->getClassFiles($this->_sourcePath);
-		require_once($this->_sourcePath.'/yii.php');
+		require_once($this->_sourcePath.'/yee.php');
 		foreach($classFiles as $classFile)
 			require_once($classFile);
 

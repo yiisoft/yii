@@ -34,7 +34,7 @@ class CRangeValidatorTest extends CTestCase
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/2845
+	 * https://github.com/yeesoft/yee/issues/2845
 	 */
 	public function testNonStrict()
 	{

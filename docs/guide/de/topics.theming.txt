@@ -6,7 +6,7 @@ systematisch anzupassen. Durch das Anwenden eines Themes kann man das komplette
 Erscheinungsbild einer Webanwendung praktisch auf Knopfdruck grundlegend
 verändern. 
 
-Jedes Theme wird in Yii von einem Verzeichnis dargestellt, das View-, Layout-
+Jedes Theme wird in Yee von einem Verzeichnis dargestellt, das View-, Layout-
 und andere relevante Ressourcedateien, wie Bilder, CSS- und Javascript-Dateien 
 enthält. Der Name eines Themes entspricht dem Verzeichnisnamen. Alle Themes
 befinden sich unterhalb von `WebVerzeichnis/themes`. Es kann jeweils immer nur ein Theme
@@ -30,7 +30,7 @@ oder während der Laufzeit in einer Controller-Action geschehen.
 
 > Note|Hinweis: Beim Namen eines Themes spielt die Groß-/Kleinschreibung eine
 > Rolle. Wenn man ein Theme konfiguriert, das es gar nicht gibt,
-> liefert `Yii::app()->theme` den Wert `null` zurück. 
+> liefert `Yee::app()->theme` den Wert `null` zurück. 
 
 
 
@@ -75,7 +75,7 @@ vorgegeben.
 >
 > ~~~
 > [php]
-> Yii::app()->theme->baseUrl . '/images/BildName.gif'
+> Yee::app()->theme->baseUrl . '/images/BildName.gif'
 > ~~~
 
 Nachfolgend ein Beispiel für die Verzeichnisstruktur einer Anwendung mit den
@@ -123,7 +123,7 @@ return array(
 
 wird das Theme `basic` verwendet. Das bedeutet, dass das Layout in
 `themes/basic/views/layouts` der Index-View in `themes/basics/views/site` 
-verwendet wird. Falls Yii dort keine Viewdatei findet, verwendet es die
+verwendet wird. Falls Yee dort keine Viewdatei findet, verwendet es die
 Datei in `protected/views`.
 
 
@@ -131,7 +131,7 @@ Themes für Widgets
 ------------------
 
 Ab Version 1.1.5 können Themes auch für Widget-Views verwendet werden. Rendert
-man einen Widgetview mit [CWidget::render()], sucht Yii auch im
+man einen Widgetview mit [CWidget::render()], sucht Yee auch im
 Themeverzeichnis nach einer entsprechenden Datei.
 
 Möchte man den View `xyz` eines Widgets `Foo` in ein Theme einbeziehen, so
@@ -152,7 +152,7 @@ Widgets global anpassen
 
 > Note|Hinweis: Dieses Feature steht seit Version 1.1.3 zur Verfügung.
 
-Beim Arbeiten mit Widgets aus Yii oder von anderen Anbietern muss man diese
+Beim Arbeiten mit Widgets aus Yee oder von anderen Anbietern muss man diese
 häufig an spezifische Bedürfnisse anpassen. Etwa wenn der Wert von
 [CLinkPager::maxButtonCount] nicht 10 (Standard), sondern 5 sein soll. 
 Man kann diesen Startwert zwar beim Aufruf von [CBaseController::widget]
@@ -317,17 +317,17 @@ Viewcode erzeugt zum Beispiel einen Pager mit den Starteigenschaften
 ~~~
 
 Beachten Sie, dass der Einsatz von Skins keine Themes voraussetzt. Ist
-allerdings ein Theme aktiv, sucht Yii auch im Verzeichnis `skins` im
+allerdings ein Theme aktiv, sucht Yee auch im Verzeichnis `skins` im
 View-Verzeichnis des Themes nach Skins (z.B.
 `WebVerzeichnis/themes/classic/views/skins`). Falls sowohl im Theme als auch
 im Hauptverzeichnis eine Skindatei mit dem gleichen Namen existiert, hat die
 Theme-Skin Vorrang.
 
-Falls ein Widget eine Skin verwendet, die es nicht gibt, erzeugt Yii das
+Falls ein Widget eine Skin verwendet, die es nicht gibt, erzeugt Yee das
 Widget wie gewohnt ohne Fehler.
 
 > Info|Info: Die Verwendung von Skins kann die Performance negativ beeinflussen,
-> da Yii beim ersten Einsatz eines Widgets nach Skindateien suchen muss.
+> da Yee beim ersten Einsatz eines Widgets nach Skindateien suchen muss.
 
 Skins ähneln dem Feature zur globalen Anpassung von Widgets. Die wesentlichen
 Unterschiede sind:

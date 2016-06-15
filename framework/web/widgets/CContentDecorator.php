@@ -3,9 +3,9 @@
  * CContentDecorator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -66,7 +66,7 @@ class CContentDecorator extends COutputProcessor
 	{
 		$owner=$this->getOwner();
 		if($this->view===null)
-			$viewFile=Yii::app()->getController()->getLayoutFile(null);
+			$viewFile=Yee::app()->getController()->getLayoutFile(null);
 		else
 			$viewFile=$owner->getViewFile($this->view);
 		if($viewFile!==false)

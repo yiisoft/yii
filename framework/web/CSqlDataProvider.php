@@ -11,7 +11,7 @@
  *
  * CSqlDataProvider may be used in the following way:
  * <pre>
- * $count=Yii::app()->db->createCommand('SELECT COUNT(*) FROM tbl_user')->queryScalar();
+ * $count=Yee::app()->db->createCommand('SELECT COUNT(*) FROM tbl_user')->queryScalar();
  * $sql='SELECT * FROM tbl_user';
  * $dataProvider=new CSqlDataProvider($sql, array(
  *     'totalItemCount'=>$count,
@@ -39,7 +39,7 @@ class CSqlDataProvider extends CDataProvider
 {
 	/**
 	 * @var CDbConnection the database connection to be used in the queries.
-	 * Defaults to null, meaning using Yii::app()->db.
+	 * Defaults to null, meaning using Yee::app()->db.
 	 */
 	public $db;
 	/**
@@ -76,7 +76,7 @@ class CSqlDataProvider extends CDataProvider
 	{
 		if(!($this->sql instanceof CDbCommand))
 		{
-			$db=$this->db===null ? Yii::app()->db : $this->db;
+			$db=$this->db===null ? Yee::app()->db : $this->db;
 			$command=$db->createCommand($this->sql);
 		}
 		else

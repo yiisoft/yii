@@ -1,7 +1,7 @@
 Praktek MVC Terbaik (Best Practices)
 ==================
 
-Walaupun Model-View-Controller (MVC) dikenali hampir seluruh Web developer, bagaimana menggunakan MVC secara benar di dalam pengembangan aplikasi nyata masih membingungkan banyak orang. Pemikiran utama dari MVC adalah **code yang dapat dipakai ulang dan pemisahan tanggung jawab**. Pada bagian ini, kita akan melihat bagaimana petunjuk umum mengikuti MVC ketika mengembangkan aplikasi Yii.
+Walaupun Model-View-Controller (MVC) dikenali hampir seluruh Web developer, bagaimana menggunakan MVC secara benar di dalam pengembangan aplikasi nyata masih membingungkan banyak orang. Pemikiran utama dari MVC adalah **code yang dapat dipakai ulang dan pemisahan tanggung jawab**. Pada bagian ini, kita akan melihat bagaimana petunjuk umum mengikuti MVC ketika mengembangkan aplikasi Yee.
 
 Supaya lebih gampang mengikuti petunjuk ini, kita berasumsi sebuah aplikasi Web yang terdiri dari beberapa sub-aplikasi, seperti
 
@@ -10,7 +10,7 @@ Supaya lebih gampang mengikuti petunjuk ini, kita berasumsi sebuah aplikasi Web 
 * console: sebuah aplikasi yang terdiri dari perintah console yang akan dijalankan di window terminal atau sebagai job yang terjadwal guna mendukung keseluruhan aplikasi.
 * Web API: menyediakan interface untuk pihak ketiga demi bergabung dengan aplikasi.
 
-Sub-aplikasi bisa diimplementasi dengan [modules](/doc/guide/basics.module), atau sebagai aplikasi Yii yang berbagai beberapa code dengan sub-aplikasi lainnya.
+Sub-aplikasi bisa diimplementasi dengan [modules](/doc/guide/basics.module), atau sebagai aplikasi Yee yang berbagai beberapa code dengan sub-aplikasi lainnya.
 
 
 Model
@@ -61,7 +61,7 @@ View dapat didaya ulang dengan beberapa cara:
 
 * Widgets: jika banyak sekali logic yang diperlukan untuk menampilkan suatu partial view, maka partial view ini dapat diubah menjadi sebuah widget yang file kelas paling cocok digunakan untuk menampung logic ini. Untuk widget yang men-generate banyak markup HTML, lebih baik menggunakan file view khusus untuk widget untuk menampung markup.
 
-* Helper classes: di view kita sering memerlukan code snippet untuk melakukan tugas-tugas kecil seperti memformat data atau menghasilkan tag HTML. Daripada meletakkan code ini langsung ke file view, pendekatan lain yang lebih baik adalah meletakkan seluruh code snippet ini ke kelas helper view. Kemudian gunakan kelas helper ini di file view Anda. Yii menyediakan contoh seperti ini. Yii memiliki sebuah kelas helper [CHtml] yang bisa menghasilkan code HTML umum. Kelas helper dapat diletakkan di sebuah [direktori autoloadable](/doc/guide/basics.namespace) sehingga kita bisa menggunakannya tanpa perlu menyertakan kelas secara eksplisit.
+* Helper classes: di view kita sering memerlukan code snippet untuk melakukan tugas-tugas kecil seperti memformat data atau menghasilkan tag HTML. Daripada meletakkan code ini langsung ke file view, pendekatan lain yang lebih baik adalah meletakkan seluruh code snippet ini ke kelas helper view. Kemudian gunakan kelas helper ini di file view Anda. Yee menyediakan contoh seperti ini. Yee memiliki sebuah kelas helper [CHtml] yang bisa menghasilkan code HTML umum. Kelas helper dapat diletakkan di sebuah [direktori autoloadable](/doc/guide/basics.namespace) sehingga kita bisa menggunakannya tanpa perlu menyertakan kelas secara eksplisit.
 
 
 Controller

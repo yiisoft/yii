@@ -6,20 +6,20 @@ different database management systems (DBMS). As a result, the underlying
 DBMS can be changed to a different one without requiring change of the code
 which uses DAO to access the data.
 
-Yii DAO is built on top of [PHP Data Objects
+Yee DAO is built on top of [PHP Data Objects
 (PDO)](http://php.net/manual/en/book.pdo.php) which is an extension
 providing unified data access to many popular DBMS, such as MySQL,
-PostgreSQL. Therefore, to use Yii DAO, the PDO extension and the specific
+PostgreSQL. Therefore, to use Yee DAO, the PDO extension and the specific
 PDO database driver (e.g. `PDO_MYSQL`) have to be installed.
 
-Yii DAO mainly consists of the following four classes:
+Yee DAO mainly consists of the following four classes:
 
    - [CDbConnection]: represents a connection to a database.
    - [CDbCommand]: represents an SQL statement to execute against a database.
    - [CDbDataReader]: represents a forward-only stream of rows from a query result set.
    - [CDbTransaction]: represents a DB transaction.
 
-In the following, we introduce the usage of Yii DAO in different
+In the following, we introduce the usage of Yee DAO in different
 scenarios.
 
 Establishing Database Connection
@@ -76,7 +76,7 @@ array(
 )
 ~~~
 
-We can then access the DB connection via `Yii::app()->db` which is already
+We can then access the DB connection via `Yee::app()->db` which is already
 activated automatically, unless we explictly configure
 [CDbConnection::autoConnect] to be false. Using this approach, the single
 DB connection can be shared in multiple places in our code.
@@ -122,7 +122,7 @@ using [CDbCommand]. One creates a [CDbCommand] instance by calling
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // assuming you have configured a "db" connection
+$connection=Yee::app()->db;   // assuming you have configured a "db" connection
 // If not, you may explicitly create a connection:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
@@ -185,7 +185,7 @@ Using Transactions
 When an application executes a few queries, each reading and/or writing
 information in the database, it is important to be sure that the database
 is not left with only some of the queries carried out. A transaction,
-represented as a [CDbTransaction] instance in Yii, may be initiated in this
+represented as a [CDbTransaction] instance in Yee, may be initiated in this
 case:
 
    - Begin the transaction.
@@ -276,12 +276,12 @@ while($dataReader->read()!==false)
 Using Table Prefix
 ------------------
 
-Yii provides integrated support for using
+Yee provides integrated support for using
 table prefix. Table prefix means a string that is prepended to the names of
 the tables in the currently connected database. It is mostly used in a shared
 hosting environment where multiple applications share a single database and use
 different table prefixes to differentiate from each other. For example, one
-application could use `tbl_` as prefix while the other `yii_`.
+application could use `tbl_` as prefix while the other `yee_`.
 
 To use table prefix, configure the [CDbConnection::tablePrefix] property to be
 the desired table prefix. Then, in SQL statements use `{{TableName}}` to refer

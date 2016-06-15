@@ -3,9 +3,9 @@
  * CDirectoryCacheDependency class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -68,7 +68,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 		if($this->directory!==null)
 			return $this->generateTimestamps($this->directory);
 		else
-			throw new CException(Yii::t('yii','CDirectoryCacheDependency.directory cannot be empty.'));
+			throw new CException(Yee::t('yee','CDirectoryCacheDependency.directory cannot be empty.'));
 	}
 
 	/**
@@ -82,7 +82,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	protected function generateTimestamps($directory,$level=0)
 	{
 		if(($dir=@opendir($directory))===false)
-			throw new CException(Yii::t('yii','"{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','"{path}" is not a valid directory.',
 				array('{path}'=>$directory)));
 		$timestamps=array();
 		while(($file=readdir($dir))!==false)

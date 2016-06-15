@@ -1,7 +1,7 @@
 Конструктор запросов
 ====================
 
-Конструктор запросов Yii предоставляет объектно-ориентированный способ
+Конструктор запросов Yee предоставляет объектно-ориентированный способ
 написания SQL-запросов. Он позволяет разработчику использовать методы и свойства
 класса для того, чтобы указать отдельные части SQL-запроса. Затем конструктор
 собирает отдельные части в единый SQL-запрос, который может быть выполнен вызовом
@@ -11,7 +11,7 @@ SQL-запроса SELECT:
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yee::app()->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -44,7 +44,7 @@ $user = Yii::app()->db->createCommand()
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yee::app()->db->createCommand('SELECT * FROM tbl_user');
 > // следующая строка НЕ добавит WHERE к SQL
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -63,10 +63,10 @@ $user = Yii::app()->db->createCommand()
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 ~~~
 
-Здесь мы используем `Yii::app()->db` для получения соединения с базой данных и
+Здесь мы используем `Yee::app()->db` для получения соединения с базой данных и
 затем вызываем [CDbConnection::createCommand()] для создания экземпляра команды.
 
 Следует отметить, что теперь мы не передаём методу `createCommand()` готовое SQL-выражение, как это делалось
@@ -433,7 +433,7 @@ union('select * from tbl_profile')
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -447,7 +447,7 @@ $users = Yii::app()->db->createCommand()
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -460,7 +460,7 @@ $sql = Yii::app()->db->createCommand()
 ### Альтернативный синтаксис построения запросов
 
 Иногда использование цепочек вызовов может быть неоптимальным решением. Конструктор
-запросов Yii позволяет создать запрос путём задания полей объекта. Для каждого
+запросов Yee позволяет создать запрос путём задания полей объекта. Для каждого
 метода конструктора запросов есть соответствующее поле с таким же именем.
 Присвоение значения полю эквивалентно вызову соответствующего метода. К примеру,
 приведённые ниже строки эквивалентны, если `$command` — объект [CDbCommand]:
@@ -478,7 +478,7 @@ $command->select = array('id', 'username');
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yee::app()->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -495,7 +495,7 @@ $row = Yii::app()->db->createCommand(array(
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // очищаем предыдущий запрос
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

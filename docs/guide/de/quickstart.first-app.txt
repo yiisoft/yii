@@ -1,30 +1,30 @@
-Erstellen der ersten Yii-Anwendung
+Erstellen der ersten Yee-Anwendung
 ==================================
 
-Um einen ersten Eindruck von Yii zu bekommen, demonstrieren wir zunächst, wie
-man mit `yiic` (einem Kommandozeilenbefehl) eine Anwendung erstellt und mit
+Um einen ersten Eindruck von Yee zu bekommen, demonstrieren wir zunächst, wie
+man mit `yeec` (einem Kommandozeilenbefehl) eine Anwendung erstellt und mit
 `Gii` (einem mächtigen, webbasierten Codegenerator) automatisch
 verschiedene Codeteile generieren kann. Das Installationsverzeichnis von
-Yii nennen wir im folgenden `YiiVerzeichnis`, das Webverzeichnis entsprechend
+Yee nennen wir im folgenden `YeeVerzeichnis`, das Webverzeichnis entsprechend
 `WebVerzeichnis`.
 
-Starten Sie `yiic` von der Kommandozeile wie folgt:
+Starten Sie `yeec` von der Kommandozeile wie folgt:
 
 ~~~
-% YiiVerzeichnis/framework/yiic webapp WebVerzeichnis/testdrive
+% YeeVerzeichnis/framework/yeec webapp WebVerzeichnis/testdrive
 ~~~
 
-> Note|Hinweis: Wenn Sie `yiic` unter Mac OS, Linux or Unix starten, müssen Sie evtl.
-> die Zugriffsrechte der `yiic`-Datei auf *ausführbar* setzen. Alternativ
+> Note|Hinweis: Wenn Sie `yeec` unter Mac OS, Linux or Unix starten, müssen Sie evtl.
+> die Zugriffsrechte der `yeec`-Datei auf *ausführbar* setzen. Alternativ
 > können sie den Befehl auch wie folgt aufrufen:
 >
 > ~~~
 > % cd WebVerzeichnis
-> % php YiiVerzeichnis/framework/yiic.php webapp testdrive
+> % php YeeVerzeichnis/framework/yeec.php webapp testdrive
 > ~~~
 
 Damit wird im Verzeichnis `WebVerzeichnis/testdrive` die Grundstruktur einer
-Anwendung angelegt. Diese Verzeichnisstruktur wird von fast allen Yii-Anwendungen
+Anwendung angelegt. Diese Verzeichnisstruktur wird von fast allen Yee-Anwendungen
 benötigt.
 
 Bereits jetzt kann man die erzeugte Anwendung aufrufen. Und das, ohne auch nur
@@ -65,11 +65,11 @@ testdrive/
    images/                   enthält Bilddateien
    themes/                   enthält Themes
    protected/                enthält die geschützten Dateien dieser Anwendung
-      yiic                   yiic-Script für die Kommandozeile unter Linux/Unix
-      yiic.bat               yiic-Script für die Kommandozeile unter Windows
-      yiic.php               PHP-Script für yiic
-      commands/              enthält selbst erstellte 'yiic'-Kommandos
-         shell/              enthält selbst erstellte 'yiic shell'-Kommandos
+      yeec                   yeec-Script für die Kommandozeile unter Linux/Unix
+      yeec.bat               yeec-Script für die Kommandozeile unter Windows
+      yeec.php               PHP-Script für yeec
+      commands/              enthält selbst erstellte 'yeec'-Kommandos
+         shell/              enthält selbst erstellte 'yeec shell'-Kommandos
       components/            enthält wiederverwendbare Benutzerkomponenten
          Controller.php      die Basisklasse für alle Controller
          UserIdentity.php    die Klasse 'UserIdentity' (Benutzer-Identität) für die Authentifizierung
@@ -108,7 +108,7 @@ wie zum Beispiel .gitignore (um den Inhalt der asset- und runtime-Ordner von der
 und .gitkeep (um leere, aber notwendige Ordner mit in die Versionskontrolle aufzunehmen):
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive git
+% YeeRoot/framework/yeec webapp WebRoot/testdrive git
 ~~~
 
 Unterstützung für das Versionskontrollsystem Mercurial wurde in Version 1.1.11 hinzugefügt.
@@ -136,7 +136,7 @@ return array(
 );
 ~~~
 
-Damit wird Yii angewiesen, sich bei Bedarf mit der SQLite-Datenbank
+Damit wird Yee angewiesen, sich bei Bedarf mit der SQLite-Datenbank
 `WebVerzeichnis/testdrive/protected/data/testdrive.db` zu verbinden. Beachten Sie,
 dass die SQLite-Datenbank bereits in der Beispielanwendung enthalten ist, die
 Sie gerade erstellt haben. Die Datenbank enthält nur die Tabelle `tbl_user`:
@@ -155,7 +155,7 @@ Falls Sie stattdessen eine MySQL-Datenbank einsetzen möchten, können Sie die
 Schemadatei `WebVerzeichnis/testdrive/protected/data/schema.mysql.sql` verwenden, um
 die Datenbank anzulegen.
 
-> Note|Hinweis: Yii benötigt die PDO-Erweiterung in PHP inklusive der
+> Note|Hinweis: Yee benötigt die PDO-Erweiterung in PHP inklusive der
 > datenbankspezifischen PDO-Treiber, um auf eine Datenbank zugreifen zu können.
 > Für die Testanwendung müssen also `php_pdo` und `php_pdo_sqlite` aktiviert
 > sein.
@@ -171,9 +171,9 @@ Aufgabenstellung aus der Praxis. Statt den nötigen Code mühevoll selbst zu sch
 können Sie dazu den leistungsstarken Codegenerator `Gii` verwenden.
 
 > Info|Info: Gii steht seit Version 1.1.2 zur Verfügung. In früheren Versionen
-> wurde auch für die CRUD-Generierung der erwähnte `yiic`-Befehl verwendet.
-> Weitere Details hierzu finden Sie unter [CRUD-Operationen mit der yiic shell
-> erstellen](/doc/guide/quickstart.first-app-yiic).
+> wurde auch für die CRUD-Generierung der erwähnte `yeec`-Befehl verwendet.
+> Weitere Details hierzu finden Sie unter [CRUD-Operationen mit der yeec shell
+> erstellen](/doc/guide/quickstart.first-app-yeec).
 
 
 ### Gii konfigurieren

@@ -22,7 +22,7 @@
 התנהגות
 --------
 
-בכדי ליצור התנהגות, יש ליישם את הממשק [IBehavior]. לנוחות, Yii מספקת מחלקת בסיס [CBehavior] אשר כבר מיישמת את הממשק הנחוץ ומספקת כמה מתודות שימושיות נוספות. תת-מחלקות צריכות ליישם את המתודות הנוספות שעומדות להיות זמינות לרכיבים אליהם הם יצורפו.
+בכדי ליצור התנהגות, יש ליישם את הממשק [IBehavior]. לנוחות, Yee מספקת מחלקת בסיס [CBehavior] אשר כבר מיישמת את הממשק הנחוץ ומספקת כמה מתודות שימושיות נוספות. תת-מחלקות צריכות ליישם את המתודות הנוספות שעומדות להיות זמינות לרכיבים אליהם הם יצורפו.
 
 כשמפתחים התנהגות עבור [CModel] ו [CActiveRecord], ניתן להרחיב מהמחלקות [CModelBehavior] ו [CActiveRecordBehavior], בהתאמה. מחלקות בסיס אלו מציעות אפשרויות נוספות שמיועדות ספציפית ל [CModel] ו [CActiveRecord]. לדוגמא, המחלקה [CActiveRecordBehavior] מיישמת סט של מתודות המגיבות לאירועים אשר מתבצעים במחלקת ActiveRecord.
 
@@ -59,7 +59,7 @@ class MyTabView extends CTabView
         if($this-»cssFile===null)
         {
             $file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-            $this-»cssFile=Yii::app()-»getAssetManager()-»publish($file);
+            $this-»cssFile=Yee::app()-»getAssetManager()-»publish($file);
         }
         parent::init();
     }
@@ -80,7 +80,7 @@ class MyWidget extends CWidget
     protected function registerClientScript()
     {
         // ..פרסום קבצי CSS ו JS כאן...
-        $cs=Yii::app()-»clientScript;
+        $cs=Yee::app()-»clientScript;
         $cs-»registerCssFile($cssFile);
         $cs-»registerScriptFile($jsFile);
     }

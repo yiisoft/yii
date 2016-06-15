@@ -4,21 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="es"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Verificación de requerimientos de Yii</title>
+<title>Verificación de requerimientos de Yee</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Verificación de requerimientos de Yii</h1>
+<h1>Verificación de requerimientos de Yee</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Descripción</h2>
 <p>
 Este script verifica que la configuración de su servidor cumpla con los requerimientos
-para poder ejecutar aplicaciones Web <a href="http://www.yiiframework.com/">Yii</a>.
+para poder ejecutar aplicaciones Web <a href="http://www.yeeframework.com/">Yee</a>.
 El mismo verifica que el servidor este corriendo una versión adecuada de PHP,
 que las extensiones PHP necesarias hayan sido cargadas y que las configuraciones del archivo php.ini sean correctas. 
 </p>
@@ -26,11 +26,11 @@ que las extensiones PHP necesarias hayan sido cargadas y que las configuraciones
 <h2>Conclusión</h2>
 <p>
 <?php if($result>0): ?>
-Felicitaciones! Su servidor satisface todos los requerimientos de Yii.
+Felicitaciones! Su servidor satisface todos los requerimientos de Yee.
 <?php elseif($result<0): ?>
-La configuración de su servidor satisface los requerimientos mínimos de Yii. Por favor preste atención a las advertencias listadas en el cuadro más abajo si su aplicación utiliza alguna de esas características.
+La configuración de su servidor satisface los requerimientos mínimos de Yee. Por favor preste atención a las advertencias listadas en el cuadro más abajo si su aplicación utiliza alguna de esas características.
 <?php else: ?>
-Desafortunadamente la configuración de su servidor no satisface los requerimientos de Yii.
+Desafortunadamente la configuración de su servidor no satisface los requerimientos de Yee.
 <?php endif; ?>
 </p>
 

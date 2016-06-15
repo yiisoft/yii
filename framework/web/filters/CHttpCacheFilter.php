@@ -3,9 +3,9 @@
  * CHttpCacheFilter class file.
  *
  * @author Da:Sourcerer <webmaster@dasourcerer.net>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -63,7 +63,7 @@ class CHttpCacheFilter extends CFilter
 	public function preFilter($filterChain)
 	{
 		// Only cache GET and HEAD requests
-		if(!in_array(Yii::app()->getRequest()->getRequestType(), array('GET', 'HEAD')))
+		if(!in_array(Yee::app()->getRequest()->getRequestType(), array('GET', 'HEAD')))
 			return true;
 
 		$lastModified=$this->getLastModifiedValue();
@@ -126,7 +126,7 @@ class CHttpCacheFilter extends CFilter
 			if(is_numeric($value)&&$value==(int)$value)
 				return $value;
 			elseif(($lastModified=strtotime($value))===false)
-				throw new CException(Yii::t('yii','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()',
+				throw new CException(Yee::t('yee','Invalid expression for CHttpCacheFilter.lastModifiedExpression: The evaluation result "{value}" could not be understood by strtotime()',
 					array('{value}'=>$value)));
 			return $lastModified;
 		}
@@ -136,7 +136,7 @@ class CHttpCacheFilter extends CFilter
 			if(is_numeric($this->lastModified)&&$this->lastModified==(int)$this->lastModified)
 				return $this->lastModified;
 			elseif(($lastModified=strtotime($this->lastModified))===false)
-				throw new CException(Yii::t('yii','CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()'));
+				throw new CException(Yee::t('yee','CHttpCacheFilter.lastModified contained a value that could not be understood by strtotime()'));
 			return $lastModified;
 		}
 		return false;
@@ -180,7 +180,7 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function send304Header()
 	{
-		$httpVersion=Yii::app()->request->getHttpVersion();
+		$httpVersion=Yee::app()->request->getHttpVersion();
 		header("HTTP/$httpVersion 304 Not Modified");
 	}
 
@@ -191,7 +191,7 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function sendCacheControlHeader()
 	{
-		if(Yii::app()->session->isStarted)
+		if(Yee::app()->session->isStarted)
 		{
 			session_cache_limiter('public');
 			header('Pragma:',true);

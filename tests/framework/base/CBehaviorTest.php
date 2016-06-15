@@ -53,7 +53,7 @@ class CBehaviorTest extends CTestCase {
     }
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/162
+	 * https://github.com/yeesoft/yee/issues/162
 	 */
 	public function testDuplicateEventHandlers()
 	{

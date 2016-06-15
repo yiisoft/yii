@@ -1,13 +1,13 @@
 Generalitati
 ============
 
-Extinderea platformei Yii este o activitate obisnuita in timpul dezvoltarii.
-De exemplu, daca scriem un nou controller, extindem Yii prin derivarea
+Extinderea platformei Yee este o activitate obisnuita in timpul dezvoltarii.
+De exemplu, daca scriem un nou controller, extindem Yee prin derivarea
 clasei sale [CController]. In cazul unui nou widget, derivam [CWidget].
 Daca scriem cod care este proiectat sa fie refolosit de catre alti programatori,
 atunci denumim acest cod *extensie*.
 
-O extensie de obicei foloseste pentru un singur scop. In termenii platformei Yii,
+O extensie de obicei foloseste pentru un singur scop. In termenii platformei Yee,
 o extensie poate fi clasificata in felul urmator:
 
  * [componenta de aplicatie](/doc/guide/basics.application#application-component)
@@ -27,7 +27,7 @@ o extensie poate fi clasificata in felul urmator:
  De exemplu, putem putem avea un modul care pune la dispozitie functionalitati de gestiune utilizatori.
 
 O extensie poate fi de asemenea o componenta care nu apartine nici unei categorii de mai sus.
-De fapt, platforma Yii este proiectata foarte atent pentru a permite extinderea
+De fapt, platforma Yee este proiectata foarte atent pentru a permite extinderea
 oricarei parti din codul sau pentru a fi potrivita fiecarei nevoi individuale.
 
 <div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>

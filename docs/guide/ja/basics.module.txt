@@ -80,7 +80,7 @@ return array(
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // もしくは、もし $this がコントローラインスタンスを参照するなら下記のように
 // $postPerPage=$this->module->postPerPage;
 ~~~

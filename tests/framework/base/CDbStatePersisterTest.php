@@ -17,7 +17,7 @@ class CDbStatePersisterTest extends CTestCase
 			'components'=>array(
 				'db'=>array(
 					'class' => 'CDbConnection',
-					'connectionString' => 'mysql:host=127.0.0.1;port=3306;dbname=yii',
+					'connectionString' => 'mysql:host=127.0.0.1;port=3306;dbname=yee',
 					'username' => 'test',
 					'password' => 'test',
 					'emulatePrepare' => true,

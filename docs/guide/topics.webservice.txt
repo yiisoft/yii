@@ -12,12 +12,12 @@ application. Web service relies on
 [SOAP](http://en.wikipedia.org/wiki/SOAP) as its foundation layer of the
 communication protocol stack.
 
-Yii provides [CWebService] and [CWebServiceAction] to simplify the work of
+Yee provides [CWebService] and [CWebServiceAction] to simplify the work of
 implementing Web service in a Web application. The APIs are grouped into
-classes, called *service providers*. Yii will generate for each
+classes, called *service providers*. Yee will generate for each
 class a [WSDL](http://www.w3.org/TR/wsdl) specification which describes
 what APIs are available and how they should be invoked by client. When an
-API is invoked by a client, Yii will instantiate the corresponding service
+API is invoked by a client, Yee will instantiate the corresponding service
 provider and call the requested API to fulfill the request.
 
 > Note: [CWebService] relies on the [PHP SOAP
@@ -28,7 +28,7 @@ Defining Service Provider
 -------------------------
 
 As we mentioned above, a service provider is a class defining the methods
-that can be remotely invoked. Yii relies on [doc
+that can be remotely invoked. Yee relies on [doc
 comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) and [class
 reflection](http://php.net/manual/en/book.reflection.php) to
 identify which methods can be remotely invoked and what are their

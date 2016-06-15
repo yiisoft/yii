@@ -1,26 +1,26 @@
 Convenções
 ===========
 
-O Yii favorece convenções sobre configurações. Siga as convenções e você 
+O Yee favorece convenções sobre configurações. Siga as convenções e você 
 poderá criar aplicações sofisticadas sem ter que escrever ou gerenciar 
-configurações complexas. Evidentemente, o Yii ainda podem ser personalizados em quase
+configurações complexas. Evidentemente, o Yee ainda podem ser personalizados em quase
 todos os aspectos, com configurações, quando necessário.
 
-Abaixo descrevemos convenções que são recomendadas para programar com o Yii. 
-Por conveniência, assumimos que `WebRoot` é o diretório onde está instalada uma aplicação desenvolvida com o Yii framework.
+Abaixo descrevemos convenções que são recomendadas para programar com o Yee. 
+Por conveniência, assumimos que `WebRoot` é o diretório onde está instalada uma aplicação desenvolvida com o Yee framework.
 
 
 URL
 ---
 
-Por padrão, o Yii reconhece URLs com o seguinte formato:
+Por padrão, o Yee reconhece URLs com o seguinte formato:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
 A variável `r`, passada via GET, refere-se a 
-[rota](/doc/guide/basics.controller#route), que pode ser interpretada pelo Yii 
+[rota](/doc/guide/basics.controller#route), que pode ser interpretada pelo Yee 
 como um controle e uma ação. Se o id da ação (`ActionID`) for omitido, o controle irá 
 utilizar a ação padrão (definida através da propriedade [CController::defaultAction]); e se 
 o id do controle (`ControllerID`) também for omitido (ou a variável `r` estiver ausente), a
@@ -35,7 +35,7 @@ detalhes em [Gerenciamento de URL](/doc/guide/topics.url).
 Código
 ----
 
-O Yii recomenda que nomes de variáveis, funções e nomes de classe sejam escritos no formato Camel Case, 
+O Yee recomenda que nomes de variáveis, funções e nomes de classe sejam escritos no formato Camel Case, 
 onde inicia-se cada palavra com letra maiúscula e junta-se todas, sem espaços entre elas.
 Variáveis e nomes de funções devem ter a sua primeira palavra totalmente em letras minúsculas, 
 a fim de diferencia-los dos nomes das classes (por exemplo, `$basePath`,
@@ -45,7 +45,7 @@ a fim de diferencia-los dos nomes das classes (por exemplo, `$basePath`,
 
 Como não há suporte a namespaces antes do PHP 5.3.0, é recomendado 
 que as classes sejam denominadas de uma forma única, para evitar conflitos com nomes de 
-classes de terceiros. Por esta razão, todas as classes do Yii framework são
+classes de terceiros. Por esta razão, todas as classes do Yee framework são
 prefixadas com a letra "C".
 
 Existe uma regra especial para as classes de controle, onde deve-se adicionar
@@ -93,12 +93,12 @@ representando a configuração.
 Diretório
 ---------
 
-O Yii assume um conjunto predefinido de diretórios utilizados para diversas finalidades. Cada um 
+O Yee assume um conjunto predefinido de diretórios utilizados para diversas finalidades. Cada um 
 deles pode ser personalizado, se necessário.
 
 - `WebRoot/protected`: este é o [diretório base 
 da aplicação](/doc/guide/basics.application#application-base-directory), onde estão todos os
-scripts PHP que precisão estar seguros e os arquivos de dados. O Yii tem um apelido (alias) padrão 
+scripts PHP que precisão estar seguros e os arquivos de dados. O Yee tem um apelido (alias) padrão 
 chamado `application`, associado a este caminho. Este diretório, e 
 tudo dentro dele, deve estar protegido para não ser acessado via web. Ele
 pode ser alterado através da propriedade [CWebApplication::basePath].
@@ -147,7 +147,7 @@ Banco de Dados
 
 A maioria das aplicações web utilizam algum tipo de banco de dados. Como boa prática,
 propomos as seguintes convenções para a criação de nomes de tabelas e colunas. Note
-que nenhuma delas é obrigatória para a utilização do Yii.
+que nenhuma delas é obrigatória para a utilização do Yee.
 
  - Nomes de tabelas e colunas devem utilizar apenas letras minúsculas.
 

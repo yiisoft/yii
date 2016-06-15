@@ -1,27 +1,27 @@
 Konventionen
 ============
 
-Yii folgt dem Prinzip "Konvention statt Konfiguration". 
+Yee folgt dem Prinzip "Konvention statt Konfiguration". 
 Das bedeutet, wenn Sie den Konventionen folgen, können Sie sehr 
 anspruchsvolle Anwendungen erstellen, ohne sich mit umfangreichen oder
-komplexen Konfigurationen herumschlagen zu müssen. Trotzdem kann Yii, falls nötig,
+komplexen Konfigurationen herumschlagen zu müssen. Trotzdem kann Yee, falls nötig,
 in praktisch allen Belangen angepasst werden.
 
-Wir wollen hier die für Yii empfohlenen Konventionen kurz erläutern. 
+Wir wollen hier die für Yee empfohlenen Konventionen kurz erläutern. 
 Nehmen wir dabei an, dass im Verzeichnis `WebVerzeichnis` 
-eine Yii-Anwendung installiert wurde.
+eine Yee-Anwendung installiert wurde.
 
 URL
 ---
 
-Yii verarbeitet im Normalfall URLs gemäß diesem Format:
+Yee verarbeitet im Normalfall URLs gemäß diesem Format:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
 Die GET-Variable `r` bezieht sich auf die
-[Route](/doc/guide/basics.controller#route), die von Yii in Controller und
+[Route](/doc/guide/basics.controller#route), die von Yee in Controller und
 Action aufgelöst wird. Wird `ActionID` weggelassen, verwendet der
 Controller die Standardaction (festgelegt über [CController::defaultAction]). 
 Falls auch die ControllerID weggelassen wird (oder die Variable `r` ganz
@@ -47,7 +47,7 @@ Klassenvariablen einen Unterstrich voranzustellen (z.B. `$_actionList`).
 
 Da vor PHP 5.3.0 noch keine Namespaces unterstützt werden, empfehlen wir,
 Klassennamen eindeutig zu kennzeichnen, um Konflikte mit anderen Klassen
-zu vermeiden. Allen Yii-Klassen ist daher ein "C" vorangestellt.
+zu vermeiden. Allen Yee-Klassen ist daher ein "C" vorangestellt.
 
 Für Controllerklassen gilt, dass deren Name mit 'Controller' enden muss.
 Eine Contoller-ID entspricht dem Klassennamen ohne 'Controller', wobei das
@@ -93,7 +93,7 @@ Arrays zurückzuliefert.
 Verzeichnisse
 -------------
 
-Yii geht von einigen vorhandenen Verzeichnissen aus. Bei Bedarf kann diese
+Yee geht von einigen vorhandenen Verzeichnissen aus. Bei Bedarf kann diese
 Struktur jedoch angepasst werden.
 
    - `WebVerzeichnis/protected`: Das
@@ -108,7 +108,7 @@ Webserver-Prozess muss in dieses Verzeichnis schreiben können. Der Pfad kann
 über [CApplication::runtimePath] angepasst werden.
 
    - `WebVerzeichnis/protected/extensions`: Enthält Erweiterungen. Der Pfad kann über
-[CApplication::extensionPath] angepasst werden. Das Verzeichnis kann in Yii
+[CApplication::extensionPath] angepasst werden. Das Verzeichnis kann in Yee
 über den Pfadalias `ext` verwendet werden.
 
    - `WebVerzeichnis/protected/modules`: Enthält [Module](/doc/guide/basics.module), 
@@ -150,7 +150,7 @@ Datenbanken
 -----------
 
 Die meisten Webanwendungen sind datenbankgestützt. Wir empfehlen folgende
-Namenskonventionen für Tabellen und Spalten. Für Yii sind diese allerdings
+Namenskonventionen für Tabellen und Spalten. Für Yee sind diese allerdings
 nicht zwingend nötig.
 
    - Sowohl Tabellen als auch Spalten werden in Kleinbuchstaben benannt.

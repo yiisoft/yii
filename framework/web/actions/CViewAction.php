@@ -3,9 +3,9 @@
  * CViewAction class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -109,7 +109,7 @@ class CViewAction extends CAction
 				return;
 			}
 		}
-		throw new CHttpException(404,Yii::t('yii','The requested view "{name}" was not found.',
+		throw new CHttpException(404,Yee::t('yee','The requested view "{name}" was not found.',
 			array('{name}'=>$viewPath)));
 	}
 

@@ -3,9 +3,9 @@
  * CLogRouter class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -62,12 +62,12 @@ class CLogRouter extends CApplicationComponent
 		parent::init();
 		foreach($this->_routes as $name=>$route)
 		{
-			$route=Yii::createComponent($route);
+			$route=Yee::createComponent($route);
 			$route->init();
 			$this->_routes[$name]=$route;
 		}
-		Yii::getLogger()->attachEventHandler('onFlush',array($this,'collectLogs'));
-		Yii::app()->attachEventHandler('onEndRequest',array($this,'processLogs'));
+		Yee::getLogger()->attachEventHandler('onFlush',array($this,'collectLogs'));
+		Yee::app()->attachEventHandler('onEndRequest',array($this,'processLogs'));
 	}
 
 	/**
@@ -99,7 +99,7 @@ class CLogRouter extends CApplicationComponent
 	 */
 	public function collectLogs($event)
 	{
-		$logger=Yii::getLogger();
+		$logger=Yee::getLogger();
 		$dumpLogs=isset($event->params['dumpLogs']) && $event->params['dumpLogs'];
 		foreach($this->_routes as $route)
 		{
@@ -116,7 +116,7 @@ class CLogRouter extends CApplicationComponent
 	 */
 	public function processLogs()
 	{
-		$logger=Yii::getLogger();
+		$logger=Yee::getLogger();
 		$logger->flush(true);
 	}
 }

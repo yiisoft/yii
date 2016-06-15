@@ -3,9 +3,9 @@
  * CMessageSource class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -50,7 +50,7 @@ abstract class CMessageSource extends CApplicationComponent
 	 */
 	public function getLanguage()
 	{
-		return $this->_language===null ? Yii::app()->sourceLanguage : $this->_language;
+		return $this->_language===null ? Yee::app()->sourceLanguage : $this->_language;
 	}
 
 	/**
@@ -80,7 +80,7 @@ abstract class CMessageSource extends CApplicationComponent
 	public function translate($category,$message,$language=null)
 	{
 		if($language===null)
-			$language=Yii::app()->getLanguage();
+			$language=Yee::app()->getLanguage();
 		if($this->forceTranslation || $language!==$this->getLanguage())
 			return $this->translateMessage($category,$message,$language);
 		else

@@ -1,14 +1,14 @@
 Code Generation using Command Line Tools (deprecated)
 =========================================
 
-> Note: The code generators in `yiic shell` have been deprecated since version 1.1.2. Please use the more powerful and extensible Web-based code generators available in [Gii](/doc/guide/topics.gii), instead.
+> Note: The code generators in `yeec shell` have been deprecated since version 1.1.2. Please use the more powerful and extensible Web-based code generators available in [Gii](/doc/guide/topics.gii), instead.
 
 Open a command line window, and execute the commands listed as follows,
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
+% protected/yeec shell
+Yee Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
    generate models/User.php
@@ -38,7 +38,7 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-In the above, we use the `yiic shell` command to interact with our
+In the above, we use the `yeec shell` command to interact with our
 skeleton application. At the prompt, we execute two sub-commands: `model User tbl_user`
 and `crud User`. The former generates a model class named `User` for the `tbl_user` table,
 while the latter analyzes the `User` model and generates the code implementing
@@ -47,10 +47,10 @@ the corresponding CRUD operations.
 > Note: You may encounter errors like "...could not find driver", even
 > though the requirement checker shows you have already enabled PDO
 > and the corresponding PDO driver. If this happens, you may try
-> to run the `yiic` tool as follows,
+> to run the `yeec` tool as follows,
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 > where `path/to/php.ini` represents the correct PHP ini file.

@@ -4,21 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Vérification de la configuration nécessaire pour Yii</title>
+<title>Vérification de la configuration nécessaire pour Yee</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Vérification de la configuration nécessaire pour Yii</h1>
+<h1>Vérification de la configuration nécessaire pour Yee</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Description</h2>
 <p>
 Ce script vérifie si la configuration de votre serveur satisfait toutes les dépendances nécessaires
-pour exécuter les applications <a href="http://www.yiiframework.com/">Yii</a>.
+pour exécuter les applications <a href="http://www.yeeframework.com/">Yee</a>.
 Il vérifie si le serveur exécute la version correcte de PHP,
 si toutes les extensions PHP nécessaires ont été chargées, et si les paramètres du fichier php.ini sont corrects
 </p>
@@ -26,11 +26,11 @@ si toutes les extensions PHP nécessaires ont été chargées, et si les paramè
 <h2>Conclusion</h2>
 <p>
 <?php if($result>0): ?>
-Félicitations ! Votre configuration vérifie toutes les exigences de Yii.
+Félicitations ! Votre configuration vérifie toutes les exigences de Yee.
 <?php elseif($result<0): ?>
-Votre configuration satisfait les exigences minimales de Yii. Notez les avertissements listés ci-dessous si votre application utilise les fonctionnalités correspondantes.
+Votre configuration satisfait les exigences minimales de Yee. Notez les avertissements listés ci-dessous si votre application utilise les fonctionnalités correspondantes.
 <?php else: ?>
-Malheureusement, votre configuration ne satisfait pas les exigences de Yii.
+Malheureusement, votre configuration ne satisfait pas les exigences de Yee.
 <?php endif; ?>
 </p>
 

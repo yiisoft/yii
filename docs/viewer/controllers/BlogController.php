@@ -33,10 +33,10 @@ class BlogController extends CController
 	public function actionView()
 	{
 		$topic=$this->getTopic();
-		$file=Yii::getPathOfAlias("docs.blog.{$this->language}").DIRECTORY_SEPARATOR.$topic.'.txt';
+		$file=Yee::getPathOfAlias("docs.blog.{$this->language}").DIRECTORY_SEPARATOR.$topic.'.txt';
 
 		if(!is_file($file))
-			$file=Yii::getPathOfAlias("docs.blog").DIRECTORY_SEPARATOR.$topic.'.txt';
+			$file=Yee::getPathOfAlias("docs.blog").DIRECTORY_SEPARATOR.$topic.'.txt';
 
 		if(!strcasecmp($topic,'toc') || !is_file($file))
 			throw new CHttpException(404,'The page you looked for does not exist.');
@@ -45,14 +45,14 @@ class BlogController extends CController
 		$markdown=new MarkdownParser;
 		$content=$markdown->safeTransform($content);
 
-		$imageUrl=Yii::app()->baseUrl.'/blog/images';
+		$imageUrl=Yee::app()->baseUrl.'/blog/images';
 		$content=preg_replace('/<p>\s*<img(.*?)src="(.*?)"\s+alt="(.*?)"\s*\/>\s*<\/p>/',
 			"<div class=\"image\"><p>\\3</p><img\\1src=\"$imageUrl/\\2\" alt=\"\\3\" /></div>",$content);
 
 		$content=preg_replace_callback('/href="\/doc\/blog\/(.*?)\/?"/',array($this,'replaceBlogLink'),$content);
-		$content=preg_replace('/href="(\/doc\/api\/.*?)"/','href="http://www.yiiframework.com$1"',$content);
+		$content=preg_replace('/href="(\/doc\/api\/.*?)"/','href="http://www.yeeframework.com$1"',$content);
 
-		$this->pageTitle='The Yii Blog Tutorial';
+		$this->pageTitle='The Yee Blog Tutorial';
 		if($topic!=='index' && preg_match('/<h1[^>]*>(.*?)</',$content,$matches))
 			$this->pageTitle.=' - '.CHtml::encode($matches[1]);
 
@@ -83,9 +83,9 @@ class BlogController extends CController
 	{
 		if($this->_topics===null)
 		{
-			$file=Yii::getPathOfAlias("docs.blog.{$this->language}.toc").'.txt';
+			$file=Yee::getPathOfAlias("docs.blog.{$this->language}.toc").'.txt';
 			if(!is_file($file))
-				$file=Yii::getPathOfAlias('docs.blog.toc').'.txt';
+				$file=Yee::getPathOfAlias('docs.blog.toc').'.txt';
 			$lines=file($file);
 			$chapter='';
 			foreach($lines as $line)
@@ -117,7 +117,7 @@ class BlogController extends CController
 	{
 		if($this->_languages===null)
 		{
-			$basePath=Yii::getPathOfAlias('docs.blog');
+			$basePath=Yee::getPathOfAlias('docs.blog');
 			$dir=opendir($basePath);
 			$this->_languages=array('en'=>'English');
 			while(($file=readdir($dir))!==false)

@@ -3,15 +3,15 @@
  * CProfileLogRoute class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
  * CProfileLogRoute displays the profiling results in Web page.
  *
- * The profiling is done by calling {@link YiiBase::beginProfile()} and {@link YiiBase::endProfile()},
+ * The profiling is done by calling {@link YeeBase::beginProfile()} and {@link YeeBase::endProfile()},
  * which marks the begin and end of a code block.
  *
  * CProfileLogRoute supports two types of report by setting the {@link setReport report} property:
@@ -66,7 +66,7 @@ class CProfileLogRoute extends CWebLogRoute
 		if($value==='summary' || $value==='callstack')
 			$this->_report=$value;
 		else
-			throw new CException(Yii::t('yii','CProfileLogRoute.report "{report}" is invalid. Valid values include "summary" and "callstack".',
+			throw new CException(Yee::t('yee','CProfileLogRoute.report "{report}" is invalid. Valid values include "summary" and "callstack".',
 				array('{report}'=>$value)));
 	}
 
@@ -76,7 +76,7 @@ class CProfileLogRoute extends CWebLogRoute
 	 */
 	public function processLogs($logs)
 	{
-		$app=Yii::app();
+		$app=Yee::app();
 		if(!($app instanceof CWebApplication) || $app->getRequest()->getIsAjaxRequest())
 			return;
 
@@ -89,7 +89,7 @@ class CProfileLogRoute extends CWebLogRoute
 	/**
 	 * Displays the callstack of the profiling procedures for display.
 	 * @param array $logs list of logs
-	 * @throws CException if Yii::beginProfile() and Yii::endProfile() are not matching
+	 * @throws CException if Yee::beginProfile() and Yee::endProfile() are not matching
 	 */
 	protected function displayCallstack($logs)
 	{
@@ -117,7 +117,7 @@ class CProfileLogRoute extends CWebLogRoute
 					$results[$last[4]]=array($token,$delta,count($stack));
 				}
 				else
-					throw new CException(Yii::t('yii','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
+					throw new CException(Yee::t('yee','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yee::beginProfile() and Yee::endProfile() be properly nested.',
 						array('{token}'=>$token)));
 			}
 		}
@@ -132,7 +132,7 @@ class CProfileLogRoute extends CWebLogRoute
 	/**
 	 * Displays the summary report of the profiling result.
 	 * @param array $logs list of logs
-	 * @throws CException if Yii::beginProfile() and Yii::endProfile() are not matching
+	 * @throws CException if Yee::beginProfile() and Yee::endProfile() are not matching
 	 */
 	protected function displaySummary($logs)
 	{
@@ -162,7 +162,7 @@ class CProfileLogRoute extends CWebLogRoute
 						$results[$token]=array($token,1,$delta,$delta,$delta);
 				}
 				else
-					throw new CException(Yii::t('yii','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
+					throw new CException(Yee::t('yee','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yee::beginProfile() and Yee::endProfile() be properly nested.',
 						array('{token}'=>$token)));
 			}
 		}

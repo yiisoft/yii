@@ -4,7 +4,7 @@ La mise en cache
 La mise en cache est un moyen bon marché et efficace d'améliorer les performances d'une application
 Web. En stockant les données relativement statiques dans un cache et en les récupérant à la demande à partir de ce même cache, nous économisons le temps nécessaire pour générer ces données.
 
-Utiliser un cache dans Yii consiste principalement à configurer et accéder à un composant d'application cache. La configuration de l'application suivante spécifie un composant de cache qui utilise memcache avec deux serveurs de cache:
+Utiliser un cache dans Yee consiste principalement à configurer et accéder à un composant d'application cache. La configuration de l'application suivante spécifie un composant de cache qui utilise memcache avec deux serveurs de cache:
 
 ~~~
 [php]
@@ -24,9 +24,9 @@ array(
 ~~~
 
 Lorsque l'application est en cours d'exécution, le composant de cache peut être consulté via
-`Yii::app()->cache`.
+`Yee::app()->cache`.
 
-Yii fournit différents composants de cache qui peuvent stocker des données mises en cache dans différents médias. Par exemple, le composant [CMemCache] encapsule l'extension PHP memcache et utilise la mémoire comme support de mémoire cache, le composant [CApcCache] encapsule l'extension PHP APC et le composant [CDbCache] stocke les données à mettre en cache dans une base de données. Ce qui suit est un résumé des éléments de cache disponibles :
+Yee fournit différents composants de cache qui peuvent stocker des données mises en cache dans différents médias. Par exemple, le composant [CMemCache] encapsule l'extension PHP memcache et utilise la mémoire comme support de mémoire cache, le composant [CApcCache] encapsule l'extension PHP APC et le composant [CDbCache] stocke les données à mettre en cache dans une base de données. Ce qui suit est un résumé des éléments de cache disponibles :
 
    - [CMemCache]: utilise [l'extention PHP memcache] (http://www.php.net/manual/en/book.memcache.php).
 
@@ -53,7 +53,7 @@ Ceci est particulièrement adapté pour mettre en cache de gros morceau de donn�
 
    - [CDummyCache]: est un cache factice qui ne fait pas la mise en cache du tout. Le but de ce composant est de simplifier le code qui a besoin de vérifier la disponibilité de cache.
 Par exemple, au cours du développement ou si le serveur ne prend pas en charge la mémoire cache, nous pouvons utiliser ce composant cache. Quand un support de mémoire cache est disponible, on peut alors utiliser le composant de cache correspondant. Dans les deux cas, le code utilisé pour tenter de récupérer des données en cache est exactement le même
-`Yii::app()->cache->get($key)` sans avoir à se soucier de ce que `Yii::app()->cache` est peut-être `null`.
+`Yee::app()->cache->get($key)` sans avoir à se soucier de ce que `Yee::app()->cache` est peut-être `null`.
 
 > Astuce: Parce que tous ces composants cache étendent la même classe de base [CCache], on peut passer d'un type de cache à un autre sans avoir à  modifier le code qui utilise le cache.
 

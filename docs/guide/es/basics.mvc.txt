@@ -1,7 +1,7 @@
 Modelo-Vista-Controlador (Model-View-Controller MVC)
 ====================================================
 
-Yii implementa el diseño de patron modelo-vista controlador (model-view-controller MVC)
+Yee implementa el diseño de patron modelo-vista controlador (model-view-controller MVC)
 el cual es adoptado ampliamente en la programación Web. MVC tiene por objeto separar la
 lógica del negocio de las consideraciones de la interfaz de usuario para que los desarrolladores
 puedan modificar cada parte más fácilmente sin afectar a la otra. En MVC el modelo representa la 
@@ -9,23 +9,23 @@ información (los datos) y las reglas del negocio; la vista contiene elementos d
 usuario como textos, formularios de entrada; y el controlador administra la comunicación entre 
 la vista y el modelo.
 
-Más alla del MVC, Yii tambien introduce un front-controller llamado aplicación
+Más alla del MVC, Yee tambien introduce un front-controller llamado aplicación
 el cual representa el contexto de ejecución del  procesamiento del pedido.
 La aplicación resuelve el pedido del usuario y la dispara al controlador apropiado
 para tratamiento futuro.
 
-El siguiente diagrama muestra la estructura estática de una aplicación Yii"
+El siguiente diagrama muestra la estructura estática de una aplicación Yee"
 
-![Estructura estática de aplicación Yii](structure.png)
+![Estructura estática de aplicación Yee](structure.png)
 
 
 Un flujo de tareas típico
 -------------------------
 
-El siguiente diagrama muestra un típico flujo de tareas de una aplicación Yii cuando
+El siguiente diagrama muestra un típico flujo de tareas de una aplicación Yee cuando
 resuelve un pedido de usuario:
 
-![Un típico flujo de tareas de una aplicación Yii](flow.png)
+![Un típico flujo de tareas de una aplicación Yee](flow.png)
 
    1. Un usuario realiza un pedido con la siguiente URL `http://www.example.com/index.php?r=post/show&id=1`
    y el servidor Web se  encarga de la solicitud mediante la ejecución del script de arranque en  index.php.

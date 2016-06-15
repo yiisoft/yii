@@ -201,7 +201,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii は必ず $categories を配列にします
+		// Yee は必ず $categories を配列にします
 	}
 }
 ~~~

@@ -3,9 +3,9 @@
  * CCacheHttpSession class
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -31,7 +31,7 @@ class CCacheHttpSession extends CHttpSession
 	/**
 	 * Prefix to the keys for storing cached data
 	 */
-	const CACHE_KEY_PREFIX='Yii.CCacheHttpSession.';
+	const CACHE_KEY_PREFIX='Yee.CCacheHttpSession.';
 	/**
 	 * @var string the ID of the cache application component. Defaults to 'cache' (the primary cache application component.)
 	 */
@@ -48,9 +48,9 @@ class CCacheHttpSession extends CHttpSession
 	 */
 	public function init()
 	{
-		$this->_cache=Yii::app()->getComponent($this->cacheID);
+		$this->_cache=Yee::app()->getComponent($this->cacheID);
 		if(!($this->_cache instanceof ICache))
-			throw new CException(Yii::t('yii','CCacheHttpSession.cacheID is invalid. Please make sure "{id}" refers to a valid cache application component.',
+			throw new CException(Yee::t('yee','CCacheHttpSession.cacheID is invalid. Please make sure "{id}" refers to a valid cache application component.',
 				array('{id}'=>$this->cacheID)));
 		parent::init();
 	}
@@ -95,7 +95,7 @@ class CCacheHttpSession extends CHttpSession
 	 *
 	 * Since 1.1.18 release, this method always returns true.
 	 * Please refer to the following issue for more details:
-	 * {@link https://github.com/yiisoft/yii/issues/4020}
+	 * {@link https://github.com/yeesoft/yee/issues/4020}
 	 *
 	 * @param string $id session ID
 	 * @return boolean true if no error happens during deletion

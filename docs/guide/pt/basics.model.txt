@@ -9,7 +9,7 @@ em um banco de dados ou um formulário com entradas de um usuário. Cada campo d
 dados é representado, no modelo, por um atributo. Cada atributo tem um rótulo e pode ser 
 validado por um conjunto de regras.
 
-O Yii implementa dois tipos de modelos: form model (modelo de formulário) e active record. 
+O Yee implementa dois tipos de modelos: form model (modelo de formulário) e active record. 
 Ambos estendem a mesma classe base [CModel].
 
 Um form model é uma instância da classe [CFormModel]. Ele é utilizado para manter dados 

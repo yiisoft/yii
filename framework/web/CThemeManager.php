@@ -3,9 +3,9 @@
  * CThemeManager class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -60,7 +60,7 @@ class CThemeManager extends CApplicationComponent
 		$themePath=$this->getBasePath().DIRECTORY_SEPARATOR.$name;
 		if(is_dir($themePath))
 		{
-			$class=Yii::import($this->themeClass, true);
+			$class=Yee::import($this->themeClass, true);
 			return new $class($name,$themePath,$this->getBaseUrl().'/'.$name);
 		}
 		else
@@ -95,7 +95,7 @@ class CThemeManager extends CApplicationComponent
 	public function getBasePath()
 	{
 		if($this->_basePath===null)
-			$this->setBasePath(dirname(Yii::app()->getRequest()->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
+			$this->setBasePath(dirname(Yee::app()->getRequest()->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
 		return $this->_basePath;
 	}
 
@@ -107,7 +107,7 @@ class CThemeManager extends CApplicationComponent
 	{
 		$this->_basePath=realpath($value);
 		if($this->_basePath===false || !is_dir($this->_basePath))
-			throw new CException(Yii::t('yii','Theme directory "{directory}" does not exist.',array('{directory}'=>$value)));
+			throw new CException(Yee::t('yee','Theme directory "{directory}" does not exist.',array('{directory}'=>$value)));
 	}
 
 	/**
@@ -116,7 +116,7 @@ class CThemeManager extends CApplicationComponent
 	public function getBaseUrl()
 	{
 		if($this->_baseUrl===null)
-			$this->_baseUrl=Yii::app()->getBaseUrl().'/'.self::DEFAULT_BASEPATH;
+			$this->_baseUrl=Yee::app()->getBaseUrl().'/'.self::DEFAULT_BASEPATH;
 		return $this->_baseUrl;
 	}
 

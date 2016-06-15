@@ -7,7 +7,7 @@ Kita sudah mendekati tahap akhir aplikasi blog kita. Sebelum pemasangan, kita la
 Mengubah Home Page
 ------------------
 
-Kita ubah halaman list post sebagai home page. Kita modifikasi [konfigurasi aplikasi](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) menjadi berikut,
+Kita ubah halaman list post sebagai home page. Kita modifikasi [konfigurasi aplikasi](http://www.yeeframework.com/doc/guide/basics.application#application-configuration) menjadi berikut,
 
 ~~~
 [php]
@@ -50,7 +50,7 @@ Pada code di atas, pertama-tama kita menambah sebuah component `cache` yang meng
 Mematikan Debugging Mode
 ------------------------
 
-Kita memodifikasikan file skrip `/wwwroot/blog/index.php` dengan menghilangkan baris yang mendefinisikan `YII_DEBUG`. Konstan ini sangat berguna pada saat tahap pengembangan karena memungkinkan Yii untuk menampilkan lebih banyak informasi debug ketika terjadi error. Namun, ketika aplikasi sudah berjalan di tahap produksi, maka menampilkan informasi debug bukanlah sebuah ide yang bagus karena bisa saja berisi informasi yang sensitif seperti di mana file skrip terletak, dan isi dari file, dan sebagainya.
+Kita memodifikasikan file skrip `/wwwroot/blog/index.php` dengan menghilangkan baris yang mendefinisikan `YII_DEBUG`. Konstan ini sangat berguna pada saat tahap pengembangan karena memungkinkan Yee untuk menampilkan lebih banyak informasi debug ketika terjadi error. Namun, ketika aplikasi sudah berjalan di tahap produksi, maka menampilkan informasi debug bukanlah sebuah ide yang bagus karena bisa saja berisi informasi yang sensitif seperti di mana file skrip terletak, dan isi dari file, dan sebagainya.
 
 
 Memasang Aplikasi
@@ -58,10 +58,10 @@ Memasang Aplikasi
 
 Proses pemasangan final pada umumnya melibatkan peng-copy-an direktori `/wwwroot/blog` ke direktori target. Ceklis berikut menampilkan setiap langkah yang diperlukan:
 
- 1. Install Yii di tempat target jika tidak memungkinkan;
+ 1. Install Yee di tempat target jika tidak memungkinkan;
  2. Copy seluruh direktori `/wwwroot/blog` ke tempat target;
- 3. Edit file skrip entri `index.php` dengan menunjukkan variabel `$yii` ke file bootstrap Yii yang baru;
- 4. Edit file `protected/yiic.php` dengan mengatur variabel `$yiic` menjadi file `yiic.php` Yii yang baru;
+ 3. Edit file skrip entri `index.php` dengan menunjukkan variabel `$yee` ke file bootstrap Yee yang baru;
+ 4. Edit file `protected/yeec.php` dengan mengatur variabel `$yeec` menjadi file `yeec.php` Yee yang baru;
  5. Ubah permission dari direktori `assets` dan `protected/runtime` supaya dapat ditulis oleh proses Web server.
 
 

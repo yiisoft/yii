@@ -1,26 +1,26 @@
 Konvensi
 ========
 
-Yii mendukung konvensi di atas konfigurasi. Dengan mengikuti konvensi maka seseorang
-bisa membuat aplikasi Yii yang canggih tanpa harus menulis dan mengatur
-konfigurasi yang rumit. Tentunya, Yii masih dapat dikustomisasi dalam hampir
+Yee mendukung konvensi di atas konfigurasi. Dengan mengikuti konvensi maka seseorang
+bisa membuat aplikasi Yee yang canggih tanpa harus menulis dan mengatur
+konfigurasi yang rumit. Tentunya, Yee masih dapat dikustomisasi dalam hampir
 setiap aspek dengan konfigurasi bila diperlukan.
 
-Di bawah ini dijelaskan konvensi yang direkomendasikan untuk pemrograman Yii.
+Di bawah ini dijelaskan konvensi yang direkomendasikan untuk pemrograman Yee.
 Demi kenyamanan, kami asumsikan bahwa `WebRoot` adalah direktori di mana 
-aplikasi Yii diinstalasi.
+aplikasi Yee diinstalasi.
 
 URL
 ---
 
-Secara standar, Yii mengenali URL dengan format berikut:
+Secara standar, Yee mengenali URL dengan format berikut:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
 Variabel GET `r` merujuk pada
-[rute](/doc/guide/basics.controller#route) yang bisa diurai oleh Yii
+[rute](/doc/guide/basics.controller#route) yang bisa diurai oleh Yee
 menjadi controller dan aksi. Jika `ActionID` dihilangkan, controller akan
 mengambil aksi default (didefinisikan via [CController::defaultAction]); dan jika
 `ControllerID` juga tidak ada (atau variabel `r` tidak ada), aplikasi
@@ -35,7 +35,7 @@ dalam [URL Management](/doc/guide/topics.url).
 Kode
 ----
 
-Yii merekomendasikan penamaan variabel, fungsi dan tipe kelas dalam camel case (kata kapital)
+Yee merekomendasikan penamaan variabel, fungsi dan tipe kelas dalam camel case (kata kapital)
 yang mengkapitalkan setiap huruf pertama pada nama dan menggabungkannya tanpa spasi.
 Semua huruf depan pada nama variabel dan fungsi harus dalam huruf kecil,
 untuk membedakannya dari nama kelas (contoh `$basePath`,
@@ -45,7 +45,7 @@ direkomendasikan untuk mengawali namanya dengan karakter garis bawah (contoh
 
 Karena namespace tidak didukung oleh PHP sebelum versi 5.3.0, direkomendasikan
 kelas dinamai dalam cara yang unik guna menghindari konflik nama dengan 
-kelas pihak-ketiga. Untuk alasan ini, semua kelas Yii framework diawali dengan
+kelas pihak-ketiga. Untuk alasan ini, semua kelas Yee framework diawali dengan
 huruf "C".
 
 Aturan khusus untuk nama kelas controller adalah harus diakhiri dengan kata
@@ -93,12 +93,12 @@ mewakili konfigurasi.
 Direktori
 ---------
 
-Secara default, Yii mengambil asumsi pada satu set direktori yang dipakai untuk berbagai keperluan.
+Secara default, Yee mengambil asumsi pada satu set direktori yang dipakai untuk berbagai keperluan.
 Masing-masing bisa dikustomisasi jika diperlukan.
 
    - `WebRoot/protected`: ini adalah [basis direktori 
 aplikasi](/doc/guide/basics.application#application-base-directory) yang menampung semua
-skrip PHP dan file data yang sensitif . Yii memiliki alias standar
+skrip PHP dan file data yang sensitif . Yee memiliki alias standar
 bernama `application` yang dikaitkan dengan path ini. Direktori ini dan
 semua yang ada di bawahnya dilindungi dari pengaksesan pengguna Web.
 Bisa dikustomisasi via [CWebApplication::basePath].
@@ -109,7 +109,7 @@ server Web. Dapat dikustomisasi melalui
 [CApplication::runtimePath].
 
    - `WebRoot/protected/extensions`: direktori ini menampung semua extension dari
-pihak ketiga. Dapat dikustomisasi melalui [CApplication::extensionPath]. Yii memiliki alias default
+pihak ketiga. Dapat dikustomisasi melalui [CApplication::extensionPath]. Yee memiliki alias default
 bernama `ext` untuk mewakilinya.
 
    - `WebRoot/protected/modules`: direktori ini menampung semua 
@@ -148,7 +148,7 @@ Basis Data
 
 Kebanyakan aplikasi Web didukung oleh basis data. Kami mengusulkan beberapa cara terbaik berupa konvensi
 penamaan tabel dan kolom database. Harap diingat bahwa
-konvensi ini tidak wajib dalam Yii.
+konvensi ini tidak wajib dalam Yee.
 
    - Kolom maupun tabel pada database dinamakan dalam huruf kecil.
 

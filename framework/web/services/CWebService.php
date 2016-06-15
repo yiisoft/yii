@@ -3,9 +3,9 @@
  * CWebService class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -82,7 +82,7 @@ class CWebService extends CComponent
 	 * of the standard {@link CWsdlGenerator} class by extending it. For example, some developers may need support
 	 * of the <code>xsd:xsd:base64Binary</code> elements. Another use case is to change initial values
 	 * at instantiation of the default {@link CWsdlGenerator}. The value of this property will be passed
-	 * to {@link Yii::createComponent} to create the generator object. Default value is 'CWsdlGenerator'.
+	 * to {@link Yee::createComponent} to create the generator object. Default value is 'CWsdlGenerator'.
 	 * @since 1.1.12
 	 */
 	public $generatorConfig='CWsdlGenerator';
@@ -140,14 +140,14 @@ class CWebService extends CComponent
 	 */
 	public function generateWsdl()
 	{
-		$providerClass=is_object($this->provider) ? get_class($this->provider) : Yii::import($this->provider,true);
-		if($this->wsdlCacheDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		$providerClass=is_object($this->provider) ? get_class($this->provider) : Yee::import($this->provider,true);
+		if($this->wsdlCacheDuration>0 && $this->cacheID!==false && ($cache=Yee::app()->getComponent($this->cacheID))!==null)
 		{
-			$key='Yii.CWebService.'.$providerClass.$this->serviceUrl.$this->encoding;
+			$key='Yee.CWebService.'.$providerClass.$this->serviceUrl.$this->encoding;
 			if(($wsdl=$cache->get($key))!==false)
 				return $wsdl;
 		}
-		$generator=Yii::createComponent($this->generatorConfig);
+		$generator=Yee::createComponent($this->generatorConfig);
 		$wsdl=$generator->generateWsdl($providerClass,$this->serviceUrl,$this->encoding);
 		if(isset($key))
 			$cache->set($key,$wsdl,$this->wsdlCacheDuration);
@@ -163,13 +163,13 @@ class CWebService extends CComponent
 		if(YII_DEBUG)
 			ini_set("soap.wsdl_cache_enabled",0);
 		$server=new SoapServer($this->wsdlUrl,$this->getOptions());
-		Yii::app()->attachEventHandler('onError',array($this,'handleError'));
+		Yee::app()->attachEventHandler('onError',array($this,'handleError'));
 		try
 		{
 			if($this->persistence!==null)
 				$server->setPersistence($this->persistence);
 			if(is_string($this->provider))
-				$provider=Yii::createComponent($this->provider);
+				$provider=Yee::createComponent($this->provider);
 			else
 				$provider=$this->provider;
 
@@ -215,7 +215,7 @@ class CWebService extends CComponent
 			{
 				// only log for non-PHP-error case because application's error handler already logs it
 				// php <5.2 doesn't support string conversion auto-magically
-				Yii::log($e->__toString(),CLogger::LEVEL_ERROR,'application');
+				Yee::log($e->__toString(),CLogger::LEVEL_ERROR,'application');
 			}
 			$message=$e->getMessage();
 			if(YII_DEBUG)
@@ -223,7 +223,7 @@ class CWebService extends CComponent
 
 			// We need to end application explicitly because of
 			// http://bugs.php.net/bug.php?id=49513
-			Yii::app()->onEndRequest(new CEvent($this));
+			Yee::app()->onEndRequest(new CEvent($this));
 			$server->fault(get_class($e),$message);
 			exit(1);
 		}
@@ -266,7 +266,7 @@ class CWebService extends CComponent
 		$options['encoding']=$this->encoding;
 		foreach($this->classMap as $type=>$className)
 		{
-			$className=Yii::import($className,true);
+			$className=Yee::import($className,true);
 			if(is_int($type))
 				$type=$className;
 			$options['classmap'][$type]=$className;

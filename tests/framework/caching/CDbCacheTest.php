@@ -1,7 +1,7 @@
 <?php
 
 if(!defined('DBCACHE_TEST_DBFILE'))
-	define('DBCACHE_TEST_DBFILE',Yii::app()->getRuntimePath().'/CDbCacheTest_database.db');
+	define('DBCACHE_TEST_DBFILE',Yee::app()->getRuntimePath().'/CDbCacheTest_database.db');
 
 if(!defined('DBCACHE_TEST_DB'))
 	define('DBCACHE_TEST_DB','sqlite:'.DBCACHE_TEST_DBFILE);

@@ -11,11 +11,11 @@ class ModelGenerator extends CCodeGenerator
 	 */
 	public function actionGetTableNames($db)
 	{
-		if(Yii::app()->getRequest()->getIsAjaxRequest())
+		if(Yee::app()->getRequest()->getIsAjaxRequest())
 		{
 			$all = array();
-			if(!empty($db) && Yii::app()->hasComponent($db)!==false && (Yii::app()->getComponent($db) instanceof CDbConnection))
-				$all=array_keys(Yii::app()->{$db}->schema->getTables());
+			if(!empty($db) && Yee::app()->hasComponent($db)!==false && (Yee::app()->getComponent($db) instanceof CDbConnection))
+				$all=array_keys(Yee::app()->{$db}->schema->getTables());
 
 			echo json_encode($all);
 		}

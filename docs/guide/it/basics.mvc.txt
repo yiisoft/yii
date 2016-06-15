@@ -1,7 +1,7 @@
 Model-View-Controller (MVC)
 ===========================
 
-Yii implementa il design pattern [schema di progettazione] model-view-controller 
+Yee implementa il design pattern [schema di progettazione] model-view-controller 
 (MVC), che è largamente adottato nella programmazione Web. L'obiettivo di 
 MVC è quello di separare la business logic [logica di funzionamento] dalle 
 considerazioni relative all'interfaccia utente, cosicché gli sviluppatori 
@@ -10,24 +10,24 @@ Nel MVC il model rappresenta le informazioni (i dati) e la business logic; la
 view contiene elementi dell'interfaccia utente come testi, form di inserimento 
 dati; e il controller gestisce le comunicazioni tra model e view.
 
-Yii, oltre ad implementare MVC, introduce un front-controller, chiamato 
+Yee, oltre ad implementare MVC, introduce un front-controller, chiamato 
 `Application` il quale incapsula il contesto di esecuzione per il processo di 
 una richiesta. Application raccoglie alcune informazioni sulla richiesta 
 dell'utente e poi le smista al controller appropriato per ulteriori 
 manipolazioni.
 
-Il seguente diagramma mostra la struttura statica di un'applicazione Yii:
+Il seguente diagramma mostra la struttura statica di un'applicazione Yee:
 
-![Struttura statica di un'applicazione Yii](structure.png)
+![Struttura statica di un'applicazione Yee](structure.png)
 
 
 Workflow tipico
 ------------------
 Il seguente diagramma mostra il workflow [flusso di lavoro] tipico di 
-un'applicazione Yii quando essa gestisce una richiesta utente:
+un'applicazione Yee quando essa gestisce una richiesta utente:
 
 
-![Workflow tipico di un'applicazione Yii](flow.png)
+![Workflow tipico di un'applicazione Yee](flow.png)
 
    1. Un utente esegue una richiesta all'URL `http://www.example.com/index.php?r=post/show&id=1` 
 ed il web server gestisce la richiesta eseguendo lo script di avvio `index.php`.

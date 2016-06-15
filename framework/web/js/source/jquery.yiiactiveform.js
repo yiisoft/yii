@@ -1,10 +1,10 @@
 /**
- * jQuery yiiactiveform plugin file.
+ * jQuery yeeactiveform plugin file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2010 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2010 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  * @since 1.1.1
  */
 
@@ -35,12 +35,12 @@
 	};
 
 	/**
-	 * yiiactiveform set function.
+	 * yeeactiveform set function.
 	 * @param options map settings for the active form plugin. Please see {@link CActiveForm::options} for available options.
 	 */
-	$.fn.yiiactiveform = function (options) {
+	$.fn.yeeactiveform = function (options) {
 		return this.each(function () {
-			var settings = $.extend({}, $.fn.yiiactiveform.defaults, options || {}),
+			var settings = $.extend({}, $.fn.yeeactiveform.defaults, options || {}),
 				$form = $(this);
 
 			if (settings.validationUrl === undefined) {
@@ -90,14 +90,14 @@
 						$.each(settings.attributes, function () {
 							if (this.status === 2) {
 								this.status = 3;
-								$.fn.yiiactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
+								$.fn.yeeactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
 							}
 						});
-						$.fn.yiiactiveform.validate($form, function (data) {
+						$.fn.yeeactiveform.validate($form, function (data) {
 							var hasError = false;
 							$.each(settings.attributes, function () {
 								if (this.status === 2 || this.status === 3) {
-									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
+									hasError = $.fn.yeeactiveform.updateInput(this, data, $form) || hasError;
 								}
 							});
 							if (attribute.afterValidateAttribute !== undefined) {
@@ -142,12 +142,12 @@
 					}
 					settings.submitting = true;
 					if (settings.beforeValidate === undefined || settings.beforeValidate($form)) {
-						$.fn.yiiactiveform.validate($form, function (data) {
+						$.fn.yeeactiveform.validate($form, function (data) {
 							var hasError = false;
 							$.each(settings.attributes, function () {
-								hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
+								hasError = $.fn.yeeactiveform.updateInput(this, data, $form) || hasError;
 							});
-							$.fn.yiiactiveform.updateSummary($form, data);
+							$.fn.yeeactiveform.updateSummary($form, data);
 							if (settings.afterValidate === undefined || settings.afterValidate($form, data, hasError)) {
 								if (!hasError) {
 									validated = true;
@@ -185,7 +185,7 @@
 					$.each(settings.attributes, function () {
 						this.status = 0;
 						var $error = $form.find('#' + this.errorID),
-							$container = $.fn.yiiactiveform.getInputContainer(this, $form);
+							$container = $.fn.yeeactiveform.getInputContainer(this, $form);
 
 						$container.removeClass(
 							this.validatingCssClass + ' ' +
@@ -229,7 +229,7 @@
 	 * @param form the form jQuery object
 	 * @return jQuery the jQuery representation of the container
 	 */
-	$.fn.yiiactiveform.getInputContainer = function (attribute, form) {
+	$.fn.yeeactiveform.getInputContainer = function (attribute, form) {
 		if (attribute.inputContainer === undefined) {
 			return form.find('#' + attribute.inputID).closest('div');
 		} else {
@@ -244,7 +244,7 @@
 	 * @param form the form jQuery object
 	 * @return boolean whether there is a validation error for the specified attribute
 	 */
-	$.fn.yiiactiveform.updateInput = function (attribute, messages, form) {
+	$.fn.yeeactiveform.updateInput = function (attribute, messages, form) {
 		attribute.status = 1;
 		var $error, $container,
 			hasError = false,
@@ -254,7 +254,7 @@
 		if ($el.length) {
 			hasError = messages !== null && $.isArray(messages[attribute.id]) && messages[attribute.id].length > 0;
 			$error = form.find('#' + attribute.errorID);
-			$container = $.fn.yiiactiveform.getInputContainer(attribute, form);
+			$container = $.fn.yeeactiveform.getInputContainer(attribute, form);
 
 			$container.removeClass(
 				attribute.validatingCssClass + ' ' +
@@ -285,7 +285,7 @@
 	 * @param form jquery the jquery representation of the form
 	 * @param messages array the json data obtained from the ajax validation request
 	 */
-	$.fn.yiiactiveform.updateSummary = function (form, messages) {
+	$.fn.yeeactiveform.updateSummary = function (form, messages) {
 		var settings = $(form).data('settings'),
 			content = '';
 		if (settings.summaryID === undefined) {
@@ -316,7 +316,7 @@
 	 * @param successCallback function the function to be invoked if the ajax request succeeds
 	 * @param errorCallback function the function to be invoked if the ajax request fails
 	 */
-	$.fn.yiiactiveform.validate = function (form, successCallback, errorCallback) {
+	$.fn.yeeactiveform.validate = function (form, successCallback, errorCallback) {
 		var $form = $(form),
 			settings = $form.data('settings'),
 			needAjaxValidation = false,
@@ -385,11 +385,11 @@
 	 * @param form jquery the jquery representation of the form
 	 * @return object the configuration for the specified form.
 	 */
-	$.fn.yiiactiveform.getSettings = function (form) {
+	$.fn.yeeactiveform.getSettings = function (form) {
 		return $(form).data('settings');
 	};
 
-	$.fn.yiiactiveform.defaults = {
+	$.fn.yeeactiveform.defaults = {
 		ajaxVar: 'ajax',
 		validationUrl: undefined,
 		validationDelay: 200,

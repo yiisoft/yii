@@ -3,9 +3,9 @@
  * CListPager class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -46,7 +46,7 @@ class CListPager extends CBasePager
 	public function init()
 	{
 		if($this->header===null)
-			$this->header=Yii::t('yii','Go to page: ');
+			$this->header=Yee::t('yee','Go to page: ');
 		if(!isset($this->htmlOptions['id']))
 			$this->htmlOptions['id']=$this->getId();
 		if($this->promptText!==null)

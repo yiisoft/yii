@@ -1,6 +1,6 @@
 <div id="header">
-	<h1>The Yii Blog Tutorial</h1>
-	<?php echo CHtml::link('The Definitive Guide to Yii', array('guide/view'))?>
+	<h1>The Yee Blog Tutorial</h1>
+	<?php echo CHtml::link('The Definitive Guide to Yee', array('guide/view'))?>
 </div>
 
 <div id="sidebar">

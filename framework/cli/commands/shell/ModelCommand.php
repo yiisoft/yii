@@ -3,9 +3,9 @@
  * ModelCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -257,11 +257,11 @@ EOD;
 		}
 		$className=$args[0];
 
-		if(($db=Yii::app()->getDb())===null)
+		if(($db=Yee::app()->getDb())===null)
 		{
 			echo "Error: an active 'db' connection is required.\n";
 			echo "If you already added 'db' component in application configuration,\n";
-			echo "please quit and re-enter the yiic shell.\n";
+			echo "please quit and re-enter the yeec shell.\n";
 			return 1;
 		}
 
@@ -278,10 +278,10 @@ EOD;
 		{
 			$this->generateClassNames($this->_schema);
 			if(($pos=strrpos($className,'.'))===false)
-				$basePath=Yii::getPathOfAlias('application.models');
+				$basePath=Yee::getPathOfAlias('application.models');
 			else
 			{
-				$basePath=Yii::getPathOfAlias(substr($className,0,$pos));
+				$basePath=Yee::getPathOfAlias(substr($className,0,$pos));
 				$className=substr($className,$pos+1);
 			}
 			if($className==='*') // generate all models
@@ -300,9 +300,9 @@ EOD;
 			$pattern=$matches[1];
 			$pos=strrpos($className,$pattern);
 			if($pos>0)  // only regexp is given
-				$basePath=Yii::getPathOfAlias(rtrim(substr($className,0,$pos),'.'));
+				$basePath=Yee::getPathOfAlias(rtrim(substr($className,0,$pos),'.'));
 			else
-				$basePath=Yii::getPathOfAlias('application.models');
+				$basePath=Yee::getPathOfAlias('application.models');
 			$this->generateClassNames($this->_schema,$pattern);
 			$classes=$this->_tables;
 			$this->generateRelations();
@@ -322,8 +322,8 @@ EOD;
 		}
 
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/model':$this->templatePath;
-		$fixturePath=$this->fixturePath===null?Yii::getPathOfAlias('application.tests.fixtures'):$this->fixturePath;
-		$unitTestPath=$this->unitTestPath===null?Yii::getPathOfAlias('application.tests.unit'):$this->unitTestPath;
+		$fixturePath=$this->fixturePath===null?Yee::getPathOfAlias('application.tests.fixtures'):$this->fixturePath;
+		$unitTestPath=$this->unitTestPath===null?Yee::getPathOfAlias('application.tests.unit'):$this->unitTestPath;
 
 		$list=array();
 		$files=array();
@@ -468,7 +468,7 @@ EOD;
 
 	protected function removePrefix($tableName,$addBrackets=false)
 	{
-		$tablePrefix=Yii::app()->getDb()->tablePrefix;
+		$tablePrefix=Yee::app()->getDb()->tablePrefix;
 		if($tablePrefix!='' && !strncmp($tableName,$tablePrefix,strlen($tablePrefix)))
 		{
 			$tableName=substr($tableName,strlen($tablePrefix));
@@ -480,7 +480,7 @@ EOD;
 
 	protected function addPrefix($tableName)
 	{
-		$tablePrefix=Yii::app()->getDb()->tablePrefix;
+		$tablePrefix=Yee::app()->getDb()->tablePrefix;
 		if($tablePrefix!='' && strncmp($tableName,$tablePrefix,strlen($tablePrefix)))
 			$tableName=$tablePrefix.$tableName;
 		return $tableName;

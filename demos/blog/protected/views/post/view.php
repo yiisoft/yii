@@ -23,9 +23,9 @@ $this->pageTitle=$model->title;
 
 	<h3>Leave a Comment</h3>
 
-	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+	<?php if(Yee::app()->user->hasFlash('commentSubmitted')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+			<?php echo Yee::app()->user->getFlash('commentSubmitted'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(

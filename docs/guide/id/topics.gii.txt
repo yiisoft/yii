@@ -1,12 +1,12 @@
 Penghasil Kode Otomatis
 =========================
 
-Mulai dari versi 1.1.2, Yii sudah dilengkapi dengan sebuah code generator berbasis Web yang disebut *Gii*. Tool ini menggantikan tool sebelumnya yakni `yiic shell` yang berjalan di command line. Di bagian ini, kita akan melihat bagaimana menggunakan Gii dan cara meningkatkan(mengembangkan) kemampuan Gii untuk mendongkrak produktivitas pengembangan.
+Mulai dari versi 1.1.2, Yee sudah dilengkapi dengan sebuah code generator berbasis Web yang disebut *Gii*. Tool ini menggantikan tool sebelumnya yakni `yeec shell` yang berjalan di command line. Di bagian ini, kita akan melihat bagaimana menggunakan Gii dan cara meningkatkan(mengembangkan) kemampuan Gii untuk mendongkrak produktivitas pengembangan.
 
 Penggunaan Gii
 ---------
 
-Gii diimplementasi sebagai module dan harus digunakan di dalam aplikasi Yii. Untuk menggunakan Gii, kita pertama-tama memodifikasi konfigurasi aplikasi sebagai berikut:
+Gii diimplementasi sebagai module dan harus digunakan di dalam aplikasi Yee. Untuk menggunakan Gii, kita pertama-tama memodifikasi konfigurasi aplikasi sebagai berikut:
 
 ~~~
 [php]
@@ -32,9 +32,9 @@ Karena Gii bisa dihasilkan dan menyimpan file kode baru di dalam aplikasi yang s
 
 > Note|Catatan: Gii disediakan hanya untuk sebagai tool untuk dalam tahap pengembangan. Oleh karena itu, harap diinstal di komputer tempat pengembangan(development). Dikarenakan Gii bisa menghasilkan file PHP baru di dalam aplikasi, kita harus lebih memperhatikan secara khusus mengenai penanganan masalah keamanan (misalnya password, IP Filter).
 
-Kita dapat menggunakan Gii dengan URL `http://hostname/path/to/index.php?r=gii`. Di sini kita mengasumsi `http://hostname/path/to/index.php` merupakan URL untuk mengakses aplikasi Yii yang sudah ada.
+Kita dapat menggunakan Gii dengan URL `http://hostname/path/to/index.php?r=gii`. Di sini kita mengasumsi `http://hostname/path/to/index.php` merupakan URL untuk mengakses aplikasi Yee yang sudah ada.
 
-Jika aplikasi Yii yang sudah ada menggunakan URL format `path` (lihat [URL management](/doc/guide/topics.url)), kita dapat mengakses Gii dengan URL `http://hostname/path/to/index.php/gii`. Kita perlu menambah aturan URL berikut di depan aturan URL yang sudah ada:
+Jika aplikasi Yee yang sudah ada menggunakan URL format `path` (lihat [URL management](/doc/guide/topics.url)), kita dapat mengakses Gii dengan URL `http://hostname/path/to/index.php/gii`. Kita perlu menambah aturan URL berikut di depan aturan URL yang sudah ada:
 
 ~~~
 [php]
@@ -120,7 +120,7 @@ Sekarang buka halaman code generator model. Klik di field `Code Template`. Kita 
 
 Salin(copy) file `framework/gii/generators/model/templates/default/model.php` ke `protected/gii/model/templates/compact`. Jika kita mencoba menghasilkan koding dengan templat `compact`, seharusnya akan sukses. Tetapi, kode yang dihasilkan tidak akan berbeda dengan yang dihasilkan oleh `default`.
 
-Saatnya kita melakukan kustomisasi sesungguhnya. Buka file `protected/gii/model/templates/compact/model.php` untuk meng-edit-nya. Ingat bahwa file ini akan digunakan seperti skrip tilik(view), yang artinya akan mengandung expression dan statement PHP. Sekarang kita ubah templat sehingga metode `attributeLabels()` di kode yang dihasilkan menggunakan `Yii::t()` untuk menerjemahkan label atribut:
+Saatnya kita melakukan kustomisasi sesungguhnya. Buka file `protected/gii/model/templates/compact/model.php` untuk meng-edit-nya. Ingat bahwa file ini akan digunakan seperti skrip tilik(view), yang artinya akan mengandung expression dan statement PHP. Sekarang kita ubah templat sehingga metode `attributeLabels()` di kode yang dihasilkan menggunakan `Yee::t()` untuk menerjemahkan label atribut:
 
 ~~~
 [php]
@@ -128,7 +128,7 @@ public function attributeLabels()
 {
 	return array(
 <?php foreach($labels as $name=>$label): ?>
-			<?php echo "'$name' => Yii::t('application', '$label'),\n"; ?>
+			<?php echo "'$name' => Yee::t('application', '$label'),\n"; ?>
 <?php endforeach; ?>
 	);
 }
@@ -190,7 +190,7 @@ class WidgetCode extends CCodeModel
 
 	public function prepare()
 	{
-		$path=Yii::getPathOfAlias('application.components.' . $this->className) . '.php';
+		$path=Yee::getPathOfAlias('application.components.' . $this->className) . '.php';
 		$code=$this->render($this->templatepath.'/widget.php');
 
 		$this->files[]=new CCodeFile($path, $code);

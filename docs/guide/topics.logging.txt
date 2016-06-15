@@ -1,7 +1,7 @@
 Logging
 =======
 
-Yii provides a flexible and extensible logging feature. Messages logged
+Yee provides a flexible and extensible logging feature. Messages logged
 can be classified according to log levels and message categories. Using
 level and category filters, selected messages can be further routed to
 different destinations, such as files, emails, browser windows, etc.
@@ -9,14 +9,14 @@ different destinations, such as files, emails, browser windows, etc.
 Message Logging
 ---------------
 
-Messages can be logged by calling either [Yii::log] or [Yii::trace]. The
+Messages can be logged by calling either [Yee::log] or [Yee::trace]. The
 difference between these two methods is that the latter logs a message only
 when the application is in [debug mode](/doc/guide/basics.entry#debug-mode).
 
 ~~~
 [php]
-Yii::log($message, $level, $category);
-Yii::trace($message, $category);
+Yee::log($message, $level, $category);
+Yee::trace($message, $category);
 ~~~
 
 When logging a message, we need to specify its category and level.
@@ -25,7 +25,7 @@ Category is a string in the format of `xxx.yyy.zzz` which resembles to the
 logged in [CController], we may use the category `system.web.CController`.
 Message level should be one of the following values:
 
-   - `trace`: this is the level used by [Yii::trace]. It is for tracing
+   - `trace`: this is the level used by [Yee::trace]. It is for tracing
 the execution flow of the application during development.
 
    - `info`: this is for logging general information.
@@ -40,12 +40,12 @@ shortly.
 Message Routing
 ---------------
 
-Messages logged using [Yii::log] or [Yii::trace] are kept in memory. We
+Messages logged using [Yee::log] or [Yee::trace] are kept in memory. We
 usually need to display them in browser windows, or save them in some
 persistent storage such as files, emails. This is called *message
 routing*, i.e., sending messages to different destinations.
 
-In Yii, message routing is managed by a [CLogRouter] application
+In Yee, message routing is managed by a [CLogRouter] application
 component. It manages a set of the so-called *log routes*. Each log
 route represents a single log destination. Messages sent along a log route
 can be filtered according to their levels and categories.
@@ -89,7 +89,7 @@ category starts with `system.` are saved. The second route is
 [CEmailLogRoute] which sends messages to the specified email addresses.
 Only messages whose level is `error` or `warning` are sent.
 
-In a more advanced example (using an exclude feature available in Yii 1.1.13+),
+In a more advanced example (using an exclude feature available in Yee 1.1.13+),
 we can prevent certain categories from appearing in our logs:
 
 ~~~
@@ -108,7 +108,7 @@ we can prevent certain categories from appearing in our logs:
 		),
 ~~~
 
-The following log routes are available in Yii:
+The following log routes are available in Yee:
 
    - [CDbLogRoute]: saves messages in a database table.
    - [CEmailLogRoute]: sends messages to specified email addresses.
@@ -177,10 +177,10 @@ array(
 ~~~
 
 
-Yii supports logging call stack information in the messages that are
-logged by calling `Yii::trace`. This feature is disabled by default because it lowers performance.
+Yee supports logging call stack information in the messages that are
+logged by calling `Yee::trace`. This feature is disabled by default because it lowers performance.
 To use this feature, simply define a constant named `YII_TRACE_LEVEL` at the beginning of the entry
-script (before including `yii.php`) to be an integer greater than 0. Yii will then append to
+script (before including `yee.php`) to be an integer greater than 0. Yee will then append to
 every trace message with the file name and line number of the call stacks belonging to application
 code. The number `YII_TRACE_LEVEL` determines how many layers of each call stack should be recorded.
 This information is particularly useful during development stage as it can help us identify the
@@ -200,9 +200,9 @@ inserting the following methods:
 
 ~~~
 [php]
-Yii::beginProfile('blockID');
+Yee::beginProfile('blockID');
 ...code block being profiled...
-Yii::endProfile('blockID');
+Yee::endProfile('blockID');
 ~~~
 
 where `blockID` is an ID that uniquely identifies the code block.
@@ -246,7 +246,7 @@ Profiling SQL Executions
 Profiling is especially useful when working with database since SQL executions
 are often the main performance bottleneck of an application. While we can manually
 insert `beginProfile` and `endProfile` statements at appropriate places to measure
-the time spent in each SQL execution, Yii provides
+the time spent in each SQL execution, Yee provides
 a more systematic approach to solve this problem.
 
 By setting [CDbConnection::enableProfiling] to be true in the application configuration,

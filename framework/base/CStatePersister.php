@@ -3,9 +3,9 @@
  * This file contains classes implementing security manager feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -62,10 +62,10 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	{
 		parent::init();
 		if($this->stateFile===null)
-			$this->stateFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'state.bin';
+			$this->stateFile=Yee::app()->getRuntimePath().DIRECTORY_SEPARATOR.'state.bin';
 		$dir=dirname($this->stateFile);
 		if(!is_dir($dir) || !is_writable($dir))
-			throw new CException(Yii::t('yii','Unable to create application state file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.',
+			throw new CException(Yee::t('yee','Unable to create application state file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.',
 				array('{file}'=>$this->stateFile)));
 	}
 
@@ -76,9 +76,9 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	public function load()
 	{
 		$stateFile=$this->stateFile;
-		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->cacheID!==false && ($cache=Yee::app()->getComponent($this->cacheID))!==null)
 		{
-			$cacheKey='Yii.CStatePersister.'.$stateFile;
+			$cacheKey='Yee.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)
 				return unserialize($value);
 			else

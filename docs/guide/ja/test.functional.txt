@@ -2,7 +2,7 @@
 ==================
 
 この章を読む前に、まずは [Seleniumのドキュメント](http://seleniumhq.org/docs/) ([日本語版はこちら](http://oss.infoscience.co.jp/seleniumhq/docs/)) および [PHPUnitのドキュメント](http://www.phpunit.de/manual/current/ja/index.html) を読むことをお奨めします。
-以下に Yii において機能テストを書くときの基本的な原則を要約します。
+以下に Yee において機能テストを書くときの基本的な原則を要約します。
 
  * ユニットテストと同じように、機能テストは [CWebTestCase] クラスを継承した `XyzTest` というクラスの形で書かれます。
 ここで `Xyz` はテストされるクラスを表します。
@@ -18,12 +18,12 @@
  * テストメソッドは、通常、一連の文によって Selenium RC に対するコマンドを発し、テストされるアプリケーションとの相互作用を実行します。
 また、テストメソッドは、アサーション文によって、ウェブアプリケーションが期待どおりの反応を返すことを確認します。
 
-機能テストの書き方を説明する前に、`yiic webapp` コマンドで生成された `WebTestCase.php` を見てみましょう。
+機能テストの書き方を説明する前に、`yeec webapp` コマンドで生成された `WebTestCase.php` を見てみましょう。
 このファイルは、すべての機能テストクラスの基本クラスとして働く `WebTestCase` を定義しています。
 
 ~~~
 [php]
-define('TEST_BASE_URL','http://localhost/yii/demos/blog/index-test.php/');
+define('TEST_BASE_URL','http://localhost/yee/demos/blog/index-test.php/');
 
 class WebTestCase extends CWebTestCase
 {
@@ -47,7 +47,7 @@ class WebTestCase extends CWebTestCase
 テストのベース URL において、エントリスクリプトとして `index.php` ではなく `index-test.php` を使っていることにも注意を払わなければなりません。
 `index-test.php` と `index.php` の間の唯一の違いは、アプリケーション構成ファイルとして前者は `test.php` を使い、後者は `main.php` を使う、という点です。
 
-では、[ブログデモ](http://www.yiiframework.com/demos/blog) の記事の表示に関する機能についてテストをする方法を説明します。
+では、[ブログデモ](http://www.yeeframework.com/demos/blog) の記事の表示に関する機能についてテストをする方法を説明します。
 最初に、下記のように、テストクラスを書きます。
 このテストクラスが、たった今説明した基本クラスを継承するものであることに注意してください。
 
@@ -76,7 +76,7 @@ class PostTest extends WebTestCase
 ここでは `Post` フィクスチャが使われなければならないと指示しています。
 `testShow` というテストメソッドにおいて、最初に Selenium RC に URL `post/1` を開くように指示します。
 これが相対 URL であることに注意してください。
-完全な URL は、基本クラスで設定したベース URL の後にこれを追加したもの (つまり `http://localhost/yii/demos/blog/index-test.php/post/1`) になります。
+完全な URL は、基本クラスで設定したベース URL の後にこれを追加したもの (つまり `http://localhost/yee/demos/blog/index-test.php/post/1`) になります。
 そして、記事 `sample1` のタイトルが現在のウェブページにあることを確認します。
 さらに、ページの中に `コメントをどうぞ` というテキストが含まれていることも確認します。
 

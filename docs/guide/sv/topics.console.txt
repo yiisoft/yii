@@ -3,7 +3,7 @@ Konsolapplikationer
 
 Konsolapplikationer används huvudsakligen till att utföra offline-arbete 
 åt uppkopplade (online) webbapplikationer, så som kodgenerering, 
-kompilering av sökindex, skicka mail, etc. Yii erbjuder ett ramverk för 
+kompilering av sökindex, skicka mail, etc. Yee erbjuder ett ramverk för 
 framställning av konsolapplikationer på ett objektorienterat och systematiskt sätt.
 Det ger konsolapplikationer möjlighet att använda sig av resurser (t.ex. DB-anslutningar) 
 som används av en uppkopplad webbapplikation.
@@ -11,37 +11,37 @@ som används av en uppkopplad webbapplikation.
 Översikt
 --------
 
-Yii representerar varje konsoluppgift i termer av ett [kommando|CConsoleCommand]. 
+Yee representerar varje konsoluppgift i termer av ett [kommando|CConsoleCommand]. 
 Ett konsolkommando skrivs i form av en klass som ärver från och utvidgar [CConsoleCommand].
 
-När vi använder verktyget `yiic webapp` till att initialt skapa skelettet till 
-en Yii-applikation, kan vi finna två filer i katalogen `protected`:
+När vi använder verktyget `yeec webapp` till att initialt skapa skelettet till 
+en Yee-applikation, kan vi finna två filer i katalogen `protected`:
 
-* `yiic`: det exekverbara skriptet som används för Linux/Unix;
-* `yiic.bat`: den exekverbara batchfilen som används för Windows.
+* `yeec`: det exekverbara skriptet som används för Linux/Unix;
+* `yeec.bat`: den exekverbara batchfilen som används för Windows.
 
 I ett kommandoradsfönster kan vi mata in följande kommandon:
 
 ~~~
 cd protected
-yiic help
+yeec help
 ~~~
 
 Detta kommer att presentera en lista med tillgängliga konsolkommandon. Som standard, 
-omfattar de tillgängliga kommandona de som Yii-ramverket tillhandahåller 
+omfattar de tillgängliga kommandona de som Yee-ramverket tillhandahåller 
 (benämnda **system commands**) samt de som utvecklats av användare för enskilda 
 applikationer (benämnda **user commands**).
 
 För att se hur ett kommando används kan vi exekvera
 
 ~~~
-yiic help <command-name>
+yeec help <command-name>
 ~~~
 
 Och för att köra ett kommando kan följande kommandoformat användas:
 
 ~~~
-yiic <command-name> [parameters...]
+yeec <command-name> [parameters...]
 ~~~
 
 
@@ -76,13 +76,13 @@ public function run($args) { ... }
 
 där `$args` refererar till de extra parametrarna givna från kommandoraden.
 
-Inuti ett konsolkommando kan vi använda `Yii::app()` för tillgång till konsolapplikationens 
+Inuti ett konsolkommando kan vi använda `Yee::app()` för tillgång till konsolapplikationens 
 instans och därigenom även få tillgång till resurser så som databasanslutningar
-(t.ex. `Yii::app()->db`). Som framgått är användningen mycket snarlik det vi kan göra 
+(t.ex. `Yee::app()->db`). Som framgått är användningen mycket snarlik det vi kan göra 
 i en webbapplikation.
 
 > Info: Med start från version 1.1.1, är det även möjligt att skapa globala kommandon 
-som delas av **alla** Yii-applikationer på samma maskin. För att åstadkomma detta, 
+som delas av **alla** Yee-applikationer på samma maskin. För att åstadkomma detta, 
 definiera en miljödatavariabel benämnd `YII_CONSOLE_COMMANDS` som pekar ut en 
 befintlig filkatalog. Därefter kan våra globala kommandons klassfiler lagras i 
 denna katalog.
@@ -106,7 +106,7 @@ med första bokstaven som versal. Till exempel metoden `actionIndex` definierar 
 För att exekvera en specifik åtgärd används följande konsolkommandoformat:
 
 ~~~
-yiic <command-name> <action-name> --option1=value --option2=value2 ...
+yeec <command-name> <action-name> --option1=value --option2=value2 ...
 ~~~
 
 De tillkommande alternativ-värdeparen kommer lämnas med som namngivna parametrar 
@@ -128,14 +128,14 @@ Följande konsolkommandon kommer alla att leda till metodanropet `actionIndex('N
 php entryScript.php sitemap index --type=News --limit=5
 
 // $limit erhåller standardvärde
-yiic sitemap index --type=News
+yeec sitemap index --type=News
 
 // $limit erhåller standardvärde
 // eftersom 'index' är standardåtgärd kan åtgärdsnamnet utelämnas
-yiic sitemap --type=News
+yeec sitemap --type=News
 
 // alternativens ordning saknar betydelse
-yiic sitemap index --limit=5 --type=News
+yeec sitemap index --limit=5 --type=News
 ~~~
 
 Om ett alternativ ges utan värde (t.ex. `--type` i stället för `--type=News`),  
@@ -154,17 +154,17 @@ public function actionIndex(array $types) { ... }
 Faktiskt arrayinnehåll levereras genom att samma alternativ upprepas på kommandoraden:
 
 ~~~
-yiic sitemap index --types=News --types=Article
+yeec sitemap index --types=News --types=Article
 ~~~
 
 Ovanstående kommando leder till metodanropet `actionIndex(array('News', 'Article'))`.
 
 
-Med start från version 1.1.6, stöder Yii även användning av anonyma åtgärdsparametrar och 
+Med start från version 1.1.6, stöder Yee även användning av anonyma åtgärdsparametrar och 
 globala alternativ.
 
 Anonyma parametrar refererar till de kommandoradsparametrar som inte har formen av alternativ.
-Till exempel, i ett kommando `yiic sitemap index --limit=5 News`, har vi en anonym parameter 
+Till exempel, i ett kommando `yeec sitemap index --limit=5 News`, har vi en anonym parameter 
 vars värde är `News` medan den namngivna parametern `limit` erhåller värdet 5.
 
 För att kunna använda anonyma parametrar måste en kommmandoåtgärd deklarera en parameter med 
@@ -195,14 +195,14 @@ class SitemapCommand extends CConsoleCommand
 Ovanstående kod tillåter oss att exekvera ett kommando med ett `verbose`-alternativ:
 
 ~~~
-yiic sitemap index --verbose=1 --type=News
+yeec sitemap index --verbose=1 --type=News
 ~~~
 
 
 Anpassa konsolapplikation
 -------------------------
 
-I en applikation som skapats med hjälp av verktyget `yiic webapp` tool, kommer 
+I en applikation som skapats med hjälp av verktyget `yeec webapp` tool, kommer 
 konfigurationsfilen för konsolapplikation att vara `protected/config/console.php`. 
 Precis som konfigurationsfilen för en webbapplikation, är denna fil ett PHP-skript 
 vilken returnerar en vektor som utgör initialvärden för propertyn i en konsolapplikations 

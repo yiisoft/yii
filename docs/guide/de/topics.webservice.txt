@@ -14,12 +14,12 @@ Webanwendung aufrufen. Webservices bauen auf
 Kommunikations-Protokollstapel auf.
 
 Um die Verwirklichung von Webservices in einer Webanwendung zu 
-vereinfachen, beinhaltet Yii [CWebService] und [CWebServiceAction]. Die APIs
+vereinfachen, beinhaltet Yee [CWebService] und [CWebServiceAction]. Die APIs
 werden zu Klassen gruppiert, den sogenannten *Dienstanbietern* (engl.: service
-provider). Für jede Klasse erzeugt Yii eine
+provider). Für jede Klasse erzeugt Yee eine
 [WSDL](http://www.w3.org/TR/wsdl)-Spezifikation, die die verfügbaren APIs und
 deren Aufruf von Clientseite beschreibt. Wenn eine API von einem Client
-aufgerufen wird, instanziiert Yii den enstprechenden Dienstanbieter und ruft
+aufgerufen wird, instanziiert Yee den enstprechenden Dienstanbieter und ruft
 die angeforderte API auf, um die Anfrage zu verarbeiten.
 
 > Note|Hinweis: [CWebService] basiert auf der 
@@ -31,7 +31,7 @@ Definieren eines Dienstanbieters
 --------------------------------
 
 Wie erwähnt, ist ein Dienstanbieter eine Klasse mit entfernt aufrufbaren
-Methoden. Yii verwendet [Doc
+Methoden. Yee verwendet [Doc
 Comments](http://java.sun.com/j2se/javadoc/writingdoccomments/) und
 [Reflection von
 Klassen](http://www.php.net/manual/de/book.reflection.php)

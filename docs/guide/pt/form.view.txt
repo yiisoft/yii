@@ -8,7 +8,7 @@ declarados na classe `LoginForm`. Por fim, inserimos um botão de envio (submit)
 que pode ser utilizado pelos usuários para enviar o formulário. Tudo isso pode 
 ser feito puramente com HTML.
 
-O Yii fornece algumas classes auxiliares para facilitar a composição da visão. 
+O Yee fornece algumas classes auxiliares para facilitar a composição da visão. 
 Por exemplo, para criar um caixa de texto, podemos utilizar o método 
 [CHtml::textField()]; para criar uma lista do tipo drop-down, utilizamos 
 [CHtml::dropDownList()].
@@ -66,7 +66,7 @@ o que mudará a aparência do rótulo. Da mesma forma, o método [CHtml::activeT
 gera uma caixa de texto para o atributo especificado e, também, altera sua 
 classe CSS na ocorrência de erros.
 
-Se utilizarmos o arquivo css `form.css`, fornecido pelo script do `yiic`, o 
+Se utilizarmos o arquivo css `form.css`, fornecido pelo script do `yeec`, o 
 formulário gerado terá a seguinte aparência:
 
 ![A Página de Login](login1.png)

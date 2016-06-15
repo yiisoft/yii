@@ -40,7 +40,7 @@ public function filters()
 
 HTTP キャッシュ
 ------------
-Yii は、アクションの出力の単純なキャッシュに加えて、バージョン 1.1.11 において [CHttpCacheFilter] を導入しました。
+Yee は、アクションの出力の単純なキャッシュに加えて、バージョン 1.1.11 において [CHttpCacheFilter] を導入しました。
 このフィルターは、前述のヘッダ (ページの内容が最後のリクエストの時から変更されていないことをクライアントに通知するためのヘッダ) を設定する手助けをしてくれます。
 これによってサーバはコンテンツを再送しなくてよくなります。
 [CHttpCacheFilter] は [COutputCache] と同じ様にして設定することが出来ます。
@@ -51,7 +51,7 @@ public function filters()
 	return array(
 		array(
 			'CHttpCacheFilter + index',
-			'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
+			'lastModified'=>Yee::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
 		),
 	);
 }

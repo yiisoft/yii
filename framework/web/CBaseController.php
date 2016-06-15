@@ -3,9 +3,9 @@
  * CBaseController class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -89,7 +89,7 @@ abstract class CBaseController extends CComponent
 	public function renderFile($viewFile,$data=null,$return=false)
 	{
 		$widgetCount=count($this->_widgetStack);
-		if(($renderer=Yii::app()->getViewRenderer())!==null && $renderer->fileExtension==='.'.CFileHelper::getExtension($viewFile))
+		if(($renderer=Yee::app()->getViewRenderer())!==null && $renderer->fileExtension==='.'.CFileHelper::getExtension($viewFile))
 			$content=$renderer->renderFile($this,$viewFile,$data,$return);
 		else
 			$content=$this->renderInternal($viewFile,$data,$return);
@@ -98,7 +98,7 @@ abstract class CBaseController extends CComponent
 		else
 		{
 			$widget=end($this->_widgetStack);
-			throw new CException(Yii::t('yii','{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.',
+			throw new CException(Yee::t('yee','{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.',
 				array('{controller}'=>get_class($this), '{view}'=>$viewFile, '{widget}'=>get_class($widget))));
 		}
 	}
@@ -143,7 +143,7 @@ abstract class CBaseController extends CComponent
 	 */
 	public function createWidget($className,$properties=array())
 	{
-		$widget=Yii::app()->getWidgetFactory()->createWidget($this,$className,$properties);
+		$widget=Yee::app()->getWidgetFactory()->createWidget($this,$className,$properties);
 		$widget->init();
 		return $widget;
 	}
@@ -215,7 +215,7 @@ abstract class CBaseController extends CComponent
 			return $widget;
 		}
 		else
-			throw new CException(Yii::t('yii','{controller} has an extra endWidget({id}) call in its view.',
+			throw new CException(Yee::t('yee','{controller} has an extra endWidget({id}) call in its view.',
 				array('{controller}'=>get_class($this),'{id}'=>$id)));
 	}
 

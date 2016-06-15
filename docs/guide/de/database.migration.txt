@@ -10,7 +10,7 @@ stellt man fest, dass eine Spalte noch dringend einen Index benötigt. Es ist
 daher genauso wichtig wie beim Quelltext, dass auch die strukturellen Änderungen 
 in der Datenbank festgehalten werden (man spricht hier auch von **Migration**).
 Wenn Programmcode und Datenbank nicht mehr zueinander passen, ist ein
-Fehlverhalten praktisch vorprogrammiert. Yii enthält daher ein Tool zur
+Fehlverhalten praktisch vorprogrammiert. Yee enthält daher ein Tool zur
 Datenbankmigration, dass eine Historie von Migrationen verwalten, neue
 Migrationen durchführen oder existierende rückgangig machen kann.
 
@@ -22,12 +22,12 @@ Entwicklung eingesetzt wird:
 3. Doug updated seine Arbeitskopie und erhält die neue Migration
 4. Doug wendet die Migration auf seiner lokalen Datenbank an
 
-Migrationen werden in Yii über den Kommandozeilenbefehl `yiic migrate`
+Migrationen werden in Yee über den Kommandozeilenbefehl `yeec migrate`
 verwaltet. Mit diesem Befehl können neue Migrationen erstellt, angewendet,
 zurückgenommen oder wiederholt werden. Man kann auch die Historie aller
 Migrationen oder neue Migrationen anzeigen lassen.
 
->Note|Hinweis: Es wird empfohlen, den `migrate`-Befehl mit der yiic-Version 
+>Note|Hinweis: Es wird empfohlen, den `migrate`-Befehl mit der yeec-Version 
 >im Applikationspfad (z.B. `cd pfad/zu/protected`) statt derjenigen im
 >Framework-Verzeichnis auszuführen. Stellen Sie sicher, dass das
 >`protected/migrations`-Verzeichnis existiert und beschreibbar ist. Prüfen Sie
@@ -41,7 +41,7 @@ Um eine neu Migration (z.B. zum Anlegen einer News-Tabelle) zu erzeugen,
 verwendet man folgenden Befehl:
 
 ~~~
-yiic migrate create <name>
+yeec migrate create <name>
 ~~~
 
 Der Parameter `name` dient dazu, die Migration kurz und knapp zu beschreiben
@@ -50,7 +50,7 @@ Name Bestandteil eines PHP-Klassennamens werden. Er sollte daher nur
 Buchstaben, Zahlen und/oder Unterstriche enthalten.
 
 ~~~
-yiic migrate create erstelle_news_tabelle
+yeec migrate create erstelle_news_tabelle
 ~~~
 
 Damit wird im Verzeichnis `protected/migrations` eine Datei
@@ -129,7 +129,7 @@ Daten und DB-Schemas bereit. Mit [CDbMigration::createTable] kann man zum
 Beispiel eine Tabelle erzeugen, während [CDbMigration::insert] Zeilen in eine
 Tabelle einfügt. Alle Methoden verwenden die Datenbankverbindung, die von 
 [CDbMigration::getDbConnection()] zurückgeliefert wird. Standardmäßig ist das
-`Yii::app()->db`.
+`Yee::app()->db`.
 
 > Info|Info: Sie werden feststellen, dass die DB-Methoden von [CDbMigration]
 > denen von [CDbCommand] sehr ähneln. Sie sind tatsächlich auch fast
@@ -202,7 +202,7 @@ class m101129_185401_erstelle_news_tabelle extends CDbMigration
 }
 ~~~
 
-Wenn Yii die Migrationen durchführt, startet es automatisch eine
+Wenn Yee die Migrationen durchführt, startet es automatisch eine
 DB-Transaktion und führt danach `safeUp()` oder `safeDown()` aus. Falls diese
 Methoden einen Datenbankfehler verursachen, wird die Transaktion
 zurückgefahren. Damit wird gewährleistet, dass die Datenbank in einem
@@ -222,7 +222,7 @@ Um alle verfügbaren neuen Migrationen anzuwenden (um die lokale Datenbank also
 auf den aktuellsten Stand zu bringen) ruft man diesen Befehl auf:
 
 ~~~
-yiic migrate
+yeec migrate
 ~~~
 
 Der Befehl listet alle neuen Migrationen auf. Bestätigt man die Durchführung
@@ -241,7 +241,7 @@ Manchmal kommt es vor, dass man nur eine oder wenige Migrationen durchführen
 möchte. Das geht mit diesem Befehl:
 
 ~~~
-yiic migrate up 3
+yeec migrate up 3
 ~~~
 
 Damit werden 3 neuen Migrationen angewendet. Die Zahl bestimmt also, wieviele
@@ -250,7 +250,7 @@ Migrationen man anwenden möchte.
 Man kann die Datenbank mit folgendem Befehl auch auf eine bestimmte Version migrieren:
 
 ~~~
-yiic migrate to 101129_185401
+yeec migrate to 101129_185401
 ~~~
 
 Man gibt also den Zeitstempel-Teil des Migrationsnamen an, um die Version zu
@@ -267,7 +267,7 @@ Um die letzte(n) angewendete(n) Migration(en) rückgängig zu machen, kann man
 folgenden Befehl verwenden:
 
 ~~~
-yiic migrate down [schritt]
+yeec migrate down [schritt]
 ~~~
 
 wobei der optionale `schritt`-Paramter angibt, wie viele Migrationen man
@@ -285,7 +285,7 @@ Migrationen zu wiederholen bedeutet, sie erst rückgängig zu machen und dann
 erneut anzuwenden. Das geschieht mit diesem Befehl:
 
 ~~~
-yiic migrate redo [schritt]
+yeec migrate redo [schritt]
 ~~~
 
 wobei der optionale `schritt`-Parameter wieder angibt, wie viele Migrationen
@@ -299,8 +299,8 @@ Das Tool kann nicht nur Migrationen anwenden und rückgängig machen, sondern
 auch die Historie der durchgeführten Migrationen bzw. die Liste der neuen
 Migrationen anzeigen.
 ~~~
-yiic migrate history [limit]
-yiic migrate new [limit]
+yeec migrate history [limit]
+yeec migrate new [limit]
 ~~~
 
 Der optionale Parameter `limit` gibt an, wieviele Migrationen maximal
@@ -320,10 +320,10 @@ zurückzufahren. Gerade wenn man eine neue Migration erstellt ist dies häufig
 der Fall. Dazu dient der folgende Befehl:
 
 ~~~
-yiic migrate mark 101129_185401
+yeec migrate mark 101129_185401
 ~~~
 
-Der Befehl ist ähnlich zu `yiic migrate to`, außer, dass er nur die
+Der Befehl ist ähnlich zu `yeec migrate to`, außer, dass er nur die
 Migrationshistorie auf die angegebene Version setzt, ohne Migrationen
 durchzuführen oder zurückzufahren.
 
@@ -362,14 +362,14 @@ Klassennamen ersetzt.
 Diese Optionen können wie folgt angegeben werden:
 
 ~~~
-yiic migrate up --option1=value1 --option2=value2 ...
+yeec migrate up --option1=value1 --option2=value2 ...
 ~~~
 
 Will man zum Beispiel ein Modul `forum` migrieren, dessen Migrationsdateien im
 `migrations`-Verzeichnis des Moduls zu finden sind, eignet sich dieser Befehl:
 
 ~~~
-yiic migrate up --migrationPath=ext.forum.migrations
+yeec migrate up --migrationPath=ext.forum.migrations
 ~~~
 
 

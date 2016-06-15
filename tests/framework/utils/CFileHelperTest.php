@@ -13,7 +13,7 @@ class CFileHelperTest extends CTestCase
 
 	protected function setUp()
 	{
-		$this->testDir=Yii::getPathOfAlias('application.runtime.CFileHelper');
+		$this->testDir=Yee::getPathOfAlias('application.runtime.CFileHelper');
 		if(!is_dir($this->testDir) && !(@mkdir($this->testDir)))
 			$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 

@@ -3,16 +3,16 @@
  * CGridView class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.CBaseListView');
-Yii::import('zii.widgets.grid.CDataColumn');
-Yii::import('zii.widgets.grid.CLinkColumn');
-Yii::import('zii.widgets.grid.CButtonColumn');
-Yii::import('zii.widgets.grid.CCheckBoxColumn');
+Yee::import('zii.widgets.CBaseListView');
+Yee::import('zii.widgets.grid.CDataColumn');
+Yee::import('zii.widgets.grid.CLinkColumn');
+Yee::import('zii.widgets.grid.CButtonColumn');
+Yee::import('zii.widgets.grid.CCheckBoxColumn');
 
 /**
  * CGridView displays a list of data items in terms of a table.
@@ -227,7 +227,7 @@ class CGridView extends CBaseListView
 	/**
 	 * @var string a javascript function that will be invoked after the row selection is changed.
 	 * The function signature is <code>function(id)</code> where 'id' refers to the ID of the grid view.
-	 * In this function, you may use <code>$(gridID).yiiGridView('getSelection')</code> to get the key values
+	 * In this function, you may use <code>$(gridID).yeeGridView('getSelection')</code> to get the key values
 	 * of the currently selected rows (gridID is the DOM selector of the grid).
 	 * @see selectableRows
 	 */
@@ -236,7 +236,7 @@ class CGridView extends CBaseListView
 	 * @var integer the number of table body rows that can be selected. If 0, it means rows cannot be selected.
 	 * If 1, only one row can be selected. If 2 or any other number, it means multiple rows can be selected.
 	 * A selected row will have a CSS class named 'selected'. You may also call the JavaScript function
-	 * <code>$(gridID).yiiGridView('getSelection')</code> to retrieve the key values of the currently selected
+	 * <code>$(gridID).yeeGridView('getSelection')</code> to retrieve the key values of the currently selected
 	 * rows (gridID is the DOM selector of the grid).
 	 */
 	public $selectableRows=1;
@@ -339,21 +339,21 @@ class CGridView extends CBaseListView
 		parent::init();
 
 		if(empty($this->updateSelector))
-			throw new CException(Yii::t('zii','The property updateSelector should be defined.'));
+			throw new CException(Yee::t('zii','The property updateSelector should be defined.'));
 		if(empty($this->filterSelector))
-			throw new CException(Yii::t('zii','The property filterSelector should be defined.'));
+			throw new CException(Yee::t('zii','The property filterSelector should be defined.'));
 
 		if(!isset($this->htmlOptions['class']))
 			$this->htmlOptions['class']='grid-view';
 
 		if($this->baseScriptUrl===null)
-			$this->baseScriptUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/gridview';
+			$this->baseScriptUrl=Yee::app()->getAssetManager()->publish(Yee::getPathOfAlias('zii.widgets.assets')).'/gridview';
 
 		if($this->cssFile!==false)
 		{
 			if($this->cssFile===null)
 				$this->cssFile=$this->baseScriptUrl.'/styles.css';
-			Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+			Yee::app()->getClientScript()->registerCssFile($this->cssFile);
 		}
 
 		$this->initColumns();
@@ -385,7 +385,7 @@ class CGridView extends CBaseListView
 			{
 				if(!isset($column['class']))
 					$column['class']='CDataColumn';
-				$column=Yii::createComponent($column, $this);
+				$column=Yee::createComponent($column, $this);
 			}
 			if(!$column->visible)
 			{
@@ -409,7 +409,7 @@ class CGridView extends CBaseListView
 	protected function createDataColumn($text)
 	{
 		if(!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/',$text,$matches))
-			throw new CException(Yii::t('zii','The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
+			throw new CException(Yee::t('zii','The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
 		$column=new CDataColumn($this);
 		$column->name=$matches[1];
 		if(isset($matches[3]) && $matches[3]!=='')
@@ -446,7 +446,7 @@ class CGridView extends CBaseListView
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->ajaxType!==null) {
 			$options['ajaxType']=strtoupper($this->ajaxType);
-			$request=Yii::app()->getRequest();
+			$request=Yee::app()->getRequest();
 			if ($options['ajaxType']=='POST' && $request->enableCsrfValidation) {
 				$options['csrfTokenName']=$request->csrfTokenName;
 				$options['csrfToken']=$request->getCsrfToken();
@@ -466,13 +466,13 @@ class CGridView extends CBaseListView
 		}
 
 		$options=CJavaScript::encode($options);
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
 		if($this->enableHistory)
 			$cs->registerCoreScript('history');
-		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiigridview.js',CClientScript::POS_END);
-		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiGridView($options);");
+		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yeegridview.js',CClientScript::POS_END);
+		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yeeGridView($options);");
 	}
 
 	/**
@@ -656,7 +656,7 @@ class CGridView extends CBaseListView
 	public function getFormatter()
 	{
 		if($this->_formatter===null)
-			$this->_formatter=Yii::app()->format;
+			$this->_formatter=Yee::app()->format;
 		return $this->_formatter;
 	}
 

@@ -3,9 +3,9 @@
  * CTypeValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -95,7 +95,7 @@ class CTypeValidator extends CValidator
 
 		if(!$this->validateValue($value))
 		{
-			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} must be {type}.');
+			$message=$this->message!==null?$this->message : Yee::t('yee','{attribute} must be {type}.');
 			$this->addError($object,$attribute,$message,array('{type}'=>$this->type));
 		}
 	}

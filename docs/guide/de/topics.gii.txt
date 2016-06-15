@@ -1,15 +1,15 @@
 Automatisierte Codegenerierung
 ==============================
 
-Seit Version 1.1.2 ist Yii mit dem webbasierten Codegenerator *Gii*
-ausgestattet. Er ersetzt das frühere `yiic shell`, das an der Kommandozeile
+Seit Version 1.1.2 ist Yee mit dem webbasierten Codegenerator *Gii*
+ausgestattet. Er ersetzt das frühere `yeec shell`, das an der Kommandozeile
 verwendet wurde. In diesem Abschnitt erklären wir, wie man Gii verwendet bzw.
 erweitert, um noch ergiebiger Entwickeln zu können.
 
 Gii verwenden
 -------------
 
-Gii ist ein Modul und kann daher nur innerhalb einer bestehenden Yii-Anwendung
+Gii ist ein Modul und kann daher nur innerhalb einer bestehenden Yee-Anwendung
 eingesetzt werden. Um Gii zu verwenden, muss zunächst die Konfiguration wie
 folgt angepasst werden:
 
@@ -174,7 +174,7 @@ Jetzt geht es an die eigentliche Anpassung. Öffnen Sie dazu die Datei
 `protected/gii/model/templates/compact/model.php`. Wie erwähnt wird diese
 Datei wie ein Viewscript verwendet und kann daher PHP-Ausdrücke und -Befehle
 enthalten. Ändern wir also die `attributeLabels()`-Methode einmal so ab, dass
-`Yii::t()` zur Übersetzung der Labels verwendet wird:
+`Yee::t()` zur Übersetzung der Labels verwendet wird:
 
 ~~~
 [php]
@@ -182,7 +182,7 @@ public function attributeLabels()
 {
 	return array(
 <?php foreach($labels as $name=>$label): ?>
-			<?php echo "'$name' => Yii::t('application', '$label'),\n"; ?>
+			<?php echo "'$name' => Yee::t('application', '$label'),\n"; ?>
 <?php endforeach; ?>
 	);
 }
@@ -256,7 +256,7 @@ class WidgetCode extends CCodeModel
 
 	public function prepare()
 	{
-		$path=Yii::getPathOfAlias('application.components.' . $this->className) . '.php';
+		$path=Yee::getPathOfAlias('application.components.' . $this->className) . '.php';
 		$code=$this->render($this->templatepath.'/widget.php');
 
 		$this->files[]=new CCodeFile($path, $code);

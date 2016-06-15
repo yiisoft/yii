@@ -3,9 +3,9 @@
  * CApplication class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -29,7 +29,7 @@
  * <li>{@link getMessages messages}: provides the message source for translating
  *   application messages. This application component is dynamically loaded when needed.</li>
  * <li>{@link getCoreMessages coreMessages}: provides the message source for translating
- *   Yii framework messages. This application component is dynamically loaded when needed.</li>
+ *   Yee framework messages. This application component is dynamically loaded when needed.</li>
  * <li>{@link getUrlManager urlManager}: provides URL construction as well as parsing functionality.
  *   This application component is dynamically loaded when needed.</li>
  * <li>{@link getRequest request}: represents the current HTTP request by encapsulating
@@ -131,7 +131,7 @@ abstract class CApplication extends CModule
 	 */
 	public function __construct($config=null)
 	{
-		Yii::setApplication($this);
+		Yee::setApplication($this);
 
 		// set basePath as early as possible to avoid trouble
 		if(is_string($config))
@@ -143,15 +143,15 @@ abstract class CApplication extends CModule
 		}
 		else
 			$this->setBasePath('protected');
-		Yii::setPathOfAlias('application',$this->getBasePath());
-		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
+		Yee::setPathOfAlias('application',$this->getBasePath());
+		Yee::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 		if(isset($config['extensionPath']))
 		{
 			$this->setExtensionPath($config['extensionPath']);
 			unset($config['extensionPath']);
 		}
 		else
-			Yii::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
+			Yee::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
 		if(isset($config['aliases']))
 		{
 			$this->setAliases($config['aliases']);
@@ -264,7 +264,7 @@ abstract class CApplication extends CModule
 	public function setBasePath($path)
 	{
 		if(($this->_basePath=realpath($path))===false || !is_dir($this->_basePath))
-			throw new CException(Yii::t('yii','Application base path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','Application base path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -291,7 +291,7 @@ abstract class CApplication extends CModule
 	public function setRuntimePath($path)
 	{
 		if(($runtimePath=realpath($path))===false || !is_dir($runtimePath) || !is_writable($runtimePath))
-			throw new CException(Yii::t('yii','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
+			throw new CException(Yee::t('yee','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
 				array('{path}'=>$path)));
 		$this->_runtimePath=$runtimePath;
 	}
@@ -302,7 +302,7 @@ abstract class CApplication extends CModule
 	 */
 	public function getExtensionPath()
 	{
-		return Yii::getPathOfAlias('ext');
+		return Yee::getPathOfAlias('ext');
 	}
 
 	/**
@@ -313,9 +313,9 @@ abstract class CApplication extends CModule
 	public function setExtensionPath($path)
 	{
 		if(($extensionPath=realpath($path))===false || !is_dir($extensionPath))
-			throw new CException(Yii::t('yii','Extension path "{path}" does not exist.',
+			throw new CException(Yee::t('yee','Extension path "{path}" does not exist.',
 				array('{path}'=>$path)));
-		Yii::setPathOfAlias('ext',$extensionPath);
+		Yee::setPathOfAlias('ext',$extensionPath);
 	}
 
 	/**
@@ -416,7 +416,7 @@ abstract class CApplication extends CModule
 	{
 		$vars=get_class_vars($this->localeClass);
 		if(empty($vars['dataPath']))
-			return Yii::getPathOfAlias('system.i18n.data');
+			return Yee::getPathOfAlias('system.i18n.data');
 		return $vars['dataPath'];
 	}
 
@@ -737,7 +737,7 @@ abstract class CApplication extends CModule
 		if(isset($_SERVER['HTTP_REFERER']))
 			$message.="\nHTTP_REFERER=".$_SERVER['HTTP_REFERER'];
 		$message.="\n---";
-		Yii::log($message,CLogger::LEVEL_ERROR,$category);
+		Yee::log($message,CLogger::LEVEL_ERROR,$category);
 
 		try
 		{
@@ -820,11 +820,11 @@ abstract class CApplication extends CModule
 			}
 			if(isset($_SERVER['REQUEST_URI']))
 				$log.='REQUEST_URI='.$_SERVER['REQUEST_URI'];
-			Yii::log($log,CLogger::LEVEL_ERROR,'php');
+			Yee::log($log,CLogger::LEVEL_ERROR,'php');
 
 			try
 			{
-				Yii::import('CErrorEvent',true);
+				Yee::import('CErrorEvent',true);
 				$event=new CErrorEvent($this,$code,$message,$file,$line);
 				$this->onError($event);
 				if(!$event->handled)

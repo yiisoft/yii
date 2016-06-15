@@ -4,7 +4,7 @@
 [<?php echo CHtml::link('Post List',array('list')); ?>]
 </div>
 
-<div class="yiiForm">
+<div class="yeeForm">
 <?php echo CHtml::form(); ?>
 
 <?php echo CHtml::errorSummary($post); ?>
@@ -31,4 +31,4 @@
 </div>
 
 </form>
-</div><!-- yiiForm -->
+</div><!-- yeeForm -->

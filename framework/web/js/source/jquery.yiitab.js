@@ -1,16 +1,16 @@
 /**
- * jQuery Yii plugin file.
+ * jQuery Yee plugin file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2010 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2010 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 ;(function($) {
 
 	$.extend($.fn, {
-		yiitab: function() {
+		yeetab: function() {
 
 			function activate(id) {
 				var pos = id.indexOf("#");

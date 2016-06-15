@@ -174,7 +174,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($this->modelClass); ?>-form')
 		{
 			echo CActiveForm::validate($model);
-			Yii::app()->end();
+			Yee::app()->end();
 		}
 	}
 }

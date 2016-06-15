@@ -14,7 +14,7 @@ class PostTest extends WebTestCase
 	{
 	    $this->open('');
 	    // verify header title exists
-	    $this->assertTextPresent('Yii Blog Demo');
+	    $this->assertTextPresent('Yee Blog Demo');
 	    // verify the sample post title exists
 	    $this->assertTextPresent($this->posts['sample1']['title']);
 	}

@@ -1,11 +1,11 @@
-Guia Definitivo do Yii
+Guia Definitivo do Yee
 ======================
 
-Esse tutorial está disponível sob os [termos da Documentação do Yii](http://www.yiiframework.com/doc/terms/).
+Esse tutorial está disponível sob os [termos da Documentação do Yee](http://www.yeeframework.com/doc/terms/).
 
 Todos os Direitos Reservados.
 
-2008-2010 &copy; Yii Software LLC.
+2008-2010 &copy; Yee Software LLC.
 
 Tradução para o Português: Wanderson C. Bragança, luiz.uo, davi_alexandre
 e Ivan Wilhelm

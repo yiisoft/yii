@@ -6,20 +6,20 @@ i ulike databasesystemer (DBMS). Som et resultat av dette kan underliggende
 databasesystem byttes ut uten å endre koden som benytter DAO for å aksessere
 dataene.
 
-DAO i Yii benytter [PHP Data Objects
+DAO i Yee benytter [PHP Data Objects
 (PDO)](http://php.net/manual/en/book.pdo.php) som er et tillegg til PHP som
 tilbyr et generelt grensesnitt for mange populære databasesystemer slik som
 MySQL og PostgreSQL. Derfor må PDO-tillegget og nødvendige PDO-drivere (for
 eksempel: `PDO_MYSQL`) være installert.
 
-DAO i Yii består i hovedsak av følgende fire klasser:
+DAO i Yee består i hovedsak av følgende fire klasser:
 
    - [CDbConnection]: representerer en tilkobling til en database.
    - [CDbCommand]: representerer et SQL-uttrykk som kjøres mot en database.
    - [CDbDataReader]: representerer en strøm av rader fra resultat av en spørring.
    - [CDbTransaction]: representerer en transaksjon mot databasen.
 
-Videre ser vi litt på bruken av DAO i Yii.
+Videre ser vi litt på bruken av DAO i Yee.
 
 Etablere en databasetilkobling
 ------------------------------
@@ -71,7 +71,7 @@ array(
 )
 ~~~
 
-Da kan du aksessere databasetilkoblingen via `Yii::app()->db` som allerede
+Da kan du aksessere databasetilkoblingen via `Yee::app()->db` som allerede
 er aktivert (med mindre du eksplisitt setter [CDbConnection::autoConnect] til 
 `false`). Ved å bruke denne teknikken kan samme databasetilkobling deles
 mange steder i koden.
@@ -146,7 +146,7 @@ Transaksjoner
 Når en applikasjon utfører et par spørringer som hver seg henter og/eller
 skriver informasjon til databasen er det viktig å passe på at alle
 spørringene blir kjørt riktig. En transaksjon (representert ved en 
-[CDbTransaction]-instans i Yii) kan brukes slik:
+[CDbTransaction]-instans i Yee) kan brukes slik:
 
  - Start en transaksjon.
  - Utfør spørringer en etter en. Alle oppdateringer til databasen er ikke synlig for andre.

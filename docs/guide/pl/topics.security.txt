@@ -20,7 +20,7 @@ Aby osiągnąć ten cel, można przeprowadzić rozkodowanie HTML w danych wejśc
 Jednakże, w pewnych sytuacjach rozkodowywanie HTML może być niepożądane, ponieważ
 dezaktywuje ono wszystkie tagi HTML.
 
-Yii dołącza pracę wykonaną przez [HTMLPurifier](http://htmlpurifier.org/)
+Yee dołącza pracę wykonaną przez [HTMLPurifier](http://htmlpurifier.org/)
 i dostarcza deweloperowi w postaci użytecznego komponentu nazwanego [CHtmlPurifier], 
 który zawiera [HTMLPurifier](http://htmlpurifier.org/). Komponent ten jest w stanie 
 usunąć cały złośliwy kod przy użyciu dokładnie zbadanej, bezpiecznej białej listy 
@@ -62,7 +62,7 @@ to ensure the form is submitted from and the result is sent back to
 the same origin.
 
 
-Yii implementuje system ochrony przed atakami CSRF w celu pokonania ataków opartych 
+Yee implementuje system ochrony przed atakami CSRF w celu pokonania ataków opartych 
 na żądaniach `POST`. Jest on oparty na przechowywaniu losowej wartości w ciasteczku
 i porównywaniu jej z wartością przekazywaną w żądaniu `POST`.
 
@@ -103,7 +103,7 @@ Istnieje kilka środków zaradczych, aby zapobiec atakom przy wykorzystaniu cias
 i odsłaniają zawartość jego ciasteczek.
 * Sprawdzaj zawartość ciasteczek i sprawdzaj czy ich zawartość nie została zmieniona.
 
-Yii implementuje system sprawdzania poprawności ciasteczek, który chronik ciasteczka przed
+Yee implementuje system sprawdzania poprawności ciasteczek, który chronik ciasteczka przed
 modyfikacjami. W szczególności wykonuje on sprawdzenie HMAC dla zawartości ciasteczek, 
 jeśli sprawdzanie poprawności ciasteczek jest włączone.
 
@@ -122,19 +122,19 @@ return array(
 );
 ~~~
 
-Aby używać systemu sprawdzania poprawności ciasteczek dostarczonego wraz z Yii,
+Aby używać systemu sprawdzania poprawności ciasteczek dostarczonego wraz z Yee,
 należy odczytywać zawartość ciasteczek poprzez kolekcję [cookies|CHttpRequest::cookies] 
 zamiast bezpośrednio przez `$_COOKIES`:
 
 ~~~
 [php]
 // zwraca ciasteczko o określonej nazwie
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yee::app()->request->cookies[$name];
 $value=$cookie->value;
 ......
 // wysyła ciasteczko
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yee::app()->request->cookies[$name]=$cookie;
 ~~~
 
 

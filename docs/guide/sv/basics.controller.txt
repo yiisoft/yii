@@ -142,10 +142,10 @@ protected/
 
 ### Knyta parametrar till Action
 
-Med start i version 1.1.4 har Yii försetts med stöd för automatisk koppling av 
+Med start i version 1.1.4 har Yee försetts med stöd för automatisk koppling av 
 parametrar till kontrolleråtgärder. Det innebär att en kontrollers åtgärdsmetod 
 kan definiera namngivna parametrar vars värde automatiskt kommer att hämtas från 
-`$_GET` av Yii.
+`$_GET` av Yee.
 
 För att åskådliggöra denna finess, antag att vi behöver skriva en `create`-åtgärd 
 för `PostController`. Åtgärden behöver två parametrar:
@@ -197,7 +197,7 @@ användaren inte tillhandahåller en sådan parameter i sin request. Eftersom `$
 inte är försett med ett standardvärde, kommer en [CHttpException] att genereras om användaren inte 
 tillhandahåller parametern `category` i `$_GET`.
 
-Med start från version 1.1.5, kan Yii även detektera åtgärdsparametrar av arraytyp.
+Med start från version 1.1.5, kan Yee även detektera åtgärdsparametrar av arraytyp.
 Detta sker med hjälp av PHP typledtrådar vars syntax ser ut som följer:
 
 ~~~
@@ -206,7 +206,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii ser till att $categories är en array
+		// Yee ser till att $categories är en array
 	}
 }
 ~~~

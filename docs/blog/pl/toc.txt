@@ -1,6 +1,6 @@
 * Początek
 	- [Przegląd](start.overview)
-    - [Jazda próbna z Yii](start.testdrive)
+    - [Jazda próbna z Yee](start.testdrive)
     - [Analiza wymagań](start.requirements)
     - [Ogólna koncepcja](start.design)
 

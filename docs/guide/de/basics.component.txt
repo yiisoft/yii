@@ -1,7 +1,7 @@
 Komponente
 ==========
 
-Yii-Anwendungen bestehen aus Komponenten. Eine Komponente ist ein Objekt vom
+Yee-Anwendungen bestehen aus Komponenten. Eine Komponente ist ein Objekt vom
 Typ [CComponent] (oder einere davon abgeleitete Klasse), das eine ganz
 bestimmte Aufgabe übernimmt. Meist greift man nur auf Eigenschaften von
 Komponenten zu oder reagiert auf deren Events bzw. löst diese aus. Die
@@ -85,7 +85,7 @@ $document->completed=true;
 ~~~
 
 Beim Lesen einer Eigenschaft, die nicht als öffentliche Variable definiert ist,
-wird Yii versuchen eine Getter-Methode zu finden. Im Beispiel mit `textWidth`
+wird Yee versuchen eine Getter-Methode zu finden. Im Beispiel mit `textWidth`
 ist die zugehörige Getter-Methode `getTextWidth`.
 Als Wert der Eigenschaft gilt dann der Rückgabewert der Methode.
 Analog funktioniert das auch, wenn wir schreibend zugreifen wollen.

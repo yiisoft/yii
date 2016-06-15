@@ -3,9 +3,9 @@
  * CMaskedTextField class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -56,7 +56,7 @@ class CMaskedTextField extends CInputWidget
 	public function run()
 	{
 		if($this->mask=='')
-			throw new CException(Yii::t('yii','Property CMaskedTextField.mask cannot be empty.'));
+			throw new CException(Yee::t('yee','Property CMaskedTextField.mask cannot be empty.'));
 
 		list($name,$id)=$this->resolveNameID();
 		if(isset($this->htmlOptions['id']))
@@ -87,9 +87,9 @@ class CMaskedTextField extends CInputWidget
 			$js.='jQuery.mask.definitions='.CJavaScript::encode($this->charMap).";\n";
 		$js.="jQuery(\"#{$id}\").mask(\"{$this->mask}\"{$options});";
 
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerCoreScript('maskedinput');
-		$cs->registerScript('Yii.CMaskedTextField#'.$id,$js);
+		$cs->registerScript('Yee.CMaskedTextField#'.$id,$js);
 	}
 
 	/**

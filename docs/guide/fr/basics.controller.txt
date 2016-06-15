@@ -155,9 +155,9 @@ protected/
 
 ### Paramètre Action reliure
 
-Depuis la version 1.1.4, Yii a ajouté le support pour la liaison automatique des paramètres d'action.
+Depuis la version 1.1.4, Yee a ajouté le support pour la liaison automatique des paramètres d'action.
 Autrement dit, une méthode d'action contrôleur peut définir des paramètres nommés, dont la valeur sera
-automatiquement rempli à partir de `$_GET` par Yii.
+automatiquement rempli à partir de `$_GET` par Yee.
 
 Pour illustrer ce fonctionnement, supposons que nous devons écrire une action `create` pour
 `PostController`. L'action requiert deux paramètres :
@@ -212,7 +212,7 @@ au cas où la requête ne contient pas ce paramètre. Comme `$category` n'a pas 
 valeur par défaut, si la requête ne comporte pas de paramètre `category`,
 une [CHttpException](error code 400) sera automatiquement levée.
 
-Depuis la version 1.1.5, Yii supporte également la détection du type tableau pour les paramètres de l'action.
+Depuis la version 1.1.5, Yee supporte également la détection du type tableau pour les paramètres de l'action.
 Cela se fait par allusion au type PHP en utilisant une syntaxe comme suit:
 
 ~~~
@@ -221,7 +221,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii veillera à ce que les $categories est un tableau
+		// Yee veillera à ce que les $categories est un tableau
 	}
 }
 ~~~

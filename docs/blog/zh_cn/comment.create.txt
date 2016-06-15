@@ -3,7 +3,7 @@
 
 此节中，我们实现评论的创建与显示功能。
 
-为增强用户交互体验，我们打算在用户输入完每个表单域时就提示用户可能的出错信息。也就是客户端输入验证。我们将看到，在Yii中实现这个是多么简单多么爽。注意，这需要 Yii 1.1.1 版或更高版本的支持。
+为增强用户交互体验，我们打算在用户输入完每个表单域时就提示用户可能的出错信息。也就是客户端输入验证。我们将看到，在Yee中实现这个是多么简单多么爽。注意，这需要 Yee 1.1.1 版或更高版本的支持。
 
 
 评论的显示
@@ -31,9 +31,9 @@
 </div>
 ~~~
 
-如上所示，我们调用了 `renderPartial()` 方法渲染一个名为 `_comments` 的局部视图以显示属于当前日志的评论列表。注意，在这个视图中我们使用了表达式 `$model->comments` 获取日志的评论。这是有效的，因为我们在 `Post` 类中声明了一个 `comments` 关系。执行此表达式会触发一个隐式的 JOIN 数据库查询以获取相应的评论数据。此特性被称为 [懒惰的关系查询（lazy relational query）](http://www.yiiframework.com/doc/guide/database.arr)。
+如上所示，我们调用了 `renderPartial()` 方法渲染一个名为 `_comments` 的局部视图以显示属于当前日志的评论列表。注意，在这个视图中我们使用了表达式 `$model->comments` 获取日志的评论。这是有效的，因为我们在 `Post` 类中声明了一个 `comments` 关系。执行此表达式会触发一个隐式的 JOIN 数据库查询以获取相应的评论数据。此特性被称为 [懒惰的关系查询（lazy relational query）](http://www.yeeframework.com/doc/guide/database.arr)。
 
-局部视图 `_comments` 没有太多有意思的。它主要用于遍历每条评论并显示其详情。感兴趣的读者可以参考 `/wwwroot/yii/demos/blog/protected/post/_comments.php`.
+局部视图 `_comments` 没有太多有意思的。它主要用于遍历每条评论并显示其详情。感兴趣的读者可以参考 `/wwwroot/yee/demos/blog/protected/post/_comments.php`.
 
 
 评论的创建
@@ -63,7 +63,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+				Yee::app()->user->setFlash('commentSubmitted','Thank you...');
 			$this->refresh();
 		}
 	}
@@ -82,9 +82,9 @@ protected function newComment($post)
 	......
 	<h3>Leave a Comment</h3>
 
-	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+	<?php if(Yee::app()->user->hasFlash('commentSubmitted')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+			<?php echo Yee::app()->user->getFlash('commentSubmitted'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(
@@ -130,7 +130,7 @@ protected function newComment($post)
 	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 	{
 		echo CActiveForm::validate($comment);
-		Yii::app()->end();
+		Yee::app()->end();
 	}
 
 	if(isset($_POST['Comment']))
@@ -139,7 +139,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+				Yee::app()->user->setFlash('commentSubmitted','Thank you...');
 			$this->refresh();
 		}
 	}

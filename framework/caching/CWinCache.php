@@ -3,9 +3,9 @@
  * CWinCache class file
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -30,9 +30,9 @@ class CWinCache extends CCache {
 	{
 		parent::init();
 		if(!extension_loaded('wincache'))
-			throw new CException(Yii::t('yii', 'CWinCache requires PHP wincache extension to be loaded.'));
+			throw new CException(Yee::t('yee', 'CWinCache requires PHP wincache extension to be loaded.'));
 		if(!ini_get('wincache.ucenabled'))
-			throw new CException(Yii::t('yii', 'CWinCache user cache is disabled. Please set wincache.ucenabled to On in your php.ini.'));
+			throw new CException(Yee::t('yee', 'CWinCache user cache is disabled. Please set wincache.ucenabled to On in your php.ini.'));
 	}
 
 	/**

@@ -11,14 +11,14 @@ identifierad (autentiserad), har tillåtelse att manipulera specifika resurser.
 Detta avgörs vanligtvis genom att undersöka om denna person ingår i en viss roll 
 som har tillgång till resurserna.
 
-Yii har ett inbyggt autentiserings-/auktoriseringsramverk (auth), vilket är 
+Yee har ett inbyggt autentiserings-/auktoriseringsramverk (auth), vilket är 
 lättanvänt och kan anpassas till speciella behov.
 
-Den centrala delen i Yii:s auth-ramverk är den fördefinierade 
+Den centrala delen i Yee:s auth-ramverk är den fördefinierade 
 applikationskomponenten *user*, ett objekt som implementerar gränssnittet 
 [IWebUser]. Komponenten user representerar icke-flyktig information om aktuell 
 användares identitet. Den kan kommas åt från alla ställen i koden med hjälp av 
-`Yii::app()->user`.
+`Yee::app()->user`.
 
 Med hjälp av user-komponenten kan vi kontrollera om en användare är inlogggad 
 eller inte via [CWebUser::isGuest]; [logga in|CWebUser::login] och [logga 
@@ -35,7 +35,7 @@ Som nämnts ovan handlar autentisering om att validera användarens identitet.
 En typisk webbapplikations implementering av autentisering involverar vanligtvis 
 en kombination av användarnamn och lösenord för att verifiera en användares identitet. 
 Den kan dock omfatta andra metoder och skilda implementeringar kan erfordras. 
-För att åstadkomma varierande autentiseringsmetoder introducerar Yii:s auth-ramverk 
+För att åstadkomma varierande autentiseringsmetoder introducerar Yee:s auth-ramverk 
 begreppet identitetsklass.
 
 Vi definierar en identitetsklass som innehåller den faktiska autentiseringslogiken. 
@@ -107,7 +107,7 @@ förmedlas till [CWebUser] vilken lagrar den i icke-flyktigt minne, så som sess
 Denna information kan sedan kommas åt i form av propertyn i [CWebUser]. 
 I vårt exempel lagrade vi information om användarens titel via anropet 
 `$this->setState('title', $record->title);`. När väl inloggningsprocesen är genomförd, 
-går det att erhålla `title`-information för aktuell användare via  `Yii::app()->user->title`.
+går det att erhålla `title`-information för aktuell användare via  `Yee::app()->user->title`.
 
 > Info: Som standard använder [CWebUser] sessionen för icke-flyktig lagring av 
 information om användaridentitet. Om cookie-baserad inloggning gjorts möjlig 
@@ -130,12 +130,12 @@ utloggningsåtgärder. Följande kod visar hur detta kan åstadkommas:
 // Login a user with the provided username and password.
 $identity=new UserIdentity($username,$password);
 if($identity->authenticate())
-	Yii::app()->user->login($identity);
+	Yee::app()->user->login($identity);
 else
 	echo $identity->errorMessage;
 ......
 // Logout the current user
-Yii::app()->user->logout();
+Yee::app()->user->logout();
 ~~~
 
 Här skapar vi ett nytt UserIdentity-objekt och lämnar med autentiseringsuppgifterna 
@@ -147,13 +147,13 @@ för senare återhämtning vid kommande request. Om autentiseringen misslyckas k
 erhålla mer information om anledningen från propertyn `errorMessage`.
 
 Huruvida en användare blivit autentiserad kan lätt kontrolleras från valfri plats i 
-applikationen med hjälp av `Yii::app()->user->isGuest`. Om icke-flyktigt minne 
+applikationen med hjälp av `Yee::app()->user->isGuest`. Om icke-flyktigt minne 
 (som standard session) och/eller en cookie (se nedan) används till att lagra 
 identitetsinformationen, kan användaren förbli inloggad inför efterkommande request. 
 I detta fall behöver inte klassen UserIdentity och hela inloggningsprocessen användas 
 vid varje request. I stället kommer CWebUser att automatiskt ombesörja laddning av 
 identitetsinformationen från icke-flyktigt minne och använda den för att avgöra 
-huruvida `Yii::app()->user->isGuest` returnerar true eller false.
+huruvida `Yee::app()->user->isGuest` returnerar true eller false.
 
 Cookie-baserad inloggning
 -------------------------
@@ -171,15 +171,15 @@ finess kräver att användarens webbläsare accepterar cookies.
 [php]
 // Låt användaren förbli inloggad i 7 dagar.
 // Kontrollera att allowAutoLogin är konfigurerad till true i komponenten user.
-Yii::app()->user->login($identity,3600*24*7);
+Yee::app()->user->login($identity,3600*24*7);
 ~~~
 
 Som tidigare nämnts kommer, om cookie-baserad inloggning är aktiverad, även de 
 tillstånd som lagrats via [CBaseUserIdentity::setState] att sparas i cookie.
 Nästa gång användaren loggas in, kommer dessa tillstånd att läsas från cookie 
-och göras tillgängliga via `Yii::app()->user`.
+och göras tillgängliga via `Yee::app()->user`.
 
-Även om Yii kan vidta åtgärder för att skydda en tillstånds-cookie från att bli ändrad 
+Även om Yee kan vidta åtgärder för att skydda en tillstånds-cookie från att bli ändrad 
 på klientsidan, rekommenderar vi bestämt att ur säkerhetssynpunkt känslig information 
 ej lagras som tillstånd (states). Istället bör sådan information återskapas på serversidan 
 genom att den läses från något icke-flyktigt lagringsmedium (t.ex. databas).
@@ -339,7 +339,7 @@ En åtkomstregel kan matcha följande kontextparametrar:
 
    - [expression|CAccessRule::expression]: specificerar ett PHP-uttryck vars värde 
    indikerar huruvida denna regel matchar. I uttrycket kan man använda variabeln 
-   `$user`, vilken refererar till `Yii::app()->user`.
+   `$user`, vilken refererar till `Yee::app()->user`.
 
 
 Hantera resultat av auktorisering
@@ -383,7 +383,7 @@ kan omstyrningen åstadkommas på följande sätt:
 
 ~~~
 [php]
-Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+Yee::app()->request->redirect(Yee::app()->user->returnUrl);
 ~~~
 
 
@@ -396,7 +396,7 @@ artikeln](http://en.wikipedia.org/wiki/Role-based_access_control) för fler
 detaljer kring RBAC i jämförelse med andra mer traditionella scheman för 
 åtkomstkontroll.
 
-Yii implementerar ett hierarkiskt RBAC-schema genom sin applikationskomponent 
+Yee implementerar ett hierarkiskt RBAC-schema genom sin applikationskomponent 
 [authManager|CWebApplication::authManager]. I det följande introduceras 
 huvudkoncepten i detta schema; därefter beskrivs hur man definierar 
 auktoriseringsdata; till sist visas hur auktoriseringsdata kommer till 
@@ -404,7 +404,7 @@ användning vid genomförande av åtkomstkontroll.
 
 ### Översikt
 
-Ett fundamentalt koncept i Yii:s RBAC är *auktoriseringsartikel* (authorization 
+Ett fundamentalt koncept i Yee:s RBAC är *auktoriseringsartikel* (authorization 
 item). En auktoriseeringsartikel är en rättighet att göra någonting (t.ex. skapa 
 nya bloggpostningar, hantera användare). Alltefter dess finkornighet samt 
 tilltänkta publik kan auktoriseringsartiklar klassificeras som *operationer*, 
@@ -413,7 +413,7 @@ operationer, en operation är en atomär rättighet. Till exempel kan vi ha ett
 system med rollen `administratör` vilken består av uppgifterna `hantera 
 postningar` och `hantera användare`. Uppgiften `hantera användare` kan i sin tur 
 bestå av operationerna `skapa användare`, `uppdatera användare` samt `tag bort 
-användare`. För större flexibilitet tillåter Yii också att en roll består av 
+användare`. För större flexibilitet tillåter Yee också att en roll består av 
 andra roller eller operationer, en uppgift av andra uppgifter, och en operation 
 av andra operationer.
 
@@ -450,7 +450,7 @@ hierarki och -tilldelning kan detta enkelt låta sig göras på följande sätt:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('deletePost'))
+if(Yee::app()->user->checkAccess('deletePost'))
 {
 	// delete the post
 }
@@ -461,7 +461,7 @@ Konfigurera auktoriseringshanteraren
 
 Innan vi sätter igång med att definiera en auktoriseringshierarki och genomföra 
 åtkomstkontroll, behöver vi konfigurera applikationskomponenten 
-[authManager|CWebApplication::authManager]. Yii tillhandahåller två typer av 
+[authManager|CWebApplication::authManager]. Yee tillhandahåller två typer av 
 auktoriseringshanterare: [CPhpAuthManager] och [CDbAuthManager]. Den förra 
 använder PHP-skriptfiler till att lagra auktoriseringsdata, medan den senare 
 lagrar auktoriseringsdata i en databas. När vi konfigurerar 
@@ -486,7 +486,7 @@ return array(
 ~~~
 
 Därefter kan [authManager|CWebApplication::authManager] kommas åt via 
-`Yii::app()->authManager`.
+`Yee::app()->authManager`.
 
 Definiera auktoriseringshierarki
 --------------------------------
@@ -523,14 +523,14 @@ de tillgängliga API:erna:
 
 ~~~
 [php]
-$auth=Yii::app()->authManager;
+$auth=Yee::app()->authManager;
 
 $auth->createOperation('createPost','create a post');
 $auth->createOperation('readPost','read a post');
 $auth->createOperation('updatePost','update a post');
 $auth->createOperation('deletePost','delete a post');
 
-$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$bizRule='return Yee::app()->user->id==$params["post"]->authID;';
 $task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
 $task->addChild('updatePost');
 
@@ -592,7 +592,7 @@ för att genomföra åtkomstkontrollen:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('createPost'))
+if(Yee::app()->user->checkAccess('createPost'))
 {
 	// create post
 }
@@ -606,7 +606,7 @@ postningsdata i argumentet `$params`:
 ~~~
 [php]
 $params=array('post'=>$post);
-if(Yii::app()->user->checkAccess('updateOwnPost',$params))
+if(Yee::app()->user->checkAccess('updateOwnPost',$params))
 {
 	// update post
 }
@@ -650,10 +650,10 @@ vilka i praktiken tillämpas på autentiserade användare respektive gästanvän
 
 ~~~
 [php]
-$bizRule='return !Yii::app()->user->isGuest;';
+$bizRule='return !Yee::app()->user->isGuest;';
 $auth->createRole('authenticated', 'authenticated user', $bizRule);
 
-$bizRule='return Yii::app()->user->isGuest;';
+$bizRule='return Yee::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 

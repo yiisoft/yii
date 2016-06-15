@@ -24,7 +24,7 @@ class CSqlDataProviderTest extends CTestCase
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/2449
+	 * https://github.com/yeesoft/yee/issues/2449
 	 */
 	public function testFetchKeysWithDbCommandSpecifiedAndPdoFetchObjEnabled()
 	{

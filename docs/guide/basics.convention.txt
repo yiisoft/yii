@@ -1,26 +1,26 @@
 Conventions
 ===========
 
-Yii favors conventions over configurations. Follow the conventions and one
-can create sophisticated Yii applications without writing and managing
-complex configurations. Of course, Yii can still be customized in nearly
+Yee favors conventions over configurations. Follow the conventions and one
+can create sophisticated Yee applications without writing and managing
+complex configurations. Of course, Yee can still be customized in nearly
 every aspect with configurations when needed.
 
-Below we describe conventions that are recommended for Yii programming.
-For convenience, we assume that `WebRoot` is the directory that a Yii
+Below we describe conventions that are recommended for Yee programming.
+For convenience, we assume that `WebRoot` is the directory that a Yee
 application is installed at.
 
 URL
 ---
 
-By default, Yii recognizes URLs with the following format:
+By default, Yee recognizes URLs with the following format:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
 The `r` GET variable refers to the
-[route](/doc/guide/basics.controller#route) that can be resolved by Yii
+[route](/doc/guide/basics.controller#route) that can be resolved by Yee
 into controller and action. If `ActionID` is omitted, the controller will
 take the default action (defined via [CController::defaultAction]); and if
 `ControllerID` is also omitted (or the `r` variable is absent), the
@@ -35,7 +35,7 @@ detail in [URL Management](/doc/guide/topics.url).
 Code
 ----
 
-Yii recommends naming variables, functions and class types in camel case which
+Yee recommends naming variables, functions and class types in camel case which
 capitalizes the first letter of each word in the name and joins them without spaces.
 Variable and function names should have their first word all in lower-case,
 in order to differentiate from class names (e.g. `$basePath`,
@@ -45,7 +45,7 @@ recommended to prefix their names with an underscore character (e.g.
 
 Because namespace is not supported prior to PHP 5.3.0, it is recommended
 that classes be named in some unique way to avoid name conflict with
-third-party classes. For this reason, all Yii framework classes are
+third-party classes. For this reason, all Yee framework classes are
 prefixed with letter "C".
 
 A special rule for controller class names is that they must be appended
@@ -93,12 +93,12 @@ representing the configuration.
 Directory
 ---------
 
-Yii assumes a default set of directories used for various purposes. Each
+Yee assumes a default set of directories used for various purposes. Each
 of them can be customized if needed.
 
    - `WebRoot/protected`: this is the [application base
 directory](/doc/guide/basics.application#application-base-directory) holding all
-security-sensitive PHP scripts and data files. Yii has a default alias
+security-sensitive PHP scripts and data files. Yee has a default alias
 named `application` associated with this path. This directory and
 everything under should be protected from being accessed by Web users. It
 can be customized via [CWebApplication::basePath].
@@ -109,7 +109,7 @@ writable by Web server process. It can be customized via
 [CApplication::runtimePath].
 
    - `WebRoot/protected/extensions`: this directory holds all third-party
-extensions. It can be customized via [CApplication::extensionPath]. Yii has
+extensions. It can be customized via [CApplication::extensionPath]. Yee has
 a default alias named `ext` associated with this path.
 
    - `WebRoot/protected/modules`: this directory holds all application
@@ -148,7 +148,7 @@ Database
 
 Most Web applications are backed by some database. For best practice, we propose
 the following naming conventions for database tables and columns. Note that they
-are not required by Yii.
+are not required by Yee.
 
    - Both database tables and columns are named in lower case.
 

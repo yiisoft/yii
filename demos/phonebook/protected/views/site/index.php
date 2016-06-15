@@ -9,7 +9,7 @@
 <body>
 <h1>Phone Book Demo</h1>
 <p>
-This demo shows how to use Yii to implement a Web service used by an Adobe Flex 3.0 client.
+This demo shows how to use Yee to implement a Web service used by an Adobe Flex 3.0 client.
 </p>
 
 <p>
@@ -24,7 +24,7 @@ installed Adobe Flash Player version 9 or above.
 <div>
 <?php if(extension_loaded('soap')): ?>
 <?php $this->widget('CFlexWidget',array(
-	'baseUrl'=>Yii::app()->baseUrl.'/flex/bin',
+	'baseUrl'=>Yee::app()->baseUrl.'/flex/bin',
 	'name'=>'phonebook',
 	'width'=>'800',
 	'height'=>'300',

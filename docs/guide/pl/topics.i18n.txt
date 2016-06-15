@@ -6,7 +6,7 @@ tak aby mogło ono być dostosowane do różnych języków oraz regionów bez po
 zmian w mechanice aplikacji. Dla aplikacji sieciowych ma to szczególne znaczenie
 ponieważ użytkownicy mogą pochodzić z całego świata.
 
-Yii dostarcza wsparcia dla I18N w kilku aspektach.  
+Yee dostarcza wsparcia dla I18N w kilku aspektach.  
 
    - Dostarcza lokalne dane dla każdego możliwego języka i wariantu preferencji.
    - Zawiera usługę tłumaczenia wiadomość oraz plików.
@@ -22,7 +22,7 @@ Ustawienia lokalne są zestawem parametrów, które określają język użytkown
 jego kraj oraz specjalny wariant preferencji, które użytkownik chce zobaczyć 
 w interfejsie użytkownika. Najczęściej identyfikacja odbywa się poprzez ID zawierające 
 ID języka oraz ID regionu. Na przykład, ID `en_US` oznacza angielskie ustawienia lokalne  
-dla USA. Aby zachować spójność wszystkie ID ustawień lokalnych w Yii zostały 
+dla USA. Aby zachować spójność wszystkie ID ustawień lokalnych w Yee zostały 
 sprowadzone do postaci kanonicznych w formacie  `LanguageID` lub `LanguageID_RegionID`
 zapisanych małymi literami (np. `en`, `en_us`).
 
@@ -35,7 +35,7 @@ powodu często zamiennie używamy terminów ustawienia lokalne i język.
 Mając ID ustawień lokalnych można otrzymać odpowiadającą mu instancję [CLocale] poprzez
 `CLocale::getInstance($localeID)` lub `CApplication::getLocale($localeID)`.
 
-> Info|Info: Yii dostarcza dane lokalne dla prawie każdego języka oraz regionu. 
+> Info|Info: Yee dostarcza dane lokalne dla prawie każdego języka oraz regionu. 
 Dane uzyskano ze [wspólnego repozytorium danych lokalnych ](http://unicode.org/cldr/) (CLDR). 
 Dla każdego ustawienia lokalnego dostarczany jest wyłącznie zbiór danych pochodzących z CLDR,
 gdyż w dane oryginalne zawierają wiele rzadko używanych informacji.
@@ -45,7 +45,7 @@ by wskazywała na katalog, który zawiera niestandardowe dane lokalne. Aby stwor
 pliki z niestandardowymi danymi lokalnymi, wzoruj się na zawartości plików lokalnych 
 znajdujących się w katalogu `framework/i18n/data`.
 
-W aplikacji Yii rozróżniamy język [docelowy|CApplication::language] od [źródłowego|CApplication::sourceLanguage]. 
+W aplikacji Yee rozróżniamy język [docelowy|CApplication::language] od [źródłowego|CApplication::sourceLanguage]. 
 Język docelowy jest językiem (ustawieniem lokalnym) użytkownika do którego skierowana jest aplikacja, 
 zaś język źródłowy odnosi się do języka (ustawień lokalnych) w którym pliki źródłowe aplikacji zostały
 napisane. Umiędzynaradawianie występuje tylko wtedy, gdy te dwa języki są różne.
@@ -66,28 +66,28 @@ język, drugie zaś na tłumaczeniu całego plik na dany język.
 
 Żądanie tłumaczenia zawiera obiekt, który ma zostać przetłumaczony, język źródłowy 
 obiektu oraz język docelowy na który obiekt powinien zostać przetłumaczony. 
-W Yii domyślnym językiem źródłowym jest [język źródłowy aplikacji|CApplication::sourceLanguage] 
+W Yee domyślnym językiem źródłowym jest [język źródłowy aplikacji|CApplication::sourceLanguage] 
 zaś domyślnym językiem docelowym jest [język aplikacji|CApplication::language]. Jeśli język źródłowy oraz docelowy są 
 takie same, tłumaczenie nie zachodzi.
 
 ### Tłumaczenie komunikatów
 
-Tłumaczenie komunikatów odbywa się poprzez wywołanie metody [Yii::t()|YiiBase::t]. 
+Tłumaczenie komunikatów odbywa się poprzez wywołanie metody [Yee::t()|YeeBase::t]. 
 Metoda ta tłumaczy podany komunikat z [języka źródłowego|CApplication::sourceLanguage] na 
 [język docelowy|CApplication::language].
 
 Podczas tłumaczenia komunikatu powinna zostać określona jego kategoria, ponieważ
 komunikat może zostać różnie przetłumaczony w zależności od różnych kategorii (kontekstów). 
-Kategoria `yii` jest zarezerwowana dla komunikatów używanych przez kod źródłowy frameworku.
+Kategoria `yee` jest zarezerwowana dla komunikatów używanych przez kod źródłowy frameworku.
 
 Komunikaty mogą posiadać symbol zastępczy (placeholder), który będzie zastąpiony przez
-aktulną wartość parametru podczas wywoływania metody [Yii::t()|YiiBase::t]. Na przykład
+aktulną wartość parametru podczas wywoływania metody [Yee::t()|YeeBase::t]. Na przykład
 następujące żądanie tłumaczenia komunikatu zastąpi symbol zastępczy `{alias}` 
 w oryginalnym komunikacie aktualną wartością zmiennej alias.
 
 ~~~
 [php]
-Yii::t('app', 'Path alias "{alias}" is redefined.',
+Yee::t('app', 'Path alias "{alias}" is redefined.',
 	array('{alias}'=>$alias))
 ~~~
 
@@ -98,10 +98,10 @@ musi się zmieniać w zależności od parametrów.
 
 Przetłumaczone komunikaty znajdują się w repozytorium nazywanym *źródłem komunikatów*.
 Źródło komunikatów reprezentowane jest poprzez instancję klasy [CMessageSource] lub 
-jej klas pochodnych. Podczas wywołania metody [Yii::t()|YiiBase::t], szuka ona komunikatu 
+jej klas pochodnych. Podczas wywołania metody [Yee::t()|YeeBase::t], szuka ona komunikatu 
 w źródle komunikatów i zwraca jego przetłumaczoną wersję jeśli taką znajdzie.
 
-Yii dostarcza następujących typów źródeł komunikatów. Możesz również rozszerzyć 
+Yee dostarcza następujących typów źródeł komunikatów. Możesz również rozszerzyć 
 klasę [CMessageSource] aby utworzyć swoje własne źródło komunikatów.
 
    - [CPhpMessageSource]: tłumaczenia komunikatów przechowywane są jako pary 
@@ -119,7 +119,7 @@ Gettext](http://www.gnu.org/software/gettext/).
    Aby uzyskać więcej szczegółów spójrz w dokumentację API dla [CDbMessageSource].
 
 Źródło komunikatów jest ładowane jako [komponent aplikacji](/doc/guide/basics.application#application-component).
-Yii predefiniuje komponent o nazwie [messages|CApplication::messages] w celu przechowywania
+Yee predefiniuje komponent o nazwie [messages|CApplication::messages] w celu przechowywania
 komunikatów, które będą używane w aplikacji. Domyślnym typem źródła komunikatów jest 
 [CPhpMessageSource] zaś ścieżka bazowa gdzie przechowywane są pliki z tłumaczeniami
 to `protected/messages`.
@@ -127,7 +127,7 @@ to `protected/messages`.
 
 Podsumowując, w celu korzystania z tłumaczenia komunikatów, wymagane są nastepujące kroki:
 
-   1. Wywołanie w opdowiednim miejscu [Yii::t()|YiiBase::t];
+   1. Wywołanie w opdowiednim miejscu [Yee::t()|YeeBase::t];
 
    2. Utworzenie pliku tłumaczenia PHP wg wzorca `protected/messages/IDUstawieńLokalnych/NazwaKategorii.php`.
    Każdy z plików powinien zwracać po prostu tablicę tłumaczeń komunikatów. Zauważ, że 
@@ -136,11 +136,11 @@ Podsumowując, w celu korzystania z tłumaczenia komunikatów, wymagane są nast
 
    3. Skonfiguruj właściwości [CApplication::sourceLanguage] oraz [CApplication::language].
 
-> Tip|Wskazówka: Narzędzie `yiic` może zostać użyte do zarządzania tłumaczeniami komunikatów
+> Tip|Wskazówka: Narzędzie `yeec` może zostać użyte do zarządzania tłumaczeniami komunikatów
 jeśli używamy [CPhpMessageSource] jako źródła komunikatów. Jego polecenie `message` 
 może automatycznie wydobyć komunikaty, które powinny zostać przetłumaczone z wybranego pliku źródłowego
 oraz jeśli jest to konieczne dołączyć je do istniejących tłumaczeń. Aby uzyskać więcej szczegółów 
-dotyczących komendy `message`, uruchom polecenie `yiic help message`.
+dotyczących komendy `message`, uruchom polecenie `yeec help message`.
 
 Używając klasy [CPhpMessageSource] do zarządzania źródłem 
 komunikatów, możemy również, w specjalny sposób, zarządzać i używać komunikaty dla klas rozszerzeń 
@@ -148,15 +148,15 @@ komunikatów, możemy również, w specjalny sposób, zarządzać i używać kom
 to `Xyz`, wtedy kategoria komunikatu może zostać zapisana w formacie `Xyz.categoryName`. 
 Przyjmuje się, że odpowiadający komunikatowi plik to `BasePath/messages/IDjęzyja/categoryName.php`, 
 gdzie `BasePath` wskazuje na katalog, który zawiera plik klasy rozszerzenia. 
-Podczas używania metody `Yii::t()` do tłumaczenia komunikatów z rozrszerzeń, powinniśmy 
+Podczas używania metody `Yee::t()` do tłumaczenia komunikatów z rozrszerzeń, powinniśmy 
 używać następującego formatu:
 
 ~~~
 [php]
-Yii::t('Xyz.categoryName', 'wiadomość do przetłumaczenia')
+Yee::t('Xyz.categoryName', 'wiadomość do przetłumaczenia')
 ~~~
 
-Yii posiada wsparcie dla [formatów alternatywnych|CChoiceFormat]. 
+Yee posiada wsparcie dla [formatów alternatywnych|CChoiceFormat]. 
 Alternatywny format odnosi się do wybierania tłumaczenia w zależności od podanej wartości numerycznej.
 Na przykład w języku angielskim słowo 'book' oznaczające książkę może przyjmować formę liczby pojedynczej 
 lub też formę liczby mnogiej, w zależności od ilości książek, gdy zaś w innych językach, 
@@ -184,13 +184,13 @@ zakładając, ze tłumaczona wiadomość to:
 ~~~
 
 i że przekazujemy wartość liczbową 2 w tablicy parametrów komunikatu podczas wywoływania
-metody [Yii::t()|YiiBase::t], otrzymamy `many books` jako końcowy wynik tłumaczenia komunikatu:
+metody [Yee::t()|YeeBase::t], otrzymamy `many books` jako końcowy wynik tłumaczenia komunikatu:
 
 ~~~
 [php]
-Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+Yee::t('app', 'n==1#one book|n>1#many books', array(1)));
 //lub od wersji 1.1.6
-Yii::t('app', 'n==1#one book|n>1#many books', 1));
+Yee::t('app', 'n==1#one book|n>1#many books', 1));
 ~~~
 
 
@@ -213,9 +213,9 @@ Reguła dla języka angielskiego dla powyższej liczby mnogiej jest zapisana w n
 
 ~~~
 [php]
-Yii::t('test', 'cucumber|cucumbers', 1);
-Yii::t('test', 'cucumber|cucumbers', 2);
-Yii::t('test', 'cucumber|cucumbers', 0);
+Yee::t('test', 'cucumber|cucumbers', 1);
+Yee::t('test', 'cucumber|cucumbers', 2);
+Yee::t('test', 'cucumber|cucumbers', 0);
 ~~~
 
 Powyższy kod zwróci:
@@ -230,7 +230,7 @@ Jeśli chcesz wstawić numer, możesz użyć następującego kodu:
 
 ~~~
 [php]
-echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+echo Yee::t('test', '{n} cucumber|{n} cucumbers', 1);
 ~~~
 
 Gdzie `{n}` jest specjalnym symbolem zastępczym przechowującym numer. Powyższy kod wydrukuje text `1 cucumber`.
@@ -239,7 +239,7 @@ Możesz również dodawać dodatkowe parametry:
 
 ~~~
 [php]
-Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+Yee::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
 array(5, '{username}' => 'samdark'));
 ~~~
 
@@ -253,17 +253,17 @@ function convertNumber($number)
 	return $number;
 }
 
-Yii::t('test', '{n} cucumber|{n} cucumbers',
+Yee::t('test', '{n} cucumber|{n} cucumbers',
 array(5, '{n}' => convertNumber(5)));
 ~~~
 
 Dla porównania w języku rosyjskim będzie to:
 ~~~
 [php]
-Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 z przetłumaczonym komunikatem
@@ -311,7 +311,7 @@ Formatowanie daty i czasu
 
 Data i czas posiadają często różne formaty w poszczególnych państwach czy też regionach.
 Dlatego też zadanie formatowania daty i czasu polega na generowaniu ciągu reprezentującego
-datę lub czas, który zgadza się z tym określonym w ustawienia lokalnych. Yii dostarcza
+datę lub czas, który zgadza się z tym określonym w ustawienia lokalnych. Yee dostarcza
 w tym celu klasę [CDateFormatter].
 
 Każda instancja [CDateFormatter] jest powiązana z docelowymi ustawieniami lokalnymi. 
@@ -332,7 +332,7 @@ Formatowanie liczb
 
 Tak jak data i czas, liczby również mogą być formatowanie różnie w zależności od kraju 
 czy też regionu. Formatowanie liczb obejmuje formatowanie dziesiętne, formatowanie walut 
-oraz formatowanie procentów. Dla tych zadań Yii dostarcza klasy [CNumberFormatter].
+oraz formatowanie procentów. Dla tych zadań Yee dostarcza klasy [CNumberFormatter].
 
 Aby uzyskać klasę formatowania powiązaną z docelowymi ustawieniami lokalnymi aplikacji, 
 możemy skorzystać z właściwości [numberFormatter|CApplication::numberFormatter] danej aplikacji.

@@ -1,7 +1,7 @@
 Model-View-Controller (MVC)
 ===========================
 
-Yii implementiert das Model-View-Controller-Architekturmuster (MVC),
+Yee implementiert das Model-View-Controller-Architekturmuster (MVC),
 das im Bereich der Web-Programmierung breite Anwendung findet. MVC zielt auf
 eine Trennung von Geschäftslogik und Benutzerschnittstelle ab, so dass
 der Entwickler jeden dieser Bereiche bequem verändern kann, ohne den anderen
@@ -11,23 +11,23 @@ Geschäftslogik durch das Model (Modell) repräsentiert. Der (auch "die") View
 Formularelemente. Und der Controller (Steuerung) verwaltet die Kommunikation
 zwischen Model und View.
 
-Neben der MVC-Implementierung führt Yii außerdem einen Front-Controller namens
+Neben der MVC-Implementierung führt Yee außerdem einen Front-Controller namens
 `Applikation` ein. Sie stellt die gekapselte Laufzeitumgebung für die Bearbeitung eines
 Requests (Anfrage) dar. Die Applikation sammelt einige Informationen über den
 Benutzer-Request und leitet ihn dann zur Bearbeitung an den passenden Controller weiter.
 
-Das folgende Diagramm zeigt die statische Struktur einer Yii-Applikation:
+Das folgende Diagramm zeigt die statische Struktur einer Yee-Applikation:
 
-![Statische Struktur einer Yii-Applikation](structure.png)
+![Statische Struktur einer Yee-Applikation](structure.png)
 
 
 Ein typischer Ablauf
 --------------------
 
-Hier sehen wir den typischen Ablauf einer Yii-Anwendung beim
+Hier sehen wir den typischen Ablauf einer Yee-Anwendung beim
 Bearbeiten eines einzelnen Requests:
 
-![Typischer Ablauf einer Yii-Applikation](flow.png)
+![Typischer Ablauf einer Yee-Applikation](flow.png)
 
    1. Ein Benutzer schickt einen Request mit der URL
 `http://www.example.com/index.php?r=post/show&id=1`

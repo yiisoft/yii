@@ -616,7 +616,7 @@ class CDbCriteriaTest extends CTestCase {
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/2426
+	 * https://github.com/yeesoft/yee/issues/2426
 	 */
 	public function testWakeupWhenSqlContainingFieldsAreArraysWithSpecifiedParams()
 	{

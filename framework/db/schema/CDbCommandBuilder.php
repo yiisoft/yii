@@ -3,9 +3,9 @@
  * CDbCommandBuilder class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -278,7 +278,7 @@ class CDbCommandBuilder extends CComponent
 	protected function composeMultipleInsertCommand($table,array $data,array $templates=array())
 	{
 		if (empty($data))
-			throw new CDbException(Yii::t('yii','Can not generate multiple insert command with empty data set.'));
+			throw new CDbException(Yee::t('yee','Can not generate multiple insert command with empty data set.'));
 		$templates=array_merge(
 			array(
 				'main'=>'INSERT INTO {{tableName}} ({{columnInsertNames}}) VALUES {{rowInsertValues}}',
@@ -392,7 +392,7 @@ class CDbCommandBuilder extends CComponent
 			}
 		}
 		if($fields===array())
-			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
+			throw new CDbException(Yee::t('yee','No columns are being updated for table "{table}".',
 				array('{table}'=>$table->name)));
 		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
 		$sql=$this->applyJoin($sql,$criteria->join);
@@ -441,7 +441,7 @@ class CDbCommandBuilder extends CComponent
 			return $command;
 		}
 		else
-			throw new CDbException(Yii::t('yii','No counter columns are being updated for table "{table}".',
+			throw new CDbException(Yee::t('yee','No counter columns are being updated for table "{table}".',
 				array('{table}'=>$table->name)));
 	}
 
@@ -694,7 +694,7 @@ class CDbCommandBuilder extends CComponent
 					$conditions[]=$prefix.$column->rawName.' IS NULL';
 			}
 			else
-				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
+				throw new CDbException(Yee::t('yee','Table "{table}" does not have a column named "{column}".',
 					array('{table}'=>$table->name,'{column}'=>$name)));
 		}
 		$criteria->params=array_merge($values,$criteria->params);
@@ -734,7 +734,7 @@ class CDbCommandBuilder extends CComponent
 		foreach($columns as $name)
 		{
 			if(($column=$table->getColumn($name))===null)
-				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
+				throw new CDbException(Yee::t('yee','Table "{table}" does not have a column named "{column}".',
 					array('{table}'=>$table->name,'{column}'=>$name)));
 			$condition=array();
 			foreach($keywords as $keyword)
@@ -778,7 +778,7 @@ class CDbCommandBuilder extends CComponent
 		if(is_string($columnName)) // simple key
 		{
 			if(!isset($table->columns[$columnName]))
-				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
+				throw new CDbException(Yee::t('yee','Table "{table}" does not have a column named "{column}".',
 				array('{table}'=>$table->name, '{column}'=>$columnName)));
 			$column=$table->columns[$columnName];
 
@@ -799,7 +799,7 @@ class CDbCommandBuilder extends CComponent
 			foreach($columnName as $name)
 			{
 				if(!isset($table->columns[$name]))
-					throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
+					throw new CDbException(Yee::t('yee','Table "{table}" does not have a column named "{column}".',
 					array('{table}'=>$table->name, '{column}'=>$name)));
 
 				for($i=0;$i<$n;++$i)
@@ -813,7 +813,7 @@ class CDbCommandBuilder extends CComponent
 							$values[$i][$name]=$value;
 					}
 					else
-						throw new CDbException(Yii::t('yii','The value for the column "{column}" is not supplied when querying the table "{table}".',
+						throw new CDbException(Yee::t('yee','The value for the column "{column}" is not supplied when querying the table "{table}".',
 							array('{table}'=>$table->name,'{column}'=>$name)));
 				}
 			}
@@ -828,7 +828,7 @@ class CDbCommandBuilder extends CComponent
 			return $this->createCompositeInCondition($table,$values,$prefix);
 		}
 		else
-			throw new CDbException(Yii::t('yii','Column name must be either a string or an array.'));
+			throw new CDbException(Yee::t('yee','Column name must be either a string or an array.'));
 	}
 
 	/**
@@ -859,7 +859,7 @@ class CDbCommandBuilder extends CComponent
 	protected function ensureTable(&$table)
 	{
 		if(is_string($table) && ($table=$this->_schema->getTable($tableName=$table))===null)
-			throw new CDbException(Yii::t('yii','Table "{table}" does not exist.',
+			throw new CDbException(Yee::t('yee','Table "{table}" does not exist.',
 				array('{table}'=>$tableName)));
 	}
 

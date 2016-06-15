@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.collections.CQueue');
+Yee::import('system.collections.CQueue');
 
 class CQueueTest extends CTestCase
 {

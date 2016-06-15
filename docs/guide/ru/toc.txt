@@ -2,7 +2,7 @@
 	- [Обзор](index)
 	- [Новые возможности](changes)
 	- [Обновление с версии 1.0 до версии 1.1](upgrade)
-	- [Что такое Yii](quickstart.what-is-yii)
+	- [Что такое Yee](quickstart.what-is-yee)
 	- [Установка](quickstart.installation)
 	- [Конфигурации Apache и Nginx](quickstart.apache-nginx-config)
 	- [Создание первого приложения](quickstart.first-app)
@@ -44,7 +44,7 @@
 	- [Кэширование страниц](caching.page)
 	- [Кэширование динамического содержимого](caching.dynamic)
 
-* Расширение Yii
+* Расширение Yee
 	- [Обзор](extension.overview)
 	- [Использование расширений](extension.use)
 	- [Создание расширений](extension.create)
@@ -69,4 +69,4 @@
 	- [Консольные приложения](topics.console)
 	- [Безопасность](topics.security)
 	- [Улучшение производительности](topics.performance)
-	- [Генерация кода при помощи консоли (устаревшее)](quickstart.first-app-yiic)
+	- [Генерация кода при помощи консоли (устаревшее)](quickstart.first-app-yeec)

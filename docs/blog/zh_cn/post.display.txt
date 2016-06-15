@@ -29,7 +29,7 @@ public function loadModel()
 	{
 		if(isset($_GET['id']))
 		{
-			if(Yii::app()->user->isGuest)
+			if(Yee::app()->user->isGuest)
 				$condition='status='.Post::STATUS_PUBLISHED
 					.' OR status='.Post::STATUS_ARCHIVED;
 			else
@@ -45,7 +45,7 @@ public function loadModel()
 
 我们的修改主要是在 `loadModel()` 方法上进行的。在这个方法中，我们通过   `id` GET参数查询了 `Post` 表。如果日志未找到或者没有发布，也未存档(当用户为游客（guest）时)，我们将抛出一个 404 HTTP 错误。否则，日志对象将返回给 `actionView()` ，`actionView()` 又会把日志对象传递给视图脚本用于显示。
 
-> Tip|提示: Yii 会捕获 HTTP 异常 ([CHttpException] 的实例) 并通过预置的模板或自定义的错误视图显示出来。由 `yiic` 生成的程序骨架已经包含了一个自定义的错误视图 `/wwwroot/blog/protected/views/site/error.php`。如果想进一步自定义此错误显示，我们可以自己修改此文件。
+> Tip|提示: Yee 会捕获 HTTP 异常 ([CHttpException] 的实例) 并通过预置的模板或自定义的错误视图显示出来。由 `yeec` 生成的程序骨架已经包含了一个自定义的错误视图 `/wwwroot/blog/protected/views/site/error.php`。如果想进一步自定义此错误显示，我们可以自己修改此文件。
 
 `view` 脚本中的修改主要是关于调整日志显示格式和样式的。此处我们不再细讲，读者可以参考 `/wwwroot/blog/protected/views/post/view.php`.
 

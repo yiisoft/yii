@@ -3,9 +3,9 @@
  * CFlexWidget class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -81,11 +81,11 @@ class CFlexWidget extends CWidget
 	public function run()
 	{
 		if(empty($this->name))
-			throw new CException(Yii::t('yii','CFlexWidget.name cannot be empty.'));
+			throw new CException(Yee::t('yee','CFlexWidget.name cannot be empty.'));
 		if(empty($this->baseUrl))
-			throw new CException(Yii::t('yii','CFlexWidget.baseUrl cannot be empty.'));
+			throw new CException(Yee::t('yee','CFlexWidget.baseUrl cannot be empty.'));
 		if($this->altHtmlContent===null)
-			$this->altHtmlContent=Yii::t('yii','This content requires the <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a>.');
+			$this->altHtmlContent=Yee::t('yee','This content requires the <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a>.');
 
 		$this->registerClientScript();
 
@@ -97,7 +97,7 @@ class CFlexWidget extends CWidget
 	 */
 	public function registerClientScript()
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerScriptFile($this->baseUrl.'/AC_OETags.js');
 
 		if($this->enableHistory)

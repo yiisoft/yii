@@ -3,9 +3,9 @@
  * CAutoComplete class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -13,7 +13,7 @@
  *
  * CAutoComplete is based on the {@link http://plugins.jquery.com/project/autocompletex jQuery Autocomplete}.
  *
- * This class is deprecated since Yii 1.1.3. Consider using CJuiAutoComplete.
+ * This class is deprecated since Yee 1.1.3. Consider using CJuiAutoComplete.
  * There is {@link http://www.learningjquery.com/2010/06/autocomplete-migration-guide a good migration guide from the author of both JavaScript solutions}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -232,7 +232,7 @@ class CAutoComplete extends CInputWidget
 		$acOptions=$this->getClientOptions();
 		$options=$acOptions===array()?'{}' : CJavaScript::encode($acOptions);
 
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerCoreScript('autocomplete');
 		if($this->data!==null)
 			$data=CJavaScript::encode($this->data);
@@ -241,7 +241,7 @@ class CAutoComplete extends CInputWidget
 			$url=CHtml::normalizeUrl($this->url);
 			$data='"'.$url.'"';
 		}
-		$cs->registerScript('Yii.CAutoComplete#'.$id,"jQuery(\"#{$id}\").legacyautocomplete($data,{$options}){$this->methodChain};");
+		$cs->registerScript('Yee.CAutoComplete#'.$id,"jQuery(\"#{$id}\").legacyautocomplete($data,{$options}){$this->methodChain};");
 
 		if($this->cssFile!==false)
 			self::registerCssFile($this->cssFile);
@@ -253,7 +253,7 @@ class CAutoComplete extends CInputWidget
 	 */
 	public static function registerCssFile($url=null)
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		if($url===null)
 			$url=$cs->getCoreScriptUrl().'/autocomplete/jquery.autocomplete.css';
 		$cs->registerCssFile($url);

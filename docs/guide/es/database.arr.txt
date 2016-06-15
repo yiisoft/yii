@@ -208,7 +208,7 @@ cada perfil de autor y sus posts.
 > Note|Nota: El uso del método [with()|CActiveRecord::with] ha sido cambiado desde la
 > versión 1.0.2. Por favor lee la correspondiente documentación de la API cuidadosamente.
 
-LA implementación de AR en Yii es muy eficiente. Cuando se usa *eager loading* en una
+LA implementación de AR en Yee es muy eficiente. Cuando se usa *eager loading* en una
 jerarquía de objetos relacionados que involucran `N` relaciones `HAS_MANY` o `MANY_MANY`,
 tomará `N+1` consultas SQL para obtener el resultado necesario. Esto significa que en el
 ejemplo anterior necesita tres consultas SQL debido a las propiedades `posts` y `categories`.

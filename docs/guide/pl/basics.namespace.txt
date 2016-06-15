@@ -1,7 +1,7 @@
 Aliasy i przestrzenie nazw
 ========================
 
-Yii używa w dużym stopniu aliasów ścieżek. Alias ścieżki reprezentuje katalog 
+Yee używa w dużym stopniu aliasów ścieżek. Alias ścieżki reprezentuje katalog 
 lub też ścieżkę pliku. Zapisany jest przy użyciu składni zawierającej kropki, podobnej
 do powszechnie znanego formatu przestrzeni nazw:
 
@@ -11,17 +11,17 @@ AliasNadrzędny.ścieżka.do.celu
 
 gdzie `AliasNadrzędny` jest aliasem do pewnego istniejącego katalogu. 
 
-Używając [YiiBase::setPathOfAlias()], możemy przetłumaczyć alias na odpowiadającą mu ścieżkę.
-Na przykład, `system.web.CController` zostanie przetłumaczony na ścieżkę `yii/framework/web/CController`.
+Używając [YeeBase::setPathOfAlias()], możemy przetłumaczyć alias na odpowiadającą mu ścieżkę.
+Na przykład, `system.web.CController` zostanie przetłumaczony na ścieżkę `yee/framework/web/CController`.
 
-Za pomocą [YiiBase::setPathOfAlias()] możemy również zdefiniować nowy alias do ścieżki katalogu głównego. 
+Za pomocą [YeeBase::setPathOfAlias()] możemy również zdefiniować nowy alias do ścieżki katalogu głównego. 
 
 Aliasy nadrzędne
 ----------
 
-Dla wygody, Yii predefiniuje następujące aliasy nadrzędne: 
+Dla wygody, Yee predefiniuje następujące aliasy nadrzędne: 
 
- - `system`: wskazuje katalog frameworku Yii; 
+ - `system`: wskazuje katalog frameworku Yee; 
  - `zii`: wskazuje na katalog z [biblioteką Zii](/doc/guide/extension.use#zii-extensions); 
  - `application`: wskazuje do [katalogu głównego aplikacji](/doc/guide/basics.application#application-base-directory);
  - `webroot`: wskazuje na katalog zawierający plik [skryptu wejściowego](/doc/guide/basics.entry). 
@@ -41,32 +41,32 @@ Na przykład, jeśli chcemy dołączyć definicję klasy [CController], możemy 
 
 ~~~
 [php]
-Yii::import('system.web.CController');
+Yee::import('system.web.CController');
 ~~~
 
-Metoda [import|YiiBase::import] różni się od `include` oraz `require` tym, że jest 
+Metoda [import|YeeBase::import] różni się od `include` oraz `require` tym, że jest 
 bardziej wydajna. Definicja klasy, która została importowana, nie jest ładowana 
 dopóki nie zostanie użyta po raz pierwszy (zaimplementowano przy użyciu mechanizmu 
 autoładowania PHP). Importowanie wielokrotnie tej samej 
 przestrzeni nazw jest także dużo szybsze niż `include_once` czy też `require_once`.
 
-> Tip|Wskazówka: Kiedy odnosimy się do klasy zdefiniowanej we frameworku Yii, nie musimy
-> jej importować lub dołączać. Wszystkie klasy Yii są preimportowane.
+> Tip|Wskazówka: Kiedy odnosimy się do klasy zdefiniowanej we frameworku Yee, nie musimy
+> jej importować lub dołączać. Wszystkie klasy Yee są preimportowane.
 
 ###Używanie map klas
 
-Poczynając od wersji 1.1.5, Yii umożliwia preimportowanie klas poprzez mechanizm
-mapowania klas, który jest również używany przez klasy bazowe Yii. Preimportowane
-klasy mogą być używane w dowolnym miejsu w aplikacji Yii bez potrzeby jawnego
+Poczynając od wersji 1.1.5, Yee umożliwia preimportowanie klas poprzez mechanizm
+mapowania klas, który jest również używany przez klasy bazowe Yee. Preimportowane
+klasy mogą być używane w dowolnym miejsu w aplikacji Yee bez potrzeby jawnego
 importu czy też dołączania. Funkcjonalność ta jest najczęściej używana przez frameworki
-lub też biblioteki, które zostały zbudowane w oparciu o Yii.
+lub też biblioteki, które zostały zbudowane w oparciu o Yee.
 
 Aby preimportować zestaw klasy, następujący kod musi zostać wykonany, zanim 
 metoda [CWebApplication::run()] zostanie wywołana:
 
 ~~~
 [php]
-Yii::$classMap=array(
+Yee::$classMap=array(
 	'NazwaKlasy1' => 'ścieżka/do/Klasy1.php',
 	'NazwaKlasy2' => 'ścieżka/do/Klasy2.php',
 	......
@@ -82,11 +82,11 @@ wszystkie pliki klas w katalogu będą automatycznie dołączone gdy zajdzie tak
 
 ~~~
 [php]
-Yii::import('system.web.*');
+Yee::import('system.web.*');
 ~~~
 
-Poza metodą [import|YiiBase::import] aliasy są używane w wielu innych miejscach odnoszących się do klasy.
-Na przykład, alias może zostać przekazany do metody [Yii::createComponent()] w celu
+Poza metodą [import|YeeBase::import] aliasy są używane w wielu innych miejscach odnoszących się do klasy.
+Na przykład, alias może zostać przekazany do metody [Yee::createComponent()] w celu
 utworzenia instancji klasy komponentu, nawet jeśli plik klasy nie był dołączony wcześniej.
 
 Przestrzeń nazw (ang. namespace)
@@ -102,7 +102,7 @@ nazw, nie możesz stworzyć instancji dwóch klas, które posiadają tą samą n
 ale różnią się definicjami. Z tego powodu, Wszystkie klasy frameworku poprzedzone 
 są prefiksem zawierającym literę 'C' (od ang. 'class' - klasa), tak, by móc je rozróżnić 
 od klas zdefiniowanych przez użytkownika. Zaleca się, aby prefix 'C' był zarezerwowany
-wyłącznie dla frameworku Yii a klasy użytkownika były poprzedzone prefiksem składającym 
+wyłącznie dla frameworku Yee a klasy użytkownika były poprzedzone prefiksem składającym 
 się z innej litery.
 
 Klasy w przestrzeni nazw
@@ -115,7 +115,7 @@ Na przykład, klasa `application\components\GoogleMap` zadeklarowana jest w prze
 Poczynając od wersji 1.1.5, istnieje możliwość używania klas w przestrzeni nazw bez konieczności 
 ich dołączania w sposób jawny. Na przykład, możemy utworzyć nową instancję 
 `application\components\GoogleMap` bez dołączania odpowiadającego jej pliku w sposób jawny.
-Jest to możliwe, dzięki rozszerzeniu zaimplementowanego w Yii mechanizmu autoładowania klas.
+Jest to możliwe, dzięki rozszerzeniu zaimplementowanego w Yee mechanizmu autoładowania klas.
 
 W celu umożliwienia autoładowania klas w przestrzeni nazw, przestrzeń nazw musi być nazwana
 w podobny sposób do nazw aliasów ścieżek. Na przykład, klasa `application\components\GoogleMap`

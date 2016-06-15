@@ -1,7 +1,7 @@
-<h1>Welcome to Yii Code Generator!</h1>
+<h1>Welcome to Yee Code Generator!</h1>
 
 <p>
-	You may use the following generators to quickly build up your Yii application:
+	You may use the following generators to quickly build up your Yee application:
 </p>
 <ul>
 	<?php foreach($this->module->controllerMap as $name=>$config): ?>

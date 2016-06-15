@@ -112,7 +112,7 @@
 		]]>
 	</mx:Script>
 		
-	<mx:Panel layout="vertical" title="Yii Phone Book" id="panel1" resizeEffect="Resize">
+	<mx:Panel layout="vertical" title="Yee Phone Book" id="panel1" resizeEffect="Resize">
 		<mx:Form id="loginForm">
 			<mx:FormItem label="Username:">
 				<mx:TextInput id="usernameEdit" />

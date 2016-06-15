@@ -1,7 +1,7 @@
-Yii Web Programming Framework
+Yee Web Programming Framework
 =============================
 
-Thank you for choosing Yii - a high-performance component-based PHP framework.
+Thank you for choosing Yee - a high-performance component-based PHP framework.
 
 
 INSTALLATION
@@ -13,8 +13,8 @@ directory. You shall see the following files and directories:
       demos/               demos
       framework/           framework source files
       requirements/        requirement checker
-      CHANGELOG            describing changes in every Yii release
-      LICENSE              license of Yii
+      CHANGELOG            describing changes in every Yee release
+      LICENSE              license of Yee
       README               this file
       UPGRADE              upgrading instructions
 
@@ -22,43 +22,43 @@ directory. You shall see the following files and directories:
 REQUIREMENTS
 ------------
 
-The minimum requirement by Yii is that your Web server supports
-PHP 5.1.0 or above. Yii has been tested with Apache HTTP server
+The minimum requirement by Yee is that your Web server supports
+PHP 5.1.0 or above. Yee has been tested with Apache HTTP server
 on Windows and Linux operating systems.
 
 Please access the following URL to check if your Web server reaches
-the requirements by Yii, assuming "YiiPath" is where Yii is installed:
+the requirements by Yee, assuming "YeePath" is where Yee is installed:
 
-      http://hostname/YiiPath/requirements/index.php
+      http://hostname/YeePath/requirements/index.php
 
 
 QUICK START
 -----------
 
-Yii comes with a command line tool called "yiic" that can create
-a skeleton Yii application for you to start with.
+Yee comes with a command line tool called "yeec" that can create
+a skeleton Yee application for you to start with.
 
 On command line, type in the following commands:
 
-        $ cd YiiPath/framework                (Linux)
-        cd YiiPath\framework                  (Windows)
+        $ cd YeePath/framework                (Linux)
+        cd YeePath\framework                  (Windows)
 
-        $ ./yiic webapp ../testdrive          (Linux)
-        yiic webapp ..\testdrive              (Windows)
+        $ ./yeec webapp ../testdrive          (Linux)
+        yeec webapp ..\testdrive              (Windows)
 
-The new Yii application will be created at "YiiPath/testdrive".
+The new Yee application will be created at "YeePath/testdrive".
 You can access it with the following URL:
 
-        http://hostname/YiiPath/testdrive/index.php
+        http://hostname/YeePath/testdrive/index.php
 
 
 WHAT's NEXT
 -----------
 
 Please visit the project website for tutorials, class reference
-and join discussions with other Yii users.
+and join discussions with other Yee users.
 
 
 
-The Yii Developer Team
-http://www.yiiframework.com
+The Yee Developer Team
+http://www.yeeframework.com

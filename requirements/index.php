@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Yii Requirement Checker script
+ * Yee Requirement Checker script
  *
  * This script will check if your system meets the requirements for running
- * Yii-powered Web applications.
+ * Yee-powered Web applications.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  * @package system
  * @since 1.0
  */
@@ -18,144 +18,144 @@
  */
 $requirements=array(
 	array(
-		t('yii','PHP version'),
+		t('yee','PHP version'),
 		true,
 		version_compare(PHP_VERSION,"5.1.0",">="),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
-		t('yii','PHP 5.1.0 or higher is required.')),
+		'<a href="http://www.yeeframework.com">Yee Framework</a>',
+		t('yee','PHP 5.1.0 or higher is required.')),
 	array(
-		t('yii','$_SERVER variable'),
+		t('yee','$_SERVER variable'),
 		true,
 		'' === $message=checkServerVar(),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="http://www.yeeframework.com">Yee Framework</a>',
 		$message),
 	array(
-		t('yii','Reflection extension'),
+		t('yee','Reflection extension'),
 		true,
 		class_exists('Reflection',false),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="http://www.yeeframework.com">Yee Framework</a>',
 		''),
 	array(
-		t('yii','PCRE extension'),
+		t('yee','PCRE extension'),
 		true,
 		extension_loaded("pcre"),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="http://www.yeeframework.com">Yee Framework</a>',
 		''),
 	array(
-		t('yii','SPL extension'),
+		t('yee','SPL extension'),
 		true,
 		extension_loaded("SPL"),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="http://www.yeeframework.com">Yee Framework</a>',
 		''),
 	array(
-		t('yii','DOM extension'),
+		t('yee','DOM extension'),
 		false,
 		class_exists("DOMDocument",false),
-		'<a href="http://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>, <a href="http://www.yiiframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
+		'<a href="http://www.yeeframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>, <a href="http://www.yeeframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
 		''),
 	array(
-		t('yii','PDO extension'),
+		t('yee','PDO extension'),
 		false,
 		extension_loaded('pdo'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
 		''),
 	array(
-		t('yii','PDO SQLite extension'),
+		t('yee','PDO SQLite extension'),
 		false,
 		extension_loaded('pdo_sqlite'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','Required for SQLite database.')),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','Required for SQLite database.')),
 	array(
-		t('yii','PDO MySQL extension'),
+		t('yee','PDO MySQL extension'),
 		false,
 		extension_loaded('pdo_mysql'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','Required for MySQL database.')),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','Required for MySQL database.')),
 	array(
-		t('yii','PDO PostgreSQL extension'),
+		t('yee','PDO PostgreSQL extension'),
 		false,
 		extension_loaded('pdo_pgsql'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','Required for PostgreSQL database.')),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','Required for PostgreSQL database.')),
 	array(
-		t('yii','PDO Oracle extension'),
+		t('yee','PDO Oracle extension'),
 		false,
 		extension_loaded('pdo_oci'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','Required for Oracle database.')),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','Required for Oracle database.')),
 	array(
-		t('yii','PDO MSSQL extension (pdo_mssql)'),
+		t('yee','PDO MSSQL extension (pdo_mssql)'),
 		false,
 		extension_loaded('pdo_mssql'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','Required for MSSQL database from MS Windows')),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','Required for MSSQL database from MS Windows')),
 	array(
-		t('yii','PDO MSSQL extension (pdo_dblib)'),
+		t('yee','PDO MSSQL extension (pdo_dblib)'),
 		false,
 		extension_loaded('pdo_dblib'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','Required for MSSQL database from GNU/Linux or other UNIX.')),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','Required for MSSQL database from GNU/Linux or other UNIX.')),
 	array(
-		t('yii','PDO MSSQL extension (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)'),
+		t('yee','PDO MSSQL extension (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)'),
 		false,
 		extension_loaded('pdo_sqlsrv'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','Required for MSSQL database with the driver provided by Microsoft.')),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','Required for MSSQL database with the driver provided by Microsoft.')),
 	array(
-		t('yii','PDO ODBC extension'),
+		t('yee','PDO ODBC extension'),
 		false,
 		extension_loaded('pdo_odbc'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-		t('yii','Required in case database interaction will be through ODBC layer.')),
+		t('yee','All <a href="http://www.yeeframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yee','Required in case database interaction will be through ODBC layer.')),
 	array(
-		t('yii','Memcache extension'),
+		t('yee','Memcache extension'),
 		false,
 		extension_loaded("memcache") || extension_loaded("memcached"),
-		'<a href="http://www.yiiframework.com/doc/api/CMemCache">CMemCache</a>',
-		extension_loaded("memcached") ? t('yii', 'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.') : ''),
+		'<a href="http://www.yeeframework.com/doc/api/CMemCache">CMemCache</a>',
+		extension_loaded("memcached") ? t('yee', 'To use memcached set <a href="http://www.yeeframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.') : ''),
 	array(
-		t('yii','APC extension'),
+		t('yee','APC extension'),
 		false,
 		extension_loaded("apc"),
-		'<a href="http://www.yiiframework.com/doc/api/CApcCache">CApcCache</a>',
+		'<a href="http://www.yeeframework.com/doc/api/CApcCache">CApcCache</a>',
 		''),
 	array(
-		t('yii','Mcrypt extension'),
+		t('yee','Mcrypt extension'),
 		false,
 		extension_loaded("mcrypt"),
-		'<a href="http://www.yiiframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
-		t('yii','Required by encrypt and decrypt methods.')),
+		'<a href="http://www.yeeframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
+		t('yee','Required by encrypt and decrypt methods.')),
 	array(
-		t('yii','crypt() CRYPT_BLOWFISH option'),
+		t('yee','crypt() CRYPT_BLOWFISH option'),
 		false,
 		function_exists('crypt') && defined('CRYPT_BLOWFISH') && CRYPT_BLOWFISH,
-		'<a href="http://www.yiiframework.com/doc/api/1.1/CPasswordHelper">CPasswordHelper</a>',
-		t('yii','Required for secure password storage.')),
+		'<a href="http://www.yeeframework.com/doc/api/1.1/CPasswordHelper">CPasswordHelper</a>',
+		t('yee','Required for secure password storage.')),
 	array(
-		t('yii','SOAP extension'),
+		t('yee','SOAP extension'),
 		false,
 		extension_loaded("soap"),
-		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
+		'<a href="http://www.yeeframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yeeframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
 		''),
 	array(
-		t('yii','GD extension with<br />FreeType support<br />or ImageMagick<br />extension with<br />PNG support'),
+		t('yee','GD extension with<br />FreeType support<br />or ImageMagick<br />extension with<br />PNG support'),
 		false,
 		'' === $message=checkCaptchaSupport(),
-		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
+		'<a href="http://www.yeeframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
 		$message),
 	array(
-		t('yii','Ctype extension'),
+		t('yee','Ctype extension'),
 		false,
 		extension_loaded("ctype"),
-		'<a href="http://www.yiiframework.com/doc/api/CDateFormatter">CDateFormatter</a>, <a href="http://www.yiiframework.com/doc/api/CDateFormatter">CDateTimeParser</a>, <a href="http://www.yiiframework.com/doc/api/CTextHighlighter">CTextHighlighter</a>, <a href="http://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>',
+		'<a href="http://www.yeeframework.com/doc/api/CDateFormatter">CDateFormatter</a>, <a href="http://www.yeeframework.com/doc/api/CDateFormatter">CDateTimeParser</a>, <a href="http://www.yeeframework.com/doc/api/CTextHighlighter">CTextHighlighter</a>, <a href="http://www.yeeframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>',
 		''
 	),
 	array(
-		t('yii','Fileinfo extension'),
+		t('yee','Fileinfo extension'),
 		false,
 		extension_loaded("fileinfo"),
-		'<a href="http://www.yiiframework.com/doc/api/CFileValidator">CFileValidator</a>',
-		t('yii','Required for MIME-type validation')
+		'<a href="http://www.yeeframework.com/doc/api/CFileValidator">CFileValidator</a>',
+		t('yee','Required for MIME-type validation')
 	),
 );
 
@@ -169,16 +169,16 @@ function checkServerVar()
 			$missing[]=$var;
 	}
 	if(!empty($missing))
-		return t('yii','$_SERVER does not have {vars}.',array('{vars}'=>implode(', ',$missing)));
+		return t('yee','$_SERVER does not have {vars}.',array('{vars}'=>implode(', ',$missing)));
 
 	if(realpath($_SERVER["SCRIPT_FILENAME"]) !== realpath(__FILE__))
-		return t('yii','$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.');
+		return t('yee','$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.');
 
 	if(!isset($_SERVER["REQUEST_URI"]) && isset($_SERVER["QUERY_STRING"]))
-		return t('yii','Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.');
+		return t('yee','Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.');
 
 	if(!isset($_SERVER["PATH_INFO"]) && strpos($_SERVER["PHP_SELF"],$_SERVER["SCRIPT_NAME"]) !== 0)
-		return t('yii','Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.');
+		return t('yee','Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.');
 
 	return '';
 }
@@ -198,14 +198,14 @@ function checkCaptchaSupport()
 	{
 		if($gdInfo['FreeType Support'])
 			return '';
-		return t('yii','GD installed,<br />FreeType support not installed');
+		return t('yee','GD installed,<br />FreeType support not installed');
 	}
-	return t('yii','GD or ImageMagick not installed');
+	return t('yee','GD or ImageMagick not installed');
 }
 
-function getYiiVersion()
+function getYeeVersion()
 {
-	$coreFile=dirname(__FILE__).'/../framework/YiiBase.php';
+	$coreFile=dirname(__FILE__).'/../framework/YeeBase.php';
 	if(is_file($coreFile))
 	{
 		$contents=file_get_contents($coreFile);
@@ -232,7 +232,7 @@ function t($category,$message,$params=array())
 		$messages=array();
 		if(($lang=getPreferredLanguage()) !== false)
 		{
-			$file=dirname(__FILE__)."/messages/$lang/yii.php";
+			$file=dirname(__FILE__)."/messages/$lang/yee.php";
 			if(is_file($file))
 				$messages=include($file);
 		}
@@ -273,7 +273,7 @@ function getPreferredLanguage()
 function getServerInfo()
 {
 	$info[]=isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
-	$info[]='<a href="http://www.yiiframework.com/">Yii Framework</a>/'.getYiiVersion();
+	$info[]='<a href="http://www.yeeframework.com/">Yee Framework</a>/'.getYeeVersion();
 	$info[]=@strftime('%Y-%m-%d %H:%M',time());
 
 	return implode(' ',$info);

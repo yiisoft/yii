@@ -3,9 +3,9 @@
  * CTabView class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -43,7 +43,7 @@
  *         ),
  *         'tab2'=>array(
  *             'title'=>'tab 2 title',
- *             'url'=>'http://www.yiiframework.com/',
+ *             'url'=>'http://www.yeeframework.com/',
  *         ),
  *     ),
  * ));
@@ -61,7 +61,7 @@ class CTabView extends CWidget
 	/**
 	 * Default CSS class for the tab container
 	 */
-	const CSS_CLASS='yiiTab';
+	const CSS_CLASS='yeeTab';
 
 	/**
 	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
@@ -109,7 +109,7 @@ class CTabView extends CWidget
 	 *     ),
 	 *     'tab2'=>array(
 	 *           'title'=>'tab 2 title',
-	 *           'url'=>'http://www.yiiframework.com/',
+	 *           'url'=>'http://www.yeeframework.com/',
 	 *     ),
 	 * )
 	 * </pre>
@@ -155,10 +155,10 @@ class CTabView extends CWidget
 	 */
 	public function registerClientScript()
 	{
-		$cs=Yii::app()->getClientScript();
-		$cs->registerCoreScript('yiitab');
+		$cs=Yee::app()->getClientScript();
+		$cs->registerCoreScript('yeetab');
 		$id=$this->getId();
-		$cs->registerScript('Yii.CTabView#'.$id,"jQuery(\"#{$id}\").yiitab();");
+		$cs->registerScript('Yee.CTabView#'.$id,"jQuery(\"#{$id}\").yeetab();");
 
 		if($this->cssFile!==false)
 			self::registerCssFile($this->cssFile);
@@ -170,9 +170,9 @@ class CTabView extends CWidget
 	 */
 	public static function registerCssFile($url=null)
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		if($url===null)
-			$url=$cs->getCoreScriptUrl().'/yiitab/jquery.yiitab.css';
+			$url=$cs->getCoreScriptUrl().'/yeetab/jquery.yeetab.css';
 		$cs->registerCssFile($url,'screen');
 	}
 

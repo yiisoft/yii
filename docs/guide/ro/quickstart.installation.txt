@@ -1,31 +1,31 @@
 Instalare
 =========
 
-Instalarea platformei Yii implica in mare urmatorii doi pasi:
+Instalarea platformei Yee implica in mare urmatorii doi pasi:
 
-   1. Descarcam platforma Yii de pe site-ul [yiiframework.com](http://www.yiiframework.com/).
-   2. Dezarhivam fisierul editiei descarcate de Yii intr-un director accesibil pe Web.
+   1. Descarcam platforma Yee de pe site-ul [yeeframework.com](http://www.yeeframework.com/).
+   2. Dezarhivam fisierul editiei descarcate de Yee intr-un director accesibil pe Web.
 
-> Tip|Sfat: Platforma Yii nu trebuie neaparat instalata intr-un director accesibil de pe Web.
-O aplicatie Yii are un fisier de intrare care este de obicei singurul fisier care
+> Tip|Sfat: Platforma Yee nu trebuie neaparat instalata intr-un director accesibil de pe Web.
+O aplicatie Yee are un fisier de intrare care este de obicei singurul fisier care
 trebuie sa fie expus utilizatorilor Web. Celelalte scripturi PHP, inclusiv cele
-ale platformei Yii, ar trebui sa fie protejate fata de accesul din Web din moment ce
+ale platformei Yee, ar trebui sa fie protejate fata de accesul din Web din moment ce
 ar putea fi accesate si modificate de catre persoane neautorizate.
 
 Cerinte
 -------
 
-Dupa instalarea Yii, ar trebui sa verificam daca serverul nostru
-indeplineste toate cerintele pentru folosirea corespunzatoare a platformei Yii.
+Dupa instalarea Yee, ar trebui sa verificam daca serverul nostru
+indeplineste toate cerintele pentru folosirea corespunzatoare a platformei Yee.
 Putem face acest lucru prin scriptul de verificare cerinte al carui URL este
 urmatorul:
 
 ~~~
-http://hostname/path/to/yii/requirements/index.php
+http://hostname/path/to/yee/requirements/index.php
 ~~~
 
 Cerinta minima este ca serverul Web sa suporte versiunea PHP 5.1.0
-(sau o versiune mai recenta). Platforma Yii a fost testata
+(sau o versiune mai recenta). Platforma Yee a fost testata
 cu [serverul HTTP Apache](http://httpd.apache.org/) in Windows si Linux.
 Poate rula de asemenea si pe alte servere Web atat timp cat este pus la
 dispozitie PHP 5.

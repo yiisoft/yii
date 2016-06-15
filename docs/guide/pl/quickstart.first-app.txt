@@ -1,33 +1,33 @@
-Tworzenie pierwszej aplikacji w Yii
+Tworzenie pierwszej aplikacji w Yee
 ===================================
 
 W tym rozdziale pokażemy jak utworzyć Twoją pierwszą aplikacje, po to, abyś nabył 
-niezbędnego doświadczenia w pracy z Yii. Aby utworzyć nową aplikację Yii 
-użyjemy `yiic` (narzędzia linii poleceń) oraz `Gii` (potężnego, przeglądarkowego generatora kodu)
+niezbędnego doświadczenia w pracy z Yee. Aby utworzyć nową aplikację Yee 
+użyjemy `yeec` (narzędzia linii poleceń) oraz `Gii` (potężnego, przeglądarkowego generatora kodu)
 pozwalających na automatyczne generowanie kodu dla określonych zadań. Dla wygody przyjmijmy, że
-`YiiRoot` jest katalogiem, w którym zainstalowano Yii, a `WebRoot` to główne miejsce na naszym serwerze.
+`YeeRoot` jest katalogiem, w którym zainstalowano Yee, a `WebRoot` to główne miejsce na naszym serwerze.
 
-Uruchom `yiic` z wiersza poleceń w następujący sposób:
+Uruchom `yeec` z wiersza poleceń w następujący sposób:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|Uwaga: uruchamiając `yiic` na Mac OS, Linuksie lub Uniksie być może będziesz
-> musiał zmienić uprawnienia pliku `yiic` tak, aby stał się on wykonywalnym.
+> Note|Uwaga: uruchamiając `yeec` na Mac OS, Linuksie lub Uniksie być może będziesz
+> musiał zmienić uprawnienia pliku `yeec` tak, aby stał się on wykonywalnym.
 > Alternatywnie możesz użyć tego narzędzia następująco:
 >
 > ~~~
 > % cd WebRoot
-> % php YiiRoot/framework/yiic.php webapp testdrive
+> % php YeeRoot/framework/yeec.php webapp testdrive
 > ~~~
 
-Powyższe instrukcje utworzą szkielet aplikacji Yii w katalogu
+Powyższe instrukcje utworzą szkielet aplikacji Yee w katalogu
 `WebRoot/testdrive`, który posiada strukturę katalogów wymaganą przez 
-większość aplikacji Yii.
+większość aplikacji Yee.
 
 Bez pisania nawet pojedynczej linijki kodu, możemy przetestować naszą pierwszą
-aplikację Yii poprzez wpisanie następującego adresu URL w przeglądarce:
+aplikację Yee poprzez wpisanie następującego adresu URL w przeglądarce:
 
 ~~~
 http://hostname/testdrive/index.php
@@ -62,11 +62,11 @@ testdrive/
    images/                   zawiera pliki obrazów
    themes/                   zawiera motywy aplikacji
    protected/                zawiera chronione pliki aplikacji
-      yiic                   skrypt yiic dla systemów Linux/Unix
-      yiic.bat               skrypt yiic dla systemu Windows
-      yiic.php               skrypt PHP dla linii poleceń      
-      commands/              zawiera spersonalizowane polecenia 'yiic'
-         shell/              zawiera spersonalizowane polecenia 'yiic shell'
+      yeec                   skrypt yeec dla systemów Linux/Unix
+      yeec.bat               skrypt yeec dla systemu Windows
+      yeec.php               skrypt PHP dla linii poleceń      
+      commands/              zawiera spersonalizowane polecenia 'yeec'
+         shell/              zawiera spersonalizowane polecenia 'yeec shell'
       components/            zawiera komponenty wielokrotnego użytku
          Controller.php      klasa bazowa dla wszystkich klas kontrolerów
          UserIdentity.php    klasa 'UserIdentity', służąca uwierzytelnieniu
@@ -124,7 +124,7 @@ return array(
 );
 ~~~
 
-Powyższy kod instruuje Yii, że aplikacja powinna łączyć się z bazą danych SQLite
+Powyższy kod instruuje Yee, że aplikacja powinna łączyć się z bazą danych SQLite
 `WebRoot/testdrive/protected/data/testdrive.db` jeśli zajdzie taka potrzeba.
 Zauważ, że baza danych SQLite jest już załączona do szkieletu aplikacji, który 
 przed chwilą wygenerowaliśmy. Ta baza danych zawiera jedynie tabelę o nazwie `tbl_user`:
@@ -142,7 +142,7 @@ CREATE TABLE tbl_user (
 Jeśli chcesz używać bazy danych MySQL, powinieneś użyć załączonego pliku schematu MySQL  
 `WebRoot/testdrive/protected/data/schema.mysql.sql` aby utworzyć bazę danych.
 
-> Note|Uwaga: Aby używać funkcjonalności bazodanowych Yii, potrzebujemy udostępnić 
+> Note|Uwaga: Aby używać funkcjonalności bazodanowych Yee, potrzebujemy udostępnić 
 rozszerzenie PHP PDO oraz rozszerzenia PDO dla poszczególnych sterowników.
 Dla aplikacji testowej, potrzebujemy włączyć oba rozszerzenia `php_pdo` oraz `php_pdo_sqlite`. 
 
@@ -156,8 +156,8 @@ którą przed chwilą utworzyliśmy. Operacje te są powszechnie wymagane w typo
 aplikacjach. Zamiast męczyć się pisząc kod możemy skorzystać 
 z `Gii` -- potężnego przeglądarkowego generatora kodu.
 
-> Info|Info: Gii dostępne jest poczynając od wersji 1.1.2. Wcześniej mogliśmy używać wspomnianego narzędzia `yiic` w celu osiągnięcia tego samego efektu. Aby uzyskać więcej szczegółów na ten temat, 
-przejdź do rozdziału [implementowanie operacji CRUD z Yii](/doc/guide/quickstart.first-app-yiic).
+> Info|Info: Gii dostępne jest poczynając od wersji 1.1.2. Wcześniej mogliśmy używać wspomnianego narzędzia `yeec` w celu osiągnięcia tego samego efektu. Aby uzyskać więcej szczegółów na ten temat, 
+przejdź do rozdziału [implementowanie operacji CRUD z Yee](/doc/guide/quickstart.first-app-yeec).
 
 
 ### Konfigurowanie Gii

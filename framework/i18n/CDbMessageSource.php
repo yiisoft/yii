@@ -3,9 +3,9 @@
  * CDbMessageSource class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -43,7 +43,7 @@
  */
 class CDbMessageSource extends CMessageSource
 {
-	const CACHE_KEY_PREFIX='Yii.CDbMessageSource.';
+	const CACHE_KEY_PREFIX='Yee.CDbMessageSource.';
 	/**
 	 * @var string the ID of the database connection application component. Defaults to 'db'.
 	 */
@@ -76,7 +76,7 @@ class CDbMessageSource extends CMessageSource
 	 */
 	protected function loadMessages($category,$language)
 	{
-		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yee::app()->getComponent($this->cacheID))!==null)
 		{
 			$key=self::CACHE_KEY_PREFIX.'.messages.'.$category.'.'.$language;
 			if(($data=$cache->get($key))!==false)
@@ -103,9 +103,9 @@ class CDbMessageSource extends CMessageSource
 	{
 		if($this->_db===null)
 		{
-			$this->_db=Yii::app()->getComponent($this->connectionID);
+			$this->_db=Yee::app()->getComponent($this->connectionID);
 			if(!$this->_db instanceof CDbConnection)
-				throw new CException(Yii::t('yii','CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
+				throw new CException(Yee::t('yee','CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
 					array('{id}'=>$this->connectionID)));
 		}
 		return $this->_db;

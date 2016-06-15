@@ -1,6 +1,6 @@
 * Початок
 	- [Огляд](start.overview)
-	- [Знайомимося із Yii](start.testdrive)
+	- [Знайомимося із Yee](start.testdrive)
 	- [Аналіз вимог](start.requirements)
 	- [Загальна структура](start.design)
 

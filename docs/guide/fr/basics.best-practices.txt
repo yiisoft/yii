@@ -1,7 +1,7 @@
 Bonnes Pratiques MVC
 ====================
 
-Bien que l'architecture Modèle-Vue-Contrôleur (MVC) soit connue de la quasi totalité des développeurs web, de nombreuses personnes s'interrogent encore sur la meilleure façon de l'appliquer lors du développement d'une application. Les idées centrales derrière MVC sont **la réutilisation et le séparation logique du code**. Nous allons voir dans cette section les règles générales à suivre afin de respecter au mieux l'architecture MVC lors du développement d'une application Yii.
+Bien que l'architecture Modèle-Vue-Contrôleur (MVC) soit connue de la quasi totalité des développeurs web, de nombreuses personnes s'interrogent encore sur la meilleure façon de l'appliquer lors du développement d'une application. Les idées centrales derrière MVC sont **la réutilisation et le séparation logique du code**. Nous allons voir dans cette section les règles générales à suivre afin de respecter au mieux l'architecture MVC lors du développement d'une application Yee.
 
 Afin de mieux expliquer ces règles, on partira sur le principe qu'une application web est constituée de différentes sous-applications telles que:
 
@@ -10,7 +10,7 @@ Afin de mieux expliquer ces règles, on partira sur le principe qu'une applicati
 * console: une application constituée de commandes à lancer depuis un terminal ou au travers d'une tâche planifiée;
 * Web API: fourni des interfaces pour les applications tierces qui souhaitent s'intégrer avec l'application.
 
-Les sous-applications pourront être implémentées en tant que [modules](/doc/guide/basics.module), ou comme une application Yii partageant une partie du code avec d'autres sous-applications.
+Les sous-applications pourront être implémentées en tant que [modules](/doc/guide/basics.module), ou comme une application Yee partageant une partie du code avec d'autres sous-applications.
 
 
 Modèle
@@ -70,7 +70,7 @@ Les vues peuvent être réutilisées de différents moyens:
 
 * Widgets: dans les cas où beaucoup de logique est nécessaire pour afficher une vue partielle, cette vue peut être transformée en widget dont sa classe sera la plus à même de recevoir cette logique. Pour les widgets qui génèrent beaucoup de code HTML, il est préférable d'utiliser des fichiers spécifiques à ce widget pour cette vue et contenant ce code HTML.
 
-* Classes Helper: il est souvent utile dans les vues de recourir à du code très court spécifique à de petites tâches telles que le formatage de données ou la génération de tags HTML. Plutôt que de placer ce code directement dans les fichiers de vues, une meilleur approche est de le mettre dans une classe helper. Ensuite, il vous suffit d'utiliser ces classes dans vos fichiers de vues. Yii fournit un exemple pour cette approche. Yii a une classe helper [CHtml] très puissante pouvant produire du code HTML souvent utilisé. Les classes Helper peuvent être déposées dans le [répertoire de chargement automatique](/doc/guide/basics.namespace) afin qu'elles soient disponibles sans les inclure explicitement.
+* Classes Helper: il est souvent utile dans les vues de recourir à du code très court spécifique à de petites tâches telles que le formatage de données ou la génération de tags HTML. Plutôt que de placer ce code directement dans les fichiers de vues, une meilleur approche est de le mettre dans une classe helper. Ensuite, il vous suffit d'utiliser ces classes dans vos fichiers de vues. Yee fournit un exemple pour cette approche. Yee a une classe helper [CHtml] très puissante pouvant produire du code HTML souvent utilisé. Les classes Helper peuvent être déposées dans le [répertoire de chargement automatique](/doc/guide/basics.namespace) afin qu'elles soient disponibles sans les inclure explicitement.
 
 
 Contrôleur

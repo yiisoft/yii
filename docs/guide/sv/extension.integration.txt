@@ -1,19 +1,19 @@
 Användning av tredjepartsbibliotek
 ==================================
 
-Yii är omsorgsfullt konstruerat på så sätt att tredjepartsbibliotek utan 
-svårighet kan integreras för att ytterligare utöka Yii:s funktionalitet. När 
+Yee är omsorgsfullt konstruerat på så sätt att tredjepartsbibliotek utan 
+svårighet kan integreras för att ytterligare utöka Yee:s funktionalitet. När 
 tredjepartsbibliotek används i ett projekt, stöter utvecklare ofta på problem 
-rörande namngivning av klasser och inkludering av filer. Eftersom alla Yii:s 
+rörande namngivning av klasser och inkludering av filer. Eftersom alla Yee:s 
 klasser har namn som föregås av bokstaven `C`, är det mindre risk för att 
-problem kring namngivning av klasser uppstår; och eftersom Yii förlitar sig på 
+problem kring namngivning av klasser uppstår; och eftersom Yee förlitar sig på 
 [SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php) för 
 inkludering av klassfiler, kan det friktionsfritt samexistera med andra 
 bibliotek om dessa använder samma autoladdningsfiness, alternativt 
 PHP-inkluderingssökväg för att inkludera klassfiler.
 
 
-Nedan används ett exempel för att illustrera hur man i en Yii-applikation kan använda komponenten 
+Nedan används ett exempel för att illustrera hur man i en Yee-applikation kan använda komponenten 
 [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html) från 
 [Zend-ramverket](http://www.zendframework.com).
 
@@ -26,13 +26,13 @@ Sätt därefter in följande rader i början av kontrollerns klassfil:
 
 ~~~
 [php]
-Yii::import('application.vendors.*');
+Yee::import('application.vendors.*');
 require_once('Zend/Search/Lucene.php');
 ~~~
 
 Ovanstående kod inkluderar klassfilen `Lucene.php`. Eftersom en relativ sökväg 
 används, behöver PHP:s inkluderingssökväg ändras så att filen kan lokaliseras 
-korrekt. Detta gör man genom att anropa `Yii::import` innan `require_once`.
+korrekt. Detta gör man genom att anropa `Yee::import` innan `require_once`.
 
 När väl ovanstående grundinställning är på plats, kan `Lucene`-klassen användas 
 i en kontrolleråtgärd (action), på följande sätt:
@@ -56,7 +56,7 @@ använda det på följande sätt:
 
 ~~~
 [php]
-Yii::setPathOfAlias('Imagine',Yii::getPathOfAlias('application.vendors.Imagine'));
+Yee::setPathOfAlias('Imagine',Yee::getPathOfAlias('application.vendors.Imagine'));
 
 // Därefter standardkod från Imagine-guiden:
 // $imagine = new Imagine\Gd\Imagine();
@@ -66,24 +66,24 @@ Yii::setPathOfAlias('Imagine',Yii::getPathOfAlias('application.vendors.Imagine')
 I ovanstående exempel skall det alias vi definierar matcha bibliotekets första 
 namespace-avsnitt.
 
-Använda Yii med tredjepartsystem
+Använda Yee med tredjepartsystem
 --------------------------------
 
-Yii kan även användas som ett självständigt bibliotek för att stödja utveckling 
+Yee kan även användas som ett självständigt bibliotek för att stödja utveckling 
 och förbättring av existerande tredjepartsystem, så som WordPress, Joomla, etc. 
 För att åstadkomma detta, inkludera följande kod i tredjepartsystemets startskript:
 
 ~~~
 [php]
-require_once('path/to/yii.php');
-Yii::createWebApplication('path/to/config.php');
+require_once('path/to/yee.php');
+Yee::createWebApplication('path/to/config.php');
 ~~~
 
-Ovanstående kod är mycket lik kod som används i startskriptet för en typisk Yii-applikation, 
+Ovanstående kod är mycket lik kod som används i startskriptet för en typisk Yee-applikation, 
 med undantag för en sak: metoden `run()` anropas inte när webapplikationens instans skapats.
 
-Nu kan de flesta finesser som Yii erbjuder användas för vidareutveckling av tredjepartskod. 
-Till exempel kan `Yii::app()` användas för att ge tillgång till applikationsinstansen; 
+Nu kan de flesta finesser som Yee erbjuder användas för vidareutveckling av tredjepartskod. 
+Till exempel kan `Yee::app()` användas för att ge tillgång till applikationsinstansen; 
 databasfinesser som DAO och ActiveRecord kan användas liksom modell och valideringsfinesser 
 för att nämna några.
 

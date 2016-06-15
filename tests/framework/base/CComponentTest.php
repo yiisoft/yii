@@ -192,7 +192,7 @@ class CComponentTest extends CTestCase
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/1191
+	 * https://github.com/yeesoft/yee/issues/1191
 	 */
 	public function testAttachDetachEventHandler()
 	{

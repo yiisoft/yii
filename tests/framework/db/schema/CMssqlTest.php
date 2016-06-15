@@ -1,7 +1,7 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.schema.mssql.CMssqlSchema');
+Yee::import('system.db.CDbConnection');
+Yee::import('system.db.schema.mssql.CMssqlSchema');
 
 require_once(dirname(__FILE__).'/../data/models2.php');
 
@@ -19,7 +19,7 @@ class MssqlUser2 extends User2
 class CMssqlTest extends CTestCase
 {
 	const DB_HOST='YII'; // This is the alias to MSSQL server. Defined in freetds.conf for GNU/Linux or in Client Network Utility on MS Windows.
-	const DB_NAME='yii';
+	const DB_NAME='yee';
 	const DB_USER='test';
 	const DB_PASS='test';
 	const DB_DSN_PREFIX='sqlsrv'; // Set this to 'mssql' or 'sqlsrv' on MS Windows or 'dblib' on GNU/Linux.

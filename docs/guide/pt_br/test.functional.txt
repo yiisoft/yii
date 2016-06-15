@@ -4,7 +4,7 @@ Testes Funcionais
 Antes de ler esta seção, é recomendável que você primeiro leia a
 [documentação do Selenium](http://seleniumhq.org/docs/) e a
 [documentação do PHPUnit](http://www.phpunit.de/wiki/Documentation). Nós
-resumimos a seguir os princípios básicos de escrita de testes funcionais no Yii:
+resumimos a seguir os princípios básicos de escrita de testes funcionais no Yee:
 
  * Como nos testes unitários, um teste funcional é escrito em termos de uma
    classe `XyzTest` que estende de [CWebTestCase], onde `Xyz` representa a
@@ -27,13 +27,13 @@ resumimos a seguir os princípios básicos de escrita de testes funcionais no Yi
    Web responde conforme o esperado.
 
 Antes de explicarmos como escrever um teste funcional, observaremos o arquivo
-`WebTestCase.php` gerado pelo comando `yiic webapp`. Este arquivo define a
+`WebTestCase.php` gerado pelo comando `yeec webapp`. Este arquivo define a
 classe `WebTestCase` que pode servir como a classe-mãe de todas as classes de
 testes funcionais.
 
 ~~~
 [php]
-define('TEST_BASE_URL','http://localhost/yii/demos/blog/index-test.php/');
+define('TEST_BASE_URL','http://localhost/yee/demos/blog/index-test.php/');
 
 class WebTestCase extends CWebTestCase
 {
@@ -61,7 +61,7 @@ diferença entre `index-test.php` e `index.php` é que o primeiro usa a
 configuração de aplicação `test.php` enquanto o segundo usa `main.php`.
 
 Agora descrevemos como testar a funcionalidade de mostrar um post no
-[exemplo de blog](http://www.yiiframework.com/demos/blog). Primeiro escrevemos a
+[exemplo de blog](http://www.yeeframework.com/demos/blog). Primeiro escrevemos a
 classe de teste como segue, observando que ela estende da classe-mãe que
 acabamos de mostrar:
 
@@ -91,7 +91,7 @@ serão usadas por este teste. Aqui indicamos que a fixture `Post` deve ser usada
 No método de teste `testShow`, primeiros instruimos o Selenium RC a acessar a
 URL `post/1`. Observe que esta é uma URL relativa, e que a URL completa é
 formada adicionando-a à URL base que configuramos na classe-mãe (ou seja,
-`http://localhost/yii/demos/blog/index-test.php/post/1`). Então verificamos que
+`http://localhost/yee/demos/blog/index-test.php/post/1`). Então verificamos que
 podemos encontrar o título do post `sample1` na página da Web atual. E nós
 também verificamos que a página contém o texto `Leave a Comment` (deixe um
 comentário).

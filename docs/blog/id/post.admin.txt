@@ -1,6 +1,6 @@
 Mengatur Post
 ==============
-Mengatur post utamanya mengacu pada kegiatan menampilkan post yang terdapat dalam view administratif, yang memungkinkan kita melihat seluruh status post, mengubahnya dan menghapusnya. Semua kegiatan ini dapat diselesaikan dengan operasi `admin` dan operasi `delete`. Kode yang di-generate `yiic` tidak memerlukan modifikasi yang terlalu banyak. Di bawah ini kita akan melihat bagaimana dua operasi tersebut dilakukan.
+Mengatur post utamanya mengacu pada kegiatan menampilkan post yang terdapat dalam view administratif, yang memungkinkan kita melihat seluruh status post, mengubahnya dan menghapusnya. Semua kegiatan ini dapat diselesaikan dengan operasi `admin` dan operasi `delete`. Kode yang di-generate `yeec` tidak memerlukan modifikasi yang terlalu banyak. Di bawah ini kita akan melihat bagaimana dua operasi tersebut dilakukan.
 
 Menampilkan Post dalam tampilan tabel
 -----------------------------
@@ -20,7 +20,7 @@ public function actionAdmin()
 }
 ~~~
 
-Kode di atas dihasilkan oleh tool `yiic` tanpa modifikasi apapun. Pertama-tama tool ini membuatkan sebuah model `Post` dengan [scenario](/doc/guide/form.model) `search`. KIta akan menggunakan model ini untuk mengumpulkan kondisi pencarian yang user tentukan. Kita maka kemudian assign data model dan yang disuplai user, jika ada. Terakhir kita merender view `admim` dengna model.
+Kode di atas dihasilkan oleh tool `yeec` tanpa modifikasi apapun. Pertama-tama tool ini membuatkan sebuah model `Post` dengan [scenario](/doc/guide/form.model) `search`. KIta akan menggunakan model ini untuk mengumpulkan kondisi pencarian yang user tentukan. Kita maka kemudian assign data model dan yang disuplai user, jika ada. Terakhir kita merender view `admim` dengna model.
 
 Berikut merupakan kode di view `admin`:
 
@@ -61,7 +61,7 @@ $this->breadcrumbs=array(
 
 Kita menggunakan [CGridView] untuk menampilkan post. CGridView memungkinkan kita untuk menyusun kolom dan melakukan paginasi sepanjang post jika terlalu banyak untuk ditampilkan dalam satu halaman. Perubahan yang akan kita lakukan utamanya pada bagaimana menampilkan setiap kolom. Misalnya, untuk kolom `title`, kita ingin dia ditampilkan sebagai sebuah hyperlink yang akan berpindah ke tampilan detail dari post. Ekpresi `$data->url` mengembalikan nilai dari properti `url` yang kita tentukan di kelas `Post`.
 
-> Tip|Tips: Ketika menampilkan teks, kita memanggil [CHtml::encode()] untuk meng-encode entiti HTML di dalamnya. Tujuannya untuk mencegah terjadinya [serangan cross-site scripting](http://www.yiiframework.com/doc/guide/topics.security).
+> Tip|Tips: Ketika menampilkan teks, kita memanggil [CHtml::encode()] untuk meng-encode entiti HTML di dalamnya. Tujuannya untuk mencegah terjadinya [serangan cross-site scripting](http://www.yeeframework.com/doc/guide/topics.security).
 
 
 Menghapus Post
@@ -73,7 +73,7 @@ Dalam data grid `admin`, terdapat sebuah tombol delete di tiap baris. Dengan men
 [php]
 public function actionDelete()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();
@@ -86,7 +86,7 @@ public function actionDelete()
 }
 ~~~
 
-Kode di atas merupakan salah satu hasil generate dari tool `yiic` tanpa perubahan. Kita ingin menjelaskan sedikit tentang pengecekan pada `$_POST['ajax']`. Widget [CGridView] memiliki sebuah fitur yang sangat bagus sekali untuk sorting (pengurutan), pagination (sistem halaman) dan operasi delete yang semuanya dilakukan dalam mode AJAX secara default. Itu artinya, seluruh halaman tidak akan di-reload apalagi melakukan operasi yang disebutkan tadi. Namun, mungkin widget berjalan dengan mode non-AJAX (dengan mengatur properti `ajaxUpdate` menjadi false atau menonaktifkan JavaScript di sisi klien). Sudah merupakan kewajiban untuk membedakan action `delete` dalam dua skenario: jika request delete dibuat melalui AJAX, kita tidak akan me-redirect browser, kalau tidak maka kita harus me-redirect.
+Kode di atas merupakan salah satu hasil generate dari tool `yeec` tanpa perubahan. Kita ingin menjelaskan sedikit tentang pengecekan pada `$_POST['ajax']`. Widget [CGridView] memiliki sebuah fitur yang sangat bagus sekali untuk sorting (pengurutan), pagination (sistem halaman) dan operasi delete yang semuanya dilakukan dalam mode AJAX secara default. Itu artinya, seluruh halaman tidak akan di-reload apalagi melakukan operasi yang disebutkan tadi. Namun, mungkin widget berjalan dengan mode non-AJAX (dengan mengatur properti `ajaxUpdate` menjadi false atau menonaktifkan JavaScript di sisi klien). Sudah merupakan kewajiban untuk membedakan action `delete` dalam dua skenario: jika request delete dibuat melalui AJAX, kita tidak akan me-redirect browser, kalau tidak maka kita harus me-redirect.
 
 Menghapus sebuah post juga harus menyebabkan terhapusnya semua comment yang berhubungan dengan post. Sebagai tambahan, kita juga harus mengupdate tabel `tbl_tag` mengenai post yang dihapus. Masing-masing tugas ini dapat dilakukan dengan menulis method `afterDelet` di dalam kelas model `Post` sebagai berikut,
 

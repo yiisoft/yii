@@ -9,7 +9,7 @@ a bazei de date, sau poate fi un form cu input-uri venite de la utilizator. Fiec
 al modelului reprezinta un atribut al modelului. Fiecare atribut are un label care poate fi
 validat cu un set de reguli. 
 
-Yii implementeaza doua tipuri de modele: modelul form si active record. Ambele sunt derivate
+Yee implementeaza doua tipuri de modele: modelul form si active record. Ambele sunt derivate
 din aceeasi clasa de baza [CModel].
 
 Un model form este o instanta a clasei [CFormModel]. Modelul form este folosit pentru a

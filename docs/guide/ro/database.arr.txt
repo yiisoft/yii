@@ -11,7 +11,7 @@ tip foreign sa fie clar definite intre tabelele carora li se aplica join. AR
 se bazeaza pe metadatele despre aceste relatii pentru a determina cum se aplica join
 acestor tabele.
 
-> Note|Nota: Incepand cu versiunea 1.0.1 a Yii, putem folosi AR relational chiar daca
+> Note|Nota: Incepand cu versiunea 1.0.1 a Yee, putem folosi AR relational chiar daca
 > nu definim constrangeri intre cheile foreign in baza de date.
 
 Pentru simplicate, vom folosi schema bazei de date din diagrama ER (entity-relationship)
@@ -206,9 +206,9 @@ Codul de mai sus va extrage toate post-urile impreuna cu autorul si categoriile 
 De asemenea, vor fi extrase post-urile fiecarui autor si profilul sau.
 
 > Note|Nota: Folosirea metodei [with()|CActiveRecord::with] a fost modificata incepand cu
-> versiunea 1.0.2 a Yii. Trebuie citita cu atentie documentatia API in cauza.
+> versiunea 1.0.2 a Yee. Trebuie citita cu atentie documentatia API in cauza.
 
-Implementarea AR din Yii este foarte eficienta. Atunci cand se aplica eager loading
+Implementarea AR din Yee este foarte eficienta. Atunci cand se aplica eager loading
 cu o ierarhie de obiecte aflate in `N` relatii `HAS_MANY` sau `MANY_MANY`
 vor fi necesare `N+1` cereri SQL pentru a obtine rezultatele necesare.
 Aceasta inseamna ca, in exemplul anterior, trebuie executate 3 cereri SQL
@@ -221,7 +221,7 @@ numarul de randuri din setul de rezultate creste exponential cu numarul de tabel
 mai multe relatii implicate, totul devine atat de greoi si complex incat nu mai poate fi gestionat
 corespunzator.
 
-Din versiunea 1.0.2 a Yii, putem de asemenea sa fortam o cerere relationala
+Din versiunea 1.0.2 a Yee, putem de asemenea sa fortam o cerere relationala
 sa fie facuta intr-o singura cerere SQL. Trebuie doar sa adaugam un apel
 [together()|CActiveFinder::together] dupa after [with()|CActiveRecord::with]. De exemplu:example,
 
@@ -260,7 +260,7 @@ trebuie sa fie diferentiate folosind `aliasToken` (ex. `??.id=10`).
 
    - `on`: clauza `ON`. Conditia specificata aici va fi adaugata la conditia join
 folosind operatorul `AND`. Aceasta optiune este disponibila incepand cu versiunea
-1.0.2 a Yii.
+1.0.2 a Yee.
 
    - `order`: clauza `ORDER BY`. implicit nu contine nimic. Referintele catre coloane
 trebuie sa fie diferentiate folosind `aliasToken` (ex. `??.age DESC`).
@@ -275,7 +275,7 @@ cu alias-ul tabelei corespunzatoare pentru a se putea discrimina referintele la
 coloane. Implicit este `'??.'`.
 
    - `alias`: alias pentru tabela asociata cu aceasta relatie.
-Aceasta optiune este disponibila din versiunea 1.0.1 a Yii. Implicit este null,
+Aceasta optiune este disponibila din versiunea 1.0.1 a Yee. Implicit este null,
 adica alias-ul tabelei este generat automat. Este diferit fata de
 `aliasToken`. `aliasToken` este doar un placeholder si va fi inlocuit cu alias-ul
 tabelei in cauza.
@@ -296,7 +296,7 @@ Aceasta optiune este valabila doar in cazul relatiilor `HAS_MANY` si `MANY_MANY`
    - `having`: clauza `HAVING`. Implicit nu contine nimic.  De notat ca
 referintele la coloane trebuie sa fie diferentiate folosind `aliasToken` (ex. `??.age`).
 Aceasta optiune este valabila doar in cazul relatiilor `HAS_MANY` si `MANY_MANY`. Este disponibila
-incepand cu versiunea 1.0.1 a Yii.
+incepand cu versiunea 1.0.1 a Yee.
 
    - `limit`: clauza limit pentru limitarea randurilor selectate. Aceasta optiune NU se aplica
 relatiei `BELONGS_TO`.

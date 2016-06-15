@@ -7,7 +7,7 @@ correttamente nelle applicazioni reali.
 L'idea centrale che sta dietro MVC è la **riutilizzabilità del codice e la 
 separazione delle competenze**.
 In questa sezione sono descritte alcune linee guida generali su come seguire al 
-meglio il design pattern MVC quando si sviluppa un'applicazione con Yii.
+meglio il design pattern MVC quando si sviluppa un'applicazione con Yee.
 
 Per maggior chiarezza di queste linee guida, si assume che un'applicazione Web 
 sia composta da diverse sotto-apllicazioni, come ad esempio
@@ -21,7 +21,7 @@ una finestra di terminale o come job schedulato a supporto di tutta l'applicazio
 l'applicazione.
 
 Le sotto-applicazioni possono essere implementate in termini di 
-[moduli](/doc/guide/basics.module), o come applicazione Yii che condivide parti 
+[moduli](/doc/guide/basics.module), o come applicazione Yee che condivide parti 
 del codice con le altre sotto-applicazioni.
 
 
@@ -125,7 +125,7 @@ per eseguire piccoli compiti come la formattazione dei dati e la generazione di
 tag HTML. Piuttosto che inserire questo codice direttamente nei file delle view, 
 un migliore approccio è quello di mettere tutti questi frammenti di codice in 
 una classe helper della view. Così è sufficiente utilizzare la classe helper 
-nei file delle view. Yii fornisce un esempio per questo tipo di approccio. Yii 
+nei file delle view. Yee fornisce un esempio per questo tipo di approccio. Yee 
 dispone di una classe helper [CHtml] potente, che può produrre codice HTML di 
 uso comune. Le classi Helper possono essere messe una 
 [cartella di caricamento automatico](/doc/guide/basics.namespace) 

@@ -120,8 +120,8 @@ protected/
 
 ### 动作参数绑定
 
-从版本  1.1.4 开始，Yii 提供了对自动动作参数绑定的支持。
-就是说，控制器动作可以定义命名的参数，参数的值将由 Yii 自动从 `$_GET` 填充。
+从版本  1.1.4 开始，Yee 提供了对自动动作参数绑定的支持。
+就是说，控制器动作可以定义命名的参数，参数的值将由 Yee 自动从 `$_GET` 填充。
 
 为了详细说明此功能，假设我们需要为 `PostController` 写一个 `create` 动作。此动作需要两个参数：
 
@@ -171,7 +171,7 @@ class PostController extends CController
 当用户没有在请求中指定 `$language` 参数时，这个参数会使用默认值 `en` 。
 由于 `$category` 没有默认值，如果用户没有在 `$_GET` 中提供 `category` 参数，
 将会自动抛出一个 [CHttpException] (错误代码 400) 异常。
-Starting from version 1.1.5, Yii also supports array type detection for action parameters.
+Starting from version 1.1.5, Yee also supports array type detection for action parameters.
 This is done by PHP type hinting using the syntax like the following:
 
 ~~~
@@ -180,7 +180,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii will make sure $categories be an array
+		// Yee will make sure $categories be an array
 	}
 }
 ~~~

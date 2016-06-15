@@ -132,7 +132,7 @@ class CRedisCacheTest extends CTestCase
 
 	/**
 	 * Store a value that is 2 times buffer size big
-	 * https://github.com/yiisoft/yii/pull/2750
+	 * https://github.com/yeesoft/yee/pull/2750
 	 */
 	public function testLargeData()
 	{

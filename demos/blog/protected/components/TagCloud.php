@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('zii.widgets.CPortlet');
+Yee::import('zii.widgets.CPortlet');
 
 class TagCloud extends CPortlet
 {

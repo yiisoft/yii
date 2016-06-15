@@ -3,9 +3,9 @@
  * CSqliteSchema class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -228,7 +228,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function dropColumn($table, $column)
 	{
-		throw new CDbException(Yii::t('yii', 'Dropping DB column is not supported by SQLite.'));
+		throw new CDbException(Yee::t('yee', 'Dropping DB column is not supported by SQLite.'));
 	}
 
 	/**
@@ -242,7 +242,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function renameColumn($table, $name, $newName)
 	{
-		throw new CDbException(Yii::t('yii', 'Renaming a DB column is not supported by SQLite.'));
+		throw new CDbException(Yee::t('yee', 'Renaming a DB column is not supported by SQLite.'));
 	}
 
 	/**
@@ -260,7 +260,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
 	{
-		throw new CDbException(Yii::t('yii', 'Adding a foreign key constraint to an existing table is not supported by SQLite.'));
+		throw new CDbException(Yee::t('yee', 'Adding a foreign key constraint to an existing table is not supported by SQLite.'));
 	}
 
 	/**
@@ -273,7 +273,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function dropForeignKey($name, $table)
 	{
-		throw new CDbException(Yii::t('yii', 'Dropping a foreign key constraint is not supported by SQLite.'));
+		throw new CDbException(Yee::t('yee', 'Dropping a foreign key constraint is not supported by SQLite.'));
 	}
 
 	/**
@@ -289,7 +289,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function alterColumn($table, $column, $type)
 	{
-		throw new CDbException(Yii::t('yii', 'Altering a DB column is not supported by SQLite.'));
+		throw new CDbException(Yee::t('yee', 'Altering a DB column is not supported by SQLite.'));
 	}
 
 	/**
@@ -315,7 +315,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function addPrimaryKey($name,$table,$columns)
 	{
-		throw new CDbException(Yii::t('yii', 'Adding a primary key after table has been created is not supported by SQLite.'));
+		throw new CDbException(Yee::t('yee', 'Adding a primary key after table has been created is not supported by SQLite.'));
 	}
 
 
@@ -329,7 +329,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function dropPrimaryKey($name,$table)
 	{
-		throw new CDbException(Yii::t('yii', 'Removing a primary key after table has been created is not supported by SQLite.'));
+		throw new CDbException(Yee::t('yee', 'Removing a primary key after table has been created is not supported by SQLite.'));
 
 	}
 }

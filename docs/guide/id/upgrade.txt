@@ -37,7 +37,7 @@ Perubahan yang Berhubungan dengan Alias Tabel dalam Rekaman Aktif Relasional
 ----------------------------------------------------------------------------
 
 - Sekarang, secara default alias pada tabel relasional sama dengan nama relasi.
-Sebelumnya pada veri 1.0.x, secara default Yii akan menghasilkan sebuah alias tabel
+Sebelumnya pada veri 1.0.x, secara default Yee akan menghasilkan sebuah alias tabel
 untuk setiap tabel relasional, dan kita harus menggunakan prefiks `??.` untuk merujuk
 ke alias yang dihasilkan otomatis ini.
 

@@ -18,7 +18,7 @@ public function actionLogin()
 		// valide les données envoyées par l'utilisateur et
 		// redirige sur la page précédente si les données sont validées.
 		if($model->validate())
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yee::app()->user->returnUrl);
 	}
 	// affiche le formulaire de connexion
 	$this->render('login',array('model'=>$model));
@@ -33,8 +33,8 @@ qui nécessitait l'authentification. Si la validation échoue, ou si l'action es
 pour la premiere fois, on affiche la vue `login` avec le contenu qui va être décrit dans
 la section qui suit.
 
-> Tip: Dans l'action `login`, on utilise `Yii::app()->user->returnUrl` pour récupérer
-l'URL de la page qui nécessitait l'authentification. Le component `Yii::app()->user` est
+> Tip: Dans l'action `login`, on utilise `Yee::app()->user->returnUrl` pour récupérer
+l'URL de la page qui nécessitait l'authentification. Le component `Yee::app()->user` est
 de type [CWebUser] (ou une de ses classes héritées) et contient les informations sur la
 session utilisateur (par exemple username, status). Pour plus de détails, voir [Authentification et autorisation](/doc/guide/topics.auth).
 

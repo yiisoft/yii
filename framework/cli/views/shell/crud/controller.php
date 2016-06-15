@@ -120,7 +120,7 @@ class <?php echo $controllerClass; ?> extends Controller
 	 */
 	public function actionDelete()
 	{
-		if(Yii::app()->request->isPostRequest)
+		if(Yee::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
 			$this->loadModel()->delete();
@@ -184,7 +184,7 @@ class <?php echo $controllerClass; ?> extends Controller
 		if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($modelClass); ?>-form')
 		{
 			echo CActiveForm::validate($model);
-			Yii::app()->end();
+			Yee::app()->end();
 		}
 	}
 }

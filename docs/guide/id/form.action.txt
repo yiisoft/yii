@@ -16,7 +16,7 @@ public function actionLogin()
 		$model->attributes=$_POST['LoginForm'];
 		// validasi inputan user dan redirect kembali ke halaman sebelumnya jika valid.
 		if($model->validate())
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yee::app()->user->returnUrl);
 	}
 	// menampilkan form login.
 	$this->render('login',array('model'=>$model));
@@ -31,9 +31,9 @@ memerlukan otentikasi. Jika validasi gagal, atau jika aksi diakses dari
 awal, kita menyajikan tampilan `login` di mana isinya akan dijelaskan dalam
 subseksi berikut.
 
-> Tip: Dalam aksi `login`, kita menggunakan `Yii::app()->user->returnUrl` untuk mendapatkan
+> Tip: Dalam aksi `login`, kita menggunakan `Yee::app()->user->returnUrl` untuk mendapatkan
 URL halaman sebelumnya yang memerlukan otentikasi. Komponen
-`Yii::app()->user` adalah jenis [CWebUser] (atau kelas turunannya) yang
+`Yee::app()->user` adalah jenis [CWebUser] (atau kelas turunannya) yang
 mewakili informasi sesi pengguna (misalnya username, status). Untuk lebih jelasnya,
 lihat [Otentikasi dan Otorisasi](/doc/guide/topics.auth).
 

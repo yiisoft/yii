@@ -9,7 +9,7 @@ tabel database atau sebuah form html dengan field input user. Setiap field atau 
 oleh sebuah atribut model. Atribut memiliki sebuah label dan dapat divalidasi terhadap sekumpulan
 aturan.
 
-Yii mengimplementasi dua jenis model: Model form dan active record. Mereka
+Yee mengimplementasi dua jenis model: Model form dan active record. Mereka
 menurunkan dari kelas dasar yang sama, [CModel].
 
 Sebuah model form adalah instance dari [CFormModel]. Model form digunakan

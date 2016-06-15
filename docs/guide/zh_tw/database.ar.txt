@@ -1,7 +1,7 @@
 Active Record
 =============
 
-雖然 Yii 資料存取物件可以處理幾乎任何資料庫相關的任務，但很可能我們會花費 90% 的時間以撰寫一些執行普通 CRUD（create, read, update 和 delete）操作的 SQL 語句。而且我們的程式碼中混雜了 SQL 語句時也會變得難以維護。要解決這些問題，我們可以使用 Active Record。
+雖然 Yee 資料存取物件可以處理幾乎任何資料庫相關的任務，但很可能我們會花費 90% 的時間以撰寫一些執行普通 CRUD（create, read, update 和 delete）操作的 SQL 語句。而且我們的程式碼中混雜了 SQL 語句時也會變得難以維護。要解決這些問題，我們可以使用 Active Record。
 
 Active Record (AR) 是一個流行的 物件-關聯映射 (ORM) 技術。每個 AR 類別代資料表一個資料表（或視圖），資料表（或視圖）的欄位在 AR 類別中代資料表類別的特性，一個 AR 實體則資料表示資料表中的一列。常見的 CRUD 操作作為 AR 的方法實現。因此，我們可以以一種更加面向物件的方式存取資料。例如，我們可以使用以下程式碼向 `tbl_post` 資料表中插入一個新列。
 
@@ -26,7 +26,7 @@ CREATE TABLE tbl_post (
 );
 ~~~
 
-> Note|注意: AR 並非要解決所有資料庫相關的任務。它的最佳應用程式是模型化資料表為 PHP 架構和執行不包含複雜 SQL 語句的查詢。對於複雜查詢的場景，應使用 Yii DAO。
+> Note|注意: AR 並非要解決所有資料庫相關的任務。它的最佳應用程式是模型化資料表為 PHP 架構和執行不包含複雜 SQL 語句的查詢。對於複雜查詢的場景，應使用 Yee DAO。
 
 
 建立資料庫連接
@@ -185,7 +185,7 @@ $post->save();
 ~~~
 
 > Tip|提示: 由於 AR 允許我們無需寫一大堆 SQL 語句就能執行資料庫操作，
-我們經常會想知道 AR 在背後到底執行了什麼 SQL 語句。這可以通過開啟 Yii 的
+我們經常會想知道 AR 在背後到底執行了什麼 SQL 語句。這可以通過開啟 Yee 的
 [日誌功能](/doc/guide/topics.logging) 實現。例如，我們在應用程式配置中開啟了
 [CWebLogRoute] ，我們將會在每個網頁的最後看到執行過的 SQL 語句。
 
@@ -378,8 +378,8 @@ $post->save();
 
 類似於資料表記錄，AR 實體由其主鍵值來識別。因此，要對比兩個 AR 實體，假設它們屬於相同的 AR 類別， 我們只需要對比它們的主鍵值。然而,一個更簡單的方式是調用 [CActiveRecord::equals()]。
 
-> Info|訊息: 不同於 AR 在其他框架的執行, Yii 在其 AR 中支援多個主鍵。一個復合主鍵由兩個或更多字串構成。相對地，
-主鍵值在 Yii 中顯示為一個陣列欄位。[PrimaryKey|CActiveRecord::primaryKey] 屬性給出了一個 AR 實體的主鍵值。
+> Info|訊息: 不同於 AR 在其他框架的執行, Yee 在其 AR 中支援多個主鍵。一個復合主鍵由兩個或更多字串構成。相對地，
+主鍵值在 Yee 中顯示為一個陣列欄位。[PrimaryKey|CActiveRecord::primaryKey] 屬性給出了一個 AR 實體的主鍵值。
 
 
 自定
@@ -407,7 +407,7 @@ $post->save();
 使用 AR 處理交易
 -------------------------
 
-每個 AR 實體都含有一個屬性名稱叫 [dbConnection|CActiveRecord::dbConnection] ，是一個 [CDbConnection] 的實體，這樣我們可以在需要時配合 AR 使用由 Yii 資料存取物件提供的 [交易](/doc/guide/database.dao#using-transactions) 功能:
+每個 AR 實體都含有一個屬性名稱叫 [dbConnection|CActiveRecord::dbConnection] ，是一個 [CDbConnection] 的實體，這樣我們可以在需要時配合 AR 使用由 Yee 資料存取物件提供的 [交易](/doc/guide/database.dao#using-transactions) 功能:
 
 ~~~
 [php]
@@ -511,7 +511,7 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"language='".Yii::app()->language."'",
+			'condition'=>"language='".Yee::app()->language."'",
 		);
 	}
 }

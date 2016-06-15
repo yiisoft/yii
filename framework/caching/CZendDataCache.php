@@ -3,9 +3,9 @@
  * CZendDataCache class file
  *
  * @author Steffen Dietz <steffo.dietz[at]googlemail[dot]com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -31,7 +31,7 @@ class CZendDataCache extends CCache
 	{
 		parent::init();
 		if(!function_exists('zend_shm_cache_store'))
-			throw new CException(Yii::t('yii','CZendDataCache requires PHP Zend Data Cache extension to be loaded.'));
+			throw new CException(Yee::t('yee','CZendDataCache requires PHP Zend Data Cache extension to be loaded.'));
 	}
 
 	/**

@@ -3,12 +3,12 @@
  * This file contains the CDbTestCase class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('system.test.CTestCase');
+Yee::import('system.test.CTestCase');
 
 /**
  * CDbTestCase is the base class for test cases about DB-related features.
@@ -83,7 +83,7 @@ abstract class CDbTestCase extends CTestCase
 	 */
 	public function getFixtureManager()
 	{
-		return Yii::app()->getComponent('fixture');
+		return Yee::app()->getComponent('fixture');
 	}
 
 	/**

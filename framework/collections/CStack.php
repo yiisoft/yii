@@ -3,9 +3,9 @@
  * This file contains classes implementing the stack feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -80,7 +80,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 			}
 		}
 		elseif($data!==null)
-			throw new CException(Yii::t('yii','Stack data must be an array or an object implementing Traversable.'));
+			throw new CException(Yee::t('yee','Stack data must be an array or an object implementing Traversable.'));
 	}
 
 	/**
@@ -112,7 +112,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 		if($this->_c)
 			return $this->_d[$this->_c-1];
 		else
-			throw new CException(Yii::t('yii','The stack is empty.'));
+			throw new CException(Yee::t('yee','The stack is empty.'));
 	}
 
 	/**
@@ -128,7 +128,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 			return array_pop($this->_d);
 		}
 		else
-			throw new CException(Yii::t('yii','The stack is empty.'));
+			throw new CException(Yee::t('yee','The stack is empty.'));
 	}
 
 	/**

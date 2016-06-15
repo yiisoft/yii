@@ -4,9 +4,9 @@
  * CCaptchaAction class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -43,7 +43,7 @@ class CCaptchaAction extends CAction
 	/**
 	 * Prefix to the session variable name used by the action.
 	 */
-	const SESSION_VAR_PREFIX='Yii.CCaptchaAction.';
+	const SESSION_VAR_PREFIX='Yee.CCaptchaAction.';
 	/**
 	 * @var integer how many times should the same CAPTCHA be displayed. Defaults to 3.
 	 * A value less than or equal to 0 means the test is unlimited (available since version 1.1.2).
@@ -89,7 +89,7 @@ class CCaptchaAction extends CAction
 	 **/
 	public $offset = -2;
 	/**
-	 * @var string the TrueType font file. Defaults to SpicyRice.ttf which is provided with the Yii release.
+	 * @var string the TrueType font file. Defaults to SpicyRice.ttf which is provided with the Yee release.
 	 * Note that non-free Duality.ttf has been changed to open/free SpicyRice.ttf since 1.1.14.
 	 */
 	public $fontFile;
@@ -128,7 +128,7 @@ class CCaptchaAction extends CAction
 		}
 		else
 			$this->renderImage($this->getVerifyCode());
-		Yii::app()->end();
+		Yee::app()->end();
 	}
 
 	/**
@@ -154,7 +154,7 @@ class CCaptchaAction extends CAction
 		if($this->fixedVerifyCode !== null)
 			return $this->fixedVerifyCode;
 
-		$session = Yii::app()->session;
+		$session = Yee::app()->session;
 		$session->open();
 		$name = $this->getSessionKey();
 		if($session[$name] === null || $regenerate)
@@ -175,7 +175,7 @@ class CCaptchaAction extends CAction
 	{
 		$code = $this->getVerifyCode();
 		$valid = $caseSensitive ? ($input === $code) : strcasecmp($input,$code)===0;
-		$session = Yii::app()->session;
+		$session = Yee::app()->session;
 		$session->open();
 		$name = $this->getSessionKey() . 'count';
 		$session[$name] = $session[$name] + 1;
@@ -218,7 +218,7 @@ class CCaptchaAction extends CAction
 	 */
 	protected function getSessionKey()
 	{
-		return self::SESSION_VAR_PREFIX . Yii::app()->getId() . '.' . $this->getController()->getUniqueId() . '.' . $this->getId();
+		return self::SESSION_VAR_PREFIX . Yee::app()->getId() . '.' . $this->getController()->getUniqueId() . '.' . $this->getId();
 	}
 
 	/**

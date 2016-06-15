@@ -1,7 +1,7 @@
 Component
 =========
 
-Yii applications are built upon components which are objects
+Yee applications are built upon components which are objects
 written to a specification. A component is an instance of
 [CComponent] or its derived class. Using a component mainly involves
 accessing its properties and raising/handling its events. The base class
@@ -81,7 +81,7 @@ $document->completed=true;
 ~~~
 
 When trying to read a component property and the property isn't defined as a
-public class member, Yii is trying to use a getter method i.e. for `textWidth`
+public class member, Yee is trying to use a getter method i.e. for `textWidth`
 a getter method will be `getTextWidth`. Same thing happens when trying to write a
 property not defined as a public class member.
 

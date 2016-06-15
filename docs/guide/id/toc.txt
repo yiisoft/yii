@@ -2,10 +2,10 @@
 	- [Tinjauan](index)
 	- [Fitur Baru](changes)
         - [Upgrade dari 1.0 ke 1.1](upgrade)
-    - [Apa itu Yii](quickstart.what-is-yii)
+    - [Apa itu Yee](quickstart.what-is-yee)
     - [Instalasi](quickstart.installation)
     - [Konfigurasi Apache and Nginx](quickstart.apache-nginx-config)
-    - [Membuat Aplikasi Yii Pertama](quickstart.first-app)
+    - [Membuat Aplikasi Yee Pertama](quickstart.first-app)
 
 * Fundamental
     - [Model-View-Controller (MVC)](basics.mvc)
@@ -44,7 +44,7 @@
     - [Caching Halaman](caching.page)
     - [Konten Dinamis](caching.dynamic)
 
-* Memperluas Yii
+* Memperluas Yee
     - [Tinjauan](extension.overview)
     - [Menggunakan Extension](extension.use)
     - [Membuat Extension](extension.create)
@@ -69,6 +69,6 @@
     - [Aplikasi Konsol](topics.console)
     - [Keamanan](topics.security)
     - [Pengaturan Kinerja](topics.performance)
-    - [Menghasilkan Kode dengan Command Line Tools(deprecated)](quickstart.first-app-yiic)
+    - [Menghasilkan Kode dengan Command Line Tools(deprecated)](quickstart.first-app-yeec)
 
 <div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>

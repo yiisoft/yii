@@ -6,7 +6,7 @@ webbapplikation. Genom att lagra relativt statiska data i cacheminne och
 leverera dem därifrån på begäran, sparas den tid som skulle gått åt till 
 generering av data.
 
-Användande av cacheminne i Yii innebär i huvudsak konfigurering och åtkomst till 
+Användande av cacheminne i Yee innebär i huvudsak konfigurering och åtkomst till 
 en cache-applikationskomponent. Följande applikationskonfiguration specificerar 
 en cachekomponent som använder memcache med två cacheservrar.
 
@@ -27,9 +27,9 @@ array(
 );
 ~~~
 
-När applikationen är igång kan cachekomponenten nås via `Yii::app()->cache`.
+När applikationen är igång kan cachekomponenten nås via `Yee::app()->cache`.
 
-Yii erbjuder olika cachekomponenter som kan lagra cachedata på olika 
+Yee erbjuder olika cachekomponenter som kan lagra cachedata på olika 
 media. Till exempel, [CMemCache]-komponenten kapslar in PHP:s memcache-tillägg 
 och använder minne som medium för cachelagring; [CApcCache]-komponenten kapslar 
 in PHP:s APC-tillägg; och [CDbCache]-komponenten cachelagrar data i en databas. 
@@ -57,8 +57,8 @@ Här följer en sammanfattning av de tillgängliga cachekomponenterna:
 med denna komponent är att förenkla kod som behöver undersöka cache-tillgänglighet.
 Till exempel, under utveckling eller om servern saknar stöd för aktuell cachning, kan
 denna cachningskomponent användas. När aktuellt cachningsstöd blir aktivt, kan detta
-i stället användas. I bägge fallen kan samma kod, `Yii::app()->cache->get($key)` användas 
-till att hämta ett stycke data utan risk att `Yii::app()->cache` skulle kunna vara `null`. 
+i stället användas. I bägge fallen kan samma kod, `Yee::app()->cache->get($key)` användas 
+till att hämta ett stycke data utan risk att `Yee::app()->cache` skulle kunna vara `null`. 
 
 > Tip|Tips: Eftersom alla dessa cachekomponenter utvidgar samma basklass [CCache], 
 kan man byta till en annan typ av cache utan att modifiera kod som använder sig 

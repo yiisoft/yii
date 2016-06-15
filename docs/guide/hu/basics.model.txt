@@ -9,7 +9,7 @@ vagy egy felhasználó által küldött űrlap (form). Az adat objektum minden m
 a model egy tulajdonságaként van meghatározva. Minden tulajdonságnak van egy
 cimkéje, és érvényesíthető adot szabályokkal szemben.
 
-A Yii kétféle model-t valósít meg: form (űrlap) model-t és active record-ot.
+A Yee kétféle model-t valósít meg: form (űrlap) model-t és active record-ot.
 Mindkettő ugyanabból az alap osztályból származik, ami a [CModel].
 
 Egy form model a [CFormModel] egy példánya. A form model felhasználótól érkező

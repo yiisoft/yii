@@ -3,9 +3,9 @@
  * CExistValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -75,17 +75,17 @@ class CExistValidator extends CValidator
 
 		if(is_array($value))
 		{
-			// https://github.com/yiisoft/yii/issues/1955
-			$this->addError($object,$attribute,Yii::t('yii','{attribute} is invalid.'));
+			// https://github.com/yeesoft/yee/issues/1955
+			$this->addError($object,$attribute,Yee::t('yee','{attribute} is invalid.'));
 			return;
 		}
 
-		$className=$this->className===null?get_class($object):Yii::import($this->className);
+		$className=$this->className===null?get_class($object):Yee::import($this->className);
 		$attributeName=$this->attributeName===null?$attribute:$this->attributeName;
 		$finder=$this->getModel($className);
 		$table=$finder->getTableSchema();
 		if(($column=$table->getColumn($attributeName))===null)
-			throw new CException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
+			throw new CException(Yee::t('yee','Table "{table}" does not have a column named "{column}".',
 				array('{column}'=>$attributeName,'{table}'=>$table->name)));
 
 		$columnName=$column->rawName;
@@ -99,7 +99,7 @@ class CExistValidator extends CValidator
 
 		if(!$finder->exists($criteria))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} "{value}" is invalid.');
+			$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} "{value}" is invalid.');
 			$this->addError($object,$attribute,$message,array('{value}'=>CHtml::encode($value)));
 		}
 	}

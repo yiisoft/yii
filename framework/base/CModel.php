@@ -3,9 +3,9 @@
  * CModel class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -286,7 +286,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			if(isset($rule[0],$rule[1]))  // attributes, validator name
 				$validators->add(CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2)));
 			else
-				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
+				throw new CException(Yee::t('yee','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
 					array('{class}'=>get_class($this))));
 		}
 		return $validators;
@@ -500,7 +500,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	public function onUnsafeAttribute($name,$value)
 	{
 		if(YII_DEBUG)
-			Yii::log(Yii::t('yii','Failed to set unsafe attribute "{attribute}" of "{class}".',array('{attribute}'=>$name, '{class}'=>get_class($this))),CLogger::LEVEL_WARNING);
+			Yee::log(Yee::t('yee','Failed to set unsafe attribute "{attribute}" of "{class}".',array('{attribute}'=>$name, '{class}'=>get_class($this))),CLogger::LEVEL_WARNING);
 	}
 
 	/**

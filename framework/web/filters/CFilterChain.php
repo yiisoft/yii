@@ -3,9 +3,9 @@
  * CFilterChain class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -74,7 +74,7 @@ class CFilterChain extends CList
 			elseif(is_array($filter))  // array('path.to.class [+|- action1, action2]','param1'=>'value1',...)
 			{
 				if(!isset($filter[0]))
-					throw new CException(Yii::t('yii','The first element in a filter configuration must be the filter class.'));
+					throw new CException(Yee::t('yee','The first element in a filter configuration must be the filter class.'));
 				$filterClass=$filter[0];
 				unset($filter[0]);
 				if(($pos=strpos($filterClass,'+'))!==false || ($pos=strpos($filterClass,'-'))!==false)
@@ -86,7 +86,7 @@ class CFilterChain extends CList
 						continue;
 				}
 				$filter['class']=$filterClass;
-				$filter=Yii::createComponent($filter);
+				$filter=Yee::createComponent($filter);
 			}
 
 			if(is_object($filter))
@@ -112,7 +112,7 @@ class CFilterChain extends CList
 		if($item instanceof IFilter)
 			parent::insertAt($index,$item);
 		else
-			throw new CException(Yii::t('yii','CFilterChain can only take objects implementing the IFilter interface.'));
+			throw new CException(Yee::t('yee','CFilterChain can only take objects implementing the IFilter interface.'));
 	}
 
 	/**
@@ -126,7 +126,7 @@ class CFilterChain extends CList
 		if($this->offsetExists($this->filterIndex))
 		{
 			$filter=$this->itemAt($this->filterIndex++);
-			Yii::trace('Running filter '.($filter instanceof CInlineFilter ? get_class($this->controller).'.filter'.$filter->name.'()':get_class($filter).'.filter()'),'system.web.filters.CFilterChain');
+			Yee::trace('Running filter '.($filter instanceof CInlineFilter ? get_class($this->controller).'.filter'.$filter->name.'()':get_class($filter).'.filter()'),'system.web.filters.CFilterChain');
 			$filter->filter($this);
 		}
 		else

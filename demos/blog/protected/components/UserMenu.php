@@ -1,12 +1,12 @@
 <?php
 
-Yii::import('zii.widgets.CPortlet');
+Yee::import('zii.widgets.CPortlet');
 
 class UserMenu extends CPortlet
 {
 	public function init()
 	{
-		$this->title=CHtml::encode(Yii::app()->user->name);
+		$this->title=CHtml::encode(Yee::app()->user->name);
 		parent::init();
 	}
 

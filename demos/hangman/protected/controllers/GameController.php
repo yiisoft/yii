@@ -3,9 +3,9 @@
  * GameController class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -53,7 +53,7 @@ class GameController extends CController
 			$params=array(
 				'levels'=>$levels,
 				// if this is a POST request, it means the level is not chosen
-				'error'=>Yii::app()->request->isPostRequest,
+				'error'=>Yee::app()->request->isPostRequest,
 			);
 			// show the difficulty level page
 			$this->render('play',$params);

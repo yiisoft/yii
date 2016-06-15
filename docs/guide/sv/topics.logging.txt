@@ -1,7 +1,7 @@
 Loggning
 ========
 
-Yii erbjuder en flexibel och utbyggbar loggningsmöjlighet. Meddelanden som 
+Yee erbjuder en flexibel och utbyggbar loggningsmöjlighet. Meddelanden som 
 loggas kan klassificeras efter loggningsnivå och meddelandekategori. Med hjälp 
 av nivå- och kategorifilter kan utvalda meddelanden styras vidare till 
 varierande destinationer, så som filer, mail, webbläsarfönster, etc.
@@ -9,14 +9,14 @@ varierande destinationer, så som filer, mail, webbläsarfönster, etc.
 Meddelandeloggning
 ------------------
 
-Meddelanden kan loggas genom anrop till antingen [Yii::log] eller [Yii::trace]. 
+Meddelanden kan loggas genom anrop till antingen [Yee::log] eller [Yee::trace]. 
 Skillnaden mellan dess två metoder är att den senare loggar ett meddelande 
 endast när applikationen är i [debugläge](/doc/guide/basics.entry#debug-mode).
 
 ~~~
 [php]
-Yii::log($message, $level, $category);
-Yii::trace($message, $category);
+Yee::log($message, $level, $category);
+Yee::trace($message, $category);
 ~~~
 
 När ett meddelande loggas, behöver dess kategori och nivå level anges. Kategori 
@@ -25,7 +25,7 @@ När ett meddelande loggas, behöver dess kategori och nivå level anges. Katego
 loggas i [CController], kan vi använda kategorin `system.web.CController`. 
 Meddelandenivå skall vara något av följande värden:
 
-   - `trace`: detta är nivån som [Yii::trace] använder. Den är till för att 
+   - `trace`: detta är nivån som [Yee::trace] använder. Den är till för att 
    följa exekveringsflödet i applikationen när den utvecklas.
 
    - `info`: denna nivå är för loggning av generell information.
@@ -39,13 +39,13 @@ Meddelandenivå skall vara något av följande värden:
 Meddelandestyrning
 ------------------
 
-Meddelanden som loggas med hjälp av [Yii::log] eller [Yii::trace] förvaras i 
+Meddelanden som loggas med hjälp av [Yee::log] eller [Yee::trace] förvaras i 
 primärminne. Vanligtvis vill vi presentera dem i webbläsarens fönster, eller 
 spara dem till något icke-flyktigt minne såsom filer, email. Detta kallas för 
 *meddelandestyrning* (message routing), dvs att skicka meddelanden till 
 varierande destinationer.
 
-I Yii hanteras meddelandestyrning av en applikationskomponent, [CLogRouter]. Den 
+I Yee hanteras meddelandestyrning av en applikationskomponent, [CLogRouter]. Den 
 hanterar en uppsättning av så kallade *loggningsvägar* (log routes). Varje 
 loggningsväg representerar en distinkt loggdestination. Meddelanden som skickas 
 längs en loggningsväg kan filtreras med avseende på deras nivåer och kategorier.
@@ -89,7 +89,7 @@ med `system.` sparas. Den andra loggningsvägen är [CEmailLogRoute] som skickar
 meddelanden till den angivna mailadressen. Enbart meddelanden vars nivå är 
 `error` eller `warning` skickas.
 
-Följande loggningsvägar finns tillgängliga i Yii:
+Följande loggningsvägar finns tillgängliga i Yee:
 
    - [CDbLogRoute]: sparar meddelanden i en databastabell.
    - [CEmailLogRoute]: Skickar meddelanden till en angiven mailadress.
@@ -127,7 +127,7 @@ fördefinierade PHP-variabler (t.ex. `$_GET`, `$_SERVER`), sessions-ID, använda
 Detta åstadkommmes genom att propertyn [CLogRoute::filter] för en loggningsväg specificeras 
 till ett passande loggningsfilter.
 
-Yii-ramverket innehåller det praktiska [CLogFilter] som i de flesta fall kan användas 
+Yee-ramverket innehåller det praktiska [CLogFilter] som i de flesta fall kan användas 
 när ett loggningsfilter erfordras. Som standard loggar [CLogFilter] ett meddelande 
 tillsammans med variabler som `$_GET`, `$_SERVER`, vilka ofta innehåller värdefull 
 information om systemkontext.
@@ -162,11 +162,11 @@ array(
 ~~~
 
 
-Yii stöder loggning av anropsstacken i meddelanden som loggas genom anrop till `Yii::trace`. 
+Yee stöder loggning av anropsstacken i meddelanden som loggas genom anrop till `Yee::trace`. 
 Denna finess är som standard inte aktiverad, eftersom den sätter ned prestanda. 
 För att använda denna finess, definiera helt enkelt konstanten `YII_TRACE_LEVEL` 
-placerad i början av startskriptet (före inkludering av `yii.php`) till ett heltal 
-större än 0. Yii kommer då att komplettera varje trace-meddelande med filnamn och 
+placerad i början av startskriptet (före inkludering av `yee.php`) till ett heltal 
+större än 0. Yee kommer då att komplettera varje trace-meddelande med filnamn och 
 radnummer för anrop som tillhör applikationskod. Värdet av `YII_TRACE_LEVEL` avgör 
 hur många nivåer av anropsstacken som skall registreras. Denna information är 
 i synnerhet användbar i utvecklingsfasen, eftersom den kan hjälpa till att 
@@ -186,9 +186,9 @@ insättning av följande metoder:
 
 ~~~
 [php]
-Yii::beginProfile('blockID');
+Yee::beginProfile('blockID');
 ...code block being profiled...
-Yii::endProfile('blockID');
+Yee::endProfile('blockID');
 ~~~
 
 där `blockID` är ett ID som oförväxelbart identifierar kodblocket.
@@ -209,7 +209,7 @@ Profilering av SQL-exekvering
 Profilering är speciellt användbar vid arbete med databaser eftersom SQL-exekvering 
 ofta står för den huvudsakliga prestandaförlusten i en applikation. Utöver att vi 
 manuellt kan sätta in `beginProfile`- och `endProfile`-satser på lämpliga ställen, 
-för att mäta tidåtgången i varje SQL-exekvering, tillhandahåller Yii ett mer systematiskt 
+för att mäta tidåtgången i varje SQL-exekvering, tillhandahåller Yee ett mer systematiskt 
 tillvägagångssätt för att lösa detta problem.
 
 Genom att sätta [CDbConnection::enableProfiling] till true i applikationskonfigurationen,

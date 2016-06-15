@@ -5,7 +5,7 @@ Wir empfehlen Ihnen, sich zunächst die [Selenium
 Dokumenation](http://seleniumhq.org/docs/) sowie die [PHPUnit
 Dokumenation](http://www.phpunit.de/wiki/Documentation) durchzulesen. 
 Zusammengefasst gelten diese Grundprinzipien für das Schreiben von
-Funktionstests in Yii:
+Funktionstests in Yee:
 
  * Genauso wie bei Unittests wird ein Funktionstest als Klasse `XyzTest`
 geschrieben, die diesmal von [CWebTestCase] abgeleitet wird, wobei `Xyz` für
@@ -27,14 +27,14 @@ interagieren. Sie enthält auch Assert-Statements um zu prüfen, dass die
 Anwendung wie erwartet reagiert.
 
 Bevor wir näher darauf eingehen, wie man einen Funktionstest schreibt, sehen
-wir uns zunächst die Datei `WebTestCase.php` näher an, die von `yiic webapp`
+wir uns zunächst die Datei `WebTestCase.php` näher an, die von `yeec webapp`
 erstellt wurde. In dieser Datei wird `WebTestCase` definiert, die man als
 Basisklasse für alle Funktionstest verwenden kann.
 
 
 ~~~
 [php]
-define('TEST_BASE_URL','http://localhost/yii/demos/blog/index-test.php/');
+define('TEST_BASE_URL','http://localhost/yee/demos/blog/index-test.php/');
 
 class WebTestCase extends CWebTestCase
 {
@@ -62,7 +62,7 @@ den beiden Dateien besteht darin, dass erstere `test.php` als
 Konfigurationsdatei verwendet, letztere `main.php`.
 
 Sehen wir uns nun an, wie wir das Feature zur Anzeige eines Beitrags im
-[Blog-Demo](http://www.yiiframework.com/demos/blog) testen können. Zunächst
+[Blog-Demo](http://www.yeeframework.com/demos/blog) testen können. Zunächst
 schreiben wir die Testklasse wie folgt (Beachten Sie, dass wir sie von WebTestCase
 ableiten):
 
@@ -92,7 +92,7 @@ In diesem Fall soll das Fixture für `Post` verwendet werden. In der Methode
 `testShow` weisen wir Selenium RC zuerst and, die URL `post/1` zu öffnen. Man
 beachte, dass es sich hier um eine relative URL handelt. Die vollständige
 URL wird mit der in der Basisklasse gesetzten Basis-URL gebildet (z.B.
-`http://localhost/yii/demos/blog/index-test.php/post/1`). Wir prüfen dann, ob
+`http://localhost/yee/demos/blog/index-test.php/post/1`). Wir prüfen dann, ob
 der Titel des Beitrags `sample1` in der aktuellen Seite gefunden wurde. Und
 wir stellen auch sicher, dass die Seite den Text `Leave a Comment` enthält.
 

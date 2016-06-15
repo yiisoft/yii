@@ -3,9 +3,9 @@
  * CPasswordHelper class file.
  *
  * @author Tom Worster <fsb@thefsb.org>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -23,8 +23,8 @@
  * $2y fix backported. Note that Debian's 5.3.3 is not supported.
  *
  * For more information about password hashing, crypt() and Blowfish, please read
- * the Yii Wiki article
- * {@link http://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/ Use crypt() for password storage}.
+ * the Yee Wiki article
+ * {@link http://www.yeeframework.com/wiki/425/use-crypt-for-password-storage/ Use crypt() for password storage}.
  * and the
  * PHP RFC {@link http://wiki.php.net/rfc/password_hash Adding simple password hashing API}.
  *
@@ -61,11 +61,11 @@ class CPasswordHelper
 	protected static function checkBlowfish()
 	{
 		if(!function_exists('crypt'))
-			throw new CException(Yii::t('yii','{class} requires the PHP crypt() function. This system does not have it.',
+			throw new CException(Yee::t('yee','{class} requires the PHP crypt() function. This system does not have it.',
 				array('{class}'=>__CLASS__)));
 
 		if(!defined('CRYPT_BLOWFISH') || !CRYPT_BLOWFISH)
-			throw new CException(Yii::t('yii',
+			throw new CException(Yee::t('yee',
 				'{class} requires the Blowfish option of the PHP crypt() function. This system does not have it.',
 				array('{class}'=>__CLASS__)));
 	}
@@ -96,7 +96,7 @@ class CPasswordHelper
 		$hash=crypt($password,$salt);
 
 		if(!is_string($hash) || (function_exists('mb_strlen') ? mb_strlen($hash, '8bit') : strlen($hash))<32)
-			throw new CException(Yii::t('yii','Internal error while generating hash.'));
+			throw new CException(Yee::t('yee','Internal error while generating hash.'));
 
 		return $hash;
 	}
@@ -181,15 +181,15 @@ class CPasswordHelper
 	public static function generateSalt($cost=13)
 	{
 		if(!is_numeric($cost))
-			throw new CException(Yii::t('yii','{class}::$cost must be a number.',array('{class}'=>__CLASS__)));
+			throw new CException(Yee::t('yee','{class}::$cost must be a number.',array('{class}'=>__CLASS__)));
 
 		$cost=(int)$cost;
 		if($cost<4 || $cost>31)
-			throw new CException(Yii::t('yii','{class}::$cost must be between 4 and 31.',array('{class}'=>__CLASS__)));
+			throw new CException(Yee::t('yee','{class}::$cost must be between 4 and 31.',array('{class}'=>__CLASS__)));
 
-		if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,true))===false)
-			if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,false))===false)
-				throw new CException(Yii::t('yii','Unable to generate random string.'));
+		if(($random=Yee::app()->getSecurityManager()->generateRandomString(22,true))===false)
+			if(($random=Yee::app()->getSecurityManager()->generateRandomString(22,false))===false)
+				throw new CException(Yee::t('yee','Unable to generate random string.'));
 		return sprintf('$2y$%02d$',$cost).strtr($random,array('_'=>'.','~'=>'/'));
 	}
 }

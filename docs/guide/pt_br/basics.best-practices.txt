@@ -1,7 +1,7 @@
 Boas Práticas com MVC
 =====================
 
-Apesar de o padrão de desenvolvimento modelo-visão-controle (MVC) ser conhecido por quase todos os programadores, a maneira apropriada de usá-lo no desenvolvimento de aplicações ainda falta a muitas pessoas. A ideia central por trás do MVC é **reuso de código e separação de conceitos**. Nesta seção, nós descrevemos algumas orientações gerais sobre como seguir melhor o MVC ao desenvolver uma aplicação com o Yii.
+Apesar de o padrão de desenvolvimento modelo-visão-controle (MVC) ser conhecido por quase todos os programadores, a maneira apropriada de usá-lo no desenvolvimento de aplicações ainda falta a muitas pessoas. A ideia central por trás do MVC é **reuso de código e separação de conceitos**. Nesta seção, nós descrevemos algumas orientações gerais sobre como seguir melhor o MVC ao desenvolver uma aplicação com o Yee.
 
 Para explicar melhor estas orientações, nós assumimos que uma aplicação Web consiste de algumas sub-aplicações, tais como
 
@@ -10,7 +10,7 @@ Para explicar melhor estas orientações, nós assumimos que uma aplicação Web
 * console: uma aplicação que consiste de comandos de console (linha de comando) para serem executados em uma janela de terminal ou como tarefas agendadas para dar suporte à aplicação como um todo;
 * Web API: fornece interfaces para a integração com a aplicação por terceiros.
 
-As sub-aplicações podem ser implementadas em termos de [módulos](/doc/guide/basics.module), ou como aplicações Yii que compartilham código com outras sub-aplicações.
+As sub-aplicações podem ser implementadas em termos de [módulos](/doc/guide/basics.module), ou como aplicações Yee que compartilham código com outras sub-aplicações.
 
 
 Modelo
@@ -61,7 +61,7 @@ Visões podem ser reutilizadas de maneiras diferentes:
 
 * Widgets: se muita lógica é necessária para representar uma visão parcial, esta pode ser transformada em um widget, cuja classe é o melhor lugar para conter esta lógica. Para widgets que geram muito markup em HTML, é melhor usar visões específicas do widget para conter o markup.
 
-* Classes auxiliares: nas visões nós precisamos com frequência de fragmentos de código para fazer pequenas tarefas como a formatação de dados ou a geração de tags HTML. Invés de deixar este código diretamente nos arquivos das visões, uma abordagem melhor é deixar todo este código em uma classe auxiliar para as visões. Então, é só usar a classe auxiliar nas suas visões. O Yii fornece um exemplo desta abordagem. O Yii tem a poderosa classe auxiliar [CHtml] que pode produzir código HTML comumente usado. As classes auxiliares podem ser postas em um [diretório auto carregável](/doc/guide/basics.namespace) para que elas possam ser usadas sem uma inclusão explícita da classe.
+* Classes auxiliares: nas visões nós precisamos com frequência de fragmentos de código para fazer pequenas tarefas como a formatação de dados ou a geração de tags HTML. Invés de deixar este código diretamente nos arquivos das visões, uma abordagem melhor é deixar todo este código em uma classe auxiliar para as visões. Então, é só usar a classe auxiliar nas suas visões. O Yee fornece um exemplo desta abordagem. O Yee tem a poderosa classe auxiliar [CHtml] que pode produzir código HTML comumente usado. As classes auxiliares podem ser postas em um [diretório auto carregável](/doc/guide/basics.namespace) para que elas possam ser usadas sem uma inclusão explícita da classe.
 
 
 Controle

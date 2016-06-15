@@ -3,9 +3,9 @@
  * ControllerCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -67,7 +67,7 @@ EXAMPLES
 
 NOTE: in the last two examples, the commands are the same, but
 the generated controller file is located under different directories.
-Yii is able to detect whether 'admin' refers to a module or a subdirectory.
+Yee is able to detect whether 'admin' refers to a module or a subdirectory.
 
 EOD;
 	}
@@ -86,7 +86,7 @@ EOD;
 			return 1;
 		}
 
-		$module=Yii::app();
+		$module=Yee::app();
 		$controllerID=$args[0];
 		if(($pos=strrpos($controllerID,'/'))===false)
 		{
@@ -105,7 +105,7 @@ EOD;
 			$controllerClass=ucfirst($last).'Controller';
 			$controllerFile=($middle===''?'':$middle.'/').$controllerClass.'.php';
 			$controllerID=$middle===''?$last:$middle.'/'.$last;
-			if(($m=Yii::app()->getModule($first))!==null)
+			if(($m=Yee::app()->getModule($first))!==null)
 				$module=$m;
 			else
 			{

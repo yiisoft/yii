@@ -3,9 +3,9 @@
  * CDetailView class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -136,7 +136,7 @@ class CDetailView extends CWidget
 	public function init()
 	{
 		if($this->data===null)
-			throw new CException(Yii::t('zii','Please specify the "data" property.'));
+			throw new CException(Yee::t('zii','Please specify the "data" property.'));
 		if($this->attributes===null)
 		{
 			if($this->data instanceof CModel)
@@ -144,23 +144,23 @@ class CDetailView extends CWidget
 			elseif(is_array($this->data))
 				$this->attributes=array_keys($this->data);
 			else
-				throw new CException(Yii::t('zii','Please specify the "attributes" property.'));
+				throw new CException(Yee::t('zii','Please specify the "attributes" property.'));
 		}
 		if($this->nullDisplay===null)
-			$this->nullDisplay='<span class="null">'.Yii::t('zii','Not set').'</span>';
+			$this->nullDisplay='<span class="null">'.Yee::t('zii','Not set').'</span>';
 		if(isset($this->htmlOptions['id']))
 			$this->id=$this->htmlOptions['id'];
 		else
 			$this->htmlOptions['id']=$this->id;
 
 		if($this->baseScriptUrl===null)
-			$this->baseScriptUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/detailview';
+			$this->baseScriptUrl=Yee::app()->getAssetManager()->publish(Yee::getPathOfAlias('zii.widgets.assets')).'/detailview';
 
 		if($this->cssFile!==false)
 		{
 			if($this->cssFile===null)
 				$this->cssFile=$this->baseScriptUrl.'/styles.css';
-			Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+			Yee::app()->getClientScript()->registerCssFile($this->cssFile);
 		}
 	}
 
@@ -182,7 +182,7 @@ class CDetailView extends CWidget
 			if(is_string($attribute))
 			{
 				if(!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/',$attribute,$matches))
-					throw new CException(Yii::t('zii','The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
+					throw new CException(Yee::t('zii','The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
 				$attribute=array(
 					'name'=>$matches[1],
 					'type'=>isset($matches[3]) ? $matches[3] : 'text',
@@ -246,7 +246,7 @@ class CDetailView extends CWidget
 	public function getFormatter()
 	{
 		if($this->_formatter===null)
-			$this->_formatter=Yii::app()->format;
+			$this->_formatter=Yee::app()->format;
 		return $this->_formatter;
 	}
 

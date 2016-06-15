@@ -28,7 +28,7 @@ public function loadModel()
 	{
 		if(isset($_GET['id']))
 		{
-			if(Yii::app()->user->isGuest)
+			if(Yee::app()->user->isGuest)
 				$condition='status='.Post::STATUS_PUBLISHED
 					.' OR status='.Post::STATUS_ARCHIVED;
 			else
@@ -44,7 +44,7 @@ public function loadModel()
 
 Nuestro cambio radica principalmente en el método `loadModel()`. En este método, consultamos la tabla `Post` de acuerdo al parámetro GET `id`. Si el post no se encuentra o si no está publicado o archivado (cuando el usuario es un invitado), lanzamos un error HTTP 404. De lo contrario el objeto post se devuelve a `actionView()` quien pasa el objeto post al script de la vista para mostrarlo.
 
-> Tip|Consejo: Yii captura excepciones HTTP (instancias de [CHttpException]) y las muestra en plantillas predefinidas o vistas de error personalizadas. El esqueleto de la aplicación generada por `yiic` ya contiene una vista de error personalizada en `/wwwroot/blog/protected/views/site/error.php`. Podemos modificar este archivo si queremos personalizar más cómo se muestra el error.
+> Tip|Consejo: Yee captura excepciones HTTP (instancias de [CHttpException]) y las muestra en plantillas predefinidas o vistas de error personalizadas. El esqueleto de la aplicación generada por `yeec` ya contiene una vista de error personalizada en `/wwwroot/blog/protected/views/site/error.php`. Podemos modificar este archivo si queremos personalizar más cómo se muestra el error.
 
 El cambio en el script `view` es principalmente para ajustar el formato y estilo de mostrar posts. No vamos a entrar en detalles aquí. Lectores interesados pueden consultar `/wwwroot/blog/protected/views/post/view.php`.
 

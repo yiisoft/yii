@@ -3,9 +3,9 @@
  * CConsoleApplication class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -51,7 +51,7 @@ class CConsoleApplication extends CApplication
 	 * Each command configuration can be either a string or an array.
 	 * If the former, the string should be the file path of the command class.
 	 * If the latter, the array must contain a 'class' element which specifies
-	 * the command's class name or {@link YiiBase::getPathOfAlias class path alias}.
+	 * the command's class name or {@link YeeBase::getPathOfAlias class path alias}.
 	 * The rest name-value pairs in the array are used to initialize
 	 * the corresponding command properties. For example,
 	 * <pre>
@@ -164,7 +164,7 @@ class CConsoleApplication extends CApplication
 	public function setCommandPath($value)
 	{
 		if(($this->_commandPath=realpath($value))===false || !is_dir($this->_commandPath))
-			throw new CException(Yii::t('yii','The command path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The command path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 

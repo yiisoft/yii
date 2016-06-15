@@ -36,7 +36,7 @@ public function filters()
 
 HTTP 快取
 ------------
-除了簡單快取動作的輸出，Yii 在版本 1.1.11 介紹了 [CHttpCacheFilter]。這個篩選器協助了前面所提到的，使用標頭來提示客戶端頁面的內容，自上一次請求後就沒有改變，所以伺服器不需要重新傳送內容。[CHttpCacheFilter] 可以像 [COutputCache] 一樣設置：
+除了簡單快取動作的輸出，Yee 在版本 1.1.11 介紹了 [CHttpCacheFilter]。這個篩選器協助了前面所提到的，使用標頭來提示客戶端頁面的內容，自上一次請求後就沒有改變，所以伺服器不需要重新傳送內容。[CHttpCacheFilter] 可以像 [COutputCache] 一樣設置：
 
 ~~~
 [php]
@@ -45,7 +45,7 @@ public function filters()
     return array(
         array(
             'CHttpCacheFilter + index',
-            'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
+            'lastModified'=>Yee::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
         ),
     );
 }

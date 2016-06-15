@@ -4,8 +4,8 @@ Apache と Nginx の構成
 Apache
 ------
 
-Yii は、既定の構成の Apache ウェブサーバで動作させることが出来ます。
-Yii の フレームワークのフォルダとアプリケーションのフォルダにある .htaccess ファイルが、保護されるべきリソースへのアクセスを制限します。
+Yee は、既定の構成の Apache ウェブサーバで動作させることが出来ます。
+Yee の フレームワークのフォルダとアプリケーションのフォルダにある .htaccess ファイルが、保護されるべきリソースへのアクセスを制限します。
 URL からブートストラップファイル (通常は index.php) を隠すために、ドキュメントルートの .htaccess ファイルか、バーチャルホスト構成ファイルに、mod_rewrite の指示を追加することが出来ます。
 
 ~~~
@@ -24,8 +24,8 @@ RewriteRule . index.php
 Nginx
 -----
 
-Yii は、[Nginx](http://wiki.nginx.org/) と PHP + [FPM SAPI](http://php.net/install.fpm) の組合せでも動作します。
-以下はホスト構成のサンプルです。このホスト構成は、ブートストラップファイルを定義し、存在しないファイルに対するすべてのリクエストを yii が捕捉するようにして、見栄えの良い URL を利用できるようにしています。
+Yee は、[Nginx](http://wiki.nginx.org/) と PHP + [FPM SAPI](http://php.net/install.fpm) の組合せでも動作します。
+以下はホスト構成のサンプルです。このホスト構成は、ブートストラップファイルを定義し、存在しないファイルに対するすべてのリクエストを yee が捕捉するようにして、見栄えの良い URL を利用できるようにしています。
 
 ~~~
 server {
@@ -34,20 +34,20 @@ server {
 
     server_name  mysite;
     root   $host_path/htdocs;
-    set $yii_bootstrap "index.php";
+    set $yee_bootstrap "index.php";
 
     charset utf-8;
 
     location / {
-        index  index.html $yii_bootstrap;
-        try_files $uri $uri/ /$yii_bootstrap?$args;
+        index  index.html $yee_bootstrap;
+        try_files $uri $uri/ /$yee_bootstrap?$args;
     }
 
     location ~ ^/(protected|framework|nbproject|themes/\w+/views) {
         deny  all;
     }
 
-    # 存在しない静的ファイルに対する呼出しが yii によって処理されるのを避ける
+    # 存在しない静的ファイルに対する呼出しが yee によって処理されるのを避ける
     location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
         try_files $uri =404;
     }
@@ -57,8 +57,8 @@ server {
     location ~ \.php {
         fastcgi_split_path_info  ^(.+\.php)(.*)$;
 
-        # 存在しない PHP ファイルに対する呼出しを yii に捕捉させる
-        set $fsn /$yii_bootstrap;
+        # 存在しない PHP ファイルに対する呼出しを yee に捕捉させる
+        set $fsn /$yee_bootstrap;
         if (-f $document_root$fastcgi_script_name){
             set $fsn $fastcgi_script_name;
         }

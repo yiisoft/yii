@@ -1,29 +1,29 @@
 Installation
 ============
 
-L'installation du framework Yii se fait en deux temps :
+L'installation du framework Yee se fait en deux temps :
 
-   1. Télécharger le framework Yii sur [yiiframework.com](http://www.yiiframework.com/).
+   1. Télécharger le framework Yee sur [yeeframework.com](http://www.yeeframework.com/).
    2. Décompresser l'archive dans un répertoire du serveur Web.
 
-> Tip|Astuce : Il n'est pas obligatoire d'installer Yii dans un répertoire accessible du Web.
-Une application Yii a un seul point d'entrée, qui est généralement le seul fichier qu'il soit
-nécessaire d'exposer aux utilisateurs. Les autres scripts PHP, y compris ceux de Yii, devraient
+> Tip|Astuce : Il n'est pas obligatoire d'installer Yee dans un répertoire accessible du Web.
+Une application Yee a un seul point d'entrée, qui est généralement le seul fichier qu'il soit
+nécessaire d'exposer aux utilisateurs. Les autres scripts PHP, y compris ceux de Yee, devraient
 être protégés, car ils pourraient être utilisés à mauvais escient.
 
 Configuration nécessaire
 ------------------------
 
-Après avoir installé Yii, vous pouvez vérifier que le serveur supporte tous les pré-requis
-nécessaires au fonctionnement de Yii. Vous pouvez le faire en accédant au script de test
+Après avoir installé Yee, vous pouvez vérifier que le serveur supporte tous les pré-requis
+nécessaires au fonctionnement de Yee. Vous pouvez le faire en accédant au script de test
 de la configuration du serveur à l'URL :
 
 ~~~
-http://hostname/path/to/yii/requirements/index.php
+http://hostname/path/to/yee/requirements/index.php
 ~~~
 
-La condition minimale requise par Yii est d'avoir un serveur Web qui supporte PHP 5.1.0 ou supérieur.
-Yii a été testé avec le [serveur HTTP Apache](http://httpd.apache.org/) sur Windows et Linux.
-Yii devrait également fonctionner sur les autres serveurs et OS supportant PHP 5.
+La condition minimale requise par Yee est d'avoir un serveur Web qui supporte PHP 5.1.0 ou supérieur.
+Yee a été testé avec le [serveur HTTP Apache](http://httpd.apache.org/) sur Windows et Linux.
+Yee devrait également fonctionner sur les autres serveurs et OS supportant PHP 5.
 
 <div class="revision">$Id: quickstart.installation.txt 1907 $</div>

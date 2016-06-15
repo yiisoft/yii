@@ -64,7 +64,7 @@ The module instance may be accessed via the [module|CController::module] propert
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // or the following if $this refers to the controller instance
 // $postPerPage=$this->module->postPerPage;
 ~~~

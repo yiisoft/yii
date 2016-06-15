@@ -76,7 +76,7 @@ class MarkdownParser extends CMarkdownParser
 	{
 		@list($text, $api) = explode('|', $match[1], 2);
 		$api= $api===null ? $text: $api;
-		if(strncmp($api,'C',1)!==0 && strncmp($api,'Yii',3)!==0)
+		if(strncmp($api,'C',1)!==0 && strncmp($api,'Yee',3)!==0)
 			return $match[0];
 		$segs=explode('::',rtrim($api,'()'));
 		$class=$segs[0];

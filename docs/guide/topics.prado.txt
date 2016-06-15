@@ -1,7 +1,7 @@
 Using Alternative Template Syntax
 =================================
 
-Yii allows developers to use their own favorite template syntax (e.g.
+Yee allows developers to use their own favorite template syntax (e.g.
 Prado, Smarty) to write controller or widget views. This is achieved by
 writing and installing a [viewRenderer|CWebApplication::viewRenderer]
 application component. The view renderer intercepts the invocations of

@@ -33,7 +33,7 @@
 ![博客数据库实体-关系图](schema.png)
 
 
-上述ER图相应的完整SQL语句可以在 [博客演示](http://www.yiiframework.com/demos/blog/) 中找到。在我们的安装包中，它们位于 `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`。
+上述ER图相应的完整SQL语句可以在 [博客演示](http://www.yeeframework.com/demos/blog/) 中找到。在我们的安装包中，它们位于 `/wwwroot/yee/demos/blog/protected/data/schema.sqlite.sql`。
 
 
 

@@ -17,7 +17,7 @@ before displaying them. One can do HTML-encoding with the user input to achieve
 this goal. However, in some situations, HTML-encoding may not be preferable
 because it disables all HTML tags.
 
-Yii incorporates the work of [HTMLPurifier](http://htmlpurifier.org/)
+Yee incorporates the work of [HTMLPurifier](http://htmlpurifier.org/)
 and provides developers with a useful component called [CHtmlPurifier]
 that encapsulates [HTMLPurifier](http://htmlpurifier.org/). This component
 is capable of removing all malicious code with a thoroughly audited,
@@ -57,7 +57,7 @@ should include some random value which can be recognized by the server
 to ensure the form is submitted from and the result is sent back to
 the same origin.
 
-Yii implements a CSRF prevention scheme to help defeat `POST`-based attacks.
+Yee implements a CSRF prevention scheme to help defeat `POST`-based attacks.
 It is based on storing a random value in a cookie and comparing this value
 with the value submitted via the `POST` request.
 
@@ -99,7 +99,7 @@ There are several countermeasures to prevent cookies from being attacked.
   user's browser and expose his cookies.
 * Validate cookie data and detect if they are altered.
 
-Yii implements a cookie validation scheme that prevents cookies from being
+Yee implements a cookie validation scheme that prevents cookies from being
 modified. In particular, it does HMAC check for the cookie values if cookie
 validation is enabled.
 
@@ -119,19 +119,19 @@ return array(
 );
 ~~~
 
-To make use of the cookie validation scheme provided by Yii, we also need to
+To make use of the cookie validation scheme provided by Yee, we also need to
 access cookies through the [cookies|CHttpRequest::cookies] collection, instead
 of directly through `$_COOKIES`:
 
 ~~~
 [php]
 // retrieve the cookie with the specified name
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yee::app()->request->cookies[$name];
 $value=$cookie->value;
 ......
 // send a cookie
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yee::app()->request->cookies[$name]=$cookie;
 ~~~
 
 

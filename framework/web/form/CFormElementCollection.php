@@ -3,9 +3,9 @@
  * CFormElementCollection class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -77,7 +77,7 @@ class CFormElementCollection extends CMap
 				}
 				elseif(!strcasecmp(substr($value['type'],-4),'form'))	// a form
 				{
-					$class=$value['type']==='form' ? get_class($this->_form) : Yii::import($value['type']);
+					$class=$value['type']==='form' ? get_class($this->_form) : Yee::import($value['type']);
 					$element=new $class($value,null,$this->_form);
 				}
 				else

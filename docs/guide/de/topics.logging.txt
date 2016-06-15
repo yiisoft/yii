@@ -1,7 +1,7 @@
 Protokollierung (Logging)
 =========================
 
-Yii bietet eine flexibles und erweiterbares Logfeature. Zu loggende 
+Yee bietet eine flexibles und erweiterbares Logfeature. Zu loggende 
 (also zu protokollierende) Meldungen können einer
 Logstufe (engl.: log level) und einer Kategorie zugeordnet werden. Mit diesen
 Logstufen und Kategoriefiltern können bestimmte Meldungen jeweils
@@ -11,14 +11,14 @@ weitergeleitet werden
 Loggen von Meldungen
 --------------------
 
-Ein Logeintrag kann entweder mit [Yii::log] oder [Yii::trace] angelegt werden.
-Der Unterschied zwischen beiden besteht darin, dass `Yii::trace` nur im
+Ein Logeintrag kann entweder mit [Yee::log] oder [Yee::trace] angelegt werden.
+Der Unterschied zwischen beiden besteht darin, dass `Yee::trace` nur im
 [Debug-Modus](/doc/guide/basics.entry#debug-mode) loggt.
 
 ~~~
 [php]
-Yii::log($message, $level, $category);
-Yii::trace($message, $category);
+Yee::log($message, $level, $category);
+Yee::trace($message, $category);
 ~~~
 
 Beim Loggen einer Meldung muss eine Kategorie und eine Stufe angegeben werden.
@@ -28,7 +28,7 @@ Beispiel in [CController] geloggt wird, könnte man die Kategorie
 `system.web.CController` verwenden. Die Logstufe sollte einem der folgenden
 Werte entpsrechen:
 
-   - `trace`: Diese Stufe wird von [Yii::trace] verwendet. Sie dient zum
+   - `trace`: Diese Stufe wird von [Yee::trace] verwendet. Sie dient zum
 Nachverfolgen (engl.: trace) des Programmablaufs während der Entwicklungsphase.
 
    - `info`: dient zum Loggen allgemeiner Informationen.
@@ -42,13 +42,13 @@ Nachverfolgen (engl.: trace) des Programmablaufs während der Entwicklungsphase.
 Routing von Logeinträgen
 ------------------------
 
-Mit [Yii::log] oder [Yii::trace] geloggte Meldungen werden im Speicher
+Mit [Yee::log] oder [Yee::trace] geloggte Meldungen werden im Speicher
 gehalten. Für gewöhnlich sollen diese im Browserfenster angezeigt oder in einem
 beständigen Speicher wie Dateien oder E-Mails gespeichert werden. Dies nennt
 man auch *Routing von Logmeldungen* (engl.: message routing), also das Weiterleiten
 der Einträge an bestimmte Zielorte.
 
-In Yii wird das Routing von einer
+In Yee wird das Routing von einer
 [CLogRouter]-Anwendungskomponente (sinngem.: Logmeldungs-Weiterleiter) übernommen.
 Sie verwaltet eine Reihe sogenannter *Logrouten* (engl.: log routes).
 Jede Logroute steht für ein einzelnes Log-Ziel. Meldungen, die
@@ -96,7 +96,7 @@ zweite Route ist [CEmailLogRoute], die Logmeldungen an die angegebene
 E-Mail-Adresse verschickt. Nur Meldungen mit der Stufe `error` oder
 `warning` werden verschickt.
 
-Die folgenden Logrouten stehen in Yii zur Verfügung:
+Die folgenden Logrouten stehen in Yee zur Verfügung:
 
    - [CDbLogRoute]: speichert Logmeldungen in einer Datenbanktabelle.
    - [CEmailLogRoute]: schickt Logmeldungen an die angegebenen E-Mail-Adressen.
@@ -171,12 +171,12 @@ array(
 )
 ~~~
 
-Mit `Yii::trace` können auch Informationen aus dem
+Mit `Yee::trace` können auch Informationen aus dem
 Aufrufstapel geloggt werden. Dieses Feature ist standardmäßig deaktiviert, da
 es die Performance negativ beeinflusst. Um dieses Feature zu verwenden,
 definieren Sie am Anfang Ihres Startscripts einfach die Konstante
-`YII_TRACE_LEVEL` mit einem Wert größer als 0 (und zwar bevor Sie `yii.php`
-einbinden). Yii hängt dann an jede Tracen-Eintrag den Dateinamen und die
+`YII_TRACE_LEVEL` mit einem Wert größer als 0 (und zwar bevor Sie `yee.php`
+einbinden). Yee hängt dann an jede Tracen-Eintrag den Dateinamen und die
 Zeilennummer des Anwendungscode an. Die Zahl in `YII_TRACE_LEVEL` gibt an, wie
 viele Ebenen des Aufrufstapels aufgezeichnet werden sollen. Diese Information kann speziell
 in der Entwicklungsphase sehr nützlich sein, da es uns hilft, den genauen Ort,
@@ -198,9 +198,9 @@ jedes Blocks markiert werden:
 
 ~~~
 [php]
-Yii::beginProfile('blockID');
+Yee::beginProfile('blockID');
 ...Zu analysierender Codeblock...
-Yii::endProfile('blockID');
+Yee::endProfile('blockID');
 ~~~
 
 wobei `blockID` eine eindeutige ID zur Identifizierung des Blocks

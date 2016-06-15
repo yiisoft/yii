@@ -1,24 +1,24 @@
-建立第一個 Yii 應用程式
+建立第一個 Yee 應用程式
 ===================
 
-為了對 Yii 有個初步認識，我們在本節講述如何建立第一個 Yii 應用程式。我們將使用 `yiic` （命令列工具）建立一個新的 Yii 應用程式。`Gii`（強大的基於 Web 的程式碼產生器）為特定的任務完成自動程式碼產生。假定 `YiiRoot`  為 Yii 的安裝目錄，`WebRoot` 是伺服器的文件根目錄。
+為了對 Yee 有個初步認識，我們在本節講述如何建立第一個 Yee 應用程式。我們將使用 `yeec` （命令列工具）建立一個新的 Yee 應用程式。`Gii`（強大的基於 Web 的程式碼產生器）為特定的任務完成自動程式碼產生。假定 `YeeRoot`  為 Yee 的安裝目錄，`WebRoot` 是伺服器的文件根目錄。
 
-在命令列運行 `yiic`，如下所示：
+在命令列運行 `yeec`，如下所示：
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|注意: 在 MacOS、Linux 或 Unix 系統中執行 `yiic` 時，你可能需要修改 `yiic` 文件的權限使它能夠執行。此外，也可以這樣執行此工具：
+> Note|注意: 在 MacOS、Linux 或 Unix 系統中執行 `yeec` 時，你可能需要修改 `yeec` 文件的權限使它能夠執行。此外，也可以這樣執行此工具：
 
 ~~~
 % cd WebRoot
-% php YiiRoot/framework/yiic.php webapp testdrive
+% php YeeRoot/framework/yeec.php webapp testdrive
 ~~~
 
-這將會在 `WebRoot/testdrive` 目錄下建立一個最基本的 Yii 應用程式。這個應用程式擁有了大多數 Yii 應用程式所需要的目錄結構。
+這將會在 `WebRoot/testdrive` 目錄下建立一個最基本的 Yee 應用程式。這個應用程式擁有了大多數 Yee 應用程式所需要的目錄結構。
 
-不用寫一行程式碼，我們可以在瀏覽器中開啟如下 URL 來看看我們第一個 Yii 應用程式：
+不用寫一行程式碼，我們可以在瀏覽器中開啟如下 URL 來看看我們第一個 Yee 應用程式：
 
 ~~~
 http://hostname/testdrive/index.php
@@ -51,11 +51,11 @@ testdrive/
    images/                   包含圖片文件
    themes/                   包含應用程式主題
    protected/                包含受保護的應用程式文件
-      yiic                   yiic 命令列腳本
-      yiic.bat               Windows 下的 yiic 命令列腳本
-      yiic.php               yiic 命令列 PHP 腳本
-      commands/              包含自定的 'yiic' 命令
-         shell/              包含自定的 'yiic shell' 命令
+      yeec                   yeec 命令列腳本
+      yeec.bat               Windows 下的 yeec 命令列腳本
+      yeec.php               yeec 命令列 PHP 腳本
+      commands/              包含自定的 'yeec' 命令
+         shell/              包含自定的 'yeec shell' 命令
       components/            包含可重用的用戶元件
          Controller.php      所有控制器類別的基礎類別
          Identity.php        用來認證的 'Identity' 類別
@@ -110,7 +110,7 @@ return array(
 );
 ~~~
 
-上面的程式碼告訴 Yii 應用程式在需要時將連接到 SQLite 資料庫 `WebRoot/testdrive/protected/data/testdrive.db` 。注意這個 SQLite 資料庫已經包含在我們建立的應用程式框架中。資料庫只包含一個名為 `tbl_user` 的資料表：
+上面的程式碼告訴 Yee 應用程式在需要時將連接到 SQLite 資料庫 `WebRoot/testdrive/protected/data/testdrive.db` 。注意這個 SQLite 資料庫已經包含在我們建立的應用程式框架中。資料庫只包含一個名為 `tbl_user` 的資料表：
 
 ~~~
 [sql]
@@ -124,14 +124,14 @@ CREATE TABLE tbl_user (
 
 若你想要換成 MySQL 資料庫，你需要載入檔案 `WebRoot/testdrive/protected/data/schema.mysql.sql` 來建立資料庫。
 
-> Note|注意: 要使用 Yii 的資料庫功能，我們需要啟用 PHP 的 PDO 擴展和驅動程式。對於測試應用程式來說，我們需要啟用 `php_pdo` 和 `php_pdo_sqlite` 擴展。
+> Note|注意: 要使用 Yee 的資料庫功能，我們需要啟用 PHP 的 PDO 擴展和驅動程式。對於測試應用程式來說，我們需要啟用 `php_pdo` 和 `php_pdo_sqlite` 擴展。
 
 實現 CRUD 操作
 --------------
 
 最有趣的部份來了。我們想要為剛才建立的 `tbl_user` 資料表實現 CRUD (create, read, update 和 delete) 操作，這也是實際應用程式中最常見的操作。我們無需麻煩地撰寫實際程式碼，這裡我們將使用 `Gii` —— 一個強大的基於 Web 的程式碼產生器。
 
-> Info|訊息:Gii 自版本 1.1.2 可用。在此之前，可以使用 `yiic` 來實現相同的功能。更多細節，請參考 [用 yiic shell 實現 CRUD 操作](/doc/guide/quickstart.first-app-yiic)。
+> Info|訊息:Gii 自版本 1.1.2 可用。在此之前，可以使用 `yeec` 來實現相同的功能。更多細節，請參考 [用 yeec shell 實現 CRUD 操作](/doc/guide/quickstart.first-app-yeec)。
 
 ### 配置Gii
 

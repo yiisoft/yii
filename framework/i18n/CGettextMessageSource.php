@@ -3,9 +3,9 @@
  * CGettextMessageSource class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -27,7 +27,7 @@
  */
 class CGettextMessageSource extends CMessageSource
 {
-	const CACHE_KEY_PREFIX='Yii.CGettextMessageSource.';
+	const CACHE_KEY_PREFIX='Yee.CGettextMessageSource.';
 	const MO_FILE_EXT='.mo';
 	const PO_FILE_EXT='.po';
 
@@ -72,7 +72,7 @@ class CGettextMessageSource extends CMessageSource
 	{
 		parent::init();
 		if($this->basePath===null)
-			$this->basePath=Yii::getPathOfAlias('application.messages');
+			$this->basePath=Yee::getPathOfAlias('application.messages');
 	}
 
 	/**
@@ -89,7 +89,7 @@ class CGettextMessageSource extends CMessageSource
         else
         	$messageFile.=self::PO_FILE_EXT;
 
-		if ($this->cachingDuration > 0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if ($this->cachingDuration > 0 && $this->cacheID!==false && ($cache=Yee::app()->getComponent($this->cacheID))!==null)
 		{
 			$key = self::CACHE_KEY_PREFIX . $messageFile . "." . $category;
 			if (($data=$cache->get($key)) !== false)

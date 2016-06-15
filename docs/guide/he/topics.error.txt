@@ -1,7 +1,7 @@
 ﻿ניהול וטיפול בשגיאות
 ==============
 
-Yii מספקת פריימוורק מלא עבור טיפול בשגיאות המבוססת על מנגנון החריגות (exceptions) ב PHP 5. ברגע שהאפליקציה נוצרת, בכדי לטפל בבקשות משתמשים נכנסות, היא רושמת את המתודה [handleError|CApplication::handleError] בכדי לטפל באזהרות והתראות של PHP; והיא רושמת את המתודה [handleException|CApplication::handleException] בכדי לטפל בחריגים (exceptions) שלא נתפסו.
+Yee מספקת פריימוורק מלא עבור טיפול בשגיאות המבוססת על מנגנון החריגות (exceptions) ב PHP 5. ברגע שהאפליקציה נוצרת, בכדי לטפל בבקשות משתמשים נכנסות, היא רושמת את המתודה [handleError|CApplication::handleError] בכדי לטפל באזהרות והתראות של PHP; והיא רושמת את המתודה [handleException|CApplication::handleException] בכדי לטפל בחריגים (exceptions) שלא נתפסו.
 כתוצאה מכך, במידה ותזרק שגיאה/אזהרה/התראה של PHP או שיזרק חריג (exception) שלא נתפס במהלך הרצת האפליקציה, אחד ממתודות ניהול השגיאות יכנסו לפעולה ויתחילו בתהליך טיפול בשגיאות.
 
 
@@ -9,7 +9,7 @@ Yii מספקת פריימוורק מלא עבור טיפול בשגיאות המ
 [set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php)
 ו [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php).
 
-אם אינך רוצה ש Yii יטפל בשגיאות, תוכל להגדיר את המשתנים הקבועים `YII_ENABLE_ERROR_HANDLER` ו `YII_ENABLE_EXCEPTION_HANDLER` לערך
+אם אינך רוצה ש Yee יטפל בשגיאות, תוכל להגדיר את המשתנים הקבועים `YII_ENABLE_ERROR_HANDLER` ו `YII_ENABLE_EXCEPTION_HANDLER` לערך
 false [בסקריפט הכניסה הראשי](/doc/guide/basics.entry).
 
 כברירת מחדל, [errorHandler|CApplication::errorHandler] (או [exceptionHandler|CApplication::exceptionHandler]) מעלים את האירוע [onError|CApplication::onError] או [onException|CApplication::onException]. במידה והשגיאה לא מטופלת על ידי מנהל אירוע כלשהו שהוגדר לאירוע מסוג זה, הוא יקרא לעזרה מרכיב האפליקציה [errorHandler|CErrorHandler] .
@@ -17,14 +17,14 @@ false [בסקריפט הכניסה הראשי](/doc/guide/basics.entry).
 זריקת שגיאות חריגות (Exceptions)
 ------------------
 
-זריקת שגיאות חריגות ב Yii אינה שונה מזריקת שגיאות חריגות ב PHP. ניתן להשתמש בתחביר הבא כדי לזרוק שגיאה חריגה בעת הצורך:
+זריקת שגיאות חריגות ב Yee אינה שונה מזריקת שגיאות חריגות ב PHP. ניתן להשתמש בתחביר הבא כדי לזרוק שגיאה חריגה בעת הצורך:
 
 ~~~
 [php]
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii  מגדירה שני מחלקות עבור שגיאות חריגות: [CException] ו [CHttpException]. הקודמת היא מחלקה כללית לשגיאות חריגות, בזמן שהשנייה מייצגת שגיאה חריגה שצריכה להיות מוצגת למשתמשי הקצה. כמו כן השנייה מכילה מאפיין [statusCode|CHttpException::statusCode] המייצג את מספר הסטטוס של בקשת ה HTTP. המחלקה של השגיאה החריגה מחליטה כיצד להציגה, כפי שנסביר בהמשך.
+Yee  מגדירה שני מחלקות עבור שגיאות חריגות: [CException] ו [CHttpException]. הקודמת היא מחלקה כללית לשגיאות חריגות, בזמן שהשנייה מייצגת שגיאה חריגה שצריכה להיות מוצגת למשתמשי הקצה. כמו כן השנייה מכילה מאפיין [statusCode|CHttpException::statusCode] המייצג את מספר הסטטוס של בקשת ה HTTP. המחלקה של השגיאה החריגה מחליטה כיצד להציגה, כפי שנסביר בהמשך.
 
 » Tip|טיפ: זריקת שגיאה חריגה מסוג [CHttpException] הינה דרך פשוטה לדיוון על שגיאות שבוצעו על ידי פעולות לקויות של המשתמשים. לדוגמא, במידה והמשתמש הזין מספר הודעה לא תקני בקישור, אנו יכולים לבצע את הפעולה הבאה בכדי להציג שגיאה 404 (העמוד לא נמצא):
 
@@ -47,14 +47,14 @@ throw new CHttpException(404,'העמוד שחפשת לא נמצא או לא קי
 
    2. `WebRoot/protected/views/system`: זוהי תיקית המערכת - `system` ברירת המחדל של האפליקציה.
 
-   3. `yii/framework/views`: זוהי תיקית המקור המגיע ביחד עם הפריימוורק של Yii.
+   3. `yee/framework/views`: זוהי תיקית המקור המגיע ביחד עם הפריימוורק של Yee.
 
 לכן, במידה ואנו רוצים להתאים אישית את תצוגת השגיאות, אנו צריכים פשוט ליצור קבצי תצוגה עבור השגיאות תחת התיקיה `system` באפליקציה או תחת כל תבנית בה אנו משתמשים.
 כל קובץ הינו קובץ PHP רגיל המכיל בעיקר קוד HTML. למידע נוסף, יש לעיין קבצי תצוגת השגיאות תחת התיקיה `view` בתיקיה בה נמצאים הקבצים של הפריימוורק.
 
 ### טיפול בשגיאות בעזרת פעולה
 
-החל מגרסא 1.0.6, Yii מאפשר שימוש [בפעולה של קונטרולר](/doc/guide/basics.controller#action) בכדי לטפל בתצוגת השגיאות. בכדי לעשות זאת, אנו צריכים להגדיר את מנהל השגיאה בהגדרות האפליקציה בצורה הבאה:
+החל מגרסא 1.0.6, Yee מאפשר שימוש [בפעולה של קונטרולר](/doc/guide/basics.controller#action) בכדי לטפל בתצוגת השגיאות. בכדי לעשות זאת, אנו צריכים להגדיר את מנהל השגיאה בהגדרות האפליקציה בצורה הבאה:
 
 ~~~
 [php]
@@ -76,7 +76,7 @@ return array(
 [php]
 public function actionError()
 {
-    if($error=Yii::app()-»errorHandler-»error)
+    if($error=Yee::app()-»errorHandler-»error)
         $this-»render('error', $error);
 }
 ~~~

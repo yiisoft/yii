@@ -3,9 +3,9 @@
  * CLogger class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -315,7 +315,7 @@ class CLogger extends CComponent
 					$this->_timings[]=array($message,$category,$delta);
 				}
 				else
-					throw new CException(Yii::t('yii','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
+					throw new CException(Yee::t('yee','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yee::beginProfile() and Yee::endProfile() be properly nested.',
 						array('{token}'=>$token)));
 			}
 		}

@@ -1,6 +1,6 @@
 * Getting Started
 	- [Overview](start.overview)
-    - [Testdriving with Yii](start.testdrive)
+    - [Testdriving with Yee](start.testdrive)
     - [Requirements Analysis](start.requirements)
     - [Overall Design](start.design)
 

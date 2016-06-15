@@ -7,7 +7,7 @@ class DefaultController extends CController
 	public function getPageTitle()
 	{
 		if($this->action->id==='index')
-			return 'Gii: a Web-based code generator for Yii';
+			return 'Gii: a Web-based code generator for Yee';
 		else
 			return 'Gii - '.ucfirst($this->action->id).' Generator';
 	}
@@ -19,9 +19,9 @@ class DefaultController extends CController
 
 	public function actionError()
 	{
-	    if($error=Yii::app()->errorHandler->error)
+	    if($error=Yee::app()->errorHandler->error)
 	    {
-	    	if(Yii::app()->request->isAjaxRequest)
+	    	if(Yee::app()->request->isAjaxRequest)
 	    		echo $error['message'];
 	    	else
 	        	$this->render('error', $error);
@@ -33,7 +33,7 @@ class DefaultController extends CController
 	 */
 	public function actionLogin()
 	{
-		$model=Yii::createComponent('gii.models.LoginForm');
+		$model=Yee::createComponent('gii.models.LoginForm');
 
 		// collect user input data
 		if(isset($_POST['LoginForm']))
@@ -52,7 +52,7 @@ class DefaultController extends CController
 	 */
 	public function actionLogout()
 	{
-		Yii::app()->user->logout(false);
+		Yee::app()->user->logout(false);
 		$this->redirect(array('index'));
 	}
 }

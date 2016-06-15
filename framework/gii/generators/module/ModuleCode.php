@@ -22,8 +22,8 @@ class ModuleCode extends CCodeModel
 
 	public function successMessage()
 	{
-		if(Yii::app()->hasModule($this->moduleID))
-			return 'The module has been generated successfully. You may '.CHtml::link('try it now', Yii::app()->createUrl($this->moduleID), array('target'=>'_blank')).'.';
+		if(Yee::app()->hasModule($this->moduleID))
+			return 'The module has been generated successfully. You may '.CHtml::link('try it now', Yee::app()->createUrl($this->moduleID), array('target'=>'_blank')).'.';
 
 		$output=<<<EOD
 <p>The module has been generated successfully.</p>
@@ -89,6 +89,6 @@ EOD;
 
 	public function getModulePath()
 	{
-		return Yii::app()->modulePath.DIRECTORY_SEPARATOR.$this->moduleID;
+		return Yee::app()->modulePath.DIRECTORY_SEPARATOR.$this->moduleID;
 	}
 }

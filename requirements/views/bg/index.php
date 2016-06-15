@@ -4,26 +4,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Yii Requirement Checker</title>
+<title>Yee Requirement Checker</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Проверка на изискванията на Yii</h1>
+<h1>Проверка на изискванията на Yee</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Описание</h2>
 <p>
 This script checks if your server configuration meets the requirements
-for running <a href="http://www.yiiframework.com/">Yii</a> Web applications.
+for running <a href="http://www.yeeframework.com/">Yee</a> Web applications.
 It checks if the server is running the right version of PHP,
 if appropriate PHP extensions have been loaded, and if php.ini file settings are correct.
 
 Този скрипт проверява дали конфигурацията на вавият сървър, отговаря на изискванията за
-работа на <a href="http://www.yiiframework.com/">Yii</a> уеб приложенията.
+работа на <a href="http://www.yeeframework.com/">Yee</a> уеб приложенията.
 Проверява дали на сървъра работи подходящата версия на PHP,
 дали подходящите PHP добавки са заредени и дали настройките в php.ini са вярни
 </p>
@@ -31,12 +31,12 @@ if appropriate PHP extensions have been loaded, and if php.ini file settings are
 <h2>Заключение</h2>
 <p>
 <?php if($result>0): ?>
-Congratulations! Your server configuration satisfies all requirements by Yii.
-Поздравление! Вашият сървър отговаря на всики изисквания за работа на Yii.
+Congratulations! Your server configuration satisfies all requirements by Yee.
+Поздравление! Вашият сървър отговаря на всики изисквания за работа на Yee.
 <?php elseif($result<0): ?>
-Вашият сървър удоблетворява минималните изисквания на Yii. Моля, обърнете внимание на списъка с грешки отдоло, ако вашето приложение ще използва тези функции.
+Вашият сървър удоблетворява минималните изисквания на Yee. Моля, обърнете внимание на списъка с грешки отдоло, ако вашето приложение ще използва тези функции.
 <?php else: ?>
-За жалост, вашият сървър, не отговаря на изискванията за работа на Yii.
+За жалост, вашият сървър, не отговаря на изискванията за работа на Yee.
 <?php endif; ?>
 </p>
 

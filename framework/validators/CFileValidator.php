@@ -3,9 +3,9 @@
  * CFileValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -150,7 +150,7 @@ class CFileValidator extends CValidator
 				return $this->emptyAttribute($object, $attribute);
 			if(count($files) > $this->maxFiles)
 			{
-				$message=$this->tooMany!==null?$this->tooMany : Yii::t('yii', '{attribute} cannot accept more than {limit} files.');
+				$message=$this->tooMany!==null?$this->tooMany : Yee::t('yee', '{attribute} cannot accept more than {limit} files.');
 				$this->addError($object, $attribute, $message, array('{attribute}'=>$attribute, '{limit}'=>$this->maxFiles));
 			}
 			else
@@ -163,7 +163,7 @@ class CFileValidator extends CValidator
 			{
 				if (count($files) > 1)
 				{
-					$message=$this->tooMany!==null?$this->tooMany : Yii::t('yii', '{attribute} cannot accept more than {limit} files.');
+					$message=$this->tooMany!==null?$this->tooMany : Yee::t('yee', '{attribute} cannot accept more than {limit} files.');
 					$this->addError($object, $attribute, $message, array('{attribute}'=>$attribute, '{limit}'=>$this->maxFiles));
 					return;
 				}
@@ -194,7 +194,7 @@ class CFileValidator extends CValidator
 		$error=(null===$file ? null : $file->getError());
 		if($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
 		{
-			$message=$this->tooLarge!==null?$this->tooLarge : Yii::t('yii','The file "{file}" is too large. Its size cannot exceed {limit} bytes.');
+			$message=$this->tooLarge!==null?$this->tooLarge : Yee::t('yee','The file "{file}" is too large. Its size cannot exceed {limit} bytes.');
 			$this->addError($object,$attribute,$message,array('{file}'=>CHtml::encode($file->getName()), '{limit}'=>$this->getSizeLimit()));
 			if($error!==UPLOAD_ERR_OK)
 				return;
@@ -204,20 +204,20 @@ class CFileValidator extends CValidator
 			if($error==UPLOAD_ERR_NO_FILE)
 				return $this->emptyAttribute($object, $attribute);
 			elseif($error==UPLOAD_ERR_PARTIAL)
-				throw new CException(Yii::t('yii','The file "{file}" was only partially uploaded.',array('{file}'=>CHtml::encode($file->getName()))));
+				throw new CException(Yee::t('yee','The file "{file}" was only partially uploaded.',array('{file}'=>CHtml::encode($file->getName()))));
 			elseif($error==UPLOAD_ERR_NO_TMP_DIR)
-				throw new CException(Yii::t('yii','Missing the temporary folder to store the uploaded file "{file}".',array('{file}'=>CHtml::encode($file->getName()))));
+				throw new CException(Yee::t('yee','Missing the temporary folder to store the uploaded file "{file}".',array('{file}'=>CHtml::encode($file->getName()))));
 			elseif($error==UPLOAD_ERR_CANT_WRITE)
-				throw new CException(Yii::t('yii','Failed to write the uploaded file "{file}" to disk.',array('{file}'=>CHtml::encode($file->getName()))));
+				throw new CException(Yee::t('yee','Failed to write the uploaded file "{file}" to disk.',array('{file}'=>CHtml::encode($file->getName()))));
 			elseif(defined('UPLOAD_ERR_EXTENSION') && $error==UPLOAD_ERR_EXTENSION)  // available for PHP 5.2.0 or above
-				throw new CException(Yii::t('yii','A PHP extension stopped the file upload.'));
+				throw new CException(Yee::t('yee','A PHP extension stopped the file upload.'));
 			else
-				throw new CException(Yii::t('yii','Unable to upload the file "{file}" because of an unrecognized error.',array('{file}'=>CHtml::encode($file->getName()))));
+				throw new CException(Yee::t('yee','Unable to upload the file "{file}" because of an unrecognized error.',array('{file}'=>CHtml::encode($file->getName()))));
 		}
 
 		if($this->minSize!==null && $file->getSize()<$this->minSize)
 		{
-			$message=$this->tooSmall!==null?$this->tooSmall : Yii::t('yii','The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.');
+			$message=$this->tooSmall!==null?$this->tooSmall : Yee::t('yee','The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.');
 			$this->addError($object,$attribute,$message,array('{file}'=>CHtml::encode($file->getName()), '{limit}'=>$this->minSize));
 		}
 
@@ -229,7 +229,7 @@ class CFileValidator extends CValidator
 				$types=$this->types;
 			if(!in_array(strtolower($file->getExtensionName()),$types))
 			{
-				$message=$this->wrongType!==null?$this->wrongType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.');
+				$message=$this->wrongType!==null?$this->wrongType : Yee::t('yee','The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.');
 				$this->addError($object,$attribute,$message,array('{file}'=>CHtml::encode($file->getName()), '{extensions}'=>implode(', ',$types)));
 			}
 		}
@@ -245,7 +245,7 @@ class CFileValidator extends CValidator
 			elseif(function_exists('mime_content_type'))
 				$mimeType=mime_content_type($file->getTempName());
 			else
-				throw new CException(Yii::t('yii','In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.'));
+				throw new CException(Yee::t('yee','In order to use MIME-type validation provided by CFileValidator fileinfo PECL extension should be installed.'));
 
 			if(is_string($this->mimeTypes))
 				$mimeTypes=preg_split('/[\s,]+/',strtolower($this->mimeTypes),-1,PREG_SPLIT_NO_EMPTY);
@@ -254,7 +254,7 @@ class CFileValidator extends CValidator
 
 			if($mimeType===false || !in_array(strtolower($mimeType),$mimeTypes))
 			{
-				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.');
+				$message=$this->wrongMimeType!==null?$this->wrongMimeType : Yee::t('yee','The file "{file}" cannot be uploaded. Only files of these MIME-types are allowed: {mimeTypes}.');
 				$this->addError($object,$attribute,$message,array('{file}'=>CHtml::encode($file->getName()), '{mimeTypes}'=>implode(', ',$mimeTypes)));
 			}
 		}
@@ -273,7 +273,7 @@ class CFileValidator extends CValidator
 
 		if(!$this->allowEmpty)
 		{
-			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} cannot be blank.');
+			$message=$this->message!==null?$this->message : Yee::t('yee','{attribute} cannot be blank.');
 			$this->addError($object,$attribute,$message);
 		}
 	}

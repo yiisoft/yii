@@ -8,7 +8,7 @@
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yee::app()->cache->set($id, $value);
 ~~~
 
 キャッシュされたデータは、何らかのキャッシングポリシー (たとえば、キャッシュ容量がいっぱいになれば、一番古いデータが削除される、など) によって削除されない限りは、ずっと残ります。
@@ -17,7 +17,7 @@ Yii::app()->cache->set($id, $value);
 ~~~
 [php]
 // 最大 30 秒間、キャッシュに値が保持される
-Yii::app()->cache->set($id, $value, 30);
+Yee::app()->cache->set($id, $value, 30);
 ~~~
 
 後で (同じウェブリクエスト、あるいは、別のウェブリクエストの中で) この変数にアクセスする必要が生じたときに、その ID を指定して [get()|CCache::get] を呼ぶと、キャッシュから変数を読み込むことが出来ます。
@@ -25,12 +25,12 @@ Yii::app()->cache->set($id, $value, 30);
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yee::app()->cache->get($id);
 if($value===false)
 {
 	// $value がキャッシュの中に見つからなかったため、
 	// 後で利用できるように、再生成してキャッシュに保存します:
-	// Yii::app()->cache->set($id,$value);
+	// Yee::app()->cache->set($id,$value);
 }
 ~~~
 
@@ -50,7 +50,7 @@ MemCache や APC のようなある種のキャッシュストレージにおい
 > キャッシュコンポーネントは配列のように扱えます。下記に例を示します:
 > ~~~
 > [php]
-> $cache=Yii::app()->cache;
+> $cache=Yee::app()->cache;
 > $cache['var1']=$value1;  // $cache->set('var1',$value1); と同等
 > $value2=$cache['var2'];  // $value2=$cache->get('var2'); と同等
 > ~~~
@@ -68,7 +68,7 @@ MemCache や APC のようなある種のキャッシュストレージにおい
 [php]
 // 値は 30 秒間有効です
 // さらに、依存関係にあるファイルが変更された場合、有効期限内でも無効になります
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+Yee::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 このようにすると、[get()|CCache::get] を呼び出してキャッシュから `$value` を取り出そうとしたときに依存関係が調査されます。
@@ -94,13 +94,13 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 クエリキャッシング
 ------------------
 
-バージョン 1.1.7 以降、Yii はクエリキャッシングのサポートを追加しました。
+バージョン 1.1.7 以降、Yee はクエリキャッシングのサポートを追加しました。
 クエリキャッシングは、データキャッシュの上に構築されており、DB クエリの結果をキャッシュに格納します。
 そのため、将来同じクエリが要求された場合に、結果を直接キャッシュから得られるため、DB クエリの実行時間を短縮することが出来ます。
 
 > Info|情報: ある種の DBMS (例えば [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
 > は、DB サーバサイドでのクエリキャッシュもサポートしています。
-> このサーバサイドでのクエリキャッシングと比較すると、Yii がここでサポートする同じ機能は、
+> このサーバサイドでのクエリキャッシングと比較すると、Yee がここでサポートする同じ機能は、
 > より一層柔軟であり、潜在的にはより一層効率的でしょう。 
 
 ### クエリキャッシングを有効にする
@@ -116,10 +116,10 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 [php]
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 ~~~
 
-上記の文を実行する際に、Yii は、実行される SQL 文の正当な結果がキャッシュの中に有るかどうかを最初にチェックします。
+上記の文を実行する際に、Yee は、実行される SQL 文の正当な結果がキャッシュの中に有るかどうかを最初にチェックします。
 このチェックは、以下の3つの条件をチェックすることによって行なわれます。
 
 - キャッシュが SQL 文によってインデックスされるエントリをもっているかどうか。
@@ -144,7 +144,7 @@ $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 ~~~
 
 ここでの `cache()` メソッドは本質的には [CDbConnection::cache()] へのショートカットです。
-内部的にはアクティブレコードによって生成された SQL 文を実行する際に、Yii が前節で示したようなクエリキャッシングを行います。
+内部的にはアクティブレコードによって生成された SQL 文を実行する際に、Yee が前節で示したようなクエリキャッシングを行います。
 
 
 ### 複数クエリのキャッシング
@@ -158,9 +158,9 @@ $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
 
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 // クエリキャッシュは使われません。
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 `cache()` メソッドに追加の `$queryCount` パラメータを供給することにより、複数のクエリに対してクエリキャッシングを行わせることが可能です。
@@ -169,9 +169,9 @@ $rows = Yii::app()->db->createCommand($sql)->queryAll();
 ~~~
 [php]
 // ...
-$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
 // クエリキャッシュが使われます。
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 周知のとおり、リレーショナルアクティブレコードのクエリを実行するときは、複数の SQL クエリが実行されます ([ロギング](/doc/guide/topics.logging)で確認できます)。

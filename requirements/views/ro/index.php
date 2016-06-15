@@ -4,21 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Verificare cerinte Yii</title>
+<title>Verificare cerinte Yee</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Verificarea cerintelor Yii</h1>
+<h1>Verificarea cerintelor Yee</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Descriere</h2>
 <p>
 Acest script verifica daca configuratia serverului dvs indeplineste cerintele 
-pentru rularea aplicatiilor Web <a href="http://www.yiiframework.com/">Yii</a>. 
+pentru rularea aplicatiilor Web <a href="http://www.yeeframework.com/">Yee</a>. 
 Se fac urmatoarele verificari: daca serverul ruleaza versiunea corecta de PHP, 
 daca extensiile PHP corespunzatoare au fost incarcate si daca 
 setarile din fisierul php.ini sunt corecte.
@@ -27,13 +27,13 @@ setarile din fisierul php.ini sunt corecte.
 <h2>Concluzie</h2>
 <p>
 <?php if($result>0): ?>
-Felicitari! Configuratia serverului dvs indeplineste toate cerintele Yii.
+Felicitari! Configuratia serverului dvs indeplineste toate cerintele Yee.
 <?php elseif($result<0): ?>
-Configuratia serverului dvs indeplineste cerintele minime pentru Yii. 
+Configuratia serverului dvs indeplineste cerintele minime pentru Yee. 
 Va rugam sa cititi avertismentele afisate mai jos, in cazul in care aplicatia pe care o veti crea 
 va folosi respectivele feature-uri.
 <?php else: ?>
-Din pacate, configuratia serverului dvs nu indeplineste cerintele Yii.
+Din pacate, configuratia serverului dvs nu indeplineste cerintele Yee.
 <?php endif; ?>
 </p>
 

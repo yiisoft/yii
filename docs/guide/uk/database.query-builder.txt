@@ -1,7 +1,7 @@
 Конструктор запитів
 ================
 
-Конструктор запитів Yii надає обʼєктно-орієнтований спосіб написання SQL-запитів.
+Конструктор запитів Yee надає обʼєктно-орієнтований спосіб написання SQL-запитів.
 Він дозволяє розробнику використовувати методи і властивості класу для того, щоб вказати окремі частини SQL запиту.
 Потім, конструктор збирає окремі частини в SQL запит, який може бути потім виконаний викликом методів DAO,
 як описано в «[Обʼєкти доступу до даних (DAO)](/doc/guide/database.dao)».
@@ -9,7 +9,7 @@
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yee::app()->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -37,7 +37,7 @@ $user = Yii::app()->db->createCommand()
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yee::app()->db->createCommand('SELECT * FROM tbl_user');
 > // наступний рядок НЕ додасть WHERE до SQL
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -55,10 +55,10 @@ $user = Yii::app()->db->createCommand()
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 ~~~
 
-Тут ми використовуємо `Yii::app()->db` для отримання зʼєднання з базою даних і,
+Тут ми використовуємо `Yee::app()->db` для отримання зʼєднання з базою даних і,
 потім, викликаємо [CDbConnection::createCommand()] для створення екземпляра команди.
 
 Варто зазначити, що замість передачі `createCommand()` цілого SQL,
@@ -407,7 +407,7 @@ union('select * from tbl_profile')
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -421,7 +421,7 @@ $users = Yii::app()->db->createCommand()
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -432,7 +432,7 @@ $sql = Yii::app()->db->createCommand()
 ### Альтернативний синтаксис побудови запитів
 
 Іноді використання ланцюжка викликів може бути неоптимальним рішенням.
-Конструктор запитів Yii дозволяє створити запит шляхом завдання полів обʼєкта.
+Конструктор запитів Yee дозволяє створити запит шляхом завдання полів обʼєкта.
 Для кожного методу конструктора запитів є відповідне поле з таким же імʼям.
 Присвоєння значення полю еквівалентно виклику відповідного метода.
 Приміром, наведені нижче рядки еквівалентні, якщо `$command` — обʼєкт [CDbCommand]:
@@ -449,7 +449,7 @@ $command->select = array('id', 'username');
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yee::app()->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -466,7 +466,7 @@ $row = Yii::app()->db->createCommand(array(
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

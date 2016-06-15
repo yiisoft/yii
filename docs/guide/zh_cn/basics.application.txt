@@ -5,7 +5,7 @@
 它同时作为服务中心，维护应用级别的配置。鉴于此，应用也叫做`前端控制器`。
 
 应用由 [入口脚本](/doc/guide/basics.entry) 创建为一个单例对象。这个应用单例对象可以在任何地方通过
- [Yii::app()|YiiBase::app] 访问。
+ [Yee::app()|YeeBase::app] 访问。
 
 
 应用配置
@@ -21,7 +21,7 @@
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -34,12 +34,12 @@ array(
 return array(...);
 ~~~
 
-要应用此配置，我们将配置文件的名字作为参数传递给应用的构造器，或像下面这样传递到 [Yii::createWebApplication()]
+要应用此配置，我们将配置文件的名字作为参数传递给应用的构造器，或像下面这样传递到 [Yee::createWebApplication()]
 。这通常在 [入口脚本](/doc/guide/basics.entry) 中完成：
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip|提示: 如果应用配置非常复杂，我们可以把它分割为若干文件，每个文件返回配置数组中的一部分。
@@ -91,7 +91,7 @@ array(
 如上所示，我们在 `components` 数组中添加了 `cache` 元素。`cache` 元素表明此组件的类是 `CMemCache`,
 他的 `servers` 属性应依此初始化。
 
-要访问一个应用组件，使用 `Yii::app()->ComponentID` ，其中的 `ComponentID` 是指组件的ID（例如 `Yii::app()->cache`）。
+要访问一个应用组件，使用 `Yee::app()->ComponentID` ，其中的 `ComponentID` 是指组件的ID（例如 `Yee::app()->cache`）。
 
 应用的组件可以通过在其配置中设置 `enabled` 为 false 禁用。当我们访问被禁用的组件时将返回 Null。
 
@@ -102,9 +102,9 @@ array(
 核心应用组件
 ---------------------------
 
-Yii 预定义了一系列核心应用组件，提供常见 Web 应用中所用的功能。例如，
+Yee 预定义了一系列核心应用组件，提供常见 Web 应用中所用的功能。例如，
 [request|CWebApplication::request] 组件用于解析用户请求并提供例如 URL，cookie 等信息。
-通过配置这些核心组件的属性，我们可以在几乎所有的方面修改Yii 的默认行为。
+通过配置这些核心组件的属性，我们可以在几乎所有的方面修改Yee 的默认行为。
 
 下面我们列出了由 [CWebApplication] 预定义的核心组件。
 
@@ -120,7 +120,7 @@ Yii 预定义了一系列核心应用组件，提供常见 Web 应用中所用�
 管理客户端脚本 (javascripts 和 CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-提供 Yii 框架用到的核心信息的翻译。
+提供 Yee 框架用到的核心信息的翻译。
 
    - [db|CApplication::db]: [CDbConnection] - 提供数据库连接。注意，使用此组件你必须配置其
 [connectionString|CDbConnection::connectionString] 属性。
@@ -129,7 +129,7 @@ Yii 预定义了一系列核心应用组件，提供常见 Web 应用中所用�
 
    - [format|CApplication::format]: [CFormatter] - 格式化数值显示。此功能从版本 1.1.0 起开始提供。
 
-   - [messages|CApplication::messages]: [CPhpMessageSource] - 提供Yii应用中使用的信息翻译。
+   - [messages|CApplication::messages]: [CPhpMessageSource] - 提供Yee应用中使用的信息翻译。
 
    - [request|CWebApplication::request]: [CHttpRequest] - 提供关于用户请求的信息。
 

@@ -47,7 +47,7 @@ public function rules()
 Це робиться для того, щоб теги були унікальними і правильно розділялися комами.
 Останнє правило використовується пошуком і буде описано пізніше.
 
-Валідатори, такі як `required`, `length`, `in` та `match` є стандартними валідаторами Yii.
+Валідатори, такі як `required`, `length`, `in` та `match` є стандартними валідаторами Yee.
 Валідатор `normalizeTags` використовує визначений метод у класі `Post`.
 За додатковою інформацією про те, як описувати правила валідації ви можете звернутися до [повного керівництва](/doc/guide/uk/form.model#declaring-validation-rules).
 
@@ -162,7 +162,7 @@ class Post extends CActiveRecord
 {
 	public function getUrl()
 	{
-		return Yii::app()->createUrl('post/view', array(
+		return Yee::app()->createUrl('post/view', array(
 			'id'=>$this->id,
 			'title'=>$this->title,
 		));

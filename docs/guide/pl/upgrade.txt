@@ -35,7 +35,7 @@ Zmiany związane z aliasem tabeli w relacyjnym rekordzie aktywnym.
 ------------------------------------------------------------
 
 - Domyślny alias dla tabeli relacyjnej odpowiada nazwie tej relacji. Poprzednio, 
-w wersji 1.0.x, Yii generował domyślny alias tabeli automatycznie, przez co należało
+w wersji 1.0.x, Yee generował domyślny alias tabeli automatycznie, przez co należało
 używać prefiksu `??.` podczas odnoszenia się do tego wygenerowanego automatycznie aliasu.
 
 - Alias nazwy tabeli głównej w zapytaniu AR ustalony został jako `t`.

@@ -12,14 +12,14 @@ ist, bestimmte Ressourcen zu manipulieren. Normalerweise wird dazu geprüft, ob 
 Person einer bestimmten Rolle zugeordnet ist, die Zugriff auf die Ressource
 hat. 
 
-Yii hat ein einfach anzuwendendes Authentifizierungs-/Autorisierungs-Framework
+Yee hat ein einfach anzuwendendes Authentifizierungs-/Autorisierungs-Framework
 (Auth-Framework) eingebaut, das leicht an spezielle Bedürfnisse angepasst werden kann.
 
 Zentraler Bestandteil dieses Frameworks ist eine in der Anwendung 
 vordefinierte *Userkomponente* (Benutzerkomponente), die 
 das [IWebUser]-Interface implementiert. Diese Userkomponente stellt die
 beständigen Identitätsdaten des aktuellen Benutzers dar. 
-Über `Yii::app()->user` kann von jeder Stelle aus darauf zugegriffen werden.
+Über `Yee::app()->user` kann von jeder Stelle aus darauf zugegriffen werden.
 
 Mittels der Userkomponente kann man über [CWebUser::isGuest] prüfen, 
 ob ein Benutzer angemeldet ist oder nicht. Man kann einen Benutzer mit
@@ -38,7 +38,7 @@ eines Benutzers zu prüfen. Bei einer typischen Webanwendung werden dazu meist
 ein Benutzername und ein Passwort herangezogen. Es kann aber auch andere
 Methoden geben, die entsprechend eine andere Implementierung erfordern. Damit
 die Art der Authentifizierung geändert werden kann, führt das
-Yii Auth-Framework eine Identitätsklasse (engl.: identity class) ein.
+Yee Auth-Framework eine Identitätsklasse (engl.: identity class) ein.
 
 Eine Identitätsklasse enthält die eigentliche Logik zur Authentifizierung und
 sollte das [IUserIdentity]-Interface implementieren. So können Klassen für 
@@ -102,7 +102,7 @@ Speicher, wie etwa der Session, abgelegt. Diese Daten stehen dann direkt als
 Eigenschaften von [CWebUser] zur Verfügung. In unserem Beispiel haben wir den
 Titel über `$this->setState('title', $record->title);` gespeichert. Wurde der
 Anmeldeprozess durchlaufen, kann man daher die `title`-Information des aktuellen
-Benutzers über `Yii::app()->user->title` abrufen.
+Benutzers über `Yee::app()->user->title` abrufen.
 
 > Info|Info: Standardmäßig verwendet [CWebUser] die Session als beständigen
 Speicher für solche Identitätsdaten. Wenn die cookie-basierte Anmeldung aktiviert
@@ -123,12 +123,12 @@ Das folgende Beispiel zeigt, wie dies erreicht wird:
 // Benutzer mit übergebenem Benutzernamen/Passwort anmelden
 $identity=new UserIdentity($username,$password);
 if($identity->authenticate())
-	Yii::app()->user->login($identity);
+	Yee::app()->user->login($identity);
 else
 	echo $identity->errorMessage;
 ......
 // Aktuellen Benutzer abmelden
-Yii::app()->user->logout();
+Yee::app()->user->logout();
 ~~~
 
 Wir erzeugen hier eine neues UserIdentity-Objekt und übergeben die
@@ -142,7 +142,7 @@ können wir über die `errorMessage`-Eigenschaft weitere Informationen dazu
 abfragen.
 
 Ob ein Benutzer erfolgreich authentifiziert wurde, kann in der gesamten
-Anwendung einfach über `Yii::app()->user->isGuest` geprüft werden. Verwendet
+Anwendung einfach über `Yee::app()->user->isGuest` geprüft werden. Verwendet
 man einen Permanentspeicher, wie die Session (Standard) und/oder ein Cookie
 (wie im folgenden Beschrieben), um die Identitätsinformationen zu speichern,
 kann der Anwender über mehrere aufeinanderfolgende Requests angemeldet
@@ -150,7 +150,7 @@ bleiben. In diesem Fall wird die Identitätsklasse bzw. der gesamte
 Anmeldeprozess nicht bei jedem Request benötigt bzw. durchlaufen. Stattdessen
 lädt CWebUser die Identitätsinformationen automatisch aus dem entsprechenden 
 Permanentspeicher und verwendet sie um den Rückgabewert von
-`Yii::app()->user->isGuest` zu bestimmen.
+`Yee::app()->user->isGuest` zu bestimmen.
 
 
 Cookie-basierte Anmeldung
@@ -170,16 +170,16 @@ seinem Browser Cookies akzeptieren muss.
 [php]
 // Benutzer für 7 Tage angemeldet lassen. Stellen Sie sicher, 
 // dass allowAutoLogin in der Userkomponente auf true gesetzt ist
-Yii::app()->user->login($identity,3600*24*7);
+Yee::app()->user->login($identity,3600*24*7);
 ~~~
 
 Wie bereits erwähnt, werden Daten, die man über [CBaseUserIdentity::setState]
 speichert, ebenfalls im Cookie abgelegt, falls man die cookie-basierte
 Anmeldung verwendet. Wenn der Besucher das nächste mal angemeldet wird, werden
-diese Daten aus dem Cookie ausgelesen und im Status über `Yii::app()->user`
+diese Daten aus dem Cookie ausgelesen und im Status über `Yee::app()->user`
 bereitgestellt.
 
-Auch wenn Yii Maßnahmen bereitstellt, um eine Veränderung dieser Cookiedaten
+Auch wenn Yee Maßnahmen bereitstellt, um eine Veränderung dieser Cookiedaten
 auf der Clientseite zu verhindern, empfehlen wir unbedingt, keine sensiblen
 Daten als Status zu speichern. Stattdessen sollte man solche Daten auf der
 Serverseite in einem Permanentspeicher (z.B. einer Datenbank) ablegen und bei
@@ -348,7 +348,7 @@ Rolle.
 
    - [expression|CAccessRule::expression]: Definiert einen PHP-Ausdruck,
 dessen Wert darüber entscheidet, ob die Regel zutrifft oder nicht. Im Ausdruck
-können Sie `$user` für `Yii::app()->user` verwenden.
+können Sie `$user` für `Yee::app()->user` verwenden.
 
 
 Verhalten nach der Autorisierung
@@ -391,7 +391,7 @@ die Autorisierung verweigert wurde. Die URL dieser Seite kann über die Eigensch
 
 ~~~
 [php]
-Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+Yee::app()->request->redirect(Yee::app()->user->returnUrl);
 ~~~
 
 Rollenbasierte Zugriffskontrolle
@@ -405,7 +405,7 @@ entsprechenden [Wiki-Artikel](http://de.wikipedia.org/wiki/RBAC) (evtl. auch
 in der ausührlicheren [englischen
 Version](http://en.wikipedia.org/wiki/Role-based_access_control)).
 
-Yii implementiert über seine
+Yee implementiert über seine
 [authManager|CWebApplication::authManager]-Komponente ein hierarchisches 
 RBAC-Schema. Im folgenden behandeln wir zunächst die Grundkonzepte dieses
 Schemas. Danach beschreiben wir, wie man Autorisierungsdaten definiert und
@@ -413,7 +413,7 @@ schließlich wie man diese für die Berechtigungsprüfung verwendet.
 
 ### Übersicht
 
-Einer der grundlegenden Begriffe bei RBAC mit Yii ist das
+Einer der grundlegenden Begriffe bei RBAC mit Yee ist das
 *Autorisierungselement* (engl.: authorization item). Ein Autorisierungselement
 steht für die Erlaubnis, etwas bestimmtes zu tun (z.B. einen Blogeintrag anzulegen
 oder Benutzer zu verwalten). Gemäß ihrer Beschaffenheit und dem anvisierten
@@ -426,7 +426,7 @@ In einem System kann es zum Beispiel eine Rolle `administrator` geben. Sie
 besteht aus den Tätigkeiten `Beiträge verwalten` und `Benutzer verwalten`. 
 Die Tätigkeit `Benutzer verwalten` könnte aus den Operationen
 `Benutzer anlegen`, `Benutzer aktualisieren` und `Benutzer löschen` bestehen. 
-Um das System noch flexibler zu machen, erlaubt es Yii
+Um das System noch flexibler zu machen, erlaubt es Yee
 sogar, dass eine Rolle aus weiteren Rollen oder Operationen, eine
 Tätigkeit aus anderen Tätigkeiten und eine Operation aus anderen Operationen
 besteht.
@@ -464,7 +464,7 @@ löschen kann, geht das so:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('löscheBeitrag'))
+if(Yee::app()->user->checkAccess('löscheBeitrag'))
 {
 	// Beitrag löschen
 }
@@ -475,7 +475,7 @@ Konfigurieren des Autorisierungsmanagers
 
 Bevor man eine Autorisierungshierarchie anlegen und den Zugriffsschutz
 einsetzen kann, muss die [authManager|CWebApplication::authManager]-Komponente 
-konfiguriert werden. Yii bietet hier zwei Typen an: [CPhpAuthManager] und [CDbAuthManager].
+konfiguriert werden. Yee bietet hier zwei Typen an: [CPhpAuthManager] und [CDbAuthManager].
 Der erste speichert die Autorisierungsdaten in einer PHP-Datei, der andere
 in der Datenbank. Über die Klasse kann man einen dieser Typen, sowie dessen
 Starteigenschaften konfigurieren:
@@ -497,7 +497,7 @@ return array(
 );
 ~~~
 
-Jetzt kann man über `Yii::app()->authManager` auf den
+Jetzt kann man über `Yee::app()->authManager` auf den
 [authManager|CWebApplication::authManager] zugreifen.
 
 > Note|Hinweis: Wenn Sie Umlaute für die Bezeichnung Ihrer
@@ -541,14 +541,14 @@ Autorisierungshierarchie aufbaut:
 
 ~~~
 [php]
-$auth=Yii::app()->authManager;
+$auth=Yee::app()->authManager;
 
 $auth->createOperation('erstelleBeitrag','Einen Beitrag erstellen');
 $auth->createOperation('leseBeitrag','Einen Beitrag lesen');
 $auth->createOperation('aktualisiereBeitrag','Einen Beitrag aktualisieren');
 $auth->createOperation('löscheBeitrag','Einen Beitrag löschen');
 
-$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$bizRule='return Yee::app()->user->id==$params["post"]->authID;';
 $task=$auth->createTask('aktualisiereEigenenBeitrag','Einen eigenen Beitrag aktualisieren',$bizRule);
 $task->addChild('aktualisiereBeitrag');
 
@@ -610,7 +610,7 @@ wie folgt auf:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('erstelleBeitrag'))
+if(Yee::app()->user->checkAccess('erstelleBeitrag'))
 {
 	// Beitrag erstellen
 }
@@ -624,7 +624,7 @@ Beitragsdaten in `$params` übergeben:
 ~~~
 [php]
 $params=array('post'=>$post);
-if(Yii::app()->user->checkAccess('aktualisiereEigenenBeitrag',$params))
+if(Yee::app()->user->checkAccess('aktualisiereEigenenBeitrag',$params))
 {
 	// Beitrag aktualisieren
 }
@@ -668,16 +668,16 @@ Benutzern und Gästen entsprechend zugeordnet werden.
 
 ~~~
 [php]
-$bizRule='return !Yii::app()->user->isGuest;';
+$bizRule='return !Yee::app()->user->isGuest;';
 $auth->createRole('authentifiziert','Autentifizierte Benutzer', $bizRule);
 
-$bizRule='return Yii::app()->user->isGuest;';
+$bizRule='return Yee::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
 > Info|Info: Seit Version 1.1.11 enthält das Array `$params`, welches einer Geschäftsregel übergeben wird, einen Eintrag
 > `userId`, dessen Wert die ID des Benutzers ist, für den die Geschäftsregel geprüft wird.
 > Dies wird in Situationen benötigt, in denen [CDbAuthManager::checkAccess()] bzw. [CPhpAuthManager::checkAccess()] aufgerufen wird
-> und `Yii::app()->user` nicht verfügbar, oder nicht der Benutzer ist, für den der Berechtigung geprüft wird.
+> und `Yee::app()->user` nicht verfügbar, oder nicht der Benutzer ist, für den der Berechtigung geprüft wird.
 
 <div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

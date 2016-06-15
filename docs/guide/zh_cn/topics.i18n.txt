@@ -5,7 +5,7 @@
 是指设计一种应用软件的过程，这种软件无需做大的工程改变就能适应不同的语言和地区的需要。
 对 Web 应用来说，国际化尤为重要，因为潜在的用户可能来自世界的各个角落。
 
-Yii 在若干方面提供了对 I18N 的支持
+Yee 在若干方面提供了对 I18N 的支持
 
    - 它为每种可能的语言和变量提供了本地化数据。
    - 它提了供信息和文件的翻译服务。
@@ -19,7 +19,7 @@ Yii 在若干方面提供了对 I18N 的支持
 
 区域是一系列参数，它定义了用户的语言、用户所在国家以及用户所有想要在他们的界面中看到的特殊参数。
 它通常由一个包含了语言 ID 和区域 ID 的 ID 来识别。例如， ID `en_US` 表示英语区域和美国。
-为保持一致性，Yii 中所有的区域 ID 被规范为小写的 `语言 ID` 或 `语言 ID_地区 ID`（例如 `en`, `en_us`）。
+为保持一致性，Yee 中所有的区域 ID 被规范为小写的 `语言 ID` 或 `语言 ID_地区 ID`（例如 `en`, `en_us`）。
 
 区域数据由一个  [CLocale] 实例表示。它提供了基于区域的信息，包括货币符号，数字符号，
 日期和时间格式以及日期相关的名称。由于语言信息已经由区域 ID 实现，因此 [CLocale] 不再提供。
@@ -28,13 +28,13 @@ Yii 在若干方面提供了对 I18N 的支持
 通过一个区域 ID，就可以通过 `CLocale::getInstance($localeID)` 或者 `CApplication::getLocale($localeID)` 
 获取相应的  [CLocale] 实例。
 
-> Info|信息: Yii 包含几乎所有语言和区域的区域化数据。
+> Info|信息: Yee 包含几乎所有语言和区域的区域化数据。
 这些数据来自于 [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR)。在每个区域中，
 只提供了 CLDR 中的部分数据，因为原始的 CLDR 数据中包含了大量不太常用的信息。从版本 1.1.0 起，
 用户也可以使用他们自定义的区域数据。只需要配置 [CApplication::localeDataPath] 属性为包含了自定义区域数据的目录即可。
 请参考位于 `framework/i18n/data` 目录中的文件创建自定义的区域数据文件。
 
-在一个 Yii 应用程序中，我们区分了它的 [目标语言（target
+在一个 Yee 应用程序中，我们区分了它的 [目标语言（target
 language）|CApplication::language] 和 [源语言（source
 language）|CApplication::sourceLanguage]。目标语言是应用程序的目标用户的语言（区域），
 而源语言是指写在应用程序源代码中的语言（区域）。国际化仅会在这两种语言不同的情况下发生。
@@ -54,25 +54,25 @@ language）|CApplication::sourceLanguage]。目标语言是应用程序的目标
 前者将一条文本信息翻译为期望的语言，后者将整合文件翻译为期望的语言。
 
 一个翻译请求包含要被翻译的对象，对象所用的源语言，和对象所需要翻译到的目标语言。
-在 Yii 中，源语言默认为
+在 Yee 中，源语言默认为
 [应用程序源语言|CApplication::sourceLanguage] 而目标语言默认为
 [应用程序语言|CApplication::language]。
 如果两者语言相同，翻译将不会发生。
 
 ### 信息翻译
 
-信息翻译是通过调用 [Yii::t()|YiiBase::t] 实现的。此方法会将信息从 
+信息翻译是通过调用 [Yee::t()|YeeBase::t] 实现的。此方法会将信息从 
 [源语言|CApplication::sourceLanguage] 翻译为 [目标语言|CApplication::language]。
 
 当翻译一条信息时，必须指定它的分类（category），因为一条信息在不同的分类或上下文中可能会有
-不同的翻译。分类 `yii` 被保留为仅限 Yii 框架核心使用。
+不同的翻译。分类 `yee` 被保留为仅限 Yee 框架核心使用。
 
-信息可以包含参数占位符，它们将会在调用 [Yii::t()|YiiBase::t] 时被实际的参数值取代。
+信息可以包含参数占位符，它们将会在调用 [Yee::t()|YeeBase::t] 时被实际的参数值取代。
 例如，下面的信息翻译请求将会替换原始信息中的 `{alias}` 占位符为实际的别名（alias） 值。
 
 ~~~
 [php]
-Yii::t('app', 'Path alias "{alias}" is redefined.',
+Yee::t('app', 'Path alias "{alias}" is redefined.',
 	array('{alias}'=>$alias))
 ~~~
 
@@ -81,10 +81,10 @@ Yii::t('app', 'Path alias "{alias}" is redefined.',
 参数占位符。
 
 翻译过的信息会存储在一个叫做  *信息源（message source）* 的库中。 信息源是一个 
-[CMessageSource] 或其子类的实例。当 [Yii::t()|YiiBase::t] 被调用时，
+[CMessageSource] 或其子类的实例。当 [Yee::t()|YeeBase::t] 被调用时，
 它将从信息源中查找相应的信息，如果找到了，就会返回翻译后的版本。
 
-Yii 含有如下几种信息源。你也可以扩展
+Yee 含有如下几种信息源。你也可以扩展
 [CMessageSource] 创建自己的信息源类型。
 
    - [CPhpMessageSource]: 信息的翻译存储在一个 PHP 的 键值对 数组中。
@@ -97,12 +97,12 @@ Yii 含有如下几种信息源。你也可以扩展
    - [CDbMessageSource]: 信息的翻译存储在数据库的表中。更多细节，请查看 [CDbMessageSource] 的 API 文档。
 
 信息源是作为一个 [应用程序组件](/doc/guide/basics.application#application-component) 载入的。
-Yii 预定义了一个名为 [messages|CApplication::messages] 的应用程序组件以存储用户程序中用到的信息。
+Yee 预定义了一个名为 [messages|CApplication::messages] 的应用程序组件以存储用户程序中用到的信息。
 默认情况下，此信息源的类型是  [CPhpMessageSource] ，而存储这些 PHP 翻译文件的目录是 `protected/messages`。
 
 总体来说，要实现信息翻译，需要执行如下几步：
 
-   1. 在合适的位置调用 [Yii::t()|YiiBase::t] ；
+   1. 在合适的位置调用 [Yee::t()|YeeBase::t] ；
 
    2. 以 `protected/messages/LocaleID/CategoryName.php` 的格式创建 PHP 翻译文件。
 每个文件简单的返回一个信息翻译数组。
@@ -110,19 +110,19 @@ Yii 预定义了一个名为 [messages|CApplication::messages] 的应用程序�
 
    3. 配置 [CApplication::sourceLanguage] 和 [CApplication::language]。
 
-> Tip|提示: 使用 [CPhpMessageSource] 作为信息源时，Yii 中的  `yiic` 工具可用于管理信息翻译。
+> Tip|提示: 使用 [CPhpMessageSource] 作为信息源时，Yee 中的  `yeec` 工具可用于管理信息翻译。
 它的 `message` 命令可以自动从所选的源文件中提取要翻译的信息，并在需要时将其合并为现存的翻译。
-关于使用 `message` 命令的更多信息，请执行 `yiic help message`。
+关于使用 `message` 命令的更多信息，请执行 `yeec help message`。
 
 从版本  1.0.10 起，当使用 [CPhpMessageSource] 管理信息源时，
 扩展类（例如一个 widget 小物件，一个模块）中的信息可以以一种特殊的方式管理并使用。
 具体来说，如果一条信息属于一个类名为 `Xyz` 的扩展，那么分类的名字可以以 `Xyz.categoryName` 的格式指定。
 相应的信息文件就是 `BasePath/messages/LanguageID/categoryName.php` ，其中 `BasePath` 是指包含此扩展类文件的那个目录。
-当使用 `Yii::t()` 翻译一条扩展信息时，需要使用如下格式：
+当使用 `Yee::t()` 翻译一条扩展信息时，需要使用如下格式：
 
 ~~~
 [php]
-Yii::t('Xyz.categoryName', '要翻译的信息');
+Yee::t('Xyz.categoryName', '要翻译的信息');
 ~~~
 
 从 1.0.2 起，Yi 添加了对 [choice format|CChoiceFormat] 的支持。Choice format 
@@ -148,7 +148,7 @@ Yii::t('Xyz.categoryName', '要翻译的信息');
 'n==1#one book|n>1#many books'
 ~~~
 
-而我们在调用 [Yii::t()|YiiBase::t] 时在参数数组中传递了数字值 2 ，
+而我们在调用 [Yee::t()|YeeBase::t] 时在参数数组中传递了数字值 2 ，
 我们就会得到 `many books` 作为最终的翻译信息。
 
 作为一种简便写法，如果一个表达式是一个数字，它将被视为等同于
@@ -183,7 +183,7 @@ Yii::t('Xyz.categoryName', '要翻译的信息');
 
 日期和时间在不同的国家和地区通常会有不同的格式。
 日期和时间格式和的任务就是生成一个符合指定区域格式的日期或时间字符串。
-为实现此目的，Yii 提供了[CDateFormatter]。
+为实现此目的，Yee 提供了[CDateFormatter]。
 
 每个 [CDateFormatter] 实例关联到一个目标区域。要获取关联到整个应用程序的目标区域的格式器（formatter），
 只需简单的访问 应用程序的 [dateFormatter|CApplication::dateFormatter] 属性。
@@ -201,7 +201,7 @@ Yii::t('Xyz.categoryName', '要翻译的信息');
 -----------------
 
 与日期和时间类似，数字在不同的国家或地区之间也可能有不同的格式。
-数字格式化包括十进制格式化，货币格式化和百分比格式化。Yii 提供了
+数字格式化包括十进制格式化，货币格式化和百分比格式化。Yee 提供了
 [CNumberFormatter] 以完成这些任务。
 
 要获取关联到整个应用程序的目标区域的格式器（formatter），

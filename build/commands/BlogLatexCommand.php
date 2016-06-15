@@ -6,7 +6,7 @@ class BlogLatexCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic bloglatex
+  yeec bloglatex
 
 DESCRIPTION
   This command generates latex files for the definitive guide.

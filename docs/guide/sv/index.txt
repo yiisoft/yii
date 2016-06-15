@@ -1,11 +1,11 @@
-Den definitiva guiden till Yii
+Den definitiva guiden till Yee
 ==============================
 
-Denna handledning tillhandahålls under [licensvillkoren för Yii-dokumentation](http://www.yiiframework.com/doc/terms/).
+Denna handledning tillhandahålls under [licensvillkoren för Yee-dokumentation](http://www.yeeframework.com/doc/terms/).
 
 Alla rättigheter förbehållna.
 
-2008-2010 &copy; Yii Software LLC.
+2008-2010 &copy; Yee Software LLC.
 
 Översättning till svenska: tri <triboe@gmail.com>
 

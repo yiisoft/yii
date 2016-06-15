@@ -31,7 +31,7 @@ public function filters()
 Кешування HTTP
 --------------
 
-На додаток до кешуванню простого виводу данних дії, Yii надає [CHttpCacheFilter] (починаючи з версії 1.1.11). 
+На додаток до кешуванню простого виводу данних дії, Yee надає [CHttpCacheFilter] (починаючи з версії 1.1.11). 
 Цей фільтр допомагає у налаштуванні вищезазначених заголовків повідомити клієнту, що зміст сторінки не змінився з моменту останнього запиту, тому сервер не буде повторно передавати зміст. 
 [CHttpCacheFilter] може бути встановлений ​​аналогічно до [COutputCache]:
 ~~~
@@ -41,7 +41,7 @@ public function filters()
     return array(
         array(
             'CHttpCacheFilter + index',
-            'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
+            'lastModified'=>Yee::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
         ),
     );
 }

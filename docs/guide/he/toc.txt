@@ -2,7 +2,7 @@
     - [סקירה](index)
     - [שינויים ואפשרויות חדשות](changes)
     - [עדכון המערכת מגרסא 1.0 לגרסא 1.1](upgrade)
-    - [מה זה Yii](quickstart.what-is-yii)
+    - [מה זה Yee](quickstart.what-is-yee)
     - [התקנה](quickstart.installation)
     - [יצירת אפליקציה בפעם הראשונה](quickstart.first-app)
 
@@ -40,7 +40,7 @@
     - [מטמון עמודים](caching.page)
     - [תוכן דינאמי](caching.dynamic)
 
-* הרחבת Yii
+* הרחבת Yee
     - [סקירה](extension.overview)
     - [שימוש בתוספות](extension.use)
     - [יצירת תוספות](extension.create)
@@ -65,6 +65,6 @@
     - [אפלקציות מסוף ובקרה](topics.console)
     - [אבטחה](topics.security)
     - [שיפור ביצועי המערכת](topics.performance)
-    - [יצירת קןד בעזרת כלי שורת הפקודות (לא נתמך)](quickstart.first-app-yiic)
+    - [יצירת קןד בעזרת כלי שורת הפקודות (לא נתמך)](quickstart.first-app-yeec)
 
 «div class="revision"»$Id: toc.txt 2098 2009-12-18 19:39:18Z qiang.xue $«/div»

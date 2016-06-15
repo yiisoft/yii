@@ -6,10 +6,10 @@
 たとえば、[Flex](http://www.adobe.com/products/flex/) ベースのクライアントは、サーバで動いている PHP のウェブアプリケーションに実装された関数を呼び出すことが出来ます。
 ウェブサービスはコミュニケーションプロトコルスタックの基礎部分を [SOAP](http://en.wikipedia.org/wiki/SOAP) に依存しています。
 
-Yii は [CWebService] と [CWebServiceAction] を提供することで、ウェブアプリケーションでウェブサービスを提供する作業を簡単にします。
+Yee は [CWebService] と [CWebServiceAction] を提供することで、ウェブアプリケーションでウェブサービスを提供する作業を簡単にします。
 API は **サービスプロバイダ** と呼ばれるクラス群にまとめられます。
-Yii はそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl) スペックファイルを生成し、どの API が利用可能で、どのように呼び出すことができるのかを記述します。
-クライアントによって API が呼び出されると、Yii が対応するサービスプロバイダをインスタンス化し、要求された API を実行してリクエストに応えます。
+Yee はそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl) スペックファイルを生成し、どの API が利用可能で、どのように呼び出すことができるのかを記述します。
+クライアントによって API が呼び出されると、Yee が対応するサービスプロバイダをインスタンス化し、要求された API を実行してリクエストに応えます。
 
 
 > Note|注意: [CWebService] は [PHP SOAP extension](http://www.php.net/manual/ja/ref.soap.php) に依存します。
@@ -19,7 +19,7 @@ Yii はそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl) 
 -------------------------
 
 上で述べたように、サービスプロバイダとはリモートから呼び出し可能なメソッドを定義するクラスのことです。
-Yii は [doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) と [class reflection](http://php.net/manual/ja/book.reflection.php) に基づいて、どのメソッドがリモートから呼び出し可能であり、どのような引数をとり、そしてどのような返り値を返すのかを決定します。
+Yee は [doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) と [class reflection](http://php.net/manual/ja/book.reflection.php) に基づいて、どのメソッドがリモートから呼び出し可能であり、どのような引数をとり、そしてどのような返り値を返すのかを決定します。
 
 まず単純な株価情報サービスからはじめましょう。
 このサービスではクライアントが株価情報を要求できます。

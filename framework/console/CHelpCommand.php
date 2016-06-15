@@ -3,9 +3,9 @@
  * CHelpCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -44,7 +44,7 @@ class CHelpCommand extends CConsoleCommand
 		{
 			if(!empty($commands))
 			{
-				echo "Yii command runner (based on Yii v".Yii::getVersion().")\n";
+				echo "Yee command runner (based on Yee v".Yee::getVersion().")\n";
 				echo "Usage: ".$runner->getScriptName()." <command-name> [parameters...]\n";
 				echo "\nThe following commands are available:\n";
 				$commandNames=array_keys($commands);
@@ -57,7 +57,7 @@ class CHelpCommand extends CConsoleCommand
 			{
 				echo "No available commands.\n";
 				echo "Please define them under the following directory:\n";
-				echo "\t".Yii::app()->getCommandPath()."\n";
+				echo "\t".Yee::app()->getCommandPath()."\n";
 			}
 		}
 		else

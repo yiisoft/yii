@@ -42,7 +42,7 @@ Veranderingen gerelateerd aan tabel-aliassen in relationele Active Record
 ------------------------------------------------------------------------
 
 - Het standaard-alias voor een relationele tabel is nu hetzelfde als de
-overeenkomende relatienaam. Eerder in versie 1.0.x genereerde Yii standaard
+overeenkomende relatienaam. Eerder in versie 1.0.x genereerde Yee standaard
 automatisch een tabel-alias voor elke relationele tabel, en moesten we het
 `??`-prefix gebruiken om te refereren naar het automatisch gegenereerde alias.
 

@@ -16,7 +16,7 @@ public function action<?php echo ucfirst(trim($viewName,'_')); ?>()
     if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($this->modelClass); ?>-<?php echo $viewName; ?>-form')
     {
         echo CActiveForm::validate($model);
-        Yii::app()->end();
+        Yee::app()->end();
     }
     */
 

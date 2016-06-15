@@ -1,5 +1,5 @@
 <?php
-Yii::import("system.web.*");
+Yee::import("system.web.*");
 /**
  * Tests for the {@link CDataProviderIterator} class
  * @author Charles Pick <charles.pick@gmail.com>

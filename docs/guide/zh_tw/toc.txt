@@ -2,9 +2,9 @@
     - [概觀](index)
     - [新功能](changes)
     - [從版本 1.0 升級到 1.1](upgrade)
-    - [Yii 是什麼](quickstart.what-is-yii)
+    - [Yee 是什麼](quickstart.what-is-yee)
     - [安裝](quickstart.installation)
-    - [建立第一個 Yii 應用程式](quickstart.first-app)
+    - [建立第一個 Yee 應用程式](quickstart.first-app)
 
 * 基礎知識
     - [模型-視圖-控制器 (MVC)](basics.mvc)
@@ -43,7 +43,7 @@
     - [頁面快取](caching.page)
     - [動態內容](caching.dynamic)
 
-* 擴展 Yii
+* 擴展 Yee
     - [概觀](extension.overview)
     - [使用擴展](extension.use)
     - [建立擴展](extension.create)

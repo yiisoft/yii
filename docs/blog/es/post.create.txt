@@ -6,7 +6,7 @@ Con el modelo `Post` listo, necesitamos afinar las acciones y vistas para el con
 Personalizando el Control de Acceso
 -----------------------------------
 
-Lo primero que vamos a querer personalizar es el [control de acceso](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) porque el código generado por `gii` no se adapta a nuestras necesidades.
+Lo primero que vamos a querer personalizar es el [control de acceso](http://www.yeeframework.com/doc/guide/topics.auth#access-control-filter) porque el código generado por `gii` no se adapta a nuestras necesidades.
 
 Modificamos el método `accessRules()` en el archivo `/wwwroot/blog/protected/controllers/PostController.php` como sigue,
 
@@ -57,7 +57,7 @@ protected function beforeSave()
 		if($this->isNewRecord)
 		{
 			$this->create_time=$this->update_time=time();
-			$this->author_id=Yii::app()->user->id;
+			$this->author_id=Yee::app()->user->id;
 		}
 		else
 			$this->update_time=time();
@@ -68,7 +68,7 @@ protected function beforeSave()
 }
 ~~~
 
-Cuando guardamos un post, queremos actualizar la tabla `tbl_tag` para reflejar el cambio en las frecuencias de etiquetas. Podemos hacer esto en el método `afterSave()`, quien es automáticamente invocado por Yii después de que un post se guarda exitosamente en la base de datos.
+Cuando guardamos un post, queremos actualizar la tabla `tbl_tag` para reflejar el cambio en las frecuencias de etiquetas. Podemos hacer esto en el método `afterSave()`, quien es automáticamente invocado por Yee después de que un post se guarda exitosamente en la base de datos.
 
 ~~~
 [php]
@@ -87,9 +87,9 @@ protected function afterFind()
 }
 ~~~
 
-En la implementación, como queremos detectar si un usuario cambia las etiquetas en el caso de que esté actualizando un post existente, necesitamos saber cuáles son las etiquetas viejas. Por esta razón, también escribimos el método `afterFind()` para mantener las etiquetas viejas en la variable `_oldTags`. El método `afterFind()` es invocado automáticamente por Yii cuando un registro AR es completado con la información de la base de datos.
+En la implementación, como queremos detectar si un usuario cambia las etiquetas en el caso de que esté actualizando un post existente, necesitamos saber cuáles son las etiquetas viejas. Por esta razón, también escribimos el método `afterFind()` para mantener las etiquetas viejas en la variable `_oldTags`. El método `afterFind()` es invocado automáticamente por Yee cuando un registro AR es completado con la información de la base de datos.
 
-No vamos a dar detalles sobre el método `Tag::updateFrequency()` aquí. Lectores interesados pueden consultar el archivo `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
+No vamos a dar detalles sobre el método `Tag::updateFrequency()` aquí. Lectores interesados pueden consultar el archivo `/wwwroot/yee/demos/blog/protected/models/Tag.php`.
 
 
 <div class="revision">$Id$</div>

@@ -155,9 +155,9 @@ protected/
 
 ### Associazione dei parametri all'Action
 
-Sin dalla versione 1.1.4, Yii ha aggiunto il supporto per l'associazione 
+Sin dalla versione 1.1.4, Yee ha aggiunto il supporto per l'associazione 
 automatica dei parametri all'action. Vale a dire, il metodo action del controller 
-può definire parametri nominali il cui valore sarà automaticamente impostato da Yii 
+può definire parametri nominali il cui valore sarà automaticamente impostato da Yee 
 prelevandolo da `$_GET`
 
 Per far vedere come questo funzioni, supponiamo di dover scrivere l'action `create` 
@@ -212,7 +212,7 @@ nel caso in cui la richiesta non includa tale parametro. Poiché `$category` non
 ha un valore di default, se la richiesta non include il parametro `category`, 
 sarà generata automaticamente un'eccezione [CHttpException] (error code 400).
 
-A partire dalla versione 1.1.5, Yii supporta anche il tipo di dato array quale parametro dell'action.
+A partire dalla versione 1.1.5, Yee supporta anche il tipo di dato array quale parametro dell'action.
 Ciò è ottenuto tramite il suggerimento di tipo del PHP utilizzano la sintassi seguente:
 
 ~~~
@@ -221,7 +221,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii si assicurerà che $categories sia un array
+		// Yee si assicurerà che $categories sia un array
 	}
 }
 ~~~

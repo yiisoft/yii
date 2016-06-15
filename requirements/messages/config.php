@@ -1,7 +1,7 @@
 <?php
 /**
  * This is the configuration for generating message translations
- * for the Yii requirement checker. It is used by the 'yiic message' command.
+ * for the Yee requirement checker. It is used by the 'yeec message' command.
  */
 return array(
 	'sourcePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',

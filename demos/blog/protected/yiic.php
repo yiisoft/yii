@@ -1,7 +1,7 @@
 <?php
 
 // change the following paths if necessary
-$yiic=dirname(__FILE__).'/../../../framework/yiic.php';
+$yeec=dirname(__FILE__).'/../../../framework/yeec.php';
 $config=dirname(__FILE__).'/config/console.php';
 
-require_once($yiic);
+require_once($yeec);

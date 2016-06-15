@@ -3,9 +3,9 @@
  * CConsoleCommandRunner class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -24,9 +24,9 @@ class CConsoleCommandRunner extends CComponent
 	 * @var array list of all available commands (command name=>command configuration).
 	 * Each command configuration can be either a string or an array.
 	 * If the former, the string should be the class name or
-	 * {@link YiiBase::getPathOfAlias class path alias} of the command.
+	 * {@link YeeBase::getPathOfAlias class path alias} of the command.
 	 * If the latter, the array must contain a 'class' element which specifies
-	 * the command's class name or {@link YiiBase::getPathOfAlias class path alias}.
+	 * the command's class name or {@link YeeBase::getPathOfAlias class path alias}.
 	 * The rest name-value pairs in the array are used to initialize
 	 * the corresponding command properties. For example,
 	 * <pre>
@@ -166,11 +166,11 @@ class CConsoleCommandRunner extends CComponent
 						require_once($command);
 				}
 				else // an alias
-					$className=Yii::import($command);
+					$className=Yee::import($command);
 				return new $className($name,$this);
 			}
 			else // an array configuration
-				return Yii::createComponent($command,$name,$this);
+				return Yee::createComponent($command,$name,$this);
 		}
 		elseif($name==='help')
 			return new CHelpCommand('help',$this);

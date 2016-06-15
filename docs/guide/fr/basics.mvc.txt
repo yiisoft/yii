@@ -1,7 +1,7 @@
 Modèle-Vue-Contrôleur (MVC)
 ===========================
 
-Yii implémente le modèle de conception modèle-vue-contrôleur (MVC), qui est
+Yee implémente le modèle de conception modèle-vue-contrôleur (MVC), qui est
 largement adopté dans la programmation Web. MVC a pour but de séparer la logique
 métier des considérations d'interface utilisateur, de sorte que les développeurs peuvent plus
 facilement changer chaque partie sans affecter l'autre. Dans MVC, le modèle représente
@@ -9,23 +9,23 @@ l'information (les données) et les règles de gestion, la vue contient des él�
 de l'interface utilisateur tels que les entrées sous forme de texte, et le contrôleur gère
 la communication entre le modèle et la vue.
 
-Outre la mise en oeuvre de MVC, Yii introduit également un contrôleur frontal,
+Outre la mise en oeuvre de MVC, Yee introduit également un contrôleur frontal,
 appelé `Application`, qui encapsule le contexte d'exécution pour le traitement
 d'une requête. Application recueille des informations sur une requête de l'utilisateur,
 puis il l'envoie à un contrôleur approprié pour traitement ultérieur.
 
-Le schéma suivant montre la structure statique d'une application Yii:
+Le schéma suivant montre la structure statique d'une application Yee:
 
-![Structure statique d'une Application Yii](structure.png)
+![Structure statique d'une Application Yee](structure.png)
 
 
 Un flux de travail typique
 --------------------------
 
-Le schéma suivant montre un flux de travail typique d'une application Yii quand
+Le schéma suivant montre un flux de travail typique d'une application Yee quand
 elle traite une requête d'un utilisateur:
 
-![Déroulement typique d'une application Yii](flow.png)
+![Déroulement typique d'une application Yee](flow.png)
 
    1. Une requête utilisateur est envoyée à l'adresse `http://www.exemple.com/index.php?r=post/show&id=1`
 et le serveur Web traite la requête en exécutant le script d'amorçage (bootstrap) `index.php`.

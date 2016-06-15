@@ -4,7 +4,7 @@ class TestApplication extends CWebApplication
 {
 	public function __construct($config=null)
 	{
-		Yii::setApplication(null);
+		Yee::setApplication(null);
 		clearstatcache();
 		parent::__construct($config);
 	}

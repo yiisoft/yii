@@ -5,9 +5,9 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -91,7 +91,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 			}
 		}
 		if($fields===array())
-			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
+			throw new CDbException(Yee::t('yee','No columns are being updated for table "{table}".',
 				array('{table}'=>$table->name)));
 		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
 		$sql=$this->applyJoin($sql,$criteria->join);

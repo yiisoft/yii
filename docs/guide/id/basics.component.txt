@@ -1,7 +1,7 @@
 Komponen
 ========
 
-Aplikasi Yii dibangun dari komponen-komponen yang berupa objek yang ditulis ke sebuah
+Aplikasi Yee dibangun dari komponen-komponen yang berupa objek yang ditulis ke sebuah
 spesifikasi. Sebuah komponen adalah instance dari
 [CComponent] atau kelas induknya. Pemakaian komponen meliputi
 pengaksesan propertinya dan memunculkan/menangani event-nya. Kelas dasar

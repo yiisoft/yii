@@ -7,7 +7,7 @@
 アクセス制御のカスタマイズ
 --------------------------
 
-最初にやりたいのは、[アクセス制御](http://www.yiiframework.com/doc/guide/ja/topics.auth#sec-5) のカスタマイズです。`gii` が生成したコードは私達の要求に合っていません。
+最初にやりたいのは、[アクセス制御](http://www.yeeframework.com/doc/guide/ja/topics.auth#sec-5) のカスタマイズです。`gii` が生成したコードは私達の要求に合っていません。
 
 `/wwwroot/blog/protected/controllers/PostController.php` ファイルを開いて、`accessRules()` メソッドを以下のように修正します。
 
@@ -58,7 +58,7 @@ protected function beforeSave()
 		if($this->isNewRecord)
 		{
 			$this->create_time=$this->update_time=time();
-			$this->author_id=Yii::app()->user->id;
+			$this->author_id=Yee::app()->user->id;
 		}
 		else
 			$this->update_time=time();
@@ -69,7 +69,7 @@ protected function beforeSave()
 }
 ~~~
 
-記事を保存するときに、タグの出現頻度の変化を反映するために `tbl_tag` テーブルを更新する必要があります。この処理は `afterSave()` メソッドに書けばできます。この `afterSave()` メソッドは、データベースへの記事の保存が成功した後に、Yii から自動的に呼ばれます。
+記事を保存するときに、タグの出現頻度の変化を反映するために `tbl_tag` テーブルを更新する必要があります。この処理は `afterSave()` メソッドに書けばできます。この `afterSave()` メソッドは、データベースへの記事の保存が成功した後に、Yee から自動的に呼ばれます。
 
 ~~~
 [php]
@@ -88,9 +88,9 @@ protected function afterFind()
 }
 ~~~
 
-実装においては、ユーザが既存の記事を更新するときにタグを変更したかどうか判定したいので、変更前のタグが何であったかを知る必要があります。このため、`afterFind()` メソッドを書いて、`_oldTags` 変数に古いタグを保持するようにしました。この `afterFind()` メソッドは、AR レコードにデータベースから取得したデータが投入されたときに、Yii から自動的に呼ばれます。
+実装においては、ユーザが既存の記事を更新するときにタグを変更したかどうか判定したいので、変更前のタグが何であったかを知る必要があります。このため、`afterFind()` メソッドを書いて、`_oldTags` 変数に古いタグを保持するようにしました。この `afterFind()` メソッドは、AR レコードにデータベースから取得したデータが投入されたときに、Yee から自動的に呼ばれます。
 
-ここでは `Tag::updateFrequency()` メソッドについて詳しく説明しません。興味のある方は `/wwwroot/yii/demos/blog/protected/models/Tag.php` を参照してください。
+ここでは `Tag::updateFrequency()` メソッドについて詳しく説明しません。興味のある方は `/wwwroot/yee/demos/blog/protected/models/Tag.php` を参照してください。
 
 
 <div class="revision">$Id$</div>

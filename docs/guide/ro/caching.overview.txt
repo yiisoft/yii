@@ -6,8 +6,8 @@ unei aplicatii Web. Prin memorarea datelor statice in cache si prin servirea
 acestora atunci cand este necesar, se castiga timpul in care aceste date statice
 ar fi fost generate de catre serverul Web.
 
-Folosirea caching-ului in Yii implica in general configurarea si accesarea
-unei componente cache a aplicatiei Yii. Codul urmator configureaza componenta
+Folosirea caching-ului in Yee implica in general configurarea si accesarea
+unei componente cache a aplicatiei Yee. Codul urmator configureaza componenta
 cache sa foloseasca clasa memcache cu doua servere de cache:
 
 ~~~
@@ -28,9 +28,9 @@ array(
 ~~~
 
 Cand aplicatia ruleaza, componenta cache poate fi accesata prin
-`Yii::app()->cache`.
+`Yee::app()->cache`.
 
-Yii pune la dispozitie mai multe componente cache, pentru a asigura memorarea
+Yee pune la dispozitie mai multe componente cache, pentru a asigura memorarea
 datelor pe mai multe medii de stocare, in functie de necesitati.
 De exemplu, componenta [CMemCache] incapsuleaza extensia PHP memcache si foloseste
 memoria RAM ca mediu de stocare; componenta [CApcCache] incapsuleaza extensia APC din PHP;

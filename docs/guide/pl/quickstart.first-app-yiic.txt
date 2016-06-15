@@ -1,14 +1,14 @@
-Generacja kodu przy wykorzystaniu narzędzie lini poleceń `yiic shell` (przestarzałe)
+Generacja kodu przy wykorzystaniu narzędzie lini poleceń `yeec shell` (przestarzałe)
 =========================================
 
-> Note|Uwaga: Generatory kody z `yiic shell` jest przestarzałe od wersji 1.1.2. Proszę używaj w zamian potężniejszego i rozszerzalnego, przeglądarkowego generatora kodu dostępnego w [Gii](/doc/guide/topics.gii).
+> Note|Uwaga: Generatory kody z `yeec shell` jest przestarzałe od wersji 1.1.2. Proszę używaj w zamian potężniejszego i rozszerzalnego, przeglądarkowego generatora kodu dostępnego w [Gii](/doc/guide/topics.gii).
 
 Otwórz narzędzie linii komand i wywołaj następujące, wyświetlone komendy
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
+% protected/yeec shell
+Yee Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
    generate models/User.php
@@ -38,7 +38,7 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-W powyższym kodzie użyliśmy komendy `yiic shell` w celu oddziaływania ze szkieletem twojej aplikacji.
+W powyższym kodzie użyliśmy komendy `yeec shell` w celu oddziaływania ze szkieletem twojej aplikacji.
 W wierszu poleceń wywołaliśmy dwie komendy: `model User tbl_user` oraz 
 `crud User`.  Pierwsza wygenerowała klasę o nazwie `User` dla tabeli `tbl_user`,
 druga zaś zanalizowała model `User` i wygenerowała kod implementujacy operacje CRUD.
@@ -46,10 +46,10 @@ druga zaś zanalizowała model `User` i wygenerowała kod implementujacy operacj
 > Note|Uwaga: Moga wystapić błędy takie jak "...could not find driver", nawet
 > jeśli sprawdzanie wymagań pokazuje, że udostępniłeś już PDO oraz 
 > odpowiednie sterowniki PDO. Jeśli tak się stanie, możesz spróbować wywołać
-> narzędzie `yiic` w następujący sposób
+> narzędzie `yeec` w następujący sposób
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 > gdzie `path/to/php.ini` reprezentuje poprawny plik PHP ini.
@@ -93,4 +93,4 @@ Wszystkie te funkcjonalności dostarczane są bez potrzeby pisania jakiejkolwiek
 ![Create new user page](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app-yeec.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

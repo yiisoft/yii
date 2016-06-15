@@ -5,10 +5,10 @@ Eine der wesentlichen Aufgaben von Webanwendungen besteht im Auswerten von
 HTML-Formularen. Der Entwickler muss hierzu Formulare erstellen, diese mit
 vorhandenen Werten oder Vorgabewerten befüllen, eingegebene Daten überprüfen,
 entsprechende Fehlermeldungen ausgeben und die Daten schließlich in einem
-Permanentspeicher ablegen. Durch die MVC-Architektur von Yii wird dieser ganze
+Permanentspeicher ablegen. Durch die MVC-Architektur von Yee wird dieser ganze
 Prozess stark vereinfacht.
 
-Der typische Ablauf beim Arbeiten mit Formularen sieht in Yii so aus:
+Der typische Ablauf beim Arbeiten mit Formularen sieht in Yee so aus:
 
    1. Anlegen einer Modelklasse für die zu erfassenden Daten
    2. Implementieren einer Controlleraction, die das abgeschickte Formular

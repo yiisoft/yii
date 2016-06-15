@@ -8,7 +8,7 @@ as the central place for keeping application-level configuration settings. For t
 reason, the application object is also called the `front-controller`.
 
 The application object is instantiated as a singleton by the [entry script](/doc/guide/basics.entry).
-The application singleton can be accessed at any place via [Yii::app()|YiiBase::app].
+The application singleton can be accessed at any place via [Yee::app()|YeeBase::app].
 
 
 Application Configuration
@@ -28,12 +28,12 @@ application.
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
 
-Note that application is [a component](/doc/guide/basics.component) like almost every Yii class. It means two things:
+Note that application is [a component](/doc/guide/basics.component) like almost every Yee class. It means two things:
 
 - You can't set arbitrary properties as with plain PHP objects. A property must be defined in the application class.
 - Application supports setters to define a property so you can set, for example, a property defined by
@@ -58,12 +58,12 @@ return array(...);
 ~~~
 
 To apply the configuration, we pass the configuration file name as
-a parameter to the application's constructor, or to [Yii::createWebApplication()]
+a parameter to the application's constructor, or to [Yee::createWebApplication()]
 in the following manner, usually in the [entry script](/doc/guide/basics.entry):
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip: If the application configuration is very complex, we can split it
@@ -126,8 +126,8 @@ In the above, we added the `cache` element to the `components` array. The
 `cache` element states that the class of the component is
 [CMemCache] and its [servers|CMemcache::servers] property should be initialized as such.
 
-To access an application component, use `Yii::app()->ComponentID`, where
-`ComponentID` refers to the ID of the component (e.g. `Yii::app()->cache`).
+To access an application component, use `Yee::app()->ComponentID`, where
+`ComponentID` refers to the ID of the component (e.g. `Yee::app()->cache`).
 
 An application component may be disabled by setting `enabled` to false
 in its configuration. Null is returned when we access a disabled component.
@@ -143,13 +143,13 @@ the [preload|CApplication::preload] application property.
 Core Application Components
 ---------------------------
 
-Yii predefines a set of core application components to provide features
+Yee predefines a set of core application components to provide features
 common among Web applications. For example, the
 [request|CWebApplication::request] component is used to collect 
 information about a user request and provide information such as the 
 requested URL and cookies.  By configuring the properties of these core 
 components, we can change the default behavior of nearly every aspect 
-of Yii.
+of Yee.
 
 Here is a list the core components that are pre-declared by [CWebApplication]:
 
@@ -167,7 +167,7 @@ access this component.
 manages client scripts (javascript and CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-provides translated core messages used by the Yii framework.
+provides translated core messages used by the Yee framework.
 
    - [db|CApplication::db]: [CDbConnection] - provides the database
 connection. Note, you must configure its
@@ -181,7 +181,7 @@ uncaught PHP errors and exceptions.
 for display purpose.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - provides
-translated messages used by the Yii application.
+translated messages used by the Yee application.
 
    - [request|CWebApplication::request]: [CHttpRequest] - provides
 information related to user requests.

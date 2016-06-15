@@ -4,21 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Yii - Tjek systemkrav</title>
+<title>Yee - Tjek systemkrav</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Yii - Tjek systemkrav</h1>
+<h1>Yee - Tjek systemkrav</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Beskrivelse</h2>
 <p>
 Dette script tjekker om serverkonfigurationen opfylder kravene for at køre
-<a href="http://www.yiiframework.com/">Yii</a>-applikationer.
+<a href="http://www.yeeframework.com/">Yee</a>-applikationer.
 Det tjekker om serveren kører korrekt version af PHP, om nødvendige extensions
 er indlæst og om PHP-indstillingerne i php.ini er korrekte.
 </p>
@@ -26,13 +26,13 @@ er indlæst og om PHP-indstillingerne i php.ini er korrekte.
 <h2>Konklusion</h2>
 <p>
 <?php if($result>0): ?>
-Tillykke! Konfigurationen på serveren tilfredsstiller alle krav for at køre Yii.
+Tillykke! Konfigurationen på serveren tilfredsstiller alle krav for at køre Yee.
 <?php elseif($result<0): ?>
-Konfigurationen på serveren tilfredsstiller minimumskravene til Yii. Vær opmærksom
+Konfigurationen på serveren tilfredsstiller minimumskravene til Yee. Vær opmærksom
 på advarslerne listet nedenfor, i tilfælde af at din applikation anvender nogen af
 funktionerne.
 <?php else: ?>
-Desværre tilfredsstiller konfigurationen af serveren ikke minimumskravene til Yii.
+Desværre tilfredsstiller konfigurationen af serveren ikke minimumskravene til Yee.
 <?php endif; ?>
 </p>
 

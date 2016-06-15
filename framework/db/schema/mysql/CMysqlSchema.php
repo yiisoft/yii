@@ -3,9 +3,9 @@
  * CMysqlSchema class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -290,7 +290,7 @@ class CMysqlSchema extends CDbSchema
 		$db=$this->getDbConnection();
 		$row=$db->createCommand('SHOW CREATE TABLE '.$db->quoteTableName($table))->queryRow();
 		if($row===false)
-			throw new CDbException(Yii::t('yii','Unable to find "{column}" in table "{table}".',array('{column}'=>$name,'{table}'=>$table)));
+			throw new CDbException(Yee::t('yee','Unable to find "{column}" in table "{table}".',array('{column}'=>$name,'{table}'=>$table)));
 		if(isset($row['Create Table']))
 			$sql=$row['Create Table'];
 		else

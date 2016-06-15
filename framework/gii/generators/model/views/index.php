@@ -1,11 +1,11 @@
 <?php
 $class=get_class($model);
-Yii::app()->clientScript->registerScript('gii.model',"
+Yee::app()->clientScript->registerScript('gii.model',"
 $('#{$class}_connectionId').change(function(){
 	var tableName=$('#{$class}_tableName');
 	tableName.autocomplete('option', 'source', []);
 	$.ajax({
-		url: '".Yii::app()->getUrlManager()->createUrl('gii/model/getTableNames')."',
+		url: '".Yee::app()->getUrlManager()->createUrl('gii/model/getTableNames')."',
 		data: {db: this.value},
 		dataType: 'json'
 	}).done(function(data){
@@ -76,7 +76,7 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 			'model'=>$model,
 			'attribute'=>'tableName',
 			'name'=>'tableName',
-			'source'=>Yii::app()->hasComponent($model->connectionId) ? array_keys(Yii::app()->{$model->connectionId}->schema->getTables()) : array(),
+			'source'=>Yee::app()->hasComponent($model->connectionId) ? array_keys(Yee::app()->{$model->connectionId}->schema->getTables()) : array(),
 			'options'=>array(
 				'minLength'=>'0',
 				'focus'=>new CJavaScriptExpression('function(event,ui) {

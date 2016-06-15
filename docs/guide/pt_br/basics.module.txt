@@ -64,7 +64,7 @@ A instância do módulo pode ser acessada através da propriedade [module|CContr
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // ou o seguinte se $this refere-se a uma instância de um controle
 // $postPerPage=$this->module->postPerPage;
 ~~~

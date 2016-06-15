@@ -137,17 +137,17 @@ Widgetobjekt, nicht auf den Controller.
 Systemview
 -----------
 
-Systemviews werden von Yii für die Anzeige von Fehler- und Loginformationen
+Systemviews werden von Yee für die Anzeige von Fehler- und Loginformationen
 verwendet. Fordert ein Besucher z.B. eine Route an, die nicht existiert, löst
-Yii eine Exception aus, die den Fehler näher beschreibt. Für diese Exception
-verwendet Yii einen speziellen Systemview.
+Yee eine Exception aus, die den Fehler näher beschreibt. Für diese Exception
+verwendet Yee einen speziellen Systemview.
 
 Die Bezeichnung von Systemviews folgt einem Schema. Namen wie
 `errorXXX` werden zur Anzeige von [CHttpException]s mit
 HTTP-Fehlercode `XXX` verwendet. Eine [CHttpException] mit dem
 Fehlercode 404, wird z.B. mit dem View `error404` angezeigt.
 
-Yii stellt eine Reihe von Vorgabe-Systemviews bereit, die unter
+Yee stellt eine Reihe von Vorgabe-Systemviews bereit, die unter
 `framework/views` zu finden sind. Man kann sie leicht anpassen, indem
 man gleichnamige Viewdateien in `protected/views/system` anlegt.
 

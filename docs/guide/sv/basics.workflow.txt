@@ -1,13 +1,13 @@
 Arbetsgång vid utveckling
 =========================
 
-Nu när vi beskrivit de grundläggande koncepten i Yii, visar vi den normala 
-arbetsgången vid utveckling av en webbapplikation med hjälp av Yii. Det 
+Nu när vi beskrivit de grundläggande koncepten i Yee, visar vi den normala 
+arbetsgången vid utveckling av en webbapplikation med hjälp av Yee. Det 
 förutsätts att kravanalys såväl som erforderlig designanalys gjorts för 
 applikationen.
 
-   1. Skapa den övergripande katalogstrukturen. Verktyget `yiic`, beskrivet i 
-   [Skapa en första Yii-applikation](/doc/guide/quickstart.first-app), kan användas 
+   1. Skapa den övergripande katalogstrukturen. Verktyget `yeec`, beskrivet i 
+   [Skapa en första Yee-applikation](/doc/guide/quickstart.first-app), kan användas 
    för att snabba upp detta steg.
 
    2. Konfigurera [application](/doc/guide/basics.application). Detta görs genom 
@@ -16,7 +16,7 @@ applikationen.
 
    3. Skapa en [modell](/doc/guide/basics.model)-klass för varje typ av data som 
    skall hanteras.  Verktyget `Gii`, beskrivet i
-   [Skapa en första Yii-applikation](/doc/guide/quickstart.first-app#implementing-crud-operations) 
+   [Skapa en första Yee-applikation](/doc/guide/quickstart.first-app#implementing-crud-operations) 
    samt i [Automatisk kodgenerering](/doc/guide/topics.gii), kan användas till att 
    automatiskt generera [active record](/doc/guide/database.ar)-klassen för varje 
    databastabell av intresse.

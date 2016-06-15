@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Phing build file for Yii.
+ * Phing build file for Yee.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2009 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2009 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 -->
-<project name="yii" basedir="." default="help">
+<project name="yee" basedir="." default="help">
   <!-- task definitions -->
-  <taskdef name="yii-init-build" classname="YiiInitTask" classpath="tasks" />
+  <taskdef name="yee-init-build" classname="YeeInitTask" classpath="tasks" />
   <!--
-  <taskdef name="yii-pear" classname="YiiPearTask" classpath="tasks"/>
+  <taskdef name="yee-pear" classname="YeePearTask" classpath="tasks"/>
   -->
 
-  <!-- init yii.version, yii.revision and yii.winbuild -->
-  <yii-init-build />
+  <!-- init yee.version, yee.revision and yee.winbuild -->
+  <yee-init-build />
 
   <!-- these are required external commands -->
   <property name="php" value="php" /> <!-- PHP parser -->
   <property name="hhc" value="hhc" /> <!-- compile phpdoc into CHM -->
   <property name="pdflatex" value="pdflatex" />  <!-- generates PDF from LaTex -->
 
-  <property name="pkgname" value="${phing.project.name}-${yii.version}.${yii.revision}"/>
-  <property name="docname" value="${phing.project.name}-docs-${yii.version}.${yii.revision}"/>
-  <property name="pearname" value="${phing.project.name}-${yii.release}.tgz" />
+  <property name="pkgname" value="${phing.project.name}-${yee.version}.${yee.revision}"/>
+  <property name="docname" value="${phing.project.name}-docs-${yee.version}.${yee.revision}"/>
+  <property name="pearname" value="${phing.project.name}-${yee.release}.tgz" />
 
   <!-- directory definitions -->
   <property name="build.base.dir" value="release"/>
@@ -41,7 +41,7 @@
   </tstamp>
 
   <if>
-    <equals arg1="${yii.winbuild}" arg2="true"/>
+    <equals arg1="${yee.winbuild}" arg2="true"/>
     <then>
       <property name="build" value="build"/>
     </then>
@@ -94,7 +94,7 @@
   </fileset>
 
   <fileset dir="." id="executables">
-    <include name="${build.src.dir}/**/yiic" />
+    <include name="${build.src.dir}/**/yeec" />
   </fileset>
 
   <target name="src" depends="sync">
@@ -115,7 +115,7 @@
     <echo>Generating source release file...</echo>
     <mkdir dir="${build.dist.dir}" />
     <if>
-      <equals arg1="${yii.winbuild}" arg2="true"/>
+      <equals arg1="${yee.winbuild}" arg2="true"/>
       <then>
         <tar destfile="${build.dist.dir}/${pkgname}.tar.gz" compression="gzip">
           <fileset dir="${build.base.dir}">
@@ -143,14 +143,14 @@
     <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guide" passthru="true"/>
     <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guide" passthru="true"/>
     <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guide" passthru="true"/>
-    <move file="commands/guide/guide.pdf" tofile="${build.doc.dir}/yii-guide-${yii.version}.pdf" />
+    <move file="commands/guide/guide.pdf" tofile="${build.doc.dir}/yee-guide-${yee.version}.pdf" />
 
     <echo>Building Blog PDF...</echo>
     <exec command="${build} blogLatex" dir="." passthru="true" />
     <exec command="${pdflatex} blog.tex -interaction=nonstopmode -max-print-line=120" dir="commands/blog" passthru="true"/>
     <exec command="${pdflatex} blog.tex -interaction=nonstopmode -max-print-line=120" dir="commands/blog" passthru="true"/>
     <exec command="${pdflatex} blog.tex -interaction=nonstopmode -max-print-line=120" dir="commands/blog" passthru="true"/>
-    <move file="commands/blog/blog.pdf" tofile="${build.doc.dir}/yii-blog-${yii.version}.pdf" />
+    <move file="commands/blog/blog.pdf" tofile="${build.doc.dir}/yee-blog-${yee.version}.pdf" />
 
     <echo>Building API...</echo>
     <exec command="${build} api ${build.doc.dir}" dir="." passthru="true" />
@@ -158,7 +158,7 @@
     <!--
     <echo>Building API CHM...</echo>
     <exec command="${hhc} ${build.doc.dir}/api/manual.hhp" />
-    <move file="${build.doc.dir}/api/manual.chm" tofile="${build.doc.dir}/yii-api-${yii.version}.chm" />
+    <move file="${build.doc.dir}/api/manual.chm" tofile="${build.doc.dir}/yee-api-${yee.version}.chm" />
     <delete>
       <fileset dir="${build.doc.dir}/api">
         <include name="manual.*" />
@@ -183,31 +183,31 @@
   <target name="web" depends="sync">
 
     <echo>Building online API...</echo>
-    <mkdir dir="${build.web.dir}/common/data/${yii.version}" />
-    <exec command="${build} api ${build.web.dir}/common/data/${yii.version} online" dir="." passthru="true" />
+    <mkdir dir="${build.web.dir}/common/data/${yee.version}" />
+    <exec command="${build} api ${build.web.dir}/common/data/${yee.version} online" dir="." passthru="true" />
 
     <echo>Copying tutorials...</echo>
-    <copy todir="${build.web.dir}/common/data/${yii.version}/tutorials/guide">
+    <copy todir="${build.web.dir}/common/data/${yee.version}/tutorials/guide">
       <fileset refid="docs-guide"/>
     </copy>
-    <copy todir="${build.web.dir}/common/data/${yii.version}/tutorials/blog">
+    <copy todir="${build.web.dir}/common/data/${yee.version}/tutorials/blog">
       <fileset refid="docs-blog"/>
     </copy>
 
 	<echo>Copying release text files...</echo>
     <mkdir dir="${build.web.dir}/frontend/www/files" />
-	<copy file="../CHANGELOG" tofile="${build.web.dir}/frontend/www/files/CHANGELOG-${yii.version}.txt" />
-	<copy file="../UPGRADE" tofile="${build.web.dir}/frontend/www/files/UPGRADE-${yii.version}.txt" />
+	<copy file="../CHANGELOG" tofile="${build.web.dir}/frontend/www/files/CHANGELOG-${yee.version}.txt" />
+	<copy file="../UPGRADE" tofile="${build.web.dir}/frontend/www/files/UPGRADE-${yee.version}.txt" />
 
 	<echo>
 
 Finished building Web files.
-Please update yiisite/common/data/versions.php file with the following code:
+Please update yeesite/common/data/versions.php file with the following code:
 
     '1.1'=>array(
-        'version'=>'${yii.version}',
-        'revision'=>'${yii.revision}',
-        'date'=>'${yii.date}',
+        'version'=>'${yee.version}',
+        'revision'=>'${yee.revision}',
+        'date'=>'${yee.date}',
         'latest'=>true,
     ),
 
@@ -220,7 +220,7 @@ Please update yiisite/common/data/versions.php file with the following code:
     <echo>Building autoload map...</echo>
     <exec command="${build} autoload" dir="." passthru="true"/>
 
-    <echo>Building yiilite.php...</echo>
+    <echo>Building yeelite.php...</echo>
     <exec command="${build} lite" dir="." passthru="true"/>
   </target>
 
@@ -231,17 +231,17 @@ Please update yiisite/common/data/versions.php file with the following code:
 
   <!--
   <target name="pear" depends="clean,build">
-    <echo>Generating pear package for ${phing.project.name}-${yii.release}</echo>
+    <echo>Generating pear package for ${phing.project.name}-${yee.release}</echo>
     <mkdir dir="${build.dist.dir}" />
-    <yii-pear   pkgdir="${build.pear.src.dir}"
+    <yee-pear   pkgdir="${build.pear.src.dir}"
                 channel="pear.php.net"
-                version="${yii.release}"
+                version="${yee.release}"
                 state="stable"
                 category="framework"
                 package="${phing.project.name}"
-                summary="Yii PHP Framework"
-                pkgdescription="Yii PHP Framework: Best for Web 2.0 Development"
-                notes="http://www.yiiframework.com/files/CHANGELOG-${yii.release}.txt"
+                summary="Yee PHP Framework"
+                pkgdescription="Yee PHP Framework: Best for Web 2.0 Development"
+                notes="http://www.yeeframework.com/files/CHANGELOG-${yee.release}.txt"
                 license="BSD"
                 />
     <exec command="pear package" dir="${build.pear.src.dir}" passthru="true" />
@@ -257,7 +257,7 @@ Please update yiisite/common/data/versions.php file with the following code:
   <target name="help">
     <echo>
 
-    Welcome to use Yii build script!
+    Welcome to use Yee build script!
     --------------------------------
     You may use the following command format to build a target:
 
@@ -265,7 +265,7 @@ Please update yiisite/common/data/versions.php file with the following code:
 
     where &lt;target name&gt; can be one of the following:
 
-    - sync    : synchronize yiilite.php and YiiBase.php
+    - sync    : synchronize yeelite.php and YeeBase.php
     - message : extract i18n messages of the framework
     - src     : build source release
     - doc     : build documentation release (Windows only)

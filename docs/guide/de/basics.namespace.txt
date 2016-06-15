@@ -1,7 +1,7 @@
 Pfadaliase und Namespace
 =========================
 
-Yii macht intensiven Gebrauch von Pfadaliasen. Ein Pfadalias steht für
+Yee macht intensiven Gebrauch von Pfadaliasen. Ein Pfadalias steht für
 ein Verzeichnis oder einen Dateipfad. Er wird - ähnlich zum weit verbreiteten
 Namespaceformat - in Punkt-Syntax angegeben:
 
@@ -11,18 +11,18 @@ RootAlias.pfad.zu.ziel
 
 wobei `RootAlias` für den Alias eines existierenden Verzeichnisses steht. 
 
-Mit [YiiBase::getPathOfAlias()] erhält man den aufgelösten Pfad zu einem
+Mit [YeeBase::getPathOfAlias()] erhält man den aufgelösten Pfad zu einem
 Alias. `system.web.CController` würde zum Beispiel nach
-`yii/framework/web/CController` übersetzt werden.
+`yee/framework/web/CController` übersetzt werden.
 
-Über [YiiBase::setPathOfAlias()] kann man auch neue Rootaliase definieren.
+Über [YeeBase::setPathOfAlias()] kann man auch neue Rootaliase definieren.
 
 Rootaliase
 ----------
 
-Die folgenden praktischen Rootaliase werden von Yii schon vorbelegt:
+Die folgenden praktischen Rootaliase werden von Yee schon vorbelegt:
 
- - `system`: Verweist auf das Frameworkverzeichnis von Yii
+ - `system`: Verweist auf das Frameworkverzeichnis von Yee
  - `zii`: Verweist auf das Verzeichnis der [Zii-Bibliothek](/doc/guide/extension.use#zii-extensions).
  - `application`: Verweist auf das [Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory) 
  - `webroot`: Steht für das Verzeichnis, das das [Startscript](/doc/guide/basics.entry) enthält.
@@ -42,33 +42,33 @@ genügt dieser Aufruf:
 
 ~~~
 [php]
-Yii::import('system.web.CController');
+Yee::import('system.web.CController');
 ~~~
 
-Die [import|YiiBase::import]-Methode ist wesentlich effizienter als `include` und 
+Die [import|YeeBase::import]-Methode ist wesentlich effizienter als `include` und 
 `require`. Eine importierte Klassendatei wird erst eingebunden, wenn die
 entsprechende Klasse zum ersten mal verwendet wird (das geschieht über den
 PHP-Autoloader-Mechanismus). Auch wenn ein Namespace
 mehrfach importiert wird, ist das wesentlich schneller als `include_once` oder
 `require_once` zu verwenden.
 
-> Tip|Tipp: Klassen aus dem Yii-Framework braucht man nicht zu importieren 
-> oder mit include einzubinden. Alle Kernklassen von Yii sind bereits importiert.
+> Tip|Tipp: Klassen aus dem Yee-Framework braucht man nicht zu importieren 
+> oder mit include einzubinden. Alle Kernklassen von Yee sind bereits importiert.
 
 ###Verwenden einer Classmap
 
-Seit Version 1.1.5 kann Yii Anwenderklassen auch
-vorimportieren. Diesen Mechanismus verwendet Yii bereits intern 
+Seit Version 1.1.5 kann Yee Anwenderklassen auch
+vorimportieren. Diesen Mechanismus verwendet Yee bereits intern 
 für seine Kernklassen. Vorimportierte Klassen können überall in einer
 Anwendung ohne expliziten Import oder Include verwendet werden. Das ist
-insbesondere für Frameworks oder Libraries nützlich, die auf Yii aufbauen.
+insbesondere für Frameworks oder Libraries nützlich, die auf Yee aufbauen.
 
 Um eine Reihe von Klassen vorzuimportieren muss folgender Code vor 
 [CWebApplication::run()] ausgeführt werden:
 
 ~~~
 [php]
-Yii::$classMap=array(
+Yee::$classMap=array(
 	'KlassenName1' => 'pfad/zu/KlassenName1.php',
 	'KlassenName2' => 'pfad/zu/KlassenName2.php',
 	......
@@ -84,11 +84,11 @@ automatisch eingebunden.
 
 ~~~
 [php]
-Yii::import('system.web.*');
+Yee::import('system.web.*');
 ~~~
 
-Aliase werden neben [import|YiiBase::import] noch an vielen anderen Stellen
-verwendet, wo es um Klassen geht. An [Yii::createComponent()] kann zum
+Aliase werden neben [import|YeeBase::import] noch an vielen anderen Stellen
+verwendet, wo es um Klassen geht. An [Yee::createComponent()] kann zum
 Beispiel auch ein Alias übergeben werden, um eine Instanz der entsprechenden
 Klasse zu erzeugen, auch wenn die Klassendatei vorher noch nicht eingebunden
 war.
@@ -105,9 +105,9 @@ Verzeichnis. Er hat mit einem Namespace nichts zu tun.
 > Tip|Tipp: Da PHP vor Version 5.3.0 von Haus aus noch keine Namespaces
 > unterstützt, können Sie keine Instanzen von unterschiedlichen Klassen mit
 > dem selben Namen erzeugen. Daher wird allen Klassen des
-> Yii-Frameworks der Buchstabe 'C' (von engl.: Class, Klasse) vorangestellt,
+> Yee-Frameworks der Buchstabe 'C' (von engl.: Class, Klasse) vorangestellt,
 > um Sie von eigenen Klassen zu unterscheiden. Wir empfehlen, das Präfix
-> 'C' für das Yii-Framework zu reservieren und eigene Klassen mit
+> 'C' für das Yee-Framework zu reservieren und eigene Klassen mit
 > anderen Präfixen zu versehen.
 
 
@@ -122,7 +122,7 @@ PHP 5.3.0 oder höher voraus.
 Ab Version 1.1.5 können Klassen aus Namespaces ohne expliziten Import
 verwendet werden. Man kann z.B. `application\components\GoogleMap` verwenden,
 ohne die zugehörige Klassendatei vorher explizit einzubinden. Dies wird durch
-durch einen verbesserten Autoloading-Mechanismus von Yii ermöglicht.
+durch einen verbesserten Autoloading-Mechanismus von Yee ermöglicht.
 
 Um Klassen mit Namespace automatisch einzubinden, muss der Namespace ähnlich
 wie ein Pfadalias benannt sein. Die Klasse `application\components\GoogleMap`

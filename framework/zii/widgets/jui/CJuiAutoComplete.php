@@ -3,12 +3,12 @@
  * CJuiAutoComplete class file.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiInputWidget');
+Yee::import('zii.widgets.jui.CJuiInputWidget');
 
 /**
  * CJuiAutoComplete displays an autocomplete field.
@@ -92,6 +92,6 @@ class CJuiAutoComplete extends CJuiInputWidget
 			$this->options['source']=$this->source;
 
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
+		Yee::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
 	}
 }

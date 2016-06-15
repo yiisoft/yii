@@ -7,7 +7,7 @@ Dann werden Label und Eingabefelder für alle Attribute der `LoginForm`-Klasse
 hinzugefügt. Ein Absendebutton schließt das Formular ab. All das lässt sich 
 mit reinem HTML-Code bewerkstelligen.
 
-Yii bietet allerdings auch einige nützliche Hilfsklassen für das Erstellen
+Yee bietet allerdings auch einige nützliche Hilfsklassen für das Erstellen
 von Views an. Textfelder kann man z.B. mit [CHtml::textField()] erzeugen, 
 Auswahllisten mit [CHtml::dropDownList()].
 
@@ -64,7 +64,7 @@ zusätzliche CSS-Klasse `error`. Über entsprechende CSS-Stile ändert sich so
 bei fehlerhaften Eingaben die Formatierung des Labels. Das selbe gilt für Textfelder
 die mit [CHtml::activeTextField()] generiert wurden.
 
-Wenn man die vom `yiic`-Befehl angelegte CSS-Datei `form.css` verwendet,
+Wenn man die vom `yeec`-Befehl angelegte CSS-Datei `form.css` verwendet,
 sieht das erzeugte Formular folgendermaßen aus:
 
 

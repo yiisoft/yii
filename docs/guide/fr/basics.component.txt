@@ -1,7 +1,7 @@
 Composant
 =========
 
-Les applications Yii sont construites à partir de composants, i.e. d'objets
+Les applications Yee sont construites à partir de composants, i.e. d'objets
 écrits dans le but de répondre à des spécifications et un cahier des charges précis.
 Un composant est une instance de [CComponent] ou d'une de ses classes dérivées.
 L'utilisation d'un composant consiste principalement à accéder à ses propriétés et

@@ -3,9 +3,9 @@
  * CSort class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -167,7 +167,7 @@ class CSort extends CComponent
 	 *     'price'=>CSort::SORT_DESC,
 	 * )
 	 * </pre>
-	 * `SORT_DESC` and `SORT_ASC` are available since 1.1.10. In earlier Yii versions you should use
+	 * `SORT_DESC` and `SORT_ASC` are available since 1.1.10. In earlier Yee versions you should use
 	 * `true` and `false` respectively.
 	 *
 	 * Please note when using array to specify the default order, the corresponding attributes
@@ -303,7 +303,7 @@ class CSort extends CComponent
 		else
 			$directions=array($attribute=>$descending);
 
-		$url=$this->createUrl(Yii::app()->getController(),$directions);
+		$url=$this->createUrl(Yee::app()->getController(),$directions);
 
 		return $this->createLink($attribute,$label,$url,$htmlOptions);
 	}

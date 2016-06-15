@@ -440,8 +440,8 @@ kan vara mer effektivt eftersom det leder till mindre overhead i DBMS:en för pa
 SQL-satser. Å andra sidan, vid användning av en enstaka SQL-sats, kommer det att gå åt mer tid till att läsa
 och bearbeta den större mängden redundant data.
 
-Av detta skäl, tillhandahåller Yii frågealternativet `together` så att vi kan välja mellan de två tillvägagångssätten.
-Som standard använder sig Yii av eager loading, dvs, att skapa en enda SQL-sats, utom när `LIMIT` är åsatt 
+Av detta skäl, tillhandahåller Yee frågealternativet `together` så att vi kan välja mellan de två tillvägagångssätten.
+Som standard använder sig Yee av eager loading, dvs, att skapa en enda SQL-sats, utom när `LIMIT` är åsatt 
 den primära modellen. Genom att sätta alternativet `together` till true i sambandsdeklarationen kan en enstaka 
 SQL-sats tvingas fram, även när `LIMIT` används. Om alternativet `together` sätts till false sker join mellan  
 vissa tabeller i separata SQL-satser. Till exempel, för att använda det andra tillvägagångssättet i samband med  
@@ -469,7 +469,7 @@ $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findA
 Statistikfråga
 --------------
 
-Utöver relationella frågor som beskrivits ovan, stöder Yii också så kallade statistikfrågor 
+Utöver relationella frågor som beskrivits ovan, stöder Yee också så kallade statistikfrågor 
 (eller aggregationsfrågor). Detta refererar till inhämtning av aggregeringsinformation om 
 relaterade objekt, såsom antalet kommentarer till varje postning, den genomsnittliga 
 poängsättningen för varje produkt, etc. Statistikfrågor kan endast utföras mot objekt som har 

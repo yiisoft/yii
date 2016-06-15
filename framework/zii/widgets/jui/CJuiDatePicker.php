@@ -3,12 +3,12 @@
  * CJuiDatePicker class file.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiInputWidget');
+Yee::import('zii.widgets.jui.CJuiInputWidget');
 
 /**
  * CJuiDatePicker displays a datepicker.
@@ -116,7 +116,7 @@ class CJuiDatePicker extends CJuiInputWidget
 			$js = "jQuery('#{$id}').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['{$this->language}'],{$options}));";
 		}
 
-		$cs = Yii::app()->getClientScript();
+		$cs = Yee::app()->getClientScript();
 
 		if(isset($this->defaultOptions))
 		{

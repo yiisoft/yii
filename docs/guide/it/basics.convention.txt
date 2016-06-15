@@ -1,26 +1,26 @@
 Convenzioni
 ===========
 
-Yii favorisce le convenzioni al posto delle configurazioni. Seguendo le convenzioni
-si possono creare applicazioni Yii sofisticate senza scrivere e gestire configurazioni 
-complesse. Naturalmente, quando necessario Yii può essere ancora personalizzato 
+Yee favorisce le convenzioni al posto delle configurazioni. Seguendo le convenzioni
+si possono creare applicazioni Yee sofisticate senza scrivere e gestire configurazioni 
+complesse. Naturalmente, quando necessario Yee può essere ancora personalizzato 
 in quasi ogni aspetto con le configurazioni.
 
 Qui di seguito sono descritte le convenzioni che sono raccomandate nella programmazione 
-con Yii. Per comodità, si presume che `WebRoot` sia la cartella in cui l'applicazione 
-Yii si trovi installata.
+con Yee. Per comodità, si presume che `WebRoot` sia la cartella in cui l'applicazione 
+Yee si trovi installata.
 
 URL
 ---
 
-Per default, Yii riconosce gli URL con il seguente formato:
+Per default, Yee riconosce gli URL con il seguente formato:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
 La variabile GET `r` si riferisce alla [route](/doc/guide/basics.controller#route) 
-che può essere risolto da Yii in controller ed action. Se si omette `ActionID`, 
+che può essere risolto da Yee in controller ed action. Se si omette `ActionID`, 
 il controller prenderà l'action di default (definito tramite [CController::defaultAction]); 
 se viene omesso anche `ControllerID` (o la variabile `r` è assente), l'applicazione 
 userà il controller di default (definito tramite [CWebApplication::defaultController]).
@@ -32,7 +32,7 @@ funzionalità è descritta in dettaglio nel paragrafo [URL Management](/doc/guid
 Codice
 ----
 
-Yii raccomanda di nominare le variabili, funzioni e classi in "camel case" dove la 
+Yee raccomanda di nominare le variabili, funzioni e classi in "camel case" dove la 
 prima lettera di ogni parola del nome è maiuscola e queste parole sono legate 
 tra loro senza spazi. I nomi delle variabili e delle funzioni dovrebbero avere la 
 loro prima parola tutta in minuscolo, cosicché possano essere differenziati dai 
@@ -43,7 +43,7 @@ di variabili private, è raccomandato mettere un underscore come prefisso al nom
 Dato che i namespace non sono supportati dalle versioni di PHP precedenti alla 5.3.0, 
 è raccomandato che le classi siano nominati in un modo univoco in modo tale da evitare 
 conflitti con classi di terze parti. Per questa ragione, tutte le classi del 
-framework Yii hanno come prefisso la lettera "C".
+framework Yee hanno come prefisso la lettera "C".
 
 Una regola speciale per i nomi della classe controller è quella che a questi 
 deve seguire la parola `Controller`. L'ID del controller è quindi definito come il 
@@ -89,12 +89,12 @@ array associativo che rappresenta la configurazione.
 Cartelle
 ---------
 
-Yii presuppone una serie di cartelle di default usate per vari scopi. Ciascuna di 
+Yee presuppone una serie di cartelle di default usate per vari scopi. Ciascuna di 
 esse, se necessario, può essere personalizzata.
 
    - `WebRoot/protected`: questa è la [cartella principale 
 dell'applicazione](/doc/guide/basics.application#application-base-directory) che contiene 
-tutti gli script PHP sensibili alla sicurezza ed i file dei dati. Yii ha un alias di default 
+tutti gli script PHP sensibili alla sicurezza ed i file dei dati. Yee ha un alias di default 
 che si chiama `application` associato a questo path. Questa cartella nonché qualunque 
 cosa al suo interno dovrebbe essere protetta dall'essere accessibile dagli utenti Web.
 Si può personalizzare tramite [CWebApplication::basePath].
@@ -105,7 +105,7 @@ dal processo proprietario del Web server. Si può personalizzare tramite
 [CApplication::runtimePath].
 
    - `WebRoot/protected/extensions`: questa cartella contiene tutte le estensioni 
-di terze parti. Si può personalizzare tramite [CApplication::extensionPath]. Yii ha
+di terze parti. Si può personalizzare tramite [CApplication::extensionPath]. Yee ha
 un alias di default che si chiama `ext` associato a questo path.
 
    - `WebRoot/protected/modules`: questa cartella contiene tutti i 
@@ -144,7 +144,7 @@ Database
 
 La maggior parte delle web application sono sorrette da un database. Per una migliore 
 pratica, si propone la seguente convenzione per la denominazione delle tabelle e dei 
-campi del database. Notare che non sono necessari per Yii.
+campi del database. Notare che non sono necessari per Yee.
 
    - Sia le tabelle del database che i campi hanno nomi in minuscolo.
 

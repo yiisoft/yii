@@ -5,10 +5,10 @@ Pengumpulan data pengguna via form HTML adalah tugas utama dalam
 pengembangan aplikasi Web. Selain mendesain form, pengembang perlu
 mempopulasi form dengan data yang sudah ada atau nilai-nilai standar,
 memvalidasi input pengguna, menampilkan pesan kesalahan yang sesuai untuk input yang tidak benar, dan menyimpan
-input ke media penyimpan. Yii sudah menyederhanakan alur kerja ini dengan arsitektur
+input ke media penyimpan. Yee sudah menyederhanakan alur kerja ini dengan arsitektur
 MVC.
 
-Langkah-langkah berikut umumnya diperlukan saat berhadapan dengan form dalam Yii:
+Langkah-langkah berikut umumnya diperlukan saat berhadapan dengan form dalam Yee:
 
    1. Buat kelas model yang mewakili field data yang dikumpulkan;
    2. Buat aksi controller dengan kode yang merespon pengiriman form.

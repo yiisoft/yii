@@ -57,9 +57,9 @@ class ModelCode extends CCodeModel
 
 	public function init()
 	{
-		if(Yii::app()->{$this->connectionId}===null)
+		if(Yee::app()->{$this->connectionId}===null)
 			throw new CHttpException(500,'A valid database connection is required to run this generator.');
-		$this->tablePrefix=Yii::app()->{$this->connectionId}->tablePrefix;
+		$this->tablePrefix=Yee::app()->{$this->connectionId}->tablePrefix;
 		parent::init();
 	}
 
@@ -77,7 +77,7 @@ class ModelCode extends CCodeModel
 		}
 		if($tableName[strlen($tableName)-1]==='*')
 		{
-			$tables=Yii::app()->{$this->connectionId}->schema->getTables($schema);
+			$tables=Yee::app()->{$this->connectionId}->schema->getTables($schema);
 			if($this->tablePrefix!='')
 			{
 				foreach($tables as $i=>$table)
@@ -108,7 +108,7 @@ class ModelCode extends CCodeModel
 				'connectionId'=>$this->connectionId,
 			);
 			$this->files[]=new CCodeFile(
-				Yii::getPathOfAlias($this->modelPath).'/'.$className.'.php',
+				Yee::getPathOfAlias($this->modelPath).'/'.$className.'.php',
 				$this->render($templatePath.'/model.php', $params)
 			);
 		}
@@ -130,7 +130,7 @@ class ModelCode extends CCodeModel
 				$schema='';
 
 			$this->modelClass='';
-			$tables=Yii::app()->{$this->connectionId}->schema->getTables($schema);
+			$tables=Yee::app()->{$this->connectionId}->schema->getTables($schema);
 			foreach($tables as $table)
 			{
 				if($this->tablePrefix=='' || strpos($table->name,$this->tablePrefix)===0)
@@ -176,13 +176,13 @@ class ModelCode extends CCodeModel
 
 	public function validateModelPath($attribute,$params)
 	{
-		if(Yii::getPathOfAlias($this->modelPath)===false)
+		if(Yee::getPathOfAlias($this->modelPath)===false)
 			$this->addError('modelPath','Model Path must be a valid path alias.');
 	}
 
 	public function validateBaseClass($attribute,$params)
 	{
-		$class=@Yii::import($this->baseClass,true);
+		$class=@Yee::import($this->baseClass,true);
 		if(!is_string($class) || !$this->classExists($class))
 			$this->addError('baseClass', "Class '{$this->baseClass}' does not exist or has syntax error.");
 		elseif($class!=='CActiveRecord' && !is_subclass_of($class,'CActiveRecord'))
@@ -191,7 +191,7 @@ class ModelCode extends CCodeModel
 
 	public function getTableSchema($tableName)
 	{
-		$connection=Yii::app()->{$this->connectionId};
+		$connection=Yee::app()->{$this->connectionId};
 		return $connection->getSchema()->getTable($tableName, $connection->schemaCachingDuration!==0);
 	}
 
@@ -265,14 +265,14 @@ class ModelCode extends CCodeModel
 
 	protected function removePrefix($tableName,$addBrackets=true)
 	{
-		if($addBrackets && Yii::app()->{$this->connectionId}->tablePrefix=='')
+		if($addBrackets && Yee::app()->{$this->connectionId}->tablePrefix=='')
 			return $tableName;
-		$prefix=$this->tablePrefix!='' ? $this->tablePrefix : Yii::app()->{$this->connectionId}->tablePrefix;
+		$prefix=$this->tablePrefix!='' ? $this->tablePrefix : Yee::app()->{$this->connectionId}->tablePrefix;
 		if($prefix!='')
 		{
-			if($addBrackets && Yii::app()->{$this->connectionId}->tablePrefix!='')
+			if($addBrackets && Yee::app()->{$this->connectionId}->tablePrefix!='')
 			{
-				$prefix=Yii::app()->{$this->connectionId}->tablePrefix;
+				$prefix=Yee::app()->{$this->connectionId}->tablePrefix;
 				$lb='{{';
 				$rb='}}';
 			}
@@ -301,7 +301,7 @@ class ModelCode extends CCodeModel
 			$schemaName=substr($this->tableName,0,$pos);
 
 		$relations=array();
-		foreach(Yii::app()->{$this->connectionId}->schema->getTables($schemaName) as $table)
+		foreach(Yee::app()->{$this->connectionId}->schema->getTables($schemaName) as $table)
 		{
 			if($this->tablePrefix!='' && strpos($table->name,$this->tablePrefix)!==0)
 				continue;
@@ -415,7 +415,7 @@ class ModelCode extends CCodeModel
 			$name.=ucfirst($names[$i]);
 
 		$rawName=$name;
-		$table=Yii::app()->{$this->connectionId}->schema->getTable($tableName);
+		$table=Yee::app()->{$this->connectionId}->schema->getTable($tableName);
 		$i=0;
 		while(isset($table->columns[$name]))
 			$name=$rawName.($i++);
@@ -425,7 +425,7 @@ class ModelCode extends CCodeModel
 
 	public function validateConnectionId($attribute, $params)
 	{
-		if(Yii::app()->hasComponent($this->connectionId)===false || !(Yii::app()->getComponent($this->connectionId) instanceof CDbConnection))
+		if(Yee::app()->hasComponent($this->connectionId)===false || !(Yee::app()->getComponent($this->connectionId) instanceof CDbConnection))
 			$this->addError('connectionId','A valid database connection is required to run this generator.');
 	}
 }

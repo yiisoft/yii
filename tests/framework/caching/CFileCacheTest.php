@@ -14,7 +14,7 @@ class CFileCacheTest extends CTestCase
 
 	public function setUp()
 	{
-		$this->cachePath=Yii::getPathOfAlias('application.runtime.CFileCacheTest');
+		$this->cachePath=Yee::getPathOfAlias('application.runtime.CFileCacheTest');
 		if(!is_dir($this->cachePath) && !(@mkdir($this->cachePath)))
 			$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 
@@ -65,7 +65,7 @@ class CFileCacheTest extends CTestCase
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/2435
+	 * https://github.com/yeesoft/yee/issues/2435
 	 */
 	public function testEmbedExpiry()
 	{

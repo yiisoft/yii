@@ -155,9 +155,9 @@ protected/
 
 ### Action Parameter Binding
 
-Since version 1.1.4, Yii has added support for automatic action parameter binding.
+Since version 1.1.4, Yee has added support for automatic action parameter binding.
 That is, a controller action method can define named parameters whose value will
-be automatically populated from `$_GET` by Yii.
+be automatically populated from `$_GET` by Yee.
 
 To illustrate how this works, let's assume we need to write a `create` action for 
 `PostController`.  The action requires two parameters:
@@ -212,7 +212,7 @@ the request does not include such a parameter.  Because `$category`
 does not have a default value, if the request does not include a `category` 
 parameter, a [CHttpException] (error code 400) will be thrown automatically.
 
-Starting from version 1.1.5, Yii also supports array type detection for action parameters.
+Starting from version 1.1.5, Yee also supports array type detection for action parameters.
 This is done by PHP type hinting using syntax like the following:
 
 ~~~
@@ -221,7 +221,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii will make sure that $categories is an array
+		// Yee will make sure that $categories is an array
 	}
 }
 ~~~

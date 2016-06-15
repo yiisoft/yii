@@ -48,7 +48,7 @@ ends after the enclosed content (action) is evaluated.
 
 HTTP Caching
 ------------
-In addition to simply caching the output of an action, Yii introduced 
+In addition to simply caching the output of an action, Yee introduced 
 [CHttpCacheFilter] in version 1.1.11. This filter aids in setting the 
 aforementioned headers to notify a client that a page's content has not been 
 changed since the last request, so the server will not have to re-transmit the
@@ -60,7 +60,7 @@ public function filters()
     return array(
         array(
             'CHttpCacheFilter + index',
-            'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
+            'lastModified'=>Yee::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
         ),
     );
 }

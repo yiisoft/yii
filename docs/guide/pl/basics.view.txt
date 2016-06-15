@@ -130,9 +130,9 @@ na instancję kontrolera.
 Widok systemowy (ang. System View)
 -----------
 
-Widok systemowy odpowiada widokowi używanemu w Yii do wyświetlania błędów oraz 
+Widok systemowy odpowiada widokowi używanemu w Yee do wyświetlania błędów oraz 
 logowania informacji. Na przykład, kiedy użytkownik żąda dostępu do nieistniejącego 
-kontrolera lub akcji, Yii rzuci wyjątkiem wyjaśniającym błąd. Wyświetli ten wyjątek
+kontrolera lub akcji, Yee rzuci wyjątkiem wyjaśniającym błąd. Wyświetli ten wyjątek
 przy użyciu określonego widoku systemowego.
 
 Nazywanie widoków systemowych podlega pewnym regułom. Nazwy takie jak `errorXXX` 
@@ -140,7 +140,7 @@ odpowiadają widokom do wyświetlania wyjątków [CHttpException] dla kodu błę
 Na przykład, jeśli wywołany jest wyjątek [CHttpException] o kodzie błędu 404, 
 wtedy błąd `error404` będzie wyświetlony.
 
-Yii dostarcza zestawu domyślnych widoków systemowych umieszczonych w folderze 
+Yee dostarcza zestawu domyślnych widoków systemowych umieszczonych w folderze 
 `framework/views`. Mogą one zostać zmienione poprzez utworzenie tak samo nazwanych
 plików widoku w folderze `protected/views/system`.
 

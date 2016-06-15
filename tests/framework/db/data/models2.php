@@ -258,6 +258,6 @@ class ComplexType2 extends CActiveRecord
 
 	public function tableName()
 	{
-		return 'yii_types';
+		return 'yee_types';
 	}
 }

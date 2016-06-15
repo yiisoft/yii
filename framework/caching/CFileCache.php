@@ -3,9 +3,9 @@
  * CFileCache class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -76,7 +76,7 @@ class CFileCache extends CCache
 	{
 		parent::init();
 		if($this->cachePath===null)
-			$this->cachePath=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
+			$this->cachePath=Yee::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
 		if(!is_dir($this->cachePath))
 		{
 			mkdir($this->cachePath,$this->cachePathMode,true);

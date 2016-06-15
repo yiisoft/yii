@@ -17,7 +17,7 @@ public function actionLogin()
         // Validiert die Daten und kehrt zur vorherigen Seite zurück, 
 		// wenn die Prüfung erfolgreich war.
 	    if($model->validate())
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yee::app()->user->returnUrl);
 	}
 	// Zeigt das Anmeldeformular
 	$this->render('login',array('model'=>$model));
@@ -32,9 +32,9 @@ die der Besucher ohne die dafür nötige Anmeldung aufrufen wollte. Ergab die Pr
 Fehler oder wird die Action zum ersten mal ausgeführt, wird der View `login`
 gerendert. Darauf werden wir im nächsten Abschnitt näher eingehen.
 
-> Tip|Tipp: Die `login`-Action benutzt `Yii::app()->user->returnUrl` um die URL
+> Tip|Tipp: Die `login`-Action benutzt `Yee::app()->user->returnUrl` um die URL
 der Seite zu ermitteln, für die der Benutzer zunächst authentifiziert werden
-musste. Die Komponente `Yii::app()->user` ist vom Typ [CWebUser] (oder einer 
+musste. Die Komponente `Yee::app()->user` ist vom Typ [CWebUser] (oder einer 
 Kindklasse) und steht für Informationen der aktuellen Benutzersitzung 
 (z.B. Benutzername, Status). Weitere Einzelheiten dazu finden Sie unter 
 [Authentifizierung und Autorisierung](/doc/guide/topics.auth).
@@ -64,7 +64,7 @@ $model->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
 > Note|Hinweis: Damit `$_POST['LoginForm']` ein Array statt eines String
-liefert, hält Yii sich an eine Konvention bezüglich Namen für Formularfelder
+liefert, hält Yee sich an eine Konvention bezüglich Namen für Formularfelder
 in einem View. Das Eingabefeld, das dem Attribut `a` einer Modelklasse `C` 
 entspricht, heißt `C[a]`.  Das Eingabefeld für das das Attribut `username` 
 aus obigem Beispiel würde daher `LoginForm[username]` heißen.

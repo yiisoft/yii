@@ -8,7 +8,7 @@ Den tjänar också som central plats för konfigurationsinställningar på appli
 Av denna anledning kallas Application även `front-controller`.
 
 Application instantieras av [startskriptet](/doc/guide/basics.entry) som en singleton 
-vilken alltid kan nås via [Yii::app()|YiiBase::app].
+vilken alltid kan nås via [Yee::app()|YeeBase::app].
 
 
 Applikationens konfiguration
@@ -29,7 +29,7 @@ applikationens [namn|CApplication::name] och propertyn
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -44,12 +44,12 @@ return array(...);
 ~~~
 
 Konfigurationen träder i kraft genom att dess filnamn lämnas som parameter till 
-applikationens konstruktor, eller till [Yii::createWebApplication()], på 
+applikationens konstruktor, eller till [Yee::createWebApplication()], på 
 nedanstående sätt, vilket vanligtvis sker i [startskriptet](/doc/guide/basics.entry):
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip|Tips: Om applikationens konfiguration är mycket omfattande kan den delas upp 
@@ -111,8 +111,8 @@ I ovanstående exempel lades elementet `cache` till i arrayen `components`.
 Av elementet `cache` framgår att komponentens klass är `CMemCache` samt hur dess 
 `servers`-property skall initialiseras.
 
-För tillgång till en applikationskomponent, använd `Yii::app()->ComponentID`, 
-där `ComponentID` refererar till komponentens ID (t.ex. `Yii::app()->cache`).
+För tillgång till en applikationskomponent, använd `Yee::app()->ComponentID`, 
+där `ComponentID` refererar till komponentens ID (t.ex. `Yee::app()->cache`).
 
 En applikationskomponent kan avaktiveras genom att `enabled` sätts till false i 
 dess konfiguration. För en avaktiverad komponent erhålls null som returvärde.
@@ -128,11 +128,11 @@ applikationens [preload|CApplication::preload]-property.
 Applikationens kärnkomponenter
 ------------------------------
 
-Yii definierar en kärna av applikationskomponenter som tillhandahåller i 
+Yee definierar en kärna av applikationskomponenter som tillhandahåller i 
 webbapplikationer allmänt förekommande finesser. Exempelvis används komponenten 
 [request|CWebApplication::request] till att samla in information ur inkommande 
 request från användare och leverera information såsom URL, cookies. 
-Genom konfigurering av kärnkomponenternas propertyn kan de flesta av Yii:s 
+Genom konfigurering av kärnkomponenternas propertyn kan de flesta av Yee:s 
 standardbeteenden ändras. 
 
 Nedan listas kärnkomponenterna som fördeklareras av [CWebApplication].
@@ -145,7 +145,7 @@ Nedan listas kärnkomponenterna som fördeklareras av [CWebApplication].
 
    - [clientScript|CWebApplication::clientScript]: [CClientScript] - handhar klientskript (javascript and CSS).
 
-   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] - tillhandahåller översatta systemmeddelanden som Yii-ramverket använder.
+   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] - tillhandahåller översatta systemmeddelanden som Yee-ramverket använder.
 
    - [db|CApplication::db]: [CDbConnection] - tillhandahåller databasanslutningen. Observera att propertyn [connectionString|CDbConnection::connectionString] måste konfigureras om denna komponent används.
 
@@ -153,7 +153,7 @@ Nedan listas kärnkomponenterna som fördeklareras av [CWebApplication].
 
    - [format|CApplication::format]: [CFormatter] - formaterar datavärden inför presentation.
 
-   - [messages|CApplication::messages]: [CPhpMessageSource] - tillhandahåller översatta texter ingående i Yii-applikationer.
+   - [messages|CApplication::messages]: [CPhpMessageSource] - tillhandahåller översatta texter ingående i Yee-applikationer.
 
    - [request|CWebApplication::request]: [CHttpRequest] - tillhandahåller information relaterad till inkommen request från användare.
 

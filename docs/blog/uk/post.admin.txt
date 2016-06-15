@@ -93,7 +93,7 @@ $this->breadcrumbs=array(
 [php]
 public function actionDelete()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();

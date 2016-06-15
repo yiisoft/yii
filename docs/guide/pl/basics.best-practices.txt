@@ -10,7 +10,7 @@ Aby lepiej wytłumaczyć te wskazówki, załóżmy, że aplikacja zawiera kilka 
 * konsola (ang. console): aplikacja składająca się z poleceń konsoli wywoływanych w oknie terminala lub też zaplanowanych zadań wspierających całą aplikację;
 * API sieciowe (ang. Web API): dostarcza interfejsów systemom zewnętrznym (ang. third parties) w celu integracji z aplikacją. 
 
-Podaplikacje mogą być zaimplementowane jako [moduły](/doc/guide/basics.module), lub też jako aplikacje Yii, które współdzielą pewien kod z innymi podaplikacjami. 
+Podaplikacje mogą być zaimplementowane jako [moduły](/doc/guide/basics.module), lub też jako aplikacje Yee, które współdzielą pewien kod z innymi podaplikacjami. 
 
 
 Model
@@ -61,7 +61,7 @@ Widoki mogą być wielokrotnie używane na różnorakie sposoby:
 
 * widżety: jeśli do zaprezentowania częściowego widoku potrzeba dużej ilości logiki, widok częściowy może zostać zamieniony w widżet, w którym to plik z jego klasą jest najlepszym miejscem na zawarcie tej logiki. Dla widżetów, które generują wiele znaczników HTML, lepiej jest użyć konkretnych plików widoków dla tego widżetu aby zawrzeć te znaczniki.
 
-* klasy pomocnicze: w widokach często istnieje zapotrzebowanie na pewne fragmenty kodu wykonujące drobne zadania, takie jak formatowanie danych czy też generowanie tagów HTML. Zamiast umieszczać ten kod bezpośrednio w plikach widoku, lepszym podejściem jest umieścić go w klasie pomocniczej widoku. Następnie, wystarczy jedynie użyć tej klasy w widoku. Yii zawiera przykład takiego podejścia. To potężna klasa pomocnicza [CHtml], która potrafi utworzyć powszechnie używany kod HTML. Klasy pomocnicze można umieścić w [automatycznie ładowanych katalogach](/doc/guide/basics.namespace), w taki sposób, że nie będą one wymagały jawnego dołączania w przypadku ich używania.
+* klasy pomocnicze: w widokach często istnieje zapotrzebowanie na pewne fragmenty kodu wykonujące drobne zadania, takie jak formatowanie danych czy też generowanie tagów HTML. Zamiast umieszczać ten kod bezpośrednio w plikach widoku, lepszym podejściem jest umieścić go w klasie pomocniczej widoku. Następnie, wystarczy jedynie użyć tej klasy w widoku. Yee zawiera przykład takiego podejścia. To potężna klasa pomocnicza [CHtml], która potrafi utworzyć powszechnie używany kod HTML. Klasy pomocnicze można umieścić w [automatycznie ładowanych katalogach](/doc/guide/basics.namespace), w taki sposób, że nie będą one wymagały jawnego dołączania w przypadku ich używania.
 
 
 Kontroler

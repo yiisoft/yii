@@ -3,9 +3,9 @@
  * CClientScript class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -508,7 +508,7 @@ class CClientScript extends CApplicationComponent
 		if($this->_baseUrl!==null)
 			return $this->_baseUrl;
 		else
-			return $this->_baseUrl=Yii::app()->getAssetManager()->publish(YII_PATH.'/web/js/source');
+			return $this->_baseUrl=Yee::app()->getAssetManager()->publish(YII_PATH.'/web/js/source');
 	}
 
 	/**
@@ -539,11 +539,11 @@ class CClientScript extends CApplicationComponent
 		{
 			$baseUrl=$package['baseUrl'];
 			if($baseUrl==='' || $baseUrl[0]!=='/' && strpos($baseUrl,'://')===false)
-				$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
+				$baseUrl=Yee::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
 			$baseUrl=rtrim($baseUrl,'/');
 		}
 		elseif(isset($package['basePath']))
-			$baseUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
+			$baseUrl=Yee::app()->getAssetManager()->publish(Yee::getPathOfAlias($package['basePath']));
 		else
 			$baseUrl=$this->getCoreScriptUrl();
 
@@ -597,7 +597,7 @@ class CClientScript extends CApplicationComponent
 		elseif(YII_DEBUG)
 			throw new CException('There is no CClientScript package: '.$name);
 		else
-			Yii::log('There is no CClientScript package: '.$name,CLogger::LEVEL_WARNING,'system.web.CClientScript');
+			Yee::log('There is no CClientScript package: '.$name,CLogger::LEVEL_WARNING,'system.web.CClientScript');
 
 		return $this;
 	}
@@ -689,7 +689,7 @@ class CClientScript extends CApplicationComponent
 		else
 		{
 			if($position==self::POS_LOAD || $position==self::POS_READY)
-				throw new CException(Yii::t('yii','Script HTML options are not allowed for "CClientScript::POS_LOAD" and "CClientScript::POS_READY".'));
+				throw new CException(Yee::t('yee','Script HTML options are not allowed for "CClientScript::POS_LOAD" and "CClientScript::POS_READY".'));
 			$scriptValue=$htmlOptions;
 			$scriptValue['content']=$script;
 		}
@@ -815,7 +815,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Records a method call when an output cache is in effect.
-	 * This is a shortcut to Yii::app()->controller->recordCachingAction.
+	 * This is a shortcut to Yee::app()->controller->recordCachingAction.
 	 * In case when controller is absent, nothing is recorded.
 	 * @param string $context a property name of the controller. It refers to an object
 	 * whose method is being called. If empty it means the controller itself.
@@ -825,7 +825,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected function recordCachingAction($context,$method,$params)
 	{
-		if(($controller=Yii::app()->getController())!==null)
+		if(($controller=Yee::app()->getController())!==null)
 			$controller->recordCachingAction($context,$method,$params);
 	}
 

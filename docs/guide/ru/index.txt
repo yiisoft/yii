@@ -1,7 +1,7 @@
-Полное руководство по Yii
+Полное руководство по Yee
 =========================
 
-Данное руководство выпущено в соответствии с [положениями о документации Yii](http://www.yiiframework.com/doc/terms/).
+Данное руководство выпущено в соответствии с [положениями о документации Yee](http://www.yeeframework.com/doc/terms/).
 
 Переводчики
 -----------
@@ -13,4 +13,4 @@
 - Сергей Кузнецов, cr0t ([summercode.ru](http://summercode.ru/))
 - Александр Кожевников, Bethrezen ([bethrezen.ru](http://bethrezen.ru/))
 
-© 2008—2013, Yii Software LLC.
+© 2008—2013, Yee Software LLC.

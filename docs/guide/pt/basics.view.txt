@@ -129,9 +129,9 @@ refere-se a instância do widget em vez da instância do controller.
 Visão do Sistema (System View)
 ------------------------------
 
-Visões do sistema são as visões utilizadas pelo Yii para exibir informações 
+Visões do sistema são as visões utilizadas pelo Yee para exibir informações 
 sobre erros e logs. Por exemplo, quando um usuário requisita uma ação ou 
-controle não existente, o Yii irá lançar uma exceção explicando o erro ocorrido. 
+controle não existente, o Yee irá lançar uma exceção explicando o erro ocorrido. 
 Esse erro é exibido utilizando uma visão do sistema.
 
 A nomeclatura das visões do sistema seguem algumas regras. Nomes no formato 
@@ -139,7 +139,7 @@ A nomeclatura das visões do sistema seguem algumas regras. Nomes no formato
 [CHttpException], onde `XXX` é o código do erro. Por exemplo, se uma [CHttpException] 
 é gerada com o código de erro 404, a visão `error404` será exibida.
 
-O Yii framework já possui um conjunto padrão de visões do sistema, localizadas em 
+O Yee framework já possui um conjunto padrão de visões do sistema, localizadas em 
 `framework/views`. Elas podem ser personalizadas criando-se visões com o mesmo nome 
 que as originais em `protected/views/system`.
 

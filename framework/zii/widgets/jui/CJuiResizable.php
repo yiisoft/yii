@@ -3,12 +3,12 @@
  * CJuiResizable class file.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiWidget');
+Yee::import('zii.widgets.jui.CJuiWidget');
 
 /**
  * CJuiResizable displays a resizable widget.
@@ -63,7 +63,7 @@ class CJuiResizable extends CJuiWidget
 			$this->htmlOptions['id']=$id;
 
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').resizable($options);");
+		Yee::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').resizable($options);");
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 	}

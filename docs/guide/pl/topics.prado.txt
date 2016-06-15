@@ -1,7 +1,7 @@
 Korzystanie z alternatywnych składni szablonów
 =================================
 
-Yii pozwala deweloperom na korzystanie ze swojej ulubionej składni szablonów (np. Prado, Smarty)
+Yee pozwala deweloperom na korzystanie ze swojej ulubionej składni szablonów (np. Prado, Smarty)
 podczas pisania kontrolera lub widoków widżetu. Jest to możliwe poprzez utworzenie 
 i zainstalowanie komponentu aplikacji [viewRenderer|CWebApplication::viewRenderer].
 

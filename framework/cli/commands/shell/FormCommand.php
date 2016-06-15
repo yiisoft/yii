@@ -3,9 +3,9 @@
  * FormCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -70,12 +70,12 @@ EOD;
 			return 1;
 		}
 		$scenario=isset($args[2]) ? $args[2] : '';
-		$modelClass=Yii::import($args[0],true);
+		$modelClass=Yee::import($args[0],true);
 		$model=new $modelClass($scenario);
 		$attributes=$model->getSafeAttributeNames();
 
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/form':$this->templatePath;
-		$viewPath=Yii::getPathOfAlias($args[1]);
+		$viewPath=Yee::getPathOfAlias($args[1]);
 		$viewName=basename($viewPath);
 		$viewPath.='.php';
 		$params=array(

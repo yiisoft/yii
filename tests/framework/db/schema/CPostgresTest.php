@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
+Yee::import('system.db.CDbConnection');
 
 class CPostgresTest extends CTestCase
 {
@@ -11,7 +11,7 @@ class CPostgresTest extends CTestCase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
 
-		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yii','test','test');
+		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yee','test','test');
 		$this->db->charset='UTF8';
 		try
 		{
@@ -24,7 +24,7 @@ class CPostgresTest extends CTestCase
 		}
 
 		try	{ $this->db->createCommand('DROP SCHEMA test CASCADE')->execute(); } catch(Exception $e) { }
-		try	{ $this->db->createCommand('DROP TABLE yii_types CASCADE')->execute(); } catch(Exception $e) { }
+		try	{ $this->db->createCommand('DROP TABLE yee_types CASCADE')->execute(); } catch(Exception $e) { }
 
 		$sqls=file_get_contents(dirname(__FILE__).'/../data/postgres.sql');
 		foreach(explode(';',$sqls) as $sql)
@@ -73,10 +73,10 @@ class CPostgresTest extends CTestCase
 		$this->assertEquals('id',$table->primaryKey);
 		$this->assertEquals(array('col1'=>array('orders','key1'),'col2'=>array('orders','key2')),$table->foreignKeys);
 
-		$table=$this->db->schema->getTable('yii_types');
+		$table=$this->db->schema->getTable('yee_types');
 		$this->assertTrue($table instanceof CDbTableSchema);
-		$this->assertEquals('yii_types',$table->name);
-		$this->assertEquals('"yii_types"',$table->rawName);
+		$this->assertEquals('yee_types',$table->name);
+		$this->assertEquals('"yee_types"',$table->rawName);
 		$this->assertTrue($table->primaryKey===null);
 		$this->assertTrue($table->foreignKeys===array());
 		$this->assertTrue($table->sequenceName===null);
@@ -112,7 +112,7 @@ class CPostgresTest extends CTestCase
 			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
 			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
 		);
-		$this->checkColumns('yii_types',$values);
+		$this->checkColumns('yee_types',$values);
 	}
 
 	protected function checkColumns($tableName,$values)

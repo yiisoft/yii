@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.caching.dependencies.CDirectoryCacheDependency');
+Yee::import('system.caching.dependencies.CDirectoryCacheDependency');
 
 class CDirectoryCacheDependencyTest extends CTestCase
 {
@@ -10,10 +10,10 @@ class CDirectoryCacheDependencyTest extends CTestCase
 	public function __construct()
 	{
 		parent::__construct();
-		Yii::app()->reset();
-		$this->testDir1 = Yii::app()->getRuntimePath().'/CDirectoryCacheDependencyTest_temp1';
+		Yee::app()->reset();
+		$this->testDir1 = Yee::app()->getRuntimePath().'/CDirectoryCacheDependencyTest_temp1';
 		@mkdir($this->testDir1);
-		$this->testDir2 = Yii::app()->getRuntimePath().'/CDirectoryCacheDependencyTest_temp2';
+		$this->testDir2 = Yee::app()->getRuntimePath().'/CDirectoryCacheDependencyTest_temp2';
 	}
 
 	public function testDirectoryName()

@@ -3,9 +3,9 @@
  * CTheme class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -125,7 +125,7 @@ class CTheme extends CComponent
 				$module=$module->getParentModule();
 			}
 			if($module===null)
-				$layoutName=Yii::app()->layout;
+				$layoutName=Yee::app()->layout;
 			else
 			{
 				$layoutName=$module->layout;

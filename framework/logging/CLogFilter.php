@@ -3,9 +3,9 @@
  * CLogFilter class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -82,7 +82,7 @@ class CLogFilter extends CComponent implements ILogFilter
 		$prefix='';
 		if($this->prefixSession && ($id=session_id())!=='')
 			$prefix.="[$id]";
-		if($this->prefixUser && ($user=Yii::app()->getComponent('user',false))!==null)
+		if($this->prefixUser && ($user=Yee::app()->getComponent('user',false))!==null)
 			$prefix.='['.$user->getName().']['.$user->getId().']';
 		if($prefix!=='')
 		{
@@ -99,7 +99,7 @@ class CLogFilter extends CComponent implements ILogFilter
 	protected function getContext()
 	{
 		$context=array();
-		if($this->logUser && ($user=Yii::app()->getComponent('user',false))!==null)
+		if($this->logUser && ($user=Yee::app()->getComponent('user',false))!==null)
 			$context[]='User: '.$user->getName().' (ID: '.$user->getId().')';
 
 		if($this->dumper==='var_export' || $this->dumper==='print_r')

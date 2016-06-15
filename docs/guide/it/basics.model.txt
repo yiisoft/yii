@@ -9,7 +9,7 @@ tabella del database o un form html con campi di input utente. Ogni campo dell'o
 è rappresentato da un attributo del model. L'attributo è un'etichetta e può
 essere convalidato da un insieme di regole.
 
-Yii implementa due generi di model: I model form e gli active record. Entrambi 
+Yee implementa due generi di model: I model form e gli active record. Entrambi 
 si estedono dalla stessa classe base [CModel].
 
 Un model form è un'istanza di [CFormModel]. I model form sono utilizzati per memorizzare

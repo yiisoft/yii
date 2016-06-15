@@ -129,8 +129,8 @@ protected/
 
 ### 動作參數綁定
 
-從版本  1.1.4 開始，Yii 提供了對自動動作參數綁定的支援。
-就是說，控制器動作可以定義命名的參數，參數的值將由 Yii 自動從 `$_GET` 提取。
+從版本  1.1.4 開始，Yee 提供了對自動動作參數綁定的支援。
+就是說，控制器動作可以定義命名的參數，參數的值將由 Yee 自動從 `$_GET` 提取。
 
 為了詳細說明此功能，假設我們需要為 `PostController` 寫一個 `create` 動作。此動作需要兩個參數：
 
@@ -181,7 +181,7 @@ class PostController extends CController
 由於 `$category` 沒有預設值，如果用戶沒有在 `$_GET` 中提供 `category` 參數，
 將會自動拋出一個 [CHttpException] (錯誤程式碼 400) 異常。
 
-從 1.1.5 之後的版本, Yii 也支援對動作參數的陣列型別的偵測。這是藉由 PHP 的型別提示來完成，語法如下：
+從 1.1.5 之後的版本, Yee 也支援對動作參數的陣列型別的偵測。這是藉由 PHP 的型別提示來完成，語法如下：
 
 ~~~
 [php]
@@ -189,7 +189,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii will make sure $categories be an array
+		// Yee will make sure $categories be an array
 	}
 }
 ~~~

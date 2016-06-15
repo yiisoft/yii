@@ -1,7 +1,7 @@
 Component
 =========
 
-Le applicazioni Yii sono costruite su component che sono oggetti scritti per uno scopo  
+Le applicazioni Yee sono costruite su component che sono oggetti scritti per uno scopo  
 specifico. Un component è un'istanza di [CComponent] o una sua classe derivata. 
 L'uso di un component coinvolge principalmente l'accesso alle sue proprietà e la 
 generazione/gestione dei suoi eventi. La classe base [CComponent] specifica come 

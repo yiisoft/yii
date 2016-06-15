@@ -4,10 +4,10 @@ Praca z formularzami
 Zbieranie danych od użytkownika poprzez formularze HTML jest jednym z głównych 
 zadań podczas tworzenia aplikacji webowych. Poza zaprojektowaniem formularza, 
 developer musi wypełnić formularz istniejącymi danymi lub też wartościami 
-domyślnymi i zapisać te dane wejściowe w pamięci trwałej. Yii bardzo upraszcza 
+domyślnymi i zapisać te dane wejściowe w pamięci trwałej. Yee bardzo upraszcza 
 ten przepływ informacji za pomocą swojej architektury MVC. 
 
-Następujące kroki są zazwyczaj wymagane kiedy mamy do czynienia z formularzami w Yii:
+Następujące kroki są zazwyczaj wymagane kiedy mamy do czynienia z formularzami w Yee:
 
    1. utworzenie klasy modelu reprezentującej pola danych, które będą zbierane.
    1. utworzenie kontrolera akcji wraz z kodem, który odpowiada za przesłanie formularza.

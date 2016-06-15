@@ -46,7 +46,7 @@ class CommentController extends Controller
 		if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 		{
 			echo CActiveForm::validate($model);
-			Yii::app()->end();
+			Yee::app()->end();
 		}
 		if(isset($_POST['Comment']))
 		{
@@ -66,7 +66,7 @@ class CommentController extends Controller
 	 */
 	public function actionDelete()
 	{
-		if(Yii::app()->request->isPostRequest)
+		if(Yee::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
 			$this->loadModel()->delete();
@@ -102,7 +102,7 @@ class CommentController extends Controller
 	 */
 	public function actionApprove()
 	{
-		if(Yii::app()->request->isPostRequest)
+		if(Yee::app()->request->isPostRequest)
 		{
 			$comment=$this->loadModel();
 			$comment->approve();

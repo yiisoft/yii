@@ -1,8 +1,8 @@
 * Pentru inceput
 	- [Generalitati](index)
-    - [Ce este Yii](quickstart.what-is-yii)
+    - [Ce este Yee](quickstart.what-is-yee)
     - [Instalare](quickstart.installation)
-    - [Crearea primei aplicatii Yii](quickstart.first-app)
+    - [Crearea primei aplicatii Yee](quickstart.first-app)
 
 * Notiuni fundamentale
     - [Model-View-Controller (MVC)](basics.mvc)
@@ -37,7 +37,7 @@
     - [Cache de pagini](caching.page)
     - [Continut dinamic](caching.dynamic)
 
-* Extinderea Yii
+* Extinderea Yee
     - [Generalitati](extension.overview)
     - [Folosirea extensiilor](extension.use)
     - [Crearea extensiilor](extension.create)

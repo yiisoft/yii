@@ -6,7 +6,7 @@ aspektów. Pierwszy, gdy ze strony użytkownika pojawia się żądanie w formaci
 URL. Wówczas aplikacja musi przetworzyć je do postaci zrozumiałych dla siebie
 parametrów. W drugim przypadku aplikacja musi dostarczyć mechanizmu tworzenia
 takich adresów URL, by były one zrozumiałe dla samej aplikacji.
-W przypadku aplikacji Yii jest to dokonywane przy pomocy [CUrlManager].
+W przypadku aplikacji Yee jest to dokonywane przy pomocy [CUrlManager].
 
 Tworzenie adresów URL
 ---------------------
@@ -67,7 +67,7 @@ ponieważ jest ona wstępnie zadeklarowana jako [CUrlManager] w [CWebApplication
 
 > Wskazówka: URL wygenerowany przy pomocy metody [createUrl|CController::createUrl]
 jest adresem względnym. Aby uzyskać pełny adres wystarczy poprzedzić adres względny
-`Yii::app()->request->hostInfo` lub wywołać metodę [createAbsoluteUrl|CController::createAbsoluteUrl].
+`Yee::app()->request->hostInfo` lub wywołać metodę [createAbsoluteUrl|CController::createAbsoluteUrl].
 
 Przyjazne adresy URL
 --------------------

@@ -7,7 +7,7 @@ Zbliżamy się do zakończenia prac nad naszym blogiem. Zanim go wdrożymy chcie
 Zmiana strony domowej
 ------------------
 
-Ustawimy stronę wyświetlająca listę wiadomości jako stronę domową. W tym celu zmienimy [konfigurację aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) w następujący sposób,
+Ustawimy stronę wyświetlająca listę wiadomości jako stronę domową. W tym celu zmienimy [konfigurację aplikacji](http://www.yeeframework.com/doc/guide/basics.application#application-configuration) w następujący sposób,
 
 ~~~
 [php]
@@ -50,7 +50,7 @@ W powyższym kodzie, najpierw dodaliśmy komponent buforowania `cache`, który u
 Wyłączanie trybu debugowania
 ------------------------
 
-Zmodyfikujemy plik wejściowy `/wwwroot/blog/index.php` poprzez usunięcie linii definiującej stałą `YII_DEBUG`. Stała ta jest użyteczna podczas fazy tworzenia, gdyż pozwala ona Yii wyświetlać więcej informacji użytecznych dla debugowania w przypadku wystąpienia błędu. Jednakże, jeśli aplikacja działa w trybie produkcyjnym, wyświetlanie takich informacji nie jest najlepszym pomysłem ponieważ mogą one zawierać wrażliwe informacje takie jak miejsce, gdzie skrypt się znajduje, oraz zawartość jego pliku, itp.
+Zmodyfikujemy plik wejściowy `/wwwroot/blog/index.php` poprzez usunięcie linii definiującej stałą `YII_DEBUG`. Stała ta jest użyteczna podczas fazy tworzenia, gdyż pozwala ona Yee wyświetlać więcej informacji użytecznych dla debugowania w przypadku wystąpienia błędu. Jednakże, jeśli aplikacja działa w trybie produkcyjnym, wyświetlanie takich informacji nie jest najlepszym pomysłem ponieważ mogą one zawierać wrażliwe informacje takie jak miejsce, gdzie skrypt się znajduje, oraz zawartość jego pliku, itp.
 
 
 Wdrażanie aplikacji
@@ -58,11 +58,11 @@ Wdrażanie aplikacji
 
 Końcowy proces wdrażana polega głównie na kopiowaniu katalogu `/wwwroot/blog` do docelowego katalogu. Następujący wykaz czynności kontrolnych pokazuje wszystkie potrzebne kroki:
 
- 1. Zainstaluj Yii w docelowym miejscu jeśli nie jest ono jeszcze tam dostępne; 
+ 1. Zainstaluj Yee w docelowym miejscu jeśli nie jest ono jeszcze tam dostępne; 
  2. Skopiuj całą zawartość katalogu `/wwwroot/blog` do miejsca docelowego;
- 3. Zmień plik skryptu wejściowego `index.php` poprzez wskazanie zmiennej `$yii` na nowy plik rozruchowy (ang. bootstrap file);
- 4. Wyedytuj plik `protected/yiic.php` poprzez ustawienie zmiennej `$yiic` wskazujące  
- na nowy plik `yiic.php`;
+ 3. Zmień plik skryptu wejściowego `index.php` poprzez wskazanie zmiennej `$yee` na nowy plik rozruchowy (ang. bootstrap file);
+ 4. Wyedytuj plik `protected/yeec.php` poprzez ustawienie zmiennej `$yeec` wskazujące  
+ na nowy plik `yeec.php`;
  5. Zmień uprawnienia do katalogów `assets` oraz `protected/runtime` tak aby były one 
  zapisywalne przez proces Web serwera.
 

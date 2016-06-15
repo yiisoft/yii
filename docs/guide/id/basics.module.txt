@@ -65,7 +65,7 @@ Instance module dapat diakses melalui properti [module|CController::module] pada
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // atau yang berikut jika $this merujuk pada turunan controller
 // $postPerPage=$this->module->postPerPage;
 ~~~

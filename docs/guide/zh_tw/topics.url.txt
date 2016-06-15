@@ -11,7 +11,7 @@ created URLs can be understood by the application.
 1. 當使用者請求一個 URL，應用程式程式需要解析它變成可以理解的參數。
 2. 應用程式程式需求提供一種創造 URL 的方法，以便建立的 URL 應用程式程式可以理解的。
 
-對於Yii應用程式程式，這些透過 [CUrlManager] 輔助完成。
+對於Yee應用程式程式，這些透過 [CUrlManager] 輔助完成。
 
 
 建立 URL
@@ -57,7 +57,7 @@ array(
 
 請注意，我們不需要指定的 [urlManager|CWebApplication::urlManager] 元件的類別，因為它在 [CWebApplication] 事先宣告為[CUrlManager]。
 
-> 提示：此網址通過 [createUrl|CController::createUrl] 方法所產生的是一個相對地址。為了得到一個絕對的 URL ，我們可以用前綴 `Yii::app()->hostInfo`，或調用 [createAbsoluteUrl|CController::createAbsoluteUrl]。
+> 提示：此網址通過 [createUrl|CController::createUrl] 方法所產生的是一個相對地址。為了得到一個絕對的 URL ，我們可以用前綴 `Yee::app()->hostInfo`，或調用 [createAbsoluteUrl|CController::createAbsoluteUrl]。
 
 
 使用者友善的 URL
@@ -214,7 +214,7 @@ RewriteRule . index.php
 使用自定 URL 規則設置類別
 -----------------------------
 
-> 注意: Yii 從 1.1.8 版本起支援自定 URL 規則類別
+> 注意: Yee 從 1.1.8 版本起支援自定 URL 規則類別
 
 預設情況下，每個 URL 規則都通過 [CUrlManager] 來宣告為一個 [CUrlRule] 物件，這個物件會解析當前請求並根據具體的規則來產生 URL。雖然 [CUrlRule]可以處理大部分 URL 格式，但在某些特殊情況下仍舊有改進餘地。
 

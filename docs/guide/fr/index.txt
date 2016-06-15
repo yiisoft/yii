@@ -1,9 +1,9 @@
-Le Guide Définitif de Yii
+Le Guide Définitif de Yee
 =========================
 
 Tous droits réservés.
 
-2008-2013 &copy; Yii Software LLC.
+2008-2013 &copy; Yee Software LLC.
 
 
 <div class="revision">$Id: index.txt 688 $</div>

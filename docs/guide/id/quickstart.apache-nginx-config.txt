@@ -4,7 +4,7 @@ Konfigurasi Apache dan Nginx
 Apache
 ------
 
-Yii siap berjalan dengan konfigurasi default web server Apache. File `.htaccess` di dalam framework Yii dan folder aplikasi melarang pengaksesan file-file. Untuk menyembunyikan file bootstrap (biasanya `index.php`) di dalam URL Anda bisa menambahkan `mod_rewrite` ke dalam file `.htaccess` di document root atau ke konfigurasi virtual host:
+Yee siap berjalan dengan konfigurasi default web server Apache. File `.htaccess` di dalam framework Yee dan folder aplikasi melarang pengaksesan file-file. Untuk menyembunyikan file bootstrap (biasanya `index.php`) di dalam URL Anda bisa menambahkan `mod_rewrite` ke dalam file `.htaccess` di document root atau ke konfigurasi virtual host:
 
 ~~~
 RewriteEngine on
@@ -20,8 +20,8 @@ RewriteRule . index.php
 Nginx
 -----
 
-Anda dapat menggunakan Yii dengan [Nginx](http://wiki.nginx.org/) dan PHP dengan [FPM SAPI](http://php.net/install.fpm).
-Berikut ini merupakan contoh konfigurasi host. File ini mendefinisikan file bootstrap dan membuat Yii menangkap semua request ke file yang tidak ada, sehingga memungkinkan kita untuk memiliki URL yang cantik.
+Anda dapat menggunakan Yee dengan [Nginx](http://wiki.nginx.org/) dan PHP dengan [FPM SAPI](http://php.net/install.fpm).
+Berikut ini merupakan contoh konfigurasi host. File ini mendefinisikan file bootstrap dan membuat Yee menangkap semua request ke file yang tidak ada, sehingga memungkinkan kita untuk memiliki URL yang cantik.
 
 ~~~
 server {
@@ -30,20 +30,20 @@ server {
 
     server_name  mysite;
     root   $host_path/htdocs;
-    set $yii_bootstrap "index.php";
+    set $yee_bootstrap "index.php";
 
     charset utf-8;
 
     location / {
-        index  index.html $yii_bootstrap;
-        try_files $uri $uri/ $yii_bootstrap?$args;
+        index  index.html $yee_bootstrap;
+        try_files $uri $uri/ $yee_bootstrap?$args;
     }
 
     location ~ ^/(protected|framework|themes/\w+/views) {
         deny  all;
     }
 
-    #avoid processing of calls to unexisting static files by yii
+    #avoid processing of calls to unexisting static files by yee
     location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
         try_files $uri =404;
     }
@@ -53,8 +53,8 @@ server {
     location ~ \.php {
         fastcgi_split_path_info  ^(.+\.php)(.*)$;
 
-        #let yii catch the calls to unexising PHP files
-        set $fsn /$yii_bootstrap;
+        #let yee catch the calls to unexising PHP files
+        set $fsn /$yee_bootstrap;
         if (-f $document_root$fastcgi_script_name){
             set $fsn $fastcgi_script_name;
         }

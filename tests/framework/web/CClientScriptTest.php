@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.web.CClientScript');
+Yee::import('system.web.CClientScript');
 
 /**
  *  @group web
@@ -17,7 +17,7 @@ class CClientScriptTest extends CTestCase
 		$this->_clientScript = new CClientScript();
 		$this->_clientScript->setCoreScriptUrl("assets/12345");
 		$this->_clientScript->registerCoreScript('jquery');
-		$this->_clientScript->registerCoreScript('yii');
+		$this->_clientScript->registerCoreScript('yee');
 	}
 	
 	/* Test Script Getters */
@@ -32,7 +32,7 @@ class CClientScriptTest extends CTestCase
 	{
 		return array(
 			array('jquery', 'assets/12345'),
-			array('yii', 'assets/12345')
+			array('yee', 'assets/12345')
 		);
 	}	
 	
@@ -53,8 +53,8 @@ class CClientScriptTest extends CTestCase
 	{
 		return array(
 			array('jquery', array('js'=>array('jquery.js'))),
-			array('yiitab', array('js'=>array('jquery.yiitab.js'), 'depends'=>array('jquery'))),
-			array('yiiactiveform', array('js'=>array('jquery.yiiactiveform.js'), 'depends'=>array('jquery')))
+			array('yeetab', array('js'=>array('jquery.yeetab.js'), 'depends'=>array('jquery'))),
+			array('yeeactiveform', array('js'=>array('jquery.yeeactiveform.js'), 'depends'=>array('jquery')))
 
 		);
 	}
@@ -467,7 +467,7 @@ class CClientScriptTest extends CTestCase
 	 * @param array $scriptBatch
 	 * @param integer $expectedScriptTagCount
 	 *
-	 * @see https://github.com/yiisoft/yii/issues/2770
+	 * @see https://github.com/yeesoft/yee/issues/2770
 	 */
 	public function testRenderScriptsBatch(array $scriptBatch, $expectedScriptTagCount)
 	{

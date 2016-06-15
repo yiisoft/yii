@@ -3,9 +3,9 @@
  * CWebUser class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -13,7 +13,7 @@
  *
  * CWebUser is used as an application component whose ID is 'user'.
  * Therefore, at any place one can access the user state via
- * <code>Yii::app()->user</code>.
+ * <code>Yee::app()->user</code>.
  *
  * CWebUser should be used together with an {@link IUserIdentity identity}
  * which implements the actual authentication algorithm.
@@ -57,8 +57,8 @@
  */
 class CWebUser extends CApplicationComponent implements IWebUser
 {
-	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
-	const FLASH_COUNTERS='Yii.CWebUser.flashcounters';
+	const FLASH_KEY_PREFIX='Yee.CWebUser.flash.';
+	const FLASH_COUNTERS='Yee.CWebUser.flashcounters';
 	const STATES_VAR='__states';
 	const AUTH_TIMEOUT_VAR='__timeout';
 	const AUTH_ABSOLUTE_TIMEOUT_VAR='__absolute_timeout';
@@ -196,7 +196,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public function init()
 	{
 		parent::init();
-		Yii::app()->getSession()->open();
+		Yee::app()->getSession()->open();
 		if($this->getIsGuest() && $this->allowAutoLogin)
 			$this->restoreFromCookie();
 		elseif($this->autoRenewCookie && $this->allowAutoLogin)
@@ -237,7 +237,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				if($this->allowAutoLogin)
 					$this->saveToCookie($duration);
 				else
-					throw new CException(Yii::t('yii','{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
+					throw new CException(Yee::t('yee','{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
 						array('{class}'=>get_class($this))));
 			}
 
@@ -261,17 +261,17 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		{
 			if($this->allowAutoLogin)
 			{
-				Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
+				Yee::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
 				if($this->identityCookie!==null)
 				{
 					$cookie=$this->createIdentityCookie($this->getStateKeyPrefix());
 					$cookie->value=null;
 					$cookie->expire=0;
-					Yii::app()->getRequest()->getCookies()->add($cookie->name,$cookie);
+					Yee::app()->getRequest()->getCookies()->add($cookie->name,$cookie);
 				}
 			}
 			if($destroySession)
-				Yii::app()->getSession()->destroy();
+				Yee::app()->getSession()->destroy();
 			else
 				$this->clearStates();
 			$this->_access=array();
@@ -341,7 +341,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		if($defaultUrl===null)
 		{
-			$defaultReturnUrl=Yii::app()->getUrlManager()->showScriptName ? Yii::app()->getRequest()->getScriptUrl() : Yii::app()->getRequest()->getBaseUrl().'/';
+			$defaultReturnUrl=Yee::app()->getUrlManager()->showScriptName ? Yee::app()->getRequest()->getScriptUrl() : Yee::app()->getRequest()->getBaseUrl().'/';
 		}
 		else
 		{
@@ -369,7 +369,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function loginRequired()
 	{
-		$app=Yii::app();
+		$app=Yee::app();
 		$request=$app->getRequest();
 
 		if(!$request->getIsAjaxRequest())
@@ -388,10 +388,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		elseif(isset($this->loginRequiredAjaxResponse))
 		{
 			echo $this->loginRequiredAjaxResponse;
-			Yii::app()->end();
+			Yee::app()->end();
 		}
 
-		throw new CHttpException(403,Yii::t('yii','Login Required'));
+		throw new CHttpException(403,Yee::t('yee','Login Required'));
 	}
 
 	/**
@@ -454,7 +454,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	protected function restoreFromCookie()
 	{
-		$app=Yii::app();
+		$app=Yee::app();
 		$request=$app->getRequest();
 		$cookie=$request->getCookies()->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && is_string($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
@@ -484,10 +484,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	protected function renewCookie()
 	{
-		$request=Yii::app()->getRequest();
+		$request=Yee::app()->getRequest();
 		$cookies=$request->getCookies();
 		$cookie=$cookies->itemAt($this->getStateKeyPrefix());
-		if($cookie && !empty($cookie->value) && ($data=Yii::app()->getSecurityManager()->validateData($cookie->value))!==false)
+		if($cookie && !empty($cookie->value) && ($data=Yee::app()->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=@unserialize($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
@@ -507,7 +507,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	protected function saveToCookie($duration)
 	{
-		$app=Yii::app();
+		$app=Yee::app();
 		$cookie=$this->createIdentityCookie($this->getStateKeyPrefix());
 		$cookie->expire=time()+$duration;
 		$data=array(
@@ -544,7 +544,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($this->_keyPrefix!==null)
 			return $this->_keyPrefix;
 		else
-			return $this->_keyPrefix=md5('Yii.'.get_class($this).'.'.Yii::app()->getId());
+			return $this->_keyPrefix=md5('Yee.'.get_class($this).'.'.Yee::app()->getId());
 	}
 
 	/**
@@ -712,7 +712,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	protected function changeIdentity($id,$name,$states)
 	{
-		Yii::app()->getSession()->regenerateID(true);
+		Yee::app()->getSession()->regenerateID(true);
 		$this->setId($id);
 		$this->setName($name);
 		$this->loadIdentityStates($states);
@@ -812,7 +812,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($allowCaching && $params===array() && isset($this->_access[$operation]))
 			return $this->_access[$operation];
 
-		$access=Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
+		$access=Yee::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
 		if($allowCaching && $params===array())
 			$this->_access[$operation]=$access;
 

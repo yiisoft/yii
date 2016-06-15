@@ -1,23 +1,23 @@
 开发规范
 ===========
 
-Yii 偏爱规范胜于配置。遵循规范可使你能够创建成熟的Yii应用而不需要编写、维护复杂的配置。
-当然了，在必要时，Yii 仍然可以在几乎所有的方面通过配置实现自定义。
+Yee 偏爱规范胜于配置。遵循规范可使你能够创建成熟的Yee应用而不需要编写、维护复杂的配置。
+当然了，在必要时，Yee 仍然可以在几乎所有的方面通过配置实现自定义。
 
-下面我们讲解 Yii 编程中推荐的开发规范。
-为简单起见，我们假设 `WebRoot` 是 Yii 应用安装的目录。
+下面我们讲解 Yee 编程中推荐的开发规范。
+为简单起见，我们假设 `WebRoot` 是 Yee 应用安装的目录。
 
 URL
 ---
 
-默认情况下，Yii 识别如下格式的 URL：
+默认情况下，Yee 识别如下格式的 URL：
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
 `r` GET 变量意为
-[路由（route）](/doc/guide/basics.controller#route) ，它可以被Yii解析为 控制器和动作。
+[路由（route）](/doc/guide/basics.controller#route) ，它可以被Yee解析为 控制器和动作。
 如果 `ActionID` 被省略，控制器将使用默认的动作（在[CController::defaultAction]中定义）；
 如果 `ControllerID` 也被省略（或者 `r` 变量不存在），应用将使用默认的控制器
 （在[CWebApplication::defaultController]中定义）。
@@ -29,12 +29,12 @@ http://hostname/index.php?r=ControllerID/ActionID
 代码
 ----
 
-Yii 推荐命名变量、函数和类时使用 驼峰风格，即每个单词的首字母大写并连在一起，中间无空格。
+Yee 推荐命名变量、函数和类时使用 驼峰风格，即每个单词的首字母大写并连在一起，中间无空格。
 变量名和函数名应该使它们的第一个单词全部小写，以使其区别于类名（例如：`$basePath`,
 `runController()`, `LinkPager`）。对私有类成员变量来说，我们推荐以下划线作为其名字前缀（例如： `$_actionList`）。
 
 由于在 PHP 5.3.0 之前不支持名字空间，我们推荐类要通过某种独立的方式命名，以避免和第三方类发生冲突。鉴于此，
-所有的 Yii 框架类名以 "C" 作前缀。
+所有的 Yee 框架类名以 "C" 作前缀。
 
 一个针对控制器名字的特殊规则是它们必须以单词 `Controller` 结尾。那么控制器 ID 即类名的首字母小写并去掉单词 `Controller`。
 例如，`PageController` 类的 ID 就是  `page` 。这个规则使应用更加安全。它还使控制器相关的URL更加简单(例如 `/index.php?r=page/index` 而不是 
@@ -69,10 +69,10 @@ application', 'basePath'=>'./protected')` 初始化了 `name` 和
 目录
 ---------
 
-Yii 假定了一系列默认的目录用于不同的场合。如果需要，每个目录都可以自定义。
+Yee 假定了一系列默认的目录用于不同的场合。如果需要，每个目录都可以自定义。
 
    - `WebRoot/protected`: 这是 [应用基础目录](/doc/guide/basics.application#application-base-directory)，
- 是放置所有安全敏感的PHP脚本和数据文件的地方。Yii 有一个默认的 `application` 别名指向此目录。
+ 是放置所有安全敏感的PHP脚本和数据文件的地方。Yee 有一个默认的 `application` 别名指向此目录。
 此目录及目录中的文件应该保护起来防止Web用户访问。它可以通过 [CWebApplication::basePath] 自定义。
 
    - `WebRoot/protected/runtime`: 此目录放置应用在运行时产生的私有临时文件。
@@ -112,7 +112,7 @@ Yii 假定了一系列默认的目录用于不同的场合。如果需要，每�
 --------
 
 多数Web 应用是由数据库驱动的。为了最佳时间，我们
-推荐在对表和列命名时使用如下命名规范。注意，这些规范并不是 Yii 所必须的。
+推荐在对表和列命名时使用如下命名规范。注意，这些规范并不是 Yee 所必须的。
 
    - 数据库表名和列名都使用小写命名。
 

@@ -32,7 +32,7 @@ public function loadModel()
 	{
 		if(isset($_GET['id']))
 		{
-			if(Yii::app()->user->isGuest)
+			if(Yee::app()->user->isGuest)
 				$condition='status='.Post::STATUS_PUBLISHED
 					.' OR status='.Post::STATUS_ARCHIVED;
 			else
@@ -52,9 +52,9 @@ public function loadModel()
 і при цьому користувач є гостем - відображаємо помилку 404. 
 Інакше повертаємо обʼєкт запису методу `actionView()`, який передає обʼєкт відображенню.
 
-> Tip|Підказка: Yii перехоплює виключення HTTP (екземпляри класу [CHttpException]) 
+> Tip|Підказка: Yee перехоплює виключення HTTP (екземпляри класу [CHttpException]) 
 і відображає їх, використовуючи або зумовлені, або власні шаблони. 
-Каркас, згенерований `yiic` вже містить свій шаблон для помилок у файлі 
+Каркас, згенерований `yeec` вже містить свій шаблон для помилок у файлі 
 `/wwwroot/blog/protected/views/site/error.php`. 
 При необхідності ми можемо змінити цей файл.
 

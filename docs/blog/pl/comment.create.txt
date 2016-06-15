@@ -3,7 +3,7 @@ Tworzenie i wyświetlanie komentarzy
 
 W części tej zaimplementujemy funkcje wyświetlania oraz tworzenia komentarzy.
 
-W celu zwiększenia interakcji z użytkownikiem będziemy chcieli poinformować użytkownika o możliwych błędach za każdym razem gdy skończy on wprowadzać wartości do danego pola. Znane jest to pod pojęciem sprawdzania poprawności danych po stronie klienta. Pokażemy jak można to zrobić w Yii w sposób nierozróżnialny i ekstremalnie prosty. Zauważ, że wymagana jest do tego wersja Yii 1.1.1 lub późniejsza. 
+W celu zwiększenia interakcji z użytkownikiem będziemy chcieli poinformować użytkownika o możliwych błędach za każdym razem gdy skończy on wprowadzać wartości do danego pola. Znane jest to pod pojęciem sprawdzania poprawności danych po stronie klienta. Pokażemy jak można to zrobić w Yee w sposób nierozróżnialny i ekstremalnie prosty. Zauważ, że wymagana jest do tego wersja Yee 1.1.1 lub późniejsza. 
 
 
 Wyświetlanie komentarzy
@@ -31,9 +31,9 @@ W celu wyświetlenia komentarzy na stronie szczegółów wiadomości, zmodyfikuj
 </div>
 ~~~
 
-W powyższym kodzie, wywołujemy metodę `renderPartial()` aby wygenerować częściowy widok o nazwie `_comments` w celu wyświetlenia listy komentarzy aktualnie wyświetlanej wiadomości. Zauważ, że w widoku używamy wyrażenia `$model->comments` w celu zwrócenia komentarzy dla tej wiadomości. Jest to poprawne wywołanie dlatego, że zadeklarowaliśmy relację `comments` w klasie wiadomości `Post`.  Wykonanie tego wyrażenia spowoduje niejawne wywołanie zapytania do bazy danych z JOIN-em, które zwróci nam odpowiednie komentarze. Funkcjonalność ta znana jest jako [leniwe zapytania relacyjne](http://www.yiiframework.com/doc/guide/database.arr).
+W powyższym kodzie, wywołujemy metodę `renderPartial()` aby wygenerować częściowy widok o nazwie `_comments` w celu wyświetlenia listy komentarzy aktualnie wyświetlanej wiadomości. Zauważ, że w widoku używamy wyrażenia `$model->comments` w celu zwrócenia komentarzy dla tej wiadomości. Jest to poprawne wywołanie dlatego, że zadeklarowaliśmy relację `comments` w klasie wiadomości `Post`.  Wykonanie tego wyrażenia spowoduje niejawne wywołanie zapytania do bazy danych z JOIN-em, które zwróci nam odpowiednie komentarze. Funkcjonalność ta znana jest jako [leniwe zapytania relacyjne](http://www.yeeframework.com/doc/guide/database.arr).
 
-Częściowy widok `_comments` nie jest zbyt interesujący. Głównie przechodzi on przez wszystkie komentarze i wyświetla ich szczegóły. Zainteresowanych czytelników odsyłamy do pliku `/wwwroot/yii/demos/blog/protected/views/post/_comments.php`.
+Częściowy widok `_comments` nie jest zbyt interesujący. Głównie przechodzi on przez wszystkie komentarze i wyświetla ich szczegóły. Zainteresowanych czytelników odsyłamy do pliku `/wwwroot/yee/demos/blog/protected/views/post/_comments.php`.
 
 
 Tworzenie komentarzy
@@ -63,7 +63,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+				Yee::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}
@@ -77,7 +77,7 @@ Następnie modyfikujemy klasę modelu Post` dodając następującą metodę `add
 [php]
 public function addComment($comment)
 {
-	if(Yii::app()->params['commentNeedApproval'])
+	if(Yee::app()->params['commentNeedApproval'])
 		$comment->status=Comment::STATUS_PENDING;
 	else
 		$comment->status=Comment::STATUS_APPROVED;
@@ -97,9 +97,9 @@ Musimy ponadto zmodyfikować również `/wwwroot/blog/protected/views/post/view.
 	......
 	<h3>Leave a Comment</h3>
 
-	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+	<?php if(Yee::app()->user->hasFlash('commentSubmitted')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+			<?php echo Yee::app()->user->getFlash('commentSubmitted'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(
@@ -145,7 +145,7 @@ protected function newComment($post)
 	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 	{
 		echo CActiveForm::validate($comment);
-		Yii::app()->end();
+		Yee::app()->end();
 	}
 
 	if(isset($_POST['Comment']))
@@ -154,7 +154,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+				Yee::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}

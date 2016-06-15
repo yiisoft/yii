@@ -1,7 +1,7 @@
 Active Record
 =============
 
-虽然 Yii DAO 可以处理几乎任何数据库相关的任务，
+虽然 Yee DAO 可以处理几乎任何数据库相关的任务，
 但很可能我们会花费 90% 的时间以编写一些执行普通 CRUD（create, read, update 和 delete）操作的 SQL 语句。
 而且我们的代码中混杂了SQL语句时也会变得难以维护。要解决这些问题，我们可以使用 Active Record。
 
@@ -33,7 +33,7 @@ CREATE TABLE tbl_post (
 ~~~
 
 > Note|注意: AR 并非要解决所有数据库相关的任务。它的最佳应用是模型化数据表为 PHP 结构和执行不包含复杂 SQL 语句的查询。
-对于复杂查询的场景，应使用 Yii DAO。
+对于复杂查询的场景，应使用 Yee DAO。
 
 
 建立数据库连接
@@ -203,7 +203,7 @@ $post->save();
 ~~~
 
 > Tip|提示: 由于 AR 允许我们无需写一大堆 SQL 语句就能执行数据库操作，
-我们经常会想知道 AR 在背后到底执行了什么 SQL 语句。这可以通过开启 Yii 的
+我们经常会想知道 AR 在背后到底执行了什么 SQL 语句。这可以通过开启 Yee 的
 [日志功能](/doc/guide/topics.logging) 实现。例如，我们在应用配置中开启了
 [CWebLogRoute] ，我们将会在每个网页的最后看到执行过的 SQL 语句。
 
@@ -302,7 +302,7 @@ $posts=Post::model()->findAllBySql($sql,$params);
 
 如果没有任何东西符合查询条件，`findAll` 将返回一个空数组。这跟 `find` 不同，`find` 会在没有找到什么东西时返回 null。
 
-除了上面讲述的 `find` 和 `findAll` 方法，为了方便，（Yii）还提供了如下方法：
+除了上面讲述的 `find` 和 `findAll` 方法，为了方便，（Yee）还提供了如下方法：
 
 ~~~
 [php]
@@ -422,8 +422,8 @@ $post->save();
 因此，要对比两个 AR 实例，假设它们属于相同的 AR 类， 我们只需要对比它们的主键值。
 然而,一个更简单的方式是调用 [CActiveRecord::equals()]。
 
-> Info|信息: 不同于 AR 在其他框架的执行, Yii 在其 AR 中支持多个主键. 一个复合主键由两个或更多字段构成。相应地，
-主键值在 Yii 中表现为一个数组. [primaryKey|CActiveRecord::primaryKey] 属性给出了一个 AR 实例的主键值。
+> Info|信息: 不同于 AR 在其他框架的执行, Yee 在其 AR 中支持多个主键. 一个复合主键由两个或更多字段构成。相应地，
+主键值在 Yee 中表现为一个数组. [primaryKey|CActiveRecord::primaryKey] 属性给出了一个 AR 实例的主键值。
 
 
 自定义
@@ -452,7 +452,7 @@ $post->save();
 -------------------------
 
 每个 AR 实例都含有一个属性名叫 [dbConnection|CActiveRecord::dbConnection] ，是一个 [CDbConnection]
-的实例，这样我们可以在需要时配合 AR 使用由 Yii DAO 提供的 [事务](/doc/guide/database.dao#using-transactions) 功能:
+的实例，这样我们可以在需要时配合 AR 使用由 Yee DAO 提供的 [事务](/doc/guide/database.dao#using-transactions) 功能:
 
 ~~~
 [php]
@@ -570,7 +570,7 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"language='".Yii::app()->language."'",
+			'condition'=>"language='".Yee::app()->language."'",
 		);
 	}
 }

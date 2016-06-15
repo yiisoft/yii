@@ -130,16 +130,16 @@ tidak ada tata letak(layout) yang akan diterapkan pada tampilan widget. Selain i
 View Sistem
 ---------------
 
-View(tampilan) sistem merujuk pada tampilan yang dipakai oleh Yii untuk menampilkan kesalahan dan pencatatan(logging)
+View(tampilan) sistem merujuk pada tampilan yang dipakai oleh Yee untuk menampilkan kesalahan dan pencatatan(logging)
 informasi. Sebagai contoh, ketika permintaan pengguna untuk controller atau aksi 
-yang tidak ada, Yii akan memunculkan exception yang menjelaskan kesalahan. Yii menampilkan
+yang tidak ada, Yee akan memunculkan exception yang menjelaskan kesalahan. Yee menampilkan
 exception menggunakan tampilan sistem tertentu.
 
 Penamaan view sistem mengikuti beberapa aturan. Nama seperti `errorXXX` merujuk pada
 tampilan untuk menampilkan [CHttpException] dengan kode kesalahan `XXX`. Sebagai contoh, jika [CHttpException] dimunculkan dengan kode kesalahan 404, view `error404`
 akan ditampilkan.
 
-Yii menyediakan satu set tampilan sistem default yang ditempatkan di bawah
+Yee menyediakan satu set tampilan sistem default yang ditempatkan di bawah
 `framework/views`. View-view ini bisa dikustomisasi dengan membuat file tampilan 
 yang sama dengan nama yang sama di bawah `protected/views/system`.
 

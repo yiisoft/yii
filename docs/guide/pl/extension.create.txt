@@ -44,7 +44,7 @@ Zachowanie (ang. Behavior)
 --------
 
 Aby utworzyć zachowanie nalezy zaimplementować interfejs [IBehavior]. Dla ułatwienia 
-Yii dostarcza klasę bazową [CBehavior], która już implementuje ten interfejs oraz 
+Yee dostarcza klasę bazową [CBehavior], która już implementuje ten interfejs oraz 
 dostarcza pewne dodatkowe, przydatne metody. Klasy potomne muszą głównie implementować 
 dodatkowe metody, które zamierzamy udostepnić komponentom, do których dołączamy zachowanie.
 
@@ -98,7 +98,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -133,7 +133,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...opublikuj tutaj pliki CSS lub JavaScript...
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

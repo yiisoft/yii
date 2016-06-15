@@ -1,8 +1,8 @@
 <?php
 
-Yii::import('system.web.CController');
-Yii::import('system.web.filters.CFilter');
-Yii::import('system.web.actions.CAction');
+Yee::import('system.web.CController');
+Yee::import('system.web.filters.CFilter');
+Yee::import('system.web.actions.CAction');
 
 class TestController extends CController
 {

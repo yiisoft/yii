@@ -3,9 +3,9 @@
  * CFilterValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -43,7 +43,7 @@ class CFilterValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		if($this->filter===null || !is_callable($this->filter))
-			throw new CException(Yii::t('yii','The "filter" property must be specified with a valid callback.'));
+			throw new CException(Yee::t('yee','The "filter" property must be specified with a valid callback.'));
 		$object->$attribute=call_user_func_array($this->filter,array($object->$attribute));
 	}
 }

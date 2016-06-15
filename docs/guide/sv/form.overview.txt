@@ -5,10 +5,10 @@ Insamling av användardata via HTML-formulär är en av huvuduppgifterna vid
 utveckling av webbapplikationer. Förutom utformning av formulär behöver utvecklare se 
 till att formulären fylls med existerande data eller standardvärden, validera 
 användarinmatning, presentera relevanta felmeddelanden i händelse av ogiltig 
-indata samt spara inmatning till icke-flyktigt (persistent) minne. Yii förenklar väsentligt 
+indata samt spara inmatning till icke-flyktigt (persistent) minne. Yee förenklar väsentligt 
 detta jobbflöde genom dess MVC-arkitektur.
 
-Följande steg är typiska att följa när man handskas med formulär i Yii:
+Följande steg är typiska att följa när man handskas med formulär i Yee:
 
    1. Skapa en modellklass (model) som representerar datafälten som skall samlas in;
    1. Skapa en kontrolleråtgärd (action) med kod som svarar på inskickning av formuläret.

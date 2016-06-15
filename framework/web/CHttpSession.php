@@ -3,9 +3,9 @@
  * CHttpSession class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -114,14 +114,14 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		@session_start();
 		if(YII_DEBUG && session_id()=='')
 		{
-			$message=Yii::t('yii','Failed to start session.');
+			$message=Yee::t('yee','Failed to start session.');
 			if(function_exists('error_get_last'))
 			{
 				$error=error_get_last();
 				if(isset($error['message']))
 					$message=$error['message'];
 			}
-			Yii::log($message, CLogger::LEVEL_WARNING, 'system.web.CHttpSession');
+			Yee::log($message, CLogger::LEVEL_WARNING, 'system.web.CHttpSession');
 		}
 	}
 
@@ -217,7 +217,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		if(is_dir($value))
 			session_save_path($value);
 		else
-			throw new CException(Yii::t('yii','CHttpSession.savePath "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','CHttpSession.savePath "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 
@@ -283,7 +283,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			ini_set('session.use_only_cookies','1');
 		}
 		else
-			throw new CException(Yii::t('yii','CHttpSession.cookieMode can only be "none", "allow" or "only".'));
+			throw new CException(Yee::t('yee','CHttpSession.cookieMode can only be "none", "allow" or "only".'));
 	}
 
 	/**
@@ -307,7 +307,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			ini_set('session.gc_divisor',2147483647);
 		}
 		else
-			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0 and 100.',
+			throw new CException(Yee::t('yee','CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0 and 100.',
 				array('{value}'=>$value)));
 	}
 

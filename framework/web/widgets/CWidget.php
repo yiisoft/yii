@@ -3,9 +3,9 @@
  * CWidget class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -91,7 +91,7 @@ class CWidget extends CBaseController
 	 */
 	public function __construct($owner=null)
 	{
-		$this->_owner=$owner===null?Yii::app()->getController():$owner;
+		$this->_owner=$owner===null?Yee::app()->getController():$owner;
 	}
 
 	/**
@@ -134,7 +134,7 @@ class CWidget extends CBaseController
 		if($this->_owner instanceof CController)
 			return $this->_owner;
 		else
-			return Yii::app()->getController();
+			return Yee::app()->getController();
 	}
 
 	/**
@@ -170,7 +170,7 @@ class CWidget extends CBaseController
 			return self::$_viewPaths[$className][$scope];
 		else
 		{
-			if($checkTheme && ($theme=Yii::app()->getTheme())!==null)
+			if($checkTheme && ($theme=Yee::app()->getTheme())!==null)
 			{
 				$path=$theme->getViewPath().DIRECTORY_SEPARATOR;
 				if(strpos($className,'\\')!==false) // namespaced class
@@ -199,26 +199,26 @@ class CWidget extends CBaseController
 	 */
 	public function getViewFile($viewName)
 	{
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yee::app()->getViewRenderer())!==null)
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';
 		if(strpos($viewName,'.')) // a path alias
-			$viewFile=Yii::getPathOfAlias($viewName);
+			$viewFile=Yee::getPathOfAlias($viewName);
 		else
 		{
 			$viewFile=$this->getViewPath(true).DIRECTORY_SEPARATOR.$viewName;
 			if(is_file($viewFile.$extension))
-				return Yii::app()->findLocalizedFile($viewFile.$extension);
+				return Yee::app()->findLocalizedFile($viewFile.$extension);
 			elseif($extension!=='.php' && is_file($viewFile.'.php'))
-				return Yii::app()->findLocalizedFile($viewFile.'.php');
+				return Yee::app()->findLocalizedFile($viewFile.'.php');
 			$viewFile=$this->getViewPath(false).DIRECTORY_SEPARATOR.$viewName;
 		}
 
 		if(is_file($viewFile.$extension))
-			return Yii::app()->findLocalizedFile($viewFile.$extension);
+			return Yee::app()->findLocalizedFile($viewFile.$extension);
 		elseif($extension!=='.php' && is_file($viewFile.'.php'))
-			return Yii::app()->findLocalizedFile($viewFile.'.php');
+			return Yee::app()->findLocalizedFile($viewFile.'.php');
 		else
 			return false;
 	}
@@ -243,7 +243,7 @@ class CWidget extends CBaseController
 		if(($viewFile=$this->getViewFile($view))!==false)
 			return $this->renderFile($viewFile,$data,$return);
 		else
-			throw new CException(Yii::t('yii','{widget} cannot find the view "{view}".',
+			throw new CException(Yee::t('yee','{widget} cannot find the view "{view}".',
 				array('{widget}'=>get_class($this), '{view}'=>$view)));
 	}
 }

@@ -4,20 +4,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Yii - Kontroll systemkrav</title>
+<title>Yee - Kontroll systemkrav</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Yii - Kontroll systemkrav</h1>
+<h1>Yee - Kontroll systemkrav</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Beskrivning</h2>
 <p>
-Det här skriptet kontrollerar om serverkonfigurationen uppfyller kraven för att köra <a href="http://www.yiiframework.com/">Yii</a> webbapplikationer.
+Det här skriptet kontrollerar om serverkonfigurationen uppfyller kraven för att köra <a href="http://www.yeeframework.com/">Yee</a> webbapplikationer.
 Det kollar att servern kör rätt version av PHP,
 att erforderliga  PHP-tillägg är laddade, och att inställningar i filen php.ini är korrekta.
 </p>
@@ -25,11 +25,11 @@ att erforderliga  PHP-tillägg är laddade, och att inställningar i filen php.i
 <h2>Slutsats</h2>
 <p>
 <?php if($result>0): ?>
-Grattis! Serverkonfigurationen uppfyller alla krav som Yii ställer.
+Grattis! Serverkonfigurationen uppfyller alla krav som Yee ställer.
 <?php elseif($result<0): ?>
-Serverkonfigurationen uppfyller minimikraven som Yii ställer. Lägg märke till nedanstående varningar om applikationer behöver använda nämnda finesser.
+Serverkonfigurationen uppfyller minimikraven som Yee ställer. Lägg märke till nedanstående varningar om applikationer behöver använda nämnda finesser.
 <?php else: ?>
-Tyvärr uppfyller inte serverkonfigurationen minimikraven Yii ställer.
+Tyvärr uppfyller inte serverkonfigurationen minimikraven Yee ställer.
 <?php endif; ?>
 </p>
 

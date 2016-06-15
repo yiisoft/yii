@@ -1,14 +1,14 @@
 自動的なコード生成
 =========================
 
-バージョン 1.1.2 から、Yii は **Gii** と呼ばれるウェブベースのコード生成ツールを持つようになりました。
-これは以前のコマンドラインで走る `yiic shell` 生成ツールに取って代るものです。
+バージョン 1.1.2 から、Yee は **Gii** と呼ばれるウェブベースのコード生成ツールを持つようになりました。
+これは以前のコマンドラインで走る `yeec shell` 生成ツールに取って代るものです。
 この章では、開発の生産性を高めるために、どのようにして Gii を使うか、そして、どのようにして Gii を拡張するかを説明します。
 
 Gii を使う
 ---------
 
-Gii はモジュールの形式で実装されており、既存の Yii アプリケーションの中で使用されなければなりません。
+Gii はモジュールの形式で実装されており、既存の Yee アプリケーションの中で使用されなければなりません。
 Gii を使うためには、最初にアプリケーション初期構成を次のように修正します。
 
 ~~~
@@ -41,9 +41,9 @@ Gii は既存のアプリケーションの中で新しいコードファイル�
 Gii は新しい PHP スクリプトファイルをアプリケーションの中に生成することが出来るものですから、そのセキュリティの確保については十分な注意を払わなければなりません (パスワードや IP フィルターなど)。
 
 さて、以上で、URL `http://hostname/path/to/index.php?r=gii` によって Gii にアクセスすることが出来るようになります。
-ここで `http://hostname/path/to/index.php` は既存の Yii アプリケーションにアクセスするための URL であると仮定しています。
+ここで `http://hostname/path/to/index.php` は既存の Yee アプリケーションにアクセスするための URL であると仮定しています。
 
-もし既存の Yii アプリケーションが `path` 形式の URL ([URL の管理](/doc/guide/topics.url) を参照) を使っているのであれば、URL `http://hostname/path/to/index.php/gii` によって Gii にアクセスすることが出来ます。
+もし既存の Yee アプリケーションが `path` 形式の URL ([URL の管理](/doc/guide/topics.url) を参照) を使っているのであれば、URL `http://hostname/path/to/index.php/gii` によって Gii にアクセスすることが出来ます。
 場合によっては、既存の URL 規則の先頭に次の URL 規則を追加する必要があるかもしれません。
 
 ~~~
@@ -157,7 +157,7 @@ return array(
 今こそ実際にカスタマイズの仕事をすべき時です。
 ファイル `protected/gii/model/templates/compact/model.php` を開いて編集します。
 このファイルはビュースクリプトのように使われること、すなわち、PHP の式や文を含むことが出来るということを憶えておいて下さい。
-テンプレートを修正して、生成されるコードの `attributeLabels()` メソッドが `Yii::t()` を使って属性のラベルを翻訳するようにしましょう。
+テンプレートを修正して、生成されるコードの `attributeLabels()` メソッドが `Yee::t()` を使って属性のラベルを翻訳するようにしましょう。
 
 ~~~
 [php]
@@ -165,7 +165,7 @@ public function attributeLabels()
 {
 	return array(
 <?php foreach($labels as $name=>$label): ?>
-			<?php echo "'$name' => Yii::t('application', '$label'),\n"; ?>
+			<?php echo "'$name' => Yee::t('application', '$label'),\n"; ?>
 <?php endforeach; ?>
 	);
 }
@@ -237,7 +237,7 @@ class WidgetCode extends CCodeModel
 
 	public function prepare()
 	{
-		$path=Yii::getPathOfAlias('application.components.' . $this->className) . '.php';
+		$path=Yee::getPathOfAlias('application.components.' . $this->className) . '.php';
 		$code=$this->render($this->templatepath.'/widget.php');
 
 		$this->files[]=new CCodeFile($path, $code);

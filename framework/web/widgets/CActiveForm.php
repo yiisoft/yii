@@ -3,9 +3,9 @@
  * CActiveForm class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -132,7 +132,7 @@
  *     if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
  *     {
  *         echo CActiveForm::validate($model);
- *         Yii::app()->end();
+ *         Yee::app()->end();
  *     }
  * }
  * </pre>
@@ -260,7 +260,7 @@ class CActiveForm extends CWidget
 	 *     if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
 	 *     {
 	 *         echo CActiveForm::validate($model);
-	 *         Yii::app()->end();
+	 *         Yee::app()->end();
 	 *     }
 	 *     ......
 	 * }
@@ -346,7 +346,7 @@ class CActiveForm extends CWidget
 			$this->focus="#".CHtml::activeId($this->focus[0],$this->focus[1]);
 
 		echo CHtml::endForm();
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		if(!$this->enableAjaxValidation && !$this->enableClientValidation || empty($this->attributes))
 		{
 			if($this->focus!==null)
@@ -378,9 +378,9 @@ class CActiveForm extends CWidget
 			$options['errorCss']=CHtml::$errorCss;
 
 		$options=CJavaScript::encode($options);
-		$cs->registerCoreScript('yiiactiveform');
+		$cs->registerCoreScript('yeeactiveform');
 		$id=$this->id;
-		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiactiveform($options);");
+		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yeeactiveform($options);");
 	}
 
 	/**
@@ -430,7 +430,7 @@ class CActiveForm extends CWidget
 	 * <li>messages: an array that may be appended with new error messages for the attribute.</li>
 	 * <li>attribute: a data structure keeping all client-side options for the attribute</li>
 	 * </ul>
-	 * This should NOT be a function but just the code, Yii will enclose the code you provide inside the
+	 * This should NOT be a function but just the code, Yee will enclose the code you provide inside the
 	 * actual JS function.
 	 * @param boolean $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
 	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
@@ -555,7 +555,7 @@ class CActiveForm extends CWidget
 		if($html==='')
 		{
 			if($header===null)
-				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
+				$header='<p>'.Yee::t('yee','Please fix the following input errors:').'</p>';
 			if(!isset($htmlOptions['class']))
 				$htmlOptions['class']=CHtml::$errorSummaryCss;
 			$htmlOptions['style']=isset($htmlOptions['style']) ? rtrim($htmlOptions['style'],';').';display:none' : 'display:none';

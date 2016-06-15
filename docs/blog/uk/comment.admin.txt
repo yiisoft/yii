@@ -21,7 +21,7 @@
 [php]
 public function actionApprove()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		$comment=$this->loadModel();
 		$comment->approve();
@@ -101,4 +101,4 @@ public function actionIndex()
 використовує `/wwwroot/blog/protected/views/comment/_view.php` для виведення кожного
 окремого коментаря. Ми не будемо детально розглядати цей механізм.
 Зацікавлені читачі можуть вивчити відповідний файл демонстраційного
-додатку: `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
+додатку: `/wwwroot/yee/demos/blog/protected/views/comment/_view.php`.

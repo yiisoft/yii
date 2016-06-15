@@ -5,10 +5,10 @@ La raccolta dei dati degli utenti tramite form HTML è uno dei principali compit
 nello sviluppo di web application. Oltre a progettare i form, gli sviluppatori devono
 riempire il form con dati esistenti o valori di default, validare l'input dell'utente,
 visualizzare appropriati messaggi di errore per input non valido, e salvare l'input 
-in un archivio permanente. Yii semplifica enormemente questo flusso di lavoro 
+in un archivio permanente. Yee semplifica enormemente questo flusso di lavoro 
 grazie alla sua architettura MVC.
 
-Ecco qui di seguito i tipici passi che sono necessari quando si ha che fare con i form in Yii:
+Ecco qui di seguito i tipici passi che sono necessari quando si ha che fare con i form in Yee:
 
    1. Creare una classe model rappresentante i dati che si vogliono raccogliere;
    1. Creare un action del controller contenente solo codice necessario per rispondere all'invio di dati mediante form.

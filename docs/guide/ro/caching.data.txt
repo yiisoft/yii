@@ -11,7 +11,7 @@ si apelam [set()|CCache::set] pentru a o memora:
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yee::app()->cache->set($id, $value);
 ~~~
 
 Datele memorate in cache vor ramane in cache pe un termen nedefinit pana cand sunt sterse
@@ -23,7 +23,7 @@ din cache dupa o perioada de timp specificata:
 ~~~
 [php]
 // pastram valoarea in cache pentru cel mult 30 de secunde
-Yii::app()->cache->set($id, $value, 30);
+Yee::app()->cache->set($id, $value, 30);
 ~~~
 
 Mai tarziu, cand trebuie sa accesam aceasta variabila (in aceeasi cerere web sau in alta cerere web),
@@ -33,12 +33,12 @@ valabila in cache si ca ar trebui sa o regeneram.
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yee::app()->cache->get($id);
 if($value===false)
 {
 	// regeneram $value pentru ca nu mia exista in cache
 	// si o salvam iar in cache pentru o utilizare ulterioara:
-	Yii::app()->cache->set($id,$value);
+	Yee::app()->cache->set($id,$value);
 }
 ~~~
 
@@ -56,7 +56,7 @@ aplicatii.
 > folosita ca un array, ca in urmatoarele exemple:
 > ~~~
 > [php]
-> $cache=Yii::app()->cache;
+> $cache=Yee::app()->cache;
 > $cache['var1']=$value1;  // echivalent cu: $cache->set('var1',$value1);
 > $value2=$cache['var2'];  // echivalent cu: $value2=$cache->get('var2');
 > ~~~
@@ -77,7 +77,7 @@ apelam [set()|CCache::set].
 [php]
 // valoarea va expira in 30 de secunde
 // poate fi invalidata mai devreme daca fisierul dependent este modificat
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('NumeFisier'));
+Yee::app()->cache->set($id, $value, 30, new CFileCacheDependency('NumeFisier'));
 ~~~
 
 In acest moment, daca extragem `$value` din cache prin apelarea [get()|CCache::get],

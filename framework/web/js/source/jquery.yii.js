@@ -1,15 +1,15 @@
 /**
- * jQuery Yii plugin file.
+ * jQuery Yee plugin file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2010 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2010 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 ;(function($) {
 
-$.yii = {
+$.yee = {
 	version : '1.0',
 
 	submitForm : function (element, url, params) {
@@ -38,7 +38,7 @@ $.yii = {
 		});
 
 		// remember who triggers the form submission
-		// this is used by jquery.yiiactiveform.js
+		// this is used by jquery.yeeactiveform.js
 		$(f).data('submitObject', $(element));
 
 		$(f).trigger('submit');

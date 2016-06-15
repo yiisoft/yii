@@ -8,7 +8,7 @@ werden kann, ohne Änderungen an der Programmlogik vornehmen zu müssen. Für
 Webanwendungen ist dieser Punkt von besonderem Interesse, da Besucher
 aus der ganzen Welt zu erwarten sind.
 
-Yii unterstützt I18N in verschiedenen Belangen:
+Yee unterstützt I18N in verschiedenen Belangen:
 
    - Es enthält Lokaliesierungsdaten für jede mögliche Sprache und Variante.
    - Es enthält Features zum Übersetzen von Textmeldungen und Dateien.
@@ -40,7 +40,7 @@ Für eine gegebene Locale-ID erhält man die entsprechende Instanz von [CLocale]
 über `CLocale::getInstance($localeID)` oder
 `CApplication::getLocale($localeID)`. 
 
-> Info: Yii enthält Locale-Daten für fast alle Sprachen und Länder. Die Daten
+> Info: Yee enthält Locale-Daten für fast alle Sprachen und Länder. Die Daten
 stammen vom [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). 
 Jede Locale bietet nur einen Teil der CLDR-Daten, da in den
 Originaldaten viele kaum verwendete Informationen enthalten sind.
@@ -49,7 +49,7 @@ verwenden. Dazu setzen Sie die Eigenschaft [CApplication::localeDataPath]
 auf das Verzeichnis, dass die angepassten Locale-Daten enthält. Zum Anlegen
 dieser Dateien verweisen wir auf die Dateien unter `framework/i18n/data`.
 
-Bei einer Yii-Anwendung unterscheidet man zwischen [Zielsprache|CApplication::language] und
+Bei einer Yee-Anwendung unterscheidet man zwischen [Zielsprache|CApplication::language] und
 [Quellsprache|CApplication::sourceLanguage] (engl: source language). Die
 Zielsprache bezieht sich auf die Sprache (Locale) der Zielgruppe, für die die
 Anwendung geschrieben wurde, während die Quellsprache die Sprache (Locale)
@@ -79,31 +79,31 @@ bei letzterem ganze Dateien.
 
 Eine Übersetzungsanfrage besteht aus dem zu übersetzenden Objekt, der
 Quellsprache des Objekts und der Zielsprache in die das Objekt übersetzt
-werden soll. Die Quellsprache wird von Yii standardmäßig auf die [Quellsprache
+werden soll. Die Quellsprache wird von Yee standardmäßig auf die [Quellsprache
 der Anwendung|CApplication::sourceLanguage] gesetzt, die Zielsprache auf die
 momentane [Sprache der Anwendung|CApplication::language]. Falls Quell- und
 Zielsprache gleich sind, findet keine Übersetzung statt.
 
 ### Übersetzen von Textmeldungen
 
-Textmeldungen werden durch Aufruf von [Yii::t()|YiiBase::t] übersetzt. Die
+Textmeldungen werden durch Aufruf von [Yee::t()|YeeBase::t] übersetzt. Die
 Methode übersetzt den übergebenen Text von der
 [Quellsprache|CApplication::sourceLanguage] in die
 [Zielsprache|CApplication::language].
 
 Beim Übersetzen einer Meldung muss deren Kategorie angegeben werden, da
 Texte je nach Kategorie (bzw. Kontext) unterschiedlich übersetzt werden
-könnten. Die Kategorie `yii` bleibt dabei Meldungen des Yii-Frameworks
+könnten. Die Kategorie `yee` bleibt dabei Meldungen des Yee-Frameworks
 vorbehalten.
 
 Textmeldungen können auch Platzhalter für Parameter enthalten, die beim Aufruf
-von [Yii::t()|YiiBase::t] mit den tatsächlichen Parameterwerten ersetzt
+von [Yee::t()|YeeBase::t] mit den tatsächlichen Parameterwerten ersetzt
 werden. Bei der folgenden Übersetzungsanfrage, würde der Platzhalter `{alias}` im
 Text durch den tatsächlichen Wert für alias ersetzt.
 
 ~~~
 [php]
-Yii::t('app', 'Pfadalias "{alias}" wurde geändert.',
+Yee::t('app', 'Pfadalias "{alias}" wurde geändert.',
 	array('{alias}'=>$alias))
 ~~~
 
@@ -116,11 +116,11 @@ soll.
 Übersetzte Texte werden in einem Magazin gespeichert, das wir als 
 *Textquelle* (engl.: message source) bezeichnen. Eine Textquelle wird
 von einer Instanz vom Typ [CMessageSource] oder deren Kindklasse dargestellt.
-Beim Aufruf von [Yii::t()|YiiBase::t] sucht die Routine in der
+Beim Aufruf von [Yee::t()|YeeBase::t] sucht die Routine in der
 Textquelle nach der Textmeldung und liefert die übersetzte 
 Version zurück, falls gefunden.
 
-Yii stellt die folgenden Arten von Textquellen zur Auswahl. Sie können
+Yee stellt die folgenden Arten von Textquellen zur Auswahl. Sie können
 [CMessageSource] auch erweitern, um ihren eigenen Typ einer Textquelle 
 zu erstellen.
 
@@ -143,7 +143,7 @@ API-Dokumentation für [CDbMessageSource] zu rate.
 
 Eine Textquelle wird als
 [Anwendungskomponente](/doc/guide/basics.application#application-component)
-geladen. Yii belegt bereits eine Anwendungskomponente namens
+geladen. Yee belegt bereits eine Anwendungskomponente namens
 [messages|CApplication::messages] vor, um die Textmeldungen einer Anwendung zu
 speichern. Standardmäßig ist diese Textquelle eine [CPhpMessageSource]
 mit dem Basisverzeichnis `protected/messages`.
@@ -151,7 +151,7 @@ mit dem Basisverzeichnis `protected/messages`.
 Zusammenfassend sind folgende Schritte nötig, um Textmeldungen übersetzen zu
 können:
 
-   1. Rufen Sie [Yii::t()|YiiBase::t] an den entsprechenden Stellen auf
+   1. Rufen Sie [Yee::t()|YeeBase::t] an den entsprechenden Stellen auf
 
    2. Erstellen Sie PHP-Dateien mit Übersetzungen gemäß dem Schema
 `protected/messages/LocaleID/KategorieName.php`. Jede Datei liefert einfach
@@ -162,11 +162,11 @@ ausgehen, dass Sie die vorgegebene [CPhpMessageSource] zur Speicherung der
    3. Konfigurieren Sie [CApplication::sourceLanguage] und [CApplication::language].
 
 > Tip|Tipp: Wenn Sie [CPhpMessageSource] als Textquelle einsetzen, 
-können Sie den `yiic`-Befehl zum Verwalten der Übersetzungen verwenden. Mit 
+können Sie den `yeec`-Befehl zum Verwalten der Übersetzungen verwenden. Mit 
 dem `message`-Kommando können Sie die zu übersetzenden Meldungen aus
 ausgewählten Quelldateien extrahieren und bei Bedarf mit bereits vorhandenen 
 Übersetzungen zusammenführen. Für weitere Details zur Verwendung des
-`message`-Komandes führen Sie bitte `yiic help message` aus.
+`message`-Komandes führen Sie bitte `yeec help message` aus.
 
 Textmeldungen einer Erweiterung (z.B. eines Widgets
 oder eines Moduls) können gesondert behandelt werden, sofern
@@ -175,15 +175,15 @@ einer Erweiterung `Xyz` gehört, kann die Kategorie im Format
 `Xyz.kategorieName` angegeben werden. Die entsprechende Datei wird
 dann in `BasisPfad/messages/SprachID/kategorieName.php` gesucht, wobei
 `BasisPfad` dem Verzeichnis entspricht, in dem die Klassendatei der
-Erweiterung liegt. Wenn man `Yii::t()` zum Übersetzen von
+Erweiterung liegt. Wenn man `Yee::t()` zum Übersetzen von
 Erweiterungstexten verwendet, sollte man also stattdessen dieses Format verwenden:
 
 ~~~
 [php]
-Yii::t('Xyz.kategorieName', 'Zu übersetzender Text')
+Yee::t('Xyz.kategorieName', 'Zu übersetzender Text')
 ~~~
 
-Yii unterstützt das [Auswahlformat|CChoiceFormat] (engl.:
+Yee unterstützt das [Auswahlformat|CChoiceFormat] (engl.:
 choice format), auch als Pluralformat bekannt. Dieses Format bezieht sich auf die Auswahl einer Übersetzung
 in Abhängigkeit von einem gegebenen Zahlenwert. Zum Beispiel gibt es für das 
 Wort 'Buch' im Deutschen eine Singular- und eine Pluralform, während sich das
@@ -213,15 +213,15 @@ Parameter übergeben wurde. Nehmen wir zum Beispiel an, die
 'n==1#ein Buch|n>1#viele Bücher'
 ~~~
 
-und beim Aufruf von [Yii::t()|YiiBase::t] würde man den Wert 2 im
+und beim Aufruf von [Yee::t()|YeeBase::t] würde man den Wert 2 im
 Parameter-Array der Meldung übergeben, so würde letztlich `viele Bücher` 
 als Übersetzung verwendet:
 
 ~~~
 [php]
-Yii::t('app', 'n==1#ein Buch|n>1#viele Bücher', array(1)));
+Yee::t('app', 'n==1#ein Buch|n>1#viele Bücher', array(1)));
 // Oder seit Version 1.1.6
-Yii::t('app', 'n==1#ein Buch|n>1#viele Bücher', 1));
+Yee::t('app', 'n==1#ein Buch|n>1#viele Bücher', 1));
 ~~~
 
 Der Ausdruck `n==Zahl` kann in Kurzschreibweise auch als einzelne Zahl
@@ -243,9 +243,9 @@ werden:
 
 ~~~
 [php]
-Yii::t('test', 'Gurke|Gurken', 1);
-Yii::t('test', 'Gurke|Gurken', 2);
-Yii::t('test', 'Gurke|Gurken', 0);
+Yee::t('test', 'Gurke|Gurken', 1);
+Yee::t('test', 'Gurke|Gurken', 2);
+Yee::t('test', 'Gurke|Gurken', 0);
 ~~~
 
 Dieser Code liefert:
@@ -260,7 +260,7 @@ Sollen Zahlen mit eingebunden werden, kann man auch dieses Format verwenden:
 
 ~~~
 [php]
-echo Yii::t('test', '{n} Gurke|{n} Gurken', 1);
+echo Yee::t('test', '{n} Gurke|{n} Gurken', 1);
 ~~~
 
 
@@ -270,7 +270,7 @@ Man kann auch weitere Parameter übergeben:
 
 ~~~
 [php]
-Yii::t('test', '{username} hat eine Gurke|{username} hat {n} Gurken',
+Yee::t('test', '{username} hat eine Gurke|{username} hat {n} Gurken',
 array(5, '{username}' => 'samdark'));
 ~~~
 
@@ -284,7 +284,7 @@ function convertNumber($zahl)
 	return $zahl;
 }
 
-Yii::t('test', '{n} Gurke|{n} Gurken',
+Yee::t('test', '{n} Gurke|{n} Gurken',
 array(5, '{n}' => convertNumber(5)));
 ~~~
 
@@ -293,10 +293,10 @@ So würde zum Beispiel
 
 ~~~
 [php]
-Yii::t('app', '{n} Gurke|{n} Gurken', 62);
-Yii::t('app', '{n} Gurke|{n} Gurken', 1.5);
-Yii::t('app', '{n} Gurke|{n} Gurken', 1);
-Yii::t('app', '{n} Gurke|{n} Gurken', 7);
+Yee::t('app', '{n} Gurke|{n} Gurken', 62);
+Yee::t('app', '{n} Gurke|{n} Gurken', 1.5);
+Yee::t('app', '{n} Gurke|{n} Gurken', 1);
+Yee::t('app', '{n} Gurke|{n} Gurken', 7);
 ~~~
 
 mit der Übersetzung
@@ -351,7 +351,7 @@ Datums- und Uhrzeitformatierung
 Verschiedene Länder und Regionen verwenden oft unterschiedliche Formate für
 Datum und Uhrzeit. Die Aufgabe bei der Formatierung von Datum und Uhrzeit
 besteht also darin, einen Datums- oder Uhrzeitstring gemäß der angegebenen
-Locale zu erzeugen. Yii stellt dazu [CDateFormatter] (Datumsformatierer) 
+Locale zu erzeugen. Yee stellt dazu [CDateFormatter] (Datumsformatierer) 
 zur Verfügung.
 
 Jede Instanz von [CDateFormatter] ist mit 
@@ -378,7 +378,7 @@ Zahlenformatierung
 Genau wie Datum und Uhrzeit können auch Zahlen je nach Land und Region
 unterschiedlich formatiert werden. Zahlenformatierung beinhalted dezimale
 Formatierung, Währungsformatierung und Prozentsatzformatierung. Zu diesem
-Zweck stellt Yii die Klasse [CNumberFormatter] (Zahlenformatierer) zur Verfügung.
+Zweck stellt Yee die Klasse [CNumberFormatter] (Zahlenformatierer) zur Verfügung.
 
 Um den Zahlenformatierer für die Ziel-Locale der gesamten Anwendung zu
 beziehen, kann man auf die Eigenschaft

@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
+Yee::import('system.db.CDbConnection');
 
 class CPostgres2Test extends CTestCase
 {
@@ -11,7 +11,7 @@ class CPostgres2Test extends CTestCase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
 
-		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yii','test','test');
+		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yee','test','test');
 		$this->db->charset='UTF8';
 		try
 		{
@@ -142,12 +142,12 @@ class CPostgres2Test extends CTestCase
 		$this->assertEquals($expect, $sql);
 
 		$sql=$this->db->schema->createIndex('id_pk','test','id1,id2',true);
-		// see https://github.com/yiisoft/yii/issues/3757
+		// see https://github.com/yeesoft/yee/issues/3757
 		$expect='CREATE UNIQUE INDEX "id_pk" ON "test" ("id1", "id2")';
 		$this->assertEquals($expect, $sql);
 
 		$sql=$this->db->schema->createIndex('id_pk','test',array('id1','id2'),true);
-		// see https://github.com/yiisoft/yii/issues/3757
+		// see https://github.com/yeesoft/yee/issues/3757
 		$expect='CREATE UNIQUE INDEX "id_pk" ON "test" ("id1", "id2")';
 		$this->assertEquals($expect, $sql);
 	}

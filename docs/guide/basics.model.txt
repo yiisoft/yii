@@ -9,7 +9,7 @@ table or an html form with user input fields. Each field of the data object is
 represented by an attribute of the model. The attribute has a label and can
 be validated against a set of rules.
 
-Yii implements two kinds of models:  Form models and active records. They
+Yee implements two kinds of models:  Form models and active records. They
 both extend from the same base class, [CModel].
 
 A form model is an instance of [CFormModel]. Form models are used to store

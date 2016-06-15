@@ -1,7 +1,7 @@
 Component
 =========
 
-Yii-applikationer är uppbyggda av komponenter, objekt framtagna efter en 
+Yee-applikationer är uppbyggda av komponenter, objekt framtagna efter en 
 specifikation. En komponent är en instans av [CComponent] eller en nedärvd 
 klass. Användning av en komponent involverar huvudsakligen att sätta/läsa dess 
 propertyn samt signalera/hantera dess event. Basklassen [CComponent] 

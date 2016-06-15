@@ -8,7 +8,7 @@ yang dideklarasikan dalam kelas `LoginForm`. Setelah itu kita menyisipkan tombol
 yang dapat diklik oleh pengguna untuk mengirimkan form. Semua ini dapat dikerjakan dalam
 kode murni HTML.
 
-Yii menyediakan beberapa kelas pembantu guna memfasilitasi komposisi tampilan. Sebagai
+Yee menyediakan beberapa kelas pembantu guna memfasilitasi komposisi tampilan. Sebagai
 contoh, untuk membuat sebuah field input teks, kita dapat memanggil [CHtml::textField()]; untuk
 membuat daftar drop-down, panggil [CHtml::dropDownList()].
 
@@ -64,7 +64,7 @@ Hal yang sama, [CHtml::activeTextField()] menghasilkan field input teks
 untuk atribut model yang ditetapkan dan mengubah kelas CSS jika
 ada kesalahan pada input.
 
-Jika kita menggunakan file style CSS `form.css` yang disediakan oleh skrip `yiic`, form
+Jika kita menggunakan file style CSS `form.css` yang disediakan oleh skrip `yeec`, form
 yang dihasilkan akan terlihat seperti berikut:
 
 ![Halaman login](login1.png)

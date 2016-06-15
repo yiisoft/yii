@@ -3,9 +3,9 @@
  * CXCache class file
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -31,7 +31,7 @@ class CXCache extends CCache
 	{
 		parent::init();
 		if(!function_exists('xcache_isset'))
-			throw new CException(Yii::t('yii','CXCache requires PHP XCache extension to be loaded.'));
+			throw new CException(Yee::t('yee','CXCache requires PHP XCache extension to be loaded.'));
 	}
 
 	/**

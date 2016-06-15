@@ -3,9 +3,9 @@
  * ShellCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -26,7 +26,7 @@ class ShellCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic shell [entry-script | config-file]
+  yeec shell [entry-script | config-file]
 
 DESCRIPTION
   This command allows you to interact with a Web application
@@ -71,8 +71,8 @@ EOD;
 		// reset context to run the web application
 		restore_error_handler();
 		restore_exception_handler();
-		Yii::setApplication(null);
-		Yii::setPathOfAlias('application',null);
+		Yee::setApplication(null);
+		Yee::setPathOfAlias('application',null);
 
 		ob_start();
 		$config=require($entryScript);
@@ -85,15 +85,15 @@ EOD;
 			$_SERVER['SCRIPT_NAME']='/index.php';
 			$_SERVER['REQUEST_URI']=$_SERVER['SCRIPT_NAME'];
 			$_SERVER['SCRIPT_FILENAME']=$cwd.DIRECTORY_SEPARATOR.'index.php';
-			Yii::createWebApplication($config);
+			Yee::createWebApplication($config);
 		}
 
 		restore_error_handler();
 		restore_exception_handler();
 
-		$yiiVersion=Yii::getVersion();
+		$yeeVersion=Yee::getVersion();
 		echo <<<EOD
-Yii Interactive Tool v1.1 (based on Yii v{$yiiVersion})
+Yee Interactive Tool v1.1 (based on Yee v{$yeeVersion})
 Please type 'help' for help. Type 'exit' to quit.
 EOD;
 		$this->runShell();
@@ -107,7 +107,7 @@ EOD;
 		$_runner_=$this->createCommandRunner();
 		$this->addCommands($_runner_);
 		$_commands_=$_runner_->commands;
-		$log=Yii::app()->log;
+		$log=Yee::app()->log;
 
 		while(($_line_=$this->prompt("\n>>"))!==false)
 		{
@@ -154,8 +154,8 @@ EOD;
 	 */
 	protected function addCommands(CConsoleCommandRunner $runner)
 	{
-		$runner->addCommands(Yii::getPathOfAlias('system.cli.commands.shell'));
-		$runner->addCommands(Yii::getPathOfAlias('application.commands.shell'));
+		$runner->addCommands(Yee::getPathOfAlias('system.cli.commands.shell'));
+		$runner->addCommands(Yee::getPathOfAlias('application.commands.shell'));
 		if(($_path_=@getenv('YIIC_SHELL_COMMAND_PATH'))!==false)
 			$runner->addCommands($_path_);
 	}

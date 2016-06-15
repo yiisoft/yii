@@ -3,8 +3,8 @@ Using Extensions
 
 Using an extension usually involves the following three steps:
 
-  1. Download the extension from Yii's
-     [extension repository](http://www.yiiframework.com/extensions/).
+  1. Download the extension from Yee's
+     [extension repository](http://www.yeeframework.com/extensions/).
   2. Unpack the extension under the `extensions/xyz` subdirectory of
      [application base directory](/doc/guide/basics.application#application-base-directory),
      where `xyz` is the name of the extension.
@@ -24,11 +24,11 @@ Zii Extensions
 --------------
 
 Before we start describing the usage of third-party extensions, we would like to introduce
-the Zii extension library, which is a set of extensions developed by the Yii developer team
+the Zii extension library, which is a set of extensions developed by the Yee developer team
 and included in every release.
 
 When using a Zii extension, one must refer to the corresponding class using a path alias
-in the form of `zii.path.to.ClassName`. Here the root alias `zii` is predefined by Yii. It refers
+in the form of `zii.path.to.ClassName`. Here the root alias `zii` is predefined by Yee. It refers
 to the root directory of the Zii library. For example, to use [CGridView], we would use the
 following code in a view script when referring to the extension:
 
@@ -62,7 +62,7 @@ return array(
 );
 ~~~
 
-Then, we can access the component at any place using `Yii::app()->xyz`. The component
+Then, we can access the component at any place using `Yee::app()->xyz`. The component
 will be lazily created (that is, created when it is accessed for the first time)
 unless we list it the `preload` property.
 
@@ -269,7 +269,7 @@ class MyModel extends CActiveRecord // or CFormModel
 Console Command
 ---------------
 A [console command](/doc/guide/topics.console) extension usually enhances
-the `yiic` tool with an additional command. Given a console command
+the `yeec` tool with an additional command. Given a console command
 `XyzClass` belonging to the `xyz` extension, we can use it by configuring
 the configuration for the console application:
 
@@ -287,13 +287,13 @@ return array(
 );
 ~~~
 
-Then, we can use the `yiic` tool is equipped with an additional
+Then, we can use the `yeec` tool is equipped with an additional
 command `xyz`.
 
 > Note: A console application usually uses a configuration file
 that is different from the one used by a Web application. If an application
-is created using `yiic webapp` command, then the configuration file
-for the console application `protected/yiic` is `protected/config/console.php`,
+is created using `yeec webapp` command, then the configuration file
+for the console application `protected/yeec` is `protected/config/console.php`,
 while the configuration file for the Web application is `protected/config/main.php`.
 
 
@@ -309,7 +309,7 @@ need to include its class file by using
 
 ~~~
 [php]
-Yii::import('ext.xyz.XyzClass');
+Yee::import('ext.xyz.XyzClass');
 ~~~
 
 Then, we can either create an instance of the class, configure its properties,

@@ -25,7 +25,7 @@
 行為
 --------
 
-要建立一個行為，必須要實作 [IBehavior] 介面。例如，Yii 提供了一個基礎類別 [CBehavior] 已經實作了這個介面，並且提供了一些額外的方便的方法。通常，子類別需要實作這些的方法，因為他們打算給那些附加上的元件所使用。
+要建立一個行為，必須要實作 [IBehavior] 介面。例如，Yee 提供了一個基礎類別 [CBehavior] 已經實作了這個介面，並且提供了一些額外的方便的方法。通常，子類別需要實作這些的方法，因為他們打算給那些附加上的元件所使用。
 
 當開發行為給 [CModel] 和 [CActiveRecord]，必須分別擴充 [CModelBehavior] 和 [CActiveRecordBehavior]。這些基礎類別提供額外的特定功能給 [CModel] 和 [CActiveRecord]。例如，[CActiveRecordBehavior] 類別實作一個方法的集合，用來在一個 ActiveRecord 物件回應這個生命週期內的所發起的事件。一個子類別可以覆寫這些方法來放置一些客製過的程式碼，他將會參與在 AR 的生命週期。
 
@@ -62,7 +62,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -82,7 +82,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...publish CSS or JavaScript file here...
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

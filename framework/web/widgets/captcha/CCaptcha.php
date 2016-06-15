@@ -3,9 +3,9 @@
  * CCaptcha class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -88,7 +88,7 @@ class CCaptcha extends CWidget
 			$this->registerClientScript();
 		}
 		else
-			throw new CException(Yii::t('yii','GD with FreeType or ImageMagick PHP extensions are required.'));
+			throw new CException(Yee::t('yee','GD with FreeType or ImageMagick PHP extensions are required.'));
 	}
 
 	/**
@@ -109,7 +109,7 @@ class CCaptcha extends CWidget
 	 */
 	public function registerClientScript()
 	{
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$id=$this->imageOptions['id'];
 		$url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
 
@@ -117,8 +117,8 @@ class CCaptcha extends CWidget
 		if($this->showRefreshButton)
 		{
 			// reserve a place in the registered script so that any enclosing button js code appears after the captcha js
-			$cs->registerScript('Yii.CCaptcha#'.$id,'// dummy');
-			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
+			$cs->registerScript('Yee.CCaptcha#'.$id,'// dummy');
+			$label=$this->buttonLabel===null?Yee::t('yee','Get a new code'):$this->buttonLabel;
 			$options=$this->buttonOptions;
 			if(isset($options['id']))
 				$buttonID=$options['id'];
@@ -152,7 +152,7 @@ jQuery(document).on('click', '$selector', function(){
 	return false;
 });
 ";
-		$cs->registerScript('Yii.CCaptcha#'.$id,$js);
+		$cs->registerScript('Yee.CCaptcha#'.$id,$js);
 	}
 
 	/**

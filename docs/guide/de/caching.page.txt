@@ -50,7 +50,7 @@ ausgewertet wurde.
 
 HTTP Caching
 ------------
-Zusätzlich zum Cachen der Rückgabe einer Action ist es seit Yii 1.1.11 möglich,
+Zusätzlich zum Cachen der Rückgabe einer Action ist es seit Yee 1.1.11 möglich,
 [CHttpCacheFilter] zu verwenden. Dieser Filter vereinfacht das Setzen der Header,
 welche nötig sind um einem Client mitzuteilen das der Inhalt einer Seite nicht modifiziert wurde.
 Auf diese Weise muss der Server den Inhalt der Seite nicht erneut übertragen.
@@ -62,7 +62,7 @@ public function filters()
     return array(
         array(
             'CHttpCacheFilter + index',
-            'lastModified'=>Yii::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
+            'lastModified'=>Yee::app()->db->createCommand("SELECT MAX(`update_time`) FROM {{post}}")->queryScalar(),
         ),
     );
 }

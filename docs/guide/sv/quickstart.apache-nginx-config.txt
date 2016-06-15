@@ -4,8 +4,8 @@ Apache- och Nginx-konfigurationer
 Apache
 ------
 
-Yii är klar att arbeta med en standardkonfiguration för Apache webbserver. 
-Filerna `.htaccess` i kataloger som innehåller Yii Framework och applikationer 
+Yee är klar att arbeta med en standardkonfiguration för Apache webbserver. 
+Filerna `.htaccess` i kataloger som innehåller Yee Framework och applikationer 
 förhindrar tillgång till de skyddade resurserna. Startskriptet (vanligen `index.php`) 
 kan gömmas i URL:er genom tillägg av `mod_rewrite`-instruktioner i `.htaccess`-filen 
 placerad i dokumentrotkatalogen, alternativt läggas till i konfiguration för virtuell host:
@@ -24,8 +24,8 @@ RewriteRule . index.php
 Nginx
 -----
 
-Yii kan användas med [Nginx](http://wiki.nginx.org/) samt PHP med [FPM SAPI](http://php.net/install.fpm).
-Här följer ett exempel på host-konfiguration. Det definierar startskript och ser till att Yii fångar upp alla 
+Yee kan användas med [Nginx](http://wiki.nginx.org/) samt PHP med [FPM SAPI](http://php.net/install.fpm).
+Här följer ett exempel på host-konfiguration. Det definierar startskript och ser till att Yee fångar upp alla 
 request till ej existerande filer, vilket tillåter användning av estetiskt tilltalande URL:er.
 
 ~~~
@@ -35,20 +35,20 @@ server {
 
     server_name  mysite;
     root   $host_path/htdocs;
-    set $yii_bootstrap "index.php";
+    set $yee_bootstrap "index.php";
 
     charset utf-8;
 
     location / {
-        index  index.html $yii_bootstrap;
-        try_files $uri $uri/ $yii_bootstrap?$args;
+        index  index.html $yee_bootstrap;
+        try_files $uri $uri/ $yee_bootstrap?$args;
     }
 
     location ~ ^/(protected|framework|themes/\w+/views) {
         deny  all;
     }
 
-    # undvik bearbetning av anrop till ej existerande statiska filer, av Yii
+    # undvik bearbetning av anrop till ej existerande statiska filer, av Yee
     location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
         try_files $uri =404;
     }
@@ -58,8 +58,8 @@ server {
     location ~ \.php {
         fastcgi_split_path_info  ^(.+\.php)(.*)$;
 
-        #let yii catch the calls to unexising PHP files
-        set $fsn /$yii_bootstrap;
+        #let yee catch the calls to unexising PHP files
+        set $fsn /$yee_bootstrap;
         if (-f $document_root$fastcgi_script_name){
             set $fsn $fastcgi_script_name;
         }

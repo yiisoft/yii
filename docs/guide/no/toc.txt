@@ -1,8 +1,8 @@
 * Kom i gang
 	- [Introduksjon](index)
-    - [Hva er Yii?](quickstart.what-is-yii)
+    - [Hva er Yee?](quickstart.what-is-yee)
     - [Installasjon](quickstart.installation)
-    - [Lag din første Yii applikasjon](quickstart.first-app)
+    - [Lag din første Yee applikasjon](quickstart.first-app)
 
 * Grunnleggende
     - [Model-View-Controller (MVC)](basics.mvc)
@@ -37,7 +37,7 @@
     - [Side caching](caching.page)
     - [Dynamisk innhold](caching.dynamic)
 
-* Utvid Yii
+* Utvid Yee
     - [Introduksjon](extension.overview)
     - [Bruk tillegg](extension.use)
     - [Lag dine egne tillegg](extension.create)

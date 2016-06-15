@@ -3,14 +3,14 @@
  * AutoloadCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
- * AutoloadCommand generates the class map for {@link YiiBase}.
- * The class file YiiBase.php will be modified with updated class map.
+ * AutoloadCommand generates the class map for {@link YeeBase}.
+ * The class file YeeBase.php will be modified with updated class map.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.build
@@ -25,8 +25,8 @@ USAGE
   build autoload
 
 DESCRIPTION
-  This command updates YiiBase.php with the latest class map.
-  The class map is used by Yii::autoload() to quickly include a class on demand.
+  This command updates YeeBase.php with the latest class map.
+  The class map is used by Yee::autoload() to quickly include a class on demand.
 
   Do not run this command unless you change or add core framework classes.
 
@@ -46,9 +46,9 @@ EOD;
 				'/messages',
 				'/views',
 				'/cli',
-				'/yii.php',
-				'/yiit.php',
-				'/yiilite.php',
+				'/yee.php',
+				'/yeet.php',
+				'/yeelite.php',
 				'/web/js',
 				'/vendors',
 				'/i18n/data',
@@ -72,12 +72,12 @@ EOD;
 		ksort($map);
 		$map=implode($map);
 
-		$yiiBase=file_get_contents(YII_PATH.'/YiiBase.php');
-		$newYiiBase=preg_replace('/private\s+static\s+\$_coreClasses\s*=\s*array\s*\([^\)]*\)\s*;/',"private static \$_coreClasses=array(\n{$map}\t);",$yiiBase);
-		if($yiiBase!==$newYiiBase)
+		$yeeBase=file_get_contents(YII_PATH.'/YeeBase.php');
+		$newYeeBase=preg_replace('/private\s+static\s+\$_coreClasses\s*=\s*array\s*\([^\)]*\)\s*;/',"private static \$_coreClasses=array(\n{$map}\t);",$yeeBase);
+		if($yeeBase!==$newYeeBase)
 		{
-			file_put_contents(YII_PATH.'/YiiBase.php',$newYiiBase);
-			echo "YiiBase.php is updated successfully.\n";
+			file_put_contents(YII_PATH.'/YeeBase.php',$newYeeBase);
+			echo "YeeBase.php is updated successfully.\n";
 		}
 		else
 			echo "Nothing changed.\n";

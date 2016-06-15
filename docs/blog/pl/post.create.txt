@@ -7,7 +7,7 @@ Mając gotowy model wiadomości `Post`, potrzebujemy dopracować akcje oraz wido
 Dostosowywanie kontroli dostępności
 --------------------------
 
-Pierwszą rzeczą jaką chcemy zrobić jest dostosowanie [kontroli dostępu](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) ze względu na to, że kod wygenerowany przez `gii` nie pasuje do naszych wymagań.
+Pierwszą rzeczą jaką chcemy zrobić jest dostosowanie [kontroli dostępu](http://www.yeeframework.com/doc/guide/topics.auth#access-control-filter) ze względu na to, że kod wygenerowany przez `gii` nie pasuje do naszych wymagań.
 
 Modyfikujemy metodę `accessRules()` w pliku `/wwwroot/blog/protected/controllers/PostController.php` w następujący sposób:
 
@@ -58,7 +58,7 @@ protected function beforeSave()
 		if($this->isNewRecord)
 		{
 			$this->create_time=$this->update_time=time();
-			$this->author_id=Yii::app()->user->id;
+			$this->author_id=Yee::app()->user->id;
 		}
 		else
 			$this->update_time=time();
@@ -69,7 +69,7 @@ protected function beforeSave()
 }
 ~~~
 
-Podczas zapisywania wiadomości, chcemy zaktualizować tabelę `tbl_tag` aby odzwierciedlić zmiany w częstotliwości występowań tagów. Możemy to uczynić w metodzie `afterSave()`, która jest automatycznie wołana przez Yii po tym jak wiadomość została poprawnie zapisana do bazy danych.  
+Podczas zapisywania wiadomości, chcemy zaktualizować tabelę `tbl_tag` aby odzwierciedlić zmiany w częstotliwości występowań tagów. Możemy to uczynić w metodzie `afterSave()`, która jest automatycznie wołana przez Yee po tym jak wiadomość została poprawnie zapisana do bazy danych.  
 
 ~~~
 [php]
@@ -88,9 +88,9 @@ protected function afterFind()
 }
 ~~~
 
-W trakcie implementacji potrzebujemy wiedzieć jakie są stare tagi dlatego, że chcemy wykryć czy użytkownik zmienił tagi podczas aktualizacji istniejącej wiadomości. Z tego powodu napisaliśmy metodę `afterFind()` aby przechowywała stare tagi w zmiennej `_oldTags`. Metoda `afterFind()` jest wywoływana automatycznie przez Yii jeśli AR jest wypełniany danymi z bazy danych. 
+W trakcie implementacji potrzebujemy wiedzieć jakie są stare tagi dlatego, że chcemy wykryć czy użytkownik zmienił tagi podczas aktualizacji istniejącej wiadomości. Z tego powodu napisaliśmy metodę `afterFind()` aby przechowywała stare tagi w zmiennej `_oldTags`. Metoda `afterFind()` jest wywoływana automatycznie przez Yee jeśli AR jest wypełniany danymi z bazy danych. 
 
-Nie będziemy tutaj wchodzić w szczegóły metod `Tag::updateFrequency()`. Zainteresowani tym czytelnicy mogą zajrzeć do pliku `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
+Nie będziemy tutaj wchodzić w szczegóły metod `Tag::updateFrequency()`. Zainteresowani tym czytelnicy mogą zajrzeć do pliku `/wwwroot/yee/demos/blog/protected/models/Tag.php`.
 
 
 <div class="revision">$Id: post.create.txt 3209 2011-05-12 12:11:03Z mdomba $</div>

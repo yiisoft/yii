@@ -3,9 +3,9 @@
  * CUrlValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -63,7 +63,7 @@ class CUrlValidator extends CValidator
 			$object->$attribute=$value;
 		else
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid URL.');
+			$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} is not a valid URL.');
 			$this->addError($object,$attribute,$message);
 		}
 	}
@@ -109,7 +109,7 @@ class CUrlValidator extends CValidator
 	{
 		if($this->validateIDN)
 		{
-			Yii::app()->getClientScript()->registerCoreScript('punycode');
+			Yee::app()->getClientScript()->registerCoreScript('punycode');
 			// punycode.js works only with the domains - so we have to extract it before punycoding
 			$validateIDN='
 var info = value.match(/^(.+:\/\/|)([^/]+)/);
@@ -120,7 +120,7 @@ if (info)
 		else
 			$validateIDN='';
 
-		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} is not a valid URL.');
+		$message=$this->message!==null ? $this->message : Yee::t('yee','{attribute} is not a valid URL.');
 		$message=strtr($message, array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
 		));
@@ -172,7 +172,7 @@ if(jQuery.trim(value)!='') {
 				$value=$matches[1][0].'://'.idn_to_ascii($matches[2][0]).$matches[3][0];
 			else
 			{
-				require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
+				require_once(Yee::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
 				$idna=new Net_IDNA2();
 				$value=$matches[1][0].'://'.@$idna->encode($matches[2][0]).$matches[3][0];
 			}
@@ -194,7 +194,7 @@ if(jQuery.trim(value)!='') {
 				$value=$matches[1][0].'://'.idn_to_utf8($matches[2][0]).$matches[3][0];
 			else
 			{
-				require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
+				require_once(Yee::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
 				$idna=new Net_IDNA2();
 				$value=$matches[1][0].'://'.@$idna->decode($matches[2][0]).$matches[3][0];
 			}

@@ -3,9 +3,9 @@
  * TranslationsCommand class file.
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2012 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright Copyright &copy; 2012 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**

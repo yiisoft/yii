@@ -3,22 +3,22 @@
  * CDbMigration class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
  * CDbMigration is the base class for representing a database migration.
  *
- * CDbMigration is designed to be used together with the "yiic migrate" command.
+ * CDbMigration is designed to be used together with the "yeec migrate" command.
  *
  * Each child class of CDbMigration represents an individual database migration which
  * is identified by the child class name.
  *
  * Within each migration, the {@link up} method contains the logic for "upgrading"
  * the database used in an application; while the {@link down} method contains "downgrading"
- * logic. The "yiic migrate" command manages all available migrations in an application.
+ * logic. The "yeec migrate" command manages all available migrations in an application.
  *
  * By overriding {@link safeUp} or {@link safeDown} methods instead of {@link up} and {@link down}
  * the migration logic will be wrapped with a DB transaction.
@@ -133,9 +133,9 @@ abstract class CDbMigration extends CComponent
 	{
 		if($this->_db===null)
 		{
-			$this->_db=Yii::app()->getComponent('db');
+			$this->_db=Yee::app()->getComponent('db');
 			if(!$this->_db instanceof CDbConnection)
-				throw new CException(Yii::t('yii', 'The "db" application component must be configured to be a CDbConnection object.'));
+				throw new CException(Yee::t('yee', 'The "db" application component must be configured to be a CDbConnection object.'));
 		}
 		return $this->_db;
 	}

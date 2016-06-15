@@ -1,11 +1,11 @@
 <?php
 /**
- * YiiBase class file.
+ * YeeBase class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  * @package system
  * @since 1.0
  */
@@ -19,7 +19,7 @@ defined('YII_BEGIN_TIME') or define('YII_BEGIN_TIME',microtime(true));
  */
 defined('YII_DEBUG') or define('YII_DEBUG',false);
 /**
- * This constant defines how much call stack information (file name and line number) should be logged by Yii::trace().
+ * This constant defines how much call stack information (file name and line number) should be logged by Yee::trace().
  * Defaults to 0, meaning no backtrace information. If it is greater than 0,
  * at most that number of call stacks will be logged. Note, only user application call stacks are considered.
  */
@@ -33,7 +33,7 @@ defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER'
  */
 defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER',true);
 /**
- * Defines the Yii framework installation path.
+ * Defines the Yee framework installation path.
  */
 defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
 /**
@@ -42,19 +42,19 @@ defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
 defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'zii');
 
 /**
- * YiiBase is a helper class serving common framework functionalities.
+ * YeeBase is a helper class serving common framework functionalities.
  *
- * Do not use YiiBase directly. Instead, use its child class {@link Yii} where
- * you can customize methods of YiiBase.
+ * Do not use YeeBase directly. Instead, use its child class {@link Yee} where
+ * you can customize methods of YeeBase.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system
  * @since 1.0
  */
-class YiiBase
+class YeeBase
 {
 	/**
-	 * @var array class map used by the Yii autoloading mechanism.
+	 * @var array class map used by the Yee autoloading mechanism.
 	 * The array keys are the class names and the array values are the corresponding class file paths.
 	 * @since 1.1.5
 	 */
@@ -62,7 +62,7 @@ class YiiBase
 	/**
 	 * @var boolean whether to rely on PHP include path to autoload class files. Defaults to true.
 	 * You may set this to be false if your hosting environment doesn't allow changing the PHP
-	 * include path, or if you want to append additional autoloaders to the default Yii autoloader.
+	 * include path, or if you want to append additional autoloaders to the default Yee autoloader.
 	 * @since 1.1.8
 	 */
 	public static $enableIncludePath=true;
@@ -76,7 +76,7 @@ class YiiBase
 
 
 	/**
-	 * @return string the version of Yii framework
+	 * @return string the version of Yee framework
 	 */
 	public static function getVersion()
 	{
@@ -149,7 +149,7 @@ class YiiBase
 		if(self::$_app===null || $app===null)
 			self::$_app=$app;
 		else
-			throw new CException(Yii::t('yii','Yii application can only be created once.'));
+			throw new CException(Yee::t('yee','Yee application can only be created once.'));
 	}
 
 	/**
@@ -165,7 +165,7 @@ class YiiBase
 	 *
 	 * The specified configuration can be either a string or an array.
 	 * If the former, the string is treated as the object type which can
-	 * be either the class name or {@link YiiBase::getPathOfAlias class path alias}.
+	 * be either the class name or {@link YeeBase::getPathOfAlias class path alias}.
 	 * If the latter, the 'class' element is treated as the object type,
 	 * and the rest of the name-value pairs in the array are used to initialize
 	 * the corresponding object properties.
@@ -190,10 +190,10 @@ class YiiBase
 			unset($config['class']);
 		}
 		else
-			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
+			throw new CException(Yee::t('yee','Object configuration must be an array containing a "class" element.'));
 
 		if(!class_exists($type,false))
-			$type=Yii::import($type,true);
+			$type=Yee::import($type,true);
 
 		if(($n=func_num_args())>1)
 		{
@@ -279,7 +279,7 @@ class YiiBase
 					if(is_file($classFile))
 						require($classFile);
 					else
-						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias)));
+						throw new CException(Yee::t('yee','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias)));
 					self::$_imports[$alias]=$alias;
 				}
 				else
@@ -292,7 +292,7 @@ class YiiBase
 				if (class_exists($alias,true))
 					return self::$_imports[$alias]=$alias;
 				else
-					throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
+					throw new CException(Yee::t('yee','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
 						array('{alias}'=>$namespace)));
 			}
 		}
@@ -300,7 +300,7 @@ class YiiBase
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
 			// try to autoload the class with an autoloader if $forceInclude is true
-			if($forceInclude && (Yii::autoload($alias,true) || class_exists($alias,true)))
+			if($forceInclude && (Yee::autoload($alias,true) || class_exists($alias,true)))
 				self::$_imports[$alias]=$alias;
 			return $alias;
 		}
@@ -320,7 +320,7 @@ class YiiBase
 					if(is_file($path.'.php'))
 						require($path.'.php');
 					else
-						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias)));
+						throw new CException(Yee::t('yee','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias)));
 					self::$_imports[$alias]=$className;
 				}
 				else
@@ -345,7 +345,7 @@ class YiiBase
 			}
 		}
 		else
-			throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
+			throw new CException(Yee::t('yee','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
 				array('{alias}'=>$alias)));
 	}
 
@@ -420,7 +420,7 @@ class YiiBase
 						{
 							include($classFile);
 							if(YII_DEBUG && basename(realpath($classFile))!==$className.'.php')
-								throw new CException(Yii::t('yii','Class name "{class}" does not match class file "{file}".', array(
+								throw new CException(Yee::t('yee','Class name "{class}" does not match class file "{file}".', array(
 									'{class}'=>$className,
 									'{file}'=>$classFile,
 								)));
@@ -492,17 +492,17 @@ class YiiBase
 	 * This has to be matched with a call to {@link endProfile()} with the same token.
 	 * The begin- and end- calls must also be properly nested, e.g.,
 	 * <pre>
-	 * Yii::beginProfile('block1');
-	 * Yii::beginProfile('block2');
-	 * Yii::endProfile('block2');
-	 * Yii::endProfile('block1');
+	 * Yee::beginProfile('block1');
+	 * Yee::beginProfile('block2');
+	 * Yee::endProfile('block2');
+	 * Yee::endProfile('block1');
 	 * </pre>
 	 * The following sequence is not valid:
 	 * <pre>
-	 * Yii::beginProfile('block1');
-	 * Yii::beginProfile('block2');
-	 * Yii::endProfile('block1');
-	 * Yii::endProfile('block2');
+	 * Yee::beginProfile('block1');
+	 * Yee::beginProfile('block2');
+	 * Yee::endProfile('block1');
+	 * Yee::endProfile('block2');
 	 * </pre>
 	 * @param string $token token for the code block
 	 * @param string $category the category of this log message
@@ -547,12 +547,12 @@ class YiiBase
 	}
 
 	/**
-	 * Returns a string that can be displayed on your Web page showing Powered-by-Yii information
-	 * @return string a string that can be displayed on your Web page showing Powered-by-Yii information
+	 * Returns a string that can be displayed on your Web page showing Powered-by-Yee information
+	 * @return string a string that can be displayed on your Web page showing Powered-by-Yee information
 	 */
 	public static function powered()
 	{
-		return Yii::t('yii','Powered by {yii}.', array('{yii}'=>'<a href="http://www.yiiframework.com/" rel="external">Yii Framework</a>'));
+		return Yee::t('yee','Powered by {yee}.', array('{yee}'=>'<a href="http://www.yeeframework.com/" rel="external">Yee Framework</a>'));
 	}
 
 	/**
@@ -561,8 +561,8 @@ class YiiBase
 	 * i.e., the message returned will be chosen from a few candidates according to the given
 	 * number value. This feature is mainly used to solve plural format issue in case
 	 * a message has different plural forms in some languages.
-	 * @param string $category message category. Please use only word letters. Note, category 'yii' is
-	 * reserved for Yii framework core code use. See {@link CPhpMessageSource} for
+	 * @param string $category message category. Please use only word letters. Note, category 'yee' is
+	 * reserved for Yee framework core code use. See {@link CPhpMessageSource} for
 	 * more interpretation about message category.
 	 * @param string $message the original message
 	 * @param array $params parameters to be applied to the message using <code>strtr</code>.
@@ -574,7 +574,7 @@ class YiiBase
 	 * This parameter is then available as <code>{n}</code> in the message translation string.
 	 * @param string $source which message source application component to use.
 	 * Defaults to null, meaning using 'coreMessages' for messages belonging to
-	 * the 'yii' category and using 'messages' for the rest messages.
+	 * the 'yee' category and using 'messages' for the rest messages.
 	 * @param string $language the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
 	 * @return string the translated message
 	 * @see CMessageSource
@@ -584,7 +584,7 @@ class YiiBase
 		if(self::$_app!==null)
 		{
 			if($source===null)
-				$source=($category==='yii'||$category==='zii')?'coreMessages':'messages';
+				$source=($category==='yee'||$category==='zii')?'coreMessages':'messages';
 			if(($source=self::$_app->getComponent($source))!==null)
 				$message=$source->translate($category,$message,$language);
 		}
@@ -622,9 +622,9 @@ class YiiBase
 	 * The new autoloader will be placed before {@link autoload} and after
 	 * any other existing autoloaders.
 	 * @param callback $callback a valid PHP callback (function name or array($className,$methodName)).
-	 * @param boolean $append whether to append the new autoloader after the default Yii autoloader.
+	 * @param boolean $append whether to append the new autoloader after the default Yee autoloader.
 	 * Be careful using this option as it will disable {@link enableIncludePath autoloading via include path}
-	 * when set to true. After this the Yii autoloader can not rely on loading classes via simple include anymore
+	 * when set to true. After this the Yee autoloader can not rely on loading classes via simple include anymore
 	 * and you have to {@link import} all classes explicitly.
 	 */
 	public static function registerAutoloader($callback, $append=false)
@@ -636,14 +636,14 @@ class YiiBase
 		}
 		else
 		{
-			spl_autoload_unregister(array('YiiBase','autoload'));
+			spl_autoload_unregister(array('YeeBase','autoload'));
 			spl_autoload_register($callback);
-			spl_autoload_register(array('YiiBase','autoload'));
+			spl_autoload_register(array('YeeBase','autoload'));
 		}
 	}
 
 	/**
-	 * @var array class map for core Yii classes.
+	 * @var array class map for core Yee classes.
 	 * NOTE, DO NOT MODIFY THIS ARRAY MANUALLY. IF YOU CHANGE OR ADD SOME CORE CLASSES,
 	 * PLEASE RUN 'build autoload' COMMAND TO UPDATE THIS ARRAY.
 	 */
@@ -876,5 +876,5 @@ class YiiBase
 	);
 }
 
-spl_autoload_register(array('YiiBase','autoload'));
+spl_autoload_register(array('YeeBase','autoload'));
 require(YII_PATH.'/base/interfaces.php');

@@ -5,7 +5,7 @@ Für ein umfassendes URL-Management sind zwei Dinge zu berücksichtigen. Zum
 einen muss die Anwendung bei einem eingehenden Benutzer-Request die vorliegende
 URL *auswerten*, also in verständliche Parameter übersetzen. Zum anderen muss
 man mit der Anwendung auch solche URLs *erzeugen* können. Bei einer
-Yii-Applikation werden diese Aufgaben von [CUrlManager] übernommen.
+Yee-Applikation werden diese Aufgaben von [CUrlManager] übernommen.
 
 
 Erstellen von URLs
@@ -69,7 +69,7 @@ sie von [CWebApplication] bereits mit dem Wert [CUrlManager] vorbelegt wurde.
 
 > Tip|Tipp: URLs die mit [createUrl|CController::createUrl] erzeugt werden,
 sind relativ. Um absolute URLs zu erhalten, kann man ihnen entweder
-`Yii::app()->request->hostInfo` voranstellen, oder
+`Yee::app()->request->hostInfo` voranstellen, oder
 [createAbsoluteUrl|CController::createAbsoluteUrl] aufrufen.
 
 Benutzerfreundliche URLs

@@ -13,7 +13,7 @@ $('.container').on('click','.time a.delete',function() {
 	return false;
 });
 DEL;
-Yii::app()->getClientScript()->registerScript('delete', $deleteJS);
+Yee::app()->getClientScript()->registerScript('delete', $deleteJS);
 ?>
 <div class="comment" id="c<?php echo $data->id; ?>">
 

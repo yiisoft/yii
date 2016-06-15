@@ -6,7 +6,7 @@ agar bisa diadaptasi ke berbagai bahasa dan wilayah tanpa perubahan
 proses pembuatannya. Untuk aplikasi Web, proses ini merupakan bagian penting karena
 pengguna potensial mungkin datang dari seluruh dunia.
 
-Yii menyediakan dukungan I18N dalam beberapa aspek.
+Yee menyediakan dukungan I18N dalam beberapa aspek.
 
    - Menyediakan data lokal untuk setiap bahasa dan varian yang mungkin.
    - Menyediakan layanan pesan dan file terjemahan.
@@ -22,7 +22,7 @@ Lokal (locale) adalah sebuah set parameter yang mendefinisikan bahasa pengguna, 
 dan setiap preferensi varian khusus yang diinginkan pengguna melihatnya dalam
 antar muka mereka. Lokal biasanya diidentifikasi dengan ID yang terdiri dari ID bahasa
 dan ID wilayah. Sebagai contoh, ID `en_US` singkatan dari lokal bahasa Inggris dan
-Amerika. Untuk konsistensi, semua ID lokal dalam Yii adalah dikanonikal
+Amerika. Untuk konsistensi, semua ID lokal dalam Yee adalah dikanonikal
 ke  format `LanguageID` atau `LanguageID_RegionID`
 dalam huruf kecil (misalnya `en`, `en_us`).
 
@@ -36,7 +36,7 @@ saling bertukar istilah lokal dengan bahasa.
 Dengan menentukan ID lokal, Anda bisa mendapatkan instance [CLocale] terkait dengan
 `CLocale::getInstance($localeID)` atau `CApplication::getLocale($localeID)`.
 
-> Info: Yii datang dengan data lokal untuk hampir semua bahasa dan wilayah.
+> Info: Yee datang dengan data lokal untuk hampir semua bahasa dan wilayah.
 Data diperoleh dari [Repositori Data Lokal Umum](http://unicode.org/cldr/) (CLDR). Untuk setiap lokal, hanya
 sebuah subset data CLDR yang disediakan karena data aslinya berisi banyak informasi yang
 jarang dipakai. Pengguna juga dapat menyediakan data lokal kustomisasi mereka sendiri.
@@ -45,7 +45,7 @@ berisi data lokal terkustomisasi.
 Silahkan merujuk file data lokal yang terletak di `framework/i18n/data`
 guna membuat file data lokal kustomisasi.
 
-Untuk aplikasi Yii, kita membedakan [target
+Untuk aplikasi Yee, kita membedakan [target
 bahasa|CApplication::language] dari [sumber
 bahasa|CApplication::sourceLanguage]. Target bahasa adalah bahasa
 (lokal) pengguna yang aplikasinya ditargetkan baginya, sementara sumber bahasa
@@ -72,7 +72,7 @@ yang dinginkan.
 
 Permintaan terjemahan terdiri dari objek yang diterjemahkan, sumber
 bahasa di mana objek itu berada, dan target bahasa ke mana objek harus
-diterjemahkan. Dalam Yii, sumber bahasa distandarkan ke
+diterjemahkan. Dalam Yee, sumber bahasa distandarkan ke
 [sumber bahasa aplikasi|CApplication::sourceLanguage] sementara target bahasa
 distandarkan ke [bahasa aplikasi|CApplication::language].
 Jika sumber dan target bahasa sama, terjemahan tidak
@@ -80,24 +80,24 @@ terjadi.
 
 ### Terjemahan Pesan
 
-Terjemahan pesan dikerjakan dengan memanggil [Yii::t()|YiiBase::t]. Metode
+Terjemahan pesan dikerjakan dengan memanggil [Yee::t()|YeeBase::t]. Metode
 menerjemahkan pesan yang didapat dari [sumber
 bahasa|CApplication::sourceLanguage] ke [target
 bahasa|CApplication::language].
 
 Saat menerjemahkan pesan, kategorinya harus ditetapkan karena
 pesan mungkin diterjemahkan secara berbeda di bawah kategori
-(konteks) berbeda. Kategori `yii` terpakai untuk pesan yang digunakan oleh kode inti Yii
+(konteks) berbeda. Kategori `yee` terpakai untuk pesan yang digunakan oleh kode inti Yee
 framework.
 
 Pesan bisa berisi penampung parameter yang akan diganti dengan nilai parameter
-sebenarnya saat memanggil [Yii::t()|YiiBase::t]. Sebagai
+sebenarnya saat memanggil [Yee::t()|YeeBase::t]. Sebagai
 contoh, permintaan terjemahan pesan berikut akan mengganti penampung
 `{alias}` dalam pesan asli dengan nilai alias sebenarnya.
 
 ~~~
 [php]
-Yii::t('app', 'Path alias "{alias}" is redefined.',
+Yee::t('app', 'Path alias "{alias}" is redefined.',
 	array('{alias}'=>$alias))
 ~~~
 
@@ -108,11 +108,11 @@ berdasarkan pada beberapa parameter.
 
 Pesan yang diterjemahkan disimpan dalam sebuah repositori yang disebut *sumber
 pesan*. Sumber pesan disajikan sebagai instance
-[CMessageSource] atau anak kelasnya. Ketika [Yii::t()|YiiBase::t] dipanggil,
+[CMessageSource] atau anak kelasnya. Ketika [Yee::t()|YeeBase::t] dipanggil,
 ia akan mencari pesan dalam sumber pesan dan mengembalikan versi terjemahan
 jika ditemukan.
 
-Yii datang dengan jenis sumber pesan berikut ini. Anda juga boleh memperluas
+Yee datang dengan jenis sumber pesan berikut ini. Anda juga boleh memperluas
 [CMessageSource] untuk mengubah jenis sumber pesan Anda sendiri.
 
    - [CPhpMessageSource]: terjemahan pesan disimpan sebagai pasangan kunci-nilai
@@ -132,7 +132,7 @@ Untuk lebih jelasnya, lihat dokumentasi API untuk [CDbMessageSource].
 
 Sumber pesan diambil sebagai [komponen
 aplikasi](/doc/guide/basics.application#application-component). Pra-deklarasi
-komponen aplikasi Yii bernama [messages|CApplication::messages] untuk menyimpan
+komponen aplikasi Yee bernama [messages|CApplication::messages] untuk menyimpan
 pesan yang dipakai dalam aplikasi pengguna. Distandarkan, jenis sumber pesan ini
 adalah [CPhpMessageSource] dan path basis untuk penyimpanan file terjemahan PHP
 adalah `protected/messages`.
@@ -140,7 +140,7 @@ adalah `protected/messages`.
 Ringkasnya, untuk menggunakan terjemahan pesan, diperlukan langkah-langkah
 berikut:
 
-   1. Panggil [Yii::t()|YiiBase::t] di tempat yang sesuai;
+   1. Panggil [Yee::t()|YeeBase::t] di tempat yang sesuai;
 
    2. Buat file terjemahan PHP sebagai
 `protected/messages/LocaleID/CategoryName.php`. Setiap file mengembalikan sebuah
@@ -149,26 +149,26 @@ array terjemahan pesan. Harap dicatat, ini beranggapan bahwa Anda menggunakan
 
    3. Konfigurasi [CApplication::sourceLanguage] dan [CApplication::language].
 
-> Tip: Piranti `yiic` dalam Yii bisa dipakai untuk mengatur terjemahan pesan
+> Tip: Piranti `yeec` dalam Yee bisa dipakai untuk mengatur terjemahan pesan
 ketika [CPhpMessageSource] dipakai sebagai sumber pesan. Perintah `message` dapat
 secara otomatis mengurai pesan yang akan diterjemahkan dari file sumber yang dipilih
 dan menggabungnya dengan terjemahan yang sudah ada bila diperlukan. Untuk menggunakan
-perintah `message`, silahkan menjalankan perintah `yiic help message`.
+perintah `message`, silahkan menjalankan perintah `yeec help message`.
 
 Ketika menggunakan [CPhpMessageSource] untuk mengatur sumber pesan,
 pesan untuk sebuah kelas extension (seperti sebuah widget, module) dapat digunakan dan atur secara spesial.
 Khususnya, jika sebuah pesan milik extension dengan nama `Xyz`,
 maka kategori pesan dapat diasumsi sebagai
 `BasePath/messages/LanguageID/categoryName.php`, dengan `BasePath` dirujuk
-ke direktori yang berisi file kelas extension. Dan ketika menggunakan `Yii::t()` untuk
+ke direktori yang berisi file kelas extension. Dan ketika menggunakan `Yee::t()` untuk
 menerjemah pesan extension, format berikut harus digunakan :
 
 ~~~
 [php]
-Yii::t('Xyz.categoryName', 'message to be translated')
+Yee::t('Xyz.categoryName', 'message to be translated')
 ~~~
 
-Yii mendukung [choice format|CChoiceFormat]. Choice format
+Yee mendukung [choice format|CChoiceFormat]. Choice format
 merujuk ke pemilihan terjemahan berdasarkan nilai angka yang diberikan. Sebagai contoh,
 dalam bahasa Inggris, kata 'book' mungkin berupa bentuk tunggal atau bentuk jamak tergantung
 pada jumlah buku, sementara dalam bahasa lain, kata mungkin tidak memiliki bentuk
@@ -196,14 +196,14 @@ menganggap pesan yang diterjemahkan adalah:
 ~~~
 
 dan kita mengoper nilai angka 2 dalam array parameter pesan saat
-memanggil [Yii::t()|YiiBase::t], kita akan memperoleh  `many books` sebagai pesan
+memanggil [Yee::t()|YeeBase::t], kita akan memperoleh  `many books` sebagai pesan
 yang diterjemahkan:
 
 ~~~
 [php]
-Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+Yee::t('app', 'n==1#one book|n>1#many books', array(1)));
 //or since 1.1.6
-Yii::t('app', 'n==1#one book|n>1#many books', 1));
+Yee::t('app', 'n==1#one book|n>1#many books', 1));
 ~~~
 
 Sebagai notasi jalan pintas, jika ekspresi adalah angka, ia akan diperlakukan sebagai
@@ -225,9 +225,9 @@ Aturan untuk bentuk jamak dalam bahasa Inggris dapat ditulis sebagai berikut:
 
 ~~~
 [php]
-Yii::t('test', 'cucumber|cucumbers', 1);
-Yii::t('test', 'cucumber|cucumbers', 2);
-Yii::t('test', 'cucumber|cucumbers', 0);
+Yee::t('test', 'cucumber|cucumbers', 1);
+Yee::t('test', 'cucumber|cucumbers', 2);
+Yee::t('test', 'cucumber|cucumbers', 0);
 ~~~
 
 Code di atas akan memberikan hasil
@@ -242,7 +242,7 @@ Jika ingin menyertakan angka Anda dapat menggunakan code berikut.
 
 ~~~
 [php]
-echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+echo Yee::t('test', '{n} cucumber|{n} cucumbers', 1);
 ~~~
 
 Di sini `{n}` merupakan placeholder spesial yang menyimpan nilai yang dipassing. Code ini akan mencetak `1 cucumber`.
@@ -251,7 +251,7 @@ Anda dapat pass parameter-parameter tambahan:
 
 ~~~
 [php]
-Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+Yee::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
 array(5, '{username}' => 'samdark'));
 ~~~
 
@@ -265,17 +265,17 @@ function convertNumber($number)
 	return $number;
 }
 
-Yii::t('test', '{n} cucumber|{n} cucumbers',
+Yee::t('test', '{n} cucumber|{n} cucumbers',
 array(5, '{n}' => convertNumber(5)));
 ~~~
 
 Untuk bahasa Rusia akan seperti ini
 ~~~
 [php]
-Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 dengan pesan yang diterjemahkan
@@ -325,7 +325,7 @@ Pembentukan Tanggal dan Jam
 
 Tanggal dan jam sering berbeda bentuk di negara atau wilayah berbeda.
 Tugas pembentukan tanggal dan jam menghasilkan string tanggal dan jam
-yang sesuai dengan lokal yang ditetapkan. Yii menyediakan
+yang sesuai dengan lokal yang ditetapkan. Yee menyediakan
 [CDateFormatter] untuk keperluan ini.
 
 Setiap instance [CDateFormatter] dikaitkan dengan target lokal. Untuk mendapatkan
@@ -350,7 +350,7 @@ Pemformatan Angka
 
 Seperti tanggal dan jam, angka juga bisa dibentuk secara berbeda di
 negara atau wilayah yang berbeda. Pemformatan angka termasuk pemformatan desimal,
-pemformatan kurs dan pemformatan persentase. Yii menyediakan
+pemformatan kurs dan pemformatan persentase. Yee menyediakan
 [CNumberFormatter] untuk tugas-tugas ini.
 
 Untuk mendapatkan pemformat angka terkait dengan target lokal pada seluruh

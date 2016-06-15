@@ -3,9 +3,9 @@
  * CConsoleCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -16,7 +16,7 @@
  *
  * Users call a console command via the following command format:
  * <pre>
- * yiic CommandName ActionName --Option1=Value1 --Option2=Value2 ...
+ * yeec CommandName ActionName --Option1=Value1 --Option2=Value2 ...
  * </pre>
  *
  * Child classes mainly needs to implement various action methods whose name must be
@@ -25,7 +25,7 @@
  * when a user does not specify the action name in his command.
  *
  * Options are bound to action parameters via parameter names. For example, the following
- * action method will allow us to run a command with <code>yiic sitemap --type=News</code>:
+ * action method will allow us to run a command with <code>yeec sitemap --type=News</code>:
  * <pre>
  * class SitemapCommand extends CConsoleCommand {
  *     public function actionIndex($type) {

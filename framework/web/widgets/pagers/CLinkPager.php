@@ -3,9 +3,9 @@
  * CLinkPager class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -110,20 +110,20 @@ class CLinkPager extends CBasePager
 	public function init()
 	{
 		if($this->nextPageLabel===null)
-			$this->nextPageLabel=Yii::t('yii','Next &gt;');
+			$this->nextPageLabel=Yee::t('yee','Next &gt;');
 		if($this->prevPageLabel===null)
-			$this->prevPageLabel=Yii::t('yii','&lt; Previous');
+			$this->prevPageLabel=Yee::t('yee','&lt; Previous');
 		if($this->firstPageLabel===null)
-			$this->firstPageLabel=Yii::t('yii','&lt;&lt; First');
+			$this->firstPageLabel=Yee::t('yee','&lt;&lt; First');
 		if($this->lastPageLabel===null)
-			$this->lastPageLabel=Yii::t('yii','Last &gt;&gt;');
+			$this->lastPageLabel=Yee::t('yee','Last &gt;&gt;');
 		if($this->header===null)
-			$this->header=Yii::t('yii','Go to page: ');
+			$this->header=Yee::t('yee','Go to page: ');
 
 		if(!isset($this->htmlOptions['id']))
 			$this->htmlOptions['id']=$this->getId();
 		if(!isset($this->htmlOptions['class']))
-			$this->htmlOptions['class']='yiiPager';
+			$this->htmlOptions['class']='yeePager';
 	}
 
 	/**
@@ -233,7 +233,7 @@ class CLinkPager extends CBasePager
 	public static function registerCssFile($url=null)
 	{
 		if($url===null)
-			$url=CHtml::asset(Yii::getPathOfAlias('system.web.widgets.pagers.pager').'.css');
-		Yii::app()->getClientScript()->registerCssFile($url);
+			$url=CHtml::asset(Yee::getPathOfAlias('system.web.widgets.pagers.pager').'.css');
+		Yee::app()->getClientScript()->registerCssFile($url);
 	}
 }

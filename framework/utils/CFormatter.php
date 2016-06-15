@@ -3,9 +3,9 @@
  * CFormatter class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -38,7 +38,7 @@
  * </ul>
  *
  * By default, {@link CApplication} registers {@link CFormatter} as an application component whose ID is 'format'.
- * Therefore, one may call <code>Yii::app()->format->boolean(1)</code>.
+ * Therefore, one may call <code>Yee::app()->format->boolean(1)</code>.
  * You might want to replace this component with {@link CLocalizedFormatter} to enable formatting based on the
  * current locale settings.
  *
@@ -127,7 +127,7 @@ class CFormatter extends CApplicationComponent
 		if(method_exists($this,$method))
 			return $this->$method($value);
 		else
-			throw new CException(Yii::t('yii','Unknown type "{type}".',array('{type}'=>$type)));
+			throw new CException(Yee::t('yee','Unknown type "{type}".',array('{type}'=>$type)));
 	}
 
 	/**
@@ -328,15 +328,15 @@ class CFormatter extends CApplicationComponent
 		switch($i)
 		{
 			case 0:
-				return $verbose ? Yii::t('yii','{n} byte|{n} bytes',$params) : Yii::t('yii', '{n} B',$params);
+				return $verbose ? Yee::t('yee','{n} byte|{n} bytes',$params) : Yee::t('yee', '{n} B',$params);
 			case 1:
-				return $verbose ? Yii::t('yii','{n} kilobyte|{n} kilobytes',$params) : Yii::t('yii','{n} KB',$params);
+				return $verbose ? Yee::t('yee','{n} kilobyte|{n} kilobytes',$params) : Yee::t('yee','{n} KB',$params);
 			case 2:
-				return $verbose ? Yii::t('yii','{n} megabyte|{n} megabytes',$params) : Yii::t('yii','{n} MB',$params);
+				return $verbose ? Yee::t('yee','{n} megabyte|{n} megabytes',$params) : Yee::t('yee','{n} MB',$params);
 			case 3:
-				return $verbose ? Yii::t('yii','{n} gigabyte|{n} gigabytes',$params) : Yii::t('yii','{n} GB',$params);
+				return $verbose ? Yee::t('yee','{n} gigabyte|{n} gigabytes',$params) : Yee::t('yee','{n} GB',$params);
 			default:
-				return $verbose ? Yii::t('yii','{n} terabyte|{n} terabytes',$params) : Yii::t('yii','{n} TB',$params);
+				return $verbose ? Yee::t('yee','{n} terabyte|{n} terabytes',$params) : Yee::t('yee','{n} TB',$params);
 		}
 	}
 }

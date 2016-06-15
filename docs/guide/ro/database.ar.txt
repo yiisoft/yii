@@ -1,7 +1,7 @@
 Active Record
 =============
 
-Desi Yii se poate descurca virtual cu orice task in ce priveste bazele de date,
+Desi Yee se poate descurca virtual cu orice task in ce priveste bazele de date,
 este foarte posibil ca in 90% din timpul nostru in care scriem instructiuni SQL
 sa scriem instructiuni SQL pentru operatii CRUD obisnuite (create, read, update si delete).
 In plus, este dificil de intretinut codul in viitor. Pentru a rezolva aceste
@@ -41,7 +41,7 @@ CREATE TABLE Post (
 
 > Note|Nota: AR nu are scopul de a rezolva toate task-urile in legatura cu bazele de date.
 AR este cel mai bine folosit in cazul operatiunilor SQL obisnuite. Pentru scenarii complexe,
-ar trebui folosit Yii DAO.
+ar trebui folosit Yee DAO.
 
 Stabilirea unei conexiuni DB
 ----------------------------
@@ -190,7 +190,7 @@ $post=new Post;
 echo $post->title;  // Aceasta instructiune va afisa: Va rugam introduceti un titlu
 ~~~
 
-Incepand cu versiunea 1.0.2 a Yii, unui atribut i se poate asigna o valoare de tip
+Incepand cu versiunea 1.0.2 a Yee, unui atribut i se poate asigna o valoare de tip
 [CDbExpression] inainte ca inregistrarea sa fie salvata (fie insert fie update) in baza de date.
 De exemplu, pentru a salva timestamp-ul returnat de functia MySQL `NOW()`, putem folosi
 urmatorul cod:
@@ -436,9 +436,9 @@ lor primare. De aceea, pentru a compara doua instante AR, trebuie sa comparam do
 valorile cheilor lor primare, presupunand ca ele instantele apartin aceleiasi clase AR.
 O cale mai simpla, totusi, este sa apelam [CActiveRecord::equals()].
 
-> Info: Spre deosebire de implementarile AR din alte framework-uri, Yii are suport
+> Info: Spre deosebire de implementarile AR din alte framework-uri, Yee are suport
 pentru chei primare compuse in instantele sale AR. O cheie primara compusa este formata din
-doua sau mai multe coloane. Valoarea cheii primare este reprezentata in Yii ca un array.
+doua sau mai multe coloane. Valoarea cheii primare este reprezentata in Yee ca un array.
 Proprietatea [primaryKey|CActiveRecord::primaryKey] defineste valoarea cheii primare a unei
 instante AR.
 
@@ -472,7 +472,7 @@ Folosirea tranzactiilor cu AR
 Fiecare instanta AR contine o proprietate cu numele
 [dbConnection|CActiveRecord::dbConnection] care este o instanta [CDbConnection].
 De aceea, putem folosi [tranzactii](/doc/guide/database.dao#using-transactions),
-feature pus la dispozitie de Yii DAO in cazul in care se doreste folosirea lor cu AR.
+feature pus la dispozitie de Yee DAO in cazul in care se doreste folosirea lor cu AR.
 
 ~~~
 [php]

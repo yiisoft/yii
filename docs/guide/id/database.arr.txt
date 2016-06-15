@@ -427,8 +427,8 @@ Jadi pendekatan mana yang lebih efisien? Sebetulnya tidak ada jawaban pasti. Men
 mungkin lebih efisien karena mengurangi overhead pada DBMS untuk parsing dan executing pada statement SQL. Di lain pihak,
 menggunakan statement SQL tunggal, kemungkinan akan menghasilkan data redundansi sehingga perlu waktu lebih lama untuk baca dan memprosesnya.
 
-Oleh karena itu, Yii menyediakan opsi query `together` sehingga kita dapat memilih di antara dua pendekatan ini jika diperlukan.
-Secara default, Yii menggunakan eager loading, seperti men-generate sebuah statement SQL tunggal, kecuali terdapat `LIMIT` di dalam model utama.
+Oleh karena itu, Yee menyediakan opsi query `together` sehingga kita dapat memilih di antara dua pendekatan ini jika diperlukan.
+Secara default, Yee menggunakan eager loading, seperti men-generate sebuah statement SQL tunggal, kecuali terdapat `LIMIT` di dalam model utama.
 Kita dapat mengeset opsi `together` di dalam deklarasi relasi menjadi true untuk memaksakan statement SQL walaupun `LIMIT` digunakan.
 Mengeset menjadi false, akan menyebabkan beberapa tabel akan di-join di statement SQL terpisah. Misalnya, untuk menggunakan statement SQL terpisah
 untuk mengquery post terbaru dengan komentar-komentarnya, kita dapat mendeklarasikan relasi `comments` 
@@ -455,7 +455,7 @@ $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findA
 Query Statistik
 ---------------
 
-Selain query yang dijelaskan di atas, Yii juga mendukung apa yang disebut query statistik (atau query agregasional). Maksud dari query statistik adalah pengambilan informasi agregasional mengenai objek terkait, seperti jumlah komentar untuk setiap tulisan, rata-rata peringkat setiap produk, dll. Query statistik hanya bisa dilakukan untuk obyek terkait dalam `HAS_MANY` (misalnya sebuah tulisan memiliki banyak komentar) atau `MANY_MANY` (misalnya tulisan milik banyak kategori dan kategori memiliki banyak tulisan).
+Selain query yang dijelaskan di atas, Yee juga mendukung apa yang disebut query statistik (atau query agregasional). Maksud dari query statistik adalah pengambilan informasi agregasional mengenai objek terkait, seperti jumlah komentar untuk setiap tulisan, rata-rata peringkat setiap produk, dll. Query statistik hanya bisa dilakukan untuk obyek terkait dalam `HAS_MANY` (misalnya sebuah tulisan memiliki banyak komentar) atau `MANY_MANY` (misalnya tulisan milik banyak kategori dan kategori memiliki banyak tulisan).
 
 Melakukan query statistik sangat mirip dengan melakukan query relasional seperti dijelaskan sebelumnya. Pertama kita perlu mendeklarasikan query statistik dalam metode [relations()|CActiveRecord::relations] pada [CActiveRecord] seperti yang kita lakukan dengan query relasional.
 
@@ -576,7 +576,7 @@ class User extends CActiveRecord
 > Note|Catatan: Sebelum versi 1.1.7, named scope diaplikasikan ke model yang berelasi harus ditentukan di CActiveRecord::scopes.
 > Oleh karenanya, tidak dapat diberi parameter.
 
-Mulai dari versi 1.1.7, Yii memungkinkan passing parameter untuk relational named scopes.
+Mulai dari versi 1.1.7, Yee memungkinkan passing parameter untuk relational named scopes.
 Misalnya, jika anda memiliki scope bernama `rated` di dalam `Post` yang menerima rating
 minimal post, Anda dapat menggunakannya dari `User` dengan cara berikut:
 

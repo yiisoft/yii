@@ -10,7 +10,7 @@ utilizamos o método [set()|CCache::set] para armazena-lo:
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yee::app()->cache->set($id, $value);
 ~~~
 
 O dado armazenado ficará em cache para sempre, a não ser que ele seja eliminado 
@@ -23,7 +23,7 @@ depois de um certo período de tempo.
 ~~~
 [php]
 // Mantém o valor no cache por 30 segundos
-Yii::app()->cache->set($id, $value, 30);
+Yee::app()->cache->set($id, $value, 30);
 ~~~
 
 Mais tarde, quando precisarmos acessar essa variável (nessa requisição, ou em outras) 
@@ -33,11 +33,11 @@ e devemos armazena-la novamente.
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yee::app()->cache->get($id);
 if($value===false)
 {
 	// re-armazena $value porque seu valor não foi encontrado
-	// Yii::app()->cache->set($id,$value);
+	// Yee::app()->cache->set($id,$value);
 }
 ~~~
 
@@ -61,7 +61,7 @@ dados de outras aplicações.
 > pode ser utilizado como um vetor. Abaixo, alguns exemplos:
 > ~~~
 > [php]
-> $cache=Yii::app()->cache;
+> $cache=Yee::app()->cache;
 > $cache['var1']=$value1;  // equivalente a: $cache->set('var1',$value1);
 > $value2=$cache['var2'];  // equivalente a: $value2=$cache->get('var2');
 > ~~~
@@ -82,7 +82,7 @@ devem ser armazenados, para o método [set()|CCache::set].
 [php]
 // value irá expirar em 30 segundos
 // ela também deverá se tornar inválida se o conteúdo de 'FileName' for alterado
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+Yee::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 Agora, ao recuperar a variável `$value` do cache, com o método [get()|CCache::get], 

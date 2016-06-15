@@ -6,20 +6,20 @@ Data Access Objects (DAO) tillhandahåller ett generellt programmeringsgränssni
 Detta medför att den underliggande databashanteraren kan bytas till en annan 
 utan behov av ändringar i den kod som använder DAO för dataåtkomst.
 
-Yii:s DAO har byggts ovanpå [PHP Data Objects 
+Yee:s DAO har byggts ovanpå [PHP Data Objects 
 (PDO)](http://php.net/manual/en/book.pdo.php)-tillägget, vilket tillhandahåller 
 enhetlig åtkomst till många populära databashanterare såsom MySQL, PostgreSQL. 
 Av denna anledning behöver PDO-tillägget och den databasspecifika PDO-
-drivrutinen (t.ex. `PDO_MYSQL`) installeras innan Yii:s PDO används.
+drivrutinen (t.ex. `PDO_MYSQL`) installeras innan Yee:s PDO används.
 
-Yii:s DAO består i huvudsak av följande fyra klasser:
+Yee:s DAO består i huvudsak av följande fyra klasser:
 
    - [CDbConnection]: representerar en anslutning till en databas.
    - [CDbCommand]: representerar en SQL-sats som skall exekveras mot en databas.
    - [CDbDataReader]: representerar en icke-reversibel följd av rader ur en frågas resultatmängd.
    - [CDbTransaction]: representerar en databastransaktion.
 
-I följande stycken introduceras användning av Yii:s DAO i olika scenarier.
+I följande stycken introduceras användning av Yee:s DAO i olika scenarier.
 
 Upprätta en databasanslutning
 -----------------------------
@@ -76,7 +76,7 @@ array(
 )
 ~~~
 
-Därefter kan databasanslutningen tillgås via `Yii::app()->db` som redan är 
+Därefter kan databasanslutningen tillgås via `Yee::app()->db` som redan är 
 automatiskt aktiverad, utom i det fall [CDbConnection::autoConnect] uttryckligen 
 konfigurerats till false. Med användande av detta tillvägagångssätt kan en enda 
 DB-anslutning delas av kod på flera ställen.
@@ -90,7 +90,7 @@ av [CDbCommand]. Man skapar en instans av [CDbCommand] genom anrop till
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // assuming you have configured a "db" connection
+$connection=Yee::app()->db;   // assuming you have configured a "db" connection
 // If not, you may explicitly create a connection:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
@@ -152,7 +152,7 @@ Användning av transaktioner
 När en applikation exekverar ett antal databasoperationer, som var och en läser 
 information från och/eller skriver information till databasen, är det viktigt 
 att försäkra sig om att databasen inte lämnas med några operationer 
-ofullständigt utförda. En transaktion, representerad i Yii som en instans av 
+ofullständigt utförda. En transaktion, representerad i Yee som en instans av 
 [CDbTransaction], kan inledas för att säkerställa detta:
 
    - Starta (begin) transaktionen.
@@ -243,12 +243,12 @@ while($dataReader->read()!==false)
 Användning av tabellprefix
 --------------------------
 
-Yii erbjuder inbyggt stöd för användning av tabellprefix. Tabellprefix innebär 
+Yee erbjuder inbyggt stöd för användning av tabellprefix. Tabellprefix innebär 
 att en sträng sätts in före namnen på tabeller i den för tillfället anslutna 
 databasen. Detta kommer mest till användning i en webbhotellmiljö där fler än en 
 applikation delar samma databas och applikationerna hålls åtskilda genom att 
 tabellprefix sätts in före tabellnamnen. Till exempel kan en applikation använda 
-`tbl_` som prefix, medan en annan använder `yii_`.
+`tbl_` som prefix, medan en annan använder `yee_`.
 
 För att använda tabellprefix, konfigurera propertyn [CDbConnection::tablePrefix] med
 det önskade tabellprefixet. Därefter används `{{TableName}}` - där `TableName` innebär 

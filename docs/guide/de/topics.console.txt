@@ -3,45 +3,45 @@ Konsolenanwendungen
 
 Konsolenanwendungen werden hauptsächlich für Offline-Arbeiten eingesetzt, 
 z.B. zur Codegenerierung, um Suchindizes zu Erstellen oder auch um Emails zu
-versenden. Auch für sie bietet Yii ein objektorientiertes Framework.
+versenden. Auch für sie bietet Yee ein objektorientiertes Framework.
 Damit können solche Anwendungen auf die selben Ressourcen (z.B. DB-Verbindungen) 
 zugreifen, wie die Webapplikation.
 
 Überblick
 ---------
 
-Verschiedene Konsolenarbeiten werden in Yii jeweils durch einen 
+Verschiedene Konsolenarbeiten werden in Yee jeweils durch einen 
 [Befehl|CConsoleCommand] repräsentiert. Um einen Konsolenbefehl anzulegen, wird die Klasse
 [CConsoleCommand] erweitert.
 
-Hat man eine Webapplikation mit `yiic webapp` angelegt, so befinden sich zwei
+Hat man eine Webapplikation mit `yeec webapp` angelegt, so befinden sich zwei
 Dateien im `protected`-Verzeichnis:
 
-* `yiic`: Eine ausführbare Scriptdatei für Linux/Unix;
-* `yiic.bat`: Eine Batch-Datei für Windows.
+* `yeec`: Eine ausführbare Scriptdatei für Linux/Unix;
+* `yeec.bat`: Eine Batch-Datei für Windows.
 
 Gibt man in einem Kommandozeilenfenster 
 
 ~~~
 cd protected
-yiic help
+yeec help
 ~~~
 
 ein, so wird eine Liste der verfügbaren Befehle angezeigt. Standardmäßig
-enthält diese Liste Befehle des Yii-Frameworks (sog. **Systembefehle**) sowie
+enthält diese Liste Befehle des Yee-Frameworks (sog. **Systembefehle**) sowie
 selbstgeschriebene Befehle, die auf eine bestimmte Anwendung zugeschnitten
 wurden (sog. **Anwenderbefehle**).
 
 Zu vielen Befehlen kann man eine Hilfe anzeigen
 
 ~~~
-yiic help <Befehlsname>
+yeec help <Befehlsname>
 ~~~
 
 oder ihn wie folgt ausführen:
 
 ~~~
-yiic <Befehlsname> [Parameter...]
+yeec <Befehlsname> [Parameter...]
 ~~~
 
 
@@ -77,15 +77,15 @@ public function run($args) { ... }
 wobei `$args` die Aufrufparameter enthält.
 
 Innerhalb eines Befehls kann das Anwendungsobjekt wie gewohnt über
-`Yii::app()` angesprochen werden. Auch die konfigurierten Komponenten, wie
+`Yee::app()` angesprochen werden. Auch die konfigurierten Komponenten, wie
 etwa die Datenbankverbindung, stehen wie bei einer Webanwendung zur Verfügung 
-(z.B. `Yii::app()->db`).
+(z.B. `Yee::app()->db`).
 
-> Info: Seit Version 1.1.1 ermöglicht Yii auch globale Befehle, die von
-allen Yii-Anwendungen auf einem Server verwendet werden können. Dazu muss die
+> Info: Seit Version 1.1.1 ermöglicht Yee auch globale Befehle, die von
+allen Yee-Anwendungen auf einem Server verwendet werden können. Dazu muss die
 Umgebungsvariable `YII_CONSOLE_COMMANDS` auf ein existierendes Verzeichnis 
 mit Befehlsklassen verweisen. Alle Befehle in diesem Verzeichnis
-stehen dann bei jedem Aufruf von `yiic` zur Verfügung.
+stehen dann bei jedem Aufruf von `yeec` zur Verfügung.
 
 
 Actions eines Konsolenbefehls
@@ -107,7 +107,7 @@ eine Action namens `index`.
 Um eine solche Action auszuführen, ruft man den Befehl in folgender Form auf:
 
 ~~~
-yiic <Befehlsname> <Actionname> --Option1=Wert1 --Option2=Wert2
+yeec <Befehlsname> <Actionname> --Option1=Wert1 --Option2=Wert2
 ~~~
 
 Die angegebenen Optionswerte werden als Aufrufparameter an die Actionmethode
@@ -126,17 +126,17 @@ class SitemapCommand extends CConsoleCommand
 führen letztendlich alle folgenden Kommandozeilenbefehle zu einem Aufruf von `actionIndex('News',5)`:
 
 ~~~
-yiic sitemap index --typ=News --limit=5
+yeec sitemap index --typ=News --limit=5
 
 // $limit wird mit Vorgabewert belegt
-yiic sitemap index --typ=News
+yeec sitemap index --typ=News
 
 // $limit wird mit Vorgabewert belegt
 // Da 'index' die Standardaction ist, kann der Actioname auch weggelasssen werden
-yiic sitemap --typ=News
+yeec sitemap --typ=News
 
 // Die Reihenfolge der Optionen spielt keine Rolle
-yiic sitemap index --limit=5 --typ=News
+yeec sitemap index --limit=5 --typ=News
 ~~~
 
 Wird eine Option ohne Wert angegeben (z.B. `--typ` statt `--typ=News`), so wird der
@@ -154,16 +154,16 @@ public function actionIndex(array $typen) { ... }
 Um den Arraywert anzugeben, wird die entsprechende Option beim Aufruf einfach mehrfach aufgeführt:
 
 ~~~
-yiic sitemap index --typen=News --typen=Article
+yeec sitemap index --typen=News --typen=Article
 ~~~
 
 Dieser Befehl wird in den Aufruf `actionIndex(array('News','Article'))` übersetzt.
 
-Seit Version 1.1.6 unterstützt Yii auch "anonyme" Parameter, sowie globale
+Seit Version 1.1.6 unterstützt Yee auch "anonyme" Parameter, sowie globale
 Optionen. 
 
 Als "anonyme" Parameter bezeichnet man jene, die nicht obigem Optionsformat
-entsprechen. Im Kommando `yiic sitemap index --limit=5 News` wäre `News` ein
+entsprechen. Im Kommando `yeec sitemap index --limit=5 News` wäre `News` ein
 solcher Parameter, während `limit` gemäß obiger Definition den Wert 5 annimmt.
 
 Um solche Parameter verarbeiten zu können, muss eine Action ein Argument
@@ -195,7 +195,7 @@ class SitemapCommand extends CConsoleCommand
 Jetzt akzeptieren alle (Teil-)Befehle die zusätzliche Option `verbose`:
 
 ~~~
-yiic sitemap index --verbose=1 --type=News
+yeec sitemap index --verbose=1 --type=News
 ~~~
 
 
@@ -230,7 +230,7 @@ Wird nichts zurückgegeben, wird der Befehl mit code 0 beendet.
 Anpassen von Konsolenanwendungen
 --------------------------------
 
-Wenn man eine Anwendung wie üblich mit `yiic webapp` erstellt hat, befindet
+Wenn man eine Anwendung wie üblich mit `yeec webapp` erstellt hat, befindet
 sich die Konfigurationsdatei für Konsolenanwendungen in
 `protected/config/console.php`. Genau wie bei der Konfiguration für die
 Webanwendung, liefert auch diese PHP-Datei ein Array mit den zu

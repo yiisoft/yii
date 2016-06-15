@@ -3,12 +3,12 @@
  * CJuiButton class file.
  *
  * @author Sebastian Thierer <sebas@artfos.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiInputWidget');
+Yee::import('zii.widgets.jui.CJuiInputWidget');
 
 /**
  * CJuiButton displays a button widget.
@@ -101,7 +101,7 @@ class CJuiButton extends CJuiInputWidget
 	 */
 	public function run()
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		list($name,$id)=$this->resolveNameID();
 
 		if(isset($this->htmlOptions['id']))
@@ -156,7 +156,7 @@ class CJuiButton extends CJuiInputWidget
 					}
 					break;
 				default:
-					throw new CException(Yii::t('zii','The button type "{type}" is not supported.',array('{type}'=>$this->buttonType)));
+					throw new CException(Yee::t('zii','The button type "{type}" is not supported.',array('{type}'=>$this->buttonType)));
 			}
 
 			$options=CJavaScript::encode($this->options);

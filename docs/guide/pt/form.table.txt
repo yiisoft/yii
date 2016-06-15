@@ -42,7 +42,7 @@ em um tabela HTML:
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="yeeForm">
 <?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
@@ -58,7 +58,7 @@ em um tabela HTML:
 
 <?php echo CHtml::submitButton('Save'); ?>
 <?php echo CHtml::endForm(); ?>
-</div><!-- yiiForm -->
+</div><!-- yeeForm -->
 ~~~
 
 Note no código acima que utilizamos `"[$i]name"` em vez de `"name"` no segundo 

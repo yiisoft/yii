@@ -1,12 +1,12 @@
 ﻿יצירת קוד אוטומטית
 =========================
 
-החל מגרסא 1.1.2, Yii מצויידת עם מערכת מבוססת ווב ליצירת קוד בשם *Gii*. מערכת זו הינה תחליף עבור הכלי הקודם בשם `yiic shell` שרץ על גבי שורת הפקודות. בחלק זה, אנו נדגים כיצד להשתמש ב-Gii וכיצד להרחיב את Gii כדי לזרז את תהליך הפיתוח.
+החל מגרסא 1.1.2, Yee מצויידת עם מערכת מבוססת ווב ליצירת קוד בשם *Gii*. מערכת זו הינה תחליף עבור הכלי הקודם בשם `yeec shell` שרץ על גבי שורת הפקודות. בחלק זה, אנו נדגים כיצד להשתמש ב-Gii וכיצד להרחיב את Gii כדי לזרז את תהליך הפיתוח.
 
 שימוש ב-Gii
 ---------
 
-Gii מיושמת במונחים של מודול וחייבת להיות בשימוש תחת אפליקצית Yii קיימת. כדי להשתמש ב-Gii, אנו קודם עורכים את הגדרות האפליקציה בצורה הבאה:
+Gii מיושמת במונחים של מודול וחייבת להיות בשימוש תחת אפליקצית Yee קיימת. כדי להשתמש ב-Gii, אנו קודם עורכים את הגדרות האפליקציה בצורה הבאה:
 
 ~~~
 [php]
@@ -32,7 +32,7 @@ return array(
 
 » Note|הערה: Gii נועד בעיקר ככלי פיתוח. לכן, רצוי להתקינו על סביבת פיתוח. מאחר וכלי זה יכול לייצר קבצי PHP חדשים באפליקציה, אנו צריכים לשים לב לאמצעי האבטחה שבו (לדוגמא סיסמא, כתובות IP).
 
-כעת אנו יכולים לגשת למערכת Gii דרך הקישור `http://hostname/path/to/index.php?r=gii`. כאן אנו מניחים שהקישור `http://hostname/path/to/index.php` הוא הקישור לכניסה לאפליקצית ה-Yii הנוכחית.
+כעת אנו יכולים לגשת למערכת Gii דרך הקישור `http://hostname/path/to/index.php?r=gii`. כאן אנו מניחים שהקישור `http://hostname/path/to/index.php` הוא הקישור לכניסה לאפליקצית ה-Yee הנוכחית.
 
 במידה והאפליקציה הנוכחית משתמשת בפורמט `path` עבור הקישורים (ראה [ניהול קישורים](/doc/guide/topics.url)), אנו יכולים לגשת למודול Gii דרך הקישור `http://hostnamepath/to/index.php/gii`. אנו נצטרך להוסיף את הכללים הבאים לראש הכללים הקיימים באפליקציה:
 
@@ -118,7 +118,7 @@ return array(
 
 יש להעתיק את הקובץ מהנתיב `framework/gii/generators/model/templates/default/model.php` אל `protected/gii/model/templates/compact`. כעת אם ננסה ליצור שום פעם עם התבנית `compact`, זה אמור לעבוד. למרות, שהקוד שיווצר הוא לא שונה מהקוד שנוצר על ידי תבנית ברירת המחדל בשם `default` מאחר ומשם העתקנו את הקובץ אך לא בצענו בו שינויים כלשהם.
 
-כעת זה הזמן לבצע את עבודת ההתאמה האמיתית. פתח את הקובץ `protected/gii/model/templates/compact/model.php` כדי לערוך אותו. זכור שקובץ זה יהיה בשימוש כקובץ תצוגה, שאומר שהוא יכול להכיל ביטויים ב-PHP. הבא ונערוך את התבנית כדי שהמתודה `()attributeLabels` בקוד שנוצר תשתמש ב-`()Yii::t` כדי לתרגם את תוויות המאפיינים:
+כעת זה הזמן לבצע את עבודת ההתאמה האמיתית. פתח את הקובץ `protected/gii/model/templates/compact/model.php` כדי לערוך אותו. זכור שקובץ זה יהיה בשימוש כקובץ תצוגה, שאומר שהוא יכול להכיל ביטויים ב-PHP. הבא ונערוך את התבנית כדי שהמתודה `()attributeLabels` בקוד שנוצר תשתמש ב-`()Yee::t` כדי לתרגם את תוויות המאפיינים:
 
 ~~~
 [php]
@@ -126,7 +126,7 @@ public function attributeLabels()
 {
     return array(
 «?php foreach($labels as $name=»$label): ?»
-            «?php echo "'$name' =» Yii::t('application', '$label'),\n"; ?»
+            «?php echo "'$name' =» Yee::t('application', '$label'),\n"; ?»
 «?php endforeach; ?»
     );
 }
@@ -192,7 +192,7 @@ class WidgetCode extends CCodeModel
 
     public function prepare()
     {
-        $path=Yii::getPathOfAlias('application.components.' . $this-»className) . '.php';
+        $path=Yee::getPathOfAlias('application.components.' . $this-»className) . '.php';
         $code=$this-»render($this-»templatepath.'/widget.php');
 
         $this-»files[]=new CCodeFile($path, $code);

@@ -3,7 +3,7 @@
 
 使用擴充通常包含了以下三步：
 
-  1. 從 Yii 的 [擴充庫](http://www.yiiframework.com/extensions/) 下載擴充。
+  1. 從 Yee 的 [擴充庫](http://www.yeeframework.com/extensions/) 下載擴充。
   2. 解壓到 [應用程式程式的根目錄](/doc/guide/basics.application#application-base-directory)
 的子目錄 `extensions/xyz` 下，這裡的 `xyz` 是擴充的名稱。
   3. 導入、配置和使用擴充。
@@ -18,9 +18,9 @@
 Zii 擴充
 --------------
 
-在我們開始描述如何使用第三方擴充前，我們會先介紹 Zii 擴充函式庫，他們 Yii 開發團隊所開發一個擴充的集合，從 Yii 版本 1.1.0 之後開始導入。Zii 函式庫被主持成一個 Google 專案，叫做 [zii](http://code.google.com/p/zii/)。
+在我們開始描述如何使用第三方擴充前，我們會先介紹 Zii 擴充函式庫，他們 Yee 開發團隊所開發一個擴充的集合，從 Yee 版本 1.1.0 之後開始導入。Zii 函式庫被主持成一個 Google 專案，叫做 [zii](http://code.google.com/p/zii/)。
 
-當使用 Zii 擴充，必須使用路徑別名來參照到相對應的類別，格式是 `zii.path.to.ClassName`。這裡的根路徑別名是 `zii`，由 Yii 事先定義的。他對應到 Zii 函式庫的跟目錄。例如，要使用 [CGridView]，我們必須使用如下的程式碼在一個視圖腳本裡來參照到這個擴充：
+當使用 Zii 擴充，必須使用路徑別名來參照到相對應的類別，格式是 `zii.path.to.ClassName`。這裡的根路徑別名是 `zii`，由 Yee 事先定義的。他對應到 Zii 函式庫的跟目錄。例如，要使用 [CGridView]，我們必須使用如下的程式碼在一個視圖腳本裡來參照到這個擴充：
 
 ~~~
 [php]
@@ -50,7 +50,7 @@ return array(
 );
 ~~~
 
-然後,我們可以在任何地方透過使用 `Yii::app()->xyz` 來存取元件。元件將會被延遲建立（就是，僅當它第一次被存取時建立），
+然後,我們可以在任何地方透過使用 `Yee::app()->xyz` 來存取元件。元件將會被延遲建立（就是，僅當它第一次被存取時建立），
 除非我們把它配置到  `preload` 屬性裡。
 
 
@@ -228,7 +228,7 @@ class MyModel extends CActiveRecord // or CFormModel
 
 控制台命令
 ---------------
-[控制台命令](/doc/guide/topics.console) 擴充通常使用一個額外的命令來增強 `yiic` 的功能。假設命令控制台 `XyzClass` 屬於 `xyz` 擴充,我們可以通過設定控制台應用程式的配置來使用它：
+[控制台命令](/doc/guide/topics.console) 擴充通常使用一個額外的命令來增強 `yeec` 的功能。假設命令控制台 `XyzClass` 屬於 `xyz` 擴充,我們可以通過設定控制台應用程式的配置來使用它：
 
 ~~~
 [php]
@@ -244,9 +244,9 @@ return array(
 );
 ~~~
 
-然後，我們就能使用配備了額外命令 `xyz` 的 `yiic` 工具了。
+然後，我們就能使用配備了額外命令 `xyz` 的 `yeec` 工具了。
 
-> Note|注意：控制台應用程式通常使用了一個不同於網路應用程式的配置檔案。如果使用了 `yiic webapp` 命令建立了一個應用程式，這樣的話，控制台應用程式的 `protected/yiic` 的配置檔案就是 `protected/config/console.php`  了,而網路應用程式的配置檔案則是 `protected/config/main.php`。
+> Note|注意：控制台應用程式通常使用了一個不同於網路應用程式的配置檔案。如果使用了 `yeec webapp` 命令建立了一個應用程式，這樣的話，控制台應用程式的 `protected/yeec` 的配置檔案就是 `protected/config/console.php`  了,而網路應用程式的配置檔案則是 `protected/config/main.php`。
 
 
 模組
@@ -259,7 +259,7 @@ return array(
 使用一個通用 [元件](/doc/guide/basics.component)，我們首先需要透過載入
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yee::import('application.extensions.xyz.XyzClass');
 ~~~
 
 來包含它的類別檔案。然後，我們既可以建立一個類別的實體，配置它的屬性，也可以調用它的方法。我們還可以建立一個新的子類別來擴充它。

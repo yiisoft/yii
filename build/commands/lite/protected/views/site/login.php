@@ -1,6 +1,6 @@
 <h1>Login</h1>
 
-<div class="yiiForm">
+<div class="yeeForm">
 <?php echo CHtml::form(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
@@ -37,4 +37,4 @@ Hint: You may login with <tt>demo/demo</tt>.
 </div>
 
 </form>
-</div><!-- yiiForm -->
+</div><!-- yeeForm -->

@@ -16,7 +16,7 @@ public function actionLogin()
 		$model->attributes=$_POST['LoginForm'];
 		// validates user input and redirect to previous page if validated
 		if($model->validate())
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yee::app()->user->returnUrl);
 	}
 	// displays the login form
 	$this->render('login',array('model'=>$model));
@@ -31,9 +31,9 @@ till sidan som tidigare erfordrade autentisering. Om däremot valideringen
 misslyckas, eller åtgärden körs initialt, renderas `login`-vyn, vars innehåll 
 kommer att beskrivas i nästa underavsnitt.
 
-> Tip|Tips: I `login`-åtgärden används `Yii::app()->user->returnUrl` för att få 
+> Tip|Tips: I `login`-åtgärden används `Yee::app()->user->returnUrl` för att få 
 tag på URL:en till sidan som tidigare behövde autentisering. Komponenten 
-`Yii::app()->user` är av typen [CWebUser] (eller nedärvd klass) vilken 
+`Yee::app()->user` är av typen [CWebUser] (eller nedärvd klass) vilken 
 representerar information om användarsessionen (t.ex. användarnamn, status). För 
 fler detaljer, se [Autentisering och auktorisation](/doc/guide/topics.auth).
 

@@ -6,20 +6,20 @@ para acessar dados em diferentes tipos de bancos de dados. Como resultado, pode-
 alterar o sistema de banco de dados sem haver a necessidade de alterar o código 
 que utiliza DAO para fazer o acesso.
 
-O DAO do Yii é feito utilizando a extensão [PHP Data Objects (PDO)](http://php.net/manual/en/book.pdo.php), 
+O DAO do Yee é feito utilizando a extensão [PHP Data Objects (PDO)](http://php.net/manual/en/book.pdo.php), 
 que fornece um acesso de dados unificado para muitos SGBD populares, tais como 
-MySQL e PostgreSQL. Por esse motivo, para utilizar o DAO no Yii, a extensão PDO 
+MySQL e PostgreSQL. Por esse motivo, para utilizar o DAO no Yee, a extensão PDO 
 deve estar instalada, bem como o driver PDO específico para o banco de dados 
 utilizado (por exemplo, `PDO_MYSQL`).
 
-O DAO no Yii, consiste, basicamente, das quatro classes seguinte:
+O DAO no Yee, consiste, basicamente, das quatro classes seguinte:
 
    - [CDbConnection]: representa uma conexão com o banco de dados.
    - [CDbCommand]: representa uma instrução SQL a ser executada no banco de dados.
    - [CDbDataReader]: representa um conjunto de registros retornados, navegável apenas para frente.
    - [CDbTransaction]: representa uma transação (transaction) no banco de dados.
 
-A seguir, apresentaremos a utilização do DAO no Yii em diferente cenários.
+A seguir, apresentaremos a utilização do DAO no Yee em diferente cenários.
 
 Estabelecendo uma Conexão com o Banco de Dados
 ----------------------------------------------
@@ -73,7 +73,7 @@ array(
 )
 ~~~
 
-Podemos então acessar a conexão com o banco via `Yii::app()->db`, que é 
+Podemos então acessar a conexão com o banco via `Yee::app()->db`, que é 
 ativada automaticamente, a não ser que se configure a propriedade 
 [CDbConnection::autoConnect] para false. Dessa maneira, uma única conexão com o 
 banco de dados pode ser compartilhada entre diversas partes de seu código.
@@ -88,7 +88,7 @@ com a instrução SQL desejada:
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // Aqui, estamos assumind que você configurou um conexão com o banco de dados
+$connection=Yee::app()->db;   // Aqui, estamos assumind que você configurou um conexão com o banco de dados
 // Caso contrario, você deverá cria-la explicitamente:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
@@ -242,12 +242,12 @@ while($dataReader->read()!==false)
 Utilizando Prefixos de Tabelas
 ------------------------------
 
-A partir da versão 1.1.0, o Yii framework possui suporte integrado para a utilização
+A partir da versão 1.1.0, o Yee framework possui suporte integrado para a utilização
 de prefixos em nomes de tabela. Um prefixo é uma string que será anexada ao início dos
 nomes das tabelas do banco de dados conectado. Normalmente, eles são utilizados em
 ambientes de hospedagem compartilhada, onde múltiplas aplicações utilizam um único
 banco de dados e é necessário diferenciar as tabelas de cada aplicação. Por exemplo,
-uma aplicação pode utilizar o prefixo `tbl_`, enquanto outra utiliza `yii_`.
+uma aplicação pode utilizar o prefixo `tbl_`, enquanto outra utiliza `yee_`.
 
 Para utiliza-los, você deverá configurar a propriedade
 [CDbConnection::tablePrefix] com o prefixo desejado. Feito isso, em suas consultas

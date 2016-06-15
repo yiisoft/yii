@@ -1,12 +1,12 @@
 自动代码生成
 =========================
 
-自版本 1.1.2 起， Yii 装备了基于 Web 界面的代码生成工具 *Gii*。 它取代了之前的命令行端的代码生成工具 `yiic shell` 。 在这部分，我们将讲解如何使用 Gii 以及如何扩展 Gii 以增加我们的开发成果。
+自版本 1.1.2 起， Yee 装备了基于 Web 界面的代码生成工具 *Gii*。 它取代了之前的命令行端的代码生成工具 `yeec shell` 。 在这部分，我们将讲解如何使用 Gii 以及如何扩展 Gii 以增加我们的开发成果。
 
 使用 Gii
 ---------
 
-Gii 是以模块的方式实现的，它必须在一个已存在的 Yii 应用程序中使用。要使用 Gii，我们首先更改应用程序的配置如下：
+Gii 是以模块的方式实现的，它必须在一个已存在的 Yee 应用程序中使用。要使用 Gii，我们首先更改应用程序的配置如下：
 
 ~~~
 [php]
@@ -32,9 +32,9 @@ return array(
 
 > Note|注意: Gii 主要用作一个开发工具。因此，应当只在开发机器上安装它。因为它可以在应用程序中生成新的 PHP 文件，我们应当对安全问题足够重视(例如设置密码，IP 过滤)。
 
-现在可以通过 URL `http://hostname/path/to/index.php?r=gii` 访问 Gii 了。这里我们假设 `http://hostname/path/to/index.php` 是访问 Yii 应用程序的 URL。
+现在可以通过 URL `http://hostname/path/to/index.php?r=gii` 访问 Gii 了。这里我们假设 `http://hostname/path/to/index.php` 是访问 Yee 应用程序的 URL。
 
-若 Yii 应用程序使用 `path` 格式的 URL (查看 [URL management](/doc/guide/topics.url))，我们可以通过 URL `http://hostname/path/to/index.php/gii` 访问 Gii。 我们可能需要增加如下 URL 规则到已有的 URL 规则的前面:
+若 Yee 应用程序使用 `path` 格式的 URL (查看 [URL management](/doc/guide/topics.url))，我们可以通过 URL `http://hostname/path/to/index.php/gii` 访问 Gii。 我们可能需要增加如下 URL 规则到已有的 URL 规则的前面:
 
 ~~~
 [php]
@@ -120,7 +120,7 @@ return array(
 
 复制文件 `framework/gii/generators/model/templates/default/model.php` 到 `protected/gii/model/templates/compact`。若我们再次尝试以 `compact` 模板生成，我们会成功。但是，生成的代码和以 `default` 模板集生成的代码没什么不同。
 
-现在是时候做点真正的工作了。打开文件 `protected/gii/model/templates/compact/model.php` 以编辑它。记得这个文件将作为类似一个视图文件被使用，意味着它可以包含 PHP 表达式和语句。让我们更改模板以便生成的代码里  `attributeLabels()` 方法使用 `Yii::t()` 来翻译属性标签：
+现在是时候做点真正的工作了。打开文件 `protected/gii/model/templates/compact/model.php` 以编辑它。记得这个文件将作为类似一个视图文件被使用，意味着它可以包含 PHP 表达式和语句。让我们更改模板以便生成的代码里  `attributeLabels()` 方法使用 `Yee::t()` 来翻译属性标签：
 
 ~~~
 [php]
@@ -128,7 +128,7 @@ public function attributeLabels()
 {
 	return array(
 <?php foreach($labels as $name=>$label): ?>
-			<?php echo "'$name' => Yii::t('application', '$label'),\n"; ?>
+			<?php echo "'$name' => Yee::t('application', '$label'),\n"; ?>
 <?php endforeach; ?>
 	);
 }
@@ -190,7 +190,7 @@ class WidgetCode extends CCodeModel
 
 	public function prepare()
 	{
-		$path=Yii::getPathOfAlias('application.components.' . $this->className) . '.php';
+		$path=Yee::getPathOfAlias('application.components.' . $this->className) . '.php';
 		$code=$this->render($this->templatepath.'/widget.php');
 
 		$this->files[]=new CCodeFile($path, $code);

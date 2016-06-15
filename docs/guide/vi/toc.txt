@@ -1,10 +1,10 @@
-* Khởi đầu với Yii
+* Khởi đầu với Yee
     - [Tổng quan](index)
     - [Tính năng mới](changes)
     - [Nâng cấp từ 1.0 lên 1.1](upgrade)
-    - [Yii là gì](quickstart.what-is-yii)
+    - [Yee là gì](quickstart.what-is-yee)
     - [Cài đặt](quickstart.installation)
-    - [Tạo ứng dụng Yii đầu tiên](quickstart.first-app)
+    - [Tạo ứng dụng Yee đầu tiên](quickstart.first-app)
 
 * Căn bản
     - [Model-View-Controller (MVC)](basics.mvc)
@@ -40,7 +40,7 @@
     - [Page Caching](caching.page)
     - [Dynamic Content](caching.dynamic)
 
-* Mở rộng Yii
+* Mở rộng Yee
     - [Tổng quan](extension.overview)
     - [Sử dụng Extensions](extension.use)
     - [Tạo Extensions](extension.create)

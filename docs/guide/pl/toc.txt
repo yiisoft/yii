@@ -2,10 +2,10 @@
 	- [Przegląd](index)
     - [Nowe funkcjonalności](changes)
 	- [Migracja z wersji 1.0 do 1.1](upgrade)
-    - [Czym jest Yii](quickstart.what-is-yii)
+    - [Czym jest Yee](quickstart.what-is-yee)
     - [Instalacja](quickstart.installation)
 	- [Konfiguracja Apache-a oraz Nginx-a](quickstart.apache-nginx-config)	
-    - [Pierwsza aplikacja w Yii](quickstart.first-app)
+    - [Pierwsza aplikacja w Yee](quickstart.first-app)
 
 * Podstawy
     - [Model-Widok-Kontroler (MVC)](basics.mvc)
@@ -44,7 +44,7 @@
     - [Buforowanie stron](caching.page)
     - [Zawartość dynamiczna](caching.dynamic)
 
-* Rozszerzanie Yii
+* Rozszerzanie Yee
     - [Przegląd](extension.overview)
     - [Używanie rozszerzeń](extension.use)
     - [Tworzenie rozszerzeń](extension.create)
@@ -69,6 +69,6 @@
     - [Aplikacje konsolowe](topics.console)
     - [Bezpieczeństwo](topics.security)
     - [Zwiększanie wydajności](topics.performance)
-    - [Generowanie kodu przy użyciu narzędzia linii poleceń (zarzucone)](quickstart.first-app-yiic)	
+    - [Generowanie kodu przy użyciu narzędzia linii poleceń (zarzucone)](quickstart.first-app-yeec)	
 
 <div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>

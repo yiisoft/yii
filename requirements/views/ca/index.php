@@ -4,32 +4,32 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="es"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Verificació de requerimients de Yii</title>
+<title>Verificació de requerimients de Yee</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Verificació de requerimients de Yii</h1>
+<h1>Verificació de requerimients de Yee</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Descripció</h2>
 <p>
-Aquest script verifica que la configuració del seu servidor compleix amb els requeriments necessàris per poder executar aplicacions Web <a href="http://www.yiiframework.com/">Yii</a>.
+Aquest script verifica que la configuració del seu servidor compleix amb els requeriments necessàris per poder executar aplicacions Web <a href="http://www.yeeframework.com/">Yee</a>.
 El mateix verifica que el servidor corre una versió adequada de PHP, que les extensions PHP necessàries han set carregades i que les configuracions de l'arxiu php.ini són correctes.
 </p>
 
 <h2>Conclusió</h2>
 <p>
 <?php if($result>0): ?>
-Enhorabona! El vostre servidor compleix tots els requeriments de Yii.
+Enhorabona! El vostre servidor compleix tots els requeriments de Yee.
 <?php elseif($result<0): ?>
-La configuració del vostre servidor compleix els requeriments mínims de Yii. Si us plau, prengui atenció a les advertències llistades a continuació si la seva aplicació utilitza alguna d'aquestes característiques.
+La configuració del vostre servidor compleix els requeriments mínims de Yee. Si us plau, prengui atenció a les advertències llistades a continuació si la seva aplicació utilitza alguna d'aquestes característiques.
 <?php else: ?>
-Desafortunadamente la configuración de su servidor no satisface los requerimientos de Yii.
-Desafortunamadament, la configuració del vostre servidor no compleix els requeriments de Yii.
+Desafortunadamente la configuración de su servidor no satisface los requerimientos de Yee.
+Desafortunamadament, la configuració del vostre servidor no compleix els requeriments de Yee.
 <?php endif; ?>
 </p>
 

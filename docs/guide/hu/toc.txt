@@ -2,9 +2,9 @@
 	- [Áttekintés](index)
 	- [Újdonságok] (changes)
 	- [Frissítés 1.0-ról 1.1-re] (upgrade)
-    - [Mi is a Yii](quickstart.what-is-yii)
+    - [Mi is a Yee](quickstart.what-is-yee)
     - [Telepítés](quickstart.installation)
-    - [Az első Yii alkalmazás létrehozása](quickstart.first-app)
+    - [Az első Yee alkalmazás létrehozása](quickstart.first-app)
 
 * Alapok
     - [Model-View-Controller (MVC)](basics.mvc)
@@ -39,7 +39,7 @@
     - [Lap gyorsítótárazás](caching.page)
     - [Dinamikus tartalom](caching.dynamic)
 
-* Yii kiterjesztése
+* Yee kiterjesztése
     - [Áttekintés](extension.overview)
     - [Kiterjesztések használata](extension.use)
     - [Kiterjesztések létrehozsáa](extension.create)

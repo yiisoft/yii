@@ -9,7 +9,7 @@ razón application es también llamado `front-controller` (controlador principal
 
 Application es creado como un singleton por el [script de entrada](/doc/guide/basics.entry).
 El singleton Application puede ser accedido en cualquier lugar 
-mediante [Yii::app()|YiiBase::app].
+mediante [Yee::app()|YeeBase::app].
 
 
 Configuración de Aplicación
@@ -29,7 +29,7 @@ configura las propiedades [name|CApplication::name] y
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -44,13 +44,13 @@ return array(...);
 ~~~
 
 Para aplicar estas configuraciones pasamos el nombre del archivo de configuración
-como parametro al constructor de application o a [Yii::createWebApplication()]
+como parametro al constructor de application o a [Yee::createWebApplication()]
 como en el siguiente ejemplo el cual es usualmente utilizado en el 
 [Script de entrada](/doc/guide/basics.entry):
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip: Si la configuración de la aplicación es muy compleja, podemos dividirla en 
@@ -115,9 +115,9 @@ En el ejemplo anterior agregamos el elemento `cache` en el arreglo `components`.
 El elemento cache define que la clase del componente será `CMemCache y 
 la propiedad `servers` debe ser inicializada como lo indica.
 
-Para acceder a un componente de application utilice `Yii::app()->ComponentID`,
+Para acceder a un componente de application utilice `Yee::app()->ComponentID`,
 en donde `ComponentID` indica el ID del componente que desea
-(ejemplo: `Yii::app()->cache`).
+(ejemplo: `Yee::app()->cache`).
 
 Un componente de aplicación puede ser deshabilitado mediante su configuración indicando
 la propiedad `enabled` con un valor false en su configuración.
@@ -133,11 +133,11 @@ propiedad [preload|CApplication::preload] de la aplicación.
 Componentes del nucleo de Application
 -------------------------------------
 
-Yii predefine un juego de compoenentes de aplicación que proveen caracteristicas comunes 
+Yee predefine un juego de compoenentes de aplicación que proveen caracteristicas comunes 
 en toda la aplicación Web. Por ejemplo, el componente [request|CWebApplication::request]
 es usado para resolver pedidos de usuarios y proveer de información como URL, cookies.
 Configurando las propiedades de estos componentes podemos cambiar el comportamiento de casi
-todos los aspectos de Yii.
+todos los aspectos de Yee.
 
 Abajo se encuentra la lista de componentes predeclarados por [CWebApplication].
 
@@ -155,7 +155,7 @@ Abajo se encuentra la lista de componentes predeclarados por [CWebApplication].
    Administra los scripts de cliente (javascripts y CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-   provee de los mensajes de nucleo traducidos utilizados por Yii framework.
+   provee de los mensajes de nucleo traducidos utilizados por Yee framework.
 
    - [db|CApplication::db]: [CDbConnection] - provee la conexión a la base de datos.
    Nota: debe configurar la propiedad [connectionString|CDbConnection::connectionString] 
@@ -165,7 +165,7 @@ Abajo se encuentra la lista de componentes predeclarados por [CWebApplication].
    excepciones PHP no advertidas.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - Provee mensajes traducidos
-   utilizados por la aplicación Yii.
+   utilizados por la aplicación Yee.
 
    - [request|CWebApplication::request]: [CHttpRequest] - 
    Provee información relacionada con el request.

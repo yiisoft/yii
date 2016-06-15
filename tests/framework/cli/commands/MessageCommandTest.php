@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.cli.commands.MessageCommand');
+Yee::import('system.cli.commands.MessageCommand');
 
 /**
  * Test case for "system.cli.commands.MessageCommand"
@@ -14,11 +14,11 @@ class MessageCommandTest extends CTestCase
 
 	public function setUp()
 	{
-		$this->sourcePath=Yii::getPathOfAlias('application.runtime.test_source');
+		$this->sourcePath=Yee::getPathOfAlias('application.runtime.test_source');
 		$this->createDir($this->sourcePath);
-		$this->messagePath=Yii::getPathOfAlias('application.runtime.test_messages');
+		$this->messagePath=Yee::getPathOfAlias('application.runtime.test_messages');
 		$this->createDir($this->messagePath);
-		$this->configFileName=Yii::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR.'message_command_test_config.php';
+		$this->configFileName=Yee::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR.'message_command_test_config.php';
 	}
 
 	public function tearDown()
@@ -162,7 +162,7 @@ class MessageCommandTest extends CTestCase
 
 		$category='test_category';
 		$message='test message';
-		$sourceFileContent="Yii::t('{$category}','{$message}')";
+		$sourceFileContent="Yee::t('{$category}','{$message}')";
 		$this->createSourceFile($sourceFileContent);
 
 		$this->composeConfigFile(array(
@@ -189,7 +189,7 @@ class MessageCommandTest extends CTestCase
 
 		$category='test_category1';
 		$message='test message';
-		$sourceFileContent = "Yii::t('{$category}','{$message}')";
+		$sourceFileContent = "Yee::t('{$category}','{$message}')";
 		$this->createSourceFile($sourceFileContent);
 
 		$this->composeConfigFile(array(
@@ -231,8 +231,8 @@ class MessageCommandTest extends CTestCase
 		));
 
 		$newMessage='test new message';
-		$sourceFileContent = "Yii::t('{$category}','{$existingMessage}')";
-		$sourceFileContent .= "Yii::t('{$category}','{$newMessage}')";
+		$sourceFileContent = "Yee::t('{$category}','{$existingMessage}')";
+		$sourceFileContent .= "Yee::t('{$category}','{$newMessage}')";
 		$this->createSourceFile($sourceFileContent);
 
 		$this->composeConfigFile(array(
@@ -269,7 +269,7 @@ class MessageCommandTest extends CTestCase
 			$oldMessage=>$oldMessageContent
 		));
 
-		$sourceFileContent = "Yii::t('{$category}','some new message')";
+		$sourceFileContent = "Yee::t('{$category}','some new message')";
 		$this->createSourceFile($sourceFileContent);
 
 		$this->composeConfigFile(array(
@@ -289,7 +289,7 @@ class MessageCommandTest extends CTestCase
 
 	/**
 	 * @depends testMerge
-	 * @see https://github.com/yiisoft/yii/issues/2244
+	 * @see https://github.com/yeesoft/yee/issues/2244
 	 */
 	public function testMergeWithContentZero()
 	{
@@ -311,9 +311,9 @@ class MessageCommandTest extends CTestCase
 		));
 
 		$newMessage='test new message';
-		$sourceFileContent = "Yii::t('{$category}','{$zeroMessage}')";
-		$sourceFileContent .= "Yii::t('{$category}','{$falseMessage}')";
-		$sourceFileContent .= "Yii::t('{$category}','{$newMessage}')";
+		$sourceFileContent = "Yee::t('{$category}','{$zeroMessage}')";
+		$sourceFileContent .= "Yee::t('{$category}','{$falseMessage}')";
+		$sourceFileContent .= "Yee::t('{$category}','{$newMessage}')";
 		$this->createSourceFile($sourceFileContent);
 
 		$this->composeConfigFile(array(
@@ -331,7 +331,7 @@ class MessageCommandTest extends CTestCase
 
 	/**
 	 * @depends testCreateTranslation
-	 * @see https://github.com/yiisoft/yii/issues/1228
+	 * @see https://github.com/yeesoft/yee/issues/1228
 	 */
 	public function testMultiplyTranslators()
 	{
@@ -343,7 +343,7 @@ class MessageCommandTest extends CTestCase
 		$category='test_category5';
 
 		$translators=array(
-			'Yii::t',
+			'Yee::t',
 			'Custom::translate',
 		);
 

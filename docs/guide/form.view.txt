@@ -8,7 +8,7 @@ declared in the `LoginForm` class. At the end we insert a submit button
 which can be clicked by users to submit the form. All these can be done in
 pure HTML code.
 
-Yii provides a few helper classes to facilitate view composition. For
+Yee provides a few helper classes to facilitate view composition. For
 example, to create a text input field, we can call [CHtml::textField()]; to
 create a drop-down list, call [CHtml::dropDownList()].
 
@@ -64,7 +64,7 @@ appropriate CSS styles. Similarly, [CHtml::activeTextField()] generates a
 text input field for the specified model attribute and changes its CSS
 class upon any input error.
 
-If we use the CSS style file `form.css` provided by the `yiic` script, the
+If we use the CSS style file `form.css` provided by the `yeec` script, the
 generated form would be like the following:
 
 ![The login page](login1.png)

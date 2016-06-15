@@ -1,11 +1,11 @@
 Unittests
 =========
 
-Da das Yii-Testframework auf [PHPUnit](http://www.phpunit.de/) basiert,
+Da das Yee-Testframework auf [PHPUnit](http://www.phpunit.de/) basiert,
 empfehlen wir Ihnen, sich zunächst die [Dokumenation von
 PHPUnit](http://www.phpunit.de/manual/current/en/index.html) durchzulesen, um die
 Grundsätze beim Schreiben eines Tests zu verstehen. Zusammengefasst gelten
-diese Grundprinzipien für das Schreiben von Unittests in Yii:
+diese Grundprinzipien für das Schreiben von Unittests in Yee:
 
 
  * Ein Unittest wird als Klasse `XyzTest` geschrieben, die [CTestCase] oder [CDbTestCase] erweitert, 
@@ -33,7 +33,7 @@ unsere Testklassen von [CDbTestCase] ab, da sie die im letzten Abschnitt
 vorgestellten Fixtures unterstützt.
 
 Nehmen wir an, wir wollen die Modelklasse `Comment` aus dem
-[Blog-Demo](http://www.yiiframework.com/demos/blog/) testen. Wir erstellen
+[Blog-Demo](http://www.yeeframework.com/demos/blog/) testen. Wir erstellen
 also zunächst eine Klasse `CommentTest` und speichern diese unter
 `protected/tests/unit/CommentTest.php`:
 

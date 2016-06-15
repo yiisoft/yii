@@ -3,7 +3,7 @@ Zwiększanie wydajności
 
 Na wydajność aplikacji sieciowych ma wpływ wiele czynników. Dostęp do baz danych,
 operacje na plikach, przepustowość sieci, wszystkie z nich potencjalnie są tymi 
-czynnikami. Yii stara się w każdym aspekcie redukować wpływy na wydajność 
+czynnikami. Yee stara się w każdym aspekcie redukować wpływy na wydajność 
 powodowane przez framework. Mimo to, jest wiele miejsc w aplikacji użytkownika, 
 które mogą zostać poprawione by zwiększyć wydajność.
 
@@ -19,36 +19,36 @@ Wyłączanie trybu debugowania
 --------------------
 
 Wyłączenie trybu debugowania jest kolejnym prostym sposobem na poprawienie wydajności
-aplikacji. Aplikacja Yii działa w trybie debugowania, jeśli stała `YII_DEBUG` 
+aplikacji. Aplikacja Yee działa w trybie debugowania, jeśli stała `YII_DEBUG` 
 jest zdefiniowana jako wartość true. Tryb debugowania jest użyteczny w trakcie
 fazy tworzenia aplikacji, jednakże wpływa on na wydajność, ponieważ część
 komponentów powoduje dodatkowe obciążenia. Na przykład, logger komunikatów
 może zapisywać dodatkowe informacje dla każdego logowanego komunikatu. 
 
-Używanie `yiilite.php`
+Używanie `yeelite.php`
 -------------------
 
 Jeśli rozszerzenie PHP [APC](http://www.php.net/manual/en/book.apc.php) jest włączone,
-możemy zastąpić `yii.php` innym plikiem inicjalizującym (ang. bootstrap) `yiilite.php` 
-aby później zwiększyć wydajność aplikacji opartych o Yii.
+możemy zastąpić `yee.php` innym plikiem inicjalizującym (ang. bootstrap) `yeelite.php` 
+aby później zwiększyć wydajność aplikacji opartych o Yee.
 
 
-Plik `yiilite.php` dostarczany jest wraz z każdym wydaniem Yii. Jest on rezultatem 
-połączenia pewnych często używanych w Yii plików klas. Zarówno komentarze oraz 
-wyrażenia śledzenia (trace) są usuwane z tego połączonego pliku. Dlatego też używanie `yiilite.php` 
+Plik `yeelite.php` dostarczany jest wraz z każdym wydaniem Yee. Jest on rezultatem 
+połączenia pewnych często używanych w Yee plików klas. Zarówno komentarze oraz 
+wyrażenia śledzenia (trace) są usuwane z tego połączonego pliku. Dlatego też używanie `yeelite.php` 
 spowoduje redukcję ilości plików dołączanych oraz uniknięcie wywołań wyrażeń śledzenia (trace).
 
-Zauważ, że używanie `yiilite.php` bez APC, może zmniejszyć wydajność ponieważ `yiilite.php`
+Zauważ, że używanie `yeelite.php` bez APC, może zmniejszyć wydajność ponieważ `yeelite.php`
 zawiera część klas, które niekoniecznie używane są w każdym żądaniu, przez co 
-zwiększają one czas parsowania. Zauważono również, że używanie `yiilite.php`
+zwiększają one czas parsowania. Zauważono również, że używanie `yeelite.php`
 jest wolniejsze dla pewnych konfiguracji serwera, nawet jeśli włączone jest APC.
-Najlepszym sposobem rozstrzygnięcia czy używać `yiilite.php` czy też nie 
-jest uruchomienie benchmarku używającego załączone do Yii demo `hello world`.
+Najlepszym sposobem rozstrzygnięcia czy używać `yeelite.php` czy też nie 
+jest uruchomienie benchmarku używającego załączone do Yee demo `hello world`.
 
 Używanie technik buforowania
 ------------------------
 
-Tak jak to opisano w sekcji [buforowanie](/doc/guide/caching.overview), Yii dostarcza
+Tak jak to opisano w sekcji [buforowanie](/doc/guide/caching.overview), Yee dostarcza
 kilka rozwiązań związanych z buforowaniem, które mogą zwiększyć w znacznym stopniu wydajność 
 aplikacji sieciowej. Jeśli generowanie pewnych danych zabiera wiele czasu, możemy
 użyć techniki [buforowania danych](/doc/guide/caching.data) w celu zredukowania 
@@ -106,9 +106,9 @@ ilość plików skryptów poprzez połączenie ich w mniejszą ilość. Powinni�
 zmniejszenie rozmiaru każdego z plików skryptu w celu zmniejszenia czasu przesyłu w sieci. 
 Istnieje wiele narzędzi, które pomogą w tych dwóch aspektach.
 
-Dla stron generowanych przez Yii istnieje możliwość, że znajdują się tam pewne pliki
+Dla stron generowanych przez Yee istnieje możliwość, że znajdują się tam pewne pliki
 skryptów generowane przez komponenty, których nie chcemy modyfikować 
-(np. rdzenne komponenty Yii, komponenty stron trzecich). W celu minimalizacji tych plików 
+(np. rdzenne komponenty Yee, komponenty stron trzecich). W celu minimalizacji tych plików 
 skryptów, potrzebujemy wykonać dwa kroki.
 
 Najpierw deklarujemy, które pliki chcemy zminimalizować poprzez skonfigurowanie właściwości  
@@ -118,7 +118,7 @@ Możemy to zrobić zarówno w konfiguracji aplikacji jak i w kodzie. Na przykła
 
 ~~~
 [php]
-$cs=Yii::app()->clientScript;
+$cs=Yee::app()->clientScript;
 $cs->scriptMap=array(
 	'jquery.js'=>'/js/all.js',
 	'jquery.ajaxqueue.js'=>'/js/all.js',
@@ -129,7 +129,7 @@ $cs->scriptMap=array(
 
 To co wykonuje powyższy kod, to mapowanie tych plików JavaScript do adresu URL `/js/all.js`. 
 Jeśli któryś z tych plików JavaScript będzie musiał być dołączony przez, któryś 
-z komponentów, Yii załączy (raz) URL zamiast kolejnego załączania poszczególnych plików skryptu.
+z komponentów, Yee załączy (raz) URL zamiast kolejnego załączania poszczególnych plików skryptu.
 
 Po drugie, potrzebujemy użyć pewnych narzędzi do połączenia (i prawdopodobnie skompresowania) 
 plików JavaScript w jeden oraz zapisanie go jako `js/all.js`.
@@ -142,7 +142,7 @@ Aby to zrobić, najpierw konfigurujemy właściwość `scriptMap` w następując
 
 ~~~
 [php]
-$cs=Yii::app()->clientScript;
+$cs=Yee::app()->clientScript;
 $cs->scriptMap=array(
 	'jquery.js'=>false,
 	'jquery.ajaxqueue.js'=>false,
@@ -151,7 +151,7 @@ $cs->scriptMap=array(
 );
 ~~~
 
-Poprzez zmapowanie tych plików skryptu do wartości false, powstrzymujemy Yii od generowania kodu 
+Poprzez zmapowanie tych plików skryptu do wartości false, powstrzymujemy Yee od generowania kodu 
 potrzebnego do załączenia tych plików. W zamian, piszemy następujący kod na naszej stronie 
 aby bezpośrednio dołączyć pliki skryptów ze strony Google:
 

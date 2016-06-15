@@ -2,7 +2,7 @@
 
 return array(
 	array(
-		'name'=>'yii',
+		'name'=>'yee',
 		'frequency'=>1,
 	),
 	array(

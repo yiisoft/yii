@@ -109,7 +109,7 @@ class CJSON
 				return str_replace(',','.',(float)$var); // locale-independent representation
 
 			case 'string':
-				if (($enc=strtoupper(Yii::app()->charset))!=='UTF-8')
+				if (($enc=strtoupper(Yee::app()->charset))!=='UTF-8')
 					$var=iconv($enc, 'UTF-8', $var);
 
 				if(function_exists('json_encode'))

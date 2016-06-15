@@ -30,7 +30,7 @@ class CNumberValidatorTest extends CTestCase
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/1669
+	 * https://github.com/yeesoft/yee/issues/1669
 	 * @dataProvider providerIssue1669
 	 */
 	public function testIssue1669($value, $assertion)

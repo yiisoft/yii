@@ -9,10 +9,10 @@ class CWebUserTest extends CTestCase
 {
 	public function setUp()
 	{
-		Yii::app()->setComponent('authManager', new CPhpAuthManager());
+		Yee::app()->setComponent('authManager', new CPhpAuthManager());
 
 		/** @var CPhpAuthManager $auth */
-		$auth = Yii::app()->authManager;
+		$auth = Yee::app()->authManager;
 		$auth->createOperation('createPost');
 		$auth->createOperation('deletePost');
 		$auth->assign('createPost', 'admin');
@@ -20,8 +20,8 @@ class CWebUserTest extends CTestCase
 
 	public function tearDown()
 	{
-		Yii::app()->session->destroy();
-		Yii::app()->setComponent('authManager', null);
+		Yee::app()->session->destroy();
+		Yee::app()->setComponent('authManager', null);
 	}
 
 	public function booleanProvider()
@@ -64,14 +64,14 @@ class CWebUserTest extends CTestCase
 	public function testCheckAccess()
 	{
 		$identity = new CUserIdentity('admin', 'admin');
-		Yii::app()->user->login($identity);
+		Yee::app()->user->login($identity);
 
-		$this->assertTrue(Yii::app()->user->checkAccess('createPost'));
-		$this->assertFalse(Yii::app()->user->checkAccess('deletePost'));
+		$this->assertTrue(Yee::app()->user->checkAccess('createPost'));
+		$this->assertFalse(Yee::app()->user->checkAccess('deletePost'));
 
-		Yii::app()->user->logout();
+		Yee::app()->user->logout();
 
-		$this->assertFalse(Yii::app()->user->checkAccess('createPost'));
-		$this->assertFalse(Yii::app()->user->checkAccess('deletePost'));
+		$this->assertFalse(Yee::app()->user->checkAccess('createPost'));
+		$this->assertFalse(Yee::app()->user->checkAccess('deletePost'));
 	}
 }

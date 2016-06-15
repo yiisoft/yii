@@ -3,9 +3,9 @@
  * CRangeValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -65,7 +65,7 @@ class CRangeValidator extends CValidator
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		if(!is_array($this->range))
-			throw new CException(Yii::t('yii','The "range" property must be specified with a list of values.'));
+			throw new CException(Yee::t('yee','The "range" property must be specified with a list of values.'));
 		$result = false;
 		if($this->strict)
 			$result=in_array($value,$this->range,true);
@@ -80,12 +80,12 @@ class CRangeValidator extends CValidator
 		}
 		if(!$this->not && !$result)
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not in the list.');
+			$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} is not in the list.');
 			$this->addError($object,$attribute,$message);
 		}
 		elseif($this->not && $result)
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is in the list.');
+			$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} is in the list.');
 			$this->addError($object,$attribute,$message);
 		}
 	}
@@ -102,10 +102,10 @@ class CRangeValidator extends CValidator
 	public function clientValidateAttribute($object,$attribute)
 	{
 		if(!is_array($this->range))
-			throw new CException(Yii::t('yii','The "range" property must be specified with a list of values.'));
+			throw new CException(Yee::t('yee','The "range" property must be specified with a list of values.'));
 
 		if(($message=$this->message)===null)
-			$message=$this->not ? Yii::t('yii','{attribute} is in the list.') : Yii::t('yii','{attribute} is not in the list.');
+			$message=$this->not ? Yee::t('yee','{attribute} is in the list.') : Yee::t('yee','{attribute} is not in the list.');
 		$message=strtr($message,array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
 		));

@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.web.CUploadedFile');
+Yee::import('system.web.CUploadedFile');
 
 /**
  * Unit test for "system.web.CUploadedFile".
@@ -98,7 +98,7 @@ class CUploadedFileTest extends CTestCase
 	/**
 	 * @depends testGetInstancesByName
 	 *
-	 * @see https://github.com/yiisoft/yii/issues/159
+	 * @see https://github.com/yeesoft/yee/issues/159
 	 */
 	public function testGetInstancesByNamePartOfOtherName()
 	{

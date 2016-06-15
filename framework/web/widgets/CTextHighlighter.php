@@ -3,13 +3,13 @@
  * CTextHighlighter class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-require_once(Yii::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter').'.php');
-require_once(Yii::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter.Renderer.Html').'.php');
+require_once(Yee::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter').'.php');
+require_once(Yee::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter.Renderer.Html').'.php');
 
 /**
  * CTextHighlighter does syntax highlighting for its body content.
@@ -118,7 +118,7 @@ class CTextHighlighter extends COutputProcessor
 	public static function registerCssFile($url=null)
 	{
 		if($url===null)
-			$url=CHtml::asset(Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css');
-		Yii::app()->getClientScript()->registerCssFile($url);
+			$url=CHtml::asset(Yee::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css');
+		Yee::app()->getClientScript()->registerCssFile($url);
 	}
 }

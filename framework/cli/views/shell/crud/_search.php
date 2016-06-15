@@ -10,7 +10,7 @@
 <div class="wide form">
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
-	'action'=>Yii::app()->createUrl(\$this->route),
+	'action'=>Yee::app()->createUrl(\$this->route),
 	'method'=>'get',
 )); ?>\n"; ?>
 

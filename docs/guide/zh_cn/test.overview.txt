@@ -3,7 +3,7 @@
 
 测试是软件开发中必不可少的环节.无论我们是否意识到,在开发Web应用的时候,我们始终都是在测试的.例如, 当我们用PHP写了一个类时, 我们可能会用到一些注入 `echo` 或者 `die` 语句来显示我们是否正确地实现了某个方法;当我们实现了包含一套复杂的HTML表单的web页面时, 我们可能会试着输入一些测试数据来确认页面是否是按照我们的预期来交互的.更高级的开发者则会写一些代码来自动完成这个测试过程, 这样一来每当我们需要测试一些东西的时候, 我们只需要调用代码, 剩下来的就交给计算机了. 这就是所谓的 *自动测试*, 也是本章的主要话题.
 
-Yii 提供的测试支持包括 *单元测试* 和 *功能测试*.
+Yee 提供的测试支持包括 *单元测试* 和 *功能测试*.
 
 单元测试检验了代码的一个独立单元是否按照预期工作. 在面向对象编程中, 最基本的代码单元就是类. 因此, 单元测试的主要职责就是校验这个类所实现的每个方法工作都是正常的. 单元测试通常是由开发了这个类的人来编写.
 
@@ -27,9 +27,9 @@ Yii 提供的测试支持包括 *单元测试* 和 *功能测试*.
 构建测试环境
 ----------------------
 
-Yii 提供的测试支持需要 [PHPUnit](http://www.phpunit.de/) 3.5+ 和 [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.请参照他们提供的文档来安装 PHPUnit 和 Selenium Remote Control.
+Yee 提供的测试支持需要 [PHPUnit](http://www.phpunit.de/) 3.5+ 和 [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.请参照他们提供的文档来安装 PHPUnit 和 Selenium Remote Control.
 
-当我们使用 `yiic webapp` 控制台命令来创建一个新的 Yii 应用时, 它将会生成以下文件和目录供我们来编写和完成测试.
+当我们使用 `yeec webapp` 控制台命令来创建一个新的 Yee 应用时, 它将会生成以下文件和目录供我们来编写和完成测试.
 
 ~~~
 testdrive/
@@ -65,14 +65,14 @@ testdrive/
 
 ~~~
 [php]
-$yiit='path/to/yii/framework/yiit.php';
+$yeet='path/to/yee/framework/yeet.php';
 $config=dirname(__FILE__).'/../config/test.php';
-require_once($yiit);
+require_once($yeet);
 require_once(dirname(__FILE__).'/WebTestCase.php');
-Yii::createWebApplication($config);
+Yee::createWebApplication($config);
 ~~~
 
-如上所示, 首先我们包含了来自 Yii 框架的 `yiit.php` 文件, 它初始化了一些全局常量以及必要的测试基类.然后我们使用 `test.php` 这个配置文件来创建一个应用实例.如果你查看 `test.php` 文件, 你会发现它是继承自 `main.php` 这个配置文件的, 只不过它多加了一个类名为 [CDbFixtureManager] 的 `fixture` 应用组件.我们将在下一节中详细的介绍 fixtures.
+如上所示, 首先我们包含了来自 Yee 框架的 `yeet.php` 文件, 它初始化了一些全局常量以及必要的测试基类.然后我们使用 `test.php` 这个配置文件来创建一个应用实例.如果你查看 `test.php` 文件, 你会发现它是继承自 `main.php` 这个配置文件的, 只不过它多加了一个类名为 [CDbFixtureManager] 的 `fixture` 应用组件.我们将在下一节中详细的介绍 fixtures.
 
 ~~~
 [php]

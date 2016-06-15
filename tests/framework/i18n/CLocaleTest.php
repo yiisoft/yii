@@ -51,12 +51,12 @@ class CLocaleTest extends CTestCase
 		);
 
 		new TestApplication($config);
-		Yii::app()->configure($config);
+		Yee::app()->configure($config);
 	}
 
 	function testRequiredDataExistence(){
 		foreach($this->criticalLocaleCodes as $localeCode){
-			$locale = Yii::app()->getLocale($localeCode);
+			$locale = Yee::app()->getLocale($localeCode);
 			// AM/PM
 			$this->assertNotNull($locale->getAMName(), "$localeCode: getAMName failed.");
 			$this->assertNotNull($locale->getPMName(), "$localeCode: getPMName failed.");
@@ -107,7 +107,7 @@ class CLocaleTest extends CTestCase
 			array('es_MX',null,null),
 			array('es_ES',null,null),
 
-			// https://github.com/yiisoft/yii/issues/2087
+			// https://github.com/yeesoft/yee/issues/2087
 			array('en_us','en','english'),
 			array('en_us','en_us','u.s. english'),
 			array('en_us','pt','portuguese'),
@@ -158,7 +158,7 @@ class CLocaleTest extends CTestCase
 			array('ru','Hant',null),
 			array('en','Hant',null),
 
-			// https://github.com/yiisoft/yii/issues/2087
+			// https://github.com/yeesoft/yee/issues/2087
 			array('en_us','en','English'),
 			array('en_us','en_us','English'),
 			array('en_us','us',null),

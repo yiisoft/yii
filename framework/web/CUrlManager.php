@@ -3,13 +3,13 @@
  * CUrlManager class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
- * CUrlManager manages the URLs of Yii Web applications.
+ * CUrlManager manages the URLs of Yee Web applications.
  *
  * It provides URL construction ({@link createUrl()}) as well as parsing ({@link parseUrl()}) functionality.
  *
@@ -123,7 +123,7 @@
  */
 class CUrlManager extends CApplicationComponent
 {
-	const CACHE_KEY='Yii.CUrlManager.rules';
+	const CACHE_KEY='Yee.CUrlManager.rules';
 	const GET_FORMAT='get';
 	const PATH_FORMAT='path';
 
@@ -213,7 +213,7 @@ class CUrlManager extends CApplicationComponent
 	{
 		if(empty($this->rules) || $this->getUrlFormat()===self::GET_FORMAT)
 			return;
-		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->cacheID!==false && ($cache=Yee::app()->getComponent($this->cacheID))!==null)
 		{
 			$hash=md5(serialize($this->rules));
 			if(($data=$cache->get(self::CACHE_KEY))!==false && isset($data[1]) && $data[1]===$hash)
@@ -266,7 +266,7 @@ class CUrlManager extends CApplicationComponent
 			return $route;
 		else
 		{
-			$urlRuleClass=Yii::import($this->urlRuleClass,true);
+			$urlRuleClass=Yee::import($this->urlRuleClass,true);
 			return new $urlRuleClass($route,$pattern);
 		}
 	}
@@ -298,7 +298,7 @@ class CUrlManager extends CApplicationComponent
 		foreach($this->_rules as $i=>$rule)
 		{
 			if(is_array($rule))
-				$this->_rules[$i]=$rule=Yii::createComponent($rule);
+				$this->_rules[$i]=$rule=Yee::createComponent($rule);
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
 			{
 				if($rule->hasHostInfo)
@@ -366,12 +366,12 @@ class CUrlManager extends CApplicationComponent
 			foreach($this->_rules as $i=>$rule)
 			{
 				if(is_array($rule))
-					$this->_rules[$i]=$rule=Yii::createComponent($rule);
+					$this->_rules[$i]=$rule=Yee::createComponent($rule);
 				if(($r=$rule->parseUrl($this,$request,$pathInfo,$rawPathInfo))!==false)
 					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
 			if($this->useStrictParsing)
-				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+				throw new CHttpException(404,Yee::t('yee','Unable to resolve the request "{route}".',
 					array('{route}'=>$pathInfo)));
 			else
 				return $pathInfo;
@@ -469,9 +469,9 @@ class CUrlManager extends CApplicationComponent
 		else
 		{
 			if($this->showScriptName)
-				$this->_baseUrl=Yii::app()->getRequest()->getScriptUrl();
+				$this->_baseUrl=Yee::app()->getRequest()->getScriptUrl();
 			else
-				$this->_baseUrl=Yii::app()->getRequest()->getBaseUrl();
+				$this->_baseUrl=Yee::app()->getRequest()->getBaseUrl();
 			return $this->_baseUrl;
 		}
 	}
@@ -508,7 +508,7 @@ class CUrlManager extends CApplicationComponent
 		if($value===self::PATH_FORMAT || $value===self::GET_FORMAT)
 			$this->_urlFormat=$value;
 		else
-			throw new CException(Yii::t('yii','CUrlManager.UrlFormat must be either "path" or "get".'));
+			throw new CException(Yee::t('yee','CUrlManager.UrlFormat must be either "path" or "get".'));
 	}
 }
 
@@ -709,7 +709,7 @@ class CUrlRule extends CBaseUrlRule
 			$this->routePattern='/^'.strtr($this->route,$tr2).'$/u';
 
 		if(YII_DEBUG && @preg_match($this->pattern,'test')===false)
-			throw new CException(Yii::t('yii','The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
+			throw new CException(Yee::t('yee','The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
 				array('{route}'=>$route,'{pattern}'=>$pattern)));
 	}
 
@@ -779,7 +779,7 @@ class CUrlRule extends CBaseUrlRule
 
 		if($this->hasHostInfo)
 		{
-			$hostInfo=Yii::app()->getRequest()->getHostInfo();
+			$hostInfo=Yee::app()->getRequest()->getHostInfo();
 			if(stripos($url,$hostInfo)===0)
 				$url=substr($url,strlen($hostInfo));
 		}

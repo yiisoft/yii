@@ -3,8 +3,8 @@ Använda Utvidgning
 
 Användning av en utvidgning involverar vanligtvis följande tre steg:
 
-  1. Ladda ned utvidgningen från Yii:s 
-  [förråd av utvidgningar](http://www.yiiframework.com/extensions/).
+  1. Ladda ned utvidgningen från Yee:s 
+  [förråd av utvidgningar](http://www.yeeframework.com/extensions/).
      
   2. Packa upp utvidgningen i underkatalogen `extensions/xyz` till
      [applikationens rotkatalog](/doc/guide/basics.application#application-base-directory),
@@ -26,11 +26,11 @@ Zii-utvidgningar
 ----------------
 
 Innan vi börjar beskriva användning av tredjepartstillägg vill vi introducera 
-utvidgningsbiblioteket Zii, vilket består av en uppsättning tillägg framtagna av Yii:s 
+utvidgningsbiblioteket Zii, vilket består av en uppsättning tillägg framtagna av Yee:s 
 team av utvecklare och kommer att följa med i varje release.
 
 För att använda Zii-tillägg måste man referera till motsvarande klass med hjälp av ett 
-sökvägsalias på formen `zii.path.to.ClassName`. Rotalias `zii` är fördefinierat av Yii. 
+sökvägsalias på formen `zii.path.to.ClassName`. Rotalias `zii` är fördefinierat av Yee. 
 Det refererar till Zii-biblioteks rotkatalog. Till exempel, i fråga om [CGridView] 
 skulle vi använda följande kod i ett vyskript för att referera till tillägget:
 
@@ -66,7 +66,7 @@ return array(
 ~~~
 
 Därefter kan komponenten kommas åt från valfri plats i koden med hjälp av 
-`Yii::app()->xyz`. Komponenten kommer att skapas enligt tillvägagångssättet lazy 
+`Yee::app()->xyz`. Komponenten kommer att skapas enligt tillvägagångssättet lazy 
 (vilket innebär att den skapas när den refereras till för första gången), såvida 
 den inte listas i propertyn `preload`.
 
@@ -282,7 +282,7 @@ Konsolkommando
 --------------
 
 En [konsolkommando](/doc/guide/topics.console)-utvidgning berikar vanligtvis 
-verktyget `yiic` med ytterligare ett kommando. Givet ett konsolkommando 
+verktyget `yeec` med ytterligare ett kommando. Givet ett konsolkommando 
 `XyzClass` tillhörande utvidgningen `xyz`, kan detta användas genom att 
 konfigurera konfigurationen för en konsolapplikation:
 
@@ -300,12 +300,12 @@ return array(
 );
 ~~~
 
-Därefter är verktyget `yiic` försett med ytterligare ett kommando `xyz`.
+Därefter är verktyget `yeec` försett med ytterligare ett kommando `xyz`.
 
 > Note|Märk: En konsolapplikation använder vanligen en konfigurationsfil som 
 skiljer sig från den som används för en webbapplikation. Om en applikation 
-skapas med hjälp av kommandot `yiic webapp`, blir konfigurationsfilen för 
-konsolapplikationen `protected/yiic` `protected/config/console.php`, medan 
+skapas med hjälp av kommandot `yeec webapp`, blir konfigurationsfilen för 
+konsolapplikationen `protected/yeec` `protected/config/console.php`, medan 
 konfigurationsfilen för webbapplikationen blir `protected/config/main.php`.
 
 Modul
@@ -320,7 +320,7 @@ Generell komponent
 För att använda en generell [komponent](/doc/guide/basics.component), behöver först dess klassfil inkluderas genom:
 
 ~~~
-Yii::import('ext.xyz.XyzClass');
+Yee::import('ext.xyz.XyzClass');
 ~~~
 
 Sedan kan en instans av klassen skapas, dess propertyn konfigureras och dess 

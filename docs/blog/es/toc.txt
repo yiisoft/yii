@@ -1,6 +1,6 @@
 * Pasos Iniciales
     - [Visión General](start.overview)
-    - [Empezando con Yii](start.testdrive)
+    - [Empezando con Yee](start.testdrive)
     - [Análisis de Requerimientos](start.requirements)
     - [Diseño General](start.design)
 

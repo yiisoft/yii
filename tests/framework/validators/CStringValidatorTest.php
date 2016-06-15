@@ -25,7 +25,7 @@ class CStringValidatorTest extends CTestCase
 		$this->assertFalse($model3->hasErrors('string1'));
 		$this->assertNotSame(array('Too short message.'),$model3->getErrors('string1'));
 
-		// array value: https://github.com/yiisoft/yii/issues/1955
+		// array value: https://github.com/yeesoft/yee/issues/1955
 		$model4=new ValidatorTestModel('CStringValidatorTest');
 		$model4->string1=array('1234567890');
 		$model4->validate(array('string1'));
@@ -54,7 +54,7 @@ class CStringValidatorTest extends CTestCase
 		$this->assertFalse($model3->hasErrors('string2'));
 		$this->assertNotSame(array('Too long message.'),$model3->getErrors('string2'));
 
-		// array value: https://github.com/yiisoft/yii/issues/1955
+		// array value: https://github.com/yeesoft/yee/issues/1955
 		$model4=new ValidatorTestModel('CStringValidatorTest');
 		$model4->string2=array('1234567890');
 		$model4->validate(array('string2'));
@@ -90,7 +90,7 @@ class CStringValidatorTest extends CTestCase
 		$this->assertFalse($model4->hasErrors('string3'));
 		$this->assertNotSame(array('Error message.'),$model4->getErrors('string3'));
 
-		// array value: https://github.com/yiisoft/yii/issues/1955
+		// array value: https://github.com/yeesoft/yee/issues/1955
 		$model5=new ValidatorTestModel('CStringValidatorTest');
 		$model5->string3=array('1234567890');
 		$model5->validate(array('string3'));

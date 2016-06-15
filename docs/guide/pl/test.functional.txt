@@ -5,7 +5,7 @@ Zanim przeczytasz ten rozdział, zaleca się abyś przeczytał najpierw
 [dokumentację Selenium](http://seleniumhq.org/docs/) oraz 
 [dokumentację PHPUnit](http://www.phpunit.de/wiki/Documentation).
 W dalszej części streszczamy pokrótce podstawowe zasadu pisania testów funkcjonalnych 
-w Yii.
+w Yee.
 
  * Tak jak w testach jednostkowych, testy funkcjonalne są zapisywane jako klasy `XyzTest`,
  które dziedziczą z [CWebTestCase], gdzie `Xyz` oznacza klasę, która będzie testowana.
@@ -25,12 +25,12 @@ w Yii.
  zgodnie z tym jak oczekiwano.
 
 Zanim opiszemy jak napisać test funkcjonalny, popatrzmy na plik `WebTestCase.php`
-wygenerowany przez komendę `yiic webapp`. Plik ten definiuje `WebTestCase`,
+wygenerowany przez komendę `yeec webapp`. Plik ten definiuje `WebTestCase`,
 który może służyć jako klasa bazowa dla testów funkcjonalnych wszystkich klas.
 
 ~~~
 [php]
-define('TEST_BASE_URL','http://localhost/yii/demos/blog/index-test.php/');
+define('TEST_BASE_URL','http://localhost/yee/demos/blog/index-test.php/');
 
 class WebTestCase extends CWebTestCase
 {
@@ -58,7 +58,7 @@ to ta, że pierwsza używa `test.php` jako pliku konfiguracji aplikacji, gdy dru
 używa `main.php`.
 
 Opiszemy teraz jak przetestować funkcjonalność wyświetlania postów w 
-[demo blogu](http://www.yiiframework.com/demos/blog). Najpierw napiszemy klasę 
+[demo blogu](http://www.yeeframework.com/demos/blog). Najpierw napiszemy klasę 
 testującą w następujący sposób, zauważając iż klasa testowa dziedziczy z klasy
 bazowej, którą przed chwilką opisaliśmy:
 
@@ -89,7 +89,7 @@ użyta będzie konfiguracja testu `Post`. W metodzie testującej `testShow`,
 najpierw poinstruowaliśmy Selenium RC aby otwarło adres URL `post/1`.
 Zauważ, że jest to relatywny adres URL a kompletny adres URL jest utworzony 
 poprzez dołączenie do niego adresu bazowego URL, który ustawiliśmy w klasie 
-bazowej (np. `http://localhost/yii/demos/blog/index-test.php/post/1`). 
+bazowej (np. `http://localhost/yee/demos/blog/index-test.php/post/1`). 
 Następnie weryfikujemy czy możemy znaleźć tytuł postu `sample1` na aktualnej stronie.
 Sprawdzamy również, czy strona zawiera tekst `Zostaw komentarz`.
 

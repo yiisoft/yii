@@ -1,7 +1,7 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.schema.mysql.CMysqlSchema');
+Yee::import('system.db.CDbConnection');
+Yee::import('system.db.schema.mysql.CMysqlSchema');
 
 
 class CMysqlTest extends CTestCase
@@ -13,7 +13,7 @@ class CMysqlTest extends CTestCase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_mysql'))
 			$this->markTestSkipped('PDO and MySQL extensions are required.');
 
-		$this->db=new CDbConnection('mysql:host=127.0.0.1;dbname=yii','test','test');
+		$this->db=new CDbConnection('mysql:host=127.0.0.1;dbname=yee','test','test');
 		$this->db->charset='UTF8';
 		try
 		{

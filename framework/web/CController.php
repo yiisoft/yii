@@ -3,9 +3,9 @@
  * CController class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -259,7 +259,7 @@ class CController extends CBaseController
 		if(($action=$this->createAction($actionID))!==null)
 		{
 			if(($parent=$this->getModule())===null)
-				$parent=Yii::app();
+				$parent=Yee::app();
 			if($parent->beforeControllerAction($this,$action))
 			{
 				$this->runActionWithFilters($action,$this->filters());
@@ -333,7 +333,7 @@ class CController extends CBaseController
 	 */
 	public function invalidActionParams($action)
 	{
-		throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
+		throw new CHttpException(400,Yee::t('yee','Your request is invalid.'));
 	}
 
 	/**
@@ -348,7 +348,7 @@ class CController extends CBaseController
 	 */
 	public function processOutput($output)
 	{
-		Yii::app()->getClientScript()->render($output);
+		Yee::app()->getClientScript()->render($output);
 
 		// if using page caching, we should delay dynamic output replacement
 		if($this->_dynamicOutput!==null && $this->isCachingStackEmpty())
@@ -416,7 +416,7 @@ class CController extends CBaseController
 		{
 			$action=$this->createActionFromMap($this->actions(),$actionID,$actionID);
 			if($action!==null && !method_exists($action,'run'))
-				throw new CException(Yii::t('yii', 'Action class {class} must implement the "run" method.', array('{class}'=>get_class($action))));
+				throw new CException(Yee::t('yee', 'Action class {class} must implement the "run" method.', array('{class}'=>get_class($action))));
 			return $action;
 		}
 	}
@@ -437,7 +437,7 @@ class CController extends CBaseController
 		if(($pos=strpos($actionID,'.'))===false && isset($actionMap[$actionID]))
 		{
 			$baseConfig=is_array($actionMap[$actionID]) ? $actionMap[$actionID] : array('class'=>$actionMap[$actionID]);
-			return Yii::createComponent(empty($config)?$baseConfig:array_merge($baseConfig,$config),$this,$requestActionID);
+			return Yee::createComponent(empty($config)?$baseConfig:array_merge($baseConfig,$config),$this,$requestActionID);
 		}
 		elseif($pos===false)
 			return null;
@@ -463,9 +463,9 @@ class CController extends CBaseController
 			}
 		}
 		else
-			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
+			throw new CException(Yee::t('yee','Object configuration must be an array containing a "class" element.'));
 
-		$class=Yii::import($providerType,true);
+		$class=Yee::import($providerType,true);
 		$map=call_user_func(array($class,'actions'));
 
 		return $this->createActionFromMap($map,$actionID,$requestActionID,$config);
@@ -480,7 +480,7 @@ class CController extends CBaseController
 	 */
 	public function missingAction($actionID)
 	{
-		throw new CHttpException(404,Yii::t('yii','The system is unable to find the requested action "{action}".',
+		throw new CHttpException(404,Yee::t('yee','The system is unable to find the requested action "{action}".',
 			array('{action}'=>$actionID==''?$this->defaultAction:$actionID)));
 	}
 
@@ -548,7 +548,7 @@ class CController extends CBaseController
 	public function getViewPath()
 	{
 		if(($module=$this->getModule())===null)
-			$module=Yii::app();
+			$module=Yee::app();
 		return $module->getViewPath().DIRECTORY_SEPARATOR.$this->getId();
 	}
 
@@ -567,7 +567,7 @@ class CController extends CBaseController
 	 * In this case, the view will be searched for under the application's view path.
 	 * This syntax has been available since version 1.1.3.</li>
 	 * <li>aliased view: the view name contains dots and refers to a path alias.
-	 * The view file is determined by calling {@link YiiBase::getPathOfAlias()}. Note that aliased views
+	 * The view file is determined by calling {@link YeeBase::getPathOfAlias()}. Note that aliased views
 	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
 	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
 	 * controller's view path.</li>
@@ -583,9 +583,9 @@ class CController extends CBaseController
 	 */
 	public function getViewFile($viewName)
 	{
-		if(($theme=Yii::app()->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
+		if(($theme=Yee::app()->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
 			return $viewFile;
-		$moduleViewPath=$basePath=Yii::app()->getViewPath();
+		$moduleViewPath=$basePath=Yee::app()->getViewPath();
 		if(($module=$this->getModule())!==null)
 			$moduleViewPath=$module->getViewPath();
 		return $this->resolveViewFile($viewName,$this->getViewPath(),$basePath,$moduleViewPath);
@@ -617,7 +617,7 @@ class CController extends CBaseController
 	 * In this case, the view will be searched for under the application's view path.
 	 * This syntax has been available since version 1.1.3.</li>
 	 * <li>aliased view: the view name contains dots and refers to a path alias.
-	 * The view file is determined by calling {@link YiiBase::getPathOfAlias()}. Note that aliased views
+	 * The view file is determined by calling {@link YeeBase::getPathOfAlias()}. Note that aliased views
 	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
 	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
 	 * module's layout path. In case when there is no active module, the view will be searched for
@@ -634,7 +634,7 @@ class CController extends CBaseController
 	{
 		if($layoutName===false)
 			return false;
-		if(($theme=Yii::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
+		if(($theme=Yee::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
 			return $layoutFile;
 
 		if(empty($layoutName))
@@ -649,13 +649,13 @@ class CController extends CBaseController
 				$module=$module->getParentModule();
 			}
 			if($module===null)
-				$module=Yii::app();
+				$module=Yee::app();
 			$layoutName=$module->layout;
 		}
 		elseif(($module=$this->getModule())===null)
-			$module=Yii::app();
+			$module=Yee::app();
 
-		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::app()->getViewPath(),$module->getViewPath());
+		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yee::app()->getViewPath(),$module->getViewPath());
 	}
 
 	/**
@@ -669,7 +669,7 @@ class CController extends CBaseController
 	 * In this case, the view will be searched for under the application's view path.
 	 * This syntax has been available since version 1.1.3.</li>
 	 * <li>aliased view: the view name contains dots and refers to a path alias.
-	 * The view file is determined by calling {@link YiiBase::getPathOfAlias()}. Note that aliased views
+	 * The view file is determined by calling {@link YeeBase::getPathOfAlias()}. Note that aliased views
 	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
 	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
 	 * controller's view path.</li>
@@ -692,7 +692,7 @@ class CController extends CBaseController
 		if($moduleViewPath===null)
 			$moduleViewPath=$basePath;
 
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yee::app()->getViewRenderer())!==null)
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';
@@ -704,14 +704,14 @@ class CController extends CBaseController
 				$viewFile=$moduleViewPath.$viewName;
 		}
 		elseif(strpos($viewName,'.'))
-			$viewFile=Yii::getPathOfAlias($viewName);
+			$viewFile=Yee::getPathOfAlias($viewName);
 		else
 			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName;
 
 		if(is_file($viewFile.$extension))
-			return Yii::app()->findLocalizedFile($viewFile.$extension);
+			return Yee::app()->findLocalizedFile($viewFile.$extension);
 		elseif($extension!=='.php' && is_file($viewFile.'.php'))
-			return Yii::app()->findLocalizedFile($viewFile.'.php');
+			return Yee::app()->findLocalizedFile($viewFile.'.php');
 		else
 			return false;
 	}
@@ -749,10 +749,10 @@ class CController extends CBaseController
 		{
 			if($route[0]!=='/' && ($module=$this->getModule())!==null)
 				$route=$module->getId().'/'.$route;
-			Yii::app()->runController($route);
+			Yee::app()->runController($route);
 		}
 		if($exit)
-			Yii::app()->end();
+			Yee::app()->end();
 	}
 
 	/**
@@ -875,7 +875,7 @@ class CController extends CBaseController
 				echo $output;
 		}
 		else
-			throw new CException(Yii::t('yii','{controller} cannot find the requested view "{view}".',
+			throw new CException(Yee::t('yee','{controller} cannot find the requested view "{view}".',
 				array('{controller}'=>get_class($this), '{view}'=>$view)));
 	}
 
@@ -964,7 +964,7 @@ class CController extends CBaseController
 			$route=$this->getId().'/'.$route;
 		if($route[0]!=='/' && ($module=$this->getModule())!==null)
 			$route=$module->getId().'/'.$route;
-		return Yii::app()->createUrl(trim($route,'/'),$params,$ampersand);
+		return Yee::app()->createUrl(trim($route,'/'),$params,$ampersand);
 	}
 
 	/**
@@ -983,7 +983,7 @@ class CController extends CBaseController
 		if(strpos($url,'http')===0)
 			return $url;
 		else
-			return Yii::app()->getRequest()->getHostInfo($schema).$url;
+			return Yee::app()->getRequest()->getHostInfo($schema).$url;
 	}
 
 	/**
@@ -997,9 +997,9 @@ class CController extends CBaseController
 		{
 			$name=ucfirst(basename($this->getId()));
 			if($this->getAction()!==null && strcasecmp($this->getAction()->getId(),$this->defaultAction))
-				return $this->_pageTitle=Yii::app()->name.' - '.ucfirst($this->getAction()->getId()).' '.$name;
+				return $this->_pageTitle=Yee::app()->name.' - '.ucfirst($this->getAction()->getId()).' '.$name;
 			else
-				return $this->_pageTitle=Yii::app()->name.' - '.$name;
+				return $this->_pageTitle=Yee::app()->name.' - '.$name;
 		}
 	}
 
@@ -1027,7 +1027,7 @@ class CController extends CBaseController
 			$route=isset($url[0]) ? $url[0] : '';
 			$url=$this->createUrl($route,array_splice($url,1));
 		}
-		Yii::app()->getRequest()->redirect($url,$terminate,$statusCode);
+		Yee::app()->getRequest()->redirect($url,$terminate,$statusCode);
 	}
 
 	/**
@@ -1040,7 +1040,7 @@ class CController extends CBaseController
 	 */
 	public function refresh($terminate=true,$anchor='')
 	{
-		$this->redirect(Yii::app()->getRequest()->getUrl().$anchor,$terminate);
+		$this->redirect(Yee::app()->getRequest()->getUrl().$anchor,$terminate);
 	}
 
 	/**
@@ -1112,10 +1112,10 @@ class CController extends CBaseController
 	 */
 	public function filterPostOnly($filterChain)
 	{
-		if(Yii::app()->getRequest()->getIsPostRequest())
+		if(Yee::app()->getRequest()->getIsPostRequest())
 			$filterChain->run();
 		else
-			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
+			throw new CHttpException(400,Yee::t('yee','Your request is invalid.'));
 	}
 
 	/**
@@ -1126,10 +1126,10 @@ class CController extends CBaseController
 	 */
 	public function filterAjaxOnly($filterChain)
 	{
-		if(Yii::app()->getRequest()->getIsAjaxRequest())
+		if(Yee::app()->getRequest()->getIsAjaxRequest())
 			$filterChain->run();
 		else
-			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
+			throw new CHttpException(400,Yee::t('yee','Your request is invalid.'));
 	}
 
 	/**
@@ -1208,7 +1208,7 @@ class CController extends CBaseController
 			{
 				if(extension_loaded('zlib'))
 					$data=@gzuncompress($data);
-				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
+				if(($data=Yee::app()->getSecurityManager()->validateData($data))!==false)
 					return unserialize($data);
 			}
 		}
@@ -1222,7 +1222,7 @@ class CController extends CBaseController
 	 */
 	protected function savePageStates($states,&$output)
 	{
-		$data=Yii::app()->getSecurityManager()->hashData(serialize($states));
+		$data=Yee::app()->getSecurityManager()->hashData(serialize($states));
 		if(extension_loaded('zlib'))
 			$data=gzcompress($data);
 		$value=base64_encode($data);

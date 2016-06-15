@@ -3,9 +3,9 @@
  * CStarRating class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -124,9 +124,9 @@ class CStarRating extends CInputWidget
 		$jsOptions=$this->getClientOptions();
 		$jsOptions=empty($jsOptions) ? '' : CJavaScript::encode($jsOptions);
 		$js="jQuery('#{$id} > input').rating({$jsOptions});";
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerCoreScript('rating');
-		$cs->registerScript('Yii.CStarRating#'.$id,$js);
+		$cs->registerScript('Yee.CStarRating#'.$id,$js);
 
 		if($this->cssFile!==false)
 			self::registerCssFile($this->cssFile);
@@ -138,7 +138,7 @@ class CStarRating extends CInputWidget
 	 */
 	public static function registerCssFile($url=null)
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		if($url===null)
 			$url=$cs->getCoreScriptUrl().'/rating/jquery.rating.css';
 		$cs->registerCssFile($url);

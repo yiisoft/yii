@@ -21,7 +21,7 @@
 Поведінка
 ---------
 
-Для того, щоб створити поведінку необхідно реалізувати інтерфейс [IBehavior]. Для зручності в Yii є клас [CBehavior], що реалізує цей інтерфейс і надає деякі загальні методи. Успадковані класи можуть реалізувати додаткові методи, які будуть доступні для компонентів, до яких прикріплено поведінку.
+Для того, щоб створити поведінку необхідно реалізувати інтерфейс [IBehavior]. Для зручності в Yee є клас [CBehavior], що реалізує цей інтерфейс і надає деякі загальні методи. Успадковані класи можуть реалізувати додаткові методи, які будуть доступні для компонентів, до яких прикріплено поведінку.
 
 При розробці поведінок для [CModel] і [CActiveRecord] можна успадковувати [CModelBehavior] та [CActiveRecordBehavior] відповідно. Ці базові класи надають додаткові можливості, спеціально створені для [CModel] і [CActiveRecord]. Наприклад, клас [CActiveRecordBehavior] реалізує набір методів для обробки подій життєвого циклу ActiveRecord. Наслідуваний клас, таким чином, може перекрити ці методи і виконати код, який бере участь в життєвому циклі AR.
 
@@ -57,7 +57,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -77,7 +77,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// …підключаємо тут файли CSS або JavaScript…
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

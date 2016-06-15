@@ -3,9 +3,9 @@
  * CHtml class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -105,7 +105,7 @@ class CHtml
 	 */
 	public static function encode($text)
 	{
-		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
+		return htmlspecialchars($text,ENT_QUOTES,Yee::app()->charset);
 	}
 
 	/**
@@ -136,9 +136,9 @@ class CHtml
 		foreach($data as $key=>$value)
 		{
 			if(is_string($key))
-				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
+				$key=htmlspecialchars($key,ENT_QUOTES,Yee::app()->charset);
 			if(is_string($value))
-				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
+				$value=htmlspecialchars($value,ENT_QUOTES,Yee::app()->charset);
 			elseif(is_array($value))
 				$value=self::encodeArray($value);
 			$d[$key]=$value;
@@ -269,7 +269,7 @@ class CHtml
 		$content="$seconds";
 		if($url!=='')
 			$content.=';url='.self::normalizeUrl($url);
-		Yii::app()->clientScript->registerMetaTag($content,null,'refresh');
+		Yee::app()->clientScript->registerMetaTag($content,null,'refresh');
 	}
 
 	/**
@@ -361,7 +361,7 @@ class CHtml
 					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
 			}
 		}
-		$request=Yii::app()->request;
+		$request=Yee::app()->request;
 		if($request->enableCsrfValidation && !strcasecmp($method,'post'))
 			$hiddens[]=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
 		if($customMethod!==false)
@@ -1200,7 +1200,7 @@ jQuery("input[name='$name']").click(function() {
 });
 jQuery('#$id').prop('checked', !jQuery("input[name='$name']:not(:checked)").length);
 EOD;
-			$cs=Yii::app()->getClientScript();
+			$cs=Yee::app()->getClientScript();
 			$cs->registerCoreScript('jquery');
 			$cs->registerScript($id,$js);
 		}
@@ -1357,7 +1357,7 @@ EOD;
 	 */
 	public static function ajax($options)
 	{
-		Yii::app()->getClientScript()->registerCoreScript('jquery');
+		Yee::app()->getClientScript()->registerCoreScript('jquery');
 		if(!isset($options['url']))
 			$options['url']=new CJavaScriptExpression('location.href');
 		else
@@ -1397,7 +1397,7 @@ EOD;
 	 */
 	public static function asset($path,$hashByName=false)
 	{
-		return Yii::app()->getAssetManager()->publish($path,$hashByName);
+		return Yee::app()->getAssetManager()->publish($path,$hashByName);
 	}
 
 	/**
@@ -1424,15 +1424,15 @@ EOD;
 		{
 			if(isset($url[0]))
 			{
-				if(($c=Yii::app()->getController())!==null)
+				if(($c=Yee::app()->getController())!==null)
 					$url=$c->createUrl($url[0],array_splice($url,1));
 				else
-					$url=Yii::app()->createUrl($url[0],array_splice($url,1));
+					$url=Yee::app()->createUrl($url[0],array_splice($url,1));
 			}
 			else
 				$url='';
 		}
-		return $url==='' ? Yii::app()->getRequest()->getUrl() : $url;
+		return $url==='' ? Yee::app()->getRequest()->getUrl() : $url;
 	}
 
 	/**
@@ -2229,7 +2229,7 @@ EOD;
 		if($content!=='')
 		{
 			if($header===null)
-				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
+				$header='<p>'.Yee::t('yee','Please fix the following input errors:').'</p>';
 			if(!isset($htmlOptions['class']))
 				$htmlOptions['class']=self::$errorSummaryCss;
 			return self::tag('div',$htmlOptions,$header."\n<ul>\n$content</ul>".$footer);
@@ -2414,7 +2414,7 @@ EOD;
 		elseif($converter===null)
 			self::$_modelNameConverter=null;
 		else
-			throw new CException(Yii::t('yii','The $converter argument must be a valid callback or null.'));
+			throw new CException(Yee::t('yee','The $converter argument must be a valid callback or null.'));
 	}
 
 	/**
@@ -2622,13 +2622,13 @@ EOD;
 		else
 			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$count++;
 
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 
 		if(isset($htmlOptions['submit']))
 		{
-			$cs->registerCoreScript('yii');
-			$request=Yii::app()->getRequest();
+			$cs->registerCoreScript('yee');
+			$request=Yee::app()->getRequest();
 			if($request->enableCsrfValidation && isset($htmlOptions['csrf']) && $htmlOptions['csrf'])
 				$htmlOptions['params'][$request->csrfTokenName]=$request->getCsrfToken();
 			if(isset($htmlOptions['params']))
@@ -2639,7 +2639,7 @@ EOD;
 				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
 			else
 				$url='';
-			$handler.="jQuery.yii.submitForm(this,'$url',$params);{$return};";
+			$handler.="jQuery.yee.submitForm(this,'$url',$params);{$return};";
 		}
 
 		if(isset($htmlOptions['ajax']))
@@ -2655,9 +2655,9 @@ EOD;
 		}
 
 		if($live)
-			$cs->registerScript('Yii.CHtml.#' . $id,"jQuery('body').on('$event','#$id',function(){{$handler}});");
+			$cs->registerScript('Yee.CHtml.#' . $id,"jQuery('body').on('$event','#$id',function(){{$handler}});");
 		else
-			$cs->registerScript('Yii.CHtml.#' . $id,"jQuery('#$id').on('$event', function(){{$handler}});");
+			$cs->registerScript('Yee.CHtml.#' . $id,"jQuery('#$id').on('$event', function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
 

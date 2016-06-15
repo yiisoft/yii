@@ -1,7 +1,7 @@
 Logowanie
 =======
 
-Yii dostarcza elastycznej oraz rozszerzalnej funkcjonalności logowania. 
+Yee dostarcza elastycznej oraz rozszerzalnej funkcjonalności logowania. 
 Logowane komunikaty mogą być klasyfikowane w zależności od poziomu logu 
 oraz kategorii komunikatu. Używając filtry kategorii oraz poziomów, wybrane komunikaty 
 mogą zostać później przekierowane do różnych miejsc przeznaczenia, takich jak pliki, 
@@ -11,14 +11,14 @@ maile, okno przeglądarki, itp.
 Logowanie komunikatów
 ---------------------
 
-Komunikaty mogą być logowane poprzez wywołanie zarówno metody [Yii::log] jak i [Yii::trace].
+Komunikaty mogą być logowane poprzez wywołanie zarówno metody [Yee::log] jak i [Yee::trace].
 Metody te różnią się tym, że druga loguje komunikat tylko wtedy, gdy aplikacja 
 znajduje się w [trybie debugowania](/doc/guide/basics.entry#debug-mode).
 
 ~~~
 [php]
-Yii::log($message, $level, $category);
-Yii::trace($message, $category);
+Yee::log($message, $level, $category);
+Yee::trace($message, $category);
 ~~~
 
 Gdy logujemy komunikaty, musimy określić ich kategorię oraz poziom. 
@@ -27,7 +27,7 @@ Kategoria jest ciągiem w formacie `xxx.yyy.zzz` który przypomina
 logowany w kontrolerze [CController], możemy użyć kategorii `system.web.CController`.
 Poziom komunikatu powinien przyjmować jedną z poniższych wartości:
 
-   - `trace`: jest to poziom używany przez metodę [Yii::trace]. Służy on do śledzenia 
+   - `trace`: jest to poziom używany przez metodę [Yee::trace]. Służy on do śledzenia 
    przebiegu przepływu wywołań w aplikacji podczas jej tworzenia.
 
    - `info`: służy do logowania ogólnych informacji.
@@ -41,11 +41,11 @@ Poziom komunikatu powinien przyjmować jedną z poniższych wartości:
 Przekierowywanie komunikatów
 ----------------------------
 
-Komunikaty rejestrowane przy użyciu metod [Yii::log] oraz [Yii::trace] trzymane są w pamięci.
+Komunikaty rejestrowane przy użyciu metod [Yee::log] oraz [Yee::trace] trzymane są w pamięci.
 Zazwyczaj potrzebujemy wyświetlić je w oknie przeglądarki lub też zapisać je w pewnej 
 trwałej pamięci danych takiej jak pliki czy też maile. Nazywamy to *przekierowywaniem komunikatów* 
 (ang. message routing), np. wysyłanie komunikatów do różnych miejsc przeznaczenia.
-W Yii przekierowywanie komunikatów zarządzane jest przez komponent aplikacji [CLogRouter].
+W Yee przekierowywanie komunikatów zarządzane jest przez komponent aplikacji [CLogRouter].
 Zarządza on zestawem tak zwanych *dzienników tras*. Każdy dziennik trasy reprezentuje
 pojedyncze miejsce przeznaczenia dziennika. Komunikaty wysłane przez dziennik trasy 
 mogą zostać przefiltrowane w zależności od swoich poziomów oraz kategorii.
@@ -87,7 +87,7 @@ których poziom to `trace` lub `info` oraz te, których kategoria rozpoczyna si�
 są zapisywane. Druga to klasa [CEmailLogRoute], która wysyła komunikaty pod określony adres mailowy.
 Wyłącznie komunikaty, których poziom to `error` lub `warning` są wysyłane.
 
-Następujące dzienniki tras dostępne są w Yii:
+Następujące dzienniki tras dostępne są w Yee:
 
    - [CDbLogRoute]: zapisuje komunikaty w tabeli bazy danych.
    - [CEmailLogRoute]: wysyła komunikaty pod podany adres mailowy.
@@ -158,10 +158,10 @@ array(
 )
 ~~~
 
-Yii wspiera logowanie informacji ze stosu wywołani w komunikatach logowanych poprzez
-wywołanie `Yii::trace`. Domyślnie funkcjonalnośc ta jest wyłączona ze względu na zmniejszanie wydajności. Aby móc  
+Yee wspiera logowanie informacji ze stosu wywołani w komunikatach logowanych poprzez
+wywołanie `Yee::trace`. Domyślnie funkcjonalnośc ta jest wyłączona ze względu na zmniejszanie wydajności. Aby móc  
 używac tej funkcjonalności, po prostu zdefiniuj stałą nazwaną `YII_TRACE_LEVEL` na początku skryptu wejściowego 
-(zanim załączysz `yii.php`) jako wartość całkowita większa niż 0. Yii dołaczy wtedy do każdego śledzonego komunikatu 
+(zanim załączysz `yee.php`) jako wartość całkowita większa niż 0. Yee dołaczy wtedy do każdego śledzonego komunikatu 
 informację o nazwie pliku oraz numerze linii dla stosu wywołań należącego do danego fragmentu kodu aplikacji.
 Liczba przypisana do `YII_TRACE_LEVEL` określa ile wartstw każdego stosu wywołań powinno zostać zarejestrowanych. 
 Opcja ta jest szczególnie przydatna podczas fazy dewelopmentu, ponieważ może pomóc nam zidentyfikować miejsce, które 
@@ -180,9 +180,9 @@ być profilowane. Zaznaczamy początek oraz koniec każdego bloku kodu poprzez w
 
 ~~~
 [php]
-Yii::beginProfile('blockID');
+Yee::beginProfile('blockID');
 ...blok kodu, który będzie profilowany...
-Yii::endProfile('blockID');
+Yee::endProfile('blockID');
 ~~~
 
 gdzie `blockID` jest identyfikatorem, który jednoznacznie określa blok kodu.
@@ -203,7 +203,7 @@ Profilowanie zapytań SQL
 Profilowanie jest szczególnie użyteczne podczas pracy z bazami danych, ponieważ wywołania SQL
 są często główną przyczyną wąskich gardeł w wydajności aplikacji. Chociaż możemy wstawiać 
 wyrażenia `beginProfile` oraz `endProfile` w odpowiednich miejscach aby mierzyć czas spędzony na 
-wykonywaniu danego zapytania SQL, Yii dostarcza porządniejszego podejścia do rozwiązania tego problemu.
+wykonywaniu danego zapytania SQL, Yee dostarcza porządniejszego podejścia do rozwiązania tego problemu.
 
 Poprzez ustawienie właściwości [CDbConnection::enableProfiling] na true w konfiguracji aplikacji,
 każde wyrażenie SQL, które zostanie wywołane będzie profilowane. Rezultat może zostać łatwo

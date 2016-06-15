@@ -1,32 +1,32 @@
-Crearea primei aplicatii Yii
+Crearea primei aplicatii Yee
 ============================
 
-Pentru a intra in contact prima data cu Yii, descriem in aceasta sectiune cum sa cream
-prima noastra aplicatie Yii. Vom folosi unealta (foarte puternica) `yiic`
+Pentru a intra in contact prima data cu Yee, descriem in aceasta sectiune cum sa cream
+prima noastra aplicatie Yee. Vom folosi unealta (foarte puternica) `yeec`
 pe care o vom folosi pentru a crea automat cod pentru anumite taskuri. Pentru convenienta,
-presupunem ca `YiiRoot` este directorul in care a fost instalata platforma Yii, iar `WebRoot`
+presupunem ca `YeeRoot` este directorul in care a fost instalata platforma Yee, iar `WebRoot`
 este documentul radacina al serverului nostru Web.
 
-Rulam `yiic` in linia de comanda in felul urmator:
+Rulam `yeec` in linia de comanda in felul urmator:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/myproject
+% YeeRoot/framework/yeec webapp WebRoot/myproject
 ~~~
 
-> Note|Nota: Atunci cand rulam `yiic` in Mac OS, Linux sau Unix, va trebui sa modificam
-> permisiunile fisierului `yiic` pentru a fi executabil.
+> Note|Nota: Atunci cand rulam `yeec` in Mac OS, Linux sau Unix, va trebui sa modificam
+> permisiunile fisierului `yeec` pentru a fi executabil.
 > Altfel, putem rula unealta si in felul urmator:
 >
 > ~~~
 > % cd WebRoot/myproject
-> % php YiiRoot/framework/yiic.php webapp WebRoot/myproject
+> % php YeeRoot/framework/yeec.php webapp WebRoot/myproject
 > ~~~
 
-Aceste comenzi vor crea un schelet de aplicatie Yii in directorul
+Aceste comenzi vor crea un schelet de aplicatie Yee in directorul
 `WebRoot/myproject`. Aplicatia are o structura de directoare care este necesarea
-pentru majoritatea aplicatiilor Yii.
+pentru majoritatea aplicatiilor Yee.
 
-Fara sa scriem nici o linie de cod, putem testa prima noastra aplicatie Yii
+Fara sa scriem nici o linie de cod, putem testa prima noastra aplicatie Yee
 prin accesarea urmatorului URL intr-un browser Web: 
 
 ~~~
@@ -63,10 +63,10 @@ myproject/
    images/                   contine imagini
    themes/                   contine teme
    protected/                contine fisierele protejate ale aplicatiei
-      yiic                   scriptul yiic de linie de comanda
-      yiic.bat               scriptul yiic de linie de comanda pt Windows
-      commands/              contine comenzi customizate pt 'yiic'
-         shell/              contine comenzi customizate pt 'yiic shell'
+      yeec                   scriptul yeec de linie de comanda
+      yeec.bat               scriptul yeec de linie de comanda pt Windows
+      commands/              contine comenzi customizate pt 'yeec'
+         shell/              contine comenzi customizate pt 'yeec shell'
       components/            contine componente utilizator reutilizabile
          MainMenu.php        clasa widget-ului 'MainMenu'
          Identity.php        clasa 'Identity' folosita pentru autentificare
@@ -119,7 +119,7 @@ In codul de mai sus, adaugam o intrare `db` la `components`. Acest lucru spune
 aplicatiei sa se conecteze la baza de date SQLite
 `WebRoot/myproject/protected/data/source.db` atunci cand este necesar.
 
-> Note|Nota: Pentru a folosi o baza de date in Yii, trebuie sa activam extensia PHP PDO
+> Note|Nota: Pentru a folosi o baza de date in Yee, trebuie sa activam extensia PHP PDO
 si extensia PDO cu driver-ul specific pentru baza de date pe care vrem sa o folosim. 
 Pentru aplicatia noastra, trebuie ca extensiile `php_pdo` si `php_pdo_sqlite` sa fie activate.
 
@@ -151,14 +151,14 @@ update si delete) pentru tabela `User` tocmai creata. Aceste operatii sunt foart
 in aplicatiile reale.
 
 In loc de a ne chinui sa scriem codul pentru aceste operatii, mai bine folosim unealta
-`yiic` din nou pentru a genera automat codul pentru noi. Acest proces mai este cunoscut sub
+`yeec` din nou pentru a genera automat codul pentru noi. Acest proces mai este cunoscut sub
 numele de *scaffolding*. Deschidem o fereastra cu linia de comanda, si executam urmatoarele
 comenzi:
 
 ~~~
 % cd WebRoot/myproject
-% protected/yiic shell
-Yii Interactive Tool v1.0
+% protected/yeec shell
+Yee Interactive Tool v1.0
 Please type 'help' for help. Type 'exit' to quit.
 >> model User
    generate User.php
@@ -182,7 +182,7 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-In cele de mai sus, folosim comanda `yiic shell` pentru a interactiona cu aplicatia
+In cele de mai sus, folosim comanda `yeec shell` pentru a interactiona cu aplicatia
 noastra. Executam doua sub-comenzi: `model User` si `crud User`.
 `model User` genereaza clasa modelului tabelei `User`.
 `crud User` citeste modelul `User` si genereaza codul necesar pentru operatiile CRUD.
@@ -190,10 +190,10 @@ noastra. Executam doua sub-comenzi: `model User` si `crud User`.
 > Note|Nota: Putem intalni erori de genul "...could not find driver", chiar daca
 > verificarea cerintelor necesare a avut succes si arata ca avem activate extensia PDO
 > si driverul PDO corespunzator pentru baza noastra de date. Daca se intampla acest lucru,
-> putem incerca sa rulam unealta `yiic` in felul urmator:
+> putem incerca sa rulam unealta `yeec` in felul urmator:
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 > unde `path/to/php.ini` reprezinta fisierul ini corect al PHP.

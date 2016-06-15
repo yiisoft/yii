@@ -1,34 +1,34 @@
-Je eerste Yii-applicatie
+Je eerste Yee-applicatie
 ========================
 
-Om de eerste ervaring met Yii op te doen, beschrijven we in het onderstaande
-deel hoe we onze eerste Yii-applicatie maken. We zullen `yiic` (commandline-tool)
-gebruiken om een nieuwe Yii-applicatie te maken, en `Gii` (krachtige web-based
+Om de eerste ervaring met Yee op te doen, beschrijven we in het onderstaande
+deel hoe we onze eerste Yee-applicatie maken. We zullen `yeec` (commandline-tool)
+gebruiken om een nieuwe Yee-applicatie te maken, en `Gii` (krachtige web-based
 codegenerator) gebruiken om voor bepaalde taken automatisch code te genereren.
-Voor het gemak nemen we aan dat `YiiRoot` de map is waar Yii is geïnstalleerd
+Voor het gemak nemen we aan dat `YeeRoot` de map is waar Yee is geïnstalleerd
 en dat `WebRoot` de document-root van onze webserver is.
 
-Gebruik de command-line om `yiic` uit te voeren op de volgende manier:
+Gebruik de command-line om `yeec` uit te voeren op de volgende manier:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note: Wanneer `yiic` uitgevoerd word op Mac OS, Linux of Unix, moet je
-> mogelijk de rechten van het `yiic`-bestand aanpassen zodat deze uitvoerbaar
+> Note: Wanneer `yeec` uitgevoerd word op Mac OS, Linux of Unix, moet je
+> mogelijk de rechten van het `yeec`-bestand aanpassen zodat deze uitvoerbaar
 > wordt. Als een alternatief kun je de tool ook op de volgende manier
 > uitvoeren:
 >
 > ~~~
 > % cd WebRoot
-> % php YiiRoot/framework/yiic.php webapp testdrive
+> % php YeeRoot/framework/yeec.php webapp testdrive
 > ~~~
 
-Hiermee word een raamwerk gecreëerd voor een Yii-applicatie onder de map
+Hiermee word een raamwerk gecreëerd voor een Yee-applicatie onder de map
 `WebRoot/testdrive`. De applicatie heeft een mappenstructuur die vereist is
-voor de meeste Yii-applicaties.
+voor de meeste Yee-applicaties.
 
-Zonder een enkele regel code te schrijven kunnen we onze eerste Yii-applicatie
+Zonder een enkele regel code te schrijven kunnen we onze eerste Yee-applicatie
 testen, door de volgende URL te bezoeken in een webbrowser:
 
 ~~~
@@ -66,11 +66,11 @@ testdrive/
    images/                   containing image files
    themes/                   containing application themes
    protected/                containing protected application files
-      yiic                   yiic command line script for Unix/Linux
-      yiic.bat               yiic command line script for Windows
-      yiic.php               yiic command line PHP script
-      commands/              containing customized 'yiic' commands
-         shell/              containing customized 'yiic shell' commands
+      yeec                   yeec command line script for Unix/Linux
+      yeec.bat               yeec command line script for Windows
+      yeec.php               yeec command line PHP script
+      commands/              containing customized 'yeec' commands
+         shell/              containing customized 'yeec shell' commands
       components/            containing reusable user components
          Controller.php      the base class for all controller classes
          UserIdentity.php    the 'UserIdentity' class used for authentication
@@ -127,7 +127,7 @@ return array(
 );
 ~~~
 
-The above code instructs Yii that the application should connect to the SQLite database
+The above code instructs Yee that the application should connect to the SQLite database
 `WebRoot/testdrive/protected/data/testdrive.db` when needed. Note that the SQLite database
 is already included in the skeleton application that we just generated. The database
 contains only a single table named `tbl_user`:
@@ -145,7 +145,7 @@ CREATE TABLE tbl_user (
 If you want to try a MySQL database instead, you may use the included MySQL
 schema file `WebRoot/testdrive/protected/data/schema.mysql.sql` to create the database.
 
-> Note: To use Yii's database feature, we need to enable PHP PDO extension
+> Note: To use Yee's database feature, we need to enable PHP PDO extension
 and the driver-specific PDO extension. For the test-drive application, we
 need to turn on both the `php_pdo` and `php_pdo_sqlite` extensions.
 
@@ -158,7 +158,7 @@ update and delete) operations for the `tbl_user` table we just created. This is
 also commonly needed in practical applications. Instead of taking the trouble
 to write the actual code, we will use `Gii` -- a powerful Web-based code generator.
 
-> Info: Gii has been available since version 1.1.2. Before that, we can use the aforementioned `yiic` tool to accomplish the same goal. For more details, please refer to [Implementing CRUD Operations with yiic shell](/doc/guide/quickstart.first-app-yiic).
+> Info: Gii has been available since version 1.1.2. Before that, we can use the aforementioned `yeec` tool to accomplish the same goal. For more details, please refer to [Implementing CRUD Operations with yeec shell](/doc/guide/quickstart.first-app-yeec).
 
 
 ### Configuring Gii

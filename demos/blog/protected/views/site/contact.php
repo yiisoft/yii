@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - Contact Us';
+$this->pageTitle=Yee::app()->name . ' - Contact Us';
 $this->breadcrumbs=array(
 	'Contact',
 );
@@ -7,10 +7,10 @@ $this->breadcrumbs=array(
 
 <h1>Contact Us</h1>
 
-<?php if(Yii::app()->user->hasFlash('contact')): ?>
+<?php if(Yee::app()->user->hasFlash('contact')): ?>
 
 <div class="flash-success">
-	<?php echo Yii::app()->user->getFlash('contact'); ?>
+	<?php echo Yee::app()->user->getFlash('contact'); ?>
 </div>
 
 <?php else: ?>

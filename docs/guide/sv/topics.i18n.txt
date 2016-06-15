@@ -6,7 +6,7 @@ så att den, utan konstruktionsändringar, kan anpassas till varierande språk o
 regioner. För webbapplikationer är detta av speciell vikt, eftersom basen av 
 potentiella användare är världsomspännande.
 
-Ramverket Yii stöder I18N ur flera aspekter. Det tillhandahåller:
+Ramverket Yee stöder I18N ur flera aspekter. Det tillhandahåller:
 
    - Locale-data för flertalet språk samt språkvarianter.
    - Meddelande- och filöversättningstjänst.
@@ -22,7 +22,7 @@ Locale är en uppsättning parametrar som definierar användarens språk, land s
 eventuella mer speciella variationer som användare kan föredra att se i sina 
 användargränssnitt. Den identifieras vanligen genom ett ID bestående av ett 
 språk-ID och ett region-ID. Till exempel, ID:t `en_US` står för engelska språket 
-och USA. För enhetlighetens skull har alla locale-ID:n i Yii kanoniserats till 
+och USA. För enhetlighetens skull har alla locale-ID:n i Yee kanoniserats till 
 formatet `LanguageID` eller `LanguageID_RegionID` i gemena (t.ex. `en`, 
 `en_us`).
 
@@ -36,7 +36,7 @@ språk utbytbart.
 Givet ett locale-ID, kan man erhålla motsvarande [CLocale]-instans genom 
 `CLocale::getInstance($localeID)` eller `CApplication::getLocale($localeID)`.
 
-> Info: Yii kommer med locale-data för nästan varje språk och region. Dessa data 
+> Info: Yee kommer med locale-data för nästan varje språk och region. Dessa data 
 erhålls från [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). 
 För varje locale används endast en delmängd av data CLDR tillhandahåller, 
 eftersom originaldata även omfattar mycket sällan använd information. 
@@ -45,7 +45,7 @@ konfigurera propertyn [CApplication::localeDataPath] med den katalog som innehå
 anpassat locale-data. Referera till filerna med locale-data i katalogen 
 `framework/i18n/data` för att skapa anpassade filer med locale-data.
 
-I en Yii-applikation skiljer vi på dess [målspråk|CApplication::language] och 
+I en Yee-applikation skiljer vi på dess [målspråk|CApplication::language] och 
 dess [källspråk|CApplication::sourceLanguage]. Målspråket är det språk (locale) 
 som applikationens användare önskar använda sig av, medan källspråket refererar 
 till det språk (locale) som applikationens källkodsfiler använder. 
@@ -68,29 +68,29 @@ meddelanden och vyer. För meddelanden översätts ett textmeddelande till det �
 språket, för vyer tillgängliggörs en hel fil på önskat språk.
 
 En översättningsbegäran består av objektet som skall översättas, källspråket för 
-objektet, samt målspråket objektet behöver översättas till. I Yii är källspråket 
+objektet, samt målspråket objektet behöver översättas till. I Yee är källspråket 
 som standard [applikationens källspråk|CApplication::sourceLanguage] medan 
 målspråket som standard är [applikationsspråket|CApplication::language]. Om de 
 båda språken är identiska, sker ingen översättning.
 
 ### Översättning av meddelanden
 
-Översättning av meddelanden sker genom anrop till [Yii::t()|YiiBase::t]. Metoden 
+Översättning av meddelanden sker genom anrop till [Yee::t()|YeeBase::t]. Metoden 
 översätter det givna meddelandet från [källspråk|CApplication::sourceLanguage] 
 till [målspråk|CApplication::language].
 
 Vid översättning av ett meddelande behöver dess kategori specificeras eftersom 
 ett meddelande kan ha olika översättningar i olika kategorier (kontext). 
-Kategorin `yii` är reserverad för systemmeddelanden från koden i Yii:s ramverk.
+Kategorin `yee` är reserverad för systemmeddelanden från koden i Yee:s ramverk.
 
 Meddelanden kan innehålla platshållare för parametrar som kommer att ersättas 
-med aktuella parametervärden vid anrop till [Yii::t()|YiiBase::t]. Till exempel, 
+med aktuella parametervärden vid anrop till [Yee::t()|YeeBase::t]. Till exempel, 
 följande meddelandeöversättningsbegäran skulle ersätta platshållaren `{alias}` i 
 originalmeddelandet med aktuellt aliasvärde.
 
 ~~~
 [php]
-Yii::t('app', 'Path alias "{alias}" is redefined.',
+Yee::t('app', 'Path alias "{alias}" is redefined.',
 	array('{alias}'=>$alias))
 ~~~
 
@@ -101,10 +101,10 @@ ett meddelande behöver varieras beroende på någon parameter.
 
 Översatta meddelanden lagras ett förråd som kallas *meddelandekälla* (message 
 source). En meddelandekälla representeras av en [CMessageSource]-instans eller 
-nedärvd klass. När [Yii::t()|YiiBase::t] anropas, söker den efter meddelandet i 
+nedärvd klass. När [Yee::t()|YeeBase::t] anropas, söker den efter meddelandet i 
 meddelandekällan och returnerar dess översatta version om den hittades.
 
-Yii kommer med följande typer av meddelandekällor. Man kan även ärva och utvidga 
+Yee kommer med följande typer av meddelandekällor. Man kan även ärva och utvidga 
 [CMessageSource] för att skapa egna typer av meddelandekällor.
 
    - [CPhpMessageSource]: översättningarna av meddelanden lagras i form av 
@@ -125,7 +125,7 @@ Yii kommer med följande typer av meddelandekällor. Man kan även ärva och utv
 
 En meddelandekälla laddas som en 
 [applikationskomponent](/doc/guide/basics.application#application-component). 
-Yii innehåller en fördeklarerad applikationskomponent vid namn 
+Yee innehåller en fördeklarerad applikationskomponent vid namn 
 [messages|CApplication::messages] vilken lagrar meddelanden som användarens 
 applikation använder. Som standard är typen på denna meddelandekälla 
 [CPhpMessageSource] och rotsökvägen till de översatta PHP-filerna 
@@ -133,7 +133,7 @@ applikation använder. Som standard är typen på denna meddelandekälla
 
 Sammanfattningsvis, för att använda översatta meddelanden krävs följande steg:
 
-   1. Anropa [Yii::t()|YiiBase::t] på de ställen som är relevanta;
+   1. Anropa [Yee::t()|YeeBase::t] på de ställen som är relevanta;
 
    2. Skapa PHP-filer med översättningar som 
    `protected/messages/LocaleID/CategoryName.php`. Varje fil returnerar kort och 
@@ -143,27 +143,27 @@ Sammanfattningsvis, för att använda översatta meddelanden krävs följande st
 
    3. Konfigurera [CApplication::sourceLanguage] och [CApplication::language].
 
-> Tip|Tips: Verktyget `yiic` i Yii kan användas för att hantera 
+> Tip|Tips: Verktyget `yeec` i Yee kan användas för att hantera 
 meddelandeöversättningar när [CPhpMessageSource] används som meddelandekälla. 
 Kommandot `message` kan automatiskt extrahera meddelanden som är kandidater för 
 översättning från utvalda källkodsfiler samt, om så erfordras, sammanfoga dessa 
 översättningskandidater med redan befintliga översättningar. Ytterligare detaljer 
-om användning av `message`-kommandot, erhålls genom kommandot `yiic help message`.
+om användning av `message`-kommandot, erhålls genom kommandot `yeec help message`.
 
 När [CPhpMessageSource] används till att hantera meddelandekällor, kan meddelanden 
 tillhörande en specifik utvidgningsklass (t.ex. en widget, en modul) hanteras och användas 
 specialiserat. Mer specifikt, om ett meddelande tillhör en utvidgning vars klassnamn är `Xyz`, 
 kan meddelandekategorin specifieras på formatet `Xyz.categoryName`. Motsvarande meddelandefil antas 
 vara `BasePath/messages/LanguageID/categoryName.php`, där `BasePath` refererar till katalogen som 
-innehåller utvidgningens klassfil . När `Yii::t()` används för att översätta meddelanden från en 
+innehåller utvidgningens klassfil . När `Yee::t()` används för att översätta meddelanden från en 
 utvidgning, kommer formatet då att bli:
 
 ~~~
 [php]
-Yii::t('Xyz.categoryName', 'message to be translated')
+Yee::t('Xyz.categoryName', 'message to be translated')
 ~~~
 
-Yii har stöd för [pluralisformat|CChoiceFormat] (choice format). Pluralisformat 
+Yee har stöd för [pluralisformat|CChoiceFormat] (choice format). Pluralisformat 
 avser val av översättning beroende på given kvantitet. Till exempel, det engelska 
 ordet 'book' kan antingen ha singularisform eller pluralisform beroende på antal 
 böcker, medan andra språk (såsom kinesiska) inte gör skillnad på formerna eller 
@@ -191,14 +191,14 @@ meddelandeparametern. Till exempel, antag att ett översatt meddelande är:
 ~~~
 
 och vi lämnar det numeriska värdet 2 i arrayen av meddelandeparameter när 
-[Yii::t()|YiiBase::t] anropas, erhåller vi `many books` som det slutliga 
+[Yee::t()|YeeBase::t] anropas, erhåller vi `many books` som det slutliga 
 översatta meddelandet.
 
 ~~~
 [php]
-Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+Yee::t('app', 'n==1#one book|n>1#many books', array(1)));
 //or since 1.1.6
-Yii::t('app', 'n==1#one book|n>1#many books', 1));
+Yee::t('app', 'n==1#one book|n>1#many books', 1));
 ~~~
 
 Som kortform om uttrycket är ett tal, kommer det att behandlas som `n==Number`. 
@@ -219,9 +219,9 @@ Regeln för engelska pluralisformer ovan, kan skrivas påföljande sätt:
 
 ~~~
 [php]
-Yii::t('test', 'cucumber|cucumbers', 1);
-Yii::t('test', 'cucumber|cucumbers', 2);
-Yii::t('test', 'cucumber|cucumbers', 0);
+Yee::t('test', 'cucumber|cucumbers', 1);
+Yee::t('test', 'cucumber|cucumbers', 2);
+Yee::t('test', 'cucumber|cucumbers', 0);
 ~~~
 
 Ovanstående kod ger som resultat:
@@ -236,7 +236,7 @@ Om tal skall inkluderas kan följande kod användas.
 
 ~~~
 [php]
-echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+echo Yee::t('test', '{n} cucumber|{n} cucumbers', 1);
 ~~~
 
 Här är `{n}` en speciell platsmarkör för talet som lämnas med. Resultatet blir `1 cucumber`.
@@ -245,7 +245,7 @@ Det är möjligt att lämna med ytterligare parametrar:
 
 ~~~
 [php]
-Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+Yee::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
 array(5, '{username}' => 'samdark'));
 ~~~
 
@@ -259,17 +259,17 @@ function convertNumber($number)
 	return $number;
 }
 
-Yii::t('test', '{n} cucumber|{n} cucumbers',
+Yee::t('test', '{n} cucumber|{n} cucumbers',
 array(5, '{n}' => convertNumber(5)));
 ~~~
 
 För ryska blir det:
 ~~~
 [php]
-Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 om meddelandeöversättningen är
@@ -317,7 +317,7 @@ Formatering av datum och tid
 
 Datum och tid har ofta skilda format i olika länder eller regioner. Uppgiften 
 att formatera datum och tid består därför av att generera en datum- eller 
-tidsträng som passar för angiven locale. Yii tillhandahåller 
+tidsträng som passar för angiven locale. Yee tillhandahåller 
 [CDateFormatter] för detta ändamål.
 
 Varje instans av [CDateFormatter] är associerad med en (mål-)locale. 
@@ -340,7 +340,7 @@ Formatering av tal
 
 Liksom datum och tid formateras även tal olika i olika länder och regioner. 
 Formatering av tal inkluderar decimalformatering, valutaformatering och 
-procentformatering. Yii tillhandahåller [CNumberFormatter] för dessa ändamål.
+procentformatering. Yee tillhandahåller [CNumberFormatter] för dessa ändamål.
 
 Talformateraren för hela applikationens locale kan nås via applikationens 
 property [numberFormatter|CApplication::numberFormatter].

@@ -7,7 +7,7 @@ Därefter infogas ledtexter och inmatningsfält för de attribut som deklarerats
 klassen `LoginForm`. Till sist infogas en skicka-knapp som användaren klickar på 
 för att posta formuläret. Allt detta kan göras i renodlad HTML-kod.
 
-Yii tillhandahåller några hjälpklasser för att underlätta sammansättning av 
+Yee tillhandahåller några hjälpklasser för att underlätta sammansättning av 
 vyer. Till exempel, för att skapa ett textinmatningsfält kan 
 [CHtml::textField()] användas; för att skapa en drop-down listkontroll används 
 [CHtml::dropDownList()].
@@ -65,7 +65,7 @@ ett textinmatningsfält för det specificerade attributet i modellen och ändrar
 dess CSS-klass i händelse av inmatningsfel.
 
 Om CSS-stilarna som används är de som finns i filen `form.css`, tillhandahållen 
-av `yiic`-skriptet, kommer det genererade formuläret att se ut i stil med följande:
+av `yeec`-skriptet, kommer det genererade formuläret att se ut i stil med följande:
 
 ![Loginsidan](login1.png)
 

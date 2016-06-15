@@ -8,7 +8,7 @@
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yee::app()->cache->set($id, $value);
 ~~~
 
 快取的資料將一直留在快取中，除非它由於某些快取策略（例如快取空間已滿，舊的資料被刪除）而被清除。
@@ -17,7 +17,7 @@ Yii::app()->cache->set($id, $value);
 ~~~
 [php]
 // 值 $value 在快取中最多保留 30 秒
-Yii::app()->cache->set($id, $value, 30);
+Yee::app()->cache->set($id, $value, 30);
 ~~~
 
 稍後當我們需要存取此變數時（在同一個或不同的 Web 請求中），就可以通過 ID 調用 [get()|CCache::get] 從快取中將其取回。
@@ -25,19 +25,19 @@ Yii::app()->cache->set($id, $value, 30);
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yee::app()->cache->get($id);
 if($value===false)
 {
 	// 因為在快取中沒找到 $value ，重新產生它 ，
 	// 並將它存入快取以備以後使用：
-	// Yii::app()->cache->set($id,$value);
+	// Yee::app()->cache->set($id,$value);
 }
 ~~~
 
 為要存入快取的變數選擇 ID 時，要確保此 ID 對應用程式中所有其他存入快取的變數是唯一的。
 而在不同的應用程式之間，這個 ID 不需要是唯一的。快取元件具有足夠的智慧區分不同應用程式中的 ID。
 
-一些快取儲存裝置，例如 MemCache, APC, 支援以批次模式取得多個快取值。這可以減少取得快取資料時帶來的開銷。Yii 提供了一個名為 [mget()|CCache::mget] 的方法來完成此功能。如果底層快取儲存裝置不支援此功能，[mget()|CCache::mget] 依然可以模擬實現它。
+一些快取儲存裝置，例如 MemCache, APC, 支援以批次模式取得多個快取值。這可以減少取得快取資料時帶來的開銷。Yee 提供了一個名為 [mget()|CCache::mget] 的方法來完成此功能。如果底層快取儲存裝置不支援此功能，[mget()|CCache::mget] 依然可以模擬實現它。
 
 要從快取中清除一個快取值，調用 [delete()|CCache::delete]; 要清除快取中的所有資料，調用 [flush()|CCache::flush]。
 當調用 [flush()|CCache::flush] 時一定要小心，因為它會同時清除其他應用程式中的快取。
@@ -45,7 +45,7 @@ if($value===false)
 > Tip|提示: 由於 [CCache] 實現了 `ArrayAccess`，快取元件也可以像一個陣列一樣使用。下面是幾個例子：
 > ~~~
 > [php]
-> $cache=Yii::app()->cache;
+> $cache=Yee::app()->cache;
 > $cache['var1']=$value1;  // 相當於: $cache->set('var1',$value1);
 > $value2=$cache['var2'];  // 相當於: $value2=$cache->get('var2');
 > ~~~
@@ -63,7 +63,7 @@ if($value===false)
 [php]
 // 此值將在 30 秒後失效
 // 也可能因相依性的文件發生了變化而更快失效
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+Yee::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 現在如果我們通過調用 [get()|CCache::get] 從快取中取得 `$value` ，相依性關係將被檢查，如果發生改變，我們將會得到一個 false 值，表示資料需要被重新產生。
@@ -86,9 +86,9 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 查詢快取
 -------------
 
-從版本 1.1.7，Yii 開始支援查詢快取。建立在資料快取上，查詢快取儲存資料庫查詢的結果在快取中，藉此省下未來同樣的資料庫查詢要求的時間，直接由快取提供。
+從版本 1.1.7，Yee 開始支援查詢快取。建立在資料快取上，查詢快取儲存資料庫查詢的結果在快取中，藉此省下未來同樣的資料庫查詢要求的時間，直接由快取提供。
 
-> Info|提示: 某些資料庫（例如：[MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html)）也支援查詢快取的功能。跟 MySQL 相比，Yii 提供更有彈性且更有效率的查詢快取。
+> Info|提示: 某些資料庫（例如：[MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html)）也支援查詢快取的功能。跟 MySQL 相比，Yee 提供更有彈性且更有效率的查詢快取。
 
 
 ### 啟用查詢快取
@@ -104,10 +104,10 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 [php]
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 ~~~
 
-當執行上述述句，Yii 會先檢查快取是否包含有正要執行的 SQL 述句有效的快取結果。藉由下述三個條件驗證：
+當執行上述述句，Yee 會先檢查快取是否包含有正要執行的 SQL 述句有效的快取結果。藉由下述三個條件驗證：
 
 - 如果快取包含該 SQL 述句索引的一個項目。
 - 如果該項目還沒過期（少於 1000 秒，從他被儲存在快取開始）
@@ -128,7 +128,7 @@ $posts = Post::model()->cache(1000, $dependency)->findAll();
 $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 ~~~
 
-這裡的 `cache()` 其實就是 [CDbConnection::cache()]。從內部觀察，當執行 AR 產生的 SQL 述句，Yii 會嘗試使用我們上述的查詢快取。
+這裡的 `cache()` 其實就是 [CDbConnection::cache()]。從內部觀察，當執行 AR 產生的 SQL 述句，Yee 會嘗試使用我們上述的查詢快取。
 
 
 ### 快取多個查詢
@@ -140,9 +140,9 @@ $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
 
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 // 查詢快取不會被使用
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 藉由提供額外的 `$queryCount` 參數給 `cache()` 方法，我們可以強迫多個查詢使用查詢快取。下面的例子，當我們呼叫 `cache()`，我們指定下兩個查詢也要被快取：
@@ -150,9 +150,9 @@ $rows = Yii::app()->db->createCommand($sql)->queryAll();
 ~~~
 [php]
 // ...
-$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
 // 查詢快取會被使用
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 如你所知，當進行關聯式 AR 查詢，多個 SQL 查詢是有可能被執行的（藉由檢查 [log messages](/doc/guide/topics.logging)）。例如，如果 `Post` 和 `Comment` 的關係是 `HAS_MANY`，那麼下列的程式碼會實際上執行了兩個查詢：
