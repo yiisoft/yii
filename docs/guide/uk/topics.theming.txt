@@ -220,8 +220,8 @@ return array(
 <?php
 return array(
     'default'=>array(
-        'nextPageLabel'=>'&gt;&gt;',
-        'prevPageLabel'=>'&lt;&lt;',
+        'nextPageLabel'=>'next',
+        'prevPageLabel'=>'prev',
     ),
     'classic'=>array(
         'header'=>'',
@@ -274,5 +274,3 @@ return array(
    - У віджета може бути кілька скінів;
    - Скін можна темізувати;
    - Використання скінів більш затратно, ніж використання глобальної конфігурації.
-
-<div class="revision">$Id: topics.theming.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

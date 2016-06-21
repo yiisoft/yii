@@ -1,20 +1,31 @@
 language: php
 
 php:
-  - 5.2
   - 5.3
   - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+# run build against hhvm but allow them to fail
+# http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: hhvm
+
+services:
+  - redis-server
+  - memcached
+
+install:
+  - travis_retry composer self-update && composer --version
 
 before_script:
+  - ./tests/travis/mysql-setup.sh
+  - ./tests/travis/postgresql-setup.sh
+  - ./tests/travis/memcache-setup.sh
   - cd tests
-  - mysql -u root -e 'CREATE SCHEMA `yii` CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
-  - mysql -u root -D yii < framework/db/data/mysql.sql
-  - psql -q -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN;" -U postgres
-  - psql -q -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres
-  - psql -q -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
-  - psql -q -d yii -f framework/db/data/postgres.sql -U test
-  - psql -q -d yii -f framework/web/auth/schema.sql -U test
-  - echo 'y' | pecl install memcache > ~/memcache.log || ( echo "=== MEMCACHE BUILD FAILED ==="; cat ~/memcache.log )
-  - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
-script: phpunit --colors --coverage-text framework
+script: phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci framework

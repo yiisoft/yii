@@ -1,3 +1,8 @@
+-- -----------------------
+-- Main table creating DDL
+-- -----------------------
+
+-- create 'categories' table
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,13 +13,14 @@ CREATE TABLE [dbo].[categories](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [varchar](128) NOT NULL,
 	[parent_id] [int] NULL,
- CONSTRAINT [PK_categories] PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-) ON [PRIMARY]
+	CONSTRAINT [PK_categories] PRIMARY KEY CLUSTERED(
+		[id] ASC
+	) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
+
+-- create 'orders' table
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -25,14 +31,15 @@ CREATE TABLE [dbo].[orders](
 	[key1] [int] NOT NULL,
 	[key2] [int] NOT NULL,
 	[name] [varchar](128) NOT NULL,
- CONSTRAINT [PK_orders] PRIMARY KEY CLUSTERED 
-(
-	[key1] ASC,
-	[key2] ASC
-) ON [PRIMARY]
+	CONSTRAINT [PK_orders] PRIMARY KEY CLUSTERED(
+		[key1] ASC,
+		[key2] ASC
+	) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
+
+-- create 'types' table
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -55,6 +62,8 @@ CREATE TABLE [dbo].[types](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+
+-- create 'users' table
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -66,13 +75,14 @@ CREATE TABLE [dbo].[users](
 	[username] [varchar](128) NOT NULL,
 	[password] [varchar](128) NOT NULL,
 	[email] [varchar](128) NOT NULL,
- CONSTRAINT [PK_users] PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-) ON [PRIMARY]
+	CONSTRAINT [PK_users] PRIMARY KEY CLUSTERED(
+		[id] ASC
+	) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
+
+-- create 'post_category' table (junction between 'categories' and 'posts')
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -82,14 +92,15 @@ BEGIN
 CREATE TABLE [dbo].[post_category](
 	[category_id] [int] NOT NULL,
 	[post_id] [int] NOT NULL,
- CONSTRAINT [PK_post_category] PRIMARY KEY CLUSTERED 
-(
-	[category_id] ASC,
-	[post_id] ASC
-) ON [PRIMARY]
+	CONSTRAINT [PK_post_category] PRIMARY KEY CLUSTERED(
+		[category_id] ASC,
+		[post_id] ASC
+	) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
+
+-- create 'items' table
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -101,13 +112,14 @@ CREATE TABLE [dbo].[items](
 	[name] [varchar](128) NULL,
 	[col1] [int] NOT NULL,
 	[col2] [int] NOT NULL,
- CONSTRAINT [PK_items] PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-) ON [PRIMARY]
+	CONSTRAINT [PK_items] PRIMARY KEY CLUSTERED(
+		[id] ASC
+	) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
+
+-- create 'comments' table
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -119,13 +131,14 @@ CREATE TABLE [dbo].[comments](
 	[content] [text] NOT NULL,
 	[post_id] [int] NOT NULL,
 	[author_id] [int] NOT NULL,
- CONSTRAINT [PK_comments] PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-) ON [PRIMARY]
+	CONSTRAINT [PK_comments] PRIMARY KEY CLUSTERED(
+		[id] ASC
+	) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+
+-- create 'posts' table
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -138,13 +151,14 @@ CREATE TABLE [dbo].[posts](
 	[create_time] [datetime] NOT NULL,
 	[author_id] [int] NOT NULL,
 	[content] [text] NULL,
- CONSTRAINT [PK_posts] PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-) ON [PRIMARY]
+	CONSTRAINT [PK_posts] PRIMARY KEY CLUSTERED(
+		[id] ASC
+	) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+
+-- create 'profiles' table
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -156,22 +170,30 @@ CREATE TABLE [dbo].[profiles](
 	[first_name] [varchar](128) NOT NULL,
 	[last_name] [varchar](128) NOT NULL,
 	[user_id] [int] NOT NULL,
- CONSTRAINT [PK_profiles] PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-) ON [PRIMARY]
+	CONSTRAINT [PK_profiles] PRIMARY KEY CLUSTERED(
+		[id] ASC
+	) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
+
+-- ----------------------------
+-- Foreign keys and constraints
+-- ----------------------------
+
+-- 'categories' table foreign keys
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[FK_categories_categories]') AND type = 'F')
 ALTER TABLE [dbo].[categories]  WITH CHECK ADD  CONSTRAINT [FK_categories_categories] FOREIGN KEY([parent_id])
 REFERENCES [dbo].[categories] ([id])
 GO
+
+-- 'post_category' table foreign keys
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[FK_post_category_categories]') AND type = 'F')
 ALTER TABLE [dbo].[post_category]  WITH CHECK ADD  CONSTRAINT [FK_post_category_categories] FOREIGN KEY([category_id])
 REFERENCES [dbo].[categories] ([id])
 ON DELETE CASCADE
 GO
+
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[FK_post_category_posts]') AND type = 'F')
 ALTER TABLE [dbo].[post_category]  WITH NOCHECK ADD  CONSTRAINT [FK_post_category_posts] FOREIGN KEY([post_id])
 REFERENCES [dbo].[posts] ([id])
@@ -179,11 +201,15 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[post_category] CHECK CONSTRAINT [FK_post_category_posts]
 GO
+
+-- 'items' table foreign keys
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[FK_items_orders]') AND type = 'F')
 ALTER TABLE [dbo].[items]  WITH CHECK ADD  CONSTRAINT [FK_items_orders] FOREIGN KEY([col1], [col2])
 REFERENCES [dbo].[orders] ([key1], [key2])
 ON DELETE CASCADE
 GO
+
+-- 'comments' table foreign keys
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[FK_comments_users]') AND type = 'F')
 ALTER TABLE [dbo].[comments]  WITH NOCHECK ADD  CONSTRAINT [FK_comments_users] FOREIGN KEY([author_id])
 REFERENCES [dbo].[users] ([id])
@@ -191,6 +217,7 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[comments] CHECK CONSTRAINT [FK_comments_users]
 GO
+
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[FK_post_comment]') AND type = 'F')
 ALTER TABLE [dbo].[comments]  WITH NOCHECK ADD  CONSTRAINT [FK_post_comment] FOREIGN KEY([post_id])
 REFERENCES [dbo].[posts] ([id])
@@ -198,19 +225,73 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[comments] CHECK CONSTRAINT [FK_post_comment]
 GO
+
+-- 'posts' table foreign keys
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[FK_posts_users]') AND type = 'F')
 ALTER TABLE [dbo].[posts]  WITH NOCHECK ADD  CONSTRAINT [FK_posts_users] FOREIGN KEY([author_id])
 REFERENCES [dbo].[users] ([id])
 GO
 ALTER TABLE [dbo].[posts] CHECK CONSTRAINT [FK_posts_users]
 GO
+
+-- 'profiles' table foreign keys
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[dbo].[FK_profile_user]') AND type = 'F')
 ALTER TABLE [dbo].[profiles]  WITH NOCHECK ADD  CONSTRAINT [FK_profile_user] FOREIGN KEY([user_id])
 REFERENCES [dbo].[users] ([id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[profiles] CHECK CONSTRAINT [FK_profile_user]
+GO
 
+-- ---------------------------------------------------
+-- Tables' comments (MS_Description extended property)
+-- ---------------------------------------------------
+
+-- 'users' table column comments
+EXEC sys.sp_addextendedproperty
+	@name=N'MS_Description', @value=N'Name of the user',
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'users',
+	@level2type=N'COLUMN', @level2name=N'username'
+GO
+EXEC sys.sp_addextendedproperty
+	@name=N'MS_Description', @value=N'User''s password',
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'users',
+	@level2type=N'COLUMN', @level2name=N'password'
+GO
+EXEC sys.sp_addextendedproperty
+	@name=N'MS_Description', @value=N'User''s email',
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'users',
+	@level2type=N'COLUMN', @level2name=N'email'
+GO
+
+-- 'profiles' table column comments
+EXEC sys.sp_addextendedproperty
+	@name=N'MS_Description', @value=N'用户名。',
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'profiles',
+	@level2type=N'COLUMN', @level2name=N'first_name'
+GO
+EXEC sys.sp_addextendedproperty
+	@name=N'MS_Description', @value=N'Тест Юникода',
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'profiles',
+	@level2type=N'COLUMN', @level2name=N'id'
+GO
+EXEC sys.sp_addextendedproperty
+	@name=N'MS_Description', @value=N'User''s identifier',
+	@level0type=N'SCHEMA', @level0name=N'dbo',
+	@level1type=N'TABLE', @level1name=N'profiles',
+	@level2type=N'COLUMN', @level2name=N'user_id'
+GO
+
+-- --------------------------------
+-- Tables' actual testing real data
+-- --------------------------------
+
+-- 'users' table data
 INSERT INTO users (username, password, email) VALUES ('user1','pass1','email1')
 GO
 INSERT INTO users (username, password, email) VALUES ('user2','pass2','email2')
@@ -218,11 +299,13 @@ GO
 INSERT INTO users (username, password, email) VALUES ('user3','pass3','email3')
 GO
 
+-- 'profiles' table data
 INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1)
 GO
 INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 2','last 2',2)
 GO
 
+-- 'posts' table data
 INSERT INTO posts (title, create_time, author_id, content) VALUES ('post 1','2000-01-01',1,'content 1')
 GO
 INSERT INTO posts (title, create_time, author_id, content) VALUES ('post 2','2000-01-02',2,'content 2')
@@ -234,6 +317,7 @@ GO
 INSERT INTO posts (title, create_time, author_id, content) VALUES ('post 5','2000-01-05',3,'content 5')
 GO
 
+-- 'comments' table data
 INSERT INTO comments (content, post_id, author_id) VALUES ('comment 1',1, 2)
 GO
 INSERT INTO comments (content, post_id, author_id) VALUES ('comment 2',1, 2)
@@ -255,6 +339,7 @@ GO
 INSERT INTO comments (content, post_id, author_id) VALUES ('comment 10',5, 3)
 GO
 
+-- 'categories' table data
 INSERT INTO categories (name, parent_id) VALUES ('cat 1',NULL)
 GO
 INSERT INTO categories (name, parent_id) VALUES ('cat 2',NULL)
@@ -270,6 +355,7 @@ GO
 INSERT INTO categories (name, parent_id) VALUES ('cat 7',5)
 GO
 
+-- 'post_category' table data (junction between 'categories' and 'posts')
 INSERT INTO post_category (category_id, post_id) VALUES (1,1)
 GO
 INSERT INTO post_category (category_id, post_id) VALUES (2,1)
@@ -283,7 +369,7 @@ GO
 INSERT INTO post_category (category_id, post_id) VALUES (1,3)
 GO
 
-
+-- 'orders' table data
 INSERT INTO orders (key1,key2,name) VALUES (1,2,'order 12')
 GO
 INSERT INTO orders (key1,key2,name) VALUES (1,3,'order 13')
@@ -293,7 +379,7 @@ GO
 INSERT INTO orders (key1,key2,name) VALUES (2,2,'order 22')
 GO
 
-
+-- 'items' table data
 INSERT INTO items (name,col1,col2) VALUES ('item 1',1,2)
 GO
 INSERT INTO items (name,col1,col2) VALUES ('item 2',1,2)

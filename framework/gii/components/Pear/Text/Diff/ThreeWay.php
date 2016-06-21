@@ -2,9 +2,9 @@
 /**
  * A class for computing three way diffs.
  *
- * $Horde: framework/Text_Diff/Diff/ThreeWay.php,v 1.3.2.3 2008/01/04 10:37:27 jan Exp $
+ * $Horde: framework/Text_Diff/Diff/ThreeWay.php,v 1.3.2.4 2009/01/06 15:23:41 jan Exp $
  *
- * Copyright 2007-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2007-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
@@ -38,7 +38,7 @@ class Text_Diff_ThreeWay extends Text_Diff {
      * @param array $final1  The first version to compare to.
      * @param array $final2  The second version to compare to.
      */
-    function Text_Diff_ThreeWay($orig, $final1, $final2)
+    function __construct($orig, $final1, $final2)
     {
         if (extension_loaded('xdiff')) {
             $engine = new Text_Diff_Engine_xdiff();
@@ -155,7 +155,7 @@ class Text_Diff_ThreeWay extends Text_Diff {
  */
 class Text_Diff_ThreeWay_Op {
 
-    function Text_Diff_ThreeWay_Op($orig = false, $final1 = false, $final2 = false)
+    function __construct($orig = false, $final1 = false, $final2 = false)
     {
         $this->orig = $orig ? $orig : array();
         $this->final1 = $final1 ? $final1 : array();
@@ -194,7 +194,7 @@ class Text_Diff_ThreeWay_Op {
  */
 class Text_Diff_ThreeWay_Op_copy extends Text_Diff_ThreeWay_Op {
 
-    function Text_Diff_ThreeWay_Op_Copy($lines = false)
+    function __construct($lines = false)
     {
         $this->orig = $lines ? $lines : array();
         $this->final1 = &$this->orig;
@@ -221,7 +221,7 @@ class Text_Diff_ThreeWay_Op_copy extends Text_Diff_ThreeWay_Op {
  */
 class Text_Diff_ThreeWay_BlockBuilder {
 
-    function Text_Diff_ThreeWay_BlockBuilder()
+    function __construct()
     {
         $this->_init();
     }

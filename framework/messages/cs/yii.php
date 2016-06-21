@@ -12,8 +12,6 @@
  * enclosed between a pair of '@@' marks.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   'Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.' => 'Alias "{alias}" je neplatný. Ubezpečte se, že obsahuje cestu k platnému PHP souboru.',
@@ -237,5 +235,15 @@ return array (
   '{controller} cannot find the requested view "{view}".' => '{controller} nenalezl požadovanou šablonu "{view}".',
   '{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.' => '{controller} obsahuje nesprávně umístěné Widget tagy v šabloně "{view}". Blok pro {widget} nemá korektně ukončený blok volaní metody endWidget().',
   '{controller} has an extra endWidget({id}) call in its view.' => '{controller} má navíc volanou metodu endWidget({id}) v šabloně.',
+  '{n} B' => '{n} B',
+  '{n} byte|{n} bytes' => '{n} bajtů',
+  '{n} GB' => '{n} GB',
+  '{n} gigabyte|{n} gigabytes' => '{n} gigabajtů',
+  '{n} KB' => '{n} KB',
+  '{n} kilobyte|{n} kilobytes' => '{n} kilobajtů',
+  '{n} MB' => '{n} MB',
+  '{n} megabyte|{n} megabytes' => '{n} megabajtů',
+  '{n} TB' => '{n} TB',
+  '{n} terabyte|{n} terabytes' => '{n} terabajtů',
   '{widget} cannot find the view "{view}".' => '{widget} nenalezl šablonu "{view}".',
 );

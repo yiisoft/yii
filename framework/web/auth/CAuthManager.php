@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -18,7 +18,7 @@
  * Access Control (RBAC).
  *
  * The main idea is that permissions are organized as a hierarchy of
- * {@link CAuthItem authorization items}. Items on higer level inherit the permissions
+ * {@link CAuthItem authorization items}. Items on higher level inherit the permissions
  * represented by items on lower level. And roles are simply top-level authorization items
  * that may be assigned to individual users. A user is said to have a permission
  * to do something if the corresponding authorization item is inherited by one of his roles.
@@ -35,14 +35,13 @@
  * @property array $operations Operations (name=>CAuthItem).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
 abstract class CAuthManager extends CApplicationComponent implements IAuthManager
 {
 	/**
-	 * @var boolean Enable error reporting for bizRules.	 
+	 * @var boolean Enable error reporting for bizRules.
 	 * @since 1.1.3
 	 */
 	public $showErrors = false;
@@ -147,7 +146,21 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	 */
 	public function executeBizRule($bizRule,$params,$data)
 	{
-		return $bizRule==='' || $bizRule===null || ($this->showErrors ? eval($bizRule)!=0 : @eval($bizRule)!=0);
+		if($bizRule==='' || $bizRule===null)
+			return true;
+		if ($this->showErrors)
+			return eval($bizRule)!=0;
+		else
+		{
+			try
+			{
+				return @eval($bizRule)!=0;
+			}
+			catch (ParseError $e)
+			{
+				return false;
+			}
+		}
 	}
 
 	/**

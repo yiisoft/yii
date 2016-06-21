@@ -42,4 +42,3 @@ additional parameters to [renderDynamic()|CController::renderDynamic()]
 will be passed to the callback. The callback should return the dynamic
 content instead of displaying it.
 
-<div class="revision">$Id$</div>

@@ -34,8 +34,11 @@ class CExistValidatorTest extends CTestCase
 
 	protected function tearDown()
 	{
-		$this->_connection->createCommand()->dropTable($this->_tableName);
-		$this->_connection->active=false;
+		if($this->_connection instanceof CDbConnection)
+		{
+			$this->_connection->createCommand()->dropTable($this->_tableName);
+			$this->_connection->active=false;
+		}
 	}
 
 	/**
@@ -126,5 +129,17 @@ EOD;
 		$model = new $modelClassName('criteria');
 		$model->name = $name;
 		$this->assertFalse($model->validate(),'Unable to validate model with custom criteria!');
+	}
+
+	/**
+	 * https://github.com/yiisoft/yii/issues/1955
+	 */
+	public function testArrayValue()
+	{
+		$modelClassName = $this->_arModelName;
+		$model = new $modelClassName('simple');
+		$model->name = array('test_name');
+		$this->assertFalse($model->validate());
+		$this->assertTrue($model->hasErrors('name'));
 	}
 }

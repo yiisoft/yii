@@ -24,4 +24,5 @@ an object-oriented fashion. Each AR object is an instance of
 database table. The fields in the row are represented as properties of the AR
 object. Details about AR can be found in [Active Record](/doc/guide/database.ar).
 
-<div class="revision">$Id$</div>
+For the best practices on defining your models check [Best MVC Practices](/doc/guide/basics.best-practices),
+Model section.

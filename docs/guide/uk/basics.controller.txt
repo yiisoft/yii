@@ -120,7 +120,7 @@ class PostController extends CController
 ~~~
 
 У наведеному коді ми використовуємо псевдонім маршруту `application.controllers.post.UpdateAction` 
-Щоб вказати на файл класу дії `protected/controllers/post/UpdateAction.php`.
+щоб вказати на файл класу дії `protected/controllers/post/UpdateAction.php`.
 Створюючи дії, засновані на класах, можна організувати додаток у модульному стилі. 
 Наприклад структура, директорій, приведена нижче, може бути використана для розташування коду контролерів:
 ~~~
@@ -319,5 +319,3 @@ class PostController extends CController
 застосований до дій `edit` та `create`, а `PerformanceFilter` — до всіх дій,
 окрім `edit` і `create`. Якщо оператори `'+'` і `'-'` не зазначені, фільтр буде
 застосований до всіх дій.
-
-<div class="revision">$Id: basics.controller.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

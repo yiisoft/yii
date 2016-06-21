@@ -4,16 +4,14 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
  */
 
 /**
  * WebAppCommand creates an Yii Web application at the specified location.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.cli.commands
  * @since 1.0
  */
@@ -25,7 +23,7 @@ class WebAppCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic webapp <app-path>
+  yiic webapp <app-path> [<vcs>]
 
 DESCRIPTION
   This command generates an Yii Web Application at the specified location.
@@ -34,6 +32,10 @@ PARAMETERS
  * app-path: required, the directory where the new application will be created.
    If the directory does not exist, it will be created. After the application
    is created, please make sure the directory can be accessed by Web users.
+ * vcs: optional, version control system you're going to use in the new project.
+   Application generator will create all needed files to the specified VCS
+   (such as .gitignore, .gitkeep, etc.). Possible values: git, hg. Do not
+   use this argument if you're going to create VCS files yourself.
 
 EOD;
 	}
@@ -44,6 +46,13 @@ EOD;
 	 */
 	public function run($args)
 	{
+		$vcs=false;
+		if(isset($args[1]))
+		{
+			if($args[1]!='git' && $args[1]!='hg')
+				$this->usageError('Unsupported VCS specified. Currently only git and hg supported.');
+			$vcs=$args[1];
+		}
 		if(!isset($args[0]))
 			$this->usageError('the Web application location is not specified.');
 		$path=strtr($args[0],'/\\',DIRECTORY_SEPARATOR);
@@ -63,7 +72,24 @@ EOD;
 			$sourceDir=$this->getSourceDir();
 			if($sourceDir===false)
 				die("\nUnable to locate the source directory.\n");
-			$list=$this->buildFileList($sourceDir,$path);
+			$ignoreFiles=array();
+			$renameMap=array();
+			switch($vcs)
+			{
+				case 'git':
+					$renameMap=array('git-gitignore'=>'.gitignore','git-gitkeep'=>'.gitkeep'); // move with rename git files
+					$ignoreFiles=array('hg-hgignore','hg-hgkeep'); // ignore only hg files
+					break;
+				case 'hg':
+					$renameMap=array('hg-hgignore'=>'.hgignore','hg-hgkeep'=>'.hgkeep'); // move with rename hg files
+					$ignoreFiles=array('git-gitignore','git-gitkeep'); // ignore only git files
+					break;
+				default:
+					// no files for renaming
+					$ignoreFiles=array('git-gitignore','git-gitkeep','hg-hgignore','hg-hgkeep'); // ignore both git and hg files
+					break;
+			}
+			$list=$this->buildFileList($sourceDir,$path,'',$ignoreFiles,$renameMap);
 			$this->addFileModificationCallbacks($list);
 			$this->copyFiles($list);
 			$this->setPermissions($path);

@@ -20,7 +20,7 @@ Assume we want to test the `Comment` model class in the [blog demo](http://www.y
 [php]
 class CommentTest extends CDbTestCase
 {
-	public $fixtures=array(
+	protected $fixtures=array(
 		'posts'=>'Post',
 		'comments'=>'Comment',
 	);
@@ -77,4 +77,3 @@ public function testApprove()
 ~~~
 
 
-<div class="revision">$Id$</div>

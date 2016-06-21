@@ -54,7 +54,7 @@ On the `Model Generator` page, enter `tbl_user` (the user table name) in the `Ta
 
 Repeat the same procedure for the rest of the database tables, including  `tbl_post`, `tbl_comment`, `tbl_tag` and `tbl_lookup`.
 
-> Tip: We can also enter an asterisk character '\*' in the `Table Name` field. This will generate a model class for *every* database table in a single shot.
+> Tip: We can also enter an asterisk character `*` in the `Table Name` field. This will generate a model class for *every* database table in a single shot.
 
 At this stage, we will have the following newly created files:
 
@@ -115,4 +115,3 @@ In order to understand better how the above files are used, we show in the follo
  5. The `actionIndex()` method renders the `index` view with the post data.
 
 
-<div class="revision">$Id$</div>

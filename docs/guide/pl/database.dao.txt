@@ -26,9 +26,9 @@ Ustanawianie połączenia z bazą danych
 -------------------------------------
 
 Aby ustanowić połączenie z bazą danych należy utworzyć instancję [CDbConnection] 
-a następnie aktywować ją. Aby połączyć się z bazą danych potrzebny jest adres DNS. 
+a następnie aktywować ją. Aby połączyć się z bazą danych potrzebny jest adres DSN. 
 Użytkownik oraz hasło mogą być również potrzebne aby ustanowić połączenie. W przypadku 
-gdy podczas łączenia nastąpi błąd (np. podano zły adres DNS lub złe hasło/nazwę użytkownika) 
+gdy podczas łączenia nastąpi błąd (np. podano zły adres DSN lub złe hasło/nazwę użytkownika) 
 zostanie rzucony odpowiedni wyjątek.
 
 ~~~
@@ -40,10 +40,10 @@ $connection->active=true;
 $connection->active=false;  // zamknij połączenie
 ~~~
 
-Format adresu DNS zależy od używanego, dla danej bazy danych, sterownika PDO. Uogólniając, 
-DNS składa się z nazwy sterownika PDO, po którym następuje dwukropek a następnie 
+Format adresu DSN zależy od używanego, dla danej bazy danych, sterownika PDO. Uogólniając, 
+DSN składa się z nazwy sterownika PDO, po którym następuje dwukropek a następnie 
 zależna od sterownika składnia połączenia. Zobacz [dokumentację PDO](http://www.php.net/manual/en/pdo.construct.php) 
-aby uzyskać więcej informacji. Poniżej znajduje się lista najczęściej używanych formatów DNS:
+aby uzyskać więcej informacji. Poniżej znajduje się lista najczęściej używanych formatów DSN:
 
    - SQLite: `sqlite:/scieżka/do/pliku/bazy`,
    - MySQL: `mysql:host=localhost;dbname=testdb`,

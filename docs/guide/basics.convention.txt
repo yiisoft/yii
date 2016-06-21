@@ -164,4 +164,3 @@ separate by using different table name prefixes.
 
 
 
-<div class="revision">$Id$</div>

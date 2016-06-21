@@ -244,8 +244,8 @@ We then create the needed skins. Skins belonging to the same widget class are st
 <?php
 return array(
     'default'=>array(
-        'nextPageLabel'=>'&gt;&gt;',
-        'prevPageLabel'=>'&lt;&lt;',
+        'nextPageLabel'=>'next',
+        'prevPageLabel'=>'prev',
     ),
     'classic'=>array(
         'header'=>'',
@@ -288,4 +288,3 @@ differences are as follows.
    - Skin is themeable;
    - Using skin is more expensive than using global widget customization.
 
-<div class="revision">$Id$</div>

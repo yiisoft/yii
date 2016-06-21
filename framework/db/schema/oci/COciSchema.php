@@ -4,7 +4,7 @@
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -14,7 +14,6 @@
  * @property string $defaultSchema Default schema.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id$
  * @package system.db.schema.oci
  */
 class COciSchema extends CDbSchema
@@ -25,21 +24,23 @@ class COciSchema extends CDbSchema
 	 * @var array the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
-    public $columnTypes=array(
-        'pk' => 'NUMBER(10) NOT NULL PRIMARY KEY',
-        'string' => 'VARCHAR2(255)',
-        'text' => 'CLOB',
-        'integer' => 'NUMBER(10)',
-        'float' => 'NUMBER',
-        'decimal' => 'NUMBER',
-        'datetime' => 'TIMESTAMP',
-        'timestamp' => 'TIMESTAMP',
-        'time' => 'TIMESTAMP',
-        'date' => 'DATE',
-        'binary' => 'BLOB',
-        'boolean' => 'NUMBER(1)',
+	public $columnTypes=array(
+		'pk' => 'NUMBER(10) NOT NULL PRIMARY KEY',
+		'bigpk' => 'NUMBER(20) NOT NULL PRIMARY KEY',
+		'string' => 'VARCHAR2(255)',
+		'text' => 'CLOB',
+		'integer' => 'NUMBER(10)',
+		'bigint' => 'NUMBER(20)',
+		'float' => 'NUMBER',
+		'decimal' => 'NUMBER',
+		'datetime' => 'TIMESTAMP',
+		'timestamp' => 'TIMESTAMP',
+		'time' => 'TIMESTAMP',
+		'date' => 'DATE',
+		'binary' => 'BLOB',
+		'boolean' => 'NUMBER(1)',
 		'money' => 'NUMBER(19,4)',
-    );
+	);
 
 	/**
 	 * Quotes a table name for use in a query.
@@ -76,38 +77,38 @@ class COciSchema extends CDbSchema
 	}
 
 	/**
-     * @param string $schema default schema.
-     */
-    public function setDefaultSchema($schema)
-    {
+	 * @param string $schema default schema.
+	 */
+	public function setDefaultSchema($schema)
+	{
 		$this->_defaultSchema=$schema;
-    }
+	}
 
-    /**
-     * @return string default schema.
-     */
-    public function getDefaultSchema()
-    {
+	/**
+	 * @return string default schema.
+	 */
+	public function getDefaultSchema()
+	{
 		if (!strlen($this->_defaultSchema))
 		{
 			$this->setDefaultSchema(strtoupper($this->getDbConnection()->username));
 		}
 
 		return $this->_defaultSchema;
-    }
+	}
 
-    /**
-     * @param string $table table name with optional schema name prefix, uses default schema name prefix is not provided.
-     * @return array tuple as ($schemaName,$tableName)
-     */
-    protected function getSchemaTableName($table)
-    {
+	/**
+	 * @param string $table table name with optional schema name prefix, uses default schema name prefix is not provided.
+	 * @return array tuple as ($schemaName,$tableName)
+	 */
+	protected function getSchemaTableName($table)
+	{
 		$table = strtoupper($table);
 		if(count($parts= explode('.', str_replace('"','',$table))) > 1)
 			return array($parts[0], $parts[1]);
 		else
 			return array($this->getDefaultSchema(),$parts[0]);
-    }
+	}
 
 	/**
 	 * Loads the metadata for the specified table.
@@ -181,9 +182,11 @@ SELECT a.column_name, a.data_type ||
         WHERE C.OWNER = B.OWNER
            and C.table_name = B.object_name
            and C.column_name = A.column_name
-           and D.constraint_type = 'P') as Key
+           and D.constraint_type = 'P') as Key,
+    com.comments as column_comment
 FROM ALL_TAB_COLUMNS A
 inner join ALL_OBJECTS B ON b.owner = a.owner and ltrim(B.OBJECT_NAME) = ltrim(A.TABLE_NAME)
+LEFT JOIN all_col_comments com ON (A.owner = com.owner AND A.table_name = com.table_name AND A.column_name = com.column_name)
 WHERE
     a.owner = '{$schemaName}'
 	and (b.object_type = 'TABLE' or b.object_type = 'VIEW')
@@ -206,7 +209,7 @@ EOD;
 			{
 				if($table->primaryKey===null)
 					$table->primaryKey=$c->name;
-				else if(is_string($table->primaryKey))
+				elseif(is_string($table->primaryKey))
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
@@ -231,6 +234,7 @@ EOD;
 		$c->isPrimaryKey=strpos($column['KEY'],'P')!==false;
 		$c->isForeignKey=false;
 		$c->init($column['DATA_TYPE'],$column['DATA_DEFAULT']);
+		$c->comment=$column['COLUMN_COMMENT']===null ? '' : $column['COLUMN_COMMENT'];
 
 		return $c;
 	}
@@ -346,5 +350,64 @@ EOD;
 	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name);
+	}
+
+	/**
+	 * Resets the sequence value of a table's primary key.
+	 * The sequence will be reset such that the primary key of the next new row inserted
+	 * will have the specified value or max value of a primary key plus one (i.e. sequence trimming).
+	 *
+	 * Note, behavior of this method has changed since 1.1.14 release. Please refer to the following
+	 * issue for more details: {@link https://github.com/yiisoft/yii/issues/2241}
+	 *
+	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
+	 * @param integer|null $value the value for the primary key of the next new row inserted.
+	 * If this is not set, the next new row's primary key will have the max value of a primary
+	 * key plus one (i.e. sequence trimming).
+	 * @since 1.1.13
+	 */
+	public function resetSequence($table,$value=null)
+	{
+		if($table->sequenceName===null)
+			return;
+
+		if($value!==null)
+			$value=(int)$value;
+		else
+		{
+			$value=(int)$this->getDbConnection()
+				->createCommand("SELECT MAX(\"{$table->primaryKey}\") FROM {$table->rawName}")
+				->queryScalar();
+			$value++;
+		}
+		$this->getDbConnection()
+			->createCommand("DROP SEQUENCE \"{$table->name}_SEQ\"")
+			->execute();
+		$this->getDbConnection()
+			->createCommand("CREATE SEQUENCE \"{$table->name}_SEQ\" START WITH {$value} INCREMENT BY 1 NOMAXVALUE NOCACHE")
+			->execute();
+	}
+
+	/**
+	 * Enables or disables integrity check.
+	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @since 1.1.14
+	 */
+	public function checkIntegrity($check=true,$schema='')
+	{
+		if($schema==='')
+			$schema=$this->getDefaultSchema();
+		$mode=$check ? 'ENABLE' : 'DISABLE';
+		foreach($this->getTableNames($schema) as $table)
+		{
+			$constraints=$this->getDbConnection()
+				->createCommand("SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME=:t AND OWNER=:o")
+				->queryColumn(array(':t'=>$table,':o'=>$schema));
+			foreach($constraints as $constraint)
+				$this->getDbConnection()
+					->createCommand("ALTER TABLE \"{$schema}\".\"{$table}\" {$mode} CONSTRAINT \"{$constraint}\"")
+					->execute();
+		}
 	}
 }

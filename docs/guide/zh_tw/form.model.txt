@@ -1,0 +1,313 @@
+建立模型
+==============
+
+在撰寫表單所需的 HTML 程式碼之前，我們應該先確定來自使用者輸入的資料的類型，以及這些資料應符合什麼樣的規則。
+模型類別可用於記錄這些訊息。
+正如[模型](/doc/guide/basics.model) 章節所定義的，
+模型是儲存使用者輸入和驗證這些輸入的中心位置。
+
+取決於使用使用者所輸入資料的方式，我們可以建立兩種類型的模型。
+如果使用者輸入被收集、使用然後丟棄，我們應該建立一個  [表單模型](/doc/guide/basics.model);
+如果使用者的輸入被收集後要儲存到資料庫，我們應使用一個 
+[Active Record](/doc/guide/database.ar) 。
+兩種類別型的模型共享同樣的基礎類別 [CModel] ，它定義了表單所需的通用接口。
+
+> Note|注意: 我們在這一節的示例中主要使用了表單模型 。然而，同樣的操作也可應用程式於
+ [Active Record](/doc/guide/database.ar) 模型。
+
+
+定義模型類別
+--------------------
+
+下面我們建立了一個 `LoginForm` 模型類別用於在一個登入頁中收集使用者的輸入。
+由於登入訊息只被用於驗證使用者，並不需要儲存，因此我們將 `LoginForm` 建立為一個 表單模型。
+
+~~~
+[php]
+class LoginForm extends CFormModel
+{
+	public $username;
+	public $password;
+	public $rememberMe=false;
+}
+~~~
+
+`LoginForm` 中定義了三個特性: `$username`, `$password` 和
+`$rememberMe`。他們用於儲存使用者輸入的使用者名和密碼，還有使用者是否想記住他的登入的選項。
+由於 `$rememberMe` 有一個預設的值 `false`，相應的選項在初始化顯示在登入表單中時將是未勾選狀態。
+
+> Info|訊息: 我們將這些成員變數稱為 *屬性（attributes）* 而不是 特性（properties），以區別於普通的特性（properties）。
+屬性（attribute）是一個主要用於存儲來自使用者輸入或資料庫資料的特性（propertiy）。
+
+
+宣告驗證規則
+--------------------------
+
+一旦使用者提交了他的輸入給模型，我們就需要在使用前確保使用者的輸入是有效的。
+這是通過將使用者的輸入和一系列規則執行驗證實現的。我們在 `rules()` 方法中指定這些驗證規則，
+此方法應返回一個規則配置陣列。
+
+~~~
+[php]
+class LoginForm extends CFormModel
+{
+	public $username;
+	public $password;
+	public $rememberMe=false;
+
+	private $_identity;
+
+	public function rules()
+	{
+		return array(
+			array('username, password', 'required'),
+			array('rememberMe', 'boolean'),
+			array('password', 'authenticate'),
+		);
+	}
+
+	public function authenticate($attribute,$params)
+	{
+		$this->_identity=new UserIdentity($this->username,$this->password);
+		if(!$this->_identity->authenticate())
+			$this->addError('password','錯誤的使用者名或密碼。');
+	}
+}
+~~~
+
+上述程式碼指定：`username` 和 `password` 為必填項目，
+`password` 應被驗證（authenticated），`rememberMe` 應該是一個布林值。
+
+`rules()` 返回的每個規則必須是以下格式：
+
+~~~
+[php]
+array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...附加選項)
+~~~
+
+其中 `AttributeList（屬性列表）` 是需要通過此規則驗證的屬性列表字串，每個屬性名字由逗號分隔;
+`Validator（驗證器）` 指定要執行驗證的種類別；`on` 參數是可選的，它指定此規則應被應用程式到的場景列表；
+附加選項是一個名值對陣列，用於初始化相應驗證器的特性值。
+
+有三種方式可在驗證規則中指定  `Validator` 。第一，
+`Validator` 可以是模型類別中一個方法的名字，就像上面示例中的
+`authenticate` 。驗證方法必須是下面的架構：
+
+~~~
+[php]
+/**
+ * @param string 所要驗證的屬性的名字
+ * @param array 驗證規則中指定的選項
+ */
+public function ValidatorName($attribute,$params) { ... }
+~~~
+
+第二，`Validator` 可以是一個驗證器類別的名字，當此規則被應用程式時，
+一個驗證器類別的實體將被建立以執行實際驗證。規則中的附加選項用於初始化實體的特性值。
+驗證器類別必須繼承自 [CValidator]。
+
+第三，`Validator` 可以是一個預定義的驗證器類別的別名。在上面的例子中，
+`required` 名字是 [CRequiredValidator] 的別名，它用於確保所驗證的屬性值不為空。
+下面是預定義的驗證器別名的完整列表：
+
+   - `boolean`: [CBooleanValidator] 的別名， 確保屬性有一個 [CBooleanValidator::trueValue] 或
+[CBooleanValidator::falseValue] 值。
+
+   - `captcha`: [CCaptchaValidator] 的別名，確保屬性值等於 [CAPTCHA](http://en.wikipedia.org/wiki/Captcha) 中顯示的驗證碼。
+
+   - `compare`: [CCompareValidator] 的別名，確保屬性等於另一個屬性或常量。
+   
+   - `email`: [CEmailValidator] 的別名，確保屬性是一個有效的 Email 位址。
+
+   - `default`: [CDefaultValueValidator] 的別名，指定屬性的預設值。
+
+   - `exist`: [CExistValidator] 的別名，確保屬性值可以在指定表的列中可以找到。
+
+   - `file`: [CFileValidator] 的別名，確保屬性含有一個上傳文件的名字。
+
+   - `filter`: [CFilterValidator] 的別名，通過一個篩選器改變此屬性。
+
+   - `in`: [CRangeValidator] 的別名，確保資料在一個預先指定的值的範圍之內。
+
+   - `length`: [CStringValidator] 的別名，確保資料的長度在一個指定的範圍之內。
+
+   - `match`: [CRegularExpressionValidator] 的別名，確保資料可以匹配一個正則表達式。
+
+   - `numerical`: [CNumberValidator] 的別名，確保資料是一個有效的數字。
+
+   - `required`: [CRequiredValidator] 的別名，確保屬性不為空。
+
+   - `type`: [CTypeValidator] 的別名，確保屬性是指定的資料類型。
+
+   - `unique`: [CUniqueValidator] 的別名，確保資料在資料表的列中是唯一的。
+
+   - `url`: [CUrlValidator] 的別名，確保資料是一個有效的 URL。
+
+下面我們列出了幾個只用這些預定義驗證器的示例：
+
+~~~
+[php]
+// 使用者名為必填項目
+array('username', 'required'),
+// 使用者名必須在 3 到 12 個字符之間
+array('username', 'length', 'min'=>3, 'max'=>12),
+// 在註冊場景中，密碼 password 必須和 password2 一致。
+array('password', 'compare', 'compareAttribute'=>'password2', 'on'=>'register'),
+// 在登入場景中，密碼必須接受驗證。
+array('password', 'authenticate', 'on'=>'login'),
+~~~
+
+
+安全的屬性賦值
+------------------------------
+
+在一個類別的實體被建立後，我們通常需要用最終使用者提交的資料填入它的屬性。
+這可以通過如下大量賦值（massive assignment）方式輕鬆實現：
+
+~~~
+[php]
+$model=new LoginForm;
+if(isset($_POST['LoginForm']))
+	$model->attributes=$_POST['LoginForm'];
+~~~
+
+最後的表達式被稱作 *大量賦值（massive assignment）* ，它將  `$_POST['LoginForm']`
+中的每一項複製到相應的模型屬性中。這相當於如下賦值方法：
+
+~~~
+[php]
+foreach($_POST['LoginForm'] as $name=>$value)
+{
+	if($name is a safe attribute)
+		$model->$name=$value;
+}
+~~~
+
+檢測屬性的安全非常重要，例如，如果我們以為一個資料表的主鍵是安全的而暴露了它，那麼攻擊者可能就獲得了一個修改記錄的主鍵的機會，
+從而篡改未授權給他的內容。
+
+檢測屬性安全的策略在版本 1.0 和 1.1 中是不同的，下面我們將分別講解：
+
+
+###宣告安全屬性
+
+屬性如果出現在相應場景的一個驗證規則中，即被認為是安全的。例如：
+
+~~~
+[php]
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
+~~~
+
+如上所示， `username` 和 `password` 屬性在 `login` 場景中是必填項目。而
+ `username`, `password` 和 `email` 屬性在 `register` 場景中是必填項目。
+於是，如果我們在 `login` 場景中執行大量賦值，就只有 `username` 和 `password` 會被大量賦值。
+因為只有它們出現在 `login` 的驗證規則中。
+另一方面，如果場景是 `register` ，這三個屬性就都可以被大量賦值。
+
+~~~
+[php]
+// 在登入場景中
+$model=new User('login');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+
+// 在註冊場景中
+$model=new User('register');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+~~~
+
+那麼為什麼我們使用這樣一種策略來檢測屬性是否安全呢？
+背後的基本原理就是：如果一個屬性已經有了一個或多個可檢測有效性的驗證規則，那我們還擔心什麼呢？
+
+請記住，驗證規則是用於檢查使用者輸入的資料，而不是檢查我們在程式碼中產生的資料（例如時間戳，自動產生的主鍵）。
+因此，**不要** 為那些不接受使用者輸入的屬性增加驗證規則。
+
+有時候，我們想聲明一個屬性是安全的，即使我們沒有為它指定任何規則。
+例如，一篇文章的內容可以接受使用者的任何輸入。我們可以使用特殊的 `safe` 規則實現此目的：
+
+~~~
+[php]
+array('content', 'safe')
+~~~
+
+為了完成起見，還有一個用於聲明一個特性為不安全的  `unsafe` 規則：
+
+~~~
+[php]
+array('permission', 'unsafe')
+~~~
+
+`unsafe` 規則並不常用，它是我們之前定義的安全屬性的一個例外。
+
+
+觸發驗證
+---------------------
+
+一旦模型被使用者提交的資料填入，我們就可以調用 [CModel::validate()]
+觸發資料驗證進程。此方法返回一個指示驗證是否成功的值。
+對 [CActiveRecord] 模型來說，驗證也可以在我們調用其  [CActiveRecord::save()]
+方法時自動觸發。
+
+我們可以使用 [scenario|CModel::scenario] 設置場景特性，這樣，相應場景的驗證規則就會被應用。
+
+驗證是基於場景執行的。 [scenario|CModel::scenario] 特性指定了模型當前用於的場景和當前使用的驗證規則集。
+例如，在 `login` 場景中，我們只想驗證使用者模型中的 `username` 和 `password` 輸入；
+而在 `register` 場景中，我們需要驗證更多的輸入，例如  `email`, `address`, 等。
+下面的例子展示了如何在 `register` 場景中執行驗證：
+
+~~~
+[php]
+// 在註冊場景中建立一個  User 模型。等於：
+// $model=new User;
+// $model->scenario='register';
+$model=new User('register');
+
+// 將輸入的值填入到模型
+$model->attributes=$_POST['User'];
+
+// 執行驗證
+if($model->validate())   // if the inputs are valid
+    ...
+else
+    ...
+~~~
+
+規則關聯的場景可以通過規則中的 `on` 選項指定。如果 `on` 選項未設置，則此規則會應用程式於所有場景。例如：
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('username, password', 'required'),
+		array('password_repeat', 'required', 'on'=>'register'),
+		array('password', 'compare', 'on'=>'register'),
+	);
+}
+~~~
+
+第一個規則將應用程式於所有場景，而第二個將只會應用程式於 `register` 場景。
+
+
+擷取驗證錯誤
+----------------------------
+
+驗證完成後，任何可能產生的錯誤將被存儲在模型對像中。
+我們可以通過調用 [CModel::getErrors()] 和[CModel::getError()] 擷取這些錯誤訊息。
+這兩個方法的不同點在於第一個方法將返回 *所有* 模型屬性的錯誤訊息，而第二個將只返回 *第一個* 錯誤訊息。
+
+
+屬性標籤
+----------------
+
+當設計表單時，我們通常需要為每個表單域顯示一個標籤。
+標籤告訴使用者他應該在此表單域中填寫什麼樣的訊息。雖然我們可以在視圖中寫死一個標籤，
+但如果我們在相應的模型中指定（標籤），則會更加靈活方便。
+
+預設情況下 [CModel] 將簡單的返回屬性的名字作為其標籤。這可以通過覆蓋
+[attributeLabels()|CModel::attributeLabels] 方法自定義。
+正如在接下來的小節中我們將看到的，在模型中指定標籤會使我們能夠更快的建立出更強大的表單。
+
+<div class="revision">$Id$</div>

@@ -1,20 +1,18 @@
 <?php
 
+/**
+ * The followings are the available columns in table 'tbl_user':
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ * @property string $profile
+ */
 class User extends CActiveRecord
 {
 	/**
-	 * The followings are the available columns in table 'tbl_user':
-	 * @var integer $id
-	 * @var string $username
-	 * @var string $password
-	 * @var string $salt
-	 * @var string $email
-	 * @var string $profile
-	 */
-
-	/**
 	 * Returns the static model of the specified AR class.
-	 * @return CActiveRecord the static model class
+	 * @return static the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -37,8 +35,8 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, salt, email', 'required'),
-			array('username, password, salt, email', 'length', 'max'=>128),
+			array('username, password, email', 'required'),
+			array('username, password, email', 'length', 'max'=>128),
 			array('profile', 'safe'),
 		);
 	}
@@ -64,7 +62,6 @@ class User extends CActiveRecord
 			'id' => 'Id',
 			'username' => 'Username',
 			'password' => 'Password',
-			'salt' => 'Salt',
 			'email' => 'Email',
 			'profile' => 'Profile',
 		);
@@ -77,26 +74,16 @@ class User extends CActiveRecord
 	 */
 	public function validatePassword($password)
 	{
-		return $this->hashPassword($password,$this->salt)===$this->password;
+		return CPasswordHelper::verifyPassword($password,$this->password);
 	}
 
 	/**
 	 * Generates the password hash.
 	 * @param string password
-	 * @param string salt
 	 * @return string hash
 	 */
-	public function hashPassword($password,$salt)
+	public function hashPassword($password)
 	{
-		return md5($salt.$password);
-	}
-
-	/**
-	 * Generates a salt that can be used to generate a password hash.
-	 * @return string the salt
-	 */
-	protected function generateSalt()
-	{
-		return uniqid('',true);
+		return CPasswordHelper::hashPassword($password);
 	}
 }

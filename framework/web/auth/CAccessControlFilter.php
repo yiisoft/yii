@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -24,34 +24,47 @@
  * <pre>
  * array(
  *   'allow',  // or 'deny'
+ * 
  *   // optional, list of action IDs (case insensitive) that this rule applies to
- *   // if not specified, rule applies to all actions
+ *   // if not specified or empty, rule applies to all actions
  *   'actions'=>array('edit', 'delete'),
+ * 
  *   // optional, list of controller IDs (case insensitive) that this rule applies to
  *   'controllers'=>array('post', 'admin/user'),
+ * 
  *   // optional, list of usernames (case insensitive) that this rule applies to
  *   // Use * to represent all users, ? guest users, and @ authenticated users
  *   'users'=>array('thomas', 'kevin'),
+ * 
  *   // optional, list of roles (case sensitive!) that this rule applies to.
  *   'roles'=>array('admin', 'editor'),
+ * 
  *   // since version 1.1.11 you can pass parameters for RBAC bizRules
  *   'roles'=>array('updateTopic'=>array('topic'=>$topic))
+ * 
  *   // optional, list of IP address/patterns that this rule applies to
  *   // e.g. 127.0.0.1, 127.0.0.*
  *   'ips'=>array('127.0.0.1'),
+ * 
  *   // optional, list of request types (case insensitive) that this rule applies to
  *   'verbs'=>array('GET', 'POST'),
+ * 
  *   // optional, a PHP expression whose value indicates whether this rule applies
+ *   // The PHP expression will be evaluated using {@link evaluateExpression}.
+ *   // A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+ *   // please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
  *   'expression'=>'!$user->isGuest && $user->level==2',
+ * 
  *   // optional, the customized error message to be displayed
  *   // This option is available since version 1.1.1.
  *   'message'=>'Access Denied.',
+ * 
  *   // optional, the denied method callback name, that will be called once the
- *	 // access is denied, instead of showing the customized error message. It can also be
+ *   // access is denied, instead of showing the customized error message. It can also be
  *   // a valid PHP callback, including class method name (array(ClassName/Object, MethodName)),
- *	 // or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:
- *	 // function foo($user, $rule) { ... }
- *	 // where $user is the current application user object and $rule is this access rule.
+ *   // or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:
+ *   // function foo($user, $rule) { ... }
+ *   // where $user is the current application user object and $rule is this access rule.
  *   // This option is available since version 1.1.11.
  *   'deniedCallback'=>'redirectToDeniedMethod',
   * )
@@ -60,7 +73,6 @@
  * @property array $rules List of access rules.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -125,7 +137,7 @@ class CAccessControlFilter extends CFilter
 		{
 			if(($allow=$rule->isUserAllowed($user,$filterChain->controller,$filterChain->action,$ip,$verb))>0) // allowed
 				break;
-			else if($allow<0) // denied
+			elseif($allow<0) // denied
 			{
 				if(isset($rule->deniedCallback))
 					call_user_func($rule->deniedCallback, $rule);
@@ -150,7 +162,7 @@ class CAccessControlFilter extends CFilter
 	{
 		if($rule->message!==null)
 			return $rule->message;
-		else if($this->message!==null)
+		elseif($this->message!==null)
 			return $this->message;
 		else
 			return Yii::t('yii','You are not authorized to perform this action.');
@@ -176,7 +188,6 @@ class CAccessControlFilter extends CFilter
  * CAccessRule represents an access rule that is managed by {@link CAccessControlFilter}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -192,7 +203,7 @@ class CAccessRule extends CComponent
 	 */
 	public $actions;
 	/**
-	 * @var array list of controler IDs that this rule applies to. The comparison is case-insensitive.
+	 * @var array list of controller IDs that this rule applies to. The comparison is case-insensitive.
 	 */
 	public $controllers;
 	/**
@@ -227,6 +238,11 @@ class CAccessRule extends CComponent
 	 * function foo($user, $rule) { ... }
 	 * </pre>
 	 * where $user is the current application user object and $rule is this access rule.
+	 *
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $expression;
 	/**
@@ -285,12 +301,12 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param CAction $controller the action
-	 * @return boolean whether the rule applies to the action
+	 * @param CController $controller the controller
+	 * @return boolean whether the rule applies to the controller
 	 */
 	protected function isControllerMatched($controller)
 	{
-		return empty($this->controllers) || in_array(strtolower($controller->getId()),$this->controllers);
+		return empty($this->controllers) || in_array(strtolower($controller->getUniqueId()),$this->controllers);
 	}
 
 	/**
@@ -305,11 +321,11 @@ class CAccessRule extends CComponent
 		{
 			if($u==='*')
 				return true;
-			else if($u==='?' && $user->getIsGuest())
+			elseif($u==='?' && $user->getIsGuest())
 				return true;
-			else if($u==='@' && !$user->getIsGuest())
+			elseif($u==='@' && !$user->getIsGuest())
 				return true;
-			else if(!strcasecmp($u,$user->getName()))
+			elseif(!strcasecmp($u,$user->getName()))
 				return true;
 		}
 		return false;

@@ -4,10 +4,10 @@
 このセクションでは、最近投稿されたコメントのリストを表示する、最後のポートレットを作成します。
 
 
-`RecentComments`クラスの作成
+`RecentComments` クラスの作成
 -------------------------------
 
-`/wwwroot/blog/protected/components/RecentComments.php`ファイルに`RecentComments`クラスを作成します。このファイルは以下の内容です。
+`/wwwroot/blog/protected/components/RecentComments.php` ファイルに `RecentComments` クラスを作成します。このファイルは以下の内容です。
 
 ~~~
 [php]
@@ -30,7 +30,7 @@ class RecentComments extends CPortlet
 }
 ~~~
 
-上記のように、`findRecentComments`メソッドを呼び出します。それは`Comment`クラスで以下のように定義されます。
+上記において呼び出している `findRecentComments` メソッドは `Comment` クラスで以下のように定義されます。
 
 ~~~
 [php]
@@ -48,16 +48,16 @@ class Comment extends CActiveRecord
 }
 ~~~
 
-`recentComments`ビューの作成
+`recentComments` ビューの作成
 -------------------------
 
-`/wwwroot/blog/protected/components/views/recentComments.php`ファイルに`recentComments`ビューは格納されます。
-これは単純に`RecentComments::getRecentComments()`メソッドで返されるコメントひとつひとつを表示します。
+`recentComments` ビューを `/wwwroot/blog/protected/components/views/recentComments.php` ファイルとして保存します。
+これは単純に `RecentComments::getRecentComments()` メソッドで返されるコメントひとつひとつを表示します。
 
-`RecentComments`ポートレットの使用
+`RecentComments` ポートレットの使用
 ------------------------------
 
-レイアウトファイル`/wwwroot/blog/protected/views/layouts/column2.php`を修正し、このポートレットを組込みます。
+レイアウトファイル `/wwwroot/blog/protected/views/layouts/column2.php` を修正し、このポートレットを組み込みます。
 
 ~~~
 [php]
@@ -78,4 +78,4 @@ class Comment extends CActiveRecord
 ......
 ~~~
 
-<div class="revision">$Id: portlet.comments.txt 1773 2010-02-01 18:39:49Z qiang.xue $</div>
+<div class="revision">$Id$</div>

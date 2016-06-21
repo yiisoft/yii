@@ -55,7 +55,7 @@ służy wykorzystaniu tej właściwości. W przypadku kiedy używany system bufo
 wspiera tej funkcjonalności metoda [mget()|CCache::mget] zasymuluje ją.
 
 Aby usunąć zbuforowaną wartość z bufora wywołujemy metodę [delete()|CCache::delete];
-aby usunąć całą wartość z bufora wołamy [flush()|CCache::flush]. Bądź bardzo ostrożny
+aby usunąć całą zawartość bufora wywołujemy metodę [flush()|CCache::flush]. Bądź bardzo ostrożny
 podczas wywoływania [flush()|CCache::flush] ponieważ usuwa ono dane, które zostały 
 zbuforowane dla innych aplikacji.
 
@@ -133,7 +133,7 @@ odpowiedniego komponentu buforowania aplikacji (domyślnie `cache`).
 
 ### Używanie buforowania zapytań w DAO
 
-Aby używać buforowania zapytań wołamy metodę [CDbConnection::cache()] podczas wykonywania zapytania 
+Aby używać buforowania zapytań wywołujemy metodę [CDbConnection::cache()] podczas wykonywania zapytania 
 bazodanowego. Poniżej znajduje się przykład:
 
 ~~~
@@ -144,7 +144,7 @@ $rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll(
 ~~~
 
 Podczas wykonywania powyższej instrukcji, Yii sprawdzi najpierw czy bufor zawiera odpowiedni
-rezultat instrukcji SQL, która ma zostać wykonana. Dzieje się to poprzez sprawdzenia następujących trzech warunków:
+rezultat instrukcji SQL, która ma zostać wykonana. Dzieje się to poprzez sprawdzenie następujących trzech warunków:
 
 - czy bufor zawiera wpis zindeksowany za pomocą instrukcji SQL.
 - czy ważność tego wpisu nie upłynęła (mniej niż 1000 sekund od momentu kiedy został on zapisany w buforze).

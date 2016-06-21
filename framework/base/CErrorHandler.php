@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -48,9 +48,9 @@ Yii::import('CHtml',true);
  * {@link CApplication::getErrorHandler()}.
  *
  * @property array $error The error details. Null if there is no error.
+ * @property Exception|null $exception exception instance. Null if there is no exception.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -83,6 +83,7 @@ class CErrorHandler extends CApplicationComponent
 	public $errorAction;
 
 	private $_error;
+	private $_exception;
 
 	/**
 	 * Handles the exception/error event.
@@ -97,12 +98,33 @@ class CErrorHandler extends CApplicationComponent
 
 		if($this->discardOutput)
 		{
+			$gzHandler=false;
+			foreach(ob_list_handlers() as $h)
+			{
+				if(strpos($h,'gzhandler')!==false)
+					$gzHandler=true;
+			}
 			// the following manual level counting is to deal with zlib.output_compression set to On
+			// for an output buffer created by zlib.output_compression set to On ob_end_clean will fail
 			for($level=ob_get_level();$level>0;--$level)
 			{
-				@ob_end_clean();
+				if(!@ob_end_clean())
+					ob_clean();
 			}
-			header("Content-Encoding: ", true);
+			// reset headers in case there was an ob_start("ob_gzhandler") before
+			if($gzHandler && !headers_sent() && ob_list_handlers()===array())
+			{
+				if(function_exists('header_remove')) // php >= 5.3
+				{
+					header_remove('Vary');
+					header_remove('Content-Encoding');
+				}
+				else
+				{
+					header('Vary:');
+					header('Content-Encoding:');
+				}
+			}
 		}
 
 		if($event instanceof CExceptionEvent)
@@ -128,6 +150,15 @@ class CErrorHandler extends CApplicationComponent
 	public function getError()
 	{
 		return $this->_error;
+	}
+
+	/**
+	 * Returns the instance of the exception that is currently being handled.
+	 * @return Exception|null exception instance. Null if there is no exception.
+	 */
+	public function getException()
+	{
+		return $this->_exception;
 	}
 
 	/**
@@ -166,6 +197,7 @@ class CErrorHandler extends CApplicationComponent
 				unset($trace[$i]['object']);
 			}
 
+			$this->_exception=$exception;
 			$this->_error=$data=array(
 				'code'=>($exception instanceof CHttpException)?$exception->statusCode:500,
 				'type'=>get_class($exception),
@@ -178,17 +210,12 @@ class CErrorHandler extends CApplicationComponent
 			);
 
 			if(!headers_sent())
-				header("HTTP/1.0 {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
-
-			if($exception instanceof CHttpException || !YII_DEBUG)
-				$this->render('error',$data);
-			else
 			{
-				if($this->isAjaxRequest())
-					$app->displayException($exception);
-				else
-					$this->render('exception',$data);
+				$httpVersion=Yii::app()->request->getHttpVersion();
+				header("HTTP/$httpVersion {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
 			}
+
+			$this->renderException();
 		}
 		else
 			$app->displayException($exception);
@@ -250,7 +277,8 @@ class CErrorHandler extends CApplicationComponent
 				default:
 					$type = 'PHP error';
 			}
-			$this->_error=$data=array(
+			$this->_exception=null;
+			$this->_error=array(
 				'code'=>500,
 				'type'=>$type,
 				'message'=>$event->message,
@@ -260,13 +288,12 @@ class CErrorHandler extends CApplicationComponent
 				'traces'=>$trace,
 			);
 			if(!headers_sent())
-				header("HTTP/1.0 500 Internal Server Error");
-			if($this->isAjaxRequest())
-				$app->displayError($event->code,$event->message,$event->file,$event->line);
-			else if(YII_DEBUG)
-				$this->render('exception',$data);
-			else
-				$this->render('error',$data);
+			{
+				$httpVersion=Yii::app()->request->getHttpVersion();
+				header("HTTP/$httpVersion 500 Internal Server Error");
+			}
+
+			$this->renderError();
 		}
 		else
 			$app->displayError($event->code,$event->message,$event->file,$event->line);
@@ -307,15 +334,47 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function render($view,$data)
 	{
-		if($view==='error' && $this->errorAction!==null)
+		$data['version']=$this->getVersionInfo();
+		$data['time']=time();
+		$data['admin']=$this->adminInfo;
+		include($this->getViewFile($view,$data['code']));
+	}
+
+	/**
+	 * Renders the exception information.
+	 * This method will display information from current {@link error} value.
+	 */
+	protected function renderException()
+	{
+		$exception=$this->getException();
+		if($exception instanceof CHttpException || !YII_DEBUG)
+			$this->renderError();
+		else
+		{
+			if($this->isAjaxRequest())
+				Yii::app()->displayException($exception);
+			else
+				$this->render('exception',$this->getError());
+		}
+	}
+
+	/**
+	 * Renders the current error information.
+	 * This method will display information from current {@link error} value.
+	 */
+	protected function renderError()
+	{
+		if($this->errorAction!==null)
 			Yii::app()->runController($this->errorAction);
 		else
 		{
-			// additional information to be passed to view
-			$data['version']=$this->getVersionInfo();
-			$data['time']=time();
-			$data['admin']=$this->adminInfo;
-			include($this->getViewFile($view,$data['code']));
+			$data=$this->getError();
+			if($this->isAjaxRequest())
+				Yii::app()->displayError($data['code'],$data['message'],$data['file'],$data['line']);
+			elseif(YII_DEBUG)
+				$this->render('exception',$data);
+			else
+				$this->render('error',$data);
 		}
 	}
 
@@ -410,27 +469,27 @@ class CErrorHandler extends CApplicationComponent
 
 			if(is_object($value))
 				$args[$key] = get_class($value);
-			else if(is_bool($value))
+			elseif(is_bool($value))
 				$args[$key] = $value ? 'true' : 'false';
-			else if(is_string($value))
+			elseif(is_string($value))
 			{
 				if(strlen($value)>64)
 					$args[$key] = '"'.substr($value,0,64).'..."';
 				else
 					$args[$key] = '"'.$value.'"';
 			}
-			else if(is_array($value))
+			elseif(is_array($value))
 				$args[$key] = 'array('.$this->argumentsToString($value).')';
-			else if($value===null)
+			elseif($value===null)
 				$args[$key] = 'null';
-			else if(is_resource($value))
+			elseif(is_resource($value))
 				$args[$key] = 'resource';
 
 			if(is_string($key))
 			{
 				$args[$key] = '"'.$key.'" => '.$args[$key];
 			}
-			else if($isAssoc)
+			elseif($isAssoc)
 			{
 				$args[$key] = $key.' => '.$args[$key];
 			}
@@ -497,7 +556,7 @@ class CErrorHandler extends CApplicationComponent
 			100 => 'Continue',
 			101 => 'Switching Protocols',
 			102 => 'Processing',
-			118 => 'Connection timed out',
+			118 => 'Connection Timed Out',
 			200 => 'OK',
 			201 => 'Created',
 			202 => 'Accepted',
@@ -514,7 +573,7 @@ class CErrorHandler extends CApplicationComponent
 			304 => 'Not Modified',
 			305 => 'Use Proxy',
 			307 => 'Temporary Redirect',
-			310 => 'Too many Redirect',
+			310 => 'Too Many Redirect',
 			400 => 'Bad Request',
 			401 => 'Unauthorized',
 			402 => 'Payment Required',
@@ -523,7 +582,7 @@ class CErrorHandler extends CApplicationComponent
 			405 => 'Method Not Allowed',
 			406 => 'Not Acceptable',
 			407 => 'Proxy Authentication Required',
-			408 => 'Request Time-out',
+			408 => 'Request Timeout',
 			409 => 'Conflict',
 			410 => 'Gone',
 			411 => 'Length Required',
@@ -531,24 +590,30 @@ class CErrorHandler extends CApplicationComponent
 			413 => 'Request Entity Too Large',
 			414 => 'Request-URI Too Long',
 			415 => 'Unsupported Media Type',
-			416 => 'Requested range unsatisfiable',
-			417 => 'Expectation failed',
+			416 => 'Requested Range Not Satisfiable',
+			417 => 'Expectation Failed',
 			418 => 'I’m a teapot',
 			422 => 'Unprocessable entity',
 			423 => 'Locked',
 			424 => 'Method failure',
 			425 => 'Unordered Collection',
 			426 => 'Upgrade Required',
+			428 => 'Precondition Required',
+			429 => 'Too Many Requests',
+			431 => 'Request Header Fields Too Large',
 			449 => 'Retry With',
 			450 => 'Blocked by Windows Parental Controls',
+			451 => 'Unavailable For Legal Reasons',
 			500 => 'Internal Server Error',
 			501 => 'Not Implemented',
-			502 => 'Bad Gateway ou Proxy Error',
+			502 => 'Bad Gateway',
 			503 => 'Service Unavailable',
-			504 => 'Gateway Time-out',
-			505 => 'HTTP Version not supported',
-			507 => 'Insufficient storage',
+			504 => 'Gateway Timeout',
+			505 => 'HTTP Version Not Supported',
+			507 => 'Insufficient Storage',
 			509 => 'Bandwidth Limit Exceeded',
+			510 => 'Not Extended',
+			511 => 'Network Authentication Required',
 		);
 		if(isset($httpCodes[$httpCode]))
 			return $httpCodes[$httpCode];

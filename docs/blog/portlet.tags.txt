@@ -59,4 +59,3 @@ Usage of the `TagCloud` portlet is very simple. We modify the layout file `/wwwr
 ......
 ~~~
 
-<div class="revision">$Id$</div>

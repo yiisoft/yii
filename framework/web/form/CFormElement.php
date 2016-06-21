@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -18,7 +18,6 @@
  * (a controller or a widget).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web.form
  * @since 1.1
  */
@@ -80,11 +79,32 @@ abstract class CFormElement extends CComponent
 		$getter='get'.$name;
 		if(method_exists($this,$getter))
 			return $this->$getter();
-		else if(isset($this->attributes[$name]))
+		elseif(isset($this->attributes[$name]))
 			return $this->attributes[$name];
 		else
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
+	}
+
+	/**
+	 * Checks a property value or an attribute value on existence or not null
+	 * Do not call this method. This is a PHP magic method that we override
+	 * to allow using the following syntax to read a property or attribute:
+	 * <pre>
+	 * isset($element->propertyName);
+	 * </pre>
+	 * @param string $name the property or attribute name
+	 * @return boolean
+	 */
+	public function __isset($name)
+	{
+		$getter='get'.$name;
+		if(method_exists($this,$getter))
+			return $this->$getter()!==null;
+		elseif(isset($this->attributes[$name]))
+			return isset($this->attributes[$name]);
+		else
+			return false;
 	}
 
 	/**

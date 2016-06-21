@@ -314,6 +314,7 @@ Para utilizar um [componente](/doc/guide/basics.component), primeiro precisamos
 incluir seu arquivo de classe, utilizando:
 
 ~~~
+[php]
 Yii::import('ext.xyz.XyzClass');
 ~~~
 

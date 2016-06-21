@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -38,7 +38,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.i18n.gettext
  * @since 1.0
  */
@@ -74,10 +73,11 @@ class CGettextMoFile extends CGettextFile
 			throw new CException(Yii::t('yii','Unable to lock file "{file}" for reading.',
 				array('{file}'=>$file)));
 
-		$magic=current($array=unpack('c',$this->readByte($fr,4)));
+		$array=unpack('c',$this->readByte($fr,4));
+		$magic=current($array);
 		if($magic==-34)
 			$this->useBigEndian=false;
-		else if($magic==-107)
+		elseif($magic==-107)
 			$this->useBigEndian=true;
 		else
 			throw new CException(Yii::t('yii','Invalid MO file: {file} (magic: {magic}).',
@@ -114,12 +114,12 @@ class CGettextMoFile extends CGettextFile
 		{
 			$id=$this->readString($fr,$sourceLengths[$i],$sourceOffsets[$i]);
 			$pos = strpos($id,chr(4));
-			
+
 			if(($context && $pos!==false && substr($id,0,$pos)===$context) || (!$context && $pos===false))
 			{
 				if($pos !== false)
 					$id=substr($id,$pos+1);
-				
+
 				$message=$this->readString($fr,$targetLengths[$i],$targetOffsets[$i]);
 				$messages[$id]=$message;
 			}
@@ -232,7 +232,8 @@ class CGettextMoFile extends CGettextFile
 	 */
 	protected function readInteger($fr)
 	{
-		return current($array=unpack($this->useBigEndian ? 'N' : 'V', $this->readByte($fr,4)));
+		$array=unpack($this->useBigEndian ? 'N' : 'V', $this->readByte($fr,4));
+		return current($array);
 	}
 
 	/**

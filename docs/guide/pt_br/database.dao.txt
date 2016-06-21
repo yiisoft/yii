@@ -174,7 +174,7 @@ try
 }
 catch(Exception $e) // uma exceção é disparada caso uma das consultas falhe
 {
-	$transaction->rollBack();
+	$transaction->rollback();
 }
 ~~~
 

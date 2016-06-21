@@ -15,8 +15,6 @@
  * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
- *
- * @version $Id: $
  */
 return array (
   '{class} and its behaviors do not have a method or closure named "{name}".' => 'Klasa {class} i jej zachowania nie posiadają metody lub domknięcia "{name}".',
@@ -102,7 +100,7 @@ return array (
   'Event "{class}.{event}" is not defined.' => 'Zdarzenie "{class}.{event}" nie jest zdefiniowane.',
   'Extension path "{path}" does not exist.' => 'Ścieżka rozszerzenia "{path}" nie istnieje.',
   'Failed to initialize the mcrypt module.' => 'Inicjalizacja modułu mcrypt nie powiodła się.',
-  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Ustawianie niebezpiecznego (ang. unsage) atrybutu "{attribute}" klasy "{class}" nie powiodło się',
+  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Ustawianie niebezpiecznego (ang. unsafe) atrybutu "{attribute}" klasy "{class}" nie powiodło się',
   'Failed to start session.' => 'Uruchamianie sesji nie powiodło się',  
   'Failed to write the uploaded file "{file}" to disk.' => 'Zapis przesłanego pliku "{file}" na dysk nie powiódł się.',  
   'File upload was stopped by extension.' => 'Przesyłanie pliku zostało zatrzymane przez rozszerzenie.',
@@ -223,10 +221,10 @@ return array (
   '{attribute} is not a valid email address.' => 'Zawartość pola {attribute} nie jest poprawnym adresem e-mail.',
   '{attribute} is not in the list.' => '{attribute} nie występuje na tej liście.',
   '{attribute} is of the wrong length (should be {length} characters).' => 'Pole {attribute} posiada niepoprawną długość (powinno posiadać {length} znaków).',
-  '{attribute} is too big (maximum is {max}).' => 'Wartość w polu {attribute} jest zbyt wielkia (maksimum stanowi {max}).',
-  '{attribute} is too long (maximum is {max} characters).' => 'Pole {attribute} jest za długie (maksymalna ilość znaków to {max}).',
-  '{attribute} is too short (minimum is {min} characters).' => 'Pole {attribute} jest za krótkie (minimalna ilość znaków to {min}).',
-  '{attribute} is too small (minimum is {min}).' => 'Wartość w polu {attribute} jest zbyt krótka (minimum stanowi {min}).',
+  '{attribute} is too big (maximum is {max}).' => 'Wartość w polu {attribute} jest za duża (maksimum stanowi {max}).',
+  '{attribute} is too long (maximum is {max} characters).' => 'Wartość w polu {attribute} jest za długa (maksymalna liczba znaków to {max}).',
+  '{attribute} is too short (minimum is {min} characters).' => 'Wartość w polu {attribute} jest za krótka (minimalna liczba znaków to {min}).',
+  '{attribute} is too small (minimum is {min}).' => 'Wartość w polu {attribute} jest za mała (minimum stanowi {min}).',
   '{attribute} must be a number.' => 'Zawartość pola {attribute} musi być liczbą.',
   '{attribute} must be an integer.' => 'Zawartość pola {attribute} musi być liczbą całkowitą.',
   '{attribute} must be either {true} or {false}.' => 'Atrybut {attribute} musi posiadać wartość {true} lub {false}.',
@@ -234,7 +232,7 @@ return array (
   '{attribute} must be greater than or equal to "{compareValue}".' => 'Atrybut {attribute} musi być większy lub równy "{compareValue}".',
   '{attribute} must be less than "{compareValue}".' => 'Atrybut {attribute} musi być mniejszy od "{compareValue}".',
   '{attribute} must be less than or equal to "{compareValue}".' => 'Atrybut {attribute} musi być mniejszy lub równy "{compareValue}".',
-  '{attribute} must be repeated exactly.' => '{attribute} musi być powtórzony ponownie.',
+  '{attribute} must be repeated exactly.' => 'Atrybut {attribute} musi być dokładnie powtórzony.',
   '{attribute} must be {type}.' => 'Zawartość pola {attribute} musi być typu {type}.',
   '{attribute} must be {value}.' => 'Pole {attribute} musi posiadać wartość {value}.',
   '{attribute} must not be equal to "{compareValue}".' => 'Pole {attribute} nie może być równy "{compareValue}".',

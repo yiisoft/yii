@@ -1,0 +1,529 @@
+Active Record
+=============
+
+雖然 Yii 資料存取物件可以處理幾乎任何資料庫相關的任務，但很可能我們會花費 90% 的時間以撰寫一些執行普通 CRUD（create, read, update 和 delete）操作的 SQL 語句。而且我們的程式碼中混雜了 SQL 語句時也會變得難以維護。要解決這些問題，我們可以使用 Active Record。
+
+Active Record (AR) 是一個流行的 物件-關聯映射 (ORM) 技術。每個 AR 類別代資料表一個資料表（或視圖），資料表（或視圖）的欄位在 AR 類別中代資料表類別的特性，一個 AR 實體則資料表示資料表中的一列。常見的 CRUD 操作作為 AR 的方法實現。因此，我們可以以一種更加面向物件的方式存取資料。例如，我們可以使用以下程式碼向 `tbl_post` 資料表中插入一個新列。
+
+~~~
+[php]
+$post=new Post;
+$post->title='sample post';
+$post->content='post body content';
+$post->save();
+~~~
+
+下面我們講解怎樣設置 AR 並通過它執行 CRUD 操作。我們將在下一節中展示怎樣使用 AR 處理資料庫關聯。為簡單起見，我們使用下面的資料表作為此節中的例子。注意，如果你使用 MySQL 資料庫，你應該將下面的 SQL 中的
+ `AUTOINCREMENT` 替換為 `AUTO_INCREMENT`。
+
+~~~
+[sql]
+CREATE TABLE tbl_post (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	title VARCHAR(128) NOT NULL,
+	content TEXT NOT NULL,
+	create_time INTEGER NOT NULL
+);
+~~~
+
+> Note|注意: AR 並非要解決所有資料庫相關的任務。它的最佳應用程式是模型化資料表為 PHP 架構和執行不包含複雜 SQL 語句的查詢。對於複雜查詢的場景，應使用 Yii DAO。
+
+
+建立資料庫連接
+--------------------------
+
+AR 依靠一個資料庫連接以執行資料庫相關的操作。預設情況下，它假定 `db` 應用程式元件提供了所需的 [CDbConnection] 資料庫連接實體。如下應用程式配置提供了一個例子：
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'system.db.CDbConnection',
+			'connectionString'=>'sqlite:path/to/dbfile',
+			// 開啟資料表架構快取提高性能
+			// 'schemaCachingDuration'=>3600,
+		),
+	),
+);
+~~~
+
+> Tip|提示: 由於 Active Record 依靠資料表的中繼資料測定欄位的訊息，讀取中繼資料並解析需要時間。如果你資料庫的資料表架構很少改動，你應該通過配置 [CDbConnection::schemaCachingDuration] 屬性的值為一個大於零的值開啟資料表架構快取。
+
+對 AR 的支援受 DBMS 的限制，當前只支援以下幾種 DBMS：
+
+   - [MySQL 4.1 或更高版本](http://www.mysql.com)
+   - [PostgreSQL 7.3 或更高版本](http://www.postgres.com)
+   - [SQLite 2 和 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 或更高版本](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
+
+> Note|注意:  1.0.4 版開始支援  Microsoft SQL Server；從1.0.5 版開始支援 Oracle。
+
+如果你想使用一個不是 `db` 的應用程式元件，或者如果你想使用 AR 處理多個資料庫，你應該覆蓋 [CActiveRecord::getDbConnection()]。[CActiveRecord] 類別是所有 AR 類別的基礎類別。
+
+> Tip|提示: 通過 AR 使用多個資料庫有兩種方式。如果資料庫的架構不同，你可以建立不同的 AR 基礎類別實現不同的 
+[getDbConnection()|CActiveRecord::getDbConnection]。否則，動態改變靜態變數 [CActiveRecord::db] 是一個好主意。
+
+定義 AR 類別
+-----------------
+
+要存取一個資料表，我們首先需要通過集成 [CActiveRecord] 定義一個 AR 類別。
+每個 AR 類別代資料表一個單獨的資料表，一個 AR 實體則代資料表那個資料表中的一列。
+如下例子展示了代資料表 `tbl_post` 資料表的 AR 類別的最簡程式碼：
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	public function tableName()
+	{
+		return 'tbl_post';
+	}
+}
+~~~
+
+> Tip|提示: 由於 AR 類別經常在多處被引用，我們可以導入包含 AR 類別的整個目錄，而不是一個個導入。
+> 例如，如果我們所有的 AR 類別檔案都在 
+> `protected/models` 目錄中，我們可以配置應用程式如下：
+> ~~~
+> [php]
+> return array(
+> 	'import'=>array(
+> 		'application.models.*',
+> 	),
+> );
+> ~~~
+
+預設情況下，AR 類別的名字和資料表的名字相同。如果不同，請覆蓋 [tableName()|CActiveRecord::tableName] 方法。
+[model()|CActiveRecord::model] 方法為每個 AR 類別宣告為如此（稍後解釋）。
+
+> Info|訊息: 要使用 1.1.0 版本中導入的 [資料表前綴功能](/doc/guide/database.dao#using-table-prefix)
+> AR 類別的 [tableName()|CActiveRecord::tableName] 方法可以通過如下方式覆蓋
+> ~~~
+> [php]
+> public function tableName()
+> {
+>     return '{{post}}';
+> }
+> ~~~
+> 這就是說，我們將返回通過雙大括號括起來的沒有前綴的資料表名，而不是完整的資料表的名字。
+
+資料表列中欄位的值可以作為相應 AR 實體的特性存取。例如，如下程式碼設置了
+`title` 欄位 (屬性):
+
+~~~
+[php]
+$post=new Post;
+$post->title='a sample post';
+~~~
+
+雖然我們從未在 `Post` 類別中清楚地定義特性 `title`，我們還是可以通過上述程式碼存取。這是因為 `title` 是 `tbl_post` 資料表中的一個欄位，CActiveRecord 通過PHP的 `__get()` 魔術方法使其成為一個可存取的屬性。如果我們嘗試以同樣的方式存取一個不存在的欄位，將會拋出一個例外。
+
+> Info|訊息: 此指南中，我們在資料表名和欄位名中均使用了小寫字母。
+這是因為不同的 DBMS 處理大小寫的方式不同。
+例如，PostgreSQL 預設情況下對欄位的名字大小寫不敏感，而且我們必須在一個查詢條件中用引號將大小寫混合的欄位名引起來。
+使用小寫字母可以幫助我們避免此問題。
+
+AR 依靠資料表中良好定義的主鍵。如果一個資料表沒有主鍵，則必須在相應的 AR 類別中通過如下方式覆蓋 `primaryKey()` 方法指定哪一欄位或哪幾欄位作為主鍵。
+
+~~~
+[php]
+public function primaryKey()
+{
+	return 'id';
+	// 對於復合主鍵，要返回一個類似如下的陣列欄位
+	// return array('pk1', 'pk2');
+}
+~~~
+
+
+建立記錄
+---------------
+
+要向資料表中插入新列，我們要建立一個相應 AR 類別的實體，設置其與資料表的欄位相關的屬性，然後調用
+ [save()|CActiveRecord::save] 方法完成插入：
+
+~~~
+[php]
+$post=new Post;
+$post->title='sample post';
+$post->content='content for the sample post';
+$post->create_time=time();
+$post->save();
+~~~
+
+如果資料表的主鍵是自動遞增的，在插入完成後，AR 實體將包含一個更新的主鍵。在上面的例子中，`id` 屬性將反映出新插入文章的主鍵值，即使我們從未清楚地地改變它。
+
+如果一個欄位在資料表架構中使用了靜態預設值（例如一個字串，一個數字）定義。則 AR 實體中相應的屬性將在此實體建立時自動含有此預設值。改變此預設值的一個方式就是在 AR 類別中清楚地定義此屬性：
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public $title='please enter a title';
+	......
+}
+
+$post=new Post;
+echo $post->title;  // 這將顯示: please enter a title
+~~~
+
+記錄在儲存（插入或更新）到資料庫之前，其屬性可以賦值為 [CDbExpression] 類型。例如，為儲存一個由 MySQL 的 `NOW()` 函數返回的時間戳，我們可以使用如下程式碼：
+~~~
+[php]
+$post=new Post;
+$post->create_time=new CDbExpression('NOW()');
+// $post->create_time='NOW()'; 不會起作用，因為
+// 'NOW()' 將會被作為一個字串處理。
+$post->save();
+~~~
+
+> Tip|提示: 由於 AR 允許我們無需寫一大堆 SQL 語句就能執行資料庫操作，
+我們經常會想知道 AR 在背後到底執行了什麼 SQL 語句。這可以通過開啟 Yii 的
+[日誌功能](/doc/guide/topics.logging) 實現。例如，我們在應用程式配置中開啟了
+[CWebLogRoute] ，我們將會在每個網頁的最後看到執行過的 SQL 語句。
+
+我們可以在應用程式配置中設置 [CDbConnection::enableParamLogging] 為 true ，這樣綁定在 SQL 語句中的參數值也會被記錄。
+
+
+讀取記錄
+--------------
+
+要讀取資料表中的資料，我們可以通過如下方式調用 `find` 系欄位方法中的一種：
+
+~~~
+[php]
+// 查找滿足指定條件的結果中的第一列
+$post=Post::model()->find($condition,$params);
+// 查找具有指定主鍵值的那一列
+$post=Post::model()->findByPk($postID,$condition,$params);
+// 查找具有指定屬性值的列
+$post=Post::model()->findByAttributes($attributes,$condition,$params);
+// 通過指定的 SQL 語句查找結果中的第一列
+$post=Post::model()->findBySql($sql,$params);
+~~~
+
+如上所示，我們通過 `Post::model()` 調用 `find` 方法。請記住，靜態方法 `model()` 是每個 AR 類別所必須的。此方法返回在物件上下文中的一個用於存取類別級別方法（類似於靜態類方法的東西）的 AR 實體。
+
+如果 `find` 方法找到了一個滿足查詢條件的列，它將返回一個 `Post` 實體，實體的特性含有資料表列中相應欄位的值。然後我們就可以像讀取普通物件的屬性那樣讀取載入的值，例如  `echo $post->title;`。
+
+如果使用給定的查詢條件在資料庫中沒有找到任何東西， `find` 方法將返回 null 。
+
+調用 `find` 時，我們使用 `$condition` 和 `$params` 指定查詢條件。此處 `$condition` 可以是 SQL 語句中的 `WHERE` 字串，`$params` 則是一個參數陣列欄位，其中的值應綁定到 `$condation` 中的佔位符號。例如：
+
+~~~
+[php]
+// 查找 postID=10 的那一列
+$post=Post::model()->find('postID=:postID', array(':postID'=>10));
+~~~
+
+> Note|注意: 在上面的例子中，我們可能需要在特定的 DBMS 中將 `postID` 欄位的引用進行轉義。
+例如，如果我們使用 PostgreSQL，我們必須將此資料表達式寫為 `"postID"=:postID`，因為 PostgreSQL
+在預設情況下對欄位名大小寫不敏感。
+
+我們也可以使用 `$condition` 指定更複雜的查詢條件。不使用字串，我們可以讓 `$condition` 成為一個 [CDbCriteria] 的實體，它允許我們指定不限於 `WHERE` 的條件。例如：
+
+~~~
+[php]
+$criteria=new CDbCriteria;
+$criteria->select='title';  // 只選擇 'title' 欄位
+$criteria->condition='postID=:postID';
+$criteria->params=array(':postID'=>10);
+$post=Post::model()->find($criteria); // $params 不需要了
+~~~
+
+注意，當使用 [CDbCriteria] 作為查詢條件時，`$params` 參數不再需要了，因為它可以在 [CDbCriteria] 中指定，就像上面那樣。
+
+一種替代 [CDbCriteria] 的方法是給 `find` 方法傳遞一個陣列欄位。陣列欄位的鍵和值各自對應 criterion 的屬性名稱和值，上面的例子可以重寫為如下：
+
+~~~
+[php]
+$post=Post::model()->find(array(
+	'select'=>'title',
+	'condition'=>'postID=:postID',
+	'params'=>array(':postID'=>10),
+));
+~~~
+
+> Info|訊息: 當一個查詢條件是關於按指定的值匹配幾個欄位時，我們可以使用 [findByAttributes()|CActiveRecord::findByAttributes]。我們使 `$attributes` 參數是一個以欄位名做索引的值的陣列欄位。在一些框架中，此任務可以通過調用類似 `findByNameAndTitle` 的方法實現。雖然此方法看起來很誘人，但它常常引起混淆，衝突和比如欄位名大小寫敏感的問題。
+
+當有多列資料匹配指定的查詢條件時，我們可以通過下面的 `findAll` 方法將他們全部帶回。每個都有其各自的 `find` 方法，就像我們已經講過的那樣。
+
+~~~
+[php]
+// 查找滿足指定條件的所有列
+$posts=Post::model()->findAll($condition,$params);
+// 查找帶有指定主鍵的所有列
+$posts=Post::model()->findAllByPk($postIDs,$condition,$params);
+// 查找帶有指定屬性值的所有列
+$posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
+// 通過指定的 SQL 語句查找所有列
+$posts=Post::model()->findAllBySql($sql,$params);
+~~~
+
+如果沒有任何東西符合查詢條件，`findAll` 將返回一個空陣列欄位。這跟 `find` 不同，`find` 會在沒有找到什麼東西時返回 null。
+
+除了上面講述的 `find` 和 `findAll` 方法，為了方便，還提供了如下方法：
+
+~~~
+[php]
+// 取得滿足指定條件的列數
+$n=Post::model()->count($condition,$params);
+// 通過指定的 SQL 取得結果列數
+$n=Post::model()->countBySql($sql,$params);
+// 檢查是否至少有一列復合指定的條件
+$exists=Post::model()->exists($condition,$params);
+~~~
+
+
+更新記錄
+---------------
+
+在 AR 實體填入了欄位的值之後，我們可以改變它們並把它們存回資料表。
+
+~~~
+[php]
+$post=Post::model()->findByPk(10);
+$post->title='new post title';
+$post->save(); // 將更改儲存到資料庫
+~~~
+
+正如我們可以看到的，我們使用同樣的 [save()|CActiveRecord::save] 方法執行插入和更新操作。如果一個 AR 實體是使用 `new` 操作符建立的，調用 [save()|CActiveRecord::save] 將會向資料表中插入一列新資料；如果 AR 實體是某個 `find` 或 `findAll` 方法的結果，調用 [save()|CActiveRecord::save] 將更新資料表中現有的列。實際上，我們是使用 [CActiveRecord::isNewRecord] 說明一個 AR 實體是不是新的。
+
+直接更新資料表中的一列或多列而不首先載入也是可行的。 AR 提供了如下方便的類級別方法實現此目的：
+
+~~~
+[php]
+// 更新符合指定條件的列
+Post::model()->updateAll($attributes,$condition,$params);
+// 更新符合指定條件和主鍵的列
+Post::model()->updateByPk($pk,$attributes,$condition,$params);
+// 更新滿足指定條件的列的計數欄位
+Post::model()->updateCounters($counters,$condition,$params);
+~~~
+
+在上面的程式碼中， `$attributes` 是一個含有以欄位名稱作為索引的欄位值的陣列欄位；`$counters` 是一個由欄位名索引的可增加的值的陣列欄位；`$condition` 和 `$params` 在前面的段落中已有描述。
+
+
+刪除記錄
+---------------
+
+如果一個 AR 實體被一列資料填入，我們也可以刪除此列資料。
+
+~~~
+[php]
+$post=Post::model()->findByPk(10); // 假設有一個文章，其 ID 為 10
+$post->delete(); // 從資料表中刪除此列
+~~~
+
+注意，刪除之後， AR 實體仍然不變，但資料表中相應的列已經沒了。
+
+使用下面的類別級別程式碼，可以無需首先加載列就可以刪除它。
+
+~~~
+[php]
+// 刪除符合指定條件的列
+Post::model()->deleteAll($condition,$params);
+// 刪除符合指定條件和主鍵的列
+Post::model()->deleteByPk($pk,$condition,$params);
+~~~
+
+
+資料驗證
+---------------
+
+當插入或更新一列時，我們常常需要檢查欄位的值是否符合相應的規則。如果欄位的值是由最終使用者提供的，這一點就更加重要。總體來說，我們永遠不能相信任何來自客戶端的資料。
+
+當調用 [save()|CActiveRecord::save] 時， AR 會自動執行資料驗證。驗證是基於在 AR 類別的  [rules()|CModel::rules]  方法中指定的規則進行的。關於驗證規則的更多詳情，請參考 [宣告驗證規則](/doc/guide/form.model#declaring-validation-rules) 一節。下面是儲存記錄時所需的典型的工作流。
+
+~~~
+[php]
+if($post->save())
+{
+	// 資料有效且成功插入/更新
+}
+else
+{
+	// 資料無效，調用  getErrors() 擷取錯誤訊息
+}
+~~~
+
+當要插入或更新的資料由最終使用者在一個 HTML 資料表單中提交時，我們需要將其賦給相應的 AR 特性。我們可以通過類似如下的方式實現：
+
+~~~
+[php]
+$post->title=$_POST['title'];
+$post->content=$_POST['content'];
+$post->save();
+~~~
+
+如果有很多欄位，我們可以看到一個用於這種複製的很長的欄位資料表。這可以通過使用如下所示的 [attributes|CActiveRecord::attributes]  屬性簡化操作。更多訊息可以在 [安全的屬性賦值](/doc/guide/form.model#securing-attribute-assignments)一節和  [建立動作](/doc/guide/form.action) 一節找到。
+
+~~~
+[php]
+// 假設 $_POST['Post'] 是一個以欄位名索引欄位值為值的陣列欄位
+$post->attributes=$_POST['Post'];
+$post->save();
+~~~
+
+
+對比記錄
+-----------------
+
+類似於資料表記錄，AR 實體由其主鍵值來識別。因此，要對比兩個 AR 實體，假設它們屬於相同的 AR 類別， 我們只需要對比它們的主鍵值。然而,一個更簡單的方式是調用 [CActiveRecord::equals()]。
+
+> Info|訊息: 不同於 AR 在其他框架的執行, Yii 在其 AR 中支援多個主鍵。一個復合主鍵由兩個或更多字串構成。相對地，
+主鍵值在 Yii 中顯示為一個陣列欄位。[PrimaryKey|CActiveRecord::primaryKey] 屬性給出了一個 AR 實體的主鍵值。
+
+
+自定
+-------------
+
+[CActiveRecord] 提供了幾個佔位符號方法，它們可以在子類中被覆蓋以自定義其工作流。
+
+   - [beforeValidate|CModel::beforeValidate] 和
+[afterValidate|CModel::afterValidate]: 這兩個將在驗證執行之前和之後被調用。
+
+   - [beforeSave|CActiveRecord::beforeSave] 和
+[afterSave|CActiveRecord::afterSave]: 這兩個將在儲存 AR 實體之前和之後被調用。
+
+   - [beforeDelete|CActiveRecord::beforeDelete] 和
+[afterDelete|CActiveRecord::afterDelete]: 這兩個將在一個 AR 實體被刪除之前和之後被調用。
+
+   - [afterConstruct|CActiveRecord::afterConstruct]: 這個將在每個使用 `new` 操作符建立 AR 實體後被調用。
+
+   - [beforeFind|CActiveRecord::beforeFind]: 這個將在一個 AR 查找器被用於執行查詢（例如 `find()`, `findAll()`）之前被調用。
+1.0.9 版本開始可用。  
+
+   - [afterFind|CActiveRecord::afterFind]: 這個將在每個 AR 實體作為一個查詢結果建立時被調用。
+
+
+使用 AR 處理交易
+-------------------------
+
+每個 AR 實體都含有一個屬性名稱叫 [dbConnection|CActiveRecord::dbConnection] ，是一個 [CDbConnection] 的實體，這樣我們可以在需要時配合 AR 使用由 Yii 資料存取物件提供的 [交易](/doc/guide/database.dao#using-transactions) 功能:
+
+~~~
+[php]
+$model=Post::model();
+$transaction=$model->dbConnection->beginTransaction();
+try
+{
+	// 查找和儲存是可能由另一個請求干預的兩個步驟
+	// 這樣我們使用一個交易以確保其一致性和完整性
+	$post=$model->findByPk(10);
+	$post->title='new post title';
+	$post->save();
+	$transaction->commit();
+}
+catch(Exception $e)
+{
+	$transaction->rollBack();
+}
+~~~
+
+
+命名空間
+------------
+
+> Note: 對命名空間的支援從版本 1.0.5 開始。
+> 命名空間的最初想法來源於 Ruby on Rails.
+
+*命名空間* 資料表示一個 *命名的* 查詢規則，它可以和其他命名空間聯合使用並應用程式於 Active Record 查詢。
+
+命名空間主要是在 [CActiveRecord::scopes()] 方法中以名字-規則對的方式宣告。
+如下程式碼在 `Post` 模型類中宣告了兩個命名空間, `published` 和 `recently`。
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	......
+	public function scopes()
+	{
+		return array(
+			'published'=>array(
+				'condition'=>'status=1',
+			),
+			'recently'=>array(
+				'order'=>'create_time DESC',
+				'limit'=>5,
+			),
+		);
+	}
+}
+~~~
+
+每個命名空間宣告為一個可用於初始化 [CDbCriteria] 實體的陣列欄位。例如，`recently` 命名空間指定 `order` 屬性為 `create_time DESC` ， `limit` 屬性為 5。他們翻譯為查詢規則後就會返回最近的 5 篇文章。
+
+命名空間多用作 `find` 方法調用的修改器。幾個命名空間可以鏈到一起形成一個更有約束性的查詢結果集。例如，要找到最近發佈的文章，我們可以使用如下程式碼：
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->findAll();
+~~~
+
+總體來說，命名空間必須出現在一個 `find` 方法調用的左邊。它們中的每一個都提供一個查詢規則，並聯合到其他規則，包括傳遞給 `find` 方法調用的那一個。最終結果就像給一個查詢增加了一系欄位篩選器。
+
+> Note|注意: 命名空間只能用於類別級別方法。也就是說，此方法必須使用 `ClassName::model()` 調用。
+
+
+### 參數化的命名空間
+
+命名空間可以參數化。例如，我們想自定義 `recently` 命名空間中指定的文章數量，要實現此目的，不是在[CActiveRecord::scopes] 方法中宣告命名空間，而是需要定義一個名字和此命名空間的名字相同的方法：
+
+~~~
+[php]
+public function recently($limit=5)
+{
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'create_time DESC',
+		'limit'=>$limit,
+	));
+	return $this;
+}
+~~~
+
+然後，我們就可以使用如下語句取得 3 條最近發佈的文章。
+
+~~~
+[php]
+$posts=Post::model()->published()->recently(3)->findAll();
+~~~
+
+上面的程式碼中，如果我們沒有提供參數 3，我們將預設取得 5 條最近發佈的文章。
+
+
+### 預設範圍
+
+模型類別可以有一個預設範圍，它將應用程式於所有(包括相關的那些) 關於此模型的查詢。例如，一個支援多種語言的網站可能只想當前使用者所指定的語言的內容。因為可能會有很多關於此網站內容的查詢，我們可以定義一個預設範圍以解決此問題。為實現此目的，我們覆蓋 [CActiveRecord::defaultScope] 方法如下：
+
+~~~
+[php]
+class Content extends CActiveRecord
+{
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>"language='".Yii::app()->language."'",
+		);
+	}
+}
+~~~
+
+現在，如果下面的方法被調用，將會自動使用上面定義的查詢規則：
+
+~~~
+[php]
+$contents=Content::model()->findAll();
+~~~
+
+注意，預設的命名空間只會應用於 `SELECT` 查詢。`INSERT`, `UPDATE` 和 `DELETE` 查詢將被忽略。
+
+<div class="revision">$Id$</div>

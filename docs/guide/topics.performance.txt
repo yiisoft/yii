@@ -155,4 +155,26 @@ By mapping these script files to false, we prevent Yii from generating the code 
 </head>
 ~~~
 
-<div class="revision">$Id$</div>
+Symlinking assets
+-----------------
+
+If your project uses assets a lot you can improve its performance slightly by
+using [symbolic links](http://en.wikipedia.org/wiki/Symbolic_link) instead of
+file copies. In order to turn it on you should configure
+[linkAssets|CAssetManager::linkAssets] property of `assetManager`
+application component using `protected/config/main.php` config file:
+
+~~~
+[php]
+return array(
+	// ...
+	'components' => array(
+		// ...
+		'assetManager' => array(
+			'linkAssets' => true,
+		),
+	),
+);
+~~~
+
+Note that it [may require additional configuration|CAssetManager::linkAssets].

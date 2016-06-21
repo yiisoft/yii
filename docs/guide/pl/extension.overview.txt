@@ -2,7 +2,7 @@ Rozszerzanie Yii
 ================
 
 Rozszerzanie Yii jest powszednią czynnością podczas dewelopmentu. Na przykład, gdy
-piszesz nowy kontroler, rozszerzasz Yii poprzez dziedziczenie po klasie jego 
+piszesz nowy kontroler, rozszerzasz Yii poprzez dziedziczenie po jego klasie 
 [CController]; gdy piszesz nowy widżet, dziedziczysz po [CWidget] lub istniejącej
 klasie widżetu. Jeśli rozszerzony kod jest przeznaczony do ponownego użycia przez
 innych deweloperów, nazywamy go *rozszerzeniem* (ang. extension).

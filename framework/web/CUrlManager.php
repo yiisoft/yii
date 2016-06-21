@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -118,7 +118,6 @@
  * Please refer to the guide for more details about the difference between these two formats.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -238,7 +237,7 @@ class CUrlManager extends CApplicationComponent
 	 * they will be inserted at the beginning.
 	 * @since 1.1.4
 	 */
-	public function addRules($rules, $append=true)
+	public function addRules($rules,$append=true)
 	{
 		if ($append)
 		{
@@ -247,6 +246,7 @@ class CUrlManager extends CApplicationComponent
 		}
 		else
 		{
+			$rules=array_reverse($rules);
 			foreach($rules as $pattern=>$route)
 				array_unshift($this->_rules, $this->createUrlRule($route,$pattern));
 		}
@@ -265,7 +265,10 @@ class CUrlManager extends CApplicationComponent
 		if(is_array($route) && isset($route['class']))
 			return $route;
 		else
-			return new $this->urlRuleClass($route,$pattern);
+		{
+			$urlRuleClass=Yii::import($this->urlRuleClass,true);
+			return new $urlRuleClass($route,$pattern);
+		}
 	}
 
 	/**
@@ -343,7 +346,7 @@ class CUrlManager extends CApplicationComponent
 				if(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
 					$url.=$ampersand.$query;
 			}
-			else if(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
+			elseif(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
 				$url.='?'.$query;
 			return $url;
 		}
@@ -373,9 +376,9 @@ class CUrlManager extends CApplicationComponent
 			else
 				return $pathInfo;
 		}
-		else if(isset($_GET[$this->routeVar]))
+		elseif(isset($_GET[$this->routeVar]))
 			return $_GET[$this->routeVar];
-		else if(isset($_POST[$this->routeVar]))
+		elseif(isset($_POST[$this->routeVar]))
 			return $_POST[$this->routeVar];
 		else
 			return '';
@@ -517,7 +520,6 @@ class CUrlManager extends CApplicationComponent
  * {@link createUrl} and {@link parseUrl}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.1.8
  */
@@ -556,7 +558,6 @@ abstract class CBaseUrlRule extends CComponent
  * may have a set of named parameters.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -637,6 +638,14 @@ class CUrlRule extends CBaseUrlRule
 	public $hasHostInfo;
 
 	/**
+	 * Callback for preg_replace_callback in counstructor
+	 */
+	protected function escapeRegexpSpecialChars($matches)
+	{
+		return preg_quote($matches[0]);
+	}
+
+	/**
 	 * Constructor.
 	 * @param string $route the route of the URL (controller/action)
 	 * @param string $pattern the pattern for matching the URL
@@ -687,7 +696,10 @@ class CUrlRule extends CBaseUrlRule
 		$this->append=$p!==$pattern;
 		$p=trim($p,'/');
 		$this->template=preg_replace('/<(\w+):?.*?>/','<$1>',$p);
-		$this->pattern='/^'.strtr($this->template,$tr).'\/';
+		$p=$this->template;
+		if(!$this->parsingOnly)
+			$p=preg_replace_callback('/(?<=^|>)[^<]+(?=<|$)/',array($this,'escapeRegexpSpecialChars'),$p);
+		$this->pattern='/^'.strtr($p,$tr).'\/';
 		if($this->append)
 			$this->pattern.='/u';
 		else
@@ -833,7 +845,7 @@ class CUrlRule extends CBaseUrlRule
 			{
 				if(isset($this->references[$key]))
 					$tr[$this->references[$key]]=$value;
-				else if(isset($this->params[$key]))
+				elseif(isset($this->params[$key]))
 					$_REQUEST[$key]=$_GET[$key]=$value;
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params

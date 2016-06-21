@@ -189,4 +189,3 @@ will be rendered using the installed view renderer, while all other view files e
 with `.php` will be treated as normal PHP view script.
 
 
-<div class="revision">$Id$</div>

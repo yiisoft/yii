@@ -435,4 +435,4 @@ write a rule class to display a special 404 error page in case all other URL rul
 to resolve the current request. Note that in this case, the rule of this special class
 must be declared as the last rule.
 
-<div class="revision">$Id$</div>
+

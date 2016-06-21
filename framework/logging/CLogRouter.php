@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -46,7 +46,6 @@
  * @property array $routes The currently initialized routes.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.logging
  * @since 1.0
  */
@@ -104,6 +103,7 @@ class CLogRouter extends CApplicationComponent
 		$dumpLogs=isset($event->params['dumpLogs']) && $event->params['dumpLogs'];
 		foreach($this->_routes as $route)
 		{
+			/* @var $route CLogRoute */
 			if($route->enabled)
 				$route->collectLogs($logger,$dumpLogs);
 		}
@@ -112,16 +112,11 @@ class CLogRouter extends CApplicationComponent
 	/**
 	 * Collects and processes log messages from a logger.
 	 * This method is an event handler to the {@link CApplication::onEndRequest} event.
-	 * @param CEvent $event event parameter
 	 * @since 1.1.0
 	 */
-	public function processLogs($event)
+	public function processLogs()
 	{
 		$logger=Yii::getLogger();
-		foreach($this->_routes as $route)
-		{
-			if($route->enabled)
-				$route->collectLogs($logger,true);
-		}
+		$logger->flush(true);
 	}
 }

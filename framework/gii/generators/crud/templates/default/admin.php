@@ -4,8 +4,11 @@
  * - $this: the CrudCode object
  */
 ?>
+<?php echo "<?php\n"; ?>
+/* @var $this <?php echo $this->getControllerClass(); ?> */
+/* @var $model <?php echo $this->getModelClass(); ?> */
+
 <?php
-echo "<?php\n";
 $label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
@@ -24,7 +27,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('<?php echo $this->class2id($this->modelClass); ?>-grid', {
+	$('#<?php echo $this->class2id($this->modelClass); ?>-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;

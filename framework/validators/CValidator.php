@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,18 +12,6 @@
  * CValidator is the base class for all validators.
  *
  * Child classes must implement the {@link validateAttribute} method.
- *
- * The following properties are defined in CValidator:
- * <ul>
- * <li>{@link attributes}: array, list of attributes to be validated;</li>
- * <li>{@link message}: string, the customized error message. The message
- *   may contain placeholders that will be replaced with the actual content.
- *   For example, the "{attribute}" placeholder will be replaced with the label
- *   of the problematic attribute. Different validators may define additional
- *   placeholders.</li>
- * <li>{@link on}: string, in which scenario should the validator be in effect.
- *   This is used to match the 'on' parameter supplied when calling {@link CModel::validate}.</li>
- * </ul>
  *
  * When using {@link createValidator} to create a validator, the following aliases
  * are recognized as the corresponding built-in validator classes:
@@ -50,7 +38,6 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -107,7 +94,7 @@ abstract class CValidator extends CComponent
 	 * Each array value refers to a scenario name with the same name as its array key.
 	 * @since 1.1.11
 	 */
-	public $off;
+	public $except;
 	/**
 	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
 	 * Defaults to true.
@@ -142,7 +129,7 @@ abstract class CValidator extends CComponent
 	public static function createValidator($name,$object,$attributes,$params=array())
 	{
 		if(is_string($attributes))
-			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
+			$attributes=preg_split('/\s*,\s*/',trim($attributes, " \t\n\r\0\x0B,"),-1,PREG_SPLIT_NO_EMPTY);
 
 		if(isset($params['on']))
 		{
@@ -154,15 +141,15 @@ abstract class CValidator extends CComponent
 		else
 			$on=array();
 
-		if(isset($params['off']))
+		if(isset($params['except']))
 		{
-			if(is_array($params['off']))
-				$off=$params['off'];
+			if(is_array($params['except']))
+				$except=$params['except'];
 			else
-				$off=preg_split('/[\s,]+/',$params['off'],-1,PREG_SPLIT_NO_EMPTY);
+				$except=preg_split('/[\s,]+/',$params['except'],-1,PREG_SPLIT_NO_EMPTY);
 		}
 		else
-			$off=array();
+			$except=array();
 
 		if(method_exists($object,$name))
 		{
@@ -191,7 +178,7 @@ abstract class CValidator extends CComponent
 		}
 
 		$validator->on=empty($on) ? array() : array_combine($on,$on);
-		$validator->off=empty($off) ? array() : array_combine($off,$off);
+		$validator->except=empty($except) ? array() : array_combine($except,$except);
 
 		return $validator;
 	}
@@ -245,7 +232,7 @@ abstract class CValidator extends CComponent
 	 */
 	public function applyTo($scenario)
 	{
-		if(isset($this->off[$scenario]))
+		if(isset($this->except[$scenario]))
 			return false;
 		return empty($this->on) || isset($this->on[$scenario]);
 	}

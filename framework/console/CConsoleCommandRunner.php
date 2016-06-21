@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,9 +12,9 @@
  * CConsoleCommandRunner manages commands and executes the requested command.
  *
  * @property string $scriptName The entry script name.
+ * @property CConsoleCommand $command The currently active command.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.console
  * @since 1.0
  */
@@ -42,6 +42,7 @@ class CConsoleCommandRunner extends CComponent
 	public $commands=array();
 
 	private $_scriptName;
+	private $_command;
 
 	/**
 	 * Executes the requested command.
@@ -62,10 +63,14 @@ class CConsoleCommandRunner extends CComponent
 		else
 			$name='help';
 
+		$oldCommand=$this->_command;
 		if(($command=$this->createCommand($name))===null)
 			$command=$this->createCommand('help');
+		$this->_command=$command;
 		$command->init();
-		return $command->run($args);
+		$exitCode=$command->run($args);
+		$this->_command=$oldCommand;
+		return $exitCode;
 	}
 
 	/**
@@ -74,6 +79,25 @@ class CConsoleCommandRunner extends CComponent
 	public function getScriptName()
 	{
 		return $this->_scriptName;
+	}
+
+	/**
+	 * Returns the currently running command.
+	 * @return CConsoleCommand|null the currently active command.
+	 * @since 1.1.14
+	 */
+	public function getCommand()
+	{
+		return $this->_command;
+	}
+
+	/**
+	 * @param CConsoleCommand $value the currently active command.
+	 * @since 1.1.14
+	 */
+	public function setCommand($value)
+	{
+		$this->_command=$value;
 	}
 
 	/**
@@ -120,24 +144,35 @@ class CConsoleCommandRunner extends CComponent
 	public function createCommand($name)
 	{
 		$name=strtolower($name);
+
+		$command=null;
 		if(isset($this->commands[$name]))
+			$command=$this->commands[$name];
+		else
 		{
-			if(is_string($this->commands[$name]))  // class file path or alias
+			$commands=array_change_key_case($this->commands);
+			if(isset($commands[$name]))
+				$command=$commands[$name];
+		}
+
+		if($command!==null)
+		{
+			if(is_string($command)) // class file path or alias
 			{
-				if(strpos($this->commands[$name],'/')!==false || strpos($this->commands[$name],'\\')!==false)
+				if(strpos($command,'/')!==false || strpos($command,'\\')!==false)
 				{
-					$className=substr(basename($this->commands[$name]),0,-4);
+					$className=substr(basename($command),0,-4);
 					if(!class_exists($className,false))
-						require_once($this->commands[$name]);
+						require_once($command);
 				}
 				else // an alias
-					$className=Yii::import($this->commands[$name]);
+					$className=Yii::import($command);
 				return new $className($name,$this);
 			}
 			else // an array configuration
-				return Yii::createComponent($this->commands[$name],$name,$this);
+				return Yii::createComponent($command,$name,$this);
 		}
-		else if($name==='help')
+		elseif($name==='help')
 			return new CHelpCommand('help',$this);
 		else
 			return null;

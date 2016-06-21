@@ -5,7 +5,7 @@
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -22,7 +22,7 @@
  * $this->widget('zii.widgets.CMenu', array(
  *     'items'=>array(
  *         // Important: you need to specify url as 'controller/action',
- *         // not just as 'controller' even if default acion is used.
+ *         // not just as 'controller' even if default action is used.
  *         array('label'=>'Home', 'url'=>array('site/index')),
  *         // 'Products' menu item will be selected no matter which tag parameter value is since it's not specified.
  *         array('label'=>'Products', 'url'=>array('product/index'), 'items'=>array(
@@ -37,7 +37,6 @@
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets
  * @since 1.1
  */
@@ -47,8 +46,10 @@ class CMenu extends CWidget
 	 * @var array list of menu items. Each menu item is specified as an array of name-value pairs.
 	 * Possible option names include the following:
 	 * <ul>
-	 * <li>label: string, optional, specifies the menu item label. When {@link encodeLabel} is true, the label
+	 * <li>label: string, optional, specifies the menu item label. When {@link encodeLabel} or own encodeLabel option is true, the label
 	 * will be HTML-encoded. If the label is not specified, it defaults to an empty string.</li>
+	 * <li>encodeLabel: boolean whether the label for menu item should be HTML-encoded.
+	 * When this option is set, it will override the global setting {@link encodeLabel}. This option has been available since version 1.1.15.</li>
 	 * <li>url: string or array, optional, specifies the URL of the menu item. It is passed to {@link CHtml::normalizeUrl}
 	 * to generate a valid URL. If this is not set, the menu item will be rendered as a span text.</li>
 	 * <li>visible: boolean, optional, whether this menu item is visible. Defaults to true.
@@ -121,6 +122,12 @@ class CMenu extends CWidget
 	 */
 	public $linkLabelWrapper;
 	/**
+	 * @var array HTML attributes for the links' wrap element specified in
+	 * {@link linkLabelWrapper}.
+	 * @since 1.1.13
+	 */
+	public $linkLabelWrapperHtmlOptions=array();
+	/**
 	 * @var string the CSS class that will be assigned to the first item in the main menu or each submenu.
 	 * Defaults to null, meaning no such CSS class will be assigned.
 	 * @since 1.1.4
@@ -146,7 +153,10 @@ class CMenu extends CWidget
 	 */
 	public function init()
 	{
-		$this->htmlOptions['id']=$this->getId();
+		if(isset($this->htmlOptions['id']))
+			$this->id=$this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$this->id;
 		$route=$this->getController()->getRoute();
 		$this->items=$this->normalizeItems($this->items,$route,$hasActiveChild);
 	}
@@ -236,7 +246,7 @@ class CMenu extends CWidget
 	{
 		if(isset($item['url']))
 		{
-			$label=$this->linkLabelWrapper===null ? $item['label'] : '<'.$this->linkLabelWrapper.'>'.$item['label'].'</'.$this->linkLabelWrapper.'>';
+			$label=$this->linkLabelWrapper===null ? $item['label'] : CHtml::tag($this->linkLabelWrapper, $this->linkLabelWrapperHtmlOptions, $item['label']);
 			return CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
 		}
 		else
@@ -261,7 +271,8 @@ class CMenu extends CWidget
 			}
 			if(!isset($item['label']))
 				$item['label']='';
-			if($this->encodeLabel)
+			$encodeLabel = isset($item['encodeLabel']) ? $item['encodeLabel'] : $this->encodeLabel;
+			if($encodeLabel)
 				$items[$i]['label']=CHtml::encode($item['label']);
 			$hasActiveChild=false;
 			if(isset($item['items']))
@@ -284,7 +295,7 @@ class CMenu extends CWidget
 				else
 					$items[$i]['active']=false;
 			}
-			else if($item['active'])
+			elseif($item['active'])
 				$active=true;
 		}
 		return array_values($items);

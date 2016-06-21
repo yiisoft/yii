@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -26,7 +26,6 @@
  * @property integer $count The number of items in the queue.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.collections
  * @since 1.0
  */
@@ -46,7 +45,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Constructor.
 	 * Initializes the queue with an array or an iterable object.
-	 * @param array $data the intial data. Default is null, meaning no initialization.
+	 * @param array $data the initial data. Default is null, meaning no initialization.
 	 * @throws CException If data is not null and neither an array nor an iterator.
 	 */
 	public function __construct($data=null)
@@ -80,7 +79,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 				++$this->_c;
 			}
 		}
-		else if($data!==null)
+		elseif($data!==null)
 			throw new CException(Yii::t('yii','Queue data must be an array or an object implementing Traversable.'));
 	}
 

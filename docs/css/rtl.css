@@ -1,0 +1,34 @@
+body
+{
+	direction: rtl;
+	text-align:center;
+}
+
+
+.page #container
+{
+	text-align: right;
+}
+
+
+ul.toc li li
+{
+	padding: 2px 20px 2px 2px;
+}
+
+ul.toc li.active
+{
+	padding: 2px 30px 2px 5px;
+}
+
+blockquote.tip, blockquote.info, blockquote.note
+{
+	background-position: 99%;
+	padding:0em 55px 0em 1em;
+}
+
+pre 
+{
+	direction: ltr;
+	text-align: left;
+}

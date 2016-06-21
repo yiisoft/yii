@@ -61,6 +61,44 @@ class CBooleanValidatorTest extends CTestCase
         $model->foo = '1';
         $this->assertTrue($model->hasErrors('foo'));
     }
+
+    public function testValidateValue()
+    {
+	    $validator = new CBooleanValidator();
+	    $this->assertTrue($validator->validateValue('1'));
+	    $this->assertTrue($validator->validateValue('0'));
+	    $this->assertTrue($validator->validateValue(true));
+	    $this->assertTrue($validator->validateValue(false));
+	    $this->assertTrue($validator->validateValue(1));
+	    $this->assertTrue($validator->validateValue(0));
+	    $this->assertFalse($validator->validateValue(null));
+	    $this->assertFalse($validator->validateValue('foo'));
+
+	    $validator->strict = true;
+	    $this->assertTrue($validator->validateValue('1'));
+	    $this->assertTrue($validator->validateValue('0'));
+	    $this->assertFalse($validator->validateValue(true));
+	    $this->assertFalse($validator->validateValue(false));
+	    $this->assertFalse($validator->validateValue(1));
+	    $this->assertFalse($validator->validateValue(0));
+	    $this->assertFalse($validator->validateValue(null));
+	    $this->assertFalse($validator->validateValue('foo'));
+    }
+
+    /**
+     * Test array typed value
+     * https://github.com/yiisoft/yii/issues/1955
+     *
+     * @return null
+     */
+    public function testValidateArrayValue()
+    {
+        $model = $this->getModelMock();
+        $model->foo = array(1);
+        $this->assertFalse($model->validate());
+        $this->assertTrue($model->hasErrors('foo'));
+        $this->assertSame(array('Foo must be either 1 or 0.'), $model->getErrors('foo'));
+    }
     
     /**
      * Mocks up an object to test with

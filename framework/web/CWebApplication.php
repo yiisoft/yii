@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -52,7 +52,6 @@
  * @property string $layoutPath The root directory of layout files. Defaults to 'protected/views/layouts'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -83,7 +82,7 @@ class CWebApplication extends CApplication
 	 *      'class'=>'path.to.PostController',
 	 *      'pageTitle'=>'something new',
 	 *   ),
-	 *   'user'=>'path.to.UserController',,
+	 *   'user'=>'path.to.UserController',
 	 * )
 	 * </pre>
 	 *
@@ -108,6 +107,13 @@ class CWebApplication extends CApplication
 	 * Defaults to null, meaning catch-all is not effective.
 	 */
 	public $catchAllRequest;
+
+	/**
+	 * @var string Namespace that should be used when loading controllers.
+	 * Default is to use global namespace.
+	 * @since 1.1.11
+	 */
+	public $controllerNamespace;
 
 	private $_controllerPath;
 	private $_viewPath;
@@ -305,7 +311,7 @@ class CWebApplication extends CApplication
 	{
 		if($owner===null)
 			$owner=$this;
-		if(($route=trim($route,'/'))==='')
+		if((array)$route===$route || ($route=trim($route,'/'))==='')
 			$route=$owner->defaultController;
 		$caseSensitive=$this->getUrlManager()->caseSensitive;
 
@@ -338,6 +344,10 @@ class CWebApplication extends CApplication
 				$controllerID.='/';
 			$className=ucfirst($id).'Controller';
 			$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
+
+			if($owner->controllerNamespace!==null)
+				$className=$owner->controllerNamespace.'\\'.str_replace('/','\\',$controllerID).$className;
+
 			if(is_file($classFile))
 			{
 				if(!class_exists($className,false))

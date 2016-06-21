@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -20,7 +20,6 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * and customize the display order of the buttons.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -57,9 +56,16 @@ class CButtonColumn extends CGridColumn
 	public $viewButtonImageUrl;
 	/**
 	 * @var string a PHP expression that is evaluated for every view button and whose result is used
-	 * as the URL for the view button. In this expression, the variable
-	 * <code>$row</code> the row number (zero-based); <code>$data</code> the data model for the row;
-	 * and <code>$this</code> the column object.
+	 * as the URL for the view button. In this expression, you can use the following variables:
+	 * <ul>
+	 *   <li><code>$row</code> the row number (zero-based)</li>
+	 *   <li><code>$data</code> the data model for the row</li>
+	 *   <li><code>$this</code> the column object</li>
+	 * </ul>
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $viewButtonUrl='Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))';
 	/**
@@ -79,9 +85,16 @@ class CButtonColumn extends CGridColumn
 	public $updateButtonImageUrl;
 	/**
 	 * @var string a PHP expression that is evaluated for every update button and whose result is used
-	 * as the URL for the update button. In this expression, the variable
-	 * <code>$row</code> the row number (zero-based); <code>$data</code> the data model for the row;
-	 * and <code>$this</code> the column object.
+	 * as the URL for the update button. In this expression, you can use the following variables:
+	 * <ul>
+	 *   <li><code>$row</code> the row number (zero-based)</li>
+	 *   <li><code>$data</code> the data model for the row</li>
+	 *   <li><code>$this</code> the column object</li>
+	 * </ul>
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $updateButtonUrl='Yii::app()->controller->createUrl("update",array("id"=>$data->primaryKey))';
 	/**
@@ -101,13 +114,20 @@ class CButtonColumn extends CGridColumn
 	public $deleteButtonImageUrl;
 	/**
 	 * @var string a PHP expression that is evaluated for every delete button and whose result is used
-	 * as the URL for the delete button. In this expression, the variable
-	 * <code>$row</code> the row number (zero-based); <code>$data</code> the data model for the row;
-	 * and <code>$this</code> the column object.
+	 * as the URL for the delete button. In this expression, you can use the following variables:
+	 * <ul>
+	 *   <li><code>$row</code> the row number (zero-based)</li>
+	 *   <li><code>$data</code> the data model for the row</li>
+	 *   <li><code>$this</code> the column object</li>
+	 * </ul>
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 *
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $deleteButtonUrl='Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))';
 	/**
-	 * @var array the HTML options for the view button tag.
+	 * @var array the HTML options for the delete button tag.
 	 */
 	public $deleteButtonOptions=array('class'=>'delete');
 	/**
@@ -132,13 +152,13 @@ class CButtonColumn extends CGridColumn
 	 * <pre>
 	 *  array(
 	 *     class'=>'CButtonColumn',
-	 *     'afterDelete'=>'function(link,success,data){ if(success) alert("Delete completed successfuly"); }',
+	 *     'afterDelete'=>'function(link,success,data){ if(success) alert("Delete completed successfully"); }',
 	 *  ),
 	 * </pre>
 	 */
 	public $afterDelete;
 	/**
-	 * @var array the configuration for additional buttons. Each array element specifies a single button
+	 * @var array the configuration for buttons. Each array element specifies a single button
 	 * which has the following format:
 	 * <pre>
 	 * 'buttonID' => array(
@@ -150,11 +170,17 @@ class CButtonColumn extends CGridColumn
 	 *     'visible'=>'...',   // a PHP expression for determining whether the button is visible
 	 * )
 	 * </pre>
+	 *
 	 * In the PHP expression for the 'url' option and/or 'visible' option, the variable <code>$row</code>
 	 * refers to the current row number (zero-based), and <code>$data</code> refers to the data model for
 	 * the row.
+	 * The PHP expression will be evaluated using {@link evaluateExpression}.
+	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
+	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 *
-	 * Note that in order to display these additional buttons, the {@link template} property needs to
+	 * If the 'buttonID' is 'view', 'update' or 'delete' the options will be applied to the default buttons.
+	 *
+	 * Note that in order to display non-default buttons, the {@link template} property needs to
 	 * be configured so that the corresponding button IDs appear as tokens in the template.
 	 */
 	public $buttons=array();
@@ -171,12 +197,12 @@ class CButtonColumn extends CGridColumn
 		{
 			if(strpos($this->template,'{'.$id.'}')===false)
 				unset($this->buttons[$id]);
-			else if(isset($button['click']))
+			elseif(isset($button['click']))
 			{
 				if(!isset($button['options']['class']))
 					$this->buttons[$id]['options']['class']=$id;
-				if(strpos($button['click'],'js:')!==0)
-					$this->buttons[$id]['click']='js:'.$button['click'];
+				if(!($button['click'] instanceof CJavaScriptExpression))
+					$this->buttons[$id]['click']=new CJavaScriptExpression($button['click']);
 			}
 		}
 
@@ -239,17 +265,17 @@ class CButtonColumn extends CGridColumn
 			$this->buttons['delete']['click']=<<<EOD
 function() {
 	$confirmation
-	var th=this;
-	var afterDelete=$this->afterDelete;
-	$.fn.yiiGridView.update('{$this->grid->id}', {
-		type:'POST',
-		url:$(this).attr('href'),$csrf
-		success:function(data) {
-			$.fn.yiiGridView.update('{$this->grid->id}');
-			afterDelete(th,true,data);
+	var th = this,
+		afterDelete = $this->afterDelete;
+	jQuery('#{$this->grid->id}').yiiGridView('update', {
+		type: 'POST',
+		url: jQuery(this).attr('href'),$csrf
+		success: function(data) {
+			jQuery('#{$this->grid->id}').yiiGridView('update');
+			afterDelete(th, true, data);
 		},
-		error:function(XHR) {
-			return afterDelete(th,false,XHR);
+		error: function(XHR) {
+			return afterDelete(th, false, XHR);
 		}
 	});
 	return false;
@@ -270,7 +296,7 @@ EOD;
 			{
 				$function=CJavaScript::encode($button['click']);
 				$class=preg_replace('/\s+/','.',$button['options']['class']);
-				$js[]="jQuery('#{$this->grid->id} a.{$class}').live('click',$function);";
+				$js[]="jQuery(document).on('click','#{$this->grid->id} a.{$class}',$function);";
 			}
 		}
 
@@ -279,13 +305,15 @@ EOD;
 	}
 
 	/**
-	 * Renders the data cell content.
+	 * Returns the data cell content.
 	 * This method renders the view, update and delete buttons in the data cell.
 	 * @param integer $row the row number (zero-based)
-	 * @param mixed $data the data associated with the row
+	 * @return string the data cell content.
+	 * @since 1.1.16
 	 */
-	protected function renderDataCellContent($row,$data)
+	public function getDataCellContent($row)
 	{
+		$data=$this->grid->dataProvider->data[$row];
 		$tr=array();
 		ob_start();
 		foreach($this->buttons as $id=>$button)
@@ -295,7 +323,7 @@ EOD;
 			ob_clean();
 		}
 		ob_end_clean();
-		echo strtr($this->template,$tr);
+		return strtr($this->template,$tr);
 	}
 
 	/**

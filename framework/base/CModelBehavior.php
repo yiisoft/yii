@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @copyright 2008-2013 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -15,7 +15,6 @@
  * @property CModel $owner The owner model that this behavior is attached to.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
  * @package system.base
  */
 class CModelBehavior extends CBehavior
@@ -38,29 +37,32 @@ class CModelBehavior extends CBehavior
 
 	/**
 	 * Responds to {@link CModel::onAfterConstruct} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link CBehavior::owner owner}.
 	 * @param CEvent $event event parameter
 	 */
-	public function afterConstruct($event)
+	protected function afterConstruct($event)
 	{
 	}
 
 	/**
 	 * Responds to {@link CModel::onBeforeValidate} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link owner}.
 	 * You may set {@link CModelEvent::isValid} to be false to quit the validation process.
 	 * @param CModelEvent $event event parameter
 	 */
-	public function beforeValidate($event)
+	protected function beforeValidate($event)
 	{
 	}
 
 	/**
 	 * Responds to {@link CModel::onAfterValidate} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link owner}.
+	 * Override this method and make it public if you want to handle the corresponding event
+	 * of the {@link owner}.
 	 * @param CEvent $event event parameter
 	 */
-	public function afterValidate($event)
+	protected function afterValidate($event)
 	{
 	}
 }

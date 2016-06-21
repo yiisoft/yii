@@ -5,9 +5,9 @@
  * This class uses the Unix `diff` program via shell_exec to compute the
  * differences between the two input arrays.
  *
- * $Horde: framework/Text_Diff/Diff/Engine/shell.php,v 1.6.2.3 2008/01/04 10:37:27 jan Exp $
+ * $Horde: framework/Text_Diff/Diff/Engine/shell.php,v 1.6.2.4 2009/01/06 15:23:41 jan Exp $
  *
- * Copyright 2007-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2007-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
@@ -138,8 +138,10 @@ class Text_Diff_Engine_shell {
      * @access private
      *
      * @param array &$text_lines Either $from_lines or $to_lines
-     * @param integer &$line_no Current line number
-     * @param integer $end Optional end line, when we want to chop more than one line.
+     * @param int   &$line_no    Current line number
+     * @param int   $end         Optional end line, when we want to chop more
+     *                           than one line.
+     *
      * @return array The chopped lines
      */
     function _getLines(&$text_lines, &$line_no, $end = false)

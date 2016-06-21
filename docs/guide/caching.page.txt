@@ -66,8 +66,8 @@ public function filters()
 }
 ~~~
 The above code will set the `Last-Modified` header to the last date at which a 
-post was updated. For lazy evaluation,
-[CHttpCacheFilter::lastModifiedExpression] is available.
+post was updated. You can also use [CHttpCacheFilter::lastModifiedExpression] to set 
+the `Last-Modified` header using a php expression.
 
 > Tip: Both, [CHttpCacheFilter::lastModifiedExpression] and 
 [CHttpCacheFilter::lastModified] can take either an integer representing an 
@@ -106,4 +106,3 @@ limit on how many pages per domain they process within a certain time span,
 introducing caching headers may help indexing your site as they reduce the
 number of pages that need to be processed.
 
-<div class="revision">$Id$</div>

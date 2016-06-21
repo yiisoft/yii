@@ -82,4 +82,3 @@ Modules can be nested in unlimited levels. That is, a module can contain another
 To access a controller action in a child module, we should use the route `parentModuleID/childModuleID/controllerID/actionID`.
 
 
-<div class="revision">$Id$</div>
