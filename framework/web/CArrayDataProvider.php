@@ -147,6 +147,13 @@ class CArrayDataProvider extends CDataProvider
 			$dummy[]=&$direction;
 			unset($direction);
 		}
+
+		// This fix is used for cases when main sorting specified by columns has equal values
+        // Without it it will lead to Fatal Error: Nesting level too deep - recursive dependency?
+        $args[] = range(1, count($this->rawData));
+        $args[] = SORT_ASC;
+        $args[] = SORT_NUMERIC;
+		
 		$args[]=&$this->rawData;
 		call_user_func_array('array_multisort', $args);
 	}
