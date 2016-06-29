@@ -129,7 +129,7 @@ class CArrayDataProvider extends CDataProvider
 	 */
 	protected function sortData($directions)
 	{
-		if(empty($directions))
+		if(empty($directions) || empty($this->rawData))
 			return;
 		$args=array();
 		$dummy=array();
