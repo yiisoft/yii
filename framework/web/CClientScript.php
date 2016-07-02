@@ -554,7 +554,7 @@ class CClientScript extends CApplicationComponent
 	 * Registers a script package that is listed in {@link packages}.
 	 * This method is the same as {@link registerCoreScript}.
 	 * @param string $name the name of the script package.
-	 * @return static the CClientScript object itself (to support method chaining, available since version 1.1.5).
+	 * @return $this static the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 * @since 1.1.7
 	 * @see renderCoreScript
 	 */
@@ -566,8 +566,9 @@ class CClientScript extends CApplicationComponent
 	/**
 	 * Registers a script package that is listed in {@link packages}.
 	 * @param string $name the name of the script package.
-	 * @return static the CClientScript object itself (to support method chaining, available since version 1.1.5).
+	 * @return $this static the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 * @see renderCoreScript
+	 * @throws CException
 	 */
 	public function registerCoreScript($name)
 	{
