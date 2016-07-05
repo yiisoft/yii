@@ -356,6 +356,8 @@ class CUrlManager extends CApplicationComponent
 	 * Parses the user request.
 	 * @param CHttpRequest $request the request application component
 	 * @return string the route (controllerID/actionID) and perhaps GET parameters in path format.
+	 * @throws CException
+	 * @throws CHttpException
 	 */
 	public function parseUrl($request)
 	{
@@ -502,6 +504,7 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Sets the URL format.
 	 * @param string $value the URL format. It must be either 'path' or 'get'.
+	 * @throws CException
 	 */
 	public function setUrlFormat($value)
 	{
@@ -649,6 +652,7 @@ class CUrlRule extends CBaseUrlRule
 	 * Constructor.
 	 * @param string $route the route of the URL (controller/action)
 	 * @param string $pattern the pattern for matching the URL
+	 * @throws CException
 	 */
 	public function __construct($route,$pattern)
 	{

@@ -202,6 +202,7 @@ class CHttpCacheFilter extends CFilter
 	/**
 	 * Generates a quoted string out of the seed
 	 * @param mixed $seed Seed for the ETag
+	 * @return string
 	 */
 	protected function generateEtag($seed)
 	{

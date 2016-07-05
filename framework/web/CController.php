@@ -330,6 +330,7 @@ class CController extends CBaseController
 	 * The default implementation will throw a 400 HTTP exception.
 	 * @param CAction $action the action being executed
 	 * @since 1.1.7
+	 * @throws CHttpException
 	 */
 	public function invalidActionParams($action)
 	{
@@ -405,6 +406,7 @@ class CController extends CBaseController
 	 * @param string $actionID ID of the action. If empty, the {@link defaultAction default action} will be used.
 	 * @return CAction the action instance, null if the action does not exist.
 	 * @see actions
+	 * @throws CException
 	 */
 	public function createAction($actionID)
 	{
@@ -431,6 +433,7 @@ class CController extends CBaseController
 	 * @param string $requestActionID the originally requested action ID
 	 * @param array $config the action configuration that should be applied on top of the configuration specified in the map
 	 * @return CAction the action instance, null if the action does not exist.
+	 * @throws CException
 	 */
 	protected function createActionFromMap($actionMap,$actionID,$requestActionID,$config=array())
 	{

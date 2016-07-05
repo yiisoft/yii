@@ -134,7 +134,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * PHP magic method.
-	 * This method is overriden so that persistent states can be accessed like properties.
+	 * This method is overridden so that persistent states can be accessed like properties.
 	 * @param string $name property name
 	 * @return mixed property value
 	 */
@@ -148,7 +148,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * PHP magic method.
-	 * This method is overriden so that persistent states can be set like properties.
+	 * This method is overridden so that persistent states can be set like properties.
 	 * @param string $name property name
 	 * @param mixed $value property value
 	 * @return null
@@ -164,7 +164,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * PHP magic method.
-	 * This method is overriden so that persistent states can also be checked for null value.
+	 * This method is overridden so that persistent states can also be checked for null value.
 	 * @param string $name property name
 	 * @return boolean
 	 */
@@ -178,7 +178,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * PHP magic method.
-	 * This method is overriden so that persistent states can also be unset.
+	 * This method is overridden so that persistent states can also be unset.
 	 * @param string $name property name
 	 * @return null
 	 * @throws CException if the property is read only.

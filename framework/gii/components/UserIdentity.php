@@ -5,6 +5,7 @@ class UserIdentity extends CUserIdentity
 	/**
 	 * Authenticates a user.
 	 * @return boolean whether authentication succeeds.
+	 * @throws CException
 	 */
 	public function authenticate()
 	{

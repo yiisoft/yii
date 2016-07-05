@@ -62,6 +62,7 @@ class CGettextMoFile extends CGettextFile
 	 * @param string $file file path
 	 * @param string $context message context
 	 * @return array message translations (source message => translated message)
+	 * @throws CException
 	 */
 	public function load($file,$context)
 	{
@@ -137,6 +138,7 @@ class CGettextMoFile extends CGettextFile
 	 * @param array $messages message translations (message id => translated message).
 	 * Note if the message has a context, the message id must be prefixed with
 	 * the context with chr(4) as the separator.
+	 * @throws CException
 	 */
 	public function save($file,$messages)
 	{
