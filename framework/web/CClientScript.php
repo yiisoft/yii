@@ -679,6 +679,7 @@ class CClientScript extends CApplicationComponent
 	 * @param array $htmlOptions additional HTML attributes
 	 * Note: HTML attributes are not allowed for script positions "CClientScript::POS_LOAD" and "CClientScript::POS_READY".
 	 * @return static the CClientScript object itself (to support method chaining, available since version 1.1.5).
+	 * @throws CException
 	 */
 	public function registerScript($id,$script,$position=null,array $htmlOptions=array())
 	{
