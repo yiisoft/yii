@@ -52,6 +52,7 @@ class CFilterChain extends CList
 	 * @param CAction $action the action being filtered by this chain.
 	 * @param array $filters list of filters to be applied to the action.
 	 * @return CFilterChain
+	 * @throws CException
 	 */
 	public static function create($controller,$action,$filters)
 	{

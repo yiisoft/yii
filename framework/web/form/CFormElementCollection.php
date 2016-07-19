@@ -102,6 +102,7 @@ class CFormElementCollection extends CMap
 	/**
 	 * Removes the specified element by key.
 	 * @param string $key the name of the element to be removed from the collection
+	 * @throws CException
 	 */
 	public function remove($key)
 	{
