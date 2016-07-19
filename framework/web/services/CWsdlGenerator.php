@@ -445,7 +445,7 @@ class CWsdlGenerator extends CComponent
 	/**
 	 * Parse attributes nillable, minOccurs, maxOccurs
 	 * @param string $comment Extracted PHPDoc comment
-	 * @return array
+	 * @return array array of [nillable, minOccurs, maxOccurs]
 	 */
 	protected function getWsdlElementAttributes($comment) {
 		$nillable=$minOccurs=$maxOccurs=null;
@@ -687,7 +687,7 @@ class CWsdlGenerator extends CComponent
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $name method name
 	 * @param string $doc doc
-	 * @return mixed
+	 * @return DOMElement a new instance of wsdl:operation element filled by tns In/Out data
 	 */
 	protected function createPortElement($dom,$name,$doc)
 	{
@@ -730,7 +730,7 @@ class CWsdlGenerator extends CComponent
 	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 * @param string $name method name
 	 * @param array $headers array like array('input'=>array(MESSAGE,PART),'output=>array(MESSAGE,PART))
-	 * @return mixed
+	 * @return DOMElement a new instance of wsdl:operation element
 	 */
 	protected function createOperationElement($dom,$name,$headers=null)
 	{
