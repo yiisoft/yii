@@ -95,7 +95,10 @@ class CRedisCache extends CCache
 			$this->executeCommand('SELECT',array($this->database));
 		}
 		else
+		{
+			$this->_socket = null;
 			throw new CException('Failed to connect to redis: '.$errorDescription,(int)$errorNumber);
+		}
 	}
 
 	/**
