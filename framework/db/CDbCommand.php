@@ -1331,6 +1331,42 @@ class CDbCommand extends CComponent
 	}
 
 	/**
+	 * @param string $view the name of the view to be created. The name will be properly quoted by the method.
+	 * @param string $query sql query required for view.
+	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
+	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
+	 * @throws CDbException
+	 * @since 1.1.7
+	 */
+	public function createView($view, $query, $options=null)
+	{
+		return $this->setText($this->getConnection()->getSchema()->createView($view, $query, $options))->execute();
+	}
+
+	/**
+	 * Builds and executes a SQL statement for renaming a DB view.
+	 * @param string $view the view to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new view name. The name will be properly quoted by the method.
+	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
+	 * @since 1.1.7
+	 */
+	public function renameView($view, $newName)
+	{
+		return $this->setText($this->getConnection()->getSchema()->renameView($view, $newName))->execute();
+	}
+
+	/**
+	 * Builds and executes a SQL statement for dropping a DB view.
+	 * @param string $view the view to be dropped. The name will be properly quoted by the method.
+	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
+	 * @since 1.1.7
+	 */
+	public function dropView($view)
+	{
+		return $this->setText($this->getConnection()->getSchema()->dropView($view))->execute();
+	}
+
+	/**
 	 * Builds and executes a SQL statement for creating a new DB table.
 	 *
 	 * The columns in the new table should be specified as name-definition pairs (e.g. 'name'=>'string'),
