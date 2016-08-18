@@ -203,7 +203,7 @@
 								slave.addClass('MultiFile-applied');
 								
         // Triggered when a file is selected
-        slave.change(function(){
+        slave.change(function(event){
           //if(window.console) console.log('MultiFile.slave.change',slave_count);
  								 
           // Lose focus to stop IE7 firing onchange again
@@ -260,7 +260,7 @@
           slave.after(newEle);
           
           // Update list
-          MultiFile.addToList( this, slave_count );
+          MultiFile.addToList( this, slave_count, event );
           
           // Bind functionality
           MultiFile.addSlave( newEle[0], slave_count+1 );
@@ -280,7 +280,7 @@
        
        
        // Add a new file to the list
-       MultiFile.addToList = function( slave, slave_count ) {
+       MultiFile.addToList = function( slave, slave_count, event ) {
            //if(window.console) console.log('MultiFile.addToList',slave_count);
 
            //# Trigger Event! onFileAppend
