@@ -469,4 +469,22 @@ class CLocale extends CComponent
 	{
 		return $this->getLocaleDisplayName($id, 'territories');
 	}
+	
+	/** 
+	 * @return array list of local display names of all countries.
+	 * @since 1.1.18
+	 */
+	public function getCountries()
+	{
+		$countries = array();
+		foreach($this->_data['territories'] as $code => $country)
+		{
+			//zz is an unknown region
+			if(($code != 'zz') && preg_match('/[a-z]{2}/', $code))
+			{
+				$countries[$code] = $country;
+			}
+		}
+		return $countries;
+	}
 }
