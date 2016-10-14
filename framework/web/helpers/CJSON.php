@@ -330,6 +330,8 @@ class CJSON
 	 */
 	public static function decode($str, $useArray=true)
 	{
+		$bom = pack('H*','EFBBBF');
+  		$str = preg_replace("/^$bom/", '', $str);
 		if(function_exists('json_decode'))
 		{
 			$json = json_decode($str,$useArray);
