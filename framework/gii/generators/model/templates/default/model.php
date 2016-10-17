@@ -98,7 +98,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	{
 		return array(
 <?php foreach($labels as $name=>$label): ?>
-			<?php echo "'".$name."' => '".str_replace("'","\'",$label)."',\n"; ?>
+			<?php echo "'".$name."' => Yii::t('app','".str_replace("'","\'",$label)."'),\n"; ?>
 <?php endforeach; ?>
 		);
 	}
