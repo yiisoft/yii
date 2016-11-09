@@ -1,4 +1,4 @@
-# $Id: README,v 1.2 2007/06/13 10:09:47 ssttoo Exp $
+# $Id$
 
 Introduction
 ============
@@ -179,7 +179,7 @@ element of "defines" option:
         ),
         'numbers' => HL_NUMBERS_TABLE,
     );
-    $highlighter =& Text_Highlighter::factory('java', $options);
+    $highlighter = Text_Highlighter::factory('java', $options);
 
 "ifndef" attribute has reverse meaning.
 
@@ -196,7 +196,7 @@ the process. To generate the class, you need just few lines of code:
 
     <?php
     require_once 'Text/Highlighter/Generator.php';
-    $generator =& new Text_Highlighter_Generator('php.xml');
+    $generator = new Text_Highlighter_Generator('php.xml');
     $generator->generate();
     $generator->saveCode('PHP.php');
     ?>
@@ -337,7 +337,7 @@ HTML renderer accepts following options (each being optional):
             'numbers' => HL_NUMBERS_LI,
             'tabsize' => 8,
         );
-        $renderer =& new Text_Highlighter_Renderer_HTML($options);
+        $renderer = new Text_Highlighter_Renderer_HTML($options);
 
 Console renderer
 ----------------
@@ -360,7 +360,7 @@ option - a boolean value, and 'tabsize' option.
             'tabsize' => 8,
             'colors' => $colors,
         );
-        $renderer =& new Text_Highlighter_Renderer_Console($options);
+        $renderer = new Text_Highlighter_Renderer_Console($options);
 
 
 ANSI color escape sequences have the following format:
@@ -404,7 +404,7 @@ To create a highlighter for a certain language, use Text_Highlighter::factory()
 static method:
 
     require_once 'Text/Highlighter.php';
-    $hl =& Text_Highlighter::factory('php');
+    $hl = Text_Highlighter::factory('php');
 
 
 Setting a renderer
@@ -418,8 +418,8 @@ Actual output is produced by a renderer.
         'numbers' => HL_NUMBERS_LI,
         'tabsize' => 8,
     );
-    $renderer =& new Text_Highlighter_Renderer_HTML($options);
-    $hl =& Text_Highlighter::factory('php');
+    $renderer = new Text_Highlighter_Renderer_HTML($options);
+    $hl = Text_Highlighter::factory('php');
     $hl->setRenderer($renderer);
 
 Note that for BC reasons, it is possible to use highlighter without setting a
@@ -432,7 +432,7 @@ following example works exactly as previous one:
         'numbers' => HL_NUMBERS_LI,
         'tabsize' => 8,
     );
-    $hl =& Text_Highlighter::factory('php', $options);
+    $hl = Text_Highlighter::factory('php', $options);
 
 
 Getting output
@@ -446,8 +446,8 @@ And finally, do the highlighting and get the output:
         'numbers' => HL_NUMBERS_LI,
         'tabsize' => 8,
     );
-    $renderer =& new Text_Highlighter_Renderer_HTML($options);
-    $hl =& Text_Highlighter::factory('php');
+    $renderer = new Text_Highlighter_Renderer_HTML($options);
+    $hl = Text_Highlighter::factory('php');
     $hl->setRenderer($renderer);
     $html = $hl->highlight(file_get_contents('example.php'));
 

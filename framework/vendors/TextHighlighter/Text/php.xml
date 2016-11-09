@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: php.xml,v 1.1 2007/06/03 02:35:28 ssttoo Exp $ -->
+<!-- $Id: php.xml,v 1.1 2007-06-03 02:35:28 ssttoo Exp $ -->
 
 <highlight lang="php">
 
@@ -11,7 +11,7 @@
   <default innerClass="code" />
 
   <region name="phpCode" delimClass="inlinetags" innerClass="code"
-          start="(\&lt;\?(php|=)?)?" end="\?\>" never-contained="yes">
+          start="\&lt;\?(php|=)?" end="\?\>" never-contained="yes">
     <contains all="yes"/>
   </region>
 

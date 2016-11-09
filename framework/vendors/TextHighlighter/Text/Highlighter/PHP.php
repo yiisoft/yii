@@ -46,7 +46,7 @@ class  Text_Highlighter_PHP extends Text_Highlighter
 
         $this->_options = $options;
         $this->_regs = array (
-            -1 => '/((?i)(\\<\\?(php|=)?)?)/',
+            -1 => '/((?i)\\<\\?(php|=)?)/',
             0 => '/((?i)\\{)|((?i)\\()|((?i)\\[)|((?i)\\/\\*)|((?i)")|((?i)`)|((?mi)\\<\\<\\<[\\x20\\x09]*(\\w+)$)|((?i)\')|((?i)(#|\\/\\/))|((?i)[a-z_]\\w*)|((?i)\\((array|int|integer|string|bool|boolean|object|float|double)\\))|((?i)0[xX][\\da-f]+)|((?i)\\$[a-z_]\\w*)|((?i)\\d\\d*|\\b0\\b)|((?i)0[0-7]+)|((?i)(\\d*\\.\\d+)|(\\d+\\.\\d*))|((?i)((\\d+|((\\d*\\.\\d+)|(\\d+\\.\\d*)))[eE][+-]?\\d+))/',
             1 => '/((?i)\\{)|((?i)\\()|((?i)\\[)|((?i)\\/\\*)|((?i)")|((?i)`)|((?mi)\\<\\<\\<[\\x20\\x09]*(\\w+)$)|((?i)\')|((?i)(#|\\/\\/))|((?i)[a-z_]\\w*)|((?i)\\((array|int|integer|string|bool|boolean|object|float|double)\\))|((?i)\\?\\>)|((?i)0[xX][\\da-f]+)|((?i)\\$[a-z_]\\w*)|((?i)\\d\\d*|\\b0\\b)|((?i)0[0-7]+)|((?i)(\\d*\\.\\d+)|(\\d+\\.\\d*))|((?i)((\\d+|((\\d*\\.\\d+)|(\\d+\\.\\d*)))[eE][+-]?\\d+))/',
             2 => '/((?i)\\{)|((?i)\\()|((?i)\\[)|((?i)\\/\\*)|((?i)")|((?i)`)|((?mi)\\<\\<\\<[\\x20\\x09]*(\\w+)$)|((?i)\')|((?i)(#|\\/\\/))|((?i)[a-z_]\\w*)|((?i)\\((array|int|integer|string|bool|boolean|object|float|double)\\))|((?i)0[xX][\\da-f]+)|((?i)\\$[a-z_]\\w*)|((?i)\\d\\d*|\\b0\\b)|((?i)0[0-7]+)|((?i)(\\d*\\.\\d+)|(\\d+\\.\\d*))|((?i)((\\d+|((\\d*\\.\\d+)|(\\d+\\.\\d*)))[eE][+-]?\\d+))/',
@@ -62,7 +62,7 @@ class  Text_Highlighter_PHP extends Text_Highlighter
         $this->_counts = array (
             -1 => 
             array (
-                0 => 2,
+                0 => 1,
             ),
             0 => 
             array (

@@ -1,10 +1,10 @@
+
 <?php
 /**
- * Auto-generated class. CPP syntax highlighting
+ * Auto-generated class. AVRC syntax highlighting
  * 
  * 
- * Thanks to Aaron Kalin for initial
- * implementation of this highlighter
+ * 		C/C++ highlighter specific to Atmel AVR microcontrollers
  *      
  *
  * PHP version 4 and 5
@@ -20,27 +20,26 @@
  * @link       http://pear.php.net/package/Text_Highlighter
  * @category   Text
  * @package    Text_Highlighter
- * @version    generated from: : cpp.xml,v 1.1 2007/06/03 02:35:28 ssttoo Exp 
- * @author Aaron Kalin
+ * @version    generated from: avrc.xml
  * @author Andrey Demenev <demenev@gmail.com>
  *
  */
 
+
 /**
- * Auto-generated class. CPP syntax highlighting
+ * Auto-generated class. AVRC syntax highlighting
  *
- * @author Aaron Kalin
  * @author Andrey Demenev <demenev@gmail.com>
  * @category   Text
  * @package    Text_Highlighter
  * @copyright  2004-2006 Andrey Demenev
  * @license    http://www.php.net/license/3_0.txt  PHP License
- * @version    Release: 0.7.1
+ * @version    Release: 0.7.0
  * @link       http://pear.php.net/package/Text_Highlighter
  */
-class  Text_Highlighter_CPP extends Text_Highlighter
+class  Text_Highlighter_AVRC extends Text_Highlighter
 {
-    var $_language = 'cpp';
+    var $_language = 'avrc';
 
     /**
      *  Constructor
@@ -497,6 +496,7 @@ class  Text_Highlighter_CPP extends Text_Highlighter
                 4 => 
                 array (
                     'reserved' => '/^(and|and_eq|asm|bitand|bitor|break|case|catch|compl|const_cast|continue|default|delete|do|dynamic_cast|else|for|fortran|friend|goto|if|new|not|not_eq|operator|or|or_eq|private|protected|public|reinterpret_cast|return|sizeof|static_cast|switch|this|throw|try|typeid|using|while|xor|xor_eq|false|true)$/',
+                    'registers' => '/^(ACSR|ADCH|ADCL|ADCSRA|ADMUX|ASSR|DDRA|DDRB|DDRC|DDRD|DDRE|DDRF|DDRG|EEARH|EEARL|EECR|EEDR|EICRA|EICRB|EIFR|EIMSK|ETIFR|ETIMSK|GICR|GIFR|ICR1H|ICR1L|ICR3H|ICR3L|MCUCR|MCUCSR|OCDR|OCR0|OCR1AH|OCR1AL|OCR1BH|OCR1BL|OCR1CH|OCR1CL|OCR2|OCR3AH|OCR3AL|OCR3BH|OCR3BL|OCR3CH|OCR3CL|OSCCAL|PINA|PINB|PINC|PIND|PINE|PINF|PING|PORTA|PORTB|PORTC|PORTD|PORTE|PORTF|PORTG|RAMPZ|SFIOR|SPCR|SPDR|SPH|SPL|SPMCR|SPMCSR|SPSR|SREG|TCCR0|TCCR1A|TCCR1B|TCCR1C|TCCR2|TCCR3A|TCCR3B|TCCR3C|TCNT0|TCNT1H|TCNT1L|TCNT2|TCNT3H|TCNT3L|TIFR|TIMSK|TWAR|TWBR|TWCR|TWDR|TWSR|UBRR0H|UBRR0L|UBRR1H|UBRR1L|UBRRH|UBRRL|UCSR0A|UCSR0B|UCSR0C|UCSR1A|UCSR1B|UCSR1C|UCSRA|UCSRB|UCSRC|UDR|UDR0|UDR1|WDTCR|XDIV|XMCRA|XMCRB)$/',
                     'types' => '/^(auto|bool|char|class|const|double|enum|explicit|export|extern|float|inline|int|long|mutable|namespace|register|short|signed|static|struct|template|typedef|typename|union|unsigned|virtual|void|volatile|wchar_t)$/',
                     'Common Macros' => '/^(NULL|TRUE|FALSE|MAX|MIN|__LINE__|__DATA__|__FILE__|__TIME__|__STDC__)$/',
                 ),
@@ -535,6 +535,7 @@ class  Text_Highlighter_CPP extends Text_Highlighter
                 4 => 
                 array (
                     'reserved' => '/^(and|and_eq|asm|bitand|bitor|break|case|catch|compl|const_cast|continue|default|delete|do|dynamic_cast|else|for|fortran|friend|goto|if|new|not|not_eq|operator|or|or_eq|private|protected|public|reinterpret_cast|return|sizeof|static_cast|switch|this|throw|try|typeid|using|while|xor|xor_eq|false|true)$/',
+                    'registers' => '/^(ACSR|ADCH|ADCL|ADCSRA|ADMUX|ASSR|DDRA|DDRB|DDRC|DDRD|DDRE|DDRF|DDRG|EEARH|EEARL|EECR|EEDR|EICRA|EICRB|EIFR|EIMSK|ETIFR|ETIMSK|GICR|GIFR|ICR1H|ICR1L|ICR3H|ICR3L|MCUCR|MCUCSR|OCDR|OCR0|OCR1AH|OCR1AL|OCR1BH|OCR1BL|OCR1CH|OCR1CL|OCR2|OCR3AH|OCR3AL|OCR3BH|OCR3BL|OCR3CH|OCR3CL|OSCCAL|PINA|PINB|PINC|PIND|PINE|PINF|PING|PORTA|PORTB|PORTC|PORTD|PORTE|PORTF|PORTG|RAMPZ|SFIOR|SPCR|SPDR|SPH|SPL|SPMCR|SPMCSR|SPSR|SREG|TCCR0|TCCR1A|TCCR1B|TCCR1C|TCCR2|TCCR3A|TCCR3B|TCCR3C|TCNT0|TCNT1H|TCNT1L|TCNT2|TCNT3H|TCNT3L|TIFR|TIMSK|TWAR|TWBR|TWCR|TWDR|TWSR|UBRR0H|UBRR0L|UBRR1H|UBRR1L|UBRRH|UBRRL|UCSR0A|UCSR0B|UCSR0C|UCSR1A|UCSR1B|UCSR1C|UCSRA|UCSRB|UCSRC|UDR|UDR0|UDR1|WDTCR|XDIV|XMCRA|XMCRB)$/',
                     'types' => '/^(auto|bool|char|class|const|double|enum|explicit|export|extern|float|inline|int|long|mutable|namespace|register|short|signed|static|struct|template|typedef|typename|union|unsigned|virtual|void|volatile|wchar_t)$/',
                     'Common Macros' => '/^(NULL|TRUE|FALSE|MAX|MIN|__LINE__|__DATA__|__FILE__|__TIME__|__STDC__)$/',
                 ),
@@ -567,6 +568,7 @@ class  Text_Highlighter_CPP extends Text_Highlighter
                 4 => 
                 array (
                     'reserved' => '/^(and|and_eq|asm|bitand|bitor|break|case|catch|compl|const_cast|continue|default|delete|do|dynamic_cast|else|for|fortran|friend|goto|if|new|not|not_eq|operator|or|or_eq|private|protected|public|reinterpret_cast|return|sizeof|static_cast|switch|this|throw|try|typeid|using|while|xor|xor_eq|false|true)$/',
+                    'registers' => '/^(ACSR|ADCH|ADCL|ADCSRA|ADMUX|ASSR|DDRA|DDRB|DDRC|DDRD|DDRE|DDRF|DDRG|EEARH|EEARL|EECR|EEDR|EICRA|EICRB|EIFR|EIMSK|ETIFR|ETIMSK|GICR|GIFR|ICR1H|ICR1L|ICR3H|ICR3L|MCUCR|MCUCSR|OCDR|OCR0|OCR1AH|OCR1AL|OCR1BH|OCR1BL|OCR1CH|OCR1CL|OCR2|OCR3AH|OCR3AL|OCR3BH|OCR3BL|OCR3CH|OCR3CL|OSCCAL|PINA|PINB|PINC|PIND|PINE|PINF|PING|PORTA|PORTB|PORTC|PORTD|PORTE|PORTF|PORTG|RAMPZ|SFIOR|SPCR|SPDR|SPH|SPL|SPMCR|SPMCSR|SPSR|SREG|TCCR0|TCCR1A|TCCR1B|TCCR1C|TCCR2|TCCR3A|TCCR3B|TCCR3C|TCNT0|TCNT1H|TCNT1L|TCNT2|TCNT3H|TCNT3L|TIFR|TIMSK|TWAR|TWBR|TWCR|TWDR|TWSR|UBRR0H|UBRR0L|UBRR1H|UBRR1L|UBRRH|UBRRL|UCSR0A|UCSR0B|UCSR0C|UCSR1A|UCSR1B|UCSR1C|UCSRA|UCSRB|UCSRC|UDR|UDR0|UDR1|WDTCR|XDIV|XMCRA|XMCRB)$/',
                     'types' => '/^(auto|bool|char|class|const|double|enum|explicit|export|extern|float|inline|int|long|mutable|namespace|register|short|signed|static|struct|template|typedef|typename|union|unsigned|virtual|void|volatile|wchar_t)$/',
                     'Common Macros' => '/^(NULL|TRUE|FALSE|MAX|MIN|__LINE__|__DATA__|__FILE__|__TIME__|__STDC__)$/',
                 ),
@@ -599,6 +601,7 @@ class  Text_Highlighter_CPP extends Text_Highlighter
                 4 => 
                 array (
                     'reserved' => '/^(and|and_eq|asm|bitand|bitor|break|case|catch|compl|const_cast|continue|default|delete|do|dynamic_cast|else|for|fortran|friend|goto|if|new|not|not_eq|operator|or|or_eq|private|protected|public|reinterpret_cast|return|sizeof|static_cast|switch|this|throw|try|typeid|using|while|xor|xor_eq|false|true)$/',
+                    'registers' => '/^(ACSR|ADCH|ADCL|ADCSRA|ADMUX|ASSR|DDRA|DDRB|DDRC|DDRD|DDRE|DDRF|DDRG|EEARH|EEARL|EECR|EEDR|EICRA|EICRB|EIFR|EIMSK|ETIFR|ETIMSK|GICR|GIFR|ICR1H|ICR1L|ICR3H|ICR3L|MCUCR|MCUCSR|OCDR|OCR0|OCR1AH|OCR1AL|OCR1BH|OCR1BL|OCR1CH|OCR1CL|OCR2|OCR3AH|OCR3AL|OCR3BH|OCR3BL|OCR3CH|OCR3CL|OSCCAL|PINA|PINB|PINC|PIND|PINE|PINF|PING|PORTA|PORTB|PORTC|PORTD|PORTE|PORTF|PORTG|RAMPZ|SFIOR|SPCR|SPDR|SPH|SPL|SPMCR|SPMCSR|SPSR|SREG|TCCR0|TCCR1A|TCCR1B|TCCR1C|TCCR2|TCCR3A|TCCR3B|TCCR3C|TCNT0|TCNT1H|TCNT1L|TCNT2|TCNT3H|TCNT3L|TIFR|TIMSK|TWAR|TWBR|TWCR|TWDR|TWSR|UBRR0H|UBRR0L|UBRR1H|UBRR1L|UBRRH|UBRRL|UCSR0A|UCSR0B|UCSR0C|UCSR1A|UCSR1B|UCSR1C|UCSRA|UCSRB|UCSRC|UDR|UDR0|UDR1|WDTCR|XDIV|XMCRA|XMCRB)$/',
                     'types' => '/^(auto|bool|char|class|const|double|enum|explicit|export|extern|float|inline|int|long|mutable|namespace|register|short|signed|static|struct|template|typedef|typename|union|unsigned|virtual|void|volatile|wchar_t)$/',
                     'Common Macros' => '/^(NULL|TRUE|FALSE|MAX|MIN|__LINE__|__DATA__|__FILE__|__TIME__|__STDC__)$/',
                 ),
@@ -638,6 +641,7 @@ class  Text_Highlighter_CPP extends Text_Highlighter
                 3 => 
                 array (
                     'reserved' => '/^(and|and_eq|asm|bitand|bitor|break|case|catch|compl|const_cast|continue|default|delete|do|dynamic_cast|else|for|fortran|friend|goto|if|new|not|not_eq|operator|or|or_eq|private|protected|public|reinterpret_cast|return|sizeof|static_cast|switch|this|throw|try|typeid|using|while|xor|xor_eq|false|true)$/',
+                    'registers' => '/^(ACSR|ADCH|ADCL|ADCSRA|ADMUX|ASSR|DDRA|DDRB|DDRC|DDRD|DDRE|DDRF|DDRG|EEARH|EEARL|EECR|EEDR|EICRA|EICRB|EIFR|EIMSK|ETIFR|ETIMSK|GICR|GIFR|ICR1H|ICR1L|ICR3H|ICR3L|MCUCR|MCUCSR|OCDR|OCR0|OCR1AH|OCR1AL|OCR1BH|OCR1BL|OCR1CH|OCR1CL|OCR2|OCR3AH|OCR3AL|OCR3BH|OCR3BL|OCR3CH|OCR3CL|OSCCAL|PINA|PINB|PINC|PIND|PINE|PINF|PING|PORTA|PORTB|PORTC|PORTD|PORTE|PORTF|PORTG|RAMPZ|SFIOR|SPCR|SPDR|SPH|SPL|SPMCR|SPMCSR|SPSR|SREG|TCCR0|TCCR1A|TCCR1B|TCCR1C|TCCR2|TCCR3A|TCCR3B|TCCR3C|TCNT0|TCNT1H|TCNT1L|TCNT2|TCNT3H|TCNT3L|TIFR|TIMSK|TWAR|TWBR|TWCR|TWDR|TWSR|UBRR0H|UBRR0L|UBRR1H|UBRR1L|UBRRH|UBRRL|UCSR0A|UCSR0B|UCSR0C|UCSR1A|UCSR1B|UCSR1C|UCSRA|UCSRB|UCSRC|UDR|UDR0|UDR1|WDTCR|XDIV|XMCRA|XMCRB)$/',
                     'types' => '/^(auto|bool|char|class|const|double|enum|explicit|export|extern|float|inline|int|long|mutable|namespace|register|short|signed|static|struct|template|typedef|typename|union|unsigned|virtual|void|volatile|wchar_t)$/',
                     'Common Macros' => '/^(NULL|TRUE|FALSE|MAX|MIN|__LINE__|__DATA__|__FILE__|__TIME__|__STDC__)$/',
                 ),
@@ -862,6 +866,7 @@ class  Text_Highlighter_CPP extends Text_Highlighter
         );
         $this->_kwmap = array (
             'reserved' => 'reserved',
+            'registers' => 'reserved',
             'types' => 'types',
             'Common Macros' => 'prepro',
         );
