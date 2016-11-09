@@ -12,7 +12,8 @@ Version 1.1.18 under development
 - Bug #4061: Fixed "Fatal Error: Nesting level too deep - recursive dependency" error in `CArrayDataProvider` (kf99916, andrewnester)
 - Bug #4069: Fixed error with `eCRedisCache::executeCommand()` when the previous connection timeout exception was catched (taobig)
 - Chg #4103: Updated HTMLPurifier to version 4.8.0 (samdark)
-- Chg: Updated TextHighlighter to version 0.7.3 (samdark)
+- Chg: Updated Text_Highlighter to version 0.7.3 (samdark)
+- Bug #4104: Fixed PHP 7 compatibiltiy in Text_Highlighter (samdark)
 
 Version 1.1.17 January 13, 2016
 ------------------------------

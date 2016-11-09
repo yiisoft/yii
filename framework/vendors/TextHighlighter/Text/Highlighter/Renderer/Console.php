@@ -176,12 +176,17 @@ class Text_Highlighter_Renderer_Console extends Text_Highlighter_Renderer
     function finalize()
     {
         if ($this->_numbers) {
-            $nlines = substr_count($this->_output, "\n") + 1;
-            $len = strlen($nlines);
-            $i = 1;
-            $this->_output = preg_replace('~^~em', '" " . str_pad($i++, $len, " ", STR_PAD_LEFT) . ": "', $this->_output);
+            $this->_output = preg_replace_callback('~^~m', array($this, 'replaceCallback'), $this->_output);
         }
         $this->_output .= HL_CONSOLE_DEFCOLOR . "\n";
+    }
+
+    function replaceCallback()
+    {
+        $nlines = substr_count($this->_output, "\n") + 1;
+        $len = strlen($nlines);
+        $i = 1;
+        return " " . str_pad($i++, $len, " ", STR_PAD_LEFT) . ": ";
     }
 
     /**
