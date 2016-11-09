@@ -11,6 +11,7 @@ Version 1.1.18 under development
 - Bug #4034: Fixed `CHttpSession::getIsStarted()` PHP 7 compatibility (tomotomo)
 - Bug #4061: Fixed "Fatal Error: Nesting level too deep - recursive dependency" error in `CArrayDataProvider` (kf99916, andrewnester)
 - Bug #4069: Fixed error with `eCRedisCache::executeCommand()` when the previous connection timeout exception was catched (taobig)
+- Chg #4103: Updated HTMLPurifier to version 4.8.0 (samdark)
 
 Version 1.1.17 January 13, 2016
 ------------------------------
