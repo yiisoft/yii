@@ -28,6 +28,7 @@ matrix:
         - postgresql
         - redis-server
   allow_failures:
+    - php: 7.1
     - php: nightly
     - php: hhvm # run build against hhvm but allow them to fail
 # http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
