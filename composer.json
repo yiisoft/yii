@@ -67,6 +67,13 @@
 	"bin": [
 		"framework/yiic"
 	],
+	"archive": [
+		"exclude": [
+			"demos",
+			"requirements",
+			"framework/yiilite.php"
+		]
+	],
 	"require": {
 		"php": ">=5.1.0"
 	},
