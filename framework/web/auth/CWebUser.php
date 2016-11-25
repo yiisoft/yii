@@ -539,6 +539,11 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
+     * Generate session key prefix based on Yii Application deployed path {@link CApplication getId}
+     * <ol>
+     * <li>It will cause problem that application can't get session data when applications are deployed with different path in cluster environment and using shared session storage like redis.
+     * </li>
+     * <ol>
 	 * @return string a prefix for the name of the session variables storing user session data.
 	 */
 	public function getStateKeyPrefix()
