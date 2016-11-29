@@ -54,6 +54,7 @@ Version 1.1.17 January 13, 2016
 - Enh #3998: Improved PHP 7 compatibility for CTimestampBehavior and CChoiceFormat, and for Travis CI (softark)
 - Enh: CApcCache is now able to handle PHP 7 APCu (samdark)
 - Chg #3776: Autoloader now doesn't error in case of non-existing namespaced classes so other autoloaders have chance to handle these (alexandernst)
+- Enh: Improved PHP 7 compatibility for CTimestampBehavior and CChoiceFormat, and for Travis CI (softark)
 
 Version 1.1.16 December 21, 2014
 --------------------------------
