@@ -2,7 +2,7 @@
 
 if (php --version | grep -i HipHop > /dev/null); then
   echo "skipping memcache on HHVM"
-elif [ $(phpenv version-name) = "7.0" ]; then
+elif [ $(phpenv version-name) = 7.* ]; then
   echo "skipping memcache on php 7"
 else
   mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc
