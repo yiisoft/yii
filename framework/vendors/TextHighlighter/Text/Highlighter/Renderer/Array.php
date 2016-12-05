@@ -142,7 +142,9 @@ class Text_Highlighter_Renderer_Array extends Text_Highlighter_Renderer
      */
     function acceptToken($class, $content)
     {
-
+        if (!is_array($this->_output)) {
+            $this->_output = array();
+        }
 
         $theClass = $this->_getFullClassName($class);
         if ($this->_htmlspecialchars) {
