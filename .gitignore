@@ -63,3 +63,6 @@ Desktop.ini
 .*.sw[a-z]
 *.un~
 Session.vim
+
+/composer.lock
+/vendor
