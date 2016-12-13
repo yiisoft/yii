@@ -47,6 +47,8 @@ install:
   - travis_retry composer update --prefer-dist --no-interaction
 
 before_script:
+  # Disable the HHVM JIT for faster Unit Testing
+  - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo 'hhvm.jit = 0' >> /etc/hhvm/php.ini; fi
   - ./tests/travis/mysql-setup.sh
   - ./tests/travis/postgresql-setup.sh
   - ./tests/travis/memcache-setup.sh
