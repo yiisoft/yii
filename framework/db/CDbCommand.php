@@ -195,6 +195,30 @@ class CDbCommand extends CComponent
 	}
 
 	/**
+	 * @param PDOStatement $value
+	 */
+	public function setPdoStatement(PDOStatement $value)
+	{
+		$this->_statement = $value;
+	}
+
+	/**
+	* @return array Current bind params
+	*/
+	public function getParamLog()
+	{
+		return $this->_paramLog;
+	}
+
+	/**
+	 * @param array $value
+	 */
+	public function setParamLog(array $value)
+	{
+		$this->_paramLog = $value;
+	}
+
+	/**
 	 * Prepares the SQL statement to be executed.
 	 * For complex SQL statement that is to be executed multiple times,
 	 * this may improve performance.
