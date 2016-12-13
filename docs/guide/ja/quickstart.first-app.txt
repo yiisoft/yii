@@ -1,31 +1,31 @@
-初めての Yii アプリケーションの作成
+初めての Yee アプリケーションの作成
 ==============================
 
-Yii で最初の経験を積んでもらうために、この章では初めての Yii アプリケーションの作成方法を説明します。
-新しい Yii アプリケーションを作成するために `yiic` (コマンドラインツール) を使用し、
+Yee で最初の経験を積んでもらうために、この章では初めての Yee アプリケーションの作成方法を説明します。
+新しい Yee アプリケーションを作成するために `yeec` (コマンドラインツール) を使用し、
 いくつかのタスクについてコード生成を自動化するために `Gii` (強力なウェブベースのコードジェネレータ)
-を使用します。便宜上、`YiiRoot` は Yii をインストールしたディレクトリと仮定し、`WebRoot`
+を使用します。便宜上、`YeeRoot` は Yee をインストールしたディレクトリと仮定し、`WebRoot`
 はウェブサーバのドキュメントルートであるとします。
 
-コマンドラインから `yiic` を次のように実行します。
+コマンドラインから `yeec` を次のように実行します。
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|注意: `yiic` を Mac OS, Linux, Unix で動かす場合には、`yiic` ファイルのパーミッションを
+> Note|注意: `yeec` を Mac OS, Linux, Unix で動かす場合には、`yeec` ファイルのパーミッションを
 > 変更して、実行可能にする必要があるかもしれません。
 > あるいは、別の方法として、以下のようにしてツールを起動しても良いでしょう。
 > ~~~
 > % cd WebRoot
-> % php YiiRoot/framework/yiic.php webapp testdrive
+> % php YeeRoot/framework/yeec.php webapp testdrive
 > ~~~
 
-これを実行すると `WebRoot/testdrive` の下にスケルトンの Yii アプリケーションが作成されます。
-このアプリケーションは、ほとんどの Yii アプリケーションで必要になるディレクトリ構造を持っています。
+これを実行すると `WebRoot/testdrive` の下にスケルトンの Yee アプリケーションが作成されます。
+このアプリケーションは、ほとんどの Yee アプリケーションで必要になるディレクトリ構造を持っています。
 
 
-コードを一行も書かなくても、ウェブブラウザで以下のURLをアクセスすることで、初めての Yii アプリケーションをテストすることができます。
+コードを一行も書かなくても、ウェブブラウザで以下のURLをアクセスすることで、初めての Yee アプリケーションをテストすることができます。
 ~~~
 http://hostname/testdrive/index.php
 ~~~
@@ -58,11 +58,11 @@ testdrive/
    images/                   イメージファイルを含む
    themes/                   アプリケーションテーマを含む
    protected/                保護されたアプリケーションファイルを含む
-      yiic                   Unix/Linux 用 yiic コマンドラインスクリプト
-      yiic.bat               ウインドウズ用 yiic コマンドラインスクリプト
-      yiic.php               yiic コマンドライン PHP スクリプト
-      commands/              カスタム化した 'yiic' コマンドを含む
-         shell/              カスタム化した 'yiic shell' コマンドを含む
+      yeec                   Unix/Linux 用 yeec コマンドラインスクリプト
+      yeec.bat               ウインドウズ用 yeec コマンドラインスクリプト
+      yeec.php               yeec コマンドライン PHP スクリプト
+      commands/              カスタム化した 'yeec' コマンドを含む
+         shell/              カスタム化した 'yeec shell' コマンドを含む
       components/            再利用可能なユーザコンポーネントを含む
          Controller.php      全てのコントローラクラスの基本クラス
          UserIdentity.php    認証のための 'UserIdentity' クラス
@@ -102,7 +102,7 @@ testdrive/
 および `.gitkeep` (初期状態が空っぽではあるけれども重要なディレクトリを強制的にバージョン管理下に置きます) を生成します。
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive git
+% YeeRoot/framework/yeec webapp WebRoot/testdrive git
 ~~~
 
 サポートされているもう一つの VCS は Mercurial です。Mercurial を使用している場合は、
@@ -129,7 +129,7 @@ return array(
 );
 ~~~
 
-上記のコードは Yii に対して、アプリケーションは必要に応じて SQLite データベース `WebRoot/testdrive/protected/data/testdrive.db`
+上記のコードは Yee に対して、アプリケーションは必要に応じて SQLite データベース `WebRoot/testdrive/protected/data/testdrive.db`
 に接続すべきことを指示しています。この SQLite データベースは、作成したばかりのスケルトンアプリケーションに既に含まれていることに留意して下さい。
 このデータベースには、一つだけ、下記のような `tbl_user` という名前のテーブルが含まれています。
 
@@ -147,7 +147,7 @@ CREATE TABLE tbl_user (
 代りに MySQL のデータベースを試したい場合は、付属している MySQL のスキーマファイル `WebRoot/testdrive/protected/data/schema.mysql.sql`
 を使ってデータベースを作成することが出来ます。
 
-> Note|注意: Yii のデータベース機能を使うためには PHP PDO 拡張とドライバ固有の PDO 拡張を有効にする必要があります。
+> Note|注意: Yee のデータベース機能を使うためには PHP PDO 拡張とドライバ固有の PDO 拡張を有効にする必要があります。
 この test-drive アプリケーションでは `php_pdo` と `php_pdo_sqlite` 拡張が有効になっている必要があります。
 
 
@@ -158,7 +158,7 @@ CRUD 操作の実装
 CRUD 操作 (Create 作成、Read 読み出し、Update 修正、Delete 削除) を今作成したばかりの `tbl_user` テーブルに対して実装します。
 これは実際のアプリケーションでも共通に必要となる機能です。実際にコードを書く苦労をする代りに、強力なウェブベースのコードジェネレータを使用します -- すなわち `Gii` を使います。
 
-> Info|情報: Gii はバージョン 1.1.2 以降で使用出来ます。それより前のバージョンでは、同じ目的を達するために、既に述べた `yiic` ツールを使うことが出来ました。詳細については、[コマンドラインツールを使用するコード生成](/doc/guide/quickstart.first-app-yiic) を参照して下さい。.
+> Info|情報: Gii はバージョン 1.1.2 以降で使用出来ます。それより前のバージョンでは、同じ目的を達するために、既に述べた `yeec` ツールを使うことが出来ました。詳細については、[コマンドラインツールを使用するコード生成](/doc/guide/quickstart.first-app-yeec) を参照して下さい。.
 
 ### Gii を構成する
 

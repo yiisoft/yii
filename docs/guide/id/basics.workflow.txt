@@ -1,13 +1,13 @@
 Alur Kerja Pengembangan
 =======================
 
-Setelah menjelaskan konsep fundamental Yii, kita akan melihat alur kerja
-umum untuk pengembangan aplikasi web menggunakan Yii. Diasumsikan
+Setelah menjelaskan konsep fundamental Yee, kita akan melihat alur kerja
+umum untuk pengembangan aplikasi web menggunakan Yee. Diasumsikan
 bahwa kita sudah menyelesaikan analisis persyaratan 
 dan juga analisis desain aplikasi.
 
-   1. Membuat kerangka struktur direktori. Tool bernama `yiic` yang dijelaskan dalam
-[Membuat Aplikasi Pertama Yii](/doc/guide/quickstart.first-app) dapat
+   1. Membuat kerangka struktur direktori. Tool bernama `yeec` yang dijelaskan dalam
+[Membuat Aplikasi Pertama Yee](/doc/guide/quickstart.first-app) dapat
 dipakai untuk mempercepat langkah ini.
 
    2. Mengkonfigurasi [aplikasi](/doc/guide/basics.application). Ini dilakukan
@@ -16,7 +16,7 @@ memerlukan penulisan beberapa komponen aplikasi (misalnya komponen pengguna).
 
    3. Membuat sebuah kelas [model](/doc/guide/basics.model) untuk setiap tipe data
 yang diatur. Tool `Gii` yang dijelaskan di
-[Membuat Aplikasi Yii Pertama](/doc/guide/quickstart.first-app#implementing-crud-operations)
+[Membuat Aplikasi Yee Pertama](/doc/guide/quickstart.first-app#implementing-crud-operations)
 dan di [Pembuat Code Otomatis]](/doc/guide/topics.gii) dapat digunakan
 untuk men-generate code kelas [active record](/doc/guide/database.ar) secara otomatis
 untuk setiap tabel database.

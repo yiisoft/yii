@@ -7,9 +7,9 @@ la création des formulaires, les développeurs doivent aussi les remplir
 avec les données existantes ou les valeurs par défaut, valider la saisie
 faite par les utilisateurs, afficher les messages d'erreurs appropriés
 pour les entrées invalides, et sauver les entrées de manière persistante.
-Yii simplifie grandement ce processus grâce à l'architecture MVC.
+Yee simplifie grandement ce processus grâce à l'architecture MVC.
 
-Voici les étapes classiques à suivre pour gérer les formulaires sous Yii:
+Voici les étapes classiques à suivre pour gérer les formulaires sous Yee:
 
    1. Créer la classe du modèle représentant les champs des données à collecter;
    1. Créer l'action dans le controlleur avec du code traitant la soumission du formulaire.

@@ -20,7 +20,7 @@ public function action<?php echo $actionName; ?>()
     if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($modelClass); ?>-form')
     {
         echo CActiveForm::validate($model);
-        Yii::app()->end();
+        Yee::app()->end();
     }
     */
 

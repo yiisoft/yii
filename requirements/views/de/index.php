@@ -4,21 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Yii Anforderungs-Tester</title>
+<title>Yee Anforderungs-Tester</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Yii Anforderungs-Tester</h1>
+<h1>Yee Anforderungs-Tester</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Beschreibung</h2>
 <p>
 Dieses Script ermittelt, ob Ihre Serverkonfiguration die Anforderungen zum
-Ausführen von <a href="http://www.yiiframework.com/">Yii</a> Webanwendungen
+Ausführen von <a href="http://www.yeeframework.com/">Yee</a> Webanwendungen
 erfüllt.
 Es prüft auf die korrekte PHP Version, ob die benötigten Erweiterungen
 geladen wurden und ob die Einstellungen in der php.ini korrekt sind
@@ -27,11 +27,11 @@ geladen wurden und ob die Einstellungen in der php.ini korrekt sind
 <h2>Zusammenfassung</h2>
 <p>
 <?php if($result>0): ?>
-Gratulation! Ihr Server erfüllt alle Anforderungen von Yii.
+Gratulation! Ihr Server erfüllt alle Anforderungen von Yee.
 <?php elseif($result<0): ?>
-Ihr Server erfüllt die minimalen Anforderungen von Yii. Bitte beachten Sie die untenstehenden Warnungen, wenn Ihre Anwendungen einige dieser Features verwenden sollen.
+Ihr Server erfüllt die minimalen Anforderungen von Yee. Bitte beachten Sie die untenstehenden Warnungen, wenn Ihre Anwendungen einige dieser Features verwenden sollen.
  <?php else: ?>
-Unglücklicherweise erfüllt Ihr Server die Anforderungen von Yii nicht.
+Unglücklicherweise erfüllt Ihr Server die Anforderungen von Yee nicht.
 <?php endif; ?>
 </p>
 

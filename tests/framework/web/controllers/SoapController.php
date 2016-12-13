@@ -58,7 +58,7 @@ class SoapController extends CController implements IWebServiceProvider
    			/**
     		* @var CHttpRequest
     		*/
-    		$request = Yii::app()->request;
+    		$request = Yee::app()->request;
     		$url = $request->getHostInfo() . $request->getUrl();
     		Log::write('['.$user.'] => ['.$action.'] Granted access via ['.$url.']', self::LOGNAME);
     		return true;
@@ -74,7 +74,7 @@ class SoapController extends CController implements IWebServiceProvider
 	* @soap
 	*/
 	public function connect(){
-    	$request = Yii::app()->request;
+    	$request = Yee::app()->request;
     	$url = $request->getHostInfo() . $request->getUrl();
    		Log::write( '['.__FUNCTION__.'] OK - Connection succesfull via ['.$url.']', self::LOGNAME);
 		return 'OK - connection succesfull at ['.date('d.m.Y H:i:s').']';

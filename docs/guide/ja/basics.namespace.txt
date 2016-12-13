@@ -1,7 +1,7 @@
 パスエイリアスと名前空間
 ========================
 
-Yii は広範囲に渡ってパスエイリアスを使用しています。
+Yee は広範囲に渡ってパスエイリアスを使用しています。
 パスエイリアスは、ディレクトリまたはファイルパスと関連付けられます。
 これは、広く採用されている名前空間の形式と同じように、ドットシンタックスで指定されます:
 
@@ -12,17 +12,17 @@ RootAlias.path.to.target
 `RootAlias` の部分は既存の何らかのディレクトリに対するエイリアスです。
 
 
-[YiiBase::getPathOfAlias()] を使うことより、エイリアスは対応するパスへ変換されます。
-例えば、`system.web.CController` は `yii/framework/web/CController` のように変換されます。
+[YeeBase::getPathOfAlias()] を使うことより、エイリアスは対応するパスへ変換されます。
+例えば、`system.web.CController` は `yee/framework/web/CController` のように変換されます。
 
-また、[YiiBase::setPathOfAlias()] を用いて、新しいルートパスエイリアスを定義することもできます。
+また、[YeeBase::setPathOfAlias()] を用いて、新しいルートパスエイリアスを定義することもできます。
 
 ルートエイリアス
 ----------------
 
-便宜上、Yii は以下のルートエイリアスをあらかじめ定義しています。
+便宜上、Yee は以下のルートエイリアスをあらかじめ定義しています。
 
- - `system`: Yii の framework ディレクトリを参照します。
+ - `system`: Yee の framework ディレクトリを参照します。
  - `zii`: [Zii ライブラリ](/doc/guide/extension.use#sec-2) のディレクトリを参照します。
  - `application`: アプリケーションの [ベースディレクトリ](/doc/guide/basics.application#sec-3) を参照します。
  - `webroot`: [エントリスクリプト](/doc/guide/basics.entry) ファイルを含むディレクトリを参照します。
@@ -40,28 +40,28 @@ RootAlias.path.to.target
 
 ~~~
 [php]
-Yii::import('system.web.CController');
+Yee::import('system.web.CController');
 ~~~
 
-[import|YiiBase::import] メソッドはより効率的であるという点で `include` や `require` とは違います。
+[import|YeeBase::import] メソッドはより効率的であるという点で `include` や `require` とは違います。
 インポートされるクラスの定義は、厳密には、それが始めて参照されるときまでインクルードされません (PHP のオートローディング機構によって実装されています)。
 同じ名前空間を何度もインポートする場合においても、`include_onde` や `require_once` よりも断然速いです。
 ディレクトリをインポートする場合について、その下位ディレクトリはどれもインポートされないという点に注意して下さい。
 
-> Tip|ヒント: Yii フレームワークで定義されたクラスを参照する場合、インポートやインクルードを行う必要はありません。
-Yii の全てのコアクラスは、あらかじめインポートされています。
+> Tip|ヒント: Yee フレームワークで定義されたクラスを参照する場合、インポートやインクルードを行う必要はありません。
+Yee の全てのコアクラスは、あらかじめインポートされています。
 
 ###クラスマップを使う
 
-バージョン 1.1.5 からは、Yii コアクラスに使用されているクラスマッピング機構を、ユーザクラスをプリインポートするために使用可能になりました。
-プリインポートされたクラスは Yii アプリケーションのどこでも、明示的にインポートまたはインクルードせずに使用可能です。
-この機能は Yii の上に構築するフレームワークやライブラリにとって最も有用です。
+バージョン 1.1.5 からは、Yee コアクラスに使用されているクラスマッピング機構を、ユーザクラスをプリインポートするために使用可能になりました。
+プリインポートされたクラスは Yee アプリケーションのどこでも、明示的にインポートまたはインクルードせずに使用可能です。
+この機能は Yee の上に構築するフレームワークやライブラリにとって最も有用です。
 
 クラスをプリインポートするには、[CWebApplication::run()] が起動されるまえに以下のコードを実行する必要があります。
 
 ~~~
 [php]
-Yii::$classMap=array(
+Yee::$classMap=array(
 	'ClassName1' => 'path/to/ClassName1.php',
 	'ClassName2' => 'path/to/ClassName2.php',
 	......
@@ -76,11 +76,11 @@ Yii::$classMap=array(
 
 ~~~
 [php]
-Yii::import('system.web.*');
+Yee::import('system.web.*');
 ~~~
 
-[import|YiiBase::import] の他にも、エイリアスはクラスを参照するために、様々な箇所で使用されます。
-例えば、クラスファイルが前もってインクルードされていない場合でも、エイリアスを [Yii::createComponent()] に渡せば対応するクラスのインスタンスを生成することが出来ます。
+[import|YeeBase::import] の他にも、エイリアスはクラスを参照するために、様々な箇所で使用されます。
+例えば、クラスファイルが前もってインクルードされていない場合でも、エイリアスを [Yee::createComponent()] に渡せば対応するクラスのインスタンスを生成することが出来ます。
 
 名前空間
 --------
@@ -93,9 +93,9 @@ Yii::import('system.web.*');
 
 > Tip|ヒント: PHP 5.3.0 よりも以前のバージョンでは、名前空間のサポートが本質的にありませんので、
 同じ名前で定義が異なる二つのクラスのインスタンスを同時に作成することは出来ません。
-この理由によって、全ての Yii フレームワークのクラスは、前置詞として 'C' ('class' を意味します) を付けて、
+この理由によって、全ての Yee フレームワークのクラスは、前置詞として 'C' ('class' を意味します) を付けて、
 ユーザ定義のクラスと識別できるようにしています。
-前置詞 'C' は Yii フレームワークの使用のためだけにリザーブしておき、ユーザ定義のクラスの前置詞には別の文字列を使用することが推奨されます。
+前置詞 'C' は Yee フレームワークの使用のためだけにリザーブしておき、ユーザ定義のクラスの前置詞には別の文字列を使用することが推奨されます。
 
 名前空間化クラス
 ----------------
@@ -105,7 +105,7 @@ Yii::import('system.web.*');
 名前空間化クラスには PHP 5.3.0 以上が必要です。
 
 バージョン 1.1.5 からは名前空間化クラスを明示的にインクルードせずに使用することが可能になりました。
-例えば、`application\components\GoogleMap` の新しいインスタンスを作成するのに、対応するクラスファイルを明示的にインクルードしなくても良くなりました。このことは Yii の自動クラスロード機構の拡張によって可能になりました。
+例えば、`application\components\GoogleMap` の新しいインスタンスを作成するのに、対応するクラスファイルを明示的にインクルードしなくても良くなりました。このことは Yee の自動クラスロード機構の拡張によって可能になりました。
 
 名前空間化クラスを自動ロードするためには、名前空間はパスエイリアスと同じ方法で名前付けをされている必要があります。
 例えば `application\components\GoogleMap` は `application.components.GoogleMap` としてエイリアスされるファイルに格納される必要があります。
@@ -114,14 +114,14 @@ Yii::import('system.web.*');
 
 ~~~
 [php]
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 ~~~
 
 
 名前空間化コントローラ
 ----------------------
 
-デフォルトでは、Yii はグローバル名前空間にあるコントローラを使用します。
+デフォルトでは、Yee はグローバル名前空間にあるコントローラを使用します。
 これらのクラスは `protected/controllers` に配置されています。
 この挙動は二つの異なる方法で変更することが出来ます。
 `controllerMap` プロパティを使う方法と `controllerNamespace` プロパティを使う方法です。
@@ -135,7 +135,7 @@ Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 ~~~
 [php]
 // "mynamespace" 名前空間を追加
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
@@ -146,8 +146,8 @@ return array(
 	),
 ~~~
 
-ユーザが `controllerMap` に定義されているコントローラのどれかをロードしようとすると Yii はコントローラをロードする通常の方法をバイパスして、指定されたクラスをロードします。
-すなわち、`test` コントローラの場合、Yii は `/var/www/common/mynamespace/controllers/TestController.php` に配置されている名前空間化クラス `\mynamespace\controllers\TestController` をロードします。
+ユーザが `controllerMap` に定義されているコントローラのどれかをロードしようとすると Yee はコントローラをロードする通常の方法をバイパスして、指定されたクラスをロードします。
+すなわち、`test` コントローラの場合、Yee は `/var/www/common/mynamespace/controllers/TestController.php` に配置されている名前空間化クラス `\mynamespace\controllers\TestController` をロードします。
 
 コントローラのコードは正しく名前空間化されていなければならないことに気を付けて下さい。
 
@@ -236,7 +236,7 @@ class DefaultController extends \Controller
 ~~~
 [php]
 // "mynamespace" 名前空間を追加
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',

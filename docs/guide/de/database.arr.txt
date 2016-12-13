@@ -432,8 +432,8 @@ zusätzliche Zeit für das Analysieren und Ausführen einzelner SQL-Abfragen ben
 Andererseits führt ein großer SQL-Ausdruck zu mehr redundanten Daten und 
 benötigt daher mehr Zeit diese zu übertragen und zu verarbeiten.
 
-Um je nach Bedarf zwischen beiden Varianten wählen zu können, bietet Yii die
-`together`-Option. Standardmäßig verwendet Yii `eager loading`, generiert also
+Um je nach Bedarf zwischen beiden Varianten wählen zu können, bietet Yee die
+`together`-Option. Standardmäßig verwendet Yee `eager loading`, generiert also
 einen einzelnen SQL-Ausdruck. Es sei denn, das Haupt-Model wurde per `LIMIT`
 begrenzt. Wird die `together`-Option bei der Definition einer Beziehung
 auf `true` gesetzt, wird ein einzelner SQL-Ausdruck erzwungen, selbst wenn
@@ -463,7 +463,7 @@ $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findA
 Statistische Abfragen
 ---------------------
 
-Neben den oben beschriebenen relationalen Abfragen unterstützt Yii auch sogenannte
+Neben den oben beschriebenen relationalen Abfragen unterstützt Yee auch sogenannte
 statistische (auch: aggregierte) Abfragen. Damit können statistische
 Informationen über verknüpfte Objekte abgefragt werden, wie
 z.B. die Anzahl von Kommentaren zu einem Beitrag, die durchschnittliche

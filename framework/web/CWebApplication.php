@@ -3,9 +3,9 @@
  * CWebApplication class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -71,9 +71,9 @@ class CWebApplication extends CApplication
 	 * Each name-value pair specifies the configuration for a single controller.
 	 * A controller configuration can be either a string or an array.
 	 * If the former, the string should be the class name or
-	 * {@link YiiBase::getPathOfAlias class path alias} of the controller.
+	 * {@link YeeBase::getPathOfAlias class path alias} of the controller.
 	 * If the latter, the array must contain a 'class' element which specifies
-	 * the controller's class name or {@link YiiBase::getPathOfAlias class path alias}.
+	 * the controller's class name or {@link YeeBase::getPathOfAlias class path alias}.
 	 * The rest name-value pairs in the array are used to initialize
 	 * the corresponding controller properties. For example,
 	 * <pre>
@@ -283,7 +283,7 @@ class CWebApplication extends CApplication
 			$this->_controller=$oldController;
 		}
 		else
-			throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+			throw new CHttpException(404,Yee::t('yee','Unable to resolve the request "{route}".',
 				array('{route}'=>$route===''?$this->defaultController:$route)));
 	}
 
@@ -329,7 +329,7 @@ class CWebApplication extends CApplication
 				if(isset($owner->controllerMap[$id]))
 				{
 					return array(
-						Yii::createComponent($owner->controllerMap[$id],$id,$owner===$this?null:$owner),
+						Yee::createComponent($owner->controllerMap[$id],$id,$owner===$this?null:$owner),
 						$this->parseActionParams($route),
 					);
 				}
@@ -419,7 +419,7 @@ class CWebApplication extends CApplication
 	public function setControllerPath($value)
 	{
 		if(($this->_controllerPath=realpath($value))===false || !is_dir($this->_controllerPath))
-			throw new CException(Yii::t('yii','The controller path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The controller path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 
@@ -441,7 +441,7 @@ class CWebApplication extends CApplication
 	public function setViewPath($path)
 	{
 		if(($this->_viewPath=realpath($path))===false || !is_dir($this->_viewPath))
-			throw new CException(Yii::t('yii','The view path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The view path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -463,7 +463,7 @@ class CWebApplication extends CApplication
 	public function setSystemViewPath($path)
 	{
 		if(($this->_systemViewPath=realpath($path))===false || !is_dir($this->_systemViewPath))
-			throw new CException(Yii::t('yii','The system view path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The system view path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -485,7 +485,7 @@ class CWebApplication extends CApplication
 	public function setLayoutPath($path)
 	{
 		if(($this->_layoutPath=realpath($path))===false || !is_dir($this->_layoutPath))
-			throw new CException(Yii::t('yii','The layout path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The layout path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 

@@ -8,22 +8,22 @@ alte parti. In MVC, modelul contine informatiile (datele) si regulile business;
 view contine elemente din interfata utilizator (texte, input-uri ale formularelor etc);
 controller-ul genstioneaza comunicatia dintre model si view.
 
-In afara de MVC, Yii introduce un front-controller, cu numele application,
+In afara de MVC, Yee introduce un front-controller, cu numele application,
 care reprezinta contextul in care se executa procesarea cererii client. Application
 rezolva cererea utilizator si o trimite mai departe controller-ului corespunzator care
 va trata efectiv cererea.
 
-urmatoarea diagrama arata structura statica a unei aplicatii Yii:
+urmatoarea diagrama arata structura statica a unei aplicatii Yee:
 
-![Structura statica a aplicatiei Yii](structure.png)
+![Structura statica a aplicatiei Yee](structure.png)
 
 
 Fluxul tipic
 ------------
-Urmatoarea diagrama arata fluxul tipic de lucru al unei aplicatii Yii atunci cand trateaza
+Urmatoarea diagrama arata fluxul tipic de lucru al unei aplicatii Yee atunci cand trateaza
 o cerere client:
 
-![Fluxul tipic al aplicatiei Yii](flow.png)
+![Fluxul tipic al aplicatiei Yee](flow.png)
 
    1. Un utilizator face o cerere prin URL-ul `http://www.example.com/index.php?r=post/show&id=1`,
 iar serverul Web trateaza cererea prin executarea fisierul bootstrap `index.php`.

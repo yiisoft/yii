@@ -3,7 +3,7 @@ Prestandaoptimering
 
 Prestanda i webbapplikationer kan påverkas av många faktorer. Databas- och 
 filsystemoperationer samt nätverksbandbredd är alla potentiellt påverkande 
-faktorer. Yii har på alla sätt försökt minimera prestandaförluster orsakade av 
+faktorer. Yee har på alla sätt försökt minimera prestandaförluster orsakade av 
 själva ramverket. Men det finns ändå flera ställen i en användarpplikation som 
 kan trimmas för att öka prestanda.
 
@@ -19,38 +19,38 @@ request.
 Stäng av debugläget
 -------------------
 
-Att stänga av debugläget är ett annat enkelt sätt att öka prestanda. En Yii-
+Att stänga av debugläget är ett annat enkelt sätt att öka prestanda. En Yee-
 applikation körs i debugläge om konstanten `YII_DEBUG` är definierad till true. 
 Debugläge är användbart under utvecklingsfasen, men det försämrar prestanda 
 eftersom vissa komponenter orsakar extra arbete i debugläge. Till exempel 
 meddelandeloggaren kan behöva registrera tillkommande debuginformation för varje 
 meddelande som loggas.
 
-Använd `yiilite.php`
+Använd `yeelite.php`
 --------------------
 
 När [PHP:s APC-tillägg](http://www.php.net/manual/en/book.apc.php) är påslaget, 
-kan vi ersätta `yii.php` med en annan bootstrapfil för Yii, `yiilite.php`, för 
-att ytterligare förbättra prestanda i en Yii-driven applikation.
+kan vi ersätta `yee.php` med en annan bootstrapfil för Yee, `yeelite.php`, för 
+att ytterligare förbättra prestanda i en Yee-driven applikation.
 
-Filen `yiilite.php` kommer med i varje Yii-release. Den är resultatet av en 
-sammanslagning av några vanligen använda Yii-klassfiler. Både kommentarer och 
+Filen `yeelite.php` kommer med i varje Yee-release. Den är resultatet av en 
+sammanslagning av några vanligen använda Yee-klassfiler. Både kommentarer och 
 trace-satser tas bort ur den sammanslagna filen. Därför reducerar man genom att 
-använda `yiilite.php` antalet filer som behöver inkluderas, samt undviker 
+använda `yeelite.php` antalet filer som behöver inkluderas, samt undviker 
 exekvering av trace-satser.
 
-Lägg märke till att användning av `yiilite.php` utan APC faktiskt kan försämra 
-prestanda, eftersom `yiilite.php` innehåller klasser som inte nödvändigtvis 
+Lägg märke till att användning av `yeelite.php` utan APC faktiskt kan försämra 
+prestanda, eftersom `yeelite.php` innehåller klasser som inte nödvändigtvis 
 används i varje request men som tar upp extra parsningstid. Det har också observerats 
-att användning av `yiilite.php` är långsammare i vissa serverkonfigurationer, 
-även när APC är påslagen. Bästa sättet att avgöra huruvida `yiilite.php` skall 
+att användning av `yeelite.php` är långsammare i vissa serverkonfigurationer, 
+även när APC är påslagen. Bästa sättet att avgöra huruvida `yeelite.php` skall 
 användas eller inte, är att köra en benchmark med den medföljande `hello world`-
 demoapplikationen.
 
 Använda cachningsmetoder
 ------------------------
 
-Som beskrivs i avsnittet [Cachning](/doc/guide/caching.overview), erbjuder Yii 
+Som beskrivs i avsnittet [Cachning](/doc/guide/caching.overview), erbjuder Yee 
 ett antal cachningslösningar som signifikant kan förbättra prestandan för en 
 webbapplikation. Om det tar lång tid att generera en viss sorts data, kan 
 tillvägagångssättet [datacachning](/doc/guide/caching.data) reducera frekvensen 
@@ -110,8 +110,8 @@ minimera antalet skriptfiler genom att kombinera dem till ett mindre antal.
 Vi bör också överväga att reducera storleken på varje skriptfil så att överföringstiden 
 i nätverket reduceras. Det finns ett flertal verktyg att tillgå för hjälp ur dessa aspekter.
 
-För en sida som genererats av Yii, är det stor risk att en del skriptfiler har renderats av 
-komponenter som vi inte vill ändra (t.ex. Yii:s kärnkomponenter, tredjepartskomponenter). 
+För en sida som genererats av Yee, är det stor risk att en del skriptfiler har renderats av 
+komponenter som vi inte vill ändra (t.ex. Yee:s kärnkomponenter, tredjepartskomponenter). 
 För att minimera dessa skriptfiler behöver vi göra det i två steg.
 
 Först deklarerar vi att skripten skall minimeras genom att konfigurera propertyn 
@@ -120,7 +120,7 @@ Detta kan ske antingen i applikationskonfigurationen eller i kod. Till exempel,
 
 ~~~
 [php]
-$cs=Yii::app()->clientScript;
+$cs=Yee::app()->clientScript;
 $cs->scriptMap=array(
 	'jquery.js'=>'/js/all.js',
 	'jquery.ajaxqueue.js'=>'/js/all.js',
@@ -130,7 +130,7 @@ $cs->scriptMap=array(
 ~~~
 
 Det ovanstående kod gör, är att mappa dessa JavaScript-filer till URL:en `/js/all.js`. 
-Om någon av dessa JavaScript-filer behöver inkluderas av någon komponent, kommer Yii 
+Om någon av dessa JavaScript-filer behöver inkluderas av någon komponent, kommer Yee 
 att inkludera URL:en (en gång), i stället för de individuella skriptfilerna.
 
 I det andra steget behöver vi använda några verktyg för att slå samman (och kanske komprimera) 
@@ -144,7 +144,7 @@ konfigurerar vi först `scriptMap` på följande sätt,
 
 ~~~
 [php]
-$cs=Yii::app()->clientScript;
+$cs=Yee::app()->clientScript;
 $cs->scriptMap=array(
 	'jquery.js'=>false,
 	'jquery.ajaxqueue.js'=>false,
@@ -153,7 +153,7 @@ $cs->scriptMap=array(
 );
 ~~~
 
-Genom mappningen av dessa skriptfiler till false, förhindrar vi Yii att generera kod för att inkludera dessa filer. 
+Genom mappningen av dessa skriptfiler till false, förhindrar vi Yee att generera kod för att inkludera dessa filer. 
 I stället lägger vi in följande kod i våra sidor för att uttryckligen inkludera skriptfilerna från Google,
 
 ~~~

@@ -1,34 +1,34 @@
-Membuat Aplikasi Pertama Yii Anda
+Membuat Aplikasi Pertama Yee Anda
 ============================
 
-Sebagai pengalaman pertama dengan Yii, di bagian ini kami akan menjelaskan bagaimana
-membuat aplikasi Yii. Kita akan menggunakan `yiic` (tool command line)
-untuk membuat aplikasi Yii baru dan `Gii` (sebuah code generator berbasis web)
+Sebagai pengalaman pertama dengan Yee, di bagian ini kami akan menjelaskan bagaimana
+membuat aplikasi Yee. Kita akan menggunakan `yeec` (tool command line)
+untuk membuat aplikasi Yee baru dan `Gii` (sebuah code generator berbasis web)
 untuk mengautomatisasi pembuatan code untuk tugas-tugas tertentu. Untuk kenyamanan,
-kita akan berasumsi `YiiRoot` sebagai direktori di mana Yii diinstalasi, dan `WebRoot` 
+kita akan berasumsi `YeeRoot` sebagai direktori di mana Yee diinstalasi, dan `WebRoot` 
 adalah document root dari Web Server kita.
 
-Jalankan `yiic` pada baris perintah seperti berikut:
+Jalankan `yeec` pada baris perintah seperti berikut:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|Catatan: Saat menjalankan `yiic` pada Mac OS, Linux atau Unix, Anda harus mengubah
-> perijinan file `yiic` agar bisa dijalankan.
+> Note|Catatan: Saat menjalankan `yeec` pada Mac OS, Linux atau Unix, Anda harus mengubah
+> perijinan file `yeec` agar bisa dijalankan.
 > Alternatif lain, Anda bisa menjalankan piranti seperti berikut,
 >
 > ~~~
 > % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % php YeeRoot/framework/yeec.php webapp WebRoot/testdrive
 > ~~~
 
-Ini akan membuat kerangka aplikasi Yii di bawah direktori
+Ini akan membuat kerangka aplikasi Yee di bawah direktori
 `WebRoot/testdrive`. Aplikasi memiliki struktur direktori yang
-diperlukan oleh umumnya aplikasi Yii.
+diperlukan oleh umumnya aplikasi Yee.
 
 Tanpa harus menulis satu baris kode pun, kita dapat menguji aplikasi pertama
-Yii kita dengan mengakses URL berikut dalam Web browser:
+Yee kita dengan mengakses URL berikut dalam Web browser:
 
 ~~~
 http://hostname/testdrive/index.php
@@ -64,11 +64,11 @@ testdrive/
    images/                   containing image files
    themes/                   containing application themes
    protected/                containing protected application files
-      yiic                   yiic command line script for Unix/Linux
-      yiic.bat               yiic command line script for Windows
-      yiic.php               yiic command line PHP script
-      commands/              containing customized 'yiic' commands
-         shell/              containing customized 'yiic shell' commands
+      yeec                   yeec command line script for Unix/Linux
+      yeec.bat               yeec command line script for Windows
+      yeec.php               yeec command line PHP script
+      commands/              containing customized 'yeec' commands
+         shell/              containing customized 'yeec shell' commands
       components/            containing reusable user components
          Controller.php      the base class for all controller classes
          UserIdentity.php    the 'UserIdentity' class used for authentication
@@ -125,7 +125,7 @@ return array(
 );
 ~~~
 
-Kode di atas akan menginstruksi Yii bahwa aplikasi harus terkoneksi dengan database SQLite 
+Kode di atas akan menginstruksi Yee bahwa aplikasi harus terkoneksi dengan database SQLite 
 `WebRoot/testdrive/protected/data/testdrive.db` ketika diperlukan. Perhatikan bahwa database
 SQLite sudah di dalam kerangka aplikasi yang baru saja kita generate. Database mengandung
 sebuah tabel bernama `tbl_user`:
@@ -156,7 +156,7 @@ CRUD (create, read, update dan delete) untuk tabel `tbl_user` yang baru saja kit
 Biasanya hal seperti ini sering kita lakukan dalam aplikasi umumnya. Alih-alih harus
 merepotkan diri menulis code, kita akan menggunakan `Gii` -- sebuah generator berbasis web.
 
-> Info: Gii sudah tersedia semenjak versi 1.1.2. Sebelumnya, kita menggunakan `yiic` (yang baru saja disinggung) untuk melakukan hal yang sama. Untuk lebih detail silahkan merujuk ke [Mengimplementasi Operasi CRUD dengan yiic shell](/doc/guide/quickstart.first-app-yiic).
+> Info: Gii sudah tersedia semenjak versi 1.1.2. Sebelumnya, kita menggunakan `yeec` (yang baru saja disinggung) untuk melakukan hal yang sama. Untuk lebih detail silahkan merujuk ke [Mengimplementasi Operasi CRUD dengan yeec shell](/doc/guide/quickstart.first-app-yeec).
 
 
 ### Konfigurasi  Gii

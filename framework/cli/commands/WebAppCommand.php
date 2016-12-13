@@ -3,13 +3,13 @@
  * WebAppCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
- * WebAppCommand creates an Yii Web application at the specified location.
+ * WebAppCommand creates an Yee Web application at the specified location.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.cli.commands
@@ -23,10 +23,10 @@ class WebAppCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic webapp <app-path> [<vcs>]
+  yeec webapp <app-path> [<vcs>]
 
 DESCRIPTION
-  This command generates an Yii Web Application at the specified location.
+  This command generates an Yee Web Application at the specified location.
 
 PARAMETERS
  * app-path: required, the directory where the new application will be created.
@@ -108,7 +108,7 @@ EOD;
 		@chmod($targetDir.'/protected/runtime',0777);
 		@chmod($targetDir.'/protected/data',0777);
 		@chmod($targetDir.'/protected/data/testdrive.db',0777);
-		@chmod($targetDir.'/protected/yiic',0755);
+		@chmod($targetDir.'/protected/yeec',0755);
 	}
 
 	/**
@@ -129,11 +129,11 @@ EOD;
 		$fileList['index.php']['callback']=array($this,'generateIndex');
 		$fileList['index-test.php']['callback']=array($this,'generateIndex');
 		$fileList['protected/tests/bootstrap.php']['callback']=array($this,'generateTestBoostrap');
-		$fileList['protected/yiic.php']['callback']=array($this,'generateYiic');
+		$fileList['protected/yeec.php']['callback']=array($this,'generateYeec');
 	}
 
 	/**
-	 * Inserts path to framework's yii.php into application's index.php
+	 * Inserts path to framework's yee.php into application's index.php
 	 *
 	 * @param string $source source file path
 	 * @param array $params
@@ -142,14 +142,14 @@ EOD;
 	public function generateIndex($source,$params)
 	{
 		$content=file_get_contents($source);
-		$yii=realpath(dirname(__FILE__).'/../../yii.php');
-		$yii=$this->getRelativePath($yii,$this->_rootPath.DIRECTORY_SEPARATOR.'index.php');
-		$yii=str_replace('\\','\\\\',$yii);
-		return preg_replace('/\$yii\s*=(.*?);/',"\$yii=$yii;",$content);
+		$yee=realpath(dirname(__FILE__).'/../../yee.php');
+		$yee=$this->getRelativePath($yee,$this->_rootPath.DIRECTORY_SEPARATOR.'index.php');
+		$yee=str_replace('\\','\\\\',$yee);
+		return preg_replace('/\$yee\s*=(.*?);/',"\$yee=$yee;",$content);
 	}
 
 	/**
-	 * Inserts path to framework's yiit.php into application's index-test.php
+	 * Inserts path to framework's yeet.php into application's index-test.php
 	 *
 	 * @param string $source source file path
 	 * @param array $params
@@ -158,26 +158,26 @@ EOD;
 	public function generateTestBoostrap($source,$params)
 	{
 		$content=file_get_contents($source);
-		$yii=realpath(dirname(__FILE__).'/../../yiit.php');
-		$yii=$this->getRelativePath($yii,$this->_rootPath.DIRECTORY_SEPARATOR.'protected'.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'bootstrap.php');
-		$yii=str_replace('\\','\\\\',$yii);
-		return preg_replace('/\$yiit\s*=(.*?);/',"\$yiit=$yii;",$content);
+		$yee=realpath(dirname(__FILE__).'/../../yeet.php');
+		$yee=$this->getRelativePath($yee,$this->_rootPath.DIRECTORY_SEPARATOR.'protected'.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'bootstrap.php');
+		$yee=str_replace('\\','\\\\',$yee);
+		return preg_replace('/\$yeet\s*=(.*?);/',"\$yeet=$yee;",$content);
 	}
 
 	/**
-	 * Inserts path to framework's yiic.php into application's yiic.php
+	 * Inserts path to framework's yeec.php into application's yeec.php
 	 *
 	 * @param string $source source file path
 	 * @param array $params
 	 * @return string modified source file content
 	 */
-	public function generateYiic($source,$params)
+	public function generateYeec($source,$params)
 	{
 		$content=file_get_contents($source);
-		$yiic=realpath(dirname(__FILE__).'/../../yiic.php');
-		$yiic=$this->getRelativePath($yiic,$this->_rootPath.DIRECTORY_SEPARATOR.'protected'.DIRECTORY_SEPARATOR.'yiic.php');
-		$yiic=str_replace('\\','\\\\',$yiic);
-		return preg_replace('/\$yiic\s*=(.*?);/',"\$yiic=$yiic;",$content);
+		$yeec=realpath(dirname(__FILE__).'/../../yeec.php');
+		$yeec=$this->getRelativePath($yeec,$this->_rootPath.DIRECTORY_SEPARATOR.'protected'.DIRECTORY_SEPARATOR.'yeec.php');
+		$yeec=str_replace('\\','\\\\',$yeec);
+		return preg_replace('/\$yeec\s*=(.*?);/',"\$yeec=$yeec;",$content);
 	}
 
 	/**

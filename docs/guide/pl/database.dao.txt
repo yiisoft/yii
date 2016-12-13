@@ -6,13 +6,13 @@ przechowywanych w różnych systemach zarządzania bazą danych (ang. DBMS, pol.
 użyty SZBD może zostać zastąpiony przez inny bez potrzeby zmiany kodu używającego
 DAO aby uzyskać dostęp do danych.
 
-Yii DAO zostało utworzone w oparciu o [PHP Data Objects (PDO)](http://php.net/manual/en/book.pdo.php) 
+Yee DAO zostało utworzone w oparciu o [PHP Data Objects (PDO)](http://php.net/manual/en/book.pdo.php) 
 które jest rozszerzeniem dostarczającym ujednolicony dostęp do danych dla wielu 
-popularnych SZBD, takich jak MySQL, PostgreSQL. Dlatego też, by używać Yii DAO, 
+popularnych SZBD, takich jak MySQL, PostgreSQL. Dlatego też, by używać Yee DAO, 
 rozszerzenie PDO oraz poszczególne sterowniki PDO dla baz danych (np. `PDO_MYSQL`) 
 muszą być zainstalowane.
 
-Yii DAO składa się głównie z następujących czterech klas:
+Yee DAO składa się głównie z następujących czterech klas:
 
    - [CDbConnection]: reprezentuje połączenie z bazą danych,
    - [CDbCommand]: reprezentuje instrukcję SQL, wykonywaną dla bazy danych,
@@ -20,7 +20,7 @@ Yii DAO składa się głównie z następujących czterech klas:
    - [CDbTransaction]: reprezentuje transakcję DB.   
 
 
-W dalszej części, przedstawimy użycie Yii DAO w różnych scenariuszach.
+W dalszej części, przedstawimy użycie Yee DAO w różnych scenariuszach.
 
 Ustanawianie połączenia z bazą danych
 -------------------------------------
@@ -74,7 +74,7 @@ array(
 )
 ~~~
 
-Dostęp do połączenia DB, można uzyskać poprzez `Yii::app()->db`. Jest ono automatycznie 
+Dostęp do połączenia DB, można uzyskać poprzez `Yee::app()->db`. Jest ono automatycznie 
 aktywowane, chyba że wyraźnie skonfigurujemy [CDbConnection::autoConnect] jako false. 
 Używając tego podejścia, jedno połączenie DB może być dzielone w wielu miejscach w naszym kodzie.
 
@@ -87,7 +87,7 @@ metody [CDbConnection::createCommand()] z określoną instrukcją SQL:
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // zakładamy, że masz skonfigurowane połączenie "db"
+$connection=Yee::app()->db;   // zakładamy, że masz skonfigurowane połączenie "db"
 // Jeśli nie, możesz bezpośrednio utworzyć połączenie z bazą danych:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
@@ -147,7 +147,7 @@ Używanie transakcji
 
 Kiedy aplikacja wykonuje kilka zapytań, za każdym razem czytając i/lub zapisując informacje w bazie danych, 
 ważnym jest by upewnić się, że na bazie danych nie została wykonana tylko część z tych zapytań.
-W takim przypadku może zostać zainicjowana transakcja reprezentowana w Yii poprzez instancję [CDbTransaction]:
+W takim przypadku może zostać zainicjowana transakcja reprezentowana w Yee poprzez instancję [CDbTransaction]:
 
    - Rozpocznij transakcję.
    - Wykonaj zapytania jedno po drugim. Żadna zmiana w bazie danych nie jest widoczna na zewnątrz.
@@ -233,12 +233,12 @@ while($dataReader->read()!==false)
 Używanie prefiksów w tabelach
 -----------------------------
 
-Yii dostarcza zintegrowanego wsparcia dla prefiksów tabel.
+Yee dostarcza zintegrowanego wsparcia dla prefiksów tabel.
 Prefiks tabeli to łańcuch znaków, który poprzedza nazwę tabel w bazie danych, 
 z którą jesteśmy połączeni. Prefiksów używa się najczęsciej we współdzielonych środowiku hostingowym, 
 gdzie wiele aplikacji dzieli jedną tabelę bazodanową i używa różnych prefiksów tabeli 
 w celu rozróżnienia ich od siebie. Na przykład, jedna aplikacja może używać prefiksu
-`tbl_`, druga zaś innego, np. `yii_`.
+`tbl_`, druga zaś innego, np. `yee_`.
 
 Aby móc używać prefiksów tabel, należy przypisać właściwości [CDbConnection::tablePrefix] 
 pożądany prefiks tabeli. Następnie, w zapytaniach SQL należy używać konstrukcji `{{TableName}}`,

@@ -3,9 +3,9 @@
  * CDbCache class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -35,11 +35,11 @@ class CDbCache extends CCache
 	/**
 	 * @var string the ID of the {@link CDbConnection} application component. If not set,
 	 * a SQLite3 database will be automatically created and used. The SQLite database file
-	 * is <code>protected/runtime/cache-YiiVersion.db</code>.
+	 * is <code>protected/runtime/cache-YeeVersion.db</code>.
 	 */
 	public $connectionID;
 	/**
-	 * @var string name of the DB table to store cache content. Defaults to 'YiiCache'.
+	 * @var string name of the DB table to store cache content. Defaults to 'YeeCache'.
 	 * Note, if {@link autoCreateCacheTable} is false and you want to create the DB table
 	 * manually by yourself, you need to make sure the DB table is of the following structure:
 	 * <pre>
@@ -49,7 +49,7 @@ class CDbCache extends CCache
 	 * binary data type (e.g. LONGBLOB in MySQL, BYTEA in PostgreSQL.)
 	 * @see autoCreateCacheTable
 	 */
-	public $cacheTableName='YiiCache';
+	public $cacheTableName='YeeCache';
 	/**
 	 * @var boolean whether the cache DB table should be created automatically if it does not exist. Defaults to true.
 	 * If you already have the table created, it is recommended you set this property to be false to improve performance.
@@ -149,15 +149,15 @@ EOD;
 			return $this->_db;
 		elseif(($id=$this->connectionID)!==null)
 		{
-			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
+			if(($this->_db=Yee::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
 			else
-				throw new CException(Yii::t('yii','CDbCache.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+				throw new CException(Yee::t('yee','CDbCache.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 					array('{id}'=>$id)));
 		}
 		else
 		{
-			$dbFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache-'.Yii::getVersion().'.db';
+			$dbFile=Yee::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache-'.Yee::getVersion().'.db';
 			return $this->_db=new CDbConnection('sqlite:'.$dbFile);
 		}
 	}

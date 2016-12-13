@@ -4,14 +4,14 @@
  * build script file.
  *
  * This is a command line script that provides various commands
- * for building an Yii release.
+ * for building an Yee release.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 $root=dirname(__FILE__);
 $config=array('basePath'=>$root);
-require_once($root.'/../framework/yiic.php');
+require_once($root.'/../framework/yeec.php');

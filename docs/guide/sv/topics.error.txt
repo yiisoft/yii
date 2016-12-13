@@ -1,7 +1,7 @@
 Felhantering
 ============
 
-Yii tillhandahåller ett komplett felhanteringsramverk baserat på 
+Yee tillhandahåller ett komplett felhanteringsramverk baserat på 
 exception-mekanismen i PHP 5. När en applikation skapas för att hantera en 
 inkommen request från användare, registrerar den sin metod 
 [handleError|CApplication::handleError] för hantering av PHP:s varningar och 
@@ -15,7 +15,7 @@ att ta över kontrollen och starta den nödvändiga felhanteringsproceduren.
 genom anrop till PHP-funktionerna 
 [set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php) 
 och [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php). 
-Om det inte skulle vara önskvärt att Yii hanterar fel och 
+Om det inte skulle vara önskvärt att Yee hanterar fel och 
 exception, kan konstanterna `YII_ENABLE_ERROR_HANDLER` respektive 
 `YII_ENABLE_EXCEPTION_HANDLER` sättas till false i 
 [startskriptet](/doc/guide/basics.entry).
@@ -29,7 +29,7 @@ applikationskomponenten [errorHandler|CErrorHandler] att konsulteras.
 Signalera exception
 -------------------
 
-Att signalera en exception i Yii avviker inte från att signalera en normal 
+Att signalera en exception i Yee avviker inte från att signalera en normal 
 PHP-exception. Man använder följande syntax för att signalera en exception när så 
 erfordras:
 
@@ -38,7 +38,7 @@ erfordras:
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii definierar tre exception-klasser: [CException], [CDbException] 
+Yee definierar tre exception-klasser: [CException], [CDbException] 
 och [CHttpException]. [CException] är en generell exception-klass. 
 [CDbException] representerar en exception som orsakas av databasrelaterade 
 operationer. [CHttpException] representerar en exception som skall presenteras 
@@ -82,7 +82,7 @@ anledningen till problemet.
    2. `WebRoot/protected/views/system`: detta är standardkatalogen för `system`-vyer 
    i en applikation.
 
-   3. `yii/framework/views`: detta är standardkatalogen för systemvyer som Yii-ramverket 
+   3. `yee/framework/views`: detta är standardkatalogen för systemvyer som Yee-ramverket 
    tillhandahåller.
 
 Vi kan därför. om vi vill använda anpassade felmeddelanden, helt enkelt skapa 
@@ -95,7 +95,7 @@ katalog.
 Felhantering med hjälp av en Åtgärd
 -----------------------------------
 
-Yii tillåter att man använder en [kontrolleråtgärd](/doc/guide/basics.controller#action) 
+Yee tillåter att man använder en [kontrolleråtgärd](/doc/guide/basics.controller#action) 
 för att hantera uppgiften felpresentation. För att åstadkomma detta skall felhanteringskomponenten i 
 applikationskonfigurationen konfigureras på följande sätt:
 
@@ -121,7 +121,7 @@ efter behov.
 [php]
 public function actionError()
 {
-	if($error=Yii::app()->errorHandler->error)
+	if($error=Yee::app()->errorHandler->error)
 		$this->render('error', $error);
 }
 ~~~

@@ -3,9 +3,9 @@
  * CDbCacheDependency class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -89,7 +89,7 @@ class CDbCacheDependency extends CCacheDependency
 			return $result;
 		}
 		else
-			throw new CException(Yii::t('yii','CDbCacheDependency.sql cannot be empty.'));
+			throw new CException(Yee::t('yee','CDbCacheDependency.sql cannot be empty.'));
 	}
 
 	/**
@@ -102,10 +102,10 @@ class CDbCacheDependency extends CCacheDependency
 			return $this->_db;
 		else
 		{
-			if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
+			if(($this->_db=Yee::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 				return $this->_db;
 			else
-				throw new CException(Yii::t('yii','CDbCacheDependency.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+				throw new CException(Yee::t('yee','CDbCacheDependency.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 					array('{id}'=>$this->connectionID)));
 		}
 	}

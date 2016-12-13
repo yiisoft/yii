@@ -1,7 +1,7 @@
 Wzorzec Rekordu Aktywnego (ang. Active Record)
 ==============================================
 
-Chociaż Yii DAO może uporać się z wirtualnymi oraz bazodanowymi zadaniami, istnieje 
+Chociaż Yee DAO może uporać się z wirtualnymi oraz bazodanowymi zadaniami, istnieje 
 szansa, że będziemy spędzać 90% naszego czasu pisząc wyrażenia SQL, które wykonują 
 operacje CRUD (create - tworzenie, read - czytanie, update - aktualizowanie oraz 
 delete - usuwanie). Trudno również jest zarządzać kodem, który jest pomieszany 
@@ -43,7 +43,7 @@ CREATE TABLE tbl_post (
 > Tip|Wskazówka: AR nie został pomyślany do rozwiązywania wszystkich zadań związanych z bazą danych. 
 Najlepiej używać go do modelowania tabel baz danych w konstrukcjach PHP oraz wykonywania 
 zapytań, które nie zawierają skomplikowanego kodu SQL. Dla tych skomplikowanych 
-scenariuszy powinno używać się Yii DAO.
+scenariuszy powinno używać się Yee DAO.
 
 
 Ustanawianie połączeń DB
@@ -229,7 +229,7 @@ $post->save();
 
 > Tip|Wskazówka: Chociaż AR umożliwia wykonywanie operacji na bazie danych pez potrzeby
 pisania uciążliwych zapytań SQL, często chcemy wiedzieć jakie zapytanie SQL jest 
-wykonywane w tle przez AR. Możemy uzyskać tą informację poprzez włączenie w Yii 
+wykonywane w tle przez AR. Możemy uzyskać tą informację poprzez włączenie w Yee 
 [funkcjonalności logowania](/doc/guide/topics.logging). Na przykład, możemy włączyć
 [CWebLogRoute] w konfiguracji aplikacji, dzięki czemu bedziemy widzieć wykonywane zapytania 
 SQL na końcu każdej strony. Możemy ustawić właściwość 
@@ -473,9 +473,9 @@ kluczy głównych. Dlatego też, porównując dwie instancje AR, musimy porówna
 wartości kluczy głównych, zakładając, że należą do tej samej klasy AR. Jednakże 
 najprostszym sposobem jest wywołanie [CActiveRecord::equals()].
 
-> Info|Info: W odróżnieniu do implementacji AR w innych frameworkach, Yii wspiera 
+> Info|Info: W odróżnieniu do implementacji AR w innych frameworkach, Yee wspiera 
 klucze złożone w AR. Klucze złożone zawierają więcej niż jedną kolumnę. Odpowiednio, 
-wartości kluczy głównych reprezentowane są w Yii pod postacią tablicy. Właściwość
+wartości kluczy głównych reprezentowane są w Yee pod postacią tablicy. Właściwość
 [primaryKey|CActiveRecord::primaryKey] zawiera wartość klucza głównego instancji AR.
 
 Dostosowywanie (do własnych potrzeb)
@@ -507,7 +507,7 @@ Używanie transakcji w AR
 
 Każda instancja AR zawiera właściwość nazwaną [dbConnection|CActiveRecord::dbConnection] 
 która jest instancją [CDbConnection]. Możemy wtedy używać funkcjonalności 
-[transakcji](/doc/guide/database.dao#using-transactions) dostarczanej przez Yii DAO 
+[transakcji](/doc/guide/database.dao#using-transactions) dostarczanej przez Yee DAO 
 jeśli występuje taka potrzeba podczas pracy z AR:
 
 ~~~
@@ -619,7 +619,7 @@ class Content extends CActiveRecord
   public function defaultScope()
   {
     return array(
-      'condition'=>"language='".Yii::app()->language."'",
+      'condition'=>"language='".Yee::app()->language."'",
     );
   }
 }

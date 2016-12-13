@@ -128,9 +128,9 @@ L'unica differenza è che nessun layout verrà applicato alla view di un widget.
 View di sistema
 -----------
 
-Le view di sistema si riferiscono a view utilizzate da Yii per visualizzare errori e 
+Le view di sistema si riferiscono a view utilizzate da Yee per visualizzare errori e 
 memorizzare informazioni. Per esempio, quando un utente richiede un controller o una 
-action che non esiste, Yii genererà un'eccezione spiegando l'errore. Yii visualizza 
+action che non esiste, Yee genererà un'eccezione spiegando l'errore. Yee visualizza 
 l'eccezione usando specifiche view di sistema.
 
 La denominazione delle view di sistema segue determinate regole. Nomi come `errorXXX` si riferiscono 
@@ -138,7 +138,7 @@ alle view per la visualizzazione di [CHttpException] con il codice di errore `XX
 Per esempio, se è stata generata [CHttpException] con il codice di errore 404, sarà 
 la visualizzata la view `error404`.
 
-Yii fornisce una serie di view di sistema di default che si trovano nella cartella 
+Yee fornisce una serie di view di sistema di default che si trovano nella cartella 
 `framework/views`. Possono essere personalizzare creando altri file di view con lo stesso nome
 all'interno della cartella `protected/views/system`.
 

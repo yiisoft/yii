@@ -1,6 +1,6 @@
 <h1>Module Generator</h1>
 
-<p>This generator helps you to generate the skeleton code needed by a Yii module.</p>
+<p>This generator helps you to generate the skeleton code needed by a Yee module.</p>
 
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 

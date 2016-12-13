@@ -4,30 +4,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Yii配置需求检查</title>
+<title>Yee配置需求检查</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Yii配置需求检查</h1>
+<h1>Yee配置需求检查</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>检查内容</h2>
 <p>
-本网页用于确认您的服务器配置是否能满足运行<a href="http://www.yiiframework.com/">Yii</a> Web应用的要求。它将检查服务器所运行的PHP版本，查看是否安装了合适的PHP扩展模块，以及确认php.ini文件是否正确设置。
+本网页用于确认您的服务器配置是否能满足运行<a href="http://www.yeeframework.com/">Yee</a> Web应用的要求。它将检查服务器所运行的PHP版本，查看是否安装了合适的PHP扩展模块，以及确认php.ini文件是否正确设置。
 </p>
 
 <h2>检查结果</h2>
 <p>
 <?php if($result>0): ?>
-恭喜！您的服务器配置完全符合Yii的要求。
+恭喜！您的服务器配置完全符合Yee的要求。
 <?php elseif($result<0): ?>
-您的服务器配置符合Yii的最低要求。如果您需要使用特定的功能，请关注如下警告。
+您的服务器配置符合Yee的最低要求。如果您需要使用特定的功能，请关注如下警告。
 <?php else: ?>
-您的服务器配置未能满足Yii的要求。
+您的服务器配置未能满足Yee的要求。
 <?php endif; ?>
 </p>
 

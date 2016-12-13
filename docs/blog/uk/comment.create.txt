@@ -4,8 +4,8 @@
 У даному розділі ми реалізуємо функції відображення і створення коментарів.
 
 Для більшої інтерактивності будемо проводити валідацію на стороні клієнта.
-За допомогою Yii зробити це досить легко. Відзначимо, що для цього буде потрібно
-Yii версії 1.1.1 чи новіше.
+За допомогою Yee зробити це досить легко. Відзначимо, що для цього буде потрібно
+Yee версії 1.1.1 чи новіше.
 
 Відображення коментарів
 -----------------------
@@ -48,7 +48,7 @@ Yii версії 1.1.1 чи новіше.
 Відображення `_comments` не дуже цікаво.
 У ньому проводиться обхід всіх коментарів і їх виведення. 
 Зацікавлені читачі можуть подивитися файл
-`/wwwroot/yii/demos/blog/protected/views/post/_comments.php`.
+`/wwwroot/yee/demos/blog/protected/views/post/_comments.php`.
 
 Створення коментарів
 --------------------
@@ -78,7 +78,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Дякуємо за ваш коментар. 
+				Yee::app()->user->setFlash('commentSubmitted','Дякуємо за ваш коментар. 
 					Ваш коментар зʼявиться одразу після ухвалення.');
 			$this->refresh();
 		}
@@ -93,7 +93,7 @@ protected function newComment($post)
 [php]
 public function addComment($comment)
 {
-	if(Yii::app()->params['commentNeedApproval'])
+	if(Yee::app()->params['commentNeedApproval'])
 		$comment->status=Comment::STATUS_PENDING;
 	else
 		$comment->status=Comment::STATUS_APPROVED;
@@ -122,9 +122,9 @@ public function addComment($comment)
 	…
 	<h3>Залишити коментар</h3>
 
-	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+	<?php if(Yee::app()->user->hasFlash('commentSubmitted')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+			<?php echo Yee::app()->user->getFlash('commentSubmitted'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(
@@ -176,7 +176,7 @@ protected function newComment($post)
 	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 	{
 		echo CActiveForm::validate($comment);
-		Yii::app()->end();
+		Yee::app()->end();
 	}
 
 	if(isset($_POST['Comment']))
@@ -185,7 +185,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Дякуємо за ваш коментар. 
+				Yee::app()->user->setFlash('commentSubmitted','Дякуємо за ваш коментар. 
 					Ваш коментар зʼявиться одразу після ухвалення.');
 			$this->refresh();
 		}

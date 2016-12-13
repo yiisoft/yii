@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.web.CUrlManager');
+Yee::import('system.web.CUrlManager');
 
 class CUrlRuleTest extends CTestCase
 {

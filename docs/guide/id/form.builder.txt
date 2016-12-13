@@ -10,7 +10,7 @@ Untuk meningkatkan kemungkinan pemakaian ulang pada kode-kode ini, kita dapat me
 Konsep Dasar
 ------------
 
-Form builder di Yii menggunakan objek [CForm] untuk mewakili spesifikasi yang diperlukan untuk
+Form builder di Yee menggunakan objek [CForm] untuk mewakili spesifikasi yang diperlukan untuk
 membentuk sebuah form HTML, termasuk data model yang berhubungan dengan form, input field seperti
 apa yang diperlukan di dalam form, dan bagaimana me-render form secara keseluruhan.
 Developer umumnya perlu membuat dan mengatur objek [CForm] ini, dan memanggil fungsi render untuk

@@ -1,24 +1,24 @@
 <?php
 /**
- * YiiPearTask class file.
+ * YeePearTask class file.
  *
  * @author Wei Zhuo <weizho@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 require_once 'phing/Task.php';
 require_once 'PEAR/PackageFileManager2.php';
 
 /**
- * YiiPearTask create a PEAR package for the yii framework.
+ * YeePearTask create a PEAR package for the yee framework.
  *
  * @author Wei Zhuo <weizho@gmail.com>
  * @package build.tasks
  * @since 1.0
  */
-class YiiPearTask extends Task
+class YeePearTask extends Task
 {
 	private $pkgdir;
 	private $channel;
@@ -90,7 +90,7 @@ class YiiPearTask extends Task
 
 		$e = $pkg->setOptions(array
 		(
-			'baseinstalldir'    => 'yii',
+			'baseinstalldir'    => 'yee',
 			'packagedirectory'  => $this->pkgdir,
 			'filelistgenerator' => 'file',
 			'simpleoutput'      => true,

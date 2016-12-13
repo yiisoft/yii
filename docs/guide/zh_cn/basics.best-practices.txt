@@ -1,7 +1,7 @@
 MVC最佳实践
 ==================
 
-虽然几乎每一位Web开发者都了解模型-视图-控制器（MVC），但在一个真实应用的开发中，如何正确使用MVC仍然不被很多人重视。MVC的中心思想是**代码复用和解耦**。在这一节中，我们将介绍一些通用原则，以便在Yii应用中更好地实现MVC。
+虽然几乎每一位Web开发者都了解模型-视图-控制器（MVC），但在一个真实应用的开发中，如何正确使用MVC仍然不被很多人重视。MVC的中心思想是**代码复用和解耦**。在这一节中，我们将介绍一些通用原则，以便在Yee应用中更好地实现MVC。
 
 为了更好地阐述这些原则，我们假定有一个Web应用，其中包含以下几个子应用：
 
@@ -10,7 +10,7 @@ MVC最佳实践
 * 终端：一个运行于终端窗口或用以支撑整个应用的计划任务的终端命令应用。
 * Web API：提供一系列Web接口用以整合第三方应用。
 
-子应用可能以[模块](basics.module)的形式实现，或者以一个Yii应用的形式实现并且和其他子应用共享某些代码。
+子应用可能以[模块](basics.module)的形式实现，或者以一个Yee应用的形式实现并且和其他子应用共享某些代码。
 
 
 模型
@@ -61,7 +61,7 @@ Views can be reused in different ways:
 
 * Widgets: if a lot of logic is needed to present a partial view, the partial view can be turned into a widget whose class file is the best place to contain this logic. For widgets that generate a lot of HTML markup, it is best to use view files specific to the widget to contain the markup.
 
-* Helper classes: in views we often need some code snippets to do tiny tasks such as formatting data or generating HTML tags. Rather than placing this code directly into the view files, a better approach is to place all of these code snippets in a view helper class. Then, just use the helper class in your view files. Yii provides an example of this approach. Yii has a powerful [CHtml] helper class that can produce commonly used HTML code. Helper classes may be put in an [autoloadable directory](/doc/guide/basics.namespace) so that they can be used without explicit class inclusion.
+* Helper classes: in views we often need some code snippets to do tiny tasks such as formatting data or generating HTML tags. Rather than placing this code directly into the view files, a better approach is to place all of these code snippets in a view helper class. Then, just use the helper class in your view files. Yee provides an example of this approach. Yee has a powerful [CHtml] helper class that can produce commonly used HTML code. Helper classes may be put in an [autoloadable directory](/doc/guide/basics.namespace) so that they can be used without explicit class inclusion.
 
 
 Controller

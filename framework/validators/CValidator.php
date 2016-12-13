@@ -3,9 +3,9 @@
  * CValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -169,9 +169,9 @@ abstract class CValidator extends CComponent
 		{
 			$params['attributes']=$attributes;
 			if(isset(self::$builtInValidators[$name]))
-				$className=Yii::import(self::$builtInValidators[$name],true);
+				$className=Yee::import(self::$builtInValidators[$name],true);
 			else
-				$className=Yii::import($name,true);
+				$className=Yee::import($name,true);
 			$validator=new $className;
 			foreach($params as $name=>$value)
 				$validator->$name=$value;

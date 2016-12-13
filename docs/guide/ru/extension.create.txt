@@ -33,7 +33,7 @@
 ---------
 
 Для того чтобы создать поведение, необходимо реализовать интерфейс [IBehavior].
-Для удобства в Yii имеется класс [CBehavior], реализующий этот интерфейс и
+Для удобства в Yee имеется класс [CBehavior], реализующий этот интерфейс и
 предоставляющий некоторые общие методы. Наследуемые классы могут реализовать
 дополнительные методы, которые будут доступны в компонентах, к которым прикреплено
 поведение.
@@ -81,7 +81,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -112,7 +112,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// …подключаем здесь файлы CSS или JavaScript…
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

@@ -2,7 +2,7 @@
 	- [Огляд](index)
 	- [Нові можливості](changes)
 	- [Оновлення з версії 1.0 до версії 1.1](upgrade)
-	- [Що таке Yii](quickstart.what-is-yii)
+	- [Що таке Yee](quickstart.what-is-yee)
 	- [Встановлення](quickstart.installation)
 	- [Конфігурації Apache та Nginx](quickstart.apache-nginx-config)
 	- [Створення першого додатку](quickstart.first-app)
@@ -44,7 +44,7 @@
 	- [Кешування сторінок](caching.page)
 	- [Кешування динамічного контенту](caching.dynamic)
 
-* Розширення Yii
+* Розширення Yee
 	- [Огляд](extension.overview)
 	- [Використання розширень](extension.use)
 	- [Створення розширень](extension.create)
@@ -69,4 +69,4 @@
 	- [Консольні додатки](topics.console)
 	- [Безпека](topics.security)
 	- [Покращення продуктивності](topics.performance)
-	- [Генерація коду за допомогою консолі (застаріле)](quickstart.first-app-yiic)
+	- [Генерація коду за допомогою консолі (застаріле)](quickstart.first-app-yeec)

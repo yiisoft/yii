@@ -3,9 +3,9 @@
  * CEmailValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -73,7 +73,7 @@ class CEmailValidator extends CValidator
 
 		if(!$this->validateValue($value))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid email address.');
+			$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} is not a valid email address.');
 			$this->addError($object,$attribute,$message);
 		}
 	}
@@ -87,7 +87,7 @@ class CEmailValidator extends CValidator
 	 * @param mixed $value the value to be validated
 	 * @return boolean whether the value is a valid email
 	 * @since 1.1.1
-	 * @see https://github.com/yiisoft/yii/issues/3764#issuecomment-75457805
+	 * @see https://github.com/yeesoft/yee/issues/3764#issuecomment-75457805
 	 */
 	public function validateValue($value)
 	{
@@ -116,7 +116,7 @@ class CEmailValidator extends CValidator
 	{
 		if($this->validateIDN)
 		{
-			Yii::app()->getClientScript()->registerCoreScript('punycode');
+			Yee::app()->getClientScript()->registerCoreScript('punycode');
 			// punycode.js works only with the domains - so we have to extract it before punycoding
 			$validateIDN='
 var info = value.match(/^(.[^@]+)@(.+)$/);
@@ -127,7 +127,7 @@ if (info)
 		else
 			$validateIDN='';
 
-		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} is not a valid email address.');
+		$message=$this->message!==null ? $this->message : Yee::t('yee','{attribute} is not a valid email address.');
 		$message=strtr($message, array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
 		));
@@ -196,7 +196,7 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 				$value=$matches[1][0].'@'.idn_to_ascii($matches[2][0]);
 			else
 			{
-				require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
+				require_once(Yee::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
 				$idna=new Net_IDNA2();
 				$value=$matches[1][0].'@'.@$idna->encode($matches[2][0]);
 			}

@@ -3,7 +3,7 @@ Criando e Exibindo Comentários
 
 Nesta seção, nós vamos implementar as funcionalidades de exibição e criação de comentários.
 
-Para melhorar a interação com os usuários, nós vamos mostrá-los os possíveis erros cada vez que eles terminam de preencher um campo. Isto é conhecido como validação das entradas no lado do cliente. Nós vamos mostrar como isto pode ser feito no Yii de maneira perfeita e extremamente fácil. Note que isto requere a versão 1.1.1 or mais nova do Yii.
+Para melhorar a interação com os usuários, nós vamos mostrá-los os possíveis erros cada vez que eles terminam de preencher um campo. Isto é conhecido como validação das entradas no lado do cliente. Nós vamos mostrar como isto pode ser feito no Yee de maneira perfeita e extremamente fácil. Note que isto requere a versão 1.1.1 or mais nova do Yee.
 
 
 Exibindo Comentários
@@ -31,9 +31,9 @@ Para exibir os comentários na página de detalhe do post, nós modificamos o sc
 </div>
 ~~~
 
-No código acima, nós chamamos `renderPartial()` para renderizar uma visão parcial de nome `_comments` para exibir a lista de comentários pertencentes ao post atual. Note que na visão nós usamos a expressão `$model->comments` para obter os comentários para o post. Isto é válido porque nós declaramos  um relacionamento chamado `comments` na classe `Post`. A avaliação desta expressão vai provocar uma consulta JOIN implícita à base de dados para retornar os comentários apropriados. Esta funcionalidade é conhecida como [lazy relational query](http://www.yiiframework.com/doc/guide/database.arr).
+No código acima, nós chamamos `renderPartial()` para renderizar uma visão parcial de nome `_comments` para exibir a lista de comentários pertencentes ao post atual. Note que na visão nós usamos a expressão `$model->comments` para obter os comentários para o post. Isto é válido porque nós declaramos  um relacionamento chamado `comments` na classe `Post`. A avaliação desta expressão vai provocar uma consulta JOIN implícita à base de dados para retornar os comentários apropriados. Esta funcionalidade é conhecida como [lazy relational query](http://www.yeeframework.com/doc/guide/database.arr).
 
-A visão parcial `_comments` não é muito interessante. Ela principalmente vai iterar entre os comentários e exibir os seus detalhes. Leitores interessados podem ler `/wwwroot/yii/demos/blog/protected/views/post/_comments.php`.
+A visão parcial `_comments` não é muito interessante. Ela principalmente vai iterar entre os comentários e exibir os seus detalhes. Leitores interessados podem ler `/wwwroot/yee/demos/blog/protected/views/post/_comments.php`.
 
 
 Criando Comentários
@@ -63,7 +63,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('comentarioEnviado','Obrigado...');
+				Yee::app()->user->setFlash('comentarioEnviado','Obrigado...');
 			$this->refresh();
 		}
 	}
@@ -82,9 +82,9 @@ Nós também precisamos modificar `/wwwroot/blog/protected/views/post/view.php`,
 	......
 	<h3>Deixe um Comentário</h3>
 
-	<?php if(Yii::app()->user->hasFlash('comentarioEnviado')): ?>
+	<?php if(Yee::app()->user->hasFlash('comentarioEnviado')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('comentarioEnviado'); ?>
+			<?php echo Yee::app()->user->getFlash('comentarioEnviado'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(
@@ -130,7 +130,7 @@ protected function newComment($post)
 	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 	{
 		echo CActiveForm::validate($comment);
-		Yii::app()->end();
+		Yee::app()->end();
 	}
 
 	if(isset($_POST['Comment']))
@@ -139,7 +139,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('comentarioEnviado','Obrigado...');
+				Yee::app()->user->setFlash('comentarioEnviado','Obrigado...');
 			$this->refresh();
 		}
 	}

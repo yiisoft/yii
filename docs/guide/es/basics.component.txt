@@ -1,7 +1,7 @@
 Component
 =========
 
-Las aplicaciones Yii se construyen con componentes que son objetos sujetos a una especificación. Un componente es una instancia de [CComponent] o de una de sus clases derivadas. Usar un componente implica básicamente acceder a sus propiedades y levantar/manejar sus eventos. La clase base [CComponent] especifica cómo definir propiedades y eventos.
+Las aplicaciones Yee se construyen con componentes que son objetos sujetos a una especificación. Un componente es una instancia de [CComponent] o de una de sus clases derivadas. Usar un componente implica básicamente acceder a sus propiedades y levantar/manejar sus eventos. La clase base [CComponent] especifica cómo definir propiedades y eventos.
 
 Propiedeades de Component
 -------------------------

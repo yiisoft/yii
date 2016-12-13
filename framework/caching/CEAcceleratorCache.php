@@ -3,9 +3,9 @@
  * CEAcceleratorCache class file
  *
  * @author Steffen Dietz <steffo.dietz[at]googlemail[dot]com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -33,7 +33,7 @@ class CEAcceleratorCache extends CCache
 	{
 		parent::init();
 		if(!function_exists('eaccelerator_get'))
-			throw new CException(Yii::t('yii','CEAcceleratorCache requires PHP eAccelerator extension to be loaded, enabled or compiled with the "--with-eaccelerator-shared-memory" option.'));
+			throw new CException(Yee::t('yee','CEAcceleratorCache requires PHP eAccelerator extension to be loaded, enabled or compiled with the "--with-eaccelerator-shared-memory" option.'));
 	}
 
 	/**

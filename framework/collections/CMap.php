@@ -3,9 +3,9 @@
  * This file contains classes implementing Map feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -141,7 +141,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 				$this->_d[$key]=$value;
 		}
 		else
-			throw new CException(Yii::t('yii','The map is read only.'));
+			throw new CException(Yee::t('yee','The map is read only.'));
 	}
 
 	/**
@@ -168,7 +168,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 			}
 		}
 		else
-			throw new CException(Yii::t('yii','The map is read only.'));
+			throw new CException(Yee::t('yee','The map is read only.'));
 	}
 
 	/**
@@ -215,7 +215,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 				$this->add($key,$value);
 		}
 		elseif($data!==null)
-			throw new CException(Yii::t('yii','Map data must be an array or an object implementing Traversable.'));
+			throw new CException(Yee::t('yee','Map data must be an array or an object implementing Traversable.'));
 	}
 
 	/**
@@ -260,7 +260,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 			}
 		}
 		elseif($data!==null)
-			throw new CException(Yii::t('yii','Map data must be an array or an object implementing Traversable.'));
+			throw new CException(Yee::t('yee','Map data must be an array or an object implementing Traversable.'));
 	}
 
 	/**

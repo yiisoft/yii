@@ -1,7 +1,7 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.schema.sqlite.CSqliteSchema');
+Yee::import('system.db.CDbConnection');
+Yee::import('system.db.schema.sqlite.CSqliteSchema');
 
 class CSqliteTest extends CTestCase
 {

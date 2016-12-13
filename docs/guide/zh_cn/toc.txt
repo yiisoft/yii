@@ -2,9 +2,9 @@
 	- [概览](index)
 	- [新功能](changes)
 	- [从版本 1.0 升级到 1.1](upgrade)
-    - [Yii 是什么](quickstart.what-is-yii)
+    - [Yee 是什么](quickstart.what-is-yee)
     - [安装](quickstart.installation)
-    - [创建第一个 Yii 应用](quickstart.first-app)
+    - [创建第一个 Yee 应用](quickstart.first-app)
 
 * 基础知识
     - [模型-视图-控制器 (MVC)](basics.mvc)
@@ -43,7 +43,7 @@
     - [页面缓存](caching.page)
     - [动态内容](caching.dynamic)
 
-* 扩展 Yii
+* 扩展 Yee
     - [概览](extension.overview)
     - [使用扩展](extension.use)
     - [创建扩展](extension.create)
@@ -68,6 +68,6 @@
     - [控制台应用](topics.console)
     - [安全](topics.security)
     - [性能调节](topics.performance)
-    - [使用命令行工具生成代码 (deprecated)](quickstart.first-app-yiic)
+    - [使用命令行工具生成代码 (deprecated)](quickstart.first-app-yeec)
 
 <div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>

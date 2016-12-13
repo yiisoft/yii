@@ -3,8 +3,8 @@
 
 Грунтуючись на аналізі вимог, нам необхідні три портлети:
 «користувальницьке меню», «хмара тегів» та «останні коментарі».
-Ми реалізуємо їх, розширивши віджет [CPortlet](http://www.yiiframework.com/doc/api/CPortlet),
-що входить до складу Yii.
+Ми реалізуємо їх, розширивши віджет [CPortlet](http://www.yeeframework.com/doc/api/CPortlet),
+що входить до складу Yee.
 
 У цьому розділі ми розробимо свій перший портлет — портлет
 користувальницького меню, який відображає список пунктів меню,
@@ -24,13 +24,13 @@
 
 ~~~
 [php]
-Yii::import('zii.widgets.CPortlet');
+Yee::import('zii.widgets.CPortlet');
 
 class UserMenu extends CPortlet
 {
 	public function init()
 	{
-		$this->title=CHtml::encode(Yii::app()->user->name);
+		$this->title=CHtml::encode(Yee::app()->user->name);
 		parent::init();
 	}
 
@@ -47,7 +47,7 @@ class UserMenu extends CPortlet
 а другий генерує зміст портлета, рендерингом представлення `userMenu`.
 
 > Tip|Підказка: Зауважимо, що ми явним чином підключаємо клас `CPortlet`, 
-викликаючи `Yii::import()` до першого звернення до нього. 
+викликаючи `Yee::import()` до першого звернення до нього. 
 `CPortlet` є частиною офіційної бібліотеки розширень `zii`, 
 класи якої не підключаються автоматично з міркувань продуктивності.
 
@@ -82,7 +82,7 @@ class UserMenu extends CPortlet
 [php]
 …
 <div id="sidebar">
-	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+	<?php if(!Yee::app()->user->isGuest) $this->widget('UserMenu'); ?>
 </div>
 …
 ~~~
@@ -115,4 +115,4 @@ class UserMenu extends CPortlet
 незначно змінивши або навіть без модифікацій. 
 Крім того, дизайн портлетів слідує філософії про розділення представлення і логіки. 
 Хоча ми і не вказували на це у попередніх розділах, 
-така практика використовується майже всюди у типовому додатку Yii.
+така практика використовується майже всюди у типовому додатку Yee.

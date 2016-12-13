@@ -1,12 +1,12 @@
-Das umfassende Handbuch für Yii
+Das umfassende Handbuch für Yee
 ===============================
 
 Dieses Tutorial wurde unter den [Bedingungen der
-Yii-Dokumentation](http://www.yiiframework.com/doc/terms/) veröffentlicht.
+Yee-Dokumentation](http://www.yeeframework.com/doc/terms/) veröffentlicht.
 
 Alle Rechte vorbehalten.
 
-2008-2010 &copy; Yii Software LLC.
+2008-2010 &copy; Yee Software LLC.
 
 Übersetzt von Michael Härtl und Peter Matulla.
 

@@ -3,9 +3,9 @@
  * CFileCacheDependency class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -48,6 +48,6 @@ class CFileCacheDependency extends CCacheDependency
 		if($this->fileName!==null)
 			return @filemtime($this->fileName);
 		else
-			throw new CException(Yii::t('yii','CFileCacheDependency.fileName cannot be empty.'));
+			throw new CException(Yee::t('yee','CFileCacheDependency.fileName cannot be empty.'));
 	}
 }

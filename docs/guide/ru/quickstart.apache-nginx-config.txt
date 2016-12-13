@@ -4,7 +4,7 @@
 Apache
 ------
 
-Yii готов к работе с настроенным по умолчанию Apache. Файлы
+Yee готов к работе с настроенным по умолчанию Apache. Файлы
 .htaccess во фреймворке и директориях приложения ограничивают доступ к
 некоторым ресурсам. Для сокрытия файла точки входа (обычно это `index.php`) в
 URL можно добавить инструкцию для модуля `mod_rewrite` в файл `.htaccess`
@@ -26,9 +26,9 @@ RewriteRule . index.php
 Nginx
 -----
 
-Yii можно использовать с веб-сервером [Nginx](http://nginx.org/ru/) и PHP с
+Yee можно использовать с веб-сервером [Nginx](http://nginx.org/ru/) и PHP с
 помощью [FPM SAPI](http://php.net/install.fpm). Ниже приведён пример простой
-конфигурации хоста. Он определяет файл точки входа и заставляет Yii
+конфигурации хоста. Он определяет файл точки входа и заставляет Yee
 перехватывать все запросы к несуществующим файлам, что позволяет создавать
 человекопонятные URL-адреса.
 
@@ -39,13 +39,13 @@ server {
 
     server_name  mysite;
     root   $host_path/htdocs;
-    set $yii_bootstrap "index.php";
+    set $yee_bootstrap "index.php";
 
     charset utf-8;
 
     location / {
-        index  index.html $yii_bootstrap;
-        try_files $uri $uri/ /$yii_bootstrap?$args;
+        index  index.html $yee_bootstrap;
+        try_files $uri $uri/ /$yee_bootstrap?$args;
     }
 
     location ~ ^/(protected|framework|themes/\w+/views) {
@@ -61,8 +61,8 @@ server {
     location ~ \.php {
         fastcgi_split_path_info  ^(.+\.php)(.*)$;
 
-        # позволяем yii перехватывать запросы к несуществующим PHP-файлам
-        set $fsn /$yii_bootstrap;
+        # позволяем yee перехватывать запросы к несуществующим PHP-файлам
+        set $fsn /$yee_bootstrap;
         if (-f $document_root$fastcgi_script_name){
             set $fsn $fastcgi_script_name;
         }

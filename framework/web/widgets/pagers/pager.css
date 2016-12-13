@@ -2,13 +2,13 @@
  * CSS styles for CLinkPager.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2010 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2010 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  * @since 1.0
  */
 
-ul.yiiPager
+ul.yeePager
 {
 	font-size:11px;
 	border:0;
@@ -18,13 +18,13 @@ ul.yiiPager
 	display:inline;
 }
 
-ul.yiiPager li
+ul.yeePager li
 {
 	display:inline;
 }
 
-ul.yiiPager a:link,
-ul.yiiPager a:visited
+ul.yeePager a:link,
+ul.yeePager a:visited
 {
 	border:solid 1px #9aafe5;
 	font-weight:bold;
@@ -33,24 +33,24 @@ ul.yiiPager a:visited
 	text-decoration:none;
 }
 
-ul.yiiPager .page a
+ul.yeePager .page a
 {
 	font-weight:normal;
 }
 
-ul.yiiPager a:hover
+ul.yeePager a:hover
 {
 	border:solid 1px #0e509e;
 }
 
-ul.yiiPager .selected a
+ul.yeePager .selected a
 {
 	background:#2e6ab1;
 	color:#FFFFFF;
 	font-weight:bold;
 }
 
-ul.yiiPager .hidden a
+ul.yeePager .hidden a
 {
 	border:solid 1px #DEDEDE;
 	color:#888888;
@@ -59,8 +59,8 @@ ul.yiiPager .hidden a
 /**
  * Hide first and last buttons by default.
  */
-ul.yiiPager .first,
-ul.yiiPager .last
+ul.yeePager .first,
+ul.yeePager .last
 {
 	display:none;
 }

@@ -29,7 +29,7 @@ public function loadModel()
 	{
 		if(isset($_GET['id']))
 		{
-			if(Yii::app()->user->isGuest)
+			if(Yee::app()->user->isGuest)
 				$condition='status='.Post::STATUS_PUBLISHED
 					.' OR status='.Post::STATUS_ARCHIVED;
 			else
@@ -45,7 +45,7 @@ public function loadModel()
 
 Perubahan utama kita terletak pada metode `loadModel()`. Dalam metode ini, kita meng-query tabel `Post` berdasarkan parameter GET `id`. Jika post tidak ditemukan atau tidak dipublikasikan atau diarsip (ketika user adalah guest), kita melempar sebuah error HTTP 404. Di luar masalah tadi, maka sebuah objek post akan dikembalikan ke `actionView()` yang kemudian objeknya akan di-pass ke script view untuk ditampilkan
 
-> Tip|Tips: Yii menangkap exception HTTP (instance dari [CHttpException]) dan menampilkannya baik di template yang sudah ditetapkan ataupun di view error buatan sendiri. Kerangka aplikasi yang dihasilkan `yiic` sudah mengandung sebuah view error buatan sendiri di `/wwwroot/blog/protected/views/site/error.php`. Kita dapat memodifikasikan fil ini jika kita ingin kustomisasi lebih lanjut untuk tampilan error.
+> Tip|Tips: Yee menangkap exception HTTP (instance dari [CHttpException]) dan menampilkannya baik di template yang sudah ditetapkan ataupun di view error buatan sendiri. Kerangka aplikasi yang dihasilkan `yeec` sudah mengandung sebuah view error buatan sendiri di `/wwwroot/blog/protected/views/site/error.php`. Kita dapat memodifikasikan fil ini jika kita ingin kustomisasi lebih lanjut untuk tampilan error.
 
 Perubahan script `view` pada umumnya terletak bagaimana mengatur format dan style dari tampilan post. Kita tidak akan membahas detail ini. Jika anda tertarik maka dapat merujuk ke `/wwwroot/blog/protected/views/post/view.php`.
 

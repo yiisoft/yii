@@ -1,7 +1,7 @@
 Administración de Posts
 =======================
 
-La administración de posts se refiere principalmente a listar posts en una vista administrativa que nos permita ver posts con todos sus estados, actualizarlos y borrarlos. Esto se logra con la operación `admin` y la operación `delete`. El código generado por `yiic` no necesita demasiadas modificaciones. A continuación explicamos principalmente cómo están implementadas estas operaciones.
+La administración de posts se refiere principalmente a listar posts en una vista administrativa que nos permita ver posts con todos sus estados, actualizarlos y borrarlos. Esto se logra con la operación `admin` y la operación `delete`. El código generado por `yeec` no necesita demasiadas modificaciones. A continuación explicamos principalmente cómo están implementadas estas operaciones.
 
 Listando Posts de Forma Tabular
 -----------------------------
@@ -21,7 +21,7 @@ public function actionAdmin()
 }
 ~~~
 
-Este código es generado por la herramiento `yiic` sin ninguna modificación. Primero crea un modelo `Post` bajo el escenario `búsqueda` [escenario](/doc/guide/es/form.model). Vamos a usar este modelo para juntar las condiciones de búsqueda que un usuario especifica. Luego asignamos al modelo la información suministrada por el usuari, si es que hay alguna. Finalmente, mostramos la vista `admin` con el modelo.
+Este código es generado por la herramiento `yeec` sin ninguna modificación. Primero crea un modelo `Post` bajo el escenario `búsqueda` [escenario](/doc/guide/es/form.model). Vamos a usar este modelo para juntar las condiciones de búsqueda que un usuario especifica. Luego asignamos al modelo la información suministrada por el usuari, si es que hay alguna. Finalmente, mostramos la vista `admin` con el modelo.
 
 A continuación tenemos el código para la vista `admin`:
 
@@ -62,7 +62,7 @@ $this->breadcrumbs=array(
 
 Usamos [CGridView] para mostrar los posts. Nos permite ordenar por columna y paginar a través de los posts si es que hay muchos para ser mostrados en una página sola. Nuestro cambio principalmente acerca de cómo mostrar cada columna. Por ejemplo, para la columna `title`, especificamos que debería ser mostrada con un hipervínculo que apunte a la vista detallada de un post. La expresión `$data->url` retorna el valor de la propiedad `url` que definimos en la clase `Post`.
 
-> Tip|Consejo: Cuando se muestra texto, llamamos a [CHtml::encode()] para codificar entidades HTML en él. Esto previene de ataques del tipo [cross-site scripting](http://www.yiiframework.com/doc/guide/topics.security).
+> Tip|Consejo: Cuando se muestra texto, llamamos a [CHtml::encode()] para codificar entidades HTML en él. Esto previene de ataques del tipo [cross-site scripting](http://www.yeeframework.com/doc/guide/topics.security).
 
 
 Borrando Posts
@@ -74,7 +74,7 @@ En la grilla de datos `admin`, hay un botón de borrar en cada fila. Haciendo cl
 [php]
 public function actionDelete()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();
@@ -87,7 +87,7 @@ public function actionDelete()
 }
 ~~~
 
-Este código es uno de los generados por la herramienta `yiic` sin ningún cambio. Vamos a explicar con más detalle sobre el chequeo de `$_POST['ajax']`. El widget [CGridView] tiene una función muy interesante en el que sus operaciones de ordenamiento, paginación y borrado son todas hechas en el modo AJAX por defecto. Esto significa, que toda la página no es recargada si alguna de estas operaciones se ejecuta. De todas formas, es posible también que el widget corra en modo no-AJAX (configurando su propiedad `ajaxUpdate` en falso o deshabilitando Javascript del lado del cliente). Es necesario para la acción `delete` diferenciar entre estos dos escenarios: si el pedido de borrar es hecho a través de AJAX, entonces no debemos redireccionar el navegador del usuario; de otro modo, deberíamos.
+Este código es uno de los generados por la herramienta `yeec` sin ningún cambio. Vamos a explicar con más detalle sobre el chequeo de `$_POST['ajax']`. El widget [CGridView] tiene una función muy interesante en el que sus operaciones de ordenamiento, paginación y borrado son todas hechas en el modo AJAX por defecto. Esto significa, que toda la página no es recargada si alguna de estas operaciones se ejecuta. De todas formas, es posible también que el widget corra en modo no-AJAX (configurando su propiedad `ajaxUpdate` en falso o deshabilitando Javascript del lado del cliente). Es necesario para la acción `delete` diferenciar entre estos dos escenarios: si el pedido de borrar es hecho a través de AJAX, entonces no debemos redireccionar el navegador del usuario; de otro modo, deberíamos.
 
 Borrando un post debería también causar el borrado de todos los comentarios para ese post. Además, deberíamos actualizar la tabla `tbl_tag` de acuerdo a los tags del post borrado. Ambas tareas se pueden lograr escribiendo el método `afterDelete`en el modelo `Post` como sigue,
 

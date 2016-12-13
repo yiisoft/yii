@@ -1,7 +1,7 @@
 Nieuwe Features
 ===============
 
-Deze pagina geeft een samenvatting van de nieuwe features geintroduceerd in elke Yii-release.
+Deze pagina geeft een samenvatting van de nieuwe features geintroduceerd in elke Yee-release.
 
 Versie 1.1.7
 -------------
@@ -44,12 +44,12 @@ Versie 1.1.1
  eenvoudiger maakt, en ondersteund naadloze en consistente validatie aan
  client- en server-zijde.
  
- * Code gegenereerd door de yiic-tool is gerefactoreerd. In het bijzonder is de
+ * Code gegenereerd door de yeec-tool is gerefactoreerd. In het bijzonder is de
  raamwerkapplicatie nu gegenereerd met meerdere layouts; Het menu met bewerkingen is
  geherorganiseerd voor CRUD-pagina's; zoek- en filteropties zijn toegevoegd aan de
  gegenereerde beheerpagina; CActiveForm word gebruikt om formulieren te renderen.
 
- * [Support toegevoegd voor het definiëren van globale yiic-commando's](/doc/guide/topics.console)
+ * [Support toegevoegd voor het definiëren van globale yeec-commando's](/doc/guide/topics.console)
 
 Versie 1.1.0
 -------------

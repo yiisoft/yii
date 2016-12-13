@@ -12,7 +12,7 @@ einsetzen.
 Grundprinzip
 ------------
 
-Der Yii Form-Builder verwendet ein [CForm]-Objekt, in dem sämtliche Angaben
+Der Yee Form-Builder verwendet ein [CForm]-Objekt, in dem sämtliche Angaben
 über ein HTML-Formular abgelegt sind, also u.a., welche Datenmodels mit dem 
 Formular verknüpft sind, welche Art von Eingabefeldern verwendet werden und 
 wie das ganze Formular gerendert werden soll. Als Entwickler braucht man 

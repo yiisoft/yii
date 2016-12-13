@@ -1,11 +1,11 @@
 * 初めに
-	- [Yii 公式ガイド](index)
+	- [Yee 公式ガイド](index)
 	- [新しい機能](changes)
 	- [1.0 から 1.1 へのアップグレード](upgrade)
-	- [Yii とは何か](quickstart.what-is-yii)
+	- [Yee とは何か](quickstart.what-is-yee)
 	- [インストール](quickstart.installation)
 	- [Apache と Nginx の構成](quickstart.apache-nginx-config)
-	- [初めての Yii アプリケーションの作成](quickstart.first-app)
+	- [初めての Yee アプリケーションの作成](quickstart.first-app)
 
 * 基本
 	- [モデル-ビュー-コントローラ (MVC)](basics.mvc)
@@ -69,6 +69,6 @@
 	- [コンソールアプリケーション](topics.console)
 	- [セキュリティ](topics.security)
 	- [パフォーマンスチューニング](topics.performance)
-	- [コマンドラインツールを使用するコード生成(非推奨)](quickstart.first-app-yiic)
+	- [コマンドラインツールを使用するコード生成(非推奨)](quickstart.first-app-yeec)
 
 <div class="revision">$Id$</div>

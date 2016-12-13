@@ -3,15 +3,15 @@
  * CMarkdownParser class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-require_once(Yii::getPathOfAlias('system.vendors.markdown.markdown').'.php');
+require_once(Yee::getPathOfAlias('system.vendors.markdown.markdown').'.php');
 if(!class_exists('HTMLPurifier_Bootstrap',false))
 {
-	require_once(Yii::getPathOfAlias('system.vendors.htmlpurifier').DIRECTORY_SEPARATOR.'HTMLPurifier.standalone.php');
+	require_once(Yee::getPathOfAlias('system.vendors.htmlpurifier').DIRECTORY_SEPARATOR.'HTMLPurifier.standalone.php');
 	HTMLPurifier_Bootstrap::registerAutoload();
 }
 
@@ -77,7 +77,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	{
 		$content=$this->transform($content);
 		$purifier=new HTMLPurifier($this->purifierOptions);
-		$purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
+		$purifier->config->set('Cache.SerializerPath',Yee::app()->getRuntimePath());
 		return $purifier->purify($content);
 	}
 
@@ -86,7 +86,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	 */
 	public function getDefaultCssFile()
 	{
-		return Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css';
+		return Yee::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css';
 	}
 
 	/**
@@ -153,8 +153,8 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	{
 		if(!class_exists('Text_Highlighter', false))
 		{
-			require_once(Yii::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter').'.php');
-			require_once(Yii::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter.Renderer.Html').'.php');
+			require_once(Yee::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter').'.php');
+			require_once(Yee::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter.Renderer.Html').'.php');
 		}
 		$lang = current(preg_split('/\s+/', substr(substr($options,1), 0,-1),2));
 		$highlighter = Text_Highlighter::factory($lang);

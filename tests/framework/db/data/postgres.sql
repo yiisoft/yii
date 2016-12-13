@@ -1,6 +1,6 @@
 /**
- * This is the database schema for testing PostgreSQL support of yii Active Record.
- * To test this feature, you need to create a database named 'yii' on 'localhost'
+ * This is the database schema for testing PostgreSQL support of yee Active Record.
+ * To test this feature, you need to create a database named 'yee' on 'localhost'
  * and create an account 'test/test' which owns this test database.
  */
 CREATE SCHEMA test;
@@ -163,7 +163,7 @@ INSERT INTO test.items (name,col1,col2) VALUES ('item 3',1,3);
 INSERT INTO test.items (name,col1,col2) VALUES ('item 4',2,2);
 INSERT INTO test.items (name,col1,col2) VALUES ('item 5',2,2);
 
-CREATE TABLE public.yii_types
+CREATE TABLE public.yee_types
 (
 	int_col INT NOT NULL,
 	int_col2 INTEGER DEFAULT 1,

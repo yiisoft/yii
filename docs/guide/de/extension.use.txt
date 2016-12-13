@@ -5,7 +5,7 @@ Um eine Erweiterung (engl.: Extension) einzusetzen, sind normalerweise
 folgende Schritte erforderlich:
 
   1. Erweiterung aus dem [Extension
-  repository](http://www.yiiframework.com/extensions/) von Yii herunterladen
+  repository](http://www.yeeframework.com/extensions/) von Yee herunterladen
   2. Ins Unterverzeichnis `extensions/xyz` des 
   [Anwendungsverzeichnisses](/doc/guide/basics.application#application-base-directory)
   entpacken, wobei `xyz` für den Namen der Erweiterung steht.
@@ -25,12 +25,12 @@ Zii Erweiterungen
 
 Bevor wir auf andere Erweiterungen eingehen, möchten wir an dieser Stelle kurz
 die Zii-Erweiterungsbibliothek vorstellen. Dabei handelt es sich um eine Reihe von
-Erweiterungen, die vom Yii-Entwicklerteam erstellt wurden und die seit Version
+Erweiterungen, die vom Yee-Entwicklerteam erstellt wurden und die seit Version
 1.1.0 in jedem Release enthalten sind. 
 
 Um eine Zii-Erweiterung zu verwenden, muss die entsprechende Klasse mit einem
 Pfadalias der Form `zii.pfad.zur.Klasse` referenziert werden. Der Rootalias
-`zii` wird hierbei von Yii bereits vorbelegt. Er bezieht sich auf das
+`zii` wird hierbei von Yee bereits vorbelegt. Er bezieht sich auf das
 Basisverzeichnis der Zii-Bibliothek. Ein [CGridView] würde man
 z.B. so einsetzen:
 
@@ -63,7 +63,7 @@ return array(
 );
 ~~~
 
-Nun kann in der gesamten Anwendung mit `Yii::app()->xyz` auf die
+Nun kann in der gesamten Anwendung mit `Yee::app()->xyz` auf die
 Komponente zugegriffen werden. Sie wird `lazy` ("faul", also beim ersten
 Zugriff darauf) erzeugt, es sei denn, sie wird in der Eigenschaft
 `preload` aufgeführt.
@@ -279,7 +279,7 @@ Konsolenbefehl
 --------------
 
 Eine [Konsolenerweiterung](/doc/guide/topics.console) 
-fügt dem `yiic`-Befehl in der Regel ein weiteres Kommando hinzu. 
+fügt dem `yeec`-Befehl in der Regel ein weiteres Kommando hinzu. 
 Indem man die Konfiguration der Konslenanwendung anpasst, kann man 
 dann z.B. den Befehl `XyzClass` aus der Erweiterung `xyz` verwenden:
 
@@ -297,12 +297,12 @@ return array(
 );
 ~~~
 
-Für den `yiic`-Befehl steht nun das Kommand `xyz` zur Verfügung.
+Für den `yeec`-Befehl steht nun das Kommand `xyz` zur Verfügung.
 
 > Note|Hinweis: Eine Konsolenanwendung verwendet normalerweise eine andere
 Konfigurationsdatei als die Webanwendung. Wenn eine Applikation mit dem Befehl
-`yiic webapp` erstellt wurde, liegt die Konfigurationsdatei für die
-Konsolenanwendung in `protected/yiic` in `protected/config/console.php`, die
+`yeec webapp` erstellt wurde, liegt die Konfigurationsdatei für die
+Konsolenanwendung in `protected/yeec` in `protected/config/console.php`, die
 der Webanwendung in `protected/config/main.php`.
 
 
@@ -320,7 +320,7 @@ Um eine allgemeine [Komponente](/doc/guide/basics.component) einzusetzen,
 muss zunächst die Klassendatei eingebunden werden:
 
 ~~~
-Yii::import('ext.xyz.XyzClass');
+Yee::import('ext.xyz.XyzClass');
 ~~~
 
 Danach kann man entweder eine Instanz dieser Klasse erzeugen, Eigenschaften

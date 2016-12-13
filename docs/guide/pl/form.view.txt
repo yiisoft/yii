@@ -8,7 +8,7 @@ w klasie `LoginForm`. Na końcu wstawiamy przycisk wysyłający, który może zo
 kliknięty przez użytkownika celem przesłania formularza. Wszystko to może zostać
 zrobione za pomocą czystego kody HTML.
 
-Yii dostarcza kilka klas helperów, aby ułatwić komponowanie widoku. Na przykład, 
+Yee dostarcza kilka klas helperów, aby ułatwić komponowanie widoku. Na przykład, 
 aby stworzyć pole tekstowe, możemy wywołać metodę [CHtml::textField()]; aby utworzyć
 listę rozwijaną (ang. drop-down) wywołujemy metodę [CHtml::dropDownList()].
 
@@ -28,7 +28,7 @@ Zakładamy, że zmienna `$model` reprezentuje instancje `LoginForm`.
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="yeeForm">
 <?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
@@ -51,7 +51,7 @@ Remember me next time<br/>
 </div>
 
 <?php echo CHtml::endForm(); ?>
-</div><!-- yiiForm -->
+</div><!-- yeeForm -->
 ~~~
 
 Powyższy kod generuje bardziej dynamiczny formularz. Na przykład, 
@@ -61,7 +61,7 @@ na `error`, co zmieni wygląd etykiety odpowiednio do stylu CSS. Podobnie metoda
 [CHtml::activeTextField()] wygeneruje pole wejściowe dla określonego atrybutu modelu 
 oraz zmieni jego klasę CSS w momencie wystąpienia błędów we wprowadzanych danych.
 
-Jeśli używamy pliku stylu CSS `form.css` dostarczonego przez skrypt `yiic` wygenerowany
+Jeśli używamy pliku stylu CSS `form.css` dostarczonego przez skrypt `yeec` wygenerowany
 formularz będzie podobny do następującego:
 
 ![Strona logowania](login1.png)

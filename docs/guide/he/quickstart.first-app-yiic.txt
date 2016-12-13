@@ -1,14 +1,14 @@
-﻿יישום פעולות CRUD בעזרת `yiic shell` (לא נתמך)
+﻿יישום פעולות CRUD בעזרת `yeec shell` (לא נתמך)
 ==============================================
 
-» Note|הערה: יצירת הקוד בעזרת `yiic shell` יצא מכלל שימוש החל מגרסא 1.1.2. נא להשתמש ביוצר הקוד הנרחב והמבוסס ווב בשם [Gii](/doc/guide/topics.gii), במקום.
+» Note|הערה: יצירת הקוד בעזרת `yeec shell` יצא מכלל שימוש החל מגרסא 1.1.2. נא להשתמש ביוצר הקוד הנרחב והמבוסס ווב בשם [Gii](/doc/guide/topics.gii), במקום.
 
 יש לפתוח חלון פקודות, להריץ את הפקודות הרשומות מטה:
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
+% protected/yeec shell
+Yee Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 »» model User tbl_user
    generate models/User.php
@@ -38,11 +38,11 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-בקוד המוצג למעלה, אנו משתמשים בפקודות `yiic shell` בכדי לתקשר עם האפליקציה שלנו. בחלון, אנו מריצים שני פקודות נוספות: `model User tbl_user` ו `crud User`. הראשון יוצר מחלקת מודל בשם `User` עבור הטבלה `tbl_user`, בזמן שהפקודה השנייה מנתחת את המודל `User` ויוצרת את הקוד המיישם את פעולות ה CRUD השונות.
+בקוד המוצג למעלה, אנו משתמשים בפקודות `yeec shell` בכדי לתקשר עם האפליקציה שלנו. בחלון, אנו מריצים שני פקודות נוספות: `model User tbl_user` ו `crud User`. הראשון יוצר מחלקת מודל בשם `User` עבור הטבלה `tbl_user`, בזמן שהפקודה השנייה מנתחת את המודל `User` ויוצרת את הקוד המיישם את פעולות ה CRUD השונות.
 
-» Note|הערה: יתכן ותתקל בשגיאות כמו `could not find driver...`, למרות שבעת ביצוע בדיקות הדרישות של מערכת Yii מצויין שה-PDO פעיל. במידה וזה קורה, תוכל לנסות להריץ את הכלי `yiic` בצורה הבאה,
+» Note|הערה: יתכן ותתקל בשגיאות כמו `could not find driver...`, למרות שבעת ביצוע בדיקות הדרישות של מערכת Yee מצויין שה-PDO פעיל. במידה וזה קורה, תוכל לנסות להריץ את הכלי `yeec` בצורה הבאה,
 » ~~~
-» % php -c path/to/php.ini protected/yiic.php shell
+» % php -c path/to/php.ini protected/yeec.php shell
 » ~~~
 »
 » כש `path/to/php.ini` מייצג את קובץ הגדרות ה-PHP הנכון.
@@ -74,4 +74,4 @@ http://hostname/testdrive/index.php?r=user/admin
 ![עמוד הוספת משתמש חדש](first-app7.png)
 
 
-«div class="revision"»$Id: quickstart.first-app-yiic.txt 2098 2010-04-11 03:54:25Z qiang.xue $«/div»
+«div class="revision"»$Id: quickstart.first-app-yeec.txt 2098 2010-04-11 03:54:25Z qiang.xue $«/div»

@@ -3,9 +3,9 @@
  * CChainedCacheDependency class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -53,7 +53,7 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 	/**
 	 * @param array $values list of dependency objects or configurations to be added to this chain.
 	 * If a dependency is specified as a configuration, it must be an array that can be recognized
-	 * by {@link YiiBase::createComponent}.
+	 * by {@link YeeBase::createComponent}.
 	 */
 	public function setDependencies($values)
 	{
@@ -61,7 +61,7 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 		foreach($values as $value)
 		{
 			if(is_array($value))
-				$value=Yii::createComponent($value);
+				$value=Yee::createComponent($value);
 			$dependencies->add($value);
 		}
 	}

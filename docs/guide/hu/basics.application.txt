@@ -8,7 +8,7 @@ tárolásának központi helyeként is szolgál. Ezért az alkalmazást `front-c
 is szokták nevezni.
 
 A [belépési szkript] (/doc/guide/basics.entry) az alkalmazást 'singleton'-ként hozza létre.
-Az alkalmazás 'singleton' bárhol elérhető a kovetkezőn keresztül: [Yii::app()|YiiBase::app].
+Az alkalmazás 'singleton' bárhol elérhető a kovetkezőn keresztül: [Yee::app()|YeeBase::app].
 
 
 Alkalmazás beállítás
@@ -28,7 +28,7 @@ tulajdonságait.
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -42,12 +42,12 @@ return array(...);
 ~~~
 
 A beállítás alkalmazásához a konfigurációs fájl nevét paraméterként kell átadjuk
-az alkalamazás konstruktorának, vagy [Yii::createWebApplication()]-nek a következők
+az alkalamazás konstruktorának, vagy [Yee::createWebApplication()]-nek a következők
 szerint (ez általában a [belépési szkript](/doc/guide/basics.entry)-ben történik):
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip|Tipp: Ha az alkalmás bonyolult konfigurációt igényel, szétoszthatjuk
@@ -109,8 +109,8 @@ A fentiekben hozzáadjuk a `cache` elemet a `components` tömbhöz. A `cache` el
 meghatározza, hogy a komponens `CMemCache` osztályú és `servers` tulajdonsága a
 megadottak szerint legyen beállítva.
 
-Egy komponenst a `Yii::app()->ComponentID` használatával érhetünk el, ahol is
-`ComponentID` a komponens azonosítójára hivatkozik (pl.: `Yii::app()->cache`).
+Egy komponenst a `Yee::app()->ComponentID` használatával érhetünk el, ahol is
+`ComponentID` a komponens azonosítójára hivatkozik (pl.: `Yee::app()->cache`).
 
 Egy alkalmazás komponenst letilthatunk, ha beállításakor az `enabled` tulajdonságát
 `false`-ra állítjuk. Ha egy letiltott komponenst próbálunk elérni `null`-t kapunk
@@ -127,11 +127,11 @@ az alkalmazás [preload|CApplication::preload] tulajdonságában.
 Alap alkalmazás komponensek
 ---------------------------
 
-Yii meghatároz néhány alap alkalmazás komponenst, biztosítandó a web alkalmazások
+Yee meghatároz néhány alap alkalmazás komponenst, biztosítandó a web alkalmazások
 alap képességeit. Például a [request|CWebApplication::request] komponens a
 felhasználói kérések feloldására, valamint URL és süti információk
 biztosítására használatos. E komponensek tulajdonságainak beállításával
-szinte minden tekintetben testreszabhatjuk Yii alap viselkedését.
+szinte minden tekintetben testreszabhatjuk Yee alap viselkedését.
 
 Következzék a [CWebApplication] által előre meghatározott komponensek listája:
 
@@ -148,7 +148,7 @@ biztosít. Megjegyzendő: meg kell határozni a tényleges osztályát (pl.: [CM
 kliens szkripteket kezel (JavaScript és CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-a Yii keretrendszer alap üzeneteinek lefordított változatát biztosítja.
+a Yee keretrendszer alap üzeneteinek lefordított változatát biztosítja.
 
    - [db|CApplication::db]: [CDbConnection] - adatbázis kapcsolatot biztosít.
 Megjegyzendő: be kell állítani a [connectionString|CDbConnection::connectionString]
@@ -158,7 +158,7 @@ tulajdonságát, hogy használható legyen.
 nem kezelt PHP hibákat és kivételeket kezel.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] -
-a Yii alklamazás által használt üzenetek lefordított változatát biztosítja.
+a Yee alklamazás által használt üzenetek lefordított változatát biztosítja.
 
    - [request|CWebApplication::request]: [CHttpRequest] -
 felhasználói kérésekkel kapcsolatos információkat biztosít.

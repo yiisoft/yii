@@ -6,20 +6,20 @@ datelor stocate in diverse DBMS (Sisteme de Management Baze de Date).
 Ca urmare, DBMS-ul poate fi schimbat oricand cu altul, fara sa fie nevoie
 sa schimbam codul nostru in care folosim DAO sa accesam datele. 
 
-Yii DAO este construit pe baza [PDO](http://php.net/manual/en/book.pdo.php) (obiecte date PHP)
+Yee DAO este construit pe baza [PDO](http://php.net/manual/en/book.pdo.php) (obiecte date PHP)
 care este o extensie PHP ce pune la dispozitie accesul unificat la date stocate
 in diverse DBMS cunoscute, precum MySQL si PostgreSQL. De aceea, pentru a folosi
-Yii DAO, trebuie instalate extensia PDO si driverul PDO de baze de date specific 
+Yee DAO, trebuie instalate extensia PDO si driverul PDO de baze de date specific 
 (ex. `PDO_MYSQL`).
 
-Yii DAO este format in principal din urmatoarele patru clase:
+Yee DAO este format in principal din urmatoarele patru clase:
 
    - [CDbConnection]: reprezinta conexiunea la o baza de date.
    - [CDbCommand]: reprezinta o instructiune SQL de executat.
    - [CDbDataReader]: reprezinta un flux doar de citire de randuri dintr-un set de rezultate.
    - [CDbTransaction]: reprezinta o tranzactie DB.
 
-In cele ce urmeaza, explicam folosirea Yii DAO in diverse scenarii.
+In cele ce urmeaza, explicam folosirea Yee DAO in diverse scenarii.
 
 Stabilirea conexiunii la baza de date
 -------------------------------------
@@ -72,7 +72,7 @@ array(
 )
 ~~~
 
-Putem dupa aceea sa accesam conexiunea DB prin `Yii::app()->db`, care este
+Putem dupa aceea sa accesam conexiunea DB prin `Yee::app()->db`, care este
 activata automat (putem interzice acest comportament prin setarea cu false a
 proprietatii [CDbConnection::autoConnect]. Folosind aceasta metoda
 conexiunea DB poate fi utilizata oriunde in cod.
@@ -143,7 +143,7 @@ Folosirea tranzactiilor
 Cand o aplicatie executa cateva cereri, operatii de citire sau/si scriere
 in baza de date, este important sa ne asiguram ca baza de date sa contina toate schimbarile
 facute de aceste operatii. In aceste cazuri, poate fi initiata o tranzactie,
-reprezentata prin instanta [CDbTransaction] din Yii:
+reprezentata prin instanta [CDbTransaction] din Yee:
 
    - Incepem tranzactia.
    - Executam cererile una cate una. Orice actualizare nu este vizibila in exteriorul bazei de date.

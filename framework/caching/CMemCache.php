@@ -3,9 +3,9 @@
  * CMemCache class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -113,7 +113,7 @@ class CMemCache extends CCache
 		{
 			$extension=$this->useMemcached ? 'memcached' : 'memcache';
 			if(!extension_loaded($extension))
-				throw new CException(Yii::t('yii',"CMemCache requires PHP {extension} extension to be loaded.",
+				throw new CException(Yee::t('yee',"CMemCache requires PHP {extension} extension to be loaded.",
 					array('{extension}'=>$extension)));
 			return $this->_cache=$this->useMemcached ? new Memcached : new Memcache;
 		}
@@ -273,9 +273,9 @@ class CMemCacheServerConfiguration extends CComponent
 			foreach($config as $key=>$value)
 				$this->$key=$value;
 			if($this->host===null)
-				throw new CException(Yii::t('yii','CMemCache server configuration must have "host" value.'));
+				throw new CException(Yee::t('yee','CMemCache server configuration must have "host" value.'));
 		}
 		else
-			throw new CException(Yii::t('yii','CMemCache server configuration must be an array.'));
+			throw new CException(Yee::t('yee','CMemCache server configuration must be an array.'));
 	}
 }

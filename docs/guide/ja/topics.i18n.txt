@@ -4,7 +4,7 @@
 国際化 (I18N) はプログラムの変更なしで、各言語、各地域に適合できるように、ソフトウェアアプリケーションを設計する過程を指します。
 ウェブアプリケーションでは、ユーザになる可能性のある人が世界中から訪れるため、特に重要です。
 
-Yii は I18N のサポートをいくつかの面から提供します。
+Yee は I18N のサポートをいくつかの面から提供します。
 
 
    - 各可能な言語と変形のためのロケール (地域・言語) データの提供
@@ -20,7 +20,7 @@ Yii は I18N のサポートをいくつかの面から提供します。
 ロケールは、ユーザの言語、国、そして、ユーザがユーザインタフェースに期待する何らかの特別な好みを定義するパラメータのセットです。
 これは、通常、言語 ID と地域 ID から成る ID により確認されます。
 たとえば、ID `en_US` は、英語とアメリカのロケールを表します。
-整合性のため、Yii の全てのロケール ID は、小文字で `LanguageID` か `LanguageID_RegionID` のフォーマットで標準化されています (例: `en`, `en_us`)。
+整合性のため、Yee の全てのロケール ID は、小文字で `LanguageID` か `LanguageID_RegionID` のフォーマットで標準化されています (例: `en`, `en_us`)。
 
 ロケールデータは、[CLocale] のインスタンスとして表されます。
 これは、通貨記号、数値記号、通貨フォーマット、数値フォーマット、
@@ -30,14 +30,14 @@ Yii は I18N のサポートをいくつかの面から提供します。
 
 ロケール ID を与えると、`CLocale::getInstance($localeID)` もしくは `CApplication::getLocale($localeID)` により、それに一致する [CLocale] インタンスを取得できます。
 
-> Info|情報: Yii にはほとんど全ての言語と地域のためのロケールデータが含まれています。
+> Info|情報: Yee にはほとんど全ての言語と地域のためのロケールデータが含まれています。
 データは [共通ロケールデータリポジトリ](http://unicode.org/cldr/) (CLDR) より取得されています。
 オリジナルのデータは滅多に使用されない多くの情報を含んでいるため、各ロケールとも、そのサブセットだけが提供されます。
 ユーザが自分自身のカスタマイズしたロケールデータを供給することも出来ます。
 そうするためには、[CApplication::localeDataPath] プロパティを構成して、カスタマイズされたロケールデータを含むディレクトリを指定します。
 カスタマイズされたロケールデータファイルを作る場合は、`framework/i18n/data` の下にあるロケールデータファイルを参照して下さい。
 
-Yii アプリケーションでは、[ソース言語|CApplication::sourceLanguage] と [ターゲット言語|CApplication::language] を区別します。
+Yee アプリケーションでは、[ソース言語|CApplication::sourceLanguage] と [ターゲット言語|CApplication::language] を区別します。
 ターゲット言語は、アプリケーションが対象とするユーザの言語 (ロケール) で、一方、ソース言語はアプリケーションソースファイルに書かれている言語 (ロケール) を示します。
 国際化は二つの言語が異なる場合のみで起こります。
 
@@ -56,24 +56,24 @@ I18N でもっとも必要な機能は、おそらくメッセージ翻訳やビ
 前者はテキストメッセージのターゲット言語への翻訳、後者はファイル全体のターゲット言語への翻訳です。
 
 翻訳リクエストは、翻訳すべきオブジェクト、オブジェクトの現在のソース言語、オブジェクトの翻訳先のターゲット言語から構成されます。
-Yii では、ソース言語はデフォルトでは [アプリケーションソース言語|CApplication::sourceLanguage] になり、ターゲット言語はデフォルトでは [アプリケーション言語|CApplication::language] になります。
+Yee では、ソース言語はデフォルトでは [アプリケーションソース言語|CApplication::sourceLanguage] になり、ターゲット言語はデフォルトでは [アプリケーション言語|CApplication::language] になります。
 ソース言語とターゲット言語が同じ場合、翻訳されません。
 
 ### メッセージ翻訳
 
-メッセージ翻訳は、[Yii::t()|YiiBase::t] をコールすることで行われます。
+メッセージ翻訳は、[Yee::t()|YeeBase::t] をコールすることで行われます。
 メソッドは指定されたメッセージを、[ソース言語|CApplication::sourceLanguage] から [ターゲット言語|CApplication::language] へと翻訳します。
 
 メッセージを翻訳するときは、カテゴリを指定しなければなりません。
 というのは、同じメッセージでも、異なるカテゴリ (文脈) の下では、異なる翻訳が行われる可能性があるためです。
-カテゴリ `yii` は Yii フレームワークのコアコードによって使用されるメッセージのために予約済みです。
+カテゴリ `yee` は Yee フレームワークのコアコードによって使用されるメッセージのために予約済みです。
 
-メッセージには、[Yii::t()|YiiBase::t] を呼び出す際に、実際のパラメータ値によって置き換えられるパラメータプレースホルダを含められます。
+メッセージには、[Yee::t()|YeeBase::t] を呼び出す際に、実際のパラメータ値によって置き換えられるパラメータプレースホルダを含められます。
 例えば、以下のメッセージ翻訳リクエストは、オリジナルメッセージの `{alias}` プレースホルダを、実際の alias 値で置き換えます。
 
 ~~~
 [php]
-Yii::t('app', 'Path alias "{alias}" is redefined.',
+Yee::t('app', 'Path alias "{alias}" is redefined.',
 	array('{alias}'=>$alias))
 ~~~
 
@@ -83,9 +83,9 @@ Yii::t('app', 'Path alias "{alias}" is redefined.',
 
 翻訳されたメッセージは、**メッセージソース** と呼ばれるリポジトリに保存されます。
 メッセージソースは、[CMessageSource] か、その子クラスのインスタンスとして表現されます。
-[Yii::t()|YiiBase::t] が呼び出されると、メッセージソースのメッセージが探されて、見つかった場合には翻訳されたバージョンが返されます。
+[Yee::t()|YeeBase::t] が呼び出されると、メッセージソースのメッセージが探されて、見つかった場合には翻訳されたバージョンが返されます。
 
-Yii は下記のタイプのメッセージソースを備えています。
+Yee は下記のタイプのメッセージソースを備えています。
 [CMessageSource] を継承して、オリジナルのメッセージソースタイプを作成することも可能です。
 
    - [CPhpMessageSource]: メッセージ翻訳は、PHP 配列に "キー-値" のペアとして格納されます。
@@ -101,12 +101,12 @@ Yii は下記のタイプのメッセージソースを備えています。
 詳細は、API ドキュメンテーション [CDbMessageSource] を参照してください。
 
 メッセージソースは、[アプリケーションコンポーネント](/doc/guide/basics.application#sec-4) として読み込まれます。
-Yii は、[messages|CApplication::messages] という名前のアプリケーションコンポーネントがユーザアプリケーションで使用されるメッセージを格納するとあらかじめ宣言します。
+Yee は、[messages|CApplication::messages] という名前のアプリケーションコンポーネントがユーザアプリケーションで使用されるメッセージを格納するとあらかじめ宣言します。
 デフォルトでは、メッセージソースのタイプは [CPhpMessageSource] で、`protected/messages` が PHP 翻訳ファイルのベースパスとなります。
 
 要約すると、メッセージ翻訳を使用するためには、下記のステップが必要です:
 
-   1. 適切な箇所で [Yii::t()|YiiBase::t] をコールします。
+   1. 適切な箇所で [Yee::t()|YeeBase::t] をコールします。
 
    2. `protected/messages/LocaleID/CategoryName.php` に PHP 翻訳ファイルを作成します。
 各ファイルは、単にメッセージ翻訳の配列を返します。
@@ -114,22 +114,22 @@ Yii は、[messages|CApplication::messages] という名前のアプリケーシ
 
    3. [CApplication::sourceLanguage] と [CApplication::language] の設定を行います。
 
-> Tip|ヒント: [CPhpMessageSource] をメッセージソースとして使用する場合は、メッセージ翻訳を管理するために、Yii の `yiic` ツールを利用できます。
+> Tip|ヒント: [CPhpMessageSource] をメッセージソースとして使用する場合は、メッセージ翻訳を管理するために、Yee の `yeec` ツールを利用できます。
 `message` コマンドによって、自動的に選択されたソースファイルから翻訳されるべきメッセージを抽出し、必要なら、既存の翻訳にそれらをマージできます。
-`message`コマンドのさらに詳細な使用方法については、`yiic help message`を実行して下さい。
+`message`コマンドのさらに詳細な使用方法については、`yeec help message`を実行して下さい。
 
 [CPhpMessageSource] を使ってメッセージソースを管理する場合、エクステンションクラス (例えばウィジェットやモジュール) のメッセージは分離して管理および使用することが出来ます。
 具体的に言うと、メッセージが `Xyz` というクラス名のエクステンションに属している場合、メッセージカテゴリを `Xyz.categoryName` の形式で指定することが出来ます。 
 対応するメッセージファイルは `BasePath/messages/LanguageID/categoryName.php` であると見なされます。
 ここで `BasePath` はエクステンションクラスファイルを含むディレクトリを指します。
-そして、`Yii::t()` を使ってエクステンションのメッセージを翻訳するときは、かわりに、以下の書式が使用されなければなりません。
+そして、`Yee::t()` を使ってエクステンションのメッセージを翻訳するときは、かわりに、以下の書式が使用されなければなりません。
 
 ~~~
 [php]
-Yii::t('Xyz.categoryName', 'message to be translated')
+Yee::t('Xyz.categoryName', 'message to be translated')
 ~~~
 
-Yii は [choice format|CChoiceFormat] をサポートしています。
+Yee は [choice format|CChoiceFormat] をサポートしています。
 これは、複数形書式 (plural forms) としても知られているものです。
 choice format は、与えられた数値に従い翻訳を選択します。
 たとえば、'book' という単語は、英語では、本の数によって単数形か複数形のどちらかを取りますし、また、他の言語では、(中国語のように) 異なる形を持たない場合、(ロシア語のように) より複雑な複数形の規則がある場合があります。
@@ -153,13 +153,13 @@ choice format を使用するには、翻訳メッセージが下記のように
 'n==1#one book|n>1#many books'
 ~~~
 
-[Yii::t()|YiiBase::t] を呼び出す際に、メッセージのパラメータ配列に数値 2 を渡した場合、最終的に翻訳メッセージとして `many books` が返されます。
+[Yee::t()|YeeBase::t] を呼び出す際に、メッセージのパラメータ配列に数値 2 を渡した場合、最終的に翻訳メッセージとして `many books` が返されます。
 
 ~~~
 [php]
-Yii::t('app', 'n==1#one book|n>1#many books', array(1));
+Yee::t('app', 'n==1#one book|n>1#many books', array(1));
 // または、1.1.6 以降なら
-Yii::t('app', 'n==1#one book|n>1#many books', 1);
+Yee::t('app', 'n==1#one book|n>1#many books', 1);
 ~~~
 
 略記法として、式が数値のみの場合、`n==数値` と解釈されます。
@@ -180,9 +180,9 @@ Yii::t('app', 'n==1#one book|n>1#many books', 1);
 
 ~~~
 [php]
-Yii::t('test', 'cucumber|cucumbers', 1);
-Yii::t('test', 'cucumber|cucumbers', 2);
-Yii::t('test', 'cucumber|cucumbers', 0);
+Yee::t('test', 'cucumber|cucumbers', 1);
+Yee::t('test', 'cucumber|cucumbers', 2);
+Yee::t('test', 'cucumber|cucumbers', 0);
 ~~~
 
 上記のコードは次のように翻訳されます。
@@ -197,7 +197,7 @@ cucumbers
 
 ~~~
 [php]
-echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+echo Yee::t('test', '{n} cucumber|{n} cucumbers', 1);
 ~~~
 
 ここで `{n}` は渡された数値を保持する特別なプレースホルダです。
@@ -207,7 +207,7 @@ echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
 
 ~~~
 [php]
-Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+Yee::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
 array(5, '{username}' => 'samdark'));
 ~~~
 
@@ -221,17 +221,17 @@ function convertNumber($number)
 	return $number;
 }
 
-Yii::t('test', '{n} cucumber|{n} cucumbers',
+Yee::t('test', '{n} cucumber|{n} cucumbers',
 array(5, '{n}' => convertNumber(5)));
 ~~~
 
 複数形の書式の数は、言語によって異なります。例えば、元のメッセージが以下の通りであるとします。
 ~~~
 [php]
-Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
-Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yee::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 この複数形の書式は、ロシア語に翻訳されると、二つではなく四つの表示形式を持つようになります。
@@ -274,7 +274,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 
 日付と時刻は、国や地域によって異なる書式がしばしば利用されます。
 日付と時刻フォーマットの目的は、ロケールに基づき、そのロケールに適した日付や時刻の文字列を生成することです。
-Yii は、この問題のために、[CDateFormatter] を提供します。
+Yee は、この問題のために、[CDateFormatter] を提供します。
 
 各 [CDateFormatter] インスタンスは、ターゲットロケールと結びついています。
 アプリケーション全体のターゲットロケールに結びついたフォーマッタの取得は、アプリケーションの [dateFormatter|CApplication::dateFormatter] プロパティを使い、簡単にアクセスできます。
@@ -290,7 +290,7 @@ Yii は、この問題のために、[CDateFormatter] を提供します。
 
 日付と時刻のように、数値も国や地域によって異なる書式を使わなければならない場合があります。
 数値フォーマットは、小数フォーマット、通貨フォーマット、パーセンテージフォーマットを含みます。
-Yii は、これらのために [CNumberFormatter] を提供します。
+Yee は、これらのために [CNumberFormatter] を提供します。
 
 アプリケーション全体のターゲットロケールに結びついた数値フォーマッタは、アプリケーションの [numberFormatter|CApplication::numberFormatter] プロパティを使って、アクセスできます。
 

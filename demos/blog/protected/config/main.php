@@ -1,13 +1,13 @@
 <?php
 
 // uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
+// Yee::setPathOfAlias('local','path/to/local-folder');
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Yii Blog Demo',
+	'name'=>'Yee Blog Demo',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -71,6 +71,6 @@ return array(
 	),
 
 	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
+	// using Yee::app()->params['paramName']
 	'params'=>require(dirname(__FILE__).'/params.php'),
 );

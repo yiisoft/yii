@@ -18,7 +18,7 @@ dazu zum Beispiel sämtliche Eingaben eines Benutzers HTML-codieren. Allerdings
 kann dies in manchen Situationen nicht wünschenswert sein, da so alle
 HTML-Tags deaktiviert werden.
 
-Yii bedient sich daher der Arbeit des
+Yee bedient sich daher der Arbeit des
 [HTMLPurifier](http://htmlpurifier.org/)-Projekts und bietet Entwicklern eine
 nützliche Komponente namens [CHtmlPurifier], die
 [HTMLPurifier](http://htmlpurifier.org/) kapselt. Diese Komponente ist in der
@@ -62,7 +62,7 @@ Zufallswert enhalten, der vom Server erkannt werden kann, um sicherzustellen,
 dass ein Formular vom selben Ort aus abgeschickt wurde, an den auch das
 Ergebnis zurückgeschickt wird. 
 
-Yii implementiert einen CSRF-Schutzmechanismus um `POST`-basierte Angriffe
+Yee implementiert einen CSRF-Schutzmechanismus um `POST`-basierte Angriffe
 abzuwehren. Er basiert darauf, einen Zufallswert in einem Cookie zu speichern,
 und dessen Wert mit einem per `POST`-Request gesendeten Wert zu vergleichen. 
 
@@ -106,7 +106,7 @@ Zeit verfallen um die Wahrscheinlichkeit eines Angriffs zu verringern.
 im Browser des Anwenders führen kann und so dessen Cookies zugänglich macht.
 * Prüf Sie Cookiedaten auf Gültigkeit und stellen Sie fest, ob diese verändert wurden.
 
-Yii implementiert ein Schema zur Cookie-Überprüfung, das Cookies vor
+Yee implementiert ein Schema zur Cookie-Überprüfung, das Cookies vor
 Veränderung schützt. Falls aktiv, wird insbesondere eine HMAC-Prüfung der
 Cookiewerte durchgeführt.
 
@@ -133,12 +133,12 @@ direkt über `$_COOKIES` anzusprechen:
 ~~~
 [php]
 // Cookie mit dem angegebenen Namen beziehen
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yee::app()->request->cookies[$name];
 $value=$cookie->value;
 ......
 // Cookie senden
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yee::app()->request->cookies[$name]=$cookie;
 ~~~
 
 

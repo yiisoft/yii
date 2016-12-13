@@ -1,33 +1,33 @@
-Criando a primeira aplicação Yii
+Criando a primeira aplicação Yee
 ==============================
 
-Para ter uma experiência inicial com o Yii, descrevemos nesta seção como criar nossa
-primeira aplicação em Yii. Iremos utilizar a poderosa ferramenta `yiic` que pode ser
+Para ter uma experiência inicial com o Yee, descrevemos nesta seção como criar nossa
+primeira aplicação em Yee. Iremos utilizar a poderosa ferramenta `yeec` que pode ser
 usada para automatizar a criação de código para várias finalidades. Assumiremos que
-`YiiRoot` é o diretório onde o Yii está instalado e `WebRoot` é o diretório raíz
+`YeeRoot` é o diretório onde o Yee está instalado e `WebRoot` é o diretório raíz
 do servidor Web.
 
-Execute o `yiic` pela linha de comando, como no exemplo a seguir:
+Execute o `yeec` pela linha de comando, como no exemplo a seguir:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|Nota: Quando executamos o `yiic` no Mac OS, Linux ou Unix, devemos 
-> alterar a permissão do arquivo `yiic` para torna-lo executável.
+> Note|Nota: Quando executamos o `yeec` no Mac OS, Linux ou Unix, devemos 
+> alterar a permissão do arquivo `yeec` para torna-lo executável.
 >
 > Como forma alternativa, você pode executa-lo da seguinte maneira:
 >
 > ~~~
 > % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % php YeeRoot/framework/yeec.php webapp WebRoot/testdrive
 > ~~~
 
-Esse comando irá criar o esquele de uma aplicação Yii, no diretório `WebRoot/testdrive`. 
+Esse comando irá criar o esquele de uma aplicação Yee, no diretório `WebRoot/testdrive`. 
 A aplicação tem um estrutura de diretórios que é a necessária para a maioria das 
-aplicações feitas no Yii.
+aplicações feitas no Yee.
 
-Sem ter escrito uma única linha de código, ja podemos testar nossa primeira aplicação Yii, 
+Sem ter escrito uma única linha de código, ja podemos testar nossa primeira aplicação Yee, 
 acessando a seguinte URL:
 
 ~~~
@@ -64,10 +64,10 @@ testdrive/
    images/                   Contém arquivos de imagem
    themes/                   Contém temas da aplicação
    protected/                Contém arquivos protegidos da aplicação
-      yiic                   Script de linha de comando yiic
-      yiic.bat               Script de linha de comando yiic para o Windows
-      commands/              Contém comandos 'yiic' customizados
-         shell/              Contém comandos 'yiic shell' customizados
+      yeec                   Script de linha de comando yeec
+      yeec.bat               Script de linha de comando yeec para o Windows
+      commands/              Contém comandos 'yeec' customizados
+         shell/              Contém comandos 'yeec shell' customizados
       components/            Contém componentes reutilizáveis do usuário
          MainMenu.php        A classe widget 'MainMenu' (Menu Principal)
          Identity.php        A classe 'Identity' usada nas autenticações
@@ -121,7 +121,7 @@ Acima, nós adicionamos uma entrada para `db` ao array `components`, que instrui
 aplicação para se conectar ao banco de dados SQLite `WebRoot/testdrive/protected/data/source.db` 
 quando for preciso.
 
-> Note|Nota: Para utilizar os recursos de banco de dados do Yii, precisamos ativar
+> Note|Nota: Para utilizar os recursos de banco de dados do Yee, precisamos ativar
 a extensão PDO do PHP e a extensão de driver PDO específico. Para a aplicação test-drive,
 as extensões `php_pdo` e `php_pdo_sqlite` deverão estar habilitadas.
 
@@ -157,13 +157,13 @@ tabela `User` que acabamos de criar. Este tipo de operação é frequetemente ne
 em aplicações reais.
 
 Em vez da dificuldade na escrita de um código real, iremos utilizar a poderosa ferramenta
-`yiic` para gerar automaticamente o código. Este processo é também conhecido como *scaffolding*.
+`yeec` para gerar automaticamente o código. Este processo é também conhecido como *scaffolding*.
 Abra a linha de comando e execute os comandos listados a seguir:
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.0
+% protected/yeec shell
+Yee Interactive Tool v1.0
 Please type 'help' for help. Type 'exit' to quit.
 >> model User
    generate User.php
@@ -189,7 +189,7 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Acima, utilizamos o comando `yiic shell` para interagir com nossa
+Acima, utilizamos o comando `yeec shell` para interagir com nossa
 aplicação esqueleto. Na linha de comando, podemos digitar dois subcomandos:
 `model User` e `crud User`. O primeiro gera a classe modelo para a tabela
 `User`, enquanto que o segundo comando lê a classe modelo `User` e gera 
@@ -198,10 +198,10 @@ o código necessário para as operações do tipo CRUD.
 > Note|Nota: Você poderá encontrar erros como "...could not find driver" ou "...driver não encontrado", 
 > mesmo que o verificador de requisitos mostre que você já tem o PDO ativado e o driver PDO
 > correspondente ao Banco de Dados. Caso isso ocorra, você deve tentar rodar a ferramenta
-> `yiic` do seguinte modo:
+> `yeec` do seguinte modo:
 >
 > ~~~
-> % php -c caminho/para/php.ini protected/yiic.php shell
+> % php -c caminho/para/php.ini protected/yeec.php shell
 > ~~~
 >
 > onde `caminho/para/php.ini` representa o arquivo PHP.ini correto.

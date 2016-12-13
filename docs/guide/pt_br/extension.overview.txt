@@ -1,13 +1,13 @@
 Visão Geral
 ===========
 
-Estender o Yii é uma atividade comum durante o desenvolvimento. Por exemplo, 
+Estender o Yee é uma atividade comum durante o desenvolvimento. Por exemplo, 
 quando você cria um novo controle, você estende o framework herdando da classe 
 [CController]; quando você cria um novo widget, você está estendendo a classe [CWidget] 
 ou outro widget existente. Se o código estendido for projetado para a reutilização 
 por terceiros, o chamamos de *extensão*.
 
-Uma extensão normalmente atende a um único propósito. No Yii, ela pode ser classificada 
+Uma extensão normalmente atende a um único propósito. No Yee, ela pode ser classificada 
 como:
 
  * [componente da aplicação](/doc/guide/basics.application#application-component)
@@ -28,7 +28,7 @@ como:
  podemos ter um módulo com funcionalidades para o gerenciamento de usuários.
  
 Uma extensão também pode ser um componente que não se encaixe em nenhuma das categorias 
-acima. Na verdade, o Yii é cuidadosamente projetado de forma que, praticamente 
+acima. Na verdade, o Yee é cuidadosamente projetado de forma que, praticamente 
 todo seu código possa ser estendido e customizado para atender necessidades individuais.
 
 <div class="revision">$Id: extension.overview.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

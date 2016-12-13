@@ -90,7 +90,7 @@ return array(
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // або таким, якщо $this посилається на екземпляр контролеру
 // $postPerPage=$this->module->postPerPage;
 ~~~

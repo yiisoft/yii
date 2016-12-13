@@ -1,4 +1,4 @@
-This folder contains unit tests of Yii framework.
+This folder contains unit tests of Yee framework.
 PHPUnit 3.5+ and xdebug (for code coverage report) are required.
 
 To run a single unit test, use:

@@ -3,16 +3,16 @@
  * CActiveRecord class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
  * CActiveRecord is the base class for classes representing relational data.
  *
  * It implements the active record design pattern, a popular Object-Relational Mapping (ORM) technique.
- * Please check {@link http://www.yiiframework.com/doc/guide/database.ar the Guide} for more details
+ * Please check {@link http://www.yeeframework.com/doc/guide/database.ar the Guide} for more details
  * about this class.
  *
  * @property CDbCriteria $dbCriteria The query criteria that is associated with this model.
@@ -256,10 +256,10 @@ abstract class CActiveRecord extends CModel
 
 		$md=$this->getMetaData();
 		if(!isset($md->relations[$name]))
-			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
+			throw new CDbException(Yee::t('yee','{class} does not have relation "{name}".',
 				array('{class}'=>get_class($this), '{name}'=>$name)));
 
-		Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
+		Yee::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
 		$relation=$md->relations[$name];
 		if($this->getIsNewRecord() && !$refresh && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 			return $relation instanceof CHasOneRelation ? null : array();
@@ -636,11 +636,11 @@ abstract class CActiveRecord extends CModel
 			return self::$db;
 		else
 		{
-			self::$db=Yii::app()->getDb();
+			self::$db=Yee::app()->getDb();
 			if(self::$db instanceof CDbConnection)
 				return self::$db;
 			else
-				throw new CDbException(Yii::t('yii','Active Record requires a "db" CDbConnection application component.'));
+				throw new CDbException(Yee::t('yee','Active Record requires a "db" CDbConnection application component.'));
 		}
 	}
 
@@ -1072,10 +1072,10 @@ abstract class CActiveRecord extends CModel
 	public function insert($attributes=null)
 	{
 		if(!$this->getIsNewRecord())
-			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
+			throw new CDbException(Yee::t('yee','The active record cannot be inserted to database because it is not new.'));
 		if($this->beforeSave())
 		{
-			Yii::trace(get_class($this).'.insert()','system.db.ar.CActiveRecord');
+			Yee::trace(get_class($this).'.insert()','system.db.ar.CActiveRecord');
 			$builder=$this->getCommandBuilder();
 			$table=$this->getTableSchema();
 			$command=$builder->createInsertCommand($table,$this->getAttributes($attributes));
@@ -1120,10 +1120,10 @@ abstract class CActiveRecord extends CModel
 	public function update($attributes=null)
 	{
 		if($this->getIsNewRecord())
-			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
+			throw new CDbException(Yee::t('yee','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
-			Yii::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
+			Yee::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
 			if($this->_pk===null)
 				$this->_pk=$this->getPrimaryKey();
 			$this->updateByPk($this->getOldPrimaryKey(),$this->getAttributes($attributes));
@@ -1159,7 +1159,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(!$this->getIsNewRecord())
 		{
-			Yii::trace(get_class($this).'.saveAttributes()','system.db.ar.CActiveRecord');
+			Yee::trace(get_class($this).'.saveAttributes()','system.db.ar.CActiveRecord');
 			$values=array();
 			foreach($attributes as $name=>$value)
 			{
@@ -1179,7 +1179,7 @@ abstract class CActiveRecord extends CModel
 				return false;
 		}
 		else
-			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
+			throw new CDbException(Yee::t('yee','The active record cannot be updated because it is new.'));
 	}
 
 	/**
@@ -1199,7 +1199,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function saveCounters($counters)
 	{
-		Yii::trace(get_class($this).'.saveCounters()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.saveCounters()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$table=$this->getTableSchema();
 		$criteria=$builder->createPkCriteria($table,$this->getOldPrimaryKey());
@@ -1223,7 +1223,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(!$this->getIsNewRecord())
 		{
-			Yii::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');
+			Yee::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');
 			if($this->beforeDelete())
 			{
 				$result=$this->deleteByPk($this->getPrimaryKey())>0;
@@ -1234,7 +1234,7 @@ abstract class CActiveRecord extends CModel
 				return false;
 		}
 		else
-			throw new CDbException(Yii::t('yii','The active record cannot be deleted because it is new.'));
+			throw new CDbException(Yee::t('yee','The active record cannot be deleted because it is new.'));
 	}
 
 	/**
@@ -1243,7 +1243,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function refresh()
 	{
-		Yii::trace(get_class($this).'.refresh()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.refresh()','system.db.ar.CActiveRecord');
 		if(($record=$this->findByPk($this->getPrimaryKey()))!==null)
 		{
 			$this->_attributes=array();
@@ -1458,7 +1458,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function find($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.find()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.find()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria);
 	}
@@ -1472,7 +1472,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAll($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria,true);
 	}
@@ -1487,7 +1487,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByPk($pk,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria);
@@ -1503,7 +1503,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria,true);
@@ -1520,7 +1520,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria);
@@ -1537,7 +1537,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria,true);
@@ -1551,7 +1551,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this).'.findBySql()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.findBySql()','system.db.ar.CActiveRecord');
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
@@ -1574,7 +1574,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this).'.findAllBySql()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.findAllBySql()','system.db.ar.CActiveRecord');
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
@@ -1598,7 +1598,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function count($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$this->beforeCount();
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
@@ -1625,7 +1625,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function countByAttributes($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.countByAttributes()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.countByAttributes()','system.db.ar.CActiveRecord');
 		$prefix=$this->getTableAlias(true).'.';
 		$builder=$this->getCommandBuilder();
 		$this->beforeCount();
@@ -1651,7 +1651,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function countBySql($sql,$params=array())
 	{
-		Yii::trace(get_class($this).'.countBySql()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.countBySql()','system.db.ar.CActiveRecord');
 		$this->beforeCount();
 		return $this->getCommandBuilder()->createSqlCommand($sql,$params)->queryScalar();
 	}
@@ -1665,7 +1665,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function exists($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.exists()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.exists()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$table=$this->getTableSchema();
@@ -1747,7 +1747,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function updateByPk($pk,$attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.updateByPk()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.updateByPk()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$table=$this->getTableSchema();
 		$criteria=$builder->createPkCriteria($table,$pk,$condition,$params);
@@ -1766,7 +1766,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function updateAll($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.updateAll()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.updateAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createUpdateCommand($this->getTableSchema(),$attributes,$criteria);
@@ -1785,7 +1785,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function updateCounters($counters,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.updateCounters()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.updateCounters()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createUpdateCounterCommand($this->getTableSchema(),$counters,$criteria);
@@ -1802,7 +1802,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function deleteByPk($pk,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.deleteByPk()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.deleteByPk()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
@@ -1818,7 +1818,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function deleteAll($condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.deleteAll()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.deleteAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
@@ -1836,7 +1836,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function deleteAllByAttributes($attributes,$condition='',$params=array())
 	{
-		Yii::trace(get_class($this).'.deleteAllByAttributes()','system.db.ar.CActiveRecord');
+		Yee::trace(get_class($this).'.deleteAllByAttributes()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$table=$this->getTableSchema();
 		$criteria=$builder->createColumnCriteria($table,$attributes,$condition,$params);
@@ -2339,7 +2339,7 @@ class CManyManyRelation extends CHasManyRelation
 	private function initJunctionData()
 	{
 		if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
-			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+			throw new CDbException(Yee::t('yee','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
 				array('{class}'=>$this->className,'{relation}'=>$this->name)));
 		$this->_junctionTableName=$matches[1];
 		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
@@ -2386,7 +2386,7 @@ class CActiveRecordMetaData
 
 		$tableName=$model->tableName();
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
-			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
+			throw new CDbException(Yee::t('yee','The table "{table}" for active record class "{class}" cannot be found in the database.',
 				array('{class}'=>$this->_modelClassName,'{table}'=>$tableName)));
 				
 		if(($modelPk=$model->primaryKey())!==null || $table->primaryKey===null)
@@ -2435,7 +2435,7 @@ class CActiveRecordMetaData
 		if(isset($config[0],$config[1],$config[2]))  // relation class, AR class, FK
 			$this->relations[$name]=new $config[0]($name,$config[1],$config[2],array_slice($config,3));
 		else
-			throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.', array('{class}'=>$this->_modelClassName,'{relation}'=>$name)));
+			throw new CDbException(Yee::t('yee','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.', array('{class}'=>$this->_modelClassName,'{relation}'=>$name)));
 	}
 
 	/**

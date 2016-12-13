@@ -11,12 +11,12 @@ na serwerze utrzymującym aplikację opartą o PHP. Web service opiera się
 o [SOAP](http://en.wikipedia.org/wiki/SOAP), jako podstawową warstwę stosu
 protokołu komunikacyjnego.
 
-Yii dostarcza klas [CWebService] i [CWebServiceAction] dla uproszczenia pracy
+Yee dostarcza klas [CWebService] i [CWebServiceAction] dla uproszczenia pracy
 związanej z implementacją Web service'u w aplikacji webowej. Poszczególne
 API pogrupowane są w klasy, zwane *dostawcami usług*. Dla każej z tych klas
-Yii generuje specyfikację [WSDL](http://www.w3.org/TR/wsdl) określającą,
+Yee generuje specyfikację [WSDL](http://www.w3.org/TR/wsdl) określającą,
 jakie funkcje API są dostępne i jak powinny być wywoływane przez klienta.
-W momencie gdy funkcja API jest wywoływana przez klienta, Yii tworzy instancję
+W momencie gdy funkcja API jest wywoływana przez klienta, Yee tworzy instancję
 odpowiedniego dostawcy usługi i wywołuje potrzebne API, aby zrealizować żądanie.
 
 > Uwaga: [CWebService] opiera się o [rozszerzenie PHP SOAP]
@@ -27,7 +27,7 @@ Definiowanie dostawcy usługi
 ----------------------------
 
 Jak wcześniej mówiliśmy, dostawca usługi jest klasą udostępniającą metody,
-które mogą być wywoływane zdalnie. Yii opiera się na [komentarzach dla potrzeb
+które mogą być wywoływane zdalnie. Yee opiera się na [komentarzach dla potrzeb
 dokumentacji - tzw. doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/)
 i na [introspekcjach klas](http://php.net/manual/en/book.reflection.php)
 w celu identyfikacji, która z metod może być zdalnie wywoływana oraz jakie są

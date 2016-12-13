@@ -132,9 +132,9 @@ to the widget instance instead of the controller instance.
 System View
 -----------
 
-System views refer to the views used by Yii to display error and logging
+System views refer to the views used by Yee to display error and logging
 information. For example, when a user requests for a non-existing controller
-or action, Yii will throw an exception explaining the error. Yii displays the
+or action, Yee will throw an exception explaining the error. Yee displays the
 exception using a specific system view.
 
 The naming of system views follows some rules. Names like `errorXXX` refer
@@ -142,7 +142,7 @@ to views for displaying [CHttpException] with error code `XXX`. For
 example, if [CHttpException] is raised with error code 404, the `error404`
 view will be displayed.
 
-Yii provides a set of default system views located under
+Yee provides a set of default system views located under
 `framework/views`. They can be customized by creating the same-named view
 files under `protected/views/system`.
 

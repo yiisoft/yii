@@ -5,7 +5,7 @@ Caching is a cheap and effective way to improve the performance of a Web
 application. By storing relatively static data in cache and serving it from
 cache when requested, we save the time needed to generate the data.
 
-Using cache in Yii mainly involves configuring and accessing a cache
+Using cache in Yee mainly involves configuring and accessing a cache
 application component. The following application configuration specifies a
 cache component that uses memcache with two cache servers.
 
@@ -27,9 +27,9 @@ array(
 ~~~
 
 When the application is running, the cache component can be accessed via
-`Yii::app()->cache`.
+`Yee::app()->cache`.
 
-Yii provides various cache components that can store cached data in
+Yee provides various cache components that can store cached data in
 different media. For example, the [CMemCache] component encapsulates the
 PHP memcache extension and uses memory as the medium of cache storage; the
 [CApcCache] component encapsulates the PHP APC extension; and the
@@ -66,8 +66,8 @@ of this component is to simplify the code that needs to check the availability o
 For example, during development or if the server doesn't have actual cache support, we
 can use this cache component. When an actual cache support is enabled, we can switch
 to use the corresponding cache component. In both cases, we can use the same code
-`Yii::app()->cache->get($key)` to attempt retrieving a piece of data without worrying
-that `Yii::app()->cache` might be `null`.
+`Yee::app()->cache->get($key)` to attempt retrieving a piece of data without worrying
+that `Yee::app()->cache` might be `null`.
 
 > Tip: Because all these cache components extend from the same base class
 [CCache], one can switch to use a different type of cache without modifying

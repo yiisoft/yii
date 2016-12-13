@@ -1,7 +1,7 @@
 Komponent
 =========
 
-Aplikacje Yii są zbudowane na komponentach, które są obiektami napisanymi zgodnie 
+Aplikacje Yee są zbudowane na komponentach, które są obiektami napisanymi zgodnie 
 ze specyfikacją. Komponent jest instancją klasy [CComponent] lub jej klas potomnych.
 Używanie komponentu sprowadza się głównie do używania jego właściwości oraz 
 wywoływania/obsługi jego zdarzeń. Klasa bazowa [CComponent] określa jak należy

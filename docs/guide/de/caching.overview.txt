@@ -6,7 +6,7 @@ Webanwendung auf günstige und wirkungsvolle Weise erhöhen. Speichert man
 relativ statische Daten im Cache und liefert sie bei Anfragen direkt von
 dort zurück, spart man sich die Zeit, diese Daten erneut aufzubereiten.
 
-In Yii steht dafür eine eigene Cachekomponente in der Anwendung zur Verfügung.
+In Yee steht dafür eine eigene Cachekomponente in der Anwendung zur Verfügung.
 Man kann diese Komponente z.B. für den Einsatz mit zwei Memcacheservern
 konfigurieren:
 
@@ -27,10 +27,10 @@ array(
 );
 ~~~
 
-Aus der Anwendung heraus wird dann über `Yii::app()->cache` auf diese
+Aus der Anwendung heraus wird dann über `Yee::app()->cache` auf diese
 Komponente zugegriffen.
 
-Yii bietet verschiedene Cachekomponenten, um Cachedaten auf
+Yee bietet verschiedene Cachekomponenten, um Cachedaten auf
 unterschiedlichsten Medien zu speichern. Die [CMemCache]-Komponente zum
 Beispiel, kapselt die memcache-Erweiterung von PHP um Daten direkt im 
 Speicher zu cachen. Die [CDbCache]-Komponente speichert gecachte Daten 
@@ -62,8 +62,8 @@ eignet sich besonders zum Cachen umfangreicher Daten (z.B. ganzer Seiten).
    - [CDummyCache]: stellt einen Dummy-Cache bereit, der überhaupt nicht
 cacht. Diese Komponente bietet sich für die Entwicklungsphase an, damit nicht
 dauernd geprüft werden muss, ob eine Cachekomponente bereit steht. Stattdessen
-kann man z.B. `Yii::app()->cache->get($key)` aufrufen, ohne Gefahr zu laufen,
-dass `Yii::app()->cache` null ist.  Im Livebetrieb wird dann die eigentliche 
+kann man z.B. `Yee::app()->cache->get($key)` aufrufen, ohne Gefahr zu laufen,
+dass `Yee::app()->cache` null ist.  Im Livebetrieb wird dann die eigentliche 
 Cachekomponente eingestellt.
 
 > Tip|Tipp: Da alle Cachekomponenten von der selben Basisklasse [CCache]

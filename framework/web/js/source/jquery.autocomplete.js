@@ -1,7 +1,7 @@
 /*
  * jQuery Autocomplete plugin 1.1
  *
- * Modified for Yii Framework:
+ * Modified for Yee Framework:
  * - Renamed "autocomplete" to "legacyautocomplete".
  * - Fixed IE8 problems (mario.ffranco).
  * - Fixed compatibility for jQuery 1.9+ (.browser is deprecated)

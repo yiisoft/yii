@@ -16,7 +16,7 @@ public function actionLogin()
 		$model->attributes=$_POST['LoginForm'];
 		// ユーザの入力の検証、検証が通った際は前のページへリダイレクト
 		if($model->validate())
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yee::app()->user->returnUrl);
 	}
 	// ログインフォームの表示
 	$this->render('login',array('model'=>$model));
@@ -28,8 +28,8 @@ public function actionLogin()
 そして入力を検証し、成功した場合はユーザのブラウザを前に認証が必要とされたページへリダイレクトします。
 もし検証が失敗した場合、またはアクションが直接アクセスされた場合は、次の節で内容を述べる `login` ビューを表示します。
 
-> Tip|ヒント: `login` アクションの中で、前に認証が必要とされたページを `Yii::app()->user->returnUrl` によって取得しています。
- `Yii::app()->user` コンポーネントは、[CWebUser] (或いはその派生) クラスで、ユーザのセッション情報 (例えばユーザ名、ステータス) を表します。
+> Tip|ヒント: `login` アクションの中で、前に認証が必要とされたページを `Yee::app()->user->returnUrl` によって取得しています。
+ `Yee::app()->user` コンポーネントは、[CWebUser] (或いはその派生) クラスで、ユーザのセッション情報 (例えばユーザ名、ステータス) を表します。
 詳細は [認証と権限付与](/doc/guide/topics.auth) を参照して下さい。
 
 `login` アクションに現れる下記の PHP 文に特に注目しましょう:

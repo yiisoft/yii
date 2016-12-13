@@ -1,7 +1,7 @@
 日志管理
 ==============
 
-日志管理主要是在一个管理视图中列出日志，我们可以查看所有状态的日志，更新或删除它们。它们分别通过 `admin` 操作和 `delete` 操作实现。`yiic` 生成的代码并不需要太多修改。下面我们主要解释这两个操作是怎样实现的。
+日志管理主要是在一个管理视图中列出日志，我们可以查看所有状态的日志，更新或删除它们。它们分别通过 `admin` 操作和 `delete` 操作实现。`yeec` 生成的代码并不需要太多修改。下面我们主要解释这两个操作是怎样实现的。
 
 
 在表格视图中列出日志
@@ -22,7 +22,7 @@ public function actionAdmin()
 }
 ~~~
 
-上面的代码由 `yiic` 工具生成，且未作任何修改。它首先创建了一个 `search` [场景（scenario）](/doc/guide/form.model) 下的 `Post` 模型。我们将使用此模型收集用户指定的搜索条件。然后我们把用户可能会提供的数据赋值给模型。 最后，我们以此模型显示 `admin` 视图。
+上面的代码由 `yeec` 工具生成，且未作任何修改。它首先创建了一个 `search` [场景（scenario）](/doc/guide/form.model) 下的 `Post` 模型。我们将使用此模型收集用户指定的搜索条件。然后我们把用户可能会提供的数据赋值给模型。 最后，我们以此模型显示 `admin` 视图。
 
 下面就是 `admin` 视图的代码：
 
@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
 
 我们使用 [CGridView] 来显示这些日志。它允许我们在单页显示过多时可以分页并可以按某一列排序。我们的修改主要针对每一列的显示。例如，针对 `title` 列，我们指定它应该显示为一个超级链接，指向日志的详情页面。表达式`$data->url` 返回我们之前在 `Post` 类中定义的 `url` 属性值。
 
-> Tip|提示: 当显示文本时，我们要调用 [CHtml::encode()] 对其中的HTML编码。这可以防止 [跨站脚本攻击(cross-site scripting attack)](http://www.yiiframework.com/doc/guide/topics.security).
+> Tip|提示: 当显示文本时，我们要调用 [CHtml::encode()] 对其中的HTML编码。这可以防止 [跨站脚本攻击(cross-site scripting attack)](http://www.yeeframework.com/doc/guide/topics.security).
 
 
 日志删除
@@ -75,7 +75,7 @@ $this->breadcrumbs=array(
 [php]
 public function actionDelete()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();
@@ -88,7 +88,7 @@ public function actionDelete()
 }
 ~~~
 
-上面的代码就是 `yiic` 生成的代码，未经任何修改。我们想在此对判断 `$_POST['ajax']` 稍作解释。[CGridView] 小物件有一个非常好的特性：它的排序、分页和删除操作默认是通过AJAX实现的。这就意味着在执行上述操作时，整个页面不会重新加载。然而，它也可以在非AJAX模式下运行（通过设置它的 `ajaxUpdate` 属性为 false 或在客户端禁用JavaScript）。`delete` 动作区分两个场景是必要的：如果删除请求通过AJAX提交，我们就不应该重定向用户的浏览器，反之则应该重定向。
+上面的代码就是 `yeec` 生成的代码，未经任何修改。我们想在此对判断 `$_POST['ajax']` 稍作解释。[CGridView] 小物件有一个非常好的特性：它的排序、分页和删除操作默认是通过AJAX实现的。这就意味着在执行上述操作时，整个页面不会重新加载。然而，它也可以在非AJAX模式下运行（通过设置它的 `ajaxUpdate` 属性为 false 或在客户端禁用JavaScript）。`delete` 动作区分两个场景是必要的：如果删除请求通过AJAX提交，我们就不应该重定向用户的浏览器，反之则应该重定向。
 
 删除日志应该同时导致日志的所有评论被删除。额外的，我们应更新相关的删除日志后的 `tbl_tag` 表。 这两个任务都可以通过在 `Post` 模型类中写一个如下的 `afterDelete` 方法实现。
 

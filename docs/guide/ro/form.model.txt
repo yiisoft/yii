@@ -80,7 +80,7 @@ class LoginForm extends CFormModel
 			if($identity->authenticate())
 			{
 				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 de zile
-				Yii::app()->user->login($identity,$duration);
+				Yee::app()->user->login($identity,$duration);
 			}
 			else
 				$this->addError('password','Incorrect password.');
@@ -192,7 +192,7 @@ array('password', 'authenticate', 'on'=>'login'),
 Securizarea asignarilor de atribute
 -----------------------------------
 
-> Note|Nota: Asignarea de atribute in functie de scenariu este disponibila incepand cu versiunea 1.0.2 a Yii.
+> Note|Nota: Asignarea de atribute in functie de scenariu este disponibila incepand cu versiunea 1.0.2 a Yee.
 
 Dupa ce o instanta a unui model a fost creata, trebuie sa populam atributele sale cu
 datele trimise de catre utilizatorul web. Putem face acest lucru mai usor folosind
@@ -319,7 +319,7 @@ public function rules()
 Prin urmare, prima regula va fi aplicata in toate scenariile, in timp ce urmatoarele
 doua reguli vor fi aplicate doar in cazul scenariului `register`.
 
-> Note|Nota: Validarea in functie de scenariu este disponibila incepand cu versiunea 1.0.1 a Yii.
+> Note|Nota: Validarea in functie de scenariu este disponibila incepand cu versiunea 1.0.1 a Yee.
 
 
 Obtinerea regulilor de validare

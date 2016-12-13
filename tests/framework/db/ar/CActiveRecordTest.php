@@ -1,7 +1,7 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.ar.CActiveRecord');
+Yee::import('system.db.CDbConnection');
+Yee::import('system.db.ar.CActiveRecord');
 
 require_once(dirname(__FILE__).'/../data/models.php');
 require_once(dirname(__FILE__).'/../data/models2.php');
@@ -716,7 +716,7 @@ class CActiveRecordTest extends CTestCase
 
 	/**
 	 * @depends testRelationalStat
-	 * @see https://github.com/yiisoft/yii/issues/873
+	 * @see https://github.com/yeesoft/yee/issues/873
 	 */
 	public function testRelationalStatWithScopes()
 	{
@@ -1408,7 +1408,7 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
-	 * @see https://github.com/yiisoft/yii/issues/268
+	 * @see https://github.com/yeesoft/yee/issues/268
 	 */
 	public function testCountIsSubStringOfFieldName()
 	{
@@ -1417,7 +1417,7 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
-	 * verify https://github.com/yiisoft/yii/issues/2756
+	 * verify https://github.com/yeesoft/yee/issues/2756
 	 */
 	public function testLazyFindCondition()
 	{
@@ -1428,7 +1428,7 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/1070
+	 * https://github.com/yeesoft/yee/issues/1070
 	 */
 	public function testIssue1070()
 	{
@@ -1451,7 +1451,7 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/507
+	 * https://github.com/yeesoft/yee/issues/507
 	 */
 	public function testIssue507()
 	{
@@ -1460,7 +1460,7 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
-	 * @see https://github.com/yiisoft/yii/issues/135
+	 * @see https://github.com/yeesoft/yee/issues/135
 	 */
 	public function testCountWithHaving()
 	{
@@ -1473,8 +1473,8 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	/**
-	 * @see https://github.com/yiisoft/yii/issues/135
-	 * @see https://github.com/yiisoft/yii/issues/2201
+	 * @see https://github.com/yeesoft/yee/issues/135
+	 * @see https://github.com/yeesoft/yee/issues/2201
 	 */
 	public function testCountWithHavingRelational()
 	{
@@ -1492,7 +1492,7 @@ class CActiveRecordTest extends CTestCase
 	/**
 	 * @depends testFind
 	 *
-	 * @see https://github.com/yiisoft/yii/issues/2216
+	 * @see https://github.com/yeesoft/yee/issues/2216
 	 */
 	public function testFindBySinglePkByArrayWithMixedKeys()
 	{
@@ -1509,7 +1509,7 @@ class CActiveRecordTest extends CTestCase
 	/**
 	 * @depends testFind
 	 *
-	 * @see https://github.com/yiisoft/yii/issues/101
+	 * @see https://github.com/yeesoft/yee/issues/101
 	 */
 	public function testHasManyThroughHasManyWithCustomSelect()
 	{
@@ -1521,7 +1521,7 @@ class CActiveRecordTest extends CTestCase
 	/**
 	 * @depends testFind
 	 *
-	 * @see https://github.com/yiisoft/yii/issues/139
+	 * @see https://github.com/yeesoft/yee/issues/139
 	 */
 	public function testLazyLoadThroughRelationWithCondition()
 	{
@@ -1533,7 +1533,7 @@ class CActiveRecordTest extends CTestCase
 	/**
 	 * @depends testFind
 	 *
-	 * @see https://github.com/yiisoft/yii/issues/662
+	 * @see https://github.com/yeesoft/yee/issues/662
 	 */
 	public function testThroughBelongsToLazy()
 	{
@@ -1541,7 +1541,7 @@ class CActiveRecordTest extends CTestCase
 		foreach($comments as $comment)
 		{
 			$this->assertFalse(empty($comment->postAuthor));
-			// equal relation definition with BELONGS_TO: https://github.com/yiisoft/yii/pull/2530
+			// equal relation definition with BELONGS_TO: https://github.com/yeesoft/yee/pull/2530
 			$this->assertFalse(empty($comment->postAuthorBelongsTo));
 			$this->assertTrue($comment->postAuthor->equals($comment->postAuthorBelongsTo));
 		}
@@ -1553,7 +1553,7 @@ class CActiveRecordTest extends CTestCase
 		foreach($comments as $comment)
 		{
 			$this->assertFalse(empty($comment->postAuthor));
-			// equal relation definition with BELONGS_TO: https://github.com/yiisoft/yii/pull/2530
+			// equal relation definition with BELONGS_TO: https://github.com/yeesoft/yee/pull/2530
 			$this->assertFalse(empty($comment->postAuthorBelongsTo));
 			$this->assertTrue($comment->postAuthor->equals($comment->postAuthorBelongsTo));
 		}
@@ -1565,11 +1565,11 @@ class CActiveRecordTest extends CTestCase
 			$this->markTestSkipped('PHP 5.3.0 or higher required for namespaces.');
 		require_once(dirname(__FILE__).'/../data/models-namespaced.php');
 		$this->assertEquals("posts",Post::model()->tableName());
-		$this->assertEquals("Example",CActiveRecord::model("yiiArExample\\testspace\\Example")->tableName());
+		$this->assertEquals("Example",CActiveRecord::model("yeeArExample\\testspace\\Example")->tableName());
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/2884
+	 * https://github.com/yeesoft/yee/issues/2884
 	 */
 	public function testDefaultScopeAlias()
 	{

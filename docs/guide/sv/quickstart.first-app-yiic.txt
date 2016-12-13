@@ -1,7 +1,7 @@
 Kodgenerering med kommandoradsverktyg (under utfasning)
 =======================================================
 
-> Note|Märk: Kodgeneratorerna i `yiic shell` fasas ut från och med version 1.1.2.
+> Note|Märk: Kodgeneratorerna i `yeec shell` fasas ut från och med version 1.1.2.
 Istället rekommenderas de mer kapabla och utbyggbara webbaserade kodgeneratorer 
 som finns tillgängliga i [Gii](/doc/guide/topics.gii).
 
@@ -9,8 +9,8 @@ som finns tillgängliga i [Gii](/doc/guide/topics.gii).
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
+% protected/yeec shell
+Yee Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
    generate models/User.php
@@ -40,18 +40,18 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Ovan används `shell`-kommandot i `yiic` till att interagera med mallapplikationen. 
+Ovan används `shell`-kommandot i `yeec` till att interagera med mallapplikationen. 
 Vid kommandoprompten kör vi två underkommandon: `model User tbl_user` och `crud User`. 
 Den förra skapar en modellklass `User` för tabellen `tbl_user`, medan den senare  
 analyserar `User`-modellen och genererar koden som implementerar motsvarande CRUD-operationer.
 
 > Note|Märk: Det kan hända att felmeddelanden i stil med "...could not find driver"
 > uppstår, även om systemkravskontrollen visar att PDO och motsvarande databasdrivrutin 
-> redan är aktiva. Om detta inträffar kan man försöka med att köra `yiic`-verktyget på 
+> redan är aktiva. Om detta inträffar kan man försöka med att köra `yeec`-verktyget på 
 > följande sätt,
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 > där `path/to/php.ini` representerar den rätta ini-filen för PHP.
@@ -93,4 +93,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 ![Skapa ny user-sida](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app-yeec.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

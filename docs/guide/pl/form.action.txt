@@ -16,7 +16,7 @@ public function actionLogin()
 		$model->attributes=$_POST['LoginForm'];
 		// validates user input and redirect to previous page if validated
 		if($model->validate())
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yee::app()->user->returnUrl);
 	}
 	// displays the login form
 	$this->render('login',array('model'=>$model));
@@ -31,8 +31,8 @@ na stronę, która poprzednio wymagała uwierzytelnienia. W przypadku gdy walida
 albo gdy akcja wywoływana jest po raz pierwszy generujemy widok `login`, którego 
 zawartość będzie opisana w następnej sekcji.
 
-> Tip|Wskazówka: Podczas akcji `login` używamy `Yii::app()->user->returnUrl` aby otrzymać
-adres URL strony, która wymagała uwierzytelnienia. Komponent `Yii::app()->user` jest typu [CWebUser] 
+> Tip|Wskazówka: Podczas akcji `login` używamy `Yee::app()->user->returnUrl` aby otrzymać
+adres URL strony, która wymagała uwierzytelnienia. Komponent `Yee::app()->user` jest typu [CWebUser] 
 (lub jego klasy potomne)i reprezentuje dane sesyjne użytkownika (np. nazwę użytkownika, 
 status). Aby otrzymać więcej informacji zobacz [Uwierzytelnienie i autoryzację](/doc/guide/topics.auth).
 

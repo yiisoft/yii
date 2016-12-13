@@ -9,7 +9,7 @@ table de la base de données ou les données d'un formulaire. Chaque
 champs de l'objet est représenté par un attribut du modèle. L'attribut
 a un label et peut être validé par un jeu de règles métiers.
 
-Yii implémente deux sortes de modèles: les formulaire et l'active record.
+Yee implémente deux sortes de modèles: les formulaire et l'active record.
 Ces deux modèles étendent la même classe de base : [CModel].
 
 Un modèle de formulaire est une instance de [CFormModel]. Ce type de modèle

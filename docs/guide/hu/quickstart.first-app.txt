@@ -1,32 +1,32 @@
-Az első Yii alkalmazás létrehozása
+Az első Yee alkalmazás létrehozása
 ==================================
 
-Hogy tapasztalatot szerezzünk a Yii-vel, ebben a részben bemutatjuk, hogyan
-hozhatjuk létre első Yii alkalmazásunkat. A hathatós `yiic` eszközt fogjuk
+Hogy tapasztalatot szerezzünk a Yee-vel, ebben a részben bemutatjuk, hogyan
+hozhatjuk létre első Yee alkalmazásunkat. A hathatós `yeec` eszközt fogjuk
 használni, ami alkalmas bizonyos kód létrehozási feladatok automatizálásara.
-Kényelem szempontjából feltételezzük, hogy `YiiRoot` a könyvtár, ahova a Yii
+Kényelem szempontjából feltételezzük, hogy `YeeRoot` a könyvtár, ahova a Yee
 telepítve lett, valamint `WebRoot` a webszerverünk 'document root'-ja.
 
-Futtassuk a `yiic`-t parancssorból a következők szerint:
+Futtassuk a `yeec`-t parancssorból a következők szerint:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|Figyelem: A `yiic` futtatásakor Mac OS, Linux vagy Unix rendszereken
-> szükség lehet a `yiic` fájl jogosultságainak módosítására, hogy futtatható legyen.
+> Note|Figyelem: A `yeec` futtatásakor Mac OS, Linux vagy Unix rendszereken
+> szükség lehet a `yeec` fájl jogosultságainak módosítására, hogy futtatható legyen.
 > Alternatívaként az eszköz a következőképpen is futtatható:
 >
 > ~~~
 > % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % php YeeRoot/framework/yeec.php webapp WebRoot/testdrive
 > ~~~
 
-Ezáltal létrehoztunk egy Yii alkalmazás-vázat a `WebRoot/testdrive` könyvtárban.
-Az alkalmazás könyvtárstruktúrája megegyezik a legtöbb Yii alkalmazás számára
+Ezáltal létrehoztunk egy Yee alkalmazás-vázat a `WebRoot/testdrive` könyvtárban.
+Az alkalmazás könyvtárstruktúrája megegyezik a legtöbb Yee alkalmazás számára
 szükségessel.
 
-Egyetlen sor kód írása nélkül, már ki is próbálhatjuk első Yii alkalmazásunkat,
+Egyetlen sor kód írása nélkül, már ki is próbálhatjuk első Yee alkalmazásunkat,
 ha böngészőnkkel a következő URL-re navigálunk:
 
 ~~~
@@ -64,10 +64,10 @@ testdrive/
    images/                   képfájlokat tartalmaz
    themes/                   alkalmazás témákat tartalmaz
    protected/                az alkalamazás védett fájljait tartalmazza
-      yiic                   yiic parancssori szkript
-      yiic.bat               yiic parancssori szkript Windows-hoz
-      commands/              egyéni 'yiic' parancsok tárolására
-         shell/              egyéni 'yiic shell' parancsok tárolására
+      yeec                   yeec parancssori szkript
+      yeec.bat               yeec parancssori szkript Windows-hoz
+      commands/              egyéni 'yeec' parancsok tárolására
+         shell/              egyéni 'yeec shell' parancsok tárolására
       components/            újrahasznosítható felhasználói komponensek
          MainMenu.php        a 'MainMenu' widget osztály
          Identity.php        az azonosításra használt 'Identity' osztály
@@ -121,7 +121,7 @@ A fentiekben hozzáadunk egy `db` elemet a `components` tömbhöz, ami utasítja
 alklamazást, hogy szükség esetén csatlakozzon a `WebRoot/testdrive/protected/data/source.db`
 SQLite adatbázishoz.
 
-> Note|Figyelem: A Yii adatbázis-képessé tételéhez engedélyeznünk kell a PHP PDO
+> Note|Figyelem: A Yee adatbázis-képessé tételéhez engedélyeznünk kell a PHP PDO
 kiterjesztését, valamint a meghajtó specifikus PDO kiterjesztést. A próbaalkalmazáshoz
 szükségünk van a `php_pdo` és a `php_pdo_sqlite` kiterjesztések engedélyezésére.
 
@@ -155,15 +155,15 @@ Térjünk a lényegre! Szeretnénk megvalósítani a CRUD (létrehozás, olvasá
 és törlés) műveleteket az éppen létrehozott `User` táblához. Ez is egy általánosan
 szükséges rész a gyakorlati alkalmazásokban.
 
-Ahelyett, hogy magunk bajlódnánk a kód megírásával, ismét a hathatós `yiic`
+Ahelyett, hogy magunk bajlódnánk a kód megírásával, ismét a hathatós `yeec`
 eszközhöz folyamodunk, hogy automatikusan létrehozza számunkra a szükséges kódot.
 Ez a folymat *scaffolding*-ként (állványozás) is ismert. Indítsunk egy parancssori
 ablakot és hajtsuk végre a következőkben felsorolt parancsokat:
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.0
+% protected/yeec shell
+Yee Interactive Tool v1.0
 Please type 'help' for help. Type 'exit' to quit.
 >> model User
    generate User.php
@@ -187,18 +187,18 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-A fentiekben a `yiic shell` parancsot használjuk az alkalmazás vázunk módosításához.
+A fentiekben a `yeec shell` parancsot használjuk az alkalmazás vázunk módosításához.
 A parancssorban két alparancsot hajtunk végre: `model User` és `crud User`.
 Az előbbi létrehoz egy modell osztályt a `User` táblához, míg az utóbbi megvizsgálja
 a `User` modellt és létrehozza a CRUD műveletekhez szükséges kódokat.
 
 > Note|Figyelem: Belefuthatunk "...could not find driver"-hez hasonló hibákba,
 > holott a követelmény ellnőrző szerint a PDO és a megfelelő PDO meghajtó engedélyezve
-> van. Ha netán ez történne, megpróbálhatjuk a `yiic` eszköz következők szerinti
+> van. Ha netán ez történne, megpróbálhatjuk a `yeec` eszköz következők szerinti
 > futtatását:
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 > aholis a `path/to/php.ini` a valós PHP ini fájlra vonatkozik.

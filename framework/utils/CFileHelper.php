@@ -3,9 +3,9 @@
  * CFileHelper class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -302,7 +302,7 @@ class CFileHelper
 	{
 		static $extensions,$customExtensions=array();
 		if($magicFile===null && $extensions===null)
-			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
+			$extensions=require(Yee::getPathOfAlias('system.utils.mimeTypes').'.php');
 		elseif($magicFile!==null && !isset($customExtensions[$magicFile]))
 			$customExtensions[$magicFile]=require($magicFile);
 		if(($ext=self::getExtension($file))!=='')
@@ -329,7 +329,7 @@ class CFileHelper
 	{
 		static $mimeTypes,$customMimeTypes=array();
 		if($magicFile===null && $mimeTypes===null)
-			$mimeTypes=require(Yii::getPathOfAlias('system.utils.fileExtensions').'.php');
+			$mimeTypes=require(Yee::getPathOfAlias('system.utils.fileExtensions').'.php');
 		elseif($magicFile!==null && !isset($customMimeTypes[$magicFile]))
 			$customMimeTypes[$magicFile]=require($magicFile);
 		if(($mime=self::getMimeType($file))!==null)

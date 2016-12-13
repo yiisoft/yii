@@ -11,7 +11,7 @@ Tworzymy klasę `TagCloud` w pliku `/wwwroot/blog/protected/components/TagCloud.
 
 ~~~
 [php]
-Yii::import('zii.widgets.CPortlet');
+Yee::import('zii.widgets.CPortlet');
 
 class TagCloud extends CPortlet
 {
@@ -49,10 +49,10 @@ Używanie portletu chmurki tagów `TagCloud` jest bardzo proste. Modyfikujemy pl
 ......
 <div id="sidebar">
 
-	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+	<?php if(!Yee::app()->user->isGuest) $this->widget('UserMenu'); ?>
 
 	<?php $this->widget('TagCloud', array(
-		'maxTags'=>Yii::app()->params['tagCloudCount'],
+		'maxTags'=>Yee::app()->params['tagCloudCount'],
 	)); ?>
 
 </div>

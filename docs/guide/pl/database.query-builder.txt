@@ -1,11 +1,11 @@
 Konstruktor zapytań
 ===================
 
-Konstruktor zapytań w Yii umożliwia zorientowane obiektowo pisanie zapytań SQL. Daje to programiście możliwość używania właściwości i metod klasy w celu określenia poszczególnych części zapytania SQL. W ten sposób dołącza te różne części do poprawnego zapytania SQL, które może zostać później wywołane poprzez metody DAO opisane w [obiekcie dostępu do bazy danych (DAO)](/doc/guide/database.dao). Następujący kod pokazuje typowe użycie konstruktora zapytań tworzące zapytanie SELECT w SQL-u:
+Konstruktor zapytań w Yee umożliwia zorientowane obiektowo pisanie zapytań SQL. Daje to programiście możliwość używania właściwości i metod klasy w celu określenia poszczególnych części zapytania SQL. W ten sposób dołącza te różne części do poprawnego zapytania SQL, które może zostać później wywołane poprzez metody DAO opisane w [obiekcie dostępu do bazy danych (DAO)](/doc/guide/database.dao). Następujący kod pokazuje typowe użycie konstruktora zapytań tworzące zapytanie SELECT w SQL-u:
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yee::app()->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -31,7 +31,7 @@ Nie jest konieczne używanie kreatora zapytań. W rzeczywistości, jeśli twoje 
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yee::app()->db->createCommand('SELECT * FROM tbl_user');
 > // poniższa linia NIE DOŁĄCZY klauzuli WHERE do powyższego zapytania SQL
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -48,10 +48,10 @@ Aby rozpocząć używanie konstruktora zapytań tworzymy nową instancję [CDbCo
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 ~~~
 
-Oznacza to, że używamy `Yii::app()->db` w celu uzyskania połączenia z bazą danych a następnie wywołujemy [CDbConnection::createCommand()] w celu utworzenia potrzebnej instancji polecenia (ang. command).
+Oznacza to, że używamy `Yee::app()->db` w celu uzyskania połączenia z bazą danych a następnie wywołujemy [CDbConnection::createCommand()] w celu utworzenia potrzebnej instancji polecenia (ang. command).
 
 Zauważ, że zamiast przekazywania całej instrukcji SQL do wywołania `createCommand()` tak jak robiliśmy to w [DAO](/doc/guide/database.dao), pozostawiamy je puste. Dzieje się tak, dlatego, że będziemy tworzyć pojedynczo poszczególne części instrukcji SQL używając metod konstruktora zapytań, które opiszemy w dalszej części.
 
@@ -353,7 +353,7 @@ Oto przykład:
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -366,7 +366,7 @@ Poza zwracaniem zapytań utworzonych przez konstruktora zapytań, możemy zwraca
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -389,7 +389,7 @@ Ponadto, do metody [CDbConnection::createCommand()] możemy przekazać parametr 
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yee::app()->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -404,7 +404,7 @@ Instancja [CDbCommand] może być wielokrotnie używana do konstruowania kilku z
 
 ~~~
 [php]
-$command = Yii::app()->createCommand();
+$command = Yee::app()->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // wyszyść poprzednie zapytanie
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

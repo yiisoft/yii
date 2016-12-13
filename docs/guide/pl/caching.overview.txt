@@ -5,7 +5,7 @@ Buforowanie jest tanim i efektywnym sposobem zwiększenia wydajności aplikacji 
 Poprzez przechowywanie danych statycznych w buforze (ang. cache) oraz dostarczaniu 
 ich wtedy gdy są wymagane, oszczędzamy czas potrzebny do wygenerowania danych.  
 
-Korzystanie z buforowania w Yii obejmuje głównie konfigurowanie oraz używanie 
+Korzystanie z buforowania w Yee obejmuje głównie konfigurowanie oraz używanie 
 komponentu cache aplikacji. Następująca konfiguracja aplikacji określa komponent 
 cache, który używa memcache wraz z dwoma serwerami buforującymi.
 
@@ -26,9 +26,9 @@ array(
 );
 ~~~
 
-W czasie działania aplikacji, dostęp do komponentu cache można uzyskać poprzez `Yii::app()->cache`.
+W czasie działania aplikacji, dostęp do komponentu cache można uzyskać poprzez `Yee::app()->cache`.
 
-Yii dostarcza różnych komponentów cache, które mogą przechowywać dane za pomocą różnych mediów.
+Yee dostarcza różnych komponentów cache, które mogą przechowywać dane za pomocą różnych mediów.
 Na przykład, komponent [CMemCache] hermetyzuje rozszerzenie PHP memcache i używa pamięci 
 jako medium do przechowywania cache'u; komponent [CApcCache] hermetyzuje rozszerzenie APC dla PHP; 
 natomiast komponent [CDbCache] przechowuje buforowane dane w bazie danych. Poniżej znajduje 
@@ -58,8 +58,8 @@ się podsumowanie dostępnych komponentów cache:
    Na przykład, podczas tworzenia lub gdy serwer nie posiada aktualnie wsparcia dla buforowania, 
    możemy użyć tego komponentu buforowania. W momencie, gdy wsparcie dla buforowania będzie udostępnione,
    możemy go przełączyć na używanie odpowiedniego komponentu buforującego. W obu przypadkach,
-   możemy używać tego samego kodu `Yii::app()->cache->get($key)` aby próbować pobrać część danych 
-   bez martwienia się, że `Yii::app()->cache` może mieć wartość `null`.
+   możemy używać tego samego kodu `Yee::app()->cache->get($key)` aby próbować pobrać część danych 
+   bez martwienia się, że `Yee::app()->cache` może mieć wartość `null`.
 
 > Tip|Wskazówka: Ponieważ wszystkie te komponenty dziedziczą z tej samej klasy bazowej 
 [CCache], można je zamienić na inną metodę buforowania bez modyfikowania kodu, który 

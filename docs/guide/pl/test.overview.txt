@@ -1,8 +1,8 @@
 Testowanie
 ==========
 
-> Note|Uwaga: Wparcie dla testowania opisane w tym rozdziale wymaga Yii w wersji 1.1 lub wyższej.
-Nie oznacza to jednak, że nie możesz testować aplikacji utworzonej za pomocą Yii 1.0.x.  
+> Note|Uwaga: Wparcie dla testowania opisane w tym rozdziale wymaga Yee w wersji 1.1 lub wyższej.
+Nie oznacza to jednak, że nie możesz testować aplikacji utworzonej za pomocą Yee 1.0.x.  
 Istnieje wiele świetnych frameworków testujących, które mogą posłużyć Ci w tym celu, takich
 jak [PHPUnit](http://www.phpunit.de/), [SimpleTest](http://www.simpletest.org/).
 
@@ -19,7 +19,7 @@ w taki sposób, aby za każdym razem gdy występuje potrzeba przetestowania czeg
 wywołać napisany kod i pozwolić komputerowi wykonać testy za nas. Takie postępowanie 
 nazywamy *testami automatycznymi* i są one głównym tematem niniejszego rozdziału.
 
-Wsparcie testów oferowane przez Yii to wsparcie dla *testów jednostkowych* oraz *testów funkcjonalnych*. 
+Wsparcie testów oferowane przez Yee to wsparcie dla *testów jednostkowych* oraz *testów funkcjonalnych*. 
 
 Test jednostkowy weryfikuje czy pojedyncza jednostka kodu działa w oczekiwany sposób.
 W obiektowo zorientowanym programowaniu, najbardziej podstawową jednostką kodu jest klasa. 
@@ -51,11 +51,11 @@ Powtarzaj kroki od 1 do 5 w celu kontynuowania implementacji funcjonalności.
 Konfiguracja środowiska testowego
 ---------------------------------
 
-Wsparcie dla testów oferowane przez Yii wymaga [PHPUnit](http://www.phpunit.de/) 3.5+ 
+Wsparcie dla testów oferowane przez Yee wymaga [PHPUnit](http://www.phpunit.de/) 3.5+ 
 oraz [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. 
 Aby dowiedzieć się jak zainstalować PHPUnit oraz Slenium Remote Control, zajrzyj do ich dokumentacji.
 
-Jeśli używasz komend konsoli `yiic webapp` w celu utworzenia nowej aplikacji Yii, 
+Jeśli używasz komend konsoli `yeec webapp` w celu utworzenia nowej aplikacji Yee, 
 wygeneruje ona nastepujące pliki i katalogi za nas do pisania i wykonywania nowych testów:
 
 ~~~
@@ -99,14 +99,14 @@ podczas wykonywania zestawu testów.
 
 ~~~
 [php]
-$yiit='path/to/yii/framework/yiit.php';
+$yeet='path/to/yee/framework/yeet.php';
 $config=dirname(__FILE__).'/../config/test.php';
-require_once($yiit);
+require_once($yeet);
 require_once(dirname(__FILE__).'/WebTestCase.php');
-Yii::createWebApplication($config);
+Yee::createWebApplication($config);
 ~~~
 
-W powyższym kodzie, najpierw załączamy plik `yiit.php` z frameworku Yii, który inicjalizuje 
+W powyższym kodzie, najpierw załączamy plik `yeet.php` z frameworku Yee, który inicjalizuje 
 pewne zmienne globalne i dołącza wymagane klasy podstawowe klasy testów. Następnie 
 tworzymy instancję aplikacji sieciowej używając pliku konfiguracyjnego `test.php`. 
 Jeśli sprawdzimy `test.php`, powinniśmy zauważyć, że dziedziczy on z pliku konfiguracyjnego `main.php` 

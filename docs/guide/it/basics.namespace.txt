@@ -1,7 +1,7 @@
 Path Alias e Namespace
 ========================
 
-Yii utilizza ampiamente i path alias. Un path alias è associato ad una cartella 
+Yee utilizza ampiamente i path alias. Un path alias è associato ad una cartella 
 od al percorso per un file. Utilizza la sintassi del punto, similmente a quanto 
 diffusamente adottato per il formato dei namespace:
 
@@ -11,18 +11,18 @@ RootAlias.percorso.per.obiettivo
 
 dove `RootAlias` è l'alias di una qualche cartella esistente.
 
-Utilizzando [YiiBase::getPathOfAlias()], un alias può essere tradotto nel suo path 
+Utilizzando [YeeBase::getPathOfAlias()], un alias può essere tradotto nel suo path 
 corrispondente. Per esempio, `system.web.CController` verrebbe tradotto come 
-`yii/framework/web/CController`.
+`yee/framework/web/CController`.
 
-Si può anche utilizzare [YiiBase::setPathOfAlias()] per definire un nuovo path alias principale.
+Si può anche utilizzare [YeeBase::setPathOfAlias()] per definire un nuovo path alias principale.
 
 Alias principale
 ----------
 
-Per comodità, Yii predefinisce i seguenti alias principali:
+Per comodità, Yee predefinisce i seguenti alias principali:
 
- - `system`: si riferisce alla cartella del framework Yii;
+ - `system`: si riferisce alla cartella del framework Yee;
  - `zii`: si riferisce alla cartella della [libreria Zii](/doc/guide/extension.use#zii-extensions);
  - `application`: si riferisce alla [cartella principale](/doc/guide/basics.application#application-base-directory) dell'applicazione;
  - `webroot`: si riferisce alla cartella che contiene il file dell'[entry script](/doc/guide/basics.entry).
@@ -42,33 +42,33 @@ Per esempio, se si vuole includere la classe [CController], si può fare come se
 
 ~~~
 [php]
-Yii::import('system.web.CController');
+Yee::import('system.web.CController');
 ~~~
 
-Il metodo [import|YiiBase::import] si differenza da `include` e `require` 
+Il metodo [import|YeeBase::import] si differenza da `include` e `require` 
 nel senso che è molto efficiente. La definizione della classe che si deve importare 
 in realtà non viene inclusa fin quando non vi si fa riferimento per la prima volta 
 (implementato attraverso il meccanismo di autoload di PHP). L'importazione dello stesso 
 namespace più volte è molto più veloce di `include_once` e `require_once`.
 
-> Suggerimento: Quando si fa riferimento ad una classe definita dal framework Yii, 
-> non è necessario importarla od includerla. Tutto il core delle classi di Yii sono preimportate.
+> Suggerimento: Quando si fa riferimento ad una classe definita dal framework Yee, 
+> non è necessario importarla od includerla. Tutto il core delle classi di Yee sono preimportate.
 
 ###Usare la mappa delle classi
 
-A partire dalla versione 1.1.5, Yii permette alle classi utente di essere preimportate 
+A partire dalla versione 1.1.5, Yee permette alle classi utente di essere preimportate 
 attraverso un meccanismo di mappatura delle classi che è usato anche dalle classi del 
-core di Yii. Le classi preimportate possono essere utilizzate ovunque in una 
-applicazione Yii senza che vengano importate od incluse esplicitamente. 
+core di Yee. Le classi preimportate possono essere utilizzate ovunque in una 
+applicazione Yee senza che vengano importate od incluse esplicitamente. 
 Questa funzionalità è molto utile per un framework o per una libreria che è 
-costruita su a Yii.
+costruita su a Yee.
 
 Per preimportare una serie di classi, deve essere eseguito il seguente codice 
 prima che venga invocato [CWebApplication::run()]:
 
 ~~~
 [php]
-Yii::$classMap=array(
+Yee::$classMap=array(
 	'ClassName1' => 'percorso/per/ClassName1.php',
 	'ClassName2' => 'percorso/per/ClassName2.php',
 	......
@@ -84,12 +84,12 @@ automaticamente incluse quando necessario.
 
 ~~~
 [php]
-Yii::import('system.web.*');
+Yee::import('system.web.*');
 ~~~
 
-Oltre che per l'[importazione|YiiBase::import], gli alias sono anche utilizzati 
+Oltre che per l'[importazione|YeeBase::import], gli alias sono anche utilizzati 
 in molti altri posti per riferirsi alle classi. Per esempio, un alias può essere 
-passato a [Yii::createComponent()] per creare una istanza della corrispondente 
+passato a [Yee::createComponent()] per creare una istanza della corrispondente 
 classe, anche se il file della classe non è stato incluso in precedenza.
 
 Namespace
@@ -103,10 +103,10 @@ Non ha niente a che vedere con i namespace.
 
 > Suggerimento: Dato che PHP prima della versione 5.3.0 non supporta intrinsecamente 
 i namespace, non si possono creare istanze di due classi che hanno lo stesso nome ma
-con definizioni differenti. Per questa ragione, tutte le classi del framework Yii hanno 
+con definizioni differenti. Per questa ragione, tutte le classi del framework Yee hanno 
 il prefisso 'C' (che significa 'classe') cosicché possano essere differenziate dalle 
 classi definite dagli utenti. Si raccomanda che il prefisso 'C' sia riservato solo 
-ad uso del framework Yii e che le classi definite dagli utenti abbiano come prefisso 
+ad uso del framework Yee e che le classi definite dagli utenti abbiano come prefisso 
 una qualunque altra lettera.
 
 Classi nel namespace
@@ -117,11 +117,11 @@ namespace non globale. Per esempio, la classe `application\components\GoogleMap`
 è dichiarata all'interno del namespace `application\components`. L'uso di classi nel 
 namespace richiede PHP 5.3.0 o superiore.
 
-A partire dalla versione 1.1.5 di Yii, è possibile usare le classi nel namespace 
+A partire dalla versione 1.1.5 di Yee, è possibile usare le classi nel namespace 
 senza includerle esplicitamente. Per esempio, si può creare una nuova istanza di 
 `application\components\GoogleMap` senza includere esplicitamente il corrispondente 
 file della classe. Ciò è reso possibile dal miglioramento del meccanismo di autoload 
-delle classi di Yii.
+delle classi di Yee.
 
 Per poter eseguire l'autoload di una classe nel namespace, il namespace deve essere 
 chiamato in modo simile al nome di un path alias. Per esempio la classe `application\components\GoogleMap`

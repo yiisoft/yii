@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.web.CArrayDataProvider');
+Yee::import('system.web.CArrayDataProvider');
 
 class CArrayDataProviderTest extends CTestCase
 {

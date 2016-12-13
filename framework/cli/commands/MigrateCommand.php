@@ -3,16 +3,16 @@
  * MigrateCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
  * MigrateCommand manages the database migrations.
  *
  * The implementation of this command and other supporting classes referenced
- * the yii-dbmigrations extension ((https://github.com/pieterclaerhout/yii-dbmigrations),
+ * the yee-dbmigrations extension ((https://github.com/pieterclaerhout/yee-dbmigrations),
  * authored by Pieter Claerhout.
  *
  * Since version 1.1.11 this command will exit with the following exit codes:
@@ -65,7 +65,7 @@ class MigrateCommand extends CConsoleCommand
 
 	public function beforeAction($action,$params)
 	{
-		$path=Yii::getPathOfAlias($this->migrationPath);
+		$path=Yee::getPathOfAlias($this->migrationPath);
 		if($path===false || !is_dir($path))
 		{
 			echo 'Error: The migration directory does not exist: '.$this->migrationPath."\n";
@@ -73,8 +73,8 @@ class MigrateCommand extends CConsoleCommand
 		}
 		$this->migrationPath=$path;
 
-		$yiiVersion=Yii::getVersion();
-		echo "\nYii Migration Tool v1.0 (based on Yii v{$yiiVersion})\n\n";
+		$yeeVersion=Yee::getVersion();
+		echo "\nYee Migration Tool v1.0 (based on Yee v{$yeeVersion})\n\n";
 
 		return parent::beforeAction($action,$params);
 	}
@@ -469,7 +469,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		if($this->_db!==null)
 			return $this->_db;
-		elseif(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
+		elseif(($this->_db=Yee::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 			return $this->_db;
 
 		echo "Error: CMigrationCommand.connectionID '{$this->connectionID}' is invalid. Please make sure it refers to the ID of a CDbConnection application component.\n";
@@ -531,7 +531,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic migrate [action] [parameter]
+  yeec migrate [action] [parameter]
 
 DESCRIPTION
   This command provides support for database migrations. The optional
@@ -542,48 +542,48 @@ DESCRIPTION
   the following examples.
 
 EXAMPLES
- * yiic migrate
-   Applies ALL new migrations. This is equivalent to 'yiic migrate up'.
+ * yeec migrate
+   Applies ALL new migrations. This is equivalent to 'yeec migrate up'.
 
- * yiic migrate create create_user_table
+ * yeec migrate create create_user_table
    Creates a new migration named 'create_user_table'.
 
- * yiic migrate up 3
+ * yeec migrate up 3
    Applies the next 3 new migrations.
 
- * yiic migrate down
+ * yeec migrate down
    Reverts the last applied migration.
 
- * yiic migrate down 3
+ * yeec migrate down 3
    Reverts the last 3 applied migrations.
 
- * yiic migrate to 101129_185401
+ * yeec migrate to 101129_185401
    Migrates up or down to version 101129_185401.
 
- * yiic migrate to 1392447720
+ * yeec migrate to 1392447720
    Migrates to the given UNIX timestamp. This means that all the versions
    applied after the specified timestamp will be reverted. Versions applied
    before won't be touched.
 
- * yiic migrate to "2014-02-15 13:00:50"
+ * yeec migrate to "2014-02-15 13:00:50"
    Migrates to the given datetime parseable by the strtotime() function.
    This means that all the versions applied after the specified datetime
    will be reverted. Versions applied before won't be touched.
 
- * yiic migrate mark 101129_185401
+ * yeec migrate mark 101129_185401
    Modifies the migration history up or down to version 101129_185401.
    No actual migration will be performed.
 
- * yiic migrate history
+ * yeec migrate history
    Shows all previously applied migration information.
 
- * yiic migrate history 10
+ * yeec migrate history 10
    Shows the last 10 applied migrations.
 
- * yiic migrate new
+ * yeec migrate new
    Shows all new migrations.
 
- * yiic migrate new 10
+ * yeec migrate new 10
    Shows the next 10 migrations that have not been applied.
 
 EOD;
@@ -592,7 +592,7 @@ EOD;
 	protected function getTemplate()
 	{
 		if($this->templateFile!==null)
-			return file_get_contents(Yii::getPathOfAlias($this->templateFile).'.php');
+			return file_get_contents(Yee::getPathOfAlias($this->templateFile).'.php');
 		else
 			return <<<EOD
 <?php

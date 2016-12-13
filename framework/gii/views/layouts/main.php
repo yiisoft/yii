@@ -1,5 +1,5 @@
 <?php
-$cs=Yii::app()->clientScript;
+$cs=Yee::app()->clientScript;
 $cs->coreScriptPosition=CClientScript::POS_HEAD;
 $cs->scriptMap=array();
 $baseUrl=$this->module->assetsUrl;
@@ -34,10 +34,10 @@ $cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 <div class="container" id="page">
 	<div id="header">
 		<div class="top-menus">
-		<?php echo CHtml::link('help','http://www.yiiframework.com/doc/guide/topics.gii'); ?> |
-		<?php echo CHtml::link('webapp',Yii::app()->homeUrl); ?> |
-		<a href="http://www.yiiframework.com">yii</a>
-		<?php if(!Yii::app()->user->isGuest): ?>
+		<?php echo CHtml::link('help','http://www.yeeframework.com/doc/guide/topics.gii'); ?> |
+		<?php echo CHtml::link('webapp',Yee::app()->homeUrl); ?> |
+		<a href="http://www.yeeframework.com">yee</a>
+		<?php if(!Yee::app()->user->isGuest): ?>
 			| <?php echo CHtml::link('logout',array('default/logout')); ?>
 		<?php endif; ?>
 		</div>
@@ -49,8 +49,8 @@ $cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 </div><!-- page -->
 
 <div id="footer">
-	<?php echo Yii::powered(); ?>
-	<br/>A product of <a href="http://www.yiisoft.com">Yii Software LLC</a>.
+	<?php echo Yee::powered(); ?>
+	<br/>A product of <a href="http://www.yeesoft.com">Yee Software LLC</a>.
 </div><!-- footer -->
 
 </body>

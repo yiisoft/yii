@@ -3,9 +3,9 @@
  * CAccessControlFilter class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -127,7 +127,7 @@ class CAccessControlFilter extends CFilter
 	 */
 	protected function preFilter($filterChain)
 	{
-		$app=Yii::app();
+		$app=Yee::app();
 		$request=$app->getRequest();
 		$user=$app->getUser();
 		$verb=$request->getRequestType();
@@ -165,7 +165,7 @@ class CAccessControlFilter extends CFilter
 		elseif($this->message!==null)
 			return $this->message;
 		else
-			return Yii::t('yii','You are not authorized to perform this action.');
+			return Yee::t('yee','You are not authorized to perform this action.');
 	}
 
 	/**
@@ -231,7 +231,7 @@ class CAccessRule extends CComponent
 	public $verbs;
 	/**
 	 * @var string a PHP expression whose value indicates whether this rule should be applied.
-	 * In this expression, you can use <code>$user</code> which refers to <code>Yii::app()->user</code>.
+	 * In this expression, you can use <code>$user</code> which refers to <code>Yee::app()->user</code>.
 	 * The expression can also be a valid PHP callback,
 	 * including class method name (array(ClassName/Object, MethodName)),
 	 * or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:

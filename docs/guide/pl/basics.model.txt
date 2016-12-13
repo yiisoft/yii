@@ -9,7 +9,7 @@ danych lub formularz html zawierający pola wejściowe. Każde pole obiektu dany
 jest reprezentowane przez atrybut modelu. Atrybut posiada etykietę oraz może zostać 
 sprawdzony, czy spełnia zestaw reguł. 
 
-Yii implementuje dwa rodzaje modeli: model formularza oraz model rekordu aktywnego.
+Yee implementuje dwa rodzaje modeli: model formularza oraz model rekordu aktywnego.
 Oba dziedziczą z tej samej klasy bazowej [CModel].
 
 Model formularza jest instancją [CFormModel]. Takie modele używane są do przechowywania 

@@ -1,11 +1,11 @@
-The Definitive Guide to Yii
+The Definitive Guide to Yee
 ===========================
 
-This tutorial is released under [the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/).
+This tutorial is released under [the Terms of Yee Documentation](http://www.yeeframework.com/doc/terms/).
 
 All Rights Reserved.
 
-2008-2014 (c) Yii Software LLC.
+2008-2014 (c) Yee Software LLC.
 
 
 

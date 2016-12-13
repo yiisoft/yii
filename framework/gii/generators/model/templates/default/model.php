@@ -146,7 +146,7 @@ foreach($columns as $name=>$column)
 	 */
 	public function getDbConnection()
 	{
-		return Yii::app()-><?php echo $connectionId ?>;
+		return Yee::app()-><?php echo $connectionId ?>;
 	}
 
 <?php endif?>

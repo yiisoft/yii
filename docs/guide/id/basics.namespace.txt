@@ -1,7 +1,7 @@
 Alias Path dan Namespace
 ========================
 
-Yii menggunakan alias secara luas. Alias path dikaitkan dengan
+Yee menggunakan alias secara luas. Alias path dikaitkan dengan
 direktori atau path file. Ditetapkan dalam sintaks dot (titik), mirip dengan
 format namespace yang diadopsi secara luas:
 
@@ -11,19 +11,19 @@ RootAlias.path.ke.target
 
 dengan `RootAlias` sebagai alias dari beberapa direktori yang sudah ada.
 
-Dengan memanggil [YiiBase::setPathOfAlias()], sebuah alias dapat diterjemahkan ke path
+Dengan memanggil [YeeBase::setPathOfAlias()], sebuah alias dapat diterjemahkan ke path
 yang bersangkutan. Misalnya, `system.web.CController` akan diterjemahkan sebagai
-`yii/framework/web/CController`.
+`yee/framework/web/CController`.
 
-Kita juga dapat menggunakan [YiiBase::setPathOfAlias()] untuk mendefinisikan alias path root yang baru.
+Kita juga dapat menggunakan [YeeBase::setPathOfAlias()] untuk mendefinisikan alias path root yang baru.
 
 
 Alias Root
 ----------
 
-Untuk kemudahan, Yii mendefinisikan beberapa alias root berikut : 
+Untuk kemudahan, Yee mendefinisikan beberapa alias root berikut : 
 
- - `system`: merujuk pada direktori Yii framework;
+ - `system`: merujuk pada direktori Yee framework;
  - `zii` : merujuk pada direktori [pustaka Zii] (/doc/guide/extension.use#zii-extensions);
  - `application`: merujuk pada [basis direktori](/doc/guide/basics.application#application-base-directory) aplikasi;
  - `webroot`: merujuk pada direktori yang berisi file [skrip entri](/doc/guide/basics.entry).
@@ -42,33 +42,33 @@ Sebagai contoh, jika kita ingin menyertakan definisi kelas [CController], kita d
 
 ~~~
 [php]
-Yii::import('system.web.CController');
+Yee::import('system.web.CController');
 ~~~
 
-Metode [import|YiiBase::import] berbeda dengan `include` dan `require`
+Metode [import|YeeBase::import] berbeda dengan `include` dan `require`
 karena metode ini lebih efisien. Definisi kelas yang sedang diimpor
 sebenarnya tidak disertakan (di-include) sampai ia dirujuk untuk pertama kalinya. Mengimpor
 namespace yang sama berkali-kali juga lebih cepat daripada `include_once`
 dan `require_once`.
 
-> Tip: Ketika merujuk pada kelas yang didefinisikan oleh Yii framework, kita tidak
-perlu mengimpor atau menyertakannya. Semua kelas inti Yii sudah di-import pada awalnya.
+> Tip: Ketika merujuk pada kelas yang didefinisikan oleh Yee framework, kita tidak
+perlu mengimpor atau menyertakannya. Semua kelas inti Yee sudah di-import pada awalnya.
 
 
 ###Menggunakan Class Map
 
-Dimulai dari versi 1.1.5, Yii memungkinkan kelas-kelas user di pra-impor melalui
-sebuah mekanisme pemetaan kelas yang juga digunakan oleh kelas utama Yii. Kelas
-pra-impor dapat digunakan di mana saja dalam sebuah aplikasi Yii tanpa perlu 
+Dimulai dari versi 1.1.5, Yee memungkinkan kelas-kelas user di pra-impor melalui
+sebuah mekanisme pemetaan kelas yang juga digunakan oleh kelas utama Yee. Kelas
+pra-impor dapat digunakan di mana saja dalam sebuah aplikasi Yee tanpa perlu 
 di-impor atau di-include-kan secara eksplisit. Fitur ini paling berguna untuk 
-sebuah framework atau pustaka yang dibuat di atas Yii.
+sebuah framework atau pustaka yang dibuat di atas Yee.
 
 Untuk melakukan pre-impor sekumpulan kelas, kode berikut ini harus dijalankan terlebih dahulu
 sebelum [CWebApplication::run()] dijalankan :
 
 ~~~
 [php]
-Yii::$classMap=array(
+Yee::$classMap=array(
 	'ClassName1' => 'path/to/ClassName1.php',
 	'ClassName2' => 'path/to/ClassName2.php',
 	......
@@ -85,12 +85,12 @@ diperlukan.
 
 ~~~
 [php]
-Yii::import('system.web.*');
+Yee::import('system.web.*');
 ~~~
 
-Selain [import|YiiBase::import], alias juga dipakai di banyak tempat
+Selain [import|YeeBase::import], alias juga dipakai di banyak tempat
 lain untuk merujuk pada kelas. Sebagai contoh, alias dapat dioper ke
-[Yii::createComponent()] guna membuat instance kelas terkait,
+[Yee::createComponent()] guna membuat instance kelas terkait,
 meskipun file kelas tidak disertakan sebelumnya.
 
 
@@ -105,9 +105,9 @@ Alias path tidak ada hubungannya dengan namespace.
 
 > Tip: Karena PHP sebelum versi 5.3.0 tidak mendukung namespace secara
 langsung, Anda tidak dapat membuat instance dari dua kelas yang memiliki
-nama yang sama dengan definisi yang berbeda. Untuk alasan ini, semua kelas Yii 
+nama yang sama dengan definisi yang berbeda. Untuk alasan ini, semua kelas Yee 
 framework diawali dengan huruf 'C' (berarti 'class') agar bisa dibedakan dari
-kelas yang didefinisikan pengguna. Direkomendasikan bahwa prefiks 'C' khusus dipakai hanya untuk pemakaian Yii framework saja,
+kelas yang didefinisikan pengguna. Direkomendasikan bahwa prefiks 'C' khusus dipakai hanya untuk pemakaian Yee framework saja,
 dan kelas yang didefinisikan-pengguna diawali
 dengan huruf lainnya.
 

@@ -94,7 +94,7 @@ następującego wyrażenia:
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // lub następująco jeśli $this oznacza instancję kontrolera
 // $postPerPage=$this->module->postPerPage;
 ~~~

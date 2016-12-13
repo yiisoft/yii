@@ -1,7 +1,7 @@
 Penanganan Error
 ================
 
-Yii menyediakan kerangka kerja penanganan error yang lengkap berdasarkan
+Yee menyediakan kerangka kerja penanganan error yang lengkap berdasarkan
 pada mekanisme exception PHP 5. Saat aplikasi dibuat untuk menangani permintaan
 pengguna yang masuk, ia meregistrasi metode [handleError|CApplication::handleError]
 untuk menangani peringatan dan pemberitahuan PHP; dan meregistrasi metode
@@ -15,7 +15,7 @@ tertentu.
 dengan memanggil fungsi PHP
 [set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php)
 dan [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php).
-Jika Anda tidak menginginkan Yii menangani error dan exception, Anda dapat mendefinisikan
+Jika Anda tidak menginginkan Yee menangani error dan exception, Anda dapat mendefinisikan
 constant `YII_ENABLE_ERROR_HANDLER` dan `YII_ENABLE_EXCEPTION_HANDLER` menjadi
 false dalam [skrip entri](/doc/guide/basics.entry).
 
@@ -29,7 +29,7 @@ komponen aplikasi [errorHandler|CErrorHandler].
 Memunculkan Exception
 -------------------
 
-Memunculkan exception dalam Yii tidak berbeda dengan memunculkan exception normal PHP.
+Memunculkan exception dalam Yee tidak berbeda dengan memunculkan exception normal PHP.
 Anda menggunakan sintaks berikut untuk memunculkan exception bila diperlukan:
 
 ~~~
@@ -37,7 +37,7 @@ Anda menggunakan sintaks berikut untuk memunculkan exception bila diperlukan:
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii mendefinisikan tiga kelas exception: [CException], [CDbException] dan 
+Yee mendefinisikan tiga kelas exception: [CException], [CDbException] dan 
 [CHttpException]. [CException] adalah kelas exception generik. [CDbException] 
 mewakiliki exception yang diakibatkan oleh operasi berhubungan dengan DB.
 [CHttpException] merupakan exception yang harus ditampilkan kepada pengguna akhir
@@ -83,8 +83,8 @@ di bawah tema yang aktif saat ini.
    2. `WebRoot/protected/views/system`: ini adalah direktori tampilan `system` di
 bawah aplikasi.
 
-   3. `yii/framework/views`: ini adalah direktori tampilan sistem standar yang
-disediakan oleh Yii framework.
+   3. `yee/framework/views`: ini adalah direktori tampilan sistem standar yang
+disediakan oleh Yee framework.
 
 Oleh karena itu, jika kita ingin mengkustomisasi tampilan error, kita cukup membuat
 file tampilan error di bawah direktori tampilan sistem pada aplikasi atau tema Anda.
@@ -96,7 +96,7 @@ direktori `view`.
 Penanganan Error dengan Penggunaan Action
 ---------------------------------------------------------------------------------
 
-Yii memungkinkan kita menggunakan sebuah [action dari controller](/doc/guide/basics.controller#action)
+Yee memungkinkan kita menggunakan sebuah [action dari controller](/doc/guide/basics.controller#action)
 untuk menangani tugas penampilan error. Untuk itu, kita harus mengatur error handler(penanganan error)
 dalam konfigurasi aplikasi:
 
@@ -122,7 +122,7 @@ Kita dapat menulis action `error` seperti berikut:
 [php]
 public function actionError()
 {
-	if($error=Yii::app()->errorHandler->error)
+	if($error=Yee::app()->errorHandler->error)
 		$this->render('error', $error);
 }
 ~~~

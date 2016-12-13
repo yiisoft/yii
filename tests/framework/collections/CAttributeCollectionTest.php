@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.collections.CAttributeCollection');
+Yee::import('system.collections.CAttributeCollection');
 
 class CAttributeCollectionTest extends CTestCase
 {

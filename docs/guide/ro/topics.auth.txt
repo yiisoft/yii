@@ -10,14 +10,14 @@ o data ce a fost identificata (autentificata), are permisiunea sa acceseze/modif
 anumite resurse. Acest lucru se face de obicei verificand daca respectiva persoana
 are un anumit rol care are permisiunea de a accesa resursele in cauza.
 
-Yii incorporeaza un sistem de autentificare/autorizare care este usor de folosit
+Yee incorporeaza un sistem de autentificare/autorizare care este usor de folosit
 si de modificat pentru orice nevoi.
 
-Centrul sistemului de autentificare al Yii este *componenta
+Centrul sistemului de autentificare al Yee este *componenta
 de aplicatie user*, un obiect care implementeaza interfata [IWebUser].
 Componenta user reprezinta informatiile persistente despre identitatea utilizatorului
 curent. Putem accesa aceasta componenta de oriunde din cod prin
-`Yii::app()->user`.
+`Yee::app()->user`.
 
 Folosind componenta user, putem verifica daca un utilizator este logat sau nu prin
 [CWebUser::isGuest]; putem sa logam un user prin metoda [login|CWebUser::login] si sa
@@ -80,9 +80,9 @@ Informatiile memorate (prin apelul metodei [CBaseUserIdentity::setState]) vor fi
 trimise catre [CWebUser] care le memoreaza mai departe intr-un mediu de stocare persistent,
 ca de exemplu sesiunea utilizatorului. Aceste informatii pot fi accesate ca proprietati
 ale clasei [CWebUser]. De exemplu, putem obtine informatia
-`title` a utilizatorului curent prin `Yii::app()->user->title`
+`title` a utilizatorului curent prin `Yee::app()->user->title`
 (Acest lucru este disponibil incepand cu versiunea 1.0.3. In versiunile anterioare, trebuie sa
-folosim `Yii::app()->user->getState('title')`).
+folosim `Yee::app()->user->getState('title')`).
 
 > Info: Implicit, [CWebUser] foloseste sesiunea utilizatorului ca mediu de stocare persistent
 pentru informatiile referitoare la identitatea utilizatorului. Daca logarea bazata pe cookie-uri
@@ -101,12 +101,12 @@ de logare si delogare.
 // Logheaza un utilizator cu numele si parola date
 $identity=new UserIdentity($username,$password);
 if($identity->authenticate())
-	Yii::app()->user->login($identity);
+	Yee::app()->user->login($identity);
 else
 	echo $identity->errorMessage;
 ......
 // Delogheaza utilizatorului curent
-Yii::app()->user->logout();
+Yee::app()->user->logout();
 ~~~
 
 Implicit, un utilizator va fi delogat dupa o anumita perioada de timp
@@ -121,7 +121,7 @@ Este de notat faptul ca acest feature presupune ca browser-ul utilizatorului acc
 [php]
 // tinem userul logat timp de 7 zile.
 // trebuie sa ne asiguram ca proprietatea allowAutoLogin este setata cu true in componenta user.
-Yii::app()->user->login($identity,3600*24*7);
+Yee::app()->user->login($identity,3600*24*7);
 ~~~
 
 Filtrul de control al accesului
@@ -241,7 +241,7 @@ un rol reprezinta o permisiune de a face ceva.
 
    - [expression|CAccessRule::expression]: precizeaza o expresie PHP a carei valoare
 indica daca aceasta regula se va aplica sau nu. In aceasta expresie putem folosi variabila `$user`
-care se refera la `Yii::app()->user`. Aceasta optiune este disponibila incepand cu versiunea 1.0.3.
+care se refera la `Yee::app()->user`. Aceasta optiune este disponibila incepand cu versiunea 1.0.3.
 
 
 ### Tratarea rezultatelor de autorizare
@@ -284,7 +284,7 @@ redirection:
 
 ~~~
 [php]
-Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+Yee::app()->request->redirect(Yee::app()->user->returnUrl);
 ~~~
 
 Role-Based Access Control
@@ -296,7 +296,7 @@ article](http://en.wikipedia.org/wiki/Role-based_access_control) for more
 details about comparing RBAC with other more traditional access control
 schemes.
 
-Yii implements a hierarchical RBAC scheme via its
+Yee implements a hierarchical RBAC scheme via its
 [authManager|CWebApplication::authManager] application component. In the
 following ,we first introduce the main concepts used in this scheme; we
 then describe how to define authorization data; at the end we show how to
@@ -304,7 +304,7 @@ make use of the authorization data to perform access checking.
 
 ### Overview
 
-A fundamental concept in Yii's RBAC is *authorization item*. An
+A fundamental concept in Yee's RBAC is *authorization item*. An
 authorization item is a permission to do something (e.g. creating new blog
 posts, managing users). According to its granularity and targeted audience,
 authorization items can be classified as *operations*,
@@ -313,7 +313,7 @@ consists of operations, and an operation is a permission that is atomic.
 For example, we can have a system with `administrator` role which consists
 of `post management` task and `user management` task. The `user management`
 task may consist of `create user`, `update user` and `delete user`
-operations. For more flexibility, Yii also allows a role to consist of
+operations. For more flexibility, Yee also allows a role to consist of
 other roles or operations, a task to consist of other tasks, and an
 operation to consist of other operations.
 
@@ -350,7 +350,7 @@ assignment, this can be done easily as follows:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('deletePost'))
+if(Yee::app()->user->checkAccess('deletePost'))
 {
 	// delete the post
 }
@@ -360,7 +360,7 @@ if(Yii::app()->user->checkAccess('deletePost'))
 
 Before we set off to define an authorization hierarchy and perform access
 checking, we need to configure the
-[authManager|CWebApplication::authManager] application component. Yii
+[authManager|CWebApplication::authManager] application component. Yee
 provides two types of authorization managers: [CPhpAuthManager] and
 [CDbAuthManager]. The former uses a PHP script file to store authorization
 data, while the latter stores authorization data in database. When we
@@ -385,7 +385,7 @@ return array(
 ~~~
 
 We can then access the [authManager|CWebApplication::authManager]
-application component using `Yii::app()->authManager`.
+application component using `Yee::app()->authManager`.
 
 ### Defining Authorization Hierarchy
 
@@ -421,14 +421,14 @@ the provided APIs:
 
 ~~~
 [php]
-$auth=Yii::app()->authManager;
+$auth=Yee::app()->authManager;
 
 $auth->createOperation('createPost','create a post');
 $auth->createOperation('readPost','read a post');
 $auth->createOperation('updatePost','update a post');
 $auth->createOperation('deletePost','delete a post');
 
-$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$bizRule='return Yee::app()->user->id==$params["post"]->authID;';
 $task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
 $task->addChild('updatePost');
 
@@ -475,7 +475,7 @@ access checking:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('createPost'))
+if(Yee::app()->user->checkAccess('createPost'))
 {
 	// create post
 }
@@ -488,7 +488,7 @@ check if a user can update a post, we would do
 ~~~
 [php]
 $params=array('post'=>$post);
-if(Yii::app()->user->checkAccess('updateOwnPost',$params))
+if(Yee::app()->user->checkAccess('updateOwnPost',$params))
 {
 	// update post
 }
@@ -533,10 +533,10 @@ users and guest users, respectively.
 
 ~~~
 [php]
-$bizRule='return !Yii::app()->user->isGuest;';
+$bizRule='return !Yee::app()->user->isGuest;';
 $auth->createRole('authenticated',$bizRule);
 
-$bizRule='return Yii::app()->user->isGuest;';
+$bizRule='return Yee::app()->user->isGuest;';
 $auth->createRole('guest',$bizRule);
 ~~~
 

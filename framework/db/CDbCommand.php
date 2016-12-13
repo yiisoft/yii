@@ -3,9 +3,9 @@
  * This file contains the CDbCommand class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -31,7 +31,7 @@
  * Starting from version 1.1.6, CDbCommand can also be used as a query builder
  * that builds a SQL statement from code fragments. For example,
  * <pre>
- * $user = Yii::app()->db->createCommand()
+ * $user = Yee::app()->db->createCommand()
  *     ->select('username, password')
  *     ->from('tbl_user')
  *     ->where('id=:id', array(':id'=>1))
@@ -213,9 +213,9 @@ class CDbCommand extends CComponent
 			}
 			catch(Exception $e)
 			{
-				Yii::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+				Yee::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 				$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
-				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
+				throw new CDbException(Yee::t('yee','CDbCommand failed to prepare the SQL statement: {error}',
 					array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 			}
 		}
@@ -324,11 +324,11 @@ class CDbCommand extends CComponent
 		}
 		else
 			$par='';
-		Yii::trace('Executing SQL: '.$this->getText().$par,'system.db.CDbCommand');
+		Yee::trace('Executing SQL: '.$this->getText().$par,'system.db.CDbCommand');
 		try
 		{
 			if($this->_connection->enableProfiling)
-				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
+				Yee::beginProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
 
 			$this->prepare();
 			if($params===array())
@@ -338,24 +338,24 @@ class CDbCommand extends CComponent
 			$n=$this->_statement->rowCount();
 
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
+				Yee::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
 
 			return $n;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
+				Yee::endProfile('system.db.CDbCommand.execute('.$this->getText().$par.')','system.db.CDbCommand.execute');
 
 			$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
 			$message=$e->getMessage();
-			Yii::log(Yii::t('yii','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
+			Yee::log(Yee::t('yee','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
 				array('{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 
 			if(YII_DEBUG)
 				$message.='. The SQL statement executed was: '.$this->getText().$par;
 
-			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
+			throw new CDbException(Yee::t('yee','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}
@@ -481,19 +481,19 @@ class CDbCommand extends CComponent
 		else
 			$par='';
 
-		Yii::trace('Querying SQL: '.$this->getText().$par,'system.db.CDbCommand');
+		Yee::trace('Querying SQL: '.$this->getText().$par,'system.db.CDbCommand');
 
 		if($this->_connection->queryCachingCount>0 && $method!==''
 				&& $this->_connection->queryCachingDuration>0
 				&& $this->_connection->queryCacheID!==false
-				&& ($cache=Yii::app()->getComponent($this->_connection->queryCacheID))!==null)
+				&& ($cache=Yee::app()->getComponent($this->_connection->queryCacheID))!==null)
 		{
 			$this->_connection->queryCachingCount--;
-			$cacheKey='yii:dbquery'.':'.$method.':'.$this->_connection->connectionString.':'.$this->_connection->username;
+			$cacheKey='yee:dbquery'.':'.$method.':'.$this->_connection->connectionString.':'.$this->_connection->username;
 			$cacheKey.=':'.$this->getText().':'.serialize(array_merge($this->_paramLog,$params));
 			if(($result=$cache->get($cacheKey))!==false)
 			{
-				Yii::trace('Query result found in cache','system.db.CDbCommand');
+				Yee::trace('Query result found in cache','system.db.CDbCommand');
 				return $result[0];
 			}
 		}
@@ -501,7 +501,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
-				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
+				Yee::beginProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			$this->prepare();
 			if($params===array())
@@ -520,7 +520,7 @@ class CDbCommand extends CComponent
 			}
 
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
+				Yee::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			if(isset($cache,$cacheKey))
 				$cache->set($cacheKey, array($result), $this->_connection->queryCachingDuration, $this->_connection->queryCachingDependency);
@@ -530,17 +530,17 @@ class CDbCommand extends CComponent
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
+				Yee::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			$errorInfo=$e instanceof PDOException ? $e->errorInfo : null;
 			$message=$e->getMessage();
-			Yii::log(Yii::t('yii','CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.',
+			Yee::log(Yee::t('yee','CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.',
 				array('{method}'=>$method, '{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 
 			if(YII_DEBUG)
 				$message.='. The SQL statement executed was: '.$this->getText().$par;
 
-			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
+			throw new CDbException(Yee::t('yee','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}
@@ -1571,7 +1571,7 @@ class CDbCommand extends CComponent
 			return implode($andor,$expressions);
 		}
 
-		throw new CDbException(Yii::t('yii', 'Unknown operator "{operator}".', array('{operator}'=>$operator)));
+		throw new CDbException(Yee::t('yee', 'Unknown operator "{operator}".', array('{operator}'=>$operator)));
 	}
 
 	/**

@@ -3,9 +3,9 @@
  * CWidgetFactory class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -131,7 +131,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 		parent::init();
 
 		if($this->enableSkin && $this->skinPath===null)
-			$this->skinPath=Yii::app()->getViewPath().DIRECTORY_SEPARATOR.'skins';
+			$this->skinPath=Yee::app()->getViewPath().DIRECTORY_SEPARATOR.'skins';
 	}
 
 	/**
@@ -143,7 +143,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	 */
 	public function createWidget($owner,$className,$properties=array())
 	{
-		$className=Yii::import($className,true);
+		$className=Yee::import($className,true);
 		$widget=new $className($owner);
 
 		if(isset($this->widgets[$className]))
@@ -178,7 +178,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 			else
 				$this->_skins[$className]=array();
 
-			if(($theme=Yii::app()->getTheme())!==null)
+			if(($theme=Yee::app()->getTheme())!==null)
 			{
 				$skinFile=$theme->getSkinPath().DIRECTORY_SEPARATOR.$className.'.php';
 				if(is_file($skinFile))

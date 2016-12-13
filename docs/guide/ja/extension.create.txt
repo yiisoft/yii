@@ -32,7 +32,7 @@ GPL ではありません。
 --------
 
 ビヘイビアを作成するためには、[IBehavior] インタフェースを実装しなければなりません。
-便利なように、Yii は [CBehavior] という基本クラスを提供して、その中で既にこのインタフェースといくつかの便利なメソッドを実装しています。
+便利なように、Yee は [CBehavior] という基本クラスを提供して、その中で既にこのインタフェースといくつかの便利なメソッドを実装しています。
 これを継承する子クラスでは、主として、アタッチされるコンポーネントに対して提供しようとする追加のメソッドを実装することが必要になります。
 
 [CModel] および [CActiveRecord] のためのビヘイビアを開発する場合も、それぞれ [CModelBehavior] および [CActiveRecordBehavior] を継承元にすることが可能です。
@@ -74,7 +74,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -101,7 +101,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...CSS または JavaScript ファイルをここで公開...
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

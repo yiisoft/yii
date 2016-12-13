@@ -15,7 +15,7 @@ public function actionLogin()
 		$model->attributes=$_POST['LoginForm'];
 		// 验证用户输入，并在判断输入正确后重定向到前一页
 		if($model->validate())
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yee::app()->user->returnUrl);
 	}
 	// 显示登录表单
 	$this->render('login',array('model'=>$model));
@@ -27,8 +27,8 @@ public function actionLogin()
 填充 `$model` ；然后我们验证此输入，如果验证成功，重定向用户浏览器到之前需要身份验证的页面。
 如果验证失败，或者此动作被初次访问，我们则渲染 `login` 视图，此视图的内容我们在下一节中讲解。
 
-> Tip|提示: 在 `login` 动作中，我们使用 `Yii::app()->user->returnUrl` 获取之前需要身份验证的页面URL。
-组件 `Yii::app()->user` 是一种 [CWebUser] (或其子类) ，它表示用户会话信息（例如 用户名，状态）。更多详情，
+> Tip|提示: 在 `login` 动作中，我们使用 `Yee::app()->user->returnUrl` 获取之前需要身份验证的页面URL。
+组件 `Yee::app()->user` 是一种 [CWebUser] (或其子类) ，它表示用户会话信息（例如 用户名，状态）。更多详情，
 请参考 [验证与授权](/doc/guide/topics.auth).
 
 让我们特别留意一下 `login` 动作中出现的下面的 PHP 语句：

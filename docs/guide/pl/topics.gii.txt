@@ -1,12 +1,12 @@
 Automatyczne generowanie kodu
 =========================
 
-Poczynając od wersji 1.1.2, Yii wyposażone jest w przeglądarkowe narzędzie do generowania kodu *Gii*. Zastępuje ona poprzednie narzędzie do generacji `yiic shell`, które uruchamiane jest z linii poleceń. W tej części opiszemy jak używać Gii i jak rozszerzać Gii by zwiększyć produktywność dewelopmentu.
+Poczynając od wersji 1.1.2, Yee wyposażone jest w przeglądarkowe narzędzie do generowania kodu *Gii*. Zastępuje ona poprzednie narzędzie do generacji `yeec shell`, które uruchamiane jest z linii poleceń. W tej części opiszemy jak używać Gii i jak rozszerzać Gii by zwiększyć produktywność dewelopmentu.
 
 Używanie Gii
 ---------
 
-Gii zaimplementowane zostało w postaci modułu i musi być używane wewnątrz istniejącej aplikacji Yii. Aby używać Gii, najpierw modyfikujemy konfigurację aplikacji w następujący sposób:
+Gii zaimplementowane zostało w postaci modułu i musi być używane wewnątrz istniejącej aplikacji Yee. Aby używać Gii, najpierw modyfikujemy konfigurację aplikacji w następujący sposób:
 
 ~~~
 [php]
@@ -32,9 +32,9 @@ Ponieważ Gii może generować i zapisywać nowe pliki z kodem w istniejącej ap
 
 > Note|Uwaga: Gii jest przewidziane jako narzędzie deweloperskie. Dlatego też, powinno być zainstalowane jedynie na maszynie deweloperskiej. Ponieważ może ono generować nowe skrypty PHP w aplikacji, powinniśmy zwracać dostateczną uwagę na środki bezpieczeństwa (np. hasła, filtry IP).
 
-Możemy uzyskać dostęp do Gii poprzez adres URL `http://hostname/sciezka/do/index.php?r=gii`. Zakładamy, że `http://hostname/sciezka/do/index.php` to URL dostępu do istniejącej aplikacji Yii.
+Możemy uzyskać dostęp do Gii poprzez adres URL `http://hostname/sciezka/do/index.php?r=gii`. Zakładamy, że `http://hostname/sciezka/do/index.php` to URL dostępu do istniejącej aplikacji Yee.
 
-Jeśli istniejąca aplikacjia Yii używa formatu URL `ścieżek` (zobacz [zarządzanie URL-ami](/doc/guide/topics.url)), możemy uzyskać dostęp do Gii poprzez adres URL `http://hostname/sciezka/do/index.php/gii`. Możemy dodać następujący reguły URL na początej istniejących reguł URL:
+Jeśli istniejąca aplikacjia Yee używa formatu URL `ścieżek` (zobacz [zarządzanie URL-ami](/doc/guide/topics.url)), możemy uzyskać dostęp do Gii poprzez adres URL `http://hostname/sciezka/do/index.php/gii`. Możemy dodać następujący reguły URL na początej istniejących reguł URL:
 
 ~~~
 [php]
@@ -120,7 +120,7 @@ Teraz otwórz stronę generowania modelu. Kliknij na polu szablonu kodu `Code Te
 
 Skopiuj plik `framework/gii/generators/model/templates/default/model.php` do `protected/gii/model/templates/compact`. Jeśli spróbujemy ponownie wygenerować szablon `compact` zakończy się to sukcesem. Jednakże kod wygenerowany nie różni się od tego generowanego przez `domyślny` zestaw szablonów.
 
-Nadszedł czas aby wykonać rzeczywista pracę dostosowywania. Otwórz plik `protected/gii/model/templates/compact/model.php` w celu edytowania go. Pamiętaj, że plik ten będzie używane jako skrypt widoku, co oznacza, że może on zawierać deklaracje i wyrażenia PHP. Zmodyfikujmy szablon w taki sposób, że metoda `attributeLabels()` w generowanym kodzie będzie używała `Yii::t()` do tłumaczenia etykiet atrybutów:
+Nadszedł czas aby wykonać rzeczywista pracę dostosowywania. Otwórz plik `protected/gii/model/templates/compact/model.php` w celu edytowania go. Pamiętaj, że plik ten będzie używane jako skrypt widoku, co oznacza, że może on zawierać deklaracje i wyrażenia PHP. Zmodyfikujmy szablon w taki sposób, że metoda `attributeLabels()` w generowanym kodzie będzie używała `Yee::t()` do tłumaczenia etykiet atrybutów:
 
 ~~~
 [php]
@@ -128,7 +128,7 @@ public function attributeLabels()
 {
 	return array(
 <?php foreach($labels as $name=>$label): ?>
-			<?php echo "'$name' => Yii::t('application', '$label'),\n"; ?>
+			<?php echo "'$name' => Yee::t('application', '$label'),\n"; ?>
 <?php endforeach; ?>
 	);
 }
@@ -190,7 +190,7 @@ class WidgetCode extends CCodeModel
 
 	public function prepare()
 	{
-		$path=Yii::getPathOfAlias('application.components.' . $this->className) . '.php';
+		$path=Yee::getPathOfAlias('application.components.' . $this->className) . '.php';
 		$code=$this->render($this->templatepath.'/widget.php');
 
 		$this->files[]=new CCodeFile($path, $code);

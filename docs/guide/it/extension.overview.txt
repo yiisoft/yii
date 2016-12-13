@@ -1,13 +1,13 @@
-Estendere Yii
+Estendere Yee
 =============
 
-Estendere Yii è una attività comune nella fase di sviluppo (di una web aplication). Per esempio, quando
-si scrive un nuovo controller, si sta estendendo Yii ereditando dalla sua classe [CController]; 
+Estendere Yee è una attività comune nella fase di sviluppo (di una web aplication). Per esempio, quando
+si scrive un nuovo controller, si sta estendendo Yee ereditando dalla sua classe [CController]; 
 quando si scrive un nuovo widget, si sta estendendo [CWidget] o un'altra classe 
 widget esistente. Se il codice esteso è progettato per essere riutilizzato 
 da altri sviluppatori, possiamo definirlo una *extension* (estensione).
 
-Solitamente una extension *serve per un unico scopo*. Dal punto di vista di Yii, 
+Solitamente una extension *serve per un unico scopo*. Dal punto di vista di Yee, 
 una extension può essere classificata nei seguenti modi:
 
  * [componente dell'applicazione](/doc/guide/basics.application#application-component)
@@ -22,7 +22,7 @@ una extension può essere classificata nei seguenti modi:
  * [modulo](/doc/guide/basics.module): un modulo è un'unità software a sé stante costituito da [model](/doc/guide/basics.model), [view](/doc/guide/basics.view), [controller](/doc/guide/basics.controller) ed altri componenti di supporto. In molti aspetti, un modulo somiglia ad un'[applicazione](/doc/guide/basics.application). La differenza principale è che il modulo è contenuto nell'applicazione. Per esempio, potremmo avere un modulo che si occupi della gestione degli utenti.
 
 Un'estensione potrebbe anche essere un componente che non rientri in nessuna delle 
-precedenti categorie. È un dato di fatto, Yii è stato attentamente progettato 
+precedenti categorie. È un dato di fatto, Yee è stato attentamente progettato 
 in modo tale che quasi ogni pezzo del suo codice possa essere esteso e 
 personalizzato per adattarsi ad esigenze specifiche.
 

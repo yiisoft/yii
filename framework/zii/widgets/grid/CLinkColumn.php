@@ -3,12 +3,12 @@
  * CLinkColumn class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.grid.CGridColumn');
+Yee::import('zii.widgets.grid.CGridColumn');
 
 /**
  * CLinkColumn represents a grid view column that renders a hyperlink in each of its data cells.

@@ -10,7 +10,7 @@ För att lagra en variabel `$value` i cacheminnet väljer vi ett unikt ID och an
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yee::app()->cache->set($id, $value);
 ~~~
 
 Cachelagrade data förblir i cachen obegränsat länge om de inte tas bort på grund 
@@ -22,7 +22,7 @@ cachen efter en viss tid:
 ~~~
 [php]
 // keep the value in cache for at most 30 seconds
-Yii::app()->cache->set($id, $value, 30);
+Yee::app()->cache->set($id, $value, 30);
 ~~~
 
 Senare, när variabeln behöver kommas åt (antingen i samma eller någon annan 
@@ -32,12 +32,12 @@ ID bifogat. Om värdet som returneras är false, innebär detta att sökt värde
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yee::app()->cache->get($id);
 if($value===false)
 {
 	// regenerate $value because it is not found in cache
 	// and save it in cache for later use:
-	// Yii::app()->cache->set($id,$value);
+	// Yee::app()->cache->set($id,$value);
 }
 ~~~
 
@@ -62,7 +62,7 @@ användas som en array. Här följer några exempel:
 
 > ~~~ 
 > [php] 
-> $cache=Yii::app()->cache; 
+> $cache=Yee::app()->cache; 
 > $cache['var1']=$value1;  // equivalent to: $cache->set('var1',$value1); 
 > $value2=$cache['var2'];  // equivalent to: $value2=$cache->get('var2'); 
 > ~~~
@@ -82,7 +82,7 @@ klass. Dependency-instansen bifogas data som skall cachas i anropet till [set()|
 [php]
 // the value will expire in 30 seconds
 // it may also be invalidated earlier if the dependent file is changed
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+Yee::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 Om vi nu återhämtar `$value` från cachen medelst anrop till [get()|CCache::get], 
@@ -107,7 +107,7 @@ Nedan följer en sammanställning av tillgängliga cacheberoenden:
 Cachning av databasfrågor
 -------------------------
 
-Sedan version 1.1.7, har Yii stöd för cachning av databasfrågor.
+Sedan version 1.1.7, har Yee stöd för cachning av databasfrågor.
 Med hjälp av datacachning lagrar frågecachning resultatet av en DB-fråga 
 och kan på så vis spara exekveringstid i databasen för en fråga som upprepas senare, 
 eftersom den kan hämtas direkt från cache.
@@ -132,10 +132,10 @@ Följande är ett exempel:
 [php]
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 ~~~
 
-När ovanstående programsatser körs, kommer Yii att först att undersöka om det finns 
+När ovanstående programsatser körs, kommer Yee att först att undersöka om det finns 
 ett giltigt resultat i cache för den SQL-sats som skall exekveras. Det sker genom att 
 följande tre villkor kontrolleras:
 
@@ -162,7 +162,7 @@ $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 ~~~
 
 Metoden `cache()` här, är i praktiken en genväg till [CDbConnection::cache()].
-Internt, vid exekvering av SQL-satsen som ActiveRecord genererat, kommer Yii 
+Internt, vid exekvering av SQL-satsen som ActiveRecord genererat, kommer Yee 
 att försöka använda frågecachning så som beskrivits i förra delavsnittet.
 
 
@@ -177,9 +177,9 @@ såvida inte `cache()` anropas igen. Till exempel,
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
 
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 // frågecachning kommer INTE att användas
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 Genom att lämna med en extra `$queryCount`-parameter till metoden `cache()`, kan vi 
@@ -189,9 +189,9 @@ specificeras att frågecachning skall användas för de två följande frågorna
 ~~~
 [php]
 // ...
-$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
 // frågecachning KOMMER ATT användas
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 Som bekant är det möjligt att flera SQL-frågor exekveras när en relationell AR-fråga 

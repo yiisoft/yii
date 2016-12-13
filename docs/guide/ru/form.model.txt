@@ -134,7 +134,7 @@ public function ValidatorName($attribute,$params) { … }
 Третий вариант — предопределить псевдоним класса валидатора. В примере выше
 `required` — это псевдоним класса [CRequiredValidator], который проверяет, не является ли значение атрибута пустым.
 Ниже приведён полный список предопределенных псевдонимов валидаторов,
-включенных в состав Yii:
+включенных в состав Yee:
 
    - `boolean`: псевдоним класса [CBooleanValidator], который проверяет, равно ли
 значение атрибута [CBooleanValidator::trueValue] или [CBooleanValidator::falseValue];

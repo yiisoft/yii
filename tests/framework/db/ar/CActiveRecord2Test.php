@@ -1,7 +1,7 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.ar.CActiveRecord');
+Yee::import('system.db.CDbConnection');
+Yee::import('system.db.ar.CActiveRecord');
 require_once(dirname(__FILE__).'/../data/models2.php');
 
 class CActiveRecord2Test extends CTestCase
@@ -16,7 +16,7 @@ class CActiveRecord2Test extends CTestCase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
 
-		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yii','test','test');
+		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yee','test','test');
 		try
 		{
 			$this->db->active=true;
@@ -28,7 +28,7 @@ class CActiveRecord2Test extends CTestCase
 		}
 
 		try	{ $this->db->createCommand('DROP SCHEMA test CASCADE')->execute(); } catch(Exception $e) { }
-		try	{ $this->db->createCommand('DROP TABLE yii_types CASCADE')->execute(); } catch(Exception $e) { }
+		try	{ $this->db->createCommand('DROP TABLE yee_types CASCADE')->execute(); } catch(Exception $e) { }
 
 		$sqls=file_get_contents(dirname(__FILE__).'/../data/postgres.sql');
 		foreach(explode(';',$sqls) as $sql)
@@ -43,7 +43,7 @@ class CActiveRecord2Test extends CTestCase
 			'components'=>array(
 				'db'=>array(
 					'class'=>'system.db.CDbConnection',
-					'connectionString'=>'pgsql:host=127.0.0.1;dbname=yii',
+					'connectionString'=>'pgsql:host=127.0.0.1;dbname=yee',
 					'username'=>'test',
 					'password'=>'test',
 				),
@@ -598,7 +598,7 @@ class CActiveRecord2Test extends CTestCase
 	}
 
 	/**
-	 * @see https://github.com/yiisoft/yii/issues/2122
+	 * @see https://github.com/yeesoft/yee/issues/2122
 	 */
 	public function testIssue2122()
 	{
@@ -609,7 +609,7 @@ class CActiveRecord2Test extends CTestCase
 	}
 
 	/**
-	 * https://github.com/yiisoft/yii/issues/2336
+	 * https://github.com/yeesoft/yee/issues/2336
 	 */
 	public function testEmptyModel()
 	{

@@ -3,7 +3,7 @@
 
 このセクションでは、コメントの表示と作成の機能を実装します。
 
-ユーザのインタラクティブ性を向上するために、入力欄への入力が確定するたびにエラー表示をします。いわゆるクライアントサイドの入力検証(client-side input validation)です。これを Yii で行う方法を説明します。シームレスそして極めて簡単にできます。この機能は Yii バージョン 1.1.1 以降でサポートされていることに注意して下さい。
+ユーザのインタラクティブ性を向上するために、入力欄への入力が確定するたびにエラー表示をします。いわゆるクライアントサイドの入力検証(client-side input validation)です。これを Yee で行う方法を説明します。シームレスそして極めて簡単にできます。この機能は Yee バージョン 1.1.1 以降でサポートされていることに注意して下さい。
 
 
 コメントの表示
@@ -31,9 +31,9 @@
 </div>
 ~~~
 
-上の例では、現在の記事に属するコメント一覧を表示するために、`_comments` という部分的ビューを指定して `renderPartial()` を呼んでいます。ビューで `$model->comments` という式を使って記事に属するコメントを取得していることに注目して下さい。この式が使える理由は `Post` クラスで `comments` リレーションを宣言しているからです。この式が評価されると、暗黙的にデータベースの JOIN クエリーが発行され、適切なコメントが返されます。この機能は [遅延リレーショナルクエリ](http://www.yiiframework.com/doc/guide/ja/database.arr) として知られています。
+上の例では、現在の記事に属するコメント一覧を表示するために、`_comments` という部分的ビューを指定して `renderPartial()` を呼んでいます。ビューで `$model->comments` という式を使って記事に属するコメントを取得していることに注目して下さい。この式が使える理由は `Post` クラスで `comments` リレーションを宣言しているからです。この式が評価されると、暗黙的にデータベースの JOIN クエリーが発行され、適切なコメントが返されます。この機能は [遅延リレーショナルクエリ](http://www.yeeframework.com/doc/guide/ja/database.arr) として知られています。
 
-部分的ビュー (partial view) の `_comments` はあまり興味深いものではありません。コメントを一つ一つ取り扱い、コメントの詳細を表示します。興味のある方は `/wwwroot/yii/demos/blog/protected/views/post/_comments.php` を参照してください。
+部分的ビュー (partial view) の `_comments` はあまり興味深いものではありません。コメントを一つ一つ取り扱い、コメントの詳細を表示します。興味のある方は `/wwwroot/yee/demos/blog/protected/views/post/_comments.php` を参照してください。
 
 コメントの作成
 --------------
@@ -62,7 +62,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','コメント、有難うございます。コメントは承認後に投稿されます。');
+				Yee::app()->user->setFlash('commentSubmitted','コメント、有難うございます。コメントは承認後に投稿されます。');
 			$this->refresh();
 		}
 	}
@@ -76,7 +76,7 @@ protected function newComment($post)
 [php]
 public function addComment($comment)
 {
-	if(Yii::app()->params['commentNeedApproval'])
+	if(Yee::app()->params['commentNeedApproval'])
 		$comment->status=Comment::STATUS_PENDING;
 	else
 		$comment->status=Comment::STATUS_APPROVED;
@@ -96,9 +96,9 @@ public function addComment($comment)
 	......
 	<h3>コメントする</h3>
 
-	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+	<?php if(Yee::app()->user->hasFlash('commentSubmitted')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+			<?php echo Yee::app()->user->getFlash('commentSubmitted'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(
@@ -144,7 +144,7 @@ protected function newComment($post)
 	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 	{
 		echo CActiveForm::validate($comment);
-		Yii::app()->end();
+		Yee::app()->end();
 	}
 
 	if(isset($_POST['Comment']))
@@ -153,7 +153,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','コメント、有難うございます。コメントは承認後に投稿されます。');
+				Yee::app()->user->setFlash('commentSubmitted','コメント、有難うございます。コメントは承認後に投稿されます。');
 			$this->refresh();
 		}
 	}

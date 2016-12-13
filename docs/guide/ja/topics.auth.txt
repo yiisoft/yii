@@ -7,11 +7,11 @@
 **権限付与 Authorization** とは、いったんある人物が特定された (すなわち認証された) 後、特定のリソースの操作を許可されているかどうかを判断することです。
 たいていこれはその人物がリソースにアクセスする特定のロールを持っているかどうかで決定されます。
 
-Yii には組み込みの認証・権限付与 (ここでは両方をあわせて auth と呼びます) 機構が備わっており、簡単に利用でき、また、特別なニーズのためにカスタマイズすることも可能です。
+Yee には組み込みの認証・権限付与 (ここでは両方をあわせて auth と呼びます) 機構が備わっており、簡単に利用でき、また、特別なニーズのためにカスタマイズすることも可能です。
 
 auth 機構の中心部分は、[IWebUser] インタフェースを実装するあらかじめ宣言済みの **user アプリケーションコンポーネント** です。
 この user コンポーネントが現在のユーザの持続的な個人情報を保持します。
-`Yii::app()->user` という式を使うと、どこからでもこの情報にアクセスできます。
+`Yee::app()->user` という式を使うと、どこからでもこの情報にアクセスできます。
 
 この user コンポーネントを用いると、以下のことが可能になります。
 すなわち、ユーザがログインしているかどうかを確認すること [CWebUser::isGuest]。
@@ -25,7 +25,7 @@ Identity クラスを定義する
 上で述べたように、認証はユーザの同一性の検証に関するものです。
 典型的なウェブアプリケーションの認証の実装は、通常、一対のユーザ名とパスワードを使って、ユーザの同一性を検証するものです。
 しかし、その他の手段を使う場合もあり、異なった実装方法が要求される場合もあります。
-さまざまな認証手段に対応できるように、Yii の auth フレームワークは identity クラスを導入しています。
+さまざまな認証手段に対応できるように、Yee の auth フレームワークは identity クラスを導入しています。
 
 定義する identity クラスは、実際の認証ロジックを含まなければなりません。
 そして identity クラスは [IUserIdentity] インタフェースを実装しなければなりません。
@@ -79,7 +79,7 @@ class UserIdentity extends CUserIdentity
 次の節でログインとログアウトを扱うときに、この identity クラスが user の login メソッドに引き渡されることを見ます。
 [CBaseUserIdentity::setState] を呼んで保存されるすべての情報が [CWebUser] に渡され、[CWebUser] がそれをセッションなどの持続的ストレージに保存します。
 するとこの情報は [CWebUser] のプロパティのようにアクセスすることが出来るようになります。
-上記の例では、ユーザの `title` 情報を `$this->setState('title', $record->title);` によって保存しましたが、ログインのプロセスを完了した後は、現在のユーザの `title` 情報を `Yii::app()->user->title` を使うだけで取得することが出来ます。
+上記の例では、ユーザの `title` 情報を `$this->setState('title', $record->title);` によって保存しましたが、ログインのプロセスを完了した後は、現在のユーザの `title` 情報を `Yee::app()->user->title` を使うだけで取得することが出来ます。
 
 > Info|情報: デフォルトでは [CWebUser] はユーザを特定する情報を保存するのに、持続的ストレージとしてセッションを使います。
 クッキーベースのログインが有効 ([CWebUser::allowAutoLogin] が true) になっていると、ユーザを特定する情報もクッキーに保存される可能性があります。
@@ -89,7 +89,7 @@ class UserIdentity extends CUserIdentity
 
 ユーザのパスワードをデータベースに安全に保存するためには、いくらか配慮が必要です。
 ユーザのテーブル（またはそのバックアップ）を盗んだ攻撃者は、対策を施していない場合には、標準的な手法を使ってユーザのパスワードを回復することが出来ます。
-上記のサンプルコードは Yii 内蔵の [CPasswordHelper] (バージョン 1.1.14 以降で使用出来ます) を使って、パスワードのハッシュと検証をしています。
+上記のサンプルコードは Yee 内蔵の [CPasswordHelper] (バージョン 1.1.14 以降で使用出来ます) を使って、パスワードのハッシュと検証をしています。
 [CPasswordHelper::hashPassword] は非常にクラックしにくいハッシュを返すものです。
 
 具体的に言えば、パスワードをハッシュする前にソルトすべきであり、また、攻撃者が計算に長い時間を要するようなハッシュ関数を使うべきです。
@@ -106,12 +106,12 @@ class UserIdentity extends CUserIdentity
 // 入力されたユーザ名とパスワードでユーザをログインする
 $identity=new UserIdentity($username,$password);
 if($identity->authenticate())
-	Yii::app()->user->login($identity);
+	Yee::app()->user->login($identity);
 else
 	echo $identity->errorMessage;
 ......
 // 現在のユーザをログアウトする
-Yii::app()->user->logout();
+Yee::app()->user->logout();
 ~~~
 
 ここでは、まず、新しい UserIdentity オブジェクトを作成して、認証情報 (すなわち、ユーザによって送信された `$username` と `$password`) をコンストラクタに渡しています。
@@ -120,10 +120,10 @@ Yii::app()->user->logout();
 `login` メソッドは identity 情報を持続的ストレージ(デフォルトでは PHP セッション)に保存して、後のリクエストで参照できるようにします。
 認証が失敗した場合は、失敗した理由の詳細について、`errorMessage` プロパティを取り調べることが出来ます。
 
-ユーザが認証されたか否かは、`Yii::app()->user->isGuest` を使えば、アプリケーションから簡単にチェックできます。
+ユーザが認証されたか否かは、`Yee::app()->user->isGuest` を使えば、アプリケーションから簡単にチェックできます。
 identity 情報の保存に、セッション (これがデフォルトです) および/またはクッキー (後述します) のような持続的ストレージを使う場合は、ユーザは後続するリクエストにおいてログインされた状態を継続することが出来ます。
 この場合は、すべてのリクエストに対して UserIdentity クラスやログインのプロセス全体を使用する必要はありません。
-そうしなくても、CWebUser がこの持続的ストレージから自動的に identity 情報を読み込み、その情報に従って、`Yii::app()->user->isGuest` が true または false のどちらを返すべきかを決定します。
+そうしなくても、CWebUser がこの持続的ストレージから自動的に identity 情報を読み込み、その情報に従って、`Yee::app()->user->isGuest` が true または false のどちらを返すべきかを決定します。
 
 クッキーベースのログイン
 ------------------
@@ -138,13 +138,13 @@ identity 情報の保存に、セッション (これがデフォルトです) �
 [php]
 // 7日間ログイン状態を保持する
 // user コンポーネントの allowAutoLogin が true であることを確認
-Yii::app()->user->login($identity,3600*24*7);
+Yee::app()->user->login($identity,3600*24*7);
 ~~~
 
 既に言及したように、クッキーベースのログインが有効な場合、[CBaseUserIdentity::setState] によって保存された情報は、クッキーにも保存されます。
-ユーザが次回ログインされたときには、その情報がクッキーから読み出されて、`Yii::app()->user` によってアクセス可能になります。
+ユーザが次回ログインされたときには、その情報がクッキーから読み出されて、`Yee::app()->user` によってアクセス可能になります。
 
-Yii はこの情報のクッキーがクライアント側で改竄されるのを防止する手段を備えていますが、セキュリティ上重要な情報は [CBaseUserIdentity::setState] によって保存しないことを強く推奨します。
+Yee はこの情報のクッキーがクライアント側で改竄されるのを防止する手段を備えていますが、セキュリティ上重要な情報は [CBaseUserIdentity::setState] によって保存しないことを強く推奨します。
 セキュリティ上重要な情報は、サーバ側の持続的ストレージ (例えばデータベース) から読み出して、サーバ側で復元するようにすべきです。
 
 それに加えて、すべての本格的なウェブアプリケーションでは、次のような方策を講じて、クッキーベースのログインのセキュリティを強化することを推奨します。
@@ -278,7 +278,7 @@ class PostController extends CController
 比較は大文字小文字を区別しません。
 
    - [expression|CAccessRule::expression]: PHP の式でルールが適用されるかどうかを定義します。
-式の中で、`$user` という変数を使って `Yii::app()->user` を参照できます。
+式の中で、`$user` という変数を使って `Yee::app()->user` を参照できます。
 
 
 権限付与結果の取り扱い
@@ -316,7 +316,7 @@ array(
 
 ~~~
 [php]
-Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+Yee::app()->request->redirect(Yee::app()->user->returnUrl);
 ~~~
 
 ロールベースアクセスコントロール
@@ -325,21 +325,21 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 ロールベースアクセスコントロール (RBAC) はシンプルで強力な集中的アクセスコントロールを提供します。
 RBAC と他の伝統的なアクセスコントロールスキーマとの比較については [Wiki の記事](http://en.wikipedia.org/wiki/Role-based_access_control) を参照してください。
 
-Yii は [authManager|CWebApplication::authManager] アプリケーションコンポーネントで、階層的 RBAC スキームを実装しています。
+Yee は [authManager|CWebApplication::authManager] アプリケーションコンポーネントで、階層的 RBAC スキームを実装しています。
 以下でこのスキームで使われる主な概念を紹介します。
 次に権限データをどう定義するかを説明します。
 最後に権限データをアクセスチェックに利用する方法を説明します。
 
 ### 概要
 
-Yii の RBAC の基本概念は、**権限アイテム** です。
+Yee の RBAC の基本概念は、**権限アイテム** です。
 権限アイテムとは、何かをする許可のことです (例: 新しいブログ記事を作る、ユーザを管理する)。
 粒度と対象者によって、権限アイテムは **オペレーション**、**タスク**、**ロール** に分類されます。
 ロールは複数のタスクからなり、タスクは複数のオペレーションからなります。
 そして、オペレーションが一番小さな許可単位です。
 例えば、`administrator` ロールが `post management` タスクと `user management` タスクを含むようなシステムを作ることができます。
 `user management` タスクは `create user`, `update user`, `delete user` などのオペレーションから構成されるでしょう。
-更なる柔軟性のために、Yii ではロールに他のロールを含めたり、タスクに他のタスクを含めたりできます。
+更なる柔軟性のために、Yee ではロールに他のロールを含めたり、タスクに他のタスクを含めたりできます。
 さらにオペレーションも他のオペレーションを含むことができます。
 
 権限アイテムは名前によって一意に識別されます。
@@ -368,7 +368,7 @@ RBAC 階層と権限割り当てを使うと、これは以下のように簡単
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('deletePost'))
+if(Yee::app()->user->checkAccess('deletePost'))
 {
 	// 記事の削除
 }
@@ -378,7 +378,7 @@ if(Yii::app()->user->checkAccess('deletePost'))
 -------------------------
 
 権限階層を定義してアクセスチェックを始める前に、[authManager|CWebApplication::authManager] アプリケーションコンポーネントを設定する必要があります。
-Yii は二つのタイプの権限マネージャを提供します。
+Yee は二つのタイプの権限マネージャを提供します。
 [CPhpAuthManager] と [CDbAuthManager]です。
 前者は権限データを格納するのに PHP ファイルを使い、後者はデータベースを使います。
 [authManager|CWebApplication::authManager] アプリケーションコンポーネントを設定する際に、どちらのクラスを使い、初期値をどうするのか指定しなければなりません。
@@ -400,7 +400,7 @@ return array(
 );
 ~~~
 
-この設定によって、`Yii::app()->authManager` として [authManager|CWebApplication::authManager]アプリケーションコンポーネントにアクセスできるようになります。
+この設定によって、`Yee::app()->authManager` として [authManager|CWebApplication::authManager]アプリケーションコンポーネントにアクセスできるようになります。
 
 権限階層を定義する
 -------------------------
@@ -431,14 +431,14 @@ return array(
 
 ~~~
 [php]
-$auth=Yii::app()->authManager;
+$auth=Yee::app()->authManager;
 
 $auth->createOperation('createPost','create a post');
 $auth->createOperation('readPost','read a post');
 $auth->createOperation('updatePost','update a post');
 $auth->createOperation('deletePost','delete a post');
 
-$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$bizRule='return Yee::app()->user->id==$params["post"]->authID;';
 $task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
 $task->addChild('updatePost');
 
@@ -492,7 +492,7 @@ $auth->assign('admin','adminD');
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('createPost'))
+if(Yee::app()->user->checkAccess('createPost'))
 {
 	// 記事を作成する
 }
@@ -504,7 +504,7 @@ if(Yii::app()->user->checkAccess('createPost'))
 ~~~
 [php]
 $params=array('post'=>$post);
-if(Yii::app()->user->checkAccess('updateOwnPost',$params))
+if(Yee::app()->user->checkAccess('updateOwnPost',$params))
 {
 	// 記事を更新する
 }
@@ -542,16 +542,16 @@ return array(
 
 ~~~
 [php]
-$bizRule='return !Yii::app()->user->isGuest;';
+$bizRule='return !Yee::app()->user->isGuest;';
 $auth->createRole('authenticated', 'authenticated user', $bizRule);
 
-$bizRule='return Yii::app()->user->name === "admin";';
+$bizRule='return Yee::app()->user->name === "admin";';
 $auth->createRole('admin', 'admin user', $bizRule);
 ~~~
 
 > Info|情報: バージョン 1.1.11 以降、ビジネスルールに引き渡される `$params` 配列に、`userId` という名前のキーが含まれるようになりました。
 > `userId` の値は、ビジネスルールが権限をチェックするユーザの id です。
 > [CDbAuthManager::checkAccess()] または [CPhpAuthManager::checkAccess()] を呼ぶときに、
-> `Yii::app()->user` が利用できない場合、あるいは、`Yii::app()->user` が権限をチェックする対象のユーザと違う場合は、この値を利用する必要があります。
+> `Yee::app()->user` が利用できない場合、あるいは、`Yee::app()->user` が権限をチェックする対象のユーザと違う場合は、この値を利用する必要があります。
 
 <div class="revision">$Id$</div>

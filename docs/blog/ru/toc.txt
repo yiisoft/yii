@@ -1,6 +1,6 @@
 * Начало
 	- [Обзор](start.overview)
-    - [Знакомимся с Yii](start.testdrive)
+    - [Знакомимся с Yee](start.testdrive)
     - [Анализ требований](start.requirements)
     - [Общая структура](start.design)
 

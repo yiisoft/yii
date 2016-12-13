@@ -28,9 +28,9 @@ class SiteController extends Controller
 	 */
 	public function actionError()
 	{
-	    if($error=Yii::app()->errorHandler->error)
+	    if($error=Yee::app()->errorHandler->error)
 	    {
-	    	if(Yii::app()->request->isAjaxRequest)
+	    	if(Yee::app()->request->isAjaxRequest)
 	    		echo $error['message'];
 	    	else
 	        	$this->render('error', $error);
@@ -49,8 +49,8 @@ class SiteController extends Controller
 			if($model->validate())
 			{
 				$headers="From: {$model->email}\r\nReply-To: {$model->email}";
-				mail(Yii::app()->params['adminEmail'],$model->subject,$model->body,$headers);
-				Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
+				mail(Yee::app()->params['adminEmail'],$model->subject,$model->body,$headers);
+				Yee::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
 				$this->refresh();
 			}
 		}
@@ -71,7 +71,7 @@ class SiteController extends Controller
 		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
 		{
 			echo CActiveForm::validate($model);
-			Yii::app()->end();
+			Yee::app()->end();
 		}
 
 		// collect user input data
@@ -80,7 +80,7 @@ class SiteController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+				$this->redirect(Yee::app()->user->returnUrl);
 		}
 		// display the login form
 		$this->render('login',array('model'=>$model));
@@ -91,7 +91,7 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+		Yee::app()->user->logout();
+		$this->redirect(Yee::app()->homeUrl);
 	}
 }

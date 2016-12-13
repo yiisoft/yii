@@ -7,7 +7,7 @@ On rajoute ensuite les libellés (labels) et les champs (input) pour les
 attributs déclarés dans la classe `LoginForm`. A la fin on ajoute un bouton
 d'envoi (submit). Tout cela est fait en HTML habituel.
 
-Yii fourni cependant des classes spéciales (helpers) facilitant la création de
+Yee fourni cependant des classes spéciales (helpers) facilitant la création de
 cette vue. Par exemple, on peut créer un champ de saisie de texte en utilisant [CHtml::textField()];
 Ou encore pour créer une liste déroulante (drop-down list), on peut utiliser
 [CHtml::dropDownList()].
@@ -61,7 +61,7 @@ changera à `error`, ce qui modifiera l'apparence du libellé avec les styles
 CSS correspondant à une erreur. De façon similaire, [CHtml::activeTextField()] génère
 un champ de saisie texte pour l'attribut du modèle et change sa classe CSS en cas d'erreur.
 
-Si on utilise le fichier de style CSS `form.css` fourni par le script `yiic`, le formulaire généré est similaire à:
+Si on utilise le fichier de style CSS `form.css` fourni par le script `yeec`, le formulaire généré est similaire à:
 
 ![Page de connexion](login1.png)
 

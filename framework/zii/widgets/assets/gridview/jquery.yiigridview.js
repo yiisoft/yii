@@ -1,15 +1,15 @@
 /**
- * jQuery Yii GridView plugin file.
+ * jQuery Yee GridView plugin file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2010 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2010 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 (function ($) {
 	var selectCheckedRows, methods, 
-	 	yiiXHR={},
+	 	yeeXHR={},
 		gridSettings = [];
 	/**
 	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
@@ -34,7 +34,7 @@
 
 	methods = {
 		/**
-		 * yiiGridView set function.
+		 * yeeGridView set function.
 		 * @param options map settings for the grid view. Available options are as follows:
 		 * - ajaxUpdate: array, IDs of the containers whose content may be updated by ajax response
 		 * - ajaxVar: string, the name of the request variable indicating the ID of the element triggering the AJAX request
@@ -88,7 +88,7 @@
 				gridSettings[id] = settings;
 
 				if (settings.ajaxUpdate.length > 0) {
-					$(document).on('click.yiiGridView', settings.updateSelector, function () {
+					$(document).on('click.yeeGridView', settings.updateSelector, function () {
 						// Check to see if History.js is enabled for our Browser
 						if (settings.enableHistory && window.History.enabled) {
 							// Ajaxify this link
@@ -103,13 +103,13 @@
 								window.History.pushState({url: updateUrl}, document.title, updateUrl);
 							}
 						} else {
-							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
+							$('#' + id).yeeGridView('update', {url: $(this).attr('href')});
 						}
 						return false;
 					});
 				}
 
-				$(document).on('change.yiiGridView keydown.yiiGridView', settings.filterSelector, function (event) {
+				$(document).on('change.yeeGridView keydown.yeeGridView', settings.filterSelector, function (event) {
 					if (event.type === 'keydown') {
 						if (event.keyCode !== 13) {
 							return; // only react to enter key
@@ -131,7 +131,7 @@
 					}
 					if (settings.enableHistory && settings.ajaxUpdate !== false && window.History.enabled) {
 						// Ajaxify this link
-						var url = $('#' + id).yiiGridView('getUrl'),
+						var url = $('#' + id).yeeGridView('getUrl'),
 							params = $.deparam.querystring($.param.querystring(url, data));
 
 						delete params[settings.ajaxVar];
@@ -139,7 +139,7 @@
 						var updateUrl = $.param.querystring(url.substr(0, url.indexOf('?')), params);
 						window.History.pushState({url: updateUrl}, document.title, updateUrl);
 					} else {
-						$('#' + id).yiiGridView('update', {data: data});
+						$('#' + id).yeeGridView('update', {data: data});
 					}
 					return false;
 				});
@@ -150,13 +150,13 @@
 						if (State.data.url === undefined) {
 							State.data.url = State.url;
 						}
-						$('#' + id).yiiGridView('update', State.data);
+						$('#' + id).yeeGridView('update', State.data);
 					});
 				}
 
 				if (settings.selectableRows > 0) {
 					selectCheckedRows(this.id);
-					$(document).on('click.yiiGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
+					$(document).on('click.yeeGridView', '#' + id + ' .' + settings.tableClass + ' > tbody > tr', function (e) {
 						var $currentGrid, $row, isRowSelected, $checks,
 							$target = $(e.target);
 
@@ -181,7 +181,7 @@
 						}
 					});
 					if (settings.selectableRows > 1) {
-						$(document).on('click.yiiGridView', '#' + id + ' .select-on-check-all', function () {
+						$(document).on('click.yeeGridView', '#' + id + ' .select-on-check-all', function () {
 							var $currentGrid = $('#' + id),
 								$checks = $('input.select-on-check', $currentGrid),
 								$checksAll = $('input.select-on-check-all', $currentGrid),
@@ -201,7 +201,7 @@
 						});
 					}
 				} else {
-					$(document).on('click.yiiGridView', '#' + id + ' .select-on-check', false);
+					$(document).on('click.yeeGridView', '#' + id + ' .select-on-check', false);
 				}
 			});
 		},
@@ -265,7 +265,7 @@
 
 				options = $.extend({
 					type: settings.ajaxType,
-					url: $grid.yiiGridView('getUrl'),
+					url: $grid.yeeGridView('getUrl'),
 					success: function (data) {
 						var $data = $('<div>' + data + '</div>');
 						$.each(settings.ajaxUpdate, function (i, el) {
@@ -280,7 +280,7 @@
 						}
 					},
 					complete: function () {
-						yiiXHR[id] = null;
+						yeeXHR[id] = null;
 						$grid.removeClass(settings.loadingClass);
 					},
 					error: function (XHR, textStatus, errorThrown) {
@@ -339,10 +339,10 @@
 					else
 						options.data[settings.csrfTokenName] = settings.csrfToken;
 				}
-				if(yiiXHR[id] != null){
-					yiiXHR[id].abort();
+				if(yeeXHR[id] != null){
+					yeeXHR[id].abort();
 				}
-				//class must be added after yiiXHR.abort otherwise ajax.error will remove it
+				//class must be added after yeeXHR.abort otherwise ajax.error will remove it
 				$grid.addClass(settings.loadingClass);
 				
 				if (settings.ajaxUpdate !== false) {
@@ -352,7 +352,7 @@
 					if (settings.beforeAjaxUpdate !== undefined) {
 						settings.beforeAjaxUpdate(id, options);
 					}
-					yiiXHR[id] = $.ajax(options);
+					yeeXHR[id] = $.ajax(options);
 				} else {  // non-ajax mode
 					if (options.type === 'GET') {
 						window.location.href = options.url;
@@ -413,30 +413,30 @@
 		
 	};
 
-	$.fn.yiiGridView = function (method) {
+	$.fn.yeeGridView = function (method) {
 		if (methods[method]) {
 			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
 		} else if (typeof method === 'object' || !method) {
 			return methods.init.apply(this, arguments);
 		} else {
-			$.error('Method ' + method + ' does not exist on jQuery.yiiGridView');
+			$.error('Method ' + method + ' does not exist on jQuery.yeeGridView');
 			return false;
 		}
 	};
 
 /******************************************************************************
  *** DEPRECATED METHODS
- *** used before Yii 1.1.9
+ *** used before Yee 1.1.9
  ******************************************************************************/
-	$.fn.yiiGridView.settings = gridSettings;
+	$.fn.yeeGridView.settings = gridSettings;
 	/**
 	 * Returns the key value for the specified row
 	 * @param id string the ID of the grid view container
 	 * @param row integer the row number (zero-based index)
 	 * @return string the key value
 	 */
-	$.fn.yiiGridView.getKey = function (id, row) {
-		return $('#' + id).yiiGridView('getKey', row);
+	$.fn.yeeGridView.getKey = function (id, row) {
+		return $('#' + id).yeeGridView('getKey', row);
 	};
 
 	/**
@@ -444,8 +444,8 @@
 	 * @param id string the ID of the grid view container
 	 * @return string the URL that generates the grid view content.
 	 */
-	$.fn.yiiGridView.getUrl = function (id) {
-		return $('#' + id).yiiGridView('getUrl');
+	$.fn.yeeGridView.getUrl = function (id) {
+		return $('#' + id).yeeGridView('getUrl');
 	};
 
 	/**
@@ -454,8 +454,8 @@
 	 * @param row integer the row number (zero-based index)
 	 * @return jQuery the jQuery collection of the cells in the specified row.
 	 */
-	$.fn.yiiGridView.getRow = function (id, row) {
-		return $('#' + id).yiiGridView('getRow', row);
+	$.fn.yeeGridView.getRow = function (id, row) {
+		return $('#' + id).yeeGridView('getRow', row);
 	};
 
 	/**
@@ -464,8 +464,8 @@
 	 * @param column integer the column number (zero-based index)
 	 * @return jQuery the jQuery collection of the cells in the specified column.
 	 */
-	$.fn.yiiGridView.getColumn = function (id, column) {
-		return $('#' + id).yiiGridView('getColumn', column);
+	$.fn.yeeGridView.getColumn = function (id, column) {
+		return $('#' + id).yeeGridView('getColumn', column);
 	};
 
 	/**
@@ -474,8 +474,8 @@
 	 * @param options map the AJAX request options (see jQuery.ajax API manual). By default,
 	 * the URL to be requested is the one that generates the current content of the grid view.
 	 */
-	$.fn.yiiGridView.update = function (id, options) {
-		$('#' + id).yiiGridView('update', options);
+	$.fn.yeeGridView.update = function (id, options) {
+		$('#' + id).yeeGridView('update', options);
 	};
 
 	/**
@@ -483,8 +483,8 @@
 	 * @param id string the ID of the grid view container
 	 * @return array the key values of the currently selected rows.
 	 */
-	$.fn.yiiGridView.getSelection = function (id) {
-		return $('#' + id).yiiGridView('getSelection');
+	$.fn.yeeGridView.getSelection = function (id) {
+		return $('#' + id).yeeGridView('getSelection');
 	};
 
 	/**
@@ -493,7 +493,7 @@
 	 * @param column_id string the ID of the column
 	 * @return array the key values of the currently checked rows.
 	 */
-	$.fn.yiiGridView.getChecked = function (id, column_id) {
-		return $('#' + id).yiiGridView('getChecked', column_id);
+	$.fn.yeeGridView.getChecked = function (id, column_id) {
+		return $('#' + id).yeeGridView('getChecked', column_id);
 	};
 })(jQuery);

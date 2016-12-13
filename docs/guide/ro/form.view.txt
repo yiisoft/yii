@@ -7,7 +7,7 @@ Apoi inseram label-uri si campuri input pentru atributele declarate in clasa
 `LoginForm`. La sfarsit, inseram un buton submit care poate fi apasat de utilizator
 pentru a trimite datele. Toate acestea pot fi facute in HTML simplu.
 
-Yii pune la dispozitie unele clase ajutatoare (helper) pentru a facilita compunerea view-urilor.
+Yee pune la dispozitie unele clase ajutatoare (helper) pentru a facilita compunerea view-urilor.
 De exemplu, pentru a crea un camp input text, putem apela [CHtml::textField()]; pentru a crea
 o lista drop-down, apelam [CHtml::dropDownList()].
 
@@ -27,7 +27,7 @@ Mai jos, folosim [CHtml] pentru a crea formularul de logare. Presupunem ca varia
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="yeeForm">
 <?php echo CHtml::form(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
@@ -50,7 +50,7 @@ Remember me next time<br/>
 </div>
 
 </form>
-</div><!-- yiiForm -->
+</div><!-- yeeForm -->
 ~~~
 
 Codul de mai sus genereaza un formular mai dinamic. De exemplu,
@@ -60,7 +60,7 @@ schimba aspectul label-ului cu stiluri CSS corespunzatoare. In mod similar,
 [CHtml::activeTextField()] genereaza un camp input text pentru atributul specificat al modelului
 si ii schimba clasa CSS in cazul unei erori de intrare.
 
-Daca folosim fisierul cu stiluri CSS `form.css` pus la dispozitie de unealta `yiic`, formularul
+Daca folosim fisierul cu stiluri CSS `form.css` pus la dispozitie de unealta `yeec`, formularul
 generat va arata in felul urmator:
 
 ![Pagina login](login1.png)

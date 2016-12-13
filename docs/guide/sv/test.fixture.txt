@@ -11,7 +11,7 @@ har en bra beskrivning av fixturpreparering i allmänhet. I detta avsnitt
 kommer vi att beskriva hur man sätter upp databasfixturer.
 
 Att preparera databasfixturer är kanske den mest tidsödande delarna inom 
-testning av databasassisterade webbapplikationer. Yii introducerar 
+testning av databasassisterade webbapplikationer. Yee introducerar 
 applikationskomponenten [CDbFixtureManager] för att mildra problemet. Den utför 
 i grunden följande åtgärder när man kör en uppsättning  tester:
 

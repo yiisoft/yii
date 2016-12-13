@@ -3,9 +3,9 @@
  * CHttpRequest and CCookieCollection class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -22,7 +22,7 @@
  * accessed via {@link CWebApplication::getRequest()}.
  *
  * @property string $url Part of the request URL after the host info.
- * @property string $hostInfo Schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yiiframework.com).
+ * @property string $hostInfo Schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yeeframework.com).
  * @property string $baseUrl The relative URL for the application.
  * @property string $scriptUrl The relative URL of the entry script.
  * @property string $pathInfo Part of the request URL that is after the entry script and before the question mark.
@@ -75,7 +75,7 @@ class CHttpRequest extends CApplicationComponent
 	public $enableCookieValidation=false;
 	/**
 	 * @var boolean whether to enable CSRF (Cross-Site Request Forgery) validation. Defaults to false.
-	 * By setting this property to true, forms submitted to an Yii Web application must be originated
+	 * By setting this property to true, forms submitted to an Yee Web application must be originated
 	 * from the same application. If not, a 400 HTTP exception will be raised.
 	 * Note, this feature requires that the user client accepts cookie.
 	 * You also need to use {@link CHtml::form} or {@link CHtml::statefulForm} to generate
@@ -140,7 +140,7 @@ class CHttpRequest extends CApplicationComponent
 		}
 
 		if($this->enableCsrfValidation)
-			Yii::app()->attachEventHandler('onBeginRequest',array($this,'validateCsrfToken'));
+			Yee::app()->attachEventHandler('onBeginRequest',array($this,'validateCsrfToken'));
 	}
 
 
@@ -334,7 +334,7 @@ class CHttpRequest extends CApplicationComponent
 	 * By default this is determined based on the user request information.
 	 * You may explicitly specify it by setting the {@link setHostInfo hostInfo} property.
 	 * @param string $schema schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
-	 * @return string schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yiiframework.com)
+	 * @return string schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yeeframework.com)
 	 * @see setHostInfo
 	 */
 	public function getHostInfo($schema='')
@@ -433,7 +433,7 @@ class CHttpRequest extends CApplicationComponent
 			elseif(isset($_SERVER['DOCUMENT_ROOT']) && strpos($_SERVER['SCRIPT_FILENAME'],$_SERVER['DOCUMENT_ROOT'])===0)
 				$this->_scriptUrl=str_replace('\\','/',str_replace($_SERVER['DOCUMENT_ROOT'],'',$_SERVER['SCRIPT_FILENAME']));
 			else
-				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the entry script URL.'));
+				throw new CException(Yee::t('yee','CHttpRequest is unable to determine the entry script URL.'));
 		}
 		return $this->_scriptUrl;
 	}
@@ -479,7 +479,7 @@ class CHttpRequest extends CApplicationComponent
 			elseif(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
 				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
 			else
-				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
+				throw new CException(Yee::t('yee','CHttpRequest is unable to determine the path info of the request.'));
 
 			if($pathInfo==='/' || $pathInfo===false)
 				$pathInfo='';
@@ -559,7 +559,7 @@ class CHttpRequest extends CApplicationComponent
 					$this->_requestUri.='?'.$_SERVER['QUERY_STRING'];
 			}
 			else
-				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the request URI.'));
+				throw new CException(Yee::t('yee','CHttpRequest is unable to determine the request URI.'));
 		}
 
 		return $this->_requestUri;
@@ -888,7 +888,7 @@ class CHttpRequest extends CApplicationComponent
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url, true, $statusCode);
 		if($terminate)
-			Yii::app()->end();
+			Yee::app()->end();
 	}
 
 	/**
@@ -1172,7 +1172,7 @@ class CHttpRequest extends CApplicationComponent
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
 			ob_start();
-			Yii::app()->end(0,false);
+			Yee::app()->end(0,false);
 			ob_end_clean();
 			echo $content;
 			exit(0);
@@ -1220,7 +1220,7 @@ class CHttpRequest extends CApplicationComponent
 	 * <b>Example</b>:
 	 * <pre>
 	 * <?php
-	 *    Yii::app()->request->xSendFile('/home/user/Pictures/picture1.jpg',array(
+	 *    Yee::app()->request->xSendFile('/home/user/Pictures/picture1.jpg',array(
 	 *        'saveName'=>'image1.jpg',
 	 *        'mimeType'=>'image/jpeg',
 	 *        'terminate'=>false,
@@ -1268,7 +1268,7 @@ class CHttpRequest extends CApplicationComponent
 		header(trim($options['xHeader']).': '.$filePath);
 
 		if(!isset($options['terminate']) || $options['terminate'])
-			Yii::app()->end();
+			Yee::app()->end();
 	}
 
 	/**
@@ -1353,7 +1353,7 @@ class CHttpRequest extends CApplicationComponent
 			else
 				$valid = false;
 			if (!$valid)
-				throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
+				throw new CHttpException(400,Yee::t('yee','The CSRF token could not be verified.'));
 		}
 	}
 
@@ -1427,7 +1427,7 @@ class CCookieCollection extends CMap
 		$cookies=array();
 		if($this->_request->enableCookieValidation)
 		{
-			$sm=Yii::app()->getSecurityManager();
+			$sm=Yee::app()->getSecurityManager();
 			foreach($_COOKIE as $name=>$value)
 			{
 				if(is_string($value) && ($value=$sm->validateData($value))!==false)
@@ -1460,7 +1460,7 @@ class CCookieCollection extends CMap
 				$this->addCookie($cookie);
 		}
 		else
-			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
+			throw new CException(Yee::t('yee','CHttpCookieCollection can only hold CHttpCookie objects.'));
 	}
 
 	/**
@@ -1473,8 +1473,8 @@ class CCookieCollection extends CMap
 	 *
 	 * <pre>
 	 * $options=array('domain'=>'.domain.tld');
-	 * Yii::app()->request->cookies['foo']=new CHttpCookie('cookie','value',$options);
-	 * Yii::app()->request->cookies->remove('cookie',$options);
+	 * Yee::app()->request->cookies['foo']=new CHttpCookie('cookie','value',$options);
+	 * Yee::app()->request->cookies->remove('cookie',$options);
 	 * </pre>
 	 *
 	 * @param mixed $name Cookie name.
@@ -1503,7 +1503,7 @@ class CCookieCollection extends CMap
 	{
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
-			$value=Yii::app()->getSecurityManager()->hashData(serialize($value));
+			$value=Yee::app()->getSecurityManager()->hashData(serialize($value));
 		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else

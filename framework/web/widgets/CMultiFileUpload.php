@@ -3,9 +3,9 @@
  * CMultiFileUpload class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -105,9 +105,9 @@ class CMultiFileUpload extends CInputWidget
 		$options=$this->getClientOptions();
 		$options=$options===array()? '' : CJavaScript::encode($options);
 
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerCoreScript('multifile');
-		$cs->registerScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
+		$cs->registerScript('Yee.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
 	}
 
 	/**

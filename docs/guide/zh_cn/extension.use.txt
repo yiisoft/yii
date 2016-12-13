@@ -3,7 +3,7 @@
 
 适用扩展通常半酣了以下三步:
 
-  1. 从 Yii 的 [扩展库](http://www.yiiframework.com/extensions/) 下载扩展.
+  1. 从 Yee 的 [扩展库](http://www.yeeframework.com/extensions/) 下载扩展.
   2. 解压到 [应用程序的基目录](/doc/guide/basics.application#application-base-directory)
 的子目录 `extensions/xyz` 下,这里的 `xyz` 是扩展的名称.
   3. 导入, 配置和使用扩展.
@@ -19,12 +19,12 @@ Zii Extensions
 --------------
 
 Before we start describing the usage of third-party extensions, we would like to introduce
-the Zii extension library, which is a set of extensions developed by the Yii developer team
-and included in every release since Yii version 1.1.0. The Zii library is hosted as a
+the Zii extension library, which is a set of extensions developed by the Yee developer team
+and included in every release since Yee version 1.1.0. The Zii library is hosted as a
 Google project called [zii](http://code.google.com/p/zii/).
 
 When using a Zii extension, one must refer to the corresponding class using a path alias
-in the form of `zii.path.to.ClassName`. Here the root alias `zii` is predefined by Yii. It refers
+in the form of `zii.path.to.ClassName`. Here the root alias `zii` is predefined by Yee. It refers
 to the root directory of the Zii library. For example, to use [CGridView], we would use the
 following code in a view script when referring to the extension:
 
@@ -58,7 +58,7 @@ return array(
 );
 ~~~
 
-然后,我们可以在任何地方通过使用 `Yii::app()->xyz` 来访问部件.部件将会被 `惰性创建`(就是,仅当它第一次被访问时创建.) ,
+然后,我们可以在任何地方通过使用 `Yee::app()->xyz` 来访问部件.部件将会被 `惰性创建`(就是,仅当它第一次被访问时创建.) ,
 除非我们把它配置到  `preload` 属性里.
 
 
@@ -246,7 +246,7 @@ class MyModel extends CActiveRecord // or CFormModel
 
 控制台命令
 ---------------
-[控制台命令](/doc/guide/topics.console)扩展通常使用一个额外的命令来增强 `yiic` 的功能.假设命令控制台 `XyzClass` 属于 `xyz` 扩展,我们可以通过设定控制台应用的配置来使用它:
+[控制台命令](/doc/guide/topics.console)扩展通常使用一个额外的命令来增强 `yeec` 的功能.假设命令控制台 `XyzClass` 属于 `xyz` 扩展,我们可以通过设定控制台应用的配置来使用它:
 
 ~~~
 [php]
@@ -262,9 +262,9 @@ return array(
 );
 ~~~
 
-然后,我们就能使用配备了额外命令 `xyz` 的 `yiic` 工具了.
+然后,我们就能使用配备了额外命令 `xyz` 的 `yeec` 工具了.
 
-> Note|注意: 控制台应用通常使用了一个不同于 Web 应用的配置文件.如果使用了 `yiic webapp` 命令创建了一个应用,这样的话,控制台应用的 `protected/yiic` 的配置文件就是 `protected/config/console.php`  了,而Web应用的配置文件
+> Note|注意: 控制台应用通常使用了一个不同于 Web 应用的配置文件.如果使用了 `yeec webapp` 命令创建了一个应用,这样的话,控制台应用的 `protected/yeec` 的配置文件就是 `protected/config/console.php`  了,而Web应用的配置文件
 则是 `protected/config/main.php`.
 
 模块
@@ -276,7 +276,7 @@ return array(
 使用一个通用 [部件](/doc/guide/basics.component), 我们首先需要通过使用
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yee::import('application.extensions.xyz.XyzClass');
 ~~~
 
 来包含它的类文件.然后,我们既可以创建一个类的实例,配置它的属性,也可以调用它的方法.我们还可以创建一个新的子类来扩展它.ss

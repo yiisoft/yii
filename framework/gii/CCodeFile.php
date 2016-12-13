@@ -3,9 +3,9 @@
  * CCodeFile class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -64,7 +64,7 @@ class CCodeFile extends CComponent
 	 */
 	public function save()
 	{
-		$module=Yii::app()->controller->module;
+		$module=Yee::app()->controller->module;
 		if($this->content===null)  // a directory
 		{
 			if(!is_dir($this->path))
@@ -115,8 +115,8 @@ class CCodeFile extends CComponent
 	 */
 	public function getRelativePath()
 	{
-		if(strpos($this->path,Yii::app()->basePath)===0)
-			return substr($this->path,strlen(Yii::app()->basePath)+1);
+		if(strpos($this->path,Yee::app()->basePath)===0)
+			return substr($this->path,strlen(Yee::app()->basePath)+1);
 		else
 			return $this->path;
 	}

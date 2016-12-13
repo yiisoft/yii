@@ -1,7 +1,7 @@
 Model-Widok-Kontroler (ang. Model-View-Controller, MVC)
 ===========================
 
-Yii implementuje wzorzec projektowy model-widok-kontroler (MVC), który jest 
+Yee implementuje wzorzec projektowy model-widok-kontroler (MVC), który jest 
 powszechnie stosowany w programowaniu webowym. MVC ma na celu oddzielenie 
 logiki biznesowej od interfejsu użytkownika, biorąc pod uwagę to, że developer 
 może dzięki temu w łatwy sposób zmienić każdą część bez oddziaływania na inną.
@@ -9,21 +9,21 @@ W MVC model reprezentuje informacje (dane) oraz reguły biznesowe. Widok zawiera
 elementy interfejsu użytkownika takie jak tekst, formularze. Kontroler zarządza 
 komunikacją pomiędzy modelem a widokiem.
 
-Poza implementacją MVC, Yii wprowadza również front-controller, nazywany aplikacją, który hermetyzuje 
+Poza implementacją MVC, Yee wprowadza również front-controller, nazywany aplikacją, który hermetyzuje 
 wykonywanie kontekstu przetwarzanego żądania. Aplikacja zbiera pewne informacje o żądaniu
 użytkownika a następnie przekazuje je do odpowiedniego kontrolera w celu późniejszego przetworzenia.
 
-Poniższy diagram pokazuje statyczną strukturę aplikacji napisanej w Yii:
+Poniższy diagram pokazuje statyczną strukturę aplikacji napisanej w Yee:
 
-![Statyczna struktura aplikacji napisanej w Yii](structure.png)
+![Statyczna struktura aplikacji napisanej w Yee](structure.png)
 
 
 Typowe sterowanie kolejnością zadań (ang. A Typical Workflow)
 ------------------
-Poniższy diagram pokazuje typowe sterowanie kolejnością zadań w aplikacji Yii podczas przetwarzania
+Poniższy diagram pokazuje typowe sterowanie kolejnością zadań w aplikacji Yee podczas przetwarzania
 żądania użytkownika:
 
-![Typowe sterowanie kolejnością zadań dla aplikacji napisanej w Yii](flow.png)
+![Typowe sterowanie kolejnością zadań dla aplikacji napisanej w Yee](flow.png)
 
    1. Użytkownik wysyła żądanie za pomocą URL `http://www.example.com/index.php?r=post/show&id=1`
    a serwer webowy przetwarza żądanie poprzez wykonanie skryptu rozruchowego 

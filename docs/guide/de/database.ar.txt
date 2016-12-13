@@ -1,7 +1,7 @@
 ﻿ActiveRecord
 ============
 
-Man kann so gut wie alle Datenbankaufgaben mit Yii-DAO lösen. In 90% der Fälle
+Man kann so gut wie alle Datenbankaufgaben mit Yee-DAO lösen. In 90% der Fälle
 führt man aber immer wieder die gleichen Anweisungen  zum Lesen, Schreiben,
 Aktualisieren und Löschen von Datensätzen (CRUD) aus. Außerdem erschwert
 es die Codewartung, wenn zu viele SQL-Anweisungen darin vorkommen.
@@ -43,7 +43,7 @@ CREATE TABLE tbl_post (
 > Note|Hinweis: AR ist nicht unbedingt für alle Datenbankaufgaben geeignet.
 AR ist zweckmäßig, um Datenbanktabellen in PHP abzubilden sowie für
 Abfragen, die kein komplexes SQL erfordern. In komplizierten Fällen sollte
-man stattdessen direkt Yii-DAO verwenden.
+man stattdessen direkt Yee-DAO verwenden.
 
 
 Aufbau einer DB-Verbindung
@@ -242,7 +242,7 @@ $post->save();
 > Tip|Tipp: Obwohl man durch AR keine umständlichen SQL-Ausdrücke mehr
 > schreiben muss, kann es zur Fehlersuche nützlich sein, die
 > im Hintergrund verwendeten SQL-Befehle zu untersuchen. Das geht mit
-> Hilfe des [Log-Features](/doc/guide/topics.logging) von Yii. Konfiguriert
+> Hilfe des [Log-Features](/doc/guide/topics.logging) von Yee. Konfiguriert
 > man zum Beispiel eine [CWebLogRoute], werden die ausgeführten SQL-Befehle
 > am Ende der Seite angezeigt.  Setzt man [CDbConnection::enableParamLogging]
 > auf `true`, werden dort auch die gebundenen Parameterwerte angezeigt.
@@ -495,7 +495,7 @@ ihre Primärschlüsselwerte identifiziert. Man kann zwei Instanzen also einfach
 über deren Primärschlüssel vergleichen, vorausgesetzt, sie gehören zur selben
 Klasse. Einfacher geht dies jedoch mit [CActiveRecord::equals()].
 
-> Info|Info: Im Unterschied zu anderen Frameworks unterstützen Yiis AR auch
+> Info|Info: Im Unterschied zu anderen Frameworks unterstützen Yees AR auch
 > zusammengesetzte Primärschlüssel. Sie bestehen aus zwei oder mehr Feldern
 > und werden daher als Array dargestellt. Die Eigenschaft
 > [primaryKey|CActiveRecord::primaryKey] liefert den Wert des Primärschlüssels einer AR-Instanz.
@@ -531,7 +531,7 @@ Transaktionen mit AR
 
 Über die [dbConnection|CActiveRecord::dbConnection]-Eigenschaft kann bei jeder
 AR-Instanz auf die zugrundeliegende [CDbConnection] zugegriffen werden. Bei
-Bedarf kann man so das Transaktions-Feature von Yii-DAO verwenden:
+Bedarf kann man so das Transaktions-Feature von Yee-DAO verwenden:
 
 ~~~
 [php]
@@ -662,7 +662,7 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"sprache='".Yii::app()->language."'",
+			'condition'=>"sprache='".Yee::app()->language."'",
 		);
 	}
 }

@@ -29,7 +29,7 @@ public function loadModel()
 	{
 		if(isset($_GET['id']))
 		{
-			if(Yii::app()->user->isGuest)
+			if(Yee::app()->user->isGuest)
 				$condition='status='.Post::STATUS_PUBLISHED
 					.' OR status='.Post::STATUS_ARCHIVED;
 			else
@@ -45,7 +45,7 @@ public function loadModel()
 
 主な変更点は `loadModel()` メソッドにあります。このメソッドで、GET パラメータの `id` に従って `Post` テーブルに問い合わせをします。記事が見つからない場合、あるいは、(ユーザがゲストであって) 記事が公開もアーカイブもされていない場合は、404 HTTP エラーを投げます。そうでなければ、記事オブジェクトが `actionView()` に返され、表示のためにビュースクリプトへと渡されていきます。
 
-> Tip|ヒント: Yii は HTTP 例外 ([CHttpException] のインスタンス) を捕捉し、定義済みのテンプレートか、カスタマイズしたエラービューで表示します。`yiic` で生成されたスケルトンアプリケーションには既にカスタマイズしたエラービューが含まれています。ファイルは `/wwwroot/blog/protected/views/site/error.php` です。このファイルを修正すれば、エラー表示を更にカスタマイズできます。
+> Tip|ヒント: Yee は HTTP 例外 ([CHttpException] のインスタンス) を捕捉し、定義済みのテンプレートか、カスタマイズしたエラービューで表示します。`yeec` で生成されたスケルトンアプリケーションには既にカスタマイズしたエラービューが含まれています。ファイルは `/wwwroot/blog/protected/views/site/error.php` です。このファイルを修正すれば、エラー表示を更にカスタマイズできます。
 
 `view` スクリプトの変更は、記事の表示に関するフォーマットとスタイルを調整することが中心になります。ここでは詳細には立ち入りません。興味のある方は `/wwwroot/blog/protected/views/post/view.php` を参照してください。
 

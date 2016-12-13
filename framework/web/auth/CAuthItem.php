@@ -3,9 +3,9 @@
  * CAuthItem class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -70,7 +70,7 @@ class CAuthItem extends CComponent
 	 */
 	public function checkAccess($itemName,$params=array())
 	{
-		Yii::trace('Checking permission "'.$this->_name.'"','system.web.auth.CAuthItem');
+		Yee::trace('Checking permission "'.$this->_name.'"','system.web.auth.CAuthItem');
 		if($this->_auth->executeBizRule($this->_bizRule,$params,$this->_data))
 		{
 			if($this->_name==$itemName)

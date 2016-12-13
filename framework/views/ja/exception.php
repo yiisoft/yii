@@ -168,11 +168,11 @@ pre span.error-ln {
 	<h1><?php echo $data['type']?></h1>
 
 	<p class="message">
-		<?php echo nl2br(htmlspecialchars($data['message'],ENT_QUOTES,Yii::app()->charset))?>
+		<?php echo nl2br(htmlspecialchars($data['message'],ENT_QUOTES,Yee::app()->charset))?>
 	</p>
 
 	<div class="source">
-		<p class="file"><?php echo htmlspecialchars($data['file'],ENT_QUOTES,Yii::app()->charset)."({$data['line']})"?></p>
+		<p class="file"><?php echo htmlspecialchars($data['file'],ENT_QUOTES,Yee::app()->charset)."({$data['line']})"?></p>
 		<?php echo $this->renderSourceCode($data['file'],$data['line'],$this->maxSourceLines); ?>
 	</div>
 
@@ -202,13 +202,13 @@ pre span.error-ln {
 					<?php endif; ?>
 					<?php
 						echo '&nbsp;';
-						echo htmlspecialchars($trace['file'],ENT_QUOTES,Yii::app()->charset)."(".$trace['line'].")";
+						echo htmlspecialchars($trace['file'],ENT_QUOTES,Yee::app()->charset)."(".$trace['line'].")";
 						echo ': ';
 						if(!empty($trace['class']))
 							echo "<strong>{$trace['class']}</strong>{$trace['type']}";
 						echo "<strong>{$trace['function']}</strong>(";
 						if(!empty($trace['args']))
-							echo htmlspecialchars($this->argumentsToString($trace['args']),ENT_QUOTES,Yii::app()->charset);
+							echo htmlspecialchars($this->argumentsToString($trace['args']),ENT_QUOTES,Yee::app()->charset);
 						echo ')';
 					?>
 				</div>

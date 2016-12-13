@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.caching.dependencies.CFileCacheDependency');
+Yee::import('system.caching.dependencies.CFileCacheDependency');
 
 class CFileCacheDependencyTest extends CTestCase
 {
@@ -18,7 +18,7 @@ class CFileCacheDependencyTest extends CTestCase
 
 	public function testHasChanged()
 	{
-		$tempFile=Yii::app()->getRuntimePath().'/CFileCacheDependencyTest_foo.txt';
+		$tempFile=Yee::app()->getRuntimePath().'/CFileCacheDependencyTest_foo.txt';
 		@unlink($tempFile);
 		$fw=fopen($tempFile,"w");
 		fwrite($fw,"test");

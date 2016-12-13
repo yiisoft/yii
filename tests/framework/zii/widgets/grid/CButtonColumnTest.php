@@ -9,19 +9,19 @@ class CButtonColumnTest extends CTestCase
 		$expected = "jQuery(document).on('click','#grid1 a.view',function() { /* callback */ });";
 
 		$out=$this->getWidgetScript('js:function() { /* callback */ }');
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (js:): ".$out);
+		$this->assertTrue(mb_strpos($out,$expected, null, Yee::app()->charset)!==false, "Unexpected JavaScript (js:): ".$out);
 
 		$out=$this->getWidgetScript('function() { /* callback */ }');
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (w/o js:): ".$out);
+		$this->assertTrue(mb_strpos($out,$expected, null, Yee::app()->charset)!==false, "Unexpected JavaScript (w/o js:): ".$out);
 
 		$out=$this->getWidgetScript(new CJavaScriptExpression('function() { /* callback */ }'));
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (wrap): ".$out);
+		$this->assertTrue(mb_strpos($out,$expected, null, Yee::app()->charset)!==false, "Unexpected JavaScript (wrap): ".$out);
 	}
 
 	private function getWidgetScript($callback)
 	{
-		Yii::import('zii.widgets.grid.CButtonColumn');
-		Yii::app()->clientScript->scripts = array();
+		Yee::import('zii.widgets.grid.CButtonColumn');
+		Yee::app()->clientScript->scripts = array();
 		ob_start();
 		$grid = new stdClass();
 		$grid->id = 'grid1';
@@ -32,7 +32,7 @@ class CButtonColumnTest extends CTestCase
 			),
 		);
 		$widget->init();
-		Yii::app()->clientScript->render($out);
+		Yee::app()->clientScript->render($out);
 		ob_end_clean();
 		return $out;
 	}

@@ -12,7 +12,7 @@ beschreiben wir, wie wir die eben beschriebenen Datenbankfixtures einrichten.
 
 Das Anlegen von Datenbankfixtures ist wohl eine der zeitintensivesten
 Tätigkeiten beim Testen datenbankgestützter Webanwendungen. Zur Erleichterung 
-führt Yii daher die [CDbFixtureManager]-Anwendungskomponente ein. Sie kümmert
+führt Yee daher die [CDbFixtureManager]-Anwendungskomponente ein. Sie kümmert
 sich hauptsächlich um diese Punkte:
 
  * Vor dem Ausführen aller Tests, werden alle Tabellen in einen fest definierten Zustand zurückversetzt.

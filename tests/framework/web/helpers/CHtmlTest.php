@@ -5,19 +5,19 @@ class CHtmlTest extends CTestCase
 	public function setUp()
 	{
 		// clean up any possible garbage in global clientScript app component
-		Yii::app()->clientScript->reset();
+		Yee::app()->clientScript->reset();
 
 		// reset CHtml ID counter
 		CHtml::$count=0;
 
-		Yii::app()->request->baseUrl=null; // reset so that it can be determined based on scriptUrl
-		Yii::app()->request->scriptUrl='/bootstrap.php';
+		Yee::app()->request->baseUrl=null; // reset so that it can be determined based on scriptUrl
+		Yee::app()->request->scriptUrl='/bootstrap.php';
 	}
 
 	public function tearDown()
 	{
 		// do not keep any garbage in global clientScript app component
-		Yii::app()->clientScript->reset();
+		Yee::app()->clientScript->reset();
 	}
 
 	/* HTML characters encode/decode tests */
@@ -117,7 +117,7 @@ class CHtmlTest extends CTestCase
 	public function testBeginForm($action, $method, $htmlOptions, $assertion)
 	{
 		/* TODO - Steven Wexler - 3/5/11 - Mock out static methods in this function when CHtml leverages late static method binding
-		 * because PHPUnit.  This is only possible Yii supports only >= PHP 5.3   - */
+		 * because PHPUnit.  This is only possible Yee supports only >= PHP 5.3   - */
 		$this->assertEquals($assertion, CHtml::beginForm($action, $method, $htmlOptions));
 		$this->assertEquals($assertion, CHtml::form($action, $method, $htmlOptions));
 	}
@@ -663,8 +663,8 @@ class CHtmlTest extends CTestCase
 		return array(
 			array(
 				10,
-				'http://yiiframework.com/',
-				'<meta http-equiv="refresh" content="10;url=http://yiiframework.com/" />'."\n",
+				'http://yeeframework.com/',
+				'<meta http-equiv="refresh" content="10;url=http://yeeframework.com/" />'."\n",
 			),
 			array(
 				15,
@@ -688,7 +688,7 @@ class CHtmlTest extends CTestCase
 
 		// now render html head with registered meta tags
 		$output='';
-		Yii::app()->clientScript->renderHead($output);
+		Yee::app()->clientScript->renderHead($output);
 
 		// and test it now
 		$this->assertEquals($assertion, $output);
@@ -769,7 +769,7 @@ class CHtmlTest extends CTestCase
 	public static function providerImage()
 	{
 		return array(
-			array('/images/logo.png', 'YiiSoft, LLC', array(), '<img src="/images/logo.png" alt="YiiSoft, LLC" />'),
+			array('/images/logo.png', 'YeeSoft, LLC', array(), '<img src="/images/logo.png" alt="YeeSoft, LLC" />'),
 			array('/img/test.jpg', '', array('class'=>'test-img'), '<img class="test-img" src="/img/test.jpg" alt="" />'),
 		);
 	}
@@ -1019,11 +1019,11 @@ class CHtmlTest extends CTestCase
 	{
 		return array(
 			array('submit', array(), '<a href="#" id="yt0">submit</a>',
-				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
+				"jQuery('body').on('click','#yt0',function(){jQuery.yee.submitForm(this,'',{});return false;});"),
 			array('link-button', array(), '<a href="#" id="yt0">link-button</a>',
-				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
-			array('link-button', array('href'=>'http://yiiframework.com/'), '<a href="#" id="yt0">link-button</a>',
-				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'http://yiiframework.com/',{});return false;});"),
+				"jQuery('body').on('click','#yt0',function(){jQuery.yee.submitForm(this,'',{});return false;});"),
+			array('link-button', array('href'=>'http://yeeframework.com/'), '<a href="#" id="yt0">link-button</a>',
+				"jQuery('body').on('click','#yt0',function(){jQuery.yee.submitForm(this,'http://yeeframework.com/',{});return false;});"),
 		);
 	}
 
@@ -1040,7 +1040,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::linkButton($label, $htmlOptions));
 
 		$output='';
-		Yii::app()->getClientScript()->renderBodyEnd($output);
+		Yee::app()->getClientScript()->renderBodyEnd($output);
 		$this->assertTrue(mb_strpos($output, $clientScriptOutput)!==false);
 	}
 
@@ -1049,17 +1049,17 @@ class CHtmlTest extends CTestCase
 		$out=CHtml::ajax(array(
 			'success'=>'js:function() { /* callback */ }',
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yee::app()->charset)!==false, "Unexpected JavaScript: ".$out);
 
 		$out=CHtml::ajax(array(
 			'success'=>'function() { /* callback */ }',
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yee::app()->charset)!==false, "Unexpected JavaScript: ".$out);
 
 		$out=CHtml::ajax(array(
 			'success'=>new CJavaScriptExpression('function() { /* callback */ }'),
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yee::app()->charset)!==false, "Unexpected JavaScript: ".$out);
 	}
 }
 

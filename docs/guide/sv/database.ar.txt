@@ -1,7 +1,7 @@
 Active Record
 =============
 
-Även om Yii DAO kan hantera så gott som varje databasrelaterad uppgift, är det 
+Även om Yee DAO kan hantera så gott som varje databasrelaterad uppgift, är det 
 stor risk att vi använder 90% av vår tid till att skriva vissa SQL-satser som 
 genomför de återkommande CRUD-operationerna (create, read, update och delete). 
 Det är också svårt att underhålla koden när den är uppblandad med SQL-satser. En 
@@ -40,7 +40,7 @@ CREATE TABLE tbl_post (
 
 > Note|Märk: AR är inte tänkt att lösa alla databasrelaterade uppgifter. Tekniken kommer 
 bäst till användning för att modellera databastabeller i form av PHP-konstruktioner 
-samt genomföra sådana frågor som inte inbegriper komplexa SQL-satser. Yii:s DAO 
+samt genomföra sådana frågor som inte inbegriper komplexa SQL-satser. Yee:s DAO 
 bör användas för mer komplexa scenarier.
 
 
@@ -237,7 +237,7 @@ $post->save();
 
 > Tip|Tips: Även om AR tillåter oss att utföra databasoperationer utan att skriva
 arbetskrävande SQL-satser, vill vi ofta veta vilka SQL-satser som exekveras av AR.
-Detta kan uppnås genom att slå på Yii:s [loggningsfiness](/doc/guide/topics.logging).
+Detta kan uppnås genom att slå på Yee:s [loggningsfiness](/doc/guide/topics.logging).
 Till exempel kan vi aktivera [CWebLogRoute] i applikationskonfigurationen, vilket 
 leder till att exekverade SQL-satser kan avläsas i slutet av varje webbsida.
 Vi kan sätta [CDbConnection::enableParamLogging] till true i applikationskonfigurationen 
@@ -487,9 +487,9 @@ värden. Att jämföra två AR-instanser handlar därför bara om att jämföra 
 för deras primärnycklar, givet att de tillhör samma AR-klass. Ett enklare sätt 
 är dock att anropa [CActiveRecord::equals()].
 
-> Info: Till skillnad mot AR-implementeringar i andra ramverk, stöder Yii 
+> Info: Till skillnad mot AR-implementeringar i andra ramverk, stöder Yee 
 sammansatta primärnycklar i sitt AR. En sammansatt primärnyckel består av två 
-eller flera kolumner. Följaktligen är primärnyckelvärden i Yii representerade av 
+eller flera kolumner. Följaktligen är primärnyckelvärden i Yee representerade av 
 en array. Propertyn [primaryKey|CActiveRecord::primaryKey] ger 
 primärnyckelvärdet för en AR-instans.
 
@@ -528,7 +528,7 @@ Varje AR-instans innehåller en property benämnd
 [dbConnection|CActiveRecord::dbConnection], vilken är en instans av 
 [CDbConnection]. Sålunda kan 
 [transaction](/doc/guide/database.dao#using-transactions)-finessen 
-som tillhandahålls av Yii DAO användas med AR om så önskas:
+som tillhandahålls av Yee DAO användas med AR om så önskas:
 
 ~~~
 [php]
@@ -654,7 +654,7 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"language='".Yii::app()->language."'",
+			'condition'=>"language='".Yee::app()->language."'",
 		);
 	}
 }

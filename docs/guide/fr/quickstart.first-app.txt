@@ -1,27 +1,27 @@
-Créer sa première application Yii
+Créer sa première application Yee
 ================================
 
-Pour se faire la main avec Yii, nous allons décrire dans cette section comment créer votre première application avec le framework Yii. Vous allez pour cela utiliser le puissant outil `yiic` qui peut automatiser la création du code pour certaines tâches. Par convention, nous supposons que `YiiRoot` est le répertoire où Yii est installé, et `WebRoot` est la racine Web du serveur.
+Pour se faire la main avec Yee, nous allons décrire dans cette section comment créer votre première application avec le framework Yee. Vous allez pour cela utiliser le puissant outil `yeec` qui peut automatiser la création du code pour certaines tâches. Par convention, nous supposons que `YeeRoot` est le répertoire où Yee est installé, et `WebRoot` est la racine Web du serveur.
 
-Lancez `yiic` sur la ligne de commande comme suit :
+Lancez `yeec` sur la ligne de commande comme suit :
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
 > Note|Note: Sur Mac OS, Linux ou Unix, il sera peut être nécessaire de
-> modifier les permissions sur le fichier `yiic` pour le rendre exécutable.
+> modifier les permissions sur le fichier `yeec` pour le rendre exécutable.
 > Il est aussi possible de lancer l'outil comme suit :
 >
 > ~~~
 > % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % php YeeRoot/framework/yeec.php webapp WebRoot/testdrive
 > ~~~
 
-Cette commande va créer un squelette d'application Yii sous le répertoire
-`WebRoot/testdrive`. L'application comporte une structure de répertoire nécessaire à la plupart des applications `Yii`
+Cette commande va créer un squelette d'application Yee sous le répertoire
+`WebRoot/testdrive`. L'application comporte une structure de répertoire nécessaire à la plupart des applications `Yee`
 
-Sans écrire une seule ligne de code, vous pouvez tester votre première application Yii, en accédant à l'url suivante dans le navigateur :
+Sans écrire une seule ligne de code, vous pouvez tester votre première application Yee, en accédant à l'url suivante dans le navigateur :
 
 ~~~
 http://WebRoot/testdrive/index.php
@@ -54,10 +54,10 @@ testdrive/
    images/                   Contient les images
    themes/                   Contient les différents thèmes de l'application
    protected/                Contient les fichiers protégés de l'application
-	  yiic                   L'outil en ligne de commande 'yiic'
-	  yiic.bat               L'outil en ligne de commande 'yiic' pour Windows
-	  commands/              Contient les commandes personnalisées pour l'outil 'yiic'
-		 shell/              Contient les commandes personnalisées pour l'outil 'yiic shell'
+	  yeec                   L'outil en ligne de commande 'yeec'
+	  yeec.bat               L'outil en ligne de commande 'yeec' pour Windows
+	  commands/              Contient les commandes personnalisées pour l'outil 'yeec'
+		 shell/              Contient les commandes personnalisées pour l'outil 'yeec shell'
 	  components/            Contient les composants utilisateur
 		 MainMenu.php        Le widget 'MainMenu'
 		 Identity.php        La class 'Identity' utilisée pour l'authentification
@@ -109,7 +109,7 @@ return array(
 Dans cet exemple, nous ajoutons une entrée nommée `db` aux `components` (composants), qui indique à l'application de se connecter à la base de données SQLlite
 `WebRoot/testdrive/protected/data/source.db` quand cela est nécessaire.
 
-> Note|Note : Pour utiliser les fonctionnalités de base de données de Yii, il
+> Note|Note : Pour utiliser les fonctionnalités de base de données de Yee, il
 > est nécessaire d'activer l'extension PDO dans PHP, ainsi que les différents drivers
 > PDO spécifiques à chaque base de données. Pour votre application de test, vous
 > avez besoin que les extensions `php_pdo` et `php_pdo_sqlite` soient activées.
@@ -140,12 +140,12 @@ Implémentations des opérations CRUD
 
 Maintenant, la partie amusante! Vous allez implémenter les opérations CRUD sur la table `User` que vous venez de créer (CRUD signifie Create, Read, Update et Delete, i.e. Création, Lecture, Modification et Suppression). Les opérations CRUD sont le fondement de la manipulation des données et donc nécessaires la plupart du temps.
 
-Plutôt que d'écrire du code qui implémente ces opérations CRUD, vous allez encore vous servir du puissant outil `yiic`, afin de générer automatiquement ce code. Ce processus est aussi connu sous le nom de *scaffolding* (échafaudage). Ouvrez une fenêtre de ligne de commande, et exécutez les commandes suivantes :
+Plutôt que d'écrire du code qui implémente ces opérations CRUD, vous allez encore vous servir du puissant outil `yeec`, afin de générer automatiquement ce code. Ce processus est aussi connu sous le nom de *scaffolding* (échafaudage). Ouvrez une fenêtre de ligne de commande, et exécutez les commandes suivantes :
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.0
+% protected/yeec shell
+Yee Interactive Tool v1.0
 Please type 'help' for help. Type 'exit' to quit.
 >> model User
    generate User.php
@@ -169,16 +169,16 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Ci-dessus, c'est la commande `yiic shell` qui est utilisée pour interagir avec votre
+Ci-dessus, c'est la commande `yeec shell` qui est utilisée pour interagir avec votre
 application. Au prompt, nous exécutons 2 sous-commandes : `model User`, et `crud User`.
 La première génère une classe "Model" pour la table `User`, et la seconde lit ce modèle pour générer le code qui implémente les opérations CRUD.
 
 > Note|Note : Si vous rencontrez des erreurs comme "...could not find driver", alors
 > que le script de test des pré-requis signale que PDO et les drivers associés sont
-> bien activés, vous pouvez essayer de lancer l'outil `yiic` de la manière suivante :
+> bien activés, vous pouvez essayer de lancer l'outil `yeec` de la manière suivante :
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 où `path/to/php.ini` représente le chemin d'accès au fichier php.ini

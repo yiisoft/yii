@@ -3,9 +3,9 @@
  * CGettextMoFile class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -67,11 +67,11 @@ class CGettextMoFile extends CGettextFile
 	public function load($file,$context)
 	{
 		if(!($fr=@fopen($file,'rb')))
-			throw new CException(Yii::t('yii','Unable to read file "{file}".',
+			throw new CException(Yee::t('yee','Unable to read file "{file}".',
 				array('{file}'=>$file)));
 
 		if(!@flock($fr,LOCK_SH))
-			throw new CException(Yii::t('yii','Unable to lock file "{file}" for reading.',
+			throw new CException(Yee::t('yee','Unable to lock file "{file}" for reading.',
 				array('{file}'=>$file)));
 
 		$array=unpack('c',$this->readByte($fr,4));
@@ -81,11 +81,11 @@ class CGettextMoFile extends CGettextFile
 		elseif($magic==-107)
 			$this->useBigEndian=true;
 		else
-			throw new CException(Yii::t('yii','Invalid MO file: {file} (magic: {magic}).',
+			throw new CException(Yee::t('yee','Invalid MO file: {file} (magic: {magic}).',
 				array('{file}'=>$file,'{magic}'=>$magic)));
 
 		if(($revision=$this->readInteger($fr))!=0)
-			throw new CException(Yii::t('yii','Invalid MO file revision: {revision}.',
+			throw new CException(Yee::t('yee','Invalid MO file revision: {revision}.',
 				array('{revision}'=>$revision)));
 
 		$count=$this->readInteger($fr);
@@ -143,11 +143,11 @@ class CGettextMoFile extends CGettextFile
 	public function save($file,$messages)
 	{
 		if(!($fw=@fopen($file,'wb')))
-			throw new CException(Yii::t('yii','Unable to write file "{file}".',
+			throw new CException(Yee::t('yee','Unable to write file "{file}".',
 				array('{file}'=>$file)));
 
 		if(!@flock($fw,LOCK_EX))
-			throw new CException(Yii::t('yii','Unable to lock file "{file}" for writing.',
+			throw new CException(Yee::t('yee','Unable to lock file "{file}" for writing.',
 				array('{file}'=>$file)));
 
 		// magic

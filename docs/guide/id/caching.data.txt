@@ -11,7 +11,7 @@ Untuk menyimpan variabel `$value` dalam cache, kita memilih ID unik dan memanggi
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yee::app()->cache->set($id, $value);
 ~~~
 
 Data yang ditembolok akan tetap berada dalam cache selamanya kecuali ia dihapus
@@ -23,7 +23,7 @@ akan dihapus dari cache setelah periode waktu tertentu:
 ~~~
 [php]
 // perlihara nilai dalam cache paling lama 30 detik.
-Yii::app()->cache->set($id, $value, 30);
+Yee::app()->cache->set($id, $value, 30);
 ~~~
 
 Selanjutnya, saat kita perlu mengakses variabel ini (baik dalam permintaan Web 
@@ -33,12 +33,12 @@ tidak tersedia dalam cache dan kita harus membuatnya kembali.
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yee::app()->cache->get($id);
 if($value===false)
 {
 	// buat ulang $value karena tidak ditemukan dalam cache
 	// dan simpan dalam cache untuk dipakai nanti:
-	// Yii::app()->cache->set($id,$value);
+	// Yee::app()->cache->set($id,$value);
 }
 ~~~
 
@@ -64,7 +64,7 @@ yang ditembolok yang berasal dari aplikasi lain.
 > dipakai layaknya sebuah. Berikut adalah beberapa contoh:
 > ~~~
 > [php]
-> $cache=Yii::app()->cache;
+> $cache=Yee::app()->cache;
 > $cache['var1']=$value1;  // sama dengan: $cache->set('var1',$value1);
 > $value2=$cache['var2'];  // sama dengan: $value2=$cache->get('var2');
 > ~~~
@@ -85,7 +85,7 @@ saat pemanggilan [set()|CCache::set].
 [php]
 // nilai akan berakhir dalam 30 detik
 // ini juga akan disegarkan sebelumnya jika file dependen diubah
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+Yee::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 Sekarang, jika kita mengambil `$value` dari cache dengan memanggil [get()|CCache::get],
@@ -118,7 +118,7 @@ Ketergantungan ini didefinisikan melalui [CApplication::setGlobalState()].
 Query Caching
 -------------
 
-Mulai dari versi 1.1.7, Yii telah menambah fungsi query chacing.
+Mulai dari versi 1.1.7, Yee telah menambah fungsi query chacing.
 Query Chacing dibuat di atas data caching, digunakan untuk menyimpan hasil query DB
 ke dalam cache sehingga menghemat waktu eksekusi query DB jika query yang sama diminta
 di masa mendatang, sehingga bisa langsung diambil dari cache.
@@ -144,10 +144,10 @@ Berikut contohnya:
 [php]
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 ~~~
 
-Ketika menjalankan statement di atas, Yii pertama-tama akan mengecek cache berisi
+Ketika menjalankan statement di atas, Yee pertama-tama akan mengecek cache berisi
 konten statement SQL yang valid untuk dieksekusi. Untuk itu dilakukan pengecekan dengan 3 keadaan;
 
 - Jika cache berisi sebuah entri yang diindeks oleh statement SQL.
@@ -174,7 +174,7 @@ $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 ~~~
 
 Method `cache()` di sini secara esensinya adalah shortcut untuk [CDbConnection::cache()].
-Secara internal, ketika mengeksekusi statement SQL yang dihasilkan oleh ActiveRecord, Yii
+Secara internal, ketika mengeksekusi statement SQL yang dihasilkan oleh ActiveRecord, Yee
 akan mencoba menggunakan query caching seperti yang dijelaskan pada bagian sebelumnya.
 
 
@@ -189,9 +189,9 @@ sampai kita memanggil `cache()` lagi. Misalnya,
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
 
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 // query caching TIDAK akan digunakan
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 Dengan menyediakan parameter ekstra `$queryCount` ke method `cache()`, kita memaksa
@@ -201,9 +201,9 @@ kita akan menentukan query caching harus digunakan untuk 2 query berikutnya:
 ~~~
 [php]
 // ...
-$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
 // query caching WILL be used
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 Seperti yang diketahui, ketika melakukan query AR relasi, ada kemungkinan beberapa query SQL

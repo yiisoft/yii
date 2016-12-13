@@ -1,6 +1,6 @@
 <?php
 
-require_once(Yii::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter.Renderer.Array').'.php');
+require_once(Yee::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter.Renderer.Array').'.php');
 require_once(dirname(__FILE__).'/Markdown.php');
 
 class Text_Highlighter_Renderer_Latex extends Text_Highlighter_Renderer_Array
@@ -175,7 +175,7 @@ TEX;
 	{
 		if(strpos($matches[1], '/doc/api/')===0)
 		{
-			$url = 'http://www.yiiframework.com' . $matches[1];
+			$url = 'http://www.yeeframework.com' . $matches[1];
 			return sprintf('\href{%s}{%s}', $this->escape($url), $this->escape($matches[2]));
 		}
 		else if (strpos($matches[1], 'http://')===0)

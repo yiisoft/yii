@@ -2,10 +2,10 @@
 	- [Visão Geral](index)
 	- [Novos Recursos](changes)
 	- [Atualizando a versão 1.0 para 1.1](upgrade)
-    - [O que é Yii?](quickstart.what-is-yii)
+    - [O que é Yee?](quickstart.what-is-yee)
     - [Instalação](quickstart.installation)
     - [Configurações do Apache e Nginx](quickstart.apache-nginx-config)
-    - [Criando a primeira aplicação Yii](quickstart.first-app)
+    - [Criando a primeira aplicação Yee](quickstart.first-app)
 
 * Conceitos Básicos
     - [Modelo-Visão-Controle (MVC)](basics.mvc)
@@ -44,7 +44,7 @@
     - [Caching de Páginas](caching.page)
     - [Conteúdo Dinâmico](caching.dynamic)
 
-* Estendendo o Yii
+* Estendendo o Yee
     - [Visão Geral](extension.overview)
     - [Usando Extensões](extension.use)
     - [Criando Extensões](extension.create)
@@ -69,6 +69,6 @@
     - [Aplicativos de Console](topics.console)
     - [Segurança](topics.security)
     - [Ajustes no Desempenho](topics.performance)
-    - [Geração de código utilizando a ferramenta de linha de comando (deprecated)](quickstart.first-app-yiic)
+    - [Geração de código utilizando a ferramenta de linha de comando (deprecated)](quickstart.first-app-yeec)
 
 <div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>

@@ -3,7 +3,7 @@ Performance-Optimierung
 
 Die Performance (oder Leistungsfähigkeit) einer Webanwendung wird von vielen Faktoren
 beeinflusst. Datenbankzugriffe, Operationen im Dateisystem und
-Netzwerkbandbreiten sind alles potentielle Einflussfaktoren. Yii versucht in
+Netzwerkbandbreiten sind alles potentielle Einflussfaktoren. Yee versucht in
 jeder Hinsicht, die framework-bedingten Performanceeinbußen so gering wie
 möglich zu halten. Trotzdem gibt es bei einer Anwendung immer noch viele 
 Stellen, an denen Verbesserungen im Sinne einer erhöhten
@@ -24,34 +24,34 @@ Ausschalten des Debug-Modus
 ---------------------------
 
 Eine andere einfache Methode zur Verbesserung der Performance, besteht darin,
-den Debug-Modus auszuschalten. Eine Yii-Anwendung läuft im Debug-Modus, wenn die
+den Debug-Modus auszuschalten. Eine Yee-Anwendung läuft im Debug-Modus, wenn die
 Konstante `YII_DEBUG` als true definiert ist. Der Debug-Modus ist in der
 Entwicklungsphase sehr nützlich, beeinflusst aber die Performance, da
 einige Komponenten in diesem Modus zusätzlichen Aufwand verursachen. So loggt
 zum Beispiel der Logger zusätzliche Debug-Informationen mit jeder
 geloggten Meldung.
 
-Verwenden von `yiilite.php`
+Verwenden von `yeelite.php`
 ---------------------------
 
 Falls die [APC-Erweiterung](http://www.php.net/manual/en/book.apc.php) von PHP
-aktiviert wurde, können wir `yii.php` durch eine andere Startdatei namens
-`yiilite.php` ersetzen, um die Leistungsfähigkeit einer Yii-Anwendung weiter
+aktiviert wurde, können wir `yee.php` durch eine andere Startdatei namens
+`yeelite.php` ersetzen, um die Leistungsfähigkeit einer Yee-Anwendung weiter
 zu erhöhen.
 
-Die Datei `yiilite.php` ist in jeder Yii-Version enthalten. In ihr sind einige 
-häufig verwendete Klassendateien von Yii zusammengefasst. Sowohl Kommentare
-als auch trace-Anweisungen wurden entfernt. Der Einsatz von `yiilite.php`
+Die Datei `yeelite.php` ist in jeder Yee-Version enthalten. In ihr sind einige 
+häufig verwendete Klassendateien von Yee zusammengefasst. Sowohl Kommentare
+als auch trace-Anweisungen wurden entfernt. Der Einsatz von `yeelite.php`
 minimiert also die Anzahl einzubindender Dateien und verhindert die Ausführung
 der trace-Anweisungen.
 
-Beachten Sie, dass der Einsatz von `yiilite.php` ohne APC die
-Performance sogar verringern kann, da `yiilite.php` einige Klassen
+Beachten Sie, dass der Einsatz von `yeelite.php` ohne APC die
+Performance sogar verringern kann, da `yeelite.php` einige Klassen
 enthält, die nicht notwendigerweise bei jedem Request verwendet werden und
 somit zusätzliche Zeit für deren Auswertung benötigt wird. In einigen
-Serverkonfiguration wurde außerdem beobachtet, dass `yiilite.php` selbst mit
+Serverkonfiguration wurde außerdem beobachtet, dass `yeelite.php` selbst mit
 aktiviertem APC langsamer ist. Um zu entscheiden, ob
-`yiilite.php` eingesetzt wird oder nicht, führt man am besten einen Benchmark
+`yeelite.php` eingesetzt wird oder nicht, führt man am besten einen Benchmark
 mit dem enthaltenen `hello world`-Demo durch.
 
 
@@ -59,7 +59,7 @@ Einsatz von Cache-Techniken
 ---------------------------
 
 Wie im Kapitel [Caching](/doc/guide/caching.overview) beschrieben, bietet
-Yii verschiedene Caching-Lösungen, die die Anwendungsperformance
+Yee verschiedene Caching-Lösungen, die die Anwendungsperformance
 bedeutend verbessern können. Falls das Erzeugen bestimmter Daten sehr viel
 Zeit in Anspruch nimmt, können wir diese [Daten cachen](/doc/guide/caching.data) um
 sie nicht jedesmal neu erzeugen zu müssen. Falls ein Bereich einer Seite
@@ -124,9 +124,9 @@ wenigen Dateien zusammenfassen. Wir sollten auch in Betracht ziehen, die Größe
 jeder Scriptdatei zu verkleinern, um die Übertragungszeit über das Netzwerk zu
 verringern. Für diese zwei Aufgaben gibt es viele Hilfsprogramme.
 
-Für eine von Yii generierte Seite ist die Wahrscheinlichkeit sehr hoch, dass
+Für eine von Yee generierte Seite ist die Wahrscheinlichkeit sehr hoch, dass
 von Komponenten einige Scriptdateien gerendert werden, die wir nicht verändern
-möchten (z.B. von Yii-Kernkomponenten oder Komponten von Drittanbietern). Um
+möchten (z.B. von Yee-Kernkomponenten oder Komponten von Drittanbietern). Um
 diese Dateien zu verkleinern, bedarf es zweier Schritte.
 
 Als erstes legen wir die zu minimierenden Scripte über die Eigenschaft
@@ -137,7 +137,7 @@ Beispiel:
 
 ~~~
 [php]
-$cs=Yii::app()->clientScript;
+$cs=Yee::app()->clientScript;
 $cs->scriptMap=array(
 	'jquery.js'=>'/js/all.js',
 	'jquery.ajaxqueue.js'=>'/js/all.js',
@@ -147,7 +147,7 @@ $cs->scriptMap=array(
 ~~~
 
 Dieser Code bildet die JavaScript-Dateien auf die URL `/js/all.js` ab. Wenn
-eine dieser Dateien von einer Komponente eingebunden werden muss, bindet Yii
+eine dieser Dateien von einer Komponente eingebunden werden muss, bindet Yee
 (einmal) die URL, statt der einzelnen Scriptdateine ein.
 
 Zweitens müssen wir ein Hilfsprogramm verwenden, um die JavaScript-Dateien zu
@@ -163,7 +163,7 @@ Server. Um dies zu erreichen, konfigurieren wir `scriptMap` wie folgt:
 
 ~~~
 [php]
-$cs=Yii::app()->clientScript;
+$cs=Yee::app()->clientScript;
 $cs->scriptMap=array(
 	'jquery.js'=>false,
 	'jquery.ajaxqueue.js'=>false,
@@ -172,7 +172,7 @@ $cs->scriptMap=array(
 );
 ~~~
 
-Indem wir diese Scriptdateien auf false abbilden, verhindern wir, dass Yii den
+Indem wir diese Scriptdateien auf false abbilden, verhindern wir, dass Yee den
 Code zum Einbinden dieser Dateien generiert. Stattdessen schreiben wir den
 folgenden Code in unsere Seiten, um die Dateien explizit von Google
 einzubinden.

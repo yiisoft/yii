@@ -7,7 +7,7 @@
 自定义访问控制
 --------------------------
 
-我们想做的第一件事是自定义 [访问控制（Access control）](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) ，因为 `yiic` 工具生成的代码并不符合我们的需求。
+我们想做的第一件事是自定义 [访问控制（Access control）](http://www.yeeframework.com/doc/guide/topics.auth#access-control-filter) ，因为 `yeec` 工具生成的代码并不符合我们的需求。
 
 我们将 `/wwwroot/blog/protected/controllers/PostController.php` 文件中的 `accessRules()` 方法修改如下：
 
@@ -36,7 +36,7 @@ public function accessRules()
 自定义 `创建` 和 `更新` 操作
 --------------------------------------------
 
-`创建` 和 `更新` 操作非常相似。他们都需要显示一个HTML表单用于收集用户的输入的信息，然后对其进行验证，然后将其存入数据库。主要的不同是 `更新` 操作需要把从数据库找到的已存在的日志数据重现在表单中。鉴于此，`yiic` 工具创建了一个局部视图 `/wwwroot/blog/protected/views/post/_form.php` ，它会插入 `创建` 和 `更新` 视图来渲染所需的HTML表单。
+`创建` 和 `更新` 操作非常相似。他们都需要显示一个HTML表单用于收集用户的输入的信息，然后对其进行验证，然后将其存入数据库。主要的不同是 `更新` 操作需要把从数据库找到的已存在的日志数据重现在表单中。鉴于此，`yeec` 工具创建了一个局部视图 `/wwwroot/blog/protected/views/post/_form.php` ，它会插入 `创建` 和 `更新` 视图来渲染所需的HTML表单。
 
 我们先修改 `_form.php` 这个文件，使这个HTML表单只收集我们想要的输入：`title`, `content`, `tags` 和 `status`。我们使用文本域收集前三个属性的输入，还有一个下拉列表用来收集 `status` 的输入。此下拉列表的选项值就是可用的日志状态文本。
 
@@ -58,7 +58,7 @@ protected function beforeSave()
 		if($this->isNewRecord)
 		{
 			$this->create_time=$this->update_time=time();
-			$this->author_id=Yii::app()->user->id;
+			$this->author_id=Yee::app()->user->id;
 		}
 		else
 			$this->update_time=time();
@@ -69,7 +69,7 @@ protected function beforeSave()
 }
 ~~~
 
-当我们保存日志时，我们想更新 `tbl_tag` 表以反映 Tag 的使用频率。我们可以在 `afterSave()` 方法中完成此工作，它会在日志被成功存入数据库后自动被Yii调用。
+当我们保存日志时，我们想更新 `tbl_tag` 表以反映 Tag 的使用频率。我们可以在 `afterSave()` 方法中完成此工作，它会在日志被成功存入数据库后自动被Yee调用。
 
 ~~~
 [php]
@@ -88,9 +88,9 @@ protected function afterFind()
 }
 ~~~
 
-在这个实现中，因为我们想检测出用户在更新现有日志的时候是否修改了 Tag ，我们需要知道原来的 Tag 是什么, 鉴于此，我们还写了一个 `afterFind()` 方法把原有的 Tag 信息保存到变量 `_oldTags` 中。方法 `afterFind()` 会在一个 AR 记录被数据库中的数据填充时自动被 Yii 调用。
+在这个实现中，因为我们想检测出用户在更新现有日志的时候是否修改了 Tag ，我们需要知道原来的 Tag 是什么, 鉴于此，我们还写了一个 `afterFind()` 方法把原有的 Tag 信息保存到变量 `_oldTags` 中。方法 `afterFind()` 会在一个 AR 记录被数据库中的数据填充时自动被 Yee 调用。
 
-这里我们不再列出 `Tag::updateFrequency()` 方法的细节，读者可以参考 `/wwwroot/yii/demos/blog/protected/models/Tag.php` 文件。
+这里我们不再列出 `Tag::updateFrequency()` 方法的细节，读者可以参考 `/wwwroot/yee/demos/blog/protected/models/Tag.php` 文件。
 
 
 <div class="revision">$Id: post.create.txt 2120 2010-05-10 01:29:41Z qiang.xue $</div>

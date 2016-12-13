@@ -468,8 +468,8 @@ may be more efficient because it causes less overhead in DBMS for parsing and ex
 the SQL statements. On the other hand, using the single SQL statement, we end up with more redundant data
 and thus need more time to read and process them.
 
-For this reason, Yii provides the `together` query option so that we choose between the two approaches as needed.
-By default, Yii uses eager loading, i.e., generating a single SQL statement, except when `LIMIT` is applied to the primary model.
+For this reason, Yee provides the `together` query option so that we choose between the two approaches as needed.
+By default, Yee uses eager loading, i.e., generating a single SQL statement, except when `LIMIT` is applied to the primary model.
 We can set the `together` option in the relation declarations to be true to force a single SQL statement even when `LIMIT` is used.
 Setting it to false will result in some of tables will be joined in separate SQL statements. For example, in order to use separate SQL statements
 to query for the latest posts with their comments, we can declare the `comments` relation
@@ -501,7 +501,7 @@ $posts = Post::model()->with(
 Statistical Query
 -----------------
 
-Besides the relational query described above, Yii also supports the so-called statistical query (or aggregational query). It refers to retrieving the aggregational information about the related objects, such as the number of comments for each post, the average rating for each product, etc. Statistical query can only be performed for objects related in `HAS_MANY` (e.g. a post has many comments) or `MANY_MANY` (e.g. a post belongs to many categories and a category has many posts).
+Besides the relational query described above, Yee also supports the so-called statistical query (or aggregational query). It refers to retrieving the aggregational information about the related objects, such as the number of comments for each post, the average rating for each product, etc. Statistical query can only be performed for objects related in `HAS_MANY` (e.g. a post has many comments) or `MANY_MANY` (e.g. a post belongs to many categories and a category has many posts).
 
 Performing statistical query is very similar to performing relation query as we described before. We first need to declare the statistical query in the [relations()|CActiveRecord::relations] method of [CActiveRecord] like we do with relational query.
 

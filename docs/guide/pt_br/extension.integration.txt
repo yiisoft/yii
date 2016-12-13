@@ -1,13 +1,13 @@
 Utilizando Bibliotecas de Terceiros
 =========================
 
-O Yii foi projetado cuidadosamente de modo que bibliotecas de terceiros possam
-ser facilmente integradas para estender ainda mais as funcionalidades do Yii.
+O Yee foi projetado cuidadosamente de modo que bibliotecas de terceiros possam
+ser facilmente integradas para estender ainda mais as funcionalidades do Yee.
 Ao utilizar uma biblioteca de terceiros em um projeto, os desenvolvedores
 frequentemente encontram problemas de nomenclatura de classes e inclusão de
-arquivos. Uma vez que todas as classes do Yii são prefixadas com a letra`C`,
+arquivos. Uma vez que todas as classes do Yee são prefixadas com a letra`C`,
 é menos provável que um problema de nomenclatura de classes ocorra; e já que o
-Yii confia no
+Yee confia no
 [autoload da SPL](http://us3.php.net/manual/en/function.spl-autoload.php)
 para realizar a inclusão de arquivos de classes, ele pode funcionar bem com
 outras bibliotecas se elas usam a mesma funcionalidade de auto-carregamento ou
@@ -16,7 +16,7 @@ o caminho de inclusão do PHP para incluir os arquivos de classes.
 
 A seguir usamos um exemplo para ilustrar como utilizar o componente
 [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-do [Zend framework](http://www.zendframework.com) em uma aplicação Yii.
+do [Zend framework](http://www.zendframework.com) em uma aplicação Yee.
 
 Primeiramente, extraímos o arquivo do Zend Framework em um diretório em
 `protected/vendors`, assumindo que `protected` é o
@@ -28,13 +28,13 @@ linhas:
 
 ~~~
 [php]
-Yii::import('application.vendors.*');
+Yee::import('application.vendors.*');
 require_once('Zend/Search/Lucene.php');
 ~~~
 
 O código acima inclui o arquivo de classe `Lucene.php`. Por estarmos usando um
 caminho relativo, precisamos alterar o caminho de inclusão do PHP de modo que o
-arquivo possa ser localizado corretamente. Isso é feito chamando `Yii::import`
+arquivo possa ser localizado corretamente. Isso é feito chamando `Yee::import`
 antes de `require_once`.
 
 Uma vez que a configuração acima tenha sido feita, podemos usar a classe
@@ -60,7 +60,7 @@ a utilizá-la da seguinte forma:
 
 ~~~
 [php]
-Yii::setPathOfAlias('Imagine',Yii::getPathOfAlias('application.vendors.Imagine'));
+Yee::setPathOfAlias('Imagine',Yee::getPathOfAlias('application.vendors.Imagine'));
 
 // E então o código padrão do guia da Imagine
 // $imagine = new Imagine\Gd\Imagine();
@@ -70,27 +70,27 @@ Yii::setPathOfAlias('Imagine',Yii::getPathOfAlias('application.vendors.Imagine')
 No código acima, o nome do alias que nós definimos deve ser o mesmo que a
 primeira parte do namespace utilizado na biblioteca.
 
-Utilizando o Yii em Sistemas de Terceiros
+Utilizando o Yee em Sistemas de Terceiros
 ------------------------------
 
-O Yii também pode ser utilizado como uma biblioteca auto-contida para suportar o
+O Yee também pode ser utilizado como uma biblioteca auto-contida para suportar o
 desevolvimento e reforçar sistemas de terceiros existentes, tais como o
 WordPress, Joomla, etc. Para fazer isso, inclua o seguinte código no código de
 inicialização do sistema de terceiros:
 
 ~~~
 [php]
-require_once('path/to/yii.php');
-Yii::createWebApplication('path/to/config.php');
+require_once('path/to/yee.php');
+Yee::createWebApplication('path/to/config.php');
 ~~~
 
 O código acima é muito parecido com o código de inicialização usado por uma
-aplicação Yii típica, exceto por uma coisa: ele não inclui a chamada do método
+aplicação Yee típica, exceto por uma coisa: ele não inclui a chamada do método
 `run()` depois de criar a instância da aplicação Web.
 
-Agora você pode utilizar a maioria das funcionalidades oferecidas pelo Yii ao
+Agora você pode utilizar a maioria das funcionalidades oferecidas pelo Yee ao
 desenvolver melhorias em softwares de terceiros. Por exemplo, você pode usar
-`Yii::app()` para acessar a instância da aplicação; nós podemos utilizar as
+`Yee::app()` para acessar a instância da aplicação; nós podemos utilizar as
 funcionalidades de banco de dados tais como DAO e ActiveRecord; podemos utilizar
 a funcionalidade de modelos e validações; e assim por diante.
 

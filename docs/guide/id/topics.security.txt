@@ -17,7 +17,7 @@ sebelum menampilkannya. Orang bisa melakukan enkode-HTML dengan input pengguna u
 melaksanakan tujuan ini. Akan tetapi, dalam beberapa situasi, enkode-HTML mungkin tidak disukai
 karena mematikan semua tag HTML.
 
-Yii menyertakan produk [HTMLPurifier](http://htmlpurifier.org/)
+Yee menyertakan produk [HTMLPurifier](http://htmlpurifier.org/)
 dan menyediakan komponen berguna bagi pengembang bernama [CHtmlPurifier]
 yang melapisi [HTMLPurifier](http://htmlpurifier.org/). Komponen ini 
 mampu menghapus semua kode berbahaya dengan audit mendalam, aman namun memiliki list yang diperbolehkan
@@ -56,7 +56,7 @@ nilai acak yang dapat dikenal oleh server guna memastikan
 form dan hasil yang dikirimkan dan hasil yang dikembalikan ke
 sumber yang sama.
 
-Yii mengimplementasikan skema penjagaan CSRF untuk membantu mengalahkan serangan berbasis-`POST`.
+Yee mengimplementasikan skema penjagaan CSRF untuk membantu mengalahkan serangan berbasis-`POST`.
 Ia didasarkan pada penyimpanan nilai acak di dalam cookie dan membandingkan nilai ini
 dengan nilai yang dikirimkan via permintaan `POST`.
 
@@ -98,7 +98,7 @@ Ada beberapa langkah pencegahan guna menghadapi serangan terhadap cookie.
   browser pengguna dan mengekspos cookie yang dimilikinya.
 * Validasi data cookie dan deteksi apakah isinya diubah.
 
-Yii mengimplementasikan skema validasi cookie yang mencegah serangan perubahan terhadap
+Yee mengimplementasikan skema validasi cookie yang mencegah serangan perubahan terhadap
 cookie. Sebenarnya, ia melakukan pemeriksaan HMAC atas nilai cookie jika validasi cookie
 dihidupkan.
 
@@ -118,19 +118,19 @@ return array(
 );
 ~~~
 
-Untuk menggunakan skema validasi cookie yang disediakan oleh Yii, kita juga harus
+Untuk menggunakan skema validasi cookie yang disediakan oleh Yee, kita juga harus
 mengakses cookie melalui koleksi [cookies|CHttpRequest::cookies] collection, daripada
 melalui `$_COOKIES` secara langsung:
 
 ~~~
 [php]
 // ambil cookie dengan nama yang ditetapkan
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yee::app()->request->cookies[$name];
 $value=$cookie->value;
 ......
 // kirim cookie
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yee::app()->request->cookies[$name]=$cookie;
 ~~~
 
 

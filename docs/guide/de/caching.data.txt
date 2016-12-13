@@ -10,7 +10,7 @@ gespeichert werden:
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yee::app()->cache->set($id, $value);
 ~~~
 
 Die gecachten Daten verbleiben für immer im Cache, außer sie werden aufgrund
@@ -22,7 +22,7 @@ verfallen:
 ~~~
 [php]
 // Daten für max. 30 Sekunden um Cache halten
-Yii::app()->cache->set($id, $value, 30);
+Yee::app()->cache->set($id, $value, 30);
 ~~~
 
 Mit [get()|CCache:get] kann man später (im gleichen oder einem späteren
@@ -32,12 +32,12 @@ ihn dann neu anlegen:
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yee::app()->cache->get($id);
 if($value===false)
 {
 	// $value neu generieren und für spätere Zwecke im Cache 
 	// speichern, da der Wert nicht im Cache gefunden wurde
-	// Yii::app()->cache->set($id,$value);
+	// Yee::app()->cache->set($id,$value);
 }
 ~~~
 
@@ -62,7 +62,7 @@ werden.
 > Cache-Komponente wie ein Array verwendet werden. Hier einige Beispiele:
 > ~~~
 > [php]
-> $cache=Yii::app()->cache;
+> $cache=Yee::app()->cache;
 > $cache['var1']=$value1;  // äquivalent zu: $cache->set('var1',$value1);
 > $value2=$cache['var2'];  // äquivalent zu: $value2=$cache->get('var2');
 > ~~~
@@ -84,7 +84,7 @@ Daten übergeben werden.
 [php]
 // Der Wert verfällt in 30 Sekunden. Er kann auch schon eher verfallen
 // wenn die abhängige Datei verändert wird
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('DateiName'));
+Yee::app()->cache->set($id, $value, 30, new CFileCacheDependency('DateiName'));
 ~~~
 
 Wird `$value` mit [get()|CCache::get] ausgelesen, wird die Abhängigkeit
@@ -114,7 +114,7 @@ der Kette eine Änderung anzeigt.
 Cachen von Abfragen
 -------------------
 
-Seit Version 1.1.7 kann Yii auch Abfragen cachen. Der Abfragecache basiert
+Seit Version 1.1.7 kann Yee auch Abfragen cachen. Der Abfragecache basiert
 auf einem Datencache um die Ergebnisse einer Datenbankabfrage zu cachen.
 Dadurch kann später die Zeit zum Ausführen der Abfrage eingespart werden, weil
 das Ergebnis direkt aus dem Cache geliefert wird.
@@ -138,10 +138,10 @@ Um den Abfragecache zu verwenden, ruft man die Methode
 [php]
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 ~~~
 
-Yii prüft hier zunächst, ob im Cache bereits ein noch gültiges Ergebnis für
+Yee prüft hier zunächst, ob im Cache bereits ein noch gültiges Ergebnis für
 die SQL-Abfrage vorliegt. Dazu werden folgende drei Bedingungen sichergestellt:
 
 - dass sich im Cache ein Eintrag mit dem SQL-Ausdruck als Schlüssel befindet.
@@ -168,7 +168,7 @@ $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 ~~~
 
 Die `cache()`-Methode ist in diesem Fall eine Abkürzung für [CDbConnection::cache()].
-Intern versucht Yii beim Ausführen des SQL-Ausdrucks den Abfragecache wie im
+Intern versucht Yee beim Ausführen des SQL-Ausdrucks den Abfragecache wie im
 letzten Absatz beschrieben anzuwenden.
 
 ###Cachen mehrfacher Abfragen
@@ -182,9 +182,9 @@ SQL-Abfragen werden NICHT gecacht, bis `cache()` erneut aufgerufen wird:
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
 
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 // Abfragencache wird NICHT verwendet:
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 Übergibt man an `cache()` den zusätzlichen Parameter `$queryCount`, kann man
@@ -195,9 +195,9 @@ cachen:
 ~~~
 [php]
 // ...
-$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
 // Abfragencache WIRD verwendet:
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 Wie bekannt kann es vorkommen, dass bei relationalen AR-Abfragen manchmal

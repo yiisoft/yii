@@ -1,6 +1,6 @@
 * Getting Started
 	- [Tinjauan](start.overview)
-    - [Melakukan Testdrive pada Yii](start.testdrive)
+    - [Melakukan Testdrive pada Yee](start.testdrive)
     - [Analisis Kebutuhan](start.requirements)
     - [Rancangan Keseluruhan](start.design)
 

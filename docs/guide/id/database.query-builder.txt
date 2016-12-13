@@ -1,11 +1,11 @@
 Query Builder
 =============
 
-Yii Query Builder menyediakan cara berorientasi objek dalam menulis statement SQL. Fitur ini membantu pengembang untuk menggunakan property dan method kelas untuk menentukan bagian-bagian dari statement SQL yang kemudian menggabungkannya menjasi sebuah statement SQL yang valid yang bisa dieksekusi lebih lanjut oleh method DAO seperti yang dideskripsikan di [Data Access Objects](/doc/guide/database.dao). Berikut akan ditampilkan penggunaan umum dari Query Builder untuk membangun sebuah statement SQL SELECT:
+Yee Query Builder menyediakan cara berorientasi objek dalam menulis statement SQL. Fitur ini membantu pengembang untuk menggunakan property dan method kelas untuk menentukan bagian-bagian dari statement SQL yang kemudian menggabungkannya menjasi sebuah statement SQL yang valid yang bisa dieksekusi lebih lanjut oleh method DAO seperti yang dideskripsikan di [Data Access Objects](/doc/guide/database.dao). Berikut akan ditampilkan penggunaan umum dari Query Builder untuk membangun sebuah statement SQL SELECT:
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yee::app()->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -32,7 +32,7 @@ Menggunakan Query Builder bukanlah sebuah keharusan. Bahkan, jika query Anda cuk
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yee::app()->db->createCommand('SELECT * FROM tbl_user');
 > // baris berikut tidak akan menambahkan WHERE ke klausa SQL di atas.
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -43,16 +43,16 @@ Menggunakan Query Builder bukanlah sebuah keharusan. Bahkan, jika query Anda cuk
 Mempersiapkan Query Builder
 -----------------------
 
-Query Builder Yii disediakan oleh [CDbCommand], kelas query DB utama di [Data Access Objects](/doc/guide/database.dao).
+Query Builder Yee disediakan oleh [CDbCommand], kelas query DB utama di [Data Access Objects](/doc/guide/database.dao).
 
 Untuk menggunakan Query Builder, kita membuat sebuah instance baru dari [CDbCommand] dengan cara berikut,
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 ~~~
 
-Begitulah, kita menggunakan `Yii::app()->db` untuk mendapatkan koneksi DB, kemudian melakukan pemanggilanpada [CDbConnection::createCommand()] untuk membuat instance command yang diperlukan.
+Begitulah, kita menggunakan `Yee::app()->db` untuk mendapatkan koneksi DB, kemudian melakukan pemanggilanpada [CDbConnection::createCommand()] untuk membuat instance command yang diperlukan.
 
 Perhatikan bahwa alih-alih kita mem-pass semua statement SQL ke `createCommand()` seperti yang dilakukan di [Data Access Objects](/doc/guide/database.dao), kita membiarkannya kosong. Ini dikarenakan kita akan membangun bagian-bagian individu dari statement SQL dengan menggunakan method Query Builder yang akan dijelaskan pada bagian berikut.
 
@@ -354,7 +354,7 @@ Berikut beberapa contohnya :
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -367,7 +367,7 @@ Selain menjalankan query yang dibuat oleh Query Builder, kita juga dapat menarik
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -378,7 +378,7 @@ Jika terdapat parameter tertentu yang terikat pada query, mereka dapat diambil m
 
 ### Sintaks Alternatif untuk Membentuk Query
 
-Kadangkala, menggunakan method chaining bukanlah pilihan yang tepat. Query Builder Yii memungkinkan kita untuk membuat query dengan menggunakan assignment property object yang sederhana. Pada umumnya, untuk setiap method query builder, terdapat sebuah property yang memiliki nama yang sama. Meng-assign nilai ke property sama saja dengan memanggil method tersebut. Misalnya, berikut merupakan dua statement yang ekuivalen, dengan asumsi `$command` adalah objek [CDbCommand]:
+Kadangkala, menggunakan method chaining bukanlah pilihan yang tepat. Query Builder Yee memungkinkan kita untuk membuat query dengan menggunakan assignment property object yang sederhana. Pada umumnya, untuk setiap method query builder, terdapat sebuah property yang memiliki nama yang sama. Meng-assign nilai ke property sama saja dengan memanggil method tersebut. Misalnya, berikut merupakan dua statement yang ekuivalen, dengan asumsi `$command` adalah objek [CDbCommand]:
 
 ~~~
 [php]
@@ -390,7 +390,7 @@ Selain itu, method [CDbConnection::createCommand()] dapat menerima array sebagai
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yee::app()->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -405,7 +405,7 @@ Sebuah instance [CDbCommand] dapat dipakai ulang beberapa kali untuk membuat beb
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

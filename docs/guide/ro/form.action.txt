@@ -17,7 +17,7 @@ public function actionLogin()
 		// valideaza input-urile si se face redirect spre pagina anterioara,
 		// daca are succes validarea
 		if($form->validate())
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yee::app()->user->returnUrl);
 	}
 	// afiseaza formularul de logare
 	$this->render('login',array('user'=>$form));
@@ -31,9 +31,9 @@ si daca sunt valide, atunci se face redirectarea utilizatorului catre pagina car
 a cerut autentificarea. Daca validarea esueaza, sau daca action-ul este accesat prima data,
 atunci generam view-ul `login` al carui continut va fi descris in urmatoarea sub-sectiune.
 
-> Tip|Sfat: In action-ul `login`, folosim `Yii::app()->user->returnUrl` pentru a afla
+> Tip|Sfat: In action-ul `login`, folosim `Yee::app()->user->returnUrl` pentru a afla
 URL-ul paginii care a avut nevoie anterior de autentificare. Componenta
-`Yii::app()->user` este de tip [CWebUser] (sau de timpul unei clase derivate din aceasta) care
+`Yee::app()->user` este de tip [CWebUser] (sau de timpul unei clase derivate din aceasta) care
 contine informatiile despre utilizator (ex. username, status). Pentru mai mult detalii,
 trebuie vazuta sectiunea [Autentificare si autorizare](/doc/guide/topics.auth).
 

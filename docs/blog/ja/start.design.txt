@@ -34,8 +34,8 @@
 
 ![ブログデータベースの ER 図](schema.png)
 
-上記 ER 図に対応する完全な SQL 文が [ブログデモ](http://www.yiiframework.com/demos/blog/) に付属しています。
-Yii のインストールディレクトリの中では `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql` というファイルにあります。
+上記 ER 図に対応する完全な SQL 文が [ブログデモ](http://www.yeeframework.com/demos/blog/) に付属しています。
+Yee のインストールディレクトリの中では `/wwwroot/yee/demos/blog/protected/data/schema.sqlite.sql` というファイルにあります。
 
 > Info|情報: テーブル名とカラム名は全て小文字で命名します。これは、異る DBMS はしばしば異るケースセンシティビティを持つからであり、それによるトラブルを避けたいためです。
 >

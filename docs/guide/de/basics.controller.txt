@@ -158,7 +158,7 @@ protected/
 
 ### Binden von Actionparametern
 
-Seit Version 1.1.4 unterstützt Yii das automatische Binden von
+Seit Version 1.1.4 unterstützt Yee das automatische Binden von
 Actionparametern. Das bedeutet, dass eine Controlleraction Parameter
 definieren kann, deren Werte automatisch entsprechend ihrem Namen aus
 `$_GET` befüllt werden.
@@ -218,7 +218,7 @@ ist. Da für `$category` kein solcher Vorgabewert definiert wurde, wird
 automatisch eine [CHttpException] mit Fehlercode 400 geworfen, falls dieser
 Parameter nicht im Request übergeben wird.
 
-Seit Version 1.1.5 kann Yii auch automatisch Parameter vom Typ Array erkennen.
+Seit Version 1.1.5 kann Yee auch automatisch Parameter vom Typ Array erkennen.
 Dazu verwendet man das Type Hinting Feature von PHP wie folgt:
 
 ~~~
@@ -227,7 +227,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii stellt sicher, dass $categories ein Array ist
+		// Yee stellt sicher, dass $categories ein Array ist
 	}
 }
 ~~~

@@ -4,8 +4,8 @@ Apache- und Nginx-Konfigurationen
 Apache
 ------
 
-Yii kann bereits mit einem standardmäßig konfigurierten Apache Webserver
-betrieben werden. Die `.htaccess`-Dateien in Yii-Framework- und
+Yee kann bereits mit einem standardmäßig konfigurierten Apache Webserver
+betrieben werden. Die `.htaccess`-Dateien in Yee-Framework- und
 Anwendungsverzeichnissen sperren den Zugriff auf vertrauliche Dateien. Um das
 Startscript (normalerweise `index.php`) in URLs zu unterdrücken, kann man
 `mod_rewrite`-Anweisungen in die `.htaccess`-Datei im Webverzeichnis oder in
@@ -29,10 +29,10 @@ RewriteRule . index.php
 Nginx
 -----
 
-Man kann Yii auch mit [Nginx](http://wiki.nginx.org/) und PHP mit [FPM
+Man kann Yee auch mit [Nginx](http://wiki.nginx.org/) und PHP mit [FPM
 SAPI](http://php.net/install.fpm) verwenden. Hier eine beispielhafte
 Host-Konfiguration. Sie legt das Startscript fest und leitet alle Anfragen an
-nicht existente Dateien an Yii um. Damit erhält man lesbare URLs.
+nicht existente Dateien an Yee um. Damit erhält man lesbare URLs.
 
 ~~~
 server {
@@ -41,13 +41,13 @@ server {
 
     server_name  mysite;
     root   $host_path/htdocs;
-    set $yii_bootstrap "index.php";
+    set $yee_bootstrap "index.php";
 
     charset utf-8;
 
     location / {
-        index  index.html $yii_bootstrap;
-        try_files $uri $uri/ /$yii_bootstrap?$args;
+        index  index.html $yee_bootstrap;
+        try_files $uri $uri/ /$yee_bootstrap?$args;
     }
 
     location ~ ^/(protected|framework|themes/\w+/views) {
@@ -64,8 +64,8 @@ server {
     location ~ \.php {
         fastcgi_split_path_info  ^(.+\.php)(.*)$;
 
-        # Yii soll Aufrufe von nicht existierenden PHP-Dateien abfangen
-        set $fsn /$yii_bootstrap;
+        # Yee soll Aufrufe von nicht existierenden PHP-Dateien abfangen
+        set $fsn /$yee_bootstrap;
         if (-f $document_root$fastcgi_script_name){
             set $fsn $fastcgi_script_name;
         }

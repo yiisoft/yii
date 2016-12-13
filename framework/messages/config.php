@@ -1,7 +1,7 @@
 <?php
 /**
  * This is the configuration for generating message translations
- * for the Yii framework. It is used by the 'yiic message' command.
+ * for the Yee framework. It is used by the 'yeec message' command.
  */
 return array(
 	'sourcePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
@@ -12,8 +12,8 @@ return array(
 	'exclude'=>array(
 		'.svn',
 		'.gitignore',
-		'yiilite.php',
-		'yiit.php',
+		'yeelite.php',
+		'yeet.php',
 		'/i18n/data',
 		'/messages',
 		'/vendors',

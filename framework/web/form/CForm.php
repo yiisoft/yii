@@ -3,9 +3,9 @@
  * CForm class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -174,7 +174,7 @@ class CForm extends CFormElement implements ArrayAccess
 	{
 		$this->setModel($model);
 		if($parent===null)
-			$parent=Yii::app()->getController();
+			$parent=Yee::app()->getController();
 		parent::__construct($config,$parent);
 		if($this->showErrors===null)
 			$this->showErrors=!$this->showErrorSummary;

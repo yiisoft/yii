@@ -3,9 +3,9 @@
  * CRegularExpressionValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -47,13 +47,13 @@ class CRegularExpressionValidator extends CValidator
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		if($this->pattern===null)
-			throw new CException(Yii::t('yii','The "pattern" property must be specified with a valid regular expression.'));
-		// reason of array checking explained here: https://github.com/yiisoft/yii/issues/1955
+			throw new CException(Yee::t('yee','The "pattern" property must be specified with a valid regular expression.'));
+		// reason of array checking explained here: https://github.com/yeesoft/yee/issues/1955
 		if(is_array($value) ||
 			(!$this->not && !preg_match($this->pattern,$value)) ||
 			($this->not && preg_match($this->pattern,$value)))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is invalid.');
+			$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} is invalid.');
 			$this->addError($object,$attribute,$message);
 		}
 	}
@@ -70,9 +70,9 @@ class CRegularExpressionValidator extends CValidator
 	public function clientValidateAttribute($object,$attribute)
 	{
 		if($this->pattern===null)
-			throw new CException(Yii::t('yii','The "pattern" property must be specified with a valid regular expression.'));
+			throw new CException(Yee::t('yee','The "pattern" property must be specified with a valid regular expression.'));
 
-		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} is invalid.');
+		$message=$this->message!==null ? $this->message : Yee::t('yee','{attribute} is invalid.');
 		$message=strtr($message, array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
 		));

@@ -2,9 +2,9 @@
  * Database schema required by CDbAuthManager.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  * @since 1.0
  */
 

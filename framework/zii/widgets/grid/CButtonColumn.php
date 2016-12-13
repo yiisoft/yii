@@ -3,12 +3,12 @@
  * CButtonColumn class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.grid.CGridColumn');
+Yee::import('zii.widgets.grid.CGridColumn');
 
 /**
  * CButtonColumn represents a grid view column that renders one or several buttons.
@@ -67,7 +67,7 @@ class CButtonColumn extends CGridColumn
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
 	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
-	public $viewButtonUrl='Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))';
+	public $viewButtonUrl='Yee::app()->controller->createUrl("view",array("id"=>$data->primaryKey))';
 	/**
 	 * @var array the HTML options for the view button tag.
 	 */
@@ -96,7 +96,7 @@ class CButtonColumn extends CGridColumn
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
 	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
-	public $updateButtonUrl='Yii::app()->controller->createUrl("update",array("id"=>$data->primaryKey))';
+	public $updateButtonUrl='Yee::app()->controller->createUrl("update",array("id"=>$data->primaryKey))';
 	/**
 	 * @var array the HTML options for the update button tag.
 	 */
@@ -125,7 +125,7 @@ class CButtonColumn extends CGridColumn
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
 	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
-	public $deleteButtonUrl='Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))';
+	public $deleteButtonUrl='Yee::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))';
 	/**
 	 * @var array the HTML options for the delete button tag.
 	 */
@@ -215,11 +215,11 @@ class CButtonColumn extends CGridColumn
 	protected function initDefaultButtons()
 	{
 		if($this->viewButtonLabel===null)
-			$this->viewButtonLabel=Yii::t('zii','View');
+			$this->viewButtonLabel=Yee::t('zii','View');
 		if($this->updateButtonLabel===null)
-			$this->updateButtonLabel=Yii::t('zii','Update');
+			$this->updateButtonLabel=Yee::t('zii','Update');
 		if($this->deleteButtonLabel===null)
-			$this->deleteButtonLabel=Yii::t('zii','Delete');
+			$this->deleteButtonLabel=Yee::t('zii','Delete');
 		if($this->viewButtonImageUrl===null)
 			$this->viewButtonImageUrl=$this->grid->baseScriptUrl.'/view.png';
 		if($this->updateButtonImageUrl===null)
@@ -227,7 +227,7 @@ class CButtonColumn extends CGridColumn
 		if($this->deleteButtonImageUrl===null)
 			$this->deleteButtonImageUrl=$this->grid->baseScriptUrl.'/delete.png';
 		if($this->deleteConfirmation===null)
-			$this->deleteConfirmation=Yii::t('zii','Are you sure you want to delete this item?');
+			$this->deleteConfirmation=Yee::t('zii','Are you sure you want to delete this item?');
 
 		foreach(array('view','update','delete') as $id)
 		{
@@ -250,10 +250,10 @@ class CButtonColumn extends CGridColumn
 			else
 				$confirmation='';
 
-			if(Yii::app()->request->enableCsrfValidation)
+			if(Yee::app()->request->enableCsrfValidation)
 			{
-				$csrfTokenName = Yii::app()->request->csrfTokenName;
-				$csrfToken = Yii::app()->request->csrfToken;
+				$csrfTokenName = Yee::app()->request->csrfTokenName;
+				$csrfToken = Yee::app()->request->csrfToken;
 				$csrf = "\n\t\tdata:{ '$csrfTokenName':'$csrfToken' },";
 			}
 			else
@@ -267,11 +267,11 @@ function() {
 	$confirmation
 	var th = this,
 		afterDelete = $this->afterDelete;
-	jQuery('#{$this->grid->id}').yiiGridView('update', {
+	jQuery('#{$this->grid->id}').yeeGridView('update', {
 		type: 'POST',
 		url: jQuery(this).attr('href'),$csrf
 		success: function(data) {
-			jQuery('#{$this->grid->id}').yiiGridView('update');
+			jQuery('#{$this->grid->id}').yeeGridView('update');
 			afterDelete(th, true, data);
 		},
 		error: function(XHR) {
@@ -301,7 +301,7 @@ EOD;
 		}
 
 		if($js!==array())
-			Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id, implode("\n",$js));
+			Yee::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id, implode("\n",$js));
 	}
 
 	/**

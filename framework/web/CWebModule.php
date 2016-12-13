@@ -3,9 +3,9 @@
  * CWebModule class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -112,7 +112,7 @@ class CWebModule extends CModule
 	public function setControllerPath($value)
 	{
 		if(($this->_controllerPath=realpath($value))===false || !is_dir($this->_controllerPath))
-			throw new CException(Yii::t('yii','The controller path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The controller path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 
@@ -135,7 +135,7 @@ class CWebModule extends CModule
 	public function setViewPath($path)
 	{
 		if(($this->_viewPath=realpath($path))===false || !is_dir($this->_viewPath))
-			throw new CException(Yii::t('yii','The view path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The view path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -158,7 +158,7 @@ class CWebModule extends CModule
 	public function setLayoutPath($path)
 	{
 		if(($this->_layoutPath=realpath($path))===false || !is_dir($this->_layoutPath))
-			throw new CException(Yii::t('yii','The layout path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The layout path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -182,7 +182,7 @@ class CWebModule extends CModule
 	public function beforeControllerAction($controller,$action)
 	{
 		if(($parent=$this->getParentModule())===null)
-			$parent=Yii::app();
+			$parent=Yee::app();
 		return $parent->beforeControllerAction($controller,$action);
 	}
 
@@ -196,7 +196,7 @@ class CWebModule extends CModule
 	public function afterControllerAction($controller,$action)
 	{
 		if(($parent=$this->getParentModule())===null)
-			$parent=Yii::app();
+			$parent=Yee::app();
 		$parent->afterControllerAction($controller,$action);
 	}
 }

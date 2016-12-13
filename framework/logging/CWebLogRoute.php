@@ -3,9 +3,9 @@
  * CWebLogRoute class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -59,7 +59,7 @@ class CWebLogRoute extends CLogRoute
 	 */
 	protected function render($view,$data)
 	{
-		$app=Yii::app();
+		$app=Yee::app();
 		$isAjax=$app->getRequest()->getIsAjaxRequest();
 		$isFlash=$app->getRequest()->getIsFlashRequest();
 

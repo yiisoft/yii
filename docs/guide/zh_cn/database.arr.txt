@@ -291,7 +291,7 @@ $posts=Post::model()->with('comments')->findAll(array(
 ~~~
 
 > Note: the behavior of column disambiguation has been changed since version 1.1.0.
-> Previously in version 1.0.x, by default Yii would automatically generate a table
+> Previously in version 1.0.x, by default Yee would automatically generate a table
 > alias for each relational table, and we had to use the prefix `??.` to refer to
 > this automatically generated alias. Also, in version 1.0.x, the alias name
 > of the primary table is the table name itself.
@@ -346,8 +346,8 @@ may be more efficient because it causes less overhead in DBMS for yparsing and e
 the SQL statements. On the other hand, using the single SQL statement, we end up with more redundant data
 and thus need more time to read and process them.
 
-For this reason, Yii provides the `together` query option so that we choose between the two approaches as needed.
-By default, Yii adopts the first approach, i.e., generating a single SQL statement to perform
+For this reason, Yee provides the `together` query option so that we choose between the two approaches as needed.
+By default, Yee adopts the first approach, i.e., generating a single SQL statement to perform
 eager loading. We can set the `together` option to be false in the relation declarations so that some of
 tables are joined in separate SQL statements. For example, in order to use the second approach
 to query for the latest posts with their comments, we can declare the `comments` relation
@@ -370,7 +370,7 @@ We can also dynamically set this option when we perform the eager loading:
 $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
 ~~~
 
-> Note: In version 1.0.x, the default behavior is that Yii will generate and
+> Note: In version 1.0.x, the default behavior is that Yee will generate and
 > execute `N+1` SQL statements if there are `N` `HAS_MANY` or `MANY_MANY` relations.
 > Each `HAS_MANY` or `MANY_MANY` relation has its own SQL statement. By calling
 > the `together()` method after `with()`, we can enforce only a single SQL statement
@@ -391,7 +391,7 @@ Statistical Query
 
 > Note: Statistical query has been supported since version 1.0.4.
 
-Besides the relational query described above, Yii also supports the so-called statistical query (or aggregational query). It refers to retrieving the aggregational information about the related objects, such as the number of comments for each post, the average rating for each product, etc. Statistical query can only be performed for objects related in `HAS_MANY` (e.g. a post has many comments) or `MANY_MANY` (e.g. a post belongs to many categories and a category has many posts).
+Besides the relational query described above, Yee also supports the so-called statistical query (or aggregational query). It refers to retrieving the aggregational information about the related objects, such as the number of comments for each post, the average rating for each product, etc. Statistical query can only be performed for objects related in `HAS_MANY` (e.g. a post has many comments) or `MANY_MANY` (e.g. a post belongs to many categories and a category has many posts).
 
 Performing statistical query is very similar to performing relation query as we described before. We first need to declare the statistical query in the [relations()|CActiveRecord::relations] method of [CActiveRecord] like we do with relational query.
 

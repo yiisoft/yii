@@ -8,7 +8,7 @@
 より高度な開発者は、テストが必要な際、毎回、コードを呼び出せば、コンピュータがテストを実行するように、テストを自動化するためのコードを書くでしょう。
 これは **自動化テスト** として知られているもので、この章のメイントピックです。
 
-Yii が提供するテストサポートには、**ユニットテスト** と **機能テスト** が含まれます。
+Yee が提供するテストサポートには、**ユニットテスト** と **機能テスト** が含まれます。
 
 ユニットテストは、コードの 1 ユニットが期待した通りに動作するどうかを検証します。
 オブジェクト指向プログラミングでは、最も基本的なコード単位はクラスです。
@@ -39,10 +39,10 @@ Yii が提供するテストサポートには、**ユニットテスト** と *
 テスト環境構築
 ----------------------
 
-Yii がサポートするテストには [PHPUnit](http://www.phpunit.de/) 3.5 以上 と [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0 以上が必要です。
+Yee がサポートするテストには [PHPUnit](http://www.phpunit.de/) 3.5 以上 と [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0 以上が必要です。
 PHPUnit と Selenium Remote Control のインストール方法については、それらのドキュメントを参照してください。
 
-新しい Yii アプリケーションを `yiic webapp` コンソールコマンドで生成すると、同時に、テストを書いて実行するためのファイルとディレクトリが下記のように生成されます。
+新しい Yee アプリケーションを `yeec webapp` コンソールコマンドで生成すると、同時に、テストを書いて実行するためのファイルとディレクトリが下記のように生成されます。
 
 ~~~
 testdrive/
@@ -81,14 +81,14 @@ testdrive/
 
 ~~~
 [php]
-$yiit='path/to/yii/framework/yiit.php';
+$yeet='path/to/yee/framework/yeet.php';
 $config=dirname(__FILE__).'/../config/test.php';
-require_once($yiit);
+require_once($yeet);
 require_once(dirname(__FILE__).'/WebTestCase.php');
-Yii::createWebApplication($config);
+Yee::createWebApplication($config);
 ~~~
 
-上記においては、最初に Yii フレームワークから `yiit.php` ファイルをインクルードしています。
+上記においては、最初に Yee フレームワークから `yeet.php` ファイルをインクルードしています。
 このファイルがいくつかのグローバル定数を初期化し、必要になるテストの基本クラスをインクルードします。
 次に `test.php` 構成ファイルを使って、ウェブアプリケーションのインスタンスを作成します。
 `test.php` をチェックすれば、それが `main.php` 構成ファイルから継承しながら、[CDbFixtureManager] というクラスの `fixture` アプリケーションコンポーネントを追加していることが分るでしょう。

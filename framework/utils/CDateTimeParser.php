@@ -5,9 +5,9 @@
  * @author Wei Zhuo <weizhuo[at]gamil[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Tomasz Suchanek <tomasz[dot]suchanek[at]gmail[dot]com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -85,7 +85,7 @@ class CDateTimeParser
 
 		$tokens=self::tokenize($pattern);
 		$i=0;
-		$n=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
+		$n=self::$_mbstringAvailable ? mb_strlen($value,Yee::app()->charset) : strlen($value);
 		foreach($tokens as $token)
 		{
 			switch($token)
@@ -110,7 +110,7 @@ class CDateTimeParser
 					$monthName='';
 					if(($month=self::parseMonth($value,$i,'wide',$monthName))===false)
 						return false;
-					$i+=self::$_mbstringAvailable ? mb_strlen($monthName,Yii::app()->charset) : strlen($monthName);
+					$i+=self::$_mbstringAvailable ? mb_strlen($monthName,Yee::app()->charset) : strlen($monthName);
 					break;
 				}
 				case 'MMM':
@@ -118,7 +118,7 @@ class CDateTimeParser
 					$monthName='';
 					if(($month=self::parseMonth($value,$i,'abbreviated',$monthName))===false)
 						return false;
-					$i+=self::$_mbstringAvailable ? mb_strlen($monthName,Yii::app()->charset) : strlen($monthName);
+					$i+=self::$_mbstringAvailable ? mb_strlen($monthName,Yee::app()->charset) : strlen($monthName);
 					break;
 				}
 				case 'MM':
@@ -209,8 +209,8 @@ class CDateTimeParser
 				}
 				default:
 				{
-					$tn=self::$_mbstringAvailable ? mb_strlen($token,Yii::app()->charset) : strlen($token);
-					if($i>=$n || ($token{0}!='?' && (self::$_mbstringAvailable ? mb_substr($value,$i,$tn,Yii::app()->charset) : substr($value,$i,$tn))!==$token))
+					$tn=self::$_mbstringAvailable ? mb_strlen($token,Yee::app()->charset) : strlen($token);
+					if($i>=$n || ($token{0}!='?' && (self::$_mbstringAvailable ? mb_substr($value,$i,$tn,Yee::app()->charset) : substr($value,$i,$tn))!==$token))
 						return false;
 					$i+=$tn;
 					break;
@@ -267,22 +267,22 @@ class CDateTimeParser
 	 */
 	private static function tokenize($pattern)
 	{
-		if(!($n=self::$_mbstringAvailable ? mb_strlen($pattern,Yii::app()->charset) : strlen($pattern)))
+		if(!($n=self::$_mbstringAvailable ? mb_strlen($pattern,Yee::app()->charset) : strlen($pattern)))
 			return array();
 		$tokens=array();
-		$c0=self::$_mbstringAvailable ? mb_substr($pattern,0,1,Yii::app()->charset) : substr($pattern,0,1);
+		$c0=self::$_mbstringAvailable ? mb_substr($pattern,0,1,Yee::app()->charset) : substr($pattern,0,1);
 
 		for($start=0,$i=1;$i<$n;++$i)
 		{
-			$c=self::$_mbstringAvailable ? mb_substr($pattern,$i,1,Yii::app()->charset) : substr($pattern,$i,1);
+			$c=self::$_mbstringAvailable ? mb_substr($pattern,$i,1,Yee::app()->charset) : substr($pattern,$i,1);
 			if($c!==$c0)
 			{
-				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$i-$start,Yii::app()->charset) : substr($pattern,$start,$i-$start);
+				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$i-$start,Yee::app()->charset) : substr($pattern,$start,$i-$start);
 				$c0=$c;
 				$start=$i;
 			}
 		}
-		$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$n-$start,Yii::app()->charset) : substr($pattern,$start,$n-$start);
+		$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$n-$start,Yee::app()->charset) : substr($pattern,$start,$n-$start);
 		return $tokens;
 	}
 
@@ -297,8 +297,8 @@ class CDateTimeParser
 	{
 		for($len=$maxLength;$len>=$minLength;--$len)
 		{
-			$v=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yii::app()->charset) : substr($value,$offset,$len);
-			if(ctype_digit($v) && (self::$_mbstringAvailable ? mb_strlen($v,Yii::app()->charset) : strlen($v))>=$minLength)
+			$v=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yee::app()->charset) : substr($value,$offset,$len);
+			if(ctype_digit($v) && (self::$_mbstringAvailable ? mb_strlen($v,Yee::app()->charset) : strlen($v))>=$minLength)
 				return $v;
 		}
 		return false;
@@ -311,7 +311,7 @@ class CDateTimeParser
 	 */
 	protected static function parseAmPm($value, $offset)
 	{
-		$v=strtolower(self::$_mbstringAvailable ? mb_substr($value,$offset,2,Yii::app()->charset) : substr($value,$offset,2));
+		$v=strtolower(self::$_mbstringAvailable ? mb_substr($value,$offset,2,Yee::app()->charset) : substr($value,$offset,2));
 		return $v==='am' || $v==='pm' ? $v : false;
 	}
 
@@ -325,25 +325,25 @@ class CDateTimeParser
 	 */
 	protected static function parseMonth($value,$offset,$width,&$monthName)
 	{
-		$valueLength=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
+		$valueLength=self::$_mbstringAvailable ? mb_strlen($value,Yee::app()->charset) : strlen($value);
 		for($len=1; $offset+$len<=$valueLength; $len++)
 		{
-			$monthName=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yii::app()->charset) : substr($value,$offset,$len);
+			$monthName=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yee::app()->charset) : substr($value,$offset,$len);
 			if(!preg_match('/^[\p{L}\p{M}]+$/u',$monthName)) // unicode aware replacement for ctype_alpha($monthName)
 			{
-				$monthName=self::$_mbstringAvailable ? mb_substr($monthName,0,-1,Yii::app()->charset) : substr($monthName,0,-1);
+				$monthName=self::$_mbstringAvailable ? mb_substr($monthName,0,-1,Yee::app()->charset) : substr($monthName,0,-1);
 				break;
 			}
 		}
-		$monthName=self::$_mbstringAvailable ? mb_strtolower($monthName,Yii::app()->charset) : strtolower($monthName);
+		$monthName=self::$_mbstringAvailable ? mb_strtolower($monthName,Yee::app()->charset) : strtolower($monthName);
 
-		$monthNames=Yii::app()->getLocale()->getMonthNames($width,false);
+		$monthNames=Yee::app()->getLocale()->getMonthNames($width,false);
 		foreach($monthNames as $k=>$v)
-			$monthNames[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
+			$monthNames[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yee::app()->charset) : strtolower($v),'.');
 
-		$monthNamesStandAlone=Yii::app()->getLocale()->getMonthNames($width,true);
+		$monthNamesStandAlone=Yee::app()->getLocale()->getMonthNames($width,true);
 		foreach($monthNamesStandAlone as $k=>$v)
-			$monthNamesStandAlone[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
+			$monthNamesStandAlone[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yee::app()->charset) : strtolower($v),'.');
 
 		if(($v=array_search($monthName,$monthNames))===false && ($v=array_search($monthName,$monthNamesStandAlone))===false)
 			return false;

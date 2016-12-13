@@ -1,16 +1,16 @@
 /**
- * jQuery Yii ListView plugin file.
+ * jQuery Yee ListView plugin file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2010 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2010 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 ;(function($) {
-	var yiiXHR = {};
+	var yeeXHR = {};
 	/**
-	 * yiiListView set function.
+	 * yeeListView set function.
 	 * @param options map settings for the list view. Availablel options are as follows:
 	 * - ajaxUpdate: array, IDs of the containers whose content may be updated by ajax response
 	 * - ajaxVar: string, the name of the request variable indicating the ID of the element triggering the AJAX request
@@ -21,19 +21,19 @@
 	 * - beforeAjaxUpdate: function, the function to be called before ajax request is sent
 	 * - afterAjaxUpdate: function, the function to be called after ajax response is received
 	 */
-	$.fn.yiiListView = function(options) {
+	$.fn.yeeListView = function(options) {
 		return this.each(function(){
-			var settings = $.extend({}, $.fn.yiiListView.defaults, options || {}),
+			var settings = $.extend({}, $.fn.yeeListView.defaults, options || {}),
 			$this = $(this),
 			id = $this.attr('id');
 
 			if(settings.updateSelector == undefined) {
 				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.sorterClass.replace(/\s+/g,'.')+' a';
 			}
-			$.fn.yiiListView.settings[id] = settings;
+			$.fn.yeeListView.settings[id] = settings;
 
 			if(settings.ajaxUpdate.length > 0) {
-				$(document).on('click.yiiListView', settings.updateSelector,function(){
+				$(document).on('click.yeeListView', settings.updateSelector,function(){
 					if(settings.enableHistory && window.History.enabled) {
 						var href = $(this).attr('href');
 						if(href){
@@ -46,7 +46,7 @@
 							window.History.pushState({url: updateUrl}, document.title, updateUrl);
 						}
 					} else {
-						$.fn.yiiListView.update(id, {url: $(this).attr('href')});
+						$.fn.yeeListView.update(id, {url: $(this).attr('href')});
 					}
 					return false;
 				});
@@ -57,14 +57,14 @@
 						if (State.data.url === undefined) {
 							State.data.url = State.url;
 						}
-						$.fn.yiiListView.update(id, State.data);
+						$.fn.yeeListView.update(id, State.data);
 					});
 				}
 			}
 		});
 	};
 
-	$.fn.yiiListView.defaults = {
+	$.fn.yeeListView.defaults = {
 		ajaxUpdate: [],
 		ajaxVar: 'ajax',
 		ajaxType: 'GET',
@@ -77,7 +77,7 @@
 		// url: 'ajax request URL'
 	};
 
-	$.fn.yiiListView.settings = {};
+	$.fn.yeeListView.settings = {};
 
 	/**
 	 * Returns the key value for the specified row
@@ -85,7 +85,7 @@
 	 * @param index integer the zero-based index of the data item
 	 * @return string the key value
 	 */
-	$.fn.yiiListView.getKey = function(id, index) {
+	$.fn.yeeListView.getKey = function(id, index) {
 		return $('#'+id+' > div.keys > span:eq('+index+')').text();
 	};
 
@@ -94,8 +94,8 @@
 	 * @param id string the ID of the list view container
 	 * @return string the URL that generates the list view content.
 	 */
-	$.fn.yiiListView.getUrl = function(id) {
-		var settings = $.fn.yiiListView.settings[id];
+	$.fn.yeeListView.getUrl = function(id) {
+		var settings = $.fn.yeeListView.settings[id];
 		return settings.url || $('#'+id+' > div.keys').attr('title');
 	};
 
@@ -105,9 +105,9 @@
 	 * @param options map the AJAX request options (see jQuery.ajax API manual). By default,
 	 * the URL to be requested is the one that generates the current content of the list view.
 	 */
-	$.fn.yiiListView.update = function(id, options) {
+	$.fn.yeeListView.update = function(id, options) {
 		var customError,
-			settings = $.fn.yiiListView.settings[id];
+			settings = $.fn.yeeListView.settings[id];
 
 		if (options && options.error !== undefined) {
 			customError = options.error;
@@ -116,7 +116,7 @@
 
 		options = $.extend({
 			type: settings.ajaxType,
-			url: $.fn.yiiListView.getUrl(id),
+			url: $.fn.yeeListView.getUrl(id),
 			success: function(data,status) {
 				$.each(settings.ajaxUpdate, function(i,v) {
 					var id='#'+v;
@@ -127,7 +127,7 @@
 			},
 			complete: function() {
 				$('#'+id).removeClass(settings.loadingClass);
-				yiiXHR[id] = null;
+				yeeXHR[id] = null;
 			},
 			error: function(XHR, textStatus, errorThrown) {
 				var ret, err;
@@ -175,15 +175,15 @@
 		if(settings.ajaxVar)
 			options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
 
-		if(yiiXHR[id] != null) {
-			yiiXHR[id].abort();
+		if(yeeXHR[id] != null) {
+			yeeXHR[id].abort();
 		}
 
 		$('#'+id).addClass(settings.loadingClass);
 
 		if(settings.beforeAjaxUpdate != undefined)
 			settings.beforeAjaxUpdate(id, options);
-		yiiXHR[id] = $.ajax(options);
+		yeeXHR[id] = $.ajax(options);
 	};
 
 })(jQuery);

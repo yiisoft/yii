@@ -3,9 +3,9 @@
  * CLogRoute class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -51,7 +51,7 @@ abstract class CLogRoute extends CComponent
 	public $except=array();
 	/**
 	 * @var mixed the additional filter (eg {@link CLogFilter}) that can be applied to the log messages.
-	 * The value of this property will be passed to {@link Yii::createComponent} to create
+	 * The value of this property will be passed to {@link Yee::createComponent} to create
 	 * a log filter object. As a result, this can be either a string representing the
 	 * filter class name or an array representing the filter configuration.
 	 * In general, the log filter class should implement {@link ILogFilter} interface.
@@ -99,7 +99,7 @@ abstract class CLogRoute extends CComponent
 		if($processLogs && !empty($this->logs))
 		{
 			if($this->filter!==null)
-				Yii::createComponent($this->filter)->filter($this->logs);
+				Yee::createComponent($this->filter)->filter($this->logs);
 			if($this->logs!==array())
 				$this->processLogs($this->logs);
 			$this->logs=array();

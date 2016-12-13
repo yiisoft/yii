@@ -1,24 +1,24 @@
 Fluxul de dezvoltare
 ====================
 
-In acest moment avem definite conceptele fundamentale ale Yii. Acum putem arata
-fluxul obisnuit de dezvoltare atunci cand se creaza o aplicatie web cu ajutorul Yii.
+In acest moment avem definite conceptele fundamentale ale Yee. Acum putem arata
+fluxul obisnuit de dezvoltare atunci cand se creaza o aplicatie web cu ajutorul Yee.
 Fluxul presupune ca am facut analiza cerintelor aplicatiei si designul ei.
 
    1. Cream scheletul structurii de directoare. Pentru a accelera acest pas,
-poate fi folosita unealta `yiic` descrisa in [Crearea primei aplicatii Yii](/doc/guide/quickstart.first-app).
+poate fi folosita unealta `yeec` descrisa in [Crearea primei aplicatii Yee](/doc/guide/quickstart.first-app).
 
    2. Configuram [application](/doc/guide/basics.application). Acest pas este facut
 prin modificarea fisierul de configurare al aplicatiei. Acest pas poate necesita
 scrierea unor componente (ex. componenta user).
 
    3. Cream o clasa [model](/doc/guide/basics.model) pentru fiecare tip de date
-care trebuie administrate. Din nou, `yiic` poate fi folosit pentru a genera automat
+care trebuie administrate. Din nou, `yeec` poate fi folosit pentru a genera automat
 clasa [active record](/doc/guide/database.ar) pentru fiecare tabela de interes din baza de date.
 
    4. Cream o clasa [controller](/doc/guide/basics.controller) pentru fiecare tip de cerere
 utilizator. In general, daca o clasa model trebui sa fie accesata de catre utilizatori,
-ar trebui sa aiba o clasa controller corespunzatoare. Unealta `yiic` poate de asemenea sa faca
+ar trebui sa aiba o clasa controller corespunzatoare. Unealta `yeec` poate de asemenea sa faca
 acest pas automat.
 
    5. Implementam [action-uri](/doc/guide/basics.controller#action) si

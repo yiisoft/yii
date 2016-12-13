@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.collections.CMap');
+Yee::import('system.collections.CMap');
 
 class MapItem
 {

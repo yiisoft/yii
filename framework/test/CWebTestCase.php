@@ -3,12 +3,12 @@
  * This file contains the CWebTestCase class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('system.test.CTestCase');
+Yee::import('system.test.CTestCase');
 require_once('PHPUnit/Extensions/SeleniumTestCase.php');
 
 /**
@@ -69,7 +69,7 @@ abstract class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 */
 	public function getFixtureManager()
 	{
-		return Yii::app()->getComponent('fixture');
+		return Yee::app()->getComponent('fixture');
 	}
 
 	/**

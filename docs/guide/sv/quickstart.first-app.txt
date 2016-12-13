@@ -1,33 +1,33 @@
-Skapa en första Yii-applikation
+Skapa en första Yee-applikation
 ===============================
 
-För att ge en inledande erfarenhet av Yii beskrivs i detta avsnitt hur man kan skapa 
-en första Yii-applikation. Vi kommer att använda `yiic` (kommandoradsverktyg)
-till att skapa en ny Yii-applikation samt `Gii` (kraftfull webbaserad kodgenerator) 
-till att automatisera kodgenerering för bestämda ändamål. Vi antar att `YiiRoot` 
-är katalogen där Yii är installerat, samt att `WebRoot` är webbserverns rotkatalog 
+För att ge en inledande erfarenhet av Yee beskrivs i detta avsnitt hur man kan skapa 
+en första Yee-applikation. Vi kommer att använda `yeec` (kommandoradsverktyg)
+till att skapa en ny Yee-applikation samt `Gii` (kraftfull webbaserad kodgenerator) 
+till att automatisera kodgenerering för bestämda ändamål. Vi antar att `YeeRoot` 
+är katalogen där Yee är installerat, samt att `WebRoot` är webbserverns rotkatalog 
 för dokument. 
 
-Kör `yiic` från en kommandorad enligt följande:
+Kör `yeec` från en kommandorad enligt följande:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|Märk: Om `yiic` körs under Mac OS, Linux eller Unix, kan rättigheterna för 
-> filen `yiic` behöva kompletteras så att den blir körbar (executable).
+> Note|Märk: Om `yeec` körs under Mac OS, Linux eller Unix, kan rättigheterna för 
+> filen `yeec` behöva kompletteras så att den blir körbar (executable).
 > Alternativt kan verktyget köras på följande sätt,
 >
 > ~~~
 > % cd WebRoot
-> % php YiiRoot/framework/yiic.php webapp testdrive
+> % php YeeRoot/framework/yeec.php webapp testdrive
 > ~~~
 
-Detta kommer att skapa en mall till Yii-applikation under katalogen 
+Detta kommer att skapa en mall till Yee-applikation under katalogen 
 `WebRoot/testdrive`. Applikationen har en katalogstruktur som kommer till 
-användning i de flesta Yii-applikationer. 
+användning i de flesta Yee-applikationer. 
 
-Utan att skriva en enda rad kod kan den första Yii-applikationen nu testköras 
+Utan att skriva en enda rad kod kan den första Yee-applikationen nu testköras 
 genom att mata in följande URL i webbläsarens adressfält:
 
 ~~~
@@ -63,11 +63,11 @@ testdrive/
    images/                   innehåller bildfiler
    themes/                   innehåller applikationsteman
    protected/                innehåller åtkomstskyddade applikationsfiler
-      yiic                   yiic kommandoradsskript för Unix/Linux
-      yiic.bat               yiic kommandoradsskript för Windows
-      yiic.php               yiic PHP-kommandoradsskript
-      commands/              innehåller egna/anpassade 'yiic'-kommandon
-         shell/              innehåller egna/anpassade 'yiic shell'-kommandon
+      yeec                   yeec kommandoradsskript för Unix/Linux
+      yeec.bat               yeec kommandoradsskript för Windows
+      yeec.php               yeec PHP-kommandoradsskript
+      commands/              innehåller egna/anpassade 'yeec'-kommandon
+         shell/              innehåller egna/anpassade 'yeec shell'-kommandon
       components/            innehåller (egna) återanvändningsbara komponenter
          Controller.php      basklass för alla kontrollerklasser
          UserIdentity.php    klassen 'UserIdentity' som används för autenticering
@@ -124,7 +124,7 @@ return array(
 );
 ~~~
 
-Ovanstående kod instruerar Yii om att applikationen skall ansluta till SQLite-databasen
+Ovanstående kod instruerar Yee om att applikationen skall ansluta till SQLite-databasen
 `WebRoot/testdrive/protected/data/testdrive.db` när så erfordras. Notera att SQLite-databasen
 redan är inkluderad i skelettet till applikation vi just genererat. Databasen innehåller endast
 en enda tabell med namnet `tbl_user`:
@@ -142,7 +142,7 @@ CREATE TABLE tbl_user (
 Den som vill prova en MySQL-databas istället kan använda den medföljande MySQL-schemafilen 
 `WebRoot/testdrive/protected/data/schema.mysql.sql` för att skapa databasen.
 
-> Note|Märk: För att Yii:s databasfiness skall gå att använda måste PHP:s PDO-tillägg
+> Note|Märk: För att Yee:s databasfiness skall gå att använda måste PHP:s PDO-tillägg
 samt det drivrutinspecifika PDO-tillägget aktiveras. För prova på-applikationen innebär 
 detta att tilläggen `php_pdo` och `php_pdo_sqlite` skall vara igång.
 
@@ -155,8 +155,8 @@ förekommande krav i skarpa webbapplikationer. I stället för omaket att skriva
 manuellt, använder vi `Gii` -- en kraftfull webbaserad kodgenerator.
 
 > Info: Gii har varit tillgänglig sedan version 1.1.2. Innan dess kunde det tidigare 
-> nämnda verktyget `yiic` användas för samma ändamål. 
-> För ytterligare detaljer, hänvisas till [Implementering av CRUD-operationer med yiic shell](/doc/guide/quickstart.first-app-yiic).
+> nämnda verktyget `yeec` användas för samma ändamål. 
+> För ytterligare detaljer, hänvisas till [Implementering av CRUD-operationer med yeec shell](/doc/guide/quickstart.first-app-yeec).
 
 
 ### Konfigurera Gii

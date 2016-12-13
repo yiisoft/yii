@@ -30,7 +30,7 @@ class SiteController extends CController implements IWebServiceProvider
 	 */
 	public function actionTest()
 	{
-		$wsdlUrl=Yii::app()->request->hostInfo.$this->createUrl('phonebook');
+		$wsdlUrl=Yee::app()->request->hostInfo.$this->createUrl('phonebook');
 		$client=new SoapClient($wsdlUrl);
 		echo "<pre>";
 		echo "login...\n";
@@ -61,7 +61,7 @@ class SiteController extends CController implements IWebServiceProvider
 			'getContacts',
 		);
 		$pattern='/^('.implode('|',$safeMethods).')$/i';
-		if(!Yii::app()->user->isGuest || preg_match($pattern,$service->methodName))
+		if(!Yee::app()->user->isGuest || preg_match($pattern,$service->methodName))
 			return true;
 		else
 			throw new CException('Login required.');
@@ -87,7 +87,7 @@ class SiteController extends CController implements IWebServiceProvider
 	{
 		$identity=new UserIdentity($username,$password);
 		if($identity->authenticate())
-			Yii::app()->user->login($identity);
+			Yee::app()->user->login($identity);
 		return $identity->isAuthenticated;
 	}
 

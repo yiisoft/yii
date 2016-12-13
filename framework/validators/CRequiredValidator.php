@@ -3,9 +3,9 @@
  * CRequiredValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -60,14 +60,14 @@ class CRequiredValidator extends CValidator
 		{
 			if(!$this->strict && $value!=$this->requiredValue || $this->strict && $value!==$this->requiredValue)
 			{
-				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be {value}.',
+				$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} must be {value}.',
 					array('{value}'=>$this->requiredValue));
 				$this->addError($object,$attribute,$message);
 			}
 		}
 		elseif($this->isEmpty($value,$this->trim))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} cannot be blank.');
+			$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} cannot be blank.');
 			$this->addError($object,$attribute,$message);
 		}
 	}
@@ -86,7 +86,7 @@ class CRequiredValidator extends CValidator
 		if($this->requiredValue!==null)
 		{
 			if($message===null)
-				$message=Yii::t('yii','{attribute} must be {value}.');
+				$message=Yee::t('yee','{attribute} must be {value}.');
 			$message=strtr($message, array(
 				'{value}'=>$this->requiredValue,
 				'{attribute}'=>$object->getAttributeLabel($attribute),
@@ -100,7 +100,7 @@ if(value!=" . CJSON::encode($this->requiredValue) . ") {
 		else
 		{
 			if($message===null)
-				$message=Yii::t('yii','{attribute} cannot be blank.');
+				$message=Yee::t('yee','{attribute} cannot be blank.');
 			$message=strtr($message, array(
 				'{attribute}'=>$object->getAttributeLabel($attribute),
 			));

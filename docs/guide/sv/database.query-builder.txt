@@ -1,7 +1,7 @@
 Frågeverktyg (Query Builder)
 ============================
 
-Yii:s frågeverktyg erbjuder en objektorienterad variant för framställning av SQL-frågor. 
+Yee:s frågeverktyg erbjuder en objektorienterad variant för framställning av SQL-frågor. 
 Verktyget möjliggör för utvecklare att använda klassmetoder och propertyn för specificering 
 av de enskilda delarna av en SQL-fråga. Därefter sammanställer verktyget de olika delarna till 
 en giltig SQL-fråga som kan exekveras genom amrop till DAO-metoderna som beskrivs i [Data Access Objects](/doc/guide/database.dao). 
@@ -9,7 +9,7 @@ Nedan visas exempel på typisk användning av frågeverktyget för att bygga en 
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yee::app()->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -41,7 +41,7 @@ skrivas direkt med SQL-satser.
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yee::app()->db->createCommand('SELECT * FROM tbl_user');
 > // Nedanstående rad kommer INTE att lägga till ett WHERE-led till ovanstående SQL
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -52,16 +52,16 @@ skrivas direkt med SQL-satser.
 Förbereda frågeverktyget
 ------------------------
 
-Yii:s frågeverktyg är relaterat till [CDbCommand], den huvudsakliga DB-frågeklassen beskriven i [Data Access Objects](/doc/guide/database.dao).
+Yee:s frågeverktyg är relaterat till [CDbCommand], den huvudsakliga DB-frågeklassen beskriven i [Data Access Objects](/doc/guide/database.dao).
 
 För att börja använda frågeverktyget skapar vi en ny instans av [CDbCommand]
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 ~~~
 
-Det vill säga, vi använder `Yii::app()->db` för att erhålla DB-anslutningen och anropar sedan [CDbConnection::createCommand()] 
+Det vill säga, vi använder `Yee::app()->db` för att erhålla DB-anslutningen och anropar sedan [CDbConnection::createCommand()] 
 för att skapa den önskade command-instansen.
 
 Märk att i stället för att lämna med en komplett SQL-sats vid anropet av `createCommand()`, så som är brukligt 
@@ -421,7 +421,7 @@ Exempel:
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -435,7 +435,7 @@ Detta kan ske genom anrop av [CDbCommand::getText()].
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -447,7 +447,7 @@ Om det finns parametrar som skall knytas till frågan, kan dessa hämtas via pro
 ### Alternativ syntax för att bygga frågor
 
 Ibland är användning av metodkedja (method chaining) för att bygga en fråga inte det optimala valet. 
-Yii:s frågeverktyg tillåter att man bygger en fråga genom att helt enkelt tilldela värden till ett objekts propertyn. 
+Yee:s frågeverktyg tillåter att man bygger en fråga genom att helt enkelt tilldela värden till ett objekts propertyn. 
 Specifikt finns för varje metod i frågeverktyget en motsvarande property med samma namn. Tilldelning av ett värde 
 till propertyn är ekvivalent med att anropa motsvarande metod. Till exempel så är följande två uttryck ekvivalenta, 
 förutsatt att `$command` representerar ett [CDbCommand]-objekt:
@@ -464,7 +464,7 @@ Detta innebär att vi kan använda följande kod för att bygga en fråga:
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yee::app()->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -482,7 +482,7 @@ Till exempel:
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

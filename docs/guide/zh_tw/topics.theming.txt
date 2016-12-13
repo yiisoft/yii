@@ -3,13 +3,13 @@
 
 主題是一個在 Web 應用程式裡制定網頁外觀的系統方式。通過採用一個新的主題，網頁應用程式的整體外觀可以及時和戲劇性的改變。
 
-在 Yii，每個主題由一個目錄代表，包含視圖檔案，佈局檔案和相關的資源檔案，如圖片， CSS檔案，JavaScript 檔案等。主題的名字就是他的目錄名字。全部主題都放在在同一目錄 `WebRoot/themes` 下 。在任何時候，只有一個主題可以被啟動。
+在 Yee，每個主題由一個目錄代表，包含視圖檔案，佈局檔案和相關的資源檔案，如圖片， CSS檔案，JavaScript 檔案等。主題的名字就是他的目錄名字。全部主題都放在在同一目錄 `WebRoot/themes` 下 。在任何時候，只有一個主題可以被啟動。
 
 > 提示：預設的主題根目錄 `WebRoot/themes` 可被配置成其他的。只需要配置 [themeManager|CWebApplication::themeManager] 應用程式元件的屬性 [basePath|CThemeManager::basePath] 和 [baseUrl|CThemeManager::baseUrl] 為你所要的值。
 
 要啟動一個主題，設置 Web 應用程式的屬性 [theme|CWebApplication::theme] 為你所要的名字。可以在 [application configuration](/doc/guide/basics.application#application-configuration)中配置或者在執行過程中在控制器的動作裡面修改。
 
-> 註：主題名稱是區分大小寫的。如果您嘗試啟動一個不存在的主題，`Yii::app()->theme` 將返回 `null`。
+> 註：主題名稱是區分大小寫的。如果您嘗試啟動一個不存在的主題，`Yee::app()->theme` 將返回 `null`。
 
 主題目錄裡面內容的組織方式和 [application base path](/doc/guide/basics.application#application-base-directory)目錄下的組織方式一樣。例如，所有的視圖檔案必須位於 `views` 下 ，佈局視圖檔案在 `views/layouts` 下 ，系統視圖檔案在 `views/system` 下。例如，如果我們要替換 `PostController` 的 `create` 視圖檔案為 `classic` 主題，我們將儲存新的視圖檔案為 `WebRoot/themes/classic/views/post/create.php`。
 
@@ -23,7 +23,7 @@
 
 > ~~~
 > [php]
-> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> Yee::app()->theme->baseUrl . '/images/FileName.gif'
 > ~~~
 >
 
@@ -75,7 +75,7 @@ return array(
 主題小工具
 ---------------
 
-版本 1.1.5 後，小工具的視圖也可以主題化。特別是，當我們調用 [CWidget::render()] 來呈現小工具視圖，Yii 會嘗試搜尋在主題目錄下尋找小工具的視圖檔案。
+版本 1.1.5 後，小工具的視圖也可以主題化。特別是，當我們調用 [CWidget::render()] 來呈現小工具視圖，Yee 會嘗試搜尋在主題目錄下尋找小工具的視圖檔案。
 
 想把一個 `Foo` 小工具的視圖 `xyz` 主題化，我們應該先建立一個目錄叫做 `Foo`（跟小工具同） 在當前啟動的主題視圖目錄。如果一個小工具置於命名空間裡（PHP 5.3.0 以上），像是 `\app\widgets\Foo`，我們應建議一個叫做 `app_widgets_Foo` 的目錄。就是，我們用底線置換了命名空間的分隔符號。
 
@@ -87,7 +87,7 @@ return array(
 
 > Note|注意: 這功能版本 1.1.3 才支援。
 
-當使用一個第三方或是 Yii 提供的小工具，我們通常需要客製化來符合特殊需求。例如，我們可能會想要改變 [CLinkPager::maxButtonCount] 的值由 10（預設） 變 5。我們可以透過調用 [CBaseController::widget] 來建立小工具時，給定初始化的屬性值來完成。然而，如果我們使用 [CLinkPager]且必須重複在每個地方使用相同的客製化，它將變得很麻煩。
+當使用一個第三方或是 Yee 提供的小工具，我們通常需要客製化來符合特殊需求。例如，我們可能會想要改變 [CLinkPager::maxButtonCount] 的值由 10（預設） 變 5。我們可以透過調用 [CBaseController::widget] 來建立小工具時，給定初始化的屬性值來完成。然而，如果我們使用 [CLinkPager]且必須重複在每個地方使用相同的客製化，它將變得很麻煩。
 
 ~~~
 [php]
@@ -215,11 +215,11 @@ return array(
 )); ?>
 ~~~
 
-值得注意的是，使用主題時外表功能並不是必需的。然而，當一個主題啟動，Yii 也會搜尋主題資料夾下的 `skins` 資料夾下的外表（例如：`WebRoot/themes/classic/views/skins`）。如果相同名稱的外表同時存在主題和主要應用程式的視圖資料夾，主題的外表會被優先採用。
+值得注意的是，使用主題時外表功能並不是必需的。然而，當一個主題啟動，Yee 也會搜尋主題資料夾下的 `skins` 資料夾下的外表（例如：`WebRoot/themes/classic/views/skins`）。如果相同名稱的外表同時存在主題和主要應用程式的視圖資料夾，主題的外表會被優先採用。
 
-如果一個小工使用一個不存在的外表，Yii 還是會建立他並且不會產生錯誤。
+如果一個小工使用一個不存在的外表，Yee 還是會建立他並且不會產生錯誤。
 
-> Info|提示: 使用外表可能會降低效能因為 Yii 需要搜尋外表的檔案，在一個小工具第一次被建立的時候。
+> Info|提示: 使用外表可能會降低效能因為 Yee 需要搜尋外表的檔案，在一個小工具第一次被建立的時候。
 
 外表功能與全域小工具客製化功能相似。最主要的差別是。
 

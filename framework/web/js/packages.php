@@ -6,25 +6,25 @@
  * of the returned array.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 return array(
 	'jquery'=>array(
 		'js'=>array(YII_DEBUG ? 'jquery.js' : 'jquery.min.js'),
 	),
-	'yii'=>array(
-		'js'=>array('jquery.yii.js'),
+	'yee'=>array(
+		'js'=>array('jquery.yee.js'),
 		'depends'=>array('jquery'),
 	),
-	'yiitab'=>array(
-		'js'=>array('jquery.yiitab.js'),
+	'yeetab'=>array(
+		'js'=>array('jquery.yeetab.js'),
 		'depends'=>array('jquery'),
 	),
-	'yiiactiveform'=>array(
-		'js'=>array('jquery.yiiactiveform.js'),
+	'yeeactiveform'=>array(
+		'js'=>array('jquery.yeeactiveform.js'),
 		'depends'=>array('jquery'),
 	),
 	'jquery.ui'=>array(

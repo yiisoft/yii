@@ -1,7 +1,7 @@
 Fehlerbehandlung
 ================
 
-Yii bietet ein vollständiges Framework zur Fehlerbehandlung, das auf dem
+Yee bietet ein vollständiges Framework zur Fehlerbehandlung, das auf dem
 Exception-Mechanismus von PHP 5 basiert. Wenn eine Applikation erzeugt wird,
 um einen eingehenden Benutzer-Request zu bearbeiten, registriert sie ihre
 [handleError|CApplication::handleError]-Methode (sinngem.: behandle Fehler), 
@@ -18,7 +18,7 @@ nötige Prozedur zur Bearbeitung des Fehlers einleiten.
 Aufruf der PHP-Funktionen 
 [set_exception_handler](http://www.php.net/manual/de/function.set-exception-handler.php)
 und [set_error_handler](http://www.php.net/manual/de/function.set-error-handler.php)
-registriert. Wenn Sie nicht möchten, dass Yii sich um Fehler und Exceptions
+registriert. Wenn Sie nicht möchten, dass Yee sich um Fehler und Exceptions
 kümmert, können Sie im [Startscript](/doc/guide/basics.entry) die Konstanten 
 `YII_ENABLE_ERROR_HANDLER` und `YII_ENABLE_EXCEPTION_HANDLER` als false definieren.
 
@@ -32,7 +32,7 @@ Exception) von keinem Eventhandler behandelt wird, ruft die Routine die
 Auslösen von Exceptions
 -----------------------
 
-Das Auslösen einer Exception (Ausnahme) in Yii unterscheidet sich nicht vom
+Das Auslösen einer Exception (Ausnahme) in Yee unterscheidet sich nicht vom
 Auslösen einer normalen PHP-Exception. Exceptions werden bei Bedarf mit
 folgender Syntax ausgelöst:
 
@@ -41,7 +41,7 @@ folgender Syntax ausgelöst:
 throw new ExceptionClass('ExceptionMeldung');
 ~~~
 
-Yii definiert drei Exceptionklassen: [CException], [CDbException] und [CHttpException].
+Yee definiert drei Exceptionklassen: [CException], [CDbException] und [CHttpException].
 [CException] ist die allgemeine Exceptionklasse. [CDbException] steht für
 Exceptions die bei Datenbankoperationen ausgelöst werden. [CHttpException]
 ist eine Exception, die dem Besucher angezeigt werden soll. Sie hat
@@ -88,8 +88,8 @@ View-Datei:
    2. `WebVerzeichnis/protected/views/system`: dies ist das Standardverzeichnis
 für `system`-Views einer Anwendung.
 
-   3. `yii/framework/views`: dies ist das Standardverzeichnis für
-`system`-Views, die das Yii-Framework bereitstellt.
+   3. `yee/framework/views`: dies ist das Standardverzeichnis für
+`system`-Views, die das Yee-Framework bereitstellt.
 
 Möchte man die Fehlerdarstellung anpassen, kann man im System-View-Verzeichnis
 der Anwendung oder des Themes Dateien anlegen. Jede dieser View-Datei ist ein 
@@ -127,7 +127,7 @@ Die `error`-Action kann einfach so aussehen:
 [php]
 public function actionError()
 {
-	if($error=Yii::app()->errorHandler->error)
+	if($error=Yee::app()->errorHandler->error)
 		$this->render('error', $error);
 }
 ~~~

@@ -5,7 +5,7 @@ Penembolokan(Caching) merupakan sebuah cara sederhana dan efektif guna meningkat
 Web. Dengan menyimpan data yang relatif statis dalam cache dan mengambilnya dari
 cache bila diperlukan, maka kita dapat menghemat waktu yang diperlukan dalam menghasilkan data.
 
-Pada utamanya, pemakaian cache dalam Yii mencakup pengaturan dan pengaksesan komponen aplikasi
+Pada utamanya, pemakaian cache dalam Yee mencakup pengaturan dan pengaksesan komponen aplikasi
 cache. Konfigurasi aplikasi berikut merincikan komponen cache yang
 menggunakan memcache dengan dua server cache.
 
@@ -27,9 +27,9 @@ array(
 ~~~
 
 Ketika aplikasi berjalan, komponen cache dapat diakses melalui
-`Yii::app()->cache`.
+`Yee::app()->cache`.
 
-Yii menyediakan berbagai komponen cache yang dapat menyimpan data cache dalam
+Yee menyediakan berbagai komponen cache yang dapat menyimpan data cache dalam
 berbagai media. Misalnya, komponen [CMemCache] mengenkapsulasi extension
 PHP memcache dan menggunakan memori sebagai media penyimpanan cache; komponen
 [CApcCache] mengenkapsulasi extension PHP APC; dan komponen
@@ -60,8 +60,8 @@ komponen ini adalah menyederhanakan kode yang perlu memeriksa ketersediaan cache
 Misalnya, selama pengembangan atau jika server tidak memiliki dukungan cache yang sebenarnya, kita
 dapat menggunakan komponen cache ini. Seandainya dukungan cache yang sebenarnya dihidupkan, kita dapat beralih
 ke penggunaan komponen cache yang terkait. Dalam kedua kasus tersebut, kita dapat menggunakan kode yang sama
-`Yii::app()->cache->get($key)` untuk mencoba mengambil bagian data tanpa perlu mencemaskan
-apakah `Yii::app()->cache` mungkin bernilai `null`. 
+`Yee::app()->cache->get($key)` untuk mencoba mengambil bagian data tanpa perlu mencemaskan
+apakah `Yee::app()->cache` mungkin bernilai `null`. 
 
 > Tip: Karena semua komponen cache ini diturunkan dari basis kelas yang sama, yakni
 [CCache], Anda bisa beralih untuk menggunakan tipe cache yang lain tanpa perlu mengubah

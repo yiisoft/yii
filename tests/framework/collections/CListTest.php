@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.collections.CList');
+Yee::import('system.collections.CList');
 
 class ListItem
 {

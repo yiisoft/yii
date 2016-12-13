@@ -1,7 +1,7 @@
 Kontrola błędów
 ==============
 
-Yii dostarcza kompletnego frameworku do zarządzania błędami, bazującego na mechanizmie
+Yee dostarcza kompletnego frameworku do zarządzania błędami, bazującego na mechanizmie
 wyjątków w PHP5. Podczas tworzenia aplikacji przeznaczonej do przetwarzania 
 przychodzących żądań użytkownika rejestrowana jest jej metoda 
 [handleException|CApplication::handleException], która przechwytuje błędy i ostrzeżenia PHP.
@@ -14,7 +14,7 @@ odpowiednią procedurę kontroli błędów.
 > Tip|Wskazówka: Rejestracja kontrolerów błędów następuje w konstruktorze aplikacji poprzez 
 wywołanie funkcji PHP [set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php)
 oraz [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php).
-Jeśli nie chcesz by Yii zarządzało błędami i wyjątkami, musisz zdefiniować zmienną
+Jeśli nie chcesz by Yee zarządzało błędami i wyjątkami, musisz zdefiniować zmienną
 `YII_ENABLE_ERROR_HANDLER` oraz `YII_ENABLE_EXCEPTION_HANDLER` i przypisać jej wartość false w 
 [skrypcie wejściowym](/doc/guide/basics.entry).
 
@@ -27,7 +27,7 @@ to wezwie na pomoc komponent aplikacji [errorHandler|CErrorHandler].
 Zgłaszanie wyjątków 
 ------------------
 
-Zgłaszanie wyjątków w Yii nie różni się niczym od zgłaszania zwykłych wyjątków w PHP.
+Zgłaszanie wyjątków w Yee nie różni się niczym od zgłaszania zwykłych wyjątków w PHP.
 Można użyć następującej składni aby zgłosić wyjątek, gdy nastąpi taka potrzeba:
 
 ~~~
@@ -35,7 +35,7 @@ Można użyć następującej składni aby zgłosić wyjątek, gdy nastąpi taka 
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii definiuje trzy klasy wyjątków: [CException], [CDbException] oraz [CHttpException]. 
+Yee definiuje trzy klasy wyjątków: [CException], [CDbException] oraz [CHttpException]. 
 [CException] jest ogólną klasą wyjątków. [CDbException] reprezentuje wyjątek powodowany
 przez pewne operacje związane z bazą danych. [CHttpException] reprezentuje wyjątek, który powinien być 
 wyświetlony użytkownikowi końcowemu. Przenosi on również właściwość 
@@ -77,8 +77,8 @@ W tym przypadku deweloperzy powinni polegać na logu błędów aby odnaleźć pr
    systemowych dla aplikacji.
    
 
-   3. `yii/framework/views`: jest to standardowy folder systemowy dostarczony wraz 
-   z frameworkiem Yii.
+   3. `yee/framework/views`: jest to standardowy folder systemowy dostarczony wraz 
+   z frameworkiem Yee.
 
 Dlatego też, jeśli chcemy dostosować do własnych potrzeb wyświetlanie błędów, 
 możemy po prostu utworzyć plik widoku w folderze systemowym aplikacji lub tematu.
@@ -88,7 +88,7 @@ Aby uzyskać więcej szczegółów, zobacz domyślne pliki widoków w folderze `
 Obsługa błędów przy użyciu akcji
 --------------------------------
 
-Yii umożliwia używanie [akcji kontrolera](/doc/guide/basics.controller#action)
+Yee umożliwia używanie [akcji kontrolera](/doc/guide/basics.controller#action)
 do obsługi wyświetlania błędu. Aby to uzyskać, powinniśmy skonfigurować obsługę błędu 
 w konfiguracji aplikacji w następujący sposób:
 
@@ -113,7 +113,7 @@ Możemy napisać akcję `error` w następujący sposób:
 [php]
 public function actionError()
 {
-  if($error=Yii::app()->errorHandler->error)
+  if($error=Yee::app()->errorHandler->error)
     $this->render('error', $error);
 }
 ~~~

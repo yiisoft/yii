@@ -1,7 +1,7 @@
 创建用户菜单 Portlet
 ==========================
 
-基于需求分析，我们需要三个不同的 portlet （译者注：如果一开始不理解什么是 portlet 没关系，继续往下看就知道了。）：“用户菜单” portlet，“标签云” portlet 和“最新评论” portlet 。我们将通过继承Yii提供的 [CPortlet] 小物件开发这三个 portlet。
+基于需求分析，我们需要三个不同的 portlet （译者注：如果一开始不理解什么是 portlet 没关系，继续往下看就知道了。）：“用户菜单” portlet，“标签云” portlet 和“最新评论” portlet 。我们将通过继承Yee提供的 [CPortlet] 小物件开发这三个 portlet。
 
 在这一节中，我们将开发第一个具体的 portlet ——用户菜单 portlet，它显示一个只对已通过身份验证的用户可见的菜单。此菜单包含四个项目：
 
@@ -18,13 +18,13 @@
 
 ~~~
 [php]
-Yii::import('zii.widgets.CPortlet');
+Yee::import('zii.widgets.CPortlet');
 
 class UserMenu extends CPortlet
 {
 	public function init()
 	{
-		$this->title=CHtml::encode(Yii::app()->user->name);
+		$this->title=CHtml::encode(Yee::app()->user->name);
 		parent::init();
 	}
 
@@ -37,7 +37,7 @@ class UserMenu extends CPortlet
 
 `UserMenu` 类继承自 `zii` 库中的 `CPortlet` 类。它覆盖了 `CPortlet` 类的 `init()` 和 `renderContent()` 方法。前者设置 portlet 的标题为当前用户的名字；后者通过渲染一个名为 `userMenu` 的视图生成 portlet 的主体内容。
 
-> Tip|提示: 注意，我们必须在首次使用之前通过调用 `Yii::import()` 显式包含 `CPortlet` 类。这是因为 `CPortlet` 是 `zii` 工程的一部分。`zii` 工程是 Yii 的官方扩展库。出于性能的考虑，此工程中的类并未列入核心类。因此，我们必须在首次使用之前将其导入（import）。
+> Tip|提示: 注意，我们必须在首次使用之前通过调用 `Yee::import()` 显式包含 `CPortlet` 类。这是因为 `CPortlet` 是 `zii` 工程的一部分。`zii` 工程是 Yee 的官方扩展库。出于性能的考虑，此工程中的类并未列入核心类。因此，我们必须在首次使用之前将其导入（import）。
 
 
 创建 `userMenu` 视图
@@ -68,7 +68,7 @@ class UserMenu extends CPortlet
 [php]
 ......
 <div id="sidebar">
-	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+	<?php if(!Yee::app()->user->isGuest) $this->widget('UserMenu'); ?>
 </div>
 ......
 ~~~
@@ -89,6 +89,6 @@ class UserMenu extends CPortlet
 总结
 -------
 
-我们创建的是一个 portlet， 它是高度可复用的。我们可以稍加修改或不作修改就能很容易地把它用在另一个不同的工程中。此外，此 portlet 的设计完美重现了表现与逻辑分离的思想。虽然我们在前面的部分中没有提到这一点，但此实践在一个典型的 Yii 应用中几乎随处可见。
+我们创建的是一个 portlet， 它是高度可复用的。我们可以稍加修改或不作修改就能很容易地把它用在另一个不同的工程中。此外，此 portlet 的设计完美重现了表现与逻辑分离的思想。虽然我们在前面的部分中没有提到这一点，但此实践在一个典型的 Yee 应用中几乎随处可见。
 
 <div class="revision">$Id: portlet.menu.txt 1739 2010-01-22 15:20:03Z qiang.xue $</div>

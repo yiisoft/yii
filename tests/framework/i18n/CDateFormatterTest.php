@@ -11,29 +11,29 @@ class CDateFormatterTest extends CTestCase
 		{
 			for($month=1;$month<=12;$month++) {
 				$day=date('t',mktime(0,0,0,$month,1,$year));
-				$weekNum=Yii::app()->dateFormatter->format("W",mktime(0,0,0,$month,$day,$year));
+				$weekNum=Yee::app()->dateFormatter->format("W",mktime(0,0,0,$month,$day,$year));
 				//echo sprintf("%d/%d/%d\t%d\n",$year,$month,$day,$weekNum);
 			}
 		}
 
-		//echo "Week number for 2011/01/01 is ".Yii::app()->dateFormatter->format("W",mktime(0,0,0,1,1,2011));
-		//echo "Week number for 2011/01/07 is ".Yii::app()->dateFormatter->format("W",mktime(0,0,0,1,7,2011));
+		//echo "Week number for 2011/01/01 is ".Yee::app()->dateFormatter->format("W",mktime(0,0,0,1,1,2011));
+		//echo "Week number for 2011/01/07 is ".Yee::app()->dateFormatter->format("W",mktime(0,0,0,1,7,2011));
 	}
 
 	public function testStringIntegerDate()
 	{
 		date_default_timezone_set('UTC');
-		$this->assertEquals('2012 09 03 07:54:09', Yii::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", 1346702049));
-		$this->assertEquals('2012 09 03 07:54:09', Yii::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '1346702049'));
-		$this->assertEquals('1927 04 30 04:05:51', Yii::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", -1346702049));
-		$this->assertEquals('1927 04 30 04:05:51', Yii::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '-1346702049'));
+		$this->assertEquals('2012 09 03 07:54:09', Yee::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", 1346702049));
+		$this->assertEquals('2012 09 03 07:54:09', Yee::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '1346702049'));
+		$this->assertEquals('1927 04 30 04:05:51', Yee::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", -1346702049));
+		$this->assertEquals('1927 04 30 04:05:51', Yee::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '-1346702049'));
 	}
 
 	public function testStrToTimeDate()
 	{
 		date_default_timezone_set('UTC');
-		$this->assertEquals('2012 09 03 09:54:09', Yii::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '2012-09-03 09:54:09 UTC'));
-		$this->assertEquals('1927 04 30 05:05:51', Yii::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '1927-04-30 05:05:51 UTC'));
+		$this->assertEquals('2012 09 03 09:54:09', Yee::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '2012-09-03 09:54:09 UTC'));
+		$this->assertEquals('1927 04 30 05:05:51', Yee::app()->dateFormatter->format("yyyy MM dd hh:mm:ss", '1927-04-30 05:05:51 UTC'));
 	}
 
 	public function providerFormatWeekInMonth()
@@ -83,24 +83,24 @@ class CDateFormatterTest extends CTestCase
 	public function testFormatWeekInMonth($date,$expected)
 	{
 		list($year, $month, $day) = explode('.', $date);
-		$this->assertEquals($expected, Yii::app()->dateFormatter->format('W', mktime(12, 0, 0, (int)$month, (int)$day, (int)$year)));
+		$this->assertEquals($expected, Yee::app()->dateFormatter->format('W', mktime(12, 0, 0, (int)$month, (int)$day, (int)$year)));
 	}
 
 	public function testTimeZones()
 	{
 		date_default_timezone_set('UTC');
-		$this->assertEquals('+00:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+		$this->assertEquals('+00:00', Yee::app()->dateFormatter->format('ZZZZZ', time()));
 
 		date_default_timezone_set('Etc/GMT-6');
-		$this->assertEquals('+06:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+		$this->assertEquals('+06:00', Yee::app()->dateFormatter->format('ZZZZZ', time()));
 
 		date_default_timezone_set('Etc/GMT+10');
-		$this->assertEquals('-10:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+		$this->assertEquals('-10:00', Yee::app()->dateFormatter->format('ZZZZZ', time()));
 
 		date_default_timezone_set('Europe/Berlin');
-		$this->assertEquals(date('I') == '1' ? '+02:00' : '+01:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+		$this->assertEquals(date('I') == '1' ? '+02:00' : '+01:00', Yee::app()->dateFormatter->format('ZZZZZ', time()));
 
 		date_default_timezone_set('America/Los_Angeles');
-		$this->assertEquals(date('I') == '1' ? '-07:00' : '-08:00', Yii::app()->dateFormatter->format('ZZZZZ', time()));
+		$this->assertEquals(date('I') == '1' ? '-07:00' : '-08:00', Yee::app()->dateFormatter->format('ZZZZZ', time()));
 	}
 }

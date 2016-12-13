@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.collections.CStack');
+Yee::import('system.collections.CStack');
 
 class CStackTest extends CTestCase
 {

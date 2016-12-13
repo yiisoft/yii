@@ -1,7 +1,7 @@
 Active Record
 =============
 
-Meskipun Yii DAO secara virtual dapat menangani setiap tugas terkait database,
+Meskipun Yee DAO secara virtual dapat menangani setiap tugas terkait database,
 kemungkinan kita akan menghabiskan 90% waktu kita dalam penulisan beberapa pernyataan SQL
 yang melakukan operasi umum CRUD (create, read, update dan delete) tetap ada.
 Pemeliharaan kode kita saat dicampur dengan pernyataan SQL juga akan menambah kesulitan.
@@ -40,7 +40,7 @@ CREATE TABLE tbl_post (
 
 > Note|Catatan: AR tidak ditujukan untuk memecahkan semua tugas-tugas terkait-database. 
 AR paling cocok dipakai untuk memodelkan tabel database dalam konstruksi PHP dan melakukan
-query yang tidak melibatkan SQL yang kompleks. Yii DAO baru dipakai untuk skenario
+query yang tidak melibatkan SQL yang kompleks. Yee DAO baru dipakai untuk skenario
 kompleks tersebut.
 
 
@@ -241,7 +241,7 @@ $post->save();
 > Tip: Karena AR mengijinkan kita untuk melakukan operasi database tanpa menulis
 sejumlah pernyataan SQL, seringkali kita ingin mengetahui pernyataan SQL apa yang dijalankan
 oleh AR. Ini bisa dilakukan dengan menghidupkan [fitur pencatatan](/doc/guide/topics.logging)
-pada Yii. Sebagai contoh, kita dapat menghidupkan [CWebLogRoute] dalam konfigurasi aplikasi,
+pada Yee. Sebagai contoh, kita dapat menghidupkan [CWebLogRoute] dalam konfigurasi aplikasi,
 dan kita akan melihat pernyataan SQL yang dijalankan untuk ditampilkan  di akhir setiap halaman Web.
 Kita dapat menyetel [CDbConnection::enableParamLogging] menjadi true dalam
 konfigurasi aplikasi agar nilai parameter yang diikat ke pernyataan SQL
@@ -493,10 +493,10 @@ Oleh karena itu, untuk membandingkan dua instance AR, kita perlu membandingkan
 nilai primary key-nya, menganggap keduanya milik kelas AR yang sama. Cara
 paling sederhana adalah dengan memanggil [CActiveRecord::equals()].
 
-> Info: Tidak seperti implementasi AR dalam framework lain, Yii mendukung
+> Info: Tidak seperti implementasi AR dalam framework lain, Yee mendukung
 primary key composite dalam turunan AR-nya. Kunci primer terdiri dari dua
 atau lebih kolom. Secara bersamaan, nilai primary key disajikan sebagai
-array dalam Yii. Properti [primaryKey|CActiveRecord::primaryKey] memberikan
+array dalam Yee. Properti [primaryKey|CActiveRecord::primaryKey] memberikan
 nilai primary key pada turunan AR.
 
 Kustomisasi
@@ -533,7 +533,7 @@ Menggunakan Transaksi dengan AR
 Setiap instance AR berisi properti bernama
 [dbConnection|CActiveRecord::dbConnection] yang merupakan turunan dari [CDbConnection].
 Kita dapat menggunakan fitur
-[transaksi](/doc/guide/database.dao#using-transactions) yang disediakan oleh Yii
+[transaksi](/doc/guide/database.dao#using-transactions) yang disediakan oleh Yee
 DAO jika diinginkan saat bekerja dengan AR:
 
 ~~~
@@ -636,13 +636,13 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"language='".Yii::app()->language."'",
+			'condition'=>"language='".Yee::app()->language."'",
 		);
 	}
 }
 ~~~
 
-Sekarang, jika metode di bawah ini dipanggil, Yii akan secara otomatis menggunakan kriteria query seperti didefinisikan di atas:
+Sekarang, jika metode di bawah ini dipanggil, Yee akan secara otomatis menggunakan kriteria query seperti didefinisikan di atas:
 
 ~~~
 [php]

@@ -6,14 +6,14 @@ Schnittstelle für den Zugriff auf unterschiedliche Datenbanksysteme (DMBS).
 Verwendet man DAO, kann auf ein anderes DBMS umgestellt werden, ohne den
 entsprechenden Code ändern zu müssen.
 
-Yii DAO basieren auf den [PHP Data Objects
+Yee DAO basieren auf den [PHP Data Objects
 (PDO)](http://php.net/manual/en/book.pdo.php).
 Diese PHP-Erweiterung ermöglicht vereinheitlichten Zugriff auf viele bekannte
-DMBS, wie z.B. MySQL und PostgreSQL. Möchte man Yii DAO verwenden, muss daher
+DMBS, wie z.B. MySQL und PostgreSQL. Möchte man Yee DAO verwenden, muss daher
 die PDO-Erweiterung und die entsprechenden PDO-Datenbanktreiber 
 (z.B. `PDO_MYSQL`) installiert sein.
 
-Yii DAO besteht im Wesentlichen aus den folgenden vier Klassen:
+Yee DAO besteht im Wesentlichen aus den folgenden vier Klassen:
 
    - [CDbConnection]: entspricht einer Datenbankverbindung
    - [CDbCommand]: entspricht einer auzuführende SQL-Anweisung
@@ -77,7 +77,7 @@ array(
 )
 ~~~
 
-Über `Yii::app()->db` kann man dann auf eine bereits aktivierte
+Über `Yee::app()->db` kann man dann auf eine bereits aktivierte
 Verbindung zugreifen, es sei denn, [CDbConnection::autoConnect]
 wurde auf false gesetzt. Auf diese Weise steht in der gesamten 
 Anwendung die selbe DB-Verbindung zur Verfügung. 
@@ -92,7 +92,7 @@ aufruft:
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // Vorausgesetzt, Sie haben eine "db"-Komponente konfiguriert
+$connection=Yee::app()->db;   // Vorausgesetzt, Sie haben eine "db"-Komponente konfiguriert
 // Falls nicht, können Sie auch eine neue Verbindung erstellen:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
@@ -155,14 +155,14 @@ Wenn eine Anwendung mehrere lesende und/oder schreibende Anweisungen ausführt,
 ist es wichtig, dass die Datenbank am Ende nicht in einem inkonsistenten Zustand 
 verbleibt, weil nicht alle Anweisungen erfolgreich abgeschlossen werden
 konnten. Zu diesem Zweck leitet man am besten eine Transaktion ein, die in 
-Yii durch eine Instanz von [CDbTransaction] repräsentiert wird.
+Yee durch eine Instanz von [CDbTransaction] repräsentiert wird.
 
    - Transaktion beginnen.
    - Abfragen der Reihe nach ausführen. Änderungen sind von außen noch nicht sichtbar.
    - Abschließen der Transaktion mit Commit. Bei Erfolg sind die Änderungen danach auch von außen sichtbar.
    - Scheitert eine der Anfragen, wird die ganze Transaktion zurückgefahren.
 
-Diesen Ablauf kann man in Yii so implementieren:
+Diesen Ablauf kann man in Yee so implementieren:
 
 ~~~
 [php]
@@ -250,7 +250,7 @@ Ein Tabellenpräfix wird allen Tabellennamen der aktuellen Verbindung
 vorangestellt.  Es wird meist in gemeinsam genutzten Hosting-Umgebungen verwendet, wo mehrere
 Anwendungen sich eine einzelne Datenbank teilen und zur Unterscheidung eben
 verschiedene Präfixe verwenden. Eine Anwendung könnte z.B. `tbl_`, eine andere
-`yii_` vor alle Tabellennamen stellen.
+`yee_` vor alle Tabellennamen stellen.
 
 Ein Tabellenpräfix wird über die Eigenschaft [CDbConnection::tablePrefix]
 konfiguriert. In SQL-Ausdrücken kann man dann `{{TabellenName}}` statt

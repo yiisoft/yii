@@ -21,13 +21,13 @@ $this->menu=array(
 	array('label'=>'Create <?php echo $this->modelClass; ?>', 'url'=>array('create')),
 );
 
-Yii::app()->clientScript->registerScript('search', "
+Yee::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#<?php echo $this->class2id($this->modelClass); ?>-grid').yiiGridView('update', {
+	$('#<?php echo $this->class2id($this->modelClass); ?>-grid').yeeGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;

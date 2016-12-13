@@ -40,7 +40,7 @@ Mudanças Relacionadas a Alias de Tabelas no Active Record Relacional
 ------------------------------------------------------------
 
 - O alias padrão para uma tabela relacional agora é o mesmo que o nome da
-relação. Anteriormente, na versão 1.0.x, o Yii por padrão automaticamente
+relação. Anteriormente, na versão 1.0.x, o Yee por padrão automaticamente
 geraria um alias de tabela para cada tabela relacional, e tínhamos de usar
 o prefixo `??.` para nos referir a este alias gerado automaticamente.
 

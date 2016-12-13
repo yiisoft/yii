@@ -1,7 +1,7 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.ar.CActiveRecord');
+Yee::import('system.db.CDbConnection');
+Yee::import('system.db.ar.CActiveRecord');
 
 require_once(dirname(__FILE__).'/../data/models.php');
 
@@ -155,7 +155,7 @@ class CActiveRecordEventWrappersTest extends CTestCase
 
 	/**
 	 * setting select in beforeFind should not effect select on stat relation
-	 * https://github.com/yiisoft/yii/issues/1381
+	 * https://github.com/yeesoft/yee/issues/1381
 	 */
 	public function testBeforeFindStatSelect()
 	{
@@ -542,7 +542,7 @@ class CActiveRecordEventWrappersTest extends CTestCase
 
 	/**
 	 * CActiveRecord::getRelated doesn't call afterFind() with `through` relation
-	 * https://github.com/yiisoft/yii/issues/591
+	 * https://github.com/yeesoft/yee/issues/591
 	 */
 	public function testIssue591()
 	{

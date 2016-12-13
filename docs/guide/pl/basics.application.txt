@@ -9,7 +9,7 @@ Służy on również jako główne miejsce przechowujące ustawienia konfiguracj
 Z tego powodu, obiekt aplikacji jest również nazywany `front-controller'em`.
 
 Obiekt aplikacji jest tworzony jako singleton przez [skrypt wejściowy](/doc/guide/basics.entry).
-Jest on dostępny w każdym miejscu poprzez wywołanie [Yii::app()|YiiBase::app].
+Jest on dostępny w każdym miejscu poprzez wywołanie [Yee::app()|YeeBase::app].
 
 
 Konfiguracja aplikacji
@@ -29,7 +29,7 @@ Na przykład, następująca tablica konfiguracyjna, ustawia właściwości [name
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -43,12 +43,12 @@ return array(...);
 ~~~
 
 Aby zastosować konfigurację, przekazujemy nazwę pliku konfiguracyjnego jako parametr
-do konstruktora aplikacji lub do metody [Yii::createWebApplication()] w następujący
+do konstruktora aplikacji lub do metody [Yee::createWebApplication()] w następujący
 sposób, zazwyczaj w [skrypcie wejściowym](/doc/guide/basics.entry):
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip|Wskazówka: Jeśli konfiguracja aplikacji jest bardzo złożona, możemy podzielić ją 
@@ -111,8 +111,8 @@ W powyższym przykładzie, dodaliśmy element `cache` do tablicy komponentów `c
 Element `cache` mówi, iż klasą komponentu jest `CMemCache` a jej właściwość `servers` 
 powinna być w taki i taki sposób zainicjalizowana.
 
-Aby dostać się do komponentu aplikacji używamy `Yii::app()->ComponentID`, gdzie
-`ComponentID` odnosi się do ID komponentu (np. `Yii::app()->cache`).
+Aby dostać się do komponentu aplikacji używamy `Yee::app()->ComponentID`, gdzie
+`ComponentID` odnosi się do ID komponentu (np. `Yee::app()->cache`).
 
 Komponent aplikacji może zostać dezaktywowany poprzez ustawienie `enabled` na false 
 w jego konfiguracji. Wartość null jest zwracana, jeśli chcemy uzyskać dostęp do 
@@ -129,11 +129,11 @@ ich numery ID we właściwości [preload|CApplication::preload] aplikacji.
 Rdzenne komponenty aplikacji (ang. Core Application Components)
 ---------------------------------------------------------------
 
-Yii predefiniuje zestaw podstawowych komponentów aplikacji aby dostarczyć funkcjonalność 
+Yee predefiniuje zestaw podstawowych komponentów aplikacji aby dostarczyć funkcjonalność 
 wspólną dla prawie wszystkich aplikacji webowych. Na przykład, komponent [request|CWebApplication::request] 
 jest używany do zbierania informacji o żądaniu użytkownika i dostarczania informacji takich jak 
 żądany URL, ciasteczka. Poprzez skonfigurowanie właściwości rdzennych komponentów, 
-możemy zmienić domyślne zachowanie Yii prawie w każdym jego aspekcie.
+możemy zmienić domyślne zachowanie Yee prawie w każdym jego aspekcie.
 
 Poniżej znajduje się lista rdzennych komponentów, które są predeklarowane w [CWebApplication].
 
@@ -152,7 +152,7 @@ Poniżej znajduje się lista rdzennych komponentów, które są predeklarowane w
    skryptami klienta (javascript oraz CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] - dostarcza 
-   tłumaczenia rdzennych komunikatów używanych przez framework Yii.
+   tłumaczenia rdzennych komunikatów używanych przez framework Yee.
 
    - [db|CApplication::db]: [CDbConnection] - dostarcza połączenia z bazą danych. 
    Zauważ, że aby móc używać tego komponentu, musisz skonfigurować jego właściwość 
@@ -164,7 +164,7 @@ Poniżej znajduje się lista rdzennych komponentów, które są predeklarowane w
    - [format|CApplication::format]: [CFormatter] - formatuje wartości danych w celu wyświetlenia.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - dostarcza przetłumaczone
-   komunikaty używane przez aplikacje Yii.
+   komunikaty używane przez aplikacje Yee.
 
    - [request|CWebApplication::request]: [CHttpRequest] - dostarcza informacji 
    związanych z żądaniem użytkownika.

@@ -1,7 +1,7 @@
 Logging
 ==================
 
-Yii menyediakan fitur logging yang fleksibel dan bisa ekstensibel. Logging message
+Yee menyediakan fitur logging yang fleksibel dan bisa ekstensibel. Logging message
 dapat diklasifikasikan berdasarkan level log atau kategori message. Menggunakan
 filter tingkat dan kategori, message yang dipilih selanjutnya bisa diarahkan ke
 tujuan yang berbeda, misalnya file, email, jendela browser, dll.
@@ -9,14 +9,14 @@ tujuan yang berbeda, misalnya file, email, jendela browser, dll.
 Logging Message
 ----------------
 
-Message dapat dicatat dengan memanggil [Yii::log] atau [Yii::trace]. Perbedaan
-di antara kedua metode ini adalah bahwa [Yii::trace] hanya mencatat message
+Message dapat dicatat dengan memanggil [Yee::log] atau [Yee::trace]. Perbedaan
+di antara kedua metode ini adalah bahwa [Yee::trace] hanya mencatat message
 saat aplikasi dalam [mode debug](/doc/guide/basics.entry#debug-mode).
 
 ~~~
 [php]
-Yii::log($message, $level, $category);
-Yii::trace($message, $category);
+Yee::log($message, $level, $category);
+Yee::trace($message, $category);
 ~~~
 
 Ketika mencatat message, kita harus menetapkan tingkat dan kategorinya.
@@ -25,7 +25,7 @@ Kategori adalah string dalam bentuk `xxx.yyy.zzz` yang mirip dengan
 dalam [CController], kita bisa menggunakan kategori `system.web.CController`.
 Level message harus salah satu dari nilai berikut:
 
-   - `trace`: ini adalah tingkat yang dipakai oleh [Yii::trace]. kegunaannya untuk melacak
+   - `trace`: ini adalah tingkat yang dipakai oleh [Yee::trace]. kegunaannya untuk melacak
 alur eksekusi aplikasi selama pengembangan.
 
    - `info`: ini untuk pencatatan informasi umum.
@@ -40,12 +40,12 @@ dijelaskan).
 Message Routing
 ---------------------
 
-Message yang dicatat menggunakan [Yii::log] or [Yii::trace] disimpan dalam memori. Kita
+Message yang dicatat menggunakan [Yee::log] or [Yee::trace] disimpan dalam memori. Kita
 biasanya harus menampilkannya dalam browser, atau menyimpannya dalam beberapa
 media penyimpan yang menetap seperti file, email. Ini disebut *messages routing(mengirimkan
 pesan)*, misalnya mengirimkan message ke tujuan yang berbeda.
 
-Dalam Yii, message routing diatur oleh komponen aplikasi [CLogRouter].
+Dalam Yee, message routing diatur oleh komponen aplikasi [CLogRouter].
 [CLlogRouter] mengatur satu kumpulan yang disebut *log routes(rute log)*. Tiap log route
 mewakili satu tujuan log. Message yang dikirimkan bersamaan dengan log route
 bisa disaring berdasarkan pada tingkat dan kategorinya.
@@ -89,7 +89,7 @@ kategorinya dimulai dengan `system.` yang disimpan. Rute kedua adalah
 [CEmailLogRoute] yang mengirimkan message ke alamat email yang sudah ditetapkan.
 Hanya message yang tingkatannya `error` atau `warning` yang dikirimkan.
 
-Berikut Log Route yang tersedia dalam Yii:
+Berikut Log Route yang tersedia dalam Yee:
 
    - [CDbLogRoute]: menyimpan message dalam tabel database.
    - [CEmailLogRoute]: mengirimkan message ke alamat email yang ditetapkan.
@@ -158,10 +158,10 @@ array(
 ~~~
 
 
-Mulai dari versi 1.0.7, Yii mendukung pencatatan pemanggilan informasi stack dalam message yang dicatat
-dengan memanggil `Yii::trace`. Fitur ini dimatikan secara default karena memperlambat kinerja.
+Mulai dari versi 1.0.7, Yee mendukung pencatatan pemanggilan informasi stack dalam message yang dicatat
+dengan memanggil `Yee::trace`. Fitur ini dimatikan secara default karena memperlambat kinerja.
 Untuk menggunakan fitur ini, cukup definisikan konstan bernama `YII_TRACE_LEVEL` di awal entri 
-skrip (sebelum menyertakan `yii.php`) ke integer lebih besar daripada 0. Kemudian Yii akan menambahkan
+skrip (sebelum menyertakan `yee.php`) ke integer lebih besar daripada 0. Kemudian Yee akan menambahkan
 setiap pelacakan message dengan nama file dan nomor baris pada stack panggilan yang dimiliki kode
 aplikasi. Jumlah `YII_TRACE_LEVEL` menentukan berapa banyak lapisan dari setiap stack panggilan harus disimpan.
 Informasi ini adakalanya berguna selama tahap pengembangan karena dapat membantu kita mengidentifikasi
@@ -181,9 +181,9 @@ metode berikut:
 
 ~~~
 [php]
-Yii::beginProfile('blockID');
+Yee::beginProfile('blockID');
 ...blok kode sedang diukur...
-Yii::endProfile('blockID');
+Yee::endProfile('blockID');
 ~~~
 
 dengan `blockID` adalah ID yang secara unik mengidentifikasi blok kode.
@@ -204,7 +204,7 @@ Mengukur Eksekusi SQL
 Pengukuran sangat berguna terutama saat bekerja dengan database karena eksekusi SQL
 sering menjadi sumber bottleneck kinerja yang utama pada aplikasi. Sementara kita dapat menyisipkan
 pernyataan `beginProfile` dan `endProfile` secara manual di tempat yang sesuai guna mengukur
-waktu yang diperlukan dalam setiap eksekusi SQL, Yii menyediakan
+waktu yang diperlukan dalam setiap eksekusi SQL, Yee menyediakan
 pendekatan yang lebih sistematis untuk memecahkan masalah ini.
 
 Dengan menyetel [CDbConnection::enableProfiling] menjadi true dalam konfigurasi aplikasi,

@@ -10,7 +10,7 @@ To improve the reusability of these code, we can use the form builder feature.
 Basic Concepts
 --------------
 
-The Yii form builder uses a [CForm] object to represent the specifications needed to describe
+The Yee form builder uses a [CForm] object to represent the specifications needed to describe
 an HTML form, including which data models are associated with the form,
 what kind of input fields there are in the form, and how to render the whole form. Developers mainly
 need to create and configure this [CForm] object, and then call its rendering method to display

@@ -3,9 +3,9 @@
  * CBooleanValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -59,7 +59,7 @@ class CBooleanValidator extends CValidator
 
 		if(!$this->validateValue($value))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be either {true} or {false}.');
+			$message=$this->message!==null?$this->message:Yee::t('yee','{attribute} must be either {true} or {false}.');
 			$this->addError($object,$attribute,$message,array(
 				'{true}'=>$this->trueValue,
 				'{false}'=>$this->falseValue,
@@ -96,7 +96,7 @@ class CBooleanValidator extends CValidator
 	 */
 	public function clientValidateAttribute($object,$attribute)
 	{
-		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} must be either {true} or {false}.');
+		$message=$this->message!==null ? $this->message : Yee::t('yee','{attribute} must be either {true} or {false}.');
 		$message=strtr($message, array(
 			'{attribute}'=>$object->getAttributeLabel($attribute),
 			'{true}'=>$this->trueValue,

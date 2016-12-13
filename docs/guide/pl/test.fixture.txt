@@ -3,7 +3,7 @@ Konfiguracja testu
 
 Zautomatyzowane testy wykonywanie są wielokrotnie. Aby upewnić się, że proces testowania jest powtarzalny, chcielibyśmy uruchamiać testy w pewnym znanym stanie zwanym *fixture* (konfiguracją testu). Na przykład, aby przetestować funkcjonalność tworzenia postu w aplikacji blogowej, za każdym razem kiedy uruchamiamy testy, tabele zawierające odpowiednie dane o postach (np. tabela postu - `Post`, komentarzy - `Comment`) powinna zostać przywrócona do pewnego stałego stanu. [Dokumentacja PHPUnit](http://www.phpunit.de/manual/current/en/fixtures.html) dobrze opisuje tworzenie ogólnej konfiguracji testu. W tym rozdziale, opiszemy przede wszystkim jak utworzyć konfigurację testu bazodanowego, tak jak w opisanym powyżej przykładzie.
 
-Ustawianie konfiguracji testu bazodanowego jest najprawdopodobniej jedną z najbardziej czasochłonnych czynności w testowaniu aplikacji internetowej korzystającej z bazy danych. Yii dostarcza komponent aplikacji [CDbFixtureManager] aby złagodzić ten problem. Wykonuje on następujące czynności podczas uruchamiana zestawów testów:
+Ustawianie konfiguracji testu bazodanowego jest najprawdopodobniej jedną z najbardziej czasochłonnych czynności w testowaniu aplikacji internetowej korzystającej z bazy danych. Yee dostarcza komponent aplikacji [CDbFixtureManager] aby złagodzić ten problem. Wykonuje on następujące czynności podczas uruchamiana zestawów testów:
 
  * Przed uruchomieniem wszystkich testów, resetuje wszystkie tabele biorące udział w testach do znanych stanów.
  * Przed uruchomieniem pojedynczej metody testu, resetuje określone tabele biorące udział w teście do znanego stanu.

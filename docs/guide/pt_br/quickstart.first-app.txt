@@ -1,33 +1,33 @@
-Criando a primeira aplicação Yii
+Criando a primeira aplicação Yee
 ================================
 
-Para lhe dar uma experiência inicial com o Yii, descrevemos nesta seção como criar 
-a sua primeira aplicação em Yii. Nos vamos usar o `yiic` (ferramenta de linha de comando)
-para criar uma nova aplicação em Yii e `Gii` (poderoso gerador de código na web)
+Para lhe dar uma experiência inicial com o Yee, descrevemos nesta seção como criar 
+a sua primeira aplicação em Yee. Nos vamos usar o `yeec` (ferramenta de linha de comando)
+para criar uma nova aplicação em Yee e `Gii` (poderoso gerador de código na web)
 para automatizar a criação de código para determinadas tarefas. Por conveniência,
-assumiremos que `YiiRoot` é o diretório onde o Yii está instalado e `WebRoot` é
+assumiremos que `YeeRoot` é o diretório onde o Yee está instalado e `WebRoot` é
 o diretório raíz do servidor Web.
 
-Execute o `yiic` pela linha de comando, como no exemplo a seguir:
+Execute o `yeec` pela linha de comando, como no exemplo a seguir:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|Nota: Quando executamos o `yiic` no Mac OS, Linux ou Unix, devemos 
-> alterar a permissão do arquivo `yiic` para torna-lo executável.
+> Note|Nota: Quando executamos o `yeec` no Mac OS, Linux ou Unix, devemos 
+> alterar a permissão do arquivo `yeec` para torna-lo executável.
 > Como forma alternativa, você pode executa-lo da seguinte maneira:
 >
 > ~~~
 > % cd WebRoot
-> % php YiiRoot/framework/yiic.php webapp testdrive
+> % php YeeRoot/framework/yeec.php webapp testdrive
 > ~~~
 
-Esse comando irá criar um esqueleto de uma aplicação Yii no diretório `WebRoot/testdrive`. 
+Esse comando irá criar um esqueleto de uma aplicação Yee no diretório `WebRoot/testdrive`. 
 A aplicação tem um estrutura de diretórios que é a necessária para a maioria das 
-aplicações feitas no Yii.
+aplicações feitas no Yee.
 
-Sem ter escrito uma única linha de código, já podemos testar nossa primeira aplicação Yii, 
+Sem ter escrito uma única linha de código, já podemos testar nossa primeira aplicação Yee, 
 acessando a seguinte URL:
 
 ~~~
@@ -66,11 +66,11 @@ testdrive/
    images/                   Contém arquivos de imagem
    themes/                   Contém temas da aplicação
    protected/                Contém arquivos protegidos da aplicação
-      yiic                   Script de linha de comando yiic
-      yiic.bat               Script de linha de comando yiic para o Windows
-      yiic.php               Script PHP de linha de comando yiic 
-      commands/              Contém comandos 'yiic' customizados
-         shell/              Contém comandos 'yiic shell' customizados
+      yeec                   Script de linha de comando yeec
+      yeec.bat               Script de linha de comando yeec para o Windows
+      yeec.php               Script PHP de linha de comando yeec 
+      commands/              Contém comandos 'yeec' customizados
+         shell/              Contém comandos 'yeec shell' customizados
       components/            Contém componentes reutilizáveis do usuário
          Controller.php      A classe padrão para todos os controles
          UserIdentity.php    A classe 'UserIdentity' usada nas autenticações
@@ -112,7 +112,7 @@ ser rastreado) e `.gitkeep` (força o rastreamento de diretórios inicialmente v
 mas importante).
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive git
+% YeeRoot/framework/yeec webapp WebRoot/testdrive git
 ~~~
 
 Outro VCS(sistema de controle de versão) suportado é o Mercurial: passe o valor hg
@@ -160,7 +160,7 @@ CREATE TABLE tbl_user (
 Se você quiser tentar um banco de dados MySQL, você pode usar o arquivo de esquema 
 `WebRoot/testdrive/protected/data/schema.mysql.sql` para criar o banco de dados.
 
-> Note|Nota: Para utilizar os recursos de banco de dados do Yii, precisamos ativar
+> Note|Nota: Para utilizar os recursos de banco de dados do Yee, precisamos ativar
 a extensão PDO do PHP e a extensão de driver PDO específico. Para a aplicação test-drive,
 as extensões `php_pdo` e `php_pdo_sqlite` deverão estar habilitadas.
 
@@ -175,8 +175,8 @@ em aplicações reais. Em vez de se dar ao trabalho de escrever o código real, 
 usar Gii - um poderoso gerador de código baseado na web.
 
 > Info|Info: Gii está disponível desde a versão 1.1.2. Antes disso, podemos usar a 
-ferramenta mencionada `yiic` para realizar a mesma funcionalidade. Para mais detalhes,
-consulte a [Geração de código utilizando a ferramenta de linha de comando](/doc/guide/quickstart.first-app-yiic).
+ferramenta mencionada `yeec` para realizar a mesma funcionalidade. Para mais detalhes,
+consulte a [Geração de código utilizando a ferramenta de linha de comando](/doc/guide/quickstart.first-app-yeec).
 
 
 ### Configuring Gii

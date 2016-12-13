@@ -5,10 +5,10 @@ Coletar dados do usuário através de formulários HTML é uma das principais ta
 no desenvolvimento de aplicativos Web. Além de conceder formulários, os desenvolvedores 
 precisam preencher o formulário com dados existentes ou valores, validar entrada do 
 usuário, exibir mensagens de erros apropriadas para uma entrada inválida, e salvar o 
-entrada para o armazenamento persistente. Yii simplifica muito este trabalho com a 
+entrada para o armazenamento persistente. Yee simplifica muito este trabalho com a 
 sua arquitetura MVC.
 
-Os seguintes passos são tipicamente necessários ao tratar os formulários em Yii:
+Os seguintes passos são tipicamente necessários ao tratar os formulários em Yee:
 
    1. Crie uma classe modelo que representa os campos de dados a serem coletados;
    1. Crie um controlador de ação com o código que responde à submissão do formulário.

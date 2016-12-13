@@ -1,20 +1,20 @@
 Conventions
 ===========
 
-Au delà de la configuration, Yii favorise la mise en oeuvre de conventions. 
-Un bon respect des conventions permet de créer des applications Yii 
+Au delà de la configuration, Yee favorise la mise en oeuvre de conventions. 
+Un bon respect des conventions permet de créer des applications Yee 
 évoluées sans gérer ni écrire des configurations complexes. Bien évidemment,
-grâce à la configuration, les divers aspects de Yii peuvent être adaptés 
+grâce à la configuration, les divers aspects de Yee peuvent être adaptés 
 dans quasiment tous les cas de figure.
 
 Nous allons décrire dans les paragraphes suivants les recommandations que
-devrait suivre tout développeur Yii. Par convention, `WebRoot` correspond au
-dossier dans lequel l'application Yii est installée.
+devrait suivre tout développeur Yee. Par convention, `WebRoot` correspond au
+dossier dans lequel l'application Yee est installée.
 
 URL
 ---
 
-Nativement, Yii reconnait les formats d'URL suivants:
+Nativement, Yee reconnait les formats d'URL suivants:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
@@ -33,7 +33,7 @@ Cette fonctionnalité est décrite en détail dans le chapitre [Gestion des URLs
 Programmation / Code
 --------------------
 
-Yii recommande d'écrire les variables, fonctions et classes en camel case. Cela
+Yee recommande d'écrire les variables, fonctions et classes en camel case. Cela
 signifie qu'il faut mettre en majuscule la première lettre de chaque mot puis
 fusionner le tout sans espace.
 Dans le cas des noms de variables et de fonctions, la première lettre doit être 
@@ -95,11 +95,11 @@ représentant la configuration.
 Dossier
 -------
 
-Par défaut, Yii s'appuie sur plusieurs répertoires. Chacun peut
+Par défaut, Yee s'appuie sur plusieurs répertoires. Chacun peut
 être configuré en fonction des besoins.
 
    - `WebRoot/protected`: C'est le [dossier de base de l'application](/doc/guide/basics.application#application-base-directory) 
-qui contient tous les éléments sensibles (PHP et données). Yii dispose d'un
+qui contient tous les éléments sensibles (PHP et données). Yee dispose d'un
 raccourcis par défaut `application` associé à ce chemin. Tout accès à ce dossier  
 ainsi qu'à son contenu doit être interdit aux utilisateurs web. Ce chemin
 peut être modifié via la propriété [CWebApplication::basePath].
@@ -148,7 +148,7 @@ Base de données
 
 La plupart des applications Web utilisent une base de données. En guise de bonne pratique,
 nous proposons les conventions de nommage suivantes (qui ne sont pas nécessaires au bon
-fonctionnement de Yii):
+fonctionnement de Yee):
 
    - Les noms des tables et des colonnes doivent être en minuscules.
 

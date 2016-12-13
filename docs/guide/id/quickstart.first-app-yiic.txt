@@ -1,14 +1,14 @@
 Menghasilkan Kode dengan Tool Command Line (Sudah Ditinggalkan)
 ============================================================
 
-> Note|Catatan: Code generator dalam `yiic shell` sudah mulai ditinggalkan semenjak versi 1.1.2. Silahkan menggunakan generator berbasis Web yang lebih powerful dan dapat diperluas dengan [Gii](/doc/guide/topics.gii).
+> Note|Catatan: Code generator dalam `yeec shell` sudah mulai ditinggalkan semenjak versi 1.1.2. Silahkan menggunakan generator berbasis Web yang lebih powerful dan dapat diperluas dengan [Gii](/doc/guide/topics.gii).
 
 Buka sebuah window command line dan eksekusi perintah-perintah berikut,
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
+% protected/yeec shell
+Yee Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
    generate models/User.php
@@ -38,7 +38,7 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Berdasarkan contoh di atas, kita menggunakan perintah `yiic shell` untuk berinteraksi
+Berdasarkan contoh di atas, kita menggunakan perintah `yeec shell` untuk berinteraksi
 dengan kerangka aplikasi kita. Di prompt(command line), kita mengeksekusi dua buah sub-perintah:
 `model User tbl_user` dan `crud User`. Perintah yang pertama tujuannya untuk menghasilkan sebuah kelas model
 bernama `User` untuk tabel `tbl_user`. Perintah yang kedua menganalisa model `User` dan menghasilkan kode
@@ -46,10 +46,10 @@ untuk yang mengoperasikan CRUD.
 
 > Note|Catatan: Anda mungkin akan menemukan error seperti "...could not find driver", walaupun
 > ketika melihat pengecek persyaratan PDO dan driver PDO yang bersangkutan sudah diaktifkan
-> Apabila demikian mungkin Anda dapat mencoba menjalankan tool `yiic` dengan ini,
+> Apabila demikian mungkin Anda dapat mencoba menjalankan tool `yeec` dengan ini,
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 > dengan `path/to/php.ini` merupakan jalur ke file .ini si PHP.
@@ -92,4 +92,4 @@ Semua fitur-fitur menarik ini didapatkan tanpa perlu kita menulis satu baris kod
 
 
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app-yeec.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

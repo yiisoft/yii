@@ -3,9 +3,9 @@
  * This file contains the CDbFixtureManager class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -83,7 +83,7 @@ class CDbFixtureManager extends CApplicationComponent
 	{
 		parent::init();
 		if($this->basePath===null)
-			$this->basePath=Yii::getPathOfAlias('application.tests.fixtures');
+			$this->basePath=Yee::getPathOfAlias('application.tests.fixtures');
 		$this->prepare();
 	}
 
@@ -96,9 +96,9 @@ class CDbFixtureManager extends CApplicationComponent
 	{
 		if($this->_db===null)
 		{
-			$this->_db=Yii::app()->getComponent($this->connectionID);
+			$this->_db=Yee::app()->getComponent($this->connectionID);
 			if(!$this->_db instanceof CDbConnection)
-				throw new CException(Yii::t('yii','CDbTestFixture.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+				throw new CException(Yee::t('yee','CDbTestFixture.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 					array('{id}'=>$this->connectionID)));
 		}
 		return $this->_db;
@@ -298,7 +298,7 @@ class CDbFixtureManager extends CApplicationComponent
 			}
 			else
 			{
-				$modelClass=Yii::import($tableName,true);
+				$modelClass=Yee::import($tableName,true);
 				$tableName=CActiveRecord::model($modelClass)->tableName();
 			}
 			if(($prefix=$this->getDbConnection()->tablePrefix)!==null)

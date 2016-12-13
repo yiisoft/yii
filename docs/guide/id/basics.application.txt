@@ -8,7 +8,7 @@ juga sebagai tempat utama menyimpan konfigurasi level aplikasi. Oleh karena
 itulah, objek aplikasi disebut juga sebagai `front-controller(controller depan)`.
 
 Aplikasi dibuat sebagai singleton(tunggal) oleh [entry script](/doc/guide/basics.entry).
-Singleton aplikasi dapat diakses di mana saja melalui [Yii::app()|YiiBase::app].
+Singleton aplikasi dapat diakses di mana saja melalui [Yee::app()|YeeBase::app].
 
 
 Konfigurasi Aplikasi
@@ -28,7 +28,7 @@ mengeset aplikasi [name|CApplication::name] dan properti
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -43,12 +43,12 @@ return array(...);
 ~~~
 
 Untuk menerapkan konfigurasi, kita mengirim nama file konfigurasi sebagai
-sebuah parameter bagi constructor aplikasi, atau ke [Yii::createWebApplication()]
+sebuah parameter bagi constructor aplikasi, atau ke [Yee::createWebApplication()]
 , yang biasanya dikerjakan dalam [skrip  entri](/doc/guide/basics.entry), seperti berikut:
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip: Jika konfigurasi aplikasi sangat kompleks, kita dapat memisahkannya
@@ -111,8 +111,8 @@ Dalam contoh di atas, kita menambahkan elemen `cache` pada array `components`. E
 `cache` menyatakan bahwa kelas komponennya adalah
 `CMemCache` dan properti `servers` juga harus diinisialisasi.
 
-Untuk mengakses komponen aplikasi, gunakan `Yii::app()->ComponentID`, dengan
-`ComponentID` merujuk pada ID komponen (contoh `Yii::app()->cache`).
+Untuk mengakses komponen aplikasi, gunakan `Yee::app()->ComponentID`, dengan
+`ComponentID` merujuk pada ID komponen (contoh `Yee::app()->cache`).
 
 Komponen aplikasi dapat dinonaktifkan dengan menyetel `enabled` menjadi false
 dalam konfigurasinya. Null dikembalikan saat kita mengakses komponen yang telah dinonaktifkan.
@@ -128,12 +128,12 @@ aplikasi.
 Komponen Aplikasi Inti
 ----------------------
 
-Yii sudah mendefinisikan satu set komponen aplikasi inti guna menyediakan fitur
+Yee sudah mendefinisikan satu set komponen aplikasi inti guna menyediakan fitur
 yang umum dalam aplikasi Web. Sebagai contoh, komponen
 [request|CWebApplication::request] dipakai untuk mengumpulkan request pengguna
 dan menyediakan informasi seperti URL yang di-request, cookies. Dengan mengkonfigurasi properti
 komponen inti ini, kita dapat mengubah hampir segala aspek
-perilaku standar Yii.
+perilaku standar Yee.
 
 Berikut daftar komponen inti yang dideklarasikan oleh
 [CWebApplication].
@@ -152,7 +152,7 @@ mengakses komponen ini.
 mengatur skrip klien (javascript dan CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-menyediakan terjemahan pesan inti yang dipakai oleh Yii framework.
+menyediakan terjemahan pesan inti yang dipakai oleh Yee framework.
 
    - [db|CApplication::db]: [CDbConnection] - menyediakan koneksi database.
 Catatan, Anda harus mengkonfigurasi properti
@@ -166,7 +166,7 @@ exception dan kesalahan PHP yang tidak tercakup.
 sisi tampilan.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - menyediakan 
-terjemahan pesan yang dipakai oleh aplikasi Yii.
+terjemahan pesan yang dipakai oleh aplikasi Yee.
 
    - [request|CWebApplication::request]: [CHttpRequest] - menyediakan 
 informasi terkait dengan request penggguna.

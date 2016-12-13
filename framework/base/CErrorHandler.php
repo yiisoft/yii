@@ -3,12 +3,12 @@
  * This file contains the error handler application component.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('CHtml',true);
+Yee::import('CHtml',true);
 
 /**
  * CErrorHandler handles uncaught PHP errors and exceptions.
@@ -77,7 +77,7 @@ class CErrorHandler extends CApplicationComponent
 	public $discardOutput=true;
 	/**
 	 * @var string the route (eg 'site/error') to the controller action that will be used to display external errors.
-	 * Inside the action, it can retrieve the error information by Yii::app()->errorHandler->error.
+	 * Inside the action, it can retrieve the error information by Yee::app()->errorHandler->error.
 	 * This property defaults to null, meaning CErrorHandler will handle the error display.
 	 */
 	public $errorAction;
@@ -167,7 +167,7 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function handleException($exception)
 	{
-		$app=Yii::app();
+		$app=Yee::app();
 		if($app instanceof CWebApplication)
 		{
 			if(($trace=$this->getExactTrace($exception))===null)
@@ -211,7 +211,7 @@ class CErrorHandler extends CApplicationComponent
 
 			if(!headers_sent())
 			{
-				$httpVersion=Yii::app()->request->getHttpVersion();
+				$httpVersion=Yee::app()->request->getHttpVersion();
 				header("HTTP/$httpVersion {$data['code']} ".$this->getHttpHeader($data['code'], get_class($exception)));
 			}
 
@@ -251,7 +251,7 @@ class CErrorHandler extends CApplicationComponent
 			unset($trace[$i]['object']);
 		}
 
-		$app=Yii::app();
+		$app=Yee::app();
 		if($app instanceof CWebApplication)
 		{
 			switch($event->code)
@@ -289,7 +289,7 @@ class CErrorHandler extends CApplicationComponent
 			);
 			if(!headers_sent())
 			{
-				$httpVersion=Yii::app()->request->getHttpVersion();
+				$httpVersion=Yee::app()->request->getHttpVersion();
 				header("HTTP/$httpVersion 500 Internal Server Error");
 			}
 
@@ -352,7 +352,7 @@ class CErrorHandler extends CApplicationComponent
 		else
 		{
 			if($this->isAjaxRequest())
-				Yii::app()->displayException($exception);
+				Yee::app()->displayException($exception);
 			else
 				$this->render('exception',$this->getError());
 		}
@@ -365,12 +365,12 @@ class CErrorHandler extends CApplicationComponent
 	protected function renderError()
 	{
 		if($this->errorAction!==null)
-			Yii::app()->runController($this->errorAction);
+			Yee::app()->runController($this->errorAction);
 		else
 		{
 			$data=$this->getError();
 			if($this->isAjaxRequest())
-				Yii::app()->displayError($data['code'],$data['message'],$data['file'],$data['line']);
+				Yee::app()->displayError($data['code'],$data['message'],$data['file'],$data['line']);
 			elseif(YII_DEBUG)
 				$this->render('exception',$data);
 			else
@@ -387,8 +387,8 @@ class CErrorHandler extends CApplicationComponent
 	protected function getViewFile($view,$code)
 	{
 		$viewPaths=array(
-			Yii::app()->getTheme()===null ? null :  Yii::app()->getTheme()->getSystemViewPath(),
-			Yii::app() instanceof CWebApplication ? Yii::app()->getSystemViewPath() : null,
+			Yee::app()->getTheme()===null ? null :  Yee::app()->getTheme()->getSystemViewPath(),
+			Yee::app() instanceof CWebApplication ? Yee::app()->getSystemViewPath() : null,
 			YII_PATH.DIRECTORY_SEPARATOR.'views',
 		);
 
@@ -413,7 +413,7 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function getViewFileInternal($viewPath,$view,$code,$srcLanguage=null)
 	{
-		$app=Yii::app();
+		$app=Yee::app();
 		if($view==='error')
 		{
 			$viewFile=$app->findLocalizedFile($viewPath.DIRECTORY_SEPARATOR."error{$code}.php",$srcLanguage);
@@ -434,7 +434,7 @@ class CErrorHandler extends CApplicationComponent
 	{
 		if(YII_DEBUG)
 		{
-			$version='<a href="http://www.yiiframework.com/">Yii Framework</a>/'.Yii::getVersion();
+			$version='<a href="http://www.yeeframework.com/">Yee Framework</a>/'.Yee::getVersion();
 			if(isset($_SERVER['SERVER_SOFTWARE']))
 				$version=$_SERVER['SERVER_SOFTWARE'].' '.$version;
 		}

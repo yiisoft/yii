@@ -1,7 +1,7 @@
 Active Record
 =============
 
-Apesar do DAO do Yii ser capaz de cuidar, praticamente, de qualquer tarefa 
+Apesar do DAO do Yee ser capaz de cuidar, praticamente, de qualquer tarefa 
 relacionada a banco de dados, há uma grande chance de que, ainda, gastaríamos 90% 
 do nosso tempo escrevendo instruções SQL para efetuar as operações de CRUD (create 
 (criar), read (ler), update (atualizar) e delete (excluir)). Além disso, nosso 
@@ -42,7 +42,7 @@ CREATE TABLE Post (
 
 > Note|Nota: A intenção do AR não é resolver todas tarefas relacionadas a banco 
 de dados. Ele é melhor utilizado para modelar tabelas do banco para estruturas no 
-PHP e executar consultas que não envolvem instruções SQL complexas. O DAO do Yii 
+PHP e executar consultas que não envolvem instruções SQL complexas. O DAO do Yee 
 é o recomendado para esses cenários mais complexos.
 
 Estabelecendo uma Conexão com o Bando de Dados
@@ -218,7 +218,7 @@ $post->save();
 > Tip|Dica: Embora o Active Record torne possível que sejam realizadas operações 
 no banco de dados sem a necessidade de escrever consultas em SQL, geralmente 
 queremos saber quais consultas estão sendo executadas pelo AR. Para isso, ative 
-o recurso de [registros de logs](/doc/guide/topics.logging) do Yii. Por exemplo, 
+o recurso de [registros de logs](/doc/guide/topics.logging) do Yee. Por exemplo, 
 podemos ativar o componente [CWebLogRoute] na configuração da aplicação, e, então 
 poderemos ver as instruções SQL executadas exibidas no final de cada página. Desde 
 a versão 1.0.5, podemos alterar o valor da propriedade [CDbConnection::enableParamLogging] 
@@ -468,9 +468,9 @@ pertencem a mesma classe. Entretanto, existe uma maneira mais simples de compara
 que é utilizar o método [CActiveRecord::equals()].
 
 > Info|Informação: Diferente das implementações de Active Record em outros 
-frameworks, o Yii suporta chaves primárias compostas em seu AR. Uma chave primária 
+frameworks, o Yee suporta chaves primárias compostas em seu AR. Uma chave primária 
 composta é formada por duas ou mais colunas. De forma correspondente, a chave 
-primária é representada por um vetor no Yii. A propriedade [primaryKey|CActiveRecord::primaryKey] 
+primária é representada por um vetor no Yee. A propriedade [primaryKey|CActiveRecord::primaryKey] 
 retorna a chave uma instância AR.
 
 Personalização
@@ -506,7 +506,7 @@ Utilizando Transações com AR
 
 Todas as instâncias AR contém uma propriedade chamada [dbConnection|CActiveRecord::dbConnection] 
 que é uma instância da classe [CDbConnection]. Podemos então, utilizar o recurso 
-de [transações](/doc/guide/database.dao#using-transactions) existente no DAO do Yii 
+de [transações](/doc/guide/database.dao#using-transactions) existente no DAO do Yee 
 para trabalhar com Active Record.
 
 ~~~
@@ -640,7 +640,7 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"idioma='".Yii::app()->idioma."'",
+			'condition'=>"idioma='".Yee::app()->idioma."'",
 		);
 	}
 }

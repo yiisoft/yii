@@ -40,7 +40,7 @@ weiteren SQL-Abfrage, die alle verbundenen Objekte zurückliefert. In Version
 ------------------------------------------------------------
 
 - Der Standardalias für relationale Tabellen entspricht jetzt dem Namen der
-zugehörigen Beziehung. In Version 1.0.x hat Yii die Namen der Verbundtabellen
+zugehörigen Beziehung. In Version 1.0.x hat Yee die Namen der Verbundtabellen
 standardmäßig automatisch erzeugt und man musste die Präfix `??` verwenden,
 um sich auf diesen Alias zu beziehen.
 

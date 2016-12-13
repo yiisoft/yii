@@ -2,10 +2,10 @@
 	- [Vue d'ensemble](index)
 	- [Nouvelles fonctionnalités](changes)
 	- [Migrer de la version 1.0 à la 1.1](upgrade)
-	- [Qu'est-ce que Yii](quickstart.what-is-yii)
+	- [Qu'est-ce que Yee](quickstart.what-is-yee)
 	- [Installation](quickstart.installation)
 	- [Les configurations Apache et Nginx](quickstart.apache-nginx-config)
-	- [Créer sa première application Yii](quickstart.first-app)
+	- [Créer sa première application Yee](quickstart.first-app)
 
 * Fondamentaux
 	- [Modèle-Vue-Contrôleur (MVC)](basics.mvc)
@@ -44,7 +44,7 @@
 	- [Cache de pages](caching.page)
 	- [Contenu dynamique](caching.dynamic)
 
-* Etendre Yii
+* Etendre Yee
 	- [Vue d'ensemble](extension.overview)
 	- [Utiliser les extensions](extension.use)
 	- [Créer des extensions](extension.create)
@@ -69,6 +69,6 @@
 	- [Applications en ligne de commande](topics.console)
 	- [Securité](topics.security)
 	- [Optimisation](topics.performance)
-	- [Génération de code à l'aide des outils de ligne de commande (obsolète)](quickstart.first-app-yiic)
+	- [Génération de code à l'aide des outils de ligne de commande (obsolète)](quickstart.first-app-yeec)
 
 <div class="revision">$Id: toc.txt 1409 $</div>

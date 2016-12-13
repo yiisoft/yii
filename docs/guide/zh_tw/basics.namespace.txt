@@ -1,7 +1,7 @@
 路徑別名與命名空間
 ========================
 
-Yii 中廣泛的使用了路徑別名。路徑別名關聯於一個目錄或文件的路徑。它以點語法指定，類別似於廣泛使用的命名空間（namespace）格式：
+Yee 中廣泛的使用了路徑別名。路徑別名關聯於一個目錄或文件的路徑。它以點語法指定，類別似於廣泛使用的命名空間（namespace）格式：
 
 ~~~
 RootAlias.path.to.target
@@ -9,28 +9,28 @@ RootAlias.path.to.target
 
 其中的 `RootAlias` 是某個現存目錄的別名。
 
-通過使用 [YiiBase::getPathOfAlias()]， 別名可以被翻譯為其相應的路徑。
-例如： `system.web.CController` 會被翻譯為 `yii/framework/web/CController`。
+通過使用 [YeeBase::getPathOfAlias()]， 別名可以被翻譯為其相應的路徑。
+例如： `system.web.CController` 會被翻譯為 `yee/framework/web/CController`。
 
-通過調用 [YiiBase::setPathOfAlias()]，我們可以定義新的根路徑別名。
+通過調用 [YeeBase::setPathOfAlias()]，我們可以定義新的根路徑別名。
 
 
 根路徑別名
 ----------
 
-為方便起見，Yii 預定義了以下幾個根別名：
+為方便起見，Yee 預定義了以下幾個根別名：
 
- - `system`: 表示 Yii 框架目錄；
+ - `system`: 表示 Yee 框架目錄；
  - `zii`: 表示 [Zii 函式庫](/doc/guide/extension.use#zii-extensions) 目錄；
  - `application`: 表示應用程式的 [基礎目錄](/doc/guide/basics.application#application-base-directory)；
  - `webroot`: 表示 [入口腳本](/doc/guide/basics.entry) 文件所在的目錄。此別名從版本 1.0.3 開始有效。
  - `ext`: 表示包含了所有第三方 [擴展](/doc/guide/extension.overview) 的目錄。此別名從版本 1.0.8 開始有效。
 
-額外的，如果應用程式使用了 [模組](/doc/guide/basics.module), （Yii） 也為每個模組 ID 定義了根別名，指向相應模組的根目錄。
+額外的，如果應用程式使用了 [模組](/doc/guide/basics.module), （Yee） 也為每個模組 ID 定義了根別名，指向相應模組的根目錄。
 此功能從版本 1.0.3 起有效。
 
-通過使用 [YiiBase::getPathOfAlias()], 別名可以被翻譯為其相應的路徑。
-例如： `system.web.CController` 會被翻譯為 `yii/framework/web/CController`。
+通過使用 [YeeBase::getPathOfAlias()], 別名可以被翻譯為其相應的路徑。
+例如： `system.web.CController` 會被翻譯為 `yee/framework/web/CController`。
 
 
 載入類別
@@ -41,26 +41,26 @@ RootAlias.path.to.target
 
 ~~~
 [php]
-Yii::import('system.web.CController');
+Yee::import('system.web.CController');
 ~~~
 
-[import|YiiBase::import] 方法跟  `include` 和 `require` 不同，它更加有效率。
+[import|YeeBase::import] 方法跟  `include` 和 `require` 不同，它更加有效率。
 導入（import）的類別定義並不會真正被包含進來，直到它第一次被引用。
 多次導入同樣的命名空間也會比  `include_once` 和 `require_once` 快得多。
 
-> Tip|提示: 當引用 Yii 框架定義的類別時，我們不需要導入或包含它。所有的核心 Yii
+> Tip|提示: 當引用 Yee 框架定義的類別時，我們不需要導入或包含它。所有的核心 Yee
 類別都已被提前導入了。
 
 ###使用類別映射
 
-從1.1.5版本開始，Yii允許用戶定義的類別通過使類別映射機制來預先導入，這也是 Yii 核心類別使用的方法。
-預先引入機制可以在Yii應用程式的任何地方使用，無需顯式地導入或者包含檔案。這個特性對於一個建立在 Yii 基礎上的框架或者類別庫來說很有用。
+從1.1.5版本開始，Yee允許用戶定義的類別通過使類別映射機制來預先導入，這也是 Yee 核心類別使用的方法。
+預先引入機制可以在Yee應用程式的任何地方使用，無需顯式地導入或者包含檔案。這個特性對於一個建立在 Yee 基礎上的框架或者類別庫來說很有用。
 
 若要使用預先載入功能，要在 [CWebApplication::run()] 執行前執行下面的程式碼：
 
 ~~~
 [php]
-Yii::$classMap=array(
+Yee::$classMap=array(
 	'ClassName1' => 'path/to/ClassName1.php',
 	'ClassName2' => 'path/to/ClassName2.php',
 	......
@@ -75,11 +75,11 @@ Yii::$classMap=array(
 
 ~~~
 [php]
-Yii::import('system.web.*');
+Yee::import('system.web.*');
 ~~~
 
-除 [import|YiiBase::import] 外， 別名還在其他許多地方指向類別。
-例如：路徑別名可以傳遞給 [Yii::createComponent()] 以建立相應類別的實例。
+除 [import|YeeBase::import] 外， 別名還在其他許多地方指向類別。
+例如：路徑別名可以傳遞給 [Yee::createComponent()] 以建立相應類別的實例。
 即使類別文件在之前從未被包含。
 
 
@@ -90,8 +90,8 @@ Yii::import('system.web.*');
 而路徑別名是用於指向一個類別文件或目錄。路徑別名與命名空間並不衝突。
 
 > Tip|提示: 由於 5.3.0 版本之前的 PHP 本質上不支援命名空間，所以無法建立兩個具有相同名字但不同定義的類別實體。
-有鑒於此，所有的 Yii 框架類別都以字母 'C'（意為 'Class'） 作前綴，這樣它們可以區分於用戶定義的類別。我們建議前綴 'C'
-只保留給 Yii 框架使用，用戶定義的類別則使用其他的字母作前綴。
+有鑒於此，所有的 Yee 框架類別都以字母 'C'（意為 'Class'） 作前綴，這樣它們可以區分於用戶定義的類別。我們建議前綴 'C'
+只保留給 Yee 框架使用，用戶定義的類別則使用其他的字母作前綴。
 
 
 使用命名空間的類別
@@ -101,7 +101,7 @@ Yii::import('system.web.*');
 是在命名空間 `application\components` 下的類別。使用命名空間需要 PHP 5.3.0 或者以上版本。
 
 從 1.1.5 開始，可以無需清楚的載入而使用一個包含命名空間的類別。比如說，我們可以建立一個 `application\components\GoogleMap` 
-的實體而無需去處理載入的路徑，這樣就增強了 Yii 的自動導入機制。
+的實體而無需去處理載入的路徑，這樣就增強了 Yee 的自動導入機制。
 
 若要自動導入使用命名空間的類別，命名空間的格式必須和路徑別名相似。比如說，類別 `application\components\GoogleMap` 
 所對應的路徑必須和別名 `application.components.GoogleMap` 一致。
@@ -110,14 +110,14 @@ Yii::import('system.web.*');
 
 ~~~
 [php]
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 ~~~
 
 
 命名空間的控制器
 ----------------------
 
-Yii 預設是使用全域命名空間的控制器，這些類別位於 `protected/controllers`，有兩種方式可以改變他的行為：使用  `controllerMap` 或是 `controllerNamespace`。前者允許在不同的命名空間使用控制器，後者則需要在為所有控制器設定一個共同的命名空間時做一些額外的設定。
+Yee 預設是使用全域命名空間的控制器，這些類別位於 `protected/controllers`，有兩種方式可以改變他的行為：使用  `controllerMap` 或是 `controllerNamespace`。前者允許在不同的命名空間使用控制器，後者則需要在為所有控制器設定一個共同的命名空間時做一些額外的設定。
 
 ### 使用 `controllerMap`
 
@@ -127,7 +127,7 @@ Yii 預設是使用全域命名空間的控制器，這些類別位於 `protecte
 ~~~
 [php]
 // 增加 "mynamespace" 命名空間
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
@@ -138,7 +138,7 @@ return array(
 	),
 ~~~
 
-當使用者試著載入 `controllerMap` 中定義的任一個控制器，Yii 不會透過一般控制器的載入方式來載入類別。在 `test` 情況下，Yii 會載入位於 `/var/www/common/mynamespace/controllers/TestController.php` 這個命名空間的類別 `\mynamespace\controllers\TestController`。 
+當使用者試著載入 `controllerMap` 中定義的任一個控制器，Yee 不會透過一般控制器的載入方式來載入類別。在 `test` 情況下，Yee 會載入位於 `/var/www/common/mynamespace/controllers/TestController.php` 這個命名空間的類別 `\mynamespace\controllers\TestController`。 
 
 注意控制器的程式碼必須正確的給予命名空間：
 
@@ -223,7 +223,7 @@ class DefaultController extends \Controller
 ~~~
 [php]
 // 增加 "mynamespace" 命名空間
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',

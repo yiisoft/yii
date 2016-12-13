@@ -33,10 +33,10 @@ class GuideController extends CController
 	public function actionView()
 	{
 		$topic=$this->getTopic();
-		$file=Yii::getPathOfAlias("docs.guide.{$this->language}").DIRECTORY_SEPARATOR.$topic.'.txt';
+		$file=Yee::getPathOfAlias("docs.guide.{$this->language}").DIRECTORY_SEPARATOR.$topic.'.txt';
 
 		if(!is_file($file))
-			$file=Yii::getPathOfAlias("docs.guide").DIRECTORY_SEPARATOR.$topic.'.txt';
+			$file=Yee::getPathOfAlias("docs.guide").DIRECTORY_SEPARATOR.$topic.'.txt';
 
 		if(!strcasecmp($topic,'toc') || !is_file($file))
 			throw new CHttpException(404,'The page you looked for does not exist.');
@@ -45,14 +45,14 @@ class GuideController extends CController
 		$markdown=new MarkdownParser;
 		$content=$markdown->safeTransform($content);
 
-		$imageUrl=Yii::app()->baseUrl.'/guide/images';
+		$imageUrl=Yee::app()->baseUrl.'/guide/images';
 		$content=preg_replace('/<p>\s*<img(.*?)src="(.*?)"\s+alt="(.*?)"\s*\/>\s*<\/p>/',
 			"<div class=\"image\"><p>\\3</p><img\\1src=\"$imageUrl/\\2\" alt=\"\\3\" /></div>",$content);
 
 		$content=preg_replace_callback('/href="\/doc\/guide\/(.*?)\/?"/',array($this,'replaceGuideLink'),$content);
-		$content=preg_replace('/href="(\/doc\/api\/.*?)"/','href="http://www.yiiframework.com$1"',$content);
+		$content=preg_replace('/href="(\/doc\/api\/.*?)"/','href="http://www.yeeframework.com$1"',$content);
 
-		$this->pageTitle='The Definitive Guide to Yii';
+		$this->pageTitle='The Definitive Guide to Yee';
 		if($topic!=='index' && preg_match('/<h1[^>]*>(.*?)</',$content,$matches))
 			$this->pageTitle.=' - '.CHtml::encode($matches[1]);
 
@@ -83,9 +83,9 @@ class GuideController extends CController
 	{
 		if($this->_topics===null)
 		{
-			$file=Yii::getPathOfAlias("docs.guide.{$this->language}.toc").'.txt';
+			$file=Yee::getPathOfAlias("docs.guide.{$this->language}.toc").'.txt';
 			if(!is_file($file))
-				$file=Yii::getPathOfAlias('docs.guide.toc').'.txt';
+				$file=Yee::getPathOfAlias('docs.guide.toc').'.txt';
 			$lines=file($file);
 			$chapter='';
 			foreach($lines as $line)
@@ -117,7 +117,7 @@ class GuideController extends CController
 	{
 		if($this->_languages===null)
 		{
-			$basePath=Yii::getPathOfAlias('docs.guide');
+			$basePath=Yee::getPathOfAlias('docs.guide');
 			$dir=opendir($basePath);
 			$this->_languages=array('en'=>'English');
 			while(($file=readdir($dir))!==false)

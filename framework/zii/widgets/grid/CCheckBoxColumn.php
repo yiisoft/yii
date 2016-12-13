@@ -3,12 +3,12 @@
  * CCheckBoxColumn class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.grid.CGridColumn');
+Yee::import('zii.widgets.grid.CGridColumn');
 
 /**
  * CCheckBoxColumn represents a grid view column of checkboxes.
@@ -109,7 +109,7 @@ class CCheckBoxColumn extends CGridColumn
 	 * <li>null - {@link CGridView::selectableRows} is used to control how many checkboxes can be checked.
 	 * Checking a checkbox will also select the row.</li>
 	 * </ul>
-	 * You may also call the JavaScript function <code>$(gridID).yiiGridView('getChecked', columnID)</code>
+	 * You may also call the JavaScript function <code>$(gridID).yeeGridView('getChecked', columnID)</code>
 	 * to retrieve the key values of the checked rows.
 	 * @since 1.1.6
 	 */
@@ -182,7 +182,7 @@ jQuery(document).on('click', "input[name='$name']", function() {
 	$cbcode
 });
 EOD;
-			Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id,$js);
+			Yee::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id,$js);
 		}
 	}
 

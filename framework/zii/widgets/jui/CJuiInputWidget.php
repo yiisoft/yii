@@ -3,12 +3,12 @@
  * CJuiInputWidget class file.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiWidget');
+Yee::import('zii.widgets.jui.CJuiWidget');
 
 /**
  * CJuiInputWidget is the base class for JUI widgets that can collect user input.
@@ -56,7 +56,7 @@ abstract class CJuiInputWidget extends CJuiWidget
 		elseif($this->hasModel())
 			$name=CHtml::activeName($this->model,$this->$attributeProperty);
 		else
-			throw new CException(Yii::t('zii','{class} must specify "model" and "{attribute}" or "{name}" property values.',
+			throw new CException(Yee::t('zii','{class} must specify "model" and "{attribute}" or "{name}" property values.',
 				array('{class}'=>get_class($this),'{attribute}'=>$attributeProperty,'{name}'=>$nameProperty)));
 
 		if(($id=$this->getId(false))===null)

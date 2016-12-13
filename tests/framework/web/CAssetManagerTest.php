@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.web.CAssetManager');
+Yee::import('system.web.CAssetManager');
 
 class CAssetManagerTest extends CTestCase
 {

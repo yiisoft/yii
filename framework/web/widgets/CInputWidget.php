@@ -3,9 +3,9 @@
  * CInputWidget class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -58,7 +58,7 @@ abstract class CInputWidget extends CWidget
 		elseif($this->hasModel())
 			$name=CHtml::activeName($this->model,$this->attribute);
 		else
-			throw new CException(Yii::t('yii','{class} must specify "model" and "attribute" or "name" property values.',array('{class}'=>get_class($this))));
+			throw new CException(Yee::t('yee','{class} must specify "model" and "attribute" or "name" property values.',array('{class}'=>get_class($this))));
 
 		if(($id=$this->getId(false))===null)
 		{

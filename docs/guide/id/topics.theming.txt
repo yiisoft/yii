@@ -5,7 +5,7 @@ Tema adalah cara sistematis mengkustomisasi tampilan halaman dalam aplikasi
 Web. Dengan menerapkan tema baru, penampilan aplikasi Web secara keseluruhan
 bisa diubah secara instan dan secara dramatis.
 
-Dalam Yii, setiap tema disajikan sebagai direktori yang terdiri dari file view,
+Dalam Yee, setiap tema disajikan sebagai direktori yang terdiri dari file view,
 file layout, dan file sumber daya relevan seperti file gambar, file CSS,
 file JavaScript, dll.  Nama tema adalah nama direktorinya. Semua tema
 berada di bawah dierktori yang sama `WebRoot/themes`. Hanya ada satu tema saja
@@ -28,7 +28,7 @@ aplikasi](/doc/guide/basics.application#application-configuration) maupun selama
 dalam aksi kontoler.
 
 > Note|Catatan: Nama tema bersifat case-sensitive. Jika Anda mencoba
-mengaktifkan tema yang tidak ada, `Yii::app()->theme` akan mengembalikan `null`.
+mengaktifkan tema yang tidak ada, `Yee::app()->theme` akan mengembalikan `null`.
 
 
 Pembuatan Tema
@@ -66,7 +66,7 @@ Sebaliknya, jika gagal akan kembali ke lokasi seperti yang ditetapkan oleh
 >
 > ~~~
 > [php]
-> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> Yee::app()->theme->baseUrl . '/images/FileName.gif'
 > ~~~
 >
 
@@ -121,7 +121,7 @@ di dalam tema tersebut, maka aplikasi akan menggunakan yang biasanya yakni di di
 Pemberian Tema pada Widget (Theming Widgets)
 ---------------
 
-Di mulai semenjak versi 1.1.5, view yang digunakan sebagai widget juga dapat diberi tema. Khususnya, ketika kita memanggil [CWidget::render()] untuk me-render sebuah view widget, Yii akan mencoba untuk mencari di folder theme dan juga folder view widget untuk mendapatkan file view yang diinginkan.
+Di mulai semenjak versi 1.1.5, view yang digunakan sebagai widget juga dapat diberi tema. Khususnya, ketika kita memanggil [CWidget::render()] untuk me-render sebuah view widget, Yee akan mencoba untuk mencari di folder theme dan juga folder view widget untuk mendapatkan file view yang diinginkan.
 
 Guna memberikan tema pada view `xyz` untuk widget dengan nama kelas `Foo`, kita harus pertama membuat sebuah folder bernama `Foo` (sama dengan nama kelas widget) di dalam folder view tema aktif sekarang. Jika kelas widget di-namespace-kan (tersedia di PHP 5.3.0 atau ke atas), seperti `\app\widgets\Foo`, kita harus membuat sebuah folder bernama `app_widgets_Foo`. Kita kemudian menggantikan separator namespace dengan karakter garis bawah(underscore).
 
@@ -134,7 +134,7 @@ Kustomisasi Widget Secara Global
 > Note|Catatan : Fitur ini sudah tersedia di versi 1.1.3
 
 Kita sering perlu mengutak atik widget ketika menggunakannya baik yang disediakan
-oleh pihak ketiga maupun yang disediakan Yii. Misalnya, kita mungkin ingin mengubah
+oleh pihak ketiga maupun yang disediakan Yee. Misalnya, kita mungkin ingin mengubah
 nilai dari [ClinkPager::maxButtonCount] dari 10(secara default) menjadi 5. Kita bisa
 saja memecahkan masalah ini dengan mengirim nilai properti awal ketika memanggil
 [CBaseController::widget] untuk membuat sebuah widget. Namun, akan merepotkan
@@ -274,11 +274,11 @@ Jika kita membuat widget dengan satu set nilai awal properti, maka nilai-nilai p
 )); ?>
 ~~~
 
-Harap diperhatikan bahwa fitur skin TIDAK memerlukan tema(themes). Namun ketika sebuah tema sedang aktif, Yii juga akan mencari skin di direktori `skins` pada direktori view-nya tema (misalnya di `WebRoot/themes/classic/views/skins`). Misalnya sebuah skin dengan nama yang sama ternyata memang ada di dua tempat baik di tema maupun di direktori view aplikasi utama, maka skin tema akan ambil yang di tema.
+Harap diperhatikan bahwa fitur skin TIDAK memerlukan tema(themes). Namun ketika sebuah tema sedang aktif, Yee juga akan mencari skin di direktori `skins` pada direktori view-nya tema (misalnya di `WebRoot/themes/classic/views/skins`). Misalnya sebuah skin dengan nama yang sama ternyata memang ada di dua tempat baik di tema maupun di direktori view aplikasi utama, maka skin tema akan ambil yang di tema.
 
-Jika widget menggunakan skin yang tidak ada, Yii tetap akan membuat widget seperti biasanya tanpa ada galat(error) apapun.
+Jika widget menggunakan skin yang tidak ada, Yee tetap akan membuat widget seperti biasanya tanpa ada galat(error) apapun.
 
-> Info: Menggunakan skin bisa menurunkan performa karena Yii harus mencari file skin pada saat widget pertama kali dibuat.
+> Info: Menggunakan skin bisa menurunkan performa karena Yee harus mencari file skin pada saat widget pertama kali dibuat.
 
 Skin sangat mirip dengan fitur kustomisasi widget global.
 Perbedaan utamanya adalah:

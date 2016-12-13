@@ -3,7 +3,7 @@ Używanie rozszerzeń
 
 Używanie rozszerzeń zwykle obejmuje następujące trzy kroki:
 
-  1. Pobranie rozszerzenia z [repozytorium rozszerzeń Yii](http://www.yiiframework.com/extensions/).
+  1. Pobranie rozszerzenia z [repozytorium rozszerzeń Yee](http://www.yeeframework.com/extensions/).
   2. Rozpakowania rozszerzenia do katalogu `extensions/xyz` będącego podkatalogiem 
      [głównego folderu aplikacji](/doc/guide/basics.application#application-base-directory),
      gdzie `xyz` jest nazwą rozszerzenia.
@@ -24,10 +24,10 @@ Rozszerzenie Zii
 
 Zanim rozpoczniemy opisywanie jak używać rozszerzenia firm trzecich, chcielibyśmy przedstawić
 bibliotekę rozszerzeń Zii, która jest zestawem rozszerzeń oprogranowanych przez zespół 
-programistów Yii. Jest ona dołączana do każdego wydania.
+programistów Yee. Jest ona dołączana do każdego wydania.
 
 Podczas używanie rozszerzenia Zii, należy odnosić się do odpowiednich klas używając aliasu ścieżki
-w formacie `zii.ścieżka.do.NazwyKlasy`. Główny alias  `zii` został zdefiniowany w Yii. Wskazuje on na 
+w formacie `zii.ścieżka.do.NazwyKlasy`. Główny alias  `zii` został zdefiniowany w Yee. Wskazuje on na 
 główny katalog biblioteki Zii. Na przykład, aby używać klasy [CGridView], będziemy używali 
 następującego kodu w skrypcie widoku gdy będziemy odnosić się do rozszerzenia:
 
@@ -62,7 +62,7 @@ return array(
 );
 ~~~
 
-Następnie możemy uzyskać dostęp do komponentu w każdym miejscu używając `Yii::app()->xyz`.
+Następnie możemy uzyskać dostęp do komponentu w każdym miejscu używając `Yee::app()->xyz`.
 Komponent zostanie leniwie stworzony (to znaczy, będzie utworzony wtedy gdy zażądamy
 dostępu do niego po raz pierwszy) chyba, że wpiszemy go do właściwości `preload`.
 
@@ -264,7 +264,7 @@ class MyModel extends CActiveRecord // lub CFormModel
 Konsola poleceń
 ---------------
 Rozszerzenie [konsoli poleceń](/doc/guide/topics.console) zazwyczaj wyposaża narzędzie 
-`yiic` w dodatkowe polecenie. Biorąc pod uwagę polecenie konsoli `XyzClass` 
+`yeec` w dodatkowe polecenie. Biorąc pod uwagę polecenie konsoli `XyzClass` 
 należące do rozszerzenia `xyz`, możemy użyć go poprzez skonfigurowanie konfiguracji
 dla aplikacji konsolowej:
 
@@ -282,12 +282,12 @@ return array(
 );
 ~~~
 
-Teraz możemy użyć narzędzia `yiic` wyposażonego w dodatkowe polecenie `xyz`.
+Teraz możemy użyć narzędzia `yeec` wyposażonego w dodatkowe polecenie `xyz`.
 
 > Note|Uwaga: Aplikacja konsolowa zazwyczaj używa pliku konfiguracyjnego, 
 który różni się od tego używanego w aplikacji sieciowej. Jeśli aplikacja została 
-utworzona przy użyciu polecenia `yiic webapp`, wtedy plikiem konfiguracji dla aplikacji
-konsolowej `protected/yiic` jest `protected/config/console.php`,
+utworzona przy użyciu polecenia `yeec webapp`, wtedy plikiem konfiguracji dla aplikacji
+konsolowej `protected/yeec` jest `protected/config/console.php`,
 natomiast plikiem konfiguracyjnym aplikacji sieciowej jest `protected/config/main.php`.
 
 
@@ -303,7 +303,7 @@ Aby używać generycznych [komponentów](/doc/guide/basics.component), najpierw 
 dołączyć ich plik klasy używając:
 
 ~~~
-Yii::import('ext.xyz.XyzClass');
+Yee::import('ext.xyz.XyzClass');
 ~~~
 
 Następnie, możemy utworzyć instancję tej klasy, skonfigurować jej właściwości

@@ -1,13 +1,13 @@
 Flusso di sviluppo
 ====================
 
-Dopo aver descritto i concetti fondamentali di Yii, adesso vediamo il flusso 
-tipico per lo sviluppo di una web application utilizzando Yii. Il flusso presume 
+Dopo aver descritto i concetti fondamentali di Yee, adesso vediamo il flusso 
+tipico per lo sviluppo di una web application utilizzando Yee. Il flusso presume 
 che si sia già fatta l'analisi dei requisiti come anche la necessaria analisi di 
 progettazione dell'applicazione.
 
-   1. Creare la struttura delle cartelle. Lo strumento `yiic` descritto in 
-[Crea la tua prima applicazione con Yii](/doc/guide/quickstart.first-app) può 
+   1. Creare la struttura delle cartelle. Lo strumento `yeec` descritto in 
+[Crea la tua prima applicazione con Yee](/doc/guide/quickstart.first-app) può 
 essere utilizzato per velocizzare questo passaggio.
 
    2. Configurare l'[applicazione](/doc/guide/basics.application). Ciò è ottenuto 
@@ -16,7 +16,7 @@ richiedere la scrittura di alcuni component dell'applicazione (es. il component 
 
    3. Creare una classe [model](/doc/guide/basics.model) per ogni tipo di dato che deve 
 essere gestito. Lo strumento `Gii` descritto in 
-[Crea la tua prima applicazione con Yii](/doc/guide/quickstart.first-app#implementing-crud-operations)
+[Crea la tua prima applicazione con Yee](/doc/guide/quickstart.first-app#implementing-crud-operations)
 ed in [Generazione automatica del codice](/doc/guide/topics.gii) può essere usata per 
 generare automaticamente le classi per l'[active record](/doc/guide/database.ar) per ogni 
 tabella interessata del database.

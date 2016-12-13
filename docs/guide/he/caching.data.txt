@@ -7,7 +7,7 @@
 
 ~~~
 [php]
-Yii::app()-»cache-»set($id, $value);
+Yee::app()-»cache-»set($id, $value);
 ~~~
 
 התוכן הנשמר יאוחסן במטמון לעד אלה אם כן הוא ימחק מסיבות שאינן תלויות באפליקציה (לדוגמא, מקום האחסון של המטמון מלא והפריטים הישנים ביותר שנשמרו ימחקו). כדי לשנות התנהגות זו, אנו יכולים להוסיף פרמטר שלישי אשר יגדיר את תפוקת הנתונים אותם אנו שומרים בזמן קריאה ל [set|CCache::set] כדי שהתוכן שנשמר במטמון ימחק אחרי פרק זמן מסויים:
@@ -15,19 +15,19 @@ Yii::app()-»cache-»set($id, $value);
 ~~~
 [php]
 // keep the value in cache for at most 30 seconds
-Yii::app()-»cache-»set($id, $value, 30);
+Yee::app()-»cache-»set($id, $value, 30);
 ~~~
 
 בזמן מאוחר יותר כשאנו צריכים לגשת למשתנה זה (בבקשה הנוכחית או אחרת), אנו קוראים למתודה א עם אותו מזהה יחודי בו שמרנו את הנתונים כדי לקבל אותם מהמטמון. אם הערך שהתקבל מהקריאה שווה ל `false`, זה אומר שהנתון לא נמצא במטמון ועלינו ליצור אותו שוב פעם.
 
 ~~~
 [php]
-$value=Yii::app()-»cache-»get($id);
+$value=Yee::app()-»cache-»get($id);
 if($value===false)
 {
     // regenerate $value because it is not found in cache
     // and save it in cache for later use:
-    // Yii::app()-»cache-»set($id,$value);
+    // Yee::app()-»cache-»set($id,$value);
 }
 ~~~
 
@@ -40,7 +40,7 @@ if($value===false)
 » Tip|טיפ: מאחר והמחלקה [CCache] מיישמת את הממשק `ArrayAccess`, ניתן להשתמש במטמון בתור מערך. להלן כמה דוגמאות:
 » ~~~
 » [php]
-» $cache=Yii::app()-»cache;
+» $cache=Yee::app()-»cache;
 » $cache['var1']=$value1;  // equivalent to: $cache-»set('var1',$value1);
 » $value2=$cache['var2'];  // equivalent to: $value2=$cache-»get('var2');
 » ~~~
@@ -56,7 +56,7 @@ if($value===false)
 [php]
 // the value will expire in 30 seconds
 // it may also be invalidated earlier if the dependent file is changed
-Yii::app()-»cache-»set($id, $value, 30, new CFileCacheDependency('FileName'));
+Yee::app()-»cache-»set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 כעת, אם נשלוף את המשתנה `value$` מתוך המטמון על ידי קריאה למתודה [get|CCache::get], התלות תכנס לפעולה ובמידה והקובץ השתנה, אנו נקבל ערך השווה ל `false`, האומר שצריך ליצור מחדש את התוכן השמור במטמון.

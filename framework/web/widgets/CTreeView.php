@@ -3,9 +3,9 @@
  * CTreeView class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -139,11 +139,11 @@ class CTreeView extends CWidget
 			$id=$this->htmlOptions['id']=$this->getId();
 		if($this->url!==null)
 			$this->url=CHtml::normalizeUrl($this->url);
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerCoreScript('treeview');
 		$options=$this->getClientOptions();
 		$options=$options===array()?'{}' : CJavaScript::encode($options);
-		$cs->registerScript('Yii.CTreeView#'.$id,"jQuery(\"#{$id}\").treeview($options);");
+		$cs->registerScript('Yee.CTreeView#'.$id,"jQuery(\"#{$id}\").treeview($options);");
 		if($this->cssFile===null)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/treeview/jquery.treeview.css');
 		elseif($this->cssFile!==false)

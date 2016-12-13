@@ -3,11 +3,11 @@
  * ApiCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
-Yii::import('application.commands.api.ApiModel');
+Yee::import('application.commands.api.ApiModel');
 
 /**
  * MessageCommand extracts messages to be translated from source files.
@@ -26,7 +26,7 @@ class ApiCommand extends CConsoleCommand
 	public $pageTitle;
 	public $themePath;
 	public $currentClass;
-	public $baseSourceUrl="https://github.com/yiisoft/yii/blob";
+	public $baseSourceUrl="https://github.com/yeesoft/yee/blob";
 	public $version;
 
 	public function getHelp()
@@ -37,7 +37,7 @@ USAGE
   build api check
 
 DESCRIPTION
-  This command generates offline API documentation for the Yii framework.
+  This command generates offline API documentation for the Yee framework.
 
 PARAMETERS
   * output-path: required, the directory where the generated documentation would be saved.
@@ -47,8 +47,8 @@ PARAMETERS
   * check: check PHPDoc for proper @param syntax
 
 EXAMPLES
-  * build api yii/doc online - builds api ONLINE documentation in folder yii/doc
-  * build api yii/doc        - builds api OFFLINE (default) documentation in folder yii/doc
+  * build api yee/doc online - builds api ONLINE documentation in folder yee/doc
+  * build api yee/doc        - builds api OFFLINE (default) documentation in folder yee/doc
 
   * build api check          - cheks PHPDoc @param directives
 
@@ -68,8 +68,8 @@ EOD;
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
 				'.gitignore',
-				'/yiilite.php',
-				'/yiit.php',
+				'/yeelite.php',
+				'/yeet.php',
 				'/cli',
 				'/i18n/data',
 				'/messages',
@@ -104,7 +104,7 @@ EOD;
 		if(isset($args[1]) && $args[1]==='online')
 			$offline=false;
 
-		$this->version=Yii::getVersion();
+		$this->version=Yee::getVersion();
 
 		/*
 		 * development version - link to master
@@ -115,7 +115,7 @@ EOD;
 		else
 			$this->baseSourceUrl .= '/'.$this->version.'/framework';
 
-		$this->pageTitle='Yii Framework Class Reference';
+		$this->pageTitle='Yee Framework Class Reference';
 		$themePath=dirname(__FILE__).'/api';
 
 		echo "\nBuilding.. : " . $this->pageTitle."\n";

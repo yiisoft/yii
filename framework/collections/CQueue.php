@@ -3,9 +3,9 @@
  * This file contains classes implementing the queue feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -80,7 +80,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 			}
 		}
 		elseif($data!==null)
-			throw new CException(Yii::t('yii','Queue data must be an array or an object implementing Traversable.'));
+			throw new CException(Yee::t('yee','Queue data must be an array or an object implementing Traversable.'));
 	}
 
 	/**
@@ -109,7 +109,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	public function peek()
 	{
 		if($this->_c===0)
-			throw new CException(Yii::t('yii','The queue is empty.'));
+			throw new CException(Yee::t('yee','The queue is empty.'));
 		else
 			return $this->_d[0];
 	}
@@ -122,7 +122,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	public function dequeue()
 	{
 		if($this->_c===0)
-			throw new CException(Yii::t('yii','The queue is empty.'));
+			throw new CException(Yee::t('yee','The queue is empty.'));
 		else
 		{
 			--$this->_c;

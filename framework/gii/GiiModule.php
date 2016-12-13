@@ -3,15 +3,15 @@
  * GiiModule class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('system.gii.CCodeGenerator');
-Yii::import('system.gii.CCodeModel');
-Yii::import('system.gii.CCodeFile');
-Yii::import('system.gii.CCodeForm');
+Yee::import('system.gii.CCodeGenerator');
+Yee::import('system.gii.CCodeModel');
+Yee::import('system.gii.CCodeFile');
+Yee::import('system.gii.CCodeForm');
 
 /**
  * GiiModule is a module that provides Web-based code generation capabilities.
@@ -114,8 +114,8 @@ class GiiModule extends CWebModule
 	public function init()
 	{
 		parent::init();
-		Yii::setPathOfAlias('gii',dirname(__FILE__));
-		Yii::app()->setComponents(array(
+		Yee::setPathOfAlias('gii',dirname(__FILE__));
+		Yee::app()->setComponents(array(
 			'errorHandler'=>array(
 				'class'=>'CErrorHandler',
 				'errorAction'=>$this->getId().'/default/error',
@@ -123,7 +123,7 @@ class GiiModule extends CWebModule
 			'user'=>array(
 				'class'=>'CWebUser',
 				'stateKeyPrefix'=>'gii',
-				'loginUrl'=>Yii::app()->createUrl($this->getId().'/default/login'),
+				'loginUrl'=>Yee::app()->createUrl($this->getId().'/default/login'),
 			),
 			'widgetFactory' => array(
 				'class'=>'CWidgetFactory',
@@ -140,7 +140,7 @@ class GiiModule extends CWebModule
 	public function getAssetsUrl()
 	{
 		if($this->_assetsUrl===null)
-			$this->_assetsUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('gii.assets'));
+			$this->_assetsUrl=Yee::app()->getAssetManager()->publish(Yee::getPathOfAlias('gii.assets'));
 		return $this->_assetsUrl;
 	}
 
@@ -166,15 +166,15 @@ class GiiModule extends CWebModule
 		if(parent::beforeControllerAction($controller, $action))
 		{
 			$route=$controller->id.'/'.$action->id;
-			if(!$this->allowIp(Yii::app()->request->userHostAddress) && $route!=='default/error')
+			if(!$this->allowIp(Yee::app()->request->userHostAddress) && $route!=='default/error')
 				throw new CHttpException(403,"You are not allowed to access this page.");
 
 			$publicPages=array(
 				'default/login',
 				'default/error',
 			);
-			if($this->password!==false && Yii::app()->user->isGuest && !in_array($route,$publicPages))
-				Yii::app()->user->loginRequired();
+			if($this->password!==false && Yee::app()->user->isGuest && !in_array($route,$publicPages))
+				Yee::app()->user->loginRequired();
 			else
 				return true;
 		}
@@ -209,7 +209,7 @@ class GiiModule extends CWebModule
 		for($i=$n-1;$i>=0;--$i)
 		{
 			$alias=$this->generatorPaths[$i];
-			$path=Yii::getPathOfAlias($alias);
+			$path=Yee::getPathOfAlias($alias);
 			if($path===false || !is_dir($path))
 				continue;
 

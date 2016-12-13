@@ -1,7 +1,7 @@
 Nowe funkcjonalności
 ============
 
-Na tej stronie znajdziesz podsumowanie najważniejszych funkcji dodawanych w kolejnych wydaniach Yii.
+Na tej stronie znajdziesz podsumowanie najważniejszych funkcji dodawanych w kolejnych wydaniach Yee.
 
 Wersja 1.1.8
 -------------
@@ -54,13 +54,13 @@ Wersja 1.1.1
  oraz umożliwia jednolite i spójne sprawdzanie poprawności zarówno po stronie klienta 
  jak i serwera.
 
- * Przepisano kod generowany przez narzędzie yiic. W szczególności, szkielet
+ * Przepisano kod generowany przez narzędzie yeec. W szczególności, szkielet
  aplikacji jest teraz generowany za pomocą wielu układów; menu operacji zostało zreorganizowane 
  dla stron CRUD; dodano funkcjonalność wyszukiwania i filtrowania dla stron
  administratora generowanych przez polecenie crud; użyto CActiveForm w celu
  wygenerowania formularza.
  
- * [Dodano możliwość definiowania globalnych poleceń yiic](/doc/guide/topics.console) 
+ * [Dodano możliwość definiowania globalnych poleceń yeec](/doc/guide/topics.console) 
 
 Wersja 1.1.0
 -------------

@@ -118,6 +118,6 @@ class CModuleTest extends CTestCase {
 	}
 	public function testSetAliases() {
 		$this->mod->setAliases(array('modules' => $this->d));
-		$this->assertEquals($this->d,Yii::getPathOfAlias('modules'));
+		$this->assertEquals($this->d,Yee::getPathOfAlias('modules'));
 	}
 }

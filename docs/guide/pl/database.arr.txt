@@ -415,8 +415,8 @@ powoduje mniejsze obciążenie DBMS podczas parsowania i wykonywania zapytania S
 Z drugiej strony używając pojedynczego zapytania SQL, mamy w końcu więcej redundantnych 
 danych i w ten sposób potrzebujemy więcej czasu by je odczytać i przetworzyć.
 
-Z tego powodu Yii dostarcza opcję zapytania `together` tak, by można było wybierać pomiędzy 
-oboma podejściami w zależności od potrzeb. Domyślnie Yii używa ładowania zachłannego, np. 
+Z tego powodu Yee dostarcza opcję zapytania `together` tak, by można było wybierać pomiędzy 
+oboma podejściami w zależności od potrzeb. Domyślnie Yee używa ładowania zachłannego, np. 
 tworzy jedno zapytanie SQL, z wyłączeniem przypadków, kiedy stosujemy dla głównego modelu `LIMIT`.
 Możemy ustawić opcję `together` na true w deklaracji relacji by wymusić pojedyncze wyrażenie SQL
 nawet gdy używamy konstrukcji z `LIMIT`. Ustawienie tej opcji na false spowoduje dla niektórych tabel
@@ -444,7 +444,7 @@ $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findA
 Zapytania statystyczne (ang. Statistical Query)
 -----------------
 
-Poza zapytaniami relacyjnymi opisanymi powyżej, Yii wspiera również tak zwane zapytania statystyczne (lub zapytania agregacyjne). Odnoszą się one do uzyskiwania agregowanych 
+Poza zapytaniami relacyjnymi opisanymi powyżej, Yee wspiera również tak zwane zapytania statystyczne (lub zapytania agregacyjne). Odnoszą się one do uzyskiwania agregowanych 
 informacji o powiązanych obiektach, takich jak liczba komentarzy dla każdego postu, średnia ocena dla każdego produktu, itp. Zapytania statystyczne mogą być wykonywane dla obiektów   
 wskazywanych w relacji `HAS_MANY` (np. post ma wiele komentarzy) lub `MANY_MANY` (np. post należy do wielu kategorii a kategoria ma wiele postów).
 

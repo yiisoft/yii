@@ -1,7 +1,7 @@
 Query Builder
 =============
 
-Mit dem Yii Query Builder (sinngem. "Abfrageersteller") kann man auf
+Mit dem Yee Query Builder (sinngem. "Abfrageersteller") kann man auf
 objektorientierte Weise SQL-Anweisungen erstellen. Ein Entwickler kann damit die
 einzelnen Teile eines SQL-Ausdrucks mittels Klassenmethoden und -eigenschaften 
 festlegen. Der Query Builder baut daraus dann einen gültigen SQL-Ausdruck, der
@@ -12,7 +12,7 @@ sieht so aus:
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yee::app()->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -45,7 +45,7 @@ ist es sogar einfacher und schneller die SQL-Abfragen direkt in den Code zu schr
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yee::app()->db->createCommand('SELECT * FROM tbl_user');
 > // die folgende Zeile wird den WHERE-Ausdruck NICHT anhängen:
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -55,7 +55,7 @@ ist es sogar einfacher und schneller die SQL-Abfragen direkt in den Code zu schr
 Vorbereiten des Query Builders
 ------------------------------
 
-Der Yii Query Builder steht in Form eines [CDbCommand]s zur Verfügung, also
+Der Yee Query Builder steht in Form eines [CDbCommand]s zur Verfügung, also
 jener Hauptklasse für DB-Abfragen, wie sie bereits in [Data Access Objects](/doc/guide/database.dao)
 beschrieben wurde.
 
@@ -64,10 +64,10 @@ Um den Query Builder zu verwenden, erstellt man zunächst eine neu
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 ~~~
 
-Das bedeutet, man holt sich zunächst über `Yii::app()->db` die DB-Verbindung
+Das bedeutet, man holt sich zunächst über `Yee::app()->db` die DB-Verbindung
 und ruft dann [CDbConnection::createCommand()] auf, um die benötigte
 Objektinstanz zu erzeugen.
 
@@ -448,7 +448,7 @@ Example:
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -462,7 +462,7 @@ auch das erzeugte SQL liefern lassen. Dazu dient [CDbCommand::getText()].
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -493,7 +493,7 @@ erzeugende [CDbCommand] enthält. Eine Abfrage kann man also auch so erstellen:
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yee::app()->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -510,7 +510,7 @@ durch einen Aufruf von [CDbCommand::reset()] gelöscht werden:
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

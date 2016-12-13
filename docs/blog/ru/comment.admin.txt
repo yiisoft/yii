@@ -22,7 +22,7 @@
 [php]
 public function actionApprove()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		$comment=$this->loadModel();
 		$comment->approve();
@@ -100,4 +100,4 @@ public function actionIndex()
 использует `/wwwroot/blog/protected/views/comment/_view.php` для вывода каждого
 отдельного комментария. Мы не будем детально рассматривать данный механизм.
 Заинтересованные читатели могут изучить соответствующий файл демонстрационного
-приложения: `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
+приложения: `/wwwroot/yee/demos/blog/protected/views/comment/_view.php`.

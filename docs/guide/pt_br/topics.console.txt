@@ -3,7 +3,7 @@ Aplicativos de Console
 
 Aplicativos de console são utilizados para realizar algum trabalho offline necessário
 por um aplicativo Web online como, geração de código, compilação do índice de busca,
-envio de e-mail, etc. O Yii fornece um framework para escrever aplicativos de console
+envio de e-mail, etc. O Yee fornece um framework para escrever aplicativos de console
 de uma maneira orientada a objetos. Ele permite que um aplicativo de console acesse os
 recursos (por exemplo, conexões a banco de dados) que são utilizados por uma aplicação
 Web online.
@@ -12,37 +12,37 @@ Web online.
 Visão Geral
 --------
 
-O Yii representa cada tarefa de console como um [comando|CConsoleCommand].
+O Yee representa cada tarefa de console como um [comando|CConsoleCommand].
 Um comando de console é uma classe que estende de [CConsoleCommand].
 
-Quando utilizamos a ferramenta `yiic webapp` para criar o esqueleto inicial de uma
-aplicação Yii, podemos encontrar dois arquivos no diretório `protected`:
+Quando utilizamos a ferramenta `yeec webapp` para criar o esqueleto inicial de uma
+aplicação Yee, podemos encontrar dois arquivos no diretório `protected`:
 
-* `yiic`: este é um script executável utilizado no Linux/Unix;
-* `yiic.bat`: este é um arquivo batch executável utilizado no Windows.
+* `yeec`: este é um script executável utilizado no Linux/Unix;
+* `yeec.bat`: este é um arquivo batch executável utilizado no Windows.
 
 Na janela de console, podemos informar os seguintes comandos:
 
 ~~~
 cd protected
-yiic help
+yeec help
 ~~~
 
 Este comando irá mostrar uma lista dos comandos de console disponíveis. Por padrão,
-os comandos de console disponíveis, incluem os fornecedidos pelo Yii Framework
+os comandos de console disponíveis, incluem os fornecedidos pelo Yee Framework
 (chamados de **comandos de sistema**) e aqueles desenvolvidos pelos usuários para
 aplicações individuais (chamados **comandos de usuário**).
 
 Para descobrir como utilizar um determinado comando, podemos executar:
 
 ~~~
-yiic help <nome-do-comando>
+yeec help <nome-do-comando>
 ~~~
 
 E para executar um comando, podemos utilizar o seguinte formato:
 
 ~~~
-yiic <nome-do-comando> [parâmetros...]
+yeec <nome-do-comando> [parâmetros...]
 ~~~
 
 
@@ -75,13 +75,13 @@ public function run($args) { ... }
 
 onde `$args` refere-se aos parâmetros extras informados na linha de comando.
 
-Dentro de um comando de console, utilizamos `Yii::app()` para acessar a instância
+Dentro de um comando de console, utilizamos `Yee::app()` para acessar a instância
 da aplicação de console, através da qual podemos acessar recursos, tal como a conexão ao banco de dados
-(ex: `Yii::app()->db`). Como é possível perceber, a utilização é similar ao modo como é
+(ex: `Yee::app()->db`). Como é possível perceber, a utilização é similar ao modo como é
 feita em aplicações Web.
 
 > Info|Informação: A partir da versão 1.1.1, também podemos criar comandos globais que são
-compartilhados para **todas** as aplicações Yii no mesmo computador. Para isso, definimos
+compartilhados para **todas** as aplicações Yee no mesmo computador. Para isso, definimos
 uma variável de ambiente com o nome `YII_CONSOLE_COMMANDS` que deverá apontar para um
 diretório existente. Dentro deste diretório colocamos os arquivos de classe de comandos.
 
@@ -104,7 +104,7 @@ define uma ação chamada `index`.
 Para executar uma ação específica, podemos usar o seguinte formado de comando de console:
 
 ~~~
-yiic <command-name> <action-name> --option1=value --option2=value2 ...
+yeec <command-name> <action-name> --option1=value --option2=value2 ...
 ~~~
 
 Os pares de opção-valor adicionais, serão passados como parâmetros de chamada para o método da ação.
@@ -123,17 +123,17 @@ class SitemapCommand extends CConsoleCommand
 Então, os seguintes comandos de console irão todos resultar na chamada `actionIndex('News', 5)`:
 
 ~~~
-yiic sitemap index --type=News --limit=5
+yeec sitemap index --type=News --limit=5
 
 // $limit possui valor padrão
-yiic sitemap index --type=News
+yeec sitemap index --type=News
 
 // $limit possui valor padrão
 // como 'index' é uma ação padrão, podemos omitir o nome da ação
-yiic sitemap --type=News
+yeec sitemap --type=News
 
 // a ordem das opções não tem importância
-yiic sitemap index --limit=5 --type=News
+yeec sitemap index --limit=5 --type=News
 ~~~
 
 Se uma opção é informada sem valor (ex: `--type` ao invés de `--type=News`), o valor do parâmetro
@@ -152,15 +152,15 @@ public function actionIndex(array $types) { ... }
 Para fornecer os valores ao array, devemos simplesmente repetir a mesma opção na linha de comando, se necessário:
 
 ~~~
-yiic sitemap index --types=News --types=Article
+yeec sitemap index --types=News --types=Article
 ~~~
 
 O comando acima irá por fim chamar `actionIndex(array('News', 'Article'))`
 
-A partir da versão 1.1.6, o Yii também suporta o uso de parâmetros de ação anônimos e opções globais.
+A partir da versão 1.1.6, o Yee também suporta o uso de parâmetros de ação anônimos e opções globais.
 
 Parâmetros anônimos referem-se aos parâmetros de linha de comando que não estão no formato de opções.
-Por exemplo, no comando `yiic sitemap index --limit=5 News` nós temos um parâmetro anônimo cujo valor
+Por exemplo, no comando `yeec sitemap index --limit=5 News` nós temos um parâmetro anônimo cujo valor
 é `News` enquanto o parâmetro nomeado `limit` contém o valor 5.
 
 Para usar parâmetros anônimos, a ação de comando deve ser declarada com um parâmetro nomeado `$args`, Para exemplificar,
@@ -190,14 +190,14 @@ class SitemapCommand extends CConsoleCommand
 O comando abaixo nos permite executar um comando com a opção `verbose`:
 
 ~~~
-yiic sitemap index --verbose=1 --type=News
+yeec sitemap index --verbose=1 --type=News
 ~~~
 
 
 Customizando a Aplicação de Console
 --------------------------------
 
-Por padrão, se uma aplicação é criada utilizando a ferramenta `yiic webapp`, a configuração
+Por padrão, se uma aplicação é criada utilizando a ferramenta `yeec webapp`, a configuração
 para a aplicação de console será criada em `protected/config/console.php`. Como um arquivo de configuração
 de uma aplicação Web, este arquivo é um script PHP que retorna um array representando os valores iniciais
 das propriedades para uma instância de aplicação de console. Como resultado, qualquer propriedade

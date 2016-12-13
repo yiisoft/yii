@@ -6,7 +6,7 @@ class GuideLatexCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic guidelatex
+  yeec guidelatex
 
 DESCRIPTION
   This command generates latex files for the definitive guide.

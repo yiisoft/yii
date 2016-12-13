@@ -4,9 +4,9 @@
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -29,7 +29,7 @@
  *             array('label'=>'New Arrivals', 'url'=>array('product/new', 'tag'=>'new')),
  *             array('label'=>'Most Popular', 'url'=>array('product/index', 'tag'=>'popular')),
  *         )),
- *         array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::app()->user->isGuest),
+ *         array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yee::app()->user->isGuest),
  *     ),
  * ));
  * </pre>

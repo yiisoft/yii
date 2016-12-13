@@ -7,7 +7,7 @@ Gerenciamento de comentários inclui atualização, exclusão e aprovação. Est
 Atualização e Exclusão de Comentários
 -------------------------------------
 
-O código gerado pelo `yiic` para atualização e exclusão de comentários permanece praticamente inalterado.
+O código gerado pelo `yeec` para atualização e exclusão de comentários permanece praticamente inalterado.
 
 
 Aprovação de Comentários
@@ -21,7 +21,7 @@ Nós criamos um método `actionApprove()` na classe `CommentController` veja aba
 [php]
 public function actionApprove()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		$comment=$this->loadModel();
 		$comment->approve();
@@ -53,8 +53,8 @@ public function actionIndex()
 }
 ~~~
 
-Repare no código acima, porque ambas `tbl_post` e `tbl_comment` tem as colunas `status` e `create_time`, precisamos remover esta ambiguidade das colunas correspondentes prefixando um alias (pseudônimo) da tabela. Como descrito no [Guia definitivo do Yii](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names),o alias para a tabela primária em uma consulta relacional é sempre `t`. Portanto, estamos prefixando `t` as colunas `status` e `create_time` no código acima.
+Repare no código acima, porque ambas `tbl_post` e `tbl_comment` tem as colunas `status` e `create_time`, precisamos remover esta ambiguidade das colunas correspondentes prefixando um alias (pseudônimo) da tabela. Como descrito no [Guia definitivo do Yee](http://www.yeeframework.com/doc/guide/database.arr#disambiguating-column-names),o alias para a tabela primária em uma consulta relacional é sempre `t`. Portanto, estamos prefixando `t` as colunas `status` e `create_time` no código acima.
 
-Como o post index view, a visão `index` de `CommentController` usa [CListView] para exibir a lista de comentário que por sua vez utiliza a visão parcial `/wwwroot/blog/protected/views/comment/_view.php` para mostrar os detalhes de cada comentário. Não vou entrar em detalhes aqui. Os leitores interessados podem consultar o arquivo correspondente no demo blog `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
+Como o post index view, a visão `index` de `CommentController` usa [CListView] para exibir a lista de comentário que por sua vez utiliza a visão parcial `/wwwroot/blog/protected/views/comment/_view.php` para mostrar os detalhes de cada comentário. Não vou entrar em detalhes aqui. Os leitores interessados podem consultar o arquivo correspondente no demo blog `/wwwroot/yee/demos/blog/protected/views/comment/_view.php`.
 
 <div class="revision">$Id: comment.admin.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

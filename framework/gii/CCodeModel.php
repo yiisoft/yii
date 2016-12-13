@@ -3,9 +3,9 @@
  * CCodeModel class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -270,7 +270,7 @@ abstract class CCodeModel extends CFormModel
 	 */
 	public function getTemplates()
 	{
-		return Yii::app()->controller->templates;
+		return Yee::app()->controller->templates;
 	}
 
 	/**
@@ -393,7 +393,7 @@ abstract class CCodeModel extends CFormModel
 	 */
 	public function getStickyFile()
 	{
-		return Yii::app()->runtimePath.'/gii-'.Yii::getVersion().'/'.get_class($this).'.php';
+		return Yee::app()->runtimePath.'/gii-'.Yee::getVersion().'/'.get_class($this).'.php';
 	}
 
 	/**

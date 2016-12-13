@@ -3,9 +3,9 @@
  * CDbLogRoute class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 
@@ -14,7 +14,7 @@
  *
  * To specify the database table for storing log messages, set {@link logTableName} as
  * the name of the table and specify {@link connectionID} to be the ID of a {@link CDbConnection}
- * application component. If they are not set, a SQLite3 database named 'log-YiiVersion.db' will be created
+ * application component. If they are not set, a SQLite3 database named 'log-YeeVersion.db' will be created
  * and used under the application runtime directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -26,11 +26,11 @@ class CDbLogRoute extends CLogRoute
 	/**
 	 * @var string the ID of CDbConnection application component. If not set, a SQLite database
 	 * will be automatically created and used. The SQLite database file is
-	 * <code>protected/runtime/log-YiiVersion.db</code>.
+	 * <code>protected/runtime/log-YeeVersion.db</code>.
 	 */
 	public $connectionID;
 	/**
-	 * @var string the name of the DB table that stores log content. Defaults to 'YiiLog'.
+	 * @var string the name of the DB table that stores log content. Defaults to 'YeeLog'.
 	 * If {@link autoCreateLogTable} is false and you want to create the DB table manually by yourself,
 	 * you need to make sure the DB table is of the following structure:
 	 * <pre>
@@ -47,7 +47,7 @@ class CDbLogRoute extends CLogRoute
 	 * In PostgreSQL, it is <code>id SERIAL PRIMARY KEY</code>.
 	 * @see autoCreateLogTable
 	 */
-	public $logTableName='YiiLog';
+	public $logTableName='YeeLog';
 	/**
 	 * @var boolean whether the log DB table should be automatically created if not exists. Defaults to true.
 	 * @see logTableName
@@ -106,15 +106,15 @@ class CDbLogRoute extends CLogRoute
 			return $this->_db;
 		elseif(($id=$this->connectionID)!==null)
 		{
-			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
+			if(($this->_db=Yee::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
 			else
-				throw new CException(Yii::t('yii','CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.',
+				throw new CException(Yee::t('yee','CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.',
 					array('{id}'=>$id)));
 		}
 		else
 		{
-			$dbFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'log-'.Yii::getVersion().'.db';
+			$dbFile=Yee::app()->getRuntimePath().DIRECTORY_SEPARATOR.'log-'.Yee::getVersion().'.db';
 			return $this->_db=new CDbConnection('sqlite:'.$dbFile);
 		}
 	}

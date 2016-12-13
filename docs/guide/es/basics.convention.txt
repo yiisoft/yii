@@ -1,26 +1,26 @@
 Convenciones
 ============
 
-Yii favorece convenciones sobre configuraciones. Siga las convencions y uno podrá
-crear aplicaciones Yii sofisticadas sin escribir y administrar configuraciones 
-complejas. Obviamente Yii necesitara ser personalizado en casi cada aspecto con
+Yee favorece convenciones sobre configuraciones. Siga las convencions y uno podrá
+crear aplicaciones Yee sofisticadas sin escribir y administrar configuraciones 
+complejas. Obviamente Yee necesitara ser personalizado en casi cada aspecto con
 las configuraciones que son necesarias para su aplicación.
 
-Abajo describimos las convenciones que recomendamos para programar en Yii.
+Abajo describimos las convenciones que recomendamos para programar en Yee.
 Por conveniencia asumimos que `WebRoot` es el directorio en el que se encuentra
-instalada la aplicación Yii.
+instalada la aplicación Yee.
 
 URL
 ---
 
-Por predeterminado Yii reconoce URLs con el siguiente formato:
+Por predeterminado Yee reconoce URLs con el siguiente formato:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
 La variable GET `r` refiere a la [ruta](/doc/guide/basics.controller#route) 
-que puede ser resuelta por Yii en controlador y acción. Si `ActionID` es omitido
+que puede ser resuelta por Yee en controlador y acción. Si `ActionID` es omitido
 el controlador ejecutará la acción predeterminada (definida via [CController::defaultAction]); 
 y si `ControllerID` es omitida (o  la variable `r` ausente), la aplicación usará el controlador
 predeterminado (definido via [CWebApplication::defaultController]).
@@ -32,7 +32,7 @@ en [Administración URL](/doc/guide/topics.url).
 Codigo
 ------
 
-Yii recomienda nombrar variables, funciones y clases en camel Case lo que significa
+Yee recomienda nombrar variables, funciones y clases en camel Case lo que significa
 poner mayúscula en la primer letra de cada palabra y juntarlas sin espacios. Las variables
 y funciones deben tener su primer letra en minúscula y para diferenciarla de los nombres de
 las clases (ejemplo: `$basePath`, `runController()`, `LinkPager`). Para miembros de clase
@@ -41,7 +41,7 @@ privado es recomendado ponerles de prefijo a sus nombres un guión bajo (undersc
 
 Como los namespace no estan soportados por PHP anteriores a 5.3.0
 es recomendado que las clases se llamen de forma única para evitar conflicto
-de nombres con clases de terceros. Por esta razón todas las clases de Yii framework
+de nombres con clases de terceros. Por esta razón todas las clases de Yee framework
 tienen como prefijo la letra "C".
 
 Una regla especial para las clases Controller es que deben finalizar con la palabra
@@ -88,12 +88,12 @@ la configuración.
 Directorios
 -----------
 
-Yii asume un juego default de directorios que es utilizado para cumplir varios propositos.
+Yee asume un juego default de directorios que es utilizado para cumplir varios propositos.
 Cada uno de estos puede ser customizado en caso de necesitarse.
 
    - `WebRoot/protected`: Este es el [directorio base de 
    aplicación](/doc/guide/basics.application#application-base-directory) el cual contiene
-   todos los archivos de scripts PHP y de datos sensibles a la seguridad. Yii crea un alias
+   todos los archivos de scripts PHP y de datos sensibles a la seguridad. Yee crea un alias
    predeterminado llamado `application` asociado con esta ruta. Este directorio y todo lo 
    que se encuentra dentro de el debe ser protejido de poder ser accedido por los usuarios
    Web. Puede ser personalizado via [CWebApplication::basePath].

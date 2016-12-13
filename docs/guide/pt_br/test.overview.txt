@@ -14,7 +14,7 @@ só precisamos chamar o código e deixar que o computador realize os testes por
 nós. Isso é conhecido como *testes automatizados*, que é o assunto principal
 deste capítulo.
 
-O suporte a testes fornecido pelo Yii inclui *testes unitários* e 
+O suporte a testes fornecido pelo Yee inclui *testes unitários* e 
 *testes funcionais*.
 
 Um teste unitário verifica que uma única unidade de código está funcionando
@@ -55,14 +55,14 @@ Repita os passos de 1 a 5 para avançar na implementação de funcionalidades.
 Configuração do Ambiente de Teste
 ----------------------
 
-Os testes suportados fornecidos pelo Yii requerem 
+Os testes suportados fornecidos pelo Yee requerem 
 [PHPUnit](http://www.phpunit.de/) 3.5+ e
 [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
 Por favor, consulte as suas documentações sobre como instalar o PHPUnit e o
 Selenium Remote Control.
 
-Quando usamos o comando de console `yiic webapp` para criar uma nova aplicação
-Yii, ele gerará automaticamente os seguintes arquivos e diretórios para nós,
+Quando usamos o comando de console `yeec webapp` para criar uma nova aplicação
+Yee, ele gerará automaticamente os seguintes arquivos e diretórios para nós,
 para escrevermos e realizarmos novos testes:
 
 ~~~
@@ -107,14 +107,14 @@ especial porque ele é como o [script de entrada](/doc/guide/basics.entry) e
 
 ~~~
 [php]
-$yiit='path/to/yii/framework/yiit.php';
+$yeet='path/to/yee/framework/yeet.php';
 $config=dirname(__FILE__).'/../config/test.php';
-require_once($yiit);
+require_once($yeet);
 require_once(dirname(__FILE__).'/WebTestCase.php');
-Yii::createWebApplication($config);
+Yee::createWebApplication($config);
 ~~~
 
-No código acima, primeiro incluímos o arquivo `yiit.php` do framework Yii, que
+No código acima, primeiro incluímos o arquivo `yeet.php` do framework Yee, que
 inicializa algumas constantes globais e inclui todas as classes-mãe de teste
 necessárias. Então criamos uma instância da aplicação Web usando o arquivo de
 configuração `test.php`. Se checarmos o `test.php`, descobriremos que ele herda

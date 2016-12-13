@@ -7,7 +7,7 @@ Administrowanie komentarzami zawiera aktualizowanie, usuwanie oraz zatwierdzanie
 Aktualizowanie i usuwanie komentarzy
 ------------------------------
 
-Kod wygenerowany przez narzędzie `yiic` do aktualizowania oraz usuwania komentarzy pozostaje w większej części niezmieniony.
+Kod wygenerowany przez narzędzie `yeec` do aktualizowania oraz usuwania komentarzy pozostaje w większej części niezmieniony.
 
 
 Zatwierdzanie komentarzy
@@ -21,7 +21,7 @@ Utworzymy metodę `actionApprove()` w kontrolerze `CommentController` następuj�
 [php]
 public function actionApprove()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yee::app()->request->isPostRequest)
 	{
 		$comment=$this->loadModel();
 		$comment->approve();
@@ -81,8 +81,8 @@ public function actionIndex()
 }
 ~~~
 
-Zauważ, że w powyższym kodzie, ze względu na to, że obie tabele `tbl_post` oraz `tbl_comment` posiadają kolumnę statusu `status` i czasu utworzenia `create_time`, potrzebujemy rozróżnić odpowiednie referencje do kolumny poprzez dodanie im prefiksu z aliasem nazwy tablicy. Tak jak to opisano w [poradniku](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names), alias dla głównego klucza tabeli w tabeli relacyjnej zawsze ma wartość `t`. Dlatego też dodaliśmy w powyższym kodzie prefiks `t` do kolumn statusu `status` oraz czasu utworzenia `create_time` aby zasygnalizować, że chcemy pobrać te wartości z tabeli podstawowej `tbl_comment`.
+Zauważ, że w powyższym kodzie, ze względu na to, że obie tabele `tbl_post` oraz `tbl_comment` posiadają kolumnę statusu `status` i czasu utworzenia `create_time`, potrzebujemy rozróżnić odpowiednie referencje do kolumny poprzez dodanie im prefiksu z aliasem nazwy tablicy. Tak jak to opisano w [poradniku](http://www.yeeframework.com/doc/guide/database.arr#disambiguating-column-names), alias dla głównego klucza tabeli w tabeli relacyjnej zawsze ma wartość `t`. Dlatego też dodaliśmy w powyższym kodzie prefiks `t` do kolumn statusu `status` oraz czasu utworzenia `create_time` aby zasygnalizować, że chcemy pobrać te wartości z tabeli podstawowej `tbl_comment`.
 
-Tak jak widok index dla wiadomości, tak i widok `index` dla `CommentController` używa klasy [CListView] aby wyświetlić listę komentarzy, która to z kolei używa częściowego widoku `/wwwroot/blog/protected/views/comment/_view.php` aby wyświetlić szczegóły poszczególnych komentarzy. Nie będziemy tutaj wchodzić w szczegóły. Zainteresowani czytelnicy mogą zajrzeć do odpowiednich plików w demo blogu `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
+Tak jak widok index dla wiadomości, tak i widok `index` dla `CommentController` używa klasy [CListView] aby wyświetlić listę komentarzy, która to z kolei używa częściowego widoku `/wwwroot/blog/protected/views/comment/_view.php` aby wyświetlić szczegóły poszczególnych komentarzy. Nie będziemy tutaj wchodzić w szczegóły. Zainteresowani czytelnicy mogą zajrzeć do odpowiednich plików w demo blogu `/wwwroot/yee/demos/blog/protected/views/comment/_view.php`.
 
 <div class="revision">$Id: comment.admin.txt 3480 2011-12-13 03:12:21Z jefftulsa $</div>

@@ -1,35 +1,35 @@
-Crea la tua prima applicazione con Yii
+Crea la tua prima applicazione con Yee
 ===================================
 
-Per farti avere la prima esperienza con Yii, in questa sezione viene descritto 
-come creare la tua prima applicazione con Yii. Utilizzeremo `yiic` (uno 
-strumento a riga di comando) per creare una nuova applicazione Yii e `Gii` 
+Per farti avere la prima esperienza con Yee, in questa sezione viene descritto 
+come creare la tua prima applicazione con Yee. Utilizzeremo `yeec` (uno 
+strumento a riga di comando) per creare una nuova applicazione Yee e `Gii` 
 (potente generatore di codice ad interfaccia web) per automatizzare la 
 generazione di codice per determinate attività. Per comodità, si da per 
-scontato che `YiiRoot` sia la cartella in cui è installato Yii, e `WebRoot`
+scontato che `YeeRoot` sia la cartella in cui è installato Yee, e `WebRoot`
 sia la cartella radice del web server.
 
-Eseguire `yiic` su riga di comando come segue:
+Eseguire `yeec` su riga di comando come segue:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Nota: Quando si esegue `yiic` su Mac OS, Linux or Unix, potrebbe essere 
-> necessario cambiare i permessi di esecuzione del file `yiic` per renderlo 
-> eseguibile. In alternativa, è possibile eseguire `yiic` come segue,
+> Nota: Quando si esegue `yeec` su Mac OS, Linux or Unix, potrebbe essere 
+> necessario cambiare i permessi di esecuzione del file `yeec` per renderlo 
+> eseguibile. In alternativa, è possibile eseguire `yeec` come segue,
 >
 > ~~~
 > % cd WebRoot
-> % php YiiRoot/framework/yiic.php webapp testdrive
+> % php YeeRoot/framework/yeec.php webapp testdrive
 > ~~~
 
-Questo creerà lo schema di una applicazione Yii all'interno della cartella 
+Questo creerà lo schema di una applicazione Yee all'interno della cartella 
 `WebRoot/testdrive`. L'applicazione ha uno schema di cartelle che è richiesta 
-dalla maggior parte delle applicazioni Yii.
+dalla maggior parte delle applicazioni Yee.
 
 Senza scrivere neanche una riga di codice PHP, possiamo provare la nostra 
-prima applicazione Yii accedendo al seguente URL in un browser web:
+prima applicazione Yee accedendo al seguente URL in un browser web:
 
 ~~~
 http://hostname/testdrive/index.php
@@ -67,11 +67,11 @@ testdrive/
    images/                   contenitore dei file immagine
    themes/                   contenitore dei temi dell'applicazione
    protected/                contenitore dei file protetti dell'applicazione
-      yiic                   script di riga di comando per Unix/Linux
-      yiic.bat               script di riga di comando per Windows
-      yiic.php               script di riga di comando in PHP
-      commands/              contenitore di comandi 'yiic' personalizzati
-         shell/              contenitore di comandi 'yiic shell' personalizzati
+      yeec                   script di riga di comando per Unix/Linux
+      yeec.bat               script di riga di comando per Windows
+      yeec.php               script di riga di comando in PHP
+      commands/              contenitore di comandi 'yeec' personalizzati
+         shell/              contenitore di comandi 'yeec shell' personalizzati
       components/            contenitore di componenti utente riutilizzabili
          Controller.php      classe di base per tutte le classi Controller
          UserIdentity.php    la classe 'UserIdentity' usata per l'autenticazione
@@ -129,7 +129,7 @@ return array(
 );
 ~~~
 
-Il codice qui sopra spiega a Yii che l'applicazione dovrebbe connettersi, 
+Il codice qui sopra spiega a Yee che l'applicazione dovrebbe connettersi, 
 quando è necessario, al database SQLite 
 `WebRoot/testdrive/protected/data/testdrive.db`. Si noti che il database 
 SQLite è già incluso nella struttura dell'applicazione che è stata appena 
@@ -149,7 +149,7 @@ Se invece si vuole utilizzare un database MySQL, si può utilizzare il file
 che contiene lo schema MySQL
 `WebRoot/testdrive/protected/data/schema.mysql.sql` per creare il database.
 
-> Nota: per utilizzare la funzionalità database di Yii, è necessario abilitare 
+> Nota: per utilizzare la funzionalità database di Yee, è necessario abilitare 
 le estensioni PDO di PHP ed il driver specifico per l'estensione PDO. 
 Per l'applicazione di prova è necessario abilitare sia l'estensione `php_pdo` 
 che `php_pdo_sqlite`.
@@ -164,7 +164,7 @@ tabella `tbl_user` appena creata. Questa è una necessità tipica delle
 applicazioni. Invece di sobbarcarci l'onere di scrivere il codice necessario, 
 utilizzeremo `Gii` -- un potente generatore di codice ad interfaccia web.
 
-> Informazione: Gii è stato reso disponibile a partire dalla versione 1.1.2. Prima di allora, per ottenere lo stesso risultato, è possibile utilizzare il citato strumento `yiic`. Per maggiori dettagli, si prega di fare riferimento a [Implementare operazioni CRUD con la shell yiic](/doc/guide/quickstart.first-app-yiic).
+> Informazione: Gii è stato reso disponibile a partire dalla versione 1.1.2. Prima di allora, per ottenere lo stesso risultato, è possibile utilizzare il citato strumento `yeec`. Per maggiori dettagli, si prega di fare riferimento a [Implementare operazioni CRUD con la shell yeec](/doc/guide/quickstart.first-app-yeec).
 
 
 ### Configurare Gii

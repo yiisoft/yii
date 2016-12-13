@@ -149,9 +149,9 @@ protected/
 
 ### Wiązanie parametrów akcji
 
-Od wersji 1.1.4, Yii dodało wsparcie dla automatycznego wiązania parametrów akcji.
+Od wersji 1.1.4, Yee dodało wsparcie dla automatycznego wiązania parametrów akcji.
 Oznacza to, że metoda kontrolera akcji może zdefiniować nazwane parametry, których wartości
-będą automatycznie pobrane przez Yii ze zmiennej `$_GET`.
+będą automatycznie pobrane przez Yee ze zmiennej `$_GET`.
 
 W celu zilustrowania jak to działa, załóżmy, że potrzebujemy napisać akcję tworznia `create` 
 dla kontrolera wiadomości `PostController`. Akcja ta wymaga dwóch parametrów:
@@ -204,7 +204,7 @@ takiego parametru. Ponieważ kategoria `$category` nie posiada wartości domyśl
 jeśli żądanie nie zawiera parametru `category`, automatycznie zostanie wyrzucony 
 błąd [CHttpException] (o kodzie 404).
 
-Poczynając od wersji 1.1.5, Yii wspiera również wykrywanie typu tablicowego dla parametrów akcji.
+Poczynając od wersji 1.1.5, Yee wspiera również wykrywanie typu tablicowego dla parametrów akcji.
 Odbywa się to przy użyciu podpowiadania typów PHP o następującej składni:
 
 ~~~
@@ -213,7 +213,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii upewni się, że zmienna $categories jest tablicą
+		// Yee upewni się, że zmienna $categories jest tablicą
 	}
 }
 ~~~

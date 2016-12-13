@@ -11,9 +11,9 @@ class CDbAuthManagerTest extends AuthManagerTestBase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
 
-		$schemaFile=realpath(Yii::getPathOfAlias('system.web.auth.schema-pgsql').'.sql');
+		$schemaFile=realpath(Yee::getPathOfAlias('system.web.auth.schema-pgsql').'.sql');
 
-		$this->db=new CDbConnection('pgsql:host=localhost;dbname=yii','test','test');
+		$this->db=new CDbConnection('pgsql:host=localhost;dbname=yee','test','test');
 		try
 		{
 			$this->db->active=true;

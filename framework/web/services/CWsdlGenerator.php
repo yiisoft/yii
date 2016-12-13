@@ -3,9 +3,9 @@
  * CWsdlGenerator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -379,7 +379,7 @@ class CWsdlGenerator extends CComponent
 		}
 		else
 		{	// process class / complex type
-			$type=Yii::import($type,true);
+			$type=Yee::import($type,true);
 			$class=new ReflectionClass($type);
 
 			$comment=$class->getDocComment();
@@ -879,6 +879,6 @@ th, td{font-size: 12px;font-family: courier;padding: 3px;}
 			return $html;
 
 		echo $html;
-		Yii::app()->end(); // end the app to avoid conflict with text/xml header
+		Yee::app()->end(); // end the app to avoid conflict with text/xml header
 	}
 }

@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL);
 
-Yii::import('gii.components.Pear.*');
+Yee::import('gii.components.Pear.*');
 require_once 'Text/Diff.php';
 require_once 'Text/Diff/Renderer.php';
 require_once 'Text/Diff/Renderer/inline.php';

@@ -80,7 +80,7 @@ protected function beforeSave()
 		if($this->isNewRecord)
 		{
 			$this->create_time=$this->update_time=time();
-			$this->author_id=Yii::app()->user->id;
+			$this->author_id=Yee::app()->user->id;
 		}
 		else
 			$this->update_time=time();
@@ -120,4 +120,4 @@ protected function afterFind()
 
 Здесь мы не будем детально рассматривать метод `Tag::updateFrequency()`.
 Заинтересованные читатели могут ознакомиться с ним в файле
-`/wwwroot/yii/demos/blog/protected/models/Tag.php`.
+`/wwwroot/yee/demos/blog/protected/models/Tag.php`.

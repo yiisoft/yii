@@ -3,9 +3,9 @@
  * CDbSchema class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -87,9 +87,9 @@ abstract class CDbSchema extends CComponent
 				$this->_connection->queryCachingDuration=0;
 			}
 
-			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
+			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yee::app()->getComponent($this->_connection->schemaCacheID))!==null)
 			{
-				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
+				$key='yee:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 				$table=$cache->get($key);
 				if($refresh===true || $table===false)
 				{
@@ -158,13 +158,13 @@ abstract class CDbSchema extends CComponent
 	 */
 	public function refresh()
 	{
-		if(($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
+		if(($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yee::app()->getComponent($this->_connection->schemaCacheID))!==null)
 		{
 			foreach(array_keys($this->_tables) as $name)
 			{
 				if(!isset($this->_cacheExclude[$name]))
 				{
-					$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
+					$key='yee:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 					$cache->delete($key);
 				}
 			}
@@ -306,7 +306,7 @@ abstract class CDbSchema extends CComponent
 	 */
 	protected function findTableNames($schema='')
 	{
-		throw new CDbException(Yii::t('yii','{class} does not support fetching all table names.',
+		throw new CDbException(Yee::t('yee','{class} does not support fetching all table names.',
 			array('{class}'=>get_class($this))));
 	}
 

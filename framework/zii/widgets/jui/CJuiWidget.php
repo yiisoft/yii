@@ -4,9 +4,9 @@
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -21,7 +21,7 @@ abstract class CJuiWidget extends CWidget
 {
 	/**
 	 * @var string the root URL that contains all JUI JavaScript files.
-	 * If this property is not set (default), Yii will publish the JUI package included in the zii release and use
+	 * If this property is not set (default), Yee will publish the JUI package included in the zii release and use
 	 * that to infer the root script URL. You should set this property if you intend to use
 	 * a JUI package whose version is different from the one included in zii.
 	 * Note that under this URL, there must be a file whose name is specified by {@link scriptFile}.
@@ -30,7 +30,7 @@ abstract class CJuiWidget extends CWidget
 	public $scriptUrl;
 	/**
 	 * @var string the root URL that contains all JUI theme folders.
-	 * If this property is not set (default), Yii will publish the JUI package included in the zii release and use
+	 * If this property is not set (default), Yee will publish the JUI package included in the zii release and use
 	 * that to infer the root theme URL. You should set this property if you intend to use
 	 * a theme that is not found in the JUI package included in zii.
 	 * Note that under this URL, there must be a directory whose name is specified by {@link theme}.
@@ -93,7 +93,7 @@ abstract class CJuiWidget extends CWidget
 	{
 		if($this->scriptUrl===null || $this->themeUrl===null)
 		{
-			$cs=Yii::app()->getClientScript();
+			$cs=Yee::app()->getClientScript();
 			if($this->scriptUrl===null)
 				$this->scriptUrl=$cs->getCoreScriptUrl().'/jui/js';
 			if($this->themeUrl===null)
@@ -107,7 +107,7 @@ abstract class CJuiWidget extends CWidget
 	 */
 	protected function registerCoreScripts()
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		if(is_string($this->cssFile))
 			$cs->registerCssFile($this->themeUrl.'/'.$this->theme.'/'.$this->cssFile);
 		elseif(is_array($this->cssFile))
@@ -139,6 +139,6 @@ abstract class CJuiWidget extends CWidget
 	 */
 	protected function registerScriptFile($fileName,$position=CClientScript::POS_END)
 	{
-		Yii::app()->getClientScript()->registerScriptFile($this->scriptUrl.'/'.$fileName,$position);
+		Yee::app()->getClientScript()->registerScriptFile($this->scriptUrl.'/'.$fileName,$position);
 	}
 }

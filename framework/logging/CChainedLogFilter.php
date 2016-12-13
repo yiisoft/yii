@@ -3,9 +3,9 @@
  * CChainedLogFilter class file
  *
  * @author Carsten Brandt <mail@cebe.cc>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -19,7 +19,7 @@ class CChainedLogFilter extends CComponent implements ILogFilter
 {
 	/**
 	 * @var array list of filters to apply to the logs.
-	 * The value of each array element will be passed to {@link Yii::createComponent} to create
+	 * The value of each array element will be passed to {@link Yee::createComponent} to create
 	 * a log filter object. As a result, this can be either a string representing the
 	 * filter class name or an array representing the filter configuration.
 	 * In general, the log filter classes should implement {@link ILogFilter} interface.
@@ -34,6 +34,6 @@ class CChainedLogFilter extends CComponent implements ILogFilter
 	public function filter(&$logs)
 	{
 		foreach($this->filters as $filter)
-			Yii::createComponent($filter)->filter($logs);
+			Yee::createComponent($filter)->filter($logs);
 	}
 }

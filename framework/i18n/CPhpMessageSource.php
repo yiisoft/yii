@@ -3,9 +3,9 @@
  * CPhpMessageSource class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -33,7 +33,7 @@
  * In particular, if a message belongs to an extension whose class name is Xyz, then the message category
  * can be specified in the format of 'Xyz.categoryName'. And the corresponding message file
  * is assumed to be 'BasePath/messages/LanguageID/categoryName.php', where 'BasePath' refers to
- * the directory that contains the extension class file. When using Yii::t() to translate an extension message,
+ * the directory that contains the extension class file. When using Yee::t() to translate an extension message,
  * the category name should be set as 'Xyz.categoryName'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -42,7 +42,7 @@
  */
 class CPhpMessageSource extends CMessageSource
 {
-	const CACHE_KEY_PREFIX='Yii.CPhpMessageSource.';
+	const CACHE_KEY_PREFIX='Yee.CPhpMessageSource.';
 
 	/**
 	 * @var integer the time in seconds that the messages can remain valid in cache.
@@ -70,7 +70,7 @@ class CPhpMessageSource extends CMessageSource
 	 * </pre>
 	 * Where the key is the name of the extension and the value is the alias to the path
 	 * of the "messages" subdirectory of the extension.
-	 * When using Yii::t() to translate an extension message, the category name should be
+	 * When using Yee::t() to translate an extension message, the category name should be
 	 * set as 'ExtensionName.categoryName'.
 	 * Defaults to an empty array, meaning no extensions registered.
 	 * @since 1.1.13
@@ -88,7 +88,7 @@ class CPhpMessageSource extends CMessageSource
 	{
 		parent::init();
 		if($this->basePath===null)
-			$this->basePath=Yii::getPathOfAlias('application.messages');
+			$this->basePath=Yee::getPathOfAlias('application.messages');
 	}
 
 	/**
@@ -111,7 +111,7 @@ class CPhpMessageSource extends CMessageSource
 				$extensionCategory=substr($category,$pos+1);
 				// First check if there's an extension registered for this class.
 				if(isset($this->extensionPaths[$extensionClass]))
-					$this->_files[$category][$language]=Yii::getPathOfAlias($this->extensionPaths[$extensionClass]).DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$extensionCategory.'.php';
+					$this->_files[$category][$language]=Yee::getPathOfAlias($this->extensionPaths[$extensionClass]).DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$extensionCategory.'.php';
 				else
 				{
 					// No extension registered, need to find it.
@@ -135,7 +135,7 @@ class CPhpMessageSource extends CMessageSource
 	{
 		$messageFile=$this->getMessageFile($category,$language);
 
-		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yee::app()->getComponent($this->cacheID))!==null)
 		{
 			$key=self::CACHE_KEY_PREFIX . $messageFile;
 			if(($data=$cache->get($key))!==false)

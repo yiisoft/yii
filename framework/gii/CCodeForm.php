@@ -3,9 +3,9 @@
  * CCodeForm class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -47,7 +47,7 @@ EOD;
 		foreach($this->model->getTemplates() as $i=>$template)
 			$templates[$i]=basename($template).' ('.$template.')';
 
-		$this->renderFile(Yii::getPathOfAlias('gii.views.common.generator').'.php',array(
+		$this->renderFile(Yee::getPathOfAlias('gii.views.common.generator').'.php',array(
 			'model'=>$this->model,
 			'templates'=>$templates,
 		));

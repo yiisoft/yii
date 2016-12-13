@@ -1,7 +1,7 @@
 Alternative Templatesyntax
 ==========================
 
-Yii erlaubt es dem Entwickler, seine eigene bevorzugte Templatesyntax 
+Yee erlaubt es dem Entwickler, seine eigene bevorzugte Templatesyntax 
 (z.B. von Prado oder Smarty) für Controller- und Widgetviews zu verwenden.
 Dazu  muss eine [viewRenderer|CWebApplication::viewRenderer]-Komponente
 erstellt bzw. konfiguriert werden. Diese Komponente fängt die Aufrufe von

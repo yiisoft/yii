@@ -89,7 +89,7 @@ class Post extends CActiveRecord
 	 */
 	public function getUrl()
 	{
-		return Yii::app()->createUrl('post/view', array(
+		return Yee::app()->createUrl('post/view', array(
 			'id'=>$this->id,
 			'title'=>$this->title,
 		));
@@ -122,7 +122,7 @@ class Post extends CActiveRecord
 	 */
 	public function addComment($comment)
 	{
-		if(Yii::app()->params['commentNeedApproval'])
+		if(Yee::app()->params['commentNeedApproval'])
 			$comment->status=Comment::STATUS_PENDING;
 		else
 			$comment->status=Comment::STATUS_APPROVED;
@@ -150,7 +150,7 @@ class Post extends CActiveRecord
 			if($this->isNewRecord)
 			{
 				$this->create_time=$this->update_time=time();
-				$this->author_id=Yii::app()->user->id;
+				$this->author_id=Yee::app()->user->id;
 			}
 			else
 				$this->update_time=time();

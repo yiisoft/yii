@@ -213,7 +213,7 @@ Ele trará também o perfil de cada autor e seus posts.
 > Note|Nota: O uso do método [with()|CActiveRecord::with] foi alterado a partir 
 da versão 1.0.2. Por favor, leia a documentação correspondente cuidadosamente.
 
-A implementação do AR no Yii é bastante eficiente. Quando utilizamos eager loading 
+A implementação do AR no Yee é bastante eficiente. Quando utilizamos eager loading 
 para carregar uma hierarquia de objetos relacionados envolvendo `N` relacionamentos 
 do tipo `HAS_MANY` e `MANY_MANY`, serão necessárias `N+1` consultas SQL para obter 
 os resultados necessários. Isso significa que serão executadas 3 consultas SQL no 
@@ -390,7 +390,7 @@ Consultas Estatísticas
 
 > Note|Nota: Consultas estatísticas são suportadas a partir da versão 1.0.4.
 
-Além das consultas relacionais descritas acima, o Yii também suporta as chamadas 
+Além das consultas relacionais descritas acima, o Yee também suporta as chamadas 
 consultas estatísticas (statistical query, ou aggregational query). Essas consultas 
 retornam informações agregadas sobre objetos relacionados, tais como o número de 
 comentários em cada post, a avaliação média para cada produto, etc. Consultas 

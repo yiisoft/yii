@@ -5,7 +5,7 @@ class CFormatterTest extends CTestCase
 	public function tearDown()
 	{
 		parent::tearDown();
-		Yii::app()->language=null; // reset language to not affect other tests
+		Yee::app()->language=null; // reset language to not affect other tests
 	}
 
 	/**
@@ -15,7 +15,7 @@ class CFormatterTest extends CTestCase
 	{
 		$formatter = new CFormatter();
 
-		Yii::app()->language = 'en';
+		Yee::app()->language = 'en';
 		$this->assertEquals('1 byte', $formatter->formatSize(1, true));
 		$this->assertEquals('10 bytes', $formatter->formatSize(10, true));
 		$this->assertEquals('1 kilobyte', $formatter->formatSize(1024, true));
@@ -37,7 +37,7 @@ class CFormatterTest extends CTestCase
 		$this->assertEquals('1 gigabyte', $formatter->formatSize(1024 * 1024 * 1024, true));
 		$this->assertEquals('1 terabyte', $formatter->formatSize(1024 * 1024 * 1024 * 1024, true));
 
-		Yii::app()->language = 'de';
+		Yee::app()->language = 'de';
 		$formatter->sizeFormat['decimalSeparator']=',';
 		$this->assertEquals('1 Byte', $formatter->formatSize(1, true));
 		$this->assertEquals('10 Byte', $formatter->formatSize(10, true));
@@ -68,7 +68,7 @@ class CFormatterTest extends CTestCase
 	{
 		$formatter = new CFormatter();
 
-		Yii::app()->language=$language;
+		Yee::app()->language=$language;
 
 		$this->assertNotEquals('1 byte', $formatter->formatSize(1, true));
 		$this->assertNotEquals('1 kilobyte', $formatter->formatSize(1024, true));

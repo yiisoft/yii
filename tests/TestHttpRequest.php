@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.web.CHttpRequest');
+Yee::import('system.web.CHttpRequest');
 
 class TestHttpRequest extends CHttpRequest
 {

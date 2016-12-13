@@ -52,12 +52,12 @@ les paramètres, et d'utiliser [CWebModule::components] pour partager les
 
 > Astuce: Il est possible d'utiliser le générateur de module disponible dans `Gii` pour créer un squelette de module.
 
-> Astuce: Il est possible d'utiliser l'outil `yiic` pour créer le squelette d'un module. Par exemple, pour créer le module `forum`, il faut exécuter la commande CLI suivante:
+> Astuce: Il est possible d'utiliser l'outil `yeec` pour créer le squelette d'un module. Par exemple, pour créer le module `forum`, il faut exécuter la commande CLI suivante:
 >
 > ~~~
 > % cd WebRoot/testdrive
-> % protected/yiic shell
-> Yii Interactive Tool v1.0
+> % protected/yeec shell
+> Yee Interactive Tool v1.0
 > Please type 'help' for help. Type 'exit' to quit.
 > >> module forum
 > ~~~
@@ -108,7 +108,7 @@ au lieu d'accéder à `postPerPage`, il est possible d'utiliser l'expression sui
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // où $this référence l'instance du contrôleur
 // $postPerPage=$this->module->postPerPage;
 ~~~

@@ -7,7 +7,7 @@ We are close to finish our blog application. Before deployment, we would like to
 Changing Home Page
 ------------------
 
-We change to use the post list page as the home page. We modify the [application configuration](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) as follows,
+We change to use the post list page as the home page. We modify the [application configuration](http://www.yeeframework.com/doc/guide/basics.application#application-configuration) as follows,
 
 ~~~
 [php]
@@ -50,7 +50,7 @@ In the above, we first add a `cache` component which uses a default SQLite datab
 Disabling Debugging Mode
 ------------------------
 
-We modify the entry script file `/wwwroot/blog/index.php` by removing the line defining the constant `YII_DEBUG`. This constant is useful during development stage because it allows Yii to display more debugging information when an error occurs. However, when the application is running in production mode, displaying debugging information is not a good idea because it may contain sensitive information such as where the script file is located, and the content in the file, etc.
+We modify the entry script file `/wwwroot/blog/index.php` by removing the line defining the constant `YII_DEBUG`. This constant is useful during development stage because it allows Yee to display more debugging information when an error occurs. However, when the application is running in production mode, displaying debugging information is not a good idea because it may contain sensitive information such as where the script file is located, and the content in the file, etc.
 
 
 Deploying the Application
@@ -58,10 +58,10 @@ Deploying the Application
 
 The final deployment process manly involves copying the directory `/wwwroot/blog` to the target directory. The following checklist shows every needed step:
 
- 1. Install Yii in the target place if it is not available;
+ 1. Install Yee in the target place if it is not available;
  2. Copy the entire directory `/wwwroot/blog` to the target place;
- 3. Edit the entry script file `index.php` by pointing the `$yii` variable to the new Yii bootstrap file;
- 4. Edit the file `protected/yiic.php` by setting the `$yiic` variable to be the new Yii `yiic.php` file;
+ 3. Edit the entry script file `index.php` by pointing the `$yee` variable to the new Yee bootstrap file;
+ 4. Edit the file `protected/yeec.php` by setting the `$yeec` variable to be the new Yee `yeec.php` file;
  5. Change the permission of the directories `assets` and `protected/runtime` so that they are writable by the Web server process.
 
 

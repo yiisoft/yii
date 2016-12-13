@@ -1,7 +1,7 @@
 Model-View-Controller (MVC)
 ===========================
 
-A Yii a model-view-controller (MVC / (modell-nézet-kontroller/vezérlő))tervezési
+A Yee a model-view-controller (MVC / (modell-nézet-kontroller/vezérlő))tervezési
 mintát valósítja meg, ami webprogramozás terén széleskörűen alkalmazott. Az MVC
 célja elválasztani az üzleti logikát a felhasználói felülettel kapcsolatos
 elgondolásoktól oly módon, hogy a fejlesztők minél könnyebben változtathassák
@@ -10,23 +10,23 @@ a modell képviseli az információt (adatot) és az üzleti logikát; a nézet
 tartalmazza a felhasználói felület elemeit, úgy mint szövegek, űrlapok;
 a kontroller/vezérlő pedig kezeli a modell és a nézet közti párbeszédet.
 
-Az MVC mellett a Yii a 'front-controller'-t, más néven alkalmazást, is bevezeti,
+Az MVC mellett a Yee a 'front-controller'-t, más néven alkalmazást, is bevezeti,
 ami a felhasználói kérések feldolgozásához biztosít végrehajtási környezetet.
 Az alkalmazás feloldja a felhasználói kérést, majd továbbítja a megfelelő
 kontrollernek további feldolgozásra.
 
-A következő ábra egy Yii alkalmazás statikus felépítését mutatja:
+A következő ábra egy Yee alkalmazás statikus felépítését mutatja:
 
-![Egy Yii alkalmazás statikus felépítése](structure.png)
+![Egy Yee alkalmazás statikus felépítése](structure.png)
 
 
 Egy tipikus munkafolymat
 ------------------------
 
-A következő ábra egy tipikus munkafolyamatot mutat, aminek során a Yii alklamzás
+A következő ábra egy tipikus munkafolyamatot mutat, aminek során a Yee alklamzás
 egy felhasználói kérést kezel:
 
-![Egy Yii alklamazás tipikus munkafolyamata](flow.png)
+![Egy Yee alklamazás tipikus munkafolyamata](flow.png)
 
    1. A felhasználó kérést intéz a következő URL-lel `http://www.example.com/index.php?r=post/show&id=1` a webszerver pedig a kérést
 kezelendő, végrehajtja a rendszertöltő `index.php` szkriptet.

@@ -1,8 +1,8 @@
 * Introducción
 	- [Descripción](index)
-    - [Qué es Yii](quickstart.what-is-yii)
+    - [Qué es Yee](quickstart.what-is-yee)
     - [Instalación](quickstart.installation)
-    - [Creando primera aplicación Yii](quickstart.first-app)
+    - [Creando primera aplicación Yee](quickstart.first-app)
 
 * Fundamentos
     - [Modelo-Vista-Controlador (MVC)](basics.mvc)
@@ -37,7 +37,7 @@
     - [Cacheo de Páginas](caching.page)
     - [Contenido dinámico](caching.dynamic)
 
-* Extending Yii
+* Extending Yee
     - [Descripción](extension.overview)
     - [Usando extensiones](extension.use)
     - [Creando extensiones](extension.create)

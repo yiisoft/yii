@@ -3,9 +3,9 @@
  * CCodeGenerator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -97,7 +97,7 @@ class CCodeGenerator extends CController
 	 */
 	public function actionDiff()
 	{
-		Yii::import('gii.components.TextDiff');
+		Yee::import('gii.components.TextDiff');
 
 		$model=$this->prepare();
 		if(isset($_GET['id']) && isset($model->files[$_GET['id']]))
@@ -149,7 +149,7 @@ class CCodeGenerator extends CController
 	{
 		if($this->codeModel===null)
 			throw new CException(get_class($this).'.codeModel property must be specified.');
-		$modelClass=Yii::import($this->codeModel,true);
+		$modelClass=Yee::import($this->codeModel,true);
 		$model=new $modelClass;
 		$model->loadStickyAttributes();
 		if(isset($_POST[$modelClass]))

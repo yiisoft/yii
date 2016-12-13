@@ -1,13 +1,13 @@
 Kustomisasi Model Comment
 =========================
 
-Untuk model `Comment`, kita utamanya perlu mengubah method `rules()` dan `attributeLabels()`. Method `attributeLabels()` mengembalikan sebuah mapping antara nama atribut dan label atribut. Kita tidak perlu menyentuh `relations()` karena kode yang dihasilkan `yiic` sudah cukup baik.
+Untuk model `Comment`, kita utamanya perlu mengubah method `rules()` dan `attributeLabels()`. Method `attributeLabels()` mengembalikan sebuah mapping antara nama atribut dan label atribut. Kita tidak perlu menyentuh `relations()` karena kode yang dihasilkan `yeec` sudah cukup baik.
 
 
 Mengkustomisasi Method `rules()`
 ----------------------------
 
-Pertama-tama kita mengubah rule (aturan) validasi yang dibuat oleh `yiic`. Berikut merupakan aturan untuk comments:
+Pertama-tama kita mengubah rule (aturan) validasi yang dibuat oleh `yeec`. Berikut merupakan aturan untuk comments:
 
 ~~~
 [php]

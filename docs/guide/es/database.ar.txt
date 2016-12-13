@@ -1,7 +1,7 @@
 ﻿Registro Activo
 ===============
 
-Aunque la DAO de Yii puede manejar virtualmente cualquier tarea relacionada
+Aunque la DAO de Yee puede manejar virtualmente cualquier tarea relacionada
 con la base de datos, lo más probable es que gastemos el 90% de nuestro tiempo
 escribiendo algunas sentencias SQL relacionadas con la ejecución de las operaciones
 CRUD comunes. Es tambien dificil mantener nuestro código cuando éste está mezclado
@@ -42,7 +42,7 @@ CREATE TABLE Post (
 > Note|Nota: AR no pretende resolver todas las tareas relacionadas con la
 base de datos. Lo mejor es usarlo para modelar tablas de bases de datos en
 construcciones PHP y ejecutar consultas que no involucren SQLs complejas.
-Para esos escenarios complejos debe usarse el DAO de Yii.
+Para esos escenarios complejos debe usarse el DAO de Yee.
 
 Estableciendo la Conexión con la BD
 -----------------------------------
@@ -459,9 +459,9 @@ por los valores de su clave primaria. Por lo tanto, para comparar dos instancias
 solo es necesario comparar los valores de sus claves primarias, asumiendo que pertenezcan
 a la misma clase AR. Sin embargo, una manera más simple es llamar a [CActiveRecord::equals()].
 
-> Info:Información: A diferencia de la implementación de AR en otros frameworks, Yii
+> Info:Información: A diferencia de la implementación de AR en otros frameworks, Yee
 soporta claves primaris compuestas en su AR. Una clave primaria consiste de dos o más
-columnas. Correspondientemente, en Yii el valor de la clave primaria está representado
+columnas. Correspondientemente, en Yee el valor de la clave primaria está representado
 como un arreglo. La propiedad [primaryKey|CActiveRecord::primaryKey] nos da el valor de
 la clave primaria de una instancia AR.
 
@@ -495,7 +495,7 @@ Usando Transacciones con AR
 
 Cada instancia AR contiene una propiedad llamada [dbConnection|CActiveRecord::dbConnection]
 que es una instancia de [CDbConnection]. Por lo tanto podemos utilizar la característica
-[transaction](/doc/guide/database.dao#using-transactions) provista por el DAO de Yii
+[transaction](/doc/guide/database.dao#using-transactions) provista por el DAO de Yee
 si se desea cuando trabajamos con AR:
 
 ~~~

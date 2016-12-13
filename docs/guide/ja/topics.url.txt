@@ -6,9 +6,9 @@ URL の管理
 1. ユーザのリクエストが URL の形式で来たときに、アプリケーションはそれを解析して理解できるパラメータに変換する必要があります。
 2. アプリケーションが理解できる形式の URL を生成する方法を、アプリケーション自身が提供する必要があります。
 
-Yii アプリケーションでは、この二つは [CUrlManager] の手助けによって行われます。
+Yee アプリケーションでは、この二つは [CUrlManager] の手助けによって行われます。
 
-> Note|注意: Yii を使わずに URL を指定する事は可能ですが、それは推奨されていません。
+> Note|注意: Yee を使わずに URL を指定する事は可能ですが、それは推奨されていません。
 > なぜなら、手動で URL を指定すると、アプリケーションコードを変更せずに設定だけで URL を変更することが出来なくなったり、アプリケーションの可搬性を達成できなくなったりするからです。
 
 URL の生成
@@ -61,7 +61,7 @@ array(
 [CWebApplication] の中で [CUrlManager] であることがすでに宣言済みです。
 
 > Tip|ヒント: [createUrl|CController::createUrl] で生成される URL は相対 URL です。
-絶対 URL が必要な時は、`Yii::app()->request->hostInfo` を前置するか、[createAbsoluteUrl|CController::createAbsoluteUrl] をコールします。
+絶対 URL が必要な時は、`Yee::app()->request->hostInfo` を前置するか、[createAbsoluteUrl|CController::createAbsoluteUrl] をコールします。
 
 ユーザフレンドリーな URL
 ------------------

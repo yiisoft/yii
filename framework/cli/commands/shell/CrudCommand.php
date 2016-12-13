@@ -3,9 +3,9 @@
  * CrudCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -92,17 +92,17 @@ EOD;
 			echo $this->getHelp();
 			return 1;
 		}
-		$module=Yii::app();
+		$module=Yee::app();
 		$modelClass=$args[0];
 		if(($pos=strpos($modelClass,'.'))===false)
 			$modelClass='application.models.'.$modelClass;
 		else
 		{
 			$id=substr($modelClass,0,$pos);
-			if(($m=Yii::app()->getModule($id))!==null)
+			if(($m=Yee::app()->getModule($id))!==null)
 				$module=$m;
 		}
-		$modelClass=Yii::import($modelClass);
+		$modelClass=Yee::import($modelClass);
 
 		if(isset($args[1]))
 		{
@@ -124,7 +124,7 @@ EOD;
 				$controllerClass=ucfirst($last).'Controller';
 				$controllerFile=($middle===''?'':$middle.'/').$controllerClass.'.php';
 				$controllerID=$middle===''?$last:$middle.'/'.$last;
-				if(($m=Yii::app()->getModule($first))!==null)
+				if(($m=Yee::app()->getModule($first))!==null)
 					$module=$m;
 				else
 				{
@@ -144,7 +144,7 @@ EOD;
 		}
 
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/crud':$this->templatePath;
-		$functionalTestPath=$this->functionalTestPath===null?Yii::getPathOfAlias('application.tests.functional'):$this->functionalTestPath;
+		$functionalTestPath=$this->functionalTestPath===null?Yee::getPathOfAlias('application.tests.functional'):$this->functionalTestPath;
 
 		$viewPath=$module->viewPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$controllerID);
 		$fixtureName=$this->pluralize($modelClass);
@@ -195,9 +195,9 @@ EOD;
 		$model=CActiveRecord::model($modelClass);
 		$id=$model->tableSchema->primaryKey;
 		if($id===null)
-			throw new ShellException(Yii::t('yii','Error: Table "{table}" does not have a primary key.',array('{table}'=>$model->tableName())));
+			throw new ShellException(Yee::t('yee','Error: Table "{table}" does not have a primary key.',array('{table}'=>$model->tableName())));
 		elseif(is_array($id))
-			throw new ShellException(Yii::t('yii','Error: Table "{table}" has a composite primary key which is not supported by crud command.',array('{table}'=>$model->tableName())));
+			throw new ShellException(Yee::t('yee','Error: Table "{table}" has a composite primary key which is not supported by crud command.',array('{table}'=>$model->tableName())));
 
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);

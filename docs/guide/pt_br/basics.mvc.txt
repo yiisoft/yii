@@ -1,7 +1,7 @@
 Modelo-Visão-Controle (MVC)
 ===========================
 
-O Yii implementa o padrão de desenvolvimento modelo-visão-controle (MVC) que é
+O Yee implementa o padrão de desenvolvimento modelo-visão-controle (MVC) que é
 amplamente adotado na programação Web. O MVC visa separar a lógica de negócio
 da interface com o usuário, assim os programadores podem mudar facilmente cada
 parte, sem afetar as outras. No padrão MVC, o modelo representa as informações
@@ -9,21 +9,21 @@ parte, sem afetar as outras. No padrão MVC, o modelo representa as informaçõe
 usuário, como textos, formulários, e o controle gerencia a comunicação entre
 o modelo e a visão.
 
-Além MVC, o Yii também introduz um controle de frente, chamado aplicação (application),
+Além MVC, o Yee também introduz um controle de frente, chamado aplicação (application),
 que representa o contexto de execução dos processos requisitados. A aplicação recebe
 a solicitação do usuário e a envia para um controlador adequado para ser processada.
 
-O diagrama seguinte mostra a estrutura estática de uma aplicação Yii:
+O diagrama seguinte mostra a estrutura estática de uma aplicação Yee:
 
-![Estrutura estática de uma aplicação Yii](structure.png)
+![Estrutura estática de uma aplicação Yee](structure.png)
 
 
 Um típico fluxo de execução
 ---------------------------
-O diagrama a seguir mostra um típico fluxo de execução de uma aplicação Yii
+O diagrama a seguir mostra um típico fluxo de execução de uma aplicação Yee
 quando esta está recebendo uma solicitação de um usuário
 
-![Um típico fluxo de execução de uma aplicação Yii](flow.png)
+![Um típico fluxo de execução de uma aplicação Yee](flow.png)
 
    1. O usuário faz uma solicitação com a URL `http://www.exemplo.com/index.php?r=post/show&id=1`
 e o servidor Web processa o pedido executando o script de bootstrap `index.php`.

@@ -9,7 +9,7 @@ Objekt als zentraler Speicherort für Konfigurationsdaten der gesamten Anwendung
 Man nennt dieses Objekt auch `Front-Controller`.
 
 Das Applikationsobjekt wird vom [Startscript](/doc/guide/basics.entry) als
-Singleton erzeugt und kann daher an jeder Stelle über [Yii::app()|YiiBase::app]
+Singleton erzeugt und kann daher an jeder Stelle über [Yee::app()|YeeBase::app]
 abgerufen werden.
 
 Konfiguration
@@ -33,7 +33,7 @@ konfiguriert:
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -49,12 +49,12 @@ return array(...);
 
 Der Name der Konfigurationsdatei kann als Parameter an den Konstruktor der
 Applikation übergeben werden oder wie im folgenden Beispiel an
-[Yii::createWebApplication()]. Für gewöhnlich geschieht dies im
+[Yee::createWebApplication()]. Für gewöhnlich geschieht dies im
 [Startscript](/doc/guide/basics.entry):
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip|Tipp: Falls die Konfigurationsdaten sehr umfangreich oder kompliziert
@@ -119,8 +119,8 @@ Objekts mit den angegebenen Parametern initialisiert.
 
 
 Um auf eine dieser Anwendungskomponenten zuzugreifen, benutzen Sie
-`Yii::app()->KomponentenID`, wobei `KomponentenID` sich auf die ID
-der Komponente bezieht (z.B. `Yii::app()->cache`).
+`Yee::app()->KomponentenID`, wobei `KomponentenID` sich auf die ID
+der Komponente bezieht (z.B. `Yee::app()->cache`).
 
 Eine Komponente kann auch deaktiviert werden, indem man bei ihr den
 Schlüssel `enabled` als `false` konfiguriert. In diesem Fall wird `null`
@@ -141,12 +141,12 @@ zurückgeliefert, wenn man auf die Komponente zugreift.
 Kernkomponenten einer Anwendung
 -------------------------------
 
-Yii definiert bereits eine Reihe von Kernkomponenten für die üblichen
+Yee definiert bereits eine Reihe von Kernkomponenten für die üblichen
 Aufgabengebiete einer Webanwendung vor. Die [request|CWebApplication::request]-Komponente
 wird z.B. für die Auflösung eines Requests und die Abfrage von
 Requestinformationen wie URL und Cookies verwendet. Indem man die
 Eigenschaftswerte dieser Kernkomponenten anpasst, lässt sich das
-verhalten einer Yii-Anwendung bereits in weiten Grenzen steuern.
+verhalten einer Yee-Anwendung bereits in weiten Grenzen steuern.
 
 Dies sind die Kernkomponenten, die eine [CWebApplication] standardmäßig vorbelegt:
 
@@ -166,7 +166,7 @@ zurückgeliefert, wenn Sie auf diese Komponente zugreifen.
 verwaltet Clientscripts (Javascripts und CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-stellt übersetzte Kernmeldungen für das Yii-Framework bereit.
+stellt übersetzte Kernmeldungen für das Yee-Framework bereit.
 
    - [db|CApplication::db]: [CDbConnection] - stellt eine Datenbankverbindung
 bereit.  Beachten Sie, dass sie deren
@@ -180,7 +180,7 @@ nicht-abgefangene PHP-Fehler und -Exceptions.
 die Anzeige.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - stellt
-übersetzte Textmeldungen für die Yii-Anwendung bereit.
+übersetzte Textmeldungen für die Yee-Anwendung bereit.
 
    - [request|CWebApplication::request]: [CHttpRequest] - stellt Informationen
 über den HTTP-Request bereit

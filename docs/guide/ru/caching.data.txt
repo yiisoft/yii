@@ -11,7 +11,7 @@
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yee::app()->cache->set($id, $value);
 ~~~
 
 Данные будут оставаться в кэше до тех пор, пока не будут удалены
@@ -24,7 +24,7 @@ Yii::app()->cache->set($id, $value);
 ~~~
 [php]
 // храним значение переменной в кэше не более 30 секунд
-Yii::app()->cache->set($id, $value, 30);
+Yee::app()->cache->set($id, $value, 30);
 ~~~
 
 Позже, когда нам требуется обратиться к этой переменной (при обработке текущего или другого веб-запроса),
@@ -34,12 +34,12 @@ Yii::app()->cache->set($id, $value, 30);
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yee::app()->cache->get($id);
 if($value===false)
 {
 	// устанавливаем значение $value заново, т.к. оно не найдено в кэше,
 	// и сохраняем его в кэше для дальнейшего использования:
-	// Yii::app()->cache->set($id,$value);
+	// Yee::app()->cache->set($id,$value);
 }
 ~~~
 
@@ -65,7 +65,7 @@ if($value===false)
 > компонент кэширования может использоваться как массив. Ниже приведены примеры:
 > ~~~
 > [php]
-> $cache=Yii::app()->cache;
+> $cache=Yee::app()->cache;
 > $cache['var1']=$value1;  // эквивалентно $cache->set('var1',$value1);
 > $value2=$cache['var2'];  // эквивалентно $value2=$cache->get('var2');
 > ~~~
@@ -88,7 +88,7 @@ if($value===false)
 [php]
 // значение действительно не более 30 секунд
 // кроме того, значение может стать недействительным раньше, если зависимый файл изменился
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+Yee::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 Теперь, если мы попытаемся извлечь значение `$value` из кэша, вызвав метод
@@ -120,14 +120,14 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 Кэширование запросов
 --------------------
 
-Начиная с версии 1.1.7, Yii поддерживает кэширование запросов. Построенное на
+Начиная с версии 1.1.7, Yee поддерживает кэширование запросов. Построенное на
 кэшировании данных, кэширование запросов хранит результат запроса к базе
 данных в кэше и, тем самым, экономит время, расходуемое на одни и те же запросы.
 
 > Info|Информация: Некоторые СУБД, такие как
 > [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html),
 > поддерживают кэширование на стороне сервера базы данных. 
-> Аналогичная возможность в Yii обеспечивает большую гибкость по сравнению с кэшированием на стороне сервера БД, и
+> Аналогичная возможность в Yee обеспечивает большую гибкость по сравнению с кэшированием на стороне сервера БД, и
 > потенциально она более эффективна.
 
 
@@ -147,10 +147,10 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 [php]
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 ~~~
 
-При выполнении приведённого кода Yii сначала проверит, есть ли в кэше актуальный
+При выполнении приведённого кода Yee сначала проверит, есть ли в кэше актуальный
 результат, соответствующий SQL-запросу, который мы собираемся выполнить. При этом
 проверяются следующие три условия:
 
@@ -177,7 +177,7 @@ $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 ~~~
 
 Метод `cache()` является сокращением для вызова [CDbConnection::cache()].
-При выполнении SQL-запроса, сгенерированного ActiveRecord, Yii попытается
+При выполнении SQL-запроса, сгенерированного ActiveRecord, Yee попытается
 использовать кэширование так же, как это было описано в предыдущем подразделе.
 
 
@@ -192,9 +192,9 @@ $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
 
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 // запрос НЕ БУДЕТ закэширован
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 Передавая методу `cache()` дополнительный параметр `$queryCount`, мы можем
@@ -204,9 +204,9 @@ $rows = Yii::app()->db->createCommand($sql)->queryAll();
 ~~~
 [php]
 // ...
-$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
 // запрос БУДЕТ закэширован
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yee::app()->db->createCommand($sql)->queryAll();
 ~~~
 
 Как известно, при выполнении реляционного AR-запроса, на самом деле могут выполняться

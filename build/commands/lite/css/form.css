@@ -1,15 +1,15 @@
 /**
  * CSS styles for form and input fields.
  *
- * These styles are used with form and input fields generated via yiic script.
+ * These styles are used with form and input fields generated via yeec script.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2010 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2010 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-div.yiiForm
+div.yeeForm
 {
 	border: 2px solid #B7DDF2;
 	background: #EBF4FB;
@@ -44,41 +44,41 @@ div.errorSummary ul li
 	list-style: square;
 }
 
-div.yiiForm p.hint
+div.yeeForm p.hint
 {
 	color: gray;
 	font-size: 90%;
 	margin: 0 0 0 110px;
 }
 
-div.yiiForm fieldset
+div.yeeForm fieldset
 {
 	border: #DDD 1px solid;
 	margin: 10px 0;
 	padding: 10px;
 }
 
-div.yiiForm legend
+div.yeeForm legend
 {
 	font-weight: bold;
 }
 
-div.yiiForm div.action
+div.yeeForm div.action
 {
 	clear: left;
 	margin-left: 110px;
 	padding: 0.25em 0;
 }
 
-div.yiiForm div.simple,
-div.yiiForm div.complex
+div.yeeForm div.simple,
+div.yeeForm div.complex
 {
 	clear: left;
 	padding: 0.25em 0;
 }
 
-div.yiiForm div.simple label,
-div.yiiForm div.complex span
+div.yeeForm div.simple label,
+div.yeeForm div.complex span
 {
 	display: block;
 	float: left;
@@ -88,21 +88,21 @@ div.yiiForm div.complex span
 	width: 100px;
 }
 
-div.yiiForm label.error,
-div.yiiForm span.error
+div.yeeForm label.error,
+div.yeeForm span.error
 {
 	color: #C00;
 }
 
-div.yiiForm input.error,
-div.yiiForm textarea.error
+div.yeeForm input.error,
+div.yeeForm textarea.error
 {
 	background: #FEE;
 	border-color: #C00;
 }
 
-div.yiiForm div.simple div,
-div.yiiForm div.complex div
+div.yeeForm div.simple div,
+div.yeeForm div.complex div
 {
 	margin-left: 110px;
 }

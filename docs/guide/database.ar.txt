@@ -1,7 +1,7 @@
 Active Record
 =============
 
-Although Yii DAO can handle virtually any database-related task, chances
+Although Yee DAO can handle virtually any database-related task, chances
 are that we would spend 90% of our time in writing some SQL statements
 which perform the common CRUD (create, read, update and delete) operations.
 It is also difficult to maintain our code when they are mixed with SQL
@@ -40,7 +40,7 @@ CREATE TABLE tbl_post (
 
 > Note: AR is not meant to solve all database-related tasks. It is best
 used for modeling database tables in PHP constructs and performing queries
-that do not involve complex SQLs. Yii DAO should be used for those complex
+that do not involve complex SQLs. Yee DAO should be used for those complex
 scenarios.
 
 
@@ -242,7 +242,7 @@ $post->save();
 > Tip: While AR allows us to perform database operations without writing
 cumbersom SQL statements, we often want to know what SQL statements are executed
 by AR underneath. This can be achieved by turning on the [logging feature](/doc/guide/topics.logging)
-of Yii. For example, we can turn on [CWebLogRoute] in the application configuration,
+of Yee. For example, we can turn on [CWebLogRoute] in the application configuration,
 and we will see the executed SQL statements being displayed at the end of each Web page.
 We can set [CDbConnection::enableParamLogging] to be true in
 the application configuration so that the parameter values bound to the SQL
@@ -494,10 +494,10 @@ values. Therefore, to compare two AR instances, we merely need to compare
 their primary key values, assuming they belong to the same AR class. A
 simpler way is to call [CActiveRecord::equals()], however.
 
-> Info: Unlike AR implementation in other frameworks, Yii supports
+> Info: Unlike AR implementation in other frameworks, Yee supports
 composite primary keys in its AR. A composite primary key consists of two
 or more columns. Correspondingly, the primary key value is represented as
-an array in Yii. The [primaryKey|CActiveRecord::primaryKey] property gives
+an array in Yee. The [primaryKey|CActiveRecord::primaryKey] property gives
 the primary key value of an AR instance.
 
 Customization
@@ -534,7 +534,7 @@ Using Transaction with AR
 Every AR instance contains a property named
 [dbConnection|CActiveRecord::dbConnection] which is a [CDbConnection]
 instance. We thus can use the
-[transaction](/doc/guide/database.dao#using-transactions) feature provided by Yii
+[transaction](/doc/guide/database.dao#using-transactions) feature provided by Yee
 DAO if it is desired when working with AR:
 
 ~~~
@@ -640,7 +640,7 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"language='".Yii::app()->language."'",
+			'condition'=>"language='".Yee::app()->language."'",
 		);
 	}
 }

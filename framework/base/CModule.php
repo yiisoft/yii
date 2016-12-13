@@ -3,9 +3,9 @@
  * CModule class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -79,7 +79,7 @@ abstract class CModule extends CComponent
 			$this->setBasePath($config['basePath']);
 			unset($config['basePath']);
 		}
-		Yii::setPathOfAlias($id,$this->getBasePath());
+		Yee::setPathOfAlias($id,$this->getBasePath());
 
 		$this->preinit();
 
@@ -161,7 +161,7 @@ abstract class CModule extends CComponent
 	public function setBasePath($path)
 	{
 		if(($this->_basePath=realpath($path))===false || !is_dir($this->_basePath))
-			throw new CException(Yii::t('yii','Base path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','Base path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -212,7 +212,7 @@ abstract class CModule extends CComponent
 	public function setModulePath($value)
 	{
 		if(($this->_modulePath=realpath($value))===false || !is_dir($this->_modulePath))
-			throw new CException(Yii::t('yii','The module path "{path}" is not a valid directory.',
+			throw new CException(Yee::t('yee','The module path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 
@@ -223,7 +223,7 @@ abstract class CModule extends CComponent
 	public function setImport($aliases)
 	{
 		foreach($aliases as $alias)
-			Yii::import($alias);
+			Yee::import($alias);
 	}
 
 	/**
@@ -243,10 +243,10 @@ abstract class CModule extends CComponent
 	{
 		foreach($mappings as $name=>$alias)
 		{
-			if(($path=Yii::getPathOfAlias($alias))!==false)
-				Yii::setPathOfAlias($name,$path);
+			if(($path=Yee::getPathOfAlias($alias))!==false)
+				Yee::setPathOfAlias($name,$path);
 			else
-				Yii::setPathOfAlias($name,$alias);
+				Yee::setPathOfAlias($name,$alias);
 		}
 	}
 
@@ -275,13 +275,13 @@ abstract class CModule extends CComponent
 			$config=$this->_moduleConfig[$id];
 			if(!isset($config['enabled']) || $config['enabled'])
 			{
-				Yii::trace("Loading \"$id\" module",'system.base.CModule');
+				Yee::trace("Loading \"$id\" module",'system.base.CModule');
 				$class=$config['class'];
 				unset($config['class'], $config['enabled']);
-				if($this===Yii::app())
-					$module=Yii::createComponent($class,$id,null,$config);
+				if($this===Yee::app())
+					$module=Yee::createComponent($class,$id,null,$config);
 				else
-					$module=Yii::createComponent($class,$this->getId().'/'.$id,$this,$config);
+					$module=Yee::createComponent($class,$this->getId().'/'.$id,$this,$config);
 				return $this->_modules[$id]=$module;
 			}
 		}
@@ -353,8 +353,8 @@ abstract class CModule extends CComponent
 			{
 				if(!isset($module['class']))
 				{
-					if (Yii::getPathOfAlias($id)===false)
-						Yii::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
+					if (Yee::getPathOfAlias($id)===false)
+						Yee::setPathOfAlias($id,$this->getModulePath().DIRECTORY_SEPARATOR.$id);
 					$module['class']=$id.'.'.ucfirst($id).'Module';
 				}
 				$this->_moduleConfig[$id]=$module;
@@ -388,9 +388,9 @@ abstract class CModule extends CComponent
 			$config=$this->_componentConfig[$id];
 			if(!isset($config['enabled']) || $config['enabled'])
 			{
-				Yii::trace("Loading \"$id\" application component",'system.CModule');
+				Yee::trace("Loading \"$id\" application component",'system.CModule');
 				unset($config['enabled']);
-				$component=Yii::createComponent($config);
+				$component=Yee::createComponent($config);
 				$component->init();
 				return $this->_components[$id]=$component;
 			}

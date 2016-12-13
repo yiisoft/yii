@@ -1,30 +1,30 @@
 Installasjon
 ============
 
-Installasjon av Yii består hovedsakling av følgende steg:
+Installasjon av Yee består hovedsakling av følgende steg:
 
-   1. Last ned Yii Framework fra [yiiframework.com](http://www.yiiframework.com/).
-   2. Pakk ut Yii-pakka i en mappe under webserveren din.
+   1. Last ned Yee Framework fra [yeeframework.com](http://www.yeeframework.com/).
+   2. Pakk ut Yee-pakka i en mappe under webserveren din.
 
-> Tip|Tips: Yii trenger ikke bli installert under en mappe på webserveren.
-En Yii-applikasjon har et start-script som vanligvis er den eneste fila som
-må eksponeres for nettbrukere. Andre PHP-script, inkludert de fra Yii, bør
+> Tip|Tips: Yee trenger ikke bli installert under en mappe på webserveren.
+En Yee-applikasjon har et start-script som vanligvis er den eneste fila som
+må eksponeres for nettbrukere. Andre PHP-script, inkludert de fra Yee, bør
 beskyttes fra å være tilgjengelige på webserveren siden de kan utsettes
 for hacking.
 
 Systemkrav
 ----------
 
-Etter installasjonen av Yii bør du sjekke at webserveren din tilfredstiller
-alle krav for å bruke Yii. Du kan gjøre dette med et script som du når med
+Etter installasjonen av Yee bør du sjekke at webserveren din tilfredstiller
+alle krav for å bruke Yee. Du kan gjøre dette med et script som du når med
 følgende URL i nettleseren din:
 
 ~~~
-http://hostname/path/to/yii/requirements/index.php
+http://hostname/path/to/yee/requirements/index.php
 ~~~
 
-Minimumskravet til Yii er at webserveren din støtter PHP 5.1.0 eller nyere.
-Yii har blitt testet med [Apache HTTP server](http://httpd.apache.org/) på
+Minimumskravet til Yee er at webserveren din støtter PHP 5.1.0 eller nyere.
+Yee har blitt testet med [Apache HTTP server](http://httpd.apache.org/) på
 Windows og Linux. Det kan også kjøres på andre webservere og plattformer
 hvor PHP 5 er tilgjengelig.
 

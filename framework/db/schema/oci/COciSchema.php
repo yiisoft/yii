@@ -3,9 +3,9 @@
  * COciSchema class file.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -358,7 +358,7 @@ EOD;
 	 * will have the specified value or max value of a primary key plus one (i.e. sequence trimming).
 	 *
 	 * Note, behavior of this method has changed since 1.1.14 release. Please refer to the following
-	 * issue for more details: {@link https://github.com/yiisoft/yii/issues/2241}
+	 * issue for more details: {@link https://github.com/yeesoft/yee/issues/2241}
 	 *
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
 	 * @param integer|null $value the value for the primary key of the next new row inserted.

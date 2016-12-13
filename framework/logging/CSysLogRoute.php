@@ -4,9 +4,9 @@
  *
  * @author miramir <gmiramir@gmail.com>
  * @author resurtm <resurtm@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2014 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2014 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**

@@ -5,7 +5,7 @@
 它同時作為服務中心，維護應用程式級別的配置。有鑒於此，應用程式也叫做`前端控制器`。
 
 應用程式由 [入口腳本](/doc/guide/basics.entry) 實體化為一個獨立的物件。這個獨立的應用程式可以在任何地方通過
- [Yii::app()|YiiBase::app] 存取。
+ [Yee::app()|YeeBase::app] 存取。
 
 
 應用程式配置
@@ -21,7 +21,7 @@
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -34,12 +34,12 @@ array(
 return array(...);
 ~~~
 
-要使用此配置，我們將設定檔的名字作為參數傳遞給應用程式的建構器，或像下面這樣傳遞到 [Yii::createWebApplication()]
+要使用此配置，我們將設定檔的名字作為參數傳遞給應用程式的建構器，或像下面這樣傳遞到 [Yee::createWebApplication()]
 。這通常在 [入口腳本](/doc/guide/basics.entry) 中完成：
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip|提示: 如果應用程式配置非常複雜，我們可以把它分割為若干個文件，每個文件返回配置陣列中的一部分。
@@ -91,7 +91,7 @@ array(
 如上所示，我們在 `components` 陣列中增加了 `cache` 元素。`cache` 元素表示此元件的類別是 `CMemCache`,
 他的 `servers` 屬性應依此初始化。
 
-要訪問一個應用程式元件，使用 `Yii::app()->ComponentID` ，其中的 `ComponentID` 是指元件的ID（例如 `Yii::app()->cache`）。
+要訪問一個應用程式元件，使用 `Yee::app()->ComponentID` ，其中的 `ComponentID` 是指元件的ID（例如 `Yee::app()->cache`）。
 
 應用程式的元件可以通過在其配置中設置 `enabled` 為 false 禁用。當我們存取被禁用的元件時將返回 Null。
 
@@ -102,9 +102,9 @@ array(
 核心應用程式元件
 ---------------------------
 
-Yii 預定義了一系列核心應用程式元件，提供常見 Web 應用程式中所用的功能。例如，
+Yee 預定義了一系列核心應用程式元件，提供常見 Web 應用程式中所用的功能。例如，
 [request|CWebApplication::request] 元件用於解析用戶請求並提供例如 URL，cookie 等訊息。
-通過配置這些核心元件的屬性，我們可以在幾乎所有 Yii 的預設行為。
+通過配置這些核心元件的屬性，我們可以在幾乎所有 Yee 的預設行為。
 
 下面我們列出了由 [CWebApplication] 預定義的核心元件。
 
@@ -120,7 +120,7 @@ Yii 預定義了一系列核心應用程式元件，提供常見 Web 應用程�
 管理客戶端腳本 (javascripts 和 CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-提供 Yii 框架用到的核心訊息的翻譯。
+提供 Yee 框架用到的核心訊息的翻譯。
 
    - [db|CApplication::db]: [CDbConnection] - 提供資料庫連接。注意，使用此元件你必須配置其
 [connectionString|CDbConnection::connectionString] 屬性。
@@ -129,7 +129,7 @@ Yii 預定義了一系列核心應用程式元件，提供常見 Web 應用程�
 
    - [format|CApplication::format]: [CFormatter] - 正規畫數值顯示。此功能從版本 1.1.0 起開始提供。
 
-   - [messages|CApplication::messages]: [CPhpMessageSource] - 提供Yii應用程式中使用的訊息翻譯。
+   - [messages|CApplication::messages]: [CPhpMessageSource] - 提供Yee應用程式中使用的訊息翻譯。
 
    - [request|CWebApplication::request]: [CHttpRequest] - 提供關於用戶請求的訊息。
 

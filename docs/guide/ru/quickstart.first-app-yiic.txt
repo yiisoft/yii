@@ -1,7 +1,7 @@
 Генерация кода при помощи консоли (устаревшее)
 ==============================================
 
-> Note|Примечание: Генераторы кода `yiic shell` считаются устаревшими, начиная с
+> Note|Примечание: Генераторы кода `yeec shell` считаются устаревшими, начиная с
 > версии 1.1.2. Пожалуйста, используйте более мощные расширяемые веб-генераторы
 > [Gii](/doc/guide/topics.gii).
  
@@ -9,8 +9,8 @@
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
+% protected/yeec shell
+Yee Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
    generate models/User.php
@@ -40,17 +40,17 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-В примере выше мы использовали команду `shell` утилиты `yiic` для взаимодействия с 
+В примере выше мы использовали команду `shell` утилиты `yeec` для взаимодействия с 
 созданным каркасом приложения. В командной строке мы вводим две команды: `model User tbl_user` и `crud User`.
 Команда `model` автоматически создает класс модели `User`, основываясь на структуре таблицы `tbl_user`, 
 а команда `crud` генерирует класс контроллера и файлы представлений, которые обеспечивают 
 выполнение соответствующих операций CRUD.
 
 > Note|Примечание: Даже если проверка соответствия требованиям показывает, что расширение PDO и драйвер PDO, соответствующий используемой базе
-> данных, включены, могут возникать ошибки типа «…could not find driver». В этом случае необходимо запустить утилиту `yiic` следующим образом:
+> данных, включены, могут возникать ошибки типа «…could not find driver». В этом случае необходимо запустить утилиту `yeec` следующим образом:
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 > где `path/to/php.ini` — путь до файла PHP ini

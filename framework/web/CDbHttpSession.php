@@ -3,22 +3,22 @@
  * CDbHttpSession class
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
  * CDbHttpSession extends {@link CHttpSession} by using database as session data storage.
  *
- * CDbHttpSession stores session data in a DB table named 'YiiSession'. The table name
+ * CDbHttpSession stores session data in a DB table named 'YeeSession'. The table name
  * can be changed by setting {@link sessionTableName}. If the table does not exist,
  * it will be automatically created if {@link autoCreateSessionTable} is set true.
  *
  * The following is the table structure:
  *
  * <pre>
- * CREATE TABLE YiiSession
+ * CREATE TABLE YeeSession
  * (
  *     id CHAR(32) PRIMARY KEY,
  *     expire INTEGER,
@@ -33,7 +33,7 @@
  *
  * CDbHttpSession relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
  *
- * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
+ * By default, it will use an SQLite3 database named 'session-YeeVersion.db' under the application runtime directory.
  * You can also specify {@link connectionID} so that it makes use of a DB application component to access database.
  *
  * When using CDbHttpSession in a production server, we recommend you pre-create the session DB table
@@ -51,7 +51,7 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * @var string the ID of a {@link CDbConnection} application component. If not set, a SQLite database
 	 * will be automatically created and used. The SQLite database file is
-	 * is <code>protected/runtime/session-YiiVersion.db</code>.
+	 * is <code>protected/runtime/session-YeeVersion.db</code>.
 	 */
 	public $connectionID;
 	/**
@@ -63,7 +63,7 @@ class CDbHttpSession extends CHttpSession
 	 * </pre>
 	 * @see autoCreateSessionTable
 	 */
-	public $sessionTableName='YiiSession';
+	public $sessionTableName='YeeSession';
 	/**
 	 * @var boolean whether the session DB table should be automatically created if not exists. Defaults to true.
 	 * @see sessionTableName
@@ -172,15 +172,15 @@ class CDbHttpSession extends CHttpSession
 			return $this->_db;
 		elseif(($id=$this->connectionID)!==null)
 		{
-			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
+			if(($this->_db=Yee::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
 			else
-				throw new CException(Yii::t('yii','CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+				throw new CException(Yee::t('yee','CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 					array('{id}'=>$id)));
 		}
 		else
 		{
-			$dbFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'session-'.Yii::getVersion().'.db';
+			$dbFile=Yee::app()->getRuntimePath().DIRECTORY_SEPARATOR.'session-'.Yee::getVersion().'.db';
 			return $this->_db=new CDbConnection('sqlite:'.$dbFile);
 		}
 	}

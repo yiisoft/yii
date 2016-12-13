@@ -4,21 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Yii - Test prostredia</title>
+<title>Yee - Test prostredia</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Yii - Test prostredia</h1>
+<h1>Yee - Test prostredia</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Popis</h2>
 <p>
 Tento skript preverí, či je konfigurácia vášho servera postačujúca
-pre korektné fungovanie aplikácii vytvorených pre <a href="http://www.yiiframework.com/">Yii framework</a>.
+pre korektné fungovanie aplikácii vytvorených pre <a href="http://www.yeeframework.com/">Yee framework</a>.
 Test preveruje správnu verziu PHP, prítomnosť potrebných PHP rozšírení a správne nastavenie 
 konfigurácie v php.ini.
 </p>
@@ -26,12 +26,12 @@ konfigurácie v php.ini.
 <h2>Záver</h2>
 <p>
 <?php if($result>0): ?>
-Gratulujem! Váš server spĺňa všetky požiadavky potrebné pre korektné fungovanie Yii.
+Gratulujem! Váš server spĺňa všetky požiadavky potrebné pre korektné fungovanie Yee.
 <?php elseif($result<0): ?>
-Váš server spĺňa minimálne požiadavky potrebné pre fungovanie Yii. 
+Váš server spĺňa minimálne požiadavky potrebné pre fungovanie Yee. 
 Venujte prosím pozornosť upozorneniam uvedeným nižšie v prípade, že vaša aplikácia bude využívať potrebné funkcie.
 <?php else: ?>
-Bohužiaľ, váš server nespĺňa požiadavky potrebné pre fungovanie Yii.
+Bohužiaľ, váš server nespĺňa požiadavky potrebné pre fungovanie Yee.
 <?php endif; ?>
 </p>
 

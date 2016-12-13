@@ -53,7 +53,7 @@ Behavior
 --------
 
 För att skapa en behavior, måste man implementera ett [IBehavior] interface.
-För bekvämlighets skull innehåller Yii en basklass [CBehavior] som redan 
+För bekvämlighets skull innehåller Yee en basklass [CBehavior] som redan 
 implementerar detta interface och dessutom tillhandahåller fler passande 
 metoder. Ärvda klasser behöver i huvudsak implementera de extra metoder som 
 de avser att göra tillgängliga för komponenterna de skall kopplas till.
@@ -109,7 +109,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -148,7 +148,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...publish CSS or JavaScript file here...
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

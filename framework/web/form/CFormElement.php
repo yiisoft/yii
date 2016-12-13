@@ -3,9 +3,9 @@
  * CFormElement class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -82,7 +82,7 @@ abstract class CFormElement extends CComponent
 		elseif(isset($this->attributes[$name]))
 			return $this->attributes[$name];
 		else
-			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
+			throw new CException(Yee::t('yee','Property "{class}.{property}" is not defined.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
@@ -138,7 +138,7 @@ abstract class CFormElement extends CComponent
 	public function configure($config)
 	{
 		if(is_string($config))
-			$config=require(Yii::getPathOfAlias($config).'.php');
+			$config=require(Yee::getPathOfAlias($config).'.php');
 		if(is_array($config))
 		{
 			foreach($config as $name=>$value)

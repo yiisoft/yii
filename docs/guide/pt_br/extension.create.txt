@@ -48,7 +48,7 @@ Comportamento
 --------
 
 Para criar um comportamento, deve-se implementar a interface [IBehavior]. Por
-conveniência, o Yii fornece uma classe-mãe [CBehavior] que já implementa essa
+conveniência, o Yee fornece uma classe-mãe [CBehavior] que já implementa essa
 interface e fornece alguns métodos adicionais convenientes. As classes-filha
 na maioria dos casos só precisam implementar os métodos extra que elas pretendem
 tornar disponíveis aos componentes aos quais são anexadas.
@@ -104,7 +104,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -143,7 +143,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...publica o arquivo CSS ou JavaScript aqui...
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

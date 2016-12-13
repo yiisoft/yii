@@ -5,7 +5,7 @@ MVC - bästa tillvägagångssätt
 undgår det fortfarande många hur MVC korrekt skall användas i faktisk applikationsutveckling. 
 Den centrala idén bakom MVC är **återanvändning av kod samt separation av angelägenheter**. 
 I detta avsnitt kommer att ges några generella riktlinjer om hur man bättre kan följa MVC vid 
-utveckling av Yii-applikationer.
+utveckling av Yee-applikationer.
 
 För att bättre förklara dessa riktlinjer, antar vi att en webbapplikation består av flera 
 underapplikationer, så som 
@@ -18,7 +18,7 @@ som schemalagda jobb, till stöd för hela applikationen;
 * Web API: erbjuder programmeringsgränssnitt åt tredje part för integrering med applikationen.
 
 Underapplikationerna kan implementeras i form av [moduler](/doc/guide/basics.module), eller som 
-en Yii-applikation som delar viss kod med andra underapplikationer.
+en Yee-applikation som delar viss kod med andra underapplikationer.
 
 
 Modell (model)
@@ -102,7 +102,7 @@ HTML-kod (markup), är det bäst att använda widget-specifika vyfiler för såd
 * Hjälpklasser: i vyer behöver vi ofta kodfragment för mindre uppfifter som att formatera data eller 
 generera HTML-taggar. En bättre lösning än att placera denna kod direkt i vyfiler, är att placera alla dessa 
 kodfragment i hjälpklasser ämnade för vyer. Därefter är det bara att använda hjälpklassen direkt i vyfilerna. 
-Yii innehåller exempel på detta tillvägagångssätt i form av en kraftfull hjälpklass, [CHtml], som kan 
+Yee innehåller exempel på detta tillvägagångssätt i form av en kraftfull hjälpklass, [CHtml], som kan 
 producera vanligtvis använd HTML-kod. Hjälpklasser kan placeras i en [automatiskt laddad katalog](/doc/guide/basics.namespace) 
 så att de kan användas utan uttrycklig inkludering av klassen.
 

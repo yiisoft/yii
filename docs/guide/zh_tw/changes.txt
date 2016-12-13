@@ -1,14 +1,14 @@
 新功能
 ============
 
-此頁面對 Yii 每次發佈所導入的新功能做個總結。
+此頁面對 Yee 每次發佈所導入的新功能做個總結。
 
 版本 1.1.11
 --------------
  * [增加 HTTP 快取](/doc/guide/caching.page#http-caching)
  * [增加控制台應用程式終止碼](/doc/guide/topics.console#exit-codes)
  * [增加模型驗證的黑名單機制](/doc/guide/form.model#declaring-validation-rules)
- * [增加 Git 和 Hg 支援](/doc/guide/quickstart.first-app#creating-your-first-yii-application)
+ * [增加 Git 和 Hg 支援](/doc/guide/quickstart.first-app#creating-your-first-yee-application)
 
 版本 1.1.8
 -------------
@@ -59,9 +59,9 @@
 
  * 增加了 CActiveForm ，它可以簡化表單相關程式碼的編寫，並支援客戶端和伺服器端一致且無縫的資料驗證
 
- * 重構了由 yiic 工具產生的程式碼。尤其是，現在產生的應用程式骨架具有多種佈局；重新組織了 CRUD 的操作選單；新增了管理員頁面中的搜尋和篩選功能；並使用 CActiveForm 呈現表單
+ * 重構了由 yeec 工具產生的程式碼。尤其是，現在產生的應用程式骨架具有多種佈局；重新組織了 CRUD 的操作選單；新增了管理員頁面中的搜尋和篩選功能；並使用 CActiveForm 呈現表單
 
- * [新增定義全域 yiic 命令的支援](/doc/guide/topics.console)
+ * [新增定義全域 yeec 命令的支援](/doc/guide/topics.console)
 
 版本 1.1.0
 -------------

@@ -12,7 +12,7 @@ att automatisera denna testningsprocess så att vi varje gång vi behöver testa
 något, endast behöver hämta fram koden och låta datorn göra testningen åt oss. 
 Detta är känt som *automatiserad testning*, vilket är huvudämnet för detta kapitel.
 
-Testningsstödet som erbjuds av Yii omfattar *enhetstestning* och *funktionell testning*.
+Testningsstödet som erbjuds av Yee omfattar *enhetstestning* och *funktionell testning*.
 
 Ett enhetstest verifierar att en enskild kodenhet fungerar som tänkt. Inom 
 objektorienterad programmering är den grundläggande kodenheten en klass. Ett 
@@ -46,11 +46,11 @@ Upprepa steg 1 till 5 för att driva implementeringen av funktionalitet framåt.
 Sätta upp testomgivning
 -----------------------
 
-Stödet för testning som Yii erbjuder kräver [PHPUnit](http://www.phpunit.de/) 
+Stödet för testning som Yee erbjuder kräver [PHPUnit](http://www.phpunit.de/) 
 3.5+ samt [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
 Se deras respektive dokumentation angående installation av PHPUnit och Selenium Remote Control.
 
-När vi använder konsolkommandot `yiic webapp` till att skapa en ny Yii-
+När vi använder konsolkommandot `yeec webapp` till att skapa en ny Yee-
 applikation, kommer det att generera följande filer och kataloger åt oss med 
 ändamålet att skriva och köra nya test:
 
@@ -95,14 +95,14 @@ startpunkt vid exekvering av en uppsättning tester.
 
 ~~~
 [php]
-$yiit='path/to/yii/framework/yiit.php';
+$yeet='path/to/yee/framework/yeet.php';
 $config=dirname(__FILE__).'/../config/test.php';
-require_once($yiit);
+require_once($yeet);
 require_once(dirname(__FILE__).'/WebTestCase.php');
-Yii::createWebApplication($config);
+Yee::createWebApplication($config);
 ~~~
 
-Ovan inkluderas först filen `yiit.php` från Yii-ramverket, genom vilken några 
+Ovan inkluderas först filen `yeet.php` från Yee-ramverket, genom vilken några 
 globala konstanter initialiseras samt erforderliga basklasser för test 
 inkluderas. Därefter skapas en instans av webbapplikation med hjälp av 
 konfigurationsfilen `test.php`. Om vi tittar närmare på `test.php`, kommer vi 

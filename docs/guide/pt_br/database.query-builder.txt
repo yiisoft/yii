@@ -1,11 +1,11 @@
 Construtor de Consultas
 =======================
 
-O Construtor de Consultas do Yii fornece uam abordagem orientada a objeto para escrever comandos SQL. Ele permite que desenvolvedores usem métodos de e propriedades para especificar partes individuais de um comando SQL. Então ele monta estas partes para formar um comando SQL válido que pode ser executado ao chamar os métodos DAO como descrito em [Data Access Objects](/doc/guide/database.dao). A seguir é mostrado um uso típico do Construtor de Consultas para construir um comando SQL SELECT:
+O Construtor de Consultas do Yee fornece uam abordagem orientada a objeto para escrever comandos SQL. Ele permite que desenvolvedores usem métodos de e propriedades para especificar partes individuais de um comando SQL. Então ele monta estas partes para formar um comando SQL válido que pode ser executado ao chamar os métodos DAO como descrito em [Data Access Objects](/doc/guide/database.dao). A seguir é mostrado um uso típico do Construtor de Consultas para construir um comando SQL SELECT:
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yee::app()->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -32,7 +32,7 @@ O uso do Construtor de Consultas não é obrigatório. Se as suas consultas são
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yee::app()->db->createCommand('SELECT * FROM tbl_user');
 > // the following line will NOT append WHERE clause to the above SQL
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -43,16 +43,16 @@ O uso do Construtor de Consultas não é obrigatório. Se as suas consultas são
 Preparando o Construtor de Consultas
 ------------------------------------
 
-O Construtor de Consultas do Yii é fornecido na classe [CDbCommand], a principal classe para lidar com consultas ao banco de dados descrita em [Data Access Objects](/doc/guide/database.dao).
+O Construtor de Consultas do Yee é fornecido na classe [CDbCommand], a principal classe para lidar com consultas ao banco de dados descrita em [Data Access Objects](/doc/guide/database.dao).
 
 Para começar a usar o Construtor de Consultas, nós criamos uma nova instância de [CDbCommand] como a seguir,
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 ~~~
 
-Ou seja, nós usamos `Yii::app()->db` para obter a conexão ao banco de dados, e então chamamos [CDbConnection::createCommand()] para criar a instância do comando.
+Ou seja, nós usamos `Yee::app()->db` para obter a conexão ao banco de dados, e então chamamos [CDbConnection::createCommand()] para criar a instância do comando.
 
 Note que ao invés de passar um comando completo para a chamada de `createCommand()` como fazemos em [Data Access Objects](/doc/guide/database.dao), nós o deixamos vazio. Fazemos isto porque nós vamos construir as partes individuais do comando SQL usando os métodos do Construtor de Consultas explicados a seguir.
 
@@ -376,7 +376,7 @@ Example:
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -389,7 +389,7 @@ Além de executar a consutla construída pelo Construtor de Consultas, nós pode
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yee::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -400,7 +400,7 @@ Se há parâmetros para serem vinculados a uma consulta, eles podem ser obtidos 
 
 ### Sintaxe Alternativa para a Construção de Consultas
 
-Algumas vezes, usar o encadeamento de métodos para construir uma query pode não ser a melhor escolha. O Construtor de Consultas do Yii permite que uma consulta seja construída usando simples atribuições de propriedades. Em particular, para cada método do Construtor de Consultas, há também uma propriedade correspondente com o mesmo nome. Atribuir um valor a uma destas propriedades é o mesmo que chamar o método correspondente. Por exemplo, os dois comandos a seguir são equivalentes, assumindo que `$command` representa um objeto [CDbCommand]:
+Algumas vezes, usar o encadeamento de métodos para construir uma query pode não ser a melhor escolha. O Construtor de Consultas do Yee permite que uma consulta seja construída usando simples atribuições de propriedades. Em particular, para cada método do Construtor de Consultas, há também uma propriedade correspondente com o mesmo nome. Atribuir um valor a uma destas propriedades é o mesmo que chamar o método correspondente. Por exemplo, os dois comandos a seguir são equivalentes, assumindo que `$command` representa um objeto [CDbCommand]:
 
 ~~~
 [php]
@@ -412,7 +412,7 @@ Além disso, o método [CDbConnection::createCommand()] pode receber um array co
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yee::app()->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -427,7 +427,7 @@ Uma instância de [CDbCommand] pode ser reutilizada múltiplas vezes para constr
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yee::app()->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

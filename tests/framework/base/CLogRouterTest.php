@@ -40,7 +40,7 @@ class CLogRouterTest extends CTestCase
 		$this->assertFalse($route2->logCollected);
 		$this->assertEquals($route2->property,3);
 
-		$logger=Yii::getLogger();
+		$logger=Yee::getLogger();
 		$logger->log('message1','level1','category1');
 		$logger->log('message2','level2','category2');
 		$logger->log('message3','level3','category3');

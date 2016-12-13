@@ -1,7 +1,7 @@
 Model-View-Controller (MVC)
 ===========================
 
-Yii implementerar designmönstret model-view-controller (MVC), vilket är brett 
+Yee implementerar designmönstret model-view-controller (MVC), vilket är brett 
 antaget inom webbprogrammering. MVC syftar till att separera överväganden om 
 affärsregler (business logic) från sådana som avser användargränssnitt (user 
 interface), så att utvecklare lättare kan ändra det ena utan att påverka det 
@@ -9,23 +9,23 @@ andra. Inom MVC, representerar modellen information (data) samt affärsregler; V
 (view) innehåller element ur användargränssnittet såsom text och inmatningsfält; 
 kontrollern ombesörjer kommunikation mellan modell och vy.
 
-Utöver MVC, introducerar Yii även en förgrundskontroller (front-controller), 
+Utöver MVC, introducerar Yee även en förgrundskontroller (front-controller), 
 Application, som representerar en exekveringsomgivning för bearbetning av inkomna 
 request. Application samlar information om en request från användare och skickar 
 sedan denna vidare till relevant kontroller för fortsatt behandling.
 
-Följande diagram visar den statiska strukturen hos en Yii-applikation:
+Följande diagram visar den statiska strukturen hos en Yee-applikation:
 
-![Statisk struktur hos Yii-applikation](structure.png)
+![Statisk struktur hos Yee-applikation](structure.png)
 
 
 Typiskt bearbetningsflöde
 -------------------------
 
-Följande diagram visar det typiska bearbetningsflödet för en Yii-applikation när 
+Följande diagram visar det typiska bearbetningsflödet för en Yee-applikation när 
 den hanterar en request från användare:
 
-![Typiskt bearbetningsflöde för en Yii-applikation](flow.png)
+![Typiskt bearbetningsflöde för en Yee-applikation](flow.png)
 
    1. En användare skickar en request med URL:en 
    `http://www.example.com/index.php?r=post/show&id=1` och webbservern hanterar 

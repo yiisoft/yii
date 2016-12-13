@@ -45,7 +45,7 @@ Behavior
 --------
 
 To create a behavior, one must implement the [IBehavior] interface. For convenience,
-Yii provides a base class [CBehavior] that already implements this interface and
+Yee provides a base class [CBehavior] that already implements this interface and
 provides some additional convenient methods. Child classes mainly need to implement
 the extra methods that they intend to make available to the components being attached to.
 
@@ -96,7 +96,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -134,7 +134,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...publish CSS or JavaScript file here...
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

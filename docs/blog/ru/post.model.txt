@@ -48,7 +48,7 @@ public function rules()
 используется поиском и будет описано позже.
 
 Валидаторы, такие как `required`, `length`, `in` и `match` являются стандартными
-валидаторами Yii. Валидатор `normalizeTags` использует определённый в классе `Post`
+валидаторами Yee. Валидатор `normalizeTags` использует определённый в классе `Post`
 метод. За дополнительной информацией о том, как описывать правила валидации вы
 можете обратиться к [полному руководству](/doc/guide/ru/form.model#declaring-validation-rules).
 
@@ -170,7 +170,7 @@ class Post extends CActiveRecord
 {
 	public function getUrl()
 	{
-		return Yii::app()->createUrl('post/view', array(
+		return Yee::app()->createUrl('post/view', array(
 			'id'=>$this->id,
 			'title'=>$this->title,
 		));

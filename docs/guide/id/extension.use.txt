@@ -4,7 +4,7 @@ Menggunakan Extension
 Menggunakan extension biasanya berkaitan dengan tiga langkah berikut:
 
   1. Download extension dari
-     [repositori extension](http://www.yiiframework.com/extensions/) Yii.
+     [repositori extension](http://www.yeeframework.com/extensions/) Yee.
   2. Urai extension di bawah subdirektori `extensions/xyz` pada
      [direktori basis aplikasi](/doc/guide/basics.application#application-base-directory),
      di mana `xyz` adalah nama extension.
@@ -24,11 +24,11 @@ Extension Zii
 --------------
 
 Sebelum kita mulai melihat penggunaan extension pihak ketiga, kami akan memperkenalkan
-pustaka extension Zii, yang merupakan kumpulan extension yang dikembangkan oleh tim developer Yii
+pustaka extension Zii, yang merupakan kumpulan extension yang dikembangkan oleh tim developer Yee
 dan disertakan dalam setiap rilis.
 
 Ketika menggunakan sebuah ektensi Zii, kita harus merujuk ke kelas bersangkutan dengan menggunakan
-alias path dalam bentuk `zii.path.ke.NamaKelas`. Di sini akar alias `zii` ditentukan oleh Yii. Dia akan dirujukkan
+alias path dalam bentuk `zii.path.ke.NamaKelas`. Di sini akar alias `zii` ditentukan oleh Yee. Dia akan dirujukkan
 ke direktori pustaka Zii. Misalnya, untuk menggunakan [CGridView], kita akan menggunakan
 kode berikut dalam skrip view ketika merujuk ke extension:
 
@@ -62,7 +62,7 @@ return array(
 );
 ~~~
 
-Selanjutnya, kita dapat mengakses komponen di mana saja mengunakan `Yii::app()->xyz`. Komponen
+Selanjutnya, kita dapat mengakses komponen di mana saja mengunakan `Yee::app()->xyz`. Komponen
 ini akan dibuat secara lazy (yakni, dibuat saat diakses untuk pertama kali)
 kecuali kita mendaftar properti `preload`.
 
@@ -269,7 +269,7 @@ class MyModel extends CActiveRecord // atau CFormModel
 Perintah Konsol
 ---------------
 Extension [perintah konsol](/doc/guide/topics.console) biasanya meningkatkan
-piranti `yiic` dengan perintah tambahan. Perintah konsol
+piranti `yeec` dengan perintah tambahan. Perintah konsol
 `XyzClass` dimiliki oleh extension `xyz`, kita bisa menggunakannya dengan mengatur
 file konfigurasi untuk aplikasi konsol:
 
@@ -287,13 +287,13 @@ return array(
 );
 ~~~
 
-Selanjutnya, kita dapat menggunakan piranti `yiic` yang disertai dengan perintah
+Selanjutnya, kita dapat menggunakan piranti `yeec` yang disertai dengan perintah
 tambahan `xyz`.
 
 > Note|Catatan: Aplikasi konsol biasanya menggunakan file konfigurasi
 yang berbeda dari yang dipakai oleh aplikasi Web. Jika aplikasi dibuat
-menggunakan perintah `yiic webapp`, maka file konfigurasi untuk aplikasi
-konsol `protected/yiic` adalah `protected/config/console.php`,
+menggunakan perintah `yeec webapp`, maka file konfigurasi untuk aplikasi
+konsol `protected/yeec` adalah `protected/config/console.php`,
 sementara file konfigurasi untuk aplikasi Web adalah `protected/config/main.php`.
 
 
@@ -308,7 +308,7 @@ Untuk menggunakan [komponen](/doc/guide/basics.component) generik, pertama
 kita perlu menyertakan file kelasnya dengan menggunakan
 
 ~~~
-Yii::import('ext.xyz.XyzClass');
+Yee::import('ext.xyz.XyzClass');
 ~~~
 
 Selanjutnya, kita dapat membuat turunan kelas, mengkonfigurasi propertinya,

@@ -1,7 +1,7 @@
 Creating User Menu Portlet
 ==========================
 
-Based on the requirements analysis, we need three different portlets: the "user menu" portlet, the "tag cloud" portlet and the "recent comments" portlet. We will develop these portlets by extending the [CPortlet] widget provided by Yii.
+Based on the requirements analysis, we need three different portlets: the "user menu" portlet, the "tag cloud" portlet and the "recent comments" portlet. We will develop these portlets by extending the [CPortlet] widget provided by Yee.
 
 In this section, we will develop our first concrete portlet - the user menu portlet which displays a list of menu items that are only available to authenticated users. The menu contains four items:
 
@@ -18,13 +18,13 @@ We create the `UserMenu` class to represent the logic part of the user menu port
 
 ~~~
 [php]
-Yii::import('zii.widgets.CPortlet');
+Yee::import('zii.widgets.CPortlet');
 
 class UserMenu extends CPortlet
 {
 	public function init()
 	{
-		$this->title=CHtml::encode(Yii::app()->user->name);
+		$this->title=CHtml::encode(Yee::app()->user->name);
 		parent::init();
 	}
 
@@ -37,7 +37,7 @@ class UserMenu extends CPortlet
 
 The `UserMenu` class extends from the `CPortlet` class from the `zii` library. It overrides both the `init()` method and the `renderContent()` method of `CPortlet`. The former sets the portlet title to be the name of the current user; the latter generates the portlet body content by rendering a view named `userMenu`.
 
-> Tip: Notice that we have to explicitly include the `CPortlet` class by calling `Yii::import()` before we refer to it the first time. This is because `CPortlet` is part of the `zii` project -- the official extension library for Yii. For performance consideration, classes in this project are not listed as core classes. Therefore, we have to import it before we use it the first time.
+> Tip: Notice that we have to explicitly include the `CPortlet` class by calling `Yee::import()` before we refer to it the first time. This is because `CPortlet` is part of the `zii` project -- the official extension library for Yee. For performance consideration, classes in this project are not listed as core classes. Therefore, we have to import it before we use it the first time.
 
 
 Creating `userMenu` View
@@ -68,7 +68,7 @@ It is time for us to make use of our newly completed `UserMenu` portlet. We modi
 [php]
 ......
 <div id="sidebar">
-	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+	<?php if(!Yee::app()->user->isGuest) $this->widget('UserMenu'); ?>
 </div>
 ......
 ~~~
@@ -89,5 +89,5 @@ Let's test what we have so far.
 Summary
 -------
 
-What we have created is a portlet that is highly reusable. We can easily reuse it in a different project with little or no modification. Moreover, the design of this portlet follows closely the philosophy that logic and presentation should be separated. While we did not point this out in the previous sections, such practice is used nearly everywhere in a typical Yii application.
+What we have created is a portlet that is highly reusable. We can easily reuse it in a different project with little or no modification. Moreover, the design of this portlet follows closely the philosophy that logic and presentation should be separated. While we did not point this out in the previous sections, such practice is used nearly everywhere in a typical Yee application.
 

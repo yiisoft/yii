@@ -6,7 +6,7 @@ class CPhpAuthManagerTest extends AuthManagerTestBase
 {
 	public function setUp()
 	{
-		$authFile=Yii::app()->getRuntimePath().'/CPhpAuthManagerTest_auth.php';
+		$authFile=Yee::app()->getRuntimePath().'/CPhpAuthManagerTest_auth.php';
 		@unlink($authFile);
 		$this->auth=new CPhpAuthManager;
 		$this->auth->authFile=$authFile;

@@ -10,7 +10,7 @@ För att göra sådan kod mer återanvändningsbar, kan vi använda formulärbyg
 Grundkoncept
 ------------
 
-Yii:s formulärbyggare använder ett [CForm]-objekt till att representera de specifikationer som 
+Yee:s formulärbyggare använder ett [CForm]-objekt till att representera de specifikationer som 
 behövs för att beskriva ett HTML-formulär, inklusive de datamodeller som är associerade med formuläret,
 vilka slags inmatningsfält formuläret består av, samt hur hela formuläret skall renderas. Det utvecklare 
 huvudsakligen behöver göra är att skapa och konfigurera detta [CForm]-objekt, därefter anropa dess 

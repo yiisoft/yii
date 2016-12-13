@@ -91,10 +91,10 @@ class MyWidget extends CWidget
 系统视图
 -----------
 
-系统视图的渲染通常用于展示 Yii 的错误和日志信息.例如,当用户请求来自一个不存在的控制器或动作时,Yii 会抛出一个异常来解释这个错误. 这时,Yii 就会使用一个特殊的系统视图来显示此错误.
+系统视图的渲染通常用于展示 Yee 的错误和日志信息.例如,当用户请求来自一个不存在的控制器或动作时,Yee 会抛出一个异常来解释这个错误. 这时,Yee 就会使用一个特殊的系统视图来显示此错误.
 
 系统视图的命名遵从了一些规则.比如像 `errorXXX` 这样的名称就是用于渲染展示错误号 `XXX` 的 [CHttpException] 的视图.例如,如果 [CHttpException] 抛出一个 404错误,那么 `error404` 就会被显示.
 
-在 `framework/views` 下, Yii 提供了一系列默认的系统视图. 他们可以通过在 `protected/views/system` 下创建同名视图文件进行自定义.
+在 `framework/views` 下, Yee 提供了一系列默认的系统视图. 他们可以通过在 `protected/views/system` 下创建同名视图文件进行自定义.
 
 <div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>

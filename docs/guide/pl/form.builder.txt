@@ -10,7 +10,7 @@ tego kodu, możemy używać funkcjonalności generatora formularzy.
 Założenia początkowe
 --------------
 
-Generator formularzy w Yii używa obiektu [CForm] do reprezentowania specyfikacji potrzebnych do  
+Generator formularzy w Yee używa obiektu [CForm] do reprezentowania specyfikacji potrzebnych do  
 opisania formularza HTML, właczając informację o tym, które dane modelu powiązane są z formularzem,
 jaki rodzaj pól wejściowych znajdziemy w formularzy oraz jak wygenerować cały formularz.
 Programista potrzebuje głównie utworzyć obiekt [CForm] a następnie wywołuje swoje metody generujące

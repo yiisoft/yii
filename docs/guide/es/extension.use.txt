@@ -3,7 +3,7 @@
 
 Usar una extensión frecuentemente involucra los siguientes tres pasos:
 
-  1. Descargar la extensión desde el [repositorio de extensiones](http://www.yiiframework.com/extensions/) de Yii.
+  1. Descargar la extensión desde el [repositorio de extensiones](http://www.yeeframework.com/extensions/) de Yee.
   2. Desempaquetar la extensión bajo el subdirectorio `extensions/xyz` de
      [directorio base de la aplicación](/doc/guide/basics.application#application-base-directory),
      donde `xyz` es el nombre de la extensión.
@@ -39,7 +39,7 @@ return array(
 );
 ~~~
 
-Entonces, podemos acceder al componente en cualquier lugar, usando `Yii::app()->xyz`.
+Entonces, podemos acceder al componente en cualquier lugar, usando `Yee::app()->xyz`.
 El componente será creado cuando se lo acceda por primera vez a menos que lo listemos
 en la propiedad `preload`.
 
@@ -180,7 +180,7 @@ Comando de Consola
 ------------------
 
 Una extensión de [comando de consola](/doc/guide/topics.console)
-usualmente mejora la herramienta `yiic` con un comando adicional.
+usualmente mejora la herramienta `yeec` con un comando adicional.
 Dado un comando de consola `XyzClass` perteneciente a la extensión `xyz`,
 podemos usarlo configurando la configuración de la aplicación de consola:
 
@@ -198,13 +198,13 @@ return array(
 );
 ~~~
 
-Entonces, podemos usar la herramienta `yiic` equipada con un
+Entonces, podemos usar la herramienta `yeec` equipada con un
 comando adicional `xyz`.
 
 > Note|Nota: Una aplicación de consola usualmente usa un archivo de
 configuración que es diferente del usado por una aplicación web. Si
-una aplicación es creada usando el comando `yiic webapp`, entonces el
-archivo de configuración para la aplicación de consola `protected/yiic`
+una aplicación es creada usando el comando `yeec webapp`, entonces el
+archivo de configuración para la aplicación de consola `protected/yeec`
 es `protected/config/console.php` mientras que el archivo de configuración
 para la aplicación Web es `protected/config/main.php`.
 
@@ -221,7 +221,7 @@ Para usar un [componente](/doc/guide/basics.component) genérico, primero necesi
 incluir su clase usando
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yee::import('application.extensions.xyz.XyzClass');
 ~~~
 
 Entonces, podemos crear una instancia de la clase, configurar sus propiedades,

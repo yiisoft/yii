@@ -6,9 +6,9 @@ din dezvoltarea unei aplicatii Web. In afara de proiectarea formularelor, progra
 trebuie sa populeze formularele cu date existente sau cu valori implicite, sa valideze
 input-urile primite de la utilizatori, sa afiseze mesaje de eroare corespunzatoare atunci
 cand exista input-uri care nu sunt valide, sa salveze datele valide primite de la utilizatori
-intr-un mediu de stocare permanent. Yii simplifica enorm acest task datorita arhitecturii sale MVC.
+intr-un mediu de stocare permanent. Yee simplifica enorm acest task datorita arhitecturii sale MVC.
 
-De obicei, sunt necesari urmatorii pasi cand ne confruntam cu formulare in Yii:
+De obicei, sunt necesari urmatorii pasi cand ne confruntam cu formulare in Yee:
 
    1. Cream o clasa cu un model care reprezinta campurile de date care vor fi colectate.
    1. Cream un action intr-un controller in care scriem cod care primeste datele de la utilizatori.

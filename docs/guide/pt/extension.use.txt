@@ -3,8 +3,8 @@ Usando Extensões
 
 A utilização de uma extensão normalmente envolve os seguintes passos:
 
-  1. Faça o download da extensão no [repositório](http://www.yiiframework.com/extensions/) 
-  do Yii.
+  1. Faça o download da extensão no [repositório](http://www.yeeframework.com/extensions/) 
+  do Yee.
   2. Descompacte a extensão no diretório `extensions/xyz`, dentro do 
   [diretório base da aplicação](/doc/guide/basics.application#application-base-directory), 
   onde `xyz` é o nome da extensão.
@@ -29,7 +29,7 @@ Extensões Zii
 
 Antes de descrever a utilização de extensões de terceiros, gostariamos de
 apresentar a biblioteca de extensões Zii. Trata-se de um conjunto de extensões
-criadas pelo time de desenvolvedores do Yii e é incluída em todos os lançamentos
+criadas pelo time de desenvolvedores do Yee e é incluída em todos os lançamentos
 do framework, a partir da versão 1.1.0. Essa biblioteca está hospedada no Google
 Code, no projeto chamado [zii](http://code.google.com/p/zii).
 
@@ -69,7 +69,7 @@ return array(
 ~~~
 
 Dessa forma, podemos acessar o componente em qualquer lugar utilizando 
-`Yii::app()->xyz`. O componente será criado somente quando for acessado pela primeira vez, 
+`Yee::app()->xyz`. O componente será criado somente quando for acessado pela primeira vez, 
 a não ser que ele tenha sido adicionado na propriedade `preload`.
 
 Comportamento
@@ -277,7 +277,7 @@ Comando de Console
 ------------------
 
 Uma extensão do tipo [comando de console](/doc/guide/topics.console), normalmente 
-é utilizada para adicionar comandos à ferramenta `yiic`. Dado um comando de console 
+é utilizada para adicionar comandos à ferramenta `yeec`. Dado um comando de console 
 `XyzClass`, pertencente à extensão `xyz`, podemos utiliza-lo o adicionando 
 nas configurações da aplicação de console:
 
@@ -295,11 +295,11 @@ return array(
 );
 ~~~
 
-Dessa forma, podemos utilizar o comando `xyz` na ferramenta `yiic`.
+Dessa forma, podemos utilizar o comando `xyz` na ferramenta `yeec`.
 
 > Note|Nota: Uma aplicação de console normalmente utiliza um arquivo de configuração 
 diferente do utilizado pela aplicação web. Se uma aplicação foi criada utilizando o 
-comando `yiic webapp`, o arquivo de configurações para o console estará em `protected/config/console.php`, 
+comando `yeec webapp`, o arquivo de configurações para o console estará em `protected/config/console.php`, 
 enquanto o arquivo de configuração para a aplicação web estará em `protected/config/main.php`.
 
 Módulo
@@ -314,7 +314,7 @@ Para utilizar um [componente](/doc/guide/basics.component), primeiro precisamos
 incluir seu arquivo de classe, utilizando:
 
 ~~~
-Yii::import('ext.xyz.XyzClass');
+Yee::import('ext.xyz.XyzClass');
 ~~~
 
 Feito isso, podemos criar uma instância dessa classe, configurar suas propriedades e 

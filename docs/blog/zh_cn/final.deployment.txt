@@ -7,7 +7,7 @@
 修改主页
 ------------------
 
-我们要把日志列表页修改为主页。我们将 [应用配置](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) 修改如下,
+我们要把日志列表页修改为主页。我们将 [应用配置](http://www.yeeframework.com/doc/guide/basics.application#application-configuration) 修改如下,
 
 ~~~
 [php]
@@ -50,7 +50,7 @@ return array(
 禁用除错（Debug）模式
 ------------------------
 
-我们修改入口文件 `/wwwroot/blog/index.php` ，移除定义了 `YII_DEBUG` 常量的那一行。此常量在开发环境中非常有用，它使 Yii 在错误发生时显示更多的除错信息。然而，当应用运行于生产环境时，显示除错信息并不是一个好主意。因为它可能含有一些敏感信息，例如文件所在的位置，文件的内容等。
+我们修改入口文件 `/wwwroot/blog/index.php` ，移除定义了 `YII_DEBUG` 常量的那一行。此常量在开发环境中非常有用，它使 Yee 在错误发生时显示更多的除错信息。然而，当应用运行于生产环境时，显示除错信息并不是一个好主意。因为它可能含有一些敏感信息，例如文件所在的位置，文件的内容等。
 
 
 部署应用
@@ -58,10 +58,10 @@ return array(
 
 最终的部署主要是将 `/wwwroot/blog` 目录复制到目标目录。下面的检查列表列出了每一个所需的步骤：
 
- 1. 如果目标位置没有可用的 Yii，先将其安装好。
+ 1. 如果目标位置没有可用的 Yee，先将其安装好。
  2. 复制整个 `/wwwroot/blog` 目录到目标位置；
- 3. 修改入口文件 `index.php` ，把 `$yii` 变量指向新的Yii引导文件。
- 4. 修改文件 `protected/yiic.php` ，设置 `$yiic` 变量的值为新的 `yiic.php` 文件位置；
+ 3. 修改入口文件 `index.php` ，把 `$yee` 变量指向新的Yee引导文件。
+ 4. 修改文件 `protected/yeec.php` ，设置 `$yeec` 变量的值为新的 `yeec.php` 文件位置；
  5. 修改目录 `assets` 和 `protected/runtime` 的权限，确保Web服务器进程对它们有可写权。
 
 

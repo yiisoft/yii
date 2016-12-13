@@ -3,9 +3,9 @@
  * CLocale class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -102,7 +102,7 @@ class CLocale extends CComponent
 		if(is_file($dataFile))
 			$this->_data=require($dataFile);
 		else
-			throw new CException(Yii::t('yii','Unrecognized locale "{locale}".',array('{locale}'=>$id)));
+			throw new CException(Yee::t('yee','Unrecognized locale "{locale}".',array('{locale}'=>$id)));
 	}
 
 	/**

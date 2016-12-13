@@ -3,12 +3,12 @@
  * CJuiSlider class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiWidget');
+Yee::import('zii.widgets.jui.CJuiWidget');
 
 /**
  * CJuiSlider displays a slider.
@@ -71,6 +71,6 @@ class CJuiSlider extends CJuiWidget
 			$this->options['value']=$this->value;
 
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').slider($options);");
+		Yee::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').slider($options);");
 	}
 }

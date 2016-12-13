@@ -10,7 +10,7 @@ tabla de base de datos o un formulario de ingresos por usuario. Cada campo del
 objeto de datos esta representado por un atributo en el modelo. El atributo tiene
 una etiqueta y esta se puede validar contra un juego de reglas.
 
-Yii implementa dos tipos de modelos: modelo de formulario y active record (registro activo).
+Yee implementa dos tipos de modelos: modelo de formulario y active record (registro activo).
 Ambos extienden de la misma clase base [CModel].
 
 Un modelo formulario es una instancia de [CFormModel]. El modelo formulario es

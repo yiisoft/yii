@@ -3,9 +3,9 @@
  * CPhpAuthManager class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -49,7 +49,7 @@ class CPhpAuthManager extends CAuthManager
 	{
 		parent::init();
 		if($this->authFile===null)
-			$this->authFile=Yii::getPathOfAlias('application.data.auth').'.php';
+			$this->authFile=Yee::getPathOfAlias('application.data.auth').'.php';
 		$this->load();
 	}
 
@@ -68,7 +68,7 @@ class CPhpAuthManager extends CAuthManager
 		if(!isset($this->_items[$itemName]))
 			return false;
 		$item=$this->_items[$itemName];
-		Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CPhpAuthManager');
+		Yee::trace('Checking permission "'.$item->getName().'"','system.web.auth.CPhpAuthManager');
 		if(!isset($params['userId']))
 			$params['userId'] = $userId;
 		if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
@@ -100,15 +100,15 @@ class CPhpAuthManager extends CAuthManager
 	public function addItemChild($itemName,$childName)
 	{
 		if(!isset($this->_items[$childName],$this->_items[$itemName]))
-			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));
+			throw new CException(Yee::t('yee','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));
 		$child=$this->_items[$childName];
 		$item=$this->_items[$itemName];
 		$this->checkItemChildType($item->getType(),$child->getType());
 		if($this->detectLoop($itemName,$childName))
-			throw new CException(Yii::t('yii','Cannot add "{child}" as a child of "{parent}". A loop has been detected.',
+			throw new CException(Yee::t('yee','Cannot add "{child}" as a child of "{parent}". A loop has been detected.',
 				array('{child}'=>$childName,'{parent}'=>$itemName)));
 		if(isset($this->_children[$itemName][$childName]))
-			throw new CException(Yii::t('yii','The item "{parent}" already has a child "{child}".',
+			throw new CException(Yee::t('yee','The item "{parent}" already has a child "{child}".',
 				array('{child}'=>$childName,'{parent}'=>$itemName)));
 		$this->_children[$itemName][$childName]=$this->_items[$childName];
 		return true;
@@ -176,9 +176,9 @@ class CPhpAuthManager extends CAuthManager
 	public function assign($itemName,$userId,$bizRule=null,$data=null)
 	{
 		if(!isset($this->_items[$itemName]))
-			throw new CException(Yii::t('yii','Unknown authorization item "{name}".',array('{name}'=>$itemName)));
+			throw new CException(Yee::t('yee','Unknown authorization item "{name}".',array('{name}'=>$itemName)));
 		elseif(isset($this->_assignments[$userId][$itemName]))
-			throw new CException(Yii::t('yii','Authorization item "{item}" has already been assigned to user "{user}".',
+			throw new CException(Yee::t('yee','Authorization item "{item}" has already been assigned to user "{user}".',
 				array('{item}'=>$itemName,'{user}'=>$userId)));
 		else
 			return $this->_assignments[$userId][$itemName]=new CAuthAssignment($this,$itemName,$userId,$bizRule,$data);
@@ -286,7 +286,7 @@ class CPhpAuthManager extends CAuthManager
 	public function createAuthItem($name,$type,$description='',$bizRule=null,$data=null)
 	{
 		if(isset($this->_items[$name]))
-			throw new CException(Yii::t('yii','Unable to add an item whose name is the same as an existing item.'));
+			throw new CException(Yee::t('yee','Unable to add an item whose name is the same as an existing item.'));
 		return $this->_items[$name]=new CAuthItem($this,$name,$type,$description,$bizRule,$data);
 	}
 
@@ -331,7 +331,7 @@ class CPhpAuthManager extends CAuthManager
 		if($oldName!==null && ($newName=$item->getName())!==$oldName) // name changed
 		{
 			if(isset($this->_items[$newName]))
-				throw new CException(Yii::t('yii','Unable to change the item name. The name "{name}" is already used by another item.',array('{name}'=>$newName)));
+				throw new CException(Yee::t('yee','Unable to change the item name. The name "{name}" is already used by another item.',array('{name}'=>$newName)));
 			if(isset($this->_items[$oldName]) && $this->_items[$oldName]===$item)
 			{
 				unset($this->_items[$oldName]);

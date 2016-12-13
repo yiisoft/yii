@@ -1,6 +1,6 @@
 * さあはじめよう
     - [はじめに](start.overview)
-    - [Yii の試運転](start.testdrive)
+    - [Yee の試運転](start.testdrive)
     - [要求分析](start.requirements)
     - [全体の設計](start.design)
 

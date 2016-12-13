@@ -125,17 +125,17 @@ Singura diferenta este ca la view-ul unui widget nu ii este aplicat nici un layo
 View-uri sistem
 --------------
 
-View-urile sistem se refera la view-urile folosite de platforma Yii pentru a
+View-urile sistem se refera la view-urile folosite de platforma Yee pentru a
 afisa informatii despre erori. De exemplu, atunci cand un utilizator cere un
-controller sau un action inexistent, Yii va genera o exceptie, prin care se explica eroarea.
-Yii afiseaza exceptia folosind un view sistem specific.
+controller sau un action inexistent, Yee va genera o exceptie, prin care se explica eroarea.
+Yee afiseaza exceptia folosind un view sistem specific.
 
 Denumirea view-urilor sistem se face dupa unele reguli.
 Numele de genul `errorXXX` se refera la view-uri pentru afisarea [CHttpException]
 cu codul de eroare `XXX`. De exemplu, daca este generat [CHttpException] cu codul de eroare
 404, atunci va fi afisat view-ul `error404`. 
 
-Yii furnizeaza un set de view-uri sistem implicite. Acestea sunt localizate in
+Yee furnizeaza un set de view-uri sistem implicite. Acestea sunt localizate in
 directorul `framework/views`. Pot fi customizate prin crearea unor fisiere view cu acelasi nume
 dar in directorul `protected/views/system`.
 

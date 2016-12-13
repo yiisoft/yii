@@ -1,15 +1,15 @@
 コマンドラインツールを使用するコード生成 (非推奨)
 =========================================
 
-> Note|注意: `yiic shell` のコード生成機能は、バージョン 1.1.2 以降、非推奨 (depricated) となっています。
+> Note|注意: `yeec shell` のコード生成機能は、バージョン 1.1.2 以降、非推奨 (depricated) となっています。
 この代りに、[Gii](/doc/guide/topics.gii) において利用可能な、もっと強力で拡張性のあるウェブベースのコード生成機能を使用して下さい。
 
 コマンドラインウィンドウを開いて、下記のコマンドを実行して下さい。
 
 ~~~
 % cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
+% protected/yeec shell
+Yee Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
    generate models/User.php
@@ -39,17 +39,17 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-上記では、`yiic shell` コマンドを使って、スケルトンアプリケーションに対する修正を実行しています。
+上記では、`yeec shell` コマンドを使って、スケルトンアプリケーションに対する修正を実行しています。
 プロンプトに対して二つのサブコマンドを実行します。一つは `model User tbl_user`、もう一つは `crud User` です。
 前者は `tbl_user` テーブルに対して `User` という名前のモデルクラスを生成します。
 一方で後者は、`User` モデルを分析して、対応する CRUD 操作を実装するコードを生成します。
 
 > Note|注意: 既に PDO および対応する PDO ドライバが有効になっていることを要求チェッカが示している場合であっても、
 > "...could not find driver" というようなエラーに出会うかも知れません。
-> そうなった場合は、次のように `yiic` ツールを走らせてみて下さい。
+> そうなった場合は、次のように `yeec` ツールを走らせてみて下さい。
 >
 > ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
+> % php -c path/to/php.ini protected/yeec.php shell
 > ~~~
 >
 > ここで `path/to/php.ini` は正しい PHP ini ファイルを指すものです。

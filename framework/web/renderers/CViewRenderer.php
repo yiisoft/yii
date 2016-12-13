@@ -3,9 +3,9 @@
  * CViewRenderer class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -66,7 +66,7 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 	public function renderFile($context,$sourceFile,$data,$return)
 	{
 		if(!is_file($sourceFile) || ($file=realpath($sourceFile))===false)
-			throw new CException(Yii::t('yii','View file "{file}" does not exist.',array('{file}'=>$sourceFile)));
+			throw new CException(Yee::t('yee','View file "{file}" does not exist.',array('{file}'=>$sourceFile)));
 		$viewFile=$this->getViewFile($sourceFile);
 		if(@filemtime($sourceFile)>@filemtime($viewFile))
 		{
@@ -85,8 +85,8 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 	{
 		if($this->useRuntimePath)
 		{
-			$crc=sprintf('%x', crc32(get_class($this).Yii::getVersion().dirname($file)));
-			$viewFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.$crc.DIRECTORY_SEPARATOR.basename($file);
+			$crc=sprintf('%x', crc32(get_class($this).Yee::getVersion().dirname($file)));
+			$viewFile=Yee::app()->getRuntimePath().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.$crc.DIRECTORY_SEPARATOR.basename($file);
 			if(!is_file($viewFile))
 				@mkdir(dirname($viewFile),$this->filePermission,true);
 			return $viewFile;

@@ -45,14 +45,14 @@ in codul modulului. De exemplu, putem folosi [CWebModule::params] pentru a stoca
 modulului si sa folosim [CWebModule::components] pentru a shera
 [componentele aplicatiei](/doc/guide/basics.application#application-component) la nivelul modulului.
 
-> Tip|Sfat: Putem folosi unealta `yiic` pentru a crea un schelet simplu al unui nou modul.
+> Tip|Sfat: Putem folosi unealta `yeec` pentru a crea un schelet simplu al unui nou modul.
 > De exemplu, pentru a crea modulul `forum` de mai sus, putem executa urmatoarele comenzi
 intr-o linie de comanda:
 >
 > ~~~
 > % cd WebRoot/testdrive
-> % protected/yiic shell
-> Yii Interactive Tool v1.0
+> % protected/yeec shell
+> Yee Interactive Tool v1.0
 > Please type 'help' for help. Type 'exit' to quit.
 > >> module forum
 > ~~~
@@ -100,7 +100,7 @@ De exemplu, pentru a accesa informatia `postPerPage` de mai sus, putem folosi ur
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // sau urmatoarea daca $this se refera la instanta controller-ului
 // $postPerPage=$this->module->postPerPage;
 ~~~

@@ -1,7 +1,7 @@
 Error Handling
 ==============
 
-Yii provides a complete error handling framework based on the PHP 5
+Yee provides a complete error handling framework based on the PHP 5
 exception mechanism. When the application is created to handle an incoming
 user request, it registers its [handleError|CApplication::handleError]
 method to handle PHP warnings and notices; and it registers its
@@ -15,7 +15,7 @@ procedure.
 constructor by calling PHP functions
 [set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php)
 and [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php).
-If you do not want Yii to handle the errors and exceptions, you may define
+If you do not want Yee to handle the errors and exceptions, you may define
 constant `YII_ENABLE_ERROR_HANDLER` and `YII_ENABLE_EXCEPTION_HANDLER` to
 be false in the [entry script](/doc/guide/basics.entry).
 
@@ -29,7 +29,7 @@ is not handled by any event handler, it will call for help from the
 Raising Exceptions
 ------------------
 
-Raising exceptions in Yii is not different from raising a normal PHP
+Raising exceptions in Yee is not different from raising a normal PHP
 exception. One uses the following syntax to raise an exception when needed:
 
 ~~~
@@ -37,7 +37,7 @@ exception. One uses the following syntax to raise an exception when needed:
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii defines three exception classes: [CException], [CDbException] and
+Yee defines three exception classes: [CException], [CDbException] and
 [CHttpException]. [CException] is a generic exception class. [CDbException]
 represents an exception that is caused by some DB-related operations.
 [CHttpException] represents an exception that should be displayed to end users
@@ -83,8 +83,8 @@ directory under the currently active theme.
    2. `WebRoot/protected/views/system`: this is the default `system` view
 directory for an application.
 
-   3. `yii/framework/views`: this is the standard system view directory
-provided by the Yii framework.
+   3. `yee/framework/views`: this is the standard system view directory
+provided by the Yee framework.
 
 Therefore, if we want to customize the error display, we can simply create
 error view files under the system view directory of our application or
@@ -96,7 +96,7 @@ framework's `view` directory.
 Handling Errors Using an Action
 -------------------------------
 
-Yii allows using a [controller action](/doc/guide/basics.controller#action)
+Yee allows using a [controller action](/doc/guide/basics.controller#action)
 to handle the error display work. To do so, we should configure the error handler
 in the application configuration as follows:
 
@@ -122,7 +122,7 @@ We can write the `error` action like the following:
 [php]
 public function actionError()
 {
-	if($error=Yii::app()->errorHandler->error)
+	if($error=Yee::app()->errorHandler->error)
 		$this->render('error', $error);
 }
 ~~~

@@ -3,9 +3,9 @@
  * CDateValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -54,7 +54,7 @@ class CDateValidator extends CValidator
 
 		$valid=false;
 
-		// reason of array checking is explained here: https://github.com/yiisoft/yii/issues/1955
+		// reason of array checking is explained here: https://github.com/yeesoft/yee/issues/1955
 		if(!is_array($value))
 		{
 			$formats=is_string($this->format) ? array($this->format) : $this->format;
@@ -73,7 +73,7 @@ class CDateValidator extends CValidator
 
 		if(!$valid)
 		{
-			$message=$this->message!==null?$this->message : Yii::t('yii','The format of {attribute} is invalid.');
+			$message=$this->message!==null?$this->message : Yee::t('yee','The format of {attribute} is invalid.');
 			$this->addError($object,$attribute,$message);
 		}
 	}

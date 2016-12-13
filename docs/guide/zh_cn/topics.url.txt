@@ -2,7 +2,7 @@ URL Management(网址管理)
 ==============
 
 Web应用程序完整的URL管理包括两个方面。首先， 当用户请求约定的URL，应用程序需要解析
-它变成可以理解的参数。第二，应用程序需求提供一种创造URL的方法，以便创建的URL应用程序可以理解的。对于Yii应用程序，这些通过[CUrlManager]辅助完成。
+它变成可以理解的参数。第二，应用程序需求提供一种创造URL的方法，以便创建的URL应用程序可以理解的。对于Yee应用程序，这些通过[CUrlManager]辅助完成。
 
 Creating URLs（创建网址）
 -------------
@@ -47,7 +47,7 @@ array(
 
 请注意，我们不需要指定的[urlManager|CWebApplication::urlManager]元件的类，因为它在[CWebApplication]预声明为[CUrlManager]。
 
-> 提示：此网址通过[createUrl|CController::createUrl]方法所产生的是一个相对地址。为了得到一个绝对的URL ，我们可以用前缀`Yii::app()->hostInfo` ，或调用[createAbsoluteUrl|CController::createAbsoluteUrl] 。
+> 提示：此网址通过[createUrl|CController::createUrl]方法所产生的是一个相对地址。为了得到一个绝对的URL ，我们可以用前缀`Yee::app()->hostInfo` ，或调用[createAbsoluteUrl|CController::createAbsoluteUrl] 。
 
 User-friendly URLs（用户友好的URL）
 ------------------
@@ -235,7 +235,7 @@ RewriteRule . index.php
 使用自定义URL规则设置类
 -----------------------------
 
-> 注意: Yii从1.1.8版本起支持自定义URL规则类
+> 注意: Yee从1.1.8版本起支持自定义URL规则类
 
 默认情况下，每个URL规则都通过[CUrlManager]来声明为一个[CUrlRule]对象，这个对象会解析当前请求并根据具体的规则来生成URL。
 虽然[CUrlRule]可以处理大部分URL格式，但在某些特殊情况下仍旧有改进余地。

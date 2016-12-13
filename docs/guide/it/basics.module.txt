@@ -98,7 +98,7 @@ che sono condivise a livello modulo. Per esempio, per poter accedere all'informa
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yee::app()->controller->module->postPerPage;
 // ovvero il codice seguente qualora $this si riferisca all'istanza del controller
 // $postPerPage=$this->module->postPerPage;
 ~~~

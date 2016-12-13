@@ -1,7 +1,7 @@
 Model-View-Controller (MVC)
 ===========================
 
-Yii mengimplementasikan pola desain model-view-controller (MVC), yang
+Yee mengimplementasikan pola desain model-view-controller (MVC), yang
 diadopsi secara luas dalam pemrograman Web. MVC bertujuan untuk memisahkan logika bisnis dari
 pertimbangan antar muka pengguna agar para pengembang bisa lebih mudah mengubah
 setiap bagian tanpa mempengaruhi yang lain. Dalam MVC, model menggambarkan 
@@ -9,22 +9,22 @@ informasi (data) dan aturan bisnis; view(tampilan) berisi elemen
 antar muka pengguna seperti teks, input form; sementara controller mengatur
 komunikasi antar model dan view.
 
-Selain implementasi MVC, Yii juga memperkenalkan front-controller(controller-depan), yang disebut `Aplikasi`,
+Selain implementasi MVC, Yee juga memperkenalkan front-controller(controller-depan), yang disebut `Aplikasi`,
 yang mengenkapsulasi konteks eksekusi untuk memproses sebuah request. Aplikasi 
 mengumpulkan beberapa informasi mengenai request pengguna dan kemudian mengirimnya ke controller yang sesuai
 untuk penanganan selanjutnya.
 
-Diagram berikut memperlihatkan struktur statis sebuah aplikasi Yii:
+Diagram berikut memperlihatkan struktur statis sebuah aplikasi Yee:
 
-![Struktur statis aplikasi Yii](structure.png)
+![Struktur statis aplikasi Yee](structure.png)
 
 
 Alur kerja Umum
 ---------------
-Diagram berikut memperlihatkan alur kerja umum sebuah aplikasi Yii saat
+Diagram berikut memperlihatkan alur kerja umum sebuah aplikasi Yee saat
 menangani permintaan pengguna:
 
-![Alur kerja umum aplikasi Yii](flow.png)
+![Alur kerja umum aplikasi Yee](flow.png)
 
    1. Pengguna membuat permintaan dengan URL `http://www.example.com/index.php?r=post/show&id=1`
 dan server Web menangani permintaan dengan menjalankan skrip bootstrap `index.php`.

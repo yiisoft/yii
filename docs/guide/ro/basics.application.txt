@@ -8,7 +8,7 @@ un rol central pentru pastrarea configuratiilor la nivel de aplicatie. De aceea,
 application mai este numita `front-controller` (controller radacina, principal).
 
 Application este creata ca singleton de catre [fisierul de intrare](/doc/guide/basics.entry).
-In acest fel, accesul este posibil de oriunde via [Yii::app()|YiiBase::app].
+In acest fel, accesul este posibil de oriunde via [Yee::app()|YeeBase::app].
 
 
 Configurare
@@ -27,7 +27,7 @@ De exemplu, asa se configureaza proprietatile [name|CApplication::name] si
 ~~~
 [php]
 array(
-	'name'=>'Yii Framework',
+	'name'=>'Yee Framework',
 	'defaultController'=>'site',
 )
 ~~~
@@ -41,12 +41,12 @@ return array(...);
 ~~~
 
 Ca sa aplicam configuratia, transmitem numele fisierului PHP ca parametru al constructorului clasei
-application, sau ca parametru al [Yii::createWebApplication()] in felul urmator
+application, sau ca parametru al [Yee::createWebApplication()] in felul urmator
 (asa se face de obicei in [fisierul de intrare](/doc/guide/basics.entry) ):
 
 ~~~
 [php]
-$app=Yii::createWebApplication($configFile);
+$app=Yee::createWebApplication($configFile);
 ~~~
 
 > Tip|Sfat: Daca aplicatia are nevoie de o configuratie complexa, putem sa o separam in mai multe
@@ -103,8 +103,8 @@ Adaugam elementul `cache` la array-ul `components`. Elementul
 `cache` retine clasa folosita de componenta, clasa fiind `CMemCache`, iar proprietarea `servers`
 ar trebui initializata in acest fel.
 
-ca sa accesam o componenta, folosim `Yii::app()->ComponentID`, unde
-`ComponentID` se refera la ID-ul componentei (ex. `Yii::app()->cache`).
+ca sa accesam o componenta, folosim `Yee::app()->ComponentID`, unde
+`ComponentID` se refera la ID-ul componentei (ex. `Yee::app()->cache`).
 
 O componenta poate fi dezactivata atribuind lui `enabled` valoarea false. Daca incercam sa accesam
 o componenta dezactivata, atunci primim null.
@@ -118,10 +118,10 @@ ID-urile lor trebuie mentionate in lista memorata in proprietatea [preload|CAppl
 Componente nucleu
 -----------------
 
-Yii activeaza implicit un set de componente nucleu pentru a asigura anumite features intalnite in majoritatea
+Yee activeaza implicit un set de componente nucleu pentru a asigura anumite features intalnite in majoritatea
 aplicatiilor Web. De exemplu, componenta [request|CWebApplication::request] este folosita pentru a analiza
 cererile client si pentru a furniza informatii folositoare despre URL, cookies. Prin configurarea
-proprietatilor acestor componente nucleu, putem schimba comportamentul implicit al Yii aproape in orice privinta. 
+proprietatilor acestor componente nucleu, putem schimba comportamentul implicit al Yee aproape in orice privinta. 
 
 Mai jos este o lista de componente nucleu care sunt pre-declarate de catre [CWebApplication].
 
@@ -138,7 +138,7 @@ atunci cand se va accesa componenta se va primi null.
 gestioneaza scripturile client (javascript si CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-gestioneaza mesajele nucleu traduse folosite de platforma Yii.
+gestioneaza mesajele nucleu traduse folosite de platforma Yee.
 
    - [db|CApplication::db]: [CDbConnection] - asigura conexiunea la baza de date. Este de retinut
 ca trebuie sa configuram proprietatea [connectionString|CDbConnection::connectionString]
@@ -146,7 +146,7 @@ pentru a putea folosi aceasta componenta.
 
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - trateaza exceptii si erori PHP. 
 
-   - [messages|CApplication::messages]: [CPhpMessageSource] - gestioneaza mesaje traduse folosite de Yii.
+   - [messages|CApplication::messages]: [CPhpMessageSource] - gestioneaza mesaje traduse folosite de Yee.
 
    - [request|CWebApplication::request]: [CHttpRequest] - furnizeaza informatii despre cererile client.
 

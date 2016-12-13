@@ -1,7 +1,7 @@
 Componente
 ==========
 
-Aplicatiile Yii sunt construite pe baza componentelor, acestea fiind
+Aplicatiile Yee sunt construite pe baza componentelor, acestea fiind
 obiecte scrise pentru a indeplini un anumit rol. O componenta este o
 instanta a clasei [CComponent] - sau a unei clase derivate din ea. 
 Folosirea unei componente implica in general accesarea proprietatilor sale

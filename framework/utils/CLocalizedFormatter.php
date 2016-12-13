@@ -3,9 +3,9 @@
  * CLocalizedFormatter class file.
  *
  * @author Carsten Brandt <mail@cebe.cc>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -65,7 +65,7 @@ class CLocalizedFormatter extends CFormatter
 	public function getLocale()
 	{
 		if($this->_locale === null) {
-			$this->setLocale(Yii::app()->locale);
+			$this->setLocale(Yee::app()->locale);
 		}
 		return $this->_locale;
 	}
@@ -78,7 +78,7 @@ class CLocalizedFormatter extends CFormatter
 	 */
 	public function formatBoolean($value)
 	{
-		return $value ? Yii::t('yii','Yes') : Yii::t('yii','No');
+		return $value ? Yee::t('yee','Yes') : Yee::t('yee','No');
 	}
 
 	/**

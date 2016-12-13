@@ -129,17 +129,17 @@ contrôleurs et les vues est que les gabarits ne sont pas appliqués sur les wid
 Vue Système
 -----------
 
-Les vues système sont des vues utilisées par Yii pour afficher les erreurs
+Les vues système sont des vues utilisées par Yee pour afficher les erreurs
 ou des informations de log. Par exemple, lorsqu'un utilisateur appelle un
-contrôleur ou une action inexistente, Yii va lever une exception qui appelera
-l'erreur. Yii affiche les exceptions en utilisant des vues système spécifiques.
+contrôleur ou une action inexistente, Yee va lever une exception qui appelera
+l'erreur. Yee affiche les exceptions en utilisant des vues système spécifiques.
 
 Le nommage des vues système doit respecter quelques règles. Des noms tels
 que `errorXXX` se réfèrent à des vues qui permettent d'afficher les erreurs [CHttpException].
 Par exemple, si [CHttpException] est levée avec un code erreur 404, la vue `error404`
 sera affichée.
 
-Yii apporte une série de vues système par défaut et qui sont stockées dans
+Yee apporte une série de vues système par défaut et qui sont stockées dans
 `framework/views`. Elles peuvent être adaptées en créant des vues qui portent le
 même nom et stckées dans le dossier `protected/views/system`.
 

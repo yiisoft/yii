@@ -1,7 +1,7 @@
 Best MVC Practices
 ==================
 
-Although Model-View-Controller (MVC) is known by nearly every Web developer, how to properly use MVC in real application development still eludes many people. The central idea behind MVC is **code reusability and separation of concerns**. In this section, we describe some general guidelines on how to better follow MVC when developing a Yii application.
+Although Model-View-Controller (MVC) is known by nearly every Web developer, how to properly use MVC in real application development still eludes many people. The central idea behind MVC is **code reusability and separation of concerns**. In this section, we describe some general guidelines on how to better follow MVC when developing a Yee application.
 
 To better explain these guidelines, we assume a Web application consists of several sub-applications, such as
 
@@ -10,7 +10,7 @@ To better explain these guidelines, we assume a Web application consists of seve
 * console: an application consisting of console commands to be run in a terminal window or as scheduled jobs to support the whole application;
 * Web API: providing interfaces to third parties for integrating with the application.
 
-The sub-applications may be implemented in terms of [modules](/doc/guide/basics.module), or as a Yii application that shares some code with other sub-applications.
+The sub-applications may be implemented in terms of [modules](/doc/guide/basics.module), or as a Yee application that shares some code with other sub-applications.
 
 
 Model
@@ -61,7 +61,7 @@ Views can be reused in different ways:
 
 * Widgets: if a lot of logic is needed to present a partial view, the partial view can be turned into a widget whose class file is the best place to contain this logic. For widgets that generate a lot of HTML markup, it is best to use view files specific to the widget to contain the markup.
 
-* Helper classes: in views we often need some code snippets to do tiny tasks such as formatting data or generating HTML tags. Rather than placing this code directly into the view files, a better approach is to place all of these code snippets in a view helper class. Then, just use the helper class in your view files. Yii provides an example of this approach. Yii has a powerful [CHtml] helper class that can produce commonly used HTML code. Helper classes may be put in an [autoloadable directory](/doc/guide/basics.namespace) so that they can be used without explicit class inclusion.
+* Helper classes: in views we often need some code snippets to do tiny tasks such as formatting data or generating HTML tags. Rather than placing this code directly into the view files, a better approach is to place all of these code snippets in a view helper class. Then, just use the helper class in your view files. Yee provides an example of this approach. Yee has a powerful [CHtml] helper class that can produce commonly used HTML code. Helper classes may be put in an [autoloadable directory](/doc/guide/basics.namespace) so that they can be used without explicit class inclusion.
 
 
 Controller

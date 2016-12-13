@@ -87,7 +87,7 @@ class CBooleanValidatorTest extends CTestCase
 
     /**
      * Test array typed value
-     * https://github.com/yiisoft/yii/issues/1955
+     * https://github.com/yeesoft/yee/issues/1955
      *
      * @return null
      */

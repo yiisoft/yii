@@ -1,7 +1,7 @@
 Path Alias and Namespace
 ========================
 
-Yii uses path aliases extensively. A path alias is associated with a
+Yee uses path aliases extensively. A path alias is associated with a
 directory or file path. It is specified in dot syntax, similar to that of
 widely adopted namespace format:
 
@@ -11,19 +11,19 @@ RootAlias.path.to.target
 
 where `RootAlias` is the alias of some existing directory.
 
-By using [YiiBase::getPathOfAlias()], an alias can be translated to its
+By using [YeeBase::getPathOfAlias()], an alias can be translated to its
 corresponding path. For example, `system.web.CController` would be
-translated as `yii/framework/web/CController`.
+translated as `yee/framework/web/CController`.
 
-We can also use [YiiBase::setPathOfAlias()] to define new root path aliases.
+We can also use [YeeBase::setPathOfAlias()] to define new root path aliases.
 
 
 Root Alias
 ----------
 
-For convenience, Yii predefines the following root aliases:
+For convenience, Yee predefines the following root aliases:
 
- - `system`: refers to the Yii framework directory;
+ - `system`: refers to the Yee framework directory;
  - `zii`: refers to the [Zii library](/doc/guide/extension.use#zii-extensions) directory;
  - `application`: refers to the application's [base directory](/doc/guide/basics.application#application-base-directory);
  - `webroot`: refers to the directory containing the [entry script](/doc/guide/basics.entry) file.
@@ -42,34 +42,34 @@ For example, if we want to include the [CController] class, we can call the foll
 
 ~~~
 [php]
-Yii::import('system.web.CController');
+Yee::import('system.web.CController');
 ~~~
 
-The [import|YiiBase::import] method differs from `include` and `require`
+The [import|YeeBase::import] method differs from `include` and `require`
 in that it is more efficient. The class definition being imported is
 actually not included until it is referenced for the first time (implemented
 via PHP autoloading mechanism). Importing the same namespace multiple times
 is also much faster than `include_once` and `require_once`. Note that importing
 a directory does not import any of its subdirectories.
 
-> Tip: When referring to a class defined by the Yii framework, we do not
-> need to import or include it. All core Yii classes are pre-imported.
+> Tip: When referring to a class defined by the Yee framework, we do not
+> need to import or include it. All core Yee classes are pre-imported.
 
 
 ###Using Class Map
 
-Starting from version 1.1.5, Yii allows user classes to be pre-imported via
-a class mapping mechanism that is also used by core Yii classes. Pre-imported
-classes can be used anywhere in a Yii application without being explicitly
+Starting from version 1.1.5, Yee allows user classes to be pre-imported via
+a class mapping mechanism that is also used by core Yee classes. Pre-imported
+classes can be used anywhere in a Yee application without being explicitly
 imported or included. This feature is most useful for a framework or library
-that is built on top of Yii.
+that is built on top of Yee.
 
 To pre-import a set of classes, the following code must be executed before
 [CWebApplication::run()] is invoked:
 
 ~~~
 [php]
-Yii::$classMap=array(
+Yee::$classMap=array(
 	'ClassName1' => 'path/to/ClassName1.php',
 	'ClassName2' => 'path/to/ClassName2.php',
 	......
@@ -86,12 +86,12 @@ needed.
 
 ~~~
 [php]
-Yii::import('system.web.*');
+Yee::import('system.web.*');
 ~~~
 
-Besides [import|YiiBase::import], aliases are also used in many other
+Besides [import|YeeBase::import], aliases are also used in many other
 places to refer to classes. For example, an alias can be passed to
-[Yii::createComponent()] to create an instance of the corresponding class,
+[Yee::createComponent()] to create an instance of the corresponding class,
 even if the class file was not included previously.
 
 
@@ -106,10 +106,10 @@ to do with a namespace.
 
 > Tip: Because PHP prior to 5.3.0 does not support namespace
 intrinsically, you cannot create instances of two classes who have the same
-name but with different definitions. For this reason, all Yii framework
+name but with different definitions. For this reason, all Yee framework
 classes are prefixed with a letter 'C' (meaning 'class') so that they can
 be differentiated from user-defined classes. It is recommended that the
-prefix 'C' be reserved for Yii framework use only, and user-defined classes
+prefix 'C' be reserved for Yee framework use only, and user-defined classes
 be prefixed with other letters.
 
 
@@ -123,7 +123,7 @@ the namespace `application\components`. Using namespaced classes requires PHP 5.
 Starting from version 1.1.5, it is possible to use a namespaced class without
 including it explicitly. For example, we can create a new instance of
 `application\components\GoogleMap` without including the corresponding class file
-explicitly. This is made possible with the enhanced Yii class autoloading mechanism.
+explicitly. This is made possible with the enhanced Yee class autoloading mechanism.
 
 In order to be able to autoload a namespaced class, the namespace must be named in
 a way similar to naming a path alias. For example, the class `application\components\GoogleMap`
@@ -135,14 +135,14 @@ should do is to define a path alias like the following:
 
 ~~~
 [php]
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 ~~~
 
 
 Namespaced Controllers
 ----------------------
 
-By default Yii uses controllers from the global namespace. These classes are
+By default Yee uses controllers from the global namespace. These classes are
 located under `protected/controllers`. You can change this behavior in two
 different ways: using `controllerMap` and using `controllerNamespace`. The former
 allows you to use controllers from various namespaces. The latter requires less
@@ -156,7 +156,7 @@ The best way to change controller map is to use the configuration file
 ~~~
 [php]
 // adding "mynamespace" namespace
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
@@ -168,8 +168,8 @@ return array(
 ~~~
 
 When user tries to load any of the controllers defined in `controllerMap`,
-Yii loads the specified classes, bypassing the normal controller loading method.
-In case of `test` Yii will load the namespaced class
+Yee loads the specified classes, bypassing the normal controller loading method.
+In case of `test` Yee will load the namespaced class
 `\mynamespace\controllers\TestController` located at
 `/var/www/common/mynamespace/controllers/TestController.php`.
 
@@ -262,7 +262,7 @@ to do it is to specify it in the application config file (`protected/config/main
 ~~~
 [php]
 // adding "mynamespace" namespace
-Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+Yee::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',

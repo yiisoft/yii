@@ -13,7 +13,7 @@ principalmente como configurar fixtures de banco de dados, como acabamos de
 descrever no exemplo.
 
 Configurar fixtures de banco de dados talvez seja uma das partes mais demoradas
-ao testar aplicações Web com banco de dados. O Yii introduz o componente de
+ao testar aplicações Web com banco de dados. O Yee introduz o componente de
 aplicação [CDbFixtureManager] para aliviar este problema. Ele basicamente faz
 as seguintes coisas ao rodar um conjunto de testes:
 

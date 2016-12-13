@@ -1,6 +1,6 @@
 <?php
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.ar.CActiveRecord');
+Yee::import('system.db.CDbConnection');
+Yee::import('system.db.ar.CActiveRecord');
 
 require_once(dirname(__FILE__).'/../../db/data/models.php');
 

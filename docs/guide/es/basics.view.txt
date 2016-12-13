@@ -131,10 +131,10 @@ La única diferencia es que no se le aplicará ningún esquema o layout a la vis
 Vistas de sistema
 -----------------
 
-Las vistas de sistema es la forma de referirse a las vistas utilizadas por Yii
+Las vistas de sistema es la forma de referirse a las vistas utilizadas por Yee
 para mostrar los errores y la informaccion del logueo. Por ejemplo, cuando
-un se realiza un pedido de un controlador o una accion inexistente, Yii lanzará una
-excepción explicando el error. Yii mostrará el error utilizando la vista del sistema
+un se realiza un pedido de un controlador o una accion inexistente, Yee lanzará una
+excepción explicando el error. Yee mostrará el error utilizando la vista del sistema
 especifica para el mismo.
 
 Los nombres de las vistas del sistema siguen ciertas reglas. Nombres como 
@@ -142,7 +142,7 @@ Los nombres de las vistas del sistema siguen ciertas reglas. Nombres como
 `XXX`. Por ejemplo, si [CHttpException] es lanzada con el código de error 404, 
 la vista `error404` será la que se mostrará.
 
-Yii provee un conjunto de vistas de sistema predeterminados que se pueden localizar en
+Yee provee un conjunto de vistas de sistema predeterminados que se pueden localizar en
 `framework/views`. Las mismas pueden ser personalizadas creando las vistas con el mismo
 nombre de archivo dentro de `protected/views/system`.
 

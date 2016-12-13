@@ -1,7 +1,7 @@
 Componente
 ==========
 
-As aplicações feitas com o Yii são construídas por componentes, que são objetos 
+As aplicações feitas com o Yee são construídas por componentes, que são objetos 
 desenvolvidos para um fim específico. Um componente é uma instância da 
 classe [CComponent], ou uma de suas classes derivadas. A utilização 
 de um componente basicamente envolve o acesso à suas propriedades e 

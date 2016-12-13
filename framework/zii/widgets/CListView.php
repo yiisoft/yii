@@ -3,12 +3,12 @@
  * CListView class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.CBaseListView');
+Yee::import('zii.widgets.CBaseListView');
 
 /**
  * CListView displays a list of data items in terms of a list.
@@ -207,20 +207,20 @@ class CListView extends CBaseListView
 	public function init()
 	{
 		if($this->itemView===null)
-			throw new CException(Yii::t('zii','The property "itemView" cannot be empty.'));
+			throw new CException(Yee::t('zii','The property "itemView" cannot be empty.'));
 		parent::init();
 
 		if(!isset($this->htmlOptions['class']))
 			$this->htmlOptions['class']='list-view';
 
 		if($this->baseScriptUrl===null)
-			$this->baseScriptUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/listview';
+			$this->baseScriptUrl=Yee::app()->getAssetManager()->publish(Yee::getPathOfAlias('zii.widgets.assets')).'/listview';
 
 		if($this->cssFile!==false)
 		{
 			if($this->cssFile===null)
 				$this->cssFile=$this->baseScriptUrl.'/styles.css';
-			Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+			Yee::app()->getClientScript()->registerCssFile($this->cssFile);
 		}
 	}
 
@@ -261,13 +261,13 @@ class CListView extends CBaseListView
 		}
 
 		$options=CJavaScript::encode($options);
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
 		if($this->enableHistory)
 			$cs->registerCoreScript('history');
-		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiilistview.js',CClientScript::POS_END);
-		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiListView($options);");
+		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yeelistview.js',CClientScript::POS_END);
+		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yeeListView($options);");
 	}
 
 	/**
@@ -306,7 +306,7 @@ class CListView extends CBaseListView
 		if($this->dataProvider->getItemCount()<=0 || !$this->enableSorting || empty($this->sortableAttributes))
 			return;
 		echo CHtml::openTag('div',array('class'=>$this->sorterCssClass))."\n";
-		echo $this->sorterHeader===null ? Yii::t('zii','Sort by: ') : $this->sorterHeader;
+		echo $this->sorterHeader===null ? Yee::t('zii','Sort by: ') : $this->sorterHeader;
 		echo "<ul>\n";
 		$sort=$this->dataProvider->getSort();
 		foreach($this->sortableAttributes as $name=>$label)

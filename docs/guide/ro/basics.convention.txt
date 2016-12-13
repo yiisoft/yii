@@ -1,26 +1,26 @@
 Conventii
 =========
 
-Yii este in favoarea conventiilor si sustine mai putin configuratiile.
-Doar urmand conventiile se pot crea aplicatii Yii sofisticate, fara a scrie sau
-a gestiona configuratii complexe. Totusi, Yii poate fi customizat in aproape
+Yee este in favoarea conventiilor si sustine mai putin configuratiile.
+Doar urmand conventiile se pot crea aplicatii Yee sofisticate, fara a scrie sau
+a gestiona configuratii complexe. Totusi, Yee poate fi customizat in aproape
 orice aspect atunci cand configuratii noi sunt necesare.
 
-Mai jos descriem conventiile care sunt recomandate pentru programarea in Yii.
+Mai jos descriem conventiile care sunt recomandate pentru programarea in Yee.
 Pentru convenienta, presupunem ca `WebRoot` este directorul in care este instalat
-aplicatia Yii.
+aplicatia Yee.
 
 URL
 ---
 
-Implicit, Yii recunoaste URL-uri cu urmatorul format:
+Implicit, Yee recunoaste URL-uri cu urmatorul format:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
 ~~~
 
 Variabila `r` (face parte din GET) se refera la
-[ruta](/doc/guide/basics.controller#route), care este folosit de Yii pentru a
+[ruta](/doc/guide/basics.controller#route), care este folosit de Yee pentru a
 extrage controller-ul si action-ul. Daca `ActionID` nu este precizat, controller-ul
 va lansa action-ul implicit (definit in [CController::defaultAction]); iar daca
 `ControllerID` lipseste si el (sau variabla `r` lipseste cu totul), atunci aplicatia
@@ -33,7 +33,7 @@ este prezentat in detaliu in [Gestiunea URL](/doc/guide/topics.url).
 Cod
 ---
 
-Yii recomanda ca denumirea variabilelor, functiilor si tipurilor de clase sa se faca in
+Yee recomanda ca denumirea variabilelor, functiilor si tipurilor de clase sa se faca in
 stil camel. Stilul camel inseamna capitalizarea fiecarui cuvant (prima litera a cuvantului este litera mare)
 din interiorul numelui si alaturarea cuvintelor fara spatii intre ele.
 Pentru a se face diferenta fata de numele de clase, numele de variabile si functii
@@ -43,9 +43,9 @@ sa punem un caracter underscore `_` in fata numelor (ex. `$_actionList`).
 
 Conceptul de namespace a fost implementat o data cu versiunea PHP 5.3.0. Pentru ca versiunile
 anterioare de PHP nu au implementat acest concept, recomandam denumirea claselor
-intr-un fel unic pentru a evita conflictele de nume cu alte clase externe Yii.
+intr-un fel unic pentru a evita conflictele de nume cu alte clase externe Yee.
 that classes be named in some unique way to avoid name conflict with
-Tot din acest motiv, toate clasele Yii au in fata litera "C".
+Tot din acest motiv, toate clasele Yee au in fata litera "C".
 
 In ce priveste controller-ele, regula speciala este ca numele lor trebuie sa
 fie urmate de cuvantul `Controller`. De exemplu, clasa `PageController` va avea ID-ul `page`. 
@@ -88,13 +88,13 @@ este un fisier PHP al carui singur scop este sa returneze un array care contine 
 Directoare
 ----------
 
-Yii este structurat initial conform unui set implicit de directoare folosite pentru
+Yee este structurat initial conform unui set implicit de directoare folosite pentru
 diverse scopuri. Fiecare director poate fi customizat daca este nevoie. 
 
    - `WebRoot/protected`: acesta este [application base
 directory](/doc/guide/basics.application#application-base-directory). Contine toate
 fisierele PHP si fisierele de date care trebuie securizate fata de exterior. Poate fi
-schimbat prin [CWebApplication::basePath]. Yii contine un alias implicit avand numele
+schimbat prin [CWebApplication::basePath]. Yee contine un alias implicit avand numele
 `application` care este asociat cu aceasta cale. Accesul la acest director,
 inclusiv orice subdirector, ar trebui sa fie interzis tuturor utilizatorilor Web. 
 
@@ -131,7 +131,7 @@ este un fisier privat care poate fi publicat pentru a deveni accesibil utilizato
 director trebuie sa dea drept de scriere procesului serverului Web. Acest director poate fi schimbat prin [CAssetManager::basePath].
 
    - `WebRoot/themes`: acest director contine diverse teme in care poate fi prezentata
-aplicatia Yii. Fiecare subdirector reprezinta o singura tema al carui nume este numele
+aplicatia Yee. Fiecare subdirector reprezinta o singura tema al carui nume este numele
 subdirectorului respectiv. Acest director poate fi schimbat prin [CThemeManager::basePath].
 
 <div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

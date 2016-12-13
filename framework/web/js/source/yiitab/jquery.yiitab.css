@@ -1,4 +1,4 @@
-.yiiTab ul.tabs
+.yeeTab ul.tabs
 {
     padding: 2px 0;
     margin: 0;
@@ -6,14 +6,14 @@
     font: bold 12px Verdana, sans-serif;
 }
 
-.yiiTab ul.tabs li
+.yeeTab ul.tabs li
 {
     list-style: none;
     margin: 0;
     display: inline;
 }
 
-.yiiTab ul.tabs a
+.yeeTab ul.tabs a
 {
 	-moz-border-radius-topleft:5px;
 	-moz-border-radius-topright:5px;
@@ -25,30 +25,30 @@
     text-decoration: none;
 }
 
-.yiiTab ul.tabs a:link
+.yeeTab ul.tabs a:link
 {
 	color: #667;
 }
 
-.yiiTab ul.tabs a:visited
+.yeeTab ul.tabs a:visited
 {
 	color: #667;
 }
 
-.yiiTab ul.tabs a:hover
+.yeeTab ul.tabs a:hover
 {
     color: #000;
     background: #E6F2FF;
     border-color: #227;
 }
 
-.yiiTab ul.tabs a.active
+.yeeTab ul.tabs a.active
 {
     background: white;
     border-bottom: 1px solid white;
 }
 
-.yiiTab div.view
+.yeeTab div.view
 {
     border-left: 1px solid #4F81BD;
     border-right: 1px solid #4F81BD;

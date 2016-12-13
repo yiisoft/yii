@@ -11,25 +11,25 @@ Meistens enthält dieses Startscript einfachen Code wie diesen:
 [php]
 // Folgende Zeile im Produktivmodus entfernen:
 defined('YII_DEBUG') or define('YII_DEBUG',true);
-// Yii-Startdatei einbinden
-require_once('path/to/yii/framework/yii.php');
+// Yee-Startdatei einbinden
+require_once('path/to/yee/framework/yee.php');
 // Instanz einer Applikation erzeugen und starten
 $configFile='path/to/config/file.php';
-Yii::createWebApplication($configFile)->run();
+Yee::createWebApplication($configFile)->run();
 ~~~
 
-Zunächst wird darin die Yii-Startdatei `yii.php` eingebunden. Danach wird eine
+Zunächst wird darin die Yee-Startdatei `yee.php` eingebunden. Danach wird eine
 Instanz einer Webapplikation mit der angegebenen Konfiguration erzeugt und
 gestartet.
 
 Debug-Modus
 -----------
 
-Über die Konstante `YII_DEBUG` kann eine Yii-Anwendung entweder in den Debug- 
+Über die Konstante `YII_DEBUG` kann eine Yee-Anwendung entweder in den Debug- 
 oder in den Produktivmodus versetzt werden. In der Standardeinstellung wird `YII-DEBUG` 
 auf `false` gesetzt und die Anwendung läuft im Produktivmodus.
 Um in den Debugmodus umzuschalten muss die Konstante auf `true` gesetzt
-werden, bevor `yii.php` eingebunden wird. Im Debugmodus läuft die Anwendung
+werden, bevor `yee.php` eingebunden wird. Im Debugmodus läuft die Anwendung
 langsamer, da intern eine wesentlich größere Menge an Logmeldungen anfällt. 
 In der Entwicklungsphase ist der Debugmodus allerdings sehr hilfreich, da 
 im Fehlerfall umfangreiche Debuginformationen angezeigt werden können.

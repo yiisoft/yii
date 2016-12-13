@@ -29,7 +29,7 @@ public function loadModel()
 	{
 		if(isset($_GET['id']))
 		{
-			if(Yii::app()->user->isGuest)
+			if(Yee::app()->user->isGuest)
 				$condition='status='.Post::STATUS_PUBLISHED
 					.' OR status='.Post::STATUS_ARCHIVED;
 			else
@@ -45,7 +45,7 @@ public function loadModel()
 
 Nasza zmiana dotyczy przede wszystkim metody `loadModel()`. W metodzie tej odpytujemy tabelę z wiadomościami `Post` w zależności od parametru `id` GET. Jeśli wiadomość nie została znaleziona lub jeśli nie jest ona opublikowana lub zarchiwizowana (gdy użytkownik jest gościem), rzucimy błędem HTTP 404. W przeciwnym przypadku obiekt wiadomości jest zwracany do metody `actionView()`, która z kolei przekazuje obiekt wiadomości do widoku `view` w celu późniejszego jej wyświetlenia.
 
-> Tip|Wskazówka: Yii przechwytuje wyjątki HTTP (instancje klasy [CHttpException]) i wyświetla je zarówno przy użyciu zdefiniowanych szablonów czy też widoków błędów. Szkielet aplikacji wygenerowany przez narzędzie `yiic` zawiera już niestandardowy widok błędów w `/wwwroot/blog/protected/views/site/error.php`. Możemy zmodyfikować ten plik, jeśli mamy taką potrzebę, później jeśli chcemy zmienić sposób wyświetlania błędów.
+> Tip|Wskazówka: Yee przechwytuje wyjątki HTTP (instancje klasy [CHttpException]) i wyświetla je zarówno przy użyciu zdefiniowanych szablonów czy też widoków błędów. Szkielet aplikacji wygenerowany przez narzędzie `yeec` zawiera już niestandardowy widok błędów w `/wwwroot/blog/protected/views/site/error.php`. Możemy zmodyfikować ten plik, jeśli mamy taką potrzebę, później jeśli chcemy zmienić sposób wyświetlania błędów.
 
 Zmiana w skrypcie `view` dotyczy przede wszystkim dostosowania formatowania oraz stylów wyświetlania wiadomości. Nie będziemy tutaj wdawać się w szczegóły. Zainteresowani, mogą zajrzeć do pliku `/wwwroot/blog/protected/views/post/view.php`.
 

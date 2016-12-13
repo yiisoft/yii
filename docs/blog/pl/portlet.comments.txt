@@ -11,7 +11,7 @@ Tworzymy klasę `RecentComments` w pliku `/wwwroot/blog/protected/components/Rec
 
 ~~~
 [php]
-Yii::import('zii.widgets.CPortlet');
+Yee::import('zii.widgets.CPortlet');
 
 class RecentComments extends CPortlet
 {
@@ -65,14 +65,14 @@ Zmodyfikujemy plik układu `/wwwroot/blog/protected/views/layouts/column2.php` b
 ......
 <div id="sidebar">
 
-	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+	<?php if(!Yee::app()->user->isGuest) $this->widget('UserMenu'); ?>
 
 	<?php $this->widget('TagCloud', array(
-		'maxTags'=>Yii::app()->params['tagCloudCount'],
+		'maxTags'=>Yee::app()->params['tagCloudCount'],
 	)); ?>
 
 	<?php $this->widget('RecentComments', array(
-		'maxComments'=>Yii::app()->params['recentCommentCount'],
+		'maxComments'=>Yee::app()->params['recentCommentCount'],
 	)); ?>
 
 </div>

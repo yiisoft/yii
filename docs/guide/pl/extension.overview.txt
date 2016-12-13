@@ -1,13 +1,13 @@
-Rozszerzanie Yii
+Rozszerzanie Yee
 ================
 
-Rozszerzanie Yii jest powszednią czynnością podczas dewelopmentu. Na przykład, gdy
-piszesz nowy kontroler, rozszerzasz Yii poprzez dziedziczenie po jego klasie 
+Rozszerzanie Yee jest powszednią czynnością podczas dewelopmentu. Na przykład, gdy
+piszesz nowy kontroler, rozszerzasz Yee poprzez dziedziczenie po jego klasie 
 [CController]; gdy piszesz nowy widżet, dziedziczysz po [CWidget] lub istniejącej
 klasie widżetu. Jeśli rozszerzony kod jest przeznaczony do ponownego użycia przez
 innych deweloperów, nazywamy go *rozszerzeniem* (ang. extension).
 
-Rozszerzenie zazwyczaj służy jednemu celu. W nazewnictwie Yii, można to sklasyfikować
+Rozszerzenie zazwyczaj służy jednemu celu. W nazewnictwie Yee, można to sklasyfikować
 następująco:
 
  * [komponent aplikacji](/doc/guide/basics.application#application-component)
@@ -28,7 +28,7 @@ następująco:
  możemy mieć moduł, który dostarcza funkcjonalności zarządzania użytkownikami.
 
 Rozszerzenie może być również komponentem, który nie należy do żadnej z wyżej 
-wymienionych kategorii. W rzeczy samej, framework Yii jest starannie zaprojektowany, tak że
+wymienionych kategorii. W rzeczy samej, framework Yee jest starannie zaprojektowany, tak że
 niemal każda jego część kodu może być rozszerzona oraz dostosowana do indywidualnych potrzeb.
 
 <div class="revision">$Id: extension.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

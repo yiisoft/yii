@@ -3,43 +3,43 @@ Aplikacje konsolowe
 
 Aplikacje konsolowe używane są głównie przez aplikacje webowe do wykonywania zadań 
 w trybie online, takich jak generowanie kodu, kompilacja indeksu wyszukiwania, 
-wysyłanie maili, itp. Yii dostarcza frameworku do pisania aplikacji konsolowych 
-w sposób systematyczny i obiektowo zorientowany. Yii udostępnia aplikacji konsolowej
+wysyłanie maili, itp. Yee dostarcza frameworku do pisania aplikacji konsolowych 
+w sposób systematyczny i obiektowo zorientowany. Yee udostępnia aplikacji konsolowej
 zasoby (np. połączenia z bazą danych), które używane są przez aplikację sieciową 
 w trybie online.
 
 Przegląd
 
-Yii reprezentuje każde zadanie konsolowe pod pojęciem [polecenia|CConsoleCommand].
+Yee reprezentuje każde zadanie konsolowe pod pojęciem [polecenia|CConsoleCommand].
 Polecenia konsolowe zostały napisane jako klasy dziedziczące z [CConsoleCommand].
 
-Jeśli używamy narzędzia `yiic webapp` w celu utworzenia początkowego szkieletu aplikacji Yii,
+Jeśli używamy narzędzia `yeec webapp` w celu utworzenia początkowego szkieletu aplikacji Yee,
 znajdujemy dwa następujące pliki w katalogu `protected`:
 
-* `yiic`: jest skrypt wykonywalny na systemie Linux/Unix;
-* `yiic.bat`: jest to wykonywalny plik wsadowy używany w systemie Windows.
+* `yeec`: jest skrypt wykonywalny na systemie Linux/Unix;
+* `yeec.bat`: jest to wykonywalny plik wsadowy używany w systemie Windows.
 
 W oknie konsoli, możemy wprowadzić następujące polecenia:
 
 ~~~
 cd protected
-yiic help
+yeec help
 ~~~
 
 Spowoduje to wyświetlenie listy dostępnych poleceń konsolowych. Domyślnie, dostepne polecenia
-zawierają te dostarczone przez framework Yii (nazywane **poleceniami systemowymi**)
+zawierają te dostarczone przez framework Yee (nazywane **poleceniami systemowymi**)
 oraz te utworzone przez użytkownika dla poszczególnych aplikacji (nazywanych **poleceniami użytkownika**).
 
 Aby zobaczyć jak używać poleceń, możemy wywołać
 
 ~~~
-yiic help <nazwa-polecenia>
+yeec help <nazwa-polecenia>
 ~~~
 
 Aby wywołać polecenie, używamy następującego formatu poleceń:
 
 ~~~
-yiic <nazwa-polecenia> [parametry...]
+yeec <nazwa-polecenia> [parametry...]
 ~~~
 
 Tworzenie poleceń
@@ -72,13 +72,13 @@ public function run($args) { ... }
 
 gdzie `$args` wskazuje na dodatkowe parametry podane w linii poleceń.
 
-W konsoli poleceń możemy używać `Yii::app()` w celu dostępu do instancji
+W konsoli poleceń możemy używać `Yee::app()` w celu dostępu do instancji
 aplikacji konsolowej za pomocą której możemy również uzyskać dostęp do połączeń 
-bazodanowych (np. `Yii::app()->db`). Można powiedzieć, że użyteczność jest bardzo
+bazodanowych (np. `Yee::app()->db`). Można powiedzieć, że użyteczność jest bardzo
 podobna do tego, co możemy zrobić w aplikacji sieciowej.
 
 > Info|Info: Poczynając od wersji 1.1.1, możemy również tworzyć globalne polecenia, 
-które są współdzielone przez **wszystkie** aplikacje Yii znajdujące się na tej samej 
+które są współdzielone przez **wszystkie** aplikacje Yee znajdujące się na tej samej 
 maszynie. W tym celu zdefiniuj gobalną zmienną o nazwie `YII_CONSOLE_COMMANDS`, 
 wskazującą na istniejący katalog. Możemy umieścić nasze globalne polecenia w tym katalogu.
 
@@ -101,7 +101,7 @@ metoda `actionIndex` określa akcję o nazwie `index`.
 W celu wywołania określonej akcji, używamy następującego formatu dla polecenia konsolowego
 
 ~~~
-yiic <nazwa-polecenia> <nazwa-akcji> --opcja1=wartość --opcja2=wartość2 ...
+yeec <nazwa-polecenia> <nazwa-akcji> --opcja1=wartość --opcja2=wartość2 ...
 ~~~
 
 Dodatkowe pary opcja-wartość zostaną przekazane jako nazwane parametry do metody akcji.
@@ -120,17 +120,17 @@ class SitemapCommand extends CConsoleCommand
 W następstwie, wynikiem wszystkich kolejnych poleceń konsolowych będzie	wywołanie `actionIndex('News', 5)`:
 
 ~~~
-yiic sitemap index --type=News --limit=5
+yeec sitemap index --type=News --limit=5
 
 // $limit przyjmuje wartość domyślną
-yiic sitemap index --type=News
+yeec sitemap index --type=News
 
 // $limit  przyjmuje wartość domyślną
 // ponieważ 'index' jest akcją domyślną, możemy pominąć nazwę akcji 
-yiic sitemap --type=News
+yeec sitemap --type=News
 
 // kolejność opcji nie ma znaczenia 
-yiic sitemap index --limit=5 --type=News
+yeec sitemap index --limit=5 --type=News
 ~~~
 
 Jeśli opcja podana została bez wartości (np. `--type` zamiast `--type=News`), 
@@ -149,16 +149,16 @@ public function actionIndex(array $types) { ... }
 Aby wypełnić tablicę wartościami, po prostu powtarzamy tę samą opcje kilka razy w linii poleceń:
 
 ~~~
-yiic sitemap index --types=News --types=Article
+yeec sitemap index --types=News --types=Article
 ~~~
 
 Powyższe polecenie wywoła ostatecznie `actionIndex(array('News', 'Article'))`.
 
 
-Poczynając od wersji 1.1.6, Yii wspiera używanie anonimowych parametrów akcji oraz opcji globalnych.
+Poczynając od wersji 1.1.6, Yee wspiera używanie anonimowych parametrów akcji oraz opcji globalnych.
 
 Anonimowe parametry odnoszą się do tych parametrów linii poleceń, które nie są podawane w formie opcji.
-Na przykład, w poleceniu `yiic sitemap index --limit=5 News`, mamy anonimowy parametr, którego wartością
+Na przykład, w poleceniu `yeec sitemap index --limit=5 News`, mamy anonimowy parametr, którego wartością
 jest `News`, gdy zaś nazwany parametr `limit` przyjmuje wartość 5.
 
 Aby móc używać anonimowych parametrów, akcja polecenia musi deklarować parametr o nazwie `$args`. Na przykład:
@@ -188,14 +188,14 @@ class SitemapCommand extends CConsoleCommand
 Powyższy kod pozwoli wykonać nam polecenie z opcją `verbose`:
 
 ~~~
-yiic sitemap index --verbose=1 --type=News
+yeec sitemap index --verbose=1 --type=News
 ~~~
 
 
 Dostosowywanie aplikacji konsolowej
 --------------------------------
 
-Jeśli aplikacja została utworzona za pomocą narzędzia `yiic webapp`, domyślnie, 
+Jeśli aplikacja została utworzona za pomocą narzędzia `yeec webapp`, domyślnie, 
 konfiguracja aplikacji konsolowej będzie się znajdować w `protected/config/console.php`. 
 Tak jak i plik konfiguracyjny aplikacji sieciowej, plik ten jest skryptem PHP, który zwraca
 tablicę reprezentującą inicjalne wartości właściwości instancji aplikacji konsolowej.

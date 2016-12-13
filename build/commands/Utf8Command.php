@@ -3,9 +3,9 @@
  * Utf8Command class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -21,7 +21,7 @@ class Utf8Command extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic utf8 <action> <file>
+  yeec utf8 <action> <file>
 
 
 DESCRIPTION
@@ -149,7 +149,7 @@ EOD;
 	public function findTranslationFiles()
 	{
 		return CFileHelper::findFiles(
-			dirname(Yii::app()->basePath),
+			dirname(Yee::app()->basePath),
 			array(
 				'fileTypes' => array('txt', 'php'),
 				'exclude' => array(

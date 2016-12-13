@@ -3,9 +3,9 @@
  * CDbConnection class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -387,7 +387,7 @@ class CDbConnection extends CApplicationComponent
 				throw new CDbException('CDbConnection.connectionString cannot be empty.');
 			try
 			{
-				Yii::trace('Opening DB connection','system.db.CDbConnection');
+				Yee::trace('Opening DB connection','system.db.CDbConnection');
 				$this->_pdo=$this->createPdoInstance();
 				$this->initConnection($this->_pdo);
 				$this->_active=true;
@@ -401,7 +401,7 @@ class CDbConnection extends CApplicationComponent
 				}
 				else
 				{
-					Yii::log($e->getMessage(),CLogger::LEVEL_ERROR,'exception.CDbException');
+					Yee::log($e->getMessage(),CLogger::LEVEL_ERROR,'exception.CDbException');
 					throw new CDbException('CDbConnection failed to open the DB connection.',(int)$e->getCode(),$e->errorInfo);
 				}
 			}
@@ -414,7 +414,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	protected function close()
 	{
-		Yii::trace('Closing DB connection','system.db.CDbConnection');
+		Yee::trace('Closing DB connection','system.db.CDbConnection');
 		$this->_pdo=null;
 		$this->_active=false;
 		$this->_schema=null;
@@ -439,13 +439,13 @@ class CDbConnection extends CApplicationComponent
 		}
 
 		if(!class_exists($pdoClass))
-			throw new CDbException(Yii::t('yii','CDbConnection is unable to find PDO class "{className}". Make sure PDO is installed correctly.',
+			throw new CDbException(Yee::t('yee','CDbConnection is unable to find PDO class "{className}". Make sure PDO is installed correctly.',
 				array('{className}'=>$pdoClass)));
 
 		@$instance=new $pdoClass($this->connectionString,$this->username,$this->password,$this->_attributes);
 
 		if(!$instance)
-			throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection.'));
+			throw new CDbException(Yee::t('yee','CDbConnection failed to open the DB connection.'));
 
 		return $instance;
 	}
@@ -517,7 +517,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function beginTransaction()
 	{
-		Yii::trace('Starting transaction','system.db.CDbConnection');
+		Yee::trace('Starting transaction','system.db.CDbConnection');
 		$this->setActive(true);
 		$this->_pdo->beginTransaction();
 		return $this->_transaction=new CDbTransaction($this);
@@ -536,9 +536,9 @@ class CDbConnection extends CApplicationComponent
 		{
 			$driver=$this->getDriverName();
 			if(isset($this->driverMap[$driver]))
-				return $this->_schema=Yii::createComponent($this->driverMap[$driver], $this);
+				return $this->_schema=Yee::createComponent($this->driverMap[$driver], $this);
 			else
-				throw new CDbException(Yii::t('yii','CDbConnection does not support reading schema for {driver} database.',
+				throw new CDbException(Yee::t('yee','CDbConnection does not support reading schema for {driver} database.',
 					array('{driver}'=>$driver)));
 		}
 	}
@@ -842,7 +842,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function getStats()
 	{
-		$logger=Yii::getLogger();
+		$logger=Yee::getLogger();
 		$timings=$logger->getProfilingResults(null,'system.db.CDbCommand.query');
 		$count=count($timings);
 		$time=array_sum($timings);

@@ -131,17 +131,17 @@ instans i stället för till kontrollerinstansen.
 Systemvy
 --------
 
-Systemvyer refererar till de vyer som Yii använder för att presentera 
+Systemvyer refererar till de vyer som Yee använder för att presentera 
 felmeddelanden och loggningsinformation. Till exempel, när en användare skickar 
-en begäran gällande en icke-existerande kontroller eller åtgärd, kommer Yii 
-att signalera en exception som förklarar felet. Yii presenterar en exception med 
+en begäran gällande en icke-existerande kontroller eller åtgärd, kommer Yee 
+att signalera en exception som förklarar felet. Yee presenterar en exception med 
 hjälp av en specifik systemvy.
 
 Namn på systemvyer följer vissa regler. Namn i stil med `errorXXX` avser vyer 
 för presentation, [CHttpException] med felkod `XXX`. Till exempel, om 
 [CHttpException] signaleras med felkod 404, så kommer vyn `error404` att visas.
 
-Yii erbjuder en standarduppsättning systemvyer placerade under 
+Yee erbjuder en standarduppsättning systemvyer placerade under 
 `framework/views`. Dessa kan anpassas genom att vyfiler med samma namn placeras 
 under `protected/views/system`.
 

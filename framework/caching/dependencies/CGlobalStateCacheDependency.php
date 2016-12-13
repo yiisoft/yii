@@ -3,9 +3,9 @@
  * CGlobalStateCacheDependency class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -47,8 +47,8 @@ class CGlobalStateCacheDependency extends CCacheDependency
 	protected function generateDependentData()
 	{
 		if($this->stateName!==null)
-			return Yii::app()->getGlobalState($this->stateName);
+			return Yee::app()->getGlobalState($this->stateName);
 		else
-			throw new CException(Yii::t('yii','CGlobalStateCacheDependency.stateName cannot be empty.'));
+			throw new CException(Yee::t('yee','CGlobalStateCacheDependency.stateName cannot be empty.'));
 	}
 }

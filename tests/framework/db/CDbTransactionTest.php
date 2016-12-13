@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
+Yee::import('system.db.CDbConnection');
 
 class CDbTransactionTest extends CTestCase
 {

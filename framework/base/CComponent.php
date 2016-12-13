@@ -3,9 +3,9 @@
  * This file contains the foundation classes for component-based and event-driven programming.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -127,7 +127,7 @@ class CComponent
 					return $object->$name;
 			}
 		}
-		throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
+		throw new CException(Yee::t('yee','Property "{class}.{property}" is not defined.',
 			array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
@@ -167,10 +167,10 @@ class CComponent
 			}
 		}
 		if(method_exists($this,'get'.$name))
-			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
+			throw new CException(Yee::t('yee','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 		else
-			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
+			throw new CException(Yee::t('yee','Property "{class}.{property}" is not defined.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
@@ -238,7 +238,7 @@ class CComponent
 			}
 		}
 		elseif(method_exists($this,'get'.$name))
-			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
+			throw new CException(Yee::t('yee','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
@@ -263,7 +263,7 @@ class CComponent
 		}
 		if(class_exists('Closure', false) && ($this->canGetProperty($name) || property_exists($this, $name)) && $this->$name instanceof Closure)
 			return call_user_func_array($this->$name, $parameters);
-		throw new CException(Yii::t('yii','{class} and its behaviors do not have a method or closure named "{name}".',
+		throw new CException(Yee::t('yee','{class} and its behaviors do not have a method or closure named "{name}".',
 			array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 
@@ -318,7 +318,7 @@ class CComponent
 	 * by calling its {@link IBehavior::attach} method.
 	 * @param string $name the behavior's name. It should uniquely identify this behavior.
 	 * @param mixed $behavior the behavior configuration. This is passed as the first
-	 * parameter to {@link YiiBase::createComponent} to create the behavior object.
+	 * parameter to {@link YeeBase::createComponent} to create the behavior object.
 	 * You can also pass an already created behavior instance (the new behavior will replace an already created
 	 * behavior with the same name, if it exists).
 	 * @return IBehavior the behavior object
@@ -326,7 +326,7 @@ class CComponent
 	public function attachBehavior($name,$behavior)
 	{
 		if(!($behavior instanceof IBehavior))
-			$behavior=Yii::createComponent($behavior);
+			$behavior=Yee::createComponent($behavior);
 		$behavior->setEnabled(true);
 		$behavior->attach($this);
 		return $this->_m[$name]=$behavior;
@@ -475,7 +475,7 @@ class CComponent
 			return $this->_e[$name];
 		}
 		else
-			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
+			throw new CException(Yee::t('yee','Event "{class}.{event}" is not defined.',
 				array('{class}'=>get_class($this), '{event}'=>$name)));
 	}
 
@@ -560,14 +560,14 @@ class CComponent
 						elseif(method_exists($object,$method))
 							$object->$method($event);
 						else
-							throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
+							throw new CException(Yee::t('yee','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
 								array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>$handler[1])));
 					}
 					else // PHP 5.3: anonymous function
 						call_user_func($handler,$event);
 				}
 				else
-					throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
+					throw new CException(Yee::t('yee','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
 						array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>gettype($handler))));
 				// stop further handling if param.handled is set true
 				if(($event instanceof CEvent) && $event->handled)
@@ -575,7 +575,7 @@ class CComponent
 			}
 		}
 		elseif(YII_DEBUG && !$this->hasEvent($name))
-			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
+			throw new CException(Yee::t('yee','Event "{class}.{event}" is not defined.',
 				array('{class}'=>get_class($this), '{event}'=>$name)));
 	}
 

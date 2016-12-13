@@ -1,7 +1,7 @@
 Fitur Baru
 ==========
 
-Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yii.
+Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yee.
 
 Version 1.1.8
 -------------
@@ -53,12 +53,12 @@ Versi 1.1.1
 * Menambah CActiveForm untuk mempermudah penulisan kode yang berhubungan dengan form
 serta mendukung validasi yang konsisten dan seamless baik pada bagian klien maupun server.
 
-* Refaktor ulang kode yang dihasilkan oleh yiic. Khususnya, aplikasi
+* Refaktor ulang kode yang dihasilkan oleh yeec. Khususnya, aplikasi
 kerangka sekarang diciptakan dengan beberapa susunan (multiple layout); menu operasi 
 disusun ulang untuk halaman-halaman CRUD; menambah pencarian dan penyaringan pada halaman admin yang
 dihasilkan oleh perinta crud; menggunakan CActiveForm untuk menghasilkan sebuah form;
 
-* [Menambah dukungan untuk memungkinkan mendefinisikan perintah yiic global](/doc/guide/topics.console)
+* [Menambah dukungan untuk memungkinkan mendefinisikan perintah yeec global](/doc/guide/topics.console)
 
 Versi 1.1.0
 -----------

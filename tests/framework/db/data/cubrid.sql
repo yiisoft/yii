@@ -1,6 +1,6 @@
 /**
- * This is the database schema for testing CUBRID support of yii Active Record.
- * To test this feature, you need to create a database named 'yii' on 'localhost'
+ * This is the database schema for testing CUBRID support of yee Active Record.
+ * To test this feature, you need to create a database named 'yee' on 'localhost'
  * and create an account 'test/test' which owns this test database.
  */
 

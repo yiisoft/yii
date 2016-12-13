@@ -1,7 +1,7 @@
 Active Record
 =============
 
-Même si Yii DAO peut gérer n'importe quelle tache relative à la base de données,
+Même si Yee DAO peut gérer n'importe quelle tache relative à la base de données,
 il est fort probable qu'une grande partie du temps de développement soit consacré
 à l'écriture de requêtes SQL pour faire des opérations CRUD (create, read, update and delete)
 courantes. De plus il est difficile de maintenir un code quand celui est parsemé
@@ -40,7 +40,7 @@ CREATE TABLE tbl_post (
 
 > Note: AR n'est pas fait pour régler tous les problèmes liés aux tâches touchant
 à la base. AR convient le mieux pour modéliser des tables en PHP et pour effectuer
-des requêtes n'impliquant pas de code SQL complexe. Yii DAO est préférable dans ces
+des requêtes n'impliquant pas de code SQL complexe. Yee DAO est préférable dans ces
 cas de requêtes SQL complexes.
 
 
@@ -241,7 +241,7 @@ $post->save();
 > Tip: bien que AR permette des opérations sans avoir à écrire de requêtes SQL,
 il est intéressant de savoir quelles requêtes SQL sont exécutées par AR.
 Pour cela, il est possible d'activer la [fonctionnalité de log](/doc/guide/topics.logging)
-de Yii. Par exemple, en activant [CWebLogRoute] dans la configuration de l'application,
+de Yee. Par exemple, en activant [CWebLogRoute] dans la configuration de l'application,
 les requêtes SQL seront affichées à la fin de chaque page web.
 Depuis la version 1.0.5, il est possible de mettre [CDbConnection::enableParamLogging] à true
 dans la configuration de l'application pour que les valeurs en paramètres liées aux requêtes SQL
@@ -488,9 +488,9 @@ de manière unique grâce à la valeur de leur clé primaire. Ainsi, afin de com
 deux instances AR, il suffit de comparer leur clé primaire. Cependant une façon plus
 simple est d'appeler la méthode [CActiveRecord::equals()].
 
-> Info: A la différence des implémentations de AR dans les autres frameworks, Yii supporte
+> Info: A la différence des implémentations de AR dans les autres frameworks, Yee supporte
 les clés primaires composites dans les AR. Une clé composite est consistuée de deux colonnes
-ou plus. Dans ce cas, la valeur de la clé primaire est représentée dans Yii comme un tableau.
+ou plus. Dans ce cas, la valeur de la clé primaire est représentée dans Yee comme un tableau.
 La propriété [primaryKey|CActiveRecord::primaryKey] renvoie la valeur de la clé primaire
 dans une instance AR.
 
@@ -525,7 +525,7 @@ Utilisation des transactions avec AR
 Chaque instance AR contient une propriété nommée
 [dbConnection|CActiveRecord::dbConnection] qui est une instance de [CDbConnection].
 Il est donc possible d'utiliser la fonctionnalité de [transaction](/doc/guide/database.dao#using-transactions)
-fourni par Yii DAO si besoin:
+fourni par Yee DAO si besoin:
 
 ~~~
 [php]
@@ -636,7 +636,7 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"language='".Yii::app()->language."'",
+			'condition'=>"language='".Yee::app()->language."'",
 		);
 	}
 }

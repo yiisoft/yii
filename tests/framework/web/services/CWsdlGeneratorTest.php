@@ -1,13 +1,13 @@
 <?php
 
 // path to tested class
-Yii::import('system.web.services.CWsdlGenerator');
+Yee::import('system.web.services.CWsdlGenerator');
 
 // paths to input-output objects
-Yii::import('application.framework.web.services.*');
+Yee::import('application.framework.web.services.*');
 
 // path to soap (fake) controller
-Yii::import('application.framework.web.controllers.*');
+Yee::import('application.framework.web.controllers.*');
 
 /**
 * Unit test for Soap WSDL generator
@@ -37,7 +37,7 @@ class CWsdlGeneratorTest extends CTestCase{
 		// try to save XML output for manual checkup
 		// uncomment to save WSDL into file and test also a PHP soapClient
 		/*
-			$this->path=Yii::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR.'soap-wsdl-test.xml';
+			$this->path=Yee::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR.'soap-wsdl-test.xml';
 			if(is_file($this->path))
 				unlink($this->path);
 			$this->assertTrue( 0 < file_put_contents($this->path, $wsdl), 'Failed saving WSDL into ['.$this->path.']');
@@ -133,7 +133,7 @@ class CWsdlGeneratorTest extends CTestCase{
 
 		// uncomment to save WSDL into file
 		/*
-		$this->path=Yii::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR.'soap-wsdl-test-doc.html';
+		$this->path=Yee::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR.'soap-wsdl-test-doc.html';
 		if(is_file($this->path))
 			unlink($this->path);
 		$this->assertTrue( 0 < file_put_contents($this->path, $html), 'Failed saving WSDL into ['.$this->path.']');

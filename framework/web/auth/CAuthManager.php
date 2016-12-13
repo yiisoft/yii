@@ -3,9 +3,9 @@
  * CAuthManager class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -173,7 +173,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	{
 		static $types=array('operation','task','role');
 		if($parentType < $childType)
-			throw new CException(Yii::t('yii','Cannot add an item of type "{child}" to an item of type "{parent}".',
+			throw new CException(Yee::t('yee','Cannot add an item of type "{child}" to an item of type "{parent}".',
 				array('{child}'=>$types[$childType], '{parent}'=>$types[$parentType])));
 	}
 }

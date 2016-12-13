@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('system.collections.CTypedList');
+Yee::import('system.collections.CTypedList');
 
 class CTypedListTest extends CTestCase
 {

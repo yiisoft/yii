@@ -8,7 +8,7 @@ Create, read, update та delete (CRUD) — чотири основних опе
 *Gii* (також відомим як *скаффолдінг*).
 
 > Note|Примітка: Gii доступний починаючи з версії 1.1.2. До цього ми б використовували
-[yiic shell](/doc/guide/uk/quickstart.first-app-yiic).
+[yeec shell](/doc/guide/uk/quickstart.first-app-yeec).
 
 Далі ми опишемо як використовувати цей інструмент для реалізації операцій CRUD записів та коментарів нашого блогу.
 

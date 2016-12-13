@@ -3,12 +3,12 @@
  * CJuiSortable class file.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiWidget');
+Yee::import('zii.widgets.jui.CJuiWidget');
 
 /**
  * CJuiSortable makes selected elements sortable by dragging with the mouse.
@@ -39,7 +39,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * description and demo.
  *
  * If you are using JavaScript expressions anywhere in the code, please wrap it
- * with {@link CJavaScriptExpression} and Yii will use it as code.
+ * with {@link CJavaScriptExpression} and Yee will use it as code.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @package zii.widgets.jui
@@ -76,7 +76,7 @@ class CJuiSortable extends CJuiWidget
 			$this->htmlOptions['id']=$id;
 
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').sortable({$options});");
+		Yee::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').sortable({$options});");
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		foreach($this->items as $id=>$content)

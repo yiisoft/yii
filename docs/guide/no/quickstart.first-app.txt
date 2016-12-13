@@ -1,32 +1,32 @@
-Lag din første Yii applikasjon
+Lag din første Yee applikasjon
 ==============================
 
 
-For å få et førsteinntrykk av Yii skal vi i denne delen beskrive hvordan vi lager
-vår første Yii applikasjon. Vi skal bruke det kraftige verktøyet `yiic` som kan
+For å få et førsteinntrykk av Yee skal vi i denne delen beskrive hvordan vi lager
+vår første Yee applikasjon. Vi skal bruke det kraftige verktøyet `yeec` som kan
 brukes til å automatisere generering av kode til forskjellige oppgaver. For
-enkelhets skyld antar vi at katalogen `YiiRoot` er samme katalogen der Yii
+enkelhets skyld antar vi at katalogen `YeeRoot` er samme katalogen der Yee
 er installert, og `WebRoot` er rot-katalogen til webtjeneren.
 
-Kjør `yiic` fra ledetekst som følger:
+Kjør `yeec` fra ledetekst som følger:
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YeeRoot/framework/yeec webapp WebRoot/testdrive
 ~~~
 
-> Note|Merk: Når `yiic` kjøres på Mac OS, Linux eller Unix, må du kanskje
-> endre rettigheter for `yiic` filen så den blir eksekverbar.
+> Note|Merk: Når `yeec` kjøres på Mac OS, Linux eller Unix, må du kanskje
+> endre rettigheter for `yeec` filen så den blir eksekverbar.
 > Alternativt kan du kjøre verktøyet på følgende måte,
 >
 > ~~~
 > % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % php YeeRoot/framework/yeec.php webapp WebRoot/testdrive
 > ~~~
 
-Dette vil opprette et skall av en Yii applikasjon under katalogen
+Dette vil opprette et skall av en Yee applikasjon under katalogen
 `WebRoot/testdrive`. Applikasjonen vil ha en katalogstruktur som trengs
-av de fleste Yii applikasjoner.
+av de fleste Yee applikasjoner.
 
-Uten å skrive en eneste linje kode kan vi nå teste vår første Yii
+Uten å skrive en eneste linje kode kan vi nå teste vår første Yee
 applikasjon ved å gå til følgende link i en nettleser:
 
 ~~~
@@ -62,11 +62,11 @@ testdrive/
    images/                   inneholder bilder
    themes/                   inneholder tema for applikasjonen
    protected/                inneholder beskyttede applikasjonsfiler
-      yiic                   yiic kommandolinje skript for Unix/Linux
-      yiic.bat               yiic kommandolinje skript for Windows
-      yiic.php               yiic kommandolinje skript PHP skript
-      commands/              inneholder egendefinerte 'yiic' kommandoer
-         shell/              inneholder egendefinerte 'yiic shell' kommandoer
+      yeec                   yeec kommandolinje skript for Unix/Linux
+      yeec.bat               yeec kommandolinje skript for Windows
+      yeec.php               yeec kommandolinje skript PHP skript
+      commands/              inneholder egendefinerte 'yeec' kommandoer
+         shell/              inneholder egendefinerte 'yeec shell' kommandoer
       components/            inneholder gjennbrukbare brukerkonponenter
          Controller.php      baseklassen for alle kontrollerklasser
          Identity.php        'Identity' klasse brukt for autentikasjon
@@ -123,7 +123,7 @@ return array(
 );
 ~~~
 
-Koden over forteller Yii at applikasjonen skal koble til SQLite databasen
+Koden over forteller Yee at applikasjonen skal koble til SQLite databasen
 `WebRoot/testdrive/protected/data/testdrive.db` når det trengs. Merk at SQLite databasen
 er allerede inkludert i applikasjonsskallet som vi netopp genererte. Databasen inneholder kun en enkelt
 tabell som heter `tbl_user`:
@@ -141,7 +141,7 @@ CREATE TABLE tbl_user (
 Om du ønsker å prøve en MySQL database i steden så kan du bruke den inkluderte MySQL skjema filen
 `WebRoot/testdrive/protected/data/schema.mysql.sql` for å opprette databasen.
 
-> Note|Merk: For å bruke Yii's databasefunksjonalitet så må vi aktivere PHP PDO tillegget og det
+> Note|Merk: For å bruke Yee's databasefunksjonalitet så må vi aktivere PHP PDO tillegget og det
 driver-spesifikke PDO-tillegget. For test-drive applikasjonen må vi skru på både  `php_pdo` og `php_pdo_sqlite`
 tilleggene.
 
@@ -155,7 +155,7 @@ Nå begynner moroa. Vi vil nå implementere typiske dataoperasjoner
 Dette er også ofte nødvendig i praktiske applikasjoner. I stedet for å ta seg bryet med
 å skrive selve koden, vil vi bruke Gii - en kraftig web-basert kode generator.
 
-> Info: Gii har vært tilgjengelig siden versjon 1.1.2. For tidligere versjoner kan vi bruke `yiic` verktøyet for å oppnå samme mål. For mer informasjon, se [Implementere dataoperasjoner med yiic skjell](/doc/guide/quickstart.first-app-yiic).
+> Info: Gii har vært tilgjengelig siden versjon 1.1.2. For tidligere versjoner kan vi bruke `yeec` verktøyet for å oppnå samme mål. For mer informasjon, se [Implementere dataoperasjoner med yeec skjell](/doc/guide/quickstart.first-app-yeec).
 
 ### Konfigurere Gii
 

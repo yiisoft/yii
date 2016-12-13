@@ -55,7 +55,7 @@ EOD;
 	{
 		if($this->hasErrors('model'))
 			return;
-		$class=@Yii::import($this->model,true);
+		$class=@Yee::import($this->model,true);
 		if(!is_string($class) || !$this->classExists($class))
 			$this->addError('model', "Class '{$this->model}' does not exist or has syntax error.");
 		elseif(!is_subclass_of($class,'CModel'))
@@ -68,7 +68,7 @@ EOD;
 	{
 		if($this->hasErrors('viewPath'))
 			return;
-		if(Yii::getPathOfAlias($this->viewPath)===false)
+		if(Yee::getPathOfAlias($this->viewPath)===false)
 			$this->addError('viewPath','View Path must be a valid path alias.');
 	}
 
@@ -76,7 +76,7 @@ EOD;
 	{
 		$templatePath=$this->templatePath;
 		$this->files[]=new CCodeFile(
-			Yii::getPathOfAlias($this->viewPath).'/'.$this->viewName.'.php',
+			Yee::getPathOfAlias($this->viewPath).'/'.$this->viewName.'.php',
 			$this->render($templatePath.'/form.php')
 		);
 	}

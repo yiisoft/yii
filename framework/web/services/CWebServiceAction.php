@@ -3,9 +3,9 @@
  * CWebServiceAction class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -82,7 +82,7 @@ class CWebServiceAction extends CAction
 	 */
 	public function run()
 	{
-		$hostInfo=Yii::app()->getRequest()->getHostInfo();
+		$hostInfo=Yee::app()->getRequest()->getHostInfo();
 		$controller=$this->getController();
 		if(($serviceUrl=$this->serviceUrl)===null)
 			$serviceUrl=$hostInfo.$controller->createUrl($this->getId(),array($this->serviceVar=>1));
@@ -104,7 +104,7 @@ class CWebServiceAction extends CAction
 		else
 			$this->_service->renderWsdl();
 
-		Yii::app()->end();
+		Yee::app()->end();
 	}
 
 	/**

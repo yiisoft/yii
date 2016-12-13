@@ -3,9 +3,9 @@
  * COutputCache class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link http://www.yeeframework.com/
+ * @copyright 2008-2013 Yee Software LLC
+ * @license http://www.yeeframework.com/license/
  */
 
 /**
@@ -70,7 +70,7 @@ class COutputCache extends CFilterWidget
 	/**
 	 * Prefix to the keys for storing cached data
 	 */
-	const CACHE_KEY_PREFIX='Yii.COutputCache.';
+	const CACHE_KEY_PREFIX='Yee.COutputCache.';
 
 	/**
 	 * @var integer number of seconds that the data can remain in cache. Defaults to 60 seconds.
@@ -118,7 +118,7 @@ class COutputCache extends CFilterWidget
 	public $varyByExpression;
 	/**
 	 * @var boolean whether the content being cached should be differentiated according to user's language.
-	 * A language is retrieved via Yii::app()->language.
+	 * A language is retrieved via Yee::app()->language.
 	 * Defaults to false.
 	 * @since 1.1.14
 	 */
@@ -205,7 +205,7 @@ class COutputCache extends CFilterWidget
 			$this->getController()->getCachingStack()->pop();
 			$data=array($this->_content,$this->_actions);
 			if(is_array($this->dependency))
-				$this->dependency=Yii::createComponent($this->dependency);
+				$this->dependency=Yee::createComponent($this->dependency);
 			$this->_cache->set($this->getCacheKey(),$data,$this->duration,$this->dependency);
 
 			if($this->getController()->isCachingStackEmpty())
@@ -232,7 +232,7 @@ class COutputCache extends CFilterWidget
 	 */
 	protected function checkContentCache()
 	{
-		if((empty($this->requestTypes) || in_array(Yii::app()->getRequest()->getRequestType(),$this->requestTypes))
+		if((empty($this->requestTypes) || in_array(Yee::app()->getRequest()->getRequestType(),$this->requestTypes))
 			&& ($this->_cache=$this->getCache())!==null)
 		{
 			if($this->duration>0 && ($data=$this->_cache->get($this->getCacheKey()))!==false)
@@ -254,7 +254,7 @@ class COutputCache extends CFilterWidget
 	 */
 	protected function getCache()
 	{
-		return Yii::app()->getComponent($this->cacheID);
+		return Yee::app()->getComponent($this->cacheID);
 	}
 
 	/**
@@ -291,7 +291,7 @@ class COutputCache extends CFilterWidget
 			$key.='.';
 
 			if($this->varyBySession)
-				$key.=Yii::app()->getSession()->getSessionID();
+				$key.=Yee::app()->getSession()->getSessionID();
 			$key.='.';
 
 			if(is_array($this->varyByParam) && isset($this->varyByParam[0]))
@@ -313,7 +313,7 @@ class COutputCache extends CFilterWidget
 			$key.='.';
 
 			if($this->varyByLanguage)
-				$key.=Yii::app()->language;
+				$key.=Yee::app()->language;
 			$key.='.';
 
 			return $this->_key=$key;
@@ -342,7 +342,7 @@ class COutputCache extends CFilterWidget
 		if(empty($this->_actions))
 			return;
 		$controller=$this->getController();
-		$cs=Yii::app()->getClientScript();
+		$cs=Yee::app()->getClientScript();
 		foreach($this->_actions as $action)
 		{
 			if($action[0]==='clientScript')
@@ -356,7 +356,7 @@ class COutputCache extends CFilterWidget
 			elseif($action[0]==='' && function_exists($action[1]))
 				call_user_func_array($action[1],$action[2]);
 			else
-				throw new CException(Yii::t('yii','Unable to replay the action "{object}.{method}". The method does not exist.',
+				throw new CException(Yee::t('yee','Unable to replay the action "{object}.{method}". The method does not exist.',
 					array('object'=>$action[0],
 						'method'=>$action[1])));
 		}

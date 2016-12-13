@@ -3,8 +3,8 @@
  * CSortTest
  */
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.ar.CActiveRecord');
+Yee::import('system.db.CDbConnection');
+Yee::import('system.db.ar.CActiveRecord');
 
 class CSortTest extends CTestCase {
 	private $db;

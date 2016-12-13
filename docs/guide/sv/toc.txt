@@ -2,10 +2,10 @@
 	- [Översikt](index)
 	- [Nyheter och ändringar (eng)](changes)
 	- [Upgradera från 1.0 till 1.1 (eng)](upgrade)
-    - [Vad är Yii](quickstart.what-is-yii)
+    - [Vad är Yee](quickstart.what-is-yee)
     - [Installation](quickstart.installation)
     - [Apache- och Nginx-konfigurationer](quickstart.apache-nginx-config)
-    - [Skapa en första Yii-applikation](quickstart.first-app)
+    - [Skapa en första Yee-applikation](quickstart.first-app)
 
 * Grunder
     - [Model-View-Controller (MVC)](basics.mvc)
@@ -44,7 +44,7 @@
     - [Sidcachning](caching.page)
     - [Dynamiskt innehåll](caching.dynamic)
 
-* Utvidgning av Yii
+* Utvidgning av Yee
     - [Översikt](extension.overview)
     - [Använda utvidgning](extension.use)
     - [Skapa utvidgning](extension.create)
@@ -69,6 +69,6 @@
     - [Konsolapplikationer](topics.console)
     - [Säkerhet](topics.security)
     - [Prestandaoptimering](topics.performance)
-    - [Kodgenerering med kommandoradsverktyg (under utfasning)](quickstart.first-app-yiic)
+    - [Kodgenerering med kommandoradsverktyg (under utfasning)](quickstart.first-app-yeec)
 
 <div class="revision">$Id: toc.txt 3360 2011-07-20 19:45:52Z grigori@grik.net $</div>

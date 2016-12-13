@@ -1,7 +1,7 @@
 Creare estensioni
 ===================
 
-Quanto segue, sono le linee guida per lo sviluppo di estensioni per Yii.
+Quanto segue, sono le linee guida per lo sviluppo di estensioni per Yee.
 
 * Bisogna cercare di rendere le estensioni indipendenti da altro codice. La dipendenza da altre classi, estensioni o pacchetti, potrebbe rendere difficoltosa la loro installazione per gli utenti che desiderano utilizzarle.
 * Tutti i file di una stessa estensione, dovrebbero essere organizzati sotto la stessa cartella al fine di mantenere il codice il più ordinato possibile.
@@ -12,7 +12,7 @@ Quanto segue, sono le linee guida per lo sviluppo di estensioni per Yii.
 Di seguito, si descrive come creare una nuova estensione, secondo le linee guida 
 che si possono leggere nell'[overview](/doc/guide/extension.overview). È consigliato 
 seguire le linee guida anche nei propri progetti, quando i componenti che si vanno a 
-creare non vengono pubblicati sul sito di Yii.
+creare non vengono pubblicati sul sito di Yee.
 
 Component dell'applicazione
 ---------------------
@@ -35,7 +35,7 @@ Behavior
 --------
 
 Per creare un behavior, bisogna implementare l'interfaccia [IBehavior]. Per 
-convenienza, Yii fornisce una classe base chiamata [CBehavior] che implementa 
+convenienza, Yee fornisce una classe base chiamata [CBehavior] che implementa 
 già questa interfaccia e fornisce alcuni metodi aggiuntivi che possono farci comodo.
 
 Quando si sviluppa un behavior per [CModel] o [CActiveRecord], si può anche 
@@ -87,7 +87,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yee::app()->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -122,7 +122,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...publish CSS or JavaScript file here...
-		$cs=Yii::app()->clientScript;
+		$cs=Yee::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}
