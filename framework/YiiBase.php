@@ -179,6 +179,9 @@ class YiiBase
 	 */
 	public static function createComponent($config)
 	{
+		$intArgsNum = func_num_args();
+		$arrArgs = func_get_args();
+
 		if(is_string($config))
 		{
 			$type=$config;
@@ -195,22 +198,21 @@ class YiiBase
 		if(!class_exists($type,false))
 			$type=Yii::import($type,true);
 
-		if(($n=func_num_args())>1)
+		if ($intArgsNum > 1)
 		{
-			$args=func_get_args();
-			if($n===2)
-				$object=new $type($args[1]);
-			elseif($n===3)
-				$object=new $type($args[1],$args[2]);
-			elseif($n===4)
-				$object=new $type($args[1],$args[2],$args[3]);
+			if($intArgsNum===2)
+				$object=new $type($arrArgs[1]);
+			elseif($intArgsNum===3)
+				$object=new $type($arrArgs[1],$arrArgs[2]);
+			elseif($intArgsNum===4)
+				$object=new $type($arrArgs[1],$arrArgs[2],$arrArgs[3]);
 			else
 			{
-				unset($args[0]);
+				unset($arrArgs[0]);
 				$class=new ReflectionClass($type);
 				// Note: ReflectionClass::newInstanceArgs() is available for PHP 5.1.3+
-				// $object=$class->newInstanceArgs($args);
-				$object=call_user_func_array(array($class,'newInstance'),$args);
+				// $object=$class->newInstanceArgs($arrArgs);
+				$object=call_user_func_array(array($class,'newInstance'),$arrArgs);
 			}
 		}
 		else
