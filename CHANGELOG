@@ -12,7 +12,7 @@ Version 1.1.18 under development
 - Bug #4069: Fixed error with `eCRedisCache::executeCommand()` when the previous connection timeout exception was catched (taobig)
 - Bug #4104: Fixed PHP 7 compatibiltiy in Text_Highlighter (samdark)
 - Bug #4111: Fixed PHP 7.1 incompatibility with CFileCache when `$embedExpiry=false` (cebe)
-- Bug #4133: Fixed PHP 7 usage of the func_get_args() functions in YiiBase.php. (devcommiter)
+- Bug #4133: Fixed PHP 7 usage of the func_get_args() functions in YiiBase.php (devcommiter)
 - Chg #4033: Updated Pear/Text used by Gii so it's PHP 7 compatible (samdark)
 - Chg #4103: Updated HTMLPurifier to version 4.8.0 (samdark)
 - Chg: Updated Text_Highlighter to version 0.7.3 (samdark)
