@@ -115,7 +115,7 @@ class CPropertyValue
 			{
 				try
 				{
-					return @eval('return array' . $value . ';');
+					return eval('return array' . $value . ';');
 				}
 				catch (ParseError $e)
 				{
