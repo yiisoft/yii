@@ -611,7 +611,7 @@ class CComponent
 			extract($_data_);
 			try
 			{
-				return @eval('return ' . $_expression_ . ';');
+				return eval('return ' . $_expression_ . ';');
 			}
 			catch (ParseError $e)
 			{
