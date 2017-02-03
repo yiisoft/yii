@@ -125,7 +125,7 @@ EOD;
 					$_command_->run($_args_);
 				}
 				else
-					echo eval($_line_.';');
+					echo eval('return $_line_;');
 			}
 			catch(Exception $e)
 			{
