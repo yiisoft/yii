@@ -140,7 +140,17 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	 */
 	public function valid()
 	{
-		return $this->key() < $this->_totalItemCount;
+        if(isset($this->_items[$this->_currentIndex]))
+		{
+            $result = true;
+        } else {
+            $result = false;
+            if($this->key() < $this->_totalItemCount)
+			{
+                $this->_totalItemCount = $this->dataProvider->getTotalItemCount(true);
+            }
+        }
+		return $result;
 	}
 
 	/**

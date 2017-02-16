@@ -9,10 +9,11 @@ class CDataProviderIteratorTest extends CTestCase
 	public function pageSizes()
 	{
 		return array(
-			array(null),
-			array(1),
-			array(10),
-			array(110),
+			array(null,null),
+			array(1,100),
+			array(10,30),
+			array(110,40),
+			array(15,87)
 		);
 	}
 
@@ -21,15 +22,15 @@ class CDataProviderIteratorTest extends CTestCase
 	 *
 	 * @dataProvider pageSizes
 	 */
-	public function testIterator($pageSize)
+	public function testIterator($pageSize,$itemCount)
 	{
-		$dataProvider = new CArrayDataProvider($this->generateData(100));
+		$dataProvider = new CArrayDataProvider($this->generateData($itemCount));
 		$iterator = new CDataProviderIterator($dataProvider, $pageSize);
 
 		$this->assertTrue($iterator->getDataProvider()===$dataProvider);
 
-		$this->assertEquals(100, $iterator->getTotalItemCount());
-		$this->assertEquals(100, count($iterator));
+		$this->assertEquals($itemCount, $iterator->getTotalItemCount());
+		$this->assertEquals($itemCount, count($iterator));
 
 		$n = 0;
 		foreach($iterator as $item) {
@@ -37,7 +38,30 @@ class CDataProviderIteratorTest extends CTestCase
 			$n++;
 		}
 
-		$this->assertEquals(100, $n);
+		$this->assertEquals($itemCount, $n);
+	}
+
+    /**
+	 * Tests the iterator
+	 *
+	 * @dataProvider pageSizes
+	 */
+	public function testIteratorIfDataProviderSizeChange($pageSize,$itemCount)
+	{
+		$dataProvider = new CArrayDataProvider($this->generateData($itemCount));
+		$iterator = new CDataProviderIterator($dataProvider, $pageSize);
+
+		$this->assertTrue($iterator->getDataProvider()===$dataProvider);
+
+		$this->assertEquals($itemCount, $iterator->getTotalItemCount());
+		$this->assertEquals($itemCount, count($iterator));
+
+		$n = 0;
+		foreach($iterator as $item) {
+			$this->assertEquals("Item ".$n,$item['name']);
+			$n++;
+			array_pop($dataProvider->rawData);
+		}
 	}
 
 	/**
