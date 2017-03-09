@@ -46,7 +46,9 @@ if (!defined('HL_NUMBERS_LI')) {
 /**
  * for our purpose, it is infinity
  */
-define ('HL_INFINITY',      1000000000);
+if (!defined('HL_INFINITY')) {
+    define('HL_INFINITY', 1000000000);
+}
 
 // }}}
 
@@ -81,7 +83,7 @@ define ('HL_INFINITY',      1000000000);
  * Usage example
  * <code>
  *require_once 'Text/Highlighter.php';
- *$hlSQL =& Text_Highlighter::factory('SQL',array('numbers'=>true));
+ *$hlSQL = Text_Highlighter::factory('SQL',array('numbers'=>true));
  *echo $hlSQL->highlight('SELECT * FROM table a WHERE id = 12');
  * </code>
  *

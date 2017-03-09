@@ -91,7 +91,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Returns a value indicating whether to use custom session storage.
-	 * This method should be overriden to return true if custom session storage handler should be used.
+	 * This method should be overridden to return true if custom session storage handler should be used.
 	 * If returning true, make sure the methods {@link openSession}, {@link closeSession}, {@link readSession},
 	 * {@link writeSession}, {@link destroySession}, and {@link gcSession} are overridden in child
 	 * class, because they will be used as the callback handlers.
@@ -151,6 +151,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public function getIsStarted()
 	{
+		if(function_exists('session_status'))
+			return session_status() === PHP_SESSION_ACTIVE;
 		return session_id()!=='';
 	}
 
@@ -262,6 +264,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value how to use cookie to store session ID. Valid values include 'none', 'allow' and 'only'.
+	 * @throws CException
 	 */
 	public function setCookieMode($value)
 	{

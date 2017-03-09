@@ -27,6 +27,8 @@ Upgrading from v1.1.16
 ----------------------
 
 - If you're using CApcCache with APCu, set `useApcu` to `true` in the component config.
+- Undocumented usage of regular expressions outside parameters in URL rules was considered a bug (#3348). Regular
+  expressions are now escaped properly so if you rely on previous behavior, please update your code.
 
 Upgrading from v1.1.15
 ----------------------

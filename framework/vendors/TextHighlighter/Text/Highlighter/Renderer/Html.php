@@ -52,11 +52,15 @@ if (!defined('HL_NUMBERS_LI')) {
 /**
  * Use numbered list
  */
-define ('HL_NUMBERS_OL',    1);
+if (!defined('HL_NUMBERS_OL')) {
+    define('HL_NUMBERS_OL', 1);
+}
 /**
  * Use non-numbered list
  */
-define ('HL_NUMBERS_UL',    3);
+if (!defined('HL_NUMBERS_UL')) {
+    define('HL_NUMBERS_UL', 3);
+}
 /**#@-*/
 
 
@@ -188,10 +192,12 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
         'inlinetags' => 'hl-inlinetags',
         'mlcomment'  => 'hl-mlcomment',
         'number'     => 'hl-number',
+        'prepro'     => 'hl-prepro',
         'quotes'     => 'hl-quotes',
         'reserved'   => 'hl-reserved',
         'special'    => 'hl-special',
         'string'     => 'hl-string',
+        'types'      => 'hl-types',
         'url'        => 'hl-url',
         'var'        => 'hl-var',
     );
@@ -289,8 +295,6 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
         // get parent's output
         parent::finalize();
         $output = parent::getOutput();
-        if(empty($output))
-        	return;
 
         $html_output = '';
 
@@ -320,18 +324,28 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
 
             $span = $this->_getStyling($the_class);
             $decorated_output = $this->_decorate($content, $key);
-			//print "<pre> token = ".var_export($token, true)." -- span = " . htmlentities($span). "-- deco = ".$decorated_output."</pre>\n";
-			$html_output .= sprintf($span, $decorated_output);
+
+
+            if ($numbers_li == true) {
+                // end span tags before end of li, and re-open on next line
+                $lastSpanTag = str_replace("%s</span>", "", $span);
+                $span = sprintf($span, $decorated_output);
+                $span = str_replace("\n", "</span></li>\n<li>$lastSpanTag&nbsp;", $span);
+                $html_output .= $span;
+            } else {
+                $html_output .= sprintf($span, $decorated_output);
+            }
+
+
         }
 
         // format lists
         if (!empty($this->_numbers) && $numbers_li == true) {
 
-            //$html_output = "<pre>".$html_output."</pre>";
+
             // additional whitespace for browsers that do not display
             // empty list items correctly
-            $this->_output = '<li><pre>&nbsp;' . str_replace("\n", "</pre></li>\n<li><pre>&nbsp;", $html_output) . '</pre></li>';
-
+            $this->_output = '<li>&nbsp;' . $html_output . '</li>';
 
             $start = '';
             if ($this->_numbers == HL_NUMBERS_OL && intval($this->_numbers_start) > 0)  {

@@ -105,7 +105,8 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	 * Loads content from file using a shared lock to avoid data corruption when reading
 	 * the file while it is being written by save()
 	 *
-	 * @return string file contents
+	 * @param string $filename file name
+	 * @return bool|string file contents
 	 * @since 1.1.17
 	 */
 	protected function getContent($filename)

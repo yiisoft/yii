@@ -53,7 +53,7 @@ class CGettextMessageSource extends CMessageSource
 	 */
 	public $useMoFile=true;
 	/**
-	 * @var boolean whether to use Big Endian to read and write MO files.
+	 * @var boolean whether to use Big Endian to read MO files.
 	 * Defaults to false. This property is only used when {@link useMoFile} is true.
 	 */
 	public $useBigEndian=false;

@@ -1094,6 +1094,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $content content to be set.
 	 * @param string $mimeType mime type of the content. If null, it will be guessed automatically based on the given file name.
 	 * @param boolean $terminate whether to terminate the current application after calling this method
+	 * @throws CHttpException
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
 	{

@@ -4,10 +4,21 @@
 Version 1.1.18 under development
 --------------------------------
 
+- Enh #4049: Added '//' as a proper beginning of absolute URL in createAbsoluteUrl() method (ksowa)
 - Bug #2396: CDateTimeParser is now able to parse the result of CDateTimeFormatter (tomtomsen)
 - Bug #4015: Fixed bug with missing "disabled" attribute in internally rendered hidden fields (rob006)
 - Bug #4020: Fixed PHP 7 related bug in CCacheHttpSession when destroying not cached sessions (dirx)
+- Bug #4034: Fixed `CHttpSession::getIsStarted()` PHP 7 compatibility (tomotomo)
+- Bug #4061: Fixed "Fatal Error: Nesting level too deep - recursive dependency" error in `CArrayDataProvider` (kf99916, andrewnester)
+- Bug #4069: Fixed error with `eCRedisCache::executeCommand()` when the previous connection timeout exception was catched (taobig)
+- Bug #4104: Fixed PHP 7 compatibiltiy in Text_Highlighter (samdark)
+- Bug #4111: Fixed PHP 7.1 incompatibility with CFileCache when `$embedExpiry=false` (cebe)
+- Bug #4130: Fixed PHP 7 added an interception of the ParseError exception for the eval() usage (devcommiter)
+- Bug #4133: Fixed PHP 7 usage of the func_get_args() functions in YiiBase.php (devcommiter)
 - Chg #4033: Updated Pear/Text used by Gii so it's PHP 7 compatible (samdark)
+- Chg #4103: Updated HTMLPurifier to version 4.8.0 (samdark)
+- Chg: Updated Text_Highlighter to version 0.7.3 (samdark)
+- Chg: Fixed PHP 7.1 incompatibility in Text_Highlighter (cebe)
 
 Version 1.1.17 January 13, 2016
 ------------------------------

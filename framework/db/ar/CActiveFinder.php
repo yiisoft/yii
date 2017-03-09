@@ -194,6 +194,7 @@ class CActiveFinder extends CComponent
 	 * @param CJoinElement $parent the parent tree node
 	 * @param mixed $with the names of the related objects relative to the parent tree node
 	 * @param array $options additional query options to be merged with the relation
+	 * @return CJoinElement|mixed
 	 * @throws CDbException if given parent tree node is an instance of {@link CStatElement}
 	 * or relation is not defined in the given parent's tree node model class
 	 */
