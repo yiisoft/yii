@@ -132,7 +132,7 @@
 					$form.data('submitObject', $(this));
 				});
 				var validated = false;
-				$form.submit(function () {
+				var fncValidation=function () {
 					if (validated) {
 						validated = false;
 						return true;
@@ -167,6 +167,17 @@
 						settings.submitting = false;
 					}
 					return false;
+				}
+				$form.on('click', ':submit', function () {
+					$form.data('validationDone', true);
+					return fncValidation()
+				});
+				$form.submit(function(){
+					var result
+					if(!$form.data('validationDone'));
+						result=fncValidation()
+					$form.data('validationDone', false);
+					return result
 				});
 			}
 
