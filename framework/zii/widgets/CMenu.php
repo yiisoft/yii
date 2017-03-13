@@ -244,13 +244,14 @@ class CMenu extends CWidget
 	 */
 	protected function renderMenuItem($item)
 	{
-		if(isset($item['url']))
-		{
+		if(isset($item['url'])) {
 			$label=$this->linkLabelWrapper===null ? $item['label'] : CHtml::tag($this->linkLabelWrapper, $this->linkLabelWrapperHtmlOptions, $item['label']);
 			return CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
-		}
-		else
+		} else if(isset($item['tag'])) {
+			return CHtml::tag($item['tag'],isset($item['linkOptions']) ? $item['linkOptions'] : array(), $item['label']);
+		} else {
 			return CHtml::tag('span',isset($item['linkOptions']) ? $item['linkOptions'] : array(), $item['label']);
+		}
 	}
 
 	/**
