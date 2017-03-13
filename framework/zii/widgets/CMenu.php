@@ -246,7 +246,9 @@ class CMenu extends CWidget
 	{
 		if(isset($item['url']))
 		{
-			$label=$this->linkLabelWrapper===null ? $item['label'] : CHtml::tag($this->linkLabelWrapper, $this->linkLabelWrapperHtmlOptions, $item['label']);
+			// allow item it self to overwrite global linkLabelWrapperHtmlOptions
+			$linkLabelWrapperHtmlOptions = (isset($item['linkLabelWrapperHtmlOptions'])) ? $item['linkLabelWrapperHtmlOptions'] : $this->linkLabelWrapperHtmlOptions;
+			$label=$this->linkLabelWrapper===null ? $item['label'] : CHtml::tag($this->linkLabelWrapper, $linkLabelWrapperHtmlOptions, $item['label']);
 			return CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
 		}
 		else
