@@ -415,8 +415,6 @@ class CDbCriteria extends CComponent
 	{
 		if(is_array($value))
 		{
-			if($value===array())
-				return $this;
 			return $this->addInCondition($column,$value,$operator);
 		}
 		else
