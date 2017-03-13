@@ -14,7 +14,10 @@ class CFileCacheTest extends CTestCase
 
 	public function setUp()
 	{
-		$this->cachePath=Yii::getPathOfAlias('application.runtime.CFileCacheTest');
+		$this->cachePath=tempnam(sys_get_temp_dir(), 'CFileCacheTest');
+		unlink($this->cachePath);
+		@mkdir($this->cachePath);
+		$this->cachePath .= DIRECTORY_SEPARATOR . 'runtime';
 		if(!is_dir($this->cachePath) && !(@mkdir($this->cachePath)))
 			$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 
@@ -32,7 +35,7 @@ class CFileCacheTest extends CTestCase
 				'components'=>array(
 					'cache'=>array('class'=>'CFileCache','cachePath'=>$this->cachePath,'cachePathMode'=>$testMode),
 				),
-			));
+			), $this->cachePath.DIRECTORY_SEPARATOR.'..');
 			/** @var CFileCache $cache */
 			$cache=$app->cache;
 
@@ -51,7 +54,7 @@ class CFileCacheTest extends CTestCase
 				'components'=>array(
 					'cache'=>array('class'=>'CFileCache','cachePath'=>$this->cachePath,'cacheFileMode'=>$testMode),
 				),
-			));
+			), $this->cachePath.DIRECTORY_SEPARATOR.'..');
 			/** @var CFileCache $cache */
 			$cache=$app->cache;
 
@@ -74,7 +77,7 @@ class CFileCacheTest extends CTestCase
 			'components'=>array(
 				'cache'=>array('class'=>'CFileCache','cachePath'=>$this->cachePath),
 			),
-		));
+		), $this->cachePath.DIRECTORY_SEPARATOR.'..');
 		$app->reset();
 		$cache=$app->cache;
 
@@ -96,7 +99,7 @@ class CFileCacheTest extends CTestCase
 			'components'=>array(
 				'cache'=>array('class'=>'CFileCache','cachePath'=>$this->cachePath,'embedExpiry'=>true),
 			),
-		));
+		), $this->cachePath.DIRECTORY_SEPARATOR.'..');
 		$app->reset();
 		$cache=$app->cache;
 

@@ -18,7 +18,7 @@ class CFileCacheDependencyTest extends CTestCase
 
 	public function testHasChanged()
 	{
-		$tempFile=Yii::app()->getRuntimePath().'/CFileCacheDependencyTest_foo.txt';
+		$tempFile=tempnam(sys_get_temp_dir(), 'testHasChanged');
 		@unlink($tempFile);
 		$fw=fopen($tempFile,"w");
 		fwrite($fw,"test");

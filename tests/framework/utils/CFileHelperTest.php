@@ -16,15 +16,6 @@ class CFileHelperTest extends CTestCase
 		$this->testDir=Yii::getPathOfAlias('application.runtime.CFileHelper');
 		if(!is_dir($this->testDir) && !(@mkdir($this->testDir)))
 			$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
-
-		// create temporary testing data files
-		$filesData=array(
-			'mimeTypes1.php'=>"<?php return array('txa'=>'application/json','txb'=>'another/mime');",
-			'mimeTypes2.php'=>"<?php return array('txt'=>'text/plain','txb'=>'another/mime2');",
-		);
-		foreach($filesData as $fileName=>$fileData)
-			if(!(@file_put_contents($this->testDir.$fileName,$fileData)))
-				$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 	}
 
 	protected function tearDown()
@@ -35,6 +26,20 @@ class CFileHelperTest extends CTestCase
 
 	public function testGetMimeTypeByExtension()
 	{
+		$root = tempnam(sys_get_temp_dir(), 'testGetMimeTypeByExtension');
+		unlink($root);
+		mkdir($root);
+		$root .= DIRECTORY_SEPARATOR;
+
+		// create temporary testing data files
+		$filesData=array(
+			'mimeTypes1.php'=>"<?php return array('txa'=>'application/json','txb'=>'another/mime');",
+			'mimeTypes2.php'=>"<?php return array('txt'=>'text/plain','txb'=>'another/mime2');",
+		);
+		foreach($filesData as $fileName=>$fileData)
+			if(!(@file_put_contents($root.$fileName,$fileData)))
+				$this->markTestIncomplete('Temp directory should have writable permissions!');
+
 		// run everything ten times in one test action to be sure that caching inside
 		// CFileHelper::getMimeTypeByExtension() is working the right way
 		for($i=0;$i<10;$i++)
@@ -43,14 +48,18 @@ class CFileHelperTest extends CTestCase
 			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txb'));
 			$this->assertEquals('text/plain',CFileHelper::getMimeTypeByExtension('test.txt'));
 
-			$this->assertEquals('application/json',CFileHelper::getMimeTypeByExtension('test.txa',$this->testDir.'mimeTypes1.php'));
-			$this->assertEquals('another/mime',CFileHelper::getMimeTypeByExtension('test.txb',$this->testDir.'mimeTypes1.php'));
-			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txt',$this->testDir.'mimeTypes1.php'));
+			$this->assertEquals('application/json',CFileHelper::getMimeTypeByExtension('test.txa',$root.'mimeTypes1.php'));
+			$this->assertEquals('another/mime',CFileHelper::getMimeTypeByExtension('test.txb',$root.'mimeTypes1.php'));
+			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txt',$root.'mimeTypes1.php'));
 
-			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txa',$this->testDir.'mimeTypes2.php'));
-			$this->assertEquals('another/mime2',CFileHelper::getMimeTypeByExtension('test.txb',$this->testDir.'mimeTypes2.php'));
-			$this->assertEquals('text/plain',CFileHelper::getMimeTypeByExtension('test.txt',$this->testDir.'mimeTypes2.php'));
+			$this->assertNull(CFileHelper::getMimeTypeByExtension('test.txa',$root.'mimeTypes2.php'));
+			$this->assertEquals('another/mime2',CFileHelper::getMimeTypeByExtension('test.txb',$root.'mimeTypes2.php'));
+			$this->assertEquals('text/plain',CFileHelper::getMimeTypeByExtension('test.txt',$root.'mimeTypes2.php'));
 		}
+
+		foreach($filesData as $fileName=>$fileData)
+			unlink($root.$fileName);
+		rmdir($root);
 	}
 
 	public function testCopyDirectory_subDir_modeShoudBe0775()
