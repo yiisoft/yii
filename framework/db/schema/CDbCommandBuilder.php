@@ -394,8 +394,9 @@ class CDbCommandBuilder extends CComponent
 		if($fields===array())
 			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
 				array('{table}'=>$table->name)));
-		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
+		$sql="UPDATE {$table->rawName}";
 		$sql=$this->applyJoin($sql,$criteria->join);
+                $sql=$this->applySet($sql,$fields);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$sql=$this->applyOrder($sql,$criteria->order);
 		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
@@ -431,8 +432,9 @@ class CDbCommandBuilder extends CComponent
 		}
 		if($fields!==array())
 		{
-			$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
+			$sql="UPDATE {$table->rawName}";
 			$sql=$this->applyJoin($sql,$criteria->join);
+                        $sql=$this->applySet($sql,$fields);
 			$sql=$this->applyCondition($sql,$criteria->condition);
 			$sql=$this->applyOrder($sql,$criteria->order);
 			$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
@@ -468,6 +470,20 @@ class CDbCommandBuilder extends CComponent
 	{
 		if($join!='')
 			return $sql.' '.$join;
+		else
+			return $sql;
+	}
+        
+        /**
+	 * Alters the SQL to apply SET clause.
+	 * @param string $sql the SQL statement to be altered
+	 * @param array $fields the fields (array of strings) for the SET clause
+	 * @return string the altered SQL statement
+	 */
+	public function applySet($sql,$fields)
+	{
+		if(is_array($fields) && sizeof($fields))
+			return $sql.' SET '.implode(',',$fields);
 		else
 			return $sql;
 	}
