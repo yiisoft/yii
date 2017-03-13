@@ -192,6 +192,8 @@ class Post extends CActiveRecord
 			'comments'=>array(self::HAS_MANY,'Comment','post_id','order'=>'comments.content DESC'),
 			'commentCount'=>array(self::STAT,'Comment','post_id'),
 			'categories'=>array(self::MANY_MANY,'Category','post_category(post_id,category_id)','order'=>'categories.id DESC'),
+			/* For {@link CActiveRecordTest::testRelationalStatWithArbitraryColumns}: */
+			'authorsCommentCount'=>array(self::STAT,'Comment',array('author_id'=>'author_id','post_id'=>'id')),
 		);
 	}
 

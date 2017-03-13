@@ -1411,7 +1411,7 @@ class CStatElement
 	 */
 	public function query()
 	{
-		if(preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
+		if(!is_array($this->relation->foreignKey) && preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
 			$this->queryManyMany($matches[1],$matches[2]);
 		else
 			$this->queryOneMany();
@@ -1427,101 +1427,139 @@ class CStatElement
 		$parent=$this->_parent;
 		$pkTable=$parent->model->getTableSchema();
 
-		$fks=preg_split('/\s*,\s*/',$relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
-		if(count($fks)!==count($pkTable->primaryKey))
-			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".',
-						array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{table}'=>$pkTable->name)));
+		if(is_array($relation->foreignKey))
+		{
+			$fks=$relation->foreignKey;
+		}
+		else
+		{
+			$fks=preg_split('/\s*,\s*/',$relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+			if(count($fks)!==count($pkTable->primaryKey))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".',
+					array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{table}'=>$pkTable->name)));
+		}
 
-		// set up mapping between fk and pk columns
-		$map=array();  // pk=>fk
+		// set up mapping between fk columns
+		$map=array();  // key=>fk
 		foreach($fks as $i=>$fk)
 		{
+			if(!is_int($i))
+			{
+				$key=$fk;
+				$fk=$i;
+			}
+
 			if(!isset($table->columns[$fk]))
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".',
 					array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{key}'=>$fk, '{table}'=>$table->name)));
 
-			if(isset($table->foreignKeys[$fk]))
+			if(is_int($i))
 			{
-				list($tableName,$pk)=$table->foreignKeys[$fk];
-				if($schema->compareTableNames($pkTable->rawName,$tableName))
-					$map[$pk]=$fk;
-				else
-					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with a foreign key "{key}" that does not point to the parent table "{table}".',
-						array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{key}'=>$fk, '{table}'=>$pkTable->name)));
-			}
-			else  // FK constraints undefined
-			{
-				if(is_array($pkTable->primaryKey)) // composite PK
+				if(isset($table->foreignKeys[$fk]))
+				{
+					list($tableName,$key)=$table->foreignKeys[$fk];
+					if($schema->compareTableNames($pkTable->rawName,$tableName))
+						$map[$key]=$fk;
+					else
+						throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with a foreign key "{key}" that does not point to the parent table "{table}".',
+							array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{key}'=>$fk, '{table}'=>$pkTable->name)));
+				}
+				else // FK constraints undefined
+				{
 					$map[$pkTable->primaryKey[$i]]=$fk;
-				else
-					$map[$pkTable->primaryKey]=$fk;
+				}
+			}
+			else // FK constraints defined by relation
+			{
+				if(!isset($pkTable->columns[$key]))
+					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid primary key "{key}". There is no such column in the table "{table}".',
+						array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{key}'=>$key, '{table}'=>$pkTable->name)));
+				$map[$key]=$fk;
 			}
 		}
-
-		$records=$this->_parent->records;
 
 		$join=empty($relation->join)?'' : ' '.$relation->join;
 		$where=empty($relation->condition)?' WHERE ' : ' WHERE ('.$relation->condition.') AND ';
 		$group=empty($relation->group)?'' : ', '.$relation->group;
 		$having=empty($relation->having)?'' : ' HAVING ('.$relation->having.')';
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
-
-		$c=$schema->quoteColumnName('c');
-		$s=$schema->quoteColumnName('s');
-
+		
 		$tableAlias=$model->getTableAlias(true);
 
-		// generate and perform query
-		if(count($fks)===1)  // single column FK
+		$records=array();
+		$keys=array();
+		if(count($map)===1) // single column FK
 		{
-			$col=$tableAlias.'.'.$table->columns[$fks[0]]->rawName;
-			$sql="SELECT $col AS $c, {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias.$join
-				.$where.'('.$builder->createInCondition($table,$fks[0],array_keys($records),$tableAlias.'.').')'
-				." GROUP BY $col".$group
-				.$having.$order;
-			$command=$builder->getDbConnection()->createCommand($sql);
-			if(is_array($relation->params))
-				$builder->bindValues($command,$relation->params);
-			$stats=array();
-			foreach($command->queryAll() as $row)
-				$stats[$row['c']]=$row['s'];
+			reset($map);
+			$key=key($map);
+			foreach($this->_parent->records as $record)
+			{
+				$k=$record->$key;
+				if(!isset($records[$k]))
+				{
+					$keys[]=$k;
+				}
+				$records[$k][]=$record;
+			}
 		}
-		else  // composite FK
+		else // composite FK
 		{
-			$keys=array_keys($records);
-			foreach($keys as &$key)
+			foreach($this->_parent->records as $record)
 			{
-				$key2=unserialize($key);
 				$key=array();
-				foreach($pkTable->primaryKey as $pk)
-					$key[$map[$pk]]=$key2[$pk];
+				foreach($map as $k=>$fk)
+				{
+					$key[$fk]=$record->$k;
+				}
+				$sk=serialize($key);
+				if(!isset($records[$sk]))
+				{
+					$keys[]=$key;
+				}
+				$records[$sk][]=$record;
 			}
-			$cols=array();
-			foreach($pkTable->primaryKey as $n=>$pk)
-			{
-				$name=$tableAlias.'.'.$table->columns[$map[$pk]]->rawName;
-				$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
-			}
-			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias.$join
-				.$where.'('.$builder->createInCondition($table,$fks,$keys,$tableAlias.'.').')'
+		}
+
+		// generate and perform query
+		$cols=array();
+		$n=0;
+		foreach($map as $key=>$fk)
+		{
+			$name=$tableAlias.'.'.$table->columns[$fk]->rawName;
+			$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n++);
+		}
+		$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS {$schema->quoteColumnName('s')} FROM {$table->rawName} ".$tableAlias.$join
+				.$where.'('.$builder->createInCondition($table,$map,$keys,$tableAlias.'.').')'
 				.' GROUP BY '.implode(', ',array_keys($cols)).$group
 				.$having.$order;
-			$command=$builder->getDbConnection()->createCommand($sql);
-			if(is_array($relation->params))
-				$builder->bindValues($command,$relation->params);
-			$stats=array();
+		$command=$builder->getDbConnection()->createCommand($sql);
+		if(is_array($relation->params))
+			$builder->bindValues($command,$relation->params);
+		$stats=array();
+		if(count($map)===1) // single column FK
+		{
+			foreach($command->queryAll() as $row)
+				$stats[$row['c0']]=$row['s'];
+		}
+		else // composite FK
+		{
 			foreach($command->queryAll() as $row)
 			{
 				$key=array();
-				foreach($pkTable->primaryKey as $n=>$pk)
-					$key[$pk]=$row['c'.$n];
+				$n=0;
+				foreach($map as $k=>$fk)
+					$key[$fk]=$row['c'.$n++];
 				$stats[serialize($key)]=$row['s'];
 			}
 		}
 
 		// populate the results into existing records
-		foreach($records as $pk=>$record)
-			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
+		foreach($records as $key=>$record)
+		{
+			$stat=isset($stats[$key]) ? $stats[$key] : $relation->defaultValue;
+			foreach($record as $r)
+				$r->addRelatedRecord($relation->name,$stat,false);
+		}
 	}
 
 	/**

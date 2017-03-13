@@ -751,6 +751,31 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(1,$categories[3]->recentPostCount2);
 	}
 
+	/**
+	 * @depends testRelationalStat
+	 */
+	public function testRelationalStatWithArbitraryColumns()
+	{
+		// CStatRelation using syntax array(FK => PK) of CHasManyRelation
+		// eager loading
+		$posts=Post::model()->with('authorsCommentCount')->findAll();
+		$this->assertEquals(5,count($posts));
+		$this->assertEquals(0,$posts[0]->authorsCommentCount);
+		$this->assertEquals(2,$posts[1]->authorsCommentCount);
+		$this->assertEquals(4,$posts[2]->authorsCommentCount);
+		$this->assertEquals(0,$posts[3]->authorsCommentCount);
+		$this->assertEquals(1,$posts[4]->authorsCommentCount);
+	
+		// lazy loading
+		$posts=Post::model()->findAll();
+		$this->assertEquals(5,count($posts));
+		$this->assertEquals(0,$posts[0]->authorsCommentCount);
+		$this->assertEquals(2,$posts[1]->authorsCommentCount);
+		$this->assertEquals(4,$posts[2]->authorsCommentCount);
+		$this->assertEquals(0,$posts[3]->authorsCommentCount);
+		$this->assertEquals(1,$posts[4]->authorsCommentCount);
+	}
+
 	public function testLazyLoadingWithConditions()
 	{
 		$user=User::model()->findByPk(2);
