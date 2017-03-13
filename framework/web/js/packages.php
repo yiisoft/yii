@@ -78,4 +78,8 @@ return array(
 	'punycode'=>array(
 		'js'=>array(YII_DEBUG ? 'punycode.js' : 'punycode.min.js'),
 	),
+	'migrate'=>array(
+		'js'=>array(YII_DEBUG ? 'jquery-migrate.js' : 'jquery-migrate.min.js'),
+		'depends'=>array('jquery'),
+	),
 );
