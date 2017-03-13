@@ -9,6 +9,7 @@ Version 1.1.18 under development
 - Bug #4020: Fixed PHP 7 related bug in CCacheHttpSession when destroying not cached sessions (dirx)
 - Bug #4034: Fixed `CHttpSession::getIsStarted()` PHP 7 compatibility (tomotomo)
 - Bug #4061: Fixed "Fatal Error: Nesting level too deep - recursive dependency" error in `CArrayDataProvider` (kf99916, andrewnester)
+- Bug #4064: Fixed CHtml::beginForm which produced wrong HTML when using an anchor in the action URL of a GET form (Mytskine)
 - Bug #4069: Fixed error with `eCRedisCache::executeCommand()` when the previous connection timeout exception was catched (taobig)
 - Bug #4104: Fixed PHP 7 compatibiltiy in Text_Highlighter (samdark)
 - Bug #4111: Fixed PHP 7.1 incompatibility with CFileCache when `$embedExpiry=false` (cebe)
