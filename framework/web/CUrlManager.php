@@ -513,6 +513,24 @@ class CUrlManager extends CApplicationComponent
 		else
 			throw new CException(Yii::t('yii','CUrlManager.UrlFormat must be either "path" or "get".'));
 	}
+	
+	/**
+	 * Returns the rules.
+	 * @return array
+	 */
+        public function getRules()
+	{
+		return $this->_rules;
+	}
+	
+	/**
+	 * Set the rules.
+	 * @param array $rules
+	 */
+	public function setRules($rules)
+	{
+		$this->_rules=$rules;
+	}
 }
 
 
