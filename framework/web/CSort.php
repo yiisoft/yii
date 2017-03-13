@@ -36,6 +36,7 @@
  * represent the attribute names, while the values represent the virtual attribute definitions.
  * For more details, please check the documentation about {@link attributes}.
  *
+ * @property string $id The unique ID that uniquely identifies the underlying data.
  * @property string $orderBy The order-by columns represented by this sort object.
  * This can be put in the ORDER BY clause of a SQL statement.
  * @property array $directions Sort directions indexed by attribute names.
@@ -194,6 +195,7 @@ class CSort extends CComponent
 	public $params;
 
 	private $_directions;
+	private $_id;
 
 	/**
 	 * Constructor.
@@ -203,6 +205,28 @@ class CSort extends CComponent
 	public function __construct($modelClass=null)
 	{
 		$this->modelClass=$modelClass;
+	}
+	
+	/**
+	 * Returns the ID that uniquely identifies the underlying data.
+	 * @return string the unique ID that uniquely identifies the underlying data.
+	 */
+	public function getId()
+	{
+		return $this->_id;
+	}
+
+	/**
+	 * Sets the sort ID.
+	 * @param string $value the unique ID that uniquely identifies the underlying data.
+	 */
+	public function setId($value)
+	{
+		$this->_id=$value;
+		if($value!='')
+			$this->sortVar=$value.'_sort';
+		else
+			$this->sortVar='sort';
 	}
 
 	/**
