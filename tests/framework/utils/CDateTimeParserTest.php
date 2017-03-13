@@ -214,4 +214,37 @@ class CDateTimeParserTest extends CTestCase
 		$this->assertFalse(CDateTimeParser::parse('05, 1991, 01:09, mar', 'ddd, yyyy, HH:mm, MMM')); // illegal day pattern
 		$this->assertFalse(CDateTimeParser::parse('05, 1991, 01:09, mar', 'dd, yyyyy, HH:mm, MMM')); // illegal year pattern
 	}
+
+	public function localeProvider() {
+
+		$path = Yii::getPathOfAlias('system.i18n.data');
+		$iterator = new GlobIterator($path.'/*.php');
+		$lengths = array('full', 'long', 'medium', 'short');
+
+		$data = array();
+		foreach($iterator as $file) {
+			foreach($lengths as $length) {
+				$localCode = basename($file->getBasename('.php'));
+
+				$data[] = array($localCode, $length);
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @dataProvider localeProvider
+	 */
+	public function testDateFormattingAndParsing($localCode, $width) {
+
+		$locale = Yii::app()->getLocale($localCode);
+		$format = $locale->getDateFormat($width);
+
+		$dateString = Yii::app()->dateFormatter->format($format, '2012-09-03 09:54:09 UTC');
+		$this->assertTrue(false !== $dateString, 'formatting date failed (format: ' . $format . ')');
+
+		$timestamp = CDateTimeParser::parse($dateString, $format);
+		$this->assertTrue(false !== $timestamp, 'parsing date "' . $dateString . '" failed (format: ' . $format . ')');
+	}
 }

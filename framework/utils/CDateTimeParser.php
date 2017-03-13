@@ -23,6 +23,8 @@
  * MM      | Month digit 01 to 12, zero leading
  * MMM     | Abbreviation representation of month (available since 1.1.11; locale aware since 1.1.13)
  * MMMM    | Full name representation (available since 1.1.13; locale aware)
+ * EEEE    | Full name representation of weekday (available since 1.1.15; locale aware)
+ * cccc    | Full name representation of weekday (available since 1.1.15; locale aware)
  * y       | 4 year digit, e.g., 2005 (available since 1.1.16)
  * yy      | 2 year digit, e.g., 96, 05
  * yyyy    | 4 year digit, e.g., 2005
@@ -35,6 +37,7 @@
  * s       | Seconds in 0 to 59, no padding
  * ss      | Seconds in 00 to 59, zero leading
  * a       | AM or PM, case-insensitive (since version 1.1.5)
+ * G       | AD or BC (since version 1.1.15)
  * ?       | matches any character (wildcard) (since version 1.1.11)
  * ----------------------------------------------------
  * </pre>
@@ -86,8 +89,19 @@ class CDateTimeParser
 		$tokens=self::tokenize($pattern);
 		$i=0;
 		$n=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
+		$skip = false;
 		foreach($tokens as $token)
 		{
+			if ( $token == "'") {
+				$skip = !$skip;
+				continue;
+			}
+
+			if ( $skip ) {
+				$i += self::$_mbstringAvailable ? mb_strlen($token,Yii::app()->charset) : strlen($token);
+				continue;
+			}
+
 			switch($token)
 			{
 				case 'yyyy':
@@ -102,7 +116,7 @@ class CDateTimeParser
 				{
 					if(($year=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($year);
+					$i+=self::$_mbstringAvailable ? mb_strlen($year,Yii::app()->charset) : strlen($year);
 					break;
 				}
 				case 'MMMM':
@@ -132,7 +146,7 @@ class CDateTimeParser
 				{
 					if(($month=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($month);
+					$i+=self::$_mbstringAvailable ? mb_strlen($month,Yii::app()->charset) : strlen($month);
 					break;
 				}
 				case 'dd':
@@ -146,7 +160,7 @@ class CDateTimeParser
 				{
 					if(($day=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($day);
+					$i+=self::$_mbstringAvailable ? mb_strlen($day,Yii::app()->charset) : strlen($day);
 					break;
 				}
 				case 'h':
@@ -154,7 +168,7 @@ class CDateTimeParser
 				{
 					if(($hour=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($hour);
+					$i+=self::$_mbstringAvailable ? mb_strlen($hour,Yii::app()->charset) : strlen($hour);
 					break;
 				}
 				case 'hh':
@@ -169,7 +183,7 @@ class CDateTimeParser
 				{
 					if(($minute=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($minute);
+					$i+=self::$_mbstringAvailable ? mb_strlen($minute,Yii::app()->charset) : strlen($minute);
 					break;
 				}
 				case 'mm':
@@ -183,7 +197,7 @@ class CDateTimeParser
 				{
 					if(($second=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($second);
+					$i+=self::$_mbstringAvailable ? mb_strlen($second,Yii::app()->charset) : strlen($second);
 					break;
 				}
 				case 'ss':
@@ -195,8 +209,9 @@ class CDateTimeParser
 				}
 				case 'a':
 				{
-					if(($ampm=self::parseAmPm($value,$i))===false)
+					if(($ampm=self::parseAmPm($value,$i))===false) {
 						return false;
+					}
 					if(isset($hour))
 					{
 						if($hour==12 && $ampm==='am')
@@ -207,11 +222,27 @@ class CDateTimeParser
 					$i+=2;
 					break;
 				}
+				case 'EEEE':
+				case 'cccc':
+				{
+					$weekdayName='';
+					if(($weekday=self::parseWeekday($value,$i,'wide',$weekdayName))===false)
+						return false;
+
+					$i+=self::$_mbstringAvailable ? mb_strlen($weekdayName,Yii::app()->charset) : strlen($weekdayName);
+					break;
+				}
+				case 'G':
+				{
+					$i+=2;
+					break;
+				}
 				default:
 				{
 					$tn=self::$_mbstringAvailable ? mb_strlen($token,Yii::app()->charset) : strlen($token);
 					if($i>=$n || ($token{0}!='?' && (self::$_mbstringAvailable ? mb_substr($value,$i,$tn,Yii::app()->charset) : substr($value,$i,$tn))!==$token))
 						return false;
+
 					$i+=$tn;
 					break;
 				}
@@ -220,6 +251,7 @@ class CDateTimeParser
 		if($i<$n)
 			return false;
 
+
 		if(!isset($year))
 			$year=isset($defaults['year']) ? $defaults['year'] : date('Y');
 		if(!isset($month))
@@ -227,7 +259,7 @@ class CDateTimeParser
 		if(!isset($day))
 			$day=isset($defaults['day']) ? $defaults['day'] : date('j');
 
-		if(strlen($year)===2)
+		if((self::$_mbstringAvailable ? mb_strlen($year,Yii::app()->charset) : $year($second))===2)
 		{
 			if($year>=70)
 				$year+=1900;
@@ -267,22 +299,21 @@ class CDateTimeParser
 	 */
 	private static function tokenize($pattern)
 	{
-		if(!($n=self::$_mbstringAvailable ? mb_strlen($pattern,Yii::app()->charset) : strlen($pattern)))
+		if(!($n=self::$_mbstringAvailable ? mb_strlen($pattern, Yii::app()->charset) : strlen($pattern)))
 			return array();
 		$tokens=array();
-		$c0=self::$_mbstringAvailable ? mb_substr($pattern,0,1,Yii::app()->charset) : substr($pattern,0,1);
-
+		$c0=self::$_mbstringAvailable ? mb_substr($pattern, 0, 1, Yii::app()->charset) : substr($pattern, 0, 1);
 		for($start=0,$i=1;$i<$n;++$i)
 		{
-			$c=self::$_mbstringAvailable ? mb_substr($pattern,$i,1,Yii::app()->charset) : substr($pattern,$i,1);
+			$c = self::$_mbstringAvailable ? mb_substr($pattern, $i, 1, Yii::app()->charset) : substr($pattern, $i, 1);
 			if($c!==$c0)
 			{
-				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$i-$start,Yii::app()->charset) : substr($pattern,$start,$i-$start);
+				$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern, $start, $i-$start,Yii::app()->charset) : substr($pattern,$start,$i-$start);
 				$c0=$c;
 				$start=$i;
 			}
 		}
-		$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern,$start,$n-$start,Yii::app()->charset) : substr($pattern,$start,$n-$start);
+		$tokens[]=self::$_mbstringAvailable ? mb_substr($pattern, $start, $n-$start,Yii::app()->charset) : substr($pattern,$start,$n-$start);
 		return $tokens;
 	}
 
@@ -345,8 +376,74 @@ class CDateTimeParser
 		foreach($monthNamesStandAlone as $k=>$v)
 			$monthNamesStandAlone[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
 
-		if(($v=array_search($monthName,$monthNames))===false && ($v=array_search($monthName,$monthNamesStandAlone))===false)
-			return false;
+		if(($v=self::array_find($monthName,$monthNames))===false) {
+			if (($v=self::array_find($monthName,$monthNamesStandAlone))===false)
+				return false;
+
+			$monthName = $monthNamesStandAlone[$v];
+		} else {
+			$monthName = $monthNames[$v];
+		}
+
 		return $v;
+	}
+
+	/**
+	 * @param string $value the date string to be parsed.
+	 * @param integer $offset starting offset.
+	 * @param string $width week day name width. It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param string $weekdayName extracted week day name. Passed by reference.
+	 * @return string parsed week day name.
+	 * @since 1.1.15
+	 */
+	protected static function parseWeekday($value,$offset,$width,&$weekdayName)
+	{
+		$valueLength=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
+		for($len=1; $offset+$len<=$valueLength; $len++)
+		{
+			$weekdayName=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yii::app()->charset) : substr($value,$offset,$len);
+			if(!preg_match('/^\p{L}+$/u',$weekdayName)) // unicode aware replacement for ctype_alpha($weekdayName)
+			{
+				$weekdayName=self::$_mbstringAvailable ? mb_substr($weekdayName,0,-1,Yii::app()->charset) : substr($weekdayName,0,-1);
+				break;
+			}
+		}
+		$weekdayName=self::$_mbstringAvailable ? mb_strtolower($weekdayName,Yii::app()->charset) : strtolower($weekdayName);
+
+		$weekdayNames=Yii::app()->getLocale()->getWeekDayNames($width,false);
+		foreach($weekdayNames as $k=>$v)
+			$weekdayNames[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
+
+		$weekdayNamesStandAlone=Yii::app()->getLocale()->getWeekDayNames($width,true);
+		foreach($weekdayNamesStandAlone as $k=>$v)
+			$weekdayNamesStandAlone[$k]=rtrim(self::$_mbstringAvailable ? mb_strtolower($v,Yii::app()->charset) : strtolower($v),'.');
+
+		if(($v=self::array_find($weekdayName,$weekdayNames))===false) {
+			if (($v=self::array_find($weekdayName,$weekdayNamesStandAlone))===false)
+				return false;
+
+			$weekdayName = $weekdayNamesStandAlone[$v];
+		} else {
+			$weekdayName = $weekdayNames[$v];
+		}
+
+		return $v;
+	}
+
+	/**
+	 * searches for a matching string in $haystack with starts with $needle
+	 *
+	 * @param string $needle
+	 * @param string[] $haystack
+	 * @return string|false matching string or false if nothing could be found
+	 */
+	protected static function array_find($needle, array $haystack)
+	{
+		foreach ($haystack as $key => $value) {
+			if (0 === (self::$_mbstringAvailable ? mb_stripos($needle, $value, 0, Yii::app()->charset) : stripos($needle, $value))) {
+				return $key;
+			}
+		}
+		return false;
 	}
 }
