@@ -197,6 +197,8 @@ class CUploadedFile extends CComponent
 	{
 		if($this->_error==UPLOAD_ERR_OK)
 		{
+			$save_path=dirname($file);
+			is_dir($save_path)||mkdir($save_path,0755,true);
 			if($deleteTempFile)
 				return move_uploaded_file($this->_tempName,$file);
 			elseif(is_uploaded_file($this->_tempName))
