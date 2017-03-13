@@ -505,9 +505,9 @@ class CDbCommand extends CComponent
 
 			$this->prepare();
 			if($params===array())
-				$this->_statement->execute();
+				@$this->_statement->execute();
 			else
-				$this->_statement->execute($params);
+				@$this->_statement->execute($params);
 
 			if($method==='')
 				$result=new CDbDataReader($this);
