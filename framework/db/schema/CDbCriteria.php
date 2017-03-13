@@ -150,6 +150,8 @@ class CDbCriteria extends CComponent
 	 */
 	public $scopes;
 
+	public $hinting = array();
+
 	/**
 	 * Constructor.
 	 * @param array $data criteria initial property values (indexed by property name)
