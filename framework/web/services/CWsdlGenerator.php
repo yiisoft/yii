@@ -386,6 +386,14 @@ class CWsdlGenerator extends CComponent
 			$comment=strtr($comment,array("\r\n"=>"\n","\r"=>"\n")); // make line endings consistent: win -> unix, mac -> unix
 			$comment=preg_replace('/^\s*\**(\s*?$|\s*)/m','',$comment);
 
+			if(preg_match_all('/^@soap-dependent\s+(\w+)$/im', $comment, $matches))
+				foreach ($matches[1] as $t)
+					$this->processType($t);
+
+			$extra_wsdl=false;
+			if(preg_match_all('/^@soap-extra\s+(\S.*)$/im',$comment,$matches)>0)
+				$extra_wsdl=implode("\n", $matches[1]);
+
 			// extract soap indicator flag, if defined, e.g. @soap-indicator sequence
 			// see http://www.w3schools.com/schema/schema_complex_indicators.asp
 			if(preg_match('/^@soap-indicator\s+(\w+)\s*?(.*)$/im', $comment, $matches))
@@ -407,6 +415,7 @@ class CWsdlGenerator extends CComponent
 				'minOccurs'=>$attributes['minOccurs'],
 				'maxOccurs'=>$attributes['maxOccurs'],
 				'custom_wsdl'=>$custom_wsdl,
+				'extra_wsdl'=>$extra_wsdl,
 				'properties'=>array()
 			);
 
@@ -609,6 +618,14 @@ class CWsdlGenerator extends CComponent
 						$all->appendChild($element);
 					}
 					$complexType->appendChild($all);
+				}
+				
+				if($xmlType['extra_wsdl']!==false)
+				{
+					$custom_dom=new DOMDocument();
+					$custom_dom->loadXML('<root xmlns:xsd="http://www.w3.org/2001/XMLSchema">'.$xmlType['extra_wsdl'].'</root>');
+					foreach($custom_dom->documentElement->childNodes as $el)
+						$this->injectDom($dom,$dom->documentElement,$el);
 				}
 			}
 			$schema->appendChild($complexType);
