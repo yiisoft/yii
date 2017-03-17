@@ -509,14 +509,18 @@ class CDbCommand extends CComponent
 			else
 				$this->_statement->execute($params);
 
-			if($method==='')
-				$result=new CDbDataReader($this);
-			else
-			{
+			if (in_array($method,['fetchColumn','fetch'])) {
 				$mode=(array)$mode;
 				call_user_func_array(array($this->_statement, 'setFetchMode'), $mode);
 				$result=$this->_statement->$method();
 				$this->_statement->closeCursor();
+			}
+			else {
+				$result = new CDbDataReader($this);
+				if (!empty($mode)) {
+					// $mode could be an array - so can't use just $result->setFetchMode($mode).
+					call_user_func_array([$result,'setFetchMode'],(array)$mode);
+				}
 			}
 
 			if($this->_connection->enableProfiling)
