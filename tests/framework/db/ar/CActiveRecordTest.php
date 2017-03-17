@@ -381,12 +381,15 @@ class CActiveRecordTest extends CTestCase
 			'id'=>1,
 			'name'=>'cat 1',
 			'parent_id'=>null),$post->categories[1]->attributes);
-		$post=Post::model()->findByPk(4);
+		$post=Post::model()->findByPk(5);
 		$this->assertEquals(array(),$post->categories);
 
 		// test self join
 		$category=Category::model()->findByPk(5);
-		$this->assertEquals(array(),$category->posts);
+		foreach($category->posts as $post)
+			$this->assertEquals(array('id'=>'4', 'title'=>'post 4', 'create_time'=>'100003', 'author_id'=>2, 'content'=>'content 4'),$post->attributes);
+		foreach($category->postsCustom as $post)
+			$this->assertEquals(array('id'=>'4', 'title'=>'post 4', 'create_time'=>'100003', 'author_id'=>2, 'content'=>'content 4'),$post->attributes);
 		$this->assertEquals(2,count($category->children));
 		$this->assertEquals(array(
 			'id'=>6,
@@ -404,6 +407,7 @@ class CActiveRecordTest extends CTestCase
 
 		$category=Category::model()->findByPk(2);
 		$this->assertEquals(1,count($category->posts));
+		$this->assertEquals(1,count($category->postsCustom));
 		$this->assertEquals(array(),$category->children);
 		$this->assertNull($category->parent);
 
@@ -477,7 +481,8 @@ class CActiveRecordTest extends CTestCase
 			'email'=>'email2'),$post->author->attributes);
 		$this->assertNull($post->firstComment);
 		$this->assertEquals(array(),$post->comments);
-		$this->assertEquals(array(),$post->categories);
+		foreach($post->categories as $category)
+			$this->assertEquals(array('id'=>5,'name'=>'cat 5','parent_id'=>1),$category->attributes);
 	}
 
 	public function testLazyRecursiveRelation()
@@ -644,7 +649,8 @@ class CActiveRecordTest extends CTestCase
 			'email'=>'email2'),$post->author->attributes);
 		$this->assertNull($post->firstComment);
 		$this->assertEquals(array(),$post->comments);
-		$this->assertEquals(array(),$post->categories);
+		foreach($post->categories as $category)
+			$this->assertEquals(array('id'=>5,'name'=>'cat 5','parent_id'=>1),$category->attributes);
 	}
 
 	public function testRelationalCount()
@@ -696,7 +702,7 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(1,$categories[1]->postCount);
 		$this->assertEquals(1,$categories[2]->postCount);
 		$this->assertEquals(1,$categories[3]->postCount);
-		$this->assertEquals(0,$categories[4]->postCount);
+		$this->assertEquals(1,$categories[4]->postCount);
 		$this->assertEquals(0,$categories[5]->postCount);
 		$this->assertEquals(0,$categories[6]->postCount);
 
@@ -706,9 +712,17 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(1,$categories[1]->postCount);
 		$this->assertEquals(1,$categories[2]->postCount);
 		$this->assertEquals(1,$categories[3]->postCount);
-		$this->assertEquals(0,$categories[4]->postCount);
+		$this->assertEquals(1,$categories[4]->postCount);
 		$this->assertEquals(0,$categories[5]->postCount);
 		$this->assertEquals(0,$categories[6]->postCount);
+
+		$this->assertEquals(3,$categories[0]->postCountCustom);
+		$this->assertEquals(1,$categories[1]->postCountCustom);
+		$this->assertEquals(1,$categories[2]->postCountCustom);
+		$this->assertEquals(1,$categories[3]->postCountCustom);
+		$this->assertEquals(1,$categories[4]->postCountCustom);
+		$this->assertEquals(0,$categories[5]->postCountCustom);
+		$this->assertEquals(0,$categories[6]->postCountCustom);
 
 		$users=User::model()->with('postCount','posts.commentCount')->findAll();
 		$this->assertEquals(4,count($users));
@@ -1374,6 +1388,41 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(array(
 			array('user1','user3'),
 		),$result);
+	}
+
+	public function testManyManyThroughEager()
+	{
+		// just bridge
+		$user=User::model()->with('authoredCategories')->findByPk(2);
+
+		$result=array();
+		foreach($user->authoredCategories as $category)
+			$result[]=array($user->username,$category->name);
+
+		$this->assertEquals(array(
+			array('user2','cat 1'),
+			array('user2','cat 4'),
+			array('user2','cat 5'),
+		),$result);
+
+		$this->assertEquals(3,count($user->posts));
+	}
+
+	public function testManyManyThroughLazy()
+	{
+		$user=User::model()->findByPk(2);
+
+		$result=array();
+		foreach($user->authoredCategories as $category)
+			$result[]=array($user->username,$category->name);
+
+		$this->assertEquals(array(
+			array('user2','cat 1'),
+			array('user2','cat 4'),
+			array('user2','cat 5'),
+		),$result);
+
+		$this->assertEquals(3,count($user->posts));
 	}
 
 	/**
