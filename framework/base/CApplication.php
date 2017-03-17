@@ -181,7 +181,7 @@ abstract class CApplication extends CModule
 	{
 		if($this->hasEventHandler('onBeginRequest'))
 			$this->onBeginRequest(new CEvent($this));
-		register_shutdown_function(array($this,'end'),0,false);
+		register_shutdown_function(array($this,'shutdown'),0,false);
 		$this->processRequest();
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
@@ -199,6 +199,22 @@ abstract class CApplication extends CModule
 	{
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
+		if($exit)
+			exit($status);
+	}
+	
+	/**
+	 * This method is triggered by PHP's register_shutdown_function()
+	 * Terminates the application silently by calling
+	 * {@link end} but discards output.
+	 * @param integer $status exit status (value 0 means normal exit while other values mean abnormal exit).
+	 * @param boolean $exit whether to exit the current request.
+	 */
+	public function shutdown($status=0,$exit=true)
+	{
+		ob_start();
+		$this->end(0,false);
+		ob_end_clean();
 		if($exit)
 			exit($status);
 	}
