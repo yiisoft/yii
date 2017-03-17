@@ -96,7 +96,7 @@
 	 */
 	$.fn.yiiListView.getUrl = function(id) {
 		var settings = $.fn.yiiListView.settings[id];
-		return settings.url || $('#'+id+' > div.keys').attr('title');
+		return settings.url || $('#'+id+' > div.keys').attr('data-url');
 	};
 
 	/**
