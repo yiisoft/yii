@@ -393,21 +393,33 @@
 
 		/**
 		 * Returns the key values of the currently checked rows.
-		 * @param column_id string the ID of the column
+		 * @param column mixed the ID or index of the column, If not specified will default to column 1
 		 * @return array the key values of the currently checked rows.
 		 */
-		getChecked: function (column_id) {
+		getChecked: function (column) {
 			var settings = gridSettings[this.attr('id')],
 				keys = this.find('.keys span'),
-				checked = [];
-			if (column_id.substring(column_id.length - 2) !== '[]') {
-				column_id = column_id + '[]';
-			}
-			this.find('.' + settings.tableClass).children('tbody').children('tr').children('td').children('input[name="' + column_id + '"]').each(function (i) {
-				if (this.checked) {
-					checked.push(keys.eq(i).text());
+				checked = [],
+				nth = '',
+				input = 'input';
+			column = column || 1;
+
+			if (/^\d+$/.test(column)) {
+				nth = ':nth-child(' + column + ')';
+			} else {
+				if (column.substring(column.length - 2) !== '[]') {
+					column = column + '[]';
 				}
+				input += '[name="' + column + '"]';
+			}
+
+			this.find('.' + settings.tableClass).children('tbody').children('tr')
+				.children('td' + nth).children(input).each(function (i) {
+					if (this.checked) {
+						checked.push(keys.eq(i).text());
+					}
 			});
+
 			return checked;
 		}
 		
