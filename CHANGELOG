@@ -70,7 +70,7 @@ Version 1.1.16 December 21, 2014
 - Bug #2235: CPgsqlColumnSchema can't parse default value for numeric field (cebe, pavimus)
 - Bug #2376: CHttpSession::regenerateID() now checks if session is started before regenerating session ID (samdark)
 - Bug #2378: CActiveRecord::tableName() in namespaced model returned fully qualified class name (velosipedist, cebe)
-- Bug #2519: CGridView and CListView fixed to be able handling special characters if history is enabled (klimov-paul)
+- Bug #2519: CGridView and CListView fixed to be able to handle special characters if history is enabled (klimov-paul)
 - Bug #2594: CLogRouter::processLogs() now ensures to clear the Logger messages so nothing is logged twice when method is called multiple times (cebe)
 - Bug #2654: Allow CDbCommand to compose queries without 'from' clause (klimov-paul)
 - Bug #2658: CBaseListView, CGridView, CListView: added note about $itemsCssClass and $pagerCssClass properties, they must not contain empty string, null or false values (resurtm)
