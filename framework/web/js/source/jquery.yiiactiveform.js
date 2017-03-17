@@ -88,6 +88,9 @@
 					}
 					if (attribute.beforeValidateAttribute === undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function () {
+							if (this.dependentAttribute === attribute.inputID && this.status !== undefined) {
+								this.status = 2;
+							}
 							if (this.status === 2) {
 								this.status = 3;
 								$.fn.yiiactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
@@ -396,6 +399,7 @@
 		validateOnSubmit: false,
 		validateOnChange: true,
 		validateOnType: false,
+		dependentAttribute: undefined,
 		hideErrorMessage: false,
 		inputContainer: undefined,
 		errorCss: 'error',
@@ -422,6 +426,7 @@
 		 *     validationDelay: 200,
 		 *     validateOnChange: true,
 		 *     validateOnType: false,
+		 *     dependentAttribute: undefined,
 		 *     hideErrorMessage: false,
 		 *     inputContainer: undefined,
 		 *     errorCssClass: 'error',
