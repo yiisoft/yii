@@ -384,7 +384,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 					$route=isset($url[0]) ? $url[0] : $app->defaultController;
 					$url=$app->createUrl($route,array_splice($url,1));
 				}
-				$request->redirect($url);
+				if ($url !== $request->url)
+				{
+					$request->redirect($url);
+				}
 			}
 		}
 		elseif(isset($this->loginRequiredAjaxResponse))
