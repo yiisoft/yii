@@ -487,7 +487,7 @@ abstract class CActiveRecord extends CModel
 	 * in format of array('key1','key2'). In case you need to specify custom PK->FK association you can define it as
 	 * array('fk'=>'pk'). For composite keys it will be array('fk_c1'=>'pk_с1','fk_c2'=>'pk_c2').
 	 * For foreign keys used in MANY_MANY relation, the joining table must be declared as well
-	 * (e.g. 'join_table(fk1, fk2)').
+	 * (e.g. 'join_table(fk1, fk2)' or array('join_table', 'fk1'=>'pk1', 'fk2'=>'pk2').
 	 *
 	 * Additional options may be specified as name-value pairs in the rest array elements:
 	 * <ul>
@@ -2339,11 +2339,30 @@ class CManyManyRelation extends CHasManyRelation
 	 */
 	private function initJunctionData()
 	{
-		if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
-			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
-				array('{class}'=>$this->className,'{relation}'=>$this->name)));
-		$this->_junctionTableName=$matches[1];
-		$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+		if(is_array($this->foreignKey))
+		{
+			if(count($this->foreignKey)<2)
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+					array('{class}'=>$this->className,'{relation}'=>$this->name)));
+			$foreignKey = $this->foreignKey;
+			$this->_junctionTableName=array_shift($foreignKey);
+			if(count($foreignKey)==1 && strpos(reset($foreignKey),',')!==false)
+			{
+				$this->_junctionForeignKeys=preg_split('/\s*,\s*/',reset($foreignKey),-1,PREG_SPLIT_NO_EMPTY);
+			}
+			else
+			{
+				$this->_junctionForeignKeys=$foreignKey;
+			}
+		}
+		else
+		{
+			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->foreignKey,$matches))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+					array('{class}'=>$this->className,'{relation}'=>$this->name)));
+			$this->_junctionTableName=$matches[1];
+			$this->_junctionForeignKeys=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+		}
 	}
 }
 
