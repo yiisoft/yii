@@ -233,6 +233,13 @@ class CFormInputElement extends CFormElement
 		}
 		else
 		{
+			if($this->type=='captcha')
+			{
+				$this->type='system.web.form.CFormCaptcha';
+				if(!CFormCaptcha::checkRequirements())
+					return '';
+			}
+
 			$attributes=$this->attributes;
 			$attributes['model']=$this->getParent()->getModel();
 			$attributes['attribute']=$this->name;

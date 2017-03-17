@@ -835,6 +835,7 @@ class YiiBase
 		'CHttpCacheFilter' => '/web/filters/CHttpCacheFilter.php',
 		'CInlineFilter' => '/web/filters/CInlineFilter.php',
 		'CForm' => '/web/form/CForm.php',
+		'CFormCaptcha' => '/web/form/CFormCaptcha.php',
 		'CFormButtonElement' => '/web/form/CFormButtonElement.php',
 		'CFormElement' => '/web/form/CFormElement.php',
 		'CFormElementCollection' => '/web/form/CFormElementCollection.php',
