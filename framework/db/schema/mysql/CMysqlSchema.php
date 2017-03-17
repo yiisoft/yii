@@ -242,10 +242,12 @@ class CMysqlSchema extends CDbSchema
 			$fks=array_map('trim',explode(',',str_replace(array('`','"'),'',$match[3])));
 			foreach($keys as $k=>$name)
 			{
-				$table->foreignKeys[$name]=array(str_replace(array('`','"'),'',$match[2]),$fks[$k]);
 				if(isset($table->columns[$name]))
 					$table->columns[$name]->isForeignKey=true;
 			}
+			$keys = implode(",", $keys);
+			$fks  = implode(",", $fks);
+			$table->foreignKeys[$keys]=array(str_replace(array('`','"'),'',$match[2]),$fks);
 		}
 	}
 
