@@ -222,7 +222,7 @@ class CSecurityManager extends CApplicationComponent
 		$this->validateEncryptionKey($key);
 		$module=$this->openCryptModule();
 		srand();
-		$iv=mcrypt_create_iv(mcrypt_enc_get_iv_size($module), MCRYPT_RAND);
+		$iv=mcrypt_enc_get_iv_size($module) ? mcrypt_create_iv(mcrypt_enc_get_iv_size($module), MCRYPT_RAND) : '';
 		mcrypt_generic_init($module,$key,$iv);
 		$encrypted=$iv.mcrypt_generic($module,$data);
 		mcrypt_generic_deinit($module);
@@ -265,7 +265,10 @@ class CSecurityManager extends CApplicationComponent
 			if(is_array($this->cryptAlgorithm))
 				$module=@call_user_func_array('mcrypt_module_open',$this->cryptAlgorithm);
 			else
-				$module=@mcrypt_module_open($this->cryptAlgorithm,'', MCRYPT_MODE_CBC,'');
+			{
+				$cipherMode=mcrypt_module_is_block_algorithm($this->cryptAlgorithm) ? MCRYPT_MODE_CBC : MCRYPT_MODE_STREAM;
+				$module=@mcrypt_module_open($this->cryptAlgorithm, '', $cipherMode, '');
+			}
 
 			if($module===false)
 				throw new CException(Yii::t('yii','Failed to initialize the mcrypt module.'));
