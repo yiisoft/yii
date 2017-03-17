@@ -5979,6 +5979,8 @@ EOD;
 	}
 	public static function resolveValue($model,$attribute)
 	{
+        if(substr($attribute,-2)==='[]')
+            $attribute=substr($attribute,0,-2);
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos===0) // [a]name[b][c], should ignore [a]
