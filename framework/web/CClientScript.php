@@ -541,6 +541,8 @@ class CClientScript extends CApplicationComponent
 			if($baseUrl==='' || $baseUrl[0]!=='/' && strpos($baseUrl,'://')===false)
 				$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
 			$baseUrl=rtrim($baseUrl,'/');
+			if(isset($package['basePath']))
+				$baseUrl=$baseUrl.Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
 		}
 		elseif(isset($package['basePath']))
 			$baseUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
