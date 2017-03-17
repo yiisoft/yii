@@ -1,4 +1,4 @@
-<?php
++<?php
 /**
  * CClipWidget class file.
  *
@@ -30,6 +30,18 @@ class CClipWidget extends CWidget
 	public $renderClip=false;
 
 	/**
+	 * @var boolean whether to append clip content to existing clip. Defaults to false,
+	 * meaning that current clip content will be overwritten if a key already exists with this clip.
+	 */
+	public $appendToClip=false;
+
+	/**
+	 * @var boolean whether to prepend clip content to existing clip. Defaults to false,
+	 * meaning that current clip content will be overwritten if a key already exists with this clip.
+	 */
+	public $prependToClip=false;
+
+	/**
 	 * Starts recording a clip.
 	 */
 	public function init()
@@ -44,9 +56,19 @@ class CClipWidget extends CWidget
 	 */
 	public function run()
 	{
+		$clips=$this->getController()->getClips();
 		$clip=ob_get_clean();
+
 		if($this->renderClip)
 			echo $clip;
-		$this->getController()->getClips()->add($this->getId(),$clip);
+
+		if($this->appendToClip)
+			$clips->add($this->getId(),$clips->itemAt($this->getId()).$clip);
+
+		if($this->prependToClip)
+			$clips->add($this->getId(),$clips->itemAt($clip.$this->getId()))
+
+		if($this->appendToClip!==true && $prependToClip!==true)
+			$this->getController()->getClips()->add($this->getId(),$clip);
 	}
 }
