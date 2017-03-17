@@ -377,19 +377,16 @@ abstract class CActiveRecord extends CModel
 	 * The model returned is a static instance of the AR class.
 	 * It is provided for invoking class-level methods (something similar to static class methods.)
 	 *
-	 * EVERY derived AR class must override this method as follows,
-	 * <pre>
-	 * public static function model($className=__CLASS__)
-	 * {
-	 *     return parent::model($className);
-	 * }
-	 * </pre>
+	 * No derived class needs to override this method in order to use it.
 	 *
 	 * @param string $className active record class name.
 	 * @return static active record model instance.
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className=NULL)
 	{
+		if($className === NULL) {
+			$className = get_called_class(); // Late static binding
+		}
 		if(isset(self::$_models[$className]))
 			return self::$_models[$className];
 		else
