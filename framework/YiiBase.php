@@ -193,7 +193,7 @@ class YiiBase
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
 
-		if(!class_exists($type,false))
+		if(!class_exists($type))
 			$type=Yii::import($type,true);
 
 		if(($n=func_num_args())>1)
