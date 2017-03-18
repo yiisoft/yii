@@ -192,6 +192,7 @@ Version 1.1.16 December 21, 2014
 - Chg #3636: Upgraded jQuery UI to 1.11.2 (marcovtwout)
 - Chg: Updated the i18n data bundled with the framework to CLDR23.1 <http://cldr.unicode.org/index/downloads/cldr-23-1> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
+- Enh #3362: Updated i18n data to CLDR 25 (dralshehri)
 
 Version 1.1.15 June 29, 2014
 ----------------------------
