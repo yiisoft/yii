@@ -829,13 +829,16 @@ class CJoinElement
 		else // is_array, composite key
 		{
 			$pk=array();
-			foreach($this->_pkAlias as $name=>$alias)
-			{
-				if(isset($row[$alias]))
-					$pk[$name]=$row[$alias];
-				else	// no matching related objects
-					return null;
-			}
+            		if (isset($this->_pkAlias))
+            		{
+				foreach($this->_pkAlias as $name=>$alias)
+				{
+					if(isset($row[$alias]))
+						$pk[$name]=$row[$alias];
+					else	// no matching related objects
+						return null;
+				}
+            		}
 			$pk=serialize($pk);
 		}
 
