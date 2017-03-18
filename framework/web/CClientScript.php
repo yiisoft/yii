@@ -521,6 +521,14 @@ class CClientScript extends CApplicationComponent
 	{
 		$this->_baseUrl=$value;
 	}
+	
+	/**
+	* Returns all registered scripts.
+	*/
+	public function getScripts()
+	{
+		return $this->scripts;
+	}
 
 	/**
 	 * Returns the base URL for a registered package with the specified name.
