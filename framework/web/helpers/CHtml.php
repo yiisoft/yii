@@ -1341,6 +1341,38 @@ EOD;
 	}
 
 	/**
+	 * Generates a push Html button that can initiate AJAX requests.
+	 * @param string $label the button label
+	 * @param mixed $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param array $ajaxOptions AJAX options (see {@link ajax})
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated button
+	 */
+	public static function ajaxHtmlButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
+	{
+		$ajaxOptions['url']=$url;
+		$htmlOptions['ajax']=$ajaxOptions;
+		return self::htmlButton($label,$htmlOptions);
+	}
+
+	/**
+	 * Generates a push Html button that can submit the current form in POST method.
+	 * @param string $label the button label
+	 * @param mixed $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param array $ajaxOptions AJAX options (see {@link ajax})
+	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated button
+	 */
+	public static function ajaxSubmitHtmlButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
+	{
+		$ajaxOptions['type']='POST';
+		$htmlOptions['type']='submit';
+		return self::ajaxHtmlButton($label,$url,$ajaxOptions,$htmlOptions);
+	}
+
+	/**
 	 * Generates the JavaScript that initiates an AJAX request.
 	 * @param array $options AJAX options. The valid options are used in the form of jQuery.ajax([settings])
 	 * as specified in the jQuery AJAX documentation.
