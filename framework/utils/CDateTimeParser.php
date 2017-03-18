@@ -98,6 +98,14 @@ class CDateTimeParser
 					$i+=4;
 					break;
 				}
+				//i18n data can contain date format like "d MM y", where y - 4-digit year. For example, 'fr' locale.
+				case 'y':
+				{
+					if(($year=self::parseInteger($value,$i,4,4))===false)
+						return false;
+					$i+=4;
+					break;
+				}
 				case 'yy':
 				{
 					if(($year=self::parseInteger($value,$i,1,2))===false)
@@ -323,16 +331,23 @@ class CDateTimeParser
 	 * @return string parsed month name.
 	 * @since 1.1.13
 	 */
-	protected static function parseMonth($value,$offset,$width,&$monthName)
+	protected static function parseMonth($value,$offset,$width,&$parsedMonthName)
 	{
 		$valueLength=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
 		for($len=1; $offset+$len<=$valueLength; $len++)
 		{
 			$monthName=self::$_mbstringAvailable ? mb_substr($value,$offset,$len,Yii::app()->charset) : substr($value,$offset,$len);
-			if(!preg_match('/^[\p{L}\p{M}]+$/u',$monthName)) // unicode aware replacement for ctype_alpha($monthName)
+			//We must include punctuation because month abbreviations can ends with dot. For example, 'fr' locale.
+			if(!preg_match('/^[\p{L}\p{M}\p{P}]+$/u',$monthName)) // unicode aware replacement for ctype_alpha($monthName)
 			{
 				$monthName=self::$_mbstringAvailable ? mb_substr($monthName,0,-1,Yii::app()->charset) : substr($monthName,0,-1);
-				break;
+                                //Need to return found month name.
+                                //If we will remove dot at end (how it done few lines below), then month name length will be incorrect and 'parse' method will fail.
+				$parsedMonthName = $monthName;
+                                //We need to remove dot at end because below we will compare 
+                                //parsed month name without dot at end with month name without dot at end from locale data file.
+                                $monthName=rtrim(self::$_mbstringAvailable ? mb_strtolower($monthName, Yii::app()->charset) : strtolower($monthName), '.');
+                                break;
 			}
 		}
 		$monthName=self::$_mbstringAvailable ? mb_strtolower($monthName,Yii::app()->charset) : strtolower($monthName);
