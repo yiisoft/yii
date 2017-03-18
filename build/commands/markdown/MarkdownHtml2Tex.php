@@ -217,6 +217,9 @@ TEX;
 
 		$html = preg_replace('/(\d+)%/', '\1\%', $html);
 
+		//$_GET, $_POST, $_REQUEST, $_FILES, etc.
+		$html = preg_replace('/\$_/', '\\\$\\_', $html);
+
 		$html = preg_replace_callback('/<img\s+src="([^"]+)"\s+alt="([^"]+)"[^>]*\/>/', array($this, 'include_image'), $html);
 
 		$html = preg_replace_callback('#<div class="hl-code">((.|\n)*?)</div>#', array($this, 'escape_syntax'), $html);
