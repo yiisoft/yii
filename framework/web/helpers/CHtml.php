@@ -2672,10 +2672,12 @@ EOD;
 	 */
 	public static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
+		$defaultName=self::resolveName($model,$attribute);
+
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::resolveName($model,$attribute);
+			$htmlOptions['name']=$defaultName;
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
+			$htmlOptions['id']=self::getIdByName($defaultName);
 		elseif($htmlOptions['id']===false)
 			unset($htmlOptions['id']);
 	}
