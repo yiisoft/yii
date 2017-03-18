@@ -287,7 +287,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getIsGuest()
 	{
-		return $this->getState('__id')===null;
+		return $this->getId()===null;
 	}
 
 	/**
