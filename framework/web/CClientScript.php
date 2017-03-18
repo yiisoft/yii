@@ -218,6 +218,7 @@ class CClientScript extends CApplicationComponent
 			$this->renderBodyBegin($output);
 			$this->renderBodyEnd($output);
 		}
+		$this->scripts=array();
 	}
 
 	/**
