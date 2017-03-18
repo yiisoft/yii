@@ -346,7 +346,7 @@ class ModelCode extends CCodeModel
 					$relations[$className][$relationName]="array(self::BELONGS_TO, '$refClassName', '$fkName')";
 
 					// Add relation for the referenced table
-					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
+					$relationType=$table->primaryKey === $refKey ? 'HAS_ONE' : 'HAS_MANY';
 					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
 					$i=1;
 					$rawName=$relationName;
