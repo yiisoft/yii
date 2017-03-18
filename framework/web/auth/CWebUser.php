@@ -197,7 +197,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public function init()
 	{
 		parent::init();
-		Yii::app()->getSession()->open();
+		Yii::app()->getSession();
 		if($this->getIsGuest() && $this->allowAutoLogin)
 			$this->restoreFromCookie();
 		elseif($this->autoRenewCookie && $this->allowAutoLogin)
