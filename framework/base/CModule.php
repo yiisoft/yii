@@ -365,11 +365,12 @@ abstract class CModule extends CComponent
 	/**
 	 * Checks whether the named component exists.
 	 * @param string $id application component ID
+	 * @param bool $loadedOnly check loaded components only
 	 * @return boolean whether the named application component exists (including both loaded and disabled.)
 	 */
-	public function hasComponent($id)
+	public function hasComponent($id, $loadedOnly = false)
 	{
-		return isset($this->_components[$id]) || isset($this->_componentConfig[$id]);
+		return isset($this->_components[$id]) || (!$loadedOnly && isset($this->_componentConfig[$id]));
 	}
 
 	/**
