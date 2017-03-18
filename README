@@ -19,7 +19,7 @@ directory. You shall see the following files and directories:
       UPGRADE              upgrading instructions
 
 
-REQUIREMENTS
+REQUIREMENTS in this framework
 ------------
 
 The minimum requirement by Yii is that your Web server supports
