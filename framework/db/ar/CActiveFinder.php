@@ -659,7 +659,7 @@ class CJoinElement
 						else
 							$pk=$element->_table->primaryKey;
 					}
-					$params[$pk]=$record->$fk;
+					$params[$pk]=$record->getAttribute($fk);
 				}
 				else
 				{
@@ -672,7 +672,7 @@ class CJoinElement
 						else
 							$pk=$parent->_table->primaryKey;
 					}
-					$params[$fk]=$record->$pk;
+					$params[$pk]=$record->getAttribute($fk);
 				}
 			}
 			$count=0;
