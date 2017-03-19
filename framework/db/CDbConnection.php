@@ -603,6 +603,17 @@ class CDbConnection extends CApplicationComponent
 	{
 		return $this->getSchema()->quoteColumnName($name);
 	}
+	
+	/**
+	 * Quotes a column name for use in a query.
+	 * A simple column name does not contain prefix.
+	 * @param string $name column name
+	 * @return string the properly quoted column name
+	 */
+	public function quoteSimpleColumnName($name)
+	{
+		return $this->getSchema()->quoteSimpleColumnName($name);
+	}
 
 	/**
 	 * Determines the PDO type for the specified PHP type.
