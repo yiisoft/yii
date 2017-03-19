@@ -26,3 +26,5 @@ if(!class_exists('YiiBase', false))
 class Yii extends YiiBase
 {
 }
+
+spl_autoload_register(array('Yii','autoload'));
