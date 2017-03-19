@@ -13,6 +13,7 @@
  * The model should extend from {@link CModel} or its child classes.
  *
  * @property CModel $owner The owner model that this behavior is attached to.
+ * @method CModel getOwner() the owner component that this behavior is attached to.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base

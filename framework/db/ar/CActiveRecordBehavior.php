@@ -14,6 +14,7 @@
  * that are only defined by {@link CActiveRecord}.
  *
  * @property CActiveRecord $owner The owner AR that this behavior is attached to.
+ * @method CActiveRecord getOwner() the owner component that this behavior is attached to.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.db.ar
