@@ -69,6 +69,11 @@ class CUniqueValidator extends CValidator
 	 */
 	public $skipOnError=true;
 
+	/** 
+         * @var array name of scopes from model
+         *
+         */
+        public $scopes = array();
 
 	/**
 	 * Validates the attribute of the object.
@@ -97,6 +102,13 @@ class CUniqueValidator extends CValidator
 		if(($column=$table->getColumn($attributeName))===null)
 			throw new CException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
 				array('{column}'=>$attributeName,'{table}'=>$table->name)));
+
+		if (is_array($this->scopes))
+		{
+        	    	$finder_scopes = $finder->scopes();
+		    	foreach ($this->scopes as $scope)
+                		if (!empty($finder_scopes[$scope])) call_user_func(array($finder, $scope));
+		}
 
 		$columnName=$column->rawName;
 		$criteria=new CDbCriteria();
