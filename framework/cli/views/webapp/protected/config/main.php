@@ -41,7 +41,7 @@ return array(
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(
-			'urlFormat'=>'path',
+			'urlFormat'=>CUrlManager::PATH_FORMAT,
 			'rules'=>array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
