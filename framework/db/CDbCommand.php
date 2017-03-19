@@ -1252,29 +1252,81 @@ class CDbCommand extends CComponent
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
-	public function insert($table, $columns)
+	public function insert($table,$columns)
 	{
 		$params=array();
 		$names=array();
 		$placeholders=array();
+
 		foreach($columns as $name=>$value)
 		{
 			$names[]=$this->_connection->quoteColumnName($name);
+
 			if($value instanceof CDbExpression)
 			{
-				$placeholders[] = $value->expression;
-				foreach($value->params as $n => $v)
-					$params[$n] = $v;
+				$placeholders[]=$value->expression;
+
+				foreach($value->params as $n=>$v)
+					$params[$n]=$v;
 			}
 			else
 			{
-				$placeholders[] = ':' . $name;
-				$params[':' . $name] = $value;
+				$placeholders[]=':' . $name;
+				$params[':' . $name]=$value;
 			}
 		}
+
 		$sql='INSERT INTO ' . $this->_connection->quoteTableName($table)
 			. ' (' . implode(', ',$names) . ') VALUES ('
-			. implode(', ', $placeholders) . ')';
+			. implode(', ',$placeholders) . ')';
+
+		return $this->setText($sql)->execute($params);
+	}
+
+	/**
+	 * Creates and executes an INSERT SQL statement.
+	 * The method will properly escape the column names, and bind the values to be inserted.
+	 * @param string $table the table that new rows will be inserted into.
+	 * @param array $columns the column names to be inserted into the table.
+	 * @param array $values the values to be inserted into the table.
+	 * @return integer number of rows affected by the execution.
+	 * @since 1.1.13
+	 */
+	public function insertMultiple($table,$columns,$values)
+	{
+		$params=array();
+		$names=array();
+		$placeholders=array();
+
+		foreach($columns as $name)
+			$names[]=$this->_connection->quoteColumnName($name);
+
+		foreach($values as $rn=>$value)
+		{
+			$p=array();
+
+			foreach($value as $vn=>$v)
+			{
+				if($v instanceof CDbExpression)
+				{
+					$p[]=$v->expression;
+
+					foreach($v->params as $pn=>$pv)
+						$p[$pn]=$pv;
+				}
+				else
+				{
+					$p[]=':' . $columns[$vn] . '_' . $rn;
+					$params[':' . $columns[$vn] . '_' . $rn]=$v;
+				}
+			}
+
+			$placeholders[]='(' . implode(', ',$p) . ')';
+		}
+
+		$sql='INSERT INTO ' . $this->_connection->quoteTableName($table)
+			. ' (' . implode(', ',$names) . ') VALUES ' . implode(', ',$placeholders);
+
 		return $this->setText($sql)->execute($params);
 	}
 
