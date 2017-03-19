@@ -41,6 +41,7 @@ $('#{$class}_tableName').bind('keyup change', function(){
 	}
 });
 $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#{$class}_tableName').val().length-1)!='*');
+$('#{$class}_buildFinds').click(function(){ $('.form .row.ignored-columns').toggle(); });
 ");
 ?>
 <h1>Model Generator</h1>
@@ -134,6 +135,22 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 			You should disable this option if your database contains too many tables.
 		</div>
 		<?php echo $form->error($model,'buildRelations'); ?>
+	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'buildFinds'); ?>
+		<?php echo $form->checkBox($model,'buildFinds'); ?>
+		<?php echo $form->error($model,'buildFinds'); ?>
+		<div class="tooltip">
+		Create find function in model from table columns, for example, <code>findByName</code>, <code>findByEmail</code>
+		</div>
+	</div>
+	<div class="row ignored-columns" style="display:none;">
+		<?php echo $form->label($model,'ignoredColumns'); ?>
+		<?php echo $form->textField($model,'ignoredColumns', array('size'=>65)); ?>
+		<div class="tooltip">
+		e.g. <code>id</code>, <code>name</code>, <code>email</code>
+		</div>
+		<?php echo $form->error($model,'ignoredColumns'); ?>
 	</div>
 	<div class="row">
 		<?php echo $form->labelEx($model,'commentsAsLabels'); ?>
