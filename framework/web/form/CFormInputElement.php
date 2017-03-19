@@ -223,9 +223,9 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderInput()
 	{
-		if(isset(self::$coreTypes[$this->type]))
+		if(isset(static::$coreTypes[$this->type]))
 		{
-			$method=self::$coreTypes[$this->type];
+			$method=static::$coreTypes[$this->type];
 			if(strpos($method,'List')!==false)
 				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->attributes);
 			else
