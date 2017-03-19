@@ -580,6 +580,16 @@ class CHtml
 			unset($htmlOptions['for']);
 		else
 			$htmlOptions['for']=$for;
+		if(isset($htmlOptions['beforeInnerRequiredLabel']))
+                {
+                        $label=$htmlOptions['beforeInnerRequiredLabel'].$label;
+                        unset($htmlOptions['beforeInnerRequiredLabel']);
+                }
+                if(isset($htmlOptions['afterInnerRequiredLabel']))
+                {
+                        $label=$label.$htmlOptions['afterInnerRequiredLabel'];
+                        unset($htmlOptions['afterInnerRequiredLabel']);
+                }
 		if(isset($htmlOptions['required']))
 		{
 			if($htmlOptions['required'])
