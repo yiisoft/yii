@@ -399,6 +399,17 @@ abstract class CActiveRecord extends CModel
 			return $model;
 		}
 	}
+	
+	/**
+	 * Clears all cached instances of static ActiveRecord models
+	 * provided for invoking class-level methods (something similar to static class methods.)
+	 *
+	 * @return null
+	 */
+	public static function flushStatic()
+	{
+		self::$_models = array();
+	}
 
 	/**
 	 * Returns the meta-data for this AR
