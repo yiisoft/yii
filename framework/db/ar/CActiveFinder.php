@@ -464,7 +464,7 @@ class CJoinElement
 	{
 		if(is_string($this->_table->primaryKey))
 			$this->records[$baseRecord->{$this->_table->primaryKey}]=$baseRecord;
-		else
+		elseif(is_array($this->_table->primaryKey))
 		{
 			$pk=array();
 			foreach($this->_table->primaryKey as $name)
@@ -826,7 +826,7 @@ class CJoinElement
 			else	// no matching related objects
 				return null;
 		}
-		else // is_array, composite key
+		elseif(is_array($this->_pkAlias)) // is_array, composite key
 		{
 			$pk=array();
 			foreach($this->_pkAlias as $name=>$alias)
