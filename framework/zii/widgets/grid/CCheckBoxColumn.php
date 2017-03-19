@@ -130,8 +130,11 @@ class CCheckBoxColumn extends CGridColumn
 	 */
 	public function init()
 	{
-		if(isset($this->checkBoxHtmlOptions['name']))
+		if(isset($this->checkBoxHtmlOptions['name'])) {
 			$name=$this->checkBoxHtmlOptions['name'];
+			if(substr($name,-2)!=='[]')
+				$name.='[]';
+		}
 		else
 		{
 			$name=$this->id;
