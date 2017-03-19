@@ -219,7 +219,7 @@ class CLogger extends CComponent
 	 * be defined as early as possible (best at the beginning of the entry script.)
 	 * @return float the total time for serving the current request.
 	 */
-	public function getExecutionTime()
+	public static function getExecutionTime()
 	{
 		return microtime(true)-YII_BEGIN_TIME;
 	}
@@ -232,7 +232,7 @@ class CLogger extends CComponent
 	 * memory usage can still not be determined.
 	 * @return integer memory usage of the application (in bytes).
 	 */
-	public function getMemoryUsage()
+	public static function getMemoryUsage()
 	{
 		if(function_exists('memory_get_usage'))
 			return memory_get_usage();
