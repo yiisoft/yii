@@ -254,6 +254,38 @@ class CHtml
 			$media=' media="'.$media.'"';
 		return "<style type=\"text/css\"{$media}>\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</style>";
 	}
+	
+	/**
+	 * Encodes a PHP variable into css representation.
+	 *
+	 * Example:
+	 * <pre>
+	 * $options=array('key1'=>true,'key2'=>123,'key3'=>'value');
+	 * echo CHtml::cssEncode($options);
+	 * // The following javascript code would be generated:
+	 * // {key1:true;key2:123;key3:'value'}
+	 * </pre>	 	
+	 *
+	 * @param array $value PHP variable to be encoded
+	 * @return string the encoded string
+	 */
+	public static function cssEncode($value)
+	{		
+		$es = array();
+		foreach ($value as $i => $v)
+		{												
+			if(is_bool($value))
+				$v = $value?'true':'false';				
+							
+			if ($v !== null)
+				$es[] = $i.':'.$v;
+		}		
+		
+		if (!empty($es))
+			return implode(';', $es);
+		else	
+			return null;
+	}
 
 	/**
 	 * Registers a 'refresh' meta tag.
