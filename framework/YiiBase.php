@@ -189,6 +189,12 @@ class YiiBase
 		{
 			$type=$config['class'];
 			unset($config['class']);
+			if(isset($config['instanceOf'])
+			{
+				$instanceOf=$config['instanceOf'];
+				unset($config['instanceOf']);	
+			}	
+				
 		}
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
@@ -215,6 +221,11 @@ class YiiBase
 		}
 		else
 			$object=new $type;
+		if (isset($instanceOf))
+		{
+			if (!($object instanceOf $instanceOf))
+				throw new CException(Yii::t('yii','Object '.get_class($object).' must be an instance of '.$instanceOf));
+		}
 
 		foreach($config as $key=>$value)
 			$object->$key=$value;
