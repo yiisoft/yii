@@ -20,7 +20,7 @@
 		if (!o.length) {
 			return undefined;
 		}
-		if (o[0].tagName.toLowerCase() === 'span') {
+		if (o[0].tagName.toLowerCase() !== 'input') {
 			o.find(':checked').each(function () {
 				c.push(this.value);
 			});
