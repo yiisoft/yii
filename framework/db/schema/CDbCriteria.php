@@ -149,6 +149,11 @@ class CDbCriteria extends CComponent
 	 * @since 1.1.7
 	 */
 	public $scopes;
+	/**
+	 * @var string
+	 * @since 1.1.14
+	 */
+	public $reverseOrderMerge=false;
 
 	/**
 	 * Constructor.
@@ -536,7 +541,12 @@ class CDbCriteria extends CComponent
 			if($this->order==='')
 				$this->order=$criteria->order;
 			elseif($criteria->order!=='')
-				$this->order=$criteria->order.', '.$this->order;
+			{
+				if($this->reverseOrderMerge)
+					$this->order=$this->order.', '.$criteria->order;
+				else
+					$this->order=$criteria->order.', '.$this->order;
+			}
 		}
 
 		if($this->group!==$criteria->group)
