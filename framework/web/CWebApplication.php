@@ -324,6 +324,7 @@ class CWebApplication extends CApplication
 			if(!$caseSensitive)
 				$id=strtolower($id);
 			$route=(string)substr($route,$pos+1);
+			$controllerID='';
 			if(!isset($basePath))  // first segment
 			{
 				if(isset($owner->controllerMap[$id]))
@@ -338,7 +339,6 @@ class CWebApplication extends CApplication
 					return $this->createController($route,$module);
 
 				$basePath=$owner->getControllerPath();
-				$controllerID='';
 			}
 			else
 				$controllerID.='/';
