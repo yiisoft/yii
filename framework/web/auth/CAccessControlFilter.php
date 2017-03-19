@@ -86,7 +86,7 @@ class CAccessControlFilter extends CFilter
 	 */
 	public $message;
 
-	private $_rules=array();
+	protected $_rules=array();
 
 	/**
 	 * @return array list of access rules.
