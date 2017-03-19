@@ -222,6 +222,11 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	protected function calculateTotalItemCount()
 	{
+		if($this->criteria->alias) {
+			$crit = new CDbCriteria;
+			$crit->alias = $this->criteria->alias;
+			$this->model->setDbCriteria($crit);
+		}
 		$baseCriteria=$this->model->getDbCriteria(false);
 		if($baseCriteria!==null)
 			$baseCriteria=clone $baseCriteria;
