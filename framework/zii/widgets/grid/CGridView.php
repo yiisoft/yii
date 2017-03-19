@@ -64,7 +64,10 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  *             'value'=>'$data->author->username',
  *         ),
  *         array(            // display a column with "view", "update" and "delete" buttons
- *             'class'=>'CButtonColumn',
+ *             'class'=>'CButtonColumn', // column via class name
+ *         ),
+ *         array(            // display a column with "view", "update" and "delete" buttons
+ *             'column'=>'button', // column via class map
  *         ),
  *     ),
  * ));
@@ -98,8 +101,12 @@ class CGridView extends CBaseListView
 	 *
 	 * When a column is specified as an array, it will be used to create a grid column instance, where
 	 * the 'class' element specifies the column class name (defaults to {@link CDataColumn} if absent).
-	 * Currently, these official column classes are provided: {@link CDataColumn},
-	 * {@link CLinkColumn}, {@link CButtonColumn} and {@link CCheckBoxColumn}.
+	 * Currently, these official column classes are provided: {@link CDataColumn}, {@link CLinkColumn},
+	 * {@link CButtonColumn} and {@link CCheckBoxColumn}.
+	 *
+	 * Since 1.1.13 when a column specified as an array, it will be used to create a grid column instance,
+	 * where the 'column' element specifies column alias from {@link columnMap}. Currently, these official
+	 * column aliases are provided: 'data', 'link', 'button' and 'checkBox'.
 	 */
 	public $columns=array();
 	/**
@@ -331,6 +338,11 @@ class CGridView extends CBaseListView
 
 
 	/**
+	 * @var mixed
+	 */
+	public $columnMap=array();
+
+	/**
 	 * Initializes the grid view.
 	 * This method will initialize required property values and instantiate {@link columns} objects.
 	 */
@@ -356,7 +368,28 @@ class CGridView extends CBaseListView
 			Yii::app()->getClientScript()->registerCssFile($this->cssFile);
 		}
 
+		$this->initDefaultColumns();
 		$this->initColumns();
+	}
+
+	/**
+	 * Initializes the default columns (data, link, checkBox, button).
+	 */
+	protected function initDefaultColumns()
+	{
+		//TODO: add support for 'ColumnClassName'=>array(...),
+		foreach(array(
+			'data'=>array('class'=>'CDataColumn'),
+			'link'=>array('class'=>'CLinkColumn'),
+			'checkBox'=>array('class'=>'CCheckBoxColumn'),
+			'button'=>array('class'=>'CButtonColumn'),
+		) as $id=>$config)
+		{
+			if(isset($this->columnMap[$id]))
+				$this->columnMap[$id]=array_merge($config,$this->columnMap[$id]);
+			else
+				$this->columnMap[$id]=$config;
+		}
 	}
 
 	/**
@@ -381,12 +414,16 @@ class CGridView extends CBaseListView
 		{
 			if(is_string($column))
 				$column=$this->createDataColumn($column);
-			else
+			elseif(isset($column['class']))
+				$column=Yii::createComponent($column,$this);
+			elseif(isset($column['column']))
 			{
-				if(!isset($column['class']))
-					$column['class']='CDataColumn';
-				$column=Yii::createComponent($column, $this);
+				$column=array_merge($this->columnMap[$column['column']],$column);
+				unset($column['column']);
+				$column=Yii::createComponent($column,$this);
 			}
+			else
+				$column=Yii::createComponent(array_merge($this->columnMap['data'],$column),$this);
 			if(!$column->visible)
 			{
 				unset($this->columns[$i]);
@@ -411,7 +448,7 @@ class CGridView extends CBaseListView
 	{
 		if(!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/',$text,$matches))
 			throw new CException(Yii::t('zii','The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
-		$column=new CDataColumn($this);
+		$column=Yii::createComponent($this->columnMap['data'],$this);
 		$column->name=$matches[1];
 		if(isset($matches[3]) && $matches[3]!=='')
 			$column->type=$matches[3];
