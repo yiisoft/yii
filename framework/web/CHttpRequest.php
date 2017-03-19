@@ -422,7 +422,15 @@ class CHttpRequest extends CApplicationComponent
 		if($this->_scriptUrl===null)
 		{
 			$scriptName=basename($_SERVER['SCRIPT_FILENAME']);
-			if(basename($_SERVER['SCRIPT_NAME'])===$scriptName)
+			
+			$uri = parse_url($_SERVER['REQUEST_URI']);
+			$uri = isset($uri['path']) ? rawurldecode($uri['path']) : '';
+			
+			if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0){
+				$this->_scriptUrl = (string) substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+				throw new CHttpException(404,Yii::t('yii','The requested URL was not found on this server.'));
+			}
+			elseif(basename($_SERVER['SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['SCRIPT_NAME'];
 			elseif(basename($_SERVER['PHP_SELF'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['PHP_SELF'];
