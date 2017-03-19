@@ -55,6 +55,10 @@ class CDbTableSchema extends CComponent
 	 * @var array column metadata of this table. Each array element is a CDbColumnSchema object, indexed by column names.
 	 */
 	public $columns=array();
+	/**
+	 * @var array database engine for this table.
+	 */
+	public $engine=null;
 
 	/**
 	 * Gets the named column metadata.

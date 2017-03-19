@@ -231,10 +231,16 @@ class CMysqlSchema extends CDbSchema
 		$row=$this->getDbConnection()->createCommand('SHOW CREATE TABLE '.$table->rawName)->queryRow();
 		$matches=array();
 		$regexp='/FOREIGN KEY\s+\(([^\)]+)\)\s+REFERENCES\s+([^\(^\s]+)\s*\(([^\)]+)\)/mi';
+		$engineMatches=array();
+		$engineRegexp='/CREATE TABLE\s+[^\s^\(]+\s+\(.*\)\s+ENGINE=([^\s^\(]+)/is';
 		foreach($row as $sql)
 		{
 			if(preg_match_all($regexp,$sql,$matches,PREG_SET_ORDER))
+			{
+				if(preg_match($engineRegexp, $sql, $engineMatches) && isset($engineMatches[1]))
+					$table->engine=$engineMatches[1];
 				break;
+			}
 		}
 		foreach($matches as $match)
 		{

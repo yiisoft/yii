@@ -68,6 +68,7 @@ class CMysqlTest extends CTestCase
 		$this->assertTrue($table->getColumn('id') instanceof CDbColumnSchema);
 		$this->assertTrue($table->getColumn('foo')===null);
 		$this->assertEquals(array('id','title','create_time','author_id','content'),$table->columnNames);
+		$this->assertEquals('InnoDB',$table->engine);
 
 		$table=$this->db->schema->getTable('orders');
 		$this->assertEquals(array('key1','key2'),$table->primaryKey);
