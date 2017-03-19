@@ -529,10 +529,12 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Sets the scenario for the model.
 	 * @param string $value the scenario that this model is in.
 	 * @see getScenario
+	 * @return CModel the model object itself
 	 */
 	public function setScenario($value)
 	{
 		$this->_scenario=$value;
+		return $this;
 	}
 
 	/**

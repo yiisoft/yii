@@ -1858,7 +1858,8 @@ abstract class CActiveRecord extends CModel
 		if($attributes!==false)
 		{
 			$record=$this->instantiate($attributes);
-			$record->setScenario('update');
+			$scenario=$this->getScenario();
+			$record->setScenario($scenario==='' ? 'update' : $scenario);
 			$record->init();
 			$md=$record->getMetaData();
 			foreach($attributes as $name=>$value)
