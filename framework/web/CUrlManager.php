@@ -773,7 +773,7 @@ class CUrlRule extends CBaseUrlRule
 
 		foreach($this->params as $key=>$value)
 		{
-			$tr["<$key>"]=urlencode($params[$key]);
+			$tr["<$key>"] = is_array($params[$key]) ? $manager->createPathInfo(array($key => $params[$key]), '/', '/') : urlencode($params[$key]);
 			unset($params[$key]);
 		}
 
