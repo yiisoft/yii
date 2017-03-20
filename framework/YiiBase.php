@@ -873,6 +873,9 @@ class YiiBase
 		'CBasePager' => '/web/widgets/pagers/CBasePager.php',
 		'CLinkPager' => '/web/widgets/pagers/CLinkPager.php',
 		'CListPager' => '/web/widgets/pagers/CListPager.php',
+		'CBasePageSizer' => '/web/widgets/pagesizers/CBasePageSizer.php',
+		'CLinkPageSizer' => '/web/widgets/pagesizers/CLinkPageSizer.php',
+		'CListPageSizer' => '/web/widgets/pagesizers/CListPageSizer.php',
 	);
 }
 

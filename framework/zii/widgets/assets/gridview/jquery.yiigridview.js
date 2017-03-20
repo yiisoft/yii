@@ -40,6 +40,7 @@
 		 * - ajaxVar: string, the name of the request variable indicating the ID of the element triggering the AJAX request
 		 * - ajaxType: string, the type (GET or POST) of the AJAX request
 		 * - pagerClass: string, the CSS class for the pager container
+		 * - pageSizerClass: string, the CSS class for the page sizer container
 		 * - tableClass: string, the CSS class for the table
 		 * - selectableRows: integer, the number of rows that can be selected
 		 * - updateSelector: string, the selector for choosing which elements can trigger ajax requests
@@ -57,6 +58,7 @@
 					csrfTokenName: null,
 					csrfToken: null,
 					pagerClass: 'pager',
+					pageSizerClass: 'pagesizer',
 					loadingClass: 'loading',
 					filterClass: 'filters',
 					tableClass: 'items',
@@ -76,11 +78,13 @@
 					$grid = $(this),
 					id = $grid.attr('id'),
 					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
+					pageSizerSelector = '#' + id + ' .' + settings.pageSizerClass.replace(/\s+/g, '.') + ' a',
 					sortSelector = '#' + id + ' .' + settings.tableClass + ' thead th a.sort-link',
 					inputSelector = '#' + id + ' .' + settings.filterClass + ' input, ' + '#' + id + ' .' + settings.filterClass + ' select';
 
 				settings.updateSelector = settings.updateSelector
 								.replace('{page}', pagerSelector)
+								.replace('{pagesize}', pageSizerSelector)
 								.replace('{sort}', sortSelector);
 				settings.filterSelector = settings.filterSelector
 								.replace('{filter}', inputSelector);

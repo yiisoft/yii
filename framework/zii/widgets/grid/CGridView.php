@@ -157,8 +157,8 @@ class CGridView extends CBaseListView
 	public $ajaxUpdate;
 	/**
 	 * @var string the jQuery selector of the HTML elements that may trigger AJAX updates when they are clicked.
-	 * These tokens are recognized: {page} and {sort}. They will be replaced with the pagination and sorting links selectors.
-	 * Defaults to '{page}, {sort}', that means that the pagination links and the sorting links will trigger AJAX updates.
+	 * These tokens are recognized: {page}, {pagesize} and {sort}. They will be replaced with the pagination, page size and sorting links selectors.
+	 * Defaults to '{page}, {pagesize}, {sort}', that means that the pagination links and the sorting links will trigger AJAX updates.
 	 * Tokens are available from 1.1.11
 	 *
 	 * Note: if this value is empty an exception will be thrown.
@@ -166,12 +166,12 @@ class CGridView extends CBaseListView
 	 * Example (adding a custom selector to the default ones):
 	 * <pre>
 	 *  ...
-	 *  'updateSelector'=>'{page}, {sort}, #mybutton',
+	 *  'updateSelector'=>'{page}, {pagesize}, {sort}, #mybutton',
 	 *  ...
 	 * </pre>
 	 * @since 1.1.7
 	 */
-	public $updateSelector='{page}, {sort}';
+	public $updateSelector='{page}, {pagesize}, {sort}';
 	/**
 	 * @var string a javascript function that will be invoked if an AJAX update error occurs.
 	 *
@@ -435,6 +435,7 @@ class CGridView extends CBaseListView
 			'ajaxUpdate'=>$ajaxUpdate,
 			'ajaxVar'=>$this->ajaxVar,
 			'pagerClass'=>$this->pagerCssClass,
+			'pageSizerClass'=>$this->pageSizerCssClass,
 			'loadingClass'=>$this->loadingCssClass,
 			'filterClass'=>$this->filterCssClass,
 			'tableClass'=>$this->itemsCssClass,

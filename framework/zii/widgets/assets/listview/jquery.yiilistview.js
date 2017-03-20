@@ -16,6 +16,7 @@
 	 * - ajaxVar: string, the name of the request variable indicating the ID of the element triggering the AJAX request
 	 * - ajaxType: string, the type (GET or POST) of the AJAX request
 	 * - pagerClass: string, the CSS class for the pager container
+	 * - pageSizerClass: string, the CSS class for the page sizer container
 	 * - sorterClass: string, the CSS class for the sorter container
 	 * - updateSelector: string, the selector for choosing which elements can trigger ajax requests
 	 * - beforeAjaxUpdate: function, the function to be called before ajax request is sent
@@ -28,7 +29,7 @@
 			id = $this.attr('id');
 
 			if(settings.updateSelector == undefined) {
-				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.sorterClass.replace(/\s+/g,'.')+' a';
+				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.pageSizerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.sorterClass.replace(/\s+/g,'.')+' a';
 			}
 			$.fn.yiiListView.settings[id] = settings;
 
@@ -69,6 +70,7 @@
 		ajaxVar: 'ajax',
 		ajaxType: 'GET',
 		pagerClass: 'pager',
+		pageSizerClass: 'pagesizer',
 		loadingClass: 'loading',
 		sorterClass: 'sorter'
 		// updateSelector: '#id .pager a, '#id .sort a',

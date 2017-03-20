@@ -75,6 +75,10 @@ class CPagination extends CComponent
 	 */
 	public $pageVar='page';
 	/**
+	 * @var string name of the GET variable storing the current page size. Defaults to 'pagesize'.
+	 */
+	public $pageSizeVar='pagesize';
+	/**
 	 * @var string the route (controller ID and action ID) for displaying the paged contents.
 	 * Defaults to empty string, meaning using the current route.
 	 */
@@ -96,7 +100,7 @@ class CPagination extends CComponent
 	 */
 	public $validateCurrentPage=true;
 
-	private $_pageSize=self::DEFAULT_PAGE_SIZE;
+	private $_pageSize;
 	private $_itemCount=0;
 	private $_currentPage;
 
@@ -112,8 +116,19 @@ class CPagination extends CComponent
 	/**
 	 * @return integer number of items in each page. Defaults to 10.
 	 */
-	public function getPageSize()
+	public function getPageSize($recalculate=true)
 	{
+		if ($this->_pageSize === null || $recalculate)
+		{
+			if(isset($_GET[$this->pageSizeVar]))
+			{
+				$this->_pageSize = (int)$_GET[$this->pageSizeVar];
+				if ($this->_pageSize <= 0)
+					$this->_pageSize = self::DEFAULT_PAGE_SIZE;
+			}
+			else
+				$this->_pageSize = self::DEFAULT_PAGE_SIZE;
+		}
 		return $this->_pageSize;
 	}
 
@@ -124,6 +139,7 @@ class CPagination extends CComponent
 	{
 		if(($this->_pageSize=$value)<=0)
 			$this->_pageSize=self::DEFAULT_PAGE_SIZE;
+		$_GET[$this->pageSizeVar]=$this->_pageSize;
 	}
 
 	/**
@@ -148,7 +164,7 @@ class CPagination extends CComponent
 	 */
 	public function getPageCount()
 	{
-		return (int)(($this->_itemCount+$this->_pageSize-1)/$this->_pageSize);
+		return (int)(($this->_itemCount+$this->getPageSize()-1)/$this->getPageSize());
 	}
 
 	/**
@@ -204,6 +220,40 @@ class CPagination extends CComponent
 			$params[$this->pageVar]=$page+1;
 		else
 			unset($params[$this->pageVar]);
+		if (($pageSize = $this->getPageSize()) == self::DEFAULT_PAGE_SIZE)
+			unset($params[$this->pageSizeVar]);
+		else
+			$params[$this->pageSizeVar]=$pageSize;
+		return $controller->createUrl($this->route,$params);
+	}
+
+	/**
+	 * Creates the URL to change the page size.
+	 * @param CController $controller the controller that will create the actual URL
+	 * @param integer $pageSize the page size.
+	 * @return string the created URL
+	 */
+	public function createPageSizeUrl($controller,$pageSize)
+	{
+		$params=$this->params===null ? $_GET : $this->params;
+
+		$currentPageSize = $this->getPageSize();
+		// Keep the first item visible
+		//$target = $this->getCurrentPage()*$currentPageSize;
+		// Keep the item in the middle visible
+		$target = $this->getCurrentPage()*$currentPageSize+(int)($currentPageSize/2);
+		$newPage = (int)($target/$pageSize);
+
+		if($newPage>0) // page 0 is the default
+			$params[$this->pageVar]=$newPage+1;
+		else
+			unset($params[$this->pageVar]);
+
+		if ($pageSize == self::DEFAULT_PAGE_SIZE)
+			unset($params[$this->pageSizeVar]);
+		else
+			$params[$this->pageSizeVar]=$pageSize;
+
 		return $controller->createUrl($this->route,$params);
 	}
 

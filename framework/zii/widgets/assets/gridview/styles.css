@@ -112,6 +112,11 @@
 	text-align: right;
 }
 
+.grid-view .pagesizer
+{
+	margin: 5px 0 0 0;
+}
+
 .grid-view .empty
 {
 	font-style: italic;

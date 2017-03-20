@@ -90,7 +90,7 @@ class CListView extends CBaseListView
 	 * These tokens are recognized: {summary}, {sorter}, {items} and {pager}. They will be replaced with the
 	 * summary text, the sort links, the data item list, and the pager.
 	 */
-	public $template="{summary}\n{sorter}\n{items}\n{pager}";
+	public $template="{summary}\n{sorter}\n{items}\n{pagesize}\n{pager}";
 	/**
 	 * @var string the CSS class name that will be assigned to the widget container element
 	 * when the widget is updating its content via AJAX. Defaults to 'list-view-loading'.
@@ -239,6 +239,7 @@ class CListView extends CBaseListView
 			'ajaxUpdate'=>$ajaxUpdate,
 			'ajaxVar'=>$this->ajaxVar,
 			'pagerClass'=>$this->pagerCssClass,
+			'pageSizerClass'=>$this->pageSizerCssClass,
 			'loadingClass'=>$this->loadingCssClass,
 			'sorterClass'=>$this->sorterCssClass,
 			'enableHistory'=>$this->enableHistory

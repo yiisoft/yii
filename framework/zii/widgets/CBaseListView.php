@@ -55,11 +55,19 @@ abstract class CBaseListView extends CWidget
 	 */
 	public $pager=array('class'=>'CLinkPager');
 	/**
-	 * @var string the template to be used to control the layout of various sections in the view.
-	 * These tokens are recognized: {summary}, {items} and {pager}. They will be replaced with the
-	 * summary text, the items, and the pager.
+	 * @var array|string the configuration for the page sizer. Defaults to <code>array('class'=>'CLinkPageSizer')</code>.
+	 * String value will be treated as the class name of the page sizer (<code>'ClassName'</code> value is similar
+	 * to the <code>array('class'=>'ClassName')</code> value). See {@link CBasePageSizer} and {@link CLinkPageSizer}
+	 * for more details about page sizer configuration array values.
+	 * @see enablePagination
 	 */
-	public $template="{summary}\n{items}\n{pager}";
+	public $pageSizer=array('class'=>'CLinkPageSizer');
+	/**
+	 * @var string the template to be used to control the layout of various sections in the view.
+	 * These tokens are recognized: {summary}, {items}, {pagesize} and {pager}. They will be replaced with the
+	 * summary text, the items, the page sizer, and the pager.
+	 */
+	public $template="{summary}\n{items}\n{pagesize}\n{pager}";
 	/**
 	 * @var string the summary text template for the view. These tokens are recognized and will be replaced
 	 * with the corresponding values:
@@ -106,6 +114,10 @@ abstract class CBaseListView extends CWidget
 	 * cause undefined behavior.
 	 */
 	public $pagerCssClass='pager';
+	/**
+	 * @var string the CSS class name for the page sizer container. Defaults to 'pagesizer'.
+	 */
+	public $pageSizerCssClass='pagesizer';
 	/**
 	 * @var string the CSS class name that will be assigned to the widget container element
 	 * when the widget is updating its content via AJAX. Defaults to 'loading'.
@@ -287,6 +299,34 @@ abstract class CBaseListView extends CWidget
 		}
 		else
 			$this->widget($class,$pager);
+	}
+
+	/**
+	 * Renders the page sizer.
+	 */
+	public function renderPageSize()
+	{
+		if(!$this->enablePagination)
+			return;
+
+		$pageSizer=array();
+		$class='CLinkPageSizer';
+		if(is_string($this->pageSizer))
+			$class=$this->pageSizer;
+		elseif(is_array($this->pageSizer))
+		{
+			$pageSizer=$this->pageSizer;
+			if(isset($pageSizer['class']))
+			{
+				$class=$pageSizer['class'];
+				unset($pageSizer['class']);
+			}
+		}
+		$pageSizer['pages']=$this->dataProvider->getPagination();
+
+		echo '<div class="'.$this->pageSizerCssClass.'">';
+		$this->widget($class,$pageSizer);
+		echo '</div>';
 	}
 
 	/**
