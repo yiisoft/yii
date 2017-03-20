@@ -2112,6 +2112,17 @@ class CStatRelation extends CBaseActiveRelation
 	public $scopes;
 
 	/**
+	 * @var mixed scopes to apply
+	 * Can be set to the one of the following:
+	 * <ul>
+	 * <li>Single scope: 'scopes'=>'scopeName'.</li>
+	 * <li>Multiple scopes: 'scopes'=>array('scopeName1','scopeName2').</li>
+	 * </ul>
+	 * @since 1.1.9
+	 */
+	 public $scopes;
+
+/**
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array $criteria the dynamically specified criteria
 	 * @param boolean $fromScope whether the criteria to be merged is from scopes
