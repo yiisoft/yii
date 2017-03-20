@@ -51,6 +51,12 @@ abstract class CActiveRecord extends CModel
 	 * @see getDbConnection
 	 */
 	public static $db;
+	
+	/**
+	 * @var CActiveRecord the parent that requested this model via a relation. 
+	 * Null if not initilized via a relation. 
+	 */
+	public $relatedParent;	 	
 
 	private static $_models=array();			// class name => model
 	private static $_md=array();				// class name => meta data
@@ -745,6 +751,9 @@ abstract class CActiveRecord extends CModel
 		}
 		elseif(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
+		
+		if($record instanceof CActiveRecord)
+			$record->relatedParent = $this;
 	}
 
 	/**
