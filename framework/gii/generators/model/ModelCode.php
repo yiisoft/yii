@@ -237,7 +237,7 @@ class ModelCode extends CCodeModel
 			elseif($column->type==='double')
 				$numerical[]=$column->name;
 			elseif($column->type==='string' && $column->size>0)
-				$length[$column->size][]=$column->name;
+				$length[ substr($column->dbType,0,7)!=='decimal' ? $column->size : $column->size + 2 ][]=$column->name; //Fix for decimal dbtype, considered as string type in php. Adding 2 extra positions, for decimal separator and misu sign.
 			elseif(!$column->isPrimaryKey && !$r)
 				$safe[]=$column->name;
 		}
