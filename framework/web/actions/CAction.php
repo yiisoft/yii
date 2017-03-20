@@ -109,4 +109,9 @@ abstract class CAction extends CComponent implements IAction
 		$method->invokeArgs($object,$ps);
 		return true;
 	}
+	
+	public function __toString()
+	{
+		return $this->_id;
+	}
 }
