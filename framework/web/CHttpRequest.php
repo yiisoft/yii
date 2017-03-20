@@ -1462,7 +1462,25 @@ class CCookieCollection extends CMap
 		else
 			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
 	}
-
+	/**
+	 * Method to set and retrive a cookie
+	 * @param mixed $cookie Instance of CHttpCookie or name of a cookie which 
+	 * is already in this collection
+	 * @return mixed Instance of the newly added cookie or instance of the cookie identified in $cookie
+	 * If the name specified in $cookie does not exists false is returned.
+	 * @since 1.1.12
+	 */
+	public function cookie($cookie)
+	{
+		if($cookie instanceof CHttpCookie)
+		{
+			$this->add($cookie->name,$cookie);
+			return $cookie;
+		}
+		if(is_string($cookie) && strlen($cookie)!==0)
+			return $this->contains($cookie)?$this->itemAt($cookie):false;
+		return false;
+	}
 	/**
 	 * Removes a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
