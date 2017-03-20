@@ -151,6 +151,7 @@ class CNumberValidator extends CValidator
 if(!value.match($pattern)) {
 	messages.push(".CJSON::encode($message).");
 }
+value = value.replace(',', '.');
 ";
 		if($this->min!==null)
 		{
