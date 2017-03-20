@@ -49,8 +49,11 @@ class CDateValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && $this->isEmpty($value))
-			return;
+		if($this->allowEmpty && $this->isEmpty($value)) {
+			if($this->timestampAttribute!==null)
+				$object->{$this->timestampAttribute}=null;
+			return;	
+		}
 
 		$valid=false;
 
