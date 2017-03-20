@@ -79,6 +79,7 @@ Version 1.1.16 December 21, 2014
 - Bug #2753: Fixed CErrorHandler::errorAction ignored if error occurs while AJAX request (klimov-paul)
 - Bug #2756: Fixed applying condition twice during Active Record relation lazy loading (klimov-paul)
 - Bug #2770: Fixed CClientScript renders scripts with different HTML options inside same tag (klimov-paul)
+- Bug #2777: Fixed class autoload trigger warning if class not found (klimov-paul)
 - Bug #2778: Fixed throwing unnecessary exception in CFileValidator when validating MIME types for a file upload that failed (Rupert-RR)
 - Bug #2785: Use table name with schema in composeMultipleInsertCommand (nineinchnick)
 - Bug #2836: Fixed rendering when try-catching widget Exception while 'captureOutput' is set to true (darkheir)
