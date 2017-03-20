@@ -231,6 +231,22 @@ class CActiveRecordTest extends CTestCase
 		$this->assertNull(Post::model()->findByPk(5));
 	}
 
+	public function testDeleteAllWithScope()
+	{
+		$posts = Post::model()->count();
+		Post::model()->post3()->deleteAll();
+		$this->assertEquals($posts - 1, Post::model()->count());
+	}
+
+	public function testUpdateAllWithScope()
+	{
+		
+		Post::model()->post3()->updateAll(array('title' => 'post'));
+		$post3=Post::model()->post3()->find();
+		$post=Post::model()->findByPk(1);
+		$this->assertNotEquals($post3->title, $post->title);
+	}
+
 	public function testRefresh()
 	{
 		$post=Post::model()->findByPk(1);
