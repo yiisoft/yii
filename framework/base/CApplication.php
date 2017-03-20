@@ -234,7 +234,7 @@ abstract class CApplication extends CModule
 		if($this->_id!==null)
 			return $this->_id;
 		else
-			return $this->_id=sprintf('%x',crc32($this->getBasePath().$this->name));
+			return $this->_id=sprintf('%x',crc32(php_uname().$this->name));
 	}
 
 	/**
