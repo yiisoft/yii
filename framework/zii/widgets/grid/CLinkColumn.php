@@ -24,6 +24,18 @@ Yii::import('zii.widgets.grid.CGridColumn');
 class CLinkColumn extends CGridColumn
 {
 	/**
+	 * @var string the attribute name of the data model. Used for column sorting.
+	 * @see sortable
+	 */
+	public $name;
+	/**
+	 * @var boolean whether the column is sortable. If so, the header cell will contain a link that may trigger the sorting.
+	 * Defaults to true. Note that if {@link name} is not set, or if {@link name} is not allowed by {@link CSort},
+	 * this property will be treated as false.
+	 * @see name
+	 */
+	public $sortable=true;
+	/**
 	 * @var string the label to the hyperlinks in the data cells. Note that the label will not
 	 * be HTML-encoded when rendering. This property is ignored if {@link labelExpression} is set.
 	 * @see labelExpression
@@ -109,5 +121,20 @@ class CLinkColumn extends CGridColumn
 			return CHtml::link(CHtml::image($this->imageUrl,$label),$url,$options);
 		else
 			return CHtml::link($label,$url,$options);
+	}
+	
+	public function getHeaderCellContent()
+	{
+		if($this->grid->enableSorting && $this->sortable && $this->name!==null)
+			return $this->grid->dataProvider->getSort()->link($this->name,$this->header,array('class'=>'sort-link'));
+		elseif($this->name!==null && $this->header===null)
+		{
+			if($this->grid->dataProvider instanceof CActiveDataProvider)
+				return CHtml::encode($this->grid->dataProvider->model->getAttributeLabel($this->name));
+			else
+				return CHtml::encode($this->name);
+		}
+		else
+			return parent::getHeaderCellContent();
 	}
 }
