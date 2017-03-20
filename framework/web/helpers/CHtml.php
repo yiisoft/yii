@@ -1266,7 +1266,7 @@ EOD;
 		$id=0;
 		foreach($data as $value=>$labelTitle)
 		{
-			$checked=!strcmp($value,$select);
+			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
