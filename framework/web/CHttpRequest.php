@@ -731,7 +731,16 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getUserHostAddress()
 	{
-		return isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'127.0.0.1';
+		static $ip;
+		if( $ip !== null) return $ip;
+		
+		if( getenv("HTTP_CLIENT_IP"))              $ip = getenv("HTTP_CLIENT_IP");
+		elseif( getenv("HTTP_X_FORWARDED_FOR"))    $ip = getenv("HTTP_X_FORWARDED_FOR");
+		elseif( getenv("REMOTE_ADDR"))             $ip = getenv("REMOTE_ADDR");
+		elseif(isset($_SERVER['REMOTE_ADDR']))     $ip = $_SERVER['REMOTE_ADDR'];
+		
+		if($ip === null) $ip = '127.0.0.1';
+		return $ip;
 	}
 
 	/**
