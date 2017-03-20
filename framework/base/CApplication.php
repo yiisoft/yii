@@ -124,6 +124,8 @@ abstract class CApplication extends CModule
 	 * Constructor.
 	 * @param mixed $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
+	 * Also if a file with the same name exists under sibling folder named 'local',
+	 * configuration will be extended with one's content.
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
@@ -135,7 +137,12 @@ abstract class CApplication extends CModule
 
 		// set basePath as early as possible to avoid trouble
 		if(is_string($config))
-			$config=require($config);
+		{
+			$configData=require($config);
+			if(file_exists($localConfigFile=dirname($config).DIRECTORY_SEPARATOR.'local'.DIRECTORY_SEPARATOR.basename($config)))
+				$configData=CMap::mergeArray($configData,require($localConfigFile));
+			$config=$configData;
+		}
 		if(isset($config['basePath']))
 		{
 			$this->setBasePath($config['basePath']);
