@@ -93,8 +93,8 @@ class CClientScriptTest extends CTestCase
 
 	public function testHasPackage()
     {
-        $this->asserTrue($this->_clientScript->hasPackage('jquery'));
-        $this->asserFalse($this->_clientScript->hasPackage('nonexisting'));
+        $this->assertTrue($this->_clientScript->hasPackage('jquery'));
+        $this->assertFalse($this->_clientScript->hasPackage('nonexisting'));
     }
 
 	/**
