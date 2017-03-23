@@ -550,6 +550,29 @@ class CClientScript extends CApplicationComponent
 		return $this->coreScripts[$name]['baseUrl']=$baseUrl;
 	}
 
+    /**
+     * Checks if package is available.
+     * @param string $name the name of the script package.
+     * @return bool
+     * @since 1.1.18
+     * @see registerPackage
+     */
+	public function hasPackage($name)
+    {
+        if(isset($this->coreScripts[$name]))
+            return true;
+        if(isset($this->packages[$name]))
+            return true;
+        else
+        {
+            if($this->corePackages===null)
+                $this->corePackages=require(YII_PATH.'/web/js/packages.php');
+            if(isset($this->corePackages[$name]))
+                return true;
+        }
+        return false;
+    }
+
 	/**
 	 * Registers a script package that is listed in {@link packages}.
 	 * This method is the same as {@link registerCoreScript}.
