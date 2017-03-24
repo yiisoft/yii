@@ -117,6 +117,7 @@ Version 1.1.16 December 21, 2014
 - Bug #3327: Gii did not generate empty directories properly (gureedo)
 - Bug #3406: Fixed Object of class Imagick could not be converted to string (eXprojects)
 - Bug #3410: Fixed wrong translation parameter name in CPhpAuthManager::addItemChild() (klimov-paul)
+- Bug #3555: Updated CActiveRecord::update() to only set pk value if the primary key (or composite key) was included in the attributes list. Should fix CActiveRecord::getOldPrimaryKey() in this method. (georaldc)
 - Bug #3569: CConsoleCommand::copyFiles() did not replace DIRECTORY_SEPARATOR correctly (jmxhit)
 - Bug #3582: make sure `build autoload` produces the same output on both Windows and Unix platforms (GerHobbelt)
 - Bug: Fixed the bug that backslashes are not escaped by CDbCommandBuilder::buildSearchCondition() (qiangxue)
