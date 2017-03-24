@@ -27,10 +27,8 @@ class CJavaScript
 	 */
 	public static function quote($js,$forUrl=false)
 	{
-		if($forUrl)
-			return strtr($js,array('%'=>'%25',"\t"=>'\t',"\n"=>'\n',"\r"=>'\r','"'=>'\"','\''=>'\\\'','\\'=>'\\\\','</'=>'<\/'));
-		else
-			return strtr($js,array("\t"=>'\t',"\n"=>'\n',"\r"=>'\r','"'=>'\"','\''=>'\\\'','\\'=>'\\\\','</'=>'<\/'));
+	    $encoded = strtr(substr(json_encode($js), 1, -1), array("'", "\\'"));
+	    return $forUrl ? strtr($encoded, array('%' => '%25')) : $encoded;
 	}
 
 	/**
