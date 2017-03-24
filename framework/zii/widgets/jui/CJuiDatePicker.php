@@ -110,7 +110,7 @@ class CJuiDatePicker extends CJuiInputWidget
 		$options=CJavaScript::encode($this->options);
 		$js = "jQuery('#{$id}').datepicker($options);";
 
-		if($this->language!='' && $this->language!='en')
+		if(!$this->_isLangDefault())
 		{
 			$this->registerScriptFile($this->i18nScriptFile);
 			$js = "jQuery('#{$id}').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['{$this->language}'],{$options}));";
@@ -120,9 +120,18 @@ class CJuiDatePicker extends CJuiInputWidget
 
 		if(isset($this->defaultOptions))
 		{
-			$this->registerScriptFile($this->i18nScriptFile);
+			if(!$this->_isLangDefault())
+			{
+				$this->registerScriptFile($this->i18nScriptFile);
+			}
+
 			$cs->registerScript(__CLASS__,$this->defaultOptions!==null?'jQuery.datepicker.setDefaults('.CJavaScript::encode($this->defaultOptions).');':'');
 		}
 		$cs->registerScript(__CLASS__.'#'.$id,$js);
+	}
+
+	private function _isLangDefault()
+	{
+		return $this->language=='' || $this->language=='en';
 	}
 }
