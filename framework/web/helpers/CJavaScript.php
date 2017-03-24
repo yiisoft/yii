@@ -28,9 +28,14 @@ class CJavaScript
 	public static function quote($js,$forUrl=false)
 	{
 		if($forUrl)
-			return strtr($js,array('%'=>'%25',"\t"=>'\t',"\n"=>'\n',"\r"=>'\r','"'=>'\"','\''=>'\\\'','\\'=>'\\\\','</'=>'<\/'));
+			$js=strtr($js,array('%'=>'%25',"\t"=>'\t',"\n"=>'\n',"\r"=>'\r','"'=>'\"','\''=>'\\\'','\\'=>'\\\\','</'=>'<\/'));
 		else
-			return strtr($js,array("\t"=>'\t',"\n"=>'\n',"\r"=>'\r','"'=>'\"','\''=>'\\\'','\\'=>'\\\\','</'=>'<\/'));
+			$js=strtr($js,array("\t"=>'\t',"\n"=>'\n',"\r"=>'\r','"'=>'\"','\''=>'\\\'','\\'=>'\\\\','</'=>'<\/'));
+
+		$js=str_replace("\xe2\x80\xa8",'\u2028',$js);
+		$js=str_replace("\xe2\x80\xa9",'\u2029',$js);
+
+		return $js;
 	}
 
 	/**
