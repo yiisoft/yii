@@ -97,7 +97,9 @@ class CCaptchaValidator extends CValidator
 		));
 		$code=$captcha->getVerifyCode(false);
 		$hash=$captcha->generateValidationHash($this->caseSensitive ? $code : strtolower($code));
+		$skipOnError = $this->clientValidateSkipOnError();
 		$js="
+$skipOnError
 var hash = jQuery('body').data('{$this->captchaAction}.hash');
 if (hash == null)
 	hash = $hash;

@@ -129,9 +129,11 @@ if (info)
 			$pattern=str_replace('{schemes}','('.implode('|',$this->validSchemes).')',$this->pattern);
 		else
 			$pattern=$this->pattern;
+		$skipOnError = $this->clientValidateSkipOnError();
 
 		$js="
 $validateIDN
+$skipOnError
 if(!value.match($pattern)) {
 	messages.push(".CJSON::encode($message).");
 }

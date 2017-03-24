@@ -114,8 +114,10 @@ class CRangeValidator extends CValidator
 		foreach($this->range as $value)
 			$range[]=(string)$value;
 		$range=CJSON::encode($range);
+		$skipOnError = $this->clientValidateSkipOnError();
 
 		return "
+$skipOnError
 if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').($this->not ? "jQuery.inArray(value, $range)>=0" : "jQuery.inArray(value, $range)<0").") {
 	messages.push(".CJSON::encode($message).");
 }

@@ -141,8 +141,9 @@ class CStringValidator extends CValidator
 			'{attribute}'=>$label,
 			'{max}'=>$this->max,
 		));
+		$skipOnError = $this->clientValidateSkipOnError();
 
-		$js='';
+		$js="$skipOnError";
 		if($this->min!==null)
 		{
 			$js.="

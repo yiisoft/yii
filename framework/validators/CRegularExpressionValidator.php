@@ -88,8 +88,10 @@ class CRegularExpressionValidator extends CValidator
 			$pattern = substr($pattern, 0, $endpos + 1);
 		if (!empty($flag))
 			$pattern .= preg_replace('/[^igm]/', '', $flag);
+		$skipOnError = $this->clientValidateSkipOnError();
 
 		return "
+$skipOnError
 if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').($this->not ? '' : '!')."value.match($pattern)) {
 	messages.push(".CJSON::encode($message).");
 }
