@@ -152,7 +152,7 @@ class CConsoleApplication extends CApplication
 	public function getCommandPath()
 	{
 		$applicationCommandPath = $this->getBasePath().DIRECTORY_SEPARATOR.'commands';
-		if($this->_commandPath===null && file_exists($applicationCommandPath))
+		if($this->_commandPath===null && is_dir($applicationCommandPath))
 			$this->setCommandPath($applicationCommandPath);
 		return $this->_commandPath;
 	}
