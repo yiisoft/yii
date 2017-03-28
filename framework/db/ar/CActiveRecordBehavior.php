@@ -44,7 +44,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * Override this method and make it public if you want to handle the corresponding
 	 * event of the {@link CBehavior::owner owner}.
 	 * You may set {@link CModelEvent::isValid} to be false to quit the saving process.
-	 * @param CModelEvent $event event parameter
+	 * @param CEvent $event event parameter
 	 */
 	protected function beforeSave($event)
 	{
