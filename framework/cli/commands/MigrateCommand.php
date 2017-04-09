@@ -414,11 +414,12 @@ class MigrateCommand extends CConsoleCommand
 		$migration=$this->instantiateMigration($class);
 		if($migration->up()!==false)
 		{
+			sleep(1);
 			$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
 				'version'=>$class,
 				'apply_time'=>time(),
 			));
-			$time=microtime(true)-$start;
+			$time=microtime(true)-$start-1;
 			echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
 		}
 		else
