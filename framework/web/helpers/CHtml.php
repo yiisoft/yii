@@ -2502,7 +2502,7 @@ EOD;
 	 * </ul>
 	 * @return string the generated list options
 	 */
-	public static function listOptions($selection,$listData,&$htmlOptions)
+	public static function listOptions($selection, $listData = array(), &$htmlOptions)
 	{
 		$raw=isset($htmlOptions['encode']) && !$htmlOptions['encode'];
 		$content='';
