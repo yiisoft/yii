@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: cpp.xml,v 1.1 2007/06/03 02:35:28 ssttoo Exp $ -->
+<!-- $Id: cpp.xml,v 1.2 2008-07-31 23:06:30 ssttoo Exp $ -->
 
 <highlight lang="CPP" case="no">
 
@@ -35,10 +35,10 @@ implementation of this highlighter
 
 	<block name="identifier" match="[a-z_]\w*" innerClass="identifier" case="no"/>
 
-  <block name="hexinteger" match="\b0[xX][\da-f]+" innerClass="number" contained="yes"/>
-  <block name="integer" match="\b\d\d*|\b0\b" innerClass="number" contained="yes"/>
-  <block name="octinteger" match="\b0[0-7]+" innerClass="number" contained="yes"/>
-  <block name="float" match="\b(\d*\.\d+)|(\d+\.\d*)" innerClass="number" contained="yes"/>
+  <block name="hexinteger" match="\b0[xX][\da-f]+" innerClass="number"/>
+  <block name="integer" match="\b\d\d*|\b0\b" innerClass="number"/>
+  <block name="octinteger" match="\b0[0-7]+" innerClass="number"/>
+  <block name="float" match="\b(\d*\.\d+)|(\d+\.\d*)" innerClass="number"/>
 
 
   <region name="strincl" delimClass="quotes" innerClass="string" start="&lt;" end="&gt;">

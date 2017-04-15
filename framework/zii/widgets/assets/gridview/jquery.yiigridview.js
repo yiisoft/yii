@@ -72,6 +72,7 @@
 
 			return this.each(function () {
 				var eventType,
+					eventTarget,
 					$grid = $(this),
 					id = $grid.attr('id'),
 					pagerSelector = '#' + id + ' .' + settings.pagerClass.replace(/\s+/g, '.') + ' a',
@@ -99,7 +100,7 @@
 								delete params[settings.ajaxVar];
 
 								var updateUrl = $.param.querystring(url[0], params);
-								window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
+								window.History.pushState({url: updateUrl}, document.title, updateUrl);
 							}
 						} else {
 							$('#' + id).yiiGridView('update', {url: $(this).attr('href')});
@@ -114,11 +115,13 @@
 							return; // only react to enter key
 						} else {
 							eventType = 'keydown';
+							eventTarget = event.target;
 						}
 					} else {
-						// prevent processing for both keydown and change events
-						if (eventType === 'keydown') {
+						// prevent processing for both keydown and change events on the same element
+						if (eventType === 'keydown' && eventTarget === event.target) {
 							eventType = '';
+							eventTarget = null;
 							return;
 						}
 					}
@@ -134,7 +137,7 @@
 						delete params[settings.ajaxVar];
 
 						var updateUrl = $.param.querystring(url.substr(0, url.indexOf('?')), params);
-						window.History.pushState({url: updateUrl}, document.title, decodeURIComponent(updateUrl));
+						window.History.pushState({url: updateUrl}, document.title, updateUrl);
 					} else {
 						$('#' + id).yiiGridView('update', {data: data});
 					}
@@ -324,7 +327,10 @@
 					}
 				} else {
 					if (options.data === undefined) {
-						options.data = $(settings.filterSelector).serialize();
+						options.data = {};
+						$.each($(settings.filterSelector).serializeArray(), function () {
+							options.data[this.name] = this.value;
+						});
 					}
 				}
 				if (settings.csrfTokenName && settings.csrfToken) {

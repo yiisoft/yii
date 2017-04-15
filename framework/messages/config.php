@@ -6,7 +6,7 @@
 return array(
 	'sourcePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'messagePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'messages',
-	'languages'=>array('fi','zh_cn','zh_tw','ca','de','el','es','sv','he','nl','pt','pt_br','ru','it','fr','ja','pl','hu','ro','id','vi','bg','lv','sk','uk','ko_kr','kk','cs','da'),
+	'languages'=>array('ar','bg','bs','ca','cs','da','de','el','es','fa_ir','fi','fr','he','hu','id','it','ja','kk','ko_kr','lt','lv','nl','no','pl','pt','pt_br','ro','ru','sk','sr_sr','sr_yu','sv','ta_in','th','tr','uk','vi','zh_cn','zh_tw'),
 	'fileTypes'=>array('php'),
 	'overwrite'=>true,
 	'exclude'=>array(

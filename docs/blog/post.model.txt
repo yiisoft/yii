@@ -212,4 +212,4 @@ class Post extends CActiveRecord
 Therefore, we can call `Lookup::items('PostStatus')` to get the list of possible post statuses (text strings indexed by the corresponding integer values), and call `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)` to get the string representation of the published status.
 
 
-<div class="revision">$Id$</div>
+

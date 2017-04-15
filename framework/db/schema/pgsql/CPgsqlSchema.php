@@ -416,42 +416,6 @@ EOD;
 	}
 
 	/**
-	 * Builds a SQL statement for creating a new index.
-	 * @param string $name the name of the index. The name will be properly quoted by the method.
-	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
-	 * @param string $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
-	 * by commas. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
-	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
-	 * @return string the SQL statement for creating a new index.
-	 * @since 1.1.6
-	 */
-	public function createIndex($name, $table, $columns, $unique=false)
-	{
-		$cols=array();
-		if (is_string($columns))
-			$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
-		foreach($columns as $col)
-		{
-			if(strpos($col,'(')!==false)
-				$cols[]=$col;
-			else
-				$cols[]=$this->quoteColumnName($col);
-		}
-		if ($unique)
-		{
-			return 'ALTER TABLE ONLY '
-				. $this->quoteTableName($table).' ADD CONSTRAINT '
-				. $this->quoteTableName($name).' UNIQUE ('.implode(', ',$cols).')';
-		}
-		else
-		{
-			return 'CREATE INDEX '
-				. $this->quoteTableName($name).' ON '
-				. $this->quoteTableName($table).' ('.implode(', ',$cols).')';
-		}
-	}
-
-	/**
 	 * Builds a SQL statement for dropping an index.
 	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.

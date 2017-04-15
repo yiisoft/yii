@@ -1,8 +1,8 @@
 <?php
 /**
- * $Horde: framework/Text_Diff/Diff/Mapped.php,v 1.3.2.3 2008/01/04 10:37:27 jan Exp $
+ * $Horde: framework/Text_Diff/Diff/Mapped.php,v 1.3.2.4 2009/01/06 15:23:41 jan Exp $
  *
- * Copyright 2007-2008 The Horde Project (http://www.horde.org/)
+ * Copyright 2007-2009 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
  * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
@@ -15,7 +15,7 @@ class Text_Diff_Mapped extends Text_Diff {
     /**
      * Computes a diff between sequences of strings.
      *
-     * This can be used to compute things like case-insensitive diffs, or diffs
+     * This can be used to compute things like case-insensitve diffs, or diffs
      * which ignore changes in white-space.
      *
      * @param array $from_lines         An array of strings.
@@ -28,7 +28,7 @@ class Text_Diff_Mapped extends Text_Diff {
      * @param array $mapped_to_lines    This array should have the same number
      *                                  of elements as $to_lines.
      */
-    function Text_Diff_Mapped($from_lines, $to_lines,
+    function __construct($from_lines, $to_lines,
                               $mapped_from_lines, $mapped_to_lines)
     {
         assert(count($from_lines) == count($mapped_from_lines));

@@ -23,4 +23,3 @@ database-related tasks, you  can still use your own database libraries in your
 Yii application. As a matter of fact, Yii framework is carefully designed to be
 used together with other third-party libraries.
 
-<div class="revision">$Id$</div>

@@ -17,7 +17,7 @@
  * @author     Andrey Demenev <demenev@gmail.com>
  * @copyright  2004 Andrey Demenev
  * @license    http://www.php.net/license/3_0.txt  PHP License
- * @version    CVS: $Id: generate,v 1.1 2007/06/03 02:35:28 ssttoo Exp $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Text_Highlighter
  */
 
@@ -111,7 +111,7 @@ if ($dir && substr($dir,-1)!='/' && substr($dir,-1)!=='\\' ) {
 
 foreach ($source as $i => $xmlfile)
 {
-    $gen =& new Text_Highlighter_Generator;
+    $gen = new Text_Highlighter_Generator;
     $gen->setInputFile($xmlfile);
     if ($gen->hasErrors()) {
         break;

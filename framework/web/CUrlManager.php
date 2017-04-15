@@ -356,6 +356,8 @@ class CUrlManager extends CApplicationComponent
 	 * Parses the user request.
 	 * @param CHttpRequest $request the request application component
 	 * @return string the route (controllerID/actionID) and perhaps GET parameters in path format.
+	 * @throws CException
+	 * @throws CHttpException
 	 */
 	public function parseUrl($request)
 	{
@@ -502,6 +504,7 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Sets the URL format.
 	 * @param string $value the URL format. It must be either 'path' or 'get'.
+	 * @throws CException
 	 */
 	public function setUrlFormat($value)
 	{
@@ -638,9 +641,18 @@ class CUrlRule extends CBaseUrlRule
 	public $hasHostInfo;
 
 	/**
+	 * Callback for preg_replace_callback in counstructor
+	 */
+	protected function escapeRegexpSpecialChars($matches)
+	{
+		return preg_quote($matches[0]);
+	}
+
+	/**
 	 * Constructor.
 	 * @param string $route the route of the URL (controller/action)
 	 * @param string $pattern the pattern for matching the URL
+	 * @throws CException
 	 */
 	public function __construct($route,$pattern)
 	{
@@ -658,7 +670,6 @@ class CUrlRule extends CBaseUrlRule
 		$this->route=trim($route,'/');
 
 		$tr2['/']=$tr['/']='\\/';
-		$tr['.']='\\.';
 
 		if(strpos($route,'<')!==false && preg_match_all('/<(\w+)>/',$route,$matches2))
 		{
@@ -689,7 +700,10 @@ class CUrlRule extends CBaseUrlRule
 		$this->append=$p!==$pattern;
 		$p=trim($p,'/');
 		$this->template=preg_replace('/<(\w+):?.*?>/','<$1>',$p);
-		$this->pattern='/^'.strtr($this->template,$tr).'\/';
+		$p=$this->template;
+		if(!$this->parsingOnly)
+			$p=preg_replace_callback('/(?<=^|>)[^<]+(?=<|$)/',array($this,'escapeRegexpSpecialChars'),$p);
+		$this->pattern='/^'.strtr($p,$tr).'\/';
 		if($this->append)
 			$this->pattern.='/u';
 		else

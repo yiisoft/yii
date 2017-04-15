@@ -124,19 +124,19 @@ class CDbCriteria extends CComponent
 	 */
 	public $index;
 	/**
-     * @var mixed scopes to apply
+	 * @var mixed scopes to apply
 	 *
-     * This property is effective only when passing criteria to
+	 * This property is effective only when passing criteria to
 	 * the one of the following methods:
-     * <ul>
-     * <li>{@link CActiveRecord::find()}</li>
-     * <li>{@link CActiveRecord::findAll()}</li>
-     * <li>{@link CActiveRecord::findByPk()}</li>
-     * <li>{@link CActiveRecord::findAllByPk()}</li>
-     * <li>{@link CActiveRecord::findByAttributes()}</li>
-     * <li>{@link CActiveRecord::findAllByAttributes()}</li>
-     * <li>{@link CActiveRecord::count()}</li>
-     * </ul>
+	 * <ul>
+	 * <li>{@link CActiveRecord::find()}</li>
+	 * <li>{@link CActiveRecord::findAll()}</li>
+	 * <li>{@link CActiveRecord::findByPk()}</li>
+	 * <li>{@link CActiveRecord::findAllByPk()}</li>
+	 * <li>{@link CActiveRecord::findByAttributes()}</li>
+	 * <li>{@link CActiveRecord::findAllByAttributes()}</li>
+	 * <li>{@link CActiveRecord::count()}</li>
+	 * </ul>
 	 *
 	 * Can be set to one of the following:
 	 * <ul>
@@ -499,8 +499,10 @@ class CDbCriteria extends CComponent
 			$criteria=new self($criteria);
 		if($this->select!==$criteria->select)
 		{
-			if($this->select==='*')
+			if($this->select==='*'||$this->select===false)
 				$this->select=$criteria->select;
+			elseif($criteria->select===false)
+				$this->select=false;
 			elseif($criteria->select!=='*')
 			{
 				$select1=is_string($this->select)?preg_split('/\s*,\s*/',trim($this->select),-1,PREG_SPLIT_NO_EMPTY):$this->select;

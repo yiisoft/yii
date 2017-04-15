@@ -67,4 +67,3 @@ We would like to explain a bit more about the `tablePrefix` property that we set
 > ~~~
 
 
-<div class="revision">$Id$</div>

@@ -23,6 +23,16 @@
 class CApcCache extends CCache
 {
 	/**
+	 * @var boolean whether to use apcu or apc as the underlying caching extension.
+	 * If true {@link http://pecl.php.net/package/apcu apcu} will be used.
+	 * If false {@link http://pecl.php.net/package/apc apc}. will be used.
+	 * Defaults to false.
+	 * @since 1.1.17
+	 */
+	public $useApcu=false;
+
+
+	/**
 	 * Initializes this application component.
 	 * This method is required by the {@link IApplicationComponent} interface.
 	 * It checks the availability of APC.
@@ -31,8 +41,10 @@ class CApcCache extends CCache
 	public function init()
 	{
 		parent::init();
-		if(!extension_loaded('apc'))
-			throw new CException(Yii::t('yii','CApcCache requires PHP apc extension to be loaded.'));
+		$extension=$this->useApcu ? 'apcu' : 'apc';
+		if(!extension_loaded($extension))
+			throw new CException(Yii::t('yii',"CApcCache requires PHP {extension} extension to be loaded.",
+				array('{extension}'=>$extension)));
 	}
 
 	/**
@@ -43,7 +55,7 @@ class CApcCache extends CCache
 	 */
 	protected function getValue($key)
 	{
-		return apc_fetch($key);
+		return $this->useApcu ? apcu_fetch($key) : apc_fetch($key);
 	}
 
 	/**
@@ -53,7 +65,7 @@ class CApcCache extends CCache
 	 */
 	protected function getValues($keys)
 	{
-		return apc_fetch($keys);
+		return $this->useApcu ? apcu_fetch($keys) : apc_fetch($keys);
 	}
 
 	/**
@@ -67,7 +79,7 @@ class CApcCache extends CCache
 	 */
 	protected function setValue($key,$value,$expire)
 	{
-		return apc_store($key,$value,$expire);
+		return $this->useApcu ? apcu_store($key,$value,$expire) : apc_store($key,$value,$expire);
 	}
 
 	/**
@@ -81,7 +93,7 @@ class CApcCache extends CCache
 	 */
 	protected function addValue($key,$value,$expire)
 	{
-		return apc_add($key,$value,$expire);
+		return $this->useApcu ? apcu_add($key,$value,$expire) : apc_add($key,$value,$expire);
 	}
 
 	/**
@@ -92,7 +104,7 @@ class CApcCache extends CCache
 	 */
 	protected function deleteValue($key)
 	{
-		return apc_delete($key);
+		return $this->useApcu ? apcu_delete($key) : apc_delete($key);
 	}
 
 	/**
@@ -103,9 +115,6 @@ class CApcCache extends CCache
 	 */
 	protected function flushValues()
 	{
-		if(extension_loaded('apcu'))
-			return apc_clear_cache();
-
-		return apc_clear_cache('user');
+		return $this->useApcu ? apcu_clear_cache() : apc_clear_cache('user');
 	}
 }

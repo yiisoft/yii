@@ -222,4 +222,3 @@ currently being requested via [CWebService::methodName]. It can return
 false if the remote method should not be invoked for some reason (e.g.
 unauthorized access).
 
-<div class="revision">$Id$</div>

@@ -24,4 +24,3 @@ Additional Requirements for this system include:
  * The system should be themeable.
  * The system should use SEO-friendly URLs.
 
-<div class="revision">$Id$</div>

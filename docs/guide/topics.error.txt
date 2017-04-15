@@ -157,4 +157,4 @@ category would be `exception.ExceptionClassName` (for [CHttpException] its
 category). One can thus exploit the [logging](/doc/guide/topics.logging)
 feature to monitor errors happened during application execution.
 
-<div class="revision">$Id$</div>
+

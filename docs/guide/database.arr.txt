@@ -590,11 +590,11 @@ The above query will bring back all posts together with their approved comments.
 
 Occasionally you may need to retrieve a scoped relationship using a lazy-loading approach, instead of the normal eager loading method shown above.  In that case, the following syntax will do what you need:
 
-~~
+~~~
 [php]
 // note the repetition of the relationship name, which is necessary
 $approvedComments = $post->comments('comments:approved');
-~~
+~~~
 
 Named scopes can also be specified in the `with` option of the relational rules declared in [CActiveRecord::relations()]. In the following example, if we access `$user->posts`, it would bring back all *approved* comments of the posts.
 

@@ -16,7 +16,7 @@ rem @package    Text_Highlighter
 rem @author     Andrey Demenev <demenev@gmail.com>
 rem @copyright  2004 Andrey Demenev
 rem @license    http://www.php.net/license/3_0.txt  PHP License
-rem @version    CVS: $Id: generate.bat,v 1.1 2007/06/03 02:35:28 ssttoo Exp $
+rem @version    CVS: $Id: generate.bat,v 1.1 2007-06-03 02:35:28 ssttoo Exp $
 rem @link       http://pear.php.net/package/Text_Highlighter
 
 set "MHL_PARAMS="
@@ -126,7 +126,7 @@ if ($dir && substr($dir,-1)!='/' && substr($dir,-1)!=='\\' ) {
 
 foreach ($source as $i => $xmlfile)
 {
-    $gen =& new Text_Highlighter_Generator;
+    $gen = new Text_Highlighter_Generator;
     $gen->setInputFile($xmlfile);
     if ($gen->hasErrors()) {
         break;

@@ -99,6 +99,7 @@ class Text_Highlighter_Renderer_Array extends Text_Highlighter_Renderer
     {
         // normalize whitespace and tabs
         $str = str_replace("\r\n","\n", $str);
+        $str = str_replace("\r","\n", $str);
         // some browsers refuse to display empty lines
         $str = preg_replace('~^$~m'," ", $str);
         $str = str_replace("\t",str_repeat(' ', $this->_tabsize), $str);
@@ -141,7 +142,9 @@ class Text_Highlighter_Renderer_Array extends Text_Highlighter_Renderer
      */
     function acceptToken($class, $content)
     {
-
+        if (!is_array($this->_output)) {
+            $this->_output = array();
+        }
 
         $theClass = $this->_getFullClassName($class);
         if ($this->_htmlspecialchars) {

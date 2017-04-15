@@ -10,4 +10,3 @@ Readers of this tutorial are not required to have prior knowledge about Yii. How
 
 This tutorial is released under [the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/).
 
-<div class="revision">$Id$</div>

@@ -162,4 +162,3 @@ protected function newComment($post)
 }
 ~~~
 
-<div class="revision">$Id$</div>

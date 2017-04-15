@@ -142,11 +142,13 @@ class CPostgres2Test extends CTestCase
 		$this->assertEquals($expect, $sql);
 
 		$sql=$this->db->schema->createIndex('id_pk','test','id1,id2',true);
-		$expect='ALTER TABLE ONLY "test" ADD CONSTRAINT "id_pk" UNIQUE ("id1", "id2")';
+		// see https://github.com/yiisoft/yii/issues/3757
+		$expect='CREATE UNIQUE INDEX "id_pk" ON "test" ("id1", "id2")';
 		$this->assertEquals($expect, $sql);
 
 		$sql=$this->db->schema->createIndex('id_pk','test',array('id1','id2'),true);
-		$expect='ALTER TABLE ONLY "test" ADD CONSTRAINT "id_pk" UNIQUE ("id1", "id2")';
+		// see https://github.com/yiisoft/yii/issues/3757
+		$expect='CREATE UNIQUE INDEX "id_pk" ON "test" ("id1", "id2")';
 		$this->assertEquals($expect, $sql);
 	}
 

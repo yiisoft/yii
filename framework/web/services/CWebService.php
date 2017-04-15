@@ -106,6 +106,7 @@ class CWebService extends CComponent
 	/**
 	 * The PHP error handler.
 	 * @param CErrorEvent $event the PHP error event
+	 * @throws CException
 	 */
 	public function handleError($event)
 	{
@@ -236,7 +237,9 @@ class CWebService extends CComponent
 	{
 		if($this->_method===null)
 		{
-			if(isset($HTTP_RAW_POST_DATA))
+			// before PHP 5.6 php://input could be read only once
+			// since PHP 5.6 $HTTP_RAW_POST_DATA is deprecated
+			if(version_compare(PHP_VERSION, '5.6.0', '<') && isset($HTTP_RAW_POST_DATA))
 				$request=$HTTP_RAW_POST_DATA;
 			else
 				$request=file_get_contents('php://input');

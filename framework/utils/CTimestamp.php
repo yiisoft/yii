@@ -67,11 +67,11 @@ class CTimestamp
 		}
 
 		if($month > 2)
-		    $month -= 2;
+			$month -= 2;
 		else
 		{
-		    $month += 10;
-		    $year--;
+			$month += 10;
+			$year--;
 		}
 
 		$day =  floor((13 * $month - 1) / 5) +

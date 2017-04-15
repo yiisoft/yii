@@ -61,6 +61,7 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 	 * @param mixed $data the data to be passed to the view
 	 * @param boolean $return whether the rendering result should be returned
 	 * @return mixed the rendering result, or null if the rendering result is not needed.
+	 * @throws CException
 	 */
 	public function renderFile($context,$sourceFile,$data,$return)
 	{

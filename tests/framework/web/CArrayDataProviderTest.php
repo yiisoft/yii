@@ -202,4 +202,37 @@ class CArrayDataProviderTest extends CTestCase
 
 		$this->assertEquals($sortedProjects, $dataProvider->getData());
 	}
+
+	public function testNestedObjectsSort()
+	{
+		$obj1 = new \stdClass();
+		$obj1->type = "def";
+		$obj1->owner = $obj1;
+		$obj2 = new \stdClass();
+		$obj2->type = "abc";
+		$obj2->owner = $obj2;
+		$obj3 = new \stdClass();
+		$obj3->type = "abc";
+		$obj3->owner = $obj3;
+		$models = array($obj1, $obj2, $obj3);
+
+		$this->assertEquals($obj2, $obj3);
+		$dataProvider = new CArrayDataProvider($models, array(
+			'sort'=>array(
+				'attributes'=>array(
+					'sort'=>array(
+						'asc'=>'type ASC',
+						'desc'=>'type DESC',
+						'label'=>'Type',
+						'default'=>'asc',
+					),
+				),
+				'defaultOrder'=>array(
+					'sort'=>CSort::SORT_ASC,
+				)
+			),
+		));
+		$sortedArray = array($obj2, $obj3, $obj1);
+		$this->assertEquals($sortedArray, $dataProvider->getData());
+	}
 }

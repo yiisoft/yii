@@ -134,7 +134,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * PHP magic method.
-	 * This method is overriden so that persistent states can be accessed like properties.
+	 * This method is overridden so that persistent states can be accessed like properties.
 	 * @param string $name property name
 	 * @return mixed property value
 	 */
@@ -148,9 +148,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * PHP magic method.
-	 * This method is overriden so that persistent states can be set like properties.
+	 * This method is overridden so that persistent states can be set like properties.
 	 * @param string $name property name
 	 * @param mixed $value property value
+	 * @throws CException
 	 */
 	public function __set($name,$value)
 	{
@@ -162,7 +163,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * PHP magic method.
-	 * This method is overriden so that persistent states can also be checked for null value.
+	 * This method is overridden so that persistent states can also be checked for null value.
 	 * @param string $name property name
 	 * @return boolean
 	 */
@@ -176,7 +177,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * PHP magic method.
-	 * This method is overriden so that persistent states can also be unset.
+	 * This method is overridden so that persistent states can also be unset.
 	 * @param string $name property name
 	 * @throws CException if the property is read only.
 	 */
@@ -223,6 +224,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * If greater than 0, cookie-based login will be used. In this case, {@link allowAutoLogin}
 	 * must be set true, otherwise an exception will be thrown.
 	 * @return boolean whether the user is logged in
+	 * @throws CException
 	 */
 	public function login($identity,$duration=0)
 	{

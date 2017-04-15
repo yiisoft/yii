@@ -67,7 +67,7 @@ class CTextHighlighter extends COutputProcessor
 
 	/**
 	 * Processes the captured output.
-     * This method highlights the output according to the syntax of the specified {@link language}.
+	 * This method highlights the output according to the syntax of the specified {@link language}.
 	 * @param string $output the captured output to be processed
 	 */
 	public function processOutput($output)

@@ -94,11 +94,14 @@ class CPropertyValue
 	}
 
 	/**
-	 * Converts a value to array type. If the value is a string and it is
-	 * in the form (a,b,c) then an array consisting of each of the elements
-	 * will be returned. If the value is a string and it is not in this form
-	 * then an array consisting of just the string will be returned. If the value
-	 * is not a string then
+	 * Converts a value to array type.
+	 * 
+	 * If the value is a string and it is in the form (a,b,c) then an array 
+	 * consisting of each of the elements will be returned. If the value is a string 
+	 * and it is not in this form then an array consisting of just the string will be returned,
+	 * if the string is empty an empty array will be returned. 
+	 * If the value is not a string then it will return an array containing that value or
+	 * the same value in case it is already an array.
 	 * @param mixed $value the value to be converted.
 	 * @return array
 	 */
@@ -110,8 +113,14 @@ class CPropertyValue
 			$len = strlen($value);
 			if ($len >= 2 && $value[0] == '(' && $value[$len-1] == ')')
 			{
-				eval('$array=array'.$value.';');
-				return $array;
+				try
+				{
+					return eval('return array' . $value . ';');
+				}
+				catch (ParseError $e)
+				{
+					return array();
+				}
 			}
 			else
 				return $len>0?array($value):array();

@@ -80,7 +80,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.17-dev';
+		return '1.1.18-dev';
 	}
 
 	/**
@@ -179,6 +179,7 @@ class YiiBase
 	 */
 	public static function createComponent($config)
 	{
+		$args = func_get_args();
 		if(is_string($config))
 		{
 			$type=$config;
@@ -197,7 +198,6 @@ class YiiBase
 
 		if(($n=func_num_args())>1)
 		{
-			$args=func_get_args();
 			if($n===2)
 				$object=new $type($args[1]);
 			elseif($n===3)
@@ -434,7 +434,7 @@ class YiiBase
 			else  // class name with namespace in PHP 5.3
 			{
 				$namespace=str_replace('\\','.',ltrim($className,'\\'));
-				if(($path=self::getPathOfAlias($namespace))!==false)
+				if(($path=self::getPathOfAlias($namespace))!==false && is_file($path.'.php'))
 					include($path.'.php');
 				else
 					return false;
@@ -652,6 +652,7 @@ class YiiBase
 		'CApplicationComponent' => '/base/CApplicationComponent.php',
 		'CBehavior' => '/base/CBehavior.php',
 		'CComponent' => '/base/CComponent.php',
+		'CDbStatePersister' => '/base/CDbStatePersister.php',
 		'CErrorEvent' => '/base/CErrorEvent.php',
 		'CErrorHandler' => '/base/CErrorHandler.php',
 		'CException' => '/base/CException.php',

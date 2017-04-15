@@ -11,6 +11,20 @@
 /**
  * CRangeValidator validates that the attribute value is among the list (specified via {@link range}).
  * You may invert the validation logic with help of the {@link not} property (available since 1.1.5).
+ * For example,
+ * <pre>
+ * class QuestionForm extends CFormModel
+ * {
+ *     public function rules()
+ *     {
+ *         return array(
+ *             array('text, tag', 'required'),
+ *             array('text, 'type', 'type' => 'string'),
+ *             array('tag', 'in', 'range' => array('php', 'mysql', 'jquery')),
+ *         );
+ *     }
+ * }
+ * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.validators

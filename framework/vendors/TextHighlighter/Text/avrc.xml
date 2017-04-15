@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+<!-- $Id: avrc.xml,v 1.1 2008-07-31 23:05:38 ssttoo Exp $ -->
+
+<highlight lang="AVRC" case="no">
+
+	<authors>
+        <author name="Andrey Demenev" email="demenev@gmail.com"/>
+	</authors>
+
+	<comment>
+		C/C++ highlighter specific to Atmel AVR microcontrollers
+    </comment>
+
+	<default innerClass="code" />
+
+	<block name="escaped" match="\\" innerClass="special" contained="yes">
+		<onlyin region="strdouble"/>
+	</block>
+
+    <region name="strdouble" delimClass="quotes" innerClass="string" start="&quot;" end="&quot;"/>
+
+	<region name="block" delimClass="brackets" innerClass="code" start="\{" end="\}">
+		<contains all="yes"/>
+	</region>
+
+	<region name="brackets" delimClass="brackets" innerClass="code" start="\(" end="\)">
+		<contains all="yes"/>
+	</region>
+
+	<region name="sqbrackets" delimClass="brackets" innerClass="code" start="\[" end="\]">
+		<contains all="yes"/>
+	</region>
+
+	<block name="identifier" match="[a-z_]\w*" innerClass="identifier" case="no"/>
+
+  <block name="hexinteger" match="\b0[xX][\da-f]+" innerClass="number"/>
+  <block name="integer" match="\b\d\d*|\b0\b" innerClass="number"/>
+  <block name="octinteger" match="\b0[0-7]+" innerClass="number"/>
+  <block name="float" match="\b(\d*\.\d+)|(\d+\.\d*)" innerClass="number"/>
+
+
+  <region name="strincl" delimClass="quotes" innerClass="string" start="&lt;" end="&gt;">
+      <onlyin region="include" />
+  </region>
+
+  <!-- <block name="preprocessor" match="^#[azAZ_]\w*" innerClass="prepro"/> -->
+    <region name="include" innerClass="prepro" start="/^[ \t]*#include/m" end="/(?&lt;!\\)$/m">
+		<contains region="strdouble"/>
+		<contains region="strincl"/>
+	</region>
+
+    <region name="preprocessor" delimClass="prepro"  innerClass="code" start="/^[ \t]*#[ \t]*[a-z]+/mi" end="/(?&lt;!\\)$/m">
+        <contains region="comment"/>
+        <contains region="mlcomment"/>
+		<contains region="strdouble"/>
+        <contains region="brackets"/>
+        <contains region="block"/>
+        <contains block="identifier"/>
+        <contains block="integer"/>
+        <contains block="hexinteger"/>
+        <contains block="octinteger"/>
+        <contains block="float"/>
+
+	</region>
+
+	<block name="number" match="\d*\.?\d+" innerClass="number"/>
+
+
+	<region name="mlcomment" innerClass="mlcomment" start="\/\*" end="\*\/" >
+		<contains block="cvstag"/>
+	</region>
+
+	<block name="cvstag" match="\$\w+\s*:.+\$" innerClass="inlinedoc">
+
+		<onlyin region="mlcomment"/>
+		<onlyin region="comment"/>
+	</block>
+
+	<region name="comment" start="\/\/.+" end="/$/m" innerClass="comment" delimClass="comment">
+		<contains block="cvstag"/>
+    </region>
+
+    <keywords name="reserved" inherits="identifier" innerClass="reserved" case="yes">
+		<keyword match="and" />
+		<keyword match="and_eq" />
+		<keyword match="asm" />
+
+		<keyword match="bitand" />
+		<keyword match="bitor" />
+		<keyword match="break" />
+		<keyword match="case" />
+		<keyword match="catch" />
+		<keyword match="compl" />
+
+		<keyword match="const_cast" />
+		<keyword match="continue" />
+		<keyword match="default" />
+		<keyword match="delete" />
+		<keyword match="do" />
+		<keyword match="dynamic_cast" />
+
+		<keyword match="else" />
+		<keyword match="for" />
+		<keyword match="fortran" />
+		<keyword match="friend" />
+		<keyword match="goto" />
+		<keyword match="if" />
+
+		<keyword match="new" />
+		<keyword match="not" />
+		<keyword match="not_eq" />
+		<keyword match="operator" />
+		<keyword match="or" />
+		<keyword match="or_eq" />
+
+		<keyword match="private" />
+		<keyword match="protected" />
+		<keyword match="public" />
+		<keyword match="reinterpret_cast" />
+		<keyword match="return" />
+		<keyword match="sizeof" />
+
+		<keyword match="static_cast" />
+		<keyword match="switch" />
+		<keyword match="this" />
+		<keyword match="throw" />
+		<keyword match="try" />
+		<keyword match="typeid" />
+
+		<keyword match="using" />
+		<keyword match="while" />
+		<keyword match="xor" />
+		<keyword match="xor_eq" />
+
+        <keyword match="false" />
+		<keyword match="true" />
+	</keywords>
+
+	<keywords name="registers" inherits="identifier" innerClass="reserved" case="yes">
+		<keyword match="ACSR" />
+		<keyword match="ADCH" />
+		<keyword match="ADCL" />
+		<keyword match="ADCSRA" />
+		<keyword match="ADMUX" />
+		<keyword match="ASSR" />
+		<keyword match="DDRA" />
+		<keyword match="DDRB" />
+		<keyword match="DDRC" />
+		<keyword match="DDRD" />
+		<keyword match="DDRE" />
+		<keyword match="DDRF" />
+		<keyword match="DDRG" />
+		<keyword match="EEARH" />
+		<keyword match="EEARL" />
+		<keyword match="EECR" />
+		<keyword match="EEDR" />
+		<keyword match="EICRA" />
+		<keyword match="EICRB" />
+		<keyword match="EIFR" />
+		<keyword match="EIMSK" />
+		<keyword match="ETIFR" />
+		<keyword match="ETIMSK" />
+		<keyword match="GICR" />
+		<keyword match="GIFR" />
+		<keyword match="ICR1H" />
+		<keyword match="ICR1L" />
+		<keyword match="ICR3H" />
+		<keyword match="ICR3L" />
+		<keyword match="MCUCR" />
+		<keyword match="MCUCSR" />
+		<keyword match="OCDR" />
+		<keyword match="OCR0" />
+		<keyword match="OCR1AH" />
+		<keyword match="OCR1AL" />
+		<keyword match="OCR1BH" />
+		<keyword match="OCR1BL" />
+		<keyword match="OCR1CH" />
+		<keyword match="OCR1CL" />
+		<keyword match="OCR2" />
+		<keyword match="OCR3AH" />
+		<keyword match="OCR3AL" />
+		<keyword match="OCR3BH" />
+		<keyword match="OCR3BL" />
+		<keyword match="OCR3CH" />
+		<keyword match="OCR3CL" />
+		<keyword match="OSCCAL" />
+		<keyword match="PINA" />
+		<keyword match="PINB" />
+		<keyword match="PINC" />
+		<keyword match="PIND" />
+		<keyword match="PINE" />
+		<keyword match="PINF" />
+		<keyword match="PING" />
+		<keyword match="PORTA" />
+		<keyword match="PORTB" />
+		<keyword match="PORTC" />
+		<keyword match="PORTD" />
+		<keyword match="PORTE" />
+		<keyword match="PORTF" />
+		<keyword match="PORTG" />
+		<keyword match="RAMPZ" />
+		<keyword match="SFIOR" />
+		<keyword match="SPCR" />
+		<keyword match="SPDR" />
+		<keyword match="SPH" />
+		<keyword match="SPL" />
+		<keyword match="SPMCR" />
+		<keyword match="SPMCSR" />
+		<keyword match="SPSR" />
+		<keyword match="SREG" />
+		<keyword match="TCCR0" />
+		<keyword match="TCCR1A" />
+		<keyword match="TCCR1B" />
+		<keyword match="TCCR1C" />
+		<keyword match="TCCR2" />
+		<keyword match="TCCR3A" />
+		<keyword match="TCCR3B" />
+		<keyword match="TCCR3C" />
+		<keyword match="TCNT0" />
+		<keyword match="TCNT1H" />
+		<keyword match="TCNT1L" />
+		<keyword match="TCNT2" />
+		<keyword match="TCNT3H" />
+		<keyword match="TCNT3L" />
+		<keyword match="TIFR" />
+		<keyword match="TIMSK" />
+		<keyword match="TWAR" />
+		<keyword match="TWBR" />
+		<keyword match="TWCR" />
+		<keyword match="TWDR" />
+		<keyword match="TWSR" />
+		<keyword match="UBRR0H" />
+		<keyword match="UBRR0L" />
+		<keyword match="UBRR1H" />
+		<keyword match="UBRR1L" />
+		<keyword match="UBRRH" />
+		<keyword match="UBRRL" />
+		<keyword match="UCSR0A" />
+		<keyword match="UCSR0B" />
+		<keyword match="UCSR0C" />
+		<keyword match="UCSR1A" />
+		<keyword match="UCSR1B" />
+		<keyword match="UCSR1C" />
+		<keyword match="UCSRA" />
+		<keyword match="UCSRB" />
+		<keyword match="UCSRC" />
+		<keyword match="UDR" />
+		<keyword match="UDR0" />
+		<keyword match="UDR1" />
+		<keyword match="WDTCR" />
+		<keyword match="XDIV" />
+		<keyword match="XMCRA" />
+		<keyword match="XMCRB" />
+	</keywords>
+
+	<keywords name="types" inherits="identifier" innerClass="types" case="yes">
+
+		<keyword match="auto" />
+		<keyword match="bool" />
+		<keyword match="char" />
+		<keyword match="class" />
+		<keyword match="const" />
+		<keyword match="double" />
+
+		<keyword match="enum" />
+		<keyword match="explicit" />
+		<keyword match="export" />
+		<keyword match="extern" />
+		<keyword match="float" />
+		<keyword match="inline" />
+
+		<keyword match="int" />
+		<keyword match="long" />
+		<keyword match="mutable" />
+		<keyword match="namespace" />
+		<keyword match="register" />
+		<keyword match="short" />
+
+		<keyword match="signed" />
+		<keyword match="static" />
+		<keyword match="struct" />
+		<keyword match="template" />
+		<keyword match="typedef" />
+		<keyword match="typename" />
+
+		<keyword match="union" />
+		<keyword match="unsigned" />
+		<keyword match="virtual" />
+		<keyword match="void" />
+		<keyword match="volatile" />
+		<keyword match="wchar_t" />
+
+	</keywords>
+
+	<keywords name="Common Macros" inherits="identifier" innerClass="prepro" case="yes">
+		<keyword match="NULL" />
+		<keyword match="TRUE" />
+		<keyword match="FALSE" />
+		<keyword match="MAX" />
+
+		<keyword match="MIN" />
+		<keyword match="__LINE__" />
+		<keyword match="__DATA__" />
+		<keyword match="__FILE__" />
+		<keyword match="__TIME__" />
+		<keyword match="__STDC__" />
+
+	</keywords>
+
+
+	<!--
+	<keywords name="reserved" inherits="identifier" innerClass="reserved" case="yes">
+	-->
+
+</highlight>
+

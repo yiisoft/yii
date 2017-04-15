@@ -30,6 +30,7 @@
  *             'hostname'=>'localhost',
  *             'port'=>6379,
  *             'database'=>0,
+ *             'options'=>STREAM_CLIENT_CONNECT,
  *         ),
  *     ),
  * )
@@ -60,6 +61,11 @@ class CRedisCache extends CCache
 	 */
 	public $database=0;
 	/**
+	 * @var int the options to pass to the flags parameter of stream_socket_client when connecting to the redis server. Defaults to STREAM_CLIENT_CONNECT.
+	 * @see http://php.net/manual/en/function.stream-socket-client.php
+	 */
+	public $options=STREAM_CLIENT_CONNECT;
+	/**
 	 * @var float timeout to use for connection to redis. If not set the timeout set in php.ini will be used: ini_get("default_socket_timeout")
 	 */
 	public $timeout=null;
@@ -79,7 +85,8 @@ class CRedisCache extends CCache
 			$this->hostname.':'.$this->port,
 			$errorNumber,
 			$errorDescription,
-			$this->timeout ? $this->timeout : ini_get("default_socket_timeout")
+			$this->timeout ? $this->timeout : ini_get("default_socket_timeout"),
+			$this->options
 		);
 		if ($this->_socket)
 		{
@@ -88,7 +95,10 @@ class CRedisCache extends CCache
 			$this->executeCommand('SELECT',array($this->database));
 		}
 		else
+		{
+			$this->_socket = null;
 			throw new CException('Failed to connect to redis: '.$errorDescription,(int)$errorNumber);
+		}
 	}
 
 	/**
@@ -118,7 +128,7 @@ class CRedisCache extends CCache
 		array_unshift($params,$name);
 		$command='*'.count($params)."\r\n";
 		foreach($params as $arg)
-			$command.='$'.strlen($arg)."\r\n".$arg."\r\n";
+			$command.='$'.$this->byteLength($arg)."\r\n".$arg."\r\n";
 
 		fwrite($this->_socket,$command);
 
@@ -155,7 +165,7 @@ class CRedisCache extends CCache
 					if(($block=fread($this->_socket,$length))===false)
 						throw new CException('Failed reading data from redis connection socket.');
 					$data.=$block;
-					$length-=(function_exists('mb_strlen') ? mb_strlen($block,'8bit') : strlen($block));
+					$length-=$this->byteLength($block);
 				}
 				return substr($data,0,-2);
 			case '*': // Multi-bulk replies
@@ -167,6 +177,17 @@ class CRedisCache extends CCache
 			default:
 				throw new CException('Unable to parse data received from redis.');
 		}
+	}
+
+	/**
+	 * Counting amount of bytes in a string.
+	 *
+	 * @param string $str
+	 * @return int
+	 */
+	private function byteLength($str)
+	{
+		return function_exists('mb_strlen') ? mb_strlen($str, '8bit') : strlen($str);
 	}
 
 	/**

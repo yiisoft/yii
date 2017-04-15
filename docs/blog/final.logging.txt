@@ -32,4 +32,3 @@ With the above configuration, if an error or warning occurs, detailed informatio
 The `log` component offers more advanced features, such as sending log messages to a list of email addresses, displaying log messages in JavaScript console window, etc. For more details, please refer to [the Guide](http://www.yiiframework.com/doc/guide/topics.logging).
 
 
-<div class="revision">$Id$</div>

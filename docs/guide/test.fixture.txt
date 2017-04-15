@@ -1,7 +1,7 @@
 Defining Fixtures
 =================
 
-Automated tests need to be executed many times. To ensure the testing process is repeatable, we would like to run the tests in some known state called *fixture*. For example, to test the post creation feature in a blog application, each time when we run the tests, the tables storing relevant data about posts (e.g. the `Post` table, the `Comment` table) should be restored to some fixed state. The [PHPUnit documentation](http://phpunit.de/manual/3.8/en/fixtures.html) has described well about generic fixture setup. In this section, we mainly describe how to set up database fixtures, as we just described in the example.
+Automated tests need to be executed many times. To ensure the testing process is repeatable, we would like to run the tests in some known state called *fixture*. For example, to test the post creation feature in a blog application, each time when we run the tests, the tables storing relevant data about posts (e.g. the `Post` table, the `Comment` table) should be restored to some fixed state. The [PHPUnit documentation](https://phpunit.de/manual/current/en/fixtures.html) has described well about generic fixture setup. In this section, we mainly describe how to set up database fixtures, as we just described in the example.
 
 Setting up database fixtures is perhaps one of the most time-consuming parts in testing database-backed Web applications. Yii introduces the [CDbFixtureManager] application component to alleviate this problem. It basically does the following things when running a set of tests:
 
@@ -57,4 +57,3 @@ It is also possible that we do not like the default way of resetting a table, i.
 
 In the next two sections, we will describe how to make use of the fixtures managed by [CDbFixtureManager] in unit tests and functional tests.
 
-<div class="revision">$Id$</div>
