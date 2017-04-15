@@ -1303,9 +1303,9 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	protected function createCsrfCookie()
 	{
-	    $securityManager=Yii::app()->getSecurityManager();
-        $token=$securityManager->generateRandomBytes(32);
-	    $maskedToken=$securityManager->maskToken($token);
+		$securityManager=Yii::app()->getSecurityManager();
+		$token=$securityManager->generateRandomBytes(32);
+		$maskedToken=$securityManager->maskToken($token);
 		$cookie=new CHttpCookie($this->csrfTokenName,$maskedToken);
 		if(is_array($this->csrfCookie))
 		{
@@ -1350,7 +1350,7 @@ class CHttpRequest extends CApplicationComponent
 
 			if (!empty($maskedUserToken) && $cookies->contains($this->csrfTokenName))
 			{
-			    $securityManager=Yii::app()->getSecurityManager();
+				$securityManager=Yii::app()->getSecurityManager();
 				$maskedCookieToken=$cookies->itemAt($this->csrfTokenName)->value;
 				$cookieToken=$securityManager->unmaskToken($maskedCookieToken);
 				$userToken=$securityManager->unmaskToken($maskedUserToken);
