@@ -20,7 +20,7 @@ Version 1.1.18 under development
 - Enh #4049: Added '//' as a proper beginning of absolute URL in createAbsoluteUrl() method (ksowa)
 - Enh #4075: Added CClientScript::hasPackage() (samdark)
 - Chg #4033: Updated Pear/Text used by Gii so it's PHP 7 compatible (samdark)
-- Chg #4103: Updated HTMLPurifier to version 4.8.0 (samdark)
+- Chg #4103: Updated HTMLPurifier to version 4.9.2 (samdark)
 - Chg: Updated Text_Highlighter to version 0.7.3 (samdark)
 - Chg: Fixed PHP 7.1 incompatibility in Text_Highlighter (cebe)
 
