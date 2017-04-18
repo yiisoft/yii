@@ -4,9 +4,6 @@
 Version 1.1.18 under development
 --------------------------------
 
-- Enh #2819: backported masking of CSRF tokens from Yii 2.0 (samdark)
-- Enh #4049: Added '//' as a proper beginning of absolute URL in createAbsoluteUrl() method (ksowa)
-- Enh #4075: Added CClientScript::hasPackage() (samdark)
 - Bug #4004: Better fix for PostgreSQL Session storage (GuillaumeSmaha)
 - Bug #4015: Fixed bug with missing "disabled" attribute in internally rendered hidden fields (rob006)
 - Bug #4020: Fixed PHP 7 related bug in CCacheHttpSession when destroying not cached sessions (dirx)
@@ -19,6 +16,9 @@ Version 1.1.18 under development
 - Bug #4111: Fixed PHP 7.1 incompatibility with CFileCache when `$embedExpiry=false` (cebe)
 - Bug #4130: Fixed PHP 7 added an interception of the ParseError exception for the eval() usage (devcommiter)
 - Bug #4133: Fixed PHP 7 usage of the func_get_args() functions in YiiBase.php (devcommiter)
+- Enh #2819: backported masking of CSRF tokens from Yii 2.0 (samdark)
+- Enh #4049: Added '//' as a proper beginning of absolute URL in createAbsoluteUrl() method (ksowa)
+- Enh #4075: Added CClientScript::hasPackage() (samdark)
 - Chg #4033: Updated Pear/Text used by Gii so it's PHP 7 compatible (samdark)
 - Chg #4103: Updated HTMLPurifier to version 4.8.0 (samdark)
 - Chg: Updated Text_Highlighter to version 0.7.3 (samdark)
@@ -42,7 +42,6 @@ Version 1.1.17 January 13, 2016
 - Bug #3724: Fixed namespace prefix in WSDL generator for arrayType. (ametad)
 - Bug #3757: Fixed regression in 1.1.16 `CPgsqlSchema::dropIndex()` (samdark)
 - Bug #3764: Fixed regression in 1.1.16, `CEmailValidator::validateValue()` should not allow empty values to pass (cebe)
-- Enh #3812: Added 'validateValue' method to 'CBooleanValidator' class (UA2004)
 - Bug #3833: Fixed `CHttpRequest::sendFile()` range support in case `mbstring.internal_encoding=UTF-8` (MonkeyMaster)
 - Bug #3869: jQuery Yii GridView now doesn't fail when refreshing grid via POST request (a-t)
 - Bug #3879: Numeric labels in CBreadCrumbs reindex after using array_merge (AloneCoder)
@@ -55,6 +54,7 @@ Version 1.1.17 January 13, 2016
 - Enh #3457: CHttpRequest can now detect content type and decode JSON in REST method bodies. (Sibilino)
 - Enh #3686: Wrapper div of hidden fields in CForm now have style `display:none` instead of `visibility:hidden` to not affect the layout (cebe, alaabadran)
 - Enh #3738: It is now possible to override the value of 'required' html option in `CHtml::activeLabelEx()` (matteosistisette)
+- Enh #3812: Added 'validateValue' method to 'CBooleanValidator' class (UA2004)
 - Enh #3827: Added the $options parameter to be used in stream_socket_client in CRedisCache.
 - Enh #3872: Added database-based StatePersister implementation (AloneCoder)
 - Enh #3948: Enhanced CHttpRequest path info extraction for compatibility with PHP 7 (dmitrivereshchagin)
