@@ -4,6 +4,7 @@
 Version 1.1.18 under development
 --------------------------------
 
+- Enh #2819: backported masking of CSRF tokens from Yii 2.0 (samdark)
 - Enh #4049: Added '//' as a proper beginning of absolute URL in createAbsoluteUrl() method (ksowa)
 - Enh #4075: Added CClientScript::hasPackage() (samdark)
 - Bug #4015: Fixed bug with missing "disabled" attribute in internally rendered hidden fields (rob006)
