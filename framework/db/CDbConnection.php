@@ -591,6 +591,7 @@ class CDbConnection extends CApplicationComponent
 	 * This parameter will be passed to the `PDO::quote()` function.
 	 * @return string the properly quoted string.
 	 * @see http://www.php.net/manual/en/function.PDO-quote.php
+     * @since 1.1.18
 	 */
 	public function quoteValueWithType($value, $type)
 	{

@@ -817,7 +817,7 @@ abstract class CActiveRecord extends CModel
 	 * Returns if the current record is new (was never saved to database)
 	 * @return boolean whether the record is new and should be inserted when calling {@link save}.
 	 * This property is automatically set in constructor and {@link populateRecord} and is set
-     * to false right after inserting record to database.
+	 * to false right after inserting record to database.
 	 * Defaults to false, but it will be set to true if the instance is created using
 	 * the new operator.
 	 */
