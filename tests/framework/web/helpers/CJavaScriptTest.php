@@ -22,19 +22,24 @@ class CJavaScriptTest extends CTestCase
         $this->assertEquals("function() { /* callback */ }",$expression);
     }
 
+    private function getUnicodeTestString()
+    {
+        $unicodeChar1 = json_decode('"'.'\u2028'.'"');
+        $unicodeChar2 = json_decode('"'.'\u2029'.'"');
+        return "test {$unicodeChar1}\ntest $unicodeChar2";
+    }
+
     public function testQuote()
     {
-        $input='ro cks!
-            test';
+        $input=$this->getUnicodeTestString();
         $output=CJavaScript::quote($input);
-        $this->assertEquals('ro\u2028cks\x21\x0D\x0A\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20test',$output);
+        $this->assertEquals('test\x20\u2028\x0Atest\x20\u2029',$output);
     }
 
     public function testQuoteForUrl()
     {
-        $input='ro cks!
-            test';
+        $input=$this->getUnicodeTestString();
         $output=CJavaScript::quote($input,true);
-        $this->assertEquals('ro%E2%80%A8cks%21%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20test',$output);
+        $this->assertEquals('test%20%E2%80%A8%0Atest%20%E2%80%A9',$output);
     }
 }
