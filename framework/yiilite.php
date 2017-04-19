@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.18-dev';
+		return '1.1.18';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -71,6 +71,7 @@ class YiiBase
 	}
 	public static function createComponent($config)
 	{
+		$args = func_get_args();
 		if(is_string($config))
 		{
 			$type=$config;
@@ -87,7 +88,6 @@ class YiiBase
 			$type=Yii::import($type,true);
 		if(($n=func_num_args())>1)
 		{
-			$args=func_get_args();
 			if($n===2)
 				$object=new $type($args[1]);
 			elseif($n===3)
@@ -864,7 +864,14 @@ class CComponent
 		if(is_string($_expression_))
 		{
 			extract($_data_);
-			return eval('return '.$_expression_.';');
+			try
+			{
+				return eval('return ' . $_expression_ . ';');
+			}
+			catch (ParseError $e)
+			{
+				return false;
+			}
 		}
 		else
 		{
@@ -1376,7 +1383,7 @@ abstract class CApplication extends CModule
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
 		$url=$this->createUrl($route,$params,$ampersand);
-		if(strpos($url,'http')===0)
+		if(strpos($url,'http')===0 || strpos($url,'//')===0)
 			return $url;
 		else
 			return $this->getRequest()->getHostInfo($schema).$url;
@@ -2932,7 +2939,10 @@ class CHttpRequest extends CApplicationComponent
 	}
 	protected function createCsrfCookie()
 	{
-		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(mt_rand(),true)));
+		$securityManager=Yii::app()->getSecurityManager();
+		$token=$securityManager->generateRandomBytes(32);
+		$maskedToken=$securityManager->maskToken($token);
+		$cookie=new CHttpCookie($this->csrfTokenName,$maskedToken);
 		if(is_array($this->csrfCookie))
 		{
 			foreach($this->csrfCookie as $name=>$value)
@@ -2952,20 +2962,23 @@ class CHttpRequest extends CApplicationComponent
 			switch($method)
 			{
 				case 'POST':
-					$userToken=$this->getPost($this->csrfTokenName);
+					$maskedUserToken=$this->getPost($this->csrfTokenName);
 				break;
 				case 'PUT':
-					$userToken=$this->getPut($this->csrfTokenName);
+					$maskedUserToken=$this->getPut($this->csrfTokenName);
 				break;
 				case 'PATCH':
-					$userToken=$this->getPatch($this->csrfTokenName);
+					$maskedUserToken=$this->getPatch($this->csrfTokenName);
 				break;
 				case 'DELETE':
-					$userToken=$this->getDelete($this->csrfTokenName);
+					$maskedUserToken=$this->getDelete($this->csrfTokenName);
 			}
-			if (!empty($userToken) && $cookies->contains($this->csrfTokenName))
+			if (!empty($maskedUserToken) && $cookies->contains($this->csrfTokenName))
 			{
-				$cookieToken=$cookies->itemAt($this->csrfTokenName)->value;
+				$securityManager=Yii::app()->getSecurityManager();
+				$maskedCookieToken=$cookies->itemAt($this->csrfTokenName)->value;
+				$cookieToken=$securityManager->unmaskToken($maskedCookieToken);
+				$userToken=$securityManager->unmaskToken($maskedUserToken);
 				$valid=$cookieToken===$userToken;
 			}
 			else
@@ -4598,6 +4611,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 	public function getIsStarted()
 	{
+		if(function_exists('session_status'))
+			return session_status()===PHP_SESSION_ACTIVE;
 		return session_id()!=='';
 	}
 	public function getSessionID()
@@ -4934,7 +4949,7 @@ class CHtml
 		$hiddens=array();
 		if(!strcasecmp($method,'get') && ($pos=strpos($url,'?'))!==false)
 		{
-			foreach(explode('&',substr($url,$pos+1)) as $pair)
+			foreach(explode('&',substr(preg_replace('/#.+$/','',$url),$pos+1)) as $pair)
 			{
 				if(($pos=strpos($pair,'='))!==false)
 					$hiddens[]=self::hiddenField(urldecode(substr($pair,0,$pos)),urldecode(substr($pair,$pos+1)),array('id'=>false));
@@ -5158,6 +5173,8 @@ class CHtml
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
 				$uncheckOptions=array('id'=>false);
+			if(!empty($htmlOptions['disabled']))
+				$uncheckOptions['disabled']=$htmlOptions['disabled'];
 			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
 		}
 		else
@@ -5187,6 +5204,8 @@ class CHtml
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
 				$uncheckOptions=array('id'=>false);
+			if(!empty($htmlOptions['disabled']))
+				$uncheckOptions['disabled']=$htmlOptions['disabled'];
 			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
 		}
 		else
@@ -5211,6 +5230,8 @@ class CHtml
 			if(isset($htmlOptions['unselectValue']))
 			{
 				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+				if(!empty($htmlOptions['disabled']))
+					$hiddenOptions['disabled']=$htmlOptions['disabled'];
 				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
 				unset($htmlOptions['unselectValue']);
 			}
@@ -5569,6 +5590,8 @@ EOD;
 		// add a hidden field so that if a model only has a file field, we can
 		// still use isset($_POST[$modelClass]) to detect if the input is submitted
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		return self::hiddenField($htmlOptions['name'],'',$hiddenOptions)
 			. self::activeInputField('file',$model,$attribute,$htmlOptions);
 	}
@@ -5588,6 +5611,8 @@ EOD;
 		else
 			$uncheck='0';
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 		// add a hidden field so that if the radio button is not selected, it still submits a value
 		return $hidden . self::activeInputField('radio',$model,$attribute,$htmlOptions);
@@ -5608,6 +5633,8 @@ EOD;
 		else
 			$uncheck='0';
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 		return $hidden . self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
@@ -5627,6 +5654,8 @@ EOD;
 			if(isset($htmlOptions['unselectValue']))
 			{
 				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+				if(!empty($htmlOptions['disabled']))
+					$hiddenOptions['disabled']=$htmlOptions['disabled'];
 				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
 				unset($htmlOptions['unselectValue']);
 			}
@@ -5655,6 +5684,8 @@ EOD;
 		else
 			$uncheck='';
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
 		return $hidden . self::checkBoxList($name,$selection,$data,$htmlOptions);
 	}
@@ -5674,6 +5705,8 @@ EOD;
 		else
 			$uncheck='';
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
+		if(!empty($htmlOptions['disabled']))
+			$hiddenOptions['disabled']=$htmlOptions['disabled'];
 		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
 		return $hidden . self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
@@ -6541,6 +6574,21 @@ class CClientScript extends CApplicationComponent
 			$baseUrl=$this->getCoreScriptUrl();
 		return $this->coreScripts[$name]['baseUrl']=$baseUrl;
 	}
+	public function hasPackage($name)
+    {
+        if(isset($this->coreScripts[$name]))
+            return true;
+        if(isset($this->packages[$name]))
+            return true;
+        else
+        {
+            if($this->corePackages===null)
+                $this->corePackages=require(YII_PATH.'/web/js/packages.php');
+            if(isset($this->corePackages[$name]))
+                return true;
+        }
+        return false;
+    }
 	public function registerPackage($name)
 	{
 		return $this->registerCoreScript($name);
@@ -6594,6 +6642,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function registerScriptFile($url,$position=null,array $htmlOptions=array())
 	{
+		$params=func_get_args();
 		if($position===null)
 			$position=$this->defaultScriptFilePosition;
 		$this->hasScripts=true;
@@ -6605,12 +6654,12 @@ class CClientScript extends CApplicationComponent
 			$value['src']=$url;
 		}
 		$this->scriptFiles[$position][$url]=$value;
-		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScriptFile',$params);
 		return $this;
 	}
 	public function registerScript($id,$script,$position=null,array $htmlOptions=array())
 	{
+		$params=func_get_args();
 		if($position===null)
 			$position=$this->defaultScriptPosition;
 		$this->hasScripts=true;
@@ -6626,12 +6675,12 @@ class CClientScript extends CApplicationComponent
 		$this->scripts[$position][$id]=$scriptValue;
 		if($position===self::POS_READY || $position===self::POS_LOAD)
 			$this->registerCoreScript('jquery');
-		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScript',$params);
 		return $this;
 	}
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array(),$id=null)
 	{
+		$params=func_get_args();
 		$this->hasScripts=true;
 		if($name!==null)
 			$options['name']=$name;
@@ -6639,12 +6688,12 @@ class CClientScript extends CApplicationComponent
 			$options['http-equiv']=$httpEquiv;
 		$options['content']=$content;
 		$this->metaTags[null===$id?count($this->metaTags):$id]=$options;
-		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
 		return $this;
 	}
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
 	{
+		$params=func_get_args();
 		$this->hasScripts=true;
 		if($relation!==null)
 			$options['rel']=$relation;
@@ -6655,7 +6704,6 @@ class CClientScript extends CApplicationComponent
 		if($media!==null)
 			$options['media']=$media;
 		$this->linkTags[serialize($options)]=$options;
-		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerLinkTag',$params);
 		return $this;
 	}
@@ -8720,6 +8768,14 @@ class CDbConnection extends CApplicationComponent
 			return $value;
 		else  // the driver doesn't support quote (e.g. oci)
 			return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
+	}
+	public function quoteValueWithType($value, $type)
+	{
+		$this->setActive(true);
+		if(($quoted=$this->_pdo->quote($value, $type))!==false)
+			return $quoted;
+		else  // the driver doesn't support quote (e.g. oci)
+			return "'" . addcslashes(str_replace("'", "''", $value), "\000\n\r\\\032") . "'";
 	}
 	public function quoteTableName($name)
 	{

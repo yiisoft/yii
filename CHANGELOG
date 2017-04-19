@@ -1,8 +1,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.18 under development
---------------------------------
+Version 1.1.18 April 19, 2017
+-----------------------------
 
 - Bug #4004: Better fix for PostgreSQL Session storage (GuillaumeSmaha)
 - Bug #4015: Fixed bug with missing "disabled" attribute in internally rendered hidden fields (rob006)
