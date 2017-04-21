@@ -31,6 +31,8 @@ class CPgsqlColumnSchema extends CDbColumnSchema
 			$this->type='double';
 		elseif(preg_match('/(integer|oid|serial|smallint)/',$dbType))
 			$this->type='integer';
+		elseif(strpos($dbType,'bytea')!==false)
+            		$this->type='resource';
 		else
 			$this->type='string';
 	}
