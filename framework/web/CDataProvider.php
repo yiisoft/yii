@@ -235,4 +235,15 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	{
 		$this->_totalItemCount=$value;
 	}
+
+    public function __clone()
+    {
+        if ($this->_pagination !== null) {
+            $this->_pagination = clone $this->_pagination;
+        }
+
+        if ($this->_sort !== null) {
+            $this->_sort = clone $this->_sort;
+        }
+    }
 }
