@@ -28,7 +28,6 @@ matrix:
         - postgresql
         - redis-server
   allow_failures:
-    - php: 7.1
     - php: nightly
     - php: hhvm # run build against hhvm but allow them to fail
 # http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
@@ -37,13 +36,22 @@ services:
   - redis-server
   - memcached
 
+# cache vendor dirs
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
 install:
   - travis_retry composer self-update && composer --version
+  - travis_retry composer update --prefer-dist --no-interaction
 
 before_script:
+  # Disable the HHVM JIT for faster Unit Testing
+  - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo 'hhvm.jit = 0' >> /etc/hhvm/php.ini; fi
   - ./tests/travis/mysql-setup.sh
   - ./tests/travis/postgresql-setup.sh
   - ./tests/travis/memcache-setup.sh
-  - cd tests
 
-script: phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci framework
+script: cd tests && ../vendor/bin/phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci framework
+

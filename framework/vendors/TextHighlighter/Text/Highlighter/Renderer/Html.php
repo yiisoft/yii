@@ -52,11 +52,15 @@ if (!defined('HL_NUMBERS_LI')) {
 /**
  * Use numbered list
  */
-define ('HL_NUMBERS_OL',    1);
+if (!defined('HL_NUMBERS_OL')) {
+    define('HL_NUMBERS_OL', 1);
+}
 /**
  * Use non-numbered list
  */
-define ('HL_NUMBERS_UL',    3);
+if (!defined('HL_NUMBERS_UL')) {
+    define('HL_NUMBERS_UL', 3);
+}
 /**#@-*/
 
 

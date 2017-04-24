@@ -614,4 +614,35 @@ class CSecurityManager extends CApplicationComponent
 			$diff|=(ord($actual[$i])^ord($expected[$i%$expectedLength]));
 		return $diff===0;
 	}
+
+	/**
+	 * Masks a token to make it uncompressible.
+	 * Applies a random mask to the token and prepends the mask used to the result making the string always unique.
+	 * Used to mitigate BREACH attack by randomizing how token is outputted on each request.
+	 * @param string $token An unmasked token.
+	 * @return string A masked token.
+	 * @since 1.1.18
+	 */
+	public function maskToken($token)
+	{
+		// The number of bytes in a mask is always equal to the number of bytes in a token.
+		$mask=$this->generateRandomString($this->strlen($token));
+		return strtr(base64_encode($mask.($mask^$token)),'+/','-_');
+	}
+
+	/**
+	 * Unmasks a token previously masked by `maskToken`.
+	 * @param string $maskedToken A masked token.
+	 * @return string An unmasked token, or an empty string in case of token format is invalid.
+	 * @since 1.1.18
+	 */
+	public function unmaskToken($maskedToken)
+	{
+		$decoded=base64_decode(strtr($maskedToken,'-_','+/'));
+		$length=$this->strlen($decoded)/2;
+		// Check if the masked token has an even length.
+		if(!is_int($length))
+			return '';
+		return $this->substr($decoded,$length,$length)^$this->substr($decoded,0,$length);
+	}
 }

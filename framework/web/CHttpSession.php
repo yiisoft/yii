@@ -152,7 +152,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function getIsStarted()
 	{
 		if(function_exists('session_status'))
-			return session_status() === PHP_SESSION_ACTIVE;
+			return session_status()===PHP_SESSION_ACTIVE;
 		return session_id()!=='';
 	}
 

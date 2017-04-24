@@ -113,8 +113,14 @@ class CPropertyValue
 			$len = strlen($value);
 			if ($len >= 2 && $value[0] == '(' && $value[$len-1] == ')')
 			{
-				eval('$array=array'.$value.';');
-				return $array;
+				try
+				{
+					return eval('return array' . $value . ';');
+				}
+				catch (ParseError $e)
+				{
+					return array();
+				}
 			}
 			else
 				return $len>0?array($value):array();

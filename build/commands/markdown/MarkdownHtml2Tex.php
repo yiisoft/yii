@@ -219,7 +219,7 @@ TEX;
 
 		$html = preg_replace_callback('/<img\s+src="([^"]+)"\s+alt="([^"]+)"[^>]*\/>/', array($this, 'include_image'), $html);
 
-		$html = preg_replace_callback('#<div class="hl-code">((.|\n)*?)</div>#', array($this, 'escape_syntax'), $html);
+		$html = preg_replace_callback('#<div class="hl-code">(.*?alltt\})</div>#s', array($this, 'escape_syntax'), $html);
 		$html = preg_replace_callback('/<code>([^<]*)<\/code>/', array($this,'escape_verb'), $html);
 		$html = preg_replace_callback('/<pre>([^<]*)<\/pre>/', array($this,'escape_verbatim'), $html);
 
@@ -238,12 +238,16 @@ TEX;
 		$html = preg_replace('/<\/dl>/', '\end{description}', $html);
 
 		//item lists
-		$html = preg_replace('/<ul[^>]*>/', '\begin{itemize}', $html);
-		$html = preg_replace('/<\/ul>/', '\end{itemize}', $html);
-		$html = preg_replace('/<ol[^>]*>/', '\begin{enumerate}', $html);
-		$html = preg_replace('/<\/ol>/', '\end{enumerate}', $html);
-		$html = preg_replace('/<li[^>]*>/', '\item ', $html);
-		$html = preg_replace('/<\/li>/', '', $html);
+		// repeated 3 times to support nested lists up to 3 levels :-/
+		$html = preg_replace('/^<ul[^>]*>(.*?(?R)?.*?)<\/ul>/ms', '\begin{itemize}\1\end{itemize}', $html);
+		$html = preg_replace('/^<ul[^>]*>(.*?(?R)?.*?)<\/ul>/ms', '\begin{itemize}\1\end{itemize}', $html);
+		$html = preg_replace('/^<ul[^>]*>(.*?(?R)?.*?)<\/ul>/ms', '\begin{itemize}\1\end{itemize}', $html);
+		$html = preg_replace('/^<ol[^>]*>(.*?(?R)?.*?)<\/ol>/ms', '\begin{enumerate}\1\end{enumerate}', $html);
+		$html = preg_replace('/^<ol[^>]*>(.*?(?R)?.*?)<\/ol>/ms', '\begin{enumerate}\1\end{enumerate}', $html);
+		$html = preg_replace('/^<ol[^>]*>(.*?(?R)?.*?)<\/ol>/ms', '\begin{enumerate}\1\end{enumerate}', $html);
+		$html = preg_replace('/<li[^>]*>(.*?(?R)?.*?)<\/li>/s', '\item \1', $html);
+		$html = preg_replace('/<li[^>]*>(.*?(?R)?.*?)<\/li>/s', '\item \1', $html);
+		$html = preg_replace('/<li[^>]*>(.*?(?R)?.*?)<\/li>/s', '\item \1', $html);
 
 		//headings
 		$html = preg_replace_callback('/<h(1|2|3)\s+id="([^"]+)"[^>]*>([^<]+)<\/h(1|2|3)>/', array($this, 'make_sections'), $html);

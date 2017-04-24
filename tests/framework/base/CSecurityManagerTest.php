@@ -248,4 +248,25 @@ class CSecurityManagerTest extends CTestCase
 		$sm=new CSecurityManager;
 		$this->assertEquals(strcmp($expected,$actual)===0,$sm->compareString($expected,$actual));
 	}
+
+	/**
+	 * @dataProvider maskProvider
+	 */
+	public function testMasking($unmaskedToken)
+	{
+		$sm=new CSecurityManager;
+		$this->assertEquals($unmaskedToken,$sm->unmaskToken($sm->maskToken($unmaskedToken)));
+	}
+
+	/**
+	 * @return array
+	 */
+	public function maskProvider()
+	{
+		return array(
+			array('SimpleToken'),
+			array('Token with special characters: %d1    5"'),
+			array('Token with UTF8 character: †'),
+		);
+	}
 }

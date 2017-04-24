@@ -20,7 +20,7 @@
  *         return array(
  *             array('text, tag', 'required'),
  *             array('text, 'type', 'type' => 'string'),
- *             array('tag, 'in', 'range' => array('php', 'mysql', 'jquery')),
+ *             array('tag', 'in', 'range' => array('php', 'mysql', 'jquery')),
  *         );
  *     }
  * }

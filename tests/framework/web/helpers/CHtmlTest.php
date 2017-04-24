@@ -98,8 +98,8 @@ class CHtmlTest extends CTestCase
 		return array(
 				array("index", "get", array(), '<form action="index" method="get">'),
 				array("index", "post", array(), '<form action="index" method="post">'),
-				array("index?myFirstParam=3&mySecondParam=true", "get", array(),
-"<form action=\"index?myFirstParam=3&amp;mySecondParam=true\" method=\"get\">\n".
+				array("index?myFirstParam=3&mySecondParam=true#anchor", "get", array(),
+"<form action=\"index?myFirstParam=3&amp;mySecondParam=true#anchor\" method=\"get\">\n".
 "<input type=\"hidden\" value=\"3\" name=\"myFirstParam\" />\n".
 "<input type=\"hidden\" value=\"true\" name=\"mySecondParam\" />"),
 
@@ -1023,7 +1023,7 @@ class CHtmlTest extends CTestCase
 			array('link-button', array(), '<a href="#" id="yt0">link-button</a>',
 				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
 			array('link-button', array('href'=>'http://yiiframework.com/'), '<a href="#" id="yt0">link-button</a>',
-				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'http://yiiframework.com/',{});return false;});"),
+				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'http\\x3A\\x2F\\x2Fyiiframework.com\\x2F',{});return false;});"),
 		);
 	}
 
@@ -1041,7 +1041,7 @@ class CHtmlTest extends CTestCase
 
 		$output='';
 		Yii::app()->getClientScript()->renderBodyEnd($output);
-		$this->assertTrue(mb_strpos($output, $clientScriptOutput)!==false);
+		$this->assertContains($clientScriptOutput, $output);
 	}
 
 	public function testAjaxCallbacks()

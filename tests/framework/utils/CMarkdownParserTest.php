@@ -1,16 +1,13 @@
 <?php
 
 /**
- *
- *
  * @author Carsten Brandt <mail@cebe.cc>
  */
 class CMarkdownParserTest extends CTestCase
 {
-
-    public function testUTF8()
-    {
-        $markdown = <<<'MARKDOWN'
+	public function testUTF8()
+	{
+		$markdown = <<<'MARKDOWN'
 ~~~
 [php]
 
@@ -34,12 +31,12 @@ function oGetMessage($key, $fields) {
 ~~~
 MARKDOWN;
 
-        $parser = new CMarkdownParser();
+		$parser=new CMarkdownParser;
 
-        $output = $parser->safeTransform($markdown);
+		$output=$parser->safeTransform($markdown);
 
-        $this->assertContains('<pre>', $output);
-        $this->assertContains('Ошибка обновления типа почтового события', $output);
-    }
+		$this->assertContains('<pre>',$output);
+		$this->assertContains('Ошибка обновления типа почтового события',$output);
+	}
 
 }

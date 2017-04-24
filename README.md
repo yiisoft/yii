@@ -5,6 +5,9 @@ Thank you for choosing Yii - a high-performance component-based PHP framework.
 
 [![Build Status](https://secure.travis-ci.org/yiisoft/yii.png)](http://travis-ci.org/yiisoft/yii)
 
+> Note that Yii 1.1 [has reached end of life](http://www.yiiframework.com/news/90/update-on-yii-1-1-support-and-end-of-life/)
+  and won't receive updates except security fixes. Please start new projects using [Yii 2](https://github.com/yiisoft/yii2).
+
 INSTALLATION
 ------------
 

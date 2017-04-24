@@ -583,6 +583,26 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Quotes a value for use in a query using a given type.
+	 * @param mixed $value the value to be quoted.
+	 * @param integer $type The type to be used for quoting.
+	 * This should be one of the `PDO::PARAM_*` constants described in
+	 * {@link http://www.php.net/manual/en/pdo.constants.php PDO documentation}.
+	 * This parameter will be passed to the `PDO::quote()` function.
+	 * @return string the properly quoted string.
+	 * @see http://www.php.net/manual/en/function.PDO-quote.php
+     * @since 1.1.18
+	 */
+	public function quoteValueWithType($value, $type)
+	{
+		$this->setActive(true);
+		if(($quoted=$this->_pdo->quote($value, $type))!==false)
+			return $quoted;
+		else  // the driver doesn't support quote (e.g. oci)
+			return "'" . addcslashes(str_replace("'", "''", $value), "\000\n\r\\\032") . "'";
+	}
+
+	/**
 	 * Quotes a table name for use in a query.
 	 * If the table name contains schema prefix, the prefix will also be properly quoted.
 	 * @param string $name table name
