@@ -55,7 +55,7 @@
 			"email": "jefftulsa@gmail.com",
 			"role": "Documentation and marketing"
 		}
-		
+
 	],
 	"support": {
 		"issues": "https://github.com/yiisoft/yii/issues?state=open",
@@ -67,11 +67,6 @@
 	"bin": [
 		"framework/yiic"
 	],
-	"archive": {
-		"exclude": [
-			"demos"
-		]
-	},
 	"require": {
 		"php": ">=5.1.0"
 	},

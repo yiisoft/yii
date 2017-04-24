@@ -22,9 +22,13 @@
 *.ttf  binary
 
 # Ignore all test and documentation for archive
-/.gitattributes     export-ignore
-/.gitignore         export-ignore
-/.travis.yml        export-ignore
-/tests              export-ignore
-/docs               export-ignore
-/build              export-ignore
+/.gitattributes        export-ignore
+/.gitignore            export-ignore
+/.travis.yml           export-ignore
+/tests                 export-ignore
+/docs                  export-ignore
+/build                 export-ignore
+/demos                 export-ignore
+/requirements          export-ignore
+/demos                 export-ignore
+/framework/yiilite.php export-ignore
