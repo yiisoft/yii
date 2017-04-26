@@ -1,5 +1,5 @@
 {
-	"name": "yiisoft/yii",
+	"name": "intersvyaz/yii",
 	"description": "Yii Web Programming Framework",
 	"keywords": ["yii", "framework"],
 	"homepage": "http://www.yiiframework.com/",
@@ -74,6 +74,12 @@
 	},
 	"require": {
 		"php": ">=5.1.0"
+	},
+	"replace": {
+		"yiisoft/yii": "~1.1"
+	},
+	"conflict": {
+		"yiisoft/yii": "~1.1"
 	},
 	"autoload": {
 		"classmap" : [

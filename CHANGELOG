@@ -31,6 +31,8 @@ Version 1.1.18 April 19, 2017
 
 Version 1.1.17 January 13, 2016
 ------------------------------
+- Enh #3737: Added method CModel::load() to populate the model with the data from end user (psrustik)
+- Bug #3745: Fixed delete operation in gridview with non-ajax mode (psrustik)
 - Bug #1191: Fixed undefined index in CListIterator when data removed in parent CList (steven-hadfield)
 - Bug #2881: CGridView was blocking refresh on filter field change event after previous filtering using ENTER key (sivir)
 - Bug #2921: Fixed CStatePersister read/write concurrency issue causing state data corruption (matteosistisette, samdark)

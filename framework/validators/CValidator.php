@@ -109,6 +109,26 @@ abstract class CValidator extends CComponent
 	public $enableClientValidation=true;
 
 	/**
+	 * @var callable a PHP callable whose return value determines whether this validator should be applied.
+	 * The signature of the callable should be `function ($model, $attribute)`, where `$model` and `$attribute`
+	 * refer to the model and the attribute currently being validated. The callable should return a boolean value.
+	 *
+	 * This property is mainly provided to support conditional validation on the server side.
+	 * If this property is not set, this validator will be always applied on the server side.
+	 *
+	 * The following example will enable the validator only when the country currently selected is USA:
+	 *
+	 * ```php
+	 * function ($model) {
+	 *     return $model->country == Country::USA;
+	 * }
+	 * ```
+	 * @since 1.1.17
+	 */
+	public $when;
+
+
+	/**
 	 * Validates a single attribute.
 	 * This method should be overridden by child classes.
 	 * @param CModel $object the data object being validated
@@ -164,6 +184,8 @@ abstract class CValidator extends CComponent
 			$validator->params=$params;
 			if(isset($params['skipOnError']))
 				$validator->skipOnError=$params['skipOnError'];
+			if(isset($params['when']))
+				$validator->when=$params['when'];
 		}
 		else
 		{
@@ -198,7 +220,10 @@ abstract class CValidator extends CComponent
 		foreach($attributes as $attribute)
 		{
 			if(!$this->skipOnError || !$object->hasErrors($attribute))
-				$this->validateAttribute($object,$attribute);
+				if($this->when === null || call_user_func_array($this->when, array($object, $attribute)))
+				{
+					$this->validateAttribute($object, $attribute);
+				}
 		}
 	}
 

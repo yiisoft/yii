@@ -165,6 +165,35 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
+	 * Populates the model with the data from end user.
+	 * The data to be loaded is `$data[formName]`, where `formName` refers to the value of [[formName()]].
+	 * If [[formName()]] is empty, the whole `$data` array will be used to populate the model.
+	 * The data being populated is subject to the safety check by [[setAttributes()]].
+	 * @param array $data the data array. This is usually `$_POST` or `$_GET`, but can also be any valid array
+	 * supplied by end user.
+	 * @param string $formName the form name to be used for loading the data into the model.
+	 * If not set, [[ CHtml::modelName()]] will be used.
+	 * @return boolean whether the model is successfully populated with some data.
+	 * @since 1.1.17
+	 */
+	public function load($data, $formName = null)
+	{
+		$scope = $formName === null ? CHtml::modelName($this) : $formName;
+		if($scope === '' && !empty($data))
+		{
+			$this->setAttributes($data);
+			return true;
+		}
+		elseif(isset($data[$scope]))
+		{
+			$this->setAttributes($data[$scope]);
+			return true;
+		}
+		else
+			return false;
+	}
+
+	/**
 	 * This method is invoked after a model instance is created by new operator.
 	 * The default implementation raises the {@link onAfterConstruct} event.
 	 * You may override this method to do postprocessing after model creation.
@@ -303,7 +332,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		foreach($this->getValidators($attribute) as $validator)
 		{
-			if($validator instanceof CRequiredValidator)
+			if($validator instanceof CRequiredValidator && $validator->when === null)
 				return true;
 		}
 		return false;

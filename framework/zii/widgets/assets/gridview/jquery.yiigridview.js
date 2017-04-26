@@ -360,6 +360,15 @@
 						$form = $('<form action="' + options.url + '" method="post"></form>').appendTo('body');
 						if (options.data === undefined) {
 							options.data = {};
+						} else if (typeof options.data == 'string') {
+							var map = {};
+							$.each(options.data.split("&"), function () {
+								var nv = this.split("="),
+									n = decodeURIComponent(nv[0]),
+									v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
+								map[n] = v;
+							});
+							options.data = map;
 						}
 
 						if (options.data.returnUrl === undefined) {

@@ -239,4 +239,23 @@ class CModelTest extends CTestCase
 				$e->getMessage());
 		}
 	}
+
+	public function testLoad()
+	{
+		$model = new NewModel();
+		$post = array('NewModel' => array('attr1' => 'value1', 'attr2' => 'value2'), 'yt0' => '');
+		$this->assertTrue($model->load($post));
+		$this->assertEquals('value1', $model->attr1);
+		$this->assertEquals('value2', $model->attr2);
+
+		$model->unsetAttributes();
+		$data = array('attr2' => 'value2');
+		$this->assertTrue($model->load($data, ''));
+		$this->assertEquals('value2', $model->attr2);
+
+		$model->unsetAttributes();
+		$data = array('modelName'=>array('attr1'=>'value1'));
+		$this->assertFalse($model->load($data, 'bad_form_name'));
+		$this->assertNull($model->attr1);
+	}
 }
