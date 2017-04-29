@@ -31,7 +31,14 @@ $.yii = {
 		$.each(params, function(name, value) {
 			var input = document.createElement("input");
 			input.setAttribute("type", "hidden");
-			input.setAttribute("name", name);
+
+			// jQuery restriction workaround is used here
+			// see this note from the jQuery docs (http://api.jquery.com/submit/):
+			// forms and their child elements should not use input names or ids that conflict with
+			// properties of a form, such as submit, length, or method
+			// name conflicts can cause confusing failures
+			input.setAttribute("name", name == 'submit' ? 'submit-element' : name);
+
 			input.setAttribute("value", value);
 			f.appendChild(input);
 			inputs.push(input);

@@ -513,6 +513,7 @@ Version 1.1.11 July 29, 2012
 - Bug #178: webapp creation with relative paths like ../ was not working correctly (cebe)
 - Bug #193: Changed datetime column type for postgresql from 'time' to 'timestamp' (cebe)
 - Bug #238: Fixed the problem that empty row could be selected in CGridView when there was no data (mdomba)
+- Bug #250: Fixed: CForm button with type == link does not work (resurtm)
 - Bug #295: Sometimes CJSON::decode returns null because native json_encode has bugs and returns null. Workaround to continue decoding when result of json_decode is null (luislobo)
 - Bug #381: Fixed the bug that Gii model name input could get misspelled when autocomplete is used (mdomba)
 - Bug #417: CAttributeCollections::mergeWith() does not take into account the caseSensitive (dmtrs)
