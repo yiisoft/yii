@@ -527,30 +527,33 @@ class CSecurityManager extends CApplicationComponent
 	 */
 	protected function validateEncryptionKey($key)
 	{
-		if(is_string($key))
-		{
-			$cryptAlgorithm = is_array($this->cryptAlgorithm) ? $this->cryptAlgorithm[0] : $this->cryptAlgorithm;
+        if ($this->validateEncryptionKey) {
 
-			$supportedKeyLengths=mcrypt_module_get_supported_key_sizes($cryptAlgorithm);
-
-			if($supportedKeyLengths)
+			if(is_string($key))
 			{
-				if(!in_array($this->strlen($key),$supportedKeyLengths)) {
-					throw new CException(Yii::t('yii','Encryption key length can be {keyLengths}.',array('{keyLengths}'=>implode(',',$supportedKeyLengths))));
+				$cryptAlgorithm = is_array($this->cryptAlgorithm) ? $this->cryptAlgorithm[0] : $this->cryptAlgorithm;
+	
+				$supportedKeyLengths=mcrypt_module_get_supported_key_sizes($cryptAlgorithm);
+	
+				if($supportedKeyLengths)
+				{
+					if(!in_array($this->strlen($key),$supportedKeyLengths)) {
+						throw new CException(Yii::t('yii','Encryption key length can be {keyLengths}.',array('{keyLengths}'=>implode(',',$supportedKeyLengths))));
+					}
 				}
-			}
-			elseif(isset(self::$encryptionKeyMinimumLengths[$cryptAlgorithm]))
-			{
-				$minLength=self::$encryptionKeyMinimumLengths[$cryptAlgorithm];
-				$maxLength=mcrypt_module_get_algo_key_size($cryptAlgorithm);
-				if($this->strlen($key)<$minLength || $this->strlen($key)>$maxLength)
-					throw new CException(Yii::t('yii','Encryption key length must be between {minLength} and {maxLength}.',array('{minLength}'=>$minLength,'{maxLength}'=>$maxLength)));
+				elseif(isset(self::$encryptionKeyMinimumLengths[$cryptAlgorithm]))
+				{
+					$minLength=self::$encryptionKeyMinimumLengths[$cryptAlgorithm];
+					$maxLength=mcrypt_module_get_algo_key_size($cryptAlgorithm);
+					if($this->strlen($key)<$minLength || $this->strlen($key)>$maxLength)
+						throw new CException(Yii::t('yii','Encryption key length must be between {minLength} and {maxLength}.',array('{minLength}'=>$minLength,'{maxLength}'=>$maxLength)));
+				}
+				else
+					throw new CException(Yii::t('yii','Failed to validate key. Supported key lengths of cipher not known.'));
 			}
 			else
-				throw new CException(Yii::t('yii','Failed to validate key. Supported key lengths of cipher not known.'));
-		}
-		else
-			throw new CException(Yii::t('yii','Encryption key should be a string.'));
+				throw new CException(Yii::t('yii','Encryption key should be a string.'));
+        }
 	}
     
 	/**
