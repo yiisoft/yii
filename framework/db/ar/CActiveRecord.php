@@ -654,16 +654,23 @@ abstract class CActiveRecord extends CModel
 		return isset($this->getMetaData()->relations[$name]) ? $this->getMetaData()->relations[$name] : null;
 	}
 
-	/**
-	 * Returns the metadata of the table that this AR belongs to
-	 * @return CDbTableSchema the metadata of the table that this AR belongs to
-	 */
-	public function getTableSchema()
-	{
-		return $this->getMetaData()->tableSchema;
-	}
+    /**
+     * Returns the metadata of the table that this AR belongs to
+     *
+     * @return \CDbTableSchema the metadata of the table that this AR belongs to
+     * @throws \CDbException
+     */
+    public function getTableSchema()
+    {
+        $metadata = $this->getMetaData();
+        if ($metadata === null) {
+            throw new CDbException('Table metadata is null');
+        }
 
-	/**
+        return $metadata->tableSchema;
+    }
+
+    /**
 	 * Returns the command builder used by this AR.
 	 * @return CDbCommandBuilder the command builder used by this AR
 	 */
@@ -2389,7 +2396,7 @@ class CActiveRecordMetaData
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
 				array('{class}'=>$this->_modelClassName,'{table}'=>$tableName)));
-				
+
 		if(($modelPk=$model->primaryKey())!==null || $table->primaryKey===null)
 		{
 			$table->primaryKey=$modelPk;
