@@ -69,13 +69,13 @@ class CDbCommand extends CComponent
 	 */
 	public $params=array();
 
-	private $_connection;
+	protected $_connection;
 	private $_text;
     /**
      * @var \PDOStatement $_statement
      */
 	private $_statement;
-	private $_paramLog=array();
+	protected $_paramLog=array();
 	private $_query;
 	private $_fetchMode = array(PDO::FETCH_ASSOC);
 
