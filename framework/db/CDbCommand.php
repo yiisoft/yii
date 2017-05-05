@@ -71,6 +71,9 @@ class CDbCommand extends CComponent
 
 	private $_connection;
 	private $_text;
+    /**
+     * @var \PDOStatement $_statement
+     */
 	private $_statement;
 	private $_paramLog=array();
 	private $_query;
@@ -467,7 +470,7 @@ class CDbCommand extends CComponent
 	 * @throws CDbException if CDbCommand failed to execute the SQL statement
 	 * @return mixed the method execution result
 	 */
-	private function queryInternal($method,$mode,$params=array())
+	protected function queryInternal($method,$mode,$params=array())
 	{
 		$params=array_merge($this->params,$params);
 
@@ -483,20 +486,21 @@ class CDbCommand extends CComponent
 
 		Yii::trace('Querying SQL: '.$this->getText().$par,'system.db.CDbCommand');
 
-		if($this->_connection->queryCachingCount>0 && $method!==''
-				&& $this->_connection->queryCachingDuration>0
-				&& $this->_connection->queryCacheID!==false
-				&& ($cache=Yii::app()->getComponent($this->_connection->queryCacheID))!==null)
-		{
-			$this->_connection->queryCachingCount--;
-			$cacheKey='yii:dbquery'.':'.$method.':'.$this->_connection->connectionString.':'.$this->_connection->username;
-			$cacheKey.=':'.$this->getText().':'.serialize(array_merge($this->_paramLog,$params));
-			if(($result=$cache->get($cacheKey))!==false)
-			{
-				Yii::trace('Query result found in cache','system.db.CDbCommand');
-				return $result[0];
-			}
-		}
+        if ($this->_connection->queryCachingCount > 0 && $method !== ''
+            && $this->_connection->queryCachingDuration > 0
+            && $this->_connection->queryCacheID !== false
+            && ($cache = Yii::app()->getComponent($this->_connection->queryCacheID)) !== null
+        ) {
+            $this->_connection->queryCachingCount--;
+
+            $cacheKey = $this->getCacheKey($method, $params);
+            /* @var \ICache $cache */
+            if (($result = $cache->get($cacheKey)) !== false) {
+                Yii::trace('Query result found in cache', 'system.db.CDbCommand');
+
+                return $result[0];
+            }
+        }
 
 		try
 		{
@@ -545,7 +549,24 @@ class CDbCommand extends CComponent
 		}
 	}
 
-	/**
+    /**
+     * Build a Cache key to store/retrieve query execution result
+     *
+     * @param string $queryMethod
+     * @param array  $queryParams
+     *
+     * @return string
+     */
+    protected function getCacheKey($queryMethod, $queryParams)
+    {
+        $cacheKey = 'yii:dbquery' . ':' . $queryMethod . ':' . $this->_connection->connectionString . ':'
+            . $this->_connection->username;
+        $cacheKey .= ':' . $this->getText() . ':' . serialize(array_merge($this->_paramLog, $queryParams));
+
+        return $cacheKey;
+    }
+
+    /**
 	 * Builds a SQL SELECT statement from the given query specification.
 	 * @param array $query the query specification in name-value pairs. The following
 	 * query options are supported: {@link select}, {@link distinct}, {@link from},
