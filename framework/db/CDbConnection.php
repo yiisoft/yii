@@ -266,12 +266,12 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $pdoClass = 'PDO';
 
-	private $_driverName;
-	private $_attributes=array();
-	private $_active=false;
-	private $_pdo;
-	private $_transaction;
-	private $_schema;
+	protected $_driverName;
+	protected $_attributes=array();
+	protected $_active=false;
+	protected $_pdo;
+	protected $_transaction;
+	protected $_schema;
 
 
 	/**
