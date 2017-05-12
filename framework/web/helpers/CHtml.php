@@ -1366,7 +1366,7 @@ EOD;
 			$options['cache']=false;
 		if(!isset($options['data']) && isset($options['type']))
 			$options['data']=new CJavaScriptExpression('jQuery(this).parents("form").serialize()');
-		foreach(array('beforeSend','complete','error','success') as $name)
+		foreach(array('beforeSend','complete','error','success','data') as $name)
 		{
 			if(isset($options[$name]) && !($options[$name] instanceof CJavaScriptExpression))
 				$options[$name]=new CJavaScriptExpression($options[$name]);
