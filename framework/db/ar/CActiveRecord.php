@@ -175,7 +175,7 @@ abstract class CActiveRecord extends CModel
 		if(isset($this->_attributes[$name]))
 			return true;
 		elseif(isset($this->getMetaData()->columns[$name]))
-			return false;
+			return true;
 		elseif(isset($this->_related[$name]))
 			return true;
 		elseif(isset($this->getMetaData()->relations[$name]))
