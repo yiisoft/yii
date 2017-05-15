@@ -2220,7 +2220,7 @@ EOD;
 				foreach($errors as $error)
 				{
 					if($error!='')
-						$content.="<li>$error</li>\n";
+						$content.='<li>'.self::encode($error)."</li>\n";
 					if($firstError)
 						break;
 				}
@@ -2256,7 +2256,7 @@ EOD;
 		{
 			if(!isset($htmlOptions['class']))
 				$htmlOptions['class']=self::$errorMessageCss;
-			return self::tag(self::$errorContainerTag,$htmlOptions,$error);
+			return self::tag(self::$errorContainerTag,$htmlOptions,self::encode($error));
 		}
 		else
 			return '';
