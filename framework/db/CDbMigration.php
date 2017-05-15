@@ -229,6 +229,49 @@ abstract class CDbMigration extends CComponent
 	}
 
 	/**
+	 * Builds and executes a SQL statement for creating a new DB view.
+	 *
+	 * @param string $view the name of the view to be created. The name will be properly quoted by the method.
+	 * @param string $query sql query required for view.
+	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
+	 * @since 1.1.7
+	 */
+	public function createView($view, $query, $options = null)
+	{
+		echo "    > create view $view ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->createView($view, $query, $options);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
+	 * Builds and executes a SQL statement for dropping a DB view.
+	 * @param string $view the view to be dropped. The name will be properly quoted by the method.
+	 * @since 1.1.7
+	 */
+	public function dropView($view)
+	{
+		echo "    > drop table $view ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->dropView($view);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
+	 * Builds and executes a SQL statement for renaming a DB table.
+	 * @param string $view the view to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new view name. The name will be properly quoted by the method.
+	 * @since 1.1.7
+	 */
+	public function renameView($view, $newName)
+	{
+		echo "    > rename table $view to $newName ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->renameView($view, $newName);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
 	 * Builds and executes a SQL statement for creating a new DB table.
 	 *
 	 * The columns in the new  table should be specified as name-definition pairs (e.g. 'name'=>'string'),

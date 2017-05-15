@@ -352,6 +352,44 @@ abstract class CDbSchema extends CComponent
 	}
 
 	/**
+	 * Builds a SQL statement for creating a new DB view.
+	 *
+	 * @param string $view the name of the view to be created. The name will be properly quoted by the method.
+	 * @param string $query sql query required for view.
+	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
+	 * @return string the SQL statement for creating a new DB view.
+	 * @since 1.1.7
+	 */
+	public function createView($view, $query, $options = null)
+	{
+		$sql = "CREATE VIEW ".$this->quoteTableName($view)." AS " . $query;
+		return $options===null ? $sql : $sql.' '.$options;
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a DB view.
+	 * @param string $view the view to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new view name. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB view.
+	 * @since 1.1.7
+	 */
+	public function renameView($view, $newName)
+	{
+		return $this->renameTable($view, $newName);
+	}
+
+	/**
+	 * Builds a SQL statement for dropping a DB view.
+	 * @param string $view the view to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping a DB view.
+	 * @since 1.1.7
+	 */
+	public function dropView($view)
+	{
+		return "DROP VIEW ".$this->quoteTableName($view);
+	}
+
+	/**
 	 * Builds a SQL statement for creating a new DB table.
 	 *
 	 * The columns in the new  table should be specified as name-definition pairs (e.g. 'name'=>'string'),
