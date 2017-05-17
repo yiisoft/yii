@@ -48,6 +48,12 @@ class CEmailValidator extends CValidator
 	 */
 	public $checkPort=false;
 	/**
+	 * @var null|int timeout to use when attempting to open connection to port in checkMxPorts. If null (default)
+	 * use default_socket_timeout value from php.ini. If not null the timeout is set in seconds.
+	 * @since 1.1.19
+	 */
+	public $timeout=null;
+	/**
 	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
@@ -156,15 +162,20 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 		$records=dns_get_record($domain, DNS_MX);
 		if($records===false || empty($records))
 			return false;
+		if (is_int($this->timeout)) {
+			$timeout=$this->timeout;
+		}else {
+			$timeout=((int)ini_get('default_socket_timeout'));
+		}
 		usort($records,array($this,'mxSort'));
 		foreach($records as $record)
 		{
-			$handle=@fsockopen($record['target'],25);
-			if($handle!==false)
-			{
-				fclose($handle);
-				return true;
-			}
+            $handle=@fsockopen($record['target'],25, $errno, $errstr, $timeout);
+            if($handle!==false)
+            {
+                fclose($handle);
+                return true;
+            }
 		}
 		return false;
 	}
