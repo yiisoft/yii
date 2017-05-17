@@ -172,8 +172,11 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 		{
 			$url='smtp://'.$record['target'].':25/';
 			$ch=curl_init($url);
-			curl_setopt($ch,CURLOPT_CONNECT_ONLY,true);
+			if (defined('CURLOPT_CONNECT_ONLY')) {
+				curl_setopt($ch,CURLOPT_CONNECT_ONLY,true);
+			}
 			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT_MS,$timeout);
+			curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 			if (curl_exec($ch) !== false)
 			{
 				curl_close($ch);
