@@ -4,7 +4,9 @@
 Version 1.1.19 under development
 --------------------------------
 
-- No changes yet.
+- Bug #4155: Ignore PHP 7.1 warnings about deprecated mcrypt (samdark)
+- Bug #4156: Timeout in checkMxPorts of mail validator is now configurable (kenguest, samdark)
+- Enh: Fixed PHPUnit 6 compatibility (samdark)
 
 Version 1.1.18 April 19, 2017
 -----------------------------
