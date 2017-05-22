@@ -43,13 +43,13 @@ class CEmailValidator extends CValidator
 	/**
 	 * @var boolean whether to check port 25 for the email address.
 	 * Defaults to false. To enable it, ensure that the PHP functions 'dns_get_record' and
-	 * 'curl_exec' are available in your PHP installation.
+	 * 'fsockopen' are available in your PHP installation.
 	 * Please note that this check may fail due to temporary problems even if email is deliverable.
 	 */
 	public $checkPort=false;
 	/**
 	 * @var null|int timeout to use when attempting to open connection to port in checkMxPorts. If null (default)
-	 * use default_socket_timeout value from php.ini. If not null the timeout is set in milliseconds.
+	 * use default_socket_timeout value from php.ini. If not null the timeout is set in seconds.
 	 * @since 1.1.19
 	 */
 	public $timeout=null;
@@ -105,7 +105,7 @@ class CEmailValidator extends CValidator
 			$domain=rtrim(substr($value,strpos($value,'@')+1),'>');
 		if($valid && $this->checkMX && function_exists('checkdnsrr'))
 			$valid=checkdnsrr($domain,'MX');
-		if($valid && $this->checkPort && function_exists('curl_exec') && function_exists('dns_get_record'))
+		if($valid && $this->checkPort && function_exists('fsockopen') && function_exists('dns_get_record'))
 			$valid=$this->checkMxPorts($domain);
 		return $valid;
 	}
@@ -165,24 +165,17 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 		if (is_int($this->timeout)) {
 			$timeout=$this->timeout;
 		}else {
-			$timeout=((int)ini_get("default_socket_timeout"))*1000;
+			$timeout=((int)ini_get('default_socket_timeout'));
 		}
 		usort($records,array($this,'mxSort'));
 		foreach($records as $record)
 		{
-			$url='smtp://'.$record['target'].':25/';
-			$ch=curl_init($url);
-			if (defined('CURLOPT_CONNECT_ONLY')) {
-				curl_setopt($ch,CURLOPT_CONNECT_ONLY,true);
-			}
-			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT_MS,$timeout);
-			curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-			if (curl_exec($ch) !== false)
-			{
-				curl_close($ch);
-				return true;
-			}
-			curl_close($ch);
+            $handle=@fsockopen($record['target'],25, $errno, $errstr, $timeout);
+            if($handle!==false)
+            {
+                fclose($handle);
+                return true;
+            }
 		}
 		return false;
 	}
