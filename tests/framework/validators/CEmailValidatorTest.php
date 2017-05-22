@@ -80,6 +80,9 @@ class CEmailValidatorTest extends CTestCase
 
 	public function testMxPortDomainWithNoMXRecord()
 	{
+		if (getenv('TRAVIS')==='true')
+			$this->markTestSkipped('MX connections are disabled in travis.');
+
 		$emailValidator = new CEmailValidator();
 		$emailValidator->checkPort = true;
 		$result = $emailValidator->validateValue('user@example.com');
@@ -88,6 +91,9 @@ class CEmailValidatorTest extends CTestCase
 
 	public function testMxPortDomainWithMXRecord()
 	{
+		if (getenv('TRAVIS')==='true')
+			$this->markTestSkipped('MX connections are disabled in travis.');
+
 		$emailValidator = new CEmailValidator();
 		$emailValidator->checkPort = true;
 		$result = $emailValidator->validateValue('user@hotmail.com');
