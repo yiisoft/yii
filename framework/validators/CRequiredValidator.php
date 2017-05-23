@@ -56,6 +56,7 @@ class CRequiredValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
+                $value=is_array($value)?null:$value;
 		if($this->requiredValue!==null)
 		{
 			if(!$this->strict && $value!=$this->requiredValue || $this->strict && $value!==$this->requiredValue)

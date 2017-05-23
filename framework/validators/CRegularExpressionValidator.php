@@ -44,6 +44,7 @@ class CRegularExpressionValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
+                $value=is_array($value)?null:$value;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		if($this->pattern===null)
