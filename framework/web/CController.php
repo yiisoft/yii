@@ -637,26 +637,25 @@ class CController extends CBaseController
 	{
 		if($layoutName===false)
 			return false;
+
 		if(($theme=Yii::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
 			return $layoutFile;
 
-		if(empty($layoutName))
+		$module=$this->getModule();
+		while($module!==null)
 		{
-			$module=$this->getModule();
-			while($module!==null)
-			{
-				if($module->layout===false)
-					return false;
-				if(!empty($module->layout))
-					break;
-				$module=$module->getParentModule();
-			}
-			if($module===null)
-				$module=Yii::app();
-			$layoutName=$module->layout;
+			if($module->layout===false)
+				return false;
+			if(!empty($module->layout))
+				break;
+			$module=$module->getParentModule();
 		}
-		elseif(($module=$this->getModule())===null)
+
+		if($module===null)
 			$module=Yii::app();
+
+		if(empty($layoutName) && $module->layout!==false)
+			$layoutName=$module->layout;
 
 		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::app()->getViewPath(),$module->getViewPath());
 	}
