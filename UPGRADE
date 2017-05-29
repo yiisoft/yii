@@ -21,7 +21,8 @@ General upgrade instructions
 Upgrading from v1.1.18
 ----------------------
 
-No significant changes were made.
+If you are outputting validation errors directly without using `CHtml` or `CActiveForm`, make sure
+to encode them properly depending on context you are outputting them into.
 
 Upgrading from v1.1.17
 ----------------------
