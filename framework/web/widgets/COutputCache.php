@@ -152,6 +152,7 @@ class COutputCache extends CFilterWidget
 	private $_contentCached;
 	private $_content;
 	private $_actions;
+    private $_headers;
 
 	/**
 	 * Performs filtering before the action is executed.
@@ -194,6 +195,7 @@ class COutputCache extends CFilterWidget
 	{
 		if($this->getIsContentCached())
 		{
+            $this->sendHeaders();
 			if($this->getController()->isCachingStackEmpty())
 				echo $this->getController()->processDynamicOutput($this->_content);
 			else
@@ -202,8 +204,9 @@ class COutputCache extends CFilterWidget
 		elseif($this->_cache!==null)
 		{
 			$this->_content=ob_get_clean();
+            $this->_headers=$this->getSelectedHeaders();
 			$this->getController()->getCachingStack()->pop();
-			$data=array($this->_content,$this->_actions);
+			$data=array($this->_content,$this->_actions,$this->_headers);
 			if(is_array($this->dependency))
 				$this->dependency=Yii::createComponent($this->dependency);
 			$this->_cache->set($this->getCacheKey(),$data,$this->duration,$this->dependency);
@@ -239,6 +242,7 @@ class COutputCache extends CFilterWidget
 			{
 				$this->_content=$data[0];
 				$this->_actions=$data[1];
+                $this->_headers=$data[2];
 				return true;
 			}
 			if($this->duration==0)
@@ -361,4 +365,40 @@ class COutputCache extends CFilterWidget
 						'method'=>$action[1])));
 		}
 	}
+
+    /**
+     * Sends cached headers
+     */
+    protected function sendHeaders()
+    {
+        if(is_array($this->_headers))
+            foreach($this->_headers as $header)
+                header($header);
+    }
+
+    /**
+     * Returns filter function for headers caching selection
+     * @return callable Filter function for headers. Be default, allow Content-Type, Content-Length, Content-Encoding, and Etag
+     */
+    protected function getHeadersFilter()
+    {
+        return function($header)
+        {
+            return (stristr($header, 'content-type')
+                 || stristr($header, 'content-length')
+                 || stristr($header, 'content-encoding')
+                 || stristr($header, 'etag')
+            );
+        };
+    }
+
+    /**
+     * Returns list of headers for further caching
+     * @return array Filtered list of response headers
+     */
+    protected function getSelectedHeaders()
+    {
+        return array_filter(headers_list(),$this->getHeadersFilter());
+    }
+
 }
