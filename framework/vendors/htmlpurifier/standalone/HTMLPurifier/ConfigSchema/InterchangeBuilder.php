@@ -179,7 +179,14 @@ class HTMLPurifier_ConfigSchema_InterchangeBuilder
      */
     protected function evalArray($contents)
     {
-        return eval('return array(' . $contents . ');');
+        try
+		{
+			return @eval('return array(' . $contents . ');');
+		}
+		catch (ParseError $e)
+		{
+			return false;
+		}
     }
 
     /**
