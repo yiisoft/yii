@@ -162,12 +162,16 @@ class CActiveRecordTest extends CTestCase
 		$this->assertTrue($post->isNewRecord);
 		$this->assertNull($post->id);
 		$this->assertTrue($post->save());
-		$this->assertEquals(array(
-			'id'=>6,
-			'title'=>'test post 1',
-			'create_time'=>$post->create_time,
-			'author_id'=>1,
-			'content'=>'test post content 1'),$post->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>6,
+				'title'=>'test post 1',
+				'create_time'=>$post->create_time,
+				'author_id'=>1,
+				'content'=>'test post content 1'
+			),
+			$post->attributes
+		);
 		$this->assertFalse($post->isNewRecord);
 		$this->assertEquals($post->attributes,Post::model()->findByPk($post->id)->attributes);
 	}
@@ -311,12 +315,16 @@ class CActiveRecordTest extends CTestCase
 		$post=new PostExt;
 		$this->assertEquals(array('id'=>null,'title'=>'default title','create_time'=>null,'author_id'=>null,'content'=>null),$post->attributes);
 		$post=Post::model()->findByPk(1);
-		$this->assertEquals(array(
-			'id'=>1,
-			'title'=>'post 1',
-			'create_time'=>100000,
-			'author_id'=>1,
-			'content'=>'content 1'),$post->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>1,
+				'title'=>'post 1',
+				'create_time'=>100000,
+				'author_id'=>1,
+				'content'=>'content 1'
+			),
+			$post->attributes
+		);
 
 		$post=new PostExt;
 		$post->title='test post';
@@ -324,12 +332,16 @@ class CActiveRecordTest extends CTestCase
 		$post->author_id=1;
 		$post->content='test';
 		$post->save();
-		$this->assertEquals(array(
-			'id'=>6,
-			'title'=>'test post',
-			'create_time'=>1000000,
-			'author_id'=>1,
-			'content'=>'test'),$post->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>6,
+				'title'=>'test post',
+				'create_time'=>1000000,
+				'author_id'=>1,
+				'content'=>'test'
+			),
+			$post->attributes
+		);
 	}
 
 	public function testLazyRelation()
@@ -337,50 +349,75 @@ class CActiveRecordTest extends CTestCase
 		// test belongsTo
 		$post=Post::model()->findByPk(2);
 		$this->assertTrue($post->author instanceof User);
-		$this->assertEquals(array(
-			'id'=>2,
-			'username'=>'user2',
-			'password'=>'pass2',
-			'email'=>'email2'),$post->author->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>2,
+				'username'=>'user2',
+				'password'=>'pass2',
+				'email'=>'email2',
+				'username2'=>null,
+			),
+			$post->author->attributes
+		);
 
 		// test hasOne
 		$post=Post::model()->findByPk(2);
 		$this->assertTrue($post->firstComment instanceof Comment);
-		$this->assertEquals(array(
-			'id'=>4,
-			'content'=>'comment 4',
-			'post_id'=>2,
-			'author_id'=>2),$post->firstComment->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'content'=>'comment 4',
+				'post_id'=>2,
+				'author_id'=>2
+			),
+			$post->firstComment->attributes
+		);
 		$post=Post::model()->findByPk(4);
 		$this->assertNull($post->firstComment);
 
 		// test hasMany
 		$post=Post::model()->findByPk(2);
 		$this->assertEquals(2,count($post->comments));
-		$this->assertEquals(array(
-			'id'=>5,
-			'content'=>'comment 5',
-			'post_id'=>2,
-			'author_id'=>2),$post->comments[0]->attributes);
-		$this->assertEquals(array(
-			'id'=>4,
-			'content'=>'comment 4',
-			'post_id'=>2,
-			'author_id'=>2),$post->comments[1]->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>5,
+				'content'=>'comment 5',
+				'post_id'=>2,
+				'author_id'=>2
+			),
+			$post->comments[0]->attributes
+		);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'content'=>'comment 4',
+				'post_id'=>2,
+				'author_id'=>2
+			),
+			$post->comments[1]->attributes
+		);
 		$post=Post::model()->findByPk(4);
 		$this->assertEquals(array(),$post->comments);
 
 		// test manyMany
 		$post=Post::model()->findByPk(2);
 		$this->assertEquals(2,count($post->categories));
-		$this->assertEquals(array(
-			'id'=>4,
-			'name'=>'cat 4',
-			'parent_id'=>1),$post->categories[0]->attributes);
-		$this->assertEquals(array(
-			'id'=>1,
-			'name'=>'cat 1',
-			'parent_id'=>null),$post->categories[1]->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'name'=>'cat 4',
+				'parent_id'=>1
+			),
+			$post->categories[0]->attributes
+		);
+		$this->assertEquals(
+			array(
+				'id'=>1,
+				'name'=>'cat 1',
+				'parent_id'=>null
+			),
+			$post->categories[1]->attributes
+		);
 		$post=Post::model()->findByPk(4);
 		$this->assertEquals(array(),$post->categories);
 
@@ -388,19 +425,31 @@ class CActiveRecordTest extends CTestCase
 		$category=Category::model()->findByPk(5);
 		$this->assertEquals(array(),$category->posts);
 		$this->assertEquals(2,count($category->children));
-		$this->assertEquals(array(
-			'id'=>6,
-			'name'=>'cat 6',
-			'parent_id'=>5),$category->children[0]->attributes);
-		$this->assertEquals(array(
-			'id'=>7,
-			'name'=>'cat 7',
-			'parent_id'=>5),$category->children[1]->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>6,
+				'name'=>'cat 6',
+				'parent_id'=>5
+			),
+			$category->children[0]->attributes
+		);
+		$this->assertEquals(
+			array(
+				'id'=>7,
+				'name'=>'cat 7',
+				'parent_id'=>5
+			),
+			$category->children[1]->attributes
+		);
 		$this->assertTrue($category->parent instanceof Category);
-		$this->assertEquals(array(
-			'id'=>1,
-			'name'=>'cat 1',
-			'parent_id'=>null),$category->parent->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>1,
+				'name'=>'cat 1',
+				'parent_id'=>null
+			),
+			$category->parent->attributes
+		);
 
 		$category=Category::model()->findByPk(2);
 		$this->assertEquals(1,count($category->posts));
@@ -414,10 +463,14 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(0,count($order->items));
 		$item=Item::model()->findByPk(4);
 		$this->assertTrue($item->order instanceof Order);
-		$this->assertEquals(array(
-			'key1'=>2,
-			'key2'=>2,
-			'name'=>'order 22'),$item->order->attributes);
+		$this->assertEquals(
+			array(
+				'key1'=>2,
+				'key2'=>2,
+				'name'=>'order 22'
+			),
+			$item->order->attributes
+		);
 	}
 
 	public function testEagerRelation2()
@@ -427,37 +480,62 @@ class CActiveRecordTest extends CTestCase
 
 	private function checkEagerLoadedModel($post)
 	{
-		$this->assertEquals(array(
-			'id'=>2,
-			'username'=>'user2',
-			'password'=>'pass2',
-			'email'=>'email2'),$post->author->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>2,
+				'username'=>'user2',
+				'password'=>'pass2',
+				'email'=>'email2',
+				'username2'=>null,
+			),
+			$post->author->attributes
+		);
 		$this->assertTrue($post->firstComment instanceof Comment);
-		$this->assertEquals(array(
-			'id'=>4,
-			'content'=>'comment 4',
-			'post_id'=>2,
-			'author_id'=>2),$post->firstComment->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'content'=>'comment 4',
+				'post_id'=>2,
+				'author_id'=>2
+			),
+			$post->firstComment->attributes
+		);
 		$this->assertEquals(2,count($post->comments));
-		$this->assertEquals(array(
-			'id'=>5,
-			'content'=>'comment 5',
-			'post_id'=>2,
-			'author_id'=>2),$post->comments[0]->attributes);
-		$this->assertEquals(array(
-			'id'=>4,
-			'content'=>'comment 4',
-			'post_id'=>2,
-			'author_id'=>2),$post->comments[1]->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>5,
+				'content'=>'comment 5',
+				'post_id'=>2,
+				'author_id'=>2
+			),
+			$post->comments[0]->attributes
+		);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'content'=>'comment 4',
+				'post_id'=>2,
+				'author_id'=>2
+			),
+			$post->comments[1]->attributes
+		);
 		$this->assertEquals(2,count($post->categories));
-		$this->assertEquals(array(
-			'id'=>4,
-			'name'=>'cat 4',
-			'parent_id'=>1),$post->categories[0]->attributes);
-		$this->assertEquals(array(
-			'id'=>1,
-			'name'=>'cat 1',
-			'parent_id'=>null),$post->categories[1]->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'name'=>'cat 4',
+				'parent_id'=>1
+			),
+			$post->categories[0]->attributes
+		);
+		$this->assertEquals(
+			array(
+				'id'=>1,
+				'name'=>'cat 1',
+				'parent_id'=>null
+			),
+			$post->categories[1]->attributes
+		);
 	}
 
 	public function testEagerRelation()
@@ -470,11 +548,16 @@ class CActiveRecordTest extends CTestCase
 		$this->checkEagerLoadedModel($post);
 
 		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(4);
-		$this->assertEquals(array(
-			'id'=>2,
-			'username'=>'user2',
-			'password'=>'pass2',
-			'email'=>'email2'),$post->author->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>2,
+				'username'=>'user2',
+				'password'=>'pass2',
+				'email'=>'email2',
+				'username2'=>null
+			),
+			$post->author->attributes
+		);
 		$this->assertNull($post->firstComment);
 		$this->assertEquals(array(),$post->comments);
 		$this->assertEquals(array(),$post->categories);
@@ -604,44 +687,74 @@ class CActiveRecordTest extends CTestCase
 	{
 		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
 		$comments=$post->comments;
-		$this->assertEquals(array(
-			'id'=>2,
-			'username'=>'user2',
-			'password'=>'pass2',
-			'email'=>'email2'),$post->author->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>2,
+				'username'=>'user2',
+				'password'=>'pass2',
+				'email'=>'email2',
+				'username2'=>null
+			),
+			$post->author->attributes
+		);
 		$this->assertTrue($post->firstComment instanceof Comment);
-		$this->assertEquals(array(
-			'id'=>4,
-			'content'=>'comment 4',
-			'post_id'=>2,
-			'author_id'=>2),$post->firstComment->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'content'=>'comment 4',
+				'post_id'=>2,
+				'author_id'=>2,
+			),
+			$post->firstComment->attributes
+		);
 		$this->assertEquals(2,count($post->comments));
-		$this->assertEquals(array(
-			'id'=>5,
-			'content'=>'comment 5',
-			'post_id'=>2,
-			'author_id'=>2),$post->comments[0]->attributes);
-		$this->assertEquals(array(
-			'id'=>4,
-			'content'=>'comment 4',
-			'post_id'=>2,
-			'author_id'=>2),$post->comments[1]->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>5,
+				'content'=>'comment 5',
+				'post_id'=>2,
+				'author_id'=>2
+			),
+			$post->comments[0]->attributes
+		);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'content'=>'comment 4',
+				'post_id'=>2,
+				'author_id'=>2
+			),
+			$post->comments[1]->attributes
+		);
 		$this->assertEquals(2,count($post->categories));
-		$this->assertEquals(array(
-			'id'=>4,
-			'name'=>'cat 4',
-			'parent_id'=>1),$post->categories[0]->attributes);
-		$this->assertEquals(array(
-			'id'=>1,
-			'name'=>'cat 1',
-			'parent_id'=>null),$post->categories[1]->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>4,
+				'name'=>'cat 4',
+				'parent_id'=>1
+			),
+			$post->categories[0]->attributes
+		);
+		$this->assertEquals(
+			array(
+				'id'=>1,
+				'name'=>'cat 1',
+				'parent_id'=>null
+			),
+			$post->categories[1]->attributes
+		);
 
 		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(4);
-		$this->assertEquals(array(
-			'id'=>2,
-			'username'=>'user2',
-			'password'=>'pass2',
-			'email'=>'email2'),$post->author->attributes);
+		$this->assertEquals(
+			array(
+				'id'=>2,
+				'username'=>'user2',
+				'password'=>'pass2',
+				'email'=>'email2',
+				'username2'=>null
+			),
+			$post->author->attributes
+		);
 		$this->assertNull($post->firstComment);
 		$this->assertEquals(array(),$post->comments);
 		$this->assertEquals(array(),$post->categories);
