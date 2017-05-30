@@ -480,8 +480,13 @@ class CGridView extends CBaseListView
 	 * Renders the data items for the grid view.
 	 */
 	public function renderItems()
-	{
-		if($this->dataProvider->getItemCount()>0 || $this->showTableOnEmpty)
+        {
+            //
+            // We need do something with this.  If we have a time consuming query which takes e.g. 10 seconds, we are end up with running it twice, I.e. user will wait for answer 20 seconds instead of 10. Run into this , commennting this help to speed up things at least by two. 
+            
+//		if($this->dataProvider->getItemCount()>0 || $this->showTableOnEmpty)
+//	{
+		if( $this->showTableOnEmpty)
 		{
 			echo "<table class=\"{$this->itemsCssClass}\">\n";
 			$this->renderTableHeader();
