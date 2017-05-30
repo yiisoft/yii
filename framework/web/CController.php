@@ -391,9 +391,10 @@ class CController extends CBaseController
 	protected function replaceDynamicOutput($matches)
 	{
 		$content=$matches[0];
-		if(isset($this->_dynamicOutput[$matches[1]]))
+		if(isset($this->_dynamicOutput[$matches[1]]) && is_array($this->_dynamicOutput[$matches[1]]))
 		{
-			$content=$this->_dynamicOutput[$matches[1]];
+			list($callback, $parameters) = $this->_dynamicOutput[$matches[1]];
+			$content=call_user_func_array($callback,$parameters);
 			$this->_dynamicOutput[$matches[1]]=null;
 		}
 		return $content;
@@ -943,7 +944,7 @@ class CController extends CBaseController
 		$this->recordCachingAction('','renderDynamicInternal',array($callback,$params));
 		if(is_string($callback) && method_exists($this,$callback))
 			$callback=array($this,$callback);
-		$this->_dynamicOutput[]=call_user_func_array($callback,$params);
+		$this->_dynamicOutput[]=array($callback,$params);
 	}
 
 	/**
