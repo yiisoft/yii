@@ -2348,7 +2348,7 @@ EOD;
 		if(is_scalar($attribute) || $attribute===null)
 			foreach(explode('.',$attribute) as $name)
 			{
-				if(is_object($model) && isset($model->$name))
+				if(is_object($model) && (isset($model->$name) || isset($model->{$name})))
 					$model=$model->$name;
 				elseif(is_array($model) && isset($model[$name]))
 					$model=$model[$name];
