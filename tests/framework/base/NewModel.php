@@ -15,6 +15,7 @@ class NewModel extends CModel
 		return array(
 			array('attr2,attr1','numerical','max'=>5),
 			array('attr1','required'),
+			array('attr2','required','when'=>array($this,'whenTest')),
 			array('attr3', 'unsafe'),
 		);
 	}
@@ -24,6 +25,10 @@ class NewModel extends CModel
 		return array('attr1','attr2');
 	}
 
+	public function whenTest($model, $attribute)
+	{
+		return false;
+	}
 }
 
 class InvalidModel extends CModel

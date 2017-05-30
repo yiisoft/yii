@@ -203,7 +203,7 @@
 								slave.addClass('MultiFile-applied');
 								
         // Triggered when a file is selected
-        slave.change(function(){
+        slave.change(function(event){
           //if(window.console) console.log('MultiFile.slave.change',slave_count);
  								 
           // Lose focus to stop IE7 firing onchange again
@@ -244,7 +244,7 @@
             // Handle error
             MultiFile.error(ERROR);
 												
-            // 2007-06-24: BUG FIX - Thanks to Adrian Wróbel <adrian [dot] wrobel [at] gmail.com>
+            // 2007-06-24: BUG FIX - Thanks to Adrian Wrï¿½bel <adrian [dot] wrobel [at] gmail.com>
             // Ditch the trouble maker and add a fresh new element
             MultiFile.n--;
             MultiFile.addSlave(newEle[0], slave_count);
@@ -260,7 +260,7 @@
           slave.after(newEle);
           
           // Update list
-          MultiFile.addToList( this, slave_count );
+          MultiFile.addToList( this, slave_count, event );
           
           // Bind functionality
           MultiFile.addSlave( newEle[0], slave_count+1 );
@@ -280,51 +280,65 @@
        
        
        // Add a new file to the list
-       MultiFile.addToList = function( slave, slave_count ){
-        //if(window.console) console.log('MultiFile.addToList',slave_count);
-								
-        //# Trigger Event! onFileAppend
-        if(!MultiFile.trigger('onFileAppend', slave, MultiFile)) return false;
-        //# End Event!
-        
-        // Create label elements
-        var
-         r = $('<div class="MultiFile-label"></div>'),
-         v = String(slave.value || ''/*.attr('value)*/),
-         a = $('<span class="MultiFile-title" title="'+MultiFile.STRING.selected.replace('$file', v)+'">'+MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0])+'</span>'),
-         b = $('<a class="MultiFile-remove" href="#'+MultiFile.wrapID+'">'+MultiFile.STRING.remove+'</a>');
-        
-        // Insert label
-        MultiFile.list.append(
-         r.append(b, ' ', a)
-        );
-        
-        b
-								.click(function(){
-         
-          //# Trigger Event! onFileRemove
-          if(!MultiFile.trigger('onFileRemove', slave, MultiFile)) return false;
-          //# End Event!
-          
-          MultiFile.n--;
-          MultiFile.current.disabled = false;
-          
-          // Remove element, remove label, point to current
-										MultiFile.slaves[slave_count] = null;
-										$(slave).remove();
-										$(this).parent().remove();
-										
-          // Show most current element again (move into view) and clear selection
-          $(MultiFile.current).css({ position:'', top: '' });
-										$(MultiFile.current).reset().val('').attr('value', '')[0].value = '';
-          
-          //# Trigger Event! afterFileRemove
-          if(!MultiFile.trigger('afterFileRemove', slave, MultiFile)) return false;
-          //# End Event!
-										
-          return false;
-        });
-        
+       MultiFile.addToList = function( slave, slave_count, event ) {
+           //if(window.console) console.log('MultiFile.addToList',slave_count);
+
+           //# Trigger Event! onFileAppend
+           if (!MultiFile.trigger('onFileAppend', slave, MultiFile)) return false;
+           //# End Event!
+
+           var files = event.target.files, removeBlock = true;
+           for (var i = 0; i < files.length; i++) {
+               var f = files[i];
+           // Create label elements
+           var
+               r = $('<div class="MultiFile-label ' + MultiFile.current.id + '")></div>'),
+               v = String(f.name || ''/*.attr('value)*/),
+               a = $('<span class="MultiFile-title ' + MultiFile.current.id + '" title="' + MultiFile.STRING.selected.replace('$file', v) + '">' + MultiFile.STRING.file.replace('$file', v.match(/[^\/\\]+$/gi)[0]) + '</span>');
+
+               if (MultiFile.slaves.length > 1 && files.length> 1 && i===0) {
+                   MultiFile.list.append('<hr class="' + MultiFile.current.id + '">');
+               }
+
+               if (removeBlock) {
+                   b = $('<a class="MultiFile-remove" data-form-id="' + MultiFile.current.id + '" href="#' + MultiFile.wrapID + '">' + MultiFile.STRING.remove + '</a>');
+                   removeBlock = false;
+               } else {
+                   b =$('<a class="MultiFile-remove" data-form-id="' + MultiFile.current.id + '" href="#' + MultiFile.wrapID + '"></a>');
+               }
+
+
+           // Insert label
+           MultiFile.list.append(
+               r.append(b, ' ', a)
+           );
+
+           b
+               .click(function () {
+                   formId = $(this).data('form-id');
+                   //# Trigger Event! onFileRemove
+                   if(!MultiFile.trigger('onFileRemove', slave, MultiFile)) return false;
+                   //# End Event!
+
+                   MultiFile.n--;
+                   MultiFile.current.disabled = false;
+
+                   // Remove element, remove label, point to current
+                   MultiFile.slaves[slave_count] = null;
+                   $(slave).remove();
+                   $('.' + formId).remove();
+
+                   // Show most current element again (move into view) and clear selection
+                   $(MultiFile.current).css({position: '', top: ''});
+                   $(MultiFile.current).reset().val('').attr('value', '')[0].value = '';
+
+                   //# Trigger Event! afterFileRemove
+                   if (!MultiFile.trigger('afterFileRemove', slave, MultiFile)) return false;
+                   //# End Event!
+
+                   return false;
+               });
+       }
         //# Trigger Event! afterFileAppend
         if(!MultiFile.trigger('afterFileAppend', slave, MultiFile)) return false;
         //# End Event!

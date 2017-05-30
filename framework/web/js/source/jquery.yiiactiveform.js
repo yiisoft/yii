@@ -88,7 +88,7 @@
 					}
 					if (attribute.beforeValidateAttribute === undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function () {
-							if (this.status === 2) {
+							if (this.status === 2 || (settings.validateAllFields === true && $('#'+this.id).is(':visible:enabled'))) {
 								this.status = 3;
 								$.fn.yiiactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
 							}
@@ -404,6 +404,7 @@
 		validatingCssClass: 'validating',
 		summaryID: undefined,
 		timer: undefined,
+		validateAllFields : false,
 		beforeValidateAttribute: undefined, // function (form, attribute) | boolean
 		afterValidateAttribute: undefined,  // function (form, attribute, data, hasError)
 		beforeValidate: undefined, // function (form) | boolean

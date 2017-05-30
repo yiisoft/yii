@@ -101,6 +101,12 @@ class CRedisCache extends CCache
 		}
 	}
 
+	protected function releaseSocket()
+	{
+			stream_socket_shutdown($this->_socket, STREAM_SHUT_RDWR);
+			$this->_socket = null;
+	}
+
 	/**
 	 * Executes a redis command.
 	 * For a list of available commands and their parameters see {@link http://redis.io/commands}.
@@ -130,9 +136,21 @@ class CRedisCache extends CCache
 		foreach($params as $arg)
 			$command.='$'.$this->byteLength($arg)."\r\n".$arg."\r\n";
 
-		fwrite($this->_socket,$command);
-
-		return $this->parseResponse(implode(' ',$params));
+		try {
+			fwrite($this->_socket, $command);
+		}catch(\Exception $e){
+			\Yii::log(
+				"Got error: '" . $e->getMessage() . "', reinit connection",
+				CLogger::LEVEL_INFO,
+				'system.caching.CRedisCache'
+			);
+			// handle network errors such as broken pipe
+			$this->releaseSocket(); // don't send QUIT - socket already broken
+			$this->connect();
+			// don't catch second exception - it means connection reinit doesn't take effect
+			fwrite($this->_socket, $command);
+		}
+		return $this->parseResponse();
 	}
 
 	/**
