@@ -142,7 +142,9 @@ class CStringValidator extends CValidator
 			'{max}'=>$this->max,
 		));
 
-		$js='';
+		$js="
+value = value.replace(/(\\r\\n|\\r|\\n)/g, \"\\r\\n\");
+";
 		if($this->min!==null)
 		{
 			$js.="
