@@ -8718,7 +8718,6 @@ class CDbConnection extends CApplicationComponent
 	}
 	public function createCommand($query=null)
 	{
-		$this->setActive(true);
 		return new CDbCommand($this,$query);
 	}
 	public function getCurrentTransaction()
@@ -9408,6 +9407,7 @@ class CDbCommand extends CComponent
 	}
 	public function getConnection()
 	{
+		$this->_connection->setActive(true);
 		return $this->_connection;
 	}
 	public function getPdoStatement()

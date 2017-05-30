@@ -182,6 +182,7 @@ class CDbCommand extends CComponent
 	 */
 	public function getConnection()
 	{
+		$this->_connection->setActive(true);
 		return $this->_connection;
 	}
 

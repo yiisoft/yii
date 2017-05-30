@@ -493,7 +493,6 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function createCommand($query=null)
 	{
-		$this->setActive(true);
 		return new CDbCommand($this,$query);
 	}
 
