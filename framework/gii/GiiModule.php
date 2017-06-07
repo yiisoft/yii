@@ -216,6 +216,9 @@ class GiiModule extends CWebModule
 			$names=scandir($path);
 			foreach($names as $name)
 			{
+				if(Yii::app()->getUrlManager()->caseSensitive===false)
+					$name=strtolower($name);
+
 				if($name[0]!=='.' && is_dir($path.'/'.$name))
 				{
 					$className=ucfirst($name).'Generator';
