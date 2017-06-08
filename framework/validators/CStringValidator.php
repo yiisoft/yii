@@ -87,10 +87,14 @@ class CStringValidator extends CValidator
 			return;
 		}
 
+		$value=preg_replace('/[\n|\r]/', '', $value,-1,$count);
+		if($count>0)
+			$count=$count/2;
+			
 		if(function_exists('mb_strlen') && $this->encoding!==false)
-			$length=mb_strlen($value, $this->encoding ? $this->encoding : Yii::app()->charset);
+			$length=(mb_strlen($value, $this->encoding ? $this->encoding : Yii::app()->charset)+$count);
 		else
-			$length=strlen($value);
+			$length=(strlen($value)+$count);
 
 		if($this->min!==null && $length<$this->min)
 		{
