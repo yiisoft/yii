@@ -206,6 +206,15 @@ class CHttpRequest extends CApplicationComponent
 	{
 		return isset($_POST[$name]) ? $_POST[$name] : $defaultValue;
 	}
+    
+    /**
+     * Returns the raw POST body content
+     * @return string the POST body content
+     */
+    public function getPostBody()
+    {
+        return file_get_contents("php://input");
+    }
 
 	/**
 	 * Returns the named DELETE parameter value.
