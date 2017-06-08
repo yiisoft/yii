@@ -75,32 +75,25 @@ class CFileHelper
 	 * Note, options parameter is available since 1.1.16
 	 * @since 1.1.14
 	 */
-	public static function removeDirectory($directory,$options=array())
+	public static function removeDirectory($directory, $options=array())
 	{
 		if(!isset($options['traverseSymlinks']))
 			$options['traverseSymlinks']=false;
-		$items=glob($directory.DIRECTORY_SEPARATOR.'{,.}*',GLOB_MARK | GLOB_BRACE);
-		foreach($items as $item)
+		$files = array_diff(scandir($directory), array('.','..'));
+		foreach ($files as $file)
 		{
-			if(basename($item)=='.' || basename($item)=='..')
-				continue;
-			if(substr($item,-1)==DIRECTORY_SEPARATOR)
+			if (is_dir("$directory/$file"))
 			{
-				if(!$options['traverseSymlinks'] && is_link(rtrim($item,DIRECTORY_SEPARATOR)))
-					unlink(rtrim($item,DIRECTORY_SEPARATOR));
-				else
-					self::removeDirectory($item,$options);
+				if(!$options['traverseSymlinks'] && is_link(rtrim($file,DIRECTORY_SEPARATOR))) {
+					unlink("$directory/$file");
+				} else {
+					self::removeDirectory("$directory/$file",$options);
+				}
+			} else {
+				unlink("$directory/$file");
 			}
-			else
-				unlink($item);
 		}
-		if(is_dir($directory=rtrim($directory,'\\/')))
-		{
-			if(is_link($directory))
-				unlink($directory);
-			else
-				rmdir($directory);
-		}
+		return rmdir($directory);
 	}
 
 	/**
