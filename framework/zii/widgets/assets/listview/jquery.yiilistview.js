@@ -86,7 +86,7 @@
 	 * @return string the key value
 	 */
 	$.fn.yiiListView.getKey = function(id, index) {
-		return $('#'+id+' > div.keys > span:eq('+index+')').text();
+		return $('#'+id+' div.keys > span:eq('+index+')').text();
 	};
 
 	/**
@@ -96,7 +96,7 @@
 	 */
 	$.fn.yiiListView.getUrl = function(id) {
 		var settings = $.fn.yiiListView.settings[id];
-		return settings.url || $('#'+id+' > div.keys').attr('title');
+		return settings.url || $('#'+id+' div.keys').attr('title');
 	};
 
 	/**
