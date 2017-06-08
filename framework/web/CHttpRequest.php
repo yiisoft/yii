@@ -1048,12 +1048,11 @@ class CHttpRequest extends CApplicationComponent
 					if($q==='')
 						$q=1;
 					if($q)
-						$languages[]=array((float)$q,$matches[1][$i]);
+						$languages[$matches[1][$i]]=(float)$q;
 				}
 
-				usort($languages,create_function('$a,$b','if($a[0]==$b[0]) {return 0;} return ($a[0]<$b[0]) ? 1 : -1;'));
-				foreach($languages as $language)
-					$sortedLanguages[]=$language[1];
+				arsort($languages);
+				$sortedLanguages=array_keys($languages);
 			}
 			$this->_preferredLanguages=$sortedLanguages;
 		}
