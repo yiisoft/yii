@@ -1,8 +1,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.19 under development
---------------------------------
+Version 1.1.19 June 8, 2017
+---------------------------
 
 - Bug #4155: Ignore PHP 7.1 warnings about deprecated mcrypt (samdark)
 - Bug #4156: Timeout in checkMxPorts of mail validator is now configurable (kenguest, samdark)
