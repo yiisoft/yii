@@ -227,8 +227,9 @@ class CFormatter extends CApplicationComponent
 	 */
 	protected function normalizeDateValue($time)
 	{
-		if(is_string($time))
-		{
+		if ($time instanceof DateTime) {
+			return $time->getTimestamp();
+		} elseif(is_string($time)) {
 			if(ctype_digit($time) || ($time{0}=='-' && ctype_digit(substr($time, 1))))
 				return (int)$time;
 			else
