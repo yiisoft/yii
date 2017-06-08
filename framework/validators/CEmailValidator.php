@@ -162,20 +162,16 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 		$records=dns_get_record($domain, DNS_MX);
 		if($records===false || empty($records))
 			return false;
-		if (is_int($this->timeout)) {
-			$timeout=$this->timeout;
-		}else {
-			$timeout=((int)ini_get('default_socket_timeout'));
-		}
+		$timeout=is_int($this->timeout)?$this->timeout:((int)ini_get('default_socket_timeout'));
 		usort($records,array($this,'mxSort'));
 		foreach($records as $record)
 		{
-            $handle=@fsockopen($record['target'],25, $errno, $errstr, $timeout);
-            if($handle!==false)
-            {
-                fclose($handle);
-                return true;
-            }
+			$handle=@fsockopen($record['target'],25,$errno,$errstr,$timeout);
+			if($handle!==false)
+			{
+				fclose($handle);
+				return true;
+			}
 		}
 		return false;
 	}
