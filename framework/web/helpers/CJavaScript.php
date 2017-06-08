@@ -89,7 +89,11 @@ class CJavaScript
 		elseif(is_array($value))
 		{
 			$es=array();
-			if(($n=count($value))>0 && array_keys($value)!==range(0,$n-1))
+
+			/* false warning on PHP 5.3.5 win */
+			$n=count($value); $nkeys=@range(0,$n-1);
+
+			if($n>0 && array_keys($value)!==$nkeys)
 			{
 				foreach($value as $k=>$v)
 					$es[]="'".self::quote($k)."':".self::encode($v,$safe);
