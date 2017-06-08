@@ -157,7 +157,7 @@ class YiiBase
 	 */
 	public static function getFrameworkPath()
 	{
-		return YII_PATH;
+		return self::$_aliases['system'];
 	}
 
 	/**
@@ -403,7 +403,7 @@ class YiiBase
 		if(isset(self::$classMap[$className]))
 			include(self::$classMap[$className]);
 		elseif(isset(self::$_coreClasses[$className]))
-			include(YII_PATH.self::$_coreClasses[$className]);
+			include(self::$_aliases['system'].self::$_coreClasses[$className]);
 		elseif($classMapOnly)
 			return false;
 		else
@@ -476,7 +476,7 @@ class YiiBase
 			$count=0;
 			foreach($traces as $trace)
 			{
-				if(isset($trace['file'],$trace['line']) && strpos($trace['file'],YII_PATH)!==0)
+				if(isset($trace['file'],$trace['line']) && strpos($trace['file'],self::$_aliases['system'])!==0)
 				{
 					$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
 					if(++$count>=YII_TRACE_LEVEL)
@@ -877,4 +877,4 @@ class YiiBase
 }
 
 spl_autoload_register(array('YiiBase','autoload'));
-require(YII_PATH.'/base/interfaces.php');
+require(dirname(__FILE__).'/base/interfaces.php');
