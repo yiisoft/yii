@@ -93,7 +93,7 @@ class CActiveDataProvider extends CDataProvider
         }
 
         if (!$this->model) {
-            throw new LogicException('');
+            throw new LogicException('Wrong model instance provided');
         }
 
         $this->setId(CHtml::modelName($this->model));
