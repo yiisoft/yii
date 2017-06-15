@@ -73,30 +73,36 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	private $_countCriteria;
 
-	/**
-	 * Constructor.
-	 * @param mixed $modelClass the model class (e.g. 'Post') or the model finder instance
-	 * (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
-	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
-	 */
-	public function __construct($modelClass,$config=array())
-	{
-		if(is_string($modelClass))
-		{
-			$this->modelClass=$modelClass;
-			$this->model=$this->getModel($this->modelClass);
-		}
-		elseif($modelClass instanceof CActiveRecord)
-		{
-			$this->modelClass=get_class($modelClass);
-			$this->model=$modelClass;
-		}
-		$this->setId(CHtml::modelName($this->model));
-		foreach($config as $key=>$value)
-			$this->$key=$value;
-	}
+    /**
+     * Constructor.
+     *
+     * @param mixed $modelClass the model class (e.g. 'Post') or the model finder instance
+     *                          (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
+     * @param array $config     configuration (name=>value) to be applied as the initial property values of this class.
+     *
+     * @throws \LogicException  if provided model is not available or not CActiveRecord instance.
+     */
+    public function __construct($modelClass, $config = [])
+    {
+        if (is_string($modelClass)) {
+            $this->modelClass = $modelClass;
+            $this->model = $this->getModel($this->modelClass);
+        } elseif ($modelClass instanceof CActiveRecord) {
+            $this->modelClass = get_class($modelClass);
+            $this->model = $modelClass;
+        }
 
-	/**
+        if (!$this->model) {
+            throw new LogicException('');
+        }
+
+        $this->setId(CHtml::modelName($this->model));
+        foreach ($config as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+    /**
 	 * Returns the query criteria.
 	 * @return CDbCriteria the query criteria
 	 */
