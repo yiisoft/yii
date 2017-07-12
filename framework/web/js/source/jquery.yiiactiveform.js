@@ -119,7 +119,10 @@
 					});
 				}
 				if (this.validateOnType) {
-					$form.find('#' + this.inputID).keyup(function () {
+					/**
+					*Fix IE9 keyup event problem
+					*/
+					$(document).on("keyup", "#" + this.inputID, function () {
 						if (attribute.value !== getAFValue($(this))) {
 							validate(attribute, false);
 						}
