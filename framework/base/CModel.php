@@ -577,7 +577,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns whether there is an element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed $offset the offset to check on
+	 * @param integer|string $offset the offset to check on
 	 * @return boolean
 	 */
 	public function offsetExists($offset)
@@ -588,7 +588,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to retrieve element.
+	 * @param integer|string $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
 	public function offsetGet($offset)
@@ -599,7 +599,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Sets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to set element
+	 * @param integer|string $offset the offset to set element
 	 * @param mixed $item the element value
 	 */
 	public function offsetSet($offset,$item)
@@ -610,7 +610,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Unsets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed $offset the offset to unset element
+	 * @param integer|string $offset the offset to unset element
 	 */
 	public function offsetUnset($offset)
 	{

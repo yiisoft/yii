@@ -1930,7 +1930,7 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Returns whether there is an element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed $offset the offset to check on
+	 * @param integer|string $offset the offset to check on
 	 * @return boolean
 	 */
 	public function offsetExists($offset)
