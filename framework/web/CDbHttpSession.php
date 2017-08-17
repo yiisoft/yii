@@ -228,7 +228,7 @@ class CDbHttpSession extends CHttpSession
 			->from($this->sessionTableName)
 			->where('expire>:expire AND id=:id',array(':expire'=>time(),':id'=>$id))
 			->queryScalar();
-		return $data===false?'':$data;
+		return ($data===null || $data===false)?'':$data;
 	}
 
 	/**
