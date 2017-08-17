@@ -6,6 +6,7 @@ Version 1.1.20 under development
 
 - Chg #4160: Updated HTMLPurifier to version 4.9.3 (takobell)
 - Bug #4162: Adjusted Zend Escaper to be compatible with PHP <5.3 and fixed usage of non-existing Exceptions (cebe)
+- Bug #4168: Fixed `CDbHttpSession` PHP 7.1 compatibility (csears123)
 
 Version 1.1.19 June 8, 2017
 ---------------------------
