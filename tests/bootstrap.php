@@ -11,6 +11,9 @@ defined('YII_DEBUG') or define('YII_DEBUG',true);
 $_SERVER['SCRIPT_NAME']='/'.basename(__FILE__);
 $_SERVER['SCRIPT_FILENAME']=__FILE__;
 
+if (version_compare(PHP_VERSION, '5.3', '>='))
+	require_once(dirname(__FILE__).'/compatibility.php');
+
 require_once(dirname(__FILE__).'/../framework/yii.php');
 require_once(dirname(__FILE__).'/TestApplication.php');
 // Support PHPUnit <=3.7 and >=3.8

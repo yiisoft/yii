@@ -222,11 +222,11 @@ class CSecurityManager extends CApplicationComponent
 		$this->validateEncryptionKey($key);
 		$module=$this->openCryptModule();
 		srand();
-		$iv=mcrypt_create_iv(mcrypt_enc_get_iv_size($module), MCRYPT_RAND);
-		mcrypt_generic_init($module,$key,$iv);
-		$encrypted=$iv.mcrypt_generic($module,$data);
-		mcrypt_generic_deinit($module);
-		mcrypt_module_close($module);
+		$iv=@mcrypt_create_iv(mcrypt_enc_get_iv_size($module), MCRYPT_RAND);
+		@mcrypt_generic_init($module,$key,$iv);
+		$encrypted=$iv.@mcrypt_generic($module,$data);
+		@mcrypt_generic_deinit($module);
+		@mcrypt_module_close($module);
 		return $encrypted;
 	}
 
@@ -243,12 +243,12 @@ class CSecurityManager extends CApplicationComponent
 			$key=$this->getEncryptionKey();
 		$this->validateEncryptionKey($key);
 		$module=$this->openCryptModule();
-		$ivSize=mcrypt_enc_get_iv_size($module);
+		$ivSize=@mcrypt_enc_get_iv_size($module);
 		$iv=$this->substr($data,0,$ivSize);
-		mcrypt_generic_init($module,$key,$iv);
-		$decrypted=mdecrypt_generic($module,$this->substr($data,$ivSize,$this->strlen($data)));
-		mcrypt_generic_deinit($module);
-		mcrypt_module_close($module);
+		@mcrypt_generic_init($module,$key,$iv);
+		$decrypted=@mdecrypt_generic($module,$this->substr($data,$ivSize,$this->strlen($data)));
+		@mcrypt_generic_deinit($module);
+		@mcrypt_module_close($module);
 		return rtrim($decrypted,"\0");
 	}
 
@@ -399,7 +399,7 @@ class CSecurityManager extends CApplicationComponent
 		}
 
 		if(function_exists('mcrypt_create_iv') &&
-			($bytes=mcrypt_create_iv($length, MCRYPT_DEV_URANDOM))!==false &&
+			($bytes=@mcrypt_create_iv($length, MCRYPT_DEV_URANDOM))!==false &&
 			$this->strlen($bytes)>=$length)
 		{
 			return $this->substr($bytes,0,$length);
@@ -531,7 +531,7 @@ class CSecurityManager extends CApplicationComponent
 		{
 			$cryptAlgorithm = is_array($this->cryptAlgorithm) ? $this->cryptAlgorithm[0] : $this->cryptAlgorithm;
 
-			$supportedKeyLengths=mcrypt_module_get_supported_key_sizes($cryptAlgorithm);
+			$supportedKeyLengths=@mcrypt_module_get_supported_key_sizes($cryptAlgorithm);
 
 			if($supportedKeyLengths)
 			{
@@ -542,7 +542,7 @@ class CSecurityManager extends CApplicationComponent
 			elseif(isset(self::$encryptionKeyMinimumLengths[$cryptAlgorithm]))
 			{
 				$minLength=self::$encryptionKeyMinimumLengths[$cryptAlgorithm];
-				$maxLength=mcrypt_module_get_algo_key_size($cryptAlgorithm);
+				$maxLength=@mcrypt_module_get_algo_key_size($cryptAlgorithm);
 				if($this->strlen($key)<$minLength || $this->strlen($key)>$maxLength)
 					throw new CException(Yii::t('yii','Encryption key length must be between {minLength} and {maxLength}.',array('{minLength}'=>$minLength,'{maxLength}'=>$maxLength)));
 			}
@@ -586,13 +586,13 @@ class CSecurityManager extends CApplicationComponent
 		else
 			throw new CException(Yii::t('yii','CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
 
-		$derivedKey=$this->substr($key,0,mcrypt_enc_get_key_size($module));
-		$ivSize=mcrypt_enc_get_iv_size($module);
+		$derivedKey=$this->substr($key,0,@mcrypt_enc_get_key_size($module));
+		$ivSize=@mcrypt_enc_get_iv_size($module);
 		$iv=$this->substr($data,0,$ivSize);
-		mcrypt_generic_init($module,$derivedKey,$iv);
-		$decrypted=mdecrypt_generic($module,$this->substr($data,$ivSize,$this->strlen($data)));
-		mcrypt_generic_deinit($module);
-		mcrypt_module_close($module);
+		@mcrypt_generic_init($module,$derivedKey,$iv);
+		$decrypted=@mdecrypt_generic($module,$this->substr($data,$ivSize,$this->strlen($data)));
+		@mcrypt_generic_deinit($module);
+		@mcrypt_module_close($module);
 		return rtrim($decrypted,"\0");
 	}
 

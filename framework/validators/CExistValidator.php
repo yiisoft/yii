@@ -100,7 +100,7 @@ class CExistValidator extends CValidator
 		if(!$finder->exists($criteria))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} "{value}" is invalid.');
-			$this->addError($object,$attribute,$message,array('{value}'=>CHtml::encode($value)));
+			$this->addError($object,$attribute,$message,array('{value}'=>$value));
 		}
 	}
 

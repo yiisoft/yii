@@ -91,21 +91,21 @@ class Escaper
      * is set for htmlspecialchars() calls.
      *
      * @param string $encoding
-     * @throws Exception\InvalidArgumentException
+     * @throws Exception
      */
     public function __construct($encoding = null)
     {
         if ($encoding !== null) {
             $encoding = (string) $encoding;
             if ($encoding === '') {
-                throw new Exception\InvalidArgumentException(
+                throw new Exception(
                     get_class($this) . ' constructor parameter does not allow a blank value'
                 );
             }
 
             $encoding = strtolower($encoding);
             if (!in_array($encoding, $this->supportedEncodings)) {
-                throw new Exception\InvalidArgumentException(
+                throw new Exception(
                     'Value of \'' . $encoding . '\' passed to ' . get_class($this)
                     . ' constructor parameter is invalid. Provide an encoding supported by htmlspecialchars()'
                 );
@@ -251,8 +251,8 @@ class Escaper
 
         $hex = bin2hex($chr);
         $ord = hexdec($hex);
-        if (isset(static::$htmlNamedEntityMap[$ord])) {
-            return '&' . static::$htmlNamedEntityMap[$ord] . ';';
+        if (isset(self::$htmlNamedEntityMap[$ord])) {
+            return '&' . self::$htmlNamedEntityMap[$ord] . ';';
         }
 
         /**
@@ -306,7 +306,7 @@ class Escaper
      * class' constructor.
      *
      * @param string $string
-     * @throws Exception\RuntimeException
+     * @throws Exception
      * @return string
      */
     protected function toUtf8($string)
@@ -318,7 +318,7 @@ class Escaper
         }
 
         if (!$this->isUtf8($result)) {
-            throw new Exception\RuntimeException(
+            throw new Exception(
                 sprintf('String to be escaped was not valid UTF-8 or could not be converted: %s', $result)
             );
         }
@@ -359,7 +359,7 @@ class Escaper
      * @param string $string
      * @param string $to
      * @param array|string $from
-     * @throws Exception\RuntimeException
+     * @throws Exception
      * @return string
      */
     protected function convertEncoding($string, $to, $from)
@@ -369,7 +369,7 @@ class Escaper
         } elseif (function_exists('mb_convert_encoding')) {
             $result = mb_convert_encoding($string, $to, $from);
         } else {
-            throw new Exception\RuntimeException(
+            throw new Exception(
                 get_class($this)
                 . ' requires either the iconv or mbstring extension to be installed'
                 . ' when escaping for non UTF-8 strings.'

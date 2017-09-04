@@ -77,4 +77,26 @@ class CEmailValidatorTest extends CTestCase
 		$this->assertTrue($model->hasErrors('email'));
 		$this->assertEquals(array('Email is not a valid email address.'),$model->getErrors('email'));
 	}
+
+	public function testMxPortDomainWithNoMXRecord()
+	{
+		if (getenv('TRAVIS')==='true')
+			$this->markTestSkipped('MX connections are disabled in travis.');
+
+		$emailValidator = new CEmailValidator();
+		$emailValidator->checkPort = true;
+		$result = $emailValidator->validateValue('user@example.com');
+		$this->assertFalse($result);
+	}
+
+	public function testMxPortDomainWithMXRecord()
+	{
+		if (getenv('TRAVIS')==='true')
+			$this->markTestSkipped('MX connections are disabled in travis.');
+
+		$emailValidator = new CEmailValidator();
+		$emailValidator->checkPort = true;
+		$result = $emailValidator->validateValue('user@hotmail.com');
+		$this->assertTrue($result);
+	}
 }

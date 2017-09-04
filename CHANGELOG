@@ -1,10 +1,20 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.19 under development
+Version 1.1.20 under development
 --------------------------------
 
-- No changes yet.
+- Chg #4160: Updated HTMLPurifier to version 4.9.3 (takobell)
+- Bug #4162: Adjusted Zend Escaper to be compatible with PHP <5.3 and fixed usage of non-existing Exceptions (cebe)
+- Bug #4168: Fixed `CDbHttpSession` PHP 7.1 compatibility (csears123)
+
+Version 1.1.19 June 8, 2017
+---------------------------
+
+- Bug #4155: Ignore PHP 7.1 warnings about deprecated mcrypt (samdark)
+- Bug #4156: Timeout in checkMxPorts of mail validator is now configurable (kenguest, samdark)
+- Enh: Fixed PHPUnit 6 compatibility (samdark)
+- Enh: Reworked model error escaping to escape on output rather than in validators directly (Zaffy, samdark)
 
 Version 1.1.18 April 19, 2017
 -----------------------------
