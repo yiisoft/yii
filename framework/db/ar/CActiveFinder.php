@@ -590,7 +590,8 @@ class CJoinElement
 				$params=array();
 				foreach($fks as $i=>$fk)
 				{
-					if($i<count($parent->_table->primaryKey))
+                    $count1 = is_array($parent->_table->primaryKey) ? count($parent->_table->primaryKey) : 1;
+                    if($i< $count1)
 					{
 						$pk=is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$i] : $parent->_table->primaryKey;
 						$parentCondition[$pk]=$joinAlias.'.'.$schema->quoteColumnName($fk).'=:ypl'.$count;
@@ -599,7 +600,7 @@ class CJoinElement
 					}
 					else
 					{
-						$j=$i-count($parent->_table->primaryKey);
+						$j=$i- $count1;
 						$pk=is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
 						$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 					}
@@ -1428,11 +1429,16 @@ class CStatElement
 		$pkTable=$parent->model->getTableSchema();
 
 		$fks=preg_split('/\s*,\s*/',$relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
-		if(count($fks)!==count($pkTable->primaryKey))
-			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".',
-						array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{table}'=>$pkTable->name)));
+        if (count($fks) !== (is_array($pkTable->primaryKey) ? count($pkTable->primaryKey) : 1)) {
+            throw new CDbException(Yii::t('yii',
+                'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".',
+                [
+                    '{class}' => get_class($parent->model), '{relation}' => $relation->name,
+                    '{table}' => $pkTable->name,
+                ]));
+        }
 
-		// set up mapping between fk and pk columns
+        // set up mapping between fk and pk columns
 		$map=array();  // pk=>fk
 		foreach($fks as $i=>$fk)
 		{
