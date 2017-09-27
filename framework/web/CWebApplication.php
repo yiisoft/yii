@@ -356,7 +356,7 @@ class CWebApplication extends CApplication
 				{
 					$id[0]=strtolower($id[0]);
 					return array(
-						new $className($controllerID.$id,$owner===$this?null:$owner),
+						Yii::createComponent($className, $controllerID . $id, $owner === $this ? null : $owner),
 						$this->parseActionParams($route),
 					);
 				}
