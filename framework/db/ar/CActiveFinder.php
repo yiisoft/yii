@@ -356,6 +356,9 @@ class CJoinElement
 	public $rawTableAlias;
 
 	private $_finder;
+    /**
+     * @var CDbCommandBuilder $_builder
+     */
 	private $_builder;
 	private $_parent;
 	private $_pkAlias;  				// string or name=>alias
@@ -1170,25 +1173,21 @@ class CJoinElement
 			}
 		}
 
-		if(!$fkDefined)
-		{
-			$parentCondition=array();
-			$childCondition=array();
-			foreach($fks as $i=>$fk)
-			{
-				if($i<count($parent->_table->primaryKey))
-				{
-					$pk=is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$i] : $parent->_table->primaryKey;
-					$parentCondition[$pk]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
-				}
-				else
-				{
-					$j=$i-count($parent->_table->primaryKey);
-					$pk=is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
-					$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
-				}
-			}
-		}
+        if (!$fkDefined) {
+            $parentCondition = array();
+            $childCondition = array();
+            $primaryKeyCount = is_array($parent->_table->primaryKey) ? count($parent->_table->primaryKey) : 1;
+            foreach ($fks as $i => $fk) {
+                if ($i < $primaryKeyCount) {
+                    $pk = is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$i] : $parent->_table->primaryKey;
+                    $parentCondition[$pk] = $parent->getColumnPrefix() . $schema->quoteColumnName($pk) . '=' . $joinAlias . '.' . $schema->quoteColumnName($fk);
+                } else {
+                    $j = $i - $primaryKeyCount;
+                    $pk = is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
+                    $childCondition[$pk] = $this->getColumnPrefix() . $schema->quoteColumnName($pk) . '=' . $joinAlias . '.' . $schema->quoteColumnName($fk);
+                }
+            }
+        }
 
 		if($parentCondition!==array() && $childCondition!==array())
 		{
