@@ -167,7 +167,7 @@ class CConsoleCommandRunner extends CComponent
 				}
 				else // an alias
 					$className=Yii::import($command);
-				return new $className($name,$this);
+                return Yii::createComponent($className, $name, $this);
 			}
 			else // an array configuration
 				return Yii::createComponent($command,$name,$this);
