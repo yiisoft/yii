@@ -74,7 +74,6 @@ class YiiInitTask extends PropertyTask
 			$contents=file_get_contents($gitFile);
 			return substr($contents, 0, 6);
 		}
-		else
-			return 'unknown';
+		return 'unknown';
 	}
 }

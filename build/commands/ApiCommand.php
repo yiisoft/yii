@@ -110,12 +110,14 @@ EOD;
 		 * development version - link to master
 		 * release version link to tags
 		 */
-		if(substr($this->version,-3)=='dev')
-			$this->baseSourceUrl .= '/master/framework';
-		else
-			$this->baseSourceUrl .= '/'.$this->version.'/framework';
+		$baseSourceUrl = "/{$this->version}/framework";
+		if(substr($this->version,-3)=='dev') {
+			$baseSourceUrl = '/master/framework';
+		}
 
-		$this->pageTitle='Yii Framework Class Reference';
+		$this->baseSourceUrl .= $baseSourceUrl;
+
+		$this->pageTitle = 'Yii Framework Class Reference';
 		$themePath=dirname(__FILE__).'/api';
 
 		echo "\nBuilding.. : " . $this->pageTitle."\n";
@@ -129,7 +131,7 @@ EOD;
 		$this->packages=$model->packages;
 
 		echo "Building pages...\n";
-		if($offline)
+		if($offline) 
 			$this->buildOfflinePages($docPath.DIRECTORY_SEPARATOR.'api',$themePath);
 		else
 		{
@@ -183,10 +185,10 @@ EOD;
 
 	public function renderSourceLink($sourcePath,$line=null)
 	{
-		if($line===null)
+		if($line===null) {
 			return CHtml::link('framework'.$sourcePath,$this->baseSourceUrl.$sourcePath,array('class'=>'sourceLink'));
-		else
-			return CHtml::link('framework'.$sourcePath.'#'.$line, $this->baseSourceUrl.$sourcePath.'#L'.$line,array('class'=>'sourceLink'));
+		}
+		return CHtml::link('framework'.$sourcePath.'#'.$line, $this->baseSourceUrl.$sourcePath.'#L'.$line,array('class'=>'sourceLink'));
 	}
 
 	public function highlight($code,$limit=20)
@@ -256,10 +258,11 @@ EOD;
 		$parents=array($class->signature);
 		foreach($class->parentClasses as $parent)
 		{
-			if(isset($this->classes[$parent]))
-				$parents[]='{{'.$parent.'|'.$parent.'}}';
-			else
-				$parents[]=$parent;
+			$value = $parent;
+			if(isset($this->classes[$parent])) {
+				$value = '{{'.$parent.'|'.$parent.'}}';
+			}
+			$parents[] = $value;
 		}
 		return implode(" &raquo;\n",$parents);
 	}
@@ -269,10 +272,11 @@ EOD;
 		$interfaces=array();
 		foreach($class->interfaces as $interface)
 		{
-			if(isset($this->classes[$interface]))
-				$interfaces[]='{{'.$interface.'|'.$interface.'}}';
-			else
-				$interfaces[]=$interface;
+			$value = $interface;
+			if(isset($this->classes[$interface])) {
+				$value = '{{'.$interface.'|'.$interface.'}}';
+			}
+			$interfaces[] = $value;
 		}
 		return implode(', ',$interfaces);
 	}
@@ -282,31 +286,32 @@ EOD;
 		$subclasses=array();
 		foreach($class->subclasses as $subclass)
 		{
-			if(isset($this->classes[$subclass]))
-				$subclasses[]='{{'.$subclass.'|'.$subclass.'}}';
-			else
-				$subclasses[]=$subclass;
+			$value = $subclass;
+			if(isset($this->classes[$subclass])) {
+				$value = '{{'.$subclass.'|'.$subclass.'}}';
+			}
+			$subclasses[] = $value
 		}
 		return implode(', ',$subclasses);
 	}
 
 	public function renderTypeUrl($type)
 	{
-		if(isset($this->classes[$type]) && $type!==$this->currentClass)
+		if(isset($this->classes[$type]) && $type!==$this->currentClass) {
 			return '{{'.$type.'|'.$type.'}}';
-		else
-			return $type;
+		}
+		return $type;
 	}
 
 	public function renderSubjectUrl($type,$subject,$text=null)
 	{
-		if($text===null)
+		if($text===null) {
 			$text=$subject;
+		}
 		if(isset($this->classes[$type])) {
 			return '{{'.$type.'::'.$subject.'-detail'.'|'.$text.'}}';
 		}
-		else
-			return $text;
+		return $text;
 	}
 
 	public function renderPropertySignature($property)
@@ -327,10 +332,10 @@ EOD;
 
 	public function fixMethodAnchor($class,$name)
 	{
-		if(isset($this->classes[$class]->properties[$name]))
+		if(isset($this->classes[$class]->properties[$name])) {
 			return $name."()";
-		else
-			return $name;
+		}
+		return $name;
 	}
 
 	protected function fixOfflineLink($matches)
@@ -341,8 +346,7 @@ EOD;
 			$method=substr($matches[1],$pos+2);
 			return "<a href=\"{$className}.html#{$method}\">{$matches[2]}</a>";
 		}
-		else
-			return "<a href=\"{$matches[1]}.html\">{$matches[2]}</a>";
+		return "<a href=\"{$matches[1]}.html\">{$matches[2]}</a>";
 	}
 
 	protected function fixOnlineLink($matches)
@@ -351,17 +355,17 @@ EOD;
 		{
 			$className=substr($matches[1],0,$pos);
 			$method=substr($matches[1],$pos+2);
-			if($className==='index')
+			if($className==='index') {
 				return "<a href=\"/doc/api/#{$method}\">{$matches[2]}</a>";
-			else
-				return "<a href=\"/doc/api/{$className}#{$method}\">{$matches[2]}</a>";
+			}
+			return "<a href=\"/doc/api/{$className}#{$method}\">{$matches[2]}</a>";
 		}
 		else
 		{
-			if($matches[1]==='index')
+			if($matches[1]==='index') {
 				return "<a href=\"/doc/api/\">{$matches[2]}</a>";
-			else
-				return "<a href=\"/doc/api/{$matches[1]}\">{$matches[2]}</a>";
+			}
+			return "<a href=\"/doc/api/{$matches[1]}\">{$matches[2]}</a>";
 		}
 	}
 }
