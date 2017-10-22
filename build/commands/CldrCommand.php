@@ -165,14 +165,13 @@ EOD;
 		$i18nDataPath = dirname(__FILE__).'/../../framework/i18n/data';
 
 		// retrieve parent data first
-		if(($pos=strrpos($locale,'_'))!==false)
-			$data=require($i18nDataPath.DIRECTORY_SEPARATOR.strtolower(substr($locale,0,$pos)).'.php');
+		$data = array();
+		if(($pos = strrpos($locale,'_'))!==false)
+			$data = require($i18nDataPath.DIRECTORY_SEPARATOR.strtolower(substr($locale,0,$pos)).'.php');
 		else if($locale!=='root')
-			$data=require($i18nDataPath.DIRECTORY_SEPARATOR.'root.php');
-		else
-			$data=array();
+			$data = require($i18nDataPath.DIRECTORY_SEPARATOR.'root.php');		
 
-		$xml=simplexml_load_file($path);
+		$xml = simplexml_load_file($path);
 
 		$this->parseVersion($xml,$data);
 

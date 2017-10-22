@@ -184,16 +184,19 @@ class ApiModel
 
 	protected function getMethodUrl($class,$method)
 	{
-		if(!isset($this->classes[$class]))
+		if(!isset($this->classes[$class])){
 			return '';
-		if(method_exists($class,$method) || property_exists($class,$method))
+		}
+		if(method_exists($class,$method) || property_exists($class,$method)){
 			return $class.'::'.$method;
-		if(method_exists($class,'get'.$method) || method_exists($class,'set'.$method))
+		}
+		if(method_exists($class,'get'.$method) || method_exists($class,'set'.$method)){
 			return $class.'::'.$method;
-		if(($parent=get_parent_class($class))!==false)
+		}
+		if(($parent=get_parent_class($class))!==false){
 			return $this->getMethodUrl($parent,$method);
-		else
-			return '';
+		}
+		return '';
 	}
 
 	protected function processLink($matches)
@@ -212,10 +215,10 @@ class ApiModel
 	{
 		$class=new ReflectionClass($this->_currentClass);
 		$fileName=dirname($class->getFileName()).DIRECTORY_SEPARATOR.$matches[1];
-		if(is_file($fileName))
+		if(is_file($fileName)) {
 			return file_get_contents($fileName);
-		else
-			return $matches[0];
+		}
+		return $matches[0];
 	}
 
 	protected function processTags($object,$comment)
@@ -280,10 +283,10 @@ class ApiModel
 		foreach($doc->input as $param)
 		{
 			$type=empty($param->type)?'':$this->getTypeUrl($param->type).' ';
-			if($param->isOptional)
+			if($param->isOptional) {
 				$params[]=$type.($param->isPassedByReference?'&':'').'$'.$param->name.'='.str_replace("\r",'',var_export($param->defaultValue,true));
-			else
-				$params[]=$type.($param->isPassedByReference?'&':'').'$'.$param->name;
+			}
+			$params[]=$type.($param->isPassedByReference?'&':'').'$'.$param->name;
 		}
 		$doc->signature='{{'.$class->name.'::'.$doc->name.'|<b>'.$doc->name.'</b>}}('.implode(', ',$params).')';
 		if($doc->output!==null)
@@ -298,10 +301,10 @@ class ApiModel
 
 	protected function getTypeUrl($type)
 	{
-		if(isset($this->classes[$type]) && $type!==$this->_currentClass)
+		if(isset($this->classes[$type]) && $type!==$this->_currentClass) {
 			return '{{'.$type.'|'.$type.'}}';
-		else
-			return $type;
+		}
+		return $type;
 	}
 
 	protected function processProperties($class)
@@ -489,9 +492,8 @@ class ApiModel
 				}
 			}
 			return $sentence;
-		} else {
-			return $text;
 		}
+		return $text;
 	}
 
 	protected function tagSee($object,$comment)

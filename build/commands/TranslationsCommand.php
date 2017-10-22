@@ -143,18 +143,17 @@ EOD;
 	{
 		$lines = explode("\n", $diff);
 		foreach ($lines as $key => $val) {
+			$value = CHtml::encode($val);
 			if (mb_substr($val,0,1,'utf-8') === '@') {
-				$lines[$key] = '<span class="info">'.CHtml::encode($val).'</span>';
+				$value = '<span class="info">'.CHtml::encode($val).'</span>';
 			}
 			else if (mb_substr($val,0,1,'utf-8') === '+') {
-				$lines[$key] = '<ins>'.CHtml::encode($val).'</ins>';
+				$value = '<ins>'.CHtml::encode($val).'</ins>';
 			}
 			else if (mb_substr($val,0,1,'utf-8') === '-') {
-				$lines[$key] = '<del>'.CHtml::encode($val).'</del>';
+				$value = '<del>'.CHtml::encode($val).'</del>';
 			}
-			else {
-				$lines[$key] = CHtml::encode($val);
-			}
+			$lines[$key] = $value;
 		}
 
 		return implode("\n", $lines);
