@@ -44,7 +44,7 @@ class CMysqlColumnSchema extends CDbColumnSchema
 	{
 		if(strncmp($this->dbType,'bit',3)===0)
 			$this->defaultValue=bindec(trim($defaultValue,'b\''));
-		elseif(($this->dbType==='timestamp' || $this->dbType==='datetime')  && $defaultValue==='CURRENT_TIMESTAMP')
+		elseif(($this->dbType==='timestamp' || $this->dbType==='datetime')  && ($defaultValue==='CURRENT_TIMESTAMP' || $defaultValue==='current_timestamp()'))
 			$this->defaultValue=null;
 		else
 			parent::extractDefault($defaultValue);
