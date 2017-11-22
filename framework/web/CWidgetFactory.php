@@ -143,8 +143,8 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	 */
 	public function createWidget($owner,$className,$properties=array())
 	{
-		$className=Yii::import($className,true);
-		$widget=new $className($owner);
+	    $className = Yii::import($className, true);
+        $widget = Yii::createComponent($className, $owner);
 
 		if(isset($this->widgets[$className]))
 			$properties=$properties===array() ? $this->widgets[$className] : CMap::mergeArray($this->widgets[$className],$properties);
