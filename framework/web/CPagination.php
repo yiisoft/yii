@@ -186,7 +186,6 @@ class CPagination extends CComponent
 	{
 	    $value = (int)$value;
 		$this->_currentPage=$value;
-		$_GET[$this->pageVar]=$value+1;
 	}
 
 	/**
