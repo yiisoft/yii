@@ -153,33 +153,32 @@ class CPagination extends CComponent
 		return (int)(($this->_itemCount+$this->_pageSize-1)/$this->_pageSize);
 	}
 
-	/**
-	 * @param boolean $recalculate whether to recalculate the current page based on the page size and item count.
-	 * @return integer the zero-based index of the current page. Defaults to 0.
-	 */
-	public function getCurrentPage($recalculate=true)
-	{
-		if($this->_currentPage===null || $recalculate)
-		{
-			if(isset($_GET[$this->pageVar]))
-			{
-				$this->_currentPage=(int)$_GET[$this->pageVar]-1;
-				if($this->validateCurrentPage)
-				{
-					$pageCount=$this->getPageCount();
-					if($this->_currentPage>=$pageCount)
-						$this->_currentPage=$pageCount-1;
-				}
-				if($this->_currentPage<0)
-					$this->_currentPage=0;
-			}
-			else
-				$this->_currentPage=0;
-		}
-		return $this->_currentPage;
-	}
+    /**
+     * @return integer the zero-based index of the current page. Defaults to 0.
+     */
+    public function getCurrentPage()
+    {
+        if ($this->_currentPage === null) {
+            $this->_currentPage = 0;
+            if (isset($_GET[$this->pageVar])) {
+                $this->_currentPage = (int)$_GET[$this->pageVar] - 1;
+            }
+        }
 
-	/**
+        if ($this->validateCurrentPage) {
+            $pageCount = $this->getPageCount();
+            if ($this->_currentPage >= $pageCount) {
+                $this->_currentPage = $pageCount - 1;
+            }
+        }
+        if ($this->_currentPage < 0) {
+            $this->_currentPage = 0;
+        }
+
+        return $this->_currentPage;
+    }
+
+    /**
 	 * @param integer $value the zero-based index of the current page.
 	 */
 	public function setCurrentPage($value)
