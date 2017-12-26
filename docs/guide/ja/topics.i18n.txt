@@ -251,7 +251,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 
-> Info|情報: 何個の表示形式をどういう順序で記述すべきかについては、CLDR [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html) を参照して下さい。
+> Info|情報: 何個の表示形式をどういう順序で記述すべきかについては、CLDR [Language Plural Rules page](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#ja) を参照して下さい。
 
 
 ### ファイル翻訳
