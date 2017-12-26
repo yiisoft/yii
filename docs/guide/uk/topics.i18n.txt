@@ -248,7 +248,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 
 
 > Info|Інформація: число і порядок виразів можна дізнатися у розділі
- [Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
+ [Language Plural Rules](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#uk)
  на сайті CLDR.
 
 ### Переклад файлів
