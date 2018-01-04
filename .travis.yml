@@ -1,17 +1,19 @@
 language: php
 
 php:
-  - 5.3
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7.0
+  - 7.2
   - 7.1
+  - 7.0
+  - 5.6
+  - 5.5
+  - 5.4
   - nightly
 
 matrix:
   fast_finish: true
   include:
+    - php: 5.3
+      dist: precise
     - php: hhvm
       sudo: true
       dist: trusty
@@ -28,6 +30,7 @@ matrix:
         - postgresql
         - redis-server
   allow_failures:
+    - php: 5.3
     - php: nightly
     - php: hhvm # run build against hhvm but allow them to fail
 # http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
@@ -45,10 +48,19 @@ cache:
 install:
   - travis_retry composer self-update && composer --version
   - travis_retry composer update --prefer-dist --no-interaction
+  - if [[ $TRAVIS_PHP_VERSION == 7.2 ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+        printf "autodetect\n" | pecl install mcrypt-snapshot;
+    fi
 
 before_script:
   # Disable the HHVM JIT for faster Unit Testing
   - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo 'hhvm.jit = 0' >> /etc/hhvm/php.ini; fi
+  # Disable DEPRECATE messages during PHPUnit initialization on PHP 7.2. To fix them, PHPUnit should be updated to 6.*
+  - if [[ $TRAVIS_PHP_VERSION == 7.2 ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      echo 'Disabled DEPRECATED notifications for PHP 7.2';
+      echo 'error_reporting = E_ALL & ~E_DEPRECATED' >> /tmp/php-config.ini;
+      phpenv config-add /tmp/php-config.ini;
+    fi
   - ./tests/travis/mysql-setup.sh
   - ./tests/travis/postgresql-setup.sh
   - ./tests/travis/memcache-setup.sh
