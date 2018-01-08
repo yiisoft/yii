@@ -73,7 +73,10 @@
 		]
 	},
 	"require": {
-		"php": ">=5.1.0"
+		"php": ">=5.1.0 <=7.1",
+		"ext-mbstring": "*",
+		"ext-mcrypt": "*",
+		"lib-pcre": "*"
 	},
 	"autoload": {
 		"classmap" : [
