@@ -92,6 +92,11 @@ class CAuthItem extends CComponent
 		return $this->_auth;
 	}
 
+	public function setAuthManager(IAuthManager $authManager)
+	{
+	    $this->_auth = $authManager;
+	}
+
 	/**
 	 * @return integer the authorization item type. This could be 0 (operation), 1 (task) or 2 (role).
 	 */
