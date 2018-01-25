@@ -318,7 +318,7 @@ zu dieser Ausgabe führen:
 
 > Info: Weitere Informationen darüber, wieviele Werte man in welcher
 > Reihenfolge angeben kann finden auf der Seite mit den 
-> [Pluralregeln einzelner Sprachen](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
+> [Pluralregeln einzelner Sprachen](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#de)
 > des CLDR.
 
 

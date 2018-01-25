@@ -297,7 +297,7 @@ akan memberikan hasil
 
 > Info: untuk mempelajari berapa banyak nilai yang harus anda sediakan dan
 bagaimana urutan yang seharusnya, silahkan merujuk ke CLDR
-[halaman Language Plural Rules] (http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
+[halaman Language Plural Rules] (http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#id).
 
 ### Terjemahan File
 

@@ -284,7 +284,7 @@ co w rezultacie da nam
 
 
 > Info|Info: aby dowiedzieć się jak wiele wartości możesz wprowadzić oraz w jakiej kolejności
- powinny się one znajdować zajrzyj na stronę [reguł liczy mnogiej dla różnych języków](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
+ powinny się one znajdować zajrzyj na stronę [reguł liczy mnogiej dla różnych języków](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#pl).
 
 ### Tłumaczenie pliku
 

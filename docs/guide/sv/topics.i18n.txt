@@ -290,7 +290,7 @@ blir resultatet
  
 
 > Info: För detaljer om hur många värden som skall lämnas med och i vilken ordning, 
-vänligen se CLDR [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
+vänligen se CLDR [Language Plural Rules page](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#sv).
 
 ### Översättning av fil
 
