@@ -301,7 +301,7 @@ which will produce:
 
 > Info: to learn about how many expressions you should supply and in which
  order they should be, please refer to CLDR
- [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
+ [Language Plural Rules page](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
 
 ### File Translation
 
