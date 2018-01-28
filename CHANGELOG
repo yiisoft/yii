@@ -1,9 +1,10 @@
-                   Yii Framework Change Log
+﻿                   Yii Framework Change Log
                    ========================
 
 Version 1.1.20 under development
 --------------------------------
 
+- Bug #4179: Fixed MariaDB 10.2 current_timestamp() (yaBliznyk)
 - Bug #4167: Fixed PHP 7.2 incompatibility of "count()" in `CActiveFinder` (softark)
 - Chg #4160: Updated HTMLPurifier to version 4.9.3 (takobell)
 - Bug #4162: Adjusted Zend Escaper to be compatible with PHP <5.3 and fixed usage of non-existing Exceptions (cebe)
