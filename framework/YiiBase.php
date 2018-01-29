@@ -53,12 +53,13 @@ defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'z
  */
 class YiiBase
 {
-    /**
-     * @var array filters for autoloading mechanism.
-     * It should be callable. For callable function autoloader pass className.
-     * If filter function returns true Yii autoloader will be skipped.
-     */
-    public static $autoloaderFilters=array();
+	/**
+	 * @var array filters for autoloading mechanism.
+	 * It should be callable. For callable function autoloader pass className.
+	 * If filter function returns true Yii autoloader will be skipped.
+	 * @since 1.1.20
+	 */
+	public static $autoloaderFilters=array();
 	/**
 	 * @var array class map used by the Yii autoloading mechanism.
 	 * The array keys are the class names and the array values are the corresponding class file paths.
@@ -405,29 +406,29 @@ class YiiBase
 	 */
 	public static function autoload($className,$classMapOnly=false)
 	{
-        foreach (self::$autoloaderFilters as $filter)
-        {
-            if (is_array($filter)
-                && isset($filter[0]) && isset($filter[1])
-                && is_string($filter[0]) && is_string($filter[1])
-                && true === call_user_func(array($filter[0], $filter[1]), $className)
-            )
-            {
-                return true;
-            }
-            elseif (is_string($filter)
-                && true === call_user_func($filter, $className)
-            )
-            {
-                return true;
-            }
-            elseif (is_callable($filter)
-                && true === $filter($className)
-            )
-            {
-                return true;
-            }
-        }
+		foreach (self::$autoloaderFilters as $filter)
+		{
+			if (is_array($filter)
+				&& isset($filter[0]) && isset($filter[1])
+				&& is_string($filter[0]) && is_string($filter[1])
+				&& true === call_user_func(array($filter[0], $filter[1]), $className)
+			)
+			{
+				return true;
+			}
+			elseif (is_string($filter)
+				&& true === call_user_func($filter, $className)
+			)
+			{
+				return true;
+			}
+			elseif (is_callable($filter)
+				&& true === $filter($className)
+			)
+			{
+				return true;
+			}
+		}
 
 		// use include so that the error PHP file may appear
 		if(isset(self::$classMap[$className]))

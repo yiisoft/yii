@@ -76,12 +76,13 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public $autoStart=true;
 
-    /**
-     * @var array Store frozen session data for ini_set in PHP7.2+
-     */
-    protected static $frozenData = array();
+	/**
+	 * @var array Store frozen session data for ini_set in PHP7.2+
+	 * @since 1.1.20
+	 */
+	protected static $frozenData = array();
 
-        /**
+		/**
 	 * Initializes the application component.
 	 * This method is required by IApplicationComponent and is invoked by application.
 	 */
@@ -275,24 +276,24 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		if($value==='none')
 		{
-		    $this->freeze();
+			$this->freeze();
 			ini_set('session.use_cookies','0');
 			ini_set('session.use_only_cookies','0');
-            $this->unfreeze();
+			$this->unfreeze();
 		}
 		elseif($value==='allow')
 		{
-            $this->freeze();
+			$this->freeze();
 			ini_set('session.use_cookies','1');
 			ini_set('session.use_only_cookies','0');
-            $this->unfreeze();
+			$this->unfreeze();
 		}
 		elseif($value==='only')
 		{
-            $this->freeze();
+			$this->freeze();
 			ini_set('session.use_cookies','1');
 			ini_set('session.use_only_cookies','1');
-            $this->unfreeze();
+			$this->unfreeze();
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpSession.cookieMode can only be "none", "allow" or "only".'));
@@ -314,11 +315,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		if($value>=0 && $value<=100)
 		{
-            $this->freeze();
+			$this->freeze();
 			// percent * 21474837 / 2147483647 ≈ percent * 0.01
 			ini_set('session.gc_probability',floor($value*21474836.47));
 			ini_set('session.gc_divisor',2147483647);
-            $this->unfreeze();
+			$this->unfreeze();
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be a float between 0 and 100.',
@@ -587,50 +588,52 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		unset($_SESSION[$offset]);
 	}
 
-    /**
-     * In PHP7.2 if session is started we cannot edit session ini settings.
-     * This function save session data to temporary variable and stop session.
-     *
-     * @see CHttpSession::unfreeze();
-     */
-    protected function freeze()
-    {
-        if (version_compare(PHP_VERSION, '7.2.0', '<'))
-        {
-            return;
-        }
+	/**
+	 * In PHP7.2 if session is started we cannot edit session ini settings.
+	 * This function save session data to temporary variable and stop session.
+	 *
+	 * @see CHttpSession::unfreeze();
+	 * @since 1.1.20
+	 */
+	protected function freeze()
+	{
+		if (version_compare(PHP_VERSION, '7.2.0', '<'))
+		{
+			return;
+		}
 
-        if ($this->getIsStarted())
-        {
-            self::$frozenData = $_SESSION;
-            $this->close();
-        }
-        else
-        {
-            self::$frozenData = null;
-        }
-    }
+		if ($this->getIsStarted())
+		{
+			self::$frozenData = $_SESSION;
+			$this->close();
+		}
+		else
+		{
+			self::$frozenData = null;
+		}
+	}
 
-    /**
-     * Start session and restore data from temporary variable
-     *
-     * @see CHttpSession::freeze();
-     */
-    protected function unfreeze()
-    {
-        if (version_compare(PHP_VERSION, '7.2.0', '<'))
-        {
-            return;
-        }
+	/**
+	 * Start session and restore data from temporary variable
+	 *
+	 * @see CHttpSession::freeze();
+	 * @since 1.1.20
+	 */
+	protected function unfreeze()
+	{
+		if (version_compare(PHP_VERSION, '7.2.0', '<'))
+		{
+			return;
+		}
 
-        if (self::$frozenData !== null)
-        {
-            @session_start();
-            $_SESSION = self::$frozenData;
-        }
+		if (self::$frozenData !== null)
+		{
+			@session_start();
+			$_SESSION = self::$frozenData;
+		}
 
-        self::$frozenData = array();
+		self::$frozenData = array();
 
-    }
+	}
 
 }
