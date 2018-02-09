@@ -77,10 +77,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public $autoStart=true;
 
 	/**
-	 * @var array Store frozen session data for ini_set in PHP7.2+
+	 * @var array Frozen session data
 	 * @since 1.1.20
 	 */
-	protected static $frozenData = array();
+	private $_frozenData;
 
 	/**
 	 * Initializes the application component.
@@ -589,7 +589,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * In PHP7.2 if session is started we cannot edit session ini settings.
+	 * If session is started we cannot edit session ini settings.
 	 * This function save session data to temporary variable and stop session.
 	 *
 	 * @see CHttpSession::unfreeze();
@@ -597,19 +597,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	protected function freeze()
 	{
-		if (version_compare(PHP_VERSION, '7.2.0', '<'))
+		if (isset($_SESSION) && $this->getIsStarted())
 		{
-			return;
-		}
-
-		if ($this->getIsStarted())
-		{
-			self::$frozenData = $_SESSION;
+			$this->_frozenData = $_SESSION;
 			$this->close();
-		}
-		else
-		{
-			self::$frozenData = null;
 		}
 	}
 
@@ -621,19 +612,12 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	protected function unfreeze()
 	{
-		if (version_compare(PHP_VERSION, '7.2.0', '<'))
-		{
-			return;
-		}
-
-		if (self::$frozenData !== null)
+		if ($this->_frozenData !== null)
 		{
 			@session_start();
-			$_SESSION = self::$frozenData;
+			$_SESSION = $this->_frozenData;
+			$this->_frozenData = null;
 		}
-
-		self::$frozenData = array();
-
 	}
 
 }
