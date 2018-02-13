@@ -2548,6 +2548,8 @@ EOD;
 			{
 				if(is_object($item))
 					$selection[$i]=$item->$key;
+				
+				$selection[$i] = (string)$selection[$i];
 			}
 		}
 		elseif(is_object($selection))
@@ -2555,6 +2557,8 @@ EOD;
 
 		foreach($listData as $key=>$value)
 		{
+			$key = (string)$key;
+			
 			if(is_array($value))
 			{
 				$content.='<optgroup label="'.($raw?$key : self::encode($key))."\">\n";
