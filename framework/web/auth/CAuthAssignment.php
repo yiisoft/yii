@@ -103,4 +103,9 @@ class CAuthAssignment extends CComponent
 			$this->_auth->saveAuthAssignment($this);
 		}
 	}
+
+    public function setAuthManager(IAuthManager $authManager)
+    {
+        $this->_auth = $authManager;
+	}
 }
