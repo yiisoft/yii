@@ -32,13 +32,17 @@ matrix:
   allow_failures:
     - php: 5.3
     - php: nightly
+    - php: hhvm # run build against hhvm but allow them to fail
+# http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
 
 services:
   - redis-server
   - memcached
 
+# cache vendor dirs
 cache:
   directories:
+    - vendor
     - $HOME/.composer/cache
 
 install:
