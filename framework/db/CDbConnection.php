@@ -294,10 +294,16 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Close the connection when serializing.
 	 * @return array
+	 * @throws \LogicException if there is transaction active
 	 */
 	public function __sleep()
 	{
+		if ($this->getCurrentTransaction() !== null) {
+			throw new LogicException('You can\'t serialize this connection, because it has running transaction');
+		}
+
 		$this->close();
+
 		return array_keys(get_object_vars($this));
 	}
 
