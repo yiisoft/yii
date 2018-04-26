@@ -78,6 +78,7 @@
  * @property CController $controller The currently active controller. Null is returned in this base class.
  * @property string $baseUrl The relative URL for the application.
  * @property string $homeUrl The homepage URL.
+ * @property CHttpSession $session
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base
