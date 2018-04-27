@@ -193,7 +193,7 @@ class CHttpCacheFilter extends CFilter
 	{
 		if(Yii::app()->session->isStarted)
 		{
-		    Yii::app()->session->setCacheLimiter('public');
+			Yii::app()->session->setCacheLimiter('public');
 			header('Pragma:',true);
 		}
 		header('Cache-Control: '.$this->cacheControl,true);
