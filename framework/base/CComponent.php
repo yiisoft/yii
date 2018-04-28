@@ -532,55 +532,45 @@ class CComponent
 			return false;
 	}
 
-	/**
-	 * Raises an event.
-	 * This method represents the happening of an event. It invokes
-	 * all attached handlers for the event.
-	 * @param string $name the event name
-	 * @param CEvent $event the event parameter
-	 * @throws CException if the event is undefined or an event handler is invalid.
-	 */
-	public function raiseEvent($name,$event)
-	{
-		$name=strtolower($name);
-		if(isset($this->_e[$name]))
-		{
-			foreach($this->_e[$name] as $handler)
-			{
-				if(is_string($handler))
-					call_user_func($handler,$event);
-				elseif(is_callable($handler,true))
-				{
-					if(is_array($handler))
-					{
-						// an array: 0 - object, 1 - method name
-						list($object,$method)=$handler;
-						if(is_string($object))	// static method call
-							call_user_func($handler,$event);
-						elseif(method_exists($object,$method))
-							$object->$method($event);
-						else
-							throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
-								array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>$handler[1])));
-					}
-					else // PHP 5.3: anonymous function
-						call_user_func($handler,$event);
-				}
-				else
-					throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
-						array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>gettype($handler))));
-				// stop further handling if param.handled is set true
-				if(($event instanceof CEvent) && $event->handled)
-					return;
-			}
-		}
-		elseif(YII_DEBUG && !$this->hasEvent($name))
-			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
-				array('{class}'=>get_class($this), '{event}'=>$name)));
-	}
+    /**
+     * Raises an event.
+     * This method represents the happening of an event. It invokes
+     * all attached handlers for the event.
+     *
+     * @param string $name  the event name
+     * @param CEvent $event the event parameter
+     *
+     * @throws CException if the event is undefined or an event handler is invalid.
+     */
+    public function raiseEvent($name, CEvent $event)
+    {
+        $name = strtolower($name);
+        if (isset($this->_e[$name])) {
+            foreach ($this->_e[$name] as $handler) {
+                if (is_string($handler) && class_exists($handler)) {
+                    $handler = Yii::createComponent($handler);
+                }
+                if (is_callable($handler)) {
+                    $handler($event);
+                } else {
+                    throw new CException(Yii::t('yii',
+                        'Event "{class}.{event}" is attached with an invalid handler "{handler}".',
+                        ['{class}' => get_class($this), '{event}' => $name, '{handler}' => gettype($handler)]));
+                }
 
-	/**
-	 * Evaluates a PHP expression or callback under the context of this component.
+                // stop further handling if param.handled is set true
+                if ($event->handled) {
+                    return;
+                }
+            }
+        } elseif (YII_DEBUG && !$this->hasEvent($name)) {
+            throw new CException(Yii::t('yii', 'Event "{class}.{event}" is not defined.',
+                ['{class}' => get_class($this), '{event}' => $name]));
+        }
+    }
+
+    /**
+     * Evaluates a PHP expression or callback under the context of this component.
 	 *
 	 * Valid PHP callback can be class method name in the form of
 	 * array(ClassName/Object, MethodName), or anonymous function (only available in PHP 5.3.0 or above).

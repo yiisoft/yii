@@ -274,7 +274,7 @@ class CComponentTest extends CTestCase
 			$this->component->onMyEvent();
 		} catch (Exception $e) {
 			$this->assertInstanceOf('CException', $e);
-			$this->assertSame('Event "NewComponent.onmyevent" is attached with an invalid handler "nullHandler".', $e->getMessage());
+			$this->assertSame('NewComponent and its behaviors do not have a method or closure named "nullHandler".', $e->getMessage());
 		}
 	}
 
