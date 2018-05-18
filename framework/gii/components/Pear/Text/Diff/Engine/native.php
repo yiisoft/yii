@@ -332,9 +332,9 @@ class Text_Diff_Engine_native {
         $i = 0;
         $j = 0;
 
+        assert(count($lines) == count($changed));
         $len = count($lines);
         $other_len = count($other_changed);
-        assert($len == $other_len);
 
         while (1) {
             /* Scan forward to find the beginning of another run of
