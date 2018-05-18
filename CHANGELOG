@@ -10,6 +10,7 @@ Version 1.1.20 under development
 - Bug #4179: Fixed MariaDB 10.2 current_timestamp() (yaBliznyk)
 - Bug #4191: Fixed "Headers already sent." error in CHttpSession (daniel1302)
 - Bug #4191: Fixed "CHtml::value() behaves differently for objects" for PHP 7.2 (daniel1302)
+- Bug #4197: Fixed PHP 7.2 assert with string argument is deprecated warning using Gii (ThePepster)
 - Bug #4203: Fixed `CHttpCacheFilter::sendCacheControlHeader` PHP 7.2 compatibility (b1rdex)
 - Enh #4191: Added option for filter classes loaded by YiiBase autoloader (daniel1302)
 - Chg #4160: Updated HTMLPurifier to version 4.9.3 (takobell)
