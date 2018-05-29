@@ -131,7 +131,7 @@ class CTabView extends CWidget
 		if($this->activeTab===null || !isset($this->tabs[$this->activeTab]))
 		{
 			reset($this->tabs);
-			$this->activeTab = current($this->tabs);
+			$this->activeTab = key($this->tabs);
 		}
 
 		$htmlOptions=$this->htmlOptions;
