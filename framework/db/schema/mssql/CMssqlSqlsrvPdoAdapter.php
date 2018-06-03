@@ -32,8 +32,8 @@ class CMssqlSqlsrvPdoAdapter extends PDO
 	 */
 	public function lastInsertId($sequence=null)
 	{
-		$tmp = explode('.', phpversion('pdo_sqlsrv'));
-		$sqlsrvVer = phpversion('pdo_sqlsrv') ? intval(array_shift($tmp)) : 0;
+		$parts = explode('.', phpversion('pdo_sqlsrv'));
+		$sqlsrvVer = phpversion('pdo_sqlsrv') ? intval(array_shift($parts)) : 0;
 
 		if(!$sequence || $sqlsrvVer >= 5)
 			return parent::lastInsertId();
