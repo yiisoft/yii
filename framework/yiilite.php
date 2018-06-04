@@ -3986,7 +3986,7 @@ class CController extends CBaseController
 	}
 	public function renderDynamic($callback)
 	{
-		$n=count($this->_dynamicOutput);
+		$n=($this->_dynamicOutput === null ? 0 : count($this->_dynamicOutput));
 		echo "<###dynamic-$n###>";
 		$params=func_get_args();
 		array_shift($params);
@@ -4865,6 +4865,12 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			$_SESSION = $this->_frozenData;
 			$this->_frozenData = null;
 		}
+	}
+	public function setCacheLimiter($cacheLimiter)
+	{
+		$this->freeze();
+		session_cache_limiter($cacheLimiter);
+		$this->unfreeze();
 	}
 }
 class CHtml
