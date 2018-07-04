@@ -75,6 +75,9 @@
 	"require": {
 		"php": ">=5.1.0"
 	},
+	"suggest": {
+		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager"
+	},
 	"autoload": {
 		"classmap" : [
 			"framework/YiiBase.php",
