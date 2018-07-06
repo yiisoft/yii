@@ -1,8 +1,8 @@
 ﻿                   Yii Framework Change Log
                    ========================
 
-Version 1.1.20 under development
---------------------------------
+Version 1.1.20 July 6, 2018
+---------------------------
 
 - Bug #4182: CSecurityManager requires mcrypt extension to work, and for PHP 7.2 we need to install it from pecl (sergey-dryabzhinsky)
 - Bug #4162: Adjusted Zend Escaper to be compatible with PHP <5.3 and fixed usage of non-existing Exceptions (cebe)
