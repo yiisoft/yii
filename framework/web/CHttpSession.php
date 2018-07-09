@@ -622,15 +622,16 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		}
 	}
 
-    /**
-     * Set cache limiter
-     *
-     * @param string $cacheLimiter
-     */
-    public function setCacheLimiter($cacheLimiter)
-    {
-        $this->freeze();
-        session_cache_limiter($cacheLimiter);
-        $this->unfreeze();
-    }
+	/**
+	 * Set cache limiter
+	 *
+	 * @param string $cacheLimiter
+	 * @since 1.1.20
+	 */
+	public function setCacheLimiter($cacheLimiter)
+	{
+		$this->freeze();
+		session_cache_limiter($cacheLimiter);
+		$this->unfreeze();
+	}
 }

@@ -925,7 +925,7 @@ class CController extends CBaseController
 	 */
 	public function renderDynamic($callback)
 	{
-		$n=count($this->_dynamicOutput);
+		$n=($this->_dynamicOutput === null ? 0 : count($this->_dynamicOutput));
 		echo "<###dynamic-$n###>";
 		$params=func_get_args();
 		array_shift($params);
