@@ -161,7 +161,7 @@ class CDbFixtureManager extends CApplicationComponent
 	{
 		$fileName=$this->basePath.DIRECTORY_SEPARATOR.$tableName.'.php';
 		if(!is_file($fileName))
-			return false;
+			throw new CException('Could not load fixture file ' . $fileName);
 
 		$rows=array();
 		$schema=$this->getDbConnection()->getSchema();
@@ -170,7 +170,11 @@ class CDbFixtureManager extends CApplicationComponent
 
 		foreach(require($fileName) as $alias=>$row)
 		{
-			$builder->createInsertCommand($table,$row)->execute();
+			try {
+				$builder->createInsertCommand($table,$row)->execute();
+			} catch (CException $e) {
+				throw new CException('Exception loading row ' . $alias . ' in fixture ' . $fileName, $e->getCode(), $e);
+			}
 			$primaryKey=$table->primaryKey;
 			if($table->sequenceName!==null)
 			{

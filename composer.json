@@ -88,5 +88,10 @@
 		"phpunit/phpunit": "~4.8.34",
 		"phpunit/phpunit-selenium": "~1.4.0",
 		"phing/phing": "2.*"
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.1.x-dev"
+		}
 	}
 }
