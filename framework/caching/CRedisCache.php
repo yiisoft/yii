@@ -140,7 +140,7 @@ class CRedisCache extends CCache
 	 * @return array|bool|null|string
 	 * @throws CException socket or data problems
 	 */
-	private function parseResponse()
+	protected function parseResponse()
 	{
 		if(($line=fgets($this->_socket))===false)
 			throw new CException('Failed reading data from redis connection socket.');
@@ -275,4 +275,26 @@ class CRedisCache extends CCache
 	{
 		return $this->executeCommand('FLUSHDB');
 	}
+
+    /**
+     * Setter for the Socket.
+     * @param $socket
+     * @return $this
+     */
+    public function setSocket($socket)
+    {
+        $this->_socket = $socket;
+
+        return $this;
+    }
+
+
+    /**
+     * Getter for the Socket.
+     * @return resource
+     */
+    public function getSocket()
+    {
+        return $this->_socket;
+    }
 }
