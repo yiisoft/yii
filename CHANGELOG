@@ -5,6 +5,7 @@ Version 1.1.21 under development
 --------------------------------
 
 - Bug #4220: Fixed PHP 7.2 incompatibility caused by the use of `create_function` in CHttpRequest (martinpetrasch)
+- Bug #4229: Remove deprecation errors from framework/web/js/source/jquery.yiiactiveform.js when using jQuery 3.1.1 (kenguest)
 
 Version 1.1.20 July 6, 2018
 ---------------------------

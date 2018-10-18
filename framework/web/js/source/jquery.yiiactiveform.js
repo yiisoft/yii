@@ -110,9 +110,9 @@
 
 			$.each(settings.attributes, function (i, attribute) {
 				if (this.validateOnChange) {
-					$form.find('#' + this.inputID).change(function () {
+					$form.find('#' + this.inputID).on('change', function () {
 						validate(attribute, false);
-					}).blur(function () {
+					}).on('blur', function () {
 						if (attribute.status !== 2 && attribute.status !== 3) {
 							validate(attribute, !attribute.status);
 						}
@@ -132,7 +132,7 @@
 					$form.data('submitObject', $(this));
 				});
 				var validated = false;
-				$form.submit(function () {
+				$form.on('submit', function () {
 					if (validated) {
 						validated = false;
 						return true;
@@ -154,9 +154,9 @@
 									var $button = $form.data('submitObject') || $form.find(':submit:first');
 									// TODO: if the submission is caused by "change" event, it will not work
 									if ($button.length) {
-										$button.click();
+										$button.trigger('click');
 									} else {  // no submit button in the form
-										$form.submit();
+										$form.trigger('submit');
 									}
 									return;
 								}
@@ -209,7 +209,7 @@
 					$('#' + settings.summaryID).hide().find('ul').html('');
 					//.. set to initial focus on reset
 					if (settings.focus !== undefined && !window.location.hash) {
-						$form.find(settings.focus).focus();
+						$form.find(settings.focus).trigger('focus');
 					}
 				}, 1);
 			});
@@ -218,7 +218,7 @@
 			 * set to initial focus
 			 */
 			if (settings.focus !== undefined && !window.location.hash) {
-				$form.find(settings.focus).focus();
+				$form.find(settings.focus).trigger('focus');
 			}
 		});
 	};
