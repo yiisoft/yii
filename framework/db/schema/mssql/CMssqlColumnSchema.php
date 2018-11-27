@@ -27,9 +27,10 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	 */
 	public function init($dbType, $defaultValue)
 	{
-		if ($defaultValue=='(NULL)')
+		// Also check if $defaultValue is one of known Mssql functions
+		if ($defaultValue=='(NULL)' || in_array(str_replace(array('(', ')'), '', $defaultValue), ['getdate', 'sysdatetime'])!==false)
 		{
-			$defaultValue=null;
+		    $defaultValue=null;
 		}
 		parent::init($dbType, $defaultValue);
 	}
