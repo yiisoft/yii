@@ -73,7 +73,7 @@ class CArrayDataProvider extends CDataProvider
 	 * @param array $rawData the data that is not paginated or sorted. The array elements must use zero-based integer keys.
 	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
-	public function __construct($rawData,$config=array())
+	public function __construct(array $rawData, array $config=array())
 	{
 		$this->rawData=$rawData;
 		foreach($config as $key=>$value)
