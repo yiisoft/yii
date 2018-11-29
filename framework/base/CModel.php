@@ -292,24 +292,30 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		return $validators;
 	}
 
-	/**
-	 * Returns a value indicating whether the attribute is required.
-	 * This is determined by checking if the attribute is associated with a
-	 * {@link CRequiredValidator} validation rule in the current {@link scenario}.
-	 * @param string $attribute attribute name
-	 * @return boolean whether the attribute is required
-	 */
-	public function isAttributeRequired($attribute)
-	{
-		foreach($this->getValidators($attribute) as $validator)
-		{
-			if($validator instanceof CRequiredValidator)
-				return true;
-		}
-		return false;
-	}
+    /**
+     * Returns a value indicating whether the attribute is required.
+     * This is determined by checking if the attribute is associated with a
+     * {@link CRequiredValidator} validation rule in the current {@link scenario}.
+     *
+     * @param string $attribute attribute name
+     *
+     * @return boolean whether the attribute is required
+     */
+    public function isAttributeRequired($attribute)
+    {
+        foreach ($this->getValidators($attribute) as $validator) {
+            if ($validator instanceof CRequiredValidator) {
+                return true;
+            }
 
-	/**
+            if (property_exists($validator, 'allowEmpty') && !$validator->allowEmpty) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
 	 * Returns a value indicating whether the attribute is safe for massive assignments.
 	 * @param string $attribute attribute name
 	 * @return boolean whether the attribute is safe for massive assignments
