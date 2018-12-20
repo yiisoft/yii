@@ -2553,9 +2553,7 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if($this->_requestUri===null)
 		{
-			if(isset($_SERVER['HTTP_X_REWRITE_URL'])) // IIS
-				$this->_requestUri=$_SERVER['HTTP_X_REWRITE_URL'];
-			elseif(isset($_SERVER['REQUEST_URI']))
+			if(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
 				if(!empty($_SERVER['HTTP_HOST']))
