@@ -572,7 +572,7 @@ class CDbCommandBuilder extends CComponent
 
 	/**
 	 * Creates a query criteria.
-	 * @param mixed $condition query condition or criteria.
+	 * @param string|array|CDbCriteria $condition query condition or criteria.
 	 * If a string, it is treated as query condition (the WHERE clause);
 	 * If an array, it is treated as the initial values for constructing a {@link CDbCriteria} object;
 	 * Otherwise, it should be an instance of {@link CDbCriteria}.
@@ -580,7 +580,6 @@ class CDbCommandBuilder extends CComponent
 	 * This is only used when the first parameter is a string (query condition).
 	 * In other cases, please use {@link CDbCriteria::params} to set parameters.
 	 * @return CDbCriteria the created query criteria
-	 * @throws CException if the condition is not string, array and CDbCriteria
 	 */
 	public function createCriteria($condition='',$params=array())
 	{
