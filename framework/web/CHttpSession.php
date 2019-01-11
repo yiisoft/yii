@@ -341,9 +341,9 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public function setUseTransparentSessionID($value)
 	{
-        $this->freeze();
+		$this->freeze();
 		ini_set('session.use_trans_sid',$value?'1':'0');
-        $this->unfreeze();
+		$this->unfreeze();
 	}
 
 	/**
