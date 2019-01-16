@@ -12,7 +12,7 @@
  * CActiveRecord is the base class for classes representing relational data.
  *
  * It implements the active record design pattern, a popular Object-Relational Mapping (ORM) technique.
- * Please check {@link http://www.yiiframework.com/doc/guide/database.ar the Guide} for more details
+ * Please check {@link https://www.yiiframework.com/doc/guide/1.1/en/database.ar the Guide} for more details
  * about this class.
  *
  * @property CDbCriteria $dbCriteria The query criteria that is associated with this model.
