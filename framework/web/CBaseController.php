@@ -112,23 +112,30 @@ abstract class CBaseController extends CComponent
 	 * @param boolean $_return_ whether the rendering result should be returned as a string
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 */
-	public function renderInternal($_viewFile_,$_data_=null,$_return_=false)
-	{
-		// we use special variable names here to avoid conflict when extracting data
-		if(is_array($_data_))
-			extract($_data_,EXTR_PREFIX_SAME,'data');
-		else
-			$data=$_data_;
-		if($_return_)
-		{
-			ob_start();
-			ob_implicit_flush(false);
-			require($_viewFile_);
-			return ob_get_clean();
-		}
-		else
-			require($_viewFile_);
-	}
+    public function renderInternal($_viewFile_, $_data_ = null, $_return_ = false): ?string
+    {
+        if (is_array($_data_) && isset($_data_['controller'])) {
+            throw new LogicException('$controller variable passed from controller');
+        }
+        $controller = $this;
+
+        if ($_return_) {
+            ob_start();
+            ob_implicit_flush(false);
+        }
+        (static function () use ($controller, $_viewFile_, $_data_) {
+            if (is_array($_data_)) {
+                extract($_data_, EXTR_PREFIX_SAME, 'data');
+            } else {
+                $data = $_data_;
+            }
+
+            /* @noinspection PhpIncludeInspection */
+            require $_viewFile_;
+        })();
+
+        return $_return_ ? ob_get_clean() : null;
+    }
 
 	/**
 	 * Creates a widget and initializes it.
