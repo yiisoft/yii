@@ -21,12 +21,16 @@ class CJavaScript
 	 * Quotes a javascript string.
 	 * After processing, the string can be safely enclosed within a pair of
 	 * quotation marks and serve as a javascript string.
-	 * @param string $js string to be quoted
+	 * @param null|string $js string to be quoted
 	 * @param boolean $forUrl whether this string is used as a URL
-	 * @return string the quoted string
+	 * @return null|string the quoted string
 	 */
 	public static function quote($js,$forUrl=false)
 	{
+		if ($js === null) { // backward compability before Yii 1.1.20
+			return $js;
+		}
+		
         Yii::import('system.vendors.zend-escaper.Escaper');
         $escaper=new Escaper(Yii::app()->charset);
         if($forUrl)
