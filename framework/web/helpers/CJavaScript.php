@@ -28,9 +28,7 @@ class CJavaScript
         public static function quote($js,$forUrl=false)
 	{
 		if($js===null)
-		{
 			return null;
-                }
 		
 		Yii::import('system.vendors.zend-escaper.Escaper');
 		$escaper=new Escaper(Yii::app()->charset);
