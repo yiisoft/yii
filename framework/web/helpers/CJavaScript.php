@@ -25,18 +25,19 @@ class CJavaScript
 	 * @param boolean $forUrl whether this string is used as a URL
 	 * @return null|string the quoted string
 	 */
-	public static function quote($js,$forUrl=false)
+        public static function quote($js,$forUrl=false)
 	{
-		if ($js === null) { // backward compability before Yii 1.1.20
-			return $js;
-		}
+		if($js===null)
+		{
+			return null;
+                }
 		
-        Yii::import('system.vendors.zend-escaper.Escaper');
-        $escaper=new Escaper(Yii::app()->charset);
-        if($forUrl)
-            return $escaper->escapeUrl($js);
-        else
-            return $escaper->escapeJs($js);
+		Yii::import('system.vendors.zend-escaper.Escaper');
+		$escaper=new Escaper(Yii::app()->charset);
+		if($forUrl)
+			return $escaper->escapeUrl($js);
+		else
+			return $escaper->escapeJs($js);
 	}
 
 	/**
