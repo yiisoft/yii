@@ -23,12 +23,11 @@ class CJavaScript
 	 * quotation marks and serve as a javascript string.
 	 * @param null|string $js string to be quoted
 	 * @param boolean $forUrl whether this string is used as a URL
-	 * @return null|string the quoted string
+	 * @return string the quoted string
 	 */
         public static function quote($js,$forUrl=false)
 	{
-		if($js===null)
-			return null;
+		$js = (string)$js;
 		
 		Yii::import('system.vendors.zend-escaper.Escaper');
 		$escaper=new Escaper(Yii::app()->charset);
