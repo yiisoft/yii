@@ -25,7 +25,7 @@ class CJavaScript
 	 * @param boolean $forUrl whether this string is used as a URL
 	 * @return string the quoted string
 	 */
-        public static function quote($js,$forUrl=false)
+	public static function quote($js,$forUrl=false)
 	{
 		$js = (string)$js;
 		
