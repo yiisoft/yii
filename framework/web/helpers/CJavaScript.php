@@ -21,7 +21,7 @@ class CJavaScript
 	 * Quotes a javascript string.
 	 * After processing, the string can be safely enclosed within a pair of
 	 * quotation marks and serve as a javascript string.
-	 * @param null|string $js string to be quoted
+	 * @param string $js string to be quoted
 	 * @param boolean $forUrl whether this string is used as a URL
 	 * @return string the quoted string
 	 */
