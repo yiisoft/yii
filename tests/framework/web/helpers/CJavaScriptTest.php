@@ -47,7 +47,7 @@ class CJavaScriptTest extends CTestCase
     {
         $input=null;
         $output=CJavaScript::quote($input);
-        $this->assertEquals('',$output);
+        $this->assertSame('',$output);
     }
 	
 }
