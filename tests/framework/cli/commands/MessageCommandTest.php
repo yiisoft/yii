@@ -148,12 +148,18 @@ class MessageCommandTest extends CTestCase
 	{
 		$this->setExpectedException('CException','usageError');
 		$this->runMessageCommand(array());
+		if (ob_get_level() > 0) {
+		    ob_end_clean();
+        }
 	}
 
 	public function testConfigFileNotExist()
 	{
 		$this->setExpectedException('CException','usageError');
 		$this->runMessageCommand(array('not_existing_file.php'));
+        if (ob_get_level() > 0) {
+            ob_end_clean();
+        }
 	}
 
 	public function testCreateTranslation()

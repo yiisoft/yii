@@ -48,13 +48,7 @@ class CFormatterTest extends CTestCase
 	public function languages()
 	{
 		return array(
-			array('cs'),
-			array('de'),
-			array('ja'),
-			array('kk'),
 			array('ru'),
-			array('sk'),
-			array('uk'),
 		);
 	}
 

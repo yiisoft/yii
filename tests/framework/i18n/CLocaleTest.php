@@ -11,37 +11,7 @@ class CLocaleTest extends CTestCase
 	 * Codes of locales where official guide translation exists
 	 */
 	protected $criticalLocaleCodes = array(
-		'en',
-		'bg',
-		'bs',
-		'cs',
-		'de',
-		'el',
-		'es',
-		'fr',
-		'he',
-		'hu',
-		'id',
-		'it',
-		'ja',
-		'lv',
-		'nl',
-		'no',
-		'pl',
-		'pt',
-		'ro',
 		'ru',
-		'sk',
-		'sr',
-		'sr_yu',
-		'sv',
-		'ta_in',
-		'th',
-		'tr',
-		'uk',
-		'vi',
-		'zh_cn',
-		'zh_tw',
 	);
 
 	function setUp()
@@ -99,21 +69,9 @@ class CLocaleTest extends CTestCase
 	public function providerGetLocaleDisplayName()
 	{
 		return array(
-			array('de','en_US','amerikanisches englisch'),
-			array('de','en','englisch'),
-			array('de_DE','en_US','amerikanisches englisch'),
-			array('de_DE','en','englisch'),
-
-			array('es_MX',null,null),
-			array('es_ES',null,null),
-
 			// https://github.com/yiisoft/yii/issues/2087
 			array('en_us','en','english'),
 			array('en_us','en_us','u.s. english'),
-			array('en_us','pt','portuguese'),
-			array('en_us','pt','portuguese'),
-			array('en_us','pt_br','brazilian portuguese'),
-			array('en_us','pt_pt','european portuguese'),
 		);
 	}
 

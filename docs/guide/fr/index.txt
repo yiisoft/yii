@@ -1,9 +1,0 @@
-Le Guide Définitif de Yii
-=========================
-
-Tous droits réservés.
-
-2008-2013 &copy; Yii Software LLC.
-
-
-<div class="revision">$Id: index.txt 688 $</div>
