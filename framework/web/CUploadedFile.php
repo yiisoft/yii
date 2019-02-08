@@ -50,7 +50,7 @@ class CUploadedFile extends CComponent
 	 * The file should be uploaded using {@link CHtml::activeFileField}.
 	 * @param CModel $model the model instance
 	 * @param string $attribute the attribute name. For tabular file uploading, this can be in the format of "[$i]attributeName", where $i stands for an integer index.
-	 * @return CUploadedFile the instance of the uploaded file.
+	 * @return CUploadedFile|null the instance of the uploaded file.
 	 * Null is returned if no file is uploaded for the specified model attribute.
 	 * @see getInstanceByName
 	 */
@@ -75,7 +75,7 @@ class CUploadedFile extends CComponent
 	 * Returns an instance of the specified uploaded file.
 	 * The name can be a plain string or a string like an array element (e.g. 'Post[imageFile]', or 'Post[0][imageFile]').
 	 * @param string $name the name of the file input field.
-	 * @return CUploadedFile the instance of the uploaded file.
+	 * @return CUploadedFile|null the instance of the uploaded file.
 	 * Null is returned if no file is uploaded for the specified name.
 	 */
 	public static function getInstanceByName($name)

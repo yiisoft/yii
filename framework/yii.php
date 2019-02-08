@@ -10,6 +10,10 @@
  * @since 1.0
  */
 
+if (class_exists(Yii::class)) {
+    return;
+}
+
 if(!class_exists('YiiBase', false))
 	require(dirname(__FILE__).'/YiiBase.php');
 

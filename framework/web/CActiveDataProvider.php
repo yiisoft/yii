@@ -76,7 +76,7 @@ class CActiveDataProvider extends CDataProvider
     /**
      * Constructor.
      *
-     * @param mixed $modelClass the model class (e.g. 'Post') or the model finder instance
+     * @param \CActiveRecord|string $modelClass the model class (e.g. 'Post') or the model finder instance
      *                          (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
      * @param array $config     configuration (name=>value) to be applied as the initial property values of this class.
      *
@@ -149,7 +149,7 @@ class CActiveDataProvider extends CDataProvider
 	/**
 	 * Returns the sorting object.
 	 * @param string $className the sorting object class name. Parameter is available since version 1.1.13.
-	 * @return CSort the sorting object. If this is false, it means the sorting is disabled.
+	 * @return CSort|false the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort($className='CSort')
 	{
