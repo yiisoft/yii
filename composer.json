@@ -77,19 +77,18 @@
 		"classmap" : [
 			"framework/base/",
 			"framework/caching/",
-			"framework/caching/",
 			"framework/cli/commands/",
 			"framework/collections/",
 			"framework/console/",
 			"framework/db/",
+			"framework/i18n/",
 			"framework/logging/",
 			"framework/test/",
 			"framework/utils/",
 			"framework/validators/",
 			"framework/web/",
 			"framework/YiiBase.php",
-			"framework/zii/behaviors/",
-			"framework/zii/widgets/",
+			"framework/zii/",
 			"framework/yii.php"
 		]
 	},

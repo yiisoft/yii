@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__ . '/../vendor/autoload.php';
+
 if (PHP_MAJOR_VERSION>=7 && PHP_MINOR_VERSION>=1) {
 	// skip deprecation errors in PHP 7.1 and above
 	error_reporting(E_ALL & ~E_DEPRECATED);
