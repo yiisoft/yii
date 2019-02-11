@@ -23,6 +23,9 @@ class CSecurityManagerTest extends CTestCase
 		$this->assertEquals($app2->securityManager->validationKey,$key);
 	}
 
+    /**
+     * @requires extension mcrypt
+     */
 	public function testEncryptionKey()
 	{
 		$sm=new CSecurityManager;
@@ -33,6 +36,7 @@ class CSecurityManagerTest extends CTestCase
 	}
 
 	/**
+     * @requires extension mcrypt
 	 * @expectedException CException
 	 */
 	public function testUndersizedGlobalKey()
@@ -43,6 +47,7 @@ class CSecurityManagerTest extends CTestCase
 	}
 
 	/**
+     * @requires extension mcrypt
 	 * @expectedException CException
 	 */
 	public function testUndersizedKey()
@@ -53,6 +58,7 @@ class CSecurityManagerTest extends CTestCase
 	}
 
 	/**
+     * @requires extension mcrypt
 	 * @expectedException CException
 	 */
 	public function testOversizedGlobalKey()
@@ -63,6 +69,7 @@ class CSecurityManagerTest extends CTestCase
 	}
 
 	/**
+     * @requires extension mcrypt
 	 * @expectedException CException
 	 */
 	public function testOversizedKey()
@@ -99,6 +106,9 @@ class CSecurityManagerTest extends CTestCase
 		$this->assertTrue($sm->validateData($hashedData)===false);
 	}
 
+    /**
+     * @requires extension mcrypt
+     */
 	public function testEncryptData()
 	{
 		if(!extension_loaded('mcrypt'))
