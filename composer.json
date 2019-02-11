@@ -76,7 +76,8 @@
 		"php": ">=5.1.0"
 	},
 	"suggest": {
-		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager"
+		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager",
+		"phpseclib/mcrypt_compat": "To provide mcrypt polyfill when extension is unavailable"
 	},
 	"autoload": {
 		"classmap" : [
