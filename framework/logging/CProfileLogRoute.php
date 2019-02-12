@@ -179,10 +179,21 @@ class CProfileLogRoute extends CWebLogRoute
 		}
 
 		$entries=array_values($results);
-		$func=create_function('$a,$b','return $a[4]<$b[4]?1:0;');
-		usort($entries,$func);
+		usort($entries, array($this, 'resultEntryCompare'));
 
 		$this->render('profile-summary',$entries);
+	}
+
+	/**
+	 * Result entry compare function used by usort.
+	 * Included to circumvent the use of closures (not supported by PHP 5.2) and create_function (deprecated since PHP 7.2.0)
+	 * @param array $a
+	 * @param array $b
+	 * @return int 0 (a>=b), 1 (a<b)
+	 */
+	private function resultEntryCompare($a, $b)
+	{
+		return ($a[4] < $b[4]) ? 1 : 0;
 	}
 
 	/**
