@@ -42,4 +42,12 @@ class CJavaScriptTest extends CTestCase
         $output=CJavaScript::quote($input,true);
         $this->assertEquals('test%20%E2%80%A8%0Atest%20%E2%80%A9',$output);
     }
+	
+    public function testQuoteWithNull()
+    {
+        $input=null;
+        $output=CJavaScript::quote($input);
+        $this->assertSame('',$output);
+    }
+	
 }

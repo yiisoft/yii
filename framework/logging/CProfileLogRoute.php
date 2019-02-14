@@ -179,7 +179,7 @@ class CProfileLogRoute extends CWebLogRoute
 		}
 
 		$entries=array_values($results);
-        usort($entries, function ($a, $b) {
+        usort($entries, static function ($a, $b) {
             return $a[4] < $b[4] ? 1 : 0;
         });
 
