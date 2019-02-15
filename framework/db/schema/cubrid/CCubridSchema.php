@@ -94,7 +94,7 @@ class CCubridSchema extends CDbSchema
 	/**
 	 * Creates a table instance representing the metadata for the named table.
 	 * @param string $name table name
-	 * @return CCubridTableSchema driver dependent table metadata. Null if the table does not exist.
+	 * @return CCubridTableSchema|null driver dependent table metadata. Null if the table does not exist.
 	 */
 	protected function loadTable($name)
 	{

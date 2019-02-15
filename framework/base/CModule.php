@@ -17,7 +17,7 @@
  * @property string $basePath The root directory of the module. Defaults to the directory containing the module class.
  * @property CAttributeCollection $params The list of user-defined parameters.
  * @property string $modulePath The directory that contains the application modules. Defaults to the 'modules' subdirectory of {@link basePath}.
- * @property CModule $parentModule The parent module. Null if this module does not have a parent.
+ * @property CModule|null $parentModule The parent module. Null if this module does not have a parent.
  * @property array $modules The configuration of the currently installed modules (module ID => configuration).
  * @property array $components The application components (indexed by their IDs).
  * @property array $import List of aliases to be imported.
@@ -252,7 +252,7 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Returns the parent module.
-	 * @return CModule the parent module. Null if this module does not have a parent.
+	 * @return CModule|null the parent module. Null if this module does not have a parent.
 	 */
 	public function getParentModule()
 	{

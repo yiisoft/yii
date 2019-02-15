@@ -163,7 +163,7 @@ class ModelCode extends CCodeModel
 	 * Check that all database field names conform to PHP variable naming rules
 	 * For example mysql allows field name like "2011aa", but PHP does not allow variable like "$model->2011aa"
 	 * @param CDbTableSchema $table the table schema object
-	 * @return string the invalid table column name. Null if no error.
+	 * @return string|null the invalid table column name. Null if no error.
 	 */
 	public function checkColumns($table)
 	{

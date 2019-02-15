@@ -146,7 +146,7 @@ class CLocale extends CComponent
 
 	/**
 	 * @param string $currency 3-letter ISO 4217 code. For example, the code "USD" represents the US Dollar and "EUR" represents the Euro currency.
-	 * @return string the localized currency symbol. Null if the symbol does not exist.
+	 * @return string|null the localized currency symbol. Null if the symbol does not exist.
 	 */
 	public function getCurrencySymbol($currency)
 	{
@@ -412,7 +412,7 @@ class CLocale extends CComponent
 	 *
 	 * @param string $id array key from an array named by $category.
 	 * @param string $category data category. One of 'languages', 'scripts' or 'territories'.
-	 * @return string the localized name for the id specified. Null if data does not exist.
+	 * @return string|null the localized name for the id specified. Null if data does not exist.
 	 * @since 1.1.9
 	 */
 	public function getLocaleDisplayName($id=null, $category='languages')
@@ -441,7 +441,7 @@ class CLocale extends CComponent
 
 	/**
 	 * @param string $id Unicode language identifier from IETF BCP 47. For example, the code "en_US" represents U.S. English and "en_GB" represents British English.
-	 * @return string the local display name for the language. Null if the language code does not exist.
+	 * @return string|null the local display name for the language. Null if the language code does not exist.
 	 * @since 1.1.9
 	 */
 	public function getLanguage($id)
@@ -452,7 +452,7 @@ class CLocale extends CComponent
 
 	/**
 	 * @param string $id Unicode script identifier from IETF BCP 47. For example, the code "en_US" represents U.S. English and "en_GB" represents British English.
-	 * @return string the local display name for the script. Null if the script code does not exist.
+	 * @return string|null the local display name for the script. Null if the script code does not exist.
 	 * @since 1.1.9
 	 */
 	public function getScript($id)
@@ -462,7 +462,7 @@ class CLocale extends CComponent
 
 	/**
 	 * @param string $id Unicode territory identifier from IETF BCP 47. For example, the code "en_US" represents U.S. English and "en_GB" represents British English.
-	 * @return string the local display name for the territory. Null if the territory code does not exist.
+	 * @return string|null the local display name for the territory. Null if the territory code does not exist.
 	 * @since 1.1.9
 	 */
 	public function getTerritory($id)

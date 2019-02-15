@@ -678,7 +678,7 @@ abstract class CActiveRecord extends CModel
      *
      * @param string $name the relation name
      *
-     * @return CActiveRelation the named relation declared for this AR class. Null if the relation does not exist.
+     * @return CActiveRelation|null the named relation declared for this AR class. Null if the relation does not exist.
      * @throws \CDbException
      */
 	public function getActiveRelation($name)

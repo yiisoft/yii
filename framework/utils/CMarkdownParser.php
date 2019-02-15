@@ -116,7 +116,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	/**
 	 * Highlights the code block.
 	 * @param string $codeblock the code block
-	 * @return string the highlighted code block. Null if the code block does not need to highlighted
+	 * @return string|null the highlighted code block. Null if the code block does not need to highlighted
 	 */
 	protected function highlightCodeBlock($codeblock)
 	{
@@ -135,7 +135,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	/**
 	 * Returns the user-entered highlighting options.
 	 * @param string $codeblock code block with highlighting options.
-	 * @return string the user-entered highlighting options. Null if no option is entered.
+	 * @return string|null the user-entered highlighting options. Null if no option is entered.
 	 */
 	protected function getHighlightTag($codeblock)
 	{

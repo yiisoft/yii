@@ -67,7 +67,7 @@ abstract class CDbSchema extends CComponent
 	 * @param string $name table name
 	 * @param boolean $refresh if we need to refresh schema cache for a table.
 	 * Parameter available since 1.1.9
-	 * @return CDbTableSchema table metadata. Null if the named table does not exist.
+	 * @return CDbTableSchema|null table metadata. Null if the named table does not exist.
 	 */
 	public function getTable($name,$refresh=false)
 	{

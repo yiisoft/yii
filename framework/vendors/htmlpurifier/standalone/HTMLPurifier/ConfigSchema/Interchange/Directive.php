@@ -54,7 +54,7 @@ class HTMLPurifier_ConfigSchema_Interchange_Directive
     /**
      * Hash of value aliases, e.g. array('alt' => 'real'). Null if value
      * aliasing is disabled (necessary for non-scalar types).
-     * @type array
+     * @type array|null
      */
     public $valueAliases;
 
@@ -75,7 +75,7 @@ class HTMLPurifier_ConfigSchema_Interchange_Directive
     /**
      * Version of HTML Purifier this directive was deprecated. Null if not
      * deprecated.
-     * @type string
+     * @type string|null
      */
     public $deprecatedVersion;
 

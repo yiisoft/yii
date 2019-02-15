@@ -81,7 +81,7 @@ class CDateFormatter extends CComponent
 	 * Formats a date according to a customized pattern.
 	 * @param string $pattern the pattern (See {@link http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns})
 	 * @param mixed $time UNIX timestamp or a string in strtotime format
-	 * @return string formatted date time. Null if $time is null. (the null value check is available since Yii 1.1.11)
+	 * @return string|null formatted date time. Null if $time is null. (the null value check is available since Yii 1.1.11)
 	 */
 	public function format($pattern,$time)
 	{

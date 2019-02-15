@@ -129,7 +129,7 @@ class CMssqlSchema extends CDbSchema
 	/**
 	 * Loads the metadata for the specified table.
 	 * @param string $name table name
-	 * @return CMssqlTableSchema driver dependent table metadata. Null if the table does not exist.
+	 * @return CMssqlTableSchema|null driver dependent table metadata. Null if the table does not exist.
 	 */
 	protected function loadTable($name)
 	{

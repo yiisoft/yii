@@ -774,7 +774,7 @@ class CController extends CBaseController
 	 * about how the view script is resolved.
 	 * @param array $data data to be extracted into PHP variables and made available to the view script
 	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users.
-	 * @return string the rendering result. Null if the rendering result is not required.
+	 * @return string|null the rendering result. Null if the rendering result is not required.
 	 * @see renderPartial
 	 * @see getLayoutFile
 	 */
@@ -827,7 +827,7 @@ class CController extends CBaseController
 	 * The string will be inserted in the current controller layout and returned back.
 	 * @param string $text the static text string
 	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users.
-	 * @return string the rendering result. Null if the rendering result is not required.
+	 * @return string|null the rendering result. Null if the rendering result is not required.
 	 * @see getLayoutFile
 	 */
 	public function renderText($text,$return=false)
@@ -859,7 +859,7 @@ class CController extends CBaseController
 	 * @param array $data data to be extracted into PHP variables and made available to the view script
 	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users
 	 * @param boolean $processOutput whether the rendering result should be postprocessed using {@link processOutput}.
-	 * @return string the rendering result. Null if the rendering result is not required.
+	 * @return string|null the rendering result. Null if the rendering result is not required.
 	 * @throws CException if the view does not exist
 	 * @see getViewFile
 	 * @see processOutput

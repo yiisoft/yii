@@ -71,7 +71,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 
 	/**
 	 * Loads state data from persistent storage.
-	 * @return mixed state data. Null if no state data available.
+	 * @return mixed|null state data. Null if no state data available.
 	 */
 	public function load()
 	{

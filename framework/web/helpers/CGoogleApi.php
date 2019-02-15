@@ -24,7 +24,7 @@ class CGoogleApi
 
 	/**
 	 * Renders the jsapi script file.
-	 * @param string $apiKey the API key. Null if you do not have a key.
+	 * @param string|null $apiKey the API key. Null if you do not have a key.
 	 * @return string the script tag that loads Google jsapi.
 	 */
 	public static function init($apiKey=null)
@@ -60,7 +60,7 @@ class CGoogleApi
 	 * @param string $name the module name
 	 * @param string $version the module version
 	 * @param array $options additional js options that are to be passed to the load() function.
-	 * @param string $apiKey the API key. Null if you do not have a key.
+	 * @param string|null $apiKey the API key. Null if you do not have a key.
 	 */
 	public static function register($name,$version='1',$options=array(),$apiKey=null)
 	{

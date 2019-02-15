@@ -313,7 +313,7 @@ class CPhpAuthManager extends CAuthManager
 	/**
 	 * Returns the authorization item with the specified name.
 	 * @param string $name the name of the item
-	 * @return CAuthItem the authorization item. Null if the item cannot be found.
+	 * @return CAuthItem|null the authorization item. Null if the item cannot be found.
 	 */
 	public function getAuthItem($name)
 	{

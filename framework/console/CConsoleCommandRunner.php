@@ -139,7 +139,7 @@ class CConsoleCommandRunner extends CComponent
 
 	/**
 	 * @param string $name command name (case-insensitive)
-	 * @return CConsoleCommand the command object. Null if the name is invalid.
+	 * @return CConsoleCommand|null the command object. Null if the name is invalid.
 	 */
 	public function createCommand($name)
 	{

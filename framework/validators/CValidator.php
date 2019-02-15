@@ -212,7 +212,7 @@ abstract class CValidator extends CComponent
 	 * </ul>
 	 * @param CModel $object the data object being validated
 	 * @param string $attribute the name of the attribute to be validated.
-	 * @return string the client-side validation script. Null if the validator does not support client-side validation.
+	 * @return string|null the client-side validation script. Null if the validator does not support client-side validation.
 	 * @see CActiveForm::enableClientValidation
 	 * @since 1.1.7
 	 */

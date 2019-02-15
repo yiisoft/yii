@@ -44,7 +44,7 @@
  * @property CClientScript $clientScript The client script manager.
  * @property IWidgetFactory $widgetFactory The widget factory.
  * @property CThemeManager $themeManager The theme manager.
- * @property CTheme $theme The theme used currently. Null if no theme is being used.
+ * @property CTheme|null $theme The theme used currently. Null if no theme is being used.
  * @property CController $controller The currently active controller.
  * @property string $controllerPath The directory that contains the controller classes. Defaults to 'protected/controllers'.
  * @property string $viewPath The root directory of view files. Defaults to 'protected/views'.
@@ -249,7 +249,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @return CTheme the theme used currently. Null if no theme is being used.
+	 * @return CTheme|null the theme used currently. Null if no theme is being used.
 	 */
 	public function getTheme()
 	{
@@ -305,7 +305,7 @@ class CWebApplication extends CApplication
 	 * @param string $route the route of the request.
 	 * @param CWebModule $owner the module that the new controller will belong to. Defaults to null, meaning the application
 	 * instance is the owner.
-	 * @return array the controller instance and the action ID. Null if the controller class does not exist or the route is invalid.
+	 * @return array|null the controller instance and the action ID. Null if the controller class does not exist or the route is invalid.
 	 */
 	public function createController($route,$owner=null)
 	{
@@ -518,7 +518,7 @@ class CWebApplication extends CApplication
 	/**
 	 * Do not call this method. This method is used internally to search for a module by its ID.
 	 * @param string $id module ID
-	 * @return CWebModule the module that has the specified ID. Null if no module is found.
+	 * @return CWebModule|null the module that has the specified ID. Null if no module is found.
 	 */
 	public function findModule($id)
 	{

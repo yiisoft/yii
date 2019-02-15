@@ -336,7 +336,7 @@ class CComponent
 	 * Detaches a behavior from the component.
 	 * The behavior's {@link IBehavior::detach} method will be invoked.
 	 * @param string $name the behavior's name. It uniquely identifies the behavior.
-	 * @return IBehavior the detached behavior. Null if the behavior does not exist.
+	 * @return IBehavior|null the detached behavior. Null if the behavior does not exist.
 	 */
 	public function detachBehavior($name)
 	{
@@ -347,6 +347,8 @@ class CComponent
 			unset($this->_m[$name]);
 			return $behavior;
 		}
+
+		return null;
 	}
 
 	/**

@@ -7432,7 +7432,7 @@ class HTMLPurifier_Length
 
     /**
      * Whether or not this length is valid. Null if not calculated yet.
-     * @type bool
+     * @type bool|null
      */
     protected $isValid;
 
@@ -7973,7 +7973,7 @@ abstract class HTMLPurifier_Node
 
     /**
      * Column number of the start token in the source document. Null if unknown.
-     * @type int
+     * @type int|null
      */
     public $col;
 
@@ -8597,13 +8597,13 @@ abstract class HTMLPurifier_Token
 {
     /**
      * Line number node was on in source document. Null if unknown.
-     * @type int
+     * @type int|null
      */
     public $line;
 
     /**
      * Column of line node was on in source document. Null if unknown.
-     * @type int
+     * @type int|null
      */
     public $col;
 

@@ -53,7 +53,7 @@ class CThemeManager extends CApplicationComponent
 
 	/**
 	 * @param string $name name of the theme to be retrieved
-	 * @return CTheme the theme retrieved. Null if the theme does not exist.
+	 * @return CTheme|null the theme retrieved. Null if the theme does not exist.
 	 */
 	public function getTheme($name)
 	{
