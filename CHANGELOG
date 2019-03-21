@@ -9,6 +9,7 @@ Version 1.1.21 under development
 - Bug #4234: CVE-2018-14773. Drop support for HTTP_X_REWRITE_URL (kenguest)
 - Chg #4236: Freeze session before changing ini settings to be compatible with PHP 7.2 (vxk7m)
 - Bug #4238: Fixed intolerance to nulls in `CJavaScript::quote()` (stevoh6, ddziaduch)
+- Bug #4227: Fixed PHPUnit 6 compatibility (gianniszach)
 
 Version 1.1.20 July 6, 2018
 ---------------------------
