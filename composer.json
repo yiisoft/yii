@@ -89,6 +89,7 @@
 		"phpunit/phpunit": "~4.8.34",
 		"phpunit/phpunit-selenium": "~1.4.0",
 		"phing/phing": "2.*",
-		"phpseclib/mcrypt_compat": "^1.0"
+		"phpseclib/mcrypt_compat": "^1.0",
+		"pear/archive_tar": "~1.4.6"
 	}
 }
