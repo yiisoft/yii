@@ -76,7 +76,8 @@
 		"php": ">=5.1.0"
 	},
 	"suggest": {
-		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager"
+		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager",
+		"phpseclib/mcrypt_compat": "To provide mcrypt polyfill when extension is unavailable"
 	},
 	"autoload": {
 		"classmap" : [
@@ -87,7 +88,9 @@
 	"require-dev": {
 		"phpunit/phpunit": "~4.8.34",
 		"phpunit/phpunit-selenium": "~1.4.0",
-		"phing/phing": "2.*"
+		"phing/phing": "2.*",
+		"phpseclib/mcrypt_compat": "^1.0",
+		"pear/archive_tar": "~1.4.6"
 	},
 	"extra": {
 		"branch-alias": {

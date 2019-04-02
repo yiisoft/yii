@@ -27,12 +27,14 @@ class CJavaScript
 	 */
 	public static function quote($js,$forUrl=false)
 	{
-        Yii::import('system.vendors.zend-escaper.Escaper');
-        $escaper=new Escaper(Yii::app()->charset);
-        if($forUrl)
-            return $escaper->escapeUrl($js);
-        else
-            return $escaper->escapeJs($js);
+		$js = (string)$js;
+
+		Yii::import('system.vendors.zend-escaper.Escaper');
+		$escaper=new Escaper(Yii::app()->charset);
+		if($forUrl)
+			return $escaper->escapeUrl($js);
+		else
+			return $escaper->escapeJs($js);
 	}
 
 	/**
