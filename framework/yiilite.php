@@ -41,7 +41,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.21-dev';
+		return '1.1.21';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -2805,6 +2805,13 @@ class CHttpRequest extends CApplicationComponent
 		$preferredAcceptTypes=$this->getPreferredAcceptTypes();
 		return empty($preferredAcceptTypes) ? false : $preferredAcceptTypes[0];
 	}
+	private function stringCompare($a, $b)
+	{
+		if ($a[0] == $b[0]) {
+			return 0;
+		}
+		return ($a[0] < $b[0]) ? 1 : -1;
+	}
 	public function getPreferredLanguages()
 	{
 		if($this->_preferredLanguages===null)
@@ -2821,7 +2828,7 @@ class CHttpRequest extends CApplicationComponent
 					if($q)
 						$languages[]=array((float)$q,$matches[1][$i]);
 				}
-				usort($languages,create_function('$a,$b','if($a[0]==$b[0]) {return 0;} return ($a[0]<$b[0]) ? 1 : -1;'));
+				usort($languages, array($this, 'stringCompare'));
 				foreach($languages as $language)
 					$sortedLanguages[]=$language[1];
 			}
@@ -4680,10 +4687,12 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		$data=session_get_cookie_params();
 		extract($data);
 		extract($value);
+		$this->freeze();
 		if(isset($httponly))
 			session_set_cookie_params($lifetime,$path,$domain,$secure,$httponly);
 		else
 			session_set_cookie_params($lifetime,$path,$domain,$secure);
+		$this->unfreeze();
 	}
 	public function getCookieMode()
 	{
@@ -4744,7 +4753,9 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 	public function setUseTransparentSessionID($value)
 	{
+		$this->freeze();
 		ini_set('session.use_trans_sid',$value?'1':'0');
+		$this->unfreeze();
 	}
 	public function getTimeout()
 	{
@@ -4752,7 +4763,9 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 	public function setTimeout($value)
 	{
+		$this->freeze();
 		ini_set('session.gc_maxlifetime',$value);
+		$this->unfreeze();
 	}
 	public function openSession($savePath,$sessionName)
 	{

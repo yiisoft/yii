@@ -1,8 +1,8 @@
 ﻿                   Yii Framework Change Log
                    ========================
 
-Version 1.1.21 under development
---------------------------------
+Version 1.1.21 April 2, 2019
+----------------------------
 
 - Bug #4220: Fixed PHP 7.2 incompatibility caused by the use of `create_function` in CHttpRequest and CProfileLogRoute (martinpetrasch, freezy-sk)
 - Bug #4229: Remove deprecation errors from framework/web/js/source/jquery.yiiactiveform.js when using jQuery 3.1.1 (kenguest)
