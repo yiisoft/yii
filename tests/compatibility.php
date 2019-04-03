@@ -12,3 +12,8 @@ if(!class_exists('PHPUnit_Framework_TestCase') && class_exists('PHPUnit\Framewor
 {
     abstract class PHPUnit_Framework_TestCase extends \PHPUnit\Framework\TestCase {}
 }
+
+if(!class_exists('PHPUnit_Runner_Version') && class_exists('PHPUnit\Runner\Version'))
+{
+    abstract class PHPUnit_Runner_Version extends \PHPUnit\Runner\Version {}
+}
