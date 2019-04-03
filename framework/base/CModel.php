@@ -26,7 +26,7 @@
  * @package system.base
  * @since 1.0
  */
-abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
+abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess, JsonSerializable
 {
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
@@ -622,4 +622,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		unset($this->$offset);
 	}
+
+    public function jsonSerialize()
+    {
+        return $this->getAttributes();
+    }
 }
