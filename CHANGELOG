@@ -4,7 +4,7 @@
 Version 1.1.22 under development
 --------------------------------
 
-- no changes yet.
+- Bug #4256: PHP 7 compatibility issues: PHP4 style constructor in Pear/Text/Diff3.php (kenguest)
 
 Version 1.1.21 April 2, 2019
 ----------------------------
