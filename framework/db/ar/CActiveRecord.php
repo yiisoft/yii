@@ -1228,7 +1228,8 @@ abstract class CActiveRecord extends CModel
 			if($this->beforeDelete())
 			{
 				$result=$this->deleteByPk($this->getPrimaryKey())>0;
-				$this->afterDelete();
+				if($result)
+					$this->afterDelete();
 				return $result;
 			}
 			else
