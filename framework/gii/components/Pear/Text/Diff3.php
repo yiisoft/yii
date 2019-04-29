@@ -194,7 +194,7 @@ class Text_Diff3_Op {
  */
 class Text_Diff3_Op_copy extends Text_Diff3_Op {
 
-    function Text_Diff3_Op_Copy($lines = false)
+    function __construct($lines = false)
     {
         $this->orig = $lines ? $lines : array();
         $this->final1 = &$this->orig;
