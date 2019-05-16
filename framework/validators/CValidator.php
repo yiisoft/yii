@@ -164,18 +164,18 @@ abstract class CValidator extends CComponent
 			$validator->params=$params;
 			if(isset($params['skipOnError']))
 				$validator->skipOnError=$params['skipOnError'];
-		}
-		else
-		{
-			$params['attributes']=$attributes;
-			if(isset(self::$builtInValidators[$name]))
-				$className=Yii::import(self::$builtInValidators[$name],true);
-			else
-				$className=Yii::import($name,true);
-			$validator=new $className;
-			foreach($params as $name=>$value)
-				$validator->$name=$value;
-		}
+        } else {
+            $params['attributes'] = $attributes;
+            if (isset(self::$builtInValidators[$name])) {
+                $className = self::$builtInValidators[$name];
+            } else {
+                $className = $name;
+            }
+            $validator = Yii::createComponent($className);
+            foreach ($params as $field => $value) {
+                $validator->{$field} = $value;
+            }
+        }
 
 		$validator->on=empty($on) ? array() : array_combine($on,$on);
 		$validator->except=empty($except) ? array() : array_combine($except,$except);
