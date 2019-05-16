@@ -207,14 +207,15 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function createInsertCommand($table,$data)
 	{
-		$this->ensureTable($table);
+        /** @var \CDbTableSchema $table */
+        $this->ensureTable($table);
 		$fields=array();
 		$values=array();
 		$placeholders=array();
 		$i=0;
 		foreach($data as $name=>$value)
 		{
-			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull))
+			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull) && !$column->isGenerated)
 			{
 				$fields[]=$column->rawName;
 				if($value instanceof CDbExpression)
@@ -290,6 +291,7 @@ class CDbCommandBuilder extends CComponent
 			),
 			$templates
 		);
+        /** @var \CDbTableSchema $table */
 		$this->ensureTable($table);
 		$tableName=$table->rawName;
 		$params=array();
@@ -302,7 +304,7 @@ class CDbCommandBuilder extends CComponent
 			foreach($rowData as $columnName=>$columnValue)
 			{
 				if(!in_array($columnName,$columns,true))
-					if($table->getColumn($columnName)!==null)
+					if(($column = $table->getColumn($columnName))!==null && !$column->isGenerated)
 						$columns[]=$columnName;
 			}
 		}
@@ -363,6 +365,7 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function createUpdateCommand($table,$data,$criteria)
 	{
+        /** @var \CDbTableSchema $table */
 		$this->ensureTable($table);
 		$fields=array();
 		$values=array();
@@ -370,7 +373,7 @@ class CDbCommandBuilder extends CComponent
 		$i=0;
 		foreach($data as $name=>$value)
 		{
-			if(($column=$table->getColumn($name))!==null)
+			if(($column=$table->getColumn($name))!==null && !$column->isGenerated)
 			{
 				if($value instanceof CDbExpression)
 				{
@@ -416,11 +419,12 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function createUpdateCounterCommand($table,$counters,$criteria)
 	{
+        /** @var \CDbTableSchema $table */
 		$this->ensureTable($table);
 		$fields=array();
 		foreach($counters as $name=>$value)
 		{
-			if(($column=$table->getColumn($name))!==null)
+			if(($column=$table->getColumn($name))!==null && !$column->isGenerated)
 			{
 				$value=(float)$value;
 				if($value<0)

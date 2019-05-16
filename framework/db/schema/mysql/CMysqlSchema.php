@@ -204,9 +204,11 @@ class CMysqlSchema extends CDbSchema
 		$c->isPrimaryKey=strpos($column['Key'],'PRI')!==false;
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
-		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
-		if(isset($column['Comment']))
-			$c->comment=$column['Comment'];
+		$c->autoIncrement= stripos($column['Extra'], 'auto_increment') !==false;
+		if(isset($column['Comment'])) {
+            $c->comment = $column['Comment'];
+        }
+		$c->isGenerated = stripos($column['Extra'], 'generated') !==false;
 
 		return $c;
 	}

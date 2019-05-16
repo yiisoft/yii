@@ -73,6 +73,14 @@ class CDbColumnSchema extends CComponent
 	 * @since 1.1.13
 	 */
 	public $comment='';
+    /**
+     * Whether this column is generated. If so, you can't specify any other value than `DEFAULT`
+     * in UPDATE, INSERT or REPLACE queries.
+     *
+     * @see https://dev.mysql.com/doc/refman/8.0/en/create-table-generated-columns.html
+     * @var bool
+     */
+	public $isGenerated = false;
 
 	/**
 	 * Initializes the column with its DB type and default value.
