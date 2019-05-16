@@ -208,7 +208,8 @@ class CMysqlSchema extends CDbSchema
 		if(isset($column['Comment'])) {
             $c->comment = $column['Comment'];
         }
-		$c->isGenerated = stripos($column['Extra'], 'generated') !==false;
+		$c->isGenerated = stripos($column['Extra'], 'stored generated') !== false
+            || stripos($column['Extra'], 'virtual generated') !== false;
 
 		return $c;
 	}
