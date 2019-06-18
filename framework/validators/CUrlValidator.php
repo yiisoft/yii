@@ -169,7 +169,18 @@ if(jQuery.trim(value)!='') {
 		if(preg_match_all('/^(.*):\/\/([^\/]+)(.*)$/',$value,$matches))
 		{
 			if(function_exists('idn_to_ascii'))
-				$value=$matches[1][0].'://'.idn_to_ascii($matches[2][0]).$matches[3][0];
+			{
+				$value=$matches[1][0].'://';
+				if (defined('IDNA_NONTRANSITIONAL_TO_ASCII') && defined('INTL_IDNA_VARIANT_UTS46'))
+				{
+					$value.=idn_to_ascii($matches[2][0],IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+				}
+				else
+				{
+					$value.=idn_to_ascii($matches[2][0]);
+				}
+				$value.=$matches[3][0];
+			}
 			else
 			{
 				require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
@@ -191,7 +202,18 @@ if(jQuery.trim(value)!='') {
 		if(preg_match_all('/^(.*):\/\/([^\/]+)(.*)$/',$value,$matches))
 		{
 			if(function_exists('idn_to_utf8'))
-				$value=$matches[1][0].'://'.idn_to_utf8($matches[2][0]).$matches[3][0];
+			{
+				$value=$matches[1][0].'://';
+				if (defined('IDNA_NONTRANSITIONAL_TO_ASCII') && defined('INTL_IDNA_VARIANT_UTS46'))
+				{
+					$value.=idn_to_utf8($matches[2][0],IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+				}
+				else
+				{
+					$value=idn_to_utf8($matches[2][0]);
+				}
+				$value.=$matches[3][0];
+			}
 			else
 			{
 				require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net').DIRECTORY_SEPARATOR.'IDNA2.php');
