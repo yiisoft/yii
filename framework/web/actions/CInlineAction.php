@@ -26,7 +26,7 @@ class CInlineAction extends CAction
 	 * The action method defined in the controller is invoked.
 	 * This method is required by {@link CAction}.
 	 */
-	public function run(): ?ResponseInterface
+	public function run()
 	{
 		$method='action'.$this->getId();
 
