@@ -8,6 +8,8 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * CAction is the base class for all controller action classes.
  *
@@ -73,8 +75,7 @@ abstract class CAction extends CComponent implements IAction
 		if($method->getNumberOfParameters()>0)
 			return $this->runWithParamsInternal($this, $method, $params);
 
-		$this->run();
-		return true;
+		return $this->run();
 	}
 
 	/**
@@ -106,7 +107,7 @@ abstract class CAction extends CComponent implements IAction
 			else
 				return false;
 		}
-		$method->invokeArgs($object,$ps);
-		return true;
+
+		return $method->invokeArgs($object,$ps);
 	}
 }

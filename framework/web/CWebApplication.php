@@ -8,6 +8,8 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * CWebApplication extends CApplication by providing functionalities specific to Web requests.
  *
@@ -128,7 +130,7 @@ class CWebApplication extends CApplication
 	 * It first resolves the request into controller and action,
 	 * and then creates the controller to perform the action.
 	 */
-	public function processRequest()
+	public function processRequest(): ?ResponseInterface
 	{
 		if(is_array($this->catchAllRequest) && isset($this->catchAllRequest[0]))
 		{
@@ -138,7 +140,8 @@ class CWebApplication extends CApplication
 		}
 		else
 			$route=$this->getUrlManager()->parseUrl($this->getRequest());
-		$this->runController($route);
+
+		return $this->runController($route);
 	}
 
 	/**
@@ -271,20 +274,28 @@ class CWebApplication extends CApplication
 	 * @param string $route the route of the current request. See {@link createController} for more details.
 	 * @throws CHttpException if the controller could not be created.
 	 */
-	public function runController($route)
+	public function runController($route): ?ResponseInterface
 	{
 		if(($ca=$this->createController($route))!==null)
 		{
+		    /* @var \CController $controller */
 			list($controller,$actionID)=$ca;
 			$oldController=$this->_controller;
 			$this->_controller=$controller;
 			$controller->init();
-			$controller->run($actionID);
+			$response = $controller->run($actionID);
 			$this->_controller=$oldController;
 		}
 		else
-			throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
-				array('{route}'=>$route===''?$this->defaultController:$route)));
+		    $response = $this->unableToResolveRequest($route);
+
+		return $response;
+	}
+
+    protected function unableToResolveRequest(string $route): ?ResponseInterface
+    {
+        throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+            array('{route}'=>$route===''?$this->defaultController:$route)));
 	}
 
 	/**

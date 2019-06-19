@@ -68,7 +68,8 @@
 		"framework/yiic"
 	],
 	"require": {
-		"php": "^7.1||^7.2||^7.3"
+		"php": "^7.1||^7.2||^7.3",
+		"php-http/message": "^1.5"
 	},
 	"suggest": {
 		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager",

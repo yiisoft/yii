@@ -8,6 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * CController manages a set of actions which deal with the corresponding user requests.
@@ -254,20 +255,23 @@ class CController extends CBaseController
 	 * @see createAction
 	 * @see runAction
 	 */
-	public function run($actionID)
+	public function run($actionID): ?ResponseInterface
 	{
+	    $response = null;
 		if(($action=$this->createAction($actionID))!==null)
 		{
 			if(($parent=$this->getModule())===null)
 				$parent=Yii::app();
 			if($parent->beforeControllerAction($this,$action))
 			{
-				$this->runActionWithFilters($action,$this->filters());
+				$response = $this->runActionWithFilters($action,$this->filters());
 				$parent->afterControllerAction($this,$action);
 			}
 		}
 		else
-			$this->missingAction($actionID);
+			$response = $this->missingAction($actionID);
+
+		return $response;
 	}
 
 	/**
@@ -280,17 +284,19 @@ class CController extends CBaseController
 	 * @see createAction
 	 * @see runAction
 	 */
-	public function runActionWithFilters($action,$filters)
+	public function runActionWithFilters($action,$filters): ?ResponseInterface
 	{
 		if(empty($filters))
-			$this->runAction($action);
+			$response = $this->runAction($action);
 		else
 		{
 			$priorAction=$this->_action;
 			$this->_action=$action;
-			CFilterChain::create($this,$action,$filters)->run();
+			$response = CFilterChain::create($this,$action,$filters)->run();
 			$this->_action=$priorAction;
 		}
+
+		return $response;
 	}
 
 	/**
@@ -299,18 +305,21 @@ class CController extends CBaseController
 	 * and the action starts to run.
 	 * @param CAction $action action to run
 	 */
-	public function runAction($action)
+	public function runAction($action): ?ResponseInterface
 	{
+	    $response = null;
 		$priorAction=$this->_action;
 		$this->_action=$action;
 		if($this->beforeAction($action))
 		{
-			if($action->runWithParams($this->getActionParams())===false)
-				$this->invalidActionParams($action);
+			if (($response = $action->runWithParams($this->getActionParams())) === false)
+				$response = $this->invalidActionParams($action);
 			else
 				$this->afterAction($action);
 		}
 		$this->_action=$priorAction;
+
+		return $response;
 	}
 
 	/**

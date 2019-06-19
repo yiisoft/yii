@@ -8,6 +8,8 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * CApplication is the base class for all application classes.
  *
@@ -178,14 +180,16 @@ abstract class CApplication extends CModule
 	 * method to do more application-specific tasks.
 	 * Remember to call the parent implementation so that static application components are loaded.
 	 */
-	public function run()
+	public function run(): ?ResponseInterface
 	{
 		if($this->hasEventHandler('onBeginRequest'))
 			$this->onBeginRequest(new CEvent($this));
 		register_shutdown_function(array($this,'end'),0,false);
-		$this->processRequest();
+		$response = $this->processRequest();
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
+
+		return $response;
 	}
 
 	/**

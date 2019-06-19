@@ -8,6 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * CFilterChain represents a list of filters being applied to an action.
@@ -122,8 +123,9 @@ class CFilterChain extends CList
 	 * This method is usually invoked in filters so that the filtering process
 	 * can continue and the action can be executed.
 	 */
-	public function run()
+	public function run(): ?ResponseInterface
 	{
+	    $response = null;
 		if($this->offsetExists($this->filterIndex))
 		{
 			$filter=$this->itemAt($this->filterIndex++);
@@ -131,6 +133,8 @@ class CFilterChain extends CList
 			$filter->filter($this);
 		}
 		else
-			$this->controller->runAction($this->action);
+			$response = $this->controller->runAction($this->action);
+
+		return $response;
 	}
 }

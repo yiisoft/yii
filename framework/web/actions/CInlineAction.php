@@ -8,6 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * CInlineAction represents an action that is defined as a controller method.
@@ -25,10 +26,11 @@ class CInlineAction extends CAction
 	 * The action method defined in the controller is invoked.
 	 * This method is required by {@link CAction}.
 	 */
-	public function run()
+	public function run(): ?ResponseInterface
 	{
 		$method='action'.$this->getId();
-		$this->getController()->$method();
+
+		return $this->getController()->$method();
 	}
 
 	/**
@@ -46,7 +48,6 @@ class CInlineAction extends CAction
 		if($method->getNumberOfParameters()>0)
 			return $this->runWithParamsInternal($controller, $method, $params);
 
-		$controller->$methodName();
-		return true;
+		return $controller->$methodName();
 	}
 }
