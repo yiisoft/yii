@@ -34,6 +34,9 @@ class CAuthItem extends CComponent
 	const TYPE_TASK=1;
 	const TYPE_ROLE=2;
 
+    /**
+     * @var \IAuthManager
+     */
 	private $_auth;
 	private $_type;
 	private $_name;
@@ -50,7 +53,7 @@ class CAuthItem extends CComponent
 	 * @param string $bizRule the business rule associated with this item
 	 * @param mixed $data additional data for this item
 	 */
-	public function __construct($auth,$name,$type,$description='',$bizRule=null,$data=null)
+	public function __construct(IAuthManager $auth,$name,$type,$description='',$bizRule=null,$data=null)
 	{
 		$this->_type=(int)$type;
 		$this->_auth=$auth;
@@ -84,15 +87,12 @@ class CAuthItem extends CComponent
 		return false;
 	}
 
-	/**
-	 * @return IAuthManager the authorization manager
-	 */
-	public function getAuthManager()
+	public function getAuthManager(): ?IAuthManager
 	{
 		return $this->_auth;
 	}
 
-	public function setAuthManager(IAuthManager $authManager)
+	public function setAuthManager(?IAuthManager $authManager)
 	{
 	    $this->_auth = $authManager;
 	}
