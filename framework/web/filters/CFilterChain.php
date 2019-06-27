@@ -130,7 +130,7 @@ class CFilterChain extends CList
 		{
 			$filter=$this->itemAt($this->filterIndex++);
 			Yii::trace('Running filter '.($filter instanceof CInlineFilter ? get_class($this->controller).'.filter'.$filter->name.'()':get_class($filter).'.filter()'),'system.web.filters.CFilterChain');
-			$filter->filter($this);
+			$response = $filter->filter($this);
 		}
 		else
 			$response = $this->controller->runAction($this->action);

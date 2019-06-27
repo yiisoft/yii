@@ -1122,10 +1122,10 @@ class CController extends CBaseController
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @throws CHttpException if the current request is not a POST request
 	 */
-	public function filterPostOnly($filterChain)
+	public function filterPostOnly($filterChain): ?ResponseInterface
 	{
 		if(Yii::app()->getRequest()->getIsPostRequest())
-			$filterChain->run();
+			return $filterChain->run();
 		else
 			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
 	}
@@ -1136,10 +1136,10 @@ class CController extends CBaseController
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @throws CHttpException if the current request is not an AJAX request.
 	 */
-	public function filterAjaxOnly($filterChain)
+	public function filterAjaxOnly($filterChain): ?ResponseInterface
 	{
 		if(Yii::app()->getRequest()->getIsAjaxRequest())
-			$filterChain->run();
+			return $filterChain->run();
 		else
 			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
 	}
@@ -1150,11 +1150,11 @@ class CController extends CBaseController
 	 * To use this filter, you must override {@link accessRules} method.
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 */
-	public function filterAccessControl($filterChain)
+	public function filterAccessControl($filterChain): ?ResponseInterface
 	{
 		$filter=new CAccessControlFilter;
 		$filter->setRules($this->accessRules());
-		$filter->filter($filterChain);
+		return $filter->filter($filterChain);
 	}
 
 	/**

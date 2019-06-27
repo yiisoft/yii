@@ -8,6 +8,8 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * CFilter is the base class for all filters.
  *
@@ -33,13 +35,16 @@ class CFilter extends CComponent implements IFilter
 	 * if the action should be executed.
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 */
-	public function filter($filterChain)
+	public function filter($filterChain): ?ResponseInterface
 	{
+	    $response = null;
 		if($this->preFilter($filterChain))
 		{
-			$filterChain->run();
+			$response = $filterChain->run();
 			$this->postFilter($filterChain);
 		}
+
+		return $response;
 	}
 
 	/**

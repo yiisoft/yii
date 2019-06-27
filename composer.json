@@ -94,11 +94,20 @@
 			"framework/yii.php"
 		]
 	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/TestApplication.php"
+		],
+		"psr-4": {
+			"yii1\\tests\\": "tests/"
+		}
+	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.8.34",
 		"phpunit/phpunit-selenium": "~1.4.0",
 		"phing/phing": "2.*",
 		"phpseclib/mcrypt_compat": "^1.0",
-		"pear/archive_tar": "~1.4.6"
+		"pear/archive_tar": "~1.4.6",
+		"zendframework/zend-diactoros": "^2.1"
 	}
 }

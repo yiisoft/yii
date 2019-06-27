@@ -1,5 +1,7 @@
 <?php
 
+use Psr\Http\Message\ResponseInterface;
+
 Yii::import('system.web.CController');
 Yii::import('system.web.filters.CFilter');
 Yii::import('system.web.actions.CAction');
@@ -79,13 +81,15 @@ class TestController extends CController
 class TestFilter extends CFilter
 {
 	public $expire=0;
-	public function filter($chain)
+	public function filter($chain): ?ResponseInterface
 	{
 		if($chain->controller->externalFilter<=1)
 		{
 			$chain->controller->externalFilter++;
 			$chain->run();
 		}
+
+		return null;
 	}
 }
 

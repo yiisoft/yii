@@ -8,6 +8,8 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * CInlineFilter represents a filter defined as a controller method.
  *
@@ -52,9 +54,10 @@ class CInlineFilter extends CFilter
 	 * This method calls the filter method defined in the controller class.
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 */
-	public function filter($filterChain)
+	public function filter($filterChain): ?ResponseInterface
 	{
 		$method='filter'.$this->name;
-		$filterChain->controller->$method($filterChain);
+
+		return $filterChain->controller->$method($filterChain);
 	}
 }
