@@ -66,6 +66,12 @@ class CConsoleApplication extends CApplication
 	 */
 	public $commandMap=array();
 
+    /**
+     * @var string Namespace that should be used when loading commands
+     * Default is to use global namespace.
+     */
+    public $commandNamespace;
+
 	private $_commandPath;
 	private $_runner;
 
@@ -79,6 +85,7 @@ class CConsoleApplication extends CApplication
 			die('This script must be run from the command line.');
 		$this->_runner=$this->createCommandRunner();
 		$this->_runner->commands=$this->commandMap;
+		$this->_runner->commandNamespace = $this->commandNamespace;
 		$this->_runner->addCommands($this->getCommandPath());
 	}
 

@@ -41,6 +41,12 @@ class CConsoleCommandRunner extends CComponent
 	 */
 	public $commands=array();
 
+    /**
+     * @var string Namespace that should be used when loading commands
+     * Default is to use global namespace.
+     */
+    public $commandNamespace;
+
 	private $_scriptName;
 	private $_command;
 
@@ -159,14 +165,21 @@ class CConsoleCommandRunner extends CComponent
 		{
 			if(is_string($command)) // class file path or alias
 			{
-				if(strpos($command,'/')!==false || strpos($command,'\\')!==false)
-				{
-					$className=substr(basename($command),0,-4);
-					if(!class_exists($className,false))
-						require_once($command);
-				}
-				else // an alias
-					$className=Yii::import($command);
+                $className=substr(basename($command),0,-4);
+                if ($this->commandNamespace !== null) {
+                    $className = $this->commandNamespace . '\\' . $className;
+                } else {
+                    if (strpos($command, '/') !== false || strpos($command, '\\') !== false) {
+                        $className = $this->commandNamespace . '\\' . $className;
+                        if (!class_exists($className, false)) {
+                            require_once($command);
+                        }
+                    } else // an alias
+                    {
+                        $className = Yii::import($command);
+                    }
+                }
+
                 return Yii::createComponent($className, $name, $this);
 			}
 			else // an array configuration

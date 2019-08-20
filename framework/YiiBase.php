@@ -76,7 +76,7 @@ class YiiBase
 
 	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
-	private static $_includePaths;						// list of include paths
+	private static $_includePaths = [];						// list of include paths
 	private static $_app;
 	private static $_logger;
 
