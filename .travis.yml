@@ -9,6 +9,8 @@ matrix:
   fast_finish: true
 
 services:
+  - mysql
+  - postgresql
   - redis-server
   - memcached
 
