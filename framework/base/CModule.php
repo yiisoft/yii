@@ -376,7 +376,7 @@ abstract class CModule extends CComponent
 	 * Retrieves the named application component.
 	 * @param string $id application component ID (case-sensitive)
 	 * @param boolean $createIfNull whether to create the component if it doesn't exist yet.
-	 * @return IApplicationComponent the application component instance, null if the application component is disabled or does not exist.
+	 * @return IApplicationComponent|null the application component instance, null if the application component is disabled or does not exist.
 	 * @see hasComponent
 	 */
 	public function getComponent($id,$createIfNull=true)
@@ -395,6 +395,8 @@ abstract class CModule extends CComponent
 				return $this->_components[$id]=$component;
 			}
 		}
+
+		return null;
 	}
 
 	/**
