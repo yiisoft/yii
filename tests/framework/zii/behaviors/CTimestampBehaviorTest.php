@@ -4,7 +4,7 @@ class CTimestampBehaviorTest extends CTestCase
 {
 	private $_connection;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		// pdo and pdo_sqlite extensions are obligatory
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_sqlite'))
@@ -17,7 +17,7 @@ class CTimestampBehaviorTest extends CTestCase
 		CActiveRecord::$db=$this->_connection;
 	}
 
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		// close connection
 		$this->_connection->active=false;

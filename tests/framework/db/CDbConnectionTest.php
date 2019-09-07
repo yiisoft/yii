@@ -5,7 +5,7 @@ class CDbConnectionTest extends CTestCase
 {
 	private $_connection;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_sqlite'))
 			$this->markTestSkipped('PDO and SQLite extensions are required.');
@@ -13,7 +13,7 @@ class CDbConnectionTest extends CTestCase
 		$this->_connection=new CDbConnection('sqlite::memory:');
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->_connection->active=false;
 	}

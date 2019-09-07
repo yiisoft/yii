@@ -2,7 +2,7 @@
 
 class CHtmlTest extends CTestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		// clean up any possible garbage in global clientScript app component
 		Yii::app()->clientScript->reset();
@@ -14,7 +14,7 @@ class CHtmlTest extends CTestCase
 		Yii::app()->request->scriptUrl='/bootstrap.php';
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		// do not keep any garbage in global clientScript app component
 		Yii::app()->clientScript->reset();

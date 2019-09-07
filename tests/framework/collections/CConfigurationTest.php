@@ -32,12 +32,12 @@ class CConfigurationTest extends CTestCase
 {
 	public $configFile;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->configFile=dirname(__FILE__).'/data/config.php';
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

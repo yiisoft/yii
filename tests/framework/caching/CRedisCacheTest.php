@@ -21,7 +21,7 @@ class CRedisCacheTest extends CTestCase
 		return $app;
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$dsn = $this->config['hostname'] . ':' .$this->config['port'];
 		if(!@stream_socket_client($dsn, $errorNumber, $errorDescription, 0.5)) {

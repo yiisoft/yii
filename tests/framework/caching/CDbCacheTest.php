@@ -30,7 +30,7 @@ class CDbCacheTest extends CTestCase
 		),
 	);
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_sqlite'))
 			$this->markTestSkipped('PDO and SQLite extensions are required.');

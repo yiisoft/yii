@@ -6,7 +6,7 @@ class CDbAuthManagerTest extends AuthManagerTestBase
 {
 	private $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
@@ -37,7 +37,7 @@ class CDbAuthManagerTest extends AuthManagerTestBase
 		$this->prepareData();
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if($this->db)
 			$this->db->active=false;

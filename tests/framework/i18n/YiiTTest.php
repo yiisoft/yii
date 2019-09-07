@@ -9,7 +9,7 @@
  */
 class YiiTTest extends CTestCase
 {
-	function setUp()
+	function setUp(): void
 	{
 		$config = array(
 			'sourceLanguage' => 'es',
@@ -26,7 +26,7 @@ class YiiTTest extends CTestCase
 		Yii::app()->configure($config);
 	}
 
-	function tearDown()
+	function tearDown(): void
 	{
 		Yii::app()->sourceLanguage = 'en_us';
 	}

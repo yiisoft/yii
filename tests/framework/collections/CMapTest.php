@@ -12,7 +12,7 @@ class CMapTest extends CTestCase
 	protected $map;
 	protected $item1,$item2,$item3;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->map=new CMap;
 		$this->item1=new MapItem;
@@ -22,7 +22,7 @@ class CMapTest extends CTestCase
 		$this->map->add('key2',$this->item2);
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->map=null;
 		$this->item1=null;

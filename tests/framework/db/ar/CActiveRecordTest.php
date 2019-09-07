@@ -12,7 +12,7 @@ class CActiveRecordTest extends CTestCase
 
 	private $_connection;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_sqlite'))
 			$this->markTestSkipped('PDO and SQLite extensions are required.');
@@ -23,7 +23,7 @@ class CActiveRecordTest extends CTestCase
 		CActiveRecord::$db=$this->_connection;
 	}
 
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		$this->_connection->active=false;
 	}

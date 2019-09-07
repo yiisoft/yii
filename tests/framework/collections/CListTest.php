@@ -12,7 +12,7 @@ class CListTest extends CTestCase
 	protected $list;
 	protected $item1, $item2, $item3;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->list=new CList;
 		$this->item1=new ListItem;
@@ -22,7 +22,7 @@ class CListTest extends CTestCase
 		$this->list->add($this->item2);
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->list=null;
 		$this->item1=null;

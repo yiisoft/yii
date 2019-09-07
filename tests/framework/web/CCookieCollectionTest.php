@@ -15,14 +15,14 @@ class CCookieCollectionTest extends CTestCase
 		),
 	);
 	protected $cookieBefore;
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->cookieBefore=$_COOKIE;
 		$_COOKIE['testGlobal']='value';
 		$this->request=new TestHttpRequest;
 		$this->cookies=$this->request->cookies;
 	}
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$_COOKIE=$this->cookieBefore;
 	}

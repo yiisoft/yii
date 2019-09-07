@@ -19,7 +19,7 @@ class CWsdlGeneratorTest extends CTestCase{
 	*/
 	protected $path;
 
-	public function setUp(){
+	public function setUp(): void {
 		if(!extension_loaded('dom'))
 			$this->markTestSkipped('DOM extension is required.');
 	}

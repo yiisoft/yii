@@ -10,7 +10,7 @@ class CDbCommandBuilderTest extends CTestCase
 	 */
 	private $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_mysql'))
 			$this->markTestSkipped('PDO and MySQL extensions are required.');
@@ -40,7 +40,7 @@ class CDbCommandBuilderTest extends CTestCase
 		}
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->db->active=false;
 	}

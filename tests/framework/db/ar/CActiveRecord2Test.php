@@ -11,7 +11,7 @@ class CActiveRecord2Test extends CTestCase
 	 */
 	private $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
@@ -54,7 +54,7 @@ class CActiveRecord2Test extends CTestCase
 		CActiveRecord::$db=$this->db=$app->db;
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->db->active=false;
 	}

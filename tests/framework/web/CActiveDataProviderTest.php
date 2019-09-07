@@ -9,7 +9,7 @@ class CActiveDataProviderTest extends CTestCase
 	 */
 	private $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_sqlite'))
 			$this->markTestSkipped('PDO and SQLite extensions are required.');
@@ -20,7 +20,7 @@ class CActiveDataProviderTest extends CTestCase
 		CActiveRecord::$db=$this->db;
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->db->active=false;
 	}

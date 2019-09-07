@@ -7,7 +7,7 @@
  */
 class CWebUserTest extends CTestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		Yii::app()->setComponent('authManager', new CPhpAuthManager());
 
@@ -18,7 +18,7 @@ class CWebUserTest extends CTestCase
 		$auth->assign('createPost', 'admin');
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		Yii::app()->session->destroy();
 		Yii::app()->setComponent('authManager', null);

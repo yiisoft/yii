@@ -33,7 +33,7 @@ class CDbDataReaderTest extends CTestCase
 {
 	private $_connection;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_sqlite'))
 			$this->markTestSkipped('PDO and SQLite extensions are required.');
@@ -43,7 +43,7 @@ class CDbDataReaderTest extends CTestCase
 		$this->_connection->pdoInstance->exec(file_get_contents(dirname(__FILE__).'/data/sqlite.sql'));
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->_connection->active=false;
 	}

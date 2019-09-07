@@ -8,7 +8,7 @@ class CCubrid2Test extends CTestCase
 {
 	private $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_cubrid'))
 			$this->markTestSkipped('PDO and CUBRID extensions are required.');
@@ -36,7 +36,7 @@ class CCubrid2Test extends CTestCase
 		}
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->db->active=false;
 	}

@@ -14,7 +14,7 @@ class CLocaleTest extends CTestCase
 		'ru',
 	);
 
-	function setUp()
+	function setUp(): void
 	{
 		$config = array(
 			'language' => 'en',

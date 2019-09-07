@@ -29,7 +29,7 @@ class CMssqlTest extends CTestCase
 	 */
 	private $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(self::DB_DSN_PREFIX=='sqlsrv' && (!extension_loaded('pdo') || !extension_loaded('sqlsrv') || !extension_loaded('pdo_sqlsrv')))
 			$this->markTestSkipped('PDO and SQLSRV extensions are required.');
@@ -85,7 +85,7 @@ EOD;
 		CActiveRecord::$db=$this->db;
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->db->active=false;
 	}

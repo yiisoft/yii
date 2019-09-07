@@ -12,7 +12,7 @@ class CFileCacheTest extends CTestCase
 
 	private $cachePath;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->cachePath=Yii::getPathOfAlias('application.runtime.CFileCacheTest');
 		if(!is_dir($this->cachePath) && !(@mkdir($this->cachePath)))
@@ -113,7 +113,7 @@ class CFileCacheTest extends CTestCase
 		$this->assertEquals(false,$cache->get('testKey6'));
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->removeDirectory($this->cachePath);
 	}

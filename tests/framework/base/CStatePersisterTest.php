@@ -2,7 +2,7 @@
 
 class CStatePersisterTest extends CTestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		// clean up runtime directory
 		$app=new TestApplication;

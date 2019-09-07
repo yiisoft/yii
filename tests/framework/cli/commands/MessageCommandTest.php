@@ -12,7 +12,7 @@ class MessageCommandTest extends CTestCase
 	protected $messagePath='';
 	protected $configFileName='';
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->sourcePath=Yii::getPathOfAlias('application.runtime.test_source');
 		$this->createDir($this->sourcePath);
@@ -21,7 +21,7 @@ class MessageCommandTest extends CTestCase
 		$this->configFileName=Yii::getPathOfAlias('application.runtime').DIRECTORY_SEPARATOR.'message_command_test_config.php';
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->removeDir($this->sourcePath);
 		$this->removeDir($this->messagePath);

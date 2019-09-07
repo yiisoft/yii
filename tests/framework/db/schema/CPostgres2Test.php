@@ -6,7 +6,7 @@ class CPostgres2Test extends CTestCase
 {
 	private $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
@@ -24,7 +24,7 @@ class CPostgres2Test extends CTestCase
 		}
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->db->active=false;
 	}

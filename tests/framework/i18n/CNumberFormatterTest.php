@@ -5,7 +5,7 @@ class CNumberFormatterTest extends CTestCase
 	public $usFormatter;
 	public $deFormatter;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->usFormatter=new CNumberFormatter('en_us');
 		$this->deFormatter=new CNumberFormatter('de');

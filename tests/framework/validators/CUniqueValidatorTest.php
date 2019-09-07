@@ -15,7 +15,7 @@ class CUniqueValidatorTest extends CTestCase
 	 */
 	private $_arModelName = 'TestUniqueModel';
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_sqlite'))
 			$this->markTestSkipped('PDO and SQLite extensions are required.');
@@ -32,7 +32,7 @@ class CUniqueValidatorTest extends CTestCase
 		$this->declareArModelClass();
 	}
 
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		if($this->_connection instanceof CDbConnection)
 		{

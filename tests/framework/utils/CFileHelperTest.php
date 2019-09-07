@@ -11,7 +11,7 @@ class CFileHelperTest extends CTestCase
 	private $file3='..svn';
 	private $file4='non-existent-file';
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->testDir=Yii::getPathOfAlias('application.runtime.CFileHelper');
 		if(!is_dir($this->testDir) && !(@mkdir($this->testDir)))
@@ -27,7 +27,7 @@ class CFileHelperTest extends CTestCase
 				$this->markTestIncomplete('Unit tests runtime directory should have writable permissions!');
 	}
 
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		if (is_dir($this->testDir))
 			$this->rrmdir($this->testDir);
