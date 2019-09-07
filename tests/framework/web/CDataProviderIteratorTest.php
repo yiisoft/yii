@@ -26,10 +26,10 @@ class CDataProviderIteratorTest extends CTestCase
 		$dataProvider = new CArrayDataProvider($this->generateData(100));
 		$iterator = new CDataProviderIterator($dataProvider, $pageSize);
 
-		$this->assertTrue($iterator->getDataProvider()===$dataProvider);
+		$this->assertSame($dataProvider, $iterator->getDataProvider());
 
 		$this->assertEquals(100, $iterator->getTotalItemCount());
-		$this->assertEquals(100, count($iterator));
+		$this->assertCount(100, $iterator);
 
 		$n = 0;
 		foreach($iterator as $item) {

@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('DBCACHE_TEST_DBFILE'))
-	define('DBCACHE_TEST_DBFILE',Yii::app()->getRuntimePath().'/CDbCacheTest_database.db');
+if (!defined('DBCACHE_TEST_DBFILE')) {
+    define('DBCACHE_TEST_DBFILE', (Yii::app() ? Yii::app()->getRuntimePath() : '/tmp') . '/CDbCacheTest_database.db');
+}
 
 if(!defined('DBCACHE_TEST_DB'))
 	define('DBCACHE_TEST_DB','sqlite:'.DBCACHE_TEST_DBFILE);
@@ -45,7 +46,7 @@ class CDbCacheTest extends CTestCase
 
 		$app=new TestApplication($this->_config1);
 		$app->reset();
-		$this->assertTrue($app->cache instanceof CDbCache);
+		$this->assertInstanceOf(CDbCache::class, $app->cache);
 		$this->assertEquals($app->cache->keyPrefix,$app->id);
 	}
 
@@ -60,10 +61,10 @@ class CDbCacheTest extends CTestCase
 
 		$this->assertFalse($cache->get($key));
 		$cache->set($key,$data);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 
 		$app2=new TestApplication($this->_config1);
-		$this->assertTrue($app2->cache->get($key)===$data);
+		$this->assertSame($data, $app2->cache->get($key));
 	}
 
 	public function testMGet()
@@ -93,8 +94,8 @@ class CDbCacheTest extends CTestCase
 		$data=array('abc'=>1,2=>'def');
 		$key='data2';
 		$cache[$key]=$data;
-		$this->assertTrue($cache->get($key)===$data);
-		$this->assertTrue($cache[$key]===$data);
+		$this->assertSame($data, $cache->get($key));
+		$this->assertSame($data, $cache[$key]);
 		unset($cache[$key]);
 		$this->assertFalse($cache[$key]);
 	}
@@ -107,7 +108,7 @@ class CDbCacheTest extends CTestCase
 		$data=array('abc'=>1,2=>'def');
 		$key='data3';
 		$cache->set($key,$data,2);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 		sleep(4);
 		$app2=new TestApplication($this->_config1);
 		$this->assertFalse($app2->cache->get($key));
@@ -123,10 +124,10 @@ class CDbCacheTest extends CTestCase
 		$key='data4';
 		$this->assertFalse($cache->get($key));
 		$cache->set($key,$data);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 
 		$app2=new TestApplication($this->_config2);
-		$this->assertTrue($app2->cache->get($key)===$data);
+		$this->assertSame($data, $app2->cache->get($key));
 	}
 
 	public function testDependency()
@@ -139,9 +140,9 @@ class CDbCacheTest extends CTestCase
 		$key='data5';
 
 		$cache->set($key,$data,0,new CFileCacheDependency(__FILE__));
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 		$app=new TestApplication($this->_config2);
-		$this->assertTrue($app->cache->get($key)===$data);
+		$this->assertSame($data, $app->cache->get($key));
 
 		$key2='data6';
 		$cache->set($key2,$data,0,new CFileCacheDependency(DBCACHE_TEST_DBFILE));

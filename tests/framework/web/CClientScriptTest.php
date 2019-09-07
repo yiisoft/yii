@@ -37,12 +37,12 @@ class CClientScriptTest extends CTestCase
 	}	
 	
 	/**
-	 * @dataProvider providerGetPackageBaseUrl
-	 * 
-	 * @param string $name
-	 * @param string $assertion 
-	 */
-	public function testGetPackageBaseUrl($name, $assertion)
+  * @dataProvider providerGetPackageBaseUrl
+  *  
+  * @param string $name
+  * @param string $assertion 
+  */
+ public function testGetPackageBaseUrl($name, $assertion)
 	{
 		$this->assertEquals($assertion,$this->_clientScript->getPackageBaseUrl($name));
 	}
@@ -59,24 +59,24 @@ class CClientScriptTest extends CTestCase
 		);
 	}
 	/**
-	 * @dataProvider providerCoreScripts
-	 * 
-	 * @param string $name
-	 * @param array $assertion 
-	 */
-	public function testRegisterCoreScript($name, $assertion)
+  * @dataProvider providerCoreScripts
+  *  
+  * @param string $name
+  * @param array $assertion 
+  */
+ public function testRegisterCoreScript($name, $assertion)
 	{
 		$returnedClientScript = $this->_clientScript->registerCoreScript($name);
 		$this->assertEquals($assertion, $returnedClientScript->corePackages[$name]);
 	}
 	
 	/**
-	 * @dataProvider providerCoreScripts
-	 * 
-	 * @param string $name
-	 * @param array $assertion 
-	 */
-	public function testRegisterPackage($name, $assertion)
+  * @dataProvider providerCoreScripts
+  *  
+  * @param string $name
+  * @param array $assertion 
+  */
+ public function testRegisterPackage($name, $assertion)
 	{
 		$returnedClientScript = $this->_clientScript->registerPackage($name);
 		$this->assertEquals($assertion, $returnedClientScript->corePackages[$name]);
@@ -201,14 +201,14 @@ class CClientScriptTest extends CTestCase
 	}
 	
 	/**
-	 * @dataProvider providerRegisterCss
-	 * 
-	 * @param string $id
-	 * @param string $css
-	 * @param string $media
-	 * @param array $assertion 
-	 */
-	public function testRegisterCss($id, $css, $media, $assertion)
+  * @dataProvider providerRegisterCss
+  *  
+  * @param string $id
+  * @param string $css
+  * @param string $media
+  * @param array $assertion 
+  */
+ public function testRegisterCss($id, $css, $media, $assertion)
 	{
 		$returnedClientScript = $this->_clientScript->registerCss($id, $css, $media);
 		$this->assertAttributeEquals($assertion, 'css', $returnedClientScript);
@@ -323,17 +323,17 @@ class CClientScriptTest extends CTestCase
 	}
 
 	/**
-	 * @depends testRegisterScriptFile
-	 * @depends testRegisterScriptFileWithHtmlOptions
-	 * 
-	 * @dataProvider providerRenderScriptFiles
-	 *
-	 * @param string $url
-	 * @param integer $position
-	 * @param array $htmlOptions
-	 * @param string $assertion
-	 */
-	public function testRenderScriptFiles($url, $position, $htmlOptions, $assertion)
+  * @depends testRegisterScriptFile
+  * @depends testRegisterScriptFileWithHtmlOptions
+  *  
+  * @dataProvider providerRenderScriptFiles
+  *
+  * @param string $url
+  * @param integer $position
+  * @param array $htmlOptions
+  * @param string $assertion
+  */
+ public function testRenderScriptFiles($url, $position, $htmlOptions, $assertion)
 	{
 		$returnedClientScript = $this->_clientScript->registerScriptFile($url, $position, $htmlOptions);
 		$output = '<head></head>';

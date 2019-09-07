@@ -112,8 +112,8 @@ class CStackTest extends CTestCase
 	public function testCount()
 	{
 		$stack = new CStack();
-		$this->assertEquals(0, count($stack));
+		$this->assertCount(0, $stack);
 		$stack = new CStack(array(1, 2, 3));
-		$this->assertEquals(3, count($stack));
+		$this->assertCount(3, $stack);
 	}
 }

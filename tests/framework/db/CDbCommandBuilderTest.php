@@ -192,7 +192,7 @@ class CDbCommandBuilderTest extends CTestCase
 
 		$rows=$builder->dbConnection->createCommand('SELECT * FROM '.$builder->dbConnection->quoteTableName($tableName))->queryAll();
 
-		$this->assertEquals(count($data),count($rows),'Records count miss matches!');
+		$this->assertCount(count($data),$rows,'Records count miss matches!');
 		foreach($rows as $rowIndex=>$row)
 			foreach($row as $columnName=>$value)
 			{
@@ -200,7 +200,7 @@ class CDbCommandBuilderTest extends CTestCase
 				if($columnIndex==false)
 					continue;
 				$expectedValue=$data[$rowIndex][$columnIndex];
-				$this->assertTrue($expectedValue==$value,"Value for column '{$columnName}' incorrect!");
+				$this->assertEquals($expectedValue, $value, "Value for column '{$columnName}' incorrect!");
 			}
 	}
 }

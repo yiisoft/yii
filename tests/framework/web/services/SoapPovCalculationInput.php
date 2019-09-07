@@ -92,13 +92,13 @@ class SoapPovCalculationInput
 	public $insurance_type;
 
 	/**
-	* This variable tests various flexibility requirements on WSDL definitions, such as soap indicators (choice, sequence) and inserting any custom defined XML nodes into WSDL file.
-	* We want an insurer to be either a juristic or a physical person. There must be always at least 1 person and maximum 10 persons supplied.
-	* A juristic person is defined in class "SoapInsurerPersonJuristic" and physical person in class "SoapInsurerPersonPhysical".
-	*
-	* @var SoapInsurerPerson List of insured persons. It can be either a physical person or a juristic person  {nillable = 0, minOccurs = 1, maxOccurs = 10}
-	* @soap
-	*/
-	public $insurer;
+  * This variable tests various flexibility requirements on WSDL definitions, such as soap indicators (choice, sequence) and inserting any custom defined XML nodes into WSDL file.
+  * We want an insurer to be either a juristic or a physical person. There must be always at least 1 person and maximum 10 persons supplied.
+  * A juristic person is defined in class "SoapInsurerPersonJuristic" and physical person in class "SoapInsurerPersonPhysical".
+  *
+  * @var SoapInsurerPerson List of insured persons. It can be either a physical person or a juristic person  {nillable = 0, minOccurs = 1, maxOccurs = 10}
+  * @soap
+  */
+ public $insurer;
 
 }

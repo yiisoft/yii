@@ -20,30 +20,30 @@ class CLoggerTest extends CTestCase
 			$logger->log($log[0],$log[1],$log[2]);
 
 		$l=$logger->getLogs('debug');
-		$this->assertTrue($logs[0]===array_slice($l[0],0,3));
+		$this->assertSame(array_slice($l[0],0,3), $logs[0]);
 
 		$l=$logger->getLogs('debug , Info');
-		$this->assertTrue($logs[0]===array_slice($l[0],0,3));
-		$this->assertTrue($logs[1]===array_slice($l[1],0,3));
-		$this->assertTrue($logs[2]===array_slice($l[2],0,3));
+		$this->assertSame(array_slice($l[0],0,3), $logs[0]);
+		$this->assertSame(array_slice($l[1],0,3), $logs[1]);
+		$this->assertSame(array_slice($l[2],0,3), $logs[2]);
 
 		$l=$logger->getLogs('','application.config');
-		$this->assertTrue($logs[1]===array_slice($l[0],0,3));
+		$this->assertSame(array_slice($l[0],0,3), $logs[1]);
 
 		$l=$logger->getLogs('','application.*');
-		$this->assertTrue($logs[0]===array_slice($l[0],0,3));
-		$this->assertTrue($logs[1]===array_slice($l[1],0,3));
-		$this->assertTrue($logs[2]===array_slice($l[2],0,3));
+		$this->assertSame(array_slice($l[0],0,3), $logs[0]);
+		$this->assertSame(array_slice($l[1],0,3), $logs[1]);
+		$this->assertSame(array_slice($l[2],0,3), $logs[2]);
 
 		$l=$logger->getLogs('','application.config , Application.pages');
-		$this->assertTrue($logs[0]===array_slice($l[0],0,3));
-		$this->assertTrue($logs[1]===array_slice($l[1],0,3));
-		$this->assertTrue($logs[2]===array_slice($l[2],0,3));
+		$this->assertSame(array_slice($l[0],0,3), $logs[0]);
+		$this->assertSame(array_slice($l[1],0,3), $logs[1]);
+		$this->assertSame(array_slice($l[2],0,3), $logs[2]);
 
 		$l=$logger->getLogs('info','application.config');
-		$this->assertTrue($logs[1]===array_slice($l[0],0,3));
+		$this->assertSame(array_slice($l[0],0,3), $logs[1]);
 
 		$l=$logger->getLogs('info,debug','application.config');
-		$this->assertTrue($logs[1]===array_slice($l[0],0,3));
+		$this->assertSame(array_slice($l[0],0,3), $logs[1]);
 	}
 }

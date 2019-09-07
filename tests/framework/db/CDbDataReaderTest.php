@@ -137,13 +137,13 @@ class CDbDataReaderTest extends CTestCase
 
 		$reader->fetchMode=PDO::FETCH_NUM;
 		$row=$reader->read();
-		$this->assertFalse(isset($row['id']));
-		$this->assertTrue(isset($row[0]));
+		$this->assertArrayNotHasKey('id', $row);
+		$this->assertArrayHasKey(0, $row);
 
 		$reader->fetchMode=PDO::FETCH_ASSOC;
 		$row=$reader->read();
-		$this->assertTrue(isset($row['id']));
-		$this->assertFalse(isset($row[0]));
+		$this->assertArrayHasKey('id', $row);
+		$this->assertArrayNotHasKey(0, $row);
 	}
 
 	public function testBindColumn()

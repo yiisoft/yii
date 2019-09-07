@@ -165,19 +165,19 @@ class CControllerTest extends CTestCase
 		$_GET['a']=1;
 		$_GET['b']='2';
 		$c->run('create');
-		$this->assertTrue($c->a===1);
-		$this->assertTrue($c->b==='2');
-		$this->assertTrue($c->c===3);
-		$this->assertTrue($c->d===4);
+		$this->assertSame(1, $c->a);
+		$this->assertSame('2', $c->b);
+		$this->assertSame(3, $c->c);
+		$this->assertSame(4, $c->d);
 
 		$_GET['a']=11;
 		$_GET['b']='22';
 		$_GET['d']='44';
 		$c->run('create');
-		$this->assertTrue($c->a===11);
-		$this->assertTrue($c->b==='22');
-		$this->assertTrue($c->c===3);
-		$this->assertTrue($c->d==='44');
+		$this->assertSame(11, $c->a);
+		$this->assertSame('22', $c->b);
+		$this->assertSame(3, $c->c);
+		$this->assertSame('44', $c->d);
 	}
 
 	public function testActionParamsInvalid()

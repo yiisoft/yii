@@ -62,8 +62,8 @@ class CActiveRecord2Test extends CTestCase
 	public function testModel()
 	{
 		$model=Post2::model();
-		$this->assertTrue($model instanceof Post2);
-		$this->assertTrue($model->dbConnection===$this->db);
+		$this->assertInstanceOf(Post2::class, $model);
+		$this->assertSame($this->db, $model->dbConnection);
 		$this->assertTrue($model->dbConnection->active);
 		$this->assertEquals('test.posts',$model->tableName());
 		$this->assertEquals('id',$model->tableSchema->primaryKey);
@@ -71,9 +71,9 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals(array(),$model->attributeLabels());
 		$this->assertEquals('Id',$model->getAttributeLabel('id'));
 		$this->assertEquals('Author Id',$model->getAttributeLabel('author_id'));
-		$this->assertTrue($model->getActiveRelation('author') instanceof CBelongsToRelation);
-		$this->assertTrue($model->tableSchema instanceof CDbTableSchema);
-		$this->assertTrue($model->commandBuilder instanceof CDbCommandBuilder);
+		$this->assertInstanceOf(CBelongsToRelation::class, $model->getActiveRelation('author'));
+		$this->assertInstanceOf(CDbTableSchema::class, $model->tableSchema);
+		$this->assertInstanceOf(CDbCommandBuilder::class, $model->commandBuilder);
 		$this->assertTrue($model->hasAttribute('id'));
 		$this->assertFalse($model->hasAttribute('comments'));
 		$this->assertFalse($model->hasAttribute('foo'));
@@ -91,19 +91,19 @@ class CActiveRecord2Test extends CTestCase
 	{
 		// test find() with various parameters
 		$post=Post2::model()->find();
-		$this->assertTrue($post instanceof Post2);
+		$this->assertInstanceOf(Post2::class, $post);
 		$this->assertEquals(1,$post->id);
 
 		$post=Post2::model()->find('id=5');
-		$this->assertTrue($post instanceof Post2);
+		$this->assertInstanceOf(Post2::class, $post);
 		$this->assertEquals(5,$post->id);
 
 		$post=Post2::model()->find('id=:id',array(':id'=>2));
-		$this->assertTrue($post instanceof Post2);
+		$this->assertInstanceOf(Post2::class, $post);
 		$this->assertEquals(2,$post->id);
 
 		$post=Post2::model()->find(array('condition'=>'id=:id','params'=>array(':id'=>3)));
-		$this->assertTrue($post instanceof Post2);
+		$this->assertInstanceOf(Post2::class, $post);
 		$this->assertEquals(3,$post->id);
 
 		// test find() without result
@@ -112,18 +112,18 @@ class CActiveRecord2Test extends CTestCase
 
 		// test findAll() with various parameters
 		$posts=Post2::model()->findAll();
-		$this->assertEquals(5,count($posts));
-		$this->assertTrue($posts[3] instanceof Post2);
+		$this->assertCount(5,$posts);
+		$this->assertInstanceOf(Post2::class, $posts[3]);
 		$this->assertEquals(4,$posts[3]->id);
 
 		$posts=Post2::model()->findAll(new CDbCriteria(array('limit'=>3,'offset'=>1)));
-		$this->assertEquals(3,count($posts));
-		$this->assertTrue($posts[2] instanceof Post2);
+		$this->assertCount(3,$posts);
+		$this->assertInstanceOf(Post2::class, $posts[2]);
 		$this->assertEquals(4,$posts[2]->id);
 
 		// test findAll() without result
 		$posts=Post2::model()->findAll('id=6');
-		$this->assertTrue($posts===array());
+		$this->assertSame(array(), $posts);
 
 		// test findByPk
 		$post=Post2::model()->findByPk(2);
@@ -140,16 +140,16 @@ class CActiveRecord2Test extends CTestCase
 
 		// test findAllByPk
 		$posts=Post2::model()->findAllByPk(2);
-		$this->assertEquals(1,count($posts));
+		$this->assertCount(1,$posts);
 		$this->assertEquals(2,$posts[0]->id);
 
 		$posts=Post2::model()->findAllByPk(array(4,3,2),'id<4');
-		$this->assertEquals(2,count($posts));
+		$this->assertCount(2,$posts);
 		$this->assertEquals(2,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
 
 		$posts=Post2::model()->findAllByPk(array());
-		$this->assertTrue($posts===array());
+		$this->assertSame(array(), $posts);
 
 		// test findByAttributes
 		$post=Post2::model()->findByAttributes(array('author_id'=>2),array('order'=>'id DESC'));
@@ -157,7 +157,7 @@ class CActiveRecord2Test extends CTestCase
 
 		// test findAllByAttributes
 		$posts=Post2::model()->findAllByAttributes(array('author_id'=>2));
-		$this->assertEquals(3,count($posts));
+		$this->assertCount(3,$posts);
 
 		// test findBySql
 		$post=Post2::model()->findBySql('select * from test.posts where id=:id',array(':id'=>2));
@@ -165,7 +165,7 @@ class CActiveRecord2Test extends CTestCase
 
 		// test findAllBySql
 		$posts=Post2::model()->findAllBySql('select * from test.posts where id>:id',array(':id'=>2));
-		$this->assertEquals(3,count($posts));
+		$this->assertCount(3,$posts);
 
 		// test count
 		$this->assertEquals(5,Post2::model()->count());
@@ -239,13 +239,13 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertTrue($post->delete());
 		$this->assertNull(Post2::model()->findByPk(1));
 
-		$this->assertTrue(Post2::model()->findByPk(2) instanceof Post2);
-		$this->assertTrue(Post2::model()->findByPk(3) instanceof Post2);
+		$this->assertInstanceOf(Post2::class, Post2::model()->findByPk(2));
+		$this->assertInstanceOf(Post2::class, Post2::model()->findByPk(3));
 		$this->assertEquals(2,Post2::model()->deleteByPk(array(2,3)));
 		$this->assertNull(Post2::model()->findByPk(2));
 		$this->assertNull(Post2::model()->findByPk(3));
 
-		$this->assertTrue(Post2::model()->findByPk(5) instanceof Post2);
+		$this->assertInstanceOf(Post2::class, Post2::model()->findByPk(5));
 		$this->assertEquals(1,Post2::model()->deleteAll('id=5'));
 		$this->assertNull(Post2::model()->findByPk(5));
 	}
@@ -287,9 +287,9 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertTrue($user->hasErrors('username'));
 		$this->assertTrue($user->hasErrors('email'));
 		$this->assertFalse($user->hasErrors('password'));
-		$this->assertEquals(1,count($user->getErrors('username')));
-		$this->assertEquals(1,count($user->getErrors('email')));
-		$this->assertEquals(2,count($user->errors));
+		$this->assertCount(1,$user->getErrors('username'));
+		$this->assertCount(1,$user->getErrors('email'));
+		$this->assertCount(2,$user->errors);
 
 		$user->clearErrors();
 		$this->assertFalse($user->hasErrors());
@@ -349,7 +349,7 @@ class CActiveRecord2Test extends CTestCase
 	{
 		// test belongsTo
 		$post=Post2::model()->findByPk(2);
-		$this->assertTrue($post->author instanceof User2);
+		$this->assertInstanceOf(User2::class, $post->author);
 		$this->assertEquals(array(
 			'id'=>2,
 			'username'=>'user2',
@@ -358,7 +358,7 @@ class CActiveRecord2Test extends CTestCase
 
 		// test hasOne
 		$post=Post2::model()->findByPk(2);
-		$this->assertTrue($post->firstComment instanceof Comment2);
+		$this->assertInstanceOf(Comment2::class, $post->firstComment);
 		$this->assertEquals(array(
 			'id'=>4,
 			'content'=>'comment 4',
@@ -369,7 +369,7 @@ class CActiveRecord2Test extends CTestCase
 
 		// test hasMany
 		$post=Post2::model()->findByPk(2);
-		$this->assertEquals(2,count($post->comments));
+		$this->assertCount(2,$post->comments);
 		$this->assertEquals(array(
 			'id'=>5,
 			'content'=>'comment 5',
@@ -385,7 +385,7 @@ class CActiveRecord2Test extends CTestCase
 
 		// test manyMany
 		$post=Post2::model()->findByPk(2);
-		$this->assertEquals(2,count($post->categories));
+		$this->assertCount(2,$post->categories);
 
 		// TODO: when joining, need to replace both placeholders for the two joinin tables
 		$this->assertEquals(array(
@@ -404,7 +404,7 @@ class CActiveRecord2Test extends CTestCase
 		// test self join
 		$category=Category2::model()->findByPk(5);
 		$this->assertEquals(array(),$category->posts);
-		$this->assertEquals(2,count($category->children));
+		$this->assertCount(2,$category->children);
 		$this->assertEquals(array(
 			'id'=>6,
 			'name'=>'cat 6',
@@ -413,24 +413,24 @@ class CActiveRecord2Test extends CTestCase
 			'id'=>7,
 			'name'=>'cat 7',
 			'parent_id'=>5),$category->children[1]->getAttributes(false));
-		$this->assertTrue($category->parent instanceof Category2);
+		$this->assertInstanceOf(Category2::class, $category->parent);
 		$this->assertEquals(array(
 			'id'=>1,
 			'name'=>'cat 1',
 			'parent_id'=>null),$category->parent->getAttributes(false));
 
 		$category=Category2::model()->findByPk(2);
-		$this->assertEquals(1,count($category->posts));
+		$this->assertCount(1,$category->posts);
 		$this->assertEquals(array(),$category->children);
 		$this->assertNull($category->parent);
 
 		// test composite key
 		$order=Order2::model()->findByPk(array('key1'=>1,'key2'=>2));
-		$this->assertEquals(2,count($order->items));
+		$this->assertCount(2,$order->items);
 		$order=Order2::model()->findByPk(array('key1'=>2,'key2'=>1));
-		$this->assertEquals(0,count($order->items));
+		$this->assertCount(0,$order->items);
 		$item=Item2::model()->findByPk(4);
-		$this->assertTrue($item->order instanceof Order2);
+		$this->assertInstanceOf(Order2::class, $item->order);
 		$this->assertEquals(array(
 			'key1'=>2,
 			'key2'=>2,
@@ -445,13 +445,13 @@ class CActiveRecord2Test extends CTestCase
 			'username'=>'user2',
 			'password'=>'pass2',
 			'email'=>'email2'),$post->author->getAttributes(false));
-		$this->assertTrue($post->firstComment instanceof Comment2);
+		$this->assertInstanceOf(Comment2::class, $post->firstComment);
 		$this->assertEquals(array(
 			'id'=>4,
 			'content'=>'comment 4',
 			'post_id'=>2,
 			'author_id'=>2),$post->firstComment->getAttributes(false));
-		$this->assertEquals(2,count($post->comments));
+		$this->assertCount(2,$post->comments);
 		$this->assertEquals(array(
 			'id'=>5,
 			'content'=>'comment 5',
@@ -462,7 +462,7 @@ class CActiveRecord2Test extends CTestCase
 			'content'=>'comment 4',
 			'post_id'=>2,
 			'author_id'=>2),$post->comments[1]->getAttributes(false));
-		$this->assertEquals(2,count($post->categories));
+		$this->assertCount(2,$post->categories);
 
 		$this->assertEquals(array(
 			'id'=>4,
@@ -487,52 +487,52 @@ class CActiveRecord2Test extends CTestCase
 	public function testLazyRecursiveRelation()
 	{
 		$post=PostExt2::model()->findByPk(2);
-		$this->assertEquals(2,count($post->comments));
-		$this->assertTrue($post->comments[0]->post instanceof Post2);
-		$this->assertTrue($post->comments[1]->post instanceof Post2);
-		$this->assertTrue($post->comments[0]->author instanceof User2);
-		$this->assertTrue($post->comments[1]->author instanceof User2);
-		$this->assertEquals(3,count($post->comments[0]->author->posts));
-		$this->assertEquals(3,count($post->comments[1]->author->posts));
-		$this->assertTrue($post->comments[0]->author->posts[1]->author instanceof User2);
+		$this->assertCount(2,$post->comments);
+		$this->assertInstanceOf(Post2::class, $post->comments[0]->post);
+		$this->assertInstanceOf(Post2::class, $post->comments[1]->post);
+		$this->assertInstanceOf(User2::class, $post->comments[0]->author);
+		$this->assertInstanceOf(User2::class, $post->comments[1]->author);
+		$this->assertCount(3,$post->comments[0]->author->posts);
+		$this->assertCount(3,$post->comments[1]->author->posts);
+		$this->assertInstanceOf(User2::class, $post->comments[0]->author->posts[1]->author);
 
 		// test self join
 		$category=Category2::model()->findByPk(1);
-		$this->assertEquals(2,count($category->nodes));
-		$this->assertTrue($category->nodes[0]->parent instanceof Category2);
-		$this->assertTrue($category->nodes[1]->parent instanceof Category2);
-		$this->assertEquals(2,count($category->nodes[0]->children)); // row in test.categories with id 5 (has 2 descendants)
-		$this->assertEquals(0,count($category->nodes[1]->children)); // row in test.categories with id 4 (has 0 descendants)
+		$this->assertCount(2,$category->nodes);
+		$this->assertInstanceOf(Category2::class, $category->nodes[0]->parent);
+		$this->assertInstanceOf(Category2::class, $category->nodes[1]->parent);
+		$this->assertCount(2,$category->nodes[0]->children); // row in test.categories with id 5 (has 2 descendants)
+		$this->assertCount(0,$category->nodes[1]->children); // row in test.categories with id 4 (has 0 descendants)
 	}
 
 	public function testEagerRecursiveRelation()
 	{
 		$post=Post2::model()->with(array('comments'=>'author','categories'))->findByPk(2);
-		$this->assertEquals(2,count($post->comments));
-		$this->assertEquals(2,count($post->categories));
+		$this->assertCount(2,$post->comments);
+		$this->assertCount(2,$post->categories);
 	}
 
 	public function testRelationWithCondition()
 	{
 		$posts=Post2::model()->with('comments')->findAllByPk(array(2,3,4),array('order'=>'t.id'));
-		$this->assertEquals(3,count($posts));
-		$this->assertEquals(2,count($posts[0]->comments));
-		$this->assertEquals(4,count($posts[1]->comments));
-		$this->assertEquals(0,count($posts[2]->comments));
+		$this->assertCount(3,$posts);
+		$this->assertCount(2,$posts[0]->comments);
+		$this->assertCount(4,$posts[1]->comments);
+		$this->assertCount(0,$posts[2]->comments);
 
 		$post=Post2::model()->with('comments')->findByAttributes(array('id'=>2));
-		$this->assertTrue($post instanceof Post2);
-		$this->assertEquals(2,count($post->comments));
+		$this->assertInstanceOf(Post2::class, $post);
+		$this->assertCount(2,$post->comments);
 		$posts=Post2::model()->with('comments')->findAllByAttributes(array('id'=>2));
-		$this->assertEquals(1,count($posts));
+		$this->assertCount(1,$posts);
 
 		$post=Post2::model()->with('comments')->findBySql('select * from test.posts where id=:id',array(':id'=>2));
-		$this->assertTrue($post instanceof Post2);
+		$this->assertInstanceOf(Post2::class, $post);
 		$posts=Post2::model()->with('comments')->findAllBySql('select * from test.posts where id=:id1 OR id=:id2',array(':id1'=>2,':id2'=>3));
-		$this->assertEquals(2,count($posts));
+		$this->assertCount(2,$posts);
 
 		$post=Post2::model()->with('comments','author')->find('t.id=:id',array(':id'=>2));
-		$this->assertTrue($post instanceof Post2);
+		$this->assertInstanceOf(Post2::class, $post);
 
 		$posts=Post2::model()->with('comments','author')->findAll(array(
 			'select'=>'title',
@@ -541,7 +541,7 @@ class CActiveRecord2Test extends CTestCase
 			'offset'=>0,
 			'order'=>'t.title',
 			'params'=>array(':id'=>2)));
-		$this->assertTrue($posts[0] instanceof Post2);
+		$this->assertInstanceOf(Post2::class, $posts[0]);
 
 		$posts=Post2::model()->with('comments','author')->findAll(array(
 			'select'=>'title',
@@ -550,20 +550,20 @@ class CActiveRecord2Test extends CTestCase
 			'offset'=>2,
 			'order'=>'t.title',
 			'params'=>array(':id'=>2)));
-		$this->assertTrue($posts===array());
+		$this->assertSame(array(), $posts);
 	}
 
 	public function testSelfManyMany()
 	{
 		$user=User2::model()->findByPk(1);
-		$this->assertTrue($user instanceof User2);
+		$this->assertInstanceOf(User2::class, $user);
 		$friends=$user->friends;
 		$this->assertEquals(count($friends),2);
 		$this->assertEquals($friends[0]->id,2);
 		$this->assertEquals($friends[1]->id,3);
 
 		$user=User2::model()->with('friends')->findByPk(1);
-		$this->assertTrue($user instanceof User2);
+		$this->assertInstanceOf(User2::class, $user);
 		$friends=$user->friends;
 		$this->assertEquals(count($friends),2);
 		$this->assertEquals($friends[0]->id,2);
@@ -588,13 +588,13 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertNull($post);
 
 		$posts=Post2::model()->with('author','firstComment','comments','categories')->findAll('t.id=100');
-		$this->assertTrue($posts===array());
+		$this->assertSame(array(), $posts);
 
 		$post=Post2::model()->with('author','firstComment','comments','categories')->findBySql('SELECT * FROM test.posts WHERE id=100');
 		$this->assertNull($post);
 
 		Post2::model()->with('author','firstComment','comments','categories')->findAllBySql('SELECT * FROM test.posts WHERE id=100');
-		$this->assertTrue($posts===array());
+		$this->assertSame(array(), $posts);
 	}
 
 	/**
@@ -603,7 +603,7 @@ class CActiveRecord2Test extends CTestCase
 	public function testIssue2122()
 	{
 		$user=User2::model()->findByPk(2);
-		$this->assertEquals(2,count($user->postsWithParam));
+		$this->assertCount(2,$user->postsWithParam);
 		$this->assertEquals('post 2',$user->postsWithParam[0]->title);
 		$this->assertEquals('post 3',$user->postsWithParam[1]->title);
 	}

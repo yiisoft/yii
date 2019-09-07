@@ -53,7 +53,7 @@ class CMapTest extends CTestCase
 	public function testGetKeys()
 	{
 		$keys=$this->map->getKeys();
-		$this->assertEquals(2,count($keys));
+		$this->assertCount(2,$keys);
 		$this->assertEquals('key1',$keys[0]);
 		$this->assertEquals('key2',$keys[1]);
 	}
@@ -76,8 +76,8 @@ class CMapTest extends CTestCase
 	{
 		$this->map->remove('key1');
 		$this->assertEquals(1,$this->map->getCount());
-		$this->assertTrue(!$this->map->contains('key1'));
-		$this->assertTrue($this->map->remove('unknown key')===null);
+		$this->assertFalse($this->map->contains('key1'));
+		$this->assertNull($this->map->remove('unknown key'));
 	}
 
 	public function testCanNotRemoveWhenReadOnly()
@@ -122,7 +122,7 @@ class CMapTest extends CTestCase
 		$map=new CMap($a);
 		$map2=new CMap($b);
 		$map->mergeWith($map2);
-		$this->assertTrue($map->toArray()===$c);
+		$this->assertSame($c, $map->toArray());
 
 		$array=array('key2'=>$this->item1,'key3'=>$this->item3);
 		$this->map->mergeWith($array,false);
@@ -169,7 +169,7 @@ class CMapTest extends CTestCase
 
 		unset($this->map['key2']);
 		$this->assertEquals(2,$this->map->getCount());
-		$this->assertTrue(!$this->map->contains('key2'));
+		$this->assertFalse($this->map->contains('key2'));
 
 		unset($this->map['unknown key']);
 	}
@@ -191,9 +191,9 @@ class CMapTest extends CTestCase
 
 	public function testArrayMisc()
 	{
-		$this->assertEquals($this->map->Count,count($this->map));
-		$this->assertTrue(isset($this->map['key1']));
-		$this->assertFalse(isset($this->map['unknown key']));
+		$this->assertCount($this->map->Count,$this->map);
+		$this->assertArrayHasKey('key1', $this->map);
+		$this->assertArrayNotHasKey('unknown key', $this->map);
 	}
 
 	public function testToArray()

@@ -46,7 +46,7 @@ class CLocaleTest extends CTestCase
 			$this->assertNotNull($locale->getMonthName(1), "$localeCode: getMonthName 1 failed.");
 			$this->assertNotNull($locale->getMonthName(12, 'abbreviated'), "$localeCode: getMonthName 12 abbreviated failed.");
 			$this->assertNotNull($locale->getMonthName(1, 'narrow', true), "$localeCode: getMonthName 1 narrow standalone failed.");
-			$this->assertEquals(12, count($locale->getMonthNames()), "$localeCode: getMonthNames failed.");
+			$this->assertCount(12, $locale->getMonthNames(), "$localeCode: getMonthNames failed.");
 			$this->assertNotNull($locale->getWeekDayName(0), "$localeCode: getWeekDayName failed.");
 			$this->assertNotNull($locale->getWeekDayNames(), "$localeCode: getWeekDayNames failed.");
 			$this->assertNotNull($locale->getEraName(1), "$localeCode: getEraName failed.");
@@ -55,7 +55,7 @@ class CLocaleTest extends CTestCase
 			$this->assertNotNull($locale->getDateTimeFormat(), "$localeCode: getDateTimeFormat failed.");
 
 			// ORIENTATION
-			$this->assertTrue(in_array($locale->getOrientation(), array('ltr', 'rtl')), "$localeCode: getOrientation failed.");
+			$this->assertContains($locale->getOrientation(), array('ltr', 'rtl'), "$localeCode: getOrientation failed.");
 
 			// plurals
 			$l = explode('_', $localeCode);

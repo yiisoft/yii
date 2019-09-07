@@ -51,7 +51,7 @@ class CDbConnectionTest extends CTestCase
 	    $this->_connection->active=true;
 	    $this->assertTrue($this->_connection->active);
 	    $pdo=$this->_connection->pdoInstance;
-	    $this->assertTrue($pdo instanceof PDO);
+	    $this->assertInstanceOf(PDO::class, $pdo);
 
 	    $this->_connection->active=true;
 	    $this->assertEquals($pdo,$this->_connection->pdoInstance);
@@ -71,7 +71,7 @@ class CDbConnectionTest extends CTestCase
 		$this->_connection->active=true;
 		$this->_connection->pdoInstance->exec(file_get_contents(dirname(__FILE__).'/data/sqlite.sql'));
 		$command=$this->_connection->createCommand($sql);
-		$this->assertTrue($command instanceof CDbCommand);
+		$this->assertInstanceOf(CDbCommand::class, $command);
 	}
 
 	public function testLastInsertID()
@@ -132,6 +132,6 @@ class CDbConnectionTest extends CTestCase
 		$db->active=true;
 		$db->pdoInstance->exec(file_get_contents(dirname(__FILE__).'/data/sqlite.sql'));
 		$command=$db->createCommand('SELECT * FROM posts');
-		$this->assertTrue($command instanceof CDbCommand);
+		$this->assertInstanceOf(CDbCommand::class, $command);
 	}
 }

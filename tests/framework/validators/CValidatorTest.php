@@ -18,7 +18,7 @@ class CValidatorTest extends CTestCase
 		$scenario1TestModel->validate();
 
 		$errors=$scenario1TestModel->getErrors();
-		$this->assertEquals(6, count($errors));
+		$this->assertCount(6, $errors);
 		$this->assertArrayHasKey('title', $errors);
 		$this->assertArrayHasKey('firstName', $errors);
 		$this->assertArrayHasKey('lastName', $errors);
@@ -33,7 +33,7 @@ class CValidatorTest extends CTestCase
 		$scenario2TestModel->validate();
 
 		$errors=$scenario2TestModel->getErrors();
-		$this->assertEquals(5, count($errors));
+		$this->assertCount(5, $errors);
 		$this->assertArrayHasKey('firstName', $errors);
 		$this->assertArrayHasKey('lastName', $errors);
 		$this->assertArrayHasKey('patronymic', $errors);
@@ -47,7 +47,7 @@ class CValidatorTest extends CTestCase
 		$scenario3TestModel->validate();
 
 		$errors=$scenario3TestModel->getErrors();
-		$this->assertEquals(4, count($errors));
+		$this->assertCount(4, $errors);
 		$this->assertArrayHasKey('lastName', $errors);
 		$this->assertArrayHasKey('patronymic', $errors);
 		$this->assertArrayHasKey('nickName', $errors);
@@ -60,7 +60,7 @@ class CValidatorTest extends CTestCase
 		$scenario4TestModel->validate();
 
 		$errors=$scenario4TestModel->getErrors();
-		$this->assertEquals(1, count($errors));
+		$this->assertCount(1, $errors);
 		$this->assertArrayHasKey('login', $errors);
 	}
 }

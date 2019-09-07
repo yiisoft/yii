@@ -9,13 +9,13 @@ class CListViewTest extends CTestCase
 		$expected = "'beforeAjaxUpdate':function() { /* callback1 */ },'afterAjaxUpdate':function() { /* callback2 */ }";
 
 		$out=$this->getWidgetScript('js:function() { /* callback1 */ }', 'js:function() { /* callback2 */ }');
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (js:): ".$out);
+		$this->assertNotFalse(mb_strpos($out,$expected, null, Yii::app()->charset), "Unexpected JavaScript (js:): ".$out);
 
 		$out=$this->getWidgetScript('function() { /* callback1 */ }', 'function() { /* callback2 */ }');
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (w/o js:): ".$out);
+		$this->assertNotFalse(mb_strpos($out,$expected, null, Yii::app()->charset), "Unexpected JavaScript (w/o js:): ".$out);
 
 		$out=$this->getWidgetScript(new CJavaScriptExpression('function() { /* callback1 */ }'), new CJavaScriptExpression('function() { /* callback2 */ }'));
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (wrap): ".$out);
+		$this->assertNotFalse(mb_strpos($out,$expected, null, Yii::app()->charset), "Unexpected JavaScript (wrap): ".$out);
 	}
 
 	private function getWidgetScript($callback1, $callback2)

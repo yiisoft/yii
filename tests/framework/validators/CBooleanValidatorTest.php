@@ -11,7 +11,7 @@ class CBooleanValidatorTest extends CTestCase
 {
     /**
      * Test we can catch validation errors using custom false/true values
-     * 
+     *  
      * @return null
      */
     public function testValidationUsingCustomFalseTrueValues()

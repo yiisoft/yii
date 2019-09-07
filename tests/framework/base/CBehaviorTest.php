@@ -37,7 +37,11 @@ class CBehaviorTest extends CTestCase {
     public function testDisableBehaviorsAndModels(){
         $model = new NewFormModel();
         $model->disableBehaviors();
-        $model->validate();
+        try {
+            $model->validate();
+        } catch (NewBeforeValidateBehaviorException $e) {
+            $this->fail('Exception is not expected');
+        }
     }
 
     /**

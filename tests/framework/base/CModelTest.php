@@ -149,7 +149,7 @@ class CModelTest extends CTestCase
 		$model->validate();
 		$model->clearErrors();
 		$model->addError('firstName', 'This field is required');
-		$this->assertSame(1, count($model->getErrors('firstName')));
+		$this->assertCount(1, $model->getErrors('firstName'));
 	}
 
 	public function testAddingAnErrorToASingleAttribute()
@@ -158,7 +158,7 @@ class CModelTest extends CTestCase
 		$model->validate();
 		$model->clearErrors();
 		$model->addErrors(array('firstName' => 'This field is required'));
-		$this->assertSame(1, count($model->getErrors('firstName')));
+		$this->assertCount(1, $model->getErrors('firstName'));
 	}
 
 	public function testAddingAnErrorToMultipleAttributes()
@@ -170,8 +170,8 @@ class CModelTest extends CTestCase
 			'firstName' => array('This attribute is required'),
 			'LastName' => array('This field is required'),
 		));
-		$this->assertSame(1, count($model->getErrors('firstName')));
-		$this->assertSame(1, count($model->getErrors('LastName')));
+		$this->assertCount(1, $model->getErrors('firstName'));
+		$this->assertCount(1, $model->getErrors('LastName'));
 	}
 
 	public function testAddingMultipleErrorsToASingleAttribute()
@@ -183,7 +183,7 @@ class CModelTest extends CTestCase
 			'This attribute is required',
 			'This field is required',
 		)));
-		$this->assertSame(2, count($model->getErrors('firstName')));
+		$this->assertCount(2, $model->getErrors('firstName'));
 	}
 
 	public function testAddingMultipleErrorsToMultipleAttributes()
@@ -201,8 +201,8 @@ class CModelTest extends CTestCase
 				'This field is required',
 			),
 		));
-		$this->assertSame(2, count($model->getErrors('firstName')));
-		$this->assertSame(2, count($model->getErrors('LastName')));
+		$this->assertCount(2, $model->getErrors('firstName'));
+		$this->assertCount(2, $model->getErrors('LastName'));
 	}
 
 	public function testFirstErrorMessageForInvalidAttribute()

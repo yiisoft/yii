@@ -80,7 +80,7 @@ class MessageCommandTest extends CTestCase
 	{
 		//$command=new MessageCommand('message',null);
 		$command=$this->getMockBuilder('MessageCommand')->setMethods(array('usageError'))->setConstructorArgs(array('message',null))->getMock();
-		$command->expects($this->any())->method('usageError')->will($this->throwException(new CException('usageError')));
+		$command->expects($this->any())->method('usageError')->willThrowException(new CException('usageError'));
 		return $command;
 	}
 
@@ -178,12 +178,12 @@ class MessageCommandTest extends CTestCase
 		));
 		$this->runMessageCommand(array($this->configFileName));
 
-		$this->assertTrue(file_exists($this->messagePath.DIRECTORY_SEPARATOR.$language),'No language dir created!');
+		$this->assertFileExists($this->messagePath.DIRECTORY_SEPARATOR.$language,'No language dir created!');
 		$messageFileName=$this->messagePath.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$category.'.php';
-		$this->assertTrue(file_exists($messageFileName),'No message file created!');
+		$this->assertFileExists($messageFileName,'No message file created!');
 		$messages=require($messageFileName);
-		$this->assertTrue(is_array($messages),'Unable to compose messages!');
-		$this->assertTrue(array_key_exists($message,$messages),'Source message is missing!');
+		$this->assertInternalType('array', $messages, 'Unable to compose messages!');
+		$this->assertArrayHasKey($message, $messages, 'Source message is missing!');
 	}
 
 	/**
@@ -250,8 +250,8 @@ class MessageCommandTest extends CTestCase
 		$this->runMessageCommand(array($this->configFileName));
 
 		$messages=require($this->messagePath.DIRECTORY_SEPARATOR.$messageFileName);
-		$this->assertTrue(array_key_exists($newMessage,$messages),'Unable to add new message!');
-		$this->assertTrue(array_key_exists($existingMessage,$messages),'Unable to keep existing message!');
+		$this->assertArrayHasKey($newMessage, $messages, 'Unable to add new message!');
+		$this->assertArrayHasKey($existingMessage, $messages, 'Unable to keep existing message!');
 		$this->assertEquals('',$messages[$newMessage],'Wrong new message content!');
 		$this->assertEquals($existingMessageContent,$messages[$existingMessage],'Unable to keep existing message content!');
 	}
@@ -289,7 +289,7 @@ class MessageCommandTest extends CTestCase
 
 		$messages=require($this->messagePath.DIRECTORY_SEPARATOR.$messageFileName);
 
-		$this->assertTrue(array_key_exists($oldMessage,$messages),'No longer needed message removed!');
+		$this->assertArrayHasKey($oldMessage, $messages, 'No longer needed message removed!');
 		$this->assertEquals('@@'.$oldMessageContent.'@@',$messages[$oldMessage],'No longer needed message content does not marked properly!');
 	}
 
@@ -331,8 +331,8 @@ class MessageCommandTest extends CTestCase
 		$this->runMessageCommand(array($this->configFileName));
 
 		$messages=require($this->messagePath.DIRECTORY_SEPARATOR.$messageFileName);
-		$this->assertTrue($zeroMessageContent===$messages[$zeroMessage],'Message content "0" is lost!');
-		$this->assertTrue($falseMessageContent===$messages[$falseMessage],'Message content "false" is lost!');
+		$this->assertSame($messages[$zeroMessage], $zeroMessageContent, 'Message content "0" is lost!');
+		$this->assertSame($messages[$falseMessage], $falseMessageContent, 'Message content "false" is lost!');
 	}
 
 	/**
@@ -374,6 +374,6 @@ class MessageCommandTest extends CTestCase
 		$messages=require($messageFileName);
 
 		foreach($sourceMessages as $sourceMessage)
-			$this->assertTrue(array_key_exists($sourceMessage,$messages));
+			$this->assertArrayHasKey($sourceMessage, $messages);
 	}
 }

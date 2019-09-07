@@ -36,45 +36,45 @@ class CSecurityManagerTest extends CTestCase
 	}
 
 	/**
-     * @requires extension mcrypt
-	 * @expectedException CException
-	 */
-	public function testUndersizedGlobalKey()
+  * @requires extension mcrypt
+  */
+ public function testUndersizedGlobalKey()
 	{
-		$sm=new CSecurityManager;
+		$this->expectException('CException');
+  $sm=new CSecurityManager;
 		$sm->cryptAlgorithm='des';
 		$sm->setEncryptionKey('1');
 	}
 
 	/**
-     * @requires extension mcrypt
-	 * @expectedException CException
-	 */
-	public function testUndersizedKey()
+  * @requires extension mcrypt
+  */
+ public function testUndersizedKey()
 	{
-		$sm=new CSecurityManager;
+		$this->expectException('CException');
+  $sm=new CSecurityManager;
 		$sm->cryptAlgorithm='des';
 		$sm->encrypt('some data', '1');
 	}
 
 	/**
-     * @requires extension mcrypt
-	 * @expectedException CException
-	 */
-	public function testOversizedGlobalKey()
+  * @requires extension mcrypt
+  */
+ public function testOversizedGlobalKey()
 	{
-		$sm=new CSecurityManager;
+		$this->expectException('CException');
+  $sm=new CSecurityManager;
 		$sm->cryptAlgorithm='des';
 		$sm->setEncryptionKey('123456789');
 	}
 
 	/**
-     * @requires extension mcrypt
-	 * @expectedException CException
-	 */
-	public function testOversizedKey()
+  * @requires extension mcrypt
+  */
+ public function testOversizedKey()
 	{
-		$sm=new CSecurityManager;
+		$this->expectException('CException');
+  $sm=new CSecurityManager;
 		$sm->cryptAlgorithm='des';
 		$sm->encrypt('some data', '123456789');
 	}
@@ -96,14 +96,14 @@ class CSecurityManagerTest extends CTestCase
 		$hashedData=$sm->hashData($data);
 		$this->assertEquals($data,$sm->validateData($hashedData));
 		$hashedData[3]='c'; // tamper the data
-		$this->assertTrue($sm->validateData($hashedData)===false);
+		$this->assertFalse($sm->validateData($hashedData));
 
 		$sm->hashAlgorithm='MD5';
 		$data='this is raw data';
 		$hashedData=$sm->hashData($data);
 		$this->assertEquals($data,$sm->validateData($hashedData));
 		$hashedData[3]='c'; // tamper the data
-		$this->assertTrue($sm->validateData($hashedData)===false);
+		$this->assertFalse($sm->validateData($hashedData));
 	}
 
     /**
@@ -118,7 +118,7 @@ class CSecurityManagerTest extends CTestCase
 		$sm->setEncryptionKey("\xAF\x84\x8F\xF2\xEE\x92\xDF\xA8");
 		$data='this is raw data';
 		$encryptedData=$sm->encrypt($data);
-		$this->assertTrue($data!==$encryptedData);
+		$this->assertNotSame($encryptedData, $data);
 		$data2=$sm->decrypt($encryptedData);
 		$this->assertEquals($data,$data2);
 	}
@@ -175,7 +175,7 @@ class CSecurityManagerTest extends CTestCase
 		for ($i=1; $i<999; $i+=1){
 			$ran=$sm->generateRandomString($i,false);
 			$this->assertInternalType('string', $ran);
-			$this->assertEquals(1, preg_match('{[a-zA-Z0-9_~]{' . $i . '}}', $ran));
+			$this->assertRegExp('{[a-zA-Z0-9_~]{' . $i . '}}', $ran);
 		}
 	}
 
@@ -202,7 +202,7 @@ class CSecurityManagerTest extends CTestCase
 		for ($i=1; $i<999; $i+=1){
 			$ran=$sm->generateRandomString($i,true);
 			$this->assertInternalType('string', $ran);
-			$this->assertEquals(1, preg_match('{[a-zA-Z0-9_~]{' . $i . '}}', $ran));
+			$this->assertRegExp('{[a-zA-Z0-9_~]{' . $i . '}}', $ran);
 		}
 	}
 

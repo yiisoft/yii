@@ -33,7 +33,7 @@ class CCookieCollectionTest extends CTestCase
 	public function testConstructorCookieBuilding()
 	{
 		$this->assertTrue($this->cookies->contains('testGlobal'));
-		$this->assertTrue($this->cookies['testGlobal'] instanceof CHttpCookie);
+		$this->assertInstanceOf(CHttpCookie::class, $this->cookies['testGlobal']);
 		$this->assertEquals($_COOKIE['testGlobal'], $this->cookies['testGlobal']->value);
 	}
 	/**
@@ -43,12 +43,12 @@ class CCookieCollectionTest extends CTestCase
 	public function testAdd()
 	{
 		$this->cookies['simple_name']=new CHttpCookie('simple_name', 'simple_value');
-		$this->assertTrue($this->cookies['simple_name'] instanceof CHttpCookie);
+		$this->assertInstanceOf(CHttpCookie::class, $this->cookies['simple_name']);
 		$this->assertEquals('simple_value',$this->cookies['simple_name']->value);
 		// test if reference is not destroyed
 		$cookie=new CHttpCookie('referenceTest','someValue');
 		$this->cookies[$cookie->name]=$cookie;
-		$this->assertTrue($this->cookies[$cookie->name] instanceof CHttpCookie);
+		$this->assertInstanceOf(CHttpCookie::class, $this->cookies[$cookie->name]);
 		$this->assertEquals('someValue',$this->cookies[$cookie->name]->value);
 		$cookie->value='SomeNewValue';
 		$this->assertEquals($cookie->value,$this->cookies[$cookie->name]->value);
@@ -88,19 +88,19 @@ class CCookieCollectionTest extends CTestCase
 			{
 				$value=$options['value'];
 				unset($options['value']);
-				$this->assertTrue($this->cookies->remove($name,$options) instanceof CHttpCookie);
+				$this->assertInstanceOf(CHttpCookie::class, $this->cookies->remove($name,$options));
 				$this->assertFalse($this->cookies->contains($name),'Cookie(with options) has not been removed');
 			}
 			else
 			{
-				$this->assertTrue($this->cookies->remove($name) instanceof CHttpCookie);
+				$this->assertInstanceOf(CHttpCookie::class, $this->cookies->remove($name));
 				$this->assertFalse($this->cookies->contains($name));
 			}
 		}		
 	}
 	public function testGetRequest()
 	{
-		$this->assertTrue($this->cookies->getRequest() instanceof CHttpRequest);
+		$this->assertInstanceOf(CHttpRequest::class, $this->cookies->getRequest());
 		$this->assertEquals($this->request,$this->cookies->getRequest(),'The collections does not contain the CHttpRequest instance it is stored in.');
 	}
 }

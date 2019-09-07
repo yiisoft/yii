@@ -28,20 +28,20 @@ class SoapController extends CController implements IWebServiceProvider
     }
 
     /**
-    * Preprocess actions before calling SOAP action.
-    * This method must implement interface's abstract method.
-    * @param mixed $service
-    */
-	public function beforeWebMethod($service) {
+  * Preprocess actions before calling SOAP action.
+  * This method must implement interface's abstract method.
+  * @param mixed $service
+  */
+ public function beforeWebMethod($service) {
 		// do whatever stuff before executing the action ...
 		return true;
 	}
     
     /**
-    * Postprocess actions after SOAP action executed.
-    * This method must implement interface's abstract method.
-    * @param mixed $service
-    */
+     * Postprocess actions after SOAP action executed.
+     * This method must implement interface's abstract method.
+     * @param mixed $service
+     */
     public function afterWebMethod($service) {
 		// do whatever stuff after executing the action ...
     	return true;
@@ -60,11 +60,11 @@ class SoapController extends CController implements IWebServiceProvider
     		*/
     		$request = Yii::app()->request;
     		$url = $request->getHostInfo() . $request->getUrl();
-    		Log::write('['.$user.'] => ['.$action.'] Granted access via ['.$url.']', self::LOGNAME);
+    		// Log::write('['.$user.'] => ['.$action.'] Granted access via ['.$url.']', self::LOGNAME);
     		return true;
 		}
 
-    	Log::write('['.$user.'] => ['.$action.'] Failed login with ['.$passwordHashed.']', self::LOGNAME);
+    	// Log::write('['.$user.'] => ['.$action.'] Failed login with ['.$passwordHashed.']', self::LOGNAME);
     	return false;
 	}
 	
@@ -76,30 +76,7 @@ class SoapController extends CController implements IWebServiceProvider
 	public function connect(){
     	$request = Yii::app()->request;
     	$url = $request->getHostInfo() . $request->getUrl();
-   		Log::write( '['.__FUNCTION__.'] OK - Connection succesfull via ['.$url.']', self::LOGNAME);
+   		// Log::write( '['.__FUNCTION__.'] OK - Connection succesfull via ['.$url.']', self::LOGNAME);
 		return 'OK - connection succesfull at ['.date('d.m.Y H:i:s').']';
 	}
-	
-	/**
-    * Return some calculation results for supplied input parameters.
-    * 
-    * @param string Authorized login username
-    * @param string Authorized login password
-    * @param SoapPovCalculationInput Calculation input object
-    * @return SoapPovCalculationOutput Calculation output object
-    * @soap
-    */
-	public function calculatePov($user, $password, $input) {
-		
-		if(!$this->isAuthorized($user, $password, __FUNCTION__)){
-			throw new SoapFault(null, 'Unauthorized access ['.__FUNCTION__.']!');
-		}
-		
-		$calc = new SoapPovCalculation($input);
-		$calc->setPartner($user);
-		$output = $calc->calculate();
-
-		return $output;
-	}
-	
 }

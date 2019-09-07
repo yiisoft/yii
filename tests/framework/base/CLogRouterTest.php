@@ -47,8 +47,8 @@ class CLogRouterTest extends CTestCase
 
 		$app->onEndRequest(new CEvent($this));
 		$this->assertTrue($route1->logCollected);
-		$this->assertTrue($route1->property>2);
+		$this->assertGreaterThan(2, $route1->property);
 		$this->assertTrue($route2->logCollected);
-		$this->assertTrue($route2->property>3);
+		$this->assertGreaterThan(3, $route2->property);
 	}
 }

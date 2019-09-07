@@ -11,7 +11,7 @@ class CDateValidatorTest extends CTestCase
 {
     /**
      * Test allow empty
-     * 
+     *  
      * @return null
      */
     public function testAllowEmptyOption()
@@ -84,7 +84,7 @@ class CDateValidatorTest extends CTestCase
         $stub = $this->getMockBuilder('ModelMock')->setMethods(array('rules'))->getMock();
         $stub->expects($this->any())
              ->method('rules')
-             ->will($this->returnValue($rules));
+             ->willReturn($rules);
 
         return $stub;
     }

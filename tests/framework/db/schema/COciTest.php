@@ -167,7 +167,7 @@ EOD;
 			{
 				$type1=gettype($column->$name);
 				$type2=gettype($value[$i]);
-				$this->assertTrue($column->$name===$value[$i], "$tableName.{$column->name}.$name is {$column->$name} ($type1), different from the expected {$value[$i]} ($type2).");
+				$this->assertSame($value[$i], $column->$name, "$tableName.{$column->name}.$name is {$column->$name} ($type1), different from the expected {$value[$i]} ($type2).");
 			}
 		}
 	}
@@ -176,7 +176,7 @@ EOD;
 	{
 		$schema=$this->db->schema;
 		$builder=$schema->commandBuilder;
-		$this->assertTrue($builder instanceof CDbCommandBuilder);
+		$this->assertInstanceOf(CDbCommandBuilder::class, $builder);
 		$table=$schema->getTable('posts');
 
 		$c=$builder->createInsertCommand($table,array('title'=>'test post','create_time'=>new CDbExpression('TO_TIMESTAMP(:ts_value, \'YYYY-MM-DD\')', array(':ts_value'=>'2000-01-01')),'author_id'=>1,'content'=>'test content'));
@@ -209,7 +209,7 @@ SELECT *
 FROM PAGINATION
  WHERE rownum <= 2', $c->text);
 		$rows=$c->query()->readAll();
-		$this->assertEquals(1,count($rows));
+		$this->assertCount(1,$rows);
 		$this->assertEquals('post 5',$rows[0]['title']);
 
 		$c=$builder->createUpdateCommand($table,array('title'=>'new post 5'),new CDbCriteria(array(
@@ -259,7 +259,7 @@ FROM PAGINATION
 		$this->assertEquals(array(':value'=>'value'),$c->params);
 
 		$c2=$builder->createCriteria($c);
-		$this->assertTrue($c2!==$c);
+		$this->assertNotSame($c, $c2);
 		$this->assertEquals('column=:value',$c2->condition);
 		$this->assertEquals(array(':value'=>'value'),$c2->params);
 
@@ -364,7 +364,7 @@ FROM PAGINATION
 
 		$rows=$builder->dbConnection->createCommand('SELECT * FROM '.$builder->dbConnection->quoteTableName($tableName))->queryAll();
 
-		$this->assertEquals(count($data),count($rows),'Records count miss matches!');
+		$this->assertCount(count($data),$rows,'Records count miss matches!');
 		foreach($rows as $rowIndex=>$row)
 			foreach($row as $columnName=>$value)
 			{
@@ -372,7 +372,7 @@ FROM PAGINATION
 				if($columnIndex==false)
 					continue;
 				$expectedValue=$data[$rowIndex][$columnIndex];
-				$this->assertTrue($expectedValue==$value,"Value for column '{$columnName}' incorrect!");
+				$this->assertEquals($expectedValue, $value, "Value for column '{$columnName}' incorrect!");
 			}
 	}
 }

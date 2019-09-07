@@ -115,13 +115,13 @@ class YiiTTest extends CTestCase
 	}
 
 	/**
-	 * If there are less variants in translation like
-	 * 'zombie|zombies' => 'зомби' (CLDR requires 3 variants for Russian
-	 * but zombie is too special to be plural)
-	 *
-	 * Same for Chinese but there are no plurals at all.
-	 */
-	function testPluralLessVariants(){
+  * If there are less variants in translation like
+  * 'zombie|zombies' => 'зомби' (CLDR requires 3 variants for Russian
+  * but zombie is too special to be plural)
+  *
+  * Same for Chinese but there are no plurals at all.
+  */
+ function testPluralLessVariants(){
 		// three variants are required and only one specified (still valid for
 		// Russian in some special cases)
 		Yii::app()->setLanguage('ru');

@@ -28,28 +28,28 @@ class CSqliteTest extends CTestCase
 	public function testSchema()
 	{
 		$schema=$this->db->schema;
-		$this->assertTrue($schema instanceof CDbSchema);
+		$this->assertInstanceOf(CDbSchema::class, $schema);
 		$this->assertEquals($schema->dbConnection,$this->db);
-		$this->assertTrue($schema->commandBuilder instanceof CDbCommandBuilder);
+		$this->assertInstanceOf(CDbCommandBuilder::class, $schema->commandBuilder);
 		$this->assertEquals('\'posts\'',$schema->quoteTableName('posts'));
 		$this->assertEquals('"id"',$schema->quoteColumnName('id'));
-		$this->assertTrue($schema->getTable('posts') instanceof CDbTableSchema);
-		$this->assertTrue($schema->getTable('foo')===null);
+		$this->assertInstanceOf(CDbTableSchema::class, $schema->getTable('posts'));
+		$this->assertNull($schema->getTable('foo'));
 	}
 
 	public function testTable()
 	{
 		$table=$this->db->schema->getTable('posts');
-		$this->assertTrue($table instanceof CDbTableSchema);
+		$this->assertInstanceOf(CDbTableSchema::class, $table);
 		$this->assertEquals('posts',$table->name);
 		$this->assertEquals('\'posts\'',$table->rawName);
 		$this->assertEquals('id',$table->primaryKey);
 		$this->assertEquals(array('author_id'=>array('users','id')),$table->foreignKeys);
-		$this->assertTrue($table->sequenceName==='');
-		$this->assertEquals(5,count($table->columns));
+		$this->assertSame('', $table->sequenceName);
+		$this->assertCount(5,$table->columns);
 
-		$this->assertTrue($table->getColumn('id') instanceof CDbColumnSchema);
-		$this->assertTrue($table->getColumn('foo')===null);
+		$this->assertInstanceOf(CDbColumnSchema::class, $table->getColumn('id'));
+		$this->assertNull($table->getColumn('foo'));
 		$this->assertEquals(array('id','title','create_time','author_id','content'),$table->columnNames);
 
 		$table=$this->db->schema->getTable('orders');
@@ -60,9 +60,9 @@ class CSqliteTest extends CTestCase
 		$this->assertEquals(array('col1'=>array('orders','key1'),'col2'=>array('orders','key2')),$table->foreignKeys);
 
 		$table=$this->db->schema->getTable('types');
-		$this->assertTrue($table->primaryKey===null);
-		$this->assertTrue($table->foreignKeys===array());
-		$this->assertTrue($table->sequenceName===null);
+		$this->assertNull($table->primaryKey);
+		$this->assertSame(array(), $table->foreignKeys);
+		$this->assertNull($table->sequenceName);
 
 		$table=$this->db->schema->getTable('invalid');
 		$this->assertNull($table);
@@ -111,7 +111,7 @@ class CSqliteTest extends CTestCase
 			{
 				$type1=gettype($column->$name);
 				$type2=gettype($value[$i]);
-				$this->assertTrue($column->$name===$value[$i], "$tableName.{$column->name}.$name is {$column->$name} ($type1), different from the expected {$value[$i]} ($type2).");
+				$this->assertSame($value[$i], $column->$name, "$tableName.{$column->name}.$name is {$column->$name} ($type1), different from the expected {$value[$i]} ($type2).");
 			}
 		}
 	}
@@ -120,7 +120,7 @@ class CSqliteTest extends CTestCase
 	{
 		$schema=$this->db->schema;
 		$builder=$schema->commandBuilder;
-		$this->assertTrue($builder instanceof CDbCommandBuilder);
+		$this->assertInstanceOf(CDbCommandBuilder::class, $builder);
 		$table=$schema->getTable('posts');
 
 		$c=$builder->createInsertCommand($table,array('title'=>'test post','create_time'=>time(),'author_id'=>1,'content'=>'test content'));
@@ -149,7 +149,7 @@ class CSqliteTest extends CTestCase
 			'offset'=>0)));
 		$this->assertEquals('SELECT id, title FROM \'posts\' \'t\' WHERE id=:id ORDER BY title LIMIT 2',$c->text);
 		$rows=$c->query()->readAll();
-		$this->assertEquals(1,count($rows));
+		$this->assertCount(1,$rows);
 		$this->assertEquals('post 5',$rows[0]['title']);
 
 		$c=$builder->createUpdateCommand($table,array('title'=>'new post 5'),new CDbCriteria(array(
@@ -197,7 +197,7 @@ class CSqliteTest extends CTestCase
 		$this->assertEquals(array(':value'=>'value'),$c->params);
 
 		$c2=$builder->createCriteria($c);
-		$this->assertTrue($c2!==$c);
+		$this->assertNotSame($c, $c2);
 		$this->assertEquals('column=:value',$c2->condition);
 		$this->assertEquals(array(':value'=>'value'),$c2->params);
 
@@ -322,7 +322,7 @@ class CSqliteTest extends CTestCase
 
 		$rows=$builder->dbConnection->createCommand('SELECT * FROM '.$builder->dbConnection->quoteTableName($tableName))->queryAll();
 
-		$this->assertEquals(count($data),count($rows),'Records count miss matches!');
+		$this->assertCount(count($data),$rows,'Records count miss matches!');
 		foreach($rows as $rowIndex=>$row)
 			foreach($row as $columnName=>$value)
 			{
@@ -330,7 +330,7 @@ class CSqliteTest extends CTestCase
 				if($columnIndex==false)
 					continue;
 				$expectedValue=$data[$rowIndex][$columnIndex];
-				$this->assertTrue($expectedValue==$value,"Value for column '{$columnName}' incorrect!");
+				$this->assertEquals($expectedValue, $value, "Value for column '{$columnName}' incorrect!");
 			}
 	}
 }

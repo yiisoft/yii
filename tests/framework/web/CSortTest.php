@@ -25,12 +25,12 @@ class CSortTest extends CTestCase {
 	}
 
 	/**
-	 * Tests for acceptance of fields with dots in
-	 * CSort::attributes.
-	 *
-	 * @return void
-	 */
-	function testGetDirectionsWithDots(){
+  * Tests for acceptance of fields with dots in
+  * CSort::attributes.
+  *
+  * @return void
+  */
+ function testGetDirectionsWithDots(){
 		$_GET['sort'] = 'comments.id';
 
 		$criteria = new CDbCriteria();
@@ -47,16 +47,16 @@ class CSortTest extends CTestCase {
 		$sort->applyOrder($criteria);
 		$directions = $sort->getDirections();
 
-		$this->assertTrue(isset($directions['comments.id']));
+		$this->assertArrayHasKey('comments.id', $directions);
 	}
 
 	/**
-	 * Tests for acceptance of arrays for asc/desc keys in
-	 * CSort::attributes.
-	 *
-	 * @return void
-	 */
-	function testGetDirectionsWithArrays(){
+  * Tests for acceptance of arrays for asc/desc keys in
+  * CSort::attributes.
+  *
+  * @return void
+  */
+ function testGetDirectionsWithArrays(){
 		$_GET['sort'] = 'comments.id';
 
 		$criteria = new CDbCriteria();

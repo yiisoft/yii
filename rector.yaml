@@ -1,0 +1,9 @@
+parameters:
+  autoload_paths:
+    - tests/compatibility.php
+    - tests/framework
+    - tests/TestHttpRequest.php
+    - tests/TestAutoloader.php
+    - tests/TestApplication.php
+  exclude_paths:
+    - tests/framework/caching/CMemCacheTest.php

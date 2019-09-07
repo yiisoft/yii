@@ -90,9 +90,9 @@ class CFileHelperTest extends CTestCase
 		$ds=DIRECTORY_SEPARATOR;
 		$bd=$this->testDir.$ds;
 
-		$this->assertTrue(is_dir($bd.$this->rootDir1));
-		$this->assertTrue(is_dir($bd.$this->rootDir1.$ds.$this->subDir));
-		$this->assertFalse(is_dir($bd.$this->rootDir2));
+		$this->assertDirectoryExists($bd.$this->rootDir1);
+		$this->assertDirectoryExists($bd.$this->rootDir1.$ds.$this->subDir);
+		$this->assertDirectoryNotExists($bd.$this->rootDir2);
 		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file1));
 		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file2));
 		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file3));
@@ -100,9 +100,9 @@ class CFileHelperTest extends CTestCase
 
 		CFileHelper::removeDirectory($bd.$this->rootDir2);
 
-		$this->assertTrue(is_dir($bd.$this->rootDir1));
-		$this->assertTrue(is_dir($bd.$this->rootDir1.$ds.$this->subDir));
-		$this->assertFalse(is_dir($bd.$this->rootDir2));
+		$this->assertDirectoryExists($bd.$this->rootDir1);
+		$this->assertDirectoryExists($bd.$this->rootDir1.$ds.$this->subDir);
+		$this->assertDirectoryNotExists($bd.$this->rootDir2);
 		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file1));
 		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file2));
 		$this->assertTrue(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file3));
@@ -110,9 +110,9 @@ class CFileHelperTest extends CTestCase
 
 		CFileHelper::removeDirectory($bd);
 
-		$this->assertFalse(is_dir($bd.$this->rootDir1));
-		$this->assertFalse(is_dir($bd.$this->rootDir1.$ds.$this->subDir));
-		$this->assertFalse(is_dir($bd.$this->rootDir2));
+		$this->assertDirectoryNotExists($bd.$this->rootDir1);
+		$this->assertDirectoryNotExists($bd.$this->rootDir1.$ds.$this->subDir);
+		$this->assertDirectoryNotExists($bd.$this->rootDir2);
 		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file1));
 		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file2));
 		$this->assertFalse(is_file($bd.$this->rootDir1.$ds.$this->subDir.$ds.$this->file3));
@@ -130,15 +130,15 @@ class CFileHelperTest extends CTestCase
 		$this->createSymlinkedDirectoriesAndFiles();
 		CFileHelper::removeDirectory($td.'symlinks');
 
-		$this->assertTrue(!is_dir($td.'symlinks'));
+		$this->assertDirectoryNotExists($td.'symlinks');
 
 		$this->assertTrue(is_file($td.'file'));
-		$this->assertTrue(!is_link($td.'symlinks'.$ds.'symlink-file'));
+		$this->assertFalse(is_link($td.'symlinks'.$ds.'symlink-file'));
 
-		$this->assertTrue(is_dir($td.'directory'));
+		$this->assertDirectoryExists($td.'directory');
 		$this->assertTrue(is_file($td.'directory'.$ds.'directory-file')); // file inside symlinked dir was left as is
-		$this->assertTrue(!is_link($td.'symlinks'.$ds.'symlink-directory'));
-		$this->assertTrue(!is_file($td.'symlinks'.$ds.'symlink-directory'.$ds.'directory-file'));
+		$this->assertFalse(is_link($td.'symlinks'.$ds.'symlink-directory'));
+		$this->assertFalse(is_file($td.'symlinks'.$ds.'symlink-directory'.$ds.'directory-file'));
 	}
 
 	public function testRemoveDirectorySymlinks2()
@@ -152,15 +152,15 @@ class CFileHelperTest extends CTestCase
 		$this->createSymlinkedDirectoriesAndFiles();
 		CFileHelper::removeDirectory($td.'symlinks',array('traverseSymlinks'=>true));
 
-		$this->assertTrue(!is_dir($td.'symlinks'));
+		$this->assertDirectoryNotExists($td.'symlinks');
 
 		$this->assertTrue(is_file($td.'file'));
-		$this->assertTrue(!is_link($td.'symlinks'.$ds.'symlink-file'));
+		$this->assertFalse(is_link($td.'symlinks'.$ds.'symlink-file'));
 
-		$this->assertTrue(is_dir($td.'directory'));
-		$this->assertTrue(!is_file($td.'directory'.$ds.'directory-file')); // file inside symlinked dir was deleted
-		$this->assertTrue(!is_link($td.'symlinks'.$ds.'symlink-directory'));
-		$this->assertTrue(!is_file($td.'symlinks'.$ds.'symlink-directory'.$ds.'directory-file'));
+		$this->assertDirectoryExists($td.'directory');
+		$this->assertFalse(is_file($td.'directory'.$ds.'directory-file')); // file inside symlinked dir was deleted
+		$this->assertFalse(is_link($td.'symlinks'.$ds.'symlink-directory'));
+		$this->assertFalse(is_file($td.'symlinks'.$ds.'symlink-directory'.$ds.'directory-file'));
 	}
 
 	public function testFindFiles_absolutePaths()
@@ -193,7 +193,7 @@ class CFileHelperTest extends CTestCase
 	{
 		$path = $this->testDir . DIRECTORY_SEPARATOR . 'test' . DIRECTORY_SEPARATOR . 'path';
 		$this->assertTrue(CFileHelper::createDirectory($path,null,true));
-		$this->assertTrue(is_dir($path));
+		$this->assertDirectoryExists($path);
 	}
 
 	private function createSymlinkedDirectoriesAndFiles()
@@ -210,12 +210,12 @@ class CFileHelperTest extends CTestCase
 		touch($td.'directory'.$ds.'directory-file');
 		symlink($td.'directory',$td.'symlinks'.$ds.'symlink-directory');
 
-		$this->assertTrue(is_dir($td.'symlinks'));
+		$this->assertDirectoryExists($td.'symlinks');
 
 		$this->assertTrue(is_file($td.'file'));
 		$this->assertTrue(is_link($td.'symlinks'.$ds.'symlink-file'));
 
-		$this->assertTrue(is_dir($td.'directory'));
+		$this->assertDirectoryExists($td.'directory');
 		$this->assertTrue(is_file($td.'directory'.$ds.'directory-file'));
 		$this->assertTrue(is_link($td.'symlinks'.$ds.'symlink-directory'));
 		$this->assertTrue(is_file($td.'symlinks'.$ds.'symlink-directory'.$ds.'directory-file'));

@@ -44,7 +44,7 @@ class CDbCriteriaTest extends CTestCase {
 
 		$criteria->addInCondition('A', array());
 		$this->assertEquals('0=1', $criteria->condition);
-		$this->assertTrue(empty($criteria->params));
+		$this->assertEmpty($criteria->params);
 
 		// IN with one parameter should transform to =
 		$criteria = new CDbCriteria();
@@ -58,7 +58,7 @@ class CDbCriteriaTest extends CTestCase {
 
 		$criteria->addInCondition('A', array(null));
 		$this->assertEquals('A IS NULL', $criteria->condition);
-		$this->assertTrue(empty($criteria->params));
+		$this->assertEmpty($criteria->params);
 
 		// IN with many parameters
 		$criteria = new CDbCriteria();
@@ -81,7 +81,7 @@ class CDbCriteriaTest extends CTestCase {
 
 		$criteria->addNotInCondition('A', array());
 		$this->assertEquals('', $criteria->condition);
-		$this->assertTrue(empty($criteria->params));
+		$this->assertEmpty($criteria->params);
 
 		// NOT IN with one parameter should transform to !=
 		$criteria = new CDbCriteria();
@@ -95,7 +95,7 @@ class CDbCriteriaTest extends CTestCase {
 
 		$criteria->addNotInCondition('A', array(null));
 		$this->assertEquals('A IS NOT NULL', $criteria->condition);
-		$this->assertTrue(empty($criteria->params));
+		$this->assertEmpty($criteria->params);
 
 		// NOT IN with many parameters
 		$criteria = new CDbCriteria();

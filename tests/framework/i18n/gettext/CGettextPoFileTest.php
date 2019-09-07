@@ -23,12 +23,12 @@ class CGettextPoFileTest extends CTestCase
 		$this->assertArrayHasKey("test1\\\ntest2\n\\\\\ntest3",$context2);
 
 		// translated messages
-		$this->assertTrue(in_array("\n\r\t\"",$context1));
-		$this->assertTrue(in_array("Олицетворение однократно. Представленный лексико-семантический анализ является\nпсихолингвистическим в своей основе, но механизм сочленений полидисперсен. Впечатление\nоднократно. Различное расположение выбирает сюжетный механизм сочленений.",$context1));
-		$this->assertTrue(in_array('Строка номер два.',$context1));
-		$this->assertTrue(in_array('Короткий перевод.',$context1));
+		$this->assertContains("\n\r\t\"", $context1);
+		$this->assertContains("Олицетворение однократно. Представленный лексико-семантический анализ является\nпсихолингвистическим в своей основе, но механизм сочленений полидисперсен. Впечатление\nоднократно. Различное расположение выбирает сюжетный механизм сочленений.", $context1);
+		$this->assertContains('Строка номер два.', $context1);
+		$this->assertContains('Короткий перевод.', $context1);
 
-		$this->assertTrue(in_array("\n\nДругой контекст.\n",$context2));
-		$this->assertTrue(in_array("тест1\\\nтест2\n\\\\\nтест3",$context2));
+		$this->assertContains("\n\nДругой контекст.\n", $context2);
+		$this->assertContains("тест1\\\nтест2\n\\\\\nтест3", $context2);
 	}
 }

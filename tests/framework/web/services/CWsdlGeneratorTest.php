@@ -1,20 +1,25 @@
 <?php
 
-// path to tested class
-Yii::import('system.web.services.CWsdlGenerator');
-
-// paths to input-output objects
-Yii::import('application.framework.web.services.*');
-
-// path to soap (fake) controller
-Yii::import('application.framework.web.controllers.*');
-
 /**
 * Unit test for Soap WSDL generator
 */
 class CWsdlGeneratorTest extends CTestCase{
 
-	/**
+    public static function setUpBeforeClass()
+    {
+        // path to tested class
+        Yii::import('system.web.services.CWsdlGenerator');
+
+        // paths to input-output objects
+        Yii::import('application.framework.web.services.*');
+
+        // path to soap (fake) controller
+        Yii::import('application.framework.web.controllers.*');
+
+        parent::setUpBeforeClass();
+    }
+
+    /**
 	* Path where we will try to save generated WSDL
 	*/
 	protected $path;
@@ -51,52 +56,52 @@ class CWsdlGeneratorTest extends CTestCase{
 		*/
 
 		$xml=simplexml_load_string($wsdl);
-		$this->assertTrue($xml instanceOf SimpleXMLElement);
+		$this->assertInstanceOf(SimpleXMLElement::class, $xml);
 
 		// check input attribute with all attributes (minOccurs, maxOccurs, nillable)
 		$node=$xml->xpath('//xsd:element[@name="subject"]');
 
 		$minOccurs=(string)$node[0]->attributes()->minOccurs;
-		$this->assertTrue($minOccurs==='1');
+		$this->assertSame('1', $minOccurs);
 
 		$maxOccurs=(string)$node[0]->attributes()->maxOccurs;
-		$this->assertTrue($maxOccurs==='1');
+		$this->assertSame('1', $maxOccurs);
 
 		$nillable=(string)$node[0]->attributes()->nillable;
-		$this->assertTrue($nillable==='false');
+		$this->assertSame('false', $nillable);
 
 		$type=(string)$node[0]->attributes()->type;
-		$this->assertTrue($type==='xsd:integer');
+		$this->assertSame('xsd:integer', $type);
 
 		// check input attribute with only nillable
 		$node=$xml->xpath('//xsd:element[@name="ins_start_date"]');
 
 		$minOccurs=(string)$node[0]->attributes()->minOccurs;
-		$this->assertTrue($minOccurs===''); // null converts to empty string
+		$this->assertSame('', $minOccurs); // null converts to empty string
 
 		$maxOccurs=(string)$node[0]->attributes()->maxOccurs;
-		$this->assertTrue($maxOccurs==='');
+		$this->assertSame('', $maxOccurs);
 
 		$nillable=(string)$node[0]->attributes()->nillable;
-		$this->assertTrue($nillable==='true');
+		$this->assertSame('true', $nillable);
 
 		$type=(string)$node[0]->attributes()->type;
-		$this->assertTrue($type==='xsd:date');
+		$this->assertSame('xsd:date', $type);
 
 		// check some output attribute
 		$node=$xml->xpath('//xsd:element[@name="company_key"]');
 
 		$minOccurs=(string)$node[0]->attributes()->minOccurs;
-		$this->assertTrue($minOccurs==='1');
+		$this->assertSame('1', $minOccurs);
 
 		$maxOccurs=(string)$node[0]->attributes()->maxOccurs;
-		$this->assertTrue($maxOccurs==='1');
+		$this->assertSame('1', $maxOccurs);
 
 		$nillable=(string)$node[0]->attributes()->nillable;
-		$this->assertTrue($nillable==='false');
+		$this->assertSame('false', $nillable);
 
 		$type=(string)$node[0]->attributes()->type;
-		$this->assertTrue($type==='xsd:string');
+		$this->assertSame('xsd:string', $type);
 
 		// check soap indicator-sequence
 		$nodes=$xml->xpath('//xsd:complexType[@name="SoapPovCalculationInput"]/xsd:sequence/*');
@@ -110,12 +115,12 @@ class CWsdlGeneratorTest extends CTestCase{
 		//$node=$xml->xpath('//xsd:complexType[@name="SoapInsurerPersonPhysical"]/xsd:sequence/xsd:choice/xsd:element[name="age"]');
 		$nodes=$xml->xpath('//xsd:complexType[@name="SoapInsurerPersonPhysical"]/xsd:sequence/xsd:choice/*');
 		$type=(string)$nodes[1]->attributes()->type;
-		$this->assertTrue($type==='xsd:date');
+		$this->assertSame('xsd:date', $type);
 
 		// check maxOccurs=unbounded
 		$node=$xml->xpath('//xsd:complexType[@name="SoapInsurerPersonPhysical"]/xsd:sequence/xsd:element[@name="studentCardNumber"]');
 		$maxOccurs=(string)$node[0]->attributes()->maxOccurs;
-		$this->assertTrue($maxOccurs==='unbounded');
+		$this->assertSame('unbounded', $maxOccurs);
 	}
 
 	/**
@@ -140,17 +145,17 @@ class CWsdlGeneratorTest extends CTestCase{
 		*/
 
 		// check we have table for object SoapPovCalculationInput
-		$this->assertTrue(false!==strpos($html,'SoapPovCalculationInput'));
+		$this->assertContains('SoapPovCalculationInput', $html);
 		// check column Attribute in table SoapPovCalculationInput
-		$this->assertTrue(false!==strpos($html,'use_kind'));
+		$this->assertContains('use_kind', $html);
 		// check column Type in table SoapPovCalculationInput
-		$this->assertTrue(false!==strpos($html,'integer'));
+		$this->assertContains('integer', $html);
 		// check column Required in table SoapPovCalculationInput
-		$this->assertTrue(false!==strpos($html,'unbounded'));
+		$this->assertContains('unbounded', $html);
 		// check column Description in table SoapPovCalculationInput
-		$this->assertTrue(false!==strpos($html,'the date of birth RRRR.MM.DD'));
+		$this->assertContains('the date of birth RRRR.MM.DD', $html);
 		// check column Example in table SoapPovCalculationInput
-		$this->assertTrue(false!==strpos($html,'85HN65'));
+		$this->assertContains('85HN65', $html);
 	}
 
 }

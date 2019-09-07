@@ -36,7 +36,7 @@ class CFileCacheTest extends CTestCase
 			/** @var CFileCache $cache */
 			$cache=$app->cache;
 
-			$this->assertTrue(is_dir($cache->cachePath));
+			$this->assertDirectoryExists($cache->cachePath);
 			$this->assertEquals(sprintf('%04o',$testMode),$this->getMode($cache->cachePath));
 		}
 	}

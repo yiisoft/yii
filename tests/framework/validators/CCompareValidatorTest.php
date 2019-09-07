@@ -210,12 +210,10 @@ class CCompareValidatorTest extends CTestCase
 		$this->assertNotContains('{compareAttribute}', $script);
 	}
 
-	/**
-	 * @expectedException CException
-	 */
 	public function testClientValidateAttributeThrowsExcpetion()
 	{
-		$model = $this->getModelMock(array(
+		$this->expectException('CException');
+  $model = $this->getModelMock(array(
 			'operator' => '<=',
 			'strict' => true,
 			'compareAttribute' => 'bar',
@@ -225,12 +223,10 @@ class CCompareValidatorTest extends CTestCase
 		$validator->clientValidateAttribute($model, 'foo');
 	}
 
-	/**
-	 * @expectedException CException
-	 */
 	public function testValidateThrowsExcpetionforBadOperator()
 	{
-		$model = $this->getModelMock(array(
+		$this->expectException('CException');
+  $model = $this->getModelMock(array(
 			'operator' => ']]',
 			'strict' => true,
 			'compareAttribute' => 'bar',
@@ -252,7 +248,7 @@ class CCompareValidatorTest extends CTestCase
 		$stub = $this->getMockBuilder('ModelMock')->setMethods(array('rules'))->getMock();
 		$stub->expects($this->any())
 			 ->method('rules')
-			 ->will($this->returnValue($rules));
+			 ->willReturn($rules);
 
 		$stub->foo = 'foo';
 		$this->assertFalse($stub->validate());
@@ -286,7 +282,7 @@ class CCompareValidatorTest extends CTestCase
 		$stub = $this->getMockBuilder('ModelMock')->setMethods(array('rules'))->getMock();
 		$stub->expects($this->any())
 			 ->method('rules')
-			 ->will($this->returnValue($rules));
+			 ->willReturn($rules);
 
 		return $stub;
 	}

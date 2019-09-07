@@ -54,7 +54,7 @@ class CDbCommandTest extends CTestCase
 		$command=$this->_connection->createCommand($sql);
 		$this->assertEquals($command->pdoStatement,null);
 		$command->prepare();
-		$this->assertTrue($command->pdoStatement instanceof PDOStatement);
+		$this->assertInstanceOf(PDOStatement::class, $command->pdoStatement);
 		$this->assertEquals($command->queryScalar(),'post 1');
 
 		$command->text='Bad SQL';
@@ -67,7 +67,7 @@ class CDbCommandTest extends CTestCase
 		$sql='SELECT title FROM posts';
 		$command=$this->_connection->createCommand($sql);
 		$command->prepare();
-		$this->assertTrue($command->pdoStatement instanceof PDOStatement);
+		$this->assertInstanceOf(PDOStatement::class, $command->pdoStatement);
 		$command->cancel();
 		$this->assertEquals($command->pdoStatement,null);
 	}
@@ -92,13 +92,13 @@ class CDbCommandTest extends CTestCase
 	{
 		$sql='SELECT * FROM posts';
 		$reader=$this->_connection->createCommand($sql)->query();
-		$this->assertTrue($reader instanceof CDbDataReader);
+		$this->assertInstanceOf(CDbDataReader::class, $reader);
 
 		$sql='SELECT * FROM posts';
 		$command=$this->_connection->createCommand($sql);
 		$command->prepare();
 		$reader=$command->query();
-		$this->assertTrue($reader instanceof CDbDataReader);
+		$this->assertInstanceOf(CDbDataReader::class, $reader);
 
 		$command=$this->_connection->createCommand('bad SQL');
 		$this->expectException('CException');
@@ -230,7 +230,7 @@ class CDbCommandTest extends CTestCase
 		$sql='SELECT * FROM posts';
 		$command=$this->_connection->createCommand($sql);
 		$result = $command->queryRow();
-		$this->assertTrue(is_array($result));
+		$this->assertInternalType('array', $result);
 	}
 
 	public function testFetchModeObject()
@@ -239,7 +239,7 @@ class CDbCommandTest extends CTestCase
 		$command=$this->_connection->createCommand($sql);
 		$command->setFetchMode(PDO::FETCH_OBJ);
 		$result = $command->queryRow();
-		$this->assertTrue(is_object($result));
+		$this->assertInternalType('object', $result);
 	}
 
 	public function testFetchModeClass()
@@ -248,7 +248,7 @@ class CDbCommandTest extends CTestCase
 		$command=$this->_connection->createCommand($sql);
 		$command->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'TestClass');
 		$result = $command->queryRow();
-		$this->assertTrue($result instanceof TestClass);
+		$this->assertInstanceOf(TestClass::class, $result);
 	}
 }
 

@@ -156,8 +156,8 @@ class CListTest extends CTestCase
 
 	public function testArrayRead()
 	{
-		$this->assertTrue($this->list[0]===$this->item1);
-		$this->assertTrue($this->list[1]===$this->item2);
+		$this->assertSame($this->item1, $this->list[0]);
+		$this->assertSame($this->item2, $this->list[1]);
 		$this->expectException('CException');
 		$a=$this->list[2];
 	}
@@ -180,9 +180,9 @@ class CListTest extends CTestCase
 
 	public function testArrayMisc()
 	{
-		$this->assertEquals($this->list->Count,count($this->list));
-		$this->assertTrue(isset($this->list[1]));
-		$this->assertFalse(isset($this->list[2]));
+		$this->assertCount($this->list->Count,$this->list);
+		$this->assertArrayHasKey(1, $this->list);
+		$this->assertArrayNotHasKey(2, $this->list);
 	}
 
 	public function testOffsetSetAdd()

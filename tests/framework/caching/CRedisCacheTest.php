@@ -37,7 +37,7 @@ class CRedisCacheTest extends CTestCase
 		$this->assertEquals($cache->keyPrefix,'key');
 
 		$app=$this->getApplication();
-		$this->assertTrue($app->cache instanceof CRedisCache);
+		$this->assertInstanceOf(CRedisCache::class, $app->cache);
 		$this->assertEquals($app->id,$app->cache->keyPrefix);
 	}
 
@@ -51,7 +51,7 @@ class CRedisCacheTest extends CTestCase
 
 		$this->assertFalse($cache->get($key));
 		$cache->set($key,$data);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 	}
 
 	public function testMGet()
@@ -77,8 +77,8 @@ class CRedisCacheTest extends CTestCase
 		$data=array('abc'=>1,2=>'def');
 		$key='data2';
 		$cache[$key]=$data;
-		$this->assertTrue($cache->get($key)===$data);
-		$this->assertTrue($cache[$key]===$data);
+		$this->assertSame($data, $cache->get($key));
+		$this->assertSame($data, $cache[$key]);
 		unset($cache[$key]);
 		$this->assertFalse($cache[$key]);
 	}
@@ -90,9 +90,9 @@ class CRedisCacheTest extends CTestCase
 		$data=array('abc'=>1,2=>'def');
 		$key='data3';
 		$cache->set($key,$data,2);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 		sleep(1);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 		sleep(2);
 		$this->assertFalse($cache->get($key));
 	}
@@ -131,10 +131,10 @@ class CRedisCacheTest extends CTestCase
 	}
 
 	/**
-	 * Store a value that is 2 times buffer size big
-	 * https://github.com/yiisoft/yii/pull/2750
-	 */
-	public function testLargeData()
+  * Store a value that is 2 times buffer size big
+  * https://github.com/yiisoft/yii/pull/2750
+  */
+ public function testLargeData()
 	{
 		$app=$this->getApplication();
 		$cache=$app->cache;
@@ -144,7 +144,7 @@ class CRedisCacheTest extends CTestCase
 
 		$this->assertFalse($cache->get($key));
 		$cache->set($key,$data);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 
 		// try with multibyte string
 		$data=str_repeat('ЖЫ',8192); // http://www.php.net/manual/en/function.fread.php
@@ -152,7 +152,7 @@ class CRedisCacheTest extends CTestCase
 
 		$this->assertFalse($cache->get($key));
 		$cache->set($key,$data);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 	}
 
 	public function testMultiByteGetAndSet()
@@ -165,7 +165,7 @@ class CRedisCacheTest extends CTestCase
 
 		$this->assertFalse($cache->get($key));
 		$cache->set($key,$data);
-		$this->assertTrue($cache->get($key)===$data);
+		$this->assertSame($data, $cache->get($key));
 	}
 
 }

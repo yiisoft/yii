@@ -32,8 +32,7 @@ class CPropertyValueTest extends CTestCase
 			array(array(1),true),
 		);
 		foreach($entries as $index=>$entry)
-			$this->assertTrue(CPropertyValue::ensureBoolean($entry[0])===$entry[1],
-				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
+			$this->assertSame($entry[1], CPropertyValue::ensureBoolean($entry[0]), "Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	public function testEnsureString()
@@ -59,8 +58,7 @@ class CPropertyValueTest extends CTestCase
 		}
 
 		foreach($entries as $index=>$entry)
-			$this->assertTrue(CPropertyValue::ensureString($entry[0])===$entry[1],
-				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
+			$this->assertSame($entry[1], CPropertyValue::ensureString($entry[0]), "Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	public function testEnsureInteger()
@@ -83,8 +81,7 @@ class CPropertyValueTest extends CTestCase
 			array(array(0),1),
 		);
 		foreach($entries as $index=>$entry)
-			$this->assertTrue(CPropertyValue::ensureInteger($entry[0])===$entry[1],
-				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
+			$this->assertSame($entry[1], CPropertyValue::ensureInteger($entry[0]), "Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	public function testEnsureFloat()
@@ -107,8 +104,7 @@ class CPropertyValueTest extends CTestCase
 			array(array(0),1.0),
 		);
 		foreach($entries as $index=>$entry)
-			$this->assertTrue(CPropertyValue::ensureFloat($entry[0])===$entry[1],
-				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
+			$this->assertSame($entry[1], CPropertyValue::ensureFloat($entry[0]), "Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	public function testEnsureArray()
@@ -126,8 +122,7 @@ class CPropertyValueTest extends CTestCase
 			array(array(0),array(0)),
 		);
 		foreach($entries as $index=>$entry)
-			$this->assertTrue(CPropertyValue::ensureArray($entry[0])===$entry[1],
-				"Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
+			$this->assertSame($entry[1], CPropertyValue::ensureArray($entry[0]), "Comparison $index: {$this->varToString($entry[0])}=={$this->varToString($entry[1])}");
 	}
 
 	private function varToString($var)
@@ -140,13 +135,13 @@ class CPropertyValueTest extends CTestCase
 	public function testEnsureObject()
 	{
 		$obj=new stdClass;
-		$this->assertTrue(CPropertyValue::ensureObject($obj)===$obj);
+		$this->assertSame($obj, CPropertyValue::ensureObject($obj));
 	}
 
 	public function testEnsureEnum()
 	{
-		$this->assertTrue(CPropertyValue::ensureEnum('Left','TextAlign')==='Left');
+		$this->assertSame('Left', CPropertyValue::ensureEnum('Left','TextAlign'));
 		$this->expectException('CException');
-		$this->assertTrue(CPropertyValue::ensureEnum('left','TextAlign')==='Left');
+		$this->assertSame('Left', CPropertyValue::ensureEnum('left','TextAlign'));
 	}
 }

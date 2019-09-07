@@ -94,20 +94,20 @@ class CComponentTest extends CTestCase
 
 	public function testIsset()
 	{
-		$this->assertTrue(isset($this->component->Text));
-		$this->assertFalse(empty($this->component->Text));
-		$this->assertTrue(isset($this->component->object));
+		$this->assertObjectHasAttribute('Text', $this->component);
+		$this->assertNotEmpty($this->component->Text);
+		$this->assertObjectHasAttribute('object', $this->component);
 	}
 
 	public function testUnset()
 	{
 		unset($this->component->Text);
-		$this->assertFalse(isset($this->component->Text));
-		$this->assertTrue(empty($this->component->Text));
+		$this->assertObjectNotHasAttribute('Text', $this->component);
+		$this->assertEmpty($this->component->Text);
 
 		$this->component->Text='new text';
-		$this->assertTrue(isset($this->component->Text));
-		$this->assertFalse(empty($this->component->Text));
+		$this->assertObjectHasAttribute('Text', $this->component);
+		$this->assertNotEmpty($this->component->Text);
 
 		try {
 			unset($this->component->object);
@@ -212,6 +212,8 @@ class CComponentTest extends CTestCase
 		$this->component->onMyEvent();
 		$this->component->attachEventHandler('OnMyEvent',array($this->component,'handler2'));
 		$this->component->onMyEvent();
+
+		$this->assertTrue(true);
 	}
 
 
@@ -289,7 +291,7 @@ class CComponentTest extends CTestCase
 		$behavior = new NewBehavior;
 		$this->component->attachBehavior('newBehavior', $behavior);
 		$this->assertSame($behavior, $this->component->detachBehavior('newBehavior'));
-		$this->assertFalse(isset($this->component->newBehavior));
+		$this->assertObjectNotHasAttribute('newBehavior', $this->component);
 	}
 
 	public function testDetachingBehaviors()

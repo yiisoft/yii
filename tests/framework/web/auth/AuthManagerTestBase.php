@@ -12,7 +12,7 @@ abstract class AuthManagerTestBase extends CTestCase
 		$bizRule='checkUserIdentity()';
 		$data=array(1,2,3);
 		$item=$this->auth->createAuthItem($name,$type,$description,$bizRule,$data);
-		$this->assertTrue($item instanceof CAuthItem);
+		$this->assertInstanceOf(CAuthItem::class, $item);
 		$this->assertEquals($item->type,$type);
 		$this->assertEquals($item->name,$name);
 		$this->assertEquals($item->description,$description);
@@ -31,14 +31,14 @@ abstract class AuthManagerTestBase extends CTestCase
 
 	public function testGetAuthItem()
 	{
-		$this->assertTrue($this->auth->getAuthItem('readPost') instanceof CAuthItem);
-		$this->assertTrue($this->auth->getAuthItem('reader') instanceof CAuthItem);
+		$this->assertInstanceOf(CAuthItem::class, $this->auth->getAuthItem('readPost'));
+		$this->assertInstanceOf(CAuthItem::class, $this->auth->getAuthItem('reader'));
 		$this->assertNull($this->auth->getAuthItem('unknown'));
 	}
 
 	public function testRemoveAuthItem()
 	{
-		$this->assertTrue($this->auth->getAuthItem('updatePost') instanceof CAuthItem);
+		$this->assertInstanceOf(CAuthItem::class, $this->auth->getAuthItem('updatePost'));
 		$this->assertTrue($this->auth->removeAuthItem('updatePost'));
 		$this->assertNull($this->auth->getAuthItem('updatePost'));
 		$this->assertFalse($this->auth->removeAuthItem('updatePost'));
@@ -47,7 +47,7 @@ abstract class AuthManagerTestBase extends CTestCase
 	public function testChangeItemName()
 	{
 		$item=$this->auth->getAuthItem('readPost');
-		$this->assertTrue($item instanceof CAuthItem);
+		$this->assertInstanceOf(CAuthItem::class, $item);
 		$this->assertTrue($this->auth->hasItemChild('reader','readPost'));
 		$item->name='readPost2';
 		$this->assertNull($this->auth->getAuthItem('readPost'));
@@ -84,14 +84,14 @@ abstract class AuthManagerTestBase extends CTestCase
 	{
 		$this->assertEquals(array(),$this->auth->getItemChildren('readPost'));
 		$children=$this->auth->getItemChildren('author');
-		$this->assertEquals(3,count($children));
-		$this->assertTrue(reset($children) instanceof CAuthItem);
+		$this->assertCount(3,$children);
+		$this->assertInstanceOf(CAuthItem::class, reset($children));
 	}
 
 	public function testAssign()
 	{
 		$auth=$this->auth->assign('createPost','new user','rule','data');
-		$this->assertTrue($auth instanceof CAuthAssignment);
+		$this->assertInstanceOf(CAuthAssignment::class, $auth);
 		$this->assertEquals($auth->userId,'new user');
 		$this->assertEquals($auth->itemName,'createPost');
 		$this->assertEquals($auth->bizRule,'rule');
@@ -105,7 +105,7 @@ abstract class AuthManagerTestBase extends CTestCase
 	{
 		$this->assertTrue($this->auth->isAssigned('author','author B'));
 		$auth=$this->auth->getAuthAssignment('author','author B');
-		$this->assertTrue($auth instanceof CAuthAssignment);
+		$this->assertInstanceOf(CAuthAssignment::class, $auth);
 		$this->assertTrue($this->auth->revoke('author','author B'));
 		$this->assertFalse($this->auth->isAssigned('author','author B'));
 		$this->assertFalse($this->auth->revoke('author','author B'));
@@ -115,8 +115,8 @@ abstract class AuthManagerTestBase extends CTestCase
 	{
 		$this->auth->assign('deletePost','author B');
 		$auths=$this->auth->getAuthAssignments('author B');
-		$this->assertEquals(2,count($auths));
-		$this->assertTrue(reset($auths) instanceof CAuthAssignment);
+		$this->assertCount(2,$auths);
+		$this->assertInstanceOf(CAuthAssignment::class, reset($auths));
 	}
 
 	public function testGetAuthItems()

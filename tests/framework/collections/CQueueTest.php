@@ -112,8 +112,8 @@ class CQueueTest extends CTestCase
 	public function testCountable()
 	{
 		$queue = new CQueue();
-		$this->assertEquals(0, count($queue));
+		$this->assertCount(0, $queue);
 		$queue = new CQueue(array(1, 2, 3));
-		$this->assertEquals(3, count($queue));
+		$this->assertCount(3, $queue);
 	}
 }

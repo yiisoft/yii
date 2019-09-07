@@ -418,7 +418,7 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals($sql, $command->text);
 
 		$rows=$command->queryAll();
-		$this->assertEquals(1,count($rows));
+		$this->assertCount(1,$rows);
 		$this->assertEquals('user2',$rows[0]['username']);
 		$this->assertEquals('pass2',$rows[0]['password']);
 	}
@@ -439,7 +439,7 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals($sql, $command->text);
 
 		$rows=$command->queryAll();
-		$this->assertEquals(1,count($rows));
+		$this->assertCount(1,$rows);
 		$this->assertEquals('user2',$rows[0]['username']);
 		$this->assertEquals('pass2',$rows[0]['password']);
 	}

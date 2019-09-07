@@ -44,10 +44,10 @@ class CConfigurationTest extends CTestCase
 	public function testLoadFromFile()
 	{
 		$config=new CConfiguration;
-		$this->assertTrue($config->toArray()===array());
+		$this->assertSame(array(), $config->toArray());
 		$config->loadFromFile($this->configFile);
 		$data=include($this->configFile);
-		$this->assertTrue($config->toArray()===$data);
+		$this->assertSame($data, $config->toArray());
 	}
 
 	public function testSaveAsString()
@@ -55,7 +55,7 @@ class CConfigurationTest extends CTestCase
 		$config=new CConfiguration($this->configFile);
 		$str=$config->saveAsString();
 		eval("\$data=$str;");
-		$this->assertTrue($config->toArray()===$data);
+		$this->assertSame($data, $config->toArray());
 	}
 
 	public function testApplyTo()
@@ -63,10 +63,10 @@ class CConfigurationTest extends CTestCase
 		$config=new CConfiguration($this->configFile);
 		$object=new MyClass;
 		$config->applyTo($object);
-		$this->assertTrue($object->param1==='value1');
-		$this->assertTrue($object->param2===false);
-		$this->assertTrue($object->param3===123);
-		$this->assertTrue($object->backquote==="\\back'quote'");
+		$this->assertSame('value1', $object->param1);
+		$this->assertFalse($object->param2);
+		$this->assertSame(123, $object->param3);
+		$this->assertSame("\\back'quote'", $object->backquote);
 		/*
 		$this->assertTrue($object->object->param1===null);
 		$this->assertTrue($object->object->param2==='123');

@@ -25,7 +25,7 @@ class CUploadedFileTest extends CTestCase
 			'size'=>100,
 		);
 		$uploadedFile=CUploadedFile::getInstanceByName($inputName);
-		$this->assertTrue(is_object($uploadedFile),'Unable to get uploaded file by name!');
+		$this->assertInternalType('object', $uploadedFile, 'Unable to get uploaded file by name!');
 		$this->assertEquals($_FILES[$inputName]['name'],$uploadedFile->getName(),'Wrong name!');
 		$this->assertEquals($_FILES[$inputName]['type'],$uploadedFile->getType(),'Wrong type!');
 		$this->assertEquals($_FILES[$inputName]['tmp_name'],$uploadedFile->getTempName(),'Wrong temp name!');
@@ -54,7 +54,7 @@ class CUploadedFileTest extends CTestCase
 		}
 
 		$uploadedFiles=CUploadedFile::getInstancesByName($inputName);
-		$this->assertFalse(empty($uploadedFiles),'Unable to get instances by name!');
+		$this->assertNotEmpty($uploadedFiles,'Unable to get instances by name!');
 		for($i=0;$i<$inputCount;$i++)
 		{
 			$this->assertEquals($_FILES[$inputName]['name'][$i],$uploadedFiles[$i]->getName(),'Wrong name!');
@@ -87,7 +87,7 @@ class CUploadedFileTest extends CTestCase
 			),
 		);
 		$uploadedFile=CUploadedFile::getInstanceByName("{$baseInputName}[{$subInputName}]");
-		$this->assertTrue(is_object($uploadedFile),'Unable to get uploaded file by nested name!');
+		$this->assertInternalType('object', $uploadedFile, 'Unable to get uploaded file by nested name!');
 		$this->assertEquals($_FILES[$baseInputName]['name'][$subInputName],$uploadedFile->getName(),'Wrong name!');
 		$this->assertEquals($_FILES[$baseInputName]['type'][$subInputName],$uploadedFile->getType(),'Wrong type!');
 		$this->assertEquals($_FILES[$baseInputName]['tmp_name'][$subInputName],$uploadedFile->getTempName(),'Wrong temp name!');

@@ -80,7 +80,7 @@ class CActiveRecordEventWrappersTest extends CTestCase
 	 */
 	public function assertCriteriaApplied($records, $criteria, $count, $assertations)
 	{
-		$this->assertEquals($count, count($records));
+		$this->assertCount($count, $records);
 		foreach($assertations as $attribute => $value) {
 			foreach($records as $record) {
 				$this->assertEquals($value, $record->{$attribute});
@@ -154,10 +154,10 @@ class CActiveRecordEventWrappersTest extends CTestCase
 	}
 
 	/**
-	 * setting select in beforeFind should not effect select on stat relation
-	 * https://github.com/yiisoft/yii/issues/1381
-	 */
-	public function testBeforeFindStatSelect()
+  * setting select in beforeFind should not effect select on stat relation
+  * https://github.com/yiisoft/yii/issues/1381
+  */
+ public function testBeforeFindStatSelect()
 	{
 		PostWithWrappers::setBeforeFindCriteria(new CDbCriteria(array(
 			'select' => 'id, content',
@@ -541,10 +541,10 @@ class CActiveRecordEventWrappersTest extends CTestCase
 	}
 
 	/**
-	 * CActiveRecord::getRelated doesn't call afterFind() with `through` relation
-	 * https://github.com/yiisoft/yii/issues/591
-	 */
-	public function testIssue591()
+  * CActiveRecord::getRelated doesn't call afterFind() with `through` relation
+  * https://github.com/yiisoft/yii/issues/591
+  */
+ public function testIssue591()
 	{
 		UserWithWrappers::model()->with('comments')->findByPk(1);
 		$this->assertEquals(UserWithWrappers::getCounter('afterFind'),1);
