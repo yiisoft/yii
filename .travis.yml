@@ -28,15 +28,8 @@ install:
     fi
 
 before_script:
-  # Disable DEPRECATE messages during PHPUnit initialization on PHP 7.2. To fix them, PHPUnit should be updated to 6.*
-  - if [[ $TRAVIS_PHP_VERSION == 7.2 ]] || [[ $TRAVIS_PHP_VERSION == 7.3 ]]; then
-      echo 'Disabled DEPRECATED notifications for PHP 7.2';
-      echo 'error_reporting = E_ALL & ~E_DEPRECATED' >> /tmp/php-config.ini;
-      phpenv config-add /tmp/php-config.ini;
-    fi
   - ./tests/travis/mysql-setup.sh
   - ./tests/travis/postgresql-setup.sh
-  - ./tests/travis/memcache-setup.sh
   - phpenv config-rm xdebug.ini || echo
 
 script: cd tests && ../vendor/bin/phpunit --verbose --colors --exclude-group mssql,oci framework
