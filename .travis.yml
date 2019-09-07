@@ -38,4 +38,4 @@ before_script:
   - ./tests/travis/postgresql-setup.sh
   - ./tests/travis/memcache-setup.sh
 
-script: cd tests && ../vendor/bin/phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci framework
+script: cd tests && ../vendor/bin/phpunit --verbose --colors --exclude-group mssql,oci framework
