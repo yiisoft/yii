@@ -15,7 +15,7 @@ class CTypedMapTest extends CTestCase
 
 	public function testAddWrongType()
 	{
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 
 		$typedMap = new CTypedMap('CTypedMapTestFoo');
 		$typedMap->add(0, new CTypedMapTestBar());

@@ -22,7 +22,7 @@ class CDirectoryCacheDependencyTest extends CTestCase
 		$dependency=new CDirectoryCacheDependency($directory);
 		$this->assertEquals($dependency->directory,$directory);
 
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$dependency=new CDirectoryCacheDependency($this->testDir2);
 		$dependency->evaluateDependency();
 	}

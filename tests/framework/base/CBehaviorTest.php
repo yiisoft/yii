@@ -17,7 +17,7 @@ class CBehaviorTest extends CTestCase {
 		$this->assertFalse(method_exists($component,'test'));
 		$this->assertEquals(2,$component->test());
 		$this->assertTrue($component->behaviorCalled);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$component->test2();
 	}
 
@@ -25,7 +25,7 @@ class CBehaviorTest extends CTestCase {
         $component=new NewComponent;
         $component->attachBehavior('a',new NewBehavior);
         $component->disableBehaviors();
-        $this->setExpectedException('CException');
+        $this->expectException('CException');
         // test should not be called since behavior is disabled
         echo $component->test();
     }
@@ -45,7 +45,7 @@ class CBehaviorTest extends CTestCase {
      * @return void
      */
     public function testDisableAndEnableBehaviorsAndModels(){
-        $this->setExpectedException('NewBeforeValidateBehaviorException');
+        $this->expectException('NewBeforeValidateBehaviorException');
         $model = new NewFormModel();
         $model->disableBehaviors();
         $model->enableBehaviors();

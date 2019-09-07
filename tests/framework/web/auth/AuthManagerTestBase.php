@@ -25,7 +25,7 @@ abstract class AuthManagerTestBase extends CTestCase
 		$this->assertEquals($item2->type,CAuthItem::TYPE_ROLE);
 
 		// test adding an item with the same name
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->auth->createAuthItem($name,$type,$description,$bizRule,$data);
 	}
 
@@ -61,14 +61,14 @@ abstract class AuthManagerTestBase extends CTestCase
 		$this->auth->addItemChild('createPost','updatePost');
 
 		// test adding upper level item to lower one
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->auth->addItemChild('readPost','reader');
 	}
 
 	public function testAddItemChild2()
 	{
 		// test adding inexistent items
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->assertFalse($this->auth->addItemChild('createPost2','updatePost'));
 	}
 
@@ -97,7 +97,7 @@ abstract class AuthManagerTestBase extends CTestCase
 		$this->assertEquals($auth->bizRule,'rule');
 		$this->assertEquals($auth->data,'data');
 
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->auth->assign('createPost2','new user','rule','data');
 	}
 
@@ -150,7 +150,7 @@ abstract class AuthManagerTestBase extends CTestCase
 
 	public function testDetectLoop()
 	{
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->auth->addItemChild('readPost','readPost');
 	}
 

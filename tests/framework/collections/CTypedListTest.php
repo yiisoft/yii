@@ -8,7 +8,7 @@ class CTypedListTest extends CTestCase
 	{
 		$list=new CTypedList('CComponent');
 		$list[]=new CComponent;
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$list[]=new stdClass;
 	}
 
@@ -16,7 +16,7 @@ class CTypedListTest extends CTestCase
 	{
 		$list=new CTypedList('Traversable');
 		$list[]=new CList;
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$list[]=new CComponent;
 	}
 }

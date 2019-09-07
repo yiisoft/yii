@@ -126,7 +126,7 @@ class CDbDataReaderTest extends CTestCase
 		$this->assertEquals(count($ids),5);
 		$this->assertEquals($ids[3],4);
 
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		foreach($reader as $row)
 			$ids[]=$row['id'];
 	}

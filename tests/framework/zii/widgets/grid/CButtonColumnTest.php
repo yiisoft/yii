@@ -25,7 +25,7 @@ class CButtonColumnTest extends CTestCase
 		ob_start();
 		$grid = new stdClass();
 		$grid->id = 'grid1';
-		$widget = $this->getMock('CButtonColumn', array('initDefaultButtons'), array($grid));
+		$widget = $this->getMockBuilder('CButtonColumn')->setMethods(array('initDefaultButtons'))->setConstructorArgs(array($grid))->getMock();
 		$widget->buttons = array(
 			'view' => array(
 				'click'=>$callback,

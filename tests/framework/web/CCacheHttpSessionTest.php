@@ -40,7 +40,7 @@ class CCacheHttpSessionTest extends CTestCase
 		$session=new CCacheHttpSession();
 		$session->cacheID='invalidCacheID';
 
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 
 		$session->init();
 	}

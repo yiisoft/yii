@@ -106,7 +106,7 @@ class CDbCommandBuilderTest extends CTestCase
 		$criteria->params[':parameter4']='email%';
 		$criteria->addInCondition('t.id',array(1,2,3));
 
-		$this->setExpectedException('CDbException');
+		$this->expectException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
 
@@ -125,7 +125,7 @@ class CDbCommandBuilderTest extends CTestCase
 		$criteria->params[':parameter4']='email%';
 		$criteria->addInCondition('t.id',array(1,2,3));
 
-		$this->setExpectedException('CDbException');
+		$this->expectException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
 
@@ -144,7 +144,7 @@ class CDbCommandBuilderTest extends CTestCase
 		$criteria->params[':parameter4']='email%';
 		$criteria->addInCondition('t.id',array(1,2,3));
 
-		$this->setExpectedException('CDbException');
+		$this->expectException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
 
@@ -164,7 +164,7 @@ class CDbCommandBuilderTest extends CTestCase
 		$criteria->params[':parameter4']='email%';
 		$criteria->addInCondition('t.id',array(1,2,3));
 
-		$this->setExpectedException('CDbException');
+		$this->expectException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
 

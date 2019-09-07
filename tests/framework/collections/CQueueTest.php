@@ -30,7 +30,7 @@ class CQueueTest extends CTestCase
 	{
 		$queue = new CQueue();
 		$data = new stdClass();
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$queue->copyFrom($data);
 	}
 
@@ -57,7 +57,7 @@ class CQueueTest extends CTestCase
 	public function testCanNotPeekAnEmptyQueue()
 	{
 		$queue = new CQueue();
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$item = $queue->peek();
 	}
 
@@ -72,7 +72,7 @@ class CQueueTest extends CTestCase
 	public function testCanNotDequeueAnEmptyQueue()
 	{
 		$queue = new CQueue();
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$item = $queue->dequeue();
 	}
 

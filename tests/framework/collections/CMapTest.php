@@ -68,7 +68,7 @@ class CMapTest extends CTestCase
 	public function testCanNotAddWhenReadOnly()
 	{
 		$map = new CMap(array(), true);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$map->add('key', 'value');
 	}
 
@@ -83,7 +83,7 @@ class CMapTest extends CTestCase
 	public function testCanNotRemoveWhenReadOnly()
 	{
 		$map = new CMap(array('key' => 'value'), true);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$map->remove('key');
 	}
 
@@ -110,7 +110,7 @@ class CMapTest extends CTestCase
 		$this->assertEquals($this->item3, $this->map['key3']);
 		$this->assertEquals($this->item1, $this->map['key4']);
 
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->map->copyFrom($this);
 	}
 
@@ -129,7 +129,7 @@ class CMapTest extends CTestCase
 		$this->assertEquals(3,$this->map->getCount());
 		$this->assertEquals($this->item1,$this->map['key2']);
 		$this->assertEquals($this->item3,$this->map['key3']);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->map->mergeWith($this,false);
 	}
 

@@ -61,7 +61,7 @@ class CDbConnectionTest extends CTestCase
 	    $this->assertEquals($this->_connection->pdoInstance,null);
 
 		$connection=new CDbConnection('unknown::memory:');
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$connection->active=true;
 	}
 

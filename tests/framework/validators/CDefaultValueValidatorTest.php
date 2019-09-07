@@ -56,7 +56,7 @@ class CDefaultValueValidatorTest extends CTestCase
             $rules[0][$rule] = $value;
         }
 
-        $stub = $this->getMock('ModelMock', array('rules'));
+        $stub = $this->getMockBuilder('ModelMock')->setMethods(array('rules'))->getMock();
         $stub->expects($this->any())
              ->method('rules')
              ->will($this->returnValue($rules));

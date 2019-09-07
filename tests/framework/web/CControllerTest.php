@@ -114,7 +114,7 @@ class CControllerTest extends CTestCase
 		$this->assertNull($c->action);
 		$this->assertEquals($c->defaultAction,'index');
 		$this->assertEquals($c->viewPath,$app->viewPath.DIRECTORY_SEPARATOR.'test/subtest');
-		$this->setExpectedException('CHttpException');
+		$this->expectException('CHttpException');
 		$c->missingAction('index');
 	}
 
@@ -153,7 +153,7 @@ class CControllerTest extends CTestCase
 		$this->assertEquals($c->internalFilter3,1);
 		$this->assertEquals($c->externalFilter,2);
 
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$c->run('unknown');
 	}
 
@@ -185,7 +185,7 @@ class CControllerTest extends CTestCase
 		$app=new TestApplication;
 		$c=new TestController('test');
 		$_GET=array('a'=>1);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$c->run('create');
 	}
 }

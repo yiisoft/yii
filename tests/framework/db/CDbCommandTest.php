@@ -58,7 +58,7 @@ class CDbCommandTest extends CTestCase
 		$this->assertEquals($command->queryScalar(),'post 1');
 
 		$command->text='Bad SQL';
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$command->prepare();
 	}
 
@@ -84,7 +84,7 @@ class CDbCommandTest extends CTestCase
 		$this->assertEquals($command->queryScalar(),2);
 
 		$command=$this->_connection->createCommand('bad SQL');
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$command->execute();
 	}
 
@@ -101,7 +101,7 @@ class CDbCommandTest extends CTestCase
 		$this->assertTrue($reader instanceof CDbDataReader);
 
 		$command=$this->_connection->createCommand('bad SQL');
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$command->query();
 	}
 
@@ -189,7 +189,7 @@ class CDbCommandTest extends CTestCase
 		$this->assertFalse($command->queryRow());
 
 		$command=$this->_connection->createCommand('bad SQL');
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$command->queryRow();
 	}
 
@@ -203,7 +203,7 @@ class CDbCommandTest extends CTestCase
 		$this->assertEquals($command->queryColumn(),array());
 
 		$command=$this->_connection->createCommand('bad SQL');
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$command->queryColumn();
 	}
 
@@ -221,7 +221,7 @@ class CDbCommandTest extends CTestCase
 		$this->assertFalse($command->queryScalar());
 
 		$command=$this->_connection->createCommand('bad SQL');
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$command->queryScalar();
 	}
 

@@ -79,7 +79,7 @@ class MessageCommandTest extends CTestCase
 	protected function createMessageCommand()
 	{
 		//$command=new MessageCommand('message',null);
-		$command=$this->getMock('MessageCommand',array('usageError'),array('message',null));
+		$command=$this->getMockBuilder('MessageCommand')->setMethods(array('usageError'))->setConstructorArgs(array('message',null))->getMock();
 		$command->expects($this->any())->method('usageError')->will($this->throwException(new CException('usageError')));
 		return $command;
 	}
@@ -146,7 +146,7 @@ class MessageCommandTest extends CTestCase
 
 	public function testEmptyArgs()
 	{
-		$this->setExpectedException('CException','usageError');
+		$this->expectException('CException','usageError');
 		$this->runMessageCommand(array());
 		if (ob_get_level() > 0) {
 		    ob_end_clean();
@@ -155,7 +155,7 @@ class MessageCommandTest extends CTestCase
 
 	public function testConfigFileNotExist()
 	{
-		$this->setExpectedException('CException','usageError');
+		$this->expectException('CException','usageError');
 		$this->runMessageCommand(array('not_existing_file.php'));
         if (ob_get_level() > 0) {
             ob_end_clean();

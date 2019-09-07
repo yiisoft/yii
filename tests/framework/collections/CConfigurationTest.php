@@ -78,7 +78,7 @@ class CConfigurationTest extends CTestCase
 	{
 		$config=new CConfiguration(array('invalid'=>'value'));
 		$object=new MyClass;
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$config->applyTo($object);
 	}
 

@@ -68,14 +68,14 @@ class CListTest extends CTestCase
 		$this->assertEquals(2,$this->list->indexOf($this->item2));
 		$this->assertEquals(0,$this->list->indexOf($this->item3));
 		$this->assertEquals(1,$this->list->indexOf($this->item1));
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->list->insertAt(4,$this->item3);
 	}
 
 	public function testCanNotInsertWhenReadOnly()
 	{
 		$list = new CList(array(), true);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$list->insertAt(1, 2);
 	}
 
@@ -97,14 +97,14 @@ class CListTest extends CTestCase
 		$this->assertEquals(-1,$this->list->indexOf($this->item2));
 		$this->assertEquals(1,$this->list->indexOf($this->item3));
 		$this->assertEquals(0,$this->list->indexOf($this->item1));
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->list->removeAt(2);
 	}
 
 	public function testCanNotRemoveWhenReadOnly()
 	{
 		$list = new CList(array(1, 2, 3), true);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$list->removeAt(2);
 	}
 
@@ -135,7 +135,7 @@ class CListTest extends CTestCase
 		$array=array($this->item3,$this->item1);
 		$this->list->copyFrom($array);
 		$this->assertTrue(count($array)==2 && $this->list[0]===$this->item3 && $this->list[1]===$this->item1);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->list->copyFrom($this);
 	}
 
@@ -144,7 +144,7 @@ class CListTest extends CTestCase
 		$array=array($this->item3,$this->item1);
 		$this->list->mergeWith($array);
 		$this->assertTrue($this->list->getCount()==4 && $this->list[0]===$this->item1 && $this->list[3]===$this->item1);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$this->list->mergeWith($this);
 	}
 
@@ -158,7 +158,7 @@ class CListTest extends CTestCase
 	{
 		$this->assertTrue($this->list[0]===$this->item1);
 		$this->assertTrue($this->list[1]===$this->item2);
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$a=$this->list[2];
 	}
 

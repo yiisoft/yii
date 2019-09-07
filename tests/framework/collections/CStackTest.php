@@ -30,7 +30,7 @@ class CStackTest extends CTestCase
 	{
 		$stack = new CStack();
 		$data = new stdClass();
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$stack->copyFrom($data);
 	}
 
@@ -57,7 +57,7 @@ class CStackTest extends CTestCase
 	public function testCanNotPeekAnEmptyStack()
 	{
 		$stack = new CStack();
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$item = $stack->peek();
 	}
 
@@ -72,7 +72,7 @@ class CStackTest extends CTestCase
 	public function testCanNotPopAnEmptyStack()
 	{
 		$stack = new CStack();
-		$this->setExpectedException('CException');
+		$this->expectException('CException');
 		$item = $stack->pop();
 	}
 
