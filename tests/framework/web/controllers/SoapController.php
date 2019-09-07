@@ -79,4 +79,27 @@ class SoapController extends CController implements IWebServiceProvider
    		// Log::write( '['.__FUNCTION__.'] OK - Connection succesfull via ['.$url.']', self::LOGNAME);
 		return 'OK - connection succesfull at ['.date('d.m.Y H:i:s').']';
 	}
+
+    /**
+     * Return some calculation results for supplied input parameters.
+     *
+     * @param string Authorized login username
+     * @param string Authorized login password
+     * @param SoapPovCalculationInput Calculation input object
+     * @return SoapPovCalculationOutput Calculation output object
+     * @soap
+     */
+    public function calculatePov($user, $password, $input) {
+
+        if(!$this->isAuthorized($user, $password, __FUNCTION__)){
+            throw new SoapFault(null, 'Unauthorized access ['.__FUNCTION__.']!');
+        }
+
+        // $calc = new SoapPovCalculation($input);
+        // $calc->setPartner($user);
+        // $output = $calc->calculate();
+
+        // return $output;
+        return new SoapPovCalculationOutput();
+    }
 }

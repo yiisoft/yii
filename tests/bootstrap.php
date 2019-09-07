@@ -29,6 +29,14 @@ Yii::import('tests.*');
 
 class CTestCase extends PHPUnit_Framework_TestCase
 {
+    public static function assertObjectHasAttribute(string $attributeName, $object, string $message = ''): void
+    {
+        if (isset($object->$attributeName)) {
+            static::assertTrue(true);
+        } else {
+            parent::assertObjectHasAttribute($attributeName, $object, $message);
+        }
+    }
 }
 
 

@@ -37,5 +37,6 @@ before_script:
   - ./tests/travis/mysql-setup.sh
   - ./tests/travis/postgresql-setup.sh
   - ./tests/travis/memcache-setup.sh
+  - phpenv config-rm xdebug.ini
 
 script: cd tests && ../vendor/bin/phpunit --verbose --colors --exclude-group mssql,oci framework

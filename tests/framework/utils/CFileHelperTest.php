@@ -64,7 +64,7 @@ class CFileHelperTest extends CTestCase
 		CFileHelper::copyDirectory($src,$dst,array('newDirMode'=>$this->testMode));
 
 		$subDir2Mode=$this->getMode($dst.DIRECTORY_SEPARATOR.$this->subDir);
-		$expectedMode=sprintf('%o',$this->testMode);
+		$expectedMode= '0770';
 		$this->assertEquals($expectedMode,$subDir2Mode,"Subdir mode is not {$expectedMode}");
 	}
 
@@ -79,7 +79,7 @@ class CFileHelperTest extends CTestCase
 		CFileHelper::copyDirectory($src,$dst);
 
 		$subDir2Mode=$this->getMode($dst.DIRECTORY_SEPARATOR.$this->subDir);
-		$expectedMode=sprintf('%o',0777);
+		$expectedMode= '0777';
 		$this->assertEquals($expectedMode,$subDir2Mode,"Subdir mode is not {$expectedMode}");
 	}
 
