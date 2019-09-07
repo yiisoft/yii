@@ -127,8 +127,11 @@ class CHttpRequest extends CApplicationComponent
 	protected function normalizeRequest()
 	{
 		// normalize request
-		if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
-		{
+		if (
+		    PHP_VERSION_ID < 70400
+            && function_exists('get_magic_quotes_gpc')
+            && get_magic_quotes_gpc()
+        ) {
 			if(isset($_GET))
 				$_GET=$this->stripSlashes($_GET);
 			if(isset($_POST))
