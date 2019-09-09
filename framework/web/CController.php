@@ -639,8 +639,8 @@ class CController extends CBaseController
 	 * After the view file is identified, this method may further call {@link CApplication::findLocalizedFile}
 	 * to find its localized version if internationalization is needed.
 	 *
-	 * @param mixed $layoutName layout name
-	 * @return string the view file for the layout. False if the view file cannot be found
+	 * @param string|false $layoutName layout name
+	 * @return string|false the view file for the layout. False if the view file cannot be found
 	 */
 	public function getLayoutFile($layoutName)
 	{
@@ -694,7 +694,7 @@ class CController extends CBaseController
 	 * @param string $basePath the directory that is used to search for an absolute view name under the application
 	 * @param string $moduleViewPath the directory that is used to search for an absolute view name under the current module.
 	 * If this is not set, the application base view path will be used.
-	 * @return mixed the view file path. False if the view file does not exist.
+	 * @return string|false the view file path. False if the view file does not exist.
 	 */
 	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath=null)
 	{

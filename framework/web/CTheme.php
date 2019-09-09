@@ -108,7 +108,7 @@ class CTheme extends CComponent
 	 * Finds the layout file for the specified controller's layout.
 	 * @param CController $controller the controller
 	 * @param string $layoutName the layout name
-	 * @return string the layout file path. False if the file does not exist.
+	 * @return string|false the layout file path. False if the file does not exist.
 	 */
 	public function getLayoutFile($controller,$layoutName)
 	{
