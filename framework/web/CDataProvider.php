@@ -6,8 +6,8 @@
  * {@link fetchKeys} and {@link calculateTotalItemCount}.
  *
  * @property string $id The unique ID that uniquely identifies the data provider among all data providers.
- * @property CPagination $pagination The pagination object. If this is false, it means the pagination is disabled.
- * @property CSort $sort The sorting object. If this is false, it means the sorting is disabled.
+ * @property CPagination|false $pagination The pagination object. If this is false, it means the pagination is disabled.
+ * @property CSort|false $sort The sorting object. If this is false, it means the sorting is disabled.
  * @property array $data The list of data items currently available in this data provider.
  * @property array $keys The list of key values corresponding to {@link data}. Each data item in {@link data}
  * is uniquely identified by the corresponding key value in this array.
@@ -79,7 +79,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Sets the pagination for this data provider.
-	 * @param mixed $value the pagination to be used by this data provider. This could be a {@link CPagination} object
+	 * @param \CPagination|array|false $value the pagination to be used by this data provider. This could be a {@link CPagination} object
 	 * or an array used to configure the pagination object. If this is false, it means the pagination should be disabled.
 	 *
 	 * You can configure this property same way as a component:
@@ -127,7 +127,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Sets the sorting for this data provider.
-	 * @param mixed $value the sorting to be used by this data provider. This could be a {@link CSort} object
+	 * @param array|\CSort|false $value the sorting to be used by this data provider. This could be a {@link CSort} object
 	 * or an array used to configure the sorting object. If this is false, it means the sorting should be disabled.
 	 *
 	 * You can configure this property same way as a component:

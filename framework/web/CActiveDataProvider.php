@@ -38,7 +38,7 @@
  * @property CDbCriteria $criteria The query criteria.
  * @property CDbCriteria $countCriteria The count query criteria. This property is available
  * since 1.1.14
- * @property CSort $sort The sorting object. If this is false, it means the sorting is disabled.
+ * @property CSort|false $sort The sorting object. If this is false, it means the sorting is disabled.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web

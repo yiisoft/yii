@@ -562,7 +562,7 @@ class CHtml
 	/**
 	 * Generates a label tag.
 	 * @param string $label label text. Note, you should HTML-encode the text if needed.
-	 * @param string $for the ID of the HTML element that this label is associated with.
+	 * @param string|false $for the ID of the HTML element that this label is associated with.
 	 * If this is false, the 'for' attribute for the label tag will not be rendered.
 	 * @param array $htmlOptions additional HTML attributes.
 	 * The following HTML option is recognized:

@@ -60,12 +60,12 @@ interface IDataProvider
     public function getKeys($refresh = false);
 
     /**
-     * @return CSort the sorting object. If this is false, it means the sorting is disabled.
+     * @return CSort|false the sorting object. If this is false, it means the sorting is disabled.
      */
     public function getSort();
 
     /**
-     * @return CPagination the pagination object. If this is false, it means the pagination is disabled.
+     * @return CPagination|false the pagination object. If this is false, it means the pagination is disabled.
      */
     public function getPagination();
 }
