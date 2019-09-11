@@ -361,7 +361,7 @@ class CSecurityManager extends CApplicationComponent
 	 * transparent in raw URL encoding.
 	 * @param integer $length length of the generated string in characters.
 	 * @param boolean $cryptographicallyStrong set this to require cryptographically strong randomness.
-	 * @return string|boolean random string or false in case it cannot be generated.
+	 * @return string|false random string or false in case it cannot be generated.
 	 * @since 1.1.14
 	 */
 	public function generateRandomString($length,$cryptographicallyStrong=true)
@@ -385,7 +385,7 @@ class CSecurityManager extends CApplicationComponent
 	 * the CS-PRNG state between each successive call. The caller can therefore expect non-blocking
 	 * behavior, unlike, for example, reading from /dev/random on Linux, see
 	 * {@link http://eprint.iacr.org/2006/086.pdf Gutterman et al 2006}.
-	 * @return boolean|string generated random binary string or false on failure.
+	 * @return string|false generated random binary string or false on failure.
 	 * @since 1.1.14
 	 */
 	public function generateRandomBytes($length,$cryptographicallyStrong=true)
@@ -471,7 +471,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Get random bytes from the system entropy source via PHP session manager.
-	 * @return boolean|string 20-byte random binary string or false on error.
+	 * @return string|false 20-byte random binary string or false on error.
 	 * @since 1.1.14
 	 */
 	public function generateSessionRandomBlock()
@@ -512,7 +512,7 @@ class CSecurityManager extends CApplicationComponent
 	 * @param string $string the input string. Must be one character or longer.
 	 * @param integer $start the starting position
 	 * @param integer $length the desired portion length
-	 * @return string the extracted part of string, or FALSE on failure or an empty string.
+	 * @return string|false the extracted part of string, or FALSE on failure or an empty string.
 	 */
 	private function substr($string,$start,$length)
 	{

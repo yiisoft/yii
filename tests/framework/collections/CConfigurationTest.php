@@ -54,6 +54,7 @@ class CConfigurationTest extends CTestCase
 	{
 		$config=new CConfiguration($this->configFile);
 		$str=$config->saveAsString();
+		$data = null;
 		eval("\$data=$str;");
 		$this->assertSame($data, $config->toArray());
 	}

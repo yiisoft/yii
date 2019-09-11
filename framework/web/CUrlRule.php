@@ -181,7 +181,7 @@ class CUrlRule extends CBaseUrlRule
      * @param array       $params    list of parameters
      * @param string      $ampersand the token separating name-value pairs in the URL.
      *
-     * @return mixed the constructed URL or false on error
+     * @return string|false the constructed URL or false on error
      */
     public function createUrl($manager, $route, $params, $ampersand)
     {
@@ -270,7 +270,7 @@ class CUrlRule extends CBaseUrlRule
      * @param string       $pathInfo    path info part of the URL
      * @param string       $rawPathInfo path info that contains the potential URL suffix
      *
-     * @return mixed the route that consists of the controller ID and action ID or false on error
+     * @return string|false the route that consists of the controller ID and action ID or false on error
      */
     public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
     {

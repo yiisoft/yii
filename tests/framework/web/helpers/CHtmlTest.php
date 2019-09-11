@@ -34,8 +34,8 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerEncodeArray
 	 *
-	 * @param type $data
-	 * @param type $assertion
+	 * @param mixed $data
+	 * @param mixed $assertion
 	 */
 	public function testEncodeArray($data, $assertion)
 	{
@@ -60,8 +60,8 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerAjax
 	 *
-	 * @param type $options
-	 * @param type $assertion
+	 * @param mixed $options
+	 * @param string $assertion
 	 */
 	public function testAjax($options, $assertion)
 	{
@@ -73,8 +73,8 @@ class CHtmlTest extends CTestCase
 	public static function providerActiveDOMElements()
 	{
 		return array(
-				array(new CHtmlTestModel(array('attr1'=>true)), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />'),
-				array(new CHtmlTestModel(array('attr1'=>false)), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />')
+				array(new CHtmlTestModel(), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />'),
+				array(new CHtmlTestModel(), 'attr1', array(), '<input id="ytCHtmlTestModel_attr1" type="hidden" value="0" name="CHtmlTestModel[attr1]" /><input name="CHtmlTestModel[attr1]" id="CHtmlTestModel_attr1" value="1" type="checkbox" />')
 			);
 	}
 

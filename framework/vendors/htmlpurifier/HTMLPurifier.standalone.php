@@ -2583,7 +2583,7 @@ class HTMLPurifier_Config
     /**
      * Checks whether or not the configuration object is finalized.
      *
-     * @param string|bool $error String error message, or false for no error
+     * @param string|false $error String error message, or false for no error
      *
      * @return bool
      */
@@ -15658,7 +15658,7 @@ class HTMLPurifier_DefinitionCache_Serializer extends HTMLPurifier_DefinitionCac
      * @param string $file File name to write to
      * @param string $data Data to write into file
      * @param HTMLPurifier_Config $config
-     * @return int|bool Number of bytes written if success, or false if failure.
+     * @return int|false Number of bytes written if success, or false if failure.
      */
     private function _write($file, $data, $config)
     {

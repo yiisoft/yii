@@ -28,6 +28,7 @@ class CAutoCompleteTest extends CTestCase
 		$widget->data = array(1, 2, 3);
 		$widget->init();
 		$widget->run();
+		$out = '';
 		Yii::app()->clientScript->render($out);
 		ob_end_clean();
 		return $out;

@@ -65,22 +65,22 @@ class CLinkPager extends CBasePager
 	 */
 	public $maxButtonCount=10;
 	/**
-	 * @var string the text label for the next page button. Defaults to 'Next &gt;'.
+	 * @var string|false the text label for the next page button. Defaults to 'Next &gt;'.
 	 * Setting this to false will disable this button.
 	 */
 	public $nextPageLabel;
 	/**
-	 * @var string the text label for the previous page button. Defaults to '&lt; Previous'.
+	 * @var string|false the text label for the previous page button. Defaults to '&lt; Previous'.
 	 * Setting this to false will disable this button.
 	 */
 	public $prevPageLabel;
 	/**
-	 * @var string the text label for the first page button. Defaults to '&lt;&lt; First'.
+	 * @var string|false the text label for the first page button. Defaults to '&lt;&lt; First'.
 	 * Setting this to false will disable this button.
 	 */
 	public $firstPageLabel;
 	/**
-	 * @var string the text label for the last page button. Defaults to 'Last &gt;&gt;'.
+	 * @var string|false the text label for the last page button. Defaults to 'Last &gt;&gt;'.
 	 * Setting this to false will disable this button.
 	 */
 	public $lastPageLabel;
@@ -93,7 +93,7 @@ class CLinkPager extends CBasePager
 	 */
 	public $footer='';
 	/**
-	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * @var string|false|null the CSS file used for the widget. Defaults to null, meaning
 	 * using the default CSS file included together with the widget.
 	 * If false, no CSS file will be used. Otherwise, the specified CSS file
 	 * will be included when using this widget.
@@ -228,7 +228,7 @@ class CLinkPager extends CBasePager
 
 	/**
 	 * Registers the needed CSS file.
-	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
+	 * @param string|null $url the CSS URL. If null, a default CSS URL will be used.
 	 */
 	public static function registerCssFile($url=null)
 	{

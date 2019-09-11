@@ -149,7 +149,9 @@ class CDbDataReaderTest extends CTestCase
 	public function testBindColumn()
 	{
 		$reader=$this->_connection->createCommand('SELECT * FROM posts')->query();
+		$id = null;
 		$reader->bindColumn(1,$id);
+		$title = null;
 		$reader->bindColumn(2,$title);
 		$reader->read();
 		$this->assertEquals($id,1);

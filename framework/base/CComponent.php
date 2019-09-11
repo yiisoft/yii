@@ -509,7 +509,7 @@ class CComponent
 	 * makes the handler to be invoked first.
 	 *
 	 * @param string $name the event name
-	 * @param callback $handler the event handler
+	 * @param callable $handler the event handler
 	 * @throws CException if the event is not defined
 	 * @see detachEventHandler
 	 */
@@ -522,7 +522,7 @@ class CComponent
 	 * Detaches an existing event handler.
 	 * This method is the opposite of {@link attachEventHandler}.
 	 * @param string $name event name
-	 * @param callback $handler the event handler to be removed
+	 * @param callable $handler the event handler to be removed
 	 * @return boolean if the detachment process is successful
 	 * @see attachEventHandler
 	 */
@@ -591,7 +591,7 @@ class CComponent
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
 	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 *
-	 * @param mixed $_expression_ a PHP expression or PHP callback to be evaluated.
+	 * @param string|callable $_expression_ a PHP expression or PHP callback to be evaluated.
 	 * @param array $_data_ additional parameters to be passed to the above expression/callback.
 	 * @return mixed the expression result
 	 * @since 1.1.0

@@ -28,6 +28,7 @@ class CMaskedTextFieldTest extends CTestCase
 		$widget->mask = '99/99/9999';
 		$widget->init();
 		$widget->run();
+        $out = '';
 		Yii::app()->clientScript->render($out);
 		ob_end_clean();
 		return $out;

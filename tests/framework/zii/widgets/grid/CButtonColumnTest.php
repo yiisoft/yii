@@ -32,6 +32,7 @@ class CButtonColumnTest extends CTestCase
 			),
 		);
 		$widget->init();
+		$out = '';
 		Yii::app()->clientScript->render($out);
 		ob_end_clean();
 		return $out;

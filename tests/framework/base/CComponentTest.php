@@ -2,17 +2,6 @@
 require_once dirname(__FILE__) . '/NewComponent.php';
 require_once dirname(__FILE__) . '/NewBehavior.php';
 
-function globalEventHandler($event)
-{
-	$event->sender->eventHandled=true;
-}
-
-function globalEventHandler2($event)
-{
-	$event->sender->eventHandled=true;
-	$event->handled=true;
-}
-
 class CComponentTest extends CTestCase
 {
 	/**
@@ -345,4 +334,15 @@ class CComponentTest extends CTestCase
 		$this->assertSame('Hello world', $this->component->evaluateExpression('"Hello $who"', array('who' => 'world')));
 		$this->assertSame('Hello world', $this->component->evaluateExpression(array($this->component, 'exprEvaluator'), array('who' => 'world')));
 	}
+}
+
+function globalEventHandler($event)
+{
+    $event->sender->eventHandled=true;
+}
+
+function globalEventHandler2($event)
+{
+    $event->sender->eventHandled=true;
+    $event->handled=true;
 }

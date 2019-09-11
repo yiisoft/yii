@@ -146,7 +146,8 @@ class MessageCommandTest extends CTestCase
 
 	public function testEmptyArgs()
 	{
-		$this->expectException('CException','usageError');
+		$this->expectException('CException');
+		$this->expectExceptionMessage('usageError');
 		$this->runMessageCommand(array());
 		if (ob_get_level() > 0) {
 		    ob_end_clean();
@@ -155,7 +156,8 @@ class MessageCommandTest extends CTestCase
 
 	public function testConfigFileNotExist()
 	{
-		$this->expectException('CException','usageError');
+		$this->expectException('CException');
+        $this->expectExceptionMessage('usageError');
 		$this->runMessageCommand(array('not_existing_file.php'));
         if (ob_get_level() > 0) {
             ob_end_clean();

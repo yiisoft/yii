@@ -18,15 +18,6 @@ class TestAutoloader extends CTestCase
 
 	public function testAutoloaderForFunction()
 	{
-		function exampleFilter($className)
-		{
-			if (strpos($className, 'Zend') === 0) {
-				return true;
-			}
-
-			return false;
-		}
-
 		Yii::$autoloaderFilters['zend'] = 'exampleFilter';
 
 		$this->assertTrue(Yii::autoload('ZendFunctionMeta'));
@@ -59,4 +50,13 @@ class TestAutoloader extends CTestCase
 		$this->assertFalse(Yii::autoload('SomeClass'));
 		$this->assertTrue(Yii::autoload('Yii'));
 	}
+}
+
+function exampleFilter($className)
+{
+    if (strpos($className, 'Zend') === 0) {
+        return true;
+    }
+
+    return false;
 }

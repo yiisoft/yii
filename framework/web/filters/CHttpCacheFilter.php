@@ -115,7 +115,7 @@ class CHttpCacheFilter extends CFilter
 	 * Gets the last modified value from either {@link lastModifiedExpression} or {@link lastModified}
 	 * and converts it into a unix timestamp if necessary
 	 * @throws CException
-	 * @return integer|boolean A unix timestamp or false if neither lastModified nor
+	 * @return integer|false A unix timestamp or false if neither lastModified nor
 	 * lastModifiedExpression have been set
 	 */
 	protected function getLastModifiedValue()
@@ -144,7 +144,7 @@ class CHttpCacheFilter extends CFilter
 
 	/**
 	 *  Gets the ETag out of either {@link etagSeedExpression} or {@link etagSeed}
-	 *  @return string|boolean Either a quoted string serving as ETag or false if neither etagSeed nor etagSeedExpression have been set
+	 *  @return string|false Either a quoted string serving as ETag or false if neither etagSeed nor etagSeedExpression have been set
 	 */
 	protected function getEtagValue()
 	{

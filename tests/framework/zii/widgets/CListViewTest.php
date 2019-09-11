@@ -30,6 +30,7 @@ class CListViewTest extends CTestCase
 		$widget->dataProvider = new CArrayDataProvider(array(1, 2, 3));
 		$widget->init();
 		$widget->registerClientScript();
+		$out = '';
 		Yii::app()->clientScript->render($out);
 		ob_end_clean();
 		return $out;

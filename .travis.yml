@@ -32,4 +32,6 @@ before_script:
   - ./tests/travis/postgresql-setup.sh
   - phpenv config-rm xdebug.ini || echo
 
-script: cd tests && ../vendor/bin/phpunit --verbose --colors --exclude-group mssql,oci framework
+script:
+  - vendor/bin/phpstan analyse --memory-limit=-1
+  - cd tests && ../vendor/bin/phpunit --verbose --colors --exclude-group mssql,oci framework

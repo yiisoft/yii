@@ -28,6 +28,7 @@ class CJuiButtonTest extends CTestCase
 		$widget->onclick = $callback;
 		$widget->init();
 		$widget->run();
+		$out = '';
 		Yii::app()->clientScript->render($out);
 		ob_end_clean();
 		return $out;

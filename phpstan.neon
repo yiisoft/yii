@@ -1,0 +1,29 @@
+includes:
+  - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+  - vendor/phpstan/phpstan/conf/config.level1.neon
+  - phpstan-ignore.neon
+parameters:
+  paths:
+    - framework/
+    - tests/
+  bootstrap: tests/bootstrap.php
+  reportUnmatchedIgnoredErrors: false
+  inferPrivatePropertyTypeFromConstructor: true
+  autoload_directories:
+    - tests/framework/
+    - framework/vendors/
+  dynamicConstantNames:
+    - YII_TRACE_LEVEL
+    - YII_DEBUG
+  earlyTerminatingMethodCalls:
+    CController:
+      - redirect
+    CApplication:
+      - end
+  excludes_analyse:
+    - '*/views/*'
+    - '*/assets/*'
+    - '*/runtime/*'
+    - '*/vendors/*'
+    - '*/gii/generators/*/templates/*'
+    - '*/gii/*'

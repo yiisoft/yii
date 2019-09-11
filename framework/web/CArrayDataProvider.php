@@ -49,7 +49,7 @@
 class CArrayDataProvider extends CDataProvider
 {
 	/**
-	 * @var string the name of the key field. This is a field that uniquely identifies a
+	 * @var string|false the name of the key field. This is a field that uniquely identifies a
 	 * data record. In database this would be the primary key.
 	 * Defaults to 'id'. If it's set to false, keys of {@link rawData} array are used.
 	 */
