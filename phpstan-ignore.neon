@@ -1,178 +1,178 @@
 parameters:
 	ignoreErrors:
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\base\CApplication.php
+			path: framework/base/CApplication.php
 			message: "#CApplication\\:\\:__construct\\(\\) does not call parent constructor from CModule\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CEAcceleratorCache.php
+			path: framework/caching/CEAcceleratorCache.php
 			message: "#Function eaccelerator_get not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CEAcceleratorCache.php
+			path: framework/caching/CEAcceleratorCache.php
 			message: "#Function eaccelerator_put not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CEAcceleratorCache.php
+			path: framework/caching/CEAcceleratorCache.php
 			message: "#Function eaccelerator_get not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CEAcceleratorCache.php
+			path: framework/caching/CEAcceleratorCache.php
 			message: "#Function eaccelerator_rm not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CEAcceleratorCache.php
+			path: framework/caching/CEAcceleratorCache.php
 			message: "#Function eaccelerator_gc not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CEAcceleratorCache.php
+			path: framework/caching/CEAcceleratorCache.php
 			message: "#Function eaccelerator_list_keys not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CMemCache.php
+			path: framework/caching/CMemCache.php
 			message: "#Return typehint of method CMemCache\\:\\:getMemCache\\(\\) has invalid type Memcache\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CMemCache.php
+			path: framework/caching/CMemCache.php
 			message: "#Return typehint of method CMemCache\\:\\:getMemCache\\(\\) has invalid type Memcached\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CMemCache.php
+			path: framework/caching/CMemCache.php
 			message: "#Instantiated class Memcache not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CMemCache.php
+			path: framework/caching/CMemCache.php
 			message: "#Instantiated class Memcached not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CRedisCache.php
+			path: framework/caching/CRedisCache.php
 			message: "#Method CRedisCache\\:\\:parseResponse\\(\\) invoked with 1 parameter, 0 required\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\caching\CXCache.php
+			path: framework/caching/CXCache.php
 			message: "#Result of function xcache_clear_cache \\(void\\) is used\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			path: framework/cli/commands/MessageCommand.php
 			message: "#Undefined variable\\: \\$sourcePath#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			path: framework/cli/commands/MessageCommand.php
 			message: "#Undefined variable\\: \\$sourcePath#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			path: framework/cli/commands/MessageCommand.php
 			message: "#Undefined variable\\: \\$messagePath#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			path: framework/cli/commands/MessageCommand.php
 			message: "#Undefined variable\\: \\$messagePath#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			path: framework/cli/commands/MessageCommand.php
 			message: "#Undefined variable\\: \\$sourcePath#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			path: framework/cli/commands/MessageCommand.php
 			message: "#Undefined variable\\: \\$messagePath#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\collections\CTypedList.php
+			path: framework/collections/CTypedList.php
 			message: "#CTypedList\\:\\:__construct\\(\\) does not call parent constructor from CList\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\collections\CTypedMap.php
+			path: framework/collections/CTypedMap.php
 			message: "#CTypedMap\\:\\:__construct\\(\\) does not call parent constructor from CMap\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\db\schema\cubrid\CCubridSchema.php
+			path: framework/db/schema/cubrid/CCubridSchema.php
 			message: "#Access to undefined constant PDO\\:\\:CUBRID_SCH_IMPORTED_KEYS\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\db\schema\cubrid\CCubridSchema.php
+			path: framework/db/schema/cubrid/CCubridSchema.php
 			message: "#Access to undefined constant PDO\\:\\:CUBRID_SCH_PRIMARY_KEY\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CCookieCollection.php
+			path: framework/web/CCookieCollection.php
 			message: "#CCookieCollection\\:\\:__construct\\(\\) does not call parent constructor from CMap\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			path: framework/web/CHttpSession.php
 			message: "#Undefined variable\\: \\$domain#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			path: framework/web/CHttpSession.php
 			message: "#Undefined variable\\: \\$lifetime#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			path: framework/web/CHttpSession.php
 			message: "#Undefined variable\\: \\$path#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			path: framework/web/CHttpSession.php
 			message: "#Undefined variable\\: \\$secure#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			path: framework/web/CHttpSession.php
 			message: "#Undefined variable\\: \\$domain#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			path: framework/web/CHttpSession.php
 			message: "#Undefined variable\\: \\$lifetime#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			path: framework/web/CHttpSession.php
 			message: "#Undefined variable\\: \\$path#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			path: framework/web/CHttpSession.php
 			message: "#Undefined variable\\: \\$secure#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\filters\CFilterChain.php
+			path: framework/web/filters/CFilterChain.php
 			message: "#CFilterChain\\:\\:__construct\\(\\) does not call parent constructor from CList\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\services\CWebService.php
+			path: framework/web/services/CWebService.php
 			message: "#Instantiated class SoapServer not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\widgets\captcha\CCaptcha.php
+			path: framework/web/widgets/captcha/CCaptcha.php
 			message: "#Instantiated class Imagick not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\widgets\captcha\CCaptchaAction.php
+			path: framework/web/widgets/captcha/CCaptchaAction.php
 			message: "#Instantiated class ImagickPixel not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\widgets\captcha\CCaptchaAction.php
+			path: framework/web/widgets/captcha/CCaptchaAction.php
 			message: "#Instantiated class ImagickPixel not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\widgets\captcha\CCaptchaAction.php
+			path: framework/web/widgets/captcha/CCaptchaAction.php
 			message: "#Instantiated class ImagickPixel not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\widgets\captcha\CCaptchaAction.php
+			path: framework/web/widgets/captcha/CCaptchaAction.php
 			message: "#Instantiated class Imagick not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\widgets\captcha\CCaptchaAction.php
+			path: framework/web/widgets/captcha/CCaptchaAction.php
 			message: "#Instantiated class ImagickDraw not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\widgets\captcha\CCaptchaAction.php
+			path: framework/web/widgets/captcha/CCaptchaAction.php
 			message: "#Instantiated class ImagickDraw not found\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\tests\framework\db\schema\CMssqlTest.php
+			path: tests/framework/db/schema/CMssqlTest.php
 			message: "#Access to undefined constant PDO\\:\\:SQLSRV_ATTR_ENCODING\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\tests\framework\db\schema\CMssqlTest.php
+			path: tests/framework/db/schema/CMssqlTest.php
 			message: "#Access to undefined constant PDO\\:\\:SQLSRV_ENCODING_SYSTEM\\.#"
 
 		-
-			path: C:\Users\Anatoly\Documents\GitHub\yii\tests\framework\web\controllers\SoapController.php
+			path: tests/framework/web/controllers/SoapController.php
 			message: "#Instantiated class SoapFault not found\\.#"
 
