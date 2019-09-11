@@ -265,7 +265,7 @@ abstract class CActiveRecord extends CModel
 	 * If this is supplied the related record(s) will be retrieved from the database regardless of the value or {@link $refresh}.
 	 * The related record(s) retrieved when this is supplied will only be returned by this method and will not be loaded into the current record's relation.
 	 * The value of the relation prior to running this method will still be available for the current record if this is supplied.
-	 * @return self[]|self the related object(s).
+	 * @return self[]|self|null the related object(s).
 	 * @throws CDbException if the relation is not specified in {@link relations}.
 	 */
 	public function getRelated($name,$refresh=false,$params=array())

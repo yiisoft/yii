@@ -541,7 +541,7 @@ class CController extends CBaseController
 	}
 
 	/**
-	 * @return CWebModule the module that this controller belongs to. It returns null
+	 * @return CWebModule|null the module that this controller belongs to. It returns null
 	 * if the controller does not belong to any module
 	 */
 	public function getModule()

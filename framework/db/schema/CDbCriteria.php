@@ -485,7 +485,7 @@ class CDbCriteria extends CComponent
 	 * For example, if both criterias have conditions, they will be 'AND' together.
 	 * Also, the criteria passed as the parameter takes precedence in case
 	 * two options cannot be merged (e.g. LIMIT, OFFSET).
-	 * @param mixed $criteria the criteria to be merged with. Either an array or CDbCriteria.
+	 * @param \CDbCriteria|array $criteria the criteria to be merged with. Either an array or CDbCriteria.
 	 * @param string|boolean $operator the operator used to concatenate where and having conditions. Defaults to 'AND'.
 	 * For backwards compatibility a boolean value can be passed:
 	 * - 'false' for 'OR'
