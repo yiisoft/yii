@@ -1,6 +1,6 @@
 includes:
   - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-  - vendor/phpstan/phpstan/conf/config.level1.neon
+  - vendor/phpstan/phpstan/conf/config.level0.neon
   - phpstan-ignore.neon
 parameters:
   paths:
