@@ -83,7 +83,7 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 
 	/**
 	 * Advances the reader to the next row in a result set.
-	 * @return array|false the current row, false if no more row available
+	 * @return string[]|false the current row, false if no more row available
 	 */
 	public function read()
 	{
@@ -113,7 +113,7 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 
 	/**
 	 * Reads the whole result set into an array.
-	 * @return array the result set (each array element represents a row of data).
+	 * @return string[][] the result set (each array element represents a row of data).
 	 * An empty array will be returned if the result contains no row.
 	 */
 	public function readAll()
@@ -216,7 +216,7 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 	/**
 	 * Returns the current row.
 	 * This method is required by the interface Iterator.
-	 * @return string[][]|false the current row.
+	 * @return string[] the current row.
 	 */
 	public function current()
 	{

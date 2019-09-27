@@ -509,7 +509,7 @@ class CComponent
 	 * makes the handler to be invoked first.
 	 *
 	 * @param string $name the event name
-	 * @param callable $handler the event handler
+     * @param callable|string $handler the event handler — callable or class name
 	 * @throws CException if the event is not defined
 	 * @see detachEventHandler
 	 */

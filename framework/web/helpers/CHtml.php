@@ -2336,7 +2336,7 @@ EOD;
 	 * Please refer to its documentation for more details.
 	 *
 	 * @param object|array $model the model. This can be either an object or an array.
-	 * @param string|\Closure $attribute the attribute name (use dot to concatenate multiple attributes)
+	 * @param int|string|\Closure $attribute the attribute name (use dot to concatenate multiple attributes)
 	 * or anonymous function (PHP 5.3+). Remember that functions created by "create_function"
 	 * are not supported by this method. Also note that numeric value is meaningless when
 	 * first parameter is object typed.
