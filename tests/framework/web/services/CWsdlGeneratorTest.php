@@ -71,7 +71,7 @@ class CWsdlGeneratorTest extends CTestCase{
 		$this->assertSame('false', $nillable);
 
 		$type=(string)$node[0]->attributes()->type;
-		$this->assertSame('xsd:integer', $type);
+		$this->assertSame('xsd:int', $type);
 
 		// check input attribute with only nillable
 		$node=$xml->xpath('//xsd:element[@name="ins_start_date"]');
@@ -149,7 +149,7 @@ class CWsdlGeneratorTest extends CTestCase{
 		// check column Attribute in table SoapPovCalculationInput
 		$this->assertContains('use_kind', $html);
 		// check column Type in table SoapPovCalculationInput
-		$this->assertContains('integer', $html);
+		$this->assertContains('int', $html);
 		// check column Required in table SoapPovCalculationInput
 		$this->assertContains('unbounded', $html);
 		// check column Description in table SoapPovCalculationInput
