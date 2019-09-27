@@ -22,7 +22,7 @@ class CJavaScript
 	 * After processing, the string can be safely enclosed within a pair of
 	 * quotation marks and serve as a javascript string.
 	 * @param string $js string to be quoted
-	 * @param boolean $forUrl whether this string is used as a URL
+	 * @param bool $forUrl whether this string is used as a URL
 	 * @return string the quoted string
 	 */
 	public static function quote($js,$forUrl=false)
@@ -54,7 +54,7 @@ class CJavaScript
 	 * If you are encoding user input, make sure $safe is set to true.
 	 *
 	 * @param mixed $value PHP variable to be encoded
-	 * @param boolean $safe If true, 'js:' will not be allowed. In case of
+	 * @param bool $safe If true, 'js:' will not be allowed. In case of
 	 * wrapping code with {@link CJavaScriptExpression} JavaScript expression
 	 * will stay as is no matter what value this parameter is set to.
 	 * Default is false. This parameter is available since 1.1.11.
@@ -121,7 +121,7 @@ class CJavaScript
 	/**
 	 * Decodes a JSON string.
 	 * @param string $data the data to be decoded
-	 * @param boolean $useArray whether to use associative array to represent object data
+	 * @param bool $useArray whether to use associative array to represent object data
 	 * @return mixed the decoded PHP data
 	 */
 	public static function jsonDecode($data,$useArray=true)

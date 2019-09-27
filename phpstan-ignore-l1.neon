@@ -1,0 +1,154 @@
+parameters:
+	ignoreErrors:
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\base\CDbStatePersister.php
+			message: "#Variable \\$command might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$languages in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$messagePath in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$sourcePath in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$overwrite in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$removeOld in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$sort in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$fileHeader in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$fileTypes in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\cli\commands\MessageCommand.php
+			message: "#Variable \\$exclude in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\console\CHelpCommand.php
+			message: "#Variable \\$name might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\console\CHelpCommand.php
+			message: "#Variable \\$name might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\db\ar\CJoinElement.php
+			message: "#Variable \\$pk might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\db\ar\CJoinElement.php
+			message: "#Variable \\$pk might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\db\ar\CJoinElement.php
+			message: "#Variable \\$pk might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\test\CDbFixtureManager.php
+			message: "#Variable \\$pk might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\utils\CFileHelper.php
+			message: "#Constant FILEINFO_MIME not found\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\validators\CEmailValidator.php
+			message: "#Variable \\$domain might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\validators\CEmailValidator.php
+			message: "#Variable \\$domain might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\validators\CFileValidator.php
+			message: "#Constant FILEINFO_MIME not found\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpRequest.php
+			message: "#Variable \\$_GET in isset\\(\\) always exists and is not nullable\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpRequest.php
+			message: "#Variable \\$_POST in isset\\(\\) always exists and is not nullable\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpRequest.php
+			message: "#Variable \\$_REQUEST in isset\\(\\) always exists and is not nullable\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpRequest.php
+			message: "#Variable \\$_COOKIE in isset\\(\\) always exists and is not nullable\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			message: "#Variable \\$httponly in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CHttpSession.php
+			message: "#Variable \\$_SESSION in isset\\(\\) always exists and is not nullable\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CUploadedFile.php
+			message: "#Variable \\$_FILES in isset\\(\\) always exists and is not nullable\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CUrlManager.php
+			message: "#Variable \\$hash might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\CWebApplication.php
+			message: "#Variable \\$controllerID might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\actions\CViewAction.php
+			message: "#Variable \\$layout might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\auth\CDbAuthManager.php
+			message: "#Variable \\$condition might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\helpers\CHtml.php
+			message: "#Variable \\$checkAllLast might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\services\CWebService.php
+			message: "#Variable \\$cache might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\services\CWebService.php
+			message: "#Variable \\$HTTP_RAW_POST_DATA in isset\\(\\) is never defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\services\CWebService.php
+			message: "#Constant SOAP_1_1 not found\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\services\CWebService.php
+			message: "#Constant SOAP_1_2 not found\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\web\services\CWsdlGenerator.php
+			message: "#Variable \\$firstHeaderKey might not be defined\\.#"
+
+		-
+			path: C:\Users\Anatoly\Documents\GitHub\yii\framework\zii\widgets\grid\CDataColumn.php
+			message: "#Variable \\$value might not be defined\\.#"
+

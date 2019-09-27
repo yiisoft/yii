@@ -224,7 +224,7 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Calculates the total number of data items.
-	 * @return integer the total number of data items.
+	 * @return int the total number of data items.
 	 */
 	protected function calculateTotalItemCount()
 	{

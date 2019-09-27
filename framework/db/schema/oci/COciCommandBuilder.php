@@ -17,7 +17,7 @@
 class COciCommandBuilder extends CDbCommandBuilder
 {
 	/**
-	 * @var integer the last insertion ID
+	 * @var int the last insertion ID
 	 */
 	public $returnID;
 
@@ -34,8 +34,8 @@ class COciCommandBuilder extends CDbCommandBuilder
 	/**
 	 * Alters the SQL to apply LIMIT and OFFSET.
 	 * @param string $sql SQL query string without LIMIT and OFFSET.
-	 * @param integer $limit maximum number of rows, -1 to ignore limit.
-	 * @param integer $offset row offset, -1 to ignore offset.
+	 * @param int $limit maximum number of rows, -1 to ignore limit.
+	 * @param int $offset row offset, -1 to ignore offset.
 	 * @return string SQL with LIMIT and OFFSET
 	 */
 	public function applyLimit($sql,$limit,$offset)

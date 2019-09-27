@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $username
  * @property string $password
  * @property string $email
@@ -68,8 +68,8 @@ class User extends CActiveRecord
 }
 
 /**
- * @property integer $teacher_id
- * @property integer $student_id
+ * @property int $teacher_id
+ * @property int $student_id
  * @property string $progress
  */
 class Mentorship extends CActiveRecord
@@ -86,7 +86,7 @@ class Mentorship extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $name
  */
 class Group extends CActiveRecord
@@ -116,7 +116,7 @@ class Group extends CActiveRecord
 }
 
 /**
- * @property integer $group_id
+ * @property int $group_id
  * @property string $name
  */
 class GroupDescription extends CActiveRecord
@@ -133,8 +133,8 @@ class GroupDescription extends CActiveRecord
 }
 
 /**
- * @property integer $user_id
- * @property integer $group_id
+ * @property int $user_id
+ * @property int $group_id
  * @property string $name
  */
 class Role extends CActiveRecord
@@ -151,11 +151,11 @@ class Role extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $first_name
  * @property string $last_name
  * @property string $country
- * @property integer $user_id
+ * @property int $user_id
  */
 class Profile extends CActiveRecord
 {
@@ -171,10 +171,10 @@ class Profile extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property float $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class Post extends CActiveRecord
@@ -284,10 +284,10 @@ class PostScopesBehavior extends CActiveRecordBehavior
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property float $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class PostSpecial extends CActiveRecord
@@ -320,7 +320,7 @@ class PostSpecial extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $username
  * @property string $password
  * @property string $email
@@ -346,10 +346,10 @@ class UserSpecial extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property float $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class PostExt extends CActiveRecord
@@ -376,10 +376,10 @@ class PostExt extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $content
- * @property integer $post_id
- * @property integer $author_id
+ * @property int $post_id
+ * @property int $author_id
  */
 class Comment extends CActiveRecord
 {
@@ -405,9 +405,9 @@ class Comment extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $name
- * @property integer $parent_id
+ * @property int $parent_id
  */
 class Category extends CActiveRecord
 {
@@ -437,8 +437,8 @@ class Category extends CActiveRecord
 }
 
 /**
- * @property integer $key1
- * @property integer $key2
+ * @property int $key1
+ * @property int $key2
  * @property string $name
  */
 class Order extends CActiveRecord
@@ -463,10 +463,10 @@ class Order extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $name
- * @property integer $col1
- * @property integer $col2
+ * @property int $col1
+ * @property int $col2
  */
 class Item extends CActiveRecord
 {
@@ -489,8 +489,8 @@ class Item extends CActiveRecord
 }
 
 /**
- * @property integer $int_col
- * @property integer $int_col2
+ * @property int $int_col
+ * @property int $int_col2
  * @property string $char_col
  * @property string $char_col2
  * @property string $char_col3
@@ -501,9 +501,9 @@ class Item extends CActiveRecord
  * @property string $blob_col
  * @property float $numeric_col
  * @property float $time
- * @property integer $bool_col
- * @property integer $bool_col2
- * @property integer $null_col
+ * @property int $bool_col
+ * @property int $bool_col2
+ * @property int $null_col
  */
 class ComplexType extends CActiveRecord
 {
@@ -519,10 +519,10 @@ class ComplexType extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $class
- * @property integer $parentID
- * @property integer $ownerID
+ * @property int $parentID
+ * @property int $ownerID
  * @property string $title
  */
 class Content extends CActiveRecord
@@ -548,8 +548,8 @@ class Content extends CActiveRecord
 }
 
 /**
- * @property integer $id
- * @property integer $authorID
+ * @property int $id
+ * @property int $authorID
  * @property string $body
  */
 class Article extends Content
@@ -574,8 +574,8 @@ class Article extends Content
 }
 
 /**
- * @property integer $id
- * @property integer $authorID
+ * @property int $id
+ * @property int $authorID
  * @property string $body
  */
 class ArticleComment extends Content
@@ -600,7 +600,7 @@ class ArticleComment extends Content
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $username
  * @property string $password
  * @property string $email
@@ -626,10 +626,10 @@ class UserNoFk extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property float $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class PostNoFk extends CActiveRecord
@@ -653,7 +653,7 @@ class PostNoFk extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $username
  * @property string $password
  * @property string $email
@@ -679,10 +679,10 @@ class UserNoTogether extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property float $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class PostNoTogether extends CActiveRecord
@@ -706,7 +706,7 @@ class PostNoTogether extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $username
  * @property string $password
  * @property string $email
@@ -787,10 +787,10 @@ class UserWithWrappers extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property float $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class PostWithWrappers extends CActiveRecord
@@ -887,10 +887,10 @@ class PostWithWrappers extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $content
- * @property integer $post_id
- * @property integer $author_id
+ * @property int $post_id
+ * @property int $author_id
  */
 class CommentWithWrappers extends CActiveRecord
 {
@@ -955,8 +955,8 @@ class CommentWithWrappers extends CActiveRecord
 }
 
 /**
- * @property integer $id
- * @property integer $deleted
+ * @property int $id
+ * @property int $deleted
  * @property string $name
  */
 class UserWithDefaultScope extends CActiveRecord
@@ -1012,9 +1012,9 @@ class UserWithDefaultScopeAlias extends CActiveRecord
 }
 
 /**
- * @property integer $id
- * @property integer $from_id
- * @property integer $to_id
+ * @property int $id
+ * @property int $from_id
+ * @property int $to_id
  */
 class UserWithDefaultScopeLink extends CActiveRecord
 {

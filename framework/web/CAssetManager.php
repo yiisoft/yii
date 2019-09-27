@@ -38,7 +38,7 @@ class CAssetManager extends CApplicationComponent
 	 */
 	const DEFAULT_BASEPATH='assets';
 	/**
-	 * @var boolean whether to use symbolic link to publish asset files. Defaults to false, meaning
+	 * @var bool whether to use symbolic link to publish asset files. Defaults to false, meaning
 	 * asset files are copied to public folders. Using symbolic links has the benefit that the published
 	 * assets will always be consistent with the source assets. This is especially useful during development.
 	 *
@@ -68,21 +68,21 @@ class CAssetManager extends CApplicationComponent
 	 **/
 	public $excludeFiles=array('.svn','.gitignore');
 	/**
-	 * @var integer the permission to be set for newly generated asset files.
+	 * @var int the permission to be set for newly generated asset files.
 	 * This value will be used by PHP chmod function.
 	 * Defaults to 0666, meaning the file is read-writable by all users.
 	 * @since 1.1.8
 	 */
 	public $newFileMode=0666;
 	/**
-	 * @var integer the permission to be set for newly generated asset directories.
+	 * @var int the permission to be set for newly generated asset directories.
 	 * This value will be used by PHP chmod function.
 	 * Defaults to 0777, meaning the directory can be read, written and executed by all users.
 	 * @since 1.1.8
 	 */
 	public $newDirMode=0777;
 	/**
-	 * @var boolean whether we should copy the asset files and directories even if they already published before.
+	 * @var bool whether we should copy the asset files and directories even if they already published before.
 	 * This property is used only during development stage. The main use case of this property is when you need
 	 * to force the original assets always copied by changing only one value without searching needed {@link publish}
 	 * method calls across the application codebase. Also it is useful in operating systems which does not fully
@@ -181,15 +181,15 @@ class CAssetManager extends CApplicationComponent
 	 * discussion: http://code.google.com/p/yii/issues/detail?id=2579
 	 *
 	 * @param string $path the asset (file or directory) to be published
-	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
+	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
 	 * If false, the name will be the hash taken from dirname of the path being published and path mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
-	 * @param integer $level level of recursive copying when the asset is a directory.
+	 * @param int $level level of recursive copying when the asset is a directory.
 	 * Level -1 means publishing all subdirectories and files;
 	 * Level 0 means publishing only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
-	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already
+	 * @param bool $forceCopy whether we should copy the asset file or directory even if it is already
 	 * published before. In case of publishing a directory old files will not be removed.
 	 * This parameter is set true mainly during development stage when the original
 	 * assets are being constantly changed. The consequence is that the performance is degraded,
@@ -263,7 +263,7 @@ class CAssetManager extends CApplicationComponent
 	 * This method does not perform any publishing. It merely tells you
 	 * if the file or directory is published, where it will go.
 	 * @param string $path directory or file path being published
-	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
+	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
 	 * If false, the name will be the hash taken from dirname of the path being published and path mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
@@ -285,7 +285,7 @@ class CAssetManager extends CApplicationComponent
 	 * This method does not perform any publishing. It merely tells you
 	 * if the file path is published, what the URL will be to access it.
 	 * @param string $path directory or file path being published
-	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
+	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
 	 * If false, the name will be the hash taken from dirname of the path being published and path mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.

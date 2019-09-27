@@ -185,8 +185,8 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * </ul>
 	 *
 	 * @param string $sql SQL query string.
-	 * @param integer $limit maximum number of rows, -1 to ignore limit.
-	 * @param integer $offset row offset, -1 to ignore offset.
+	 * @param int $limit maximum number of rows, -1 to ignore limit.
+	 * @param int $offset row offset, -1 to ignore offset.
 	 * @return string SQL with limit and offset.
 	 *
 	 * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
@@ -206,8 +206,8 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * Rewrite sql to apply $limit > and $offset > 0 for MSSQL database.
 	 * See http://troels.arvin.dk/db/rdbms/#select-limit-offset
 	 * @param string $sql sql query
-	 * @param integer $limit $limit > 0
-	 * @param integer $offset $offset > 0
+	 * @param int $limit $limit > 0
+	 * @param int $offset $offset > 0
 	 * @return string modified sql query applied with limit and offset.
 	 *
 	 * @author Wei Zhuo <weizhuo[at]gmail[dot]com>

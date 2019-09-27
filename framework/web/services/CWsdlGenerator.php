@@ -129,7 +129,7 @@
  *       * /
  *     public $name;
  *     / **
- *       * @var integer User age {nillable=0, minOccurs=1, maxOccurs=1}
+ *       * @var int User age {nillable=0, minOccurs=1, maxOccurs=1}
  *       * @example 35
  *       * @soap
  *       * /

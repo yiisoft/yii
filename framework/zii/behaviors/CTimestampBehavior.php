@@ -42,12 +42,12 @@
 
 class CTimestampBehavior extends CActiveRecordBehavior {
 	/**
-	 * @var mixed The name of the attribute to store the creation time.  Set to null to not
+	 * @var string|null The name of the attribute to store the creation time.  Set to null to not
 	 * use a timestamp for the creation attribute.  Defaults to 'create_time'
 	 */
 	public $createAttribute = 'create_time';
 	/**
-	 * @var mixed The name of the attribute to store the modification time.  Set to null to not
+	 * @var string|null The name of the attribute to store the modification time.  Set to null to not
 	 * use a timestamp for the update attribute.  Defaults to 'update_time'
 	 */
 	public $updateAttribute = 'update_time';
@@ -59,7 +59,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	public $setUpdateOnCreate = false;
 
 	/**
-	 * @var mixed The expression that will be used for generating the timestamp.
+	 * @var string|\CDbExpression|null The expression that will be used for generating the timestamp.
 	 * This can be either a string representing a PHP expression (e.g. 'time()'),
 	 * or a {@link CDbExpression} object representing a DB expression (e.g. new CDbExpression('NOW()')).
 	 * Defaults to null, meaning that we will attempt to figure out the appropriate timestamp
@@ -99,7 +99,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	 * Gets the appropriate timestamp depending on the column type $attribute is
 	 *
 	 * @param string $attribute $attribute
-	 * @return mixed timestamp (eg unix timestamp or a mysql function)
+	 * @return CDbExpression|int|false timestamp (eg unix timestamp or a mysql function)
 	 */
 	protected function getTimestampByAttribute($attribute) {
 		if ($this->timestampExpression instanceof CDbExpression)
@@ -124,7 +124,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	 * Returns the appropriate timestamp depending on $columnType
 	 *
 	 * @param string $columnType $columnType
-	 * @return mixed timestamp (eg unix timestamp or a mysql function)
+	 * @return CDbExpression|int timestamp (eg unix timestamp or a mysql function)
 	 */
 	protected function getTimestampByColumnType($columnType) {
 		return isset(self::$map[$columnType]) ? new CDbExpression(self::$map[$columnType]) : time();

@@ -40,7 +40,7 @@ class CErrorEvent extends CEvent
 	 * @param string $code error code
 	 * @param string $message error message
 	 * @param string $file error file
-	 * @param integer $line error line
+	 * @param int $line error line
 	 */
 	public function __construct($sender,$code,$message,$file,$line)
 	{

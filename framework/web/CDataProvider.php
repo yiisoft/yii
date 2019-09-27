@@ -11,8 +11,8 @@
  * @property array $data The list of data items currently available in this data provider.
  * @property array $keys The list of key values corresponding to {@link data}. Each data item in {@link data}
  * is uniquely identified by the corresponding key value in this array.
- * @property integer $itemCount The number of data items in the current page.
- * @property integer $totalItemCount Total number of possible data items.
+ * @property int $itemCount The number of data items in the current page.
+ * @property int $totalItemCount Total number of possible data items.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
@@ -39,7 +39,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	abstract protected function fetchKeys();
 	/**
 	 * Calculates the total number of data items.
-	 * @return integer the total number of data items.
+	 * @return int the total number of data items.
 	 */
 	abstract protected function calculateTotalItemCount();
 
@@ -159,7 +159,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the data items currently available.
-	 * @param boolean $refresh whether the data should be re-fetched from persistent storage.
+	 * @param bool $refresh whether the data should be re-fetched from persistent storage.
 	 * @return array the list of data items currently available in this data provider.
 	 */
 	public function getData($refresh=false)
@@ -180,7 +180,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the key values associated with the data items.
-	 * @param boolean $refresh whether the keys should be re-calculated.
+	 * @param bool $refresh whether the keys should be re-calculated.
 	 * @return array the list of key values corresponding to {@link data}. Each data item in {@link data}
 	 * is uniquely identified by the corresponding key value in this array.
 	 */
@@ -204,8 +204,8 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Returns the number of data items in the current page.
 	 * This is equivalent to <code>count($provider->getData())</code>.
 	 * When {@link pagination} is set false, this returns the same value as {@link totalItemCount}.
-	 * @param boolean $refresh whether the number of data items should be re-calculated.
-	 * @return integer the number of data items in the current page.
+	 * @param bool $refresh whether the number of data items should be re-calculated.
+	 * @return int the number of data items in the current page.
 	 */
 	public function getItemCount($refresh=false)
 	{
@@ -215,8 +215,8 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Returns the total number of data items.
 	 * When {@link pagination} is set false, this returns the same value as {@link itemCount}.
-	 * @param boolean $refresh whether the total number of data items should be re-calculated.
-	 * @return integer total number of possible data items.
+	 * @param bool $refresh whether the total number of data items should be re-calculated.
+	 * @return int total number of possible data items.
 	 */
 	public function getTotalItemCount($refresh=false)
 	{
@@ -228,7 +228,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Sets the total number of data items.
 	 * This method is provided in case when the total number cannot be determined by {@link calculateTotalItemCount}.
-	 * @param integer $value the total number of data items.
+	 * @param int $value the total number of data items.
 	 * @since 1.1.1
 	 */
 	public function setTotalItemCount($value)

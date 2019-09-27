@@ -18,7 +18,7 @@
  * Child classes may override {@link renderHeaderCellContent}, {@link renderDataCellContent}
  * and {@link renderFooterCellContent} to customize how these cells are rendered.
  *
- * @property boolean $hasFooter Whether this column has a footer cell.
+ * @property bool $hasFooter Whether this column has a footer cell.
  * This is determined based on whether {@link footer} is set.
  * @property string $filterCellContent The filter cell content.
  * @property string $headerCellContent The header cell content.
@@ -48,7 +48,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	public $footer;
 	/**
-	 * @var boolean whether this column is visible. Defaults to true.
+	 * @var bool whether this column is visible. Defaults to true.
 	 */
 	public $visible=true;
 	/**
@@ -101,7 +101,7 @@ abstract class CGridColumn extends CComponent
 	}
 
 	/**
-	 * @return boolean whether this column has a footer cell.
+	 * @return bool whether this column has a footer cell.
 	 * This is determined based on whether {@link footer} is set.
 	 */
 	public function getHasFooter()
@@ -133,7 +133,7 @@ abstract class CGridColumn extends CComponent
 
 	/**
 	 * Renders a data cell.
-	 * @param integer $row the row number (zero-based)
+	 * @param int $row the row number (zero-based)
 	 */
 	public function renderDataCell($row)
 	{
@@ -210,7 +210,7 @@ abstract class CGridColumn extends CComponent
 	/**
 	 * Returns the data cell content.
 	 * This method SHOULD be overridden to customize the rendering of the data cell.
-	 * @param integer $row the row number (zero-based)
+	 * @param int $row the row number (zero-based)
 	 * The data for this row is available via <code>$this->grid->dataProvider->data[$row];</code>
 	 * @return string the data cell content.
 	 * @since 1.1.16
@@ -222,7 +222,7 @@ abstract class CGridColumn extends CComponent
 
 	/**
 	 * Renders the data cell content.
-	 * @param integer $row the row number (zero-based)
+	 * @param int $row the row number (zero-based)
 	 * @param mixed $data the data associated with the row
 	 * @deprecated since 1.1.16. Use {@link getDataCellContent()} instead.
 	 */

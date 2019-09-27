@@ -71,7 +71,7 @@ class CMssqlSchema extends CDbSchema
 	 * will consider both cases.
 	 * @param string $name1 table name 1
 	 * @param string $name2 table name 2
-	 * @return boolean whether the two table names refer to the same table.
+	 * @return bool whether the two table names refer to the same table.
 	 */
 	public function compareTableNames($name1,$name2)
 	{
@@ -85,7 +85,7 @@ class CMssqlSchema extends CDbSchema
 	 * The sequence will be reset such that the primary key of the next new row inserted
 	 * will have the specified value or max value of a primary key plus one (i.e. sequence trimming).
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param integer|null $value the value for the primary key of the next new row inserted.
+	 * @param int|null $value the value for the primary key of the next new row inserted.
 	 * If this is not set, the next new row's primary key will have the max value of a primary
 	 * key plus one (i.e. sequence trimming).
 	 * @since 1.1.6
@@ -109,7 +109,7 @@ class CMssqlSchema extends CDbSchema
 	private $_normalTables=array();  // non-view tables
 	/**
 	 * Enables or disables integrity check.
-	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param bool $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @since 1.1.6
 	 */
@@ -276,7 +276,7 @@ EOD;
 	/**
 	 * Collects the table column metadata.
 	 * @param CMssqlTableSchema $table the table metadata
-	 * @return boolean whether the table exists in the database
+	 * @return bool whether the table exists in the database
 	 */
 	protected function findColumns($table)
 	{
@@ -355,7 +355,7 @@ EOD;
 	 * Returns all table names in the database.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
-	 * @param boolean $includeViews whether to include views in the result. Defaults to true.
+	 * @param bool $includeViews whether to include views in the result. Defaults to true.
 	 * @return array all table names in the database.
 	 */
 	protected function findTableNames($schema='',$includeViews=true)

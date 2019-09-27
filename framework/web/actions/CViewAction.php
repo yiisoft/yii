@@ -57,14 +57,14 @@ class CViewAction extends CAction
 	 */
 	public $basePath='pages';
 	/**
-	 * @var mixed the name of the layout to be applied to the views.
+	 * @var string|null|false the name of the layout to be applied to the views.
 	 * This will be assigned to {@link CController::layout} before the view is rendered.
 	 * Defaults to null, meaning the controller's layout will be used.
 	 * If false, no layout will be applied.
 	 */
 	public $layout;
 	/**
-	 * @var boolean whether the view should be rendered as PHP script or static text. Defaults to false.
+	 * @var bool whether the view should be rendered as PHP script or static text. Defaults to false.
 	 */
 	public $renderAsText=false;
 

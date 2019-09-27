@@ -27,7 +27,7 @@ class Text_Diff3 extends Text_Diff {
     /**
      * Conflict counter.
      *
-     * @var integer
+     * @var int
      */
     var $_conflictingBlocks = 0;
 

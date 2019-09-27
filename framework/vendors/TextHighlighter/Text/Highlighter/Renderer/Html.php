@@ -141,21 +141,21 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
     /**
      * Line numbering style
      *
-     * @var integer
+     * @var int
      */
     var $_numbers = 0;
 
     /**
      * For numberered lines - where to start
      *
-     * @var integer
+     * @var int
      */
     var $_numbers_start = 0;
 
     /**
      * Tab size
      *
-     * @var integer
+     * @var int
      */
     var $_tabsize = 4;
 

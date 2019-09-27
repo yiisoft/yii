@@ -29,7 +29,7 @@ class CFileValidatorTest extends CTestCase
 	 * @dataProvider providerSizeToBytes
 	 *
 	 * @param string $sizeString
-	 * @param integer $assertion
+	 * @param int $assertion
 	 */
 	public function testSizeToBytes($sizeString, $assertion)
 	{

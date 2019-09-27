@@ -24,7 +24,7 @@
 class CAutoComplete extends CInputWidget
 {
 	/**
-	 * @var boolean whether to show the autocomplete using a text area. Defaults to false,
+	 * @var bool whether to show the autocomplete using a text area. Defaults to false,
 	 * meaning a text field is used.
 	 */
 	public $textArea=false;
@@ -46,29 +46,29 @@ class CAutoComplete extends CInputWidget
  	 */
 	public $url='';
 	/**
-	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * @var string|false|null the CSS file used for the widget. Defaults to null, meaning
 	 * using the default CSS file included together with the widget.
 	 * If false, no CSS file will be used. Otherwise, the specified CSS file
 	 * will be included when using this widget.
 	 */
 	public $cssFile;
 	/**
-	 * @var integer the minimum number of characters a user has to type before
+	 * @var int the minimum number of characters a user has to type before
 	 * the autocompleter activates. Defaults to 1.
 	 */
 	public $minChars;
 	/**
-	 * @var integer the delay in milliseconds the autocompleter waits after
+	 * @var int the delay in milliseconds the autocompleter waits after
 	 * a keystroke to activate itself. Defaults to 400.
 	 */
 	public $delay;
 	/**
-	 * @var integer the number of backend query results to store in cache.
+	 * @var int the number of backend query results to store in cache.
 	 * If set to 1 (the current result), no caching will happen. Must be >= 1. Defaults to 10.
 	 */
 	public $cacheLength;
 	/**
-	 * @var boolean whether or not the autocompleter can use a cache for more
+	 * @var bool whether or not the autocompleter can use a cache for more
 	 * specific queries. This means that all matches of "foot" are a subset
 	 * of all matches for "foo". Usually this is true, and using this options
 	 * decreases server load and increases performance. Only useful with
@@ -76,24 +76,24 @@ class CAutoComplete extends CInputWidget
 	 */
 	public $matchSubset;
 	/**
-	 * @var boolean whether or not the comparison is case sensitive. Important
+	 * @var bool whether or not the comparison is case sensitive. Important
 	 * only if you use caching. Defaults to false.
 	 */
 	public $matchCase;
 	/**
-	 * @var boolean whether or not the comparison looks inside
+	 * @var bool whether or not the comparison looks inside
 	 * (i.e. does "ba" match "foo bar") the search results. Important only if
 	 * you use caching. Don't mix with autofill. Defaults to false.
 	 */
 	public $matchContains;
 	/**
-	 * @var boolean if set to true, the autocompleter will only allow results that
+	 * @var bool if set to true, the autocompleter will only allow results that
 	 * are presented by the backend. Note that illegal values result in an empty
 	 * input box. Defaults to false.
 	 */
 	public $mustMatch;
 	/**
-	 * @var boolean if this is set to true, the first autocomplete value will
+	 * @var bool if this is set to true, the first autocomplete value will
 	 * be automatically selected on tab/return, even if it has not been handpicked
 	 * by keyboard or mouse action. If there is a handpicked (highlighted) result,
 	 * that result will take precedence. Defaults to true.
@@ -130,7 +130,7 @@ class CAutoComplete extends CInputWidget
 	 */
 	public $formatResult;
 	/**
-	 * @var boolean whether to allow more than one autocompleted-value to enter. Defaults to false.
+	 * @var bool whether to allow more than one autocompleted-value to enter. Defaults to false.
 	 */
 	public $multiple;
 	/**
@@ -138,32 +138,32 @@ class CAutoComplete extends CInputWidget
 	 */
 	public $multipleSeparator;
 	/**
-	 * @var integer specify a custom width for the select box. Defaults to the width of the input element.
+	 * @var int specify a custom width for the select box. Defaults to the width of the input element.
 	 */
 	public $width;
 	/**
-	 * @var boolean fill the textinput while still selecting a value, replacing the value
+	 * @var bool fill the textinput while still selecting a value, replacing the value
 	 * if more is typed or something else is selected. Defaults to false.
 	 */
 	public $autoFill;
 	/**
-	 * @var integer limit the number of items in the select box. Is also sent as
+	 * @var int limit the number of items in the select box. Is also sent as
 	 * a "limit" parameter with a remote request. Defaults to 10.
 	 */
 	public $max;
 	/**
-	 * @var boolean|string Whether and how to highlight matches in the select box.
+	 * @var bool|string Whether and how to highlight matches in the select box.
 	 * Set to false to disable. Set to a javascript function to customize.
 	 * The function gets the value as the first argument and the search term as the
 	 * second and must return the formatted value. Defaults to Wraps the search term in a &lt;strong&gt; element.
 	 */
 	public $highlight;
 	/**
-	 * @var boolean whether to scroll when more results than configured via scrollHeight are available. Defaults to true.
+	 * @var bool whether to scroll when more results than configured via scrollHeight are available. Defaults to true.
 	 */
 	public $scroll;
 	/**
-	 * @var integer height of scrolled autocomplete control in pixels. Defaults to 180.
+	 * @var int height of scrolled autocomplete control in pixels. Defaults to 180.
 	 */
 	public $scrollHeight;
 	/**

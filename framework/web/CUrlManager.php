@@ -137,11 +137,11 @@ class CUrlManager extends CApplicationComponent
 	 */
 	public $urlSuffix='';
 	/**
-	 * @var boolean whether to show entry script name in the constructed URL. Defaults to true.
+	 * @var bool whether to show entry script name in the constructed URL. Defaults to true.
 	 */
 	public $showScriptName=true;
 	/**
-	 * @var boolean whether to append GET parameters to the path info part. Defaults to true.
+	 * @var bool whether to append GET parameters to the path info part. Defaults to true.
 	 * This property is only effective when {@link urlFormat} is 'path' and is mainly used when
 	 * creating URLs. When it is true, GET parameters will be appended to the path info and
 	 * separate from each other using slashes. If this is false, GET parameters will be in query part.
@@ -152,7 +152,7 @@ class CUrlManager extends CApplicationComponent
 	 */
 	public $routeVar='r';
 	/**
-	 * @var boolean whether routes are case-sensitive. Defaults to true. By setting this to false,
+	 * @var bool whether routes are case-sensitive. Defaults to true. By setting this to false,
 	 * the route in the incoming request will be turned to lower case first before further processing.
 	 * As a result, you should follow the convention that you use lower case when specifying
 	 * controller mapping ({@link CWebApplication::controllerMap}) and action mapping
@@ -161,7 +161,7 @@ class CUrlManager extends CApplicationComponent
 	 */
 	public $caseSensitive=true;
 	/**
-	 * @var boolean whether the GET parameter values should match the corresponding
+	 * @var bool whether the GET parameter values should match the corresponding
 	 * sub-patterns in a rule before using it to create a URL. Defaults to false, meaning
 	 * a rule will be used for creating a URL only if its route and parameter names match the given ones.
 	 * If this property is set true, then the given parameter values must also match the corresponding
@@ -176,7 +176,7 @@ class CUrlManager extends CApplicationComponent
 	 */
 	public $cacheID='cache';
 	/**
-	 * @var boolean whether to enable strict URL parsing.
+	 * @var bool whether to enable strict URL parsing.
 	 * This property is only effective when {@link urlFormat} is 'path'.
 	 * If it is set true, then an incoming URL must match one of the {@link rules URL rules}.
 	 * Otherwise, it will be treated as an invalid request and trigger a 404 HTTP exception.
@@ -233,7 +233,7 @@ class CUrlManager extends CApplicationComponent
 	 * In order to make the new rules effective, this method must be called BEFORE
 	 * {@link CWebApplication::processRequest}.
 	 * @param array $rules new URL rules (pattern=>route).
-	 * @param boolean $append whether the new URL rules should be appended to the existing ones. If false,
+	 * @param bool $append whether the new URL rules should be appended to the existing ones. If false,
 	 * they will be inserted at the beginning.
 	 * @since 1.1.4
 	 */
@@ -255,7 +255,7 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Creates a URL rule instance.
 	 * The default implementation returns a CUrlRule object.
-	 * @param mixed $route the route part of the rule. This could be a string or an array
+	 * @param string|array $route the route part of the rule. This could be a string or an array
 	 * @param string $pattern the pattern part of the rule
 	 * @return CUrlRule the URL rule instance
 	 * @since 1.1.0

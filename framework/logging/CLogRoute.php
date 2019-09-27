@@ -31,7 +31,7 @@
 abstract class CLogRoute extends CComponent
 {
 	/**
-	 * @var boolean whether to enable this log route. Defaults to true.
+	 * @var bool whether to enable this log route. Defaults to true.
 	 */
 	public $enabled=true;
 	/**
@@ -77,9 +77,9 @@ abstract class CLogRoute extends CComponent
 	/**
 	 * Formats a log message given different fields.
 	 * @param string $message message content
-	 * @param integer $level message level
+	 * @param int $level message level
 	 * @param string $category message category
-	 * @param integer $time timestamp
+	 * @param int $time timestamp
 	 * @return string formatted message
 	 */
 	protected function formatLogMessage($message,$level,$category,$time)
@@ -90,7 +90,7 @@ abstract class CLogRoute extends CComponent
 	/**
 	 * Retrieves filtered log messages from logger for further processing.
 	 * @param CLogger $logger logger instance
-	 * @param boolean $processLogs whether to process the logs after they are collected from the logger
+	 * @param bool $processLogs whether to process the logs after they are collected from the logger
 	 */
 	public function collectLogs($logger, $processLogs=false)
 	{

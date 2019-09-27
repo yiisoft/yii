@@ -10,7 +10,7 @@
 class CJoinElement
 {
     /**
-     * @var integer the unique ID of this tree node
+     * @var int the unique ID of this tree node
      */
     public $id;
     /**
@@ -66,10 +66,10 @@ class CJoinElement
      * Constructor.
      *
      * @param CActiveFinder $finder   the finder
-     * @param mixed         $relation the relation (if the third parameter is not null)
+     * @param \CActiveRelation|\CActiveRecord         $relation the relation (if the third parameter is not null)
      *                                or the model (if the third parameter is null) associated with this tree node.
-     * @param CJoinElement  $parent   the parent tree node
-     * @param integer       $id       the ID of this tree node that is unique among all the tree nodes
+     * @param CJoinElement|null  $parent   the parent tree node
+     * @param int       $id       the ID of this tree node that is unique among all the tree nodes
      */
     public function __construct($finder, $relation, $parent = null, $id = 0)
     {
@@ -80,7 +80,7 @@ class CJoinElement
             $this->_parent = $parent;
             $this->model = $this->_finder->getModel($relation->className);
             $this->_builder = $this->model->getCommandBuilder();
-            $this->tableAlias = $relation->alias === null ? $relation->name : $relation->alias;
+            $this->tableAlias = $relation->alias ?? $relation->name;
             $this->rawTableAlias = $this->_builder->getSchema()->quoteTableName($this->tableAlias);
             $this->_table = $this->model->getTableSchema();
         } else  // root element, the first parameter is the model.
@@ -402,7 +402,7 @@ class CJoinElement
     /**
      * Performs the eager loading with the base records ready.
      *
-     * @param mixed $baseRecords the available base record(s).
+     * @param \CActiveRecord|\CActiveRecord[] $baseRecords the available base record(s).
      */
     public function findWithBase($baseRecords)
     {
@@ -633,7 +633,7 @@ class CJoinElement
      * Generates the list of columns to be selected.
      * Columns will be properly aliased and primary keys will be added to selection if they are not specified.
      *
-     * @param mixed $select columns to be selected. Defaults to '*', indicating all columns.
+     * @param string|string[] $select columns to be selected. Defaults to '*', indicating all columns.
      *
      * @return string the column selection
      * @throws CDbException if active record class is trying to select an invalid column

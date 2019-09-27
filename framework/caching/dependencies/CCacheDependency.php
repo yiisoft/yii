@@ -15,7 +15,7 @@
  * Child classes should override its {@link generateDependentData} for
  * actual dependency checking.
  *
- * @property boolean $hasChanged Whether the dependency has changed.
+ * @property bool $hasChanged Whether the dependency has changed.
  * @property mixed $dependentData The data used to determine if dependency has been changed.
  * This data is available after {@link evaluateDependency} is called.
  *
@@ -26,7 +26,7 @@
 class CCacheDependency extends CComponent implements ICacheDependency
 {
 	/**
-	 * @var boolean Whether this dependency is reusable or not.
+	 * @var bool Whether this dependency is reusable or not.
 	 * If set to true, dependent data for this cache dependency will only be generated once per request.
 	 * You can then use the same cache dependency for multiple separate cache calls on the same page
 	 * without the overhead of re-evaluating the dependency each time.
@@ -62,7 +62,7 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	}
 
 	/**
-	 * @return boolean whether the dependency has changed.
+	 * @return bool whether the dependency has changed.
 	 */
 	public function getHasChanged()
 	{

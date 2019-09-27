@@ -13,7 +13,7 @@
 abstract class CBaseUrlRule extends CComponent
 {
     /**
-     * @var boolean whether this rule will also parse the host info part. Defaults to false.
+     * @var bool whether this rule will also parse the host info part. Defaults to false.
      */
     public $hasHostInfo = false;
 
@@ -25,7 +25,7 @@ abstract class CBaseUrlRule extends CComponent
      * @param array       $params    list of parameters (name=>value) associated with the route
      * @param string      $ampersand the token separating name-value pairs in the URL.
      *
-     * @return mixed the constructed URL. False if this rule does not apply.
+     * @return string|false the constructed URL. False if this rule does not apply.
      */
     abstract public function createUrl($manager, $route, $params, $ampersand);
 
@@ -37,7 +37,7 @@ abstract class CBaseUrlRule extends CComponent
      * @param string       $pathInfo    path info part of the URL (URL suffix is already removed based on {@link CUrlManager::urlSuffix})
      * @param string       $rawPathInfo path info that contains the potential URL suffix
      *
-     * @return mixed the route that consists of the controller ID and action ID. False if this rule does not apply.
+     * @return string|false the route that consists of the controller ID and action ID. False if this rule does not apply.
      */
     abstract public function parseUrl($manager, $request, $pathInfo, $rawPathInfo);
 }

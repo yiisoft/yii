@@ -23,7 +23,7 @@
  * </pre>
  *
  * @property Iterator $iterator An iterator for traversing the items in the queue.
- * @property integer $count The number of items in the queue.
+ * @property int $count The number of items in the queue.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.collections
@@ -38,14 +38,14 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	private $_d=array();
 	/**
 	 * number of items
-	 * @var integer
+	 * @var int
 	 */
 	private $_c=0;
 
 	/**
 	 * Constructor.
 	 * Initializes the queue with an array or an iterable object.
-	 * @param array $data the initial data. Default is null, meaning no initialization.
+	 * @param array|null $data the initial data. Default is null, meaning no initialization.
 	 * @throws CException If data is not null and neither an array nor an iterator.
 	 */
 	public function __construct($data=null)
@@ -65,12 +65,12 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Copies iterable data into the queue.
 	 * Note, existing data in the list will be cleared first.
-	 * @param mixed $data the data to be copied from, must be an array or object implementing Traversable
+	 * @param iterable $data the data to be copied from, must be an array or object implementing Traversable
 	 * @throws CException If data is neither an array nor a Traversable.
 	 */
 	public function copyFrom($data)
 	{
-		if(is_array($data) || ($data instanceof Traversable))
+		if(is_iterable($data))
 		{
 			$this->clear();
 			foreach($data as $item)
@@ -94,7 +94,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 
 	/**
 	 * @param mixed $item the item
-	 * @return boolean whether the queue contains the item
+	 * @return bool whether the queue contains the item
 	 */
 	public function contains($item)
 	{
@@ -143,7 +143,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Returns an iterator for traversing the items in the queue.
 	 * This method is required by the interface IteratorAggregate.
-	 * @return Iterator an iterator for traversing the items in the queue.
+	 * @return CQueueIterator an iterator for traversing the items in the queue.
 	 */
 	public function getIterator()
 	{
@@ -152,7 +152,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 
 	/**
 	 * Returns the number of items in the queue.
-	 * @return integer the number of items in the queue
+	 * @return int the number of items in the queue
 	 */
 	public function getCount()
 	{
@@ -162,7 +162,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Returns the number of items in the queue.
 	 * This method is required by Countable interface.
-	 * @return integer number of items in the queue.
+	 * @return int number of items in the queue.
 	 */
 	public function count()
 	{

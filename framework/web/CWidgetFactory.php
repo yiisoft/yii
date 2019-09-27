@@ -78,7 +78,7 @@
 class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 {
 	/**
-	 * @var boolean whether to enable widget skinning. Defaults to false.
+	 * @var bool whether to enable widget skinning. Defaults to false.
 	 * @see skinnableWidgets
 	 * @since 1.1.3
 	 */

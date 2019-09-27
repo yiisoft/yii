@@ -135,7 +135,7 @@ abstract class CCodeModel extends CFormModel
 	 */
 	public $files=array();
 	/**
-	 * @var integer the status of this model. T
+	 * @var int the status of this model. T
 	 * The value of this property is internally managed by {@link CCodeGenerator}.
 	 */
 	public $status=self::STATUS_NEW;
@@ -194,7 +194,7 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * Checks if the named class exists (in a case sensitive manner).
 	 * @param string $name class name to be checked
-	 * @return boolean whether the class exists
+	 * @return bool whether the class exists
 	 */
 	public function classExists($name)
 	{
@@ -448,7 +448,7 @@ abstract class CCodeModel extends CFormModel
 	 * Converts a class name into space-separated words.
 	 * For example, 'PostTag' will be converted as 'Post Tag'.
 	 * @param string $name the string to be converted
-	 * @param boolean $ucwords whether to capitalize the first letter in each word
+	 * @param bool $ucwords whether to capitalize the first letter in each word
 	 * @return string the resulting words
 	 */
 	public function class2name($name,$ucwords=true)

@@ -13,8 +13,8 @@
  *
  * CFormElement implements the way to get and set arbitrary attributes.
  *
- * @property boolean $visible Whether this element is visible and should be rendered.
- * @property mixed $parent The direct parent of this element. This could be either a {@link CForm} object or a {@link CBaseController} object
+ * @property bool $visible Whether this element is visible and should be rendered.
+ * @property \CForm|\CBaseController $parent The direct parent of this element. This could be either a {@link CForm} object or a {@link CBaseController} object
  * (a controller or a widget).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -39,8 +39,8 @@ abstract class CFormElement extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param mixed $config the configuration for this element.
-	 * @param mixed $parent the direct parent of this element.
+	 * @param string|array $config the configuration for this element.
+	 * @param \CForm|\CBaseController $parent the direct parent of this element.
 	 * @see configure
 	 */
 	public function __construct($config,$parent)
@@ -94,7 +94,7 @@ abstract class CFormElement extends CComponent
 	 * isset($element->propertyName);
 	 * </pre>
 	 * @param string $name the property or attribute name
-	 * @return boolean
+	 * @return bool
 	 */
 	public function __isset($name)
 	{
@@ -130,7 +130,7 @@ abstract class CFormElement extends CComponent
 
 	/**
 	 * Configures this object with property initial values.
-	 * @param mixed $config the configuration for this object. This can be an array
+	 * @param string|array $config the configuration for this object. This can be an array
 	 * representing the property names and their initial values.
 	 * It can also be a string representing the file name of the PHP script
 	 * that returns a configuration array.
@@ -149,7 +149,7 @@ abstract class CFormElement extends CComponent
 	/**
 	 * Returns a value indicating whether this element is visible and should be rendered.
 	 * This method will call {@link evaluateVisible} to determine the visibility of this element.
-	 * @return boolean whether this element is visible and should be rendered.
+	 * @return bool whether this element is visible and should be rendered.
 	 */
 	public function getVisible()
 	{
@@ -159,7 +159,7 @@ abstract class CFormElement extends CComponent
 	}
 
 	/**
-	 * @param boolean $value whether this element is visible and should be rendered.
+	 * @param bool $value whether this element is visible and should be rendered.
 	 */
 	public function setVisible($value)
 	{
@@ -167,7 +167,7 @@ abstract class CFormElement extends CComponent
 	}
 
 	/**
-	 * @return mixed the direct parent of this element. This could be either a {@link CForm} object or a {@link CBaseController} object
+	 * @return \CForm|\CBaseActiveRelation the direct parent of this element. This could be either a {@link CForm} object or a {@link CBaseController} object
 	 * (a controller or a widget).
 	 */
 	public function getParent()
@@ -179,7 +179,7 @@ abstract class CFormElement extends CComponent
 	 * Evaluates the visibility of this element.
 	 * Child classes should override this method to implement the actual algorithm
 	 * for determining the visibility.
-	 * @return boolean whether this element is visible. Defaults to true.
+	 * @return bool whether this element is visible. Defaults to true.
 	 */
 	protected function evaluateVisible()
 	{

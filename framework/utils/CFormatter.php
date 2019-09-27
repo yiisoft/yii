@@ -155,9 +155,9 @@ class CFormatter extends CApplicationComponent
 	 * Formats the value as a HTML-encoded plain text and converts newlines with HTML &lt;br /&gt; or
 	 * &lt;p&gt;&lt;/p&gt; tags.
 	 * @param mixed $value the value to be formatted
-	 * @param boolean $paragraphs whether newlines should be converted to HTML &lt;p&gt;&lt;/p&gt; tags,
+	 * @param bool $paragraphs whether newlines should be converted to HTML &lt;p&gt;&lt;/p&gt; tags,
 	 * false by default meaning that HTML &lt;br /&gt; tags will be used
-	 * @param boolean $removeEmptyParagraphs whether empty paragraphs should be removed, defaults to true;
+	 * @param bool $removeEmptyParagraphs whether empty paragraphs should be removed, defaults to true;
 	 * makes sense only when $paragraphs parameter is true
 	 * @return string the formatted result
 	 */
@@ -308,8 +308,8 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value in bytes as a size in human readable form.
-	 * @param integer $value value in bytes to be formatted
-	 * @param boolean $verbose if full names should be used (e.g. bytes, kilobytes, ...).
+	 * @param int $value value in bytes to be formatted
+	 * @param bool $verbose if full names should be used (e.g. bytes, kilobytes, ...).
 	 * Defaults to false meaning that short names will be used (e.g. B, KB, ...).
 	 * @return string the formatted result
 	 * @see sizeFormat

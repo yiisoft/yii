@@ -37,12 +37,12 @@ class CUrlValidator extends CValidator
 	 **/
 	public $defaultScheme;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var boolean whether validation process should care about IDN (internationalized domain names). Default
+	 * @var bool whether validation process should care about IDN (internationalized domain names). Default
 	 * value is false which means that validation of URLs containing IDN will always fail.
 	 * @since 1.1.13
 	 */

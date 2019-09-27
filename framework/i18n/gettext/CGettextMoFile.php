@@ -44,13 +44,13 @@
 class CGettextMoFile extends CGettextFile
 {
 	/**
-	 * @var boolean whether to use Big Endian when reading and writing an integer.
+	 * @var bool whether to use Big Endian when reading and writing an integer.
 	 */
 	public $useBigEndian=false;
 
 	/**
 	 * Constructor.
-	 * @param boolean $useBigEndian whether to use Big Endian when reading and writing an integer.
+	 * @param bool $useBigEndian whether to use Big Endian when reading and writing an integer.
 	 */
 	public function __construct($useBigEndian=false)
 	{
@@ -206,7 +206,7 @@ class CGettextMoFile extends CGettextFile
 	/**
 	 * Reads one or several bytes.
 	 * @param resource $fr file handle
-	 * @param integer $n number of bytes to read
+	 * @param int $n number of bytes to read
 	 * @return string bytes
 	 */
 	protected function readByte($fr,$n=1)
@@ -219,7 +219,7 @@ class CGettextMoFile extends CGettextFile
 	 * Writes bytes.
 	 * @param resource $fw file handle
 	 * @param string $data the data
-	 * @return integer how many bytes are written
+	 * @return int how many bytes are written
 	 */
 	protected function writeByte($fw,$data)
 	{
@@ -229,7 +229,7 @@ class CGettextMoFile extends CGettextFile
 	/**
 	 * Reads a 4-byte integer.
 	 * @param resource $fr file handle
-	 * @return integer the result
+	 * @return int the result
 	 * @see useBigEndian
 	 */
 	protected function readInteger($fr)
@@ -241,8 +241,8 @@ class CGettextMoFile extends CGettextFile
 	/**
 	 * Writes a 4-byte integer.
 	 * @param resource $fw file handle
-	 * @param integer $data the data
-	 * @return integer how many bytes are written
+	 * @param int $data the data
+	 * @return int how many bytes are written
 	 */
 	protected function writeInteger($fw,$data)
 	{
@@ -252,8 +252,8 @@ class CGettextMoFile extends CGettextFile
 	/**
 	 * Reads a string.
 	 * @param resource $fr file handle
-	 * @param integer $length string length
-	 * @param integer $offset offset of the string in the file. If null, it reads from the current position.
+	 * @param int $length string length
+	 * @param int $offset offset of the string in the file. If null, it reads from the current position.
 	 * @return string the result
 	 */
 	protected function readString($fr,$length,$offset=null)
@@ -267,7 +267,7 @@ class CGettextMoFile extends CGettextFile
 	 * Writes a string.
 	 * @param resource $fw file handle
 	 * @param string $data the string
-	 * @return integer how many bytes are written
+	 * @return int how many bytes are written
 	 */
 	protected function writeString($fw,$data)
 	{

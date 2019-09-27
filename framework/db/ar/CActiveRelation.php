@@ -28,7 +28,7 @@ class CActiveRelation extends CBaseActiveRelation
      */
     public $with = [];
     /**
-     * @var boolean whether this table should be joined with the primary table.
+     * @var bool whether this table should be joined with the primary table.
      * When setting this property to be false, the table associated with this relation will
      * appear in a separate JOIN statement.
      * If this property is set true, then the corresponding table will ALWAYS be joined together
@@ -38,7 +38,7 @@ class CActiveRelation extends CBaseActiveRelation
      */
     public $together;
     /**
-     * @var mixed scopes to apply
+     * @var string|string[] scopes to apply
      * Can be set to the one of the following:
      * <ul>
      * <li>Single scope: 'scopes'=>'scopeName'.</li>
@@ -57,8 +57,8 @@ class CActiveRelation extends CBaseActiveRelation
     /**
      * Merges this relation with a criteria specified dynamically.
      *
-     * @param array   $criteria  the dynamically specified criteria
-     * @param boolean $fromScope whether the criteria to be merged is from scopes
+     * @param array|CDbCriteria   $criteria  the dynamically specified criteria
+     * @param bool $fromScope whether the criteria to be merged is from scopes
      */
     public function mergeWith($criteria, $fromScope = false)
     {

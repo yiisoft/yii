@@ -75,7 +75,7 @@ class CActiveRecordEventWrappersTest extends CTestCase
 	 * Check whether criteria given by dataprovider has been applied
 	 * @param array $records
 	 * @param CDbCriteria $criteria
-	 * @param integer $count
+	 * @param int $count
 	 * @param array $assertations
 	 */
 	public function assertCriteriaApplied($records, $criteria, $count, $assertations)

@@ -586,7 +586,7 @@ class CHtmlTest extends CTestCase
 	 * @dataProvider providerValue
 	 *
 	 * @param array|stdClass $model
-	 * @param integer|double|string $attribute
+	 * @param int|double|string $attribute
 	 * @param mixed $defaultValue
 	 * @param string $assertion
 	 */
@@ -805,7 +805,7 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerActiveLabel
 	 *
-	 * @param boolean $validate
+	 * @param bool $validate
 	 * @param string $attribute
 	 * @param array $htmlOptions
 	 * @param string $assertion
@@ -835,7 +835,7 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerActiveLabelEx
 	 *
-	 * @param boolean $addErrors
+	 * @param bool $addErrors
 	 * @param string $attribute
 	 * @param array $htmlOptions
 	 * @param string $validate
@@ -865,7 +865,7 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerActiveTextField
 	 *
-	 * @param boolean $validate
+	 * @param bool $validate
 	 * @param string $attribute
 	 * @param array $htmlOptions
 	 * @param string $assertion
@@ -895,7 +895,7 @@ class CHtmlTest extends CTestCase
 	/**
 	 * @dataProvider providerActiveUrlField
 	 *
-	 * @param boolean $validate
+	 * @param bool $validate
 	 * @param string $attribute
 	 * @param array $htmlOptions
 	 * @param string $assertion

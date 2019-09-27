@@ -50,13 +50,13 @@
  * )) ?>
  * </pre>
  *
- * @property integer $pageSize Number of items in each page. Defaults to 10.
- * @property integer $itemCount Total number of items. Defaults to 0.
- * @property integer $pageCount Number of pages.
- * @property integer $currentPage The zero-based index of the current page. Defaults to 0.
- * @property integer $offset The offset of the data. This may be used to set the
+ * @property int $pageSize Number of items in each page. Defaults to 10.
+ * @property int $itemCount Total number of items. Defaults to 0.
+ * @property int $pageCount Number of pages.
+ * @property int $currentPage The zero-based index of the current page. Defaults to 0.
+ * @property int $offset The offset of the data. This may be used to set the
  * OFFSET value for a SQL statement for fetching the current page of data.
- * @property integer $limit The limit of the data. This may be used to set the
+ * @property int $limit The limit of the data. This may be used to set the
  * LIMIT value for a SQL statement for fetching the current page of data.
  * This returns the same value as {@link pageSize}.
  *
@@ -85,7 +85,7 @@ class CPagination extends CComponent
 	 */
 	public $params;
 	/**
-	 * @var boolean whether to ensure {@link currentPage} is returning a valid page number.
+	 * @var bool whether to ensure {@link currentPage} is returning a valid page number.
 	 * When this property is true, the value returned by {@link currentPage} will always be between
 	 * 0 and ({@link pageCount}-1). Because {@link pageCount} relies on the correct value of {@link itemCount},
 	 * it means you must have knowledge about the total number of data items when you want to access {@link currentPage}.
@@ -102,7 +102,7 @@ class CPagination extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param integer $itemCount total number of items.
+	 * @param int $itemCount total number of items.
 	 */
 	public function __construct($itemCount=0)
 	{
@@ -110,7 +110,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @return integer number of items in each page. Defaults to 10.
+	 * @return int number of items in each page. Defaults to 10.
 	 */
 	public function getPageSize()
 	{
@@ -118,7 +118,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param integer $value number of items in each page
+	 * @param int $value number of items in each page
 	 */
 	public function setPageSize($value)
 	{
@@ -128,7 +128,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @return integer total number of items. Defaults to 0.
+	 * @return int total number of items. Defaults to 0.
 	 */
 	public function getItemCount()
 	{
@@ -136,7 +136,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param integer $value total number of items.
+	 * @param int $value total number of items.
 	 */
 	public function setItemCount($value)
 	{
@@ -146,7 +146,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @return integer number of pages
+	 * @return int number of pages
 	 */
 	public function getPageCount()
 	{
@@ -154,7 +154,7 @@ class CPagination extends CComponent
 	}
 
     /**
-     * @return integer the zero-based index of the current page. Defaults to 0.
+     * @return int the zero-based index of the current page. Defaults to 0.
      */
     public function getCurrentPage()
     {
@@ -179,7 +179,7 @@ class CPagination extends CComponent
     }
 
     /**
-	 * @param integer $value the zero-based index of the current page.
+	 * @param int $value the zero-based index of the current page.
 	 */
 	public function setCurrentPage($value)
 	{
@@ -195,7 +195,7 @@ class CPagination extends CComponent
 	 * You may override this method if your URL scheme is not the same as
 	 * the one supported by the controller's createUrl method.
 	 * @param CController $controller the controller that will create the actual URL
-	 * @param integer $page the page that the URL should point to. This is a zero-based index.
+	 * @param int $page the page that the URL should point to. This is a zero-based index.
 	 * @return string the created URL
 	 */
 	public function createPageUrl($controller,$page)
@@ -219,7 +219,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @return integer the offset of the data. This may be used to set the
+	 * @return int the offset of the data. This may be used to set the
 	 * OFFSET value for a SQL statement for fetching the current page of data.
 	 * @since 1.1.0
 	 */
@@ -229,7 +229,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @return integer the limit of the data. This may be used to set the
+	 * @return int the limit of the data. This may be used to set the
 	 * LIMIT value for a SQL statement for fetching the current page of data.
 	 * This returns the same value as {@link pageSize}.
 	 * @since 1.1.0

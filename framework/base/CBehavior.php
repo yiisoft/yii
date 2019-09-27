@@ -12,7 +12,7 @@
  * CBehavior is a convenient base class for behavior classes.
  *
  * @property CComponent $owner The owner component that this behavior is attached to.
- * @property boolean $enabled Whether this behavior is enabled.
+ * @property bool $enabled Whether this behavior is enabled.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base
@@ -76,7 +76,7 @@ class CBehavior extends CComponent implements IBehavior
 	}
 
 	/**
-	 * @return boolean whether this behavior is enabled
+	 * @return bool whether this behavior is enabled
 	 */
 	public function getEnabled()
 	{
@@ -84,7 +84,7 @@ class CBehavior extends CComponent implements IBehavior
 	}
 
 	/**
-	 * @param boolean $value whether this behavior is enabled
+	 * @param bool $value whether this behavior is enabled
 	 */
 	public function setEnabled($value)
 	{

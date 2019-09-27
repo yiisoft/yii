@@ -79,7 +79,7 @@ abstract class CValidator extends CComponent
 	 */
 	public $message;
 	/**
-	 * @var boolean whether this validation rule should be skipped when there is already a validation
+	 * @var bool whether this validation rule should be skipped when there is already a validation
 	 * error for the current attribute. Defaults to false.
 	 * @since 1.1.1
 	 */
@@ -96,13 +96,13 @@ abstract class CValidator extends CComponent
 	 */
 	public $except;
 	/**
-	 * @var boolean whether attributes listed with this validator should be considered safe for massive assignment.
+	 * @var bool whether attributes listed with this validator should be considered safe for massive assignment.
 	 * Defaults to true.
 	 * @since 1.1.4
 	 */
 	public $safe=true;
 	/**
-	 * @var boolean whether to perform client-side validation. Defaults to true.
+	 * @var bool whether to perform client-side validation. Defaults to true.
 	 * Please refer to {@link CActiveForm::enableClientValidation} for more details about client-side validation.
 	 * @since 1.1.7
 	 */
@@ -186,7 +186,7 @@ abstract class CValidator extends CComponent
 	/**
 	 * Validates the specified object.
 	 * @param CModel $object the data object being validated
-	 * @param array $attributes the list of attributes to be validated. Defaults to null,
+	 * @param string[]|null $attributes the list of attributes to be validated. Defaults to null,
 	 * meaning every attribute listed in {@link attributes} will be validated.
 	 */
 	public function validate($object,$attributes=null)
@@ -228,7 +228,7 @@ abstract class CValidator extends CComponent
 	 * <li>the validator's "on" property contains the specified scenario</li>
 	 * </ul>
 	 * @param string $scenario scenario name
-	 * @return boolean whether the validator applies to the specified scenario.
+	 * @return bool whether the validator applies to the specified scenario.
 	 */
 	public function applyTo($scenario)
 	{
@@ -256,8 +256,8 @@ abstract class CValidator extends CComponent
 	 * A value is considered empty if it is null, an empty array, or the trimmed result is an empty string.
 	 * Note that this method is different from PHP empty(). It will return false when the value is 0.
 	 * @param mixed $value the value to be checked
-	 * @param boolean $trim whether to perform trimming before checking if the string is empty. Defaults to false.
-	 * @return boolean whether the value is empty
+	 * @param bool $trim whether to perform trimming before checking if the string is empty. Defaults to false.
+	 * @return bool whether the value is empty
 	 */
 	protected function isEmpty($value,$trim=false)
 	{

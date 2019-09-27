@@ -23,7 +23,7 @@
  * </pre>
  *
  * @property Iterator $iterator An iterator for traversing the items in the stack.
- * @property integer $count The number of items in the stack.
+ * @property int $count The number of items in the stack.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.collections
@@ -38,7 +38,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	private $_d=array();
 	/**
 	 * number of items
-	 * @var integer
+	 * @var int
 	 */
 	private $_c=0;
 
@@ -65,7 +65,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Copies iterable data into the stack.
 	 * Note, existing data in the list will be cleared first.
-	 * @param mixed $data the data to be copied from, must be an array or object implementing Traversable
+	 * @param iterable $data the data to be copied from, must be an array or object implementing Traversable
 	 * @throws CException If data is neither an array nor a Traversable.
 	 */
 	public function copyFrom($data)
@@ -94,7 +94,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 
 	/**
 	 * @param mixed $item the item
-	 * @return boolean whether the stack contains the item
+	 * @return bool whether the stack contains the item
 	 */
 	public function contains($item)
 	{
@@ -153,7 +153,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 
 	/**
 	 * Returns the number of items in the stack.
-	 * @return integer the number of items in the stack
+	 * @return int the number of items in the stack
 	 */
 	public function getCount()
 	{
@@ -163,7 +163,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Returns the number of items in the stack.
 	 * This method is required by Countable interface.
-	 * @return integer number of items in the stack.
+	 * @return int number of items in the stack.
 	 */
 	public function count()
 	{

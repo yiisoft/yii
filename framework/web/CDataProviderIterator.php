@@ -25,7 +25,7 @@
  * </pre>
  *
  * @property CDataProvider $dataProvider the data provider to iterate over
- * @property integer $totalItemCount the total number of items in the iterator
+ * @property int $totalItemCount the total number of items in the iterator
  *
  * @author Charles Pick <charles.pick@gmail.com>
  * @author Carsten Brandt <mail@cebe.cc>
@@ -43,7 +43,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	/**
 	 * Constructor.
 	 * @param CDataProvider $dataProvider the data provider to iterate over
-	 * @param integer $pageSize pageSize to use for iteration. This is the number of objects loaded into memory at the same time.
+	 * @param int $pageSize pageSize to use for iteration. This is the number of objects loaded into memory at the same time.
 	 */
 	public function __construct(CDataProvider $dataProvider, $pageSize=null)
 	{
@@ -68,7 +68,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 
 	/**
 	 * Gets the total number of items to iterate over
-	 * @return integer the total number of items to iterate over
+	 * @return int the total number of items to iterate over
 	 */
 	public function getTotalItemCount()
 	{
@@ -98,7 +98,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	/**
 	 * Gets the key of the current item.
 	 * This method is required by the Iterator interface.
-	 * @return integer the key of the current item
+	 * @return int the key of the current item
 	 */
 	public function key()
 	{
@@ -136,7 +136,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	/**
 	 * Checks if the current position is valid or not.
 	 * This method is required by the Iterator interface.
-	 * @return boolean true if this index is valid
+	 * @return bool true if this index is valid
 	 */
 	public function valid()
 	{
@@ -146,7 +146,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	/**
 	 * Gets the total number of items in the dataProvider.
 	 * This method is required by the Countable interface.
-	 * @return integer the total number of items
+	 * @return int the total number of items
 	 */
 	public function count()
 	{

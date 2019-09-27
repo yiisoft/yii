@@ -33,15 +33,15 @@
 class CStringValidator extends CValidator
 {
 	/**
-	 * @var integer maximum length. Defaults to null, meaning no maximum limit.
+	 * @var int maximum length. Defaults to null, meaning no maximum limit.
 	 */
 	public $max;
 	/**
-	 * @var integer minimum length. Defaults to null, meaning no minimum limit.
+	 * @var int minimum length. Defaults to null, meaning no minimum limit.
 	 */
 	public $min;
 	/**
-	 * @var integer exact length. Defaults to null, meaning no exact length limit.
+	 * @var int exact length. Defaults to null, meaning no exact length limit.
 	 */
 	public $is;
 	/**
@@ -53,7 +53,7 @@ class CStringValidator extends CValidator
 	 */
 	public $tooLong;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;

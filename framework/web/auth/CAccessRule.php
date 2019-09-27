@@ -12,7 +12,7 @@ declare(strict_types=1);
 class CAccessRule extends CComponent
 {
     /**
-     * @var boolean whether this is an 'allow' rule or 'deny' rule.
+     * @var bool whether this is an 'allow' rule or 'deny' rule.
      */
     public $allow;
     /**
@@ -70,7 +70,7 @@ class CAccessRule extends CComponent
      */
     public $message;
     /**
-     * @var mixed the denied method callback that will be called once the
+     * @var callable|null the denied method callback that will be called once the
      * access is denied. It replaces the behavior that shows an error message.
      * It can be a valid PHP callback including class method name (array(ClassName/Object, MethodName)),
      * or anonymous function (PHP 5.3.0+). For more information, on different options, check
@@ -94,7 +94,7 @@ class CAccessRule extends CComponent
      * @param string      $ip         the request IP address
      * @param string      $verb       the request verb (GET, POST, etc.)
      *
-     * @return integer 1 if the user is allowed, -1 if the user is denied, 0 if the rule does not apply to the user
+     * @return int 1 if the user is allowed, -1 if the user is denied, 0 if the rule does not apply to the user
      */
     public function isUserAllowed($user, $controller, $action, $ip, $verb)
     {
@@ -116,7 +116,7 @@ class CAccessRule extends CComponent
     /**
      * @param CAction $action the action
      *
-     * @return boolean whether the rule applies to the action
+     * @return bool whether the rule applies to the action
      */
     protected function isActionMatched($action)
     {
@@ -126,7 +126,7 @@ class CAccessRule extends CComponent
     /**
      * @param CController $controller the controller
      *
-     * @return boolean whether the rule applies to the controller
+     * @return bool whether the rule applies to the controller
      */
     protected function isControllerMatched($controller)
     {
@@ -136,7 +136,7 @@ class CAccessRule extends CComponent
     /**
      * @param IWebUser $user the user
      *
-     * @return boolean whether the rule applies to the user
+     * @return bool whether the rule applies to the user
      */
     protected function isUserMatched($user)
     {
@@ -160,7 +160,7 @@ class CAccessRule extends CComponent
     /**
      * @param IWebUser $user the user object
      *
-     * @return boolean whether the rule applies to the role
+     * @return bool whether the rule applies to the role
      */
     protected function isRoleMatched($user)
     {
@@ -184,7 +184,7 @@ class CAccessRule extends CComponent
     /**
      * @param string $ip the IP address
      *
-     * @return boolean whether the rule applies to the IP address
+     * @return bool whether the rule applies to the IP address
      */
     protected function isIpMatched($ip)
     {
@@ -206,7 +206,7 @@ class CAccessRule extends CComponent
     /**
      * @param string $verb the request method
      *
-     * @return boolean whether the rule applies to the request
+     * @return bool whether the rule applies to the request
      */
     protected function isVerbMatched($verb)
     {
@@ -216,7 +216,7 @@ class CAccessRule extends CComponent
     /**
      * @param IWebUser $user the user
      *
-     * @return boolean the expression value. True if the expression is not specified.
+     * @return bool the expression value. True if the expression is not specified.
      */
     protected function isExpressionMatched($user)
     {

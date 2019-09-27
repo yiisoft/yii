@@ -14,7 +14,7 @@ class CJoinQuery
      */
     public $selects = [];
     /**
-     * @var boolean whether to select distinct result set
+     * @var bool whether to select distinct result set
      */
     public $distinct = false;
     /**
@@ -38,11 +38,11 @@ class CJoinQuery
      */
     public $havings = [];
     /**
-     * @var integer row limit
+     * @var int row limit
      */
     public $limit = -1;
     /**
-     * @var integer row offset
+     * @var int row offset
      */
     public $offset = -1;
     /**

@@ -31,7 +31,7 @@
 class CAttributeCollection extends CMap
 {
 	/**
-	 * @var boolean whether the keys are case-sensitive. Defaults to false.
+	 * @var bool whether the keys are case-sensitive. Defaults to false.
 	 */
 	public $caseSensitive=false;
 
@@ -69,7 +69,7 @@ class CAttributeCollection extends CMap
 	 * This method overrides the parent implementation by checking
 	 * if the key exists in the collection and contains a non-null value.
 	 * @param string $name the property name or the event name
-	 * @return boolean whether the property value is null
+	 * @return bool whether the property value is null
 	 */
 	public function __isset($name)
 	{
@@ -93,8 +93,8 @@ class CAttributeCollection extends CMap
 	/**
 	 * Returns the item with the specified key.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
-	 * @param mixed $key the key
-	 * @return mixed the element at the offset, null if no element is found at the offset
+	 * @param int|string $key the key
+	 * @return mixed|null the element at the offset, null if no element is found at the offset
 	 */
 	public function itemAt($key)
 	{
@@ -107,7 +107,7 @@ class CAttributeCollection extends CMap
 	/**
 	 * Adds an item into the map.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
-	 * @param mixed $key key
+	 * @param int|string $key key
 	 * @param mixed $value value
 	 */
 	public function add($key,$value)
@@ -121,8 +121,8 @@ class CAttributeCollection extends CMap
 	/**
 	 * Removes an item from the map by its key.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
-	 * @param mixed $key the key of the item to be removed
-	 * @return mixed the removed value, null if no such key exists.
+	 * @param int|string $key the key of the item to be removed
+	 * @return mixed|null the removed value, null if no such key exists.
 	 */
 	public function remove($key)
 	{
@@ -135,8 +135,8 @@ class CAttributeCollection extends CMap
 	/**
 	 * Returns whether the specified is in the map.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
-	 * @param mixed $key the key
-	 * @return boolean whether the map contains an item with the specified key
+	 * @param int|string $key the key
+	 * @return bool whether the map contains an item with the specified key
 	 */
 	public function contains($key)
 	{
@@ -151,7 +151,7 @@ class CAttributeCollection extends CMap
 	 * This method overrides parent implementation by returning true
 	 * if the collection contains the named key.
 	 * @param string $name the property name
-	 * @return boolean whether the property is defined
+	 * @return bool whether the property is defined
 	 */
 	public function hasProperty($name)
 	{
@@ -163,7 +163,7 @@ class CAttributeCollection extends CMap
 	 * This method overrides parent implementation by returning true
 	 * if the collection contains the named key.
 	 * @param string $name the property name
-	 * @return boolean whether the property can be read
+	 * @return bool whether the property can be read
 	 */
 	public function canGetProperty($name)
 	{
@@ -175,7 +175,7 @@ class CAttributeCollection extends CMap
 	 * This method overrides parent implementation by always returning true
 	 * because you can always add a new value to the collection.
 	 * @param string $name the property name
-	 * @return boolean true
+	 * @return bool true
 	 */
 	public function canSetProperty($name)
 	{
@@ -194,8 +194,8 @@ class CAttributeCollection extends CMap
 	 * <li>any string-indexed elements in $b will overwrite elements in $a with the same index;</li>
 	 * </ul>
 	 *
-	 * @param mixed $data the data to be merged with, must be an array or object implementing Traversable
-	 * @param boolean $recursive whether the merging should be recursive.
+	 * @param iterable|\CMap $data the data to be merged with, must be an array or object implementing Traversable
+	 * @param bool $recursive whether the merging should be recursive.
 	 *
 	 * @throws CException If data is neither an array nor an iterator.
 	 */

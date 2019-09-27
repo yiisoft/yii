@@ -40,7 +40,7 @@
  * and set {@link autoCreateSessionTable} to be false. This will greatly improve the performance.
  * You may also create a DB index for the 'expire' column in the session table to further improve the performance.
  *
- * @property boolean $useCustomStorage Whether to use custom storage.
+ * @property bool $useCustomStorage Whether to use custom storage.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
@@ -65,7 +65,7 @@ class CDbHttpSession extends CHttpSession
 	 */
 	public $sessionTableName='YiiSession';
 	/**
-	 * @var boolean whether the session DB table should be automatically created if not exists. Defaults to true.
+	 * @var bool whether the session DB table should be automatically created if not exists. Defaults to true.
 	 * @see sessionTableName
 	 */
 	public $autoCreateSessionTable=true;
@@ -78,7 +78,7 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * Returns a value indicating whether to use custom session storage.
 	 * This method overrides the parent implementation and always returns true.
-	 * @return boolean whether to use custom storage.
+	 * @return bool whether to use custom storage.
 	 */
 	public function getUseCustomStorage()
 	{
@@ -88,7 +88,7 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * Updates the current session id with a newly generated one.
 	 * Please refer to {@link http://php.net/session_regenerate_id} for more details.
-	 * @param boolean $deleteOldSession Whether to delete the old associated session file or not.
+	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
 	 * @since 1.1.8
 	 */
 	public function regenerateID($deleteOldSession=false)
@@ -190,7 +190,7 @@ class CDbHttpSession extends CHttpSession
 	 * Do not call this method directly.
 	 * @param string $savePath session save path
 	 * @param string $sessionName session name
-	 * @return boolean whether session is opened successfully
+	 * @return bool whether session is opened successfully
 	 */
 	public function openSession($savePath,$sessionName)
 	{
@@ -236,7 +236,7 @@ class CDbHttpSession extends CHttpSession
 	 * Do not call this method directly.
 	 * @param string $id session ID
 	 * @param string $data session data
-	 * @return boolean whether session write is successful
+	 * @return bool whether session write is successful
 	 */
 	public function writeSession($id,$data)
 	{
@@ -276,7 +276,7 @@ class CDbHttpSession extends CHttpSession
 	 * Session destroy handler.
 	 * Do not call this method directly.
 	 * @param string $id session ID
-	 * @return boolean whether session is destroyed successfully
+	 * @return bool whether session is destroyed successfully
 	 */
 	public function destroySession($id)
 	{
@@ -288,8 +288,8 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * Session GC (garbage collection) handler.
 	 * Do not call this method directly.
-	 * @param integer $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
-	 * @return boolean whether session is GCed successfully
+	 * @param int $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
+	 * @return bool whether session is GCed successfully
 	 */
 	public function gcSession($maxLifetime)
 	{

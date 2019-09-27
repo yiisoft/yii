@@ -28,7 +28,7 @@ class CMssqlSqlsrvPdoAdapter extends PDO
 	 * last inserted sequence or row.
 	 *
 	 * @param string|null $sequence the sequence/table name. Defaults to null.
-	 * @return integer last inserted ID value.
+	 * @return int last inserted ID value.
 	 */
 	public function lastInsertId($sequence=null)
 	{

@@ -102,7 +102,7 @@ class CActiveRecordMetaData
      *
      * @param string $name $name Name of the relation.
      *
-     * @return boolean
+     * @return bool
      * @since 1.1.2
      */
     public function hasRelation($name)

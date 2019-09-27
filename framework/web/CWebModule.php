@@ -36,7 +36,7 @@ class CWebModule extends CModule
 	 */
 	public $defaultController='default';
 	/**
-	 * @var mixed the layout that is shared by the controllers inside this module.
+	 * @var string|null|false the layout that is shared by the controllers inside this module.
 	 * If a controller has explicitly declared its own {@link CController::layout layout},
 	 * this property will be ignored.
 	 * If this is null (default), the application's layout or the parent module's layout (if available)
@@ -177,7 +177,7 @@ class CWebModule extends CModule
 	 * </pre>
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
-	 * @return boolean whether the action should be executed.
+	 * @return bool whether the action should be executed.
 	 */
 	public function beforeControllerAction($controller,$action)
 	{

@@ -58,7 +58,7 @@ class CSecurityManager extends CApplicationComponent
 	);
 
 	/**
-	 * @var boolean if encryption key should be validated
+	 * @var bool if encryption key should be validated
 	 * @deprecated
 	 */
 	public $validateEncryptionKey=true;
@@ -73,7 +73,7 @@ class CSecurityManager extends CApplicationComponent
 	 */
 	public $hashAlgorithm='sha1';
 	/**
-	 * @var mixed the name of the crypt algorithm to be used by {@link encrypt} and {@link decrypt}.
+	 * @var string|array the name of the crypt algorithm to be used by {@link encrypt} and {@link decrypt}.
 	 * This will be passed as the first parameter to {@link http://php.net/manual/en/function.mcrypt-module-open.php mcrypt_module_open}.
 	 *
 	 * This property can also be configured as an array. In this case, the array elements will be passed in order
@@ -359,8 +359,8 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Generate a random ASCII string. Generates only [0-9a-zA-z_~] characters which are all
 	 * transparent in raw URL encoding.
-	 * @param integer $length length of the generated string in characters.
-	 * @param boolean $cryptographicallyStrong set this to require cryptographically strong randomness.
+	 * @param int $length length of the generated string in characters.
+	 * @param bool $cryptographicallyStrong set this to require cryptographically strong randomness.
 	 * @return string|false random string or false in case it cannot be generated.
 	 * @since 1.1.14
 	 */
@@ -373,8 +373,8 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Generates a string of random bytes.
-	 * @param integer $length number of random bytes to be generated.
-	 * @param boolean $cryptographicallyStrong whether to fail if a cryptographically strong
+	 * @param int $length number of random bytes to be generated.
+	 * @param bool $cryptographicallyStrong whether to fail if a cryptographically strong
 	 * result cannot be generated. The method attempts to read from a cryptographically strong
 	 * pseudorandom number generator (CS-PRNG), see
 	 * {@link https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator#Requirements Wikipedia}.
@@ -499,7 +499,7 @@ class CSecurityManager extends CApplicationComponent
 	 * Returns the length of the given string.
 	 * If available uses the multibyte string function mb_strlen.
 	 * @param string $string the string being measured for length
-	 * @return integer the length of the string
+	 * @return int the length of the string
 	 */
 	private function strlen($string)
 	{
@@ -510,8 +510,8 @@ class CSecurityManager extends CApplicationComponent
 	 * Returns the portion of string specified by the start and length parameters.
 	 * If available uses the multibyte string function mb_substr
 	 * @param string $string the input string. Must be one character or longer.
-	 * @param integer $start the starting position
-	 * @param integer $length the desired portion length
+	 * @param int $start the starting position
+	 * @param int $length the desired portion length
 	 * @return string|false the extracted part of string, or FALSE on failure or an empty string.
 	 */
 	private function substr($string,$start,$length)
@@ -522,7 +522,7 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Checks if a key is valid for {@link cryptAlgorithm}.
 	 * @param string $key the key to check
-	 * @return boolean the validation result
+	 * @return bool the validation result
 	 * @throws CException if the supported key lengths of the cipher are unknown
 	 */
 	protected function validateEncryptionKey($key)
@@ -601,7 +601,7 @@ class CSecurityManager extends CApplicationComponent
 	 * @see http://codereview.stackexchange.com/questions/13512
 	 * @param string $expected string to compare.
 	 * @param string $actual user-supplied string.
-	 * @return boolean whether strings are equal.
+	 * @return bool whether strings are equal.
 	 */
 	public function compareString($expected,$actual)
 	{

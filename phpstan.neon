@@ -1,7 +1,8 @@
 includes:
   - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-  - vendor/phpstan/phpstan/conf/config.level0.neon
-  - phpstan-ignore.neon
+  - vendor/phpstan/phpstan/conf/config.level1.neon
+  - phpstan-ignore-l0.neon
+  - phpstan-ignore-l1.neon
 parameters:
   paths:
     - framework/
@@ -20,6 +21,8 @@ parameters:
       - redirect
     CApplication:
       - end
+    CConsoleCommand:
+      - usageError
   excludes_analyse:
     - '*/views/*'
     - '*/assets/*'

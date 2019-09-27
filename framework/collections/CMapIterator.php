@@ -24,11 +24,11 @@ class CMapIterator implements Iterator
 	 */
 	private $_d;
 	/**
-	 * @var array list of keys in the map
+	 * @var int[]|string[] list of keys in the map
 	 */
 	private $_keys;
 	/**
-	 * @var mixed current key
+	 * @var int|string|false current key
 	 */
 	private $_key;
 
@@ -55,7 +55,7 @@ class CMapIterator implements Iterator
 	/**
 	 * Returns the key of the current array element.
 	 * This method is required by the interface Iterator.
-	 * @return mixed the key of the current array element
+	 * @return int|string|false the key of the current array element
 	 */
 	public function key()
 	{
@@ -84,7 +84,7 @@ class CMapIterator implements Iterator
 	/**
 	 * Returns whether there is an element at current position.
 	 * This method is required by the interface Iterator.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function valid()
 	{

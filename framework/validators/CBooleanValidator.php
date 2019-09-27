@@ -34,13 +34,13 @@ class CBooleanValidator extends CValidator
 	 */
 	public $falseValue='0';
 	/**
-	 * @var boolean whether the comparison to {@link trueValue} and {@link falseValue} is strict.
+	 * @var bool whether the comparison to {@link trueValue} and {@link falseValue} is strict.
 	 * When this is true, the attribute value and type must both match those of {@link trueValue} or {@link falseValue}.
 	 * Defaults to false, meaning only the value needs to be matched.
 	 */
 	public $strict=false;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
@@ -75,7 +75,7 @@ class CBooleanValidator extends CValidator
 	 * Note that this method does not respect the {@link allowEmpty} property.
 	 *
 	 * @param mixed $value the value to be validated
-	 * @return boolean whether the value is a valid boolean
+	 * @return bool whether the value is a valid boolean
 	 * @since 1.1.17
 	 */
 	public function validateValue($value)

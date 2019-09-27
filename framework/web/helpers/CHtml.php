@@ -58,7 +58,7 @@ class CHtml
 	 */
 	public static $afterRequiredLabel=' <span class="required">*</span>';
 	/**
-	 * @var integer the counter for generating automatic input field names.
+	 * @var int the counter for generating automatic input field names.
 	 */
 	public static $count=0;
 	/**
@@ -81,12 +81,12 @@ class CHtml
 	 */
 	public static $liveEvents=true;
 	/**
-	 * @var boolean whether to close single tags. Defaults to true. Can be set to false for HTML5.
+	 * @var bool whether to close single tags. Defaults to true. Can be set to false for HTML5.
 	 * @since 1.1.13
 	 */
 	public static $closeSingleTags=true;
 	/**
-	 * @var boolean whether to render special attributes value. Defaults to true. Can be set to false for HTML5.
+	 * @var bool whether to render special attributes value. Defaults to true. Can be set to false for HTML5.
 	 * @since 1.1.13
 	 */
 	public static $renderSpecialAttributesValue=true;
@@ -153,9 +153,9 @@ class CHtml
 	 * If an 'encode' attribute is given and its value is false,
 	 * the rest of the attribute values will NOT be HTML-encoded.
 	 * Since version 1.1.5, attributes whose value is null will not be rendered.
-	 * @param mixed $content the content to be enclosed between open and close element tags. It will not be HTML-encoded.
+	 * @param string|false $content the content to be enclosed between open and close element tags. It will not be HTML-encoded.
 	 * If false, it means there is no body content.
-	 * @param boolean $closeTag whether to generate the close tag.
+	 * @param bool $closeTag whether to generate the close tag.
 	 * @return string the generated HTML element tag
 	 */
 	public static function tag($tag,$htmlOptions=array(),$content=false,$closeTag=true)
@@ -260,7 +260,7 @@ class CHtml
 	 * This method can be invoked anywhere in a view. It will register a 'refresh'
 	 * meta tag with {@link CClientScript} so that the page can be refreshed in
 	 * the specified seconds.
-	 * @param integer $seconds the number of seconds to wait before refreshing the page
+	 * @param int $seconds the number of seconds to wait before refreshing the page
 	 * @param string $url the URL to which the page should be redirected to. If empty, it means the current page.
 	 * @since 1.1.1
 	 */
@@ -317,7 +317,7 @@ class CHtml
 	/**
 	 * Generates an opening form tag.
 	 * This is a shortcut to {@link beginForm}.
-	 * @param mixed $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
+	 * @param string|array $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
 	 * @param string $method form method (e.g. post, get)
 	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
 	 * @return string the generated form tag.
@@ -331,7 +331,7 @@ class CHtml
 	 * Generates an opening form tag.
 	 * Note, only the open tag is generated. A close tag should be placed manually
 	 * at the end of the form.
-	 * @param mixed $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
+	 * @param string|array $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
 	 * @param string $method form method (e.g. post, get)
 	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
 	 * @return string the generated form tag.
@@ -386,7 +386,7 @@ class CHtml
 	 * A stateful form tag is similar to {@link form} except that it renders an additional
 	 * hidden field for storing persistent page states. You should use this method to generate
 	 * a form tag if you want to access persistent page states when the form is submitted.
-	 * @param mixed $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
+	 * @param string|array $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
 	 * @param string $method form method (e.g. post, get)
 	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
 	 * @return string the generated form tag.
@@ -411,7 +411,7 @@ class CHtml
 	/**
 	 * Generates a hyperlink tag.
 	 * @param string $text link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code such as an image tag.
-	 * @param mixed $url a URL or an action route that can be used to create a URL.
+	 * @param string|array $url a URL or an action route that can be used to create a URL.
 	 * See {@link normalizeUrl} for more details about how to specify this parameter.
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
@@ -883,7 +883,7 @@ class CHtml
 	/**
 	 * Generates a radio button.
 	 * @param string $name the input name
-	 * @param boolean $checked whether the radio button is checked
+	 * @param bool $checked whether the radio button is checked
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
@@ -932,7 +932,7 @@ class CHtml
 	/**
 	 * Generates a check box.
 	 * @param string $name the input name
-	 * @param boolean $checked whether the check box is checked
+	 * @param bool $checked whether the check box is checked
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
@@ -1049,7 +1049,7 @@ class CHtml
 	/**
 	 * Generates a list box.
 	 * @param string $name the input name
-	 * @param mixed $select the selected value(s). This can be either a string for single selection or an array for multiple selections.
+	 * @param string|string[] $select the selected value(s). This can be either a string for single selection or an array for multiple selections.
 	 * @param array $data data for generating the list options (value=>display)
 	 * You may use {@link listData} to generate this data.
 	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
@@ -1097,7 +1097,7 @@ class CHtml
 	 * As a result, the corresponding POST value is an array.
 	 * @param string $name name of the check box list. You can use this name to retrieve
 	 * the selected value(s) once the form is submitted.
-	 * @param mixed $select selection of the check boxes. This can be either a string
+	 * @param string|string[] $select selection of the check boxes. This can be either a string
 	 * for single selection or an array for multiple selections.
 	 * @param array $data value-label pairs used to generate the check box list.
 	 * Note, the values will be automatically HTML-encoded, while the labels will not.
@@ -1290,7 +1290,7 @@ EOD;
 	/**
 	 * Generates a link that can initiate AJAX requests.
 	 * @param string $text the link body (it will NOT be HTML-encoded.)
-	 * @param mixed $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param string|array $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
 	 * @param array $ajaxOptions AJAX options (see {@link ajax})
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
@@ -1311,7 +1311,7 @@ EOD;
 	/**
 	 * Generates a push button that can initiate AJAX requests.
 	 * @param string $label the button label
-	 * @param mixed $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param string|array $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
 	 * @param array $ajaxOptions AJAX options (see {@link ajax})
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
@@ -1327,7 +1327,7 @@ EOD;
 	/**
 	 * Generates a push button that can submit the current form in POST method.
 	 * @param string $label the button label
-	 * @param mixed $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param string|array $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
 	 * @param array $ajaxOptions AJAX options (see {@link ajax})
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
@@ -1389,7 +1389,7 @@ EOD;
 	/**
 	 * Generates the URL for the published assets.
 	 * @param string $path the path of the asset to be published
-	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
+	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
 	 * If false, the name will be the hashed dirname of the path being published.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
@@ -1415,7 +1415,7 @@ EOD;
 	 * For example, <code>array('post/list', 'page'=>3)</code> may be used to generate the URL
 	 * <code>/index.php?r=post/list&page=3</code>.
 	 *
-	 * @param mixed $url the parameter to be used to generate a valid URL
+	 * @param string|array $url the parameter to be used to generate a valid URL
 	 * @return string the normalized URL
 	 */
 	public static function normalizeUrl($url)
@@ -2188,7 +2188,7 @@ EOD;
 
 	/**
 	 * Displays a summary of validation errors for one or several models.
-	 * @param mixed $model the models whose input errors are to be displayed. This can be either
+	 * @param CModel|CModel[] $model the models whose input errors are to be displayed. This can be either
 	 * a single model or an array of models.
 	 * @param string $header a piece of HTML code that appears in front of the errors
 	 * @param string $footer a piece of HTML code that appears at the end of the errors
@@ -2281,9 +2281,9 @@ EOD;
 	 *
 	 * @param array $models a list of model objects. This parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
-	 * @param mixed $valueField the attribute name or anonymous function (PHP 5.3+) for list option values
-	 * @param mixed $textField the attribute name or anonymous function (PHP 5.3+) for list option texts
-	 * @param mixed $groupField the attribute name or anonymous function (PHP 5.3+) for list option group names. If empty, no group will be generated.
+	 * @param string|\Closure $valueField the attribute name or anonymous function (PHP 5.3+) for list option values
+	 * @param string|\Closure $textField the attribute name or anonymous function (PHP 5.3+) for list option texts
+	 * @param string|\Closure $groupField the attribute name or anonymous function (PHP 5.3+) for list option group names. If empty, no group will be generated.
 	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
 	 */
 	public static function listData($models,$valueField,$textField,$groupField='')
@@ -2335,8 +2335,8 @@ EOD;
 	 * value is calculated from. This feature could be used together with the {@link listData}.
 	 * Please refer to its documentation for more details.
 	 *
-	 * @param mixed $model the model. This can be either an object or an array.
-	 * @param mixed $attribute the attribute name (use dot to concatenate multiple attributes)
+	 * @param object|array $model the model. This can be either an object or an array.
+	 * @param string|\Closure $attribute the attribute name (use dot to concatenate multiple attributes)
 	 * or anonymous function (PHP 5.3+). Remember that functions created by "create_function"
 	 * are not supported by this method. Also note that numeric value is meaningless when
 	 * first parameter is object typed.
@@ -2488,7 +2488,7 @@ EOD;
 
 	/**
 	 * Generates the list options.
-	 * @param mixed $selection the selected value(s). This can be either a string for single selection or an array for multiple selections.
+	 * @param string|string[]|object $selection the selected value(s). This can be either a string for single selection or an array for multiple selections.
 	 * @param array $listData the option data (see {@link listData})
 	 * @param array $htmlOptions additional HTML attributes. The following two special attributes are recognized:
 	 * <ul>

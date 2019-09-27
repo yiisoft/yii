@@ -30,14 +30,14 @@
 abstract class CViewRenderer extends CApplicationComponent implements IViewRenderer
 {
 	/**
-	 * @var boolean whether to store the parsing results in the application's
+	 * @var bool whether to store the parsing results in the application's
 	 * runtime directory. Defaults to true. If false, the parsing results will
 	 * be saved as files under the same directory as the source view files and the
 	 * file names will be the source file names appended with letter 'c'.
 	 */
 	public $useRuntimePath=true;
 	/**
-	 * @var integer the chmod permission for temporary directories and files
+	 * @var int the chmod permission for temporary directories and files
 	 * generated during parsing. Defaults to 0755 (owner rwx, group rx and others rx).
 	 */
 	public $filePermission=0755;
@@ -59,8 +59,8 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 	 * @param CBaseController $context the controller or widget who is rendering the view file.
 	 * @param string $sourceFile the view file path
 	 * @param mixed $data the data to be passed to the view
-	 * @param boolean $return whether the rendering result should be returned
-	 * @return mixed the rendering result, or null if the rendering result is not needed.
+	 * @param bool $return whether the rendering result should be returned
+	 * @return string|void the rendering result, or null if the rendering result is not needed.
 	 * @throws CException
 	 */
 	public function renderFile($context,$sourceFile,$data,$return)

@@ -54,7 +54,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	/**
 	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
+	 * @param int $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
 	{
@@ -89,7 +89,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
+	 * @param int $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
 	{
@@ -113,7 +113,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
+	 * @param int $id the ID of the model to be deleted
 	 */
 	public function actionDelete($id)
 	{
@@ -153,7 +153,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
+	 * @param int $id the ID of the model to be loaded
 	 * @return <?php echo $this->modelClass; ?> the loaded model
 	 * @throws CHttpException
 	 */

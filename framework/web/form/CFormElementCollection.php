@@ -36,7 +36,7 @@ class CFormElementCollection extends CMap
 	/**
 	 * Constructor.
 	 * @param CForm $form the form object that owns this collection
-	 * @param boolean $forButtons whether this collection is used to store buttons.
+	 * @param bool $forButtons whether this collection is used to store buttons.
 	 */
 	public function __construct($form,$forButtons=false)
 	{
@@ -50,8 +50,8 @@ class CFormElementCollection extends CMap
 	 * This method overrides the parent implementation to ensure
 	 * only configuration arrays, strings, or {@link CFormElement} objects
 	 * can be stored in this collection.
-	 * @param mixed $key key
-	 * @param mixed $value value
+	 * @param int|string|null $key key
+	 * @param CFormElement|string|array $value value
 	 * @throws CException if the value is invalid.
 	 */
 	public function add($key,$value)

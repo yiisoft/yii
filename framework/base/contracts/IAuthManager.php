@@ -17,12 +17,12 @@ interface IAuthManager
      * Performs access check for the specified user.
      *
      * @param string $itemName the name of the operation that we are checking access to
-     * @param mixed  $userId   the user ID. This should be either an integer or a string representing
+     * @param string|int  $userId   the user ID. This should be either an integer or a string representing
      *                         the unique identifier of a user. See {@link IWebUser::getId}.
      * @param array  $params   name-value pairs that would be passed to biz rules associated
      *                         with the tasks and roles assigned to the user.
      *
-     * @return boolean whether the operations can be performed by the user.
+     * @return bool whether the operations can be performed by the user.
      */
     public function checkAccess($itemName, $userId, $params = []);
 
@@ -34,7 +34,7 @@ interface IAuthManager
      * by lower level items.
      *
      * @param string  $name        the item name. This must be a unique identifier.
-     * @param integer $type        the item type (0: operation, 1: task, 2: role).
+     * @param int $type        the item type (0: operation, 1: task, 2: role).
      * @param string  $description description of the item
      * @param string  $bizRule     business rule associated with the item. This is a piece of
      *                             PHP code that will be executed when {@link checkAccess} is called for the item.
@@ -50,16 +50,16 @@ interface IAuthManager
      *
      * @param string $name the name of the item to be removed
      *
-     * @return boolean whether the item exists in the storage and has been removed
+     * @return bool whether the item exists in the storage and has been removed
      */
     public function removeAuthItem($name);
 
     /**
      * Returns the authorization items of the specific type and user.
      *
-     * @param integer $type   the item type (0: operation, 1: task, 2: role). Defaults to null,
+     * @param int $type   the item type (0: operation, 1: task, 2: role). Defaults to null,
      *                        meaning returning all items regardless of their type.
-     * @param mixed   $userId the user ID. Defaults to null, meaning returning all items even if
+     * @param int|string|null   $userId the user ID. Defaults to null, meaning returning all items even if
      *                        they are not assigned to a user.
      *
      * @return array the authorization items of the specific type.
@@ -100,7 +100,7 @@ interface IAuthManager
      * @param string $itemName  the parent item name
      * @param string $childName the child item name
      *
-     * @return boolean whether the removal is successful
+     * @return bool whether the removal is successful
      */
     public function removeItemChild($itemName, $childName);
 
@@ -110,14 +110,14 @@ interface IAuthManager
      * @param string $itemName  the parent item name
      * @param string $childName the child item name
      *
-     * @return boolean whether the child exists
+     * @return bool whether the child exists
      */
     public function hasItemChild($itemName, $childName);
 
     /**
      * Returns the children of the specified item.
      *
-     * @param mixed $itemName the parent item name. This can be either a string or an array.
+     * @param string|string[] $itemName the parent item name. This can be either a string or an array.
      *                        The latter represents a list of item names.
      *
      * @return array all child items of the parent
@@ -128,7 +128,7 @@ interface IAuthManager
      * Assigns an authorization item to a user.
      *
      * @param string $itemName the item name
-     * @param mixed  $userId   the user ID (see {@link IWebUser::getId})
+     * @param string|int  $userId   the user ID (see {@link IWebUser::getId})
      * @param string $bizRule  the business rule to be executed when {@link checkAccess} is called
      *                         for this particular authorization item.
      * @param mixed  $data     additional data associated with this assignment
@@ -142,9 +142,9 @@ interface IAuthManager
      * Revokes an authorization assignment from a user.
      *
      * @param string $itemName the item name
-     * @param mixed  $userId   the user ID (see {@link IWebUser::getId})
+     * @param string|int  $userId   the user ID (see {@link IWebUser::getId})
      *
-     * @return boolean whether removal is successful
+     * @return bool whether removal is successful
      */
     public function revoke($itemName, $userId);
 
@@ -152,9 +152,9 @@ interface IAuthManager
      * Returns a value indicating whether the item has been assigned to the user.
      *
      * @param string $itemName the item name
-     * @param mixed  $userId   the user ID (see {@link IWebUser::getId})
+     * @param string|int  $userId   the user ID (see {@link IWebUser::getId})
      *
-     * @return boolean whether the item has been assigned to the user.
+     * @return bool whether the item has been assigned to the user.
      */
     public function isAssigned($itemName, $userId);
 
@@ -162,7 +162,7 @@ interface IAuthManager
      * Returns the item assignment information.
      *
      * @param string $itemName the item name
-     * @param mixed  $userId   the user ID (see {@link IWebUser::getId})
+     * @param string|int  $userId   the user ID (see {@link IWebUser::getId})
      *
      * @return CAuthAssignment the item assignment information. Null is returned if
      * the item is not assigned to the user.
@@ -172,7 +172,7 @@ interface IAuthManager
     /**
      * Returns the item assignments for the specified user.
      *
-     * @param mixed $userId the user ID (see {@link IWebUser::getId})
+     * @param string|int $userId the user ID (see {@link IWebUser::getId})
      *
      * @return array the item assignment information for the user. An empty array will be
      * returned if there is no item assigned to the user.
@@ -211,7 +211,7 @@ interface IAuthManager
      * @param array  $params  additional parameters to be passed to the business rule when being executed.
      * @param mixed  $data    additional data that is associated with the corresponding authorization item or assignment
      *
-     * @return boolean whether the execution returns a true value.
+     * @return bool whether the execution returns a true value.
      * If the business rule is empty, it will also return true.
      */
     public function executeBizRule($bizRule, $params, $data);

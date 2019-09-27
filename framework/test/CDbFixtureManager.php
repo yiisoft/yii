@@ -227,7 +227,7 @@ class CDbFixtureManager extends CApplicationComponent
 	/**
 	 * Enables or disables database integrity check.
 	 * This method may be used to temporarily turn off foreign constraints check.
-	 * @param boolean $check whether to enable database integrity check
+	 * @param bool $check whether to enable database integrity check
 	 */
 	public function checkIntegrity($check)
 	{

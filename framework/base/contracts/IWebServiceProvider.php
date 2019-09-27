@@ -16,7 +16,7 @@ interface IWebServiceProvider
     /**
      * This method is invoked before the requested remote method is invoked.
      * @param CWebService $service the currently requested Web service.
-     * @return boolean whether the remote method should be executed.
+     * @return bool whether the remote method should be executed.
      */
     public function beforeWebMethod($service);
     /**

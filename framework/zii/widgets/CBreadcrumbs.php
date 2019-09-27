@@ -54,7 +54,7 @@ class CBreadcrumbs extends CWidget
 	 */
 	public $htmlOptions=array('class'=>'breadcrumbs');
 	/**
-	 * @var boolean whether to HTML encode the link labels. Defaults to true.
+	 * @var bool whether to HTML encode the link labels. Defaults to true.
 	 */
 	public $encodeLabel=true;
 	/**

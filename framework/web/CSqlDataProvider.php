@@ -133,7 +133,7 @@ class CSqlDataProvider extends CDataProvider
 	 * and {@link totalItemCount} is not set previously.
 	 * The default implementation simply returns 0.
 	 * You may override this method to return accurate total number of data items.
-	 * @return integer the total number of data items.
+	 * @return int the total number of data items.
 	 */
 	protected function calculateTotalItemCount()
 	{

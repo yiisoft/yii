@@ -50,7 +50,7 @@ class CUserIdentity extends CBaseUserIdentity
 	 * Authenticates a user based on {@link username} and {@link password}.
 	 * Derived classes should override this method, or an exception will be thrown.
 	 * This method is required by {@link IUserIdentity}.
-	 * @return boolean whether authentication succeeds.
+	 * @return bool whether authentication succeeds.
 	 * @throws CException
 	 */
 	public function authenticate()

@@ -27,7 +27,7 @@
 class CEmailLogRoute extends CLogRoute
 {
 	/**
-	 * @var boolean set this property to true value in case log data you're going to send through emails contains
+	 * @var bool set this property to true value in case log data you're going to send through emails contains
 	 * non-latin or UTF-8 characters. Emails would be UTF-8 encoded.
 	 * @since 1.1.13
 	 */

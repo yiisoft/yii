@@ -10,11 +10,11 @@
 class CHasManyRelation extends CActiveRelation
 {
     /**
-     * @var integer limit of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no limit.
+     * @var int limit of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no limit.
      */
     public $limit = -1;
     /**
-     * @var integer offset of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no offset.
+     * @var int offset of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no offset.
      */
     public $offset = -1;
     /**
@@ -27,7 +27,7 @@ class CHasManyRelation extends CActiveRelation
      * Merges this relation with a criteria specified dynamically.
      *
      * @param array   $criteria  the dynamically specified criteria
-     * @param boolean $fromScope whether the criteria to be merged is from scopes
+     * @param bool $fromScope whether the criteria to be merged is from scopes
      */
     public function mergeWith($criteria, $fromScope = false)
     {

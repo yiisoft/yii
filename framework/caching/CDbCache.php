@@ -22,7 +22,7 @@
  *
  * See {@link CCache} manual for common cache operations that are supported by CDbCache.
  *
- * @property integer $gCProbability The probability (parts per million) that garbage collection (GC) should be performed
+ * @property int $gCProbability The probability (parts per million) that garbage collection (GC) should be performed
  * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
  * @property CDbConnection $dbConnection The DB connection instance.
  *
@@ -51,7 +51,7 @@ class CDbCache extends CCache
 	 */
 	public $cacheTableName='YiiCache';
 	/**
-	 * @var boolean whether the cache DB table should be created automatically if it does not exist. Defaults to true.
+	 * @var bool whether the cache DB table should be created automatically if it does not exist. Defaults to true.
 	 * If you already have the table created, it is recommended you set this property to be false to improve performance.
 	 * @see cacheTableName
 	 */
@@ -91,7 +91,7 @@ class CDbCache extends CCache
 	}
 
 	/**
-	 * @return integer the probability (parts per million) that garbage collection (GC) should be performed
+	 * @return int the probability (parts per million) that garbage collection (GC) should be performed
 	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
 	 */
 	public function getGCProbability()
@@ -100,7 +100,7 @@ class CDbCache extends CCache
 	}
 
 	/**
-	 * @param integer $value the probability (parts per million) that garbage collection (GC) should be performed
+	 * @param int $value the probability (parts per million) that garbage collection (GC) should be performed
 	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
 	 * This number should be between 0 and 1000000. A value 0 meaning no GC will be performed at all.
 	 */
@@ -234,8 +234,8 @@ EOD;
 	 *
 	 * @param string $key the key identifying the value to be cached
 	 * @param string $value the value to be cached
-	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
-	 * @return boolean true if the value is successfully stored into cache, false otherwise
+	 * @param int $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @return bool true if the value is successfully stored into cache, false otherwise
 	 */
 	protected function setValue($key,$value,$expire)
 	{
@@ -249,8 +249,8 @@ EOD;
 	 *
 	 * @param string $key the key identifying the value to be cached
 	 * @param string $value the value to be cached
-	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
-	 * @return boolean true if the value is successfully stored into cache, false otherwise
+	 * @param int $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @return bool true if the value is successfully stored into cache, false otherwise
 	 */
 	protected function addValue($key,$value,$expire)
 	{
@@ -282,7 +282,7 @@ EOD;
 	 * Deletes a value with the specified key from cache
 	 * This is the implementation of the method declared in the parent class.
 	 * @param string $key the key of the value to be deleted
-	 * @return boolean if no error happens during deletion
+	 * @return bool if no error happens during deletion
 	 */
 	protected function deleteValue($key)
 	{
@@ -302,7 +302,7 @@ EOD;
 	/**
 	 * Deletes all values from cache.
 	 * This is the implementation of the method declared in the parent class.
-	 * @return boolean whether the flush operation was successful.
+	 * @return bool whether the flush operation was successful.
 	 * @since 1.1.5
 	 */
 	protected function flushValues()

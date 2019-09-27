@@ -29,7 +29,7 @@
 class CProfileLogRoute extends CWebLogRoute
 {
 	/**
-	 * @var boolean whether to aggregate results according to profiling tokens.
+	 * @var bool whether to aggregate results according to profiling tokens.
 	 * If false, the results will be aggregated by categories.
 	 * Defaults to true. Note that this property only affects the summary report
 	 * that is enabled when {@link report} is 'summary'.

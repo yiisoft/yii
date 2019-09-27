@@ -89,7 +89,7 @@ class CLinkColumn extends CGridColumn
 	/**
 	 * Returns the data cell content.
 	 * This method renders a hyperlink in the data cell.
-	 * @param integer $row the row number (zero-based)
+	 * @param int $row the row number (zero-based)
 	 * @return string the data cell content.
 	 * @since 1.1.16
 	 */

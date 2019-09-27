@@ -508,8 +508,8 @@ class CDbCommandBuilder extends CComponent
 	 * Alters the SQL to apply LIMIT and OFFSET.
 	 * Default implementation is applicable for PostgreSQL, MySQL, MariaDB and SQLite.
 	 * @param string $sql SQL query string without LIMIT and OFFSET.
-	 * @param integer $limit maximum number of rows, -1 to ignore limit.
-	 * @param integer $offset row offset, -1 to ignore offset.
+	 * @param int $limit maximum number of rows, -1 to ignore limit.
+	 * @param int $offset row offset, -1 to ignore offset.
 	 * @return string SQL with LIMIT and OFFSET
 	 */
 	public function applyLimit($sql,$limit,$offset)
@@ -719,7 +719,7 @@ class CDbCommandBuilder extends CComponent
 	 * @param array $columns list of column names for potential search condition.
 	 * @param mixed $keywords search keywords. This can be either a string with space-separated keywords or an array of keywords.
 	 * @param string $prefix optional column prefix (with dot at the end). If null, the table name will be used as the prefix.
-	 * @param boolean $caseSensitive whether the search is case-sensitive. Defaults to true.
+	 * @param bool $caseSensitive whether the search is case-sensitive. Defaults to true.
 	 * @throws CDbException if specified column is not found in given table
 	 * @return string SQL search condition matching on a set of columns. An empty string is returned
 	 * if either the column array or the keywords are empty.

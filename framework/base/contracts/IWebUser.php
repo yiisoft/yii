@@ -17,7 +17,7 @@ interface IWebUser
     /**
      * Returns a value that uniquely represents the identity.
      *
-     * @return mixed a value that uniquely represents the identity (e.g. primary key value).
+     * @return string|int|null a value that uniquely represents the identity (e.g. primary key value).
      */
     public function getId();
 
@@ -31,7 +31,7 @@ interface IWebUser
     /**
      * Returns a value indicating whether the user is a guest (not authenticated).
      *
-     * @return boolean whether the user is a guest (not authenticated)
+     * @return bool whether the user is a guest (not authenticated)
      */
     public function getIsGuest();
 
@@ -42,7 +42,7 @@ interface IWebUser
      * @param array  $params    name-value pairs that would be passed to business rules associated
      *                          with the tasks and roles assigned to the user.
      *
-     * @return boolean whether the operations can be performed by this user.
+     * @return bool whether the operations can be performed by this user.
      */
     public function checkAccess($operation, $params = []);
 

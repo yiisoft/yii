@@ -22,7 +22,7 @@
  *   [2] => category (string)
  *   [3] => timestamp (float, obtained by microtime(true));.
  * @property float $executionTime The total time for serving the current request.
- * @property integer $memoryUsage Memory usage of the application (in bytes).
+ * @property int $memoryUsage Memory usage of the application (in bytes).
  * @property array $profilingResults The profiling results.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -38,14 +38,14 @@ class CLogger extends CComponent
 	const LEVEL_PROFILE='profile';
 
 	/**
-	 * @var integer how many messages should be logged before they are flushed to destinations.
+	 * @var int how many messages should be logged before they are flushed to destinations.
 	 * Defaults to 10,000, meaning for every 10,000 messages, the {@link flush} method will be
 	 * automatically invoked once. If this is 0, it means messages will never be flushed automatically.
 	 * @since 1.1.0
 	 */
 	public $autoFlush=10000;
 	/**
-	 * @var boolean this property will be passed as the parameter to {@link flush()} when it is
+	 * @var bool this property will be passed as the parameter to {@link flush()} when it is
 	 * called in {@link log()} due to the limit of {@link autoFlush} being reached.
 	 * By default, this property is false, meaning the filtered messages are still kept in the memory
 	 * by each log route after calling {@link flush()}. If this is true, the filtered messages
@@ -58,7 +58,7 @@ class CLogger extends CComponent
 	 */
 	private $_logs=array();
 	/**
-	 * @var integer number of log messages
+	 * @var int number of log messages
 	 */
 	private $_logCount=0;
 	/**
@@ -78,7 +78,7 @@ class CLogger extends CComponent
 	 */
 	private $_timings;
 	/**
-	* @var boolean if we are processing the log or still accepting new log messages
+	* @var bool if we are processing the log or still accepting new log messages
 	* @since 1.1.9
 	*/
 	private $_processing=false;
@@ -158,7 +158,7 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used by {@link getLogs}
 	 * @param array $value element to be filtered
-	 * @return boolean true if valid log, false if not.
+	 * @return bool true if valid log, false if not.
 	 */
 	private function filterByCategory($value)
 	{
@@ -168,7 +168,7 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used by {@link getProfilingResults}
 	 * @param array $value element to be filtered
-	 * @return boolean true if valid timing entry, false if not.
+	 * @return bool true if valid timing entry, false if not.
 	 */
 	private function filterTimingByCategory($value)
 	{
@@ -178,8 +178,8 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used to filter included and excluded categories
 	 * @param array $value element to be filtered
-	 * @param integer $index index of the values array to be used for check
-	 * @return boolean true if valid timing entry, false if not.
+	 * @param int $index index of the values array to be used for check
+	 * @return bool true if valid timing entry, false if not.
 	 */
 	private function filterAllCategories($value, $index)
 	{
@@ -204,7 +204,7 @@ class CLogger extends CComponent
 	/**
 	 * Filter function used by {@link getLogs}
 	 * @param array $value element to be filtered
-	 * @return boolean true if valid log, false if not.
+	 * @return bool true if valid log, false if not.
 	 */
 	private function filterByLevel($value)
 	{
@@ -230,7 +230,7 @@ class CLogger extends CComponent
 	 * If it is not available, the method will attempt to use OS programs
 	 * to determine the memory usage. A value 0 will be returned if the
 	 * memory usage can still not be determined.
-	 * @return integer memory usage of the application (in bytes).
+	 * @return int memory usage of the application (in bytes).
 	 */
 	public function getMemoryUsage()
 	{
@@ -265,7 +265,7 @@ class CLogger extends CComponent
 	 * {@link getLogs}, and similarly supports filtering by multiple categories and wildcard.
 	 * @param string $token token filter. Defaults to null, meaning not filtered by token.
 	 * @param string $categories category filter. Defaults to null, meaning not filtered by category.
-	 * @param boolean $refresh whether to refresh the internal timing calculations. If false,
+	 * @param bool $refresh whether to refresh the internal timing calculations. If false,
 	 * only the first time calling this method will the timings be calculated internally.
 	 * @return array the profiling results.
 	 */
@@ -332,7 +332,7 @@ class CLogger extends CComponent
 	 * Removes all recorded messages from the memory.
 	 * This method will raise an {@link onFlush} event.
 	 * The attached event handlers can process the log messages before they are removed.
-	 * @param boolean $dumpLogs whether to process the logs immediately as they are passed to log route
+	 * @param bool $dumpLogs whether to process the logs immediately as they are passed to log route
 	 * @since 1.1.0
 	 */
 	public function flush($dumpLogs=false)

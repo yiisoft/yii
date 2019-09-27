@@ -62,7 +62,7 @@
 class CFileValidator extends CValidator
 {
 	/**
-	 * @var boolean whether the attribute requires a file to be uploaded or not.
+	 * @var bool whether the attribute requires a file to be uploaded or not.
 	 * Defaults to false, meaning a file is required to be uploaded.
 	 * When no file is uploaded, the owner attribute is set to null to prevent
 	 * setting arbitrary values.
@@ -86,13 +86,13 @@ class CFileValidator extends CValidator
 	 */
 	public $mimeTypes;
 	/**
-	 * @var integer the minimum number of bytes required for the uploaded file.
+	 * @var int the minimum number of bytes required for the uploaded file.
 	 * Defaults to null, meaning no limit.
 	 * @see tooSmall
 	 */
 	public $minSize;
 	/**
-	 * @var integer the maximum number of bytes required for the uploaded file.
+	 * @var int the maximum number of bytes required for the uploaded file.
 	 * Defaults to null, meaning no limit.
 	 * Note, the size limit is also affected by 'upload_max_filesize' INI setting
 	 * and the 'MAX_FILE_SIZE' hidden field value.
@@ -122,7 +122,7 @@ class CFileValidator extends CValidator
 	 */
 	public $wrongMimeType;
 	/**
-	 * @var integer the maximum file count the given attribute can hold.
+	 * @var int the maximum file count the given attribute can hold.
 	 * It defaults to 1, meaning single file upload. By defining a higher number,
 	 * multiple uploads become possible.
 	 */
@@ -287,7 +287,7 @@ class CFileValidator extends CValidator
 	 * <li>{@link maxSize}</li>
 	 * </ul>
 	 *
-	 * @return integer the size limit for uploaded files.
+	 * @return int the size limit for uploaded files.
 	 */
 	protected function getSizeLimit()
 	{
@@ -310,7 +310,7 @@ class CFileValidator extends CValidator
 	 * (was private before) since 1.1.11.
 	 *
 	 * @param string $sizeStr the size string to convert.
-	 * @return integer the byte count in the given size string.
+	 * @return int the byte count in the given size string.
 	 * @since 1.1.11
 	 */
 	public function sizeToBytes($sizeStr)

@@ -20,7 +20,7 @@ interface IApplicationComponent
      */
     public function init();
     /**
-     * @return boolean whether the {@link init()} method has been invoked.
+     * @return bool whether the {@link init()} method has been invoked.
      */
     public function getIsInitialized();
 }

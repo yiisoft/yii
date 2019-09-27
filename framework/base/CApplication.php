@@ -125,7 +125,7 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Constructor.
-	 * @param mixed $config application configuration.
+	 * @param string|array $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
@@ -196,8 +196,8 @@ abstract class CApplication extends CModule
 	 * Terminates the application.
 	 * This method replaces PHP's exit() function by calling
 	 * {@link onEndRequest} before exiting.
-	 * @param integer $status exit status (value 0 means normal exit while other values mean abnormal exit).
-	 * @param boolean $exit whether to exit the current request. This parameter has been available since version 1.1.5.
+	 * @param int $status exit status (value 0 means normal exit while other values mean abnormal exit).
+	 * @param bool $exit whether to exit the current request. This parameter has been available since version 1.1.5.
 	 * It defaults to true, meaning the PHP's exit() function will be called at the end of this method.
 	 */
 	public function end($status=0,$exit=true)
@@ -586,7 +586,7 @@ abstract class CApplication extends CModule
 	/**
 	 * Returns the relative URL for the application.
 	 * This is a shortcut method to {@link CHttpRequest::getBaseUrl()}.
-	 * @param boolean $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
+	 * @param bool $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
 	 * @return string the relative URL for the application
 	 * @see CHttpRequest::getBaseUrl()
 	 */
@@ -792,10 +792,10 @@ abstract class CApplication extends CModule
 	 *
 	 * The application will be terminated by this method.
 	 *
-	 * @param integer $code the level of the error raised
+	 * @param int $code the level of the error raised
 	 * @param string $message the error message
 	 * @param string $file the filename that the error was raised in
-	 * @param integer $line the line number the error was raised at
+	 * @param int $line the line number the error was raised at
 	 */
 	public function handleError($code,$message,$file,$line)
 	{
@@ -898,7 +898,7 @@ abstract class CApplication extends CModule
 	 * Displays the captured PHP error.
 	 * This method displays the error in HTML when there is
 	 * no active error handler.
-	 * @param integer $code error code
+	 * @param int $code error code
 	 * @param string $message error message
 	 * @param string $file error file
 	 * @param string $line error line

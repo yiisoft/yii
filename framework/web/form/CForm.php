@@ -96,7 +96,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public $method='post';
 	/**
-	 * @var mixed the form action URL (see {@link CHtml::normalizeUrl} for details about this parameter.)
+	 * @var string|array the form action URL (see {@link CHtml::normalizeUrl} for details about this parameter.)
 	 * Defaults to an empty string, meaning the current request URL.
 	 * This property is ignored when this form is a sub-form.
 	 */
@@ -115,11 +115,11 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public $attributes=array();
 	/**
-	 * @var boolean whether to show error summary. Defaults to false.
+	 * @var bool whether to show error summary. Defaults to false.
 	 */
 	public $showErrorSummary=false;
 	/**
-	 * @var boolean|null whether error elements of the form attributes should be rendered. There are three possible
+	 * @var bool|null whether error elements of the form attributes should be rendered. There are three possible
 	 * valid values: null, true and false.
 	 *
 	 * Defaults to null meaning that {@link $showErrorSummary} will be used as value. This is done mainly to keep
@@ -160,13 +160,13 @@ class CForm extends CFormElement implements ArrayAccess
 	 * Constructor.
 	 * If you override this method, make sure you do not modify the method
 	 * signature, and also make sure you call the parent implementation.
-	 * @param mixed $config the configuration for this form. It can be a configuration array
+	 * @param string|array $config the configuration for this form. It can be a configuration array
 	 * or the path alias of a PHP script file that returns a configuration array.
 	 * The configuration array consists of name-value pairs that are used to initialize
 	 * the properties of this form.
 	 * @param CModel $model the model object associated with this form. If it is null,
 	 * the parent's model will be used instead.
-	 * @param mixed $parent the direct parent of this form. This could be either a {@link CBaseController}
+	 * @param \CBaseController|\CForm|null $parent the direct parent of this form. This could be either a {@link CBaseController}
 	 * object (a controller or a widget), or a {@link CForm} object.
 	 * If the former, it means the form is a top-level form; if the latter, it means this form is a sub-form.
 	 */
@@ -194,9 +194,9 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Returns a value indicating whether this form is submitted.
 	 * @param string $buttonName the name of the submit button
-	 * @param boolean $loadData whether to call {@link loadData} if the form is submitted so that
+	 * @param bool $loadData whether to call {@link loadData} if the form is submitted so that
 	 * the submitted data can be populated to the associated models.
-	 * @return boolean whether this form is submitted.
+	 * @return bool whether this form is submitted.
 	 * @see loadData
 	 */
 	public function submitted($buttonName='submit',$loadData=true)
@@ -210,7 +210,7 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Returns a value indicating whether the specified button is clicked.
 	 * @param string $name the button name
-	 * @return boolean whether the button is clicked.
+	 * @return bool whether the button is clicked.
 	 */
 	public function clicked($name)
 	{
@@ -225,7 +225,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * All models, including those associated with sub-forms, will perform
 	 * the validation. You may use {@link CModel::getErrors()} to retrieve the validation
 	 * error messages.
-	 * @return boolean whether all models are valid
+	 * @return bool whether all models are valid
 	 */
 	public function validate()
 	{
@@ -299,7 +299,7 @@ class CForm extends CFormElement implements ArrayAccess
 
 	/**
 	 * Returns the model that this form is associated with.
-	 * @param boolean $checkParent whether to return parent's model if this form doesn't have model by itself.
+	 * @param bool $checkParent whether to return parent's model if this form doesn't have model by itself.
 	 * @return CModel the model associated with this form. If this form does not have a model,
 	 * it will look for a model in its ancestors.
 	 */
@@ -520,7 +520,7 @@ class CForm extends CFormElement implements ArrayAccess
 
 	/**
 	 * Renders a single element which could be an input element, a sub-form, a string, or a button.
-	 * @param mixed $element the form element to be rendered. This can be either a {@link CFormElement} instance
+	 * @param \CFormElement|string $element the form element to be rendered. This can be either a {@link CFormElement} instance
 	 * or a string representing the name of the form element.
 	 * @return string the rendering result
 	 */
@@ -554,7 +554,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * This method is called after an element is added to the element collection.
 	 * @param string $name the name of the element
 	 * @param CFormElement $element the element that is added
-	 * @param boolean $forButtons whether the element is added to the {@link buttons} collection.
+	 * @param bool $forButtons whether the element is added to the {@link buttons} collection.
 	 * If false, it means the element is added to the {@link elements} collection.
 	 */
 	public function addedElement($name,$element,$forButtons)
@@ -565,7 +565,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * This method is called after an element is removed from the element collection.
 	 * @param string $name the name of the element
 	 * @param CFormElement $element the element that is removed
-	 * @param boolean $forButtons whether the element is removed from the {@link buttons} collection
+	 * @param bool $forButtons whether the element is removed from the {@link buttons} collection
 	 * If false, it means the element is removed from the {@link elements} collection.
 	 */
 	public function removedElement($name,$element,$forButtons)
@@ -576,7 +576,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * Evaluates the visibility of this form.
 	 * This method will check the visibility of the {@link elements}.
 	 * If any one of them is visible, the form is considered as visible. Otherwise, it is invisible.
-	 * @return boolean whether this form is visible.
+	 * @return bool whether this form is visible.
 	 */
 	protected function evaluateVisible()
 	{
@@ -601,8 +601,8 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Returns whether there is an element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed $offset the offset to check on
-	 * @return boolean
+	 * @param int|string $offset the offset to check on
+	 * @return bool
 	 */
 	public function offsetExists($offset)
 	{
@@ -612,8 +612,8 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Returns the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to retrieve element.
-	 * @return mixed the element at the offset, null if no element is found at the offset
+	 * @param int|string $offset the offset to retrieve element.
+	 * @return mixed|null the element at the offset, null if no element is found at the offset
 	 */
 	public function offsetGet($offset)
 	{
@@ -623,8 +623,8 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Sets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to set element
-	 * @param mixed $item the element value
+	 * @param int|string $offset the offset to set element
+	 * @param CFormElement|string|array $item the element value
 	 */
 	public function offsetSet($offset,$item)
 	{
@@ -634,7 +634,7 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Unsets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed $offset the offset to unset element
+	 * @param int|string $offset the offset to unset element
 	 */
 	public function offsetUnset($offset)
 	{

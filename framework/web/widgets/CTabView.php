@@ -64,7 +64,7 @@ class CTabView extends CWidget
 	const CSS_CLASS='yiiTab';
 
 	/**
-	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * @var string|false|null the CSS file used for the widget. Defaults to null, meaning
 	 * using the default CSS file included together with the widget.
 	 * If false, no CSS file will be used. Otherwise, the specified CSS file
 	 * will be included when using this widget.

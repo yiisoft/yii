@@ -307,7 +307,7 @@ EOD;
 	/**
 	 * Returns the data cell content.
 	 * This method renders the view, update and delete buttons in the data cell.
-	 * @param integer $row the row number (zero-based)
+	 * @param int $row the row number (zero-based)
 	 * @return string the data cell content.
 	 * @since 1.1.16
 	 */
@@ -331,7 +331,7 @@ EOD;
 	 * @param string $id the ID of the button
 	 * @param array $button the button configuration which may contain 'label', 'url', 'imageUrl' and 'options' elements.
 	 * See {@link buttons} for more details.
-	 * @param integer $row the row number (zero-based)
+	 * @param int $row the row number (zero-based)
 	 * @param mixed $data the data object associated with the row
 	 */
 	protected function renderButton($id,$button,$row,$data)

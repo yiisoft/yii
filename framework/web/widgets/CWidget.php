@@ -39,7 +39,7 @@ class CWidget extends CBaseController
 	 */
 	public $actionPrefix;
 	/**
-	 * @var mixed the name of the skin to be used by this widget. Defaults to 'default'.
+	 * @var string|false the name of the skin to be used by this widget. Defaults to 'default'.
 	 * If this is set as false, no skin will be applied to this widget.
 	 * @see CWidgetFactory
 	 * @since 1.1
@@ -51,7 +51,7 @@ class CWidget extends CBaseController
 	 */
 	private static $_viewPaths;
 	/**
-	 * @var integer the counter for generating implicit IDs.
+	 * @var int the counter for generating implicit IDs.
 	 */
 	private static $_counter=0;
 	/**
@@ -105,7 +105,7 @@ class CWidget extends CBaseController
 
 	/**
 	 * Returns the ID of the widget or generates a new one if requested.
-	 * @param boolean $autoGenerate whether to generate an ID if it is not set previously
+	 * @param bool $autoGenerate whether to generate an ID if it is not set previously
 	 * @return string id of the widget.
 	 */
 	public function getId($autoGenerate=true)
@@ -159,7 +159,7 @@ class CWidget extends CBaseController
 	 * Returns the directory containing the view files for this widget.
 	 * The default implementation returns the 'views' subdirectory of the directory containing the widget class file.
 	 * If $checkTheme is set true, the directory "ThemeID/views/ClassName" will be returned when it exists.
-	 * @param boolean $checkTheme whether to check if the theme contains a view path for the widget.
+	 * @param bool $checkTheme whether to check if the theme contains a view path for the widget.
 	 * @return string the directory containing the view files for this widget.
 	 */
 	public function getViewPath($checkTheme=false)
@@ -233,7 +233,7 @@ class CWidget extends CBaseController
 	 * @param string $view name of the view to be rendered. See {@link getViewFile} for details
 	 * about how the view script is resolved.
 	 * @param array $data data to be extracted into PHP variables and made available to the view script
-	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users
+	 * @param bool $return whether the rendering result should be returned instead of being displayed to end users
 	 * @return string|null the rendering result. Null if the rendering result is not required.
 	 * @throws CException if the view does not exist
 	 * @see getViewFile

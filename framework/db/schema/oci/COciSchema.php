@@ -157,7 +157,7 @@ class COciSchema extends CDbSchema
 	/**
 	 * Collects the table column metadata.
 	 * @param COciTableSchema $table the table metadata
-	 * @return boolean whether the table exists in the database
+	 * @return bool whether the table exists in the database
 	 */
 	protected function findColumns($table)
 	{
@@ -361,7 +361,7 @@ EOD;
 	 * issue for more details: {@link https://github.com/yiisoft/yii/issues/2241}
 	 *
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
-	 * @param integer|null $value the value for the primary key of the next new row inserted.
+	 * @param int|null $value the value for the primary key of the next new row inserted.
 	 * If this is not set, the next new row's primary key will have the max value of a primary
 	 * key plus one (i.e. sequence trimming).
 	 * @since 1.1.13
@@ -390,7 +390,7 @@ EOD;
 
 	/**
 	 * Enables or disables integrity check.
-	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param bool $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @since 1.1.14
 	 */

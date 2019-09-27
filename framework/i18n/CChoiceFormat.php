@@ -48,6 +48,7 @@ class CChoiceFormat
 		$n=preg_match_all('/\s*([^#]*)\s*#([^\|]*)\|/',$messages.'|',$matches);
 		if($n===0)
 			return $messages;
+        $message = '';
 		for($i=0;$i<$n;++$i)
 		{
 			$expression=$matches[1][$i];
@@ -67,7 +68,7 @@ class CChoiceFormat
 	 * Evaluates a PHP expression with the given number value.
 	 * @param string $expression the PHP expression
 	 * @param mixed $n the number value
-	 * @return boolean the expression result
+	 * @return bool the expression result
 	 */
 	protected static function evaluate($expression,$n)
 	{

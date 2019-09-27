@@ -129,7 +129,7 @@ class CFormButtonElement extends CFormElement
 	 * Evaluates the visibility of this element.
 	 * This method will check the {@link on} property to see if
 	 * the model is in a scenario that should have this string displayed.
-	 * @return boolean whether this element is visible.
+	 * @return bool whether this element is visible.
 	 */
 	protected function evaluateVisible()
 	{

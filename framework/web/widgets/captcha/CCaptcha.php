@@ -45,12 +45,12 @@ class CCaptcha extends CWidget
 	 */
 	public $captchaAction='captcha';
 	/**
-	 * @var boolean whether to display a button next to the CAPTCHA image. Clicking on the button
+	 * @var bool whether to display a button next to the CAPTCHA image. Clicking on the button
 	 * will cause the CAPTCHA image to be changed to a new one. Defaults to true.
 	 */
 	public $showRefreshButton=true;
 	/**
-	 * @var boolean whether to allow clicking on the CAPTCHA image to refresh the CAPTCHA letters.
+	 * @var bool whether to allow clicking on the CAPTCHA image to refresh the CAPTCHA letters.
 	 * Defaults to false. Hint: you may want to set {@link showRefreshButton} to false if you set
 	 * this property to be true because they serve for the same purpose.
 	 * To enhance accessibility, you may set {@link imageOptions} to provide hints to end-users that
@@ -160,7 +160,7 @@ jQuery(document).on('click', '$selector', function(){
 	 * @param string $extension name to be checked. Possible values are 'gd', 'imagick' and null.
 	 * Default value is null meaning that both extensions will be checked. This parameter
 	 * is available since 1.1.13.
-	 * @return boolean true if ImageMagick extension with PNG support or GD with FreeType support is loaded,
+	 * @return bool true if ImageMagick extension with PNG support or GD with FreeType support is loaded,
 	 * otherwise false
 	 * @since 1.1.5
 	 */

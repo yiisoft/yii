@@ -58,7 +58,7 @@ class CHttpCacheFilter extends CFilter
 	/**
 	 * Performs the pre-action filtering.
 	 * @param CFilterChain $filterChain the filter chain that the filter is on.
-	 * @return boolean whether the filtering process should continue and the action should be executed.
+	 * @return bool whether the filtering process should continue and the action should be executed.
 	 */
 	public function preFilter($filterChain)
 	{
@@ -115,7 +115,7 @@ class CHttpCacheFilter extends CFilter
 	 * Gets the last modified value from either {@link lastModifiedExpression} or {@link lastModified}
 	 * and converts it into a unix timestamp if necessary
 	 * @throws CException
-	 * @return integer|false A unix timestamp or false if neither lastModified nor
+	 * @return int|false A unix timestamp or false if neither lastModified nor
 	 * lastModifiedExpression have been set
 	 */
 	protected function getLastModifiedValue()
@@ -158,7 +158,7 @@ class CHttpCacheFilter extends CFilter
 	/**
 	 * Check if the etag supplied by the client matches our generated one
 	 * @param string $etag the supplied etag
-	 * @return boolean true if the supplied etag matches $etag
+	 * @return bool true if the supplied etag matches $etag
 	 */
 	protected function checkEtag($etag)
 	{
@@ -167,8 +167,8 @@ class CHttpCacheFilter extends CFilter
 
 	/**
 	 * Checks if the last modified date supplied by the client is still up to date
-	 * @param integer $lastModified the last modified date
-	 * @return boolean true if the last modified date sent by the client is newer or equal to $lastModified
+	 * @param int $lastModified the last modified date
+	 * @return bool true if the last modified date sent by the client is newer or equal to $lastModified
 	 */
 	protected function checkLastModified($lastModified)
 	{

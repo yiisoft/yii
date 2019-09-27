@@ -23,7 +23,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	 * Initializes the column with its DB type and default value.
 	 * This sets up the column's PHP type, size, precision, scale as well as default value.
 	 * @param string $dbType the column's DB type
-	 * @param mixed $defaultValue the default value
+	 * @param mixed|null $defaultValue the default value
 	 */
 	public function init($dbType, $defaultValue)
 	{

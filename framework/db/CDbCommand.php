@@ -43,10 +43,10 @@
  * @property PDOStatement $pdoStatement The underlying PDOStatement for this command
  * It could be null if the statement is not prepared yet.
  * @property string $select The SELECT part (without 'SELECT') in the query.
- * @property boolean $distinct A value indicating whether SELECT DISTINCT should be used.
+ * @property bool $distinct A value indicating whether SELECT DISTINCT should be used.
  * @property string $from The FROM part (without 'FROM' ) in the query.
  * @property string $where The WHERE part (without 'WHERE' ) in the query.
- * @property mixed $join The join part in the query. This can be an array representing
+ * @property string|string[] $join The join part in the query. This can be an array representing
  * multiple join fragments, or a string representing a single join fragment.
  * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
  * @property string $group The GROUP BY part (without 'GROUP BY' ) in the query.
@@ -54,7 +54,7 @@
  * @property string $order The ORDER BY part (without 'ORDER BY' ) in the query.
  * @property string $limit The LIMIT part (without 'LIMIT' ) in the query.
  * @property string $offset The OFFSET part (without 'OFFSET' ) in the query.
- * @property mixed $union The UNION part (without 'UNION' ) in the query.
+ * @property string|string[] $union The UNION part (without 'UNION' ) in the query.
  * This can be either a string or an array representing multiple union parts.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -82,7 +82,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Constructor.
 	 * @param CDbConnection $connection the database connection
-	 * @param mixed $query the DB query to be executed. This can be either
+	 * @param string|array $query the DB query to be executed. This can be either
 	 * a string representing a SQL statement, or an array whose name-value pairs
 	 * will be used to set the corresponding properties of the created command object.
 	 *
@@ -124,7 +124,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Set the default fetch mode for this statement
-	 * @param mixed $mode fetch mode
+	 * @param int $mode fetch mode
 	 * @return static
 	 * @see http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
 	 * @since 1.1.7
@@ -234,14 +234,14 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Binds a parameter to the SQL statement to be executed.
-	 * @param mixed $name Parameter identifier. For a prepared statement
+	 * @param string|int $name Parameter identifier. For a prepared statement
 	 * using named placeholders, this will be a parameter name of
 	 * the form :name. For a prepared statement using question mark
 	 * placeholders, this will be the 1-indexed position of the parameter.
 	 * @param mixed $value Name of the PHP variable to bind to the SQL statement parameter
-	 * @param integer $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
-	 * @param integer $length length of the data type
-	 * @param mixed $driverOptions the driver-specific options (this is available since version 1.1.6)
+	 * @param int $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
+	 * @param int $length length of the data type
+	 * @param mixed|null $driverOptions the driver-specific options (this is available since version 1.1.6)
 	 * @return static the current command being executed
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindParam.php
 	 */
@@ -262,12 +262,12 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Binds a value to a parameter.
-	 * @param mixed $name Parameter identifier. For a prepared statement
+	 * @param string|int $name Parameter identifier. For a prepared statement
 	 * using named placeholders, this will be a parameter name of
 	 * the form :name. For a prepared statement using question mark
 	 * placeholders, this will be the 1-indexed position of the parameter.
 	 * @param mixed $value The value to bind to the parameter
-	 * @param integer $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
+	 * @param int $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
 	 * @return static the current command being executed
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindValue.php
 	 */
@@ -313,7 +313,7 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @throws CDbException execution failed
 	 */
 	public function execute($params=array())
@@ -382,7 +382,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Executes the SQL statement and returns all rows.
-	 * @param boolean $fetchAssociative whether each row should be returned as an associated array with
+	 * @param bool $fetchAssociative whether each row should be returned as an associated array with
 	 * column names as the keys or the array keys are column indexes (0-based).
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
@@ -390,7 +390,7 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
-	 * @return array all rows of the query result. Each array element is an array representing a row.
+	 * @return string[][] all rows of the query result. Each array element is an array representing a row.
 	 * An empty array is returned if the query results in nothing.
 	 * @throws CException execution failed
 	 */
@@ -402,7 +402,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Executes the SQL statement and returns the first row of the result.
 	 * This is a convenient method of {@link query} when only the first row of data is needed.
-	 * @param boolean $fetchAssociative whether the row should be returned as an associated array with
+	 * @param bool $fetchAssociative whether the row should be returned as an associated array with
 	 * column names as the keys or the array keys are column indexes (0-based).
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
@@ -410,7 +410,7 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
-	 * @return mixed the first row (in terms of an array) of the query result, false if no result.
+	 * @return string[]|false the first row (in terms of an array) of the query result, false if no result.
 	 * @throws CException execution failed
 	 */
 	public function queryRow($fetchAssociative=true,$params=array())
@@ -428,7 +428,7 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
-	 * @return mixed the value of the first column in the first row of the query result. False is returned if there is no value.
+	 * @return string|false the value of the first column in the first row of the query result. False is returned if there is no value.
 	 * @throws CException execution failed
 	 */
 	public function queryScalar($params=array())
@@ -450,7 +450,7 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
-	 * @return array the first column of the query result. Empty array if no result.
+	 * @return string[] the first column of the query result. Empty array if no result.
 	 * @throws CException execution failed
 	 */
 	public function queryColumn($params=array())
@@ -468,7 +468,7 @@ class CDbCommand extends CComponent
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 * @throws CDbException if CDbCommand failed to execute the SQL statement
-	 * @return mixed the method execution result
+	 * @return CDbDataReader|string[][]|string[]|string|false the method execution result
 	 */
 	protected function queryInternal($method,$mode,$params=array())
 	{
@@ -616,7 +616,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the SELECT part of the query.
-	 * @param mixed $columns the columns to be selected. Defaults to '*', meaning all columns.
+	 * @param string|string[] $columns the columns to be selected. Defaults to '*', meaning all columns.
 	 * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
 	 * Columns can contain table prefixes (e.g. "tbl_user.id") and/or column aliases (e.g. "tbl_user.id AS user_id").
 	 * The method will automatically quote the column names unless a column contains some parenthesis
@@ -632,8 +632,10 @@ class CDbCommand extends CComponent
 			$this->_query['select']=$columns;
 		else
 		{
-			if(!is_array($columns))
-				$columns=preg_split('/\s*,\s*/',trim($columns),-1,PREG_SPLIT_NO_EMPTY);
+			if(!is_array($columns)) {
+                $columns = preg_split('/\s*,\s*/', trim($columns), -1, PREG_SPLIT_NO_EMPTY);
+                assert(\is_array($columns));
+            }
 
 			foreach($columns as $i=>$column)
 			{
@@ -666,7 +668,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the SELECT part in the query.
-	 * @param mixed $value the data to be selected. Please refer to {@link select()} for details
+	 * @param string|string[] $value the data to be selected. Please refer to {@link select()} for details
 	 * on how to specify this parameter.
 	 * @since 1.1.6
 	 */
@@ -678,8 +680,8 @@ class CDbCommand extends CComponent
 	/**
 	 * Sets the SELECT part of the query with the DISTINCT flag turned on.
 	 * This is the same as {@link select} except that the DISTINCT flag is turned on.
-	 * @param mixed $columns the columns to be selected. See {@link select} for more details.
-	 * @return CDbCommand the command object itself
+	 * @param string|string[] $columns the columns to be selected. See {@link select} for more details.
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function selectDistinct($columns='*')
@@ -690,7 +692,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Returns a value indicating whether SELECT DISTINCT should be used.
-	 * @return boolean a value indicating whether SELECT DISTINCT should be used.
+	 * @return bool a value indicating whether SELECT DISTINCT should be used.
 	 * @since 1.1.6
 	 */
 	public function getDistinct()
@@ -700,7 +702,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets a value indicating whether SELECT DISTINCT should be used.
-	 * @param boolean $value a value indicating whether SELECT DISTINCT should be used.
+	 * @param bool $value a value indicating whether SELECT DISTINCT should be used.
 	 * @since 1.1.6
 	 */
 	public function setDistinct($value)
@@ -710,7 +712,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the FROM part of the query.
-	 * @param mixed $tables the table(s) to be selected from. This can be either a string (e.g. 'tbl_user')
+	 * @param string|string[] $tables the table(s) to be selected from. This can be either a string (e.g. 'tbl_user')
 	 * or an array (e.g. array('tbl_user', 'tbl_profile')) specifying one or several table names.
 	 * Table names can contain schema prefixes (e.g. 'public.tbl_user') and/or table aliases (e.g. 'tbl_user u').
 	 * The method will automatically quote the table names unless it contains some parenthesis
@@ -724,8 +726,10 @@ class CDbCommand extends CComponent
 			$this->_query['from']=$tables;
 		else
 		{
-			if(!is_array($tables))
-				$tables=preg_split('/\s*,\s*/',trim($tables),-1,PREG_SPLIT_NO_EMPTY);
+			if(!is_array($tables)) {
+                $tables = preg_split('/\s*,\s*/', trim($tables), -1, PREG_SPLIT_NO_EMPTY);
+                assert(\is_array($tables));
+            }
 			foreach($tables as $i=>$table)
 			{
 				if(strpos($table,'(')===false)
@@ -753,7 +757,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the FROM part in the query.
-	 * @param mixed $value the tables to be selected from. Please refer to {@link from()} for details
+	 * @param string|string[] $value the tables to be selected from. Please refer to {@link from()} for details
 	 * on how to specify this parameter.
 	 * @since 1.1.6
 	 */
@@ -795,7 +799,7 @@ class CDbCommand extends CComponent
 	 * <li><code>or like</code>: similar as the <code>like</code> operator except that OR is used to concatenated the LIKE predicates.</li>
 	 * <li><code>or not like</code>: similar as the <code>not like</code> operator except that OR is used to concatenated the NOT LIKE predicates.</li>
 	 * </ul>
-	 * @param mixed $conditions the conditions that should be put in the WHERE part.
+	 * @param string|array $conditions the conditions that should be put in the WHERE part.
 	 * @param array $params the parameters (name=>value) to be bound to the query
 	 * @return static the command object itself
 	 * @since 1.1.6
@@ -816,7 +820,7 @@ class CDbCommand extends CComponent
 	 * with 'AND' operator, but not replaces it with the new one. For more information on parameters
 	 * of this method refer to the {@link where} documentation.
 	 *
-	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
+	 * @param string|array $conditions the conditions that should be appended to the WHERE part.
 	 * @param array $params the parameters (name=>value) to be bound to the query.
 	 * @return static the command object itself.
 	 * @since 1.1.13
@@ -840,7 +844,7 @@ class CDbCommand extends CComponent
 	 * with 'OR' operator, but not replaces it with the new one. For more information on parameters
 	 * of this method refer to the {@link where} documentation.
 	 *
-	 * @param mixed $conditions the conditions that should be appended to the WHERE part.
+	 * @param string|array $conditions the conditions that should be appended to the WHERE part.
 	 * @param array $params the parameters (name=>value) to be bound to the query.
 	 * @return static the command object itself.
 	 * @since 1.1.13
@@ -869,7 +873,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the WHERE part in the query.
-	 * @param mixed $value the where part. Please refer to {@link where()} for details
+	 * @param string|array $value the where part. Please refer to {@link where()} for details
 	 * on how to specify this parameter.
 	 * @since 1.1.6
 	 */
@@ -884,10 +888,10 @@ class CDbCommand extends CComponent
 	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
-	 * @param mixed $conditions the join condition that should appear in the ON part.
+	 * @param string|array $conditions the join condition that should appear in the ON part.
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function join($table, $conditions, $params=array())
@@ -897,7 +901,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Returns the join part in the query.
-	 * @return mixed the join part in the query. This can be an array representing
+	 * @return string|string[] the join part in the query. This can be an array representing
 	 * multiple join fragments, or a string representing a single join fragment.
 	 * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
 	 * @since 1.1.6
@@ -909,7 +913,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the join part in the query.
-	 * @param mixed $value the join part in the query. This can be either a string or
+	 * @param string|string[] $value the join part in the query. This can be either a string or
 	 * an array representing multiple join parts in the query. Each part must contain
 	 * the proper join operator (e.g. 'LEFT JOIN tbl_profile ON tbl_user.id=tbl_profile.id')
 	 * @since 1.1.6
@@ -925,10 +929,10 @@ class CDbCommand extends CComponent
 	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
-	 * @param mixed $conditions the join condition that should appear in the ON part.
+	 * @param string|array $conditions the join condition that should appear in the ON part.
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function leftJoin($table, $conditions, $params=array())
@@ -942,10 +946,10 @@ class CDbCommand extends CComponent
 	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
-	 * @param mixed $conditions the join condition that should appear in the ON part.
+	 * @param string|array $conditions the join condition that should appear in the ON part.
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
-	 * @return CDbCommand the command object itself
+	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
 	public function rightJoin($table, $conditions, $params=array())
@@ -1015,7 +1019,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the GROUP BY part of the query.
-	 * @param mixed $columns the columns to be grouped by.
+	 * @param string|string[] $columns the columns to be grouped by.
 	 * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
 	 * The method will automatically quote the column names unless a column contains some parenthesis
 	 * (which means the column contains a DB expression).
@@ -1028,8 +1032,10 @@ class CDbCommand extends CComponent
 			$this->_query['group']=$columns;
 		else
 		{
-			if(!is_array($columns))
-				$columns=preg_split('/\s*,\s*/',trim($columns),-1,PREG_SPLIT_NO_EMPTY);
+			if(!is_array($columns)) {
+                $columns = preg_split('/\s*,\s*/', trim($columns), -1, PREG_SPLIT_NO_EMPTY);
+                assert(is_array($columns));
+            }
 			foreach($columns as $i=>$column)
 			{
 				if(is_object($column))
@@ -1054,7 +1060,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the GROUP BY part in the query.
-	 * @param mixed $value the GROUP BY part. Please refer to {@link group()} for details
+	 * @param string|string[] $value the GROUP BY part. Please refer to {@link group()} for details
 	 * on how to specify this parameter.
 	 * @since 1.1.6
 	 */
@@ -1065,7 +1071,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the HAVING part of the query.
-	 * @param mixed $conditions the conditions to be put after HAVING.
+	 * @param string|array $conditions the conditions to be put after HAVING.
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
 	 * @return static the command object itself
@@ -1091,7 +1097,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the HAVING part in the query.
-	 * @param mixed $value the HAVING part. Please refer to {@link having()} for details
+	 * @param string|array $value the HAVING part. Please refer to {@link having()} for details
 	 * on how to specify this parameter.
 	 * @since 1.1.6
 	 */
@@ -1102,7 +1108,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the ORDER BY part of the query.
-	 * @param mixed $columns the columns (and the directions) to be ordered by.
+	 * @param string|string[] $columns the columns (and the directions) to be ordered by.
 	 * Columns can be specified in either a string (e.g. "id ASC, name DESC") or an array (e.g. array('id ASC', 'name DESC')).
 	 * The method will automatically quote the column names unless a column contains some parenthesis
 	 * (which means the column contains a DB expression).
@@ -1153,7 +1159,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the ORDER BY part in the query.
-	 * @param mixed $value the ORDER BY part. Please refer to {@link order()} for details
+	 * @param string|string[] $value the ORDER BY part. Please refer to {@link order()} for details
 	 * on how to specify this parameter.
 	 * @since 1.1.6
 	 */
@@ -1164,8 +1170,8 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the LIMIT part of the query.
-	 * @param integer $limit the limit
-	 * @param integer $offset the offset
+	 * @param int $limit the limit
+	 * @param int $offset the offset
 	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
@@ -1189,7 +1195,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the LIMIT part in the query.
-	 * @param integer $value the LIMIT part. Please refer to {@link limit()} for details
+	 * @param int $value the LIMIT part. Please refer to {@link limit()} for details
 	 * on how to specify this parameter.
 	 * @since 1.1.6
 	 */
@@ -1200,7 +1206,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the OFFSET part of the query.
-	 * @param integer $offset the offset
+	 * @param int $offset the offset
 	 * @return static the command object itself
 	 * @since 1.1.6
 	 */
@@ -1222,7 +1228,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the OFFSET part in the query.
-	 * @param integer $value the OFFSET part. Please refer to {@link offset()} for details
+	 * @param int $value the OFFSET part. Please refer to {@link offset()} for details
 	 * on how to specify this parameter.
 	 * @since 1.1.6
 	 */
@@ -1249,7 +1255,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Returns the UNION part in the query.
-	 * @return mixed the UNION part (without 'UNION' ) in the query.
+	 * @return string|string[] the UNION part (without 'UNION' ) in the query.
 	 * This can be either a string or an array representing multiple union parts.
 	 * @since 1.1.6
 	 */
@@ -1260,7 +1266,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the UNION part in the query.
-	 * @param mixed $value the UNION part. This can be either a string or an array
+	 * @param string|string[] $value the UNION part. This can be either a string or an array
 	 * representing multiple SQL statements to be unioned together.
 	 * @since 1.1.6
 	 */
@@ -1274,7 +1280,7 @@ class CDbCommand extends CComponent
 	 * The method will properly escape the column names, and bind the values to be inserted.
 	 * @param string $table the table that new rows will be inserted into.
 	 * @param array $columns the column data (name=>value) to be inserted into the table.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function insert($table, $columns)
@@ -1308,11 +1314,11 @@ class CDbCommand extends CComponent
 	 * The method will properly escape the column names and bind the values to be updated.
 	 * @param string $table the table to be updated.
 	 * @param array $columns the column data (name=>value) to be updated.
-	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
+	 * @param string|array $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
 	 * Do not use column names as parameter names here. They are reserved for <code>$columns</code> parameter.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function update($table, $columns, $conditions='', $params=array())
@@ -1341,10 +1347,10 @@ class CDbCommand extends CComponent
 	/**
 	 * Creates and executes a DELETE SQL statement.
 	 * @param string $table the table where the data will be deleted from.
-	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
+	 * @param string|array $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function delete($table, $conditions='', $params=array())
@@ -1369,7 +1375,7 @@ class CDbCommand extends CComponent
 	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
 	 * @param array $columns the columns (name=>definition) in the new table.
 	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
-	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
+	 * @return int 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
 	 * @since 1.1.6
 	 */
 	public function createTable($table, $columns, $options=null)
@@ -1381,7 +1387,7 @@ class CDbCommand extends CComponent
 	 * Builds and executes a SQL statement for renaming a DB table.
 	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
 	 * @param string $newName the new table name. The name will be properly quoted by the method.
-	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
+	 * @return int 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
 	 * @since 1.1.6
 	 */
 	public function renameTable($table, $newName)
@@ -1392,7 +1398,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Builds and executes a SQL statement for dropping a DB table.
 	 * @param string $table the table to be dropped. The name will be properly quoted by the method.
-	 * @return integer 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
+	 * @return int 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
 	 * @since 1.1.6
 	 */
 	public function dropTable($table)
@@ -1403,7 +1409,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Builds and executes a SQL statement for truncating a DB table.
 	 * @param string $table the table to be truncated. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function truncateTable($table)
@@ -1422,7 +1428,7 @@ class CDbCommand extends CComponent
 	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function addColumn($table, $column, $type)
@@ -1434,7 +1440,7 @@ class CDbCommand extends CComponent
 	 * Builds and executes a SQL statement for dropping a DB column.
 	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.
 	 * @param string $column the name of the column to be dropped. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function dropColumn($table, $column)
@@ -1447,7 +1453,7 @@ class CDbCommand extends CComponent
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
 	 * @param string $name the old name of the column. The name will be properly quoted by the method.
 	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function renameColumn($table, $name, $newName)
@@ -1462,7 +1468,7 @@ class CDbCommand extends CComponent
 	 * @param string $type the new column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function alterColumn($table, $column, $type)
@@ -1480,7 +1486,7 @@ class CDbCommand extends CComponent
 	 * @param string|array $refColumns the name of the column that the foreign key references to. If there are multiple columns, separate them with commas or pass as an array of column names.
 	 * @param string $delete the ON DELETE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
 	 * @param string $update the ON UPDATE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
@@ -1492,7 +1498,7 @@ class CDbCommand extends CComponent
 	 * Builds a SQL statement for dropping a foreign key constraint.
 	 * @param string $name the name of the foreign key constraint to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose foreign is to be dropped. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function dropForeignKey($name, $table)
@@ -1506,8 +1512,8 @@ class CDbCommand extends CComponent
 	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
 	 * @param string|array $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
 	 * by commas or pass as an array of column names. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
-	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
-	 * @return integer number of rows affected by the execution.
+	 * @param bool $unique whether to add UNIQUE constraint on the created index.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function createIndex($name, $table, $columns, $unique=false)
@@ -1519,7 +1525,7 @@ class CDbCommand extends CComponent
 	 * Builds and executes a SQL statement for dropping an index.
 	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function dropIndex($name, $table)
@@ -1529,7 +1535,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Generates the condition string that will be put in the WHERE part
-	 * @param mixed $conditions the conditions that will be put in the WHERE part.
+	 * @param string|array $conditions the conditions that will be put in the WHERE part.
 	 * @throws CDbException if unknown operator is used
 	 * @return string the condition string to put in the WHERE part
 	 */
@@ -1606,7 +1612,7 @@ class CDbCommand extends CComponent
 	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
 	 * The method will automatically quote the table name unless it contains some parenthesis
 	 * (which means the table is given as a sub-query or DB expression).
-	 * @param mixed $conditions the join condition that should appear in the ON part.
+	 * @param string|array $conditions the join condition that should appear in the ON part.
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
 	 * @return static the command object itself
@@ -1642,7 +1648,7 @@ class CDbCommand extends CComponent
 	 * @param string $table the table who will be inheriting the primary key. The name will be properly quoted by the method.
 	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
 	 * Array value can be passed since 1.1.14.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.13
 	 */
 	public function addPrimaryKey($name,$table,$columns)
@@ -1654,7 +1660,7 @@ class CDbCommand extends CComponent
 	 * Builds a SQL statement for dropping a primary key constraint.
 	 * @param string $name the name of the primary key constraint to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table that owns the primary key. The name will be properly quoted by the method.
-	 * @return integer number of rows affected by the execution.
+	 * @return int number of rows affected by the execution.
 	 * @since 1.1.13
 	 */
 	public function dropPrimaryKey($name,$table)

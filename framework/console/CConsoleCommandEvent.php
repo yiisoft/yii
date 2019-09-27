@@ -24,14 +24,14 @@ class CConsoleCommandEvent extends CEvent
 	 */
 	public $action;
 	/**
-	 * @var boolean whether the action should be executed.
+	 * @var bool whether the action should be executed.
 	 * If this property is set true by the event handler, the console command action will quit after handling this event.
 	 * If false, which is the default, the normal execution cycles will continue, including performing the action and calling
 	 * {@link CConsoleCommand::afterAction}.
 	 */
 	public $stopCommand=false;
 	/**
-	 * @var integer exit code of application.
+	 * @var int exit code of application.
 	 * This property is available in {@link CConsoleCommand::onAfterAction} event and will be set to the exit code
 	 * returned by the console command action. You can set it to change application exit code.
 	 */
@@ -42,7 +42,7 @@ class CConsoleCommandEvent extends CEvent
 	 * @param mixed $sender sender of the event
 	 * @param string $params the parameters to be passed to the action method.
 	 * @param string $action the action name
-	 * @param integer $exitCode the application exit code
+	 * @param int $exitCode the application exit code
 	 */
 	public function __construct($sender=null,$params=null,$action=null,$exitCode=0){
 		parent::__construct($sender,$params);

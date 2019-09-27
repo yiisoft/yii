@@ -24,9 +24,9 @@ interface IDataProvider
      * This is equivalent to <code>count($provider->getData())</code>.
      * When {@link pagination} is set false, this returns the same value as {@link totalItemCount}.
      *
-     * @param boolean $refresh whether the number of data items should be re-calculated.
+     * @param bool $refresh whether the number of data items should be re-calculated.
      *
-     * @return integer the number of data items in the current page.
+     * @return int the number of data items in the current page.
      */
     public function getItemCount($refresh = false);
 
@@ -34,16 +34,16 @@ interface IDataProvider
      * Returns the total number of data items.
      * When {@link pagination} is set false, this returns the same value as {@link itemCount}.
      *
-     * @param boolean $refresh whether the total number of data items should be re-calculated.
+     * @param bool $refresh whether the total number of data items should be re-calculated.
      *
-     * @return integer total number of possible data items.
+     * @return int total number of possible data items.
      */
     public function getTotalItemCount($refresh = false);
 
     /**
      * Returns the data items currently available.
      *
-     * @param boolean $refresh whether the data should be re-fetched from persistent storage.
+     * @param bool $refresh whether the data should be re-fetched from persistent storage.
      *
      * @return array the list of data items currently available in this data provider.
      */
@@ -52,7 +52,7 @@ interface IDataProvider
     /**
      * Returns the key values associated with the data items.
      *
-     * @param boolean $refresh whether the keys should be re-calculated.
+     * @param bool $refresh whether the keys should be re-calculated.
      *
      * @return array the list of key values corresponding to {@link data}. Each data item in {@link data}
      * is uniquely identified by the corresponding key value in this array.

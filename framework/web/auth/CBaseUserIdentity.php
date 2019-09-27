@@ -24,7 +24,7 @@
  * @property string $name The display name for the identity.
  * The default implementation simply returns empty string.
  * @property array $persistentStates The identity states that should be persisted.
- * @property boolean $isAuthenticated Whether the authentication is successful.
+ * @property bool $isAuthenticated Whether the authentication is successful.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.auth
@@ -38,7 +38,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	const ERROR_UNKNOWN_IDENTITY=100;
 
 	/**
-	 * @var integer the authentication error code. If there is an error, the error code will be non-zero.
+	 * @var int the authentication error code. If there is an error, the error code will be non-zero.
 	 * Defaults to 100, meaning unknown identity. Calling {@link authenticate} will change this value.
 	 */
 	public $errorCode=self::ERROR_UNKNOWN_IDENTITY;
@@ -92,7 +92,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	/**
 	 * Returns a value indicating whether the identity is authenticated.
 	 * This method is required by {@link IUserIdentity}.
-	 * @return boolean whether the authentication is successful.
+	 * @return bool whether the authentication is successful.
 	 */
 	public function getIsAuthenticated()
 	{

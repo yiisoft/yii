@@ -82,7 +82,7 @@ class CJSON
      * @see \json_decode()
      *
 	 * @param string $str  JSON-formatted string
-	 * @param boolean $useArray  whether to use associative array to represent object data
+	 * @param bool $useArray  whether to use associative array to represent object data
 	 * @return mixed   number, boolean, string, array, or object corresponding to given JSON input string.
 	 *    Note that decode() always returns strings in ASCII or UTF-8 format!
 	 */

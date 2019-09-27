@@ -35,10 +35,10 @@ class CTimestamp
 	/**
 	 * Gets day of week, 0 = Sunday,... 6=Saturday.
 	 * Algorithm from PEAR::Date_Calc
-	 * @param integer $year year
-	 * @param integer $month month
-	 * @param integer $day day
-	 * @return integer day of week
+	 * @param int $year year
+	 * @param int $month month
+	 * @param int $day day
+	 * @return int day of week
 	 */
 	public static function getDayofWeek($year, $month, $day)
 	{
@@ -86,8 +86,8 @@ class CTimestamp
 	/**
 	 * Checks for leap year, returns true if it is. No 2-digit year check. Also
 	 * handles julian calendar correctly.
-	 * @param integer $year year to check
-	 * @return boolean true if is leap year
+	 * @param int $year year to check
+	 * @return bool true if is leap year
 	 */
 	public static function isLeapYear($year)
 	{
@@ -106,8 +106,8 @@ class CTimestamp
 	/**
 	 * Fix 2-digit years. Works for any century.
 	 * Assumes that if 2-digit is more than 30 years in future, then previous century.
-	 * @param integer $y year
-	 * @return integer change two digit year into multiple digits
+	 * @param int $y year
+	 * @return int change two digit year into multiple digits
 	 */
 	protected static function digitCheck($y)
 	{
@@ -133,8 +133,8 @@ class CTimestamp
 
 	/**
 	 * Returns 4-digit representation of the year.
-	 * @param integer $y year
-	 * @return integer 4-digit representation of the year
+	 * @param int $y year
+	 * @return int 4-digit representation of the year
 	 */
 	public static function get4DigitYear($y)
 	{
@@ -142,7 +142,7 @@ class CTimestamp
 	}
 
 	/**
-	 * @return integer get local time zone offset from GMT
+	 * @return int get local time zone offset from GMT
 	 */
 	public static function getGMTDiff()
 	{
@@ -155,9 +155,9 @@ class CTimestamp
 
 	/**
 	 * Returns the getdate() array.
-	 * @param integer|boolean $d original date timestamp. False to use the current timestamp.
-	 * @param boolean $fast false to compute the day of the week, default is true
-	 * @param boolean $gmt true to calculate the GMT dates
+	 * @param int|boolean $d original date timestamp. False to use the current timestamp.
+	 * @param bool $fast false to compute the day of the week, default is true
+	 * @param bool $gmt true to calculate the GMT dates
 	 * @return array an array with date info.
 	 */
 	public static function getDate($d=false,$fast=false,$gmt=false)
@@ -180,10 +180,10 @@ class CTimestamp
 
 	/**
 	 * Checks to see if the year, month, day are valid combination.
-	 * @param integer $y year
-	 * @param integer $m month
-	 * @param integer $d day
-	 * @return boolean true if valid date, semantic check only.
+	 * @param int $y year
+	 * @param int $m month
+	 * @param int $d day
+	 * @return bool true if valid date, semantic check only.
 	 */
 	public static function isValidDate($y,$m,$d)
 	{
@@ -192,11 +192,11 @@ class CTimestamp
 
 	/**
 	 * Checks to see if the hour, minute and second are valid.
-	 * @param integer $h hour
-	 * @param integer $m minute
-	 * @param integer $s second
-	 * @param boolean $hs24 whether the hours should be 0 through 23 (default) or 1 through 12.
-	 * @return boolean true if valid date, semantic check only.
+	 * @param int $h hour
+	 * @param int $m minute
+	 * @param int $s second
+	 * @param bool $hs24 whether the hours should be 0 through 23 (default) or 1 through 12.
+	 * @return bool true if valid date, semantic check only.
 	 */
 	public static function isValidTime($h,$m,$s,$hs24=true)
 	{
@@ -209,8 +209,8 @@ class CTimestamp
 	/**
 	 * Formats a timestamp to a date string.
 	 * @param string $fmt format pattern
-	 * @param integer|boolean $d timestamp
-	 * @param boolean $is_gmt whether this is a GMT timestamp
+	 * @param int|boolean $d timestamp
+	 * @param bool $is_gmt whether this is a GMT timestamp
 	 * @return string formatted date based on timestamp $d
 	 */
 	public static function formatDate($fmt,$d=false,$is_gmt=false)
@@ -358,14 +358,14 @@ class CTimestamp
 	/**
 	 * Generates a timestamp.
 	 * This is the same as the PHP function {@link mktime http://php.net/manual/en/function.mktime.php}.
-	 * @param integer $hr hour
-	 * @param integer $min minute
-	 * @param integer $sec second
-	 * @param integer|boolean $mon month
-	 * @param integer|boolean $day day
-	 * @param integer|boolean $year year
-	 * @param boolean $is_gmt whether this is GMT time. If true, gmmktime() will be used.
-	 * @return integer|float a timestamp given a local time.
+	 * @param int $hr hour
+	 * @param int $min minute
+	 * @param int $sec second
+	 * @param int|boolean $mon month
+	 * @param int|boolean $day day
+	 * @param int|boolean $year year
+	 * @param bool $is_gmt whether this is GMT time. If true, gmmktime() will be used.
+	 * @return int|float a timestamp given a local time.
 	 */
 	public static function getTimestamp($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_gmt=false)
 	{

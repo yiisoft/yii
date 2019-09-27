@@ -179,7 +179,7 @@ class CComponent
 	 * Do not call this method. This is a PHP magic method that we override
 	 * to allow using isset() to detect if a component property is set or not.
 	 * @param string $name the property name or the event name
-	 * @return boolean
+	 * @return bool
 	 */
 	public function __isset($name)
 	{
@@ -317,7 +317,7 @@ class CComponent
 	 * configuration. After that, the behavior object will be initialized
 	 * by calling its {@link IBehavior::attach} method.
 	 * @param string $name the behavior's name. It should uniquely identify this behavior.
-	 * @param mixed $behavior the behavior configuration. This is passed as the first
+	 * @param IBehavior|string|array $behavior the behavior configuration. This is passed as the first
 	 * parameter to {@link YiiBase::createComponent} to create the behavior object.
 	 * You can also pass an already created behavior instance (the new behavior will replace an already created
 	 * behavior with the same name, if it exists).
@@ -403,7 +403,7 @@ class CComponent
 	 * A property is defined if there is a getter or setter method
 	 * defined in the class. Note, property names are case-insensitive.
 	 * @param string $name the property name
-	 * @return boolean whether the property is defined
+	 * @return bool whether the property is defined
 	 * @see canGetProperty
 	 * @see canSetProperty
 	 */
@@ -417,7 +417,7 @@ class CComponent
 	 * A property can be read if the class has a getter method
 	 * for the property name. Note, property name is case-insensitive.
 	 * @param string $name the property name
-	 * @return boolean whether the property can be read
+	 * @return bool whether the property can be read
 	 * @see canSetProperty
 	 */
 	public function canGetProperty($name)
@@ -430,7 +430,7 @@ class CComponent
 	 * A property can be written if the class has a setter method
 	 * for the property name. Note, property name is case-insensitive.
 	 * @param string $name the property name
-	 * @return boolean whether the property can be written
+	 * @return bool whether the property can be written
 	 * @see canGetProperty
 	 */
 	public function canSetProperty($name)
@@ -443,7 +443,7 @@ class CComponent
 	 * An event is defined if the class has a method named like 'onXXX'.
 	 * Note, event name is case-insensitive.
 	 * @param string $name the event name
-	 * @return boolean whether an event is defined
+	 * @return bool whether an event is defined
 	 */
 	public function hasEvent($name)
 	{
@@ -453,7 +453,7 @@ class CComponent
 	/**
 	 * Checks whether the named event has attached handlers.
 	 * @param string $name the event name
-	 * @return boolean whether an event has been attached one or several handlers
+	 * @return bool whether an event has been attached one or several handlers
 	 */
 	public function hasEventHandler($name)
 	{
@@ -523,7 +523,7 @@ class CComponent
 	 * This method is the opposite of {@link attachEventHandler}.
 	 * @param string $name event name
 	 * @param callable $handler the event handler to be removed
-	 * @return boolean if the detachment process is successful
+	 * @return bool if the detachment process is successful
 	 * @see attachEventHandler
 	 */
 	public function detachEventHandler($name,$handler)
@@ -593,7 +593,7 @@ class CComponent
 	 *
 	 * @param string|callable $_expression_ a PHP expression or PHP callback to be evaluated.
 	 * @param array $_data_ additional parameters to be passed to the above expression/callback.
-	 * @return mixed the expression result
+	 * @return mixed|false the expression result or false on ParseError
 	 * @since 1.1.0
 	 */
 	public function evaluateExpression($_expression_,$_data_=array())

@@ -20,7 +20,7 @@
 class SoapInsurerPersonPhysical {
 
 	/**
-	* @var integer Insurer age {nillable = 0, minOccurs = 1, maxOccurs = 1}
+	* @var int Insurer age {nillable = 0, minOccurs = 1, maxOccurs = 1}
 	* @example 35
 	* @soap
 	*/
@@ -34,7 +34,7 @@ class SoapInsurerPersonPhysical {
 	public $date_of_birth;
 
 	/**
-	* @var boolean Is insurer a student? (must have age between 17 - 16 years incl.) {nillable = 0, minOccurs = 0, maxOccurs = 1}
+	* @var bool Is insurer a student? (must have age between 17 - 16 years incl.) {nillable = 0, minOccurs = 0, maxOccurs = 1}
 	* @example true
 	* @soap
 	*/

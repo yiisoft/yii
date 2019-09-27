@@ -36,7 +36,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	 */
 	public $directory;
 	/**
-	 * @var integer the depth of the subdirectories to be recursively checked.
+	 * @var int the depth of the subdirectories to be recursively checked.
 	 * If the value is less than 0, it means unlimited depth.
 	 * If the value is 0, it means checking the files directly under the specified directory.
 	 */
@@ -75,7 +75,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	 * Determines the last modification time for files under the directory.
 	 * This method may go recursively into subdirectories if {@link recursiveLevel} is not 0.
 	 * @param string $directory the directory name
-	 * @param integer $level level of the recursion
+	 * @param int $level level of the recursion
 	 * @throws CException if given directory is not valid
 	 * @return array list of file modification time indexed by the file path
 	 */
@@ -113,7 +113,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	 * By default, it always returns true, meaning the file should be checked.
 	 * You may override this method to check only certain files.
 	 * @param string $fileName the name of the file that may be checked for dependency.
-	 * @return boolean whether this file should be checked.
+	 * @return bool whether this file should be checked.
 	 */
 	protected function validateFile($fileName)
 	{
@@ -126,7 +126,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	 * By default, it always returns true, meaning the subdirectory should be checked.
 	 * You may override this method to check only certain subdirectories.
 	 * @param string $directory the name of the subdirectory that may be checked for dependency.
-	 * @return boolean whether this subdirectory should be checked.
+	 * @return bool whether this subdirectory should be checked.
 	 */
 	protected function validateDirectory($directory)
 	{

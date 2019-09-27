@@ -61,7 +61,7 @@ class CPhpAuthManager extends CAuthManager
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
 	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of <code>$userId</code>.
-	 * @return boolean whether the operations can be performed by the user.
+	 * @return bool whether the operations can be performed by the user.
 	 */
 	public function checkAccess($itemName,$userId,$params=array())
 	{
@@ -94,7 +94,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Adds an item as a child of another item.
 	 * @param string $itemName the parent item name
 	 * @param string $childName the child item name
-	 * @return boolean whether the item is added successfully
+	 * @return bool whether the item is added successfully
 	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
 	 */
 	public function addItemChild($itemName,$childName)
@@ -119,7 +119,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Note, the child item is not deleted. Only the parent-child relationship is removed.
 	 * @param string $itemName the parent item name
 	 * @param string $childName the child item name
-	 * @return boolean whether the removal is successful
+	 * @return bool whether the removal is successful
 	 */
 	public function removeItemChild($itemName,$childName)
 	{
@@ -136,7 +136,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Returns a value indicating whether a child exists within a parent.
 	 * @param string $itemName the parent item name
 	 * @param string $childName the child item name
-	 * @return boolean whether the child exists
+	 * @return bool whether the child exists
 	 */
 	public function hasItemChild($itemName,$childName)
 	{
@@ -188,7 +188,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Revokes an authorization assignment from a user.
 	 * @param string $itemName the item name
 	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
-	 * @return boolean whether removal is successful
+	 * @return bool whether removal is successful
 	 */
 	public function revoke($itemName,$userId)
 	{
@@ -205,7 +205,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Returns a value indicating whether the item has been assigned to the user.
 	 * @param string $itemName the item name
 	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
-	 * @return boolean whether the item has been assigned to the user.
+	 * @return bool whether the item has been assigned to the user.
 	 */
 	public function isAssigned($itemName,$userId)
 	{
@@ -237,7 +237,7 @@ class CPhpAuthManager extends CAuthManager
 
 	/**
 	 * Returns the authorization items of the specific type and user.
-	 * @param integer $type the item type (0: operation, 1: task, 2: role). Defaults to null,
+	 * @param int $type the item type (0: operation, 1: task, 2: role). Defaults to null,
 	 * meaning returning all items regardless of their type.
 	 * @param mixed $userId the user ID. Defaults to null, meaning returning all items even if
 	 * they are not assigned to a user.
@@ -275,7 +275,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Authorization items form a hierarchy. Higher level items inherit permissions representing
 	 * by lower level items.
 	 * @param string $name the item name. This must be a unique identifier.
-	 * @param integer $type the item type (0: operation, 1: task, 2: role).
+	 * @param int $type the item type (0: operation, 1: task, 2: role).
 	 * @param string $description description of the item
 	 * @param string $bizRule business rule associated with the item. This is a piece of
 	 * PHP code that will be executed when {@link checkAccess} is called for the item.
@@ -293,7 +293,7 @@ class CPhpAuthManager extends CAuthManager
 	/**
 	 * Removes the specified authorization item.
 	 * @param string $name the name of the item to be removed
-	 * @return boolean whether the item exists in the storage and has been removed
+	 * @return bool whether the item exists in the storage and has been removed
 	 */
 	public function removeAuthItem($name)
 	{
@@ -463,7 +463,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Checks whether there is a loop in the authorization item hierarchy.
 	 * @param string $itemName parent item name
 	 * @param string $childName the name of the child item that is to be added to the hierarchy
-	 * @return boolean whether a loop exists
+	 * @return bool whether a loop exists
 	 */
 	protected function detectLoop($itemName,$childName)
 	{

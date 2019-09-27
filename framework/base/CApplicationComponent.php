@@ -17,7 +17,7 @@
  * the {@link init()} method instead of the constructor. This has the advantage that
  * the application component can be customized through application configuration.
  *
- * @property boolean $isInitialized Whether this application component has been initialized (ie, {@link init()} is invoked).
+ * @property bool $isInitialized Whether this application component has been initialized (ie, {@link init()} is invoked).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.base
@@ -48,7 +48,7 @@ abstract class CApplicationComponent extends CComponent implements IApplicationC
 
 	/**
 	 * Checks if this application component has been initialized.
-	 * @return boolean whether this application component has been initialized (ie, {@link init()} is invoked).
+	 * @return bool whether this application component has been initialized (ie, {@link init()} is invoked).
 	 */
 	public function getIsInitialized()
 	{

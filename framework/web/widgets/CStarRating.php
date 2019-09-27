@@ -30,7 +30,7 @@
 class CStarRating extends CInputWidget
 {
 	/**
-	 * @var integer the number of stars. Defaults to 5.
+	 * @var int the number of stars. Defaults to 5.
 	 */
 	public $starCount=5;
 	/**
@@ -46,7 +46,7 @@ class CStarRating extends CInputWidget
 	 */
 	public $ratingStepSize=1;
 	/**
-	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * @var string|false|null the CSS file used for the widget. Defaults to null, meaning
 	 * using the default CSS file included together with the widget.
 	 * If false, no CSS file will be used. Otherwise, the specified CSS file
 	 * will be included when using this widget.
@@ -66,16 +66,16 @@ class CStarRating extends CInputWidget
 	 */
 	public $resetValue;
 	/**
-	 * @var boolean whether the rating value can be empty (not set). Defaults to true.
+	 * @var bool whether the rating value can be empty (not set). Defaults to true.
 	 * When this is true, a reset button will be displayed in front of stars.
 	 */
 	public $allowEmpty;
 	/**
-	 * @var integer the width of star image. Defaults to null, meaning using the system-defined value (which is 16).
+	 * @var int the width of star image. Defaults to null, meaning using the system-defined value (which is 16).
 	 */
 	public $starWidth;
 	/**
-	 * @var boolean whether the rating value is read-only or not. Defaults to false.
+	 * @var bool whether the rating value is read-only or not. Defaults to false.
 	 * When this is true, the rating cannot be changed.
 	 */
 	public $readOnly;

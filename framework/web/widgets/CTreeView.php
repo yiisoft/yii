@@ -47,7 +47,7 @@ class CTreeView extends CWidget
 	 */
 	public $data;
 	/**
-	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * @var string|false|null the CSS file used for the widget. Defaults to null, meaning
 	 * using the default CSS file included together with the widget.
 	 * If false, no CSS file will be used. Otherwise, the specified CSS file
 	 * will be included when using this widget.
@@ -72,7 +72,7 @@ class CTreeView extends CWidget
 	 */
 	public $animated;
 	/**
-	 * @var boolean whether the tree should start with all branches collapsed. Defaults to false.
+	 * @var bool whether the tree should start with all branches collapsed. Defaults to false.
 	 */
 	public $collapsed;
 	/**
@@ -84,7 +84,7 @@ class CTreeView extends CWidget
 	 */
 	public $control;
 	/**
-	 * @var boolean set to allow only one branch on one level to be open (closing siblings which opening).
+	 * @var bool set to allow only one branch on one level to be open (closing siblings which opening).
 	 * Defaults to false.
 	 */
 	public $unique;
@@ -104,7 +104,7 @@ class CTreeView extends CWidget
 	 */
 	public $cookieId;
 	/**
-	 * @var boolean Set to skip rendering of classes and hitarea divs, assuming that is done by the serverside. Defaults to false.
+	 * @var bool Set to skip rendering of classes and hitarea divs, assuming that is done by the serverside. Defaults to false.
 	 */
 	public $prerendered;
 	/**

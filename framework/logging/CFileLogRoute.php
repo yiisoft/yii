@@ -24,8 +24,8 @@
  *
  * @property string $logPath Directory storing log files. Defaults to application runtime path.
  * @property string $logFile Log file name. Defaults to 'application.log'.
- * @property integer $maxFileSize Maximum log file size in kilo-bytes (KB). Defaults to 1024 (1MB).
- * @property integer $maxLogFiles Number of files used for rotation. Defaults to 5.
+ * @property int $maxFileSize Maximum log file size in kilo-bytes (KB). Defaults to 1024 (1MB).
+ * @property int $maxLogFiles Number of files used for rotation. Defaults to 5.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.logging
@@ -34,11 +34,11 @@
 class CFileLogRoute extends CLogRoute
 {
 	/**
-	 * @var integer maximum log file size
+	 * @var int maximum log file size
 	 */
 	private $_maxFileSize=1024; // in KB
 	/**
-	 * @var integer number of log files used for rotation
+	 * @var int number of log files used for rotation
 	 */
 	private $_maxLogFiles=5;
 	/**
@@ -50,7 +50,7 @@ class CFileLogRoute extends CLogRoute
 	 */
 	private $_logFile='application.log';
 	/**
-	 * @var boolean Whether to rotate primary log by copy and truncate
+	 * @var bool Whether to rotate primary log by copy and truncate
 	 * which is more compatible with log tailers. Defaults to false.
 	 * @since 1.1.14
 	 */
@@ -104,7 +104,7 @@ class CFileLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @return integer maximum log file size in kilo-bytes (KB). Defaults to 1024 (1MB).
+	 * @return int maximum log file size in kilo-bytes (KB). Defaults to 1024 (1MB).
 	 */
 	public function getMaxFileSize()
 	{
@@ -112,7 +112,7 @@ class CFileLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @param integer $value maximum log file size in kilo-bytes (KB).
+	 * @param int $value maximum log file size in kilo-bytes (KB).
 	 */
 	public function setMaxFileSize($value)
 	{
@@ -121,7 +121,7 @@ class CFileLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @return integer number of files used for rotation. Defaults to 5.
+	 * @return int number of files used for rotation. Defaults to 5.
 	 */
 	public function getMaxLogFiles()
 	{
@@ -129,7 +129,7 @@ class CFileLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @param integer $value number of files used for rotation.
+	 * @param int $value number of files used for rotation.
 	 */
 	public function setMaxLogFiles($value)
 	{

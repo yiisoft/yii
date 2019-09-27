@@ -40,7 +40,7 @@ class SoapPovCalculationResult {
 	public $coverage_property;
 
 	/**
-	* @var integer Insurance premium EUR {nillable = 0, minOccurs = 1, maxOccurs = 1}
+	* @var int Insurance premium EUR {nillable = 0, minOccurs = 1, maxOccurs = 1}
 	* @example 145
 	* @soap
 	*/

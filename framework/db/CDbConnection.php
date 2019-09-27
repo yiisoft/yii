@@ -92,24 +92,24 @@
  * ),
  * </pre>
  *
- * @property boolean $active Whether the DB connection is established.
+ * @property bool $active Whether the DB connection is established.
  * @property PDO $pdoInstance The PDO instance, null if the connection is not established yet.
  * @property CDbTransaction|null $currentTransaction The currently active transaction. Null if no active transaction.
  * @property CDbSchema $schema The database schema for the current connection.
  * @property CDbCommandBuilder $commandBuilder The command builder.
  * @property string $lastInsertID The row ID of the last row inserted, or the last value retrieved from the sequence object.
- * @property mixed $columnCase The case of the column names.
- * @property mixed $nullConversion How the null and empty strings are converted.
- * @property boolean $autoCommit Whether creating or updating a DB record will be automatically committed.
- * @property boolean $persistent Whether the connection is persistent or not.
+ * @property int $columnCase The case of the column names.
+ * @property int $nullConversion How the null and empty strings are converted.
+ * @property bool $autoCommit Whether creating or updating a DB record will be automatically committed.
+ * @property bool $persistent Whether the connection is persistent or not.
  * @property string $driverName Name of the DB driver. This property is read-write since 1.1.16.
  * Before 1.1.15 it was read-only.
  * @property string $clientVersion The version information of the DB driver.
  * @property string $connectionStatus The status of the connection.
- * @property boolean $prefetch Whether the connection performs data prefetching.
+ * @property bool $prefetch Whether the connection performs data prefetching.
  * @property string $serverInfo The information of DBMS server.
  * @property string $serverVersion The version information of DBMS server.
- * @property integer $timeout Timeout settings for the connection.
+ * @property int $timeout Timeout settings for the connection.
  * @property array $attributes Attributes (name=>value) that are previously explicitly set for the DB connection.
  * @property array $stats The first element indicates the number of SQL statements executed,
  * and the second element the total time spent in SQL execution.
@@ -138,7 +138,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $password='';
 	/**
-	 * @var integer number of seconds that table metadata can remain valid in cache.
+	 * @var int number of seconds that table metadata can remain valid in cache.
 	 * Use 0 or negative value to indicate not caching schema.
 	 * If greater than 0 and the primary cache is enabled, the table metadata will be cached.
 	 * @see schemaCachingExclude
@@ -156,7 +156,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $schemaCacheID='cache';
 	/**
-	 * @var integer number of seconds that query results can remain valid in cache.
+	 * @var int number of seconds that query results can remain valid in cache.
 	 * Use 0 or negative value to indicate not caching query results (the default behavior).
 	 *
 	 * In order to enable query caching, this property must be a positive
@@ -178,7 +178,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $queryCachingDependency;
 	/**
-	 * @var integer the number of SQL statements that need to be cached next.
+	 * @var int the number of SQL statements that need to be cached next.
 	 * If this is 0, then even if query caching is enabled, no query will be cached.
 	 * Note that each time after executing a SQL statement (whether executed on DB server or fetched from
 	 * query cache), this property will be reduced by 1 until 0.
@@ -193,7 +193,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $queryCacheID='cache';
 	/**
-	 * @var boolean whether the database connection should be automatically established
+	 * @var bool whether the database connection should be automatically established
 	 * the component is being initialized. Defaults to true. Note, this property is only
 	 * effective when the CDbConnection object is used as an application component.
 	 */
@@ -209,7 +209,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $charset;
 	/**
-	 * @var boolean whether to turn on prepare emulation. Defaults to false, meaning PDO
+	 * @var bool whether to turn on prepare emulation. Defaults to false, meaning PDO
 	 * will use the native prepare support if available. For some databases (such as MySQL),
 	 * this may need to be set true so that PDO can emulate the prepare support to bypass
 	 * the buggy native prepare support. Note, this property is only effective for PHP 5.1.3 or above.
@@ -217,7 +217,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $emulatePrepare;
 	/**
-	 * @var boolean whether to log the values that are bound to a prepare SQL statement.
+	 * @var bool whether to log the values that are bound to a prepare SQL statement.
 	 * Defaults to false. During development, you may consider setting this property to true
 	 * so that parameter values bound to SQL statements are logged for debugging purpose.
 	 * You should be aware that logging parameter values could be expensive and have significant
@@ -225,7 +225,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $enableParamLogging=false;
 	/**
-	 * @var boolean whether to enable profiling the SQL statements being executed.
+	 * @var bool whether to enable profiling the SQL statements being executed.
 	 * Defaults to false. This should be mainly enabled and used during development
 	 * to find out the bottleneck of SQL executions.
 	 */
@@ -336,7 +336,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns whether the DB connection is established.
-	 * @return boolean whether the DB connection is established
+	 * @return bool whether the DB connection is established
 	 */
 	public function getActive()
 	{
@@ -345,7 +345,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Open or close the DB connection.
-	 * @param boolean $value whether to open or close DB connection
+	 * @param bool $value whether to open or close DB connection
 	 * @throws CException if connection fails
 	 */
 	public function setActive($value)
@@ -367,11 +367,11 @@ class CDbConnection extends CApplicationComponent
 	 * and remain valid for the specified duration.
 	 * If the same query is executed again, the result may be fetched from cache directly
 	 * without actually executing the SQL statement.
-	 * @param integer $duration the number of seconds that query results may remain valid in cache.
+	 * @param int $duration the number of seconds that query results may remain valid in cache.
 	 * If this is 0, the caching will be disabled.
 	 * @param CCacheDependency|ICacheDependency $dependency the dependency that will be used when saving
 	 * the query results into cache.
-	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
+	 * @param int $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
 	 * meaning that the next SQL query will be cached.
 	 * @return static the connection instance itself.
 	 * @since 1.1.7
@@ -494,7 +494,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Creates a command for execution.
-	 * @param mixed $query the DB query to be executed. This can be either a string representing a SQL statement,
+	 * @param string|array|null $query the DB query to be executed. This can be either a string representing a SQL statement,
 	 * or an array representing different fragments of a SQL statement. Please refer to {@link CDbCommand::__construct}
 	 * for more details about how to pass an array as the query. If this parameter is not given,
 	 * you will have to call query builder methods of {@link CDbCommand} to build the DB query.
@@ -594,7 +594,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Quotes a value for use in a query using a given type.
 	 * @param mixed $value the value to be quoted.
-	 * @param integer $type The type to be used for quoting.
+	 * @param int $type The type to be used for quoting.
 	 * This should be one of the `PDO::PARAM_*` constants described in
 	 * {@link http://www.php.net/manual/en/pdo.constants.php PDO documentation}.
 	 * This parameter will be passed to the `PDO::quote()` function.
@@ -636,7 +636,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Determines the PDO type for the specified PHP type.
 	 * @param string $type The PHP type (obtained by gettype() call).
-	 * @return integer the corresponding PDO type
+	 * @return int the corresponding PDO type
 	 */
 	public function getPdoType($type)
 	{
@@ -653,7 +653,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns the case of the column names
-	 * @return mixed the case of the column names
+	 * @return int|null the case of the column names
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function getColumnCase()
@@ -663,7 +663,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Sets the case of the column names.
-	 * @param mixed $value the case of the column names
+	 * @param int $value the case of the column names
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function setColumnCase($value)
@@ -694,7 +694,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Returns whether creating or updating a DB record will be automatically committed.
 	 * Some DBMS (such as sqlite) may not support this feature.
-	 * @return boolean whether creating or updating a DB record will be automatically committed.
+	 * @return bool whether creating or updating a DB record will be automatically committed.
 	 */
 	public function getAutoCommit()
 	{
@@ -704,7 +704,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Sets whether creating or updating a DB record will be automatically committed.
 	 * Some DBMS (such as sqlite) may not support this feature.
-	 * @param boolean $value whether creating or updating a DB record will be automatically committed.
+	 * @param bool $value whether creating or updating a DB record will be automatically committed.
 	 */
 	public function setAutoCommit($value)
 	{
@@ -714,7 +714,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Returns whether the connection is persistent or not.
 	 * Some DBMS (such as sqlite) may not support this feature.
-	 * @return boolean whether the connection is persistent or not
+	 * @return bool whether the connection is persistent or not
 	 */
 	public function getPersistent()
 	{
@@ -724,7 +724,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Sets whether the connection is persistent or not.
 	 * Some DBMS (such as sqlite) may not support this feature.
-	 * @param boolean $value whether the connection is persistent or not
+	 * @param bool $value whether the connection is persistent or not
 	 */
 	public function setPersistent($value)
 	{
@@ -778,7 +778,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns whether the connection performs data prefetching.
-	 * @return boolean whether the connection performs data prefetching
+	 * @return bool whether the connection performs data prefetching
 	 */
 	public function getPrefetch()
 	{
@@ -805,7 +805,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns the timeout settings for the connection.
-	 * @return integer timeout settings for the connection
+	 * @return int timeout settings for the connection
 	 */
 	public function getTimeout()
 	{
@@ -814,8 +814,8 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Obtains a specific DB connection attribute information.
-	 * @param integer $name the attribute to be queried
-	 * @return mixed the corresponding attribute information
+	 * @param int $name the attribute to be queried
+	 * @return mixed|null the corresponding attribute information
 	 * @see http://www.php.net/manual/en/function.PDO-getAttribute.php
 	 */
 	public function getAttribute($name)
@@ -826,7 +826,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Sets an attribute on the database connection.
-	 * @param integer $name the attribute to be set
+	 * @param int $name the attribute to be set
 	 * @param mixed $value the attribute value
 	 * @see http://www.php.net/manual/en/function.PDO-setAttribute.php
 	 */

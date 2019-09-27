@@ -49,7 +49,7 @@ class CDbLogRoute extends CLogRoute
 	 */
 	public $logTableName='YiiLog';
 	/**
-	 * @var boolean whether the log DB table should be automatically created if not exists. Defaults to true.
+	 * @var bool whether the log DB table should be automatically created if not exists. Defaults to true.
 	 * @see logTableName
 	 */
 	public $autoCreateLogTable=true;

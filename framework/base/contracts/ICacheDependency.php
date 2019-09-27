@@ -22,7 +22,7 @@ interface ICacheDependency
      */
     public function evaluateDependency();
     /**
-     * @return boolean whether the dependency has changed.
+     * @return bool whether the dependency has changed.
      */
     public function getHasChanged();
 }

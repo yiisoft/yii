@@ -58,7 +58,7 @@ class CFlexWidget extends CWidget
 	 */
 	public $allowScriptAccess='sameDomain';
 	/**
-	 * @var boolean whether to allow running the Flash in full screen mode. Defaults to false.
+	 * @var bool whether to allow running the Flash in full screen mode. Defaults to false.
 	 * @since 1.1.1
 	 */
 	public $allowFullScreen=false;
@@ -67,7 +67,7 @@ class CFlexWidget extends CWidget
 	 */
 	public $altHtmlContent;
 	/**
-	 * @var boolean whether history should be enabled. Defaults to true.
+	 * @var bool whether history should be enabled. Defaults to true.
 	 */
 	public $enableHistory=true;
 	/**

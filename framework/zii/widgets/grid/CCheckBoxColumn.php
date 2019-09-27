@@ -100,7 +100,7 @@ class CCheckBoxColumn extends CGridColumn
 	 */
 	public $checkBoxHtmlOptions=array();
 	/**
-	 * @var integer the number of rows that can be checked.
+	 * @var int the number of rows that can be checked.
 	 * Possible values:
 	 * <ul>
 	 * <li>0 - the state of the checkbox cannot be changed (read-only mode)</li>
@@ -213,7 +213,7 @@ EOD;
 	/**
 	 * Returns the data cell content.
 	 * This method renders a checkbox in the data cell.
-	 * @param integer $row the row number (zero-based)
+	 * @param int $row the row number (zero-based)
 	 * @return string the data cell content.
 	 * @since 1.1.16
 	 */

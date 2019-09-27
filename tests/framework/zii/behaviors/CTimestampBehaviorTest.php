@@ -141,10 +141,10 @@ class CTimestampBehaviorTest extends CTestCase
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
- * @property integer $created_at
- * @property integer $updated_at
+ * @property int $created_at
+ * @property int $updated_at
  */
 class CTimestampBehaviorTestActiveRecord extends CActiveRecord
 {

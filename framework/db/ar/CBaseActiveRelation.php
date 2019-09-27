@@ -17,11 +17,11 @@ class CBaseActiveRelation extends CComponent
      */
     public $className;
     /**
-     * @var mixed the foreign key in this relation
+     * @var string|string[] the foreign key in this relation
      */
     public $foreignKey;
     /**
-     * @var mixed list of column names (an array, or a string of names separated by commas) to be selected.
+     * @var string|string[] list of column names (an array, or a string of names separated by commas) to be selected.
      * Do not quote or prefix the column names unless they are used in an expression.
      * In that case, you should prefix the column names with 'relationName.'.
      */
@@ -87,8 +87,8 @@ class CBaseActiveRelation extends CComponent
     /**
      * Merges this relation with a criteria specified dynamically.
      *
-     * @param array   $criteria  the dynamically specified criteria
-     * @param boolean $fromScope whether the criteria to be merged is from scopes
+     * @param array|CDbCriteria   $criteria  the dynamically specified criteria
+     * @param bool $fromScope whether the criteria to be merged is from scopes
      */
     public function mergeWith($criteria, $fromScope = false)
     {

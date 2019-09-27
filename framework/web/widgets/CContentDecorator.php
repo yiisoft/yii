@@ -31,7 +31,7 @@
 class CContentDecorator extends COutputProcessor
 {
 	/**
-	 * @var mixed the name of the view that will be used to decorate the captured content.
+	 * @var string|null the name of the view that will be used to decorate the captured content.
 	 * If this property is null (default value), the default layout will be used as
 	 * the decorative view. Note that if the current controller does not belong to
 	 * any module, the default layout refers to the application's {@link CWebApplication::layout default layout};

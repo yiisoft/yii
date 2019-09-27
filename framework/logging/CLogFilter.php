@@ -24,17 +24,17 @@
 class CLogFilter extends CComponent implements ILogFilter
 {
 	/**
-	 * @var boolean whether to prefix each log message with the current user session ID.
+	 * @var bool whether to prefix each log message with the current user session ID.
 	 * Defaults to false.
 	 */
 	public $prefixSession=false;
 	/**
-	 * @var boolean whether to prefix each log message with the current user
+	 * @var bool whether to prefix each log message with the current user
 	 * {@link CWebUser::name name} and {@link CWebUser::id ID}. Defaults to false.
 	 */
 	public $prefixUser=false;
 	/**
-	 * @var boolean whether to log the current user name and ID. Defaults to true.
+	 * @var bool whether to log the current user name and ID. Defaults to true.
 	 */
 	public $logUser=true;
 	/**

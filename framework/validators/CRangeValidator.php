@@ -37,16 +37,16 @@ class CRangeValidator extends CValidator
 	 */
 	public $range;
 	/**
-	 * @var boolean whether the comparison is strict (both type and value must be the same)
+	 * @var bool whether the comparison is strict (both type and value must be the same)
 	 */
 	public $strict=false;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var boolean whether to invert the validation logic. Defaults to false. If set to true,
+	 * @var bool whether to invert the validation logic. Defaults to false. If set to true,
 	 * the attribute value should NOT be among the list of values defined via {@link range}.
 	 * @since 1.1.5
 	 **/

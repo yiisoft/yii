@@ -48,7 +48,7 @@ class CPropertyValue
 	 * string 'false' (case-insensitive) will be converted to false.
 	 * If a string represents a non-zero number, it will be treated as true.
 	 * @param mixed $value the value to be converted.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function ensureBoolean($value)
 	{
@@ -76,7 +76,7 @@ class CPropertyValue
 	/**
 	 * Converts a value to integer type.
 	 * @param mixed $value the value to be converted.
-	 * @return integer
+	 * @return int
 	 */
 	public static function ensureInteger($value)
 	{

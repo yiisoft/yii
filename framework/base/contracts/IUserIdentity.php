@@ -19,17 +19,17 @@ interface IUserIdentity
      * Authenticates the user.
      * The information needed to authenticate the user
      * are usually provided in the constructor.
-     * @return boolean whether authentication succeeds.
+     * @return bool whether authentication succeeds.
      */
     public function authenticate();
     /**
      * Returns a value indicating whether the identity is authenticated.
-     * @return boolean whether the identity is valid.
+     * @return bool whether the identity is valid.
      */
     public function getIsAuthenticated();
     /**
      * Returns a value that uniquely represents the identity.
-     * @return mixed a value that uniquely represents the identity (e.g. primary key value).
+     * @return string|int a value that uniquely represents the identity (e.g. primary key value).
      */
     public function getId();
     /**

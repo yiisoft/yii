@@ -26,7 +26,7 @@ class CDbColumnSchema extends CComponent
 	 */
 	public $rawName;
 	/**
-	 * @var boolean whether this column can be null.
+	 * @var bool whether this column can be null.
 	 */
 	public $allowNull;
 	/**
@@ -38,31 +38,31 @@ class CDbColumnSchema extends CComponent
 	 */
 	public $type;
 	/**
-	 * @var mixed default value of this column
+	 * @var mixed|null default value of this column
 	 */
 	public $defaultValue;
 	/**
-	 * @var integer size of the column.
+	 * @var int size of the column.
 	 */
 	public $size;
 	/**
-	 * @var integer precision of the column data, if it is numeric.
+	 * @var int precision of the column data, if it is numeric.
 	 */
 	public $precision;
 	/**
-	 * @var integer scale of the column data, if it is numeric.
+	 * @var int scale of the column data, if it is numeric.
 	 */
 	public $scale;
 	/**
-	 * @var boolean whether this column is a primary key
+	 * @var bool whether this column is a primary key
 	 */
 	public $isPrimaryKey;
 	/**
-	 * @var boolean whether this column is a foreign key
+	 * @var bool whether this column is a foreign key
 	 */
 	public $isForeignKey;
 	/**
-	 * @var boolean whether this column is auto-incremental
+	 * @var bool whether this column is auto-incremental
 	 * @since 1.1.7
 	 */
 	public $autoIncrement=false;
@@ -86,7 +86,7 @@ class CDbColumnSchema extends CComponent
 	 * Initializes the column with its DB type and default value.
 	 * This sets up the column's PHP type, size, precision, scale as well as default value.
 	 * @param string $dbType the column's DB type
-	 * @param mixed $defaultValue the default value
+	 * @param mixed|null $defaultValue the default value
 	 */
 	public function init($dbType, $defaultValue)
 	{

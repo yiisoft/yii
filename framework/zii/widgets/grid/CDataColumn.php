@@ -54,7 +54,7 @@ class CDataColumn extends CGridColumn
 	 */
 	public $type='text';
 	/**
-	 * @var boolean whether the column is sortable. If so, the header cell will contain a link that may trigger the sorting.
+	 * @var bool whether the column is sortable. If so, the header cell will contain a link that may trigger the sorting.
 	 * Defaults to true. Note that if {@link name} is not set, or if {@link name} is not allowed by {@link CSort},
 	 * this property will be treated as false.
 	 * @see name
@@ -131,7 +131,7 @@ class CDataColumn extends CGridColumn
 	/**
 	 * Returns the data cell content.
 	 * This method evaluates {@link value} or {@link name} and renders the result.
-	 * @param integer $row the row number (zero-based)
+	 * @param int $row the row number (zero-based)
 	 * @return string the data cell content.
 	 * @since 1.1.16
 	 */

@@ -38,7 +38,7 @@ class CTextHighlighter extends COutputProcessor
 	 */
 	public $language;
 	/**
-	 * @var boolean whether to show line numbers in the highlighted result. Defaults to false.
+	 * @var bool whether to show line numbers in the highlighted result. Defaults to false.
 	 * @see lineNumberStyle
 	 */
 	public $showLineNumbers=false;
@@ -48,11 +48,11 @@ class CTextHighlighter extends COutputProcessor
 	 */
 	public $lineNumberStyle='list';
 	/**
-	 * @var integer tab size. Defaults to 4.
+	 * @var int tab size. Defaults to 4.
 	 */
 	public $tabSize=4;
 	/**
-	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * @var string|false|null the CSS file used for the widget. Defaults to null, meaning
 	 * using the default CSS file included together with the widget.
 	 * If false, no CSS file will be used. Otherwise, the specified CSS file
 	 * will be included when using this widget.

@@ -30,7 +30,7 @@ class CFilterChain extends CList
 	 */
 	public $action;
 	/**
-	 * @var integer the index of the filter that is to be executed when calling {@link run()}.
+	 * @var int the index of the filter that is to be executed when calling {@link run()}.
 	 */
 	public $filterIndex=0;
 
@@ -105,8 +105,8 @@ class CFilterChain extends CList
 	 * This method overrides the parent implementation by adding
 	 * additional check for the item to be added. In particular,
 	 * only objects implementing {@link IFilter} can be added to the list.
-	 * @param integer $index the specified position.
-	 * @param mixed $item new item
+	 * @param int $index the specified position.
+	 * @param IFilter $item new item
 	 * @throws CException If the index specified exceeds the bound or the list is read-only, or the item is not an {@link IFilter} instance.
 	 */
 	public function insertAt($index,$item)

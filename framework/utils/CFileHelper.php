@@ -146,7 +146,7 @@ class CFileHelper
 	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
 	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
 	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
-	 * @param integer $level recursion depth. It defaults to -1.
+	 * @param int $level recursion depth. It defaults to -1.
 	 * Level -1 means copying all directories and files under the directory;
 	 * Level 0 means copying only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
@@ -194,11 +194,11 @@ class CFileHelper
 	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
 	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
 	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
-	 * @param integer $level recursion depth. It defaults to -1.
+	 * @param int $level recursion depth. It defaults to -1.
 	 * Level -1 means searching for all directories and files under the directory;
 	 * Level 0 means searching for only the files DIRECTLY under the directory;
 	 * level N means searching for those directories that are within N levels.
-	 * @param boolean $absolutePaths whether to return absolute paths or relative ones
+	 * @param bool $absolutePaths whether to return absolute paths or relative ones
 	 * @return array files found under the directory.
 	 * @throws Exception
 	 */
@@ -231,13 +231,13 @@ class CFileHelper
 	 * Validates a file or directory.
 	 * @param string $base the path relative to the original source directory
 	 * @param string $file the file or directory name
-	 * @param boolean $isFile whether this is a file
+	 * @param bool $isFile whether this is a file
 	 * @param array $fileTypes list of valid file name suffixes (without dot).
 	 * @param array $exclude list of directory and file exclusions. Each exclusion can be either a name or a path.
 	 * If a file or directory name or path matches the exclusion, false will be returned. For example, an exclusion of
 	 * '.svn' will return false for all files and directories whose name is '.svn'. And an exclusion of '/a/b' will return false for
 	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
-	 * @return boolean whether the file or directory is valid
+	 * @return bool whether the file or directory is valid
 	 */
 	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
 	{
@@ -268,7 +268,7 @@ class CFileHelper
 	 * Magic file format described in {@link http://linux.die.net/man/5/magic man 5 magic}, note that this file does not
 	 * contain a standard PHP array as you might suppose. Specified magic file will be used only when fileinfo
 	 * PHP extension is available. This parameter has been available since version 1.1.3.
-	 * @param boolean $checkExtension whether to check the file extension in case the MIME type cannot be determined
+	 * @param bool $checkExtension whether to check the file extension in case the MIME type cannot be determined
 	 * based on finfo and mime_content_type. Defaults to true. This parameter has been available since version 1.1.4.
 	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
 	 */
@@ -348,9 +348,9 @@ class CFileHelper
 	 * For avoidance of umask side-effects chmod is used.
 	 *
 	 * @param string $dst path to be created
-	 * @param integer $mode the permission to be set for newly created directories, if not set - 0777 will be used
-	 * @param boolean $recursive whether to create directory structure recursive if parent dirs do not exist
-	 * @return boolean result of mkdir
+	 * @param int $mode the permission to be set for newly created directories, if not set - 0777 will be used
+	 * @param bool $recursive whether to create directory structure recursive if parent dirs do not exist
+	 * @return bool result of mkdir
 	 * @see mkdir
 	 */
 	public static function createDirectory($dst,$mode=null,$recursive=false)

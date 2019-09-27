@@ -45,7 +45,7 @@ class CPhpMessageSource extends CMessageSource
 	const CACHE_KEY_PREFIX='Yii.CPhpMessageSource.';
 
 	/**
-	 * @var integer the time in seconds that the messages can remain valid in cache.
+	 * @var int the time in seconds that the messages can remain valid in cache.
 	 * Defaults to 0, meaning the caching is disabled.
 	 */
 	public $cachingDuration=0;
@@ -147,7 +147,7 @@ class CPhpMessageSource extends CMessageSource
 			$messages=include($messageFile);
 			if(!is_array($messages))
 				$messages=array();
-			if(isset($cache))
+			if(isset($cache, $key))
 			{
 				$dependency=new CFileCacheDependency($messageFile);
 				$cache->set($key,serialize($messages),$this->cachingDuration,$dependency);

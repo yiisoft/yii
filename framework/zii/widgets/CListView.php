@@ -110,7 +110,7 @@ class CListView extends CBaseListView
 	 */
 	public $sorterFooter='';
 	/**
-	 * @var mixed the ID of the container whose content may be updated with an AJAX response.
+	 * @var string|false|null the ID of the container whose content may be updated with an AJAX response.
 	 * Defaults to null, meaning the container for this list view instance.
 	 * If it is set false, it means sorting and pagination will be performed in normal page requests
 	 * instead of AJAX requests. If the sorting and pagination should trigger the update of multiple
@@ -152,7 +152,7 @@ class CListView extends CBaseListView
 	 */
 	public $ajaxVar='ajax';
 	/**
-	 * @var mixed the URL for the AJAX requests should be sent to. {@link CHtml::normalizeUrl()} will be
+	 * @var string|array|null the URL for the AJAX requests should be sent to. {@link CHtml::normalizeUrl()} will be
 	 * called on this property. If not set, the current page URL will be used for AJAX requests.
 	 * @since 1.1.8
 	 */
@@ -192,7 +192,7 @@ class CListView extends CBaseListView
 	public $itemsTagName='div';
 
 	/**
-	 * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
+	 * @var bool whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
 	 * to persist state of list across page revisits.  Note, there are two limitations for this feature:
 	 * - this feature is only compatible with browsers that support HTML5.
 	 * - expect unexpected functionality (e.g. multiple ajax calls) if there is more than one grid/list on a single page with enableHistory turned on.

@@ -43,7 +43,7 @@ class CUniqueValidatorTest extends CTestCase
 
 	/**
 	 * Declares test active record class.
-	 * @return boolean success.
+	 * @return bool success.
 	 */
 	protected function declareArModelClass()
 	{

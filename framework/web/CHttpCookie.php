@@ -30,7 +30,7 @@ class CHttpCookie extends CComponent
 	 */
 	public $domain='';
 	/**
-	 * @var integer the timestamp at which the cookie expires. This is the server timestamp. Defaults to 0, meaning "until the browser is closed".
+	 * @var int the timestamp at which the cookie expires. This is the server timestamp. Defaults to 0, meaning "until the browser is closed".
 	 */
 	public $expire=0;
 	/**
@@ -38,11 +38,11 @@ class CHttpCookie extends CComponent
 	 */
 	public $path='/';
 	/**
-	 * @var boolean whether cookie should be sent via secure connection
+	 * @var bool whether cookie should be sent via secure connection
 	 */
 	public $secure=false;
 	/**
-	 * @var boolean whether the cookie should be accessible only through the HTTP protocol.
+	 * @var bool whether the cookie should be accessible only through the HTTP protocol.
 	 * By setting this property to true, the cookie will not be accessible by scripting languages,
 	 * such as JavaScript, which can effectly help to reduce identity theft through XSS attacks.
 	 * Note, this property is only effective for PHP 5.2.0 or above.

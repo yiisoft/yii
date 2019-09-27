@@ -61,7 +61,7 @@ class CLinkPager extends CBasePager
 	 */
 	public $selectedPageCssClass=self::CSS_SELECTED_PAGE;
 	/**
-	 * @var integer maximum number of page buttons that can be displayed. Defaults to 10.
+	 * @var int maximum number of page buttons that can be displayed. Defaults to 10.
 	 */
 	public $maxButtonCount=10;
 	/**
@@ -187,10 +187,10 @@ class CLinkPager extends CBasePager
 	 * Creates a page button.
 	 * You may override this method to customize the page buttons.
 	 * @param string $label the text label for the button
-	 * @param integer $page the page number
+	 * @param int $page the page number
 	 * @param string $class the CSS class for the page button.
-	 * @param boolean $hidden whether this page button is visible
-	 * @param boolean $selected whether this page button is selected
+	 * @param bool $hidden whether this page button is visible
+	 * @param bool $selected whether this page button is selected
 	 * @return string the generated button
 	 */
 	protected function createPageButton($label,$page,$class,$hidden,$selected)

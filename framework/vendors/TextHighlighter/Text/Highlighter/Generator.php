@@ -160,7 +160,7 @@ class Text_Highlighter_Generator extends  XML_Parser
     /**
     * Flag for comment processing
     *
-    * @var boolean
+    * @var bool
     * @access private
     */
     var $_inComment = false;
@@ -168,7 +168,7 @@ class Text_Highlighter_Generator extends  XML_Parser
     /**
     * Sorting order of current block/region
     *
-    * @var integer
+    * @var int
     * @access private
     */
     var $_blockOrder = 0;
@@ -209,10 +209,10 @@ class Text_Highlighter_Generator extends  XML_Parser
     /**
     * Format error message
     *
-    * @param integer $code error code
+    * @param int $code error code
     * @param string $params parameters
     * @param string $fileName file name
-    * @param integer $lineNo line number
+    * @param int $lineNo line number
     * @return  array
     * @access  public
     */
@@ -331,7 +331,7 @@ class Text_Highlighter_Generator extends  XML_Parser
     * is located in Text/Highlighter
     *
     * @param string $filename Name of file to write the code to
-    * @return boolean true on success, false on failure
+    * @return bool true on success, false on failure
     * @access public
     */
 
@@ -353,7 +353,7 @@ class Text_Highlighter_Generator extends  XML_Parser
     /**
     * Reports if there were errors
     *
-    * @return boolean
+    * @return bool
     * @access public
     */
 
@@ -767,9 +767,9 @@ class Text_Highlighter_Generator extends  XML_Parser
     /**
     * Add an error message
     *
-    * @param integer $code Error code
+    * @param int $code Error code
     * @param mixed   $message Error message or array with error message parameters
-    * @param integer $lineNo Source code line number
+    * @param int $lineNo Source code line number
     * @access private
     */
     function _error($code, $params = array(), $lineNo = 0)

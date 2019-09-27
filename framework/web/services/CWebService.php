@@ -44,7 +44,7 @@ class CWebService extends CComponent
 	 */
 	public $serviceUrl;
 	/**
-	 * @var integer number of seconds that the generated WSDL can remain valid in cache. Defaults to 0, meaning no caching.
+	 * @var int number of seconds that the generated WSDL can remain valid in cache. Defaults to 0, meaning no caching.
 	 */
 	public $wsdlCacheDuration=0;
 	/**
@@ -73,7 +73,7 @@ class CWebService extends CComponent
 	 */
 	public $soapVersion;
 	/**
-	 * @var integer the persistence mode of the SOAP server.
+	 * @var int the persistence mode of the SOAP server.
 	 * @see http://www.php.net/manual/en/soapserver.setpersistence.php
 	 */
 	public $persistence;

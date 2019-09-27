@@ -21,7 +21,7 @@ class CUrlRule extends CBaseUrlRule
      */
     public $urlSuffix;
     /**
-     * @var boolean whether the rule is case sensitive. Defaults to null, meaning
+     * @var bool whether the rule is case sensitive. Defaults to null, meaning
      * using the value of {@link CUrlManager::caseSensitive}.
      */
     public $caseSensitive;
@@ -32,7 +32,7 @@ class CUrlRule extends CBaseUrlRule
      */
     public $defaultParams = [];
     /**
-     * @var boolean whether the GET parameter values should match the corresponding
+     * @var bool whether the GET parameter values should match the corresponding
      * sub-patterns in the rule when creating a URL. Defaults to null, meaning using the value
      * of {@link CUrlManager::matchValue}. When this property is false, it means
      * a rule will be used for creating a URL if its route and parameter names match the given ones.
@@ -50,7 +50,7 @@ class CUrlRule extends CBaseUrlRule
      */
     public $verb;
     /**
-     * @var boolean whether this rule is only used for request parsing.
+     * @var bool whether this rule is only used for request parsing.
      * Defaults to false, meaning the rule is used for both URL parsing and creation.
      * @since 1.1.7
      */
@@ -80,11 +80,11 @@ class CUrlRule extends CBaseUrlRule
      */
     public $params = [];
     /**
-     * @var boolean whether the URL allows additional parameters at the end of the path info.
+     * @var bool whether the URL allows additional parameters at the end of the path info.
      */
     public $append;
     /**
-     * @var boolean whether host info should be considered for this rule
+     * @var bool whether host info should be considered for this rule
      */
     public $hasHostInfo;
 

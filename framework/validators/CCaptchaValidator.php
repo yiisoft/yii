@@ -20,7 +20,7 @@
 class CCaptchaValidator extends CValidator
 {
 	/**
-	 * @var boolean whether the comparison is case sensitive. Defaults to false.
+	 * @var bool whether the comparison is case sensitive. Defaults to false.
 	 */
 	public $caseSensitive=false;
 	/**
@@ -30,7 +30,7 @@ class CCaptchaValidator extends CValidator
 	 */
 	public $captchaAction='captcha';
 	/**
-	 * @var boolean whether the attribute value can be null or empty.
+	 * @var bool whether the attribute value can be null or empty.
 	 * Defaults to false, meaning the attribute is invalid if it is empty.
 	 */
 	public $allowEmpty=false;

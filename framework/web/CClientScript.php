@@ -41,7 +41,7 @@ class CClientScript extends CApplicationComponent
 	const POS_READY=4;
 
 	/**
-	 * @var boolean whether JavaScript should be enabled. Defaults to true.
+	 * @var bool whether JavaScript should be enabled. Defaults to true.
 	 */
 	public $enableJavaScript=true;
 	/**
@@ -143,7 +143,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected $css=array();
 	/**
-	 * @var boolean whether there are any javascript or css to be rendered.
+	 * @var bool whether there are any javascript or css to be rendered.
 	 * @since 1.1.7
 	 */
 	protected $hasScripts=false;
@@ -153,21 +153,21 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected $coreScripts=array();
 	/**
-	 * @var integer Where the scripts registered using {@link registerCoreScript} or {@link registerPackage}
+	 * @var int Where the scripts registered using {@link registerCoreScript} or {@link registerPackage}
 	 * will be inserted in the page. This can be one of the CClientScript::POS_* constants.
 	 * Defaults to CClientScript::POS_HEAD.
 	 * @since 1.1.3
 	 */
 	public $coreScriptPosition=self::POS_HEAD;
 	/**
-	 * @var integer Where the scripts registered using {@link registerScriptFile} will be inserted in the page.
+	 * @var int Where the scripts registered using {@link registerScriptFile} will be inserted in the page.
 	 * This can be one of the CClientScript::POS_* constants.
 	 * Defaults to CClientScript::POS_HEAD.
 	 * @since 1.1.11
 	 */
 	public $defaultScriptFilePosition=self::POS_HEAD;
 	/**
-	 * @var integer Where the scripts registered using {@link registerScript} will be inserted in the page.
+	 * @var int Where the scripts registered using {@link registerScript} will be inserted in the page.
 	 * This can be one of the CClientScript::POS_* constants.
 	 * Defaults to CClientScript::POS_READY.
 	 * @since 1.1.11
@@ -660,7 +660,7 @@ class CClientScript extends CApplicationComponent
 	/**
 	 * Registers a javascript file.
 	 * @param string $url URL of the javascript file
-	 * @param integer $position the position of the JavaScript code. Valid values include the following:
+	 * @param int $position the position of the JavaScript code. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
@@ -692,7 +692,7 @@ class CClientScript extends CApplicationComponent
 	 * Registers a piece of javascript code.
 	 * @param string $id ID that uniquely identifies this piece of JavaScript code
 	 * @param string $script the javascript code
-	 * @param integer $position the position of the JavaScript code. Valid values include the following:
+	 * @param int $position the position of the JavaScript code. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
@@ -791,7 +791,7 @@ class CClientScript extends CApplicationComponent
 	/**
 	 * Checks whether the CSS file has been registered.
 	 * @param string $url URL of the CSS file
-	 * @return boolean whether the CSS file is already registered
+	 * @return bool whether the CSS file is already registered
 	 */
 	public function isCssFileRegistered($url)
 	{
@@ -801,7 +801,7 @@ class CClientScript extends CApplicationComponent
 	/**
 	 * Checks whether the CSS code has been registered.
 	 * @param string $id ID that uniquely identifies the CSS code
-	 * @return boolean whether the CSS code is already registered
+	 * @return bool whether the CSS code is already registered
 	 */
 	public function isCssRegistered($id)
 	{
@@ -811,13 +811,13 @@ class CClientScript extends CApplicationComponent
 	/**
 	 * Checks whether the JavaScript file has been registered.
 	 * @param string $url URL of the javascript file
-	 * @param integer $position the position of the JavaScript code. Valid values include the following:
+	 * @param int $position the position of the JavaScript code. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
 	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	 * </ul>
-	 * @return boolean whether the javascript file is already registered
+	 * @return bool whether the javascript file is already registered
 	 */
 	public function isScriptFileRegistered($url,$position=self::POS_HEAD)
 	{
@@ -827,7 +827,7 @@ class CClientScript extends CApplicationComponent
 	/**
 	 * Checks whether the JavaScript code has been registered.
 	 * @param string $id ID that uniquely identifies the JavaScript code
-	 * @param integer $position the position of the JavaScript code. Valid values include the following:
+	 * @param int $position the position of the JavaScript code. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
@@ -835,7 +835,7 @@ class CClientScript extends CApplicationComponent
 	 * <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
 	 * <li>CClientScript::POS_READY : the script is inserted in the jQuery's ready function.</li>
 	 * </ul>
-	 * @return boolean whether the javascript code is already registered
+	 * @return bool whether the javascript code is already registered
 	 */
 	public function isScriptRegistered($id,$position=self::POS_READY)
 	{

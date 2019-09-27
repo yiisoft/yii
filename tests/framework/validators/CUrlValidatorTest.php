@@ -51,7 +51,7 @@ class CUrlValidatorTest extends CTestCase
 	 * @dataProvider providerIDNUrl
 	 *
 	 * @param string $url
-	 * @param boolean $validateIDN
+	 * @param bool $validateIDN
 	 * @param string $assertion
 	 */
 	public function testIDNUrl($url, $validateIDN, $assertion)

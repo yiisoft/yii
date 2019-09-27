@@ -43,7 +43,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * This method contains the logic to be executed when applying this migration.
 	 * Child classes may implement this method to provide actual migration logic.
-	 * @return boolean Returning false means, the migration will not be applied.
+	 * @return bool Returning false means, the migration will not be applied.
 	 */
 	public function up()
 	{
@@ -69,7 +69,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * This method contains the logic to be executed when removing this migration.
 	 * Child classes may override this method if the corresponding migrations can be removed.
-	 * @return boolean Returning false means, the migration will not be applied.
+	 * @return bool Returning false means, the migration will not be applied.
 	 */
 	public function down()
 	{
@@ -98,7 +98,7 @@ abstract class CDbMigration extends CComponent
 	 * be enclosed within a DB transaction.
 	 * Child classes may implement this method instead of {@link up} if the DB logic
 	 * needs to be within a transaction.
-	 * @return boolean Returning false means, the migration will not be applied and
+	 * @return bool Returning false means, the migration will not be applied and
 	 * the transaction will be rolled back.
 	 * @since 1.1.7
 	 */
@@ -112,7 +112,7 @@ abstract class CDbMigration extends CComponent
 	 * be enclosed within a DB transaction.
 	 * Child classes may implement this method instead of {@link up} if the DB logic
 	 * needs to be within a transaction.
-	 * @return boolean Returning false means, the migration will not be applied and
+	 * @return bool Returning false means, the migration will not be applied and
 	 * the transaction will be rolled back.
 	 * @since 1.1.7
 	 */
@@ -201,7 +201,7 @@ abstract class CDbMigration extends CComponent
 	 * The method will properly escape the column names and bind the values to be updated.
 	 * @param string $table the table to be updated.
 	 * @param array $columns the column data (name=>value) to be updated.
-	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
+	 * @param string|array $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link CDbCommand::where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
 	 */
@@ -216,7 +216,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Creates and executes a DELETE SQL statement.
 	 * @param string $table the table where the data will be deleted from.
-	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
+	 * @param string|array $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link CDbCommand::where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
 	 */
@@ -386,7 +386,7 @@ abstract class CDbMigration extends CComponent
 	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
 	 * @param string|array $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
 	 * by commas or pass as an array of column names. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
-	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
+	 * @param bool $unique whether to add UNIQUE constraint on the created index.
 	 */
 	public function createIndex($name, $table, $columns, $unique=false)
 	{

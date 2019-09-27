@@ -72,7 +72,7 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  *
  * Please refer to {@link columns} for more details about how to configure this property.
  *
- * @property boolean $hasFooter Whether the table should render a footer.
+ * @property bool $hasFooter Whether the table should render a footer.
  * This is true if any of the {@link columns} has a true {@link CGridColumn::hasFooter} value.
  * @property CFormatter $formatter The formatter instance. Defaults to the 'format' application component.
  *
@@ -143,7 +143,7 @@ class CGridView extends CBaseListView
 	 */
 	public $rowHtmlOptionsExpression;
 	/**
-	 * @var boolean whether to display the table even when there is no data. Defaults to true.
+	 * @var bool whether to display the table even when there is no data. Defaults to true.
 	 * The {@link emptyText} will be displayed to indicate there is no data.
 	 */
 	public $showTableOnEmpty=true;
@@ -233,7 +233,7 @@ class CGridView extends CBaseListView
 	 */
 	public $selectionChanged;
 	/**
-	 * @var integer the number of table body rows that can be selected. If 0, it means rows cannot be selected.
+	 * @var int the number of table body rows that can be selected. If 0, it means rows cannot be selected.
 	 * If 1, only one row can be selected. If 2 or any other number, it means multiple rows can be selected.
 	 * A selected row will have a CSS class named 'selected'. You may also call the JavaScript function
 	 * <code>$(gridID).yiiGridView('getSelection')</code> to retrieve the key values of the currently selected
@@ -312,14 +312,14 @@ class CGridView extends CBaseListView
 	 */
 	public $filter;
 	/**
-	 * @var boolean whether to hide the header cells of the grid. When this is true, header cells
+	 * @var bool whether to hide the header cells of the grid. When this is true, header cells
 	 * will not be rendered, which means the grid cannot be sorted anymore since the sort links are located
 	 * in the header. Defaults to false.
 	 * @since 1.1.1
 	 */
 	public $hideHeader=false;
 	/**
-	 * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
+	 * @var bool whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
 	 * to persist state of grid across page revisits.  Note, there are two limitations for this feature:
 	 * <ul>
 	 *    <li>this feature is only compatible with browsers that support HTML5.</li>
@@ -589,7 +589,7 @@ class CGridView extends CBaseListView
 
 	/**
 	 * Renders a table body row.
-	 * @param integer $row the row number (zero-based).
+	 * @param int $row the row number (zero-based).
 	 */
 	public function renderTableRow($row)
 	{
@@ -631,7 +631,7 @@ class CGridView extends CBaseListView
 	 * Or override `renderDataCell()` method of all possible CGridColumn descendants.
 	 * 
 	 * @param CGridColumn $column The Column instance to 
-	 * @param integer $row
+	 * @param int $row
 	 * @since 1.1.16
 	 */
 	protected function renderDataCell($column, $row)
@@ -640,7 +640,7 @@ class CGridView extends CBaseListView
 	}
 	
 	/**
-	 * @return boolean whether the table should render a footer.
+	 * @return bool whether the table should render a footer.
 	 * This is true if any of the {@link columns} has a true {@link CGridColumn::hasFooter} value.
 	 */
 	public function getHasFooter()

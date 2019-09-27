@@ -24,7 +24,7 @@ class CDefaultValueValidator extends CValidator
 	 */
 	public $value;
 	/**
-	 * @var boolean whether to set the default value only when the attribute value is null or empty string.
+	 * @var bool whether to set the default value only when the attribute value is null or empty string.
 	 * Defaults to true. If false, the attribute will always be assigned with the default value,
 	 * even if it is already explicitly assigned a value.
 	 */

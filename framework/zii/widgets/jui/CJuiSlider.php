@@ -49,7 +49,7 @@ class CJuiSlider extends CJuiWidget
 	 */
 	public $tagName='div';
 	/**
-	 * @var integer determines the value of the slider, if there's only one handle. If there is more than one handle, determines the value of the first handle.
+	 * @var int determines the value of the slider, if there's only one handle. If there is more than one handle, determines the value of the first handle.
 	 */
 	public $value;
 

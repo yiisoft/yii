@@ -60,7 +60,7 @@ class CSort extends CComponent
 	const SORT_DESC = true;
 
 	/**
-	 * @var boolean whether the sorting can be applied to multiple attributes simultaneously.
+	 * @var bool whether the sorting can be applied to multiple attributes simultaneously.
 	 * Defaults to false, which means each time the data can only be sorted by one attribute.
 	 */
 	public $multiSort=false;

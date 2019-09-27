@@ -67,13 +67,13 @@ class CTypeValidator extends CValidator
 	 */
 	public $datetimeFormat='MM/dd/yyyy hh:mm';
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
 
 	/**
-	 * @var boolean whether the actual PHP type of attribute value should be checked.
+	 * @var bool whether the actual PHP type of attribute value should be checked.
 	 * Defaults to false, meaning that correctly formatted strings are accepted for
 	 * integer and float validators.
 	 *
@@ -105,7 +105,7 @@ class CTypeValidator extends CValidator
 	 * Note that this method does not respect {@link allowEmpty} property.
 	 * This method is provided so that you can call it directly without going through the model validation rule mechanism.
 	 * @param mixed $value the value to be validated
-	 * @return boolean whether the value is valid
+	 * @return bool whether the value is valid
 	 * @since 1.1.13
 	 */
 	public function validateValue($value)

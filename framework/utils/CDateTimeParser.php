@@ -57,7 +57,7 @@
 class CDateTimeParser
 {
 	/**
-	 * @var boolean whether 'mbstring' PHP extension available. This static property introduced for
+	 * @var bool whether 'mbstring' PHP extension available. This static property introduced for
 	 * the better overall performance of the class functionality. Checking 'mbstring' availability
 	 * through static property with predefined status value is much faster than direct calling
 	 * of function_exists('...').
@@ -76,7 +76,7 @@ class CDateTimeParser
 	 * parameter is array('minute'=>0, 'second'=>0), then the actual minute and second
 	 * for the parsing result will take value 0, while the actual hour value will be
 	 * the current hour obtained by date('H'). This parameter has been available since version 1.1.5.
-	 * @return integer timestamp for the date string. False if parsing fails.
+	 * @return int timestamp for the date string. False if parsing fails.
 	 */
 	public static function parse($value,$pattern='MM/dd/yyyy',$defaults=array())
 	{
@@ -288,9 +288,9 @@ class CDateTimeParser
 
 	/**
 	 * @param string $value the date string to be parsed
-	 * @param integer $offset starting offset
-	 * @param integer $minLength minimum length
-	 * @param integer $maxLength maximum length
+	 * @param int $offset starting offset
+	 * @param int $minLength minimum length
+	 * @param int $maxLength maximum length
 	 * @return string parsed integer value
 	 */
 	protected static function parseInteger($value,$offset,$minLength,$maxLength)
@@ -306,7 +306,7 @@ class CDateTimeParser
 
 	/**
 	 * @param string $value the date string to be parsed
-	 * @param integer $offset starting offset
+	 * @param int $offset starting offset
 	 * @return string parsed day period value
 	 */
 	protected static function parseAmPm($value, $offset)
@@ -317,7 +317,7 @@ class CDateTimeParser
 
 	/**
 	 * @param string $value the date string to be parsed.
-	 * @param integer $offset starting offset.
+	 * @param int $offset starting offset.
 	 * @param string $width month name width. It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param string $monthName extracted month name. Passed by reference.
 	 * @return string parsed month name.

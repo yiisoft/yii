@@ -20,8 +20,8 @@ interface IViewRenderer
      * @param CBaseController $context the controller or widget who is rendering the view file.
      * @param string $file the view file path
      * @param mixed $data the data to be passed to the view
-     * @param boolean $return whether the rendering result should be returned
-     * @return mixed the rendering result, or null if the rendering result is not needed.
+     * @param bool $return whether the rendering result should be returned
+     * @return mixed|null the rendering result, or null if the rendering result is not needed.
      */
     public function renderFile($context,$file,$data,$return);
 }

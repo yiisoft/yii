@@ -5,7 +5,7 @@
 class SoapPovCalculationOutput {
 
 	/**
-	* @var integer calculation ID
+	* @var int calculation ID
 	* @example 187
 	* @soap
 	*/

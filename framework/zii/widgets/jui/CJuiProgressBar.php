@@ -48,7 +48,7 @@ class CJuiProgressBar extends CJuiWidget
 	 */
 	public $tagName='div';
 	/**
-	 * @var integer the percentage of the progress. This must be an integer between 0 and 100. Defaults to 0.
+	 * @var int the percentage of the progress. This must be an integer between 0 and 100. Defaults to 0.
 	 */
 	public $value=0;
 

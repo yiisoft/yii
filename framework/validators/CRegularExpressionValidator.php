@@ -23,12 +23,12 @@ class CRegularExpressionValidator extends CValidator
 	 */
 	public $pattern;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var boolean whether to invert the validation logic. Defaults to false. If set to true,
+	 * @var bool whether to invert the validation logic. Defaults to false. If set to true,
 	 * the regular expression defined via {@link pattern} should NOT match the attribute value.
 	 * @since 1.1.5
 	 **/

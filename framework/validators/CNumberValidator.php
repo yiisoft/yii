@@ -31,20 +31,20 @@
 class CNumberValidator extends CValidator
 {
 	/**
-	 * @var boolean whether the attribute value can only be an integer. Defaults to false.
+	 * @var bool whether the attribute value can only be an integer. Defaults to false.
 	 */
 	public $integerOnly=false;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var integer|float upper limit of the number. Defaults to null, meaning no upper limit.
+	 * @var int|float upper limit of the number. Defaults to null, meaning no upper limit.
 	 */
 	public $max;
 	/**
-	 * @var integer|float lower limit of the number. Defaults to null, meaning no lower limit.
+	 * @var int|float lower limit of the number. Defaults to null, meaning no lower limit.
 	 */
 	public $min;
 	/**

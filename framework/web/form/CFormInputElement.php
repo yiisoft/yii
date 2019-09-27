@@ -46,7 +46,7 @@
  * stored in {@link attributes} which will be passed as HTML attribute values to the {@link CHtml} method
  * generating the input or initial values of the widget properties.
  *
- * @property boolean $required Whether this input is required.
+ * @property bool $required Whether this input is required.
  * @property string $label The label for this input. If the label is not manually set,
  * this method will call {@link CModel::getAttributeLabel} to determine the label.
  *
@@ -112,7 +112,7 @@ class CFormInputElement extends CFormElement
 	 */
 	public $errorOptions=array();
 	/**
-	 * @var boolean whether to allow AJAX-based validation for this input. Note that in order to use
+	 * @var bool whether to allow AJAX-based validation for this input. Note that in order to use
 	 * AJAX-based validation, {@link CForm::activeForm} must be configured with 'enableAjaxValidation'=>true.
 	 * This property allows turning on or off  AJAX-based validation for individual input fields.
 	 * Defaults to true.
@@ -120,7 +120,7 @@ class CFormInputElement extends CFormElement
 	 */
 	public $enableAjaxValidation=true;
 	/**
-	 * @var boolean whether to allow client-side validation for this input. Note that in order to use
+	 * @var bool whether to allow client-side validation for this input. Note that in order to use
 	 * client-side validation, {@link CForm::activeForm} must be configured with 'enableClientValidation'=>true.
 	 * This property allows turning on or off  client-side validation for individual input fields.
 	 * Defaults to true.
@@ -140,7 +140,7 @@ class CFormInputElement extends CFormElement
 	 * Gets the value indicating whether this input is required.
 	 * If this property is not set explicitly, it will be determined by calling
 	 * {@link CModel::isAttributeRequired} for the associated model and attribute of this input.
-	 * @return boolean whether this input is required.
+	 * @return bool whether this input is required.
 	 */
 	public function getRequired()
 	{
@@ -151,7 +151,7 @@ class CFormInputElement extends CFormElement
 	}
 
 	/**
-	 * @param boolean $value whether this input is required.
+	 * @param bool $value whether this input is required.
 	 */
 	public function setRequired($value)
 	{
@@ -267,7 +267,7 @@ class CFormInputElement extends CFormElement
 	 * Evaluates the visibility of this element.
 	 * This method will check if the attribute associated with this input is safe for
 	 * the current model scenario.
-	 * @return boolean whether this element is visible.
+	 * @return bool whether this element is visible.
 	 */
 	protected function evaluateVisible()
 	{

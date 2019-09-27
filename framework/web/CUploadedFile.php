@@ -23,9 +23,9 @@
  * @property string $type The MIME-type of the uploaded file (such as "image/gif").
  * Since this MIME type is not checked on the server side, do not take this value for granted.
  * Instead, use {@link CFileHelper::getMimeType} to determine the exact MIME type.
- * @property integer $size The actual size of the uploaded file in bytes.
- * @property integer $error The error code.
- * @property boolean $hasError Whether there is an error with the uploaded file.
+ * @property int $size The actual size of the uploaded file in bytes.
+ * @property int $error The error code.
+ * @property bool $hasError Whether there is an error with the uploaded file.
  * Check {@link error} for detailed error code information.
  * @property string $extensionName The file extension name for {@link name}.
  * The extension name does not include the dot character. An empty string
@@ -158,8 +158,8 @@ class CUploadedFile extends CComponent
 	 * @param string $name the original name of the file being uploaded
 	 * @param string $tempName the path of the uploaded file on the server.
 	 * @param string $type the MIME-type of the uploaded file (such as "image/gif").
-	 * @param integer $size the actual size of the uploaded file in bytes
-	 * @param integer $error the error code
+	 * @param int $size the actual size of the uploaded file in bytes
+	 * @param int $error the error code
 	 */
 	public function __construct($name,$tempName,$type,$size,$error)
 	{
@@ -186,9 +186,9 @@ class CUploadedFile extends CComponent
 	 * Note: this method uses php's move_uploaded_file() method. As such, if the target file ($file) 
 	 * already exists it is overwritten.
 	 * @param string $file the file path used to save the uploaded file
-	 * @param boolean $deleteTempFile whether to delete the temporary file after saving.
+	 * @param bool $deleteTempFile whether to delete the temporary file after saving.
 	 * If true, you will not be able to save the uploaded file again in the current request.
-	 * @return boolean true whether the file is saved successfully
+	 * @return bool true whether the file is saved successfully
 	 * 
 	 * In some exceptional cases such as not enough permissions to write to the path specified
 	 * PHP warning is triggered.
@@ -237,7 +237,7 @@ class CUploadedFile extends CComponent
 	}
 
 	/**
-	 * @return integer the actual size of the uploaded file in bytes
+	 * @return int the actual size of the uploaded file in bytes
 	 */
 	public function getSize()
 	{
@@ -246,7 +246,7 @@ class CUploadedFile extends CComponent
 
 	/**
 	 * Returns an error code describing the status of this file uploading.
-	 * @return integer the error code
+	 * @return int the error code
 	 * @see http://www.php.net/manual/en/features.file-upload.errors.php
 	 */
 	public function getError()
@@ -255,7 +255,7 @@ class CUploadedFile extends CComponent
 	}
 
 	/**
-	 * @return boolean whether there is an error with the uploaded file.
+	 * @return bool whether there is an error with the uploaded file.
 	 * Check {@link error} for detailed error code information.
 	 */
 	public function getHasError()

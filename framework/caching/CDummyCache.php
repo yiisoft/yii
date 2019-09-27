@@ -41,7 +41,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	/**
 	 * Retrieves a value from cache with a specified key.
 	 * @param string $id a key identifying the cached value
-	 * @return mixed the value stored in cache, false if the value is not in the cache, expired or the dependency has changed.
+	 * @return mixed|false the value stored in cache, false if the value is not in the cache, expired or the dependency has changed.
 	 */
 	public function get($id)
 	{
@@ -73,9 +73,9 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 *
 	 * @param string $id the key identifying the value to be cached
 	 * @param mixed $value the value to be cached
-	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @param int $expire the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @param ICacheDependency $dependency dependency of the cached item. If the dependency changes, the item is labeled invalid.
-	 * @return boolean true if the value is successfully stored into cache, false otherwise
+	 * @return bool true if the value is successfully stored into cache, false otherwise
 	 */
 	public function set($id,$value,$expire=0,$dependency=null)
 	{
@@ -87,9 +87,9 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 * Nothing will be done if the cache already contains the key.
 	 * @param string $id the key identifying the value to be cached
 	 * @param mixed $value the value to be cached
-	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @param int $expire the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @param ICacheDependency $dependency dependency of the cached item. If the dependency changes, the item is labeled invalid.
-	 * @return boolean true if the value is successfully stored into cache, false otherwise
+	 * @return bool true if the value is successfully stored into cache, false otherwise
 	 */
 	public function add($id,$value,$expire=0,$dependency=null)
 	{
@@ -99,7 +99,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	/**
 	 * Deletes a value with the specified key from cache
 	 * @param string $id the key of the value to be deleted
-	 * @return boolean if no error happens during deletion
+	 * @return bool if no error happens during deletion
 	 */
 	public function delete($id)
 	{
@@ -109,7 +109,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	/**
 	 * Deletes all values from cache.
 	 * Be careful of performing this operation if the cache is shared by multiple applications.
-	 * @return boolean whether the flush operation was successful.
+	 * @return bool whether the flush operation was successful.
 	 * @throws CException if this method is not overridden by child classes
 	 */
 	public function flush()
@@ -121,7 +121,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 * Returns whether there is a cache entry with a specified key.
 	 * This method is required by the interface ArrayAccess.
 	 * @param string $id a key identifying the cached value
-	 * @return boolean
+	 * @return bool
 	 */
 	public function offsetExists($id)
 	{
@@ -132,7 +132,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 * Retrieves the value from cache with a specified key.
 	 * This method is required by the interface ArrayAccess.
 	 * @param string $id a key identifying the cached value
-	 * @return mixed the value stored in cache, false if the value is not in the cache or expired.
+	 * @return mixed|false the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	public function offsetGet($id)
 	{
@@ -155,7 +155,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 * Deletes the value with the specified key from cache
 	 * This method is required by the interface ArrayAccess.
 	 * @param string $id the key of the value to be deleted
-	 * @return boolean if no error happens during deletion
+	 * @return bool if no error happens during deletion
 	 */
 	public function offsetUnset($id)
 	{

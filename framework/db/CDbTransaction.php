@@ -30,7 +30,7 @@
  * </pre>
  *
  * @property CDbConnection $connection The DB connection for this transaction.
- * @property boolean $active Whether this transaction is active.
+ * @property bool $active Whether this transaction is active.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.db
@@ -93,7 +93,7 @@ class CDbTransaction extends CComponent
 	}
 
 	/**
-	 * @return boolean whether this transaction is active
+	 * @return bool whether this transaction is active
 	 */
 	public function getActive()
 	{
@@ -101,7 +101,7 @@ class CDbTransaction extends CComponent
 	}
 
 	/**
-	 * @param boolean $value whether this transaction is active
+	 * @param bool $value whether this transaction is active
 	 */
 	protected function setActive($value)
 	{

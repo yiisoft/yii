@@ -26,12 +26,12 @@
 class CUniqueValidator extends CValidator
 {
 	/**
-	 * @var boolean whether the comparison is case sensitive. Defaults to true.
+	 * @var bool whether the comparison is case sensitive. Defaults to true.
 	 * Note, by setting it to false, you are assuming the attribute type is string.
 	 */
 	public $caseSensitive=true;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
@@ -63,7 +63,7 @@ class CUniqueValidator extends CValidator
 	 */
 	public $message;
 	/**
-	 * @var boolean whether this validation rule should be skipped if when there is already a validation
+	 * @var bool whether this validation rule should be skipped if when there is already a validation
 	 * error for the current attribute. Defaults to true.
 	 * @since 1.1.1
 	 */

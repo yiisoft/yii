@@ -66,7 +66,7 @@ abstract class CAction extends CComponent implements IAction
 	 * Runs the action with the supplied request parameters.
 	 * This method is internally called by {@link CController::runAction()}.
 	 * @param array $params the request parameters (name=>value)
-	 * @return boolean whether the request parameters are valid
+	 * @return bool whether the request parameters are valid
 	 * @since 1.1.7
 	 */
 	public function runWithParams($params)
@@ -81,10 +81,10 @@ abstract class CAction extends CComponent implements IAction
 	/**
 	 * Executes a method of an object with the supplied named parameters.
 	 * This method is internally used.
-	 * @param mixed $object the object whose method is to be executed
+	 * @param CController|\CAction $object the object whose method is to be executed
 	 * @param ReflectionMethod $method the method reflection
 	 * @param array $params the named parameters
-	 * @return boolean whether the named parameters are valid
+	 * @return bool whether the named parameters are valid
 	 * @since 1.1.7
 	 */
 	protected function runWithParamsInternal($object, $method, $params)

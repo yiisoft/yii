@@ -94,13 +94,13 @@ class GiiModule extends CWebModule
 	 */
 	public $generatorPaths=array('application.gii');
 	/**
-	 * @var integer the permission to be set for newly generated code files.
+	 * @var int the permission to be set for newly generated code files.
 	 * This value will be used by PHP chmod function.
 	 * Defaults to 0666, meaning the file is read-writable by all users.
 	 */
 	public $newFileMode=0666;
 	/**
-	 * @var integer the permission to be set for newly generated directories.
+	 * @var int the permission to be set for newly generated directories.
 	 * This value will be used by PHP chmod function.
 	 * Defaults to 0777, meaning the directory can be read, written and executed by all users.
 	 */
@@ -159,7 +159,7 @@ class GiiModule extends CWebModule
 	 * @param CController $controller the controller to be accessed.
 	 * @param CAction $action the action to be accessed.
 	 * @throws CHttpException if access denied
-	 * @return boolean whether the action should be executed.
+	 * @return bool whether the action should be executed.
 	 */
 	public function beforeControllerAction($controller, $action)
 	{
@@ -184,7 +184,7 @@ class GiiModule extends CWebModule
 	/**
 	 * Checks to see if the user IP is allowed by {@link ipFilters}.
 	 * @param string $ip the user IP
-	 * @return boolean whether the user IP is allowed by {@link ipFilters}.
+	 * @return bool whether the user IP is allowed by {@link ipFilters}.
 	 */
 	protected function allowIp($ip)
 	{

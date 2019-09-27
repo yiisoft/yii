@@ -276,7 +276,7 @@ class CDateFormatter extends CComponent
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException is "dayInYear" pattern is unknown
-	 * @return integer hours in AM/PM format.
+	 * @return int hours in AM/PM format.
 	 */
 	protected function formatDayInYear($pattern,$date)
 	{
@@ -292,7 +292,7 @@ class CDateFormatter extends CComponent
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException if "dayInMonth" pattern is unknown
-	 * @return integer day in month
+	 * @return int day in month
 	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
 	 */
 	protected function formatDayInMonth($pattern,$date)
@@ -410,7 +410,7 @@ class CDateFormatter extends CComponent
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException if "hourInDay" pattern is unknown
-	 * @return integer hours [1-24]
+	 * @return int hours [1-24]
 	 */
 	protected function formatHourInDay($pattern,$date)
 	{
@@ -429,7 +429,7 @@ class CDateFormatter extends CComponent
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException if "hourInPeriod" pattern is unknown
-	 * @return integer hours in AM/PM format.
+	 * @return int hours in AM/PM format.
 	 */
 	protected function formatHourInPeriod($pattern,$date)
 	{
@@ -485,7 +485,7 @@ class CDateFormatter extends CComponent
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException if "weekInYear" pattern is unknown
-	 * @return integer week in year
+	 * @return int week in year
 	 */
 	protected function formatWeekInYear($pattern,$date)
 	{
@@ -500,7 +500,7 @@ class CDateFormatter extends CComponent
 	 * @param array $pattern result of {@link CTimestamp::getdate}.
 	 * @param string $date a pattern.
 	 * @throws CException if "weekInMonth" pattern is unknown
-	 * @return integer week in month
+	 * @return int week in month
 	 */
 	protected function formatWeekInMonth($pattern,$date)
 	{

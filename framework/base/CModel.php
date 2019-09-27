@@ -140,12 +140,12 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 *
 	 * Errors found during the validation can be retrieved via {@link getErrors}.
 	 *
-	 * @param array $attributes list of attributes that should be validated. Defaults to null,
+	 * @param string[]|null $attributes list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules should be
 	 * validated. If this parameter is given as a list of attributes, only
 	 * the listed attributes will be validated.
-	 * @param boolean $clearErrors whether to call {@link clearErrors} before performing validation
-	 * @return boolean whether the validation is successful without any error.
+	 * @param bool $clearErrors whether to call {@link clearErrors} before performing validation
+	 * @return bool whether the validation is successful without any error.
 	 * @see beforeValidate
 	 * @see afterValidate
 	 */
@@ -181,7 +181,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * The default implementation calls {@link onBeforeValidate} to raise an event.
 	 * You may override this method to do preliminary checks before validation.
 	 * Make sure the parent implementation is invoked so that the event can be raised.
-	 * @return boolean whether validation should be executed. Defaults to true.
+	 * @return bool whether validation should be executed. Defaults to true.
 	 * If false is returned, the validation will stop and the model is considered invalid.
 	 */
 	protected function beforeValidate()
@@ -252,7 +252,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Returns the validators applicable to the current {@link scenario}.
 	 * @param string $attribute the name of the attribute whose validators should be returned.
 	 * If this is null, the validators for ALL attributes in the model will be returned.
-	 * @return array the validators applicable to the current {@link scenario}.
+	 * @return \CValidator[] the validators applicable to the current {@link scenario}.
 	 */
 	public function getValidators($attribute=null)
 	{
@@ -299,7 +299,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
      *
      * @param string $attribute attribute name
      *
-     * @return boolean whether the attribute is required
+     * @return bool whether the attribute is required
      */
     public function isAttributeRequired($attribute)
     {
@@ -318,7 +318,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
     /**
 	 * Returns a value indicating whether the attribute is safe for massive assignments.
 	 * @param string $attribute attribute name
-	 * @return boolean whether the attribute is safe for massive assignments
+	 * @return bool whether the attribute is safe for massive assignments
 	 * @since 1.1
 	 */
 	public function isAttributeSafe($attribute)
@@ -346,7 +346,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns a value indicating whether there is any validation error.
 	 * @param string $attribute attribute name. Use null to check all attributes.
-	 * @return boolean whether there is any error.
+	 * @return bool whether there is any error.
 	 */
 	public function hasErrors($attribute=null)
 	{
@@ -462,7 +462,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Sets the attribute values in a massive way.
 	 * @param array $values attribute values (name=>value) to be set.
-	 * @param boolean $safeOnly whether the assignments should only be done to the safe attributes.
+	 * @param bool $safeOnly whether the assignments should only be done to the safe attributes.
 	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
 	 * @see getSafeAttributeNames
 	 * @see attributeNames
@@ -583,8 +583,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns whether there is an element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer|string $offset the offset to check on
-	 * @return boolean
+	 * @param int|string $offset the offset to check on
+	 * @return bool
 	 */
 	public function offsetExists($offset)
 	{
@@ -594,8 +594,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer|string $offset the offset to retrieve element.
-	 * @return mixed the element at the offset, null if no element is found at the offset
+	 * @param int|string $offset the offset to retrieve element.
+	 * @return mixed|null the element at the offset, null if no element is found at the offset
 	 */
 	public function offsetGet($offset)
 	{
@@ -605,7 +605,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Sets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer|string $offset the offset to set element
+	 * @param int|string $offset the offset to set element
 	 * @param mixed $item the element value
 	 */
 	public function offsetSet($offset,$item)
@@ -616,7 +616,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Unsets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer|string $offset the offset to unset element
+	 * @param int|string $offset the offset to unset element
 	 */
 	public function offsetUnset($offset)
 	{

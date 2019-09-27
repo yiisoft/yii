@@ -61,7 +61,7 @@ class CArrayDataProvider extends CDataProvider
 	 */
 	public $rawData=array();
 	/**
-	 * @var boolean controls how sorting works. True value means that case will be
+	 * @var bool controls how sorting works. True value means that case will be
 	 * taken into account. False value will lead to the case insensitive sort. Default
 	 * value is true.
 	 * @since 1.1.13
@@ -115,7 +115,7 @@ class CArrayDataProvider extends CDataProvider
 	/**
 	 * Calculates the total number of data items.
 	 * This method simply returns the number of elements in {@link rawData}.
-	 * @return integer the total number of data items.
+	 * @return int the total number of data items.
 	 */
 	protected function calculateTotalItemCount()
 	{
@@ -160,7 +160,7 @@ class CArrayDataProvider extends CDataProvider
 
 	/**
 	 * Get field for sorting, using dot like delimiter in query.
-	 * @param mixed $data array or object
+	 * @param array|object $data array or object
 	 * @param array $fields sorting fields in $data
 	 * @return mixed $data sorting field value
 	 */

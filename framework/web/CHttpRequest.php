@@ -31,16 +31,16 @@
  * (in most cases it is not decoded).
  * @property string $requestUri The request URI portion for the currently requested URL.
  * @property string $queryString Part of the request URL that is after the question mark.
- * @property boolean $isSecureConnection If the request is sent via secure channel (https).
+ * @property bool $isSecureConnection If the request is sent via secure channel (https).
  * @property string $requestType Request type, such as GET, POST, HEAD, PUT, PATCH, DELETE.
- * @property boolean $isPostRequest Whether this is a POST request.
- * @property boolean $isDeleteRequest Whether this is a DELETE request.
- * @property boolean $isPutRequest Whether this is a PUT request.
- * @property boolean $isPatchRequest Whether this is a PATCH request.
- * @property boolean $isAjaxRequest Whether this is an AJAX (XMLHttpRequest) request.
- * @property boolean $isFlashRequest Whether this is an Adobe Flash or Adobe Flex request.
+ * @property bool $isPostRequest Whether this is a POST request.
+ * @property bool $isDeleteRequest Whether this is a DELETE request.
+ * @property bool $isPutRequest Whether this is a PUT request.
+ * @property bool $isPatchRequest Whether this is a PATCH request.
+ * @property bool $isAjaxRequest Whether this is an AJAX (XMLHttpRequest) request.
+ * @property bool $isFlashRequest Whether this is an Adobe Flash or Adobe Flex request.
  * @property string $serverName Server name.
- * @property integer $serverPort Server port number.
+ * @property int $serverPort Server port number.
  * @property string $urlReferrer URL referrer, null if not present.
  * @property string $userAgent User agent, null if not present.
  * @property string $userHostAddress User IP address.
@@ -48,8 +48,8 @@
  * @property string $scriptFile Entry script file path (processed w/ realpath()).
  * @property array $browser User browser capabilities.
  * @property string $acceptTypes User browser accept types, null if not present.
- * @property integer $port Port number for insecure requests.
- * @property integer $securePort Port number for secure requests.
+ * @property int $port Port number for insecure requests.
+ * @property int $securePort Port number for secure requests.
  * @property CCookieCollection|CHttpCookie[] $cookies The cookie collection.
  * @property array $preferredAcceptType The user preferred accept type as an array map, e.g. array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'params' => array('q' => 0.9)).
  * @property array $preferredAcceptTypes An array of all user accepted types (as array maps like array('type' => 'application', 'subType' => 'xhtml', 'baseType' => 'xml', 'params' => array('q' => 0.9)) ) in order of preference.
@@ -64,17 +64,17 @@
 class CHttpRequest extends CApplicationComponent
 {
 	/**
-	 * @var boolean whether the parsing of JSON REST requests should return associative arrays for object data.
+	 * @var bool whether the parsing of JSON REST requests should return associative arrays for object data.
 	 * @see getRestParams
 	 * @since 1.1.17
 	 */
 	public $jsonAsArray = true;
 	/**
-	 * @var boolean whether cookies should be validated to ensure they are not tampered. Defaults to false.
+	 * @var bool whether cookies should be validated to ensure they are not tampered. Defaults to false.
 	 */
 	public $enableCookieValidation=false;
 	/**
-	 * @var boolean whether to enable CSRF (Cross-Site Request Forgery) validation. Defaults to false.
+	 * @var bool whether to enable CSRF (Cross-Site Request Forgery) validation. Defaults to false.
 	 * By setting this property to true, forms submitted to an Yii Web application must be originated
 	 * from the same application. If not, a 400 HTTP exception will be raised.
 	 * Note, this feature requires that the user client accepts cookie.
@@ -392,7 +392,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns the relative URL for the application.
 	 * This is similar to {@link getScriptUrl scriptUrl} except that
 	 * it does not have the script file name, and the ending slashes are stripped off.
-	 * @param boolean $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
+	 * @param bool $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
 	 * @return string the relative URL for the application
 	 * @see setScriptUrl
 	 */
@@ -577,7 +577,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Return if the request is sent via secure channel (https).
-	 * @return boolean if the request is sent via secure channel (https)
+	 * @return bool if the request is sent via secure channel (https)
 	 */
 	public function getIsSecureConnection()
 	{
@@ -604,7 +604,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is a POST request.
-	 * @return boolean whether this is a POST request.
+	 * @return bool whether this is a POST request.
 	 */
 	public function getIsPostRequest()
 	{
@@ -613,7 +613,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is a DELETE request.
-	 * @return boolean whether this is a DELETE request.
+	 * @return bool whether this is a DELETE request.
 	 * @since 1.1.7
 	 */
 	public function getIsDeleteRequest()
@@ -623,7 +623,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is a DELETE request which was tunneled through POST.
-	 * @return boolean whether this is a DELETE request tunneled through POST.
+	 * @return bool whether this is a DELETE request tunneled through POST.
 	 * @since 1.1.11
 	 */
 	protected function getIsDeleteViaPostRequest()
@@ -633,7 +633,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is a PUT request.
-	 * @return boolean whether this is a PUT request.
+	 * @return bool whether this is a PUT request.
 	 * @since 1.1.7
 	 */
 	public function getIsPutRequest()
@@ -643,7 +643,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is a PUT request which was tunneled through POST.
-	 * @return boolean whether this is a PUT request tunneled through POST.
+	 * @return bool whether this is a PUT request tunneled through POST.
 	 * @since 1.1.11
 	 */
 	protected function getIsPutViaPostRequest()
@@ -653,7 +653,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is a PATCH request.
-	 * @return boolean whether this is a PATCH request.
+	 * @return bool whether this is a PATCH request.
 	 * @since 1.1.16
 	 */
 	public function getIsPatchRequest()
@@ -663,7 +663,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is a PATCH request which was tunneled through POST.
-	 * @return boolean whether this is a PATCH request tunneled through POST.
+	 * @return bool whether this is a PATCH request tunneled through POST.
 	 * @since 1.1.16
 	 */
 	protected function getIsPatchViaPostRequest()
@@ -673,7 +673,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is an AJAX (XMLHttpRequest) request.
-	 * @return boolean whether this is an AJAX (XMLHttpRequest) request.
+	 * @return bool whether this is an AJAX (XMLHttpRequest) request.
 	 */
 	public function getIsAjaxRequest()
 	{
@@ -682,7 +682,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns whether this is an Adobe Flash or Adobe Flex request.
-	 * @return boolean whether this is an Adobe Flash or Adobe Flex request.
+	 * @return bool whether this is an Adobe Flash or Adobe Flex request.
 	 * @since 1.1.11
 	 */
 	public function getIsFlashRequest()
@@ -701,7 +701,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the server port number.
-	 * @return integer server port number
+	 * @return int server port number
 	 */
 	public function getServerPort()
 	{
@@ -805,7 +805,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Defaults to 80, or the port specified by the server if the current
 	 * request is insecure.
 	 * You may explicitly specify it by setting the {@link setPort port} property.
-	 * @return integer port number for insecure requests.
+	 * @return int port number for insecure requests.
 	 * @see setPort
 	 * @since 1.1.3
 	 */
@@ -820,7 +820,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the port to use for insecure requests.
 	 * This setter is provided in case a custom port is necessary for certain
 	 * server configurations.
-	 * @param integer $value port number.
+	 * @param int $value port number.
 	 * @since 1.1.3
 	 */
 	public function setPort($value)
@@ -836,7 +836,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Defaults to 443, or the port specified by the server if the current
 	 * request is secure.
 	 * You may explicitly specify it by setting the {@link setSecurePort securePort} property.
-	 * @return integer port number for secure requests.
+	 * @return int port number for secure requests.
 	 * @see setSecurePort
 	 * @since 1.1.3
 	 */
@@ -851,7 +851,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the port to use for secure requests.
 	 * This setter is provided in case a custom port is necessary for certain
 	 * server configurations.
-	 * @param integer $value port number.
+	 * @param int $value port number.
 	 * @since 1.1.3
 	 */
 	public function setSecurePort($value)
@@ -879,8 +879,8 @@ class CHttpRequest extends CApplicationComponent
 	 * Redirects the browser to the specified URL.
 	 * @param string $url URL to be redirected to. Note that when URL is not
 	 * absolute (not starting with "/") it will be relative to current request URL.
-	 * @param boolean $terminate whether to terminate the current application
-	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
+	 * @param bool $terminate whether to terminate the current application
+	 * @param int $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
@@ -977,7 +977,7 @@ class CHttpRequest extends CApplicationComponent
 	 * See {@link parseAcceptHeader()} for the format of $a and $b
 	 * @param array $a user accepted MIME type as an array map
 	 * @param array $b user accepted MIME type as an array map
-	 * @return integer -1, 0 or 1 if $a has respectively greater preference, equal preference or less preference than $b (higher preference comes first).
+	 * @return int -1, 0 or 1 if $a has respectively greater preference, equal preference or less preference than $b (higher preference comes first).
 	 */
 	public static function compareAcceptTypes($a,$b)
 	{
@@ -1109,7 +1109,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $fileName file name
 	 * @param string $content content to be set.
 	 * @param string $mimeType mime type of the content. If null, it will be guessed automatically based on the given file name.
-	 * @param boolean $terminate whether to terminate the current application after calling this method
+	 * @param bool $terminate whether to terminate the current application after calling this method
 	 * @throws CHttpException
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)

@@ -24,7 +24,7 @@ class CSysLogRoute extends CLogRoute
 	 */
 	public $identity;
 	/**
-	 * @var integer syslog facility name.
+	 * @var int syslog facility name.
 	 */
 	public $facility=LOG_SYSLOG;
 

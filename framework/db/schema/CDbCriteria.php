@@ -27,7 +27,7 @@ class CDbCriteria extends CComponent
 {
 	const PARAM_PREFIX=':ycp';
 	/**
-	 * @var integer the global counter for anonymous binding parameters.
+	 * @var int the global counter for anonymous binding parameters.
 	 * This counter is used for generating the name for the anonymous parameters.
 	 */
 	public static $paramCount=0;
@@ -38,7 +38,7 @@ class CDbCriteria extends CComponent
 	 */
 	public $select='*';
 	/**
-	 * @var boolean whether to select distinct rows of data only. If this is set true,
+	 * @var bool whether to select distinct rows of data only. If this is set true,
 	 * the SELECT clause would be changed to SELECT DISTINCT.
 	 */
 	public $distinct=false;
@@ -53,11 +53,11 @@ class CDbCriteria extends CComponent
 	 */
 	public $params=array();
 	/**
-	 * @var integer maximum number of records to be returned. If less than 0, it means no limit.
+	 * @var int maximum number of records to be returned. If less than 0, it means no limit.
 	 */
 	public $limit=-1;
 	/**
-	 * @var integer zero-based offset from where the records are to be returned. If less than 0, it means starting from the beginning.
+	 * @var int zero-based offset from where the records are to be returned. If less than 0, it means starting from the beginning.
 	 */
 	public $offset=-1;
 	/**
@@ -101,7 +101,7 @@ class CDbCriteria extends CComponent
 	 */
 	public $alias;
 	/**
-	 * @var boolean whether the foreign tables should be joined with the primary table in a single SQL.
+	 * @var bool whether the foreign tables should be joined with the primary table in a single SQL.
 	 * This property is only used in relational AR queries for HAS_MANY and MANY_MANY relations.
 	 *
 	 * When this property is set true, only a single SQL will be executed for a relational AR query,
@@ -211,7 +211,7 @@ class CDbCriteria extends CComponent
 	 * will be concatenated together via the operator.
 	 * This method handles the case when the existing condition is empty.
 	 * After calling this method, the {@link condition} property will be modified.
-	 * @param mixed $condition the new condition. It can be either a string or an array of strings.
+	 * @param string[]|string $condition the new condition. It can be either a string or an array of strings.
 	 * @param string $operator the operator to join different conditions. Defaults to 'AND'.
 	 * @return static the criteria object itself
 	 */
@@ -238,7 +238,7 @@ class CDbCriteria extends CComponent
 	 * search keyword.
 	 * @param string $column the column name (or a valid SQL expression)
 	 * @param string $keyword the search keyword. This interpretation of the keyword is affected by the next parameter.
-	 * @param boolean $escape whether the keyword should be escaped if it contains characters % or _.
+	 * @param bool $escape whether the keyword should be escaped if it contains characters % or _.
 	 * When this parameter is true (default), the special characters % (matches 0 or more characters)
 	 * and _ (matches a single character) will be escaped, and the keyword will be surrounded with a %
 	 * character on both ends. When this parameter is false, the keyword will be directly used for
@@ -398,11 +398,11 @@ class CDbCriteria extends CComponent
 	 * intelligent comparison will be conducted. If the value is an array, the comparison is done
 	 * by exact match of any of the value in the array. If the string or the array is empty,
 	 * the existing search condition will not be modified.
-	 * @param boolean $partialMatch whether the value should consider partial text match (using LIKE and NOT LIKE operators).
+	 * @param bool $partialMatch whether the value should consider partial text match (using LIKE and NOT LIKE operators).
 	 * Defaults to false, meaning exact comparison.
 	 * @param string $operator the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
-	 * @param boolean $escape whether the value should be escaped if $partialMatch is true and
+	 * @param bool $escape whether the value should be escaped if $partialMatch is true and
 	 * the value contains characters % or _. When this parameter is true (default),
 	 * the special characters % (matches 0 or more characters)
 	 * and _ (matches a single character) will be escaped, and the value will be surrounded with a %
@@ -578,9 +578,10 @@ class CDbCriteria extends CComponent
 		{
 			$scopes1=(array)$this->scopes;
 			$scopes2=(array)$criteria->scopes;
+            $scopes = [];
 			foreach($scopes1 as $k=>$v)
 			{
-				if(is_integer($k))
+				if(is_int($k))
 					$scopes[]=$v;
 				elseif(isset($scopes2[$k]))
 					$scopes[]=array($k=>$v);
@@ -589,7 +590,7 @@ class CDbCriteria extends CComponent
 			}
 			foreach($scopes2 as $k=>$v)
 			{
-				if(is_integer($k))
+				if(is_int($k))
 					$scopes[]=$v;
 				elseif(isset($scopes1[$k]))
 					$scopes[]=array($k=>$v);
@@ -606,7 +607,7 @@ class CDbCriteria extends CComponent
 			$this->with=(array)$this->with;
 			foreach((array)$criteria->with as $k=>$v)
 			{
-				if(is_integer($k))
+				if(is_int($k))
 					$this->with[]=$v;
 				elseif(isset($this->with[$k]))
 				{

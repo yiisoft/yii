@@ -114,7 +114,7 @@ class CConsoleApplication extends CApplication
 	 * Displays the captured PHP error.
 	 * This method displays the error in console mode when there is
 	 * no active error handler.
-	 * @param integer $code error code
+	 * @param int $code error code
 	 * @param string $message error message
 	 * @param string $file error file
 	 * @param string $line error line

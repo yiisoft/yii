@@ -32,7 +32,7 @@ class CHelpCommand extends CConsoleCommand
 	/**
 	 * Execute the action.
 	 * @param array $args command line parameters specific for this command
-	 * @return integer non zero application exit code after printing help
+	 * @return int non zero application exit code after printing help
 	 */
 	public function run($args)
 	{

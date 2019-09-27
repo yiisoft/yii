@@ -101,7 +101,7 @@ class CClientScriptTest extends CTestCase
 	 * @dataProvider providerScriptFiles
 	 *
 	 * @param string $url
-	 * @param integer $position
+	 * @param int $position
 	 * @param string $assertion
 	 */
 	public function testRegisterScriptFile($url, $position, $assertion)
@@ -130,7 +130,7 @@ class CClientScriptTest extends CTestCase
 	 * @dataProvider providerScriptFilesWithHtmlOptions
 	 *
 	 * @param string $url
-	 * @param integer $position
+	 * @param int $position
 	 * @param array $htmlOptions
 	 * @param string $assertion
 	 */
@@ -154,7 +154,7 @@ class CClientScriptTest extends CTestCase
 	 *
 	 * @param string $id
 	 * @param string $script
-	 * @param integer $position
+	 * @param int $position
 	 * @param string $assertion
 	 */
 	public function testRegisterScript($id, $script, $position, $assertion) {
@@ -183,7 +183,7 @@ class CClientScriptTest extends CTestCase
 	 *
 	 * @param string $id
 	 * @param string $script
-	 * @param integer $position
+	 * @param int $position
 	 * @param array $htmlOptions
 	 * @param string $assertion
 	 */
@@ -248,7 +248,7 @@ class CClientScriptTest extends CTestCase
 	 *
 	 * @param string $content
 	 * @param string $name
-	 * @param boolean $httpEquiv
+	 * @param bool $httpEquiv
 	 * @param array $options
 	 * @param array $assertion
 	 */
@@ -329,7 +329,7 @@ class CClientScriptTest extends CTestCase
   * @dataProvider providerRenderScriptFiles
   *
   * @param string $url
-  * @param integer $position
+  * @param int $position
   * @param array $htmlOptions
   * @param string $assertion
   */
@@ -411,7 +411,7 @@ class CClientScriptTest extends CTestCase
 	 *
 	 * @param string $id
 	 * @param string $script
-	 * @param integer $position
+	 * @param int $position
 	 * @param array $htmlOptions
 	 * @param string $assertion
 	 */
@@ -471,7 +471,7 @@ class CClientScriptTest extends CTestCase
 	 * @dataProvider providerRenderScriptsBatch
 	 *
 	 * @param array $scriptBatch
-	 * @param integer $expectedScriptTagCount
+	 * @param int $expectedScriptTagCount
 	 *
 	 * @see https://github.com/yiisoft/yii/issues/2770
 	 */

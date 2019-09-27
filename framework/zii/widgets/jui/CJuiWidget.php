@@ -130,7 +130,7 @@ abstract class CJuiWidget extends CWidget
 	 * Registers a JavaScript file under {@link scriptUrl}.
 	 * Note that by default, the script file will be rendered at the end of a page to improve page loading speed.
 	 * @param string $fileName JavaScript file name
-	 * @param integer $position the position of the JavaScript file. Valid values include the following:
+	 * @param int $position the position of the JavaScript file. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>

@@ -111,7 +111,7 @@ abstract class CConsoleCommand extends CComponent
 	 * dispatch the command request to an appropriate action with the corresponding
 	 * option values
 	 * @param array $args command line parameters for this command.
-	 * @return integer application exit code, which is returned by the invoked action. 0 if the action did not return anything.
+	 * @return int application exit code, which is returned by the invoked action. 0 if the action did not return anything.
 	 * (return value is available since version 1.1.11)
 	 */
 	public function run($args)
@@ -180,7 +180,7 @@ abstract class CConsoleCommand extends CComponent
 	 * You may override this method to do last-minute preparation for the action.
 	 * @param string $action the action name
 	 * @param array $params the parameters to be passed to the action method.
-	 * @return boolean whether the action should be executed.
+	 * @return bool whether the action should be executed.
 	 */
 	protected function beforeAction($action,$params)
 	{
@@ -201,8 +201,8 @@ abstract class CConsoleCommand extends CComponent
 	 * You may override this method to do some postprocessing for the action.
 	 * @param string $action the action name
 	 * @param array $params the parameters to be passed to the action method.
-	 * @param integer $exitCode the application exit code returned by the action method.
-	 * @return integer application exit code (return value is available since version 1.1.11)
+	 * @param int $exitCode the application exit code returned by the action method.
+	 * @return int application exit code (return value is available since version 1.1.11)
 	 */
 	protected function afterAction($action,$params,$exitCode=0)
 	{
@@ -355,7 +355,7 @@ abstract class CConsoleCommand extends CComponent
 	 *   by the function will be saved into the target file.</li>
 	 * <li>params: optional, the parameters to be passed to the callback</li>
 	 * </ul>
-	 * @param boolean $overwriteAll whether to overwrite all files.
+	 * @param bool $overwriteAll whether to overwrite all files.
 	 * @see buildFileList
 	 */
 	public function copyFiles($fileList,$overwriteAll=false)
@@ -468,8 +468,8 @@ abstract class CConsoleCommand extends CComponent
 	 * Renders a view file.
 	 * @param string $_viewFile_ view file path
 	 * @param array $_data_ optional data to be extracted as local view variables
-	 * @param boolean $_return_ whether to return the rendering result instead of displaying it
-	 * @return mixed the rendering result if required. Null otherwise.
+	 * @param bool $_return_ whether to return the rendering result instead of displaying it
+	 * @return string|null the rendering result if required. Null otherwise.
 	 */
 	public function renderFile($_viewFile_,$_data_=null,$_return_=false)
 	{
@@ -564,8 +564,8 @@ abstract class CConsoleCommand extends CComponent
 	 * Asks user to confirm by typing y or n.
 	 *
 	 * @param string $message to echo out before waiting for user input
-	 * @param boolean $default this value is returned if no selection is made. This parameter has been available since version 1.1.11.
-	 * @return boolean whether user confirmed
+	 * @param bool $default this value is returned if no selection is made. This parameter has been available since version 1.1.11.
+	 * @return bool whether user confirmed
 	 *
 	 * @since 1.1.9
 	 */

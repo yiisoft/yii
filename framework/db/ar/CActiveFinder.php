@@ -21,12 +21,12 @@
 class CActiveFinder extends CComponent
 {
 	/**
-	 * @var boolean join all tables all at once. Defaults to false.
+	 * @var bool join all tables all at once. Defaults to false.
 	 * This property is internally used.
 	 */
 	public $joinAll=false;
 	/**
-	 * @var boolean whether the base model has limit or offset.
+	 * @var bool whether the base model has limit or offset.
 	 * This property is internally used.
 	 */
 	public $baseLimited=false;
@@ -39,7 +39,7 @@ class CActiveFinder extends CComponent
 	 * Constructor.
 	 * A join tree is built up based on the declared relationships between active record classes.
 	 * @param CActiveRecord $model the model that initiates the active finding process
-	 * @param mixed $with the relation names to be actively looked for
+	 * @param string|array $with the relation names to be actively looked for
 	 */
 	public function __construct($model,$with)
 	{
@@ -52,8 +52,8 @@ class CActiveFinder extends CComponent
 	 * Do not call this method. This method is used internally to perform the relational query
 	 * based on the given DB criteria.
 	 * @param CDbCriteria $criteria the DB criteria
-	 * @param boolean $all whether to bring back all records
-	 * @return mixed the query result
+	 * @param bool $all whether to bring back all records
+	 * @return \CActiveRecord|\CActiveRecord[]|null the query result
 	 */
 	public function query($criteria,$all=false)
 	{
@@ -192,7 +192,7 @@ class CActiveFinder extends CComponent
 	/**
 	 * Builds up the join tree representing the relationships involved in this query.
 	 * @param CJoinElement $parent the parent tree node
-	 * @param mixed $with the names of the related objects relative to the parent tree node
+	 * @param string|array $with the names of the related objects relative to the parent tree node
 	 * @param array $options additional query options to be merged with the relation
 	 * @return CJoinElement|mixed
 	 * @throws CDbException if given parent tree node is an instance of {@link CStatElement}
@@ -266,7 +266,7 @@ class CActiveFinder extends CComponent
 			if($options!==null)
 				$relation->mergeWith($options);
 
-			if($relation instanceof CActiveRelation)
+			if($relation instanceof CActiveRelation && isset($oldAlias))
 				$model->setTableAlias($oldAlias);
 
 			if($relation instanceof CStatRelation)

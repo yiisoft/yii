@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $username
  * @property string $password
  * @property string $email
@@ -44,10 +44,10 @@ class User2 extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property string $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class Post2 extends CActiveRecord
@@ -81,10 +81,10 @@ class Post2 extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property string $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class NullablePost2 extends CActiveRecord
@@ -101,10 +101,10 @@ class NullablePost2 extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property string $create_time
- * @property integer $author_id
+ * @property int $author_id
  * @property string $content
  */
 class PostExt2 extends CActiveRecord
@@ -131,10 +131,10 @@ class PostExt2 extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $content
- * @property integer $post_id
- * @property integer $author_id
+ * @property int $post_id
+ * @property int $author_id
  */
 class Comment2 extends CActiveRecord
 {
@@ -158,9 +158,9 @@ class Comment2 extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $name
- * @property integer $parent_id
+ * @property int $parent_id
  */
 class Category2 extends CActiveRecord
 {
@@ -186,8 +186,8 @@ class Category2 extends CActiveRecord
 }
 
 /**
- * @property integer $key1
- * @property integer $key2
+ * @property int $key1
+ * @property int $key2
  * @property string $name
  */
 class Order2 extends CActiveRecord
@@ -211,10 +211,10 @@ class Order2 extends CActiveRecord
 }
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $name
- * @property integer $col1
- * @property integer $col2
+ * @property int $col1
+ * @property int $col2
  */
 class Item2 extends CActiveRecord
 {
@@ -237,8 +237,8 @@ class Item2 extends CActiveRecord
 }
 
 /**
- * @property integer $int_col
- * @property integer $int_col2
+ * @property int $int_col
+ * @property int $int_col2
  * @property string $char_col
  * @property string $char_col2
  * @property string $char_col3
@@ -246,8 +246,8 @@ class Item2 extends CActiveRecord
  * @property float $real_col
  * @property string $blob_col
  * @property string $time
- * @property integer $bool_col
- * @property integer $bool_col2
+ * @property int $bool_col
+ * @property int $bool_col2
  */
 class ComplexType2 extends CActiveRecord
 {

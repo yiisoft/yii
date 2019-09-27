@@ -60,7 +60,7 @@ class CPortlet extends CWidget
 	 */
 	public $contentCssClass='portlet-content';
 	/**
-	 * @var boolean whether to hide the portlet when the body content is empty. Defaults to true.
+	 * @var bool whether to hide the portlet when the body content is empty. Defaults to true.
 	 * @since 1.1.4
 	 */
 	public $hideOnEmpty=true;

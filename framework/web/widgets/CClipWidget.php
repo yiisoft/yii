@@ -24,7 +24,7 @@
 class CClipWidget extends CWidget
 {
 	/**
-	 * @var boolean whether to render the clip content in place. Defaults to false,
+	 * @var bool whether to render the clip content in place. Defaults to false,
 	 * meaning the captured clip will not be displayed.
 	 */
 	public $renderClip=false;

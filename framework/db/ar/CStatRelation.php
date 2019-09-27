@@ -14,12 +14,12 @@ class CStatRelation extends CBaseActiveRelation
      */
     public $select = 'COUNT(*)';
     /**
-     * @var mixed the default value to be assigned to those records that do not
+     * @var int the default value to be assigned to those records that do not
      * receive a statistical query result. Defaults to 0.
      */
     public $defaultValue = 0;
     /**
-     * @var mixed scopes to apply
+     * @var string|string[] scopes to apply
      * Can be set to the one of the following:
      * <ul>
      * <li>Single scope: 'scopes'=>'scopeName'.</li>
@@ -32,8 +32,8 @@ class CStatRelation extends CBaseActiveRelation
     /**
      * Merges this relation with a criteria specified dynamically.
      *
-     * @param array   $criteria  the dynamically specified criteria
-     * @param boolean $fromScope whether the criteria to be merged is from scopes
+     * @param array|CDbCriteria   $criteria  the dynamically specified criteria
+     * @param bool $fromScope whether the criteria to be merged is from scopes
      */
     public function mergeWith($criteria, $fromScope = false)
     {

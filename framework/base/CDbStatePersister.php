@@ -118,7 +118,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 	}
 
 	/**
-	 * @return mixed
+	 * @return mixed|false
 	 */
 	public function exists()
 	{
@@ -147,7 +147,8 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 		}
 		catch (CDbException $e)
 		{
-			throw new CException(Yii::t('yii','Can\'t create state persister table. Check CREATE privilege for \'{db}\' connection user or create table manually with SQL: {sql}.',array('{db}'=>$this->dbComponent,'{sql}'=>$command->text ) ) );
+            $text = $command->text ?? 'Exception happened before setText() call';
+            throw new CException(Yii::t('yii','Can\'t create state persister table. Check CREATE privilege for \'{db}\' connection user or create table manually with SQL: {sql}.',array('{db}'=>$this->dbComponent,'{sql}'=> $text) ) );
 		}
 	}
 }

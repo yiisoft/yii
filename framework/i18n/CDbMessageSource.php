@@ -57,7 +57,7 @@ class CDbMessageSource extends CMessageSource
 	 */
 	public $translatedMessageTable='Message';
 	/**
-	 * @var integer the time in seconds that the messages can remain valid in cache.
+	 * @var int the time in seconds that the messages can remain valid in cache.
 	 * Defaults to 0, meaning the caching is disabled.
 	 */
 	public $cachingDuration=0;
@@ -85,7 +85,7 @@ class CDbMessageSource extends CMessageSource
 
 		$messages=$this->loadMessagesFromDb($category,$language);
 
-		if(isset($cache))
+		if(isset($cache, $key))
 			$cache->set($key,serialize($messages),$this->cachingDuration);
 
 		return $messages;

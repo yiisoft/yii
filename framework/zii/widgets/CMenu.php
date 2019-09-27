@@ -79,7 +79,7 @@ class CMenu extends CWidget
 	 */
 	public $itemTemplate;
 	/**
-	 * @var boolean whether the labels for menu items should be HTML-encoded. Defaults to true.
+	 * @var bool whether the labels for menu items should be HTML-encoded. Defaults to true.
 	 */
 	public $encodeLabel=true;
 	/**
@@ -88,19 +88,19 @@ class CMenu extends CWidget
 	 */
 	public $activeCssClass='active';
 	/**
-	 * @var boolean whether to automatically activate items according to whether their route setting
+	 * @var bool whether to automatically activate items according to whether their route setting
 	 * matches the currently requested route. Defaults to true.
 	 * @since 1.1.3
 	 */
 	public $activateItems=true;
 	/**
-	 * @var boolean whether to activate parent menu items when one of the corresponding child menu items is active.
+	 * @var bool whether to activate parent menu items when one of the corresponding child menu items is active.
 	 * The activated parent menu items will also have its CSS classes appended with {@link activeCssClass}.
 	 * Defaults to false.
 	 */
 	public $activateParents=false;
 	/**
-	 * @var boolean whether to hide empty menu items. An empty menu item is one whose 'url' option is not
+	 * @var bool whether to hide empty menu items. An empty menu item is one whose 'url' option is not
 	 * set and which doesn't contain visible child menu items. Defaults to true.
 	 */
 	public $hideEmptyItems=true;
@@ -257,7 +257,7 @@ class CMenu extends CWidget
 	 * Normalizes the {@link items} property so that the 'active' state is properly identified for every menu item.
 	 * @param array $items the items to be normalized.
 	 * @param string $route the route of the current request.
-	 * @param boolean $active whether there is an active child menu item.
+	 * @param bool $active whether there is an active child menu item.
 	 * @return array the normalized menu items
 	 */
 	protected function normalizeItems($items,$route,&$active)
@@ -307,7 +307,7 @@ class CMenu extends CWidget
 	 * of the menu item. Note that the GET parameters not specified in the 'url' option will be ignored.
 	 * @param array $item the menu item to be checked
 	 * @param string $route the route of the current request
-	 * @return boolean whether the menu item is active
+	 * @return bool whether the menu item is active
 	 */
 	protected function isItemActive($item,$route)
 	{

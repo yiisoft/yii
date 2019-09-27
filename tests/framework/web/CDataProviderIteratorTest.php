@@ -53,7 +53,7 @@ class CDataProviderIteratorTest extends CTestCase
 	
 	/**
 	 * Generates some data to fill a dataProvider
-	 * @param integer $totalItems the total number of items to generate
+	 * @param int $totalItems the total number of items to generate
 	 * @return array the data
 	 */
 	protected function generateData($totalItems)

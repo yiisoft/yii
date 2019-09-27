@@ -70,7 +70,7 @@ class Text_Diff {
      * @since Text_Diff 1.1.0
      * @since Horde 3.2
      *
-     * @return integer The number of new lines
+     * @return int The number of new lines
      */
     function countAddedLines()
     {
@@ -90,7 +90,7 @@ class Text_Diff {
      * @since Text_Diff 1.1.0
      * @since Horde 3.2
      *
-     * @return integer The number of deleted lines
+     * @return int The number of deleted lines
      */
     function countDeletedLines()
     {
@@ -135,7 +135,7 @@ class Text_Diff {
     /**
      * Checks for an empty diff.
      *
-     * @return boolean  True if two sequences were identical.
+     * @return bool  True if two sequences were identical.
      */
     function isEmpty()
     {
@@ -152,7 +152,7 @@ class Text_Diff {
      *
      * This is mostly for diagnostic purposes.
      *
-     * @return integer  The length of the LCS.
+     * @return int  The length of the LCS.
      */
     function lcs()
     {
@@ -206,7 +206,7 @@ class Text_Diff {
      * with array_walk().
      *
      * @param string $line  The line to trim.
-     * @param integer $key  The index of the line in the array. Not used.
+     * @param int $key  The index of the line in the array. Not used.
      */
     static function trimNewlines(&$line, $key)
     {

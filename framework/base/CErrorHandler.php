@@ -57,12 +57,12 @@ Yii::import('CHtml',true);
 class CErrorHandler extends CApplicationComponent
 {
 	/**
-	 * @var integer maximum number of source code lines to be displayed. Defaults to 25.
+	 * @var int maximum number of source code lines to be displayed. Defaults to 25.
 	 */
 	public $maxSourceLines=25;
 
 	/**
-	 * @var integer maximum number of trace source code lines to be displayed. Defaults to 10.
+	 * @var int maximum number of trace source code lines to be displayed. Defaults to 10.
 	 * @since 1.1.6
 	 */
 	public $maxTraceSourceLines = 10;
@@ -72,7 +72,7 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	public $adminInfo='the webmaster';
 	/**
-	 * @var boolean whether to discard any existing page output before error display. Defaults to true.
+	 * @var bool whether to discard any existing page output before error display. Defaults to true.
 	 */
 	public $discardOutput=true;
 	/**
@@ -301,7 +301,7 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * whether the current request is an AJAX (XMLHttpRequest) request.
-	 * @return boolean whether the current request is an AJAX request.
+	 * @return bool whether the current request is an AJAX request.
 	 */
 	protected function isAjaxRequest()
 	{
@@ -381,7 +381,7 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Determines which view file should be used.
 	 * @param string $view view name (either 'exception' or 'error')
-	 * @param integer $code HTTP status code
+	 * @param int $code HTTP status code
 	 * @return string view file path
 	 */
 	protected function getViewFile($view,$code)
@@ -407,7 +407,7 @@ class CErrorHandler extends CApplicationComponent
 	 * Looks for the view under the specified directory.
 	 * @param string $viewPath the directory containing the views
 	 * @param string $view view name (either 'exception' or 'error')
-	 * @param integer $code HTTP status code
+	 * @param int $code HTTP status code
 	 * @param string $srcLanguage the language that the view file is in
 	 * @return string view file path
 	 */
@@ -502,7 +502,7 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Returns a value indicating whether the call stack is from application code.
 	 * @param array $trace the trace data
-	 * @return boolean whether the call stack is from application code.
+	 * @return bool whether the call stack is from application code.
 	 */
 	protected function isCoreCode($trace)
 	{
@@ -517,8 +517,8 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Renders the source code around the error line.
 	 * @param string $file source file path
-	 * @param integer $errorLine the error line number
-	 * @param integer $maxLines maximum number of lines to display
+	 * @param int $errorLine the error line number
+	 * @param int $maxLines maximum number of lines to display
 	 * @return string the rendering result
 	 */
 	protected function renderSourceCode($file,$errorLine,$maxLines)
@@ -546,7 +546,7 @@ class CErrorHandler extends CApplicationComponent
 	}
 	/**
 	 * Return correct message for each known http error code
-	 * @param integer $httpCode error code to map
+	 * @param int $httpCode error code to map
 	 * @param string $replacement replacement error string that is returned if code is unknown
 	 * @return string the textual representation of the given error code or the replacement string if the error code is unknown
 	 */

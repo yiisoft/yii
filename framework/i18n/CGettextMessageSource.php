@@ -32,7 +32,7 @@ class CGettextMessageSource extends CMessageSource
 	const PO_FILE_EXT='.po';
 
 	/**
-	 * @var integer the time in seconds that the messages can remain valid in cache.
+	 * @var int the time in seconds that the messages can remain valid in cache.
 	 * Defaults to 0, meaning the caching is disabled.
 	 */
 	public $cachingDuration=0;
@@ -48,12 +48,12 @@ class CGettextMessageSource extends CMessageSource
 	 */
 	public $basePath;
 	/**
-	 * @var boolean whether to load messages from MO files. Defaults to true.
+	 * @var bool whether to load messages from MO files. Defaults to true.
 	 * If false, messages will be loaded from PO files.
 	 */
 	public $useMoFile=true;
 	/**
-	 * @var boolean whether to use Big Endian to read MO files.
+	 * @var bool whether to use Big Endian to read MO files.
 	 * Defaults to false. This property is only used when {@link useMoFile} is true.
 	 */
 	public $useBigEndian=false;
@@ -103,7 +103,7 @@ class CGettextMessageSource extends CMessageSource
 			else
 				$file=new CGettextPoFile();
 			$messages=$file->load($messageFile,$category);
-			if(isset($cache))
+			if(isset($cache, $key))
 			{
 				$dependency=new CFileCacheDependency($messageFile);
 				$cache->set($key,serialize($messages),$this->cachingDuration,$dependency);

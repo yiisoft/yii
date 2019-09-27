@@ -63,7 +63,7 @@ abstract class CModule extends CComponent
 	 * Constructor.
 	 * @param string $id the ID of this module
 	 * @param CModule $parent the parent module (if any)
-	 * @param mixed $config the module configuration. It can be either an array or
+	 * @param string|array $config the module configuration. It can be either an array or
 	 * the path of a PHP file returning the configuration array.
 	 */
 	public function __construct($id,$parent,$config=null)
@@ -110,7 +110,7 @@ abstract class CModule extends CComponent
 	 * This method overrides the parent implementation by checking
 	 * if the named application component is loaded.
 	 * @param string $name the property name or the event name
-	 * @return boolean whether the property value is null
+	 * @return bool whether the property value is null
 	 */
 	public function __isset($name)
 	{
@@ -290,7 +290,7 @@ abstract class CModule extends CComponent
 	/**
 	 * Returns a value indicating whether the specified module is installed.
 	 * @param string $id the module ID
-	 * @return boolean whether the specified module is installed.
+	 * @return bool whether the specified module is installed.
 	 * @since 1.1.2
 	 */
 	public function hasModule($id)
@@ -332,7 +332,7 @@ abstract class CModule extends CComponent
 	 * You may also enable or disable a module by specifying the 'enabled' option in the configuration.
 	 *
 	 * @param array $modules module configurations.
-	 * @param boolean $merge whether to merge the new module configuration
+	 * @param bool $merge whether to merge the new module configuration
 	 * with the existing one. Defaults to true, meaning the previously registered
 	 * module configuration with the same ID will be merged with the new configuration.
 	 * If set to false, the existing configuration will be replaced completely.
@@ -365,7 +365,7 @@ abstract class CModule extends CComponent
 	/**
 	 * Checks whether the named component exists.
 	 * @param string $id application component ID
-	 * @return boolean whether the named application component exists (including both loaded and disabled.)
+	 * @return bool whether the named application component exists (including both loaded and disabled.)
 	 */
 	public function hasComponent($id)
 	{
@@ -375,7 +375,7 @@ abstract class CModule extends CComponent
 	/**
 	 * Retrieves the named application component.
 	 * @param string $id application component ID (case-sensitive)
-	 * @param boolean $createIfNull whether to create the component if it doesn't exist yet.
+	 * @param bool $createIfNull whether to create the component if it doesn't exist yet.
 	 * @return IApplicationComponent|null the application component instance, null if the application component is disabled or does not exist.
 	 * @see hasComponent
 	 */
@@ -407,7 +407,7 @@ abstract class CModule extends CComponent
 	 * @param array|IApplicationComponent $component application component
 	 * (either configuration array or instance). If this parameter is null,
 	 * component will be unloaded from the module.
-	 * @param boolean $merge whether to merge the new component configuration
+	 * @param bool $merge whether to merge the new component configuration
 	 * with the existing one. Defaults to true, meaning the previously registered
 	 * component configuration with the same ID will be merged with the new configuration.
 	 * If set to false, the existing configuration will be replaced completely.
@@ -459,7 +459,7 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Returns the application components.
-	 * @param boolean $loadedOnly whether to return the loaded components only. If this is set false,
+	 * @param bool $loadedOnly whether to return the loaded components only. If this is set false,
 	 * then all components specified in the configuration will be returned, whether they are loaded or not.
 	 * Loaded components will be returned as objects, while unloaded components as configuration arrays.
 	 * This parameter has been available since version 1.1.3.
@@ -500,7 +500,7 @@ abstract class CModule extends CComponent
 	 * </pre>
 	 *
 	 * @param array $components application components(id=>component configuration or instances)
-	 * @param boolean $merge whether to merge the new component configuration with the existing one.
+	 * @param bool $merge whether to merge the new component configuration with the existing one.
 	 * Defaults to true, meaning the previously registered component configuration of the same ID
 	 * will be merged with the new configuration. If false, the existing configuration will be replaced completely.
 	 */

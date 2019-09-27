@@ -28,12 +28,12 @@ interface IBehavior
     public function detach($component);
 
     /**
-     * @return boolean whether this behavior is enabled
+     * @return bool whether this behavior is enabled
      */
     public function getEnabled();
 
     /**
-     * @param boolean $value whether this behavior is enabled
+     * @param bool $value whether this behavior is enabled
      */
     public function setEnabled($value);
 }

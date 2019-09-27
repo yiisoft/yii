@@ -29,19 +29,19 @@ class CEmailValidator extends CValidator
 	 */
 	public $fullPattern='/^[^@]*<[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$/';
 	/**
-	 * @var boolean whether to allow name in the email address (e.g. "Qiang Xue <qiang.xue@gmail.com>"). Defaults to false.
+	 * @var bool whether to allow name in the email address (e.g. "Qiang Xue <qiang.xue@gmail.com>"). Defaults to false.
 	 * @see fullPattern
 	 */
 	public $allowName=false;
 	/**
-	 * @var boolean whether to check the MX record for the email address.
+	 * @var bool whether to check the MX record for the email address.
 	 * Defaults to false. To enable it, you need to make sure the PHP function 'checkdnsrr'
 	 * exists in your PHP installation.
 	 * Please note that this check may fail due to temporary problems even if email is deliverable.
 	 */
 	public $checkMX=false;
 	/**
-	 * @var boolean whether to check port 25 for the email address.
+	 * @var bool whether to check port 25 for the email address.
 	 * Defaults to false. To enable it, ensure that the PHP functions 'dns_get_record' and
 	 * 'fsockopen' are available in your PHP installation.
 	 * Please note that this check may fail due to temporary problems even if email is deliverable.
@@ -54,12 +54,12 @@ class CEmailValidator extends CValidator
 	 */
 	public $timeout=null;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var boolean whether validation process should care about IDN (internationalized domain names). Default
+	 * @var bool whether validation process should care about IDN (internationalized domain names). Default
 	 * value is false which means that validation of emails containing IDN will always fail.
 	 * @since 1.1.13
 	 */
@@ -91,7 +91,7 @@ class CEmailValidator extends CValidator
 	 * Note that this method does not respect the {@link allowEmpty} property.
 	 *
 	 * @param mixed $value the value to be validated
-	 * @return boolean whether the value is a valid email
+	 * @return bool whether the value is a valid email
 	 * @since 1.1.1
 	 * @see https://github.com/yiisoft/yii/issues/3764#issuecomment-75457805
 	 */
@@ -155,7 +155,7 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	 * is opened on any of these.
 	 * @since 1.1.11
 	 * @param string $domain domain to be checked
-	 * @return boolean true if a reachable MX server has been found
+	 * @return bool true if a reachable MX server has been found
 	 */
 	protected function checkMxPorts($domain)
 	{
@@ -182,7 +182,7 @@ if(".($this->allowEmpty ? "jQuery.trim(value)!='' && " : '').$condition.") {
 	 * @since 1.1.11
 	 * @param mixed $a first item for comparison
 	 * @param mixed $b second item for comparison
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function mxSort($a, $b)
 	{

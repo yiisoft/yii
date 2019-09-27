@@ -67,7 +67,7 @@ class YiiBase
 	 */
 	public static $classMap=array();
 	/**
-	 * @var boolean whether to rely on PHP include path to autoload class files. Defaults to true.
+	 * @var bool whether to rely on PHP include path to autoload class files. Defaults to true.
 	 * You may set this to be false if your hosting environment doesn't allow changing the PHP
 	 * include path, or if you want to append additional autoloaders to the default Yii autoloader.
 	 * @since 1.1.8
@@ -92,7 +92,7 @@ class YiiBase
 
 	/**
 	 * Creates a Web application instance.
-	 * @param mixed $config application configuration.
+	 * @param string|array $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
@@ -107,7 +107,7 @@ class YiiBase
 
 	/**
 	 * Creates a console application instance.
-	 * @param mixed $config application configuration.
+	 * @param string|array $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
@@ -123,9 +123,9 @@ class YiiBase
 	/**
 	 * Creates an application of the specified class.
 	 * @param string $class the application class name
-	 * @param mixed $config application configuration. This parameter will be passed as the parameter
+	 * @param string|array $config application configuration. This parameter will be passed as the parameter
 	 * to the constructor of the application class.
-	 * @return mixed the application instance
+	 * @return CApplication the application instance
 	 */
 	public static function createApplication($class,$config=null)
 	{
@@ -180,8 +180,8 @@ class YiiBase
 	 * Any additional parameters passed to this method will be
 	 * passed to the constructor of the object being created.
 	 *
-	 * @param mixed $config the configuration. It can be either a string or an array.
-	 * @return mixed the created object
+	 * @param string|array $config the configuration. It can be either a string or an array.
+	 * @return object the created object
 	 * @throws CException if the configuration does not have a 'class' element.
 	 */
 	public static function createComponent($config)
@@ -261,7 +261,7 @@ class YiiBase
 	 * path alias <code>application.components</code>.
 	 *
 	 * @param string $alias path alias to be imported
-	 * @param boolean $forceInclude whether to include the class file immediately. If false, the class file
+	 * @param bool $forceInclude whether to include the class file immediately. If false, the class file
 	 * will be included only when the class is being used. This parameter is used only when
 	 * the path alias refers to a class.
 	 * @return string the class name or the directory that this alias refers to
@@ -361,7 +361,7 @@ class YiiBase
 	 * Note, this method does not ensure the existence of the resulting file path.
 	 * It only checks if the root alias is valid or not.
 	 * @param string $alias alias (e.g. system.web.CController)
-	 * @return mixed file path corresponding to the alias, false if the alias is invalid.
+	 * @return string|false file path corresponding to the alias, false if the alias is invalid.
 	 */
 	public static function getPathOfAlias($alias)
 	{
@@ -401,7 +401,7 @@ class YiiBase
 	 * This method is provided to be invoked within an __autoload() magic method.
 	 * @param string $className class name
 	 * @param bool $classMapOnly whether to load classes via classmap only
-	 * @return boolean whether the class has been loaded successfully
+	 * @return bool whether the class has been loaded successfully
 	 * @throws CException When class name does not match class file in debug mode.
 	 */
 	public static function autoload($className,$classMapOnly=false)
@@ -651,7 +651,7 @@ class YiiBase
 	 * The new autoloader will be placed before {@link autoload} and after
 	 * any other existing autoloaders.
 	 * @param callable $callback a valid PHP callback (function name or array($className,$methodName)).
-	 * @param boolean $append whether to append the new autoloader after the default Yii autoloader.
+	 * @param bool $append whether to append the new autoloader after the default Yii autoloader.
 	 * Be careful using this option as it will disable {@link enableIncludePath autoloading via include path}
 	 * when set to true. After this the Yii autoloader can not rely on loading classes via simple include anymore
 	 * and you have to {@link import} all classes explicitly.

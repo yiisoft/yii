@@ -37,7 +37,7 @@ class CInlineAction extends CAction
 	 * Runs the action with the supplied request parameters.
 	 * This method is internally called by {@link CController::runAction()}.
 	 * @param array $params the request parameters (name=>value)
-	 * @return boolean whether the request parameters are valid
+	 * @return bool whether the request parameters are valid
 	 * @since 1.1.7
 	 */
 	public function runWithParams($params)

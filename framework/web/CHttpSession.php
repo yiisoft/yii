@@ -51,18 +51,18 @@
  * CHttpSession is a Web application component that can be accessed via
  * {@link CWebApplication::getSession()}.
  *
- * @property boolean $useCustomStorage Whether to use custom storage.
- * @property boolean $isStarted Whether the session has started.
+ * @property bool $useCustomStorage Whether to use custom storage.
+ * @property bool $isStarted Whether the session has started.
  * @property string $sessionID The current session ID.
  * @property string $sessionName The current session name.
  * @property string $savePath The current session save path, defaults to {@link http://php.net/session.save_path}.
  * @property array $cookieParams The session cookie parameters.
  * @property string $cookieMode How to use cookie to store session ID. Defaults to 'Allow'.
  * @property float $gCProbability The probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
- * @property boolean $useTransparentSessionID Whether transparent sid support is enabled or not, defaults to false.
- * @property integer $timeout The number of seconds after which data will be seen as 'garbage' and cleaned up, defaults to 1440 seconds.
+ * @property bool $useTransparentSessionID Whether transparent sid support is enabled or not, defaults to false.
+ * @property int $timeout The number of seconds after which data will be seen as 'garbage' and cleaned up, defaults to 1440 seconds.
  * @property CHttpSessionIterator $iterator An iterator for traversing the session variables.
- * @property integer $count The number of session variables.
+ * @property int $count The number of session variables.
  * @property array $keys The list of session variable names.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -72,7 +72,7 @@
 class CHttpSession extends CApplicationComponent implements IteratorAggregate,ArrayAccess,Countable
 {
 	/**
-	 * @var boolean whether the session should be automatically started when the session application component is initialized, defaults to true.
+	 * @var bool whether the session should be automatically started when the session application component is initialized, defaults to true.
 	 */
 	public $autoStart=true;
 
@@ -102,7 +102,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * {@link writeSession}, {@link destroySession}, and {@link gcSession} are overridden in child
 	 * class, because they will be used as the callback handlers.
 	 * The default implementation always return false.
-	 * @return boolean whether to use custom storage.
+	 * @return bool whether to use custom storage.
 	 */
 	public function getUseCustomStorage()
 	{
@@ -155,7 +155,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return boolean whether the session has started
+	 * @return bool whether the session has started
 	 */
 	public function getIsStarted()
 	{
@@ -183,7 +183,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	/**
 	 * Updates the current session id with a newly generated one .
 	 * Please refer to {@link http://php.net/session_regenerate_id} for more details.
-	 * @param boolean $deleteOldSession Whether to delete the old associated session file or not.
+	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
 	 * @since 1.1.8
 	 */
 	public function regenerateID($deleteOldSession=false)
@@ -331,7 +331,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return boolean whether transparent sid support is enabled or not, defaults to false.
+	 * @return bool whether transparent sid support is enabled or not, defaults to false.
 	 */
 	public function getUseTransparentSessionID()
 	{
@@ -339,7 +339,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param boolean $value whether transparent sid support is enabled or not.
+	 * @param bool $value whether transparent sid support is enabled or not.
 	 */
 	public function setUseTransparentSessionID($value)
 	{
@@ -349,7 +349,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return integer the number of seconds after which data will be seen as 'garbage' and cleaned up, defaults to 1440 seconds.
+	 * @return int the number of seconds after which data will be seen as 'garbage' and cleaned up, defaults to 1440 seconds.
 	 */
 	public function getTimeout()
 	{
@@ -357,7 +357,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param integer $value the number of seconds after which data will be seen as 'garbage' and cleaned up
+	 * @param int $value the number of seconds after which data will be seen as 'garbage' and cleaned up
 	 */
 	public function setTimeout($value)
 	{
@@ -372,7 +372,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Do not call this method directly.
 	 * @param string $savePath session save path
 	 * @param string $sessionName session name
-	 * @return boolean whether session is opened successfully
+	 * @return bool whether session is opened successfully
 	 */
 	public function openSession($savePath,$sessionName)
 	{
@@ -383,7 +383,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session close handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
-	 * @return boolean whether session is closed successfully
+	 * @return bool whether session is closed successfully
 	 */
 	public function closeSession()
 	{
@@ -408,7 +408,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Do not call this method directly.
 	 * @param string $id session ID
 	 * @param string $data session data
-	 * @return boolean whether session write is successful
+	 * @return bool whether session write is successful
 	 */
 	public function writeSession($id,$data)
 	{
@@ -420,7 +420,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
 	 * @param string $id session ID
-	 * @return boolean whether session is destroyed successfully
+	 * @return bool whether session is destroyed successfully
 	 */
 	public function destroySession($id)
 	{
@@ -431,8 +431,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session GC (garbage collection) handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
-	 * @param integer $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
-	 * @return boolean whether session is GCed successfully
+	 * @param int $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
+	 * @return bool whether session is GCed successfully
 	 */
 	public function gcSession($maxLifetime)
 	{
@@ -453,7 +453,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Returns the number of items in the session.
-	 * @return integer the number of session variables
+	 * @return int the number of session variables
 	 */
 	public function getCount()
 	{
@@ -463,7 +463,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	/**
 	 * Returns the number of items in the session.
 	 * This method is required by Countable interface.
-	 * @return integer number of items in the session.
+	 * @return int number of items in the session.
 	 */
 	public function count()
 	{
@@ -542,7 +542,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param mixed $key session variable name
-	 * @return boolean whether there is the named session variable
+	 * @return bool whether there is the named session variable
 	 */
 	public function contains($key)
 	{
@@ -560,7 +560,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	/**
 	 * This method is required by the interface ArrayAccess.
 	 * @param mixed $offset the offset to check on
-	 * @return boolean
+	 * @return bool
 	 */
 	public function offsetExists($offset)
 	{
@@ -569,7 +569,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to retrieve element.
+	 * @param int $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
 	public function offsetGet($offset)
@@ -579,7 +579,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to set element
+	 * @param int $offset the offset to set element
 	 * @param mixed $item the element value
 	 */
 	public function offsetSet($offset,$item)

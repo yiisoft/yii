@@ -59,7 +59,7 @@
  * </ul>
  * For more advanced variation, override {@link getBaseCacheKey()} method.
  *
- * @property boolean $isContentCached Whether the content can be found from cache.
+ * @property bool $isContentCached Whether the content can be found from cache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.widgets
@@ -73,7 +73,7 @@ class COutputCache extends CFilterWidget
 	const CACHE_KEY_PREFIX='Yii.COutputCache.';
 
 	/**
-	 * @var integer number of seconds that the data can remain in cache. Defaults to 60 seconds.
+	 * @var int number of seconds that the data can remain in cache. Defaults to 60 seconds.
 	 * If it is 0, existing cached content would be removed from the cache.
 	 * If it is a negative value, the cache will be disabled (any existing cached content will
 	 * remain in the cache.)
@@ -83,13 +83,13 @@ class COutputCache extends CFilterWidget
 	 */
 	public $duration=60;
 	/**
-	 * @var boolean whether the content being cached should be differentiated according to route.
+	 * @var bool whether the content being cached should be differentiated according to route.
 	 * A route consists of the requested controller ID and action ID.
 	 * Defaults to true.
 	 */
 	public $varyByRoute=true;
 	/**
-	 * @var boolean whether the content being cached should be differentiated according to user sessions. Defaults to false.
+	 * @var bool whether the content being cached should be differentiated according to user sessions. Defaults to false.
 	 */
 	public $varyBySession=false;
 	/**
@@ -117,7 +117,7 @@ class COutputCache extends CFilterWidget
 	 */
 	public $varyByExpression;
 	/**
-	 * @var boolean whether the content being cached should be differentiated according to user's language.
+	 * @var bool whether the content being cached should be differentiated according to user's language.
 	 * A language is retrieved via Yii::app()->language.
 	 * Defaults to false.
 	 * @since 1.1.14
@@ -157,7 +157,7 @@ class COutputCache extends CFilterWidget
 	 * Performs filtering before the action is executed.
 	 * This method is meant to be overridden by child classes if begin-filtering is needed.
 	 * @param CFilterChain $filterChain list of filters being applied to an action
-	 * @return boolean whether the filtering process should stop after this filter. Defaults to false.
+	 * @return bool whether the filtering process should stop after this filter. Defaults to false.
 	 */
 	public function filter($filterChain)
 	{
@@ -216,7 +216,7 @@ class COutputCache extends CFilterWidget
 	}
 
 	/**
-	 * @return boolean whether the content can be found from cache
+	 * @return bool whether the content can be found from cache
 	 */
 	public function getIsContentCached()
 	{
@@ -228,7 +228,7 @@ class COutputCache extends CFilterWidget
 
 	/**
 	 * Looks for content in cache.
-	 * @return boolean whether the content is found in cache.
+	 * @return bool whether the content is found in cache.
 	 */
 	protected function checkContentCache()
 	{

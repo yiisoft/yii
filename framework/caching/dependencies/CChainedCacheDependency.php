@@ -19,7 +19,7 @@
  * (see {@link CList} for more details}).
  *
  * @property CTypedList $dependencies List of dependency objects.
- * @property boolean $hasChanged Whether the dependency is changed or not.
+ * @property bool $hasChanged Whether the dependency is changed or not.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.caching.dependencies
@@ -82,7 +82,7 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 	 * Performs the actual dependency checking.
 	 * This method returns true if any of the dependency objects
 	 * reports a dependency change.
-	 * @return boolean whether the dependency is changed or not.
+	 * @return bool whether the dependency is changed or not.
 	 */
 	public function getHasChanged()
 	{

@@ -20,7 +20,7 @@
  * is NOT volatile. If you want to use {@link CDbCache} as storage medium, use {@link CDbHttpSession}
  * is a better choice.
  *
- * @property boolean $useCustomStorage Whether to use custom storage.
+ * @property bool $useCustomStorage Whether to use custom storage.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
@@ -58,7 +58,7 @@ class CCacheHttpSession extends CHttpSession
 	/**
 	 * Returns a value indicating whether to use custom session storage.
 	 * This method overrides the parent implementation and always returns true.
-	 * @return boolean whether to use custom storage.
+	 * @return bool whether to use custom storage.
 	 */
 	public function getUseCustomStorage()
 	{
@@ -82,7 +82,7 @@ class CCacheHttpSession extends CHttpSession
 	 * Do not call this method directly.
 	 * @param string $id session ID
 	 * @param string $data session data
-	 * @return boolean whether session write is successful
+	 * @return bool whether session write is successful
 	 */
 	public function writeSession($id,$data)
 	{
@@ -98,7 +98,7 @@ class CCacheHttpSession extends CHttpSession
 	 * {@link https://github.com/yiisoft/yii/issues/4020}
 	 *
 	 * @param string $id session ID
-	 * @return boolean true if no error happens during deletion
+	 * @return bool true if no error happens during deletion
 	 */
 	public function destroySession($id)
 	{

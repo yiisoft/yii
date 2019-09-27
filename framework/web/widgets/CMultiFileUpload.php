@@ -46,7 +46,7 @@ class CMultiFileUpload extends CInputWidget
 	 */
 	public $accept;
 	/**
-	 * @var integer the maximum number of files that can be uploaded. If -1, it means no limits. Defaults to -1.
+	 * @var int the maximum number of files that can be uploaded. If -1, it means no limits. Defaults to -1.
 	 */
 	public $max=-1;
 	/**

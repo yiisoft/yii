@@ -47,7 +47,7 @@ class CDetailView extends CWidget
 	private $_formatter;
 
 	/**
-	 * @var mixed the data model whose details are to be displayed. This can be either a {@link CModel} instance
+	 * @var \CModel|array the data model whose details are to be displayed. This can be either a {@link CModel} instance
 	 * (e.g. a {@link CActiveRecord} object or a {@link CFormModel} object) or an associative array.
 	 */
 	public $data;

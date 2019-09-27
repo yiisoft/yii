@@ -147,7 +147,7 @@
 class CActiveForm extends CWidget
 {
 	/**
-	 * @var mixed the form action URL (see {@link CHtml::normalizeUrl} for details about this parameter).
+	 * @var string|array the form action URL (see {@link CHtml::normalizeUrl} for details about this parameter).
 	 * If not set, the current page URL is used.
 	 */
 	public $action='';
@@ -157,7 +157,7 @@ class CActiveForm extends CWidget
 	 */
 	public $method='post';
 	/**
-	 * @var boolean whether to generate a stateful form (See {@link CHtml::statefulForm}). Defaults to false.
+	 * @var bool whether to generate a stateful form (See {@link CHtml::statefulForm}). Defaults to false.
 	 */
 	public $stateful=false;
 	/**
@@ -251,7 +251,7 @@ class CActiveForm extends CWidget
 	 */
 	public $clientOptions=array();
 	/**
-	 * @var boolean whether to enable data validation via AJAX. Defaults to false.
+	 * @var bool whether to enable data validation via AJAX. Defaults to false.
 	 * When this property is set true, you should respond to the AJAX validation request on the server side as shown below:
 	 * <pre>
 	 * public function actionCreate()
@@ -268,7 +268,7 @@ class CActiveForm extends CWidget
 	 */
 	public $enableAjaxValidation=false;
 	/**
-	 * @var boolean whether to enable client-side data validation. Defaults to false.
+	 * @var bool whether to enable client-side data validation. Defaults to false.
 	 *
 	 * When this property is set true, client-side validation will be performed by validators
 	 * that support it (see {@link CValidator::enableClientValidation} and {@link CValidator::clientValidateAttribute}).
@@ -279,7 +279,7 @@ class CActiveForm extends CWidget
 	public $enableClientValidation=false;
 
 	/**
-	 * @var mixed form element to get initial input focus on page load.
+	 * @var string|array|null form element to get initial input focus on page load.
 	 *
 	 * Defaults to null meaning no input field has a focus.
 	 * If set as array, first element should be model and second element should be the attribute.
@@ -432,10 +432,10 @@ class CActiveForm extends CWidget
 	 * </ul>
 	 * This should NOT be a function but just the code, Yii will enclose the code you provide inside the
 	 * actual JS function.
-	 * @param boolean $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
+	 * @param bool $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
 	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
 	 * must be true.
-	 * @param boolean $enableClientValidation whether to enable client-side validation for the specified attribute.
+	 * @param bool $enableClientValidation whether to enable client-side validation for the specified attribute.
 	 * Note that in order to enable client-side validation, both {@link enableClientValidation} and this parameter
 	 * must be true. This parameter has been available since version 1.1.7.
 	 * @return string the validation result (error display or success message).
@@ -536,7 +536,7 @@ class CActiveForm extends CWidget
 	 * Displays a summary of validation errors for one or several models.
 	 * This method is very similar to {@link CHtml::errorSummary} except that it also works
 	 * when AJAX validation is performed.
-	 * @param mixed $models the models whose input errors are to be displayed. This can be either
+	 * @param CModel|CModel[] $models the models whose input errors are to be displayed. This can be either
 	 * a single model or an array of models.
 	 * @param string $header a piece of HTML code that appears in front of the errors
 	 * @param string $footer a piece of HTML code that appears at the end of the errors
@@ -965,12 +965,12 @@ class CActiveForm extends CWidget
 	/**
 	 * Validates one or several models and returns the results in JSON format.
 	 * This is a helper method that simplifies the way of writing AJAX validation code.
-	 * @param mixed $models a single model instance or an array of models.
-	 * @param array $attributes list of attributes that should be validated. Defaults to null,
+	 * @param CModel|CModel[] $models a single model instance or an array of models.
+	 * @param string[]|null $attributes list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules of the models should be
 	 * validated. If this parameter is given as a list of attributes, only
 	 * the listed attributes will be validated.
-	 * @param boolean $loadInput whether to load the data from $_POST array in this method.
+	 * @param bool $loadInput whether to load the data from $_POST array in this method.
 	 * If this is true, the model will be populated from <code>$_POST[ModelClass]</code>.
 	 * @return string the JSON representation of the validation error messages.
 	 */
@@ -994,12 +994,12 @@ class CActiveForm extends CWidget
 	/**
 	 * Validates an array of model instances and returns the results in JSON format.
 	 * This is a helper method that simplifies the way of writing AJAX validation code for tabular input.
-	 * @param mixed $models an array of model instances.
+	 * @param CModel|CModel[] $models an array of model instances.
 	 * @param array $attributes list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules of the models should be
 	 * validated. If this parameter is given as a list of attributes, only
 	 * the listed attributes will be validated.
-	 * @param boolean $loadInput whether to load the data from $_POST array in this method.
+	 * @param bool $loadInput whether to load the data from $_POST array in this method.
 	 * If this is true, the model will be populated from <code>$_POST[ModelClass][$i]</code>.
 	 * @return string the JSON representation of the validation error messages.
 	 */

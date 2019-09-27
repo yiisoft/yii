@@ -21,7 +21,7 @@ class CMssqlPdoAdapter extends PDO
 	 * MSSQL doesn't support sequence, so, argument is ignored
 	 *
 	 * @param string|null sequence name. Defaults to null
-	 * @return integer last inserted id
+	 * @return int last inserted id
 	 */
 	public function lastInsertId ($sequence=NULL)
 	{
@@ -34,7 +34,7 @@ class CMssqlPdoAdapter extends PDO
 	 * Is is necessary to override pdo's method, as mssql pdo drivers
 	 * does not support transaction
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function beginTransaction ()
 	{
@@ -48,7 +48,7 @@ class CMssqlPdoAdapter extends PDO
 	 * Is is necessary to override pdo's method, as mssql pdo drivers
 	 * does not support transaction
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function commit ()
 	{
@@ -62,7 +62,7 @@ class CMssqlPdoAdapter extends PDO
 	 * Is is necessary to override pdo's method, ac mssql pdo drivers
 	 * does not support transaction
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function rollBack ()
 	{

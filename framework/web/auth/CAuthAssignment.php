@@ -14,7 +14,7 @@
  * Do not create a CAuthAssignment instance using the 'new' operator.
  * Instead, call {@link IAuthManager::assign}.
  *
- * @property mixed $userId User ID (see {@link IWebUser::getId}).
+ * @property string|int $userId User ID (see {@link IWebUser::getId}).
  * @property string $itemName The authorization item name.
  * @property string $bizRule The business rule associated with this assignment.
  * @property mixed $data Additional data for this assignment.
@@ -35,7 +35,7 @@ class CAuthAssignment extends CComponent
 	 * Constructor.
 	 * @param IAuthManager $auth the authorization manager
 	 * @param string $itemName authorization item name
-	 * @param mixed $userId user ID (see {@link IWebUser::getId})
+	 * @param string|int $userId user ID (see {@link IWebUser::getId})
 	 * @param string $bizRule the business rule associated with this assignment
 	 * @param mixed $data additional data for this assignment
 	 */
@@ -49,7 +49,7 @@ class CAuthAssignment extends CComponent
 	}
 
 	/**
-	 * @return mixed user ID (see {@link IWebUser::getId})
+	 * @return string|int user ID (see {@link IWebUser::getId})
 	 */
 	public function getUserId()
 	{

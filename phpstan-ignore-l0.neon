@@ -5,30 +5,6 @@ parameters:
 			message: "#CApplication\\:\\:__construct\\(\\) does not call parent constructor from CModule\\.#"
 
 		-
-			path: framework/caching/CEAcceleratorCache.php
-			message: "#Function eaccelerator_get not found\\.#"
-
-		-
-			path: framework/caching/CEAcceleratorCache.php
-			message: "#Function eaccelerator_put not found\\.#"
-
-		-
-			path: framework/caching/CEAcceleratorCache.php
-			message: "#Function eaccelerator_get not found\\.#"
-
-		-
-			path: framework/caching/CEAcceleratorCache.php
-			message: "#Function eaccelerator_rm not found\\.#"
-
-		-
-			path: framework/caching/CEAcceleratorCache.php
-			message: "#Function eaccelerator_gc not found\\.#"
-
-		-
-			path: framework/caching/CEAcceleratorCache.php
-			message: "#Function eaccelerator_list_keys not found\\.#"
-
-		-
 			path: framework/caching/CMemCache.php
 			message: "#Return typehint of method CMemCache\\:\\:getMemCache\\(\\) has invalid type Memcache\\.#"
 
@@ -47,10 +23,6 @@ parameters:
 		-
 			path: framework/caching/CRedisCache.php
 			message: "#Method CRedisCache\\:\\:parseResponse\\(\\) invoked with 1 parameter, 0 required\\.#"
-
-		-
-			path: framework/caching/CXCache.php
-			message: "#Result of function xcache_clear_cache \\(void\\) is used\\.#"
 
 		-
 			path: framework/cli/commands/MessageCommand.php

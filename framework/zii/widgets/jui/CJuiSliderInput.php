@@ -70,7 +70,7 @@ class CJuiSliderInput extends CJuiInputWidget
 	 */
 	public $tagName='div';
 	/**
-	 * @var integer determines the value of the slider, if there's only one handle. If there is more than one handle,
+	 * @var int determines the value of the slider, if there's only one handle. If there is more than one handle,
 	 * determines the value of the first handle.
 	 */
 	public $value;
@@ -90,7 +90,7 @@ class CJuiSliderInput extends CJuiInputWidget
 	 */
 	public $maxName;
 	/**
-	 * @var integer determines the max value of the slider, if there's two handles (range mode). Ignored if there's
+	 * @var int determines the max value of the slider, if there's two handles (range mode). Ignored if there's
 	 * only one handle.
 	 * @since 1.1.14
 	 */

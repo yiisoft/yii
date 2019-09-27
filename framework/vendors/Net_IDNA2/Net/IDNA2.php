@@ -2213,7 +2213,7 @@ class Net_IDNA2
      *
      * This is cached for optimal performance.
      *
-     * @var boolean
+     * @var bool
      * @see Net_IDNA2::_byteLength()
      */
     private static $_mb_string_overload = null;
@@ -2261,7 +2261,7 @@ class Net_IDNA2
      * @param mixed  $option Parameter to set (string: single parameter; array of Parameter => Value pairs)
      * @param string $value  Value to use (if parameter 1 is a string)
      *
-     * @return boolean       true on success, false otherwise
+     * @return bool       true on success, false otherwise
      * @access public
      */
     public function setParams($option, $value = false)
@@ -2737,7 +2737,7 @@ class Net_IDNA2
      *
      * @param int     $delta    ...
      * @param int     $npoints  ...
-     * @param boolean $is_first ...
+     * @param bool $is_first ...
      *
      * @return int
      * @access private
@@ -2882,7 +2882,7 @@ class Net_IDNA2
      * Decomposes a Hangul syllable
      * (see http://www.unicode.org/unicode/reports/tr15/#Hangul).
      *
-     * @param integer $char 32bit UCS4 code point
+     * @param int $char 32bit UCS4 code point
      *
      * @return array        Either Hangul Syllable decomposed or original 32bit
      *                      value as one value array
@@ -2977,9 +2977,9 @@ class Net_IDNA2
     /**
      * Returns the combining class of a certain wide char.
      *
-     * @param integer $char Wide char to check (32bit integer)
+     * @param int $char Wide char to check (32bit integer)
      *
-     * @return integer      Combining class if found, else 0
+     * @return int      Combining class if found, else 0
      * @access private
      */
     private function _getCombiningClass($char)
@@ -3288,7 +3288,7 @@ class Net_IDNA2
      * Echo hex representation of UCS4 sequence.
      *
      * @param array   $input       UCS4 sequence
-     * @param boolean $include_bit Include bitmask in output
+     * @param bool $include_bit Include bitmask in output
      *
      * @return void
      * @static
@@ -3342,7 +3342,7 @@ class Net_IDNA2
      *
      * @param string $string the string for which to get the length.
      *
-     * @return integer the length of the string in bytes.
+     * @return int the length of the string in bytes.
      *
      * @see Net_IDNA2::$_mb_string_overload
      */

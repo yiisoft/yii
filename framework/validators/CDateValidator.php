@@ -29,7 +29,7 @@ class CDateValidator extends CValidator
 	 */
 	public $format='MM/dd/yyyy';
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
+	 * @var bool whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;

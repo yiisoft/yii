@@ -64,7 +64,7 @@ class CWebApplication extends CApplication
 	 */
 	public $defaultController='site';
 	/**
-	 * @var mixed the application-wide layout. Defaults to 'main' (relative to {@link getLayoutPath layoutPath}).
+	 * @var string|false the application-wide layout. Defaults to 'main' (relative to {@link getLayoutPath layoutPath}).
 	 * If this is false, then no layout will be used.
 	 */
 	public $layout='main';
@@ -507,7 +507,7 @@ class CWebApplication extends CApplication
 	 * before all controller actions.
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
-	 * @return boolean whether the action should be executed.
+	 * @return bool whether the action should be executed.
 	 */
 	public function beforeControllerAction($controller,$action)
 	{

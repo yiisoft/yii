@@ -32,7 +32,7 @@ abstract class CBaseListView extends CWidget
 	 */
 	public $htmlOptions=array();
 	/**
-	 * @var boolean whether to enable sorting. Note that if the {@link IDataProvider::sort} property
+	 * @var bool whether to enable sorting. Note that if the {@link IDataProvider::sort} property
 	 * of {@link dataProvider} is false, this will be treated as false as well. When sorting is enabled,
 	 * sortable columns will have their headers clickable to trigger sorting along that column.
 	 * Defaults to true.
@@ -40,7 +40,7 @@ abstract class CBaseListView extends CWidget
 	 */
 	public $enableSorting=true;
 	/**
-	 * @var boolean whether to enable pagination. Note that if the {@link IDataProvider::pagination} property
+	 * @var bool whether to enable pagination. Note that if the {@link IDataProvider::pagination} property
 	 * of {@link dataProvider} is false, this will be treated as false as well. When pagination is enabled,
 	 * a pager will be displayed in the view so that it can trigger pagination of the data display.
 	 * Defaults to true.

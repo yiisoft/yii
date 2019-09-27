@@ -64,7 +64,7 @@ class CCubridSchema extends CDbSchema
 	 * will consider both cases.
 	 * @param string $name1 table name 1
 	 * @param string $name2 table name 2
-	 * @return boolean whether the two table names refer to the same table.
+	 * @return bool whether the two table names refer to the same table.
 	 */
 	public function compareTableNames($name1,$name2)
 	{
@@ -135,7 +135,7 @@ class CCubridSchema extends CDbSchema
 	/**
 	 * Collects the table column metadata.
 	 * @param CCubridTableSchema $table the table metadata
-	 * @return boolean whether the table exists in the database
+	 * @return bool whether the table exists in the database
 	 */
 	protected function findColumns($table)
 	{

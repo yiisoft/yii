@@ -41,7 +41,7 @@ class CConfiguration extends CMap
 {
 	/**
 	 * Constructor.
-	 * @param mixed $data if string, it represents a config file (a PHP script returning the configuration as an array);
+	 * @param string|array|null $data if string, it represents a config file (a PHP script returning the configuration as an array);
 	 * If array, it is config data.
 	 */
 	public function __construct($data=null)

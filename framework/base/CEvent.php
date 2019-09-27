@@ -20,7 +20,7 @@ class CEvent extends CComponent
      */
     public $sender;
     /**
-     * @var boolean whether the event is handled. Defaults to false.
+     * @var bool whether the event is handled. Defaults to false.
      * When a handler sets this true, the rest of the uninvoked event handlers will not be invoked anymore.
      */
     public $handled = false;

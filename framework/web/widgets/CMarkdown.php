@@ -38,7 +38,7 @@ class CMarkdown extends COutputProcessor
 	 */
 	public $cssFile;
 	/**
-	 * @var boolean whether to use {@link CHtmlPurifier} to purify the generated HTML code. Defaults to false.
+	 * @var bool whether to use {@link CHtmlPurifier} to purify the generated HTML code. Defaults to false.
 	 */
 	public $purifyOutput=false;
 

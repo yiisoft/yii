@@ -82,7 +82,7 @@ class CController extends CBaseController
 	const STATE_INPUT_NAME='YII_PAGE_STATE';
 
 	/**
-	 * @var mixed the name of the layout to be applied to this controller's views.
+	 * @var string|false|null the name of the layout to be applied to this controller's views.
 	 * Defaults to null, meaning the {@link CWebApplication::layout application layout}
 	 * is used. If it is false, no layout will be applied.
 	 * The {@link CWebModule::layout module layout} will be used
@@ -750,7 +750,7 @@ class CController extends CBaseController
 	 * @param string $route the route of the new controller action. This can be an action ID, or a complete route
 	 * with module ID (optional in the current module), controller ID and action ID. If the former, the action is assumed
 	 * to be located within the current controller.
-	 * @param boolean $exit whether to end the application after this call. Defaults to true.
+	 * @param bool $exit whether to end the application after this call. Defaults to true.
 	 * @since 1.1.0
 	 */
 	public function forward($route,$exit=true)
@@ -782,7 +782,7 @@ class CController extends CBaseController
 	 * @param string $view name of the view to be rendered. See {@link getViewFile} for details
 	 * about how the view script is resolved.
 	 * @param array $data data to be extracted into PHP variables and made available to the view script
-	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users.
+	 * @param bool $return whether the rendering result should be returned instead of being displayed to end users.
 	 * @return string|null the rendering result. Null if the rendering result is not required.
 	 * @see renderPartial
 	 * @see getLayoutFile
@@ -810,7 +810,7 @@ class CController extends CBaseController
 	 * This method is invoked at the beginning of {@link render()}.
 	 * You may override this method to do some preprocessing when rendering a view.
 	 * @param string $view the view to be rendered
-	 * @return boolean whether the view should be rendered.
+	 * @return bool whether the view should be rendered.
 	 * @since 1.1.5
 	 */
 	protected function beforeRender($view)
@@ -835,7 +835,7 @@ class CController extends CBaseController
 	 * Renders a static text string.
 	 * The string will be inserted in the current controller layout and returned back.
 	 * @param string $text the static text string
-	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users.
+	 * @param bool $return whether the rendering result should be returned instead of being displayed to end users.
 	 * @return string|null the rendering result. Null if the rendering result is not required.
 	 * @see getLayoutFile
 	 */
@@ -866,8 +866,8 @@ class CController extends CBaseController
 	 * @param string $view name of the view to be rendered. See {@link getViewFile} for details
 	 * about how the view script is resolved.
 	 * @param array $data data to be extracted into PHP variables and made available to the view script
-	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users
-	 * @param boolean $processOutput whether the rendering result should be postprocessed using {@link processOutput}.
+	 * @param bool $return whether the rendering result should be returned instead of being displayed to end users
+	 * @param bool $processOutput whether the rendering result should be postprocessed using {@link processOutput}.
 	 * @return string|null the rendering result. Null if the rendering result is not required.
 	 * @throws CException if the view does not exist
 	 * @see getViewFile
@@ -899,8 +899,8 @@ class CController extends CBaseController
 	 * @param string $name the name of the clip
 	 * @param array $params an array of named parameters (name=>value) that should replace
 	 * their corresponding placeholders in the clip
-	 * @param boolean $return whether to return the clip content or echo it.
-	 * @return mixed either the clip content or null
+	 * @param bool $return whether to return the clip content or echo it.
+	 * @return string|void either the clip content or null
 	 * @since 1.1.8
 	 */
 	public function renderClip($name,$params=array(),$return=false)
@@ -1025,11 +1025,11 @@ class CController extends CBaseController
 
 	/**
 	 * Redirects the browser to the specified URL or route (controller/action).
-	 * @param mixed $url the URL to be redirected to. If the parameter is an array,
+	 * @param string|array $url the URL to be redirected to. If the parameter is an array,
 	 * the first element must be a route to a controller action and the rest
 	 * are GET parameters in name-value pairs.
-	 * @param boolean $terminate whether to terminate the current application after calling this method. Defaults to true.
-	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
+	 * @param bool $terminate whether to terminate the current application after calling this method. Defaults to true.
+	 * @param int $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
@@ -1046,7 +1046,7 @@ class CController extends CBaseController
 	 * Refreshes the current page.
 	 * The effect of this method call is the same as user pressing the
 	 * refresh button on the browser (without post data).
-	 * @param boolean $terminate whether to terminate the current application after calling this method
+	 * @param bool $terminate whether to terminate the current application after calling this method
 	 * @param string $anchor the anchor that should be appended to the redirection URL.
 	 * Defaults to empty. Make sure the anchor starts with '#' if you want to specify it.
 	 */
@@ -1075,7 +1075,7 @@ class CController extends CBaseController
 	}
 
 	/**
-	 * @param boolean $createIfNull whether to create a stack if it does not exist yet. Defaults to true.
+	 * @param bool $createIfNull whether to create a stack if it does not exist yet. Defaults to true.
 	 * @return CStack stack of {@link COutputCache} objects
 	 */
 	public function getCachingStack($createIfNull=true)
@@ -1087,7 +1087,7 @@ class CController extends CBaseController
 
 	/**
 	 * Returns whether the caching stack is empty.
-	 * @return boolean whether the caching stack is empty. If not empty, it means currently there are
+	 * @return bool whether the caching stack is empty. If not empty, it means currently there are
 	 * some output cache in effect. Note, the return result of this method may change when it is
 	 * called in different output regions, depending on the partition of output caches.
 	 */
@@ -1100,7 +1100,7 @@ class CController extends CBaseController
 	 * This method is invoked right before an action is to be executed (after all possible filters.)
 	 * You may override this method to do last-minute preparation for the action.
 	 * @param CAction $action the action to be executed.
-	 * @return boolean whether the action should be executed.
+	 * @return bool whether the action should be executed.
 	 */
 	protected function beforeAction($action)
 	{

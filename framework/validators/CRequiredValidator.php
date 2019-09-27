@@ -34,14 +34,14 @@ class CRequiredValidator extends CValidator
 	 */
 	public $requiredValue;
 	/**
-	 * @var boolean whether the comparison to {@link requiredValue} is strict.
+	 * @var bool whether the comparison to {@link requiredValue} is strict.
 	 * When this is true, the attribute value and type must both match those of {@link requiredValue}.
 	 * Defaults to false, meaning only the value needs to be matched.
 	 * This property is only used when {@link requiredValue} is not null.
 	 */
 	public $strict=false;
 	/**
-	 * @var boolean whether the value should be trimmed with php trim() function when comparing strings.
+	 * @var bool whether the value should be trimmed with php trim() function when comparing strings.
 	 * When set to false, the attribute value is not considered empty when it contains spaces.
 	 * Defaults to true, meaning the value will be trimmed.
 	 * @since 1.1.14
