@@ -552,6 +552,8 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function bindValues($command, $values)
 	{
+        $values = is_array($values) ? $values : [];
+
 		if(($n=count($values))===0)
 			return;
 		if(isset($values[0])) // question mark placeholders
