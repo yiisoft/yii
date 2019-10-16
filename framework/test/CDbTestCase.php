@@ -98,7 +98,7 @@ abstract class CDbTestCase extends CTestCase
 	/**
 	 * @param string $name the fixture name (the key value in {@link fixtures}).
 	 * @param string $alias the alias of the fixture data row
-	 * @return CActiveRecord the ActiveRecord instance corresponding to the specified alias in the named fixture.
+	 * @return CActiveRecord|false the ActiveRecord instance corresponding to the specified alias in the named fixture.
 	 * False is returned if there is no such fixture or the record cannot be found.
 	 */
 	public function getFixtureRecord($name,$alias)

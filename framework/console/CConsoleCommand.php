@@ -331,6 +331,9 @@ abstract class CConsoleCommand extends CComponent
 	 * Displays a usage error.
 	 * This method will then terminate the execution of the current application.
 	 * @param string $message the error message
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function usageError($message)
 	{

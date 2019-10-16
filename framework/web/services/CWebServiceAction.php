@@ -79,6 +79,9 @@ class CWebServiceAction extends CAction
 	 * Runs the action.
 	 * If the GET parameter {@link serviceVar} exists, the action handle the remote method invocation.
 	 * If not, the action will serve WSDL content;
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function run()
 	{

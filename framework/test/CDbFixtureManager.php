@@ -323,7 +323,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * Returns the fixture data rows.
 	 * The rows will have updated primary key values if the primary key is auto-incremental.
 	 * @param string $name the fixture name
-	 * @return array the fixture data rows. False is returned if there is no such fixture data.
+	 * @return array|false the fixture data rows. False is returned if there is no such fixture data.
 	 */
 	public function getRows($name)
 	{
@@ -337,7 +337,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * Returns the specified ActiveRecord instance in the fixture data.
 	 * @param string $name the fixture name
 	 * @param string $alias the alias for the fixture data row
-	 * @return CActiveRecord the ActiveRecord instance. False is returned if there is no such fixture row.
+	 * @return CActiveRecord|false the ActiveRecord instance. False is returned if there is no such fixture row.
 	 */
 	public function getRecord($name,$alias)
 	{

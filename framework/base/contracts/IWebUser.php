@@ -54,6 +54,9 @@ interface IWebUser
      * so that the user browser can be redirected to the specified login URL after
      * calling this method.
      * After calling this method, the current request processing will be terminated.
+     *
+     * @return void
+     * @psalm-return no-return
      */
     public function loginRequired();
 }

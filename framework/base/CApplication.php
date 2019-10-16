@@ -199,6 +199,9 @@ abstract class CApplication extends CModule
 	 * @param int $status exit status (value 0 means normal exit while other values mean abnormal exit).
 	 * @param bool $exit whether to exit the current request. This parameter has been available since version 1.1.5.
 	 * It defaults to true, meaning the PHP's exit() function will be called at the end of this method.
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function end($status=0,$exit=true)
 	{
@@ -725,6 +728,9 @@ abstract class CApplication extends CModule
 	 * The application will be terminated by this method.
 	 *
 	 * @param Exception $exception exception that is not caught
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function handleException($exception)
 	{
@@ -796,6 +802,9 @@ abstract class CApplication extends CModule
 	 * @param string $message the error message
 	 * @param string $file the filename that the error was raised in
 	 * @param int $line the line number the error was raised at
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function handleError($code,$message,$file,$line)
 	{

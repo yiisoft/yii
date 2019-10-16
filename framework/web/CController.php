@@ -752,6 +752,9 @@ class CController extends CBaseController
 	 * to be located within the current controller.
 	 * @param bool $exit whether to end the application after this call. Defaults to true.
 	 * @since 1.1.0
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function forward($route,$exit=true)
 	{

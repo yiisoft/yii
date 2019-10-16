@@ -882,6 +882,9 @@ class CHttpRequest extends CApplicationComponent
 	 * @param bool $terminate whether to terminate the current application
 	 * @param int $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
 	{
@@ -1111,6 +1114,9 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $mimeType mime type of the content. If null, it will be guessed automatically based on the given file name.
 	 * @param bool $terminate whether to terminate the current application after calling this method
 	 * @throws CHttpException
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
 	{
@@ -1253,6 +1259,9 @@ class CHttpRequest extends CApplicationComponent
 	 * <li>forceDownload: specifies whether the file will be downloaded or shown inline, defaults to true. (Since version 1.1.9.)</li>
 	 * <li>addHeaders: an array of additional http headers in header-value pairs (available since version 1.1.10)</li>
 	 * </ul>
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function xSendFile($filePath, $options=array())
 	{

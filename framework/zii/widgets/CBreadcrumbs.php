@@ -58,7 +58,7 @@ class CBreadcrumbs extends CWidget
 	 */
 	public $encodeLabel=true;
 	/**
-	 * @var string the first hyperlink in the breadcrumbs (called home link).
+	 * @var string|false the first hyperlink in the breadcrumbs (called home link).
 	 * If this property is not set, it defaults to a link pointing to {@link CWebApplication::homeUrl} with label 'Home'.
 	 * If this property is false, the home link will not be rendered.
 	 */

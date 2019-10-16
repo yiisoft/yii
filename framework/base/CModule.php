@@ -404,7 +404,7 @@ abstract class CModule extends CComponent
 	 * The component will be initialized by calling its {@link CApplicationComponent::init() init()}
 	 * method if it has not done so.
 	 * @param string $id component ID
-	 * @param array|IApplicationComponent $component application component
+	 * @param array|IApplicationComponent|null $component application component
 	 * (either configuration array or instance). If this parameter is null,
 	 * component will be unloaded from the module.
 	 * @param bool $merge whether to merge the new component configuration
@@ -420,7 +420,8 @@ abstract class CModule extends CComponent
 			unset($this->_components[$id]);
 			return;
 		}
-		elseif($component instanceof IApplicationComponent)
+
+		if($component instanceof IApplicationComponent)
 		{
 			$this->_components[$id]=$component;
 
@@ -429,7 +430,8 @@ abstract class CModule extends CComponent
 
 			return;
 		}
-		elseif(isset($this->_components[$id]))
+
+		if(isset($this->_components[$id]))
 		{
 			if(isset($component['class']) && get_class($this->_components[$id])!==$component['class'])
 			{

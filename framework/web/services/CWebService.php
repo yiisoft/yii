@@ -157,6 +157,8 @@ class CWebService extends CComponent
 
 	/**
 	 * Handles the web service request.
+     *
+     * @psalm-return no-return
 	 */
 	public function run()
 	{

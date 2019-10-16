@@ -112,6 +112,9 @@ class CCaptchaAction extends CAction
 
 	/**
 	 * Runs the action.
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function run()
 	{
