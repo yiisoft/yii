@@ -441,7 +441,7 @@ class CController extends CBaseController
 	 * @param string $actionID the action ID that has its prefix stripped off
 	 * @param string $requestActionID the originally requested action ID
 	 * @param array $config the action configuration that should be applied on top of the configuration specified in the map
-	 * @return CAction the action instance, null if the action does not exist.
+	 * @return CAction|null the action instance, null if the action does not exist.
 	 * @throws CException
 	 */
 	protected function createActionFromMap($actionMap,$actionID,$requestActionID,$config=array())

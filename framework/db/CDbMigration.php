@@ -43,7 +43,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * This method contains the logic to be executed when applying this migration.
 	 * Child classes may implement this method to provide actual migration logic.
-	 * @return bool Returning false means, the migration will not be applied.
+	 * @return void|false Returning false means, the migration will not be applied.
 	 */
 	public function up()
 	{
@@ -69,7 +69,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * This method contains the logic to be executed when removing this migration.
 	 * Child classes may override this method if the corresponding migrations can be removed.
-	 * @return bool Returning false means, the migration will not be applied.
+	 * @return void|false Returning false means, the migration will not be applied.
 	 */
 	public function down()
 	{
@@ -98,7 +98,7 @@ abstract class CDbMigration extends CComponent
 	 * be enclosed within a DB transaction.
 	 * Child classes may implement this method instead of {@link up} if the DB logic
 	 * needs to be within a transaction.
-	 * @return bool Returning false means, the migration will not be applied and
+	 * @return void|false Returning false means, the migration will not be applied and
 	 * the transaction will be rolled back.
 	 * @since 1.1.7
 	 */
@@ -112,7 +112,7 @@ abstract class CDbMigration extends CComponent
 	 * be enclosed within a DB transaction.
 	 * Child classes may implement this method instead of {@link up} if the DB logic
 	 * needs to be within a transaction.
-	 * @return bool Returning false means, the migration will not be applied and
+	 * @return void|false Returning false means, the migration will not be applied and
 	 * the transaction will be rolled back.
 	 * @since 1.1.7
 	 */
