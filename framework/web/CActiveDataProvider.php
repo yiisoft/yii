@@ -182,8 +182,6 @@ class CActiveDataProvider extends CDataProvider
 	 * Fetches the data from the persistent data storage.
 	 *
 	 * @return CActiveRecord[] list of data items
-	 *
-	 * @psalm-return array<array-key, CActiveRecord>
 	 */
 	protected function fetchData()
 	{
