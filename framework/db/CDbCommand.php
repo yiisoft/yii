@@ -114,7 +114,8 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Set the statement to null when serializing.
-	 * @return array
+	 *
+	 * @return string[]
 	 */
 	public function __sleep()
 	{
@@ -203,7 +204,10 @@ class CDbCommand extends CComponent
 	 * this may improve performance.
 	 * For SQL statement with binding parameters, this method is invoked
 	 * automatically.
+	 *
 	 * @throws CDbException if CDbCommand failed to prepare the SQL statement
+	 *
+	 * @return void
 	 */
 	public function prepare()
 	{
@@ -226,6 +230,8 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Cancels the execution of the SQL statement.
+	 *
+	 * @return void
 	 */
 	public function cancel()
 	{
@@ -366,13 +372,16 @@ class CDbCommand extends CComponent
 	/**
 	 * Executes the SQL statement and returns query result.
 	 * This method is for executing an SQL query that returns result set.
+	 *
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
+	 *
 	 * @return CDbDataReader the reader object for fetching the query result
+	 *
 	 * @throws CException execution failed
 	 */
 	public function query($params=array())
@@ -382,6 +391,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Executes the SQL statement and returns all rows.
+	 *
 	 * @param bool $fetchAssociative whether each row should be returned as an associated array with
 	 * column names as the keys or the array keys are column indexes (0-based).
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
@@ -390,8 +400,9 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
-	 * @return string[][] all rows of the query result. Each array element is an array representing a row.
-	 * An empty array is returned if the query results in nothing.
+	 *
+	 * @return string[][] all rows of the query result. Each array element is an array representing a row. An empty array is returned if the query results in nothing.
+	 *
 	 * @throws CException execution failed
 	 */
 	public function queryAll($fetchAssociative=true,$params=array())
@@ -402,6 +413,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Executes the SQL statement and returns the first row of the result.
 	 * This is a convenient method of {@link query} when only the first row of data is needed.
+	 *
 	 * @param bool $fetchAssociative whether the row should be returned as an associated array with
 	 * column names as the keys or the array keys are column indexes (0-based).
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
@@ -410,7 +422,9 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
+	 *
 	 * @return string[]|false the first row (in terms of an array) of the query result, false if no result.
+	 *
 	 * @throws CException execution failed
 	 */
 	public function queryRow($fetchAssociative=true,$params=array())
@@ -422,13 +436,16 @@ class CDbCommand extends CComponent
 	 * Executes the SQL statement and returns the value of the first column in the first row of data.
 	 * This is a convenient method of {@link query} when only a single scalar
 	 * value is needed (e.g. obtaining the count of the records).
+	 *
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
+	 *
 	 * @return string|false the value of the first column in the first row of the query result. False is returned if there is no value.
+	 *
 	 * @throws CException execution failed
 	 */
 	public function queryScalar($params=array())
@@ -444,13 +461,16 @@ class CDbCommand extends CComponent
 	 * Executes the SQL statement and returns the first column of the result.
 	 * This is a convenient method of {@link query} when only the first column of data is needed.
 	 * Note, the column returned will contain the first element in each row of result.
+	 *
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
+	 *
 	 * @return string[] the first column of the query result. Empty array if no result.
+	 *
 	 * @throws CException execution failed
 	 */
 	public function queryColumn($params=array())
@@ -668,9 +688,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the SELECT part in the query.
+	 *
 	 * @param string|string[] $value the data to be selected. Please refer to {@link select()} for details
 	 * on how to specify this parameter.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setSelect($value)
 	{
@@ -702,8 +726,12 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets a value indicating whether SELECT DISTINCT should be used.
+	 *
 	 * @param bool $value a value indicating whether SELECT DISTINCT should be used.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setDistinct($value)
 	{
@@ -757,9 +785,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the FROM part in the query.
+	 *
 	 * @param string|string[] $value the tables to be selected from. Please refer to {@link from()} for details
 	 * on how to specify this parameter.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setFrom($value)
 	{
@@ -873,9 +905,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the WHERE part in the query.
+	 *
 	 * @param string|array $value the where part. Please refer to {@link where()} for details
 	 * on how to specify this parameter.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setWhere($value)
 	{
@@ -913,10 +949,14 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the join part in the query.
+	 *
 	 * @param string|string[] $value the join part in the query. This can be either a string or
 	 * an array representing multiple join parts in the query. Each part must contain
 	 * the proper join operator (e.g. 'LEFT JOIN tbl_profile ON tbl_user.id=tbl_profile.id')
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setJoin($value)
 	{
@@ -1060,9 +1100,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the GROUP BY part in the query.
+	 *
 	 * @param string|string[] $value the GROUP BY part. Please refer to {@link group()} for details
 	 * on how to specify this parameter.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setGroup($value)
 	{
@@ -1097,9 +1141,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the HAVING part in the query.
+	 *
 	 * @param string|array $value the HAVING part. Please refer to {@link having()} for details
 	 * on how to specify this parameter.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setHaving($value)
 	{
@@ -1159,9 +1207,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the ORDER BY part in the query.
+	 *
 	 * @param string|string[] $value the ORDER BY part. Please refer to {@link order()} for details
 	 * on how to specify this parameter.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setOrder($value)
 	{
@@ -1195,9 +1247,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the LIMIT part in the query.
+	 *
 	 * @param int $value the LIMIT part. Please refer to {@link limit()} for details
 	 * on how to specify this parameter.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setLimit($value)
 	{
@@ -1228,9 +1284,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the OFFSET part in the query.
+	 *
 	 * @param int $value the OFFSET part. Please refer to {@link offset()} for details
 	 * on how to specify this parameter.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setOffset($value)
 	{
@@ -1266,9 +1326,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Sets the UNION part in the query.
+	 *
 	 * @param string|string[] $value the UNION part. This can be either a string or an array
 	 * representing multiple SQL statements to be unioned together.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function setUnion($value)
 	{

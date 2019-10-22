@@ -57,6 +57,8 @@ class CCodeGenerator extends CController
 	 * This is the action that displays the code generation interface.
 	 * Child classes mainly need to provide the 'index' view for collecting user parameters
 	 * for code generation.
+	 *
+	 * @return void
 	 */
 	public function actionIndex()
 	{
@@ -75,7 +77,10 @@ class CCodeGenerator extends CController
 	/**
 	 * The code preview action.
 	 * This action shows up the specified generated code.
+	 *
 	 * @throws CHttpException if unable to find code generated.
+	 *
+	 * @return void
 	 */
 	public function actionCode()
 	{
@@ -93,7 +98,10 @@ class CCodeGenerator extends CController
 	/**
 	 * The code diff action.
 	 * This action shows up the difference between the newly generated code and the corresponding existing code.
+	 *
 	 * @throws CHttpException if unable to find code generated.
+	 *
+	 * @return void
 	 */
 	public function actionDiff()
 	{
@@ -136,6 +144,8 @@ class CCodeGenerator extends CController
 
 	/**
 	 * @param string $value the view path of the generator.
+	 *
+	 * @return void
 	 */
 	public function setViewPath($value)
 	{
@@ -144,6 +154,8 @@ class CCodeGenerator extends CController
 
 	/**
 	 * Prepares the code model.
+	 *
+	 * @return CCodeModel
 	 */
 	protected function prepare()
 	{
@@ -151,6 +163,7 @@ class CCodeGenerator extends CController
 			throw new CException(get_class($this).'.codeModel property must be specified.');
 		$modelClass=Yii::import($this->codeModel,true);
 		$model=new $modelClass;
+		\assert($model instanceof CCodeModel);
 		$model->loadStickyAttributes();
 		if(isset($_POST[$modelClass]))
 		{

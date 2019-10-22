@@ -43,6 +43,8 @@ class CProfileLogRoute extends CWebLogRoute
 	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -59,7 +61,10 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * @param string $value the type of the profiling report to display. Valid values include 'summary' and 'callstack'.
+	 *
 	 * @throws CException if given value is not "summary" or "callstack"
+	 *
+	 * @return void
 	 */
 	public function setReport($value)
 	{
@@ -72,7 +77,10 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * Displays the log messages.
+	 *
 	 * @param array $logs list of log messages
+	 *
+	 * @return void
 	 */
 	public function processLogs($logs)
 	{
@@ -88,8 +96,12 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * Displays the callstack of the profiling procedures for display.
+	 *
 	 * @param array $logs list of logs
+	 *
 	 * @throws CException if Yii::beginProfile() and Yii::endProfile() are not matching
+	 *
+	 * @return void
 	 */
 	protected function displayCallstack($logs)
 	{
@@ -131,8 +143,12 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * Displays the summary report of the profiling result.
+	 *
 	 * @param array $logs list of logs
+	 *
 	 * @throws CException if Yii::beginProfile() and Yii::endProfile() are not matching
+	 *
+	 * @return void
 	 */
 	protected function displaySummary($logs)
 	{
@@ -188,8 +204,10 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * Aggregates the report result.
+	 *
 	 * @param array $result log result for this code block
 	 * @param float $delta time spent for this code block
+	 *
 	 * @return array
 	 */
 	protected function aggregateResult($result,$delta)

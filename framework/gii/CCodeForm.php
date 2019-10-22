@@ -25,6 +25,8 @@ class CCodeForm extends CActiveForm
 	/**
 	 * Initializes the widget.
 	 * This renders the form open tag.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -40,6 +42,8 @@ EOD;
 
 	/**
 	 * Runs the widget.
+	 *
+	 * @return void
 	 */
 	public function run()
 	{

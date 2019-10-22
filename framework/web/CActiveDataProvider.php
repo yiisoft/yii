@@ -115,8 +115,11 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Sets the query criteria.
+	 *
 	 * @param CDbCriteria|array $value the query criteria. This can be either a CDbCriteria object or an array
 	 * representing the query criteria.
+	 *
+	 * @return void
 	 */
 	public function setCriteria($value)
 	{
@@ -137,9 +140,13 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Sets the count query criteria.
+	 *
 	 * @param CDbCriteria|array $value the count query criteria. This can be either a CDbCriteria object
 	 * or an array representing the query criteria.
+	 *
 	 * @since 1.1.14
+	 *
+	 * @return void
 	 */
 	public function setCountCriteria($value)
 	{
@@ -173,7 +180,10 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Fetches the data from the persistent data storage.
-	 * @return array list of data items
+	 *
+	 * @return CActiveRecord[] list of data items
+	 *
+	 * @psalm-return array<array-key, CActiveRecord>
 	 */
 	protected function fetchData()
 	{

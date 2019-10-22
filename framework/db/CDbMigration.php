@@ -143,7 +143,10 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Sets the currently active database connection.
 	 * The database connection will be used by the methods such as {@link insert}, {@link createTable}.
+	 *
 	 * @param CDbConnection $db the database connection component
+	 *
+	 * @return void
 	 */
 	public function setDbConnection($db)
 	{
@@ -153,9 +156,13 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Executes a SQL statement.
 	 * This method executes the specified SQL statement using {@link dbConnection}.
+	 *
 	 * @param string $sql the SQL statement to be executed
 	 * @param array $params input parameters (name=>value) for the SQL execution. See {@link CDbCommand::execute} for more details.
+	 *
 	 * @since 1.1.7
+	 *
+	 * @return void
 	 */
 	public function execute($sql, $params=array())
 	{
@@ -168,8 +175,11 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Creates and executes an INSERT SQL statement.
 	 * The method will properly escape the column names, and bind the values to be inserted.
+	 *
 	 * @param string $table the table that new rows will be inserted into.
 	 * @param array $columns the column data (name=>value) to be inserted into the table.
+	 *
+	 * @return void
 	 */
 	public function insert($table, $columns)
 	{
@@ -182,9 +192,13 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Creates and executes an INSERT SQL statement with multiple data.
 	 * The method will properly escape the column names, and bind the values to be inserted.
+	 *
 	 * @param string $table the table that new rows will be inserted into.
 	 * @param array $data an array of various column data (name=>value) to be inserted into the table.
+	 *
 	 * @since 1.1.16
+	 *
+	 * @return void
 	 */
 	public function insertMultiple($table, $data)
 	{
@@ -199,11 +213,14 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Creates and executes an UPDATE SQL statement.
 	 * The method will properly escape the column names and bind the values to be updated.
+	 *
 	 * @param string $table the table to be updated.
 	 * @param array $columns the column data (name=>value) to be updated.
 	 * @param string|array $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link CDbCommand::where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
+	 *
+	 * @return void
 	 */
 	public function update($table, $columns, $conditions='', $params=array())
 	{
@@ -215,10 +232,13 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Creates and executes a DELETE SQL statement.
+	 *
 	 * @param string $table the table where the data will be deleted from.
 	 * @param string|array $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link CDbCommand::where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
+	 *
+	 * @return void
 	 */
 	public function delete($table, $conditions='', $params=array())
 	{
@@ -242,6 +262,8 @@ abstract class CDbMigration extends CComponent
 	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
 	 * @param array $columns the columns (name=>definition) in the new table.
 	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
+	 *
+	 * @return void
 	 */
 	public function createTable($table, $columns, $options=null)
 	{
@@ -253,8 +275,11 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for renaming a DB table.
+	 *
 	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
 	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 *
+	 * @return void
 	 */
 	public function renameTable($table, $newName)
 	{
@@ -266,7 +291,10 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for dropping a DB table.
+	 *
 	 * @param string $table the table to be dropped. The name will be properly quoted by the method.
+	 *
+	 * @return void
 	 */
 	public function dropTable($table)
 	{
@@ -278,7 +306,10 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for truncating a DB table.
+	 *
 	 * @param string $table the table to be truncated. The name will be properly quoted by the method.
+	 *
+	 * @return void
 	 */
 	public function truncateTable($table)
 	{
@@ -290,11 +321,14 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for adding a new DB column.
+	 *
 	 * @param string $table the table that the new column will be added to. The table name will be properly quoted by the method.
 	 * @param string $column the name of the new column. The name will be properly quoted by the method.
 	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 *
+	 * @return void
 	 */
 	public function addColumn($table, $column, $type)
 	{
@@ -306,8 +340,11 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for dropping a DB column.
+	 *
 	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.
 	 * @param string $column the name of the column to be dropped. The name will be properly quoted by the method.
+	 *
+	 * @return void
 	 */
 	public function dropColumn($table, $column)
 	{
@@ -319,9 +356,12 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for renaming a column.
+	 *
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
 	 * @param string $name the old name of the column. The name will be properly quoted by the method.
 	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 *
+	 * @return void
 	 */
 	public function renameColumn($table, $name, $newName)
 	{
@@ -333,11 +373,14 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for changing the definition of a column.
+	 *
 	 * @param string $table the table whose column is to be changed. The table name will be properly quoted by the method.
 	 * @param string $column the name of the column to be changed. The name will be properly quoted by the method.
 	 * @param string $type the new column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 *
+	 * @return void
 	 */
 	public function alterColumn($table, $column, $type)
 	{
@@ -350,6 +393,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Builds a SQL statement for adding a foreign key constraint to an existing table.
 	 * The method will properly quote the table and column names.
+	 *
 	 * @param string $name the name of the foreign key constraint.
 	 * @param string $table the table that the foreign key constraint will be added to.
 	 * @param string|array $columns the name of the column to that the constraint will be added on. If there are multiple columns, separate them with commas or pass as an array of column names.
@@ -357,6 +401,8 @@ abstract class CDbMigration extends CComponent
 	 * @param string|array $refColumns the name of the column that the foreign key references to. If there are multiple columns, separate them with commas or pass as an array of column names.
 	 * @param string $delete the ON DELETE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
 	 * @param string $update the ON UPDATE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
+	 *
+	 * @return void
 	 */
 	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
 	{
@@ -369,8 +415,11 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds a SQL statement for dropping a foreign key constraint.
+	 *
 	 * @param string $name the name of the foreign key constraint to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose foreign is to be dropped. The name will be properly quoted by the method.
+	 *
+	 * @return void
 	 */
 	public function dropForeignKey($name, $table)
 	{
@@ -382,11 +431,14 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for creating a new index.
+	 *
 	 * @param string $name the name of the index. The name will be properly quoted by the method.
 	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
 	 * @param string|array $columns the column(s) that should be included in the index. If there are multiple columns, please separate them
 	 * by commas or pass as an array of column names. Each column name will be properly quoted by the method, unless a parenthesis is found in the name.
 	 * @param bool $unique whether to add UNIQUE constraint on the created index.
+	 *
+	 * @return void
 	 */
 	public function createIndex($name, $table, $columns, $unique=false)
 	{
@@ -398,8 +450,11 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for dropping an index.
+	 *
 	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
+	 *
+	 * @return void
 	 */
 	public function dropIndex($name, $table)
 	{
@@ -411,8 +466,12 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Refreshed schema cache for a table
+	 *
 	 * @param string $table name of the table to refresh
+	 *
 	 * @since 1.1.9
+	 *
+	 * @return void
 	 */
 	public function refreshTableSchema($table)
 	{
@@ -424,11 +483,15 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for creating a primary key, supports composite primary keys.
+	 *
 	 * @param string $name name of the primary key constraint to add
 	 * @param string $table name of the table to add primary key to
 	 * @param string|array $columns comma separated string or array of columns that the primary key will consist of.
 	 * Array value can be passed since 1.1.14.
+	 *
 	 * @since 1.1.13
+	 *
+	 * @return void
 	 */
 	public function addPrimaryKey($name,$table,$columns)
 	{
@@ -440,9 +503,13 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for removing a primary key, supports composite primary keys.
+	 *
 	 * @param string $name name of the constraint to remove
 	 * @param string $table name of the table to remove primary key from
+	 *
 	 * @since 1.1.13
+	 *
+	 * @return void
 	 */
 	public function dropPrimaryKey($name,$table)
 	{

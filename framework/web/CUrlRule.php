@@ -90,9 +90,13 @@ class CUrlRule extends CBaseUrlRule
 
     /**
      * Callback for preg_replace_callback in counstructor
+     *
+     * @return string
      */
     protected function escapeRegexpSpecialChars($matches)
     {
+        /* @noinspection PregQuoteUsageInspection */
+        //  we don't add `/` because it's escaped manually…
         return preg_quote($matches[0]);
     }
 

@@ -78,7 +78,8 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * Returns a value indicating whether to use custom session storage.
 	 * This method overrides the parent implementation and always returns true.
-	 * @return bool whether to use custom storage.
+	 *
+	 * @return true whether to use custom storage.
 	 */
 	public function getUseCustomStorage()
 	{
@@ -88,8 +89,12 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * Updates the current session id with a newly generated one.
 	 * Please refer to {@link http://php.net/session_regenerate_id} for more details.
+	 *
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 *
 	 * @since 1.1.8
+	 *
+	 * @return void
 	 */
 	public function regenerateID($deleteOldSession=false)
 	{
@@ -133,8 +138,11 @@ class CDbHttpSession extends CHttpSession
 
 	/**
 	 * Creates the session DB table.
+	 *
 	 * @param CDbConnection $db the database connection
 	 * @param string $tableName the name of the table to be created
+	 *
+	 * @return void
 	 */
 	protected function createSessionTable($db,$tableName)
 	{
@@ -188,9 +196,11 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * Session open handler.
 	 * Do not call this method directly.
+	 *
 	 * @param string $savePath session save path
 	 * @param string $sessionName session name
-	 * @return bool whether session is opened successfully
+	 *
+	 * @return true whether session is opened successfully
 	 */
 	public function openSession($savePath,$sessionName)
 	{
@@ -275,8 +285,10 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * Session destroy handler.
 	 * Do not call this method directly.
+	 *
 	 * @param string $id session ID
-	 * @return bool whether session is destroyed successfully
+	 *
+	 * @return true whether session is destroyed successfully
 	 */
 	public function destroySession($id)
 	{
@@ -288,8 +300,10 @@ class CDbHttpSession extends CHttpSession
 	/**
 	 * Session GC (garbage collection) handler.
 	 * Do not call this method directly.
+	 *
 	 * @param int $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
-	 * @return bool whether session is GCed successfully
+	 *
+	 * @return true whether session is GCed successfully
 	 */
 	public function gcSession($maxLifetime)
 	{

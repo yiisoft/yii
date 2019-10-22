@@ -61,6 +61,8 @@ class CCodeFile extends CComponent
 
 	/**
 	 * Saves the code into the file {@link path}.
+	 *
+	 * @return bool
 	 */
 	public function save()
 	{

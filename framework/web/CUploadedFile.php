@@ -112,7 +112,10 @@ class CUploadedFile extends CComponent
 	/**
 	 * Cleans up the loaded CUploadedFile instances.
 	 * This method is mainly used by test scripts to set up a fixture.
+	 *
 	 * @since 1.1.4
+	 *
+	 * @return void
 	 */
 	public static function reset()
 	{
@@ -122,6 +125,8 @@ class CUploadedFile extends CComponent
 	/**
 	 * Initially processes $_FILES superglobal for easier use.
 	 * Only for internal usage.
+	 *
+	 * @return void
 	 */
 	protected static function prefetchFiles()
 	{
@@ -134,12 +139,15 @@ class CUploadedFile extends CComponent
 	}
 	/**
 	 * Processes incoming files for {@link getInstanceByName}.
+	 *
 	 * @param string $key key for identifiing uploaded file: class name and subarray indexes
 	 * @param mixed $names file names provided by PHP
 	 * @param mixed $tmp_names temporary file names provided by PHP
 	 * @param mixed $types filetypes provided by PHP
 	 * @param mixed $sizes file sizes provided by PHP
 	 * @param mixed $errors uploading issues provided by PHP
+	 *
+	 * @return void
 	 */
 	protected static function collectFilesRecursive($key, $names, $tmp_names, $types, $sizes, $errors)
 	{

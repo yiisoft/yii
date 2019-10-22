@@ -69,6 +69,8 @@ abstract class CLogRoute extends CComponent
 	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -89,8 +91,11 @@ abstract class CLogRoute extends CComponent
 
 	/**
 	 * Retrieves filtered log messages from logger for further processing.
+	 *
 	 * @param CLogger $logger logger instance
 	 * @param bool $processLogs whether to process the logs after they are collected from the logger
+	 *
+	 * @return void
 	 */
 	public function collectLogs($logger, $processLogs=false)
 	{

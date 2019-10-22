@@ -29,7 +29,10 @@ class CChainedLogFilter extends CComponent implements ILogFilter
 
 	/**
 	 * Filters the given log messages by applying all filters configured by {@link filters}.
+	 *
 	 * @param array $logs the log messages
+	 *
+	 * @return void
 	 */
 	public function filter(&$logs)
 	{

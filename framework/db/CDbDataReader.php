@@ -55,12 +55,16 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 	 * Binds a column to a PHP variable.
 	 * When rows of data are being fetched, the corresponding column value
 	 * will be set in the variable. Note, the fetch mode must include PDO::FETCH_BOUND.
+	 *
 	 * @param int|string $column Number of the column (1-indexed) or name of the column
 	 * in the result set. If using the column name, be aware that the name
 	 * should match the case of the column, as returned by the driver.
 	 * @param mixed $value Name of the PHP variable to which the column will be bound.
 	 * @param int $dataType Data type of the parameter
+	 *
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindColumn.php
+	 *
+	 * @return void
 	 */
 	public function bindColumn($column, &$value, $dataType=null)
 	{
@@ -72,8 +76,12 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 
 	/**
 	 * Set the default fetch mode for this statement
+	 *
 	 * @param int $mode fetch mode
+	 *
 	 * @see http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
+	 *
+	 * @return void
 	 */
 	public function setFetchMode($mode)
 	{
@@ -138,6 +146,8 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 	 * Closes the reader.
 	 * This frees up the resources allocated for executing this SQL statement.
 	 * Read attempts after this method call are unpredictable.
+	 *
+	 * @return void
 	 */
 	public function close()
 	{

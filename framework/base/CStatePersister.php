@@ -57,6 +57,8 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	 * Initializes the component.
 	 * This method overrides the parent implementation by making sure {@link stateFile}
 	 * contains valid value.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -106,7 +108,9 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	 * the file while it is being written by save()
 	 *
 	 * @param string $filename file name
-	 * @return bool|string file contents
+	 *
+	 * @return false|string file contents
+	 *
 	 * @since 1.1.17
 	 */
 	protected function getContent($filename)
@@ -124,7 +128,10 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	
 	/**
 	 * Saves application state in persistent storage.
+	 *
 	 * @param mixed $state state data (must be serializable).
+	 *
+	 * @return void
 	 */
 	public function save($state)
 	{

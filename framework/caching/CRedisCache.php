@@ -77,7 +77,10 @@ class CRedisCache extends CCache
 	/**
 	 * Establishes a connection to the redis server.
 	 * It does nothing if the connection has already been established.
+	 *
 	 * @throws CException if connecting fails
+	 *
+	 * @return void
 	 */
 	protected function connect()
 	{
@@ -137,7 +140,9 @@ class CRedisCache extends CCache
 
 	/**
 	 * Reads the result from socket and parses it
+	 *
 	 * @return array|bool|null|string
+	 *
 	 * @throws CException socket or data problems
 	 */
 	private function parseResponse()
@@ -193,8 +198,10 @@ class CRedisCache extends CCache
 	/**
 	 * Retrieves a value from cache with a specified key.
 	 * This is the implementation of the method declared in the parent class.
+	 *
 	 * @param string $key a unique key identifying the cached value
-	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
+	 *
+	 * @return string|false the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	protected function getValue($key)
 	{
@@ -269,6 +276,7 @@ class CRedisCache extends CCache
 	/**
 	 * Deletes all values from cache.
 	 * This is the implementation of the method declared in the parent class.
+	 *
 	 * @return bool whether the flush operation was successful.
 	 */
 	protected function flushValues()

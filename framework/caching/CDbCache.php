@@ -69,6 +69,8 @@ class CDbCache extends CCache
 	 * This method is required by the {@link IApplicationComponent} interface.
 	 * It ensures the existence of the cache DB table.
 	 * It also removes expired data items from the cache.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -103,6 +105,8 @@ class CDbCache extends CCache
 	 * @param int $value the probability (parts per million) that garbage collection (GC) should be performed
 	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
 	 * This number should be between 0 and 1000000. A value 0 meaning no GC will be performed at all.
+	 *
+	 * @return void
 	 */
 	public function setGCProbability($value)
 	{
@@ -116,8 +120,11 @@ class CDbCache extends CCache
 
 	/**
 	 * Creates the cache DB table.
+	 *
 	 * @param CDbConnection $db the database connection
 	 * @param string $tableName the name of the table to be created
+	 *
+	 * @return void
 	 */
 	protected function createCacheTable($db,$tableName)
 	{
@@ -164,8 +171,12 @@ EOD;
 
 	/**
 	 * Sets the DB connection used by the cache component.
+	 *
 	 * @param CDbConnection $value the DB connection instance
+	 *
 	 * @since 1.1.5
+	 *
+	 * @return void
 	 */
 	public function setDbConnection($value)
 	{
@@ -175,8 +186,10 @@ EOD;
 	/**
 	 * Retrieves a value from cache with a specified key.
 	 * This is the implementation of the method declared in the parent class.
+	 *
 	 * @param string $key a unique key identifying the cached value
-	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
+	 *
+	 * @return false|string the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	protected function getValue($key)
 	{
@@ -197,8 +210,10 @@ EOD;
 
 	/**
 	 * Retrieves multiple values from cache with the specified keys.
-	 * @param array $keys a list of keys identifying the cached values
-	 * @return array a list of cached values indexed by the keys
+	 *
+	 * @param string[] $keys a list of keys identifying the cached values
+	 *
+	 * @return string[]|false[]|array<string, string|false> a list of cached values indexed by the keys
 	 */
 	protected function getValues($keys)
 	{
@@ -281,8 +296,10 @@ EOD;
 	/**
 	 * Deletes a value with the specified key from cache
 	 * This is the implementation of the method declared in the parent class.
+	 *
 	 * @param string $key the key of the value to be deleted
-	 * @return bool if no error happens during deletion
+	 *
+	 * @return true if no error happens during deletion
 	 */
 	protected function deleteValue($key)
 	{
@@ -293,6 +310,8 @@ EOD;
 
 	/**
 	 * Removes the expired data values.
+	 *
+	 * @return void
 	 */
 	protected function gc()
 	{
@@ -302,7 +321,9 @@ EOD;
 	/**
 	 * Deletes all values from cache.
 	 * This is the implementation of the method declared in the parent class.
-	 * @return bool whether the flush operation was successful.
+	 *
+	 * @return true whether the flush operation was successful.
+	 *
 	 * @since 1.1.5
 	 */
 	protected function flushValues()

@@ -296,7 +296,9 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Close the connection when serializing.
-	 * @return array
+	 *
+	 * @return string[]
+	 *
 	 * @throws \LogicException if there is transaction active
 	 */
 	public function __sleep()
@@ -326,6 +328,8 @@ class CDbConnection extends CApplicationComponent
 	 * when the CDbConnection is used as an application component.
 	 * If you override this method, make sure to call the parent implementation
 	 * so that the component can be marked as initialized.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -345,8 +349,12 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Open or close the DB connection.
+	 *
 	 * @param bool $value whether to open or close DB connection
+	 *
 	 * @throws CException if connection fails
+	 *
+	 * @return void
 	 */
 	public function setActive($value)
 	{
@@ -386,7 +394,10 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Opens DB connection if it is currently not
+	 *
 	 * @throws CException if connection fails
+	 *
+	 * @return void
 	 */
 	protected function open()
 	{
@@ -420,6 +431,8 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Closes the currently active DB connection.
 	 * It does nothing if the connection is already closed.
+	 *
+	 * @return void
 	 */
 	protected function close()
 	{
@@ -463,7 +476,10 @@ class CDbConnection extends CApplicationComponent
 	 * Initializes the open db connection.
 	 * This method is invoked right after the db connection is established.
 	 * The default implementation is to set the charset for MySQL, MariaDB and PostgreSQL database connections.
+	 *
 	 * @param PDO $pdo the PDO instance
+	 *
+	 * @return void
 	 */
 	protected function initConnection($pdo)
 	{
@@ -485,7 +501,8 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns the PDO instance.
-	 * @return PDO the PDO instance, null if the connection is not established yet
+	 *
+	 * @return PDO|null the PDO instance, null if the connection is not established yet
 	 */
 	public function getPdoInstance()
 	{
@@ -575,8 +592,11 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Quotes a string value for use in a query.
-	 * @param string $str string to be quoted
-	 * @return string the properly quoted string
+	 *
+	 * @param float|int|string $str string to be quoted
+	 *
+	 * @return float|int|string the properly quoted string
+	 *
 	 * @see http://www.php.net/manual/en/function.PDO-quote.php
 	 */
 	public function quoteValue($str)
@@ -663,8 +683,12 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Sets the case of the column names.
+	 *
 	 * @param int $value the case of the column names
+	 *
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
+	 *
+	 * @return void
 	 */
 	public function setColumnCase($value)
 	{
@@ -683,8 +707,12 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Sets how the null and empty strings are converted.
+	 *
 	 * @param mixed $value how the null and empty strings are converted
+	 *
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
+	 *
+	 * @return void
 	 */
 	public function setNullConversion($value)
 	{
@@ -704,7 +732,10 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Sets whether creating or updating a DB record will be automatically committed.
 	 * Some DBMS (such as sqlite) may not support this feature.
+	 *
 	 * @param bool $value whether creating or updating a DB record will be automatically committed.
+	 *
+	 * @return void
 	 */
 	public function setAutoCommit($value)
 	{
@@ -733,6 +764,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns the name of the DB driver.
+	 *
 	 * @return string name of the DB driver.
 	 */
 	public function getDriverName()
@@ -741,16 +773,22 @@ class CDbConnection extends CApplicationComponent
 			return $this->_driverName;
 		elseif(($pos=strpos($this->connectionString,':'))!==false)
 			return $this->_driverName=strtolower(substr($this->connectionString,0,$pos));
+		// todo: does this actually return string|null or just string from top if/elseif?
 		//return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
 	}
 
 	/**
 	 * Changes the name of the DB driver. Overrides value extracted from the {@link connectionString},
 	 * which is behavior by default.
+	 *
 	 * @param string $driverName to be set. Valid values are the keys from the {@link driverMap} property.
+	 *
 	 * @see getDriverName
 	 * @see driverName
+	 *
 	 * @since 1.1.16
+	 *
+	 * @return void
 	 */
 	public function setDriverName($driverName)
 	{
@@ -826,16 +864,21 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Sets an attribute on the database connection.
+	 *
 	 * @param int $name the attribute to be set
 	 * @param mixed $value the attribute value
+	 *
 	 * @see http://www.php.net/manual/en/function.PDO-setAttribute.php
+	 *
+	 * @return bool
 	 */
 	public function setAttribute($name,$value)
 	{
 		if($this->_pdo instanceof PDO)
-			$this->_pdo->setAttribute($name,$value);
+			return $this->_pdo->setAttribute($name,$value);
 		else
 			$this->_attributes[$name]=$value;
+		return true;
 	}
 
 	/**
@@ -851,9 +894,14 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Sets a set of attributes on the database connection.
+	 *
 	 * @param array $values attributes (name=>value) to be set.
+	 *
 	 * @see setAttribute
+	 *
 	 * @since 1.1.7
+	 *
+	 * @return void
 	 */
 	public function setAttributes($values)
 	{
@@ -866,8 +914,8 @@ class CDbConnection extends CApplicationComponent
 	 * The results returned include the number of SQL statements executed and
 	 * the total time spent.
 	 * In order to use this method, {@link enableProfiling} has to be set true.
-	 * @return array the first element indicates the number of SQL statements executed,
-	 * and the second element the total time spent in SQL execution.
+	 *
+	 * @return array{0: int, 1: float|int} the first element indicates the number of SQL statements executed, and the second element the total time spent in SQL execution.
 	 */
 	public function getStats()
 	{

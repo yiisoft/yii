@@ -39,6 +39,8 @@ abstract class CApplicationComponent extends CComponent implements IApplicationC
 	 * This method is required by {@link IApplicationComponent} and is invoked by application.
 	 * If you override this method, make sure to call the parent implementation
 	 * so that the application component can be marked as initialized.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{

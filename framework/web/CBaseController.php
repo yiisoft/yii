@@ -223,8 +223,11 @@ abstract class CBaseController extends CComponent
 	/**
 	 * Begins recording a clip.
 	 * This method is a shortcut to beginning {@link CClipWidget}.
+	 *
 	 * @param string $id the clip ID.
 	 * @param array $properties initial property values for {@link CClipWidget}.
+	 *
+	 * @return void
 	 */
 	public function beginClip($id,$properties=array())
 	{
@@ -235,6 +238,8 @@ abstract class CBaseController extends CComponent
 	/**
 	 * Ends recording a clip.
 	 * This method is an alias to {@link endWidget}.
+	 *
+	 * @return void
 	 */
 	public function endClip()
 	{
@@ -275,7 +280,10 @@ abstract class CBaseController extends CComponent
 	/**
 	 * Ends fragment caching.
 	 * This is an alias to {@link endWidget}.
+	 *
 	 * @see beginCache
+	 *
+	 * @return void
 	 */
 	public function endCache()
 	{
@@ -284,6 +292,7 @@ abstract class CBaseController extends CComponent
 
 	/**
 	 * Begins the rendering of content that is to be decorated by the specified view.
+	 *
 	 * @param string|null $view the name of the view that will be used to decorate the content. The actual view script
 	 * is resolved via {@link getViewFile}. If this parameter is null (default),
 	 * the default layout will be used as the decorative view.
@@ -292,8 +301,11 @@ abstract class CBaseController extends CComponent
 	 * If the controller belongs to a module, the default layout refers to the module's
 	 * {@link CWebModule::layout default layout}.
 	 * @param array $data the variables (name=>value) to be extracted and made available in the decorative view.
+	 *
 	 * @see endContent
 	 * @see CContentDecorator
+	 *
+	 * @return void
 	 */
 	public function beginContent($view=null,$data=array())
 	{
@@ -302,7 +314,10 @@ abstract class CBaseController extends CComponent
 
 	/**
 	 * Ends the rendering of content.
+	 *
 	 * @see beginContent
+	 *
+	 * @return void
 	 */
 	public function endContent()
 	{

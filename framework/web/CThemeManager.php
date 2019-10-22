@@ -101,7 +101,10 @@ class CThemeManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the base path for all themes.
+	 *
 	 * @throws CException if the base path does not exist
+	 *
+	 * @return void
 	 */
 	public function setBasePath($value)
 	{
@@ -122,6 +125,8 @@ class CThemeManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the base URL for all themes.
+	 *
+	 * @return void
 	 */
 	public function setBaseUrl($value)
 	{

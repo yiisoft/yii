@@ -199,6 +199,8 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Initializes the application component.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -208,11 +210,14 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Processes the URL rules.
+	 *
+	 * @return void
 	 */
 	protected function processRules()
 	{
 		if(empty($this->rules) || $this->getUrlFormat()===self::GET_FORMAT)
 			return;
+		$hash = null;
 		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$hash=md5(serialize($this->rules));
@@ -232,10 +237,14 @@ class CUrlManager extends CApplicationComponent
 	 * Adds new URL rules.
 	 * In order to make the new rules effective, this method must be called BEFORE
 	 * {@link CWebApplication::processRequest}.
+	 *
 	 * @param array $rules new URL rules (pattern=>route).
 	 * @param bool $append whether the new URL rules should be appended to the existing ones. If false,
 	 * they will be inserted at the beginning.
+	 *
 	 * @since 1.1.4
+	 *
+	 * @return void
 	 */
 	public function addRules($rules,$append=true)
 	{
@@ -255,9 +264,12 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Creates a URL rule instance.
 	 * The default implementation returns a CUrlRule object.
+	 *
 	 * @param string|array $route the route part of the rule. This could be a string or an array
 	 * @param string $pattern the pattern part of the rule
-	 * @return CUrlRule the URL rule instance
+	 *
+	 * @return array|CUrlRule the URL rule instance
+	 *
 	 * @since 1.1.0
 	 */
 	protected function createUrlRule($route,$pattern)
@@ -388,7 +400,10 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Parses a path info into URL segments and saves them to $_GET and $_REQUEST.
+	 *
 	 * @param string $pathInfo path info
+	 *
+	 * @return void
 	 */
 	public function parsePathInfo($pathInfo)
 	{
@@ -483,8 +498,12 @@ class CUrlManager extends CApplicationComponent
 	 * This method is provided in case the {@link baseUrl} cannot be determined automatically.
 	 * The ending slashes should be stripped off. And you are also responsible to remove the script name
 	 * if you set {@link showScriptName} to be false.
+	 *
 	 * @param string $value the base URL of the application
+	 *
 	 * @since 1.1.1
+	 *
+	 * @return void
 	 */
 	public function setBaseUrl($value)
 	{
@@ -503,8 +522,12 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Sets the URL format.
+	 *
 	 * @param string $value the URL format. It must be either 'path' or 'get'.
+	 *
 	 * @throws CException
+	 *
+	 * @return void
 	 */
 	public function setUrlFormat($value)
 	{

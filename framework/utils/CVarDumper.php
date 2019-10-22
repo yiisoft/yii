@@ -33,9 +33,12 @@ class CVarDumper
 	 * Displays a variable.
 	 * This method achieves the similar functionality as var_dump and print_r
 	 * but is more robust when handling complex objects such as Yii controllers.
+	 *
 	 * @param mixed $var variable to be dumped
 	 * @param int $depth maximum depth that the dumper should go into the variable. Defaults to 10.
 	 * @param bool $highlight whether the result should be syntax-highlighted
+	 *
+	 * @return void
 	 */
 	public static function dump($var,$depth=10,$highlight=false)
 	{
@@ -65,9 +68,11 @@ class CVarDumper
 		return self::$_output;
 	}
 
-	/*
+	/**
 	 * @param mixed $var variable to be dumped
 	 * @param int $level depth level
+     *
+	 * @return void
 	 */
 	private static function dumpInternal($var,$level)
 	{
@@ -130,7 +135,7 @@ class CVarDumper
 					{
 						$keyDisplay=strtr(trim($key),array("\0"=>':'));
 						self::$_output.="\n".$spaces."    [$keyDisplay] => ";
-						self::$_output.=self::dumpInternal($value,$level+1);
+						self::dumpInternal($value,$level+1);
 					}
 					self::$_output.="\n".$spaces.')';
 				}

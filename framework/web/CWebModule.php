@@ -75,6 +75,7 @@ class CWebModule extends CModule
 	 * Returns the description of this module.
 	 * The default implementation returns an empty string.
 	 * You may override this method to customize the description of this module.
+	 *
 	 * @return string the description of this module.
 	 */
 	public function getDescription()
@@ -86,6 +87,7 @@ class CWebModule extends CModule
 	 * Returns the version of this module.
 	 * The default implementation returns '1.0'.
 	 * You may override this method to customize the version of this module.
+	 *
 	 * @return string the version of this module.
 	 */
 	public function getVersion()
@@ -107,7 +109,10 @@ class CWebModule extends CModule
 
 	/**
 	 * @param string $value the directory that contains the controller classes.
+	 *
 	 * @throws CException if the directory is invalid
+	 *
+	 * @return void
 	 */
 	public function setControllerPath($value)
 	{
@@ -130,7 +135,10 @@ class CWebModule extends CModule
 
 	/**
 	 * @param string $path the root directory of view files.
+	 *
 	 * @throws CException if the directory does not exist.
+	 *
+	 * @return void
 	 */
 	public function setViewPath($path)
 	{
@@ -153,7 +161,10 @@ class CWebModule extends CModule
 
 	/**
 	 * @param string $path the root directory of layout files.
+	 *
 	 * @throws CException if the directory does not exist.
+	 *
+	 * @return void
 	 */
 	public function setLayoutPath($path)
 	{
@@ -190,8 +201,11 @@ class CWebModule extends CModule
 	 * The post-filter for controller actions.
 	 * This method is invoked after the currently requested controller action and all its filters
 	 * are executed. If you override this method, make sure you call the parent implementation at the end.
+	 *
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
+	 *
+	 * @return void
 	 */
 	public function afterControllerAction($controller,$action)
 	{

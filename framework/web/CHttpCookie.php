@@ -65,9 +65,13 @@ class CHttpCookie extends CComponent
 	/**
 	 * This method can be used to configure the CookieObject with an array
 	 * Note: you cannot use this method to set the name and/or the value of the cookie
+	 *
 	 * @param array $options the configuration array consisting of name-value pairs
 	 * that are used to configure this cookie
+	 *
 	 * @since 1.1.11
+	 *
+	 * @return void
 	 */
 	public function configure($options=array())
 	{

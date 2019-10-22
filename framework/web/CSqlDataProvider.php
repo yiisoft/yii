@@ -70,7 +70,8 @@ class CSqlDataProvider extends CDataProvider
 
 	/**
 	 * Fetches the data from the persistent data storage.
-	 * @return array list of data items
+	 *
+	 * @return string[][] list of data items
 	 */
 	protected function fetchData()
 	{
@@ -133,6 +134,7 @@ class CSqlDataProvider extends CDataProvider
 	 * and {@link totalItemCount} is not set previously.
 	 * The default implementation simply returns 0.
 	 * You may override this method to return accurate total number of data items.
+	 *
 	 * @return int the total number of data items.
 	 */
 	protected function calculateTotalItemCount()

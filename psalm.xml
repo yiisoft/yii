@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<psalm
+    totallyTyped="false"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <file name="framework/YiiBase.php" />
+        <file name="tests/TestApplication.php" />
+        <file name="tests/TestAutoloader.php" />
+        <file name="tests/TestHttpRequest.php" />
+        <file name="framework/base/CApplication.php" />
+        <file name="framework/base/CApplicationComponent.php" />
+        <file name="framework/base/CBehavior.php" />
+        <file name="framework/base/CComponent.php" />
+        <file name="framework/base/CDbStatePersister.php" />
+        <file name="framework/base/CEnumerable.php" />
+        <file name="framework/base/CErrorEvent.php" />
+        <file name="framework/base/CErrorHandler.php" />
+        <file name="framework/base/CEvent.php" />
+        <file name="framework/base/CException.php" />
+        <file name="framework/base/CExceptionEvent.php" />
+        <file name="framework/base/CHttpException.php" />
+        <file name="framework/base/CModel.php" />
+        <file name="framework/base/CModelBehavior.php" />
+        <file name="framework/base/CModelEvent.php" />
+        <file name="framework/base/CModule.php" />
+        <file name="framework/base/CSecurityManager.php" />
+        <file name="framework/base/CStatePersister.php" />
+        <file name="framework/caching/CApcCache.php" />
+        <file name="framework/caching/CCache.php" />
+        <file name="framework/caching/CDbCache.php" />
+        <file name="framework/caching/CDummyCache.php" />
+        <file name="framework/caching/CFileCache.php" />
+        <file name="framework/caching/CMemCache.php" />
+        <file name="framework/caching/CMemCacheServerConfiguration.php" />
+        <file name="framework/caching/CRedisCache.php" />
+        <file name="framework/collections/CAttributeCollection.php" />
+        <file name="framework/collections/CConfiguration.php" />
+        <file name="framework/collections/CList.php" />
+        <file name="framework/collections/CListIterator.php" />
+        <file name="framework/collections/CMap.php" />
+        <file name="framework/collections/CMapIterator.php" />
+        <file name="framework/collections/CQueue.php" />
+        <file name="framework/collections/CQueueIterator.php" />
+        <file name="framework/collections/CStack.php" />
+        <file name="framework/collections/CStackIterator.php" />
+        <file name="framework/collections/CTypedList.php" />
+        <file name="framework/collections/CTypedMap.php" />
+        <file name="framework/console/CConsoleApplication.php" />
+        <file name="framework/console/CConsoleCommand.php" />
+        <file name="framework/console/CConsoleCommandBehavior.php" />
+        <file name="framework/console/CConsoleCommandEvent.php" />
+        <file name="framework/console/CConsoleCommandRunner.php" />
+        <file name="framework/console/CHelpCommand.php" />
+        <file name="framework/db/CDbCommand.php" />
+        <file name="framework/db/CDbConnection.php" />
+        <file name="framework/db/CDbDataReader.php" />
+        <file name="framework/db/CDbException.php" />
+        <file name="framework/db/CDbMigration.php" />
+        <file name="framework/db/CDbTransaction.php" />
+        <file name="framework/gii/CCodeFile.php" />
+        <file name="framework/gii/CCodeForm.php" />
+        <file name="framework/gii/CCodeGenerator.php" />
+        <file name="framework/gii/CCodeModel.php" />
+        <file name="framework/gii/GiiModule.php" />
+        <file name="framework/i18n/CChoiceFormat.php" />
+        <file name="framework/i18n/CDateFormatter.php" />
+        <file name="framework/i18n/CDbMessageSource.php" />
+        <file name="framework/i18n/CGettextMessageSource.php" />
+        <file name="framework/i18n/CLocale.php" />
+        <file name="framework/i18n/CMessageSource.php" />
+        <file name="framework/i18n/CNumberFormatter.php" />
+        <file name="framework/i18n/CPhpMessageSource.php" />
+        <file name="framework/logging/CChainedLogFilter.php" />
+        <file name="framework/logging/CDbLogRoute.php" />
+        <file name="framework/logging/CEmailLogRoute.php" />
+        <file name="framework/logging/CFileLogRoute.php" />
+        <file name="framework/logging/CLogFilter.php" />
+        <file name="framework/logging/CLogRoute.php" />
+        <file name="framework/logging/CLogRouter.php" />
+        <file name="framework/logging/CLogger.php" />
+        <file name="framework/logging/CProfileLogRoute.php" />
+        <file name="framework/logging/CSysLogRoute.php" />
+        <file name="framework/logging/CWebLogRoute.php" />
+        <file name="framework/messages/config.php" />
+        <file name="framework/test/CDbFixtureManager.php" />
+        <file name="framework/test/CDbTestCase.php" />
+        <file name="framework/test/CTestCase.php" />
+        <file name="framework/utils/CDateTimeParser.php" />
+        <file name="framework/utils/CFileHelper.php" />
+        <file name="framework/utils/CFormatter.php" />
+        <file name="framework/utils/CLocalizedFormatter.php" />
+        <file name="framework/utils/CMarkdownParser.php" />
+        <file name="framework/utils/CPasswordHelper.php" />
+        <file name="framework/utils/CPropertyValue.php" />
+        <file name="framework/utils/CTimestamp.php" />
+        <file name="framework/utils/CVarDumper.php" />
+        <file name="framework/utils/fileExtensions.php" />
+        <file name="framework/utils/mimeTypes.php" />
+        <file name="framework/validators/CBooleanValidator.php" />
+        <file name="framework/validators/CCaptchaValidator.php" />
+        <file name="framework/validators/CCompareValidator.php" />
+        <file name="framework/validators/CDateValidator.php" />
+        <file name="framework/validators/CDefaultValueValidator.php" />
+        <file name="framework/validators/CEmailValidator.php" />
+        <file name="framework/validators/CExistValidator.php" />
+        <file name="framework/validators/CFileValidator.php" />
+        <file name="framework/validators/CFilterValidator.php" />
+        <file name="framework/validators/CInlineValidator.php" />
+        <file name="framework/validators/CNumberValidator.php" />
+        <file name="framework/validators/CRangeValidator.php" />
+        <file name="framework/validators/CRegularExpressionValidator.php" />
+        <file name="framework/validators/CRequiredValidator.php" />
+        <file name="framework/validators/CSafeValidator.php" />
+        <file name="framework/validators/CStringValidator.php" />
+        <file name="framework/validators/CTypeValidator.php" />
+        <file name="framework/validators/CUniqueValidator.php" />
+        <file name="framework/validators/CUnsafeValidator.php" />
+        <file name="framework/validators/CUrlValidator.php" />
+        <file name="framework/validators/CValidator.php" />
+        <file name="framework/web/CActiveDataProvider.php" />
+        <file name="framework/web/CArrayDataProvider.php" />
+        <file name="framework/web/CAssetManager.php" />
+        <file name="framework/web/CBaseController.php" />
+        <file name="framework/web/CBaseUrlRule.php" />
+        <file name="framework/web/CCacheHttpSession.php" />
+        <file name="framework/web/CClientScript.php" />
+        <file name="framework/web/CController.php" />
+        <file name="framework/web/CCookieCollection.php" />
+        <file name="framework/web/CDataProvider.php" />
+        <file name="framework/web/CDataProviderIterator.php" />
+        <file name="framework/web/CDbHttpSession.php" />
+        <file name="framework/web/CExtController.php" />
+        <file name="framework/web/CFormModel.php" />
+        <file name="framework/web/CHttpCookie.php" />
+        <file name="framework/web/CHttpRequest.php" />
+        <file name="framework/web/CHttpSession.php" />
+        <file name="framework/web/CHttpSessionIterator.php" />
+        <file name="framework/web/COutputEvent.php" />
+        <file name="framework/web/CPagination.php" />
+        <file name="framework/web/CSort.php" />
+        <file name="framework/web/CSqlDataProvider.php" />
+        <file name="framework/web/CTheme.php" />
+        <file name="framework/web/CThemeManager.php" />
+        <file name="framework/web/CUploadedFile.php" />
+        <file name="framework/web/CUrlManager.php" />
+        <file name="framework/web/CUrlRule.php" />
+        <file name="framework/web/CWebApplication.php" />
+        <file name="framework/web/CWebModule.php" />
+        <file name="framework/web/CWidgetFactory.php" />
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <LessSpecificReturnType errorLevel="info" />
+
+        <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
+
+        <DeprecatedMethod errorLevel="info" />
+        <DeprecatedProperty errorLevel="info" />
+        <DeprecatedClass errorLevel="info" />
+        <DeprecatedConstant errorLevel="info" />
+        <DeprecatedFunction errorLevel="info" />
+        <DeprecatedInterface errorLevel="info" />
+        <DeprecatedTrait errorLevel="info" />
+
+        <InternalMethod errorLevel="info" />
+        <InternalProperty errorLevel="info" />
+        <InternalClass errorLevel="info" />
+
+        <MissingClosureReturnType errorLevel="info" />
+        <MissingReturnType errorLevel="info" />
+        <MissingPropertyType errorLevel="info" />
+        <InvalidDocblock errorLevel="info" />
+        <MisplacedRequiredParam errorLevel="info" />
+
+        <PropertyNotSetInConstructor errorLevel="info" />
+        <MissingConstructor errorLevel="info" />
+        <MissingClosureParamType errorLevel="info" />
+        <MissingParamType errorLevel="info" />
+
+        <RedundantCondition errorLevel="info" />
+
+        <DocblockTypeContradiction errorLevel="info" />
+        <RedundantConditionGivenDocblockType errorLevel="info" />
+
+        <UnresolvableInclude errorLevel="info" />
+
+        <RawObjectIteration errorLevel="info" />
+
+        <InvalidStringClass errorLevel="info" />
+    </issueHandlers>
+</psalm>

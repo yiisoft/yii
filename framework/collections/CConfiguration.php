@@ -65,7 +65,10 @@ class CConfiguration extends CMap
 	 * </pre>
 	 *
 	 * @param string $configFile configuration file path (if using relative path, be aware of what is the current path)
+	 *
 	 * @see mergeWith
+	 *
+	 * @return void
 	 */
 	public function loadFromFile($configFile)
 	{
@@ -90,7 +93,10 @@ class CConfiguration extends CMap
 	 * Applies the configuration to an object.
 	 * Each (key,value) pair in the configuration data is applied
 	 * to the object like: $object->$key=$value.
+	 *
 	 * @param object $object object to be applied with this configuration
+	 *
+	 * @return void
 	 */
 	public function applyTo($object)
 	{

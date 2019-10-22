@@ -23,7 +23,9 @@ class CConsoleCommandBehavior extends CBehavior
 	 * Declares events and the corresponding event handler methods.
 	 * The default implementation returns 'onAfterConstruct', 'onBeforeValidate' and 'onAfterValidate' events and handlers.
 	 * If you override this method, make sure you merge the parent result to the return value.
-	 * @return array events (array keys) and the corresponding event handler methods (array values).
+	 *
+	 * @return string[]|array<string, string> events (array keys) and the corresponding event handler methods (array values).
+	 *
 	 * @see CBehavior::events
 	 */
 	public function events()
@@ -36,7 +38,10 @@ class CConsoleCommandBehavior extends CBehavior
 	/**
 	 * Responds to {@link CConsoleCommand::onBeforeAction} event.
 	 * Override this method and make it public if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 *
 	 * @param CConsoleCommandEvent $event event parameter
+	 *
+	 * @return void
 	 */
 	protected function beforeAction($event)
 	{
@@ -45,7 +50,10 @@ class CConsoleCommandBehavior extends CBehavior
 	/**
 	 * Responds to {@link CConsoleCommand::onAfterAction} event.
 	 * Override this method and make it public if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 *
 	 * @param CConsoleCommandEvent $event event parameter
+	 *
+	 * @return void
 	 */
 	protected function afterAction($event)
 	{

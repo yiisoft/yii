@@ -73,9 +73,13 @@ class CUniqueValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
+	 *
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 *
 	 * @throws CException if given table does not have specified column name
+	 *
+	 * @return void
 	 */
 	protected function validateAttribute($object,$attribute)
 	{

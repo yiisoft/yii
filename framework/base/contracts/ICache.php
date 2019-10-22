@@ -24,8 +24,8 @@ interface ICache
      * Some caches (such as memcache, apc) allow retrieving multiple cached values at one time,
      * which may improve the performance since it reduces the communication cost.
      * In case a cache doesn't support this feature natively, it will be simulated by this method.
-     * @param array $ids list of keys identifying the cached values
-     * @return array list of cached values corresponding to the specified keys. The array
+     * @param string[] $ids list of keys identifying the cached values
+     * @return array<string, mixed|false> list of cached values corresponding to the specified keys. The array
      * is returned in terms of (key,value) pairs.
      * If a value is not cached or expired, the corresponding array value will be false.
      */

@@ -45,6 +45,8 @@ class CCacheHttpSession extends CHttpSession
 	/**
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by checking if cache is available.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -58,7 +60,8 @@ class CCacheHttpSession extends CHttpSession
 	/**
 	 * Returns a value indicating whether to use custom session storage.
 	 * This method overrides the parent implementation and always returns true.
-	 * @return bool whether to use custom storage.
+	 *
+	 * @return true whether to use custom storage.
 	 */
 	public function getUseCustomStorage()
 	{
@@ -98,7 +101,8 @@ class CCacheHttpSession extends CHttpSession
 	 * {@link https://github.com/yiisoft/yii/issues/4020}
 	 *
 	 * @param string $id session ID
-	 * @return bool true if no error happens during deletion
+	 *
+	 * @return true true if no error happens during deletion
 	 */
 	public function destroySession($id)
 	{

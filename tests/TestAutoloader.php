@@ -52,7 +52,7 @@ class TestAutoloader extends CTestCase
 	}
 }
 
-function exampleFilter($className)
+function exampleFilter($className): bool
 {
     if (strpos($className, 'Zend') === 0) {
         return true;

@@ -68,6 +68,7 @@ class CDateTimeParser
 
 	/**
 	 * Converts a date string to a timestamp.
+	 *
 	 * @param string $value the date string to be parsed
 	 * @param string $pattern the pattern that the date string is following
 	 * @param array $defaults the default values for year, month, day, hour, minute and second.
@@ -76,7 +77,8 @@ class CDateTimeParser
 	 * parameter is array('minute'=>0, 'second'=>0), then the actual minute and second
 	 * for the parsing result will take value 0, while the actual hour value will be
 	 * the current hour obtained by date('H'). This parameter has been available since version 1.1.5.
-	 * @return int timestamp for the date string. False if parsing fails.
+	 *
+	 * @return false|int timestamp for the date string. False if parsing fails.
 	 */
 	public static function parse($value,$pattern='MM/dd/yyyy',$defaults=array())
 	{
@@ -262,8 +264,10 @@ class CDateTimeParser
 			return false;
 	}
 
-	/*
+	/**
 	 * @param string $pattern the pattern that the date string is following
+	 *
+	 * @return string[]
 	 */
 	private static function tokenize($pattern)
 	{
@@ -307,7 +311,8 @@ class CDateTimeParser
 	/**
 	 * @param string $value the date string to be parsed
 	 * @param int $offset starting offset
-	 * @return string parsed day period value
+	 *
+	 * @return false|string parsed day period value
 	 */
 	protected static function parseAmPm($value, $offset)
 	{
@@ -320,7 +325,9 @@ class CDateTimeParser
 	 * @param int $offset starting offset.
 	 * @param string $width month name width. It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @param string $monthName extracted month name. Passed by reference.
-	 * @return string parsed month name.
+	 *
+	 * @return string|false parsed month name.
+	 *
 	 * @since 1.1.13
 	 */
 	protected static function parseMonth($value,$offset,$width,&$monthName)

@@ -85,6 +85,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	/**
 	 * Initializes the application component.
 	 * This method is required by IApplicationComponent and is invoked by application.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -111,6 +113,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Starts the session if it has not started yet.
+	 *
+	 * @return void
 	 */
 	public function open()
 	{
@@ -135,6 +139,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Ends the current session and store session data.
+	 *
+	 * @return void
 	 */
 	public function close()
 	{
@@ -144,6 +150,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Frees all session variables and destroys all data registered to a session.
+	 *
+	 * @return void
 	 */
 	public function destroy()
 	{
@@ -174,6 +182,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value the session ID for the current session
+	 *
+	 * @return void
 	 */
 	public function setSessionID($value)
 	{
@@ -183,8 +193,12 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	/**
 	 * Updates the current session id with a newly generated one .
 	 * Please refer to {@link http://php.net/session_regenerate_id} for more details.
+	 *
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 *
 	 * @since 1.1.8
+	 *
+	 * @return void
 	 */
 	public function regenerateID($deleteOldSession=false)
 	{
@@ -202,6 +216,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value the session name for the current session, must be an alphanumeric string, defaults to PHPSESSID
+	 *
+	 * @return void
 	 */
 	public function setSessionName($value)
 	{
@@ -218,7 +234,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value the current session save path
+	 *
 	 * @throws CException if the path is not a valid directory
+	 *
+	 * @return void
 	 */
 	public function setSavePath($value)
 	{
@@ -242,9 +261,13 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Sets the session cookie parameters.
 	 * The effect of this method only lasts for the duration of the script.
 	 * Call this method before the session starts.
+	 *
 	 * @param array $value cookie parameters, valid keys include: lifetime, path,
 	 * domain, secure, httponly. Note that httponly is all lowercase.
+	 *
 	 * @see http://us2.php.net/manual/en/function.session-set-cookie-params.php
+	 *
+	 * @return void
 	 */
 	public function setCookieParams($value)
 	{
@@ -274,7 +297,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value how to use cookie to store session ID. Valid values include 'none', 'allow' and 'only'.
+	 *
 	 * @throws CException
+	 *
+	 * @return void
 	 */
 	public function setCookieMode($value)
 	{
@@ -313,7 +339,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param float $value the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
+	 *
 	 * @throws CException if the value is beyond [0,100]
+	 *
+	 * @return void
 	 */
 	public function setGCProbability($value)
 	{
@@ -340,6 +369,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param bool $value whether transparent sid support is enabled or not.
+	 *
+	 * @return void
 	 */
 	public function setUseTransparentSessionID($value)
 	{
@@ -358,6 +389,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param int $value the number of seconds after which data will be seen as 'garbage' and cleaned up
+	 *
+	 * @return void
 	 */
 	public function setTimeout($value)
 	{
@@ -383,7 +416,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session close handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
-	 * @return bool whether session is closed successfully
+	 *
+	 * @return true whether session is closed successfully
 	 */
 	public function closeSession()
 	{
@@ -394,7 +428,9 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session read handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
+	 *
 	 * @param string $id session ID
+	 *
 	 * @return string the session data
 	 */
 	public function readSession($id)
@@ -406,8 +442,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session write handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
+	 *
 	 * @param string $id session ID
 	 * @param string $data session data
+	 *
 	 * @return bool whether session write is successful
 	 */
 	public function writeSession($id,$data)
@@ -471,7 +509,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return array the list of session variable names
+	 * @return string[]|int[] the list of session variable names
 	 */
 	public function getKeys()
 	{
@@ -506,8 +544,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	/**
 	 * Adds a session variable.
 	 * Note, if the specified name already exists, the old value will be removed first.
+	 *
 	 * @param mixed $key session variable name
 	 * @param mixed $value session variable value
+	 *
+	 * @return void
 	 */
 	public function add($key,$value)
 	{
@@ -533,6 +574,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Removes all session variables
+	 *
+	 * @return void
 	 */
 	public function clear()
 	{
@@ -601,7 +644,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This function save session data to temporary variable and stop session.
 	 *
 	 * @see CHttpSession::unfreeze();
+	 *
 	 * @since 1.1.20
+	 *
+	 * @return void
 	 */
 	protected function freeze()
 	{
@@ -616,7 +662,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Start session and restore data from temporary variable
 	 *
 	 * @see CHttpSession::freeze();
+	 *
 	 * @since 1.1.20
+	 *
+	 * @return void
 	 */
 	protected function unfreeze()
 	{
@@ -632,7 +681,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Set cache limiter
 	 *
 	 * @param string $cacheLimiter
+	 *
 	 * @since 1.1.20
+	 *
+	 * @return void
 	 */
 	public function setCacheLimiter($cacheLimiter)
 	{

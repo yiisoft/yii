@@ -56,6 +56,8 @@ class CLogRouter extends CApplicationComponent
 	/**
 	 * Initializes this application component.
 	 * This method is required by the IApplicationComponent interface.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -71,7 +73,7 @@ class CLogRouter extends CApplicationComponent
 	}
 
 	/**
-	 * @return array the currently initialized routes
+	 * @return CMap the currently initialized routes
 	 */
 	public function getRoutes()
 	{
@@ -85,6 +87,8 @@ class CLogRouter extends CApplicationComponent
 	 * <li>class: specifies the class name or alias for the route class.</li>
 	 * <li>name-value pairs: configure the initial property values of the route.</li>
 	 * </ul>
+	 *
+	 * @return void
 	 */
 	public function setRoutes($config)
 	{
@@ -95,7 +99,10 @@ class CLogRouter extends CApplicationComponent
 	/**
 	 * Collects log messages from a logger.
 	 * This method is an event handler to the {@link CLogger::onFlush} event.
+	 *
 	 * @param CEvent $event event parameter
+	 *
+	 * @return void
 	 */
 	public function collectLogs($event)
 	{
@@ -112,7 +119,10 @@ class CLogRouter extends CApplicationComponent
 	/**
 	 * Collects and processes log messages from a logger.
 	 * This method is an event handler to the {@link CApplication::onEndRequest} event.
+	 *
 	 * @since 1.1.0
+	 *
+	 * @return void
 	 */
 	public function processLogs()
 	{

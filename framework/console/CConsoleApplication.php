@@ -77,6 +77,8 @@ class CConsoleApplication extends CApplication
 
 	/**
 	 * Initializes the application by creating the command runner.
+	 *
+	 * @return void
 	 */
 	protected function init()
 	{
@@ -117,10 +119,13 @@ class CConsoleApplication extends CApplication
 	 * Displays the captured PHP error.
 	 * This method displays the error in console mode when there is
 	 * no active error handler.
+	 *
 	 * @param int $code error code
 	 * @param string $message error message
 	 * @param string $file error file
 	 * @param string $line error line
+	 *
+	 * @return void
 	 */
 	public function displayError($code,$message,$file,$line)
 	{
@@ -149,7 +154,10 @@ class CConsoleApplication extends CApplication
 	 * Displays the uncaught PHP exception.
 	 * This method displays the exception in console mode when there is
 	 * no active error handler.
+	 *
 	 * @param Exception $exception the uncaught exception
+	 *
+	 * @return void
 	 */
 	public function displayException($exception)
 	{
@@ -169,7 +177,10 @@ class CConsoleApplication extends CApplication
 
 	/**
 	 * @param string $value the directory that contains the command classes.
+	 *
 	 * @throws CException if the directory is invalid
+	 *
+	 * @return void
 	 */
 	public function setCommandPath($value)
 	{
@@ -200,8 +211,12 @@ class CConsoleApplication extends CApplication
 
 	/**
 	 * This is shortcut method for {@link CConsoleCommandRunner::setCommand()}.
+	 *
 	 * @param CConsoleCommand $value the currently active command.
+	 *
 	 * @since 1.1.14
+	 *
+	 * @return void
 	 */
 	public function setCommand($value)
 	{

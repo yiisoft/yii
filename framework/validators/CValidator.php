@@ -69,7 +69,7 @@ abstract class CValidator extends CComponent
 	);
 
 	/**
-	 * @var array list of attributes to be validated.
+	 * @var string[] list of attributes to be validated.
 	 */
 	public $attributes;
 	/**
@@ -185,9 +185,12 @@ abstract class CValidator extends CComponent
 
 	/**
 	 * Validates the specified object.
+	 *
 	 * @param CModel $object the data object being validated
 	 * @param string[]|null $attributes the list of attributes to be validated. Defaults to null,
 	 * meaning every attribute listed in {@link attributes} will be validated.
+	 *
+	 * @return void
 	 */
 	public function validate($object,$attributes=null)
 	{
@@ -210,10 +213,12 @@ abstract class CValidator extends CComponent
 	 * <li>value: the value to be validated</li>
 	 * <li>messages: an array used to hold the validation error messages for the value</li>
 	 * </ul>
+	 *
 	 * @param CModel $object the data object being validated
 	 * @param string $attribute the name of the attribute to be validated.
 	 * @return string|null the client-side validation script. Null if the validator does not support client-side validation.
 	 * @see CActiveForm::enableClientValidation
+	 *
 	 * @since 1.1.7
 	 */
 	public function clientValidateAttribute($object,$attribute)
@@ -240,10 +245,13 @@ abstract class CValidator extends CComponent
 	/**
 	 * Adds an error about the specified attribute to the active record.
 	 * This is a helper method that performs message selection and internationalization.
+	 *
 	 * @param CModel $object the data object being validated
 	 * @param string $attribute the attribute being validated
 	 * @param string $message the error message
 	 * @param array $params values for the placeholders in the error message
+	 *
+	 * @return void
 	 */
 	protected function addError($object,$attribute,$message,$params=array())
 	{

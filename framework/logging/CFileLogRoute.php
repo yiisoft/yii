@@ -59,6 +59,8 @@ class CFileLogRoute extends CLogRoute
 	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -77,7 +79,10 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * @param string $value directory for storing log files.
+	 *
 	 * @throws CException if the path is invalid
+	 *
+	 * @return void
 	 */
 	public function setLogPath($value)
 	{
@@ -97,6 +102,8 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * @param string $value log file name
+	 *
+	 * @return void
 	 */
 	public function setLogFile($value)
 	{
@@ -113,6 +120,8 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * @param int $value maximum log file size in kilo-bytes (KB).
+	 *
+	 * @return void
 	 */
 	public function setMaxFileSize($value)
 	{
@@ -130,6 +139,8 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * @param int $value number of files used for rotation.
+	 *
+	 * @return void
 	 */
 	public function setMaxLogFiles($value)
 	{
@@ -139,7 +150,10 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * Saves log messages in files.
+	 *
 	 * @param array $logs list of log messages
+	 *
+	 * @return void
 	 */
 	protected function processLogs($logs)
 	{
@@ -167,6 +181,8 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * Rotates log files.
+	 *
+	 * @return void
 	 */
 	protected function rotateFiles()
 	{

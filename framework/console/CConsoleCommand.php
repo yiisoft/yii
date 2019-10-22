@@ -73,7 +73,10 @@ abstract class CConsoleCommand extends CComponent
 	 * Initializes the command object.
 	 * This method is invoked after a command object is created and initialized with configurations.
 	 * You may override this method to further customize the command before it executes.
+	 *
 	 * @since 1.1.6
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -97,7 +100,9 @@ abstract class CConsoleCommand extends CComponent
 	 * to the controller when it is instantiated.
 	 *
 	 * For more details about behaviors, see {@link CComponent}.
-	 * @return array the behavior configurations (behavior name=>behavior configuration)
+	 *
+	 * @return array<string, string|array> the behavior configurations (behavior name=>behavior configuration)
+	 *
 	 * @since 1.1.11
 	 */
 	public function behaviors()
@@ -110,7 +115,7 @@ abstract class CConsoleCommand extends CComponent
 	 * The default implementation will parse the input parameters and
 	 * dispatch the command request to an appropriate action with the corresponding
 	 * option values
-	 * @param array $args command line parameters for this command.
+	 * @param string[] $args command line parameters for this command.
 	 * @return int application exit code, which is returned by the invoked action. 0 if the action did not return anything.
 	 * (return value is available since version 1.1.11)
 	 */
@@ -214,8 +219,11 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Parses the command line arguments and determines which action to perform.
-	 * @param array $args command line arguments
-	 * @return array the action name, named options (name=>value), and unnamed options
+	 *
+	 * @param string[] $args command line arguments
+	 *
+	 * @return array{0: string, 1: array, 2: string[]} the action name, named options (name=>value), and unnamed options
+	 *
 	 * @since 1.1.5
 	 */
 	protected function resolveRequest($args)
@@ -287,8 +295,9 @@ abstract class CConsoleCommand extends CComponent
 	 * Provides the command option help information.
 	 * The default implementation will return all available actions together with their
 	 * corresponding option information.
-	 * @return array the command option help information. Each array element describes
-	 * the help information for a single action.
+	 *
+	 * @return string[] the command option help information. Each array element describes the help information for a single action.
+	 *
 	 * @since 1.1.5
 	 */
 	public function getOptionHelp()
@@ -343,6 +352,7 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Copies a list of files from one place to another.
+	 *
 	 * @param array $fileList the list of files to be copied (name=>spec).
 	 * The array keys are names displayed during the copy process, and array values are specifications
 	 * for files to be copied. Each array value must be an array of the following structure:
@@ -359,7 +369,10 @@ abstract class CConsoleCommand extends CComponent
 	 * <li>params: optional, the parameters to be passed to the callback</li>
 	 * </ul>
 	 * @param bool $overwriteAll whether to overwrite all files.
+	 *
 	 * @see buildFileList
+	 *
+	 * @return void
 	 */
 	public function copyFiles($fileList,$overwriteAll=false)
 	{
@@ -455,7 +468,10 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Creates all parent directories if they do not exist.
+	 *
 	 * @param string $directory the directory to be checked
+	 *
+	 * @return void
 	 */
 	public function ensureDirectory($directory)
 	{
@@ -582,8 +598,12 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * This event is raised before an action is to be executed.
+	 *
 	 * @param CConsoleCommandEvent $event the event parameter
+	 *
 	 * @since 1.1.11
+	 *
+	 * @return void
 	 */
 	public function onBeforeAction($event)
 	{
@@ -592,8 +612,12 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * This event is raised after an action finishes execution.
+	 *
 	 * @param CConsoleCommandEvent $event the event parameter
+	 *
 	 * @since 1.1.11
+	 *
+	 * @return void
 	 */
 	public function onAfterAction($event)
 	{

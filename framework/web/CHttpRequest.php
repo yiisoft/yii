@@ -112,6 +112,8 @@ class CHttpRequest extends CApplicationComponent
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by preprocessing
 	 * the user request data.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -123,6 +125,8 @@ class CHttpRequest extends CApplicationComponent
 	 * Normalizes the request data.
 	 * This method strips off slashes in request data if get_magic_quotes_gpc() returns true.
 	 * It also performs CSRF validation if {@link enableCsrfValidation} is true.
+	 *
+	 * @return void
 	 */
 	protected function normalizeRequest()
 	{
@@ -381,7 +385,10 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the schema and host part of the application URL.
 	 * This setter is provided in case the schema and hostname cannot be determined
 	 * on certain Web servers.
+	 *
 	 * @param string $value the schema and host part of the application URL.
+	 *
+	 * @return void
 	 */
 	public function setHostInfo($value)
 	{
@@ -407,7 +414,10 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the relative URL for the application.
 	 * By default the URL is determined based on the entry script URL.
 	 * This setter is provided in case you want to change this behavior.
+	 *
 	 * @param string $value the relative URL for the application
+	 *
+	 * @return void
 	 */
 	public function setBaseUrl($value)
 	{
@@ -445,7 +455,10 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the relative URL for the application entry script.
 	 * This setter is provided in case the entry script URL cannot be determined
 	 * on certain Web servers.
+	 *
 	 * @param string $value the relative URL for the application entry script.
+	 *
+	 * @return void
 	 */
 	public function setScriptUrl($value)
 	{
@@ -758,9 +771,12 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns information about the capabilities of user browser.
+	 *
 	 * @param string $userAgent the user agent to be analyzed. Defaults to null, meaning using the
 	 * current User-Agent HTTP header information.
-	 * @return array user browser capabilities.
+	 *
+	 * @return array|false user browser capabilities.
+	 *
 	 * @see http://www.php.net/manual/en/function.get-browser.php
 	 */
 	public function getBrowser($userAgent=null)
@@ -820,8 +836,12 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the port to use for insecure requests.
 	 * This setter is provided in case a custom port is necessary for certain
 	 * server configurations.
+	 *
 	 * @param int $value port number.
+	 *
 	 * @since 1.1.3
+	 *
+	 * @return void
 	 */
 	public function setPort($value)
 	{
@@ -851,8 +871,12 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the port to use for secure requests.
 	 * This setter is provided in case a custom port is necessary for certain
 	 * server configurations.
+	 *
 	 * @param int $value port number.
+	 *
 	 * @since 1.1.3
+	 *
+	 * @return void
 	 */
 	public function setSecurePort($value)
 	{
@@ -917,8 +941,10 @@ class CHttpRequest extends CApplicationComponent
 	 * If the header text includes quoted strings containing space or the , or ; characters then the results may not be correct!
 	 *
 	 * See also {@link http://tools.ietf.org/html/rfc2616#section-14.1} for details on Accept header.
+	 *
 	 * @param string $header the accept header value to parse
-	 * @return array the user accepted MIME types.
+	 *
+	 * @return array[] the user accepted MIME types.
 	 */
 	public static function parseAcceptHeader($header)
 	{
@@ -978,8 +1004,10 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Compare function for determining the preference of accepted MIME type array maps
 	 * See {@link parseAcceptHeader()} for the format of $a and $b
+	 *
 	 * @param array $a user accepted MIME type as an array map
 	 * @param array $b user accepted MIME type as an array map
+	 *
 	 * @return int -1, 0 or 1 if $a has respectively greater preference, equal preference or less preference than $b (higher preference comes first).
 	 */
 	public static function compareAcceptTypes($a,$b)
@@ -1034,8 +1062,10 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * String compare function used by usort.
 	 * Included to circumvent the use of closures (not supported by PHP 5.2) and create_function (deprecated since PHP 7.2.0)
+	 *
 	 * @param array $a
 	 * @param array $b
+	 *
 	 * @return int -1 (a>b), 0 (a==b), 1 (a<b)
 	 */
 	private function stringCompare($a, $b)
@@ -1345,8 +1375,12 @@ class CHttpRequest extends CApplicationComponent
 	 * This is the event handler responding to {@link CApplication::onBeginRequest}.
 	 * The default implementation will compare the CSRF token obtained
 	 * from a cookie and from a POST field. If they are different, a CSRF attack is detected.
+	 *
 	 * @param CEvent $event event parameter
+	 *
 	 * @throws CHttpException if the validation fails
+	 *
+	 * @return void
 	 */
 	public function validateCsrfToken($event)
 	{

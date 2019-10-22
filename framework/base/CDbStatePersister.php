@@ -60,6 +60,8 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 	 * Initializes the component.
 	 * This method overrides the parent implementation by making sure {@link stateFile}
 	 * contains valid value.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -132,7 +134,10 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 
 	/**
 	 * Creates state persister table
+	 *
 	 * @throws CException
+	 *
+	 * @return void
 	 */
 	protected function createTable()
 	{

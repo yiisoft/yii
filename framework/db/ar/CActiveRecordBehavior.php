@@ -23,7 +23,7 @@ class CActiveRecordBehavior extends CModelBehavior
 	/**
 	 * Declares events and the corresponding event handler methods.
 	 * If you override this method, make sure you merge the parent result to the return value.
-	 * @return array events (array keys) and the corresponding event handler methods (array values).
+	 * @return string[]|array<string, string> events (array keys) and the corresponding event handler methods (array values).
 	 * @see CBehavior::events
 	 */
 	public function events()

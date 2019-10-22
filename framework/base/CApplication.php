@@ -213,7 +213,10 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Raised right BEFORE the application processes the request.
+	 *
 	 * @param CEvent $event the event parameter
+	 *
+	 * @return void
 	 */
 	public function onBeginRequest($event)
 	{
@@ -222,7 +225,10 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Raised right AFTER the application processes the request.
+	 *
 	 * @param CEvent $event the event parameter
+	 *
+	 * @return void
 	 */
 	public function onEndRequest($event)
 	{
@@ -247,7 +253,10 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Sets the unique identifier for the application.
+	 *
 	 * @param string $id the unique identifier for the application.
+	 *
+	 * @return void
 	 */
 	public function setId($id)
 	{
@@ -266,8 +275,12 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the root directory of the application.
 	 * This method can only be invoked at the begin of the constructor.
+	 *
 	 * @param string $path the root directory of the application.
+	 *
 	 * @throws CException if the directory does not exist.
+	 *
+	 * @return void
 	 */
 	public function setBasePath($path)
 	{
@@ -293,8 +306,12 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Sets the directory that stores runtime files.
+	 *
 	 * @param string $path the directory that stores runtime files.
+	 *
 	 * @throws CException if the directory does not exist or is not writable
+	 *
+	 * @return void
 	 */
 	public function setRuntimePath($path)
 	{
@@ -315,8 +332,12 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Sets the root directory that holds all third-party extensions.
+	 *
 	 * @param string $path the directory that contains all third-party extensions.
+	 *
 	 * @throws CException if the directory does not exist
+	 *
+	 * @return void
 	 */
 	public function setExtensionPath($path)
 	{
@@ -344,8 +365,11 @@ abstract class CApplication extends CModule
 	 *
 	 * Unless your application needs to support multiple languages, you should always
 	 * set this language to null to maximize the application's performance.
+	 *
 	 * @param string $language the user language (e.g. 'en_US', 'zh_CN').
 	 * If it is null, the {@link sourceLanguage} will be used.
+	 *
+	 * @return void
 	 */
 	public function setLanguage($language)
 	{
@@ -366,8 +390,12 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the time zone used by this application.
 	 * This is a simple wrapper of PHP function date_default_timezone_set().
+	 *
 	 * @param string $value the time zone used by this application.
+	 *
 	 * @see http://php.net/manual/en/function.date-default-timezone-set.php
+	 *
+	 * @return void
 	 */
 	public function setTimeZone($value)
 	{
@@ -430,8 +458,12 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Sets the directory that contains the locale data.
+	 *
 	 * @param string $value the directory that contains the locale data.
+	 *
 	 * @since 1.1.0
+	 *
+	 * @return void
 	 */
 	public function setLocaleDataPath($value)
 	{
@@ -549,7 +581,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @return CController the currently active controller. Null is returned in this base class.
+	 * @return CController|null the currently active controller. Null is returned in this base class.
 	 * @since 1.1.8
 	 */
 	public function getController()
@@ -616,6 +648,8 @@ abstract class CApplication extends CModule
 
 	/**
 	 * @param string $value the homepage URL
+	 *
+	 * @return void
 	 */
 	public function setHomeUrl($value)
 	{
@@ -646,10 +680,14 @@ abstract class CApplication extends CModule
 	 *
 	 * A global value is one that is persistent across users sessions and requests.
 	 * Make sure that the value is serializable and unserializable.
+	 *
 	 * @param string $key the name of the value to be saved
 	 * @param mixed $value the global value to be saved. It must be serializable.
 	 * @param mixed $defaultValue the default value. If the named global value is the same as this value, it will be cleared from the current storage.
+	 *
 	 * @see getGlobalState
+	 *
+	 * @return void
 	 */
 	public function setGlobalState($key,$value,$defaultValue=null)
 	{
@@ -679,7 +717,10 @@ abstract class CApplication extends CModule
 	 * Clears a global value.
 	 *
 	 * The value cleared will no longer be available in this request and the following requests.
+	 *
 	 * @param string $key the name of the value to be cleared
+	 *
+	 * @return void
 	 */
 	public function clearGlobalState($key)
 	{
@@ -688,8 +729,12 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Loads the global state data from persistent storage.
+	 *
 	 * @see getStatePersister
+	 *
 	 * @throws CException if the state persister is not available
+	 *
+	 * @return void
 	 */
 	public function loadGlobalState()
 	{
@@ -702,8 +747,12 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Saves the global state data into persistent storage.
+	 *
 	 * @see getStatePersister
+	 *
 	 * @throws CException if the state persister is not available
+	 *
+	 * @return void
 	 */
 	public function saveGlobalState()
 	{
@@ -882,6 +931,8 @@ abstract class CApplication extends CModule
 	 * application component will continue processing the error.
 	 *
 	 * @param CExceptionEvent $event event parameter
+	 *
+	 * @return void
 	 */
 	public function onException($event)
 	{
@@ -897,6 +948,8 @@ abstract class CApplication extends CModule
 	 * application component will continue processing the error.
 	 *
 	 * @param CErrorEvent $event event parameter
+	 *
+	 * @return void
 	 */
 	public function onError($event)
 	{
@@ -907,10 +960,13 @@ abstract class CApplication extends CModule
 	 * Displays the captured PHP error.
 	 * This method displays the error in HTML when there is
 	 * no active error handler.
+	 *
 	 * @param int $code error code
 	 * @param string $message error message
 	 * @param string $file error file
 	 * @param string $line error line
+	 *
+	 * @return void
 	 */
 	public function displayError($code,$message,$file,$line)
 	{
@@ -951,7 +1007,10 @@ abstract class CApplication extends CModule
 	 * Displays the uncaught PHP exception.
 	 * This method displays the exception in HTML when there is
 	 * no active error handler.
+	 *
 	 * @param Exception $exception the uncaught exception
+	 *
+	 * @return void
 	 */
 	public function displayException($exception)
 	{
@@ -970,6 +1029,8 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Initializes the error handlers.
+	 *
+	 * @return void
 	 */
 	protected function initSystemHandlers()
 	{
@@ -981,7 +1042,10 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Registers the core application components.
+	 *
 	 * @see setComponents
+	 *
+	 * @return void
 	 */
 	protected function registerCoreComponents()
 	{

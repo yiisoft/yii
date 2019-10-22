@@ -125,7 +125,10 @@ class CArrayDataProvider extends CDataProvider
 	/**
 	 * Sorts the raw data according to the specified sorting instructions.
 	 * After calling this method, {@link rawData} will be modified.
+	 *
 	 * @param array $directions the sorting directions (field name => whether it is descending sort)
+	 *
+	 * @return void
 	 */
 	protected function sortData($directions)
 	{
@@ -181,8 +184,10 @@ class CArrayDataProvider extends CDataProvider
 
 	/**
 	 * Converts the "ORDER BY" clause into an array representing the sorting directions.
+	 *
 	 * @param string $order the "ORDER BY" clause.
-	 * @return array the sorting directions (field name => whether it is descending sort)
+	 *
+	 * @return bool[]&array<string, bool> the sorting directions (field name => whether it is descending sort)
 	 */
 	protected function getSortDirections($order)
 	{

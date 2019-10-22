@@ -131,8 +131,10 @@ class CPropertyValue
 
 	/**
 	 * Converts a value to object type.
+	 *
 	 * @param mixed $value the value to be converted.
-	 * @return object
+	 *
+	 * @return stdClass
 	 */
 	public static function ensureObject($value)
 	{

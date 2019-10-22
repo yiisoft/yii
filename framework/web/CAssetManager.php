@@ -127,8 +127,12 @@ class CAssetManager extends CApplicationComponent
 
 	/**
 	 * Sets the root directory storing published asset files.
+	 *
 	 * @param string $value the root directory storing published asset files
+	 *
 	 * @throws CException if the base path is invalid
+	 *
+	 * @return void
 	 */
 	public function setBasePath($value)
 	{
@@ -155,6 +159,8 @@ class CAssetManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the base url that the published asset files can be accessed
+	 *
+	 * @return void
 	 */
 	public function setBaseUrl($value)
 	{
@@ -262,12 +268,14 @@ class CAssetManager extends CApplicationComponent
 	 * Returns the published path of a file path.
 	 * This method does not perform any publishing. It merely tells you
 	 * if the file or directory is published, where it will go.
+	 *
 	 * @param string $path directory or file path being published
 	 * @param bool $hashByName whether the published directory should be named as the hashed basename.
 	 * If false, the name will be the hash taken from dirname of the path being published and path mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
-	 * @return string the published file path. False if the file or directory does not exist
+	 *
+	 * @return false|string the published file path. False if the file or directory does not exist
 	 */
 	public function getPublishedPath($path,$hashByName=false)
 	{

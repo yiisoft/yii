@@ -52,10 +52,10 @@ class CConsoleCommandRunner extends CComponent
 
 	/**
 	 * Executes the requested command.
-	 * @param array $args list of user supplied parameters (including the entry script name and the command name).
-	 * @return int|null application exit code returned by the command.
-	 * if null is returned, application will not exit explicitly. See also {@link CConsoleApplication::processRequest()}.
-	 * (return value is available since version 1.1.11)
+	 *
+	 * @param string[] $args list of user supplied parameters (including the entry script name and the command name).
+	 *
+	 * @return int|null application exit code returned by the command. if null is returned, application will not exit explicitly. See also {@link CConsoleApplication::processRequest()}. (return value is available since version 1.1.11)
 	 */
 	public function run($args)
 	{
@@ -99,7 +99,10 @@ class CConsoleCommandRunner extends CComponent
 
 	/**
 	 * @param CConsoleCommand $value the currently active command.
+	 *
 	 * @since 1.1.14
+	 *
+	 * @return void
 	 */
 	public function setCommand($value)
 	{
@@ -108,8 +111,10 @@ class CConsoleCommandRunner extends CComponent
 
 	/**
 	 * Searches for commands under the specified directory.
+	 *
 	 * @param string $path the directory containing the command class files.
-	 * @return array list of commands (command name=>command class file)
+	 *
+	 * @return string[]|array<string, string> list of commands (command name=>command class file)
 	 */
 	public function findCommands($path)
 	{
@@ -129,7 +134,10 @@ class CConsoleCommandRunner extends CComponent
 	/**
 	 * Adds commands from the specified command path.
 	 * If a command already exists, the new one will be ignored.
+	 *
 	 * @param string $path the alias of the directory containing the command class files.
+	 *
+	 * @return void
 	 */
 	public function addCommands($path)
 	{

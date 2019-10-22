@@ -119,6 +119,8 @@ class CController extends CBaseController
 	 * Initializes the controller.
 	 * This method is called by the application before the controller starts to execute.
 	 * You may override this method to perform the needed initialization for the controller.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -148,7 +150,8 @@ class CController extends CBaseController
 	 * Note, in order to inherit filters defined in the parent class, a child class needs to
 	 * merge the parent filters with child filters using functions like array_merge().
 	 *
-	 * @return array a list of filter configurations.
+	 * @return string[]|array[] a list of filter configurations.
+	 *
 	 * @see CFilter
 	 */
 	public function filters()
@@ -203,7 +206,8 @@ class CController extends CBaseController
 	 * must contain a dot. As a result, an action ID 'pro2.action1' will
 	 * be resolved as the 'action1' action declared in the 'ProviderClass'.
 	 *
-	 * @return array list of external action classes
+	 * @return string[]|array[]|array<string, string|array> list of external action classes
+	 *
 	 * @see createAction
 	 */
 	public function actions()
@@ -229,7 +233,8 @@ class CController extends CBaseController
 	 * to the controller when it is instantiated.
 	 *
 	 * For more details about behaviors, see {@link CComponent}.
-	 * @return array the behavior configurations (behavior name=>behavior configuration)
+	 *
+	 * @return string[]|array[]|array<string, string|array> the behavior configurations (behavior name=>behavior configuration)
 	 */
 	public function behaviors()
 	{
@@ -239,7 +244,8 @@ class CController extends CBaseController
 	/**
 	 * Returns the access rules for this controller.
 	 * Override this method if you use the {@link filterAccessControl accessControl} filter.
-	 * @return array list of access rules. See {@link CAccessControlFilter} for details about rule specification.
+	 *
+	 * @return array[] list of access rules. See {@link CAccessControlFilter} for details about rule specification.
 	 */
 	public function accessRules()
 	{
@@ -337,9 +343,14 @@ class CController extends CBaseController
 	/**
 	 * This method is invoked when the request parameters do not satisfy the requirement of the specified action.
 	 * The default implementation will throw a 400 HTTP exception.
+	 *
 	 * @param CAction $action the action being executed
+	 *
 	 * @since 1.1.7
+	 *
 	 * @throws CHttpException
+	 *
+	 * @return void|ResponseInterface
 	 */
 	public function invalidActionParams($action)
 	{
@@ -412,9 +423,13 @@ class CController extends CBaseController
 	 * Creates the action instance based on the action name.
 	 * The action can be either an inline action or an object.
 	 * The latter is created by looking up the action map specified in {@link actions}.
+	 *
 	 * @param string $actionID ID of the action. If empty, the {@link defaultAction default action} will be used.
-	 * @return CAction the action instance, null if the action does not exist.
+	 *
+	 * @return CAction|null the action instance, null if the action does not exist.
+	 *
 	 * @see actions
+	 *
 	 * @throws CException
 	 */
 	public function createAction($actionID)
@@ -487,8 +502,12 @@ class CController extends CBaseController
 	 * Handles the request whose action is not recognized.
 	 * This method is invoked when the controller cannot find the requested action.
 	 * The default implementation simply throws an exception.
+	 *
 	 * @param string $actionID the missing action name
+	 *
 	 * @throws CHttpException whenever this method is invoked
+	 *
+	 * @return void|ResponseInterface
 	 */
 	public function missingAction($actionID)
 	{
@@ -506,6 +525,8 @@ class CController extends CBaseController
 
 	/**
 	 * @param CAction $value the action currently being executed.
+	 *
+	 * @return void
 	 */
 	public function setAction($value)
 	{
@@ -812,8 +833,11 @@ class CController extends CBaseController
 	/**
 	 * This method is invoked at the beginning of {@link render()}.
 	 * You may override this method to do some preprocessing when rendering a view.
+	 *
 	 * @param string $view the view to be rendered
+	 *
 	 * @return bool whether the view should be rendered.
+	 *
 	 * @since 1.1.5
 	 */
 	protected function beforeRender($view)
@@ -825,10 +849,14 @@ class CController extends CBaseController
 	 * This method is invoked after the specified view is rendered by calling {@link render()}.
 	 * Note that this method is invoked BEFORE {@link processOutput()}.
 	 * You may override this method to do some postprocessing for the view rendering.
+	 *
 	 * @param string $view the view that has been rendered
 	 * @param string $output the rendering result of the view. Note that this parameter is passed
 	 * as a reference. That means you can modify it within this method.
+	 *
 	 * @since 1.1.5
+	 *
+	 * @return void
 	 */
 	protected function afterRender($view, &$output)
 	{
@@ -934,6 +962,8 @@ class CController extends CBaseController
 	 * When the callback is specified as a string, it will be first assumed to be a method of the current
 	 * controller class. If the method does not exist, it is assumed to be a global PHP function.
 	 * Note, the callback should return the dynamic content instead of echoing it.
+	 *
+	 * @return void
 	 */
 	public function renderDynamic($callback)
 	{
@@ -946,9 +976,13 @@ class CController extends CBaseController
 
 	/**
 	 * This method is internally used.
+	 *
 	 * @param callable $callback a PHP callback which returns the needed dynamic content.
 	 * @param array $params parameters passed to the PHP callback
+	 *
 	 * @see renderDynamic
+	 *
+	 * @return void
 	 */
 	public function renderDynamicInternal($callback,$params)
 	{
@@ -1020,6 +1054,8 @@ class CController extends CBaseController
 
 	/**
 	 * @param string $value the page title.
+	 *
+	 * @return void
 	 */
 	public function setPageTitle($value)
 	{
@@ -1034,6 +1070,9 @@ class CController extends CBaseController
 	 * @param bool $terminate whether to terminate the current application after calling this method. Defaults to true.
 	 * @param int $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
+     *
+     * @return void
+     * @psalm-return no-return
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
 	{
@@ -1049,9 +1088,12 @@ class CController extends CBaseController
 	 * Refreshes the current page.
 	 * The effect of this method call is the same as user pressing the
 	 * refresh button on the browser (without post data).
+	 *
 	 * @param bool $terminate whether to terminate the current application after calling this method
 	 * @param string $anchor the anchor that should be appended to the redirection URL.
 	 * Defaults to empty. Make sure the anchor starts with '#' if you want to specify it.
+	 *
+	 * @return void
 	 */
 	public function refresh($terminate=true,$anchor='')
 	{
@@ -1062,11 +1104,15 @@ class CController extends CBaseController
 	 * Records a method call when an output cache is in effect.
 	 * When the content is served from the output cache, the recorded
 	 * method will be re-invoked.
+	 *
 	 * @param string $context a property name of the controller. It refers to an object
 	 * whose method is being called. If empty it means the controller itself.
 	 * @param string $method the method name
 	 * @param array $params parameters passed to the method
+	 *
 	 * @see COutputCache
+	 *
+	 * @return void
 	 */
 	public function recordCachingAction($context,$method,$params)
 	{
@@ -1102,7 +1148,9 @@ class CController extends CBaseController
 	/**
 	 * This method is invoked right before an action is to be executed (after all possible filters.)
 	 * You may override this method to do last-minute preparation for the action.
+	 *
 	 * @param CAction $action the action to be executed.
+	 *
 	 * @return bool whether the action should be executed.
 	 */
 	protected function beforeAction($action)
@@ -1113,7 +1161,10 @@ class CController extends CBaseController
 	/**
 	 * This method is invoked right after an action is executed.
 	 * You may override this method to do some postprocessing for the action.
+	 *
 	 * @param CAction $action the action just executed.
+	 *
+	 * @return void
 	 */
 	protected function afterAction($action)
 	{
@@ -1183,12 +1234,16 @@ class CController extends CBaseController
 	 * A page state is a variable that is persistent across POST requests of the same page.
 	 * In order to use persistent page states, the form(s) must be stateful
 	 * which are generated using {@link CHtml::statefulForm}.
+	 *
 	 * @param string $name the state name
 	 * @param mixed $value the page state value
 	 * @param mixed $defaultValue the default page state value. If this is the same as
 	 * the given value, the state will be removed from persistent storage.
+	 *
 	 * @see getPageState
 	 * @see CHtml::statefulForm
+	 *
+	 * @return void
 	 */
 	public function setPageState($name,$value,$defaultValue=null)
 	{
@@ -1205,6 +1260,8 @@ class CController extends CBaseController
 
 	/**
 	 * Removes all page states.
+	 *
+	 * @return void
 	 */
 	public function clearPageStates()
 	{
@@ -1232,8 +1289,11 @@ class CController extends CBaseController
 
 	/**
 	 * Saves page states as a base64 string.
+	 *
 	 * @param array $states the states to be saved.
 	 * @param string $output the output to be modified. Note, this is passed by reference.
+	 *
+	 * @return void
 	 */
 	protected function savePageStates($states,&$output)
 	{

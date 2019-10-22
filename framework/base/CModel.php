@@ -80,7 +80,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Note, in order to inherit rules defined in the parent class, a child class needs to
 	 * merge the parent rules with child rules using functions like array_merge().
 	 *
-	 * @return array validation rules to be applied when {@link validate()} is called.
+	 * @return array[] validation rules to be applied when {@link validate()} is called.
+	 *
 	 * @see scenario
 	 */
 	public function rules()
@@ -106,6 +107,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * to the model when it is instantiated.
 	 *
 	 * For more details about behaviors, see {@link CComponent}.
+	 *
 	 * @return array the behavior configurations (behavior name=>behavior configuration)
 	 */
 	public function behaviors()
@@ -122,7 +124,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Note, in order to inherit labels defined in the parent class, a child class needs to
 	 * merge the parent labels with child labels using functions like array_merge().
 	 *
-	 * @return array attribute labels (name=>label)
+	 * @return string[]|array<string, string> attribute labels (name=>label)
+	 *
 	 * @see generateAttributeLabel
 	 */
 	public function attributeLabels()
@@ -169,6 +172,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * The default implementation raises the {@link onAfterConstruct} event.
 	 * You may override this method to do postprocessing after model creation.
 	 * Make sure you call the parent implementation so that the event is raised properly.
+	 *
+	 * @return void
 	 */
 	protected function afterConstruct()
 	{
@@ -196,6 +201,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * The default implementation calls {@link onAfterValidate} to raise an event.
 	 * You may override this method to do postprocessing after validation.
 	 * Make sure the parent implementation is invoked so that the event can be raised.
+	 *
+	 * @return void
 	 */
 	protected function afterValidate()
 	{
@@ -204,7 +211,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * This event is raised after the model instance is created by new operator.
+	 *
 	 * @param CEvent $event the event parameter
+	 *
+	 * @return void
 	 */
 	public function onAfterConstruct($event)
 	{
@@ -213,7 +223,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * This event is raised before the validation is performed.
+	 *
 	 * @param CModelEvent $event the event parameter
+	 *
+	 * @return void
 	 */
 	public function onBeforeValidate($event)
 	{
@@ -222,7 +235,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * This event is raised after the validation is performed.
+	 *
 	 * @param CEvent $event the event parameter
+	 *
+	 * @return void
 	 */
 	public function onAfterValidate($event)
 	{
@@ -381,8 +397,11 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Adds a new error to the specified attribute.
+	 *
 	 * @param string $attribute attribute name
 	 * @param string $error new error message
+	 *
+	 * @return void
 	 */
 	public function addError($attribute,$error)
 	{
@@ -391,10 +410,13 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Adds a list of errors.
+	 *
 	 * @param array $errors a list of errors. The array keys must be attribute names.
 	 * The array values should be error messages. If an attribute has multiple errors,
 	 * these errors must be given in terms of an array.
 	 * You may use the result of {@link getErrors} as the value for this parameter.
+	 *
+	 * @return void
 	 */
 	public function addErrors($errors)
 	{
@@ -412,7 +434,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Removes errors for all attributes or a single attribute.
+	 *
 	 * @param string $attribute attribute name. Use null to remove errors for all attribute.
+	 *
+	 * @return void
 	 */
 	public function clearErrors($attribute=null)
 	{
@@ -461,11 +486,15 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Sets the attribute values in a massive way.
+	 *
 	 * @param array $values attribute values (name=>value) to be set.
 	 * @param bool $safeOnly whether the assignments should only be done to the safe attributes.
 	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
+	 *
 	 * @see getSafeAttributeNames
 	 * @see attributeNames
+	 *
+	 * @return void
 	 */
 	public function setAttributes($values,$safeOnly=true)
 	{
@@ -483,9 +512,13 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Sets the attributes to be null.
+	 *
 	 * @param array $names list of attributes to be set null. If this parameter is not given,
 	 * all attributes as specified by {@link attributeNames} will have their values unset.
+	 *
 	 * @since 1.1.3
+	 *
+	 * @return void
 	 */
 	public function unsetAttributes($names=null)
 	{
@@ -499,9 +532,13 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * This method is invoked when an unsafe attribute is being massively assigned.
 	 * The default implementation will log a warning message if YII_DEBUG is on.
 	 * It does nothing otherwise.
+	 *
 	 * @param string $name the unsafe attribute name
 	 * @param mixed $value the attribute value
+	 *
 	 * @since 1.1.1
+	 *
+	 * @return void
 	 */
 	public function onUnsafeAttribute($name,$value)
 	{
@@ -533,8 +570,12 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Sets the scenario for the model.
+	 *
 	 * @param string $value the scenario that this model is in.
+	 *
 	 * @see getScenario
+	 *
+	 * @return void
 	 */
 	public function setScenario($value)
 	{
@@ -544,7 +585,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns the attribute names that are safe to be massively assigned.
 	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
-	 * @return array safe attribute names
+	 *
+	 * @return string[] safe attribute names
 	 */
 	public function getSafeAttributeNames()
 	{

@@ -29,7 +29,8 @@ class CBehavior extends CComponent implements IBehavior
 	 * events when the behavior is attached to the {@link owner} component; and they
 	 * will be detached from the events when the behavior is detached from the component.
 	 * Make sure you've declared handler method as public.
-	 * @return array events (array keys) and the corresponding event handler methods (array values).
+	 *
+	 * @return string[]|array<string, string> events (array keys) and the corresponding event handler methods (array values).
 	 */
 	public function events()
 	{
@@ -42,7 +43,10 @@ class CBehavior extends CComponent implements IBehavior
 	 * and attach event handlers as declared in {@link events}.
 	 * This method will also set {@link enabled} to true.
 	 * Make sure you've declared handler as public and call the parent implementation if you override this method.
+	 *
 	 * @param CComponent $owner the component that this behavior is to be attached to.
+	 *
+	 * @return void
 	 */
 	public function attach($owner)
 	{
@@ -57,7 +61,10 @@ class CBehavior extends CComponent implements IBehavior
 	 * and detach event handlers declared in {@link events}.
 	 * This method will also set {@link enabled} to false.
 	 * Make sure you call the parent implementation if you override this method.
+	 *
 	 * @param CComponent $owner the component that this behavior is to be detached from.
+	 *
+	 * @return void
 	 */
 	public function detach($owner)
 	{
@@ -85,6 +92,8 @@ class CBehavior extends CComponent implements IBehavior
 
 	/**
 	 * @param bool $value whether this behavior is enabled
+	 *
+	 * @return void
 	 */
 	public function setEnabled($value)
 	{
@@ -102,6 +111,9 @@ class CBehavior extends CComponent implements IBehavior
 		$this->_enabled=$value;
 	}
 
+	/**
+	 * @return void
+	 */
 	private function _attachEventHandlers()
 	{
 		$class=new ReflectionClass($this);

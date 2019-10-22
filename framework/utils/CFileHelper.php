@@ -32,6 +32,7 @@ class CFileHelper
 	/**
 	 * Copies a directory recursively as another.
 	 * If the destination directory does not exist, it will be created recursively.
+	 *
 	 * @param string $src the source directory
 	 * @param string $dst the destination directory
 	 * @param array $options options for directory copy. Valid options are:
@@ -46,10 +47,12 @@ class CFileHelper
 	 * Level -1 means copying all directories and files under the directory;
 	 * Level 0 means copying only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
- 	 * </li>
+	 * </li>
 	 * <li>newDirMode - the permission to be set for newly copied directories (defaults to 0777);</li>
 	 * <li>newFileMode - the permission to be set for newly copied files (defaults to the current environment setting).</li>
 	 * </ul>
+	 *
+	 * @return void
 	 */
 	public static function copyDirectory($src,$dst,$options=array())
 	{
@@ -65,6 +68,7 @@ class CFileHelper
 
 	/**
 	 * Removes a directory recursively.
+	 *
 	 * @param string $directory to be deleted recursively.
 	 * @param array $options for the directory removal. Valid options are:
 	 * <ul>
@@ -73,7 +77,10 @@ class CFileHelper
 	 * Only symlink would be removed in that default case.</li>
 	 * </ul>
 	 * Note, options parameter is available since 1.1.16
+	 *
 	 * @since 1.1.14
+	 *
+	 * @return void
 	 */
 	public static function removeDirectory($directory,$options=array())
 	{
@@ -105,6 +112,7 @@ class CFileHelper
 
 	/**
 	 * Returns the files found under the specified directory and subdirectories.
+	 *
 	 * @param string $dir the directory under which the files will be looked for
 	 * @param array $options options for file searching. Valid options are:
 	 * <ul>
@@ -118,10 +126,11 @@ class CFileHelper
 	 * Level -1 means searching for all directories and files under the directory;
 	 * Level 0 means searching for only the files DIRECTLY under the directory;
 	 * level N means searching for those directories that are within N levels.
- 	 * </li>
- 	 * <li>absolutePaths: boolean, whether to return absolute paths or relative ones, defaults to true.</li>
+	 * </li>
+	 * <li>absolutePaths: boolean, whether to return absolute paths or relative ones, defaults to true.</li>
 	 * </ul>
-	 * @return array files found under the directory. The file list is sorted.
+	 *
+	 * @return string[] files found under the directory. The file list is sorted.
 	 */
 	public static function findFiles($dir,$options=array())
 	{
@@ -138,6 +147,7 @@ class CFileHelper
 	/**
 	 * Copies a directory.
 	 * This method is mainly used by {@link copyDirectory}.
+	 *
 	 * @param string $src the source directory
 	 * @param string $dst the destination directory
 	 * @param string $base the path relative to the original source directory
@@ -153,7 +163,10 @@ class CFileHelper
 	 * @param array $options additional options. The following options are supported:
 	 * newDirMode - the permission to be set for newly copied directories (defaults to 0777);
 	 * newFileMode - the permission to be set for newly copied files (defaults to the current environment setting).
+	 *
 	 * @throws Exception
+	 *
+	 * @return void
 	 */
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
@@ -262,6 +275,7 @@ class CFileHelper
 	 * <li>mime_content_type</li>
 	 * <li>{@link getMimeTypeByExtension}, when $checkExtension is set true.</li>
 	 * </ol>
+	 *
 	 * @param string $file the file name.
 	 * @param string $magicFile name of a magic database file, usually something like /path/to/magic.mime.
 	 * This will be passed as the second parameter to {@link http://php.net/manual/en/function.finfo-open.php finfo_open}.
@@ -270,7 +284,8 @@ class CFileHelper
 	 * PHP extension is available. This parameter has been available since version 1.1.3.
 	 * @param bool $checkExtension whether to check the file extension in case the MIME type cannot be determined
 	 * based on finfo and mime_content_type. Defaults to true. This parameter has been available since version 1.1.4.
-	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
+	 *
+	 * @return null|string the MIME type. Null is returned if the MIME type cannot be determined.
 	 */
 	public static function getMimeType($file,$magicFile=null,$checkExtension=true)
 	{

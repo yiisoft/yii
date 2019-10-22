@@ -110,6 +110,8 @@ class GiiModule extends CWebModule
 
 	/**
 	 * Initializes the gii module.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -146,6 +148,8 @@ class GiiModule extends CWebModule
 
 	/**
 	 * @param string $value the base URL that contains all published asset files of gii.
+	 *
+	 * @return void
 	 */
 	public function setAssetsUrl($value)
 	{
@@ -200,7 +204,8 @@ class GiiModule extends CWebModule
 
 	/**
 	 * Finds all available code generators and their code templates.
-	 * @return array
+	 *
+	 * @return array<string, array>
 	 */
 	protected function findGenerators()
 	{

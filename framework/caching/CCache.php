@@ -77,6 +77,8 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	/**
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by setting default cache key prefix.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -122,8 +124,8 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * Some caches (such as memcache, apc) allow retrieving multiple cached values at one time,
 	 * which may improve the performance since it reduces the communication cost.
 	 * In case a cache does not support this feature natively, it will be simulated by this method.
-	 * @param array $ids list of keys identifying the cached values
-	 * @return array list of cached values corresponding to the specified keys. The array
+	 * @param string[] $ids list of keys identifying the cached values
+	 * @return array<string, mixed|false> list of cached values corresponding to the specified keys. The array
 	 * is returned in terms of (key,value) pairs.
 	 * If a value is not cached or expired, the corresponding array value will be false.
 	 */
@@ -238,7 +240,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * in {@link get()} already. So only the implementation of data retrieval
 	 * is needed.
 	 * @param string $key a unique key identifying the cached value
-	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
+	 * @return string|false the value stored in cache, false if the value is not in the cache or expired.
 	 * @throws CException if this method is not overridden by child classes
 	 */
 	protected function getValue($key)
@@ -253,8 +255,10 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * times to retrieve the cached values one by one.
 	 * If the underlying cache storage supports multiget, this method should
 	 * be overridden to exploit that feature.
-	 * @param array $keys a list of keys identifying the cached values
-	 * @return array a list of cached values indexed by the keys
+	 *
+	 * @param string[] $keys a list of keys identifying the cached values
+	 *
+	 * @return array<string, mixed> a list of cached values indexed by the keys
 	 */
 	protected function getValues($keys)
 	{
@@ -366,8 +370,10 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	/**
 	 * Deletes the value with the specified key from cache
 	 * This method is required by the interface ArrayAccess.
+	 *
 	 * @param string $id the key of the value to be deleted
-	 * @return bool if no error happens during deletion
+	 *
+	 * @return void
 	 */
 	public function offsetUnset($id)
 	{

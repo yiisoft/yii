@@ -61,6 +61,8 @@ class CDbLogRoute extends CLogRoute
 	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -82,8 +84,11 @@ class CDbLogRoute extends CLogRoute
 
 	/**
 	 * Creates the DB table for storing log messages.
+	 *
 	 * @param CDbConnection $db the database connection
 	 * @param string $tableName the name of the table to be created
+	 *
+	 * @return void
 	 */
 	protected function createLogTable($db,$tableName)
 	{
@@ -121,7 +126,10 @@ class CDbLogRoute extends CLogRoute
 
 	/**
 	 * Stores log messages into database.
+	 *
 	 * @param array $logs list of log messages
+	 *
+	 * @return void
 	 */
 	protected function processLogs($logs)
 	{

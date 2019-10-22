@@ -147,9 +147,13 @@ class YiiBase
 	 * Repeated invocation of this method or the CApplication constructor
 	 * will cause the throw of an exception.
 	 * To retrieve the application instance, use {@link app()}.
+	 *
 	 * @param CApplication $app the application instance. If this is null, the existing
 	 * application singleton will be removed.
+	 *
 	 * @throws CException if multiple application instances are registered.
+	 *
+	 * @return void
 	 */
 	public static function setApplication($app)
 	{
@@ -384,9 +388,12 @@ class YiiBase
 	/**
 	 * Create a path alias.
 	 * Note, this method neither checks the existence of the path nor normalizes the path.
+	 *
 	 * @param string $alias alias to the path
 	 * @param string $path the path corresponding to the alias. If this is null, the corresponding
 	 * path alias will be removed.
+	 *
+	 * @return void
 	 */
 	public static function setPathOfAlias($alias,$path)
 	{
@@ -476,9 +483,13 @@ class YiiBase
 	/**
 	 * Writes a trace message.
 	 * This method will only log a message when the application is in debug mode.
+	 *
 	 * @param string $msg message to be logged
 	 * @param string $category category of the message
+	 *
 	 * @see log
+	 *
+	 * @return void
 	 */
 	public static function trace($msg,$category='application')
 	{
@@ -491,9 +502,12 @@ class YiiBase
 	 * Messages logged by this method may be retrieved via {@link CLogger::getLogs}
 	 * and may be recorded in different media, such as file, email, database, using
 	 * {@link CLogRouter}.
+	 *
 	 * @param string $msg message to be logged
 	 * @param string $level level of the message (e.g. 'trace', 'warning', 'error'). It is case-insensitive.
 	 * @param string $category category of the message (e.g. 'system.web'). It is case-insensitive.
+	 *
+	 * @return void
 	 */
 	public static function log($msg,$level=CLogger::LEVEL_INFO,$category='application')
 	{
@@ -533,9 +547,13 @@ class YiiBase
 	 * Yii::endProfile('block1');
 	 * Yii::endProfile('block2');
 	 * </pre>
+	 *
 	 * @param string $token token for the code block
 	 * @param string $category the category of this log message
+	 *
 	 * @see endProfile
+	 *
+	 * @return void
 	 */
 	public static function beginProfile($token,$category='application')
 	{
@@ -545,9 +563,13 @@ class YiiBase
 	/**
 	 * Marks the end of a code block for profiling.
 	 * This has to be matched with a previous call to {@link beginProfile()} with the same token.
+	 *
 	 * @param string $token token for the code block
 	 * @param string $category the category of this log message
+	 *
 	 * @see beginProfile
+	 *
+	 * @return void
 	 */
 	public static function endProfile($token,$category='application')
 	{
@@ -567,8 +589,12 @@ class YiiBase
 
 	/**
 	 * Sets the logger object.
+	 *
 	 * @param CLogger $logger the logger object.
+	 *
 	 * @since 1.1.8
+	 *
+	 * @return void
 	 */
 	public static function setLogger($logger)
 	{
@@ -650,11 +676,14 @@ class YiiBase
 	 * Registers a new class autoloader.
 	 * The new autoloader will be placed before {@link autoload} and after
 	 * any other existing autoloaders.
+	 *
 	 * @param callable $callback a valid PHP callback (function name or array($className,$methodName)).
 	 * @param bool $append whether to append the new autoloader after the default Yii autoloader.
 	 * Be careful using this option as it will disable {@link enableIncludePath autoloading via include path}
 	 * when set to true. After this the Yii autoloader can not rely on loading classes via simple include anymore
 	 * and you have to {@link import} all classes explicitly.
+	 *
+	 * @return void
 	 */
 	public static function registerAutoloader($callback, $append=false)
 	{

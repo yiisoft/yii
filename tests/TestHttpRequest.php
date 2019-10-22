@@ -12,6 +12,9 @@ class TestHttpRequest extends CHttpRequest
 		return $this->myScriptUrl;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setScriptUrl($value)
 	{
 		$this->myScriptUrl=$value;
@@ -22,6 +25,9 @@ class TestHttpRequest extends CHttpRequest
 		return $this->myPathInfo;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setPathInfo($value)
 	{
 		$this->myPathInfo=$value;

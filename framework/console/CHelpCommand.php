@@ -31,13 +31,16 @@ class CHelpCommand extends CConsoleCommand
 {
 	/**
 	 * Execute the action.
+	 *
 	 * @param array $args command line parameters specific for this command
+	 *
 	 * @return int non zero application exit code after printing help
 	 */
 	public function run($args)
 	{
 		$runner=$this->getCommandRunner();
 		$commands=$runner->commands;
+		$name = null;
 		if(isset($args[0]))
 			$name=strtolower($args[0]);
 		if(!isset($args[0]) || !isset($commands[$name]))

@@ -49,7 +49,10 @@ class CLocalizedFormatter extends CFormatter
 
 	/**
 	 * Set the locale to use for formatting values.
+	 *
 	 * @param CLocale|string $locale an instance of CLocale or a locale ID
+	 *
+	 * @return void
 	 */
 	public function setLocale($locale)
 	{

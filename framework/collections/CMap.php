@@ -67,6 +67,8 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 
 	/**
 	 * @param bool $value whether this list is read-only or not
+	 *
+	 * @return void
 	 */
 	protected function setReadOnly($value)
 	{
@@ -103,7 +105,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	}
 
 	/**
-	 * @return array the key list
+	 * @return string[]|int[] the key list
 	 */
 	public function getKeys()
 	{
@@ -127,9 +129,13 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	/**
 	 * Adds an item into the map.
 	 * Note, if the specified key already exists, the old value will be overwritten.
+	 *
 	 * @param int|string|null $key key
 	 * @param mixed $value value
+	 *
 	 * @throws CException if the map is read-only
+	 *
+	 * @return void
 	 */
 	public function add($key,$value)
 	{
@@ -173,6 +179,8 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 
 	/**
 	 * Removes all items in the map.
+	 *
+	 * @return void
 	 */
 	public function clear()
 	{
@@ -200,8 +208,12 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	/**
 	 * Copies iterable data into the map.
 	 * Note, existing data in the map will be cleared first.
+	 *
 	 * @param iterable|\CMap $data the data to be copied from, must be an array or object implementing Traversable
+	 *
 	 * @throws CException If data is neither an array nor an iterator.
+	 *
+	 * @return void
 	 */
 	public function copyFrom($data)
 	{
@@ -234,6 +246,8 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * @param bool $recursive whether the merging should be recursive.
 	 *
 	 * @throws CException If data is neither an array nor an iterator.
+	 *
+	 * @return void
 	 */
 	public function mergeWith($data,$recursive=true)
 	{

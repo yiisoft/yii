@@ -131,7 +131,10 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Sets the module ID.
+	 *
 	 * @param string $id the module ID
+	 *
+	 * @return void
 	 */
 	public function setId($id)
 	{
@@ -155,8 +158,12 @@ abstract class CModule extends CComponent
 	/**
 	 * Sets the root directory of the module.
 	 * This method can only be invoked at the beginning of the constructor.
+	 *
 	 * @param string $path the root directory of the module.
+	 *
 	 * @throws CException if the directory does not exist.
+	 *
+	 * @return void
 	 */
 	public function setBasePath($path)
 	{
@@ -183,7 +190,10 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Sets user-defined parameters.
+	 *
 	 * @param array $value user-defined parameters. This should be in name-value pairs.
+	 *
+	 * @return void
 	 */
 	public function setParams($value)
 	{
@@ -206,8 +216,12 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Sets the directory that contains the application modules.
+	 *
 	 * @param string $value the directory that contains the application modules.
+	 *
 	 * @throws CException if the directory is invalid
+	 *
+	 * @return void
 	 */
 	public function setModulePath($value)
 	{
@@ -218,7 +232,10 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Sets the aliases that are used in the module.
+	 *
 	 * @param array $aliases list of aliases to be imported
+	 *
+	 * @return void
 	 */
 	public function setImport($aliases)
 	{
@@ -228,6 +245,7 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Defines the root aliases.
+	 *
 	 * @param array $mappings list of aliases to be defined. The array keys are root aliases,
 	 * while the array values are paths or aliases corresponding to the root aliases.
 	 * For example,
@@ -238,6 +256,8 @@ abstract class CModule extends CComponent
 	 *    'backend'=>dirname(__FILE__).'/../backend',  // a directory
 	 * )
 	 * </pre>
+	 *
+	 * @return void
 	 */
 	public function setAliases($mappings)
 	{
@@ -337,6 +357,8 @@ abstract class CModule extends CComponent
 	 * module configuration with the same ID will be merged with the new configuration.
 	 * If set to false, the existing configuration will be replaced completely.
 	 * This parameter is available since 1.1.16.
+	 *
+	 * @return void
 	 */
 	public function setModules($modules,$merge=true)
 	{
@@ -403,6 +425,7 @@ abstract class CModule extends CComponent
 	 * Puts a component under the management of the module.
 	 * The component will be initialized by calling its {@link CApplicationComponent::init() init()}
 	 * method if it has not done so.
+	 *
 	 * @param string $id component ID
 	 * @param array|IApplicationComponent|null $component application component
 	 * (either configuration array or instance). If this parameter is null,
@@ -412,6 +435,8 @@ abstract class CModule extends CComponent
 	 * component configuration with the same ID will be merged with the new configuration.
 	 * If set to false, the existing configuration will be replaced completely.
 	 * This parameter is available since 1.1.13.
+	 *
+	 * @return void
 	 */
 	public function setComponent($id,$component,$merge=true)
 	{
@@ -505,6 +530,8 @@ abstract class CModule extends CComponent
 	 * @param bool $merge whether to merge the new component configuration with the existing one.
 	 * Defaults to true, meaning the previously registered component configuration of the same ID
 	 * will be merged with the new configuration. If false, the existing configuration will be replaced completely.
+	 *
+	 * @return void
 	 */
 	public function setComponents($components,$merge=true)
 	{
@@ -514,7 +541,10 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Configures the module with the specified configuration.
+	 *
 	 * @param array $config the configuration array
+	 *
+	 * @return void
 	 */
 	public function configure($config)
 	{
@@ -527,6 +557,8 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Loads static application components.
+	 *
+	 * @return void
 	 */
 	protected function preloadComponents()
 	{
@@ -539,7 +571,10 @@ abstract class CModule extends CComponent
 	 * This method is called at the beginning of the module constructor.
 	 * You may override this method to do some customized preinitialization work.
 	 * Note that at this moment, the module is not configured yet.
+	 *
 	 * @see init
+	 *
+	 * @return void
 	 */
 	protected function preinit()
 	{
@@ -550,7 +585,10 @@ abstract class CModule extends CComponent
 	 * This method is called at the end of the module constructor.
 	 * Note that at this moment, the module has been configured, the behaviors
 	 * have been attached and the application components have been registered.
+	 *
 	 * @see preinit
+	 *
+	 * @return void
 	 */
 	protected function init()
 	{

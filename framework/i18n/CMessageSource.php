@@ -55,6 +55,8 @@ abstract class CMessageSource extends CApplicationComponent
 
 	/**
 	 * @param string $language the language that the source messages are written in.
+	 *
+	 * @return void
 	 */
 	public function setLanguage($language)
 	{
@@ -118,7 +120,10 @@ abstract class CMessageSource extends CApplicationComponent
 	 * Handlers may log this message or do some default handling.
 	 * The {@link CMissingTranslationEvent::message} property
 	 * will be returned by {@link translateMessage}.
+	 *
 	 * @param CMissingTranslationEvent $event the event parameter
+	 *
+	 * @return void
 	 */
 	public function onMissingTranslation($event)
 	{

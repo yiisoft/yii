@@ -89,7 +89,10 @@ class CErrorHandler extends CApplicationComponent
 	 * Handles the exception/error event.
 	 * This method is invoked by the application whenever it captures
 	 * an exception or PHP error.
+	 *
 	 * @param CEvent $event the event containing the exception/error information
+	 *
+	 * @return void
 	 */
 	public function handle($event)
 	{
@@ -163,7 +166,10 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Handles the exception.
+	 *
 	 * @param Exception $exception the exception captured
+	 *
+	 * @return void
 	 */
 	protected function handleException($exception)
 	{
@@ -223,7 +229,10 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Handles the PHP error.
+	 *
 	 * @param CErrorEvent $event the PHP error event
+	 *
+	 * @return void
 	 */
 	protected function handleError($event)
 	{
@@ -328,9 +337,12 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Renders the view.
+	 *
 	 * @param string $view the view name (file name without extension).
 	 * See {@link getViewFile} for how a view file is located given its name.
 	 * @param array $data data to be passed to the view
+	 *
+	 * @return void
 	 */
 	protected function render($view,$data)
 	{
@@ -343,6 +355,8 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Renders the exception information.
 	 * This method will display information from current {@link error} value.
+	 *
+	 * @return void
 	 */
 	protected function renderException()
 	{
@@ -361,6 +375,8 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Renders the current error information.
 	 * This method will display information from current {@link error} value.
+	 *
+	 * @return void
 	 */
 	protected function renderError()
 	{
@@ -380,9 +396,11 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Determines which view file should be used.
+	 *
 	 * @param string $view view name (either 'exception' or 'error')
 	 * @param int $code HTTP status code
-	 * @return string view file path
+	 *
+	 * @return null|string view file path
 	 */
 	protected function getViewFile($view,$code)
 	{
@@ -401,6 +419,8 @@ class CErrorHandler extends CApplicationComponent
 				 	 return $viewFile;
 			}
 		}
+
+		return null;
 	}
 
 	/**

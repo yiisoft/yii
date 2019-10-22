@@ -342,8 +342,11 @@ class CLocale extends CComponent
 	/**
 	 * Converts a locale ID to a script ID.
 	 * A script ID consists of only the last four characters after an underscore or dash.
+	 *
 	 * @param string $id the locale ID to be converted
-	 * @return string the script ID
+	 *
+	 * @return null|string the script ID
+	 *
 	 * @since 1.1.9
 	 */
 	public function getScriptID($id)
@@ -374,8 +377,11 @@ class CLocale extends CComponent
 	/**
 	 * Converts a locale ID to a territory ID.
 	 * A territory ID consists of only the last two to three letter or digits after an underscore or dash.
+	 *
 	 * @param string $id the locale ID to be converted
-	 * @return string the territory ID
+	 *
+	 * @return null|string the territory ID
+	 *
 	 * @since 1.1.9
 	 */
 	public function getTerritoryID($id)

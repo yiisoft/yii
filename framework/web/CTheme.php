@@ -92,9 +92,11 @@ class CTheme extends CComponent
 
 	/**
 	 * Finds the view file for the specified controller's view.
+	 *
 	 * @param CController $controller the controller
 	 * @param string $viewName the view name
-	 * @return string the view file path. False if the file does not exist.
+	 *
+	 * @return false|string the view file path. False if the file does not exist.
 	 */
 	public function getViewFile($controller,$viewName)
 	{

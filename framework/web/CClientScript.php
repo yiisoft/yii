@@ -178,6 +178,8 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Cleans all registered scripts.
+	 *
+	 * @return void
 	 */
 	public function reset()
 	{
@@ -198,7 +200,10 @@ class CClientScript extends CApplicationComponent
 	 * This method is called in {@link CController::render} when it finishes
 	 * rendering content. CClientScript thus gets a chance to insert script tags
 	 * at <code>head</code> and <code>body</code> sections in the HTML output.
+	 *
 	 * @param string $output the existing output that needs to be inserted with script tags
+	 *
+	 * @return void
 	 */
 	public function render(&$output)
 	{
@@ -222,7 +227,10 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Removes duplicated scripts from {@link scriptFiles}.
+	 *
 	 * @since 1.1.5
+	 *
+	 * @return void
 	 */
 	protected function unifyScripts()
 	{
@@ -255,6 +263,8 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Uses {@link scriptMap} to re-map the registered scripts.
+	 *
+	 * @return void
 	 */
 	protected function remapScripts()
 	{
@@ -337,6 +347,8 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Renders the specified core javascript library.
+	 *
+	 * @return void
 	 */
 	public function renderCoreScripts()
 	{
@@ -378,7 +390,10 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts in the head section.
+	 *
 	 * @param string $output the output to be inserted with scripts.
+	 *
+	 * @return void
 	 */
 	public function renderHead(&$output)
 	{
@@ -421,7 +436,10 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts at the beginning of the body section.
+	 *
 	 * @param string $output the output to be inserted with scripts.
+	 *
+	 * @return void
 	 */
 	public function renderBodyBegin(&$output)
 	{
@@ -452,7 +470,10 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts at the end of the body section.
+	 *
 	 * @param string $output the output to be inserted with scripts.
+	 *
+	 * @return void
 	 */
 	public function renderBodyEnd(&$output)
 	{
@@ -515,7 +536,10 @@ class CClientScript extends CApplicationComponent
 	 * Sets the base URL of all core javascript files.
 	 * This setter is provided in case when core javascript files are manually published
 	 * to a pre-specified location. This may save asset publishing time for large-scale applications.
+	 *
 	 * @param string $value the base URL of all core javascript files.
+	 *
+	 * @return void
 	 */
 	public function setCoreScriptUrl($value)
 	{
@@ -846,11 +870,15 @@ class CClientScript extends CApplicationComponent
 	 * Records a method call when an output cache is in effect.
 	 * This is a shortcut to Yii::app()->controller->recordCachingAction.
 	 * In case when controller is absent, nothing is recorded.
+	 *
 	 * @param string $context a property name of the controller. It refers to an object
 	 * whose method is being called. If empty it means the controller itself.
 	 * @param string $method the method name
 	 * @param array $params parameters passed to the method
+	 *
 	 * @see COutputCache
+	 *
+	 * @return void
 	 */
 	protected function recordCachingAction($context,$method,$params)
 	{

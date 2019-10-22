@@ -56,7 +56,10 @@ class CPasswordHelper
 {
 	/**
 	 * Check for availability of PHP crypt() with the Blowfish hash option.
+	 *
 	 * @throws CException if the runtime system does not have PHP crypt() or its Blowfish hash option.
+	 *
+	 * @return void
 	 */
 	protected static function checkBlowfish()
 	{

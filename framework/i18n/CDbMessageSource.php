@@ -114,9 +114,12 @@ class CDbMessageSource extends CMessageSource
 	/**
 	 * Loads the messages from database.
 	 * You may override this method to customize the message storage in the database.
+	 *
 	 * @param string $category the message category
 	 * @param string $language the target language
-	 * @return array the messages loaded from database
+	 *
+	 * @return string[]|array<string, string> the messages loaded from database
+	 *
 	 * @since 1.1.5
 	 */
 	protected function loadMessagesFromDb($category,$language)

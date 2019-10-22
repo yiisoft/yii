@@ -125,6 +125,8 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	/**
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by resolving the skin path.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{

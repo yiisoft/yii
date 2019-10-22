@@ -290,7 +290,10 @@ class CComponent
 	 *     'property2'=>'value2',
 	 * )
 	 * </pre>
+	 *
 	 * @param array $behaviors list of behaviors to be attached to the component
+	 *
+	 * @return void
 	 */
 	public function attachBehaviors($behaviors)
 	{
@@ -300,6 +303,8 @@ class CComponent
 
 	/**
 	 * Detaches all behaviors from the component.
+	 *
+	 * @return void
 	 */
 	public function detachBehaviors()
 	{
@@ -353,6 +358,8 @@ class CComponent
 
 	/**
 	 * Enables all behaviors attached to this component.
+	 *
+	 * @return void
 	 */
 	public function enableBehaviors()
 	{
@@ -365,6 +372,8 @@ class CComponent
 
 	/**
 	 * Disables all behaviors attached to this component.
+	 *
+	 * @return void
 	 */
 	public function disableBehaviors()
 	{
@@ -379,7 +388,10 @@ class CComponent
 	 * Enables an attached behavior.
 	 * A behavior is only effective when it is enabled.
 	 * A behavior is enabled when first attached.
+	 *
 	 * @param string $name the behavior's name. It uniquely identifies the behavior.
+	 *
+	 * @return void
 	 */
 	public function enableBehavior($name)
 	{
@@ -390,7 +402,10 @@ class CComponent
 	/**
 	 * Disables an attached behavior.
 	 * A behavior is only effective when it is enabled.
+	 *
 	 * @param string $name the behavior's name. It uniquely identifies the behavior.
+	 *
+	 * @return void
 	 */
 	public function disableBehavior($name)
 	{
@@ -509,9 +524,13 @@ class CComponent
 	 * makes the handler to be invoked first.
 	 *
 	 * @param string $name the event name
-     * @param callable|string $handler the event handler — callable or class name
+	 * @param callable|string $handler the event handler — callable or class name
+	 *
 	 * @throws CException if the event is not defined
+	 *
 	 * @see detachEventHandler
+	 *
+	 * @return void
 	 */
 	public function attachEventHandler($name,$handler)
 	{
@@ -543,6 +562,8 @@ class CComponent
      * @param CEvent $event the event parameter
      *
      * @throws CException if the event is undefined or an event handler is invalid.
+     *
+     * @return void
      */
     public function raiseEvent($name, CEvent $event)
     {

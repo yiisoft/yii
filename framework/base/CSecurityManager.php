@@ -97,6 +97,9 @@ class CSecurityManager extends CApplicationComponent
 	private $_mbstring;
 
 
+	/**
+	 * @return void
+	 */
 	public function init()
 	{
 		parent::init();
@@ -104,7 +107,8 @@ class CSecurityManager extends CApplicationComponent
 	}
 
 	/**
-	 * @return string a randomly generated private key.
+	 * @return false|string a randomly generated private key.
+	 *
 	 * @deprecated in favor of {@link generateRandomString()} since 1.1.14. Never use this method.
 	 */
 	protected function generateRandomKey()
@@ -140,7 +144,10 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the key used to generate HMAC
+	 *
 	 * @throws CException if the key is empty
+	 *
+	 * @return void
 	 */
 	public function setValidationKey($value)
 	{
@@ -178,7 +185,10 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the key used to encrypt/decrypt data.
+	 *
 	 * @throws CException if the key is empty
+	 *
+	 * @return void
 	 */
 	public function setEncryptionKey($value)
 	{
@@ -200,8 +210,12 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * This method has been deprecated since version 1.1.3.
 	 * Please use {@link hashAlgorithm} instead.
+	 *
 	 * @param string $value -
-	 * @deprecated
+	 *
+	 * @deprecated 
+	 *
+	 * @return void
 	 */
 	public function setValidation($value)
 	{
@@ -289,11 +303,12 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Validates if data is tampered.
+	 *
 	 * @param string $data data to be validated. The data must be previously
 	 * generated using {@link hashData()}.
 	 * @param string $key the private key to be used for generating HMAC. Defaults to null, meaning using {@link validationKey}.
-	 * @return string the real data with HMAC stripped off. False if the data
-	 * is tampered.
+	 *
+	 * @return false|string the real data with HMAC stripped off. False if the data is tampered.
 	 */
 	public function validateData($data,$key=null)
 	{
@@ -434,7 +449,9 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Generate a pseudo random block of data using several sources. On some systems this may be a bit
 	 * better than PHP's {@link mt_rand} built-in function, which is not really random.
-	 * @return string of 64 pseudo random bytes.
+	 *
+	 * @return false|string of 64 pseudo random bytes.
+	 *
 	 * @since 1.1.14
 	 */
 	public function generatePseudoRandomBlock()
@@ -521,8 +538,11 @@ class CSecurityManager extends CApplicationComponent
     
 	/**
 	 * Checks if a key is valid for {@link cryptAlgorithm}.
+	 *
 	 * @param string $key the key to check
-	 * @return bool the validation result
+	 *
+	 * @return void
+	 *
 	 * @throws CException if the supported key lengths of the cipher are unknown
 	 */
 	protected function validateEncryptionKey($key)

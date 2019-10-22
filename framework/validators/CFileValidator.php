@@ -146,8 +146,10 @@ class CFileValidator extends CValidator
 		{
 			if(!is_array($files) || !isset($files[0]) || !$files[0] instanceof CUploadedFile)
 				$files = CUploadedFile::getInstances($object, $attribute);
-			if(array()===$files)
-				return $this->emptyAttribute($object, $attribute);
+			if(array()===$files) {
+                $this->emptyAttribute($object, $attribute);
+                return;
+            }
 			if(count($files) > $this->maxFiles)
 			{
 				$message=$this->tooMany!==null?$this->tooMany : Yii::t('yii', '{attribute} cannot accept more than {limit} files.');
@@ -175,8 +177,10 @@ class CFileValidator extends CValidator
 			if(!$file instanceof CUploadedFile)
 			{
 				$file = CUploadedFile::getInstance($object, $attribute);
-				if(null===$file)
-					return $this->emptyAttribute($object, $attribute);
+				if(null===$file) {
+                    $this->emptyAttribute($object, $attribute);
+                    return;
+                }
 			}
 			$this->validateFile($object, $attribute, $file);
 		}
@@ -201,8 +205,10 @@ class CFileValidator extends CValidator
 		}
 		elseif($error!==UPLOAD_ERR_OK)
 		{
-			if($error==UPLOAD_ERR_NO_FILE)
-				return $this->emptyAttribute($object, $attribute);
+			if($error==UPLOAD_ERR_NO_FILE) {
+                $this->emptyAttribute($object, $attribute);
+                return;
+            }
 			elseif($error==UPLOAD_ERR_PARTIAL)
 				throw new CException(Yii::t('yii','The file "{file}" was only partially uploaded.',array('{file}'=>$file->getName())));
 			elseif($error==UPLOAD_ERR_NO_TMP_DIR)
@@ -263,8 +269,11 @@ class CFileValidator extends CValidator
 	/**
 	 * Raises an error to inform end user about blank attribute.
 	 * Sets the owner attribute to null to prevent setting arbitrary values.
+	 *
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 *
+	 * @return void
 	 */
 	protected function emptyAttribute($object, $attribute)
 	{

@@ -55,9 +55,13 @@ class CAttributeCollection extends CMap
 	 * Sets value of a component property.
 	 * This method overrides the parent implementation by adding a new key value
 	 * to the collection.
+	 *
 	 * @param string $name the property name or event name
 	 * @param mixed $value the property value or event handler
+	 *
 	 * @throws CException If the property is not defined or read-only.
+	 *
+	 * @return void
 	 */
 	public function __set($name,$value)
 	{
@@ -83,7 +87,10 @@ class CAttributeCollection extends CMap
 	 * Sets a component property to be null.
 	 * This method overrides the parent implementation by clearing
 	 * the specified key value.
+	 *
 	 * @param string $name the property name or the event name
+	 *
+	 * @return void
 	 */
 	public function __unset($name)
 	{
@@ -107,8 +114,11 @@ class CAttributeCollection extends CMap
 	/**
 	 * Adds an item into the map.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
+	 *
 	 * @param int|string $key key
 	 * @param mixed $value value
+	 *
+	 * @return void
 	 */
 	public function add($key,$value)
 	{
@@ -174,8 +184,10 @@ class CAttributeCollection extends CMap
 	 * Determines whether a property can be set.
 	 * This method overrides parent implementation by always returning true
 	 * because you can always add a new value to the collection.
+	 *
 	 * @param string $name the property name
-	 * @return bool true
+	 *
+	 * @return true true
 	 */
 	public function canSetProperty($name)
 	{
@@ -197,6 +209,7 @@ class CAttributeCollection extends CMap
 	 * @param iterable|\CMap $data the data to be merged with, must be an array or object implementing Traversable
 	 * @param bool $recursive whether the merging should be recursive.
 	 *
+     * @return void
 	 * @throws CException If data is neither an array nor an iterator.
 	 */
 	public function mergeWith($data,$recursive=true)
@@ -206,7 +219,8 @@ class CAttributeCollection extends CMap
 			$d=array();
 			foreach($data as $key=>$value)
 				$d[strtolower($key)]=$value;
-			return parent::mergeWith($d,$recursive);
+			parent::mergeWith($d,$recursive);
+            return;
 		}
 		parent::mergeWith($data,$recursive);
 	}

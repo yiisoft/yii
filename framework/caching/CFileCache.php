@@ -71,6 +71,8 @@ class CFileCache extends CCache
 	/**
 	 * Initializes this application component.
 	 * This method is required by the {@link IApplicationComponent} interface.
+	 *
+	 * @return void
 	 */
 	public function init()
 	{
@@ -97,6 +99,8 @@ class CFileCache extends CCache
 	 * @param int $value the probability (parts per million) that garbage collection (GC) should be performed
 	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
 	 * This number should be between 0 and 1000000. A value 0 meaning no GC will be performed at all.
+	 *
+	 * @return void
 	 */
 	public function setGCProbability($value)
 	{
@@ -111,7 +115,9 @@ class CFileCache extends CCache
 	/**
 	 * Deletes all values from cache.
 	 * This is the implementation of the method declared in the parent class.
-	 * @return bool whether the flush operation was successful.
+	 *
+	 * @return true whether the flush operation was successful.
+	 *
 	 * @since 1.1.5
 	 */
 	protected function flushValues()
@@ -123,8 +129,10 @@ class CFileCache extends CCache
 	/**
 	 * Retrieves a value from cache with a specified key.
 	 * This is the implementation of the method declared in the parent class.
+	 *
 	 * @param string $key a unique key identifying the cached value
-	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
+	 *
+	 * @return false|string the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	protected function getValue($key)
 	{
@@ -225,9 +233,12 @@ class CFileCache extends CCache
 
 	/**
 	 * Removes expired cache files.
+	 *
 	 * @param bool $expiredOnly whether only expired cache files should be removed.
 	 * If false, all cache files under {@link cachePath} will be removed.
 	 * @param string $path the path to clean with. If null, it will be {@link cachePath}.
+	 *
+	 * @return void
 	 */
 	public function gc($expiredOnly=true,$path=null)
 	{

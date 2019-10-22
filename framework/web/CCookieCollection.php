@@ -43,7 +43,7 @@ class CCookieCollection extends CMap
     }
 
     /**
-     * @return array list of validated cookies
+     * @return CHttpCookie[]|array<string, CHttpCookie> list of validated cookies
      */
     protected function getCookies()
     {
@@ -72,6 +72,8 @@ class CCookieCollection extends CMap
      * @param CHttpCookie $cookie Cookie object.
      *
      * @throws CException if the item to be inserted is not a CHttpCookie object.
+     *
+     * @return void
      */
     public function add($name, $cookie)
     {
@@ -121,6 +123,8 @@ class CCookieCollection extends CMap
      * Sends a cookie.
      *
      * @param CHttpCookie $cookie cookie to be sent
+     *
+     * @return void
      */
     protected function addCookie($cookie)
     {
@@ -140,6 +144,8 @@ class CCookieCollection extends CMap
      * Deletes a cookie.
      *
      * @param CHttpCookie $cookie cookie to be deleted
+     *
+     * @return void
      */
     protected function removeCookie($cookie)
     {

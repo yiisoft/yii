@@ -68,8 +68,11 @@ class CEmailValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
+	 *
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 *
+	 * @return void
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -101,6 +104,7 @@ class CEmailValidator extends CValidator
 			$value=$this->encodeIDN($value);
 		// make sure string length is limited to avoid DOS attacks
 		$valid=is_string($value) && strlen($value)<=254 && (preg_match($this->pattern,$value) || $this->allowName && preg_match($this->fullPattern,$value));
+		$domain = null;
 		if($valid)
 			$domain=rtrim(substr($value,strpos($value,'@')+1),'>');
 		if($valid && $this->checkMX && function_exists('checkdnsrr'))

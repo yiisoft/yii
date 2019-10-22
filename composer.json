@@ -1,9 +1,12 @@
 {
 	"name": "yiisoft/yii",
-	"description": "Yii Web Programming Framework",
-	"keywords": ["yii", "framework"],
-	"homepage": "http://www.yiiframework.com/",
 	"type": "library",
+	"description": "Yii Web Programming Framework",
+	"keywords": [
+		"yii",
+		"framework"
+	],
+	"homepage": "http://www.yiiframework.com/",
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
@@ -55,28 +58,31 @@
 			"email": "jefftulsa@gmail.com",
 			"role": "Documentation and marketing"
 		}
-
-	],
-	"support": {
-		"issues": "https://github.com/yiisoft/yii/issues?state=open",
-		"forum": "http://www.yiiframework.com/forum/",
-		"wiki": "http://www.yiiframework.com/wiki/",
-		"irc": "irc://irc.freenode.net/yii",
-		"source": "https://github.com/yiisoft/yii"
-	},
-	"bin": [
-		"framework/yiic"
 	],
 	"require": {
-		"php": "^7.2||^7.3||^7.4",
+		"php": "^7.2 || ^7.3 || ^7.4",
 		"php-http/message": "^1.5"
+	},
+	"require-dev": {
+		"localheinz/composer-normalize": "^1.3",
+		"phpseclib/mcrypt_compat": "^1.0",
+		"phpstan/phpstan": "^0.11.15",
+		"phpunit/phpunit": "^7.0",
+		"rector/rector": "^0.5.12",
+		"roave/security-advisories": "dev-master",
+		"vimeo/psalm": "^3.6",
+		"zendframework/zend-diactoros": "^2.1"
 	},
 	"suggest": {
 		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager",
 		"phpseclib/mcrypt_compat": "To provide mcrypt polyfill when extension is unavailable"
 	},
+	"config": {
+		"discard-changes": true,
+		"sort-packages": true
+	},
 	"autoload": {
-		"classmap" : [
+		"classmap": [
 			"framework/base/",
 			"framework/caching/",
 			"framework/cli/commands/",
@@ -95,19 +101,21 @@
 		]
 	},
 	"autoload-dev": {
-		"classmap": [
-			"tests/TestApplication.php"
-		],
 		"psr-4": {
 			"yii1\\tests\\": "tests/"
-		}
+		},
+		"classmap": [
+			"tests/TestApplication.php"
+		]
 	},
-	"require-dev": {
-		"phpunit/phpunit": "^7.0",
-		"phpseclib/mcrypt_compat": "^1.0",
-		"zendframework/zend-diactoros": "^2.1",
-		"rector/rector": "^0.5.12",
-		"phpstan/phpstan": "^0.11.15",
-		"roave/security-advisories": "dev-master"
+	"bin": [
+		"framework/yiic"
+	],
+	"support": {
+		"issues": "https://github.com/yiisoft/yii/issues?state=open",
+		"forum": "http://www.yiiframework.com/forum/",
+		"wiki": "http://www.yiiframework.com/wiki/",
+		"irc": "irc://irc.freenode.net/yii",
+		"source": "https://github.com/yiisoft/yii"
 	}
 }

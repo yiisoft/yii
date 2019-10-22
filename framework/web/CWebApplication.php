@@ -147,7 +147,10 @@ class CWebApplication extends CApplication
 	/**
 	 * Registers the core application components.
 	 * This method overrides the parent implementation by registering additional core components.
+	 *
 	 * @see setComponents
+	 *
+	 * @return void
 	 */
 	protected function registerCoreComponents()
 	{
@@ -263,6 +266,8 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $value the theme name
+	 *
+	 * @return void
 	 */
 	public function setTheme($value)
 	{
@@ -406,6 +411,8 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param CController $value the currently active controller
+	 *
+	 * @return void
 	 */
 	public function setController($value)
 	{
@@ -425,7 +432,10 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $value the directory that contains the controller classes.
+	 *
 	 * @throws CException if the directory is invalid
+	 *
+	 * @return void
 	 */
 	public function setControllerPath($value)
 	{
@@ -447,7 +457,10 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $path the root directory of view files.
+	 *
 	 * @throws CException if the directory does not exist.
+	 *
+	 * @return void
 	 */
 	public function setViewPath($path)
 	{
@@ -469,7 +482,10 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $path the root directory of system view files.
+	 *
 	 * @throws CException if the directory does not exist.
+	 *
+	 * @return void
 	 */
 	public function setSystemViewPath($path)
 	{
@@ -491,7 +507,10 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $path the root directory of layout files.
+	 *
 	 * @throws CException if the directory does not exist.
+	 *
+	 * @return void
 	 */
 	public function setLayoutPath($path)
 	{
@@ -505,8 +524,10 @@ class CWebApplication extends CApplication
 	 * This method is invoked before the currently requested controller action and all its filters
 	 * are executed. You may override this method with logic that needs to be done
 	 * before all controller actions.
+	 *
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
+	 *
 	 * @return bool whether the action should be executed.
 	 */
 	public function beforeControllerAction($controller,$action)
@@ -519,8 +540,11 @@ class CWebApplication extends CApplication
 	 * This method is invoked after the currently requested controller action and all its filters
 	 * are executed. You may override this method with logic that needs to be done
 	 * after all controller actions.
+	 *
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
+	 *
+	 * @return void
 	 */
 	public function afterControllerAction($controller,$action)
 	{
@@ -548,6 +572,8 @@ class CWebApplication extends CApplication
 	/**
 	 * Initializes the application.
 	 * This method overrides the parent implementation by preloading the 'request' component.
+	 *
+	 * @return void
 	 */
 	protected function init()
 	{

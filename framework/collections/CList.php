@@ -74,6 +74,8 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 
 	/**
 	 * @param bool $value whether this list is read-only or not
+	 *
+	 * @return void
 	 */
 	protected function setReadOnly($value)
 	{
@@ -83,7 +85,8 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	/**
 	 * Returns an iterator for traversing the items in the list.
 	 * This method is required by the interface IteratorAggregate.
-	 * @return Iterator an iterator for traversing the items in the list.
+	 *
+	 * @return CListIterator an iterator for traversing the items in the list.
 	 */
 	public function getIterator()
 	{
@@ -142,9 +145,13 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * Inserts an item at the specified position.
 	 * Original item at the position and the next items
 	 * will be moved one step towards the end.
+	 *
 	 * @param int $index the specified position.
 	 * @param mixed $item new item
+	 *
 	 * @throws CException If the index specified exceeds the bound or the list is read-only
+	 *
+	 * @return void
 	 */
 	public function insertAt($index,$item)
 	{
@@ -169,8 +176,11 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * Removes an item from the list.
 	 * The list will first search for the item.
 	 * The first item found will be removed from the list.
+	 *
 	 * @param mixed $item the item to be removed.
-	 * @return int the index at which the item is being removed
+	 *
+	 * @return false|int the index at which the item is being removed
+	 *
 	 * @throws CException If the item does not exist
 	 */
 	public function remove($item)
@@ -216,6 +226,8 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 
 	/**
 	 * Removes all items in the list.
+	 *
+	 * @return void
 	 */
 	public function clear()
 	{
@@ -255,8 +267,12 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	/**
 	 * Copies iterable data into the list.
 	 * Note, existing data in the list will be cleared first.
+	 *
 	 * @param iterable|\CList $data the data to be copied from, must be an array or object implementing Traversable
+	 *
 	 * @throws CException If data is neither an array nor a Traversable.
+	 *
+	 * @return void
 	 */
 	public function copyFrom($data)
 	{
@@ -276,8 +292,12 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	/**
 	 * Merges iterable data into the map.
 	 * New data will be appended to the end of the existing data.
+	 *
 	 * @param iterable|\CList $data the data to be merged with, must be an array or object implementing Traversable
+	 *
 	 * @throws CException If data is neither an array nor an iterator.
+	 *
+	 * @return void
 	 */
 	public function mergeWith($data)
 	{

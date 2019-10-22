@@ -9,12 +9,18 @@ class TestApplication extends CWebApplication
 		parent::__construct($config);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function reset()
 	{
 		$this->removeDirectory($this->getRuntimePath());
 		$this->removeDirectory($this->getAssetPath());
 	}
 
+	/**
+	 * @return void
+	 */
 	protected function removeDirectory($path)
 	{
 		if(is_dir($path) && ($folder=@opendir($path))!==false)
@@ -32,6 +38,9 @@ class TestApplication extends CWebApplication
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getAssetPath()
 	{
 		return dirname(__FILE__).DIRECTORY_SEPARATOR.'assets';
@@ -47,15 +56,24 @@ class TestApplication extends CWebApplication
 		return dirname(__FILE__);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setBasePath($value)
 	{
 	}
 
+	/**
+	 * @return void
+	 */
 	public function loadGlobalState()
 	{
 		parent::loadGlobalState();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function saveGlobalState()
 	{
 		parent::saveGlobalState();

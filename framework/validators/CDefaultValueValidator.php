@@ -32,8 +32,11 @@ class CDefaultValueValidator extends CValidator
 
 	/**
 	 * Validates the attribute of the object.
+	 *
 	 * @param CModel $object the object being validated
 	 * @param string $attribute the attribute being validated
+	 *
+	 * @return void
 	 */
 	protected function validateAttribute($object,$attribute)
 	{

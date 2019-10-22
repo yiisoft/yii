@@ -54,7 +54,10 @@ class CDbTransaction extends CComponent
 
 	/**
 	 * Commits a transaction.
+	 *
 	 * @throws CException if the transaction or the DB connection is not active.
+	 *
+	 * @return void
 	 */
 	public function commit()
 	{
@@ -70,7 +73,10 @@ class CDbTransaction extends CComponent
 
 	/**
 	 * Rolls back a transaction.
+	 *
 	 * @throws CException if the transaction or the DB connection is not active.
+	 *
+	 * @return void
 	 */
 	public function rollback()
 	{
@@ -102,6 +108,8 @@ class CDbTransaction extends CComponent
 
 	/**
 	 * @param bool $value whether this transaction is active
+	 *
+	 * @return void
 	 */
 	protected function setActive($value)
 	{

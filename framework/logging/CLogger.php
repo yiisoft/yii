@@ -86,10 +86,14 @@ class CLogger extends CComponent
 	/**
 	 * Logs a message.
 	 * Messages logged by this method may be retrieved back via {@link getLogs}.
+	 *
 	 * @param string $message message to be logged
 	 * @param string $level level of the message (e.g. 'Trace', 'Warning', 'Error'). It is case-insensitive.
 	 * @param string $category category of the message (e.g. 'system.web'). It is case-insensitive.
+	 *
 	 * @see getLogs
+	 *
+	 * @return void
 	 */
 	public function log($message,$level='info',$category='application')
 	{
@@ -291,6 +295,9 @@ class CLogger extends CComponent
 		return $results;
 	}
 
+	/**
+	 * @return void
+	 */
 	private function calculateTimings()
 	{
 		$this->_timings=array();
@@ -332,8 +339,12 @@ class CLogger extends CComponent
 	 * Removes all recorded messages from the memory.
 	 * This method will raise an {@link onFlush} event.
 	 * The attached event handlers can process the log messages before they are removed.
+	 *
 	 * @param bool $dumpLogs whether to process the logs immediately as they are passed to log route
+	 *
 	 * @since 1.1.0
+	 *
+	 * @return void
 	 */
 	public function flush($dumpLogs=false)
 	{
@@ -344,8 +355,12 @@ class CLogger extends CComponent
 
 	/**
 	 * Raises an <code>onFlush</code> event.
+	 *
 	 * @param CEvent $event the event parameter
+	 *
 	 * @since 1.1.0
+	 *
+	 * @return void
 	 */
 	public function onFlush($event)
 	{

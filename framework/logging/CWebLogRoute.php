@@ -45,7 +45,10 @@ class CWebLogRoute extends CLogRoute
 
 	/**
 	 * Displays the log messages.
+	 *
 	 * @param array $logs list of log messages
+	 *
+	 * @return void
 	 */
 	public function processLogs($logs)
 	{
@@ -54,8 +57,11 @@ class CWebLogRoute extends CLogRoute
 
 	/**
 	 * Renders the view.
+	 *
 	 * @param string $view the view name (file name without extension). The file is assumed to be located under framework/data/views.
 	 * @param array $data data to be passed to the view
+	 *
+	 * @return void
 	 */
 	protected function render($view,$data)
 	{

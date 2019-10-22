@@ -35,10 +35,14 @@ class CTypedList extends CList
 	 * Inserts an item at the specified position.
 	 * This method overrides the parent implementation by
 	 * checking the item to be inserted is of certain type.
+	 *
 	 * @param int $index the specified position.
 	 * @param mixed $item new item
+	 *
 	 * @throws CException If the index specified exceeds the bound,
 	 * the list is read-only or the element is not of the expected type.
+	 *
+	 * @return void
 	 */
 	public function insertAt($index,$item)
 	{

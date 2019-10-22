@@ -51,7 +51,10 @@ class CEmailLogRoute extends CLogRoute
 
 	/**
 	 * Sends log messages to specified email addresses.
+	 *
 	 * @param array $logs list of log messages
+	 *
+	 * @return void
 	 */
 	protected function processLogs($logs)
 	{
@@ -68,9 +71,12 @@ class CEmailLogRoute extends CLogRoute
 
 	/**
 	 * Sends an email.
+	 *
 	 * @param string $email single email address
 	 * @param string $subject email subject
 	 * @param string $message email content
+	 *
+	 * @return void
 	 */
 	protected function sendEmail($email,$subject,$message)
 	{
@@ -109,6 +115,8 @@ class CEmailLogRoute extends CLogRoute
 	/**
 	 * @param mixed $value list of destination email addresses. If the value is
 	 * a string, it is assumed to be comma-separated email addresses.
+	 *
+	 * @return void
 	 */
 	public function setEmails($value)
 	{
@@ -128,6 +136,8 @@ class CEmailLogRoute extends CLogRoute
 
 	/**
 	 * @param string $value email subject.
+	 *
+	 * @return void
 	 */
 	public function setSubject($value)
 	{
@@ -144,6 +154,8 @@ class CEmailLogRoute extends CLogRoute
 
 	/**
 	 * @param string $value send from address of the email
+	 *
+	 * @return void
 	 */
 	public function setSentFrom($value)
 	{
@@ -162,7 +174,10 @@ class CEmailLogRoute extends CLogRoute
 	/**
 	 * @param mixed $value list of additional headers to use when sending an email.
 	 * If the value is a string, it is assumed to be line break separated headers.
+	 *
 	 * @since 1.1.4
+	 *
+	 * @return void
 	 */
 	public function setHeaders($value)
 	{

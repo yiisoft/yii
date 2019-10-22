@@ -30,7 +30,10 @@ class CSysLogRoute extends CLogRoute
 
 	/**
 	 * Sends log messages to syslog.
+	 *
 	 * @param array $logs list of log messages.
+	 *
+	 * @return void
 	 */
 	protected function processLogs($logs)
 	{

@@ -46,6 +46,8 @@ class CFormModel extends CModel
 	 * This method is invoked in the constructor right after {@link scenario} is set.
 	 * You may override this method to provide code that is needed to initialize the model (e.g. setting
 	 * initial property values.)
+	 *
+	 * @return void
 	 */
 	public function init()
 	{

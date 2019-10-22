@@ -157,7 +157,7 @@ abstract class CCodeModel extends CFormModel
 	 *     ...rules for the child class...
 	 * ));
 	 * </pre>
-	 * @return array validation rules
+	 * @return array[] validation rules
 	 */
 	public function rules()
 	{
@@ -172,8 +172,11 @@ abstract class CCodeModel extends CFormModel
 	 * Validates the template selection.
 	 * This method validates whether the user selects an existing template
 	 * and the template contains all required template files as specified in {@link requiredTemplates}.
+	 *
 	 * @param string $attribute the attribute to be validated
 	 * @param array $params validation parameters
+	 *
+	 * @return void
 	 */
 	public function validateTemplate($attribute,$params)
 	{
@@ -209,7 +212,8 @@ abstract class CCodeModel extends CFormModel
 	 *     ...labels for the child class attributes...
 	 * ));
 	 * </pre>
-	 * @return array the attribute labels
+	 *
+	 * @return string[]|array<string, string> the attribute labels
 	 */
 	public function attributeLabels()
 	{
@@ -221,8 +225,8 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * Returns a list of code templates that are required.
 	 * Derived classes usually should override this method.
-	 * @return array list of code templates that are required. They should be file paths
-	 * relative to {@link templatePath}.
+	 *
+	 * @return string[] list of code templates that are required. They should be file paths relative to {@link templatePath}.
 	 */
 	public function requiredTemplates()
 	{
@@ -231,6 +235,8 @@ abstract class CCodeModel extends CFormModel
 
 	/**
 	 * Saves the generated code into files.
+	 *
+	 * @return bool
 	 */
 	public function save()
 	{
@@ -246,6 +252,7 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * Returns the message to be displayed when the newly generated code is saved successfully.
 	 * Child classes should override this method if the message needs to be customized.
+	 *
 	 * @return string the message to be displayed when the newly generated code is saved successfully.
 	 */
 	public function successMessage()
@@ -256,6 +263,7 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * Returns the message to be displayed when some error occurred during code file saving.
 	 * Child classes should override this method if the message needs to be customized.
+	 *
 	 * @return string the message to be displayed when some error occurred during code file saving.
 	 */
 	public function errorMessage()
@@ -347,8 +355,11 @@ abstract class CCodeModel extends CFormModel
 	 * The "sticky" validator.
 	 * This validator does not really validate the attributes.
 	 * It actually saves the attribute value in a file to make it sticky.
+	 *
 	 * @param string $attribute the attribute to be validated
 	 * @param array $params the validation parameters
+	 *
+	 * @return void
 	 */
 	public function sticky($attribute,$params)
 	{
@@ -358,6 +369,8 @@ abstract class CCodeModel extends CFormModel
 
 	/**
 	 * Loads sticky attributes from a file and populates them into the model.
+	 *
+	 * @return void
 	 */
 	public function loadStickyAttributes()
 	{
@@ -380,6 +393,8 @@ abstract class CCodeModel extends CFormModel
 
 	/**
 	 * Saves sticky attributes into a file.
+	 *
+	 * @return void
 	 */
 	public function saveStickyAttributes()
 	{
@@ -472,8 +487,11 @@ abstract class CCodeModel extends CFormModel
 
 	/**
 	 * Validates an attribute to make sure it is not taking a PHP reserved keyword.
+	 *
 	 * @param string $attribute the attribute to be validated
 	 * @param array $params validation parameters
+	 *
+	 * @return void
 	 */
 	public function validateReservedWord($attribute,$params)
 	{

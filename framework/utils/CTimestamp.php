@@ -35,9 +35,11 @@ class CTimestamp
 	/**
 	 * Gets day of week, 0 = Sunday,... 6=Saturday.
 	 * Algorithm from PEAR::Date_Calc
+	 *
 	 * @param int $year year
 	 * @param int $month month
 	 * @param int $day day
+	 *
 	 * @return int day of week
 	 */
 	public static function getDayofWeek($year, $month, $day)
@@ -80,7 +82,7 @@ class CTimestamp
 		        floor(($year / 100) / 4) - 2 *
 		        floor($year / 100) + 77 + $greg_correction;
 
-		return $day - 7 * floor($day / 7);
+		return $day - 7 * (int)floor($day / 7);
 	}
 
 	/**
@@ -358,6 +360,7 @@ class CTimestamp
 	/**
 	 * Generates a timestamp.
 	 * This is the same as the PHP function {@link mktime http://php.net/manual/en/function.mktime.php}.
+	 *
 	 * @param int $hr hour
 	 * @param int $min minute
 	 * @param int $sec second
@@ -365,7 +368,8 @@ class CTimestamp
 	 * @param int|boolean $day day
 	 * @param int|boolean $year year
 	 * @param bool $is_gmt whether this is GMT time. If true, gmmktime() will be used.
-	 * @return int|float a timestamp given a local time.
+	 *
+	 * @return false|int a timestamp given a local time.
 	 */
 	public static function getTimestamp($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_gmt=false)
 	{
