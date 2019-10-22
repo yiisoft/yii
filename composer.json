@@ -64,7 +64,10 @@
 		"php-http/message": "^1.5"
 	},
 	"replace": {
-		"yiisoft/yii": "<2"
+		"yiisoft/yii": ">1.1.21 <2"
+	},
+	"conflict": {
+		"yiisoft/yii": ">1.1.21 <2"
 	},
 	"require-dev": {
 		"localheinz/composer-normalize": "^1.3",
