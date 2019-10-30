@@ -755,7 +755,7 @@ class CDbCommandBuilder extends CComponent
 
 	/**
 	 * Generates the expression for selecting rows of specified primary key values.
-	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+	 * @param CDbTableSchema|string $table the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param mixed $columnName the column name(s). It can be either a string indicating a single column
 	 * or an array of column names. If the latter, it stands for a composite key.
 	 * @param array $values list of key values to be selected within
@@ -769,6 +769,7 @@ class CDbCommandBuilder extends CComponent
 			return '0=1';
 
 		$this->ensureTable($table);
+		assert($table instanceof CDbTableSchema);
 
 		if($prefix===null)
 			$prefix=$table->rawName.'.';
@@ -855,7 +856,7 @@ class CDbCommandBuilder extends CComponent
 	/**
 	 * Checks if the parameter is a valid table schema.
 	 * If it is a string, the corresponding table schema will be retrieved.
-	 * @param mixed $table table schema ({@link CDbTableSchema}) or table name (string).
+	 * @param CDbTableSchema|string $table table schema ({@link CDbTableSchema}) or table name (string).
 	 * If this refers to a valid table name, this parameter will be returned with the corresponding table schema.
 	 * @throws CDbException if the table name is not valid
 	 */

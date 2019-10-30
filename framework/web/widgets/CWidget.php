@@ -199,7 +199,7 @@ class CWidget extends CBaseController
 	 */
 	public function getViewFile($viewName)
 	{
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yii::app()->getViewRenderer()) instanceof CViewRenderer)
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';

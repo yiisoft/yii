@@ -75,7 +75,7 @@ class CBehavior extends CComponent implements IBehavior
 	}
 
 	/**
-	 * @return CComponent the owner component that this behavior is attached to.
+	 * @return \CActiveRecord the owner component that this behavior is attached to.
 	 */
 	public function getOwner()
 	{

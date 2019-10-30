@@ -91,7 +91,7 @@ class CGettextMessageSource extends CMessageSource
         else
         	$messageFile.=self::PO_FILE_EXT;
 
-		if ($this->cachingDuration > 0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if ($this->cachingDuration > 0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID)) instanceof ICache)
 		{
 			$key = self::CACHE_KEY_PREFIX . $messageFile . "." . $category;
 			if (($data=$cache->get($key)) !== false)
@@ -105,7 +105,7 @@ class CGettextMessageSource extends CMessageSource
 			else
 				$file=new CGettextPoFile();
 			$messages=$file->load($messageFile,$category);
-			if(isset($cache, $key))
+			if(isset($cache, $key) && $cache instanceof ICache)
 			{
 				$dependency=new CFileCacheDependency($messageFile);
 				$cache->set($key,serialize($messages),$this->cachingDuration,$dependency);

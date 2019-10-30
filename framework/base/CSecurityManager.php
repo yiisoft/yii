@@ -368,6 +368,7 @@ class CSecurityManager extends CApplicationComponent
 		if($this->strlen($key)<64)
 			$key=str_pad($key,64,chr(0));
 		$key=$this->substr($key,0,64);
+		assert($key !== false);
 		return $func((str_repeat(chr(0x5C), 64) ^ $key) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ $key) . $data)));
 	}
 
@@ -647,6 +648,7 @@ class CSecurityManager extends CApplicationComponent
 	{
 		// The number of bytes in a mask is always equal to the number of bytes in a token.
 		$mask=$this->generateRandomString($this->strlen($token));
+        assert($mask !== false);
 		return strtr(base64_encode($mask.($mask^$token)),'+/','-_');
 	}
 

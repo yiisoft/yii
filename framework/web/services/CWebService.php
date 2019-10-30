@@ -142,7 +142,7 @@ class CWebService extends CComponent
 	public function generateWsdl()
 	{
 		$providerClass=is_object($this->provider) ? get_class($this->provider) : Yii::import($this->provider,true);
-		if($this->wsdlCacheDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->wsdlCacheDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID)) instanceof ICache)
 		{
 			$key='Yii.CWebService.'.$providerClass.$this->serviceUrl.$this->encoding;
 			if(($wsdl=$cache->get($key))!==false)
@@ -150,7 +150,7 @@ class CWebService extends CComponent
 		}
 		$generator=Yii::createComponent($this->generatorConfig);
 		$wsdl=$generator->generateWsdl($providerClass,$this->serviceUrl,$this->encoding);
-		if(isset($key))
+		if(isset($key, $cache) && $cache instanceof ICache)
 			$cache->set($key,$wsdl,$this->wsdlCacheDuration);
 		return $wsdl;
 	}

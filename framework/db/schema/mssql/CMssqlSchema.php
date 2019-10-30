@@ -356,7 +356,7 @@ EOD;
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @param bool $includeViews whether to include views in the result. Defaults to true.
-	 * @return array all table names in the database.
+	 * @return string[] all table names in the database.
 	 */
 	protected function findTableNames($schema='',$includeViews=true)
 	{

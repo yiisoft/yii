@@ -679,6 +679,7 @@ class CController extends CBaseController
 					return false;
 				if(!empty($module->layout))
 					break;
+                /** @var \CWebModule $module */
 				$module=$module->getParentModule();
 			}
 			if($module===null)
@@ -725,7 +726,7 @@ class CController extends CBaseController
 		if($moduleViewPath===null)
 			$moduleViewPath=$basePath;
 
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yii::app()->getViewRenderer()) instanceof CViewRenderer)
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';

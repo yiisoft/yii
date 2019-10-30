@@ -45,6 +45,8 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.widgets
  * @since 1.0
+ *
+ * @property mixed $options
  */
 class CHtmlPurifier extends COutputProcessor
 {

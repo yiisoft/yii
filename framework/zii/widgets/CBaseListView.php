@@ -20,7 +20,7 @@
 abstract class CBaseListView extends CWidget
 {
 	/**
-	 * @var IDataProvider the data provider for the view.
+	 * @var \CDataProvider the data provider for the view.
 	 */
 	public $dataProvider;
 	/**

@@ -1176,7 +1176,7 @@ class CHttpRequest extends CApplicationComponent
 
 			//range requests starts from "-", so it means that data must be dumped the end point.
 			if($range[0]==='-')
-				$contentStart=$fileSize-substr($range,1);
+				$contentStart=$fileSize-(int)substr($range,1);
 			else
 			{
 				$range=explode('-',$range);

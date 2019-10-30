@@ -9,7 +9,7 @@
 class CStatElement
 {
     /**
-     * @var CActiveRelation the relation represented by this tree node
+     * @var CStatRelation the relation represented by this tree node
      */
     public $relation;
 

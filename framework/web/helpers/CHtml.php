@@ -91,7 +91,7 @@ class CHtml
 	 */
 	public static $renderSpecialAttributesValue=true;
 	/**
-	 * @var callback the generator used in the {@link CHtml::modelName()} method.
+	 * @var callable the generator used in the {@link CHtml::modelName()} method.
 	 * @since 1.1.14
 	 */
 	private static $_modelNameConverter;

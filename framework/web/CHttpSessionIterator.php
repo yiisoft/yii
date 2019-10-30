@@ -28,10 +28,6 @@ class CHttpSessionIterator implements Iterator
 	 */
 	private $_key;
 
-	/**
-	 * Constructor.
-	 * @param array the data to be iterated through
-	 */
 	public function __construct()
 	{
 		$this->_keys=array_keys($_SESSION);

@@ -231,7 +231,7 @@ class CCubridSchema extends CDbSchema
 	 * Returns all table names in the database.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
-	 * @return array all table names in the database.
+	 * @return string[] all table names in the database.
 	 */
 	protected function findTableNames($schema='')
 	{

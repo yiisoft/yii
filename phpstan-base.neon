@@ -1,0 +1,33 @@
+includes:
+  - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+  - phpstan-ignore-l0.neon
+  - phpstan-ignore-l1.neon
+parameters:
+  bootstrap: tests/bootstrap.php
+  reportUnmatchedIgnoredErrors: false
+  inferPrivatePropertyTypeFromConstructor: true
+  autoload_directories:
+    - tests/framework/
+    - framework/vendors/
+  dynamicConstantNames:
+    - YII_TRACE_LEVEL
+    - YII_DEBUG
+  earlyTerminatingMethodCalls:
+    CController:
+      - redirect
+    CApplication:
+      - end
+    CConsoleCommand:
+      - usageError
+  excludes_analyse:
+    - '*/views/*'
+    - '*/assets/*'
+    - '*/runtime/*'
+    - '*/vendors/*'
+    - '*/gii/generators/*/templates/*'
+    - '*/gii/*'
+  ignoreErrors:
+    - "/Call to an undefined method PDO::cubrid_schema()/"
+    - '#Call to method (newImage|queryFontMetrics|annotateImage|setImageFormat|getImageBlob|queryFormats)\(\) on an unknown class Imagick#'
+    - '#Call to method (setFont|setFontSize|setFillColor)\(\) on an unknown class ImagickDraw#'
+    - '#Call to method (setPersistence|setObject|setClass|handle|fault)\(\) on an unknown class SoapServer#'

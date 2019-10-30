@@ -151,7 +151,7 @@ class CLinkPager extends CBasePager
 			return array();
 
 		list($beginPage,$endPage)=$this->getPageRange();
-		$currentPage=$this->getCurrentPage(false); // currentPage is calculated in getPageRange()
+		$currentPage=$this->getCurrentPage(); // currentPage is calculated in getPageRange()
 		$buttons=array();
 		
 		// first page

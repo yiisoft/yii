@@ -33,5 +33,6 @@ before_script:
   - phpenv config-rm xdebug.ini || echo
 
 script:
-  - vendor/bin/phpstan analyse --memory-limit=-1
+  - vendor/bin/phpstan analyse --memory-limit=-1 -c phpstan.neon
+  - vendor/bin/phpstan analyse --memory-limit=-1 -c phpstan-tests.neon
   - cd tests && ../vendor/bin/phpunit --verbose --colors --exclude-group mssql,oci framework

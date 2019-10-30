@@ -76,7 +76,7 @@ class CDbMessageSource extends CMessageSource
 	 */
 	protected function loadMessages($category,$language)
 	{
-		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID)) instanceof ICache)
 		{
 			$key=self::CACHE_KEY_PREFIX.'.messages.'.$category.'.'.$language;
 			if(($data=$cache->get($key))!==false)
@@ -85,7 +85,7 @@ class CDbMessageSource extends CMessageSource
 
 		$messages=$this->loadMessagesFromDb($category,$language);
 
-		if(isset($cache, $key))
+		if(isset($cache, $key) && $cache instanceof ICache)
 			$cache->set($key,serialize($messages),$this->cachingDuration);
 
 		return $messages;

@@ -12,10 +12,10 @@
  * CDbSchema is the base class for retrieving metadata information.
  *
  * @property CDbConnection $dbConnection Database connection. The connection is active.
- * @property array $tables The metadata for all tables in the database.
+ * @property CDbTableSchema[] $tables The metadata for all tables in the database.
  * Each array element is an instance of {@link CDbTableSchema} (or its child class).
  * The array keys are table names.
- * @property array $tableNames All table names in the database.
+ * @property string[] $tableNames All table names in the database.
  * @property CDbCommandBuilder $commandBuilder The SQL command builder for this connection.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -87,8 +87,12 @@ abstract class CDbSchema extends CComponent
 				$this->_connection->queryCachingDuration=0;
 			}
 
-			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
-			{
+			if(
+			    !isset($this->_cacheExclude[$name])
+                && ($duration=$this->_connection->schemaCachingDuration)>0
+                && $this->_connection->schemaCacheID!==false
+                && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID)) instanceof ICache
+            ) {
 				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 				$table=$cache->get($key);
 				if($refresh===true || $table===false)
@@ -112,7 +116,7 @@ abstract class CDbSchema extends CComponent
 	/**
 	 * Returns the metadata for all tables in the database.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
-	 * @return array the metadata for all tables in the database.
+	 * @return CDbTableSchema[] the metadata for all tables in the database.
 	 * Each array element is an instance of {@link CDbTableSchema} (or its child class).
 	 * The array keys are table names.
 	 */
@@ -131,7 +135,7 @@ abstract class CDbSchema extends CComponent
 	 * Returns all table names in the database.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
-	 * @return array all table names in the database.
+	 * @return string[] all table names in the database.
 	 */
 	public function getTableNames($schema='')
 	{
@@ -158,8 +162,11 @@ abstract class CDbSchema extends CComponent
 	 */
 	public function refresh()
 	{
-		if(($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
-		{
+		if (
+		    ($duration=$this->_connection->schemaCachingDuration)>0
+            && $this->_connection->schemaCacheID!==false
+            && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID)) instanceof ICache
+        ) {
 			foreach(array_keys($this->_tables) as $name)
 			{
 				if(!isset($this->_cacheExclude[$name]))
@@ -302,7 +309,7 @@ abstract class CDbSchema extends CComponent
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @throws CDbException if current schema does not support fetching all table names
-	 * @return array all table names in the database.
+	 * @return string[] all table names in the database.
 	 */
 	protected function findTableNames($schema='')
 	{

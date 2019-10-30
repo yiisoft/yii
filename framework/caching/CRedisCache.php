@@ -163,7 +163,7 @@ class CRedisCache extends CCache
 			case '$': // Bulk replies
 				if($line=='-1')
 					return null;
-				$length=$line+2;
+				$length=(int)$line+2;
 				$data='';
 				while($length>0)
 				{

@@ -25,7 +25,7 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $lastModified;
 	/**
-	 * @var string|callback PHP Expression for the last modification date.
+	 * @var string|callable PHP Expression for the last modification date.
 	 * If set, this takes precedence over {@link lastModified}.
 	 *
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
@@ -40,7 +40,7 @@ class CHttpCacheFilter extends CFilter
 	 */
 	public $etagSeed;
 	/**
-	 * @var string|callback Expression for the ETag seed.
+	 * @var string|callable Expression for the ETag seed.
 	 * If set, this takes precedence over {@link etagSeed}.
 	 *
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.

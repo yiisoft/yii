@@ -137,7 +137,7 @@ class CPhpMessageSource extends CMessageSource
 	{
 		$messageFile=$this->getMessageFile($category,$language);
 
-		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID)) instanceof ICache)
 		{
 			$key=self::CACHE_KEY_PREFIX . $messageFile;
 			if(($data=$cache->get($key))!==false)
@@ -149,7 +149,7 @@ class CPhpMessageSource extends CMessageSource
 			$messages=include($messageFile);
 			if(!is_array($messages))
 				$messages=array();
-			if(isset($cache, $key))
+			if(isset($cache, $key) && $cache instanceof ICache)
 			{
 				$dependency=new CFileCacheDependency($messageFile);
 				$cache->set($key,serialize($messages),$this->cachingDuration,$dependency);

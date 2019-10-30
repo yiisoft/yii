@@ -1,0 +1,6 @@
+includes:
+  - phpstan-base.neon
+  - vendor/phpstan/phpstan/conf/config.level1.neon
+parameters:
+  paths:
+    - tests/

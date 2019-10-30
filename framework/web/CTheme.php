@@ -124,6 +124,7 @@ class CTheme extends CComponent
 					return false;
 				if(!empty($module->layout))
 					break;
+                /** @var \CWebModule $module */
 				$module=$module->getParentModule();
 			}
 			if($module===null)

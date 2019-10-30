@@ -103,13 +103,12 @@ abstract class CBasePager extends CWidget
 	}
 
 	/**
-	 * @param bool $recalculate whether to recalculate the current page based on the page size and item count.
 	 * @return int the zero-based index of the current page. Defaults to 0.
 	 * @see CPagination::getCurrentPage
 	 */
-	public function getCurrentPage($recalculate=true)
+	public function getCurrentPage()
 	{
-		return $this->getPages()->getCurrentPage($recalculate);
+		return $this->getPages()->getCurrentPage();
 	}
 
 	/**

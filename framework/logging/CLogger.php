@@ -253,7 +253,7 @@ class CLogger extends CComponent
 				$pid=getmypid();
 				exec("ps -eo%mem,rss,pid | grep $pid", $output);
 				$output=explode("  ",$output[0]);
-				return isset($output[1]) ? $output[1]*1024 : 0;
+				return isset($output[1]) ? (int)$output[1]*1024 : 0;
 			}
 		}
 	}

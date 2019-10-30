@@ -18,11 +18,11 @@ class CJoinElement
      */
     public $relation;
     /**
-     * @var CActiveRelation the master relation
+     * @var \CJoinElement the master relation
      */
     public $master;
     /**
-     * @var CActiveRelation the slave relation
+     * @var \CJoinElement the slave relation
      */
     public $slave;
     /**
@@ -34,7 +34,7 @@ class CJoinElement
      */
     public $records = [];
     /**
-     * @var array list of child join elements
+     * @var CJoinElement[] list of child join elements
      */
     public $children = [];
     /**
@@ -55,10 +55,12 @@ class CJoinElement
      * @var CDbCommandBuilder $_builder
      */
     private $_builder;
+    /** @var \CJoinElement|null */
     private $_parent;
     private $_pkAlias;                // string or name=>alias
     private $_columnAliases = [];    // name=>alias
     private $_joined = false;
+    /** @var \CDbTableSchema */
     private $_table;
     private $_related = [];            // PK, relation name, related PK => true
 
@@ -225,6 +227,7 @@ class CJoinElement
             $baseRecord->addRelatedRecord($child->relation->name, reset($child->records), false);
         } else // has_many and many_many
         {
+            assert($child->relation instanceof CHasManyRelation || $child->relation instanceof CManyManyRelation);
             foreach ($child->records as $record) {
                 if ($child->relation->index !== null) {
                     $index = $record->{$child->relation->index};
@@ -493,7 +496,7 @@ class CJoinElement
             $child->afterFind();
         }
 
-        $this->children = null;
+        $this->children = [];
     }
 
     /**
@@ -603,6 +606,7 @@ class CJoinElement
                     $fpk = 0;
                 }
                 if (!isset($this->_related[$pk][$child->relation->name][$fpk])) {
+                    assert($child->relation instanceof CHasManyRelation);
                     if ($childRecord instanceof CActiveRecord && $child->relation->index !== null) {
                         $index = $childRecord->{$child->relation->index};
                     } else {

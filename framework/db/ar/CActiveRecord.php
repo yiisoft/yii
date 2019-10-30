@@ -1843,6 +1843,7 @@ abstract class CActiveRecord extends CModel
 			return $builder->createFindCommand($table,$criteria,$this->getTableAlias(false, false))->queryRow()!==false;
 		else
 		{
+		    assert($criteria instanceof CDbCriteria);
 			$criteria->select='*';
 			$finder=$this->getActiveFinder($criteria->with);
 			return $finder->count($criteria)>0;
