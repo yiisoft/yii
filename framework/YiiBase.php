@@ -440,7 +440,8 @@ class YiiBase
 		else
 		{
 			// include class file relying on include_path
-			if(strpos($className,'\\')===false)  // class without namespace
+			$trimmedClassName = ltrim($className, '\\');
+			if(strpos($trimmedClassName,'\\')===false)  // class without namespace
 			{
 				if(self::$enableIncludePath===false)
 				{
