@@ -48,6 +48,11 @@ class CHttpCookie extends CComponent
 	 * Note, this property is only effective for PHP 5.2.0 or above.
 	 */
 	public $httpOnly=false;
+    /**
+     * @var array Additional setcookie options like "SameSite".
+     * This property only works for PHP 7.3.0 or above.
+     */
+	public $options=array();
 
 	/**
 	 * Constructor.

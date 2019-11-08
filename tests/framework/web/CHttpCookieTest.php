@@ -17,18 +17,22 @@ class CHttpCookieTest extends CTestCase
 		$this->assertEquals('/',$cookie->path,'Default value for CHttpCookie::$path has been touched');
 		$this->assertFalse($cookie->secure,'Default value for CHttpCookie::$secure has been touched');
 		$this->assertFalse($cookie->httpOnly,'Default value for CHttpCookie::$httpOnly has been touched');
+		$this->assertEquals(array(),$cookie->options,'Default value for CHttpCookie::$options has been touched');
 		$options=array(
 			'expire'=>123123,
 			'httpOnly'=>true,
+			'options'=>array('SameSite'=>'Strict')
 		);
 		// create cookie with options
 		$cookie2=new CHttpCookie('name2','value2',$options);
 		$this->assertEquals($options['expire'],$cookie2->expire,'Configure inside the Constructor has been failed');
 		$this->assertEquals($options['httpOnly'],$cookie2->httpOnly,'Configure inside the Constructor has been failed');
+		$this->assertEquals($options['options'],$cookie2->options,'Configure inside the Constructor has been failed');
 		//configure afterwards
 		$cookie->configure($options);		
 		$this->assertEquals($options['expire'],$cookie->expire);
 		$this->assertEquals($options['httpOnly'],$cookie->httpOnly);
+		$this->assertEquals($options['options'],$cookie->options);
 		// Set name and value via configure (should have no effect)
 		$name=$cookie->name;
 		$cookie->configure(array('name'=>'someNewName'));
