@@ -18,6 +18,13 @@
 class CHttpCookie extends CComponent
 {
 	/**
+	 * Possible values for attribute "sameSite".
+	 * @see https://www.owasp.org/index.php/SameSite
+	 */
+	const SAME_SITE_LAX='Lax';
+	const SAME_SITE_STRICT='Strict';
+
+	/**
 	 * @var string name of the cookie
 	 */
 	public $name;
@@ -49,10 +56,11 @@ class CHttpCookie extends CComponent
 	 */
 	public $httpOnly=false;
 	/**
-	 * @var array Additional setcookie options like "SameSite".
+	 * @var array Cookie attribute "SameSite".
+	 * @see https://www.owasp.org/index.php/SameSite
 	 * This property only works for PHP 7.3.0 or above.
 	 */
-	public $options=array();
+	public $sameSite=self::SAME_SITE_LAX;
 
 	/**
 	 * Constructor.

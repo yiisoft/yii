@@ -1524,7 +1524,7 @@ class CCookieCollection extends CMap
 		if($this->_request->enableCookieValidation)
 			$value=Yii::app()->getSecurityManager()->hashData(serialize($value));
 		if(version_compare(PHP_VERSION,'7.3.0','>='))
-			setcookie($cookie->name,$value,$this->getOptions($cookie));
+			setcookie($cookie->name,$value,$this->getCookieOptions($cookie));
 		elseif(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
@@ -1539,7 +1539,7 @@ class CCookieCollection extends CMap
 	{
 		$cookie->expire=0;
 		if(version_compare(PHP_VERSION,'7.3.0','>='))
-			setcookie($cookie->name,'',$this->getOptions($cookie));
+			setcookie($cookie->name,'',$this->getCookieOptions($cookie));
 		elseif(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,'',$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
@@ -1551,16 +1551,15 @@ class CCookieCollection extends CMap
 	 * @param CHttpCookie $cookie
 	 * @return array
 	 */
-	protected function getOptions($cookie)
+	protected function getCookieOptions($cookie)
 	{
-		$options = array(
+		return array(
 			'expires'=>$cookie->expire,
 			'path'=>$cookie->path,
 			'domain'=>$cookie->domain,
 			'secure'=>$cookie->secure,
-			'httpOnly'=>$cookie->httpOnly
+			'httpOnly'=>$cookie->httpOnly,
+			'sameSite'=>$cookie->sameSite
 		);
-
-		return array_merge($options,$cookie->options);
 	}
 }
