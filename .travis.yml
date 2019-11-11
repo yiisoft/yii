@@ -39,6 +39,7 @@ matrix:
 services:
   - redis-server
   - memcached
+  - mysql
 
 # cache vendor dirs
 cache:
