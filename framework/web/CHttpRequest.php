@@ -1554,7 +1554,7 @@ class CCookieCollection extends CMap
 	protected function getOptions($cookie)
 	{
 		$options = array(
-			'expire'=>$cookie->expire,
+			'expires'=>$cookie->expire,
 			'path'=>$cookie->path,
 			'domain'=>$cookie->domain,
 			'secure'=>$cookie->secure,
