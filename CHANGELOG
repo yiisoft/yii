@@ -7,6 +7,9 @@ Version 1.1.22 under development
 - Chg: Added change triggers to clickable checkbox rows in grid views, allowing other script to react to the changed checkbox states (BBoom)
 - Chg: Exceptions thrown while loading fixtures now contain details about the error location (BBoom)
 - Chg: Missing fixture files now throw exceptions (BBoom)
+- Bug #4256: PHP 7 compatibility issues: PHP4 style constructor in Pear/Text/Diff3.php (kenguest)
+- Bug #4261: PHP 7.2 compatibility issues: INTL_IDNA_VARIANT_2003 has been depreacated (machour)
+- Enh #4273: PHP 7.3 compatibility: Add "sameSite" support for cookies (thekonz)
 
 Version 1.1.21 April 2, 2019
 ----------------------------
