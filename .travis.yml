@@ -1,4 +1,5 @@
 language: php
+dist: trusty
 
 php:
   - 7.4snapshot
