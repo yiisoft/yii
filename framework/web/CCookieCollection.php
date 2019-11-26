@@ -132,12 +132,31 @@ class CCookieCollection extends CMap
         if ($this->_request->enableCookieValidation) {
             $value = Yii::app()->getSecurityManager()->hashData(serialize($value));
         }
-        if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
+        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
+            setcookie($cookie->name, $value, $this->getCookieOptions($cookie));
+        } elseif (version_compare(PHP_VERSION, '5.2.0', '>=')) {
             setcookie($cookie->name, $value, $cookie->expire, $cookie->path, $cookie->domain, $cookie->secure,
                 $cookie->httpOnly);
         } else {
             setcookie($cookie->name, $value, $cookie->expire, $cookie->path, $cookie->domain, $cookie->secure);
         }
+    }
+
+    /**
+     * Builds the setcookie $options parameter.
+     *
+     * @param CHttpCookie $cookie
+     */
+    protected function getCookieOptions($cookie): array
+    {
+        return [
+            'expires' => $cookie->expire,
+            'path' => $cookie->path,
+            'domain' => $cookie->domain,
+            'secure' => $cookie->secure,
+            'httpOnly' => $cookie->httpOnly,
+            'sameSite' => $cookie->sameSite,
+        ];
     }
 
     /**
@@ -149,10 +168,14 @@ class CCookieCollection extends CMap
      */
     protected function removeCookie($cookie)
     {
-        if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
-            setcookie($cookie->name, '', 0, $cookie->path, $cookie->domain, $cookie->secure, $cookie->httpOnly);
+        $cookie->expire = 0;
+        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
+            setcookie($cookie->name, '', $this->getCookieOptions($cookie));
+        } elseif (version_compare(PHP_VERSION, '5.2.0', '>=')) {
+            setcookie($cookie->name, '', $cookie->expire, $cookie->path, $cookie->domain, $cookie->secure,
+                $cookie->httpOnly);
         } else {
-            setcookie($cookie->name, '', 0, $cookie->path, $cookie->domain, $cookie->secure);
+            setcookie($cookie->name, '', $cookie->expire, $cookie->path, $cookie->domain, $cookie->secure);
         }
     }
 }
