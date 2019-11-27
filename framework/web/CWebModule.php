@@ -194,7 +194,7 @@ class CWebModule extends CModule
 	{
 		if(($parent=$this->getParentModule())===null)
 			$parent=Yii::app();
-		assert($parent instanceof CWebApplication);
+        assert($parent instanceof CWebApplication || $parent instanceof self);
 		return $parent->beforeControllerAction($controller,$action);
 	}
 
@@ -212,7 +212,7 @@ class CWebModule extends CModule
 	{
 		if(($parent=$this->getParentModule())===null)
 			$parent=Yii::app();
-        assert($parent instanceof CWebApplication);
+        assert($parent instanceof CWebApplication || $parent instanceof self);
 		$parent->afterControllerAction($controller,$action);
 	}
 }
