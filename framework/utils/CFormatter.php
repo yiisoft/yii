@@ -229,7 +229,7 @@ class CFormatter extends CApplicationComponent
 	{
 		if(is_string($time))
 		{
-			if(ctype_digit($time) || ($time{0}=='-' && ctype_digit(substr($time, 1))))
+			if(ctype_digit($time) || ($time[0]=='-' && ctype_digit(substr($time, 1))))
 				return (int)$time;
 			else
 				return strtotime($time);

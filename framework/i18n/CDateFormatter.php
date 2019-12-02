@@ -90,7 +90,7 @@ class CDateFormatter extends CComponent
 
 		if(is_string($time))
 		{
-			if(ctype_digit($time) || ($time{0}=='-' && ctype_digit(substr($time, 1))))
+			if(ctype_digit($time) || ($time[0]=='-' && ctype_digit(substr($time, 1))))
 				$time=(int)$time;
 			else
 				$time=strtotime($time);

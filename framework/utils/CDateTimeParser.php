@@ -210,7 +210,7 @@ class CDateTimeParser
 				default:
 				{
 					$tn=self::$_mbstringAvailable ? mb_strlen($token,Yii::app()->charset) : strlen($token);
-					if($i>=$n || ($token{0}!='?' && (self::$_mbstringAvailable ? mb_substr($value,$i,$tn,Yii::app()->charset) : substr($value,$i,$tn))!==$token))
+					if($i>=$n || ($token[0]!='?' && (self::$_mbstringAvailable ? mb_substr($value,$i,$tn,Yii::app()->charset) : substr($value,$i,$tn))!==$token))
 						return false;
 					$i+=$tn;
 					break;
