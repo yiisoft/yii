@@ -419,7 +419,7 @@ class Text_Highlighter_Generator extends  XML_Parser
         if (!strlen($text)) {
             $this->_error(TEXT_HIGHLIGHTER_EMPTY_RE);
         }
-        if (!strlen($text) || $text{0} != '/') {
+        if (!strlen($text) || $text[0] != '/') {
             $text = '/' . $text . '/';
         }
         if (!$case) {
