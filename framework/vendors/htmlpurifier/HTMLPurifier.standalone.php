@@ -3938,7 +3938,7 @@ class HTMLPurifier_Encoder
 
         $len = strlen($str);
         for ($i = 0; $i < $len; $i++) {
-            $in = ord($str{$i});
+            $in = ord($str[$i]);
             $char .= $str[$i]; // append byte to char
             if (0 == $mState) {
                 // When mState is zero we expect either a US-ASCII character
@@ -21110,7 +21110,7 @@ class HTMLPurifier_TagTransform_Font extends HTMLPurifier_TagTransform
         if (isset($attr['size'])) {
             // normalize large numbers
             if ($attr['size'] !== '') {
-                if ($attr['size']{0} == '+' || $attr['size']{0} == '-') {
+                if ($attr['size'][0] == '+' || $attr['size'][0] == '-') {
                     $size = (int)$attr['size'];
                     if ($size < -2) {
                         $attr['size'] = '-2';

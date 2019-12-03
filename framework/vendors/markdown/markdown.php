@@ -733,7 +733,7 @@ class Markdown_Parser {
 		if ($matches[2] == '-' && preg_match('{^-(?: |$)}', $matches[1]))
 			return $matches[0];
 
-		$level = $matches[2]{0} == '=' ? 1 : 2;
+		$level = $matches[2][0] == '=' ? 1 : 2;
 		$block = "<h$level>".$this->runSpanGamut($matches[1])."</h$level>";
 		return "\n" . $this->hashBlock($block) . "\n\n";
 	}
@@ -1924,7 +1924,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 				# first character as filtered to prevent an infinite loop in the
 				# parent function.
 				#
-				return array($original_text{0}, substr($original_text, 1));
+				return array($original_text[0], substr($original_text, 1));
 			}
 
 			$block_text .= $parts[0]; # Text before current tag.
@@ -2072,7 +2072,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 	public function _doHeaders_callback_setext($matches) {
 		if ($matches[3] == '-' && preg_match('{^- }', $matches[1]))
 			return $matches[0];
-		$level = $matches[3]{0} == '=' ? 1 : 2;
+		$level = $matches[3][0] == '=' ? 1 : 2;
 		$attr  = $this->_doHeaders_attr($id =& $matches[2]);
 		$block = "<h$level$attr>".$this->runSpanGamut($matches[1])."</h$level>";
 		return "\n" . $this->hashBlock($block) . "\n\n";
