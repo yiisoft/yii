@@ -184,7 +184,7 @@ abstract class CApplication extends CModule
 	{
 		if($this->hasEventHandler('onBeginRequest'))
 			$this->onBeginRequest(new CEvent($this));
-		register_shutdown_function(array($this,'end'),0,false);
+		register_shutdown_function(array($this,'dispatchEndEvent'));
 		$response = $this->processRequest();
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
@@ -202,13 +202,21 @@ abstract class CApplication extends CModule
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
-	public function end($status=0,$exit=true)
+	public function end($status=0,$exit=true): void
 	{
-		if($this->hasEventHandler('onEndRequest'))
-			$this->onEndRequest(new CEvent($this));
-		if($exit)
-			exit($status);
+	    if (!$exit) {
+	        throw new LogicException('End with no exit is not allowed anymore (use dispatchEndEvent())');
+        }
+		$this->dispatchEndEvent();
+        exit($status);
+	}
+
+    public function dispatchEndEvent(): void
+    {
+        if($this->hasEventHandler('onEndRequest'))
+            $this->onEndRequest(new CEvent($this));
 	}
 
 	/**
@@ -780,6 +788,7 @@ abstract class CApplication extends CModule
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function handleException($exception)
 	{
@@ -854,6 +863,7 @@ abstract class CApplication extends CModule
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function handleError($code,$message,$file,$line)
 	{
@@ -920,6 +930,8 @@ abstract class CApplication extends CModule
 				exit(1);
 			}
 		}
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**

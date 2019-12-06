@@ -64,6 +64,9 @@ abstract class CDbMigration extends CComponent
 			$transaction->rollback();
 			return false;
 		}
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**
@@ -90,6 +93,9 @@ abstract class CDbMigration extends CComponent
 			$transaction->rollback();
 			return false;
 		}
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**
@@ -104,6 +110,8 @@ abstract class CDbMigration extends CComponent
 	 */
 	public function safeUp()
 	{
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**
@@ -118,6 +126,8 @@ abstract class CDbMigration extends CComponent
 	 */
 	public function safeDown()
 	{
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**

@@ -82,6 +82,7 @@ class CWebServiceAction extends CAction
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function run()
 	{

@@ -371,6 +371,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function loginRequired()
 	{

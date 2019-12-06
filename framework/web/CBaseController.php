@@ -128,6 +128,9 @@ abstract class CBaseController extends CComponent
 		}
 		else
 			require($_viewFile_);
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**

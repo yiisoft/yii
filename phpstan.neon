@@ -1,6 +1,6 @@
 includes:
   - phpstan-base.neon
-  - vendor/phpstan/phpstan/conf/config.level2.neon
+  - phar://phpstan.phar/conf/config.level2.neon
 parameters:
   paths:
     - framework/

@@ -98,12 +98,16 @@ class CConsoleApplication extends CApplication
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function processRequest()
 	{
 		$exitCode=$this->_runner->run($_SERVER['argv']);
 		if(is_int($exitCode))
 			$this->end($exitCode);
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**

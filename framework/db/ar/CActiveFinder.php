@@ -93,7 +93,7 @@ class CActiveFinder extends CComponent
 	 * This method is internally called.
 	 * @param string $sql the SQL statement
 	 * @param array $params parameters to be bound to the SQL statement
-	 * @return CActiveRecord
+	 * @return CActiveRecord|null
 	 */
 	public function findBySql($sql,$params=array())
 	{
@@ -108,6 +108,8 @@ class CActiveFinder extends CComponent
 		}
 		else
 			$this->destroyJoinTree();
+
+		return null;
 	}
 
 	/**

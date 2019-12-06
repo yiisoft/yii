@@ -284,7 +284,7 @@ abstract class CModule extends CComponent
 	 * The module has to be declared in {@link modules}. A new instance will be created
 	 * when calling this method with the given ID for the first time.
 	 * @param string $id application module ID (case-sensitive)
-	 * @return CModule the module instance, null if the module is disabled or does not exist.
+	 * @return CModule|null the module instance, null if the module is disabled or does not exist.
 	 */
 	public function getModule($id)
 	{
@@ -305,6 +305,8 @@ abstract class CModule extends CComponent
 				return $this->_modules[$id]=$module;
 			}
 		}
+
+		return null;
 	}
 
 	/**

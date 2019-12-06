@@ -207,12 +207,14 @@ class CGettextMoFile extends CGettextFile
 	 * Reads one or several bytes.
 	 * @param resource $fr file handle
 	 * @param int $n number of bytes to read
-	 * @return string bytes
+	 * @return string|false bytes
 	 */
 	protected function readByte($fr,$n=1)
 	{
 		if($n>0)
 			return fread($fr,$n);
+
+		return false;
 	}
 
 	/**

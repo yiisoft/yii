@@ -772,13 +772,13 @@ class CController extends CBaseController
 	 * @param string $route the route of the new controller action. This can be an action ID, or a complete route
 	 * with module ID (optional in the current module), controller ID and action ID. If the former, the action is assumed
 	 * to be located within the current controller.
-	 * @param bool $exit whether to end the application after this call. Defaults to true.
 	 * @since 1.1.0
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
-	public function forward($route,$exit=true)
+	public function forward($route)
 	{
 		if(strpos($route,'/')===false)
 			$this->run($route);
@@ -788,8 +788,8 @@ class CController extends CBaseController
 				$route=$module->getId().'/'.$route;
 			Yii::app()->runController($route);
 		}
-		if($exit)
-			Yii::app()->end();
+
+        Yii::app()->end();
 	}
 
 	/**
@@ -808,7 +808,7 @@ class CController extends CBaseController
 	 * about how the view script is resolved.
 	 * @param array $data data to be extracted into PHP variables and made available to the view script
 	 * @param bool $return whether the rendering result should be returned instead of being displayed to end users.
-	 * @return string|null the rendering result. Null if the rendering result is not required.
+	 * @return string|void the rendering result. Null if the rendering result is not required.
 	 * @see renderPartial
 	 * @see getLayoutFile
 	 */
@@ -829,6 +829,9 @@ class CController extends CBaseController
 			else
 				echo $output;
 		}
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**
@@ -868,7 +871,7 @@ class CController extends CBaseController
 	 * The string will be inserted in the current controller layout and returned back.
 	 * @param string $text the static text string
 	 * @param bool $return whether the rendering result should be returned instead of being displayed to end users.
-	 * @return string|null the rendering result. Null if the rendering result is not required.
+	 * @return string|void the rendering result. Null if the rendering result is not required.
 	 * @see getLayoutFile
 	 */
 	public function renderText($text,$return=false)
@@ -882,6 +885,9 @@ class CController extends CBaseController
 			return $text;
 		else
 			echo $text;
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**
@@ -900,7 +906,7 @@ class CController extends CBaseController
 	 * @param array $data data to be extracted into PHP variables and made available to the view script
 	 * @param bool $return whether the rendering result should be returned instead of being displayed to end users
 	 * @param bool $processOutput whether the rendering result should be postprocessed using {@link processOutput}.
-	 * @return string|null the rendering result. Null if the rendering result is not required.
+	 * @return string|void the rendering result. Null if the rendering result is not required.
 	 * @throws CException if the view does not exist
 	 * @see getViewFile
 	 * @see processOutput
@@ -917,6 +923,8 @@ class CController extends CBaseController
 				return $output;
 			else
 				echo $output;
+
+			return;
 		}
 		else
 			throw new CException(Yii::t('yii','{controller} cannot find the requested view "{view}".',
@@ -943,6 +951,9 @@ class CController extends CBaseController
 			return $text;
 		else
 			echo $text;
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**
@@ -1074,15 +1085,19 @@ class CController extends CBaseController
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
-	public function redirect($url,$terminate=true,$statusCode=302)
+	public function redirect($url,$terminate=true,$statusCode=302): void
 	{
+	    if (!$terminate) {
+	        throw new LogicException('Redirect with no termination is not allowed anymore');
+        }
 		if(is_array($url))
 		{
 			$route=isset($url[0]) ? $url[0] : '';
 			$url=$this->createUrl($route,array_splice($url,1));
 		}
-		Yii::app()->getRequest()->redirect($url,$terminate,$statusCode);
+        Yii::app()->getRequest()->redirect($url,$terminate,$statusCode);
 	}
 
 	/**
@@ -1090,15 +1105,16 @@ class CController extends CBaseController
 	 * The effect of this method call is the same as user pressing the
 	 * refresh button on the browser (without post data).
 	 *
-	 * @param bool $terminate whether to terminate the current application after calling this method
 	 * @param string $anchor the anchor that should be appended to the redirection URL.
 	 * Defaults to empty. Make sure the anchor starts with '#' if you want to specify it.
 	 *
 	 * @return void
+     * @psalm-return no-return
+     * @phpstan-return never
 	 */
-	public function refresh($terminate=true,$anchor='')
+	public function refresh($anchor=''): void
 	{
-		$this->redirect(Yii::app()->getRequest()->getUrl().$anchor,$terminate);
+		$this->redirect(Yii::app()->getRequest()->getUrl().$anchor);
 	}
 
 	/**

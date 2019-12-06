@@ -765,7 +765,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Returns the name of the DB driver.
 	 *
-	 * @return string name of the DB driver.
+	 * @return string|null name of the DB driver.
 	 */
 	public function getDriverName()
 	{
@@ -773,8 +773,7 @@ class CDbConnection extends CApplicationComponent
 			return $this->_driverName;
 		elseif(($pos=strpos($this->connectionString,':'))!==false)
 			return $this->_driverName=strtolower(substr($this->connectionString,0,$pos));
-		// todo: does this actually return string|null or just string from top if/elseif?
-		//return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+		return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
 	}
 
 	/**

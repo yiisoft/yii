@@ -142,6 +142,8 @@ class CMarkdownParser extends MarkdownExtra_Parser
 		$str = trim(current(preg_split("/\r|\n/", $codeblock,2)));
 		if(strlen($str) > 2 && $str[0] === '[' && $str[strlen($str)-1] === ']')
 			return $str;
+
+		return null;
 	}
 
 	/**

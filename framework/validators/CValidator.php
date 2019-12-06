@@ -223,6 +223,7 @@ abstract class CValidator extends CComponent
 	 */
 	public function clientValidateAttribute($object,$attribute)
 	{
+	    return null;
 	}
 
 	/**

@@ -381,6 +381,8 @@ class CWebApplication extends CApplication
 			$controllerID.=$id;
 			$basePath.=DIRECTORY_SEPARATOR.$id;
 		}
+
+		return null;
 	}
 
 	/**
@@ -567,6 +569,8 @@ class CWebApplication extends CApplication
 		}
 		if(($m=$this->getModule($id))!==null)
 			return $m;
+
+		return null;
 	}
 
 	/**

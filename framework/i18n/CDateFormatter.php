@@ -128,10 +128,13 @@ class CDateFormatter extends CComponent
 			$dateTimePattern=$this->_locale->getDateTimeFormat();
 			return strtr($dateTimePattern,array('{0}'=>$time,'{1}'=>$date));
 		}
-		elseif(isset($date))
+
+		if(isset($date))
 			return $date;
-		elseif(isset($time))
+		if(isset($time))
 			return $time;
+
+		throw new LogicException('Impossibru');
 	}
 
 	/**

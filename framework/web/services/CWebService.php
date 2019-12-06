@@ -158,7 +158,9 @@ class CWebService extends CComponent
 	/**
 	 * Handles the web service request.
      *
+     * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function run()
 	{
@@ -230,6 +232,9 @@ class CWebService extends CComponent
 			$server->fault(get_class($e),$message);
 			exit(1);
 		}
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**

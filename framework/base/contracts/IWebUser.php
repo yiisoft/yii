@@ -57,6 +57,7 @@ interface IWebUser
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
      */
     public function loginRequired();
 }

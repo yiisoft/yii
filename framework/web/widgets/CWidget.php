@@ -106,14 +106,17 @@ class CWidget extends CBaseController
 	/**
 	 * Returns the ID of the widget or generates a new one if requested.
 	 * @param bool $autoGenerate whether to generate an ID if it is not set previously
-	 * @return string id of the widget.
+	 * @return string|null id of the widget.
 	 */
 	public function getId($autoGenerate=true)
 	{
 		if($this->_id!==null)
 			return $this->_id;
-		elseif($autoGenerate)
+
+		if($autoGenerate)
 			return $this->_id='yw'.self::$_counter++;
+
+		return null;
 	}
 
 	/**

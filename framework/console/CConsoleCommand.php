@@ -343,6 +343,7 @@ abstract class CConsoleCommand extends CComponent
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function usageError($message)
 	{
@@ -488,7 +489,7 @@ abstract class CConsoleCommand extends CComponent
 	 * @param string $_viewFile_ view file path
 	 * @param array $_data_ optional data to be extracted as local view variables
 	 * @param bool $_return_ whether to return the rendering result instead of displaying it
-	 * @return string|null the rendering result if required. Null otherwise.
+	 * @return string|void the rendering result if required. Null otherwise.
 	 */
 	public function renderFile($_viewFile_,$_data_=null,$_return_=false)
 	{
@@ -505,6 +506,8 @@ abstract class CConsoleCommand extends CComponent
 		}
 		else
 			require($_viewFile_);
+
+		return null;
 	}
 
 	/**

@@ -909,14 +909,19 @@ class CHttpRequest extends CApplicationComponent
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
-	public function redirect($url,$terminate=true,$statusCode=302)
+	public function redirect($url,$terminate=true,$statusCode=302): void
 	{
+        if (!$terminate) {
+            throw new LogicException('Redirect with no termination is not allowed anymore');
+        }
+
 		if(strpos($url,'/')===0 && strpos($url,'//')!==0)
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url, true, $statusCode);
-		if($terminate)
-			Yii::app()->end();
+
+        Yii::app()->end();
 	}
 
 	/**
@@ -1147,6 +1152,7 @@ class CHttpRequest extends CApplicationComponent
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
 	{
@@ -1224,13 +1230,16 @@ class CHttpRequest extends CApplicationComponent
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
 			ob_start();
-			Yii::app()->end(0,false);
+			Yii::app()->dispatchEndEvent();
 			ob_end_clean();
 			echo $content;
 			exit(0);
 		}
 		else
 			echo $content;
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**
@@ -1292,6 +1301,7 @@ class CHttpRequest extends CApplicationComponent
      *
      * @return void
      * @psalm-return no-return
+     * @phpstan-return never
 	 */
 	public function xSendFile($filePath, $options=array())
 	{
@@ -1324,6 +1334,9 @@ class CHttpRequest extends CApplicationComponent
 
 		if(!isset($options['terminate']) || $options['terminate'])
 			Yii::app()->end();
+
+        /* @noinspection UselessReturnInspection */
+        return;
 	}
 
 	/**
