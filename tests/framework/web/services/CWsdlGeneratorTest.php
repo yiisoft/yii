@@ -5,7 +5,7 @@
 */
 class CWsdlGeneratorTest extends CTestCase{
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // path to tested class
         Yii::import('system.web.services.CWsdlGenerator');

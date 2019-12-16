@@ -111,7 +111,7 @@ abstract class CDbTestCase extends CTestCase
 	 * If you override this method, make sure the parent implementation is invoked.
 	 * Otherwise, the database fixtures will not be managed properly.
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 		if(is_array($this->fixtures))

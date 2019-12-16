@@ -15,6 +15,17 @@
  * @package system.test
  * @since 1.1
  */
-abstract class CTestCase extends PHPUnit_Framework_TestCase
+abstract class CTestCase extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @internal
+     */
+    public static function assertObjectHasAttribute(string $attributeName, $object, string $message = ''): void
+    {
+        if (isset($object->$attributeName)) {
+            self::assertTrue(true);
+        } else {
+            parent::assertObjectHasAttribute($attributeName, $object, $message);
+        }
+    }
 }
