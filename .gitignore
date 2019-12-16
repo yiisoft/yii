@@ -64,6 +64,5 @@ Desktop.ini
 *.un~
 Session.vim
 
-/composer.lock
 /vendor
 /tests/.phpunit.result.cache
