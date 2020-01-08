@@ -45,7 +45,6 @@ class Markdown_Parser {
 	#
 	# Constructor function. Initialize appropriate member variables.
 	#
-		$this->_initDetab();
 		$this->prepareItalicsAndBold();
 
 		$this->nested_brackets_re =
@@ -1412,11 +1411,6 @@ class Markdown_Parser {
 		return preg_replace('/^(\t|[ ]{1,'.$this->tab_width.'})/m', '', $text);
 	}
 
-
-	# String length function for detab. `_initDetab` will create a function to
-	# hanlde UTF-8 if the default function does not exist.
-	public $utf8_strlen = 'mb_strlen';
-
 	public function detab($text) {
 	#
 	# Replace tabs with the appropriate amount of space.
@@ -1432,7 +1426,6 @@ class Markdown_Parser {
 	}
 	public function _detab_callback($matches) {
 		$line = $matches[0];
-		$strlen = $this->utf8_strlen; # strlen function for UTF-8.
 
 		# Split in blocks.
 		$blocks = explode("\t", $line);
@@ -1442,24 +1435,23 @@ class Markdown_Parser {
 		foreach ($blocks as $block) {
 			# Calculate amount of space, insert spaces, insert block.
 			$amount = $this->tab_width -
-				$strlen($line, 'UTF-8') % $this->tab_width;
+				$this->utf8_strlen($line) % $this->tab_width;
 			$line .= str_repeat(" ", $amount) . $block;
 		}
 		return $line;
 	}
-	public function _initDetab() {
-	#
-	# Check for the availability of the function in the `utf8_strlen` property
-	# (initially `mb_strlen`). If the function is not available, create a
-	# function that will loosely count the number of UTF-8 characters with a
-	# regular expression.
-	#
-		if (function_exists($this->utf8_strlen)) return;
-		$this->utf8_strlen = create_function('$text', 'return preg_match_all(
-			"/[\\\\x00-\\\\xBF]|[\\\\xC0-\\\\xFF][\\\\x80-\\\\xBF]*/",
-			$text, $m);');
-	}
 
+	protected function utf8_strlen($string) {
+		if (function_exists('mb_strlen')) {
+			return mb_strlen($string, 'UTF-8');
+		}
+
+		return preg_match_all(
+			"/[\x00-\xBF]|[\xC0-\xFF][\x80-\xBF]*/",
+			$text,
+			$m
+		);
+	}
 
 	public function unhash($text) {
 	#
@@ -1968,8 +1960,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 
 					# Calculate indent before tag.
 					if (preg_match('/(?:^|\n)( *?)(?! ).*?$/', $block_text, $matches)) {
-						$strlen = $this->utf8_strlen;
-						$indent = $strlen($matches[1], 'UTF-8');
+						$indent = $this->utf8_strlen($matches[1]);
 					} else {
 						$indent = 0;
 					}

@@ -4,8 +4,9 @@
 Version 1.1.22 under development
 --------------------------------
 
-- Bug #4256: PHP 7 compatibility issues: PHP4 style constructor in Pear/Text/Diff3.php (kenguest)
-- Bug #4261: PHP 7.2 compatibility issues: INTL_IDNA_VARIANT_2003 has been depreacated (machour)
+- Bug #4256: PHP 7 compatibility: PHP4 style constructor in Pear/Text/Diff3.php (kenguest)
+- Bug #4256: PHP 7 compatibility: Fixed deprecated usage of create_function() in markdown.php (samdark)
+- Bug #4261: PHP 7.2 compatibility: INTL_IDNA_VARIANT_2003 has been depreacated (machour)
 - Enh #4273: PHP 7.3 compatibility: Add "sameSite" support for cookies (thekonz)
 - Bug #4279: PHP 7.4 compatibility: Drop use of accessing string offsets using curly braces (kenguest)
 
