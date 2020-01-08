@@ -1449,7 +1449,7 @@ class Markdown_Parser {
 		return preg_match_all(
 		"/[\x00-\xBF]|[\xC0-\xFF][\x80-\xBF]*/",
 			$text,
-        $m
+			$m
 		);
 	}
 
