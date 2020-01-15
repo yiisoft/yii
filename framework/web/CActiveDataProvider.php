@@ -83,11 +83,11 @@ class CActiveDataProvider extends CDataProvider
      * @param \CActiveRecord|string $modelClass the model class (e.g. 'Post') or the model finder instance
      *                          (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
      * @phpstan-param T|class-string<T> $modelClass
-     * @param array[] $config     configuration (name=>value) to be applied as the initial property values of this class.
+     * @param array<string, mixed> $config     configuration (name=>value) to be applied as the initial property values of this class.
      *
      * @throws \LogicException  if provided model is not available or not CActiveRecord instance.
      */
-    public function __construct($modelClass, $config = [])
+    public function __construct($modelClass, array $config = [])
     {
         if (is_string($modelClass)) {
             $this->modelClass = $modelClass;
