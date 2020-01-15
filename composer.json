@@ -113,6 +113,11 @@
 			"tests/TestApplication.php",
 			"tests/TestAutoloader.php",
 			"tests/TestHttpRequest.php"
+		],
+		"files": [
+			"tests/framework/db/data/models.php",
+			"tests/framework/db/data/models2.php",
+			"tests/framework/db/data/models-namespaced.php"
 		]
 	},
 	"bin": [

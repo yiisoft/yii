@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__).'/../db/data/models.php');
-
 class CActiveDataProviderTest extends CTestCase
 {
 	/**
@@ -55,4 +53,35 @@ class CActiveDataProviderTest extends CTestCase
 		$this->assertNotSame($dataProvider->countCriteria,$dataProvider->criteria);
 		$this->assertEquals(5,$dataProvider->getTotalItemCount(true));
 	}
+
+    /**
+     * @test
+     */
+    public function it_should_provide_phpstan_types(): void
+    {
+        $model = (static function (): Post {
+            $sut = new CActiveDataProvider(Post::model());
+
+            return $sut->model;
+        })();
+        self::assertInstanceOf(Post::class, $model);
+
+        $model = (static function (): Post {
+            $sut = new CActiveDataProvider(Post::model());
+            $l = $sut->getData();
+            return $l[0];
+        })();
+        self::assertInstanceOf(Post::class, $model);
+
+        $sut = $this->postsProvider();
+        self::assertInstanceOf(Post::class, $sut->model);
+	}
+
+    /**
+     * @phpstan-return \CActiveDataProvider<\Post>
+     */
+    private function postsProvider(): CActiveDataProvider
+    {
+        return new CActiveDataProvider(Post::model());
+    }
 }

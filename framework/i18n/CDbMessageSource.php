@@ -76,7 +76,7 @@ class CDbMessageSource extends CMessageSource
 	 */
 	protected function loadMessages($category,$language)
 	{
-		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID)) instanceof ICache)
+		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getCache($this->cacheID)) instanceof ICache)
 		{
 			$key=self::CACHE_KEY_PREFIX.'.messages.'.$category.'.'.$language;
 			if(($data=$cache->get($key))!==false)
@@ -103,7 +103,7 @@ class CDbMessageSource extends CMessageSource
 	{
 		if($this->_db===null)
 		{
-			$this->_db=Yii::app()->getComponent($this->connectionID);
+			$this->_db=Yii::app()->getDb($this->connectionID);
 			if(!$this->_db instanceof CDbConnection)
 				throw new CException(Yii::t('yii','CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
 					array('{id}'=>$this->connectionID)));

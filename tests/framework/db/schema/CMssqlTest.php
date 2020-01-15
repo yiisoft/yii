@@ -1,10 +1,5 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.schema.mssql.CMssqlSchema');
-
-require_once(dirname(__FILE__).'/../data/models2.php');
-
 class MssqlUser2 extends User2
 {
 	public function tableName()

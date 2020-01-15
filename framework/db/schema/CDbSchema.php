@@ -39,7 +39,7 @@ abstract class CDbSchema extends CComponent
 	/**
 	 * Loads the metadata for the specified table.
 	 * @param string $name table name
-	 * @return CDbTableSchema driver dependent table metadata, null if the table does not exist.
+	 * @return CDbTableSchema|null driver dependent table metadata, null if the table does not exist.
 	 */
 	abstract protected function loadTable($name);
 
@@ -91,7 +91,7 @@ abstract class CDbSchema extends CComponent
 			    !isset($this->_cacheExclude[$name])
                 && ($duration=$this->_connection->schemaCachingDuration)>0
                 && $this->_connection->schemaCacheID!==false
-                && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID)) instanceof ICache
+                && ($cache=Yii::app()->getCache($this->_connection->schemaCacheID)) instanceof ICache
             ) {
 				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 				$table=$cache->get($key);
@@ -165,7 +165,7 @@ abstract class CDbSchema extends CComponent
 		if (
 		    ($duration=$this->_connection->schemaCachingDuration)>0
             && $this->_connection->schemaCacheID!==false
-            && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID)) instanceof ICache
+            && ($cache=Yii::app()->getCache($this->_connection->schemaCacheID)) instanceof ICache
         ) {
 			foreach(array_keys($this->_tables) as $name)
 			{

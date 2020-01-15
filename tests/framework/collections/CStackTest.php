@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.collections.CStack');
-
 class CStackTest extends CTestCase
 {
 	public function testConstruct()

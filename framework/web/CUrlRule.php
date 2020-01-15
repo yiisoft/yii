@@ -42,7 +42,7 @@ class CUrlRule extends CBaseUrlRule
      */
     public $matchValue;
     /**
-     * @var string the HTTP verb (e.g. GET, POST, DELETE) that this rule should match.
+     * @var string|string[] the HTTP verb (e.g. GET, POST, DELETE) that this rule should match.
      * If this rule can match multiple verbs, please separate them with commas.
      * If this property is not set, the rule can match any verb.
      * Note that this property is only used when parsing a request. It is ignored for URL creation.

@@ -509,7 +509,7 @@ class CDbCommand extends CComponent
         if ($this->_connection->queryCachingCount > 0 && $method !== ''
             && $this->_connection->queryCachingDuration > 0
             && $this->_connection->queryCacheID !== false
-            && ($cache = Yii::app()->getComponent($this->_connection->queryCacheID)) instanceof ICache
+            && ($cache = Yii::app()->getCache($this->_connection->queryCacheID)) instanceof ICache
         ) {
             $this->_connection->queryCachingCount--;
 

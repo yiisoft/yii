@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('zii.widgets.grid.CGridColumn');
-
 /**
  * CLinkColumn represents a grid view column that renders a hyperlink in each of its data cells.
  *

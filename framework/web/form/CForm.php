@@ -294,6 +294,9 @@ class CForm extends CFormElement implements ArrayAccess
 		$owner=$this->getParent();
 		while($owner instanceof self)
 			$owner=$owner->getParent();
+
+		\assert($owner instanceof CBaseController);
+
 		return $owner;
 	}
 

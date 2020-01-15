@@ -78,7 +78,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	public function load()
 	{
 		$stateFile=$this->stateFile;
-		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID)) instanceof ICache)
+		if($this->cacheID!==false && ($cache=Yii::app()->getCache($this->cacheID)) instanceof ICache)
 		{
 			$cacheKey='Yii.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)

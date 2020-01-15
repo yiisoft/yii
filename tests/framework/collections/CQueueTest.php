@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.collections.CQueue');
-
 class CQueueTest extends CTestCase
 {
 	public function testConstruct()

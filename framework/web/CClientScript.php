@@ -550,7 +550,7 @@ class CClientScript extends CApplicationComponent
 	 * Returns the base URL for a registered package with the specified name.
 	 * If needed, this method may publish the assets of the package and returns the published base URL.
 	 * @param string $name the package name
-	 * @return string the base URL for the named package. False is returned if the package is not registered yet.
+	 * @return string|false the base URL for the named package. False is returned if the package is not registered yet.
 	 * @see registerPackage
 	 * @since 1.1.8
 	 */

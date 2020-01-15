@@ -34,7 +34,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Returns the list of attribute names of the model.
-	 * @return array list of attribute names.
+	 * @return string[] list of attribute names.
 	 */
 	abstract public function attributeNames();
 
@@ -124,7 +124,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Note, in order to inherit labels defined in the parent class, a child class needs to
 	 * merge the parent labels with child labels using functions like array_merge().
 	 *
-	 * @return string[]|array<string, string> attribute labels (name=>label)
+	 * @return string[]&array<string, string> attribute labels (name=>label)
 	 *
 	 * @see generateAttributeLabel
 	 */

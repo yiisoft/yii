@@ -138,15 +138,19 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 
 	/**
 	 * Creates a new widget based on the given class name and initial properties.
+     * @template T of \CWidget
 	 * @param CBaseController $owner the owner of the new widget
 	 * @param string $className the class name of the widget. This can also be a path alias (e.g. system.web.widgets.COutputCache)
+     * @phpstan-param class-string<T> $className
 	 * @param array $properties the initial property values (name=>value) of the widget.
 	 * @return CWidget the newly created widget whose properties have been initialized with the given values.
+     * @phpstan-return T
 	 */
 	public function createWidget($owner,$className,$properties=array())
 	{
 	    $className = Yii::import($className, true);
         $widget = Yii::createComponent($className, $owner);
+        \assert($widget instanceof CWidget);
 
 		if(isset($this->widgets[$className]))
 			$properties=$properties===array() ? $this->widgets[$className] : CMap::mergeArray($this->widgets[$className],$properties);

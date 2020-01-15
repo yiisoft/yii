@@ -104,7 +104,7 @@ class CPgsqlSchema extends CDbSchema
 	/**
 	 * Loads the metadata for the specified table.
 	 * @param string $name table name
-	 * @return CDbTableSchema driver dependent table metadata.
+	 * @return CDbTableSchema|null driver dependent table metadata.
 	 */
 	protected function loadTable($name)
 	{

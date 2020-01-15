@@ -1,5 +1,4 @@
 <?php
-Yii::import('system.caching.dependencies.CFileCacheDependency');
 
 class CCacheDependencyTest extends CTestCase
 {

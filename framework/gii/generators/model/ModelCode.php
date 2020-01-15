@@ -426,7 +426,7 @@ class ModelCode extends CCodeModel
 
 	public function validateConnectionId($attribute, $params)
 	{
-		if(Yii::app()->hasComponent($this->connectionId)===false || !(Yii::app()->getComponent($this->connectionId) instanceof CDbConnection))
+		if(Yii::app()->hasComponent($this->connectionId)===false || !(Yii::app()->getDb($this->connectionId) instanceof CDbConnection))
 			$this->addError('connectionId','A valid database connection is required to run this generator.');
 	}
 }

@@ -311,7 +311,7 @@ class CFileHelper
 	 * @param string $magicFile the path of the file that contains all available MIME type information.
 	 * If this is not set, the default 'system.utils.mimeTypes' file will be used.
 	 * This parameter has been available since version 1.1.3.
-	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
+	 * @return string|null the MIME type. Null is returned if the MIME type cannot be determined.
 	 */
 	public static function getMimeTypeByExtension($file,$magicFile=null)
 	{
@@ -338,7 +338,7 @@ class CFileHelper
 	 * @param string $magicFile the path of the file that contains all available extension information.
 	 * If this is not set, the default 'system.utils.fileExtensions' file will be used.
 	 * This parameter has been available since version 1.1.16.
-	 * @return string extension name. Null is returned if the extension cannot be determined.
+	 * @return string|null extension name. Null is returned if the extension cannot be determined.
 	 */
 	public static function getExtensionByMimeType($file,$magicFile=null)
 	{

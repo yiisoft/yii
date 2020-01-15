@@ -1,8 +1,4 @@
 <?php
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.ar.CActiveRecord');
-
-require_once(dirname(__FILE__).'/../../db/data/models.php');
 
 /**
  * CJSON Test

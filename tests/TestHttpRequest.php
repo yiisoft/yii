@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.web.CHttpRequest');
-
 class TestHttpRequest extends CHttpRequest
 {
 	private $myPathInfo;

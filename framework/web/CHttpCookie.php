@@ -68,7 +68,7 @@ class CHttpCookie extends CComponent
 	 */
 	public $httpOnly=false;
 	/**
-	 * @var array Cookie attribute "SameSite".
+	 * @var string Cookie attribute "SameSite".
 	 * @see https://www.owasp.org/index.php/SameSite
 	 * This property only works for PHP 7.3.0 or above.
 	 * @since 1.1.22

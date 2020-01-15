@@ -83,6 +83,6 @@ class CListPager extends CBasePager
 		if($this->pageTextFormat!==null)
 			return sprintf($this->pageTextFormat,$page+1);
 		else
-			return $page+1;
+			return (string)($page+1);
 	}
 }

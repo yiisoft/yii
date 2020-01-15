@@ -188,7 +188,10 @@ class CWebApplication extends CApplication
 	 */
 	public function getAuthManager()
 	{
-		return $this->getComponent('authManager');
+        $component = $this->getComponent('authManager');
+        assert($component instanceof IAuthManager);
+
+        return $component;
 	}
 
 	/**
@@ -196,7 +199,10 @@ class CWebApplication extends CApplication
 	 */
 	public function getAssetManager()
 	{
-		return $this->getComponent('assetManager');
+        $component = $this->getComponent('assetManager');
+        assert($component instanceof CAssetManager);
+
+        return $component;
 	}
 
 	/**
@@ -204,7 +210,10 @@ class CWebApplication extends CApplication
 	 */
 	public function getSession()
 	{
-		return $this->getComponent('session');
+        $component = $this->getComponent('session');
+        assert($component instanceof CHttpSession);
+
+        return $component;
 	}
 
 	/**
@@ -212,7 +221,10 @@ class CWebApplication extends CApplication
 	 */
 	public function getUser()
 	{
-		return $this->getComponent('user');
+        $component = $this->getComponent('user');
+        assert($component instanceof CWebUser);
+
+        return $component;
 	}
 
 	/**
@@ -224,7 +236,10 @@ class CWebApplication extends CApplication
 	 */
 	public function getViewRenderer()
 	{
-		return $this->getComponent('viewRenderer');
+        $component = $this->getComponent('viewRenderer');
+        assert($component instanceof IViewRenderer);
+
+        return $component;
 	}
 
 	/**
@@ -233,7 +248,10 @@ class CWebApplication extends CApplication
 	 */
 	public function getClientScript()
 	{
-		return $this->getComponent('clientScript');
+        $component = $this->getComponent('clientScript');
+        assert($component instanceof CClientScript);
+
+        return $component;
 	}
 
 	/**
@@ -243,7 +261,10 @@ class CWebApplication extends CApplication
 	 */
 	public function getWidgetFactory()
 	{
-		return $this->getComponent('widgetFactory');
+        $component = $this->getComponent('widgetFactory');
+        assert($component instanceof IWidgetFactory);
+
+        return $component;
 	}
 
 	/**
@@ -251,7 +272,10 @@ class CWebApplication extends CApplication
 	 */
 	public function getThemeManager()
 	{
-		return $this->getComponent('themeManager');
+        $component = $this->getComponent('themeManager');
+        assert($component instanceof CThemeManager);
+
+        return $component;
 	}
 
 	/**

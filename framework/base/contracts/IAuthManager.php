@@ -164,7 +164,7 @@ interface IAuthManager
      * @param string $itemName the item name
      * @param string|int  $userId   the user ID (see {@link IWebUser::getId})
      *
-     * @return CAuthAssignment the item assignment information. Null is returned if
+     * @return CAuthAssignment|null the item assignment information. Null is returned if
      * the item is not assigned to the user.
      */
     public function getAuthAssignment($itemName, $userId);

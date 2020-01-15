@@ -110,9 +110,12 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 
 	/**
 	 * Returns an object populated with the next row of data.
+     * @template T of object
 	 * @param string $className class name of the object to be created and populated
+     * @phpstan-param class-string<T> $className
 	 * @param array $fields Elements of this array are passed to the constructor
 	 * @return object|false the populated object, false if no more row of data available
+     * @phpstan-return T|false
 	 */
 	public function readObject($className,$fields)
 	{

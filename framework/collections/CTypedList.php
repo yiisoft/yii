@@ -17,14 +17,21 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.collections
  * @since 1.0
+ *
+ * @template T of object
  */
 class CTypedList extends CList
 {
+    /**
+     * @var string
+     * @phpstan-var class-string<T>
+     */
 	private $_type;
 
 	/**
 	 * Constructor.
 	 * @param string $type class type
+     * @phpstan-param class-string<T> $type
 	 */
 	public function __construct($type)
 	{
@@ -38,6 +45,7 @@ class CTypedList extends CList
 	 *
 	 * @param int $index the specified position.
 	 * @param mixed $item new item
+     * @phpstan-param T $item
 	 *
 	 * @throws CException If the index specified exceeds the bound,
 	 * the list is read-only or the element is not of the expected type.

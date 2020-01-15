@@ -502,9 +502,12 @@ abstract class CApplication extends CModule
 	 * Returns the database connection component.
 	 * @return CDbConnection the database connection
 	 */
-	public function getDb()
+	public function getDb(?string $name = null)
 	{
-		return $this->getComponent('db');
+        $component = $this->getComponent($name ?? 'db');
+        assert($component instanceof CDbConnection);
+
+        return $component;
 	}
 
 	/**
@@ -538,9 +541,12 @@ abstract class CApplication extends CModule
 	 * Returns the cache component.
 	 * @return CCache|null the cache application component. Null if the component is not enabled.
 	 */
-	public function getCache()
+	public function getCache(?string $name = null)
 	{
-		return $this->getComponent('cache');
+        $component = $this->getComponent('cache' ?? $name);
+        assert($component === null || $component instanceof CCache);
+
+        return $component;
 	}
 
 	/**
@@ -556,9 +562,12 @@ abstract class CApplication extends CModule
 	 * Returns the application message translations component.
 	 * @return CMessageSource the application message translations
 	 */
-	public function getMessages()
+	public function getMessages(?string $name = null)
 	{
-		return $this->getComponent('messages');
+        $component = $this->getComponent($name ?? 'messages');
+        assert($component instanceof CMessageSource);
+
+        return $component;
 	}
 
 	/**

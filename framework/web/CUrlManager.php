@@ -218,7 +218,7 @@ class CUrlManager extends CApplicationComponent
 		if(empty($this->rules) || $this->getUrlFormat()===self::GET_FORMAT)
 			return;
 		$hash = null;
-		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID)) instanceof ICache)
+		if($this->cacheID!==false && ($cache=Yii::app()->getCache($this->cacheID)) instanceof ICache)
 		{
 			$hash=md5(serialize($this->rules));
 			if(($data=$cache->get(self::CACHE_KEY))!==false && isset($data[1]) && $data[1]===$hash)

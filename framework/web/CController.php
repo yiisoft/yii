@@ -610,7 +610,7 @@ class CController extends CBaseController
 	 * to find its localized version if internationalization is needed.
 	 *
 	 * @param string $viewName view name
-	 * @return string the view file path, false if the view file does not exist
+	 * @return string|false the view file path, false if the view file does not exist
 	 * @see resolveViewFile
 	 * @see CApplication::findLocalizedFile
 	 */

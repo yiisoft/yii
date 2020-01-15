@@ -541,7 +541,7 @@ class CJoinElement
      * @param CJoinQuery $query the query executed
      * @param array      $row   a row of data
      *
-     * @return CActiveRecord the populated record
+     * @return CActiveRecord|null the populated record
      */
     private function populateRecord($query, $row)
     {

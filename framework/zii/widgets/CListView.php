@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('zii.widgets.CBaseListView');
-
 /**
  * CListView displays a list of data items in terms of a list.
  *

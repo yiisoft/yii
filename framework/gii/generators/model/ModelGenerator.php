@@ -14,7 +14,7 @@ class ModelGenerator extends CCodeGenerator
 		if(Yii::app()->getRequest()->getIsAjaxRequest())
 		{
 			$all = array();
-			if(!empty($db) && Yii::app()->hasComponent($db)!==false && (Yii::app()->getComponent($db) instanceof CDbConnection))
+			if(!empty($db) && Yii::app()->hasComponent($db)!==false && (Yii::app()->getDb($db) instanceof CDbConnection))
 				$all=array_keys(Yii::app()->{$db}->schema->getTables());
 
 			echo json_encode($all);

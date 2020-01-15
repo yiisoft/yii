@@ -8,12 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('zii.widgets.CBaseListView');
-Yii::import('zii.widgets.grid.CDataColumn');
-Yii::import('zii.widgets.grid.CLinkColumn');
-Yii::import('zii.widgets.grid.CButtonColumn');
-Yii::import('zii.widgets.grid.CCheckBoxColumn');
-
 /**
  * CGridView displays a list of data items in terms of a table.
  *

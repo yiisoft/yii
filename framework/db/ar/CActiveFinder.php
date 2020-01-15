@@ -17,6 +17,8 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.db.ar
  * @since 1.0
+ *
+ * @template M of CActiveRecord
  */
 class CActiveFinder extends CComponent
 {
@@ -39,6 +41,7 @@ class CActiveFinder extends CComponent
 	 * Constructor.
 	 * A join tree is built up based on the declared relationships between active record classes.
 	 * @param CActiveRecord $model the model that initiates the active finding process
+     * @phpstan-param M $model
 	 * @param string|array $with the relation names to be actively looked for
 	 */
 	public function __construct($model,$with)
@@ -54,6 +57,7 @@ class CActiveFinder extends CComponent
 	 * @param CDbCriteria $criteria the DB criteria
 	 * @param bool $all whether to bring back all records
 	 * @return \CActiveRecord|\CActiveRecord[]|null the query result
+     * @phpstan-return M|M[]|null
 	 */
 	public function query($criteria,$all=false)
 	{
@@ -94,6 +98,7 @@ class CActiveFinder extends CComponent
 	 * @param string $sql the SQL statement
 	 * @param array $params parameters to be bound to the SQL statement
 	 * @return CActiveRecord|null
+     * @phpstan-return M|null
 	 */
 	public function findBySql($sql,$params=array())
 	{
@@ -117,6 +122,7 @@ class CActiveFinder extends CComponent
 	 * @param string $sql the SQL statement
 	 * @param array $params parameters to be bound to the SQL statement
 	 * @return CActiveRecord[]
+     * @phpstan-return M[]
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -174,8 +180,11 @@ class CActiveFinder extends CComponent
 	/**
 	 * Given active record class name returns new model instance.
 	 *
+     * @template T of \CActiveRecord
 	 * @param string $className active record class name
+     * @phpstan-param class-string<T> $className
 	 * @return CActiveRecord active record model instance
+     * @phpstan-return T
 	 *
 	 * @since 1.1.14
 	 */

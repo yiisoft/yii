@@ -210,7 +210,6 @@ class CComponent
 	 * to allow using unset() to set a component property to be null.
 	 * @param string $name the property name or the event name
 	 * @throws CException if the property is read only.
-	 * @return mixed
 	 */
 	public function __unset($name)
 	{
@@ -229,10 +228,14 @@ class CComponent
 				{
 					if($object->getEnabled())
 					{
-						if(property_exists($object,$name))
-							return $object->$name=null;
-						elseif($object->canSetProperty($name))
-							return $object->$setter(null);
+						if(property_exists($object,$name)) {
+                            $object->$name = null;
+                            return;
+                        }
+						if($object->canSetProperty($name)) {
+                            $object->$setter(null);
+                            return;
+                        }
 					}
 				}
 			}

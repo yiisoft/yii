@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-
 class CDbCommandTest extends CTestCase
 {
 	/** @var CDbConnection */

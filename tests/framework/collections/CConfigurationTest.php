@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.collections.CConfiguration');
-
 class MyClass extends CComponent
 {
 	public $param1;

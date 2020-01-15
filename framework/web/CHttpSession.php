@@ -77,7 +77,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public $autoStart=true;
 
 	/**
-	 * @var array Frozen session data
+	 * @var array|null Frozen session data
 	 * @since 1.1.20
 	 */
 	private $_frozenData;
@@ -602,7 +602,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed $offset the offset to check on
+	 * @param string $offset the offset to check on
 	 * @return bool
 	 */
 	public function offsetExists($offset)
@@ -612,7 +612,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param int $offset the offset to retrieve element.
+	 * @param string $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
 	public function offsetGet($offset)
@@ -622,7 +622,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param int $offset the offset to set element
+	 * @param string $offset the offset to set element
 	 * @param mixed $item the element value
 	 */
 	public function offsetSet($offset,$item)
@@ -632,7 +632,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed $offset the offset to unset element
+	 * @param string $offset the offset to unset element
 	 */
 	public function offsetUnset($offset)
 	{

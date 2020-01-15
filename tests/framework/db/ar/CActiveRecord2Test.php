@@ -1,9 +1,5 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.ar.CActiveRecord');
-require_once(dirname(__FILE__).'/../data/models2.php');
-
 class CActiveRecord2Test extends CTestCase
 {
 	/**

@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('system.test.CTestCase');
-
 /**
  * CDbTestCase is the base class for test cases about DB-related features.
  *

@@ -68,7 +68,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 		parent::init();
 		if($this->stateTableName===null)
 			throw new CException(Yii::t('yii', 'stateTableName param cannot be null.'));
-		$this->db=Yii::app()->getComponent($this->dbComponent);
+		$this->db=Yii::app()->getDb($this->dbComponent);
 		if($this->db===null)
 			throw new CException(Yii::t('yii', '\'{db}\' component doesn\'t exist.',array(
 				'{db}'=>$this->dbComponent

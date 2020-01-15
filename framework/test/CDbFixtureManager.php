@@ -98,7 +98,7 @@ class CDbFixtureManager extends CApplicationComponent
 	{
 		if($this->_db===null)
 		{
-			$this->_db=Yii::app()->getComponent($this->connectionID);
+			$this->_db=Yii::app()->getDb($this->connectionID);
 			if(!$this->_db instanceof CDbConnection)
 				throw new CException(Yii::t('yii','CDbTestFixture.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 					array('{id}'=>$this->connectionID)));

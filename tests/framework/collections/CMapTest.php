@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.collections.CMap');
-
 class MapItem
 {
 	public $data='data';

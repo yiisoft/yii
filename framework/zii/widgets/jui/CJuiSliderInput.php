@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiInputWidget');
-
 /**
  * CJuiSliderInput displays a slider. It can be used in forms and post its value.
  *

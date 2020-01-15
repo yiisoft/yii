@@ -197,7 +197,7 @@ class CWidget extends CBaseController
 	 * for more details.
 	 * The view name can also refer to a path alias if it contains dot characters.
 	 * @param string $viewName name of the view (without file extension)
-	 * @return string the view file path. False if the view file does not exist
+	 * @return string|false the view file path. False if the view file does not exist
 	 * @see CApplication::findLocalizedFile
 	 */
 	public function getViewFile($viewName)

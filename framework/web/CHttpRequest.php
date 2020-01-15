@@ -798,7 +798,7 @@ class CHttpRequest extends CApplicationComponent
 	 * The Content-Type header field indicates the MIME type of the data
 	 * contained in {@link getRawBody()} or, in the case of the HEAD method, the
 	 * media type that would have been sent had the request been a GET.
-	 * @return string request content-type. Null is returned if this information is not available.
+	 * @return string|null request content-type. Null is returned if this information is not available.
 	 * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
 	 * HTTP 1.1 header field definitions
 	 * @since 1.1.17

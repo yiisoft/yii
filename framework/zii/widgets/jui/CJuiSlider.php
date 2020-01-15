@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiWidget');
-
 /**
  * CJuiSlider displays a slider.
  *

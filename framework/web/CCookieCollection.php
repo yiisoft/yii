@@ -43,7 +43,7 @@ class CCookieCollection extends CMap
     }
 
     /**
-     * @return CHttpCookie[]|array<string, CHttpCookie> list of validated cookies
+     * @return CHttpCookie[]&array<string, CHttpCookie> list of validated cookies
      */
     protected function getCookies()
     {

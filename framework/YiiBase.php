@@ -77,7 +77,9 @@ class YiiBase
 	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
 	private static $_includePaths = [];						// list of include paths
+    /** @var \CApplication|null */
 	private static $_app;
+	/** @var \CLogger|null */
 	private static $_logger;
 
 
@@ -122,10 +124,13 @@ class YiiBase
 
 	/**
 	 * Creates an application of the specified class.
+     * @template T of \CApplication
 	 * @param string $class the application class name
+     * @phpstan-param class-string<T> $class
 	 * @param string|array $config application configuration. This parameter will be passed as the parameter
 	 * to the constructor of the application class.
 	 * @return CApplication the application instance
+     * @phpstan-return T
 	 */
 	public static function createApplication($class,$config=null)
 	{
@@ -148,7 +153,7 @@ class YiiBase
 	 * will cause the throw of an exception.
 	 * To retrieve the application instance, use {@link app()}.
 	 *
-	 * @param CApplication $app the application instance. If this is null, the existing
+	 * @param CApplication|null $app the application instance. If this is null, the existing
 	 * application singleton will be removed.
 	 *
 	 * @throws CException if multiple application instances are registered.
@@ -184,8 +189,11 @@ class YiiBase
 	 * Any additional parameters passed to this method will be
 	 * passed to the constructor of the object being created.
 	 *
+     * @template T of object
 	 * @param string|array $config the configuration. It can be either a string or an array.
+     * @phpstan-param class-string<T>|array{class: class-string<T>} $config
 	 * @return object the created object
+     * @phpstan-return T
 	 * @throws CException if the configuration does not have a 'class' element.
 	 */
 	public static function createComponent($config)
@@ -264,11 +272,14 @@ class YiiBase
 	 * For example, the namespace <code>application\components</code> must correspond to a valid
 	 * path alias <code>application.components</code>.
 	 *
+     * @template T of object
 	 * @param string $alias path alias to be imported
+     * @phpstan-param class-string<T> $alias
 	 * @param bool $forceInclude whether to include the class file immediately. If false, the class file
 	 * will be included only when the class is being used. This parameter is used only when
 	 * the path alias refers to a class.
 	 * @return string the class name or the directory that this alias refers to
+     * @phpstan-return class-string<T>
 	 * @throws CException if the alias is invalid
 	 */
 	public static function import($alias,$forceInclude=false)
@@ -407,6 +418,7 @@ class YiiBase
 	 * Class autoload loader.
 	 * This method is provided to be invoked within an __autoload() magic method.
 	 * @param string $className class name
+     * @phpstan-param class-string $className
 	 * @param bool $classMapOnly whether to load classes via classmap only
 	 * @return bool whether the class has been loaded successfully
 	 * @throws CException When class name does not match class file in debug mode.
@@ -638,10 +650,12 @@ class YiiBase
 	{
 		if(self::$_app!==null)
 		{
-			if($source===null)
-				$source=($category==='yii'||$category==='zii')?'coreMessages':'messages';
-			if(($source=self::$_app->getComponent($source))!==null)
-				$message=$source->translate($category,$message,$language);
+			if($source===null) {
+                $source = ($category === 'yii' || $category === 'zii') ? 'coreMessages' : 'messages';
+            }
+			if(($source=self::$_app->getMessages($source))!==null) {
+                $message = $source->translate($category, $message, $language);
+            }
 		}
 		if($params===array())
 			return $message;

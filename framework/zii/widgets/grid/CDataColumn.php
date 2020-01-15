@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('zii.widgets.grid.CGridColumn');
-
 /**
  * CDataColumn represents a grid view column that is associated with a data attribute or PHP expression.
  *

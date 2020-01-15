@@ -1,8 +1,5 @@
 <?php
 
-Yii::import('system.db.CDbConnection');
-Yii::import('system.db.schema.mysql.CMysqlSchema');
-
 class CDbCommandBuilderTest extends CTestCase
 {
 	/**

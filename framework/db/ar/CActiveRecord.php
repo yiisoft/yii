@@ -353,7 +353,7 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Sets the query criteria for the current model.
-	 * @param CDbCriteria $criteria the query criteria
+	 * @param CDbCriteria|null $criteria the query criteria
 	 * @since 1.1.3
 	 */
 	public function setDbCriteria($criteria)
@@ -404,8 +404,11 @@ abstract class CActiveRecord extends CModel
 	 * }
 	 * </pre>
 	 *
+     * @template T of CActiveRecord
 	 * @param string $className active record class name.
+     * @phpstan-param class-string<T> $className
 	 * @return static active record model instance.
+     * @phpstan-return T
 	 */
 	public static function model($className=__CLASS__)
 	{

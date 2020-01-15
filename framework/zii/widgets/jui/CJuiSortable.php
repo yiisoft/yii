@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('zii.widgets.jui.CJuiWidget');
-
 /**
  * CJuiSortable makes selected elements sortable by dragging with the mouse.
  *

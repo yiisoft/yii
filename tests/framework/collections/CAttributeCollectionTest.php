@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.collections.CAttributeCollection');
-
 class CAttributeCollectionTest extends CTestCase
 {
 	public function testCanGetProperty()

@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.caching.dependencies.CDirectoryCacheDependency');
-
 class CDirectoryCacheDependencyTest extends CTestCase
 {
 	private $testDir1;

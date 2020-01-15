@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.collections.CTypedList');
-
 class CTypedListTest extends CTestCase
 {
 	public function testClassType()

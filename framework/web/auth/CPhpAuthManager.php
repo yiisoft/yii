@@ -216,7 +216,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Returns the item assignment information.
 	 * @param string $itemName the item name
 	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
-	 * @return CAuthAssignment the item assignment information. Null is returned if
+	 * @return CAuthAssignment|null the item assignment information. Null is returned if
 	 * the item is not assigned to the user.
 	 */
 	public function getAuthAssignment($itemName,$userId)

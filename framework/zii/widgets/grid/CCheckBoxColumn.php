@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('zii.widgets.grid.CGridColumn');
-
 /**
  * CCheckBoxColumn represents a grid view column of checkboxes.
  *

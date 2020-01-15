@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.collections.CList');
-
 class ListItem
 {
 	public $data='data';

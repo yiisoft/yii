@@ -300,7 +300,7 @@ class CDbAuthManager extends CAuthManager
 	 * Returns the item assignment information.
 	 * @param string $itemName the item name
 	 * @param string|int $userId the user ID (see {@link IWebUser::getId})
-	 * @return CAuthAssignment the item assignment information. Null is returned if
+	 * @return CAuthAssignment|null the item assignment information. Null is returned if
 	 * the item is not assigned to the user.
 	 */
 	public function getAuthAssignment($itemName,$userId)
@@ -586,7 +586,7 @@ class CDbAuthManager extends CAuthManager
 	{
 		if($this->db!==null)
 			return $this->db;
-		elseif(($this->db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
+		elseif(($this->db=Yii::app()->getDb($this->connectionID)) instanceof CDbConnection)
 			return $this->db;
 		else
 			throw new CException(Yii::t('yii','CDbAuthManager.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',

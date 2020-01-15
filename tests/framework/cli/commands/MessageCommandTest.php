@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.cli.commands.MessageCommand');
-
 /**
  * Test case for "system.cli.commands.MessageCommand"
  * @see MessageCommand

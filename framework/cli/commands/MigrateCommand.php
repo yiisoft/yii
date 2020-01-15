@@ -452,6 +452,14 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
+    /**
+     * @template T of \CDbMigration
+     * @param string $class
+     * @phpstan-param class-string<T> $class
+     *
+     * @return CDbMigration
+     * @phpstan-return T
+     */
 	protected function instantiateMigration($class)
 	{
 		$file=$this->migrationPath.DIRECTORY_SEPARATOR.$class.'.php';
@@ -469,7 +477,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		if($this->_db!==null)
 			return $this->_db;
-		elseif(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
+		elseif(($this->_db=Yii::app()->getDb($this->connectionID)) instanceof CDbConnection)
 			return $this->_db;
 
 		echo "Error: CMigrationCommand.connectionID '{$this->connectionID}' is invalid. Please make sure it refers to the ID of a CDbConnection application component.\n";

@@ -111,7 +111,7 @@ class CDbLogRoute extends CLogRoute
 			return $this->_db;
 		elseif(($id=$this->connectionID)!==null)
 		{
-			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
+			if(($this->_db=Yii::app()->getDb($id)) instanceof CDbConnection)
 				return $this->_db;
 			else
 				throw new CException(Yii::t('yii','CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.',
