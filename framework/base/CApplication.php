@@ -543,7 +543,7 @@ abstract class CApplication extends CModule
 	 */
 	public function getCache(?string $name = null)
 	{
-        $component = $this->getComponent('cache' ?? $name);
+        $component = $this->getComponent($name ?? 'cache');
         assert($component === null || $component instanceof CCache);
 
         return $component;
