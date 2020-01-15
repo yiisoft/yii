@@ -2386,7 +2386,7 @@ EOD;
 
 	/**
 	 * Generates input field ID for a model attribute.
-	 * @param CModel $model the data model
+	 * @param CModel|string $model the data model
 	 * @param string $attribute the attribute
 	 * @return string the generated input field ID
 	 */
