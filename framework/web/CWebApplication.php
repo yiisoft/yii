@@ -232,12 +232,12 @@ class CWebApplication extends CApplication
 	 * If this component is registered and enabled, the default
 	 * view rendering logic defined in {@link CBaseController} will
 	 * be replaced by this renderer.
-	 * @return IViewRenderer the view renderer.
+	 * @return IViewRenderer|null the view renderer.
 	 */
 	public function getViewRenderer()
 	{
         $component = $this->getComponent('viewRenderer');
-        assert($component instanceof IViewRenderer);
+        assert($component === null || $component instanceof IViewRenderer);
 
         return $component;
 	}
