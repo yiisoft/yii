@@ -1,8 +1,8 @@
 ﻿                   Yii Framework Change Log
                    ========================
 
-Version 1.1.22 under development
---------------------------------
+Version 1.1.22 January 16, 2020
+-------------------------------
 
 - Bug #4256: PHP 7 compatibility: PHP4 style constructor in Pear/Text/Diff3.php (kenguest)
 - Bug #4256: PHP 7 compatibility: Fixed deprecated usage of create_function() in markdown.php (samdark)
