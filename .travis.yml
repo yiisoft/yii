@@ -2,6 +2,7 @@ language: php
 dist: trusty
 
 php:
+  - 7.4
   - 7.3
   - 7.2
   - 7.1
@@ -50,7 +51,7 @@ cache:
 install:
   - travis_retry composer self-update && composer --version
   - travis_retry composer update --prefer-dist --no-interaction
-  - if [[ $TRAVIS_PHP_VERSION == 7.2 ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+  - if [[ $TRAVIS_PHP_VERSION == 7.2 ]] || [[ $TRAVIS_PHP_VERSION == "7.4" ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
         printf "autodetect\n" | pecl install mcrypt-snapshot;
     fi
 
@@ -58,7 +59,7 @@ before_script:
   # Disable the HHVM JIT for faster Unit Testing
   - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo 'hhvm.jit = 0' >> /etc/hhvm/php.ini; fi
   # Disable DEPRECATE messages during PHPUnit initialization on PHP>=7.2. To fix them, PHPUnit should be updated to 6.*
-  - if [[ $TRAVIS_PHP_VERSION == 7.2 ]] || [[ $TRAVIS_PHP_VERSION == 7.3 ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+  - if [[ $TRAVIS_PHP_VERSION == 7.2 ]] || [[ $TRAVIS_PHP_VERSION == 7.3 ]] || [[ $TRAVIS_PHP_VERSION == "7.4" ]] || [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
       echo 'Disabled DEPRECATED notifications for PHP>=7.2';
       echo 'error_reporting = E_ALL & ~E_DEPRECATED' >> /tmp/php-config.ini;
       phpenv config-add /tmp/php-config.ini;

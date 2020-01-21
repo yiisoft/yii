@@ -41,7 +41,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.22-dev';
+		return '1.1.23-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -2325,16 +2325,19 @@ class CHttpRequest extends CApplicationComponent
 	protected function normalizeRequest()
 	{
 		// normalize request
-		if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
+		if(version_compare(PHP_VERSION,'7.4.0','<'))
 		{
-			if(isset($_GET))
-				$_GET=$this->stripSlashes($_GET);
-			if(isset($_POST))
-				$_POST=$this->stripSlashes($_POST);
-			if(isset($_REQUEST))
-				$_REQUEST=$this->stripSlashes($_REQUEST);
-			if(isset($_COOKIE))
-				$_COOKIE=$this->stripSlashes($_COOKIE);
+			if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
+			{
+				if(isset($_GET))
+					$_GET=$this->stripSlashes($_GET);
+				if(isset($_POST))
+					$_POST=$this->stripSlashes($_POST);
+				if(isset($_REQUEST))
+					$_REQUEST=$this->stripSlashes($_REQUEST);
+				if(isset($_COOKIE))
+					$_COOKIE=$this->stripSlashes($_COOKIE);
+			}
 		}
 		if($this->enableCsrfValidation)
 			Yii::app()->attachEventHandler('onBeginRequest',array($this,'validateCsrfToken'));
@@ -3090,17 +3093,33 @@ class CCookieCollection extends CMap
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
 			$value=Yii::app()->getSecurityManager()->hashData(serialize($value));
-		if(version_compare(PHP_VERSION,'5.2.0','>='))
+		if(version_compare(PHP_VERSION,'7.3.0','>='))
+			setcookie($cookie->name,$value,$this->getCookieOptions($cookie));
+		elseif(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure);
 	}
 	protected function removeCookie($cookie)
 	{
-		if(version_compare(PHP_VERSION,'5.2.0','>='))
-			setcookie($cookie->name,'',0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
+		$cookie->expire=0;
+		if(version_compare(PHP_VERSION,'7.3.0','>='))
+			setcookie($cookie->name,'',$this->getCookieOptions($cookie));
+		elseif(version_compare(PHP_VERSION,'5.2.0','>='))
+			setcookie($cookie->name,'',$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
-			setcookie($cookie->name,'',0,$cookie->path,$cookie->domain,$cookie->secure);
+			setcookie($cookie->name,'',$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure);
+	}
+	protected function getCookieOptions($cookie)
+	{
+		return array(
+			'expires'=>$cookie->expire,
+			'path'=>$cookie->path,
+			'domain'=>$cookie->domain,
+			'secure'=>$cookie->secure,
+			'httpOnly'=>$cookie->httpOnly,
+			'sameSite'=>$cookie->sameSite
+		);
 	}
 }
 class CUrlManager extends CApplicationComponent

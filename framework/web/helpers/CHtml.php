@@ -2386,7 +2386,7 @@ EOD;
 
 	/**
 	 * Generates input field ID for a model attribute.
-	 * @param CModel $model the data model
+	 * @param CModel|string $model the data model
 	 * @param string $attribute the attribute
 	 * @return string the generated input field ID
 	 */
@@ -2433,7 +2433,7 @@ EOD;
 	/**
 	 * Generates input field name for a model attribute.
 	 * Unlike {@link resolveName}, this method does NOT modify the attribute name.
-	 * @param CModel $model the data model
+	 * @param CModel|string $model the data model
 	 * @param string $attribute the attribute
 	 * @return string the generated input field name
 	 */
@@ -2679,7 +2679,7 @@ EOD;
 	 * This method will update the HTML options by setting appropriate 'name' and 'id' attributes.
 	 * This method may also modify the attribute name if the name
 	 * contains square brackets (mainly used in tabular input).
-	 * @param CModel $model the data model
+	 * @param CModel|string $model the data model
 	 * @param string $attribute the attribute
 	 * @param array $htmlOptions the HTML options
 	 */
@@ -2697,7 +2697,7 @@ EOD;
 	 * Generates input name for a model attribute.
 	 * Note, the attribute name may be modified after calling this method if the name
 	 * contains square brackets (mainly used in tabular input) before the real attribute name.
-	 * @param CModel $model the data model
+	 * @param CModel|string $model the data model
 	 * @param string $attribute the attribute
 	 * @return string the input name
 	 */
