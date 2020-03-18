@@ -4,7 +4,7 @@
 Version 1.1.23 under development
 --------------------------------
 
-no changes yet.
+- Bug #4291: The scheme (protocol) is deleted when validateIDN is enabled after validation (Argevollen)
 
 Version 1.1.22 January 16, 2020
 -------------------------------
