@@ -214,6 +214,7 @@ class CActiveForm extends CWidget
 	 * The expected function signature should be <code>beforeValidate(form) {...}</code>, where 'form' is
 	 * the jquery representation of the form object. If the return value of this function is NOT true, the validation
 	 * will be cancelled.
+     * <li>errorCallback: function, the function to be invoked if the ajax request fails.
 	 *
 	 * Note that because this option refers to a js function, you should wrap the value with {@link CJavaScriptExpression} to prevent it
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
