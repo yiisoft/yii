@@ -2399,6 +2399,7 @@ EOD;
 	 * Generates HTML name for given model.
 	 * @see CHtml::setModelNameConverter()
 	 * @param CModel|string $model the data model or the model class name
+     * @phpstan-param CModel|class-string<CModel> $model
 	 * @return string the generated HTML name value
 	 * @since 1.1.14
 	 */
@@ -2417,6 +2418,7 @@ EOD;
 	 *
 	 * @param callable|null $converter the new generator, the model or class name will be passed to the this callback
 	 * and result must be a valid value for HTML name attribute.
+     * @phpstan-param null|callable(CModel):string $converter
 	 * @throws CException if $converter isn't a valid callback
 	 * @since 1.1.14
 	 */
@@ -2434,6 +2436,7 @@ EOD;
 	 * Generates input field name for a model attribute.
 	 * Unlike {@link resolveName}, this method does NOT modify the attribute name.
 	 * @param CModel|string $model the data model
+     * @phpstan-param CModel|class-string<CModel> $model
 	 * @param string $attribute the attribute
 	 * @return string the generated input field name
 	 */
@@ -2698,6 +2701,7 @@ EOD;
 	 * Note, the attribute name may be modified after calling this method if the name
 	 * contains square brackets (mainly used in tabular input) before the real attribute name.
 	 * @param CModel|string $model the data model
+     * @phpstan-param CModel|class-string<CModel> $model
 	 * @param string $attribute the attribute
 	 * @return string the input name
 	 */

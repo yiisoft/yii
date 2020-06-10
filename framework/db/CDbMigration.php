@@ -270,7 +270,7 @@ abstract class CDbMigration extends CComponent
 	 * inserted into the generated SQL.
 	 *
 	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
-	 * @param array $columns the columns (name=>definition) in the new table.
+	 * @param string[] $columns the columns (name=>definition) in the new table.
 	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
 	 *
 	 * @return void

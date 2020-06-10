@@ -192,11 +192,12 @@ class YiiBase
      * @template T of object
 	 * @param string|array $config the configuration. It can be either a string or an array.
      * @phpstan-param class-string<T>|array{class: class-string<T>} $config
+     * @param mixed ...$params
 	 * @return object the created object
      * @phpstan-return T
 	 * @throws CException if the configuration does not have a 'class' element.
 	 */
-	public static function createComponent($config)
+	public static function createComponent($config, ...$params)
 	{
 		$args = func_get_args();
 		if(is_string($config))

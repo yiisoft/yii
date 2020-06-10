@@ -17,6 +17,9 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
  * @since 1.1
+ *
+ * @template TValue
+ * @implements IDataProvider<TValue>
  */
 abstract class CDataProvider extends CComponent implements IDataProvider
 {
@@ -30,6 +33,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Fetches the data from the persistent data storage.
 	 * @return array list of data items
+     * @phpstan-return list<TValue>
 	 */
 	abstract protected function fetchData();
 	/**
@@ -65,9 +69,13 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+     * @template T of CPagination
 	 * Returns the pagination object.
 	 * @param string $className the pagination object class name. Parameter is available since version 1.1.13.
+     * @phpstan-param class-string<T> $className
+     *
 	 * @return CPagination|false the pagination object. If this is false, it means the pagination is disabled.
+     * @phpstan-return T|false
 	 */
 	public function getPagination($className='CPagination')
 	{
@@ -117,9 +125,13 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+     * @template T of CSort
 	 * Returns the sort object.
 	 * @param string $className the sorting object class name. Parameter is available since version 1.1.13.
+     * @phpstan-param class-string<T> $className
+     *
 	 * @return CSort|false the sorting object. If this is false, it means the sorting is disabled.
+     * @phpstan-return T|false
 	 */
 	public function getSort($className='CSort')
 	{
@@ -171,7 +183,9 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Returns the data items currently available.
 	 * @param bool $refresh whether the data should be re-fetched from persistent storage.
+     *
 	 * @return array the list of data items currently available in this data provider.
+     * @phpstan-return list<TValue>
 	 */
 	public function getData($refresh=false)
 	{
@@ -184,6 +198,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Sets the data items for this provider.
 	 *
 	 * @param array $value put the data items into this provider.
+     * @phpstan-param list<TValue> $value
 	 *
 	 * @return void
 	 */

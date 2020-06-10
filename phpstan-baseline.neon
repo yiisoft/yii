@@ -1,0 +1,857 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Variable \\$command might not be defined\\.$#"
+			count: 1
+			path: framework/base/CDbStatePersister.php
+
+		-
+			message: "#^Method CRedisCache\\:\\:parseResponse\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: framework/caching/CRedisCache.php
+
+		-
+			message: "#^Variable \\$languages in isset\\(\\) is never defined\\.$#"
+			count: 1
+			path: framework/cli/commands/MessageCommand.php
+
+		-
+			message: "#^Variable \\$messagePath in isset\\(\\) is never defined\\.$#"
+			count: 1
+			path: framework/cli/commands/MessageCommand.php
+
+		-
+			message: "#^Variable \\$sourcePath in isset\\(\\) is never defined\\.$#"
+			count: 1
+			path: framework/cli/commands/MessageCommand.php
+
+		-
+			message: "#^Variable \\$pk might not be defined\\.$#"
+			count: 3
+			path: framework/db/ar/CJoinElement.php
+
+		-
+			message: "#^Variable \\$_GET in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: framework/web/CHttpRequest.php
+
+		-
+			message: "#^Variable \\$_POST in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: framework/web/CHttpRequest.php
+
+		-
+			message: "#^Variable \\$_REQUEST in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: framework/web/CHttpRequest.php
+
+		-
+			message: "#^Variable \\$_COOKIE in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: framework/web/CHttpRequest.php
+
+		-
+			message: "#^Variable \\$httponly in isset\\(\\) is never defined\\.$#"
+			count: 1
+			path: framework/web/CHttpSession.php
+
+		-
+			message: "#^Undefined variable\\: \\$domain$#"
+			count: 2
+			path: framework/web/CHttpSession.php
+
+		-
+			message: "#^Undefined variable\\: \\$lifetime$#"
+			count: 2
+			path: framework/web/CHttpSession.php
+
+		-
+			message: "#^Undefined variable\\: \\$path$#"
+			count: 2
+			path: framework/web/CHttpSession.php
+
+		-
+			message: "#^Undefined variable\\: \\$secure$#"
+			count: 2
+			path: framework/web/CHttpSession.php
+
+		-
+			message: "#^Variable \\$_SESSION in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: framework/web/CHttpSession.php
+
+		-
+			message: "#^Variable \\$_FILES in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: framework/web/CUploadedFile.php
+
+		-
+			message: "#^Variable \\$controllerID might not be defined\\.$#"
+			count: 1
+			path: framework/web/CWebApplication.php
+
+		-
+			message: "#^Variable \\$layout might not be defined\\.$#"
+			count: 1
+			path: framework/web/actions/CViewAction.php
+
+		-
+			message: "#^Variable \\$condition might not be defined\\.$#"
+			count: 1
+			path: framework/web/auth/CDbAuthManager.php
+
+		-
+			message: "#^Variable \\$checkAllLast might not be defined\\.$#"
+			count: 1
+			path: framework/web/helpers/CHtml.php
+
+		-
+			message: "#^Variable \\$HTTP_RAW_POST_DATA in isset\\(\\) is never defined\\.$#"
+			count: 1
+			path: framework/web/services/CWebService.php
+
+		-
+			message: "#^Variable \\$firstHeaderKey might not be defined\\.$#"
+			count: 1
+			path: framework/web/services/CWsdlGenerator.php
+
+		-
+			message: "#^Variable \\$value might not be defined\\.$#"
+			count: 1
+			path: framework/zii/widgets/grid/CDataColumn.php
+
+		-
+			message: "#^Call to an undefined method NewComponent\\:\\:test\\(\\)\\.$#"
+			count: 2
+			path: tests/framework/base/CBehaviorTest.php
+
+		-
+			message: "#^Call to an undefined method NewComponent\\:\\:test2\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/base/CBehaviorTest.php
+
+		-
+			message: "#^Access to an undefined property NewComponent\\:\\:\\$Text\\.$#"
+			count: 5
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Access to an undefined property NewComponent\\:\\:\\$text\\.$#"
+			count: 2
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Access to an undefined property NewComponent\\:\\:\\$Object\\.$#"
+			count: 1
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Access to an undefined property NewComponent\\:\\:\\$object\\.$#"
+			count: 2
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Access to an undefined property NewComponent\\:\\:\\$caption\\.$#"
+			count: 1
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Access to an undefined property NewComponent\\:\\:\\$newMember\\.$#"
+			count: 1
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Call to an undefined method NewComponent\\:\\:test\\(\\)\\.$#"
+			count: 2
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Call to an undefined method NewComponent\\:\\:otherMethod\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Access to an undefined property NewComponent\\:\\:\\$onMyEvent\\.$#"
+			count: 5
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Cannot call method getCount\\(\\) on array\\<int, NewComponent\\|string\\>\\.$#"
+			count: 1
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Access to an undefined property NewComponent\\:\\:\\$newBehavior\\.$#"
+			count: 1
+			path: tests/framework/base/CComponentTest.php
+
+		-
+			message: "#^Method CLogRouter\\:\\:init\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: tests/framework/base/CLogRouterTest.php
+
+		-
+			message: "#^Access to an undefined property NewModel\\:\\:\\$onBeforeValidate\\.$#"
+			count: 1
+			path: tests/framework/base/CModelTest.php
+
+		-
+			message: "#^Access to an undefined property NewModule\\:\\:\\$bar\\.$#"
+			count: 1
+			path: tests/framework/base/CModuleTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$actual\\)\\: Unexpected token \"\\$actual\", expected type at offset 85$#"
+			count: 1
+			path: tests/framework/base/CSecurityManagerTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$expected\\)\\: Unexpected token \"\\$expected\", expected type at offset 64$#"
+			count: 1
+			path: tests/framework/base/CSecurityManagerTest.php
+
+		-
+			message: "#^Access to an undefined property CComponent\\:\\:\\$behaviorCalled\\.$#"
+			count: 1
+			path: tests/framework/base/NewBehavior.php
+
+		-
+			message: "#^Access to an undefined property CComponent\\:\\:\\$behaviorEventHandled\\.$#"
+			count: 1
+			path: tests/framework/base/TestBehavior.php
+
+		-
+			message: "#^Call to an undefined method CConsoleApplication\\|CWebApplication\\:\\:reset\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/caching/CDirectoryCacheDependencyTest.php
+
+		-
+			message: "#^Access to an undefined property CCache\\:\\:\\$cachePath\\.$#"
+			count: 2
+			path: tests/framework/caching/CFileCacheTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$dirName directory full name\\)\\: Unexpected token \"\\$dirName\", expected type at offset 38$#"
+			count: 2
+			path: tests/framework/cli/commands/MessageCommandTest.php
+
+		-
+			message: "#^Access to an undefined property CAttributeCollection\\:\\:\\$Property\\.$#"
+			count: 9
+			path: tests/framework/collections/CAttributeCollectionTest.php
+
+		-
+			message: "#^Access to an undefined property MyClass\\:\\:\\$param2\\.$#"
+			count: 2
+			path: tests/framework/collections/CConfigurationTest.php
+
+		-
+			message: "#^Access to an undefined property Post2\\:\\:\\$author\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Post2\\:\\:\\$firstComment\\.$#"
+			count: 6
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Post2\\:\\:\\$comments\\.$#"
+			count: 13
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Post2\\:\\:\\$categories\\.$#"
+			count: 9
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Category2\\:\\:\\$posts\\.$#"
+			count: 2
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Category2\\:\\:\\$children\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Category2\\:\\:\\$parent\\.$#"
+			count: 3
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Order2\\:\\:\\$items\\.$#"
+			count: 2
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Item2\\:\\:\\$order\\.$#"
+			count: 2
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property PostExt2\\:\\:\\$comments\\.$#"
+			count: 8
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property Category2\\:\\:\\$nodes\\.$#"
+			count: 5
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property User2\\:\\:\\$friends\\.$#"
+			count: 2
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property User2\\:\\:\\$postsWithParam\\.$#"
+			count: 3
+			path: tests/framework/db/ar/CActiveRecord2Test.php
+
+		-
+			message: "#^Access to an undefined property UserWithWrappers\\:\\:\\$postCount\\.$#"
+			count: 2
+			path: tests/framework/db/ar/CActiveRecordEventWrappersTest.php
+
+		-
+			message: "#^Access to an undefined property UserWithWrappers\\:\\:\\$posts\\.$#"
+			count: 6
+			path: tests/framework/db/ar/CActiveRecordEventWrappersTest.php
+
+		-
+			message: "#^Cannot access property \\$posts on UserWithWrappers\\|false\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordEventWrappersTest.php
+
+		-
+			message: "#^Call to an undefined method UserWithWrappers\\:\\:posts\\(\\)\\.$#"
+			count: 3
+			path: tests/framework/db/ar/CActiveRecordEventWrappersTest.php
+
+		-
+			message: "#^Access to an undefined property UserWithWrappers\\:\\:\\$postsWithScope\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordEventWrappersTest.php
+
+		-
+			message: "#^Access to an undefined property UserWithWrappers\\:\\:\\$comments\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordEventWrappersTest.php
+
+		-
+			message: "#^Access to an undefined property Post\\:\\:\\$author\\.$#"
+			count: 6
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Post\\:\\:\\$firstComment\\.$#"
+			count: 7
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Post\\:\\:\\$comments\\.$#"
+			count: 15
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Post\\:\\:\\$categories\\.$#"
+			count: 10
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Category\\:\\:\\$posts\\.$#"
+			count: 2
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Category\\:\\:\\$children\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Category\\:\\:\\$parent\\.$#"
+			count: 3
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Order\\:\\:\\$items\\.$#"
+			count: 2
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Item\\:\\:\\$order\\.$#"
+			count: 2
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property PostExt\\:\\:\\$comments\\.$#"
+			count: 8
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Category\\:\\:\\$nodes\\.$#"
+			count: 5
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property UserNoFk\\:\\:\\$posts\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property PostNoFk\\:\\:\\$author\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$posts\\.$#"
+			count: 23
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$postCount\\.$#"
+			count: 6
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Order\\:\\:\\$itemCount\\.$#"
+			count: 8
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Category\\:\\:\\$postCount\\.$#"
+			count: 14
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$recentPostCount1\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$recentPostCount2\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Category\\:\\:\\$recentPostCount1\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Category\\:\\:\\$recentPostCount2\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Call to an undefined method User\\:\\:posts\\(\\)\\.$#"
+			count: 6
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property UserNoTogether\\:\\:\\$posts\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Call to an undefined method Post\\:\\:post23\\(\\)\\.$#"
+			count: 6
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Call to an undefined method PostSpecial\\:\\:desc\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property UserSpecial\\:\\:\\$posts\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Call to an undefined method UserSpecial\\:\\:posts\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$postsOrderDescFormat1\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$postsOrderDescFormat2\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$groups\\.$#"
+			count: 8
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$roles\\.$#"
+			count: 3
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Group\\:\\:\\$comments\\.$#"
+			count: 3
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$students\\.$#"
+			count: 5
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property User\\:\\:\\$mentorships\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Call to an undefined method User\\:\\:groups\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Call to an undefined method User\\:\\:nonEmptyPosts\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Call to an undefined method User\\:\\:postsCondition\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property UserWithDefaultScope\\:\\:\\$links\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Group\\:\\:\\$users\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Group\\:\\:\\$usersWhichEmptyByCondition\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Comment\\:\\:\\$postAuthor\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property Comment\\:\\:\\$postAuthorBelongsTo\\.$#"
+			count: 4
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to an undefined property UserWithDefaultScopeAlias\\:\\:\\$username\\.$#"
+			count: 1
+			path: tests/framework/db/ar/CActiveRecordTest.php
+
+		-
+			message: "#^Access to undefined constant PDO\\:\\:SQLSRV_ATTR_ENCODING\\.$#"
+			count: 1
+			path: tests/framework/db/schema/CMssqlTest.php
+
+		-
+			message: "#^Access to undefined constant PDO\\:\\:SQLSRV_ENCODING_SYSTEM\\.$#"
+			count: 1
+			path: tests/framework/db/schema/CMssqlTest.php
+
+		-
+			message: "#^Access to an undefined property CDbTableSchema\\:\\:\\$schemaName\\.$#"
+			count: 1
+			path: tests/framework/db/schema/CMssqlTest.php
+
+		-
+			message: "#^Access to an undefined property CMessageSource\\:\\:\\$extensionPaths\\.$#"
+			count: 1
+			path: tests/framework/i18n/CPhpMessageSourceTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$language\\)\\: Unexpected token \"\\$language\", expected type at offset 129$#"
+			count: 1
+			path: tests/framework/utils/CFormatterTest.php
+
+		-
+			message: "#^Call to an undefined method CFormatter\\:\\:boolean\\(\\)\\.$#"
+			count: 6
+			path: tests/framework/utils/CLocalizedFormatterTest.php
+
+		-
+			message: "#^Cannot access property \\$foo on null\\.$#"
+			count: 5
+			path: tests/framework/validators/CBooleanValidatorTest.php
+
+		-
+			message: "#^Cannot call method hasErrors\\(\\) on null\\.$#"
+			count: 5
+			path: tests/framework/validators/CBooleanValidatorTest.php
+
+		-
+			message: "#^Cannot call method validate\\(\\) on null\\.$#"
+			count: 5
+			path: tests/framework/validators/CBooleanValidatorTest.php
+
+		-
+			message: "#^Method CBooleanValidatorTest\\:\\:testValidationUsingCustomFalseTrueValues\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CBooleanValidatorTest.php
+
+		-
+			message: "#^Method CBooleanValidatorTest\\:\\:testValidateAndAllowEmpty\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CBooleanValidatorTest.php
+
+		-
+			message: "#^Method CBooleanValidatorTest\\:\\:testValidationUsingStrict\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CBooleanValidatorTest.php
+
+		-
+			message: "#^Cannot call method getErrors\\(\\) on null\\.$#"
+			count: 1
+			path: tests/framework/validators/CBooleanValidatorTest.php
+
+		-
+			message: "#^Method CBooleanValidatorTest\\:\\:testValidateArrayValue\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CBooleanValidatorTest.php
+
+		-
+			message: "#^Cannot access property \\$foo on null\\.$#"
+			count: 7
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Cannot access property \\$bar on null\\.$#"
+			count: 12
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Cannot call method validate\\(\\) on null\\.$#"
+			count: 14
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Cannot call method hasErrors\\(\\) on null\\.$#"
+			count: 7
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Method CCompareValidatorTest\\:\\:testValidationErrorsWithEquals\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Method CCompareValidatorTest\\:\\:testValidationErrorsWithNotEquals\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Method CCompareValidatorTest\\:\\:testValidationErrorsWitGreaterThan\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Method CCompareValidatorTest\\:\\:testValidationErrorsWitGreaterThanOrEqual\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Method CCompareValidatorTest\\:\\:testValidationErrorsWitLessThan\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Method CCompareValidatorTest\\:\\:testValidationErrorsWitLessThanOrEqual\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Access to an undefined property PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\:\\:\\$foo\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Call to an undefined method PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\:\\:validate\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Method CCompareValidatorTest\\:\\:testOverrideCompareValue\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$operator$#"
+			count: 1
+			path: tests/framework/validators/CCompareValidatorTest.php
+
+		-
+			message: "#^Cannot call method validate\\(\\) on null\\.$#"
+			count: 8
+			path: tests/framework/validators/CDateValidatorTest.php
+
+		-
+			message: "#^Cannot call method hasErrors\\(\\) on null\\.$#"
+			count: 1
+			path: tests/framework/validators/CDateValidatorTest.php
+
+		-
+			message: "#^Method CDateValidatorTest\\:\\:testAllowEmptyOption\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CDateValidatorTest.php
+
+		-
+			message: "#^Cannot access property \\$foo on null\\.$#"
+			count: 6
+			path: tests/framework/validators/CDateValidatorTest.php
+
+		-
+			message: "#^Method CDateValidatorTest\\:\\:testFormatOption\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CDateValidatorTest.php
+
+		-
+			message: "#^Cannot access property \\$bar on null\\.$#"
+			count: 2
+			path: tests/framework/validators/CDateValidatorTest.php
+
+		-
+			message: "#^Method CDateValidatorTest\\:\\:testTimestampOption\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CDateValidatorTest.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$operator$#"
+			count: 1
+			path: tests/framework/validators/CDateValidatorTest.php
+
+		-
+			message: "#^Cannot call method validate\\(\\) on null\\.$#"
+			count: 3
+			path: tests/framework/validators/CDefaultValueValidatorTest.php
+
+		-
+			message: "#^Cannot access property \\$foo on null\\.$#"
+			count: 5
+			path: tests/framework/validators/CDefaultValueValidatorTest.php
+
+		-
+			message: "#^Method CDefaultValueValidatorTest\\:\\:testDefaultValueIsSetWhenSetOnEmptyIsTrue\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CDefaultValueValidatorTest.php
+
+		-
+			message: "#^Method CDefaultValueValidatorTest\\:\\:testDefaultValueIsSetWhenSetOnEmptyIsFalse\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: tests/framework/validators/CDefaultValueValidatorTest.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$operator$#"
+			count: 1
+			path: tests/framework/validators/CDefaultValueValidatorTest.php
+
+		-
+			message: "#^Method CApplicationComponent\\:\\:init\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 3
+			path: tests/framework/web/CAssetManagerTest.php
+
+		-
+			message: "#^Access to an undefined property CController\\:\\:\\$externalFilter\\.$#"
+			count: 1
+			path: tests/framework/web/CControllerTest.php
+
+		-
+			message: "#^Access to an undefined property CController\\:\\:\\$external\\.$#"
+			count: 1
+			path: tests/framework/web/CControllerTest.php
+
+		-
+			message: "#^Method CUrlManager\\:\\:init\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 9
+			path: tests/framework/web/CUrlManagerTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(SoapPovCalculationInput Calculation input object\\)\\: Unexpected token \"Calculation\", expected variable at offset 213$#"
+			count: 1
+			path: tests/framework/web/controllers/SoapController.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(string Authorized login password\\)\\: Unexpected token \"Authorized\", expected variable at offset 149$#"
+			count: 1
+			path: tests/framework/web/controllers/SoapController.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(string Authorized login username\\)\\: Unexpected token \"Authorized\", expected variable at offset 102$#"
+			count: 1
+			path: tests/framework/web/controllers/SoapController.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$action$#"
+			count: 1
+			path: tests/framework/web/helpers/CHtmlTest.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$method$#"
+			count: 1
+			path: tests/framework/web/helpers/CHtmlTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$assertion\\)\\: Unexpected token \"\\$assertion\", expected type at offset 89$#"
+			count: 1
+			path: tests/framework/web/helpers/CHtmlTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$seconds\\)\\: Unexpected token \"\\$seconds\", expected type at offset 53$#"
+			count: 1
+			path: tests/framework/web/helpers/CHtmlTest.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$url\\)\\: Unexpected token \"\\$url\", expected type at offset 73$#"
+			count: 1
+			path: tests/framework/web/helpers/CHtmlTest.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$addErrors$#"
+			count: 1
+			path: tests/framework/web/helpers/CHtmlTest.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$src$#"
+			count: 1
+			path: tests/framework/web/helpers/CHtmlTest.php
+
+		-
+			message: "#^Property SoapInsurerPersonPhysical\\:\\:\\$date_of_birth has unknown class date as its type\\.$#"
+			count: 1
+			path: tests/framework/web/services/SoapInsurerPersonPhysical.php
+
+		-
+			message: "#^Property SoapPovCalculationInput\\:\\:\\$dob has unknown class date as its type\\.$#"
+			count: 1
+			path: tests/framework/web/services/SoapPovCalculationInput.php
+
+		-
+			message: "#^Property SoapPovCalculationInput\\:\\:\\$ins_start_date has unknown class date as its type\\.$#"
+			count: 1
+			path: tests/framework/web/services/SoapPovCalculationInput.php
+
+		-
+			message: "#^Access to an undefined property PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\:\\:\\$buttons\\.$#"
+			count: 1
+			path: tests/framework/zii/widgets/grid/CButtonColumnTest.php
+
+		-
+			message: "#^Call to an undefined method PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\:\\:init\\(\\)\\.$#"
+			count: 1
+			path: tests/framework/zii/widgets/grid/CButtonColumnTest.php
+

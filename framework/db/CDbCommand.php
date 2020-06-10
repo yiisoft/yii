@@ -444,7 +444,9 @@ class CDbCommand extends CComponent
 	 * Please also note that all values are treated as strings in this case, if you need them to be handled as
 	 * their real data types, you have to use {@link bindParam} or {@link bindValue} instead.
 	 *
-	 * @return string|false the value of the first column in the first row of the query result. False is returned if there is no value.
+     * @return string|null|false the value of the first column in the first row of the query result.
+     *                           Null is returned as null, other types are returned as string.
+     *                           False is returned if there is no value (no rows in result set).
 	 *
 	 * @throws CException execution failed
 	 */
@@ -1436,7 +1438,7 @@ class CDbCommand extends CComponent
 	 * inserted into the generated SQL.
 	 *
 	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
-	 * @param array $columns the columns (name=>definition) in the new table.
+	 * @param string[] $columns the columns (name=>definition) in the new table.
 	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
 	 * @return int 0 is always returned. See {@link http://php.net/manual/en/pdostatement.rowcount.php} for more information.
 	 * @since 1.1.6

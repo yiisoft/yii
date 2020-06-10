@@ -44,21 +44,22 @@
  * @package system.web
  * @since 1.1
  *
- * @template T of \CActiveRecord
+ * @template TValue of \CActiveRecord
+ * @extends  \CDataProvider<TValue>
  */
 class CActiveDataProvider extends CDataProvider
 {
 	/**
 	 * @var string the primary ActiveRecord class name. The {@link getData()} method
 	 * will return a list of objects of this class.
-     * @phpstan-var class-string<T>|class-string<\CActiveRecord>
+     * @phpstan-var class-string<TValue>|class-string<\CActiveRecord>
 	 */
 	public $modelClass;
 	/**
 	 * @var CActiveRecord the AR finder instance (eg <code>Post::model()</code>).
 	 * This property can be set by passing the finder instance as the first parameter
 	 * to the constructor. For example, <code>Post::model()->published()</code>.
-     * @phpstan-var T
+     * @phpstan-var TValue
 	 * @since 1.1.3
 	 */
 	public $model;
@@ -82,7 +83,7 @@ class CActiveDataProvider extends CDataProvider
      *
      * @param \CActiveRecord|string $modelClass the model class (e.g. 'Post') or the model finder instance
      *                          (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
-     * @phpstan-param T|class-string<T> $modelClass
+     * @phpstan-param TValue|class-string<TValue> $modelClass
      * @param array<string, mixed> $config     configuration (name=>value) to be applied as the initial property values of this class.
      *
      * @throws \LogicException  if provided model is not available or not CActiveRecord instance.
@@ -172,9 +173,9 @@ class CActiveDataProvider extends CDataProvider
 	 * Given active record class name returns new model instance.
 	 *
 	 * @param string $className active record class name.
-     * @phpstan-param class-string<T> $className
+     * @phpstan-param class-string<TValue> $className
 	 * @return CActiveRecord active record model instance.
-     * @phpstan-return T
+     * @phpstan-return TValue
 	 *
 	 * @since 1.1.14
 	 */
@@ -187,7 +188,7 @@ class CActiveDataProvider extends CDataProvider
 	 * Fetches the data from the persistent data storage.
 	 *
 	 * @return CActiveRecord[] list of data items
-     * @phpstan-return T[]
+     * @phpstan-return list<TValue>
 	 */
 	protected function fetchData()
 	{
@@ -254,7 +255,7 @@ class CActiveDataProvider extends CDataProvider
      * @param bool $refresh
      *
      * @return \CActiveRecord[]
-     * @phpstan-return T[]
+     * @phpstan-return list<TValue>
      */
     public function getData($refresh = false): array
     {

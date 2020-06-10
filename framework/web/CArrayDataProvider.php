@@ -45,6 +45,9 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
  * @since 1.1.4
+ *
+ * @template TValue
+ * @extends \CDataProvider<TValue>
  */
 class CArrayDataProvider extends CDataProvider
 {
@@ -58,6 +61,7 @@ class CArrayDataProvider extends CDataProvider
 	 * @var array the data that is not paginated or sorted. When pagination is enabled,
 	 * this property usually contains more elements than {@link data}.
 	 * The array elements must use zero-based integer keys.
+     * @phpstan-var list<TValue>
 	 */
 	public $rawData=array();
 	/**
@@ -71,6 +75,7 @@ class CArrayDataProvider extends CDataProvider
 	/**
 	 * Constructor.
 	 * @param array $rawData the data that is not paginated or sorted. The array elements must use zero-based integer keys.
+     * @phpstan-param list<TValue> $rawData
 	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct(array $rawData, array $config=array())
@@ -83,6 +88,7 @@ class CArrayDataProvider extends CDataProvider
 	/**
 	 * Fetches the data from the persistent data storage.
 	 * @return array list of data items
+     * @phpstan-return list<TValue>
 	 */
 	protected function fetchData()
 	{

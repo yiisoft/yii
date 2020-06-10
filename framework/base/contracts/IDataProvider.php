@@ -11,6 +11,8 @@ declare(strict_types=1);
  * @author  Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
  * @since   1.1
+ *
+ * @template TValue
  */
 interface IDataProvider
 {
@@ -46,6 +48,7 @@ interface IDataProvider
      * @param bool $refresh whether the data should be re-fetched from persistent storage.
      *
      * @return array the list of data items currently available in this data provider.
+     * @phpstan-return list<TValue>
      */
     public function getData($refresh = false);
 
