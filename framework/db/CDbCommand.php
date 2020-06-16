@@ -384,7 +384,7 @@ class CDbCommand extends CComponent
 	 *
 	 * @throws CException execution failed
 	 */
-	public function query($params=array())
+	public function query($params=array()): CDbDataReader
 	{
 		return $this->queryInternal('',0,$params);
 	}
@@ -405,7 +405,7 @@ class CDbCommand extends CComponent
 	 *
 	 * @throws CException execution failed
 	 */
-	public function queryAll($fetchAssociative=true,$params=array())
+	public function queryAll($fetchAssociative=true,$params=array()): array
 	{
 		return $this->queryInternal('fetchAll',$fetchAssociative ? $this->_fetchMode : PDO::FETCH_NUM, $params);
 	}
@@ -475,7 +475,7 @@ class CDbCommand extends CComponent
 	 *
 	 * @throws CException execution failed
 	 */
-	public function queryColumn($params=array())
+	public function queryColumn($params=array()): array
 	{
 		return $this->queryInternal('fetchAll',array(PDO::FETCH_COLUMN, 0),$params);
 	}
