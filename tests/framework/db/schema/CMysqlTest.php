@@ -21,7 +21,7 @@ class CMysqlTest extends CTestCase
 		}
 		catch(Exception $e)
 		{
-			$schemaFile=realpath(dirname(__FILE__).'/../data/mysql.sql');
+			$schemaFile=realpath(__DIR__.'/../data/mysql.sql');
 			$this->markTestSkipped("Please read $schemaFile for details on setting up the test environment for MySQL test case.");
 		}
 
@@ -29,7 +29,7 @@ class CMysqlTest extends CTestCase
 		foreach($tables as $table)
 			$this->db->createCommand("DROP TABLE IF EXISTS $table CASCADE")->execute();
 
-		$sqls=file_get_contents(dirname(__FILE__).'/../data/mysql.sql');
+		$sqls=file_get_contents(__DIR__.'/../data/mysql.sql');
 		foreach(explode(';',$sqls) as $sql)
 		{
 			if(trim($sql)!=='')
