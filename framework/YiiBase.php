@@ -89,7 +89,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.22-dev';
+		return '1.1.23-dev';
 	}
 
 	/**
