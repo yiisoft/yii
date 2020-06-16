@@ -18,7 +18,7 @@
 class CSqliteSchema extends CDbSchema
 {
 	/**
-	 * @var array the abstract column types mapped to physical column types.
+	 * @var array<string, string> the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
 	public $columnTypes=array(
@@ -35,7 +35,7 @@ class CSqliteSchema extends CDbSchema
 		'time' => 'time',
 		'date' => 'date',
 		'binary' => 'blob',
-		'boolean' => 'tinyint(1)',
+		'boolean' => 'tinyint',
 		'money' => 'decimal(19,4)',
 	);
 

@@ -18,16 +18,16 @@
 class CMysqlSchema extends CDbSchema
 {
 	/**
-	 * @var array the abstract column types mapped to physical column types.
+	 * @var array<string, string> the abstract column types mapped to physical column types.
 	 * @since 1.1.6
 	 */
 	public $columnTypes=array(
-		'pk' => 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY',
-		'bigpk' => 'bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY',
+		'pk' => 'int NOT NULL AUTO_INCREMENT PRIMARY KEY',
+		'bigpk' => 'bigint NOT NULL AUTO_INCREMENT PRIMARY KEY',
 		'string' => 'varchar(255)',
 		'text' => 'text',
-		'integer' => 'int(11)',
-		'bigint' => 'bigint(20)',
+		'integer' => 'int',
+		'bigint' => 'bigint',
 		'float' => 'float',
 		'decimal' => 'decimal',
 		'datetime' => 'datetime',
@@ -35,7 +35,7 @@ class CMysqlSchema extends CDbSchema
 		'time' => 'time',
 		'date' => 'date',
 		'binary' => 'blob',
-		'boolean' => 'tinyint(1)',
+		'boolean' => 'tinyint',
 		'money' => 'decimal(19,4)',
 	);
 
