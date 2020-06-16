@@ -228,7 +228,7 @@ class CDbCommandTest extends CTestCase
 		$sql='SELECT * FROM posts';
 		$command=$this->_connection->createCommand($sql);
 		$result = $command->queryRow();
-		$this->assertInternalType('array', $result);
+		$this->assertIsArray($result);
 	}
 
 	public function testFetchModeObject()
@@ -237,7 +237,7 @@ class CDbCommandTest extends CTestCase
 		$command=$this->_connection->createCommand($sql);
 		$command->setFetchMode(PDO::FETCH_OBJ);
 		$result = $command->queryRow();
-		$this->assertInternalType('object', $result);
+		$this->assertIsObject($result);
 	}
 
 	public function testFetchModeClass()

@@ -1508,7 +1508,7 @@ class CActiveRecordTest extends CTestCase
 	public function testHasManyThroughHasManyWithCustomSelect()
 	{
 		$model=User::model()->with('studentsCustomSelect')->findByPk(1);
-		$this->assertInternalType('object', $model, 'Unable to get master records!');
+		$this->assertIsObject($model, 'Unable to get master records!');
 		$this->assertGreaterThan(0, count($model->students), 'Empty slave records!');
 	}
 

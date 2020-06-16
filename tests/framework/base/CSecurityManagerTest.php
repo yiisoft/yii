@@ -174,7 +174,7 @@ class CSecurityManagerTest extends CTestCase
 		// student-t test that the distribution of chars is uniform would be nice.
 		for ($i=1; $i<999; $i+=1){
 			$ran=$sm->generateRandomString($i,false);
-			$this->assertInternalType('string', $ran);
+			$this->assertIsString($ran);
 			$this->assertRegExp('{[a-zA-Z0-9_~]{' . $i . '}}', $ran);
 		}
 	}
@@ -186,7 +186,7 @@ class CSecurityManagerTest extends CTestCase
 		$mbStrlen = function_exists('mb_strlen');
 		for ($i=1; $i<255; $i+=1){
 			$ran=$sm->generateRandomBytes($i,false);
-			$this->assertInternalType('string', $ran);
+			$this->assertIsString($ran);
 			$this->assertEquals($i, $mbStrlen ? mb_strlen($ran, '8bit') : strlen($ran));
 		}
 	}
@@ -201,7 +201,7 @@ class CSecurityManagerTest extends CTestCase
 		// student-t test that the distribution of chars is uniform would be nice.
 		for ($i=1; $i<999; $i+=1){
 			$ran=$sm->generateRandomString($i,true);
-			$this->assertInternalType('string', $ran);
+			$this->assertIsString($ran);
 			$this->assertRegExp('{[a-zA-Z0-9_~]{' . $i . '}}', $ran);
 		}
 	}
@@ -216,7 +216,7 @@ class CSecurityManagerTest extends CTestCase
 		$mbStrlen = function_exists('mb_strlen');
 		for ($i=1; $i<255; $i+=1){
 			$ran=$sm->generateRandomBytes($i,true);
-			$this->assertInternalType('string', $ran);
+			$this->assertIsString($ran);
 			$this->assertEquals($i, $mbStrlen ? mb_strlen($ran, '8bit') : strlen($ran));
 		}
 	}

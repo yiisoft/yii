@@ -5,7 +5,7 @@ class CHttpSessionTest extends CTestCase {
 	protected function checkProb($gcProb) {
 		Yii::app()->session->gCProbability = $gcProb;
 		$value = Yii::app()->session->gCProbability;
-		$this->assertInternalType('float', $value);
+		$this->assertIsFloat($value);
 		$this->assertLessThanOrEqual(1, $value);
 		$this->assertGreaterThanOrEqual(0, $value);
 		$this->assertLessThanOrEqual(1 / 21474836.47, abs($gcProb - $value));

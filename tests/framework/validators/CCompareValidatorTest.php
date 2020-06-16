@@ -35,7 +35,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->operator = '=';
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertInternalType('string', $script);
+		$this->assertIsString($script);
 		$this->assertContains('Foo must be repeated exactly.', $script);
 	}
 
@@ -65,7 +65,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->operator = '!=';
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertInternalType('string', $script);
+		$this->assertIsString($script);
 		$this->assertContains('Foo must not be equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
@@ -99,7 +99,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->operator = '>';
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertInternalType('string', $script);
+		$this->assertIsString($script);
 		$this->assertContains('Foo must be greater than \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
@@ -133,7 +133,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->operator = '>=';
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertInternalType('string', $script);
+		$this->assertIsString($script);
 		$this->assertContains('Foo must be greater than or equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
@@ -167,7 +167,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->operator = '<';
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertInternalType('string', $script);
+		$this->assertIsString($script);
 		$this->assertContains('Foo must be less than \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
@@ -201,7 +201,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->operator = '<=';
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertInternalType('string', $script);
+		$this->assertIsString($script);
 		$this->assertContains('Foo must be less than or equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
@@ -258,7 +258,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->operator = '=';
 		$validator->compareValue = 'bar';
 		$script = $validator->clientValidateAttribute($stub, 'foo');
-		$this->assertInternalType('string', $script);
+		$this->assertIsString($script);
 		$this->assertContains('Foo must be repeated exactly', $script);
 	}
 

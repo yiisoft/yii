@@ -182,7 +182,7 @@ class MessageCommandTest extends CTestCase
 		$messageFileName=$this->messagePath.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$category.'.php';
 		$this->assertFileExists($messageFileName,'No message file created!');
 		$messages=require($messageFileName);
-		$this->assertInternalType('array', $messages, 'Unable to compose messages!');
+		$this->assertIsArray($messages, 'Unable to compose messages!');
 		$this->assertArrayHasKey($message, $messages, 'Source message is missing!');
 	}
 

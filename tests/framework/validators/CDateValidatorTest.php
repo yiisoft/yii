@@ -60,7 +60,7 @@ class CDateValidatorTest extends CTestCase
         $model = $this->getModelMock(array('timestampAttribute' => 'bar'));
         $model->foo = '01/01/2011';
         $this->assertTrue($model->validate());
-        $this->assertInternalType('integer', $model->bar);
+        $this->assertIsInt($model->bar);
         $this->assertEquals(strtotime('1 Jan 2011'), $model->bar);
     }
 
