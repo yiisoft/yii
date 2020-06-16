@@ -553,6 +553,7 @@ class CDbCommandBuilder extends CComponent
 	 * Binds parameter values for an SQL command.
 	 * @param CDbCommand $command database command
 	 * @param array $values values for binding (integer-indexed array for question mark placeholders, string-indexed array for named placeholders)
+     * @phpstan-param list<mixed>|array<string, mixed> $values
 	 */
 	public function bindValues($command, $values)
 	{

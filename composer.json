@@ -124,7 +124,7 @@
 		"framework/yiic"
 	],
 	"scripts": {
-		"lint": "vendor/bin/phpstan analyse --memory-limit=-1 -c phpstan.neon"
+		"lint": "phpstan analyse --memory-limit=-1 -c phpstan.neon"
 	},
 	"support": {
 		"issues": "https://github.com/yiisoft/yii/issues?state=open",

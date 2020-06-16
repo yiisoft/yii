@@ -216,6 +216,16 @@ class CDbCriteriaTest extends CTestCase {
 		$this->assertEquals('A IN (:ycp11, :ycp12)', $criteria->condition);
 		$this->assertEquals(1, $criteria->params[':ycp11']);
 		$this->assertEquals('2', $criteria->params[':ycp12']);
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('A', '!=1');
+        $this->assertEquals('A!=:ycp13', $criteria->condition);
+        $this->assertEquals(1, $criteria->params[':ycp13']);
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('A', '!=1', true);
+        $this->assertEquals('A NOT LIKE :ycp14', $criteria->condition);
+        $this->assertEquals('%1%', $criteria->params[':ycp14']);
 	}
 
 	/**

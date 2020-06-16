@@ -32,7 +32,7 @@ class CDbCriteria extends CComponent
 	 */
 	public static $paramCount=0;
 	/**
-	 * @var mixed the columns being selected. This refers to the SELECT clause in an SQL
+	 * @var string|string[] the columns being selected. This refers to the SELECT clause in an SQL
 	 * statement. The property can be either a string (column names separated by commas)
 	 * or an array of column names. Defaults to '*', meaning all columns.
 	 */
@@ -48,8 +48,9 @@ class CDbCriteria extends CComponent
 	 */
 	public $condition='';
 	/**
-	 * @var array list of query parameter values indexed by parameter placeholders.
+	 * @var array $params list of query parameter values indexed by parameter placeholders.
 	 * For example, <code>array(':name'=>'Dan', ':age'=>31)</code>.
+     * @phpstan-var list<mixed>|array<string, mixed> $params
 	 */
 	public $params=array();
 	/**
@@ -422,7 +423,7 @@ class CDbCriteria extends CComponent
 		else
 			$value="$value";
 
-		if(preg_match('/^(?:\s*(<>|<=|>=|<|>|=))?(.*)$/',$value,$matches))
+		if(preg_match('/^(?:\s*(<>|!=|<=|>=|<|>|=))?(.*)$/',$value,$matches))
 		{
 			$value=$matches[2];
 			$op=$matches[1];
@@ -437,7 +438,7 @@ class CDbCriteria extends CComponent
 		{
 			if($op==='')
 				return $this->addSearchCondition($column,$value,$escape,$operator);
-			if($op==='<>')
+			if($op==='<>' || $op === '!=')
 				return $this->addSearchCondition($column,$value,$escape,$operator,'NOT LIKE');
 		}
 		elseif($op==='')

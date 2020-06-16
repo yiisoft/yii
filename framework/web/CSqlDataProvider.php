@@ -34,6 +34,8 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web
  * @since 1.1.4
+ *
+ * @extends CDataProvider<string[]|null[]>
  */
 class CSqlDataProvider extends CDataProvider
 {
@@ -111,7 +113,7 @@ class CSqlDataProvider extends CDataProvider
 
 	/**
 	 * Fetches the data item keys from the persistent data storage.
-	 * @return array list of data item keys.
+	 * @return string[] list of data item keys.
 	 */
 	protected function fetchKeys()
 	{
