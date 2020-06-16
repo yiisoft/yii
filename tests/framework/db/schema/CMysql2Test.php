@@ -54,7 +54,7 @@ class CMysql2Test extends CTestCase
 			'primary key (id, name)',
 		),'Engine=InnoDB');
 		$expect="CREATE TABLE `test` (\n"
-			. "\t`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,\n"
+			. "\t`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,\n"
 			. "\t`name` varchar(255) not null,\n"
 			. "\t`desc` text,\n"
 			. "\tprimary key (id, name)\n"
@@ -79,14 +79,14 @@ class CMysql2Test extends CTestCase
 	public function testAddColumn()
 	{
 		$sql=$this->db->schema->addColumn('test', 'id', 'integer');
-		$expect='ALTER TABLE `test` ADD `id` int(11)';
+		$expect='ALTER TABLE `test` ADD `id` int';
 		$this->assertEquals($expect, $sql);
 	}
 
 	public function testAlterColumn()
 	{
 		$sql=$this->db->schema->alterColumn('test', 'id', 'boolean');
-		$expect='ALTER TABLE `test` CHANGE `id` `id` tinyint(1)';
+		$expect='ALTER TABLE `test` CHANGE `id` `id` tinyint';
 		$this->assertEquals($expect, $sql);
 	}
 
