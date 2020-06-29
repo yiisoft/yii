@@ -1041,7 +1041,7 @@ class CHtmlTest extends CTestCase
 
 		$output='';
 		Yii::app()->getClientScript()->renderBodyEnd($output);
-		$this->assertContains($clientScriptOutput, $output);
+		$this->assertStringContainsString($clientScriptOutput, $output);
 	}
 
 	public function testAjaxCallbacks()

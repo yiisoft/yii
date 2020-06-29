@@ -28,7 +28,7 @@ class CBooleanValidatorTest extends CTestCase
         $validator->trueValue = 'foo';
         $validator->falseValue = 'bar';
         $script = $validator->clientValidateAttribute($model, 'foo');
-        $this->assertContains('Foo must be either foo or bar', $script);
+        $this->assertStringContainsString('Foo must be either foo or bar', $script);
     }
 
     /**

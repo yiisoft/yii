@@ -37,7 +37,7 @@ class CTimestampBehaviorTest extends CTestCase
 		$this->assertEquals(0, $model1->created_at);
 		$saveTime=time();
 		$model1->save();
-		$this->assertEquals($saveTime, $model1->created_at, '', 2);
+        $this->assertEqualsWithDelta($saveTime, $model1->created_at, 2, '');
 
 		// behavior changes created_at after inserting
 		$model2=new CTimestampBehaviorTestActiveRecord;
@@ -52,7 +52,7 @@ class CTimestampBehaviorTest extends CTestCase
 		$this->assertEquals(123123, $model2->created_at);
 		$saveTime=time();
 		$model2->save();
-		$this->assertEquals($saveTime, $model2->created_at, '', 2);
+		$this->assertEqualsWithDelta($saveTime, $model2->created_at, 2, '');
 
 		// behavior does not changes created_at after inserting
 		$model3=new CTimestampBehaviorTestActiveRecord;
@@ -82,7 +82,7 @@ class CTimestampBehaviorTest extends CTestCase
 		$this->assertEquals(1340529410, $model1->updated_at);
 		$saveTime=time();
 		$model1->save();
-		$this->assertEquals($saveTime, $model1->updated_at, '', 2);
+		$this->assertEqualsWithDelta($saveTime, $model1->updated_at, 2, '');
 
 		// behavior changes updated_at after updating
 		$model2=CTimestampBehaviorTestActiveRecord::model()->findByPk(2);
@@ -95,7 +95,7 @@ class CTimestampBehaviorTest extends CTestCase
 		$this->assertEquals(1340529305, $model2->updated_at);
 		$saveTime=time();
 		$model2->save();
-		$this->assertEquals($saveTime, $model2->updated_at, '', 2);
+		$this->assertEqualsWithDelta($saveTime, $model2->updated_at, 2, '');
 
 		// behavior does not changes updated_at after updating
 		$model3=CTimestampBehaviorTestActiveRecord::model()->findByPk(3);
@@ -136,7 +136,7 @@ class CTimestampBehaviorTest extends CTestCase
 		$this->assertEquals(123123123, $model5->updated_at);
 		$saveTime=time();
 		$model5->save();
-		$this->assertEquals($saveTime, $model5->updated_at, '', 2);
+		$this->assertEqualsWithDelta($saveTime, $model5->updated_at, 2, '');
 	}
 }
 

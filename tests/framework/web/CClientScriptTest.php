@@ -338,7 +338,7 @@ class CClientScriptTest extends CTestCase
 		$returnedClientScript = $this->_clientScript->registerScriptFile($url, $position, $htmlOptions);
 		$output = '<head></head>';
 		$returnedClientScript->render($output);
-		$this->assertContains($assertion, $output);
+		$this->assertStringContainsString($assertion, $output);
 	}
 
 	public function providerRenderScripts()
@@ -420,7 +420,7 @@ class CClientScriptTest extends CTestCase
 		$returnedClientScript = $this->_clientScript->registerScript($id, $script, $position, $htmlOptions);
 		$output = '<head></head>';
 		$returnedClientScript->render($output);
-		$this->assertContains($assertion, $output);
+		$this->assertStringContainsString($assertion, $output);
 	}
 
 	public function providerRenderScriptsBatch()

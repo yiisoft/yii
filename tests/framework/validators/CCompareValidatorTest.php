@@ -36,7 +36,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
 		$this->assertIsString($script);
-		$this->assertContains('Foo must be repeated exactly.', $script);
+		$this->assertStringContainsString('Foo must be repeated exactly.', $script);
 	}
 
 	/**
@@ -66,12 +66,12 @@ class CCompareValidatorTest extends CTestCase
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
 		$this->assertIsString($script);
-		$this->assertContains('Foo must not be equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
+		$this->assertStringContainsString('Foo must not be equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertContains('"Bar"', $script);
-		$this->assertNotContains('{compareAttribute}', $script);
+		$this->assertStringContainsString('"Bar"', $script);
+		$this->assertStringNotContainsString('{compareAttribute}', $script);
 	}
 
 	/**
@@ -100,12 +100,12 @@ class CCompareValidatorTest extends CTestCase
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
 		$this->assertIsString($script);
-		$this->assertContains('Foo must be greater than \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
+		$this->assertStringContainsString('Foo must be greater than \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertContains('"Bar"', $script);
-		$this->assertNotContains('{compareAttribute}', $script);
+		$this->assertStringContainsString('"Bar"', $script);
+		$this->assertStringNotContainsString('{compareAttribute}', $script);
 	}
 
 	/**
@@ -134,12 +134,12 @@ class CCompareValidatorTest extends CTestCase
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
 		$this->assertIsString($script);
-		$this->assertContains('Foo must be greater than or equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
+		$this->assertStringContainsString('Foo must be greater than or equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertContains('"Bar"', $script);
-		$this->assertNotContains('{compareAttribute}', $script);
+		$this->assertStringContainsString('"Bar"', $script);
+		$this->assertStringNotContainsString('{compareAttribute}', $script);
 	}
 
 	/**
@@ -168,12 +168,12 @@ class CCompareValidatorTest extends CTestCase
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
 		$this->assertIsString($script);
-		$this->assertContains('Foo must be less than \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
+		$this->assertStringContainsString('Foo must be less than \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertContains('"Bar"', $script);
-		$this->assertNotContains('{compareAttribute}', $script);
+		$this->assertStringContainsString('"Bar"', $script);
+		$this->assertStringNotContainsString('{compareAttribute}', $script);
 	}
 
 	/**
@@ -202,12 +202,12 @@ class CCompareValidatorTest extends CTestCase
 		$validator->compareAttribute = 'bar';
 		$script = $validator->clientValidateAttribute($model, 'foo');
 		$this->assertIsString($script);
-		$this->assertContains('Foo must be less than or equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
+		$this->assertStringContainsString('Foo must be less than or equal to \"{compareValue}\".".replace(\'{compareValue}\', ', $script);
 
 		$validator->message = '{compareAttribute}';
 		$script = $validator->clientValidateAttribute($model, 'foo');
-		$this->assertContains('"Bar"', $script);
-		$this->assertNotContains('{compareAttribute}', $script);
+		$this->assertStringContainsString('"Bar"', $script);
+		$this->assertStringNotContainsString('{compareAttribute}', $script);
 	}
 
 	public function testClientValidateAttributeThrowsExcpetion()
@@ -259,7 +259,7 @@ class CCompareValidatorTest extends CTestCase
 		$validator->compareValue = 'bar';
 		$script = $validator->clientValidateAttribute($stub, 'foo');
 		$this->assertIsString($script);
-		$this->assertContains('Foo must be repeated exactly', $script);
+		$this->assertStringContainsString('Foo must be repeated exactly', $script);
 	}
 
 	/**

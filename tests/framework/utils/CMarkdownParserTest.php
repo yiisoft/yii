@@ -35,8 +35,8 @@ MARKDOWN;
 
 		$output=$parser->safeTransform($markdown);
 
-		$this->assertContains('<pre>',$output);
-		$this->assertContains('Ошибка обновления типа почтового события',$output);
+		$this->assertStringContainsString('<pre>',$output);
+		$this->assertStringContainsString('Ошибка обновления типа почтового события',$output);
 	}
 
 }
