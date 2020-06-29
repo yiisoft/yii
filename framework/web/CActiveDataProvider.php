@@ -44,7 +44,7 @@
  * @package system.web
  * @since 1.1
  *
- * @template TValue of \CActiveRecord
+ * @template-covariant TValue of \CActiveRecord
  * @extends  \CDataProvider<TValue>
  */
 class CActiveDataProvider extends CDataProvider
