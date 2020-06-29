@@ -201,6 +201,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
      * @phpstan-param list<TValue> $value
 	 *
 	 * @return void
+     * @phpstan-ignore-next-line
 	 */
 	public function setData($value)
 	{
