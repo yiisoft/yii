@@ -7,6 +7,8 @@ Version 1.1.23 under development
 - Chg: Added change triggers to clickable checkbox rows in grid views, allowing other script to react to the changed checkbox states (BBoom)
 - Chg: Exceptions thrown while loading fixtures now contain details about the error location (BBoom)
 - Chg: Missing fixture files now throw exceptions (BBoom)
+- Enh #4294: Add PostgreSQL 12 support (bio)
+- Bug #4291: The scheme (protocol) is deleted when validateIDN is enabled after validation (Argevollen)
 
 Version 1.1.22 January 16, 2020
 -------------------------------

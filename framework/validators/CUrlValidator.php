@@ -210,7 +210,7 @@ if(jQuery.trim(value)!='') {
 				}
 				else
 				{
-					$value=idn_to_utf8($matches[2][0]);
+					$value.=idn_to_utf8($matches[2][0]);
 				}
 				$value.=$matches[3][0];
 			}

@@ -69,7 +69,11 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  *     ),
  * ));
  * </pre>
- *
+ *  
+ * Note: the above example assumes that CGridView is used with {@link CActiveDataProvider}. When used with 
+ * {@link CArrayDataProvider} or {@link CSqlDataProvider}, attribute values must be accessed as array item like 
+ * <code>$data['create_time']</code>, not as object property.
+ * 
  * Please refer to {@link columns} for more details about how to configure this property.
  *
  * @property boolean $hasFooter Whether the table should render a footer.
@@ -113,10 +117,16 @@ class CGridView extends CBaseListView
 	 * @var string a PHP expression that is evaluated for every table body row and whose result
 	 * is used as the CSS class name for the row. In this expression, you can use the following variables:
 	 * <ul>
-	 *   <li><code>$row</code> the row number (zero-based)</li>
-	 *   <li><code>$data</code> the data model for the row</li>
-	 *   <li><code>$this</code> the grid view object</li>
+	 *   <li><code>$row</code> the row number (zero-based).</li>
+	 *   <li><code>$data</code> the value provided by grid view object for the row.</li>
+	 *   <li><code>$this</code> the grid view object.</li>
 	 * </ul>
+	 * Type of the <code>$data</code> depends on {@link IDataProvider data provider} which is passed to the 
+	 * {@link CGridView grid view object}. In case of {@link CActiveDataProvider}, <code>$data</code> will have
+	 * object type and its values are accessed like <code>$data->property</code>. In case of 
+	 * {@link CArrayDataProvider} or {@link CSqlDataProvider}, it will have array type and its values must be
+	 * accessed like <code>$data['property']</code>.
+	 * 
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
@@ -131,10 +141,16 @@ class CGridView extends CBaseListView
 	 * array whose key value pairs correspond to html attribute and value.
 	 * In this expression, you can use the following variables:
 	 * <ul>
-	 *   <li><code>$row</code> the row number (zero-based)</li>
-	 *   <li><code>$data</code> the data model for the row</li>
-	 *   <li><code>$this</code> the grid view object</li>
+	 *   <li><code>$row</code> the row number (zero-based).</li>
+	 *   <li><code>$data</code> the value provided by grid view object for the row.</li>
+	 *   <li><code>$this</code> the grid view object.</li>
 	 * </ul>
+	 * Type of the <code>$data</code> depends on {@link IDataProvider data provider} which is passed to the 
+	 * {@link CGridView grid view object}. In case of {@link CActiveDataProvider}, <code>$data</code> will have
+	 * object type and its values are accessed like <code>$data->property</code>. In case of 
+	 * {@link CArrayDataProvider} or {@link CSqlDataProvider}, it will have array type and its values must be
+	 * accessed like <code>$data['property']</code>.
+	 * 
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
