@@ -165,13 +165,8 @@ class CPgsqlSchema extends CDbSchema
 	 */
 	protected function findColumns($table)
 	{
-		$serverVersion = $this->getDbConnection()->getServerVersion();
-		$columnDefValue = version_compare($serverVersion, '12.0', '<')
-			? 'd.adsrc' : 'CAST(pg_get_expr(d.adbin, d.adrelid) AS varchar)';
-
-		$sql=<<<EOD
-SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type,
-	{$columnDefValue} AS column_def_value, a.attnotnull, a.atthasdef,
+    		$sql=<<<EOD
+SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, CAST(pg_get_expr(d.adbin, d.adrelid) AS varchar) AS column_def_value, a.attnotnull, a.atthasdef,
 	pg_catalog.col_description(a.attrelid, a.attnum) AS comment
 FROM pg_attribute a LEFT JOIN pg_attrdef d ON a.attrelid = d.adrelid AND a.attnum = d.adnum
 WHERE a.attnum > 0 AND NOT a.attisdropped
