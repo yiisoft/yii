@@ -46,7 +46,7 @@ abstract class CActiveRecord extends CModel
 	const STAT= 'CStatRelation';
 
 	/**
-	 * @var CDbConnection the default database connection for all active record classes.
+	 * @var CDbConnection|null the default database connection for all active record classes.
 	 * By default, this is the 'db' application component.
 	 * @see getDbConnection
 	 */
@@ -65,7 +65,7 @@ abstract class CActiveRecord extends CModel
     /**
      * Constructor.
      *
-     * @param string $scenario scenario name. See {@link CModel::scenario} for more details about this parameter.
+     * @param string|null $scenario scenario name. See {@link CModel::scenario} for more details about this parameter.
      * Note: in order to setup initial model parameters use {@link init()} or {@link afterConstruct()}.
      * Do NOT override the constructor unless it is absolutely necessary!
      *
@@ -412,6 +412,10 @@ abstract class CActiveRecord extends CModel
 	 */
 	public static function model($className=__CLASS__)
 	{
+        if ($className === '' || $className === self::class) {
+            $className = static::class;
+        }
+
 		if(isset(self::$_models[$className]))
 			return self::$_models[$className];
 		else

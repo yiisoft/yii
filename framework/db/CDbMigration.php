@@ -44,6 +44,7 @@ abstract class CDbMigration extends CComponent
 	 * This method contains the logic to be executed when applying this migration.
 	 * Child classes may implement this method to provide actual migration logic.
 	 * @return void|false Returning false means, the migration will not be applied.
+     * @throws \CException
 	 */
 	public function up()
 	{
@@ -73,6 +74,7 @@ abstract class CDbMigration extends CComponent
 	 * This method contains the logic to be executed when removing this migration.
 	 * Child classes may override this method if the corresponding migrations can be removed.
 	 * @return void|false Returning false means, the migration will not be applied.
+     * @throws \CException
 	 */
 	public function down()
 	{
@@ -106,6 +108,7 @@ abstract class CDbMigration extends CComponent
 	 * needs to be within a transaction.
 	 * @return void|false Returning false means, the migration will not be applied and
 	 * the transaction will be rolled back.
+     * @throws \CException
 	 * @since 1.1.7
 	 */
 	public function safeUp()
@@ -122,6 +125,7 @@ abstract class CDbMigration extends CComponent
 	 * needs to be within a transaction.
 	 * @return void|false Returning false means, the migration will not be applied and
 	 * the transaction will be rolled back.
+     * @throws \CException
 	 * @since 1.1.7
 	 */
 	public function safeDown()
