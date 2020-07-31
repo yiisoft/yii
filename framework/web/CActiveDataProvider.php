@@ -172,10 +172,11 @@ class CActiveDataProvider extends CDataProvider
 	/**
 	 * Given active record class name returns new model instance.
 	 *
+     * @template TClass of CActiveRecord
 	 * @param string $className active record class name.
-     * @phpstan-param class-string<TValue> $className
+     * @phpstan-param class-string<TClass> $className
 	 * @return CActiveRecord active record model instance.
-     * @phpstan-return TValue
+     * @phpstan-return TClass
 	 *
 	 * @since 1.1.14
 	 */
