@@ -6,6 +6,7 @@ Version 1.1.23 under development
 
 - Enh #4294: Add PostgreSQL 12 support (bio)
 - Bug #4291: The scheme (protocol) is deleted when validateIDN is enabled after validation (Argevollen)
+- Bug: Fix CFileHelper::findFiles() to use correct directory separator under Windows (samdark)
 
 Version 1.1.22 January 16, 2020
 -------------------------------
