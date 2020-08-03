@@ -85,11 +85,26 @@
 			"framework/yii.php"
 		]
 	},
+	"config": {
+		"preferred-install": "source"
+	},
 	"require-dev": {
-		"phpunit/phpunit": "~4.8.34",
+		"cweagans/composer-patches": "@dev",
+		"phpunit/phpunit": "4.8.34",
 		"phpunit/phpunit-selenium": "~1.4.0",
 		"phing/phing": "2.*",
 		"phpseclib/mcrypt_compat": "^1.0",
 		"pear/archive_tar": "~1.4.6"
-	}
+	},
+	"extra": {
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "phpunit/phpunit-mock-objects": {
+                "Fix PHP 7 compatibility": "./tests/phpunit_mock_objects.patch"
+            },
+            "phpunit/phpunit": {
+                "Fix PHP 7.2 compatibility": "./tests/phpunit_getopt.patch"
+            }
+        }
+    }
 }
