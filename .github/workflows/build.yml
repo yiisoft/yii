@@ -87,7 +87,7 @@ jobs:
         env:
           PGHOST: 127.0.0.1
           PGUSER: postgres
-          PGDATABASE: yii
+          PGDATABASE: postgres
           PGPASSWORD: postgres
           PGPORT: ${{ job.services.postgres.ports['5432'] }}
         run: |
