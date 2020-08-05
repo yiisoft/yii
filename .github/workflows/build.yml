@@ -74,7 +74,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create MySQL Database
-        run: docker exec -i mysql mysql -u root -e 'CREATE SCHEMA `yii` CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
+        run: mysql -uroot -proot -e 'CREATE SCHEMA `yii` CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
 
       - name: Create MS SQL Database
         run: docker exec -i mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
