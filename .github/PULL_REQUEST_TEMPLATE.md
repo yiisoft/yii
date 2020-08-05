@@ -1,5 +1,5 @@
 <!--
-Note that only PHP 7 compatibility fixes are accepted. Please report security issues to maintainers privately.
+Note that only PHP 7 and PHP 8 compatibility fixes are accepted. Please report security issues to maintainers privately.
 -->
 
 | Q             | A
