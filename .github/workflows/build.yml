@@ -85,11 +85,11 @@ jobs:
 
       - name: Create PostgreSQL Database
         env:
-          PG_HOST: 127.0.0.1
-          PG_USER: postgres
-          PG_DATABASE: postgres
-          PG_PASSWORD: postgres
-          PG_PORT: ${{ job.services.postgres.ports['5432'] }}
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          PGDATABASE: postgres
+          PGPASSWORD: postgres
+          PGPORT: ${{ job.services.postgres.ports['5432'] }}
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
           psql -q -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN;" -U postgres && psql -q -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres && psql -q -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
