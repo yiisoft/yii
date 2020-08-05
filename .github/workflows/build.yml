@@ -47,11 +47,11 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        memcached:
-          image: memcached
-          ports:
-            - 11211/udp
-          options: --health-cmd "timeout 5 bash -c 'cat < /dev/null > /dev/udp/127.0.0.1/11211'" --health-interval 10s --health-timeout 5s --health-retries 5
+      memcached:
+        image: memcached
+        ports:
+          - 11211/udp
+        options: --health-cmd "timeout 5 bash -c 'cat < /dev/null > /dev/udp/127.0.0.1/11211'" --health-interval 10s --health-timeout 5s --health-retries 5
     strategy:
       matrix:
         os:
