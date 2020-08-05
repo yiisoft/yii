@@ -85,7 +85,7 @@ jobs:
 
       - name: Create PostgreSQL Database
         env:
-          PG_HOST: postgres
+          PG_HOST: 127.0.0.1
           PG_USER: postgres
           PG_DATABASE: postgres
           PG_PASSWORD: postgres
