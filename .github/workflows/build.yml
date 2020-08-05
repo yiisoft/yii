@@ -87,7 +87,7 @@ jobs:
         env:
           PGHOST: 127.0.0.1
           PGUSER: postgres
-          PGDATABASE: postgres
+          PGDATABASE: yii
           PGPASSWORD: postgres
           PGPORT: ${{ job.services.postgres.ports['5432'] }}
         run: |
@@ -95,6 +95,7 @@ jobs:
           psql -q -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN;" -U postgres && psql -q -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres && psql -q -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
 
       - name: Install php-sqlsrv
+        if: matrix.php == '7.4' || matrix.php == '7.3' || matrix.php == '7.2'
         run: |
           curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - >/dev/null 2>&1
           curl -sSL https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2017.list | sudo tee /etc/apt/sources.list.d/mssql-server-2017.list >/dev/null 2>&1
@@ -108,7 +109,6 @@ jobs:
           else
               printf "\033[31;1mpdo_sqlsrv not installed :-(\n"
           fi
-
       - name: Setup cache environment
         id: cache-env
         uses: shivammathur/cache-extensions@v1
