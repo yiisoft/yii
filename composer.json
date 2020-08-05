@@ -89,7 +89,7 @@
 		"preferred-install": "source"
 	},
 	"require-dev": {
-		"cweagans/composer-patches": "@dev",
+		"cweagans/composer-patches": "^1.6.7|@dev",
 		"phpunit/phpunit": "4.8.34",
 		"phpunit/phpunit-selenium": "~1.4.0",
 		"phing/phing": "2.*",
