@@ -75,14 +75,18 @@ jobs:
 
       - name: Create MySQL Database
         run: |
-          sudo apt-get install -y mysql-client
+          sudo apt-get update && sudo apt-get install -y mysql-client
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -proot -e 'CREATE SCHEMA `yii` CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
 
       - name: Create MS SQL Database
-        run: docker exec -i mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
+        run: |
+          sudo apt-get update && sudo apt-get install -y mssql-tools
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
 
       - name: Create PostgreSQL Database
-        run: docker exec -i postgres psql -q -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN;" -U postgres && psql -q -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres && psql -q -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
+        run: |
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          psql -q -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN;" -U postgres && psql -q -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres && psql -q -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
 
       - name: Install php-sqlsrv
         run: |
