@@ -104,7 +104,7 @@
             },
             "phpunit/phpunit": {
                 "Fix PHP 7.2 compatibility": "./tests/phpunit_getopt.patch",
-				"Fix PHP 8 private final warning": "./tests/phpunit_configuration.patch"
+				"Fix PHP 8 compatibility": "./tests/phpunit_php8.patch"
             }
         }
     }
