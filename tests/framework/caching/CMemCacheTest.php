@@ -7,7 +7,7 @@ if(!defined('MEMCACHE_TEST_PORT'))
 	define('MEMCACHE_TEST_PORT', 11211);
 
 if (!defined('MEMCACHE_USE_MEMCACHED'))
-	define('MEMCACHE_USE_MEMCACHED', false);
+	define('MEMCACHE_USE_MEMCACHED', true);
 
 class CMemCacheTest extends CTestCase
 {
