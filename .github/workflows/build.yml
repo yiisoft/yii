@@ -9,7 +9,7 @@ jobs:
     name: PHP ${{ matrix.php-version }}-${{ matrix.os }}
     env:
       extensions-php5: curl, cubrid, mbstring, memcached, dom, intl, json, libxml, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, xml, xmlwriter, mcrypt
-      extensions-php7: curl, cubrid, mbstring, memcached, dom, intl, json, libxml, mysql, pgsql, pdo, pdo_sqlite, xml, xmlwriter, mcrypt
+      extensions-php7: curl, cubrid, mbstring, memcached, dom, intl, json, libxml, pdo, mysql, pdo_pgsql, pdo_sqlite, xml, xmlwriter, mcrypt
       key-php5: cache-v1
       key-php7: cache-v2
 
