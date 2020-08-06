@@ -24,3 +24,16 @@ index 5c1041608..b2f7a7bd0 100644
      {
      }
  
+diff --git a/src/Util/PHP/Template/TestCaseMethod.tpl.dist b/src/Util/PHP/Template/TestCaseMethod.tpl.dist
+index b48f354cd..d59cdeea7 100644
+--- a/src/Util/PHP/Template/TestCaseMethod.tpl.dist
++++ b/src/Util/PHP/Template/TestCaseMethod.tpl.dist
+@@ -78,7 +78,7 @@ if ('' !== $configurationFilePath) {
+     unset($configuration);
+ }
+ 
+-function __phpunit_error_handler($errno, $errstr, $errfile, $errline, $errcontext)
++function __phpunit_error_handler($errno, $errstr, $errfile, $errline, $errcontext = null)
+ {
+    return true;
+ }
