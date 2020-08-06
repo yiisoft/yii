@@ -94,15 +94,15 @@
 		"pear/archive_tar": "~1.4.6"
 	},
 	"extra": {
-        "composer-exit-on-patch-failure": true,
-        "patches": {
-            "phpunit/phpunit-mock-objects": {
-                "Fix PHP 7 and 8 compatibility": "./tests/phpunit_mock_objects.patch"
-            },
-            "phpunit/phpunit": {
-                "Fix PHP 7 compatibility": "./tests/phpunit_php7.patch",
+		"composer-exit-on-patch-failure": true,
+		"patches": {
+			"phpunit/phpunit-mock-objects": {
+				"Fix PHP 7 and 8 compatibility": "./tests/phpunit_mock_objects.patch"
+			},
+			"phpunit/phpunit": {
+				"Fix PHP 7 compatibility": "./tests/phpunit_php7.patch",
 				"Fix PHP 8 compatibility": "./tests/phpunit_php8.patch"
-            }
-        }
-    }
+			}
+		}
+	}
 }
