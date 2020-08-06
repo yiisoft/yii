@@ -80,6 +80,8 @@ class CEmailValidatorTest extends CTestCase
 
 	public function testMxPortDomainWithNoMXRecord()
 	{
+	    var_dump(getenv());
+
 		if (getenv('TRAVIS')==='true')
 			$this->markTestSkipped('MX connections are disabled in travis.');
 
