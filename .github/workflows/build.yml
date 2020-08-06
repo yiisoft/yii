@@ -8,38 +8,50 @@ jobs:
   tests:
     name: PHP ${{ matrix.php-version }}-${{ matrix.os }}
     env:
-      extensions: curl, mbstring, dom, intl, json, libxml, xml, xmlwriter, mcrypt, memcache, memcached
-      key: cache-v1
+      extensions-php5: curl, cubrid, mbstring, memcached, dom, intl, json, libxml, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, xml, xmlwriter
+      extensions-php7: curl, cubrid, mbstring, memcached, dom, intl, json, libxml, mysql, pgsql, pdo, pdo_sqlite, xml, xmlwriter
+      key-php5: cache-v1
+      key-php7: cache-v2
 
     runs-on: ${{ matrix.os }}
 
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+
+        php-version:
+          - "5.3"
+          - "5.4"
+          - "5.5"
+          - "5.6"
+          - "7.0"
+          - "7.1"
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+
     services:
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2017-latest
-        env:
-          SA_PASSWORD: YourStrong!Passw0rd
-          ACCEPT_EULA: Y
-          MSSQL_PID: Developer
-        ports:
-          - 1433:1433
-        options: --name=mssql --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'SELECT 1'" --health-interval=10s --health-timeout=5s --health-retries=3
-      postgres:
-        image: postgres:9.6
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: yiitest
-        ports:
-          - 5432:5432
-        options: --name=postgres --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: yiitest
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
+          MYSQL_DATABASE: yii
+          MYSQL_ROOT_PASSWORD: test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      postgres:
+        image: postgres:9.6
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: yii
+        ports:
+          - 5432:5432
+        options: --name=postgres --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
       redis:
         image: redis
         options:
@@ -47,125 +59,100 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      memcached:
-        image: memcached
-        ports:
-          - 11211/udp
-        options: --health-cmd "timeout 5 bash -c 'cat < /dev/null > /dev/udp/127.0.0.1/11211'" --health-interval 10s --health-timeout 5s --health-retries 5
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-
-        php-version:
-          - "8.0"
-          - "7.4"
-          - "7.3"
-          - "7.2"
-          - "7.1"
-          - "7.0"
-          - "5.6"
-          - "5.5"
-          - "5.4"
-          - "5.3"
 
     steps:
+      - name: Install service memcached
+        uses: niden/actions-memcached@v7
+
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Create MySQL Database
-        run: |
-          sudo apt-get update && sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -proot -e 'CREATE SCHEMA `yii` CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON `yii`.* TO test@localhost IDENTIFIED BY "test"; FLUSH PRIVILEGES;'
-
-      - name: Create MS SQL Database
-        run: |
-          sudo apt-get update && sudo apt-get install -y mssql-tools
-          /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE yiitest'
-
-      - name: Create PostgreSQL Database
-        env:
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
-          PGDATABASE: postgres
-          PGPASSWORD: postgres
-          PGPORT: ${{ job.services.postgres.ports['5432'] }}
-        run: |
-          sudo apt-get update && sudo apt-get install -y postgresql-client
-          psql -q -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN;" -U postgres && psql -q -c 'CREATE DATABASE yii WITH OWNER = test;' -U postgres && psql -q -c 'GRANT ALL PRIVILEGES ON DATABASE yii TO test;' -U postgres
-
-      - name: Install php-sqlsrv
-        if: matrix.php == '7.4' || matrix.php == '7.3' || matrix.php == '7.2'
-        run: |
-          curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - >/dev/null 2>&1
-          curl -sSL https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2017.list | sudo tee /etc/apt/sources.list.d/mssql-server-2017.list >/dev/null 2>&1
-          printf "\033[32;1m✓ \033[0m\033[90;1madd microsoft keys & repository\n"
-          sudo apt-get -q update >/dev/null 2>&1
-          printf "\033[32;1m✓ \033[0m\033[90;1mapt-get update\n"
-          sudo pecl -q install pdo_sqlsrv > /dev/null 2>&1
-          printf "\033[32;1m✓ \033[0m\033[90;1mpecl install pdo_sqlsrv\n"
-          if (php -m | grep -i -q -w "pdo_sqlsrv"); then
-              printf "\033[32;1mpdo_sqlsrv installed correct\n"
-          else
-              printf "\033[31;1mpdo_sqlsrv not installed :-(\n"
-          fi
-      - name: Setup cache environment
-        id: cache-env
+      - name: Setup cache environment 5.3 - 5.6
+        if: matrix.php-version < '7.0'
+        id: cache-env-php5
         uses: shivammathur/cache-extensions@v1
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: ${{ env.extensions }}
-          key: ${{ env.key }}
+          extensions: ${{ env.extensions-php5 }}
+          key: ${{ env.key-php5 }}
 
-      - name: Cache extensions
+      - name: Setup cache environment 7.0 - 8.0
+        if: matrix.php-version >= '7.0'
+        id: cache-env-php7
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: ${{ env.extensions-php7 }}
+          key: ${{ env.key-php7 }}
+
+      - name: Cache extensions 5.3 - 5.6
+        if: matrix.php-version < '7.0'
         uses: actions/cache@v1
         with:
-          path: ${{ steps.cache-env.outputs.dir }}
-          key: ${{ steps.cache-env.outputs.key }}
-          restore-keys: ${{ steps.cache-env.outputs.key }}
+          path: ${{ steps.cache-env-php5.outputs.dir }}
+          key: ${{ steps.cache-env-php5.outputs.key }}
+          restore-keys: ${{ steps.cache-env-php5.outputs.key }}
 
-      - name: Install PHP with extensions
+      - name: Cache extensions 7.0 - 8.0
+        if: matrix.php-version >= '7.0'
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.cache-env-php7.outputs.dir }}
+          key: ${{ steps.cache-env-php7.outputs.key }}
+          restore-keys: ${{ steps.cache-env-php7.outputs.key }}
+
+      - name: Install PHP with extensions 5.3 - 5.6
+        if: matrix.php-version < '7.0'
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: ${{ env.extensions }}
+          extensions: ${{ env.extensions-php5 }}
           ini-values: date.timezone='UTC'
-          coverage: pcov
-          tools: composer:v2
+          coverage: xdebug
+          tools: composer:v1, pecl
+
+      - name: Install PHP with extensions 7.0 - 8.0
+        if: matrix.php-version >= '7.0'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: ${{ env.extensions-php7 }}
+          ini-values: date.timezone='UTC'
+          coverage: xdebug
+          tools: composer:v1, pecl
 
       - name: Determine composer cache directory on Linux
-        if: matrix.os == 'ubuntu-latest'
         run: echo "::set-env name=COMPOSER_CACHE_DIR::$(composer config cache-dir)"
 
-      - name: Determine composer cache directory on Windows
-        if: matrix.os == 'windows-latest'
-        run: ECHO "::set-env name=COMPOSER_CACHE_DIR::~\AppData\Local\Composer"
-
-#      - name: Cache dependencies installed with composer
-#        uses: actions/cache@v2
-#        with:
-#          path: ${{ env.COMPOSER_CACHE_DIR }}
-#          key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
-#          restore-keys: |
-#            php${{ matrix.php-version }}-composer-
-
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.COMPOSER_CACHE_DIR }}
+          key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            php${{ matrix.php-version }}-composer-
       - name: Install dependencies with composer
-        run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader
+        run: composer update --no-interaction --no-progress --optimize-autoloader
 
-      - name: Run tests with phpunit and coverage on Linux php 7.4
-        if: matrix.os == 'ubuntu-latest' && matrix.php-version == '7.4'
-        run: vendor/bin/phpunit --coverage-clover=coverage.clover
-
-      - name: Run tests with phpunit without coverage on Linux php 8.0
-        if: matrix.os == 'ubuntu-latest' && matrix.php-version == '8.0'
-        run: vendor/bin/phpunit
-
-      - name: Run tests with phpunit without coverage on Windows
-        if: matrix.os == 'windows-latest'
-        run: vendor/bin/phpunit
-
-      - name: Upload code coverage scrutinizer on Linux php 7.4
-        if: matrix.os == 'ubuntu-latest' && matrix.php-version == '7.4'
+      - name: Run tests with phpunit and coverage PHP 5.3 - 7.4
+        if: matrix.php-version != '8.0'
         run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+          cd tests
+          ../vendor/bin/phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci,cubrid framework
+        env:
+          # The hostname used to communicate with the Redis service container
+          REDIS_HOST: localhost
+          # The default Redis port
+          REDIS_PORT: 6379
+
+      - name: Run tests with phpunit and coverage PHP 8.0
+        if: matrix.php-version == '8.0'
+        continue-on-error: true
+        run: |
+          cd tests
+          ../vendor/bin/phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci,cubrid framework
+        env:
+          # The hostname used to communicate with the Redis service container
+          REDIS_HOST: localhost
+          # The default Redis port
+          REDIS_PORT: 6379
