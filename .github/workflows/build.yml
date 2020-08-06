@@ -148,7 +148,6 @@ jobs:
 
       - name: Run tests with phpunit and coverage PHP 8.0
         if: matrix.php-version == '8.0'
-        continue-on-error: true
         run: |
           cd tests
           ../vendor/bin/phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci,cubrid framework
