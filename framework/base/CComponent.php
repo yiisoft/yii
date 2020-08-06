@@ -621,7 +621,7 @@ class CComponent
 		else
 		{
 			$_data_[]=$this;
-			return call_user_func_array($_expression_, $_data_);
+			return call_user_func_array($_expression_, array_values($_data_));
 		}
 	}
 }
