@@ -1,5 +1,5 @@
 diff --git a/src/Framework/MockObject/Generator.php b/src/Framework/MockObject/Generator.php
-index 3df3abb..c13c3bf 100644
+index 3df3abb..fc76d5d 100644
 --- a/src/Framework/MockObject/Generator.php
 +++ b/src/Framework/MockObject/Generator.php
 @@ -1031,16 +1031,29 @@ protected function getMethodParameters(ReflectionMethod $method, $forCall = fals
@@ -11,7 +11,7 @@ index 3df3abb..c13c3bf 100644
 +                    $isCallable = $parameter->getType() && $parameter->getType()->getName() === 'callable';
 +                } else {
 +                    $isArray = $parameter->isArray();
-+                    $isCallable = $parameter->isCallable();
++                    $isCallable = version_compare(PHP_VERSION, '5.4.0', '>=') ? $parameter->isCallable() : false;
 +                }
 +
                  if ($this->hasType($parameter)) {
