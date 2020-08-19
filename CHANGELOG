@@ -7,6 +7,7 @@ Version 1.1.23 under development
 - Enh #4294: Add PostgreSQL 12 support (bio)
 - Bug #4291: The scheme (protocol) is deleted when validateIDN is enabled after validation (Argevollen)
 - Bug: Fix CFileHelper::findFiles() to use correct directory separator under Windows (samdark)
+- Enh #4305: PHP 7.3 compatibility: Support giving cookies a SameSite=None attribute value (tomfotherby)
 - Bug #4306: Add PHP 8 support (samdark)
 - Enh #4308: PHP 7.3 compatibility: Add `samesite` as a session cookie option (tomfotherby)
 - Bug #4310: Items on memcache won't expire due to memcache difference in internal clock (nikolasr200)
