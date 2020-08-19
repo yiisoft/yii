@@ -41,6 +41,7 @@ class CHttpCookie extends CComponent
 	 * E.g. a POST request from https://otherdomain.com to https://yourdomain.com or a user following a link from
 	 * https://otherdomain.com to https://yourdomain.com it will include the cookie.
 	 * @see $sameSite
+	 * @since 1.1.23
 	 */
 	const SAME_SITE_NONE = 'None';
 

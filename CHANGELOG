@@ -6,6 +6,7 @@ Version 1.1.23 under development
 
 - Enh #4294: Add PostgreSQL 12 support (bio)
 - Bug #4291: The scheme (protocol) is deleted when validateIDN is enabled after validation (Argevollen)
+- Enh #4305: PHP 7.3 compatibility: Support giving cookies a SameSite=None attribute value (tomfotherby)
 
 Version 1.1.22 January 16, 2020
 -------------------------------
