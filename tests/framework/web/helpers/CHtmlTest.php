@@ -542,10 +542,6 @@ class CHtmlTest extends CTestCase
 			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),array('CHtmlTest','helperTestValue'),null,'v2'),
 			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),array('CHtmlTest','helperTestValue'),null,'v2'),
 
-			// create_function is not supported by CHtml::value(), we're just testing this feature/property
-			array(array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model["k2"];'),null,null),
-			array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),create_function('$model','return $model->k2;'),null,null),
-
 			// standard PHP functions should not be treated as callables
 			array(array('array_filter'=>'array_filter','sort'=>'sort'),'sort',null,'sort'),
 			array(array('array_filter'=>'array_filter','sort'=>'sort'),'array_map','defaultValue','defaultValue'),
@@ -574,6 +570,15 @@ class CHtmlTest extends CTestCase
 			array(array('v1'),0,'defaultValue','v1'),
 			array(array('v1'),0.0,'defaultValue','v1'),
 		);
+
+		// create_function is not supported by CHtml::value(), we're just testing this feature/property
+		if(version_compare(PHP_VERSION,'8.0','<')) {
+			$result=array_merge($result, array(
+				array(array('k1' => 'v1', 'k2' => 'v2', 'v3', 'v4'), create_function('$model', 'return $model["k2"];'), null, null),
+				array((object)array('k1' => 'v1', 'k2' => 'v2', 'v3', 'v4'), create_function('$model', 'return $model->k2;'), null, null),
+			));
+		}
+
 		if(class_exists('Closure',false))
 		{
 			// anonymous function

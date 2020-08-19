@@ -220,7 +220,7 @@ class CFileHelper
 				if($isFile)
 					$list[]=$absolutePaths?$fullPath:$path;
 				elseif($level)
-					$list=array_merge($list,self::findFilesRecursive($dir,$base.'/'.$file,$fileTypes,$exclude,$level-1,$absolutePaths));
+					$list=array_merge($list,self::findFilesRecursive($dir,$base.DIRECTORY_SEPARATOR.$file,$fileTypes,$exclude,$level-1,$absolutePaths));
 			}
 		}
 		closedir($handle);
