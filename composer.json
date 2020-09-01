@@ -94,6 +94,9 @@
 		"pear/archive_tar": "~1.4.6"
 	},
 	"extra": {
+		"branch-alias": {
+			"dev-master": "1.1.x-dev"
+		},
 		"composer-exit-on-patch-failure": true,
 		"patches": {
 			"phpunit/phpunit-mock-objects": {
