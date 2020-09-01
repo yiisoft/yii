@@ -165,15 +165,12 @@ class CMemCache extends CCache
 	 *
 	 * @param string $key the key identifying the value to be cached
 	 * @param string $value the value to be cached
-	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @param integer $duration the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
-	protected function setValue($key,$value,$expire)
+	protected function setValue($key,$value,$duration)
 	{
-		if($expire>0)
-			$expire+=time();
-		else
-			$expire=0;
+		$expire = $this->normalizeDuration($duration);
 
 		return $this->useMemcached ? $this->_cache->set($key,$value,$expire) : $this->_cache->set($key,$value,0,$expire);
 	}
@@ -184,18 +181,40 @@ class CMemCache extends CCache
 	 *
 	 * @param string $key the key identifying the value to be cached
 	 * @param string $value the value to be cached
-	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @param integer $duration the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
-	protected function addValue($key,$value,$expire)
+	protected function addValue($key,$value,$duration)
 	{
-		if($expire>0)
-			$expire+=time();
-		else
-			$expire=0;
+		$expire = $this->normalizeDuration($duration);
 
 		return $this->useMemcached ? $this->_cache->add($key,$value,$expire) : $this->_cache->add($key,$value,0,$expire);
 	}
+
+	/**
+         * Normalizes duration value.
+         * Ported code from yii2 after identifying issue with memcache falsely handling short term duration based on unix timestamps
+         *
+         * @see https://github.com/yiisoft/yii2/issues/17710
+         * @see https://secure.php.net/manual/en/memcache.set.php
+         * @see https://secure.php.net/manual/en/memcached.expiration.php
+         * @see https://github.com/php-memcached-dev/php-memcached/issues/368#issuecomment-359137077
+         *
+         * @param int $duration
+         * @return int
+         */
+        protected function normalizeDuration($duration)
+        {
+            if ($duration < 0) {
+                return 0;
+            }
+
+            if ($duration < 2592001) {
+                return $duration;
+            }
+
+            return $duration + time();
+        }
 
 	/**
 	 * Deletes a value with the specified key from cache

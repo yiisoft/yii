@@ -1,5 +1,5 @@
 <!--
-Note that only PHP 7 compatibility issues are accepted. For security issues contact maintainers privately.
+Note that only PHP 7 and PHP 8 compatibility issues are accepted. For security issues contact maintainers privately.
 -->
 
 ### What steps will reproduce the problem?
