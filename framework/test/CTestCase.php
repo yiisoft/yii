@@ -28,4 +28,29 @@ abstract class CTestCase extends \PHPUnit\Framework\TestCase
             parent::assertObjectHasAttribute($attributeName, $object, $message);
         }
     }
+
+    /**
+     * @deprecated this method is removed from PhpUnit 9
+     *
+     * @return mixed
+     */
+    protected function readAttribute(object $object, string $propertyName)
+    {
+        $closure = function (string $propertyName) {
+            return $this->{$propertyName};
+        };
+
+        return $closure->call($object, $propertyName);
+    }
+
+    /**
+     * @deprecated this method is removed from PhpUnit 9
+     *
+     * @param mixed $expected
+     */
+    protected function assertAttributeEquals($expected, string $propertyName, object $object): void
+    {
+        $actual = $this->readAttribute($object, $propertyName);
+        static::assertEquals($expected, $actual);
+    }
 }

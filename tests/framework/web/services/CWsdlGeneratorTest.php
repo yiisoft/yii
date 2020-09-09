@@ -145,17 +145,17 @@ class CWsdlGeneratorTest extends CTestCase{
 		*/
 
 		// check we have table for object SoapPovCalculationInput
-		$this->assertContains('SoapPovCalculationInput', $html);
+		$this->assertStringContainsString('SoapPovCalculationInput', $html);
 		// check column Attribute in table SoapPovCalculationInput
-		$this->assertContains('use_kind', $html);
+		$this->assertStringContainsString('use_kind', $html);
 		// check column Type in table SoapPovCalculationInput
-		$this->assertContains('int', $html);
+		$this->assertStringContainsString('int', $html);
 		// check column Required in table SoapPovCalculationInput
-		$this->assertContains('unbounded', $html);
+		$this->assertStringContainsString('unbounded', $html);
 		// check column Description in table SoapPovCalculationInput
-		$this->assertContains('the date of birth RRRR.MM.DD', $html);
+		$this->assertStringContainsString('the date of birth RRRR.MM.DD', $html);
 		// check column Example in table SoapPovCalculationInput
-		$this->assertContains('85HN65', $html);
+		$this->assertStringContainsString('85HN65', $html);
 	}
 
 }
