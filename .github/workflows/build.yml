@@ -105,7 +105,7 @@ jobs:
       - name: Run tests with phpunit
         run: |
           cd tests
-          ../vendor/bin/phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci,cubrid framework
+          ../vendor/bin/phpunit --verbose --colors --exclude-group mssql,oci,cubrid framework
         env:
           # The hostname used to communicate with the Redis service container
           REDIS_HOST: localhost
