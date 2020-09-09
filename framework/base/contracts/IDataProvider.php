@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @package system.web
  * @since   1.1
  *
- * @template-covariant TValue
+ * @template TValue
  */
 interface IDataProvider
 {

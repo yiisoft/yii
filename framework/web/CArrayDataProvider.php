@@ -46,7 +46,7 @@
  * @package system.web
  * @since 1.1.4
  *
- * @template-covariant TValue
+ * @template TValue
  * @extends \CDataProvider<TValue>
  */
 class CArrayDataProvider extends CDataProvider

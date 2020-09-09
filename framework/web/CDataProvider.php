@@ -18,7 +18,7 @@
  * @package system.web
  * @since 1.1
  *
- * @template-covariant TValue
+ * @template TValue
  * @implements IDataProvider<TValue>
  */
 abstract class CDataProvider extends CComponent implements IDataProvider
