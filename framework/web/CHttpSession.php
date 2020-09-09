@@ -272,10 +272,16 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function setCookieParams($value)
 	{
 		$data=session_get_cookie_params();
-		extract($data);
-		extract($value);
+		$lifetime = $value['lifetime'] ?? $data['lifetime'] ?? null;
+		$path = $value['path'] ?? $data['$path'] ?? null;
+		$domain = $value['domain'] ?? $data['domain'] ?? null;
+        $secure = $value['secure'] ?? $data['secure'] ?? null;
+        $httponly = $value['httponly'] ?? $data['httponly'] ?? null;
+        $samesite = $value['samesite'] ?? $data['samesite'] ?? null;
+
 		$this->freeze();
-		if(isset($httponly) && isset($samesite))
+
+		if(isset($httponly, $samesite))
 		{
 			if(version_compare(PHP_VERSION,'7.3.0','>='))
 				session_set_cookie_params(array('lifetime'=>$lifetime,'path'=>$path,'domain'=>$domain,'secure'=>$secure,'httponly'=>$httponly,'samesite'=>$samesite));

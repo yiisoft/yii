@@ -49,37 +49,10 @@ parameters:
 			message: "#^Variable \\$_COOKIE in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: framework/web/CHttpRequest.php
-
-		-
-			message: "#^Variable \\$httponly in isset\\(\\) is never defined\\.$#"
-			count: 1
-			path: framework/web/CHttpSession.php
-
-		-
-			message: "#^Undefined variable\\: \\$domain$#"
-			count: 2
-			path: framework/web/CHttpSession.php
-
-		-
-			message: "#^Undefined variable\\: \\$lifetime$#"
-			count: 2
-			path: framework/web/CHttpSession.php
-
-		-
-			message: "#^Undefined variable\\: \\$path$#"
-			count: 2
-			path: framework/web/CHttpSession.php
-
-		-
-			message: "#^Undefined variable\\: \\$secure$#"
-			count: 2
-			path: framework/web/CHttpSession.php
-
 		-
 			message: "#^Variable \\$_SESSION in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: framework/web/CHttpSession.php
-
 		-
 			message: "#^Variable \\$_FILES in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1

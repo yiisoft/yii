@@ -96,6 +96,7 @@ abstract class CAction extends CComponent implements IAction
 			if(isset($params[$name]))
 			{
 				if(version_compare(PHP_VERSION,'8.0','>=')) {
+                    // @phpstan-ignore-next-line Call to an undefined method ReflectionType::getName()
 					$isArray=$param->getType() && $param->getType()->getName()==='array';
 				} else {
 					$isArray=$param->isArray();
