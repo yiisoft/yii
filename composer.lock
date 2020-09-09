@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d0ba5c42f5a161457b3234d4df98af1",
+    "content-hash": "558df4807310ae063cb80a51e119dacf",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -1453,7 +1453,6 @@
             "keywords": [
                 "tokenizer"
             ],
-            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
@@ -2756,7 +2755,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2"
+        "php": "^7.2 | ^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
