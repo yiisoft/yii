@@ -53,7 +53,7 @@ class CPropertyValue
 	public static function ensureBoolean($value)
 	{
 		if (is_string($value))
-			return !strcasecmp($value,'true') || $value!=0;
+			return !strcasecmp($value,'true') || ($value!=0 && $value!=='' && is_numeric($value));
 		else
 			return (boolean)$value;
 	}

@@ -35,6 +35,15 @@ class CHttpCookie extends CComponent
 	 * @since 1.1.22
 	 */
 	const SAME_SITE_STRICT='Strict';
+	/**
+	 * SameSite policy None will allow the cookie to be sent by the browser in all cross-site browsing context
+	 * regardless of the request methods (e.g. POST, PUT, PATCH etc).
+	 * E.g. a POST request from https://otherdomain.com to https://yourdomain.com or a user following a link from
+	 * https://otherdomain.com to https://yourdomain.com it will include the cookie.
+	 * @see $sameSite
+	 * @since 1.1.23
+	 */
+	const SAME_SITE_NONE = 'None';
 
 	/**
 	 * @var string name of the cookie
