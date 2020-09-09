@@ -15,6 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
@@ -62,15 +63,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup cache environment 5.3 - 5.6
-        if: matrix.php-version < '7.0'
-        id: cache-env-php5
-        uses: shivammathur/cache-extensions@v1
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: ${{ env.extensions-php5 }}
-          key: ${{ env.key-php5 }}
-
       - name: Setup cache environment 7.0 - 8.0
         if: matrix.php-version >= '7.0'
         id: cache-env-php7
@@ -79,14 +71,6 @@ jobs:
           php-version: ${{ matrix.php-version }}
           extensions: ${{ env.extensions-php7 }}
           key: ${{ env.key-php7 }}
-
-      - name: Cache extensions 5.3 - 5.6
-        if: matrix.php-version < '7.0'
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.cache-env-php5.outputs.dir }}
-          key: ${{ steps.cache-env-php5.outputs.key }}
-          restore-keys: ${{ steps.cache-env-php5.outputs.key }}
 
       - name: Cache extensions 7.0 - 8.0
         if: matrix.php-version >= '7.0'
