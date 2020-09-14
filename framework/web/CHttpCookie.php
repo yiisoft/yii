@@ -80,9 +80,10 @@ class CHttpCookie extends CComponent
 	 * @var array Cookie attribute "SameSite".
 	 * @see https://www.owasp.org/index.php/SameSite
 	 * This property only works for PHP 7.3.0 or above.
+	 * Set this value to None because there might be breaking changes on different default value.
 	 * @since 1.1.22
 	 */
-	public $sameSite=self::SAME_SITE_LAX;
+	public $sameSite=self::SAME_SITE_NONE;
 
 	/**
 	 * Constructor.
