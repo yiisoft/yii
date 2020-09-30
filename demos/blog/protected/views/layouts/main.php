@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<base href="<?=Yii::app()->baseUrl; ?>/">
 	<meta charset="<?=Yii::app()->charset; ?>" />
@@ -10,13 +10,13 @@
 	<?=CHtml::cssFile('css/print.css', 'print');?>	
 	
 	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="css/ie.css" media="screen, projection" />
+	<?=CHtml::cssFile('css/ie.css', 'screen, projection');?>	
 	<![endif]-->
 
 	<?=CHtml::cssFile('css/main.css');?>	
 	<?=CHtml::cssFile('css/form.css');?>	
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<title><?=Yii::app()->name;?></title>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 <div class="container" id="page">
 
 	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+		<div id="logo"><?=Yii::app()->name;?><</div>
 	</div><!-- header -->
 
 	<div id="mainmenu">
@@ -43,12 +43,12 @@
 		'links'=>$this->breadcrumbs,
 	)); ?><!-- breadcrumbs -->
 
-	<?php echo $content; ?>
+	<?=$content;?>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+		Copyright &copy; <?=date('Y');?> by My Company.<br/>
 		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
+		<?=Yii::powered();?>
 	</div><!-- footer -->
 
 </div><!-- page -->
