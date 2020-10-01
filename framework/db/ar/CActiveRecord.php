@@ -133,7 +133,10 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function __get($name)
 	{
-		if(isset($this->_attributes[$name]))
+	 	$getter = 'get'.$name;
+            	if(method_exists($this, $getter))
+                	return $this->$getter();
+		elseif(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
 		elseif(isset($this->getMetaData()->columns[$name]))
 			return null;
