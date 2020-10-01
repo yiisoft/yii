@@ -2197,9 +2197,9 @@ EOD;
 	 * make the error summary to show only the first error message of each attribute.
 	 * If this is not set or is false, all error messages will be displayed.
 	 * This option has been available since version 1.1.3.
-	 * Another special option named 'encode' is recognized, which when set true, will
+	 * Another special option named 'encode' is recognized, which when set false, will
 	 * disable the CHtml::encode encoding of all error messages.
-	 * If this is not set or is false, all error messages will be encoded by CHtml::encode.
+	 * If this is not set or is true, all error messages will be encoded by CHtml::encode.
 	 * This option has been available since version 1.1.23.
 	 * @return string the error summary. Empty if no errors are found.
 	 * @see CModel::getErrors
@@ -2225,7 +2225,7 @@ EOD;
 				{
 					if($error!='')
 					{
-						if (!isset($htmlOptions['encode']) || !$htmlOptions['encode'])
+						if (!isset($htmlOptions['encode']) || $htmlOptions['encode'])
 							$error=self::encode($error);
 						$content.= '<li>'.$error."</li>\n";
 					}
@@ -2260,7 +2260,7 @@ EOD;
 	{
 		self::resolveName($model,$attribute); // turn [a][b]attr into attr
 		$error=$model->getError($attribute);
-		if (!isset($htmlOptions['encode']) || !$htmlOptions['encode'])
+		if (!isset($htmlOptions['encode']) || $htmlOptions['encode'])
 			$error=self::encode($error);
 		if($error!='')
 		{
