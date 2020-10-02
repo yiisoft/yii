@@ -169,7 +169,7 @@ class CPgsqlSchema extends CDbSchema
 SELECT
 	a.attname,
 	LOWER(format_type(a.atttypid, a.atttypmod)) AS type,
-	d.adsrc,
+	pg_get_expr(adbin, adrelid) AS default_value_text,
 	a.attnotnull,
 	a.atthasdef,
 	pg_catalog.col_description(a.attrelid, a.attnum) AS comment
@@ -191,7 +191,7 @@ EOD;
 			$c=$this->createColumn($column);
 			$table->columns[$c->name]=$c;
 
-			if(stripos($column['adsrc'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['adsrc'],$matches))
+			if(stripos($column['default_value_text'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['default_value_text'],$matches))
 			{
 				if(strpos($matches[1],'.')!==false || $table->schemaName===self::DEFAULT_SCHEMA)
 					$this->_sequences[$table->rawName.'.'.$c->name]=$matches[1];
@@ -218,7 +218,7 @@ EOD;
 		$c->isForeignKey=false;
 		$c->comment=$column['comment']===null ? '' : $column['comment'];
 
-		$c->init($column['type'],$column['atthasdef'] ? $column['adsrc'] : null);
+		$c->init($column['type'],$column['atthasdef'] ? $column['default_value_text'] : null);
 
 		return $c;
 	}
