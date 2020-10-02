@@ -166,7 +166,12 @@ class CPgsqlSchema extends CDbSchema
 	protected function findColumns($table)
 	{
 		$sql=<<<EOD
-SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, d.adsrc, a.attnotnull, a.atthasdef,
+SELECT
+	a.attname,
+	LOWER(format_type(a.atttypid, a.atttypmod)) AS type,
+	d.adsrc,
+	a.attnotnull,
+	a.atthasdef,
 	pg_catalog.col_description(a.attrelid, a.attnum) AS comment
 FROM pg_attribute a LEFT JOIN pg_attrdef d ON a.attrelid = d.adrelid AND a.attnum = d.adnum
 WHERE a.attnum > 0 AND NOT a.attisdropped
@@ -225,7 +230,12 @@ EOD;
 	protected function findConstraints($table)
 	{
 		$sql=<<<EOD
-SELECT conname, consrc, contype, indkey FROM (
+SELECT
+	conname,
+	consrc,
+	contype,
+	indkey
+FROM (
 	SELECT
 		conname,
 		CASE WHEN contype='f' THEN
