@@ -238,11 +238,7 @@ SELECT
 FROM (
 	SELECT
 		conname,
-		CASE WHEN contype='f' THEN
-			pg_catalog.pg_get_constraintdef(oid)
-		ELSE
-			'CHECK (' || consrc || ')'
-		END AS consrc,
+		pg_catalog.pg_get_constraintdef(oid) AS consrc,
 		contype,
 		conrelid AS relid,
 		NULL AS indkey
