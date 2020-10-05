@@ -122,12 +122,12 @@ jobs:
           restore-keys: |
             php${{ matrix.php-version }}-composer-
       - name: Install dependencies with composer
-        run: composer update --no-interaction --no-progress --optimize-autoloader
+        run: composer update --no-interaction --no-progress --optimize-autoloader --ansi
 
       - name: Run tests with phpunit
         run: |
           cd tests
-          ../vendor/bin/phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci,cubrid framework
+          ../vendor/bin/phpunit --verbose --colors=always --no-globals-backup --exclude-group mssql,oci,cubrid framework
         env:
           # The hostname used to communicate with the Redis service container
           REDIS_HOST: localhost
