@@ -71,7 +71,7 @@ use Psr\Http\Message\ResponseInterface;
  * @property CErrorHandler $errorHandler The error handler application component.
  * @property CSecurityManager $securityManager The security manager application component.
  * @property CStatePersister $statePersister The state persister application component.
- * @property CCache|null $cache The cache application component. Null if the component is not enabled.
+ * @property ICache|null $cache The cache application component. Null if the component is not enabled.
  * @property CPhpMessageSource $coreMessages The core message translations.
  * @property CMessageSource $messages The application message translations.
  * @property CHttpRequest $request The request component.
@@ -539,12 +539,12 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Returns the cache component.
-	 * @return CCache|null the cache application component. Null if the component is not enabled.
+	 * @return ICache|null the cache application component. Null if the component is not enabled.
 	 */
 	public function getCache(?string $name = null)
 	{
         $component = $this->getComponent($name ?? 'cache');
-        assert($component === null || $component instanceof CCache);
+        assert($component === null || $component instanceof ICache);
 
         return $component;
 	}
