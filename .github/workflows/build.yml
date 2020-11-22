@@ -73,7 +73,7 @@ jobs:
         id: cache-env-php5
         uses: shivammathur/cache-extensions@v1
         with:
-          php: ${{ matrix.php }}
+          php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions-php5 }}
           key: ${{ env.key-php5 }}
 
@@ -82,7 +82,7 @@ jobs:
         id: cache-env-php7
         uses: shivammathur/cache-extensions@v1
         with:
-          php: ${{ matrix.php }}
+          php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions-php7 }}
           key: ${{ env.key-php7 }}
 
@@ -105,7 +105,7 @@ jobs:
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
-          php: ${{ matrix.php }}
+          php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
           ini-values: date.timezone='UTC'
           coverage: xdebug
