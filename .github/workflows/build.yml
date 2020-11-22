@@ -115,8 +115,8 @@ jobs:
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
 
       - name: Determine composer cache directory on Windows
-          if: matrix.os == 'windows-latest'
-          run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        if: matrix.os == 'windows-latest'
+        run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Cache dependencies installed with composer
         uses: actions/cache@v1
