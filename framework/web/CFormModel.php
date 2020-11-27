@@ -29,9 +29,8 @@ class CFormModel extends CModel
 
 	/**
 	 * Constructor.
-	 * @param string $scenario name of the scenario that this model is used in.
-	 * See {@link CModel::scenario} on how scenario is used by models.
-	 * @see getScenario
+	 * @param string|array $scenario scenario name (or array of scenario names). See {@link CModel::scenarios} on how scenarios is used by models.
+	 * @see getScenarios
 	 */
 	public function __construct($scenario='')
 	{
@@ -43,7 +42,7 @@ class CFormModel extends CModel
 
 	/**
 	 * Initializes this model.
-	 * This method is invoked in the constructor right after {@link scenario} is set.
+	 * This method is invoked in the constructor right after {@link scenarios} is set.
 	 * You may override this method to provide code that is needed to initialize the model (e.g. setting
 	 * initial property values.)
 	 */

@@ -65,7 +65,7 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Constructor.
-	 * @param string $scenario scenario name. See {@link CModel::scenario} for more details about this parameter.
+	 * @param string|array $scenario scenario name (or array of scenario names). See {@link CModel::scenarios} for more details about this parameter.
 	 * Note: in order to setup initial model parameters use {@link init()} or {@link afterConstruct()}.
 	 * Do NOT override the constructor unless it is absolutely necessary!
 	 */
@@ -87,7 +87,7 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Initializes this model.
 	 * This method is invoked when an AR instance is newly created and has
-	 * its {@link scenario} set.
+	 * its {@link scenarios} set.
 	 * You may override this method to provide code that is needed to initialize the model (e.g. setting
 	 * initial property values.)
 	 */
@@ -795,7 +795,7 @@ abstract class CActiveRecord extends CModel
 	 * validation errors.
 	 *
 	 * If the record is saved via insertion, its {@link isNewRecord} property will be
-	 * set false, and its {@link scenario} property will be set to be 'update'.
+	 * set false, and its {@link scenarios} property will be set to be 'update'.
 	 * And if its primary key is auto-incremental and is not set before insertion,
 	 * the primary key will be populated with the automatically generated key value.
 	 *
@@ -1064,7 +1064,7 @@ abstract class CActiveRecord extends CModel
 	 * it will be populated with the actual value after insertion.
 	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
 	 * After the record is inserted to DB successfully, its {@link isNewRecord} property will be set false,
-	 * and its {@link scenario} property will be set to be 'update'.
+	 * and its {@link scenarios} property will be set to be 'update'.
 	 * @param array $attributes list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the attributes are valid and the record is inserted successfully.

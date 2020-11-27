@@ -15,10 +15,11 @@
  * CModel defines the basic framework for data models that need to be validated.
  *
  * @property CList $validatorList All the validators declared in the model.
- * @property array $validators The validators applicable to the current {@link scenario}.
+ * @property array $validators The validators applicable to the current {@link scenarios}.
  * @property array $errors Errors for all attributes or the specified attribute. Empty array is returned if no error.
  * @property array $attributes Attribute values (name=>value).
- * @property string $scenario The scenario that this model is in.
+ * @property string $scenario The scenario that this model is in (first element from {@link scenarios}).
+ * @property array $scenarios The array of scenarios that this model is in.
  * @property array $safeAttributeNames Safe attribute names.
  * @property CMapIterator $iterator An iterator for traversing the items in the list.
  *
@@ -30,7 +31,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 {
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
-	private $_scenario='';  	// scenario
+	private $_scenarios = array('');	// scenarios
 
 	/**
 	 * Returns the list of attribute names of the model.
@@ -62,7 +63,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 *   Separate different scenarios with commas. If this option is not set, the rule
 	 *   will be applied in any scenario that is not listed in "except". Please see {@link scenario} for more details about this option.</li>
 	 * <li>except: this specifies the scenarios when the validation rule should not be performed.
-	 *   Separate different scenarios with commas. Please see {@link scenario} for more details about this option.</li>
+	 *   Separate different scenarios with commas. Please see {@link scenarios} for more details about this option.</li>
 	 * <li>additional parameters are used to initialize the corresponding validator properties.
 	 *   Please refer to individual validator class API for possible properties.</li>
 	 * </ul>
@@ -81,7 +82,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * merge the parent rules with child rules using functions like array_merge().
 	 *
 	 * @return array validation rules to be applied when {@link validate()} is called.
-	 * @see scenario
+	 * @see scenarios
 	 */
 	public function rules()
 	{
@@ -134,9 +135,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Performs the validation.
 	 *
 	 * This method executes the validation rules as declared in {@link rules}.
-	 * Only the rules applicable to the current {@link scenario} will be executed.
-	 * A rule is considered applicable to a scenario if its 'on' option is not set
-	 * or contains the scenario.
+	 * Only the rules applicable to the current {@link scenarios} will be executed.
+	 * A rule is considered applicable to scenarios if its 'on' option is not set
+	 * or contains in the array of scenarios.
 	 *
 	 * Errors found during the validation can be retrieved via {@link getErrors}.
 	 *
@@ -232,7 +233,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns all the validators declared in the model.
 	 * This method differs from {@link getValidators} in that the latter
-	 * would only return the validators applicable to the current {@link scenario}.
+	 * would only return the validators applicable to the current {@link scenarios}.
 	 * Also, since this method return a {@link CList} object, you may
 	 * manipulate it by inserting or removing validators (useful in behaviors).
 	 * For example, <code>$model->validatorList->add($newValidator)</code>.
@@ -249,10 +250,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
-	 * Returns the validators applicable to the current {@link scenario}.
+	 * Returns the validators applicable to the current {@link scenarios}.
 	 * @param string $attribute the name of the attribute whose validators should be returned.
 	 * If this is null, the validators for ALL attributes in the model will be returned.
-	 * @return array the validators applicable to the current {@link scenario}.
+	 * @return array the validators applicable to the current {@link scenarios}.
 	 */
 	public function getValidators($attribute=null)
 	{
@@ -260,13 +261,20 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			$this->_validators=$this->createValidators();
 
 		$validators=array();
-		$scenario=$this->getScenario();
+		$scenarios = $this->getScenarios();
 		foreach($this->_validators as $validator)
 		{
-			if($validator->applyTo($scenario))
+			foreach($scenarios as $scenario)
 			{
-				if($attribute===null || in_array($attribute,$validator->attributes,true))
-					$validators[]=$validator;
+				if($validator->applyTo($scenario))
+				{
+					if(
+						$attribute===null ||
+						in_array($attribute,$validator->attributes,true)
+					) {
+						$validators[]=$validator;
+					}
+				}
 			}
 		}
 		return $validators;
@@ -295,7 +303,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns a value indicating whether the attribute is required.
 	 * This is determined by checking if the attribute is associated with a
-	 * {@link CRequiredValidator} validation rule in the current {@link scenario}.
+	 * {@link CRequiredValidator} validation rule in the current {@link scenarios}.
 	 * @param string $attribute attribute name
 	 * @return boolean whether the attribute is required
 	 */
@@ -457,7 +465,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Sets the attribute values in a massive way.
 	 * @param array $values attribute values (name=>value) to be set.
 	 * @param boolean $safeOnly whether the assignments should only be done to the safe attributes.
-	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
+	 * A safe attribute is one that is associated with a validation rule in the current {@link scenarios}.
 	 * @see getSafeAttributeNames
 	 * @see attributeNames
 	 */
@@ -504,7 +512,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
-	 * Returns the scenario that this model is used in.
+	 * Returns the first scenario that this model is used in.
+	 *
+	 * This method exists for backward compatibility with one-scenario CModel.
 	 *
 	 * Scenario affects how validation is performed and which attributes can
 	 * be massively assigned.
@@ -518,26 +528,94 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * the {@link CUnsafeValidator unsafe} validator which marks the associated
 	 * attributes as unsafe and not allowed to be massively assigned.
 	 *
+	 * @since 1.1.22-1
 	 * @return string the scenario that this model is in.
 	 */
 	public function getScenario()
 	{
-		return $this->_scenario;
+		return (isset($this->_scenarios[0]) ? $this->_scenarios[0] : '');
 	}
 
 	/**
-	 * Sets the scenario for the model.
-	 * @param string $value the scenario that this model is in.
+	 * Returns all scenarios that this model is used in.
+	 *
 	 * @see getScenario
+	 * @since 1.1.22-1
+	 * @return array the array of scenarios that this model is in.
+	 */
+	public function getScenarios()
+	{
+		return $this->_scenarios;
+	}
+
+	/**
+	 * Sets the first scenario for the model.
+	 *
+	 * @param string|array $value the scenario(s) that this model is in.
+	 * @see getScenario
+	 * @since 1.1.22-1
 	 */
 	public function setScenario($value)
 	{
-		$this->_scenario=$value;
+		if (is_array($value)) {
+			$this->setScenarios($value);
+		} else {
+			$this->_scenarios = array($value);
+		}
+	}
+
+	/**
+	 * Sets the array of scenario for the model.
+	 *
+	 * @param array $value the array of scenarios that this model is in.
+	 * @see setScenario
+	 * @since 1.1.22-1
+	 */
+	public function setScenarios($value)
+	{
+		$this->_scenarios = $value;
+	}
+
+	/**
+	 * Append new scenario to the list of scenarios for the model.
+	 *
+	 * @param string $value the scenario that this model is in.
+	 * @see setScenario
+	 * @since 1.1.22-1
+	 */
+	public function appendScenario($value)
+	{
+		$this->_scenarios[] = $value;
+	}
+
+	/**
+	 * Remove scenario from the list of scenarios for the model.
+	 *
+	 * @param string $value the scenario that this model is in.
+	 * @see setScenario
+	 * @since 1.1.22-1
+	 */
+	public function removeScenario($value)
+	{
+		if (($key = array_search($value, $this->_scenarios)) !== false) {
+			unset($this->_scenarios[$key]);
+		}
+	}
+
+	/**
+	 * Flush scenarios array for the model.
+	 *
+	 * @see setScenario
+	 * @since 1.1.22-1
+	 */
+	public function flushScenarios()
+	{
+		$this->_scenarios = array();
 	}
 
 	/**
 	 * Returns the attribute names that are safe to be massively assigned.
-	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
+	 * A safe attribute is one that is associated with a validation rule in the current {@link scenarios}.
 	 * @return array safe attribute names
 	 */
 	public function getSafeAttributeNames()
