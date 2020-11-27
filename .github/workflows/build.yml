@@ -6,7 +6,7 @@ name: build
 
 jobs:
   tests:
-    name: PHP ${{ matrix.php-version }}-${{ matrix.os }}
+    name: PHP ${{ matrix.php }}-${{ matrix.os }}
     env:
       extensions: curl, cubrid, mbstring, memcached, dom, intl, json, libxml, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite, xml, xmlwriter, mcrypt
       key-php5: cache-v1
@@ -19,7 +19,7 @@ jobs:
         os:
           - ubuntu-latest
 
-        php-version:
+        php:
           - "5.3"
           - "5.4"
           - "5.5"
@@ -69,25 +69,25 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup cache environment 5.3 - 5.6
-        if: matrix.php-version < '7.0'
+        if: matrix.php < '7.0'
         id: cache-env-php5
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions-php5 }}
           key: ${{ env.key-php5 }}
 
       - name: Setup cache environment 7.0 - 8.0
-        if: matrix.php-version >= '7.0'
+        if: matrix.php >= '7.0'
         id: cache-env-php7
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions-php7 }}
           key: ${{ env.key-php7 }}
 
       - name: Cache extensions 5.3 - 5.6
-        if: matrix.php-version < '7.0'
+        if: matrix.php < '7.0'
         uses: actions/cache@v1
         with:
           path: ${{ steps.cache-env-php5.outputs.dir }}
@@ -95,7 +95,7 @@ jobs:
           restore-keys: ${{ steps.cache-env-php5.outputs.key }}
 
       - name: Cache extensions 7.0 - 8.0
-        if: matrix.php-version >= '7.0'
+        if: matrix.php >= '7.0'
         uses: actions/cache@v1
         with:
           path: ${{ steps.cache-env-php7.outputs.dir }}
@@ -105,29 +105,34 @@ jobs:
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
           ini-values: date.timezone='UTC'
           coverage: xdebug
           tools: composer:v1, pecl
 
       - name: Determine composer cache directory on Linux
-        run: echo "::set-env name=COMPOSER_CACHE_DIR::$(composer config cache-dir)"
+        run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
+
+      - name: Determine composer cache directory on Windows
+        if: matrix.os == 'windows-latest'
+        run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Cache dependencies installed with composer
         uses: actions/cache@v1
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
-          key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
+          key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
-            php${{ matrix.php-version }}-composer-
+            php${{ matrix.php }}-composer-
+
       - name: Install dependencies with composer
-        run: composer update --no-interaction --no-progress --optimize-autoloader
+        run: composer update --no-interaction --no-progress --optimize-autoloader --ansi
 
       - name: Run tests with phpunit
         run: |
           cd tests
-          ../vendor/bin/phpunit --verbose --colors --no-globals-backup --exclude-group mssql,oci,cubrid framework
+          ../vendor/bin/phpunit --verbose --colors=always --no-globals-backup --exclude-group mssql,oci,cubrid framework
         env:
           # The hostname used to communicate with the Redis service container
           REDIS_HOST: localhost
