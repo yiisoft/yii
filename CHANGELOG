@@ -5,13 +5,15 @@ Version 1.1.23 under development
 --------------------------------
 
 - Bug #4325: Add support for unicode strings beyond the BMP (like emojies) in `CJavaScript::encode()` (marcovtwout)
-- Enh #4294: Add PostgreSQL 12 support (bio)
+- Enh #4323: Add PostgreSQL 12 support (bio, d4rkstar, marcovtwout)
 - Bug #4291: The scheme (protocol) is deleted when validateIDN is enabled after validation (Argevollen)
 - Bug: Fix CFileHelper::findFiles() to use correct directory separator under Windows (samdark)
 - Enh #4305: PHP 7.3 compatibility: Support giving cookies a SameSite=None attribute value (tomfotherby)
 - Bug #4306: Add PHP 8 support (samdark)
 - Enh #4308: PHP 7.3 compatibility: Add `samesite` as a session cookie option (tomfotherby)
 - Bug #4310: Items on memcache won't expire due to memcache difference in internal clock (nikolasr200)
+- Enh #4317: Added special option 'encode' to `$htmlOptions` argument in `CHtml::errorSummary` and `CHtml::error` (shidenko97)
+- Enh #4315: Added change triggers to clickable checkbox rows in grid views, allowing other script to react to the changed checkbox states (BBoom)
 
 Version 1.1.22 January 16, 2020
 -------------------------------
