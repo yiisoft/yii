@@ -63,4 +63,50 @@ class CValidatorTest extends CTestCase
 		$this->assertEquals(1, count($errors));
 		$this->assertArrayHasKey('login', $errors);
 	}
+
+	public function testMultipleScenarios()
+	{
+		// scenario2 + scenario3
+		// fields should be validated: firstName, lastName, patronymic, login, birthday, nickName
+		$scenarios = array('scenario2', 'scenario3');
+		$scenario23TestModel=new ScenariosTestModel($scenarios);
+
+		$this->assertEquals($scenarios[0], $scenario23TestModel->getScenario());
+		$this->assertEquals($scenarios, $scenario23TestModel->getScenarios());
+
+		$scenario23TestModel->validate();
+
+		$errors=$scenario23TestModel->getErrors();
+		$this->assertEquals(6, count($errors));
+		$this->assertArrayHasKey('firstName', $errors);
+		$this->assertArrayHasKey('lastName', $errors);
+		$this->assertArrayHasKey('patronymic', $errors);
+		$this->assertArrayHasKey('login', $errors);
+		$this->assertArrayHasKey('birthday', $errors);
+		$this->assertArrayHasKey('nickName', $errors);
+
+		$scenario23TestModel->flushScenarios();
+
+		$this->assertEquals('', $scenario23TestModel->getScenario());
+		$this->assertEquals(array(), $scenario23TestModel->getScenarios());
+
+		// scenario4
+		// fields should be validated: login
+		$scenario23TestModel->appendScenario('scenario4');
+		$scenario23TestModel->validate();
+
+		$errors=$scenario23TestModel->getErrors();
+		$this->assertEquals(1, count($errors));
+		$this->assertArrayHasKey('login', $errors);
+
+		$scenario23TestModel->removeScenario('scenario1');
+
+		$this->assertEquals('scenario4', $scenario23TestModel->getScenario());
+		$this->assertEquals(array('scenario4'), $scenario23TestModel->getScenarios());
+
+		$scenario23TestModel->removeScenario('scenario4');
+
+		$this->assertEquals('', $scenario23TestModel->getScenario());
+		$this->assertEquals(array(), $scenario23TestModel->getScenarios());
+	}
 }
