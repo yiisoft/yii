@@ -13,6 +13,7 @@ Version 1.1.23 under development
 - Enh #4315: Added change triggers to clickable checkbox rows in grid views, allowing other script to react to the changed checkbox states (BBoom)
 - Enh #4317: Added special option 'encode' to `$htmlOptions` argument in `CHtml::errorSummary` and `CHtml::error` (shidenko97)
 - Enh #4323: Add PostgreSQL 12 support (bio, d4rkstar, marcovtwout)
+- Chg #4293: Updated HTMLPurifier to version 4.13.0 (https://github.com/ezyang/htmlpurifier/blob/v4.13.0/NEWS) (marcovtwout)
 
 Version 1.1.22 January 16, 2020
 -------------------------------
@@ -20,6 +21,7 @@ Version 1.1.22 January 16, 2020
 - Bug #4256: PHP 7 compatibility: PHP4 style constructor in Pear/Text/Diff3.php (kenguest)
 - Bug #4256: PHP 7 compatibility: Fixed deprecated usage of create_function() in markdown.php (samdark)
 - Bug #4261: PHP 7.2 compatibility: INTL_IDNA_VARIANT_2003 has been depreacated (machour)
+- Bug #4261: Updated HTMLPurifier to version 4.10.0 (https://github.com/ezyang/htmlpurifier/blob/v4.10.0/NEWS) (machour)
 - Bug #4279: PHP 7.4 compatibility: Drop use of accessing string offsets using curly braces (kenguest)
 - Enh #4273: PHP 7.3 compatibility: Add "sameSite" support for cookies (thekonz)
 
