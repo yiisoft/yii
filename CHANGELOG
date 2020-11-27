@@ -13,7 +13,7 @@ Version 1.1.23 under development
 - Enh #4315: Added change triggers to clickable checkbox rows in grid views, allowing other script to react to the changed checkbox states (BBoom)
 - Enh #4317: Added special option 'encode' to `$htmlOptions` argument in `CHtml::errorSummary` and `CHtml::error` (shidenko97)
 - Enh #4323: Add PostgreSQL 12 support (bio, d4rkstar, marcovtwout)
-- Chg #4160: Updated HTMLPurifier to version 4.13.0 (https://github.com/ezyang/htmlpurifier/blob/v4.13.0/NEWS) (marcovtwout)
+- Chg #4293: Updated HTMLPurifier to version 4.13.0 (https://github.com/ezyang/htmlpurifier/blob/v4.13.0/NEWS) (marcovtwout)
 
 Version 1.1.22 January 16, 2020
 -------------------------------
