@@ -15,6 +15,12 @@ class CJavaScriptTest extends CTestCase
 		$expression=CJavaScript::encode("js:function() { /* callback */ }",true);
 		$this->assertEquals("'js\\x3Afunction\\x28\\x29\\x20\\x7B\\x20\\x2F\\x2A\\x20callback\\x20\\x2A\\x2F\\x20\\x7D'",$expression);
 	}
+    
+    public function testEncodeUnicodeBeyondBMP()
+	{
+		$expression=CJavaScript::encode("\xF0\x90\x80\x80",true);
+		$this->assertEquals("'\\uD800\\uDC00'",$expression);
+	}
 
 	public function testEncode()
 	{

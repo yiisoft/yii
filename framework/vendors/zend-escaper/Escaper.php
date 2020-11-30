@@ -269,6 +269,10 @@ class Escaper
      * Callback function for preg_replace_callback that applies Javascript
      * escaping to all matches.
      *
+     * Replaced original ZEND implementation with implementation from laminas/laminas-escaper
+     * @see https://github.com/laminas/laminas-escaper/blob/2.7.x/src/Escaper.php#L276
+     * @see https://github.com/yiisoft/yii/issues/4301
+     *
      * @param array $matches
      * @return string
      */
@@ -279,7 +283,13 @@ class Escaper
             return sprintf('\\x%02X', ord($chr));
         }
         $chr = $this->convertEncoding($chr, 'UTF-16BE', 'UTF-8');
-        return sprintf('\\u%04s', strtoupper(bin2hex($chr)));
+        $hex = strtoupper(bin2hex($chr));
+        if (strlen($hex) <= 4) {
+            return sprintf('\\u%04s', $hex);
+        }
+        $highSurrogate = substr($hex, 0, 4);
+        $lowSurrogate = substr($hex, 4, 4);
+        return sprintf('\\u%04s\\u%04s', $highSurrogate, $lowSurrogate);
     }
 
     /**
