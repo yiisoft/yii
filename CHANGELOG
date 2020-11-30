@@ -11,6 +11,8 @@ Version 1.1.23 under development
 - Bug: Fix CFileHelper::findFiles() to use correct directory separator under Windows (samdark)
 - Enh #4305: PHP 7.3 compatibility: Support giving cookies a SameSite=None attribute value (tomfotherby)
 - Enh #4308: PHP 7.3 compatibility: Add `samesite` as a session cookie option (tomfotherby)
+- Enh #4314: Exceptions thrown while loading fixtures now contain details about the error location (BBoom)
+- Enh #4314: Missing fixture files now throw exceptions (BBoom)
 - Enh #4315: Added change triggers to clickable checkbox rows in grid views, allowing other script to react to the changed checkbox states (BBoom)
 - Enh #4317: Added special option 'encode' to `$htmlOptions` argument in `CHtml::errorSummary` and `CHtml::error` (shidenko97)
 - Enh #4323: Add PostgreSQL 12 support (bio, d4rkstar, marcovtwout)
