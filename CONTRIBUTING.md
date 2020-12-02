@@ -1,7 +1,7 @@
 How to contribute to Yii?
 =========================
 
-> **Note that only PHP 7 compatibility issues are accepted since Yii 1.1 has reached EOL.
+> **Note that only PHP 7 and PHP 8 compatibility issues are accepted since Yii 1.1 has reached EOL.
   For security issues please [contact maintainers privately](http://www.yiiframework.com/security/).**
 
 When contributing to Yii you have to follow some conventions and a simple
