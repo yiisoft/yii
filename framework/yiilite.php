@@ -41,7 +41,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.23-dev';
+		return '1.1.23';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -900,7 +900,7 @@ class CComponent
 		else
 		{
 			$_data_[]=$this;
-			return call_user_func_array($_expression_, $_data_);
+			return call_user_func_array($_expression_, array_values($_data_));
 		}
 	}
 }
@@ -4193,7 +4193,12 @@ abstract class CAction extends CComponent implements IAction
 			$name=$param->getName();
 			if(isset($params[$name]))
 			{
-				if($param->isArray())
+				if(version_compare(PHP_VERSION,'8.0','>=')) {
+					$isArray=$param->getType() && $param->getType()->getName()==='array';
+				} else {
+					$isArray=$param->isArray();
+                }
+				if($isArray)
 					$ps[]=is_array($params[$name]) ? $params[$name] : array($params[$name]);
 				elseif(!is_array($params[$name]))
 					$ps[]=$params[$name];
@@ -4707,7 +4712,19 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		extract($data);
 		extract($value);
 		$this->freeze();
-		if(isset($httponly))
+		if(isset($httponly) && isset($samesite))
+		{
+			if(version_compare(PHP_VERSION,'7.3.0','>='))
+				session_set_cookie_params(array('lifetime'=>$lifetime,'path'=>$path,'domain'=>$domain,'secure'=>$secure,'httponly'=>$httponly,'samesite'=>$samesite));
+			else
+			{
+				// Work around for setting sameSite cookie prior PHP 7.3
+				// https://stackoverflow.com/questions/39750906/php-setcookie-samesite-strict/46971326#46971326
+				$path .= '; samesite=' . $samesite;
+				session_set_cookie_params($lifetime,$path,$domain,$secure,$httponly);
+			}
+		}
+		else if(isset($httponly))
 			session_set_cookie_params($lifetime,$path,$domain,$secure,$httponly);
 		else
 			session_set_cookie_params($lifetime,$path,$domain,$secure);
@@ -5815,7 +5832,11 @@ EOD;
 				foreach($errors as $error)
 				{
 					if($error!='')
-						$content.= '<li>'.self::encode($error)."</li>\n";
+					{
+						if (!isset($htmlOptions['encode']) || $htmlOptions['encode'])
+							$error=self::encode($error);
+						$content.= '<li>'.$error."</li>\n";
+					}
 					if($firstError)
 						break;
 				}
@@ -5835,7 +5856,9 @@ EOD;
 	public static function error($model,$attribute,$htmlOptions=array())
 	{
 		self::resolveName($model,$attribute); // turn [a][b]attr into attr
-		$error=self::encode($model->getError($attribute));
+		$error=$model->getError($attribute);
+		if (!isset($htmlOptions['encode']) || $htmlOptions['encode'])
+			$error=self::encode($error);
 		if($error!='')
 		{
 			if(!isset($htmlOptions['class']))

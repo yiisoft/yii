@@ -1,8 +1,8 @@
 ﻿                   Yii Framework Change Log
                    ========================
 
-Version 1.1.23 under development
---------------------------------
+Version 1.1.23 December 2, 2020
+-------------------------------
 
 - Bug #4291: The scheme (protocol) is deleted when validateIDN is enabled after validation (Argevollen)
 - Bug #4306: Add PHP 8 support (samdark)
