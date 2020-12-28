@@ -61,7 +61,8 @@ class CDbTransaction extends CComponent
 		if($this->_active && $this->_connection->getActive())
 		{
 			Yii::trace('Committing transaction','system.db.CDbTransaction');
-			$this->_connection->getPdoInstance()->commit();
+			if($this->_connection->getPdoInstance()->inTransaction())
+				$this->_connection->getPdoInstance()->commit();
 			$this->_active=false;
 		}
 		else
@@ -77,7 +78,8 @@ class CDbTransaction extends CComponent
 		if($this->_active && $this->_connection->getActive())
 		{
 			Yii::trace('Rolling back transaction','system.db.CDbTransaction');
-			$this->_connection->getPdoInstance()->rollBack();
+			if($this->_connection->getPdoInstance()->inTransaction())
+				$this->_connection->getPdoInstance()->rollBack();
 			$this->_active=false;
 		}
 		else
