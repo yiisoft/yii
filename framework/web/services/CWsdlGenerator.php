@@ -176,7 +176,7 @@ class CWsdlGenerator extends CComponent
 		'encodingStyle' => 'http://schemas.xmlsoap.org/soap/encoding/',
 	);
 	/**
-	 * @var array
+	 * @var string
 	 * soap:operation style
 	 */
 	public $bindingStyle = self::STYLE_RPC;

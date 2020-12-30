@@ -70,7 +70,7 @@ class CRedisCache extends CCache
 	 */
 	public $timeout=null;
 	/**
-	 * @var resource redis socket connection
+	 * @var resource|null redis socket connection
 	 */
 	private $_socket;
 

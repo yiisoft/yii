@@ -72,7 +72,7 @@ class CDbCommand extends CComponent
 	protected $_connection;
 	private $_text;
     /**
-     * @var \PDOStatement $_statement
+     * @var \PDOStatement|null $_statement
      */
 	private $_statement;
 	protected $_paramLog=array();

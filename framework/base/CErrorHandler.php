@@ -318,7 +318,7 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Returns the exact trace where the problem occurs.
 	 * @param Exception $exception the uncaught exception
-	 * @return array the exact trace where the problem occurs
+	 * @return array|null the exact trace where the problem occurs
 	 */
 	protected function getExactTrace($exception)
 	{

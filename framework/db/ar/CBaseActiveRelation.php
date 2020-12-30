@@ -21,7 +21,7 @@ class CBaseActiveRelation extends CComponent
      */
     public $foreignKey;
     /**
-     * @var string|string[] list of column names (an array, or a string of names separated by commas) to be selected.
+     * @var string|string[]|false list of column names (an array, or a string of names separated by commas) to be selected.
      * Do not quote or prefix the column names unless they are used in an expression.
      * In that case, you should prefix the column names with 'relationName.'.
      */

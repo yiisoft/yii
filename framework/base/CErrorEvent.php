@@ -30,7 +30,7 @@ class CErrorEvent extends CEvent
 	 */
 	public $file;
 	/**
-	 * @var string error file
+	 * @var int error file
 	 */
 	public $line;
 

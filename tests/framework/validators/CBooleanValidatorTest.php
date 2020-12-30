@@ -105,7 +105,7 @@ class CBooleanValidatorTest extends CTestCase
      *
      * @param array $params additional parameters sent to rules
      *
-     * @return null
+     * @return ModelMock&PHPUnit\Framework\MockObject\MockObject
      */
     protected function getModelMock($params=array())
     {

@@ -58,7 +58,7 @@ use Psr\Http\Message\ResponseInterface;
  * @property string $basePath The root directory of the application. Defaults to 'protected'.
  * @property string $runtimePath The directory that stores runtime files. Defaults to 'protected/runtime'.
  * @property string $extensionPath The directory that contains all extensions. Defaults to the 'extensions' directory under 'protected'.
- * @property string $language The language that the user is using and the application should be targeted to.
+ * @property string|null $language The language that the user is using and the application should be targeted to.
  * Defaults to the {@link sourceLanguage source language}.
  * @property string $timeZone The time zone used by this application.
  * @property CLocale $locale The locale instance.
@@ -71,7 +71,7 @@ use Psr\Http\Message\ResponseInterface;
  * @property CErrorHandler $errorHandler The error handler application component.
  * @property CSecurityManager $securityManager The security manager application component.
  * @property CStatePersister $statePersister The state persister application component.
- * @property ICache|null $cache The cache application component. Null if the component is not enabled.
+ * @property CCache|null $cache The cache application component. Null if the component is not enabled.
  * @property CPhpMessageSource $coreMessages The core message translations.
  * @property CMessageSource $messages The application message translations.
  * @property CHttpRequest $request The request component.
@@ -374,7 +374,7 @@ abstract class CApplication extends CModule
 	 * Unless your application needs to support multiple languages, you should always
 	 * set this language to null to maximize the application's performance.
 	 *
-	 * @param string $language the user language (e.g. 'en_US', 'zh_CN').
+	 * @param string|null $language the user language (e.g. 'en_US', 'zh_CN').
 	 * If it is null, the {@link sourceLanguage} will be used.
 	 *
 	 * @return void
@@ -516,7 +516,10 @@ abstract class CApplication extends CModule
 	 */
 	public function getErrorHandler()
 	{
-		return $this->getComponent('errorHandler');
+        $component = $this->getComponent('errorHandler');
+        assert($component instanceof CErrorHandler);
+
+        return $component;
 	}
 
 	/**
@@ -525,7 +528,10 @@ abstract class CApplication extends CModule
 	 */
 	public function getSecurityManager()
 	{
-		return $this->getComponent('securityManager');
+        $component = $this->getComponent('securityManager');
+        assert($component instanceof CSecurityManager);
+
+        return $component;
 	}
 
 	/**
@@ -534,7 +540,10 @@ abstract class CApplication extends CModule
 	 */
 	public function getStatePersister()
 	{
-		return $this->getComponent('statePersister');
+        $component = $this->getComponent('statePersister');
+        assert($component instanceof CStatePersister);
+
+        return $component;
 	}
 
 	/**
@@ -555,7 +564,10 @@ abstract class CApplication extends CModule
 	 */
 	public function getCoreMessages()
 	{
-		return $this->getComponent('coreMessages');
+        $component = $this->getComponent('coreMessages');
+        assert($component instanceof CPhpMessageSource);
+
+        return $component;
 	}
 
 	/**
@@ -576,7 +588,10 @@ abstract class CApplication extends CModule
 	 */
 	public function getRequest()
 	{
-		return $this->getComponent('request');
+        $component = $this->getComponent('request');
+        assert($component instanceof CHttpRequest);
+
+        return $component;
 	}
 
 	/**
@@ -585,7 +600,10 @@ abstract class CApplication extends CModule
 	 */
 	public function getUrlManager()
 	{
-		return $this->getComponent('urlManager');
+        $component = $this->getComponent('urlManager');
+        assert($component instanceof CUrlManager);
+
+        return $component;
 	}
 
 	/**
@@ -594,7 +612,10 @@ abstract class CApplication extends CModule
 	 */
 	public function getFormat()
 	{
-		return $this->getComponent('format');
+        $component = $this->getComponent('format');
+        assert($component instanceof CFormatter);
+
+        return $component;
 	}
 
 	/**

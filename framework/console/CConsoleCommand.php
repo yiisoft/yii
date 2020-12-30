@@ -513,8 +513,6 @@ abstract class CConsoleCommand extends CComponent
 		}
 		else
 			require($_viewFile_);
-
-		return null;
 	}
 
 	/**

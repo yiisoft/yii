@@ -403,7 +403,7 @@ class CDateFormatter extends CComponent
 		$hour=$date['hours'];
 		$hour=($hour==12|$hour==0)?12:($hour)%12;
 		if($pattern==='h')
-			return $hour;
+			return (string)$hour;
 		elseif($pattern==='hh')
 			return str_pad($hour,2,'0',STR_PAD_LEFT);
 		else
@@ -416,13 +416,13 @@ class CDateFormatter extends CComponent
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException if "hourInDay" pattern is unknown
-	 * @return int hours [1-24]
+	 * @return string hours [1-24]
 	 */
 	protected function formatHourInDay($pattern,$date)
 	{
 		$hour=$date['hours']==0?24:$date['hours'];
 		if($pattern==='k')
-			return $hour;
+			return (string)$hour;
 		elseif($pattern==='kk')
 			return str_pad($hour,2,'0',STR_PAD_LEFT);
 		else
@@ -435,13 +435,13 @@ class CDateFormatter extends CComponent
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException if "hourInPeriod" pattern is unknown
-	 * @return int hours in AM/PM format.
+	 * @return string hours in AM/PM format.
 	 */
 	protected function formatHourInPeriod($pattern,$date)
 	{
 		$hour=$date['hours']%12;
 		if($pattern==='K')
-			return $hour;
+			return (string)$hour;
 		elseif($pattern==='KK')
 			return str_pad($hour,2,'0',STR_PAD_LEFT);
 		else
@@ -507,8 +507,8 @@ class CDateFormatter extends CComponent
 	/**
 	 * Get week in the month.
 	 *
-	 * @param array $pattern result of {@link CTimestamp::getdate}.
-	 * @param string $date a pattern.
+     * @param string $pattern a pattern.
+     * @param array $date result of {@link CTimestamp::getdate}.
 	 *
 	 * @throws CException if "weekInMonth" pattern is unknown
 	 *

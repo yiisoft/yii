@@ -295,7 +295,7 @@ class CDateTimeParser
 	 * @param int $offset starting offset
 	 * @param int $minLength minimum length
 	 * @param int $maxLength maximum length
-	 * @return string parsed integer value
+	 * @return string|false parsed integer value
 	 */
 	protected static function parseInteger($value,$offset,$minLength,$maxLength)
 	{

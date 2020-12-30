@@ -122,7 +122,7 @@ class CUrlValidatorTest extends CTestCase
 	 * @dataProvider providerDefaultScheme
 	 *
 	 * @param string $url
-	 * @param array $defaultScheme
+	 * @param string $defaultScheme
 	 * @param string $assertion
 	 */
 	public function testDefaultScheme($url, $defaultScheme, $assertion)
@@ -163,7 +163,7 @@ class CUrlValidatorTest extends CTestCase
 	 * @dataProvider providerAllowEmpty
 	 *
 	 * @param string $url
-	 * @param array $allowEmpty
+	 * @param bool $allowEmpty
 	 * @param string $assertion
 	 */
 	public function testAllowEmpty($url, $allowEmpty, $assertion)

@@ -553,7 +553,9 @@ class CDbCriteriaTest extends CTestCase {
 		$this->assertEquals('(A=? AND B=?) AND ((C=:ycp2) AND (D=:ycp3))', $criteria1->condition);
 		$this->assertEquals(10, $criteria1->params[0]);
 		$this->assertEquals(20, $criteria1->params[1]);
+		// @phpstan-ignore-next-line
 		$this->assertEquals(30, $criteria1->params[':ycp2']);
+        // @phpstan-ignore-next-line
 		$this->assertEquals(40, $criteria1->params[':ycp3']);
 	}
 

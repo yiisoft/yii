@@ -143,7 +143,10 @@ class YiiBase
 	 */
 	public static function app()
 	{
-		return self::$_app;
+        $app = self::$_app;
+        assert($app instanceof CConsoleApplication || $app instanceof CWebApplication);
+
+        return $app;
 	}
 
 	/**
@@ -331,8 +334,10 @@ class YiiBase
 		$className=(string)substr($alias,$pos+1);
 		$isClass=$className!=='*';
 
-		if($isClass && (class_exists($className,false) || interface_exists($className,false)))
-			return self::$_imports[$alias]=$className;
+		if($isClass && (class_exists($className,false) || interface_exists($className,false))) {
+		    // @phpstan-ignore-next-line
+            return self::$_imports[$alias] = $className;
+        }
 
 		if(($path=self::getPathOfAlias($alias))!==false)
 		{

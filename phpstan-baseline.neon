@@ -26,6 +26,41 @@ parameters:
 			path: framework/cli/commands/MessageCommand.php
 
 		-
+			message: "#^Method CActiveFinder\\:\\:findBySql\\(\\) should return M of CActiveRecord\\|null but returns CActiveRecord\\|null\\.$#"
+			count: 1
+			path: framework/db/ar/CActiveFinder.php
+
+		-
+			message: "#^Method CActiveFinder\\:\\:findAllBySql\\(\\) should return array\\<M of CActiveRecord\\> but returns array\\<CActiveRecord\\>\\.$#"
+			count: 1
+			path: framework/db/ar/CActiveFinder.php
+
+		-
+			message: "#^Method CActiveRecord\\:\\:getRelated\\(\\) should return \\(CActiveRecord&iterable\\<CActiveRecord\\>\\)\\|null but returns array\\|null\\.$#"
+			count: 1
+			path: framework/db/ar/CActiveRecord.php
+
+		-
+			message: "#^Method CActiveRecord\\:\\:model\\(\\) should return T of CActiveRecord but returns mixed\\.$#"
+			count: 1
+			path: framework/db/ar/CActiveRecord.php
+
+		-
+			message: "#^Method CActiveRecord\\:\\:model\\(\\) should return T of CActiveRecord but returns static\\(CActiveRecord\\)\\.$#"
+			count: 1
+			path: framework/db/ar/CActiveRecord.php
+
+		-
+			message: "#^Method CActiveRecord\\:\\:findBySql\\(\\) should return static\\(CActiveRecord\\)\\|null but returns CActiveRecord\\|null\\.$#"
+			count: 1
+			path: framework/db/ar/CActiveRecord.php
+
+		-
+			message: "#^Method CActiveRecord\\:\\:findAllBySql\\(\\) should return array\\<static\\(CActiveRecord\\)\\> but returns array\\<CActiveRecord\\>\\.$#"
+			count: 1
+			path: framework/db/ar/CActiveRecord.php
+
+		-
 			message: "#^Variable \\$pk might not be defined\\.$#"
 			count: 3
 			path: framework/db/ar/CJoinElement.php
@@ -49,10 +84,7 @@ parameters:
 			message: "#^Variable \\$_COOKIE in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: framework/web/CHttpRequest.php
-		-
-			message: "#^Variable \\$_SESSION in isset\\(\\) always exists and is not nullable\\.$#"
-			count: 1
-			path: framework/web/CHttpSession.php
+
 		-
 			message: "#^Variable \\$_FILES in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
@@ -199,11 +231,6 @@ parameters:
 			path: tests/framework/caching/CDirectoryCacheDependencyTest.php
 
 		-
-			message: "#^Access to an undefined property CCache\\:\\:\\$cachePath\\.$#"
-			count: 2
-			path: tests/framework/caching/CFileCacheTest.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\$dirName directory full name\\)\\: Unexpected token \"\\$dirName\", expected type at offset 38$#"
 			count: 2
 			path: tests/framework/cli/commands/MessageCommandTest.php
@@ -217,6 +244,11 @@ parameters:
 			message: "#^Access to an undefined property MyClass\\:\\:\\$param2\\.$#"
 			count: 2
 			path: tests/framework/collections/CConfigurationTest.php
+
+		-
+			message: "#^Cannot assign new offset to CTypedList\\.$#"
+			count: 4
+			path: tests/framework/collections/CTypedListTest.php
 
 		-
 			message: "#^Access to an undefined property Post2\\:\\:\\$author\\.$#"
@@ -529,16 +561,6 @@ parameters:
 			path: tests/framework/db/ar/CActiveRecordTest.php
 
 		-
-			message: "#^Access to undefined constant PDO\\:\\:SQLSRV_ATTR_ENCODING\\.$#"
-			count: 1
-			path: tests/framework/db/schema/CMssqlTest.php
-
-		-
-			message: "#^Access to undefined constant PDO\\:\\:SQLSRV_ENCODING_SYSTEM\\.$#"
-			count: 1
-			path: tests/framework/db/schema/CMssqlTest.php
-
-		-
 			message: "#^Access to an undefined property CDbTableSchema\\:\\:\\$schemaName\\.$#"
 			count: 1
 			path: tests/framework/db/schema/CMssqlTest.php
@@ -559,21 +581,6 @@ parameters:
 			path: tests/framework/utils/CLocalizedFormatterTest.php
 
 		-
-			message: "#^Cannot access property \\$foo on null\\.$#"
-			count: 5
-			path: tests/framework/validators/CBooleanValidatorTest.php
-
-		-
-			message: "#^Cannot call method hasErrors\\(\\) on null\\.$#"
-			count: 5
-			path: tests/framework/validators/CBooleanValidatorTest.php
-
-		-
-			message: "#^Cannot call method validate\\(\\) on null\\.$#"
-			count: 5
-			path: tests/framework/validators/CBooleanValidatorTest.php
-
-		-
 			message: "#^Method CBooleanValidatorTest\\:\\:testValidationUsingCustomFalseTrueValues\\(\\) should return null but return statement is missing\\.$#"
 			count: 1
 			path: tests/framework/validators/CBooleanValidatorTest.php
@@ -589,34 +596,9 @@ parameters:
 			path: tests/framework/validators/CBooleanValidatorTest.php
 
 		-
-			message: "#^Cannot call method getErrors\\(\\) on null\\.$#"
-			count: 1
-			path: tests/framework/validators/CBooleanValidatorTest.php
-
-		-
 			message: "#^Method CBooleanValidatorTest\\:\\:testValidateArrayValue\\(\\) should return null but return statement is missing\\.$#"
 			count: 1
 			path: tests/framework/validators/CBooleanValidatorTest.php
-
-		-
-			message: "#^Cannot access property \\$foo on null\\.$#"
-			count: 7
-			path: tests/framework/validators/CCompareValidatorTest.php
-
-		-
-			message: "#^Cannot access property \\$bar on null\\.$#"
-			count: 12
-			path: tests/framework/validators/CCompareValidatorTest.php
-
-		-
-			message: "#^Cannot call method validate\\(\\) on null\\.$#"
-			count: 14
-			path: tests/framework/validators/CCompareValidatorTest.php
-
-		-
-			message: "#^Cannot call method hasErrors\\(\\) on null\\.$#"
-			count: 7
-			path: tests/framework/validators/CCompareValidatorTest.php
 
 		-
 			message: "#^Method CCompareValidatorTest\\:\\:testValidationErrorsWithEquals\\(\\) should return null but return statement is missing\\.$#"
@@ -649,16 +631,6 @@ parameters:
 			path: tests/framework/validators/CCompareValidatorTest.php
 
 		-
-			message: "#^Access to an undefined property PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\:\\:\\$foo\\.$#"
-			count: 1
-			path: tests/framework/validators/CCompareValidatorTest.php
-
-		-
-			message: "#^Call to an undefined method PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\:\\:validate\\(\\)\\.$#"
-			count: 1
-			path: tests/framework/validators/CCompareValidatorTest.php
-
-		-
 			message: "#^Method CCompareValidatorTest\\:\\:testOverrideCompareValue\\(\\) should return null but return statement is missing\\.$#"
 			count: 1
 			path: tests/framework/validators/CCompareValidatorTest.php
@@ -669,33 +641,13 @@ parameters:
 			path: tests/framework/validators/CCompareValidatorTest.php
 
 		-
-			message: "#^Cannot call method validate\\(\\) on null\\.$#"
-			count: 8
-			path: tests/framework/validators/CDateValidatorTest.php
-
-		-
-			message: "#^Cannot call method hasErrors\\(\\) on null\\.$#"
-			count: 1
-			path: tests/framework/validators/CDateValidatorTest.php
-
-		-
 			message: "#^Method CDateValidatorTest\\:\\:testAllowEmptyOption\\(\\) should return null but return statement is missing\\.$#"
 			count: 1
 			path: tests/framework/validators/CDateValidatorTest.php
 
 		-
-			message: "#^Cannot access property \\$foo on null\\.$#"
-			count: 6
-			path: tests/framework/validators/CDateValidatorTest.php
-
-		-
 			message: "#^Method CDateValidatorTest\\:\\:testFormatOption\\(\\) should return null but return statement is missing\\.$#"
 			count: 1
-			path: tests/framework/validators/CDateValidatorTest.php
-
-		-
-			message: "#^Cannot access property \\$bar on null\\.$#"
-			count: 2
 			path: tests/framework/validators/CDateValidatorTest.php
 
 		-
@@ -707,16 +659,6 @@ parameters:
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$operator$#"
 			count: 1
 			path: tests/framework/validators/CDateValidatorTest.php
-
-		-
-			message: "#^Cannot call method validate\\(\\) on null\\.$#"
-			count: 3
-			path: tests/framework/validators/CDefaultValueValidatorTest.php
-
-		-
-			message: "#^Cannot access property \\$foo on null\\.$#"
-			count: 5
-			path: tests/framework/validators/CDefaultValueValidatorTest.php
 
 		-
 			message: "#^Method CDefaultValueValidatorTest\\:\\:testDefaultValueIsSetWhenSetOnEmptyIsTrue\\(\\) should return null but return statement is missing\\.$#"
@@ -817,14 +759,4 @@ parameters:
 			message: "#^Property SoapPovCalculationInput\\:\\:\\$ins_start_date has unknown class date as its type\\.$#"
 			count: 1
 			path: tests/framework/web/services/SoapPovCalculationInput.php
-
-		-
-			message: "#^Access to an undefined property PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\:\\:\\$buttons\\.$#"
-			count: 1
-			path: tests/framework/zii/widgets/grid/CButtonColumnTest.php
-
-		-
-			message: "#^Call to an undefined method PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\:\\:init\\(\\)\\.$#"
-			count: 1
-			path: tests/framework/zii/widgets/grid/CButtonColumnTest.php
 

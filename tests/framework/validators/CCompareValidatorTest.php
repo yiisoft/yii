@@ -267,7 +267,7 @@ class CCompareValidatorTest extends CTestCase
 	 *
 	 * @param array $operator optional parameters to configure rule
 	 *
-	 * @return null
+	 * @return ModelMock&PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getModelMock($params=array())
 	{

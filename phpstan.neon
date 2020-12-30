@@ -1,8 +1,8 @@
 includes:
   - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-  - phar://phpstan.phar/conf/config.level2.neon
   - phpstan-baseline.neon
 parameters:
+  level: 3
   paths:
     - framework/
     - tests/

@@ -210,6 +210,7 @@ class CComponent
 	 * to allow using unset() to set a component property to be null.
 	 * @param string $name the property name or the event name
 	 * @throws CException if the property is read only.
+     * @return void
 	 */
 	public function __unset($name)
 	{

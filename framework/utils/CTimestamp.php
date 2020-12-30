@@ -82,7 +82,7 @@ class CTimestamp
 		        floor(($year / 100) / 4) - 2 *
 		        floor($year / 100) + 77 + $greg_correction;
 
-		return $day - 7 * (int)floor($day / 7);
+		return (int)($day - 7 * (int)floor($day / 7));
 	}
 
 	/**

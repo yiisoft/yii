@@ -34,8 +34,14 @@ class CActiveFinder extends CComponent
 	public $baseLimited=false;
 
 	private $_joinCount=0;
-	private $_joinTree;
-	private $_builder;
+    /**
+     * @var \CJoinElement|null
+     */
+    private $_joinTree;
+    /**
+     * @var \CDbCommandBuilder
+     */
+    private $_builder;
 
 	/**
 	 * Constructor.

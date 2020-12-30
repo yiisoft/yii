@@ -76,6 +76,7 @@ class CFileCacheTest extends CTestCase
 			),
 		));
 		$app->reset();
+		/** @var CFileCache $cache */
 		$cache=$app->cache;
 
 		$cache->set('testKey1','testValue1',2);
@@ -98,6 +99,7 @@ class CFileCacheTest extends CTestCase
 			),
 		));
 		$app->reset();
+		/** @var CFileCache $cache */
 		$cache=$app->cache;
 
 		$cache->set('testKey4','testValue4',2);

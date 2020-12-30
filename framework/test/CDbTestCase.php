@@ -37,7 +37,7 @@
 abstract class CDbTestCase extends CTestCase
 {
 	/**
-	 * @var array a list of fixtures that should be loaded before each test method executes.
+	 * @var array|false a list of fixtures that should be loaded before each test method executes.
 	 * The array keys are fixture names, and the array values are either AR class names
 	 * or table names. If table names, they must begin with a colon character (e.g. 'Post'
 	 * means an AR class, while ':post' means a table name).
@@ -81,7 +81,10 @@ abstract class CDbTestCase extends CTestCase
 	 */
 	public function getFixtureManager()
 	{
-		return Yii::app()->getComponent('fixture');
+        $component = Yii::app()->getComponent('fixture');
+        assert($component instanceof CDbFixtureManager);
+
+        return $component;
 	}
 
 	/**

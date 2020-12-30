@@ -14,11 +14,6 @@ class CComponentTest extends CTestCase
 		$this->component = new NewComponent();
 	}
 
-	public function tearDown(): void
-	{
-		$this->component = null;
-	}
-
 	public function testHasProperty()
 	{
 		$this->assertTrue($this->component->hasProperty('Text'), "Component hasn't property Text");

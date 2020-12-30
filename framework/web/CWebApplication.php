@@ -308,7 +308,7 @@ class CWebApplication extends CApplication
 		if(($ca=$this->createController($route))!==null)
 		{
 		    /* @var \CController $controller */
-			list($controller,$actionID)=$ca;
+			[$controller,$actionID]=$ca;
 			$oldController=$this->_controller;
 			$this->_controller=$controller;
 			$controller->init();
@@ -587,12 +587,16 @@ class CWebApplication extends CApplication
 		{
 			do
 			{
-				if(($m=$module->getModule($id))!==null)
-					return $m;
-			} while(($module=$module->getParentModule())!==null);
+				if(($m=$module->getModule($id))!==null) {
+				    assert($m instanceof CWebModule);
+                    return $m;
+                }
+            } while(($module=$module->getParentModule())!==null);
 		}
-		if(($m=$this->getModule($id))!==null)
-			return $m;
+		if(($m=$this->getModule($id))!==null) {
+            assert($m instanceof CWebModule);
+            return $m;
+        }
 
 		return null;
 	}

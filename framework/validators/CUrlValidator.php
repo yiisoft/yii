@@ -30,7 +30,7 @@ class CUrlValidator extends CValidator
 	 **/
 	public $validSchemes=array('http','https');
 	/**
-	 * @var string the default URI scheme. If the input doesn't contain the scheme part, the default
+	 * @var string|null the default URI scheme. If the input doesn't contain the scheme part, the default
 	 * scheme will be prepended to it (thus changing the input). Defaults to null, meaning a URL must
 	 * contain the scheme part.
 	 * @since 1.1.7

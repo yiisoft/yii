@@ -32,7 +32,7 @@ class CDbCriteria extends CComponent
 	 */
 	public static $paramCount=0;
 	/**
-	 * @var string|string[] the columns being selected. This refers to the SELECT clause in an SQL
+	 * @var string|string[]|false the columns being selected. This refers to the SELECT clause in an SQL
 	 * statement. The property can be either a string (column names separated by commas)
 	 * or an array of column names. Defaults to '*', meaning all columns.
 	 */

@@ -2114,8 +2114,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function instantiate($attributes)
 	{
-		$class=get_class($this);
-        return new $class(null);
+	    // @phpstan-ignore-next-line
+        return new static(null);
 	}
 
     /**

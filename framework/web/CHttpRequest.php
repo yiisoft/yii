@@ -23,7 +23,7 @@
  *
  * @property string $url Part of the request URL after the host info.
  * @property string $hostInfo Schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yiiframework.com).
- * @property string $baseUrl The relative URL for the application.
+ * @property string|null $baseUrl The relative URL for the application.
  * @property string $scriptUrl The relative URL of the entry script.
  * @property string $pathInfo Part of the request URL that is after the entry script and before the question mark.
  * Note, the returned pathinfo is decoded starting from 1.1.4.
@@ -415,7 +415,7 @@ class CHttpRequest extends CApplicationComponent
 	 * By default the URL is determined based on the entry script URL.
 	 * This setter is provided in case you want to change this behavior.
 	 *
-	 * @param string $value the relative URL for the application
+	 * @param string|null $value the relative URL for the application
 	 *
 	 * @return void
 	 */
