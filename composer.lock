@@ -326,43 +326,49 @@
         },
         {
             "name": "ergebnis/composer-normalize",
-            "version": "2.8.2",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ergebnis/composer-normalize.git",
-                "reference": "0a25a226c5503659179c8ea440d1c76599e434fd"
+                "reference": "20058f9526003b59bd12a90ff7ee5b94503c988f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergebnis/composer-normalize/zipball/0a25a226c5503659179c8ea440d1c76599e434fd",
-                "reference": "0a25a226c5503659179c8ea440d1c76599e434fd",
+                "url": "https://api.github.com/repos/ergebnis/composer-normalize/zipball/20058f9526003b59bd12a90ff7ee5b94503c988f",
+                "reference": "20058f9526003b59bd12a90ff7ee5b94503c988f",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.1.0 || ^2.0.0",
-                "ergebnis/json-normalizer": "~0.13.1",
+                "composer-plugin-api": "^2.0.0",
+                "ergebnis/json-normalizer": "^1.0.0",
                 "ergebnis/json-printer": "^3.1.1",
                 "justinrainbow/json-schema": "^5.2.10",
                 "localheinz/diff": "^1.1.1",
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "composer/composer": "^1.10.13 || ^2.0.0",
-                "composer/package-versions-deprecated": "^1.11.99",
-                "ergebnis/phpstan-rules": "~0.15.2",
-                "ergebnis/test-util": "^1.1.0",
-                "jangregor/phpstan-prophecy": "~0.8.0",
-                "phpstan/extension-installer": "^1.0.5",
-                "phpstan/phpstan": "~0.12.43",
-                "phpstan/phpstan-deprecation-rules": "~0.12.5",
-                "phpstan/phpstan-phpunit": "~0.12.16",
-                "phpstan/phpstan-strict-rules": "~0.12.5",
-                "phpunit/phpunit": "^8.5.8",
-                "symfony/filesystem": "^5.1.5"
+                "composer/composer": "^2.0.8",
+                "ergebnis/license": "^1.1.0",
+                "ergebnis/php-cs-fixer-config": "^2.10.0",
+                "ergebnis/phpstan-rules": "~0.15.3",
+                "ergebnis/test-util": "^1.4.0",
+                "phpstan/extension-installer": "^1.1.0",
+                "phpstan/phpstan": "~0.12.64",
+                "phpstan/phpstan-deprecation-rules": "~0.12.6",
+                "phpstan/phpstan-phpunit": "~0.12.17",
+                "phpstan/phpstan-strict-rules": "~0.12.7",
+                "phpunit/phpunit": "^8.5.13",
+                "psalm/plugin-phpunit": "~0.12.2",
+                "symfony/filesystem": "^5.1.8",
+                "vimeo/psalm": "^3.18.2"
             },
             "type": "composer-plugin",
             "extra": {
-                "class": "Ergebnis\\Composer\\Normalize\\NormalizePlugin"
+                "class": "Ergebnis\\Composer\\Normalize\\NormalizePlugin",
+                "composer-normalize": {
+                    "indent-size": 2,
+                    "indent-style": "space"
+                }
             },
             "autoload": {
                 "psr-4": {
@@ -387,49 +393,53 @@
                 "normalizer",
                 "plugin"
             ],
+            "support": {
+                "issues": "https://github.com/ergebnis/composer-normalize/issues",
+                "source": "https://github.com/ergebnis/composer-normalize"
+            },
             "funding": [
                 {
                     "url": "https://github.com/localheinz",
                     "type": "github"
                 }
             ],
-            "time": "2020-09-22T09:55:49+00:00"
+            "time": "2020-12-29T11:33:45+00:00"
         },
         {
             "name": "ergebnis/json-normalizer",
-            "version": "0.13.1",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ergebnis/json-normalizer.git",
-                "reference": "82897f7a0b6a896462a08ac02bee33ccf4ece0bb"
+                "reference": "f318c642a59eea14233db5f36749aab20aeed203"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergebnis/json-normalizer/zipball/82897f7a0b6a896462a08ac02bee33ccf4ece0bb",
-                "reference": "82897f7a0b6a896462a08ac02bee33ccf4ece0bb",
+                "url": "https://api.github.com/repos/ergebnis/json-normalizer/zipball/f318c642a59eea14233db5f36749aab20aeed203",
+                "reference": "f318c642a59eea14233db5f36749aab20aeed203",
                 "shasum": ""
             },
             "require": {
-                "ergebnis/json-printer": "^3.1.0",
+                "ergebnis/json-printer": "^3.1.1",
                 "ext-json": "*",
                 "justinrainbow/json-schema": "^5.2.10",
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "ergebnis/license": "^1.0.0",
-                "ergebnis/php-cs-fixer-config": "^2.2.1",
-                "ergebnis/phpstan-rules": "~0.15.2",
-                "ergebnis/test-util": "^1.1.0",
+                "ergebnis/license": "^1.1.0",
+                "ergebnis/php-cs-fixer-config": "^2.10.0",
+                "ergebnis/phpstan-rules": "~0.15.3",
+                "ergebnis/test-util": "^1.4.0",
                 "infection/infection": "~0.15.3",
-                "jangregor/phpstan-prophecy": "~0.8.0",
-                "phpstan/extension-installer": "^1.0.4",
-                "phpstan/phpstan": "~0.12.40",
-                "phpstan/phpstan-deprecation-rules": "~0.12.5",
-                "phpstan/phpstan-phpunit": "~0.12.16",
-                "phpstan/phpstan-strict-rules": "~0.12.4",
-                "phpunit/phpunit": "^8.5.8",
-                "psalm/plugin-phpunit": "~0.11.0",
-                "vimeo/psalm": "^3.14.2"
+                "jangregor/phpstan-prophecy": "~0.8.1",
+                "phpstan/extension-installer": "^1.1.0",
+                "phpstan/phpstan": "~0.12.60",
+                "phpstan/phpstan-deprecation-rules": "~0.12.6",
+                "phpstan/phpstan-phpunit": "~0.12.17",
+                "phpstan/phpstan-strict-rules": "~0.12.7",
+                "phpunit/phpunit": "^8.5.13",
+                "psalm/plugin-phpunit": "~0.12.2",
+                "vimeo/psalm": "^3.18"
             },
             "type": "library",
             "autoload": {
@@ -453,13 +463,17 @@
                 "json",
                 "normalizer"
             ],
+            "support": {
+                "issues": "https://github.com/ergebnis/json-normalizer/issues",
+                "source": "https://github.com/ergebnis/json-normalizer"
+            },
             "funding": [
                 {
                     "url": "https://github.com/localheinz",
                     "type": "github"
                 }
             ],
-            "time": "2020-08-30T12:00:06+00:00"
+            "time": "2020-12-29T08:08:15+00:00"
         },
         {
             "name": "ergebnis/json-printer",
@@ -518,6 +532,10 @@
                 "json",
                 "printer"
             ],
+            "support": {
+                "issues": "https://github.com/ergebnis/json-printer/issues",
+                "source": "https://github.com/ergebnis/json-printer"
+            },
             "funding": [
                 {
                     "url": "https://github.com/localheinz",
@@ -590,6 +608,10 @@
                 "json",
                 "schema"
             ],
+            "support": {
+                "issues": "https://github.com/justinrainbow/json-schema/issues",
+                "source": "https://github.com/justinrainbow/json-schema/tree/5.2.10"
+            },
             "time": "2020-05-27T16:41:55+00:00"
         },
         {
@@ -801,6 +823,9 @@
                 "unidiff",
                 "unified diff"
             ],
+            "support": {
+                "source": "https://github.com/localheinz/diff/tree/main"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
