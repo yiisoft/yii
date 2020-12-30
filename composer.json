@@ -15,11 +15,11 @@
 	},
 	"require-dev": {
 		"ergebnis/composer-normalize": "^2.5",
+		"laminas/laminas-diactoros": "^2.5",
 		"phpseclib/mcrypt_compat": "^1.0",
 		"phpstan/phpstan": "^0.12.0",
 		"phpunit/phpunit": "^9.0",
-		"roave/security-advisories": "dev-master",
-		"zendframework/zend-diactoros": "^2.1"
+		"roave/security-advisories": "dev-master"
 	},
 	"suggest": {
 		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager",
