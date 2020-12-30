@@ -569,21 +569,11 @@ class CHtmlTest extends CTestCase
 			array(array('v1'),"0",'defaultValue','v1'),
 			array(array('v1'),0,'defaultValue','v1'),
 			array(array('v1'),0.0,'defaultValue','v1'),
-		);
 
-		// create_function is not supported by CHtml::value(), we're just testing this feature/property
-		// if(version_compare(PHP_VERSION,'8.0','<')) {
-			$result=array_merge($result, array(
-				array(array('k1' => 'v1', 'k2' => 'v2', 'v3', 'v4'), function($model) {return $model["k2"];}, null, null),
-				array((object)array('k1' => 'v1', 'k2' => 'v2', 'v3', 'v4'), function($model) {return $model->k2;}, null, null),
-			));
-		// }
+            array(array('k1'=>'v1','k2'=>'v2','v3','v4'),function($model) { return $model['k2']; },null,'v2'),
+            array((object)array('k1'=>'v1','k2'=>'v2','v3','v4'),function($model) { return $model->k2; },null,'v2'),
+        );
 
-		if(class_exists('Closure',false))
-		{
-			// anonymous function
-			$result=array_merge($result,require(dirname(__FILE__).'/CHtml/providerValue.php'));
-		}
 		return $result;
 	}
 
