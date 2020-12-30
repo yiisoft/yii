@@ -84,7 +84,7 @@ jobs:
           extensions: ${{ env.extensions }}
           ini-values: date.timezone='UTC'
           coverage: xdebug
-          tools: composer:v1, pecl
+          tools: composer:v2, pecl
 
       - name: Determine composer cache directory on Linux
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
