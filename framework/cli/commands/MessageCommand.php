@@ -126,6 +126,8 @@ EOD;
 				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld,$sort,$fileHeader);
 			}
 		}
+
+		return 0;
 	}
 
 	protected function extractMessages($fileName,$translator)

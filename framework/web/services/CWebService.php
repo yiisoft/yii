@@ -159,8 +159,6 @@ class CWebService extends CComponent
 	 * Handles the web service request.
      *
      * @return void
-     * @psalm-return no-return
-     * @phpstan-return never
 	 */
 	public function run()
 	{
@@ -232,9 +230,6 @@ class CWebService extends CComponent
 			$server->fault(get_class($e),$message);
 			exit(1);
 		}
-
-        /* @noinspection UselessReturnInspection */
-        return;
 	}
 
 	/**
@@ -244,12 +239,7 @@ class CWebService extends CComponent
 	{
 		if($this->_method===null)
 		{
-			// before PHP 5.6 php://input could be read only once
-			// since PHP 5.6 $HTTP_RAW_POST_DATA is deprecated
-			if(version_compare(PHP_VERSION, '5.6.0', '<') && isset($HTTP_RAW_POST_DATA))
-				$request=$HTTP_RAW_POST_DATA;
-			else
-				$request=file_get_contents('php://input');
+			$request=file_get_contents('php://input');
 			if(preg_match('/<.*?:Body[^>]*>\s*<.*?:(\w+)/mi',$request,$matches))
 				$this->_method=$matches[1];
 			else

@@ -891,78 +891,74 @@ abstract class CApplication extends CModule
 	 * @param string $file the filename that the error was raised in
 	 * @param int $line the line number the error was raised at
      *
-     * @return void
-     * @psalm-return no-return
-     * @phpstan-return never
+     * @return no-return
 	 */
 	public function handleError($code,$message,$file,$line)
 	{
-		if($code & error_reporting())
-		{
-			// disable error capturing to avoid recursive errors
-			restore_error_handler();
-			restore_exception_handler();
+		if(!$code | !error_reporting()) {
+		    throw new UnexpectedValueException();
+        }
 
-			$log="$message ($file:$line)\nStack trace:\n";
-			$trace=debug_backtrace();
-			// skip the first 3 stacks as they do not tell the error position
-			if(count($trace)>3)
-				$trace=array_slice($trace,3);
-			foreach($trace as $i=>$t)
-			{
-				if(!isset($t['file']))
-					$t['file']='unknown';
-				if(!isset($t['line']))
-					$t['line']=0;
-				if(!isset($t['function']))
-					$t['function']='unknown';
-				$log.="#$i {$t['file']}({$t['line']}): ";
-				if(isset($t['object']) && is_object($t['object']))
-					$log.=get_class($t['object']).'->';
-				$log.="{$t['function']}()\n";
-			}
-			if(isset($_SERVER['REQUEST_URI']))
-				$log.='REQUEST_URI='.$_SERVER['REQUEST_URI'];
-			Yii::log($log,CLogger::LEVEL_ERROR,'php');
+        // disable error capturing to avoid recursive errors
+        restore_error_handler();
+        restore_exception_handler();
 
-			try
-			{
-				Yii::import('CErrorEvent',true);
-				$event=new CErrorEvent($this,$code,$message,$file,$line);
-				$this->onError($event);
-				if(!$event->handled)
-				{
-					// try an error handler
-					if(($handler=$this->getErrorHandler())!==null)
-						$handler->handle($event);
-					else
-						$this->displayError($code,$message,$file,$line);
-				}
-			}
-			catch(Exception $e)
-			{
-				$this->displayException($e);
-			}
+        $log = "$message ($file:$line)\nStack trace:\n";
+        $trace = debug_backtrace();
+        // skip the first 3 stacks as they do not tell the error position
+        if (count($trace) > 3) {
+            $trace = array_slice($trace, 3);
+        }
+        foreach ($trace as $i => $t) {
+            if (!isset($t['file'])) {
+                $t['file'] = 'unknown';
+            }
+            if (!isset($t['line'])) {
+                $t['line'] = 0;
+            }
+            if (!isset($t['function'])) {
+                $t['function'] = 'unknown';
+            }
+            $log .= "#$i {$t['file']}({$t['line']}): ";
+            if (isset($t['object']) && is_object($t['object'])) {
+                $log .= get_class($t['object']) . '->';
+            }
+            $log .= "{$t['function']}()\n";
+        }
+        if (isset($_SERVER['REQUEST_URI'])) {
+            $log .= 'REQUEST_URI=' . $_SERVER['REQUEST_URI'];
+        }
+        Yii::log($log, CLogger::LEVEL_ERROR, 'php');
 
-			try
-			{
-				$this->end(1);
-			}
-			catch(Exception $e)
-			{
-				// use the most primitive way to log error
-				$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
-				$msg .= $e->getTraceAsString()."\n";
-				$msg .= "Previous error:\n";
-				$msg .= $log."\n";
-				$msg .= '$_SERVER='.var_export($_SERVER,true);
-				error_log($msg);
-				exit(1);
-			}
-		}
-        /* @noinspection UselessReturnInspection */
-        return;
-	}
+        try {
+            Yii::import('CErrorEvent', true);
+            $event = new CErrorEvent($this, $code, $message, $file, $line);
+            $this->onError($event);
+            if (!$event->handled) {
+                // try an error handler
+                if (($handler = $this->getErrorHandler()) !== null) {
+                    $handler->handle($event);
+                } else {
+                    $this->displayError($code, $message, $file, $line);
+                }
+            }
+        } catch (Exception $e) {
+            $this->displayException($e);
+        }
+
+        try {
+            $this->end(1);
+        } catch (Exception $e) {
+            // use the most primitive way to log error
+            $msg = get_class($e) . ': ' . $e->getMessage() . ' (' . $e->getFile() . ':' . $e->getLine() . ")\n";
+            $msg .= $e->getTraceAsString() . "\n";
+            $msg .= "Previous error:\n";
+            $msg .= $log . "\n";
+            $msg .= '$_SERVER=' . var_export($_SERVER, true);
+            error_log($msg);
+            exit(1);
+        }
+    }
 
 	/**
 	 * Raised when an uncaught PHP exception occurs.

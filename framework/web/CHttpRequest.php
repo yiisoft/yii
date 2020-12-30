@@ -1147,14 +1147,11 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $fileName file name
 	 * @param string $content content to be set.
 	 * @param string $mimeType mime type of the content. If null, it will be guessed automatically based on the given file name.
-	 * @param bool $terminate whether to terminate the current application after calling this method
 	 * @throws CHttpException
      *
-     * @return void
-     * @psalm-return no-return
-     * @phpstan-return never
+     * @return no-return
 	 */
-	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
+	public function sendFile($fileName,$content,$mimeType=null)
 	{
 		if($mimeType===null)
 		{
@@ -1225,118 +1222,13 @@ class CHttpRequest extends CApplicationComponent
 		header('Content-Transfer-Encoding: binary');
 		$content=function_exists('mb_substr') ? mb_substr($content,$contentStart,$length,'8bit') : substr($content,$contentStart,$length);
 
-		if($terminate)
-		{
-			// clean up the application first because the file downloading could take long time
-			// which may cause timeout of some resources (such as DB connection)
-			ob_start();
-			Yii::app()->dispatchEndEvent();
-			ob_end_clean();
-			echo $content;
-			exit(0);
-		}
-		else
-			echo $content;
-
-        /* @noinspection UselessReturnInspection */
-        return;
-	}
-
-	/**
-	 * Sends existing file to a browser as a download using x-sendfile.
-	 *
-	 * X-Sendfile is a feature allowing a web application to redirect the request for a file to the webserver
-	 * that in turn processes the request, this way eliminating the need to perform tasks like reading the file
-	 * and sending it to the user. When dealing with a lot of files (or very big files) this can lead to a great
-	 * increase in performance as the web application is allowed to terminate earlier while the webserver is
-	 * handling the request.
-	 *
-	 * The request is sent to the server through a special non-standard HTTP-header.
-	 * When the web server encounters the presence of such header it will discard all output and send the file
-	 * specified by that header using web server internals including all optimizations like caching-headers.
-	 *
-	 * As this header directive is non-standard different directives exists for different web servers applications:
-	 * <ul>
-	 * <li>Apache: {@link http://tn123.org/mod_xsendfile X-Sendfile}</li>
-	 * <li>Lighttpd v1.4: {@link http://redmine.lighttpd.net/projects/lighttpd/wiki/X-LIGHTTPD-send-file X-LIGHTTPD-send-file}</li>
-	 * <li>Lighttpd v1.5: {@link http://redmine.lighttpd.net/projects/lighttpd/wiki/X-LIGHTTPD-send-file X-Sendfile}</li>
-	 * <li>Nginx: {@link http://wiki.nginx.org/XSendfile X-Accel-Redirect}</li>
-	 * <li>Cherokee: {@link http://www.cherokee-project.com/doc/other_goodies.html#x-sendfile X-Sendfile and X-Accel-Redirect}</li>
-	 * </ul>
-	 * So for this method to work the X-SENDFILE option/module should be enabled by the web server and
-	 * a proper xHeader should be sent.
-	 *
-	 * <b>Note:</b>
-	 * This option allows to download files that are not under web folders, and even files that are otherwise protected (deny from all) like .htaccess
-	 *
-	 * <b>Side effects</b>:
-	 * If this option is disabled by the web server, when this method is called a download configuration dialog
-	 * will open but the downloaded file will have 0 bytes.
-	 *
-	 * <b>Known issues</b>:
-	 * There is a Bug with Internet Explorer 6, 7 and 8 when X-SENDFILE is used over an SSL connection, it will show
-	 * an error message like this: "Internet Explorer was not able to open this Internet site. The requested site is either unavailable or cannot be found.".
-	 * You can work around this problem by removing the <code>Pragma</code>-header.
-	 *
-	 * <b>Example</b>:
-	 * <pre>
-	 * <?php
-	 *    Yii::app()->request->xSendFile('/home/user/Pictures/picture1.jpg',array(
-	 *        'saveName'=>'image1.jpg',
-	 *        'mimeType'=>'image/jpeg',
-	 *        'terminate'=>false,
-	 *    ));
-	 * ?>
-	 * </pre>
-	 * @param string $filePath file name with full path
-	 * @param array $options additional options:
-	 * <ul>
-	 * <li>saveName: file name shown to the user, if not set real file name will be used</li>
-	 * <li>mimeType: mime type of the file, if not set it will be guessed automatically based on the file name, if set to null no content-type header will be sent.</li>
-	 * <li>xHeader: appropriate x-sendfile header, defaults to "X-Sendfile"</li>
-	 * <li>terminate: whether to terminate the current application after calling this method, defaults to true</li>
-	 * <li>forceDownload: specifies whether the file will be downloaded or shown inline, defaults to true. (Since version 1.1.9.)</li>
-	 * <li>addHeaders: an array of additional http headers in header-value pairs (available since version 1.1.10)</li>
-	 * </ul>
-     *
-     * @return void
-     * @psalm-return no-return
-     * @phpstan-return never
-	 */
-	public function xSendFile($filePath, $options=array())
-	{
-		if(!isset($options['forceDownload']) || $options['forceDownload'])
-			$disposition='attachment';
-		else
-			$disposition='inline';
-
-		if(!isset($options['saveName']))
-			$options['saveName']=basename($filePath);
-
-		if(!isset($options['mimeType']))
-		{
-			if(($options['mimeType']=CFileHelper::getMimeTypeByExtension($filePath))===null)
-				$options['mimeType']='text/plain';
-		}
-
-		if(!isset($options['xHeader']))
-			$options['xHeader']='X-Sendfile';
-
-		if($options['mimeType']!==null)
-			header('Content-Type: '.$options['mimeType']);
-		header('Content-Disposition: '.$disposition.'; filename="'.$options['saveName'].'"');
-		if(isset($options['addHeaders']))
-		{
-			foreach($options['addHeaders'] as $header=>$value)
-				header($header.': '.$value);
-		}
-		header(trim($options['xHeader']).': '.$filePath);
-
-		if(!isset($options['terminate']) || $options['terminate'])
-			Yii::app()->end();
-
-        /* @noinspection UselessReturnInspection */
-        return;
+        // clean up the application first because the file downloading could take long time
+        // which may cause timeout of some resources (such as DB connection)
+        ob_start();
+        Yii::app()->dispatchEndEvent();
+        ob_end_clean();
+        echo $content;
+        exit(0);
 	}
 
 	/**

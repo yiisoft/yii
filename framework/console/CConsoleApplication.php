@@ -96,18 +96,16 @@ class CConsoleApplication extends CApplication
 	 * This method uses a console command runner to handle the particular user command.
 	 * Since version 1.1.11 this method will exit application with an exit code if one is returned by the user command.
      *
-     * @return void
-     * @psalm-return no-return
-     * @phpstan-return never
+     * @return no-return
 	 */
 	public function processRequest()
 	{
 		$exitCode=$this->_runner->run($_SERVER['argv']);
-		if(is_int($exitCode))
-			$this->end($exitCode);
+		if(!is_int($exitCode)) {
+		    $exitCode = 0;
+        }
 
-        /* @noinspection UselessReturnInspection */
-        return;
+		$this->end($exitCode);
 	}
 
 	/**
