@@ -572,12 +572,12 @@ class CHtmlTest extends CTestCase
 		);
 
 		// create_function is not supported by CHtml::value(), we're just testing this feature/property
-		if(version_compare(PHP_VERSION,'8.0','<')) {
+		// if(version_compare(PHP_VERSION,'8.0','<')) {
 			$result=array_merge($result, array(
-				array(array('k1' => 'v1', 'k2' => 'v2', 'v3', 'v4'), create_function('$model', 'return $model["k2"];'), null, null),
-				array((object)array('k1' => 'v1', 'k2' => 'v2', 'v3', 'v4'), create_function('$model', 'return $model->k2;'), null, null),
+				array(array('k1' => 'v1', 'k2' => 'v2', 'v3', 'v4'), function($model) {return $model["k2"];}, null, null),
+				array((object)array('k1' => 'v1', 'k2' => 'v2', 'v3', 'v4'), function($model) {return $model->k2;}, null, null),
 			));
-		}
+		// }
 
 		if(class_exists('Closure',false))
 		{
