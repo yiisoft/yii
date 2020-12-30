@@ -114,7 +114,10 @@ jobs:
       - name: Install dependencies with composer
         run: composer update --no-interaction --no-progress --optimize-autoloader --ansi
 
-      - name: PHPStan
+      - name: Check composer.json
+        run: composer normalize --dry-run
+
+      - name: Run PHPStan
         run: composer lint
 
       - name: Run tests with phpunit
