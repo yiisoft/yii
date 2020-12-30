@@ -16,7 +16,7 @@
 	"require-dev": {
 		"ergebnis/composer-normalize": "^2.5",
 		"laminas/laminas-diactoros": "^2.5",
-		"phpseclib/mcrypt_compat": "^1.0",
+		"phpseclib/mcrypt_compat": "^1.0 || ^2.0",
 		"phpstan/phpstan": "^0.12.0",
 		"phpunit/phpunit": "^9.0",
 		"roave/security-advisories": "dev-master"
