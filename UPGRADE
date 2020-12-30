@@ -1,5 +1,5 @@
-         Upgrading Instructions for Yii Framework v1.1.21
-         ================================================
+         Upgrading Instructions for Yii Framework v1.1
+         =============================================
 
 !!!IMPORTANT!!!
 
@@ -17,6 +17,11 @@ General upgrade instructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
+
+Upgrading from v1.1.23
+----------------------
+
+No significant changes were made.
 
 Upgrading from v1.1.22
 ----------------------

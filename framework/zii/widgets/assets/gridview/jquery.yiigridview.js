@@ -171,9 +171,9 @@
 
 						if (settings.selectableRows === 1) {
 							$row.siblings().removeClass('selected');
-							$checks.prop('checked', false);
+							$checks.prop('checked', false).trigger("change");
 						}
-						$('input.select-on-check', $row).prop('checked', isRowSelected);
+						$('input.select-on-check', $row).prop('checked', isRowSelected).trigger("change");
 						$("input.select-on-check-all", $currentGrid).prop('checked', $checks.length === $checks.filter(':checked').length);
 
 						if (settings.selectionChanged !== undefined) {
@@ -188,11 +188,11 @@
 								$rows = $currentGrid.find('.' + settings.tableClass).children('tbody').children();
 							if (this.checked) {
 								$rows.addClass('selected');
-								$checks.prop('checked', true);
+								$checks.prop('checked', true).trigger("change");
 								$checksAll.prop('checked', true);
 							} else {
 								$rows.removeClass('selected');
-								$checks.prop('checked', false);
+								$checks.prop('checked', false).trigger("change");
 								$checksAll.prop('checked', false);
 							}
 							if (settings.selectionChanged !== undefined) {
