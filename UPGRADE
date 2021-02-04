@@ -21,7 +21,7 @@ General upgrade instructions
 Upgrading from v1.1.23
 ----------------------
 
-No significant changes were made.
+- jQueryUI was updated and could contain breaking changes. Check the [jQuery UI upgrade guide](https://jqueryui.com/upgrade-guide/1.12/)
 
 Upgrading from v1.1.22
 ----------------------
