@@ -21,7 +21,26 @@ General upgrade instructions
 Upgrading from v1.1.23
 ----------------------
 
-- jQueryUI was updated and could contain breaking changes. Check the [jQuery UI upgrade guide](https://jqueryui.com/upgrade-guide/1.12/)
+- jQueryUI was updated to 1.12 and contains possible breaking changes.
+
+  The default base theme changed to a more modern theme with some colors, less gradients and some other improvements.
+  
+  The old default theme "Smoothness" is still available if you wish to keep it.
+  You can apply it using the CWidgetFactory application component for example:
+
+      return [
+          'components' => [
+              'widgetFactory' => [
+                  'widgets' => [
+                      'CJuiDatePicker' => [ // list your widgets derived from CJuiWidget here
+                          'theme' => 'smoothness',
+                      ],
+                  ],
+              ],
+          ]
+      ];
+
+  For further details check the [jQuery UI upgrade guide](https://jqueryui.com/upgrade-guide/1.12/)
 
 Upgrading from v1.1.22
 ----------------------
