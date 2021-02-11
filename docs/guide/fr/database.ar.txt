@@ -533,7 +533,7 @@ $model=Post::model();
 $transaction=$model->dbConnection->beginTransaction();
 try
 {
-	// find et sqve sont des actions qui peuvent se produirent dans une autre requête
+	// find et save sont des actions qui peuvent se produirent dans une autre requête
 	// il faut donc utiliser une transaction pour garantir l'intégrité des données
 	$post=$model->findByPk(10);
 	$post->title='new post title';
