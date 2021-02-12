@@ -144,7 +144,7 @@ Speichern im Model und nicht im Controller untergebracht ist.
 
 * sollte keine SQL-Anweiseungen enthalten. Sie werden im Model gehalten.
 
-* sollte kein HTML oder anderes Markup zur Darstellung enthalten. Dazu eignetn
+* sollte kein HTML oder anderes Markup zur Darstellung enthalten. Dazu eignen
 sich Views besser.
 
 
