@@ -14,11 +14,11 @@ class CDbStatePersisterTest extends CTestCase
 	public function testLoadSave()
 	{
         if (!extension_loaded('pdo')) {
-            $this->fail('PDO isn not loaded!');
+            $this->fail('PDO is not loaded!');
         }
 
         if (!extension_loaded('pdo_mysql')) {
-            $this->fail('PDO MySQL isn not loaded!');
+            $this->fail('PDO MySQL is not loaded!');
         }
 
 		$app=new TestApplication(array(
