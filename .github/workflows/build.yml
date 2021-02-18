@@ -112,7 +112,7 @@ jobs:
           tools: composer:v1, pecl
 
       - name: Check if pdo_mysql is installed
-        run: echo php -i | grep pdo_mysql
+        run: echo php -i
 
       - name: Determine composer cache directory on Linux
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
