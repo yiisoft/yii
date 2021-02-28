@@ -8884,19 +8884,19 @@ class CDbConnection extends CApplicationComponent
 	{
 		if(is_int($str) || is_float($str))
 			return $str;
-		$this->setActive(true);
-		if(($value=$this->_pdo->quote($str))!==false)
-			return $value;
-		else  // the driver doesn't support quote (e.g. oci)
-			return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
+        $this->setActive(true);
+        if ($this->getDriverName() !== 'odbc')
+            if(($value=$this->_pdo->quote($str))!==false)
+                return $value;
+        return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
 	}
 	public function quoteValueWithType($value, $type)
 	{
 		$this->setActive(true);
-		if(($quoted=$this->_pdo->quote($value, $type))!==false)
-			return $quoted;
-		else  // the driver doesn't support quote (e.g. oci)
-			return "'" . addcslashes(str_replace("'", "''", $value), "\000\n\r\\\032") . "'";
+        if ($this->getDriverName() !== 'odbc')
+            if(($quoted=$this->_pdo->quote($value, $type))!==false)
+                return $quoted;
+        return "'" . addcslashes(str_replace("'", "''", $value), "\000\n\r\\\032") . "'";
 	}
 	public function quoteTableName($name)
 	{
