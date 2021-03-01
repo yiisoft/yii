@@ -577,8 +577,8 @@ class CDbConnection extends CApplicationComponent
 
         $this->setActive(true);
         if ($this->getDriverName() !== 'odbc')
-            if(($value=$this->_pdo->quote($str))!==false)
-                return $value;
+        	if(($value=$this->_pdo->quote($str))!==false)
+        		return $value;
 
         return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
 	}
@@ -598,8 +598,8 @@ class CDbConnection extends CApplicationComponent
 	{
 		$this->setActive(true);
         if ($this->getDriverName() !== 'odbc')
-            if(($quoted=$this->_pdo->quote($value, $type))!==false)
-                return $quoted;
+        	if(($quoted=$this->_pdo->quote($value, $type))!==false)
+        		return $quoted;
 
         return "'" . addcslashes(str_replace("'", "''", $value), "\000\n\r\\\032") . "'";
 	}
