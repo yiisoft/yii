@@ -287,37 +287,37 @@ class CClientScriptTest extends CTestCase
 				'/some/script.js',
 				CClientScript::POS_HEAD,
 				array(),
-				'<script type="text/javascript" src="/some/script.js"></script>'
+				'<script src="/some/script.js"></script>'
 			),
 			array(
 				'/some/script.js',
 				CClientScript::POS_BEGIN,
 				array(),
-				'<script type="text/javascript" src="/some/script.js"></script>'
+				'<script src="/some/script.js"></script>'
 			),
 			array(
 				'/some/script.js',
 				CClientScript::POS_END,
 				array(),
-				'<script type="text/javascript" src="/some/script.js"></script>'
+				'<script src="/some/script.js"></script>'
 			),
 			array(
 				'/options/script.js',
 				CClientScript::POS_HEAD,
 				array('defer'=>true),
-				'<script type="text/javascript" src="/options/script.js" defer="defer"></script>'
+				'<script src="/options/script.js" defer="defer"></script>'
 			),
 			array(
 				'/options/script.js',
 				CClientScript::POS_BEGIN,
 				array('defer'=>true),
-				'<script type="text/javascript" src="/options/script.js" defer="defer"></script>'
+				'<script src="/options/script.js" defer="defer"></script>'
 			),
 			array(
 				'/options/script.js',
 				CClientScript::POS_END,
 				array('defer'=>true),
-				'<script type="text/javascript" src="/options/script.js" defer="defer"></script>'
+				'<script src="/options/script.js" defer="defer"></script>'
 			),
 		);
 	}
