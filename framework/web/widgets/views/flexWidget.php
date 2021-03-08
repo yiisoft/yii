@@ -10,7 +10,7 @@
  * @since 1.0
  */
 ?>
-<script type="text/javascript">
+<script>
 /*<![CDATA[*/
 // Version check for the Flash Player that has the ability to start Player Product Install (6.0r65)
 var hasProductInstall = DetectFlashVer(6, 0, 65);

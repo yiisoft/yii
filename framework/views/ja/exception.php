@@ -225,7 +225,7 @@ pre span.error-ln {
 	</div>
 </div>
 
-<script type="text/javascript">
+<script>
 /*<![CDATA[*/
 var traceReg = new RegExp("(^|\\s)trace-file(\\s|$)");
 var collapsedReg = new RegExp("(^|\\s)collapsed(\\s|$)");
