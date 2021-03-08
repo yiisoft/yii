@@ -291,10 +291,6 @@ class CHtml
 	 */
 	public static function script($text,array $htmlOptions=array())
 	{
-		$defaultHtmlOptions=array(
-			'type'=>'text/javascript',
-		);
-		$htmlOptions=array_merge($defaultHtmlOptions,$htmlOptions);
 		return self::tag('script',$htmlOptions,"\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n");
 	}
 
@@ -307,7 +303,6 @@ class CHtml
 	public static function scriptFile($url,array $htmlOptions=array())
 	{
 		$defaultHtmlOptions=array(
-			'type'=>'text/javascript',
 			'src'=>$url
 		);
 		$htmlOptions=array_merge($defaultHtmlOptions,$htmlOptions);

@@ -312,9 +312,9 @@ class CHtmlTest extends CTestCase
 	public static function providerScript()
 	{
 		return array(
-			array('var a = 10;', "<script type=\"text/javascript\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"),
+			array('var a = 10;', "<script>\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"),
 			array("\t(function() { var x = 100; })();\n\tvar y = 200;",
-				"<script type=\"text/javascript\">\n/*<![CDATA[*/\n\t(function() { var x = 100; })();\n\tvar y = 200;\n/*]]>*/\n</script>"),
+				"<script>\n/*<![CDATA[*/\n\t(function() { var x = 100; })();\n\tvar y = 200;\n/*]]>*/\n</script>"),
 		);
 	}
 
@@ -335,17 +335,17 @@ class CHtmlTest extends CTestCase
 			array(
 				'var a = 10;',
 				array('defer'=>true),
-				"<script type=\"text/javascript\" defer=\"defer\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+				"<script defer=\"defer\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
 			),
 			array(
 				'var a = 10;',
 				array('async'=>true),
-				"<script type=\"text/javascript\" async=\"async\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+				"<script async=\"async\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
 			),
             array(
                 'var a = 10;',
                 array('async'=>false),
-                "<script type=\"text/javascript\" async=\"false\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
+                "<script async=\"false\">\n/*<![CDATA[*/\nvar a = 10;\n/*]]>*/\n</script>"
             ),
 		);
 	}
@@ -366,9 +366,9 @@ class CHtmlTest extends CTestCase
 	public static function providerScriptFile()
 	{
 		return array(
-			array('/js/main.js?a=2&b=4', '<script type="text/javascript" src="/js/main.js?a=2&amp;b=4"></script>'),
+			array('/js/main.js?a=2&b=4', '<script src="/js/main.js?a=2&amp;b=4"></script>'),
 			array('http://company.com/get-user-by-name?name=Василий&lang=ru',
-				'<script type="text/javascript" src="http://company.com/get-user-by-name?name=Василий&amp;lang=ru"></script>'),
+				'<script src="http://company.com/get-user-by-name?name=Василий&amp;lang=ru"></script>'),
 		);
 	}
 
@@ -389,17 +389,17 @@ class CHtmlTest extends CTestCase
 			array(
 				'/js/main.js?a=2&b=4',
 				array('defer'=>true),
-				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" defer="defer"></script>'
+				'<script src="/js/main.js?a=2&amp;b=4" defer="defer"></script>'
 			),
 			array(
 				'/js/main.js?a=2&b=4',
 				array('async'=>true),
-				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" async="async"></script>'
+				'<script src="/js/main.js?a=2&amp;b=4" async="async"></script>'
 			),
 			array(
 				'/js/main.js?a=2&b=4',
 				array('onload'=>"some_js_function();"),
-				'<script type="text/javascript" src="/js/main.js?a=2&amp;b=4" onload="some_js_function();"></script>'
+				'<script src="/js/main.js?a=2&amp;b=4" onload="some_js_function();"></script>'
 			),
 		);
 	}
