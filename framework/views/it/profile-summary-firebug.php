@@ -1,4 +1,4 @@
-<script language="javascript">
+<script>
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
