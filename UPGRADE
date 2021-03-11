@@ -23,17 +23,17 @@ Upgrading from v1.1.23
 
 - jQueryUI was updated to 1.12 and contains possible breaking changes.
 
-  The default base theme changed to a more modern theme with some colors, less gradients and some other improvements.
+  Upstream the base theme changed to a more modern theme with some colors, less gradients and some other improvements.
+  The old default theme "Smoothness" is still included and configured as the Yii default for backwards compatibility.
   
-  The old default theme "Smoothness" is still available if you wish to keep it.
-  You can apply it using the CWidgetFactory application component for example:
+  If you wish, you can apply the new base theme using the CWidgetFactory application component for example:
 
       return [
           'components' => [
               'widgetFactory' => [
                   'widgets' => [
                       'CJuiDatePicker' => [ // list your widgets derived from CJuiWidget here
-                          'theme' => 'smoothness',
+                          'theme' => 'base',
                       ],
                   ],
               ],

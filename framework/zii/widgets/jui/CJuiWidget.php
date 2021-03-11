@@ -38,10 +38,10 @@ abstract class CJuiWidget extends CWidget
 	 */
 	public $themeUrl;
 	/**
-	 * @var string the JUI theme name. Defaults to 'base'. Make sure that under {@link themeUrl} there
+	 * @var string the JUI theme name. Defaults to 'smoothness'. Make sure that under {@link themeUrl} there
 	 * is a directory whose name is the same as this property value (case-sensitive).
 	 */
-	public $theme='base';
+	public $theme='smoothness';
 	/**
 	 * @var mixed the main JUI JavaScript file. Defaults to 'jquery-ui.min.js'.
 	 * Note the file must exist under the URL specified by {@link scriptUrl}.
