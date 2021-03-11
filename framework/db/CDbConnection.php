@@ -604,7 +604,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	private function quoteValueInternal($value, $type)
 	{
-		if($this->getDriverName()!=='odbc')
+		if(mb_stripos($this->connectionString, 'odbc:')===false)
 		{
 			if(($quoted=$this->_pdo->quote($value, $type))!==false)
 				return $quoted;
