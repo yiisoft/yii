@@ -328,6 +328,20 @@ class CHtmlTest extends CTestCase
 	{
 		$this->assertEquals($assertion, CHtml::script($text));
 	}
+	
+	/**
+	 * @dataProvider providerScript
+	 * @backupStaticAttributes enabled
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testScriptHtml5($text, $assertion)
+	{
+		CHtml::$setScriptType=false;
+		$assertion=str_replace(' type="text/javascript"', '', $assertion);
+		$this->assertEquals($assertion, CHtml::script($text));
+	}
 
 	public static function providerScriptWithHtmlOptions()
 	{
@@ -380,6 +394,20 @@ class CHtmlTest extends CTestCase
 	 */
 	public function testScriptFile($text, $assertion)
 	{
+		$this->assertEquals($assertion, CHtml::scriptFile($text));
+	}
+	
+	/**
+	 * @dataProvider providerScriptFile
+	 * @backupStaticAttributes enabled
+	 *
+	 * @param string $text
+	 * @param string $assertion
+	 */
+	public function testScriptFileHtml5($text, $assertion)
+	{
+		CHtml::$setScriptType=false;
+		$assertion=str_replace(' type="text/javascript"', '', $assertion);
 		$this->assertEquals($assertion, CHtml::scriptFile($text));
 	}
 
