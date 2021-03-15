@@ -6,6 +6,8 @@ Version 1.1.24 under development
 
 - Bug #4339: "There is no active transaction" when transaction is autocommitted (twisted1919)
 - Bug #4343: Fix "driver does not support quoting" when using the driver pdo_odbc (xpohoc69)
+- Enh #4349: Added CHtml option to omit type attribute from <script> tag (mohamedmalki, marcovtwout)
+- Enh #4351: Added CHtml option to omit CDATA wrapper from <script> and <style> contents (marcovtwout)
 
 Version 1.1.23 December 2, 2020
 -------------------------------

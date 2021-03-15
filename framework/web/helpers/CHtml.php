@@ -86,6 +86,16 @@ class CHtml
 	 */
 	public static $closeSingleTags=true;
 	/**
+	 * @var boolean whether to add `type="javascript"` to `<script>` tags. Defaults to true. Can be set to false for HTML5.
+	 * @since 1.1.24
+	 */
+	public static $setScriptType=true;
+	/**
+	 * @var boolean whether to add a CDATA wrapper around `<script>` and `<style>` contents. Defaults to true. Can be set to false for HTML5.
+	 * @since 1.1.24
+	 */
+	public static $cdataScriptAndStyleContents=true;
+	/**
 	 * @var boolean whether to render special attributes value. Defaults to true. Can be set to false for HTML5.
 	 * @since 1.1.13
 	 */
@@ -252,7 +262,9 @@ class CHtml
 	{
 		if($media!=='')
 			$media=' media="'.$media.'"';
-		return "<style type=\"text/css\"{$media}>\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</style>";
+		if(self::$cdataScriptAndStyleContents)
+			$text="/*<![CDATA[*/\n{$text}\n/*]]>*/";
+		return "<style type=\"text/css\"{$media}>\n{$text}\n</style>";
 	}
 
 	/**
@@ -291,11 +303,13 @@ class CHtml
 	 */
 	public static function script($text,array $htmlOptions=array())
 	{
-		$defaultHtmlOptions=array(
-			'type'=>'text/javascript',
-		);
+		$defaultHtmlOptions=array();
+		if(self::$setScriptType)
+			$defaultHtmlOptions['type']='text/javascript';
 		$htmlOptions=array_merge($defaultHtmlOptions,$htmlOptions);
-		return self::tag('script',$htmlOptions,"\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n");
+		if(self::$cdataScriptAndStyleContents)
+			$text="/*<![CDATA[*/\n{$text}\n/*]]>*/";
+		return self::tag('script',$htmlOptions,"\n{$text}\n");
 	}
 
 	/**
@@ -306,10 +320,10 @@ class CHtml
 	 */
 	public static function scriptFile($url,array $htmlOptions=array())
 	{
-		$defaultHtmlOptions=array(
-			'type'=>'text/javascript',
-			'src'=>$url
-		);
+		$defaultHtmlOptions=array();
+		if(self::$setScriptType)
+			$defaultHtmlOptions['type']='text/javascript';
+		$defaultHtmlOptions['src']=$url;
 		$htmlOptions=array_merge($defaultHtmlOptions,$htmlOptions);
 		return self::tag('script',$htmlOptions,'');
 	}
