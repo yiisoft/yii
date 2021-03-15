@@ -4933,6 +4933,8 @@ class CHtml
 	public static $count=0;
 	public static $liveEvents=true;
 	public static $closeSingleTags=true;
+	public static $setScriptType=true;
+	public static $cdataScriptAndStyleContents=true;
 	public static $renderSpecialAttributesValue=true;
 	private static $_modelNameConverter;
 	public static function encode($text)
@@ -5003,7 +5005,9 @@ class CHtml
 	{
 		if($media!=='')
 			$media=' media="'.$media.'"';
-		return "<style type=\"text/css\"{$media}>\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</style>";
+		if(self::$cdataScriptAndStyleContents)
+			$text="/*<![CDATA[*/\n{$text}\n/*]]>*/";
+		return "<style type=\"text/css\"{$media}>\n{$text}\n</style>";
 	}
 	public static function refresh($seconds,$url='')
 	{
@@ -5018,18 +5022,20 @@ class CHtml
 	}
 	public static function script($text,array $htmlOptions=array())
 	{
-		$defaultHtmlOptions=array(
-			'type'=>'text/javascript',
-		);
+		$defaultHtmlOptions=array();
+		if(self::$setScriptType)
+			$defaultHtmlOptions['type']='text/javascript';
 		$htmlOptions=array_merge($defaultHtmlOptions,$htmlOptions);
-		return self::tag('script',$htmlOptions,"\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n");
+		if(self::$cdataScriptAndStyleContents)
+			$text="/*<![CDATA[*/\n{$text}\n/*]]>*/";
+		return self::tag('script',$htmlOptions,"\n{$text}\n");
 	}
 	public static function scriptFile($url,array $htmlOptions=array())
 	{
-		$defaultHtmlOptions=array(
-			'type'=>'text/javascript',
-			'src'=>$url
-		);
+		$defaultHtmlOptions=array();
+		if(self::$setScriptType)
+			$defaultHtmlOptions['type']='text/javascript';
+		$defaultHtmlOptions['src']=$url;
 		$htmlOptions=array_merge($defaultHtmlOptions,$htmlOptions);
 		return self::tag('script',$htmlOptions,'');
 	}
@@ -8885,18 +8891,22 @@ class CDbConnection extends CApplicationComponent
 		if(is_int($str) || is_float($str))
 			return $str;
 		$this->setActive(true);
-		if(($value=$this->_pdo->quote($str))!==false)
-			return $value;
-		else  // the driver doesn't support quote (e.g. oci)
-			return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
+		return $this->quoteValueInternal($str, PDO::PARAM_STR);
 	}
 	public function quoteValueWithType($value, $type)
 	{
 		$this->setActive(true);
-		if(($quoted=$this->_pdo->quote($value, $type))!==false)
-			return $quoted;
-		else  // the driver doesn't support quote (e.g. oci)
-			return "'" . addcslashes(str_replace("'", "''", $value), "\000\n\r\\\032") . "'";
+		return $this->quoteValueInternal($value, $type);
+	}
+	private function quoteValueInternal($value, $type)
+	{
+		if(mb_stripos($this->connectionString, 'odbc:')===false)
+		{
+			if(($quoted=$this->_pdo->quote($value, $type))!==false)
+				return $quoted;
+		}
+		// fallback for drivers that don't support quote (e.g. oci and odbc)
+		return "'" . addcslashes(str_replace("'", "''", $value), "\000\n\r\\\032") . "'";
 	}
 	public function quoteTableName($name)
 	{
