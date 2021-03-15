@@ -4,6 +4,8 @@
 Version 1.1.24 under development
 --------------------------------
 
+- Chg #4344: Upgraded jQuery to 1.12.4 (marcovtwout)
+- Chg #4344: Upgraded jQuery UI to 1.12.1 (marcovtwout)
 - Bug #4339: "There is no active transaction" when transaction is autocommitted (twisted1919)
 - Bug #4343: Fix "driver does not support quoting" when using the driver pdo_odbc (xpohoc69)
 - Enh #4349: Added CHtml option to omit type attribute from <script> tag (mohamedmalki, marcovtwout)

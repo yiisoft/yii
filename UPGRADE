@@ -21,7 +21,26 @@ General upgrade instructions
 Upgrading from v1.1.23
 ----------------------
 
-No significant changes were made.
+- jQueryUI was updated to 1.12 and contains possible breaking changes.
+
+  Upstream the base theme changed to a more modern theme with some colors, less gradients and some other improvements.
+  The old default theme "Smoothness" is still included and configured as the Yii default for backwards compatibility.
+  
+  If you wish, you can apply the new base theme using the CWidgetFactory application component for example:
+
+      return [
+          'components' => [
+              'widgetFactory' => [
+                  'widgets' => [
+                      'CJuiDatePicker' => [ // list your widgets derived from CJuiWidget here
+                          'theme' => 'base',
+                      ],
+                  ],
+              ],
+          ]
+      ];
+
+  For further details check the [jQuery UI upgrade guide](https://jqueryui.com/upgrade-guide/1.12/)
 
 Upgrading from v1.1.22
 ----------------------
