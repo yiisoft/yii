@@ -86,12 +86,12 @@ class CHtml
 	 */
 	public static $closeSingleTags=true;
 	/**
-	 * @var boolean whether to add `type="javascript"` to `<script>` tags. Defaults to true. Can be set to false for HTML5.
+	 * @var boolean whether to add <code>type="javascript"</code> to <code>&lt;script&gt;</code> tags. Defaults to true. Can be set to false for HTML5.
 	 * @since 1.1.24
 	 */
 	public static $setScriptType=true;
 	/**
-	 * @var boolean whether to add a CDATA wrapper around `<script>` and `<style>` contents. Defaults to true. Can be set to false for HTML5.
+	 * @var boolean whether to add a CDATA wrapper around <code>&lt;script&gt;</code> and <code>&lt;style&gt;</code> contents. Defaults to true. Can be set to false for HTML5.
 	 * @since 1.1.24
 	 */
 	public static $cdataScriptAndStyleContents=true;
