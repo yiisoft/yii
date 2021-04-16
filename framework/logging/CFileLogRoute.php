@@ -26,7 +26,7 @@
  * @property string $logFile Log file name. Defaults to 'application.log'.
  * @property integer $maxFileSize Maximum log file size in kilo-bytes (KB). Defaults to 1024 (1MB).
  * @property integer $maxLogFiles Number of files used for rotation. Defaults to 5.
- * @property integer $chmod Log file permissions. Defaults to 0644.
+ * @property integer $chmod Log file permissions. Defaults to null (you can define 0644 or some other).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.logging
@@ -59,7 +59,7 @@ class CFileLogRoute extends CLogRoute
 	/**
 	 * @var integer log file permissions
 	 */
-	public $chmod=0644;
+	public $chmod;
 	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
@@ -167,7 +167,7 @@ class CFileLogRoute extends CLogRoute
 			@flock($fp,LOCK_UN);
 			@fclose($fp);
 		}
-		if($this->chmod)
+		if($this->chmod !== null)
 			@chmod($logFile, $this->chmod);
 	}
 
