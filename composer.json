@@ -87,7 +87,7 @@
 	},
 	"require-dev": {
 		"cweagans/composer-patches": "^1.7",
-		"phpunit/phpunit": "4.8.34",
+		"phpunit/phpunit": "4.8.36",
 		"phpunit/phpunit-selenium": "~1.4.0",
 		"phing/phing": "2.*",
 		"phpseclib/mcrypt_compat": "^1.0",
