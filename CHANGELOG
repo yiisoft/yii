@@ -9,6 +9,7 @@ Version 1.1.24 under development
 - Bug #4355: Fix errorhandler missing backtrace entries (georaldc, marcovtwout)
 - Enh #4349: Added CHtml option to omit type attribute from <script> tag (mohamedmalki, marcovtwout)
 - Enh #4351: Added CHtml option to omit CDATA wrapper from <script> and <style> contents (marcovtwout)
+- Enh #4354: Allow to set log file permissions for CFileLogRoute (jdayamx)
 - Chg #4344: Upgraded jQuery to 1.12.4 (marcovtwout)
 - Chg #4344: Upgraded jQuery UI to 1.12.1 (marcovtwout)
 

@@ -55,7 +55,12 @@ class CFileLogRoute extends CLogRoute
 	 * @since 1.1.14
 	 */
 	public $rotateByCopy=false;
-
+	/**
+	 * @var integer the permission to be set for newly created log files.
+	 * This value will be used by PHP chmod() function. No umask will be applied.
+	 * If not set, the permission will be determined by the current environment.
+	 */
+	public $chmod;
 	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
@@ -163,6 +168,8 @@ class CFileLogRoute extends CLogRoute
 			@flock($fp,LOCK_UN);
 			@fclose($fp);
 		}
+		if($this->chmod !== null)
+			@chmod($logFile, $this->chmod);
 	}
 
 	/**
