@@ -26,7 +26,6 @@
  * @property string $logFile Log file name. Defaults to 'application.log'.
  * @property integer $maxFileSize Maximum log file size in kilo-bytes (KB). Defaults to 1024 (1MB).
  * @property integer $maxLogFiles Number of files used for rotation. Defaults to 5.
- * @property integer $chmod Log file permissions. Defaults to null (you can define 0644 or some other).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.logging
@@ -57,7 +56,9 @@ class CFileLogRoute extends CLogRoute
 	 */
 	public $rotateByCopy=false;
 	/**
-	 * @var integer log file permissions
+	 * @var integer the permission to be set for newly created log files.
+	 * This value will be used by PHP chmod() function. No umask will be applied.
+	 * If not set, the permission will be determined by the current environment.
 	 */
 	public $chmod;
 	/**
