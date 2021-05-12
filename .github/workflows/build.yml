@@ -103,7 +103,7 @@ jobs:
           restore-keys: ${{ steps.cache-env-php7.outputs.key }}
 
       - name: Install PHP with extensions
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.11.0
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
