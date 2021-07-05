@@ -229,7 +229,7 @@ EOD;
 			$relationName=rtrim(substr($fkName, 0, -2),'_');
 		else
 			$relationName=$fkName;
-		$relationName[0]=strtolower($relationName);
+		$relationName[0]=strtolower($relationName[0]);
 
 		$rawName=$relationName;
 		if($multiple)
@@ -348,7 +348,7 @@ EOD;
 			if($unitTestPath!==false)
 			{
 				$fixtureName=$this->pluralize($className);
-				$fixtureName[0]=strtolower($fixtureName);
+				$fixtureName[0]=strtolower($fixtureName[0]);
 				$list['unit/'.$className.'Test.php']=array(
 					'source'=>$templatePath.DIRECTORY_SEPARATOR.'test.php',
 					'target'=>$unitTestPath.DIRECTORY_SEPARATOR.$className.'Test.php',

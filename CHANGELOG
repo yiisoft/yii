@@ -4,7 +4,7 @@
 Version 1.1.25 under development
 --------------------------------
 
-- no changes yet.
+- Bug #4369: PHP 8.0 compatibility: Fix warning "Only the first byte will be assigned to the string offset" when generating code with Gii (marcovtwout)
 
 Version 1.1.24 June 7, 2021
 --------------------------------

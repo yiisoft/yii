@@ -405,7 +405,7 @@ class ModelCode extends CCodeModel
 			$relationName=rtrim(substr($fkName, 0, -2),'_');
 		else
 			$relationName=$fkName;
-		$relationName[0]=strtolower($relationName);
+		$relationName[0]=strtolower($relationName[0]);
 
 		if($multiple)
 			$relationName=$this->pluralize($relationName);
