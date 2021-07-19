@@ -47,4 +47,14 @@ class CSysLogRoute extends CLogRoute
 			syslog($syslogLevels[$log[1]],$this->formatLogMessage(str_replace("\n",', ',$log[0]),$log[1],$log[2],$log[3]));
 		closelog();
 	}
+	
+	/**
+         *  Syslog formatting is different than file-logging:
+         *    no trailing newline, no date-time, no level, no newline.
+         *  The above meta-data is handled in the syslog() call and by subsystem
+         */
+        protected function formatLogMessage($message,$level,$category,$time)
+        {
+                return "[$category] $message";
+        }
 }
