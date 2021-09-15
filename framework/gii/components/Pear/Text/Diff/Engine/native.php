@@ -191,31 +191,17 @@ class Text_Diff_Engine_native {
                     continue;
                 }
                 $matches = $ymatches[$line];
-                reset($matches);
-                foreach($matches as $match) {
-                    reset($match);
-                    $y = next($match);
+                foreach ($matches as $y) {
                     if (empty($this->in_seq[$y])) {
                         $k = $this->_lcsPos($y);
                         assert($k > 0);
                         $ymids[$k] = $ymids[$k - 1];
                         break;
-                    }
-                }
-                foreach($matches as $match) {
-                    reset($match);
-                    $y = next($match);
-                    if ($y > $this->seq[$k - 1]) {
+                    } elseif ($y > $this->seq[$k - 1]) {
                         assert($y <= $this->seq[$k]);
-                        /* Optimization: this is a common case: next match is
-                         * just replacing previous match. */
                         $this->in_seq[$this->seq[$k]] = false;
                         $this->seq[$k] = $y;
                         $this->in_seq[$y] = 1;
-                    } elseif (empty($this->in_seq[$y])) {
-                        $k = $this->_lcsPos($y);
-                        assert($k > 0);
-                        $ymids[$k] = $ymids[$k - 1];
                     }
                 }
             }
