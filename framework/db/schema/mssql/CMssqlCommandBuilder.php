@@ -60,6 +60,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 */
 	public function createUpdateCommand($table,$data,$criteria)
 	{
+		$this->ensureTable($table);
 		$criteria=$this->checkCriteria($table,$criteria);
 		$fields=array();
 		$values=array();
