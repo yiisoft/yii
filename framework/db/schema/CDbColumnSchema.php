@@ -115,8 +115,10 @@ class CDbColumnSchema extends CComponent
 		{
 			$values=explode(',',$matches[1]);
 			$this->size=$this->precision=(int)$values[0];
-			if(isset($values[1]))
+			if(isset($values[1])) {
 				$this->scale=(int)$values[1];
+				$this->size++; // account for '.'
+			}
 		}
 	}
 
