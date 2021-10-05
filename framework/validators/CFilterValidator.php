@@ -29,7 +29,7 @@
 class CFilterValidator extends CValidator
 {
 	/**
-	 * @var callback the filter method
+	 * @var callable the filter method
 	 */
 	public $filter;
 
