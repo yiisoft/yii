@@ -101,7 +101,7 @@ class CHtml
 	 */
 	public static $renderSpecialAttributesValue=true;
 	/**
-	 * @var callback the generator used in the {@link CHtml::modelName()} method.
+	 * @var callable the generator used in the {@link CHtml::modelName()} method.
 	 * @since 1.1.14
 	 */
 	private static $_modelNameConverter;
@@ -2439,7 +2439,7 @@ EOD;
 	 * Set generator used in the {@link CHtml::modelName()} method. You can use the `null` value to restore default
 	 * generator.
 	 *
-	 * @param callback|null $converter the new generator, the model or class name will be passed to the this callback
+	 * @param callable|null $converter the new generator, the model or class name will be passed to this callback
 	 * and result must be a valid value for HTML name attribute.
 	 * @throws CException if $converter isn't a valid callback
 	 * @since 1.1.14

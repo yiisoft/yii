@@ -918,7 +918,7 @@ class CController extends CBaseController
 	 * Note, the callback and its parameter values will be serialized and saved in cache.
 	 * Make sure they are serializable.
 	 *
-	 * @param callback $callback a PHP callback which returns the needed dynamic content.
+	 * @param callable $callback a PHP callback which returns the needed dynamic content.
 	 * When the callback is specified as a string, it will be first assumed to be a method of the current
 	 * controller class. If the method does not exist, it is assumed to be a global PHP function.
 	 * Note, the callback should return the dynamic content instead of echoing it.
@@ -934,7 +934,7 @@ class CController extends CBaseController
 
 	/**
 	 * This method is internally used.
-	 * @param callback $callback a PHP callback which returns the needed dynamic content.
+	 * @param callable $callback a PHP callback which returns the needed dynamic content.
 	 * @param array $params parameters passed to the PHP callback
 	 * @see renderDynamic
 	 */

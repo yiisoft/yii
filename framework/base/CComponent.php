@@ -507,7 +507,7 @@ class CComponent
 	 * makes the handler to be invoked first.
 	 *
 	 * @param string $name the event name
-	 * @param callback $handler the event handler
+	 * @param callable $handler the event handler
 	 * @throws CException if the event is not defined
 	 * @see detachEventHandler
 	 */
@@ -520,7 +520,7 @@ class CComponent
 	 * Detaches an existing event handler.
 	 * This method is the opposite of {@link attachEventHandler}.
 	 * @param string $name event name
-	 * @param callback $handler the event handler to be removed
+	 * @param callable $handler the event handler to be removed
 	 * @return boolean if the detachment process is successful
 	 * @see attachEventHandler
 	 */
