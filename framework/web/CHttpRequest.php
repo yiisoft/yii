@@ -1364,7 +1364,7 @@ class CHttpRequest extends CApplicationComponent
 					$maskedUserToken=$this->getDelete($this->csrfTokenName);
 			}
 
-			if (!empty($maskedUserToken) && $cookies->contains($this->csrfTokenName))
+			if (!empty($maskedUserToken) && is_string($maskedUserToken) && $cookies->contains($this->csrfTokenName))
 			{
 				$securityManager=Yii::app()->getSecurityManager();
 				$maskedCookieToken=$cookies->itemAt($this->csrfTokenName)->value;
