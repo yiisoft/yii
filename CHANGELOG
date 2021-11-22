@@ -1,4 +1,4 @@
-﻿                   Yii Framework Change Log
+                   Yii Framework Change Log
                    ========================
 
 Version 1.1.25 under development
@@ -7,6 +7,7 @@ Version 1.1.25 under development
 - Bug #4226: Fix for Gii diff displaying "reset() expects parameter 1 to be array, integer given" (LeoZandvliet, marcovtwout)
 - Bug #4369: PHP 8.0 compatibility: Fix warning "Only the first byte will be assigned to the string offset" when generating code with Gii (marcovtwout)
 - Bug #4374: Fix for createUpdateCommand which did not accept just a table name when using MSSQL (c-schmitz)
+- Bug #4380: Prevent fatal errors while validating CSRF token of malformed requests (rob006)
 
 Version 1.1.24 June 7, 2021
 --------------------------------
