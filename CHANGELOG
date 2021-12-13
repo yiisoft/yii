@@ -1,7 +1,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.25 under development
+Version 1.1.25 December 13, 2021
 --------------------------------
 
 - Bug #4226: Fix for Gii diff displaying "reset() expects parameter 1 to be array, integer given" (LeoZandvliet, marcovtwout)

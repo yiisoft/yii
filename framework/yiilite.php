@@ -41,7 +41,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.25-dev';
+		return '1.1.25';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -3003,7 +3003,7 @@ class CHttpRequest extends CApplicationComponent
 				case 'DELETE':
 					$maskedUserToken=$this->getDelete($this->csrfTokenName);
 			}
-			if (!empty($maskedUserToken) && $cookies->contains($this->csrfTokenName))
+			if (!empty($maskedUserToken) && is_string($maskedUserToken) && $cookies->contains($this->csrfTokenName))
 			{
 				$securityManager=Yii::app()->getSecurityManager();
 				$maskedCookieToken=$cookies->itemAt($this->csrfTokenName)->value;
