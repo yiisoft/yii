@@ -78,7 +78,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * This method is required by the interface IteratorAggregate.
 	 * @return CMapIterator an iterator for traversing the items in the list.
 	 */
-	public function getIterator()
+	#[\ReturnTypeWillChange] public function getIterator()
 	{
 		return new CMapIterator($this->_d);
 	}
@@ -88,7 +88,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the map.
 	 */
-	public function count()
+	#[\ReturnTypeWillChange] public function count()
 	{
 		return $this->getCount();
 	}
@@ -97,7 +97,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * Returns the number of items in the map.
 	 * @return integer the number of items in the map
 	 */
-	public function getCount()
+	#[\ReturnTypeWillChange] public function getCount()
 	{
 		return count($this->_d);
 	}
@@ -105,7 +105,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	/**
 	 * @return array the key list
 	 */
-	public function getKeys()
+	#[\ReturnTypeWillChange] public function getKeys()
 	{
 		return array_keys($this->_d);
 	}
@@ -303,7 +303,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * @param mixed $offset the offset to check on
 	 * @return boolean
 	 */
-	public function offsetExists($offset)
+	#[\ReturnTypeWillChange] public function offsetExists($offset)
 	{
 		return $this->contains($offset);
 	}
@@ -314,7 +314,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * @param integer $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
-	public function offsetGet($offset)
+	#[\ReturnTypeWillChange] public function offsetGet($offset)
 	{
 		return $this->itemAt($offset);
 	}
@@ -323,11 +323,11 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * Sets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
 	 * @param integer $offset the offset to set element
-	 * @param mixed $item the element value
+	 * @param mixed $value the element value
 	 */
-	public function offsetSet($offset,$item)
+	#[\ReturnTypeWillChange] public function offsetSet($offset, $value)
 	{
-		$this->add($offset,$item);
+		$this->add($offset,$value);
 	}
 
 	/**
@@ -335,8 +335,9 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * This method is required by the interface ArrayAccess.
 	 * @param mixed $offset the offset to unset element
 	 */
-	public function offsetUnset($offset)
+	#[\ReturnTypeWillChange] public function offsetUnset($offset)
 	{
 		$this->remove($offset);
 	}
 }
+
