@@ -85,7 +85,8 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * This method is required by the interface IteratorAggregate.
 	 * @return Iterator an iterator for traversing the items in the list.
 	 */
-	#[\ReturnTypeWillChange] public function getIterator()
+	#[\ReturnTypeWillChange]
+    public function getIterator()
 	{
 		return new CListIterator($this->_d);
 	}
@@ -95,7 +96,8 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the list.
 	 */
-	#[\ReturnTypeWillChange] public function count()
+	#[\ReturnTypeWillChange]
+    public function count()
 	{
 		return $this->getCount();
 	}
@@ -298,20 +300,21 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * @param integer $offset the offset to check on
 	 * @return boolean
 	 */
-	#[\ReturnTypeWillChange] public function offsetExists($offset)
+	#[\ReturnTypeWillChange]
+    public function offsetExists($offset)
 	{
 		return ($offset>=0 && $offset<$this->_c);
 	}
 
 	/**
-	 * #[\ReturnTypeWillChange]
 	 * Returns the item at the specified offset.
 	 * This method is required by the interface ArrayAccess.
 	 * @param integer $offset the offset to retrieve item.
 	 * @return mixed the item at the offset
 	 * @throws CException if the offset is invalid
 	 */
-	#[\ReturnTypeWillChange] public function offsetGet($offset)
+	#[\ReturnTypeWillChange]
+    public function offsetGet($offset)
 	{
 		return $this->itemAt($offset);
 	}
@@ -322,7 +325,8 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * @param integer $offset the offset to set item
 	 * @param mixed $item the item value
 	 */
-	#[\ReturnTypeWillChange] public function offsetSet($offset,$item)
+	#[\ReturnTypeWillChange]
+    public function offsetSet($offset,$item)
 	{
 		if($offset===null || $offset===$this->_c)
 			$this->insertAt($this->_c,$item);
@@ -338,7 +342,8 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * This method is required by the interface ArrayAccess.
 	 * @param integer $offset the offset to unset item
 	 */
-	#[\ReturnTypeWillChange] public function offsetUnset($offset)
+	#[\ReturnTypeWillChange]
+    public function offsetUnset($offset)
 	{
 		$this->removeAt($offset);
 	}
