@@ -4,7 +4,7 @@
 Version 1.1.26 under development
 --------------------------------
 
-- No changes yet
+- Enh #4392: Added support for SSL to CRedisCache (andres101)
 
 Version 1.1.25 December 13, 2021
 --------------------------------
