@@ -70,6 +70,10 @@ class CRedisCache extends CCache
 	 */
 	public $timeout=null;
 	/**
+	* @var boolean Send sockets over SSL protocol. Default state is false.
+	*/
+	public $ssl=false;
+	/**
 	 * @var resource redis socket connection
 	 */
 	private $_socket;
@@ -90,6 +94,8 @@ class CRedisCache extends CCache
 		);
 		if ($this->_socket)
 		{
+			if($this->ssl)
+				stream_socket_enable_crypto($this->_socket,true,STREAM_CRYPTO_METHOD_TLS_CLIENT);
 			if($this->password!==null)
 				$this->executeCommand('AUTH',array($this->password));
 			$this->executeCommand('SELECT',array($this->database));
