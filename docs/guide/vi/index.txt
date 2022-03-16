@@ -1,7 +1,7 @@
 Hướng Dẫn Sử Dụng Yii
 =====================
 
-Hướng dẫn này được phát hành theo điều khoảng [the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/).
+Hướng dẫn này được phát hành theo điều khoảng [the Terms of Yii Documentation](https://www.yiiframework.com/doc/terms/).
 
 All Rights Reserved.
 
