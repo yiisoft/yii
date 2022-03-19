@@ -7,14 +7,14 @@ erweitern. Oft passiert es nämlich, dass es zu Namenskonflikten oder Problemen
 mit Includes kommt, wenn man Fremdbibliotheken in einem Projekt verwenden
 möchte. Yii's Klassen beginnnen daher alle mit dem Buchstaben `C` um solche
 Namenskonflikte zu vermeiden. Außerdem verwendet Yii das [SPL
-autoload](http://us3.php.net/manual/de/function.spl-autoload.php) Feature von
+autoload](https://us3.php.net/manual/de/function.spl-autoload.php) Feature von
 PHP. Damit klappt das Zusammenspiel mit Bibliotheken reibungslos, auch wenn diese 
 selbe Methode zum automatischen Laden ihrer Klassen verwenden oder den PHP 
 Include-Pfad verwenden.
 
 Unten zeigen wir an einem Beispiel, wie man die 
-[Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)-Komponente
-aus dem [Zend-Framework](http://www.zendframework.com) in einer Yii-Anwendung
+[Zend_Search_Lucene](https://www.zendframework.com/manual/en/zend.search.lucene.html)-Komponente
+aus dem [Zend-Framework](https://www.zendframework.com) in einer Yii-Anwendung
 verwendet.
 
 Zunächst werden die Dateien des Zend-Frameworks in ein Verzeichnis

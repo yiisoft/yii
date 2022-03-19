@@ -73,7 +73,7 @@ Anwendungsverzeichnis kann in der [Konfiguration](/doc/guide/basics.application#
 [basePath|CWebApplication::basePath] angepasst werden.
 
 Sämtliche Inhalte in diesem Verzeichnis sollten vor Zugriff über das Web
-geschützt werden. Beim [Apache HTTP-Server](http://httpd.apache.org/) erreicht
+geschützt werden. Beim [Apache HTTP-Server](https://httpd.apache.org/) erreicht
 man das, indem eine `.htaccess`-Datei mit folgendem Inhalt in diesem Verzeichnis
 abgelegt wird:
 

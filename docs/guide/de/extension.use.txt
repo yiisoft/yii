@@ -5,7 +5,7 @@ Um eine Erweiterung (engl.: Extension) einzusetzen, sind normalerweise
 folgende Schritte erforderlich:
 
   1. Erweiterung aus dem [Extension
-  repository](http://www.yiiframework.com/extensions/) von Yii herunterladen
+  repository](https://www.yiiframework.com/extensions/) von Yii herunterladen
   2. Ins Unterverzeichnis `extensions/xyz` des 
   [Anwendungsverzeichnisses](/doc/guide/basics.application#application-base-directory)
   entpacken, wobei `xyz` für den Namen der Erweiterung steht.
