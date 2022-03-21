@@ -158,7 +158,7 @@ Cookie-basierte Anmeldung
 
 Ein Benutzer wird automatisch wieder abgemeldet, wenn er für einen bestimmten
 Zeitraum nicht aktiv war. Die Dauer hängt von der 
-[Session-Konfiguration](http://de2.php.net/manual/de/session.configuration.php)
+[Session-Konfiguration](https://de2.php.net/manual/de/session.configuration.php)
 ab. Möchte man das ändern, kann man die Eigenschaft
 [allowAutoLogin|CWebUser::allowAutoLogin] der Userkomponente auf true setzen
 und eine Dauer als zweiten Parameter an die [CWebUser::login]-Methode übergeben. Der
@@ -401,9 +401,9 @@ Die rollenbasierte Zugriffskontrolle (RBAC, engl.: role-based access control)
 bietet eine einfache und trotzdem leistungsfähige zentralisierte
 Zugriffssteuerung. Für weitere Ausführungen zum Vergleich von RBAC mit anderen
 traditionellen Verfahren der Berechtigungsprüfung beachten Sie bitte auch den
-entsprechenden [Wiki-Artikel](http://de.wikipedia.org/wiki/RBAC) (evtl. auch
+entsprechenden [Wiki-Artikel](https://de.wikipedia.org/wiki/RBAC) (evtl. auch
 in der ausührlicheren [englischen
-Version](http://en.wikipedia.org/wiki/Role-based_access_control)).
+Version](https://en.wikipedia.org/wiki/Role-based_access_control)).
 
 Yii implementiert über seine
 [authManager|CWebApplication::authManager]-Komponente ein hierarchisches 

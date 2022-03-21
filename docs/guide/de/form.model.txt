@@ -138,7 +138,7 @@ Hier eine Übersicht aller verwendbaren Aliase:
 Attributwert [CBooleanValidator::trueValue] oder [CBooleanValidator::falseValue] ist.
 
    - `captcha`: Alias für [CCaptchaValidator]; prüft, ob der Attributwert mit dem 
-angezeigten [CAPTCHA](http://de.wikipedia.org/wiki/Captcha)-Code übereinstimmt.
+angezeigten [CAPTCHA](https://de.wikipedia.org/wiki/Captcha)-Code übereinstimmt.
 
    - `compare`: Alias für [CCompareValidator]; prüft, ob das Attribut mit einem anderen
 Attribut oder einer Konstanten übereinstimmt.

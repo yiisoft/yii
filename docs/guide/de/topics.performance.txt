@@ -15,7 +15,7 @@ Aktivieren der APC-Erweiterung
 
 Der wahrscheinlich einfachste Weg, um die Gesamtperformance einer Anwendung zu
 verbessern, ist die Aktivierung der
-[APC-Erweiterung](http://www.php.net/manual/de/book.apc.php) in PHP. Die
+[APC-Erweiterung](https://www.php.net/manual/de/book.apc.php) in PHP. Die
 Erweiterung cached und optimiert PHPs Zwischencode (engl.: intermediate code) 
 und spart somit die Zeit, die bei jedem eingehenden Request für das 
 Auswerten eines PHP-Scripts nötig wäre.
@@ -34,7 +34,7 @@ geloggten Meldung.
 Verwenden von `yiilite.php`
 ---------------------------
 
-Falls die [APC-Erweiterung](http://www.php.net/manual/en/book.apc.php) von PHP
+Falls die [APC-Erweiterung](https://www.php.net/manual/en/book.apc.php) von PHP
 aktiviert wurde, können wir `yii.php` durch eine andere Startdatei namens
 `yiilite.php` ersetzen, um die Leistungsfähigkeit einer Yii-Anwendung weiter
 zu erhöhen.
@@ -80,9 +80,9 @@ auf Serverebene einsetzen, um die Performance einer Applikation weiter
 zu erhöhen. Tatsächlich fällt das beschriebene Cachen mit
 [APC](/doc/guide/topics.performance#enabling-apc-extension) in diese
 Kategorie. Es gibt auch andere Servertechniken, wie den [Zend
-Optimizer](http://www.zend.com/en/products/guard/zend-optimizer)
-[eAccelerator](http://eaccelerator.net/) oder
-[Squid](http://www.squid-cache.org/), um nur einige zu nennen.
+Optimizer](https://www.zend.com/en/products/guard/zend-optimizer)
+[eAccelerator](https://eaccelerator.net/) oder
+[Squid](https://www.squid-cache.org/), um nur einige zu nennen.
 
 Datenbankoptimierung
 --------------------
@@ -157,7 +157,7 @@ und unter `js/all.js` zu speichern.
 Der selbe Trick gilt auch für CSS-Dateien.
 
 Wir können die Ladezeit von Seiten auch mit Hilfe der [Google AJAX Libraries
-API](http://code.google.com/apis/ajaxlibs/) verbessern. Wir können zum
+API](https://code.google.com/apis/ajaxlibs/) verbessern. Wir können zum
 Beispiel `jquery.js` von Google-Servern einbinden, statt von unserem eigenen
 Server. Um dies zu erreichen, konfigurieren wir `scriptMap` wie folgt:
 

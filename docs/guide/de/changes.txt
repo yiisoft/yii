@@ -94,7 +94,7 @@ Erstellen von Formularen.
 
  * [Unterstützung von Tabellenpräfixen](/doc/guide/database.dao#using-table-prefix).
 
- * Mit der [Zii-Bibliothek](http://code.google.com/p/zii/) wurde eine ganze
+ * Mit der [Zii-Bibliothek](https://code.google.com/p/zii/) wurde eine ganze
  Reihe neuer Erweiterungen hinzugefügt.
 
  * Bei AR-Abfragen lautet der Alias für die Haupttabelle immer `t`.

@@ -77,11 +77,11 @@ einen Wert größer 0 setzen.
 Die AR-Unterstützung ist auf bestimmte Datenbankmanagementsysteme (DBMS) begrenzt.
 Derzeit werden folgende DBMS unterstützt:
 
-   - [MySQL 4.1 oder später](http://www.mysql.com)
-   - [PostgreSQL 7.3 oder später](http://www.postgres.com)
-   - [SQLite 2 und 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 oder höher](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [MySQL 4.1 oder später](https://www.mysql.com)
+   - [PostgreSQL 7.3 oder später](https://www.postgres.com)
+   - [SQLite 2 und 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 oder höher](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 Falls Sie statt `db` eine andere Verbindungskomponente verwenden möchten oder
 Sie mit AR auf mehreren Datenbanken arbeiten, können Sie

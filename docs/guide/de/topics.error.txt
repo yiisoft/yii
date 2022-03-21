@@ -16,8 +16,8 @@ nötige Prozedur zur Bearbeitung des Fehlers einleiten.
 
 > Tip|Tipp: Die Fehlerroutinen werden im Konstruktor der Anwendung durch
 Aufruf der PHP-Funktionen 
-[set_exception_handler](http://www.php.net/manual/de/function.set-exception-handler.php)
-und [set_error_handler](http://www.php.net/manual/de/function.set-error-handler.php)
+[set_exception_handler](https://www.php.net/manual/de/function.set-exception-handler.php)
+und [set_error_handler](https://www.php.net/manual/de/function.set-error-handler.php)
 registriert. Wenn Sie nicht möchten, dass Yii sich um Fehler und Exceptions
 kümmert, können Sie im [Startscript](/doc/guide/basics.entry) die Konstanten 
 `YII_ENABLE_ERROR_HANDLER` und `YII_ENABLE_EXCEPTION_HANDLER` als false definieren.

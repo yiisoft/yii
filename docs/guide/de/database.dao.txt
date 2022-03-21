@@ -7,7 +7,7 @@ Verwendet man DAO, kann auf ein anderes DBMS umgestellt werden, ohne den
 entsprechenden Code ändern zu müssen.
 
 Yii DAO basieren auf den [PHP Data Objects
-(PDO)](http://php.net/manual/en/book.pdo.php).
+(PDO)](https://php.net/manual/en/book.pdo.php).
 Diese PHP-Erweiterung ermöglicht vereinheitlichten Zugriff auf viele bekannte
 DMBS, wie z.B. MySQL und PostgreSQL. Möchte man Yii DAO verwenden, muss daher
 die PDO-Erweiterung und die entsprechenden PDO-Datenbanktreiber 
@@ -46,7 +46,7 @@ $connection->active=false;  // Verbindung beenden
 Das DSN-Format hängt vom benutzten PDO-Datenbanktreiber ab. Im Allgemeinen
 enthält ein DSN den PDO-Treibernamen, gefolgt von einem Doppelpunkt, gefolgt
 von der treiberspezifischen Verbindungssyntax. Nähere Informationen finden Sie
-in der [PDO-Dokumentation](http://www.php.net/manual/de/pdo.construct.php).
+in der [PDO-Dokumentation](https://www.php.net/manual/de/pdo.construct.php).
 Die gebräuchlichsten DSN-Formate sind:
 
    - SQLite: `sqlite:/pfad/zu/dbdatei`
@@ -183,7 +183,7 @@ catch(Exception $e) // Eine Exception wird ausgelöst, falls eine Abfrage fehlsc
 Binden von Parametern
 ---------------------
 
-Um Angriffe wie [SQL-Injection](http://de.wikipedia.org/wiki/SQL-Injection) zu
+Um Angriffe wie [SQL-Injection](https://de.wikipedia.org/wiki/SQL-Injection) zu
 vermeiden und um mehrfach auszuführende SQL-Anweisungen zu beschleunigen,
 kann man eine Anweisung "vorbereiten" (engl. prepare), die optional auch
 Platzhalter für Parameter enthalten kann. Beim sogenannten "Binden" werden 
@@ -220,7 +220,7 @@ an eine Referenz auf eine PHP-Variable bindet. Bei umfangreichen
 Parameterdaten ist letzteres aus Performancegründen zu bevorzugen.
 
 Weitere Einzelheiten zum Binden von Parametern finden Sie in der
-[entsprechenden PHP Dokumentation](http://www.php.net/manual/de/pdostatement.bindparam.php).
+[entsprechenden PHP Dokumentation](https://www.php.net/manual/de/pdostatement.bindparam.php).
 
 Binden von Spalten
 ------------------
