@@ -1,7 +1,7 @@
 Den definitiva guiden till Yii
 ==============================
 
-Denna handledning tillhandahålls under [licensvillkoren för Yii-dokumentation](http://www.yiiframework.com/doc/terms/).
+Denna handledning tillhandahålls under [licensvillkoren för Yii-dokumentation](https://www.yiiframework.com/doc/terms/).
 
 Alla rättigheter förbehållna.
 

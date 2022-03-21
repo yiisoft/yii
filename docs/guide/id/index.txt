@@ -1,7 +1,7 @@
 Panduan Definitif Yii
 =====================
 
-Tutorial ini dirilis di bawah [Batasan Dokumentasi Yii](http://www.yiiframework.com/doc/terms/).
+Tutorial ini dirilis di bawah [Batasan Dokumentasi Yii](https://www.yiiframework.com/doc/terms/).
 
 Semua hak dilindungi.
 

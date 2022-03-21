@@ -1,7 +1,7 @@
 Yii 权威指南
 ===========================
 
-此教程在 [the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/) 下发布。
+此教程在 [the Terms of Yii Documentation](https://www.yiiframework.com/doc/terms/) 下发布。
 
 
 历史版本翻译者（名单来源于SVN历史版本记录，按字母顺序排列）：
