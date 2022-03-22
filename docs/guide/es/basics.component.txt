@@ -89,7 +89,7 @@ A un evento se le pueden asignar múltiples manejadores. Cuando se levanta el ev
 Comportamiento de Component
 ---------------------------
 
-Un componente soporta el patrón [mixin](http://en.wikipedia.org/wiki/Mixin)y puede ser asignado a uno o varios comportamientos (behaviors). Un *comportameinto* es un objeto cuyos métodos pueden ser 'heredados' por su componente asignado mediante colección de funcionalidad en vez de especialización (es decir, herencia normal de clase). A un componente pueden asignársele varios comportamientos y por tanto, alcanzar 'herencia múltiple'.
+Un componente soporta el patrón [mixin](https://en.wikipedia.org/wiki/Mixin)y puede ser asignado a uno o varios comportamientos (behaviors). Un *comportameinto* es un objeto cuyos métodos pueden ser 'heredados' por su componente asignado mediante colección de funcionalidad en vez de especialización (es decir, herencia normal de clase). A un componente pueden asignársele varios comportamientos y por tanto, alcanzar 'herencia múltiple'.
 
 Las clases comportamiento han de implementar la interfaz [IBehavior]. La mayoría de los comportamientos pueden extender a partir de la clase base [CBehavior]. Si un comportamiento tiene que asignarse a un [model](/doc/guide/basics.model), también puede extender de [CModelBehavior] o [CActiveRecordBehavior] que implementa funcionalidades adicionales específicas de los modelos.
 
