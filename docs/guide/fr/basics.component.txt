@@ -129,7 +129,7 @@ suffit de mettre la propriété [$event->handled|CEvent::handled] à true.
 Comportement d'un composant
 ---------------------------
 
-A partir de la version 1.0.2, le support des [mixin](http://en.wikipedia.org/wiki/Mixin) a été
+A partir de la version 1.0.2, le support des [mixin](https://en.wikipedia.org/wiki/Mixin) a été
 ajouté pour permettre d'attacher un composant à plusieurs comportements.
 Un *comportement* (behavior) est un objet dont les méthodes peuvent être
 'héritées' par les composants qui y sont attachés. L'idée étant de collecter

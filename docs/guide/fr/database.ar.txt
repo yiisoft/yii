@@ -75,11 +75,11 @@ une valeur supérieure à 0.
 Le support pour AR est limité par le SGBD. Actuellement, seulement les SGBD suivants
 le supportent:
 
-   - [MySQL 4.1 ou plus](http://www.mysql.com)
-   - [PostgreSQL 7.3 or later](http://www.postgres.com)
-   - [SQLite 2 et 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 ou plus](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [MySQL 4.1 ou plus](https://www.mysql.com)
+   - [PostgreSQL 7.3 or later](https://www.postgres.com)
+   - [SQLite 2 et 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 ou plus](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 > Note: Le support de Microsoft SQL Server est disponible depuis la version 1.0.4;
 > et le support pour Oracle est disponible depuis la version 1.0.5.

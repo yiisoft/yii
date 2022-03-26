@@ -69,7 +69,7 @@ qui contient le script de démarrage. Ce dossier peut être changé en modifiant
 la propriété [basePath|CWebApplication::basePath] dans le fichier de [configuration de l'application](/doc/guide/basics.application#application-configuration).
 
 Les utilisateurs Web ne doivent pas pouvoir accéder aux contenus de ce dossier.
-Cela peut être réalisé très simplement sur [serveur Web Apache](http://httpd.apache.org/),
+Cela peut être réalisé très simplement sur [serveur Web Apache](https://httpd.apache.org/),
 en déposant dans le dossier à protéger un fichier `.htaccess` contenant
 
 ~~~
