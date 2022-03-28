@@ -9,7 +9,7 @@
 --------------
 
 
-* ואדים גבריאל [בלוג](http://www.vadimg.com) | [תמיכה בעברית](http://he.yiiframework.co.il).
+* ואדים גבריאל [בלוג](https://www.vadimg.com) | [תמיכה בעברית](https://he.yiiframework.co.il).
 
 2008-2010 &copy; Yii LLC.
 

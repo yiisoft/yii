@@ -29,13 +29,13 @@ Yii מספקת רכיבי מטמון שונים אשר מאפשרים שמירה
 ‎ורכיב [CDbCache] שומר את המטמון במסד הנתונים‫.‬
 ‎להלן סיכום של רכיבי המטמון הניתנים לשימוש ב Yii‫:‬
 
-- [CMemCache] משתמש בתוסף של PHP בשם [memcache](http://www.php.net/manual/en/book.memcache.php).
+- [CMemCache] משתמש בתוסף של PHP בשם [memcache](https://www.php.net/manual/en/book.memcache.php).
 
-- [CApcCache] משתמש בתוסף של PHP בשם [APC](http://www.php.net/manual/en/book.apc.php).
+- [CApcCache] משתמש בתוסף של PHP בשם [APC](https://www.php.net/manual/en/book.apc.php).
 
-- [CXCache] משתמש בתוסף של PHP בשם [XCache](http://xcache.lighttpd.net/). הערה, רכיב זה קיים מגרסאות 1.0.1 ומעלה.
+- [CXCache] משתמש בתוסף של PHP בשם [XCache](https://xcache.lighttpd.net/). הערה, רכיב זה קיים מגרסאות 1.0.1 ומעלה.
 
-- [CEAcceleratorCache] משתמש בתוסף של PHP בשם [EAccelerator](http://eaccelerator.net/).
+- [CEAcceleratorCache] משתמש בתוסף של PHP בשם [EAccelerator](https://eaccelerator.net/).
 
 - [CDbCache] משתמש בטבלה במסד הנתונים כדי לשמור את התוכן. כברירת מחדל זה יוצר ומשתמש במסד נתונים מסוג SQLite3 תחת תיקית הקבצים הזמניים באפליקציה. תוכל להגדיר את סוג מסד הנתונים לשימוש על ידי הגדרת המאפיין [connectionID|CDbCache::connectionID].
 

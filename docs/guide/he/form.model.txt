@@ -93,7 +93,7 @@ public function ValidatorName($attribute,$params) { ... }
 [CBooleanValidator::falseValue].
 
 - `captcha`: שם מקוצר עבור המחלקה [CCaptchaValidator], המוודא שהערך שהוזן זהה לערך שהוצג על ידי
-[CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
+[CAPTCHA](https://en.wikipedia.org/wiki/Captcha).
 
 - `compare`: שם מקוצר עבור המחלקה [CCompareValidator], מוודא שהערך שנבדק זהה לערך הנוסף שהוגדר.
 
