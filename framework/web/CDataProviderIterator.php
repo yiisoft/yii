@@ -148,6 +148,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	 * This method is required by the Countable interface.
 	 * @return integer the total number of items
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->_totalItemCount;

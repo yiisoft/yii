@@ -165,6 +165,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the queue.
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->getCount();

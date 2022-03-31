@@ -172,6 +172,7 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 	 * In this case, use "SELECT COUNT(*) FROM tableName" to obtain the number of rows.
 	 * @return integer number of rows contained in the result.
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->getRowCount();

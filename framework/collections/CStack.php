@@ -166,6 +166,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the stack.
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->getCount();

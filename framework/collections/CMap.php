@@ -89,6 +89,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the map.
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->getCount();

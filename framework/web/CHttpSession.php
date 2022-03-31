@@ -476,6 +476,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the session.
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->getCount();

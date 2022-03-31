@@ -96,6 +96,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the list.
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->getCount();
