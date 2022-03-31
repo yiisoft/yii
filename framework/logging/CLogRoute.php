@@ -84,7 +84,7 @@ abstract class CLogRoute extends CComponent
 	 */
 	protected function formatLogMessage($message,$level,$category,$time)
 	{
-		return @date('Y/m/d H:i:s',$time)." [$level] [$category] $message\n";
+		return @date('Y/m/d H:i:s',(int)$time)." [$level] [$category] $message\n";
 	}
 
 	/**
