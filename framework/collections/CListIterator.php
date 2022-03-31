@@ -42,6 +42,7 @@ class CListIterator implements Iterator
 	 * Rewinds internal array pointer.
 	 * This method is required by the interface Iterator.
 	 */
+	#[ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->_i=0;
@@ -52,6 +53,7 @@ class CListIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return integer the key of the current array item
 	 */
+	#[ReturnTypeWillChange]
 	public function key()
 	{
 		return $this->_i;
@@ -62,6 +64,7 @@ class CListIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return mixed the current array item
 	 */
+	#[ReturnTypeWillChange]
 	public function current()
 	{
 		return $this->_d[$this->_i];
@@ -71,6 +74,7 @@ class CListIterator implements Iterator
 	 * Moves the internal pointer to the next array item.
 	 * This method is required by the interface Iterator.
 	 */
+	#[ReturnTypeWillChange]
 	public function next()
 	{
 		$this->_i++;
@@ -81,6 +85,7 @@ class CListIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function valid()
 	{
 		return $this->_i<count($this->_d);
