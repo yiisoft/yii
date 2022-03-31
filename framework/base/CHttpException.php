@@ -34,6 +34,6 @@ class CHttpException extends CException
 	public function __construct($status,$message=null,$code=0)
 	{
 		$this->statusCode=$status;
-		parent::__construct($message,$code);
+		parent::__construct((string)$message,$code);
 	}
 }

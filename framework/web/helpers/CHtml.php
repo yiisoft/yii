@@ -115,7 +115,7 @@ class CHtml
 	 */
 	public static function encode($text)
 	{
-		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
+		return htmlspecialchars((string)$text,ENT_QUOTES,Yii::app()->charset);
 	}
 
 	/**
@@ -2591,7 +2591,7 @@ EOD;
 			else
 			{
 				$attributes=array('value'=>(string)$key,'encode'=>!$raw);
-				if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
+				if(!is_array($selection) && !strcmp($key,(string)$selection) || is_array($selection) && in_array($key,$selection))
 					$attributes['selected']='selected';
 				if(isset($options[$key]))
 					$attributes=array_merge($attributes,$options[$key]);

@@ -180,7 +180,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	public function getHeaderCellContent()
 	{
-		return trim($this->header)!=='' ? $this->header : $this->grid->blankDisplay;
+		return $this->header!==null && trim($this->header)!=='' ? $this->header : $this->grid->blankDisplay;
 	}
 
 	/**
@@ -201,7 +201,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	public function getFooterCellContent()
 	{
-		return trim($this->footer)!=='' ? $this->footer : $this->grid->blankDisplay;
+		return $this->footer!==null && trim($this->footer)!=='' ? $this->footer : $this->grid->blankDisplay;
 	}
 
 	/**
