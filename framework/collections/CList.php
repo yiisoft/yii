@@ -299,6 +299,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * @param integer $offset the offset to check on
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return ($offset>=0 && $offset<$this->_c);
@@ -311,6 +312,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * @return mixed the item at the offset
 	 * @throws CException if the offset is invalid
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		return $this->itemAt($offset);
@@ -322,6 +324,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * @param integer $offset the offset to set item
 	 * @param mixed $item the item value
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetSet($offset,$item)
 	{
 		if($offset===null || $offset===$this->_c)
@@ -338,6 +341,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * This method is required by the interface ArrayAccess.
 	 * @param integer $offset the offset to unset item
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		$this->removeAt($offset);

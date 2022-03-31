@@ -123,6 +123,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 * @param string $id a key identifying the cached value
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetExists($id)
 	{
 		return false;
@@ -134,6 +135,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 * @param string $id a key identifying the cached value
 	 * @return mixed the value stored in cache, false if the value is not in the cache or expired.
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetGet($id)
 	{
 		return false;
@@ -147,6 +149,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 * @param string $id the key identifying the value to be cached
 	 * @param mixed $value the value to be cached
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetSet($id, $value)
 	{
 	}
@@ -157,6 +160,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	 * @param string $id the key of the value to be deleted
 	 * @return boolean if no error happens during deletion
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetUnset($id)
 	{
 	}
