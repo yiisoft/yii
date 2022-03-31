@@ -78,6 +78,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * This method is required by the interface IteratorAggregate.
 	 * @return CMapIterator an iterator for traversing the items in the list.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new CMapIterator($this->_d);

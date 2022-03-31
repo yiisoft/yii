@@ -145,6 +145,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	 * This method is required by the interface IteratorAggregate.
 	 * @return Iterator an iterator for traversing the items in the queue.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new CQueueIterator($this->_d);

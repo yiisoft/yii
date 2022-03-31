@@ -146,6 +146,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	 * This method is required by the interface IteratorAggregate.
 	 * @return Iterator an iterator for traversing the items in the stack.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new CStackIterator($this->_d);

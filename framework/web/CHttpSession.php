@@ -456,6 +456,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method is required by the interface IteratorAggregate.
 	 * @return CHttpSessionIterator an iterator for traversing the session variables.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new CHttpSessionIterator;

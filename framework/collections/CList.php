@@ -85,6 +85,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * This method is required by the interface IteratorAggregate.
 	 * @return Iterator an iterator for traversing the items in the list.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new CListIterator($this->_d);

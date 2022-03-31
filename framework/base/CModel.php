@@ -568,6 +568,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * This method is required by the interface IteratorAggregate.
 	 * @return CMapIterator an iterator for traversing the items in the list.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		$attributes=$this->getAttributes();
