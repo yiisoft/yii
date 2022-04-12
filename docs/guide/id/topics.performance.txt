@@ -11,7 +11,7 @@ Menghidupkan Extension APC
 -------------------------
 
 Menghidupkan [extension
-PHP APC](http://www.php.net/manual/en/book.apc.php) barangkali merupakan
+PHP APC](https://www.php.net/manual/en/book.apc.php) barangkali merupakan
 cara termudah untuk meningkatkan performa aplikasi secara keseluruhan.
 extension men-cache dan mengoptimasi kode menengah PHP dan menghindari waktu
 yang dipakai dalam penguraian skrip PHP untuk setiap permintaan yang masuk.
@@ -29,7 +29,7 @@ setiap pesan yang sedang dicatat.
 Menggunakan `yiilite.php`
 -------------------------
 
-Saat [extension PHP APC](http://www.php.net/manual/en/book.apc.php) dihidupkan,
+Saat [extension PHP APC](https://www.php.net/manual/en/book.apc.php) dihidupkan,
 kita dapat mengganti `yii.php` dengan file bootstrap Yii yang berbeda bernama
 `yiilite.php` untuk lebih meningkatkan performa aplikasi berbasis-Yii.
 
@@ -69,9 +69,9 @@ Selain teknik cache tingkat aplikasi ini, kita juga bisa menggunakan solusi
 cache tingkat server untuk meingkatkan performa aplikasi. Sebenarnya,
 [Cache APC](/doc/guide/topics.performance#enabling-apc-extension) yang kita
 jelaskan sebelumnya masuk ke kategori ini. Ada teknik server lain, seperti
-[Zend Optimizer](http://Zend.com/ZendOptimizer),
-[eAccelerator](http://eaccelerator.net/),
-[Squid](http://www.squid-cache.org/), dan banyak lagi.
+[Zend Optimizer](https://Zend.com/ZendOptimizer),
+[eAccelerator](https://eaccelerator.net/),
+[Squid](https://www.squid-cache.org/), dan banyak lagi.
 
 Optimasi Database
 -----------------
@@ -126,7 +126,7 @@ Kedua, kita perlu menggunakan beberapa piranti untuk menggabung (dan mungkin mem
 
 Trik yang sama juga berlaku untuk file CSS.
 
-Kita juga dapat meningkatkan kecepatan pengambilan halaman dengan bantuan [Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/). Sebagai contoh, kita dapata menyertakan `jquery.js` dari server Google daripada server kita sendiri. Untuk melakukannya, pertama kita mengkonfigurasi `scriptMap` sebagai berikut,
+Kita juga dapat meningkatkan kecepatan pengambilan halaman dengan bantuan [Google AJAX Libraries API](https://code.google.com/apis/ajaxlibs/). Sebagai contoh, kita dapata menyertakan `jquery.js` dari server Google daripada server kita sendiri. Untuk melakukannya, pertama kita mengkonfigurasi `scriptMap` sebagai berikut,
 
 ~~~
 [php]

@@ -3,7 +3,7 @@ Instalasi
 
 Instalasi Yii mencakup dua langkah berikut:
 
-   1. Download Yii Framework dari [yiiframework.com](http://www.yiiframework.com/).
+   1. Download Yii Framework dari [yiiframework.com](https://www.yiiframework.com/).
    2. Keluarkan(unpack) file rilis Yii ke direktori yang dapat diakses Web.
 
 > Tip: Yii tidak harus diinstalasi di bawah direktori yang bisa diakses Web.
@@ -24,7 +24,7 @@ http://hostname/path/ke/yii/requirements/index.php
 
 Yii membutuhkan PHP 5.1 sehingga server Web Anda harus mendukung PHP 5.1.0
 atau lebih tinggi. Yii sudah diuji dengan [Apache HTTP
-server](http://httpd.apache.org/) pada sistem operasi Windows dan Linux.
+server](https://httpd.apache.org/) pada sistem operasi Windows dan Linux.
 Yii juga bisa berjalan pada server Web dan platform lain yang mendukung
 PHP 5.1
 

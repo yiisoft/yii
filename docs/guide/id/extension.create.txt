@@ -115,7 +115,7 @@ Untuk membuat widget baru dari awal, kita perlu mengimplementasikan dua metode:
 menggunakan `$this->beginWidget` untuk menyisipkan widget dalam sebuah view(tampilan), dan
 metode kedua dipanggil saat kita memanggil `$this->endWidget`.
 Jika kita ingin menangkap dan memproses konten yang ditampilkan diantara kedua
-pemanggilan metode ini, kita dapat memulai [membufer output](http://us3.php.net/manual/en/book.outcontrol.php)
+pemanggilan metode ini, kita dapat memulai [membufer output](https://us3.php.net/manual/en/book.outcontrol.php)
 pada [CWidget::init] dan mengambil output yang di-buffer pada [CWidget::run]
 guna pemrosesan selanjutnya.
 

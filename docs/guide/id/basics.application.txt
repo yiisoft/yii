@@ -68,7 +68,7 @@ entri. Direktori ini dapat dikustomisasi melalui konfigurasi properti
 [basePath|CWebApplication::basePath] dalam [konfigurasi aplikasi](#application-configuration).
 
 Isi di dalam direktori basis aplikasi harus terlindung dari akses oleh
-para pengguna Web. Dengan [Apache HTTP server](http://httpd.apache.org/), 
+para pengguna Web. Dengan [Apache HTTP server](https://httpd.apache.org/),
 hal ini bisa dilakukan secara mudah dengan
 menempatkan file `.htaccess` di bawah direktori basis. Adapun isi file `.htaccess` adalah sebagai berikut,
 
