@@ -37,7 +37,7 @@ Dengan menentukan ID lokal, Anda bisa mendapatkan instance [CLocale] terkait den
 `CLocale::getInstance($localeID)` atau `CApplication::getLocale($localeID)`.
 
 > Info: Yii datang dengan data lokal untuk hampir semua bahasa dan wilayah.
-Data diperoleh dari [Repositori Data Lokal Umum](http://unicode.org/cldr/) (CLDR). Untuk setiap lokal, hanya
+Data diperoleh dari [Repositori Data Lokal Umum](https://unicode.org/cldr/) (CLDR). Untuk setiap lokal, hanya
 sebuah subset data CLDR yang disediakan karena data aslinya berisi banyak informasi yang
 jarang dipakai. Pengguna juga dapat menyediakan data lokal kustomisasi mereka sendiri.
 Untuk melakukannya, konfigurasikan properti [CApplication::localeDataPath] dalam direktori yang
@@ -125,7 +125,7 @@ semua direktori ini ditempatkan di bawah direktori yang ditetapkan dalam
 [basePath|CPhpMessageSource::basePath].
 
    - [CGettextMessageSource]: terjemahan pesan disimpan sebagai file [GNU
-Gettext](http://www.gnu.org/software/gettext/).
+Gettext](https://www.gnu.org/software/gettext/).
 
    - [CDbMessageSource]: terjemahan pesan disimpan dalam tabel database.
 Untuk lebih jelasnya, lihat dokumentasi API untuk [CDbMessageSource].
@@ -297,7 +297,7 @@ akan memberikan hasil
 
 > Info: untuk mempelajari berapa banyak nilai yang harus anda sediakan dan
 bagaimana urutan yang seharusnya, silahkan merujuk ke CLDR
-[halaman Language Plural Rules] (http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#id).
+[halaman Language Plural Rules] (https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#id).
 
 ### Terjemahan File
 

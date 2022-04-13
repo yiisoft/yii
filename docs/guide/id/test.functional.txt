@@ -1,7 +1,7 @@
 Uji Coba Fungsional(Functional Testing)
 =======================================
 
-Sebelum membaca bagian ini, Anda disarankan untuk membaca [dokumentasi Selenium](http://seleniumhq.org/docs/) dan [dokumentasi PHPUnit](http://www.phpunit.de/wiki/Documentation) terlebih dahulu. Kita merangkum beberapa prinsip dasar penulisan sebuah functional test(percobaan fungsional) dalam Yii menjadi:
+Sebelum membaca bagian ini, Anda disarankan untuk membaca [dokumentasi Selenium](https://seleniumhq.org/docs/) dan [dokumentasi PHPUnit](https://www.phpunit.de/wiki/Documentation) terlebih dahulu. Kita merangkum beberapa prinsip dasar penulisan sebuah functional test(percobaan fungsional) dalam Yii menjadi:
 
  * Seperti halnya uji coba unit(unit test), sebuah uji coba fungsional(functional test) ditulis dalam bentuk sebuah kelas `XyzTest` yang diturunkan dari [CWebTestCase]. `Xyz` merupakan bagian dari kelas yang diuji coba. Dikarenakan `PHPUnit_Extensions_SeleniumTestCase` merupakan kelas induk dari [CWebTestCase], kita dapat menggunakan seluruh metode yang diturunkan oleh kelas ini.
 
@@ -37,7 +37,7 @@ Kelas `WebTestCase` utamanya mengatur URL basis dari halaman yang diuji coba. Na
 
 Kita juga harus memperhatikan bahwa dalam URL tes dasar, kita dapat menggunakan `index-test.php` sebagai entry script(skrip awal) alih-alih menggunakan `index.php`. Satu-satunya perbedaan antara `index-test.php` dan `index.php` adalah `index-test.php` menggunakan `test.php` sebagai file konfigurasi aplikasi sedangkan `index.php` menggunakan `main.php`.
 
-Sekarang kita akan melihat bagaimana menguji coba suatu fitur tentang menampilkan sebuah post dalam [blog demo](http://www.yiiframework.com/demos/blog). Pertama-tama kita menulis kelas uji coba sebagai berikut. Harap diperhatikan bahwa kelas uji coba diturunkan dari kelas dasar yang baru saja kita jelaskan:
+Sekarang kita akan melihat bagaimana menguji coba suatu fitur tentang menampilkan sebuah post dalam [blog demo](https://www.yiiframework.com/demos/blog). Pertama-tama kita menulis kelas uji coba sebagai berikut. Harap diperhatikan bahwa kelas uji coba diturunkan dari kelas dasar yang baru saja kita jelaskan:
 
 ~~~
 [php]

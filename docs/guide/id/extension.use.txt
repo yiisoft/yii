@@ -4,7 +4,7 @@ Menggunakan Extension
 Menggunakan extension biasanya berkaitan dengan tiga langkah berikut:
 
   1. Download extension dari
-     [repositori extension](http://www.yiiframework.com/extensions/) Yii.
+     [repositori extension](https://www.yiiframework.com/extensions/) Yii.
   2. Urai extension di bawah subdirektori `extensions/xyz` pada
      [direktori basis aplikasi](/doc/guide/basics.application#application-base-directory),
      di mana `xyz` adalah nama extension.

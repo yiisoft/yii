@@ -17,9 +17,9 @@ sebelum menampilkannya. Orang bisa melakukan enkode-HTML dengan input pengguna u
 melaksanakan tujuan ini. Akan tetapi, dalam beberapa situasi, enkode-HTML mungkin tidak disukai
 karena mematikan semua tag HTML.
 
-Yii menyertakan produk [HTMLPurifier](http://htmlpurifier.org/)
+Yii menyertakan produk [HTMLPurifier](https://htmlpurifier.org/)
 dan menyediakan komponen berguna bagi pengembang bernama [CHtmlPurifier]
-yang melapisi [HTMLPurifier](http://htmlpurifier.org/). Komponen ini 
+yang melapisi [HTMLPurifier](https://htmlpurifier.org/). Komponen ini
 mampu menghapus semua kode berbahaya dengan audit mendalam, aman namun memiliki list yang diperbolehkan
 dan memastikan konten yang disaring sesuai standar.
 

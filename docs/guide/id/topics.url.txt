@@ -304,7 +304,7 @@ mengkonfigurasi server Web dan juga komponen aplikasi
 
 Pertama kita harus mengkonfigurasi server Web agar URL tanpa skrip entri
 masih dapat ditangani oleh skrip entri. Untuk [Apache HTTP
-server](http://httpd.apache.org/), ini bisa dikerjakan dengan menghidupkan URL
+server](https://httpd.apache.org/), ini bisa dikerjakan dengan menghidupkan URL
 rewriting engine dan menetapkan beberapa aturan penulisannya. Kita dapat membuat
  file `/wwwroot/blog/.htaccess` dengan konten berikut.
 Catatan bahwa konten yang sama juga bisa disimpan dalam file konfigurasi Apache

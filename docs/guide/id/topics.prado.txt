@@ -15,7 +15,7 @@ yang sama dalam aplikasinya.
 
 Berikutnya kami perkenalkan bagaimana menggunakan [CPradoViewRenderer], pembuat
 tampilan yang mengijinkan para pengembang untuk memakai sintaks  template mirip dengan
-[Prado framework](http://www.pradosoft.com/). Bagi orang yang ingin mengembangkan
+[Prado framework](https://www.pradosoft.com/). Bagi orang yang ingin mengembangkan
 pembuat tampilan sendiri, [CPradoViewRenderer] adalah referensi yang baik.
 
 Menggunakan `CPradoViewRenderer`
