@@ -24,7 +24,7 @@ RewriteRule . index.php
 Nginx
 -----
 
-Puoi utilizzare Yii con [Nginx](http://wiki.nginx.org/) e PHP con [FPM SAPI](http://php.net/install.fpm).
+Puoi utilizzare Yii con [Nginx](https://wiki.nginx.org/) e PHP con [FPM SAPI](https://php.net/install.fpm).
 Ecco un esempio di configurazione dell'host. Qui viene definito il file di avvio 
 e permette a Yii di catturare tutte le richieste di file inesistenti che consente 
 di ottenere URL leggibili.
