@@ -4,7 +4,7 @@
 データアクセスオブジェクト (DAO) は、異なるデータベース管理システム (DBMS) 上に保存されたデータに接続するための包括的な API を提供します。
 DAO を用いてデータにアクセスすることで、コードを変更せずに異なる DBMS を利用する事が可能になります
 
-Yii DAO は MySQL や PostgreSQL といった多くのポピュラーな DBMS への統一的なデータアクセスを提供する [PHP Data Objects (PDO)](http://php.net/manual/en/book.pdo.php) 拡張を用いて構築されています。
+Yii DAO は MySQL や PostgreSQL といった多くのポピュラーな DBMS への統一的なデータアクセスを提供する [PHP Data Objects (PDO)](https://php.net/manual/en/book.pdo.php) 拡張を用いて構築されています。
 そのため、Yii DAO を利用するには、PDO 拡張と特定の PDO データベースドライバ (たとえば `PDO_MYSQL`) がインストールされている必要があります。
 
 Yii DAO は、主に以下の 4 つのクラスから構成されています: 
@@ -35,7 +35,7 @@ $connection->active=false;  // 接続を閉じる
 
 DSN のフォーマットは、使用する PDO データベースドライバに依存します。
 一般的には、DSN はその PDO ドライバ名に続けてコロン、その後に、ドライバ個別の接続シンタックスを指定します。
-詳細な情報は、[PDO documentation](http://www.php.net/manual/en/pdo.construct.php) を参照してください。
+詳細な情報は、[PDO documentation](https://www.php.net/manual/en/pdo.construct.php) を参照してください。
 以下に、一般に用いられる DSN フォーマットのリストを示します:
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -187,7 +187,7 @@ catch(Exception $e) // クエリの実行に失敗した場合、例外が発生
 パラメータのバインディング
 ------------------
 
-[SQL インジェクション攻撃](http://ja.wikipedia.org/wiki/SQL%E3%82%A4%E3%83%B3%E3%82%B8%E3%82%A7%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3) を避け、繰り返し使用される SQL 文の実行パフォーマンスを改善するために、SQL 文とオプションのパラメータプレースホルダを "準備 prepare" することが出来ます。
+[SQL インジェクション攻撃](https://ja.wikipedia.org/wiki/SQL%E3%82%A4%E3%83%B3%E3%82%B8%E3%82%A7%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3) を避け、繰り返し使用される SQL 文の実行パフォーマンスを改善するために、SQL 文とオプションのパラメータプレースホルダを "準備 prepare" することが出来ます。
 プレースホルダは、パラメータバインディングの過程で、実引数と置き換えられることになっています。
 
 パラメータプレースホルダは、名前付き (ユニークなトークンとして表される) か、無名 (クエスチョンマークとして表わされる) かのどちらかを使えます。
@@ -214,7 +214,7 @@ $command->execute();
 唯一の違いは、前者はパラメータにバインドするのに PHP 変数の参照を使い、後者は変数の値を使うということです。
 大きなメモリブロックで表わされるデータをパラメータに指定する場合は、パフォーマンス的に前者の方法を利用する事を推奨します。
 
-バインディングパラメータについての詳細については、[関連する PHP ドキュメント](http://www.php.net/manual/ja/pdostatement.bindparam.php) を参照してください。
+バインディングパラメータについての詳細については、[関連する PHP ドキュメント](https://www.php.net/manual/ja/pdostatement.bindparam.php) を参照してください。
 
 カラムのバインディング
 ---------------

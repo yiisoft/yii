@@ -3,7 +3,7 @@
 
 エクステンションを使うには、通常、次の3つのステップが必要です:
 
-  1. Yii の [extension repository](http://www.yiiframework.com/extensions/) より、エクステンションをダウンロードします。
+  1. Yii の [extension repository](https://www.yiiframework.com/extensions/) より、エクステンションをダウンロードします。
   2. エクステンションを [アプリケーションベースディレクトリ](/doc/guide/basics.application#sec-3) のサブディレクトリである `extensions/xyz` 以下に解凍します。
 ここで、`xyz` にはエクステンション名が入ります。
   3. インポート、初期構成を行い、エクステンションを使用します。

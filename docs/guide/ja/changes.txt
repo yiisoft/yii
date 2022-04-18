@@ -96,6 +96,6 @@ Version 1.1.0
 
  * [テーブルプレフィクスを使用するためのサポートを追加](/doc/guide/database.dao#sec-9).
 
- * [Ziiライブラリ](http://code.google.com/p/zii/)として知られる新しいエクステンションを追加
+ * [Ziiライブラリ](https://code.google.com/p/zii/)として知られる新しいエクステンションを追加
 
  * AR クエリにおける主テーブルのエイリアスを 't' に固定

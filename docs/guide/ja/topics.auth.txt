@@ -128,7 +128,7 @@ identity 情報の保存に、セッション (これがデフォルトです) �
 クッキーベースのログイン
 ------------------
 
-デフォルトでは、[セッションの構成](http://www.php.net/manual/en/session.configuration.php) によって、アクティブでない時間が一定期間以上経過すると、ユーザはログアウトされます。
+デフォルトでは、[セッションの構成](https://www.php.net/manual/en/session.configuration.php) によって、アクティブでない時間が一定期間以上経過すると、ユーザはログアウトされます。
 この仕様を変更するために、user コンポーネントの [allowAutoLogin|CWebUser::allowAutoLogin] を true にセットし、持続期間のパラメータを [CWebUser::login] に渡すことができます。
 こうすると、ブラウザを閉じてもユーザは設定した持続期間の間はログインされたままになります。
 この機能はユーザのブラウザがクッキーを受け入れる設定になっている必要があることに注意してください。
@@ -323,7 +323,7 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 -------------------------
 
 ロールベースアクセスコントロール (RBAC) はシンプルで強力な集中的アクセスコントロールを提供します。
-RBAC と他の伝統的なアクセスコントロールスキーマとの比較については [Wiki の記事](http://en.wikipedia.org/wiki/Role-based_access_control) を参照してください。
+RBAC と他の伝統的なアクセスコントロールスキーマとの比較については [Wiki の記事](https://en.wikipedia.org/wiki/Role-based_access_control) を参照してください。
 
 Yii は [authManager|CWebApplication::authManager] アプリケーションコンポーネントで、階層的 RBAC スキームを実装しています。
 以下でこのスキームで使われる主な概念を紹介します。

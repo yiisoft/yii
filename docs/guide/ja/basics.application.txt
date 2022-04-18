@@ -74,7 +74,7 @@ $app=Yii::createWebApplication($configFile);
 この場所は、[アプリケーション初期構成](/doc/guide/basic.application#sec-2) の [basePath|CWebApplication::basePath] プロパティ値を変更することでカスタマイズが可能です。
 
 アプリケーションベースディレクトリより下の内容はウェブユーザによってアクセスされないように保護される必要があります。
-[Apache HTTP サーバ](http://httpd.apache.org/) を用いる場合、`.htaccess` ファイルをベースディレクトリの下に置くことで容易に実現可能です。`.htaccess` ファイルの内容は以下のようになります。
+[Apache HTTP サーバ](https://httpd.apache.org/) を用いる場合、`.htaccess` ファイルをベースディレクトリの下に置くことで容易に実現可能です。`.htaccess` ファイルの内容は以下のようになります。
 
 ~~~
 deny from all

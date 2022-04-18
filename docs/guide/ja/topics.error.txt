@@ -5,7 +5,7 @@ Yii は PHP 5 の例外メカニズムを元にした完全なエラーハンド
 アプリケーションがユーザのリクエストによって呼び出された時、アプリケーションは、[handleError|CApplication::handleError] メソッドを PHP の warning と notice を扱うために登録し、[handleException|CApplication::handleException] メソッドを PHP の exeption (例外) を扱うために登録します。
 したがって、もしアプリケーションの実行時に PHP の warning や notice、キャッチされない例外が発生した場合は、どちらかのエラーハンドラが制御を握って、必要なエラーハンドリングの処理を開始します。
 
-> Tip|ヒント: エラーハンドラは、アプリケーションのコンストラクタで PHP 関数である [set_exception_handler](http://php.net/manual/ja/function.set-exception-handler.php) と [set_error_handler](http://php.net/manual/ja/function.set-error-handler.php) によって登録されます。
+> Tip|ヒント: エラーハンドラは、アプリケーションのコンストラクタで PHP 関数である [set_exception_handler](https://php.net/manual/ja/function.set-exception-handler.php) と [set_error_handler](https://php.net/manual/ja/function.set-error-handler.php) によって登録されます。
 もし不要な場合は、[エントリスクリプト](/doc/guide/basics.entry) で `YII_ENABLE_ERROR_HANDLER` と `YII_ENABLE_EXCEPTION_HANDLER` の定数を false として定義する事で対応できます。
 
 デフォルトでは、[handleError|CApplication::handleError] (または [handleException|CApplication::handleException]) は [onError|CApplication::onError] イベント (または [onException|CApplication::onException] イベント) を発生させます。
