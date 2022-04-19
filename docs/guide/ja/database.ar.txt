@@ -68,12 +68,12 @@ return array(
 AR に対するサポートは、DBMS によって制限されます。
 現在、以下の DBMS だけがサポートされています。
 
-   - [MySQL 4.1 以降](http://www.mysql.com)
-   - [MariaDB](https://mariadb.com)
-   - [PostgreSQL 7.3 以降](http://www.postgres.com)
-   - [SQLite 2 または 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 以降](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [MySQL 4.1 以降](https://www.mysql.com)
+   - [MariaDB](httpss://mariadb.com)
+   - [PostgreSQL 7.3 以降](https://www.postgres.com)
+   - [SQLite 2 または 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 以降](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 `db` 以外のアプリケーションコンポーネントを使いたいか、あるいは複数のデータベースで AR を使いたい場合は、[CActiveRecord::getDbConnection()] をオーバライドしなければなりません。
 [CActiveRecord] クラスは、すべての AR クラスのための基底クラスです。

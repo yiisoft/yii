@@ -255,7 +255,7 @@ URL をもっと綺麗にするために、さらにもう一つの方法があ�
 そのためには、[urlManager|CWebApplication::urlManager] アプリケーションコンポーネントを構成するのと同時に、Web サーバの設定も必要になります。
 
 最初に Web サーバを構成して、エントリスクリプト無しの URL が、引き続きエントリスクリプトによって取り扱われるようにする必要があります。
-[Apache HTTP server](http://httpd.apache.org/)の場合は、URL リライティングエンジンを有効化し、幾つかのリライティングルールを指定することで実現出来ます。
+[Apache HTTP server](https://httpd.apache.org/)の場合は、URL リライティングエンジンを有効化し、幾つかのリライティングルールを指定することで実現出来ます。
 下記の内容を持つ `/wwwroot/blog/.htaccess` ファイルを作ります。
 同じ内容を Apache の設定ファイルで、`/wwwroot/blog` の `Directory` 要素の中に記述しても構いません。
 

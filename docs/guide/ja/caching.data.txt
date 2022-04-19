@@ -98,7 +98,7 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 クエリキャッシングは、データキャッシュの上に構築されており、DB クエリの結果をキャッシュに格納します。
 そのため、将来同じクエリが要求された場合に、結果を直接キャッシュから得られるため、DB クエリの実行時間を短縮することが出来ます。
 
-> Info|情報: ある種の DBMS (例えば [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
+> Info|情報: ある種の DBMS (例えば [MySQL](https://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
 > は、DB サーバサイドでのクエリキャッシュもサポートしています。
 > このサーバサイドでのクエリキャッシングと比較すると、Yii がここでサポートする同じ機能は、
 > より一層柔軟であり、潜在的にはより一層効率的でしょう。 

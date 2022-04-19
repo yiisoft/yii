@@ -123,7 +123,7 @@ public function ValidatorName($attribute,$params) { ... }
 
    - `boolean`: [CBooleanValidator] のエイリアスで、属性の値が [CBooleanValidator::trueValue] かまたは [CBooleanValidator::falseValue] である事を確認します。
 
-   - `captcha`: [CCaptchaValidator] のエイリアスで、属性の値が [CAPTCHA](http://en.wikipedia.org/wiki/Captcha) で表示された検証コードと等しい事を確認します。
+   - `captcha`: [CCaptchaValidator] のエイリアスで、属性の値が [CAPTCHA](https://en.wikipedia.org/wiki/Captcha) で表示された検証コードと等しい事を確認します。
 
    - `compare`: [CCompareValidator] のエイリアスで、属性の値が、別の属性または定数と等しい事を確認します。
 

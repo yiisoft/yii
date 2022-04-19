@@ -1,25 +1,25 @@
 ウェブサービス
 ===========
 
-[ウェブサービス](http://ja.wikipedia.org/wiki/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9) とはネットワーク越しに、マシン同士の相互運用性をサポートする仕組みのことです。
+[ウェブサービス](https://ja.wikipedia.org/wiki/Web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9) とはネットワーク越しに、マシン同士の相互運用性をサポートする仕組みのことです。
 ウェブアプリケーションの文脈においては、多くの場合、インターネットを介してアクセスできる API 群で、リクエストされたサービスをホストするリモートシステム上で実行されるものを、ウェブサービスと呼んでいます。
-たとえば、[Flex](http://www.adobe.com/products/flex/) ベースのクライアントは、サーバで動いている PHP のウェブアプリケーションに実装された関数を呼び出すことが出来ます。
-ウェブサービスはコミュニケーションプロトコルスタックの基礎部分を [SOAP](http://en.wikipedia.org/wiki/SOAP) に依存しています。
+たとえば、[Flex](https://www.adobe.com/products/flex/) ベースのクライアントは、サーバで動いている PHP のウェブアプリケーションに実装された関数を呼び出すことが出来ます。
+ウェブサービスはコミュニケーションプロトコルスタックの基礎部分を [SOAP](https://en.wikipedia.org/wiki/SOAP) に依存しています。
 
 Yii は [CWebService] と [CWebServiceAction] を提供することで、ウェブアプリケーションでウェブサービスを提供する作業を簡単にします。
 API は **サービスプロバイダ** と呼ばれるクラス群にまとめられます。
-Yii はそれぞれのクラスについて、[WSDL](http://www.w3.org/TR/wsdl) スペックファイルを生成し、どの API が利用可能で、どのように呼び出すことができるのかを記述します。
+Yii はそれぞれのクラスについて、[WSDL](https://www.w3.org/TR/wsdl) スペックファイルを生成し、どの API が利用可能で、どのように呼び出すことができるのかを記述します。
 クライアントによって API が呼び出されると、Yii が対応するサービスプロバイダをインスタンス化し、要求された API を実行してリクエストに応えます。
 
 
-> Note|注意: [CWebService] は [PHP SOAP extension](http://www.php.net/manual/ja/ref.soap.php) に依存します。
+> Note|注意: [CWebService] は [PHP SOAP extension](https://www.php.net/manual/ja/ref.soap.php) に依存します。
 この章の例を実行する前に拡張が有効になっていることを確認して下さい。
 
 サービスプロバイダの定義
 -------------------------
 
 上で述べたように、サービスプロバイダとはリモートから呼び出し可能なメソッドを定義するクラスのことです。
-Yii は [doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) と [class reflection](http://php.net/manual/ja/book.reflection.php) に基づいて、どのメソッドがリモートから呼び出し可能であり、どのような引数をとり、そしてどのような返り値を返すのかを決定します。
+Yii は [doc comment](https://java.sun.com/j2se/javadoc/writingdoccomments/) と [class reflection](https://php.net/manual/ja/book.reflection.php) に基づいて、どのメソッドがリモートから呼び出し可能であり、どのような引数をとり、そしてどのような返り値を返すのかを決定します。
 
 まず単純な株価情報サービスからはじめましょう。
 このサービスではクライアントが株価情報を要求できます。

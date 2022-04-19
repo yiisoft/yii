@@ -9,7 +9,7 @@ APC 拡張を有効にする
 ----------------------
 
 
-[PHP APC 拡張](http://www.php.net/manual/ja/book.apc.php) を有効にすることは、アプリケーションのパフォーマンスを改善する最も容易な手段でしょう。
+[PHP APC 拡張](https://www.php.net/manual/ja/book.apc.php) を有効にすることは、アプリケーションのパフォーマンスを改善する最も容易な手段でしょう。
 APC は PHP の中間コードを最適化し、キャッシュすることで、リクエストごとに PHP スクリプトが解析されるのを避けます。
 
 デバッグモードを無効にする
@@ -24,7 +24,7 @@ Yii アプリケーションは `YII_DEBUG` 定数が true に設定されてい
 `yiilite.php`を使う
 -------------------
 
-[PHP APC 拡張](http://www.php.net/manual/ja/book.apc.php) が有効である場合、`yii.php`を `yiilite.php` で置き換えることで、さらにパフォーマンスを改善できます。
+[PHP APC 拡張](https://www.php.net/manual/ja/book.apc.php) が有効である場合、`yii.php`を `yiilite.php` で置き換えることで、さらにパフォーマンスを改善できます。
 
 `yiilite.php` はすべての Yii リリースに含まれています。
 その内容は Yii の基本クラスをひとつにまとめたものです。
@@ -49,7 +49,7 @@ APC 無しで `yiilite.php` を使うことはパフォーマンスを低下さ�
 
 これらアプリケーションレベルのキャッシュテクニックとは別に、サーバレベルでのキャッシュソリューションを使ってアプリケーションのパフォーマンスを増加させることも可能です。
 実のところ、先ほど述べた [APC 拡張を有効にする](/doc/guide/topics.performance#sec-2) はこのカテゴリに含まれます。
-ほかにも2,3の例を挙げると、[Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/) といったものがあります。
+ほかにも2,3の例を挙げると、[Zend Optimizer](https://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](https://eaccelerator.net/), [Squid](https://www.squid-cache.org/) といったものがあります。
 
 データベースの最適化
 ---------------------
@@ -103,7 +103,7 @@ $cs->scriptMap=array(
 
 CSS ファイルも同じようにします。
 
-さらに、[Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/) を使って、ページのロード時間を改善することができます。
+さらに、[Google AJAX Libraries API](https://code.google.com/apis/ajaxlibs/) を使って、ページのロード時間を改善することができます。
 自分のサーバからではなく、Google のサーバから `jquery.js` を読み込むことができます。
 そのために、まず `scriptMap` を以下のように設定します。
 
@@ -139,7 +139,7 @@ $cs->scriptMap=array(
 --------------------------------
 
 プロジェクトが多数のアセットファイルを使用する場合は、ファイルコピーの代りに
-[シンボリックリンク](http://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AA%E3%83%83%E3%82%AF%E3%83%AA%E3%83%B3%E3%82%AF) を使うことでパフォーマンスをわずかに向上させることが出来ます。
+[シンボリックリンク](https://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AA%E3%83%83%E3%82%AF%E3%83%AA%E3%83%B3%E3%82%AF) を使うことでパフォーマンスをわずかに向上させることが出来ます。
 アセットのシンボリックリンクを有効にするためには、`protected/config/main.php` 設定ファイルを使用して、
 `assetManager` アプリケーション・コンポーネントの [linkAssets|CAssetManager::linkAssets] プロパティを
 設定しなければなりません。

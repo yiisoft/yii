@@ -9,7 +9,7 @@ Yii では開発者が好みのテンプレート (例: Prado や Smarty など)
 そうしないと、ビューを再利用しようとする人に対して、カスタマイズされたテンプレート文法の使用を強制することになります。
 
 以下に [CPradoViewRenderer] を使う方法を示します。
-このビューレンダラを使うと、ビューを [Prado framework](http://www.pradosoft.com/) と似た文法で書くことができます。
+このビューレンダラを使うと、ビューを [Prado framework](https://www.pradosoft.com/) と似た文法で書くことができます。
 独自のレンダラを開発したい場合は、 [CPradoViewRenderer] は良い参考になるでしょう。
 
 `CPradoViewRenderer` を使う

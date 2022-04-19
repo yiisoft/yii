@@ -32,24 +32,24 @@ Yii は、異なるメディアにキャッシュデータを保存すること�
 [CDbCache] コンポーネントは、キャッシュデータをデータベースに保存します。
 以下は、利用可能なキャッシュコンポーネントの概要です:
 
-   - [CMemCache]: PHP [memcache 拡張](http://www.php.net/manual/en/book.memcache.php) を使用します。
+   - [CMemCache]: PHP [memcache 拡張](https://www.php.net/manual/en/book.memcache.php) を使用します。
 
-   - [CApcCache]: PHP [APC 拡張](http://www.php.net/manual/en/book.apc.php) を使用します。
+   - [CApcCache]: PHP [APC 拡張](https://www.php.net/manual/en/book.apc.php) を使用します。
 
-   - [CXCache]: PHP [XCache 拡張](http://xcache.lighttpd.net/) を使用します。
+   - [CXCache]: PHP [XCache 拡張](https://xcache.lighttpd.net/) を使用します。
 
-   - [CEAcceleratorCache]: PHP[EAccelerator拡張](http://eaccelerator.net/) を使用します。
+   - [CEAcceleratorCache]: PHP[EAccelerator拡張](httsp://eaccelerator.net/) を使用します。
 
-   - [CRedisCache]: ストレージバックエンドとして [redis](http://redis.io/) key-value データストアを使用します。
+   - [CRedisCache]: ストレージバックエンドとして [redis](https://redis.io/) key-value データストアを使用します。
 
    - [CDbCache]: データベーステーブルを使用してキャッシュデータを保存します。
 デフォルトでは、ランタイムディレクトリ下に SQLite3 データベースを作り、使用します。
 [connectionID|CDbCache::connectionID] プロパティを設定することで、明示的にデータベースを指定することができます。
 
-   - [CZendDataCache]: キャッシュメディアとして [Zend Data Cache](http://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm) を使用します。
+   - [CZendDataCache]: キャッシュメディアとして [Zend Data Cache](https://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm) を使用します。
 
-   - [CWinCache]: PHP [WinCache](http://iis.net/downloads/microsoft/wincache-extension) 拡張を使用します。
-   ([PHP 用の Windows キャッシュ](http://php.net/manual/ja/book.wincache.php) も参照して下さい。)
+   - [CWinCache]: PHP [WinCache](https://iis.net/downloads/microsoft/wincache-extension) 拡張を使用します。
+   ([PHP 用の Windows キャッシュ](https://php.net/manual/ja/book.wincache.php) も参照して下さい。)
 
    - [CFileCache]: キャッシュデータを保存するのにファイルを使用します。これはページのような大きなかたまりのデータに特に適しています。
 
