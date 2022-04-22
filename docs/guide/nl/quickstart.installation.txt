@@ -3,7 +3,7 @@ Installatie
 
 De installatie van Yii betreft voornamelijk de volgende twee stappen:
 
-   1. Download het Yii-framework van [yiiframework.com](http://www.yiiframework.com/).
+   1. Download het Yii-framework van [yiiframework.com](https://www.yiiframework.com/).
    2. Pak het Yii-releasebestand uit naar een web-toegankelijke map.
 
 > Tip: Yii hoeft niet geinstalleerd te worden in een web-toegankelijke map.
@@ -25,7 +25,7 @@ http://hostnaam/pad/naar/yii/requirements/index.php
 ~~~
 
 De minimumeis voor Yii is support voor PHP 5.1.0 of hoger van de webserver.
-Yii is getest met [Apache HTTP server](http://httpd.apache.org/) op Windows en
+Yii is getest met [Apache HTTP server](https://httpd.apache.org/) op Windows en
 Linux-systemen. Het draait mogelijk ook op andere webservers en platformen,
 aangenomen dat PHP 5 ondersteund word.
 
