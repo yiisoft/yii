@@ -7,7 +7,7 @@ databasesystem byttes ut uten å endre koden som benytter DAO for å aksessere
 dataene.
 
 DAO i Yii benytter [PHP Data Objects
-(PDO)](http://php.net/manual/en/book.pdo.php) som er et tillegg til PHP som
+(PDO)](https://php.net/manual/en/book.pdo.php) som er et tillegg til PHP som
 tilbyr et generelt grensesnitt for mange populære databasesystemer slik som
 MySQL og PostgreSQL. Derfor må PDO-tillegget og nødvendige PDO-drivere (for
 eksempel: `PDO_MYSQL`) være installert.
@@ -42,7 +42,7 @@ $connection->active = false;  // lukk tilkoblingen
 Formatet på DSN avhenger av PDO-driveren som benyttes. Generelt inneholder
 DSN navnet på PDO-driveren etterfulgt av kolon etterfulgt av 
 driver-spesifikk syntaks for tilkoblingen. Se [PDO
-dokumentasjonen](http://www.php.net/manual/en/pdo.construct.php) for 
+dokumentasjonen](https://www.php.net/manual/en/pdo.construct.php) for
 komplett informasjon. Her er noen eksempler:
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -175,7 +175,7 @@ catch(Exception $e) // en "exception" kastes dersom en spørring feiler
 Kobling av variable
 -------------------
 
-For å unngå såkalte [SQL-injeksjons angrep](http://en.wikipedia.org/wiki/SQL_injection)
+For å unngå såkalte [SQL-injeksjons angrep](https://en.wikipedia.org/wiki/SQL_injection)
 og for å øke ytelsen på SQL-uttrykk som gjenntas flere ganger kan du "forberede" 
 et SQL-uttrykk med markører som byttes ut med faktiske variable.
 
@@ -211,7 +211,7 @@ er at den første kobler variable med en referanse til en PHP variabel, mens
 den siste med verdien av en PHP variabel. For variable som inneholder 
 store mengder data anbefales det å bruke den første.
 
-For flere detaljer om kobling av variable se [PHP-manualen](http://www.php.net/manual/en/pdostatement.bindparam.php).
+For flere detaljer om kobling av variable se [PHP-manualen](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Kobling av kolonner
 -------------------
