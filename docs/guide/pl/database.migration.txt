@@ -167,7 +167,7 @@ Podczas przeprowadzania migracji przez framework Yii, rozpocznie on transakcję 
 > Note|Uwaga: Nie wszystkie DBMS wspierają transakcje. Również niektóre zapytania nie mogą być umieszczane
 > w ramach transakcji. W takim przypadku będziesz musiał zaimplementować metodę `up()` oraz
 > `down()`. Dla MySQL, część instrukcji SQL może powodować wywołanie
-> [niejawne polecenia COMMIT](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
+> [niejawne polecenia COMMIT](https://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
 
 
 Aplikowanie migracji

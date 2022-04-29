@@ -76,11 +76,11 @@ włączyć cache'owanie schematu bazy danych poprzez skonfigurowanie właściwo�
 
 Wsparcie dla AR jest ograniczone przez DBMS. Aktualnie, tylko następujące DBMS są wspierane:
 
-   - [MySQL 4.1 lub późniejsze](http://www.mysql.com)
-   - [PostgreSQL 7.3 lub późniejsze](http://www.postgres.com)
-   - [SQLite 2 oraz 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 lub nowsze](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [MySQL 4.1 lub późniejsze](https://www.mysql.com)
+   - [PostgreSQL 7.3 lub późniejsze](https://www.postgres.com)
+   - [SQLite 2 oraz 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 lub nowsze](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 Jeśli chcesz używać komponentu aplikacji innego niż `db` lub jeśli chcesz pracować z wieloma 
 bazami danych używając AR, powinieneś nadpisać metodę [CActiveRecord::getDbConnection()]. 

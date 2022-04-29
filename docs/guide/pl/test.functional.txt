@@ -2,8 +2,8 @@ Testy funkcjonalne
 ==================
 
 Zanim przeczytasz ten rozdział, zaleca się abyś przeczytał najpierw
-[dokumentację Selenium](http://seleniumhq.org/docs/) oraz 
-[dokumentację PHPUnit](http://www.phpunit.de/wiki/Documentation).
+[dokumentację Selenium](https://seleniumhq.org/docs/) oraz
+[dokumentację PHPUnit](https://www.phpunit.de/wiki/Documentation).
 W dalszej części streszczamy pokrótce podstawowe zasadu pisania testów funkcjonalnych 
 w Yii.
 
@@ -58,7 +58,7 @@ to ta, że pierwsza używa `test.php` jako pliku konfiguracji aplikacji, gdy dru
 używa `main.php`.
 
 Opiszemy teraz jak przetestować funkcjonalność wyświetlania postów w 
-[demo blogu](http://www.yiiframework.com/demos/blog). Najpierw napiszemy klasę 
+[demo blogu](https://www.yiiframework.com/demos/blog). Najpierw napiszemy klasę
 testującą w następujący sposób, zauważając iż klasa testowa dziedziczy z klasy
 bazowej, którą przed chwilką opisaliśmy:
 

@@ -3,7 +3,7 @@ Używanie rozszerzeń
 
 Używanie rozszerzeń zwykle obejmuje następujące trzy kroki:
 
-  1. Pobranie rozszerzenia z [repozytorium rozszerzeń Yii](http://www.yiiframework.com/extensions/).
+  1. Pobranie rozszerzenia z [repozytorium rozszerzeń Yii](https://www.yiiframework.com/extensions/).
   2. Rozpakowania rozszerzenia do katalogu `extensions/xyz` będącego podkatalogiem 
      [głównego folderu aplikacji](/doc/guide/basics.application#application-base-directory),
      gdzie `xyz` jest nazwą rozszerzenia.
