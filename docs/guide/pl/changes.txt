@@ -81,7 +81,7 @@ Wersja 1.1.0
 
  * [Dodano wsparcie dla prefiksów tabel](/doc/guide/database.dao#using-table-prefix).
  
- * Dodano cały zestaw rozszerzeń nazwanych [biblioteką Zii](http://code.google.com/p/zii/).
+ * Dodano cały zestaw rozszerzeń nazwanych [biblioteką Zii](https://code.google.com/p/zii/).
 
  * Alias nazwy dla tabeli głównej w zapytaniu AR ustalony został jako 't'.
 

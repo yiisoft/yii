@@ -10,7 +10,7 @@ które mogą zostać poprawione by zwiększyć wydajność.
 Włączanie rozszerzenia APC
 ----------------------
 
-Włączenie [rozszerzenia PHP APC](http://www.php.net/manual/en/book.apc.php) jest 
+Włączenie [rozszerzenia PHP APC](https://www.php.net/manual/en/book.apc.php) jest
 prawdopodobnie najłatwiejszym sposobem zwiększenia całkowitej wydajności aplikacji.
 Rozszerzenie to buforuje oraz optymalizuje pośredni kod PHP unikając w ten sposób,
 czasu poświęconego na parsowanie skryptu PHP wraz z każdym nadchodzącym żądaniem.
@@ -28,7 +28,7 @@ może zapisywać dodatkowe informacje dla każdego logowanego komunikatu.
 Używanie `yiilite.php`
 -------------------
 
-Jeśli rozszerzenie PHP [APC](http://www.php.net/manual/en/book.apc.php) jest włączone,
+Jeśli rozszerzenie PHP [APC](https://www.php.net/manual/en/book.apc.php) jest włączone,
 możemy zastąpić `yii.php` innym plikiem inicjalizującym (ang. bootstrap) `yiilite.php` 
 aby później zwiększyć wydajność aplikacji opartych o Yii.
 
@@ -68,8 +68,8 @@ Poza wymienionymi technikami buforowania na poziomie aplikacji, możemy równie�
 z rozwiązań na poziomie serwera w celu poprawienia wydajności aplikacji. 
 [Buforowanie APC](/doc/guide/topics.performance#enabling-apc-extension), które wcześniej opisaliśmy
 bezsprzecznie należy do tej kategorii. Wyróżnia się tutaj inne techniki, między innymi takie jak 
-[Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/),
-[Squid](http://www.squid-cache.org/).
+[Zend Optimizer](https://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/),
+[Squid](https://www.squid-cache.org/).
 
 Optymalizacja bazy danych
 ---------------------
@@ -136,7 +136,7 @@ plików JavaScript w jeden oraz zapisanie go jako `js/all.js`.
 
 Ten sam trik ma zastosowanie dla plików CSS.
 
-Możemy również poprawić prędkość ładowania strony przy pomocy [Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/). 
+Możemy również poprawić prędkość ładowania strony przy pomocy [Google AJAX Libraries API](https://code.google.com/apis/ajaxlibs/).
 Na przykład, możemy załączyć plik `jquery.js` z serwera Google zamiast z naszego własnego. 
 Aby to zrobić, najpierw konfigurujemy właściwość `scriptMap` w następujący sposób,
 

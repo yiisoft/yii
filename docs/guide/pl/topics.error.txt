@@ -12,8 +12,8 @@ odpowiednią procedurę kontroli błędów.
 
 
 > Tip|Wskazówka: Rejestracja kontrolerów błędów następuje w konstruktorze aplikacji poprzez 
-wywołanie funkcji PHP [set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php)
-oraz [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php).
+wywołanie funkcji PHP [set_exception_handler](https://www.php.net/manual/en/function.set-exception-handler.php)
+oraz [set_error_handler](https://www.php.net/manual/en/function.set-error-handler.php).
 Jeśli nie chcesz by Yii zarządzało błędami i wyjątkami, musisz zdefiniować zmienną
 `YII_ENABLE_ERROR_HANDLER` oraz `YII_ENABLE_EXCEPTION_HANDLER` i przypisać jej wartość false w 
 [skrypcie wejściowym](/doc/guide/basics.entry).
