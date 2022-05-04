@@ -129,7 +129,7 @@ aliases (apelidos) predefinidos:
 [CBooleanValidator::trueValue] ou [CBooleanValidator::falseValue].
 
    - `captcha`: alias para [CCapthcaValidator], garante que o atributo é igual ao código 
-de verificação exibido em um [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
+de verificação exibido em um [CAPTCHA](https://en.wikipedia.org/wiki/Captcha).
 
    - `compare`: alias para [CCompareValidator], garante que o atributo é igual a outro
 atributo ou a uma constante.

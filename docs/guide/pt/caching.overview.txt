@@ -37,11 +37,11 @@ o componente [CApcCache] encapsula a extensão APC; e o componente [CDbCache]
 armazena os dados do cache em um banco de dados. Abaixo temos um resumo dos 
 componentes de cache disponíveis:
 
-   - [CMemCache]: utiliza a extensão PHP [memcache](http://www.php.net/manual/en/book.memcache.php).
+   - [CMemCache]: utiliza a extensão PHP [memcache](https://www.php.net/manual/en/book.memcache.php).
    
-   - [CApcCache]: utiliza a extensão PHP [APC](http://www.php.net/manual/en/book.apc.php).
+   - [CApcCache]: utiliza a extensão PHP [APC](https://www.php.net/manual/en/book.apc.php).
    
-   - [CXCache]: utiliza a extensão PHP [XCache](http://xcache.lighttpd.net/).
+   - [CXCache]: utiliza a extensão PHP [XCache](https://xcache.lighttpd.net/).
 Nota: esse componente está disponível a partir da versão 1.0.1.
 
    - [CEAcceleratorCache]: utiliza a extensão PHP [EAccelerator](http://eaccelerator.net/).
