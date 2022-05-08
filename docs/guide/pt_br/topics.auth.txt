@@ -110,7 +110,7 @@ Login baseado em Cookie
 -----------------------
 
 Por padrão, um usuário será desconectado após determinado período de inatividade,
-que depende da [configuração da sessão](http://www.php.net/manual/en/session.configuration.php).
+que depende da [configuração da sessão](https://www.php.net/manual/en/session.configuration.php).
 Para alterar este comportamento, podemos setar a propriedade [allowAutoLogin|CWebUser::allowAutoLogin]
 do componente de usuário para verdadeiro (true) e passar o parâmetro duração para
 o método [CWebUser::login]. O usuário permanecerá conectado para a
@@ -329,7 +329,7 @@ Controle de Acesso Baseado em Papéis
 
 Controle de Acesso Baseado em Papéis (Role-Based Access Control - RBAC) provê um simples porém poderoso
 controle de acesso centralizado. Por favor, consulte o [Artigo Wiki]
-(http://en.wikipedia.org/wiki/Role-based_access_control) para mais detalhes
+(https://en.wikipedia.org/wiki/Role-based_access_control) para mais detalhes
 sobre a comparação do RBAC com outras formas de controle de acesso mais tradicionais.
 
 O Yii implementa o esquema de hierarquia RBAC através de seu

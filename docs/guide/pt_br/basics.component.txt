@@ -122,7 +122,7 @@ para isso altere o valor de [$event->handled|CEvent::handled] para `true`.
 Comportamento de um Componente
 ------------------------------
 
-A partir da versão 1.0.2, os componentes passaram a suportar [mixin](http://en.wikipedia.org/wiki/Mixin), 
+A partir da versão 1.0.2, os componentes passaram a suportar [mixin](https://en.wikipedia.org/wiki/Mixin),
 e, portanto, ganharam a possibilidade de receber um ou mais comportamentos. Um *comportamento* (behavior) 
 é um objeto cujo os métodos podem ser "herdados" pela classe que o anexou, com a finalidade de 
 coleta de funcionalidades em vez de especialização (por exemplo, a herança normal de classes). 

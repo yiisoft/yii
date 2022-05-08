@@ -79,7 +79,7 @@ Versão 1.1.0
 
  * [Adicionado suporte para uso de prefix em tabelas](/doc/guide/database.dao#using-table-prefix).
 
- * Adicionado um conjunto de novas extensões conhecido como o [Zii library](http://code.google.com/p/zii/).
+ * Adicionado um conjunto de novas extensões conhecido como o [Zii library](https://code.google.com/p/zii/).
 
  * O nome do alias para a tabela principal em uma consulta AR é fixado para ser 't'.
 
