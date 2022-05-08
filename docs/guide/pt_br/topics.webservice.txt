@@ -1,27 +1,27 @@
 Web Service
 ===========
 
-[Web service](http://pt.wikipedia.org/wiki/Web_service) é um sistema
+[Web service](https://pt.wikipedia.org/wiki/Web_service) é um sistema
 de software projetado para suportar interações máquina-máquina
 interoperáveis através de uma rede. No contexto de aplicações Web
 geralmente refere-se a um conjunto de APIs que podem ser acessadas
 através da Internet e executadas em um sistema remoto que hospeda
 o serviço solicitado. Por exemplo, um cliente baseado em
-[Flex](http://www.adobe.com/products/flex/), poderá chamar uma função
+[Flex](https://www.adobe.com/products/flex/), poderá chamar uma função
 implementada no lado do servidor rodando uma aplicação Web baseada em
-PHP. Web Service se baseia em [SOAP](http://pt.wikipedia.org/wiki/SOAP)
+PHP. Web Service se baseia em [SOAP](https://pt.wikipedia.org/wiki/SOAP)
 como a camada principal da pilha de protocolo de comunicação.
 
 O Yii fornece as classes [CWebService] e [CWebServiceAction] para simplificar o trabalho
 de implementação de Web Service em uma aplicação Web. As APIs são agrupadas
 dentro de classes chamadas de *prestadores de serviço*. O Yii irá gerar para
-cada classe uma especificação [WSDL](http://www.w3.org/TR/wsdl) que descreve
+cada classe uma especificação [WSDL](https://www.w3.org/TR/wsdl) que descreve
 quais APIs estão disponíveis e como elas devem ser chamadas pelo cliente.
 Quando uma API é chamada por um cliente, o Yii irá instanciar o prestador de
 serviço correspondente e chamar a API requisitada para executar a requisição.
 
 > Note|Nota: A classe [CWebService] é depende da [Extensão PHP
-SOAP](http://www.php.net/manual/en/ref.soap.php). Tenha certeza que
+SOAP](https://www.php.net/manual/en/ref.soap.php). Tenha certeza que
 você possui ela habilitada antes de testar os exemplos disponíveis
 nesta seção.
 
@@ -30,8 +30,8 @@ Definindo um Prestador de Serviço
 
 Como mencionado acima, o prestador de serviços é uma classe que define os
 métodos que podem ser chamados remotamente. O Yii se baseia em [comentários
-de documentação](http://java.sun.com/j2se/javadoc/writingdoccomments/) e
-[reflexão de classes](http://php.net/manual/en/book.reflection.php) para
+de documentação](https://java.sun.com/j2se/javadoc/writingdoccomments/) e
+[reflexão de classes](https://php.net/manual/en/book.reflection.php) para
 identificar quais métodos podem ser chamados remotamente e quais são os seus
 parâmetros e valores retornados.
 

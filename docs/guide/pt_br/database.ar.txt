@@ -76,11 +76,11 @@ os analisando. Se o schema do seu banco de dados não irá sofrer alterações,
 O suporte para AR é limitado pelo Sistema de Gerenciamento de Banco de Dados. 
 Atualmente, somente os seguintes SGBDs são suportados:
 
-   - [MySQL 4.1 ou maior](http://www.mysql.com)
-   - [PostgreSQL 7.3 ou maior](http://www.postgres.com)
-   - [SQLite 2 e 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 ou maior](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [MySQL 4.1 ou maior](https://www.mysql.com)
+   - [PostgreSQL 7.3 ou maior](https://www.postgres.com)
+   - [SQLite 2 e 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 ou maior](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 > Note|Nota: O suporte ao Microsoft SQL Server existe desde a versão 1.0.4; já 
 o suporte ao Oracle está disponível a partir da versão 1.0.5.

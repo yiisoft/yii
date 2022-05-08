@@ -8,15 +8,15 @@ frequentemente encontram problemas de nomenclatura de classes e inclusão de
 arquivos. Uma vez que todas as classes do Yii são prefixadas com a letra`C`,
 é menos provável que um problema de nomenclatura de classes ocorra; e já que o
 Yii confia no
-[autoload da SPL](http://us3.php.net/manual/en/function.spl-autoload.php)
+[autoload da SPL](https://us3.php.net/manual/en/function.spl-autoload.php)
 para realizar a inclusão de arquivos de classes, ele pode funcionar bem com
 outras bibliotecas se elas usam a mesma funcionalidade de auto-carregamento ou
 o caminho de inclusão do PHP para incluir os arquivos de classes.
 
 
 A seguir usamos um exemplo para ilustrar como utilizar o componente
-[Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-do [Zend framework](http://www.zendframework.com) em uma aplicação Yii.
+[Zend_Search_Lucene](https://www.zendframework.com/manual/en/zend.search.lucene.html)
+do [Zend framework](https://www.zendframework.com) em uma aplicação Yii.
 
 Primeiramente, extraímos o arquivo do Zend Framework em um diretório em
 `protected/vendors`, assumindo que `protected` é o

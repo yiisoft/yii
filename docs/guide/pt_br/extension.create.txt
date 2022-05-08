@@ -123,7 +123,7 @@ métodos: [CWidget::init] e [CWidget::run]. O primeiro método é chamado quando
 usamos `$this->beginWidget` para inserir um widget na visão, e o segundo método
 é invocado quando chamamos `$this->endWidget`. Se quisermos capturar e processar
 o conteúdo exibido entre estas duas chamadas de métodos, podemos iniciar o
-[buffer de saída](http://us3.php.net/manual/en/book.outcontrol.php)
+[buffer de saída](https://us3.php.net/manual/en/book.outcontrol.php)
 em [CWidget::init] e obter a saída do buffer em [CWidget::run] para posterior
 processamento.
 
