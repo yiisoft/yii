@@ -6,7 +6,7 @@ datelor stocate in diverse DBMS (Sisteme de Management Baze de Date).
 Ca urmare, DBMS-ul poate fi schimbat oricand cu altul, fara sa fie nevoie
 sa schimbam codul nostru in care folosim DAO sa accesam datele. 
 
-Yii DAO este construit pe baza [PDO](http://php.net/manual/en/book.pdo.php) (obiecte date PHP)
+Yii DAO este construit pe baza [PDO](https://php.net/manual/en/book.pdo.php) (obiecte date PHP)
 care este o extensie PHP ce pune la dispozitie accesul unificat la date stocate
 in diverse DBMS cunoscute, precum MySQL si PostgreSQL. De aceea, pentru a folosi
 Yii DAO, trebuie instalate extensia PDO si driverul PDO de baze de date specific 
@@ -43,7 +43,7 @@ $connection->active=false;  // inchidere conexiune
 Formatul DSN-ului depinde de driverul PDO folosit. In general,
 DSN este format din numele driver-ului PDO, urmat de semnul `:`, urmat de sintaxa
 conexiunii specifice driver-ului. Pentru informatii complete, trebuie vazuta
-[documentatia PDO](http://www.php.net/manual/en/pdo.construct.php). 
+[documentatia PDO](https://www.php.net/manual/en/pdo.construct.php).
 Mai jos este o lista de format-uri obisnuite pentru DSN:
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -171,7 +171,7 @@ catch(Exception $e) // daca o cerere esueaza, este generata o exceptie
 Conectarea de parametri (Binding)
 ---------------------------------
 
-Pentru a evita [atacurile SQL injection] (http://en.wikipedia.org/wiki/SQL_injection) si pentru a
+Pentru a evita [atacurile SQL injection] (https://en.wikipedia.org/wiki/SQL_injection) si pentru a
 imbunatati performanta executiilor cererilor SQL folosite des, putem "prepara"
 o instructiune SQL cu placeholder-e de parametri optionali care vor fi inlocuiti
 cu parametrii reali in timpul procesului de conectare de parametri.
@@ -208,7 +208,7 @@ un parametru cu o valoare. Pentru parametri care reprezinta blocuri mai de date 
 sa folosim [bindParam()|CDbCommand::bindParam] din considerente de perfomanta.
 
 Pentru mai multe detalii despre conectarea de parametrii, trebuie vazuta 
-[sectiunea din documentatia PHP](http://www.php.net/manual/en/pdostatement.bindparam.php).
+[sectiunea din documentatia PHP](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Conectarea coloanelor (Binding)
 -------------------------------

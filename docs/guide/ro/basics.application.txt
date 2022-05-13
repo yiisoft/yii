@@ -63,7 +63,7 @@ in acelasi director cu fisierul php accesibil clientilor. Totusi, poate fi schim
 prin proprietatea [basePath|CWebApplication::basePath] din [configuratia aplicatiei](#application-configuration).
 
 Tot ce este in acest director special ar trebui protejat fata de orice client WEB.
-Cu [Apache HTTP server](http://httpd.apache.org/) protectia se face foarte simplu printr-un fisier
+Cu [Apache HTTP server](https://httpd.apache.org/) protectia se face foarte simplu printr-un fisier
 `.htaccess` pus in acest director. Continutul fisierului `.htaccess` este: 
 
 ~~~

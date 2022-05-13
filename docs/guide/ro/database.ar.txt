@@ -72,9 +72,9 @@ prin configurarea proprietatii [CDbConnection::schemaCachingDuration] cu o valoa
 
 Suportul pentru AR este limitat de catre DBMS. In acest moment, au suport doar urmatoarele DBMS:
 
-   - [MySQL 4.1 sau mai nou](http://www.mysql.com)
-   - [PostgreSQL 7.3 sau mai nou](http://www.postgres.com)
-   - [SQLite 2 sau 3](http://www.sqlite.org)
+   - [MySQL 4.1 sau mai nou](https://www.mysql.com)
+   - [PostgreSQL 7.3 sau mai nou](https://www.postgres.com)
+   - [SQLite 2 sau 3](https://www.sqlite.org)
 
 Daca vrem sa folosim o alta componenta decat `db`, sau daca vrem sa lucram
 cu mai multe baze de date folosind AR, atunci ar trebui sa suprascriem
