@@ -3,7 +3,7 @@ Folosirea extensiilor
 
 Folosirea unei extensii implica urmatorii trei pasi:
 
-  1. Descarcarea extensiei din [depozitul de extensii](http://www.yiiframework.com/extensions/) de pe site-ul Yii.
+  1. Descarcarea extensiei din [depozitul de extensii](https://www.yiiframework.com/extensions/) de pe site-ul Yii.
   2. Dezarhivarea extensiei in subdirectorul `extensions/xyz` din
      [directorul de baza al aplicatiei](/doc/guide/basics.application#application-base-directory),
      unde `xyz` este numele extensiei.

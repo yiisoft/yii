@@ -78,7 +78,7 @@ Pentru a crea un nou widget de la zero, in principal trebuie sa implementam doua
 [CWidget::init] si [CWidget::run]. Prima metoda este apelata atunci cand folosim
 `$this->beginWidget` pentru a insera un widget intr-un view. A doua metoda este apelata atunci cand
 apelam `$this->endWidget`. Daca vrem sa capturam si sa procesam continutul afisat intre aceste doua
-apeluri de metode, putem porni [output buffering](http://us3.php.net/manual/en/book.outcontrol.php)
+apeluri de metode, putem porni [output buffering](https://us3.php.net/manual/en/book.outcontrol.php)
 in [CWidget::init] si in [CWidget::run] sa extragem output-ul memorat pentru procesare ulterioara.
 
 Cand folosim un widget, de obicei trebuie sa includem CSS-ul, javascript-ul sau alte fisiere
