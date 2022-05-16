@@ -10,7 +10,7 @@
 Включение расширения APC
 ------------------------
 
-Включение [расширения PHP APC](http://php.net/manual/en/book.apc.php) —
+Включение [расширения PHP APC](https://php.net/manual/en/book.apc.php) —
 возможно, самый простой способ улучшить общую производительность приложения.
 Расширение оптимизирует и кэширует промежуточный код PHP и выигрывает время,
 затрачиваемое на интерпретацию скриптов PHP при каждом запросе.
@@ -28,7 +28,7 @@
 Использование `yiilite.php`
 ---------------------------
 
-Если используется [расширение PHP APC](http://php.net/manual/en/book.apc.php),
+Если используется [расширение PHP APC](https://php.net/manual/en/book.apc.php),
 мы можем заменить `yii.php` другим загрузчиком — `yiilite.php`. Это даст приложению
 ещё больший прирост производительности.
 
@@ -64,7 +64,7 @@
 сервера. Описанное выше
 [кэширование APC](/doc/guide/topics.performance#enabling-apc-extension) относится
 как раз к ним. Существуют и другие решения, такие как
-[Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/)
+[Zend Optimizer](https://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/)
 и [Squid](http://www.squid-cache.org/).
 
 Оптимизация базы данных
@@ -132,7 +132,7 @@ JavaScript в один файл и записать результат в `js/al
 То же относится и к файлам CSS.
 
 Увеличить скорость загрузки страницы можно также при помощи
-[Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/). К примеру,
+[Google AJAX Libraries API](https://code.google.com/apis/ajaxlibs/). К примеру,
 мы можем подключить `jquery.js` с серверов Google вместо того, чтобы использовать
 свой сервер. Для того, чтобы это сделать нужно настроить `scriptMap` следующим
 образом:
@@ -169,7 +169,7 @@ $cs->scriptMap=array(
 --------------------------------------------
 
 Если ваш проект интенсивно использует ресурсы, то вы можете увеличить его производительность
-посредством [символьных ссылок](http://ru.wikipedia.org/wiki/Символьная_ссылка)
+посредством [символьных ссылок](https://ru.wikipedia.org/wiki/Символьная_ссылка)
 вместо стандартного копирования файлов. Для того, чтобы включить их вам нужно задать
 свойство [linkAssets|CAssetManager::linkAssets] компонента приложения `assetManager`
 используя конфигурационный файл `protected/config/main.php`:

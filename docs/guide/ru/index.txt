@@ -6,8 +6,8 @@
 Переводчики
 -----------
 - Константин Мирин, Konstantin Mirin ([programmersnotes.info](http://programmersnotes.info/))
-- Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
-- Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))
+- Александр Макаров, Sam Dark ([rmcreative.ru](https://rmcreative.ru/))
+- Алексей Лукьяненко, Caveman ([caveman.ru](https://caveman.ru/))
 - Евгений Халецкий, xenon
 - Александр Овчинников, multif
 - Сергей Кузнецов, cr0t ([summercode.ru](http://summercode.ru/))

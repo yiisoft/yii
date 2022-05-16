@@ -69,12 +69,12 @@ return array(
 
 В настоящий момент AR поддерживает следующие СУБД:
 
-   - [MySQL 4.1 и выше](http://www.mysql.com)
+   - [MySQL 4.1 и выше](https://www.mysql.com)
    - [MariaDB](https://mariadb.com)
-   - [PostgreSQL 7.3 и выше](http://www.postgres.com)
-   - [SQLite 2 и 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 и выше](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [PostgreSQL 7.3 и выше](https://www.postgres.com)
+   - [SQLite 2 и 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 и выше](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 Если вы хотите использовать другой компонент вместо `db` или предполагаете,
 используя AR, работать с несколькими БД, то следует переопределить метод
