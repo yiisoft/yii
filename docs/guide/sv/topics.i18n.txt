@@ -37,7 +37,7 @@ Givet ett locale-ID, kan man erhålla motsvarande [CLocale]-instans genom
 `CLocale::getInstance($localeID)` eller `CApplication::getLocale($localeID)`.
 
 > Info: Yii kommer med locale-data för nästan varje språk och region. Dessa data 
-erhålls från [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). 
+erhålls från [Common Locale Data Repository](https://unicode.org/cldr/) (CLDR).
 För varje locale används endast en delmängd av data CLDR tillhandahåller, 
 eftersom originaldata även omfattar mycket sällan använd information. 
 Användare kan även tillfoga sitt eget anpassade locale-data. För att göra detta, 
@@ -117,7 +117,7 @@ Yii kommer med följande typer av meddelandekällor. Man kan även ärva och utv
    [basePath|CPhpMessageSource::basePath].
 
    - [CGettextMessageSource]: översättningarna av meddelanden lagras som [GNU 
-   Gettext](http://www.gnu.org/software/gettext/)-filer.
+   Gettext](https://www.gnu.org/software/gettext/)-filer.
 
    - [CDbMessageSource]: översättningarna av meddelanden lagras i 
    databastabeller. För fler detaljer, se API-dokumentationen för 
@@ -290,7 +290,7 @@ blir resultatet
  
 
 > Info: För detaljer om hur många värden som skall lämnas med och i vilken ordning, 
-vänligen se CLDR [Language Plural Rules page](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#sv).
+vänligen se CLDR [Language Plural Rules page](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#sv).
 
 ### Översättning av fil
 

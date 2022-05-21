@@ -3,7 +3,7 @@ Installation
 
 Installation av Yii omfattar vanligtvis följande två steg:
 
-   1. Ladda ned Yii-ramverket från [yiiframework.com](http://www.yiiframework.com/).
+   1. Ladda ned Yii-ramverket från [yiiframework.com](https://www.yiiframework.com/).
    2. Extrahera Yii:s distributionsfil till en katalog som är tillgänglig för webbanvändare.
 
 > Tip|Tips: Yii behöver inte installeras i en katalog med webbåtkomst. En Yii-
@@ -23,7 +23,7 @@ http://hostname/path/to/yii/requirements/index.php
 ~~~
 
 Yii kräver PHP 5.1, så  servern måste ha PHP 5.1 eller senare installerad 
-och åtkomlig för webbservern. Yii har testats med [Apache HTTP-server](http://httpd.apache.org/) 
+och åtkomlig för webbservern. Yii har testats med [Apache HTTP-server](https://httpd.apache.org/)
 på Windows och Linux. Det bör även gå att köra på andra webbservrar och plattformar, 
 förutsatt att PHP 5.1 stöds.
 
