@@ -304,7 +304,7 @@ konfigurerar webbservern såväl som applikationskomponenten
 [urlManager|CWebApplication::urlManager].
 
 Webbservern behöver konfigureras så att URL:en utan startskriptdelen fortfarande 
-kommer att hanteras av startskriptet. För [Apache HTTP-server](http://httpd.apache.org/), 
+kommer att hanteras av startskriptet. För [Apache HTTP-server](https://httpd.apache.org/),
 kan detta åstadkommas genom att slå på URL rewriting engine och 
 specificera några rewriting-regler. Vi t ex kan skapa filen 
 `/wwwroot/blog/.htaccess` med nedanstående innehåll.

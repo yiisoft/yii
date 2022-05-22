@@ -112,7 +112,7 @@ Med hjälp av datacachning lagrar frågecachning resultatet av en DB-fråga
 och kan på så vis spara exekveringstid i databasen för en fråga som upprepas senare, 
 eftersom den kan hämtas direkt från cache.
 
-> Info: Vissa DBMS (t.ex. [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
+> Info: Vissa DBMS (t.ex. [MySQL](https://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
 > stöder även frågecachning i databasservern. Jämfört med denna frågecachning i server, är
 > finessen som avhandlas här mer flexibel samt har potential att vara mer effektiv.
 

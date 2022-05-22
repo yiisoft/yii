@@ -4,7 +4,7 @@ Använda Utvidgning
 Användning av en utvidgning involverar vanligtvis följande tre steg:
 
   1. Ladda ned utvidgningen från Yii:s 
-  [förråd av utvidgningar](http://www.yiiframework.com/extensions/).
+  [förråd av utvidgningar](https://www.yiiframework.com/extensions/).
      
   2. Packa upp utvidgningen i underkatalogen `extensions/xyz` till
      [applikationens rotkatalog](/doc/guide/basics.application#application-base-directory),

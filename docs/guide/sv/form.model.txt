@@ -133,7 +133,7 @@ aliasnamn:
 
    - `captcha`: alias för [CCaptchaValidator], garanterar att attributet 
    överensstämmer med verifieringskoden som visades i 
-   [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
+   [CAPTCHA](https://en.wikipedia.org/wiki/Captcha).
 
    - `compare`: alias för [CCompareValidator], garanterar att attributet har 
    samma värde som ett annat attribut eller en konstant.
