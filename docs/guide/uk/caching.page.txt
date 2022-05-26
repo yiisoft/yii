@@ -53,17 +53,17 @@ public function filters()
 > Tip|Підказка: Обидва, [CHttpCacheFilter::lastModifiedExpression] та 
 [CHttpCacheFilter::lastModified] можуть бути цілим числом, яке представляє Unix timestamp, або довільним рядком, 
 що представляє *зрозумілу* дату. 
-До тих пір, поки значення можливо розібрати через [strtotime()](http://php.net/manual/function.strtotime.php), 
+До тих пір, поки значення можливо розібрати через [strtotime()](https://php.net/manual/function.strtotime.php),
 ніяка додаткова конвертація не потрібна.
 
 Заголовок "Entity Tag" (або скорочено `ETag`) може бути встановлений таким же чином, через [CHttpCacheFilter::etagSeed] та
 [CHttpCacheFilter::etagSeedExpression], відповідно.
 Обидва будуть серіалізовані (так що ви зможете використовувати або одне значення, або весь масив) і використовуються для генерації base64-кодованого SHA1 хеша в лапках, який виступає у якості контенту для заголовка `ETag`.
-Це відрізняється від того, як [веб-сервер Apache](http://httpd.apache.org) та інші створюють свої ETags. 
+Це відрізняється від того, як [веб-сервер Apache](https://httpd.apache.org) та інші створюють свої ETags.
 Однак, цей метод цілком відповідає вимогам RFC і виявився більш прийнятним для використання у framework.
 
 > Note|Примітка: Для того, щоб відповідати
-[RFC 2616, розділу 13.3.4](http://tools.ietf.org/html/rfc2616#section-13.3.4),
+[RFC 2616, розділу 13.3.4](https://tools.ietf.org/html/rfc2616#section-13.3.4),
 [CHttpCacheFilter] буде надсилати заголовки `ETag` та `Last-Modified`, якщо вони обидва можуть бути згенеровані.
 Відтак, вони обидва будуть використовуватися для перевірки кешу при відправці клієнту.
 

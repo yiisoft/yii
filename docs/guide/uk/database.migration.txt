@@ -180,7 +180,7 @@ Yii при застосуванні міграції почне транзакц
 > Note|Примітка: Не всі СУБД повністю підтримують транзакції і не для всіх виразів. У тому випадку,
 якщо підтримки транзакцій немає, реалізовувати треба `up()` і `down()`.
 У разі MySQL та MariaDB, деякі вирази SQL можуть викликати неявне застосування транзакції
-(детальніше про це у документації до [MySQL](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html)
+(детальніше про це у документації до [MySQL](https://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html)
 та [MariaDB](https://mariadb.com/kb/en/sql-statements-that-cause-an-implicit-commit/)).
 
 Застосування міграцій

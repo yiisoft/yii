@@ -3,7 +3,7 @@
 
 Для встановлення Yii, як правило, необхідно виконати два кроки:
 
-   1. Завантажити Yii Framework з [yiiframework.com](http://www.yiiframework.com/);
+   1. Завантажити Yii Framework з [yiiframework.com](https://www.yiiframework.com/);
    2. Розпакувати реліз Yii в директорію, доступну із веб.
 
 > Tip|Підказка: Насправді, Yii містить [вхідний скрипт](/doc/guide/basics.entry),
@@ -23,5 +23,5 @@ http://hostname/path/to/yii/requirements/index.php
 ~~~
 
 Для роботи Yii вимагає як мінімум PHP 5.1. Yii тестувалася на
-[Apache HTTP server](http://httpd.apache.org/) під Windows та Linux, але може
+[Apache HTTP server](https://httpd.apache.org/) під Windows та Linux, але може
 працювати також і на інших веб-серверах та платформах із підтримкою PHP 5.1.

@@ -7,13 +7,13 @@ Yii спочатку спроектований таким чином, щоб в
 з проблемами іменування класів і підключення файлів. Оскільки всі класи Yii мають префікс `C`,
 то ймовірність виникнення конфліктів імен істотно нижче.
 А завдяки тому, що для підключення файлів Yii використовує
-[автозавантаження SPL](http://php.net/manual/en/function.spl-autoload.php),
+[автозавантаження SPL](https://php.net/manual/en/function.spl-autoload.php),
 робота з бібліотеками, що використовують для підключення файлів класів цей механізм
 автозавантаження або ж відносний шлях підключення в РНР (PHP include path), стає істотно приємніше.
 
 Нижче наведено приклад, що ілюструє використання в Yii-додатку компонента
-[Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-із [Zend framework](http://www.zendframework.com).
+[Zend_Search_Lucene](https://www.zendframework.com/manual/en/zend.search.lucene.html)
+із [Zend framework](https://www.zendframework.com).
 
 Насамперед, розпаковуємо реліз з Zend framework в папку `protected/vendors`,
 де `protected` — це [базова директорія додатку](/doc/guide/basics.application#application-base-directory).
