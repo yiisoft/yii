@@ -9,8 +9,8 @@ Yii надає повноцінний функціонал обробки пом
 і запустить необхідну процедуру обробки помилок.
 
 > Tip|Підказка: Реєстрація обробників помилок здійснюється у конструкторі додатка шляхом виклику функцій РНР
-[set_exception_handler](http://php.net/manual/en/function.set-exception-handler.php) та
-[set_error_handler](http://php.net/manual/en/function.set-error-handler.php).
+[set_exception_handler](https://php.net/manual/en/function.set-exception-handler.php) та
+[set_error_handler](https://php.net/manual/en/function.set-error-handler.php).
 Якщо ви не хочете, щоб Yii обробляв помилки і винятки, у [вхідному скрипті](/doc/guide/basics.entry)
 встановіть значення *false* константам `YII_ENABLE_ERROR_HANDLER` та `YII_ENABLE_EXCEPTION_HANDLER`.
 
