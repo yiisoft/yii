@@ -102,7 +102,7 @@ $component->onClicked=function($event) {
 组件行为
 ------------------
 
-从版本 1.0.2 开始，组件已添加了对 [mixin](http://en.wikipedia.org/wiki/Mixin) 的支持，并可以绑定一个或多个行为。
+从版本 1.0.2 开始，组件已添加了对 [mixin](https://en.wikipedia.org/wiki/Mixin) 的支持，并可以绑定一个或多个行为。
 *行为* 是一个对象，其方法可以被它绑定的部件通过收集功能的方式来实现 `继承（inherited）`，
 而不是专有化继承(即普通的类继承).一个部件可以以'多重继承'的方式实现多个行为的绑定.
 

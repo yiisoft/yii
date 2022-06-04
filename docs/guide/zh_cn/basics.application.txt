@@ -54,7 +54,7 @@ $app=Yii::createWebApplication($configFile);
 中的 [basePath|CWebApplication::basePath] 属性自定义。
 
 在应用基础目录下的内容应该保护起来防止网站访客直接访问。对于 [Apache HTTP
-服务器](http://httpd.apache.org/), 这可以通过在基础目录中放置一个 `.htaccess`
+服务器](https://httpd.apache.org/), 这可以通过在基础目录中放置一个 `.htaccess`
 文件很简单的实现。 `.htaccess` 内容如下：
 
 ~~~
