@@ -111,7 +111,7 @@ public function ValidatorName($attribute,$params) { ... }
    - `boolean`: [CBooleanValidator] 的别名， 确保特性有一个 [CBooleanValidator::trueValue] 或
 [CBooleanValidator::falseValue] 值。
 
-   - `captcha`: [CCaptchaValidator] 的别名，确保特性值等于 [CAPTCHA](http://en.wikipedia.org/wiki/Captcha) 中显示的验证码。
+   - `captcha`: [CCaptchaValidator] 的别名，确保特性值等于 [CAPTCHA](https://en.wikipedia.org/wiki/Captcha) 中显示的验证码。
 
    - `compare`: [CCompareValidator] 的别名，确保特性等于另一个特性或常量。
    
