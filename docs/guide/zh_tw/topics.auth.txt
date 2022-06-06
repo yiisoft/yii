@@ -65,8 +65,8 @@ class UserIdentity extends CUserIdentity
 
 延伸閱讀＞
 
-- [PHP `crypt()` function](http://php.net/manual/en/function.crypt.php)
-- Yii 維基文章 [Use crypt() for password storage](http://www.yiiframework.com/wiki/425)
+- [PHP `crypt()` function](https://php.net/manual/en/function.crypt.php)
+- Yii 維基文章 [Use crypt() for password storage](httsp://www.yiiframework.com/wiki/425)
 
 
 登入和登出
@@ -95,7 +95,7 @@ Yii::app()->user->logout();
 基於 Cookie 的登入
 ------------------
 
-預設情況下，使用者將在 [session configuration](http://www.php.net/manual/en/session.configuration.php)一段時間沒有活動後登出。設置使用者元件的 [allowAutoLogin|CWebUser::allowAutoLogin] 屬性為 true 和在 [CWebUser::login] 方法中設置一個時間參數來改變這個行為。即使使用者關閉瀏覽器，此使用者將保留使用者登入狀態時間為被設置的時間之久。前提是使用者的瀏覽器接受 cookies。
+預設情況下，使用者將在 [session configuration](https://www.php.net/manual/en/session.configuration.php)一段時間沒有活動後登出。設置使用者元件的 [allowAutoLogin|CWebUser::allowAutoLogin] 屬性為 true 和在 [CWebUser::login] 方法中設置一個時間參數來改變這個行為。即使使用者關閉瀏覽器，此使用者將保留使用者登入狀態時間為被設置的時間之久。前提是使用者的瀏覽器接受 cookies。
 
 ~~~
 [php]
@@ -247,7 +247,7 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 基於角色的存取控制
 -------------------------
 
-基於角色的存取控制提供了一種簡單而又強大的集中存取控制。請參閱 [維基文章](http://en.wikipedia.org/wiki/Role-based_access_control) 瞭解更多詳細的 RBAC 與其它較傳統的存取控制模式的比較。
+基於角色的存取控制提供了一種簡單而又強大的集中存取控制。請參閱 [維基文章](https://en.wikipedia.org/wiki/Role-based_access_control) 瞭解更多詳細的 RBAC 與其它較傳統的存取控制模式的比較。
 
 Yii 透過其 [authManager|CWebApplication::authManager] 元件實現了分等級的 RBAC 架構。在下文中，我們將首先介紹在此架構中用到的主要概念。然後講解怎樣定義用於授權的資料。最後，我們看看如何利用這些授權資料執行存取檢查。
 

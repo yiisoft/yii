@@ -3,8 +3,8 @@
 
 Yii 提供了一個完整的，基於 PHP5 例外處理的錯誤處理機制。當一個應用程式開始運行，進行使用者請求的處理的時候，會註冊 [handleError|CApplication::handleError] 方法來處理 PHP warnings 和 notices 訊息；同時也註冊 [handleException|CApplication::handleException] 方法來處理未被捕獲的 PHP 例外。因此，如果在應用程式運行期間出現一個 PHP warning/notice 或者一個未捕獲的 PHP 例外，錯誤處理器就會接過控制權來運行必要的處理機制。
 
-> Tip|提示: 錯誤處理器的註冊是在應用程式中的建構器方法中進行的，使用了 PHP 函數[set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php) 
-和 [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php)。
+> Tip|提示: 錯誤處理器的註冊是在應用程式中的建構器方法中進行的，使用了 PHP 函數[set_exception_handler](https://www.php.net/manual/en/function.set-exception-handler.php)
+和 [set_error_handler](https://www.php.net/manual/en/function.set-error-handler.php)。
 如果你不想讓 Yii 來處理錯誤和例外，你可以在[入口腳本](/doc/guide/basics.entry)中定義 `YII_ENABLE_ERROR_HANDLER` 和 `YII_ENABLE_EXCEPTION_HANDLER` 為false.
 
 預設情況下，在觸發 [onError|CApplication::onError] 事件（或[onException|CApplication::onException]事件）的時候，[errorHandler|CApplication::errorHandler]（或[exceptionHandler|CApplication::exceptionHandler]）將被觸發。如果錯誤或者例外未被任何事件所處理，那麼就需要運行 [errorHandler|CErrorHandler] 元件來處理了。
