@@ -88,7 +88,7 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 
 從版本 1.1.7，Yii 開始支援查詢快取。建立在資料快取上，查詢快取儲存資料庫查詢的結果在快取中，藉此省下未來同樣的資料庫查詢要求的時間，直接由快取提供。
 
-> Info|提示: 某些資料庫（例如：[MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html)）也支援查詢快取的功能。跟 MySQL 相比，Yii 提供更有彈性且更有效率的查詢快取。
+> Info|提示: 某些資料庫（例如：[MySQL](https://dev.mysql.com/doc/refman/5.1/en/query-cache.html)）也支援查詢快取的功能。跟 MySQL 相比，Yii 提供更有彈性且更有效率的查詢快取。
 
 
 ### 啟用查詢快取

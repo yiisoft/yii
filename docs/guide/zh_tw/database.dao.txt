@@ -5,7 +5,7 @@
 因此，在將底層 DBMS 更換為另一個時，無需修改使用了 DAO 存取資料的程式碼。
 
 Yii DAO 基於 [PHP Data Objects
-(PDO)](http://php.net/manual/en/book.pdo.php) 構建。它是一個為眾多流行的 DBMS 提供統一資料存取的擴充，這些 DBMS 包括 MySQL，
+(PDO)](https://php.net/manual/en/book.pdo.php) 構建。它是一個為眾多流行的 DBMS 提供統一資料存取的擴充，這些 DBMS 包括 MySQL，
 PostgreSQL 等等。因此，要使用 Yii DAO，PDO 擴充和特定的 PDO 資料庫驅動 (例如 `PDO_MYSQL`) 必須安裝。
 
 Yii DAO 主要包含如下四個類：
@@ -36,7 +36,7 @@ $connection->active=false;  // 關閉連接
 
 DSN 的格式取決於所使用的 PDO 資料庫驅動。總體來說，
 DSN 要含有 PDO 驅動的名字，跟上一個冒號，再跟上驅動特定的連接語法。可查閱 [PDO
-文件](http://www.php.net/manual/en/pdo.construct.php) 取得更多訊息。
+文件](https://www.php.net/manual/en/pdo.construct.php) 取得更多訊息。
 下面是一個常用DSN格式的列表。
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -162,7 +162,7 @@ catch(Exception $e) // 如果有一條查詢失敗，則會拋出例外
 綁定參數
 ------------------
 
-要避免 [SQL 注入攻擊](http://en.wikipedia.org/wiki/SQL_injection) 並提高重複執行的 SQL 述句的效率，
+要避免 [SQL 注入攻擊](https://en.wikipedia.org/wiki/SQL_injection) 並提高重複執行的 SQL 述句的效率，
 你可以 "事先準備" 一條含有可選參數佔位符號的 SQL 述句，在參數綁定時，這些佔位符號將被替換為實際的參數。
 
 參數佔位符號可以是命名的 (顯示為一個唯一的標記) 或未命名的 (顯示為一個問號)。調用
@@ -190,7 +190,7 @@ $command->execute();
 [bindValue()|CDbCommand::bindValue] 非常相似。唯一的區別就是前者使用一個 PHP 變數綁定參數，
 而後者使用一個值。對於那些記憶體中的大資料區塊參數，基於性能的考慮，應優先使用前者。
 
-關於綁定參數的更多訊息，請參考 [相關的PHP文件](http://www.php.net/manual/en/pdostatement.bindparam.php)。
+關於綁定參數的更多訊息，請參考 [相關的PHP文件](https://www.php.net/manual/en/pdostatement.bindparam.php)。
 
 綁定欄位
 ---------------

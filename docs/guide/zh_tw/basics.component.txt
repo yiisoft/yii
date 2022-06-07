@@ -102,7 +102,7 @@ $component->onClicked=function($event) {
 元件行為
 ------------------
 
-從版本 1.0.2 開始，元件已增加了對 [mixin](http://en.wikipedia.org/wiki/Mixin) 的支援，並可以綁定一個或多個行為。
+從版本 1.0.2 開始，元件已增加了對 [mixin](https://en.wikipedia.org/wiki/Mixin) 的支援，並可以綁定一個或多個行為。
 *行為* 是一個物件，其方法可以被它綁定的部件通過收集功能的方式來實現 `繼承（inherited）`，
 而不是特定繼承(即普通的類別繼承)。一個元件可以以'多重繼承'的方式實現多個行為的綁定。
 
