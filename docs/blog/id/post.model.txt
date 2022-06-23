@@ -6,7 +6,7 @@ Kelas model `Post` di-generate oleh tool `gii` pada umumnya perlu dimodifikasi d
  - method `rules()`: menetapkan aturan validasi untuk atribut model;
  - method `relations()`: menetapkan objek-objek yang direlasikan;
 
-> Info : Sebuah [model](http://www.yiiframework.com/doc/guide/basics.model) terdiri atas sebuah daftar atribut, masing-masing berasosiasi dengan sebuah kolom pada tabel database bersangkutan. Atribut dapat dideklarasikan secara eksplisit sebagai variabel member kelas atau secara implisit tanpa deklarasi apapun.
+> Info : Sebuah [model](https://www.yiiframework.com/doc/guide/basics.model) terdiri atas sebuah daftar atribut, masing-masing berasosiasi dengan sebuah kolom pada tabel database bersangkutan. Atribut dapat dideklarasikan secara eksplisit sebagai variabel member kelas atau secara implisit tanpa deklarasi apapun.
 
 
 Kustomisasi Method `rules()`
@@ -35,7 +35,7 @@ public function rules()
 
 Di atas, kita menetapkan bahwa atribut `title`, `content` dan `status` wajib diisi; dan panjang dari `title` tidak boleh lebih dari 128 karakter; atribut nilai `status` haruslah berupa 1 (draf), 2 (dipublikasi) atau 3 (diarsip); dan atribut `tags` hanya boleh berisi karakter dan koma. Sebagai tambahan, kita menggunakan `normalizeTags` untuk normalisasi tag-tag yang dimasukkan user sehingga setiap tag unik dan dipisahkan antar koma. Aturan terakhir digunakan oleh fitur pencarian, yang akan dijelaskan nantinya.
 
-Validator-validator seperti `required`, `length`, `in` dan `match` semuanya adalah validator built-in dari Yii. Validator `normalizeTags` adalah sebuah validator berbasis method yang harus didefinisikan pada kelas `Post`. Untuk informasi lebih bagaimana menspesifikasi aturan validasi, silahkan merujuk ke [Guide](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules).
+Validator-validator seperti `required`, `length`, `in` dan `match` semuanya adalah validator built-in dari Yii. Validator `normalizeTags` adalah sebuah validator berbasis method yang harus didefinisikan pada kelas `Post`. Untuk informasi lebih bagaimana menspesifikasi aturan validasi, silahkan merujuk ke [Guide](https://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules).
 
 ~~~
 [php]
@@ -49,7 +49,7 @@ dengan `array2string` dan `string2array` merupakan dua method yang didefinisikan
 
 Aturan-aturan yang dideklarasikan method `rules()` dijalankan satu per satu ketika kita memanggil method [validate()|CMode::validate] atau [save()|CActiveRecord::save] dari instance model.
 
-> Note|Catatan: Sangat penting untuk diingat bahwa atribut-atribut yang muncul di `rules()` harus dimasukan oleh end user. Atribut lain, seperti `id` dan `create_time` di dalam model `Post`, yang akan diset oleh kode kita atau database, tidak seharusnya muncul di `rules()`. Untuk lebih detail, silahkan merujuk ke [Pengamanan Assignment Atribut](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
+> Note|Catatan: Sangat penting untuk diingat bahwa atribut-atribut yang muncul di `rules()` harus dimasukan oleh end user. Atribut lain, seperti `id` dan `create_time` di dalam model `Post`, yang akan diset oleh kode kita atau database, tidak seharusnya muncul di `rules()`. Untuk lebih detail, silahkan merujuk ke [Pengamanan Assignment Atribut](https://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
 
 Setelah melakukan perubahan-perubahan, kita dapat mengunjungi halaman pembuatan post untuk memastikan bahwa aturan validasi yang baru berjalan.
 
@@ -57,7 +57,7 @@ Setelah melakukan perubahan-perubahan, kita dapat mengunjungi halaman pembuatan 
 Kustomisasi Metode `relations()`
 --------------------------------
 
-Terakhir kita mengutak metode `relations()` untuk menetapkan objek yang berkaitan pada sebuah post. Dengan mendeklarasikan objek yang terkait di dalam `relations()`, kita dapat memanfaatkan kemampuan fitur [Relational ActiveRecord (RAR)](http://www.yiiframework.com/doc/guide/database.arr) untuk mengakses informasi objek yang berhubungan dengan post, misalnya pengarang (author) dan komentar (comment), tanpa perlu menulis statement SQL JOIN yang kompleks.
+Terakhir kita mengutak metode `relations()` untuk menetapkan objek yang berkaitan pada sebuah post. Dengan mendeklarasikan objek yang terkait di dalam `relations()`, kita dapat memanfaatkan kemampuan fitur [Relational ActiveRecord (RAR)](https://www.yiiframework.com/doc/guide/database.arr) untuk mengakses informasi objek yang berhubungan dengan post, misalnya pengarang (author) dan komentar (comment), tanpa perlu menulis statement SQL JOIN yang kompleks.
 
 Kita mengatur metode `relations()` dengan cara ini:
 
@@ -107,7 +107,7 @@ foreach($comments as $comment)
 	echo $comment->content;
 ~~~
 
-Untuk informasi lebih lengkap bagaimana mendeklarasi dan menggunakan relasi, silahkan merujuk ke [Guide](http://www.yiiframework.com/doc/guide/database.arr).
+Untuk informasi lebih lengkap bagaimana mendeklarasi dan menggunakan relasi, silahkan merujuk ke [Guide](https://www.yiiframework.com/doc/guide/database.arr).
 
 
 Menambah Properti `url`

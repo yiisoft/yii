@@ -53,7 +53,7 @@ public function actionIndex()
 }
 ~~~
 
-注意，在上面的代码中，由于 `tbl_post` 和 `tbl_comment` 表都含有 `status` 和 `create_time` 列，我们需要通过使用表的别名前缀消除列名的歧义。 正如 [指南](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names) 中所描述的，在一个关系查询中，主表的别名总是使用 `t`。因此，我们在上面的代码中对 `status` 和 `create_time` 使用了 `t` 前缀。
+注意，在上面的代码中，由于 `tbl_post` 和 `tbl_comment` 表都含有 `status` 和 `create_time` 列，我们需要通过使用表的别名前缀消除列名的歧义。 正如 [指南](https://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names) 中所描述的，在一个关系查询中，主表的别名总是使用 `t`。因此，我们在上面的代码中对 `status` 和 `create_time` 使用了 `t` 前缀。
 
 和日志的索引视图（index view）类似， `CommentController` 的 `index` 视图使用 [CListView] 显示评论列表， [CListView]  又使用了局部视图 `/wwwroot/blog/protected/views/comment/_view.php` 显示每一条评论。此处我们不打算深入讲解。读者可参考博客演示中相应的文件 `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
 

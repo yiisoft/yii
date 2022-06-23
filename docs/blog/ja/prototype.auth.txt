@@ -1,7 +1,7 @@
 ユーザ認証
 ===================
 
-このブログアプリケーションでは、システムオーナとゲストユーザの区別が必要です。 したがって、[ユーザ認証](http://www.yiiframework.com/doc/guide/ja/topics.auth) 機能を実装する必要があります。
+このブログアプリケーションでは、システムオーナとゲストユーザの区別が必要です。 したがって、[ユーザ認証](https://www.yiiframework.com/doc/guide/ja/topics.auth) 機能を実装する必要があります。
 
 気付いていらっしゃるかも知れませんが、スケルトンアプリケーションにはすでにユーザ認証機能が備わっています。
 これは、ユーザ名とパスワードのどちらもが `demo` もしくは `admin` であればユーザとして認証する、というものです。
@@ -9,7 +9,7 @@
 
 ユーザ認証は [IUserIdentity] インタフェースを実装するクラスで行われます。スケルトンアプリケーションでは、この目的のために `UserIdentity` クラスを使っています。このクラスファイルは、`/wwwroot/blog/protected/components/UserIdentity.php` に保存されています。
 
-> Tip|ヒント: 規約により、クラスファイル名は対応するクラス名に接尾辞として拡張子 `.php` を付けたものでなければなりません。この規約に従えば、[パスエイリアス](http://www.yiiframework.com/doc/guide/ja/basics.namespace) を使ってクラスを参照することが可能になります。 例えば、`UserIdentity` クラスを、`application.components.UserIdentity` というエイリアスで参照することができます。Yii では多くの API がパスエイリアスを認識します(例えば [Yii::createComponent()|YiiBase::createComponent])。そして、パスエイリアスを使えば、コードに絶対パスを埋め込む必要がなくなります。コードに埋め込まれた絶対パスは、しばしばアプリケーション配備の際にトラブルを引き起こします。
+> Tip|ヒント: 規約により、クラスファイル名は対応するクラス名に接尾辞として拡張子 `.php` を付けたものでなければなりません。この規約に従えば、[パスエイリアス](https://www.yiiframework.com/doc/guide/ja/basics.namespace) を使ってクラスを参照することが可能になります。 例えば、`UserIdentity` クラスを、`application.components.UserIdentity` というエイリアスで参照することができます。Yii では多くの API がパスエイリアスを認識します(例えば [Yii::createComponent()|YiiBase::createComponent])。そして、パスエイリアスを使えば、コードに絶対パスを埋め込む必要がなくなります。コードに埋め込まれた絶対パスは、しばしばアプリケーション配備の際にトラブルを引き起こします。
 
 `UserIdentity` クラスを以下のように修正します。
 
@@ -47,7 +47,7 @@ class UserIdentity extends CUserIdentity
 この `authenticate()` メソッドにおいては、`User` クラスを用いて、`tbl_user` テーブルの中から、
 `username` カラムが与えられた `username` と同じである行を探し出しています(大文字と小文字は区別しません)。
 `User` クラスは前のセクションで `gii` ツールによって作られたものであることを思い出してください。
-`User` クラスは [CActiveRecord] を継承しているため、 [アクティブレコードの機能](http://www.yiiframework.com/doc/guide/ja/database.ar) を利用して、
+`User` クラスは [CActiveRecord] を継承しているため、 [アクティブレコードの機能](https://www.yiiframework.com/doc/guide/ja/database.ar) を利用して、
 オブジェクト指向(OOP)の流儀で `tbl_user` テーブルにアクセスすることが出来ます。
 
 ユーザが正当なパスワードを入力したかどうかをチェックするため、`User` クラスの `validatePassword` メソッドを呼び出しています。
@@ -110,6 +110,6 @@ switch($identity->errorCode)
 
 > Info|情報: identity クラスと `user` アプリケーションコンポーネントはしばしば混同されます。前者は認証を行う方法のことであり、後者は現在のユーザに関する情報をあらわします。アプリケーションが持てる `user` コンポーネントは一つだけですが、identity クラスは、どのような認証方法をサポートするかによって、一つまたは複数のクラスを持つことができます。いったん認証が成功すれば、identity インスタンスから `user` コンポーネントへ認証の情報が渡され、アプリケーション全体から `user` を用いてアクセス可能になります。
 
-修正後の `UserIdentity` クラスをテストするために、ブラウザで URL `http://www.example.com/blog/index.php` にアクセスして、`tbl_user` テーブルに保存したユーザ名とパスワードでログインを試みてください。[ブログデモ](http://www.yiiframework.com/demos/blog/) で提供されるデータベースを利用している場合は、ユーザ名 `demo`、パスワード `demo` でアクセスできるはずです。このブログシステムにはユーザ管理機能が無いことに注意して下さい。結果として、ユーザはウェブインタフェースを通じて自身のアカウントを変更したり、新しいアカウントを作成したりは出来ません。ユーザ管理機能はブログアプリケーションの将来の機能拡張であると見なして良いでしょう。
+修正後の `UserIdentity` クラスをテストするために、ブラウザで URL `http://www.example.com/blog/index.php` にアクセスして、`tbl_user` テーブルに保存したユーザ名とパスワードでログインを試みてください。[ブログデモ](https://www.yiiframework.com/demos/blog/) で提供されるデータベースを利用している場合は、ユーザ名 `demo`、パスワード `demo` でアクセスできるはずです。このブログシステムにはユーザ管理機能が無いことに注意して下さい。結果として、ユーザはウェブインタフェースを通じて自身のアカウントを変更したり、新しいアカウントを作成したりは出来ません。ユーザ管理機能はブログアプリケーションの将来の機能拡張であると見なして良いでしょう。
 
 <div class="revision">$Id$</div>

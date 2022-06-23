@@ -6,7 +6,7 @@ En ésta sección, se describe cómo crear el esqueleto de una aplicación que n
 Instalando Yii
 --------------
 
-Inicialmente instalamos el framework de Yii. Obtenemos una copia del archivo (versión 1.1.1 o superior) en [www.yiiframework.com](http://www.yiiframework.com/download) y la descomprimimos en el directorio `/wwwroot/yii`. Chequeamos que allí se encuentra un directorio `/wwwroot/yii/framework`.
+Inicialmente instalamos el framework de Yii. Obtenemos una copia del archivo (versión 1.1.1 o superior) en [www.yiiframework.com](https://www.yiiframework.com/download) y la descomprimimos en el directorio `/wwwroot/yii`. Chequeamos que allí se encuentra un directorio `/wwwroot/yii/framework`.
 
 > Tip|Consejo: El framework de Yii puede instalarse en cualquier lugar del sistema de archivos. Su directorio `framework` contiene todo el código estructural y es el único directorio necesario para implementar una aplicación. Una única instalación de Yii puede ser utilizada por múltiples aplicaciones Yii. 
  
@@ -39,7 +39,7 @@ A continuación, describimos brevemente lo que tenemos en la aplicación esquele
 
 ###Script de Entrada
 
-Tenemos un archivo llamado [script de entrada](http://www.yiiframework.com/doc/guide/es/basics.entry) `/wwwroot/blog/index.php` que tiene el siguiente contenido:
+Tenemos un archivo llamado [script de entrada](https://www.yiiframework.com/doc/guide/es/basics.entry) `/wwwroot/blog/index.php` que tiene el siguiente contenido:
 
 ~~~
 [php]
@@ -54,12 +54,12 @@ require_once($yii);
 Yii::createWebApplication($config)->run();
 ~~~
 
-Este es el único script al que los usuarios Web tienen acceso directamente. El script primero incluye el archivo de inicialización de Yii `yii.php`. Luego crea una instancia de la [aplicación](http://www.yiiframework.com/doc/guide/es/basics.application) con la configuración especificada y luego ejecuta la aplicación. 
+Este es el único script al que los usuarios Web tienen acceso directamente. El script primero incluye el archivo de inicialización de Yii `yii.php`. Luego crea una instancia de la [aplicación](https://www.yiiframework.com/doc/guide/es/basics.application) con la configuración especificada y luego ejecuta la aplicación.
 
 
 ###Directorio Base de la Aplicación
 
-También tenemos un [directorio base de la aplicación](http://www.yiiframework.com/doc/guide/es/basics.application#application-base-directory) `/wwwroot/blog/protected`. La mayoría de nuestro código y datos estarán ubicados bajo este directorio, y debería estar protegido del accesos de usuarios Web. Para el uso en [Apache httpd Web Server], bajo este directorio creamos un archivo `.htaccess` con el siguiente contenido: 
+También tenemos un [directorio base de la aplicación](https://www.yiiframework.com/doc/guide/es/basics.application#application-base-directory) `/wwwroot/blog/protected`. La mayoría de nuestro código y datos estarán ubicados bajo este directorio, y debería estar protegido del accesos de usuarios Web. Para el uso en [Apache httpd Web Server], bajo este directorio creamos un archivo `.htaccess` con el siguiente contenido:
 
 ~~~
 deny from all
@@ -74,12 +74,12 @@ Flujo de la Aplicación
 Para facilitar la comprensión del funcionamiento de Yii, describimos el flujo en nuestra aplicación esqueleto cuando un usuario accede a la página de contacto:
 
  0. El usuario hace una solicitud a la URL `http://www.example.com/blog/index.php?r=site/contact`;
- 1. El [script de entrada](http://www.yiiframework.com/doc/guide/es/basics.entry) es ejecutado por el Servidor para procesar la solicitud;
- 2. Una instancia de la [aplicación](http://www.yiiframework.com/doc/guide/es/basics.application) es creada y configurada con los valores iniciales especificados en el archivo de configuración de la aplicación `/wwwroot/blog/protected/config/main.php`;
- 3. La aplicación resuelve la solicitud en un [controlador](http://www.yiiframework.com/doc/guide/es/basics.controller) y una [acción de controlador](http://www.yiiframework.com/doc/guide/es/basics.controller#action). Para la solicitud de la página de contacto, ésta se resuelve como el controlador de `sitio` (`site`) y la acción de `contacto` (`contact`).
+ 1. El [script de entrada](https://www.yiiframework.com/doc/guide/es/basics.entry) es ejecutado por el Servidor para procesar la solicitud;
+ 2. Una instancia de la [aplicación](https://www.yiiframework.com/doc/guide/es/basics.application) es creada y configurada con los valores iniciales especificados en el archivo de configuración de la aplicación `/wwwroot/blog/protected/config/main.php`;
+ 3. La aplicación resuelve la solicitud en un [controlador](https://www.yiiframework.com/doc/guide/es/basics.controller) y una [acción de controlador](https://www.yiiframework.com/doc/guide/es/basics.controller#action). Para la solicitud de la página de contacto, ésta se resuelve como el controlador de `sitio` (`site`) y la acción de `contacto` (`contact`).
  4. La aplicación crea el controlador `site` en términos de una instancia  `SiteController` y luego la ejecuta; 
  5. La instancia `SiteController` ejecuta la acción `contact` al llamar a su método `actionContact()`;
- 6. El método `actionContact` genera una [vista)](http://www.yiiframework.com/doc/guide/es/basics.view) llamada `contact` al usuario Web. Internamente, esto se logra al incluir el archivo de vista `/wwwroot/blog/protected/views/site/contact.php` e incluyendo el resultado en el archivo de [layout](http://www.yiiframework.com/doc/guide/es/basics.view#layout) `/wwwroot/blog/protected/views/layouts/column1.php`.
+ 6. El método `actionContact` genera una [vista)](https://www.yiiframework.com/doc/guide/es/basics.view) llamada `contact` al usuario Web. Internamente, esto se logra al incluir el archivo de vista `/wwwroot/blog/protected/views/site/contact.php` e incluyendo el resultado en el archivo de [layout](https://www.yiiframework.com/doc/guide/es/basics.view#layout) `/wwwroot/blog/protected/views/layouts/column1.php`.
 
 
 <div class="revision">$Id$</div>

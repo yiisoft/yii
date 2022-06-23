@@ -31,7 +31,7 @@
 </div>
 ~~~
 
-上の例では、現在の記事に属するコメント一覧を表示するために、`_comments` という部分的ビューを指定して `renderPartial()` を呼んでいます。ビューで `$model->comments` という式を使って記事に属するコメントを取得していることに注目して下さい。この式が使える理由は `Post` クラスで `comments` リレーションを宣言しているからです。この式が評価されると、暗黙的にデータベースの JOIN クエリーが発行され、適切なコメントが返されます。この機能は [遅延リレーショナルクエリ](http://www.yiiframework.com/doc/guide/ja/database.arr) として知られています。
+上の例では、現在の記事に属するコメント一覧を表示するために、`_comments` という部分的ビューを指定して `renderPartial()` を呼んでいます。ビューで `$model->comments` という式を使って記事に属するコメントを取得していることに注目して下さい。この式が使える理由は `Post` クラスで `comments` リレーションを宣言しているからです。この式が評価されると、暗黙的にデータベースの JOIN クエリーが発行され、適切なコメントが返されます。この機能は [遅延リレーショナルクエリ](https://www.yiiframework.com/doc/guide/ja/database.arr) として知られています。
 
 部分的ビュー (partial view) の `_comments` はあまり興味深いものではありません。コメントを一つ一つ取り扱い、コメントの詳細を表示します。興味のある方は `/wwwroot/yii/demos/blog/protected/views/post/_comments.php` を参照してください。
 

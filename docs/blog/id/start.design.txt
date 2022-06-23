@@ -33,7 +33,7 @@ Diagram entity-relation (ER) berikut menunjukkan struktur tabel dan hubungan ant
 ![Entity-Relation Diagram of the Blog Database](schema.png)
 
 
-Statement SQL yang lengkap berkaitan dengan diagram ER di atas dapat ditemukan dalam [demo blog](http://www.yiiframework.com/demos/blog/). Di dalam instalasi Yii, statement SQL tersebut berada di file `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+Statement SQL yang lengkap berkaitan dengan diagram ER di atas dapat ditemukan dalam [demo blog](https://www.yiiframework.com/demos/blog/). Di dalam instalasi Yii, statement SQL tersebut berada di file `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 
 

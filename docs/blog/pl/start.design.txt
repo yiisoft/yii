@@ -33,7 +33,7 @@ Następujący diagram (ER) relacji encji (ang. entity-relation diagram), pokazuj
 ![Diagram relacji encji dla bazy danych blogu](schema.png)
 
 
-Wszystkie wyrażenia SQL odpowiadające powyższemu diagramowi ER, można znaleźć w [demonstracyjnym blogu](http://www.yiiframework.com/demos/blog/). Dla naszej instalacji Yii, można je odnaleźć w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+Wszystkie wyrażenia SQL odpowiadające powyższemu diagramowi ER, można znaleźć w [demonstracyjnym blogu](https://www.yiiframework.com/demos/blog/). Dla naszej instalacji Yii, można je odnaleźć w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 
 

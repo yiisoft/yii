@@ -7,7 +7,7 @@ Kita sudah mendekati tahap akhir aplikasi blog kita. Sebelum pemasangan, kita la
 Mengubah Home Page
 ------------------
 
-Kita ubah halaman list post sebagai home page. Kita modifikasi [konfigurasi aplikasi](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) menjadi berikut,
+Kita ubah halaman list post sebagai home page. Kita modifikasi [konfigurasi aplikasi](https://www.yiiframework.com/doc/guide/basics.application#application-configuration) menjadi berikut,
 
 ~~~
 [php]

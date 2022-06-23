@@ -53,7 +53,7 @@ public function actionIndex()
 }
 ~~~
 
-Repare no código acima, porque ambas `tbl_post` e `tbl_comment` tem as colunas `status` e `create_time`, precisamos remover esta ambiguidade das colunas correspondentes prefixando um alias (pseudônimo) da tabela. Como descrito no [Guia definitivo do Yii](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names),o alias para a tabela primária em uma consulta relacional é sempre `t`. Portanto, estamos prefixando `t` as colunas `status` e `create_time` no código acima.
+Repare no código acima, porque ambas `tbl_post` e `tbl_comment` tem as colunas `status` e `create_time`, precisamos remover esta ambiguidade das colunas correspondentes prefixando um alias (pseudônimo) da tabela. Como descrito no [Guia definitivo do Yii](https://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names),o alias para a tabela primária em uma consulta relacional é sempre `t`. Portanto, estamos prefixando `t` as colunas `status` e `create_time` no código acima.
 
 Como o post index view, a visão `index` de `CommentController` usa [CListView] para exibir a lista de comentário que por sua vez utiliza a visão parcial `/wwwroot/blog/protected/views/comment/_view.php` para mostrar os detalhes de cada comentário. Não vou entrar em detalhes aqui. Os leitores interessados podem consultar o arquivo correspondente no demo blog `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
 

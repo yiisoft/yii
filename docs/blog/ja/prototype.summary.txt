@@ -16,7 +16,7 @@
 `gii` ツールによって生成されたコードは、データベーステーブルのための完全に機能する CRUD 操作を実装しますが、実際のアプリケーションで利用するためには、かなりの変更を加える必要があります。
 この理由から、次の二つのマイルストーンでは、記事とコメントに対して生成した CRUD コードをカスタマイズして、初期の要求を満たすようにします。
 
-一般的には、最初に [モデル](http://www.yiiframework.com/doc/guide/ja/basics.model) クラスファイルを修正して、適切な [検証ルール](http://www.yiiframework.com/doc/guide/ja/form.model#sec-3) を加え、[リレーショナルオブジェクト](http://www.yiiframework.com/doc/guide/ja/database.arr#sec-2) を宣言します。その後、それぞれの CRUD 操作のために [コントローラアクション](http://www.yiiframework.com/doc/guide/ja/basics.controller) と [ビュー](http://www.yiiframework.com/doc/guide/ja/basics.view) のコードを変更します。
+一般的には、最初に [モデル](https://www.yiiframework.com/doc/guide/ja/basics.model) クラスファイルを修正して、適切な [検証ルール](https://www.yiiframework.com/doc/guide/ja/form.model#sec-3) を加え、[リレーショナルオブジェクト](https://www.yiiframework.com/doc/guide/ja/database.arr#sec-2) を宣言します。その後、それぞれの CRUD 操作のために [コントローラアクション](https://www.yiiframework.com/doc/guide/ja/basics.controller) と [ビュー](https://www.yiiframework.com/doc/guide/ja/basics.view) のコードを変更します。
 
 
 <div class="revision">$Id$</div>

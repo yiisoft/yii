@@ -31,7 +31,7 @@ El siguiente diagrama de Entidad-Relación (ER) muestra la estructura de la tabl
 
 ![Entity-Relation Diagram of the Blog Database](schema.png)
 
-Sentencias SQL completas correspondientes al diagrama pueden ser encontradas en [el blog demo](http://www.yiiframework.com/demos/blog/). En nuestra instalación de Yii, se encuentran en el archivo `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+Sentencias SQL completas correspondientes al diagrama pueden ser encontradas en [el blog demo](https://www.yiiframework.com/demos/blog/). En nuestra instalación de Yii, se encuentran en el archivo `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 
 

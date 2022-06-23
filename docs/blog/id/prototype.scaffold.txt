@@ -3,7 +3,7 @@ Scaffolding
 
 Membuat, membaca, update dan menghapus atau dalam bahasa Inggris create, read, update, delete yang disingkat CRUD) merupakan empat operasi dasar pada objek data dalam aplikasi. Karena tugas mengimplementasi CRUD sangat umum ketika mengembangkan aplikasi Web, Yii menyediakan beberapa tool yang membantu generate kode bernama *Gii* yang dapat mengotomatisasi proses ini (bisa dikenal sebagai *scaffolding*)
 
-> Note|Catatan: Gii sudah tersedia semenjak versi 1.1.2. Sebelum itu, anda harus menggunakan [yiic shell tool](http://www.yiiframework.com/doc/guide/quickstart.first-app-yiic) untuk melakukan hal yang sama.
+> Note|Catatan: Gii sudah tersedia semenjak versi 1.1.2. Sebelum itu, anda harus menggunakan [yiic shell tool](https://www.yiiframework.com/doc/guide/quickstart.first-app-yiic) untuk melakukan hal yang sama.
 
 Berikut ini, kita akan melihat bagaimana menggunakan tool ini untuk mengimplementasikan operasi CRUD untuk post dan komentar di dalam aplikasi blog kita.
 
@@ -44,7 +44,7 @@ Kita akan diminta untuk memasukkan sebuah password. Masukkan password yang sudah
 Membuat Model
 ---------------
 
-Pertama-tama kita harus membuat sebuah kelas [model](http://www.yiiframework.com/doc/guide/basics.model) untuk setiap tabel database kita. Kelas-kelas model akan memungkinkan kita untuk mengakses database dengan gaya objek-oriented yang intuitif, seperti yang akan kita lihat nantinya di dalam tutorial ini.
+Pertama-tama kita harus membuat sebuah kelas [model](https://www.yiiframework.com/doc/guide/basics.model) untuk setiap tabel database kita. Kelas-kelas model akan memungkinkan kita untuk mengakses database dengan gaya objek-oriented yang intuitif, seperti yang akan kita lihat nantinya di dalam tutorial ini.
 
 Klik pada link `Model Generator` untuk memulai menggunakan tool generate model.
 
@@ -74,7 +74,7 @@ Pada halaman `Crud Generator`, masukkan `Post` (nama kelas model post yang baru 
 
 Ulangi langkah yang sama untuk model `Comment`.
 
-Mari lihat file-file yang dihasilkan oleh generator CRUD. Semua file yang dihasilkan berada di dalam `/wwwroot/blog/protected`. Untuk kemudahan, kita mengelompokkan mereka ke dalam file [controller](http://www.yiiframework.com/doc/guide/basics.controller) dan [view](http://www.yiiframework.com/doc/guide/basics.view):
+Mari lihat file-file yang dihasilkan oleh generator CRUD. Semua file yang dihasilkan berada di dalam `/wwwroot/blog/protected`. Untuk kemudahan, kita mengelompokkan mereka ke dalam file [controller](https://www.yiiframework.com/doc/guide/basics.controller) dan [view](https://www.yiiframework.com/doc/guide/basics.view):
 
  - file controller:
          * `controllers/PostController.php` berisi kelas `PostController` yang bertanggung jawab atas seluruh operasi CRUD pada post;
@@ -108,7 +108,7 @@ Perhatikan bahwa kode yang di-generate mengimplementasikan fitur post dan koment
 Guna memahami lebih baik bagaimana file-file di atas digunakan, kita tampilkan alur kerja yang terjadi pada aplikasi blog ketika menampilkan sebuah daftar post:
 
  0. User me-request URL `http://www.example.com/blog/index.php?r=post`;
- 1. Server Web menjalankan [entry script](http://www.yiiframework.com/doc/guide/basics.entry) , yang  membuat dan menginisialisasi sebuah instance [aplikasi](http://www.yiiframework.com/doc/guide/basics.application) untuk menangani request tersebut;
+ 1. Server Web menjalankan [entry script](https://www.yiiframework.com/doc/guide/basics.entry) , yang  membuat dan menginisialisasi sebuah instance [aplikasi](https://www.yiiframework.com/doc/guide/basics.application) untuk menangani request tersebut;
  2. Aplikasi membuat sebuah instance `PostController` dan mejalankannya;
  3. Instance dari `PostController` menjalankan action `index` dengan memanggil method `actionIndex()`. Harap diperhatikan bawah `index` merupakan action default jika user tidak menentukan action apa yang dijalankan di URL;
  4. Method `actionIndex()` meng-query database untuk mendapatkan daftar post terbaru;

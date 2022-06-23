@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
 
 記事の表示のために [CGridView] を使用します。これを使うとカラムでソートしたり、記事が多くて1ページで表示しきれないときにページング処理をしたりできます。主な変更点は、各カラムの表示方法です。例えば、`title` カラムは、記事の詳細表示へのハイパーリンクになるように指定しました。`$data->url` という表現は `Post` クラスで定義した `url` プロパティの値を返します。
 
-> Tip|ヒント: テキストを表示するときは、テキストに含まれる HTML エンティティ (特殊文字) をエンコードするために [CHtml::encode()] を呼びます。[クロスサイトスクリプティング](http://www.yiiframework.com/doc/guide/ja/topics.security) を防ぐためです。
+> Tip|ヒント: テキストを表示するときは、テキストに含まれる HTML エンティティ (特殊文字) をエンコードするために [CHtml::encode()] を呼びます。[クロスサイトスクリプティング](https://www.yiiframework.com/doc/guide/ja/topics.security) を防ぐためです。
 
 
 記事の削除

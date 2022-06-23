@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
 
 Do wyświetlania wiadomości używamy klasy [CGridView]. Umożliwia ona nam sortowanie kolumn oraz wiadomości jeśli jest ich zbyt wiele by wyświetlić je na pojedynczej stronie. Nasza zmiana dotyczy sposobu wyświetlania każdej kolumny. Na przykład dla kolumny tytułu `title`, określamy iż powinna ona być wyświetlona jako hiperlink, który wskazuje na widok szczegółów wiadomości. Wyrażenie `$data->url` zwraca wartość właściwości `url`, którą zefiniowaliśmy w klasie wiadomości `Post`.
 
-> Tip|Wskazówka: Podczas wyświetlania tekstu wołamy metodę [CHtml::encode()] do zakodowania znajdujących się w nim wpisów HTML. Chroni to przed [atakami XSS](http://www.yiiframework.com/doc/guide/topics.security).
+> Tip|Wskazówka: Podczas wyświetlania tekstu wołamy metodę [CHtml::encode()] do zakodowania znajdujących się w nim wpisów HTML. Chroni to przed [atakami XSS](https://www.yiiframework.com/doc/guide/topics.security).
 
 
 Usuwanie wiadomości

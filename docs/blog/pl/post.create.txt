@@ -7,7 +7,7 @@ Mając gotowy model wiadomości `Post`, potrzebujemy dopracować akcje oraz wido
 Dostosowywanie kontroli dostępności
 --------------------------
 
-Pierwszą rzeczą jaką chcemy zrobić jest dostosowanie [kontroli dostępu](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) ze względu na to, że kod wygenerowany przez `gii` nie pasuje do naszych wymagań.
+Pierwszą rzeczą jaką chcemy zrobić jest dostosowanie [kontroli dostępu](https://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) ze względu na to, że kod wygenerowany przez `gii` nie pasuje do naszych wymagań.
 
 Modyfikujemy metodę `accessRules()` w pliku `/wwwroot/blog/protected/controllers/PostController.php` w następujący sposób:
 
