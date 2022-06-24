@@ -7,7 +7,7 @@ We are close to finish our blog application. Before deployment, we would like to
 Changing Home Page
 ------------------
 
-We change to use the post list page as the home page. We modify the [application configuration](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) as follows,
+We change to use the post list page as the home page. We modify the [application configuration](https://www.yiiframework.com/doc/guide/basics.application#application-configuration) as follows,
 
 ~~~
 [php]

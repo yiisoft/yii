@@ -37,7 +37,7 @@ The class `WebTestCase` mainly sets the base URL of the pages to be tested. Late
 
 We should also pay attention that in the base test URL, we use `index-test.php` as the entry script instead of `index.php`. The only difference between `index-test.php` and `index.php` is that the former uses `test.php` as the application configuration file while the latter `main.php`.
 
-We now describe how to test the feature about showing a post in the [blog demo](http://www.yiiframework.com/demos/blog). We first write the test class as follows, noting that the test class extends from the base class we just described:
+We now describe how to test the feature about showing a post in the [blog demo](https://www.yiiframework.com/demos/blog). We first write the test class as follows, noting that the test class extends from the base class we just described:
 
 ~~~
 [php]

@@ -14,7 +14,7 @@ Because the Yii testing framework is built on top of [PHPUnit](http://www.phpuni
 
 In the following, we mainly describe how to write unit tests for [active record](/doc/guide/database.ar) model classes. We will extend our test classes from [CDbTestCase] because it provides the database fixture support that we introduced in the previous section.
 
-Assume we want to test the `Comment` model class in the [blog demo](http://www.yiiframework.com/demos/blog/). We start by creating a class named `CommentTest` and saving it as `protected/tests/unit/CommentTest.php`:
+Assume we want to test the `Comment` model class in the [blog demo](https://www.yiiframework.com/demos/blog/). We start by creating a class named `CommentTest` and saving it as `protected/tests/unit/CommentTest.php`:
 
 ~~~
 [php]

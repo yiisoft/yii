@@ -54,7 +54,7 @@
 > с зарезервированными ключевыми словами СУБД.
 
 SQL, соответствующий ER-диаграмме выше, вы можете найти в
-[демо-блоге](http://www.yiiframework.com/demos/blog/). В установленной копии
+[демо-блоге](https://www.yiiframework.com/demos/blog/). В установленной копии
 фреймворка они находятся в файле `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 

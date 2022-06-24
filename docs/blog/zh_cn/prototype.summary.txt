@@ -15,7 +15,7 @@
 
 虽然 `gii` 工具生成的代码可以对数据库实现完整的 CRUD 操作，但它在实际应用中常需要做一些修改。鉴于此，在下面的两个阶段中，我们的工作就是自定义生成的日志及评论的 CRUD 代码，使他们达到我们一开始的需求。
 
-总体来说，我们首先要修改 [模型](http://www.yiiframework.com/doc/guide/basics.model) 类，添加适当的 [验证](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules) 规则并声明 [相关的对象](http://www.yiiframework.com/doc/guide/database.arr#declaring-relationship)。然后我们要为每个CRUD操作修改其 [控制器动作](http://www.yiiframework.com/doc/guide/basics.controller) 和 [视图](http://www.yiiframework.com/doc/guide/basics.view) 代码。
+总体来说，我们首先要修改 [模型](https://www.yiiframework.com/doc/guide/basics.model) 类，添加适当的 [验证](https://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules) 规则并声明 [相关的对象](https://www.yiiframework.com/doc/guide/database.arr#declaring-relationship)。然后我们要为每个CRUD操作修改其 [控制器动作](https://www.yiiframework.com/doc/guide/basics.controller) 和 [视图](https://www.yiiframework.com/doc/guide/basics.view) 代码。
 
 
 <div class="revision">$Id: prototype.summary.txt 2333 2010-08-24 21:11:55Z mdomba $</div>

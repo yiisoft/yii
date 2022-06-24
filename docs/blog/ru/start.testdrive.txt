@@ -10,7 +10,7 @@
 
 Сначала мы установим фреймворк. Скачаем дистрибутив фреймворка (версии
 1.1.1 или выше) с сайта
-[www.yiiframework.com](http://www.yiiframework.com/download) и распакуем в
+[www.yiiframework.com](https://www.yiiframework.com/download) и распакуем в
 директорию `/wwwroot/yii`. Убедимся, что получили директорию
 `/wwwroot/yii/framework`.
 

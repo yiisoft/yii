@@ -6,7 +6,7 @@ Post モデルのカスタマイズ
  - `rules()` メソッド: モデルの属性に対する検証ルールを規定
  - `relations()` メソッド: リレーショナルオブジェクトを規定
 
-> Info|情報: [モデル](http://www.yiiframework.com/doc/guide/ja/basics.model) は属性のリストから構成されます。それぞれの属性は、通常は、対応するデータベーステーブルのコラムと関連付けられます。
+> Info|情報: [モデル](https://www.yiiframework.com/doc/guide/ja/basics.model) は属性のリストから構成されます。それぞれの属性は、通常は、対応するデータベーステーブルのコラムと関連付けられます。
 属性は明示的にクラスメンバ変数として宣言される場合もあり、宣言無しで黙示的に宣言されることもあります。
 
 `rules()` メソッドのカスタマイズ
@@ -45,7 +45,7 @@ public function rules()
 
 `required`, `length`, `in`, `match` のようなバリデータは全て Yii が提供する備え付けのものです。
 `normalizeTags` バリデータはメソッドベースのバリデータであり、`Post` クラスにおいて定義する必要があります。
-検証ルールを定義する方法に関するより詳細な情報は、[ガイド](http://www.yiiframework.com/doc/guide/ja/form.model#sec-3) を参照してください。
+検証ルールを定義する方法に関するより詳細な情報は、[ガイド](https://www.yiiframework.com/doc/guide/ja/form.model#sec-3) を参照してください。
 
 ~~~
 [php]
@@ -72,7 +72,7 @@ public static function array2string($tags)
 
 `rules()` メソッドで宣言されたルールは、モデルインスタンスの [validate()|CModel::validate] メソッドまたは [save()|CActiveRecord::save] メソッドをコールする際に、ひとつひとつ実行されます。
 
-> Note|注意: 覚えて欲しい重要なことがあります。`rules()` に出現する属性は、エンドユーザによって入力される属性でなければなりません。`Post` モデルの `id` や `create_time` など、プログラムやデータベースによって設定される属性は、`rules()` に入れるべきではありません。詳しくは、[属性への代入を安全にする](http://www.yiiframework.com/doc/guide/ja/form.model#sec-4) を参照して下さい。
+> Note|注意: 覚えて欲しい重要なことがあります。`rules()` に出現する属性は、エンドユーザによって入力される属性でなければなりません。`Post` モデルの `id` や `create_time` など、プログラムやデータベースによって設定される属性は、`rules()` に入れるべきではありません。詳しくは、[属性への代入を安全にする](https://www.yiiframework.com/doc/guide/ja/form.model#sec-4) を参照して下さい。
 
 以上の変更をしたら、記事の作成ページを再び開いて、新しい検証ルールが機能していることを確認することができます。
 
@@ -80,7 +80,7 @@ public static function array2string($tags)
 -----------------------------------
 
 最後に `relations()` メソッドをカスタマイズして、記事に関連するオブジェクトを指定します。
-`relations()` で関連オブジェクトを宣言することによって、[リレーショナルアクティブレコード (RAR)](http://www.yiiframework.com/doc/guide/ja/database.arr) のパワフルな機能を引き出すことが出来ます。
+`relations()` で関連オブジェクトを宣言することによって、[リレーショナルアクティブレコード (RAR)](https://www.yiiframework.com/doc/guide/ja/database.arr) のパワフルな機能を引き出すことが出来ます。
 すなわち、RAR を使って、複雑な SQL JOIN 構文を書くことなく、執筆者やコメント一覧などの記事に関連するオブジェクトの情報にアクセスできるようになります。
 
 `relations()`メソッドを次のようにカスタマイズします。
@@ -130,7 +130,7 @@ foreach($comments as $comment)
 	echo $comment->content;
 ~~~
 
-リレーションの宣言と使い方の詳細については、[ガイド](http://www.yiiframework.com/doc/guide/ja/database.arr) をご覧ください。
+リレーションの宣言と使い方の詳細については、[ガイド](https://www.yiiframework.com/doc/guide/ja/database.arr) をご覧ください。
 
 `url`プロパティの追加
 ---------------------

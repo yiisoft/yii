@@ -17,7 +17,7 @@ Utworzyliśmy plik bazy danych `blog.db` w katalogu `/wwwroot/blog/protected/dat
 Ustanawianie połączenia z bazą danych
 --------------------------------
 
-Aby używać bazę danych blogu w utworzonym szkielecie aplikacji, musimy zmodyfikować jego [konfigurację aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-configuration), która przechowywana jest w skrypcie PHP `/wwwroot/blog/protected/config/main.php`. Skrypt zwraca asocjacyjną tablicę zawierającą pary nazwa-wartość, z których każda używana jest do zainicjalizowania zapisywalnej właściwości [instancji aplikacji](http://www.yiiframework.com/doc/guide/basics.application).
+Aby używać bazę danych blogu w utworzonym szkielecie aplikacji, musimy zmodyfikować jego [konfigurację aplikacji](https://www.yiiframework.com/doc/guide/basics.application#application-configuration), która przechowywana jest w skrypcie PHP `/wwwroot/blog/protected/config/main.php`. Skrypt zwraca asocjacyjną tablicę zawierającą pary nazwa-wartość, z których każda używana jest do zainicjalizowania zapisywalnej właściwości [instancji aplikacji](https://www.yiiframework.com/doc/guide/basics.application).
 
 Skonfigurujemy komponent `db` w następujący sposób,
 
@@ -36,9 +36,9 @@ return array(
 );
 ~~~
 
-Powyższa konfiguracja mówi nam, że posiadamy [komponent aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-component) `db`, którego właściwość `connectionString` powinna zostać zainicjalizowana wartością `sqlite:/wwwroot/blog/protected/data/blog.db` oraz którego właściwość `tablePrefix` powinna mieć wartość `tbl_`.
+Powyższa konfiguracja mówi nam, że posiadamy [komponent aplikacji](https://www.yiiframework.com/doc/guide/basics.application#application-component) `db`, którego właściwość `connectionString` powinna zostać zainicjalizowana wartością `sqlite:/wwwroot/blog/protected/data/blog.db` oraz którego właściwość `tablePrefix` powinna mieć wartość `tbl_`.
 
-Przy użyciu tej konfiguracji, możemy uzyskać dostęp do obiektu połączenia z bazą danych przy użyciu wyrażenia `Yii::app()->db` w dowolnym miejscu naszego kodu. Zauważ, że `Yii::app()` zwraca instancję aplikacji, którą utworzyliśmy w skrypcie wejściowym. Jeśli jesteś zainteresowany poznaniem metod posiadanych przez połączenie DB oraz jego właściwościami, możesz udać się do [dokumentacji klas|CDbConnection]. Jednakże w większości przypadków nie będziemy używali tego połączenia z bazą danych wprost. W zamian, będziemy używać tak zwanego [rekordu aktywnego](http://www.yiiframework.com/doc/guide/database.ar) w celu uzyskania dostępu do bazy danych. 
+Przy użyciu tej konfiguracji, możemy uzyskać dostęp do obiektu połączenia z bazą danych przy użyciu wyrażenia `Yii::app()->db` w dowolnym miejscu naszego kodu. Zauważ, że `Yii::app()` zwraca instancję aplikacji, którą utworzyliśmy w skrypcie wejściowym. Jeśli jesteś zainteresowany poznaniem metod posiadanych przez połączenie DB oraz jego właściwościami, możesz udać się do [dokumentacji klas|CDbConnection]. Jednakże w większości przypadków nie będziemy używali tego połączenia z bazą danych wprost. W zamian, będziemy używać tak zwanego [rekordu aktywnego](https://www.yiiframework.com/doc/guide/database.ar) w celu uzyskania dostępu do bazy danych.
 
 Będziemy chcieli wyjaśnić po trosze właściwość `tablePrefix`, którą ustawiliśmy w konfiguracji. Mówi ona połączeniu `db`, iż powinno ono uwzględniać fakt używania przez nas prefiksu `tbl_` jako prefiksu do nazw naszych tabel bazodanowych. W szczególności, jeśli w zapytaniu SQL znajduje się token, zamknięty w podwójnych nawiasach klamrowych (np. `{{post}}`), wtedy połączenie `db` powinno przetłumaczyć je na nazwę tabeli zawierającą ten prefiks (np. `tbl_post`) zanim prześle go do wywołania do DBMS. Funkcjonalność ta jest szczególnie użyteczna, jeśli w przyszłości będziemy mieli potrzebę zmiany prefiksu bazy danych, bez konieczności dotykania kodu źródłowego. Na przykład, jeśli tworzymy ogólny system zarządzania treścią (CMS), możemy wykorzystać tę funkcję, tak, że jeśli będziemy instalować go w nowym środowisku, damy użytkownikom możliwość wyboru prefiksu tabeli jakiego chcą.
 
