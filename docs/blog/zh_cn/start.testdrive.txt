@@ -59,7 +59,7 @@ Yii::createWebApplication($config)->run();
 
 ###基础应用目录
 
-我们还有一个 [应用基础目录](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`。我们主要的代码和数据将放在此目录下，它应该被保护起来，防止网站访客的直接访问。针对 [Apache httpd 网站服务器](http://httpd.apache.org/) ，我们在此目录下放了一个 `.htaccess` 文件，其内容如下：
+我们还有一个 [应用基础目录](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`。我们主要的代码和数据将放在此目录下，它应该被保护起来，防止网站访客的直接访问。针对 [Apache httpd 网站服务器](https://httpd.apache.org/) ，我们在此目录下放了一个 `.htaccess` 文件，其内容如下：
 
 ~~~
 deny from all

@@ -59,7 +59,7 @@ This is the only script that Web users can directly access. The script first inc
 
 ###Base Application Directory
 
-We also have an [application base directory](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. The majority of our code and data will be placed under this directory, and it should be protected from being accessed by Web users. For [Apache httpd Web server](http://httpd.apache.org/), we place under this directory a `.htaccess` file with the following content:
+We also have an [application base directory](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. The majority of our code and data will be placed under this directory, and it should be protected from being accessed by Web users. For [Apache httpd Web server](https://httpd.apache.org/), we place under this directory a `.htaccess` file with the following content:
 
 ~~~
 deny from all
