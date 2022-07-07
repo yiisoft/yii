@@ -6,7 +6,7 @@ Basado en el análisis de requerimientos, decidimos usar las siguientes tablas e
  * `tbl_user` guarda la información del usuario, incluyendo el nombre de usuario y contraseña.
  * `tbl_post` guarda la información del post. Consiste principalmente de las siguientes columnas:
 	 - `title`: requerido, titulo del post;
-	 - `content`: requerido, contenido del post, el cual usa: [formato Markdown](http://daringfireball.net/projects/markdown/syntax);
+	 - `content`: requerido, contenido del post, el cual usa: [formato Markdown](https://daringfireball.net/projects/markdown/syntax);
 	 - `status`: requerido, estado del post, puede contener uno de los siguientes valores:
 		 * 1, significa que el post es un borrador y no es visible al público;
 		 * 2, significa que el post está disponible al público;
