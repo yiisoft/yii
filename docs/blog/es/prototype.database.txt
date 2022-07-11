@@ -7,7 +7,7 @@ Luego de haber creado un esqueleto para la aplicación y terminado el diseño de
 Creando la Base de Datos
 ------------------------
 
-Elegimos crear una base de datos SQLite. Como el soporte de bases de datos en Yii está hecho por encima de [PDO](http://www.php.net/manual/en/book.pdo.php), podemos fácilmente cambiar entre diferentes tipos de SGBD (e.g. MySQL, PostgreSQL) sin la necesidad de cambiar código en nuestra aplicación.
+Elegimos crear una base de datos SQLite. Como el soporte de bases de datos en Yii está hecho por encima de [PDO](https://www.php.net/manual/en/book.pdo.php), podemos fácilmente cambiar entre diferentes tipos de SGBD (e.g. MySQL, PostgreSQL) sin la necesidad de cambiar código en nuestra aplicación.
 
 Creamos el archivo de base de datos `blog.db` en el directorio `/wwwroot/blog/protected/data`. Notar que tanto el directorio y el archivo de la base de datos deben tener permisos de escritura por el Servidor Web, como lo requiere SQLite. Podemos simplemente copiar el archivo de base de datos desde el demo de blog en nuestra instalación de Yii que se encuentra en `/wwwroot/yii/demos/blog/protected/data/blog.db`. También podemos generar la base de datos ejecutando las sentencias SQL del archivo `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 

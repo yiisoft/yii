@@ -36,9 +36,9 @@ PHP memcache extension and uses memory as the medium of cache storage; the
 [CDbCache] component stores cached data in database. The following is a
 summary of the available cache components:
 
-   - [CMemCache]: uses PHP [memcache extension](http://www.php.net/manual/en/book.memcache.php).
+   - [CMemCache]: uses PHP [memcache extension](https://www.php.net/manual/en/book.memcache.php).
 
-   - [CApcCache]: uses PHP [APC extension](http://www.php.net/manual/en/book.apc.php).
+   - [CApcCache]: uses PHP [APC extension](https://www.php.net/manual/en/book.apc.php).
 
    - [CXCache]: uses PHP [XCache extension](http://xcache.lighttpd.net/).
 

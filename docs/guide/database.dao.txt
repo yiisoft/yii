@@ -44,7 +44,7 @@ $connection->active=false;  // close connection
 The format of DSN depends on the PDO database driver in use. In general, a
 DSN consists of the PDO driver name, followed by a colon, followed by the
 driver-specific connection syntax. See [PDO
-documentation](http://www.php.net/manual/en/pdo.construct.php) for complete
+documentation](https://www.php.net/manual/en/pdo.construct.php) for complete
 information. Below is a list of commonly used DSN formats:
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -250,7 +250,7 @@ the latter with a value. For parameters that represent large blocks of data
 memory, the former is preferred for performance consideration.
 
 For more details about binding parameters, see the [relevant PHP
-documentation](http://www.php.net/manual/en/pdostatement.bindparam.php).
+documentation](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Binding Columns
 ---------------

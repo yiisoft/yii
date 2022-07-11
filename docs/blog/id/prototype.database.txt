@@ -7,7 +7,7 @@ Setelah membuat sebuah aplikasi kerangka dan menyelesaikan rancangan database, d
 Membuat Database
 -----------------
 
-Kita memilih membuat sebuah database SQLite. Karena dukungan database Yii dibangun di atas [PDO](http://www.php.net/manual/en/book.pdo.php), kita dapat dengan mudah mengganti jenis DBMS dengan gampan (misalnya MySQL, PostgreSQL) tanpa perlu mengubah kode komputer.
+Kita memilih membuat sebuah database SQLite. Karena dukungan database Yii dibangun di atas [PDO](https://www.php.net/manual/en/book.pdo.php), kita dapat dengan mudah mengganti jenis DBMS dengan gampan (misalnya MySQL, PostgreSQL) tanpa perlu mengubah kode komputer.
 
 Kita membuat sebuah file database `blog.db` di bawah direktori `/wwwroot/blog/protected/data`. Perhatikan bahwa direktori dan file database haruslah dapat ditulis oleh proses server Web, seperti yang dperlukan oleh SQLite. Kita dapat meng-copy file database dari demo blog di dalam instalasi Yii di  `/wwwroot/yii/demos/blog/protected/data/blog.db`. Kita juga dapat membuat database dengan menjalankan statement di dalam file `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 

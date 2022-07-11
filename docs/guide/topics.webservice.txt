@@ -21,7 +21,7 @@ API is invoked by a client, Yii will instantiate the corresponding service
 provider and call the requested API to fulfill the request.
 
 > Note: [CWebService] relies on the [PHP SOAP
-extension](http://www.php.net/manual/en/ref.soap.php). Make sure you have
+extension](https://www.php.net/manual/en/ref.soap.php). Make sure you have
 enabled it before trying the examples displayed in this section.
 
 Defining Service Provider

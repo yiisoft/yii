@@ -7,7 +7,7 @@
 创建数据库
 -----------------
 
-我们选择创建一个SQLite数据库。由于Yii中的数据库支持是建立在 [PDO](http://www.php.net/manual/en/book.pdo.php) 之上的，我们可以很容易地切换到一个不同的 DBMS (例如 MySQL, PostgreSQL) 而不需要修改我们的应用代码。
+我们选择创建一个SQLite数据库。由于Yii中的数据库支持是建立在 [PDO](https://www.php.net/manual/en/book.pdo.php) 之上的，我们可以很容易地切换到一个不同的 DBMS (例如 MySQL, PostgreSQL) 而不需要修改我们的应用代码。
 
 我们把数据库文件 `blog.db` 建立在 `/wwwroot/blog/protected/data` 中。注意，数据库文件和其所在的目录都必须对Web服务器进程可写，这是SQLite的要求。我们可以简单的从博客演示中复制这个数据库文件，它位于 `/wwwroot/yii/demos/blog/protected/data/blog.db`。我们也可以通过执行 `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql` 文件中的SQL语句自己创建这个数据库。
 

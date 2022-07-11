@@ -7,7 +7,7 @@ Posiadając utworzony szkielet aplikacji oraz zakończony projekt bazy danych, z
 Tworzenie bazy danych
 -----------------
 
-Zdecydowaliśmy się utworzyć bazę danych SQLite. Ponieważ wsparcie dla baz danych opiera się na [PDO](http://www.php.net/manual/en/book.pdo.php), możemy bardzo łatwo przełączać się pomiędzy używaniem różnych typów baz danych (np. MySQL, PostgreSQL) bez potrzeby dokonywania zmian w kodzie aplikacji.
+Zdecydowaliśmy się utworzyć bazę danych SQLite. Ponieważ wsparcie dla baz danych opiera się na [PDO](https://www.php.net/manual/en/book.pdo.php), możemy bardzo łatwo przełączać się pomiędzy używaniem różnych typów baz danych (np. MySQL, PostgreSQL) bez potrzeby dokonywania zmian w kodzie aplikacji.
 
 Utworzyliśmy plik bazy danych `blog.db` w katalogu `/wwwroot/blog/protected/data`. Zauważ, że wymagania SQLite, powodują że zarówno katalog jak i plik bazy danych powinny być zapisywalne przez proces serwera. Można po prostu skopiować plik bazy danych z dema blogu znajdującego się w instalacji Yii w `/wwwroot/yii/demos/blog/protected/data/blog.db`. Możemy również wygenerować bazę danych poprzez wykonanie zapytań SQL zawartych w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 

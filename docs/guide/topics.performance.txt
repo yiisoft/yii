@@ -11,7 +11,7 @@ Enabling APC Extension
 ----------------------
 
 Enabling the [PHP APC
-extension](http://www.php.net/manual/en/book.apc.php) is perhaps the
+extension](https://www.php.net/manual/en/book.apc.php) is perhaps the
 easiest way to improve the overall performance of an application. The
 extension caches and optimizes PHP intermediate code and avoids the time
 spent in parsing PHP scripts for every incoming request.
@@ -29,7 +29,7 @@ every message being logged.
 Using `yiilite.php`
 -------------------
 
-When the [PHP APC extension](http://www.php.net/manual/en/book.apc.php) is
+When the [PHP APC extension](https://www.php.net/manual/en/book.apc.php) is
 enabled, we can replace `yii.php` with a different Yii bootstrap file named
 `yiilite.php` to further boost the performance of a Yii-powered application.
 
