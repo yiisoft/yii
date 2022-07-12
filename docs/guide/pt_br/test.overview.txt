@@ -57,7 +57,7 @@ Configuração do Ambiente de Teste
 
 Os testes suportados fornecidos pelo Yii requerem 
 [PHPUnit](https://www.phpunit.de/) 3.5+ e
-[Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
+[Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+.
 Por favor, consulte as suas documentações sobre como instalar o PHPUnit e o
 Selenium Remote Control.
 

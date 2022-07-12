@@ -2,7 +2,7 @@ Funktionstests
 ==============
 
 Wir empfehlen Ihnen, sich zunächst die [Selenium
-Dokumenation](http://seleniumhq.org/docs/) sowie die [PHPUnit
+Dokumenation](https://www.selenium.dev/documentation/) sowie die [PHPUnit
 Dokumenation](https://www.phpunit.de/wiki/Documentation) durchzulesen.
 Zusammengefasst gelten diese Grundprinzipien für das Schreiben von
 Funktionstests in Yii:

@@ -1,7 +1,7 @@
 Funktionell testning
 ====================
 
-Före läsning av detta avsnitt rekommenderas läsning av [Selenium-dokumentationen](http://seleniumhq.org/docs/)
+Före läsning av detta avsnitt rekommenderas läsning av [Selenium-dokumentationen](https://www.selenium.dev/documentation/)
 och [PHPUnit-dokumentationen](https://www.phpunit.de/wiki/Documentation). Här följer en sammanfattning
 av de grundläggande principerna för hur man skriver ett funktionellt test i Yii:
 

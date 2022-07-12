@@ -1,7 +1,7 @@
 Functional Testing
 ==================
 
-Before reading this section, it is recommended that you read the [Selenium documentation](http://seleniumhq.org/docs/) and the [PHPUnit documentation](https://www.phpunit.de/wiki/Documentation) first. We summarize in the following the basic principles of writing a functional test in Yii:
+Before reading this section, it is recommended that you read the [Selenium documentation](https://www.selenium.dev/documentation/) and the [PHPUnit documentation](https://www.phpunit.de/wiki/Documentation) first. We summarize in the following the basic principles of writing a functional test in Yii:
 
  * Like unit test, a functional test is written in terms of a class `XyzTest` which extends from [CWebTestCase], where `Xyz` stands for the class being tested. Because `PHPUnit_Extensions_SeleniumTestCase` is the ancestor class for [CWebTestCase], we can use all methods inherited from this class.
 
