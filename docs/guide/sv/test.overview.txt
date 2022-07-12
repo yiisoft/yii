@@ -47,7 +47,7 @@ Sätta upp testomgivning
 -----------------------
 
 Stödet för testning som Yii erbjuder kräver [PHPUnit](https://www.phpunit.de/)
-3.5+ samt [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
+3.5+ samt [Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+.
 Se deras respektive dokumentation angående installation av PHPUnit och Selenium Remote Control.
 
 När vi använder konsolkommandot `yiic webapp` till att skapa en ny Yii-

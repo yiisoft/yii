@@ -13,7 +13,7 @@ A functional test verifies that a feature (e.g. post management in a blog system
 Test-Driven Development
 -----------------------
 
-Below we show the development cycles in the so-called [test-driven development (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
+Below we show the development cycles in the so-called [test-driven development (TDD)](https://en.wikipedia.org/wiki/Test-driven_development):
 
  1. Create a new test that covers a feature to be implemented. The test is expected to fail at its first execution because the feature has yet to be implemented.
  2. Run all tests and make sure the new test fails.
@@ -27,7 +27,7 @@ Repeat step 1 to 5 to push forward the functionality implementation.
 Test Environment Setup
 ----------------------
 
-The testing supported provided by Yii requires [PHPUnit](http://www.phpunit.de/) 3.5+ and [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. Please refer to their documentation on how to install PHPUnit and Selenium Remote Control.
+The testing supported provided by Yii requires [PHPUnit](https://www.phpunit.de/) 3.5+ and [Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+. Please refer to their documentation on how to install PHPUnit and Selenium Remote Control.
 
 When we use the `yiic webapp` console command to create a new Yii application, it will generate the following files and directories for us to write and perform new tests:
 
@@ -55,7 +55,7 @@ To execute tests (whether unit tests or functional tests), we can execute the fo
 % phpunit --coverage-html ./report unit
 ~~~
 
-In the above, the last command will execute all tests under the `unit` directory and generate a code-coverage report under the `report` directory. Note that [xdebug extension](http://www.xdebug.org/) must be installed and enabled in order to generate code-coverage reports.
+In the above, the last command will execute all tests under the `unit` directory and generate a code-coverage report under the `report` directory. Note that [xdebug extension](https://www.xdebug.org/) must be installed and enabled in order to generate code-coverage reports.
 
 
 Test Bootstrap Script

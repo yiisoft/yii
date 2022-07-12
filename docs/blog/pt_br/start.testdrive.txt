@@ -59,7 +59,7 @@ Este é o único script que os usuários podem acessar diretamente da Web. O scr
 
 ###Diretório Base da Aplicação
 
-Nós também temos uma [diretório base da aplicação](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. A maioria do nosso código e os dados serão colocados neste diretório, e deve ser protegido de acesso por usuários da web. Para [Apache httpd servidor Web](http://httpd.apache.org/), colocamos neste diretório um arquivo `.htaccess` com o seguinte conteúdo:
+Nós também temos uma [diretório base da aplicação](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. A maioria do nosso código e os dados serão colocados neste diretório, e deve ser protegido de acesso por usuários da web. Para [Apache httpd servidor Web](https://httpd.apache.org/), colocamos neste diretório um arquivo `.htaccess` com o seguinte conteúdo:
 
 ~~~
 deny from all

@@ -76,12 +76,12 @@ you should turn on schema caching by configuring the
 Support for AR is limited by DBMS. Currently, only the following DBMS are
 supported:
 
-   - [MySQL 4.1 or later](http://www.mysql.com)
+   - [MySQL 4.1 or later](https://www.mysql.com)
    - [MariaDB](https://mariadb.com)
-   - [PostgreSQL 7.3 or later](http://www.postgres.com)
-   - [SQLite 2 and 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [PostgreSQL 7.3 or later](https://www.postgresql.org/)
+   - [SQLite 2 and 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 or later](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 If you want to use an application component other than `db`, or if you
 want to work with multiple databases using AR, you should override

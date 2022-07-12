@@ -1,7 +1,7 @@
 Membuat Tag Cloud Portlet
 ==========================
 
-[Tag cloud](http://en.wikipedia.org/wiki/Tag_cloud) menampilkan daftar tag post dengan tampilan visual yang menunjukkan popularitas tiap tag.
+[Tag cloud](https://en.wikipedia.org/wiki/Tag_cloud) menampilkan daftar tag post dengan tampilan visual yang menunjukkan popularitas tiap tag.
 
 
 Membuat Class `TagCloud`

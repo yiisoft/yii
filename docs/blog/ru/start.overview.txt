@@ -21,5 +21,5 @@
 
 Переводчики
 -----------
-- Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
+- Александр Макаров, Sam Dark ([rmcreative.ru](https://rmcreative.ru/))
 - Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))

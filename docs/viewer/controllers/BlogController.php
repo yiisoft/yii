@@ -50,7 +50,7 @@ class BlogController extends CController
 			"<div class=\"image\"><p>\\3</p><img\\1src=\"$imageUrl/\\2\" alt=\"\\3\" /></div>",$content);
 
 		$content=preg_replace_callback('/href="\/doc\/blog\/(.*?)\/?"/',array($this,'replaceBlogLink'),$content);
-		$content=preg_replace('/href="(\/doc\/api\/.*?)"/','href="http://www.yiiframework.com$1"',$content);
+		$content=preg_replace('/href="(\/doc\/api\/.*?)"/','href="https://www.yiiframework.com$1"',$content);
 
 		$this->pageTitle='The Yii Blog Tutorial';
 		if($topic!=='index' && preg_match('/<h1[^>]*>(.*?)</',$content,$matches))

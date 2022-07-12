@@ -59,7 +59,7 @@ Ini merupakan skrip yang dapat diakses langsung oleh pengguna Web. Skrip file me
 
 ###Direktori Aplikasi Dasar
 
-Kita juga memilik sebuah [direktori dasar aplikasi](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. Pada umumnya kode dan data kita akan diletakkan dalam direktori ini, dan harus terlindungi dari Web user yang ingin mengaksesnya. Untuk [Apache httpd Web server](http://httpd.apache.org/), kita meletakkan sebuah file `.htaccess` direktori dengan isinya:
+Kita juga memilik sebuah [direktori dasar aplikasi](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. Pada umumnya kode dan data kita akan diletakkan dalam direktori ini, dan harus terlindungi dari Web user yang ingin mengaksesnya. Untuk [Apache httpd Web server](https://httpd.apache.org/), kita meletakkan sebuah file `.htaccess` direktori dengan isinya:
 
 ~~~
 deny from all

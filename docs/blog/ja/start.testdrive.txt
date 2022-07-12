@@ -72,7 +72,7 @@ Yii::createWebApplication($config)->run();
 次に、`/wwwroot/blog/protected` という [アプリケーションベースディレクトリ](https://www.yiiframework.com/doc/guide/ja/basics.application#sec-3) があります。
 これから作成するコードとデータのほとんどがこのディレクトリ以下に配置されます。
 このディレクトリはウェブユーザのアクセスから保護されなければなりません。
-[Apache httpd ウェブサーバ](http://httpd.apache.org/) を使っているなら、以下のような `.htaccess` ファイルをこのディレクトリに置きます:
+[Apache httpd ウェブサーバ](https://httpd.apache.org/) を使っているなら、以下のような `.htaccess` ファイルをこのディレクトリに置きます:
 
 ~~~
 deny from all

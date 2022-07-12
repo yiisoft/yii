@@ -27,7 +27,7 @@ Yii 提供的測試支援包括 *單元測試* 和 *功能性測試*.
 構建測試環境
 ----------------------
 
-Yii 提供的測試支援需要 [PHPUnit](https://www.phpunit.de/) 3.5+ 和 [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+。請參照他們提供的檔案來安裝 PHPUnit 和 Selenium Remote Control。
+Yii 提供的測試支援需要 [PHPUnit](https://www.phpunit.de/) 3.5+ 和 [Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+。請參照他們提供的檔案來安裝 PHPUnit 和 Selenium Remote Control。
 
 當我們使用 `yiic webapp` 控制台命令來建立一個新的 Yii 應用程式時，它將會產生以下檔案和目錄供我們來撰寫和完成測試。
 

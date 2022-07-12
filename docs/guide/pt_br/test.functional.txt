@@ -2,7 +2,7 @@ Testes Funcionais
 ==================
 
 Antes de ler esta seção, é recomendável que você primeiro leia a
-[documentação do Selenium](http://seleniumhq.org/docs/) e a
+[documentação do Selenium](https://www.selenium.dev/documentation/) e a
 [documentação do PHPUnit](https://www.phpunit.de/wiki/Documentation). Nós
 resumimos a seguir os princípios básicos de escrita de testes funcionais no Yii:
 

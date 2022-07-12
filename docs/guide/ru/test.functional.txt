@@ -2,7 +2,7 @@
 ===========================
 
 Перед прочтением даного раздела рекомендуется прочитать
-[документацию по Selenium](http://seleniumhq.org/docs/) и
+[документацию по Selenium](https://www.selenium.dev/documentation/) и
 [документацию по PHPUnit](https://www.phpunit.de/wiki/Documentation). Дальше мы
 подытожим основные принципы написания функциональных тестов в Yii:
 

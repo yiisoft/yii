@@ -7,7 +7,7 @@ DBMS can be changed to a different one without requiring change of the code
 which uses DAO to access the data.
 
 Yii DAO is built on top of [PHP Data Objects
-(PDO)](http://php.net/manual/en/book.pdo.php) which is an extension
+(PDO)](https://php.net/manual/en/book.pdo.php) which is an extension
 providing unified data access to many popular DBMS, such as MySQL,
 PostgreSQL. Therefore, to use Yii DAO, the PDO extension and the specific
 PDO database driver (e.g. `PDO_MYSQL`) have to be installed.
@@ -44,7 +44,7 @@ $connection->active=false;  // close connection
 The format of DSN depends on the PDO database driver in use. In general, a
 DSN consists of the PDO driver name, followed by a colon, followed by the
 driver-specific connection syntax. See [PDO
-documentation](http://www.php.net/manual/en/pdo.construct.php) for complete
+documentation](https://www.php.net/manual/en/pdo.construct.php) for complete
 information. Below is a list of commonly used DSN formats:
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -215,7 +215,7 @@ Binding Parameters
 ------------------
 
 To avoid [SQL injection
-attacks](http://en.wikipedia.org/wiki/SQL_injection) and to improve
+attacks](https://en.wikipedia.org/wiki/SQL_injection) and to improve
 performance of executing repeatedly used SQL statements, one can "prepare"
 an SQL statement with optional parameter placeholders that are to be
 replaced with the actual parameters during the parameter binding process.
@@ -250,7 +250,7 @@ the latter with a value. For parameters that represent large blocks of data
 memory, the former is preferred for performance consideration.
 
 For more details about binding parameters, see the [relevant PHP
-documentation](http://www.php.net/manual/en/pdostatement.bindparam.php).
+documentation](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Binding Columns
 ---------------

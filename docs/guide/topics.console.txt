@@ -203,7 +203,7 @@ When running console commands automatically, via cronjob or using a continuous i
 always interesting if the command ran successfully or if there were errors.
 This can be done by checking the exit code a process returns on exit.
 
-These codes are integer values between 0 and 254 (this is the range in [php world](http://www.php.net/manual/en/function.exit.php)),
+These codes are integer values between 0 and 254 (this is the range in [php world](https://www.php.net/manual/en/function.exit.php)),
 where 0 should be returned on success and all other values greater than 0 will indicate an error.
 
 In an action method or in the `run()` method of your console command you can return an integer value

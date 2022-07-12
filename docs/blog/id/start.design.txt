@@ -6,7 +6,7 @@ Berdasarkan analisis kebutuhan, kita memutuskan menggunakan tabel database berik
  * `tbl_user` menyimpan informasi user, termasuk username dan password.
  * `tbl_post` menyimpan informasi post blog. Utamanya terdiri dari kolom-kolom berikut:
 	 - `title`: wajib diperlukan, merupakan judul dari post;
-	 - `content`: wajib diperlukan, isi dari post yang menggunakan [format Markdown](http://daringfireball.net/projects/markdown/syntax);
+	 - `content`: wajib diperlukan, isi dari post yang menggunakan [format Markdown](https://daringfireball.net/projects/markdown/syntax);
 	 - `status`: wajib diperlukan, status dari post, dapat berupa nilai-nilai berikut ini:
 		 * 1, artinya post masih dalam tahap draf dan tidak terlihat oleh publik;
 		 * 2, artinya post dipublikasi ke publik;

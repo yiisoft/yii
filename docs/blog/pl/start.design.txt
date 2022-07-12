@@ -6,7 +6,7 @@ W oparciu o analizę wymagań, zdecydowaliśmy się używać następującej bazy
  * Tabela `tbl_user` przechowuje informacje o użytkownikach, włączając w to ich nazwy oraz hasła. 
  * Tabela `tbl_post` przechowuje informacje o postach w blogu. Składa się ona przede wszystkim z następujących kolumn: 
  	 - `title` (tytuł): wymagany, tytuł wiadomości;
-	 - `content` (zawartość): wymagana, zawartość treści wiadomości, zapisana w [formacie Markdown](http://daringfireball.net/projects/markdown/syntax);
+	 - `content` (zawartość): wymagana, zawartość treści wiadomości, zapisana w [formacie Markdown](https://daringfireball.net/projects/markdown/syntax);
 	 - `status` (status): wymagany, status wiadomości, który może przyjmować następujące wartości:
 		 * 1, oznacza iż wiadomość znajduje się w wersji roboczej i nie jest widoczna publicznie;
 		 * 2, oznacza iż wiadomość jest upubliczniona;
