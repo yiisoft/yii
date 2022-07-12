@@ -22,7 +22,7 @@ RewriteRule . index.php
 Nginx
 -----
 
-You can use Yii with [Nginx](http://wiki.nginx.org/) and PHP with [FPM SAPI](http://php.net/install.fpm).
+You can use Yii with [Nginx](https://wiki.nginx.org/) and PHP with [FPM SAPI](https://php.net/install.fpm).
 Here is a sample host configuration. It defines the bootstrap file and makes yii catch all requests to unexisting files, which allows us to have nice-looking URLs.
 
 ~~~

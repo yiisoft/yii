@@ -11,7 +11,7 @@ Enabling APC Extension
 ----------------------
 
 Enabling the [PHP APC
-extension](http://www.php.net/manual/en/book.apc.php) is perhaps the
+extension](https://www.php.net/manual/en/book.apc.php) is perhaps the
 easiest way to improve the overall performance of an application. The
 extension caches and optimizes PHP intermediate code and avoids the time
 spent in parsing PHP scripts for every incoming request.
@@ -29,7 +29,7 @@ every message being logged.
 Using `yiilite.php`
 -------------------
 
-When the [PHP APC extension](http://www.php.net/manual/en/book.apc.php) is
+When the [PHP APC extension](https://www.php.net/manual/en/book.apc.php) is
 enabled, we can replace `yii.php` with a different Yii bootstrap file named
 `yiilite.php` to further boost the performance of a Yii-powered application.
 
@@ -69,7 +69,7 @@ Besides these application-level caching techniques, we can also use
 server-level caching solutions to boost the application performance. As a
 matter of fact, the [APC caching](/doc/guide/topics.performance#enabling-apc-extension) we
 described earlier belongs to this category. There are other server
-techniques, such as [Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer),
+techniques, such as [Zend Optimizer](https://www.zend.com/en/products/guard/zend-optimizer),
 [eAccelerator](http://eaccelerator.net/),
 [Squid](http://www.squid-cache.org/), to name a few.
 
@@ -126,7 +126,7 @@ Second, we need to use some tools to merge (and perhaps compress) the JavaScript
 
 The same trick also applies to CSS files.
 
-We can also improve page loading speed with the help of [Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/). For example, we can include `jquery.js` from Google servers instead of our own server. To do so, we first configure the `scriptMap` as follows,
+We can also improve page loading speed with the help of [Google AJAX Libraries API](https://code.google.com/apis/ajaxlibs/). For example, we can include `jquery.js` from Google servers instead of our own server. To do so, we first configure the `scriptMap` as follows,
 
 ~~~
 [php]
@@ -159,7 +159,7 @@ Symlinking assets
 -----------------
 
 If your project uses assets a lot you can improve its performance slightly by
-using [symbolic links](http://en.wikipedia.org/wiki/Symbolic_link) instead of
+using [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link) instead of
 file copies. In order to turn it on you should configure
 [linkAssets|CAssetManager::linkAssets] property of `assetManager`
 application component using `protected/config/main.php` config file:

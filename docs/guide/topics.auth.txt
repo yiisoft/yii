@@ -114,7 +114,7 @@ Cookie-based Login
 ------------------
 
 By default, a user will be logged out after a certain period of inactivity,
-depending on the [session configuration](http://www.php.net/manual/en/session.configuration.php).
+depending on the [session configuration](https://www.php.net/manual/en/session.configuration.php).
 To change this behavior, we can set the [allowAutoLogin|CWebUser::allowAutoLogin]
 property of the user component to be true and pass a duration parameter to
 the [CWebUser::login] method. The user will then remain logged in for
@@ -343,7 +343,7 @@ Role-Based Access Control
 
 Role-Based Access Control (RBAC) provides a simple yet powerful
 centralized access control. Please refer to the [Wiki
-article](http://en.wikipedia.org/wiki/Role-based_access_control) for more
+article](https://en.wikipedia.org/wiki/Role-based_access_control) for more
 details about comparing RBAC with other more traditional access control
 schemes.
 

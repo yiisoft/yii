@@ -7,15 +7,15 @@ When using third-party libraries in a project, developers often
 encounter issues about class naming and file inclusion.
 Because all Yii classes are prefixed with letter `C`, it is less
 likely class naming issue would occur; and because Yii relies on
-[SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php)
+[SPL autoload](https://us3.php.net/manual/en/function.spl-autoload.php)
 to perform class file inclusion, it can play nicely with other libraries
 if they use the same autoloading feature or PHP include path to include
 class files.
 
 
 Below we use an example to illustrate how to use the
-[Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-component from the [Zend framework](http://www.zendframework.com) in a Yii application.
+[Zend_Search_Lucene](https://www.zendframework.com/manual/en/zend.search.lucene.html)
+component from the [Zend framework](https://www.zendframework.com) in a Yii application.
 
 First, we extract the Zend framework release file to a directory
 under `protected/vendors`, assuming `protected` is the

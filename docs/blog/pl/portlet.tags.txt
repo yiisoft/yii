@@ -1,7 +1,7 @@
 Tworzenie portletu chmurki tagów
 ==========================
 
-[Chmurka tagów](http://en.wikipedia.org/wiki/Tag_cloud) wyświetla listę tagów wiadomości wraz z wizualnymi ozdobnikami, podpowiadającymi jak bardzo popularny jest każdy z tagów. 
+[Chmurka tagów](https://en.wikipedia.org/wiki/Tag_cloud) wyświetla listę tagów wiadomości wraz z wizualnymi ozdobnikami, podpowiadającymi jak bardzo popularny jest każdy z tagów. 
 
 
 Tworzenie klasy `TagCloud`

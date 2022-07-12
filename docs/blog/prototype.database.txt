@@ -7,11 +7,11 @@ Having created a skeleton application and finished the database design, in this 
 Creating Database
 -----------------
 
-We choose to create a SQLite database. Because the database support in Yii is built on top of [PDO](http://www.php.net/manual/en/book.pdo.php), we can easily switch to use a different type of DBMS (e.g. MySQL, PostgreSQL) without the need to change our application code.
+We choose to create a SQLite database. Because the database support in Yii is built on top of [PDO](https://www.php.net/manual/en/book.pdo.php), we can easily switch to use a different type of DBMS (e.g. MySQL, PostgreSQL) without the need to change our application code.
 
 We create the database file `blog.db` under the directory `/wwwroot/blog/protected/data`. Note that both the directory and the database file have to be writable by the Web server process, as required by SQLite. We may simply copy the database file from the blog demo in our Yii installation which is located at `/wwwroot/yii/demos/blog/protected/data/blog.db`. We may also generate the database by executing the SQL statements in the file `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
-> Tip: To execute SQL statements, we may use the `sqlite3` command line tool that can be found in [the SQLite official website](http://www.sqlite.org/download.html).
+> Tip: To execute SQL statements, we may use the `sqlite3` command line tool that can be found in [the SQLite official website](https://www.sqlite.org/download.html).
 
 
 Establishing Database Connection

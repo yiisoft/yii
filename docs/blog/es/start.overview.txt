@@ -10,6 +10,6 @@ Los lectores de este tutorial no requieren tener conocimiento previo sobre Yii. 
 Traducción
 -----------
 
-- Marcelo Canina (marcanuy) ([marcanuy.com](http://marcanuy.com/))
+- Marcelo Canina (marcanuy) ([marcanuy.com](https://marcanuy.com/))
 
 <div class="revision">$Id$</div>

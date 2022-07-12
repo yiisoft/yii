@@ -1,7 +1,7 @@
 创建标签云 Portlet
 ==========================
 
-[标签云](http://zh.wikipedia.org/zh-cn/%E6%A0%87%E7%AD%BE%E4%BA%91) 显示一个日志标签列表，每个标签都可以通过可视化的方式反映其使用频度。
+[标签云](https://zh.wikipedia.org/zh-cn/%E6%A0%87%E7%AD%BE%E4%BA%91) 显示一个日志标签列表，每个标签都可以通过可视化的方式反映其使用频度。
 
 
 创建 `TagCloud` 类

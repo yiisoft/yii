@@ -73,7 +73,7 @@ the `Last-Modified` header using a php expression.
 [CHttpCacheFilter::lastModified] can take either an integer representing an 
 epochal Unix timestamp or an arbitrary string representing a human-readable
 date. As long as later one can be parsed by
-[strtotime()](http://php.net/manual/function.strtotime.php), no further
+[strtotime()](https://php.net/manual/function.strtotime.php), no further
 conversion is necessary.
 
 The "Entity Tag" (or `ETag` for short) header can be set in a similar fashion 
@@ -81,12 +81,12 @@ through [CHttpCacheFilter::etagSeed] and [CHttpCacheFilter::etagSeedExpression]
 , respectively. Both will be serialized (so you can use either a single value
 or an entire array) and are used to generate a quoted, base64-encoded SHA1
 hash serving as content for the `ETag` header. This differs from the way the
-[Apache Webserver](http://httpd.apache.org) and others are generating their
+[Apache Webserver](https://httpd.apache.org) and others are generating their
 ETags. However, this method is perfectly in line with the RFC and turned out to
 be more feasible for use in a framework. 
 
 > Note: In order to comply with
-[RFC 2616, section 13.3.4](http://tools.ietf.org/html/rfc2616#section-13.3.4),
+[RFC 2616, section 13.3.4](https://tools.ietf.org/html/rfc2616#section-13.3.4),
 [CHttpCacheFilter] will send out `ETag` *and* `Last-Modified` headers if they
 can both be generated. Consequently, both will be used for cache validation if
 sent by the client.

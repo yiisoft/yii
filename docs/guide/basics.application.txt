@@ -83,7 +83,7 @@ script. It can be customized by setting the [basePath|CWebApplication::basePath]
 property in the [application configuration](/doc/guide/basics.application#application-configuration).
 
 Contents under the application base directory should be protected against being 
-accessed by Web users. With [Apache HTTP server](http://httpd.apache.org/), 
+accessed by Web users. With [Apache HTTP server](https://httpd.apache.org/), 
 this can be done easily by placing an `.htaccess` file under the base directory. 
 The content of the `.htaccess` file would be as follows:
 

@@ -59,7 +59,7 @@ Jest to jedyny skrypt, do którego internauci mają dostęp. Skrypt najpierw za�
 
 ###Główny katalog aplikacji
 
-Mamy również [główny katalog aplikacji](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. Większość naszego kodu i danych znajdzie się w tym katalogu, dlatego więc nie powinien on być udostępniony dla internautów. Dla [serwera httpd Apache](http://httpd.apache.org/), umieszczamy w tym miejscu plik `.htaccess` z następującą zawartością:
+Mamy również [główny katalog aplikacji](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. Większość naszego kodu i danych znajdzie się w tym katalogu, dlatego więc nie powinien on być udostępniony dla internautów. Dla [serwera httpd Apache](https://httpd.apache.org/), umieszczamy w tym miejscu plik `.htaccess` z następującą zawartością:
 
 ~~~
 deny from all

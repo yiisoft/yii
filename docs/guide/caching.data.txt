@@ -123,7 +123,7 @@ Built on top of data caching, query caching stores the result of a DB query
 in cache and may thus save the DB query execution time if the same query is requested
 in future, as the result can be directly served from the cache.
 
-> Info: Some DBMS (e.g. [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
+> Info: Some DBMS (e.g. [MySQL](https://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
 > also support query caching on the DB server side. Compared with the server-side
 > query caching, the same feature we support here offers more flexibility and
 > may be potentially more efficient.

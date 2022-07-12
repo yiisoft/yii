@@ -7,14 +7,14 @@
 データベースの作成
 -----------------
 
-データベースは SQLite を使うことにします。 Yii のデータベースサポートは [PDO](http://www.php.net/manual/en/book.pdo.php) の上に構築されているため、 アプリケーションコードを変更することなく、MySQL や PostgreSQL といった異なる DBMS を利用することができます。
+データベースは SQLite を使うことにします。 Yii のデータベースサポートは [PDO](https://www.php.net/manual/en/book.pdo.php) の上に構築されているため、 アプリケーションコードを変更することなく、MySQL や PostgreSQL といった異なる DBMS を利用することができます。
 
 ディレクトリ `/wwwroot/blog/protected/data` にデータベースファイル `blog.db` を作成します。
 SQLite による要求として、ディレクトリとデータベースファイルの両方が Web サーバプロセスから書き込み可能である必要がある、ということに注意して下さい。
 このデータベースの作成は、インストールされた Yii のブログデモから、データベースファイルをコピーしてくるだけで構いません。データベースファイルは `/wwwroot/yii/demos/blog/protected/data/blog.db` にあります。
 または、`/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql` というファイルにある SQL 文を実行してデータベースを生成することも出来ます。
 
-> Tip|ヒント: SQL 文の実行には、[SQLite 公式ウェブサイト](http://www.sqlite.org/download.html) にある `sqlite3` コマンドラインツールを利用できます。
+> Tip|ヒント: SQL 文の実行には、[SQLite 公式ウェブサイト](https://www.sqlite.org/download.html) にある `sqlite3` コマンドラインツールを利用できます。
 
 
 データベース接続を確立する
