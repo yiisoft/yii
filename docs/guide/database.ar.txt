@@ -78,7 +78,7 @@ supported:
 
    - [MySQL 4.1 or later](https://www.mysql.com)
    - [MariaDB](https://mariadb.com)
-   - [PostgreSQL 7.3 or later](http://www.postgres.com)
+   - [PostgreSQL 7.3 or later](https://www.postgresql.org/)
    - [SQLite 2 and 3](https://www.sqlite.org)
    - [Microsoft SQL Server 2000 or later](https://www.microsoft.com/sqlserver/)
    - [Oracle](https://www.oracle.com)
