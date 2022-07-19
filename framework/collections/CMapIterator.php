@@ -47,6 +47,7 @@ class CMapIterator implements Iterator
 	 * Rewinds internal array pointer.
 	 * This method is required by the interface Iterator.
 	 */
+	#[ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->_key=reset($this->_keys);
@@ -57,6 +58,7 @@ class CMapIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return mixed the key of the current array element
 	 */
+	#[ReturnTypeWillChange]
 	public function key()
 	{
 		return $this->_key;
@@ -67,6 +69,7 @@ class CMapIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return mixed the current array element
 	 */
+	#[ReturnTypeWillChange]
 	public function current()
 	{
 		return $this->_d[$this->_key];
@@ -76,6 +79,7 @@ class CMapIterator implements Iterator
 	 * Moves the internal pointer to the next array element.
 	 * This method is required by the interface Iterator.
 	 */
+	#[ReturnTypeWillChange]
 	public function next()
 	{
 		$this->_key=next($this->_keys);
@@ -86,6 +90,7 @@ class CMapIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function valid()
 	{
 		return $this->_key!==false;

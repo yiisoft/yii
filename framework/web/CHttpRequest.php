@@ -296,7 +296,7 @@ class CHttpRequest extends CApplicationComponent
 		if($this->_restParams===null)
 		{
 			$result=array();
-			if (strncmp($this->getContentType(), 'application/json', 16) === 0)
+			if (strncmp((string)$this->getContentType(), 'application/json', 16) === 0)
 				$result = CJSON::decode($this->getRawBody(), $this->jsonAsArray);
 			elseif(function_exists('mb_parse_str'))
 				mb_parse_str($this->getRawBody(), $result);

@@ -568,6 +568,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * This method is required by the interface IteratorAggregate.
 	 * @return CMapIterator an iterator for traversing the items in the list.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		$attributes=$this->getAttributes();
@@ -580,6 +581,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @param mixed $offset the offset to check on
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return property_exists($this,$offset);
@@ -591,6 +593,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @param integer $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		return $this->$offset;
@@ -602,6 +605,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @param integer $offset the offset to set element
 	 * @param mixed $item the element value
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetSet($offset,$item)
 	{
 		$this->$offset=$item;
@@ -612,6 +616,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * This method is required by the interface ArrayAccess.
 	 * @param mixed $offset the offset to unset element
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		unset($this->$offset);

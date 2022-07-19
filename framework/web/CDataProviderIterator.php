@@ -90,6 +90,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	 * This method is required by the Iterator interface.
 	 * @return mixed the current item in the list
 	 */
+	#[ReturnTypeWillChange]
 	public function current()
 	{
 		return $this->_items[$this->_currentIndex];
@@ -100,6 +101,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	 * This method is required by the Iterator interface.
 	 * @return integer the key of the current item
 	 */
+	#[ReturnTypeWillChange]
 	public function key()
 	{
 		$pageSize=$this->_dataProvider->getPagination()->getPageSize();
@@ -110,6 +112,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	 * Moves the pointer to the next item in the list.
 	 * This method is required by the Iterator interface.
 	 */
+	#[ReturnTypeWillChange]
 	public function next()
 	{
 		$pageSize=$this->_dataProvider->getPagination()->getPageSize();
@@ -126,6 +129,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	 * Rewinds the iterator to the start of the list.
 	 * This method is required by the Iterator interface.
 	 */
+	#[ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->_currentIndex=0;
@@ -138,6 +142,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	 * This method is required by the Iterator interface.
 	 * @return boolean true if this index is valid
 	 */
+	#[ReturnTypeWillChange]
 	public function valid()
 	{
 		return $this->key() < $this->_totalItemCount;
@@ -148,6 +153,7 @@ class CDataProviderIterator extends CComponent implements Iterator, Countable
 	 * This method is required by the Countable interface.
 	 * @return integer the total number of items
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->_totalItemCount;
