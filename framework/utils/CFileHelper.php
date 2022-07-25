@@ -79,7 +79,10 @@ class CFileHelper
 	{
 		if(!isset($options['traverseSymlinks']))
 			$options['traverseSymlinks']=false;
-		$items=glob($directory.DIRECTORY_SEPARATOR.'{,.}*',GLOB_MARK | GLOB_BRACE);
+		$items=array_merge(
+			glob($directory.DIRECTORY_SEPARATOR.'*',GLOB_MARK),
+			glob($directory.DIRECTORY_SEPARATOR.'.*',GLOB_MARK)
+		);
 		foreach($items as $item)
 		{
 			if(basename($item)=='.' || basename($item)=='..')
