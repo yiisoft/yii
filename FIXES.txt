@@ -1,0 +1,207 @@
+#001
+Description: Os campos Allow Null do MySQL estavam salvando um valor vazio e n„o NULL, isso gera erros de cast (date, integer)
+File: yii-path\framework\db\schema\CDbCommandBuilder.php
+Method: createInsertCommand, createUpdateCommand
+Line: 229, 389
+Original content:
+    $values[self::PARAM_PREFIX.$i]=$column->typecast($value);
+Replace with:
+    $values[self::PARAM_PREFIX.$i]=($column->allowNull && $value === '') ? null : $column->typecast($value);
+
+#002
+Description: fazer o método se comportar conforme os fetch* nativo do PDO
+File: yii-path\framework\db\CDbDataReader.php
+Method: readObject
+Line 109
+    Original
+        public function readObject($className,$fields)
+    Replace
+        public function readObject($className='stdClass',$fields=array())
+
+Line 119
+    Original
+        public function readAll()
+        {
+            return $this->_statement->fetchAll();
+        }
+    Replace
+        public function readAll($fetchStyle=null)
+        {
+            return $this->_statement->fetchAll($fetchStyle);
+        }
+
+#003
+Description: correção da url inicial do Captcha, em virtude da correção do CHtml::image(), se n„o for a url absoluta, ele tenta buscar no tema
+File: yii-path\framework\web\widgets\captcha\CCaptcha.php
+Method: renderImage
+Line 102
+    Original
+        $url = $this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
+    Replace
+        $url = Yii::app()->request->hostinfo.$this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
+
+#004
+Description: não criar nomes pluralizados para relacionamentos HAS_MANY
+File: yii-path\framework\gii\generators\model\ModelCode.php
+Method: generateRelationName
+Line: 410 e 411
+    Replace
+        //if($multiple)
+        //    $relationName=$this->pluralize($relationName);
+
+
+#005
+Description: adaptações gerais de alguns métodos do CHtml
+File: yii-path\framework\web\helpers\CHtml.php
+
+// Imprimir uma imagem com hint do erro, em vez do texto do erro
+    public static function error($model,$attribute,$htmlOptions=array())
+    {
+        self::resolveName($model,$attribute); // turn [a][b]attr into attr
+        $error=$model->getError($attribute);
+        if($error!='')
+        {
+            if(!isset($htmlOptions['class']))
+                $htmlOptions['class']=self::$errorMessageCss;
+            return self::tag(self::$errorContainerTag,$htmlOptions,'<span title="'.htmlentities(strip_tags($error), ENT_QUOTES, Yii::app()->charset).'" class="iconset-element sprite-input-error"></span>');
+        }
+        else
+            return '';
+    }
+
+// automatizar o src e o alt das imagens
+    public static function image($src,$alt='',$htmlOptions=array())
+    {
+        if (strstr($src, 'http://') || strstr($src, 'https://') || substr($src, 0, 1) == '/') {
+            $htmlOptions['src'] = $src;
+        } else {
+            $htmlOptions['src'] = Yii::app()->theme->baseUrl.'/images/'.$src;
+        }
+        $htmlOptions['alt'] = $htmlOptions['title'] = ($alt == '' ? $src : $alt);
+        return self::tag('img',$htmlOptions);
+    }
+
+// remover errors duplos
+    public static function errorSummary($model,$header=null,$footer=null,$htmlOptions=array())
+    {
+        $content='';
+        if(!is_array($model))
+            $model=array($model);
+        if(isset($htmlOptions['firstError']))
+        {
+            $firstError=$htmlOptions['firstError'];
+            unset($htmlOptions['firstError']);
+        }
+        else
+            $firstError=false;
+        $aErrors = array();
+        foreach($model as $m)
+        {
+            foreach($m->getErrors() as $errors)
+            {
+                foreach($errors as $error)
+                {
+                    if($error!='') {
+                        $aErrors[] = '<li>'.$error.'</li>';
+                    }
+                    if($firstError)
+                        break;
+                }
+            }
+        }
+        if (count($aErrors) > 0)
+            $content = implode("\n", array_unique($aErrors));
+
+        if($content!=='')
+        {
+            if($header===null)
+                $header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
+            if(!isset($htmlOptions['class']))
+                $htmlOptions['class']=self::$errorSummaryCss;
+            return self::tag('div',$htmlOptions,$header."\n<ul>\n$content</ul>".$footer);
+        }
+        else
+            return '';
+    }
+
+// faz muito esforço, foi apagado uma porrada de coisa e acrescentado duas linhas
+    public static function resolveValue($model,$attribute)
+    {
+        if(($pos=strpos($attribute,'['))!==false)
+        {
+            $name=substr($attribute,0,$pos); // adicionado
+            $value=$model->$name;  // adicionado
+            return $value;
+        }
+        else {
+            return $model->$attribute;
+        }
+    }
+
+#006
+Correção da implementação do campo "Arquivo". O framework cria um campo hidden que mais atrapalha que ajuda.
+Method: activeFileField
+Line 1867
+    Original
+        return self::hiddenField($htmlOptions['name'],'',$hiddenOptions) . self::activeInputField('file',$model,$attribute,$htmlOptions);
+    Replace
+        return self::activeInputField('file',$model,$attribute,$htmlOptions);
+
+#007
+Implementação da utilização de cenários nas relations
+File: yii-path\framework\db\ar\CActiveFinder.php
+Method: CActiveRecord::populateRecord
+Line: 855
+    Original
+        $record=$this->model->populateRecord($attributes,false);
+    Replace
+        $scenario = isset($this->relation->scenario) ? $this->relation->scenario : 'update';
+        $record=$this->model->populateRecord($attributes,false,$scenario);
+
+File: yii-path\framework\db\ar\CActiveRecord.php
+Method: populateRecord
+Line: 1856
+    Original
+        public function populateRecord($attributes,$callAfterFind=true)
+    Replace
+        public function populateRecord($attributes,$callAfterFind=true,$scenario='update')
+Line: 1861
+    Original
+        $record->setScenario('update');
+    Replace
+        $record->setScenario($scenario);
+Class: CActiveRelation
+Line: 2184
+    Add (ao final das declarações das propriedades)
+        public $scenario;
+Method: CActiveRelation::mergeWith
+Line: 2229
+    Add (no final do método)
+        if(isset($criteria['scenario']))
+            $this->scenario=$criteria['scenario'];
+
+######################################
+####### AINDA NÃO FOI FEITO ##########
+######################################
+pq parece q o yii ja atualizou isso
+- Enh #4323: Add PostgreSQL 12 support (bio, d4rkstar, marcovtwout)
+#008
+No Postgres12 foi retirada a coluna adsrc do pg_attrdef
+File: yii-path/framework/db/schema/pgsql/CPgsqlSchema.php
+Method: findColumns
+Line: 169
+    Original
+        SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, d.adsrc, a.attnotnull, a.atthasdef,
+    Replace
+        SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, pg_get_expr(d.adbin, d.adrelid) AS adsrc, a.attnotnull, a.atthasdef,
+Line: 199
+    Original
+        $this->_sequences[$table->rawName.'.'.$c->name]=$table->schemaName.'.'.$matches[1];
+    Replace
+        $this->_sequences[$table->rawName . '.' . $c->name] = self::DEFAULT_SCHEMA . '.' . $matches[1];
+Method: findConstraints
+Line: 234
+    Original
+        'CHECK (' || consrc || ')'
+    Replace
+        'CHECK (' || pg_get_expr(conbin, conrelid) || ')'
