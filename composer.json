@@ -1,6 +1,6 @@
 {
-	"name": "yiisoft/yii",
-	"description": "Yii Web Programming Framework",
+	"name": "analiseeditorial/yii",
+	"description": "Yii Web Programming Framework Análise Editorial",
 	"keywords": ["yii", "framework"],
 	"homepage": "http://www.yiiframework.com/",
 	"type": "library",
@@ -54,8 +54,11 @@
 			"name": "Jeffrey Winesett",
 			"email": "jefftulsa@gmail.com",
 			"role": "Documentation and marketing"
+		},
+		{
+			"name": "Jonathan Argentão",
+			"email": "jonathanargentao@gmail.com"
 		}
-		
 	],
 	"support": {
 		"issues": "https://github.com/yiisoft/yii/issues?state=open",
