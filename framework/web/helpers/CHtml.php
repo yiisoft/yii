@@ -464,12 +464,16 @@ class CHtml
 	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
 	 * @return string the generated image tag
 	 */
-	public static function image($src,$alt='',$htmlOptions=array())
-	{
-		$htmlOptions['src']=$src;
-		$htmlOptions['alt']=$alt;
-		return self::tag('img',$htmlOptions);
-	}
+  public static function image($src,$alt='',$htmlOptions=array())
+  {
+    if (strstr($src, 'http://') || strstr($src, 'https://') || substr($src, 0, 1) == '/') {
+      $htmlOptions['src'] = $src;
+    } else {
+      $htmlOptions['src'] = Yii::app()->theme->baseUrl.'/images/'.$src;
+    }
+    $htmlOptions['alt'] = $htmlOptions['title'] = ($alt == '' ? $src : $alt);
+    return self::tag('img',$htmlOptions);
+  }
 
 	/**
 	 * Generates a button.
@@ -1874,8 +1878,7 @@ EOD;
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		if(!empty($htmlOptions['disabled']))
 			$hiddenOptions['disabled']=$htmlOptions['disabled'];
-		return self::hiddenField($htmlOptions['name'],'',$hiddenOptions)
-			. self::activeInputField('file',$model,$attribute,$htmlOptions);
+    return self::activeInputField('file',$model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -2219,46 +2222,47 @@ EOD;
 	 * @see CModel::getErrors
 	 * @see errorSummaryCss
 	 */
-	public static function errorSummary($model,$header=null,$footer=null,$htmlOptions=array())
-	{
-		$content='';
-		if(!is_array($model))
-			$model=array($model);
-		if(isset($htmlOptions['firstError']))
-		{
-			$firstError=$htmlOptions['firstError'];
-			unset($htmlOptions['firstError']);
-		}
-		else
-			$firstError=false;
-		foreach($model as $m)
-		{
-			foreach($m->getErrors() as $errors)
-			{
-				foreach($errors as $error)
-				{
-					if($error!='')
-					{
-						if (!isset($htmlOptions['encode']) || $htmlOptions['encode'])
-							$error=self::encode($error);
-						$content.= '<li>'.$error."</li>\n";
-					}
-					if($firstError)
-						break;
-				}
-			}
-		}
-		if($content!=='')
-		{
-			if($header===null)
-				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
-			if(!isset($htmlOptions['class']))
-				$htmlOptions['class']=self::$errorSummaryCss;
-			return self::tag('div',$htmlOptions,$header."\n<ul>\n$content</ul>".$footer);
-		}
-		else
-			return '';
-	}
+  public static function errorSummary($model,$header=null,$footer=null,$htmlOptions=array())
+  {
+    $content='';
+    if(!is_array($model))
+      $model=array($model);
+    if(isset($htmlOptions['firstError']))
+    {
+      $firstError=$htmlOptions['firstError'];
+      unset($htmlOptions['firstError']);
+    }
+    else
+      $firstError=false;
+    $aErrors = array();
+    foreach($model as $m)
+    {
+      foreach($m->getErrors() as $errors)
+      {
+        foreach($errors as $error)
+        {
+          if($error!='') {
+            $aErrors[] = '<li>'.$error.'</li>';
+          }
+          if($firstError)
+            break;
+        }
+      }
+    }
+    if (count($aErrors) > 0)
+      $content = implode("\n", array_unique($aErrors));
+
+    if($content!=='')
+    {
+      if($header===null)
+        $header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
+      if(!isset($htmlOptions['class']))
+        $htmlOptions['class']=self::$errorSummaryCss;
+      return self::tag('div',$htmlOptions,$header."\n<ul>\n$content</ul>".$footer);
+    }
+    else
+      return '';
+  }
 
 	/**
 	 * Displays the first validation error for a model attribute.
@@ -2270,21 +2274,19 @@ EOD;
 	 * @see errorMessageCss
 	 * @see $errorContainerTag
 	 */
-	public static function error($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveName($model,$attribute); // turn [a][b]attr into attr
-		$error=$model->getError($attribute);
-		if (!isset($htmlOptions['encode']) || $htmlOptions['encode'])
-			$error=self::encode($error);
-		if($error!='')
-		{
-			if(!isset($htmlOptions['class']))
-				$htmlOptions['class']=self::$errorMessageCss;
-			return self::tag(self::$errorContainerTag,$htmlOptions,$error);
-		}
-		else
-			return '';
-	}
+  public static function error($model,$attribute,$htmlOptions=array())
+  {
+    self::resolveName($model,$attribute); // turn [a][b]attr into attr
+    $error=$model->getError($attribute);
+    if($error!='')
+    {
+      if(!isset($htmlOptions['class']))
+        $htmlOptions['class']=self::$errorMessageCss;
+      return self::tag(self::$errorContainerTag,$htmlOptions,'<span title="'.htmlentities(strip_tags($error), ENT_QUOTES, Yii::app()->charset).'" class="iconset-element sprite-input-error"></span>');
+    }
+    else
+      return '';
+  }
 
 	/**
 	 * Generates the data suitable for list-based HTML elements.
@@ -2758,31 +2760,18 @@ EOD;
 	 * @return mixed the attribute value
 	 * @since 1.1.3
 	 */
-	public static function resolveValue($model,$attribute)
-	{
-		if(($pos=strpos($attribute,'['))!==false)
-		{
-			if($pos===0) // [a]name[b][c], should ignore [a]
-			{
-				if(preg_match('/\](\w+(\[.+)?)/',$attribute,$matches))
-					$attribute=$matches[1]; // we get: name[b][c]
-				if(($pos=strpos($attribute,'['))===false)
-					return $model->$attribute;
-			}
-			$name=substr($attribute,0,$pos);
-			$value=$model->$name;
-			foreach(explode('][',rtrim(substr($attribute,$pos+1),']')) as $id)
-			{
-				if((is_array($value) || $value instanceof ArrayAccess) && isset($value[$id]))
-					$value=$value[$id];
-				else
-					return null;
-			}
-			return $value;
-		}
-		else
-			return $model->$attribute;
-	}
+  public static function resolveValue($model,$attribute)
+  {
+    if(($pos=strpos($attribute,'['))!==false)
+    {
+      $name=substr($attribute,0,$pos); // adicionado
+      $value=$model->$name;  // adicionado
+      return $value;
+    }
+    else {
+      return $model->$attribute;
+    }
+  }
 
 	/**
 	 * Appends {@link errorCss} to the 'class' attribute.

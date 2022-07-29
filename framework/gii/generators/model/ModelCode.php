@@ -407,8 +407,8 @@ class ModelCode extends CCodeModel
 			$relationName=$fkName;
 		$relationName[0]=strtolower($relationName[0]);
 
-		if($multiple)
-			$relationName=$this->pluralize($relationName);
+//		if($multiple)
+//			$relationName=$this->pluralize($relationName);
 
 		$names=preg_split('/_+/',$relationName,-1,PREG_SPLIT_NO_EMPTY);
 		if(empty($names)) return $relationName;  // unlikely

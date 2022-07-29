@@ -852,7 +852,8 @@ class CJoinElement
 				if(isset($aliases[$alias]))
 					$attributes[$aliases[$alias]]=$value;
 			}
-			$record=$this->model->populateRecord($attributes,false);
+      $scenario = isset($this->relation->scenario) ? $this->relation->scenario : 'update';
+      $record=$this->model->populateRecord($attributes,false,$scenario);
 			foreach($this->children as $child)
 			{
 				if(!empty($child->relation->select))

@@ -99,7 +99,7 @@ class CCaptcha extends CWidget
 		if(!isset($this->imageOptions['id']))
 			$this->imageOptions['id']=$this->getId();
 
-		$url=$this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
+    $url = Yii::app()->request->hostinfo.$this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
 		$alt=isset($this->imageOptions['alt'])?$this->imageOptions['alt']:'';
 		echo CHtml::image($url,$alt,$this->imageOptions);
 	}

@@ -226,7 +226,7 @@ class CDbCommandBuilder extends CComponent
 				else
 				{
 					$placeholders[]=self::PARAM_PREFIX.$i;
-					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
+          $values[self::PARAM_PREFIX.$i]=($column->allowNull && $value === '') ? null : $column->typecast($value);
 					$i++;
 				}
 			}
@@ -386,7 +386,7 @@ class CDbCommandBuilder extends CComponent
 				else
 				{
 					$fields[]=$column->rawName.'='.self::PARAM_PREFIX.$i;
-					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
+          $values[self::PARAM_PREFIX.$i]=($column->allowNull && $value === '') ? null : $column->typecast($value);
 					$i++;
 				}
 			}
