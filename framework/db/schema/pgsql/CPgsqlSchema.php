@@ -191,7 +191,7 @@ EOD;
 			$c=$this->createColumn($column);
 			$table->columns[$c->name]=$c;
 
-			if(stripos($column['adsrc'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['adsrc'],$matches))
+			if(isset($column['adsrc']) && stripos($column['adsrc'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['adsrc'],$matches))
 			{
 				if(strpos($matches[1],'.')!==false || $table->schemaName===self::DEFAULT_SCHEMA)
 					$this->_sequences[$table->rawName.'.'.$c->name]=$matches[1];
