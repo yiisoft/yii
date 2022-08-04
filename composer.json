@@ -98,8 +98,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "1.1.x-dev",
-			"stable": "^1.1"
+			"dev-master": "1.1.x-dev"
 		},
 		"composer-exit-on-patch-failure": true,
 		"patches": {
