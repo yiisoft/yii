@@ -19,7 +19,7 @@ return array (
   '$_SERVER variable' => '$_SERVER proměnná',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] musí ukazovat na startovací skript.',
   'APC extension' => 'APC rozšíření',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Všechny <a href="http://www.yiiframework.com/doc/api/#system.db">objekty týkající se databází</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Všechny <a href="https://www.yiiframework.com/doc/api/#system.db">objekty týkající se databází</a>',
   'DOM extension' => 'DOM rozšíření',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] či $_SERVER["QUERY_STRING"] musí existovat.',
   'GD extension' => 'GD rozšíření',

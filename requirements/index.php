@@ -7,9 +7,9 @@
  * Yii-powered Web applications.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  * @package system
  * @since 1.0
  */
@@ -21,140 +21,140 @@ $requirements=array(
 		t('yii','PHP version'),
 		true,
 		version_compare(PHP_VERSION,"5.1.0",">="),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="https://www.yiiframework.com">Yii Framework</a>',
 		t('yii','PHP 5.1.0 or higher is required.')),
 	array(
 		t('yii','$_SERVER variable'),
 		true,
 		'' === $message=checkServerVar(),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="https://www.yiiframework.com">Yii Framework</a>',
 		$message),
 	array(
 		t('yii','Reflection extension'),
 		true,
 		class_exists('Reflection',false),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="https://www.yiiframework.com">Yii Framework</a>',
 		''),
 	array(
 		t('yii','PCRE extension'),
 		true,
 		extension_loaded("pcre"),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="https://www.yiiframework.com">Yii Framework</a>',
 		''),
 	array(
 		t('yii','SPL extension'),
 		true,
 		extension_loaded("SPL"),
-		'<a href="http://www.yiiframework.com">Yii Framework</a>',
+		'<a href="https://www.yiiframework.com">Yii Framework</a>',
 		''),
 	array(
 		t('yii','DOM extension'),
 		false,
 		class_exists("DOMDocument",false),
-		'<a href="http://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>, <a href="http://www.yiiframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
+		'<a href="https://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>, <a href="https://www.yiiframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
 		''),
 	array(
 		t('yii','PDO extension'),
 		false,
 		extension_loaded('pdo'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		''),
 	array(
 		t('yii','PDO SQLite extension'),
 		false,
 		extension_loaded('pdo_sqlite'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required for SQLite database.')),
 	array(
 		t('yii','PDO MySQL extension'),
 		false,
 		extension_loaded('pdo_mysql'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required for MySQL database.')),
 	array(
 		t('yii','PDO PostgreSQL extension'),
 		false,
 		extension_loaded('pdo_pgsql'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required for PostgreSQL database.')),
 	array(
 		t('yii','PDO Oracle extension'),
 		false,
 		extension_loaded('pdo_oci'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required for Oracle database.')),
 	array(
 		t('yii','PDO MSSQL extension (pdo_mssql)'),
 		false,
 		extension_loaded('pdo_mssql'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required for MSSQL database from MS Windows')),
 	array(
 		t('yii','PDO MSSQL extension (pdo_dblib)'),
 		false,
 		extension_loaded('pdo_dblib'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required for MSSQL database from GNU/Linux or other UNIX.')),
 	array(
 		t('yii','PDO MSSQL extension (<a href="http://sqlsrvphp.codeplex.com/">pdo_sqlsrv</a>)'),
 		false,
 		extension_loaded('pdo_sqlsrv'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required for MSSQL database with the driver provided by Microsoft.')),
 	array(
 		t('yii','PDO ODBC extension'),
 		false,
 		extension_loaded('pdo_odbc'),
-		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','Required in case database interaction will be through ODBC layer.')),
 	array(
 		t('yii','Memcache extension'),
 		false,
 		extension_loaded("memcache") || extension_loaded("memcached"),
-		'<a href="http://www.yiiframework.com/doc/api/CMemCache">CMemCache</a>',
-		extension_loaded("memcached") ? t('yii', 'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.') : ''),
+		'<a href="https://www.yiiframework.com/doc/api/CMemCache">CMemCache</a>',
+		extension_loaded("memcached") ? t('yii', 'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.') : ''),
 	array(
 		t('yii','APC extension'),
 		false,
 		extension_loaded("apc"),
-		'<a href="http://www.yiiframework.com/doc/api/CApcCache">CApcCache</a>',
+		'<a href="https://www.yiiframework.com/doc/api/CApcCache">CApcCache</a>',
 		''),
 	array(
 		t('yii','Mcrypt extension'),
 		false,
 		extension_loaded("mcrypt"),
-		'<a href="http://www.yiiframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
+		'<a href="https://www.yiiframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
 		t('yii','Required by encrypt and decrypt methods.')),
 	array(
 		t('yii','crypt() CRYPT_BLOWFISH option'),
 		false,
 		function_exists('crypt') && defined('CRYPT_BLOWFISH') && CRYPT_BLOWFISH,
-		'<a href="http://www.yiiframework.com/doc/api/1.1/CPasswordHelper">CPasswordHelper</a>',
+		'<a href="https://www.yiiframework.com/doc/api/1.1/CPasswordHelper">CPasswordHelper</a>',
 		t('yii','Required for secure password storage.')),
 	array(
 		t('yii','SOAP extension'),
 		false,
 		extension_loaded("soap"),
-		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
+		'<a href="https://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="https://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
 		''),
 	array(
 		t('yii','GD extension with<br />FreeType support<br />or ImageMagick<br />extension with<br />PNG support'),
 		false,
 		'' === $message=checkCaptchaSupport(),
-		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
+		'<a href="https://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
 		$message),
 	array(
 		t('yii','Ctype extension'),
 		false,
 		extension_loaded("ctype"),
-		'<a href="http://www.yiiframework.com/doc/api/CDateFormatter">CDateFormatter</a>, <a href="http://www.yiiframework.com/doc/api/CDateFormatter">CDateTimeParser</a>, <a href="http://www.yiiframework.com/doc/api/CTextHighlighter">CTextHighlighter</a>, <a href="http://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>',
+		'<a href="https://www.yiiframework.com/doc/api/CDateFormatter">CDateFormatter</a>, <a href="https://www.yiiframework.com/doc/api/CDateFormatter">CDateTimeParser</a>, <a href="https://www.yiiframework.com/doc/api/CTextHighlighter">CTextHighlighter</a>, <a href="https://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>',
 		''
 	),
 	array(
 		t('yii','Fileinfo extension'),
 		false,
 		extension_loaded("fileinfo"),
-		'<a href="http://www.yiiframework.com/doc/api/CFileValidator">CFileValidator</a>',
+		'<a href="https://www.yiiframework.com/doc/api/CFileValidator">CFileValidator</a>',
 		t('yii','Required for MIME-type validation')
 	),
 );
@@ -273,7 +273,7 @@ function getPreferredLanguage()
 function getServerInfo()
 {
 	$info[]=isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
-	$info[]='<a href="http://www.yiiframework.com/">Yii Framework</a>/'.getYiiVersion();
+	$info[]='<a href="https://www.yiiframework.com/">Yii Framework</a>/'.getYiiVersion();
 	$info[]=@strftime('%Y-%m-%d %H:%M',time());
 
 	return implode(' ',$info);
