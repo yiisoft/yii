@@ -3,9 +3,9 @@
  * CAssetManager class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 
@@ -178,7 +178,7 @@ class CAssetManager extends CApplicationComponent
 	 * that holds the published assets. This problem can be avoided altogether by 'requesting'
 	 * in advance all the resources that are supposed to trigger a 'publish()' call, and doing
 	 * that in the application deployment phase, before system goes live. See more in the following
-	 * discussion: http://code.google.com/p/yii/issues/detail?id=2579
+	 * discussion: https://code.google.com/p/yii/issues/detail?id=2579
 	 *
 	 * @param string $path the asset (file or directory) to be published
 	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.

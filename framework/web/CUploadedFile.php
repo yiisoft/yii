@@ -247,7 +247,7 @@ class CUploadedFile extends CComponent
 	/**
 	 * Returns an error code describing the status of this file uploading.
 	 * @return integer the error code
-	 * @see http://www.php.net/manual/en/features.file-upload.errors.php
+	 * @see https://www.php.net/manual/en/features.file-upload.errors.php
 	 */
 	public function getError()
 	{
