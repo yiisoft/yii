@@ -17,7 +17,7 @@
 <div id="content">
 <h2>Beskrivning</h2>
 <p>
-Det här skriptet kontrollerar om serverkonfigurationen uppfyller kraven för att köra <a href="http://www.yiiframework.com/">Yii</a> webbapplikationer.
+Det här skriptet kontrollerar om serverkonfigurationen uppfyller kraven för att köra <a href="https://www.yiiframework.com/">Yii</a> webbapplikationer.
 Det kollar att servern kör rätt version av PHP,
 att erforderliga  PHP-tillägg är laddade, och att inställningar i filen php.ini är korrekta.
 </p>

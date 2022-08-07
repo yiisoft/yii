@@ -18,7 +18,7 @@ return array (
   '$_SERVER variable' => '$_SERVER משתנה',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] חייב להיות זהה לנתיב המלא לקובץ הראשי.',
   'APC extension' => 'תוסף APC',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'כל <a href="http://www.yiiframework.com/doc/api/#system.db">מחלקות מסדי הנתונים</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'כל <a href="https://www.yiiframework.com/doc/api/#system.db">מחלקות מסדי הנתונים</a>',
   'DOM extension' => 'תוסף DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] או $_SERVER["QUERY_STRING"] חייב להיות קיים.',
   'GD extension' => 'תוסף GD',

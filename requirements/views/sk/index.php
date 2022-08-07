@@ -18,7 +18,7 @@
 <h2>Popis</h2>
 <p>
 Tento skript preverí, či je konfigurácia vášho servera postačujúca
-pre korektné fungovanie aplikácii vytvorených pre <a href="http://www.yiiframework.com/">Yii framework</a>.
+pre korektné fungovanie aplikácii vytvorených pre <a href="https://www.yiiframework.com/">Yii framework</a>.
 Test preveruje správnu verziu PHP, prítomnosť potrebných PHP rozšírení a správne nastavenie 
 konfigurácie v php.ini.
 </p>

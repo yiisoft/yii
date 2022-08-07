@@ -12,13 +12,13 @@
  *
  * $Horde: framework/Text_Diff/Diff/Engine/string.php,v 1.5.2.7 2009/07/24 13:04:43 jan Exp $
  *
- * Copyright 2005 Örjan Persson <o@42mm.org>
- * Copyright 2005-2009 The Horde Project (http://www.horde.org/)
+ * Copyright 2005 ï¿½rjan Persson <o@42mm.org>
+ * Copyright 2005-2009 The Horde Project (https://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
+ * not receive this file, see https://opensource.org/licenses/lgpl-license.php.
  *
- * @author  Örjan Persson <o@42mm.org>
+ * @author  ï¿½rjan Persson <o@42mm.org>
  * @package Text_Diff
  * @since   0.2.0
  */

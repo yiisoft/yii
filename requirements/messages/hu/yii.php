@@ -18,7 +18,7 @@ return array (
   '$_SERVER variable' => '',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '',
   'APC extension' => '',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '',
   'DOM extension' => '',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '',
   'GD extension' => '',

@@ -18,12 +18,12 @@
  */
 return array (
   'Ctype extension' => 'Ctype Erweiterung',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Um memcached verwenden zu können, muss <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> auf <code>true</code> gesetzt werden.',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Um memcached verwenden zu können, muss <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> auf <code>true</code> gesetzt werden.',
   '$_SERVER does not have {vars}.' => '$_SERVER verfügt nicht über {vars}.',
   '$_SERVER variable' => '$_SERVER Variable',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] muss auf das Startscript verweisen.',
   'APC extension' => 'APC Erweiterung',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alle <a href="http://www.yiiframework.com/doc/api/#system.db">DB-bezogenen Klassen</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alle <a href="https://www.yiiframework.com/doc/api/#system.db">DB-bezogenen Klassen</a>',
   'DOM extension' => 'DOM Erweiterung',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Entweder $_SERVER["REQUEST_URI"] oder $_SERVER["QUERY_STRING"] müssen exisitieren.',
   'GD extension with<br />FreeType support' => 'GD Erweiterung mit <br />FreeType-Unterstützung',

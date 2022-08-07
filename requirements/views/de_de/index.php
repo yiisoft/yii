@@ -18,7 +18,7 @@
 <h2>Beschreibung</h2>
 <p>
 Dieses Script ermittelt, ob Ihre Serverkonfiguration die Anforderungen zum
-Ausführen von <a href="http://www.yiiframework.com/">Yii</a> Webanwendungen
+Ausführen von <a href="https://www.yiiframework.com/">Yii</a> Webanwendungen
 erfüllt.
 Es prüft auf die korrekte PHP Version, ob die benötigten Erweiterungen
 geladen wurden und ob die Einstellungen in der php.ini korrekt sind
