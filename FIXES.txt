@@ -180,28 +180,9 @@ Line: 2229
         if(isset($criteria['scenario']))
             $this->scenario=$criteria['scenario'];
 
-######################################
-####### AINDA NÃO FOI FEITO ##########
-######################################
-pq parece q o yii ja atualizou isso
-- Enh #4323: Add PostgreSQL 12 support (bio, d4rkstar, marcovtwout)
-#008
-No Postgres12 foi retirada a coluna adsrc do pg_attrdef
-File: yii-path/framework/db/schema/pgsql/CPgsqlSchema.php
-Method: findColumns
-Line: 169
-    Original
-        SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, d.adsrc, a.attnotnull, a.atthasdef,
-    Replace
-        SELECT a.attname, LOWER(format_type(a.atttypid, a.atttypmod)) AS type, pg_get_expr(d.adbin, d.adrelid) AS adsrc, a.attnotnull, a.atthasdef,
-Line: 199
-    Original
-        $this->_sequences[$table->rawName.'.'.$c->name]=$table->schemaName.'.'.$matches[1];
-    Replace
-        $this->_sequences[$table->rawName . '.' . $c->name] = self::DEFAULT_SCHEMA . '.' . $matches[1];
-Method: findConstraints
-Line: 234
-    Original
-        'CHECK (' || consrc || ')'
-    Replace
-        'CHECK (' || pg_get_expr(conbin, conrelid) || ')'
+File: yii-path\framework\caching\CCache.php
+Method: get
+Line: 105
+    Add (no início dos ifs)
+        if($value === null)
+            return false;
