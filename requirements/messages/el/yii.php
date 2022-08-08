@@ -31,7 +31,7 @@ return array (
   '$_SERVER variable' => 'Μεταβλητή $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Το $_SERVER["SCRIPT_FILENAME"] πρέπει να είναι το ίδιο με το αρχικό αρχείο σεναρίου.',
   'APC extension' => 'Επέκταση APC',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Όλες οι <a href="http://www.yiiframework.com/doc/api/#system.db">σχετικές με βάση κλάσεις</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Όλες οι <a href="https://www.yiiframework.com/doc/api/#system.db">σχετικές με βάση κλάσεις</a>',
   'Ctype extension' => 'Επέκταση Ctype',
   'DOM extension' => 'Επέκταση DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Πρέπει να υπάρχει είτε το $_SERVER["REQUEST_URI"] είτε το $_SERVER["QUERY_STRING"].',

@@ -3,9 +3,9 @@
  * CDbDataReader class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -22,7 +22,7 @@
  * Since CDbDataReader is a forward-only stream, you can only traverse it once.
  *
  * It is possible to use a specific mode of data fetching by setting
- * {@link setFetchMode FetchMode}. See {@link http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php}
+ * {@link setFetchMode FetchMode}. See {@link https://www.php.net/manual/en/function.PDOStatement-setFetchMode.php}
  * for more details.
  *
  * @property boolean $isClosed Whether the reader is closed or not.
@@ -60,7 +60,7 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 	 * should match the case of the column, as returned by the driver.
 	 * @param mixed $value Name of the PHP variable to which the column will be bound.
 	 * @param integer $dataType Data type of the parameter
-	 * @see http://www.php.net/manual/en/function.PDOStatement-bindColumn.php
+	 * @see https://www.php.net/manual/en/function.PDOStatement-bindColumn.php
 	 */
 	public function bindColumn($column, &$value, $dataType=null)
 	{
@@ -73,7 +73,7 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 	/**
 	 * Set the default fetch mode for this statement
 	 * @param mixed $mode fetch mode
-	 * @see http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
+	 * @see https://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
 	 */
 	public function setFetchMode($mode)
 	{

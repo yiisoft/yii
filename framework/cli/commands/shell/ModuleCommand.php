@@ -3,9 +3,9 @@
  * ModuleCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  * @version $Id: ModuleCommand.php 433 2008-12-30 22:59:17Z qiang.xue $
  */
 

@@ -14,9 +14,9 @@
  * DO NOT modify this file manually.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  * @version $Id: $
  * @since 1.0
  */
@@ -328,7 +328,7 @@ class YiiBase
 	}
 	public static function powered()
 	{
-		return Yii::t('yii','Powered by {yii}.', array('{yii}'=>'<a href="http://www.yiiframework.com/" rel="external">Yii Framework</a>'));
+		return Yii::t('yii','Powered by {yii}.', array('{yii}'=>'<a href="https://www.yiiframework.com/" rel="external">Yii Framework</a>'));
 	}
 	public static function t($category,$message,$params=array(),$source=null,$language=null)
 	{
@@ -2531,7 +2531,7 @@ class CHttpRequest extends CApplicationComponent
 	{
 		$pathInfo = urldecode($pathInfo);
 		// is it UTF-8?
-		// http://w3.org/International/questions/qa-forms-utf-8.html
+		// https://w3.org/International/questions/qa-forms-utf-8.html
 		if(preg_match('%^(?:
 		   [\x09\x0A\x0D\x20-\x7E]            # ASCII
 		 | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
@@ -2888,7 +2888,7 @@ class CHttpRequest extends CApplicationComponent
 					$contentEnd=$range[1];
 			}
 			/* Check the range and make sure it's treated according to the specs.
-			 * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+			 * https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
 			 */
 			// End bytes can not be larger than $end.
 			$contentEnd=($contentEnd > $fileSize) ? $fileSize-1 : $contentEnd;

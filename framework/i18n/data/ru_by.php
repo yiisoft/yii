@@ -7,7 +7,7 @@
  * Copyright © 1991-2013 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * @copyright 2008-2014 Yii Software LLC (http://www.yiiframework.com/license/)
+ * @copyright 2008-2014 Yii Software LLC (https://www.yiiframework.com/license/)
  */
 return array (
   'version' => '8250',

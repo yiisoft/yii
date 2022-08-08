@@ -4,7 +4,7 @@
 Version 1.1.26 under development
 --------------------------------
 
-- Enh #4386: Added support for PHP 8.1 (marcovtwout)
+- Enh #4386: Added support for PHP 8.1 (marcovtwout, JonathanArgentao)
 - Enh #4386: Updated HTMLPurifier to version 4.14.0-master-1dd3e52 for PHP 8.1 support (https://github.com/ezyang/htmlpurifier/blob/v4.14.0/NEWS) (marcovtwout)
 - Enh #4392: Added support for SSL to CRedisCache (andres101)
 - Bug #4453: Alpine Linux compatibility: Avoid using `GLOB_BRACE` in `CFileHelper::removeDirectory` (ivany4)

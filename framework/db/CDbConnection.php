@@ -3,9 +3,9 @@
  * CDbConnection class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -13,7 +13,7 @@
  *
  * CDbConnection works together with {@link CDbCommand}, {@link CDbDataReader}
  * and {@link CDbTransaction} to provide data access to various DBMS
- * in a common set of APIs. They are a thin wrapper of the {@link http://www.php.net/manual/en/ref.pdo.php PDO}
+ * in a common set of APIs. They are a thin wrapper of the {@link https://www.php.net/manual/en/ref.pdo.php PDO}
  * PHP extension.
  *
  * To establish a connection, set {@link setActive active} to true after
@@ -122,7 +122,7 @@ class CDbConnection extends CApplicationComponent
 {
 	/**
 	 * @var string The Data Source Name, or DSN, contains the information required to connect to the database.
-	 * @see http://www.php.net/manual/en/function.PDO-construct.php
+	 * @see https://www.php.net/manual/en/function.PDO-construct.php
 	 *
 	 * Note that if you're using GBK or BIG5 then it's highly recommended to
 	 * update to PHP 5.3.6+ and to specify charset via DSN like
@@ -282,7 +282,7 @@ class CDbConnection extends CApplicationComponent
 	 * @param string $dsn The Data Source Name, or DSN, contains the information required to connect to the database.
 	 * @param string $username The user name for the DSN string.
 	 * @param string $password The password for the DSN string.
-	 * @see http://www.php.net/manual/en/function.PDO-construct.php
+	 * @see https://www.php.net/manual/en/function.PDO-construct.php
 	 */
 	public function __construct($dsn='',$username='',$password='')
 	{
@@ -304,7 +304,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Returns a list of available PDO drivers.
 	 * @return array list of available PDO drivers
-	 * @see http://www.php.net/manual/en/function.PDO-getAvailableDrivers.php
+	 * @see https://www.php.net/manual/en/function.PDO-getAvailableDrivers.php
 	 */
 	public static function getAvailableDrivers()
 	{
@@ -558,7 +558,7 @@ class CDbConnection extends CApplicationComponent
 	 * Returns the ID of the last inserted row or sequence value.
 	 * @param string $sequenceName name of the sequence object (required by some DBMS)
 	 * @return string the row ID of the last row inserted, or the last value retrieved from the sequence object
-	 * @see http://www.php.net/manual/en/function.PDO-lastInsertId.php
+	 * @see https://www.php.net/manual/en/function.PDO-lastInsertId.php
 	 */
 	public function getLastInsertID($sequenceName='')
 	{
@@ -570,7 +570,7 @@ class CDbConnection extends CApplicationComponent
 	 * Quotes a string value for use in a query.
 	 * @param string $str string to be quoted
 	 * @return string the properly quoted string
-	 * @see http://www.php.net/manual/en/function.PDO-quote.php
+	 * @see https://www.php.net/manual/en/function.PDO-quote.php
 	 */
 	public function quoteValue($str)
 	{
@@ -586,10 +586,10 @@ class CDbConnection extends CApplicationComponent
 	 * @param mixed $value the value to be quoted.
 	 * @param integer $type The type to be used for quoting.
 	 * This should be one of the `PDO::PARAM_*` constants described in
-	 * {@link http://www.php.net/manual/en/pdo.constants.php PDO documentation}.
+	 * {@link https://www.php.net/manual/en/pdo.constants.php PDO documentation}.
 	 * This parameter will be passed to the `PDO::quote()` function.
 	 * @return string the properly quoted string.
-	 * @see http://www.php.net/manual/en/function.PDO-quote.php
+	 * @see https://www.php.net/manual/en/function.PDO-quote.php
 	 * @since 1.1.18
 	 */
 	public function quoteValueWithType($value, $type)
@@ -659,7 +659,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Returns the case of the column names
 	 * @return mixed the case of the column names
-	 * @see http://www.php.net/manual/en/pdo.setattribute.php
+	 * @see https://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function getColumnCase()
 	{
@@ -669,7 +669,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Sets the case of the column names.
 	 * @param mixed $value the case of the column names
-	 * @see http://www.php.net/manual/en/pdo.setattribute.php
+	 * @see https://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function setColumnCase($value)
 	{
@@ -679,7 +679,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Returns how the null and empty strings are converted.
 	 * @return mixed how the null and empty strings are converted
-	 * @see http://www.php.net/manual/en/pdo.setattribute.php
+	 * @see https://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function getNullConversion()
 	{
@@ -689,7 +689,7 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Sets how the null and empty strings are converted.
 	 * @param mixed $value how the null and empty strings are converted
-	 * @see http://www.php.net/manual/en/pdo.setattribute.php
+	 * @see https://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function setNullConversion($value)
 	{
@@ -821,7 +821,7 @@ class CDbConnection extends CApplicationComponent
 	 * Obtains a specific DB connection attribute information.
 	 * @param integer $name the attribute to be queried
 	 * @return mixed the corresponding attribute information
-	 * @see http://www.php.net/manual/en/function.PDO-getAttribute.php
+	 * @see https://www.php.net/manual/en/function.PDO-getAttribute.php
 	 */
 	public function getAttribute($name)
 	{
@@ -833,7 +833,7 @@ class CDbConnection extends CApplicationComponent
 	 * Sets an attribute on the database connection.
 	 * @param integer $name the attribute to be set
 	 * @param mixed $value the attribute value
-	 * @see http://www.php.net/manual/en/function.PDO-setAttribute.php
+	 * @see https://www.php.net/manual/en/function.PDO-setAttribute.php
 	 */
 	public function setAttribute($name,$value)
 	{

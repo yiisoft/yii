@@ -5,9 +5,9 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -155,7 +155,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * The idea for limit with offset is done by modifying the sql on the fly
 	 * with numerous assumptions on the structure of the sql string.
 	 * The modification is done with reference to the notes from
-	 * http://troels.arvin.dk/db/rdbms/#select-limit-offset
+	 * https://troels.arvin.dk/db/rdbms/#select-limit-offset
 	 *
 	 * <code>
 	 * SELECT * FROM (
@@ -205,7 +205,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 
 	/**
 	 * Rewrite sql to apply $limit > and $offset > 0 for MSSQL database.
-	 * See http://troels.arvin.dk/db/rdbms/#select-limit-offset
+	 * See https://troels.arvin.dk/db/rdbms/#select-limit-offset
 	 * @param string $sql sql query
 	 * @param integer $limit $limit > 0
 	 * @param integer $offset $offset > 0
@@ -225,7 +225,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	}
 
 	/**
-	 * Base on simplified syntax http://msdn2.microsoft.com/en-us/library/aa259187(SQL.80).aspx
+	 * Base on simplified syntax https://msdn2.microsoft.com/en-us/library/aa259187(SQL.80).aspx
 	 *
 	 * @param string $sql $sql
 	 * @return array ordering expression as key and ordering direction as value

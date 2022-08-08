@@ -18,7 +18,7 @@
 <h2>Beskrivelse</h2>
 <p>
 Dette script tjekker om serverkonfigurationen opfylder kravene for at køre
-<a href="http://www.yiiframework.com/">Yii</a>-applikationer.
+<a href="https://www.yiiframework.com/">Yii</a>-applikationer.
 Det tjekker om serveren kører korrekt version af PHP, om nødvendige extensions
 er indlæst og om PHP-indstillingerne i php.ini er korrekte.
 </p>

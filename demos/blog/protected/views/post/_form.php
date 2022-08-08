@@ -15,7 +15,7 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'content'); ?>
 		<?php echo CHtml::activeTextArea($model,'content',array('rows'=>10, 'cols'=>70)); ?>
-		<p class="hint">You may use <a target="_blank" href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a>.</p>
+		<p class="hint">You may use <a target="_blank" href="https://daringfireball.net/projects/markdown/syntax">Markdown syntax</a>.</p>
 		<?php echo $form->error($model,'content'); ?>
 	</div>
 

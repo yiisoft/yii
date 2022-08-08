@@ -3,9 +3,9 @@
  * CPasswordHelper class file.
  *
  * @author Tom Worster <fsb@thefsb.org>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -24,7 +24,7 @@
  *
  * For more information about password hashing, crypt() and Blowfish, please read
  * the Yii Wiki article
- * {@link http://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/ Use crypt() for password storage}.
+ * {@link https://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/ Use crypt() for password storage}.
  * and the
  * PHP RFC {@link http://wiki.php.net/rfc/password_hash Adding simple password hashing API}.
  *

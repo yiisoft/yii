@@ -17,7 +17,7 @@
 <div id="content">
 <h2>説明</h2>
 <p>
-このスクリプトは、あなたのサーバ構成が <a href="http://www.yiiframework.com/">Yii</a>
+このスクリプトは、あなたのサーバ構成が <a href="https://www.yiiframework.com/">Yii</a>
 ウェブアプリケーションを実行する必要条件を満たしているかどうかを確認するものです。
 すなわち、サーバが正しいバージョンの PHP を実行しているか、適切な PHP 拡張をロードしているか、php.ini ファイルの設定が正しいか、を確認します。</p>
 
