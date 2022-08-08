@@ -1336,7 +1336,6 @@ class CHttpRequest extends CApplicationComponent
 	 * This is the event handler responding to {@link CApplication::onBeginRequest}.
 	 * The default implementation will compare the CSRF token obtained
 	 * from a cookie and from a POST field. If they are different, a CSRF attack is detected.
-     * If the CSRF token is not in the POST body, it will check in the HTTP header instead.
 	 * @param CEvent $event event parameter
 	 * @throws CHttpException if the validation fails
 	 */
@@ -1364,12 +1363,6 @@ class CHttpRequest extends CApplicationComponent
 				case 'DELETE':
 					$maskedUserToken=$this->getDelete($this->csrfTokenName);
 			}
-
-            // @see https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#jquery
-            // Assumes header is named like Yii-Csrf-Token if csrfTokenName is YII_CSRF_TOKEN
-            if (empty($maskedUserToken)) {
-                $maskedUserToken = $_SERVER['HTTP_' . $this->csrfTokenName];
-            }
 
 			if (!empty($maskedUserToken) && is_string($maskedUserToken) && $cookies->contains($this->csrfTokenName))
 			{
