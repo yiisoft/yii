@@ -314,7 +314,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	/**
 	 * Returns the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to retrieve element.
+	 * @param mixed $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
 	#[ReturnTypeWillChange]
