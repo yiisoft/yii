@@ -54,7 +54,7 @@ class CCheckBoxColumn extends CGridColumn
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
-	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+	 * please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $value;
 	/**
@@ -74,7 +74,7 @@ class CCheckBoxColumn extends CGridColumn
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
-	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+	 * please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
 	 * @since 1.1.4
 	 */
 	public $checked;
@@ -95,7 +95,7 @@ class CCheckBoxColumn extends CGridColumn
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
-	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+	 * please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
 	 *
 	 * Note that expression result will overwrite value set with <code>checkBoxHtmlOptions['disabled']</code>.
 	 * @since 1.1.13

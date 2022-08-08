@@ -111,7 +111,7 @@ class CHtml
 	 * The {@link CApplication::charset application charset} will be used for encoding.
 	 * @param string $text data to be encoded
 	 * @return string the encoded data
-	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
+	 * @see https://www.php.net/manual/en/function.htmlspecialchars.php
 	 */
 	public static function encode($text)
 	{
@@ -123,7 +123,7 @@ class CHtml
 	 * This is the opposite of {@link encode()}.
 	 * @param string $text data to be decoded
 	 * @return string the decoded data
-	 * @see http://www.php.net/manual/en/function.htmlspecialchars-decode.php
+	 * @see https://www.php.net/manual/en/function.htmlspecialchars-decode.php
 	 * @since 1.1.8
 	 */
 	public static function decode($text)
@@ -138,7 +138,7 @@ class CHtml
 	 * The {@link CApplication::charset application charset} will be used for encoding.
 	 * @param array $data data to be encoded
 	 * @return array the encoded data
-	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
+	 * @see https://www.php.net/manual/en/function.htmlspecialchars.php
 	 */
 	public static function encodeArray($data)
 	{

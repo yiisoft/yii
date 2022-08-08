@@ -62,7 +62,7 @@ class CRedisCache extends CCache
 	public $database=0;
 	/**
 	 * @var int the options to pass to the flags parameter of stream_socket_client when connecting to the redis server. Defaults to STREAM_CLIENT_CONNECT.
-	 * @see http://php.net/manual/en/function.stream-socket-client.php
+	 * @see https://php.net/manual/en/function.stream-socket-client.php
 	 */
 	public $options=STREAM_CLIENT_CONNECT;
 	/**

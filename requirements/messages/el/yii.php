@@ -54,6 +54,6 @@ return array (
   'Reflection extension' => 'Επέκταση Reflection',
   'SOAP extension' => 'Επέκταση SOAP',
   'SPL extension' => 'Επέκταση SPL',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Για να χρησιμοποιήσετε memcached, ορίστε το <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> να είναι <code>true</code>.',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Για να χρησιμοποιήσετε memcached, ορίστε το <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> να είναι <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Δεν ήταν δυνατός ο καθορισμός της διαδρομής URL. Σιγουρευτείτε ότι το $_SERVER["PATH_INFO"] (ή $_SERVER["PHP_SELF"] και $_SERVER["SCRIPT_NAME"]) περιέχει τη σωστή τιμή.',
 );

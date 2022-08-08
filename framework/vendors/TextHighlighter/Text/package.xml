@@ -40,7 +40,7 @@ a new class.</description>
   <release>beta</release>
   <api>beta</api>
  </stability>
- <license uri="http://www.php.net/license">PHP License</license>
+ <license uri="https://www.php.net/license">PHP License</license>
  <notes>- added new renderer - Array
 - HTML renderer modified to extend Array
 - more new renderers - BB, HTMLTags, JSON, XML, all extending Array
@@ -223,7 +223,7 @@ class names (request #7077)
     <api>beta</api>
    </stability>
    <date>2007-06-06</date>
-   <license uri="http://www.php.net/license">PHP License</license>
+   <license uri="https://www.php.net/license">PHP License</license>
    <notes>- added new renderer - Array
 - HTML renderer modified to extend Array
 - more new renderers - BB, HTMLTags, JSON, XML, all extending Array

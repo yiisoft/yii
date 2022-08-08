@@ -12,7 +12,7 @@
  * CPasswordHelper provides a simple API for secure password hashing and verification.
  *
  * CPasswordHelper uses the Blowfish hash algorithm available in many PHP runtime
- * environments through the PHP {@link http://php.net/manual/en/function.crypt.php crypt()}
+ * environments through the PHP {@link https://php.net/manual/en/function.crypt.php crypt()}
  * built-in function. As of Dec 2012 it is the strongest algorithm available in PHP
  * and the only algorithm without some security concerns surrounding it. For this reason,
  * CPasswordHelper fails when run in an environment that does not have
@@ -74,7 +74,7 @@ class CPasswordHelper
 	 * Generate a secure hash from a password and a random salt.
 	 *
 	 * Uses the
-	 * PHP {@link http://php.net/manual/en/function.crypt.php crypt()} built-in function
+	 * PHP {@link https://php.net/manual/en/function.crypt.php crypt()} built-in function
 	 * with the Blowfish hash option.
 	 *
 	 * @param string $password The password to be hashed.
@@ -167,7 +167,7 @@ class CPasswordHelper
 	/**
 	 * Generates a salt that can be used to generate a password hash.
 	 *
-	 * The PHP {@link http://php.net/manual/en/function.crypt.php crypt()} built-in function
+	 * The PHP {@link https://php.net/manual/en/function.crypt.php crypt()} built-in function
 	 * requires, for the Blowfish hash algorithm, a salt string in a specific format:
 	 *  "$2y$" (in which the "y" may be replaced by "a" or "y" see PHP manual for details),
 	 *  a two digit cost parameter,

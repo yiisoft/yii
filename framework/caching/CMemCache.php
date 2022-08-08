@@ -45,7 +45,7 @@
  * In the above, two memcache servers are used: server1 and server2.
  * You can configure more properties of every server, including:
  * host, port, persistent, weight, timeout, retryInterval, status.
- * See {@link http://www.php.net/manual/en/function.memcache-addserver.php}
+ * See {@link https://www.php.net/manual/en/function.memcache-addserver.php}
  * for more details.
  *
  * CMemCache can also be used with {@link http://pecl.php.net/package/memcached memcached}.
@@ -130,7 +130,7 @@ class CMemCache extends CCache
 	/**
 	 * @param array $config list of memcache server configurations. Each element must be an array
 	 * with the following keys: host, port, persistent, weight, timeout, retryInterval, status.
-	 * @see http://www.php.net/manual/en/function.Memcache-addServer.php
+	 * @see https://www.php.net/manual/en/function.Memcache-addServer.php
 	 */
 	public function setServers($config)
 	{
@@ -242,7 +242,7 @@ class CMemCache extends CCache
 /**
  * CMemCacheServerConfiguration represents the configuration data for a single memcache server.
  *
- * See {@link http://www.php.net/manual/en/function.Memcache-addServer.php}
+ * See {@link https://www.php.net/manual/en/function.Memcache-addServer.php}
  * for detailed explanation of each configuration property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>

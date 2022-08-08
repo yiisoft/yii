@@ -267,7 +267,7 @@ class CFileHelper
 	 * </ol>
 	 * @param string $file the file name.
 	 * @param string $magicFile name of a magic database file, usually something like /path/to/magic.mime.
-	 * This will be passed as the second parameter to {@link http://php.net/manual/en/function.finfo-open.php finfo_open}.
+	 * This will be passed as the second parameter to {@link https://php.net/manual/en/function.finfo-open.php finfo_open}.
 	 * Magic file format described in {@link http://linux.die.net/man/5/magic man 5 magic}, note that this file does not
 	 * contain a standard PHP array as you might suppose. Specified magic file will be used only when fileinfo
 	 * PHP extension is available. This parameter has been available since version 1.1.3.
