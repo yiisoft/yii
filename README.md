@@ -3,15 +3,15 @@ Yii Web Programming Framework
 
 Thank you for choosing Yii - a high-performance component-based PHP framework.
 
-[![Build Status](https://github.com/yiisoft/yii/workflows/build/badge.svg)](https://github.com/yiisoft/yii/actions)
-
-> Note that Yii 1.1 [has reached end of life](https://www.yiiframework.com/news/90/update-on-yii-1-1-support-and-end-of-life/)
-  and won't receive updates except security fixes. Please start new projects using [Yii 2](https://github.com/yiisoft/yii2).
-
 ANALISE EDITORIAL
 -----------------
 
 Mudanças especificas desse fork estão no arquivo [FIXES.txt](https://github.com/analiseeditorial/yii-analise/blob/master/FIXES.txt)
+
+[![Build Status](https://github.com/yiisoft/yii/workflows/build/badge.svg)](https://github.com/yiisoft/yii/actions)
+
+> Note that Yii 1.1 [has reached end of life](https://www.yiiframework.com/news/90/update-on-yii-1-1-support-and-end-of-life/)
+  and won't receive updates except security fixes. Please start new projects using [Yii 2](https://github.com/yiisoft/yii2).
 
 INSTALLATION
 ------------
