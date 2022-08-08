@@ -7,7 +7,7 @@ Detta medför att den underliggande databashanteraren kan bytas till en annan
 utan behov av ändringar i den kod som använder DAO för dataåtkomst.
 
 Yii:s DAO har byggts ovanpå [PHP Data Objects 
-(PDO)](http://php.net/manual/en/book.pdo.php)-tillägget, vilket tillhandahåller 
+(PDO)](https://php.net/manual/en/book.pdo.php)-tillägget, vilket tillhandahåller
 enhetlig åtkomst till många populära databashanterare såsom MySQL, PostgreSQL. 
 Av denna anledning behöver PDO-tillägget och den databasspecifika PDO-
 drivrutinen (t.ex. `PDO_MYSQL`) installeras innan Yii:s PDO används.
@@ -43,7 +43,7 @@ $connection->active=false;  // close connection
 Formatet för ett DSN bestäms av vilken databasspecifik PDO-drivrutin som 
 används. Generellt sett består ett DSN av namnet på PDO-drivrutinen följt av ett 
 kolon, följt av drivrutinsspecifik anslutningssyntax. Se 
-[PDO-dokumentationen](http://www.php.net/manual/en/pdo.construct.php) för 
+[PDO-dokumentationen](https://www.php.net/manual/en/pdo.construct.php) för
 fullständig information. Nedan återges en lista med vanligtvis använda DSN-format:
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -182,7 +182,7 @@ Koppling av parametrar
 ----------------------
 
 För att undvika [SQL-
-injekteringsattacker](http://en.wikipedia.org/wiki/SQL_injection) samt för 
+injekteringsattacker](https://en.wikipedia.org/wiki/SQL_injection) samt för
 förbättrad prestanda vid upprepad exekvering av SQL-satser, kan man i 
 förekommande fall förbereda ("prepare") en SQL-sats med platsmarkörer för 
 parametrar, som senare - vid koppling av parametrar (parameter binding) - kommer 
@@ -218,7 +218,7 @@ ett värde. För parametrar som representerar stora block av dataminne är den
 förra metoden - av prestandaskäl - att föredra.
 
 För fler detaljer om parameterkoppling, se den [tillämpliga PHP-
-dokumentationen](http://www.php.net/manual/en/pdostatement.bindparam.php).
+dokumentationen](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Koppling av kolumner
 --------------------

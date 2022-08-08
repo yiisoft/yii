@@ -3,9 +3,9 @@
  * CDbException class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -19,7 +19,7 @@ class CDbException extends CException
 {
 	/**
 	 * @var mixed the error info provided by a PDO exception. This is the same as returned
-	 * by {@link http://www.php.net/manual/en/pdo.errorinfo.php PDO::errorInfo}.
+	 * by {@link https://www.php.net/manual/en/pdo.errorinfo.php PDO::errorInfo}.
 	 * @since 1.1.4
 	 */
 	public $errorInfo;

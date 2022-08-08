@@ -317,7 +317,7 @@ die [urlManager|CWebApplication::urlManager]-Komponente konfiguriert werden.
 
 Zunächst muss der Webserver so konfiguriert werden, dass er auch URLs ohne
 Startscript an dieses weiterleitet  Im Falle
-des [Apache HTTP-Servers](http://httpd.apache.org/) erreichen man das, indem
+des [Apache HTTP-Servers](https://httpd.apache.org/) erreichen man das, indem
 man die Rewrite-Engine (sinngem.: Umschreibemaschine) einschaltet und einige
 Rewrite-Rules (sinngem.: Umschreiberegeln) definieren. Hierzu kann man eine
 Datei `/wwwroot/blog/.htaccess` mit folgendem Inhalt anlegen. Beachten Sie,

@@ -6,7 +6,7 @@ diesem Abschnitt soll es darum gehen, wie man mit AR Abfragen über
 mehrere verknüpfte Tabellen ausführt.
 
 Will man mit relationalen AR arbeiten, sollten in der Datenbank
-[Constraints](http://de.wikipedia.org/wiki/Constraint) (sinngem.:
+[Constraints](https://de.wikipedia.org/wiki/Constraint) (sinngem.:
 Zwangsbedingungen) für Fremdschlüssel definiert sein, um die Konsistenz 
 und Integrität der Daten zu gewährleisten.
 

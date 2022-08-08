@@ -13,8 +13,8 @@ procedure.
 
 > Tip: The registration of error handlers is done in the application's
 constructor by calling PHP functions
-[set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php)
-and [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php).
+[set_exception_handler](https://www.php.net/manual/en/function.set-exception-handler.php)
+and [set_error_handler](https://www.php.net/manual/en/function.set-error-handler.php).
 If you do not want Yii to handle the errors and exceptions, you may define
 constant `YII_ENABLE_ERROR_HANDLER` and `YII_ENABLE_EXCEPTION_HANDLER` to
 be false in the [entry script](/doc/guide/basics.entry).

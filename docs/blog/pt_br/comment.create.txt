@@ -31,7 +31,7 @@ Para exibir os comentários na página de detalhe do post, nós modificamos o sc
 </div>
 ~~~
 
-No código acima, nós chamamos `renderPartial()` para renderizar uma visão parcial de nome `_comments` para exibir a lista de comentários pertencentes ao post atual. Note que na visão nós usamos a expressão `$model->comments` para obter os comentários para o post. Isto é válido porque nós declaramos  um relacionamento chamado `comments` na classe `Post`. A avaliação desta expressão vai provocar uma consulta JOIN implícita à base de dados para retornar os comentários apropriados. Esta funcionalidade é conhecida como [lazy relational query](http://www.yiiframework.com/doc/guide/database.arr).
+No código acima, nós chamamos `renderPartial()` para renderizar uma visão parcial de nome `_comments` para exibir a lista de comentários pertencentes ao post atual. Note que na visão nós usamos a expressão `$model->comments` para obter os comentários para o post. Isto é válido porque nós declaramos  um relacionamento chamado `comments` na classe `Post`. A avaliação desta expressão vai provocar uma consulta JOIN implícita à base de dados para retornar os comentários apropriados. Esta funcionalidade é conhecida como [lazy relational query](https://www.yiiframework.com/doc/guide/database.arr).
 
 A visão parcial `_comments` não é muito interessante. Ela principalmente vai iterar entre os comentários e exibir os seus detalhes. Leitores interessados podem ler `/wwwroot/yii/demos/blog/protected/views/post/_comments.php`.
 

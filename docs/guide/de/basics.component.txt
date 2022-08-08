@@ -180,7 +180,7 @@ Behavior
 --------
 
 Seit Version 1.0.2 unterstützen Komponenten auch
-[Mixins](http://www.wikiservice.at/dse/wiki.cgi?MixIn). An eine Komponente
+[Mixins](https://www.wikiservice.at/dse/wiki.cgi?MixIn). An eine Komponente
 können damit ein oder mehrere Behaviors (Verhalten) angehägt werden. 
 Die Komponente 'erbt' dann die Methoden des *Behavior*-Objekts. Allerdings
 nicht als Spezialisierung (normale Klassenvererbung) sondern im Sinne einer

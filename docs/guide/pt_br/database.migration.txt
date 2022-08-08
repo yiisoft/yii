@@ -167,7 +167,7 @@ Quando o Yii realizar a migração, ele iniciará uma transação do banco de da
 > Note|Nota: Nem todos os SGBD suportam transações. E algumas cosultas do banco de dados
 > não podem ser postas em uma transação. Neste caso, você terá que implementar `up()` e
 > `down()`. E, para o MySQL, alguns comandos SQL podem causar
-> [commits implícitos](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
+> [commits implícitos](https://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
 
 
 Aplicação Migrações

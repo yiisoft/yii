@@ -61,7 +61,7 @@ $this->breadcrumbs=array(
 
 Kita menggunakan [CGridView] untuk menampilkan post. CGridView memungkinkan kita untuk menyusun kolom dan melakukan paginasi sepanjang post jika terlalu banyak untuk ditampilkan dalam satu halaman. Perubahan yang akan kita lakukan utamanya pada bagaimana menampilkan setiap kolom. Misalnya, untuk kolom `title`, kita ingin dia ditampilkan sebagai sebuah hyperlink yang akan berpindah ke tampilan detail dari post. Ekpresi `$data->url` mengembalikan nilai dari properti `url` yang kita tentukan di kelas `Post`.
 
-> Tip|Tips: Ketika menampilkan teks, kita memanggil [CHtml::encode()] untuk meng-encode entiti HTML di dalamnya. Tujuannya untuk mencegah terjadinya [serangan cross-site scripting](http://www.yiiframework.com/doc/guide/topics.security).
+> Tip|Tips: Ketika menampilkan teks, kita memanggil [CHtml::encode()] untuk meng-encode entiti HTML di dalamnya. Tujuannya untuk mencegah terjadinya [serangan cross-site scripting](https://www.yiiframework.com/doc/guide/topics.security).
 
 
 Menghapus Post

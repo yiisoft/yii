@@ -2,7 +2,7 @@ Das umfassende Handbuch für Yii
 ===============================
 
 Dieses Tutorial wurde unter den [Bedingungen der
-Yii-Dokumentation](http://www.yiiframework.com/doc/terms/) veröffentlicht.
+Yii-Dokumentation](https://www.yiiframework.com/doc/terms/) veröffentlicht.
 
 Alle Rechte vorbehalten.
 

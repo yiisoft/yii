@@ -51,13 +51,13 @@ return array(
 
 תמיכה ב AR מוגבלת על פי DBMS. נכון לעכשיו, ה-DBMS הבאים נתמכים:
 
-- [MySQL 4.1 או יותר](http://www.mysql.com)
+- [MySQL 4.1 או יותר](https://www.mysql.com)
  
-- [PostgreSQL 7.3 או יותר](http://www.postgres.com)
+- [PostgreSQL 7.3 או יותר](https://www.postgres.com)
 
-- [Microsoft SQL Server 2000 או יותר](http://www.microsoft.com/sqlserver/)
+- [Microsoft SQL Server 2000 או יותר](https://www.microsoft.com/sqlserver/)
 
-- [Oracle](http://www.oracle.com)
+- [Oracle](https://www.oracle.com)
 
 
 » Note|הערה: התמיכה ב SQLServer  קיימת מגרסאות 1.0.4 ומעלה. והתמיכה של Oracle קיימת מגרסאות 1.0.5 ומעלה.

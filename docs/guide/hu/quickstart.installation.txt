@@ -3,7 +3,7 @@ Telepítés
 
 A Yii telepítése a következő két lépésből áll:
 
-   1. A Yii keretrendszer letöltése a [yiiframework.com](http://www.yiiframework.com/)-ról.
+   1. A Yii keretrendszer letöltése a [yiiframework.com](https://www.yiiframework.com/)-ról.
    2. A letöltött fájl kicsomagolása egy webről elérhető könyvtárba.
 
 > Tip|Tipp: Nem feltétlenül szükséges a Yii-t egy webről eléhető könyvtárba
@@ -25,7 +25,7 @@ http://hostname/path/to/yii/requirements/index.php
 ~~~
 
 A Yii által támasztott alapkövetelmény egy webszerver, mely rendelkezik PHP 5.1.0
-(vagy későbbi) támogatással. A Yii tesztelve lett [Apache HTTP szerver](http://httpd.apache.org/)-rel
+(vagy későbbi) támogatással. A Yii tesztelve lett [Apache HTTP szerver](https://httpd.apache.org/)-rel
 Windows és Linux operációs rendszereken. Minden bizonnyal más webszervereken is
 futtatható, feltéve, hogy rendelkezik PHP 5 támogatással.
 

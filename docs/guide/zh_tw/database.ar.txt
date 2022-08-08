@@ -52,11 +52,11 @@ return array(
 
 對 AR 的支援受 DBMS 的限制，當前只支援以下幾種 DBMS：
 
-   - [MySQL 4.1 或更高版本](http://www.mysql.com)
-   - [PostgreSQL 7.3 或更高版本](http://www.postgres.com)
-   - [SQLite 2 和 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 或更高版本](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [MySQL 4.1 或更高版本](https://www.mysql.com)
+   - [PostgreSQL 7.3 或更高版本](https://www.postgres.com)
+   - [SQLite 2 和 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 或更高版本](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 > Note|注意:  1.0.4 版開始支援  Microsoft SQL Server；從1.0.5 版開始支援 Oracle。
 

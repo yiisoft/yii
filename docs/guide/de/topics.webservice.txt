@@ -1,29 +1,29 @@
 Webservice
 ===========
 
-[Webservices](http://de.wikipedia.org/wiki/Webservice) bilden ein
+[Webservices](https://de.wikipedia.org/wiki/Webservice) bilden ein
 Softwaresystem, das entwickelt wurde, um kompatible 
 Interaktion zwischen Maschinen über ein Netzwerk zu unterstützen. 
 Im Zusammenhang mit Webanwendungen beziehen sie sich in der Regel
 auf eine Reihe von APIs, die über das Internet zugänglich sind und 
 auf einem entfernten Rechner ausgeführt werden können, der den angeforderten
-Dienst beherbergt. Ein [flex](http://www.adobe.com/products/flex/)-basierter
+Dienst beherbergt. Ein [flex](https://www.adobe.com/products/flex/)-basierter
 Client könnte zum Beispiel serverseitig Funktionen einer PHP-basierten
 Webanwendung aufrufen. Webservices bauen auf
-[SOAP](http://de.wikipedia.org/wiki/SOAP) als grundlegendem
+[SOAP](https://de.wikipedia.org/wiki/SOAP) als grundlegendem
 Kommunikations-Protokollstapel auf.
 
 Um die Verwirklichung von Webservices in einer Webanwendung zu 
 vereinfachen, beinhaltet Yii [CWebService] und [CWebServiceAction]. Die APIs
 werden zu Klassen gruppiert, den sogenannten *Dienstanbietern* (engl.: service
 provider). Für jede Klasse erzeugt Yii eine
-[WSDL](http://www.w3.org/TR/wsdl)-Spezifikation, die die verfügbaren APIs und
+[WSDL](https://www.w3.org/TR/wsdl)-Spezifikation, die die verfügbaren APIs und
 deren Aufruf von Clientseite beschreibt. Wenn eine API von einem Client
 aufgerufen wird, instanziiert Yii den enstprechenden Dienstanbieter und ruft
 die angeforderte API auf, um die Anfrage zu verarbeiten.
 
 > Note|Hinweis: [CWebService] basiert auf der 
-[SOAP-Erweiterung](http://www.php.net/manual/de/ref.soap.php) von PHP. Stellen
+[SOAP-Erweiterung](https://www.php.net/manual/de/ref.soap.php) von PHP. Stellen
 Sie sicher, dass diese Erweiterung aktiviert wurde, bevor Sie die Beispiele in
 diesem Abschnitt ausprobieren.
 
@@ -32,9 +32,9 @@ Definieren eines Dienstanbieters
 
 Wie erwähnt, ist ein Dienstanbieter eine Klasse mit entfernt aufrufbaren
 Methoden. Yii verwendet [Doc
-Comments](http://java.sun.com/j2se/javadoc/writingdoccomments/) und
+Comments](https://java.sun.com/j2se/javadoc/writingdoccomments/) und
 [Reflection von
-Klassen](http://www.php.net/manual/de/book.reflection.php)
+Klassen](https://www.php.net/manual/de/book.reflection.php)
 um herauszufinden, welche Methoden entfernt aufrufbar sind und wie deren
 Parameter und Rückgabewerte aussehen.
 

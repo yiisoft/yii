@@ -1,27 +1,27 @@
 Layanan Web
 ===========
 
-[Layanan Web](http://en.wikipedia.org/wiki/Web_service) adalah sistem software
+[Layanan Web](https://en.wikipedia.org/wiki/Web_service) adalah sistem software
 yang didesain untuk mendukung interaksi interoperable mesin-ke-mesin
 melalui sebuah jaringan. Dalam konteks aplikasi Web, ia biasanya merujuk
 ke satu set API yang dapat diakses melalui Internet dan menjalankan
 layanan di hosting sitem remote. Sebagai contoh,
-klien berbasis-[Flex](http://www.adobe.com/products/flex/) dapat memanggil
+klien berbasis-[Flex](https://www.adobe.com/products/flex/) dapat memanggil
 fungsi yang diimplementasikan pada sisi server yang menjalankan aplikasi berbasis-PHP.
 Layanan Web bergantung
-pada [SOAP](http://en.wikipedia.org/wiki/SOAP)
+pada [SOAP](https://en.wikipedia.org/wiki/SOAP)
 sebagai lapisan dasar tumpukan protokol komunikasinya.
 
 Yii menyediakan [CWebService] dan [CWebServiceAction] untuk menyederhanakan pekerjaan
 implementasi layanan Web dalam aplikasi Web. APIs dikelompokkan ke dalam
 kelas, disebut *service providers*. Yii akan membuat sebuah
-spesifikasi [WSDL](http://www.w3.org/TR/wsdl) untuk setiap kelas yang menjelaskan
+spesifikasi [WSDL](https://www.w3.org/TR/wsdl) untuk setiap kelas yang menjelaskan
 API apa yang bersifat variabel dan bagaimana ia harus dipanggil oleh klien. Ketika
 sebuah API dipanggil oleh klien, Yii akan menginisiasi penyedia layanan terkait
 dan memanggil API yang diminta guna memenuhi permintaan.
 
 > Note|Catatan: [CWebService] bergantung pada [PHP SOAP
-extension](http://www.php.net/manual/en/ref.soap.php). Pastikan Anda menghidupkannya
+extension](https://www.php.net/manual/en/ref.soap.php). Pastikan Anda menghidupkannya
 sebelum mencoba menampilkan contoh dalam seksi ini.
 
 Mendefinisikan Penyedia Layanan
@@ -29,8 +29,8 @@ Mendefinisikan Penyedia Layanan
 
 Seperti sudah disebutkan di atas, penyedia layanan adalah kelas yang mendefinisikan metode
 yang dapat secara remote (jarak jauh) dipanggil. Yii bergantung pada [komentar 
-dokumen](http://java.sun.com/j2se/javadoc/writingdoccomments/) dan [kelas 
-refleksi](http://www.php.net/manual/en/language.oop5.reflection.php) dalam
+dokumen](https://java.sun.com/j2se/javadoc/writingdoccomments/) dan [kelas
+refleksi](https://www.php.net/manual/en/language.oop5.reflection.php) dalam
 mengidentifikasi metode mana yang bisa dipanggil secara remote dan parameter
 apa serta nilai balik.
 

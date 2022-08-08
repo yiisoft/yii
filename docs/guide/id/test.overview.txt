@@ -13,7 +13,7 @@ Sebuah uji coba fungsional adalah uji coba yang memeriksa sebuah fitur (seperti 
 Test-Driven Development
 ---------------------------------------
 
-Berikut ini merupakan siklus pengembangan yang dikenal dengan [test-driven development (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
+Berikut ini merupakan siklus pengembangan yang dikenal dengan [test-driven development (TDD)](https://en.wikipedia.org/wiki/Test-driven_development):
 
  1. Buat sebuah test yang melingkupi sebuah fitur yang ingin diimplementasi. Uji coba ini diharapkan fail(gagal) pada eksekusi pertama karena fitur bersangkutan masih belum diimplementasikan.
  2. Jalankan seluruh test dan pastikan test baru fail.
@@ -27,7 +27,7 @@ Ulangi langkah 1 sampai 5 guna meningkatkan fungsionalitas dalam implementasi.
 Test Environment Setup
 ---------------------------------------
 
-Fitur uji coba yang disediakan Yii memerlukan [PHPUnit](http://www.phpunit.de/) 3.5+ dan [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. Oleh karenanya, silahkan melihat dokumentasi masing-masing bagaimana melakukan instalasi PHPUnit dan Selenium Remote Control.
+Fitur uji coba yang disediakan Yii memerlukan [PHPUnit](https://www.phpunit.de/) 3.5+ dan [Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+. Oleh karenanya, silahkan melihat dokumentasi masing-masing bagaimana melakukan instalasi PHPUnit dan Selenium Remote Control.
 
 Ketika kita menggunakan perintah konsol `yiic webapp` untuk membuat aplikasi Yii yang baru, Yii akan menghasilkan beberapa file dan direktori berikut supaya kita dapat menulis dan menguji percobaan:
 
@@ -55,7 +55,7 @@ Untuk menjalankan uji coba (baik unit maupun fungsional), kita dapat menjalankan
 % phpunit --coverage-html ./report unit
 ~~~
 
-Di atas, perintah paling terakhir akan menjalankan seluruh uji coba di direktori `unit` dan menghasilkan sebuah laporan code-coverage di dalam direktori `report`. Harap diperhatikan bahwa [xdebug extension](http://www.xdebug.org/) harus terinstalasi dan diaktifkan guna menghasilkan laporan code-coverage.
+Di atas, perintah paling terakhir akan menjalankan seluruh uji coba di direktori `unit` dan menghasilkan sebuah laporan code-coverage di dalam direktori `report`. Harap diperhatikan bahwa [xdebug extension](https://www.xdebug.org/) harus terinstalasi dan diaktifkan guna menghasilkan laporan code-coverage.
 
 
 Uji Coba Skrip Bootstrap

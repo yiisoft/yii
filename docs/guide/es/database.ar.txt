@@ -75,9 +75,9 @@ propiedad [CDbConnection::schemaCachingDuration] a un valor mayor que 0.
 El soporte para AR está limitado por el DBMS. Actualmente, solo los siguientes
 DBMS están soportados:
 
-   - [MySQL 4.1 o superior](http://www.mysql.com)
-   - [PostgreSQL 7.3 o superior](http://www.postgres.com)
-   - [SQLite 2 y 3](http://www.sqlite.org)
+   - [MySQL 4.1 o superior](https://www.mysql.com)
+   - [PostgreSQL 7.3 o superior](https://www.postgres.com)
+   - [SQLite 2 y 3](https://www.sqlite.org)
 
 Si querés usar un componente de aplicación diferente de `db`, o si querés
 trabajar con múltiples bases de datos usando AR, deberías sobreescribir

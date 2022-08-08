@@ -15,7 +15,7 @@ SQL-Injection-Angriffen zu minimieren.
 
 Und mit Yii’s ActiveRecord-Implementierung (kurz AR) kann man die Datenbankprogrammierung
 noch weiter vereinfachen. Sie nutzt das weit verbreitete
-[ORM](http://de.wikipedia.org/wiki/ORM)-Konzept (engl.: Object-Relational Mapping), 
+[ORM](https://de.wikipedia.org/wiki/ORM)-Konzept (engl.: Object-Relational Mapping),
 die sogenannte objektrelationale Abbildung. Eine Tabelle
 einer Datenbank wird dabei durch eine Klasse repräsentiert. Eine Zeile in
 dieser Tabelle entspricht einem Objekt dieser Klasse. Man vermeidet damit,

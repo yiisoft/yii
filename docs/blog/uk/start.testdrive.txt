@@ -10,7 +10,7 @@
 
 Спочатку ми встановимо фреймворк.
 Завантажимо дистрибутив фреймворку (версії 1.1.1 або вище) з сайту
-[www.yiiframework.com](http://www.yiiframework.com/download) і розпакуємо в директорію `/wwwroot/yii`. 
+[www.yiiframework.com](https://www.yiiframework.com/download) і розпакуємо в директорію `/wwwroot/yii`.
 Переконаємося, що отримали директорію `/wwwroot/yii/framework`.
 
 > Tip|Підказка: Фреймворк Yii може бути встановлений в будь-якому місці файлової системи, не обовʼязково в `wwwroot`. 
@@ -75,7 +75,7 @@ Yii::createWebApplication($config)->run();
 
 Також, у нас є [базова директорія додатку](/doc/guide/uk/basics.application#application-base-directory) `/wwwroot/blog/protected`. 
 Більша частина нашого коду і даних буде зберігатися в цій директорії і повинна бути захищена від прямого доступу користувачів із веб.
-Для [веб-сервера Apache](http://httpd.apache.org/) ми кладемо в цю директорію файл `.htaccess` із наступним змістом:
+Для [веб-сервера Apache](https://httpd.apache.org/) ми кладемо в цю директорію файл `.htaccess` із наступним змістом:
 
 ~~~
 deny from all

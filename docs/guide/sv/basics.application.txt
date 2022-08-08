@@ -68,7 +68,7 @@ Placeringen kan anpassas via propertyn [basePath|CWebApplication::basePath] i
 [applikationens konfiguration](/doc/guide/basics.application#application-configuration).
 
 Innehåll i applikationens rotkatalog med underkataloger skall inte vara 
-tillgängliga för webbanvändare. Med [Apache HTTP-server](http://httpd.apache.org/) 
+tillgängliga för webbanvändare. Med [Apache HTTP-server](https://httpd.apache.org/)
 kan detta lätt ordnas genom att en fil med namnet `.htaccess` placeras i rotkatalogen. 
 Innehållet i `.htaccess` är som följer:
 

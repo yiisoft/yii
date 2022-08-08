@@ -209,7 +209,7 @@ as described above without the sub-folder `sandbox/blog`.
 
 还有一点，我们可以做进一步清理我们的网址，即在URL中藏匿`index.php`入口脚本。这就要求我们配置Web服务器，以及[urlManager|CWebApplication::urlManager]应用程序元件。
 
-我们首先需要配置Web服务器，这样一个URL没有入口脚本仍然可以处理入口脚本。如果是[Apache HTTP server](http://httpd.apache.org/) ，可以通过打开网址重写引擎和指定一些重写规则。这两个操作可以在包含入口脚本的目录下的`.htaccess`文件里实现。下面是一个示例：
+我们首先需要配置Web服务器，这样一个URL没有入口脚本仍然可以处理入口脚本。如果是[Apache HTTP server](https://httpd.apache.org/) ，可以通过打开网址重写引擎和指定一些重写规则。这两个操作可以在包含入口脚本的目录下的`.htaccess`文件里实现。下面是一个示例：
 
 ~~~
 Options +FollowSymLinks

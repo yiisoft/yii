@@ -1,7 +1,7 @@
 Het complete handboek voor Yii
 ==============================
 
-Deze tutorial is uitgebracht onder de [Algemene Voorwaarden voor Yii Documentatie](http://www.yiiframework.com/doc/terms/).
+Deze tutorial is uitgebracht onder de [Algemene Voorwaarden voor Yii Documentatie](https://www.yiiframework.com/doc/terms/).
 
 Alle rechten voorbehouden.
 

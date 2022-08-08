@@ -7,7 +7,7 @@
 ----------------------
 
 启用 [PHP APC
-扩展](http://docs.php.net/manual/zh/book.apc.php) 可能是改善一个应用整体性能的最简单方式。此扩展缓存和优化 PHP 中间代码并避免时间花费再为每个新来的请求解析PHP脚本。
+扩展](https://docs.php.net/manual/zh/book.apc.php) 可能是改善一个应用整体性能的最简单方式。此扩展缓存和优化 PHP 中间代码并避免时间花费再为每个新来的请求解析PHP脚本。
 
 禁用调试模式
 --------------------
@@ -19,7 +19,7 @@
 使用 `yiilite.php`
 -------------------
 
-当启用 [PHP APC 扩展](http://docs.php.net/manual/zh/book.apc.php) 时， 我们可以将 `yii.php` 替换为另一个名为 `yiilite.php` 的引导文件来进一步提高 Yii-powered 应用的性能。
+当启用 [PHP APC 扩展](https://docs.php.net/manual/zh/book.apc.php) 时， 我们可以将 `yii.php` 替换为另一个名为 `yiilite.php` 的引导文件来进一步提高 Yii-powered 应用的性能。
 
 文件 `yiilite.php` 包含在每个 Yii 发布中。它是一些常用到的 Yii 类文件的合并文件。在文件中，注释和跟踪语句都被去除。因此，使用 `yiilite.php` 将减少被引用的文件数量并避免执行跟踪语句。
 
@@ -36,7 +36,7 @@
 通过设置 [CDbConnection::schemaCachingDuration] 属性为一个大于 0 的值来完成。
 
 除了这些应用级别的缓存技术，我们也可使用服务级别的缓存方案来提高应用的性能。
-事实上，我们之前描述的 [PHP APC 缓存](/doc/guide/topics.performance#enabling-apc-extension)  就属于此项。 也有其他的服务器技术，例如 [Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/)，其他不一一列出。
+事实上，我们之前描述的 [PHP APC 缓存](/doc/guide/topics.performance#enabling-apc-extension)  就属于此项。 也有其他的服务器技术，例如 [Zend Optimizer](https://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/)，其他不一一列出。
 
 数据库优化
 ---------------------
@@ -81,7 +81,7 @@ $cs->scriptMap=array(
 
 相同的技巧也适用于 CSS 文件。
 
-在 [Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/) 帮助下我们可以改善页面载入速度。例如，我们可以从 Google 的服务器引入 `jquery.js`
+在 [Google AJAX Libraries API](https://code.google.com/apis/ajaxlibs/) 帮助下我们可以改善页面载入速度。例如，我们可以从 Google 的服务器引入 `jquery.js`
 而不是从我们自己的服务器。要这样做， 我们首先配置 `scriptMap` 如下,
 
 ~~~

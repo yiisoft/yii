@@ -123,7 +123,7 @@ impostare [$event->handled|CEvent::handled] a true.
 Behavior del component
 ------------------
 
-Il component supporta il pattern [mixin](http://en.wikipedia.org/wiki/Mixin) e può essere 
+Il component supporta il pattern [mixin](https://en.wikipedia.org/wiki/Mixin) e può essere
 collegato con uno o più behavior. Un *behavior* è un oggetto i cui metodi possono 
 essere 'ereditati' dai component collegati tramite lo strumento di collezionare 
 funzionalità piuttosto che specializzazioni (es. normale ereditarietà della classe).

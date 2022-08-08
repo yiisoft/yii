@@ -72,7 +72,7 @@ la propiedad [basePath|CWebApplication::basePath] en la
 
 Las cosas que contiene el directorio base deben ser protegidas
 para que no sean accesibles por usuarios Web. Con el [Apache HTTP
-server](http://httpd.apache.org/) esto se realiza facilmente creando un archivo 
+server](https://httpd.apache.org/) esto se realiza facilmente creando un archivo
 `.htaccess` dentro del directorio base. El contenido del archivo `.htaccess`
 debe ser el siguiente:
 

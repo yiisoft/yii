@@ -76,11 +76,11 @@ Anda bisa menghidupkan cache skema (schema caching) dengan mengkonfigurasi prope
 Dukungan terhadap AR dibatasi oleh DBMS. Saat ini, hanya DBMS berikut yang
 didukung:
 
-   - [MySQL 4.1 atau lebih tinggi](http://www.mysql.com)
-   - [PostgreSQL 7.3 atau lebih tinggi](http://www.postgres.com)
-   - [SQLite 2 dan 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 atau lebih tinggi](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [MySQL 4.1 atau lebih tinggi](https://www.mysql.com)
+   - [PostgreSQL 7.3 atau lebih tinggi](https://www.postgres.com)
+   - [SQLite 2 dan 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 atau lebih tinggi](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 Jika Anda ingin menggunakan komponen aplikasi selain `db`, atau jika Anda
 ingin bekerja dengan multipel database menggunakan AR, Anda harus meng-override

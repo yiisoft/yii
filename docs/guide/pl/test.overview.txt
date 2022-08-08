@@ -4,7 +4,7 @@ Testowanie
 > Note|Uwaga: Wparcie dla testowania opisane w tym rozdziale wymaga Yii w wersji 1.1 lub wyższej.
 Nie oznacza to jednak, że nie możesz testować aplikacji utworzonej za pomocą Yii 1.0.x.  
 Istnieje wiele świetnych frameworków testujących, które mogą posłużyć Ci w tym celu, takich
-jak [PHPUnit](http://www.phpunit.de/), [SimpleTest](http://www.simpletest.org/).
+jak [PHPUnit](https://www.phpunit.de/), [SimpleTest](https://www.simpletest.org/).
 
 Testowanie jest nieodzownym procesem podczas tworzenia oprogramowania.  
 
@@ -37,7 +37,7 @@ wymagania stawiane systemowi (mogą być to zarówno programiści jak i inżynie
 Programowanie sterowanie testami (ang. TDD, Test-Driven Development)
 --------------------------------------------------------------------
 
-Poniżej przedstawimy cykle programowania w tak zwanym [programowaniu sterowanym testami (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
+Poniżej przedstawimy cykle programowania w tak zwanym [programowaniu sterowanym testami (TDD)](https://en.wikipedia.org/wiki/Test-driven_development):
 
  1. Utwórz nowy test, który pokrywa zaimplementowaną funkcjonalność. Oczekuje się, 
  że test nie powiedzie się podczas pierwszego wywołania, ponieważ funkcjonalność ta dopiero zostanie zaimplementowana.
@@ -51,8 +51,8 @@ Powtarzaj kroki od 1 do 5 w celu kontynuowania implementacji funcjonalności.
 Konfiguracja środowiska testowego
 ---------------------------------
 
-Wsparcie dla testów oferowane przez Yii wymaga [PHPUnit](http://www.phpunit.de/) 3.5+ 
-oraz [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. 
+Wsparcie dla testów oferowane przez Yii wymaga [PHPUnit](https://www.phpunit.de/) 3.5+
+oraz [Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+.
 Aby dowiedzieć się jak zainstalować PHPUnit oraz Slenium Remote Control, zajrzyj do ich dokumentacji.
 
 Jeśli używasz komend konsoli `yiic webapp` w celu utworzenia nowej aplikacji Yii, 
@@ -87,7 +87,7 @@ instrukcje w oknie konsoli:
 
 W powyższych przykładzie ostatnia komenda wykona wszystkie testy w katalogu `unit` 
 i wygeneruje raport pokrycia kodu w katalogu `report`. Zauważ, że 
-[rozszerzenie xdebug ](http://www.xdebug.org/) musi być zainstalowane i aktywowane 
+[rozszerzenie xdebug ](https://www.xdebug.org/) musi być zainstalowane i aktywowane
 w celu wygenerowania raportów pokrycia kodu.
 
 Skrypt startowy testu

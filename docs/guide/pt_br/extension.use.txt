@@ -3,7 +3,7 @@ Usando Extensões
 
 A utilização de uma extensão normalmente envolve os seguintes passos:
 
-  1. Faça o download da extensão no [repositório](http://www.yiiframework.com/extensions/) 
+  1. Faça o download da extensão no [repositório](https://www.yiiframework.com/extensions/)
   do Yii.
   2. Descompacte a extensão no diretório `extensions/xyz`, dentro do 
   [diretório base da aplicação](/doc/guide/basics.application#application-base-directory), 
@@ -31,7 +31,7 @@ Antes de descrever a utilização de extensões de terceiros, gostariamos de
 apresentar a biblioteca de extensões Zii. Trata-se de um conjunto de extensões
 criadas pelo time de desenvolvedores do Yii e é incluída em todos os lançamentos
 do framework, a partir da versão 1.1.0. Essa biblioteca está hospedada no Google
-Code, no projeto chamado [zii](http://code.google.com/p/zii).
+Code, no projeto chamado [zii](https://code.google.com/p/zii).
 
 Ao utilizar uma das extensões da Zii, você deve utilizar um path alias para fazer referências às classes
 correspondentes, no formato `zii.caminho.para.NomeDaClasse`.

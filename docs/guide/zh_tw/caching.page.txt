@@ -53,11 +53,11 @@ public function filters()
 
 上述的程式碼會設定 `Last-Modified` 標頭成上一次文章被更新的日期。你也可以使用 [CHttpCacheFilter::lastModifiedExpression] 藉由 PHP 表達式來設定 `Last-Modified` 標頭。
 
-> Tip|提示: [CHttpCacheFilter::lastModifiedExpression] 和 [CHttpCacheFilter::lastModified] 都可以使用 Unix 時間戳記或是人類可讀的字串來表示。後者可以被 [strtotime()](http://php.net/manual/function.strtotime.php) 解析，不需要額外的轉換。
+> Tip|提示: [CHttpCacheFilter::lastModifiedExpression] 和 [CHttpCacheFilter::lastModified] 都可以使用 Unix 時間戳記或是人類可讀的字串來表示。後者可以被 [strtotime()](https://php.net/manual/function.strtotime.php) 解析，不需要額外的轉換。
 
-這個 "Entity Tag"（或 `ETag`）標頭可以分別藉由像是 [CHttpCacheFilter::etagSeed] 和 [CHttpCacheFilter::etagSeedExpression] 的方法來設定。兩個都會被序列化（所以可以使用單一值或是一整個陣列），並且被用來產生一個被標記的、base64-encoded SHA1 編碼的內容來給 `ETag` 標投當作內容。這跟 [Apache Webserver](http://httpd.apache.org) 的方法不同，各家的伺服器也產生自己的 ETags。然而，非常符合 RFC，而且也成為一個框架中的主流的用法。
+這個 "Entity Tag"（或 `ETag`）標頭可以分別藉由像是 [CHttpCacheFilter::etagSeed] 和 [CHttpCacheFilter::etagSeedExpression] 的方法來設定。兩個都會被序列化（所以可以使用單一值或是一整個陣列），並且被用來產生一個被標記的、base64-encoded SHA1 編碼的內容來給 `ETag` 標投當作內容。這跟 [Apache Webserver](https://httpd.apache.org) 的方法不同，各家的伺服器也產生自己的 ETags。然而，非常符合 RFC，而且也成為一個框架中的主流的用法。
 
-> Note|注意: 為了遵守 [RFC 2616，第 13.3.4 章節](http://tools.ietf.org/html/rfc2616#section-13.3.4)， [CHttpCacheFilter] 會送出 `ETag` *和* `Last-Modified` 標頭，如果他們可以同時被產生。所以，兩者都會被客戶端用來做快取驗證。
+> Note|注意: 為了遵守 [RFC 2616，第 13.3.4 章節](https://tools.ietf.org/html/rfc2616#section-13.3.4)， [CHttpCacheFilter] 會送出 `ETag` *和* `Last-Modified` 標頭，如果他們可以同時被產生。所以，兩者都會被客戶端用來做快取驗證。
 
 當時體標籤被編碼，他們允許比 `Last-Modified` 標頭更複雜且/或更精確的快取策略。例如，一個 ETag 可能是無效的，當網站切換成另外一個主題。
 

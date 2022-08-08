@@ -115,7 +115,7 @@ Aby utworzyć nowy widżet od zera, musimy głównie zaimplementować dwie metod
 [CWidget::init] oraz [CWidget::run]. Pierwsza metoda jest wołana kiedy używamy `$this->beginWidget` 
 do wstawiania widżetu w widok a druga metoda jest wołana wtedy, gdy wołamy `$this->endWidget`.
 Jeśli chcemy przechwycić i przetworzyć zawartość wyświetlaną pomiędzy wywołaniami 
-tych dwóch metod, możemy rozpocząć [buforowanie wyjścia](http://us3.php.net/manual/en/book.outcontrol.php)
+tych dwóch metod, możemy rozpocząć [buforowanie wyjścia](https://us3.php.net/manual/en/book.outcontrol.php)
 w [CWidget::init] oraz zwrócić zbuforowane wyjście w [CWidget::run] w celach
 dalszego przetwarzania.
 

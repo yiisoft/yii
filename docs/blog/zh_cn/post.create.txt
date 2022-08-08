@@ -7,7 +7,7 @@
 自定义访问控制
 --------------------------
 
-我们想做的第一件事是自定义 [访问控制（Access control）](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) ，因为 `yiic` 工具生成的代码并不符合我们的需求。
+我们想做的第一件事是自定义 [访问控制（Access control）](https://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) ，因为 `yiic` 工具生成的代码并不符合我们的需求。
 
 我们将 `/wwwroot/blog/protected/controllers/PostController.php` 文件中的 `accessRules()` 方法修改如下：
 

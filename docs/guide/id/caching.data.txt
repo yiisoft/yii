@@ -123,7 +123,7 @@ Query Chacing dibuat di atas data caching, digunakan untuk menyimpan hasil query
 ke dalam cache sehingga menghemat waktu eksekusi query DB jika query yang sama diminta
 di masa mendatang, sehingga bisa langsung diambil dari cache.
 
-> Info: Beberapa DBMS (contohnya [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
+> Info: Beberapa DBMS (contohnya [MySQL](https://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
 > juga mendukung query caching pada bagian server DB. Dibandingkan dengan query caching
 > pada bagian server, fitur yang kami dukung disini lebih fleksibel dan
 > berpotensi untuk lebih efisien.

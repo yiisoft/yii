@@ -20,7 +20,7 @@ RewriteRule . index.php
 Nginx
 -----
 
-Możesz używać Yii z [Nginx-em](http://wiki.nginx.org/) i PHP z [FPM SAPI](http://php.net/install.fpm).
+Możesz używać Yii z [Nginx-em](https://wiki.nginx.org/) i PHP z [FPM SAPI](https://php.net/install.fpm).
 Poniżej znajduje się przykładowa konfiguracja hosta. Definiuje ona plik rozruchowy i pozwala yii przechwytywać żądania prowadzące do nieistniejących plików, co pozwala nam posiadać ładnie wyglądające URLe.
 
 ~~~

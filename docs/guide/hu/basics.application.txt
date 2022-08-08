@@ -67,7 +67,7 @@ meghatározásával az [alkalmazás beállításban](#application-configuration)
 
 Az alkalmazás alap könyvtára alatt található tartalmaknak nem szabad
 web felhasználók által elérhetőnek lenniük. [Apache HTTP
-szerverrel](http://httpd.apache.org/) ez egyszerűen elérhető egy `.htaccess` fájl
+szerverrel](https://httpd.apache.org/) ez egyszerűen elérhető egy `.htaccess` fájl
 elhelyezésével az alap könyvtárban. A `.htaccess` fájl tartalma a következő:
 
 ~~~

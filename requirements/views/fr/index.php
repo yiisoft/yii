@@ -18,7 +18,7 @@
 <h2>Description</h2>
 <p>
 Ce script vérifie si la configuration de votre serveur satisfait toutes les dépendances nécessaires
-pour exécuter les applications <a href="http://www.yiiframework.com/">Yii</a>.
+pour exécuter les applications <a href="https://www.yiiframework.com/">Yii</a>.
 Il vérifie si le serveur exécute la version correcte de PHP,
 si toutes les extensions PHP nécessaires ont été chargées, et si les paramètres du fichier php.ini sont corrects
 </p>

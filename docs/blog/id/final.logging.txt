@@ -3,7 +3,7 @@ Pencatatan Error
 
 Sebuah aplikasi Web yangjadi sering membutuhkan pencatatan yang lengkap untuk berbagai event. Dalam aplikasi blog kita, kita ingin mencatata error-error yang terjadi ketika sedang digunakan. Error ini dapat berupa kesalahan pemograman atau penyalahgunaan sistem. Dengan mencatat sistem akan membantu kita untuk mengimprovisasi aplikasi blog.
 
-Kita mengatifkan pencatatan dengan memngubah [konfigurasi aplikasi](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) sebagai berikut,
+Kita mengatifkan pencatatan dengan memngubah [konfigurasi aplikasi](https://www.yiiframework.com/doc/guide/basics.application#application-configuration) sebagai berikut,
 
 ~~~
 [php]

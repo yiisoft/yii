@@ -4,9 +4,9 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -235,7 +235,7 @@ EOD;
 			$rc=$table->catalogName.'.'.$rc;
 		}
 
-		//From http://msdn2.microsoft.com/en-us/library/aa175805(SQL.80).aspx
+		//From https://msdn2.microsoft.com/en-us/library/aa175805(SQL.80).aspx
 		$sql = <<<EOD
 		SELECT
 		     KCU1.CONSTRAINT_NAME AS 'FK_CONSTRAINT_NAME'

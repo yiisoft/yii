@@ -8,7 +8,7 @@
 ----------------------
 
 啟用 [PHP APC
-擴充](http://docs.php.net/manual/zh/book.apc.php) 可能是改善一個應用程式整體性能的最簡單方式。此擴充快取並優化 PHP 中間程式碼來避免時間花費再為每個新來的請求解析 PHP 腳本。
+擴充](https://docs.php.net/manual/zh/book.apc.php) 可能是改善一個應用程式整體性能的最簡單方式。此擴充快取並優化 PHP 中間程式碼來避免時間花費再為每個新來的請求解析 PHP 腳本。
 
 
 停用除錯模式
@@ -21,7 +21,7 @@
 使用 `yiilite.php`
 -------------------
 
-當啟用 [PHP APC 擴充](http://docs.php.net/manual/zh/book.apc.php) 時， 我們可以將 `yii.php` 替換為另一個名為 `yiilite.php` 的啟動檔案來進一步提高 Yii 的應用程式的性能。
+當啟用 [PHP APC 擴充](https://docs.php.net/manual/zh/book.apc.php) 時， 我們可以將 `yii.php` 替換為另一個名為 `yiilite.php` 的啟動檔案來進一步提高 Yii 的應用程式的性能。
 
 檔案 `yiilite.php` 包含在每個 Yii 發佈中。它是一些常用到的 Yii 類檔案的合併檔案。在檔案中，註釋和跟蹤語句都被去除。因此，使用 `yiilite.php` 將減少被引用的檔案數量並避免執行追蹤語句。
 
@@ -39,7 +39,7 @@
 通過設置 [CDbConnection::schemaCachingDuration] 屬性為一個大於 0 的值來完成。
 
 除了這些應用程式層級的快取技術，我們也可使用服層級的快取方案來提高應用程式的性能。
-事實上，我們之前描述的 [PHP APC 快取](/doc/guide/topics.performance#enabling-apc-extension) 就屬於此項。 也有其他的伺服器技術，例如 [Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/)，其他不一一列出。
+事實上，我們之前描述的 [PHP APC 快取](/doc/guide/topics.performance#enabling-apc-extension) 就屬於此項。 也有其他的伺服器技術，例如 [Zend Optimizer](https://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/)，其他不一一列出。
 
 
 資料庫優化
@@ -85,7 +85,7 @@ $cs->scriptMap=array(
 
 相同的技巧也適用於 CSS 檔案。
 
-在 [Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/) 幫助下，我們可以改善頁面載入速度。例如，我們可以從 Google 的伺服器導入 `jquery.js`
+在 [Google AJAX Libraries API](https://code.google.com/apis/ajaxlibs/) 幫助下，我們可以改善頁面載入速度。例如，我們可以從 Google 的伺服器導入 `jquery.js`
 而不是從我們自己的伺服器。要這樣做， 我們首先配置 `scriptMap` 如下,
 
 ~~~

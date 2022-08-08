@@ -10,7 +10,7 @@ kan trimmas för att öka prestanda.
 Slå på APC-tillägget
 --------------------
 
-Att slå på [PHP:s APC-tillägg](http://www.php.net/manual/en/book.apc.php) är 
+Att slå på [PHP:s APC-tillägg](https://www.php.net/manual/en/book.apc.php) är
 kanske det lättaste sättet att förbättra totalprestanda för en applikation. 
 Tillägget cachelagrar och optimerar PHP:s partiellt kompilerade kod (bytecode), 
 vilket undviker tidåtgång för parsning av PHP-skript för varje inkommande 
@@ -29,7 +29,7 @@ meddelande som loggas.
 Använd `yiilite.php`
 --------------------
 
-När [PHP:s APC-tillägg](http://www.php.net/manual/en/book.apc.php) är påslaget, 
+När [PHP:s APC-tillägg](https://www.php.net/manual/en/book.apc.php) är påslaget,
 kan vi ersätta `yii.php` med en annan bootstrapfil för Yii, `yiilite.php`, för 
 att ytterligare förbättra prestanda i en Yii-driven applikation.
 
@@ -69,8 +69,8 @@ Förutom dessa cachningsmetoder på applikationsnivå, kan även cachningslösni
 på servernivå användas för att förbättra applikationsprestanda. Faktum är att, 
 [APC-cachning](/doc/guide/topics.performance#enabling-apc-extension) som 
 beskrevs tidigare, hör till denna kategori. Det finns andra serverbaserade 
-metoder, som [Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), 
-[eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/), 
+metoder, som [Zend Optimizer](https://www.zend.com/en/products/guard/zend-optimizer),
+[eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/),
 för att nämna några.
 
 Databasoptimering
@@ -138,7 +138,7 @@ JavaScript-filerna till en enda fil samt spara den som `js/all.js`.
 
 Samma förfarande används för CSS-filer.
 
-Vi kan också öka sidladdningshastigheten med hjäp av [Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/). 
+Vi kan också öka sidladdningshastigheten med hjäp av [Google AJAX Libraries API](https://code.google.com/apis/ajaxlibs/).
 Till exempel kan `jquery.js` inkluderas från Google:s servrar i stället för från egen server. För att åstadkomma det 
 konfigurerar vi först `scriptMap` på följande sätt,
 

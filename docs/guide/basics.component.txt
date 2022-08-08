@@ -169,7 +169,7 @@ If a handler decides to prevent the rest of the handlers from being invoked, it 
 Component Behavior
 ------------------
 
-A component supports the [mixin](http://en.wikipedia.org/wiki/Mixin) pattern
+A component supports the [mixin](https://en.wikipedia.org/wiki/Mixin) pattern
 and can be attached with one or several behaviors. A *behavior* is an object
 whose methods can be 'inherited' by its attached component through the means of collecting
 functionality instead of specialization (i.e., normal class inheritance).

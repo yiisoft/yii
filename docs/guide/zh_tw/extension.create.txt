@@ -71,7 +71,7 @@ class MyTabView extends CTabView
 
 在上述裡，當此屬性未設置時，我們重載 [CWidget::init] 方法和指定 [CTabView::cssFile] 的 URL 到我們的新的預設 CSS 樣式。我們把新的CSS樣式檔案和 `MyTabView` 類別檔案放在相同的目錄下，以便他們能夠封裝成擴充。由於 CSS 樣式檔案不是網路可存取的，我們需要發佈作為一項 asset 資源。
 
-要從零開始建立一個新的小工具，我們主要是需要實現兩個方法：[CWidget::init] 和[CWidget::run]。第一種方法是當我們在視圖中使用 `$this->beginWidget` 插入一個小工具時被調用，第二種方法在 `$this->endWidget` 被調用時調用。如果我們想在這兩個方法調用之間捕捉和處理顯示的內容，我們可以在 [CWidget::init] 啟動 [output buffering](http://us3.php.net/manual/en/book.outcontrol.php) 和在 [CWidget::run] 中回收緩衝輸出來作進一步處理。
+要從零開始建立一個新的小工具，我們主要是需要實現兩個方法：[CWidget::init] 和[CWidget::run]。第一種方法是當我們在視圖中使用 `$this->beginWidget` 插入一個小工具時被調用，第二種方法在 `$this->endWidget` 被調用時調用。如果我們想在這兩個方法調用之間捕捉和處理顯示的內容，我們可以在 [CWidget::init] 啟動 [output buffering](https://us3.php.net/manual/en/book.outcontrol.php) 和在 [CWidget::run] 中回收緩衝輸出來作進一步處理。
 
 在網頁中使用的小工具，小工具往往包括 CSS、Javascript或其他資源檔案。我們叫這些檔案 *assets*，因為他們和小工具類別在一起，而且通常網路使用者無法存取。為了使這些檔案通過網路存取，我們需要用 [CWebApplication::assetManager]發佈他們，例如上述程式碼所示。此外，如果我們想包括 CSS 或 JavaScript 檔案在當前的網頁，我們需要使用[CClientScript]註冊 ：
 

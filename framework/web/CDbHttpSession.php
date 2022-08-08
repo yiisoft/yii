@@ -3,9 +3,9 @@
  * CDbHttpSession class
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -31,7 +31,7 @@
  * session.hash_bits_per_character or session.hash_function) you should modify
  * SQL schema accordingly.
  *
- * CDbHttpSession relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
+ * CDbHttpSession relies on {@link https://www.php.net/manual/en/ref.pdo.php PDO} to access database.
  *
  * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
  * You can also specify {@link connectionID} so that it makes use of a DB application component to access database.
@@ -87,7 +87,7 @@ class CDbHttpSession extends CHttpSession
 
 	/**
 	 * Updates the current session id with a newly generated one.
-	 * Please refer to {@link http://php.net/session_regenerate_id} for more details.
+	 * Please refer to {@link https://php.net/session_regenerate_id} for more details.
 	 * @param boolean $deleteOldSession Whether to delete the old associated session file or not.
 	 * @since 1.1.8
 	 */
@@ -241,7 +241,7 @@ class CDbHttpSession extends CHttpSession
 	public function writeSession($id,$data)
 	{
 		// exception must be caught in session write handler
-		// http://us.php.net/manual/en/function.session-set-save-handler.php
+		// https://us.php.net/manual/en/function.session-set-save-handler.php
 		try
 		{
 			$expire=time()+$this->getTimeout();

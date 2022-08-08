@@ -66,7 +66,7 @@ l'entry script. Può essere personalizzata settando la proprietà [basePath|CWeb
 nella [Configuratione dell'applicazione](/doc/guide/basics.application#application-configuration).
 
 I contenuti all'interno della cartella base dell'applicazione dovrebbero essere
-protetti essendo accessibili degli utenti Web. Con [Apache HTTP server](http://httpd.apache.org/),
+protetti essendo accessibili degli utenti Web. Con [Apache HTTP server](https://httpd.apache.org/),
 questo può essere facilmente ottenuto posizionando un file `.htaccess` all'interno della cartella principale.
 Il contenuto del file `.htaccess` dovrà essere:
 

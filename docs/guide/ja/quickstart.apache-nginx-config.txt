@@ -24,7 +24,7 @@ RewriteRule . index.php
 Nginx
 -----
 
-Yii は、[Nginx](http://wiki.nginx.org/) と PHP + [FPM SAPI](http://php.net/install.fpm) の組合せでも動作します。
+Yii は、[Nginx](https://wiki.nginx.org/) と PHP + [FPM SAPI](https://php.net/install.fpm) の組合せでも動作します。
 以下はホスト構成のサンプルです。このホスト構成は、ブートストラップファイルを定義し、存在しないファイルに対するすべてのリクエストを yii が捕捉するようにして、見栄えの良い URL を利用できるようにしています。
 
 ~~~

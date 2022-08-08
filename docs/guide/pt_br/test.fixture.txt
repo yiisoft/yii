@@ -7,7 +7,7 @@ estado conhecido chamado *fixture*. Por exemplo, para testar a funcionalidade de
 criação de posts em uma aplicação de blog, toda vez que rodarmos os testes, as
 tabelas armazenando os dados relevantes sobre posts (por exemplo, a tabela
 `Post`, a tabela `Comentario`) devem ser restauradas a algum estado fixo. A
-[documentação do PHPUnit](http://www.phpunit.de/manual/current/en/fixtures.html)
+[documentação do PHPUnit](https://www.phpunit.de/manual/current/en/fixtures.html)
 explicou bem a definição de fixtures genéricas. Nesta seção, descrevemos
 principalmente como configurar fixtures de banco de dados, como acabamos de
 descrever no exemplo.

@@ -3,7 +3,7 @@
 
 Usar una extensión frecuentemente involucra los siguientes tres pasos:
 
-  1. Descargar la extensión desde el [repositorio de extensiones](http://www.yiiframework.com/extensions/) de Yii.
+  1. Descargar la extensión desde el [repositorio de extensiones](https://www.yiiframework.com/extensions/) de Yii.
   2. Desempaquetar la extensión bajo el subdirectorio `extensions/xyz` de
      [directorio base de la aplicación](/doc/guide/basics.application#application-base-directory),
      donde `xyz` es el nombre de la extensión.

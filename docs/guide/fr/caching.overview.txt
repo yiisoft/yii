@@ -28,25 +28,25 @@ Lorsque l'application est en cours d'exécution, le composant de cache peut êtr
 
 Yii fournit différents composants de cache qui peuvent stocker des données mises en cache dans différents médias. Par exemple, le composant [CMemCache] encapsule l'extension PHP memcache et utilise la mémoire comme support de mémoire cache, le composant [CApcCache] encapsule l'extension PHP APC et le composant [CDbCache] stocke les données à mettre en cache dans une base de données. Ce qui suit est un résumé des éléments de cache disponibles :
 
-   - [CMemCache]: utilise [l'extention PHP memcache] (http://www.php.net/manual/en/book.memcache.php).
+   - [CMemCache]: utilise [l'extention PHP memcache] (https://www.php.net/manual/en/book.memcache.php).
 
-   - [CApcCache]: utilise [l'extension PHP APC] (http://www.php.net/manual/en/book.apc.php).
+   - [CApcCache]: utilise [l'extension PHP APC] (https://www.php.net/manual/en/book.apc.php).
 
-   - [CXCache]: utilise [l'extension PHP XCache](http://xcache.lighttpd.net/).
+   - [CXCache]: utilise [l'extension PHP XCache](https://xcache.lighttpd.net/).
 
-   - [CEAcceleratorCache]: utilise [l'extension PHP EAccelerator] (http://eaccelerator.net/).
+   - [CEAcceleratorCache]: utilise [l'extension PHP EAccelerator] (https://eaccelerator.net/).
 
-- [CRedisCache]: utilise [redis](http://redis.io/) valeur-clé de stockage comme support sous-jacent de mise en cache.
+- [CRedisCache]: utilise [redis](https://redis.io/) valeur-clé de stockage comme support sous-jacent de mise en cache.
    - [CDbCache]: utilise une table en base de données pour stocker les données mises en cache.
 Par défaut, une base de données SQLite3 va être créée et utilisée dans le répertoire d'exécution.
 Vous pouvez spécifier explicitement une base de données à utiliser en utilisant la 
 propriété [connectionID|CDbCache::connectionID].
 
-   - [CZendDataCache]: utilise [le cache de données Zend](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
+   - [CZendDataCache]: utilise [le cache de données Zend](https://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
    comme support sous-jacent de mise en cache.
 
-- [CWinCache]: utilise l'extension [WinCache pour PHP](http://iis.net/downloads/microsoft/wincache-extension)
-   ([voir aussi](http://php.net/manual/en/book.wincache.php)).
+- [CWinCache]: utilise l'extension [WinCache pour PHP](https://iis.net/downloads/microsoft/wincache-extension)
+   ([voir aussi](https://php.net/manual/en/book.wincache.php)).
 
    - [CFileCache]: utilise des fichiers pour stocker des données en mémoire cache.
 Ceci est particulièrement adapté pour mettre en cache de gros morceau de données (telles que des pages).

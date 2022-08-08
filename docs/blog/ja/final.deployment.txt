@@ -7,7 +7,7 @@
 ホームページを変更する
 ------------------
 
-記事一覧のページをホームページとして使用します。[アプリケーション初期構成](http://www.yiiframework.com/doc/guide/ja/basics.application#sec-2) を下記のように修正します。
+記事一覧のページをホームページとして使用します。[アプリケーション初期構成](https://www.yiiframework.com/doc/guide/ja/basics.application#sec-2) を下記のように修正します。
 
 ~~~
 [php]

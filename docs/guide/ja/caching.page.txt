@@ -60,14 +60,14 @@ public function filters()
 また、[CHttpCacheFilter::lastModifiedExpression] を利用して、php の式を使って `Last-Modified` ヘッダを設定することも出来ます。
 
 > Tip|ヒント: [CHttpCacheFilter::lastModifiedExpression] と [CHttpCacheFilter::lastModified] は、両方とも、Unix タイムスタンプを表わす整数か、任意の形式の日付文字列を受け入れることが出来ます。
-後者については、[strtotime()](http://php.net/manual/function.strtotime.php) によって解釈できる形式である限り、更なる変換は必要ありません。
+後者については、[strtotime()](https://php.net/manual/function.strtotime.php) によって解釈できる形式である限り、更なる変換は必要ありません。
 
 "Entity Tag" (または略して `ETag`) ヘッダも同様に、[CHttpCacheFilter::etagSeed] および [CHttpCacheFilter::etagSeedExpression] によって設定することが出来ます。
 両方ともシリアライズされた値 (従って単一の値を使うことも、配列を使うことも出来ます) から印字可能な base64 エンコードされた SHA1 ハッシュを生成して、`ETag` ヘッダの内容として使用します。
-これは [Apache ウェブサーバ](http://httpd.apache.org) や他のサーバが ETag を生成する方法とは異なります。
+これは [Apache ウェブサーバ](https://httpd.apache.org) や他のサーバが ETag を生成する方法とは異なります。
 しかし、この手法は完璧に RFC にのっとっていますし、フレームワークでの使用にはより適したものであることが分っています。
 
-> 注意: [RFC 2616, section 13.3.4](http://tools.ietf.org/html/rfc2616#section-13.3.4) を遵守するために、[CHttpCacheFilter] は、両方とも生成出来る場合には、`ETag` **および** `Last-Modified` の両方のヘッダを送出します。
+> 注意: [RFC 2616, section 13.3.4](https://tools.ietf.org/html/rfc2616#section-13.3.4) を遵守するために、[CHttpCacheFilter] は、両方とも生成出来る場合には、`ETag` **および** `Last-Modified` の両方のヘッダを送出します。
 結果として、クライアントに送られたとき、両方がキャッシュ評価に使用されます。
 
 "Entity Tag" はハッシュであるため、`Last-Modified` ヘッダよりも、複雑あるいは精密なキャッシュ制御を可能にします。

@@ -6,7 +6,7 @@ wiederholbar bleibt, führen wir ihn in einem wohldefinierten Zustand genannt
 *Fixture* (sinngem: festes Inventar) aus. Testen wir zum Beispiel das Anlegen
 eines Beitrags in einer Bloganwendung, sollten alle betroffenen Tabellen (z.B.
 `Post` und `Comment`) auf einen festen Zustand zurückgesetzt werden. In der
-[Dokumentation von PHPUnit](http://www.phpunit.de/manual/current/en/fixtures.html) ist das
+[Dokumentation von PHPUnit](https://www.phpunit.de/manual/current/en/fixtures.html) ist das
 allgemeine Einrichten von Fixtures genau beschrieben. In diesem Abschnitt
 beschreiben wir, wie wir die eben beschriebenen Datenbankfixtures einrichten.
 

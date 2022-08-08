@@ -3,7 +3,7 @@
 
 Порядок використання розширень, як правило, включає три кроки:
 
-  1. Завантажити розширення з [репозиторію](http://www.yiiframework.com/extensions/) Yii;
+  1. Завантажити розширення з [репозиторію](https://www.yiiframework.com/extensions/) Yii;
   2. Розпакувати розширення в підпапку `extensions/xyz`
      [базової директорії додатка](/doc/guide/basics.application#application-base-directory),
      де `xyz` — імʼя розширення;

@@ -167,7 +167,7 @@ Ketika Yii melakukan migrasi, maka Yii akan memulai DB transaction dan memanggil
 > Note|Catatan: Tidak semua DBMS mendukung transaction. Dan beberapa query DB tidak dapat dimasukkan
 > ke transaction. Dalam hal ini, Anda tetap harus mengimplementasikan `up()` dan
 > `down()`. Untuk MySQL, beberapa statement bisa menyebabkan
-> [implicit commit](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
+> [implicit commit](https://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
 
 
 Mengaplikasikan Migrasi

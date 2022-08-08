@@ -15,7 +15,7 @@ którzy chcą użyć ponownie widoku, zmuszeni są do używania tej samej, niest
 szablonów w swojej aplikacji.
 
 W dalszej części, pokażemy jak używać [CPradoViewRenderer], widoku generatora, który 
-umożliwia deweloperowi używania składni szablonu podobnej do tej z [frameworku PRADO](http://www.pradosoft.com/). 
+umożliwia deweloperowi używania składni szablonu podobnej do tej z [frameworku PRADO](https://www.pradosoft.com/).
 Dla ludzi, którzy chcą utworzyć swoje własne generatory widoków, [CPradoViewRenderer] 
 jest dobrym przykładem.
 

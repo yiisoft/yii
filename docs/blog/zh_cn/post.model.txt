@@ -6,7 +6,7 @@
  - `rules()` 方法：指定对模型属性的验证规则；
  - `relations()` 方法：指定关联的对象；
 
-> Info|信息: [模型](http://www.yiiframework.com/doc/guide/basics.model) 包含了一系列属性，每个属性关联到数据表中相应的列。属性可以在类成员变量中显式定义，也可以隐式定义，不需要事先声明。
+> Info|信息: [模型](https://www.yiiframework.com/doc/guide/basics.model) 包含了一系列属性，每个属性关联到数据表中相应的列。属性可以在类成员变量中显式定义，也可以隐式定义，不需要事先声明。
 
 
 自定义 `rules()` 方法
@@ -35,7 +35,7 @@ public function rules()
 
 在上面的代码中，我们指定了 `title`, `content` 和 `status` 属性是必填项；`title` 的长度不能超过 128；`status` 属性值应该是 1 (草稿), 2 (已发布) 或 3 (已存档)；`tags` 属性应只允许使用单词字母和逗号。另外，我们使用 `normalizeTags` 来规范化用户输入的Tag，使Tag是唯一的且整齐地通过逗号分隔。最后的规则会被搜索功能用到，这个我们后面再讲。
 
-像 `required`, `length`, `in` 和 `match` 这几个验证器（validator）是Yii提供的内置验证器。`normalizeTags` 验证器是一个基于方法的验证器，我们需要在 `Post` 类中定义它。关于如何设置验证规则的更多信息，请参考 [指南](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules)。
+像 `required`, `length`, `in` 和 `match` 这几个验证器（validator）是Yii提供的内置验证器。`normalizeTags` 验证器是一个基于方法的验证器，我们需要在 `Post` 类中定义它。关于如何设置验证规则的更多信息，请参考 [指南](https://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules)。
 
 ~~~
 [php]
@@ -49,7 +49,7 @@ public function normalizeTags($attribute,$params)
 
 `rules()` 方法中定义的规则会在模型实例调用其 [validate()|CModel::validate] 或 [save()|CActiveRecord::save] 方法时逐一执行。
 
-> Note|注意: 请务必记住 `rules()` 中出现的属性必须是那些通过用户输入的属性。其他的属性，如 `Post` 模型中的 `id` 和 `create_time` ，是通过我们的代码或数据库设定的，不应该出现在 `rules()` 中。详情请参考 [属性的安全赋值（Securing Attribute Assignments）](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
+> Note|注意: 请务必记住 `rules()` 中出现的属性必须是那些通过用户输入的属性。其他的属性，如 `Post` 模型中的 `id` 和 `create_time` ，是通过我们的代码或数据库设定的，不应该出现在 `rules()` 中。详情请参考 [属性的安全赋值（Securing Attribute Assignments）](https://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
 
 作出这些修改之后，我们可以再次访问日志创建页检查新的验证规则是否已生效。
 
@@ -57,7 +57,7 @@ public function normalizeTags($attribute,$params)
 自定义 `relations()` 方法
 --------------------------------
 
-最后我们来自定义 `relations()` 方法，以指定与日志相关的对象。通过在 `relations()` 中声明这些相关对象，我们就可以利用强大的 [Relational ActiveRecord (RAR)](http://www.yiiframework.com/doc/guide/database.arr) 功能来访问日志的相关对象，例如它的作者和评论。不需要自己写复杂的 SQL JOIN 语句。
+最后我们来自定义 `relations()` 方法，以指定与日志相关的对象。通过在 `relations()` 中声明这些相关对象，我们就可以利用强大的 [Relational ActiveRecord (RAR)](https://www.yiiframework.com/doc/guide/database.arr) 功能来访问日志的相关对象，例如它的作者和评论。不需要自己写复杂的 SQL JOIN 语句。
 
 我们自定义 `relations()` 方法如下：
 
@@ -107,7 +107,7 @@ foreach($comments as $comment)
 	echo $comment->content;
 ~~~
 
-关于如何声明和使用关系的更多详情，请参考 [指南](http://www.yiiframework.com/doc/guide/database.arr).
+关于如何声明和使用关系的更多详情，请参考 [指南](https://www.yiiframework.com/doc/guide/database.arr).
 
 
 添加 `url` 属性

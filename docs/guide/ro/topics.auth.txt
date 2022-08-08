@@ -110,7 +110,7 @@ Yii::app()->user->logout();
 ~~~
 
 Implicit, un utilizator va fi delogat dupa o anumita perioada de timp
-de inactivitate, perioada care depinde de [configuratia sesiunii](http://www.php.net/manual/en/session.configuration.php).
+de inactivitate, perioada care depinde de [configuratia sesiunii](https://www.php.net/manual/en/session.configuration.php).
 Pentru a modifica acest comportament, putem seta cu true proprietatea [allowAutoLogin|CWebUser::allowAutoLogin]
 componentei user si sa transmitem un parametru cu durata
 catre metoda [CWebUser::login]. Utilizatorul va ramane dupa aceea logat o perioada egala
@@ -292,7 +292,7 @@ Role-Based Access Control
 
 Role-Based Access Control (RBAC) provides a simple yet powerful
 centralized access control. Please refer to the [Wiki
-article](http://en.wikipedia.org/wiki/Role-based_access_control) for more
+article](https://en.wikipedia.org/wiki/Role-based_access_control) for more
 details about comparing RBAC with other more traditional access control
 schemes.
 

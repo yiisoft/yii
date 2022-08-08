@@ -6,7 +6,7 @@ Klasa wiadomości `Post`, wygenerowana przez narzędzie `Gii` musi zostać zmody
  - w metodzie `rules()`: określającej reguły sprawdzania poprawności dla atrybutów modelu;
  - w metodzie `relations()`: definiującej obiekty pokrewne;
 
-> Info|Info: [Model](http://www.yiiframework.com/doc/guide/basics.model) zawiera listę atrybutów, każdy z nich jest powiązany z odpowiadającą mu kolumną w bazie danych. Atrybuty mogą być zadeklarowane bezpośrednio jako zmienne klasy lub też pośrednio bez żadnej deklaracji. 
+> Info|Info: [Model](https://www.yiiframework.com/doc/guide/basics.model) zawiera listę atrybutów, każdy z nich jest powiązany z odpowiadającą mu kolumną w bazie danych. Atrybuty mogą być zadeklarowane bezpośrednio jako zmienne klasy lub też pośrednio bez żadnej deklaracji.
 
 
 Dostosowywanie metody `rules()`
@@ -35,7 +35,7 @@ public function rules()
 
 W powyższym kodzie określiliśmy, że atrybuty tytułu `title`, zawartości `content` i statusu `status` są atrybutami wymaganymi (muszą być wypełnione); długość tytułu `title` nie powinna przekraczać 128 (znaków); wartość atrybutu statusu `status` powinna być 1 (wersja robocza, ang. draft), 2 (opublikowana, ang. published) lub 3 (zarchiwizowana, ang. archived); a atrybut otagowania `tags` powinien zawierać wyłącznie znaki słów oraz przecinki. Dodatkowo używamy metody `normalizeTags` do unormowania wprowadzonych przez użytkownika tagów, w taki sposób, że tagi będą unikalne i poprawnie rozdzielone za pomocą przecinków. Ostatnia reguła jest używana przez funkcjonalność wyszukiwania, co zostanie opisane później.
 
-Walidatory takie jak `required`, `length`, `in` oraz `match` są wbudowanymi walidatorami dostarczanymi przez Yii. Natomiast walidator `normalizeTags` jest walidatorem opartym na metodzie, którą musimy zdefiniować w klasie wiadomości `Post`. Aby uzyskać więcej informacji o tym jak określić reguły sprawdzania poprawności, zajrzyj do [poradnika](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules).
+Walidatory takie jak `required`, `length`, `in` oraz `match` są wbudowanymi walidatorami dostarczanymi przez Yii. Natomiast walidator `normalizeTags` jest walidatorem opartym na metodzie, którą musimy zdefiniować w klasie wiadomości `Post`. Aby uzyskać więcej informacji o tym jak określić reguły sprawdzania poprawności, zajrzyj do [poradnika](https://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules).
 
 ~~~
 [php]
@@ -62,7 +62,7 @@ public static function array2string($tags)
 
 Reguły zadeklarowane w metodzie `rules()` są wywoływane jedna po drugiej podczas wywoływania metody [validate()|CModel::validate] lub [save()|CActiveRecord::save] dla instancji modelu.
 
-> Note|Uwaga: Niezmiernie ważnym jest aby zapamiętać, że atrybuty które pojawiły się w metodzie `rules()` były tymi, które są wprowadzane przez użytkownika. Pozostałe atrybuty takie jak `id` oraz czas utworzenia `create_time` w modelu wiadomości `Post`, które są ustawiane przez nasz kod lub też bazę danych, nie powinny się znajdować w metodzie `rules()`. Aby uzyskać więcej informacji o tym, proszę zajrzeć do [zabezpieczanie przypisywania atrybutów](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
+> Note|Uwaga: Niezmiernie ważnym jest aby zapamiętać, że atrybuty które pojawiły się w metodzie `rules()` były tymi, które są wprowadzane przez użytkownika. Pozostałe atrybuty takie jak `id` oraz czas utworzenia `create_time` w modelu wiadomości `Post`, które są ustawiane przez nasz kod lub też bazę danych, nie powinny się znajdować w metodzie `rules()`. Aby uzyskać więcej informacji o tym, proszę zajrzeć do [zabezpieczanie przypisywania atrybutów](https://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
 
 Po wprowadzeniu tych zmian, możemy odwiedzić ponownie stronę tworzenia wiadomości w celu weryfikacji czy nowe zasady sprawdzania poprawności mają miejsce.
 
@@ -70,7 +70,7 @@ Po wprowadzeniu tych zmian, możemy odwiedzić ponownie stronę tworzenia wiadom
 Dostosowywanie metody `relations()`
 --------------------------------
 
-Na samym końcu dostosowujemy metodę `relations()` w celu zdefiniowania obiektów powiązanych do wiadomości. Poprzez zadeklarowanie tych powiązanych obiektów w metodzie `relations()`, możemy wykorzystać potęgę funkcji [relacyjnego aktywnego rekordu (RAR)](http://www.yiiframework.com/doc/guide/database.arr) w celu uzyskania dostępu do informacji z powiązanych z wiadomością obiektów, takich jak jej autor oraz komentarze bez potrzeby pisania złożonych wyrażeń SQL z JOIN.
+Na samym końcu dostosowujemy metodę `relations()` w celu zdefiniowania obiektów powiązanych do wiadomości. Poprzez zadeklarowanie tych powiązanych obiektów w metodzie `relations()`, możemy wykorzystać potęgę funkcji [relacyjnego aktywnego rekordu (RAR)](https://www.yiiframework.com/doc/guide/database.arr) w celu uzyskania dostępu do informacji z powiązanych z wiadomością obiektów, takich jak jej autor oraz komentarze bez potrzeby pisania złożonych wyrażeń SQL z JOIN.
 
 Dostosowujemy metodę `relations()` w następujący sposób:
 
@@ -120,7 +120,7 @@ foreach($comments as $comment)
 	echo $comment->content;
 ~~~
 
-Aby uzyskać więcej informacji o tym jak deklarować i używać relacji, sprawdź [Poradnik](http://www.yiiframework.com/doc/guide/database.arr).
+Aby uzyskać więcej informacji o tym jak deklarować i używać relacji, sprawdź [Poradnik](https://www.yiiframework.com/doc/guide/database.arr).
 
 
 Dodanie właściwości `url`

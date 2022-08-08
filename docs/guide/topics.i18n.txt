@@ -37,7 +37,7 @@ Given a locale ID, one can get the corresponding [CLocale] instance by
 `CLocale::getInstance($localeID)` or `CApplication::getLocale($localeID)`.
 
 > Info: Yii comes with locale data for nearly every language and region.
-The data is obtained from [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). For each locale, only a
+The data is obtained from [Common Locale Data Repository](https://unicode.org/cldr/) (CLDR). For each locale, only a
 subset of the CLDR data is provided as the original data contains a lot of
 rarely used information. Users can also supply
 their own customized locale data. To do so, configure the [CApplication::localeDataPath]
@@ -128,7 +128,7 @@ all these directories are located under the directory specified by
 [basePath|CPhpMessageSource::basePath].
 
    - [CGettextMessageSource]: the message translations are stored as [GNU
-Gettext](http://www.gnu.org/software/gettext/) files.
+Gettext](https://www.gnu.org/software/gettext/) files.
 
    - [CDbMessageSource]: the message translations are stored in database
 tables. For more details, see the API documentation for [CDbMessageSource].
@@ -301,7 +301,7 @@ which will produce:
 
 > Info: to learn about how many expressions you should supply and in which
  order they should be, please refer to CLDR
- [Language Plural Rules page](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
+ [Language Plural Rules page](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
 
 ### File Translation
 

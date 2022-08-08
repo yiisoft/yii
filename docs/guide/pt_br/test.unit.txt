@@ -2,8 +2,8 @@ Testes Unitários
 ============
 
 Uma vez que o framework de testes do Yii é construído em cima do
-[PHPUnit](http://www.phpunit.de/), é recomendado que você primeiro consulte
-[sua documentação](http://www.phpunit.de/manual/current/en/index.html)
+[PHPUnit](https://www.phpunit.de/), é recomendado que você primeiro consulte
+[sua documentação](https://www.phpunit.de/manual/current/en/index.html)
 para entender o básico sobre como escrever um teste unitário. Nós
 resumimos a seguir os princípios básicos de escrita de um teste unitário no Yii:
 
@@ -36,7 +36,7 @@ classes de [CDbTestCase] porque ela fornece o suporte às fixtures de banco de
 dados que introduzimos na seção anterior.
 
 Suponha que queremos testar a classe do modelo `Comment` (comentário) no
-[exemplo de blog](http://www.yiiframework.com/demos/blog/). Começamos criando
+[exemplo de blog](https://www.yiiframework.com/demos/blog/). Começamos criando
 uma classe chamada de `CommentTest` e a salvando como
 `protected/tests/unit/CommentTest.php`:
 

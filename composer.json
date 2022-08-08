@@ -2,14 +2,14 @@
 	"name": "yiisoft/yii",
 	"description": "Yii Web Programming Framework",
 	"keywords": ["yii", "framework"],
-	"homepage": "http://www.yiiframework.com/",
+	"homepage": "https://www.yiiframework.com/",
 	"type": "library",
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
 			"name": "Qiang Xue",
 			"email": "qiang.xue@gmail.com",
-			"homepage": "http://www.yiiframework.com/",
+			"homepage": "https://www.yiiframework.com/",
 			"role": "Founder and project lead"
 		},
 		{
@@ -102,10 +102,19 @@
 			"phpunit/phpunit-mock-objects": {
 				"Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
 			},
+			"phpunit/php-file-iterator": {
+				"Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_path_file_iterator.patch"
+			},
 			"phpunit/phpunit": {
 				"Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
-				"Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch"
+				"Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch",
+				"Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php81.patch"
 			}
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"cweagans/composer-patches": true
 		}
 	}
 }

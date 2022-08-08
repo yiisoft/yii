@@ -124,7 +124,7 @@ implementieren: [CWidget::init] und [CWidget::run]. Erstere wird aufgerufen,
 wenn man ein Widget mit `$this->beginWidget` verwendet, 
 die Zweite, beim Aufruf von `$this->endWidget`. Möchte man den 
 eingebetteten Inhalt zwischen den beiden Aufrufen abfangen und verarbeiten, 
-kann man in [CWidget::init] eine [Ausgabepufferung](http://de3.php.net/manual/de/book.outcontrol.php) 
+kann man in [CWidget::init] eine [Ausgabepufferung](https://de3.php.net/manual/de/book.outcontrol.php)
 starten und die gepufferte Ausgabe dann in [CWidget::run] zur weiteren
 Bearbeitung auslesen.
 

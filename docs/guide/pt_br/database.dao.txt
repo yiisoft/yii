@@ -6,7 +6,7 @@ para acessar dados em diferentes tipos de bancos de dados. Como resultado, pode-
 alterar o sistema de banco de dados sem haver a necessidade de alterar o código 
 que utiliza DAO para fazer o acesso.
 
-O DAO do Yii é feito utilizando a extensão [PHP Data Objects (PDO)](http://php.net/manual/en/book.pdo.php), 
+O DAO do Yii é feito utilizando a extensão [PHP Data Objects (PDO)](https://php.net/manual/en/book.pdo.php),
 que fornece um acesso de dados unificado para muitos SGBD populares, tais como 
 MySQL e PostgreSQL. Por esse motivo, para utilizar o DAO no Yii, a extensão PDO 
 deve estar instalada, bem como o driver PDO específico para o banco de dados 
@@ -41,7 +41,7 @@ $connection->active=false;  // fecha a conexão
 
 O formato do DSN depende do driver PDO em uso. Geralmente, o DSN é formado pelo nome 
 do driver PDO, seguido por ":", seguido pela sintaxe de conexão específica do driver. 
-Veja [PDO documentation](http://www.php.net/manual/en/pdo.construct.php) para mais 
+Veja [PDO documentation](https://www.php.net/manual/en/pdo.construct.php) para mais
 informações. Abaixo temos uma lista dos formatos de DSN mais utilizados:
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -181,7 +181,7 @@ catch(Exception $e) // uma exceção é disparada caso uma das consultas falhe
 Vinculando (Binding) Parâmetros
 -------------------------------
 
-Para evitar ataques de [SQL injection](http://en.wikipedia.org/wiki/SQL_injection) 
+Para evitar ataques de [SQL injection](https://en.wikipedia.org/wiki/SQL_injection)
 e aumentar a performance ao executar instruções SQL repetidamente, você pode 
 "preparar" um comando SQL com marcadores opcionais que serão substituídos pelos 
 valores reais, durante o processo de vinculação de parâmetros.
@@ -216,7 +216,7 @@ quantidade de dados em memória, o primeiro é mais recomendado, devido a uma me
 performance.
 
 Para mais detalhes sobre a vinculação de parâmetros, veja a 
-[documentação do PHP](http://www.php.net/manual/en/pdostatement.bindparam.php).
+[documentação do PHP](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Vinculando Colunas
 ------------------

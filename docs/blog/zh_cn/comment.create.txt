@@ -31,7 +31,7 @@
 </div>
 ~~~
 
-如上所示，我们调用了 `renderPartial()` 方法渲染一个名为 `_comments` 的局部视图以显示属于当前日志的评论列表。注意，在这个视图中我们使用了表达式 `$model->comments` 获取日志的评论。这是有效的，因为我们在 `Post` 类中声明了一个 `comments` 关系。执行此表达式会触发一个隐式的 JOIN 数据库查询以获取相应的评论数据。此特性被称为 [懒惰的关系查询（lazy relational query）](http://www.yiiframework.com/doc/guide/database.arr)。
+如上所示，我们调用了 `renderPartial()` 方法渲染一个名为 `_comments` 的局部视图以显示属于当前日志的评论列表。注意，在这个视图中我们使用了表达式 `$model->comments` 获取日志的评论。这是有效的，因为我们在 `Post` 类中声明了一个 `comments` 关系。执行此表达式会触发一个隐式的 JOIN 数据库查询以获取相应的评论数据。此特性被称为 [懒惰的关系查询（lazy relational query）](https://www.yiiframework.com/doc/guide/database.arr)。
 
 局部视图 `_comments` 没有太多有意思的。它主要用于遍历每条评论并显示其详情。感兴趣的读者可以参考 `/wwwroot/yii/demos/blog/protected/post/_comments.php`.
 

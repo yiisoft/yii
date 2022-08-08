@@ -81,7 +81,7 @@
 
  * [增加對使用資料表前綴的支援](/doc/guide/database.dao#using-table-prefix)
 
- * 增加了一個新的函式庫 [Zii library](http://code.google.com/p/zii/)
+ * 增加了一個新的函式庫 [Zii library](https://code.google.com/p/zii/)
 
  * 在一個 Active Record 查詢中主要資料表的別名固定為 `t`
 

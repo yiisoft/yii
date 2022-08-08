@@ -1,7 +1,7 @@
 ユニットテスト
 ============
 
-Yii のテストフレームワークは [PHPUnit](http://www.phpunit.de/) の上に構築されていますので、[PHPUnitのドキュメント](http://www.phpunit.de/manual/current/ja/index.html) を通読して、まずは、ユニットテストの書き方に関する基本的な理解を得ることをお奨めします。
+Yii のテストフレームワークは [PHPUnit](https://www.phpunit.de/) の上に構築されていますので、[PHPUnitのドキュメント](https://www.phpunit.de/manual/current/ja/index.html) を通読して、まずは、ユニットテストの書き方に関する基本的な理解を得ることをお奨めします。
 以下に、Yii におけるユニットテストの書き方に関する基本的な原則を要約します。
 
  * ユニットテストは [CTestCase] または [CDbTestCase] を継承した `XyzTest` というクラスの形で書かれます。
@@ -23,7 +23,7 @@ Yii のテストフレームワークは [PHPUnit](http://www.phpunit.de/) の�
 テストのクラスは [CDbTestCase] を継承したものにします。
 というのは、[CDbTestCase] は前の章で紹介した、データベースフィクスチャのサポートを提供するからです。
 
-[ブログデモ](http://www.yiiframework.com/demos/blog/) の中の `Comment` モデルクラスをテストしたいと仮定しましょう。
+[ブログデモ](https://www.yiiframework.com/demos/blog/) の中の `Comment` モデルクラスをテストしたいと仮定しましょう。
 最初に `CommentTest` という名前のクラスを作成して、`protected/tests/unit/CommentTest.php` として保存します。
 
 ~~~

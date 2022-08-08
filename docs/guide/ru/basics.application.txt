@@ -79,7 +79,7 @@ $app=Yii::createWebApplication($configFile);
 [basePath|CWebApplication::basePath] в [конфигурации приложения](/doc/guide/basics.application#application-configuration).
 
 Содержимое базовой директории должно быть закрыто от доступа из веб.
-При использовании веб-сервера [Apache HTTP server](http://httpd.apache.org/)
+При использовании веб-сервера [Apache HTTP server](https://httpd.apache.org/)
 это можно сделать путем добавления в базовую директорию файла `.htaccess` следующего содержания:
 
 ~~~

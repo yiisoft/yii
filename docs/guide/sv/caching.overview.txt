@@ -35,11 +35,11 @@ och använder minne som medium för cachelagring; [CApcCache]-komponenten kapsla
 in PHP:s APC-tillägg; och [CDbCache]-komponenten cachelagrar data i en databas. 
 Här följer en sammanfattning av de tillgängliga cachekomponenterna:
 
-   - [CMemCache]: använder PHP:s [memcache-tillägg](http://www.php.net/manual/en/book.memcache.php).
+   - [CMemCache]: använder PHP:s [memcache-tillägg](https://www.php.net/manual/en/book.memcache.php).
 
-   - [CApcCache]: använder PHP:s [APC-tillägg](http://www.php.net/manual/en/book.apc.php).
+   - [CApcCache]: använder PHP:s [APC-tillägg](https://www.php.net/manual/en/book.apc.php).
 
-   - [CXCache]: använder PHP:s [XCache-tillägg](http://xcache.lighttpd.net/).
+   - [CXCache]: använder PHP:s [XCache-tillägg](https://xcache.lighttpd.net/).
 
    - [CEAcceleratorCache]: använder PHP:s [EAccelerator-tillägg](http://eaccelerator.net/).
 
@@ -48,7 +48,7 @@ Här följer en sammanfattning av de tillgängliga cachekomponenterna:
    ange en databas CDbCache skall använda genom att sätta dess 
    [connectionID|CDbCache::connectionID]-property.
 
-   - [CZendDataCache]: använder [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm) som underliggande cachningsmedium. 
+   - [CZendDataCache]: använder [Zend Data Cache](https://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm) som underliggande cachningsmedium.
 
    - [CFileCache]: använder filer för cachelagring. Detta är speciellt passande 
    för cachning av stora block av data (t. ex. sidor).

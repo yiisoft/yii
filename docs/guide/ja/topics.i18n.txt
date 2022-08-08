@@ -31,7 +31,7 @@ Yii は I18N のサポートをいくつかの面から提供します。
 ロケール ID を与えると、`CLocale::getInstance($localeID)` もしくは `CApplication::getLocale($localeID)` により、それに一致する [CLocale] インタンスを取得できます。
 
 > Info|情報: Yii にはほとんど全ての言語と地域のためのロケールデータが含まれています。
-データは [共通ロケールデータリポジトリ](http://unicode.org/cldr/) (CLDR) より取得されています。
+データは [共通ロケールデータリポジトリ](https://unicode.org/cldr/) (CLDR) より取得されています。
 オリジナルのデータは滅多に使用されない多くの情報を含んでいるため、各ロケールとも、そのサブセットだけが提供されます。
 ユーザが自分自身のカスタマイズしたロケールデータを供給することも出来ます。
 そうするためには、[CApplication::localeDataPath] プロパティを構成して、カスタマイズされたロケールデータを含むディレクトリを指定します。
@@ -95,7 +95,7 @@ Yii は下記のタイプのメッセージソースを備えています。
 同じ言語のPHP 翻訳ファイルはロケール ID を名前とした同じディレクトリ下に保存されます。
 そして、それら全てのディレクトリは、[basePath|CPhpMessageSource::basePath] で指定されたディレクトリ下に位置します。
 
-   - [CGettextMessageSource]: メッセージ翻訳は、[GNU Gettext](http://www.gnu.org/software/gettext/) ファイルとして保存されます。
+   - [CGettextMessageSource]: メッセージ翻訳は、[GNU Gettext](https://www.gnu.org/software/gettext/) ファイルとして保存されます。
 
    - [CDbMessageSource]: メッセージ翻訳は、データベーステーブルとして保存されます。
 詳細は、API ドキュメンテーション [CDbMessageSource] を参照してください。
@@ -251,7 +251,7 @@ Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 
-> Info|情報: 何個の表示形式をどういう順序で記述すべきかについては、CLDR [Language Plural Rules page](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#ja) を参照して下さい。
+> Info|情報: 何個の表示形式をどういう順序で記述すべきかについては、CLDR [Language Plural Rules page](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#ja) を参照して下さい。
 
 
 ### ファイル翻訳

@@ -131,7 +131,7 @@ nilai baik berupa [CBooleanValidator::trueValue] ataupun
 
    - `captcha`: alias [CCaptchaValidator], memastikan atribut sama dengan
 kode verifikasi yang ditampilkan dalam
-[CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
+[CAPTCHA](https://en.wikipedia.org/wiki/Captcha).
 
    - `compare`: alias [CCompareValidator], memastikan atribut sama dengan
 atribut atau konstan lain.

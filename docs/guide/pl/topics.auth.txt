@@ -114,7 +114,7 @@ Logowanie przy użyciu ciasteczek
 --------------------------------
 
 Domyślnie, użytkownik będzie wylogowany po pewnym czasie braku aktywności, w zależności
-od [konfiguracji sesji](http://www.php.net/manual/en/session.configuration.php).
+od [konfiguracji sesji](https://www.php.net/manual/en/session.configuration.php).
 Aby zmienić to zachowanie, możemy ustawić właściwość komponentu użytkownika 
 [allowAutoLogin|CWebUser::allowAutoLogin] jako true oraz przekazać parametr określający 
 okres trwania (ang. duration) do metody [CWebUser::login]. Użytkownik pozostanie 
@@ -331,7 +331,7 @@ Bazująca na rolach kontrola dostępu (ang. Role-Based Access Control)
 --------------------------------------------------------------------
 
 Bazująca na rolach kontrola dostępu (RBAC) dostarcza prostej a zarazem potężnej, 
-scentralizowanej kontroli dostępu. Zobacz [artykuł wiki](http://en.wikipedia.org/wiki/Role-based_access_control) 
+scentralizowanej kontroli dostępu. Zobacz [artykuł wiki](https://en.wikipedia.org/wiki/Role-based_access_control)
 aby uzyskać więcej szczegółów dotyczących porównania RBAC z innymi, bardziej tradycyjnymi
 schematami kontroli dostępu.
 

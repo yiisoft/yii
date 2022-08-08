@@ -3,9 +3,9 @@
  * CHttpException class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -34,6 +34,6 @@ class CHttpException extends CException
 	public function __construct($status,$message=null,$code=0)
 	{
 		$this->statusCode=$status;
-		parent::__construct($message,$code);
+		parent::__construct((string)$message,$code);
 	}
 }

@@ -6,7 +6,7 @@ Basado en el análisis de requerimientos, decidimos usar las siguientes tablas e
  * `tbl_user` guarda la información del usuario, incluyendo el nombre de usuario y contraseña.
  * `tbl_post` guarda la información del post. Consiste principalmente de las siguientes columnas:
 	 - `title`: requerido, titulo del post;
-	 - `content`: requerido, contenido del post, el cual usa: [formato Markdown](http://daringfireball.net/projects/markdown/syntax);
+	 - `content`: requerido, contenido del post, el cual usa: [formato Markdown](https://daringfireball.net/projects/markdown/syntax);
 	 - `status`: requerido, estado del post, puede contener uno de los siguientes valores:
 		 * 1, significa que el post es un borrador y no es visible al público;
 		 * 2, significa que el post está disponible al público;
@@ -31,7 +31,7 @@ El siguiente diagrama de Entidad-Relación (ER) muestra la estructura de la tabl
 
 ![Entity-Relation Diagram of the Blog Database](schema.png)
 
-Sentencias SQL completas correspondientes al diagrama pueden ser encontradas en [el blog demo](http://www.yiiframework.com/demos/blog/). En nuestra instalación de Yii, se encuentran en el archivo `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+Sentencias SQL completas correspondientes al diagrama pueden ser encontradas en [el blog demo](https://www.yiiframework.com/demos/blog/). En nuestra instalación de Yii, se encuentran en el archivo `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 
 

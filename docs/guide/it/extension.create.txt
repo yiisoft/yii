@@ -106,7 +106,7 @@ due metodi:
 [CWidget::init] e [CWidget::run]. Il primo è chiamato quando noi usiamo 
 `$this->beginWidget`. Il secondo quando viene chiamato `$this->endWidget`. 
 Se vogliamo catturare e processare il contenuto mostrato tra l'invocazione di 
-questi due metodi, possiamo iniziare l'[output buffering](http://us3.php.net/manual/en/book.outcontrol.php) 
+questi due metodi, possiamo iniziare l'[output buffering](https://us3.php.net/manual/en/book.outcontrol.php)
 dentro a [CWidget::init] e recuperare l'output bufferizzato dentro al metodo [CWidget::run].
 
 Un widget spesso include un css, del codice javascript ed altre risorse. 

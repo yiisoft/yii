@@ -18,12 +18,12 @@
 <h2>Описание</h2>
 <p>
 This script checks if your server configuration meets the requirements
-for running <a href="http://www.yiiframework.com/">Yii</a> Web applications.
+for running <a href="https://www.yiiframework.com/">Yii</a> Web applications.
 It checks if the server is running the right version of PHP,
 if appropriate PHP extensions have been loaded, and if php.ini file settings are correct.
 
 Този скрипт проверява дали конфигурацията на вавият сървър, отговаря на изискванията за
-работа на <a href="http://www.yiiframework.com/">Yii</a> уеб приложенията.
+работа на <a href="https://www.yiiframework.com/">Yii</a> уеб приложенията.
 Проверява дали на сървъра работи подходящата версия на PHP,
 дали подходящите PHP добавки са заредени и дали настройките в php.ini са вярни
 </p>

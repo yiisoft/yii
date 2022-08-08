@@ -6,7 +6,7 @@ au travers d'une API générique. Ainsi, le SGBD sous jacent peut être changé 
 avoir à modifier le code utilisant DAO pour accéder aux données.
 
 Yii DAO est basé sur les [PHP Data Objects
-(PDO)](http://php.net/manual/en/book.pdo.php), une extension fournissant
+(PDO)](https://php.net/manual/en/book.pdo.php), une extension fournissant
 un accès unifié aux données de multiples SGBD, tels que MySQL, PostgreSQL.
 C'est pour cela que l'utilisation de Yii DAO requiert la présence de l'extension
 PDO et du pilote PDO spécifique pour le SGBD utilisé (par exemple `PDO_MYSQL`).
@@ -41,7 +41,7 @@ $connection->active=false;  // fermeture de la connexion
 Le format du DSN varie selon le pilote PDO choisi. De manière générale, un DSN
 est constitué du nom du pilote PDO, suivi d'un point virgule, suivi d'une chaîne
 de caractères dont la syntaxe dépend du pilote. Voir la [documentation
-PDO](http://www.php.net/manual/en/pdo.construct.php) pour plus d'information.
+PDO](https://www.php.net/manual/en/pdo.construct.php) pour plus d'information.
 
 Ci-dessous une liste avec les formats couramment utilisés:
 
@@ -177,7 +177,7 @@ catch(Exception $e) // une exception est levée si une requête échoue
 Paramètres liés
 ---------------
 
-Pour faire face aux [attaques par injection SQL](http://en.wikipedia.org/wiki/SQL_injection)
+Pour faire face aux [attaques par injection SQL](https://en.wikipedia.org/wiki/SQL_injection)
 et pour améliorer les performances lors des exécutions répétées de requêtes SQL, il est possible
 de "préparer" les requêtes SQL, avec optionnellement des marques pour les paramètres, qui seront
 remplacées par les valeurs des vrais paramètres durant l'étape de "liaison" (binding) des paramètres.
@@ -211,7 +211,7 @@ le deuxième le lie avec la valeur de cette variable. Pour les paramètres repr�
 de gros blocs mémoire, la premiere méthode est préférable pour des raisons de performances.
 
 Pour plus de détails sur la liaison de paramètres, voir la [
-documentation PHP en rapport](http://www.php.net/manual/en/pdostatement.bindparam.php).
+documentation PHP en rapport](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Colonnes liées
 --------------

@@ -81,9 +81,9 @@ class MyTabView extends CTabView
 ~~~
 在上面的，我们重载[CWidget::init]方法和指定[CTabView::cssFile]的URL到我们的新的默认CSS样式如果此属性未设置时。我们把新的CSS样式文件和`MyTabView`类文件放在相同的目录下，以便他们能够封装成扩展。由于CSS样式文件不是通过Web访问，我们需要发布作为一项asset资源。
 
-要从零开始创建一个新的小工具，我们主要是需要实现两个方法：[CWidget::init] 和[CWidget::run]。第一种方法是当我们在视图中使用 `$this->beginWidget` 插入一个小工具时被调用，第二种方法在`$this->endWidget`被调用时调用。如果我们想在这两个方法调用之间捕捉和处理显示的内容，我们可以开始[output buffering](http://us3.php.net/manual/en/book.outcontrol.php)在[CWidget::init] 和在[CWidget::run]中回收缓冲输出作进一步处理。
+要从零开始创建一个新的小工具，我们主要是需要实现两个方法：[CWidget::init] 和[CWidget::run]。第一种方法是当我们在视图中使用 `$this->beginWidget` 插入一个小工具时被调用，第二种方法在`$this->endWidget`被调用时调用。如果我们想在这两个方法调用之间捕捉和处理显示的内容，我们可以开始[output buffering](https://us3.php.net/manual/en/book.outcontrol.php)在[CWidget::init] 和在[CWidget::run]中回收缓冲输出作进一步处理。
 If we want to capture and process the content displayed between these two
-method invocations, we can start [output buffering](http://us3.php.net/manual/en/book.outcontrol.php)
+method invocations, we can start [output buffering](https://us3.php.net/manual/en/book.outcontrol.php)
 in [CWidget::init] and retrieve the buffered output in [CWidget::run]
 for further processing.
 

@@ -54,7 +54,7 @@ $app=Yii::createWebApplication($configFile);
 中的 [basePath|CWebApplication::basePath] 屬性自定。
 
 在應用程式基礎目錄下的內容應該保護起來防止網站訪客直接存取。對於 [Apache HTTP
-伺服器](http://httpd.apache.org/), 這可以通過在根目錄中放置一個 `.htaccess`
+伺服器](https://httpd.apache.org/), 這可以通過在根目錄中放置一個 `.htaccess`
 文件簡單的實現。 `.htaccess` 內容如下：
 
 ~~~

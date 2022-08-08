@@ -70,7 +70,7 @@ Versie 1.1.0
 
  * [Ondersteuning toegevoegd voor tabel-prefixen](/doc/guide/database.dao#using-table-prefix).
 
- * Een hele verzameling nieuwe extensies toegevoegd, bekend als de [Zii library](http://code.google.com/p/zii/).
+ * Een hele verzameling nieuwe extensies toegevoegd, bekend als de [Zii library](https://code.google.com/p/zii/).
 
  * Het alias voor de primaire tabel in een AR query is vastgezet op 't'
 

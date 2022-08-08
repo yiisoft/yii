@@ -3,9 +3,9 @@
  * CFileHelper class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -79,7 +79,10 @@ class CFileHelper
 	{
 		if(!isset($options['traverseSymlinks']))
 			$options['traverseSymlinks']=false;
-		$items=glob($directory.DIRECTORY_SEPARATOR.'{,.}*',GLOB_MARK | GLOB_BRACE);
+		$items=array_merge(
+			glob($directory.DIRECTORY_SEPARATOR.'*',GLOB_MARK),
+			glob($directory.DIRECTORY_SEPARATOR.'.*',GLOB_MARK)
+		);
 		foreach($items as $item)
 		{
 			if(basename($item)=='.' || basename($item)=='..')

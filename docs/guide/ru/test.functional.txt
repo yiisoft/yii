@@ -2,8 +2,8 @@
 ===========================
 
 Перед прочтением даного раздела рекомендуется прочитать
-[документацию по Selenium](http://seleniumhq.org/docs/) и
-[документацию по PHPUnit](http://www.phpunit.de/wiki/Documentation). Дальше мы
+[документацию по Selenium](https://www.selenium.dev/documentation/) и
+[документацию по PHPUnit](https://www.phpunit.de/wiki/Documentation). Дальше мы
 подытожим основные принципы написания функциональных тестов в Yii:
 
  * Как и модульный тест, функциональный тест пишется в классе `XyzTest`,
@@ -61,7 +61,7 @@ class WebTestCase extends CWebTestCase
 файл `test.php`, а второй — файл `main.php`.
 
 Теперь мы опишем, как протестировать функцию отображения записи
-[демо-блога](http://www.yiiframework.com/demos/blog). Сначала мы пишем тестовый
+[демо-блога](https://www.yiiframework.com/demos/blog). Сначала мы пишем тестовый
 класс, как показано ниже. Отметим, что тестовый класс наследует от базового
 класса, который мы только что описали:
 

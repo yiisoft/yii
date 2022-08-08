@@ -7,15 +7,15 @@ Ketika menggunakan pustaka pihak ketiga dalam sebuah projek, para pengembang
 sering menghadapi masalah mengenai penyertaan penamaan kelas dan file.
 Karena semua kelas Yii diawali dengan huruf `C`, maka masalah penamaan
 kelas akan jarang terjadi; dan karena Yii tergantung pada
-[SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php)
+[SPL autoload](https://us3.php.net/manual/en/function.spl-autoload.php)
 untuk melakukan penyertaan file kelas, Yii akan sejalan dengan pustaka lain
 jika mereka menggunakan fitur autoloading yang sama atau PHP include path untuk
 menyertakan file kelas.
 
 
 Di bawah ini kami menggunakan sebuah contoh guna menggambarkan bagaimana memakai
-komponen [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-dari [Zend framework](http://www.zendframework.com) dalam aplikasi Yii.
+komponen [Zend_Search_Lucene](https://www.zendframework.com/manual/en/zend.search.lucene.html)
+dari [Zend framework](https://www.zendframework.com) dalam aplikasi Yii.
 
 Pertama, kita mengurai file rilis Zend framework ke sebuah direktori di
 `protected/vendors`, menganggap bahwa direktori `protected` adalah

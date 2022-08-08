@@ -28,11 +28,11 @@ array(
 Yii 提供了不同的缓存组件，可以将缓存数据存储到不同的媒介中。例如， [CMemCache] 组件封装了 PHP 的 memcache 扩展并使用内存作为缓存存储媒介。
 [CApcCache] 组件封装了 PHP APC 扩展; 而 [CDbCache] 组件会将缓存的数据存入数据库。下面是一个可用缓存组件的列表：
 
-   - [CMemCache]: 使用 PHP [memcache 扩展](http://www.php.net/manual/en/book.memcache.php).
+   - [CMemCache]: 使用 PHP [memcache 扩展](https://www.php.net/manual/en/book.memcache.php).
 
-   - [CApcCache]: 使用 PHP [APC 扩展](http://www.php.net/manual/en/book.apc.php).
+   - [CApcCache]: 使用 PHP [APC 扩展](https://www.php.net/manual/en/book.apc.php).
 
-   - [CXCache]: 使用 PHP [XCache 扩展](http://xcache.lighttpd.net/)。注意，这个是从 1.0.1 版本开始支持的。
+   - [CXCache]: 使用 PHP [XCache 扩展](https://xcache.lighttpd.net/)。注意，这个是从 1.0.1 版本开始支持的。
 
    - [CEAcceleratorCache]: 使用 PHP [EAccelerator 扩展](http://eaccelerator.net/).
 

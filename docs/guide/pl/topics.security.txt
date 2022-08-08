@@ -22,7 +22,7 @@ dezaktywuje ono wszystkie tagi HTML.
 
 Yii dołącza pracę wykonaną przez [HTMLPurifier](http://htmlpurifier.org/)
 i dostarcza deweloperowi w postaci użytecznego komponentu nazwanego [CHtmlPurifier], 
-który zawiera [HTMLPurifier](http://htmlpurifier.org/). Komponent ten jest w stanie 
+który zawiera [HTMLPurifier](http://htmlpurifier.org/). Komponent ten jest w stanie
 usunąć cały złośliwy kod przy użyciu dokładnie zbadanej, bezpiecznej białej listy 
 i upewnić się, że filtrowana zawartość zgodna jest ze standardami.
 

@@ -6,7 +6,7 @@ Based on the analysis of the requirements, we decide to use the following databa
  * `tbl_user` stores the user information, including username and password.
  * `tbl_post` stores the blog post information. It mainly consists of the following columns:
 	 - `title`: required, title of the post;
-	 - `content`: required, body content of the post which uses the [Markdown format](http://daringfireball.net/projects/markdown/syntax);
+	 - `content`: required, body content of the post which uses the [Markdown format](https://daringfireball.net/projects/markdown/syntax);
 	 - `status`: required, status of the post, which can be one of following values:
 		 * 1, meaning the post is in draft and is not visible to public;
 		 * 2, meaning the post is published to public;
@@ -33,7 +33,7 @@ The following entity-relation (ER) diagram shows the table structure and relatio
 ![Entity-Relation Diagram of the Blog Database](schema.png)
 
 
-Complete SQL statements corresponding to the above ER diagram may be found in [the blog demo](http://www.yiiframework.com/demos/blog/). In our Yii installation, they are in the file `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+Complete SQL statements corresponding to the above ER diagram may be found in [the blog demo](https://www.yiiframework.com/demos/blog/). In our Yii installation, they are in the file `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 
 

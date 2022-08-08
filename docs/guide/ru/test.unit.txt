@@ -2,8 +2,8 @@
 ======================
 
 Поскольку тестировочная часть Yii построена на
-[PHPUnit](http://www.phpunit.de/), рекомендуется сначала изучить
-[документацию PHPUnit](http://www.phpunit.de/manual/current/en/index.html), чтобы
+[PHPUnit](https://www.phpunit.de/), рекомендуется сначала изучить
+[документацию PHPUnit](https://www.phpunit.de/manual/current/en/index.html), чтобы
 получить общее представление о том, как писать модульные тесты. Далее мы
 приведём основные принципы написания модульных тестов в Yii:
 
@@ -34,7 +34,7 @@
 фикстур базы данных, которые мы представили в предыдущем разделе.
 
 Предположим, что мы хотим проверить класс модели `Comment` в
-[демо-блоге](http://www.yiiframework.com/demos/blog/). Начнем с создания класса
+[демо-блоге](https://www.yiiframework.com/demos/blog/). Начнем с создания класса
 `CommentTest` и сохраним его в файле `protected/tests/unit/CommentTest.php`:
 
 ~~~

@@ -147,7 +147,7 @@ a value that is either [CBooleanValidator::trueValue] or
 
    - `captcha`: alias of [CCaptchaValidator], ensuring the attribute is
 equal to the verification code displayed in a
-[CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
+[CAPTCHA](https://en.wikipedia.org/wiki/Captcha).
 
    - `compare`: alias of [CCompareValidator], ensuring the attribute is
 equal to another attribute or constant.

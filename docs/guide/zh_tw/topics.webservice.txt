@@ -1,19 +1,19 @@
 網路服務 (Web Service)
 ===========
 
-[網路服務](http://en.wikipedia.org/wiki/Web_service) 是一個軟體系統，設計來支援主機之間跨網絡相互存取。在 Web 應用程式，它通常用一套 API，可以被網路存取和在遠端系統主機上執行被請求的服務。例如，以 [Flex](http://www.adobe.com/products/flex/) 為基礎的客戶端可能會調用伺服器端運行的 PHP 的網路應用程式的函式。網路服務依賴 [SOAP](http://en.wikipedia.org/wiki/SOAP) 作為通訊協定的基礎層。
+[網路服務](https://en.wikipedia.org/wiki/Web_service) 是一個軟體系統，設計來支援主機之間跨網絡相互存取。在 Web 應用程式，它通常用一套 API，可以被網路存取和在遠端系統主機上執行被請求的服務。例如，以 [Flex](https://www.adobe.com/products/flex/) 為基礎的客戶端可能會調用伺服器端運行的 PHP 的網路應用程式的函式。網路服務依賴 [SOAP](https://en.wikipedia.org/wiki/SOAP) 作為通訊協定的基礎層。
 
-Yii 提供 [CWebService] 和 [CWebServiceAction] 簡化了在網路應用程式實現網路服務。這些 API 以類別形式實現，被稱為*服務提供者* Yii 將為每個類別產生一個 [WSDL](http://www.w3.org/TR/wsdl)，描述什麼 API 有效和客戶端怎麼調用。當客戶端調用 API，Yii 將實體化相應的服務提供者和調用被請求的 API 來完成請求。
+Yii 提供 [CWebService] 和 [CWebServiceAction] 簡化了在網路應用程式實現網路服務。這些 API 以類別形式實現，被稱為*服務提供者* Yii 將為每個類別產生一個 [WSDL](https://www.w3.org/TR/wsdl)，描述什麼 API 有效和客戶端怎麼調用。當客戶端調用 API，Yii 將實體化相應的服務提供者和調用被請求的 API 來完成請求。
 
-> Note|注意: [CWebService] 依靠 [PHP SOAP extension](http://www.php.net/manual/en/ref.soap.php) 。請確定您嘗試本節中的例子前啟動此擴充。
+> Note|注意: [CWebService] 依靠 [PHP SOAP extension](https://www.php.net/manual/en/ref.soap.php) 。請確定您嘗試本節中的例子前啟動此擴充。
 
 
 定義服務提供者 (Service Provider)
 -------------------------
 
 正如我們上文所述，服務提供者是一個類別定義能被遠程調用的方法。Yii 依靠[doc
-comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) and [class
-reflection](http://www.php.net/manual/en/language.oop5.reflection.php) 識別
+comment](https://java.sun.com/j2se/javadoc/writingdoccomments/) and [class
+reflection](https://www.php.net/manual/en/language.oop5.reflection.php) 識別
 哪些方法可以被遠程調用和他們的參數還有返回值。
 
 讓我們以一個簡單的股票報價服務開始。這項服務允許客戶端請求指定股票的報價。我們確定服務提供者如下。請注意，我們定義一個 `StockController` 是藉由擴充 [CController] 的類別而來的，但這不是必需的。

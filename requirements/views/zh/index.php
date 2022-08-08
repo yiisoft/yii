@@ -17,7 +17,7 @@
 <div id="content">
 <h2>检查内容</h2>
 <p>
-本网页用于确认您的服务器配置是否能满足运行<a href="http://www.yiiframework.com/">Yii</a> Web应用的要求。它将检查服务器所运行的PHP版本，查看是否安装了合适的PHP扩展模块，以及确认php.ini文件是否正确设置。
+本网页用于确认您的服务器配置是否能满足运行<a href="https://www.yiiframework.com/">Yii</a> Web应用的要求。它将检查服务器所运行的PHP版本，查看是否安装了合适的PHP扩展模块，以及确认php.ini文件是否正确设置。
 </p>
 
 <h2>检查结果</h2>

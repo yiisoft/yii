@@ -110,7 +110,7 @@ Cookie-based Login
 ----------------------------------
 
 Secara default, seorang pengguna akan di-logout-kan setelah periode waktu tertentu bila tidak aktif,
-tergantung pada [konfigurasi sesi](http://www.php.net/manual/en/session.configuration.php).
+tergantung pada [konfigurasi sesi](https://www.php.net/manual/en/session.configuration.php).
 Untuk mengubah perilaku ini, kita dapat menyetel properti [allowAutoLogin|CWebUser::allowAutoLogin]
 pada komponen pengguna menjadi true dan mengoper parameter durasi ke dalam
 metode [CWebUser::login]. Selanjutnya pengguna akan tetap masuk selama durasi yang
@@ -339,7 +339,7 @@ Kontrol Akses Berbasis-Role
 
 Role-Based Access Control (RBAC) menyediakan kontrol akses terpusat yang
 sederhana dan powerful. Silahkan merujuk ke
-[artikel Wiki](http://en.wikipedia.org/wiki/Role-based_access_control) untuk
+[artikel Wiki](https://en.wikipedia.org/wiki/Role-based_access_control) untuk
 lebih jelasnya mengenai perbandingan RBAC dengan skema kontrol akses
 tradisional.
 

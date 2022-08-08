@@ -1,7 +1,7 @@
 Uji Coba Unit(Unit Testing)
 ===========================
 
-Karena framework uji coba Yii dibuat dari [PHPUnit](http://www.phpunit.de/), maka Anda direkomendasi untuk membaca [dokumentasi PHPUnit](http://www.phpunit.de/manual/current/en/index.html) terlebih dahulu untuk memahami bagaimana menulis sebuah uji coba unit. Kita meringkaskan prinsip dasar dalam penulisan uji coba unit dalam Yii sebagai berikut:
+Karena framework uji coba Yii dibuat dari [PHPUnit](https://www.phpunit.de/), maka Anda direkomendasi untuk membaca [dokumentasi PHPUnit](https://www.phpunit.de/manual/current/en/index.html) terlebih dahulu untuk memahami bagaimana menulis sebuah uji coba unit. Kita meringkaskan prinsip dasar dalam penulisan uji coba unit dalam Yii sebagai berikut:
 
  * Sebuah uji coba unit ditulis dalam bentuk kelas dengan aturan nama `XyzTest` yang diturunkan [CTestCase] atau [CDbTestCase]. `Xyz` merupakan nama kelas yang diuji coba. Misalnya, kita ingin menguji kelas `Post`, kita akan menamakan unit uji coba bersangkutan dengan `PostTest` sesuai aturan. Kelas dasar [CTestCase] ditujukan untuk uji coba unit yang umum, sedangkan [CDbTestCase] lebih cocok untuk uji coba kelas model [rekaman aktif(active record)](/doc/guide/database.ar). Karena `PHPUnit_Framework_TestCase` merupakan induk dari kedua kelas tersebut, kita dapat menggunakan semua metode yang diturunkan dari kelas ini.
 
@@ -14,7 +14,7 @@ Karena framework uji coba Yii dibuat dari [PHPUnit](http://www.phpunit.de/), mak
 
 Berikut ini, kita akan mempelajari bagaimana menulis sebuah uji coba unit untuk [rekaman aktif(active record)](/doc/guide/database.ar). Kita akan menurunkan kelas kita dari [CDbTestCase] karena kelas ini menyediakan dukungan fixture database yang sudah diperkenalkan di bab sebelumnya.
 
-Asumsi kita ingin menguji kelas model `Comment` di dalam [blog demo](http://www.yiiframework.com/demos/blog/). Kita mulai dengan membuat sebuah kelas bernama `CommentTest` dan simpan sebagai `protected/tests/unit/CommentTest.php`:
+Asumsi kita ingin menguji kelas model `Comment` di dalam [blog demo](https://www.yiiframework.com/demos/blog/). Kita mulai dengan membuat sebuah kelas bernama `CommentTest` dan simpan sebagai `protected/tests/unit/CommentTest.php`:
 
 ~~~
 [php]

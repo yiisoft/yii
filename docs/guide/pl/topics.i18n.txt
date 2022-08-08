@@ -36,7 +36,7 @@ Mając ID ustawień lokalnych można otrzymać odpowiadającą mu instancję [CL
 `CLocale::getInstance($localeID)` lub `CApplication::getLocale($localeID)`.
 
 > Info|Info: Yii dostarcza dane lokalne dla prawie każdego języka oraz regionu. 
-Dane uzyskano ze [wspólnego repozytorium danych lokalnych ](http://unicode.org/cldr/) (CLDR). 
+Dane uzyskano ze [wspólnego repozytorium danych lokalnych ](https://unicode.org/cldr/) (CLDR).
 Dla każdego ustawienia lokalnego dostarczany jest wyłącznie zbiór danych pochodzących z CLDR,
 gdyż w dane oryginalne zawierają wiele rzadko używanych informacji.
 Użytkownicy mogą również dostarczać swoje własne, niestandardowe
@@ -113,7 +113,7 @@ klasę [CMessageSource] aby utworzyć swoje własne źródło komunikatów.
    znajdują się w katalogu wskazanym przez zmienną [bazePath|CPhpMessageSource::basePath].
 
    - [CGettextMessageSource]: tłumaczenia komunikatów przechowywane są jako pliki w formacie [GNU
-Gettext](http://www.gnu.org/software/gettext/).
+Gettext](https://www.gnu.org/software/gettext/).
 
    - [CDbMessageSource]: tłumaczenia komunikatów przechowywane są w tabeli bazy danych.
    Aby uzyskać więcej szczegółów spójrz w dokumentację API dla [CDbMessageSource].
@@ -284,7 +284,7 @@ co w rezultacie da nam
 
 
 > Info|Info: aby dowiedzieć się jak wiele wartości możesz wprowadzić oraz w jakiej kolejności
- powinny się one znajdować zajrzyj na stronę [reguł liczy mnogiej dla różnych języków](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#pl).
+ powinny się one znajdować zajrzyj na stronę [reguł liczy mnogiej dla różnych języków](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html#pl).
 
 ### Tłumaczenie pliku
 

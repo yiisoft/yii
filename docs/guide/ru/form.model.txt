@@ -140,7 +140,7 @@ public function ValidatorName($attribute,$params) { … }
 значение атрибута [CBooleanValidator::trueValue] или [CBooleanValidator::falseValue];
 
    - `captcha`: псевдоним класса [CCaptchaValidator], который проверяет, равно ли
-значение атрибута коду верификации на [капче](http://ru.wikipedia.org/wiki/Captcha);
+значение атрибута коду верификации на [капче](https://ru.wikipedia.org/wiki/Captcha);
 
    - `compare`: псевдоним класса [CCompareValidator], который проверяет, совпадает ли
 значение атрибута со значением другого атрибута или константой;

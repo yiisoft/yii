@@ -212,7 +212,7 @@ definierten Status verbleibt.
 >können auch gar nicht in Transaktionen gesetzt werden. In diesen Fällen
 >müssen sie stattdessen `up()` und `down()` implementieren. Beachten Sie für
 >MySQL außerdem, dass einige Ausdrücke ein [implizites
->Commit](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html)
+>Commit](https://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html)
 >verursachen.
 
 Migrationen anwenden

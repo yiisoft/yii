@@ -1,8 +1,8 @@
 Funktionell testning
 ====================
 
-Före läsning av detta avsnitt rekommenderas läsning av [Selenium-dokumentationen](http://seleniumhq.org/docs/) 
-och [PHPUnit-dokumentationen](http://www.phpunit.de/wiki/Documentation). Här följer en sammanfattning 
+Före läsning av detta avsnitt rekommenderas läsning av [Selenium-dokumentationen](https://www.selenium.dev/documentation/)
+och [PHPUnit-dokumentationen](https://www.phpunit.de/wiki/Documentation). Här följer en sammanfattning
 av de grundläggande principerna för hur man skriver ett funktionellt test i Yii:
 
  * Liksom för ett enhetstest är ett funktionellt test skrivet i form av en klass `XyzTest` 
@@ -56,7 +56,7 @@ och `index.php` är att den förra använder filen `test.php` som applikationsko
 medan den senare använder `main.php`.
 
 Nu kan vi beskriva hur man kan testa förfarandet för att visa en postning i applikationen 
-[blog demo](http://www.yiiframework.com/demos/blog). Först skriver vi testklassen som följer, 
+[blog demo](https://www.yiiframework.com/demos/blog). Först skriver vi testklassen som följer,
 med beaktande att testklassen ärver från basklassen vi just beskrivit:
 
 ~~~
