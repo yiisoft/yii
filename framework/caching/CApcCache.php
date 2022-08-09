@@ -11,7 +11,7 @@
 /**
  * CApcCache provides APC caching in terms of an application component.
  *
- * The caching is based on {@link http://www.php.net/apc APC}.
+ * The caching is based on {@link https://www.php.net/apc APC}.
  * To use this application component, the APC PHP extension must be loaded.
  *
  * See {@link CCache} manual for common cache operations that are supported by CApcCache.

@@ -742,8 +742,8 @@ class CHtmlTest extends CTestCase
 		return array(
 			array(
 				10,
-				'http://yiiframework.com/',
-				'<meta http-equiv="refresh" content="10;url=http://yiiframework.com/" />'."\n",
+				'https://yiiframework.com/',
+				'<meta http-equiv="refresh" content="10;url=https://yiiframework.com/" />'."\n",
 			),
 			array(
 				15,
@@ -1101,8 +1101,8 @@ class CHtmlTest extends CTestCase
 				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
 			array('link-button', array(), '<a href="#" id="yt0">link-button</a>',
 				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'',{});return false;});"),
-			array('link-button', array('href'=>'http://yiiframework.com/'), '<a href="#" id="yt0">link-button</a>',
-				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'http\\x3A\\x2F\\x2Fyiiframework.com\\x2F',{});return false;});"),
+			array('link-button', array('href'=>'https://yiiframework.com/'), '<a href="#" id="yt0">link-button</a>',
+				"jQuery('body').on('click','#yt0',function(){jQuery.yii.submitForm(this,'https\\x3A\\x2F\\x2Fyiiframework.com\\x2F',{});return false;});"),
 		);
 	}
 

@@ -61,7 +61,7 @@ class CWebService extends CComponent
 	 * @var array a list of classes that are declared as complex types in WSDL.
 	 * This should be an array with WSDL types as keys and names of PHP classes as values.
 	 * A PHP class can also be specified as a path alias.
-	 * @see http://www.php.net/manual/en/soapserver.soapserver.php
+	 * @see https://www.php.net/manual/en/soapserver.soapserver.php
 	 */
 	public $classMap=array();
 	/**
@@ -74,7 +74,7 @@ class CWebService extends CComponent
 	public $soapVersion;
 	/**
 	 * @var integer the persistence mode of the SOAP server.
-	 * @see http://www.php.net/manual/en/soapserver.setpersistence.php
+	 * @see https://www.php.net/manual/en/soapserver.setpersistence.php
 	 */
 	public $persistence;
 	/**
@@ -253,7 +253,7 @@ class CWebService extends CComponent
 
 	/**
 	 * @return array options for creating SoapServer instance
-	 * @see http://www.php.net/manual/en/soapserver.soapserver.php
+	 * @see https://www.php.net/manual/en/soapserver.soapserver.php
 	 */
 	protected function getOptions()
 	{

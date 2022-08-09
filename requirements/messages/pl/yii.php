@@ -21,7 +21,7 @@ return array (
   '$_SERVER variable' => 'zmienna $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] musi być taki sam jak ścieżka pliku skryptu wejściowego.',
   'APC extension' => 'rozszerzenie APC',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Wszystkie <a href="http://www.yiiframework.com/doc/api/#system.db">klasy bazodanowe</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Wszystkie <a href="https://www.yiiframework.com/doc/api/#system.db">klasy bazodanowe</a>',
   'DOM extension' => 'rozszerzenie DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Zarówno $_SERVER["REQUEST_URI"] jak i $_SERVER["QUERY_STRING"] muszą istnieć.',
   'Mcrypt extension' => 'rozszerzenie Mcrypt',

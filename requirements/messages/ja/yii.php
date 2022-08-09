@@ -21,7 +21,7 @@ return array (
   '$_SERVER variable' => '$_SERVER 変数',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] は、エントリスクリプトのパスと同じでなければなりません。',
   'APC extension' => 'APC 拡張',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '全ての<a href="http://www.yiiframework.com/doc/api/#system.db">データベース関連クラス</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '全ての<a href="https://www.yiiframework.com/doc/api/#system.db">データベース関連クラス</a>',
   'Ctype extension' => 'Ctype 拡張',
   'DOM extension' => 'DOM 拡張',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] か $_SERVER["QUERY_STRING"] のどちらかが存在しなければなりません。',
@@ -57,7 +57,7 @@ return array (
   'Required in case database interaction will be through ODBC layer.' => 'データベースへのアクセスを ODBC レイヤーを通して行う場合に必要。',
   'SOAP extension' => 'SOAP 拡張',
   'SPL extension' => 'SPL 拡張',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'memcached を使用するためには <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> を <code>true</code> に設定して下さい。',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'memcached を使用するためには <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> を <code>true</code> に設定して下さい。',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'URL パス情報を決定できません。$_SERVER["PATH_INFO"] (もしくは $_SERVER["PHP_SELF"] と $_SERVER["SCRIPT_NAME"]) が正しい値かどうか確認してください。',
   'crypt() CRYPT_BLOWFISH option' => 'crypt() CRYPT_BLOWFISH オプション',
 );

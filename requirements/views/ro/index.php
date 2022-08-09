@@ -18,7 +18,7 @@
 <h2>Descriere</h2>
 <p>
 Acest script verifica daca configuratia serverului dvs indeplineste cerintele 
-pentru rularea aplicatiilor Web <a href="http://www.yiiframework.com/">Yii</a>. 
+pentru rularea aplicatiilor Web <a href="https://www.yiiframework.com/">Yii</a>.
 Se fac urmatoarele verificari: daca serverul ruleaza versiunea corecta de PHP, 
 daca extensiile PHP corespunzatoare au fost incarcate si daca 
 setarile din fisierul php.ini sunt corecte.
