@@ -116,7 +116,7 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 	 * @return array the result set (each array element represents a row of data).
 	 * An empty array will be returned if the result contains no row.
 	 */
-  public function readAll($fetchStyle=null)
+  public function readAll($fetchStyle=PDO::FETCH_BOTH)
   {
     return $this->_statement->fetchAll($fetchStyle);
   }

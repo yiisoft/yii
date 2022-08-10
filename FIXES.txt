@@ -25,7 +25,7 @@ Line 119
             return $this->_statement->fetchAll();
         }
     Replace
-        public function readAll($fetchStyle=null)
+        public function readAll($fetchStyle=PDO::FETCH_BOTH)
         {
             return $this->_statement->fetchAll($fetchStyle);
         }
