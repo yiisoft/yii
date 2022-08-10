@@ -9,7 +9,7 @@
  */
 
 /**
- * CWinCache implements a cache application component based on {@link http://www.iis.net/expand/wincacheforphp WinCache}.
+ * CWinCache implements a cache application component based on {@link https://www.iis.net/expand/wincacheforphp WinCache}.
  *
  * To use this application component, the WinCache PHP extension must be loaded.
  *

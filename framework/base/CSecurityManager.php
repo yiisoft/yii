@@ -384,7 +384,7 @@ class CSecurityManager extends CApplicationComponent
 	 * This method does not guarantee that entropy, from sources external to the CS-PRNG, was mixed into
 	 * the CS-PRNG state between each successive call. The caller can therefore expect non-blocking
 	 * behavior, unlike, for example, reading from /dev/random on Linux, see
-	 * {@link http://eprint.iacr.org/2006/086.pdf Gutterman et al 2006}.
+	 * {@link https://eprint.iacr.org/2006/086.pdf Gutterman et al 2006}.
 	 * @return boolean|string generated random binary string or false on failure.
 	 * @since 1.1.14
 	 */
@@ -598,7 +598,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Performs string comparison using timing attack resistant approach.
-	 * @see http://codereview.stackexchange.com/questions/13512
+	 * @see https://codereview.stackexchange.com/questions/13512
 	 * @param string $expected string to compare.
 	 * @param string $actual user-supplied string.
 	 * @return boolean whether strings are equal.

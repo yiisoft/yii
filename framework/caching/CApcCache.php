@@ -24,8 +24,8 @@ class CApcCache extends CCache
 {
 	/**
 	 * @var boolean whether to use apcu or apc as the underlying caching extension.
-	 * If true {@link http://pecl.php.net/package/apcu apcu} will be used.
-	 * If false {@link http://pecl.php.net/package/apc apc}. will be used.
+	 * If true {@link https://pecl.php.net/package/apcu apcu} will be used.
+	 * If false {@link https://pecl.php.net/package/apc apc}. will be used.
 	 * Defaults to false.
 	 * @since 1.1.17
 	 */

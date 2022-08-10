@@ -9,7 +9,7 @@
  */
 
 /**
- * CMemCache implements a cache application component based on {@link http://memcached.org/ memcached}.
+ * CMemCache implements a cache application component based on {@link https://memcached.org/ memcached}.
  *
  * CMemCache can be configured with a list of memcache servers by settings
  * its {@link setServers servers} property. By default, CMemCache assumes
@@ -48,7 +48,7 @@
  * See {@link https://www.php.net/manual/en/function.memcache-addserver.php}
  * for more details.
  *
- * CMemCache can also be used with {@link http://pecl.php.net/package/memcached memcached}.
+ * CMemCache can also be used with {@link https://pecl.php.net/package/memcached memcached}.
  * To do so, set {@link useMemcached} to be true.
  *
  * @property mixed $memCache The memcache instance (or memcached if {@link useMemcached} is true) used by this component.
@@ -62,8 +62,8 @@ class CMemCache extends CCache
 {
 	/**
 	 * @var boolean whether to use memcached or memcache as the underlying caching extension.
-	 * If true {@link http://pecl.php.net/package/memcached memcached} will be used.
-	 * If false {@link http://pecl.php.net/package/memcache memcache}. will be used.
+	 * If true {@link https://pecl.php.net/package/memcached memcached} will be used.
+	 * If false {@link https://pecl.php.net/package/memcache memcache}. will be used.
 	 * Defaults to false.
 	 */
 	public $useMemcached=false;
