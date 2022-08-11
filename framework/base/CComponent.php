@@ -593,7 +593,7 @@ class CComponent
 	 * to the callback as $param1, $param2, ...; and the last parameter will be the component itself.
 	 *
 	 * If a PHP expression is used, the second parameter will be "extracted" into PHP variables
-	 * that can be directly accessed in the expression. See {@link http://us.php.net/manual/en/function.extract.php PHP extract}
+	 * that can be directly accessed in the expression. See {@link https://us.php.net/manual/en/function.extract.php PHP extract}
 	 * for more details. In the expression, the component object can be accessed using $this.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,

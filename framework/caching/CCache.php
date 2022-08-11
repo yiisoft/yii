@@ -66,7 +66,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	/**
 	 * @var array|boolean the functions used to serialize and unserialize cached data. Defaults to null, meaning
 	 * using the default PHP `serialize()` and `unserialize()` functions. If you want to use some more efficient
-	 * serializer (e.g. {@link http://pecl.php.net/package/igbinary igbinary}), you may configure this property with
+	 * serializer (e.g. {@link https://pecl.php.net/package/igbinary igbinary}), you may configure this property with
 	 * a two-element array. The first element specifies the serialization function, and the second the deserialization
 	 * function. If this property is set false, data will be directly sent to and retrieved from the underlying
 	 * cache component without any serialization or deserialization. You should not turn off serialization if
