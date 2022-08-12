@@ -2,10 +2,10 @@
 /**
  * Tests for various usages of Yii::t
  *
- * http://code.google.com/p/yii/issues/detail?id=1875
- * http://code.google.com/p/yii/issues/detail?id=1987
+ * https://code.google.com/p/yii/issues/detail?id=1875
+ * https://code.google.com/p/yii/issues/detail?id=1987
  *
- * http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+ * https://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
  */
 class YiiTTest extends CTestCase
 {

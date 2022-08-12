@@ -223,7 +223,7 @@ class CWebService extends CComponent
 				$message.=' ('.$e->getFile().':'.$e->getLine().")\n".$e->getTraceAsString();
 
 			// We need to end application explicitly because of
-			// http://bugs.php.net/bug.php?id=49513
+			// https://bugs.php.net/bug.php?id=49513
 			Yii::app()->onEndRequest(new CEvent($this));
 			$server->fault(get_class($e),$message);
 			exit(1);

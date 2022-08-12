@@ -75,7 +75,7 @@ class CHtml
 	 * You can override this setting for a particular element by setting the htmlOptions delegate attribute
 	 * (see {@link clientChange}).
 	 *
-	 * For more information about attaching jQuery event handler see {@link http://api.jquery.com/on/}
+	 * For more information about attaching jQuery event handler see {@link https://api.jquery.com/on/}
 	 * @since 1.1.9
 	 * @see clientChange
 	 */
@@ -1367,7 +1367,7 @@ EOD;
 	 * </ul>
 	 * Note, if you specify the 'success' option, the above options will be ignored.
 	 * @return string the generated JavaScript
-	 * @see http://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings
+	 * @see https://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings
 	 */
 	public static function ajax($options)
 	{

@@ -15,7 +15,7 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
 }
 
 /**
- * CHtmlPurifier is wrapper of {@link http://htmlpurifier.org HTML Purifier}.
+     * CHtmlPurifier is wrapper of {@link http://htmlpurifier.org HTML Purifier}.
  *
  * CHtmlPurifier removes all malicious code (better known as XSS) with a thoroughly audited,
  * secure yet permissive whitelist. It will also make sure the resulting code

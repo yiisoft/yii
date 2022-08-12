@@ -17,8 +17,8 @@
  *
  * For details about the markdown syntax, please check the following:
  * <ul>
- * <li>{@link http://daringfireball.net/projects/markdown/syntax official markdown syntax}</li>
- * <li>{@link http://michelf.com/projects/php-markdown/extra/ markdown extra syntax}</li>
+ * <li>{@link https://daringfireball.net/projects/markdown/syntax official markdown syntax}</li>
+ * <li>{@link https://michelf.com/projects/php-markdown/extra/ markdown extra syntax}</li>
  * <li>{@link CMarkdownParser markdown with syntax highlighting}</li>
  * </ul>
  *
