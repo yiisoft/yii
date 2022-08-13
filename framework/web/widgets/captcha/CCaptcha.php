@@ -11,7 +11,7 @@
 /**
  * CCaptcha renders a CAPTCHA image element.
  *
- * CCaptcha is used together with {@link CCaptchaAction} to provide {@link http://en.wikipedia.org/wiki/Captcha CAPTCHA}
+ * CCaptcha is used together with {@link CCaptchaAction} to provide {@link https://en.wikipedia.org/wiki/Captcha CAPTCHA}
  * - a way of preventing site spam.
  *
  * The image element rendered by CCaptcha will display a CAPTCHA image generated

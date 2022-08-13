@@ -11,7 +11,7 @@
 /**
  * CMultiFileUpload generates a file input that can allow uploading multiple files at a time.
  *
- * This is based on the {@link http://www.fyneworks.com/jquery/multiple-file-upload/ jQuery Multi File Upload plugin}.
+ * This is based on the {@link https://www.fyneworks.com/jquery/multiple-file-upload/ jQuery Multi File Upload plugin}.
  * The uploaded file information can be accessed via $_FILES[widget-name], which gives an array of the uploaded
  * files. Note, you have to set the enclosing form's 'enctype' attribute to be 'multipart/form-data'.
  *

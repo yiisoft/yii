@@ -85,7 +85,7 @@ class CFlexWidget extends CWidget
 		if(empty($this->baseUrl))
 			throw new CException(Yii::t('yii','CFlexWidget.baseUrl cannot be empty.'));
 		if($this->altHtmlContent===null)
-			$this->altHtmlContent=Yii::t('yii','This content requires the <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a>.');
+			$this->altHtmlContent=Yii::t('yii','This content requires the <a href="https://www.adobe.com/go/getflash/">Adobe Flash Player</a>.');
 
 		$this->registerClientScript();
 
