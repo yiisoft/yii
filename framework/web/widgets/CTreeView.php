@@ -12,7 +12,7 @@
  * CTreeView displays a tree view of hierarchical data.
  *
  * It encapsulates the excellent tree view plugin for jQuery
- * ({@link http://bassistance.de/jquery-plugins/jquery-plugin-treeview/}).
+ * ({@link https://bassistance.de/jquery-plugins/jquery-plugin-treeview/}).
  *
  * To use CTreeView, simply sets {@link data} to the data that you want
  * to present and you are there.

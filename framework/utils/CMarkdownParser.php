@@ -16,7 +16,7 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
 }
 
 /**
- * CMarkdownParser is a wrapper of {@link http://michelf.com/projects/php-markdown/extra/ MarkdownExtra_Parser}.
+ * CMarkdownParser is a wrapper of {@link https://michelf.com/projects/php-markdown/extra/ MarkdownExtra_Parser}.
  *
  * CMarkdownParser extends MarkdownExtra_Parser by using Text_Highlighter
  * to highlight code blocks with specific language syntax.
@@ -37,8 +37,8 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  *
  * For details about the standard markdown syntax, please check the following:
  * <ul>
- * <li>{@link http://daringfireball.net/projects/markdown/syntax official markdown syntax}</li>
- * <li>{@link http://michelf.com/projects/php-markdown/extra/ markdown extra syntax}</li>
+ * <li>{@link https://daringfireball.net/projects/markdown/syntax official markdown syntax}</li>
+ * <li>{@link https://michelf.com/projects/php-markdown/extra/ markdown extra syntax}</li>
  * </ul>
  *
  * @property string $defaultCssFile The default CSS file that is used to highlight code blocks.

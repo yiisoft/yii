@@ -8728,7 +8728,7 @@ jQuery.extend( {
 } );
 
 // Some attributes require a special call on IE
-// http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
+// https://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
 if ( !support.hrefNormalized ) {
 
 	// href/src property should get the full normalized URL (#10299/#12915)
@@ -10158,7 +10158,7 @@ jQuery.ajaxSettings.xhr = window.ActiveXObject !== undefined ?
 
 		// Support: IE<9
 		// oldIE XHR does not support non-RFC2616 methods (#13240)
-		// See http://msdn.microsoft.com/en-us/library/ie/ms536648(v=vs.85).aspx
+		// See https://msdn.microsoft.com/en-us/library/ie/ms536648(v=vs.85).aspx
 		// and https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9
 		// Although this check for six methods instead of eight
 		// since IE also does not support "trace" and "connect"

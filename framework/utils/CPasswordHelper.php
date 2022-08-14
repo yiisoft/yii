@@ -19,14 +19,14 @@
  * crypt() with its Blowfish option and $2y hash fix. Compatible system is:
  *
  * (1) Most *nix systems since PHP 4 (the algorithm is part of the library function crypt(3));
- * (2) Any PHP since 5.3.7 or PHP with the {@link http://www.hardened-php.net/suhosin/ Suhosin patch} including
+ * (2) Any PHP since 5.3.7 or PHP with the {@link https://www.hardened-php.net/suhosin/ Suhosin patch} including
  * $2y fix backported. Note that Debian's 5.3.3 is not supported.
  *
  * For more information about password hashing, crypt() and Blowfish, please read
  * the Yii Wiki article
  * {@link https://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/ Use crypt() for password storage}.
  * and the
- * PHP RFC {@link http://wiki.php.net/rfc/password_hash Adding simple password hashing API}.
+ * PHP RFC {@link https://wiki.php.net/rfc/password_hash Adding simple password hashing API}.
  *
  * CPasswordHelper throws an exception if the Blowfish hash algorithm is not
  * available in the runtime PHP's crypt() function. It can be used as follows
@@ -139,7 +139,7 @@ class CPasswordHelper
 	 * useful to an attacker.
 	 *
 	 * @see http://blog.astrumfutura.com/2010/10/nanosecond-scale-remote-timing-attacks-on-php-applications-time-to-take-them-seriously/
-	 * @see http://codereview.stackexchange.com/questions/13512
+	 * @see https://codereview.stackexchange.com/questions/13512
 	 * @see https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
 	 *
 	 * @param string $a First subject string to compare.
