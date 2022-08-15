@@ -18,7 +18,7 @@ return array (
   '$_SERVER variable' => '$_SERVER 變數',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] 必須與入口腳本檔案路徑一致.',
   'APC extension' => '',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '所有 <a href="http://www.yiiframework.com/doc/api/#system.db">資料庫相關的類別</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '所有 <a href="https://www.yiiframework.com/doc/api/#system.db">資料庫相關的類別</a>',
   'DOM extension' => '',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] 或 $_SERVER["QUERY_STRING"] 必須存在.',
   'GD extension' => '',

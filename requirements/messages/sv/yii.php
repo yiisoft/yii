@@ -22,7 +22,7 @@ return array (
   '$_SERVER variable' => '$_SERVER-variabel',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] måste vara samma som startskriptets namn och sökväg.',
   'APC extension' => 'APC-tillägg',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alla <a href="http://www.yiiframework.com/doc/api/#system.db">DB-relaterade klasser</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alla <a href="https://www.yiiframework.com/doc/api/#system.db">DB-relaterade klasser</a>',
   'DOM extension' => 'DOM-tillägg',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Antingen $_SERVER["REQUEST_URI"] eller $_SERVER["QUERY_STRING"] måste finnas.',
   'GD extension with<br />FreeType support' => 'GD-tillägg med<br />FreeType-stöd',
@@ -44,6 +44,6 @@ return array (
   'This is required if you are using MySQL database.' => 'Detta krävs om MySQL-databas används.',
   'This is required if you are using PostgreSQL database.' => 'Detta krävs om PostgresSQL-databas används.',
   'This is required if you are using SQLite database.' => 'Detta krävs om SQLite-databas används.',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'För att använda memcached, sätt <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> till <code>true</code>.',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'För att använda memcached, sätt <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> till <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Kan inte avgöra URL:ens sökvägsinfo. Kontrollera att $_SERVER["PATH_INFO"] (eller $_SERVER["PHP_SELF"] och $_SERVER["SCRIPT_NAME"]) innehåller korrekta värden.',
 );

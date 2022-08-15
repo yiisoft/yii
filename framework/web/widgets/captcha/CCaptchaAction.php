@@ -13,7 +13,7 @@
  * CCaptchaAction renders a CAPTCHA image.
  *
  * CCaptchaAction is used together with {@link CCaptcha} and {@link CCaptchaValidator}
- * to provide the {@link http://en.wikipedia.org/wiki/Captcha CAPTCHA} feature.
+ * to provide the {@link https://en.wikipedia.org/wiki/Captcha CAPTCHA} feature.
  *
  * You must configure properties of CCaptchaAction to customize the appearance of
  * the generated image.

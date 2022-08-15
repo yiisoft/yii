@@ -7,7 +7,7 @@ rem PHP versions 4 and 5
 
 rem LICENSE: This source file is subject to version 3.0 of the PHP license
 rem that is available through the world-wide-web at the following URI:
-rem http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+rem https://www.php.net/license/3_0.txt.  If you did not receive a copy of
 rem the PHP License and are unable to obtain it through the web, please
 rem send a note to license@php.net so we can mail you a copy immediately.
 
@@ -15,9 +15,9 @@ rem @category   Text
 rem @package    Text_Highlighter
 rem @author     Andrey Demenev <demenev@gmail.com>
 rem @copyright  2004 Andrey Demenev
-rem @license    http://www.php.net/license/3_0.txt  PHP License
+rem @license    https://www.php.net/license/3_0.txt  PHP License
 rem @version    CVS: $Id: generate.bat,v 1.1 2007-06-03 02:35:28 ssttoo Exp $
-rem @link       http://pear.php.net/package/Text_Highlighter
+rem @link       https://pear.php.net/package/Text_Highlighter
 
 set "MHL_PARAMS="
 :doshift

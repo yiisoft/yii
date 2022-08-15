@@ -15,7 +15,7 @@
 		{
 			"name": "Alexander Makarov",
 			"email": "sam@rmcreative.ru",
-			"homepage": "http://rmcreative.ru/",
+			"homepage": "https://rmcreative.ru/",
 			"role": "Core framework development"
 		},
 		{
@@ -26,7 +26,7 @@
 		{
 			"name": "Carsten Brandt",
 			"email": "mail@cebe.cc",
-			"homepage": "http://cebe.cc/",
+			"homepage": "https://cebe.cc/",
 			"role": "Core framework development"
 		},
 		{
@@ -62,8 +62,8 @@
 	],
 	"support": {
 		"issues": "https://github.com/yiisoft/yii/issues?state=open",
-		"forum": "http://www.yiiframework.com/forum/",
-		"wiki": "http://www.yiiframework.com/wiki/",
+		"forum": "https://www.yiiframework.com/forum/",
+		"wiki": "https://www.yiiframework.com/wiki/",
 		"irc": "irc://irc.freenode.net/yii",
 		"source": "https://github.com/yiisoft/yii"
 	},

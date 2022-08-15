@@ -348,7 +348,7 @@ abstract class CApplication extends CModule
 	 * Returns the time zone used by this application.
 	 * This is a simple wrapper of PHP function date_default_timezone_get().
 	 * @return string the time zone used by this application.
-	 * @see http://php.net/manual/en/function.date-default-timezone-get.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-get.php
 	 */
 	public function getTimeZone()
 	{
@@ -359,7 +359,7 @@ abstract class CApplication extends CModule
 	 * Sets the time zone used by this application.
 	 * This is a simple wrapper of PHP function date_default_timezone_set().
 	 * @param string $value the time zone used by this application.
-	 * @see http://php.net/manual/en/function.date-default-timezone-set.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
 	 */
 	public function setTimeZone($value)
 	{

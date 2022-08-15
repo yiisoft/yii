@@ -2,7 +2,7 @@
 /**
  * CPradoViewRenderer class file.
  *
- * @author Steve Heyns http://customgothic.com/
+ * @author Steve Heyns https://customgothic.com/
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
@@ -60,7 +60,7 @@
  * // the whole tag will be stripped off
  * </pre>
  *
- * @author Steve Heyns http://customgothic.com/
+ * @author Steve Heyns https://customgothic.com/
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.renderers
  * @since 1.0

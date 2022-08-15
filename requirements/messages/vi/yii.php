@@ -18,7 +18,7 @@ return array (
   '$_SERVER variable' => 'Biến $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] phải giống đường dẫn của file khởi động',
   'APC extension' => 'APC extension',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Tất cả <a href="http://www.yiiframework.com/doc/api/#system.db">các lớp liên quan đến CSDL</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Tất cả <a href="https://www.yiiframework.com/doc/api/#system.db">các lớp liên quan đến CSDL</a>',
   'DOM extension' => 'DOM extension',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Biến $_SERVER["REQUEST_URI"] hoặc $_SERVER["QUERY_STRING"] phải tồn tại.',
   'GD extension' => 'GD extension',

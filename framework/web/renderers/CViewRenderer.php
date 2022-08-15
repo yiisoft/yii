@@ -22,7 +22,7 @@
  * Parsing results are saved as temporary files that may be stored
  * under the application runtime directory or together with the source view file.
  *
- * @author Steve Heyns http://customgothic.com/
+ * @author Steve Heyns https://customgothic.com/
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.renderers
  * @since 1.0

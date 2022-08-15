@@ -75,7 +75,7 @@ class CHtml
 	 * You can override this setting for a particular element by setting the htmlOptions delegate attribute
 	 * (see {@link clientChange}).
 	 *
-	 * For more information about attaching jQuery event handler see {@link http://api.jquery.com/on/}
+	 * For more information about attaching jQuery event handler see {@link https://api.jquery.com/on/}
 	 * @since 1.1.9
 	 * @see clientChange
 	 */
@@ -111,7 +111,7 @@ class CHtml
 	 * The {@link CApplication::charset application charset} will be used for encoding.
 	 * @param string $text data to be encoded
 	 * @return string the encoded data
-	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
+	 * @see https://www.php.net/manual/en/function.htmlspecialchars.php
 	 */
 	public static function encode($text)
 	{
@@ -123,7 +123,7 @@ class CHtml
 	 * This is the opposite of {@link encode()}.
 	 * @param string $text data to be decoded
 	 * @return string the decoded data
-	 * @see http://www.php.net/manual/en/function.htmlspecialchars-decode.php
+	 * @see https://www.php.net/manual/en/function.htmlspecialchars-decode.php
 	 * @since 1.1.8
 	 */
 	public static function decode($text)
@@ -138,7 +138,7 @@ class CHtml
 	 * The {@link CApplication::charset application charset} will be used for encoding.
 	 * @param array $data data to be encoded
 	 * @return array the encoded data
-	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
+	 * @see https://www.php.net/manual/en/function.htmlspecialchars.php
 	 */
 	public static function encodeArray($data)
 	{
@@ -1371,7 +1371,7 @@ EOD;
 	 * </ul>
 	 * Note, if you specify the 'success' option, the above options will be ignored.
 	 * @return string the generated JavaScript
-	 * @see http://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings
+	 * @see https://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings
 	 */
 	public static function ajax($options)
 	{

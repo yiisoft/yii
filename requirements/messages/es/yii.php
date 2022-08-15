@@ -54,6 +54,6 @@ return array (
   'Required for SQLite database.' => 'Requerida para base de datos SQLite',
   'SOAP extension' => 'Extensión SOAP',
   'SPL extension' => 'Extensión SPL',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Para usar memcached asigna <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> a <code>true</code>.',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Para usar memcached asigna <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> a <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'No es posible determinar la ruta de información del URL. Por favor asegúrese que $_SERVER["PATH_INFO"] o ($_SERVER["PHP_SELF"] y $_SERVER["SCRIPT_NAME"]) contenga/n un valor correcto.',
 );

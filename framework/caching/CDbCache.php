@@ -15,7 +15,7 @@
  * If the table does not exist, it will be automatically created.
  * By setting {@link autoCreateCacheTable} to false, you can also manually create the DB table.
  *
- * CDbCache relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
+ * CDbCache relies on {@link https://www.php.net/manual/en/ref.pdo.php PDO} to access database.
  * By default, it will use a SQLite3 database under the application runtime directory.
  * You can also specify {@link connectionID} so that it makes use of
  * a DB application component to access database.

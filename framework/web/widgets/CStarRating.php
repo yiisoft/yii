@@ -11,7 +11,7 @@
 /**
  * CStarRating displays a star rating control that can collect user rating input.
  *
- * CStarRating is based on {@link http://www.fyneworks.com/jquery/star-rating/ jQuery Star Rating Plugin}.
+ * CStarRating is based on {@link https://www.fyneworks.com/jquery/star-rating/ jQuery Star Rating Plugin}.
  * It displays a list of stars indicating the rating values. Users can toggle these stars
  * to indicate their rating input. On the server side, when the rating input is submitted,
  * the value can be retrieved in the same way as working with a normal HTML input.

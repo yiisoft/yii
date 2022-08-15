@@ -20,7 +20,7 @@ return array (
   '$_SERVER variable' => '$_SERVER மாறிலி',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] வழித்தடம் முதன்மை வழித்தடத்திலிருக்க வேண்டும்.',
   'APC extension' => 'APC நீட்சி',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '<a href="http://www.yiiframework.com/doc/api/#system.db">தகவல்தளம்</a> சம்பந்தப்பட்ட உருக்கள் அனைத்தும்',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '<a href="https://www.yiiframework.com/doc/api/#system.db">தகவல்தளம்</a> சம்பந்தப்பட்ட உருக்கள் அனைத்தும்',
   'DOM extension' => 'DOM நீட்சி',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] அல்லது $_SERVER["QUERY_STRING"] கண்டிப்பாக இருக்க வேண்டும்.',
   'GD extension with<br />FreeType support' => 'GD நீட்சி<br />FreeType பயன்பாட்டுடன்',
