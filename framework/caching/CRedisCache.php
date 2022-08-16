@@ -29,6 +29,7 @@
  *             'class'=>'CRedisCache',
  *             'hostname'=>'localhost',
  *             'port'=>6379,
+ *             'socket'=>'/run/redis/redis.sock',  //You can use socket as well.
  *             'database'=>0,
  *             'options'=>STREAM_CLIENT_CONNECT,
  *         ),
@@ -52,6 +53,10 @@ class CRedisCache extends CCache
 	 * @var int the port to use for connecting to the redis server. Default port is 6379.
 	 */
 	public $port=6379;
+	/**
+	 * @var string the unix socket to use for connecting to the redis server. Defaults to '/run/redis/redis.sock' 
+	 */
+	public $socket='/run/redis/redis.sock';
 	/**
 	 * @var string the password to use to authenticate with the redis server. If not set, no AUTH command will be sent.
 	 */
@@ -85,13 +90,26 @@ class CRedisCache extends CCache
 	 */
 	protected function connect()
 	{
-		$this->_socket=@stream_socket_client(
-			$this->hostname.':'.$this->port,
-			$errorNumber,
-			$errorDescription,
-			$this->timeout ? $this->timeout : ini_get("default_socket_timeout"),
-			$this->options
+        if ($this->socket)
+        {
+            $this->_socket=@stream_socket_client(
+                "unix://$this->socket",
+                $errorNumber,
+                $errorDescription,
+                $this->timeout ? $this->timeout : ini_get("default_socket_timeout"),
+                $this->options
+            );
+        }
+        else
+        {
+            $this->_socket=@stream_socket_client(
+                $this->hostname.':'.$this->port,
+                $errorNumber,
+                $errorDescription,
+                $this->timeout ? $this->timeout : ini_get("default_socket_timeout"),
+                $this->options
 		);
+        }
 		if ($this->_socket)
 		{
 			if($this->ssl)
