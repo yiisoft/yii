@@ -54,9 +54,9 @@ class CRedisCache extends CCache
 	 */
 	public $port=6379;
 	/**
-	 * @var string the unix socket to use for connecting to the redis server. Defaults to '/run/redis/redis.sock' 
+	 * @var string the unix socket to use for connecting to the redis server. If not set, hostname will be used.
 	 */
-	public $socket='/run/redis/redis.sock';
+	public $socket;
 	/**
 	 * @var string the password to use to authenticate with the redis server. If not set, no AUTH command will be sent.
 	 */
