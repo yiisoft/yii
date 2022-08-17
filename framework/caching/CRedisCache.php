@@ -85,15 +85,17 @@ class CRedisCache extends CCache
 	 */
 	protected function connect()
 	{
-        if ($this->socket)
-        {
+        $address = $this->hostname;
+        if (isset($this->port)){
+            $address .= ':' . $this->port;
+        }
         $this->_socket=@stream_socket_client(
-                $this->hostname.':'.$this->port,
-                $errorNumber,
-                $errorDescription,
-                $this->timeout ? $this->timeout : ini_get("default_socket_timeout"),
-                $this->options
-		);
+            $address,
+            $errorNumber,
+            $errorDescription,
+            $this->timeout ? $this->timeout : ini_get("default_socket_timeout"),
+            $this->options
+        );
 		if ($this->_socket)
 		{
 			if($this->ssl)
@@ -109,11 +111,11 @@ class CRedisCache extends CCache
 		}
 	}
 
-	/**
-	 * Executes a redis command.
-	 * For a list of available commands and their parameters see {@link https://redis.io/commands}.
-	 *
-	 * @param string $name the name of the command
+    /**
+     * Executes a redis command.
+     * For a list of available commands and their parameters see {@link https://redis.io/commands}.
+     *
+     * @param string $name the name of the command
 	 * @param array $params list of parameters for the command
 	 * @return array|bool|null|string Dependend on the executed command this method
 	 * will return different data types:
