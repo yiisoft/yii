@@ -2,7 +2,7 @@ Aplicação
 =========
 
 A aplicação representa o contexto de execução do processamento de uma solicitação.
-Sua principal tarefa é a de receber uma solicitação do usuário e eviá-la para um
+Sua principal tarefa é a de receber uma solicitação do usuário e enviá-la para um
 controle adequado para o posterior processamento. Serve também como o lugar central
 para o processamento de configurações a nível da aplicação. Por esta razão, a aplicação
 é também chamada de `controle de frente`.
