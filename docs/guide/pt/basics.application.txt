@@ -16,7 +16,7 @@ Configuração da Aplicação
 Por padrão, a aplicação é uma instancia de [CWebApplication]. Para personalizá-la
 normalmente é utilizado um arquivo de configuração (ou um array) para inicializar
 os valores de suas propriedades quando a instância da aplicação é criada. Uma 
-alternativa para a costomização é estender o [CWebApplication].
+alternativa para a customização é estender o [CWebApplication].
 
 A configuração é um conjunto de pares do tipo chave-valor. Cada chave representa
 o nome de uma propriedade da instancia da aplicação, e cada valor a propriedade
