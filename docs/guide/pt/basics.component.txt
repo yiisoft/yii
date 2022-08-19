@@ -128,7 +128,7 @@ e, portanto, ganharam a possibilidade de receber um ou mais comportamentos. Um *
 coleta de funcionalidades em vez de especialização (por exemplo, a herança normal de classes). 
 Um componente pode receber diversos comportamentos e, assim, utilizar a "herança múltipla".
 
-Classes de comportamento devem implema interface [IBehavior]. A maioria dos comportamentos
+Classes de comportamento devem implementar a interface [IBehavior]. A maioria dos comportamentos
 podem utilizar a classe [CBehavior] como base, estendendo-a. Se um comportamento precisar ser atribuído 
 a um [modelo](/doc/guide/basics.model), ele deve estender as classes [CModelBehavior] ou 
 [CActiveRecordBehavior], que implementam características específicas para modelos.
@@ -168,7 +168,7 @@ $component->enableBehavior($name);
 // agora funciona
 $component->test();
 ~~~
-entar
+
 É possível que dois comportamentos atribuídos ao mesmo componente tenham métodos com o mesmo nome. 
 Nesse caso, o método do comportamento atribuído primeiro terá precedência.
 
