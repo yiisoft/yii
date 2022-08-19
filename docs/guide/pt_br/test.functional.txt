@@ -2,8 +2,8 @@ Testes Funcionais
 ==================
 
 Antes de ler esta seção, é recomendável que você primeiro leia a
-[documentação do Selenium](http://seleniumhq.org/docs/) e a
-[documentação do PHPUnit](http://www.phpunit.de/wiki/Documentation). Nós
+[documentação do Selenium](https://www.selenium.dev/documentation/) e a
+[documentação do PHPUnit](https://www.phpunit.de/wiki/Documentation). Nós
 resumimos a seguir os princípios básicos de escrita de testes funcionais no Yii:
 
  * Como nos testes unitários, um teste funcional é escrito em termos de uma
@@ -61,7 +61,7 @@ diferença entre `index-test.php` e `index.php` é que o primeiro usa a
 configuração de aplicação `test.php` enquanto o segundo usa `main.php`.
 
 Agora descrevemos como testar a funcionalidade de mostrar um post no
-[exemplo de blog](http://www.yiiframework.com/demos/blog). Primeiro escrevemos a
+[exemplo de blog](https://www.yiiframework.com/demos/blog). Primeiro escrevemos a
 classe de teste como segue, observando que ela estende da classe-mãe que
 acabamos de mostrar:
 

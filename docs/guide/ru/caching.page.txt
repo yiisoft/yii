@@ -83,7 +83,7 @@ public function filters()
 > Tip|Подсказка: Как [CHttpCacheFilter::lastModifiedExpression], так и
 [CHttpCacheFilter::lastModified] могут принимать как Unix timestamp в виде
 целого числа, так и дату строкой в понятном человеку формате. Если дату может
-разобрать [strtotime()](http://php.net/manual/ru/function.strtotime.php), то
+разобрать [strtotime()](https://php.net/manual/ru/function.strtotime.php), то
 никаких дополнительных преобразований не требуется.
 
 Похожим образом, через [CHttpCacheFilter::etagSeed] и
@@ -91,11 +91,11 @@ public function filters()
 «Entity Tag» (`ETag`). Заданные значения сериализуются (то есть можно использовать
 как простое значение, так и массив) и затем используются для генерации хеша
 quoted base64 SHA1, который подставляется в `ETag`. Данный способ отличается от
-того, что используется [Apache](http://httpd.apache.org) и другими веб-серверами.
+того, что используется [Apache](https://httpd.apache.org) и другими веб-серверами.
 Тем не менее, реализация в Yii полностью соответствует RFC и лучше подходит
 для использования в фреймворке.
 
-> Note|Примечание: Для соответствия [разделу 13.3.4 RFC 2616](http://tools.ietf.org/html/rfc2616#section-13.3.4),
+> Note|Примечание: Для соответствия [разделу 13.3.4 RFC 2616](https://tools.ietf.org/html/rfc2616#section-13.3.4),
 [CHttpCacheFilter] отсылает как `ETag` *так и* `Last-Modified` когда это возможно.
 Соответственно, оба заголовка будут использоваться для инвалидации кэша.
 

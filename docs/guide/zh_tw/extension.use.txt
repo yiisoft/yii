@@ -3,7 +3,7 @@
 
 使用擴充通常包含了以下三步：
 
-  1. 從 Yii 的 [擴充庫](http://www.yiiframework.com/extensions/) 下載擴充。
+  1. 從 Yii 的 [擴充庫](https://www.yiiframework.com/extensions/) 下載擴充。
   2. 解壓到 [應用程式程式的根目錄](/doc/guide/basics.application#application-base-directory)
 的子目錄 `extensions/xyz` 下，這裡的 `xyz` 是擴充的名稱。
   3. 導入、配置和使用擴充。
@@ -18,7 +18,7 @@
 Zii 擴充
 --------------
 
-在我們開始描述如何使用第三方擴充前，我們會先介紹 Zii 擴充函式庫，他們 Yii 開發團隊所開發一個擴充的集合，從 Yii 版本 1.1.0 之後開始導入。Zii 函式庫被主持成一個 Google 專案，叫做 [zii](http://code.google.com/p/zii/)。
+在我們開始描述如何使用第三方擴充前，我們會先介紹 Zii 擴充函式庫，他們 Yii 開發團隊所開發一個擴充的集合，從 Yii 版本 1.1.0 之後開始導入。Zii 函式庫被主持成一個 Google 專案，叫做 [zii](https://code.google.com/p/zii/)。
 
 當使用 Zii 擴充，必須使用路徑別名來參照到相對應的類別，格式是 `zii.path.to.ClassName`。這裡的根路徑別名是 `zii`，由 Yii 事先定義的。他對應到 Zii 函式庫的跟目錄。例如，要使用 [CGridView]，我們必須使用如下的程式碼在一個視圖腳本裡來參照到這個擴充：
 

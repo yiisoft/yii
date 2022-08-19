@@ -36,6 +36,6 @@ This is the homepage of <em><?php echo Yii::app()->name; ?></em>. You may modify
 
 <p>
 If you have problems in accomplishing any of the above tasks,
-please read <a href="http://www.yiiframework.com/doc/">Yii documentation</a>
-or visit <a href="http://www.yiiframework.com/forum/">Yii forum</a> for help.
+please read <a href="https://www.yiiframework.com/doc/">Yii documentation</a>
+or visit <a href="https://www.yiiframework.com/forum/">Yii forum</a> for help.
 </p>

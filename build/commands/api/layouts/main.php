@@ -13,7 +13,7 @@
 <div id="apiPage">
 
 <div id="apiHeader">
-<a href="http://www.yiiframework.com">Yii Framework</a> v<?php echo Yii::getVersion(); ?> Class Reference
+<a href="https://www.yiiframework.com">Yii Framework</a> v<?php echo Yii::getVersion(); ?> Class Reference
 </div><!-- end of header -->
 
 <div id="content">
@@ -21,7 +21,7 @@
 </div><!-- end of content -->
 
 <div id="apiFooter">
-&copy; 2008-2013 by <a href="http://www.yiisoft.com">Yii Software LLC</a><br/>
+&copy; 2008-2013 by <a href="https://www.yiisoft.com">Yii Software LLC</a><br/>
 All Rights Reserved.<br/>
 </div><!-- end of footer -->
 

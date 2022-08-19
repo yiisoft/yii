@@ -15,7 +15,7 @@
 
 注意在第二个URL格式中，我们在URL中还包含了日志标题。这主要是为了使其对 SEO 友好。据说搜索引擎会在索引URL时重视其中的单词。
 
-要实现我们的目标，我们修改 [应用配置](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) 如下,
+要实现我们的目标，我们修改 [应用配置](https://www.yiiframework.com/doc/guide/basics.application#application-configuration) 如下,
 
 ~~~
 [php]
@@ -35,11 +35,11 @@ return array(
 );
 ~~~
 
-如上所示，我们配置了 [urlManager](http://www.yiiframework.com/doc/guide/topics.url) 组件，设置其 `urlFormat` 属性为 `path` 并添加了一系列 `rules` （规则）。
+如上所示，我们配置了 [urlManager](https://www.yiiframework.com/doc/guide/topics.url) 组件，设置其 `urlFormat` 属性为 `path` 并添加了一系列 `rules` （规则）。
 
-`urlManager` 通过这些规则解析并创建目标格式的URL。例如，第二条规则指明：如果一个 URL  `/index.php/posts/yii` 被请求， `urlManager` 组件就应负责调度此请求到 [路由（route）](http://www.yiiframework.com/doc/guide/basics.controller#route) `post/index` 并创建一个值为 `yii` 的 GET 参数 `tag` 。从另一个角度来说，当使用路由 `post/index` 和 `tag` 参数生成URL时，`urlManager` 组件将同样使用此规则生成目标 URL  `/index.php/posts/yii`。鉴于此，我们说 `urlManager` 是一个双向的 URL 管理器。
+`urlManager` 通过这些规则解析并创建目标格式的URL。例如，第二条规则指明：如果一个 URL  `/index.php/posts/yii` 被请求， `urlManager` 组件就应负责调度此请求到 [路由（route）](https://www.yiiframework.com/doc/guide/basics.controller#route) `post/index` 并创建一个值为 `yii` 的 GET 参数 `tag` 。从另一个角度来说，当使用路由 `post/index` 和 `tag` 参数生成URL时，`urlManager` 组件将同样使用此规则生成目标 URL  `/index.php/posts/yii`。鉴于此，我们说 `urlManager` 是一个双向的 URL 管理器。
 
-`urlManager` 组件还可以继续美化我们的URL，例如从URL中隐藏  `index.php` ，在URL的结尾添加 `.html` 等。我们可以通过在应用配置中设置 `urlManager` 的各种属性实现这些功能。更多详情，请参考 [指南](http://www.yiiframework.com/doc/guide/topics.url).
+`urlManager` 组件还可以继续美化我们的URL，例如从URL中隐藏  `index.php` ，在URL的结尾添加 `.html` 等。我们可以通过在应用配置中设置 `urlManager` 的各种属性实现这些功能。更多详情，请参考 [指南](https://www.yiiframework.com/doc/guide/topics.url).
 
 
 <div class="revision">$Id: final.url.txt 2240 2010-07-03 18:06:11Z alexander.makarow $</div>

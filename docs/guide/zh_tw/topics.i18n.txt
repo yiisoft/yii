@@ -29,7 +29,7 @@ Yii 在若干方面提供了對 I18N 的支援
 取得相應的  [CLocale] 實體。
 
 > Info|訊息: Yii 包含幾乎所有語言和區域的區域化資料。
-這些資料來自於 [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR)。在每個區域中，
+這些資料來自於 [Common Locale Data Repository](https://unicode.org/cldr/) (CLDR)。在每個區域中，
 只提供了 CLDR 中的部分資料，因為原始的 CLDR 資料中包含了大量不太常用的訊息。從版本 1.1.0 起，
 使用者也可以使用他們自定義的區域資料。只需要配置 [CApplication::localeDataPath] 屬性為包含了自定義區域資料的目錄即可。
 請參考位於 `framework/i18n/data` 目錄中的檔案建立自定義的區域資料檔案。
@@ -92,7 +92,7 @@ Yii 含有如下幾種訊息來源。你也可以擴充
 針對同一種語言的 PHP 翻譯檔案儲存在同一個以區域 ID 命名的目錄中。而所有的這些目錄位於
 [basePath|CPhpMessageSource::basePath] 指定的目錄中。
 
-   - [CGettextMessageSource]: 訊息的翻譯儲存在 [GNU Gettext](http://www.gnu.org/software/gettext/) 檔案中。
+   - [CGettextMessageSource]: 訊息的翻譯儲存在 [GNU Gettext](https://www.gnu.org/software/gettext/) 檔案中。
 
    - [CDbMessageSource]: 訊息的翻譯儲存在資料庫的表中。更多細節，請查看 [CDbMessageSource] 的 API 檔案。
 

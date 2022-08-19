@@ -3,9 +3,9 @@
  * CJuiSlider class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 Yii::import('zii.widgets.jui.CJuiWidget');
@@ -13,7 +13,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 /**
  * CJuiSlider displays a slider.
  *
- * CJuiSlider encapsulates the {@link http://jqueryui.com/slider/ JUI
+ * CJuiSlider encapsulates the {@link https://jqueryui.com/slider/ JUI
  * slider} plugin.
  *
  * To use this widget, you may insert the following code in a view:
@@ -33,9 +33,9 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI slider plugin. Please refer to
- * the {@link http://api.jqueryui.com/slider/ JUI Slider API} documentation
+ * the {@link https://api.jqueryui.com/slider/ JUI Slider API} documentation
  * for possible options (name-value pairs) and
- * {@link http://jqueryui.com/slider/ JUI Slider page} for general
+ * {@link https://jqueryui.com/slider/ JUI Slider page} for general
  * description and demo.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>

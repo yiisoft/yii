@@ -208,7 +208,7 @@ Wenn Konsolenbefehle automatisch, zum Beispiel per Cronjob oder mit einem Contin
 ist es immer interessant zu wissen, ob der Befehl erfolgreich ausgeführt wurde, oder ob Fehler aufgetreten sind.
 Dies kann unter anderem am sogenannten "Exit Code" erkannt werden, den eine Anwendung zurückgibt, wenn sie beendet wird.
 
-Dieser "Exit Code" ist ein Integer Wert zwischen 0 und 254 (zumindest im Fall von [PHP](http://www.php.net/manual/de/function.exit.php)),
+Dieser "Exit Code" ist ein Integer Wert zwischen 0 und 254 (zumindest im Fall von [PHP](https://www.php.net/manual/de/function.exit.php)),
 wobei 0 zurückgegeben wird, wenn der Befehl erfolgreich war und alle anderen Werte einen Fehler anzeigen.
 
 Ein Konsolenbefehl kann mit einem "Exit Code" beendet werden, indem man in einer action-Methode oder

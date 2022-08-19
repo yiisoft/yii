@@ -4,7 +4,10 @@
 Version 1.1.26 under development
 --------------------------------
 
+- Enh #4386: Added support for PHP 8.1 (marcovtwout, JonathanArgentao)
+- Enh #4386: Updated HTMLPurifier to version 4.14.0-master-1dd3e52 for PHP 8.1 support (https://github.com/ezyang/htmlpurifier/blob/v4.14.0/NEWS) (marcovtwout)
 - Enh #4392: Added support for SSL to CRedisCache (andres101)
+- Bug #4453: Alpine Linux compatibility: Avoid using `GLOB_BRACE` in `CFileHelper::removeDirectory` (ivany4)
 
 Version 1.1.25 December 13, 2021
 --------------------------------
@@ -225,7 +228,7 @@ Version 1.1.16 December 21, 2014
 - Enh #1372: CDbCommandBuilder::createMultipleInsertCommand() now throws exception if data array is empty (cebe)
 - Enh #1515: Post-JOIN operations (use|force|ignore index()) support in relational queries (KonovalovMaxim, resurtm)
 - Enh #1593: Allow access to exception currently processed by CErrorHandler (klimov-paul)
-- Enh #1893: Added Schema and native connection support for the CUBRID DBMS (http://www.cubrid.org/) (kadishmal)
+- Enh #1893: Added Schema and native connection support for the CUBRID DBMS (https://www.cubrid.org/) (kadishmal)
 - Enh #2119: add `y` pattern to CDateTimeParser (mrpelle)
 - Enh #2540: Enable CJSON to use JsonSerializable interface when serializing objects (sammousa)
 - Enh #2630: CLinkPager $nextPageLabel, $prevPageLabel, $firstPageLabel and $lastPageLabel can now be false to disable the buttons (index0h)
@@ -558,7 +561,7 @@ Version 1.1.13 December 30, 2012
 - Chg: MSSQL unit tests updated and actualized, added SQLSRV driver support (resurtm)
 - Chg: Added Oracle unit tests (resurtm)
 - Chg: Updated CHttpCacheFilter to use dates as specified by RFC 1123 (bramp)
-- Chg: Added punycode.js v1.1.1 (http://mths.be/punycode) and IDNA Converter v0.8.0 (http://phlymail.com/en/downloads/idna-convert.html) to the vendors (third party libraries and utilities) (resurtm)
+- Chg: Added punycode.js v1.1.1 (https://mths.be/punycode) and IDNA Converter v0.8.0 (http://phlymail.com/en/downloads/idna-convert.html) to the vendors (third party libraries and utilities) (resurtm)
 - New: Ported offline documentation viewer from yiidoc project. Mainly usable for translations but can be used for reading offline as well (samdark)
 
 Version 1.1.12 August 19, 2012

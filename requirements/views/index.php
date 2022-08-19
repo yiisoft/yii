@@ -18,7 +18,7 @@
 <h2>Description</h2>
 <p>
 This script checks if your server configuration meets the requirements
-for running <a href="http://www.yiiframework.com/">Yii</a> Web applications.
+for running <a href="https://www.yiiframework.com/">Yii</a> Web applications.
 It checks if the server is running the right version of PHP,
 if appropriate PHP extensions have been loaded, and if php.ini file settings are correct.
 </p>

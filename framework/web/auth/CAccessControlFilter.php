@@ -3,9 +3,9 @@
  * CAccessControlFilter class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -52,7 +52,7 @@
  *   // optional, a PHP expression whose value indicates whether this rule applies
  *   // The PHP expression will be evaluated using {@link evaluateExpression}.
  *   // A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
- *   // please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+ *   // please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
  *   'expression'=>'!$user->isGuest && $user->level==2',
  * 
  *   // optional, the customized error message to be displayed
@@ -243,7 +243,7 @@ class CAccessRule extends CComponent
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
-	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+	 * please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $expression;
 	/**
@@ -257,7 +257,7 @@ class CAccessRule extends CComponent
 	 * access is denied. It replaces the behavior that shows an error message.
 	 * It can be a valid PHP callback including class method name (array(ClassName/Object, MethodName)),
 	 * or anonymous function (PHP 5.3.0+). For more information, on different options, check
-	 * @link http://www.php.net/manual/en/language.pseudo-types.php#language.types.callback
+	 * @link https://www.php.net/manual/en/language.pseudo-types.php#language.types.callback
 	 * The function/method signature should be as follows:
 	 * <pre>
 	 * function foo($rule) { ... }

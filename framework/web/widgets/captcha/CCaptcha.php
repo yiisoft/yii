@@ -3,15 +3,15 @@
  * CCaptcha class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
  * CCaptcha renders a CAPTCHA image element.
  *
- * CCaptcha is used together with {@link CCaptchaAction} to provide {@link http://en.wikipedia.org/wiki/Captcha CAPTCHA}
+ * CCaptcha is used together with {@link CCaptchaAction} to provide {@link https://en.wikipedia.org/wiki/Captcha CAPTCHA}
  * - a way of preventing site spam.
  *
  * The image element rendered by CCaptcha will display a CAPTCHA image generated

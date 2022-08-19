@@ -3,9 +3,9 @@
  * CTimestamp class file.
  *
  * @author Wei Zhuo <weizhuo[at]gamil[dot]com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -22,7 +22,7 @@
  * of 1901-2038 on Unix and1970-2038 on Windows. Except {@link getTimestamp},
  * all other methods in this class can work with the extended timestamp range.
  * For {@link getTimestamp}, because it is merely a wrapper of
- * {@link mktime http://php.net/manual/en/function.mktime.php}, it may still
+ * {@link mktime https://php.net/manual/en/function.mktime.php}, it may still
  * be subject to the limit of timestamp range on certain platforms. Please refer
  * to the PHP manual for more information.
  *
@@ -357,7 +357,7 @@ class CTimestamp
 
 	/**
 	 * Generates a timestamp.
-	 * This is the same as the PHP function {@link mktime http://php.net/manual/en/function.mktime.php}.
+	 * This is the same as the PHP function {@link mktime https://php.net/manual/en/function.mktime.php}.
 	 * @param integer $hr hour
 	 * @param integer $min minute
 	 * @param integer $sec second

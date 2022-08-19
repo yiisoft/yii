@@ -298,7 +298,7 @@ web serwera oraz komponentu aplikacji [urlManager|CWebApplication::urlManager].
 
 Po pierwsze musimy skonfigurować web serwer tak, by adres URL pozbawiony
 skryptu wejściowego mógł być zawsze obsługiwany z uwzględnieniem skryptu.
-W przypadku [serwera HTTP Apache](http://httpd.apache.org/) może to być zrealizowane poprzez
+W przypadku [serwera HTTP Apache](https://httpd.apache.org/) może to być zrealizowane poprzez
 włączenie tzw. mechanizmu nadpisywania URL (ang. URL rewriting engine)
 i zdefiniowanie kilku reguł nadpisywania. Możemy stworzyć plik `/wwwroot/blog/.htaccess` 
 z następującą zawartością. Zauważ, że ta sama zawartość może zostać umieszczona 

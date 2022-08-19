@@ -76,7 +76,7 @@
 
  * [增加对使用表前缀的支持](/doc/guide/database.dao#using-table-prefix).
 
- * 增加了一个新的扩展集 [Zii library](http://code.google.com/p/zii/).
+ * 增加了一个新的扩展集 [Zii library](https://code.google.com/p/zii/).
 
  * 在一个 AR 查询中主表的别名确定为 `t`
 

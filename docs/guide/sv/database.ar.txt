@@ -75,11 +75,11 @@ bör schemacachning slås på genom att konfigurera
 Stödet för AR beror av använd databashanterare. För närvarande 
 stöds endast följande databashanterare:
 
-   - [MySQL 4.1 eller senare](http://www.mysql.com)
-   - [PostgreSQL 7.3 eller senare](http://www.postgres.com)
-   - [SQLite 2 och 3](http://www.sqlite.org)
-   - [Microsoft SQL Server 2000 eller senare](http://www.microsoft.com/sqlserver/)
-   - [Oracle](http://www.oracle.com)
+   - [MySQL 4.1 eller senare](https://www.mysql.com)
+   - [PostgreSQL 7.3 eller senare](https://www.postgres.com)
+   - [SQLite 2 och 3](https://www.sqlite.org)
+   - [Microsoft SQL Server 2000 eller senare](https://www.microsoft.com/sqlserver/)
+   - [Oracle](https://www.oracle.com)
 
 Vid önskemål om att använda en annan applikationskomponent än `db`, eller om att 
 använda AR till att arbeta mot flera databaser, åsidosätt 

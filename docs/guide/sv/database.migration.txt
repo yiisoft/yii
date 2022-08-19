@@ -196,7 +196,7 @@ säkerställa att databasen förblir i ett gott skick.
 
 > Note|Märk: Transaktioner stöds inte av alla databashanterare. Vissa DB-frågor kan inte ingå i en 
 > transaktion. I sådant fall måste i stället `up()` och `down()` implementeras. 
-> I fråga om MySQL, kan vissa SQL-satser leda till en [underförstådd commit-operation](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
+> I fråga om MySQL, kan vissa SQL-satser leda till en [underförstådd commit-operation](https://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
 
 
 Applicera migreringar

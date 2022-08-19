@@ -6,7 +6,7 @@ Con el modelo `Post` listo, necesitamos afinar las acciones y vistas para el con
 Personalizando el Control de Acceso
 -----------------------------------
 
-Lo primero que vamos a querer personalizar es el [control de acceso](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) porque el código generado por `gii` no se adapta a nuestras necesidades.
+Lo primero que vamos a querer personalizar es el [control de acceso](https://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) porque el código generado por `gii` no se adapta a nuestras necesidades.
 
 Modificamos el método `accessRules()` en el archivo `/wwwroot/blog/protected/controllers/PostController.php` como sigue,
 

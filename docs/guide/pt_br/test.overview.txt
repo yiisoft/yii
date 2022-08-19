@@ -38,7 +38,7 @@ Desenvolvimento Orientado a Testes
 -----------------------
 
 A seguir mostramos os ciclos de desenvolvimento no assim chamado 
-[desenvolvimento orientado a testes (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
+[desenvolvimento orientado a testes (TDD)](https://en.wikipedia.org/wiki/Test-driven_development):
 
  1. Crie um novo teste que cubra uma funcionalidade que será implementada.
     Espera-se que o teste falhe em sua primeira execução, porque a
@@ -56,8 +56,8 @@ Configuração do Ambiente de Teste
 ----------------------
 
 Os testes suportados fornecidos pelo Yii requerem 
-[PHPUnit](http://www.phpunit.de/) 3.5+ e
-[Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
+[PHPUnit](https://www.phpunit.de/) 3.5+ e
+[Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+.
 Por favor, consulte as suas documentações sobre como instalar o PHPUnit e o
 Selenium Remote Control.
 
@@ -94,7 +94,7 @@ os seguintes comandos na janela do console:
 
 O último dos comandos acima executará todos os testes que estão no diretório
 `unit` e gerará um relatório de cobertura de código no diretório `report`.
-Note que a [extensão xdebug](http://www.xdebug.org/) precisa estar instalada e
+Note que a [extensão xdebug](https://www.xdebug.org/) precisa estar instalada e
 ativa para gerar relatórios de cobertura de código.
 
 

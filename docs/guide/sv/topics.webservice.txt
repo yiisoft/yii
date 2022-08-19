@@ -1,26 +1,26 @@
 Web Service
 ===========
 
-[Webbtjänster](http://en.wikipedia.org/wiki/Web_service) (Web Service) är ett 
+[Webbtjänster](https://en.wikipedia.org/wiki/Web_service) (Web Service) är ett
 mjukvarusystem konstruerat för att ge stöd för driftkompatibel (interoperable)
 maskin-till-maskin-interaktion över ett nätverk. I en webbapplikations kontext 
 refererar det vanligen till en uppsättning API:er som kan kommas åt över internet 
 och exekveras på ett fjärrsystem som erbjuder den begärda tjänsten. Till exempel, 
-en [Flex](http://www.adobe.com/products/flex/)-baserad klient kan anropa en 
+en [Flex](https://www.adobe.com/products/flex/)-baserad klient kan anropa en
 funktion implementerad på serversidan av en PHP-based webbapplikation. 
-Webbtjänster förlitar sig på [SOAP](http://en.wikipedia.org/wiki/SOAP) som sitt 
+Webbtjänster förlitar sig på [SOAP](https://en.wikipedia.org/wiki/SOAP) som sitt
 grundläggande lager i kommunikationsprotokollstacken.
 
 Yii tillhandahåller [CWebService] och [CWebServiceAction] för att förenkla 
 arbetet med implementering av webbtjänster i en webbapplikation. API:erna 
 grupperas klasser, kallade *service providers*. Yii genererar för varje klass en 
-[WSDL](http://www.w3.org/TR/wsdl)-specifikation som beskriver vilka API:er som 
+[WSDL](https://www.w3.org/TR/wsdl)-specifikation som beskriver vilka API:er som
 finns tillgängliga och hur de skall anropas av klienterna. När en webbtjänst-API 
 invokeras av en klient, kommer Yii att instantiera motsvarande service provider 
 och anropa den begärda API:n för att fullgöra önskad request.
 
 > Note|Märk: [CWebService] är beroende av  [PHP:s SOAP-
-tillägg](http://www.php.net/manual/en/ref.soap.php). Kontrollera att det är 
+tillägg](https://www.php.net/manual/en/ref.soap.php). Kontrollera att det är
 igång innan exemplen i detta avsnitt provkörs.
 
 Definiera Service Provider
@@ -28,8 +28,8 @@ Definiera Service Provider
 
 Som nämnts ovan, en service provider är en klass som definierar metoderna som 
 kan fjärrinvokeras. Yii förlitar sig på  [doc 
-comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) och [class 
-reflection](http://php.net/manual/en/book.reflection.php) för att 
+comment](https://java.sun.com/j2se/javadoc/writingdoccomments/) och [class
+reflection](https://php.net/manual/en/book.reflection.php) för att
 identifiera vilka metoder som kan fjärrinvokeras och vilka deras parametrar och 
 returvärden är.
 

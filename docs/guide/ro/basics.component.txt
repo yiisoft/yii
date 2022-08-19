@@ -109,7 +109,7 @@ Daca un handler decide sa intrerupa invocarea hadler-elor urmatoare, poate sa se
 Behaviour
 ---------
 
-Incepand cu versiunea 1.0.2, o componenta are adaugat suport pentru [mixin](http://en.wikipedia.org/wiki/Mixin)
+Incepand cu versiunea 1.0.2, o componenta are adaugat suport pentru [mixin](https://en.wikipedia.org/wiki/Mixin)
 si ii poate fi atasata un behavior (=comportament), sau mai multe behaviours. Un *behaviour* este un obiect
 ale carui metode pot fi 'mostenite' de catre componenta atasata in scopul de a castiga functionalitate noua
 in loc de specializare (mostenirea normala de clase).

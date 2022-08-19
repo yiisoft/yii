@@ -7,13 +7,13 @@ Podczas używania zewnętrznych bibliotek w projekcie, deweloperzy często spoty
 się z problemami związanymi z nazywaniem klas oraz z dołączaniem plików. 
 Ponieważ wszystkie klasy Yii są poprzedzone literą `C`, zachodzi mniejsze prawdopodobieństwo, 
 że wystąpi problem z nazewnictwem klas. Aby załączyć plik Yii korzysta z 
-[SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php)
+[SPL autoload](https://us3.php.net/manual/en/function.spl-autoload.php)
 co powoduje iż może ono dobrze współdziałać z innymi bibliotekami, jeśli
 używają one SPL autoload lub PHP include do dołączania plików klas.
 
 Poniższy przykład zilustruje nam w jaki sposób możemy użyć komponentu 
-[Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-pochodzącego z [frameworku Zend ](http://www.zendframework.com) w aplikacji Yii.
+[Zend_Search_Lucene](https://www.zendframework.com/manual/en/zend.search.lucene.html)
+pochodzącego z [frameworku Zend ](https://www.zendframework.com) w aplikacji Yii.
 
 Po pierwsze, rozpakowujemy plik z wydaniem frameworku Zend do katalogu `protected/vendors`, 
 przy założeniu, że `protected` jest [głównym folderem aplikacji](/doc/guide/basics.application#application-base-directory).

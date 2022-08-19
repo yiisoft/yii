@@ -4,7 +4,7 @@ Using Extensions
 Using an extension usually involves the following three steps:
 
   1. Download the extension from Yii's
-     [extension repository](http://www.yiiframework.com/extensions/).
+     [extension repository](https://www.yiiframework.com/extensions/).
   2. Unpack the extension under the `extensions/xyz` subdirectory of
      [application base directory](/doc/guide/basics.application#application-base-directory),
      where `xyz` is the name of the extension.

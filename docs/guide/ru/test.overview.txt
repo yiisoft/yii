@@ -26,7 +26,7 @@
 Разработка через тестирование
 -----------------------------
 
-Ниже приведён цикл [разработки через тестирование (TDD)](http://ru.wikipedia.org/wiki/Test-Driven_Development):
+Ниже приведён цикл [разработки через тестирование (TDD)](https://ru.wikipedia.org/wiki/Test-Driven_Development):
 
  1. Создаём новый тест, описывающий функциональность планируемой возможности. Тест должен при первом запуске
  завершиться неудачей, так как сама возможность ещё не реализована.
@@ -41,8 +41,8 @@
 Настройка тестового окружения
 -----------------------------
 
-Тестирование в Yii требует установленного [PHPUnit](http://www.phpunit.de/) 3.5+ и
-[Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
+Тестирование в Yii требует установленного [PHPUnit](https://www.phpunit.de/) 3.5+ и
+[Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+.
 Как устанавливать PHPUnit и Selenium Remote Control вы можете прочитать в их
 документации.
 
@@ -78,7 +78,7 @@ testdrive/
 
 Последняя команда выполнит все тесты в директории `unit` и создаст отчёт о покрытии кода в
 директории `report`. Стоит отметить, что для отчётов требуется установленное
-[расширение xdebug](http://www.xdebug.org/).
+[расширение xdebug](https://www.xdebug.org/).
 
 
 Загрузчик тестов

@@ -20,7 +20,7 @@ RewriteRule . index.php
 Nginx
 -----
 
-Anda dapat menggunakan Yii dengan [Nginx](http://wiki.nginx.org/) dan PHP dengan [FPM SAPI](http://php.net/install.fpm).
+Anda dapat menggunakan Yii dengan [Nginx](https://wiki.nginx.org/) dan PHP dengan [FPM SAPI](https://php.net/install.fpm).
 Berikut ini merupakan contoh konfigurasi host. File ini mendefinisikan file bootstrap dan membuat Yii menangkap semua request ke file yang tidak ada, sehingga memungkinkan kita untuk memiliki URL yang cantik.
 
 ~~~

@@ -121,7 +121,7 @@ bisa dilakukan dengan menyetel [$event->handled|CEvent::handled] menjadi true.
 Behavior Komponen
 -----------------
 
-Komponen mendukung pattern [mixin](http://en.wikipedia.org/wiki/Mixin)
+Komponen mendukung pattern [mixin](https://en.wikipedia.org/wiki/Mixin)
 dan dapat dilampirkan dengan satu atau beberapa behavior. Sebuah *behavior(perilaku)* adalah objek
 yang metodenya bisa 'inherited' (diturunkan) dengan komponen lampirannya dalam arti pengumpulan
 fungsionalitas alih-alih spesialisasi (misal, penurunan kelas normal).

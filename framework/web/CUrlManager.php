@@ -3,9 +3,9 @@
  * CUrlManager class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -439,7 +439,7 @@ class CUrlManager extends CApplicationComponent
 			if (is_array($v))
 				$pairs[]=$this->createPathInfo($v,$equal,$ampersand, $k);
 			else
-				$pairs[]=urlencode($k).$equal.urlencode($v);
+				$pairs[]=urlencode($k).$equal.urlencode((string)$v);
 		}
 		return implode($ampersand,$pairs);
 	}

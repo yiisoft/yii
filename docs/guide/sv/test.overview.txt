@@ -32,7 +32,7 @@ kvalitetssäkringsingenjörer).
 Testdriven utveckling
 ---------------------
 
-Nedan visas utvecklingscykeln inom så kallad [testdriven utveckling (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
+Nedan visas utvecklingscykeln inom så kallad [testdriven utveckling (TDD)](https://en.wikipedia.org/wiki/Test-driven_development):
 
  1. Skapa ett nytt test som täcker en finess som skall implementeras. Testet förväntas gå fel vid dess första körning eftersom finessen ännu inte implementerats.
  2. Kör alla test och kontrollera att det nytillkomna testet går fel.
@@ -46,8 +46,8 @@ Upprepa steg 1 till 5 för att driva implementeringen av funktionalitet framåt.
 Sätta upp testomgivning
 -----------------------
 
-Stödet för testning som Yii erbjuder kräver [PHPUnit](http://www.phpunit.de/) 
-3.5+ samt [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
+Stödet för testning som Yii erbjuder kräver [PHPUnit](https://www.phpunit.de/)
+3.5+ samt [Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+.
 Se deras respektive dokumentation angående installation av PHPUnit och Selenium Remote Control.
 
 När vi använder konsolkommandot `yiic webapp` till att skapa en ny Yii-
@@ -82,7 +82,7 @@ kommandon i ett konsolfönster:
 ~~~
 
 I ovanstående exempel kör det sista kommandot alla tester under katalogen `unit` 
-och skapar en kodtäckningsrapport i katalogen `report`. Märk att [xdebug-tillägget](http://www.xdebug.org/) 
+och skapar en kodtäckningsrapport i katalogen `report`. Märk att [xdebug-tillägget](https://www.xdebug.org/)
 måste vara installerat och aktiverat för att kodtäckningsrapport skall kunna genereras.
 
 

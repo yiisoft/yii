@@ -3,9 +3,9 @@
  * CWsdlGenerator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -106,7 +106,7 @@
  *     ...
  * }
  * </pre>
- * For more on soap indicators, see See {@link http://www.w3schools.com/schema/schema_complex_indicators.asp}.
+ * For more on soap indicators, see See {@link https://www.w3schools.com/schema/schema_complex_indicators.asp}.
  *
  * Since the variability of WSDL definitions is virtually unlimited, a special doc comment tag '@soap-wsdl' can be used in order to inject any custom XML string into generated WSDL file.
  * If such a block of the code is found in class's comment block, then it will be used instead of parsing and generating standard attributes within the class.
@@ -387,7 +387,7 @@ class CWsdlGenerator extends CComponent
 			$comment=preg_replace('/^\s*\**(\s*?$|\s*)/m','',$comment);
 
 			// extract soap indicator flag, if defined, e.g. @soap-indicator sequence
-			// see http://www.w3schools.com/schema/schema_complex_indicators.asp
+			// see https://www.w3schools.com/schema/schema_complex_indicators.asp
 			if(preg_match('/^@soap-indicator\s+(\w+)\s*?(.*)$/im', $comment, $matches))
 			{
 				$indicator=$matches[1];

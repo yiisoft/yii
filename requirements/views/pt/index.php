@@ -18,7 +18,7 @@
 <h2>Descrição</h2>
 <p>
 Este script verifica se as configurações do servidor satisfazem os requisitos 
-para executar aplicações Web que utilizem o <a href="http://www.yiiframework.com/"> Yii </a>. 
+para executar aplicações Web que utilizem o <a href="https://www.yiiframework.com/"> Yii </a>.
 É verificado se o servidor está executando a versão correta do PHP, 
 se as extensões apropriadas do PHP foram carregadas, 
 e se as definições do arquivo php.ini estão corretas.

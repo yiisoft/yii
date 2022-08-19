@@ -62,7 +62,7 @@ $this->breadcrumbs=array(
 
 Usamos [CGridView] para mostrar los posts. Nos permite ordenar por columna y paginar a través de los posts si es que hay muchos para ser mostrados en una página sola. Nuestro cambio principalmente acerca de cómo mostrar cada columna. Por ejemplo, para la columna `title`, especificamos que debería ser mostrada con un hipervínculo que apunte a la vista detallada de un post. La expresión `$data->url` retorna el valor de la propiedad `url` que definimos en la clase `Post`.
 
-> Tip|Consejo: Cuando se muestra texto, llamamos a [CHtml::encode()] para codificar entidades HTML en él. Esto previene de ataques del tipo [cross-site scripting](http://www.yiiframework.com/doc/guide/topics.security).
+> Tip|Consejo: Cuando se muestra texto, llamamos a [CHtml::encode()] para codificar entidades HTML en él. Esto previene de ataques del tipo [cross-site scripting](https://www.yiiframework.com/doc/guide/topics.security).
 
 
 Borrando Posts

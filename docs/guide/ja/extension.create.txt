@@ -87,7 +87,7 @@ class MyTabView extends CTabView
 
 ゼロから新しいウィジェットを作製するためには、主に [CWidget::init] と [CWidget::run] の二つのメソッドを実装する必要があります。
 ウィジェットをビューに挿入するために `$this->beginWidget` を使うときに、第一のメソッドが呼ばれ、`$this->endWidget` を呼ぶときに、第二のメソッドが呼ばれます。
-これらの二つのメソッドの間で表示される内容を捕えて処理したい場合には、[CWidget::init] の中で [出力バッファリング](http://us3.php.net/manual/en/book.outcontrol.php) を開始し、[CWidget::run] の中でバッファされた出力を取り出して追加の処理を行います。
+これらの二つのメソッドの間で表示される内容を捕えて処理したい場合には、[CWidget::init] の中で [出力バッファリング](https://us3.php.net/manual/en/book.outcontrol.php) を開始し、[CWidget::run] の中でバッファされた出力を取り出して追加の処理を行います。
 
 ウィジェットは、しばしば、CSS, JavaScript または他のリソースファイルをウィジェットを使うページに含むことが必要です。
 これらのファイルはウィジェットクラスファイルと共にいて、通常はウェブユーザからアクセスできないので、**アセット (資産)** と呼ばれます。

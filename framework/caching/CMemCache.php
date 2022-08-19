@@ -3,13 +3,13 @@
  * CMemCache class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
- * CMemCache implements a cache application component based on {@link http://memcached.org/ memcached}.
+ * CMemCache implements a cache application component based on {@link https://memcached.org/ memcached}.
  *
  * CMemCache can be configured with a list of memcache servers by settings
  * its {@link setServers servers} property. By default, CMemCache assumes
@@ -45,10 +45,10 @@
  * In the above, two memcache servers are used: server1 and server2.
  * You can configure more properties of every server, including:
  * host, port, persistent, weight, timeout, retryInterval, status.
- * See {@link http://www.php.net/manual/en/function.memcache-addserver.php}
+ * See {@link https://www.php.net/manual/en/function.memcache-addserver.php}
  * for more details.
  *
- * CMemCache can also be used with {@link http://pecl.php.net/package/memcached memcached}.
+ * CMemCache can also be used with {@link https://pecl.php.net/package/memcached memcached}.
  * To do so, set {@link useMemcached} to be true.
  *
  * @property mixed $memCache The memcache instance (or memcached if {@link useMemcached} is true) used by this component.
@@ -62,8 +62,8 @@ class CMemCache extends CCache
 {
 	/**
 	 * @var boolean whether to use memcached or memcache as the underlying caching extension.
-	 * If true {@link http://pecl.php.net/package/memcached memcached} will be used.
-	 * If false {@link http://pecl.php.net/package/memcache memcache}. will be used.
+	 * If true {@link https://pecl.php.net/package/memcached memcached} will be used.
+	 * If false {@link https://pecl.php.net/package/memcache memcache}. will be used.
 	 * Defaults to false.
 	 */
 	public $useMemcached=false;
@@ -130,7 +130,7 @@ class CMemCache extends CCache
 	/**
 	 * @param array $config list of memcache server configurations. Each element must be an array
 	 * with the following keys: host, port, persistent, weight, timeout, retryInterval, status.
-	 * @see http://www.php.net/manual/en/function.Memcache-addServer.php
+	 * @see https://www.php.net/manual/en/function.Memcache-addServer.php
 	 */
 	public function setServers($config)
 	{
@@ -242,7 +242,7 @@ class CMemCache extends CCache
 /**
  * CMemCacheServerConfiguration represents the configuration data for a single memcache server.
  *
- * See {@link http://www.php.net/manual/en/function.Memcache-addServer.php}
+ * See {@link https://www.php.net/manual/en/function.Memcache-addServer.php}
  * for detailed explanation of each configuration property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>

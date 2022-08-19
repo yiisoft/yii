@@ -1,4 +1,4 @@
-/*! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
+/*! Copyright (c) 2013 Brandon Aaron (https://brandon.aaron.sh)
  * Licensed under the MIT License (LICENSE.txt).
  *
  * Version 3.0.1

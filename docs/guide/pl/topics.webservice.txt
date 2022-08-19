@@ -1,26 +1,26 @@
 Web Service
 ===========
 
-[Web service](http://en.wikipedia.org/wiki/Web_service) jest opartym o sieć
+[Web service](https://en.wikipedia.org/wiki/Web_service) jest opartym o sieć
 systemem informatycznym zaprojektowanym do wspierania wzajemnej interakcji
 maszyna-maszyna. W kontekście aplikacji webowej termin odnosi się do zbioru
 funkcji API, które są dostępne poprzez Internet i wykonywane są w zdalnym
 systemie utrzymującym udostępnianą usługę. Przykładowo: klient oparty
-o [Flex](http://www.adobe.com/products/flex/) może wywoływać funkcje zaimplementowane
+o [Flex](https://www.adobe.com/products/flex/) może wywoływać funkcje zaimplementowane
 na serwerze utrzymującym aplikację opartą o PHP. Web service opiera się
-o [SOAP](http://en.wikipedia.org/wiki/SOAP), jako podstawową warstwę stosu
+o [SOAP](https://en.wikipedia.org/wiki/SOAP), jako podstawową warstwę stosu
 protokołu komunikacyjnego.
 
 Yii dostarcza klas [CWebService] i [CWebServiceAction] dla uproszczenia pracy
 związanej z implementacją Web service'u w aplikacji webowej. Poszczególne
 API pogrupowane są w klasy, zwane *dostawcami usług*. Dla każej z tych klas
-Yii generuje specyfikację [WSDL](http://www.w3.org/TR/wsdl) określającą,
+Yii generuje specyfikację [WSDL](https://www.w3.org/TR/wsdl) określającą,
 jakie funkcje API są dostępne i jak powinny być wywoływane przez klienta.
 W momencie gdy funkcja API jest wywoływana przez klienta, Yii tworzy instancję
 odpowiedniego dostawcy usługi i wywołuje potrzebne API, aby zrealizować żądanie.
 
 > Uwaga: [CWebService] opiera się o [rozszerzenie PHP SOAP]
-(http://www.php.net/manual/en/ref.soap.php). Upewnij się,
+(https://www.php.net/manual/en/ref.soap.php). Upewnij się,
 że je włączyłeś zanim wypróbujesz przykłady zawarte w tej części.
 
 Definiowanie dostawcy usługi
@@ -28,8 +28,8 @@ Definiowanie dostawcy usługi
 
 Jak wcześniej mówiliśmy, dostawca usługi jest klasą udostępniającą metody,
 które mogą być wywoływane zdalnie. Yii opiera się na [komentarzach dla potrzeb
-dokumentacji - tzw. doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/)
-i na [introspekcjach klas](http://php.net/manual/en/book.reflection.php)
+dokumentacji - tzw. doc comment](https://java.sun.com/j2se/javadoc/writingdoccomments/)
+i na [introspekcjach klas](https://php.net/manual/en/book.reflection.php)
 w celu identyfikacji, która z metod może być zdalnie wywoływana oraz jakie są
 jej parametry i zwracana wartość.
 

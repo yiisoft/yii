@@ -7,7 +7,7 @@ dapat diubah ke yang lain yang berbeda tanpa memerlukan perubahan kode
 yang menggunakan DAO untuk mengakses data.
 
 Yii DAO dibangun di atas [PHP Data Objects
-(PDO)](http://php.net/manual/en/book.pdo.php) yang merupakan extension
+(PDO)](https://php.net/manual/en/book.pdo.php) yang merupakan extension
 yang menyediakan akses data gabungan untuk beberapa DBMS populer, seperti MySQL,
 PostgreSQL. Oleh karena itu, untuk menggunakan Yii DAO, extension PDO dan driver database
 PDO tertentu (misalnya `PDO_MYSQL`) harus sudah terinstal.
@@ -44,7 +44,7 @@ $connection->active=false;  // tutup koneksi
 Format DSN tergantung pada driver PDO database yang digunakan. Secara umum, DSN
 terdiri dari nama driver PDO, diikuti oleh titik dua, diikuti oleh
 sintaks koneksi spesifik-driver. Lihat [Dokumentasi
-PDO](http://www.php.net/manual/en/pdo.construct.php) untuk informasi
+PDO](https://www.php.net/manual/en/pdo.construct.php) untuk informasi
 lebih lengkap. Di bawah ini adalah daftar format DSN yang umum dipakai:
 
    - SQLite: `sqlite:/path/to/dbfile`
@@ -183,7 +183,7 @@ Mengikat Parameter
 ------------------
 
 Untuk menghindari [serangan injeksi
-SQL](http://en.wikipedia.org/wiki/SQL_injection) dan meningkatkan
+SQL](https://en.wikipedia.org/wiki/SQL_injection) dan meningkatkan
 kinerja pelaksanaan pernyataan SQL secara terus menerus, Anda dapat "menyiapkan"
 sebuah pernyataan SQL dengan opsional penampung parameter yang akan
 diganti dengan parameter sebenarnya selama proses pengikatan parameter.
@@ -218,7 +218,7 @@ bindValue dengan nilai. Untuk parameter yang mewakili memori blok besar data,
 bindParam dipilih dengan pertimbangan kinerja.
 
 Untuk lebih jelasnya mengenai pengikatan parameter, lihat [dokumentasi PHP
-relevan](http://www.php.net/manual/en/pdostatement.bindparam.php).
+relevan](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Mengikat Kolom
 --------------

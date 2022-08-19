@@ -7,7 +7,7 @@ Zbliżamy się do zakończenia prac nad naszym blogiem. Zanim go wdrożymy chcie
 Zmiana strony domowej
 ------------------
 
-Ustawimy stronę wyświetlająca listę wiadomości jako stronę domową. W tym celu zmienimy [konfigurację aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) w następujący sposób,
+Ustawimy stronę wyświetlająca listę wiadomości jako stronę domową. W tym celu zmienimy [konfigurację aplikacji](https://www.yiiframework.com/doc/guide/basics.application#application-configuration) w następujący sposób,
 
 ~~~
 [php]

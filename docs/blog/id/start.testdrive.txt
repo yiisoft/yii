@@ -7,7 +7,7 @@ Dalam bagian ini, akan dijelaskan bagaimana membuat sebuah aplikasi kerangka yan
 Melakukan Instalasi Yii
 --------------
 
-Pertama-tama kita melakukan instalasi framework Yii terlebih dahulu. Dapatkan sebuah copy file rilis Yii (versi 1.1.1 ke atas) dari [www.yiiframework.com](http://www.yiiframework.com/download) dan keluarkan filenya dari zip ke direktori `/wwwroot/yii`. Pastikan lagi bahwa terdapat sebuah direktori `/wwwroot/yii/framework`.
+Pertama-tama kita melakukan instalasi framework Yii terlebih dahulu. Dapatkan sebuah copy file rilis Yii (versi 1.1.1 ke atas) dari [www.yiiframework.com](https://www.yiiframework.com/download) dan keluarkan filenya dari zip ke direktori `/wwwroot/yii`. Pastikan lagi bahwa terdapat sebuah direktori `/wwwroot/yii/framework`.
 
 >Tip|Tips: Framework Yii dapat diinstalasi di mana saja dalam sistem file, tidak harus di folder Web. Direktori `framework`-nya mengandung seluruh kode framework dan hanya direktori framework yang diperlukan ketika melakukan pemasangan aplikasi Yii. Sebuah instalasi Yii tunggal dapat digunakan lebih dari satu aplikasi Yii.
 
@@ -39,7 +39,7 @@ Berikut ini, kita akan menjelaskan secara singkat apa saja yang berada di dalam 
 
 ###Skrip Entri
 
-Kita memiliki sebuah [skrip entri](http://www.yiiframework.com/doc/guide/basics.entry) yakni file `/wwwroot/blog/indexphp` yang berisi :
+Kita memiliki sebuah [skrip entri](https://www.yiiframework.com/doc/guide/basics.entry) yakni file `/wwwroot/blog/indexphp` yang berisi :
 
 ~~~
 [php]
@@ -54,12 +54,12 @@ require_once($yii);
 Yii::createWebApplication($config)->run();
 ~~~
 
-Ini merupakan skrip yang dapat diakses langsung oleh pengguna Web. Skrip file menyertakan file bootstrap Yii `yii.php`. Skrip entri membuat sebuah instance [aplikasi](http://www.yiiframework.com/doc/guide/basics.application) beserta konfigurasi tertentu dan menjalankannya.
+Ini merupakan skrip yang dapat diakses langsung oleh pengguna Web. Skrip file menyertakan file bootstrap Yii `yii.php`. Skrip entri membuat sebuah instance [aplikasi](https://www.yiiframework.com/doc/guide/basics.application) beserta konfigurasi tertentu dan menjalankannya.
 
 
 ###Direktori Aplikasi Dasar
 
-Kita juga memilik sebuah [direktori dasar aplikasi](http://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. Pada umumnya kode dan data kita akan diletakkan dalam direktori ini, dan harus terlindungi dari Web user yang ingin mengaksesnya. Untuk [Apache httpd Web server](http://httpd.apache.org/), kita meletakkan sebuah file `.htaccess` direktori dengan isinya:
+Kita juga memilik sebuah [direktori dasar aplikasi](https://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. Pada umumnya kode dan data kita akan diletakkan dalam direktori ini, dan harus terlindungi dari Web user yang ingin mengaksesnya. Untuk [Apache httpd Web server](https://httpd.apache.org/), kita meletakkan sebuah file `.htaccess` direktori dengan isinya:
 
 ~~~
 deny from all
@@ -74,12 +74,12 @@ Alur Kerja Aplikasi
 Untuk membantu memahami cara kerja Yii, akan dijelaskan alur kerja utama aplikasi kerangka kita ketika seorang pengguna mengakses halaman contact:
 
  0. Pengguna me-request URL `http://www.example.com/blog/index.php?r=site/contact`;
- 1. [Skrip entri](http://www.yiiframework.com/doc/guide/basics.entry) dieksekusi oleh server Web untuk memproses request;
- 2. Sebuah instance [aplikasi](http://www.yiiframework.com/doc/guide/basics.application) dibuat dan dikonfigurasi dengan nilai properti awal yang ditentukan di dalam file konfigurasi `wwwroot/blog/protected/config/main.php`;
- 3. Aplikasi tersebut menguraikan request ke sebuah [controller](http://www.yiiframework.com/doc/guide/basics.controller) dan sebuah [action controller](http://www.yiiframework.com/doc/guide/basics.controller#action). Untuk request halaman contact, diuraikan sebagai controller `site` dan action `contact` (metode `actionContact` di `/wwwroot/blog/protected/controllers/SiteController.php`);
+ 1. [Skrip entri](https://www.yiiframework.com/doc/guide/basics.entry) dieksekusi oleh server Web untuk memproses request;
+ 2. Sebuah instance [aplikasi](https://www.yiiframework.com/doc/guide/basics.application) dibuat dan dikonfigurasi dengan nilai properti awal yang ditentukan di dalam file konfigurasi `wwwroot/blog/protected/config/main.php`;
+ 3. Aplikasi tersebut menguraikan request ke sebuah [controller](https://www.yiiframework.com/doc/guide/basics.controller) dan sebuah [action controller](https://www.yiiframework.com/doc/guide/basics.controller#action). Untuk request halaman contact, diuraikan sebagai controller `site` dan action `contact` (metode `actionContact` di `/wwwroot/blog/protected/controllers/SiteController.php`);
  4. Aplikasi tersebut membuat controller `site` dalam istilah instance `SiteController` dan menjalankannya;
  5. Instance dari `SiteController` menjalankan action `contact` dengan memanggil metode `actionContact()`;
- 6. Metode `actionContact` merender sebuah [view](http://www.yiiframework.com/doc/guide/basics.view) bernama `contact` kepada pengguna Web. Secara internal, ini dapat dicapai dengan menyertakan file view `/wwwroot/blog/protected/views/site/contact.php` dan menempelkan hasilnya ke dalam [layout](http://www.yiiframework.com/doc/guide/basics.view#layout) file `/wwwroot/blog/protected/views/layouts/column1.php`.
+ 6. Metode `actionContact` merender sebuah [view](https://www.yiiframework.com/doc/guide/basics.view) bernama `contact` kepada pengguna Web. Secara internal, ini dapat dicapai dengan menyertakan file view `/wwwroot/blog/protected/views/site/contact.php` dan menempelkan hasilnya ke dalam [layout](https://www.yiiframework.com/doc/guide/basics.view#layout) file `/wwwroot/blog/protected/views/layouts/column1.php`.
 
 
 <div class="revision">$Id: start.testdrive.txt 1734 2010-01-21 18:41:17Z qiang.xue $</div>

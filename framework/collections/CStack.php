@@ -3,9 +3,9 @@
  * This file contains classes implementing the stack feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -146,6 +146,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	 * This method is required by the interface IteratorAggregate.
 	 * @return Iterator an iterator for traversing the items in the stack.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new CStackIterator($this->_d);
@@ -165,6 +166,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the stack.
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->getCount();

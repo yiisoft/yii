@@ -21,7 +21,7 @@ return array (
   '$_SERVER variable' => 'variable de $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] debe ser igual a la ruta del script de entrada',
   'APC extension' => 'Extensión APC',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Todas las <a href="http://www.yiiframework.com/doc/api/#system.db">clases relacionadas con DB</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Todas las <a href="https://www.yiiframework.com/doc/api/#system.db">clases relacionadas con DB</a>',
   'Ctype extension' => 'Extensión Ctype',
   'DOM extension' => 'Extensión DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] o $_SERVER["QUERY_STRING"] deben existir.',
@@ -54,6 +54,6 @@ return array (
   'Required for SQLite database.' => 'Requerida para base de datos SQLite',
   'SOAP extension' => 'Extensión SOAP',
   'SPL extension' => 'Extensión SPL',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Para usar memcached asigna <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> a <code>true</code>.',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Para usar memcached asigna <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> a <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'No es posible determinar la ruta de información del URL. Por favor asegúrese que $_SERVER["PATH_INFO"] o ($_SERVER["PHP_SELF"] y $_SERVER["SCRIPT_NAME"]) contenga/n un valor correcto.',
 );

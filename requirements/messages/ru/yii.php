@@ -31,7 +31,7 @@ return array (
   '$_SERVER variable' => 'Переменная $_SERVER.',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Переменная $_SERVER["SCRIPT_FILENAME"] должна соответствовать пути к файлу входного скрипта.',
   'APC extension' => 'Расширение APC',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Все <a href="http://www.yiiframework.com/doc/api/#system.db">DB-классы</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Все <a href="https://www.yiiframework.com/doc/api/#system.db">DB-классы</a>',
   'Ctype extension' => 'Расширение Ctype',
   'DOM extension' => 'Расширение DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Должна существовать хотя бы одна из серверных переменных: $_SERVER["REQUEST_URI"] или $_SERVER["QUERY_STRING"].',
@@ -54,6 +54,6 @@ return array (
   'Reflection extension' => 'Расширение',
   'SOAP extension' => 'Расширение SOAP',
   'SPL extension' => 'Расширение SPL',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Чтобы использовать memcached установите значение свойства <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> равным <code>true</code>.',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Чтобы использовать memcached установите значение свойства <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> равным <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Не удалось получить информацию о пути. Пожалуйста, проверьте, содержится ли корректное значение в переменной $_SERVER["PATH_INFO"] (или $_SERVER["PHP_SELF"] и $_SERVER["SCRIPT_NAME"]).',
 );

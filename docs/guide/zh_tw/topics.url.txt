@@ -187,7 +187,7 @@ array(
 
 還有一點，我們可以進一步清理我們的網址，即在 URL 中藏匿 `index.php` 入口腳本。這就要求我們配置網路伺服器，以及 [urlManager|CWebApplication::urlManager] 應用程式程式元件。
 
-我們首先需要配置網路伺服器，這樣一個 URL 沒有入口腳本仍然可以處理入口腳本。如果是 [Apache HTTP server](http://httpd.apache.org/)，可以通過打開網址重寫引擎和指定一些重寫規則。這兩個操作可以在包含入口腳本的目錄下的 `.htaccess` 文件裡實現。下面是一個範例：
+我們首先需要配置網路伺服器，這樣一個 URL 沒有入口腳本仍然可以處理入口腳本。如果是 [Apache HTTP server](https://httpd.apache.org/)，可以通過打開網址重寫引擎和指定一些重寫規則。這兩個操作可以在包含入口腳本的目錄下的 `.htaccess` 文件裡實現。下面是一個範例：
 
 ~~~
 Options +FollowSymLinks

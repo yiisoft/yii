@@ -120,7 +120,7 @@ do bazy danych w buforze i dzięki temu może skrócić czas ich wykonywania
 dla tego samego zapytania wykonywanego w przyszłości, 
 pozwalając na bezpośrednie zwracania z bufora danych w postaci wynikowej.
 
-> Info|Info: Niektóre DBMS (np. [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
+> Info|Info: Niektóre DBMS (np. [MySQL](https://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
 > wpierają buforowanie zapytań po stronie serwera bazy danych. W porównaniu do buforowania zapytań po stronie serwera
 > wspieramy te same funkcjonalności przy okazji oferując większą elastyczność i potencjalnie większą wydajność.
 

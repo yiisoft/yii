@@ -90,7 +90,7 @@ Yii::app()->user->logout();
 
 ### 基于Cookie 的登录
 
-缺省情况下，用户将根据[session configuration](http://www.php.net/manual/en/session.configuration.php)完成一序列inactivity动作后注销。设置用户部件的[allowAutoLogin|CWebUser::allowAutoLogin]属性为true和在[CWebUser::login]方法中设置一个持续时间参数来改变这个行为。即使用户关闭浏览器，此用户将保留用户登陆状态时间为被设置的持续时间之久。前提是用户的浏览器接受cookies。
+缺省情况下，用户将根据[session configuration](https://www.php.net/manual/en/session.configuration.php)完成一序列inactivity动作后注销。设置用户部件的[allowAutoLogin|CWebUser::allowAutoLogin]属性为true和在[CWebUser::login]方法中设置一个持续时间参数来改变这个行为。即使用户关闭浏览器，此用户将保留用户登陆状态时间为被设置的持续时间之久。前提是用户的浏览器接受cookies。
 
 ~~~
 [php]
@@ -243,7 +243,7 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 -------------------------
 
 基于角色的访问控制提供了一种简单而又强大的集中访问控制。
-请参阅[维基文章](http://en.wikipedia.org/wiki/Role-based_access_control)了解更多详细的RBAC与其他较传统的访问控制模式的比较。
+请参阅[维基文章](https://en.wikipedia.org/wiki/Role-based_access_control)了解更多详细的RBAC与其他较传统的访问控制模式的比较。
 
 Yii 通过其 [authManager|CWebApplication::authManager] 组件实现了分等级的 RBAC 结构。
 在下文中，我们将首先介绍在此结构中用到的主要概念。然后讲解怎样定义用于授权的数据。在最后，我们看看如何利用这些授权数据执行访问检查。

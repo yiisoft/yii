@@ -1,8 +1,8 @@
 Enhetstestning
 ==============
 
-Eftersom Yii:s testningsramverk använder sig av [PHPUnit](http://www.phpunit.de/),
-rekommenderas [PHPUnit-dokumentationen](http://www.phpunit.de/manual/current/en/index.html) för att ge 
+Eftersom Yii:s testningsramverk använder sig av [PHPUnit](https://www.phpunit.de/),
+rekommenderas [PHPUnit-dokumentationen](https://www.phpunit.de/manual/current/en/index.html) för att ge
 en grundläggande förståelse för hur man skriver ett enhetstest. Vi sammanfattar följande 
 grundläggande principer för hur man skriver ett enhetstest i Yii:
 
@@ -29,7 +29,7 @@ I det följande beskrivs i huvudsak hur man skriver enhetstester för [Active Re
 modellklasser. Vi kommer att ärva våra testklasser från [CDbTestCase] eftersom 
 denna erbjuder stöd för databasfixturer (som introducerades i föregående avsnitt).
 
-Antag att vi vill testa modellklassen `Comment` i applikationen [blog demo](http://www.yiiframework.com/demos/blog/). 
+Antag att vi vill testa modellklassen `Comment` i applikationen [blog demo](https://www.yiiframework.com/demos/blog/).
 Vi börjar med att skapa en klass och ger den namnet `CommentTest` samt sparar den som `protected/tests/unit/CommentTest.php`:
 
 ~~~

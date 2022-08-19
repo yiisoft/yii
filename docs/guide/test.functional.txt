@@ -1,7 +1,7 @@
 Functional Testing
 ==================
 
-Before reading this section, it is recommended that you read the [Selenium documentation](http://seleniumhq.org/docs/) and the [PHPUnit documentation](http://www.phpunit.de/wiki/Documentation) first. We summarize in the following the basic principles of writing a functional test in Yii:
+Before reading this section, it is recommended that you read the [Selenium documentation](https://www.selenium.dev/documentation/) and the [PHPUnit documentation](https://www.phpunit.de/wiki/Documentation) first. We summarize in the following the basic principles of writing a functional test in Yii:
 
  * Like unit test, a functional test is written in terms of a class `XyzTest` which extends from [CWebTestCase], where `Xyz` stands for the class being tested. Because `PHPUnit_Extensions_SeleniumTestCase` is the ancestor class for [CWebTestCase], we can use all methods inherited from this class.
 
@@ -37,7 +37,7 @@ The class `WebTestCase` mainly sets the base URL of the pages to be tested. Late
 
 We should also pay attention that in the base test URL, we use `index-test.php` as the entry script instead of `index.php`. The only difference between `index-test.php` and `index.php` is that the former uses `test.php` as the application configuration file while the latter `main.php`.
 
-We now describe how to test the feature about showing a post in the [blog demo](http://www.yiiframework.com/demos/blog). We first write the test class as follows, noting that the test class extends from the base class we just described:
+We now describe how to test the feature about showing a post in the [blog demo](https://www.yiiframework.com/demos/blog). We first write the test class as follows, noting that the test class extends from the base class we just described:
 
 ~~~
 [php]

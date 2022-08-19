@@ -7,7 +7,7 @@ Dengan model `Post` yang siap, kita perlu mengatur action dan view dari controll
 Mengkustomisasi Access Control
 --------------------------
 
-Hal pertama yang ingin kita lakukan adalah mengkustomisasi  [access control](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter dikarenakan kode yang di-generate `yiic` tidak sesuai dengan keperluannya.
+Hal pertama yang ingin kita lakukan adalah mengkustomisasi  [access control](https://www.yiiframework.com/doc/guide/topics.auth#access-control-filter dikarenakan kode yang di-generate `yiic` tidak sesuai dengan keperluannya.
 
 Kita memodifikasi metode `accessRule()` di dalam file `/wwwroott/blog/protected/controllers/PostController.php` sebagai berikut,
 

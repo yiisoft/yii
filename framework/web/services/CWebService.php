@@ -3,9 +3,9 @@
  * CWebService class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -61,7 +61,7 @@ class CWebService extends CComponent
 	 * @var array a list of classes that are declared as complex types in WSDL.
 	 * This should be an array with WSDL types as keys and names of PHP classes as values.
 	 * A PHP class can also be specified as a path alias.
-	 * @see http://www.php.net/manual/en/soapserver.soapserver.php
+	 * @see https://www.php.net/manual/en/soapserver.soapserver.php
 	 */
 	public $classMap=array();
 	/**
@@ -74,7 +74,7 @@ class CWebService extends CComponent
 	public $soapVersion;
 	/**
 	 * @var integer the persistence mode of the SOAP server.
-	 * @see http://www.php.net/manual/en/soapserver.setpersistence.php
+	 * @see https://www.php.net/manual/en/soapserver.setpersistence.php
 	 */
 	public $persistence;
 	/**
@@ -223,7 +223,7 @@ class CWebService extends CComponent
 				$message.=' ('.$e->getFile().':'.$e->getLine().")\n".$e->getTraceAsString();
 
 			// We need to end application explicitly because of
-			// http://bugs.php.net/bug.php?id=49513
+			// https://bugs.php.net/bug.php?id=49513
 			Yii::app()->onEndRequest(new CEvent($this));
 			$server->fault(get_class($e),$message);
 			exit(1);
@@ -253,7 +253,7 @@ class CWebService extends CComponent
 
 	/**
 	 * @return array options for creating SoapServer instance
-	 * @see http://www.php.net/manual/en/soapserver.soapserver.php
+	 * @see https://www.php.net/manual/en/soapserver.soapserver.php
 	 */
 	protected function getOptions()
 	{

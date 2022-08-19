@@ -3,9 +3,9 @@
  * CGridColumn class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -68,7 +68,7 @@ abstract class CGridColumn extends CComponent
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
-	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+	 * please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $cssClassExpression;
 	/**
@@ -180,7 +180,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	public function getHeaderCellContent()
 	{
-		return trim($this->header)!=='' ? $this->header : $this->grid->blankDisplay;
+		return $this->header!==null && trim($this->header)!=='' ? $this->header : $this->grid->blankDisplay;
 	}
 
 	/**
@@ -201,7 +201,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	public function getFooterCellContent()
 	{
-		return trim($this->footer)!=='' ? $this->footer : $this->grid->blankDisplay;
+		return $this->footer!==null && trim($this->footer)!=='' ? $this->footer : $this->grid->blankDisplay;
 	}
 
 	/**

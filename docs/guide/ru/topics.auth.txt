@@ -147,7 +147,7 @@ Yii::app()->user->logout();
 ---------------------
 
 По умолчанию, после некоторого времени бездействия, зависящего от
-[настроек сессии](http://php.net/manual/en/session.configuration.php),
+[настроек сессии](https://php.net/manual/en/session.configuration.php),
 будет произведён выход из системы. Для того, чтобы этого не происходило,
 необходимо выставить свойства компонента User [allowAutoLogin|CWebUser::allowAutoLogin]
 в true и передать необходимое время жизни cookie в метод [CWebUser::login].
@@ -367,7 +367,7 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 
 Контроль доступа на основе ролей (RBAC) — простой, но мощный способ централизованного
 контроля доступа. Для сравнения данного метода с другими обратитесь к
-[статье в Википедии](http://ru.wikipedia.org/wiki/%D3%EF%F0%E0%E2%EB%E5%ED%E8%E5_%E4%EE%F1%F2%F3%EF%EE%EC_%ED%E0_%EE%F1%ED%EE%E2%E5_%F0%EE%EB%E5%E9).
+[статье в Википедии](https://ru.wikipedia.org/wiki/%D3%EF%F0%E0%E2%EB%E5%ED%E8%E5_%E4%EE%F1%F2%F3%EF%EE%EC_%ED%E0_%EE%F1%ED%EE%E2%E5_%F0%EE%EB%E5%E9).
 
 В Yii иерархический RBAC реализован через компонент [authManager|CWebApplication::authManager].
 Ниже мы сначала опишем основы данной схемы, затем то, как описывать данные,

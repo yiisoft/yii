@@ -18,7 +18,7 @@ return array (
   '$_SERVER variable' => 'Variabila $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] trebuie sa fie aceeasi cu calea fisierului scriptului de intrare.',
   'APC extension' => 'Extensia APC',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Toate <a href="http://www.yiiframework.com/doc/api/#system.db">clasele de legatura cu bazele de date</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Toate <a href="https://www.yiiframework.com/doc/api/#system.db">clasele de legatura cu bazele de date</a>',
   'DOM extension' => 'Extensia DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Trebuie sa existe fie $_SERVER["REQUEST_URI"] fie $_SERVER["QUERY_STRING"].',
   'GD extension' => 'Extensia GD',

@@ -6,7 +6,7 @@ przechowywanych w różnych systemach zarządzania bazą danych (ang. DBMS, pol.
 użyty SZBD może zostać zastąpiony przez inny bez potrzeby zmiany kodu używającego
 DAO aby uzyskać dostęp do danych.
 
-Yii DAO zostało utworzone w oparciu o [PHP Data Objects (PDO)](http://php.net/manual/en/book.pdo.php) 
+Yii DAO zostało utworzone w oparciu o [PHP Data Objects (PDO)](https://php.net/manual/en/book.pdo.php)
 które jest rozszerzeniem dostarczającym ujednolicony dostęp do danych dla wielu 
 popularnych SZBD, takich jak MySQL, PostgreSQL. Dlatego też, by używać Yii DAO, 
 rozszerzenie PDO oraz poszczególne sterowniki PDO dla baz danych (np. `PDO_MYSQL`) 
@@ -42,7 +42,7 @@ $connection->active=false;  // zamknij połączenie
 
 Format adresu DSN zależy od używanego, dla danej bazy danych, sterownika PDO. Uogólniając, 
 DSN składa się z nazwy sterownika PDO, po którym następuje dwukropek a następnie 
-zależna od sterownika składnia połączenia. Zobacz [dokumentację PDO](http://www.php.net/manual/en/pdo.construct.php) 
+zależna od sterownika składnia połączenia. Zobacz [dokumentację PDO](https://www.php.net/manual/en/pdo.construct.php)
 aby uzyskać więcej informacji. Poniżej znajduje się lista najczęściej używanych formatów DSN:
 
    - SQLite: `sqlite:/scieżka/do/pliku/bazy`,
@@ -175,7 +175,7 @@ catch(Exception $e) // jeśli zapytanie nie powiedzie się, wołany jest wyjąte
 Przypinanie parametrów
 ----------------------
 
-Aby uniknąć [ataków SQL injection](http://en.wikipedia.org/wiki/SQL_injection)
+Aby uniknąć [ataków SQL injection](https://en.wikipedia.org/wiki/SQL_injection)
 oraz aby zwiększyć wydajność wykonywania często używanych instrukcji SQL, można "przygotować" 
 instrukcję SQL z opcjonalnymi symbolami zastępczymi (ang. placeholders) parametrów, które to będą zastąpione
 przez aktualne parametry podczas procesu przypinania parametrów.
@@ -208,7 +208,7 @@ zmiennej gdy druga wartość zmiennej. Dla parametrów które reprezentują duż
 pierwsza z nich jest korzystna ze względu na wydajność.
 
 Aby uzyskać więcej informacji na temat przypinania parametrów zobacz 
-[odpowiednią dokumentację PHP](http://www.php.net/manual/en/pdostatement.bindparam.php).
+[odpowiednią dokumentację PHP](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Przypinanie kolumn
 ------------------

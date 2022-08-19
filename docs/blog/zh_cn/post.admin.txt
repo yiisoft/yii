@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
 
 我们使用 [CGridView] 来显示这些日志。它允许我们在单页显示过多时可以分页并可以按某一列排序。我们的修改主要针对每一列的显示。例如，针对 `title` 列，我们指定它应该显示为一个超级链接，指向日志的详情页面。表达式`$data->url` 返回我们之前在 `Post` 类中定义的 `url` 属性值。
 
-> Tip|提示: 当显示文本时，我们要调用 [CHtml::encode()] 对其中的HTML编码。这可以防止 [跨站脚本攻击(cross-site scripting attack)](http://www.yiiframework.com/doc/guide/topics.security).
+> Tip|提示: 当显示文本时，我们要调用 [CHtml::encode()] 对其中的HTML编码。这可以防止 [跨站脚本攻击(cross-site scripting attack)](https://www.yiiframework.com/doc/guide/topics.security).
 
 
 日志删除

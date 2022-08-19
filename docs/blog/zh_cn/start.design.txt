@@ -6,7 +6,7 @@
  * `tbl_user` 存储用户信息，包括用户名和密码。
  * `tbl_post` 存储博客日志信息。它由如下几列组成：
 	 - `title`: 必填项，日志的标题；
-	 - `content`: 必填项，日志的内容，使用 [Markdown 格式](http://daringfireball.net/projects/markdown/syntax);
+	 - `content`: 必填项，日志的内容，使用 [Markdown 格式](https://daringfireball.net/projects/markdown/syntax);
 	 - `status`: 必填项，日志的状态，可以是以下值之一：
 		 * 1, 表示日志在草稿箱里，对外不可见；
 		 * 2, 表示日志已经对外发布；
@@ -33,7 +33,7 @@
 ![博客数据库实体-关系图](schema.png)
 
 
-上述ER图相应的完整SQL语句可以在 [博客演示](http://www.yiiframework.com/demos/blog/) 中找到。在我们的安装包中，它们位于 `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`。
+上述ER图相应的完整SQL语句可以在 [博客演示](https://www.yiiframework.com/demos/blog/) 中找到。在我们的安装包中，它们位于 `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`。
 
 
 

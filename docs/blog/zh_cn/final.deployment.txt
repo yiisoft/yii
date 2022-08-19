@@ -7,7 +7,7 @@
 修改主页
 ------------------
 
-我们要把日志列表页修改为主页。我们将 [应用配置](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) 修改如下,
+我们要把日志列表页修改为主页。我们将 [应用配置](https://www.yiiframework.com/doc/guide/basics.application#application-configuration) 修改如下,
 
 ~~~
 [php]

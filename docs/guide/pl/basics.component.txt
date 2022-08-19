@@ -120,7 +120,7 @@ wartość [$event->handled|CEvent::handled] jako true.
 Zachowanie komponentu
 ------------------
 
-Komponenty posiadają wsparcie dla [mixin](http://en.wikipedia.org/wiki/Mixin)
+Komponenty posiadają wsparcie dla [mixin](https://en.wikipedia.org/wiki/Mixin)
 oraz można do nich dołączyć jeden lub więcej zachowań (behaviour). *Zachowanie* jest 
 obiektem, którego metody mogą być 'dziedziczone' przez dołączone do niego komponenty   
 bezpośrednio poprzez sumowanie funkcjonalności zamiast specjalizacji (np. zwykłe 

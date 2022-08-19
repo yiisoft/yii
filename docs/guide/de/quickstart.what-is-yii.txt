@@ -2,7 +2,7 @@ Was ist Yii
 ===========
 
 Yii ist ein sehr leistungsfähiges, komponentenbasiertes Framework für die
-[RAD](http://de.wikipedia.org/wiki/Rapid_Application_Development)-basierte Entwicklung 
+[RAD](https://de.wikipedia.org/wiki/Rapid_Application_Development)-basierte Entwicklung
 umfangreicher Webanwendungen. Es sorgt für maximale
 Wiederverwendbarkeit im Bereich Web-Programmierung und kann so den 
 Entwicklunsprozess beträchtlich beschleunigen. Der Name Yii 
@@ -21,7 +21,7 @@ Webserver der PHP 5.1.0 unterstützt.
 
 Da es sich bei Yii um ein rein objektorientiertes Framework handelt,
 sind Kenntnisse in [Objektorientierter Programmierung
-(OOP)](http://de.wikipedia.org/wiki/Objektorientierte_Programmierung) von Vorteil.
+(OOP)](https://de.wikipedia.org/wiki/Objektorientierte_Programmierung) von Vorteil.
 
 Wofür eignet sich Yii am besten?
 --------------------------------
@@ -37,7 +37,7 @@ Wie schlägt sich Yii im Vergleich mit anderen Frameworks?
 ---------------------------------------------------------
 
 Wie die meisten PHP-Frameworks basiert auch Yii auf dem
-[MVC](http://de.wikipedia.org/wiki/Model_View_Controller)-Muster.
+[MVC](https://de.wikipedia.org/wiki/Model_View_Controller)-Muster.
 
 Gegenüber anderen Frameworks besticht Yii durch Effizienz, 
 reichhaltige Features und klare Dokumentation. Yii wurde von

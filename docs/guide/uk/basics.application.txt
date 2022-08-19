@@ -77,7 +77,7 @@ $app=Yii::createWebApplication($configFile);
 [basepath|CWebApplication::basePath] в [конфігурації додатку](#application-configuration).
 
 Вміст базової директорії має бути закритим для веб-доступу.
-При використанні веб-сервера [Apache HTTP server](http://httpd.apache.org/), 
+При використанні веб-сервера [Apache HTTP server](https://httpd.apache.org/),
 це можна зробити, додавши в базову директорію файл `.htaccess` наступного змісту:
 
 ~~~

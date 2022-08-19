@@ -129,7 +129,7 @@ när `$this->beginWidget` används för att sätta in en widget i en vy, den and
 metoden anropas som en följd av anrop till `$this->endWidget`. Om det 
 presentationsinnehåll som genereras mellan anropen till dessa två metoder 
 behöver fångas upp, kan [buffring av 
-utmatning](http://us3.php.net/manual/en/book.outcontrol.php) startas i 
+utmatning](https://us3.php.net/manual/en/book.outcontrol.php) startas i
 [CWidget::init] och resultatet hämtas tillbaka i [CWidget::run] för fortsatt 
 bearbetning.
 

@@ -3,7 +3,7 @@ Instalare
 
 Instalarea platformei Yii implica in mare urmatorii doi pasi:
 
-   1. Descarcam platforma Yii de pe site-ul [yiiframework.com](http://www.yiiframework.com/).
+   1. Descarcam platforma Yii de pe site-ul [yiiframework.com](https://www.yiiframework.com/).
    2. Dezarhivam fisierul editiei descarcate de Yii intr-un director accesibil pe Web.
 
 > Tip|Sfat: Platforma Yii nu trebuie neaparat instalata intr-un director accesibil de pe Web.
@@ -26,7 +26,7 @@ http://hostname/path/to/yii/requirements/index.php
 
 Cerinta minima este ca serverul Web sa suporte versiunea PHP 5.1.0
 (sau o versiune mai recenta). Platforma Yii a fost testata
-cu [serverul HTTP Apache](http://httpd.apache.org/) in Windows si Linux.
+cu [serverul HTTP Apache](https://httpd.apache.org/) in Windows si Linux.
 Poate rula de asemenea si pe alte servere Web atat timp cat este pus la
 dispozitie PHP 5.
 

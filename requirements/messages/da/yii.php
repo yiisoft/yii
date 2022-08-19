@@ -21,7 +21,7 @@ return array (
   '$_SERVER variable' => '$_SERVER variabel',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] skal være som stien til startscriptet.',
   'APC extension' => 'APC extension',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alle <a href="http://www.yiiframework.com/doc/api/#system.db">DB-relaterede klasser</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alle <a href="https://www.yiiframework.com/doc/api/#system.db">DB-relaterede klasser</a>',
   'Ctype extension' => 'Ctype extension',
   'DOM extension' => 'DOM extension',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"] eller $_SERVER["QUERY_STRING"] skal eksistere.',
@@ -55,7 +55,7 @@ return array (
   'Required for secure password storage.' => 'Påkrævet for sikkert kodeordslager.',
   'SOAP extension' => 'SOAP extension',
   'SPL extension' => 'SPL extension',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'For at bruge memcached sæt <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> til <code>true</code>.',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'For at bruge memcached sæt <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> til <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Kunne ikke bestemme path info. Venligst tjek at $_SERVER["PATH_INFO"] (eller $_SERVER["PHP_SELF"] og $_SERVER["SCRIPT_NAME"]) indeholder passende værdier.',
   'crypt() CRYPT_BLOWFISH option' => 'crypt() CRYPT_BLOWFISH option',
 );

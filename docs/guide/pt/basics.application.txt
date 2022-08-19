@@ -2,7 +2,7 @@ Aplicação
 =========
 
 A aplicação representa o contexto de execução do processamento de uma solicitação.
-Sua principal tarefa é a de receber uma solicitação do usuário e eviá-la para um
+Sua principal tarefa é a de receber uma solicitação do usuário e enviá-la para um
 controle adequado para o posterior processamento. Serve também como o lugar central
 para o processamento de configurações a nível da aplicação. Por esta razão, a aplicação
 é também chamada de `controle de frente`.
@@ -16,7 +16,7 @@ Configuração da Aplicação
 Por padrão, a aplicação é uma instancia de [CWebApplication]. Para personalizá-la
 normalmente é utilizado um arquivo de configuração (ou um array) para inicializar
 os valores de suas propriedades quando a instância da aplicação é criada. Uma 
-alternativa para a costomização é estender o [CWebApplication].
+alternativa para a customização é estender o [CWebApplication].
 
 A configuração é um conjunto de pares do tipo chave-valor. Cada chave representa
 o nome de uma propriedade da instancia da aplicação, e cada valor a propriedade
@@ -67,7 +67,7 @@ de entrada. Ele pode ser personalizado através da definição
 [configuração da aplicação](#application-configuration).
 
 O Conteúdo dentro do diretório base da aplicação deve ter o acesso protegido
-de usuários da Web. Com o servidor [Apache HTTP Server](http://httpd.apache.org/),
+de usuários da Web. Com o servidor [Apache HTTP Server](https://httpd.apache.org/),
 isto pode ser feito facilmente criando um arquivo `.htaccess` dentro do diretório
 base. O conteúdo do arquivo `.htaccess` deverá ser o seguinte:
 

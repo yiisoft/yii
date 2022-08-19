@@ -7,15 +7,15 @@ tredjepartsbibliotek används i ett projekt, stöter utvecklare ofta på problem
 rörande namngivning av klasser och inkludering av filer. Eftersom alla Yii:s 
 klasser har namn som föregås av bokstaven `C`, är det mindre risk för att 
 problem kring namngivning av klasser uppstår; och eftersom Yii förlitar sig på 
-[SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php) för 
+[SPL autoload](https://us3.php.net/manual/en/function.spl-autoload.php) för
 inkludering av klassfiler, kan det friktionsfritt samexistera med andra 
 bibliotek om dessa använder samma autoladdningsfiness, alternativt 
 PHP-inkluderingssökväg för att inkludera klassfiler.
 
 
 Nedan används ett exempel för att illustrera hur man i en Yii-applikation kan använda komponenten 
-[Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html) från 
-[Zend-ramverket](http://www.zendframework.com).
+[Zend_Search_Lucene](https://www.zendframework.com/manual/en/zend.search.lucene.html) från
+[Zend-ramverket](https://www.zendframework.com).
 
 Extrahera först distributionsfilen innehållande Zend-ramverket till en katalog 
 under `protected/vendors`, förutsatt att `protected` är [applikationens 

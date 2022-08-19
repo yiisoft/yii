@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 <head>
-<meta name="GENERATOR" content="yiidoc http://www.yiiframework.com">
+<meta name="GENERATOR" content="yiidoc https://www.yiiframework.com">
 </head>
 <body>
 <object type="text/site properties">

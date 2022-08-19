@@ -2,8 +2,8 @@ Funktionstests
 ==============
 
 Wir empfehlen Ihnen, sich zunächst die [Selenium
-Dokumenation](http://seleniumhq.org/docs/) sowie die [PHPUnit
-Dokumenation](http://www.phpunit.de/wiki/Documentation) durchzulesen. 
+Dokumenation](https://www.selenium.dev/documentation/) sowie die [PHPUnit
+Dokumenation](https://www.phpunit.de/wiki/Documentation) durchzulesen.
 Zusammengefasst gelten diese Grundprinzipien für das Schreiben von
 Funktionstests in Yii:
 
@@ -62,7 +62,7 @@ den beiden Dateien besteht darin, dass erstere `test.php` als
 Konfigurationsdatei verwendet, letztere `main.php`.
 
 Sehen wir uns nun an, wie wir das Feature zur Anzeige eines Beitrags im
-[Blog-Demo](http://www.yiiframework.com/demos/blog) testen können. Zunächst
+[Blog-Demo](https://www.yiiframework.com/demos/blog) testen können. Zunächst
 schreiben wir die Testklasse wie folgt (Beachten Sie, dass wir sie von WebTestCase
 ableiten):
 

@@ -67,7 +67,7 @@ de entrada. Ele pode ser personalizado através da definição
 [configuração da aplicação](/doc/guide/basics.application#application-configuration).
 
 O conteúdo dentro do diretório base da aplicação deve ter o acesso protegido
-contra o acesso de usuários da Web. Com o servidor [Apache HTTP Server](http://httpd.apache.org/),
+contra o acesso de usuários da Web. Com o servidor [Apache HTTP Server](https://httpd.apache.org/),
 isto pode ser feito facilmente criando um arquivo `.htaccess` dentro do diretório
 base. O conteúdo do arquivo `.htaccess` seria o seguinte:
 

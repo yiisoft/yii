@@ -4,9 +4,9 @@
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 Yii::import('zii.widgets.jui.CJuiWidget');
@@ -14,7 +14,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 /**
  * CJuiAccordion displays an accordion widget.
  *
- * CJuiAccordion encapsulates the {@link http://jqueryui.com/accordion/ JUI Accordion}
+ * CJuiAccordion encapsulates the {@link https://jqueryui.com/accordion/ JUI Accordion}
  * plugin.
  *
  * To use this widget, you may insert the following code in a view:
@@ -35,9 +35,9 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI accordion plugin. Please refer to
- * the {@link http://api.jqueryui.com/accordion/ JUI Accordion API}
+ * the {@link https://api.jqueryui.com/accordion/ JUI Accordion API}
  * documentation for possible options (name-value pairs) and
- * {@link http://jqueryui.com/accordion/ JUI Accordion page} for general
+ * {@link https://jqueryui.com/accordion/ JUI Accordion page} for general
  * description and demo.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>

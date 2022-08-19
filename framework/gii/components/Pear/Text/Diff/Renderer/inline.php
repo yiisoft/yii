@@ -4,10 +4,10 @@
  *
  * $Horde: framework/Text_Diff/Diff/Renderer/inline.php,v 1.4.10.16 2009/07/24 13:25:29 jan Exp $
  *
- * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
+ * Copyright 2004-2009 The Horde Project (https://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
+ * not receive this file, see https://opensource.org/licenses/lgpl-license.php.
  *
  * @author  Ciprian Popovici
  * @package Text_Diff

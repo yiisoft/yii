@@ -3,7 +3,7 @@ Scaffolding
 
 Tworzenie, czytanie, aktualizowanie oraz usuwanie (CRUD, od ang. create, read, update, delete) są czterema podstawowymi operacjami na obiektach danych  w aplikacji. Ponieważ zadanie implementacji operacji CRUD jest bardzo powszechne podczas tworzenia aplikacji sieciowych, Yii dostarcza kilku narzędzi generujących pod nazwą *Gii*, które pomogą nam zautomatyzować ten proces (zwany również *scaffoldingiem*).
 
-> Note|Uwaga: Gii zostało udostępnione od wersji 1.1.2. Dla wcześniejszych wersji będziesz musiał używać [narzędzia powłoki yiic](http://www.yiiframework.com/doc/guide/quickstart.first-app-yiic) aby osiągnąć ten sam efekt.
+> Note|Uwaga: Gii zostało udostępnione od wersji 1.1.2. Dla wcześniejszych wersji będziesz musiał używać [narzędzia powłoki yiic](https://www.yiiframework.com/doc/guide/quickstart.first-app-yiic) aby osiągnąć ten sam efekt.
 
 W dalszej części opiszemy jak używać tego narzędzia do zaimplementowania operacji CRUD dla postów oraz komentarzy w naszym przykładowym blogu.
 
@@ -44,7 +44,7 @@ Zostaniemy tam poproszeni o podanie hasła. Wprowadź hasło które zostało ust
 Tworzenie modeli
 ---------------
 
-Najpierw musimy utworzyć klasę [modelu](http://www.yiiframework.com/doc/guide/basics.model) dla każdej z naszych tabel bazodanowych. Klasy modeli pozwolą nam uzyskać dostęp do bazy danych w intuicyjny, obiektowo zorientowany sposób, co zobaczymy w dalszej części tego przewodnika.
+Najpierw musimy utworzyć klasę [modelu](https://www.yiiframework.com/doc/guide/basics.model) dla każdej z naszych tabel bazodanowych. Klasy modeli pozwolą nam uzyskać dostęp do bazy danych w intuicyjny, obiektowo zorientowany sposób, co zobaczymy w dalszej części tego przewodnika.
 
 Kliknij na linku `Model Generator` aby rozpocząć używanie narzędzia generowania modelu.
 
@@ -74,7 +74,7 @@ Na stronie `Crud Generator`, wprowadź `Post` (nazwa klasy modelu wiadomości, k
 
 Powtórz tą samą procedurę dla modelu komentarza `Comment`.
 
-Przyjrzyjmy się plikom wygenerowanym przez generator CRUD. Wszytkie one zostały wygenerowane w katalogu `/wwwroot/blog/protected`. Dla wygody grupujemy je w pliki [kontrolera](http://www.yiiframework.com/doc/guide/basics.controller) oraz pliki [widoku](http://www.yiiframework.com/doc/guide/basics.view):
+Przyjrzyjmy się plikom wygenerowanym przez generator CRUD. Wszytkie one zostały wygenerowane w katalogu `/wwwroot/blog/protected`. Dla wygody grupujemy je w pliki [kontrolera](https://www.yiiframework.com/doc/guide/basics.controller) oraz pliki [widoku](https://www.yiiframework.com/doc/guide/basics.view):
 
  - plik kontrolera:
 	 * `controllers/PostController.php` zawiera klasę `PostController`, która jest kontrolerem odpowiedzialnym za wszystkie operacje CRUD na wiadomościach;
@@ -107,7 +107,7 @@ Zauważ, że funkcjonalności wiadomości i komentarza zaimplementowane w wygenr
 W celu lepszego zrozumienia jak powyższe pliki są używane, pokażemy przepływ zadań w aplikacji, które występują w naszej aplikacji podczas wyświetlania listy wiadomości:
 
  0. Użytkownik żąda adresu URL `http://www.example.com/blog/index.php?r=post`; 
- 1. [Skrypt wejściowy](http://www.yiiframework.com/doc/guide/basics.entry) jest wykonywany przez serwer, w skrypcie tym tworzona jest i inicjalizowana instancja [aplikacji](http://www.yiiframework.com/doc/guide/basics.application) służąca do obsługi żądań;
+ 1. [Skrypt wejściowy](https://www.yiiframework.com/doc/guide/basics.entry) jest wykonywany przez serwer, w skrypcie tym tworzona jest i inicjalizowana instancja [aplikacji](https://www.yiiframework.com/doc/guide/basics.application) służąca do obsługi żądań;
  2. Aplikacja tworzy instancję kontrolera `PostController` i wywołuje go;
  3. Instancja `PostController` wykonuje żądaną akcję `index` poprzez wywołanie swojej metody `actionIndex()`. Zauważ, że `index` jest domyślną akcją i użytkownik nie określił akcji do wykonania w adresie URL; 
  4. Metoda `actionIndex()` odpytuje bazę danych, aby zwrócić listę najnowszych wiadomości;

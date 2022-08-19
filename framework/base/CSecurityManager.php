@@ -3,9 +3,9 @@
  * This file contains classes implementing security manager feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -65,7 +65,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @var string the name of the hashing algorithm to be used by {@link computeHMAC}.
-	 * See {@link http://php.net/manual/en/function.hash-algos.php hash-algos} for the list of possible
+	 * See {@link https://php.net/manual/en/function.hash-algos.php hash-algos} for the list of possible
 	 * hash algorithms. Note that if you are using PHP 5.1.1 or below, you can only use 'sha1' or 'md5'.
 	 *
 	 * Defaults to 'sha1', meaning using SHA1 hash algorithm.
@@ -74,7 +74,7 @@ class CSecurityManager extends CApplicationComponent
 	public $hashAlgorithm='sha1';
 	/**
 	 * @var mixed the name of the crypt algorithm to be used by {@link encrypt} and {@link decrypt}.
-	 * This will be passed as the first parameter to {@link http://php.net/manual/en/function.mcrypt-module-open.php mcrypt_module_open}.
+	 * This will be passed as the first parameter to {@link https://php.net/manual/en/function.mcrypt-module-open.php mcrypt_module_open}.
 	 *
 	 * This property can also be configured as an array. In this case, the array elements will be passed in order
 	 * as parameters to mcrypt_module_open. For example, <code>array('rijndael-128', '', 'ofb', '')</code>.
@@ -318,7 +318,7 @@ class CSecurityManager extends CApplicationComponent
 	 * @param string|null $key the private key to be used for generating HMAC. Defaults to null, meaning using
 	 * {@link validationKey} value.
 	 * @param string|null $hashAlgorithm the name of the hashing algorithm to be used.
-	 * See {@link http://php.net/manual/en/function.hash-algos.php hash-algos} for the list of possible
+	 * See {@link https://php.net/manual/en/function.hash-algos.php hash-algos} for the list of possible
 	 * hash algorithms. Note that if you are using PHP 5.1.1 or below, you can only use 'sha1' or 'md5'.
 	 * Defaults to null, meaning using {@link hashAlgorithm} value.
 	 * @return string the HMAC for the data.
@@ -384,7 +384,7 @@ class CSecurityManager extends CApplicationComponent
 	 * This method does not guarantee that entropy, from sources external to the CS-PRNG, was mixed into
 	 * the CS-PRNG state between each successive call. The caller can therefore expect non-blocking
 	 * behavior, unlike, for example, reading from /dev/random on Linux, see
-	 * {@link http://eprint.iacr.org/2006/086.pdf Gutterman et al 2006}.
+	 * {@link https://eprint.iacr.org/2006/086.pdf Gutterman et al 2006}.
 	 * @return boolean|string generated random binary string or false on failure.
 	 * @since 1.1.14
 	 */
@@ -598,7 +598,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * Performs string comparison using timing attack resistant approach.
-	 * @see http://codereview.stackexchange.com/questions/13512
+	 * @see https://codereview.stackexchange.com/questions/13512
 	 * @param string $expected string to compare.
 	 * @param string $actual user-supplied string.
 	 * @return boolean whether strings are equal.

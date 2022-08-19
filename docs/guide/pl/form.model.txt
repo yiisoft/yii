@@ -130,7 +130,7 @@ pełna lista predefiniowanych aliasów walidatorów:
     zarówno [CBooleanValidator::trueValue] czy też [CBooleanValidator::falseValue].
 
    - `captcha`: alias klasy [CCaptchaValidator], sprawdza czy atrybut zgadza się
-   z kodem weryfikującym wyświetlanym przy użyciu [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
+   z kodem weryfikującym wyświetlanym przy użyciu [CAPTCHA](https://en.wikipedia.org/wiki/Captcha).
 
    - `compare`: alias klasy [CCompareValidator], sprawdza czy atrybut jest równy
    innemu atrybutowi bądź stałej.

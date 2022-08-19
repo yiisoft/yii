@@ -122,7 +122,7 @@ sätta [$event->handled|CEvent::handled] till true.
 Komponents "Behavior"
 ---------------------
 
-Komponenter stöder designmönstret [mixin](http://en.wikipedia.org/wiki/Mixin) och kan sammankopplas 
+Komponenter stöder designmönstret [mixin](https://en.wikipedia.org/wiki/Mixin) och kan sammankopplas
 med en eller flera behavior. En  *behavior* är ett objekt vars metoder kan 
 ärvas 'inherited' av dess sammankopplade komponent genom att aggregera funktionalitet 
 i stället för specialisering (dvs normalt klassarv). En komponent kan sammankopplas med 

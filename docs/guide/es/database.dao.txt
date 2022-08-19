@@ -6,7 +6,7 @@ a los datos almacenados en diferentes sistemas de administraciond de bases
 de datos (DBMS). Como resultado, se puede cambiar de un DBMS a otro sin la
 necesidad de cambiar el código que usa DAO para acceder a los datos.
 
-El DAO de Yii está construido sobre [Objetos de Datos de PHP](http://php.net/manual/en/book.pdo.php),
+El DAO de Yii está construido sobre [Objetos de Datos de PHP](https://php.net/manual/en/book.pdo.php),
 que es una extensión que provee acceso unificado a datos a los DBMS más
 populares, como MySQL, PostgreSQL, etc. Por lo tanto, para usar el DAO de Yii,
 tienen que ser instaladas tanto la extensión PDO como el driver PDO de la
@@ -42,7 +42,7 @@ $connection->active=false;  // close connection
 
 La forma del DNS depende del driver PDO de la base de datos en uso. En general,
 un DNS consiste del nombre del driver PDO, seguido por dos puntos (:), seguido
-por la sintaxis específica del driver. Mira la [Documentación PDO](http://www.php.net/manual/en/pdo.construct.php)
+por la sintaxis específica del driver. Mira la [Documentación PDO](https://www.php.net/manual/en/pdo.construct.php)
 para una información completa. A continuación, una lista de los formatos DNS
 más comunmente utilizados:
 
@@ -176,7 +176,7 @@ catch(Exception $e) // se arroja una excepción si una consulta falla
 Vinculando Parámetros
 ---------------------
 
-Para evitar [ataques de SQL injection](http://en.wikipedia.org/wiki/SQL_injection)
+Para evitar [ataques de SQL injection](https://en.wikipedia.org/wiki/SQL_injection)
 y para mejorar el rendimiento de sentencias SQL usadas repetidas veces, podemos
 "preparar" una sentencia SQL con marcadores de posición de parámetros opcionales, que
 son marcadores que serán reemplazados con los parámetros reales durante el proceso
@@ -207,7 +207,7 @@ grandes bloques de memoria de datos, es preferible el primero por consideracione
 rendimiento.
 
 Para más detalles acerca de la vinculación de parámetros, mira la
-[documentación PHP relevante](http://www.php.net/manual/en/pdostatement.bindparam.php).
+[documentación PHP relevante](https://www.php.net/manual/en/pdostatement.bindparam.php).
 
 Vinculando Columnas
 -------------------

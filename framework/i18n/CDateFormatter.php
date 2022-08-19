@@ -4,9 +4,9 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -17,14 +17,14 @@
  * is associated with. For example, month names and weekday names may vary
  * under different locales, which yields different formatting results.
  * The patterns that CDateFormatter recognizes are as defined in
- * {@link http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns CLDR}.
+ * {@link https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns CLDR}.
  *
  * CDateFormatter supports predefined patterns as well as customized ones:
  * <ul>
  * <li>The method {@link formatDateTime()} formats date or time or both using
  *   predefined patterns which include 'full', 'long', 'medium' (default) and 'short'.</li>
  * <li>The method {@link format()} formats datetime using the specified pattern.
- *   See {@link http://www.unicode.org/reports/tr35/#Date_Format_Patterns} for
+ *   See {@link https://www.unicode.org/reports/tr35/#Date_Format_Patterns} for
  *   details about the recognized pattern characters.</li>
  * </ul>
  *
@@ -79,7 +79,7 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Formats a date according to a customized pattern.
-	 * @param string $pattern the pattern (See {@link http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns})
+	 * @param string $pattern the pattern (See {@link https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns})
 	 * @param mixed $time UNIX timestamp or a string in strtotime format
 	 * @return string formatted date time. Null if $time is null. (the null value check is available since Yii 1.1.11)
 	 */
@@ -293,7 +293,7 @@ class CDateFormatter extends CComponent
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException if "dayInMonth" pattern is unknown
 	 * @return integer day in month
-	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
+	 * @see https://www.unicode.org/reports/tr35/#Date_Format_Patterns
 	 */
 	protected function formatDayInMonth($pattern,$date)
 	{
@@ -312,7 +312,7 @@ class CDateFormatter extends CComponent
 	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @throws CException if "dayInWeek" pattern is unknown
 	 * @return string day of the week.
-	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
+	 * @see https://www.unicode.org/reports/tr35/#Date_Format_Patterns
 	 */
 	protected function formatDayInWeek($pattern,$date)
 	{

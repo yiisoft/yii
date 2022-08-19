@@ -7,15 +7,15 @@ Atunci cand folosim biblioteci third-party intr-un proiect, intampinam de obicei
 in legatura cu includerea fisierelor si denumirea claselor.
 Deoarece toate clasele Yii sunt prefixate cu litera `C`, este putin probabil
 sa apara vreun conflict de denumire; si pentru ca Yii se bazeaza pe
-[SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php)
+[SPL autoload](https://us3.php.net/manual/en/function.spl-autoload.php)
 pentru a executa includerea fisierelor claselor, se poate descurca usor cu alte biblioteci
 daca si ele folosesc acelasi feature de autoloading sau PHP include path pentru a include
 fisierele claselor.
 
 
 Mai jos folosim un exemplu pentru a arata cum sa folosim componenta
-[Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-din [platforma Zend](http://www.zendframework.com) in interiorul unei aplicatii Yii.
+[Zend_Search_Lucene](https://www.zendframework.com/manual/en/zend.search.lucene.html)
+din [platforma Zend](https://www.zendframework.com) in interiorul unei aplicatii Yii.
 
 Mai intai, vom extrage fisierul platformei Zend intr-un director sub
 `protected/vendors`, presupunand ca `protected` este [directorul de baza al aplicatiei](/doc/guide/basics.application#application-base-directory).

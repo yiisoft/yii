@@ -13,7 +13,7 @@ Yii 提供的測試支援包括 *單元測試* 和 *功能性測試*.
 測試驅動開發
 -----------------------
 
-以下展示的便是所謂的 [測試驅動開發 (TDD)](http://zh.wikipedia.org/wiki/測試驅動開發) 的開發週期:
+以下展示的便是所謂的 [測試驅動開發 (TDD)](https://zh.wikipedia.org/wiki/測試驅動開發) 的開發週期:
 
  1. 建立一個涵蓋要實現的功能的新的測試。測試預計將在第一次執行的時候失敗，因為功能尚未實現。
  2. 執行所有測試，確保這個新的測試是失敗的。
@@ -27,7 +27,7 @@ Yii 提供的測試支援包括 *單元測試* 和 *功能性測試*.
 構建測試環境
 ----------------------
 
-Yii 提供的測試支援需要 [PHPUnit](http://www.phpunit.de/) 3.5+ 和 [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+。請參照他們提供的檔案來安裝 PHPUnit 和 Selenium Remote Control。
+Yii 提供的測試支援需要 [PHPUnit](https://www.phpunit.de/) 3.5+ 和 [Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+。請參照他們提供的檔案來安裝 PHPUnit 和 Selenium Remote Control。
 
 當我們使用 `yiic webapp` 控制台命令來建立一個新的 Yii 應用程式時，它將會產生以下檔案和目錄供我們來撰寫和完成測試。
 
@@ -55,7 +55,7 @@ testdrive/
 % phpunit --coverage-html ./report unit
 ~~~
 
-上面的最後一條命令將執行 `unit` 目錄下的所有測試然後在 `report` 目錄下產生出一份 code-coverage 報告。注意要產生 code-coverage 報告必須安裝並開啟 PHP 的 [xdebug 擴充](http://www.xdebug.org/)。
+上面的最後一條命令將執行 `unit` 目錄下的所有測試然後在 `report` 目錄下產生出一份 code-coverage 報告。注意要產生 code-coverage 報告必須安裝並開啟 PHP 的 [xdebug 擴充](https://www.xdebug.org/)。
 
 
 測試的啟動腳本

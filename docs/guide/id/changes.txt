@@ -78,7 +78,7 @@ Versi 1.1.0
 
 * [Menambah dukungan penggunaan prefiks pada nama tabel](/doc/guide/database.dao#using-table-prefix)
 
-* Menambah seluruh set extension baru yang dikenal dengan [pustaka Zii](http://code.google.com/p/zii/).
+* Menambah seluruh set extension baru yang dikenal dengan [pustaka Zii](https://code.google.com/p/zii/).
 
 * Nama alias untuk tabel utama dalam sebuah query AR ditetapkan sebagai 't'
 

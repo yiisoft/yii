@@ -22,7 +22,7 @@ return array (
   'SPL extension' => 'SPL扩展模块',
   'DOM extension' => 'DOM扩展模块',
   'PDO extension' => 'PDO扩展模块',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '所有和<a href="http://www.yiiframework.com/doc/api/#system.db">数据库相关的类</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '所有和<a href="https://www.yiiframework.com/doc/api/#system.db">数据库相关的类</a>',
   'Memcache extension' => 'Memcache扩展模块',
   'APC extension' => 'APC扩展模块',
   'Mcrypt extension' => 'Mcrypt扩展模块',

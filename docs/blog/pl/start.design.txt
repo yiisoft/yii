@@ -6,7 +6,7 @@ W oparciu o analizę wymagań, zdecydowaliśmy się używać następującej bazy
  * Tabela `tbl_user` przechowuje informacje o użytkownikach, włączając w to ich nazwy oraz hasła. 
  * Tabela `tbl_post` przechowuje informacje o postach w blogu. Składa się ona przede wszystkim z następujących kolumn: 
  	 - `title` (tytuł): wymagany, tytuł wiadomości;
-	 - `content` (zawartość): wymagana, zawartość treści wiadomości, zapisana w [formacie Markdown](http://daringfireball.net/projects/markdown/syntax);
+	 - `content` (zawartość): wymagana, zawartość treści wiadomości, zapisana w [formacie Markdown](https://daringfireball.net/projects/markdown/syntax);
 	 - `status` (status): wymagany, status wiadomości, który może przyjmować następujące wartości:
 		 * 1, oznacza iż wiadomość znajduje się w wersji roboczej i nie jest widoczna publicznie;
 		 * 2, oznacza iż wiadomość jest upubliczniona;
@@ -33,7 +33,7 @@ Następujący diagram (ER) relacji encji (ang. entity-relation diagram), pokazuj
 ![Diagram relacji encji dla bazy danych blogu](schema.png)
 
 
-Wszystkie wyrażenia SQL odpowiadające powyższemu diagramowi ER, można znaleźć w [demonstracyjnym blogu](http://www.yiiframework.com/demos/blog/). Dla naszej instalacji Yii, można je odnaleźć w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+Wszystkie wyrażenia SQL odpowiadające powyższemu diagramowi ER, można znaleźć w [demonstracyjnym blogu](https://www.yiiframework.com/demos/blog/). Dla naszej instalacji Yii, można je odnaleźć w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 
 

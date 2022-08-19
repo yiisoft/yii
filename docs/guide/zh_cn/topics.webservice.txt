@@ -1,18 +1,18 @@
 Web Service
 ===========
 
-[Web service](http://en.wikipedia.org/wiki/Web_service) 是一个软件系统，设计来支持计算机之间跨网络相互访问。在Web应用程序，它通常用一套API，可以被互联网访问和执行在远端系统主机上的被请求服务。系统主机所要求的服务。例如，以[Flex](http://www.adobe.com/products/flex/)为基础的客户端可能会援引函数实现在服务器端运行PHP的Web应用程序。 Web service依赖[SOAP](http://en.wikipedia.org/wiki/SOAP)作为通信协议栈的基础层。
+[Web service](https://en.wikipedia.org/wiki/Web_service) 是一个软件系统，设计来支持计算机之间跨网络相互访问。在Web应用程序，它通常用一套API，可以被互联网访问和执行在远端系统主机上的被请求服务。系统主机所要求的服务。例如，以[Flex](https://www.adobe.com/products/flex/)为基础的客户端可能会援引函数实现在服务器端运行PHP的Web应用程序。 Web service依赖[SOAP](https://en.wikipedia.org/wiki/SOAP)作为通信协议栈的基础层。
 
-Yii提供[CWebService]和[CWebServiceAction]简化了在Web应用程序实现Web service。这些API以类形式实现，被称为*service providers*. Yii将为每个类产生一个[WSDL](http://www.w3.org/TR/wsdl)，描述什么API有效和客户端怎么援引。当客户端援引API，Yii将实例化相应的service provider和调用被请求的API来完成请求。
+Yii提供[CWebService]和[CWebServiceAction]简化了在Web应用程序实现Web service。这些API以类形式实现，被称为*service providers*. Yii将为每个类产生一个[WSDL](https://www.w3.org/TR/wsdl)，描述什么API有效和客户端怎么援引。当客户端援引API，Yii将实例化相应的service provider和调用被请求的API来完成请求。
 
->注:[CWebService] 依靠[PHP SOAP extension](http://www.php.net/manual/en/ref.soap.php) 。请确定您是否在试用本节中的例子前允许此扩展。
+>注:[CWebService] 依靠[PHP SOAP extension](https://www.php.net/manual/en/ref.soap.php) 。请确定您是否在试用本节中的例子前允许此扩展。
 
 Defining Service Provider（定义Service Provider）
 -------------------------
 
 正如我们上文所述，service provider是一个类定义能被远程援引的方法。Yii依靠[doc
-comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) and [class
-reflection](http://www.php.net/manual/en/language.oop5.reflection.php)识别
+comment](https://java.sun.com/j2se/javadoc/writingdoccomments/) and [class
+reflection](https://www.php.net/manual/en/language.oop5.reflection.php)识别
 哪些方法可以被远程调用和他们的参数还有返回值。
 
 让我们以一个简单的股票报价服务开始。这项服务允许客户端请求指定股票的报价。我们确定service provider如下。请注意，我们定义扩展[CController]的提供类`StockController`。这是不是必需的。马上我们将解释为什么这样做。

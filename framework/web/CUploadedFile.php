@@ -3,9 +3,9 @@
  * CUploadedFile class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -247,7 +247,7 @@ class CUploadedFile extends CComponent
 	/**
 	 * Returns an error code describing the status of this file uploading.
 	 * @return integer the error code
-	 * @see http://www.php.net/manual/en/features.file-upload.errors.php
+	 * @see https://www.php.net/manual/en/features.file-upload.errors.php
 	 */
 	public function getError()
 	{

@@ -159,7 +159,7 @@ Cookie-baserad inloggning
 -------------------------
 
 Som standard loggas en användare ut efter en viss tid utan aktivitet, beroende på 
-[sessionskonfigurationen](http://www.php.net/manual/en/session.configuration.php). 
+[sessionskonfigurationen](https://www.php.net/manual/en/session.configuration.php).
 Detta beteende kan man ändra genom att propertyn 
 [allowAutoLogin|CWebUser::allowAutoLogin] i user-komponenten sätts till true 
 samt genom att lämna en varaktighetsparameter till metoden [CWebUser::login]. 
@@ -392,7 +392,7 @@ Rollbaserad åtkomsthantering
 
 Rollbaserad åtkomsthantering (RBAC) tillhandahåller enkel men ändå kraftfull 
 centraliserad åtkomstkontroll. Vänligen läs [wiki-
-artikeln](http://en.wikipedia.org/wiki/Role-based_access_control) för fler 
+artikeln](https://en.wikipedia.org/wiki/Role-based_access_control) för fler
 detaljer kring RBAC i jämförelse med andra mer traditionella scheman för 
 åtkomstkontroll.
 

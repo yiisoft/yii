@@ -34,11 +34,11 @@ jako medium do przechowywania cache'u; komponent [CApcCache] hermetyzuje rozszer
 natomiast komponent [CDbCache] przechowuje buforowane dane w bazie danych. Poniżej znajduje 
 się podsumowanie dostępnych komponentów cache:
 
-   - [CMemCache]: używa [rozszerzenia memcache](http://www.php.net/manual/en/book.memcache.php) dla PHP.
+   - [CMemCache]: używa [rozszerzenia memcache](https://www.php.net/manual/en/book.memcache.php) dla PHP.
 
-   - [CApcCache]: używa [rozszerzenia APC](http://www.php.net/manual/en/book.apc.php) dla PHP.
+   - [CApcCache]: używa [rozszerzenia APC](https://www.php.net/manual/en/book.apc.php) dla PHP.
 
-   - [CXCache]: używa [rozszerzenia XCache](http://xcache.lighttpd.net/) dla PHP.
+   - [CXCache]: używa [rozszerzenia XCache](https://xcache.lighttpd.net/) dla PHP.
 
    - [CEAcceleratorCache]: używa [rozszerzenia EAccelerator](http://eaccelerator.net/).
 
@@ -47,7 +47,7 @@ się podsumowanie dostępnych komponentów cache:
    określić bazę danych, którą będzie to rozszerzenie używało poprzez ustawienie 
    właściwości [connectionID|CDbCache::connectionID],
    
-   - [CZendDataCache]: używa [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
+   - [CZendDataCache]: używa [Zend Data Cache](https://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
    jako medium buforowania.
    
    - [CFileCache]: używa plików do przechowywania buforowanych danych. Komponent ten jest przydatny 

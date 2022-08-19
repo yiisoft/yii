@@ -3,9 +3,9 @@
  * This file contains the foundation classes for component-based and event-driven programming.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -593,11 +593,11 @@ class CComponent
 	 * to the callback as $param1, $param2, ...; and the last parameter will be the component itself.
 	 *
 	 * If a PHP expression is used, the second parameter will be "extracted" into PHP variables
-	 * that can be directly accessed in the expression. See {@link http://us.php.net/manual/en/function.extract.php PHP extract}
+	 * that can be directly accessed in the expression. See {@link https://us.php.net/manual/en/function.extract.php PHP extract}
 	 * for more details. In the expression, the component object can be accessed using $this.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
-	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+	 * please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
 	 *
 	 * @param mixed $_expression_ a PHP expression or PHP callback to be evaluated.
 	 * @param array $_data_ additional parameters to be passed to the above expression/callback.

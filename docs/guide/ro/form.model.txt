@@ -137,7 +137,7 @@ care asigura ca valoarea atributului va contine ceva. Mai jos avem o lista compl
 alias-uri predefinite de validatori:
 
    - `captcha`: alias pentru of [CCaptchaValidator], asigura ca atributul este acelasi
-cu codul de verificare afisat intr-un [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
+cu codul de verificare afisat intr-un [CAPTCHA](https://en.wikipedia.org/wiki/Captcha).
 
    - `compare`: alias pentru [CCompareValidator], asigura ca atributul este egal cu un
 alt atribut sau o constanta.

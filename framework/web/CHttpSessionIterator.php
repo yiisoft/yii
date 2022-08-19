@@ -3,9 +3,9 @@
  * CHttpSessionIterator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -41,6 +41,7 @@ class CHttpSessionIterator implements Iterator
 	 * Rewinds internal array pointer.
 	 * This method is required by the interface Iterator.
 	 */
+	#[ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->_key=reset($this->_keys);
@@ -51,6 +52,7 @@ class CHttpSessionIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return mixed the key of the current array element
 	 */
+	#[ReturnTypeWillChange]
 	public function key()
 	{
 		return $this->_key;
@@ -61,6 +63,7 @@ class CHttpSessionIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return mixed the current array element
 	 */
+	#[ReturnTypeWillChange]
 	public function current()
 	{
 		return isset($_SESSION[$this->_key])?$_SESSION[$this->_key]:null;
@@ -70,6 +73,7 @@ class CHttpSessionIterator implements Iterator
 	 * Moves the internal pointer to the next array element.
 	 * This method is required by the interface Iterator.
 	 */
+	#[ReturnTypeWillChange]
 	public function next()
 	{
 		do
@@ -84,6 +88,7 @@ class CHttpSessionIterator implements Iterator
 	 * This method is required by the interface Iterator.
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function valid()
 	{
 		return $this->_key!==false;

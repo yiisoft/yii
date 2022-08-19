@@ -1,9 +1,9 @@
 /*
  ### jQuery Star Rating Plugin v4.11 - 2013-03-14 ###
- * Home: http://www.fyneworks.com/jquery/star-rating/
- * Code: http://code.google.com/p/jquery-star-rating-plugin/
+ * Home: https://www.fyneworks.com/jquery/star-rating/
+ * Code: https://code.google.com/p/jquery-star-rating-plugin/
  *
-	* Licensed under http://en.wikipedia.org/wiki/MIT_License
+	* Licensed under https://en.wikipedia.org/wiki/MIT_License
  ###
 */
 
@@ -13,7 +13,7 @@
 	
 	// IE6 Background Image Fix
 	if ((!$.support.opacity && !$.support.style)) try { document.execCommand("BackgroundImageCache", false, true)} catch(e) { };
-	// Thanks to http://www.visualjquery.com/rating/rating_redux.html
+	// Thanks to https://www.visualjquery.com/rating/rating_redux.html
 	
 	// plugin initialization
 	$.fn.rating = function(options){
@@ -55,7 +55,7 @@
 			var eid = (this.name || 'unnamed-rating').replace(/\[|\]/g, '_').replace(/^\_+|\_+$/g,'');
 			var context = $(this.form || document.body);
 			
-			// FIX: http://code.google.com/p/jquery-star-rating-plugin/issues/detail?id=23
+			// FIX: https://code.google.com/p/jquery-star-rating-plugin/issues/detail?id=23
 			var raters = context.data('rating');
 			if(!raters || raters.call!=$.fn.rating.calls) raters = { count:0, call:$.fn.rating.calls };
 			var rater = raters[eid] || context.data('rating'+eid);
@@ -305,7 +305,7 @@
 			current.prop('checked',true);//.attr('checked','checked');
 			// trigger change on current or last selected input
 			$(current.length? current : lastipt ).trigger({ type:'change', selfTriggered:true });
-			// click callback, as requested here: http://plugins.jquery.com/node/1655
+			// click callback, as requested here: https://plugins.jquery.com/node/1655
 			if((wantCallBack || wantCallBack == undefined) && control.callback) control.callback.apply(current[0], [current.val(), $('a', control.current)[0]]);// callback event
 			// don't break the chain
 			return this;

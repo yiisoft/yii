@@ -1,9 +1,9 @@
 /*
  ### jQuery Multiple File Upload Plugin v1.48 - 2012-07-19 ###
- * Home: http://www.fyneworks.com/jquery/multiple-file-upload/
- * Code: http://code.google.com/p/jquery-multifile-plugin/
+ * Home: https://www.fyneworks.com/jquery/multiple-file-upload/
+ * Code: https://code.google.com/p/jquery-multifile-plugin/
  *
-	* Licensed under http://en.wikipedia.org/wiki/MIT_License
+	* Licensed under https://en.wikipedia.org/wiki/MIT_License
  ###
 */
 
@@ -45,7 +45,7 @@
 		.addClass('MultiFile-intercepted')
 		.submit($.fn.MultiFile.disableEmpty);
 		
-		//### http://plugins.jquery.com/node/1363
+		//### https://plugins.jquery.com/node/1363
 		// utility method to integrate this plugin with others...
 		if($.fn.MultiFile.options.autoIntercept){
 			$.fn.MultiFile.intercept( $.fn.MultiFile.options.autoIntercept /* array of methods to intercept */ );
@@ -61,7 +61,7 @@
 			// MAIN PLUGIN FUNCTIONALITY - START
 			//#####################################################################
 			
-       // BUG 1251 FIX: http://plugins.jquery.com/project/comments/add/1251
+       // BUG 1251 FIX: https://plugins.jquery.com/project/comments/add/1251
        // variable group_count would repeat itself on multiple calls to the plugin.
        // this would cause a conflict with multiple elements
        // changes scope of variable to global so id will be unique over n calls
@@ -127,7 +127,7 @@
        //===
        
        // Setup dynamic regular expression for extension validation
-       // - thanks to John-Paul Bader: http://smyck.de/2006/08/11/javascript-dynamic-regular-expresions/
+       // - thanks to John-Paul Bader: https://smyck.de/2006/08/11/javascript-dynamic-regular-expresions/
        if(String(MultiFile.accept).length>1){
 								MultiFile.accept = MultiFile.accept.replace(/\W+/g,'|').replace(/^\W|\W$/g,'');
         MultiFile.rxAccept = new RegExp('\\.('+(MultiFile.accept?MultiFile.accept:'')+')$','gi');
@@ -167,17 +167,17 @@
         // Add reference to master element
         slave.MultiFile = MultiFile;
 								
-								// BUG FIX: http://plugins.jquery.com/node/1495
+								// BUG FIX: https://plugins.jquery.com/node/1495
 								// Clear identifying properties from clones
 								if(slave_count>0) slave.id = slave.name = '';
 								
         // Define element's ID and name (upload components need this!)
         //slave.id = slave.id || MultiFile.generateID(slave_count);
 								if(slave_count>0) slave.id = MultiFile.generateID(slave_count);
-								//FIX for: http://code.google.com/p/jquery-multifile-plugin/issues/detail?id=23
+								//FIX for: https://code.google.com/p/jquery-multifile-plugin/issues/detail?id=23
         
         // 2008-Apr-29: New customizable naming convention (see url below)
-        // http://groups.google.com/group/jquery-dev/browse_frm/thread/765c73e41b34f924#
+        // https://groups.google.com/group/jquery-dev/browse_frm/thread/765c73e41b34f924#
         slave.name = String(MultiFile.namePattern
          /*master name*/.replace(/\$name/gi,$(MultiFile.clone).attr('name'))
          /*master id  */.replace(/\$id/gi,  $(MultiFile.clone).attr('id'))
@@ -236,7 +236,7 @@
           var newEle = $(MultiFile.clone).clone();// Copy parent attributes - Thanks to Jonas Wagner
           //# Let's remember which input we've generated so
           // we can disable the empty ones before submission
-          // See: http://plugins.jquery.com/node/1495
+          // See: https://plugins.jquery.com/node/1495
           newEle.addClass('MultiFile');
           
           // Handle error
@@ -244,7 +244,7 @@
             // Handle error
             MultiFile.error(ERROR);
 												
-            // 2007-06-24: BUG FIX - Thanks to Adrian Wróbel <adrian [dot] wrobel [at] gmail.com>
+            // 2007-06-24: BUG FIX - Thanks to Adrian Wrï¿½bel <adrian [dot] wrobel [at] gmail.com>
             // Ditch the trouble maker and add a fresh new element
             MultiFile.n--;
             MultiFile.addSlave(newEle[0], slave_count);
@@ -365,7 +365,7 @@
    * @name reset
    * @type jQuery
    * @cat Plugins/MultiFile
-   * @author Diego A. (http://www.fyneworks.com/)
+   * @author Diego A. (https://www.fyneworks.com/)
    *
    * @example $.fn.MultiFile.reset();
    */
@@ -386,7 +386,7 @@
    * @name disableEmpty
    * @type jQuery
    * @cat Plugins/MultiFile
-   * @author Diego A. (http://www.fyneworks.com/)
+   * @author Diego A. (https://www.fyneworks.com/)
    *
    * @example $.fn.MultiFile.disableEmpty();
    * @param String class (optional) A string specifying a class to be applied to all affected elements - Default: 'mfD'.
@@ -406,7 +406,7 @@
 			* @name reEnableEmpty
 			* @type jQuery
 			* @cat Plugins/MultiFile
-			* @author Diego A. (http://www.fyneworks.com/)
+			* @author Diego A. (https://www.fyneworks.com/)
 			*
 			* @example $.fn.MultiFile.reEnableEmpty();
 			* @param String klass (optional) A string specifying the class that was used to mark affected elements - Default: 'mfD'.
@@ -422,7 +422,7 @@
 	
 			* @name intercept
 			* @cat Plugins/MultiFile
-			* @author Diego A. (http://www.fyneworks.com/)
+			* @author Diego A. (https://www.fyneworks.com/)
 			*
 			* @example $.fn.MultiFile.intercept();
 			* @param Array methods (optional) Array of method names to be intercepted
@@ -434,7 +434,7 @@
    if(typeof(methods)=='function'){
     $.fn.MultiFile.disableEmpty();
     value = methods.apply(context || window, args);
-				//SEE-http://code.google.com/p/jquery-multifile-plugin/issues/detail?id=27
+				//SEE-https://code.google.com/p/jquery-multifile-plugin/issues/detail?id=27
 				setTimeout(function(){ $.fn.MultiFile.reEnableEmpty() },1000);
     return value;
    };
@@ -446,7 +446,7 @@
      $.fn[method] = function(){
       $.fn.MultiFile.disableEmpty();
       value = $.fn.MultiFile.intercepted[method].apply(this, arguments);
-						//SEE http://code.google.com/p/jquery-multifile-plugin/issues/detail?id=27
+						//SEE https://code.google.com/p/jquery-multifile-plugin/issues/detail?id=27
       setTimeout(function(){ $.fn.MultiFile.reEnableEmpty() },1000);
       return value;
      }; // interception
