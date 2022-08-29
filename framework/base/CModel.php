@@ -590,7 +590,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to retrieve element.
+	 * @param mixed $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
 	#[ReturnTypeWillChange]
@@ -602,7 +602,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Sets the element at the specified offset.
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to set element
+	 * @param mixed $offset the offset to set element
 	 * @param mixed $item the element value
 	 */
 	#[ReturnTypeWillChange]
