@@ -79,7 +79,7 @@ class CDbMessageSource extends CMessageSource
 		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$key=self::CACHE_KEY_PREFIX.'.messages.'.$category.'.'.$language;
-			if(($data=$cache->get($key))!==false)
+			if(($data=$cache->get($key))!==false && $data!==null)
 				return unserialize($data);
 		}
 

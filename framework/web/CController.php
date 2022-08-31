@@ -1211,7 +1211,7 @@ class CController extends CBaseController
 			{
 				if(extension_loaded('zlib'))
 					$data=@gzuncompress($data);
-				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
+				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false && $data!==null)
 					return unserialize($data);
 			}
 		}

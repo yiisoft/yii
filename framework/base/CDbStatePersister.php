@@ -91,7 +91,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 			':key'=>Yii::app()->name
 		));
 		$state=$command->queryScalar();
-		if(false!==$state)
+		if(false!==$state && null!==$state)
 			return unserialize($state);
 		else
 			return null;

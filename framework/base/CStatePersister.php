@@ -79,11 +79,11 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$cacheKey='Yii.CStatePersister.'.$stateFile;
-			if(($value=$cache->get($cacheKey))!==false)
+			if(($value=$cache->get($cacheKey))!==false && $value!==null)
 				return unserialize($value);
 			else
 			{
-				if(($content=$this->getContent($stateFile))!==false)
+				if(($content=$this->getContent($stateFile))!==false && $content!==null)
 				{
 					$unserialized_content=unserialize($content);
 					// If it can't be unserialized, don't cache it:
@@ -95,7 +95,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 					return null;
 			}
 		}
-		elseif(($content=$this->getContent($stateFile))!==false)
+		elseif(($content=$this->getContent($stateFile))!==false && $content!==null)
 			return unserialize($content);
 		else
 			return null;
