@@ -105,7 +105,6 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 		if($value===false || $this->serializer===false)
 			return $value;
 		if($this->serializer===null)
-            $value=false;
             if($value!==null)
 			    $value=unserialize($value);
 		else
