@@ -86,8 +86,8 @@ class CGettextMessageSource extends CMessageSource
         $messageFile=$this->basePath . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $this->catalog;
         if($this->useMoFile)
         	$messageFile.=self::MO_FILE_EXT;
-        else
-        	$messageFile.=self::PO_FILE_EXT;
+		else
+			$messageFile.=self::PO_FILE_EXT;
 
 		if ($this->cachingDuration > 0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{

@@ -1652,7 +1652,7 @@ abstract class CActiveRecord extends CModel
 	 * @param array $params parameters to be bound to the SQL statement
 	 * @return string the number of rows using the given SQL statement. Note: type is string to keep max. precision.
 	 */
-    #[\ReturntypeWillChange]
+	#[\ReturntypeWillChange]
 	public function countBySql($sql,$params=array())
 	{
 		Yii::trace(get_class($this).'.countBySql()','system.db.ar.CActiveRecord');
