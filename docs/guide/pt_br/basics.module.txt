@@ -1,9 +1,9 @@
 Módulo
 ======
 
-Um módulo é uma unidade de software independente que consiste de [modelos](/doc/guide/basics.model), [visões](/doc/guide/basics.view), [controles](/doc/guide/basics.controller) e outros componentes auxiliares. em muitos aspectos, um módulo lembra uma [aplicação](/doc/guide/basics.application). A principal diferença é que um módulo não pode ser implantado sozinho e ele deve residir em uma aplicação. Usuários podem acessar os controles em um m´dulo da mesma maneira que o fazem com controles normais de uma aplicação.
+Um módulo é uma unidade de software independente que consiste de [modelos](/doc/guide/basics.model), [visões](/doc/guide/basics.view), [controles](/doc/guide/basics.controller) e outros componentes auxiliares. em muitos aspectos, um módulo lembra uma [aplicação](/doc/guide/basics.application). A principal diferença é que um módulo não pode ser implantado sozinho e ele deve residir em uma aplicação. Usuários podem acessar os controles em um módulo da mesma maneira que o fazem com controles normais de uma aplicação.
 
-Módulos são úteis em vários cenários. Para uma aplicalção de grande escala, nós podemos dividí-la em vários módulos, cada um deles desenvolvido e mantido separadamente. Algumas funcionalidades comumente usadas, como o gerenciamento de usuários e o gerenciamento de comentário podem ser desenvolvidas em módulos para que elas possam ser facilmente reutilizadas em projetos futuros.
+Módulos são úteis em vários cenários. Para uma aplicação de grande escala, nós podemos dividí-la em vários módulos, cada um deles desenvolvido e mantido separadamente. Algumas funcionalidades comumente usadas, como o gerenciamento de usuários e o gerenciamento de comentário podem ser desenvolvidas em módulos para que elas possam ser facilmente reutilizadas em projetos futuros.
 
 
 Criando um Módulo
@@ -28,7 +28,7 @@ forum/
 
 Um módulo deve ter uma classe de módulo que estende de [CWebModule]. O nome da classe é determinado usando a expressão `ucfirst($id).'Module'`, onde `$id` refere-se à ID do módulo (ou ao nome do diretório do módulo). Esta classe de módulo serve como o local central para o armazenamento de informações compartilhadas pelo código do módulo. Por exemplo, nós podemos usar [CWebModule::params] para armazenar os parâmetros do módulo, e usar [CWebModule::components] para compartilhar os [componentes da aplicação](/doc/guide/basics.application#application-component) no nível do módulo.
 
-> Tip|Dica: Nó podemos usar o gerador de módulos do Gii para criar o esqueleto básico de um novo módulo.
+> Tip|Dica: Nós podemos usar o gerador de módulos do Gii para criar o esqueleto básico de um novo módulo.
 
 
 Usando Módulos
@@ -77,7 +77,7 @@ A ação de um controle em um módulo pode ser acessada usando a [rota](/doc/gui
 Módulo Aninhado
 ---------------
 
-Módulos podem ser aninhados em níveis ilimitados. Isto quer dizer que um módulo pode conter outro módulo, que pode conter outro módulo, que pode conter ainda outro módulo. Nós podemos chamar o o primeiro deles de *módulo pai* e o último deles de *módulo folho*. Um módulo filho deve ser declarado na propriedade [modules|CWebModule::modules] do seu módulo pai, da mesma maneira que declaramos módulos na configuração da aplicação, como mostrado acima.
+Módulos podem ser aninhados em níveis ilimitados. Isto quer dizer que um módulo pode conter outro módulo, que pode conter outro módulo, que pode conter ainda outro módulo. Nós podemos chamar o o primeiro deles de *módulo pai* e o último deles de *módulo filho*. Um módulo filho deve ser declarado na propriedade [modules|CWebModule::modules] do seu módulo pai, da mesma maneira que declaramos módulos na configuração da aplicação, como mostrado acima.
 
 Para acessar uma ação de um controle em um módulo filho, nós podemos usar a rota `móduloPaiID/móduloFilhoID/controleID/açãoID`.
 
