@@ -1453,7 +1453,7 @@ class CCookieCollection extends CMap
 			$sm=Yii::app()->getSecurityManager();
 			foreach($_COOKIE as $name=>$value)
 			{
-				if(is_string($value) && ($value=$sm->validateData($value))!==false && $value!==null)
+				if(is_string($value) && ($value=$sm->validateData($value))!==false)
 					$cookies[$name]=new CHttpCookie($name,@unserialize($value));
 			}
 		}
