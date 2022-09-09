@@ -284,7 +284,7 @@ Version 1.1.16 December 21, 2014
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - Chg #3464: Updated multifile plugin used by CMultiFileUpload to version 1.48 (samdark)
 - Chg #3636: Upgraded jQuery UI to 1.11.2 (marcovtwout)
-- Chg: Updated the i18n data bundled with the framework to CLDR23.1 <http://cldr.unicode.org/index/downloads/cldr-23-1> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
+- Chg: Updated the i18n data bundled with the framework to CLDR23.1 <http://unicode.org/Public/cldr/23.1/> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
 Version 1.1.15 June 29, 2014
