@@ -32,7 +32,7 @@ Yii 提供了不同的快取元件，可以將快取資料儲存到不同的媒�
 
    - [CApcCache]: 使用 PHP [APC 擴充](https://www.php.net/manual/en/book.apc.php).
 
-   - [CXCache]: 使用 PHP [XCache 擴充](https://xcache.lighttpd.net/)。注意，這個是從 1.0.1 版本開始支援的。
+   - [CXCache]: 使用 PHP [XCache 擴充](https://github.com/lighttpd/xcache)。注意，這個是從 1.0.1 版本開始支援的。
 
    - [CEAcceleratorCache]: 使用 PHP [EAccelerator 擴充](http://eaccelerator.net/).
 

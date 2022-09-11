@@ -41,7 +41,7 @@ Mai jos sunt componentele cache disponibile in acest moment:
 
    - [CApcCache]: foloseste [extensia APC](https://www.php.net/manual/en/book.apc.php) din PHP.
 
-   - [CXCache]: foloseste [extensia XCache](https://xcache.lighttpd.net/) din PHP.
+   - [CXCache]: foloseste [extensia XCache](https://github.com/lighttpd/xcache) din PHP.
 Note, this has been available since version 1.0.1.
 
    - [CDbCache]: foloseste o tabela din baza de date pentru a memora datele din
