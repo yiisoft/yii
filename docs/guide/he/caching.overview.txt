@@ -33,7 +33,7 @@ Yii מספקת רכיבי מטמון שונים אשר מאפשרים שמירה
 
 - [CApcCache] משתמש בתוסף של PHP בשם [APC](https://www.php.net/manual/en/book.apc.php).
 
-- [CXCache] משתמש בתוסף של PHP בשם [XCache](https://xcache.lighttpd.net/). הערה, רכיב זה קיים מגרסאות 1.0.1 ומעלה.
+- [CXCache] משתמש בתוסף של PHP בשם [XCache](https://github.com/lighttpd/xcache). הערה, רכיב זה קיים מגרסאות 1.0.1 ומעלה.
 
 - [CEAcceleratorCache] משתמש בתוסף של PHP בשם [EAccelerator](https://eaccelerator.net/).
 

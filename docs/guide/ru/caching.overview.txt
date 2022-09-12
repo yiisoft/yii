@@ -43,7 +43,7 @@ memcache для PHP и использует оперативную память 
    [расширение APC для PHP](https://php.net/manual/en/book.apc.php).
 
    - [CXCache]: использует
-   [расширение XCache для PHP](https://xcache.lighttpd.net/).
+   [расширение XCache для PHP](https://github.com/lighttpd/xcache).
 
    - [CEAcceleratorCache]: использует
    [расширение EAccelerator для PHP](http://eaccelerator.net/).

@@ -40,7 +40,7 @@ komponen-komponen cache yang tersedia:
 
    - [CApcCache]: menggunakan [extension APC](https://www.php.net/manual/en/book.apc.php) PHP.
 
-   - [CXCache]: menggunakan [extension XCache](https://xcache.lighttpd.net/) PHP.
+   - [CXCache]: menggunakan [extension XCache](https://github.com/lighttpd/xcache) PHP.
 
    - [CEAcceleratorCache]: menggunakan PHP [EAccelerator extension](https://eaccelerator.net/).
 
