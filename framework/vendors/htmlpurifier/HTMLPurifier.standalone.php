@@ -7,10 +7,7 @@
  * primary concern and you are using an opcode cache. PLEASE DO NOT EDIT THIS
  * FILE, changes will be overwritten the next time the script is run.
  *
- * @version 4.14.0-master-1dd3e52
- * Build manually:
- * - checkout https://github.com/ezyang/htmlpurifier/commit/1dd3e52365c32a142fb7c9c9f8f038f18e353270
- * - php maintainance/generate-standalone.php
+ * @version 4.15.0
  *
  * @warning
  *      You must *not* include any other HTML Purifier files before this file,
@@ -42,7 +39,7 @@
  */
 
 /*
-    HTML Purifier 4.14.0 - Standards Compliant HTML Filtering
+    HTML Purifier 4.15.0 - Standards Compliant HTML Filtering
     Copyright (C) 2006-2008 Edward Z. Yang
 
     This library is free software; you can redistribute it and/or
@@ -81,12 +78,12 @@ class HTMLPurifier
      * Version of HTML Purifier.
      * @type string
      */
-    public $version = '4.14.0';
+    public $version = '4.15.0';
 
     /**
      * Constant with version of HTML Purifier.
      */
-    const VERSION = '4.14.0';
+    const VERSION = '4.15.0';
 
     /**
      * Global configuration object.
@@ -789,6 +786,7 @@ class HTMLPurifier_AttrTypes
         $this->info['IAlign']   = self::makeEnum('top,middle,bottom,left,right');
         $this->info['LAlign']   = self::makeEnum('top,bottom,left,right');
         $this->info['FrameTarget'] = new HTMLPurifier_AttrDef_HTML_FrameTarget();
+        $this->info['ContentEditable'] = new HTMLPurifier_AttrDef_HTML_ContentEditable();
 
         // unimplemented aliases
         $this->info['ContentType'] = new HTMLPurifier_AttrDef_Text();
@@ -1830,7 +1828,7 @@ class HTMLPurifier_Config
      * HTML Purifier's version
      * @type string
      */
-    public $version = '4.14.0';
+    public $version = '4.15.0';
 
     /**
      * Whether or not to automatically finalize
@@ -4243,8 +4241,8 @@ class HTMLPurifier_Encoder
             // characters to their true byte-wise ASCII/UTF-8 equivalents.
             $str = strtr($str, self::testEncodingSupportsASCII($encoding));
             return $str;
-        } elseif ($encoding === 'iso-8859-1') {
-            $str = utf8_encode($str);
+        } elseif ($encoding === 'iso-8859-1' && function_exists('mb_convert_encoding')) {
+            $str = mb_convert_encoding($str, 'UTF-8', 'ISO-8859-1');
             return $str;
         }
         $bug = HTMLPurifier_Encoder::testIconvTruncateBug();
@@ -4295,8 +4293,8 @@ class HTMLPurifier_Encoder
             // Normal stuff
             $str = self::iconv('utf-8', $encoding . '//IGNORE', $str);
             return $str;
-        } elseif ($encoding === 'iso-8859-1') {
-            $str = utf8_decode($str);
+        } elseif ($encoding === 'iso-8859-1' && function_exists('mb_convert_encoding')) {
+            $str = mb_convert_encoding($str, 'ISO-8859-1', 'UTF-8');
             return $str;
         }
         trigger_error('Encoding not supported', E_USER_ERROR);
@@ -7690,6 +7688,11 @@ class HTMLPurifier_Lexer
      * If it does, set to true.
      */
     public $tracksLineNumbers = false;
+
+    /**
+     * @type HTMLPurifier_EntityParser
+     */
+    private $_entity_parser;
 
     // -- STATIC ----------------------------------------------------------
 
@@ -12885,6 +12888,23 @@ class HTMLPurifier_AttrDef_HTML_Color extends HTMLPurifier_AttrDef
 
 
 
+class HTMLPurifier_AttrDef_HTML_ContentEditable extends HTMLPurifier_AttrDef
+{
+    public function validate($string, $config, $context)
+    {
+        $allowed = array('false');
+        if ($config->get('HTML.Trusted')) {
+            $allowed = array('', 'true', 'false');
+        }
+
+        $enum = new HTMLPurifier_AttrDef_Enum($allowed);
+
+        return $enum->validate($string, $config, $context);
+    }
+}
+
+
+
 /**
  * Special-case enum attribute definition that lazy loads allowed frame targets
  */
@@ -14153,6 +14173,11 @@ class HTMLPurifier_AttrTransform_Name extends HTMLPurifier_AttrTransform
 class HTMLPurifier_AttrTransform_NameSync extends HTMLPurifier_AttrTransform
 {
 
+    /**
+     * @type HTMLPurifier_AttrDef_HTML_ID
+     */
+    public $idDef;
+
     public function __construct()
     {
         $this->idDef = new HTMLPurifier_AttrDef_HTML_ID();
@@ -14318,6 +14343,11 @@ class HTMLPurifier_AttrTransform_SafeParam extends HTMLPurifier_AttrTransform
      * @type HTMLPurifier_AttrDef_URI
      */
     private $uri;
+
+    /**
+     * @type HTMLPurifier_AttrDef_Enum
+     */
+    public $wmode;
 
     public function __construct()
     {
@@ -14780,6 +14810,8 @@ class HTMLPurifier_ChildDef_List extends HTMLPurifier_ChildDef
     // lying a little bit, so that we can handle ul and ol ourselves
     // XXX: This whole business with 'wrap' is all a bit unsatisfactory
     public $elements = array('li' => true, 'ul' => true, 'ol' => true);
+
+    public $whitespace;
 
     /**
      * @param array $children
@@ -16082,6 +16114,7 @@ class HTMLPurifier_HTMLModule_CommonAttributes extends HTMLPurifier_HTMLModule
             'class' => 'Class',
             'id' => 'ID',
             'title' => 'CDATA',
+            'contenteditable' => 'ContentEditable',
         ),
         'Lang' => array(),
         'I18N' => array(
@@ -18774,6 +18807,16 @@ class HTMLPurifier_Injector_RemoveSpansWithoutAttributes extends HTMLPurifier_In
      */
     private $context;
 
+    /**
+     * @type SplObjectStorage
+     */
+    private $markForDeletion;
+
+    public function __construct()
+    {
+        $this->markForDeletion = new SplObjectStorage();
+    }
+
     public function prepare($config, $context)
     {
         $this->attrValidator = new HTMLPurifier_AttrValidator();
@@ -18807,7 +18850,7 @@ class HTMLPurifier_Injector_RemoveSpansWithoutAttributes extends HTMLPurifier_In
 
         if ($current instanceof HTMLPurifier_Token_End && $current->name === 'span') {
             // Mark closing span tag for deletion
-            $current->markForDeletion = true;
+            $this->markForDeletion->attach($current);
             // Delete open span tag
             $token = false;
         }
@@ -18818,7 +18861,8 @@ class HTMLPurifier_Injector_RemoveSpansWithoutAttributes extends HTMLPurifier_In
      */
     public function handleEnd(&$token)
     {
-        if ($token->markForDeletion) {
+        if ($this->markForDeletion->contains($token)) {
+            $this->markForDeletion->detach($token);
             $token = false;
         }
     }
@@ -21642,7 +21686,7 @@ class HTMLPurifier_URIFilter_HostBlacklist extends HTMLPurifier_URIFilter
     public function filter(&$uri, $config, $context)
     {
         foreach ($this->blacklist as $blacklisted_host_fragment) {
-            if (strpos($uri->host, $blacklisted_host_fragment) !== false) {
+            if ($uri->host !== null && strpos($uri->host, $blacklisted_host_fragment) !== false) {
                 return false;
             }
         }
