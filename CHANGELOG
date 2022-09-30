@@ -1,7 +1,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.26 under development
+Version 1.1.26 September 30, 2022
 --------------------------------
 
 - Enh #4386: Added support for PHP 8.1 (marcovtwout, JonathanArgentao, ivany4, csears123)
