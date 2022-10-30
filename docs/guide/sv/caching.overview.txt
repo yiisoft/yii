@@ -39,7 +39,7 @@ Här följer en sammanfattning av de tillgängliga cachekomponenterna:
 
    - [CApcCache]: använder PHP:s [APC-tillägg](https://www.php.net/manual/en/book.apc.php).
 
-   - [CXCache]: använder PHP:s [XCache-tillägg](https://xcache.lighttpd.net/).
+   - [CXCache]: använder PHP:s [XCache-tillägg](https://github.com/lighttpd/xcache).
 
    - [CEAcceleratorCache]: använder PHP:s [EAccelerator-tillägg](http://eaccelerator.net/).
 
