@@ -38,7 +38,7 @@ się podsumowanie dostępnych komponentów cache:
 
    - [CApcCache]: używa [rozszerzenia APC](https://www.php.net/manual/en/book.apc.php) dla PHP.
 
-   - [CXCache]: używa [rozszerzenia XCache](https://xcache.lighttpd.net/) dla PHP.
+   - [CXCache]: używa [rozszerzenia XCache](https://github.com/lighttpd/xcache) dla PHP.
 
    - [CEAcceleratorCache]: używa [rozszerzenia EAccelerator](http://eaccelerator.net/).
 
