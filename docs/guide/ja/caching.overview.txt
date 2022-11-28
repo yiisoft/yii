@@ -36,7 +36,7 @@ Yii は、異なるメディアにキャッシュデータを保存すること�
 
    - [CApcCache]: PHP [APC 拡張](https://www.php.net/manual/en/book.apc.php) を使用します。
 
-   - [CXCache]: PHP [XCache 拡張](https://xcache.lighttpd.net/) を使用します。
+   - [CXCache]: PHP [XCache 拡張](https://github.com/lighttpd/xcache) を使用します。
 
    - [CEAcceleratorCache]: PHP[EAccelerator拡張](httsp://eaccelerator.net/) を使用します。
 

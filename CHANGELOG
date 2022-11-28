@@ -1,11 +1,22 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.26 under development
+Version 1.1.28 under development
 --------------------------------
 
-- Enh #4386: Added support for PHP 8.1 (marcovtwout, JonathanArgentao, ivany4)
-- Enh #4386: Updated HTMLPurifier to version 4.14.0-master-1dd3e52 for PHP 8.1 support (https://github.com/ezyang/htmlpurifier/blob/v4.14.0/NEWS) (marcovtwout)
+- No changes yet
+
+Version 1.1.27 November 21, 2022
+--------------------------------
+
+- Bug: PHP 8.1 compatibility: Fix CFileCache call of file_get_contents (Bregi)
+- Bug: CVE-2022-41922. Prevent RCE when deserializing untrusted user input (fi3wey, marcovtwout)
+
+Version 1.1.26 September 30, 2022
+--------------------------------
+
+- Enh #4386: Added support for PHP 8.1 (marcovtwout, JonathanArgentao, ivany4, csears123)
+- Enh #4386: Updated HTMLPurifier to version 4.15.0 for PHP 8.1 support (https://github.com/ezyang/htmlpurifier/blob/v4.15.0/NEWS) (marcovtwout)
 - Enh #4392: Added support for SSL to CRedisCache (andres101)
 - Bug #4453: Alpine Linux compatibility: Avoid using `GLOB_BRACE` in `CFileHelper::removeDirectory` (ivany4)
 
@@ -284,7 +295,7 @@ Version 1.1.16 December 21, 2014
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - Chg #3464: Updated multifile plugin used by CMultiFileUpload to version 1.48 (samdark)
 - Chg #3636: Upgraded jQuery UI to 1.11.2 (marcovtwout)
-- Chg: Updated the i18n data bundled with the framework to CLDR23.1 <http://cldr.unicode.org/index/downloads/cldr-23-1> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
+- Chg: Updated the i18n data bundled with the framework to CLDR23.1 <http://unicode.org/Public/cldr/23.1/> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
 Version 1.1.15 June 29, 2014

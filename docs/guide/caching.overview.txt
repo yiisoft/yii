@@ -40,7 +40,7 @@ summary of the available cache components:
 
    - [CApcCache]: uses PHP [APC extension](https://www.php.net/manual/en/book.apc.php).
 
-   - [CXCache]: uses PHP [XCache extension](http://xcache.lighttpd.net/).
+   - [CXCache]: uses PHP [XCache extension](https://github.com/lighttpd/xcache).
 
    - [CEAcceleratorCache]: uses PHP [EAccelerator extension](http://eaccelerator.net/).
 
