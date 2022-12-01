@@ -1172,7 +1172,7 @@ class CHtml
 
 		foreach($data as $value=>$labelTitle)
 		{
-			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
+			$checked=!is_array($select) && !strcmp($value,(string)$select) || is_array($select) && in_array($value,$select);
 			$checkAll=$checkAll && $checked;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
@@ -1284,7 +1284,7 @@ EOD;
 		$id=0;
 		foreach($data as $value=>$labelTitle)
 		{
-			$checked=!strcmp($value,$select);
+			$checked=!strcmp($value,(string)$select);
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);

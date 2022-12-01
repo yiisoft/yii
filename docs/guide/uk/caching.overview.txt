@@ -36,7 +36,7 @@ Yii забезпечує різні кеш-компоненти, кешуючи 
 
    - [CApcCache]: використовує [додаток APC для PHP](https://php.net/manual/en/book.apc.php);
 
-   - [CXCache]: використовує [додаток XCache для PHP](https://xcache.lighttpd.net/).
+   - [CXCache]: використовує [додаток XCache для PHP](https://github.com/lighttpd/xcache).
 
    - [CEAcceleratorCache]: використовує [додаток EAccelerator для PHP](http://eaccelerator.net/);
 

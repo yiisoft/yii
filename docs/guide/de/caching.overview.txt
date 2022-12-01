@@ -44,7 +44,7 @@ von PHP.
 [APC-Erweiterung](https://www.php.net/manual/en/book.apc.php) von PHP
 
    - [CXCache]: Verwendet die
-[XCache-Erweiterung](https://xcache.lighttpd.net/) von PHP.
+[XCache-Erweiterung](https://github.com/lighttpd/xcache) von PHP.
 
    - [CEAcceleratorCache]: Verwendet die
 [EAccelerator-Erweiterung](http://eaccelerator.net/) für PHP.
