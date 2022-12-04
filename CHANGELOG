@@ -1,10 +1,16 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.27 under development
+Version 1.1.28 under development
+--------------------------------
+
+- No changes yet
+
+Version 1.1.27 November 21, 2022
 --------------------------------
 
 - Bug: PHP 8.1 compatibility: Fix CFileCache call of file_get_contents (Bregi)
+- Bug: CVE-2022-41922. Prevent RCE when deserializing untrusted user input (fi3wey, marcovtwout)
 
 Version 1.1.26 September 30, 2022
 --------------------------------
