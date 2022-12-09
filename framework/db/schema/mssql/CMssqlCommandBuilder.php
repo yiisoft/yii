@@ -241,7 +241,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 
 	/**
 	 * Rewrite SQL to apply $limit and $offset for MSSQL database version 11 (2012) and newer.
-     * @see https://learn.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql?view=sql-server-ver15#using-offset-and-fetch-to-limit-the-rows-returned
+	 * @see https://learn.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql?view=sql-server-ver15#using-offset-and-fetch-to-limit-the-rows-returned
 	 * @see https://github.com/yiisoft/yii/issues/4491
 	 * @param string $sql sql query
 	 * @param integer $limit $limit > 0
