@@ -204,7 +204,22 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	}
 
 	/**
-	 * Rewrite sql to apply $limit > and $offset > 0 for MSSQL database.
+	 * @param string $sql sql query
+	 * @param integer $limit $limit > 0
+	 * @param integer $offset $offset > 0
+	 * @return string modified sql query applied with limit and offset.
+	 */
+	protected function rewriteLimitOffsetSql($sql, $limit, $offset)
+	{
+		if (version_compare($this->dbConnection->getServerVersion(), '11', '<')) {
+			return $this->oldRewriteLimitOffsetSql($sql, $limit, $offset);
+		} else {
+			return $this->newRewriteLimitOffsetSql($sql, $limit, $offset);
+		}
+	}
+
+	/**
+	 * Rewrite sql to apply $limit > and $offset > 0 for MSSQL database version 10 (2008) and lower.
 	 * See https://troels.arvin.dk/db/rdbms/#select-limit-offset
 	 * @param string $sql sql query
 	 * @param integer $limit $limit > 0
@@ -213,7 +228,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 *
 	 * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
 	 */
-	protected function rewriteLimitOffsetSql($sql, $limit, $offset)
+	protected function oldRewriteLimitOffsetSql($sql, $limit, $offset)
 	{
 		$fetch = $limit+$offset;
 		$sql = preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',"\\1SELECT\\2 TOP $fetch", $sql);
@@ -221,6 +236,26 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 		$originalOrdering = $this->joinOrdering($ordering, '[__outer__]');
 		$reverseOrdering = $this->joinOrdering($this->reverseDirection($ordering), '[__inner__]');
 		$sql = "SELECT * FROM (SELECT TOP {$limit} * FROM ($sql) as [__inner__] {$reverseOrdering}) as [__outer__] {$originalOrdering}";
+		return $sql;
+	}
+
+	/**
+	 * Rewrite SQL to apply $limit and $offset for MSSQL database version 11 (2012) and newer.
+     * @see https://learn.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql?view=sql-server-ver15#using-offset-and-fetch-to-limit-the-rows-returned
+	 * @see https://github.com/yiisoft/yii/issues/4491
+	 * @param string $sql sql query
+	 * @param integer $limit $limit > 0
+	 * @param integer $offset $offset > 0
+	 * @return string modified sql query applied w th limit and offset.
+	 */
+	protected function newRewriteLimitOffsetSql($sql, $limit, $offset)
+	{
+		if (!preg_match("/ORDER\s*BY\s+.*$/", $sql)) {
+			$sql .= " ORDER BY (SELECT NULL)";
+		}
+
+		$sql .= sprintf(" OFFSET %d ROWS FETCH NEXT %d ROWS ONLY", $offset, $limit);
+
 		return $sql;
 	}
 
