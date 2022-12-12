@@ -13,12 +13,12 @@ class CMssqlCommandBuilderTest extends CTestCase
 	public function setUp()
 	{
 		/*
-		 * Disable the constructor and mock open and getAttribute so that CDbConnection does not
+		 * Disable the constructor and mock `open` so that CDbConnection does not
 		 * try to make a connection
 		 */
 		$this->db = $this->getMockBuilder(CDbConnection::class)
 			->disableOriginalConstructor()
-			->setMethods(['open', 'getAttribute', 'getServerVersion', 'getSchema'])
+			->setMethods(['open', 'getServerVersion', 'getSchema'])
 			->getMock();
 
 		$schema = $this->getMockBuilder(CMssqlSchema::class)
