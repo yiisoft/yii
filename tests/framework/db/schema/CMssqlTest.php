@@ -342,7 +342,6 @@ EOD;
 
 	public function testColumnComments()
 	{
-        $this->markTestSkipped();
 		$tables=$this->db->schema->tables;
 
 		$usersColumns=$tables['users']->columns;

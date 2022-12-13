@@ -250,8 +250,8 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 */
 	protected function newRewriteLimitOffsetSql($sql, $limit, $offset)
 	{
-        $order = $this->findOrdering($sql);
-        if (empty($order)) {
+		$order = $this->findOrdering($sql);
+		if (empty($order)) {
 			$sql .= " ORDER BY (SELECT NULL)";
 		}
 
