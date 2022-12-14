@@ -16,12 +16,12 @@ class CMssqlCommandBuilderTest extends CTestCase
 		 * Disable the constructor and mock `open` so that CDbConnection does not
 		 * try to make a connection
 		 */
-		$this->db = $this->getMockBuilder(CDbConnection::class)
+		$this->db = $this->getMockBuilder('CDbConnection')
 			->disableOriginalConstructor()
 			->setMethods(['open', 'getServerVersion', 'getSchema'])
 			->getMock();
 
-		$schema = $this->getMockBuilder(CMssqlSchema::class)
+		$schema = $this->getMockBuilder('CMssqlSchema')
 			->setConstructorArgs([$this->db])
 			->setMethods(['getTable'])
 			->getMock();
@@ -46,14 +46,12 @@ class CMssqlCommandBuilderTest extends CTestCase
 			'limit'=>2,
 			'offset'=>3
 		]);
-
 		$this->assertEquals('SELECT * FROM (SELECT TOP 2 * FROM (SELECT TOP 5 id, title FROM [dbo].[posts] [t] ORDER BY title) as [__inner__] ORDER BY title DESC) as [__outer__] ORDER BY title ASC', $command->text);
 
 		$command = $this->createFindCommand([
 			'limit'=>2,
 			'offset'=>3
 		]);
-
 		$this->assertEquals('SELECT * FROM (SELECT TOP 2 * FROM (SELECT TOP 5 * FROM [dbo].[posts] [t] ORDER BY id) as [__inner__] ORDER BY id DESC) as [__outer__] ORDER BY id ASC', $command->text);
 	}
 
@@ -67,14 +65,12 @@ class CMssqlCommandBuilderTest extends CTestCase
 			'limit'=>2,
 			'offset'=>3
 		]);
-
 		$this->assertEquals('SELECT id, title FROM [dbo].[posts] [t] ORDER BY title OFFSET 3 ROWS FETCH NEXT 2 ROWS ONLY', $command->text);
 
 		$command = $this->createFindCommand([
 			'limit'=>2,
 			'offset'=>3
 		]);
-
 		$this->assertEquals('SELECT * FROM [dbo].[posts] [t] ORDER BY id OFFSET 3 ROWS FETCH NEXT 2 ROWS ONLY', $command->text);
 	}
 
