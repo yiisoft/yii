@@ -36,9 +36,17 @@ class CMssqlCommandBuilderTest extends CTestCase
 		$this->db->method('getSchema')->willReturn($schema);
 	}
 
+	/**
+	 * Verify generated SQL for MSSQL 10 (2008) and older hasn't changed
+	 */
 	public function testCommandBuilderOldMssql()
 	{
 		$this->db->method('getServerVersion')->willReturn('10');
+
+		$command = $this->createFindCommand([
+			'limit'=>3,
+		]);
+		$this->assertEquals('SELECT TOP 3 * FROM [dbo].[posts] [t]', $command->text);
 
 		$command = $this->createFindCommand([
 			'select'=>'id, title',
@@ -53,6 +61,11 @@ class CMssqlCommandBuilderTest extends CTestCase
 			'offset'=>3
 		]);
 		$this->assertEquals('SELECT * FROM (SELECT TOP 2 * FROM (SELECT TOP 5 * FROM [dbo].[posts] [t] ORDER BY id) as [__inner__] ORDER BY id DESC) as [__outer__] ORDER BY id ASC', $command->text);
+
+		$command = $this->createFindCommand([
+			'select'=>'title',
+		]);
+		$this->assertEquals('SELECT title FROM [dbo].[posts] [t]', $command->text);
 	}
 
 	public function testCommandBuilderNewMssql()
@@ -60,18 +73,40 @@ class CMssqlCommandBuilderTest extends CTestCase
 		$this->db->method('getServerVersion')->willReturn('11');
 
 		$command = $this->createFindCommand([
+			'limit'=>3,
+		]);
+		$this->assertEquals('SELECT TOP 3 * FROM [dbo].[posts] [t]', $command->text);
+
+		$command = $this->createFindCommand([
 			'select'=>'id, title',
 			'order'=>'title',
 			'limit'=>2,
-			'offset'=>3
+			'offset'=>3,
 		]);
 		$this->assertEquals('SELECT id, title FROM [dbo].[posts] [t] ORDER BY title OFFSET 3 ROWS FETCH NEXT 2 ROWS ONLY', $command->text);
 
 		$command = $this->createFindCommand([
 			'limit'=>2,
-			'offset'=>3
+			'offset'=>3,
 		]);
 		$this->assertEquals('SELECT * FROM [dbo].[posts] [t] ORDER BY id OFFSET 3 ROWS FETCH NEXT 2 ROWS ONLY', $command->text);
+
+
+		$command = $this->createFindCommand([
+			'select'=>'title',
+			'offset'=>3,
+		]);
+		$this->assertEquals('SELECT title FROM [dbo].[posts] [t] ORDER BY id OFFSET 3 ROWS', $command->text);
+
+		$command = $this->createFindCommand([
+			'offset'=>3,
+		]);
+		$this->assertEquals('SELECT * FROM [dbo].[posts] [t] ORDER BY id OFFSET 3 ROWS', $command->text);
+
+		$command = $this->createFindCommand([
+			'select'=>'title',
+		]);
+		$this->assertEquals('SELECT title FROM [dbo].[posts] [t]', $command->text);
 	}
 
 	/**
