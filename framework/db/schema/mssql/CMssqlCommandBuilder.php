@@ -154,7 +154,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * @param integer $limit maximum number of rows, -1 to ignore limit.
 	 * @param integer $offset row offset, -1 to ignore offset.
 	 * @return string SQL with limit and offset.
-     * @see https://github.com/yiisoft/yii/issues/4491
+	 * @see https://github.com/yiisoft/yii/issues/4491
 	 */
 	public function applyLimit($sql, $limit, $offset)
 	{
@@ -215,8 +215,8 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * @param integer $limit $limit
 	 * @param integer $offset $offset
 	 * @return string modified sql query applied with limit and offset.
-     * @see https://troels.arvin.dk/db/rdbms/#select-limit-offset
-     * @see https://github.com/yiisoft/yii/issues/4491
+	 * @see https://troels.arvin.dk/db/rdbms/#select-limit-offset
+	 * @see https://github.com/yiisoft/yii/issues/4491
 	 */
 	protected function oldRewriteLimitOffsetSql($sql, $limit, $offset)
 	{
@@ -244,7 +244,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	protected function newRewriteLimitOffsetSql($sql, $limit, $offset)
 	{
 		// ORDER BY is required when using OFFSET and FETCH
-		if(empty($this->findOrdering($sql)))
+		if(count($this->findOrdering($sql)) === 0)
 			$sql .= " ORDER BY (SELECT NULL)";
 
 		$sql .= sprintf(" OFFSET %d ROWS", $offset);
