@@ -211,11 +211,10 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 */
 	protected function rewriteLimitOffsetSql($sql, $limit, $offset)
 	{
-		if (version_compare($this->dbConnection->getServerVersion(), '11', '<')) {
+		if(version_compare($this->dbConnection->getServerVersion(), '11', '<'))
 			return $this->oldRewriteLimitOffsetSql($sql, $limit, $offset);
-		} else {
+		else
 			return $this->newRewriteLimitOffsetSql($sql, $limit, $offset);
-		}
 	}
 
 	/**
@@ -251,12 +250,10 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	protected function newRewriteLimitOffsetSql($sql, $limit, $offset)
 	{
 		$order = $this->findOrdering($sql);
-		if (empty($order)) {
+		if(empty($order))
 			$sql .= " ORDER BY (SELECT NULL)";
-		}
 
 		$sql .= sprintf(" OFFSET %d ROWS FETCH NEXT %d ROWS ONLY", $offset, $limit);
-
 		return $sql;
 	}
 
