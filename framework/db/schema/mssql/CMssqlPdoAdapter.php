@@ -37,6 +37,7 @@ class CMssqlPdoAdapter extends PDO
 	 *
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function beginTransaction ()
 	{
 		$this->exec('BEGIN TRANSACTION');
@@ -51,6 +52,7 @@ class CMssqlPdoAdapter extends PDO
 	 *
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function commit ()
 	{
 		$this->exec('COMMIT TRANSACTION');
@@ -65,6 +67,7 @@ class CMssqlPdoAdapter extends PDO
 	 *
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function rollBack ()
 	{
 		$this->exec('ROLLBACK TRANSACTION');
