@@ -4,7 +4,7 @@
 Version 1.1.28 under development
 --------------------------------
 
-- No changes yet
+- Bug #4491: Fixed limit and Offset not working correctly with MSSQL version 11 (2012) and newer (shnoulle, wtommyw)
 
 Version 1.1.27 November 21, 2022
 --------------------------------
