@@ -204,7 +204,10 @@ class CRedisCache extends CCache
 	 */
 	protected function getValue($key)
 	{
-		return $this->executeCommand('GET',array($key));
+		$value=$this->executeCommand('GET',array($key));
+		if ($value===null)
+			return false;
+		return $value;
 	}
 
 	/**
