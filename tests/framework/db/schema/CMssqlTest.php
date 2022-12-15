@@ -224,7 +224,7 @@ EOD;
 			'order'=>'title',
 			'limit'=>2,
 			'offset'=>3)));
-		$this->assertEquals('SELECT * FROM (SELECT TOP 2 * FROM (SELECT TOP 5 id, title FROM [dbo].[posts] [t] ORDER BY title) as [__inner__] ORDER BY title DESC) as [__outer__] ORDER BY title ASC',$c->text);
+
 		$rows=$c->query()->readAll();
 		$this->assertEquals(2,count($rows));
 		$this->assertEquals('post 4',$rows[0]['title']);
