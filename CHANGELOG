@@ -4,7 +4,7 @@
 Version 1.1.28 under development
 --------------------------------
 
-- No changes yet
+- Bug #4497: PHP 8.1 compatibility: Fix unserialize null in CRedisCache (kenguest, wtommyw)
 
 Version 1.1.27 November 21, 2022
 --------------------------------
