@@ -671,7 +671,7 @@ class CHtmlTest extends CTestCase
 	 */
 	public function testValue($model, $attribute, $defaultValue, $assertion)
 	{
-		$this->assertEquals($assertion, CHtml::value($model, $attribute, $defaultValue));
+		$this->assertEquals($assertion, CHtml::value($model, $attribute, (string)$defaultValue));
 	}
 
 	/**
