@@ -14,7 +14,7 @@ class CGridViewTest extends CTestCase
 			'js:function() { /* callback3 */ }',
 			'js:function() { /* callback4 */ }'
 		);
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (js:): ".$out);
+		$this->assertTrue(mb_strpos($out,$expected, 0, Yii::app()->charset)!==false, "Unexpected JavaScript (js:): ".$out);
 
 		$out=$this->getWidgetScript(
 			'function() { /* callback1 */ }',
@@ -22,7 +22,7 @@ class CGridViewTest extends CTestCase
 			'function() { /* callback3 */ }',
 			'function() { /* callback4 */ }'
 		);
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (w/o js:): ".$out);
+		$this->assertTrue(mb_strpos($out,$expected, 0, Yii::app()->charset)!==false, "Unexpected JavaScript (w/o js:): ".$out);
 
 		$out=$this->getWidgetScript(
 			new CJavaScriptExpression('function() { /* callback1 */ }'),
@@ -30,7 +30,7 @@ class CGridViewTest extends CTestCase
 			new CJavaScriptExpression('function() { /* callback3 */ }'),
 			new CJavaScriptExpression('function() { /* callback4 */ }')
 		);
-		$this->assertTrue(mb_strpos($out,$expected, null, Yii::app()->charset)!==false, "Unexpected JavaScript (wrap): ".$out);
+		$this->assertTrue(mb_strpos($out,$expected, 0, Yii::app()->charset)!==false, "Unexpected JavaScript (wrap): ".$out);
 	}
 
 	private function getWidgetScript($callback1, $callback2, $callback3, $callback4)

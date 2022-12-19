@@ -1128,17 +1128,17 @@ class CHtmlTest extends CTestCase
 		$out=CHtml::ajax(array(
 			'success'=>'js:function() { /* callback */ }',
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", 0, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
 
 		$out=CHtml::ajax(array(
 			'success'=>'function() { /* callback */ }',
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", 0, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
 
 		$out=CHtml::ajax(array(
 			'success'=>new CJavaScriptExpression('function() { /* callback */ }'),
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", 0, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
 	}
 }
 
