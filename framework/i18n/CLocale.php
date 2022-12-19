@@ -113,7 +113,7 @@ class CLocale extends CComponent
 	 */
 	public static function getCanonicalID($id)
 	{
-		return strtolower(str_replace('-','_',$id));
+		return strtolower(str_replace('-','_',(string)$id));
 	}
 
 	/**
