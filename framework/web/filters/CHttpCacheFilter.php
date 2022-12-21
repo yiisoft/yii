@@ -82,21 +82,21 @@ class CHttpCacheFilter extends CFilter
 		{
 			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
 			{
-				$cacheValid = true;
+				$cacheValid=true;
 			}
 		}
 		elseif(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 		{
 			if($this->checkLastModified($lastModified))
 			{
-				$cacheValid = true;
+				$cacheValid=true;
 			}
 		}
 		elseif(isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			if($this->checkEtag($etag))
 			{
-				$cacheValid = true;
+				$cacheValid=true;
 			}
 		}
 
