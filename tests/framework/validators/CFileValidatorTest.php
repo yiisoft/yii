@@ -34,7 +34,7 @@ class CFileValidatorTest extends CTestCase
 	public function testSizeToBytes($sizeString, $assertion)
 	{
 		$fileValidator=new CFileValidator();
-		$this->assertEquals($assertion, $fileValidator->sizeToBytes((string)$sizeString));
+		$this->assertSame($assertion, $fileValidator->sizeToBytes((string)$sizeString));
 	}
 
 	public function testValidate()
