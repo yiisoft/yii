@@ -643,6 +643,13 @@ class CHtmlTest extends CTestCase
 			array(array('v1'),"0",'defaultValue','v1'),
 			array(array('v1'),0,'defaultValue','v1'),
 			array(array('v1'),0.0,'defaultValue','v1'),
+
+            // Test $model as an array, with null as a key, see: https://github.com/yiisoft/yii/pull/4503#discussion_r1054516859
+            array(array(null=>'v1','k2'=>'v2'),null,'defaultValue','v1'),
+            array(array(null=>'v1','k2'=>'v2'),'','defaultValue','v1'),
+            array(array(''=>'v1','k2'=>'v2'),null,'defaultValue','v1'),
+            array(array(''=>'v1','k2'=>'v2'),'','defaultValue','v1'),
+            array(array(null=>'v1','k2'=>'v2'),'k2','defaultValue','v2'),
 		);
 
 		// create_function is not supported by CHtml::value(), we're just testing this feature/property
