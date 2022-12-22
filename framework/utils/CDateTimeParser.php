@@ -83,9 +83,6 @@ class CDateTimeParser
 		if(self::$_mbstringAvailable===null)
 			self::$_mbstringAvailable=extension_loaded('mbstring');
 
-		if($value===null)
-			return false;
-
 		$tokens=self::tokenize($pattern);
 		$i=0;
 		$n=self::$_mbstringAvailable ? mb_strlen($value,Yii::app()->charset) : strlen($value);
