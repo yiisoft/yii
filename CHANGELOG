@@ -4,6 +4,7 @@
 Version 1.1.28 under development
 --------------------------------
 
+- Enh 4503: Update tests and code for PHP 8.1 compatibility, stop suppressing deprecation warnings in tests (wtommyw)
 - Bug #4491: Fixed limit and Offset not working correctly with MSSQL version 11 (2012) and newer (shnoulle, wtommyw)
 - Bug #4497: PHP 8.1 compatibility: Fix unserialize null in CRedisCache (kenguest, wtommyw)
 - Bug #4500: PHP 8.1 compatibility: Fix deprecation warnings in CMysql classes (csears123)
