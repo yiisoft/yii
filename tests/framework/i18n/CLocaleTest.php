@@ -176,7 +176,7 @@ class CLocaleTest extends CTestCase
 	public function testGetLanguage($ctorLocale,$methodLocale,$assertion)
 	{
 		$locale=CLocale::getInstance($ctorLocale);
-		$this->assertEquals(mb_strtolower((string)$assertion),mb_strtolower((string)$locale->getLanguage($methodLocale)));
+		$this->assertEquals(mb_strtolower((string)$assertion),mb_strtolower((string)$locale->getLanguage((string)$methodLocale)));
 	}
 
 	public function providerGetScript()
