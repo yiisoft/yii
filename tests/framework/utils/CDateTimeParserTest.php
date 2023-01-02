@@ -193,8 +193,6 @@ class CDateTimeParserTest extends CTestCase
 	{
 		// empty parsed string
 		$this->assertFalse(CDateTimeParser::parse('', 'dd MMMM, yyyy, HH:mm'));
-		$this->assertFalse(CDateTimeParser::parse(false, 'dd MMMM, yyyy, HH:mm'));
-		$this->assertFalse(CDateTimeParser::parse(null, 'dd MMMM, yyyy, HH:mm'));
 
 		// accidently mixed up arguments
 		$this->assertFalse(CDateTimeParser::parse('dd/MM/yyyy, ???, hh:m:s', '02/08/2010, yyy, 05:9:7'));

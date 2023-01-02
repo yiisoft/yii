@@ -170,7 +170,7 @@ class CStarRating extends CInputWidget
 				$options['title']=$this->titles[$value];
 			else
 				unset($options['title']);
-			echo CHtml::radioButton($name,!strcmp($value,$selection),$options) . "\n";
+			echo CHtml::radioButton($name,!strcmp($value,(string)$selection),$options) . "\n";
 		}
 	}
 

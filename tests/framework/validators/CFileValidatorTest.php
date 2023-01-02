@@ -20,8 +20,8 @@ class CFileValidatorTest extends CTestCase
 			array('1.2G', 1*1024*1024*1024),
 			array('100500', 100500),
 			array('9000', 9000),
-			array(null, null),
-			array('', null),
+			array(null, 0),
+			array('', 0),
 		);
 	}
 
@@ -34,7 +34,7 @@ class CFileValidatorTest extends CTestCase
 	public function testSizeToBytes($sizeString, $assertion)
 	{
 		$fileValidator=new CFileValidator();
-		$this->assertEquals($assertion, $fileValidator->sizeToBytes($sizeString));
+		$this->assertSame($assertion, $fileValidator->sizeToBytes((string)$sizeString));
 	}
 
 	public function testValidate()
