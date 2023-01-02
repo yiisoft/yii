@@ -417,7 +417,7 @@ class CLocale extends CComponent
 	 */
 	public function getLocaleDisplayName($id=null, $category='languages')
 	{
-		$id = $this->getCanonicalID($id);
+		$id = $this->getCanonicalID((string)$id);
 		if (($category == 'languages') && (isset($this->_data[$category][$id])))
 		{
 			return $this->_data[$category][$id];

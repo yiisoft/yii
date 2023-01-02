@@ -88,9 +88,9 @@ class CStringValidator extends CValidator
 		}
 
 		if(function_exists('mb_strlen') && $this->encoding!==false)
-			$length=mb_strlen($value, $this->encoding ? $this->encoding : Yii::app()->charset);
+			$length=mb_strlen((string)$value, $this->encoding ? $this->encoding : Yii::app()->charset);
 		else
-			$length=strlen($value);
+			$length=strlen((string)$value);
 
 		if($this->min!==null && $length<$this->min)
 		{

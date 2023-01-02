@@ -123,4 +123,57 @@ class CFormatterTest extends CTestCase
 		$formatter = new CFormatter();
 		$this->assertEquals($assertion, $formatter->formatNtext($value, $paragraphs, $removeEmptyParagraphs));
 	}
+
+	/**
+	 * @dataProvider providerFormatNumber()
+	 * @param string $value
+	 * @param string $decimals
+	 * @param string $decimalSeparator
+	 * @param string $thousandSeparator
+	 * @param string $assertion
+	 */
+	public function testFormatNumber($value,$decimals,$decimalSeparator,$thousandSeparator,$assertion)
+	{
+		$formatter = new CFormatter();
+
+		if ($decimals!==null)
+			$formatter->numberFormat['decimals']=$decimals;
+
+		if ($decimalSeparator!==null)
+			$formatter->numberFormat['decimalSeparator']=$decimalSeparator;
+
+		if ($thousandSeparator!==null)
+			$formatter->numberFormat['thousandSeparator']=$thousandSeparator;
+
+		$this->assertEquals($assertion,$formatter->formatNumber($value));
+	}
+
+	public function providerFormatNumber()
+	{
+		return array(
+			// Tests decimals
+			array('1.5',null,null,null,'2'),
+			array('1.5',1,null,null,'1.5'),
+			array('1.55',1,null,null,'1.6'),
+			array('1.44',1,null,null,'1.4'),
+			array('1.01',2,null,null,'1.01'),
+
+			// Test decimal separator
+			array('1.5',null, ',', null,'2'),
+			array('1.5',1,',',null,'1,5'),
+			array('1.55',1,',',null,'1,6'),
+			array('1.44',1,',',null,'1,4'),
+			array('1.01',2,',',null,'1,01'),
+
+			// Test thousands seperator
+			array('1000',null,null,'.','1.000'),
+			array('10000',null,null,'.','10.000'),
+			array('100000',null,null,'.','100.000'),
+			array('1000000',null,null,'.','1.000.000'),
+
+			// Test all at once
+			array('1000.05',2,'D','T','1T000D05'),
+			array('10000.005',2,'D','T','10T000D01'),
+		);
+	}
 }
