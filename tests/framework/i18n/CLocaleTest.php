@@ -123,7 +123,7 @@ class CLocaleTest extends CTestCase
 	public function testGetLocaleDisplayName($ctorLocale,$methodLocale,$assertion)
 	{
 		$locale=CLocale::getInstance($ctorLocale);
-		$this->assertEquals(mb_strtolower($assertion),mb_strtolower($locale->getLocaleDisplayName($methodLocale)));
+		$this->assertEquals(mb_strtolower((string)$assertion),mb_strtolower((string)$locale->getLocaleDisplayName((string)$methodLocale)));
 	}
 
 	public function providerGetLanguage()
@@ -176,7 +176,7 @@ class CLocaleTest extends CTestCase
 	public function testGetLanguage($ctorLocale,$methodLocale,$assertion)
 	{
 		$locale=CLocale::getInstance($ctorLocale);
-		$this->assertEquals(mb_strtolower($assertion),mb_strtolower($locale->getLanguage($methodLocale)));
+		$this->assertEquals(mb_strtolower((string)$assertion),mb_strtolower((string)$locale->getLanguage((string)$methodLocale)));
 	}
 
 	public function providerGetScript()
@@ -217,7 +217,7 @@ class CLocaleTest extends CTestCase
 	public function testGetScript($ctorLocale,$methodLocale,$assertion)
 	{
 		$locale=CLocale::getInstance($ctorLocale);
-		$this->assertEquals($assertion,$locale->getScript($methodLocale));
+		$this->assertEquals((string)$assertion,$locale->getScript((string)$methodLocale));
 	}
 
 	public function providerGetTerritory()
@@ -264,6 +264,6 @@ class CLocaleTest extends CTestCase
 	public function testGetTerritory($ctorLocale,$methodLocale,$assertion)
 	{
 		$locale=CLocale::getInstance($ctorLocale);
-		$this->assertEquals($assertion,$locale->getTerritory($methodLocale));
+		$this->assertEquals((string)$assertion,$locale->getTerritory((string)$methodLocale));
 	}
 }
