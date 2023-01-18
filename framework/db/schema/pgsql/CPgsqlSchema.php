@@ -239,7 +239,7 @@ FROM (
 	SELECT
 		conname,
 		pg_catalog.pg_get_constraintdef(oid) AS consrc,
-		contype,
+		contype::char,
 		conrelid AS relid,
 		NULL AS indkey
 	FROM

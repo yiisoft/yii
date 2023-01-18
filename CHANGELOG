@@ -4,6 +4,7 @@
 Version 1.1.28 under development
 --------------------------------
 
+- Enh #4490: Added support for PostgreSQL 15 (sternix, marcovtwout)
 - Enh #4505: Added support for PHP 8.2 (wtommyw)
 - Enh #4503: Update tests and code for PHP 8.1 compatibility, stop suppressing deprecation warnings in tests (wtommyw)
 - Bug #4484: Set Last-Modified after sending cache control headers (jannis701, wtommyw)
