@@ -130,7 +130,7 @@ class CFileCache extends CCache
 	{
 		$cacheFile=$this->getCacheFile($key);
 		if(($time=$this->filemtime($cacheFile))>time())
-			return @file_get_contents($cacheFile,false,null,$this->embedExpiry ? 10 : null);
+			return @file_get_contents($cacheFile,false,null,$this->embedExpiry ? 10 : 0);
 		elseif($time>0)
 			@unlink($cacheFile);
 		return false;

@@ -1,11 +1,30 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.26 under development
+Version 1.1.28 under development
 --------------------------------
 
-- Enh #4386: Added support for PHP 8.1 (marcovtwout, JonathanArgentao, ivany4)
-- Enh #4386: Updated HTMLPurifier to version 4.14.0-master-1dd3e52 for PHP 8.1 support (https://github.com/ezyang/htmlpurifier/blob/v4.14.0/NEWS) (marcovtwout)
+- Enh #4490: Added support for PostgreSQL 15 (sternix, marcovtwout)
+- Enh #4505: Added support for PHP 8.2 (wtommyw)
+- Enh #4503: Update tests and code for PHP 8.1 compatibility, stop suppressing deprecation warnings in tests (wtommyw)
+- Bug #4484: Set Last-Modified after sending cache control headers (jannis701, wtommyw)
+- Bug #4491: Fixed limit and Offset not working correctly with MSSQL version 11 (2012) and newer (shnoulle, wtommyw)
+- Bug #4497: PHP 8.1 compatibility: Fix unserialize null in CRedisCache (kenguest, wtommyw)
+- Bug #4499: PHP 8.1 compatibility: Fix deprecation warning in COciSchema (marcovtwout)
+- Bug #4500: PHP 8.1 compatibility: Fix deprecation warnings in CMysql classes (csears123)
+- Bug #4507: PHP 8.1 compatibility: Fix deprecation warning in CWebUser (marcovtwout, wtommyw)
+
+Version 1.1.27 November 21, 2022
+--------------------------------
+
+- Bug: PHP 8.1 compatibility: Fix CFileCache call of file_get_contents (Bregi)
+- Bug: CVE-2022-41922. Prevent RCE when deserializing untrusted user input (fi3wey, marcovtwout)
+
+Version 1.1.26 September 30, 2022
+--------------------------------
+
+- Enh #4386: Added support for PHP 8.1 (marcovtwout, JonathanArgentao, ivany4, csears123)
+- Enh #4386: Updated HTMLPurifier to version 4.15.0 for PHP 8.1 support (https://github.com/ezyang/htmlpurifier/blob/v4.15.0/NEWS) (marcovtwout)
 - Enh #4392: Added support for SSL to CRedisCache (andres101)
 - Bug #4453: Alpine Linux compatibility: Avoid using `GLOB_BRACE` in `CFileHelper::removeDirectory` (ivany4)
 
@@ -284,7 +303,7 @@ Version 1.1.16 December 21, 2014
 - Chg #3298: ListView and GridView: Added check for the existence of a href attribute in link pager (dutchakdev)
 - Chg #3464: Updated multifile plugin used by CMultiFileUpload to version 1.48 (samdark)
 - Chg #3636: Upgraded jQuery UI to 1.11.2 (marcovtwout)
-- Chg: Updated the i18n data bundled with the framework to CLDR23.1 <http://cldr.unicode.org/index/downloads/cldr-23-1> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
+- Chg: Updated the i18n data bundled with the framework to CLDR23.1 <http://unicode.org/Public/cldr/23.1/> this adds new locales and has many fixes and additional data for existing ones (cebe, dralshehri)
 - New #2955: Added official support for MariaDB (cebe, DaSourcerer)
 
 Version 1.1.15 June 29, 2014

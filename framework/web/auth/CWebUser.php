@@ -267,7 +267,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				if($this->identityCookie!==null)
 				{
 					$cookie=$this->createIdentityCookie($this->getStateKeyPrefix());
-					$cookie->value=null;
+					$cookie->value='';
 					$cookie->expire=0;
 					Yii::app()->getRequest()->getCookies()->add($cookie->name,$cookie);
 				}

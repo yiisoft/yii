@@ -75,39 +75,39 @@ class CHttpCacheFilter extends CFilter
 		if($etag)
 			header('ETag: '.$etag);
 
+		$this->sendCacheControlHeader();
+
+		$cacheValid = false;
 		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
 			{
-				$this->send304Header();
-				$this->sendCacheControlHeader();
-				return false;
+				$cacheValid=true;
 			}
 		}
 		elseif(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 		{
 			if($this->checkLastModified($lastModified))
 			{
-				$this->send304Header();
-				$this->sendCacheControlHeader();
-				return false;
+				$cacheValid=true;
 			}
 		}
 		elseif(isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			if($this->checkEtag($etag))
 			{
-				$this->send304Header();
-				$this->sendCacheControlHeader();
-				return false;
+				$cacheValid=true;
 			}
-
 		}
 
 		if($lastModified)
 			header('Last-Modified: '.gmdate('D, d M Y H:i:s', $lastModified).' GMT');
 
-		$this->sendCacheControlHeader();
+		if ($cacheValid) {
+			$this->send304Header();
+			return false;
+		}
+
 		return true;
 	}
 
