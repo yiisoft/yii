@@ -97,7 +97,7 @@
 		"branch-alias": {
 			"dev-master": "1.1.x-dev"
 		},
-		"composer-exit-on-patch-failure": true,
+		"composer-exit-on-patch-failure": false,
 		"patches": {
 			"phpunit/phpunit-mock-objects": {
 				"Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
