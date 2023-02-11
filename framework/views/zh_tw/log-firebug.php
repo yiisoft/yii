@@ -6,7 +6,7 @@ if(typeof(console)=='object')
 <?php
 foreach($data as $index=>$log)
 {
-	$time=date('H:i:s.',$log[3]).(int)(($log[3]-(int)$log[3])*1000);
+	$time=date('H:i:s.',(int)$log[3]).(int)(($log[3]-(int)$log[3])*1000);
 	if($log[1]===CLogger::LEVEL_WARNING)
 		$func='warn';
 	elseif($log[1]===CLogger::LEVEL_ERROR)

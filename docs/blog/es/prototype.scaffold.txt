@@ -3,7 +3,7 @@ Scaffolding
 
 Crear, leer, actualizar y borrar (CRUD por sus siglas en inglés) son las cuatro operaciones básicas de los objetos de datos en una aplicación. Ya que la tarea de implementar las operaciones CRUD es tan común en el desarrollo de aplicaciones Web, Yii provee herramientas de generación de código bajo el nombre de *Gii* que pueden automatizar este proceso (también conocido como *scaffolding*) para nosotros.
 
-> Note|Nota: Gii está disponible desde la versión 1.1.2. Antes, se tenía que usar la [herramienta de shell yiic](http://www.yiiframework.com/doc/guide/es/quickstart.first-app-yiic) para efectuar la misma tarea.
+> Note|Nota: Gii está disponible desde la versión 1.1.2. Antes, se tenía que usar la [herramienta de shell yiic](https://www.yiiframework.com/doc/guide/es/quickstart.first-app-yiic) para efectuar la misma tarea.
 
 A continuación, vamos a describir cómo usar esta herramienta para implementar las operaciones CRUD para los posts y comentarios de nuestra aplicación de blog.
 
@@ -43,7 +43,7 @@ Se nos va a pedir que ingresemos una contraseña. Ingresamos la contraseña que 
 Creando los Modelos
 -------------------
 
-Primero necesitamos crear una clase [modelo](http://www.yiiframework.com/doc/guide/es/basics.model) para cada una de las tablas de la base de datos. Las clases modelo nos permitirán acceder a la base de datos de una forma orientada a objetos intuitiva, como veremos más adelante en este tutorial.
+Primero necesitamos crear una clase [modelo](https://www.yiiframework.com/doc/guide/es/basics.model) para cada una de las tablas de la base de datos. Las clases modelo nos permitirán acceder a la base de datos de una forma orientada a objetos intuitiva, como veremos más adelante en este tutorial.
 
 Hacer click en el enlace `Model Generator` para empezar a usar la herramienta de generación de modelos.
 
@@ -72,7 +72,7 @@ En la página de `Crud Generator`, ingresamos `Post` (el nombre de la clase mode
 
 Repetimos el mismo procedimiento para el modelo `Comment`.
 
-Veamos los archivos generadores por el generador de CRUD. Todos los archivos son generados bajo `/wwwroot/blog/protected`. Por conveniencia, los agrupamos en un archivo [controlador](http://www.yiiframework.com/doc/guide/basics.controller) y archivos de [vista] (http://www.yiiframework.com/doc/guide/basics.view):
+Veamos los archivos generadores por el generador de CRUD. Todos los archivos son generados bajo `/wwwroot/blog/protected`. Por conveniencia, los agrupamos en un archivo [controlador](https://www.yiiframework.com/doc/guide/basics.controller) y archivos de [vista] (https://www.yiiframework.com/doc/guide/basics.view):
 
  - archivos controladores:
 	* `controllers/PostController.php` contiene la clase `PostController` que es el controlador a cargo de todas las operaciones de CRUD sobre posts;
@@ -103,7 +103,7 @@ Las funciones de post y comentario implementadas en el código generado son comp
 Para entender mejor cómo son utilizados los archivos anteriores, vamos a mostrar el siguiente flujo de trabajo que sucede en la Aplicación de Blog cuando muestra una lista de posts:
 
  0. El usuario hace un pedido(request) de la URL `http://www.example.com/blog/index.php?r=post`;
- 1. El [script de entrada](http://www.yiiframework.com/doc/guide/basics.entry) es ejecutado por el servidor Web quien crea e inicializa una instancia de la [aplicación](http://www.yiiframework.com/doc/guide/basics.application) para manejar el pedido;
+ 1. El [script de entrada](https://www.yiiframework.com/doc/guide/basics.entry) es ejecutado por el servidor Web quien crea e inicializa una instancia de la [aplicación](https://www.yiiframework.com/doc/guide/basics.application) para manejar el pedido;
  2. La aplicación crea una instancia de `PostController`y la ejecuta;
  3. La instancia de `PostController` ejecuta la acción `index` llamando a su método `actionIndex()`. Notar que `index` es la acción por defecto si el usuario no especifica una acción para ejecutar en la URL;
  4. El método `actionIndex()` pide a la base de datos que devuelva una lista de los post más recientes;

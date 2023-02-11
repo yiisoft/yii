@@ -17,7 +17,7 @@
 <div id="content">
 <h2>Descripció</h2>
 <p>
-Aquest script verifica que la configuració del seu servidor compleix amb els requeriments necessàris per poder executar aplicacions Web <a href="http://www.yiiframework.com/">Yii</a>.
+Aquest script verifica que la configuració del seu servidor compleix amb els requeriments necessàris per poder executar aplicacions Web <a href="https://www.yiiframework.com/">Yii</a>.
 El mateix verifica que el servidor corre una versió adequada de PHP, que les extensions PHP necessàries han set carregades i que les configuracions de l'arxiu php.ini són correctes.
 </p>
 

@@ -14,7 +14,7 @@ protokołu komunikacyjnego.
 Yii dostarcza klas [CWebService] i [CWebServiceAction] dla uproszczenia pracy
 związanej z implementacją Web service'u w aplikacji webowej. Poszczególne
 API pogrupowane są w klasy, zwane *dostawcami usług*. Dla każej z tych klas
-Yii generuje specyfikację [WSDL](http://www.w3.org/TR/wsdl) określającą,
+Yii generuje specyfikację [WSDL](https://www.w3.org/TR/wsdl) określającą,
 jakie funkcje API są dostępne i jak powinny być wywoływane przez klienta.
 W momencie gdy funkcja API jest wywoływana przez klienta, Yii tworzy instancję
 odpowiedniego dostawcy usługi i wywołuje potrzebne API, aby zrealizować żądanie.

@@ -6,7 +6,7 @@
  * `tbl_user` はユーザ名、パスワードを含むユーザ情報を格納します。
  * `tbl_post` は記事情報を格納します。主に以下のカラムから成ります:
 	 - `title`: 必須、記事のタイトル
-	 - `content`: 必須、[Markdown フォーマット](http://daringfireball.net/projects/markdown/syntax) で記述された記事の本文
+	 - `content`: 必須、[Markdown フォーマット](https://daringfireball.net/projects/markdown/syntax) で記述された記事の本文
 	 - `status`: 必須、記事のステータス(公開状態)。以下のいずれかの値をとる
 		 * 1, 記事は下書きで、公開されていない
 		 * 2, 記事は公開されている
@@ -34,7 +34,7 @@
 
 ![ブログデータベースの ER 図](schema.png)
 
-上記 ER 図に対応する完全な SQL 文が [ブログデモ](http://www.yiiframework.com/demos/blog/) に付属しています。
+上記 ER 図に対応する完全な SQL 文が [ブログデモ](https://www.yiiframework.com/demos/blog/) に付属しています。
 Yii のインストールディレクトリの中では `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql` というファイルにあります。
 
 > Info|情報: テーブル名とカラム名は全て小文字で命名します。これは、異る DBMS はしばしば異るケースセンシティビティを持つからであり、それによるトラブルを避けたいためです。

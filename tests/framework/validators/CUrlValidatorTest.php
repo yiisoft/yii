@@ -28,7 +28,7 @@ class CUrlValidatorTest extends CTestCase
 			array('http://mañana.com/', true, 'http://mañana.com/'),
 			array('http://☃-⌘.com/', true, 'http://☃-⌘.com/'),
 			array('http://google.com/', true, 'http://google.com/'),
-			array('http://www.yiiframework.com/forum/', true, 'http://www.yiiframework.com/forum/'),
+			array('https://www.yiiframework.com/forum/', true, 'https://www.yiiframework.com/forum/'),
 			array('https://www.yiiframework.com/extensions/', true, 'https://www.yiiframework.com/extensions/'),
 			array('ftp://www.yiiframework.com/', true, false),
 			array('www.yiiframework.com', true, false),
@@ -40,7 +40,7 @@ class CUrlValidatorTest extends CTestCase
 			array('http://mañana.com/', false, false),
 			array('http://☃-⌘.com/', false, false),
 			array('http://google.com/', false, 'http://google.com/'),
-			array('http://www.yiiframework.com/forum/', false, 'http://www.yiiframework.com/forum/'),
+			array('https://www.yiiframework.com/forum/', false, 'https://www.yiiframework.com/forum/'),
 			array('https://www.yiiframework.com/extensions/', false, 'https://www.yiiframework.com/extensions/'),
 			array('ftp://www.yiiframework.com/', false, false),
 			array('www.yiiframework.com', false, false),
@@ -106,7 +106,7 @@ class CUrlValidatorTest extends CTestCase
 			array('yiiframework.com/?get=param', null, false),
 			array('that-s-not-an-url-at-all', null, false),
 
-			array('https://yiiframework.com/?get=param', 'http', 'https://yiiframework.com/?get=param'),
+			array('http://yiiframework.com/?get=param', 'http', 'http://yiiframework.com/?get=param'),
 			array('ftp://yiiframework.com/?get=param', 'http', false),
 			array('yiiframework.com/?get=param', 'http', 'http://yiiframework.com/?get=param'),
 			array('that-s-not-an-url-at-all', 'http', false),
@@ -180,7 +180,7 @@ class CUrlValidatorTest extends CTestCase
 	public function testArrayValue()
 	{
 		$model=new ValidatorTestModel('CUrlValidatorTest');
-		$model->url=array('http://yiiframework.com/');
+		$model->url=array('https://yiiframework.com/');
 		$model->validate(array('url'));
 		$this->assertTrue($model->hasErrors('url'));
 		$this->assertEquals(array('Url is not a valid URL.'),$model->getErrors('url'));

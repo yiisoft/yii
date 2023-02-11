@@ -4,9 +4,9 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -43,7 +43,7 @@
  * And in the second example, the pattern specifies two grouping sizes.
  *
  * CNumberFormatter attempts to implement number formatting according to
- * the {@link http://www.unicode.org/reports/tr35/ Unicode Technical Standard #35}.
+ * the {@link https://www.unicode.org/reports/tr35/ Unicode Technical Standard #35}.
  * The following features are NOT implemented:
  * <ul>
  * <li>significant digit</li>

@@ -32,7 +32,7 @@ Yii 提供了不同的缓存组件，可以将缓存数据存储到不同的媒�
 
    - [CApcCache]: 使用 PHP [APC 扩展](https://www.php.net/manual/en/book.apc.php).
 
-   - [CXCache]: 使用 PHP [XCache 扩展](https://xcache.lighttpd.net/)。注意，这个是从 1.0.1 版本开始支持的。
+   - [CXCache]: 使用 PHP [XCache 扩展](https://github.com/lighttpd/xcache)。注意，这个是从 1.0.1 版本开始支持的。
 
    - [CEAcceleratorCache]: 使用 PHP [EAccelerator 扩展](http://eaccelerator.net/).
 

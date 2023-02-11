@@ -17,7 +17,7 @@
 		<div id="footer">
 			<p>Copyright 2008—2012 &copy <a href="http://www.yiisoft.com">Yii Software LLC</a>
 			All Rights Reserved |
-			<a href="http://www.yiiframework.com/doc/terms/">Terms of Use</a><br/>
+			<a href="https://www.yiiframework.com/doc/terms/">Terms of Use</a><br/>
 			<?php echo Yii::powered()?></p>
 		</div>
 	</div>

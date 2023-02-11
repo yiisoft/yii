@@ -18,7 +18,7 @@
 <h2>Opis</h2>
 <p>
 Skrypt ten sprawdza czy konfiguracja Twojego serwera spełnia wymagania
-pozwalające uruchomić aplikację napisaną przy użyciu <a href="http://www.yiiframework.com/">Yii</a>.
+pozwalające uruchomić aplikację napisaną przy użyciu <a href="https://www.yiiframework.com/">Yii</a>.
 Sprawdza on, czy serwer używa poprawnej wersji PHP,
 czy zostały załadowane odpowiednie rozszerzenia PHP oraz czy ustawienia w pliku php.ini są prawidłowe.
 </p>

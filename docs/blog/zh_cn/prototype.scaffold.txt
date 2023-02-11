@@ -3,7 +3,7 @@
 
 创建，读取，更新，删除 (CRUD) 是应用的数据对象中的四个基本操作。由于在Web应用的开发中实现CURD的任务非常常见，Yii 为我们提供了一些可以使这些过程自动化的代码生成工具，名为 *Gii* （也被称为 *脚手架*） 。
 
-> Note|注意: Gii 从 Yii 1.1.2 版开始提供。在这之前，你可能需要使用 [yiic shell tool](http://www.yiiframework.com/doc/guide/quickstart.first-app-yiic) 来实现相同的任务。
+> Note|注意: Gii 从 Yii 1.1.2 版开始提供。在这之前，你可能需要使用 [yiic shell tool](https://www.yiiframework.com/doc/guide/quickstart.first-app-yiic) 来实现相同的任务。
 
 下面，我们将阐述如何使用这个工具来实现博客应用中的CRUD操作。
 
@@ -44,7 +44,7 @@ http://www.example.com/blog/index.php?r=gii
 创建模型
 ---------------
 
-首先我们需要为每个数据表创建一个[模型（Model）](http://www.yiiframework.com/doc/guide/basics.model) 类。模型类会使我们可以通过一种直观的、面向对象的风格访问数据库。稍后我们将会看到这一点。
+首先我们需要为每个数据表创建一个[模型（Model）](https://www.yiiframework.com/doc/guide/basics.model) 类。模型类会使我们可以通过一种直观的、面向对象的风格访问数据库。稍后我们将会看到这一点。
 
 点击 `Model Generator` 链接开始使用模型创建工具。
 
@@ -74,7 +74,7 @@ http://www.example.com/blog/index.php?r=gii
 
 对 `Comment` 模型重复同样的步骤。
 
-让我们看一下通过CRUD生成器生成的这些文件。所有的文件都创建在了 `/wwwroot/blog/protected` 目录中。为方便起见，我们把它们分组为 [控制器（Controller）](http://www.yiiframework.com/doc/guide/basics.controller) 文件和 [视图（View）](http://www.yiiframework.com/doc/guide/basics.view) 文件：
+让我们看一下通过CRUD生成器生成的这些文件。所有的文件都创建在了 `/wwwroot/blog/protected` 目录中。为方便起见，我们把它们分组为 [控制器（Controller）](https://www.yiiframework.com/doc/guide/basics.controller) 文件和 [视图（View）](https://www.yiiframework.com/doc/guide/basics.view) 文件：
 
  - 控制器文件：
 	 * `controllers/PostController.php` 包含负责所有CRUD操作的 `PostController` 控制器类；
@@ -108,7 +108,7 @@ http://www.example.com/blog/index.php?r=comment
 为了更好地理解这些文件是如何使用的，我们在下面列出了当显示一个日志列表时发生的工作流程。
 
  0. 用户请求访问这个 URL `http://www.example.com/blog/index.php?r=post`;
- 1. [入口脚本](http://www.yiiframework.com/doc/guide/basics.entry) 被Web服务器执行，它创建并实例化了一个 [应用](http://www.yiiframework.com/doc/guide/basics.application) 实例来处理此请求；
+ 1. [入口脚本](https://www.yiiframework.com/doc/guide/basics.entry) 被Web服务器执行，它创建并实例化了一个 [应用](https://www.yiiframework.com/doc/guide/basics.application) 实例来处理此请求；
  2. 应用创建并执行了 `PostController` 实例；
  3. `PostController` 实例通过调用它的  `actionIndex()` 方法执行了 `index` 动作。注意，如果用户没有在URL中指定执行一个动作，则 `index` 就是默认的动作；
  4. `actionIndex()` 方法查询数据库，带回最新的日志列表；

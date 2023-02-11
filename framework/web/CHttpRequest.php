@@ -3,9 +3,9 @@
  * CHttpRequest and CCookieCollection class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 
@@ -22,7 +22,7 @@
  * accessed via {@link CWebApplication::getRequest()}.
  *
  * @property string $url Part of the request URL after the host info.
- * @property string $hostInfo Schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yiiframework.com).
+ * @property string $hostInfo Schema and hostname part (with port number if needed) of the request URL (e.g. https://www.yiiframework.com).
  * @property string $baseUrl The relative URL for the application.
  * @property string $scriptUrl The relative URL of the entry script.
  * @property string $pathInfo Part of the request URL that is after the entry script and before the question mark.
@@ -80,7 +80,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Note, this feature requires that the user client accepts cookie.
 	 * You also need to use {@link CHtml::form} or {@link CHtml::statefulForm} to generate
 	 * the needed HTML forms in your pages.
-	 * @see http://seclab.stanford.edu/websec/csrf/csrf.pdf
+	 * @see https://seclab.stanford.edu/websec/csrf/csrf.pdf
 	 */
 	public $enableCsrfValidation=false;
 	/**
@@ -296,7 +296,7 @@ class CHttpRequest extends CApplicationComponent
 		if($this->_restParams===null)
 		{
 			$result=array();
-			if (strncmp($this->getContentType(), 'application/json', 16) === 0)
+			if (strncmp((string)$this->getContentType(), 'application/json', 16) === 0)
 				$result = CJSON::decode($this->getRawBody(), $this->jsonAsArray);
 			elseif(function_exists('mb_parse_str'))
 				mb_parse_str($this->getRawBody(), $result);
@@ -337,7 +337,7 @@ class CHttpRequest extends CApplicationComponent
 	 * By default this is determined based on the user request information.
 	 * You may explicitly specify it by setting the {@link setHostInfo hostInfo} property.
 	 * @param string $schema schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
-	 * @return string schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yiiframework.com)
+	 * @return string schema and hostname part (with port number if needed) of the request URL (e.g. https://www.yiiframework.com)
 	 * @see setHostInfo
 	 */
 	public function getHostInfo($schema='')
@@ -510,7 +510,7 @@ class CHttpRequest extends CApplicationComponent
 		$pathInfo = urldecode($pathInfo);
 
 		// is it UTF-8?
-		// http://w3.org/International/questions/qa-forms-utf-8.html
+		// https://w3.org/International/questions/qa-forms-utf-8.html
 		if(preg_match('%^(?:
 		   [\x09\x0A\x0D\x20-\x7E]            # ASCII
 		 | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
@@ -526,8 +526,29 @@ class CHttpRequest extends CApplicationComponent
 		}
 		else
 		{
-			return utf8_encode($pathInfo);
+			return $this->utf8Encode($pathInfo);
 		}
+	}
+
+	/**
+	 * Encodes an ISO-8859-1 string to UTF-8
+	 * @param string $s
+	 * @return string the UTF-8 translation of `s`.
+	 * @see https://github.com/yiisoft/yii/issues/4505
+	 * @see https://github.com/symfony/polyfill-php72/blob/master/Php72.php#L24
+	 */
+	private function utf8Encode($s)
+	{
+		$s.=$s;
+		$len=strlen($s);
+		for ($i=$len>>1,$j=0; $i<$len; ++$i,++$j) {
+			switch (true) {
+				case $s[$i] < "\x80": $s[$j] = $s[$i]; break;
+				case $s[$i] < "\xC0": $s[$j] = "\xC2"; $s[++$j] = $s[$i]; break;
+				default: $s[$j] = "\xC3"; $s[++$j] = chr(ord($s[$i]) - 64); break;
+			}
+		}
+		return substr($s, 0, $j);
 	}
 
 	/**
@@ -761,7 +782,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $userAgent the user agent to be analyzed. Defaults to null, meaning using the
 	 * current User-Agent HTTP header information.
 	 * @return array user browser capabilities.
-	 * @see http://www.php.net/manual/en/function.get-browser.php
+	 * @see https://www.php.net/manual/en/function.get-browser.php
 	 */
 	public function getBrowser($userAgent=null)
 	{
@@ -783,7 +804,7 @@ class CHttpRequest extends CApplicationComponent
 	 * contained in {@link getRawBody()} or, in the case of the HEAD method, the
 	 * media type that would have been sent had the request been a GET.
 	 * @return string request content-type. Null is returned if this information is not available.
-	 * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
+	 * @link https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
 	 * HTTP 1.1 header field definitions
 	 * @since 1.1.17
 	 */
@@ -800,7 +821,7 @@ class CHttpRequest extends CApplicationComponent
 
 	private $_port;
 
- 	/**
+	/**
 	 * Returns the port to use for insecure requests.
 	 * Defaults to 80, or the port specified by the server if the current
 	 * request is insecure.
@@ -880,7 +901,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string $url URL to be redirected to. Note that when URL is not
 	 * absolute (not starting with "/") it will be relative to current request URL.
 	 * @param boolean $terminate whether to terminate the current application
-	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
+	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
@@ -913,7 +934,7 @@ class CHttpRequest extends CApplicationComponent
 	 * To avoid great complexity, there are no steps taken to ensure that quoted strings are treated properly.
 	 * If the header text includes quoted strings containing space or the , or ; characters then the results may not be correct!
 	 *
-	 * See also {@link http://tools.ietf.org/html/rfc2616#section-14.1} for details on Accept header.
+	 * See also {@link https://tools.ietf.org/html/rfc2616#section-14.1} for details on Accept header.
 	 * @param string $header the accept header value to parse
 	 * @return array the user accepted MIME types.
 	 */
@@ -922,7 +943,8 @@ class CHttpRequest extends CApplicationComponent
 		$matches=array();
 		$accepts=array();
 		// get individual entries with their type, subtype, basetype and params
-		preg_match_all('/(?:\G\s?,\s?|^)(\w+|\*)\/(\w+|\*)(?:\+(\w+))?|(?<!^)\G(?:\s?;\s?(\w+)=([\w\.]+))/',$header,$matches);
+		if($header!==null)
+			preg_match_all('/(?:\G\s?,\s?|^)(\w+|\*)\/(\w+|\*)(?:\+(\w+))?|(?<!^)\G(?:\s?;\s?(\w+)=([\w\.]+))/',$header,$matches);
 		// the regexp should (in theory) always return an array of 6 arrays
 		if(count($matches)===6)
 		{
@@ -1047,7 +1069,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns an array of user accepted languages in order of preference.
 	 * The returned language IDs will NOT be canonicalized using {@link CLocale::getCanonicalID}.
 	 * @return array the user accepted languages in the order of preference.
-	 * See {@link http://tools.ietf.org/html/rfc2616#section-14.4}
+	 * See {@link https://tools.ietf.org/html/rfc2616#section-14.4}
 	 */
 	public function getPreferredLanguages()
 	{
@@ -1152,7 +1174,7 @@ class CHttpRequest extends CApplicationComponent
 			}
 
 			/* Check the range and make sure it's treated according to the specs.
-			 * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+			 * https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
 			 */
 			// End bytes can not be larger than $end.
 			$contentEnd=($contentEnd > $fileSize) ? $fileSize-1 : $contentEnd;
@@ -1212,11 +1234,11 @@ class CHttpRequest extends CApplicationComponent
 	 *
 	 * As this header directive is non-standard different directives exists for different web servers applications:
 	 * <ul>
-	 * <li>Apache: {@link http://tn123.org/mod_xsendfile X-Sendfile}</li>
-	 * <li>Lighttpd v1.4: {@link http://redmine.lighttpd.net/projects/lighttpd/wiki/X-LIGHTTPD-send-file X-LIGHTTPD-send-file}</li>
-	 * <li>Lighttpd v1.5: {@link http://redmine.lighttpd.net/projects/lighttpd/wiki/X-LIGHTTPD-send-file X-Sendfile}</li>
-	 * <li>Nginx: {@link http://wiki.nginx.org/XSendfile X-Accel-Redirect}</li>
-	 * <li>Cherokee: {@link http://www.cherokee-project.com/doc/other_goodies.html#x-sendfile X-Sendfile and X-Accel-Redirect}</li>
+	 * <li>Apache: {@link https://tn123.org/mod_xsendfile X-Sendfile}</li>
+	 * <li>Lighttpd v1.4: {@link https://redmine.lighttpd.net/projects/lighttpd/wiki/X-LIGHTTPD-send-file X-LIGHTTPD-send-file}</li>
+	 * <li>Lighttpd v1.5: {@link https://redmine.lighttpd.net/projects/lighttpd/wiki/X-LIGHTTPD-send-file X-Sendfile}</li>
+	 * <li>Nginx: {@link https://wiki.nginx.org/XSendfile X-Accel-Redirect}</li>
+	 * <li>Cherokee: {@link https://www.cherokee-project.com/doc/other_goodies.html#x-sendfile X-Sendfile and X-Accel-Redirect}</li>
 	 * </ul>
 	 * So for this method to work the X-SENDFILE option/module should be enabled by the web server and
 	 * a proper xHeader should be sent.

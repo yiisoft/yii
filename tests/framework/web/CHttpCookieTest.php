@@ -49,7 +49,7 @@ class CHttpCookieTest extends CTestCase
 	public function test__ToString()
 	{
 		$cookie=new CHttpCookie('name','someValue');
-		// Note on http://www.php.net/manual/en/language.oop5.magic.php#object.tostring
+		// Note on https://www.php.net/manual/en/language.oop5.magic.php#object.tostring
 		ob_start();
 		echo $cookie;
 		$this->assertEquals(ob_get_clean(),$cookie->value);

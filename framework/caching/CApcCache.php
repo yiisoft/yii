@@ -3,15 +3,15 @@
  * CApcCache class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
  * CApcCache provides APC caching in terms of an application component.
  *
- * The caching is based on {@link http://www.php.net/apc APC}.
+ * The caching is based on {@link https://www.php.net/apc APC}.
  * To use this application component, the APC PHP extension must be loaded.
  *
  * See {@link CCache} manual for common cache operations that are supported by CApcCache.
@@ -24,8 +24,8 @@ class CApcCache extends CCache
 {
 	/**
 	 * @var boolean whether to use apcu or apc as the underlying caching extension.
-	 * If true {@link http://pecl.php.net/package/apcu apcu} will be used.
-	 * If false {@link http://pecl.php.net/package/apc apc}. will be used.
+	 * If true {@link https://pecl.php.net/package/apcu apcu} will be used.
+	 * If false {@link https://pecl.php.net/package/apc apc}. will be used.
 	 * Defaults to false.
 	 * @since 1.1.17
 	 */

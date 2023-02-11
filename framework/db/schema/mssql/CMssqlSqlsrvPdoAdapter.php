@@ -3,9 +3,9 @@
  * CMssqlSqlsrvPdoAdapter class file.
  *
  * @author Timur Ruziev <resurtm@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -30,6 +30,7 @@ class CMssqlSqlsrvPdoAdapter extends PDO
 	 * @param string|null $sequence the sequence/table name. Defaults to null.
 	 * @return integer last inserted ID value.
 	 */
+	#[ReturnTypeWillChange]
 	public function lastInsertId($sequence=null)
 	{
 		$parts = explode('.', phpversion('pdo_sqlsrv'));

@@ -3,9 +3,9 @@
  * CFormatter class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -73,7 +73,7 @@ class CFormatter extends CApplicationComponent
 	 * They correspond to the number of digits after the decimal point, the character displayed as the decimal point
 	 * and the thousands separator character.
 	 */
-	public $numberFormat=array('decimals'=>null, 'decimalSeparator'=>null, 'thousandSeparator'=>null);
+	public $numberFormat=array('decimals'=>0, 'decimalSeparator'=>null, 'thousandSeparator'=>null);
 	/**
 	 * @var array the text to be displayed when formatting a boolean value. The first element corresponds
 	 * to the text display for false, the second element for true. Defaults to <code>array('No', 'Yes')</code>.

@@ -3,15 +3,15 @@
  * CStarRating class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
  * CStarRating displays a star rating control that can collect user rating input.
  *
- * CStarRating is based on {@link http://www.fyneworks.com/jquery/star-rating/ jQuery Star Rating Plugin}.
+ * CStarRating is based on {@link https://www.fyneworks.com/jquery/star-rating/ jQuery Star Rating Plugin}.
  * It displays a list of stars indicating the rating values. Users can toggle these stars
  * to indicate their rating input. On the server side, when the rating input is submitted,
  * the value can be retrieved in the same way as working with a normal HTML input.
@@ -170,7 +170,7 @@ class CStarRating extends CInputWidget
 				$options['title']=$this->titles[$value];
 			else
 				unset($options['title']);
-			echo CHtml::radioButton($name,!strcmp($value,$selection),$options) . "\n";
+			echo CHtml::radioButton($name,!strcmp($value,(string)$selection),$options) . "\n";
 		}
 	}
 

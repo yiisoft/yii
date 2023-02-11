@@ -18,7 +18,7 @@ return array (
   '$_SERVER variable' => '$_SERVER متغير',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] يجب ان يكون مساوي لمسار الملف الافتتاحي للسكربت (entry script file).',
   'APC extension' => 'لاحقة APC',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'جميع <a href="http://www.yiiframework.com/doc/api/#system.db">الفئات ذات العلاقة</a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'جميع <a href="https://www.yiiframework.com/doc/api/#system.db">الفئات ذات العلاقة</a>',
   'DOM extension' => 'DOM لاحقة',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'يجب أن يتوفر إما $_SERVER["REQUEST_URI"] أو $_SERVER["QUERY_STRING"].',
   'GD extension' => 'GD لاحقة',

@@ -3,9 +3,9 @@
  * This file contains the error handler application component.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 Yii::import('CHtml',true);
@@ -434,7 +434,7 @@ class CErrorHandler extends CApplicationComponent
 	{
 		if(YII_DEBUG)
 		{
-			$version='<a href="http://www.yiiframework.com/">Yii Framework</a>/'.Yii::getVersion();
+			$version='<a href="https://www.yiiframework.com/">Yii Framework</a>/'.Yii::getVersion();
 			if(isset($_SERVER['SERVER_SOFTWARE']))
 				$version=$_SERVER['SERVER_SOFTWARE'].' '.$version;
 		}

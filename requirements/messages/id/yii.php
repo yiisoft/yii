@@ -22,7 +22,7 @@ return array (
   '$_SERVER variable' => 'Variabel $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] harus sama dengan alur file skrip entri',
   'APC extension' => 'Extension APC',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Semua <a href="http://www.yiiframework.com/doc/api/#system.db">kelas berhubungan DB </a>',
+  'All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Semua <a href="https://www.yiiframework.com/doc/api/#system.db">kelas berhubungan DB </a>',
   'DOM extension' => 'Extension DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Salah satu dari $_SERVER["REQUEST_URI"] atau $_SERVER["QUERY_STRING"] harus ada.',
   'GD extension with<br />FreeType support' => 'Dukungan Extension GD dengan <br/>FreeType',
@@ -44,6 +44,6 @@ return array (
   'This is required if you are using MySQL database.' => 'Ini diperlukan apabila anda menggunakan database MySQL',
   'This is required if you are using PostgreSQL database.' => 'Ini diperlukan apabila anda menggunakan database PostgreSQL',
   'This is required if you are using SQLite database.' => 'Ini diperlukan apabila anda menggunakan database SQLite',
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Untuk menggunakan memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> menjadi <code>true</code>.',
+  'To use memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Untuk menggunakan memcached set <a href="https://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> menjadi <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Tidak dapat menentukan info alur URL. Harap memastikan $_SERVER["PATH_INFO"] (atau $_SERVER["PHP_SELF"] dan $_SERVER"SCRIPT_NAME"]) berisi nilai yang benar.',
 );

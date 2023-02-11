@@ -3,9 +3,9 @@
  * CPgsqlSchema class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -191,7 +191,7 @@ EOD;
 			$c=$this->createColumn($column);
 			$table->columns[$c->name]=$c;
 
-			if(stripos($column['adsrc'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['adsrc'],$matches))
+			if(isset($column['adsrc']) && stripos($column['adsrc'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['adsrc'],$matches))
 			{
 				if(strpos($matches[1],'.')!==false || $table->schemaName===self::DEFAULT_SCHEMA)
 					$this->_sequences[$table->rawName.'.'.$c->name]=$matches[1];
@@ -239,7 +239,7 @@ FROM (
 	SELECT
 		conname,
 		pg_catalog.pg_get_constraintdef(oid) AS consrc,
-		contype,
+		contype::char,
 		conrelid AS relid,
 		NULL AS indkey
 	FROM

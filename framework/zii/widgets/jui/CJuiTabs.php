@@ -3,9 +3,9 @@
  * CJuiTabs class file.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 Yii::import('zii.widgets.jui.CJuiWidget');
@@ -13,7 +13,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 /**
  * CJuiTabs displays a tabs widget.
  *
- * CJuiTabs encapsulates the {@link http://jqueryui.com/tabs/ JUI tabs}
+ * CJuiTabs encapsulates the {@link https://jqueryui.com/tabs/ JUI tabs}
  * plugin.
  *
  * To use this widget, you may insert the following code in a view:
@@ -34,9 +34,9 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI tabs plugin. Please refer to
- * the {@link http://api.jqueryui.com/tabs/ JUI Tabs API} documentation
+ * the {@link https://api.jqueryui.com/tabs/ JUI Tabs API} documentation
  * for possible options (name-value pairs) and
- * {@link http://jqueryui.com/tabs/ JUI Tabs page} for general
+ * {@link https://jqueryui.com/tabs/ JUI Tabs page} for general
  * description and demo.
  *
  * Note, in case you're using &lt;base/&gt; HTML tag you may run into the

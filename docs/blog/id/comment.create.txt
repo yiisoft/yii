@@ -31,7 +31,7 @@ Guna menampilkan comment di halaman detail post, kita memodifikasi script view `
 </div>
 ~~~
 
-Di atas, kita memanggil `renderPartial()` untuk merender sebuah view partial bernama `_comments` untuk menampilkan daftar comment milik post sekarang. Perhatikan di dalam view kita menggunakan ekspresi `$model->comments` untuk mengambil comment untuk post. Ekspresi ini valid karena kita telah mendeklarasi relasi `comments` di kelas `Post`. Dengan mengevaluasi ekspresi ini akan menjalankan query database JOIN secara implisit untuk menarik comment-comment yang benar. Fitur ini dikenal sebagai [lazy relational query](http://www.yiiframework.com/doc/guide/database.arr).
+Di atas, kita memanggil `renderPartial()` untuk merender sebuah view partial bernama `_comments` untuk menampilkan daftar comment milik post sekarang. Perhatikan di dalam view kita menggunakan ekspresi `$model->comments` untuk mengambil comment untuk post. Ekspresi ini valid karena kita telah mendeklarasi relasi `comments` di kelas `Post`. Dengan mengevaluasi ekspresi ini akan menjalankan query database JOIN secara implisit untuk menarik comment-comment yang benar. Fitur ini dikenal sebagai [lazy relational query](https://www.yiiframework.com/doc/guide/database.arr).
 
 View partial `_comments` tidak terlalu menarik. Tujuan utamanya adalah melewati setiap comment dan menampilkan detail-detailnya. Pembaca yang tertarik dengan topik ini bisa merujuk ke `/wwwroot/yii/demos/blog/protected/views/post/_comments.php`.
 

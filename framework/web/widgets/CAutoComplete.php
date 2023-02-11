@@ -3,18 +3,18 @@
  * CAutoComplete class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
  * CAutoComplete generates an auto-complete text field.
  *
- * CAutoComplete is based on the {@link http://plugins.jquery.com/project/autocompletex jQuery Autocomplete}.
+ * CAutoComplete is based on the {@link https://plugins.jquery.com/project/autocompletex jQuery Autocomplete}.
  *
  * This class is deprecated since Yii 1.1.3. Consider using CJuiAutoComplete.
- * There is {@link http://www.learningjquery.com/2010/06/autocomplete-migration-guide a good migration guide from the author of both JavaScript solutions}.
+ * There is {@link https://www.learningjquery.com/2010/06/autocomplete-migration-guide a good migration guide from the author of both JavaScript solutions}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.widgets

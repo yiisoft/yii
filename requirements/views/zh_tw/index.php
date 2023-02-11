@@ -17,7 +17,7 @@
 <div id="content">
 <h2>檢查內容說明</h2>
 <p>
-本網頁用於確認您的伺服器組態設定是否能滿足執行<a href="http://www.yiiframework.com/">Yii</a> Web應用程式的要求. 它將檢查伺服器是否使用正確的PHP版本, 是否安裝了合適的PHP extension, 以及確認php.ini檔案是否正確設定.
+本網頁用於確認您的伺服器組態設定是否能滿足執行<a href="https://www.yiiframework.com/">Yii</a> Web應用程式的要求. 它將檢查伺服器是否使用正確的PHP版本, 是否安裝了合適的PHP extension, 以及確認php.ini檔案是否正確設定.
 </p>
 
 <h2>檢查結果</h2>

@@ -42,7 +42,7 @@
 -----------------------------
 
 Тестирование в Yii требует установленного [PHPUnit](https://www.phpunit.de/) 3.5+ и
-[Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
+[Selenium Remote Control](https://seleniumhq.org/projects/remote-control/) 1.0+.
 Как устанавливать PHPUnit и Selenium Remote Control вы можете прочитать в их
 документации.
 

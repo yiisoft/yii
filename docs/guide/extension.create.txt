@@ -115,7 +115,7 @@ To create a new widget from scratch, we mainly need to implement two methods:
 use `$this->beginWidget` to insert a widget in a view, and the
 second method is called when we call `$this->endWidget`.
 If we want to capture and process the content displayed between these two
-method invocations, we can start [output buffering](http://us3.php.net/manual/en/book.outcontrol.php)
+method invocations, we can start [output buffering](https://us3.php.net/manual/en/book.outcontrol.php)
 in [CWidget::init] and retrieve the buffered output in [CWidget::run]
 for further processing.
 

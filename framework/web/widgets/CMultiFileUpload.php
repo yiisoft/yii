@@ -3,15 +3,15 @@
  * CMultiFileUpload class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
  * CMultiFileUpload generates a file input that can allow uploading multiple files at a time.
  *
- * This is based on the {@link http://www.fyneworks.com/jquery/multiple-file-upload/ jQuery Multi File Upload plugin}.
+ * This is based on the {@link https://www.fyneworks.com/jquery/multiple-file-upload/ jQuery Multi File Upload plugin}.
  * The uploaded file information can be accessed via $_FILES[widget-name], which gives an array of the uploaded
  * files. Note, you have to set the enclosing form's 'enctype' attribute to be 'multipart/form-data'.
  *

@@ -3,9 +3,9 @@
  * CTabView class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -43,7 +43,7 @@
  *         ),
  *         'tab2'=>array(
  *             'title'=>'tab 2 title',
- *             'url'=>'http://www.yiiframework.com/',
+ *             'url'=>'https://www.yiiframework.com/',
  *         ),
  *     ),
  * ));
@@ -109,7 +109,7 @@ class CTabView extends CWidget
 	 *     ),
 	 *     'tab2'=>array(
 	 *           'title'=>'tab 2 title',
-	 *           'url'=>'http://www.yiiframework.com/',
+	 *           'url'=>'https://www.yiiframework.com/',
 	 *     ),
 	 * )
 	 * </pre>

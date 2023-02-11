@@ -3,9 +3,9 @@
  * CMaskedTextField class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -14,7 +14,7 @@
  * CMaskedTextField is similar to {@link CHtml::textField} except that
  * an input mask will be used to help users enter properly formatted data.
  * The masked text field is implemented based on the jQuery masked input plugin
- * (see {@link http://digitalbush.com/projects/masked-input-plugin}).
+ * (see {@link https://digitalbush.com/projects/masked-input-plugin}).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @package system.web.widgets

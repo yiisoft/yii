@@ -7,21 +7,21 @@
 データベースの作成
 -----------------
 
-データベースは SQLite を使うことにします。 Yii のデータベースサポートは [PDO](http://www.php.net/manual/en/book.pdo.php) の上に構築されているため、 アプリケーションコードを変更することなく、MySQL や PostgreSQL といった異なる DBMS を利用することができます。
+データベースは SQLite を使うことにします。 Yii のデータベースサポートは [PDO](https://www.php.net/manual/en/book.pdo.php) の上に構築されているため、 アプリケーションコードを変更することなく、MySQL や PostgreSQL といった異なる DBMS を利用することができます。
 
 ディレクトリ `/wwwroot/blog/protected/data` にデータベースファイル `blog.db` を作成します。
 SQLite による要求として、ディレクトリとデータベースファイルの両方が Web サーバプロセスから書き込み可能である必要がある、ということに注意して下さい。
 このデータベースの作成は、インストールされた Yii のブログデモから、データベースファイルをコピーしてくるだけで構いません。データベースファイルは `/wwwroot/yii/demos/blog/protected/data/blog.db` にあります。
 または、`/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql` というファイルにある SQL 文を実行してデータベースを生成することも出来ます。
 
-> Tip|ヒント: SQL 文の実行には、[SQLite 公式ウェブサイト](http://www.sqlite.org/download.html) にある `sqlite3` コマンドラインツールを利用できます。
+> Tip|ヒント: SQL 文の実行には、[SQLite 公式ウェブサイト](https://www.sqlite.org/download.html) にある `sqlite3` コマンドラインツールを利用できます。
 
 
 データベース接続を確立する
 --------------------------------
 
-作ったスケルトンアプリケーションでブログデータベースを使うには、`/wwwroot/blog/protected/config/main.php` という PHP スクリプトに保存されている [アプリケーション初期構成](http://www.yiiframework.com/doc/guide/ja/basics.application#sec-2) を変更する必要があります。
-このスクリプトは "名前-値" のペアで構成された連想配列を返します。これらの値は [アプリケーションインスタンス](http://www.yiiframework.com/doc/guide/ja/basics.application) の書き込み可能なプロパティを初期化するために使われます。
+作ったスケルトンアプリケーションでブログデータベースを使うには、`/wwwroot/blog/protected/config/main.php` という PHP スクリプトに保存されている [アプリケーション初期構成](https://www.yiiframework.com/doc/guide/ja/basics.application#sec-2) を変更する必要があります。
+このスクリプトは "名前-値" のペアで構成された連想配列を返します。これらの値は [アプリケーションインスタンス](https://www.yiiframework.com/doc/guide/ja/basics.application) の書き込み可能なプロパティを初期化するために使われます。
 
 `db` コンポーネントを以下のように構成します。
 
@@ -40,13 +40,13 @@ return array(
 );
 ~~~
 
-上記の設定は、このアプリケーションが `db` [アプリケーションコンポーネント](http://www.yiiframework.com/doc/guide/ja/basics.application#sec-4) を持っており、その `connectionString` プロパティが `sqlite:/wwwroot/blog/protected/data/blog.db` として初期化されるべきこと、および、`tablePrefix` プロパティが `tbl_` であるべきことを示しています。
+上記の設定は、このアプリケーションが `db` [アプリケーションコンポーネント](https://www.yiiframework.com/doc/guide/ja/basics.application#sec-4) を持っており、その `connectionString` プロパティが `sqlite:/wwwroot/blog/protected/data/blog.db` として初期化されるべきこと、および、`tablePrefix` プロパティが `tbl_` であるべきことを示しています。
 
 この設定によって、アプリケーションのコードのどこからでも `Yii::app()->db` を通じて DB 接続オブジェクトにアクセスすることができます。
 `Yii::app()` は、エントリスクリプトで作成されたアプリケーションインスタンスを返すことに注意して下さい。
 DB 接続が持つことができるメソッドやプロパティに興味があれば、[クラスリファレンス|CDbConnection] を参照して下さい。
 しかし、多くの場合、この DB 接続を直接に利用することはありません。
-その代りに、いわゆる [アクティブレコード](http://www.yiiframework.com/doc/guide/ja/database.ar) を使ってデータベースにアクセスします。
+その代りに、いわゆる [アクティブレコード](https://www.yiiframework.com/doc/guide/ja/database.ar) を使ってデータベースにアクセスします。
 
 構成ファイルで設定した `tablePrefix` プロパティについて、もう少し説明したいと思います。
 これはデータベーステーブル名のプレフィクスとして `tbl_` を使用していることを `db` 接続オブジェクトに伝えます。

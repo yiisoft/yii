@@ -1,7 +1,7 @@
 Creating Tag Cloud Portlet
 ==========================
 
-[Tag cloud](http://en.wikipedia.org/wiki/Tag_cloud) displays a list of post tags with visual decorations hinting the popularity of each individual tag.
+[Tag cloud](https://en.wikipedia.org/wiki/Tag_cloud) displays a list of post tags with visual decorations hinting the popularity of each individual tag.
 
 
 Creating `TagCloud` Class

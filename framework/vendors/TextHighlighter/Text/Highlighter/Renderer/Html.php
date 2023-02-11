@@ -7,7 +7,7 @@
  *
  * LICENSE: This source file is subject to version 3.0 of the PHP license
  * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * https://www.php.net/license/3_0.txt.  If you did not receive a copy of
  * the PHP License and are unable to obtain it through the web, please
  * send a note to license@php.net so we can mail you a copy immediately.
  *
@@ -15,9 +15,9 @@
  * @package    Text_Highlighter
  * @author     Andrey Demenev <demenev@gmail.com>
  * @copyright  2004-2006 Andrey Demenev
- * @license    http://www.php.net/license/3_0.txt  PHP License
+ * @license    https://www.php.net/license/3_0.txt  PHP License
  * @version    CVS: $Id: Html.php,v 1.2 2007/06/29 06:56:34 ssttoo Exp $
- * @link       http://pear.php.net/package/Text_Highlighter
+ * @link       https://pear.php.net/package/Text_Highlighter
  */
 
 /**
@@ -81,7 +81,7 @@ if (!defined('HL_NUMBERS_UL')) {
  *
  * Example of setting documentation links:
  * $options['doclinks'] = array(
- *   'url' => 'http://php.net/%s',
+ *   'url' => 'https://php.net/%s',
  *   'target' => '_blank',
  *   'elements' => array('reserved', 'identifier')
  * );
@@ -126,9 +126,9 @@ if (!defined('HL_NUMBERS_UL')) {
  * @category   Text
  * @package    Text_Highlighter
  * @copyright  2004-2006 Andrey Demenev
- * @license    http://www.php.net/license/3_0.txt  PHP License
+ * @license    https://www.php.net/license/3_0.txt  PHP License
  * @version    Release: 0.7.1
- * @link       http://pear.php.net/package/Text_Highlighter
+ * @link       https://pear.php.net/package/Text_Highlighter
  */
 
 class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
@@ -206,7 +206,7 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
      * Setup for links to online documentation
      *
      * This is an array with keys:
-     * - url, ex. http://php.net/%s
+     * - url, ex. https://php.net/%s
      * - target, ex. _blank, default - no target
      * - elements, default is <code>array('reserved', 'identifier')</code>
      *

@@ -4,8 +4,8 @@ Pengembangan ke Depan
 Menggunakan Sebuah Theme
 -------------
 
-Tanpa menulis code apapun, aplikasi blog kita sudah [dapat di-theme-kan](http://www.yiiframework.com/doc/guide/topics.theming). Untuk menggunakan theme, kita cukup mengembangkan theme dengan menulis file view yang terkustomisasi. Misalnya, untuk menggunakan theme bernama `classic` yang menggunakan layout page yang berbeda, kita akan membuat sebuah file view layout `/wwwroot/blog/themes/classic/views/layouts/main.php`. Kita juga akan mengubah konfigurasi aplikasi untuk mengindikasikan pilihan kita untuk theme `classic`:
-Without writing any code, our blog application is already [themeable](http://www.yiiframework.com/doc/guide/topics.theming). To use a theme, we mainly need to develop the theme by writing customized view files in the theme. For example, to use a theme named `classic` that uses a different page layout, we would create a layout view file `/wwwroot/blog/themes/classic/views/layouts/main.php`. We also need to change the application configuration to indicate our choice of the `classic` theme:
+Tanpa menulis code apapun, aplikasi blog kita sudah [dapat di-theme-kan](https://www.yiiframework.com/doc/guide/topics.theming). Untuk menggunakan theme, kita cukup mengembangkan theme dengan menulis file view yang terkustomisasi. Misalnya, untuk menggunakan theme bernama `classic` yang menggunakan layout page yang berbeda, kita akan membuat sebuah file view layout `/wwwroot/blog/themes/classic/views/layouts/main.php`. Kita juga akan mengubah konfigurasi aplikasi untuk mengindikasikan pilihan kita untuk theme `classic`:
+Without writing any code, our blog application is already [themeable](https://www.yiiframework.com/doc/guide/topics.theming). To use a theme, we mainly need to develop the theme by writing customized view files in the theme. For example, to use a theme named `classic` that uses a different page layout, we would create a layout view file `/wwwroot/blog/themes/classic/views/layouts/main.php`. We also need to change the application configuration to indicate our choice of the `classic` theme:
 
 ~~~
 [php]
@@ -26,15 +26,15 @@ Pertama, kita bisa membuat file view dalam berbagai bahasa. Misalnya, untuk hala
 
 Kedua, kita dapat membuat message translation untuk pesan-pesan yang di-generate oleh code. Terjemahan message harus disimpan sebagai file di bawah direktori `/wwwroot/blog/protected/messages`. Kita juga dapat memodifikasikan code di mana kita menggunakan string teks dengan membungkusnya dengan method `Yii::t()`.
 
-Untuk informasi lebih lanjut mengenai internasionalisasi, silahkan merujuk ke [Guide](http://www.yiiframework.com/doc/guide/topics.i18n).
+Untuk informasi lebih lanjut mengenai internasionalisasi, silahkan merujuk ke [Guide](https://www.yiiframework.com/doc/guide/topics.i18n).
 
 
 Meningkatkan Performa dengan Cache
 --------------------------------
 
-Walau framework Yii sendiri [sangat efisien](http://www.yiiframework.com/performance/), aplikasi yang ditulis dalam Yii belum tentu efisien. Ada beberapa tempat di aplikasi blog kita yang dapat diimprovisasi performanya. Misalnya, tag cloud portlet bisa menjadi slah satu dari performance bottlenect dikarenakan melibatkan query database dan logika PHP yang kompleks.
+Walau framework Yii sendiri [sangat efisien](https://www.yiiframework.com/performance/), aplikasi yang ditulis dalam Yii belum tentu efisien. Ada beberapa tempat di aplikasi blog kita yang dapat diimprovisasi performanya. Misalnya, tag cloud portlet bisa menjadi slah satu dari performance bottlenect dikarenakan melibatkan query database dan logika PHP yang kompleks.
 
-Kita dapat membuat penggunakan [fitur caching](http://www.yiiframework.com/doc/guide/caching.overview) yang disediakan Yii untuk meningkatkan performa. Salah satu component yang sangat berguna di Yii adalah [COutputCache], yang akan men-cache sebuah fragmen dari halaman yang ditampilkan sehingga code yang bertugas mengenerate fragmen bersangkutan tidak perlu dijalankan setiap kali request. Misalnya di file layout `/wwwroot/blog/protected/views/layout/column2.php`, kita dapat membungkus tag cloud portlet dengan [COutputCache]:
+Kita dapat membuat penggunakan [fitur caching](https://www.yiiframework.com/doc/guide/caching.overview) yang disediakan Yii untuk meningkatkan performa. Salah satu component yang sangat berguna di Yii adalah [COutputCache], yang akan men-cache sebuah fragmen dari halaman yang ditampilkan sehingga code yang bertugas mengenerate fragmen bersangkutan tidak perlu dijalankan setiap kali request. Misalnya di file layout `/wwwroot/blog/protected/views/layout/column2.php`, kita dapat membungkus tag cloud portlet dengan [COutputCache]:
 
 ~~~
 [php]

@@ -97,7 +97,7 @@ Version 1.1.0
 
  * [Added support for using table prefix](/doc/guide/database.dao#using-table-prefix).
 
- * Added a whole set of new extensions known as the [Zii library](http://code.google.com/p/zii/).
+ * Added a whole set of new extensions known as the [Zii library](https://code.google.com/p/zii/).
 
  * The alias name for the primary table in an AR query is fixed to be 't'
 

@@ -3,30 +3,30 @@
  * CPasswordHelper class file.
  *
  * @author Tom Worster <fsb@thefsb.org>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
  * CPasswordHelper provides a simple API for secure password hashing and verification.
  *
  * CPasswordHelper uses the Blowfish hash algorithm available in many PHP runtime
- * environments through the PHP {@link http://php.net/manual/en/function.crypt.php crypt()}
+ * environments through the PHP {@link https://php.net/manual/en/function.crypt.php crypt()}
  * built-in function. As of Dec 2012 it is the strongest algorithm available in PHP
  * and the only algorithm without some security concerns surrounding it. For this reason,
  * CPasswordHelper fails when run in an environment that does not have
  * crypt() with its Blowfish option and $2y hash fix. Compatible system is:
  *
  * (1) Most *nix systems since PHP 4 (the algorithm is part of the library function crypt(3));
- * (2) Any PHP since 5.3.7 or PHP with the {@link http://www.hardened-php.net/suhosin/ Suhosin patch} including
+ * (2) Any PHP since 5.3.7 or PHP with the {@link https://www.hardened-php.net/suhosin/ Suhosin patch} including
  * $2y fix backported. Note that Debian's 5.3.3 is not supported.
  *
  * For more information about password hashing, crypt() and Blowfish, please read
  * the Yii Wiki article
- * {@link http://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/ Use crypt() for password storage}.
+ * {@link https://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/ Use crypt() for password storage}.
  * and the
- * PHP RFC {@link http://wiki.php.net/rfc/password_hash Adding simple password hashing API}.
+ * PHP RFC {@link https://wiki.php.net/rfc/password_hash Adding simple password hashing API}.
  *
  * CPasswordHelper throws an exception if the Blowfish hash algorithm is not
  * available in the runtime PHP's crypt() function. It can be used as follows
@@ -74,7 +74,7 @@ class CPasswordHelper
 	 * Generate a secure hash from a password and a random salt.
 	 *
 	 * Uses the
-	 * PHP {@link http://php.net/manual/en/function.crypt.php crypt()} built-in function
+	 * PHP {@link https://php.net/manual/en/function.crypt.php crypt()} built-in function
 	 * with the Blowfish hash option.
 	 *
 	 * @param string $password The password to be hashed.
@@ -139,7 +139,7 @@ class CPasswordHelper
 	 * useful to an attacker.
 	 *
 	 * @see http://blog.astrumfutura.com/2010/10/nanosecond-scale-remote-timing-attacks-on-php-applications-time-to-take-them-seriously/
-	 * @see http://codereview.stackexchange.com/questions/13512
+	 * @see https://codereview.stackexchange.com/questions/13512
 	 * @see https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
 	 *
 	 * @param string $a First subject string to compare.
@@ -167,7 +167,7 @@ class CPasswordHelper
 	/**
 	 * Generates a salt that can be used to generate a password hash.
 	 *
-	 * The PHP {@link http://php.net/manual/en/function.crypt.php crypt()} built-in function
+	 * The PHP {@link https://php.net/manual/en/function.crypt.php crypt()} built-in function
 	 * requires, for the Blowfish hash algorithm, a salt string in a specific format:
 	 *  "$2y$" (in which the "y" may be replaced by "a" or "y" see PHP manual for details),
 	 *  a two digit cost parameter,

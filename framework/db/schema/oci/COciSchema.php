@@ -3,9 +3,9 @@
  * COciSchema class file.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -231,7 +231,7 @@ EOD;
 		$c->name=$column['COLUMN_NAME'];
 		$c->rawName=$this->quoteColumnName($c->name);
 		$c->allowNull=$column['NULLABLE']==='Y';
-		$c->isPrimaryKey=strpos($column['KEY'],'P')!==false;
+		$c->isPrimaryKey=strpos((string)$column['KEY'],'P')!==false;
 		$c->isForeignKey=false;
 		$c->init($column['DATA_TYPE'],$column['DATA_DEFAULT']);
 		$c->comment=$column['COLUMN_COMMENT']===null ? '' : $column['COLUMN_COMMENT'];

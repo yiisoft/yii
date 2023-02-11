@@ -3,9 +3,9 @@
  * CHttpCacheFilter class file.
  *
  * @author Da:Sourcerer <webmaster@dasourcerer.net>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -20,7 +20,7 @@ class CHttpCacheFilter extends CFilter
 {
 	/**
 	 * @var string|integer Timestamp for the last modification date.
-	 * Must be either a string parsable by {@link http://php.net/strtotime strtotime()}
+	 * Must be either a string parsable by {@link https://php.net/strtotime strtotime()}
 	 * or an integer representing a unix timestamp.
 	 */
 	public $lastModified;
@@ -31,12 +31,12 @@ class CHttpCacheFilter extends CFilter
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
-	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+	 * please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $lastModifiedExpression;
 	/**
 	 * @var mixed Seed for the ETag.
-	 * Can be anything that passes through {@link http://php.net/serialize serialize()}.
+	 * Can be anything that passes through {@link https://php.net/serialize serialize()}.
 	 */
 	public $etagSeed;
 	/**
@@ -46,7 +46,7 @@ class CHttpCacheFilter extends CFilter
 	 * The PHP expression will be evaluated using {@link evaluateExpression}.
 	 *
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
-	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
+	 * please refer to the {@link https://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
 	public $etagSeedExpression;
 	/**
@@ -75,39 +75,39 @@ class CHttpCacheFilter extends CFilter
 		if($etag)
 			header('ETag: '.$etag);
 
+		$this->sendCacheControlHeader();
+
+		$cacheValid = false;
 		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])&&isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			if($this->checkLastModified($lastModified)&&$this->checkEtag($etag))
 			{
-				$this->send304Header();
-				$this->sendCacheControlHeader();
-				return false;
+				$cacheValid=true;
 			}
 		}
 		elseif(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 		{
 			if($this->checkLastModified($lastModified))
 			{
-				$this->send304Header();
-				$this->sendCacheControlHeader();
-				return false;
+				$cacheValid=true;
 			}
 		}
 		elseif(isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			if($this->checkEtag($etag))
 			{
-				$this->send304Header();
-				$this->sendCacheControlHeader();
-				return false;
+				$cacheValid=true;
 			}
-
 		}
 
 		if($lastModified)
 			header('Last-Modified: '.gmdate('D, d M Y H:i:s', $lastModified).' GMT');
 
-		$this->sendCacheControlHeader();
+		if ($cacheValid) {
+			$this->send304Header();
+			return false;
+		}
+
 		return true;
 	}
 

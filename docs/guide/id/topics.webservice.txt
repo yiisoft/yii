@@ -15,7 +15,7 @@ sebagai lapisan dasar tumpukan protokol komunikasinya.
 Yii menyediakan [CWebService] dan [CWebServiceAction] untuk menyederhanakan pekerjaan
 implementasi layanan Web dalam aplikasi Web. APIs dikelompokkan ke dalam
 kelas, disebut *service providers*. Yii akan membuat sebuah
-spesifikasi [WSDL](http://www.w3.org/TR/wsdl) untuk setiap kelas yang menjelaskan
+spesifikasi [WSDL](https://www.w3.org/TR/wsdl) untuk setiap kelas yang menjelaskan
 API apa yang bersifat variabel dan bagaimana ia harus dipanggil oleh klien. Ketika
 sebuah API dipanggil oleh klien, Yii akan menginisiasi penyedia layanan terkait
 dan memanggil API yang diminta guna memenuhi permintaan.

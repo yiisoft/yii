@@ -3,9 +3,9 @@
  * CMarkdown class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -17,8 +17,8 @@
  *
  * For details about the markdown syntax, please check the following:
  * <ul>
- * <li>{@link http://daringfireball.net/projects/markdown/syntax official markdown syntax}</li>
- * <li>{@link http://michelf.com/projects/php-markdown/extra/ markdown extra syntax}</li>
+ * <li>{@link https://daringfireball.net/projects/markdown/syntax official markdown syntax}</li>
+ * <li>{@link https://michelf.com/projects/php-markdown/extra/ markdown extra syntax}</li>
  * <li>{@link CMarkdownParser markdown with syntax highlighting}</li>
  * </ul>
  *

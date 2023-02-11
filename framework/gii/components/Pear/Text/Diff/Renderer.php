@@ -7,10 +7,10 @@
  *
  * $Horde: framework/Text_Diff/Diff/Renderer.php,v 1.5.10.12 2009/07/24 13:26:40 jan Exp $
  *
- * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
+ * Copyright 2004-2009 The Horde Project (https://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
+ * not receive this file, see https://opensource.org/licenses/lgpl-license.php.
  *
  * @package Text_Diff
  */

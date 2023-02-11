@@ -1,7 +1,7 @@
 Web Service
 ===========
 
-[Web service](https://en.wikipedia.org/wiki/Web_service) 是一个软件系统，设计来支持计算机之间跨网络相互访问。在Web应用程序，它通常用一套API，可以被互联网访问和执行在远端系统主机上的被请求服务。系统主机所要求的服务。例如，以[Flex](https://www.adobe.com/products/flex/)为基础的客户端可能会援引函数实现在服务器端运行PHP的Web应用程序。 Web service依赖[SOAP](http://en.wikipedia.org/wiki/SOAP)作为通信协议栈的基础层。
+[Web service](https://en.wikipedia.org/wiki/Web_service) 是一个软件系统，设计来支持计算机之间跨网络相互访问。在Web应用程序，它通常用一套API，可以被互联网访问和执行在远端系统主机上的被请求服务。系统主机所要求的服务。例如，以[Flex](https://www.adobe.com/products/flex/)为基础的客户端可能会援引函数实现在服务器端运行PHP的Web应用程序。 Web service依赖[SOAP](https://en.wikipedia.org/wiki/SOAP)作为通信协议栈的基础层。
 
 Yii提供[CWebService]和[CWebServiceAction]简化了在Web应用程序实现Web service。这些API以类形式实现，被称为*service providers*. Yii将为每个类产生一个[WSDL](https://www.w3.org/TR/wsdl)，描述什么API有效和客户端怎么援引。当客户端援引API，Yii将实例化相应的service provider和调用被请求的API来完成请求。
 

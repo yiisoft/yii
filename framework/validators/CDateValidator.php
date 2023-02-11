@@ -3,9 +3,9 @@
  * CDateValidator class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -55,7 +55,8 @@ class CDateValidator extends CValidator
 		$valid=false;
 
 		// reason of array checking is explained here: https://github.com/yiisoft/yii/issues/1955
-		if(!is_array($value))
+		// checking for `null` as passing `null` to CDateTimeParser::parse will throw a deprecation error in PHP >= 8.1
+		if(!is_array($value) && $value !== null)
 		{
 			$formats=is_string($this->format) ? array($this->format) : $this->format;
 			foreach($formats as $format)

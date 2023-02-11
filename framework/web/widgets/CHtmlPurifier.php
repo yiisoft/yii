@@ -3,9 +3,9 @@
  * CHtmlPurifier class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 if(!class_exists('HTMLPurifier_Bootstrap',false))
@@ -15,7 +15,7 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
 }
 
 /**
- * CHtmlPurifier is wrapper of {@link http://htmlpurifier.org HTML Purifier}.
+     * CHtmlPurifier is wrapper of {@link http://htmlpurifier.org HTML Purifier}.
  *
  * CHtmlPurifier removes all malicious code (better known as XSS) with a thoroughly audited,
  * secure yet permissive whitelist. It will also make sure the resulting code
