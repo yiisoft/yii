@@ -2369,7 +2369,11 @@ EOD;
 	 */
 	public static function value($model,$attribute,$defaultValue=null)
 	{
-		if(is_scalar($attribute) || $attribute===null)
+        if($attribute === null) {
+            return $defaultValue;
+        }
+		
+		if(is_scalar($attribute))
 			foreach(explode('.',(string)$attribute) as $name)
 			{
 				if(is_object($model))
