@@ -73,7 +73,7 @@
 		]
 	},
 	"require": {
-		"php": ">=5.1.0"
+		"php": ">=8.1.0"
 	},
 	"suggest": {
 		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager",
@@ -86,12 +86,12 @@
 		]
 	},
 	"require-dev": {
-		"cweagans/composer-patches": "^1.7",
-		"phpunit/phpunit": "4.8.36",
-		"phpunit/phpunit-selenium": "~2.0.3",
-		"phing/phing": "2.*",
-		"phpseclib/mcrypt_compat": "^1.0",
-		"pear/archive_tar": "~1.4.6"
+		"cweagans/composer-patches": "*",
+		"phpunit/phpunit": "*",
+		"phpunit/phpunit-selenium": "*",
+		"phing/phing": "*",
+		"phpseclib/mcrypt_compat": "*",
+		"pear/archive_tar": "*"
 	},
 	"extra": {
 		"branch-alias": {
