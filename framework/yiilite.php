@@ -41,7 +41,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.28-dev';
+		return '1.1.29-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -2553,8 +2553,21 @@ class CHttpRequest extends CApplicationComponent
 		}
 		else
 		{
-			return utf8_encode($pathInfo);
+			return $this->utf8Encode($pathInfo);
 		}
+	}
+	private function utf8Encode($s)
+	{
+		$s.=$s;
+		$len=strlen($s);
+		for ($i=$len>>1,$j=0; $i<$len; ++$i,++$j) {
+			switch (true) {
+				case $s[$i] < "\x80": $s[$j] = $s[$i]; break;
+				case $s[$i] < "\xC0": $s[$j] = "\xC2"; $s[++$j] = $s[$i]; break;
+				default: $s[$j] = "\xC3"; $s[++$j] = chr(ord($s[$i]) - 64); break;
+			}
+		}
+		return substr($s, 0, $j);
 	}
 	public function getRequestUri()
 	{
@@ -4326,7 +4339,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				if($this->identityCookie!==null)
 				{
 					$cookie=$this->createIdentityCookie($this->getStateKeyPrefix());
-					$cookie->value=null;
+					$cookie->value='';
 					$cookie->expire=0;
 					Yii::app()->getRequest()->getCookies()->add($cookie->name,$cookie);
 				}
@@ -5915,7 +5928,7 @@ EOD;
 	public static function value($model,$attribute,$defaultValue=null)
 	{
 		if(is_scalar($attribute) || $attribute===null)
-			foreach(explode('.',$attribute) as $name)
+			foreach(explode('.',(string)$attribute) as $name)
 			{
 				if(is_object($model))
 				{
@@ -10443,9 +10456,9 @@ class CStringValidator extends CValidator
 			return;
 		}
 		if(function_exists('mb_strlen') && $this->encoding!==false)
-			$length=mb_strlen($value, $this->encoding ? $this->encoding : Yii::app()->charset);
+			$length=mb_strlen((string)$value, $this->encoding ? $this->encoding : Yii::app()->charset);
 		else
-			$length=strlen($value);
+			$length=strlen((string)$value);
 		if($this->min!==null && $length<$this->min)
 		{
 			$message=$this->tooShort!==null?$this->tooShort:Yii::t('yii','{attribute} is too short (minimum is {min} characters).');
