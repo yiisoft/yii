@@ -73,11 +73,10 @@
 		]
 	},
 	"require": {
-		"php": ">=5.1.0"
-	},
-	"suggest": {
-		"ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager",
-		"phpseclib/mcrypt_compat": "To provide mcrypt polyfill when extension is unavailable"
+		"php": ">=8.1.0",
+		"ext-mcrypt": "*",
+		"ext-openssl": "*",
+		"phpseclib/mcrypt_compat": "*"
 	},
 	"autoload": {
 		"classmap" : [
@@ -86,18 +85,17 @@
 		]
 	},
 	"require-dev": {
-		"cweagans/composer-patches": "^1.7",
-		"phpunit/phpunit": "4.8.34",
-		"phpunit/phpunit-selenium": "~1.4.0",
-		"phing/phing": "2.*",
-		"phpseclib/mcrypt_compat": "^1.0",
-		"pear/archive_tar": "~1.4.6"
+		"cweagans/composer-patches": "*",
+		"phpunit/phpunit": "*",
+		"phpunit/phpunit-selenium": "*",
+		"phing/phing": "*",
+		"pear/archive_tar": "*"
 	},
 	"extra": {
 		"branch-alias": {
 			"dev-master": "1.1.x-dev"
 		},
-		"composer-exit-on-patch-failure": true,
+		"composer-exit-on-patch-failure": false,
 		"patches": {
 			"phpunit/phpunit-mock-objects": {
 				"Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
@@ -115,6 +113,11 @@
 	"config": {
 		"allow-plugins": {
 			"cweagans/composer-patches": true
+		},
+		"platform": {
+			"php": "8.1.16",
+			"ext-mcrypt": "5.6.40",
+			"ext-openssl": "8.1.16"
 		}
 	}
 }
