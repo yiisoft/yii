@@ -76,6 +76,7 @@
 		"php": ">=8.1.0",
 		"ext-mcrypt": "*",
 		"ext-openssl": "*",
+		"ext-memcached": "*",
 		"phpseclib/mcrypt_compat": "*"
 	},
 	"autoload": {
@@ -89,7 +90,8 @@
 		"phpunit/phpunit": "*",
 		"phpunit/phpunit-selenium": "*",
 		"phing/phing": "*",
-		"pear/archive_tar": "*"
+		"pear/archive_tar": "*",
+		"symfony/flex": "*"
 	},
 	"extra": {
 		"branch-alias": {
@@ -112,11 +114,13 @@
 	},
 	"config": {
 		"allow-plugins": {
-			"cweagans/composer-patches": true
+			"cweagans/composer-patches": true,
+			"symfony/flex": true
 		},
 		"platform": {
 			"php": "8.1.16",
 			"ext-mcrypt": "5.6.40",
+			"ext-memcached": "8.1.16",
 			"ext-openssl": "8.1.16"
 		}
 	}
