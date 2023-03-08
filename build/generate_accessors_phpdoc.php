@@ -46,17 +46,17 @@ function getPhpDocForFile($fileName)
 
     $phpdoc = "";
     $file = str_replace("\r", "", str_replace("\t", "    ", file_get_contents($fileName, true)));
-    $classes = match('#\n(?:abstract )?class (?<name>\w+) extends .+\{(?<content>.+)\n\}(\n|$)#', $file);
+    $classes = match('#\n(?:abstract )?class (?<name>\w+) extends .+\{(?<content>.+)\n\}(\n|$)#', $file)
 
     foreach ($classes as &$class) {
         $gets = match(
             '#\* @return (?<type>\w+)(?: (?<comment>(?:(?!\*/|\* @).)+?)(?:(?!\*/).)+|[\s\n]*)\*/' .
             '[\s\n]{2,}public function (?<kind>get)(?<name>\w+)\((?:,? ?\$\w+ ?= ?[^,]+)*\)#',
-            $class['content']);
+            $class['content'])
         $sets = match(
             '#\* @param (?<type>\w+) \$\w+(?: (?<comment>(?:(?!\*/|\* @).)+?)(?:(?!\*/).)+|[\s\n]*)\*/' .
             '[\s\n]{2,}public function (?<kind>set)(?<name>\w+)\(\$\w+(?:, ?\$\w+ ?= ?[^,]+)*\)#',
-            $class['content']);
+            $class['content'])
         $acrs = array_merge($gets, $sets);
         //print_r($acrs); continue;
 

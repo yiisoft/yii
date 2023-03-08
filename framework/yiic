@@ -11,4 +11,4 @@
  * @license https://www.yiiframework.com/license/
  */
 
-require_once(dirname(__FILE__).'/yiic.php');
+require_once(__DIR__ .'/yiic.php');

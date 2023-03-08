@@ -92,8 +92,8 @@ EOD;
 				if (curl_exec($ch)===FALSE)
 				{
 					$this->usageError("Failed to download from '$latestUrl'.");
-				};
-				curl_close($ch);
+				}
+                curl_close($ch);
 				fclose($fp);
 			}
 			// unzip file
