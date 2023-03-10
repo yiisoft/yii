@@ -88,8 +88,8 @@
     ]
   },
   "require-dev": {
-    "cweagans/composer-patches": "*",
-    "phpunit/phpunit": "*",
+    "cweagans/composer-patches": "^1.7",
+    "phpunit/phpunit": "4.8.34",
     "phpunit/phpunit-selenium": "*",
     "phing/phing": "*",
     "pear/archive_tar": "*",
@@ -98,18 +98,6 @@
   "extra": {
     "branch-alias": {
       "dev-master": "1.1.x-dev"
-    },
-    "composer-exit-on-patch-failure": false,
-    "patches": {
-      "phpunit/phpunit-mock-objects": {
-        "Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
-      },
-      "phpunit/php-file-iterator": {
-        "Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_path_file_iterator.patch"
-      },
-      "phpunit/phpunit": {
-        "Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php81.patch"
-      }
     }
   },
   "config": {
