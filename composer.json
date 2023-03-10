@@ -1,127 +1,129 @@
 {
-	"name": "yiisoft/yii",
-	"description": "Yii Web Programming Framework",
-	"keywords": ["yii", "framework"],
-	"homepage": "https://www.yiiframework.com/",
-	"type": "library",
-	"license": "BSD-3-Clause",
-	"authors": [
-		{
-			"name": "Qiang Xue",
-			"email": "qiang.xue@gmail.com",
-			"homepage": "https://www.yiiframework.com/",
-			"role": "Founder and project lead"
-		},
-		{
-			"name": "Alexander Makarov",
-			"email": "sam@rmcreative.ru",
-			"homepage": "https://rmcreative.ru/",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Maurizio Domba",
-			"homepage": "http://mdomba.info/",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Carsten Brandt",
-			"email": "mail@cebe.cc",
-			"homepage": "https://cebe.cc/",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Timur Ruziev",
-			"email": "resurtm@gmail.com",
-			"homepage": "http://resurtm.com/",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Paul Klimov",
-			"email": "klimov.paul@gmail.com",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Wei Zhuo",
-			"email": "weizhuo@gmail.com",
-			"role": "Project site maintenance and development"
-		},
-		{
-			"name": "Sebastián Thierer",
-			"email": "sebas@artfos.com",
-			"role": "Component development"
-		},
-		{
-			"name": "Jeffrey Winesett",
-			"email": "jefftulsa@gmail.com",
-			"role": "Documentation and marketing"
-		}
-		
-	],
-	"support": {
-		"issues": "https://github.com/yiisoft/yii/issues?state=open",
-		"forum": "https://www.yiiframework.com/forum/",
-		"wiki": "https://www.yiiframework.com/wiki/",
-		"irc": "irc://irc.freenode.net/yii",
-		"source": "https://github.com/yiisoft/yii"
-	},
-	"bin": [
-		"framework/yiic"
-	],
-	"archive": {
-		"exclude": [
-			"demos"
-		]
-	},
-	"require": {
-		"php": ">=8.1.0",
-		"ext-mcrypt": "*",
-		"ext-openssl": "*",
-		"ext-memcached": "*",
-		"phpseclib/mcrypt_compat": "*"
-	},
-	"autoload": {
-		"classmap" : [
-			"framework/YiiBase.php",
-			"framework/yii.php"
-		]
-	},
-	"require-dev": {
-		"cweagans/composer-patches": "*",
-		"phpunit/phpunit": "*",
-		"phpunit/phpunit-selenium": "*",
-		"phing/phing": "*",
-		"pear/archive_tar": "*",
-		"symfony/flex": "*"
-	},
-	"extra": {
-		"branch-alias": {
-			"dev-master": "1.1.x-dev"
-		},
-		"composer-exit-on-patch-failure": false,
-		"patches": {
-			"phpunit/phpunit-mock-objects": {
-				"Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
-			},
-			"phpunit/php-file-iterator": {
-				"Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_path_file_iterator.patch"
-			},
-			"phpunit/phpunit": {
-				"Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
-				"Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch",
-				"Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php81.patch"
-			}
-		}
-	},
-	"config": {
-		"allow-plugins": {
-			"cweagans/composer-patches": true,
-			"symfony/flex": true
-		},
-		"platform": {
-			"php": "8.1.16",
-			"ext-mcrypt": "5.6.40",
-			"ext-memcached": "8.1.16",
-			"ext-openssl": "8.1.16"
-		}
-	}
+  "name": "yiisoft/yii",
+  "description": "Yii Web Programming Framework",
+  "keywords": [
+    "yii",
+    "framework"
+  ],
+  "homepage": "https://www.yiiframework.com/",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Qiang Xue",
+      "email": "qiang.xue@gmail.com",
+      "homepage": "https://www.yiiframework.com/",
+      "role": "Founder and project lead"
+    },
+    {
+      "name": "Alexander Makarov",
+      "email": "sam@rmcreative.ru",
+      "homepage": "https://rmcreative.ru/",
+      "role": "Core framework development"
+    },
+    {
+      "name": "Maurizio Domba",
+      "homepage": "http://mdomba.info/",
+      "role": "Core framework development"
+    },
+    {
+      "name": "Carsten Brandt",
+      "email": "mail@cebe.cc",
+      "homepage": "https://cebe.cc/",
+      "role": "Core framework development"
+    },
+    {
+      "name": "Timur Ruziev",
+      "email": "resurtm@gmail.com",
+      "homepage": "http://resurtm.com/",
+      "role": "Core framework development"
+    },
+    {
+      "name": "Paul Klimov",
+      "email": "klimov.paul@gmail.com",
+      "role": "Core framework development"
+    },
+    {
+      "name": "Wei Zhuo",
+      "email": "weizhuo@gmail.com",
+      "role": "Project site maintenance and development"
+    },
+    {
+      "name": "Sebastián Thierer",
+      "email": "sebas@artfos.com",
+      "role": "Component development"
+    },
+    {
+      "name": "Jeffrey Winesett",
+      "email": "jefftulsa@gmail.com",
+      "role": "Documentation and marketing"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/yiisoft/yii/issues?state=open",
+    "forum": "https://www.yiiframework.com/forum/",
+    "wiki": "https://www.yiiframework.com/wiki/",
+    "irc": "irc://irc.freenode.net/yii",
+    "source": "https://github.com/yiisoft/yii"
+  },
+  "bin": [
+    "framework/yiic"
+  ],
+  "archive": {
+    "exclude": [
+      "demos"
+    ]
+  },
+  "require": {
+    "php": ">=8.1.0",
+    "ext-mcrypt": "*",
+    "ext-openssl": "*",
+    "ext-memcached": "*",
+    "phpseclib/mcrypt_compat": "*"
+  },
+  "autoload": {
+    "classmap": [
+      "framework/YiiBase.php",
+      "framework/yii.php"
+    ]
+  },
+  "require-dev": {
+    "cweagans/composer-patches": "*",
+    "phpunit/phpunit": "*",
+    "phpunit/phpunit-selenium": "*",
+    "phing/phing": "*",
+    "pear/archive_tar": "*",
+    "symfony/flex": "*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.1.x-dev"
+    },
+    "composer-exit-on-patch-failure": false,
+    "patches": {
+      "phpunit/phpunit-mock-objects": {
+        "Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
+      },
+      "phpunit/php-file-iterator": {
+        "Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_path_file_iterator.patch"
+      },
+      "phpunit/phpunit": {
+        "Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
+        "Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch",
+        "Fix PHP 8.1 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php81.patch"
+      }
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "cweagans/composer-patches": true,
+      "symfony/flex": true
+    },
+    "platform": {
+      "php": "8.1.16",
+      "ext-mcrypt": "5.6.40",
+      "ext-memcached": "8.1.16",
+      "ext-openssl": "8.1.16"
+    }
+  }
 }
