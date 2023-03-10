@@ -1,0 +1,203 @@
+
+dWeb:IllegalTabCheck"EReplace all tab characters in this file by sequences of white-spaces.(‰ä‰¸
+9Web:HeaderCheck"&Add or update the header of this file.
+mWeb:MaxLineLengthCheck6"KSplit this 165 characters long line (which is greater than 120 authorized).(œªŞÇ
+rWeb:MaxLineLengthChecks"KSplit this 200 characters long line (which is greater than 120 authorized).(òúÕ¹ùÿÿÿÿ
+sWeb:MaxLineLengthCheckŠ"KSplit this 167 characters long line (which is greater than 120 authorized).(œÿÅüÿÿÿÿ
+nWeb:MaxLineLengthCheck–"KSplit this 334 characters long line (which is greater than 120 authorized).(¡úü„
+sWeb:MaxLineLengthCheck¤"KSplit this 129 characters long line (which is greater than 120 authorized).(¯¨™ÿÿÿÿÿ
+nWeb:MaxLineLengthCheckµ"KSplit this 171 characters long line (which is greater than 120 authorized).(şªª
+nWeb:MaxLineLengthCheckü"KSplit this 156 characters long line (which is greater than 120 authorized).(ÒÇ Â
+Qphp:S105"EReplace all tab characters in this file by sequences of white-spaces.
+_php:S1036"KSplit this 165 characters long line (which is greater than 120 authorized).(œªŞÇ
+dphp:S103s"KSplit this 200 characters long line (which is greater than 120 authorized).(òúÕ¹ùÿÿÿÿ
+ephp:S103Š"KSplit this 167 characters long line (which is greater than 120 authorized).(œÿÅüÿÿÿÿ
+`php:S103–"KSplit this 334 characters long line (which is greater than 120 authorized).(¡úü„
+ephp:S103¤"KSplit this 129 characters long line (which is greater than 120 authorized).(¯¨™ÿÿÿÿÿ
+`php:S103µ"KSplit this 171 characters long line (which is greater than 120 authorized).(şªª
+`php:S103ü"KSplit this 156 characters long line (which is greater than 120 authorized).(ÒÇ Â
+V	php:S1808§";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1808½";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1808Æ";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1808Ò";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1808ç";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1808ê";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1808ı";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1808ƒ";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1808£";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+K	php:S1808"6Put exactly one space after comma separated arguments.(ü¹ÓØ
+K	php:S1808"6Put exactly one space after comma separated arguments.(â»šğ
+J	php:S1808"6Put exactly one space after comma separated arguments.(Ç„h
+K	php:S1808"6Put exactly one space after comma separated arguments.(¤½¢»
+K	php:S1808!"6Put exactly one space after comma separated arguments.(ôÄÂ
+P	php:S1808#"6Put exactly one space after comma separated arguments.(÷€µéıÿÿÿÿ
+K	php:S1808'"6Put exactly one space after comma separated arguments.(à£ıÀ
+K	php:S1808-"6Put exactly one space after comma separated arguments.(èßÁ£
+K	php:S18083"6Put exactly one space after comma separated arguments.(å¤ü·
+K	php:S18085"6Put exactly one space after comma separated arguments.(è¢İï
+P	php:S18089"6Put exactly one space after comma separated arguments.(Œ·²Ëÿÿÿÿÿ
+P	php:S1808<"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+K	php:S1808?"6Put exactly one space after comma separated arguments.(ßú—ó
+P	php:S1808B"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+J	php:S1808C"6Put exactly one space after comma separated arguments.(áëè(
+K	php:S1808E"6Put exactly one space after comma separated arguments.(Ñ§ç·
+P	php:S1808H"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+K	php:S1808I"6Put exactly one space after comma separated arguments.(Õä¹Æ
+P	php:S1808K"6Put exactly one space after comma separated arguments.(£ËËñşÿÿÿÿ
+P	php:S1808N"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+P	php:S1808O"6Put exactly one space after comma separated arguments.(üóÓùÿÿÿÿ
+P	php:S1808Q"6Put exactly one space after comma separated arguments.(ß’Úüÿÿÿÿ
+P	php:S1808T"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+P	php:S1808U"6Put exactly one space after comma separated arguments.(îç•«ıÿÿÿÿ
+K	php:S1808W"6Put exactly one space after comma separated arguments.(Ô©ô¶
+P	php:S1808Z"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+K	php:S1808["6Put exactly one space after comma separated arguments.(ÈÜ„…
+P	php:S1808]"6Put exactly one space after comma separated arguments.(Ê€í™ùÿÿÿÿ
+P	php:S1808`"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+P	php:S1808a"6Put exactly one space after comma separated arguments.(—ÿìŞşÿÿÿÿ
+P	php:S1808c"6Put exactly one space after comma separated arguments.(ù•Ãıÿÿÿÿ
+P	php:S1808f"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+K	php:S1808g"6Put exactly one space after comma separated arguments.( ·¡­
+P	php:S1808i"6Put exactly one space after comma separated arguments.(Ÿß±ûÿÿÿÿ
+P	php:S1808l"6Put exactly one space after comma separated arguments.(Êüğ©şÿÿÿÿ
+K	php:S1808m"6Put exactly one space after comma separated arguments.(ÄÆÉ¸
+P	php:S1808o"6Put exactly one space after comma separated arguments.(Ó˜ÃÀşÿÿÿÿ
+P	php:S1808u"6Put exactly one space after comma separated arguments.(ñ™–™ıÿÿÿÿ
+P	php:S1808{"6Put exactly one space after comma separated arguments.(ç­¼‹ùÿÿÿÿ
+P	php:S1808"6Put exactly one space after comma separated arguments.(µôÎüÿÿÿÿÿ
+L	php:S1808"6Put exactly one space after comma separated arguments.(Çí¦´
+K	php:S1808…"6Put exactly one space after comma separated arguments.(¸èã/
+L	php:S1808‡"6Put exactly one space after comma separated arguments.(¿¡Ç
+L	php:S1808"6Put exactly one space after comma separated arguments.(‹Ìïƒ
+L	php:S1808“"6Put exactly one space after comma separated arguments.(“ìÏõ
+L	php:S1808š"6Put exactly one space after comma separated arguments.(•Úİ
+L	php:S1808"6Put exactly one space after comma separated arguments.(ƒóÌµ
+L	php:S1808¬"6Put exactly one space after comma separated arguments.(àÄ­
+L	php:S1808¬"6Put exactly one space after comma separated arguments.(àÄ­
+Q	php:S1808¯"6Put exactly one space after comma separated arguments.(×šÒ¤ûÿÿÿÿ
+Q	php:S1808²"6Put exactly one space after comma separated arguments.(Å‹Ñäıÿÿÿÿ
+Q	php:S1808´"6Put exactly one space after comma separated arguments.( ‹ışÿÿÿÿ
+L	php:S1808µ"6Put exactly one space after comma separated arguments.(şªª
+L	php:S1808Ã"6Put exactly one space after comma separated arguments.(şëïå
+K	php:S1808É"6Put exactly one space after comma separated arguments.(®ñ z
+L	php:S1808Ë"6Put exactly one space after comma separated arguments.(î»ìê
+Q	php:S1808Õ"6Put exactly one space after comma separated arguments.(ìıÖ§ıÿÿÿÿ
+Q	php:S1808â"6Put exactly one space after comma separated arguments.(±ÂÄºøÿÿÿÿ
+Q	php:S1808÷"6Put exactly one space after comma separated arguments.(Ìçë¾şÿÿÿÿ
+L	php:S1808ü"6Put exactly one space after comma separated arguments.(ÒÇ Â
+Q	php:S1808„"6Put exactly one space after comma separated arguments.(Œø¿Àûÿÿÿÿ
+L	php:S1808•"6Put exactly one space after comma separated arguments.(î—ÄÚ
+Q	php:S1808—"6Put exactly one space after comma separated arguments.(€Á®·ùÿÿÿÿ
+Q	php:S1808š"6Put exactly one space after comma separated arguments.(Í§Ÿ„şÿÿÿÿ
+L	php:S1808±"6Put exactly one space after comma separated arguments.(ÿ“³
+d	php:S1808¦"IPut one space between this "foreach" keyword and the opening parenthesis.(·¤ ûÿÿÿÿ
+Z	php:S1808¨"DPut one space between this "if" keyword and the opening parenthesis.(ƒ‚ºÉ
+Y	php:S1808«"DPut one space between this "if" keyword and the opening parenthesis.(¶íÔ
+_	php:S1808®"DPut one space between this "if" keyword and the opening parenthesis.(°¬–¢ıÿÿÿÿ
+_	php:S1808±"DPut one space between this "if" keyword and the opening parenthesis.(¡´ªşÿÿÿÿ
+_	php:S1808´"DPut one space between this "if" keyword and the opening parenthesis.( ‹ışÿÿÿÿ
+Z	php:S1808¼"DPut one space between this "if" keyword and the opening parenthesis.(ü¢ç±
+Z	php:S1808Á"DPut one space between this "if" keyword and the opening parenthesis.(Éíçß
+Z	php:S1808Ã"DPut one space between this "if" keyword and the opening parenthesis.(şëïå
+c	php:S1808Å"HPut one space between this "elseif" keyword and the opening parenthesis.(Œ‰Ìïúÿÿÿÿ
+Z	php:S1808Ç"DPut one space between this "if" keyword and the opening parenthesis.(ŠòªË
+Z	php:S1808Ñ"DPut one space between this "if" keyword and the opening parenthesis.(Š¿Õ¼
+_	php:S1808Õ"DPut one space between this "if" keyword and the opening parenthesis.(ìıÖ§ıÿÿÿÿ
+_	php:S1808æ"DPut one space between this "if" keyword and the opening parenthesis.(á¯¡úşÿÿÿÿ
+_	php:S1808é"DPut one space between this "if" keyword and the opening parenthesis.(ÜÍ½úÿÿÿÿ
+_	php:S1808ì"DPut one space between this "if" keyword and the opening parenthesis.(ĞË©ÿüÿÿÿÿ
+Y	php:S1808ñ"DPut one space between this "if" keyword and the opening parenthesis.(Àù“S
+Z	php:S1808ô"DPut one space between this "if" keyword and the opening parenthesis.(¢™ªÛ
+Z	php:S1808ü"DPut one space between this "if" keyword and the opening parenthesis.(ÒÇ Â
+`	php:S1808ÿ"EPut one space between this "for" keyword and the opening parenthesis.(óº®…ûÿÿÿÿ
+_	php:S1808‚"IPut one space between this "foreach" keyword and the opening parenthesis.(Æù—ä
+Y	php:S1808‚"CPut exactly one space after and before "=>" in "foreach" statement.(Æù—ä
+_	php:S1808¢"IPut one space between this "foreach" keyword and the opening parenthesis.(ÇÙÍ
+Y	php:S1808¢"CPut exactly one space after and before "=>" in "foreach" statement.(ÇÙÍ
+Z	php:S1808¤"DPut one space between this "if" keyword and the opening parenthesis.(¼± 
+Z	php:S1808¦"DPut one space between this "if" keyword and the opening parenthesis.(ú½§±
+Z	php:S1808¨"DPut one space between this "if" keyword and the opening parenthesis.(­õ¤‘
+Z	php:S1808®"DPut one space between this "if" keyword and the opening parenthesis.(í°™ú
+M	php:S5867ü"7Enable the "u" flag or use a Unicode-aware alternative.(ÒÇ Â
+Y	php:S1142¢">This function has 5 returns, which is more than the 3 allowed.(«º’œşÿÿÿÿ
+T	php:S1142º">This function has 4 returns, which is more than the 3 allowed.(®ùê§
+nphp:S117š"TRename this parameter "$_file_" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Í§Ÿ„şÿÿÿÿ
+pphp:S117š"VRename this parameter "$_params_" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Í§Ÿ„şÿÿÿÿ
+i	php:S3776ú"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(¶˜Ÿ
+V	php:S1105§";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105£";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105½";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105Æ";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105»";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105Ò";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105Ï";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105ê";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105ç";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105ã";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105ƒ";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105ı";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105û";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105’";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105›";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+V	php:S1105£";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+N	php:S1121":Extract the assignment of "$message" from this expression.(ˆ¾ÁM
+U	php:S1121":Extract the assignment of "$message" from this expression.(¦à«¼úÿÿÿÿ
+R	php:S1121é"7Extract the assignment of "$lang" from this expression.(ÜÍ½úÿÿÿÿ
+J	php:S1121ü"4Extract the assignment of "$n" from this expression.(ÒÇ Â
+I	php:S1481‡".Remove this unused "$viewFile" local variable.(ÑÊùµşÿÿÿÿ
+R	php:S1793¦"<Replace this "else if" keyword sequence by "elseif" keyword.(ú½§±
+3php:S126¦"Add the missing "else" clause.(ú½§±
+Ephp:S121¨"0Add curly braces around the nested statement(s).(ƒ‚ºÉ
+Dphp:S121«"0Add curly braces around the nested statement(s).(¶íÔ
+Jphp:S121®"0Add curly braces around the nested statement(s).(°¬–¢ıÿÿÿÿ
+Jphp:S121±"0Add curly braces around the nested statement(s).(¡´ªşÿÿÿÿ
+Jphp:S121´"0Add curly braces around the nested statement(s).( ‹ışÿÿÿÿ
+Ephp:S121Á"0Add curly braces around the nested statement(s).(Éíçß
+Ephp:S121Ç"0Add curly braces around the nested statement(s).(ŠòªË
+Ephp:S121Ã"0Add curly braces around the nested statement(s).(şëïå
+Jphp:S121Õ"0Add curly braces around the nested statement(s).(ìıÖ§ıÿÿÿÿ
+Jphp:S121ì"0Add curly braces around the nested statement(s).(ĞË©ÿüÿÿÿÿ
+Dphp:S121ñ"0Add curly braces around the nested statement(s).(Àù“S
+Ephp:S121ô"0Add curly braces around the nested statement(s).(¢™ªÛ
+Jphp:S121ÿ"0Add curly braces around the nested statement(s).(óº®…ûÿÿÿÿ
+Jphp:S121…"0Add curly braces around the nested statement(s).(Êµ¡Êùÿÿÿÿ
+Jphp:S121‰"0Add curly braces around the nested statement(s).(„¶áìøÿÿÿÿ
+Jphp:S121‡"0Add curly braces around the nested statement(s).(ÑÊùµşÿÿÿÿ
+Ephp:S121¦"0Add curly braces around the nested statement(s).(ú½§±
+Ephp:S121¤"0Add curly braces around the nested statement(s).(¼± 
+Ephp:S121¨"0Add curly braces around the nested statement(s).(­õ¤‘
+Ephp:S121®"0Add curly braces around the nested statement(s).(í°™ú
+g	php:S4833í"LReplace "include" with namespace import mechanism through the "use" keyword.(Ç„‚¤ıÿÿÿÿ
+b	php:S4833"LReplace "require" with namespace import mechanism through the "use" keyword.(«ş‚
+Kphp:S139 "6Move this trailing comment on the previous empty line.(øŠáŸ
+]	php:S1779"PReplace all non line feed end of line characters in this file "index.php" by LF.
+8	php:S2043¨""Do not access "$_SERVER" directly.(ƒ‚ºÉ
+=	php:S2043®""Do not access "$_SERVER" directly.(°¬–¢ıÿÿÿÿ
+=	php:S2043±""Do not access "$_SERVER" directly.(¡´ªşÿÿÿÿ
+=	php:S2043±""Do not access "$_SERVER" directly.(¡´ªşÿÿÿÿ
+=	php:S2043´""Do not access "$_SERVER" directly.( ‹ışÿÿÿÿ
+=	php:S2043´""Do not access "$_SERVER" directly.( ‹ışÿÿÿÿ
+=	php:S2043´""Do not access "$_SERVER" directly.( ‹ışÿÿÿÿ
+8	php:S2043ü""Do not access "$_SERVER" directly.(ÒÇ Â
+8	php:S2043ü""Do not access "$_SERVER" directly.(ÒÇ Â
+8	php:S2043“""Do not access "$_SERVER" directly.(€ø¥ƒ
+8	php:S2043“""Do not access "$_SERVER" directly.(€ø¥ƒ
+°	php:S1192<"•Define a constant instead of duplicating this literal "All <a href="https://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>" 9 times.(Êüğ©şÿÿÿÿ
+	php:S1192"yDefine a constant instead of duplicating this literal "<a href="https://www.yiiframework.com">Yii Framework</a>" 5 times.(Œ€
+L	php:S1172â"1Remove the unused function parameter "$category".(±ÂÄºøÿÿÿÿ
+^	php:S2036"QRefactor this file to either declare symbols or cause side effects, but not both.
+A	php:S2003í"&Replace "include" with "include_once".(Ç„‚¤ıÿÿÿÿ
+<	php:S2003"&Replace "require" with "require_once".(«ş‚
+Y	php:S2002•"CRemove the '@' symbol from this function call to un-silence errors.(î—ÄÚ
+4	php:S2007" Move this variable into a class.(ˆ¾ÁM
+:	php:S2007" Move this variable into a class.(šóÙÛûÿÿÿÿ
+;	php:S2007¢" Move this function into a class.(«º’œşÿÿÿÿ
+6	php:S2007º" Move this function into a class.(®ùê§
+;	php:S2007Î" Move this function into a class.(ôãŠäøÿÿÿÿ
+;	php:S2007â" Move this function into a class.(±ÂÄºøÿÿÿÿ
+5	php:S2007ú" Move this function into a class.(¶˜Ÿ
+;	php:S2007‘" Move this function into a class.(´ø®…øÿÿÿÿ
+;	php:S2007š" Move this function into a class.(Í§Ÿ„şÿÿÿÿ
+6	php:S2007 " Move this variable into a class.(øŠáŸ
+;	php:S2007¬" Move this variable into a class.(êä¾Èùÿÿÿÿ
+6	php:S2007­" Move this variable into a class.(¤¹

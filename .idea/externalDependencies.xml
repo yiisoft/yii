@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalDependencies">
+    <plugin id="Batch Scripts Support" />
+    <plugin id="CMD Support" />
+    <plugin id="com.github.timo_reymann.composer_dump_autoload_phpstorm_plugin" />
+    <plugin id="com.intellij.apacheConfig" />
+    <plugin id="com.jetbrains.php.codeception" />
+    <plugin id="com.jetbrains.php.framework" />
+    <plugin id="com.tabnine.TabNine" />
+    <plugin id="fr.adrienbrault.idea.symfony2plugin" />
+    <plugin id="mobi.hsz.idea.gitignore" />
+    <plugin id="org.jetbrains.plugins.phpstorm-wsl" />
+    <plugin id="ru.adelf.idea.dotenv" />
+  </component>
+</project>

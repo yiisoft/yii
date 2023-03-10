@@ -1,7 +1,6 @@
 *.iml
 *.ipr
 *.iws
-.idea/
 nbproject/
 nbactions.xml
 nb-configuration.xml

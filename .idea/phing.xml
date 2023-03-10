@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhingConfiguration">
+    <phingPath>$PROJECT_DIR$/vendor/phing/phing/bin/phing.bat</phingPath>
+  </component>
+</project>

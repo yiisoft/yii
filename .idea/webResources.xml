@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebResourcesPaths">
+    <contentEntries>
+      <entry url="file://$PROJECT_DIR$">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/vendor" />
+            <path value="file://$PROJECT_DIR$/framework/vendors" />
+            <path value="file://$PROJECT_DIR$/vendor/cweagans/composer-patches/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/myclabs/deep-copy/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/nikic/php-parser/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/paragonie/constant_time_encoding/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/paragonie/random_compat/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/pear/archive_tar/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/pear/console_getopt/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/pear/pear-core-minimal/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/pear/pear_exception/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/phar-io/manifest/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/phar-io/version/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/phing/phing/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/phpseclib/mcrypt_compat/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/phpseclib/phpseclib/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/phpunit/phpunit-selenium/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/cli-parser/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/code-unit/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/comparator/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/complexity/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/diff/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/environment/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/exporter/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/global-state/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/lines-of-code/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/object-enumerator/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/object-reflector/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/recursion-context/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/type/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/sebastian/version/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/symfony/flex/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor/theseer/tokenizer/vendor" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+    </contentEntries>
+  </component>
+</project>
