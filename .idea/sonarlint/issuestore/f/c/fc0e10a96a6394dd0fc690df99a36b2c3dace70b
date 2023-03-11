@@ -1,0 +1,9 @@
+
+9Web:HeaderCheck"&Add or update the header of this file.
+^	php:S1808"DPut one space between this "if" keyword and the opening parenthesis.(¼‡ÊŠıÿÿÿÿ
+Z	php:S1106"9Move this open curly brace to the beginning of next line.(¼‡ÊŠıÿÿÿÿ8œœóíì0
+U	php:S1105";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+3	php:S1451"&Add or update the header of this file.
+a	php:S4833"LReplace "require" with namespace import mechanism through the "use" keyword.(á„à
+^	php:S2036"QRefactor this file to either declare symbols or cause side effects, but not both.
+;	php:S2003"&Replace "require" with "require_once".(á„à
