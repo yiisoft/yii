@@ -23,6 +23,12 @@
   </component>
   <component name="Git.Settings">
     <option name="PATH_TO_GIT" value="C:\Program Files\Git\cmd\git.exe" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="customizations" />
@@ -136,7 +142,7 @@
     "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.php.quality.tools",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -184,7 +190,7 @@
       <workItem from="1678209560151" duration="770000" />
       <workItem from="1678483736575" duration="3658000" />
       <workItem from="1678488519094" duration="3865000" />
-      <workItem from="1678495164996" duration="475000" />
+      <workItem from="1678495164996" duration="1111000" />
     </task>
     <task id="LOCAL-00001" summary="update composer.json">
       <created>1654813671556</created>
@@ -235,7 +241,21 @@
       <option name="project" value="LOCAL" />
       <updated>1678495277501</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update">
+      <created>1678495757614</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1678495757615</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update">
+      <created>1678495832267</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1678495832268</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
