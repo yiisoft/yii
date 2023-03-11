@@ -13,7 +13,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="94a9c671-3059-40b3-90dd-39f4eadebf2e">
-      <console name="Connection" type="STANDARD" schema="database" session="Main" />
+      <console name="MariaDB Connection" type="STANDARD" schema="database" session="Main" />
     </connection>
     <connection id="5f2e9cc7-8c54-4e82-ab2a-8dfcdc8f2155">
       <console name="MySQL Connection" type="STANDARD" schema="mysql" session="Main" />
