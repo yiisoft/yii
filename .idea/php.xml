@@ -49,10 +49,10 @@
       <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
-  <component name="PhpRuntimeConfiguration" default_stubs_path="C:\wamp64\www\phpstorm-stubs">
+  <component name="PhpRuntimeConfiguration" default_stubs_path="C:\wamp64\www\phpstorm-stubs" document_root_path=".">
     <extensions>
       <extension name="FFI" enabled="true" />
       <extension name="LuaSandbox" enabled="true" />
