@@ -94,12 +94,19 @@ abstract class CAction extends CComponent implements IAction
 			$name=$param->getName();
 			if(isset($params[$name]))
 			{
-				if(version_compare(PHP_VERSION,'8.0','>=')) {
-					$isArray=$param->getType() && $param->getType()->getName()==='array';
+				if(PHP_VERSION_ID >= 80000) {
+					$type = $param->getType();
+					if ((PHP_VERSION_ID >= 80100 && $type instanceof \ReflectionIntersectionType)
+						|| $type instanceof  \ReflectionUnionType) {
+						foreach($type->getTypes() as $complexType) {
+							$isArray=$complexType->getName()==='array';
+						}
+					} else {
+						$isArray=$type && $type->getName()==='array';
+					}
 				} else {
 					$isArray=$param->isArray();
                 }
-
 				if($isArray)
 					$ps[]=is_array($params[$name]) ? $params[$name] : array($params[$name]);
 				elseif(!is_array($params[$name]))
