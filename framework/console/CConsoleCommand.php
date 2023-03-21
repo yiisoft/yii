@@ -129,12 +129,19 @@ abstract class CConsoleCommand extends CComponent
 			$name=$param->getName();
 			if(isset($options[$name]))
 			{
-				if(version_compare(PHP_VERSION,'8.0','>=')) {
-					$isArray=$param->getType() && $param->getType()->getName()==='array';
+				if(PHP_VERSION_ID >= 80000) {
+					$type = $param->getType();
+					if ((PHP_VERSION_ID >= 80100 && $type instanceof \ReflectionIntersectionType)
+						|| $type instanceof  \ReflectionUnionType) {
+						foreach($type->getTypes() as $complexType) {
+							$isArray=$complexType->getName()==='array';
+						}
+					} else {
+						$isArray=$type && $type->getName()==='array';
+					}
 				} else {
-					$isArray = $param->isArray();
+					$isArray=$param->isArray();
 				}
-
 				if($isArray)
 					$params[]=is_array($options[$name]) ? $options[$name] : array($options[$name]);
 				elseif(!is_array($options[$name]))
