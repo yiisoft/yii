@@ -444,7 +444,7 @@ class YiiBase
 			{
 				if(self::$enableIncludePath===false)
 				{
-					foreach(self::$_includePaths as $path)
+					foreach(self::$_includePaths ?: [] as $path)
 					{
 						$classFile=$path.DIRECTORY_SEPARATOR.$className.'.php';
 						if(is_file($classFile))
