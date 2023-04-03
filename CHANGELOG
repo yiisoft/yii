@@ -4,7 +4,7 @@
 Version 1.1.29 under development
 --------------------------------
 
-- No changes yet
+- Bug #4516: PHP 8 compatibility: Allow union types and intersection types in action declarations (wtommyw)
 
 Version 1.1.28 February 28, 2023
 --------------------------------
