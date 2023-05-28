@@ -5,6 +5,7 @@ Version 1.1.29 under development
 --------------------------------
 
 - Bug #4516: PHP 8 compatibility: Allow union types and intersection types in action declarations (wtommyw)
+- Bug #4523: Fixed translated in Greek class messages in framework requirements view, which they should not be translated (lourdas)
 
 Version 1.1.28 February 28, 2023
 --------------------------------
