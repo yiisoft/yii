@@ -59,5 +59,49 @@ class CDbTransactionTest extends CTestCase
 		$n=$this->_connection->createCommand('SELECT COUNT(*) FROM posts WHERE id=10')->queryScalar();
 		$this->assertEquals($n,1);
 	}
+
+	public function testEventCommit()
+	{
+		$commited = null;
+		$rollbacked = null;
+		$sql='INSERT INTO posts(id,title,create_time,author_id) VALUES(10,\'test post\',11000,1)';
+		$transaction=$this->_connection->beginTransaction();
+		$transaction->onCommit = function($event) use (&$commited) { $commited = true; };
+		$transaction->onRollback = function($event) use (&$rollbacked) { $rollbacked = true; };
+		try
+		{
+			$this->_connection->createCommand($sql)->execute();
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			$transaction->rollback();
+		}
+
+		$this->assertTrue($commited);
+		$this->assertNull($rollbacked);
+	}
+
+	public function testEventRollbacked()
+	{
+		$commited = null;
+		$rollbacked = null;
+		$sql='INSERT INTO posts(id,title,create_time,author_id) VALUES(1,\'test post\',11000,1)';
+		$transaction=$this->_connection->beginTransaction();
+		$transaction->onCommit = function($event) use (&$commited) { $commited = true; };
+		$transaction->onRollback = function($event) use (&$rollbacked) { $rollbacked = true; };
+		try
+		{
+			$this->_connection->createCommand($sql)->execute();
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			$transaction->rollback();
+		}
+
+		$this->assertNull($commited);
+		$this->assertTrue($rollbacked);
+	}
 }
 

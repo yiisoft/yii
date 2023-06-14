@@ -62,7 +62,8 @@ class CDbTransaction extends CComponent
 		{
 			Yii::trace('Committing transaction','system.db.CDbTransaction');
 			if($this->_connection->getPdoInstance()->inTransaction())
-				$this->_connection->getPdoInstance()->commit();
+				if ($this->_connection->getPdoInstance()->commit())
+					$this->onCommit(new CEvent($this));
 			$this->_active=false;
 		}
 		else
@@ -79,7 +80,8 @@ class CDbTransaction extends CComponent
 		{
 			Yii::trace('Rolling back transaction','system.db.CDbTransaction');
 			if($this->_connection->getPdoInstance()->inTransaction())
-				$this->_connection->getPdoInstance()->rollBack();
+				if ($this->_connection->getPdoInstance()->rollBack())
+					$this->onRollback(new CEvent($this));
 			$this->_active=false;
 		}
 		else
@@ -108,5 +110,23 @@ class CDbTransaction extends CComponent
 	protected function setActive($value)
 	{
 		$this->_active=$value;
+	}
+
+	/**
+	 * Raised after transaction is commited
+	 * @param CEvent $event the event parameter
+	 */
+	public function onCommit($event)
+	{
+		$this->raiseEvent('onCommit', $event);
+	}
+
+	/**
+	 * Raised after transaction is rollbacked
+	 * @param CEvent $event the event parameter
+	 */
+	public function onRollback($event)
+	{
+		$this->raiseEvent('onRollback', $event);
 	}
 }
