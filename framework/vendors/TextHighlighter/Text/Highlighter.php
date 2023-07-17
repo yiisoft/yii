@@ -91,7 +91,7 @@ if (!defined('HL_INFINITY')) {
  * @package Text_Highlighter
  * @access public
  */
-
+#[AllowDynamicProperties]
 class Text_Highlighter
 {
     // {{{ members

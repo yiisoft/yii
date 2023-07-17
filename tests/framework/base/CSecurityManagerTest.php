@@ -246,7 +246,7 @@ class CSecurityManagerTest extends CTestCase
 	public function testCompareStrings($expected, $actual)
 	{
 		$sm=new CSecurityManager;
-		$this->assertEquals(strcmp($expected,$actual)===0,$sm->compareString($expected,$actual));
+		$this->assertEquals(strcmp((string)$expected,(string)$actual)===0,$sm->compareString((string)$expected,(string)$actual));
 	}
 
 	/**
