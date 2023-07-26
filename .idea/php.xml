@@ -52,7 +52,7 @@
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
-  <component name="PhpRuntimeConfiguration" default_stubs_path="C:\wamp64\www\phpstorm-stubs" document_root_path=".">
+  <component name="PhpRuntimeConfiguration" default_stubs_path="C:\wamp64\www\insight\code\vendor\jetbrains\phpstorm-stubs" document_root_path=".">
     <extensions>
       <extension name="FFI" enabled="true" />
       <extension name="LuaSandbox" enabled="true" />
@@ -76,6 +76,7 @@
       <extension name="mapscript" enabled="true" />
       <extension name="meminfo" enabled="true" />
       <extension name="msgpack" enabled="true" />
+      <extension name="pam" enabled="true" />
       <extension name="parallel" enabled="true" />
       <extension name="pcov" enabled="true" />
       <extension name="phpdbg" enabled="true" />

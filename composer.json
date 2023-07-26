@@ -78,8 +78,7 @@
     "php": ">=8.1.0",
     "ext-mcrypt": "*",
     "ext-openssl": "*",
-    "ext-memcached": "*",
-    "phpseclib/mcrypt_compat": "*"
+    "ext-memcached": "*"
   },
   "autoload": {
     "classmap": [
@@ -90,9 +89,10 @@
   "require-dev": {
     "cweagans/composer-patches": "^1.7",
     "phpunit/phpunit": "4.8.34",
-    "phpunit/phpunit-selenium": "*",
-    "phing/phing": "*",
-    "pear/archive_tar": "*",
+    "phpunit/phpunit-selenium": "~1.4.0",
+    "phing/phing": "2.*",
+    "phpseclib/mcrypt_compat": "^1.0",
+    "pear/archive_tar": "~1.4.6",
     "symfony/flex": "*"
   },
   "extra": {
@@ -106,7 +106,6 @@
       "symfony/flex": true
     },
     "platform": {
-      "php": "8.1.16",
       "ext-mcrypt": "5.6.40",
       "ext-memcached": "8.1.16",
       "ext-openssl": "8.1.16"
