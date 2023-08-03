@@ -1,118 +1,0 @@
-
-9Web:HeaderCheck"&Add or update the header of this file.
-cWeb:DoctypePresenceCheck":Insert a <!DOCTYPE> declaration to before this <html> tag.(œ÷Ãûÿÿÿÿ
-Z	Web:S5254"@Add "lang" and/or "xml:lang" attributes to this "<html>" element(œ÷Ãûÿÿÿÿ
-WWeb:PageWithoutFaviconCheck"1Add a 'favicon' declaration in this 'header' tag.(Õ¶¯M
-HWeb:TableWithoutCaptionCheck" Add a description to this table.(Ã˜€Ê
-RWeb:InternationalizationCheck")Define this label in the resource bundle.(”ë 
-}	Web:S1829"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(Š™¼›
-RWeb:InternationalizationCheck")Define this label in the resource bundle.(¹ªÎ¾
-}	Web:S1829"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(º…ÃÎ
-QWeb:InternationalizationCheck")Define this label in the resource bundle.(¹­”
-‹,Web:LinksIdenticalTextsDifferentTargetsCheck"TUse distinct texts or point to the same target for this link and the one at line 23.(¹­”
-}	Web:S1829 "hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(æ×´
-RWeb:InternationalizationCheck!")Define this label in the resource bundle.(à´ÍÑ
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheck!"TUse distinct texts or point to the same target for this link and the one at line 23.(à´ÍÑ
-‚	Web:S1829""hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(åëß£ÿÿÿÿÿ
-WWeb:InternationalizationCheck"")Define this label in the resource bundle.(åëß£ÿÿÿÿÿ
-‚	Web:S1829""hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(åëß£ÿÿÿÿÿ
-WWeb:InternationalizationCheck"")Define this label in the resource bundle.(åëß£ÿÿÿÿÿ
-}	Web:S1829%"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(€ŸÛ°
-RWeb:InternationalizationCheck&")Define this label in the resource bundle.(×ë¹
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheck&"TUse distinct texts or point to the same target for this link and the one at line 23.(×ë¹
-‚	Web:S1829*"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(†Òˆúÿÿÿÿ
-RWeb:InternationalizationCheck+")Define this label in the resource bundle.(°ÃÖ¢
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheck+"TUse distinct texts or point to the same target for this link and the one at line 23.(°ÃÖ¢
-‚	Web:S1829,"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(…œé†üÿÿÿÿ
-WWeb:InternationalizationCheck,")Define this label in the resource bundle.(…œé†üÿÿÿÿ
-‚	Web:S1829/"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(€Ûšÿÿÿÿÿ
-}	Web:S18290"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(øë¯
-RWeb:InternationalizationCheck0")Define this label in the resource bundle.(øë¯
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheck0"TUse distinct texts or point to the same target for this link and the one at line 23.(øë¯
-‚	Web:S18291"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(ß¶ŞÖùÿÿÿÿ
-WWeb:InternationalizationCheck1")Define this label in the resource bundle.(ß¶ŞÖùÿÿÿÿ
-‚	Web:S18294"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(¥ÓËúÿÿÿÿ
-RWeb:InternationalizationCheck5")Define this label in the resource bundle.(×ë¹
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheck5"TUse distinct texts or point to the same target for this link and the one at line 23.(×ë¹
-}	Web:S18296"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(‡¿
-RWeb:InternationalizationCheck6")Define this label in the resource bundle.(‡¿
-}	Web:S18299"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(‘ÅÈü
-‚	Web:S1829:"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(…ñ£ñıÿÿÿÿ
-WWeb:InternationalizationCheck:")Define this label in the resource bundle.(…ñ£ñıÿÿÿÿ
-‘,Web:LinksIdenticalTextsDifferentTargetsCheck:"TUse distinct texts or point to the same target for this link and the one at line 23.(…ñ£ñıÿÿÿÿ
-‚	Web:S1829;"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(ÎàğÁúÿÿÿÿ
-WWeb:InternationalizationCheck;")Define this label in the resource bundle.(ÎàğÁúÿÿÿÿ
-‚	Web:S1829>"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(Ç·à‹ÿÿÿÿÿ
-WWeb:InternationalizationCheck?")Define this label in the resource bundle.(ªÒúªûÿÿÿÿ
-‚	Web:S1829@"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(Û›Š’üÿÿÿÿ
-WWeb:InternationalizationCheck@")Define this label in the resource bundle.(Û›Š’üÿÿÿÿ
-‚	Web:S1829@"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(Û›Š’üÿÿÿÿ
-WWeb:InternationalizationCheck@")Define this label in the resource bundle.(Û›Š’üÿÿÿÿ
-}	Web:S1829C"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(”ô“¶
-RWeb:InternationalizationCheckD")Define this label in the resource bundle.(³æĞ
-}	Web:S1829H"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(ü•ã¸
-WWeb:InternationalizationCheckI")Define this label in the resource bundle.(ıı¬‘ùÿÿÿÿ
-‘,Web:LinksIdenticalTextsDifferentTargetsCheckI"TUse distinct texts or point to the same target for this link and the one at line 63.(ıı¬‘ùÿÿÿÿ
-}	Web:S1829J"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(ğ‹”
-RWeb:InternationalizationCheckJ")Define this label in the resource bundle.(ğ‹”
-}	Web:S1829M"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(Õ”–›
-}	Web:S1829N"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(àˆõŸ
-‚	Web:S1829O"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(Õ†Äµøÿÿÿÿ
-WWeb:InternationalizationCheckO")Define this label in the resource bundle.(Õ†Äµøÿÿÿÿ
-‚	Web:S1829R"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(–ß˜ùÿÿÿÿ
-‘,Web:LinksIdenticalTextsDifferentTargetsCheckS"TUse distinct texts or point to the same target for this link and the one at line 78.(–Öûùÿÿÿÿ
-‚	Web:S1829T"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(Ê·‚ªùÿÿÿÿ
-WWeb:InternationalizationCheckT")Define this label in the resource bundle.(Ê·‚ªùÿÿÿÿ
-|	Web:S1829W"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(¯ãóA
-RWeb:InternationalizationCheckX")Define this label in the resource bundle.(İìÓß
-}	Web:S1829Y"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(¢–äÈ
-RWeb:InternationalizationCheckY")Define this label in the resource bundle.(¢–äÈ
-‚	Web:S1829\"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(íØ™°üÿÿÿÿ
-RWeb:InternationalizationCheck]")Define this label in the resource bundle.(†®ü
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheck]"TUse distinct texts or point to the same target for this link and the one at line 63.(†®ü
-}	Web:S1829^"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(‘Æ¤œ
-RWeb:InternationalizationCheck^")Define this label in the resource bundle.(‘Æ¤œ
-‚	Web:S1829a"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(©³Öƒÿÿÿÿÿ
-RWeb:InternationalizationCheckb")Define this label in the resource bundle.(øåÊş
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheckb"TUse distinct texts or point to the same target for this link and the one at line 63.(øåÊş
-}	Web:S1829c"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(ë›¢
-RWeb:InternationalizationCheckc")Define this label in the resource bundle.(ë›¢
-}	Web:S1829c"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(ë›¢
-RWeb:InternationalizationCheckc")Define this label in the resource bundle.(ë›¢
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheckc"TUse distinct texts or point to the same target for this link and the one at line 34.(ë›¢
-}	Web:S1829f"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(¨ãş•
-RWeb:InternationalizationCheckg")Define this label in the resource bundle.(²à²À
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheckg"TUse distinct texts or point to the same target for this link and the one at line 88.(²à²À
-‚	Web:S1829h"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(£²ß›ıÿÿÿÿ
-WWeb:InternationalizationCheckh")Define this label in the resource bundle.(£²ß›ıÿÿÿÿ
-‚	Web:S1829h"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(£²ß›ıÿÿÿÿ
-WWeb:InternationalizationCheckh")Define this label in the resource bundle.(£²ß›ıÿÿÿÿ
-‚	Web:S1829k"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(ŠÔ°üÿÿÿÿ
-RWeb:InternationalizationCheckl")Define this label in the resource bundle.(ÃŞÒ£
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheckl"TUse distinct texts or point to the same target for this link and the one at line 23.(ÃŞÒ£
-RWeb:InternationalizationCheckl")Define this label in the resource bundle.(ÃŞÒ£
-‚	Web:S1829m"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(£²ß›ıÿÿÿÿ
-WWeb:InternationalizationCheckm")Define this label in the resource bundle.(£²ß›ıÿÿÿÿ
-‚	Web:S1829m"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(£²ß›ıÿÿÿÿ
-WWeb:InternationalizationCheckm")Define this label in the resource bundle.(£²ß›ıÿÿÿÿ
-}	Web:S1829p"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(™Æ£
-}	Web:S1829p"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(™Æ£
-RWeb:InternationalizationCheckp")Define this label in the resource bundle.(™Æ£
-RWeb:InternationalizationCheckq")Define this label in the resource bundle.(Ûº…«
-Œ,Web:LinksIdenticalTextsDifferentTargetsCheckq"TUse distinct texts or point to the same target for this link and the one at line 23.(Ûº…«
-‚	Web:S1829r"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(Ó®¯ìûÿÿÿÿ
-WWeb:InternationalizationCheckr")Define this label in the resource bundle.(Ó®¯ìûÿÿÿÿ
-}	Web:S1829u"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(¥š­ä
-WWeb:InternationalizationCheckv")Define this label in the resource bundle.(ı ±şÿÿÿÿ
-‘,Web:LinksIdenticalTextsDifferentTargetsCheckv"TUse distinct texts or point to the same target for this link and the one at line 63.(ı ±şÿÿÿÿ
-}	Web:S1829w"hReplace this absolute URI "href" with a relative one, or move this absolute URI to a configuration file.(¢“œ
-RWeb:InternationalizationCheckw")Define this label in the resource bundle.(¢“œ
-rWeb:MaxLineLengthCheck""KSplit this 172 characters long line (which is greater than 120 authorized).(åëß£ÿÿÿÿÿ
-rWeb:MaxLineLengthCheck@"KSplit this 157 characters long line (which is greater than 120 authorized).(Û›Š’üÿÿÿÿ
-mWeb:MaxLineLengthCheckM"KSplit this 131 characters long line (which is greater than 120 authorized).(Õ”–›
-rWeb:MaxLineLengthCheckO"KSplit this 223 characters long line (which is greater than 120 authorized).(Õ†Äµøÿÿÿÿ
-mWeb:MaxLineLengthCheckc"KSplit this 161 characters long line (which is greater than 120 authorized).(ë›¢
-mWeb:MaxLineLengthCheckf"KSplit this 149 characters long line (which is greater than 120 authorized).(¨ãş•
-rWeb:MaxLineLengthCheckh"KSplit this 181 characters long line (which is greater than 120 authorized).(£²ß›ıÿÿÿÿ
-rWeb:MaxLineLengthCheckm"KSplit this 181 characters long line (which is greater than 120 authorized).(£²ß›ıÿÿÿÿ
-mWeb:MaxLineLengthCheckp"KSplit this 248 characters long line (which is greater than 120 authorized).(™Æ£

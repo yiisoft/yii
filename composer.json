@@ -106,7 +106,7 @@
       "symfony/flex": true
     },
     "platform": {
-      "ext-mcrypt": "5.6.40",
+      "ext-mcrypt": "8.0.29",
       "ext-memcached": "8.0.29",
       "ext-openssl": "8.0.29"
     }
