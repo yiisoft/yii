@@ -107,8 +107,8 @@
     },
     "platform": {
       "ext-mcrypt": "5.6.40",
-      "ext-memcached": "8.1.16",
-      "ext-openssl": "8.1.16"
+      "ext-memcached": "8.0.29",
+      "ext-openssl": "8.0.29"
     }
   }
 }

@@ -5,7 +5,6 @@
       <entry url="file://$PROJECT_DIR$">
         <entryData>
           <resourceRoots>
-            <path value="file://$PROJECT_DIR$/vendor" />
             <path value="file://$PROJECT_DIR$/framework/vendors" />
             <path value="file://$PROJECT_DIR$/vendor/cweagans/composer-patches/vendor" />
             <path value="file://$PROJECT_DIR$/vendor/myclabs/deep-copy/vendor" />
@@ -39,6 +38,7 @@
             <path value="file://$PROJECT_DIR$/vendor/sebastian/version/vendor" />
             <path value="file://$PROJECT_DIR$/vendor/symfony/flex/vendor" />
             <path value="file://$PROJECT_DIR$/vendor/theseer/tokenizer/vendor" />
+            <path value="file://$PROJECT_DIR$/vendor" />
           </resourceRoots>
         </entryData>
       </entry>

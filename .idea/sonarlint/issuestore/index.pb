@@ -1,6 +1,4 @@
 
-9
-	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 I
 docs/guide/topics.url.txt,d\9\d99c9727713f8035a8c79ed4cff39190e66ab89f
 9
@@ -17,22 +15,16 @@ E
 .gitattributes,2\4\24139dae656713ba861751fb2c2ac38839349a7a
 9
 	.env.test,c\5\c589161bbc055e8f5fc7ed13aae8551821ece4b6
-?
-CONTRIBUTING.md,3\f\3f454a98e586d1aa0d322e19afd5e67e08f2d3c8
 4
 .env,3\c\3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
 r
 Bframework/vendors/htmlpurifier/standalone/HTMLPurifier/Printer.php,4\0\401072f71298070351a436b2c10e3dfe941ec671
 j
 :framework/vendors/htmlpurifier/HTMLPurifier.standalone.php,b\2\b27620347fa5c4c468abd30018fba5d5ce400c5e
-M
-framework/vendors/README.html,2\8\281b8bbb631daef5e607ea64e4d151d6f80a7f0e
 R
 "framework/vendors/json/LICENSE.txt,a\8\a82cb225da7a80a4a59472335923deddbe5e521a
 Y
 )framework/vendors/zend-escaper/LICENSE.md,e\f\ef58bef7ab8814a7234f335b9f35dbc56bc618c4
-C
-framework/.htaccess,b\5\b51a0c5c7dcf668f6660a7da3d38c272583ae8f4
 E
 framework/YiiBase.php,b\d\bdb032f1a10ba4c15981eba22f730c36d214ce98
 B
