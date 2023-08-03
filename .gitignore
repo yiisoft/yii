@@ -70,3 +70,6 @@ Session.vim
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+#Random
+/.idea/sonarlint
