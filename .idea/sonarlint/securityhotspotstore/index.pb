@@ -39,8 +39,6 @@ D
 UPGRADE,2\f\2fc0dcbd11cc5af234ec1fabebac94dfb17b07f3
 F
 requirements/index.php,5\4\542135c98793308240560b460af230ec731789b1
-=
-composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
 U
 %vendor/phpunit/phpunit/.gitattributes,9\f\9fd396f7f914951ad799d614bd0ffea8da5d708a
 Q
