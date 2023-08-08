@@ -71,7 +71,7 @@
   ],
   "archive": {
     "exclude": [
-      "demos"
+      "testdrive"
     ]
   },
   "require": {
