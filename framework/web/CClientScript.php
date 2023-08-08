@@ -411,7 +411,7 @@ class CClientScript extends CApplicationComponent
 		if($html!=='')
 		{
 			$count=0;
-			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
+			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',(string)$output,1,$count);
 			if($count)
 				$output=str_replace('<###head###>',$html,$output);
 			else
@@ -442,7 +442,7 @@ class CClientScript extends CApplicationComponent
 		if($html!=='')
 		{
 			$count=0;
-			$output=preg_replace('/(<body\b[^>]*>)/is','$1<###begin###>',$output,1,$count);
+			$output=preg_replace('/(<body\b[^>]*>)/is','$1<###begin###>',(string)$output,1,$count);
 			if($count)
 				$output=str_replace('<###begin###>',$html,$output);
 			else
@@ -461,7 +461,7 @@ class CClientScript extends CApplicationComponent
 			return;
 
 		$fullPage=0;
-		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
+		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',(string)$output,1,$fullPage);
 		$html='';
 		if(isset($this->scriptFiles[self::POS_END]))
 		{
