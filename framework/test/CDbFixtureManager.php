@@ -173,7 +173,7 @@ class CDbFixtureManager extends CApplicationComponent
 			try {
 				$builder->createInsertCommand($table,$row)->execute();
 			} catch (CException $e) {
-				throw new CException('Exception loading row ' . $alias . ' in fixture ' . $fileName, $e->getCode(), $e);
+				throw new CException('Exception loading row ' . $alias . ' in fixture ' . $fileName . ', Error: ' . $e->getMessage(), $e->getCode(), $e);
 			}
 			$primaryKey=$table->primaryKey;
 			if($table->sequenceName!==null)
