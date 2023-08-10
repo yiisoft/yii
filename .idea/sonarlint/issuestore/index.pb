@@ -85,3 +85,14 @@ O
 vendor/phing/phing/CHANGELOG.md,0\2\0252b4adce11e72d6d1d4c0774c5647cf9a20c30
 P
  vendor/phing/phing/composer.json,1\2\1226384375fcc3008749fb729d45d23f320e5366
+F
+vendor/bin/phpunit.bat,a\f\af1becbb7f1baad6e52d855e45689372665f0d58
+@
+vendor/bin/phing,d\d\dd2a78d9aad82f1cdf7bce1c81ed22b71b96eec5
+U
+%vendor/composer/autoload_classmap.php,d\2\d2e6f4534ea409ce11e01bb597f34c8e1273b721
+=
+composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
