@@ -23,8 +23,6 @@ R
 "framework/vendors/json/LICENSE.txt,a\8\a82cb225da7a80a4a59472335923deddbe5e521a
 Y
 )framework/vendors/zend-escaper/LICENSE.md,e\f\ef58bef7ab8814a7234f335b9f35dbc56bc618c4
-E
-framework/YiiBase.php,b\d\bdb032f1a10ba4c15981eba22f730c36d214ce98
 B
 framework/yiit.php,a\5\a528b7dde99e85de74082f68801968200538ee48
 B
@@ -33,8 +31,6 @@ D
 framework/.gitignore,b\e\beba42c9055004a5558e2f77e256782a13c4025d
 7
 UPGRADE,2\f\2fc0dcbd11cc5af234ec1fabebac94dfb17b07f3
-A
-framework/yii.php,f\c\fc0e10a96a6394dd0fc690df99a36b2c3dace70b
 F
 requirements/index.php,5\4\542135c98793308240560b460af230ec731789b1
 T
@@ -112,8 +108,6 @@ Q
 !framework/i18n/CDateFormatter.php,d\0\d0ae23a18071556c7370df590e36fda7902f328b
 S
 #framework/i18n/CDbMessageSource.php,9\e\9e1dd09afcc679f5f4a83cfc9bb93c7d6132c02b
-=
-composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
 9
 	CHANGELOG,1\c\1c497fbb3a46b78edf04cc2a2fa33f67e3ffbe2a
 8

@@ -15,8 +15,6 @@ E
 	.env.test,c\5\c589161bbc055e8f5fc7ed13aae8551821ece4b6
 4
 .env,3\c\3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
-A
-framework/yii.php,f\c\fc0e10a96a6394dd0fc690df99a36b2c3dace70b
 r
 Bframework/vendors/htmlpurifier/standalone/HTMLPurifier/Printer.php,4\0\401072f71298070351a436b2c10e3dfe941ec671
 j
@@ -25,8 +23,6 @@ R
 "framework/vendors/json/LICENSE.txt,a\8\a82cb225da7a80a4a59472335923deddbe5e521a
 Y
 )framework/vendors/zend-escaper/LICENSE.md,e\f\ef58bef7ab8814a7234f335b9f35dbc56bc618c4
-E
-framework/YiiBase.php,b\d\bdb032f1a10ba4c15981eba22f730c36d214ce98
 B
 framework/yiit.php,a\5\a528b7dde99e85de74082f68801968200538ee48
 B
@@ -126,5 +122,3 @@ $framework/i18n/CPhpMessageSource.php,1\0\10bab2f8865e704f7a514687f78e9e995f242
 .mailmap,d\0\d0e9cb1fab10296d90ef8e144f981f659bbd59ad
 9
 	CHANGELOG,1\c\1c497fbb3a46b78edf04cc2a2fa33f67e3ffbe2a
-=
-composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
