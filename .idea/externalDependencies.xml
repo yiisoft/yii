@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalDependencies">
+    <plugin id="AngularJS" />
     <plugin id="Batch Scripts Support" />
     <plugin id="CMD Support" />
-    <plugin id="com.github.timo_reymann.composer_dump_autoload_phpstorm_plugin" />
+    <plugin id="Dart" />
+    <plugin id="Git4Idea" />
+    <plugin id="NodeJS" />
+    <plugin id="com.atlassian.bitbucket.references" />
     <plugin id="com.intellij.apacheConfig" />
+    <plugin id="com.intellij.configurationScript" />
+    <plugin id="com.intellij.database" />
+    <plugin id="com.intellij.plugins.watcher" />
+    <plugin id="com.jetbrains.lang.ejs" />
     <plugin id="com.jetbrains.php.codeception" />
     <plugin id="com.jetbrains.php.framework" />
+    <plugin id="com.jetbrains.php.sharedIndexes" />
+    <plugin id="com.jetbrains.php.wordPress" />
+    <plugin id="com.jetbrains.plugins.yeoman" />
+    <plugin id="com.jetbrains.sh" />
+    <plugin id="com.ppolivka.plugin.gitcleaner" />
     <plugin id="com.tabnine.TabNine" />
     <plugin id="fr.adrienbrault.idea.symfony2plugin" />
+    <plugin id="google-java-format" />
+    <plugin id="intellij.prettierJS" />
+    <plugin id="intellij.webpack" />
     <plugin id="mobi.hsz.idea.gitignore" />
+    <plugin id="net.rentalhost.plugins.php.hammer" />
+    <plugin id="org.editorconfig.editorconfigjetbrains" />
+    <plugin id="org.jetbrains.plugins.node-remote-interpreter" />
     <plugin id="org.jetbrains.plugins.phpstorm-wsl" />
+    <plugin id="org.jetbrains.plugins.sass" />
     <plugin id="ru.adelf.idea.dotenv" />
   </component>
 </project>
