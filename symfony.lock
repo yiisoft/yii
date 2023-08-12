@@ -13,6 +13,19 @@
             "./tests/bootstrap.php"
         ]
     },
+    "symfony/console": {
+        "version": "3.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.3",
+            "ref": "524e110a6284dae4172aa8cc32db6f819428f6ac"
+        },
+        "files": [
+            "./bin/console",
+            "./config/bootstrap.php"
+        ]
+    },
     "symfony/flex": {
         "version": "2.2",
         "recipe": {

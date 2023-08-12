@@ -93,7 +93,9 @@
     "phpunit/phpunit-selenium": "~1.4.0",
     "phing/phing": "2.*",
     "pear/archive_tar": "~1.4.6",
-    "symfony/flex": "*"
+    "symfony/flex": "*",
+    "phpspec/prophecy": "*",
+    "phpspec/phpspec": "*"
   },
   "extra": {
     "branch-alias": {
@@ -106,6 +108,7 @@
       "symfony/flex": true
     },
     "platform": {
+      "php": "8.0",
       "ext-mcrypt": "8.0",
       "ext-memcached": "8.0",
       "ext-openssl": "8.0"
