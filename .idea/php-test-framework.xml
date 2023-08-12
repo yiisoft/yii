@@ -3,23 +3,15 @@
   <component name="PhpTestFrameworkSettings">
     <test_tools>
       <tool tool_name="Behat">
-        <settings>
-          <configurations>
-            <local_configuration executable_path="$PROJECT_DIR$/../insight/code/vendor/behat/behat/bin/behat" />
-          </configurations>
-        </settings>
+        <settings />
       </tool>
       <tool tool_name="Codeception">
-        <settings>
-          <configurations>
-            <local_configuration executable_path="$PROJECT_DIR$/../insight/code/vendor/codeception/codeception/codecept" />
-          </configurations>
-        </settings>
+        <settings />
       </tool>
       <tool tool_name="PHPSpec">
         <settings>
           <configurations>
-            <local_configuration configuration_file_path="$PROJECT_DIR$/spec" executable_path="$PROJECT_DIR$/vendor/phpspec/phpspec/bin/phpspec" use_configuration_file="true" />
+            <local_configuration executable_path="$PROJECT_DIR$/vendor/phpspec/phpspec/bin/phpspec" />
           </configurations>
         </settings>
       </tool>
