@@ -2,9 +2,16 @@
   "name": "yii",
   "packageManager": "yarn@3.6.1",
   "dependencies": {
+    "csso": "^5.0.5",
     "eslint": "^8.47.0",
     "jshint": "^2.13.6",
     "jslint": "^0.12.1",
+    "stylus": "^0.59.0",
     "uglify-js": "^3.17.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.10",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5"
   }
 }
