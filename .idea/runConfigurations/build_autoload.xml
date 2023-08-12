@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="build -autoload" type="BatchConfigurationType" factoryName="Batch" singleton="false">
+  <configuration default="false" name="build autoload" type="BatchConfigurationType" factoryName="Batch" singleton="false">
     <module name="yii" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="WORKING_DIRECTORY" value="./build" />
     <option name="PARENT_ENVS" value="true" />
     <option name="SCRIPT_NAME" value="build.bat" />
-    <option name="PARAMETERS" value="-autoload" />
+    <option name="PARAMETERS" value="autoload" />
     <method v="2" />
   </configuration>
 </component>
