@@ -6,8 +6,10 @@
     "eslint": "^8.47.0",
     "jshint": "^2.13.6",
     "jslint": "^0.12.1",
+    "prettier": "^3.0.1",
     "stylus": "^0.59.0",
-    "uglify-js": "^3.17.4"
+    "uglify-js": "^3.17.4",
+    "webpack": "^5.88.2"
   },
   "devDependencies": {
     "@babel/core": "^7.22.10",
