@@ -75,8 +75,8 @@
     ]
   },
   "require": {
-    "php": "^8.0",
-    "phpseclib/mcrypt_compat": "*",
+    "php": "^8.1",
+    "phpseclib/mcrypt_compat": "^2.0",
     "ext-mcrypt": "*",
     "ext-openssl": "*",
     "ext-memcached": "*"
@@ -92,7 +92,9 @@
     "phpunit/phpunit": "4.8.34",
     "phpunit/phpunit-selenium": "~1.4.0",
     "phing/phing": "2.*",
+    "phing/phing-composer-configurator": "dev-master",
     "pear/archive_tar": "~1.4.6",
+    "symfony/yaml": "*",
     "symfony/flex": "*",
     "phpspec/prophecy": "*",
     "phpspec/phpspec": "*"
@@ -105,13 +107,13 @@
   "config": {
     "allow-plugins": {
       "cweagans/composer-patches": true,
-      "symfony/flex": true
+      "symfony/flex": true,
+      "phing/phing-composer-configurator": true
     },
     "platform": {
-      "php": "8.0",
-      "ext-mcrypt": "8.0",
-      "ext-memcached": "8.0",
-      "ext-openssl": "8.0"
+      "ext-mcrypt": "8.1",
+      "ext-memcached": "8.1",
+      "ext-openssl": "8.1"
     }
   }
 }
