@@ -40606,3 +40606,5 @@ m
 =vendor/phing/phing/vendor/zendframework/zend-cache/LICENSE.md,4\f\4f2482684742064d22e1972fffc6115db99d61ce
 p
 @vendor/phing/phing/vendor/simpletest/simpletest/test/site/1.html,0\f\0f5abf680b079a7afe47fc5f430d20728f9fc00d
+=
+composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
