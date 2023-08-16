@@ -2572,8 +2572,6 @@ Q
 !vendor/composer/include_paths.php,2\a\2a3dd253b703bed961c9355f06749699427f6a6f
 M
 vendor/composer/installed.php,f\1\f1e920340fcfc7c307af59582a3078c9791c232d
-R
-"vendor/composer/platform_check.php,1\2\12a7f430b28be9061c2785aed610d83e5c0f1cdc
 G
 vendor/composer/LICENSE,4\3\434124b6180e8815257e6ac64bd3ac95a625ffc2
 A
@@ -10250,8 +10248,6 @@ qvendor/pear/archive_tar/vendor/phpunit/php-code-coverage/src/Report/Html/Render
 pvendor/pear/archive_tar/vendor/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/method_item.html.dist,8\a\8a9cd0dba071cacf52cfb3d9615390f58635265a
 š
 jvendor/pear/archive_tar/vendor/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/paths.html.dist,1\7\1741f884fade4f4673a6f7c7b96e201916af3f09
-=
-composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
 ¥
 uvendor/pear/archive_tar/vendor/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/directory_branch.html.dist,9\2\923038121de547129e7d434f354c830195df8ddc
 ™
