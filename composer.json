@@ -90,6 +90,8 @@
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "cweagans/composer-patches": "^1.7",
+    "composer/installers": "*",
+    "oomphinc/composer-installers-extender": "*",
     "phpunit/phpunit": "*",
     "phpunit/phpunit-selenium": "~1.4.0",
     "phing/phing": "dev-main",
@@ -110,7 +112,9 @@
     "allow-plugins": {
       "cweagans/composer-patches": true,
       "symfony/flex": true,
-      "phing/phing-composer-configurator": true
+      "phing/phing-composer-configurator": true,
+      "composer/installers": true,
+      "oomphinc/composer-installers-extender": true
     },
     "platform": {
       "ext-mcrypt": "8.1",
