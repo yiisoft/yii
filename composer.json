@@ -77,6 +77,7 @@
   "require": {
     "php": "^8.1",
     "phpseclib/mcrypt_compat": "^2.0",
+    "phpseclib/phpseclib": "^3.0",
     "ext-mcrypt": "*",
     "ext-openssl": "*",
     "ext-memcached": "*"
@@ -88,20 +89,20 @@
     ]
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest",
-    "cweagans/composer-patches": "^1.7",
     "composer/installers": "*",
+    "cweagans/composer-patches": "^1.7",
+    "jetbrains/phpstorm-stubs": "*",
     "oomphinc/composer-installers-extender": "*",
-    "phpunit/phpunit": "*",
-    "phpunit/phpunit-selenium": "~1.4.0",
     "phing/phing": "dev-main",
     "phing/phing-composer-configurator": "dev-master",
     "phing/task-analyzers": "dev-main",
-    "symfony/yaml": "*",
-    "symfony/flex": "*",
-    "jetbrains/phpstorm-stubs": "*",
+    "phpspec/phpspec": "*",
     "phpspec/prophecy": "*",
-    "phpspec/phpspec": "*"
+    "phpunit/phpunit": "*",
+    "phpunit/phpunit-selenium": "~1.4.0",
+    "roave/security-advisories": "dev-latest",
+    "symfony/flex": "*",
+    "symfony/yaml": "*"
   },
   "extra": {
     "branch-alias": {
