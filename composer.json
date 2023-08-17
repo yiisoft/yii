@@ -88,6 +88,7 @@
     ]
   },
   "require-dev": {
+    "roave/security-advisories": "*",
     "cweagans/composer-patches": "^1.7",
     "phpunit/phpunit": "*",
     "phpunit/phpunit-selenium": "~1.4.0",
