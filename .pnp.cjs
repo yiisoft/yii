@@ -31,6 +31,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.22.10"],\
             ["@babel/preset-react", "virtual:0caa3b586979d88cddd013837899eef2c4a807f74a01554af49dd612b9531a0b43d94c9017b0571026ca1a809f6f60c9376c7e580d52bcba04a8acb0a16997d0#npm:7.22.5"],\
             ["@babel/preset-typescript", "virtual:0caa3b586979d88cddd013837899eef2c4a807f74a01554af49dd612b9531a0b43d94c9017b0571026ca1a809f6f60c9376c7e580d52bcba04a8acb0a16997d0#npm:7.22.5"],\
+            ["@types/node", "npm:20.5.0"],\
             ["csso", "npm:5.0.5"],\
             ["eslint", "npm:8.47.0"],\
             ["husky", "npm:8.0.3"],\
@@ -915,6 +916,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-20.4.10-a66bd58ee3-02a1ca415d.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:20.4.10"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:20.5.0", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.5.0-ea170d5dd7-659bc5fc93.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:20.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3038,6 +3046,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.22.10"],\
             ["@babel/preset-react", "virtual:0caa3b586979d88cddd013837899eef2c4a807f74a01554af49dd612b9531a0b43d94c9017b0571026ca1a809f6f60c9376c7e580d52bcba04a8acb0a16997d0#npm:7.22.5"],\
             ["@babel/preset-typescript", "virtual:0caa3b586979d88cddd013837899eef2c4a807f74a01554af49dd612b9531a0b43d94c9017b0571026ca1a809f6f60c9376c7e580d52bcba04a8acb0a16997d0#npm:7.22.5"],\
+            ["@types/node", "npm:20.5.0"],\
             ["csso", "npm:5.0.5"],\
             ["eslint", "npm:8.47.0"],\
             ["husky", "npm:8.0.3"],\

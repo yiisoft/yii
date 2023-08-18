@@ -645,6 +645,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^20.5.0":
+  version: 20.5.0
+  resolution: "@types/node@npm:20.5.0"
+  checksum: 659bc5fc93b5c02bd88ca4bfae4f6b9dc307d45884d1dd9d69df85819a9943cdc00cd3c87eec3048866df6a67f52297f74d170e47a44f61edb3e8f770d94e85e
+  languageName: node
+  linkType: hard
+
 "@webassemblyjs/ast@npm:1.11.6, @webassemblyjs/ast@npm:^1.11.5":
   version: 1.11.6
   resolution: "@webassemblyjs/ast@npm:1.11.6"
@@ -2450,6 +2457,7 @@ __metadata:
     "@babel/core": ^7.22.10
     "@babel/preset-react": ^7.22.5
     "@babel/preset-typescript": ^7.22.5
+    "@types/node": ^20.5.0
     csso: ^5.0.5
     eslint: ^8.47.0
     husky: ^8.0.3
