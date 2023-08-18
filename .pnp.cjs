@@ -33,6 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:0caa3b586979d88cddd013837899eef2c4a807f74a01554af49dd612b9531a0b43d94c9017b0571026ca1a809f6f60c9376c7e580d52bcba04a8acb0a16997d0#npm:7.22.5"],\
             ["csso", "npm:5.0.5"],\
             ["eslint", "npm:8.47.0"],\
+            ["husky", "npm:8.0.3"],\
             ["jshint", "npm:2.13.6"],\
             ["jslint", "npm:0.12.1"],\
             ["prettier", "npm:3.0.1"],\
@@ -1990,6 +1991,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["husky", [\
+        ["npm:8.0.3", {\
+          "packageLocation": "./.yarn/cache/husky-npm-8.0.3-b0b59c5127-837bc7e441.zip/node_modules/husky/",\
+          "packageDependencies": [\
+            ["husky", "npm:8.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ignore", [\
         ["npm:5.2.4", {\
           "packageLocation": "./.yarn/cache/ignore-npm-5.2.4-fbe6e989e5-3d4c309c60.zip/node_modules/ignore/",\
@@ -3030,6 +3040,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:0caa3b586979d88cddd013837899eef2c4a807f74a01554af49dd612b9531a0b43d94c9017b0571026ca1a809f6f60c9376c7e580d52bcba04a8acb0a16997d0#npm:7.22.5"],\
             ["csso", "npm:5.0.5"],\
             ["eslint", "npm:8.47.0"],\
+            ["husky", "npm:8.0.3"],\
             ["jshint", "npm:2.13.6"],\
             ["jslint", "npm:0.12.1"],\
             ["prettier", "npm:3.0.1"],\

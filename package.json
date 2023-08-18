@@ -4,6 +4,7 @@
   "dependencies": {
     "csso": "^5.0.5",
     "eslint": "^8.47.0",
+    "husky": "^8.0.3",
     "jshint": "^2.13.6",
     "jslint": "^0.12.1",
     "prettier": "^3.0.1",

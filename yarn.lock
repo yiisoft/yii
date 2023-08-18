@@ -1549,6 +1549,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"husky@npm:^8.0.3":
+  version: 8.0.3
+  resolution: "husky@npm:8.0.3"
+  bin:
+    husky: lib/bin.js
+  checksum: 837bc7e4413e58c1f2946d38fb050f5d7324c6f16b0fd66411ffce5703b294bd21429e8ba58711cd331951ee86ed529c5be4f76805959ff668a337dbfa82a1b0
+  languageName: node
+  linkType: hard
+
 "ignore@npm:^5.2.0":
   version: 5.2.4
   resolution: "ignore@npm:5.2.4"
@@ -2443,6 +2452,7 @@ __metadata:
     "@babel/preset-typescript": ^7.22.5
     csso: ^5.0.5
     eslint: ^8.47.0
+    husky: ^8.0.3
     jshint: ^2.13.6
     jslint: ^0.12.1
     prettier: ^3.0.1
