@@ -33,6 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:0caa3b586979d88cddd013837899eef2c4a807f74a01554af49dd612b9531a0b43d94c9017b0571026ca1a809f6f60c9376c7e580d52bcba04a8acb0a16997d0#npm:7.22.5"],\
             ["@types/node", "npm:20.5.0"],\
             ["cdnjs", "npm:0.3.2"],\
+            ["codemirror", "npm:6.0.1"],\
             ["csso", "npm:5.0.5"],\
             ["eslint", "npm:8.47.0"],\
             ["husky", "npm:8.0.3"],\
@@ -691,6 +692,112 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@codemirror/autocomplete", [\
+        ["npm:6.9.0", {\
+          "packageLocation": "./.yarn/cache/@codemirror-autocomplete-npm-6.9.0-e0548fbe32-a5f661944c.zip/node_modules/@codemirror/autocomplete/",\
+          "packageDependencies": [\
+            ["@codemirror/autocomplete", "npm:6.9.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:a317bb67bb21c0ce693b65783e290534a848810f7e87a1af21dc3769a0a6b203466460f5dee1b86fc5593da51f4dbe606ec73f89b97466b579228c3be476d102#npm:6.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/@codemirror-autocomplete-virtual-8888047e66/0/cache/@codemirror-autocomplete-npm-6.9.0-e0548fbe32-a5f661944c.zip/node_modules/@codemirror/autocomplete/",\
+          "packageDependencies": [\
+            ["@codemirror/autocomplete", "virtual:a317bb67bb21c0ce693b65783e290534a848810f7e87a1af21dc3769a0a6b203466460f5dee1b86fc5593da51f4dbe606ec73f89b97466b579228c3be476d102#npm:6.9.0"],\
+            ["@codemirror/language", "npm:6.9.0"],\
+            ["@codemirror/state", "npm:6.2.1"],\
+            ["@codemirror/view", "npm:6.16.0"],\
+            ["@lezer/common", "npm:1.0.4"],\
+            ["@types/codemirror__language", null],\
+            ["@types/codemirror__state", null],\
+            ["@types/codemirror__view", null],\
+            ["@types/lezer__common", null]\
+          ],\
+          "packagePeers": [\
+            "@codemirror/language",\
+            "@codemirror/state",\
+            "@codemirror/view",\
+            "@types/codemirror__language",\
+            "@types/codemirror__state",\
+            "@types/codemirror__view",\
+            "@types/lezer__common"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@codemirror/commands", [\
+        ["npm:6.2.4", {\
+          "packageLocation": "./.yarn/cache/@codemirror-commands-npm-6.2.4-1145feb0d5-468895fa19.zip/node_modules/@codemirror/commands/",\
+          "packageDependencies": [\
+            ["@codemirror/commands", "npm:6.2.4"],\
+            ["@codemirror/language", "npm:6.9.0"],\
+            ["@codemirror/state", "npm:6.2.1"],\
+            ["@codemirror/view", "npm:6.16.0"],\
+            ["@lezer/common", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@codemirror/language", [\
+        ["npm:6.9.0", {\
+          "packageLocation": "./.yarn/cache/@codemirror-language-npm-6.9.0-16f807d3e9-9a897fb0f5.zip/node_modules/@codemirror/language/",\
+          "packageDependencies": [\
+            ["@codemirror/language", "npm:6.9.0"],\
+            ["@codemirror/state", "npm:6.2.1"],\
+            ["@codemirror/view", "npm:6.16.0"],\
+            ["@lezer/common", "npm:1.0.4"],\
+            ["@lezer/highlight", "npm:1.1.6"],\
+            ["@lezer/lr", "npm:1.3.10"],\
+            ["style-mod", "npm:4.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@codemirror/lint", [\
+        ["npm:6.4.0", {\
+          "packageLocation": "./.yarn/cache/@codemirror-lint-npm-6.4.0-5920a9084b-ba15f7dd87.zip/node_modules/@codemirror/lint/",\
+          "packageDependencies": [\
+            ["@codemirror/lint", "npm:6.4.0"],\
+            ["@codemirror/state", "npm:6.2.1"],\
+            ["@codemirror/view", "npm:6.16.0"],\
+            ["crelt", "npm:1.0.6"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@codemirror/search", [\
+        ["npm:6.5.1", {\
+          "packageLocation": "./.yarn/cache/@codemirror-search-npm-6.5.1-7acc306fd7-672515c202.zip/node_modules/@codemirror/search/",\
+          "packageDependencies": [\
+            ["@codemirror/search", "npm:6.5.1"],\
+            ["@codemirror/state", "npm:6.2.1"],\
+            ["@codemirror/view", "npm:6.16.0"],\
+            ["crelt", "npm:1.0.6"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@codemirror/state", [\
+        ["npm:6.2.1", {\
+          "packageLocation": "./.yarn/cache/@codemirror-state-npm-6.2.1-c497e2bd50-d12a321d04.zip/node_modules/@codemirror/state/",\
+          "packageDependencies": [\
+            ["@codemirror/state", "npm:6.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@codemirror/view", [\
+        ["npm:6.16.0", {\
+          "packageLocation": "./.yarn/cache/@codemirror-view-npm-6.16.0-6f801cfd4d-54d412b515.zip/node_modules/@codemirror/view/",\
+          "packageDependencies": [\
+            ["@codemirror/view", "npm:6.16.0"],\
+            ["@codemirror/state", "npm:6.2.1"],\
+            ["style-mod", "npm:4.0.3"],\
+            ["w3c-keyname", "npm:2.2.8"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@eslint-community/eslint-utils", [\
         ["npm:4.4.0", {\
           "packageLocation": "./.yarn/cache/@eslint-community-eslint-utils-npm-4.4.0-d1791bd5a3-cdfe3ae42b.zip/node_modules/@eslint-community/eslint-utils/",\
@@ -837,6 +944,35 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@jridgewell/trace-mapping", "npm:0.3.19"],\
             ["@jridgewell/resolve-uri", "npm:3.1.1"],\
             ["@jridgewell/sourcemap-codec", "npm:1.4.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@lezer/common", [\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/@lezer-common-npm-1.0.4-c24f90adda-0bea82da76.zip/node_modules/@lezer/common/",\
+          "packageDependencies": [\
+            ["@lezer/common", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@lezer/highlight", [\
+        ["npm:1.1.6", {\
+          "packageLocation": "./.yarn/cache/@lezer-highlight-npm-1.1.6-438a774678-411a702394.zip/node_modules/@lezer/highlight/",\
+          "packageDependencies": [\
+            ["@lezer/highlight", "npm:1.1.6"],\
+            ["@lezer/common", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@lezer/lr", [\
+        ["npm:1.3.10", {\
+          "packageLocation": "./.yarn/cache/@lezer-lr-npm-1.3.10-4c4d02a55c-9d3c22bf69.zip/node_modules/@lezer/lr/",\
+          "packageDependencies": [\
+            ["@lezer/lr", "npm:1.3.10"],\
+            ["@lezer/common", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1432,6 +1568,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["codemirror", [\
+        ["npm:6.0.1", {\
+          "packageLocation": "./.yarn/cache/codemirror-npm-6.0.1-a317bb67bb-1a78f7077a.zip/node_modules/codemirror/",\
+          "packageDependencies": [\
+            ["codemirror", "npm:6.0.1"],\
+            ["@codemirror/autocomplete", "virtual:a317bb67bb21c0ce693b65783e290534a848810f7e87a1af21dc3769a0a6b203466460f5dee1b86fc5593da51f4dbe606ec73f89b97466b579228c3be476d102#npm:6.9.0"],\
+            ["@codemirror/commands", "npm:6.2.4"],\
+            ["@codemirror/language", "npm:6.9.0"],\
+            ["@codemirror/lint", "npm:6.4.0"],\
+            ["@codemirror/search", "npm:6.5.1"],\
+            ["@codemirror/state", "npm:6.2.1"],\
+            ["@codemirror/view", "npm:6.16.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["color-convert", [\
         ["npm:1.9.3", {\
           "packageLocation": "./.yarn/cache/color-convert-npm-1.9.3-1fe690075e-fd7a64a17c.zip/node_modules/color-convert/",\
@@ -1536,6 +1688,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/core-util-is-npm-1.0.3-ca74b76c90-9de8597363.zip/node_modules/core-util-is/",\
           "packageDependencies": [\
             ["core-util-is", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["crelt", [\
+        ["npm:1.0.6", {\
+          "packageLocation": "./.yarn/cache/crelt-npm-1.0.6-f8981fe6a1-dad8420933.zip/node_modules/crelt/",\
+          "packageDependencies": [\
+            ["crelt", "npm:1.0.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3044,6 +3205,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["style-mod", [\
+        ["npm:4.0.3", {\
+          "packageLocation": "./.yarn/cache/style-mod-npm-4.0.3-5a2f07cb3f-934556e720.zip/node_modules/style-mod/",\
+          "packageDependencies": [\
+            ["style-mod", "npm:4.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["stylus", [\
         ["npm:0.59.0", {\
           "packageLocation": "./.yarn/cache/stylus-npm-0.59.0-b6301a4933-2faf4a5618.zip/node_modules/stylus/",\
@@ -3243,6 +3413,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["w3c-keyname", [\
+        ["npm:2.2.8", {\
+          "packageLocation": "./.yarn/cache/w3c-keyname-npm-2.2.8-66d7d5317a-95bafa4c04.zip/node_modules/w3c-keyname/",\
+          "packageDependencies": [\
+            ["w3c-keyname", "npm:2.2.8"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["watchpack", [\
         ["npm:2.4.0", {\
           "packageLocation": "./.yarn/cache/watchpack-npm-2.4.0-7ec4b9cc65-23d4bc5863.zip/node_modules/watchpack/",\
@@ -3347,6 +3526,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:0caa3b586979d88cddd013837899eef2c4a807f74a01554af49dd612b9531a0b43d94c9017b0571026ca1a809f6f60c9376c7e580d52bcba04a8acb0a16997d0#npm:7.22.5"],\
             ["@types/node", "npm:20.5.0"],\
             ["cdnjs", "npm:0.3.2"],\
+            ["codemirror", "npm:6.0.1"],\
             ["csso", "npm:5.0.5"],\
             ["eslint", "npm:8.47.0"],\
             ["husky", "npm:8.0.3"],\

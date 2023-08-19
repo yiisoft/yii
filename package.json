@@ -4,6 +4,7 @@
   "dependencies": {
     "@types/node": "^20.5.0",
     "cdnjs": "^0.3.2",
+    "codemirror": "^6.0.1",
     "csso": "^5.0.5",
     "eslint": "^8.47.0",
     "husky": "^8.0.3",
